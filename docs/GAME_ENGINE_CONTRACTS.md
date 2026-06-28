@@ -67,6 +67,22 @@ Entry practice may also emit:
 - `entry_practice_completed`
 - `game_unlocked`
 
+## Current Pairing Scaffold
+
+Implemented scaffold:
+
+- `apps/web/src/features/game-shell/pairing/pairingEngineAdapter.ts` converts unit vocabulary into pairing items.
+- `apps/web/src/features/game-shell/pairing/PairingEnginePreview.tsx` confirms that the active mode has data ready.
+- Starting the Memory Match shell emits `game_started` through the local progression adapter.
+
+Intentional limits:
+
+- No pair selection state yet.
+- No board randomization yet.
+- No answer validation yet.
+- No scoring loop beyond the flashcard entry reward yet.
+- No full Memory Match gameplay yet.
+
 ## First Engine Build Candidate
 
 The first real game engine candidate should be the `pairing` parent engine, implemented through Memory Match.
