@@ -12,6 +12,10 @@ export function FrontDoorTeacherReportPreview({ tenant, progression, events }: F
   const entryPracticeCompletions = countEvents(events, "entry_practice_completed");
   const gameStarts = countEvents(events, "game_started");
   const gameCompletions = countEvents(events, "game_completed");
+  const cardReveals = countEvents(events, "round_shown");
+  const answersSubmitted = countEvents(events, "answer_submitted");
+  const answerResults = countEvents(events, "answer_result");
+  const masteryUpdates = countEvents(events, "mastery_updated");
   const mediaStarts = countEvents(events, "media_started");
   const mediaCompletions = countEvents(events, "media_completed");
   const backgroundMediaEvents = events.filter(
@@ -25,7 +29,7 @@ export function FrontDoorTeacherReportPreview({ tenant, progression, events }: F
           <p className="text-sm font-semibold text-[var(--tenant-muted)]">Teacher-visible summary</p>
           <h3 className="text-lg font-bold">One report stream</h3>
           <p className="mt-1 text-sm text-[var(--tenant-muted)]">
-            The route keeps game progress and media engagement together while still reporting them separately.
+            The route keeps game progress, item attempts, and media engagement together while still reporting them separately.
           </p>
         </div>
         <StatusPill label={`${events.length} events`} tone={events.length > 0 ? "success" : "neutral"} />
@@ -35,6 +39,10 @@ export function FrontDoorTeacherReportPreview({ tenant, progression, events }: F
         <Metric label="Entry practice" value={String(entryPracticeCompletions)} />
         <Metric label="Game starts" value={String(gameStarts)} />
         <Metric label="Game complete" value={String(gameCompletions)} />
+        <Metric label="Card reveals" value={String(cardReveals)} />
+        <Metric label="Answers" value={String(answersSubmitted)} />
+        <Metric label="Results" value={String(answerResults)} />
+        <Metric label="Mastery updates" value={String(masteryUpdates)} />
         <Metric label="Media starts" value={String(mediaStarts)} />
         <Metric label="Media complete" value={String(mediaCompletions)} />
         <Metric label="Background media" value={String(backgroundMediaEvents)} />
