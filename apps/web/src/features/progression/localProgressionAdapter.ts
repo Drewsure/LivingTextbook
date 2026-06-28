@@ -18,6 +18,12 @@ export interface EntryPracticeCompletionResult {
   events: GameProgressEvent[];
 }
 
+export interface GameModeCompletionResult {
+  progression: StudentProgressionState;
+  event?: GameProgressEvent;
+  earnedStarDust: number;
+}
+
 const zeroDust: StarDustBreakdown = {
   vocabulary: 0,
   syntax: 0,
@@ -116,6 +122,51 @@ export function startUnlockedGameMode(args: {
     metadata: {
       sourceMode: args.launchSession.entryMode,
     },
+  };
+}
+
+export function completeGameMode(args: {
+  progression: StudentProgressionState;
+  launchSession: LaunchSession;
+  gameMode: GameModeId;
+  earnedStarDust: number;
+  occurredAt: string;
+  metadata?: Record<string, string | number | boolean>;
+}): GameModeCompletionResult {
+  const alreadyCompleted = args.progression.completedGameModes.includes(args.gameMode);
+
+  if (alreadyCompleted) {
+    return {
+      progression: args.progression,
+      earnedStarDust: 0,
+    };
+  }
+
+  const progression: StudentProgressionState = {
+    ...args.progression,
+    completedGameModes: Array.from(new Set([...args.progression.completedGameModes, args.gameMode])),
+    earnedStarDust: args.progression.earnedStarDust + args.earnedStarDust,
+    masteryStatus: "in-progress",
+    lastEventAt: args.occurredAt,
+  };
+
+  const event: GameProgressEvent = {
+    type: "game_completed",
+    unitKey: args.launchSession.unitKey,
+    gameMode: args.gameMode,
+    launchCode: args.launchSession.launchCode,
+    studentSessionId: args.progression.studentSessionId,
+    occurredAt: args.occurredAt,
+    metadata: {
+      earnedStarDust: args.earnedStarDust,
+      ...args.metadata,
+    },
+  };
+
+  return {
+    progression,
+    event,
+    earnedStarDust: args.earnedStarDust,
   };
 }
 
