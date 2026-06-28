@@ -5,6 +5,7 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import type {
   AudioCue,
   GameModeId,
+  GameProgressEvent,
   LaunchSession,
   StudentProgressionState,
   UnitPayload,
@@ -12,6 +13,7 @@ import type {
 import { AudioCueText, playAudioCueText } from "@/features/audio/AudioCueButton";
 import {
   completeGameMode,
+  createGameInteractionEvent,
   type GameModeCompletionResult,
 } from "@/features/progression/localProgressionAdapter";
 import { formatMode } from "@/lib/formatLabels";
@@ -32,6 +34,7 @@ interface PairingMemoryMatchGameProps {
   launchSession: LaunchSession;
   progression: StudentProgressionState;
   audioCues?: AudioCue[];
+  onEvent?: (event: GameProgressEvent) => void;
   onComplete: (result: GameModeCompletionResult) => void;
 }
 
@@ -41,6 +44,7 @@ export function PairingMemoryMatchGame({
   launchSession,
   progression,
   audioCues = [],
+  onEvent,
   onComplete,
 }: PairingMemoryMatchGameProps) {
   const [engineState, setEngineState] = useState<PairingEngineState>(() => createShuffledPairingState(unit));
@@ -53,6 +57,22 @@ export function PairingMemoryMatchGame({
   const instructionCue = findAudioCueForGame(audioCues, "instruction", gameMode);
   const feedbackCue = findAudioCueForGame(audioCues, "feedback", gameMode);
 
+  function emitInteractionEvent(
+    type: "round_shown" | "answer_submitted" | "answer_result" | "mastery_updated",
+    metadata: Record<string, string | number | boolean>,
+  ) {
+    onEvent?.(
+      createGameInteractionEvent({
+        type,
+        progression,
+        launchSession,
+        gameMode,
+        occurredAt: new Date().toISOString(),
+        metadata,
+      }),
+    );
+  }
+
   function handleCardSelect(card: PairingCard) {
     const audioCue = findAudioCue(audioCues, card.label);
     playAudioCueText({ text: audioCue?.text ?? card.label, language: audioCue?.language ?? "en" });
@@ -62,10 +82,49 @@ export function PairingMemoryMatchGame({
     }
 
     const selectedBefore = engineState.selectedCardIds;
+    const firstSelectedCard = engineState.cards.find((candidate) => candidate.id === selectedBefore[0]);
     const outcome = selectPairingCard(engineState, card.id);
 
     if (outcome.result === "ignored") {
       return;
+    }
+
+    emitInteractionEvent("round_shown", {
+      cardId: card.id,
+      pairId: card.pairId,
+      cardKind: card.kind,
+      label: card.label,
+      result: outcome.result,
+      attempts: outcome.state.attempts,
+    });
+
+    if (outcome.result === "matched" || outcome.result === "mismatched") {
+      const correct = outcome.result === "matched";
+      const firstCardId = firstSelectedCard?.id ?? "unknown";
+      const firstPairId = firstSelectedCard?.pairId ?? "unknown";
+      const firstCardKind = firstSelectedCard?.kind ?? "unknown";
+      const firstCardLabel = firstSelectedCard?.label ?? "unknown";
+
+      emitInteractionEvent("answer_submitted", {
+        firstCardId,
+        firstPairId,
+        firstCardKind,
+        firstCardLabel,
+        secondCardId: card.id,
+        secondPairId: card.pairId,
+        secondCardKind: card.kind,
+        secondCardLabel: card.label,
+        attempts: outcome.state.attempts,
+      });
+      emitInteractionEvent("answer_result", {
+        firstCardId,
+        secondCardId: card.id,
+        result: outcome.result,
+        correct,
+        attempts: outcome.state.attempts,
+        matchedPairs: outcome.state.matchedPairIds.length,
+        remainingPairs: Math.max(progress.totalPairs - outcome.state.matchedPairIds.length, 0),
+      });
     }
 
     setEngineState(outcome.state);
@@ -91,6 +150,12 @@ export function PairingMemoryMatchGame({
         },
       });
 
+      emitInteractionEvent("mastery_updated", {
+        completed: true,
+        earnedStarDust,
+        attempts: outcome.state.attempts,
+        totalPairs: progress.totalPairs,
+      });
       setCompletionSent(true);
       onComplete(result);
     }
