@@ -77,6 +77,10 @@ export function StudentLaunchFlow({ tenant, unit, launchSession, progression }: 
     setSessionEvents((events) => [...events, event]);
   }
 
+  function handleGameEvent(event: GameProgressEvent) {
+    setSessionEvents((events) => [...events, event]);
+  }
+
   function handleGameComplete(result: GameModeCompletionResult) {
     setCurrentProgression(result.progression);
     setLastEarnedDust(result.earnedStarDust);
@@ -129,6 +133,7 @@ export function StudentLaunchFlow({ tenant, unit, launchSession, progression }: 
           gameMode={activeGameMode}
           launchSession={launchSession}
           progression={currentProgression}
+          onEvent={handleGameEvent}
           onComplete={handleGameComplete}
         />
       )}
