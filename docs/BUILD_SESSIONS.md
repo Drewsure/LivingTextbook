@@ -35,7 +35,7 @@ Teacher launch -> QR route -> flashcards -> tap-to-speak learner text -> complet
 
 Implemented front-door expansion:
 
-Permanent/front-door QR contract -> entry-code/user-code option -> sample multimedia package -> audio/video asset event controls -> optional background media events -> student unit-session summary -> teacher-visible progress summary.
+Permanent/front-door QR contract -> entry-code/user-code option -> sample multimedia package -> native audio/video playback shell plus manual media progress controls -> optional background media events -> student unit-session summary -> teacher-visible progress summary.
 
 Remaining gate:
 
@@ -47,7 +47,7 @@ Remaining gate:
 
 Purpose: Turn Memory Match into the first reusable `pairing` parent engine implementation and use it as the pattern for future game modes.
 
-Current status: Initial playable pairing implementation exists. Memory Match now uses pairing adapter/state helpers, emits start/completion events, emits item-level `round_shown`, `answer_submitted`, `answer_result`, and `mastery_updated` events, supports card tap-to-hear audio, and updates local progression.
+Current status: Initial playable pairing implementation exists. Memory Match now uses pairing adapter/state helpers, emits start/completion events, emits item-level `round_shown`, `answer_submitted`, `answer_result`, and `mastery_updated` events, supports card tap-to-hear audio, uses a shared scoring profile, and updates local progression.
 
 Required gate:
 
@@ -59,8 +59,7 @@ Next outputs:
 
 - Local build/browser verification for Memory Match.
 - Stronger event metadata if teacher reports need item-level detail.
-- Mode config hardening in `gameModeCatalog.ts`.
-- Shared scoring profiles for pairing modes.
+- Additional scoring profiles for the next selected parent engine or mode.
 - Mobile verification.
 - Compatibility with optional background/support media without requiring it.
 
@@ -93,13 +92,14 @@ Outputs:
 
 Purpose: Add a white-label audio/video companion platform as part of the core Living Textbook package without hard-coding any one publisher's assets.
 
-Current status: Sample multimedia content package and route concept exist. Real playback and rights-managed asset storage remain future work.
+Current status: Sample multimedia content package, route concept, media event stream, native playback shell, manual progress fallback controls, and optional background-media event controls exist. Rights-managed asset storage, pause telemetry, offline/local bundle resolution, and production media management remain future work.
 
 Outputs:
 
 - Audio and video asset catalog.
 - Unit-linked playlists.
 - Optional unit/game background media settings.
+- Native audio/video playback shell.
 - Local/offline multimedia playback plan.
 - Teacher and student multimedia launch routes.
 - Media engagement events.
@@ -156,4 +156,4 @@ If a proposed task does not fit one of these sessions, document whether it is:
 
 Do not add premium polish yet.
 
-Next concrete task after connector readback is to synchronize or repair the local checkout so `legacy-source-import` can be built and visually verified. After local verification, harden the first game-engine contract in code by adding richer mode config/scoring profiles or begin real multimedia playback behind the existing event contract.
+Next concrete task is still to synchronize or repair the local checkout so `legacy-source-import` can be built and visually verified. If connector-only work must continue before that, the next safest structural tasks are pause telemetry for media playback, local/offline bundle resolution contracts, or the next small parent-engine mode config after a public-repository research pass.
