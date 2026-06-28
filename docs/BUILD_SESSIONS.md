@@ -14,43 +14,53 @@ Required reads:
 - `docs/DECISION_REGISTER.md`
 - `docs/FUTURE_REQUIREMENTS.md`
 - `docs/OPERATING_NOTES.md`
+- `docs/RESEARCH_NOTES_PUBLIC_REPOS.md` when major custom systems or external assets are being considered
 
 Outputs:
 
 - Any new principle or decision is documented.
 - Any recurring workaround is documented.
 - Any major architecture choice is entered in the decision register.
+- Any public-repository or public-asset candidate has license/provenance review before adoption.
 
 ## Session 1: First Vertical Slice
 
-Purpose: Prove teacher QR launch, student entry practice, progression events, deterministic rewards, and the first game shell.
+Purpose: Prove teacher QR launch, student entry practice, progression events, deterministic rewards, audio-supported learner text, and the first playable game path.
 
-Current status: In progress on `legacy-source-import`.
+Current status: Implemented as a connector-side local-state slice on `legacy-source-import`; local build/browser verification is still pending because the local checkout is on `main` with no configured remote.
 
-Core path:
+Implemented path:
 
-Teacher launch -> QR route -> flashcards -> completion event -> reward preview -> Memory Match unlock -> game_started -> pairing shell preview.
+Teacher launch -> QR route -> flashcards -> tap-to-speak learner text -> completion event -> reward preview -> Memory Match unlock -> game_started -> playable Memory Match -> game_completed -> Star Dust update -> reusable unit-session summary.
 
-Required expansion path:
+Implemented front-door expansion:
 
-Permanent/front-door QR contract -> entry-code/user-code option -> media engagement event contract -> teacher progress summary concept.
+Permanent/front-door QR contract -> entry-code/user-code option -> sample multimedia package -> audio/video asset event controls -> optional background media events -> student unit-session summary -> teacher-visible progress summary.
+
+Remaining gate:
+
+- Sync local checkout to `legacy-source-import`.
+- Run typecheck/build.
+- Run browser/mobile verification against `docs/VERIFICATION_CHECKLIST.md`.
 
 ## Session 2: Game Engine Foundation
 
-Purpose: Turn the Memory Match shell into the first real `pairing` parent engine implementation.
+Purpose: Turn Memory Match into the first reusable `pairing` parent engine implementation and use it as the pattern for future game modes.
+
+Current status: Initial playable pairing implementation exists. Memory Match now uses pairing adapter/state helpers, emits start/completion events, emits item-level `round_shown`, `answer_submitted`, `answer_result`, and `mastery_updated` events, supports card tap-to-hear audio, and updates local progression.
 
 Required gate:
 
 - Check `docs/GAME_ENGINE_CONTRACTS.md`.
-- Check `docs/agent-briefs/MEMORY_MATCH_PAIRING_ENGINE_BRIEF.md`.
 - Check public repository research requirement before major reinvention.
+- Check license/provenance before adopting any outside game code or assets.
 
-Outputs:
+Next outputs:
 
-- Real Memory Match board.
-- Pair selection events.
-- Completion events.
-- Local scoring loop.
+- Local build/browser verification for Memory Match.
+- Stronger event metadata if teacher reports need item-level detail.
+- Mode config hardening in `gameModeCatalog.ts`.
+- Shared scoring profiles for pairing modes.
 - Mobile verification.
 - Compatibility with optional background/support media without requiring it.
 
@@ -82,6 +92,8 @@ Outputs:
 ## Session 5: Multimedia Platform Foundation
 
 Purpose: Add a white-label audio/video companion platform as part of the core Living Textbook package without hard-coding any one publisher's assets.
+
+Current status: Sample multimedia content package and route concept exist. Real playback and rights-managed asset storage remain future work.
 
 Outputs:
 
@@ -139,3 +151,9 @@ If a proposed task does not fit one of these sessions, document whether it is:
 - a future requirement,
 - a research checkpoint,
 - or a distraction from the current foundation path.
+
+## Next Recommended Build Task
+
+Do not add premium polish yet.
+
+Next concrete task after connector readback is to synchronize or repair the local checkout so `legacy-source-import` can be built and visually verified. After local verification, harden the first game-engine contract in code by adding richer mode config/scoring profiles or begin real multimedia playback behind the existing event contract.
