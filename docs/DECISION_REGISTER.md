@@ -33,6 +33,7 @@ Before accepting a new direction, answer these questions in the task, PR, or imp
 | DR-002 | Tenant token styling boundary | Accepted | Shared UI primitives must read tenant tokens instead of hard-coding MiniStar or any future tenant palette. |
 | DR-003 | No premium polish before structure | Accepted | Layout, routing, component names, data contracts, and scoring events come before micro-interactions, mascot evolution, and premium visual assets. |
 | DR-004 | Earned collection mechanics | Accepted | Avatars, rooms, pets, cosmetics, titles, and Spin Wheel bonuses are rewards for mastery and effort, not purchase-like pressure loops. |
+| DR-005 | Local progression before persistence | Accepted | Prove QR entry, flashcards, events, unlocks, and Star Dust locally before introducing database, auth, or live classroom complexity. |
 
 ## DR-001: Tailwind And PostCSS Foundation
 
@@ -121,3 +122,20 @@ Constraints:
 - Rewards are unlocked by mastery, effort, module completion, teacher launch flows, and safe bonus loops.
 - Surprise rewards can exist as cosmetic bonuses, but must not resemble paid gacha or pressure purchasing.
 - The system should support avatars, pets, rooms, titles, palette swaps, and evolution tracks as configurable reward catalogs.
+
+## DR-005: Local Progression Before Persistence
+
+Status: Accepted
+
+Decision: Prove the first interactive student progression slice with local component state and an app-level adapter before introducing database persistence, authentication, classroom rosters, or live monitoring.
+
+White-label impact: Positive. This avoids locking tenant, school, classroom, or student-account assumptions into persistence too early.
+
+Cost impact: Positive. Local state is cheap to build and easy to change. Backend services, migrations, security rules, account flows, and live monitoring should wait until the event contract proves itself.
+
+Constraints:
+
+- The first slice may use local state for QR entry, flashcard completion, event recording, Memory Match unlock state, and Star Dust display.
+- No local-state implementation should pretend to be production persistence.
+- The transition to persistence must preserve the route and event contracts already defined.
+- See `docs/adr/0002-local-progression-before-persistence.md` for the full decision record.
