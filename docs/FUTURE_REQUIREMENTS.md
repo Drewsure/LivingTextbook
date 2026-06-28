@@ -123,7 +123,7 @@ Revisit when:
 
 ## FR-004: Textbook Partner Local Companion And Multimedia Platform
 
-Status: Sample package and visible dashboard concept implemented on `legacy-source-import`; real media playback, front-door route handling, persistence, and local/closed packaging remain future implementation work.
+Status: Sample package, visible dashboard concept, and active `/enter/ministar` front-door slice implemented on `legacy-source-import`; real media playback, persistence, real teacher reports, permanent QR resolver, and local/closed packaging remain future implementation work.
 
 Requirement: The platform must be able to support a white-label textbook partner who provides PDF units and needs a closed/local companion application with games, a multimedia platform, gamification, year-on-year content maintenance, teacher reporting, and long-lived QR codes printed in textbooks.
 
@@ -134,6 +134,8 @@ Implemented sample boundary:
 - Shared contracts exist for content packages, audio/video media assets, unit multimedia plans, front-door entry mode, and permanent QR routes in `packages/content-model/src/index.ts`.
 - A sample package exists in `apps/web/src/data/sampleMultimediaPackage.ts`.
 - The dashboard shows the sample multimedia package, route concept, optional background-media plan, and teacher progress summary concept.
+- `/enter/ministar` opens the sample unit package through entry-code/user-code local state.
+- The front-door slice emits launch, flashcard, game, media, and background-media events into one teacher-visible report preview.
 - Documentation exists in `docs/SAMPLE_MULTIMEDIA_PACKAGE.md`.
 
 Required capabilities:
@@ -169,7 +171,7 @@ Revisit when:
 
 - A real partner commitment is being discussed.
 - The QR route registry is designed.
-- The front-door entry-code/user-code flow is designed.
+- The front-door entry-code/user-code flow needs persistence or tenant administration.
 - PDF onboarding work begins.
 - Real multimedia player work begins.
 - Real teacher reporting is introduced.
