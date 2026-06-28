@@ -17,13 +17,13 @@ The next task should usually advance the clean vertical slice before adding poli
 
 ## FR-001: Defer Database And Auth Until The First Interactive Slice Works
 
-Status: Active checkpoint
+Status: Active checkpoint; local-state vertical slice now includes flashcards, unlock, playable Memory Match, local completion events, and teacher-visible report preview. Persistence/auth still deferred until local verification and a clear reporting need.
 
 Requirement: The platform should not introduce database persistence, full auth, live classrooms, or account management until the first student progression slice proves the core route behavior.
 
 Current target slice:
 
-Teacher launch protocol -> QR route -> flashcard entry practice -> completion event -> next game unlock -> progress summary update.
+Teacher launch protocol -> QR route -> flashcard entry practice -> completion event -> next game unlock -> playable Memory Match -> progress summary update.
 
 Rationale:
 
@@ -49,27 +49,30 @@ Acceptance path:
 1. Student enters `/launch/[code]`.
 2. Student sees flashcard entry practice.
 3. Student sees deterministic earned rewards with Star Dust thresholds.
-4. Student marks entry practice complete.
-5. The app records an `entry_practice_completed` progress event.
-6. The next recommended game, currently Memory Match, unlocks.
-7. The displayed progression state updates with earned Star Dust.
-8. The first deterministic reward unlocks.
-9. Student starts the unlocked Memory Match shell.
-10. The app records a standard `game_started` event.
+4. Student taps vocabulary terms and target sentences to hear them.
+5. Student marks entry practice complete.
+6. The app records an `entry_practice_completed` progress event.
+7. The next recommended game, currently Memory Match, unlocks.
+8. The displayed progression state updates with earned Star Dust.
+9. The first deterministic reward unlocks.
+10. Student starts the unlocked Memory Match board.
+11. The app records a standard `game_started` event.
+12. Student taps hidden cards to hear/reveal vocabulary and match pairs.
+13. Completing Memory Match records `game_completed` and awards additional Star Dust.
 
 Implemented boundary:
 
 - Progress is held in local component state.
-- Star Dust is calculated through the shared content model.
+- Star Dust is calculated through the shared content model and local game completion helper.
 - Completion and unlock events are produced by an app-level local progression adapter.
 - Earned rewards are deterministic catalog entries, not random rewards.
-- Memory Match unlocks and starts as progression state, not as full gameplay yet.
+- Memory Match now plays as a simple local pairing game with attempts, matches, completion, audio-on-card-tap, and game completion events.
 
 Remaining verification:
 
 - Run local typecheck/build when the working branch is locally accessible.
-- Visually inspect `/launch/demo-unit-1` in the browser.
-- Confirm mobile layout remains readable after the state changes.
+- Visually inspect `/launch/demo-unit-1` and `/enter/ministar` in the browser.
+- Confirm mobile layout remains readable after state changes and Memory Match completion.
 
 Non-goals:
 
@@ -77,12 +80,12 @@ Non-goals:
 - Authentication.
 - Live teacher monitoring.
 - Premium mascot animation.
-- Full Memory Match gameplay.
+- Advanced Memory Match art, animation, or asset polish.
 - Collection room rendering.
 
 ## FR-003: Public Repository Research Before Major Reinvention
 
-Status: Future research checkpoint
+Status: Future research checkpoint; quick memory-game search did not identify a clean immediate asset/code candidate for adoption. Continue to research before larger engine or asset work.
 
 Requirement: Before building major game engines, AI authoring subsystems, classroom monitoring, reward catalogs, avatar systems, PWA offline behavior, multimedia playback, content packaging, or content pipelines from scratch, conduct a deliberate public repository and best-practice research pass.
 
@@ -123,7 +126,7 @@ Revisit when:
 
 ## FR-004: Textbook Partner Local Companion And Multimedia Platform
 
-Status: Sample package, visible dashboard concept, and active `/enter/ministar` front-door slice implemented on `legacy-source-import`; real media playback, persistence, real teacher reports, permanent QR resolver, and local/closed packaging remain future implementation work.
+Status: Sample package, visible dashboard concept, active `/enter/ministar` front-door slice, and playable Memory Match implemented on `legacy-source-import`; real media playback, persistence, real teacher reports, permanent QR resolver, and local/closed packaging remain future implementation work.
 
 Requirement: The platform must be able to support a white-label textbook partner who provides PDF units and needs a closed/local companion application with games, a multimedia platform, gamification, year-on-year content maintenance, teacher reporting, and long-lived QR codes printed in textbooks.
 
@@ -131,11 +134,12 @@ This requirement is part of the initial build, not a later add-on. It should gui
 
 Implemented sample boundary:
 
-- Shared contracts exist for content packages, audio/video media assets, unit multimedia plans, front-door entry mode, and permanent QR routes in `packages/content-model/src/index.ts`.
+- Shared contracts exist for content packages, audio/video media assets, unit multimedia plans, front-door entry mode, permanent QR routes, and audio support plans in `packages/content-model/src/index.ts`.
 - A sample package exists in `apps/web/src/data/sampleMultimediaPackage.ts`.
-- The dashboard shows the sample multimedia package, route concept, optional background-media plan, and teacher progress summary concept.
+- The dashboard shows the sample multimedia package, route concept, optional background-media plan, audio support plan, and teacher progress summary concept.
 - `/enter/ministar` opens the sample unit package through entry-code/user-code local state.
 - The front-door slice emits launch, flashcard, game, media, and background-media events into one teacher-visible report preview.
+- Memory Match is playable from both `/launch/demo-unit-1` and `/enter/ministar`.
 - Documentation exists in `docs/SAMPLE_MULTIMEDIA_PACKAGE.md`.
 
 Required capabilities:
@@ -188,7 +192,7 @@ References:
 
 ## FR-005: Audio-First Learner Support Across All Games
 
-Status: Active requirement; content model contract and sample cue plan implemented on `legacy-source-import`; shared listen/replay UI, real playback, and game-engine integration remain future implementation work.
+Status: Active requirement; content model contract, sample cue plan, tap-to-speak flashcards, and tap-to-hear Memory Match cards implemented on `legacy-source-import`; real playback, instruction/feedback controls, and full game-engine audio integration remain future implementation work.
 
 Requirement: Any learner-facing text in student flows must be supported by audio. The platform must not assume young children or English learners can read independently.
 
@@ -198,13 +202,14 @@ Implemented sample boundary:
 - Content package validation now requires each unit to include an audio support plan.
 - The sample package includes audio cues for all 8 vocabulary terms, both target sentences, flashcard instructions, Memory Match instructions, and basic feedback.
 - The dashboard package panel shows audio cue count and support-plan status.
+- `AudioCueText` supports tap/click-to-speak learner text.
+- Flashcard terms and target sentences speak when tapped.
+- Memory Match cards speak when tapped and use sample package audio cues when available.
 - DR-009 and ADR-0006 record audio-first learner support as an accepted platform decision.
 
 Required capabilities:
 
-- Shared listen/replay UI primitive for learner-facing text.
-- Flashcard cards that play term audio and sentence audio.
-- Memory Match and future parent engines that accept audio cue ids in their mode payloads.
+- Shared listen/replay UI for instructions, feedback, and critical controls.
 - Text-to-speech provider abstraction for cost-efficient fallback.
 - Recorded/partner/teacher audio replacement path without changing game components.
 - Optional audio telemetry for teacher reports when useful.
@@ -214,10 +219,10 @@ Required capabilities:
 Acceptance path:
 
 1. Load a reviewed unit package with an audio support plan.
-2. Render flashcards with listen/replay controls for every term.
-3. Render sentence practice with listen/replay controls for both target sentences.
+2. Render flashcards with tap-to-speak controls for every term.
+3. Render sentence practice with tap-to-speak controls for both target sentences.
 4. Render instructions and feedback with audio support.
-5. Start Memory Match and confirm card prompts can be heard as well as read.
+5. Start Memory Match and confirm card prompts can be heard as well as revealed.
 6. Confirm optional background media can be disabled without removing comprehension audio.
 7. Confirm package validation fails when a unit lacks an audio support plan.
 
