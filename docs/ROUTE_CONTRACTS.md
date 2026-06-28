@@ -9,6 +9,7 @@ This document defines the clean route and state contracts for the first Living T
 - Keep route behavior tenant-aware and curriculum-aware.
 - Keep launch state separate from visual presentation.
 - Give future auth, database, and classroom-monitoring work a stable contract.
+- Support permanent printed QR identifiers for textbook companion products.
 
 ## Route Map
 
@@ -16,11 +17,37 @@ This document defines the clean route and state contracts for the first Living T
 | --- | --- | --- | --- |
 | `/` | Platform / teacher | Active scaffold | Tenant overview, current unit, progression summary, first sequence preview. |
 | `/teacher` | Teacher | Active scaffold | Teacher Launch Protocol and classroom launch route for the selected unit. |
-| `/launch/[code]` | Student | Active interactive slice | QR entry route. Student starts with entry practice before next game unlocks. |
+| `/launch/[code]` | Student | Active interactive slice | Short classroom QR entry route. Student starts with entry practice before next game unlocks. |
+| `/q/tenant/[tenantId]/series/[seriesId]/book/[bookId]/unit/[unitId]/activity/[activityId]` | Student / teacher | Future contract | Permanent printed textbook QR route that resolves a stable identifier to the current unit, game, media playlist, or teacher preview. |
 | `/teacher/units/[unitKey]` | Teacher | Future | Unit-specific approval, content review, launch settings, and class assignment. |
 | `/teacher/sessions/[launchCode]` | Teacher | Future | Live classroom monitoring, completion, Training Academy recommendations. |
 | `/student/progress` | Student | Future | Lightweight return route for unlocked games, rewards, and mastery status. |
 | `/training/[code]` | Student | Future | Remedial or adaptive Training Academy route for targeted review. |
+
+## Permanent QR Contract
+
+Permanent QR routes are different from short classroom launch codes.
+
+Short launch codes are useful for a teacher's live class session. Printed textbook QR codes must survive reprints, app updates, content package revisions, and deployment changes.
+
+Required permanent QR identity fields:
+
+- `tenantId`: white-label tenant or publisher.
+- `seriesId`: textbook series.
+- `bookId`: book or level.
+- `unitId`: textbook unit.
+- `activityId`: target activity, game, playlist, or teacher preview.
+- `language`: optional language code.
+- `edition`: optional printed edition.
+- `version`: optional content package version.
+
+Permanent QR rules:
+
+- Printed QR codes must resolve stable identifiers, not local files or temporary development paths.
+- Permanent QR routes may resolve into `/launch/[code]`, a media playlist, a game mode, or a teacher preview depending on the target type.
+- A local/closed app may resolve the same identifier from an installed content package.
+- A hosted redirect may resolve the same identifier when long-term external permanence is required.
+- Do not promise pure offline printed QR behavior unless the installed app, deep link, content package, and update model are explicit.
 
 ## Launch Session Contract
 
@@ -33,7 +60,7 @@ Required fields:
 - `curriculumId`: curriculum identifier.
 - `unitKey`: stable unit identity.
 - `status`: draft, open, locked, expired, or completed.
-- `accessMode`: teacher QR, teacher preview, or student return.
+- `accessMode`: teacher QR, permanent QR, teacher preview, or student return.
 - `entryMode`: first required mode, usually flashcards for young learners.
 - `recommendedNextModes`: modes unlocked after entry practice.
 - `openedAt`: timestamp for audit and classroom session handling.
@@ -59,8 +86,8 @@ Required fields:
 
 1. Teacher opens `/teacher` and reviews the Teacher Launch Protocol.
 2. System creates or displays a `LaunchSession` with status `open`.
-3. Teacher shares the QR route `/launch/[code]`.
-4. Student enters `/launch/[code]` and starts the `entryMode`.
+3. Teacher shares the short classroom QR route `/launch/[code]`, or a printed textbook QR route resolves a stable identifier to the correct launch target.
+4. Student enters through the QR route and starts the `entryMode`.
 5. Completing entry practice emits `entry_practice_completed`.
 6. System unlocks `recommendedNextModes`.
 7. Student sees earned reward progress from deterministic mastery rewards.
@@ -91,11 +118,13 @@ Intentional limits:
 - No database persistence is introduced yet.
 - No auth or classroom roster model is introduced yet.
 - No premium visual polish is introduced yet.
+- Permanent printed QR resolution is contracted but not implemented yet.
 
 ## Structural Guardrails
 
 - QR routes should be short, readable, and classroom-safe.
 - Launch codes should not expose private student information.
+- Permanent printed QR routes should expose stable textbook identifiers only, not private student information.
 - QR entry should not require a heavy login for young learners.
 - Teacher approval remains required before AI-generated content is assigned to students.
 - Route contracts must stay tenant-aware and avoid MiniStar-only assumptions.
