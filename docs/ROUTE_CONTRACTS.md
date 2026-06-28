@@ -20,7 +20,7 @@ This document defines the clean route and state contracts for the first Living T
 | --- | --- | --- | --- |
 | `/` | Platform / teacher | Active scaffold | Tenant overview, current unit, progression summary, multimedia package concept, audio support concept, and first sequence preview. |
 | `/teacher` | Teacher | Active scaffold | Teacher Launch Protocol and student launch path. |
-| `/launch/[code]` | Student | Active interactive slice | Short classroom QR entry route. Student starts with entry practice before next game unlocks. |
+| `/launch/[code]` | Student | Active interactive slice | Short classroom QR entry route. Student starts with flashcards, unlocks Memory Match, and can complete the first playable pairing game. |
 | `/enter/[tenantId]` | Student | Active interactive slice | Tenant-branded front door where students enter an entry code and optional user code before opening the unit package. |
 | `/q/tenant/[tenantId]/series/[seriesId]/book/[bookId]/unit/[unitId]/activity/[activityId]` | Student / teacher | Future contract | Permanent printed textbook QR route that resolves a stable identifier to the current unit, game, media playlist, front door, or teacher preview. |
 | `/media/[playlistId]` | Student / teacher | Future contract | Unit-linked playlist or media activity route resolved from a launch session, permanent QR, or teacher preview. |
@@ -81,6 +81,7 @@ Implemented sample behavior:
 - Opening the unit emits `launch_opened`.
 - Completing flashcards emits `entry_practice_completed` and `game_unlocked`.
 - Starting Memory Match emits `game_started`.
+- Completing Memory Match emits `game_completed` and awards additional Star Dust.
 - Media buttons emit media progress events.
 - Optional background media emits enabled/disabled events after Memory Match starts.
 - The sample package includes audio cues for all vocabulary terms, both target sentences, student instructions, and basic feedback.
@@ -180,11 +181,13 @@ Required fields:
 7. Completing entry practice emits `entry_practice_completed`.
 8. System unlocks `recommendedNextModes`.
 9. Student sees earned reward progress from deterministic mastery rewards.
-10. Student starts the next mode shell, emitting `game_started`.
-11. Student may start approved unit media, emitting media progress events.
-12. Future full gameplay emits standard game progress events.
-13. Completion updates Star Dust, mastery status, and earned collection progress.
-14. Teacher reporting can show game progress, media engagement, audio cue engagement when tracked, and Training Academy recommendations.
+10. Student starts the next mode, emitting `game_started`.
+11. Student plays Memory Match by tapping hidden cards to hear and reveal terms.
+12. Completing Memory Match emits `game_completed` and updates Star Dust.
+13. Student may start approved unit media, emitting media progress events.
+14. Future full gameplay modes emit standard game progress events.
+15. Completion updates Star Dust, mastery status, and earned collection progress.
+16. Teacher reporting can show game progress, media engagement, audio cue engagement when tracked, and Training Academy recommendations.
 
 ## Current Interactive Slice
 
@@ -200,16 +203,18 @@ Implemented behavior:
 - Star Dust increases through the shared scoring model.
 - The earned reward preview unlocks deterministic rewards from the starter catalog.
 - Memory Match is unlocked as a progression state after flashcards.
-- The student can start the unlocked Memory Match shell.
+- The student can start the unlocked Memory Match board.
 - Starting the unlocked mode records a standard `game_started` event.
+- Memory Match uses the pairing parent-engine state for cards, attempts, matches, and completion.
+- Memory Match cards speak when tapped and use package audio cues when available.
+- Completing Memory Match records a standard `game_completed` event and awards additional Star Dust.
 - The student can start and complete sample media assets as progress events.
 - The student can enable/disable optional background media after Memory Match starts.
-- The teacher-visible report preview updates from the same local event stream.
+- The teacher-visible report preview updates from the same local event stream and counts game completions.
 
 Intentional limits:
 
-- Shared listen/replay UI for audio cues is not implemented yet.
-- Memory Match gameplay is not implemented in this slice.
+- Instruction and feedback audio controls are contracted but only partially surfaced in the UI.
 - Progress is local component state only.
 - No database persistence is introduced yet.
 - No auth or classroom roster model is introduced yet.
@@ -233,10 +238,10 @@ Intentional limits:
 
 The first slice should prove this path:
 
-Teacher launch protocol -> QR route -> flashcard entry practice -> next game unlock -> progress event -> Star Dust update -> earned reward preview.
+Teacher launch protocol -> QR route -> flashcard entry practice -> next game unlock -> playable Memory Match -> progress event -> Star Dust update -> earned reward preview.
 
 The current front-door expansion proves:
 
-Front-door route -> entry-code/user-code -> sample multimedia package -> audio support plan -> media event -> optional background media event -> teacher-visible progress summary concept.
+Front-door route -> entry-code/user-code -> sample multimedia package -> audio support plan -> playable Memory Match -> media event -> optional background media event -> teacher-visible progress summary concept.
 
 Only after that works should we add richer animation, mascot evolution, premium assets, or a full collection room.
