@@ -1,6 +1,13 @@
 export type TenantId = string;
 export type CurriculumId = string;
 export type LaunchCode = string;
+export type SeriesId = string;
+export type BookId = string;
+export type TextbookUnitId = string;
+export type ActivityId = string;
+export type ContentPackageId = string;
+export type MediaAssetId = string;
+export type PermanentQrId = string;
 
 export type GameFamily =
   | "core-quiz"
@@ -22,10 +29,33 @@ export type GameModeId =
   | "quiz"
   | "sentence-builder";
 
-export type LaunchAccessMode = "teacher-qr" | "teacher-preview" | "student-return";
+export type LaunchAccessMode = "teacher-qr" | "permanent-qr" | "teacher-preview" | "student-return";
 export type LaunchSessionStatus = "draft" | "open" | "locked" | "expired" | "completed";
 export type LaunchStepId = "entry-practice" | "recommended-game" | "training-academy" | "completion-review";
 export type MasteryStatus = "not-started" | "in-progress" | "mastered" | "needs-review";
+export type SourceDocumentType = "pdf" | "docx" | "spreadsheet" | "manual" | "ai-draft";
+export type ContentReviewStatus = "draft" | "reviewed" | "verified" | "approved" | "rejected";
+export type DeploymentChannel =
+  | "hosted-web"
+  | "installed-pwa"
+  | "desktop-app"
+  | "local-classroom-server"
+  | "custom-deep-link";
+export type MediaAssetType = "song" | "chant" | "listening-track" | "voiceover" | "sound-effect" | "other-audio";
+export type MediaRightsStatus = "owned" | "licensed" | "partner-provided" | "unknown";
+export type QrTargetType = "unit-launch" | "game-mode" | "media-playlist" | "media-asset" | "teacher-preview";
+
+export interface TextbookReference {
+  seriesId?: SeriesId;
+  bookId?: BookId;
+  unitId?: TextbookUnitId;
+  activityId?: ActivityId;
+  pageStart?: number;
+  pageEnd?: number;
+  language?: string;
+  edition?: string;
+  version?: string;
+}
 
 export interface UnitMeta {
   tenantId: TenantId;
@@ -37,6 +67,8 @@ export interface UnitMeta {
   gameMode: GameModeId;
   gameFamily: GameFamily;
   engineId: ParentEngine;
+  contentPackageId?: ContentPackageId;
+  textbookReference?: TextbookReference;
 }
 
 export interface PedagogicalPayload {
@@ -64,6 +96,71 @@ export interface UnitPayload {
   pedagogicalPayload: PedagogicalPayload;
   visualRules: VisualRules;
   teacherLaunchProtocol: TeacherLaunchProtocol;
+}
+
+export interface ContentPackageMeta {
+  packageId: ContentPackageId;
+  tenantId: TenantId;
+  curriculumId: CurriculumId;
+  sourceType: SourceDocumentType;
+  reviewStatus: ContentReviewStatus;
+  createdAt: string;
+  updatedAt?: string;
+  sourceDocumentName?: string;
+  sourceDocumentHash?: string;
+  textbookReference?: TextbookReference;
+}
+
+export interface MediaAsset {
+  mediaAssetId: MediaAssetId;
+  tenantId: TenantId;
+  title: string;
+  type: MediaAssetType;
+  rightsStatus: MediaRightsStatus;
+  sourceUri?: string;
+  localBundlePath?: string;
+  durationSeconds?: number;
+  ownerName?: string;
+  language?: string;
+  unitKey?: string;
+  textbookReference?: TextbookReference;
+}
+
+export interface UnitMediaPlaylist {
+  playlistId: string;
+  tenantId: TenantId;
+  title: string;
+  unitKey: string;
+  mediaAssetIds: MediaAssetId[];
+  textbookReference?: TextbookReference;
+}
+
+export interface ContentPackage {
+  meta: ContentPackageMeta;
+  units: UnitPayload[];
+  mediaAssets?: MediaAsset[];
+  playlists?: UnitMediaPlaylist[];
+}
+
+export interface PermanentQrIdentifier {
+  tenantId: TenantId;
+  seriesId: SeriesId;
+  bookId: BookId;
+  unitId: TextbookUnitId;
+  activityId: ActivityId;
+  language?: string;
+  edition?: string;
+  version?: string;
+}
+
+export interface PermanentQrRoute {
+  qrId: PermanentQrId;
+  identifier: PermanentQrIdentifier;
+  targetType: QrTargetType;
+  targetId: string;
+  preferredDeployment: DeploymentChannel;
+  fallbackPath?: string;
+  updatedAt: string;
 }
 
 export interface LaunchSession {
@@ -102,6 +199,8 @@ export type GameEventType =
   | "entry_practice_completed"
   | "game_unlocked"
   | "training_recommended"
+  | "media_started"
+  | "media_completed"
   | "game_completed"
   | "mastery_updated";
 
@@ -122,12 +221,39 @@ export interface StarDustBreakdown {
   total: number;
 }
 
+function encodePathPart(value: string): string {
+  return encodeURIComponent(value.trim());
+}
+
 export function getUnitKey(meta: Pick<UnitMeta, "tenantId" | "curriculumId" | "level" | "unit">): string {
   return `${meta.tenantId}:${meta.curriculumId}:L${meta.level}:U${meta.unit}`;
 }
 
 export function getLaunchPath(launchCode: LaunchCode): string {
   return `/launch/${encodeURIComponent(launchCode)}`;
+}
+
+export function getPermanentQrPath(identifier: PermanentQrIdentifier): string {
+  const requiredSegments = [
+    "tenant",
+    identifier.tenantId,
+    "series",
+    identifier.seriesId,
+    "book",
+    identifier.bookId,
+    "unit",
+    identifier.unitId,
+    "activity",
+    identifier.activityId,
+  ];
+
+  const optionalSegments = [
+    identifier.language ? ["language", identifier.language] : [],
+    identifier.edition ? ["edition", identifier.edition] : [],
+    identifier.version ? ["version", identifier.version] : [],
+  ].flat();
+
+  return `/q/${[...requiredSegments, ...optionalSegments].map(encodePathPart).join("/")}`;
 }
 
 export function createLaunchSession(args: {
@@ -210,6 +336,53 @@ export function validateUnitPayload(payload: UnitPayload): string[] {
 
   if (!payload.visualRules.blacklistCheck.passed) {
     errors.push("Visual blacklist check must pass before student assignment.");
+  }
+
+  return errors;
+}
+
+export function validateContentPackage(contentPackage: ContentPackage): string[] {
+  const errors: string[] = [];
+
+  if (contentPackage.units.length === 0) {
+    errors.push("Content package must include at least one unit payload.");
+  }
+
+  for (const unit of contentPackage.units) {
+    errors.push(...validateUnitPayload(unit));
+  }
+
+  if (contentPackage.meta.sourceType === "pdf" && !contentPackage.meta.sourceDocumentName) {
+    errors.push("PDF-derived content packages should record the source document name.");
+  }
+
+  if (contentPackage.meta.reviewStatus === "approved" && contentPackage.units.some((unit) => validateUnitPayload(unit).length > 0)) {
+    errors.push("Approved content packages cannot include invalid unit payloads.");
+  }
+
+  return errors;
+}
+
+export function validatePermanentQrRoute(route: PermanentQrRoute): string[] {
+  const errors: string[] = [];
+  const requiredValues = [
+    route.qrId,
+    route.identifier.tenantId,
+    route.identifier.seriesId,
+    route.identifier.bookId,
+    route.identifier.unitId,
+    route.identifier.activityId,
+    route.targetId,
+  ];
+
+  if (requiredValues.some((value) => value.trim().length === 0)) {
+    errors.push("Permanent QR routes require tenant, series, book, unit, activity, QR id, and target id values.");
+  }
+
+  const fallbackPath = route.fallbackPath?.toLowerCase() ?? "";
+
+  if (fallbackPath.startsWith("file:") || fallbackPath.includes("localhost") || fallbackPath.includes("127.0.0.1")) {
+    errors.push("Printed QR fallbacks must not point to local files, localhost, or temporary development routes.");
   }
 
   return errors;
