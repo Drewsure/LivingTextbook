@@ -329,6 +329,7 @@ Every significant change should be reviewed against this checklist:
 - Does this keep games data-driven?
 - Does this report or preserve standard scoring/progress events?
 - Does this avoid promoting legacy code without a plan?
+- Does this include or update a verification path in `docs/VERIFICATION_CHECKLIST.md` when user-facing flows change or local verification is blocked?
 - Does this remain compatible with `docs/BLUEPLAN.md`?
 
 If the answer to any item is no, document the reason before merging.
@@ -343,6 +344,7 @@ Required practice:
 - Major accepted decisions belong in `docs/DECISION_REGISTER.md` and, when useful, `docs/adr/`.
 - Repeatable environment constraints, connector procedures, branch-state notes, and tool workarounds belong in `docs/OPERATING_NOTES.md`.
 - Route and flow contracts belong in focused design documents such as `docs/ROUTE_CONTRACTS.md`.
+- Verification procedures belong in `docs/VERIFICATION_CHECKLIST.md`.
 
 When a workaround is used more than once, document:
 
@@ -367,5 +369,6 @@ Update it when:
 - A reward/progression rule changes
 - A repeated mistake needs to become a standing rule
 - A repeatable environment constraint or workaround is discovered
+- A verification path changes
 
 Do not let standards live only in chat history. If a rule matters, preserve it here.
