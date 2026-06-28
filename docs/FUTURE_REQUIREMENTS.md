@@ -85,7 +85,7 @@ Non-goals:
 
 ## FR-003: Public Repository Research Before Major Reinvention
 
-Status: Future research checkpoint; quick memory-game search did not identify a clean immediate asset/code candidate for adoption. Continue to research before larger engine or asset work.
+Status: Active research checkpoint; no external code or assets have been imported. `docs/RESEARCH_NOTES_PUBLIC_REPOS.md` records the required research and license-review procedure.
 
 Requirement: Before building major game engines, AI authoring subsystems, classroom monitoring, reward catalogs, avatar systems, PWA offline behavior, multimedia playback, content packaging, or content pipelines from scratch, conduct a deliberate public repository and best-practice research pass.
 
@@ -103,6 +103,7 @@ Research standards:
 - Record sources, tradeoffs, and rejection reasons in a research note or ADR.
 - Evaluate white-label impact, cost impact, accessibility, mobile/PWA fit, and vendor lock-in.
 - Do not promote external code into `apps/web`, `apps/ai-service`, or shared packages without an integration plan.
+- Do not import assets unless provenance, license, rights, and tenant-fit are recorded.
 
 Suggested future research areas:
 
@@ -123,6 +124,11 @@ Revisit when:
 - A parent game engine is about to be built.
 - Persistence/auth decisions are about to be made.
 - A large custom UI, reward, avatar, media, or content pipeline is being proposed.
+
+References:
+
+- `docs/RESEARCH_NOTES_PUBLIC_REPOS.md`
+- `docs/DECISION_REGISTER.md` DR-010
 
 ## FR-004: Textbook Partner Local Companion And Multimedia Platform
 
@@ -192,7 +198,7 @@ References:
 
 ## FR-005: Audio-First Learner Support Across All Games
 
-Status: Active requirement; content model contract, sample cue plan, tap-to-speak flashcards, and tap-to-hear Memory Match cards implemented on `legacy-source-import`; real playback, instruction/feedback controls, and full game-engine audio integration remain future implementation work.
+Status: Active requirement; content model contract, sample cue plan, tap-to-speak flashcards, tap-to-hear Memory Match cards, audio-supported critical actions, and speakable media titles are implemented on `legacy-source-import`. Real playback providers, telemetry, offline media resolution, and verifier/teacher review surfaces remain future implementation work.
 
 Requirement: Any learner-facing text in student flows must be supported by audio. The platform must not assume young children or English learners can read independently.
 
@@ -203,13 +209,16 @@ Implemented sample boundary:
 - The sample package includes audio cues for all 8 vocabulary terms, both target sentences, flashcard instructions, Memory Match instructions, and basic feedback.
 - The dashboard package panel shows audio cue count and support-plan status.
 - `AudioCueText` supports tap/click-to-speak learner text.
-- Flashcard terms and target sentences speak when tapped.
+- `AudioSupportedAction` supports hearing critical action labels without triggering the action.
+- Flashcard terms, target sentences, instructions, and feedback speak when tapped.
+- Front-door open, flashcard completion, next-game start, media start/complete, and background-media controls have separate listen/replay support.
+- Media playlist titles and media asset titles are speakable in the current front-door slice.
 - Memory Match cards speak when tapped and use sample package audio cues when available.
 - DR-009 and ADR-0006 record audio-first learner support as an accepted platform decision.
 
 Required capabilities:
 
-- Shared listen/replay UI for instructions, feedback, and critical controls.
+- Harden the shared listen/replay UI across every future mode, route, and game shell.
 - Text-to-speech provider abstraction for cost-efficient fallback.
 - Recorded/partner/teacher audio replacement path without changing game components.
 - Optional audio telemetry for teacher reports when useful.
@@ -222,9 +231,10 @@ Acceptance path:
 2. Render flashcards with tap-to-speak controls for every term.
 3. Render sentence practice with tap-to-speak controls for both target sentences.
 4. Render instructions and feedback with audio support.
-5. Start Memory Match and confirm card prompts can be heard as well as revealed.
-6. Confirm optional background media can be disabled without removing comprehension audio.
-7. Confirm package validation fails when a unit lacks an audio support plan.
+5. Confirm critical action labels can be heard without triggering the underlying action.
+6. Start Memory Match and confirm card prompts can be heard as well as revealed.
+7. Confirm optional background media can be disabled without removing comprehension audio.
+8. Confirm package validation fails when a unit lacks an audio support plan.
 
 Revisit when:
 
