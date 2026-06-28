@@ -140,6 +140,27 @@ Rules:
 - Completion rewards must be deterministic and explainable.
 - Random rewards must be bonus cosmetics only and must not replace mastery-linked rewards.
 
+## Scoring Profile Layer
+
+Game modes should not hard-code reward math inside presentation components.
+
+Current code location:
+
+- `apps/web/src/features/game-shell/scoringProfiles.ts`
+
+Current profiles:
+
+- `entry-vocabulary-practice`: awards the vocabulary slice for required flashcard entry practice.
+- `pairing-reinforcement-v1`: awards an accuracy-sensitive completion bonus for pairing reinforcement games such as Memory Match.
+
+Rules:
+
+- Mode configs reference `scoringProfileId`.
+- Components may request a scoring profile and call shared scoring helpers.
+- Scoring events should include `scoringProfileId` metadata when possible.
+- Tenant reward names may change, but scoring profile behavior must remain explainable to teachers and parents.
+- Future profile changes should be versioned rather than silently changing historical meaning.
+
 ## Audio Contract
 
 Learner-facing audio is mandatory.
@@ -266,6 +287,7 @@ Current first playable example:
 - Parent engine: `pairing`
 - Adapter: `pairingEngineAdapter.ts`
 - State: `pairingEngineState.ts`
+- Scoring profile: `pairing-reinforcement-v1`
 - Component: `PairingMemoryMatchGame.tsx`
 - Input: `UnitPayload`, `LaunchSession`, `StudentProgressionState`, optional `AudioCue[]`
 - Events: `game_started` from the route; `round_shown`, `answer_submitted`, `answer_result`, and `mastery_updated` from the game; `game_completed` from the completion helper
@@ -280,6 +302,7 @@ A game mode is ready for review when:
 - It consumes a reviewed payload.
 - It maps to a parent engine.
 - It uses a mode config.
+- It uses a scoring profile.
 - It renders on mobile without overlap.
 - It supports audio for learner-facing text and critical controls.
 - It emits standard events.
