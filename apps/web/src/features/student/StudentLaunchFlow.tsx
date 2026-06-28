@@ -13,8 +13,10 @@ import {
   completeFlashcardEntryPractice,
   startUnlockedGameMode,
 } from "@/features/progression/localProgressionAdapter";
+import { starterRewardCatalog } from "@/features/rewards/rewardCatalog";
 import { FlashcardPracticeCard } from "./components/FlashcardPracticeCard";
 import { NextGameUnlockCard } from "./components/NextGameUnlockCard";
+import { RewardPreviewCard } from "./components/RewardPreviewCard";
 import { SessionEventLog } from "./components/SessionEventLog";
 import { StudentProgressHeader } from "./components/StudentProgressHeader";
 import type { TenantConfig } from "@/features/tenant/types";
@@ -90,6 +92,11 @@ export function StudentLaunchFlow({ tenant, unit, launchSession, progression }: 
         lastEarnedDust={lastEarnedDust}
         nextMode={nextMode}
         onComplete={handleCompleteEntryPractice}
+      />
+      <RewardPreviewCard
+        tenant={tenant}
+        earnedStarDust={currentProgression.earnedStarDust}
+        catalog={starterRewardCatalog}
       />
       <NextGameUnlockCard
         nextMode={nextMode}
