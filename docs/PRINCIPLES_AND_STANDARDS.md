@@ -16,8 +16,9 @@ Every future engagement must begin by checking this list before code, design, AI
 - Confirm MiniStar English Lab is the flagship tenant and reference curriculum, not the only product.
 - Confirm no work begins with visual polish before clean component structure, routing, data boundaries, and layout stability exist.
 - Confirm teacher-led QR onboarding and student self-progression are both preserved.
+- Confirm all learner-facing text in student games, flashcards, instructions, feedback, and critical controls has audio support through recorded audio, teacher audio, partner audio, or text-to-speech.
 - Confirm rewards use earned collection mechanics, not gambling-like pressure.
-- Confirm any Z.ai or outside AI output must obey schema, component, integration, and review standards before adoption.
+- Confirm any Z.ai or outside AI output must obey schema, component, integration, audio-support, and review standards before adoption.
 - Confirm no legacy code is promoted into `apps/web` or `apps/ai-service` without an explicit integration plan.
 - Confirm textbook partner, multimedia, local/closed deployment, and permanent QR requirements are preserved when white-label architecture is affected.
 - Confirm hybrid QR is the default: stable QR registry, optional tiny hosted redirect, and local app/content-package fallback.
@@ -31,7 +32,7 @@ The Living Textbook platform is a premium, white-label, saleable PWA learning po
 
 MiniStar English Lab is the first complete tenant, the flagship curriculum, and the proof-of-value implementation. Its curriculum, game progression, and classroom needs should guide the build, but the underlying architecture must support other schools, academies, publishers, and curriculum owners.
 
-A living textbook unit is not only text plus games. It is a complete reviewed package of textbook reference, learning payload, games, multimedia, QR entry, progression, and reporting.
+A living textbook unit is not only text plus games. It is a complete reviewed package of textbook reference, learning payload, games, multimedia, audio-supported learner text, QR entry, progression, and reporting.
 
 The platform must support tenant-specific:
 
@@ -46,6 +47,7 @@ The platform must support tenant-specific:
 - Reward economies
 - Content packages
 - Multimedia catalogs for audio and video
+- Audio cues for vocabulary, sentences, instructions, feedback, and critical learner controls
 - Unit playlists and optional background media
 - Local or closed companion deployments
 
@@ -71,6 +73,7 @@ Required component habits:
 - Keep layout components separate from game logic.
 - Keep game engines separate from payload generation.
 - Keep media playback separate from game scoring while allowing controlled game/media coordination.
+- Keep learner text separate from audio playback, but make student-facing text components able to receive audio cue ids and listen/replay controls.
 - Keep tenant branding separate from hard-coded MiniStar assumptions.
 - Build mobile-first and QR-classroom friendly.
 - Keep student surfaces simple enough for young learners.
@@ -95,6 +98,8 @@ The platform should use:
 
 Every game mode must consume a standardized payload and report standardized progress events.
 
+Every game mode must also support learner audio. Vocabulary, sentence prompts, instructions, feedback, and critical game controls should be listenable and replayable. This is required because the core audience includes young children and English learners who cannot be assumed to read independently.
+
 Minimum game event requirements:
 
 - Game started
@@ -107,7 +112,7 @@ Minimum game event requirements:
 - Star Dust or XP earned
 - Mastery state updated
 
-A game mode is not platform-ready until it can participate in teacher launch, student progression, scoring, and review flows.
+A game mode is not platform-ready until it can participate in teacher launch, student progression, scoring, audio support, and review flows.
 
 ## 6. Progression And Collection Standards
 
@@ -177,6 +182,7 @@ Required content rules:
 - Exactly 2 target sentence structures
 - Level-appropriate vocabulary and syntax
 - Game-mode-aligned payloads
+- Learner-facing text suitable for audio generation or recording
 - Teacher Launch Protocol included
 - JSON-first output
 - Verification before student assignment
@@ -185,6 +191,7 @@ The Vision/Verifier layer must check:
 
 - Term count validity
 - Sentence count validity
+- Audio support plan existence for learner-facing text
 - Level match
 - Game mode match
 - Tenant visual rules
@@ -206,6 +213,7 @@ The following must not be hard-coded as global assumptions:
 - MiniStar reward names
 - MiniStar curriculum sequence
 - MiniStar visual blacklist rules
+- MiniStar voice, pronunciation, audio vendor, or audio style
 
 They may be default tenant configuration for MiniStar English Lab, but other tenants must be able to define different equivalents.
 
@@ -223,6 +231,7 @@ Required abstractions:
 - QR launch route
 - Content package
 - Multimedia catalog
+- Audio cue catalog
 - Local/closed deployment profile
 
 ## 10. Teacher And Student Experience Standards
@@ -236,6 +245,7 @@ Teacher-led requirements:
 - Teacher can see the Teacher Launch Protocol.
 - Teacher can monitor completion and mastery.
 - Teacher can monitor media engagement separately from language-game mastery.
+- Teacher can confirm audio support exists for learner-facing text before assignment.
 - Teacher can trigger or recommend Training Academy review.
 
 Student self-progression requirements:
@@ -243,6 +253,7 @@ Student self-progression requirements:
 - Student can enter through a QR route.
 - Student can enter through a front-door login flow where a tenant requires entry code and user code.
 - Student can complete an entry practice flow, usually flashcards.
+- Student can hear vocabulary terms, target sentences, instructions, feedback, and critical controls without needing independent reading ability.
 - Student can unlock the next recommended game mode.
 - Student can see progress, Star Dust, and reward movement.
 - Student can access approved unit media such as songs, videos, chants, or playlists.
@@ -287,6 +298,7 @@ Every outside-agent task must include:
 - Expected input JSON
 - Expected output events
 - Scoring telemetry contract
+- Audio-support requirements for all learner-facing text
 - Accessibility requirements
 - Mobile/PWA requirements
 - Forbidden architectural changes
@@ -305,6 +317,7 @@ Before any legacy code moves into `apps/web`, `apps/ai-service`, or shared packa
 - How it fits the standardized payload schema
 - How it reports scoring/progress events
 - How it respects white-label tenant boundaries
+- How it supports audio for learner-facing text
 - How it will be tested
 
 Do not copy large legacy screens directly into the canonical app without separation of layout, state, data, and game logic.
@@ -340,6 +353,7 @@ Every significant change should be reviewed against this checklist:
 - Does this improve or preserve clean component boundaries?
 - Does this avoid premature polish before stable layout?
 - Does this support teacher-led QR launch or student self-progression?
+- Does this support audio for learner-facing student text?
 - Does this support the multimedia package model when unit content is affected?
 - Does this use earned collection rather than pressure-based reward loops?
 - Does this keep games data-driven?
@@ -409,3 +423,24 @@ Required standing rules:
 - A small hosted redirect layer remains acceptable when true long-term printed QR permanence is needed.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-007, DR-008, `docs/adr/0004-permanent-qr-and-local-companion-mode.md`, and `docs/adr/0005-core-multimedia-package.md`.
+
+## 18. Audio-First Learner Support Standard
+
+Audio engagement is essential across all student games and activities.
+
+The platform must assume many learners are young, pre-literate, emerging readers, or English learners who cannot reliably read instructions, labels, vocabulary, or feedback without support.
+
+Required standing rules:
+
+- Every student-facing vocabulary term must have an audio cue.
+- Every target sentence must have an audio cue.
+- Student-facing instructions, feedback, prompts, and critical controls must have listen/replay support.
+- Every parent game engine must accept audio cue references as part of its mode payload.
+- Audio cues may resolve to recorded files, partner-provided media, teacher-recorded audio, generated text-to-speech, or a reviewed placeholder during early development.
+- Text-to-speech is acceptable as a cost-efficient fallback, but tenant/product configuration must allow replacement with recorded or partner-owned audio.
+- Audio cue support is separate from optional background music. Background music can be disabled; comprehension audio cannot be silently omitted from student-facing learning flows.
+- Audio behavior must remain tenant-configurable for voice, accent, language, pronunciation rules, playback speed, and offline/local bundle availability.
+- Teacher reports may eventually track audio engagement, but lack of tracking must not block the presence of listen/replay support.
+- A game or unit is not student-ready until its learner-facing text has an audio support plan.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-009 and `docs/adr/0006-audio-first-learner-support.md`.
