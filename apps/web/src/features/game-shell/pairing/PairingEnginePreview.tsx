@@ -3,7 +3,7 @@ import type { GameModeId, UnitPayload } from "@living-textbook/content-model";
 import { formatMode } from "@/lib/formatLabels";
 import { getGameModeCatalogItem } from "../gameModeCatalog";
 import { createVocabularyPairingItems } from "./pairingEngineAdapter";
-import { createPairingEngineState } from "./pairingEngineState";
+import { createPairingEngineState, getPairingProgressSummary } from "./pairingEngineState";
 
 interface PairingEnginePreviewProps {
   unit: UnitPayload;
@@ -14,6 +14,7 @@ export function PairingEnginePreview({ unit, gameMode }: PairingEnginePreviewPro
   const mode = getGameModeCatalogItem(gameMode);
   const pairingItems = createVocabularyPairingItems(unit);
   const engineState = createPairingEngineState(pairingItems);
+  const progress = getPairingProgressSummary(engineState);
   const engineLabel = mode?.engineId ?? unit.unitMeta.engineId;
 
   return (
@@ -27,10 +28,11 @@ export function PairingEnginePreview({ unit, gameMode }: PairingEnginePreviewPro
         </div>
         <StatusPill label="Data ready" tone="success" />
       </div>
-      <dl className="mt-5 grid gap-3 text-sm sm:grid-cols-4">
+      <dl className="mt-5 grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-5">
         <PreviewFact label="Parent engine" value={engineLabel} />
-        <PreviewFact label="Pairs" value={String(pairingItems.length)} />
+        <PreviewFact label="Pairs" value={String(progress.totalPairs)} />
         <PreviewFact label="Cards" value={String(engineState.cards.length)} />
+        <PreviewFact label="Remaining" value={String(progress.remainingPairs)} />
         <PreviewFact label="Mode role" value={mode?.role ?? "reinforcement"} />
       </dl>
       <div className="mt-4 rounded-lg border border-[var(--tenant-border)] p-4">
