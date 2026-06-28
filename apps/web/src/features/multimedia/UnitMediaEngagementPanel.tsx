@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Button, Card, StatusPill } from "@living-textbook/ui";
+import { Card, StatusPill } from "@living-textbook/ui";
 import type {
   ContentPackage,
   GameModeId,
@@ -10,6 +10,8 @@ import type {
   MediaAsset,
   StudentProgressionState,
 } from "@living-textbook/content-model";
+import { AudioCueText } from "@/features/audio/AudioCueButton";
+import { AudioSupportedAction } from "@/features/audio/AudioSupportedAction";
 import {
   createBackgroundMediaEvent,
   createMediaProgressEvent,
@@ -36,6 +38,7 @@ export function UnitMediaEngagementPanel({
   const mediaAssets = contentPackage.mediaAssets ?? [];
   const playlist = contentPackage.playlists?.[0];
   const multimediaPlan = contentPackage.multimediaPlans?.[0];
+  const playlistTitle = playlist?.title ?? "Unit media";
   const playlistAssets = playlist
     ? playlist.mediaAssetIds.map((assetId) => mediaAssets.find((asset) => asset.mediaAssetId === assetId)).filter(isMediaAsset)
     : mediaAssets;
@@ -91,7 +94,9 @@ export function UnitMediaEngagementPanel({
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <p className="text-sm font-semibold text-[var(--tenant-muted)]">Unit playlist</p>
-          <h3 className="text-lg font-bold">{playlist?.title ?? "Unit media"}</h3>
+          <h3 className="text-lg font-bold">
+            <AudioCueText text={playlistTitle} className="font-bold" />
+          </h3>
           <p className="mt-1 text-sm text-[var(--tenant-muted)]">
             These buttons record media engagement events. Real playback comes after this route contract is verified.
           </p>
@@ -104,7 +109,9 @@ export function UnitMediaEngagementPanel({
           <article key={asset.mediaAssetId} className="rounded-lg border border-[var(--tenant-border)] p-4">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
-                <h4 className="text-sm font-bold">{asset.title}</h4>
+                <h4 className="text-sm font-bold">
+                  <AudioCueText text={asset.title} className="font-bold" />
+                </h4>
                 <p className="mt-1 text-sm text-[var(--tenant-muted)]">
                   {asset.kind} / {asset.type} / {asset.durationSeconds ?? 0}s
                 </p>
@@ -115,21 +122,23 @@ export function UnitMediaEngagementPanel({
               />
             </div>
             <div className="mt-4 flex flex-wrap gap-3">
-              <Button
+              <AudioSupportedAction
                 type="button"
                 variant="secondary"
+                audioText="Start media"
                 onClick={() => recordMediaEvent("media_started", asset)}
                 disabled={startedMediaIds.includes(asset.mediaAssetId)}
               >
                 Start media
-              </Button>
-              <Button
+              </AudioSupportedAction>
+              <AudioSupportedAction
                 type="button"
+                audioText="Mark complete"
                 onClick={() => recordMediaEvent("media_completed", asset)}
                 disabled={!startedMediaIds.includes(asset.mediaAssetId) || completedMediaIds.includes(asset.mediaAssetId)}
               >
                 Mark complete
-              </Button>
+              </AudioSupportedAction>
             </div>
           </article>
         ))}
@@ -141,15 +150,21 @@ export function UnitMediaEngagementPanel({
             <div>
               <p className="text-sm font-semibold">Optional background media</p>
               <p className="mt-1 text-sm text-[var(--tenant-muted)]">
-                {backgroundAsset.title} can support {multimediaPlan.allowedBackgroundGameModes?.join(", ") ?? "selected games"} at {multimediaPlan.defaultVolumePercent ?? 0}% volume.
+                <AudioCueText text={backgroundAsset.title} /> can support {multimediaPlan.allowedBackgroundGameModes?.join(", ") ?? "selected games"} at {multimediaPlan.defaultVolumePercent ?? 0}% volume.
               </p>
               <p className="mt-1 text-xs text-[var(--tenant-muted)]">
                 {backgroundAllowed ? "Available for the active game mode." : "Start the matching game before enabling this support media."}
               </p>
             </div>
-            <Button type="button" onClick={toggleBackgroundMedia} disabled={!backgroundAllowed} variant={backgroundEnabled ? "secondary" : "primary"}>
+            <AudioSupportedAction
+              type="button"
+              audioText={backgroundEnabled ? "Disable media" : "Enable media"}
+              onClick={toggleBackgroundMedia}
+              disabled={!backgroundAllowed}
+              variant={backgroundEnabled ? "secondary" : "primary"}
+            >
               {backgroundEnabled ? "Disable media" : "Enable media"}
-            </Button>
+            </AudioSupportedAction>
           </div>
         </section>
       )}
