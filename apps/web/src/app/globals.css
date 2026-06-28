@@ -8,6 +8,16 @@
   --line: #e2e8f0;
   --brand: #0f172a;
   --brand-soft: #dbeafe;
+
+  --tenant-primary: #0f172a;
+  --tenant-primary-soft: #e0f2fe;
+  --tenant-accent: #2563eb;
+  --tenant-accent-soft: #dbeafe;
+  --tenant-background: #f8fafc;
+  --tenant-surface: #ffffff;
+  --tenant-text: #0f172a;
+  --tenant-muted: #64748b;
+  --tenant-border: #e2e8f0;
 }
 
 * {
