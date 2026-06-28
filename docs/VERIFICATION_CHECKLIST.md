@@ -20,9 +20,20 @@ Visit these routes:
 
 Expected results:
 
-- `/` shows the foundation dashboard, teacher launch panel, game sequence, and progression contract.
+- `/` shows the foundation dashboard, teacher launch panel, multimedia package concept, game sequence, progression contract, and teacher progress summary concept.
 - `/teacher` shows the Teacher Launch Protocol and student launch path.
 - `/launch/demo-unit-1` shows flashcard entry practice, next game lock state, earned rewards, and an empty progress summary.
+
+## Dashboard Multimedia Package Checks
+
+On `/`:
+
+1. Confirm the Living Textbook package panel shows 1 unit, 1 audio asset, 1 video asset, and 1 playlist.
+2. Confirm the printed QR concept uses a stable `/q/tenant/.../series/.../book/.../unit/.../activity/...` path.
+3. Confirm the front-door concept shows `/enter/ministar`.
+4. Confirm the optional background media plan is off by default and teacher-controlled.
+5. Confirm the teacher report concept separates game progress from media engagement.
+6. Confirm the sample package validation status says `Package valid`.
 
 ## Student Flow Checks
 
@@ -77,6 +88,7 @@ Check at narrow mobile width:
 - Event log entries remain scannable.
 - Teacher launch route remains readable.
 - Media controls are large enough for classroom devices once implemented.
+- Dashboard multimedia package rows wrap instead of overflowing.
 
 ## White-Label Checks
 
