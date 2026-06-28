@@ -27,6 +27,7 @@ Tenant identity enters the app through `TenantConfig`. The app shell converts `T
 - `FlashcardPracticeCard` renders entry practice, clickable learner text for terms/sentences, and completion.
 - `RewardPreviewCard` shows deterministic earned collection progress from Star Dust.
 - `NextGameUnlockCard` shows the next recommended mode and lock/unlock state.
+- `PairingMemoryMatchGame` renders the first playable post-flashcard game slice.
 - `SessionEventLog` shows emitted local progress events.
 
 Local progression logic belongs in `apps/web/src/features/progression/localProgressionAdapter.ts` until persistence is intentionally introduced.
@@ -39,6 +40,7 @@ Current sample components:
 
 - `AudioCueText` renders learner-facing text as the preferred tap/click-to-speak control using browser speech synthesis as the first cost-efficient fallback.
 - `AudioCueButton` remains available for cases where text-as-control would be unclear, crowded, or inaccessible.
+- `playAudioCueText` provides the shared speech helper used by game cards and text controls.
 
 Responsibilities:
 
@@ -100,6 +102,13 @@ Responsibilities:
 - role in the learning flow
 - concise purpose summary
 - audio cue requirements for learner-facing text
+
+Pairing engine files:
+
+- `pairingEngineAdapter.ts` maps unit vocabulary into reusable pairing items.
+- `pairingEngineState.ts` owns reusable pairing card state, selection, matching, attempts, and completion.
+- `PairingMemoryMatchGame.tsx` renders the first playable Memory Match mode using the pairing state and audio helper.
+- `PairingEnginePreview.tsx` remains useful for non-playable mode wiring checks and future engine previews.
 
 `GameSequence` should read from this catalog instead of scattering mode metadata across screens. Real game engines should not be promoted from legacy code or external repositories until `docs/GAME_ENGINE_CONTRACTS.md` and the legacy promotion standard are satisfied.
 
