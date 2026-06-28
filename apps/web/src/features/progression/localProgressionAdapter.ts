@@ -6,6 +6,7 @@ import type {
   GameModeId,
   GameProgressEvent,
   LaunchSession,
+  MediaAsset,
   StarDustBreakdown,
   StudentProgressionState,
   UnitPayload,
@@ -114,6 +115,77 @@ export function startUnlockedGameMode(args: {
     occurredAt: args.occurredAt,
     metadata: {
       sourceMode: args.launchSession.entryMode,
+    },
+  };
+}
+
+export function createLaunchOpenedEvent(args: {
+  progression: StudentProgressionState;
+  launchSession: LaunchSession;
+  occurredAt: string;
+  entryCode?: string;
+  userCode?: string;
+}): GameProgressEvent {
+  return {
+    type: "launch_opened",
+    unitKey: args.launchSession.unitKey,
+    gameMode: args.launchSession.entryMode,
+    launchCode: args.launchSession.launchCode,
+    studentSessionId: args.progression.studentSessionId,
+    occurredAt: args.occurredAt,
+    metadata: {
+      accessMode: args.launchSession.accessMode,
+      entryCodeProvided: Boolean(args.entryCode),
+      userCodeProvided: Boolean(args.userCode),
+    },
+  };
+}
+
+export function createMediaProgressEvent(args: {
+  type: "media_started" | "media_paused" | "media_completed";
+  progression: StudentProgressionState;
+  launchSession: LaunchSession;
+  mediaAsset: MediaAsset;
+  occurredAt: string;
+  gameMode?: GameModeId;
+}): GameProgressEvent {
+  return {
+    type: args.type,
+    unitKey: args.launchSession.unitKey,
+    gameMode: args.gameMode ?? args.launchSession.entryMode,
+    launchCode: args.launchSession.launchCode,
+    studentSessionId: args.progression.studentSessionId,
+    occurredAt: args.occurredAt,
+    metadata: {
+      mediaAssetId: args.mediaAsset.mediaAssetId,
+      mediaKind: args.mediaAsset.kind,
+      mediaType: args.mediaAsset.type,
+      durationSeconds: args.mediaAsset.durationSeconds ?? 0,
+    },
+  };
+}
+
+export function createBackgroundMediaEvent(args: {
+  type: "background_media_enabled" | "background_media_disabled";
+  progression: StudentProgressionState;
+  launchSession: LaunchSession;
+  mediaAsset: MediaAsset;
+  gameMode: GameModeId;
+  volumePercent: number;
+  occurredAt: string;
+}): GameProgressEvent {
+  return {
+    type: args.type,
+    unitKey: args.launchSession.unitKey,
+    gameMode: args.gameMode,
+    launchCode: args.launchSession.launchCode,
+    studentSessionId: args.progression.studentSessionId,
+    occurredAt: args.occurredAt,
+    metadata: {
+      mediaAssetId: args.mediaAsset.mediaAssetId,
+      mediaKind: args.mediaAsset.kind,
+      mediaType: args.mediaAsset.type,
+      volumePercent: args.volumePercent,
     },
   };
 }
