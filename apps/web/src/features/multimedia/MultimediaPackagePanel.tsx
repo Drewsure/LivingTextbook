@@ -48,6 +48,12 @@ export function MultimediaPackagePanel({
             <RouteRow label="Front door" value={frontDoorPath} />
             <RouteRow label="Fallback" value="local app/content package" />
           </dl>
+          <a
+            href={frontDoorPath}
+            className="mt-4 inline-flex min-h-11 items-center justify-center rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] px-4 py-2 text-sm font-semibold text-[var(--tenant-text)] transition hover:brightness-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--tenant-primary)]"
+          >
+            Open front door
+          </a>
         </section>
         <section className="rounded-lg border border-[var(--tenant-border)] p-4">
           <h3 className="text-sm font-bold">Optional game media</h3>
