@@ -125,6 +125,25 @@ export function startUnlockedGameMode(args: {
   };
 }
 
+export function createGameInteractionEvent(args: {
+  type: "round_shown" | "answer_submitted" | "answer_result" | "mastery_updated";
+  progression: StudentProgressionState;
+  launchSession: LaunchSession;
+  gameMode: GameModeId;
+  occurredAt: string;
+  metadata?: Record<string, string | number | boolean>;
+}): GameProgressEvent {
+  return {
+    type: args.type,
+    unitKey: args.launchSession.unitKey,
+    gameMode: args.gameMode,
+    launchCode: args.launchSession.launchCode,
+    studentSessionId: args.progression.studentSessionId,
+    occurredAt: args.occurredAt,
+    metadata: args.metadata,
+  };
+}
+
 export function completeGameMode(args: {
   progression: StudentProgressionState;
   launchSession: LaunchSession;
