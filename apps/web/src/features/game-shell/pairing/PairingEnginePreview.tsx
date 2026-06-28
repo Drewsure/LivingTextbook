@@ -2,6 +2,7 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import type { GameModeId, UnitPayload } from "@living-textbook/content-model";
 import { getGameModeCatalogItem } from "../gameModeCatalog";
 import { createVocabularyPairingItems } from "./pairingEngineAdapter";
+import { createPairingEngineState } from "./pairingEngineState";
 import { formatMode } from "@/features/student/studentLabels";
 
 interface PairingEnginePreviewProps {
@@ -12,6 +13,7 @@ interface PairingEnginePreviewProps {
 export function PairingEnginePreview({ unit, gameMode }: PairingEnginePreviewProps) {
   const mode = getGameModeCatalogItem(gameMode);
   const pairingItems = createVocabularyPairingItems(unit);
+  const engineState = createPairingEngineState(pairingItems);
   const engineLabel = mode?.engineId ?? unit.unitMeta.engineId;
 
   return (
@@ -25,15 +27,16 @@ export function PairingEnginePreview({ unit, gameMode }: PairingEnginePreviewPro
         </div>
         <StatusPill label="Data ready" tone="success" />
       </div>
-      <dl className="mt-5 grid gap-3 text-sm sm:grid-cols-3">
+      <dl className="mt-5 grid gap-3 text-sm sm:grid-cols-4">
         <PreviewFact label="Parent engine" value={engineLabel} />
-        <PreviewFact label="Pairing items" value={String(pairingItems.length)} />
+        <PreviewFact label="Pairs" value={String(pairingItems.length)} />
+        <PreviewFact label="Cards" value={String(engineState.cards.length)} />
         <PreviewFact label="Mode role" value={mode?.role ?? "reinforcement"} />
       </dl>
       <div className="mt-4 rounded-lg border border-[var(--tenant-border)] p-4">
         <p className="text-sm font-semibold">First pair payload</p>
         <p className="mt-1 text-sm text-[var(--tenant-muted)]">
-          {pairingItems[0]?.sourceText ?? "No term"} -> {pairingItems[0]?.targetText ?? "No target"}
+          {pairingItems[0]?.sourceText ?? "No term"} -&gt; {pairingItems[0]?.targetText ?? "No target"}
         </p>
       </div>
     </Card>
