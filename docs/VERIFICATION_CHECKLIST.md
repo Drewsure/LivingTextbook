@@ -48,11 +48,14 @@ For any student-facing unit or game:
 3. Confirm student-facing instructions have audio cues.
 4. Confirm important success, retry, or correction feedback has audio cues.
 5. Confirm critical controls or prompts needed by young learners have listen/replay support or an explicit audio cue plan.
-6. Confirm audio support is separate from optional background music or chants.
-7. Confirm text-to-speech, recorded audio, teacher-recorded audio, partner audio, or reviewed placeholder audio is declared for each cue.
-8. Confirm tenant voice/accent/source choices are configurable and not hard-coded as MiniStar-only assumptions.
-9. Confirm games remain usable if background media is disabled, while comprehension audio remains available.
-10. Do not mark a game or unit student-ready if learner-facing text is unsupported by audio.
+6. Confirm the preferred interaction is tap/click the learner-facing text itself to hear it.
+7. Confirm separate listen buttons are used only when text-as-control would be unclear, crowded, or inaccessible.
+8. Confirm any autoplay behavior is opt-in, disable-able, non-overlapping, and justified by the activity design.
+9. Confirm audio support is separate from optional background music or chants.
+10. Confirm text-to-speech, recorded audio, teacher-recorded audio, partner audio, or reviewed placeholder audio is declared for each cue.
+11. Confirm tenant voice/accent/source choices are configurable and not hard-coded as MiniStar-only assumptions.
+12. Confirm games remain usable if background media is disabled, while comprehension audio remains available.
+13. Do not mark a game or unit student-ready if learner-facing text is unsupported by audio.
 
 ## Front-Door Flow Checks
 
@@ -63,17 +66,19 @@ On `/enter/ministar`:
 3. Click `Open unit`.
 4. Confirm the report preview records `launch_opened`.
 5. Confirm flashcard practice appears.
-6. Click `Mark practice complete`.
-7. Confirm the report preview records `entry_practice_completed` and `game_unlocked`.
-8. Confirm Star Dust increases and the first deterministic reward unlocks.
-9. Start the audio asset and mark it complete.
-10. Start the video asset and mark it complete.
-11. Confirm media started/completed counts update separately from game progress.
-12. Start Memory Match.
-13. Confirm the pairing shell appears.
-14. Confirm optional background media can now be enabled.
-15. Enable and disable background media.
-16. Confirm background media events appear in the teacher-visible report preview.
+6. Tap each vocabulary word and confirm it speaks.
+7. Tap each target sentence and confirm it speaks.
+8. Click `Mark practice complete`.
+9. Confirm the report preview records `entry_practice_completed` and `game_unlocked`.
+10. Confirm Star Dust increases and the first deterministic reward unlocks.
+11. Start the audio asset and mark it complete.
+12. Start the video asset and mark it complete.
+13. Confirm media started/completed counts update separately from game progress.
+14. Start Memory Match.
+15. Confirm the pairing shell appears.
+16. Confirm optional background media can now be enabled.
+17. Enable and disable background media.
+18. Confirm background media events appear in the teacher-visible report preview.
 
 ## Student Flow Checks
 
@@ -81,16 +86,18 @@ On `/launch/demo-unit-1`:
 
 1. Confirm initial state says flashcards are ready and Memory Match is locked.
 2. Confirm the earned rewards panel shows deterministic locked rewards, not random rewards.
-3. Click `Mark practice complete`.
-4. Confirm the button becomes disabled or complete.
-5. Confirm Star Dust increases.
-6. Confirm the first deterministic reward unlocks.
-7. Confirm the progress event log shows `entry_practice_completed`.
-8. Confirm the progress event log shows `game_unlocked`.
-9. Confirm Memory Match changes from locked to unlocked.
-10. Click `Start Memory Match`.
-11. Confirm the progress event log shows `game_started`.
-12. Confirm the Mode Shell appears with pair count, card count, parent engine, and first pair payload.
+3. Tap a vocabulary word and confirm it speaks.
+4. Tap a target sentence and confirm it speaks.
+5. Click `Mark practice complete`.
+6. Confirm the button becomes disabled or complete.
+7. Confirm Star Dust increases.
+8. Confirm the first deterministic reward unlocks.
+9. Confirm the progress event log shows `entry_practice_completed`.
+10. Confirm the progress event log shows `game_unlocked`.
+11. Confirm Memory Match changes from locked to unlocked.
+12. Click `Start Memory Match`.
+13. Confirm the progress event log shows `game_started`.
+14. Confirm the Mode Shell appears with pair count, card count, parent engine, and first pair payload.
 
 ## Multimedia Checks
 
@@ -130,6 +137,7 @@ Check at narrow mobile width:
 - Media controls are large enough for classroom devices.
 - Dashboard multimedia package rows wrap instead of overflowing.
 - Audio support metrics and cue summaries wrap without overlap.
+- Clickable audio text remains easy to tap and does not overlap nearby controls.
 - Front-door entry inputs and buttons wrap without overlap.
 - Teacher-visible report metrics remain scannable.
 
@@ -141,7 +149,7 @@ Check at narrow mobile width:
 - Reward text uses `tenant.rewardName` where applicable.
 - Rewards are deterministic earned unlocks, not chance-based or pressure-based rewards.
 - Multimedia labels, playlists, and route names are tenant-configurable.
-- Audio cue voice, source, pronunciation, and language choices are tenant-configurable.
+- Audio cue voice, source, pronunciation, autoplay defaults, and language choices are tenant-configurable.
 
 ## Known Verification Gap
 
