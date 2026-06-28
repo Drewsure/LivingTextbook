@@ -29,7 +29,7 @@ export type GameModeId =
   | "quiz"
   | "sentence-builder";
 
-export type LaunchAccessMode = "teacher-qr" | "permanent-qr" | "teacher-preview" | "student-return";
+export type LaunchAccessMode = "teacher-qr" | "permanent-qr" | "front-door-code" | "teacher-preview" | "student-return";
 export type LaunchSessionStatus = "draft" | "open" | "locked" | "expired" | "completed";
 export type LaunchStepId = "entry-practice" | "recommended-game" | "training-academy" | "completion-review";
 export type MasteryStatus = "not-started" | "in-progress" | "mastered" | "needs-review";
@@ -41,9 +41,29 @@ export type DeploymentChannel =
   | "desktop-app"
   | "local-classroom-server"
   | "custom-deep-link";
-export type MediaAssetType = "song" | "chant" | "listening-track" | "voiceover" | "sound-effect" | "other-audio";
+export type MediaAssetType =
+  | "song"
+  | "chant"
+  | "listening-track"
+  | "voiceover"
+  | "sound-effect"
+  | "lesson-video"
+  | "music-video"
+  | "karaoke-video"
+  | "animation"
+  | "other-audio"
+  | "other-video";
+export type MediaKind = "audio" | "video";
 export type MediaRightsStatus = "owned" | "licensed" | "partner-provided" | "unknown";
-export type QrTargetType = "unit-launch" | "game-mode" | "media-playlist" | "media-asset" | "teacher-preview";
+export type MediaUsageRole = "primary" | "background" | "prompt" | "review" | "celebration" | "teacher-reference";
+export type MediaPlaybackContext = "unit-home" | "game-background" | "teacher-preview" | "student-practice" | "completion-review";
+export type QrTargetType =
+  | "front-door"
+  | "unit-launch"
+  | "game-mode"
+  | "media-playlist"
+  | "media-asset"
+  | "teacher-preview";
 
 export interface TextbookReference {
   seriesId?: SeriesId;
@@ -116,9 +136,12 @@ export interface MediaAsset {
   tenantId: TenantId;
   title: string;
   type: MediaAssetType;
+  kind: MediaKind;
   rightsStatus: MediaRightsStatus;
   sourceUri?: string;
   localBundlePath?: string;
+  posterImageUri?: string;
+  transcriptUri?: string;
   durationSeconds?: number;
   ownerName?: string;
   language?: string;
@@ -132,7 +155,19 @@ export interface UnitMediaPlaylist {
   title: string;
   unitKey: string;
   mediaAssetIds: MediaAssetId[];
+  usageRole?: MediaUsageRole;
+  playbackContext?: MediaPlaybackContext;
   textbookReference?: TextbookReference;
+}
+
+export interface UnitMultimediaPlan {
+  unitKey: string;
+  primaryPlaylistId?: string;
+  backgroundMediaAssetId?: MediaAssetId;
+  allowedBackgroundGameModes?: GameModeId[];
+  backgroundEnabledByDefault?: boolean;
+  defaultVolumePercent?: number;
+  requiresTeacherEnablement?: boolean;
 }
 
 export interface ContentPackage {
@@ -140,6 +175,7 @@ export interface ContentPackage {
   units: UnitPayload[];
   mediaAssets?: MediaAsset[];
   playlists?: UnitMediaPlaylist[];
+  multimediaPlans?: UnitMultimediaPlan[];
 }
 
 export interface PermanentQrIdentifier {
@@ -161,6 +197,14 @@ export interface PermanentQrRoute {
   preferredDeployment: DeploymentChannel;
   fallbackPath?: string;
   updatedAt: string;
+}
+
+export interface FrontDoorAccessPolicy {
+  tenantId: TenantId;
+  entryCodeRequired: boolean;
+  userCodeRequired: boolean;
+  reportProgressToTeacher: boolean;
+  allowAnonymousPractice: boolean;
 }
 
 export interface LaunchSession {
@@ -200,7 +244,10 @@ export type GameEventType =
   | "game_unlocked"
   | "training_recommended"
   | "media_started"
+  | "media_paused"
   | "media_completed"
+  | "background_media_enabled"
+  | "background_media_disabled"
   | "game_completed"
   | "mastery_updated";
 
@@ -223,6 +270,10 @@ export interface StarDustBreakdown {
 
 function encodePathPart(value: string): string {
   return encodeURIComponent(value.trim());
+}
+
+function isVideoAsset(type: MediaAssetType): boolean {
+  return type === "lesson-video" || type === "music-video" || type === "karaoke-video" || type === "animation" || type === "other-video";
 }
 
 export function getUnitKey(meta: Pick<UnitMeta, "tenantId" | "curriculumId" | "level" | "unit">): string {
@@ -358,6 +409,22 @@ export function validateContentPackage(contentPackage: ContentPackage): string[]
 
   if (contentPackage.meta.reviewStatus === "approved" && contentPackage.units.some((unit) => validateUnitPayload(unit).length > 0)) {
     errors.push("Approved content packages cannot include invalid unit payloads.");
+  }
+
+  for (const mediaAsset of contentPackage.mediaAssets ?? []) {
+    if (mediaAsset.kind === "video" && !isVideoAsset(mediaAsset.type)) {
+      errors.push(`Video media asset ${mediaAsset.mediaAssetId} must use a video asset type.`);
+    }
+
+    if (mediaAsset.kind === "audio" && isVideoAsset(mediaAsset.type)) {
+      errors.push(`Audio media asset ${mediaAsset.mediaAssetId} must not use a video asset type.`);
+    }
+  }
+
+  for (const plan of contentPackage.multimediaPlans ?? []) {
+    if (plan.defaultVolumePercent !== undefined && (plan.defaultVolumePercent < 0 || plan.defaultVolumePercent > 100)) {
+      errors.push(`Multimedia plan for ${plan.unitKey} must use a default volume from 0 to 100.`);
+    }
   }
 
   return errors;
