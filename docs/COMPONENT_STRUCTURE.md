@@ -4,7 +4,7 @@ This document records the first clean structure for the white-label Living Textb
 
 ## Layers
 
-- `packages/content-model` owns shared platform types, sample payload validation, game event names, launch/progression contracts, multimedia package contracts, permanent QR contracts, and Star Dust calculations.
+- `packages/content-model` owns shared platform types, sample payload validation, game event names, launch/progression contracts, audio support contracts, multimedia package contracts, permanent QR contracts, and Star Dust calculations.
 - `packages/ui` owns small reusable UI primitives with stable dimensions and accessible defaults.
 - `apps/web` owns the Next.js application shell, routes, tenant configuration, local adapters, and feature composition.
 
@@ -12,24 +12,40 @@ This document records the first clean structure for the white-label Living Textb
 
 - `apps/web/src/app` contains routes only.
 - `apps/web/src/components` contains app-level reusable layout.
-- `apps/web/src/features` contains domain features: teacher launch, student onboarding, game shell, progression, rewards, tenant config, front-door access, multimedia, and reporting surfaces.
+- `apps/web/src/features` contains domain features: teacher launch, student onboarding, audio support, game shell, progression, rewards, tenant config, front-door access, multimedia, and reporting surfaces.
 - `apps/web/src/data` contains static seed data until live persistence is chosen.
 
 ## Tenant Styling Boundary
 
-Tenant identity enters the app through `TenantConfig`. The app shell converts `TenantConfig.brand` into CSS variables, and shared primitives consume those variables. This keeps MiniStar as the flagship tenant without making MiniStar colors, rewards, avatars, media rules, or curriculum assumptions universal platform code.
+Tenant identity enters the app through `TenantConfig`. The app shell converts `TenantConfig.brand` into CSS variables, and shared primitives consume those variables. This keeps MiniStar as the flagship tenant without making MiniStar colors, rewards, avatars, media rules, voices, pronunciation choices, or curriculum assumptions universal platform code.
 
 ## Student Launch Structure
 
 `StudentLaunchFlow` is the client-side orchestrator for the first QR-entry slice. It owns temporary local state and delegates display to focused components:
 
 - `StudentProgressHeader` shows launch context and current progression facts.
-- `FlashcardPracticeCard` renders entry practice and triggers completion.
+- `FlashcardPracticeCard` renders entry practice, learner audio controls for terms/sentences, and completion.
 - `RewardPreviewCard` shows deterministic earned collection progress from Star Dust.
 - `NextGameUnlockCard` shows the next recommended mode and lock/unlock state.
 - `SessionEventLog` shows emitted local progress events.
 
 Local progression logic belongs in `apps/web/src/features/progression/localProgressionAdapter.ts` until persistence is intentionally introduced.
+
+## Audio Support Structure
+
+Audio support lives in `apps/web/src/features/audio`, not inside individual game engines.
+
+Current sample component:
+
+- `AudioCueButton` renders a listen/replay control for learner-facing text using browser speech synthesis as the first cost-efficient fallback.
+
+Responsibilities:
+
+- Provide listen/replay controls for student-facing vocabulary, sentences, instructions, feedback, and critical prompts.
+- Accept cue text, language, and future cue metadata without hard-coding MiniStar voices or vendor choices.
+- Allow future replacement with recorded tenant audio, teacher-recorded audio, partner-provided audio, or offline bundled audio.
+- Keep comprehension audio separate from optional background music or chants.
+- Let parent game engines consume audio cue ids through standardized payloads instead of one-off playback code.
 
 ## Front-Door Access Structure
 
@@ -54,7 +70,7 @@ Multimedia work lives in `apps/web/src/features/multimedia`, not inside individu
 
 Current sample components:
 
-- `MultimediaPackagePanel` renders the dashboard package concept.
+- `MultimediaPackagePanel` renders the dashboard package concept, including audio cue counts and support-plan status.
 - `UnitMediaEngagementPanel` renders unit playlist/media event controls for the active front-door slice.
 
 Responsibilities:
@@ -80,10 +96,11 @@ Responsibilities:
 - parent engine
 - role in the learning flow
 - concise purpose summary
+- audio cue requirements for learner-facing text
 
 `GameSequence` should read from this catalog instead of scattering mode metadata across screens. Real game engines should not be promoted from legacy code or external repositories until `docs/GAME_ENGINE_CONTRACTS.md` and the legacy promotion standard are satisfied.
 
-Games may accept optional background/support media through a standard multimedia plan, but the game engine must not require that media to be playable.
+Games may accept optional background/support media through a standard multimedia plan, but the game engine must not require that media to be playable. Games must still support comprehension audio for learner-facing text.
 
 ## Reporting Structure
 
@@ -96,6 +113,7 @@ Expected reporting streams:
 - game started/completed
 - media started/paused/completed
 - background media enabled/disabled
+- audio cue engagement when telemetry is implemented
 - Star Dust or tenant reward progress
 - mastery state updates
 - Training Academy recommendations
@@ -103,9 +121,10 @@ Expected reporting streams:
 ## Current Rules
 
 - No legacy component is promoted directly into the canonical app until an explicit integration plan exists.
-- No reusable component should hard-code a tenant palette, mascot, reward name, media rule, or curriculum identity.
+- No reusable component should hard-code a tenant palette, mascot, reward name, media rule, voice, pronunciation rule, or curriculum identity.
 - Premium polish, animation, mascot evolution, and asset-heavy collection views come after the clean vertical slice works.
 - Client components should be thin orchestrators where possible; display should live in named domain components.
 - New game modes should begin as catalog entries and parent-engine configurations, not one-off screens.
+- New game modes must include audio support for learner-facing text before they are student-ready.
 - Rewards should begin as deterministic catalog entries and mastery thresholds, not random reward systems.
 - Multimedia should begin as catalog entries, playlists, and events, not one-off music/video pages.
