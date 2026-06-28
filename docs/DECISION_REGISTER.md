@@ -36,6 +36,7 @@ Before accepting a new direction, answer these questions in the task, PR, or imp
 | DR-005 | Local progression before persistence | Accepted | Prove QR entry, flashcards, events, unlocks, and Star Dust locally before introducing database, auth, or live classroom complexity. |
 | DR-006 | Deterministic starter reward catalog | Accepted | First rewards are transparent Star Dust thresholds, not chance-based mechanics, to prove earned collection safely and cheaply. |
 | DR-007 | Permanent QR and local textbook companion mode | Accepted | Printed textbook QR codes must resolve stable identifiers/content packages for local or closed companion apps, with optional hosted redirect for long-lived external QR permanence. |
+| DR-008 | Multimedia is core living-textbook content | Accepted | Audio, video, playlists, and optional background media belong in the initial content package model, not as later bolt-on pages. |
 
 ## DR-001: Tailwind And PostCSS Foundation
 
@@ -165,7 +166,7 @@ Constraints:
 
 Status: Accepted
 
-Decision: Treat permanent QR identifiers, content packages, local/closed app deployment, and a media/audio companion layer as first-class white-label requirements.
+Decision: Treat permanent QR identifiers, content packages, local/closed app deployment, and a multimedia companion layer as first-class white-label requirements.
 
 White-label impact: Strongly positive. This expands Living Textbook from a MiniStar-first school product into a saleable companion platform for textbook publishers, curriculum owners, schools, and private education brands.
 
@@ -177,8 +178,29 @@ Constraints:
 
 - Printed QR codes must not point directly to local files, temporary localhost ports, or version-specific asset paths.
 - QR payloads should resolve stable identifiers such as tenant, series, book, unit, activity, language, edition, and version.
+- The build standard is hybrid by default: stable QR registry, optional tiny hosted redirect, and local app/content-package fallback.
 - A local/closed app can be supported through an installed app, installed PWA, local classroom server, or similar package, but the tradeoffs must be documented.
-- A tiny hosted redirect layer remains the recommended option when printed QR codes need true long-term external permanence.
 - PDF-derived content must enter as draft content packages and require human review plus verifier checks before student assignment.
-- The media/music platform is an asset and playback layer, not a hard-coded music page.
+- Multimedia is an asset, playlist, and playback layer, not hard-coded music or video pages.
 - See `docs/adr/0004-permanent-qr-and-local-companion-mode.md` and `docs/partner-strategies/LOCAL_TEXTBOOK_COMPANION_STRATEGY.md`.
+
+## DR-008: Multimedia Is Core Living-Textbook Content
+
+Status: Accepted
+
+Decision: Treat music, audio, video, playlists, optional unit/game background media, and media progress events as core living-textbook primitives from the first build.
+
+White-label impact: Strongly positive. Publishers and curriculum owners can maintain year-on-year multimedia companions alongside games without needing a separate product or expensive one-off portal.
+
+Cost impact: Positive if kept data-driven. A shared multimedia catalog and playback contract is cheaper than building separate music pages, video pages, and game-specific media hacks for each tenant.
+
+Pedagogical impact: Positive with controls. Unit songs, chants, listening tracks, and videos can reinforce language before, during, or after gameplay. Background media during games is allowed as an option, but it must be teacher/tenant configurable and should not distract from comprehension or accessibility.
+
+Constraints:
+
+- Each content package may include audio assets, video assets, playlists, and unit multimedia plans.
+- Media assets must track rights/owner, language, duration, local/offline availability, and textbook/unit/activity references where available.
+- Background music or video during games must be optional, controllable, and reported through standard media events.
+- Games must remain playable without background media for accessibility, bandwidth, classroom noise, and local-device constraints.
+- Teacher reporting should be able to distinguish game progress from media engagement.
+- This decision is recorded in `docs/adr/0005-core-multimedia-package.md`.
