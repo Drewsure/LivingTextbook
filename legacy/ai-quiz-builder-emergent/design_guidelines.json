@@ -1,0 +1,206 @@
+{
+  "identity": {
+    "name": "E1",
+    "archetype": "The Anti-AI Designer",
+    "philosophy": [
+      "Fusion over Imitation",
+      "Emotion First",
+      "Content is King",
+      "Zoom In",
+      "Negative Space",
+      "Contrast"
+    ]
+  },
+  "themes": {
+    "strategy": "Dual-Persona Interface",
+    "teacher_portal": {
+      "name": "Teacher Command Center",
+      "vibe": "Professional, Efficient, Clarity, Trust",
+      "archetype": "Swiss & High-Contrast",
+      "background": "bg-slate-50",
+      "surface": "bg-white",
+      "primary_color": "teal",
+      "radius": "rounded-lg"
+    },
+    "student_portal": {
+      "name": "The Game Arcade",
+      "vibe": "Exciting, Magical, Immersive, Playful",
+      "archetype": "Vibrant Play",
+      "background": "bg-violet-50",
+      "surface": "bg-white",
+      "primary_color": "violet",
+      "radius": "rounded-3xl"
+    }
+  },
+  "colors": {
+    "teacher": {
+      "primary": {
+        "base": "#0F766E",
+        "hover": "#115E59",
+        "foreground": "#FFFFFF"
+      },
+      "secondary": {
+        "base": "#F1F5F9",
+        "foreground": "#0F172A"
+      },
+      "accent": {
+        "base": "#F43F5E",
+        "foreground": "#FFFFFF"
+      },
+      "neutral": {
+        "bg": "#F8FAFC",
+        "surface": "#FFFFFF",
+        "border": "#E2E8F0",
+        "text_main": "#0F172A",
+        "text_muted": "#64748B"
+      }
+    },
+    "student": {
+      "primary": {
+        "base": "#8B5CF6",
+        "hover": "#7C3AED",
+        "foreground": "#FFFFFF"
+      },
+      "secondary": {
+        "base": "#FBBF24",
+        "hover": "#F59E0B",
+        "foreground": "#000000"
+      },
+      "accent": {
+        "base": "#EC4899",
+        "foreground": "#FFFFFF"
+      },
+      "success": "#84CC16",
+      "background_gradient": "from-violet-100 to-fuchsia-50",
+      "neutral": {
+        "surface": "#FFFFFF",
+        "text_main": "#4C1D95",
+        "text_muted": "#8B5CF6"
+      }
+    },
+    "contrast_rules": {
+      "text_large": "Contrast ratio 3:1 minimum",
+      "text_normal": "Contrast ratio 4.5:1 minimum",
+      "hover_states": "Must be explicitly defined (e.g., hover:bg-teal-700)"
+    }
+  },
+  "typography": {
+    "teacher": {
+      "headings": {
+        "family": "Manrope, sans-serif",
+        "weights": ["600", "700"],
+        "tracking": "tracking-tight"
+      },
+      "body": {
+        "family": "Inter, sans-serif",
+        "weights": ["400", "500"]
+      }
+    },
+    "student": {
+      "headings": {
+        "family": "Nunito, sans-serif",
+        "weights": ["800", "900"],
+        "tracking": "tracking-normal",
+        "style": "Rounded and friendly"
+      },
+      "body": {
+        "family": "Nunito, sans-serif",
+        "weights": ["500", "700"]
+      }
+    },
+    "installation": "Ensure generic fonts are replaced. Use Google Fonts via import in index.css: @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Nunito:wght@500;700;900&display=swap');"
+  },
+  "layout": {
+    "spacing_scale": "Tailwind Scale (p-4, p-6, p-8, p-12, p-16)",
+    "containers": {
+      "dashboard_grid": "grid grid-cols-1 md:grid-cols-12 gap-6",
+      "card_internal": "p-6 space-y-4"
+    },
+    "grids": {
+      "teacher_bento": {
+        "type": "Mode B (High Density)",
+        "columns": "grid-cols-1 md:grid-cols-4",
+        "gap": "gap-4",
+        "strategy": "Dense, correlated data, no jagged bottoms"
+      },
+      "student_tetris": {
+        "type": "Mode A (The Tetris Grid)",
+        "columns": "grid-cols-1 md:grid-cols-3 lg:grid-cols-4",
+        "gap": "gap-6",
+        "strategy": "Big hero cards, asymmetric playful layout"
+      }
+    }
+  },
+  "components": {
+    "instructions": "Use Shadcn components as base but OVERRIDE styles via className. Do NOT use default styling blindly.",
+    "buttons": {
+      "teacher": "rounded-md font-medium h-10 px-4 py-2 transition-all hover:translate-y-[-1px]",
+      "student": "rounded-full font-black text-lg h-14 px-8 shadow-[0_4px_0_0_rgba(0,0,0,0.2)] hover:shadow-[0_2px_0_0_rgba(0,0,0,0.2)] hover:translate-y-[2px] transition-all active:translate-y-[4px] active:shadow-none"
+    },
+    "cards": {
+      "teacher": "bg-white border border-slate-200 shadow-sm rounded-lg hover:shadow-md transition-shadow",
+      "student": "bg-white border-4 border-violet-200 shadow-xl rounded-3xl hover:scale-105 transition-transform duration-300"
+    },
+    "inputs": {
+      "teacher": "h-10 rounded-md border-slate-300 focus:ring-2 focus:ring-teal-500 focus:border-transparent",
+      "student": "h-12 rounded-xl border-2 border-violet-200 bg-violet-50 text-violet-900 focus:ring-4 focus:ring-violet-200 focus:border-violet-400 font-bold"
+    }
+  },
+  "game_design": {
+    "philosophy": "Spectacular & Responsive",
+    "visuals": {
+      "style": "Flat 2.0 or Soft 3D",
+      "animations": "Framer Motion mandatory. Exit/Enter animations, Confetti on win, Shake on error.",
+      "feedback": "Immediate visual feedback for every interaction."
+    },
+    "palettes": {
+      "word_games": "Blue/Cyan (Focus)",
+      "quiz_games": "Violet/Purple (Mystery)",
+      "speed_games": "Orange/Red (Energy)",
+      "math_games": "Emerald/Lime (Logic)"
+    }
+  },
+  "motion": {
+    "micro_interactions": {
+      "hover": "scale-105 or lift",
+      "click": "scale-95",
+      "success": "bounce or confetti",
+      "error": "shake"
+    },
+    "transitions": {
+      "page_load": "fade-in slide-up",
+      "list_item": "staggered entrance"
+    }
+  },
+  "assets": {
+    "images": {
+      "teacher_hero": "https://images.unsplash.com/photo-1758685848174-e061c6486651",
+      "student_hero": "https://images.pexels.com/photos/4019759/pexels-photo-4019759.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "placeholder_logo": "Use text-based logo with distinct typography"
+    },
+    "icons": {
+      "library": "lucide-react",
+      "style": "Stroke width 2px for Teacher, 2.5px or 3px for Students"
+    }
+  },
+  "universal_guidelines": [
+    "Do not get biased or lean towards generic examples.",
+    "Dark colors look good when used independently without gradients. DO NOT use dark colors as gradients.",
+    "Don't make generic centered layouts, simplistic gradients, and uniform styling.",
+    "Create depth through layered design elements with z-index hierarchy.",
+    "Use glass-morphism effects with backdrop filters (12-24px blur).",
+    "You MUST NOT apply universal transition. Eg: transition: all. This results in breaking transforms.",
+    "You MUST NOT center align the app container, ie do not add .App { text-align: center; }.",
+    "Always use modern button styles like pill-shaped, or sharp button with interaction animations.",
+    "NEVER: use AI assistant Emoji characters like 🤖🧠 etc for icons.",
+    "Every interaction needs micro-animations - hover states, transitions, parallax effects.",
+    "Use 2-3x more spacing than feels comfortable.",
+    "Subtle grain textures, noise overlays, custom cursors, selection states, and loading animations: separates good from extraordinary.",
+    "Prioritize using pre-existing components from src/components/ui when applicable.",
+    "Components MUST use named exports (export const ComponentName = ...).",
+    "Pages MUST use default exports (export default function PageName() {...}).",
+    "Use sonner for toasts.",
+    "All interactive and key informational elements MUST include a data-testid attribute."
+  ],
+  "instructions_to_main_agent": "Read this file first. Import fonts in index.css. Create a 'Layout' component that handles the theme switching (Teacher vs Student) by applying a wrapper class or changing the visual context. Build the Teacher Dashboard with the 'Teacher Palette' and 'Bento Grid'. Build the Student Portal with 'Student Palette' and 'Tetris Grid'. For games, use the 'game_design' section to ensure they feel premium and not generic."
+}

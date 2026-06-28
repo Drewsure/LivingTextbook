@@ -1,0 +1,10 @@
+project_id = "gneplyhordxhpqvkolkt"
+
+[functions.analyze-worksheet]
+verify_jwt = false
+
+[functions.generate-games]
+verify_jwt = false
+
+[functions.generate-blog-post]
+verify_jwt = false

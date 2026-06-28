@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 45 100% 97%;
+    --foreground: 250 30% 18%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 250 30% 18%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 250 30% 18%;
+
+    --primary: 262 83% 58%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 45 100% 65%;
+    --secondary-foreground: 250 30% 18%;
+
+    --muted: 250 20% 94%;
+    --muted-foreground: 250 10% 45%;
+
+    --accent: 340 82% 62%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 250 20% 88%;
+    --input: 250 20% 88%;
+    --ring: 262 83% 58%;
+
+    --radius: 1rem;
+
+    --game-green: 145 72% 50%;
+    --game-blue: 210 100% 56%;
+    --game-orange: 28 100% 58%;
+    --game-pink: 340 82% 62%;
+    --game-purple: 262 83% 58%;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 250 30% 8%;
+    --foreground: 45 100% 97%;
+
+    --card: 250 25% 12%;
+    --card-foreground: 45 100% 97%;
+
+    --popover: 250 25% 12%;
+    --popover-foreground: 45 100% 97%;
+
+    --primary: 262 83% 65%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 45 100% 55%;
+    --secondary-foreground: 250 30% 18%;
+
+    --muted: 250 20% 18%;
+    --muted-foreground: 250 10% 65%;
+
+    --accent: 340 82% 65%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 250 20% 22%;
+    --input: 250 20% 22%;
+    --ring: 262 83% 65%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-body;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Fredoka', sans-serif;
+  }
+}

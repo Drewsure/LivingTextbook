@@ -1,0 +1,1 @@
+{"name":"living-textbook","private":true,"version":"0.0.0","description":"Master monorepo for the Living Textbook / Ministar learning platform consolidation.","workspaces":["apps/*","packages/*"],"scripts":{"status":"node scripts/status.mjs"}}
