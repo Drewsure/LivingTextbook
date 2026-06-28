@@ -72,14 +72,15 @@ Entry practice may also emit:
 Implemented scaffold:
 
 - `apps/web/src/features/game-shell/pairing/pairingEngineAdapter.ts` converts unit vocabulary into pairing items.
-- `apps/web/src/features/game-shell/pairing/PairingEnginePreview.tsx` confirms that the active mode has data ready.
+- `apps/web/src/features/game-shell/pairing/pairingEngineState.ts` creates deterministic pair cards and handles pure card-selection state transitions.
+- `apps/web/src/features/game-shell/pairing/PairingEnginePreview.tsx` confirms that the active mode has pairing data and generated card state ready.
 - Starting the Memory Match shell emits `game_started` through the local progression adapter.
 
 Intentional limits:
 
-- No pair selection state yet.
+- No visible Memory Match board yet.
 - No board randomization yet.
-- No answer validation yet.
+- No animated mismatch reveal yet.
 - No scoring loop beyond the flashcard entry reward yet.
 - No full Memory Match gameplay yet.
 
