@@ -95,21 +95,29 @@ Responsibilities:
 
 ## Game Shell Structure
 
-`apps/web/src/features/game-shell/gameModeCatalog.ts` is the first mode metadata boundary. Early mode definitions should describe:
+`apps/web/src/features/game-shell/gameModeCatalog.ts` is the first mode metadata boundary. Early mode definitions describe:
 
 - stable mode id
 - readable label
 - pedagogical family
 - parent engine
 - role in the learning flow
+- skill focus
+- supported levels
+- recommended term range
+- required sentence count
+- scoring profile id
+- audio requirement
+- background-media allowance
 - concise purpose summary
-- audio cue requirements for learner-facing text
+
+`apps/web/src/features/game-shell/scoringProfiles.ts` owns shared scoring profiles for game modes. Game components should ask the scoring layer for award limits or accuracy-sensitive reward calculations instead of hard-coding Star Dust math inside each mode component.
 
 Pairing engine files:
 
 - `pairingEngineAdapter.ts` maps unit vocabulary into reusable pairing items.
 - `pairingEngineState.ts` owns reusable pairing card state, selection, matching, attempts, and completion.
-- `PairingMemoryMatchGame.tsx` renders the first playable Memory Match mode using the pairing state and audio helper.
+- `PairingMemoryMatchGame.tsx` renders the first playable Memory Match mode using the pairing state, shared scoring profile, standard telemetry events, and audio helper.
 - `PairingEnginePreview.tsx` remains useful for non-playable mode wiring checks and future engine previews.
 
 `GameSequence` should read from this catalog instead of scattering mode metadata across screens. Real game engines should not be promoted from legacy code or external repositories until `docs/GAME_ENGINE_CONTRACTS.md` and the legacy promotion standard are satisfied.
@@ -125,6 +133,9 @@ Expected reporting streams:
 - launch opened
 - entry practice completed
 - game started/completed
+- round/item shown
+- answer submitted
+- answer result
 - media started/paused/completed
 - background media enabled/disabled
 - audio cue engagement when telemetry is implemented
@@ -139,7 +150,7 @@ Expected reporting streams:
 - No reusable component should hard-code a tenant palette, mascot, reward name, media rule, voice, pronunciation rule, autoplay default, or curriculum identity.
 - Premium polish, animation, mascot evolution, and asset-heavy collection views come after the clean vertical slice works.
 - Client components should be thin orchestrators where possible; display should live in named domain components.
-- New game modes should begin as catalog entries and parent-engine configurations, not one-off screens.
+- New game modes should begin as catalog entries, scoring profiles, and parent-engine configurations, not one-off screens.
 - New game modes must include tap/click-to-speak audio support for learner-facing text before they are student-ready.
 - Rewards should begin as deterministic catalog entries and mastery thresholds, not random reward systems.
 - Multimedia should begin as catalog entries, playlists, and events, not one-off music/video pages.
