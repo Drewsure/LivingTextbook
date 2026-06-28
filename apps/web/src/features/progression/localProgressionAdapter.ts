@@ -3,6 +3,7 @@ import {
   completeEntryPractice,
 } from "@living-textbook/content-model";
 import type {
+  GameModeId,
   GameProgressEvent,
   LaunchSession,
   StarDustBreakdown,
@@ -89,5 +90,30 @@ export function completeFlashcardEntryPractice(args: {
     progression,
     dust,
     events: [completionEvent, ...unlockEvents],
+  };
+}
+
+export function startUnlockedGameMode(args: {
+  progression: StudentProgressionState;
+  launchSession: LaunchSession;
+  gameMode: GameModeId;
+  occurredAt: string;
+}): GameProgressEvent | undefined {
+  const modeIsUnlocked = args.progression.unlockedGameModes.includes(args.gameMode);
+
+  if (!modeIsUnlocked) {
+    return undefined;
+  }
+
+  return {
+    type: "game_started",
+    unitKey: args.launchSession.unitKey,
+    gameMode: args.gameMode,
+    launchCode: args.launchSession.launchCode,
+    studentSessionId: args.progression.studentSessionId,
+    occurredAt: args.occurredAt,
+    metadata: {
+      sourceMode: args.launchSession.entryMode,
+    },
   };
 }
