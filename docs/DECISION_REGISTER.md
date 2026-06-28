@@ -37,6 +37,7 @@ Before accepting a new direction, answer these questions in the task, PR, or imp
 | DR-006 | Deterministic starter reward catalog | Accepted | First rewards are transparent Star Dust thresholds, not chance-based mechanics, to prove earned collection safely and cheaply. |
 | DR-007 | Permanent QR and local textbook companion mode | Accepted | Printed textbook QR codes must resolve stable identifiers/content packages for local or closed companion apps, with optional hosted redirect for long-lived external QR permanence. |
 | DR-008 | Multimedia is core living-textbook content | Accepted | Audio, video, playlists, and optional background media belong in the initial content package model, not as later bolt-on pages. |
+| DR-009 | Audio-first learner support | Accepted | Every learner-facing term, sentence, instruction, feedback item, and critical control must have audio support through cue-level metadata. |
 
 ## DR-001: Tailwind And PostCSS Foundation
 
@@ -204,3 +205,26 @@ Constraints:
 - Games must remain playable without background media for accessibility, bandwidth, classroom noise, and local-device constraints.
 - Teacher reporting should be able to distinguish game progress from media engagement.
 - This decision is recorded in `docs/adr/0005-core-multimedia-package.md`.
+
+## DR-009: Audio-First Learner Support
+
+Status: Accepted
+
+Decision: Treat audio support for learner-facing text as a mandatory platform requirement across all student games and activities.
+
+White-label impact: Strongly positive. A white-label learning platform can serve younger learners, emerging readers, English learners, textbook publishers, and schools more reliably when it does not assume independent reading. Tenant voice, accent, language, pronunciation rules, and audio source can remain configurable.
+
+Cost impact: Positive if implemented through cue-level metadata. Text-to-speech can be used as a cost-efficient fallback during early development, while recorded, teacher-recorded, or partner-provided audio can replace it later without changing game architecture.
+
+Pedagogical impact: Essential. Young children and non-fluent English readers need to hear vocabulary, target sentences, instructions, feedback, and key prompts. Audio is not decoration; it is a comprehension layer.
+
+Constraints:
+
+- Every student-facing vocabulary term must have an audio cue.
+- Every target sentence must have an audio cue.
+- Student-facing instructions, feedback, prompts, and critical controls must have listen/replay support.
+- Every parent game engine must accept audio cue references as part of its mode payload.
+- Optional background music is separate from comprehension audio. Background media can be disabled; comprehension audio cannot be silently omitted from student-ready learning flows.
+- Audio cues may resolve to recorded files, partner-provided audio, teacher-recorded audio, generated text-to-speech, or reviewed placeholders during early development.
+- A unit is not student-ready until it has an audio support plan for learner-facing text.
+- This decision is recorded in `docs/adr/0006-audio-first-learner-support.md`.
