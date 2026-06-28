@@ -118,3 +118,51 @@ Revisit when:
 - A parent game engine is about to be built.
 - Persistence/auth decisions are about to be made.
 - A large custom UI, reward, avatar, or content pipeline is being proposed.
+
+## FR-004: Textbook Partner Local Companion And Media Platform
+
+Status: Active strategy checkpoint
+
+Requirement: The platform must be able to support a white-label textbook partner who provides PDF units and needs a closed/local companion application with games, a media/audio platform, gamification, and long-lived QR codes printed in textbooks.
+
+This requirement should guide future work on content packages, PDF onboarding, media asset handling, route permanence, and deployment packaging.
+
+Required capabilities:
+
+- Import or draft unit payloads from PDF textbook units.
+- Preserve page, unit, activity, and edition references from the original textbook.
+- Store audio/music assets as tenant-owned media catalog entries.
+- Link tracks, chants, listening activities, or playlists to units and QR routes.
+- Map textbook units to reusable game parent engines and mode configs.
+- Support deterministic progression and earned rewards for partner tenants.
+- Resolve printed QR codes through stable identifiers rather than fragile file paths.
+- Support local/closed deployment options such as installed app, installed PWA, or local classroom server.
+- Keep optional hosted redirect available when printed QR permanence matters more than pure offline operation.
+
+Pilot acceptance path:
+
+1. Select one representative PDF unit from the partner.
+2. Produce a reviewed structured content package for that unit.
+3. Add one unit-linked audio playlist or listening activity.
+4. Add flashcard entry practice.
+5. Add one Memory Match or pairing game.
+6. Add deterministic reward progress.
+7. Add a teacher launch view.
+8. Add a student QR route using a stable identifier.
+9. Demonstrate local/closed package behavior at prototype level.
+
+Revisit when:
+
+- A real partner commitment is being discussed.
+- The QR route registry is designed.
+- The content package model is implemented.
+- PDF onboarding work begins.
+- Media/audio player work begins.
+- Local deployment packaging is selected.
+
+References:
+
+- `docs/BUILD_SESSIONS.md`
+- `docs/partner-strategies/LOCAL_TEXTBOOK_COMPANION_STRATEGY.md`
+- `docs/adr/0004-permanent-qr-and-local-companion-mode.md`
+- `docs/DECISION_REGISTER.md` DR-007
