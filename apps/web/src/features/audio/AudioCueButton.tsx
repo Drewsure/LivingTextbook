@@ -1,6 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+interface SpeechOptions {
+  text: string;
+  language?: string;
+  onStatusChange?: (status: AudioPlaybackStatus) => void;
+}
+
+type AudioPlaybackStatus = "ready" | "playing" | "unavailable";
 
 interface AudioCueButtonProps {
   text: string;
@@ -9,33 +17,66 @@ interface AudioCueButtonProps {
   compact?: boolean;
 }
 
-export function AudioCueButton({ text, language = "en", label, compact = false }: AudioCueButtonProps) {
-  const [status, setStatus] = useState<"ready" | "playing" | "unavailable">("ready");
+interface AudioCueTextProps {
+  text: string;
+  language?: string;
+  label?: string;
+  className?: string;
+  autoPlay?: boolean;
+}
 
-  function handlePlay() {
-    if (typeof window === "undefined" || !("speechSynthesis" in window)) {
-      setStatus("unavailable");
+function speakText({ text, language = "en", onStatusChange }: SpeechOptions) {
+  if (typeof window === "undefined" || !("speechSynthesis" in window)) {
+    onStatusChange?.("unavailable");
+    return;
+  }
+
+  window.speechSynthesis.cancel();
+
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = language;
+  utterance.rate = 0.88;
+  utterance.onend = () => onStatusChange?.("ready");
+  utterance.onerror = () => onStatusChange?.("ready");
+
+  onStatusChange?.("playing");
+  window.speechSynthesis.speak(utterance);
+}
+
+export function AudioCueText({ text, language = "en", label, className = "", autoPlay = false }: AudioCueTextProps) {
+  const [status, setStatus] = useState<AudioPlaybackStatus>("ready");
+  const buttonLabel = label ?? `Listen to ${text}`;
+
+  useEffect(() => {
+    if (!autoPlay) {
       return;
     }
 
-    window.speechSynthesis.cancel();
+    speakText({ text, language, onStatusChange: setStatus });
+  }, [autoPlay, language, text]);
 
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = language;
-    utterance.rate = 0.88;
-    utterance.onend = () => setStatus("ready");
-    utterance.onerror = () => setStatus("ready");
+  return (
+    <button
+      type="button"
+      onClick={() => speakText({ text, language, onStatusChange: setStatus })}
+      aria-label={buttonLabel}
+      data-audio-status={status}
+      className={`rounded-lg px-2 py-1 text-[var(--tenant-text)] underline decoration-[var(--tenant-primary)] decoration-2 underline-offset-4 transition hover:bg-[var(--tenant-surface)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--tenant-primary)] ${className}`}
+    >
+      {text}
+      <span className="sr-only"> {status === "playing" ? "Playing audio" : status === "unavailable" ? "Audio unavailable" : "Tap to hear audio"}</span>
+    </button>
+  );
+}
 
-    setStatus("playing");
-    window.speechSynthesis.speak(utterance);
-  }
-
+export function AudioCueButton({ text, language = "en", label, compact = false }: AudioCueButtonProps) {
+  const [status, setStatus] = useState<AudioPlaybackStatus>("ready");
   const buttonLabel = label ?? `Listen to ${text}`;
 
   return (
     <button
       type="button"
-      onClick={handlePlay}
+      onClick={() => speakText({ text, language, onStatusChange: setStatus })}
       aria-label={buttonLabel}
       className={`inline-flex min-h-10 items-center justify-center rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] px-3 py-2 text-sm font-semibold text-[var(--tenant-text)] transition hover:brightness-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--tenant-primary)] ${
         compact ? "min-w-20" : "min-w-24"
