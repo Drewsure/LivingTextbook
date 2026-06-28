@@ -6,16 +6,36 @@ interface GameSequenceProps {
   unit: UnitPayload;
 }
 
-const firstSliceSequence = [
-  gameModeCatalog.flashcards,
-  gameModeCatalog["memory-match"],
+interface SequenceItem {
+  label: string;
+  engineId: string;
+  role: string;
+  summary: string;
+}
+
+const flashcards = gameModeCatalog.flashcards;
+const memoryMatch = gameModeCatalog["memory-match"];
+
+const firstSliceSequence: SequenceItem[] = [
+  {
+    label: flashcards?.label ?? "Flashcard Practice",
+    engineId: flashcards?.engineId ?? "selection",
+    role: flashcards?.role ?? "entry-practice",
+    summary: flashcards?.summary ?? "Introduce the unit terms with low-friction recognition before any scored game pressure.",
+  },
+  {
+    label: memoryMatch?.label ?? "Memory Match",
+    engineId: memoryMatch?.engineId ?? "pairing",
+    role: memoryMatch?.role ?? "reinforcement",
+    summary: memoryMatch?.summary ?? "Reinforce term recognition after flashcards through pair finding and recall.",
+  },
   {
     label: "Training Academy",
     engineId: "selection",
     role: "review",
     summary: "Review missed vocabulary without failure language.",
   },
-].filter(Boolean);
+];
 
 export function GameSequence({ unit }: GameSequenceProps) {
   return (
