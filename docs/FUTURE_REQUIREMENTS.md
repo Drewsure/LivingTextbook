@@ -123,11 +123,18 @@ Revisit when:
 
 ## FR-004: Textbook Partner Local Companion And Multimedia Platform
 
-Status: Active strategy checkpoint; initial shared contracts for content packages, audio/video media assets, unit multimedia plans, front-door entry mode, and permanent QR routes are present in `packages/content-model/src/index.ts`.
+Status: Sample package and visible dashboard concept implemented on `legacy-source-import`; real media playback, front-door route handling, persistence, and local/closed packaging remain future implementation work.
 
 Requirement: The platform must be able to support a white-label textbook partner who provides PDF units and needs a closed/local companion application with games, a multimedia platform, gamification, year-on-year content maintenance, teacher reporting, and long-lived QR codes printed in textbooks.
 
 This requirement is part of the initial build, not a later add-on. It should guide content packages, PDF onboarding, media asset handling, route permanence, deployment packaging, teacher reports, and first-slice route decisions.
+
+Implemented sample boundary:
+
+- Shared contracts exist for content packages, audio/video media assets, unit multimedia plans, front-door entry mode, and permanent QR routes in `packages/content-model/src/index.ts`.
+- A sample package exists in `apps/web/src/data/sampleMultimediaPackage.ts`.
+- The dashboard shows the sample multimedia package, route concept, optional background-media plan, and teacher progress summary concept.
+- Documentation exists in `docs/SAMPLE_MULTIMEDIA_PACKAGE.md`.
 
 Required capabilities:
 
@@ -163,14 +170,14 @@ Revisit when:
 - A real partner commitment is being discussed.
 - The QR route registry is designed.
 - The front-door entry-code/user-code flow is designed.
-- The content package model is implemented.
 - PDF onboarding work begins.
-- Multimedia player work begins.
-- Teacher reporting is introduced.
+- Real multimedia player work begins.
+- Real teacher reporting is introduced.
 - Local deployment packaging is selected.
 
 References:
 
+- `docs/SAMPLE_MULTIMEDIA_PACKAGE.md`
 - `docs/BUILD_SESSIONS.md`
 - `docs/partner-strategies/LOCAL_TEXTBOOK_COMPANION_STRATEGY.md`
 - `docs/adr/0004-permanent-qr-and-local-companion-mode.md`
