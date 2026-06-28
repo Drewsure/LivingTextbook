@@ -26,6 +26,9 @@ const sampleTextbookReference = {
   version: "0.1",
 };
 
+export const sampleFrontDoorEntryCode = "HELLO-101";
+export const sampleFrontDoorUserCode = "STUDENT-04";
+
 export const sampleMultimediaContentPackage: ContentPackage = {
   meta: {
     packageId: contentPackageId,
@@ -157,7 +160,7 @@ export interface TeacherProgressSummaryConcept {
 export const sampleTeacherProgressSummaryConcept: TeacherProgressSummaryConcept = {
   unitKey: sampleUnitKey,
   launchCode: "demo-unit-1",
-  entryCode: "HELLO-101",
+  entryCode: sampleFrontDoorEntryCode,
   studentCount: 12,
   flashcardCompletions: 10,
   memoryMatchStarts: 8,
