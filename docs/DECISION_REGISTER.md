@@ -38,6 +38,7 @@ Before accepting a new direction, answer these questions in the task, PR, or imp
 | DR-007 | Permanent QR and local textbook companion mode | Accepted | Printed textbook QR codes must resolve stable identifiers/content packages for local or closed companion apps, with optional hosted redirect for long-lived external QR permanence. |
 | DR-008 | Multimedia is core living-textbook content | Accepted | Audio, video, playlists, and optional background media belong in the initial content package model, not as later bolt-on pages. |
 | DR-009 | Audio-first learner support | Accepted | Every learner-facing term, sentence, instruction, feedback item, and critical control must have audio support through cue-level metadata. |
+| DR-010 | Research before reinvention | Accepted | Search public repositories, libraries, and asset sources before major custom systems, but require license, provenance, and integration review before adoption. |
 
 ## DR-001: Tailwind And PostCSS Foundation
 
@@ -228,3 +229,26 @@ Constraints:
 - Audio cues may resolve to recorded files, partner-provided audio, teacher-recorded audio, generated text-to-speech, or reviewed placeholders during early development.
 - A unit is not student-ready until it has an audio support plan for learner-facing text.
 - This decision is recorded in `docs/adr/0006-audio-first-learner-support.md`.
+
+## DR-010: Research Before Reinvention
+
+Status: Accepted
+
+Decision: Before building major custom systems or importing assets, deliberately research public repositories, proven libraries, and public best-practice examples, then record license, provenance, fit, and integration decisions.
+
+White-label impact: Positive when governed. Public examples can reduce build cost and improve quality, but only if they do not hard-code another brand, create license restrictions, or weaken tenant configurability.
+
+Cost impact: Positive with discipline. Reusing proven libraries or learning from public architecture can save time. Importing unclear code or assets can create legal, maintenance, security, and refactoring costs.
+
+Portability impact: Positive when adoption favors small libraries, open standards, and clean adapters. Negative when adoption locks core learning flows into a repo-specific architecture or asset pipeline.
+
+Constraints:
+
+- Search for relevant public repositories, libraries, examples, and asset sources before major work on game engines, multimedia playback, offline PWA support, content packaging, AI verification, rewards, avatars, or collection rooms.
+- Check license compatibility before adoption.
+- Record source URL, owner, license, commercial/white-label rights, attribution needs, maintenance activity, risks, and integration plan.
+- Prefer reusable libraries and architecture ideas over large code copy-paste.
+- Do not import public assets unless provenance, rights, and tenant-fit are documented.
+- Do not promote external code into `apps/web`, `apps/ai-service`, or shared packages without an explicit integration plan.
+- Public-repo research should inform Z.ai task specs when outside agents are asked to prototype game modes.
+- This decision is supported by `docs/RESEARCH_NOTES_PUBLIC_REPOS.md` and `docs/FUTURE_REQUIREMENTS.md` FR-003.
