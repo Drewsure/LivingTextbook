@@ -25,7 +25,7 @@ interface AudioCueTextProps {
   autoPlay?: boolean;
 }
 
-function speakText({ text, language = "en", onStatusChange }: SpeechOptions) {
+export function playAudioCueText({ text, language = "en", onStatusChange }: SpeechOptions) {
   if (typeof window === "undefined" || !("speechSynthesis" in window)) {
     onStatusChange?.("unavailable");
     return;
@@ -52,13 +52,13 @@ export function AudioCueText({ text, language = "en", label, className = "", aut
       return;
     }
 
-    speakText({ text, language, onStatusChange: setStatus });
+    playAudioCueText({ text, language, onStatusChange: setStatus });
   }, [autoPlay, language, text]);
 
   return (
     <button
       type="button"
-      onClick={() => speakText({ text, language, onStatusChange: setStatus })}
+      onClick={() => playAudioCueText({ text, language, onStatusChange: setStatus })}
       aria-label={buttonLabel}
       data-audio-status={status}
       className={`rounded-lg px-2 py-1 text-[var(--tenant-text)] underline decoration-[var(--tenant-primary)] decoration-2 underline-offset-4 transition hover:bg-[var(--tenant-surface)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--tenant-primary)] ${className}`}
@@ -76,7 +76,7 @@ export function AudioCueButton({ text, language = "en", label, compact = false }
   return (
     <button
       type="button"
-      onClick={() => speakText({ text, language, onStatusChange: setStatus })}
+      onClick={() => playAudioCueText({ text, language, onStatusChange: setStatus })}
       aria-label={buttonLabel}
       className={`inline-flex min-h-10 items-center justify-center rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] px-3 py-2 text-sm font-semibold text-[var(--tenant-text)] transition hover:brightness-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--tenant-primary)] ${
         compact ? "min-w-20" : "min-w-24"
