@@ -1,5 +1,12 @@
 import { Button, Card, StatusPill } from "@living-textbook/ui";
-import type { GameModeId, LaunchSession, StudentProgressionState, UnitPayload } from "@living-textbook/content-model";
+import type {
+  AudioCue,
+  GameModeId,
+  LaunchSession,
+  StudentProgressionState,
+  UnitPayload,
+} from "@living-textbook/content-model";
+import { AudioCueButton } from "@/features/audio/AudioCueButton";
 import { formatLabel, formatMode } from "../studentLabels";
 import type { TenantConfig } from "@/features/tenant/types";
 
@@ -11,6 +18,7 @@ interface FlashcardPracticeCardProps {
   entryComplete: boolean;
   lastEarnedDust: number;
   nextMode?: GameModeId;
+  audioCues?: AudioCue[];
   onComplete: () => void;
 }
 
@@ -22,6 +30,7 @@ export function FlashcardPracticeCard({
   entryComplete,
   lastEarnedDust,
   nextMode,
+  audioCues = [],
   onComplete,
 }: FlashcardPracticeCardProps) {
   return (
@@ -36,14 +45,34 @@ export function FlashcardPracticeCard({
         <StatusPill label={formatLabel(progression.masteryStatus)} tone={entryComplete ? "success" : "neutral"} />
       </div>
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
-        {unit.pedagogicalPayload.vocabularyTerms.map((term) => (
-          <div
-            key={term}
-            className="flex min-h-20 items-center justify-center rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4 text-center text-lg font-bold"
-          >
-            {term}
-          </div>
-        ))}
+        {unit.pedagogicalPayload.vocabularyTerms.map((term) => {
+          const audioCue = findAudioCue(audioCues, "term", term);
+
+          return (
+            <div
+              key={term}
+              className="grid min-h-24 gap-3 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4 text-center"
+            >
+              <span className="self-end text-lg font-bold">{term}</span>
+              <AudioCueButton text={audioCue?.text ?? term} language={audioCue?.language ?? "en"} label={`Listen to ${term}`} compact />
+            </div>
+          );
+        })}
+      </div>
+      <div className="mt-4 rounded-lg border border-[var(--tenant-border)] p-4">
+        <p className="text-sm font-semibold">Target sentences</p>
+        <div className="mt-3 grid gap-3">
+          {unit.pedagogicalPayload.targetSentences.map((sentence) => {
+            const audioCue = findAudioCue(audioCues, "sentence", sentence);
+
+            return (
+              <div key={sentence} className="flex flex-wrap items-center justify-between gap-3 rounded-lg bg-[var(--tenant-primary-soft)] p-3">
+                <span className="text-sm font-semibold text-[var(--tenant-text)]">{sentence}</span>
+                <AudioCueButton text={audioCue?.text ?? sentence} language={audioCue?.language ?? "en"} label={`Listen to ${sentence}`} compact />
+              </div>
+            );
+          })}
+        </div>
       </div>
       <div className="mt-5 grid gap-3 rounded-lg border border-[var(--tenant-border)] p-4 sm:grid-cols-[1fr_auto] sm:items-center">
         <div>
@@ -65,4 +94,8 @@ export function FlashcardPracticeCard({
       </div>
     </Card>
   );
+}
+
+function findAudioCue(audioCues: AudioCue[], kind: AudioCue["kind"], text: string): AudioCue | undefined {
+  return audioCues.find((cue) => cue.kind === kind && cue.text.trim().toLowerCase() === text.trim().toLowerCase());
 }
