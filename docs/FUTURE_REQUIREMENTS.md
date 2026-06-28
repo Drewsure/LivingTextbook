@@ -121,7 +121,7 @@ Revisit when:
 
 ## FR-004: Textbook Partner Local Companion And Media Platform
 
-Status: Active strategy checkpoint
+Status: Active strategy checkpoint; initial shared contracts for content packages, media assets, and permanent QR routes are present in `packages/content-model/src/index.ts`.
 
 Requirement: The platform must be able to support a white-label textbook partner who provides PDF units and needs a closed/local companion application with games, a media/audio platform, gamification, and long-lived QR codes printed in textbooks.
 
