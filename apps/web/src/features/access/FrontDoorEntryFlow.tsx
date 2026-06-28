@@ -1,6 +1,7 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { useState } from "react";
+import type { FormEvent } from "react";
 import { Button, Card, StatusPill } from "@living-textbook/ui";
 import type {
   ContentPackage,
