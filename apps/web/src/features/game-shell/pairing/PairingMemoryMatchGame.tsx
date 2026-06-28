@@ -54,12 +54,12 @@ export function PairingMemoryMatchGame({
   const feedbackCue = findAudioCueForGame(audioCues, "feedback", gameMode);
 
   function handleCardSelect(card: PairingCard) {
+    const audioCue = findAudioCue(audioCues, card.label);
+    playAudioCueText({ text: audioCue?.text ?? card.label, language: audioCue?.language ?? "en" });
+
     if (card.status === "matched" || engineState.completed) {
       return;
     }
-
-    const audioCue = findAudioCue(audioCues, card.label);
-    playAudioCueText({ text: audioCue?.text ?? card.label, language: audioCue?.language ?? "en" });
 
     const selectedBefore = engineState.selectedCardIds;
     const outcome = selectPairingCard(engineState, card.id);
@@ -139,7 +139,6 @@ export function PairingMemoryMatchGame({
               key={card.id}
               type="button"
               onClick={() => handleCardSelect(card)}
-              disabled={card.status === "matched" || engineState.completed}
               aria-label={visible ? `Card says ${card.label}` : "Hidden Memory Match card"}
               className={`aspect-[4/3] rounded-lg border p-3 text-center text-sm font-bold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--tenant-primary)] ${
                 card.status === "matched"
