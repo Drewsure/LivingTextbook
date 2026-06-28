@@ -15,6 +15,7 @@ import {
   startUnlockedGameMode,
   type GameModeCompletionResult,
 } from "@/features/progression/localProgressionAdapter";
+import { UnitSessionProgressSummary } from "@/features/progression/UnitSessionProgressSummary";
 import { starterRewardCatalog } from "@/features/rewards/rewardCatalog";
 import { FlashcardPracticeCard } from "./components/FlashcardPracticeCard";
 import { NextGameUnlockCard } from "./components/NextGameUnlockCard";
@@ -93,6 +94,13 @@ export function StudentLaunchFlow({ tenant, unit, launchSession, progression }: 
         progression={currentProgression}
         entryComplete={entryComplete}
         nextMode={nextMode}
+      />
+      <UnitSessionProgressSummary
+        title="Student Progress"
+        launchSession={launchSession}
+        progression={currentProgression}
+        events={sessionEvents}
+        rewardName={tenant.rewardName}
       />
       <FlashcardPracticeCard
         tenant={tenant}
