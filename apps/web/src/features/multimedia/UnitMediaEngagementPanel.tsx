@@ -16,6 +16,7 @@ import {
   createBackgroundMediaEvent,
   createMediaProgressEvent,
 } from "@/features/progression/localProgressionAdapter";
+import { UnitMediaPlaybackCard } from "./UnitMediaPlaybackCard";
 
 interface UnitMediaEngagementPanelProps {
   contentPackage: ContentPackage;
@@ -50,6 +51,14 @@ export function UnitMediaEngagementPanel({
   );
 
   function recordMediaEvent(type: "media_started" | "media_completed", mediaAsset: MediaAsset) {
+    if (type === "media_started" && startedMediaIds.includes(mediaAsset.mediaAssetId)) {
+      return;
+    }
+
+    if (type === "media_completed" && completedMediaIds.includes(mediaAsset.mediaAssetId)) {
+      return;
+    }
+
     const event = createMediaProgressEvent({
       type,
       progression,
@@ -98,7 +107,7 @@ export function UnitMediaEngagementPanel({
             <AudioCueText text={playlistTitle} className="font-bold" />
           </h3>
           <p className="mt-1 text-sm text-[var(--tenant-muted)]">
-            These buttons record media engagement events. Real playback comes after this route contract is verified.
+            Media playback and manual progress controls share the same reporting stream for teacher visibility.
           </p>
         </div>
         <StatusPill label={`${playlistAssets.length} assets`} />
@@ -106,41 +115,14 @@ export function UnitMediaEngagementPanel({
 
       <div className="mt-4 grid gap-3">
         {playlistAssets.map((asset) => (
-          <article key={asset.mediaAssetId} className="rounded-lg border border-[var(--tenant-border)] p-4">
-            <div className="flex flex-wrap items-start justify-between gap-3">
-              <div>
-                <h4 className="text-sm font-bold">
-                  <AudioCueText text={asset.title} className="font-bold" />
-                </h4>
-                <p className="mt-1 text-sm text-[var(--tenant-muted)]">
-                  {asset.kind} / {asset.type} / {asset.durationSeconds ?? 0}s
-                </p>
-              </div>
-              <StatusPill
-                label={completedMediaIds.includes(asset.mediaAssetId) ? "Completed" : startedMediaIds.includes(asset.mediaAssetId) ? "Started" : "Ready"}
-                tone={completedMediaIds.includes(asset.mediaAssetId) ? "success" : "neutral"}
-              />
-            </div>
-            <div className="mt-4 flex flex-wrap gap-3">
-              <AudioSupportedAction
-                type="button"
-                variant="secondary"
-                audioText="Start media"
-                onClick={() => recordMediaEvent("media_started", asset)}
-                disabled={startedMediaIds.includes(asset.mediaAssetId)}
-              >
-                Start media
-              </AudioSupportedAction>
-              <AudioSupportedAction
-                type="button"
-                audioText="Mark complete"
-                onClick={() => recordMediaEvent("media_completed", asset)}
-                disabled={!startedMediaIds.includes(asset.mediaAssetId) || completedMediaIds.includes(asset.mediaAssetId)}
-              >
-                Mark complete
-              </AudioSupportedAction>
-            </div>
-          </article>
+          <UnitMediaPlaybackCard
+            key={asset.mediaAssetId}
+            asset={asset}
+            started={startedMediaIds.includes(asset.mediaAssetId)}
+            completed={completedMediaIds.includes(asset.mediaAssetId)}
+            onStart={() => recordMediaEvent("media_started", asset)}
+            onComplete={() => recordMediaEvent("media_completed", asset)}
+          />
         ))}
       </div>
 
