@@ -17,6 +17,7 @@ Every future engagement must begin by checking this list before code, design, AI
 - Confirm no work begins with visual polish before clean component structure, routing, data boundaries, and layout stability exist.
 - Confirm teacher-led QR onboarding and student self-progression are both preserved.
 - Confirm all learner-facing text in student games, flashcards, instructions, feedback, and critical controls has audio support through recorded audio, teacher audio, partner audio, or text-to-speech.
+- Confirm the preferred learner audio interaction is tap/click the text itself; autoplay is a controlled opt-in exception only.
 - Confirm rewards use earned collection mechanics, not gambling-like pressure.
 - Confirm any Z.ai or outside AI output must obey schema, component, integration, audio-support, and review standards before adoption.
 - Confirm no legacy code is promoted into `apps/web` or `apps/ai-service` without an explicit integration plan.
@@ -73,7 +74,7 @@ Required component habits:
 - Keep layout components separate from game logic.
 - Keep game engines separate from payload generation.
 - Keep media playback separate from game scoring while allowing controlled game/media coordination.
-- Keep learner text separate from audio playback, but make student-facing text components able to receive audio cue ids and listen/replay controls.
+- Keep learner text separate from audio playback, but make student-facing text itself able to receive audio cue ids and act as the default listen/replay control.
 - Keep tenant branding separate from hard-coded MiniStar assumptions.
 - Build mobile-first and QR-classroom friendly.
 - Keep student surfaces simple enough for young learners.
@@ -253,7 +254,7 @@ Student self-progression requirements:
 - Student can enter through a QR route.
 - Student can enter through a front-door login flow where a tenant requires entry code and user code.
 - Student can complete an entry practice flow, usually flashcards.
-- Student can hear vocabulary terms, target sentences, instructions, feedback, and critical controls without needing independent reading ability.
+- Student can tap or click learner-facing text to hear vocabulary terms, target sentences, instructions, feedback, and critical controls without needing independent reading ability.
 - Student can unlock the next recommended game mode.
 - Student can see progress, Star Dust, and reward movement.
 - Student can access approved unit media such as songs, videos, chants, or playlists.
@@ -435,11 +436,15 @@ Required standing rules:
 - Every student-facing vocabulary term must have an audio cue.
 - Every target sentence must have an audio cue.
 - Student-facing instructions, feedback, prompts, and critical controls must have listen/replay support.
+- The preferred default interaction is tap/click the learner-facing text itself to hear it.
+- Separate listen buttons are acceptable when text-as-control would be unclear, crowded, or inaccessible.
+- Autoplay is allowed only as a controlled opt-in behavior for specific cases such as first-card reveal, listening drills, accessibility settings, or teacher-led presentation mode.
+- Autoplay must be disable-able, must not overlap competing audio, and must respect classroom noise, browser permission, and accessibility constraints.
 - Every parent game engine must accept audio cue references as part of its mode payload.
 - Audio cues may resolve to recorded files, partner-provided media, teacher-recorded audio, generated text-to-speech, or a reviewed placeholder during early development.
 - Text-to-speech is acceptable as a cost-efficient fallback, but tenant/product configuration must allow replacement with recorded or partner-owned audio.
 - Audio cue support is separate from optional background music. Background music can be disabled; comprehension audio cannot be silently omitted from student-facing learning flows.
-- Audio behavior must remain tenant-configurable for voice, accent, language, pronunciation rules, playback speed, and offline/local bundle availability.
+- Audio behavior must remain tenant-configurable for voice, accent, language, pronunciation rules, playback speed, autoplay defaults, and offline/local bundle availability.
 - Teacher reports may eventually track audio engagement, but lack of tracking must not block the presence of listen/replay support.
 - A game or unit is not student-ready until its learner-facing text has an audio support plan.
 
