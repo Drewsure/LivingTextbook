@@ -1,5 +1,11 @@
 import { Card, StatusPill } from "@living-textbook/ui";
-import type { ContentPackage, MediaAsset, UnitMultimediaPlan } from "@living-textbook/content-model";
+import type {
+  AudioCue,
+  ContentPackage,
+  MediaAsset,
+  UnitAudioSupportPlan,
+  UnitMultimediaPlan,
+} from "@living-textbook/content-model";
 
 interface MultimediaPackagePanelProps {
   contentPackage: ContentPackage;
@@ -15,8 +21,10 @@ export function MultimediaPackagePanel({
   validationErrors,
 }: MultimediaPackagePanelProps) {
   const mediaAssets = contentPackage.mediaAssets ?? [];
+  const audioCues = contentPackage.audioCues ?? [];
   const playlists = contentPackage.playlists ?? [];
   const multimediaPlan = contentPackage.multimediaPlans?.[0];
+  const audioSupportPlan = contentPackage.audioSupportPlans?.[0];
   const audioCount = mediaAssets.filter((asset) => asset.kind === "audio").length;
   const videoCount = mediaAssets.filter((asset) => asset.kind === "video").length;
 
@@ -27,20 +35,21 @@ export function MultimediaPackagePanel({
           <p className="text-sm font-semibold text-[var(--tenant-muted)]">Living textbook package</p>
           <h2 className="mt-1 text-lg font-bold">Games + multimedia + QR entry</h2>
           <p className="mt-2 max-w-2xl text-sm leading-6 text-[var(--tenant-muted)]">
-            A single reviewed unit package can carry the learning payload, games, audio, video, playlist, optional game-background media, and permanent/front-door route concepts.
+            A single reviewed unit package can carry the learning payload, games, audio, video, playlist, text-level audio cues, optional game-background media, and permanent/front-door route concepts.
           </p>
         </div>
         <StatusPill label={validationErrors.length === 0 ? "Package valid" : "Needs review"} tone={validationErrors.length === 0 ? "success" : "warning"} />
       </div>
 
-      <dl className="mt-5 grid gap-3 text-sm sm:grid-cols-4">
+      <dl className="mt-5 grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-5">
         <Metric label="Units" value={String(contentPackage.units.length)} />
-        <Metric label="Audio" value={String(audioCount)} />
+        <Metric label="Audio files" value={String(audioCount)} />
+        <Metric label="Audio cues" value={String(audioCues.length)} />
         <Metric label="Video" value={String(videoCount)} />
         <Metric label="Playlists" value={String(playlists.length)} />
       </dl>
 
-      <div className="mt-5 grid gap-4 lg:grid-cols-2">
+      <div className="mt-5 grid gap-4 lg:grid-cols-3">
         <section className="rounded-lg border border-[var(--tenant-border)] p-4">
           <h3 className="text-sm font-bold">Hybrid QR concept</h3>
           <dl className="mt-3 grid gap-2 text-sm text-[var(--tenant-muted)]">
@@ -54,6 +63,10 @@ export function MultimediaPackagePanel({
           >
             Open front door
           </a>
+        </section>
+        <section className="rounded-lg border border-[var(--tenant-border)] p-4">
+          <h3 className="text-sm font-bold">Audio support</h3>
+          {audioSupportPlan ? <AudioSupportPlanSummary plan={audioSupportPlan} cues={audioCues} /> : null}
         </section>
         <section className="rounded-lg border border-[var(--tenant-border)] p-4">
           <h3 className="text-sm font-bold">Optional game media</h3>
@@ -85,6 +98,21 @@ function RouteRow({ label, value }: { label: string; value: string }) {
       <dt className="font-semibold text-[var(--tenant-text)]">{label}</dt>
       <dd className="break-words">{value}</dd>
     </div>
+  );
+}
+
+function AudioSupportPlanSummary({ plan, cues }: { plan: UnitAudioSupportPlan; cues: AudioCue[] }) {
+  const cueSources = Array.from(new Set(cues.map((cue) => cue.source))).join(", ");
+
+  return (
+    <dl className="mt-3 grid gap-2 text-sm text-[var(--tenant-muted)]">
+      <RouteRow label="Required" value={plan.required ? "Yes" : "No"} />
+      <RouteRow label="Vocabulary cues" value={String(plan.vocabularyAudioCueIds.length)} />
+      <RouteRow label="Sentence cues" value={String(plan.sentenceAudioCueIds.length)} />
+      <RouteRow label="Instruction/feedback cues" value={String((plan.instructionAudioCueIds?.length ?? 0) + (plan.feedbackAudioCueIds?.length ?? 0))} />
+      <RouteRow label="Cue source" value={cueSources || "Not configured"} />
+      <RouteRow label="Fallback voice" value={plan.fallbackVoice ?? "Tenant default"} />
+    </dl>
   );
 }
 
