@@ -196,6 +196,8 @@ Implemented behavior:
 - `/launch/[code]` receives a sample `LaunchSession` and `StudentProgressionState`.
 - `/enter/ministar` receives a sample front-door launch session and multimedia content package.
 - The sample content package includes audio cue metadata for vocabulary terms, target sentences, student instructions, and basic feedback.
+- Flashcard vocabulary, target sentences, instruction text, and entry feedback are tap-to-speak.
+- Memory Match instruction text, cards, mismatch feedback, and completion feedback are tap-to-speak.
 - The student can open the front-door unit with sample entry and user codes.
 - The student can mark flashcard entry practice complete.
 - The local adapter records an `entry_practice_completed` event.
@@ -214,7 +216,7 @@ Implemented behavior:
 
 Intentional limits:
 
-- Instruction and feedback audio controls are contracted but only partially surfaced in the UI.
+- Critical action-control audio still needs a dedicated pattern so listen/replay does not conflict with performing the action.
 - Progress is local component state only.
 - No database persistence is introduced yet.
 - No auth or classroom roster model is introduced yet.
