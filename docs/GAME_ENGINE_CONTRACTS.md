@@ -1,127 +1,290 @@
-# Game Engine Contracts
+# Living Textbook Game Engine Contracts
 
-This document defines the foundation for game implementation without building 48 isolated games.
+This document defines the contract for every game mode that enters the canonical Living Textbook platform.
 
-It works with:
+It applies to:
 
-- `docs/PRINCIPLES_AND_STANDARDS.md`
-- `docs/ROUTE_CONTRACTS.md`
-- `docs/COMPONENT_STRUCTURE.md`
-- `apps/web/src/features/game-shell/gameModeCatalog.ts`
+- new in-repo game work,
+- promoted legacy game code,
+- Z.ai or outside-agent prototypes,
+- public-repository inspired implementations,
+- future premium game skins and animations.
 
-## Core Rule
+The goal is not to build 48 isolated games. The goal is to build reusable parent engines that can render many modes from tenant-aware, curriculum-aware payloads.
 
-Do not build every mode as a separate product.
+## Hard Gate
 
-Game modes should be data-driven configurations of reusable parent engines. The early implementation should prove one simple mode chain before expanding the catalog.
+No game mode may enter `apps/web` as production-facing code until it satisfies this contract or has a documented exception.
+
+Required before promotion:
+
+- Parent engine identified.
+- Mode config written.
+- Input payload shape documented.
+- Standard progress events emitted.
+- Star Dust or tenant reward scoring mapped.
+- Learner-facing audio support implemented.
+- Mobile layout checked.
+- Tenant branding respected.
+- Optional multimedia behavior separated from comprehension audio.
+- Legacy, Z.ai, or public-source provenance recorded when applicable.
 
 ## Parent Engines
 
-| Parent engine | Responsibility | Early examples |
+The platform uses four technical parent engines.
+
+| Parent engine | Core job | Example modes |
 | --- | --- | --- |
-| `pairing` | Match source and target items, handle pair validation, memory boards, and matching loops. | Memory Match, Word Match, Matching Pairs. |
-| `selection` | Present prompts and selectable answers, handle state-based decisions and simple reflex choices. | Flashcards, Quiz, Balloon Pop, Whack-a-Mole shell. |
-| `text-spelling` | Handle typed input, word ordering, spelling, and string validation. | Spelling, Type Answer, Sentence Builder, Anagram. |
-| `narrative` | Track story/dialogue state, mission branches, boss runs, and mystery flows. | Mystery Detective, Boss Battle, Story Bridge. |
+| `pairing` | Match source and target items, validate pairs, track attempts and completion. | Flashcards, Word Match, Match Up, Matching Pairs, Memory Match, Balloon Pop, Whack-a-Mole as pairing variants. |
+| `selection` | Present choices, capture decisions, validate correct/incorrect answers, handle timers or movement. | Quiz, True or False, Gameshow Quiz, Airplane, Maze Chase, Physics Puzzler, Bridge Builder. |
+| `text-spelling` | Build, order, type, spell, and validate text strings or word arrays. | Spelling, Type Answer, Typing Race, Anagram, Sentence Builder, Fill in the Blank, Word Search, Crossword. |
+| `narrative` | Track story state, dialogue choices, branching missions, and multi-step completion. | Story Bridge, Mystery Detective, Rescue Quest, Boss Battle dialogue variants. |
 
-## Mode Catalog Contract
+A mode may have arcade presentation, but its learning logic must still map to one parent engine.
 
-Each mode definition should eventually include:
+## Mode Config Contract
 
-- `id`: stable mode id.
-- `label`: student/teacher readable name.
-- `family`: pedagogical family.
-- `engineId`: parent technical engine.
-- `role`: entry practice, reinforcement, assessment, or review.
-- `summary`: why this mode exists in the learning flow.
+Each game mode should be described by a mode config before the screen is built.
 
-Current scaffold:
+Minimum config fields:
 
-- Flashcard Practice: entry practice using the selection engine.
-- Memory Match: reinforcement using the pairing engine.
+```ts
+interface GameModeConfig {
+  modeId: GameModeId;
+  label: string;
+  family: GameFamily;
+  parentEngine: ParentEngine;
+  skillFocus: "vocabulary" | "syntax" | "listening" | "speaking" | "review" | "mixed";
+  supportedLevels: number[];
+  recommendedTermRange: { min: number; max: number };
+  requiredSentenceCount: 2;
+  scoringProfileId: string;
+  audioRequirement: "required";
+  allowsBackgroundMedia: boolean;
+}
+```
 
-## Required Engine Inputs
+Mode configs should live near `apps/web/src/features/game-shell/gameModeCatalog.ts` until a larger registry is needed.
 
-Every playable engine should receive:
+## Input Payload Contract
+
+Every game receives reviewed content. It does not generate curriculum on its own.
+
+Minimum game input:
 
 - `UnitPayload`
 - `LaunchSession`
 - `StudentProgressionState`
-- Tenant display configuration
-- Mode configuration
-
-Optional engine context:
-
-- Unit multimedia plan
-- Optional background/support media availability
-- Teacher/tenant setting for whether background media is allowed
-
-## Required Engine Outputs
-
-Every playable engine must emit standard `GameProgressEvent` records:
-
-- `game_started`
-- `round_shown`
-- `answer_submitted`
-- `answer_result`
-- `powerup_used` when applicable
-- `game_completed`
-- `mastery_updated`
-
-Entry practice may also emit:
-
-- `entry_practice_completed`
-- `game_unlocked`
-
-Optional media coordination may emit:
-
-- `background_media_enabled`
-- `background_media_disabled`
-
-## Multimedia Boundary
-
-Games may coordinate with unit media, but media playback is not owned by each game engine.
+- `GameModeId`
+- optional `AudioCue[]`
+- optional multimedia plan or background media context
+- callback for standard progress/completion events
 
 Rules:
 
-- Game engines remain playable without media.
-- Background/support media is optional and teacher/tenant configurable.
-- A multimedia adapter owns playback controls and media events.
-- Game scoring and media engagement remain separate event streams.
-- No parent engine should hard-code a tenant song, video, playlist, or media rule.
+- Use `pedagogicalPayload.vocabularyTerms` for term prompts.
+- Use `pedagogicalPayload.targetSentences` for sentence or syntax prompts.
+- Do not assume more than 8 terms by default.
+- Support 8-12 terms unless a mode config explicitly narrows the range.
+- Do not hard-code MiniStar visual rules into the engine.
+- Use tenant configuration and mode config for labels, rewards, and styling.
 
-## Current Pairing Scaffold
+## Output Event Contract
 
-Implemented scaffold:
+Every game mode must report standard events through the platform event model.
 
-- `apps/web/src/features/game-shell/pairing/pairingEngineAdapter.ts` converts unit vocabulary into pairing items.
-- `apps/web/src/features/game-shell/pairing/pairingEngineState.ts` creates deterministic pair cards and handles pure card-selection state transitions.
-- `apps/web/src/features/game-shell/pairing/PairingEnginePreview.tsx` confirms that the active mode has pairing data and generated card state ready.
-- Starting the Memory Match shell emits `game_started` through the local progression adapter.
+Required events for a playable mode:
 
-Intentional limits:
+- `game_started`
+- `round_shown` or equivalent item/prompt shown event when the mode has rounds
+- `answer_submitted` when the learner acts on an answerable prompt
+- `answer_result` for correct/incorrect or matched/mismatched outcomes
+- `game_completed`
+- `mastery_updated` when mastery state changes
 
-- No visible Memory Match board yet.
-- No board randomization yet.
-- No animated mismatch reveal yet.
-- No scoring loop beyond the flashcard entry reward yet.
-- No full Memory Match gameplay yet.
-- No multimedia adapter yet.
+Optional events:
 
-## First Engine Build Candidate
+- `powerup_used`
+- `training_recommended`
+- `media_started`
+- `media_paused`
+- `media_completed`
+- `background_media_enabled`
+- `background_media_disabled`
 
-The first real game engine candidate should be the `pairing` parent engine, implemented through Memory Match.
+Every event should include:
 
-Reason:
+- `unitKey`
+- `gameMode`
+- `launchCode` when launched from a session
+- `studentSessionId` when available
+- `occurredAt`
+- useful metadata such as attempts, correct count, term id, earned reward amount, media asset id, or parent engine id
 
-- It is simple enough for Level 1 students.
-- It directly follows flashcard entry practice.
-- It exercises source/target pairing, completion, scoring, and unlock events.
-- It can reuse ideas from legacy repositories without promoting legacy code directly.
-- It can prove that optional background/support media does not contaminate engine logic.
+## Scoring Contract
 
-## Research Gate
+Game scoring must map to the Star Dust model or a tenant-renamed equivalent.
 
-Before building a substantial engine, check `docs/FUTURE_REQUIREMENTS.md` FR-003 for public repository and best-practice research requirements.
+Canonical unit target:
 
-Useful external ideas may be adopted only after license, maintenance, accessibility, mobile/PWA, media-playback, offline, and integration risks are reviewed.
+- Vocabulary: up to 300
+- Syntax: up to 300
+- Accuracy/reflex/mode bonus: up to 400
+- Total: 1,000 per unit
+
+Rules:
+
+- Vocabulary scoring scales to actual term count.
+- Sentence/syntax scoring assumes exactly 2 target structures.
+- A game may award a slice of the unit total rather than the whole unit total.
+- Completion rewards must be deterministic and explainable.
+- Random rewards must be bonus cosmetics only and must not replace mastery-linked rewards.
+
+## Audio Contract
+
+Learner-facing audio is mandatory.
+
+A playable game must support listen/replay for:
+
+- vocabulary terms,
+- target sentences,
+- instructions,
+- feedback,
+- important prompts,
+- critical controls.
+
+Preferred behavior:
+
+- Tap/click learner-facing text itself to speak.
+- Use a separate listen control when the text is also an action or when text-as-control would be confusing.
+- Avoid autoplay unless the mode explicitly requires it and the teacher/tenant can control it.
+
+Implementation rules:
+
+- Use shared audio components and helpers from `apps/web/src/features/audio`.
+- Accept `AudioCue[]` and resolve cue text/language where available.
+- Fall back to reviewed text-to-speech during early development.
+- Do not tie comprehension audio to optional background media.
+- Future recorded, teacher-recorded, partner-provided, or offline audio must be replaceable without rewriting game logic.
+
+## Multimedia Contract
+
+Unit media may support a game, but a game must remain playable without background media.
+
+Allowed integrations:
+
+- optional background song or chant,
+- prompt audio or video before/after a round,
+- celebration media after completion,
+- teacher-enabled media support during a game.
+
+Rules:
+
+- Background media must be optional and disable-able.
+- Media events report separately from game mastery.
+- Media assets must carry rights and owner metadata before production use.
+- Games should consume a multimedia plan, not query media catalogs directly.
+
+## UI And Component Contract
+
+Game screens must be composed from clear layers.
+
+Recommended split:
+
+- Parent engine state: pure or mostly pure state helpers.
+- Engine adapter: maps `UnitPayload` into engine items.
+- Mode component: renders the specific game surface.
+- Progress adapter: emits standard events and scoring results.
+- Audio layer: shared audio components/helpers.
+
+Rules:
+
+- Do not mix AI generation, scoring, media playback, tenant branding, and game state into one large screen.
+- Use stable dimensions for boards, cards, counters, and controls.
+- Build mobile-first for classroom QR use.
+- Keep premium animation and art outside the core correctness engine.
+- Use tenant CSS variables and shared primitives where possible.
+
+## Legacy Promotion Gate
+
+Before legacy code becomes canonical game code, record:
+
+- legacy source path,
+- target path,
+- parent engine mapping,
+- dependency changes,
+- state refactor needed,
+- payload mapping,
+- event mapping,
+- scoring mapping,
+- audio support plan,
+- white-label risks,
+- verification steps.
+
+Legacy UI may inspire the product, especially `legacy/ministar-game-studio-ai` for early learners, but legacy screens should not be copied into canonical routes as tangled one-off implementations.
+
+## Z.ai And Outside-Agent Task Contract
+
+Any Z.ai or outside-agent game task must include:
+
+- parent engine,
+- mode id,
+- exact input JSON shape,
+- expected output events,
+- scoring profile,
+- audio requirements,
+- mobile layout requirements,
+- allowed dependencies,
+- forbidden architecture changes,
+- asset and license rules,
+- acceptance checklist.
+
+Outside-agent output is a candidate, not automatically production code. Codex retains architecture, schema, integration, and final review control.
+
+## Public Repository And Asset Contract
+
+Public repositories and assets can help, but they must be governed.
+
+Before adoption:
+
+- record source URL,
+- record owner and license,
+- confirm commercial white-label rights,
+- confirm modification and redistribution rights,
+- record attribution requirements,
+- assess maintenance and security risk,
+- write integration plan,
+- add rejection reason if not adopted.
+
+See `docs/RESEARCH_NOTES_PUBLIC_REPOS.md` and `docs/DECISION_REGISTER.md` DR-010.
+
+## First Accepted Example
+
+Current first playable example:
+
+- Mode: `memory-match`
+- Parent engine: `pairing`
+- Adapter: `pairingEngineAdapter.ts`
+- State: `pairingEngineState.ts`
+- Component: `PairingMemoryMatchGame.tsx`
+- Input: `UnitPayload`, `LaunchSession`, `StudentProgressionState`, optional `AudioCue[]`
+- Events: `game_started` from the route, `game_completed` from completion helper
+- Current known gap: item-level `round_shown`, `answer_submitted`, and `answer_result` events are not yet emitted in the local slice.
+
+This example is acceptable as a first structural slice, but future production-ready games must expand telemetry to the full event contract.
+
+## Acceptance Checklist
+
+A game mode is ready for review when:
+
+- It consumes a reviewed payload.
+- It maps to a parent engine.
+- It uses a mode config.
+- It renders on mobile without overlap.
+- It supports audio for learner-facing text and critical controls.
+- It emits standard events.
+- It updates progression and rewards through shared adapters.
+- It remains tenant-configurable.
+- It works without optional background media.
+- It has local verification steps in `docs/VERIFICATION_CHECKLIST.md`.
+- Any legacy, public, or outside-agent source is documented.
