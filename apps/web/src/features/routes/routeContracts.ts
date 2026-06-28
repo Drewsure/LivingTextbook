@@ -39,20 +39,20 @@ export const appRouteContracts: AppRouteContract[] = [
     requiredState: ["TenantConfig", "UnitPayload", "LaunchSession", "StudentProgressionState"],
   },
   {
+    id: "front-door-entry",
+    pattern: "/enter/[tenantId]",
+    audience: "student",
+    status: "active-scaffold",
+    purpose: "Let a student enter a teacher-provided entry code and optional user code before opening a reportable unit package.",
+    requiredState: ["TenantConfig", "FrontDoorAccessPolicy", "LaunchSession", "ContentPackage"],
+  },
+  {
     id: "permanent-textbook-qr",
     pattern: "/q/tenant/[tenantId]/series/[seriesId]/book/[bookId]/unit/[unitId]/activity/[activityId]",
     audience: "student",
     status: "future",
     purpose: "Resolve a printed textbook QR identifier to the current unit, front door, game, playlist, or teacher preview.",
     requiredState: ["PermanentQrRoute", "ContentPackage", "DeploymentChannel"],
-  },
-  {
-    id: "front-door-entry",
-    pattern: "/enter/[tenantId]",
-    audience: "student",
-    status: "future",
-    purpose: "Let a student enter a teacher-provided entry code and optional user code before opening a reportable unit package.",
-    requiredState: ["TenantConfig", "FrontDoorAccessPolicy", "LaunchSession"],
   },
   {
     id: "unit-media-playlist",
