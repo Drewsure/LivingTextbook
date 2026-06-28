@@ -180,6 +180,7 @@ export function FrontDoorEntryFlow({
               entryComplete={entryComplete}
               lastEarnedDust={lastEarnedDust}
               nextMode={nextMode}
+              audioCues={contentPackage.audioCues}
               onComplete={handleCompleteEntryPractice}
             />
             <RewardPreviewCard
