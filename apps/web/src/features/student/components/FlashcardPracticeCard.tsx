@@ -1,3 +1,5 @@
+"use client";
+
 import { Button, Card, StatusPill } from "@living-textbook/ui";
 import type {
   AudioCue,
