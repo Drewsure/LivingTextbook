@@ -1,6 +1,6 @@
 # Local Textbook Companion Strategy
 
-Scenario: A textbook publisher or colleague has an existing textbook series and needs a closed local companion application that provides both games and a music/audio platform. Printed textbooks may include long-lived QR codes that launch the correct unit activities.
+Scenario: A textbook publisher or colleague has an existing textbook series and needs a closed local companion application that provides games, music/audio, videos, playlists, and gamified review. Printed textbooks may include long-lived QR codes that launch the correct unit activities.
 
 ## Can Living Textbook Support This?
 
@@ -9,10 +9,12 @@ Yes. This is directly aligned with the white-label platform direction.
 The platform should support a partner tenant where the textbook is the curriculum source, the PDF units are the onboarding material, and the digital companion provides:
 
 - unit-linked games,
-- unit-linked audio/music playback,
+- unit-linked music, audio, and video playback,
+- optional unit media during games where pedagogically appropriate,
 - deterministic gamification,
 - teacher launch routes,
 - student self-progression,
+- teacher progress reports,
 - local or closed deployment,
 - and permanent QR identifiers printed in the book.
 
@@ -30,10 +32,10 @@ Core modules:
 
 1. Textbook unit library
 2. Game companion
-3. Music/audio companion
-4. QR launch registry
+3. Multimedia companion for music, audio, and video
+4. QR launch registry and front-door entry
 5. Student progression and rewards
-6. Teacher preview/launch surface
+6. Teacher preview/launch/report surface
 7. Local/offline content package manager
 
 ## PDF Unit Onboarding
@@ -51,27 +53,29 @@ The platform needs an onboarding pipeline that can convert each PDF unit into re
 - vocabulary list
 - grammar/sentence targets
 - activity notes
-- audio/music asset references
+- music/audio/video asset references
 - recommended game modes
 - teacher notes
 
 Important rule: PDF extraction is not automatically trusted. It should create draft unit payloads for human review, then AI/verifier checks before student use.
 
-## Music/Audio Platform Clarification
+## Multimedia Platform Clarification
 
-The partner does not need us to create music content. The partner needs a music/audio platform.
+The partner does not need us to create music or video content. The partner needs a multimedia platform that can maintain, organize, launch, and report on those assets year after year.
 
 The platform should support:
 
 - audio track catalog
+- video asset catalog
 - unit-linked playlists
 - teacher preview player
 - student playback player
-- local/offline audio bundles
-- audio metadata such as title, unit, page, duration, rights/owner, language, and version
-- QR codes that open the correct song, chant, listening activity, or playlist
+- local/offline multimedia bundles
+- metadata such as title, unit, page, duration, rights/owner, language, media type, edition, and version
+- QR codes that open the correct song, chant, listening activity, video, playlist, game, or unit front door
+- optional teacher/tenant-controlled background music or support video during unit games
 
-This should be built as a media asset layer, not as a one-off music page.
+This should be built as a multimedia asset layer, not as one-off music or video pages.
 
 ## Games And Gamification
 
@@ -84,8 +88,31 @@ For a textbook partner, each unit can map to:
 - quiz/selection games for review
 - spelling or sentence games for later depth
 - deterministic rewards tied to completion and mastery
+- optional unit media played before, after, or during games as controlled support
 
-The partner tenant may define its own reward names, badges, avatar style, visual theme, and progression rules.
+The partner tenant may define its own reward names, badges, avatar style, visual theme, media rules, and progression rules.
+
+## Front-Door Entry And Teacher Reporting
+
+The recommended partner flow should support both direct printed QR routes and a front-door route.
+
+Possible front-door flow:
+
+1. Student scans the textbook QR.
+2. Student lands on a branded partner front door.
+3. Student enters an entry code.
+4. If required, student enters a user code.
+5. The platform opens the correct unit package.
+6. Games, media, rewards, and progress all connect to the teacher report.
+
+The teacher report should eventually distinguish:
+
+- media started/completed,
+- game started/completed,
+- vocabulary progress,
+- sentence/syntax progress,
+- Star Dust or tenant reward progress,
+- and Training Academy recommendations.
 
 ## Closed Local Application Requirement
 
@@ -95,7 +122,7 @@ Recommended options:
 
 ### Option A: Installed Local App
 
-Use a packaged desktop/tablet app that includes the web experience, content packages, and local storage.
+Use a packaged desktop/tablet app that includes the web experience, content packages, multimedia bundles, and local storage.
 
 Possible future packaging approaches:
 
@@ -107,7 +134,7 @@ Possible future packaging approaches:
 Strengths:
 
 - Can run without public student accounts.
-- Can bundle audio and games.
+- Can bundle music, videos, and games.
 - Can work offline after installation.
 - Can protect partner content better than a public-only website.
 
@@ -171,12 +198,13 @@ The platform should resolve that stable id to the current local or hosted asset.
 
 ## Recommended Strategy For This Partner
 
-Build toward a hybrid strategy:
+Build toward the hybrid standard:
 
 1. Use a stable QR registry model from the beginning.
 2. Support a local closed app/content package for classrooms or schools.
 3. Allow a tiny hosted redirect layer for printed QR permanence when the partner wants truly durable external QR codes.
-4. Keep all games/audio as tenant content packages, not hard-coded product pages.
+4. Keep all games, music, audio, and video as tenant content packages, not hard-coded product pages.
+5. Support a front-door QR route for entry code/user code when teacher reporting is needed.
 
 This gives the partner confidence while keeping the platform saleable to future textbook publishers.
 
@@ -185,27 +213,32 @@ This gives the partner confidence while keeping the platform saleable to future 
 A realistic first pilot could include:
 
 - 1 textbook unit imported from PDF
-- 1 unit-linked audio playlist
+- 1 unit-linked audio asset
+- 1 unit-linked video asset
+- 1 unit playlist
+- 1 optional background media setting for a game
 - flashcard entry practice
 - Memory Match vocabulary game
 - deterministic reward preview
 - teacher launch screen
-- student QR route
+- student QR/front-door route
+- teacher progress summary concept
 - local content package sample
 - printed-style QR id mapped to the digital unit
 
 ## Key Risks
 
 - PDF extraction quality can vary.
-- Audio rights and file ownership must be tracked.
+- Audio/video rights and file ownership must be tracked.
 - Eternal QR codes require stable route policy before printing.
 - Fully offline local deployments require installation/update planning.
+- Background media can distract from learning if it is not teacher-controlled and accessible.
 - If we build partner-specific shortcuts too early, we could damage the white-label architecture.
 
 ## Confidence Assessment
 
 Can we deliver this? Yes.
 
-Required adaptation: add explicit support for content packages, audio/media assets, local/closed deployment, and permanent QR registry planning.
+Required adaptation: support complete multimedia content packages, front-door entry, teacher progress reporting, local/closed deployment, and permanent hybrid QR planning from the start.
 
-This does not require abandoning the current build. It confirms that the current white-label direction is correct, but it adds a crucial deployment/product dimension that must be designed before we promise printed textbook QR permanence.
+This does not require abandoning the current build. It confirms that the current white-label direction is correct, but it adds a crucial product dimension that must be designed before we promise printed textbook QR permanence or partner multimedia maintenance.
