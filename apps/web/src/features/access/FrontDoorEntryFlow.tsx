@@ -22,6 +22,7 @@ import {
   startUnlockedGameMode,
   type GameModeCompletionResult,
 } from "@/features/progression/localProgressionAdapter";
+import { UnitSessionProgressSummary } from "@/features/progression/UnitSessionProgressSummary";
 import { starterRewardCatalog } from "@/features/rewards/rewardCatalog";
 import { FlashcardPracticeCard } from "@/features/student/components/FlashcardPracticeCard";
 import { NextGameUnlockCard } from "@/features/student/components/NextGameUnlockCard";
@@ -65,6 +66,7 @@ export function FrontDoorEntryFlow({
     currentProgression.unlockedGameModes.includes(mode),
   );
   const nextModeStarted = Boolean(nextMode && activeGameMode === nextMode);
+  const mediaAssetCount = contentPackage.mediaAssets?.length ?? 0;
 
   function handleOpenUnit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -186,6 +188,14 @@ export function FrontDoorEntryFlow({
 
         {unitOpen && (
           <>
+            <UnitSessionProgressSummary
+              title="Unit Session"
+              launchSession={launchSession}
+              progression={currentProgression}
+              events={sessionEvents}
+              rewardName={tenant.rewardName}
+              mediaAssetCount={mediaAssetCount}
+            />
             <FlashcardPracticeCard
               tenant={tenant}
               unit={unit}
