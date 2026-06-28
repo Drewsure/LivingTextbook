@@ -90,21 +90,22 @@ On `/enter/ministar`:
 26. Confirm second-card attempts create `answer_submitted` and `answer_result` events.
 27. Complete all pairs.
 28. Confirm Memory Match completion creates `mastery_updated` and `game_completed` events.
-29. Confirm the unit-session summary updates Memory Match to complete.
-30. Confirm the report preview counts card reveals, answers, results, mastery updates, and game completion.
-31. Confirm Star Dust increases after Memory Match completion.
-32. Confirm matched cards can still be tapped to replay their audio.
-33. Tap the playlist title and media asset titles and confirm they speak.
-34. Click the listen control beside `Start media` and confirm it speaks without recording a media event.
-35. Start the audio asset and mark it complete.
-36. Start the video asset and mark it complete.
-37. Confirm media started/completed counts update separately from game progress.
-38. Confirm the unit-session summary updates media counts.
-39. Confirm optional background media can now be enabled.
-40. Click the listen control beside `Enable media` and confirm it speaks without enabling background media.
-41. Enable and disable background media.
-42. Confirm the unit-session summary updates background media state.
-43. Confirm background media events appear in the teacher-visible report preview.
+29. Confirm Memory Match completion event metadata includes `scoringProfileId` set to `pairing-reinforcement-v1`.
+30. Confirm the unit-session summary updates Memory Match to complete.
+31. Confirm the report preview counts card reveals, answers, results, mastery updates, and game completion.
+32. Confirm Star Dust increases after Memory Match completion.
+33. Confirm matched cards can still be tapped to replay their audio.
+34. Tap the playlist title and media asset titles and confirm they speak.
+35. Click the listen control beside `Start media` and confirm it speaks without recording a media event.
+36. Start the audio asset and mark it complete.
+37. Start the video asset and mark it complete.
+38. Confirm media started/completed counts update separately from game progress.
+39. Confirm the unit-session summary updates media counts.
+40. Confirm optional background media can now be enabled.
+41. Click the listen control beside `Enable media` and confirm it speaks without enabling background media.
+42. Enable and disable background media.
+43. Confirm the unit-session summary updates background media state.
+44. Confirm background media events appear in the teacher-visible report preview.
 
 ## Student Flow Checks
 
@@ -137,9 +138,19 @@ On `/launch/demo-unit-1`:
 25. Match or mismatch a pair and confirm the event log shows `answer_submitted` and `answer_result`.
 26. Match all pairs.
 27. Confirm the progress event log shows `mastery_updated` and `game_completed`.
-28. Confirm the unit-session summary updates Memory Match to complete and Star Dust.
-29. Confirm Star Dust increases after Memory Match completion.
-30. Confirm matched cards can still be tapped to replay their audio.
+28. Confirm Memory Match completion event metadata includes `scoringProfileId` set to `pairing-reinforcement-v1`.
+29. Confirm the unit-session summary updates Memory Match to complete and Star Dust.
+30. Confirm Star Dust increases after Memory Match completion.
+31. Confirm matched cards can still be tapped to replay their audio.
+
+## Game Catalog And Scoring Checks
+
+When reviewing game-shell changes:
+
+- Confirm each active mode has a catalog entry with family, parent engine, role, skill focus, supported levels, term range, sentence count, scoring profile, audio requirement, and background-media policy.
+- Confirm each active scoring profile has an id, label, dust caps, and a teacher-readable summary.
+- Confirm game components use `scoringProfiles.ts` helpers instead of hard-coding reward math directly in presentation code.
+- Confirm completion events include scoring profile metadata when a profile is used.
 
 ## Multimedia Checks
 
