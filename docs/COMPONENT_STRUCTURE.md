@@ -24,6 +24,7 @@ Tenant identity enters the app through `TenantConfig`. The app shell converts `T
 `StudentLaunchFlow` is the client-side orchestrator for the first QR-entry slice. It owns temporary local state and delegates display to focused components:
 
 - `StudentProgressHeader` shows launch context and current progression facts.
+- `UnitSessionProgressSummary` shows flashcard, next-game, media, background-media, reward, and event state from the shared local event stream.
 - `FlashcardPracticeCard` renders entry practice, clickable learner text for terms/sentences, and completion.
 - `RewardPreviewCard` shows deterministic earned collection progress from Star Dust.
 - `NextGameUnlockCard` shows the next recommended mode and lock/unlock state.
@@ -59,7 +60,7 @@ Front-door access lives in `apps/web/src/features/access`, not inside game or me
 
 Current sample components:
 
-- `FrontDoorEntryFlow` renders the sample tenant front door, entry-code/user-code form, and unit package flow.
+- `FrontDoorEntryFlow` renders the sample tenant front door, entry-code/user-code form, unit package flow, and reusable unit-session summary.
 - `FrontDoorTeacherReportPreview` summarizes the same local event stream for teacher visibility.
 
 Responsibilities:
