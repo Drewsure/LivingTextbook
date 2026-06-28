@@ -34,6 +34,7 @@ Before accepting a new direction, answer these questions in the task, PR, or imp
 | DR-003 | No premium polish before structure | Accepted | Layout, routing, component names, data contracts, and scoring events come before micro-interactions, mascot evolution, and premium visual assets. |
 | DR-004 | Earned collection mechanics | Accepted | Avatars, rooms, pets, cosmetics, titles, and Spin Wheel bonuses are rewards for mastery and effort, not purchase-like pressure loops. |
 | DR-005 | Local progression before persistence | Accepted | Prove QR entry, flashcards, events, unlocks, and Star Dust locally before introducing database, auth, or live classroom complexity. |
+| DR-006 | Deterministic starter reward catalog | Accepted | First rewards are transparent Star Dust thresholds, not chance-based mechanics, to prove earned collection safely and cheaply. |
 
 ## DR-001: Tailwind And PostCSS Foundation
 
@@ -139,3 +140,22 @@ Constraints:
 - No local-state implementation should pretend to be production persistence.
 - The transition to persistence must preserve the route and event contracts already defined.
 - See `docs/adr/0002-local-progression-before-persistence.md` for the full decision record.
+
+## DR-006: Deterministic Starter Reward Catalog
+
+Status: Accepted
+
+Decision: Use a deterministic starter reward catalog with visible Star Dust thresholds for the first collection preview.
+
+White-label impact: Positive. The reward catalog can become tenant-configurable later while the current slice proves the user-facing collection loop.
+
+Cost impact: Positive. Simple catalog entries and thresholds are cheap to build, easy to explain, and avoid expensive asset pipelines before the vertical slice is verified.
+
+Reward safety impact: Strongly positive. The first implementation demonstrates earned collection without random pressure, paid gacha patterns, or opaque reward odds.
+
+Constraints:
+
+- Starter rewards are unlocked by transparent Star Dust thresholds.
+- Reward labels are sample data, not universal product assumptions.
+- Future surprise rewards must remain bonus cosmetics and must not become the main progression path.
+- Premium reward visuals, rooms, avatars, and pet evolution remain deferred until the foundation slice is verified.
