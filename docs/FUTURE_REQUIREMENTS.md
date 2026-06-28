@@ -48,18 +48,21 @@ Acceptance path:
 
 1. Student enters `/launch/[code]`.
 2. Student sees flashcard entry practice.
-3. Student marks entry practice complete.
-4. The app records an `entry_practice_completed` progress event.
-5. The next recommended game, currently Memory Match, unlocks.
-6. The displayed progression state updates with earned Star Dust.
-7. Student starts the unlocked Memory Match shell.
-8. The app records a standard `game_started` event.
+3. Student sees deterministic earned rewards with Star Dust thresholds.
+4. Student marks entry practice complete.
+5. The app records an `entry_practice_completed` progress event.
+6. The next recommended game, currently Memory Match, unlocks.
+7. The displayed progression state updates with earned Star Dust.
+8. The first deterministic reward unlocks.
+9. Student starts the unlocked Memory Match shell.
+10. The app records a standard `game_started` event.
 
 Implemented boundary:
 
 - Progress is held in local component state.
 - Star Dust is calculated through the shared content model.
 - Completion and unlock events are produced by an app-level local progression adapter.
+- Earned rewards are deterministic catalog entries, not random rewards.
 - Memory Match unlocks and starts as progression state, not as full gameplay yet.
 
 Remaining verification:
