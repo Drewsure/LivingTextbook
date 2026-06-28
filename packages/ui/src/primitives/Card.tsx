@@ -10,7 +10,10 @@ export function Card({ as = "section", children, className = "", ...props }: Car
 
   return (
     <Component
-      className={["rounded-lg border border-slate-200 bg-white p-5 shadow-sm", className].join(" ")}
+      className={[
+        "rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] p-5 shadow-sm",
+        className,
+      ].join(" ")}
       {...props}
     >
       {children}
