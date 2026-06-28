@@ -5,6 +5,7 @@ import {
   validatePermanentQrRoute,
 } from "@living-textbook/content-model";
 import type {
+  AudioCue,
   ContentPackage,
   FrontDoorAccessPolicy,
   GameProgressEvent,
@@ -28,6 +29,97 @@ const sampleTextbookReference = {
 
 export const sampleFrontDoorEntryCode = "HELLO-101";
 export const sampleFrontDoorUserCode = "STUDENT-04";
+
+function toCueIdPart(value: string): string {
+  return value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+}
+
+const sampleVocabularyAudioCues: AudioCue[] = levelOneUnitOne.pedagogicalPayload.vocabularyTerms.map((term) => ({
+  audioCueId: `cue-ministar-l1-u1-term-${toCueIdPart(term)}`,
+  tenantId: levelOneUnitOne.unitMeta.tenantId,
+  kind: "term",
+  text: term,
+  language: "en",
+  source: "text-to-speech",
+  transcript: term,
+  unitKey: sampleUnitKey,
+  gameMode: "flashcards",
+  textbookReference: sampleTextbookReference,
+}));
+
+const sampleSentenceAudioCues: AudioCue[] = levelOneUnitOne.pedagogicalPayload.targetSentences.map((sentence, index) => ({
+  audioCueId: `cue-ministar-l1-u1-sentence-${index + 1}`,
+  tenantId: levelOneUnitOne.unitMeta.tenantId,
+  kind: "sentence",
+  text: sentence,
+  language: "en",
+  source: "text-to-speech",
+  transcript: sentence,
+  unitKey: sampleUnitKey,
+  gameMode: "flashcards",
+  textbookReference: sampleTextbookReference,
+}));
+
+const sampleInstructionAudioCues: AudioCue[] = [
+  {
+    audioCueId: "cue-ministar-l1-u1-instruction-listen-repeat",
+    tenantId: levelOneUnitOne.unitMeta.tenantId,
+    kind: "instruction",
+    text: "Tap each card. Listen and repeat.",
+    language: "en",
+    source: "text-to-speech",
+    transcript: "Tap each card. Listen and repeat.",
+    unitKey: sampleUnitKey,
+    gameMode: "flashcards",
+    textbookReference: sampleTextbookReference,
+  },
+  {
+    audioCueId: "cue-ministar-l1-u1-instruction-memory-match",
+    tenantId: levelOneUnitOne.unitMeta.tenantId,
+    kind: "instruction",
+    text: "Find the matching greeting cards.",
+    language: "en",
+    source: "text-to-speech",
+    transcript: "Find the matching greeting cards.",
+    unitKey: sampleUnitKey,
+    gameMode: "memory-match",
+    textbookReference: sampleTextbookReference,
+  },
+];
+
+const sampleFeedbackAudioCues: AudioCue[] = [
+  {
+    audioCueId: "cue-ministar-l1-u1-feedback-great-work",
+    tenantId: levelOneUnitOne.unitMeta.tenantId,
+    kind: "feedback",
+    text: "Great work. Memory Match is unlocked.",
+    language: "en",
+    source: "text-to-speech",
+    transcript: "Great work. Memory Match is unlocked.",
+    unitKey: sampleUnitKey,
+    gameMode: "flashcards",
+    textbookReference: sampleTextbookReference,
+  },
+  {
+    audioCueId: "cue-ministar-l1-u1-feedback-try-again",
+    tenantId: levelOneUnitOne.unitMeta.tenantId,
+    kind: "feedback",
+    text: "Try again. Listen one more time.",
+    language: "en",
+    source: "text-to-speech",
+    transcript: "Try again. Listen one more time.",
+    unitKey: sampleUnitKey,
+    gameMode: "memory-match",
+    textbookReference: sampleTextbookReference,
+  },
+];
+
+const sampleAudioCues = [
+  ...sampleVocabularyAudioCues,
+  ...sampleSentenceAudioCues,
+  ...sampleInstructionAudioCues,
+  ...sampleFeedbackAudioCues,
+];
 
 export const sampleMultimediaContentPackage: ContentPackage = {
   meta: {
@@ -88,6 +180,31 @@ export const sampleMultimediaContentPackage: ContentPackage = {
         ...sampleTextbookReference,
         activityId: "hello-friends-video",
       },
+    },
+  ],
+  audioCues: sampleAudioCues,
+  audioSupportPlans: [
+    {
+      unitKey: sampleUnitKey,
+      required: true,
+      vocabularyAudioCueIds: sampleVocabularyAudioCues.map((cue) => cue.audioCueId),
+      sentenceAudioCueIds: sampleSentenceAudioCues.map((cue) => cue.audioCueId),
+      instructionAudioCueIds: sampleInstructionAudioCues.map((cue) => cue.audioCueId),
+      feedbackAudioCueIds: sampleFeedbackAudioCues.map((cue) => cue.audioCueId),
+      gameModeAudioCueIds: {
+        flashcards: [
+          ...sampleVocabularyAudioCues.map((cue) => cue.audioCueId),
+          ...sampleSentenceAudioCues.map((cue) => cue.audioCueId),
+          "cue-ministar-l1-u1-instruction-listen-repeat",
+          "cue-ministar-l1-u1-feedback-great-work",
+        ],
+        "memory-match": [
+          ...sampleVocabularyAudioCues.map((cue) => cue.audioCueId),
+          "cue-ministar-l1-u1-instruction-memory-match",
+          "cue-ministar-l1-u1-feedback-try-again",
+        ],
+      },
+      fallbackVoice: "tenant-default-child-friendly-en",
     },
   ],
   playlists: [
@@ -173,6 +290,7 @@ export const sampleTeacherProgressSummaryConcept: TeacherProgressSummaryConcept 
     "Memory Match starts",
     "Playlist/media engagement",
     "Optional background media use",
+    "Audio cue engagement for learner-facing text",
     "Star Dust progress",
   ],
   sampleEvents: [
