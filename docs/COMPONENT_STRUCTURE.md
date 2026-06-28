@@ -40,6 +40,7 @@ Current sample components:
 
 - `AudioCueText` renders learner-facing text as the preferred tap/click-to-speak control using browser speech synthesis as the first cost-efficient fallback.
 - `AudioCueButton` remains available for cases where text-as-control would be unclear, crowded, or inaccessible.
+- `AudioSupportedAction` pairs a listen/replay control with a real action button so children can hear the action label without triggering the action.
 - `playAudioCueText` provides the shared speech helper used by game cards and text controls.
 
 Responsibilities:
@@ -133,6 +134,7 @@ Expected reporting streams:
 ## Current Rules
 
 - No legacy component is promoted directly into the canonical app until an explicit integration plan exists.
+- No external code or assets are promoted into the canonical app until `docs/RESEARCH_NOTES_PUBLIC_REPOS.md` records license, provenance, white-label fit, and integration review.
 - No reusable component should hard-code a tenant palette, mascot, reward name, media rule, voice, pronunciation rule, autoplay default, or curriculum identity.
 - Premium polish, animation, mascot evolution, and asset-heavy collection views come after the clean vertical slice works.
 - Client components should be thin orchestrators where possible; display should live in named domain components.
