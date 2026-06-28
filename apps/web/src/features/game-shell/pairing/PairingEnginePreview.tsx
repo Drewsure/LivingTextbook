@@ -1,9 +1,9 @@
 import { Card, StatusPill } from "@living-textbook/ui";
 import type { GameModeId, UnitPayload } from "@living-textbook/content-model";
+import { formatMode } from "@/lib/formatLabels";
 import { getGameModeCatalogItem } from "../gameModeCatalog";
 import { createVocabularyPairingItems } from "./pairingEngineAdapter";
 import { createPairingEngineState } from "./pairingEngineState";
-import { formatMode } from "@/features/student/studentLabels";
 
 interface PairingEnginePreviewProps {
   unit: UnitPayload;
