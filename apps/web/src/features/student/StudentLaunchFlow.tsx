@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type {
+  GameModeId,
   GameProgressEvent,
   LaunchSession,
   StudentProgressionState,
@@ -25,12 +26,14 @@ export function StudentLaunchFlow({ tenant, unit, launchSession, progression }: 
   const [currentProgression, setCurrentProgression] = useState(progression);
   const [sessionEvents, setSessionEvents] = useState<GameProgressEvent[]>([]);
   const [lastEarnedDust, setLastEarnedDust] = useState(0);
+  const [activeGameMode, setActiveGameMode] = useState<GameModeId | undefined>();
 
   const entryComplete = currentProgression.completedGameModes.includes(launchSession.entryMode);
   const nextMode = launchSession.recommendedNextModes[0];
   const nextModeUnlocked = launchSession.recommendedNextModes.some((mode) =>
     currentProgression.unlockedGameModes.includes(mode),
   );
+  const nextModeStarted = Boolean(nextMode && activeGameMode === nextMode);
 
   function handleCompleteEntryPractice() {
     const result = completeFlashcardEntryPractice({
@@ -43,6 +46,27 @@ export function StudentLaunchFlow({ tenant, unit, launchSession, progression }: 
     setCurrentProgression(result.progression);
     setSessionEvents((events) => [...events, ...result.events]);
     setLastEarnedDust(result.dust.total);
+  }
+
+  function handleStartNextMode() {
+    if (!nextMode || !nextModeUnlocked || nextModeStarted) {
+      return;
+    }
+
+    const event: GameProgressEvent = {
+      type: "game_started",
+      unitKey: launchSession.unitKey,
+      gameMode: nextMode,
+      launchCode: launchSession.launchCode,
+      studentSessionId: currentProgression.studentSessionId,
+      occurredAt: new Date().toISOString(),
+      metadata: {
+        sourceMode: launchSession.entryMode,
+      },
+    };
+
+    setActiveGameMode(nextMode);
+    setSessionEvents((events) => [...events, event]);
   }
 
   return (
@@ -64,7 +88,12 @@ export function StudentLaunchFlow({ tenant, unit, launchSession, progression }: 
         nextMode={nextMode}
         onComplete={handleCompleteEntryPractice}
       />
-      <NextGameUnlockCard nextMode={nextMode} unlocked={nextModeUnlocked} />
+      <NextGameUnlockCard
+        nextMode={nextMode}
+        unlocked={nextModeUnlocked}
+        started={nextModeStarted}
+        onStart={handleStartNextMode}
+      />
       <SessionEventLog events={sessionEvents} />
     </div>
   );
