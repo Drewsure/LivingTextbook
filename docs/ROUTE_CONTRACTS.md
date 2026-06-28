@@ -86,6 +86,7 @@ Implemented sample behavior:
 - Optional background media emits enabled/disabled events after Memory Match starts.
 - The sample package includes audio cues for all vocabulary terms, both target sentences, student instructions, and basic feedback.
 - Critical front-door, flashcard, next-game, and media actions use separate listen controls so replaying the action label does not perform the action.
+- A reusable unit-session summary shows flashcards, Memory Match, media, background media, events, and reward state from the same local progress stream.
 - A teacher-visible report preview summarizes game and media events together.
 
 ## Audio Support Contract
@@ -187,7 +188,7 @@ Required fields:
 12. Completing Memory Match emits `game_completed` and updates Star Dust.
 13. Student may start approved unit media, emitting media progress events.
 14. Future full gameplay modes emit standard game progress events.
-15. Completion updates Star Dust, mastery status, and earned collection progress.
+15. Completion updates Star Dust, mastery status, visible session summary, and earned collection progress.
 16. Teacher reporting can show game progress, media engagement, audio cue engagement when tracked, and Training Academy recommendations.
 
 ## Current Interactive Slice
@@ -207,6 +208,7 @@ Implemented behavior:
 - The local adapter records `game_unlocked` events for recommended next modes.
 - Star Dust increases through the shared scoring model.
 - The earned reward preview unlocks deterministic rewards from the starter catalog.
+- A reusable unit-session summary updates from progression state and the local event stream.
 - Memory Match is unlocked as a progression state after flashcards.
 - The student can start the unlocked Memory Match board.
 - Starting the unlocked mode records a standard `game_started` event.
@@ -243,10 +245,10 @@ Intentional limits:
 
 The first slice should prove this path:
 
-Teacher launch protocol -> QR route -> flashcard entry practice -> next game unlock -> playable Memory Match -> progress event -> Star Dust update -> earned reward preview.
+Teacher launch protocol -> QR route -> flashcard entry practice -> next game unlock -> playable Memory Match -> progress event -> Star Dust update -> earned reward preview -> unit-session summary update.
 
 The current front-door expansion proves:
 
-Front-door route -> entry-code/user-code -> sample multimedia package -> audio support plan -> playable Memory Match -> media event -> optional background media event -> teacher-visible progress summary concept.
+Front-door route -> entry-code/user-code -> sample multimedia package -> audio support plan -> playable Memory Match -> media event -> optional background media event -> student summary -> teacher-visible progress summary concept.
 
 Only after that works should we add richer animation, mascot evolution, premium assets, or a full collection room.
