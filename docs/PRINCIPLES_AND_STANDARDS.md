@@ -19,6 +19,7 @@ Every future engagement must begin by checking this list before code, design, AI
 - Confirm rewards use earned collection mechanics, not gambling-like pressure.
 - Confirm any Z.ai or outside AI output must obey schema, component, integration, and review standards before adoption.
 - Confirm no legacy code is promoted into `apps/web` or `apps/ai-service` without an explicit integration plan.
+- Confirm textbook partner, media/audio, local/closed deployment, and permanent QR requirements are preserved when white-label architecture is affected.
 - Confirm changes are compatible with the current `docs/BLUEPLAN.md` unless a documented standards update is intentionally made.
 
 If any item cannot be confirmed, stop and record the exception before continuing.
@@ -40,6 +41,9 @@ The platform must support tenant-specific:
 - Teacher dashboards
 - Student progression systems
 - Reward economies
+- Content packages
+- Media/audio catalogs
+- Local or closed companion deployments
 
 ## 3. Build Order Standard
 
@@ -372,3 +376,22 @@ Update it when:
 - A verification path changes
 
 Do not let standards live only in chat history. If a rule matters, preserve it here.
+
+## 17. Textbook Companion, Media, And Local Deployment Standard
+
+White-label tenants may include textbook publishers, curriculum owners, or schools that need a closed local companion product rather than a public-only web portal.
+
+The platform must support this product shape without becoming partner-specific.
+
+Required standing rules:
+
+- PDF or document-derived textbook units enter as reviewed content packages, not trusted raw extraction.
+- Content packages preserve tenant, series, book, unit, page, activity, language, edition, and version metadata where available.
+- Media/audio assets belong to a catalog with rights, owner, duration, unit links, activity links, and local/offline availability metadata.
+- A music/audio platform is implemented as reusable media playback and playlist infrastructure, not as one-off music pages.
+- Printed QR codes resolve stable identifiers, not local files, temporary localhost ports, or version-specific asset paths.
+- Local/closed deployment must document whether it uses an installed app, installed PWA, local classroom server, custom deep link, hosted redirect, or hybrid approach.
+- Pure offline QR behavior must not be promised unless app installation, deep-link behavior, content package availability, and update constraints are explicit.
+- A small hosted redirect layer remains acceptable when true long-term printed QR permanence is needed.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-007 and `docs/adr/0004-permanent-qr-and-local-companion-mode.md`.
