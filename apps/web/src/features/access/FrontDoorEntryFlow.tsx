@@ -71,8 +71,8 @@ export function FrontDoorEntryFlow({
       return;
     }
 
-    if (accessPolicy.userCodeRequired && userCode.trim().length === 0) {
-      setEntryError("Enter a user code so your teacher can see this progress.");
+    if (accessPolicy.userCodeRequired && userCode.trim().toUpperCase() !== expectedUserCode.toUpperCase()) {
+      setEntryError("Check the user code so your teacher can see this progress.");
       return;
     }
 
