@@ -41,6 +41,31 @@ On `/launch/demo-unit-1`:
 11. Confirm the progress event log shows `game_started`.
 12. Confirm the Mode Shell appears with pair count, card count, parent engine, and first pair payload.
 
+## Multimedia Checks
+
+When multimedia routes/components are implemented:
+
+- Confirm unit packages can include both audio and video assets.
+- Confirm playlists can be linked to a unit.
+- Confirm media can be opened from teacher preview and student launch surfaces.
+- Confirm media started, paused, completed, background enabled, and background disabled events are reportable.
+- Confirm optional background media can be disabled.
+- Confirm games remain playable when no background media is available.
+- Confirm partner media has rights/owner metadata before production use.
+- Confirm media engagement is displayed separately from language-game mastery.
+
+## Hybrid QR And Front-Door Checks
+
+When permanent/front-door routes are implemented:
+
+- Confirm printed QR routes use stable tenant/series/book/unit/activity identifiers.
+- Confirm printed QR routes do not point to local files, localhost, or version-specific asset paths.
+- Confirm a permanent QR can resolve to a unit launch, media playlist, game mode, teacher preview, or front door.
+- Confirm `/enter/[tenantId]` supports entry code and optional user code.
+- Confirm entry code/user code values are not embedded in printed QR payloads.
+- Confirm teacher progress summaries can connect front-door sessions to game and media events.
+- Confirm the local app/content-package fallback behavior is documented for the tenant.
+
 ## Mobile Layout Checks
 
 Check at narrow mobile width:
@@ -51,6 +76,7 @@ Check at narrow mobile width:
 - Long labels wrap instead of overlapping.
 - Event log entries remain scannable.
 - Teacher launch route remains readable.
+- Media controls are large enough for classroom devices once implemented.
 
 ## White-Label Checks
 
@@ -59,6 +85,7 @@ Check at narrow mobile width:
 - MiniStar names appear as tenant/sample data, not platform assumptions.
 - Reward text uses `tenant.rewardName` where applicable.
 - Rewards are deterministic earned unlocks, not chance-based or pressure-based rewards.
+- Multimedia labels, playlists, and route names are tenant-configurable.
 
 ## Known Verification Gap
 
