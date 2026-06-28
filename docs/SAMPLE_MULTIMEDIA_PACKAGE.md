@@ -13,6 +13,7 @@ Visible concept panels:
 - `apps/web/src/features/access/FrontDoorEntryFlow.tsx`
 - `apps/web/src/features/access/FrontDoorTeacherReportPreview.tsx`
 - `apps/web/src/features/teacher/TeacherProgressSummaryConcept.tsx`
+- `apps/web/src/features/game-shell/pairing/PairingMemoryMatchGame.tsx`
 
 Active sample routes:
 
@@ -28,7 +29,7 @@ The unit package includes:
 
 - 1 Level 1 greetings unit
 - flashcard entry practice
-- Memory Match as the next unlocked game
+- playable Memory Match as the next unlocked game
 - 8 vocabulary audio cues
 - 2 target sentence audio cues
 - instruction and feedback audio cues
@@ -67,7 +68,7 @@ The sample front-door route lets a student:
 2. Submit the sample entry and user codes.
 3. Open the reviewed unit package.
 4. Complete flashcard entry practice.
-5. Unlock and start Memory Match.
+5. Unlock, start, and complete Memory Match.
 6. Start and complete sample media assets.
 7. Enable or disable optional background media after Memory Match starts.
 8. See the teacher-visible report preview update from the same local event stream.
@@ -88,6 +89,22 @@ The current sample uses text-to-speech cue records as a cost-efficient developme
 
 Audio cues are separate from the chant/music asset. The chant can enrich the unit or run as optional background media. The audio cues are the comprehension layer that lets a child hear the words and instructions they need to complete the activity.
 
+## Memory Match Concept
+
+The current Memory Match slice uses the reusable pairing parent-engine state.
+
+It supports:
+
+- hidden cards,
+- tap-to-hear card selection,
+- pair matching,
+- attempt counts,
+- completion state,
+- additional Star Dust on completion,
+- and standard `game_started` / `game_completed` events.
+
+This is still a structural implementation, not premium game polish. Art, animation, richer feedback, and mascot/collection celebration should come after local build verification.
+
 ## Multimedia Concept
 
 The sample includes an audio chant and lesson video as package assets. It also includes a multimedia plan where the chant may be used as optional background/support media for Memory Match.
@@ -100,7 +117,7 @@ The sample teacher report separates:
 
 - launch opened
 - flashcard completion
-- Memory Match starts
+- Memory Match starts/completions
 - audio cue engagement for learner-facing text, when implemented as telemetry
 - media starts/completions
 - optional background media use
