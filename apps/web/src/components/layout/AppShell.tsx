@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import type { TenantConfig } from "@/features/tenant/types";
 
 interface AppShellProps {
@@ -7,17 +7,36 @@ interface AppShellProps {
   compact?: boolean;
 }
 
+function getTenantStyle(tenant: TenantConfig): CSSProperties {
+  return {
+    "--tenant-primary": tenant.brand.primary,
+    "--tenant-primary-soft": tenant.brand.primarySoft,
+    "--tenant-accent": tenant.brand.accent,
+    "--tenant-accent-soft": tenant.brand.accentSoft,
+    "--tenant-background": tenant.brand.background,
+    "--tenant-surface": tenant.brand.surface,
+    "--tenant-text": tenant.brand.text,
+    "--tenant-muted": tenant.brand.muted,
+    "--tenant-border": tenant.brand.border,
+  } as CSSProperties;
+}
+
 export function AppShell({ children, tenant, compact = false }: AppShellProps) {
   return (
-    <main className="min-h-screen bg-slate-50 text-slate-950">
-      <header className="border-b border-slate-200 bg-white">
+    <main
+      style={getTenantStyle(tenant)}
+      className="min-h-screen bg-[var(--tenant-background)] text-[var(--tenant-text)]"
+    >
+      <header className="border-b border-[var(--tenant-border)] bg-[var(--tenant-surface)]">
         <div className="mx-auto flex min-h-16 w-full max-w-6xl items-center justify-between px-4">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">White-label tenant</p>
+            <p className="text-xs font-semibold uppercase tracking-wide text-[var(--tenant-muted)]">
+              White-label tenant
+            </p>
             <h1 className="text-lg font-bold">{tenant.displayName}</h1>
           </div>
           {!compact && (
-            <nav className="flex gap-3 text-sm font-semibold text-slate-700" aria-label="Primary">
+            <nav className="flex gap-3 text-sm font-semibold text-[var(--tenant-text)]" aria-label="Primary">
               <a href="/">Overview</a>
               <a href="/teacher">Teacher Launch</a>
             </nav>
