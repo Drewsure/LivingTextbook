@@ -9,7 +9,16 @@ Canonical sample file:
 Visible concept panels:
 
 - `apps/web/src/features/multimedia/MultimediaPackagePanel.tsx`
+- `apps/web/src/features/multimedia/UnitMediaEngagementPanel.tsx`
+- `apps/web/src/features/access/FrontDoorEntryFlow.tsx`
+- `apps/web/src/features/access/FrontDoorTeacherReportPreview.tsx`
 - `apps/web/src/features/teacher/TeacherProgressSummaryConcept.tsx`
+
+Active sample routes:
+
+- `/`
+- `/launch/demo-unit-1`
+- `/enter/ministar`
 
 ## Purpose
 
@@ -40,7 +49,25 @@ The sample demonstrates three entry ideas:
 
 - Short classroom route: `/launch/demo-unit-1`
 - Permanent textbook QR route: generated from stable tenant/series/book/unit/activity identifiers
-- Front-door route: `/enter/ministar`, where an entry code and optional user code can later connect progress to teacher reports
+- Front-door route: `/enter/ministar`, where an entry code and optional user code can connect progress to teacher reports
+
+Sample front-door codes:
+
+- Entry code: `HELLO-101`
+- User code: `STUDENT-04`
+
+## Front-Door Interaction
+
+The sample front-door route lets a student:
+
+1. Open `/enter/ministar`.
+2. Submit the sample entry and user codes.
+3. Open the reviewed unit package.
+4. Complete flashcard entry practice.
+5. Unlock and start Memory Match.
+6. Start and complete sample media assets.
+7. Enable or disable optional background media after Memory Match starts.
+8. See the teacher-visible report preview update from the same local event stream.
 
 ## Multimedia Concept
 
@@ -52,6 +79,7 @@ Background media is off by default and requires teacher enablement.
 
 The sample teacher report separates:
 
+- launch opened
 - flashcard completion
 - Memory Match starts
 - media starts/completions
