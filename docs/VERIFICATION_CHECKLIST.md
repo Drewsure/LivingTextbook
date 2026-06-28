@@ -85,23 +85,26 @@ On `/enter/ministar`:
 21. Confirm the unit-session summary updates Memory Match to playing.
 22. Tap the Memory Match instruction text and confirm it speaks.
 23. Tap hidden Memory Match cards and confirm card text is revealed and spoken.
-24. Trigger a mismatch and confirm the feedback message can be tapped and spoken.
-25. Complete all pairs.
-26. Confirm the unit-session summary updates Memory Match to complete.
-27. Confirm the report preview records `game_completed`.
-28. Confirm Star Dust increases after Memory Match completion.
-29. Confirm matched cards can still be tapped to replay their audio.
-30. Tap the playlist title and media asset titles and confirm they speak.
-31. Click the listen control beside `Start media` and confirm it speaks without recording a media event.
-32. Start the audio asset and mark it complete.
-33. Start the video asset and mark it complete.
-34. Confirm media started/completed counts update separately from game progress.
-35. Confirm the unit-session summary updates media counts.
-36. Confirm optional background media can now be enabled.
-37. Click the listen control beside `Enable media` and confirm it speaks without enabling background media.
-38. Enable and disable background media.
-39. Confirm the unit-session summary updates background media state.
-40. Confirm background media events appear in the teacher-visible report preview.
+24. Confirm card taps create `round_shown` events.
+25. Trigger a mismatch and confirm the feedback message can be tapped and spoken.
+26. Confirm second-card attempts create `answer_submitted` and `answer_result` events.
+27. Complete all pairs.
+28. Confirm Memory Match completion creates `mastery_updated` and `game_completed` events.
+29. Confirm the unit-session summary updates Memory Match to complete.
+30. Confirm the report preview counts card reveals, answers, results, mastery updates, and game completion.
+31. Confirm Star Dust increases after Memory Match completion.
+32. Confirm matched cards can still be tapped to replay their audio.
+33. Tap the playlist title and media asset titles and confirm they speak.
+34. Click the listen control beside `Start media` and confirm it speaks without recording a media event.
+35. Start the audio asset and mark it complete.
+36. Start the video asset and mark it complete.
+37. Confirm media started/completed counts update separately from game progress.
+38. Confirm the unit-session summary updates media counts.
+39. Confirm optional background media can now be enabled.
+40. Click the listen control beside `Enable media` and confirm it speaks without enabling background media.
+41. Enable and disable background media.
+42. Confirm the unit-session summary updates background media state.
+43. Confirm background media events appear in the teacher-visible report preview.
 
 ## Student Flow Checks
 
@@ -130,11 +133,13 @@ On `/launch/demo-unit-1`:
 21. Confirm the playable Memory Match board appears.
 22. Tap the Memory Match instruction text and confirm it speaks.
 23. Tap hidden cards and confirm selected card labels are spoken.
-24. Match all pairs.
-25. Confirm the progress event log shows `game_completed`.
-26. Confirm the unit-session summary updates Memory Match to complete and Star Dust.
-27. Confirm Star Dust increases after Memory Match completion.
-28. Confirm matched cards can still be tapped to replay their audio.
+24. Confirm the progress event log shows `round_shown` after card reveals.
+25. Match or mismatch a pair and confirm the event log shows `answer_submitted` and `answer_result`.
+26. Match all pairs.
+27. Confirm the progress event log shows `mastery_updated` and `game_completed`.
+28. Confirm the unit-session summary updates Memory Match to complete and Star Dust.
+29. Confirm Star Dust increases after Memory Match completion.
+30. Confirm matched cards can still be tapped to replay their audio.
 
 ## Multimedia Checks
 
