@@ -8,10 +8,12 @@ import type {
   StudentProgressionState,
   UnitPayload,
 } from "@living-textbook/content-model";
+import { PairingMemoryMatchGame } from "@/features/game-shell/pairing/PairingMemoryMatchGame";
 import { PairingEnginePreview } from "@/features/game-shell/pairing/PairingEnginePreview";
 import {
   completeFlashcardEntryPractice,
   startUnlockedGameMode,
+  type GameModeCompletionResult,
 } from "@/features/progression/localProgressionAdapter";
 import { starterRewardCatalog } from "@/features/rewards/rewardCatalog";
 import { FlashcardPracticeCard } from "./components/FlashcardPracticeCard";
@@ -74,6 +76,15 @@ export function StudentLaunchFlow({ tenant, unit, launchSession, progression }: 
     setSessionEvents((events) => [...events, event]);
   }
 
+  function handleGameComplete(result: GameModeCompletionResult) {
+    setCurrentProgression(result.progression);
+    setLastEarnedDust(result.earnedStarDust);
+
+    if (result.event) {
+      setSessionEvents((events) => [...events, result.event as GameProgressEvent]);
+    }
+  }
+
   return (
     <div className="mx-auto grid max-w-3xl gap-5">
       <StudentProgressHeader
@@ -104,7 +115,16 @@ export function StudentLaunchFlow({ tenant, unit, launchSession, progression }: 
         started={nextModeStarted}
         onStart={handleStartNextMode}
       />
-      {activeGameMode && <PairingEnginePreview unit={unit} gameMode={activeGameMode} />}
+      {activeGameMode === "memory-match" && (
+        <PairingMemoryMatchGame
+          unit={unit}
+          gameMode={activeGameMode}
+          launchSession={launchSession}
+          progression={currentProgression}
+          onComplete={handleGameComplete}
+        />
+      )}
+      {activeGameMode && activeGameMode !== "memory-match" && <PairingEnginePreview unit={unit} gameMode={activeGameMode} />}
       <SessionEventLog events={sessionEvents} />
     </div>
   );
