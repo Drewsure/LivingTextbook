@@ -35,6 +35,7 @@ Before accepting a new direction, answer these questions in the task, PR, or imp
 | DR-004 | Earned collection mechanics | Accepted | Avatars, rooms, pets, cosmetics, titles, and Spin Wheel bonuses are rewards for mastery and effort, not purchase-like pressure loops. |
 | DR-005 | Local progression before persistence | Accepted | Prove QR entry, flashcards, events, unlocks, and Star Dust locally before introducing database, auth, or live classroom complexity. |
 | DR-006 | Deterministic starter reward catalog | Accepted | First rewards are transparent Star Dust thresholds, not chance-based mechanics, to prove earned collection safely and cheaply. |
+| DR-007 | Permanent QR and local textbook companion mode | Accepted | Printed textbook QR codes must resolve stable identifiers/content packages for local or closed companion apps, with optional hosted redirect for long-lived external QR permanence. |
 
 ## DR-001: Tailwind And PostCSS Foundation
 
@@ -159,3 +160,25 @@ Constraints:
 - Reward labels are sample data, not universal product assumptions.
 - Future surprise rewards must remain bonus cosmetics and must not become the main progression path.
 - Premium reward visuals, rooms, avatars, and pet evolution remain deferred until the foundation slice is verified.
+
+## DR-007: Permanent QR And Local Textbook Companion Mode
+
+Status: Accepted
+
+Decision: Treat permanent QR identifiers, content packages, local/closed app deployment, and a media/audio companion layer as first-class white-label requirements.
+
+White-label impact: Strongly positive. This expands Living Textbook from a MiniStar-first school product into a saleable companion platform for textbook publishers, curriculum owners, schools, and private education brands.
+
+Cost impact: Mixed but acceptable. The route registry, content package, media catalog, and packaging strategy add foundation work, but they prevent much more expensive rework after QR codes are printed or partner content is imported.
+
+Portability impact: Positive if implemented through tenant/book/unit/activity identifiers rather than partner-specific pages. The same model can serve MiniStar, a colleague's textbook series, or a future publisher tenant.
+
+Constraints:
+
+- Printed QR codes must not point directly to local files, temporary localhost ports, or version-specific asset paths.
+- QR payloads should resolve stable identifiers such as tenant, series, book, unit, activity, language, edition, and version.
+- A local/closed app can be supported through an installed app, installed PWA, local classroom server, or similar package, but the tradeoffs must be documented.
+- A tiny hosted redirect layer remains the recommended option when printed QR codes need true long-term external permanence.
+- PDF-derived content must enter as draft content packages and require human review plus verifier checks before student assignment.
+- The media/music platform is an asset and playback layer, not a hard-coded music page.
+- See `docs/adr/0004-permanent-qr-and-local-companion-mode.md` and `docs/partner-strategies/LOCAL_TEXTBOOK_COMPANION_STRATEGY.md`.
