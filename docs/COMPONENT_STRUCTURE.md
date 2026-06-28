@@ -30,9 +30,23 @@ Tenant identity enters the app through `TenantConfig`. The app shell converts `T
 
 Local progression logic belongs in `apps/web/src/features/progression/localProgressionAdapter.ts` until persistence is intentionally introduced.
 
+## Game Shell Structure
+
+`apps/web/src/features/game-shell/gameModeCatalog.ts` is the first mode metadata boundary. Early mode definitions should describe:
+
+- stable mode id
+- readable label
+- pedagogical family
+- parent engine
+- role in the learning flow
+- concise purpose summary
+
+`GameSequence` should read from this catalog instead of scattering mode metadata across screens. Real game engines should not be promoted from legacy code or external repositories until `docs/GAME_ENGINE_CONTRACTS.md` and the legacy promotion standard are satisfied.
+
 ## Current Rules
 
 - No legacy component is promoted directly into the canonical app until an explicit integration plan exists.
 - No reusable component should hard-code a tenant palette, mascot, reward name, or curriculum identity.
 - Premium polish, animation, mascot evolution, and asset-heavy collection views come after the clean vertical slice works.
 - Client components should be thin orchestrators where possible; display should live in named domain components.
+- New game modes should begin as catalog entries and parent-engine configurations, not one-off screens.
