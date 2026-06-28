@@ -8,7 +8,10 @@ import type {
   StudentProgressionState,
   UnitPayload,
 } from "@living-textbook/content-model";
-import { completeFlashcardEntryPractice } from "@/features/progression/localProgressionAdapter";
+import {
+  completeFlashcardEntryPractice,
+  startUnlockedGameMode,
+} from "@/features/progression/localProgressionAdapter";
 import { FlashcardPracticeCard } from "./components/FlashcardPracticeCard";
 import { NextGameUnlockCard } from "./components/NextGameUnlockCard";
 import { SessionEventLog } from "./components/SessionEventLog";
@@ -49,21 +52,20 @@ export function StudentLaunchFlow({ tenant, unit, launchSession, progression }: 
   }
 
   function handleStartNextMode() {
-    if (!nextMode || !nextModeUnlocked || nextModeStarted) {
+    if (!nextMode || nextModeStarted) {
       return;
     }
 
-    const event: GameProgressEvent = {
-      type: "game_started",
-      unitKey: launchSession.unitKey,
+    const event = startUnlockedGameMode({
+      progression: currentProgression,
+      launchSession,
       gameMode: nextMode,
-      launchCode: launchSession.launchCode,
-      studentSessionId: currentProgression.studentSessionId,
       occurredAt: new Date().toISOString(),
-      metadata: {
-        sourceMode: launchSession.entryMode,
-      },
-    };
+    });
+
+    if (!event) {
+      return;
+    }
 
     setActiveGameMode(nextMode);
     setSessionEvents((events) => [...events, event]);
