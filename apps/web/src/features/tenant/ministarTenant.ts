@@ -8,6 +8,13 @@ export const ministarTenant: TenantConfig = {
   avatarFamilies: ["starter-avatars"],
   brand: {
     primary: "#0f172a",
+    primarySoft: "#e0f2fe",
     accent: "#2563eb",
+    accentSoft: "#dbeafe",
+    background: "#f8fafc",
+    surface: "#ffffff",
+    text: "#0f172a",
+    muted: "#64748b",
+    border: "#e2e8f0",
   },
 };
