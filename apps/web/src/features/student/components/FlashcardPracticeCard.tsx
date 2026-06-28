@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Card, StatusPill } from "@living-textbook/ui";
+import { Card, StatusPill } from "@living-textbook/ui";
 import type {
   AudioCue,
   GameModeId,
@@ -9,6 +9,7 @@ import type {
   UnitPayload,
 } from "@living-textbook/content-model";
 import { AudioCueText } from "@/features/audio/AudioCueButton";
+import { AudioSupportedAction } from "@/features/audio/AudioSupportedAction";
 import { formatLabel, formatMode } from "../studentLabels";
 import type { TenantConfig } from "@/features/tenant/types";
 
@@ -40,6 +41,7 @@ export function FlashcardPracticeCard({
   const entryMessage = entryComplete
     ? feedbackCue?.text ?? `${formatMode(launchSession.entryMode)} is complete. ${nextMode ? `${formatMode(nextMode)} is ready.` : "The next activity is ready."}`
     : instructionCue?.text ?? "Tap each word to hear it. Then repeat.";
+  const actionText = entryComplete ? "Practice complete" : "Mark practice complete";
 
   return (
     <Card>
@@ -112,9 +114,9 @@ export function FlashcardPracticeCard({
             </p>
           )}
         </div>
-        <Button onClick={onComplete} disabled={entryComplete}>
-          {entryComplete ? "Practice complete" : "Mark practice complete"}
-        </Button>
+        <AudioSupportedAction audioText={actionText} onClick={onComplete} disabled={entryComplete}>
+          {actionText}
+        </AudioSupportedAction>
       </div>
     </Card>
   );
