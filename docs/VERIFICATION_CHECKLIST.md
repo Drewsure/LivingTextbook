@@ -96,16 +96,19 @@ On `/enter/ministar`:
 32. Confirm Star Dust increases after Memory Match completion.
 33. Confirm matched cards can still be tapped to replay their audio.
 34. Tap the playlist title and media asset titles and confirm they speak.
-35. Click the listen control beside `Start media` and confirm it speaks without recording a media event.
-36. Start the audio asset and mark it complete.
-37. Start the video asset and mark it complete.
-38. Confirm media started/completed counts update separately from game progress.
-39. Confirm the unit-session summary updates media counts.
-40. Confirm optional background media can now be enabled.
-41. Click the listen control beside `Enable media` and confirm it speaks without enabling background media.
-42. Enable and disable background media.
-43. Confirm the unit-session summary updates background media state.
-44. Confirm background media events appear in the teacher-visible report preview.
+35. Confirm the audio asset renders native audio controls.
+36. Confirm the video asset renders native video controls with poster/caption configuration when available.
+37. If demo media files are missing, confirm the playback card shows a clear unavailable-source message without breaking the route.
+38. Click the listen control beside `Start media` and confirm it speaks without recording a media event.
+39. Start the audio asset and mark it complete.
+40. Start the video asset and mark it complete.
+41. Confirm media started/completed counts update separately from game progress.
+42. Confirm the unit-session summary updates media counts.
+43. Confirm optional background media can now be enabled.
+44. Click the listen control beside `Enable media` and confirm it speaks without enabling background media.
+45. Enable and disable background media.
+46. Confirm the unit-session summary updates background media state.
+47. Confirm background media events appear in the teacher-visible report preview.
 
 ## Student Flow Checks
 
@@ -154,16 +157,24 @@ When reviewing game-shell changes:
 
 ## Multimedia Checks
 
-When real multimedia playback is implemented:
+For the current playback shell:
 
 - Confirm unit packages can include both audio and video assets.
 - Confirm playlists can be linked to a unit.
-- Confirm media can be opened from teacher preview and student launch surfaces.
-- Confirm media started, paused, completed, background enabled, and background disabled events are reportable.
+- Confirm media playback cards render from package `sourceUri` or `localBundlePath`.
+- Confirm native browser controls are present for audio and video assets.
+- Confirm manual media start/complete controls remain available for reporting tests and missing demo files.
+- Confirm media started, completed, background enabled, and background disabled events are reportable.
 - Confirm optional background media can be disabled.
 - Confirm games remain playable when no background media is available.
 - Confirm partner media has rights/owner metadata before production use.
 - Confirm media engagement is displayed separately from language-game mastery.
+
+Future production media checks:
+
+- Confirm pause events are emitted when pause telemetry is implemented.
+- Confirm local/offline media bundle resolution works for closed companion deployments.
+- Confirm captions/transcripts are complete for production video assets.
 
 ## Hybrid QR And Front-Door Checks
 
@@ -190,6 +201,7 @@ Check at narrow mobile width:
 - Event log entries remain scannable.
 - Teacher launch route remains readable.
 - Media controls are large enough for classroom devices.
+- Native audio/video controls do not overflow their playback cards.
 - Dashboard multimedia package rows wrap instead of overflowing.
 - Audio support metrics and cue summaries wrap without overlap.
 - Clickable audio text remains easy to tap and does not overlap nearby controls.
