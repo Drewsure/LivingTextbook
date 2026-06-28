@@ -50,6 +50,12 @@ Every playable engine should receive:
 - Tenant display configuration
 - Mode configuration
 
+Optional engine context:
+
+- Unit multimedia plan
+- Optional background/support media availability
+- Teacher/tenant setting for whether background media is allowed
+
 ## Required Engine Outputs
 
 Every playable engine must emit standard `GameProgressEvent` records:
@@ -67,6 +73,23 @@ Entry practice may also emit:
 - `entry_practice_completed`
 - `game_unlocked`
 
+Optional media coordination may emit:
+
+- `background_media_enabled`
+- `background_media_disabled`
+
+## Multimedia Boundary
+
+Games may coordinate with unit media, but media playback is not owned by each game engine.
+
+Rules:
+
+- Game engines remain playable without media.
+- Background/support media is optional and teacher/tenant configurable.
+- A multimedia adapter owns playback controls and media events.
+- Game scoring and media engagement remain separate event streams.
+- No parent engine should hard-code a tenant song, video, playlist, or media rule.
+
 ## Current Pairing Scaffold
 
 Implemented scaffold:
@@ -83,6 +106,7 @@ Intentional limits:
 - No animated mismatch reveal yet.
 - No scoring loop beyond the flashcard entry reward yet.
 - No full Memory Match gameplay yet.
+- No multimedia adapter yet.
 
 ## First Engine Build Candidate
 
@@ -94,9 +118,10 @@ Reason:
 - It directly follows flashcard entry practice.
 - It exercises source/target pairing, completion, scoring, and unlock events.
 - It can reuse ideas from legacy repositories without promoting legacy code directly.
+- It can prove that optional background/support media does not contaminate engine logic.
 
 ## Research Gate
 
 Before building a substantial engine, check `docs/FUTURE_REQUIREMENTS.md` FR-003 for public repository and best-practice research requirements.
 
-Useful external ideas may be adopted only after license, maintenance, accessibility, mobile/PWA, and integration risks are reviewed.
+Useful external ideas may be adopted only after license, maintenance, accessibility, mobile/PWA, media-playback, offline, and integration risks are reviewed.
