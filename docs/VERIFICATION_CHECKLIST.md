@@ -66,23 +66,28 @@ On `/enter/ministar`:
 3. Click `Open unit`.
 4. Confirm the report preview records `launch_opened`.
 5. Confirm flashcard practice appears.
-6. Tap each vocabulary word and confirm it speaks.
-7. Tap each target sentence and confirm it speaks.
-8. Click `Mark practice complete`.
-9. Confirm the report preview records `entry_practice_completed` and `game_unlocked`.
-10. Confirm Star Dust increases and the first deterministic reward unlocks.
-11. Start Memory Match.
-12. Confirm the playable Memory Match board appears with pairs, remaining, attempts, and engine metrics.
-13. Tap hidden Memory Match cards and confirm card text is revealed and spoken.
-14. Complete all pairs.
-15. Confirm the report preview records `game_completed`.
-16. Confirm Star Dust increases after Memory Match completion.
-17. Start the audio asset and mark it complete.
-18. Start the video asset and mark it complete.
-19. Confirm media started/completed counts update separately from game progress.
-20. Confirm optional background media can now be enabled.
-21. Enable and disable background media.
-22. Confirm background media events appear in the teacher-visible report preview.
+6. Tap the flashcard instruction text and confirm it speaks.
+7. Tap each vocabulary word and confirm it speaks.
+8. Tap each target sentence and confirm it speaks.
+9. Click `Mark practice complete`.
+10. Confirm the flashcard feedback text can be tapped and spoken.
+11. Confirm the report preview records `entry_practice_completed` and `game_unlocked`.
+12. Confirm Star Dust increases and the first deterministic reward unlocks.
+13. Start Memory Match.
+14. Confirm the playable Memory Match board appears with pairs, remaining, attempts, and engine metrics.
+15. Tap the Memory Match instruction text and confirm it speaks.
+16. Tap hidden Memory Match cards and confirm card text is revealed and spoken.
+17. Trigger a mismatch and confirm the feedback message can be tapped and spoken.
+18. Complete all pairs.
+19. Confirm the report preview records `game_completed`.
+20. Confirm Star Dust increases after Memory Match completion.
+21. Confirm matched cards can still be tapped to replay their audio.
+22. Start the audio asset and mark it complete.
+23. Start the video asset and mark it complete.
+24. Confirm media started/completed counts update separately from game progress.
+25. Confirm optional background media can now be enabled.
+26. Enable and disable background media.
+27. Confirm background media events appear in the teacher-visible report preview.
 
 ## Student Flow Checks
 
@@ -90,22 +95,25 @@ On `/launch/demo-unit-1`:
 
 1. Confirm initial state says flashcards are ready and Memory Match is locked.
 2. Confirm the earned rewards panel shows deterministic locked rewards, not random rewards.
-3. Tap a vocabulary word and confirm it speaks.
-4. Tap a target sentence and confirm it speaks.
-5. Click `Mark practice complete`.
-6. Confirm the button becomes disabled or complete.
-7. Confirm Star Dust increases.
-8. Confirm the first deterministic reward unlocks.
-9. Confirm the progress event log shows `entry_practice_completed`.
-10. Confirm the progress event log shows `game_unlocked`.
-11. Confirm Memory Match changes from locked to unlocked.
-12. Click `Start Memory Match`.
-13. Confirm the progress event log shows `game_started`.
-14. Confirm the playable Memory Match board appears.
-15. Tap hidden cards and confirm selected card labels are spoken.
-16. Match all pairs.
-17. Confirm the progress event log shows `game_completed`.
-18. Confirm Star Dust increases after Memory Match completion.
+3. Tap the flashcard instruction text and confirm it speaks.
+4. Tap a vocabulary word and confirm it speaks.
+5. Tap a target sentence and confirm it speaks.
+6. Click `Mark practice complete`.
+7. Confirm the button becomes disabled or complete.
+8. Confirm Star Dust increases.
+9. Confirm the first deterministic reward unlocks.
+10. Confirm the progress event log shows `entry_practice_completed`.
+11. Confirm the progress event log shows `game_unlocked`.
+12. Confirm Memory Match changes from locked to unlocked.
+13. Click `Start Memory Match`.
+14. Confirm the progress event log shows `game_started`.
+15. Confirm the playable Memory Match board appears.
+16. Tap the Memory Match instruction text and confirm it speaks.
+17. Tap hidden cards and confirm selected card labels are spoken.
+18. Match all pairs.
+19. Confirm the progress event log shows `game_completed`.
+20. Confirm Star Dust increases after Memory Match completion.
+21. Confirm matched cards can still be tapped to replay their audio.
 
 ## Multimedia Checks
 
