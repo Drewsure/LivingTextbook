@@ -63,10 +63,11 @@ Required fields:
 4. Student enters `/launch/[code]` and starts the `entryMode`.
 5. Completing entry practice emits `entry_practice_completed`.
 6. System unlocks `recommendedNextModes`.
-7. Student starts the next mode shell, emitting `game_started`.
-8. Future full gameplay emits standard game progress events.
-9. Completion updates Star Dust, mastery status, and earned collection progress.
-10. If mastery is low, teacher or system recommends Training Academy.
+7. Student sees earned reward progress from deterministic mastery rewards.
+8. Student starts the next mode shell, emitting `game_started`.
+9. Future full gameplay emits standard game progress events.
+10. Completion updates Star Dust, mastery status, and earned collection progress.
+11. If mastery is low, teacher or system recommends Training Academy.
 
 ## Current Interactive Slice
 
@@ -76,6 +77,8 @@ Implemented behavior:
 - The student can mark flashcard entry practice complete.
 - The local adapter records an `entry_practice_completed` event.
 - The local adapter records `game_unlocked` events for recommended next modes.
+- Star Dust increases through the shared scoring model.
+- The earned reward preview unlocks deterministic rewards from the starter catalog.
 - Memory Match is unlocked as a progression state after flashcards.
 - The student can start the unlocked Memory Match shell.
 - Starting the unlocked mode records a standard `game_started` event.
