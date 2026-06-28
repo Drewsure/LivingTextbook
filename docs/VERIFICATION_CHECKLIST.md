@@ -71,14 +71,18 @@ On `/enter/ministar`:
 8. Click `Mark practice complete`.
 9. Confirm the report preview records `entry_practice_completed` and `game_unlocked`.
 10. Confirm Star Dust increases and the first deterministic reward unlocks.
-11. Start the audio asset and mark it complete.
-12. Start the video asset and mark it complete.
-13. Confirm media started/completed counts update separately from game progress.
-14. Start Memory Match.
-15. Confirm the pairing shell appears.
-16. Confirm optional background media can now be enabled.
-17. Enable and disable background media.
-18. Confirm background media events appear in the teacher-visible report preview.
+11. Start Memory Match.
+12. Confirm the playable Memory Match board appears with pairs, remaining, attempts, and engine metrics.
+13. Tap hidden Memory Match cards and confirm card text is revealed and spoken.
+14. Complete all pairs.
+15. Confirm the report preview records `game_completed`.
+16. Confirm Star Dust increases after Memory Match completion.
+17. Start the audio asset and mark it complete.
+18. Start the video asset and mark it complete.
+19. Confirm media started/completed counts update separately from game progress.
+20. Confirm optional background media can now be enabled.
+21. Enable and disable background media.
+22. Confirm background media events appear in the teacher-visible report preview.
 
 ## Student Flow Checks
 
@@ -97,7 +101,11 @@ On `/launch/demo-unit-1`:
 11. Confirm Memory Match changes from locked to unlocked.
 12. Click `Start Memory Match`.
 13. Confirm the progress event log shows `game_started`.
-14. Confirm the Mode Shell appears with pair count, card count, parent engine, and first pair payload.
+14. Confirm the playable Memory Match board appears.
+15. Tap hidden cards and confirm selected card labels are spoken.
+16. Match all pairs.
+17. Confirm the progress event log shows `game_completed`.
+18. Confirm Star Dust increases after Memory Match completion.
 
 ## Multimedia Checks
 
@@ -129,6 +137,7 @@ When permanent QR resolver work is implemented:
 Check at narrow mobile width:
 
 - Flashcard cards remain readable.
+- Memory Match cards remain tappable and do not overlap.
 - Buttons do not overflow their containers.
 - Reward labels and thresholds do not overlap.
 - Long labels wrap instead of overlapping.
