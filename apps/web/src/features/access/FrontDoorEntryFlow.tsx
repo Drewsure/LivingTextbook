@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import type { FormEvent } from "react";
-import { Button, Card, StatusPill } from "@living-textbook/ui";
+import { Card, StatusPill } from "@living-textbook/ui";
 import type {
   ContentPackage,
   FrontDoorAccessPolicy,
@@ -12,6 +12,7 @@ import type {
   StudentProgressionState,
   UnitPayload,
 } from "@living-textbook/content-model";
+import { AudioSupportedAction } from "@/features/audio/AudioSupportedAction";
 import { PairingMemoryMatchGame } from "@/features/game-shell/pairing/PairingMemoryMatchGame";
 import { PairingEnginePreview } from "@/features/game-shell/pairing/PairingEnginePreview";
 import { UnitMediaEngagementPanel } from "@/features/multimedia/UnitMediaEngagementPanel";
@@ -172,7 +173,9 @@ export function FrontDoorEntryFlow({
                 className="min-h-11 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] px-3 text-sm font-normal text-[var(--tenant-text)] outline-none focus:border-[var(--tenant-primary)]"
               />
             </label>
-            <Button type="submit">Open unit</Button>
+            <AudioSupportedAction type="submit" audioText="Open unit">
+              Open unit
+            </AudioSupportedAction>
           </form>
 
           {entryError && <p className="mt-3 text-sm font-semibold text-amber-800">{entryError}</p>}
