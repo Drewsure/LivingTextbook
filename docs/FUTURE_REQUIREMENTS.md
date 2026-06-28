@@ -84,12 +84,12 @@ Non-goals:
 
 Status: Future research checkpoint
 
-Requirement: Before building major game engines, AI authoring subsystems, classroom monitoring, reward catalogs, avatar systems, PWA offline behavior, or content pipelines from scratch, conduct a deliberate public repository and best-practice research pass.
+Requirement: Before building major game engines, AI authoring subsystems, classroom monitoring, reward catalogs, avatar systems, PWA offline behavior, multimedia playback, content packaging, or content pipelines from scratch, conduct a deliberate public repository and best-practice research pass.
 
 Purpose:
 
 - Avoid reinventing solved problems.
-- Identify proven patterns from high-quality open-source education, game, PWA, classroom, accessibility, and AI-content tools.
+- Identify proven patterns from high-quality open-source education, game, PWA, classroom, accessibility, media-playback, offline-sync, and AI-content tools.
 - Find libraries or architecture ideas that can raise the product toward AAA quality without creating unnecessary build cost.
 
 Research standards:
@@ -110,6 +110,8 @@ Suggested future research areas:
 - Reward catalogs, avatar progression, virtual pet, and room/base collection systems.
 - AI content validation and JSON schema verification tools.
 - Offline-first student progress and sync patterns.
+- Accessible audio/video player patterns for classrooms and children.
+- Content package, asset manifest, and offline media bundle patterns.
 - Accessibility patterns for young learners and multilingual classrooms.
 
 Revisit when:
@@ -117,47 +119,54 @@ Revisit when:
 - The first vertical slice is locally verified.
 - A parent game engine is about to be built.
 - Persistence/auth decisions are about to be made.
-- A large custom UI, reward, avatar, or content pipeline is being proposed.
+- A large custom UI, reward, avatar, media, or content pipeline is being proposed.
 
-## FR-004: Textbook Partner Local Companion And Media Platform
+## FR-004: Textbook Partner Local Companion And Multimedia Platform
 
-Status: Active strategy checkpoint; initial shared contracts for content packages, media assets, and permanent QR routes are present in `packages/content-model/src/index.ts`.
+Status: Active strategy checkpoint; initial shared contracts for content packages, audio/video media assets, unit multimedia plans, front-door entry mode, and permanent QR routes are present in `packages/content-model/src/index.ts`.
 
-Requirement: The platform must be able to support a white-label textbook partner who provides PDF units and needs a closed/local companion application with games, a media/audio platform, gamification, and long-lived QR codes printed in textbooks.
+Requirement: The platform must be able to support a white-label textbook partner who provides PDF units and needs a closed/local companion application with games, a multimedia platform, gamification, year-on-year content maintenance, teacher reporting, and long-lived QR codes printed in textbooks.
 
-This requirement should guide future work on content packages, PDF onboarding, media asset handling, route permanence, and deployment packaging.
+This requirement is part of the initial build, not a later add-on. It should guide content packages, PDF onboarding, media asset handling, route permanence, deployment packaging, teacher reports, and first-slice route decisions.
 
 Required capabilities:
 
 - Import or draft unit payloads from PDF textbook units.
 - Preserve page, unit, activity, and edition references from the original textbook.
-- Store audio/music assets as tenant-owned media catalog entries.
-- Link tracks, chants, listening activities, or playlists to units and QR routes.
+- Store audio, music, and video assets as tenant-owned multimedia catalog entries.
+- Link tracks, chants, listening activities, lesson videos, music videos, or playlists to units and QR routes.
+- Allow unit media to be used before games, after games, or optionally as controlled background/support media during games.
 - Map textbook units to reusable game parent engines and mode configs.
 - Support deterministic progression and earned rewards for partner tenants.
 - Resolve printed QR codes through stable identifiers rather than fragile file paths.
+- Support a front-door QR route where students enter an entry code and, when required, a user code.
+- Support backend teacher reporting for game progress, media engagement, and language review progression.
 - Support local/closed deployment options such as installed app, installed PWA, or local classroom server.
-- Keep optional hosted redirect available when printed QR permanence matters more than pure offline operation.
+- Use hybrid QR as the standard: stable QR registry, optional tiny hosted redirect, and local app/content-package fallback.
 
 Pilot acceptance path:
 
 1. Select one representative PDF unit from the partner.
 2. Produce a reviewed structured content package for that unit.
-3. Add one unit-linked audio playlist or listening activity.
-4. Add flashcard entry practice.
-5. Add one Memory Match or pairing game.
-6. Add deterministic reward progress.
-7. Add a teacher launch view.
-8. Add a student QR route using a stable identifier.
-9. Demonstrate local/closed package behavior at prototype level.
+3. Add at least one unit-linked audio asset and one unit-linked video asset.
+4. Add one unit playlist and one optional game-background media setting.
+5. Add flashcard entry practice.
+6. Add one Memory Match or pairing game.
+7. Add deterministic reward progress.
+8. Add a teacher launch view.
+9. Add a student QR route using a stable identifier or front-door entry code.
+10. Demonstrate a reportable progress summary for game and media engagement.
+11. Demonstrate local/closed package behavior at prototype level.
 
 Revisit when:
 
 - A real partner commitment is being discussed.
 - The QR route registry is designed.
+- The front-door entry-code/user-code flow is designed.
 - The content package model is implemented.
 - PDF onboarding work begins.
-- Media/audio player work begins.
+- Multimedia player work begins.
+- Teacher reporting is introduced.
 - Local deployment packaging is selected.
 
 References:
@@ -165,4 +174,5 @@ References:
 - `docs/BUILD_SESSIONS.md`
 - `docs/partner-strategies/LOCAL_TEXTBOOK_COMPANION_STRATEGY.md`
 - `docs/adr/0004-permanent-qr-and-local-companion-mode.md`
-- `docs/DECISION_REGISTER.md` DR-007
+- `docs/adr/0005-core-multimedia-package.md`
+- `docs/DECISION_REGISTER.md` DR-007 and DR-008
