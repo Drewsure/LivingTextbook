@@ -8,6 +8,7 @@ import type {
   StudentProgressionState,
   UnitPayload,
 } from "@living-textbook/content-model";
+import { PairingEnginePreview } from "@/features/game-shell/pairing/PairingEnginePreview";
 import {
   completeFlashcardEntryPractice,
   startUnlockedGameMode,
@@ -96,6 +97,7 @@ export function StudentLaunchFlow({ tenant, unit, launchSession, progression }: 
         started={nextModeStarted}
         onStart={handleStartNextMode}
       />
+      {activeGameMode && <PairingEnginePreview unit={unit} gameMode={activeGameMode} />}
       <SessionEventLog events={sessionEvents} />
     </div>
   );
