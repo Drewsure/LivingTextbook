@@ -11,6 +11,7 @@ interface FrontDoorTeacherReportPreviewProps {
 export function FrontDoorTeacherReportPreview({ tenant, progression, events }: FrontDoorTeacherReportPreviewProps) {
   const entryPracticeCompletions = countEvents(events, "entry_practice_completed");
   const gameStarts = countEvents(events, "game_started");
+  const gameCompletions = countEvents(events, "game_completed");
   const mediaStarts = countEvents(events, "media_started");
   const mediaCompletions = countEvents(events, "media_completed");
   const backgroundMediaEvents = events.filter(
@@ -33,6 +34,7 @@ export function FrontDoorTeacherReportPreview({ tenant, progression, events }: F
       <dl className="mt-5 grid gap-3 text-sm sm:grid-cols-2">
         <Metric label="Entry practice" value={String(entryPracticeCompletions)} />
         <Metric label="Game starts" value={String(gameStarts)} />
+        <Metric label="Game complete" value={String(gameCompletions)} />
         <Metric label="Media starts" value={String(mediaStarts)} />
         <Metric label="Media complete" value={String(mediaCompletions)} />
         <Metric label="Background media" value={String(backgroundMediaEvents)} />
