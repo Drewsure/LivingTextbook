@@ -60,3 +60,19 @@ Procedure:
 5. Read back the changed file after the update succeeds.
 
 Why this matters: It prevents accidental overwrites and keeps connector-based edits safe when local checkout verification is unavailable.
+
+## OW-005: Local Checkout May Not Track Remote Connector Branch
+
+Status: Active
+
+Observed behavior: The local `D:\LIVING TEXTBOOOK PROJECT\LivingTextbook` checkout can be present but still not match the active GitHub connector branch. In the current observed state, local `git status --short --branch` reported `main`, and `git remote -v` returned no configured remotes.
+
+Procedure:
+
+1. Do not run build or typecheck as proof of `legacy-source-import` unless the local checkout has first been synchronized to that branch.
+2. Check local branch and remotes before claiming local verification.
+3. If no remote is configured, either use GitHub connector readback only or intentionally configure/sync the repo in a separate setup step.
+4. Clearly distinguish connector readback verification from local build, typecheck, or browser verification.
+5. Avoid local edits on `main` while connector work is happening on `legacy-source-import` unless the task explicitly calls for local branch repair.
+
+Why this matters: It prevents false confidence, avoids testing stale files, and keeps future work from splitting between an unsynced local checkout and the remote branch.
