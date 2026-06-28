@@ -30,13 +30,29 @@ Expected results:
 
 On `/`:
 
-1. Confirm the Living Textbook package panel shows 1 unit, 1 audio asset, 1 video asset, and 1 playlist.
-2. Confirm the printed QR concept uses a stable `/q/tenant/.../series/.../book/.../unit/.../activity/...` path.
-3. Confirm the front-door concept shows `/enter/ministar`.
-4. Confirm the `Open front door` link opens `/enter/ministar`.
-5. Confirm the optional background media plan is off by default and teacher-controlled.
-6. Confirm the teacher report concept separates game progress from media engagement.
-7. Confirm the sample package validation status says `Package valid`.
+1. Confirm the Living Textbook package panel shows 1 unit, 1 audio file, 1 video asset, 1 playlist, and the audio cue count.
+2. Confirm the audio support summary shows required support, vocabulary cues, sentence cues, instruction/feedback cues, cue source, and fallback voice.
+3. Confirm the printed QR concept uses a stable `/q/tenant/.../series/.../book/.../unit/.../activity/...` path.
+4. Confirm the front-door concept shows `/enter/ministar`.
+5. Confirm the `Open front door` link opens `/enter/ministar`.
+6. Confirm the optional background media plan is off by default and teacher-controlled.
+7. Confirm the teacher report concept separates game progress from audio cue/media engagement.
+8. Confirm the sample package validation status says `Package valid`.
+
+## Audio Support Checks
+
+For any student-facing unit or game:
+
+1. Confirm every vocabulary term has an audio cue.
+2. Confirm both target sentences have audio cues.
+3. Confirm student-facing instructions have audio cues.
+4. Confirm important success, retry, or correction feedback has audio cues.
+5. Confirm critical controls or prompts needed by young learners have listen/replay support or an explicit audio cue plan.
+6. Confirm audio support is separate from optional background music or chants.
+7. Confirm text-to-speech, recorded audio, teacher-recorded audio, partner audio, or reviewed placeholder audio is declared for each cue.
+8. Confirm tenant voice/accent/source choices are configurable and not hard-coded as MiniStar-only assumptions.
+9. Confirm games remain usable if background media is disabled, while comprehension audio remains available.
+10. Do not mark a game or unit student-ready if learner-facing text is unsupported by audio.
 
 ## Front-Door Flow Checks
 
@@ -113,6 +129,7 @@ Check at narrow mobile width:
 - Teacher launch route remains readable.
 - Media controls are large enough for classroom devices.
 - Dashboard multimedia package rows wrap instead of overflowing.
+- Audio support metrics and cue summaries wrap without overlap.
 - Front-door entry inputs and buttons wrap without overlap.
 - Teacher-visible report metrics remain scannable.
 
@@ -124,6 +141,7 @@ Check at narrow mobile width:
 - Reward text uses `tenant.rewardName` where applicable.
 - Rewards are deterministic earned unlocks, not chance-based or pressure-based rewards.
 - Multimedia labels, playlists, and route names are tenant-configurable.
+- Audio cue voice, source, pronunciation, and language choices are tenant-configurable.
 
 ## Known Verification Gap
 
