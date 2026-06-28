@@ -130,6 +130,10 @@ export function FrontDoorEntryFlow({
     setSessionEvents((events) => [...events, event]);
   }
 
+  function handleProgressEvent(event: GameProgressEvent) {
+    setSessionEvents((events) => [...events, event]);
+  }
+
   function handleGameComplete(result: GameModeCompletionResult) {
     setCurrentProgression(result.progression);
     setLastEarnedDust(result.earnedStarDust);
@@ -137,10 +141,6 @@ export function FrontDoorEntryFlow({
     if (result.event) {
       setSessionEvents((events) => [...events, result.event as GameProgressEvent]);
     }
-  }
-
-  function handleMediaEvent(event: GameProgressEvent) {
-    setSessionEvents((events) => [...events, event]);
   }
 
   return (
@@ -225,6 +225,7 @@ export function FrontDoorEntryFlow({
                 launchSession={launchSession}
                 progression={currentProgression}
                 audioCues={contentPackage.audioCues}
+                onEvent={handleProgressEvent}
                 onComplete={handleGameComplete}
               />
             )}
@@ -234,7 +235,7 @@ export function FrontDoorEntryFlow({
               launchSession={launchSession}
               progression={currentProgression}
               activeGameMode={activeGameMode}
-              onEvent={handleMediaEvent}
+              onEvent={handleProgressEvent}
             />
           </>
         )}
