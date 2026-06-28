@@ -1,7 +1,9 @@
 export interface TenantBrand {
   primary: string;
+  primaryText: string;
   primarySoft: string;
   accent: string;
+  accentText: string;
   accentSoft: string;
   background: string;
   surface: string;
