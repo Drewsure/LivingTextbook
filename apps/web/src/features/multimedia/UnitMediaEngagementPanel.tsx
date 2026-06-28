@@ -40,11 +40,10 @@ export function UnitMediaEngagementPanel({
     ? playlist.mediaAssetIds.map((assetId) => mediaAssets.find((asset) => asset.mediaAssetId === assetId)).filter(isMediaAsset)
     : mediaAssets;
   const backgroundAsset = mediaAssets.find((asset) => asset.mediaAssetId === multimediaPlan?.backgroundMediaAssetId);
-  const backgroundMode = activeGameMode ?? multimediaPlan?.allowedBackgroundGameModes?.[0];
   const backgroundAllowed = Boolean(
     backgroundAsset &&
-      backgroundMode &&
-      multimediaPlan?.allowedBackgroundGameModes?.includes(backgroundMode),
+      activeGameMode &&
+      multimediaPlan?.allowedBackgroundGameModes?.includes(activeGameMode),
   );
 
   function recordMediaEvent(type: "media_started" | "media_completed", mediaAsset: MediaAsset) {
@@ -68,7 +67,7 @@ export function UnitMediaEngagementPanel({
   }
 
   function toggleBackgroundMedia() {
-    if (!backgroundAsset || !backgroundMode || !multimediaPlan) {
+    if (!backgroundAsset || !activeGameMode || !multimediaPlan) {
       return;
     }
 
@@ -78,7 +77,7 @@ export function UnitMediaEngagementPanel({
       progression,
       launchSession,
       mediaAsset: backgroundAsset,
-      gameMode: backgroundMode,
+      gameMode: activeGameMode,
       volumePercent: multimediaPlan.defaultVolumePercent ?? 0,
       occurredAt: new Date().toISOString(),
     });
