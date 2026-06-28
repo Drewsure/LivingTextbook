@@ -15,6 +15,12 @@ This document records the first clean structure for the white-label Living Textb
 - `apps/web/src/features` contains domain features: teacher launch, student onboarding, game shell, progression, and tenant config.
 - `apps/web/src/data` contains static seed data until live persistence is chosen.
 
-## Current Rule
+## Tenant Styling Boundary
 
-No legacy component is promoted directly into the canonical app until an explicit integration plan exists.
+Tenant identity enters the app through `TenantConfig`. The app shell converts `TenantConfig.brand` into CSS variables, and shared primitives consume those variables. This keeps MiniStar as the flagship tenant without making MiniStar colors, rewards, avatars, or curriculum assumptions universal platform code.
+
+## Current Rules
+
+- No legacy component is promoted directly into the canonical app until an explicit integration plan exists.
+- No reusable component should hard-code a tenant palette, mascot, reward name, or curriculum identity.
+- Premium polish, animation, mascot evolution, and asset-heavy collection views come after the clean vertical slice works.
