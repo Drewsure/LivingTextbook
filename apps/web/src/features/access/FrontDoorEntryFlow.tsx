@@ -12,12 +12,14 @@ import type {
   StudentProgressionState,
   UnitPayload,
 } from "@living-textbook/content-model";
+import { PairingMemoryMatchGame } from "@/features/game-shell/pairing/PairingMemoryMatchGame";
 import { PairingEnginePreview } from "@/features/game-shell/pairing/PairingEnginePreview";
 import { UnitMediaEngagementPanel } from "@/features/multimedia/UnitMediaEngagementPanel";
 import {
   completeFlashcardEntryPractice,
   createLaunchOpenedEvent,
   startUnlockedGameMode,
+  type GameModeCompletionResult,
 } from "@/features/progression/localProgressionAdapter";
 import { starterRewardCatalog } from "@/features/rewards/rewardCatalog";
 import { FlashcardPracticeCard } from "@/features/student/components/FlashcardPracticeCard";
@@ -125,6 +127,15 @@ export function FrontDoorEntryFlow({
     setSessionEvents((events) => [...events, event]);
   }
 
+  function handleGameComplete(result: GameModeCompletionResult) {
+    setCurrentProgression(result.progression);
+    setLastEarnedDust(result.earnedStarDust);
+
+    if (result.event) {
+      setSessionEvents((events) => [...events, result.event as GameProgressEvent]);
+    }
+  }
+
   function handleMediaEvent(event: GameProgressEvent) {
     setSessionEvents((events) => [...events, event]);
   }
@@ -194,7 +205,17 @@ export function FrontDoorEntryFlow({
               started={nextModeStarted}
               onStart={handleStartNextMode}
             />
-            {activeGameMode && <PairingEnginePreview unit={unit} gameMode={activeGameMode} />}
+            {activeGameMode === "memory-match" && (
+              <PairingMemoryMatchGame
+                unit={unit}
+                gameMode={activeGameMode}
+                launchSession={launchSession}
+                progression={currentProgression}
+                audioCues={contentPackage.audioCues}
+                onComplete={handleGameComplete}
+              />
+            )}
+            {activeGameMode && activeGameMode !== "memory-match" && <PairingEnginePreview unit={unit} gameMode={activeGameMode} />}
             <UnitMediaEngagementPanel
               contentPackage={contentPackage}
               launchSession={launchSession}
