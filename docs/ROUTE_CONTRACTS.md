@@ -17,11 +17,11 @@ This document defines the clean route and state contracts for the first Living T
 
 | Route | Audience | Status | Purpose |
 | --- | --- | --- | --- |
-| `/` | Platform / teacher | Active scaffold | Tenant overview, current unit, progression summary, first sequence preview. |
+| `/` | Platform / teacher | Active scaffold | Tenant overview, current unit, progression summary, multimedia package concept, and first sequence preview. |
 | `/teacher` | Teacher | Active scaffold | Teacher Launch Protocol and classroom launch route for the selected unit. |
 | `/launch/[code]` | Student | Active interactive slice | Short classroom QR entry route. Student starts with entry practice before next game unlocks. |
+| `/enter/[tenantId]` | Student | Active interactive slice | Tenant-branded front door where students enter an entry code and optional user code before opening the unit package. |
 | `/q/tenant/[tenantId]/series/[seriesId]/book/[bookId]/unit/[unitId]/activity/[activityId]` | Student / teacher | Future contract | Permanent printed textbook QR route that resolves a stable identifier to the current unit, game, media playlist, front door, or teacher preview. |
-| `/enter/[tenantId]` | Student | Future contract | Tenant-branded front door where students enter an entry code and optional user code before opening the unit package. |
 | `/media/[playlistId]` | Student / teacher | Future contract | Unit-linked playlist or media activity route resolved from a launch session, permanent QR, or teacher preview. |
 | `/teacher/units/[unitKey]` | Teacher | Future | Unit-specific approval, content review, launch settings, media review, and class assignment. |
 | `/teacher/sessions/[launchCode]` | Teacher | Future | Live classroom monitoring, media engagement, completion, Training Academy recommendations. |
@@ -71,6 +71,18 @@ Front-door rules:
 - A front-door entry can create a launch session with `accessMode` set to `front-door-code`.
 - Teacher reports may use user codes or anonymized student-session ids, but the QR itself should remain stable and non-private.
 - Young learners should not face a heavy account flow when a simpler code-based route is enough.
+
+Implemented sample behavior:
+
+- `/enter/ministar` shows a tenant front door.
+- The sample entry code is `HELLO-101`.
+- The sample user code is `STUDENT-04`.
+- Opening the unit emits `launch_opened`.
+- Completing flashcards emits `entry_practice_completed` and `game_unlocked`.
+- Starting Memory Match emits `game_started`.
+- Media buttons emit media progress events.
+- Optional background media emits enabled/disabled events after Memory Match starts.
+- A teacher-visible report preview summarizes game and media events together.
 
 ## Multimedia Route And Event Contract
 
@@ -156,6 +168,8 @@ Required fields:
 Implemented behavior:
 
 - `/launch/[code]` receives a sample `LaunchSession` and `StudentProgressionState`.
+- `/enter/ministar` receives a sample front-door launch session and multimedia content package.
+- The student can open the front-door unit with sample entry and user codes.
 - The student can mark flashcard entry practice complete.
 - The local adapter records an `entry_practice_completed` event.
 - The local adapter records `game_unlocked` events for recommended next modes.
@@ -164,7 +178,9 @@ Implemented behavior:
 - Memory Match is unlocked as a progression state after flashcards.
 - The student can start the unlocked Memory Match shell.
 - Starting the unlocked mode records a standard `game_started` event.
-- The student-facing progress summary updates with earned Star Dust and session update count.
+- The student can start and complete sample media assets as progress events.
+- The student can enable/disable optional background media after Memory Match starts.
+- The teacher-visible report preview updates from the same local event stream.
 
 Intentional limits:
 
@@ -174,8 +190,7 @@ Intentional limits:
 - No auth or classroom roster model is introduced yet.
 - No premium visual polish is introduced yet.
 - Permanent printed QR resolution is contracted but not implemented yet.
-- Front-door entry-code/user-code flow is contracted but not implemented yet.
-- Multimedia playback is contracted but not implemented yet.
+- Real multimedia playback is contracted but not implemented yet.
 
 ## Structural Guardrails
 
@@ -194,8 +209,8 @@ The first slice should prove this path:
 
 Teacher launch protocol -> QR route -> flashcard entry practice -> next game unlock -> progress event -> Star Dust update -> earned reward preview.
 
-The next foundation expansion should prove:
+The current front-door expansion proves:
 
-Permanent/front-door route concept -> sample multimedia plan -> media event -> teacher-visible progress summary concept.
+Front-door route -> entry-code/user-code -> sample multimedia package -> media event -> optional background media event -> teacher-visible progress summary concept.
 
 Only after that works should we add richer animation, mascot evolution, premium assets, or a full collection room.
