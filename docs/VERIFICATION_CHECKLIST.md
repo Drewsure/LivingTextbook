@@ -22,22 +22,24 @@ Expected results:
 
 - `/` shows the foundation dashboard, teacher launch panel, game sequence, and progression contract.
 - `/teacher` shows the Teacher Launch Protocol and student launch path.
-- `/launch/demo-unit-1` shows flashcard entry practice, next game lock state, and an empty progress summary.
+- `/launch/demo-unit-1` shows flashcard entry practice, next game lock state, earned rewards, and an empty progress summary.
 
 ## Student Flow Checks
 
 On `/launch/demo-unit-1`:
 
 1. Confirm initial state says flashcards are ready and Memory Match is locked.
-2. Click `Mark practice complete`.
-3. Confirm the button becomes disabled or complete.
-4. Confirm Star Dust increases.
-5. Confirm the progress event log shows `entry_practice_completed`.
-6. Confirm the progress event log shows `game_unlocked`.
-7. Confirm Memory Match changes from locked to unlocked.
-8. Click `Start Memory Match`.
-9. Confirm the progress event log shows `game_started`.
-10. Confirm the Mode Shell appears with pair count, card count, parent engine, and first pair payload.
+2. Confirm the earned rewards panel shows deterministic locked rewards, not random rewards.
+3. Click `Mark practice complete`.
+4. Confirm the button becomes disabled or complete.
+5. Confirm Star Dust increases.
+6. Confirm the first deterministic reward unlocks.
+7. Confirm the progress event log shows `entry_practice_completed`.
+8. Confirm the progress event log shows `game_unlocked`.
+9. Confirm Memory Match changes from locked to unlocked.
+10. Click `Start Memory Match`.
+11. Confirm the progress event log shows `game_started`.
+12. Confirm the Mode Shell appears with pair count, card count, parent engine, and first pair payload.
 
 ## Mobile Layout Checks
 
@@ -45,6 +47,7 @@ Check at narrow mobile width:
 
 - Flashcard cards remain readable.
 - Buttons do not overflow their containers.
+- Reward labels and thresholds do not overlap.
 - Long labels wrap instead of overlapping.
 - Event log entries remain scannable.
 - Teacher launch route remains readable.
@@ -55,6 +58,7 @@ Check at narrow mobile width:
 - No MiniStar-only colors are hard-coded in reusable UI primitives.
 - MiniStar names appear as tenant/sample data, not platform assumptions.
 - Reward text uses `tenant.rewardName` where applicable.
+- Rewards are deterministic earned unlocks, not chance-based or pressure-based rewards.
 
 ## Known Verification Gap
 
