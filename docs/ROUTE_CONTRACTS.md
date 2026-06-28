@@ -85,6 +85,7 @@ Implemented sample behavior:
 - Media buttons emit media progress events.
 - Optional background media emits enabled/disabled events after Memory Match starts.
 - The sample package includes audio cues for all vocabulary terms, both target sentences, student instructions, and basic feedback.
+- Critical front-door, flashcard, next-game, and media actions use separate listen controls so replaying the action label does not perform the action.
 - A teacher-visible report preview summarizes game and media events together.
 
 ## Audio Support Contract
@@ -177,7 +178,7 @@ Required fields:
 3. Teacher shares the short classroom QR route `/launch/[code]`, or a printed textbook QR route resolves a stable identifier to the correct launch target.
 4. If required by the tenant, student enters through `/enter/[tenantId]` with entry code and optional user code.
 5. Student starts the `entryMode`.
-6. Student can hear vocabulary, target sentences, instructions, and feedback through audio cues.
+6. Student can hear vocabulary, target sentences, instructions, feedback, and action labels through audio cues.
 7. Completing entry practice emits `entry_practice_completed`.
 8. System unlocks `recommendedNextModes`.
 9. Student sees earned reward progress from deterministic mastery rewards.
@@ -197,6 +198,8 @@ Implemented behavior:
 - `/enter/ministar` receives a sample front-door launch session and multimedia content package.
 - The sample content package includes audio cue metadata for vocabulary terms, target sentences, student instructions, and basic feedback.
 - Flashcard vocabulary, target sentences, instruction text, and entry feedback are tap-to-speak.
+- Front-door open, flashcard completion, next-game start, and media actions use separate audio-supported action controls.
+- Media playlist titles, media asset titles, and optional background-media titles are tap-to-speak.
 - Memory Match instruction text, cards, mismatch feedback, and completion feedback are tap-to-speak.
 - The student can open the front-door unit with sample entry and user codes.
 - The student can mark flashcard entry practice complete.
@@ -216,7 +219,7 @@ Implemented behavior:
 
 Intentional limits:
 
-- Critical action-control audio still needs a dedicated pattern so listen/replay does not conflict with performing the action.
+- The current action-audio pattern is structural only; richer icon treatment, recorded audio, audio telemetry, and production playback providers are still future work.
 - Progress is local component state only.
 - No database persistence is introduced yet.
 - No auth or classroom roster model is introduced yet.
