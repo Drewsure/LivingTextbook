@@ -1,4 +1,4 @@
-import { Button, Card, StatusPill } from "@living-textbook/ui";
+import { Card, StatusPill } from "@living-textbook/ui";
 import type { UnitPayload } from "@living-textbook/content-model";
 
 interface TeacherLaunchPanelProps {
@@ -27,8 +27,11 @@ export function TeacherLaunchPanel({ unit }: TeacherLaunchPanelProps) {
           <p className="text-sm font-semibold">Classroom launch route</p>
           <p className="mt-1 text-sm text-slate-600">{launchPath}</p>
         </div>
-        <a href={launchPath}>
-          <Button variant="secondary">Open student launch</Button>
+        <a
+          href={launchPath}
+          className="inline-flex min-h-11 items-center justify-center rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-950"
+        >
+          Open student launch
         </a>
       </div>
     </Card>
