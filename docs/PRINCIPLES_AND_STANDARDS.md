@@ -19,7 +19,8 @@ Every future engagement must begin by checking this list before code, design, AI
 - Confirm rewards use earned collection mechanics, not gambling-like pressure.
 - Confirm any Z.ai or outside AI output must obey schema, component, integration, and review standards before adoption.
 - Confirm no legacy code is promoted into `apps/web` or `apps/ai-service` without an explicit integration plan.
-- Confirm textbook partner, media/audio, local/closed deployment, and permanent QR requirements are preserved when white-label architecture is affected.
+- Confirm textbook partner, multimedia, local/closed deployment, and permanent QR requirements are preserved when white-label architecture is affected.
+- Confirm hybrid QR is the default: stable QR registry, optional tiny hosted redirect, and local app/content-package fallback.
 - Confirm changes are compatible with the current `docs/BLUEPLAN.md` unless a documented standards update is intentionally made.
 
 If any item cannot be confirmed, stop and record the exception before continuing.
@@ -29,6 +30,8 @@ If any item cannot be confirmed, stop and record the exception before continuing
 The Living Textbook platform is a premium, white-label, saleable PWA learning portal.
 
 MiniStar English Lab is the first complete tenant, the flagship curriculum, and the proof-of-value implementation. Its curriculum, game progression, and classroom needs should guide the build, but the underlying architecture must support other schools, academies, publishers, and curriculum owners.
+
+A living textbook unit is not only text plus games. It is a complete reviewed package of textbook reference, learning payload, games, multimedia, QR entry, progression, and reporting.
 
 The platform must support tenant-specific:
 
@@ -42,7 +45,8 @@ The platform must support tenant-specific:
 - Student progression systems
 - Reward economies
 - Content packages
-- Media/audio catalogs
+- Multimedia catalogs for audio and video
+- Unit playlists and optional background media
 - Local or closed companion deployments
 
 ## 3. Build Order Standard
@@ -66,6 +70,7 @@ Required component habits:
 - Prefer clear product/domain names over vague component names.
 - Keep layout components separate from game logic.
 - Keep game engines separate from payload generation.
+- Keep media playback separate from game scoring while allowing controlled game/media coordination.
 - Keep tenant branding separate from hard-coded MiniStar assumptions.
 - Build mobile-first and QR-classroom friendly.
 - Keep student surfaces simple enough for young learners.
@@ -216,6 +221,9 @@ Required abstractions:
 - Visual rules
 - Content rules
 - QR launch route
+- Content package
+- Multimedia catalog
+- Local/closed deployment profile
 
 ## 10. Teacher And Student Experience Standards
 
@@ -227,14 +235,17 @@ Teacher-led requirements:
 - Teacher can launch by QR code.
 - Teacher can see the Teacher Launch Protocol.
 - Teacher can monitor completion and mastery.
+- Teacher can monitor media engagement separately from language-game mastery.
 - Teacher can trigger or recommend Training Academy review.
 
 Student self-progression requirements:
 
 - Student can enter through a QR route.
+- Student can enter through a front-door login flow where a tenant requires entry code and user code.
 - Student can complete an entry practice flow, usually flashcards.
 - Student can unlock the next recommended game mode.
 - Student can see progress, Star Dust, and reward movement.
+- Student can access approved unit media such as songs, videos, chants, or playlists.
 - Student can return without a heavy login burden, especially for younger learners.
 
 ## 11. Agent Standards
@@ -329,6 +340,7 @@ Every significant change should be reviewed against this checklist:
 - Does this improve or preserve clean component boundaries?
 - Does this avoid premature polish before stable layout?
 - Does this support teacher-led QR launch or student self-progression?
+- Does this support the multimedia package model when unit content is affected?
 - Does this use earned collection rather than pressure-based reward loops?
 - Does this keep games data-driven?
 - Does this report or preserve standard scoring/progress events?
@@ -377,7 +389,7 @@ Update it when:
 
 Do not let standards live only in chat history. If a rule matters, preserve it here.
 
-## 17. Textbook Companion, Media, And Local Deployment Standard
+## 17. Textbook Companion, Multimedia, And Local Deployment Standard
 
 White-label tenants may include textbook publishers, curriculum owners, or schools that need a closed local companion product rather than a public-only web portal.
 
@@ -387,11 +399,13 @@ Required standing rules:
 
 - PDF or document-derived textbook units enter as reviewed content packages, not trusted raw extraction.
 - Content packages preserve tenant, series, book, unit, page, activity, language, edition, and version metadata where available.
-- Media/audio assets belong to a catalog with rights, owner, duration, unit links, activity links, and local/offline availability metadata.
-- A music/audio platform is implemented as reusable media playback and playlist infrastructure, not as one-off music pages.
+- Audio and video assets belong to a multimedia catalog with rights, owner, duration, unit links, activity links, and local/offline availability metadata.
+- A music/video platform is implemented as reusable media playback and playlist infrastructure, not as one-off music or video pages.
+- Unit games may optionally use unit music, chants, or video as background/support media, but this must be teacher/tenant configurable and disable-able.
 - Printed QR codes resolve stable identifiers, not local files, temporary localhost ports, or version-specific asset paths.
+- The default QR strategy is hybrid: stable registry, optional tiny hosted redirect, and local app/content-package fallback.
 - Local/closed deployment must document whether it uses an installed app, installed PWA, local classroom server, custom deep link, hosted redirect, or hybrid approach.
 - Pure offline QR behavior must not be promised unless app installation, deep-link behavior, content package availability, and update constraints are explicit.
 - A small hosted redirect layer remains acceptable when true long-term printed QR permanence is needed.
 
-This standard is recorded in `docs/DECISION_REGISTER.md` DR-007 and `docs/adr/0004-permanent-qr-and-local-companion-mode.md`.
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-007, DR-008, `docs/adr/0004-permanent-qr-and-local-companion-mode.md`, and `docs/adr/0005-core-multimedia-package.md`.
