@@ -12,19 +12,20 @@ This document defines the clean route and state contracts for the first Living T
 - Support permanent printed QR identifiers for textbook companion products.
 - Support front-door entry-code/user-code flows when controlled access or teacher reporting is required.
 - Support multimedia routes and events as part of the unit package.
+- Support audio cues for learner-facing vocabulary, sentences, instructions, feedback, and critical controls.
 
 ## Route Map
 
 | Route | Audience | Status | Purpose |
 | --- | --- | --- | --- |
-| `/` | Platform / teacher | Active scaffold | Tenant overview, current unit, progression summary, multimedia package concept, and first sequence preview. |
-| `/teacher` | Teacher | Active scaffold | Teacher Launch Protocol and classroom launch route for the selected unit. |
+| `/` | Platform / teacher | Active scaffold | Tenant overview, current unit, progression summary, multimedia package concept, audio support concept, and first sequence preview. |
+| `/teacher` | Teacher | Active scaffold | Teacher Launch Protocol and student launch path. |
 | `/launch/[code]` | Student | Active interactive slice | Short classroom QR entry route. Student starts with entry practice before next game unlocks. |
 | `/enter/[tenantId]` | Student | Active interactive slice | Tenant-branded front door where students enter an entry code and optional user code before opening the unit package. |
 | `/q/tenant/[tenantId]/series/[seriesId]/book/[bookId]/unit/[unitId]/activity/[activityId]` | Student / teacher | Future contract | Permanent printed textbook QR route that resolves a stable identifier to the current unit, game, media playlist, front door, or teacher preview. |
 | `/media/[playlistId]` | Student / teacher | Future contract | Unit-linked playlist or media activity route resolved from a launch session, permanent QR, or teacher preview. |
-| `/teacher/units/[unitKey]` | Teacher | Future | Unit-specific approval, content review, launch settings, media review, and class assignment. |
-| `/teacher/sessions/[launchCode]` | Teacher | Future | Live classroom monitoring, media engagement, completion, Training Academy recommendations. |
+| `/teacher/units/[unitKey]` | Teacher | Future | Unit-specific approval, content review, launch settings, audio support review, media review, and class assignment. |
+| `/teacher/sessions/[launchCode]` | Teacher | Future | Live classroom monitoring, audio cue engagement, media engagement, completion, Training Academy recommendations. |
 | `/student/progress` | Student | Future | Lightweight return route for unlocked games, media, rewards, and mastery status. |
 | `/training/[code]` | Student | Future | Remedial or adaptive Training Academy route for targeted review. |
 
@@ -63,7 +64,7 @@ Supported use cases:
 - A printed textbook QR sends the student to a tenant front door.
 - A teacher gives a class entry code.
 - A student enters an optional user code so progress can be connected to a report.
-- The same unit package can launch games, multimedia, rewards, and Training Academy review.
+- The same unit package can launch games, multimedia, audio-supported text, rewards, and Training Academy review.
 
 Front-door rules:
 
@@ -82,7 +83,28 @@ Implemented sample behavior:
 - Starting Memory Match emits `game_started`.
 - Media buttons emit media progress events.
 - Optional background media emits enabled/disabled events after Memory Match starts.
+- The sample package includes audio cues for all vocabulary terms, both target sentences, student instructions, and basic feedback.
 - A teacher-visible report preview summarizes game and media events together.
+
+## Audio Support Contract
+
+Audio support is required for learner-facing text.
+
+A unit package must include an audio support plan that maps learner text to audio cues. Audio cue coverage must include:
+
+- every vocabulary term,
+- every target sentence,
+- student-facing instructions,
+- important feedback,
+- and critical prompts or controls required by young learners.
+
+Audio cue rules:
+
+- Audio cues may resolve to recorded files, partner-provided audio, teacher-recorded audio, generated text-to-speech, or reviewed placeholders during early development.
+- Audio support belongs to the content package and parent game engine payload, not to one-off screens.
+- Audio cue support is separate from optional background music, chants, or videos.
+- Background media can be disabled without removing comprehension audio.
+- Future teacher reports may track audio engagement separately from game mastery and playlist/media engagement.
 
 ## Multimedia Route And Event Contract
 
@@ -154,14 +176,15 @@ Required fields:
 3. Teacher shares the short classroom QR route `/launch/[code]`, or a printed textbook QR route resolves a stable identifier to the correct launch target.
 4. If required by the tenant, student enters through `/enter/[tenantId]` with entry code and optional user code.
 5. Student starts the `entryMode`.
-6. Completing entry practice emits `entry_practice_completed`.
-7. System unlocks `recommendedNextModes`.
-8. Student sees earned reward progress from deterministic mastery rewards.
-9. Student starts the next mode shell, emitting `game_started`.
-10. Student may start approved unit media, emitting media progress events.
-11. Future full gameplay emits standard game progress events.
-12. Completion updates Star Dust, mastery status, and earned collection progress.
-13. Teacher reporting can show game progress, media engagement, and Training Academy recommendations.
+6. Student can hear vocabulary, target sentences, instructions, and feedback through audio cues.
+7. Completing entry practice emits `entry_practice_completed`.
+8. System unlocks `recommendedNextModes`.
+9. Student sees earned reward progress from deterministic mastery rewards.
+10. Student starts the next mode shell, emitting `game_started`.
+11. Student may start approved unit media, emitting media progress events.
+12. Future full gameplay emits standard game progress events.
+13. Completion updates Star Dust, mastery status, and earned collection progress.
+14. Teacher reporting can show game progress, media engagement, audio cue engagement when tracked, and Training Academy recommendations.
 
 ## Current Interactive Slice
 
@@ -169,6 +192,7 @@ Implemented behavior:
 
 - `/launch/[code]` receives a sample `LaunchSession` and `StudentProgressionState`.
 - `/enter/ministar` receives a sample front-door launch session and multimedia content package.
+- The sample content package includes audio cue metadata for vocabulary terms, target sentences, student instructions, and basic feedback.
 - The student can open the front-door unit with sample entry and user codes.
 - The student can mark flashcard entry practice complete.
 - The local adapter records an `entry_practice_completed` event.
@@ -184,6 +208,7 @@ Implemented behavior:
 
 Intentional limits:
 
+- Shared listen/replay UI for audio cues is not implemented yet.
 - Memory Match gameplay is not implemented in this slice.
 - Progress is local component state only.
 - No database persistence is introduced yet.
@@ -201,6 +226,7 @@ Intentional limits:
 - Teacher approval remains required before AI-generated content is assigned to students.
 - Route contracts must stay tenant-aware and avoid MiniStar-only assumptions.
 - Student progression must use earned collection mechanics and avoid pressure-based reward loops.
+- Learner-facing text must have audio support before a unit or game is student-ready.
 - Multimedia must be controllable and must not be required for language-game completion.
 
 ## First Vertical Slice
@@ -211,6 +237,6 @@ Teacher launch protocol -> QR route -> flashcard entry practice -> next game unl
 
 The current front-door expansion proves:
 
-Front-door route -> entry-code/user-code -> sample multimedia package -> media event -> optional background media event -> teacher-visible progress summary concept.
+Front-door route -> entry-code/user-code -> sample multimedia package -> audio support plan -> media event -> optional background media event -> teacher-visible progress summary concept.
 
 Only after that works should we add richer animation, mascot evolution, premium assets, or a full collection room.
