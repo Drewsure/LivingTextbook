@@ -74,3 +74,42 @@ Non-goals:
 - Premium mascot animation.
 - Full Memory Match gameplay.
 - Collection room rendering.
+
+## FR-003: Public Repository Research Before Major Reinvention
+
+Status: Future research checkpoint
+
+Requirement: Before building major game engines, AI authoring subsystems, classroom monitoring, reward catalogs, avatar systems, PWA offline behavior, or content pipelines from scratch, conduct a deliberate public repository and best-practice research pass.
+
+Purpose:
+
+- Avoid reinventing solved problems.
+- Identify proven patterns from high-quality open-source education, game, PWA, classroom, accessibility, and AI-content tools.
+- Find libraries or architecture ideas that can raise the product toward AAA quality without creating unnecessary build cost.
+
+Research standards:
+
+- Check license compatibility before any adoption.
+- Prefer actively maintained repositories with clear tests, docs, releases, and accessible issue history.
+- Prefer architecture ideas and reusable libraries over copy-pasting large codebases.
+- Record sources, tradeoffs, and rejection reasons in a research note or ADR.
+- Evaluate white-label impact, cost impact, accessibility, mobile/PWA fit, and vendor lock-in.
+- Do not promote external code into `apps/web`, `apps/ai-service`, or shared packages without an integration plan.
+
+Suggested future research areas:
+
+- React/Next PWA learning platforms.
+- Phaser and web arcade learning engines.
+- Open-source flashcard, memory, matching, quiz, and spelling games.
+- Classroom QR launch/session patterns.
+- Reward catalogs, avatar progression, virtual pet, and room/base collection systems.
+- AI content validation and JSON schema verification tools.
+- Offline-first student progress and sync patterns.
+- Accessibility patterns for young learners and multilingual classrooms.
+
+Revisit when:
+
+- The first vertical slice is locally verified.
+- A parent game engine is about to be built.
+- Persistence/auth decisions are about to be made.
+- A large custom UI, reward, avatar, or content pipeline is being proposed.
