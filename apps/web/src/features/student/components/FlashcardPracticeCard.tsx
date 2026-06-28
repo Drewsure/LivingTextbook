@@ -35,13 +35,24 @@ export function FlashcardPracticeCard({
   audioCues = [],
   onComplete,
 }: FlashcardPracticeCardProps) {
+  const instructionCue = findAudioCueForGame(audioCues, "instruction", launchSession.entryMode);
+  const feedbackCue = findAudioCueForGame(audioCues, "feedback", launchSession.entryMode);
+  const entryMessage = entryComplete
+    ? feedbackCue?.text ?? `${formatMode(launchSession.entryMode)} is complete. ${nextMode ? `${formatMode(nextMode)} is ready.` : "The next activity is ready."}`
+    : instructionCue?.text ?? "Tap each word to hear it. Then repeat.";
+
   return (
     <Card>
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <h3 className="text-lg font-bold">Flashcard Practice</h3>
           <p className="mt-1 text-sm text-[var(--tenant-muted)]">
-            Practice all {unit.pedagogicalPayload.vocabularyTerms.length} words to open the next game.
+            <AudioCueText
+              text={instructionCue?.text ?? `Practice all ${unit.pedagogicalPayload.vocabularyTerms.length} words to open the next game.`}
+              language={instructionCue?.language ?? "en"}
+              label="Tap the flashcard instruction to hear it"
+              className="text-sm"
+            />
           </p>
         </div>
         <StatusPill label={formatLabel(progression.masteryStatus)} tone={entryComplete ? "success" : "neutral"} />
@@ -88,9 +99,12 @@ export function FlashcardPracticeCard({
         <div>
           <p className="text-sm font-semibold">Entry practice</p>
           <p className="mt-1 text-sm text-[var(--tenant-muted)]">
-            {entryComplete
-              ? `${formatMode(launchSession.entryMode)} is complete. ${nextMode ? `${formatMode(nextMode)} is ready.` : "The next activity is ready."}`
-              : "Finish this starter practice to open the next activity."}
+            <AudioCueText
+              text={entryMessage}
+              language={(entryComplete ? feedbackCue?.language : instructionCue?.language) ?? "en"}
+              label="Tap the entry practice message to hear it"
+              className="text-sm"
+            />
           </p>
           {lastEarnedDust > 0 && (
             <p className="mt-2 text-sm font-semibold text-[var(--tenant-text)]">
@@ -108,4 +122,8 @@ export function FlashcardPracticeCard({
 
 function findAudioCue(audioCues: AudioCue[], kind: AudioCue["kind"], text: string): AudioCue | undefined {
   return audioCues.find((cue) => cue.kind === kind && cue.text.trim().toLowerCase() === text.trim().toLowerCase());
+}
+
+function findAudioCueForGame(audioCues: AudioCue[], kind: AudioCue["kind"], gameMode: GameModeId): AudioCue | undefined {
+  return audioCues.find((cue) => cue.kind === kind && cue.gameMode === gameMode);
 }
