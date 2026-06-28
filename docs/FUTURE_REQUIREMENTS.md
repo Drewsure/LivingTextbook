@@ -185,3 +185,53 @@ References:
 - `docs/adr/0004-permanent-qr-and-local-companion-mode.md`
 - `docs/adr/0005-core-multimedia-package.md`
 - `docs/DECISION_REGISTER.md` DR-007 and DR-008
+
+## FR-005: Audio-First Learner Support Across All Games
+
+Status: Active requirement; content model contract and sample cue plan implemented on `legacy-source-import`; shared listen/replay UI, real playback, and game-engine integration remain future implementation work.
+
+Requirement: Any learner-facing text in student flows must be supported by audio. The platform must not assume young children or English learners can read independently.
+
+Implemented sample boundary:
+
+- `packages/content-model/src/index.ts` defines `AudioCue` and `UnitAudioSupportPlan`.
+- Content package validation now requires each unit to include an audio support plan.
+- The sample package includes audio cues for all 8 vocabulary terms, both target sentences, flashcard instructions, Memory Match instructions, and basic feedback.
+- The dashboard package panel shows audio cue count and support-plan status.
+- DR-009 and ADR-0006 record audio-first learner support as an accepted platform decision.
+
+Required capabilities:
+
+- Shared listen/replay UI primitive for learner-facing text.
+- Flashcard cards that play term audio and sentence audio.
+- Memory Match and future parent engines that accept audio cue ids in their mode payloads.
+- Text-to-speech provider abstraction for cost-efficient fallback.
+- Recorded/partner/teacher audio replacement path without changing game components.
+- Optional audio telemetry for teacher reports when useful.
+- Offline/local bundle resolution for closed textbook companion deployments.
+- Teacher/verifier surfaces that flag missing learner audio before assignment.
+
+Acceptance path:
+
+1. Load a reviewed unit package with an audio support plan.
+2. Render flashcards with listen/replay controls for every term.
+3. Render sentence practice with listen/replay controls for both target sentences.
+4. Render instructions and feedback with audio support.
+5. Start Memory Match and confirm card prompts can be heard as well as read.
+6. Confirm optional background media can be disabled without removing comprehension audio.
+7. Confirm package validation fails when a unit lacks an audio support plan.
+
+Revisit when:
+
+- The next game engine or mode shell is built.
+- The first shared audio playback UI is introduced.
+- Real multimedia playback is introduced.
+- Offline/local partner packaging is designed.
+- AI authoring payloads begin generating audio cue manifests.
+
+References:
+
+- `docs/PRINCIPLES_AND_STANDARDS.md`
+- `docs/DECISION_REGISTER.md` DR-009
+- `docs/adr/0006-audio-first-learner-support.md`
+- `docs/SAMPLE_MULTIMEDIA_PACKAGE.md`
