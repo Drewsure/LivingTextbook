@@ -10,6 +10,7 @@ Visible concept panels:
 
 - `apps/web/src/features/multimedia/MultimediaPackagePanel.tsx`
 - `apps/web/src/features/multimedia/UnitMediaEngagementPanel.tsx`
+- `apps/web/src/features/multimedia/UnitMediaPlaybackCard.tsx`
 - `apps/web/src/features/access/FrontDoorEntryFlow.tsx`
 - `apps/web/src/features/access/FrontDoorTeacherReportPreview.tsx`
 - `apps/web/src/features/teacher/TeacherProgressSummaryConcept.tsx`
@@ -69,7 +70,7 @@ The sample front-door route lets a student:
 3. Open the reviewed unit package.
 4. Complete flashcard entry practice.
 5. Unlock, start, and complete Memory Match.
-6. Start and complete sample media assets.
+6. Play or manually start/complete sample media assets through the playback shell.
 7. Enable or disable optional background media after Memory Match starts.
 8. See the teacher-visible report preview update from the same local event stream.
 
@@ -100,7 +101,8 @@ It supports:
 - pair matching,
 - attempt counts,
 - completion state,
-- additional Star Dust on completion,
+- additional Star Dust on completion through the shared scoring profile,
+- item-level `round_shown`, `answer_submitted`, `answer_result`, and `mastery_updated` events,
 - and standard `game_started` / `game_completed` events.
 
 This is still a structural implementation, not premium game polish. Art, animation, richer feedback, and mascot/collection celebration should come after local build verification.
@@ -108,6 +110,8 @@ This is still a structural implementation, not premium game polish. Art, animati
 ## Multimedia Concept
 
 The sample includes an audio chant and lesson video as package assets. It also includes a multimedia plan where the chant may be used as optional background/support media for Memory Match.
+
+`UnitMediaPlaybackCard` renders native browser audio/video controls for package media assets when `sourceUri` or `localBundlePath` is available. Manual start/complete controls remain available so the reporting contract can be tested even when demo media files are not yet present in the local bundle.
 
 Background media is off by default and requires teacher enablement.
 
@@ -118,6 +122,7 @@ The sample teacher report separates:
 - launch opened
 - flashcard completion
 - Memory Match starts/completions
+- Memory Match card reveals, answer submissions, answer results, and mastery updates
 - audio cue engagement for learner-facing text, when implemented as telemetry
 - media starts/completions
 - optional background media use
