@@ -22,6 +22,10 @@ Every unit must define an audio support plan for learner-facing text. At minimum
 - important feedback,
 - and critical controls or prompts required to complete the activity.
 
+The preferred default interaction is tap/click-to-speak: the child taps the learner-facing text itself to hear it. Separate listen buttons remain acceptable when text-as-control would be unclear, crowded, or inaccessible.
+
+Autoplay is allowed only as a controlled opt-in behavior for specific cases such as first-card reveal, listening drills, accessibility settings, or teacher-led presentation mode. Autoplay must be disable-able, must not overlap competing audio, and must respect classroom noise, browser permission, and accessibility constraints.
+
 Every parent game engine must accept audio cue references in its mode payload. Audio cues may resolve to recorded files, partner-provided audio, teacher-recorded audio, generated text-to-speech, or reviewed placeholders during early development.
 
 Optional background music is separate from comprehension audio. Background media can be disabled for accessibility, classroom noise, or bandwidth reasons. Comprehension audio for learner-facing text cannot be silently omitted from a student-ready unit.
@@ -34,12 +38,14 @@ Positive consequences:
 - The platform becomes stronger for white-label textbook partners because audio can be attached to every visible learning item, not only to separate music/video pages.
 - Text-to-speech can provide a cost-efficient fallback while recorded tenant audio, teacher audio, or partner audio is developed.
 - Game engines become more reusable because audio support is a standard payload capability rather than a per-game add-on.
+- Tap-to-speak keeps audio under learner control and avoids noisy accidental playback in classrooms.
 
 Tradeoffs:
 
 - Content packages require more metadata.
-- Game components must render listen/replay affordances alongside text.
+- Game components must render text as accessible audio controls or provide equivalent listen/replay controls.
 - Verification must check audio cue coverage before student assignment.
+- Autoplay settings require careful product control because they can cause overlapping audio, browser restrictions, or classroom noise issues.
 - Real audio playback and offline bundling still need implementation after the contract is proven.
 
 ## Implementation Notes
@@ -50,13 +56,16 @@ The initial implementation adds:
 - Content package validation requiring each unit to include an audio support plan.
 - Sample Unit 1 audio cues for 8 vocabulary terms, 2 target sentences, basic instructions, and feedback.
 - Dashboard visibility for audio cue counts and support-plan status.
+- `AudioCueText`, a reusable text-as-audio control using browser speech synthesis as the first cost-efficient fallback.
+- Flashcard terms and target sentences that speak when the learner taps the text itself.
 
 Future implementation should add:
 
-- shared listen/replay UI primitives,
+- shared listen/replay UI primitives for game prompts, instructions, feedback, and controls,
 - text-to-speech provider abstraction,
 - recorded audio asset upload/linking,
 - offline/local bundle resolution,
+- controlled autoplay settings for appropriate modes,
 - audio event telemetry when useful,
 - teacher review surfaces for missing or low-quality audio,
 - and game-engine payload mapping for cue-level playback.
