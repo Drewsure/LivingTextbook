@@ -16,7 +16,7 @@ This document defines the clean route and state contracts for the first Living T
 | --- | --- | --- | --- |
 | `/` | Platform / teacher | Active scaffold | Tenant overview, current unit, progression summary, first sequence preview. |
 | `/teacher` | Teacher | Active scaffold | Teacher Launch Protocol and classroom launch route for the selected unit. |
-| `/launch/[code]` | Student | Active scaffold | QR entry route. Student starts with entry practice before next game unlocks. |
+| `/launch/[code]` | Student | Active interactive slice | QR entry route. Student starts with entry practice before next game unlocks. |
 | `/teacher/units/[unitKey]` | Teacher | Future | Unit-specific approval, content review, launch settings, and class assignment. |
 | `/teacher/sessions/[launchCode]` | Teacher | Future | Live classroom monitoring, completion, Training Academy recommendations. |
 | `/student/progress` | Student | Future | Lightweight return route for unlocked games, rewards, and mastery status. |
@@ -66,6 +66,25 @@ Required fields:
 7. Student plays the next mode and emits standard game progress events.
 8. Completion updates Star Dust, mastery status, and earned collection progress.
 9. If mastery is low, teacher or system recommends Training Academy.
+
+## Current Interactive Slice
+
+Implemented behavior:
+
+- `/launch/[code]` receives a sample `LaunchSession` and `StudentProgressionState`.
+- The student can mark flashcard entry practice complete.
+- The local adapter records an `entry_practice_completed` event.
+- The local adapter records `game_unlocked` events for recommended next modes.
+- Memory Match is unlocked as a progression state after flashcards.
+- The student-facing progress summary updates with earned Star Dust and session update count.
+
+Intentional limits:
+
+- Memory Match gameplay is not implemented in this slice.
+- Progress is local component state only.
+- No database persistence is introduced yet.
+- No auth or classroom roster model is introduced yet.
+- No premium visual polish is introduced yet.
 
 ## Structural Guardrails
 
