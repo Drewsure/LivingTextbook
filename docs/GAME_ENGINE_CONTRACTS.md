@@ -268,10 +268,10 @@ Current first playable example:
 - State: `pairingEngineState.ts`
 - Component: `PairingMemoryMatchGame.tsx`
 - Input: `UnitPayload`, `LaunchSession`, `StudentProgressionState`, optional `AudioCue[]`
-- Events: `game_started` from the route, `game_completed` from completion helper
-- Current known gap: item-level `round_shown`, `answer_submitted`, and `answer_result` events are not yet emitted in the local slice.
+- Events: `game_started` from the route; `round_shown`, `answer_submitted`, `answer_result`, and `mastery_updated` from the game; `game_completed` from the completion helper
+- Current known gap: events are local-state only and are not persisted to a backend yet.
 
-This example is acceptable as a first structural slice, but future production-ready games must expand telemetry to the full event contract.
+This example is acceptable as the first structural playable slice. Future production-ready games can add richer item identifiers, analytics metadata, and persistence without changing the parent-engine contract.
 
 ## Acceptance Checklist
 
