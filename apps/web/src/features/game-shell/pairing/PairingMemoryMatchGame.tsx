@@ -9,7 +9,7 @@ import type {
   StudentProgressionState,
   UnitPayload,
 } from "@living-textbook/content-model";
-import { playAudioCueText } from "@/features/audio/AudioCueButton";
+import { AudioCueText, playAudioCueText } from "@/features/audio/AudioCueButton";
 import {
   completeGameMode,
   type GameModeCompletionResult,
@@ -50,6 +50,8 @@ export function PairingMemoryMatchGame({
   const mode = getGameModeCatalogItem(gameMode);
   const progress = getPairingProgressSummary(engineState);
   const completedAlready = progression.completedGameModes.includes(gameMode);
+  const instructionCue = findAudioCueForGame(audioCues, "instruction", gameMode);
+  const feedbackCue = findAudioCueForGame(audioCues, "feedback", gameMode);
 
   function handleCardSelect(card: PairingCard) {
     if (card.status === "matched" || engineState.completed) {
@@ -94,13 +96,26 @@ export function PairingMemoryMatchGame({
     }
   }
 
+  const feedbackText = progress.completed
+    ? "Memory Match complete. Great work."
+    : lastResult === "matched"
+      ? "Match found. Keep going."
+      : lastResult === "mismatched"
+        ? feedbackCue?.text ?? "Not a match. Try another pair."
+        : instructionCue?.text ?? "Tap a card to hear it, then find its matching card.";
+
   return (
     <Card>
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <h3 className="text-lg font-bold">{mode?.label ?? formatMode(gameMode)}</h3>
           <p className="mt-1 text-sm text-[var(--tenant-muted)]">
-            Tap a card to hear it, then find its matching card. Matched cards stay open.
+            <AudioCueText
+              text={instructionCue?.text ?? "Tap a card to hear it, then find its matching card. Matched cards stay open."}
+              language={instructionCue?.language ?? "en"}
+              label="Tap the Memory Match instruction to hear it"
+              className="text-sm"
+            />
           </p>
         </div>
         <StatusPill label={progress.completed || completedAlready ? "Complete" : "Playing"} tone={progress.completed || completedAlready ? "success" : "neutral"} />
@@ -143,13 +158,12 @@ export function PairingMemoryMatchGame({
       </div>
 
       <p className="mt-4 text-sm font-semibold text-[var(--tenant-text)]">
-        {progress.completed
-          ? "Memory Match complete. Great work."
-          : lastResult === "matched"
-            ? "Match found. Keep going."
-            : lastResult === "mismatched"
-              ? "Not a match. Try another pair."
-              : "Tap a card to start."}
+        <AudioCueText
+          text={feedbackText}
+          language={(lastResult === "mismatched" ? feedbackCue?.language : instructionCue?.language) ?? "en"}
+          label="Tap the Memory Match message to hear it"
+          className="text-sm font-semibold"
+        />
       </p>
     </Card>
   );
@@ -171,6 +185,10 @@ function stableSortKey(value: string): number {
 
 function findAudioCue(audioCues: AudioCue[], text: string): AudioCue | undefined {
   return audioCues.find((cue) => cue.kind === "term" && cue.text.trim().toLowerCase() === text.trim().toLowerCase());
+}
+
+function findAudioCueForGame(audioCues: AudioCue[], kind: AudioCue["kind"], gameMode: GameModeId): AudioCue | undefined {
+  return audioCues.find((cue) => cue.kind === kind && cue.gameMode === gameMode);
 }
 
 function calculateMemoryMatchDust(attempts: number, totalPairs: number): number {
