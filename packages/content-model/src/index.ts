@@ -7,6 +7,7 @@ export type TextbookUnitId = string;
 export type ActivityId = string;
 export type ContentPackageId = string;
 export type MediaAssetId = string;
+export type AudioCueId = string;
 export type PermanentQrId = string;
 
 export type GameFamily =
@@ -57,6 +58,8 @@ export type MediaKind = "audio" | "video";
 export type MediaRightsStatus = "owned" | "licensed" | "partner-provided" | "unknown";
 export type MediaUsageRole = "primary" | "background" | "prompt" | "review" | "celebration" | "teacher-reference";
 export type MediaPlaybackContext = "unit-home" | "game-background" | "teacher-preview" | "student-practice" | "completion-review";
+export type AudioCueKind = "term" | "sentence" | "instruction" | "feedback" | "ui-label" | "story-line";
+export type AudioCueSource = "recorded" | "text-to-speech" | "teacher-recorded" | "partner-provided" | "placeholder";
 export type QrTargetType =
   | "front-door"
   | "unit-launch"
@@ -149,6 +152,33 @@ export interface MediaAsset {
   textbookReference?: TextbookReference;
 }
 
+export interface AudioCue {
+  audioCueId: AudioCueId;
+  tenantId: TenantId;
+  kind: AudioCueKind;
+  text: string;
+  language: string;
+  source: AudioCueSource;
+  mediaAssetId?: MediaAssetId;
+  sourceUri?: string;
+  localBundlePath?: string;
+  transcript?: string;
+  unitKey?: string;
+  gameMode?: GameModeId;
+  textbookReference?: TextbookReference;
+}
+
+export interface UnitAudioSupportPlan {
+  unitKey: string;
+  required: boolean;
+  vocabularyAudioCueIds: AudioCueId[];
+  sentenceAudioCueIds: AudioCueId[];
+  instructionAudioCueIds?: AudioCueId[];
+  feedbackAudioCueIds?: AudioCueId[];
+  gameModeAudioCueIds?: Partial<Record<GameModeId, AudioCueId[]>>;
+  fallbackVoice?: string;
+}
+
 export interface UnitMediaPlaylist {
   playlistId: string;
   tenantId: TenantId;
@@ -174,6 +204,8 @@ export interface ContentPackage {
   meta: ContentPackageMeta;
   units: UnitPayload[];
   mediaAssets?: MediaAsset[];
+  audioCues?: AudioCue[];
+  audioSupportPlans?: UnitAudioSupportPlan[];
   playlists?: UnitMediaPlaylist[];
   multimediaPlans?: UnitMultimediaPlan[];
 }
@@ -274,6 +306,16 @@ function encodePathPart(value: string): string {
 
 function isVideoAsset(type: MediaAssetType): boolean {
   return type === "lesson-video" || type === "music-video" || type === "karaoke-video" || type === "animation" || type === "other-video";
+}
+
+function collectAudioCueIds(plan: UnitAudioSupportPlan): AudioCueId[] {
+  return [
+    ...plan.vocabularyAudioCueIds,
+    ...plan.sentenceAudioCueIds,
+    ...(plan.instructionAudioCueIds ?? []),
+    ...(plan.feedbackAudioCueIds ?? []),
+    ...Object.values(plan.gameModeAudioCueIds ?? {}).flat(),
+  ];
 }
 
 export function getUnitKey(meta: Pick<UnitMeta, "tenantId" | "curriculumId" | "level" | "unit">): string {
@@ -394,6 +436,7 @@ export function validateUnitPayload(payload: UnitPayload): string[] {
 
 export function validateContentPackage(contentPackage: ContentPackage): string[] {
   const errors: string[] = [];
+  const audioCueIds = new Set((contentPackage.audioCues ?? []).map((cue) => cue.audioCueId));
 
   if (contentPackage.units.length === 0) {
     errors.push("Content package must include at least one unit payload.");
@@ -401,6 +444,30 @@ export function validateContentPackage(contentPackage: ContentPackage): string[]
 
   for (const unit of contentPackage.units) {
     errors.push(...validateUnitPayload(unit));
+
+    const unitKey = getUnitKey(unit.unitMeta);
+    const audioPlan = contentPackage.audioSupportPlans?.find((plan) => plan.unitKey === unitKey);
+
+    if (!audioPlan) {
+      errors.push(`Unit ${unitKey} must include an audio support plan for learner-facing text.`);
+      continue;
+    }
+
+    if (audioPlan.required) {
+      if (audioPlan.vocabularyAudioCueIds.length < unit.pedagogicalPayload.vocabularyTerms.length) {
+        errors.push(`Audio support plan for ${unitKey} must include a cue for every vocabulary term.`);
+      }
+
+      if (audioPlan.sentenceAudioCueIds.length < unit.pedagogicalPayload.targetSentences.length) {
+        errors.push(`Audio support plan for ${unitKey} must include a cue for every target sentence.`);
+      }
+    }
+
+    for (const audioCueId of collectAudioCueIds(audioPlan)) {
+      if (!audioCueIds.has(audioCueId)) {
+        errors.push(`Audio support plan for ${unitKey} references missing audio cue ${audioCueId}.`);
+      }
+    }
   }
 
   if (contentPackage.meta.sourceType === "pdf" && !contentPackage.meta.sourceDocumentName) {
@@ -418,6 +485,16 @@ export function validateContentPackage(contentPackage: ContentPackage): string[]
 
     if (mediaAsset.kind === "audio" && isVideoAsset(mediaAsset.type)) {
       errors.push(`Audio media asset ${mediaAsset.mediaAssetId} must not use a video asset type.`);
+    }
+  }
+
+  for (const audioCue of contentPackage.audioCues ?? []) {
+    if (audioCue.text.trim().length === 0) {
+      errors.push(`Audio cue ${audioCue.audioCueId} must include the learner-facing text it supports.`);
+    }
+
+    if (audioCue.language.trim().length === 0) {
+      errors.push(`Audio cue ${audioCue.audioCueId} must include a language code.`);
     }
   }
 
