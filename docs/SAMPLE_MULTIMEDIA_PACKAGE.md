@@ -29,6 +29,9 @@ The unit package includes:
 - 1 Level 1 greetings unit
 - flashcard entry practice
 - Memory Match as the next unlocked game
+- 8 vocabulary audio cues
+- 2 target sentence audio cues
+- instruction and feedback audio cues
 - 1 audio asset
 - 1 video asset
 - 1 playlist
@@ -69,6 +72,22 @@ The sample front-door route lets a student:
 7. Enable or disable optional background media after Memory Match starts.
 8. See the teacher-visible report preview update from the same local event stream.
 
+## Audio Support Concept
+
+Audio support for learner-facing text is mandatory, not decorative.
+
+The sample includes cue-level audio support for:
+
+- every vocabulary term,
+- both target sentences,
+- flashcard instructions,
+- Memory Match instructions,
+- and basic success/retry feedback.
+
+The current sample uses text-to-speech cue records as a cost-efficient development fallback. Future tenant builds may replace those cues with recorded files, teacher-recorded audio, partner-owned audio, or local/offline bundled audio without changing the game payload contract.
+
+Audio cues are separate from the chant/music asset. The chant can enrich the unit or run as optional background media. The audio cues are the comprehension layer that lets a child hear the words and instructions they need to complete the activity.
+
 ## Multimedia Concept
 
 The sample includes an audio chant and lesson video as package assets. It also includes a multimedia plan where the chant may be used as optional background/support media for Memory Match.
@@ -82,6 +101,7 @@ The sample teacher report separates:
 - launch opened
 - flashcard completion
 - Memory Match starts
+- audio cue engagement for learner-facing text, when implemented as telemetry
 - media starts/completions
 - optional background media use
 - average Star Dust
