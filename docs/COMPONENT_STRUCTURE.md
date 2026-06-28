@@ -12,7 +12,7 @@ This document records the first clean structure for the white-label Living Textb
 
 - `apps/web/src/app` contains routes only.
 - `apps/web/src/components` contains app-level reusable layout.
-- `apps/web/src/features` contains domain features: teacher launch, student onboarding, game shell, progression, and tenant config.
+- `apps/web/src/features` contains domain features: teacher launch, student onboarding, game shell, progression, rewards, and tenant config.
 - `apps/web/src/data` contains static seed data until live persistence is chosen.
 
 ## Tenant Styling Boundary
@@ -25,10 +25,15 @@ Tenant identity enters the app through `TenantConfig`. The app shell converts `T
 
 - `StudentProgressHeader` shows launch context and current progression facts.
 - `FlashcardPracticeCard` renders entry practice and triggers completion.
+- `RewardPreviewCard` shows deterministic earned collection progress from Star Dust.
 - `NextGameUnlockCard` shows the next recommended mode and lock/unlock state.
 - `SessionEventLog` shows emitted local progress events.
 
 Local progression logic belongs in `apps/web/src/features/progression/localProgressionAdapter.ts` until persistence is intentionally introduced.
+
+## Reward Structure
+
+`apps/web/src/features/rewards/rewardCatalog.ts` is the first deterministic reward catalog boundary. Rewards should remain earned, transparent, and tenant-configurable. Random or pressure-based reward mechanics are not part of the foundation slice.
 
 ## Game Shell Structure
 
@@ -50,3 +55,4 @@ Local progression logic belongs in `apps/web/src/features/progression/localProgr
 - Premium polish, animation, mascot evolution, and asset-heavy collection views come after the clean vertical slice works.
 - Client components should be thin orchestrators where possible; display should live in named domain components.
 - New game modes should begin as catalog entries and parent-engine configurations, not one-off screens.
+- Rewards should begin as deterministic catalog entries and mastery thresholds, not random reward systems.
