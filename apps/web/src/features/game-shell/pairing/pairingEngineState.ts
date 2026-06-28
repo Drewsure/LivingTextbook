@@ -26,6 +26,14 @@ export interface PairingSelectionOutcome {
   pairId?: string;
 }
 
+export interface PairingProgressSummary {
+  totalPairs: number;
+  matchedPairs: number;
+  remainingPairs: number;
+  attempts: number;
+  completed: boolean;
+}
+
 export function createPairingEngineState(items: PairingItem[]): PairingEngineState {
   const cards = items.flatMap((item) => [
     {
@@ -50,6 +58,19 @@ export function createPairingEngineState(items: PairingItem[]): PairingEngineSta
     matchedPairIds: [],
     attempts: 0,
     completed: cards.length === 0,
+  };
+}
+
+export function getPairingProgressSummary(state: PairingEngineState): PairingProgressSummary {
+  const totalPairs = state.cards.length / 2;
+  const matchedPairs = state.matchedPairIds.length;
+
+  return {
+    totalPairs,
+    matchedPairs,
+    remainingPairs: Math.max(totalPairs - matchedPairs, 0),
+    attempts: state.attempts,
+    completed: state.completed,
   };
 }
 
