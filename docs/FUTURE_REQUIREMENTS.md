@@ -52,13 +52,15 @@ Acceptance path:
 4. The app records an `entry_practice_completed` progress event.
 5. The next recommended game, currently Memory Match, unlocks.
 6. The displayed progression state updates with earned Star Dust.
+7. Student starts the unlocked Memory Match shell.
+8. The app records a standard `game_started` event.
 
 Implemented boundary:
 
 - Progress is held in local component state.
 - Star Dust is calculated through the shared content model.
 - Completion and unlock events are produced by an app-level local progression adapter.
-- Memory Match unlocks as progression state, not as full gameplay yet.
+- Memory Match unlocks and starts as progression state, not as full gameplay yet.
 
 Remaining verification:
 
