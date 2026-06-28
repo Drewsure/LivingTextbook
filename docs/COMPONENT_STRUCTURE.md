@@ -33,23 +33,34 @@ Local progression logic belongs in `apps/web/src/features/progression/localProgr
 
 ## Front-Door Access Structure
 
-Future front-door access should live in `apps/web/src/features/access` or another clearly named access feature, not inside game or media components.
+Front-door access lives in `apps/web/src/features/access`, not inside game or media components.
 
-Expected responsibilities:
+Current sample components:
+
+- `FrontDoorEntryFlow` renders the sample tenant front door, entry-code/user-code form, and unit package flow.
+- `FrontDoorTeacherReportPreview` summarizes the same local event stream for teacher visibility.
+
+Responsibilities:
 
 - Render tenant-branded entry code/user code forms.
 - Resolve front-door access into a launch session.
 - Keep printed QR identifiers stable and non-private.
 - Preserve teacher reporting links without forcing heavy student accounts too early.
+- Keep route state local until persistence is intentionally introduced.
 
 ## Multimedia Structure
 
-Future multimedia work should live in `apps/web/src/features/multimedia`, not inside individual games.
+Multimedia work lives in `apps/web/src/features/multimedia`, not inside individual games.
 
-Expected responsibilities:
+Current sample components:
+
+- `MultimediaPackagePanel` renders the dashboard package concept.
+- `UnitMediaEngagementPanel` renders unit playlist/media event controls for the active front-door slice.
+
+Responsibilities:
 
 - Render unit playlists and media cards.
-- Render audio/video player controls.
+- Render audio/video player controls when real playback is introduced.
 - Emit media started, paused, completed, background enabled, and background disabled events.
 - Keep media engagement separate from game mastery scoring.
 - Coordinate optional background/support media for games through a small adapter, not direct game-player coupling.
@@ -76,7 +87,7 @@ Games may accept optional background/support media through a standard multimedia
 
 ## Reporting Structure
 
-Future teacher reporting should live in a reporting feature boundary and consume standard progress/media events.
+Teacher reporting remains a future persistence/backend concern, but the active front-door slice now previews report shape through local events.
 
 Expected reporting streams:
 
