@@ -10,8 +10,10 @@ interface AppShellProps {
 function getTenantStyle(tenant: TenantConfig): CSSProperties {
   return {
     "--tenant-primary": tenant.brand.primary,
+    "--tenant-primary-text": tenant.brand.primaryText,
     "--tenant-primary-soft": tenant.brand.primarySoft,
     "--tenant-accent": tenant.brand.accent,
+    "--tenant-accent-text": tenant.brand.accentText,
     "--tenant-accent-soft": tenant.brand.accentSoft,
     "--tenant-background": tenant.brand.background,
     "--tenant-surface": tenant.brand.surface,
