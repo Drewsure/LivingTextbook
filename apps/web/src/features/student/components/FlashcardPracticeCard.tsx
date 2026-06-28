@@ -8,7 +8,7 @@ import type {
   StudentProgressionState,
   UnitPayload,
 } from "@living-textbook/content-model";
-import { AudioCueButton } from "@/features/audio/AudioCueButton";
+import { AudioCueText } from "@/features/audio/AudioCueButton";
 import { formatLabel, formatMode } from "../studentLabels";
 import type { TenantConfig } from "@/features/tenant/types";
 
@@ -53,10 +53,14 @@ export function FlashcardPracticeCard({
           return (
             <div
               key={term}
-              className="grid min-h-24 gap-3 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4 text-center"
+              className="flex min-h-24 items-center justify-center rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4 text-center"
             >
-              <span className="self-end text-lg font-bold">{term}</span>
-              <AudioCueButton text={audioCue?.text ?? term} language={audioCue?.language ?? "en"} label={`Listen to ${term}`} compact />
+              <AudioCueText
+                text={audioCue?.text ?? term}
+                language={audioCue?.language ?? "en"}
+                label={`Tap ${term} to hear it`}
+                className="text-lg font-bold"
+              />
             </div>
           );
         })}
@@ -68,9 +72,13 @@ export function FlashcardPracticeCard({
             const audioCue = findAudioCue(audioCues, "sentence", sentence);
 
             return (
-              <div key={sentence} className="flex flex-wrap items-center justify-between gap-3 rounded-lg bg-[var(--tenant-primary-soft)] p-3">
-                <span className="text-sm font-semibold text-[var(--tenant-text)]">{sentence}</span>
-                <AudioCueButton text={audioCue?.text ?? sentence} language={audioCue?.language ?? "en"} label={`Listen to ${sentence}`} compact />
+              <div key={sentence} className="rounded-lg bg-[var(--tenant-primary-soft)] p-3">
+                <AudioCueText
+                  text={audioCue?.text ?? sentence}
+                  language={audioCue?.language ?? "en"}
+                  label={`Tap the sentence to hear ${sentence}`}
+                  className="text-sm font-semibold"
+                />
               </div>
             );
           })}
