@@ -1,11 +1,20 @@
 import { Card, StatusPill } from "@living-textbook/ui";
 import { validateUnitPayload } from "@living-textbook/content-model";
 import type { UnitPayload } from "@living-textbook/content-model";
+import {
+  sampleFrontDoorPath,
+  sampleMultimediaContentPackage,
+  samplePackageValidationErrors,
+  samplePermanentQrPath,
+  sampleTeacherProgressSummaryConcept,
+} from "@/data/sampleMultimediaPackage";
 import { sampleLaunchSession } from "@/data/sampleLaunchSession";
 import type { TenantConfig } from "@/features/tenant/types";
 import { GameSequence } from "@/features/game-shell/GameSequence";
+import { MultimediaPackagePanel } from "@/features/multimedia/MultimediaPackagePanel";
 import { ProgressionSummary } from "@/features/progression/ProgressionSummary";
 import { TeacherLaunchPanel } from "@/features/teacher/TeacherLaunchPanel";
+import { TeacherProgressSummaryConcept } from "@/features/teacher/TeacherProgressSummaryConcept";
 
 interface DashboardOverviewProps {
   tenant: TenantConfig;
@@ -26,17 +35,24 @@ export function DashboardOverview({ tenant, unit }: DashboardOverviewProps) {
                 Level {unit.unitMeta.level}, Unit {unit.unitMeta.unit}: {unit.unitMeta.theme}
               </h2>
               <p className="mt-2 max-w-2xl text-sm leading-6 text-[var(--tenant-muted)]">
-                Clean white-label structure for teacher QR launch, student flashcard entry, game progression, and Star Dust tracking.
+                Clean white-label structure for teacher QR launch, student flashcard entry, game progression, multimedia packaging, and Star Dust tracking.
               </p>
             </div>
             <StatusPill label={validationErrors.length === 0 ? "Payload valid" : "Needs review"} tone={validationErrors.length === 0 ? "success" : "warning"} />
           </div>
         </Card>
         <TeacherLaunchPanel unit={unit} launchSession={sampleLaunchSession} />
+        <MultimediaPackagePanel
+          contentPackage={sampleMultimediaContentPackage}
+          permanentQrPath={samplePermanentQrPath}
+          frontDoorPath={sampleFrontDoorPath}
+          validationErrors={samplePackageValidationErrors}
+        />
         <GameSequence unit={unit} />
       </section>
       <aside className="space-y-5">
         <ProgressionSummary tenant={tenant} unit={unit} />
+        <TeacherProgressSummaryConcept summary={sampleTeacherProgressSummaryConcept} />
       </aside>
     </div>
   );
