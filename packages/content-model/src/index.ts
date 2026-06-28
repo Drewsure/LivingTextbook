@@ -142,7 +142,7 @@ export function createLaunchSession(args: {
   status?: LaunchSessionStatus;
   accessMode?: LaunchAccessMode;
 }): LaunchSession {
-  return {
+  const launchSession: LaunchSession = {
     launchCode: args.launchCode,
     tenantId: args.tenantId,
     curriculumId: args.curriculumId,
@@ -152,8 +152,13 @@ export function createLaunchSession(args: {
     entryMode: args.entryMode,
     recommendedNextModes: args.recommendedNextModes,
     openedAt: args.openedAt,
-    expiresAt: args.expiresAt,
   };
+
+  if (args.expiresAt) {
+    launchSession.expiresAt = args.expiresAt;
+  }
+
+  return launchSession;
 }
 
 export function getInitialStudentProgression(args: {
