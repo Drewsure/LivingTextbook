@@ -44,3 +44,19 @@ Procedure:
 2. If a repeatable technical workaround or environment behavior appears, update this file.
 3. If a major architecture decision is accepted, update `docs/DECISION_REGISTER.md` and add an ADR when useful.
 4. Do not leave durable process knowledge only in chat history.
+
+## OW-004: GitHub Connector Stale SHA Conflict
+
+Status: Active
+
+Observed behavior: Updating a file through the GitHub connector can fail with a 409 conflict if the file SHA is stale. This can happen after a recent create/update or when multiple related edits happen close together.
+
+Procedure:
+
+1. Stop updating that path immediately.
+2. Refetch the exact file from `legacy-source-import`.
+3. Use the fresh `sha` from the refetch.
+4. Reapply the intended update against the fresh content.
+5. Read back the changed file after the update succeeds.
+
+Why this matters: It prevents accidental overwrites and keeps connector-based edits safe when local checkout verification is unavailable.
