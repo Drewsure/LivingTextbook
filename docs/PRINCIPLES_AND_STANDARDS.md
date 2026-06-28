@@ -333,7 +333,28 @@ Every significant change should be reviewed against this checklist:
 
 If the answer to any item is no, document the reason before merging.
 
-## 15. Maintenance Rule
+## 15. Operational Memory And Workaround Standard
+
+Repeatable procedures and workarounds must be documented so future engagements do not rediscover the same constraints.
+
+Required practice:
+
+- Product, architecture, and build rules belong in this document.
+- Major accepted decisions belong in `docs/DECISION_REGISTER.md` and, when useful, `docs/adr/`.
+- Repeatable environment constraints, connector procedures, branch-state notes, and tool workarounds belong in `docs/OPERATING_NOTES.md`.
+- Route and flow contracts belong in focused design documents such as `docs/ROUTE_CONTRACTS.md`.
+
+When a workaround is used more than once, document:
+
+- What behavior was observed
+- Why the workaround was needed
+- The safest repeatable procedure
+- What must be verified afterward
+- Any risk of branch, file, or environment mismatch
+
+Do not let durable operational knowledge live only in chat history.
+
+## 16. Maintenance Rule
 
 This document must be maintained at the start of each major engagement.
 
@@ -345,5 +366,6 @@ Update it when:
 - A new agent workflow is adopted
 - A reward/progression rule changes
 - A repeated mistake needs to become a standing rule
+- A repeatable environment constraint or workaround is discovered
 
 Do not let standards live only in chat history. If a rule matters, preserve it here.
