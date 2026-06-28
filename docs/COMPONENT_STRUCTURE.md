@@ -24,7 +24,7 @@ Tenant identity enters the app through `TenantConfig`. The app shell converts `T
 `StudentLaunchFlow` is the client-side orchestrator for the first QR-entry slice. It owns temporary local state and delegates display to focused components:
 
 - `StudentProgressHeader` shows launch context and current progression facts.
-- `FlashcardPracticeCard` renders entry practice, learner audio controls for terms/sentences, and completion.
+- `FlashcardPracticeCard` renders entry practice, clickable learner text for terms/sentences, and completion.
 - `RewardPreviewCard` shows deterministic earned collection progress from Star Dust.
 - `NextGameUnlockCard` shows the next recommended mode and lock/unlock state.
 - `SessionEventLog` shows emitted local progress events.
@@ -35,13 +35,16 @@ Local progression logic belongs in `apps/web/src/features/progression/localProgr
 
 Audio support lives in `apps/web/src/features/audio`, not inside individual game engines.
 
-Current sample component:
+Current sample components:
 
-- `AudioCueButton` renders a listen/replay control for learner-facing text using browser speech synthesis as the first cost-efficient fallback.
+- `AudioCueText` renders learner-facing text as the preferred tap/click-to-speak control using browser speech synthesis as the first cost-efficient fallback.
+- `AudioCueButton` remains available for cases where text-as-control would be unclear, crowded, or inaccessible.
 
 Responsibilities:
 
-- Provide listen/replay controls for student-facing vocabulary, sentences, instructions, feedback, and critical prompts.
+- Make learner-facing text itself the preferred listen/replay control.
+- Provide separate listen/replay controls when text-as-control is not appropriate.
+- Keep autoplay opt-in, disable-able, and limited to specific activity designs such as first-card reveal, listening drills, accessibility settings, or teacher-led presentation mode.
 - Accept cue text, language, and future cue metadata without hard-coding MiniStar voices or vendor choices.
 - Allow future replacement with recorded tenant audio, teacher-recorded audio, partner-provided audio, or offline bundled audio.
 - Keep comprehension audio separate from optional background music or chants.
@@ -121,10 +124,10 @@ Expected reporting streams:
 ## Current Rules
 
 - No legacy component is promoted directly into the canonical app until an explicit integration plan exists.
-- No reusable component should hard-code a tenant palette, mascot, reward name, media rule, voice, pronunciation rule, or curriculum identity.
+- No reusable component should hard-code a tenant palette, mascot, reward name, media rule, voice, pronunciation rule, autoplay default, or curriculum identity.
 - Premium polish, animation, mascot evolution, and asset-heavy collection views come after the clean vertical slice works.
 - Client components should be thin orchestrators where possible; display should live in named domain components.
 - New game modes should begin as catalog entries and parent-engine configurations, not one-off screens.
-- New game modes must include audio support for learner-facing text before they are student-ready.
+- New game modes must include tap/click-to-speak audio support for learner-facing text before they are student-ready.
 - Rewards should begin as deterministic catalog entries and mastery thresholds, not random reward systems.
 - Multimedia should begin as catalog entries, playlists, and events, not one-off music/video pages.
