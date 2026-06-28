@@ -40,7 +40,7 @@ Revisit when:
 
 ## FR-002: First Interactive Student Progression Slice
 
-Status: Current build target
+Status: Implemented as local interactive slice on `legacy-source-import`; visual/build verification still required when local repo access is available.
 
 Requirement: Build the first interactive student flow without premium visual polish.
 
@@ -52,6 +52,19 @@ Acceptance path:
 4. The app records an `entry_practice_completed` progress event.
 5. The next recommended game, currently Memory Match, unlocks.
 6. The displayed progression state updates with earned Star Dust.
+
+Implemented boundary:
+
+- Progress is held in local component state.
+- Star Dust is calculated through the shared content model.
+- Completion and unlock events are produced by an app-level local progression adapter.
+- Memory Match unlocks as progression state, not as full gameplay yet.
+
+Remaining verification:
+
+- Run local typecheck/build when the working branch is locally accessible.
+- Visually inspect `/launch/demo-unit-1` in the browser.
+- Confirm mobile layout remains readable after the state changes.
 
 Non-goals:
 
