@@ -20,6 +20,8 @@ Every future engagement must begin by checking this list before code, design, AI
 - Confirm the preferred learner audio interaction is tap/click the text itself; autoplay is a controlled opt-in exception only.
 - Confirm rewards use earned collection mechanics, not gambling-like pressure.
 - Confirm any Z.ai or outside AI output must obey schema, component, integration, audio-support, and review standards before adoption.
+- Confirm public repository, library, and asset research has been considered before major custom engine, media, PWA, AI-verifier, reward, avatar, or content-pipeline work.
+- Confirm no external code or assets are adopted without license, provenance, white-label fit, and integration review.
 - Confirm no legacy code is promoted into `apps/web` or `apps/ai-service` without an explicit integration plan.
 - Confirm textbook partner, multimedia, local/closed deployment, and permanent QR requirements are preserved when white-label architecture is affected.
 - Confirm hybrid QR is the default: stable QR registry, optional tiny hosted redirect, and local app/content-package fallback.
@@ -302,6 +304,7 @@ Every outside-agent task must include:
 - Audio-support requirements for all learner-facing text
 - Accessibility requirements
 - Mobile/PWA requirements
+- Source/license requirements if public repositories, libraries, or assets are referenced
 - Forbidden architectural changes
 
 ## 12. Legacy Code Promotion Standard
@@ -360,6 +363,7 @@ Every significant change should be reviewed against this checklist:
 - Does this keep games data-driven?
 - Does this report or preserve standard scoring/progress events?
 - Does this avoid promoting legacy code without a plan?
+- Does this include public repository/license research when major custom work or external assets are involved?
 - Does this include or update a verification path in `docs/VERIFICATION_CHECKLIST.md` when user-facing flows change or local verification is blocked?
 - Does this remain compatible with `docs/BLUEPLAN.md`?
 
@@ -449,3 +453,21 @@ Required standing rules:
 - A game or unit is not student-ready until its learner-facing text has an audio support plan.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-009 and `docs/adr/0006-audio-first-learner-support.md`.
+
+## 19. Public Repository And Asset Research Standard
+
+Public repositories, open-source libraries, and public asset sources may help the build reach higher quality faster, but they must be governed.
+
+Required standing rules:
+
+- Before major custom game-engine, media-player, PWA/offline, AI-verifier, reward, avatar, collection-room, or content-pipeline work, perform a focused public-repository and best-practice research pass.
+- Record useful candidates, rejected candidates, license notes, risks, and integration choices in `docs/RESEARCH_NOTES_PUBLIC_REPOS.md` or an ADR.
+- Check license compatibility before any code or asset adoption.
+- Confirm commercial white-label use, modification rights, redistribution rights, and attribution requirements before adopting assets.
+- Prefer proven libraries, clean patterns, and small adapters over copying large public game screens.
+- Do not import public assets into tenant-facing product surfaces without provenance and rights documentation.
+- Do not use unclear-license, incompatible-license, or abandoned code in production without an explicit decision.
+- Public examples may guide Z.ai or outside-agent task specs, but outside-agent output still requires Codex integration review.
+- External code must not enter `apps/web`, `apps/ai-service`, or shared packages without a written integration plan.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-010, `docs/FUTURE_REQUIREMENTS.md` FR-003, and `docs/RESEARCH_NOTES_PUBLIC_REPOS.md`.
