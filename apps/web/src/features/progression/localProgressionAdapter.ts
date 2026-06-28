@@ -133,15 +133,20 @@ export function createGameInteractionEvent(args: {
   occurredAt: string;
   metadata?: Record<string, string | number | boolean>;
 }): GameProgressEvent {
-  return {
+  const event: GameProgressEvent = {
     type: args.type,
     unitKey: args.launchSession.unitKey,
     gameMode: args.gameMode,
     launchCode: args.launchSession.launchCode,
     studentSessionId: args.progression.studentSessionId,
     occurredAt: args.occurredAt,
-    metadata: args.metadata,
   };
+
+  if (args.metadata) {
+    event.metadata = args.metadata;
+  }
+
+  return event;
 }
 
 export function completeGameMode(args: {
