@@ -18,6 +18,7 @@ import {
 } from "@/features/progression/localProgressionAdapter";
 import { formatMode } from "@/lib/formatLabels";
 import { getGameModeCatalogItem } from "../gameModeCatalog";
+import { calculateAccuracyBonusDust, getGameScoringProfileForMode } from "../scoringProfiles";
 import { createVocabularyPairingItems } from "./pairingEngineAdapter";
 import {
   createPairingEngineState,
@@ -52,6 +53,7 @@ export function PairingMemoryMatchGame({
   const [mismatchCardIds, setMismatchCardIds] = useState<string[]>([]);
   const [completionSent, setCompletionSent] = useState(false);
   const mode = getGameModeCatalogItem(gameMode);
+  const scoringProfile = getGameScoringProfileForMode(gameMode);
   const progress = getPairingProgressSummary(engineState);
   const completedAlready = progression.completedGameModes.includes(gameMode);
   const instructionCue = findAudioCueForGame(audioCues, "instruction", gameMode);
@@ -136,7 +138,11 @@ export function PairingMemoryMatchGame({
     }
 
     if (outcome.state.completed && !completionSent) {
-      const earnedStarDust = calculateMemoryMatchDust(outcome.state.attempts, progress.totalPairs);
+      const earnedStarDust = calculateMemoryMatchDust({
+        attempts: outcome.state.attempts,
+        totalPairs: progress.totalPairs,
+        scoringProfile,
+      });
       const result = completeGameMode({
         progression,
         launchSession,
@@ -147,6 +153,7 @@ export function PairingMemoryMatchGame({
           totalPairs: progress.totalPairs,
           attempts: outcome.state.attempts,
           parentEngine: mode?.engineId ?? unit.unitMeta.engineId,
+          scoringProfileId: scoringProfile?.id ?? "none",
         },
       });
 
@@ -155,6 +162,7 @@ export function PairingMemoryMatchGame({
         earnedStarDust,
         attempts: outcome.state.attempts,
         totalPairs: progress.totalPairs,
+        scoringProfileId: scoringProfile?.id ?? "none",
       });
       setCompletionSent(true);
       onComplete(result);
@@ -255,12 +263,25 @@ function findAudioCueForGame(audioCues: AudioCue[], kind: AudioCue["kind"], game
   return audioCues.find((cue) => cue.kind === kind && cue.gameMode === gameMode);
 }
 
-function calculateMemoryMatchDust(attempts: number, totalPairs: number): number {
-  const safeAttempts = Math.max(attempts, 1);
-  const safePairs = Math.max(totalPairs, 1);
-  const accuracyRatio = Math.min(safePairs / safeAttempts, 1);
+function calculateMemoryMatchDust({
+  attempts,
+  totalPairs,
+  scoringProfile,
+}: {
+  attempts: number;
+  totalPairs: number;
+  scoringProfile: ReturnType<typeof getGameScoringProfileForMode>;
+}): number {
+  if (!scoringProfile) {
+    return 100;
+  }
 
-  return Math.max(100, Math.round(accuracyRatio * 200));
+  return calculateAccuracyBonusDust({
+    attempts,
+    targetAttempts: totalPairs,
+    profile: scoringProfile,
+    minimumDust: Math.min(100, scoringProfile.completionDustCap),
+  });
 }
 
 function MemoryFact({ label, value }: { label: string; value: string }) {
