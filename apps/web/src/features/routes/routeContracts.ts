@@ -47,6 +47,14 @@ export const appRouteContracts: AppRouteContract[] = [
     requiredState: ["TenantConfig", "FrontDoorAccessPolicy", "LaunchSession", "ContentPackage"],
   },
   {
+    id: "training-academy",
+    pattern: "/training/[code]",
+    audience: "student",
+    status: "active-scaffold",
+    purpose: "Let a student complete deterministic recovery practice and return to the normal unit path without requiring AI Tutor.",
+    requiredState: ["TenantConfig", "UnitPayload", "LaunchSession", "StudentProgressionState", "GameProgressEvent[]"],
+  },
+  {
     id: "permanent-textbook-qr",
     pattern: "/q/tenant/[tenantId]/series/[seriesId]/book/[bookId]/unit/[unitId]/activity/[activityId]",
     audience: "student",
@@ -82,6 +90,10 @@ export const appRouteContracts: AppRouteContract[] = [
 
 export function getStudentLaunchPath(launchCode: LaunchCode): string {
   return getLaunchPath(launchCode);
+}
+
+export function getTrainingAcademyPath(launchCode: LaunchCode): string {
+  return `/training/${encodeURIComponent(launchCode)}`;
 }
 
 export function getPermanentTextbookQrPath(identifier: PermanentQrIdentifier): string {
