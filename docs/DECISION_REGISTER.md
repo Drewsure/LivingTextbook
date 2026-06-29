@@ -42,6 +42,7 @@ Before accepting a new direction, answer these questions in the task, PR, or imp
 | DR-011 | Bounded upper-level AI tutor | Accepted | Preserve AI Tutor as a curriculum-aware upper-level capability, but do not build it before the core platform slice is verified. |
 | DR-012 | AI Tutor premium entitlement | Accepted | Treat AI Tutor as an optional premium package with tenant feature entitlements, usage limits, and clean disabled states. |
 | DR-013 | Training Academy recovery metadata bridge | Trial | Count recovery events through `trainingEventType` metadata inside the existing progress stream before promoting dedicated event types. |
+| DR-014 | Training Academy focus configs | Accepted | Recovery lanes are config-driven across vocabulary, sentence, listening, spelling, and mode-practice support instead of hard-coded screens. |
 
 ## DR-001: Tailwind And PostCSS Foundation
 
@@ -324,3 +325,23 @@ Exit criteria:
 
 - Keep the bridge if teacher reporting stays simple and the event taxonomy remains stable.
 - Promote dedicated event types if reporting, analytics, or persistence need stronger compile-time guarantees.
+
+## DR-014: Training Academy Focus Configs
+
+Status: Accepted
+
+Decision: Represent Training Academy recovery lanes as focus configs instead of hard-coded screens.
+
+White-label impact: Positive. Vocabulary, sentence, listening, spelling, and mode-practice support can be enabled, renamed, configured, or extended for future tenants without rebuilding the route.
+
+Cost impact: Positive. One reusable Training Academy route can serve multiple recovery needs before persistence, teacher assignment, or premium polish is introduced.
+
+Component boundary: Positive. The route renders config-driven target items, instructions, recommended mode, and reward cap rather than embedding MiniStar-only vocabulary behavior.
+
+Constraints:
+
+- Focus configs must remain audio-first.
+- Focus selection must emit teacher-visible metadata.
+- Focus configs are foundation defaults, not permanent tenant policy.
+- Teacher-controlled focus assignment and tenant thresholds come later.
+- This decision is recorded in `docs/adr/0012-training-academy-focus-configs.md`.
