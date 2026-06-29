@@ -2,10 +2,12 @@
 
 import { useState } from "react";
 import type {
+  AudioCue,
   GameModeId,
   GameProgressEvent,
   LaunchSession,
   StudentProgressionState,
+  UnitAssistLanguagePlan,
   UnitPayload,
 } from "@living-textbook/content-model";
 import { PairingMemoryMatchGame } from "@/features/game-shell/pairing/PairingMemoryMatchGame";
@@ -29,9 +31,18 @@ interface StudentLaunchFlowProps {
   unit: UnitPayload;
   launchSession: LaunchSession;
   progression: StudentProgressionState;
+  audioCues?: AudioCue[];
+  assistLanguagePlan?: UnitAssistLanguagePlan;
 }
 
-export function StudentLaunchFlow({ tenant, unit, launchSession, progression }: StudentLaunchFlowProps) {
+export function StudentLaunchFlow({
+  tenant,
+  unit,
+  launchSession,
+  progression,
+  audioCues = [],
+  assistLanguagePlan,
+}: StudentLaunchFlowProps) {
   const [currentProgression, setCurrentProgression] = useState(progression);
   const [sessionEvents, setSessionEvents] = useState<GameProgressEvent[]>([]);
   const [lastEarnedDust, setLastEarnedDust] = useState(0);
@@ -114,6 +125,8 @@ export function StudentLaunchFlow({ tenant, unit, launchSession, progression }: 
         entryComplete={entryComplete}
         lastEarnedDust={lastEarnedDust}
         nextMode={nextMode}
+        audioCues={audioCues}
+        assistLanguagePlan={assistLanguagePlan}
         onComplete={handleCompleteEntryPractice}
       />
       <RewardPreviewCard
@@ -133,6 +146,7 @@ export function StudentLaunchFlow({ tenant, unit, launchSession, progression }: 
           gameMode={activeGameMode}
           launchSession={launchSession}
           progression={currentProgression}
+          audioCues={audioCues}
           onEvent={handleGameEvent}
           onComplete={handleGameComplete}
         />
