@@ -3,6 +3,7 @@ import type {
   AudioCue,
   ContentPackage,
   MediaAsset,
+  UnitAiTutorPlan,
   UnitAudioSupportPlan,
   UnitMultimediaPlan,
 } from "@living-textbook/content-model";
@@ -25,8 +26,10 @@ export function MultimediaPackagePanel({
   const playlists = contentPackage.playlists ?? [];
   const multimediaPlan = contentPackage.multimediaPlans?.[0];
   const audioSupportPlan = contentPackage.audioSupportPlans?.[0];
+  const aiTutorPlan = contentPackage.aiTutorPlans?.[0];
   const audioCount = mediaAssets.filter((asset) => asset.kind === "audio").length;
   const videoCount = mediaAssets.filter((asset) => asset.kind === "video").length;
+  const enabledAiTutorPlans = (contentPackage.aiTutorPlans ?? []).filter((plan) => plan.enabled).length;
 
   return (
     <Card>
@@ -41,15 +44,16 @@ export function MultimediaPackagePanel({
         <StatusPill label={validationErrors.length === 0 ? "Package valid" : "Needs review"} tone={validationErrors.length === 0 ? "success" : "warning"} />
       </div>
 
-      <dl className="mt-5 grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-5">
+      <dl className="mt-5 grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-6">
         <Metric label="Units" value={String(contentPackage.units.length)} />
         <Metric label="Audio files" value={String(audioCount)} />
         <Metric label="Audio cues" value={String(audioCues.length)} />
         <Metric label="Video" value={String(videoCount)} />
         <Metric label="Playlists" value={String(playlists.length)} />
+        <Metric label="AI Tutor" value={enabledAiTutorPlans > 0 ? "Premium on" : "Premium off"} />
       </dl>
 
-      <div className="mt-5 grid gap-4 lg:grid-cols-3">
+      <div className="mt-5 grid gap-4 lg:grid-cols-4">
         <section className="rounded-lg border border-[var(--tenant-border)] p-4">
           <h3 className="text-sm font-bold">Hybrid QR concept</h3>
           <dl className="mt-3 grid gap-2 text-sm text-[var(--tenant-muted)]">
@@ -71,6 +75,10 @@ export function MultimediaPackagePanel({
         <section className="rounded-lg border border-[var(--tenant-border)] p-4">
           <h3 className="text-sm font-bold">Optional game media</h3>
           {multimediaPlan ? <BackgroundPlanSummary plan={multimediaPlan} assets={mediaAssets} /> : null}
+        </section>
+        <section className="rounded-lg border border-[var(--tenant-border)] p-4">
+          <h3 className="text-sm font-bold">AI Tutor package</h3>
+          {aiTutorPlan ? <AiTutorPlanSummary plan={aiTutorPlan} /> : <p className="mt-3 text-sm text-[var(--tenant-muted)]">Not configured</p>}
         </section>
       </div>
 
@@ -127,6 +135,21 @@ function BackgroundPlanSummary({ plan, assets }: { plan: UnitMultimediaPlan; ass
       <RouteRow label="Default" value={plan.backgroundEnabledByDefault ? "On" : "Off"} />
       <RouteRow label="Teacher control" value={plan.requiresTeacherEnablement ? "Required" : "Optional"} />
       <RouteRow label="Volume" value={`${plan.defaultVolumePercent ?? 0}%`} />
+    </dl>
+  );
+}
+
+function AiTutorPlanSummary({ plan }: { plan: UnitAiTutorPlan }) {
+  const allowedModes = plan.allowedModes.length > 0 ? plan.allowedModes.join(", ") : "None until premium enabled";
+
+  return (
+    <dl className="mt-3 grid gap-2 text-sm text-[var(--tenant-muted)]">
+      <RouteRow label="Status" value={plan.enabled ? "Enabled" : "Disabled"} />
+      <RouteRow label="Entitlement" value={plan.entitlementRequired} />
+      <RouteRow label="Minimum level" value={String(plan.minimumLevel ?? "Tenant rule")} />
+      <RouteRow label="Allowed modes" value={allowedModes} />
+      <RouteRow label="Source scope" value={plan.sourceScope} />
+      <RouteRow label="Teacher review" value={plan.teacherReviewRequired ? "Required" : "Tenant rule"} />
     </dl>
   );
 }
