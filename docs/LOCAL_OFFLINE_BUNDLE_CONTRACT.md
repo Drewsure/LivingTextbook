@@ -2,7 +2,7 @@
 
 Document type: foundation deployment and content-package contract
 
-Status: Planned contract; no local/offline packaging implementation yet
+Status: Planned contract with sample manifest and resolver helper; no production local/offline packaging yet
 
 Related documents:
 
@@ -11,6 +11,12 @@ Related documents:
 - `docs/SAMPLE_MULTIMEDIA_PACKAGE.md`
 - `docs/partner-strategies/LOCAL_TEXTBOOK_COMPANION_STRATEGY.md`
 - `docs/adr/0004-permanent-qr-and-local-companion-mode.md`
+
+Current sample artifacts:
+
+- `content/sample-bundles/ministar-l1-u1/manifest.json`
+- `content/sample-bundles/ministar-l1-u1/README.md`
+- `apps/web/src/features/multimedia/mediaSourceResolver.ts`
 
 ## Purpose
 
@@ -65,14 +71,14 @@ Planning shape:
   "created_at": "2026-06-29T00:00:00.000Z",
   "content_package_path": "content-package.json",
   "media_root": "media/",
-  "offline_ready": true,
+  "offline_ready": false,
   "requires_hosted_redirect": false,
   "assets": [
     {
       "asset_id": "media-ministar-l1-u1-greetings-chant",
       "kind": "audio",
       "local_path": "media/audio/greetings-chant.mp3",
-      "checksum": "sha256-placeholder",
+      "checksum": "sha256-placeholder-not-ready",
       "duration_seconds": 48
     }
   ]
@@ -106,6 +112,8 @@ The same QR identifier should be able to resolve through:
 ## Media Resolution
 
 Media assets already support both `sourceUri` and `localBundlePath`.
+
+`apps/web/src/features/multimedia/mediaSourceResolver.ts` is the first small resolver boundary. It currently supports hosted-first and local-first resolution modes, while keeping missing-source handling explicit.
 
 Resolution order should be:
 
@@ -191,12 +199,13 @@ A first prototype should demonstrate:
 
 ## Current Build Instruction
 
-Do not implement local/offline packaging until the current foundation slice is locally verified.
+The first planning manifest and resolver helper now exist on `legacy-source-import`, but they still require local build verification.
 
-Before implementation:
+Before production implementation:
 
 1. Sync local checkout to `legacy-source-import`.
 2. Run build/typecheck.
 3. Verify student and front-door routes.
 4. Confirm media telemetry checks.
-5. Then add the smallest manifest sample and resolver helper.
+5. Confirm the media resolver does not break hosted sample playback.
+6. Then design the smallest production-ready local bundle loader.
