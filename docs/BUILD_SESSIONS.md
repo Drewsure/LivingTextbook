@@ -66,11 +66,15 @@ Next outputs:
 
 Purpose: Add the smallest deterministic recovery path before database persistence, AI Tutor, or premium polish.
 
-Current status: Active local-state prototype exists on `legacy-source-import` at `/training/[code]`. It uses the shared launch/session/progression shape, reuses tap-to-speak audio support, awards small recovery Star Dust, records teacher-visible recovery metadata, returns the student to the normal unit route, and now includes a reusable teacher recovery summary adapter. The front-door teacher report sample also counts recovery events from the same unified stream. Local typecheck/build passed before this reporting expansion; another local pull/typecheck/build is required after the connector-side reporting change.
+Current status: Active local-state prototype exists on `legacy-source-import` at `/training/[code]`. It uses the shared launch/session/progression shape, reuses tap-to-speak audio support, awards small recovery Star Dust, records teacher-visible recovery metadata, returns the student to the normal unit route, includes a reusable teacher recovery summary adapter, and now includes deterministic recovery trigger logic in the student launch flow. The front-door teacher report sample also counts recovery events from the same unified stream. Local typecheck/build passed before this trigger expansion; another local pull/typecheck/build is required after the connector-side trigger change.
 
 Implemented path:
 
 Training recommendation -> vocabulary review -> tap-to-speak review terms -> target sentence listening -> start review event -> answer submission/result metadata -> training completed -> small recovery Star Dust -> teacher recovery summary -> return-to-unit event -> link back to `/launch/[code]`.
+
+Implemented trigger path:
+
+Memory Match answer results -> repeated-miss detection -> one `training_recommended` event with trigger metadata -> learner-facing recovery card -> optional link to `/training/[code]`.
 
 Implemented report path:
 
@@ -79,15 +83,17 @@ Training metadata bridge -> recovery summary counts -> front-door teacher report
 Remaining gate:
 
 - Pull latest `legacy-source-import` locally and run typecheck/build.
+- Verify repeated-miss trigger on `/launch/demo-unit-1`.
+- Verify low-score trigger when Memory Match is completed with many attempts.
 - Verify teacher recovery summary on `/training/demo-unit-1`.
 - Verify front-door recovery counts on `/enter/ministar`.
-- Run mobile verification for `/training/demo-unit-1`.
+- Run mobile verification for `/launch/demo-unit-1` and `/training/demo-unit-1`.
 - Promote dedicated Training Academy event types into `packages/content-model` only after the metadata bridge proves stable.
 
 Next outputs:
 
-- Trigger logic from low score or repeated misses.
 - Focus-specific configs for sentence, listening, spelling, and mode-practice recovery.
+- Teacher-facing trigger settings and thresholds after the local rule proves usable.
 - Persistence plan after local-state behavior is verified.
 
 ## Session 2.75: Reviewed Assist Language Foundation
@@ -232,4 +238,4 @@ If a proposed task does not fit one of these sessions, document whether it is:
 
 Do not add premium polish yet.
 
-The hard gate is to pull the active recovery-reporting connector-side work, run typecheck/build, and verify `/training/demo-unit-1` plus `/enter/ministar`. After that, the next safest structural task is Training Academy trigger logic from low score or repeated misses.
+The hard gate is to pull the active recovery-trigger connector-side work, run typecheck/build, and verify `/launch/demo-unit-1`, `/training/demo-unit-1`, and `/enter/ministar`. After that, the next safest structural task is focus-specific Training Academy configs for sentence review, listening review, spelling review, and mode-practice recovery.
