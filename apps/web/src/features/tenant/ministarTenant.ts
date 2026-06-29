@@ -6,6 +6,13 @@ export const ministarTenant: TenantConfig = {
   curriculumName: "MiniStar English",
   rewardName: "Star Dust",
   avatarFamilies: ["starter-avatars"],
+  languageSettings: {
+    targetLanguage: "en",
+    defaultUiLanguage: "en",
+    assistLanguages: ["ja"],
+    studentAssistEnabledByDefault: false,
+    liveAiAssistAllowed: false,
+  },
   featureEntitlements: {
     aiTutor: {
       enabled: false,
