@@ -67,6 +67,9 @@ export function FrontDoorEntryFlow({
   );
   const nextModeStarted = Boolean(nextMode && activeGameMode === nextMode);
   const mediaAssetCount = contentPackage.mediaAssets?.length ?? 0;
+  const assistLanguagePlan = contentPackage.assistLanguagePlans?.find(
+    (plan) => plan.unitKey === launchSession.unitKey && plan.studentVisibility !== "teacher-only",
+  );
 
   function handleOpenUnit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -205,6 +208,7 @@ export function FrontDoorEntryFlow({
               lastEarnedDust={lastEarnedDust}
               nextMode={nextMode}
               audioCues={contentPackage.audioCues}
+              assistLanguagePlan={assistLanguagePlan}
               onComplete={handleCompleteEntryPractice}
             />
             <RewardPreviewCard
