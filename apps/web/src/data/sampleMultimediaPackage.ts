@@ -230,6 +230,20 @@ export const sampleMultimediaContentPackage: ContentPackage = {
       requiresTeacherEnablement: true,
     },
   ],
+  aiTutorPlans: [
+    {
+      unitKey: sampleUnitKey,
+      enabled: false,
+      entitlementRequired: "premium",
+      minimumLevel: 6,
+      allowedModes: [],
+      sourceScope: "current-unit-only",
+      teacherReviewRequired: true,
+      studentAudioInput: false,
+      studentAudioOutput: false,
+      maxResponseSentences: 4,
+    },
+  ],
 };
 
 export const samplePermanentQrRoute: PermanentQrRoute = {
