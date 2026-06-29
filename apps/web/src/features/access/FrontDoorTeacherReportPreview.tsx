@@ -59,6 +59,7 @@ export function FrontDoorTeacherReportPreview({ tenant, progression, events }: F
             <div key={`${event.type}-${event.occurredAt}-${index}`} className="rounded-lg border border-[var(--tenant-border)] p-3">
               <p className="font-semibold text-[var(--tenant-text)]">{event.type}</p>
               <p className="mt-1">{event.gameMode} / {event.studentSessionId}</p>
+              {event.metadata && <p className="mt-2 font-mono text-xs">{formatMetadata(event.metadata)}</p>}
             </div>
           ))
         )}
@@ -78,4 +79,10 @@ function Metric({ label, value }: { label: string; value: string }) {
 
 function countEvents(events: GameProgressEvent[], type: GameProgressEvent["type"]): number {
   return events.filter((event) => event.type === type).length;
+}
+
+function formatMetadata(metadata: NonNullable<GameProgressEvent["metadata"]>): string {
+  return Object.entries(metadata)
+    .map(([key, value]) => `${key}: ${String(value)}`)
+    .join(" | ");
 }
