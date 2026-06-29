@@ -24,6 +24,7 @@ export function TeacherProgressSummaryConcept({ summary }: TeacherProgressSummar
         <Metric label="Flashcards complete" value={String(summary.flashcardCompletions)} />
         <Metric label="Memory Match starts" value={String(summary.memoryMatchStarts)} />
         <Metric label="Media starts" value={String(summary.mediaStarts)} />
+        <Metric label="Media pauses" value={String(summary.mediaPauses)} />
         <Metric label="Media complete" value={String(summary.mediaCompletions)} />
         <Metric label="Avg. Star Dust" value={String(summary.averageStarDust)} />
       </dl>
