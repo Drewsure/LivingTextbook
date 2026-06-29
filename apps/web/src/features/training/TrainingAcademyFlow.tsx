@@ -8,6 +8,7 @@ import { AudioSupportedAction } from "@/features/audio/AudioSupportedAction";
 import { UnitSessionProgressSummary } from "@/features/progression/UnitSessionProgressSummary";
 import type { TenantConfig } from "@/features/tenant/types";
 import { formatLabel, formatMode } from "@/lib/formatLabels";
+import { TrainingRecoveryReportSummary } from "./TrainingRecoveryReportSummary";
 import {
   completeTrainingReview,
   createTrainingAcademyRecommendation,
@@ -166,6 +167,12 @@ export function TrainingAcademyFlow({ tenant, unit, launchSession, progression }
         events={events}
         rewardName={tenant.rewardName}
         title="Training Recovery"
+      />
+
+      <TrainingRecoveryReportSummary
+        events={events}
+        rewardName={tenant.rewardName}
+        title="Teacher Recovery Summary"
       />
 
       <Card>
