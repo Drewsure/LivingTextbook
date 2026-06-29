@@ -41,6 +41,7 @@ Before accepting a new direction, answer these questions in the task, PR, or imp
 | DR-010 | Research before reinvention | Accepted | Search public repositories, libraries, and asset sources before major custom systems, but require license, provenance, and integration review before adoption. |
 | DR-011 | Bounded upper-level AI tutor | Accepted | Preserve AI Tutor as a curriculum-aware upper-level capability, but do not build it before the core platform slice is verified. |
 | DR-012 | AI Tutor premium entitlement | Accepted | Treat AI Tutor as an optional premium package with tenant feature entitlements, usage limits, and clean disabled states. |
+| DR-013 | Training Academy recovery metadata bridge | Trial | Count recovery events through `trainingEventType` metadata inside the existing progress stream before promoting dedicated event types. |
 
 ## DR-001: Tailwind And PostCSS Foundation
 
@@ -298,3 +299,28 @@ Constraints:
 - Disabled states must be clean and must not block normal student progression.
 - Shared contracts now exist in `packages/content-model/src/index.ts`.
 - This decision is recorded in `docs/adr/0008-ai-tutor-premium-entitlement.md` and `docs/future-requirements/FR-006-bounded-ai-tutor-upper-levels.md`.
+
+## DR-013: Training Academy Recovery Metadata Bridge
+
+Status: Trial
+
+Decision: Keep early Training Academy recovery events in the existing `training_recommended` shared event type, with the precise recovery action stored in `metadata.trainingEventType`, until the recovery/reporting needs are proven across more than one focus type.
+
+White-label impact: Positive for the current phase. Tenants get one progress stream for games, media, recovery, and rewards without a premature schema expansion that may not fit future publishers or classroom models.
+
+Cost impact: Positive. It keeps the first implementation cheap and easy to change while still allowing teacher reports to count recovery recommendations, starts, item practice, completions, returns, and recovery Star Dust.
+
+Portability: Acceptable as a trial. The summary adapter isolates the metadata bridge so future dedicated event types can replace it without rewriting all teacher surfaces.
+
+Constraints:
+
+- Training metadata must include `trainingEventType` for reportable recovery actions.
+- Teacher reports should use a shared adapter, not one-off string checks in multiple screens.
+- Recovery events must remain in the same progress stream as games and media unless persistence proves a separate stream is necessary.
+- Dedicated Training Academy event types should be promoted into `packages/content-model` only after at least the vocabulary, sentence, listening, and mode-practice recovery paths are tested.
+- This trial decision must be revisited before database persistence or analytics export is designed.
+
+Exit criteria:
+
+- Keep the bridge if teacher reporting stays simple and the event taxonomy remains stable.
+- Promote dedicated event types if reporting, analytics, or persistence need stronger compile-time guarantees.
