@@ -314,6 +314,10 @@ export interface TeacherProgressSummaryConcept {
   mediaPauses: number;
   mediaCompletions: number;
   backgroundMediaOptIns: number;
+  trainingRecommendations: number;
+  trainingCompletions: number;
+  trainingReturns: number;
+  recoveryStarDust: number;
   averageStarDust: number;
   teacherReportStreams: string[];
   sampleEvents: GameProgressEvent[];
@@ -330,10 +334,15 @@ export const sampleTeacherProgressSummaryConcept: TeacherProgressSummaryConcept 
   mediaPauses: 3,
   mediaCompletions: 6,
   backgroundMediaOptIns: 4,
+  trainingRecommendations: 2,
+  trainingCompletions: 1,
+  trainingReturns: 1,
+  recoveryStarDust: 100,
   averageStarDust: 325,
   teacherReportStreams: [
     "Entry practice completion",
     "Memory Match starts",
+    "Training Academy recovery events",
     "Playlist/media engagement",
     "Media pause and resume engagement",
     "Optional background media use",
@@ -382,6 +391,59 @@ export const sampleTeacherProgressSummaryConcept: TeacherProgressSummaryConcept 
       metadata: {
         mediaAssetId: "media-ministar-l1-u1-greetings-chant",
         volumePercent: 35,
+      },
+    },
+    {
+      type: "training_recommended",
+      unitKey: sampleUnitKey,
+      gameMode: "flashcards",
+      launchCode: "demo-unit-1",
+      studentSessionId: "demo-unit-1:student-04",
+      occurredAt: "2026-06-28T00:09:00.000Z",
+      metadata: {
+        trainingEventType: "training_recommended",
+        focusType: "vocabulary-review",
+        sourceGameMode: "memory-match",
+        recommendedGameMode: "flashcards",
+        returnPath: "/launch/demo-unit-1",
+        teacherAssigned: false,
+        reason: "Review a small set of greeting words before returning to the normal unit path.",
+        targetTermCount: 4,
+      },
+    },
+    {
+      type: "training_recommended",
+      unitKey: sampleUnitKey,
+      gameMode: "flashcards",
+      launchCode: "demo-unit-1",
+      studentSessionId: "demo-unit-1:student-04",
+      occurredAt: "2026-06-28T00:10:00.000Z",
+      metadata: {
+        trainingEventType: "training_completed",
+        focusType: "vocabulary-review",
+        sourceGameMode: "memory-match",
+        recommendedGameMode: "flashcards",
+        returnPath: "/launch/demo-unit-1",
+        teacherAssigned: false,
+        earnedStarDust: 100,
+        practicedTermCount: 4,
+      },
+    },
+    {
+      type: "training_recommended",
+      unitKey: sampleUnitKey,
+      gameMode: "flashcards",
+      launchCode: "demo-unit-1",
+      studentSessionId: "demo-unit-1:student-04",
+      occurredAt: "2026-06-28T00:11:00.000Z",
+      metadata: {
+        trainingEventType: "training_returned_to_unit",
+        focusType: "vocabulary-review",
+        sourceGameMode: "memory-match",
+        recommendedGameMode: "flashcards",
+        returnPath: "/launch/demo-unit-1",
+        teacherAssigned: false,
+        completed: true,
       },
     },
   ],
