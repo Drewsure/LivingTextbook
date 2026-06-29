@@ -27,7 +27,7 @@ Outputs:
 
 Purpose: Prove teacher QR launch, student entry practice, progression events, deterministic rewards, audio-supported learner text, and the first playable game path.
 
-Current status: Implemented as a connector-side local-state slice on `legacy-source-import`; local build/browser verification is still pending because the local checkout is on `main` with no configured remote.
+Current status: Implemented on `legacy-source-import`. Local typecheck/build/browser verification passed after fresh clone, dependency install, and local route checks for `/`, `/teacher`, `/launch/demo-unit-1`, and `/enter/ministar`. Missing demo media files are expected placeholder 404s and are handled by the UI.
 
 Implemented path:
 
@@ -39,15 +39,15 @@ Permanent/front-door QR contract -> entry-code/user-code option -> sample multim
 
 Remaining gate:
 
-- Sync local checkout to `legacy-source-import`.
-- Run typecheck/build.
-- Run browser/mobile verification against `docs/VERIFICATION_CHECKLIST.md`.
+- Repeat local typecheck/build after each connector-side change is pulled.
+- Run mobile verification against `docs/VERIFICATION_CHECKLIST.md`.
+- Replace placeholder media files or keep clear unavailable-source messaging for demo assets.
 
 ## Session 2: Game Engine Foundation
 
 Purpose: Turn Memory Match into the first reusable `pairing` parent engine implementation and use it as the pattern for future game modes.
 
-Current status: Initial playable pairing implementation exists. Memory Match now uses pairing adapter/state helpers, emits start/completion events, emits item-level `round_shown`, `answer_submitted`, `answer_result`, and `mastery_updated` events, supports card tap-to-hear audio, uses a shared scoring profile, and updates local progression.
+Current status: Initial playable pairing implementation exists and has been locally browser-verified in the first slice. Memory Match uses pairing adapter/state helpers, emits start/completion events, emits item-level `round_shown`, `answer_submitted`, `answer_result`, and `mastery_updated` events, supports card tap-to-hear audio, uses a shared scoring profile, and updates local progression.
 
 Required gate:
 
@@ -57,11 +57,35 @@ Required gate:
 
 Next outputs:
 
-- Local build/browser verification for Memory Match.
 - Stronger event metadata if teacher reports need item-level detail.
 - Additional scoring profiles for the next selected parent engine or mode.
 - Mobile verification.
 - Compatibility with optional background/support media without requiring it.
+
+## Session 2.5: Training Academy Recovery Lane
+
+Purpose: Add the smallest deterministic recovery path before database persistence, AI Tutor, or premium polish.
+
+Current status: Active connector-side local-state prototype exists on `legacy-source-import` at `/training/[code]`. It uses the shared launch/session/progression shape, reuses tap-to-speak audio support, awards small recovery Star Dust, records teacher-visible recovery metadata, and returns the student to the normal unit route. Local pull, typecheck/build, and browser verification are required after this connector-side change.
+
+Implemented path:
+
+Training recommendation -> vocabulary review -> tap-to-speak review terms -> target sentence listening -> start review event -> answer submission/result metadata -> training completed -> small recovery Star Dust -> return-to-unit event -> link back to `/launch/[code]`.
+
+Required gate:
+
+- Pull latest `legacy-source-import` locally.
+- Run typecheck/build.
+- Verify `/training/demo-unit-1` against `docs/VERIFICATION_CHECKLIST.md`.
+- Confirm `/launch/demo-unit-1` and `/enter/ministar` still work after the new route.
+- Promote dedicated Training Academy event types into `packages/content-model` only after the metadata bridge proves stable.
+
+Next outputs:
+
+- Teacher report integration for recovery events.
+- Trigger logic from low score or repeated misses.
+- Focus-specific configs for sentence, listening, spelling, and mode-practice recovery.
+- Persistence plan after local-state behavior is verified.
 
 ## Session 3: Content Package And PDF Unit Onboarding
 
@@ -132,7 +156,7 @@ Outputs:
 
 ## Session 8: Premium Experience Layer
 
-Purpose: Add polish only after the vertical slice, content package, QR strategy, multimedia foundation, and engine foundation are stable.
+Purpose: Add polish only after the vertical slice, content package, QR strategy, multimedia foundation, game-engine foundation, and Training Academy foundation are stable.
 
 Outputs:
 
@@ -178,4 +202,4 @@ If a proposed task does not fit one of these sessions, document whether it is:
 
 Do not add premium polish yet.
 
-The hard gate is still to synchronize or repair the local checkout so `legacy-source-import` can be built and visually verified. If connector-only work must continue before that, the next safest structural tasks are pause telemetry for media playback, local/offline bundle resolution contracts, Training Academy route/event contracts, or the next small parent-engine mode config after a public-repository research pass.
+The hard gate is to pull the active Training Academy connector-side work, run typecheck/build, and verify `/training/demo-unit-1` alongside `/launch/demo-unit-1` and `/enter/ministar`. After that, the next safest structural task is teacher-report integration for recovery events, followed by trigger logic for low scores or repeated misses.
