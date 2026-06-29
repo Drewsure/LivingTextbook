@@ -15,6 +15,7 @@ import { MultimediaPackagePanel } from "@/features/multimedia/MultimediaPackageP
 import { ProgressionSummary } from "@/features/progression/ProgressionSummary";
 import { TeacherLaunchPanel } from "@/features/teacher/TeacherLaunchPanel";
 import { TeacherProgressSummaryConcept } from "@/features/teacher/TeacherProgressSummaryConcept";
+import { getAiTutorAvailability } from "@/features/tenant/tenantEntitlements";
 
 interface DashboardOverviewProps {
   tenant: TenantConfig;
@@ -23,6 +24,7 @@ interface DashboardOverviewProps {
 
 export function DashboardOverview({ tenant, unit }: DashboardOverviewProps) {
   const validationErrors = validateUnitPayload(unit);
+  const aiTutorAvailability = getAiTutorAvailability({ tenant, level: unit.unitMeta.level, mode: "fix-my-sentence" });
 
   return (
     <div className="grid gap-5 lg:grid-cols-[1.4fr_0.9fr]">
@@ -52,6 +54,19 @@ export function DashboardOverview({ tenant, unit }: DashboardOverviewProps) {
       </section>
       <aside className="space-y-5">
         <ProgressionSummary tenant={tenant} unit={unit} />
+        <Card>
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <div>
+              <p className="text-sm font-semibold text-[var(--tenant-muted)]">Package entitlement</p>
+              <h2 className="mt-1 text-lg font-bold">AI Tutor</h2>
+            </div>
+            <StatusPill label={aiTutorAvailability.available ? "Premium on" : "Premium off"} tone={aiTutorAvailability.available ? "success" : "warning"} />
+          </div>
+          <p className="mt-3 text-sm leading-6 text-[var(--tenant-muted)]">{aiTutorAvailability.reason}</p>
+          <p className="mt-3 text-sm leading-6 text-[var(--tenant-muted)]">
+            QR launch, audio flashcards, games, multimedia, rewards, and teacher reporting remain part of the core package.
+          </p>
+        </Card>
         <TeacherProgressSummaryConcept summary={sampleTeacherProgressSummaryConcept} />
       </aside>
     </div>
