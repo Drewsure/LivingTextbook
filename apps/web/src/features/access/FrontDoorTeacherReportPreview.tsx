@@ -1,5 +1,6 @@
 import { Card, StatusPill } from "@living-textbook/ui";
 import type { GameProgressEvent, StudentProgressionState } from "@living-textbook/content-model";
+import { getTrainingEventType, summarizeTrainingRecoveryEvents } from "@/features/training/TrainingRecoveryReportSummary";
 import type { TenantConfig } from "@/features/tenant/types";
 
 interface FrontDoorTeacherReportPreviewProps {
@@ -19,6 +20,7 @@ export function FrontDoorTeacherReportPreview({ tenant, progression, events }: F
   const mediaStarts = countEvents(events, "media_started");
   const mediaPauses = countEvents(events, "media_paused");
   const mediaCompletions = countEvents(events, "media_completed");
+  const recoverySummary = summarizeTrainingRecoveryEvents(events);
   const backgroundMediaEvents = events.filter(
     (event) => event.type === "background_media_enabled" || event.type === "background_media_disabled",
   ).length;
@@ -30,7 +32,7 @@ export function FrontDoorTeacherReportPreview({ tenant, progression, events }: F
           <p className="text-sm font-semibold text-[var(--tenant-muted)]">Teacher-visible summary</p>
           <h3 className="text-lg font-bold">One report stream</h3>
           <p className="mt-1 text-sm text-[var(--tenant-muted)]">
-            The route keeps game progress, item attempts, and media engagement together while still reporting them separately.
+            The route keeps game progress, recovery practice, item attempts, and media engagement together while still reporting them separately.
           </p>
         </div>
         <StatusPill label={`${events.length} events`} tone={events.length > 0 ? "success" : "neutral"} />
@@ -40,6 +42,10 @@ export function FrontDoorTeacherReportPreview({ tenant, progression, events }: F
         <Metric label="Entry practice" value={String(entryPracticeCompletions)} />
         <Metric label="Game starts" value={String(gameStarts)} />
         <Metric label="Game complete" value={String(gameCompletions)} />
+        <Metric label="Recovery events" value={String(recoverySummary.trainingEventCount)} />
+        <Metric label="Recovery complete" value={String(recoverySummary.completedCount)} />
+        <Metric label="Recovery returns" value={String(recoverySummary.returnedCount)} />
+        <Metric label="Recovery reward" value={String(recoverySummary.earnedRecoveryReward)} />
         <Metric label="Card reveals" value={String(cardReveals)} />
         <Metric label="Answers" value={String(answersSubmitted)} />
         <Metric label="Results" value={String(answerResults)} />
@@ -51,17 +57,31 @@ export function FrontDoorTeacherReportPreview({ tenant, progression, events }: F
         <Metric label={tenant.rewardName} value={String(progression.earnedStarDust)} />
       </dl>
 
+      <div className="mt-5 rounded-lg border border-[var(--tenant-border)] p-4 text-sm text-[var(--tenant-muted)]">
+        <p className="font-semibold text-[var(--tenant-text)]">Recovery detail</p>
+        <p className="mt-1">
+          {recoverySummary.trainingEventCount > 0
+            ? `${recoverySummary.focusLabel} via ${recoverySummary.modeLabel}; return path ${recoverySummary.returnPathLabel}.`
+            : "No Training Academy recovery has been recorded for this stream yet."}
+        </p>
+      </div>
+
       <div className="mt-5 grid gap-2 text-sm text-[var(--tenant-muted)]">
         {events.length === 0 ? (
           <p className="rounded-lg border border-[var(--tenant-border)] p-4">Open the unit to begin the report stream.</p>
         ) : (
-          events.map((event, index) => (
-            <div key={`${event.type}-${event.occurredAt}-${index}`} className="rounded-lg border border-[var(--tenant-border)] p-3">
-              <p className="font-semibold text-[var(--tenant-text)]">{event.type}</p>
-              <p className="mt-1">{event.gameMode} / {event.studentSessionId}</p>
-              {event.metadata && <p className="mt-2 font-mono text-xs">{formatMetadata(event.metadata)}</p>}
-            </div>
-          ))
+          events.map((event, index) => {
+            const trainingEventType = getTrainingEventType(event);
+            const eventLabel = trainingEventType ?? event.type;
+
+            return (
+              <div key={`${event.type}-${event.occurredAt}-${index}`} className="rounded-lg border border-[var(--tenant-border)] p-3">
+                <p className="font-semibold text-[var(--tenant-text)]">{eventLabel}</p>
+                <p className="mt-1">{event.gameMode} / {event.studentSessionId}</p>
+                {event.metadata && <p className="mt-2 font-mono text-xs">{formatMetadata(event.metadata)}</p>}
+              </div>
+            );
+          })
         )}
       </div>
     </Card>
