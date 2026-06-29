@@ -9,9 +9,10 @@ Use this checklist after pulling the latest `legacy-source-import` branch.
 3. Confirm the checkout includes `apps/web/src/features/training/TrainingRecoveryReportSummary.tsx`.
 4. Confirm the checkout includes `apps/web/src/features/training/trainingRecoveryTrigger.ts`.
 5. Confirm the checkout includes `apps/web/src/features/training/TrainingRecoveryRecommendationCard.tsx`.
-6. Run typecheck.
-7. Run build.
-8. Start the local web app.
+6. Confirm the checkout includes `docs/adr/0012-training-academy-focus-configs.md`.
+7. Run typecheck.
+8. Run build.
+9. Start the local web app.
 
 Recommended commands:
 
@@ -40,7 +41,7 @@ Expected results:
 - `/launch/demo-unit-1` still supports flashcards, Memory Match unlock, Star Dust progress, and triggered recovery recommendations.
 - `/enter/ministar` still supports front-door code entry, multimedia package concept, and teacher-visible progress summary.
 - `/enter/ministar` shows recovery event counts in the teacher-visible sample stream.
-- `/training/demo-unit-1` shows the Training Academy recovery route.
+- `/training/demo-unit-1` shows the Training Academy recovery route and a recovery-focus selector.
 
 ## Trigger Checks
 
@@ -70,28 +71,31 @@ On `/training/demo-unit-1`:
 
 1. Confirm the page shows `Training Academy` and the current unit theme.
 2. Confirm the page explains the recovery recommendation without shaming the student.
-3. Confirm the focus is `Vocabulary Review`.
+3. Confirm the default focus is `Vocabulary`.
 4. Confirm the practice mode is `Flashcards`.
 5. Confirm the return path is `/launch/demo-unit-1`.
 6. Tap the recommendation text and confirm it speaks.
-7. Tap the instruction text and confirm it speaks.
-8. Tap each vocabulary review word and confirm it speaks.
-9. Confirm each tapped word is marked `Heard`.
-10. Tap each target sentence and confirm it speaks.
-11. Use the listen control beside `Start Review` and confirm it speaks without starting review.
-12. Confirm the `Teacher Recovery Summary` starts with the recommendation count already visible.
-13. Click `Start Review` and confirm the event log records `training_started` in metadata.
-14. Confirm the `Teacher Recovery Summary` updates the started count.
-15. Click `Mark Complete` and confirm the event log records `training_answer_submitted`, `training_answer_result`, and `training_completed` in metadata.
-16. Confirm recovery Star Dust increases by no more than 100.
-17. Confirm the unit-session summary updates after completion.
-18. Confirm the `Teacher Recovery Summary` updates completed, responses, results, and recovery reward.
-19. Click `Record Return` and confirm the event log records `training_returned_to_unit` in metadata.
-20. Confirm the `Teacher Recovery Summary` updates returned count and return path.
-21. Click `Back To Unit` and confirm the route returns to `/launch/demo-unit-1`.
-22. Confirm no AI Tutor entitlement, model call, chat UI, or external service is required.
-23. Confirm the teacher-visible event log shows shared type `training_recommended` plus `trainingEventType` metadata.
-24. Confirm the route remains usable if optional background media is unavailable.
+7. Confirm the recovery-focus selector shows Vocabulary, Sentences, Listening, Spelling, and Game practice.
+8. Select `Sentences` and confirm the target items change to sentence patterns.
+9. Select `Listening` and confirm the target items combine terms and sentence patterns.
+10. Select `Spelling` and confirm the instruction changes to spelling practice.
+11. Select `Game practice` and confirm the recommended mode reflects the current post-flashcard game path.
+12. Confirm each focus change records `training_focus_selected` metadata in the event log.
+13. Tap each target item and confirm it speaks.
+14. Confirm tapped items are marked `Heard`.
+15. Use the listen control beside `Start Review` and confirm it speaks without starting review.
+16. Confirm the `Teacher Recovery Summary` starts with the recommendation count already visible.
+17. Click `Start Review` and confirm the event log records `training_started` in metadata.
+18. Confirm the `Teacher Recovery Summary` updates the started count.
+19. Click `Mark Complete` and confirm the event log records `training_answer_submitted`, `training_answer_result`, and `training_completed` in metadata.
+20. Confirm recovery Star Dust increases by no more than the selected focus reward cap.
+21. Confirm the unit-session summary updates after completion.
+22. Confirm the `Teacher Recovery Summary` updates completed, responses, results, and recovery reward.
+23. Click `Record Return` and confirm the event log records `training_returned_to_unit` in metadata.
+24. Confirm the `Teacher Recovery Summary` updates returned count and return path.
+25. Click `Back To Unit` and confirm the route returns to `/launch/demo-unit-1`.
+26. Confirm no AI Tutor entitlement, model call, chat UI, or external service is required.
+27. Confirm the route remains usable if optional background media is unavailable.
 
 ## Front-Door Teacher Report Checks
 
@@ -110,8 +114,9 @@ On `/enter/ministar`:
 - The route is useful as a recovery lane before polish.
 - The route follows the audio-first standard.
 - Recovery recommendations are deterministic, explainable, and triggered by repeated misses or low completion results.
+- Recovery focus is config-driven and not hard-coded to vocabulary only.
 - Recovery rewards are deterministic and smaller than primary unit-game rewards.
 - Training Academy remains core platform functionality, not premium AI Tutor functionality.
 - Teacher reports can count recovery events without a separate report stream.
 - No database, auth, or persistence dependency is introduced yet.
-- Any build/browser issue found here must be fixed before adding more Training Academy focus types.
+- Any build/browser issue found here must be fixed before adding persistence, teacher assignment, or more focus types.
