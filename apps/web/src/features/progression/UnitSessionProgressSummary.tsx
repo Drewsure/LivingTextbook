@@ -28,6 +28,7 @@ export function UnitSessionProgressSummary({
   const nextModeStarted = Boolean(nextMode && events.some((event) => event.type === "game_started" && event.gameMode === nextMode));
   const nextModeComplete = Boolean(nextMode && progression.completedGameModes.includes(nextMode));
   const mediaStarted = countEvents(events, "media_started");
+  const mediaPaused = countEvents(events, "media_paused");
   const mediaCompleted = countEvents(events, "media_completed");
   const latestBackgroundEvent = [...events]
     .reverse()
@@ -71,7 +72,7 @@ export function UnitSessionProgressSummary({
         <ProgressStep
           label="Unit media"
           status={mediaAssetCount > 0 ? `${mediaCompleted}/${mediaAssetCount} complete` : `${mediaCompleted} complete`}
-          detail={`${mediaStarted} started in this local session.`}
+          detail={`${mediaStarted} started and ${mediaPaused} paused in this local session.`}
           tone={mediaCompleted > 0 ? "success" : "neutral"}
         />
         <ProgressStep
