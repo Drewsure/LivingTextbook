@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import { AppShell } from "@/components/layout/AppShell";
 import { getSampleLaunchSession, getSampleStudentProgression } from "@/data/sampleLaunchSession";
 import { sampleMultimediaContentPackage } from "@/data/sampleMultimediaPackage";
@@ -9,6 +10,11 @@ export default async function LaunchPage({ params }: { params: Promise<{ code: s
   const launchSession = getSampleLaunchSession(code);
   const progression = getSampleStudentProgression(code);
   const unit = sampleMultimediaContentPackage.units[0];
+
+  if (!unit) {
+    notFound();
+  }
+
   const assistLanguagePlan = sampleMultimediaContentPackage.assistLanguagePlans?.find(
     (plan) => plan.unitKey === launchSession.unitKey && plan.studentVisibility !== "teacher-only",
   );
