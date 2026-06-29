@@ -4,7 +4,7 @@ This document records the first clean structure for the white-label Living Textb
 
 ## Layers
 
-- `packages/content-model` owns shared platform types, sample payload validation, game event names, launch/progression contracts, audio support contracts, multimedia package contracts, permanent QR contracts, and Star Dust calculations.
+- `packages/content-model` owns shared platform types, sample payload validation, game event names, launch/progression contracts, audio support contracts, multimedia package contracts, permanent QR contracts, AI Tutor entitlement contracts, and Star Dust calculations.
 - `packages/ui` owns small reusable UI primitives with stable dimensions and accessible defaults.
 - `apps/web` owns the Next.js application shell, routes, tenant configuration, local adapters, and feature composition.
 
@@ -12,12 +12,34 @@ This document records the first clean structure for the white-label Living Textb
 
 - `apps/web/src/app` contains routes only.
 - `apps/web/src/components` contains app-level reusable layout.
-- `apps/web/src/features` contains domain features: teacher launch, student onboarding, audio support, game shell, progression, rewards, tenant config, front-door access, multimedia, and reporting surfaces.
+- `apps/web/src/features` contains domain features: teacher launch, student onboarding, audio support, game shell, progression, rewards, tenant config, front-door access, multimedia, package entitlement display, and reporting surfaces.
 - `apps/web/src/data` contains static seed data until live persistence is chosen.
 
 ## Tenant Styling Boundary
 
 Tenant identity enters the app through `TenantConfig`. The app shell converts `TenantConfig.brand` into CSS variables, and shared primitives consume those variables. This keeps MiniStar as the flagship tenant without making MiniStar colors, rewards, avatars, media rules, voices, pronunciation choices, or curriculum assumptions universal platform code.
+
+Tenant package availability enters through `TenantConfig.featureEntitlements`. This is separate from brand styling. AI Tutor availability must be read from tenant/package entitlement and content-package tutor plans, not hard-coded into game screens or student routes.
+
+## AI Tutor Entitlement Structure
+
+AI Tutor is a planned upper-level premium capability, not a baseline student-flow dependency.
+
+Current code boundaries:
+
+- `packages/content-model/src/index.ts` defines `AiTutorEntitlement`, `TenantFeatureEntitlements`, `UnitAiTutorPlan`, `AiTutorModeId`, and validation helpers.
+- `apps/web/src/features/tenant/types.ts` allows tenants to expose optional `featureEntitlements`.
+- `apps/web/src/features/tenant/ministarTenant.ts` keeps MiniStar AI Tutor disabled by default as a premium package option.
+- `apps/web/src/data/sampleMultimediaPackage.ts` includes a disabled `aiTutorPlans` entry for the Level 1 sample package.
+- `MultimediaPackagePanel` displays AI Tutor package status alongside QR, audio, and optional background media package metadata.
+
+Rules:
+
+- Do not build active tutor UI, model calls, speech services, billing logic, or student chat routes before the foundation slice is locally verified.
+- Core QR launch, audio flashcards, games, multimedia, rewards, and teacher reporting must work when AI Tutor is disabled.
+- AI Tutor availability must come from tenant entitlement plus unit/package plan.
+- Enabled plans must require premium or enterprise entitlement.
+- Disabled states must be clean and must not block normal student progression.
 
 ## Student Launch Structure
 
@@ -77,7 +99,7 @@ Multimedia work lives in `apps/web/src/features/multimedia`, not inside individu
 
 Current sample components:
 
-- `MultimediaPackagePanel` renders the dashboard package concept, including audio cue counts and support-plan status.
+- `MultimediaPackagePanel` renders the dashboard package concept, including audio cue counts, support-plan status, and optional AI Tutor package status.
 - `UnitMediaEngagementPanel` renders unit playlist/media event controls for the active front-door slice.
 
 Responsibilities:
@@ -142,15 +164,17 @@ Expected reporting streams:
 - Star Dust or tenant reward progress
 - mastery state updates
 - Training Academy recommendations
+- AI Tutor session summaries only when a tenant has enabled the premium package
 
 ## Current Rules
 
 - No legacy component is promoted directly into the canonical app until an explicit integration plan exists.
 - No external code or assets are promoted into the canonical app until `docs/RESEARCH_NOTES_PUBLIC_REPOS.md` records license, provenance, white-label fit, and integration review.
-- No reusable component should hard-code a tenant palette, mascot, reward name, media rule, voice, pronunciation rule, autoplay default, or curriculum identity.
+- No reusable component should hard-code a tenant palette, mascot, reward name, media rule, voice, pronunciation rule, autoplay default, package entitlement, or curriculum identity.
 - Premium polish, animation, mascot evolution, and asset-heavy collection views come after the clean vertical slice works.
 - Client components should be thin orchestrators where possible; display should live in named domain components.
 - New game modes should begin as catalog entries, scoring profiles, and parent-engine configurations, not one-off screens.
 - New game modes must include tap/click-to-speak audio support for learner-facing text before they are student-ready.
 - Rewards should begin as deterministic catalog entries and mastery thresholds, not random reward systems.
 - Multimedia should begin as catalog entries, playlists, and events, not one-off music/video pages.
+- AI Tutor should begin as tenant entitlements and content-package plans, not active chat UI or model calls.
