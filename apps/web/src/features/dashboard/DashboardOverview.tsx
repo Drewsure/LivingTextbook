@@ -13,6 +13,7 @@ import type { TenantConfig } from "@/features/tenant/types";
 import { GameSequence } from "@/features/game-shell/GameSequence";
 import { MultimediaPackagePanel } from "@/features/multimedia/MultimediaPackagePanel";
 import { ProgressionSummary } from "@/features/progression/ProgressionSummary";
+import { getTrainingAcademyPath } from "@/features/routes/routeContracts";
 import { TeacherLaunchPanel } from "@/features/teacher/TeacherLaunchPanel";
 import { TeacherProgressSummaryConcept } from "@/features/teacher/TeacherProgressSummaryConcept";
 import { getAiTutorAvailability } from "@/features/tenant/tenantEntitlements";
@@ -25,6 +26,7 @@ interface DashboardOverviewProps {
 export function DashboardOverview({ tenant, unit }: DashboardOverviewProps) {
   const validationErrors = validateUnitPayload(unit);
   const aiTutorAvailability = getAiTutorAvailability({ tenant, level: unit.unitMeta.level, mode: "fix-my-sentence" });
+  const trainingAcademyPath = getTrainingAcademyPath(sampleLaunchSession.launchCode);
 
   return (
     <div className="grid gap-5 lg:grid-cols-[1.4fr_0.9fr]">
@@ -54,6 +56,24 @@ export function DashboardOverview({ tenant, unit }: DashboardOverviewProps) {
       </section>
       <aside className="space-y-5">
         <ProgressionSummary tenant={tenant} unit={unit} />
+        <Card>
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <div>
+              <p className="text-sm font-semibold text-[var(--tenant-muted)]">Recovery route</p>
+              <h2 className="mt-1 text-lg font-bold">Training Academy</h2>
+            </div>
+            <StatusPill label="Active scaffold" tone="success" />
+          </div>
+          <p className="mt-3 text-sm leading-6 text-[var(--tenant-muted)]">
+            Deterministic review practice is part of the core package. It gives students a gentle path back to the unit without requiring premium AI Tutor usage.
+          </p>
+          <a
+            href={trainingAcademyPath}
+            className="mt-4 inline-flex min-h-11 items-center justify-center rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] px-4 py-2 text-sm font-semibold text-[var(--tenant-text)] transition hover:bg-[var(--tenant-primary-soft)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--tenant-primary)]"
+          >
+            Open Training Academy
+          </a>
+        </Card>
         <Card>
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div>
