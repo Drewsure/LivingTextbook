@@ -34,6 +34,7 @@ export function UnitMediaEngagementPanel({
   onEvent,
 }: UnitMediaEngagementPanelProps) {
   const [startedMediaIds, setStartedMediaIds] = useState<string[]>([]);
+  const [pausedMediaIds, setPausedMediaIds] = useState<string[]>([]);
   const [completedMediaIds, setCompletedMediaIds] = useState<string[]>([]);
   const [backgroundEnabled, setBackgroundEnabled] = useState(false);
   const mediaAssets = contentPackage.mediaAssets ?? [];
@@ -50,12 +51,20 @@ export function UnitMediaEngagementPanel({
       multimediaPlan?.allowedBackgroundGameModes?.includes(activeGameMode),
   );
 
-  function recordMediaEvent(type: "media_started" | "media_completed", mediaAsset: MediaAsset) {
-    if (type === "media_started" && startedMediaIds.includes(mediaAsset.mediaAssetId)) {
+  function recordMediaEvent(type: "media_started" | "media_paused" | "media_completed", mediaAsset: MediaAsset) {
+    const mediaIsStarted = startedMediaIds.includes(mediaAsset.mediaAssetId);
+    const mediaIsCompleted = completedMediaIds.includes(mediaAsset.mediaAssetId);
+
+    if (type === "media_started" && mediaIsStarted) {
+      setPausedMediaIds((ids) => ids.filter((id) => id !== mediaAsset.mediaAssetId));
       return;
     }
 
-    if (type === "media_completed" && completedMediaIds.includes(mediaAsset.mediaAssetId)) {
+    if (type === "media_paused" && (!mediaIsStarted || mediaIsCompleted)) {
+      return;
+    }
+
+    if (type === "media_completed" && mediaIsCompleted) {
       return;
     }
 
@@ -69,10 +78,16 @@ export function UnitMediaEngagementPanel({
 
     if (type === "media_started") {
       setStartedMediaIds((ids) => Array.from(new Set([...ids, mediaAsset.mediaAssetId])));
+      setPausedMediaIds((ids) => ids.filter((id) => id !== mediaAsset.mediaAssetId));
+    }
+
+    if (type === "media_paused") {
+      setPausedMediaIds((ids) => Array.from(new Set([...ids, mediaAsset.mediaAssetId])));
     }
 
     if (type === "media_completed") {
       setCompletedMediaIds((ids) => Array.from(new Set([...ids, mediaAsset.mediaAssetId])));
+      setPausedMediaIds((ids) => ids.filter((id) => id !== mediaAsset.mediaAssetId));
     }
 
     onEvent(event);
@@ -119,8 +134,10 @@ export function UnitMediaEngagementPanel({
             key={asset.mediaAssetId}
             asset={asset}
             started={startedMediaIds.includes(asset.mediaAssetId)}
+            paused={pausedMediaIds.includes(asset.mediaAssetId)}
             completed={completedMediaIds.includes(asset.mediaAssetId)}
             onStart={() => recordMediaEvent("media_started", asset)}
+            onPause={() => recordMediaEvent("media_paused", asset)}
             onComplete={() => recordMediaEvent("media_completed", asset)}
           />
         ))}
