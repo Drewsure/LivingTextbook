@@ -90,7 +90,6 @@ export function UnitMediaPlaybackCard({
             Playback source is not available in this local sample yet. The progress controls still demonstrate the reporting contract.
           </p>
         )}
-        <p className="mt-2 text-xs font-semibold text-[var(--tenant-muted)]">Source: {resolvedSource.sourceKind}</p>
       </div>
 
       <div className="mt-4 flex flex-wrap gap-3">
