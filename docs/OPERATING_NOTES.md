@@ -135,3 +135,36 @@ npm run build --workspace @living-textbook/web
 5. Do not mark local build/browser verification complete until dependencies have been installed and the route checks have actually run.
 
 Why this matters: It prevents the team from mistaking missing local dependencies for application bugs, while preserving a clean path toward reproducible installs once a lockfile is committed.
+
+## OW-007: Stale Next Dev Server Blocks Local Route Verification
+
+Status: Active
+
+Observed behavior: A prior `next dev` process can continue holding port `3000` or block a second dev server even when browser navigation hangs. Next may print the active process id, directory, and log path with `Another next dev server is already running`.
+
+Observed failure signatures:
+
+- `listen EADDRINUSE: address already in use 127.0.0.1:3000`.
+- `Another next dev server is already running` followed by a `PID`, `Dir`, and `.next\dev\logs\next-development.log`.
+- HTTP or browser route checks hang even though a port appears occupied.
+
+Procedure:
+
+1. Confirm the printed `Dir` points to the intended app, usually `D:\LIVING TEXTBOOOK PROJECT\LivingTextbook\apps\web`.
+2. Stop only the printed process id:
+
+```powershell
+taskkill /PID <printed-pid> /F
+```
+
+3. Restart the dev server from the repository root:
+
+```powershell
+cd "D:\LIVING TEXTBOOOK PROJECT\LivingTextbook"
+npm run dev --workspace @living-textbook/web -- --hostname 127.0.0.1 --port 3000
+```
+
+4. Leave the terminal window open while browser verification runs.
+5. If port `3000` is intentionally unavailable, try `3001`, but stop stale same-app Next servers first because Next may block multiple dev servers for the same app directory.
+
+Why this matters: It avoids wasting time debugging the app when the real issue is a stale local development process.
