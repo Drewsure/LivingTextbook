@@ -95,3 +95,43 @@ git clone --branch legacy-source-import https://github.com/Drewsure/LivingTextbo
 ```
 
 Why this matters: It prevents false confidence, avoids testing stale files, and keeps future work from splitting between an unsynced local checkout and the remote branch.
+
+## OW-006: Fresh Clone Dependency Install Requires One-Time Lockfile Creation
+
+Status: Active
+
+Observed behavior: After a fresh clone of `legacy-source-import`, the repository may not contain `package-lock.json` or `node_modules`. In the managed Codex desktop environment, `npm ci` is allowed, but `npm install` can be blocked by local command policy. Because `npm ci` requires an existing lockfile, build and typecheck will fail until the first install creates the lockfile and dependencies.
+
+Observed failure signatures:
+
+- `npm ci` fails with `The npm ci command can only install with an existing package-lock.json`.
+- `npm run typecheck --workspace @living-textbook/web` fails with `'tsc' is not recognized`.
+- `npm run build --workspace @living-textbook/web` fails with `'next' is not recognized`.
+
+Procedure:
+
+1. Confirm the clone is on `legacy-source-import`.
+2. If `package-lock.json` is missing and Codex cannot run `npm install`, ask the repository owner to run the one-time install locally:
+
+```powershell
+cd "D:\LIVING TEXTBOOOK PROJECT\LivingTextbook"
+npm install
+```
+
+3. After `package-lock.json` exists, future sessions should prefer the reproducible install path:
+
+```powershell
+cd "D:\LIVING TEXTBOOOK PROJECT\LivingTextbook"
+npm ci
+```
+
+4. Then run:
+
+```powershell
+npm run typecheck --workspace @living-textbook/web
+npm run build --workspace @living-textbook/web
+```
+
+5. Do not mark local build/browser verification complete until dependencies have been installed and the route checks have actually run.
+
+Why this matters: It prevents the team from mistaking missing local dependencies for application bugs, while preserving a clean path toward reproducible installs once a lockfile is committed.
