@@ -5,6 +5,7 @@ import { StatusPill } from "@living-textbook/ui";
 import type { MediaAsset } from "@living-textbook/content-model";
 import { AudioCueText } from "@/features/audio/AudioCueButton";
 import { AudioSupportedAction } from "@/features/audio/AudioSupportedAction";
+import { resolveMediaSource } from "./mediaSourceResolver";
 
 interface UnitMediaPlaybackCardProps {
   asset: MediaAsset;
@@ -26,7 +27,8 @@ export function UnitMediaPlaybackCard({
   onComplete,
 }: UnitMediaPlaybackCardProps) {
   const [playbackError, setPlaybackError] = useState(false);
-  const sourceUri = asset.sourceUri ?? asset.localBundlePath;
+  const resolvedSource = resolveMediaSource(asset);
+  const sourceUri = resolvedSource.sourceUri;
   const statusLabel = completed ? "Completed" : paused ? "Paused" : started ? "Started" : "Ready";
   const startActionLabel = paused ? "Resume media" : "Start media";
 
@@ -88,6 +90,7 @@ export function UnitMediaPlaybackCard({
             Playback source is not available in this local sample yet. The progress controls still demonstrate the reporting contract.
           </p>
         )}
+        <p className="mt-2 text-xs font-semibold text-[var(--tenant-muted)]">Source: {resolvedSource.sourceKind}</p>
       </div>
 
       <div className="mt-4 flex flex-wrap gap-3">
