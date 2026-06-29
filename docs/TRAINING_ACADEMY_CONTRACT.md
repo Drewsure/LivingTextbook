@@ -2,7 +2,7 @@
 
 Document type: foundation route, event, and product contract
 
-Status: Planned contract; no active Training Academy route yet
+Status: Active local-state prototype exists at `/training/[launchCode]`; shared event model still uses the metadata bridge until dedicated Training Academy event types are promoted.
 
 Related standards:
 
@@ -38,9 +38,12 @@ Training Academy may be recommended when:
 
 ## Route Shape
 
-Planned route forms:
+Active prototype route:
 
 - `/training/[launchCode]`
+
+Planned route forms:
+
 - `/training/[launchCode]/unit/[unitKey]`
 - `/training/[launchCode]/mode/[gameMode]`
 
@@ -97,7 +100,7 @@ Recommended scoring:
 - Listening or spelling recovery: up to 100 Star Dust per review session.
 - Teacher-assigned practice may be completion-only or low-dust.
 
-These are planning values, not final economy constants.
+The active prototype awards up to 100 recovery Star Dust for a small vocabulary review. This is intentionally below primary unit-game reward capacity.
 
 ## Event Contract
 
@@ -113,10 +116,11 @@ Required events:
 - `training_completed`
 - `training_returned_to_unit`
 
-Until the shared event model is expanded, connector-side prototypes may represent these through existing local events plus metadata. Before production persistence, dedicated event types should be added to the shared content model.
+Until the shared event model is expanded, connector-side prototypes may represent these through `GameProgressEvent.type = training_recommended` plus `metadata.trainingEventType`. Before production persistence, dedicated event types should be added to the shared content model.
 
 Recommended metadata:
 
+- `trainingEventType`
 - `focusType`
 - `sourceGameMode`
 - `recommendedGameMode`
@@ -178,12 +182,16 @@ A first Training Academy prototype should demonstrate:
 
 ## Current Build Instruction
 
-Do not start Training Academy UI until the current foundation slice is locally verified.
+The smallest Training Academy local-state prototype is now active on `legacy-source-import` and must be pulled into the local checkout before verification.
 
-Before implementation:
+Current prototype checks:
 
-1. Sync local checkout to `legacy-source-import`.
+1. Sync local checkout to the latest `legacy-source-import`.
 2. Run typecheck/build.
-3. Verify `/launch/demo-unit-1` and `/enter/ministar`.
-4. Confirm media telemetry and AI Tutor entitlement checks.
-5. Then add the smallest Training Academy local-state prototype.
+3. Verify `/launch/demo-unit-1` and `/enter/ministar` still work.
+4. Verify `/training/demo-unit-1` loads.
+5. Tap review terms and confirm they speak.
+6. Start review, complete review, and record return.
+7. Confirm the event log shows `trainingEventType` metadata for the required recovery actions.
+8. Confirm small recovery Star Dust is awarded and the student can return to `/launch/demo-unit-1`.
+9. Confirm no AI Tutor entitlement is required.
