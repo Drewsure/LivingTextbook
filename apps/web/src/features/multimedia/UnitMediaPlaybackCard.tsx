@@ -9,21 +9,25 @@ import { AudioSupportedAction } from "@/features/audio/AudioSupportedAction";
 interface UnitMediaPlaybackCardProps {
   asset: MediaAsset;
   started: boolean;
+  paused: boolean;
   completed: boolean;
   onStart: () => void;
+  onPause: () => void;
   onComplete: () => void;
 }
 
 export function UnitMediaPlaybackCard({
   asset,
   started,
+  paused,
   completed,
   onStart,
+  onPause,
   onComplete,
 }: UnitMediaPlaybackCardProps) {
   const [playbackError, setPlaybackError] = useState(false);
   const sourceUri = asset.sourceUri ?? asset.localBundlePath;
-  const statusLabel = completed ? "Completed" : started ? "Started" : "Ready";
+  const statusLabel = completed ? "Completed" : paused ? "Paused" : started ? "Started" : "Ready";
 
   return (
     <article className="rounded-lg border border-[var(--tenant-border)] p-4">
@@ -36,7 +40,7 @@ export function UnitMediaPlaybackCard({
             {asset.kind} / {asset.type} / {asset.durationSeconds ?? 0}s
           </p>
         </div>
-        <StatusPill label={statusLabel} tone={completed ? "success" : "neutral"} />
+        <StatusPill label={statusLabel} tone={completed ? "success" : paused ? "warning" : "neutral"} />
       </div>
 
       <div className="mt-4 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3">
@@ -48,6 +52,11 @@ export function UnitMediaPlaybackCard({
               preload="metadata"
               src={sourceUri}
               onPlay={onStart}
+              onPause={(event) => {
+                if (!event.currentTarget.ended) {
+                  onPause();
+                }
+              }}
               onEnded={onComplete}
               onError={() => setPlaybackError(true)}
             />
@@ -59,6 +68,11 @@ export function UnitMediaPlaybackCard({
               src={sourceUri}
               poster={asset.posterImageUri}
               onPlay={onStart}
+              onPause={(event) => {
+                if (!event.currentTarget.ended) {
+                  onPause();
+                }
+              }}
               onEnded={onComplete}
               onError={() => setPlaybackError(true)}
             >
@@ -84,6 +98,15 @@ export function UnitMediaPlaybackCard({
           disabled={started}
         >
           Start media
+        </AudioSupportedAction>
+        <AudioSupportedAction
+          type="button"
+          variant="secondary"
+          audioText="Mark paused"
+          onClick={onPause}
+          disabled={!started || completed || paused}
+        >
+          Mark paused
         </AudioSupportedAction>
         <AudioSupportedAction
           type="button"
