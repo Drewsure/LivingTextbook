@@ -19,12 +19,18 @@ import {
 } from "@/features/progression/localProgressionAdapter";
 import { UnitSessionProgressSummary } from "@/features/progression/UnitSessionProgressSummary";
 import { starterRewardCatalog } from "@/features/rewards/rewardCatalog";
+import type { TenantConfig } from "@/features/tenant/types";
+import { TrainingRecoveryRecommendationCard } from "@/features/training/TrainingRecoveryRecommendationCard";
+import {
+  createTrainingRecoveryRecommendationEvent,
+  evaluateTrainingRecoveryTrigger,
+  hasRecordedTrainingRecoveryRecommendation,
+} from "@/features/training/trainingRecoveryTrigger";
 import { FlashcardPracticeCard } from "./components/FlashcardPracticeCard";
 import { NextGameUnlockCard } from "./components/NextGameUnlockCard";
 import { RewardPreviewCard } from "./components/RewardPreviewCard";
 import { SessionEventLog } from "./components/SessionEventLog";
 import { StudentProgressHeader } from "./components/StudentProgressHeader";
-import type { TenantConfig } from "@/features/tenant/types";
 
 interface StudentLaunchFlowProps {
   tenant: TenantConfig;
@@ -54,6 +60,41 @@ export function StudentLaunchFlow({
     currentProgression.unlockedGameModes.includes(mode),
   );
   const nextModeStarted = Boolean(nextMode && activeGameMode === nextMode);
+  const recoveryRecommendation = evaluateTrainingRecoveryTrigger({
+    events: sessionEvents,
+    launchSession,
+  });
+
+  function appendSessionEvents(
+    nextEvents: GameProgressEvent[],
+    progressionForRecommendation: StudentProgressionState = currentProgression,
+  ) {
+    if (nextEvents.length === 0) {
+      return;
+    }
+
+    setSessionEvents((events) => {
+      const updatedEvents = [...events, ...nextEvents];
+      const recommendation = evaluateTrainingRecoveryTrigger({
+        events: updatedEvents,
+        launchSession,
+      });
+
+      if (!recommendation || hasRecordedTrainingRecoveryRecommendation(updatedEvents, recommendation)) {
+        return updatedEvents;
+      }
+
+      return [
+        ...updatedEvents,
+        createTrainingRecoveryRecommendationEvent({
+          recommendation,
+          launchSession,
+          progression: progressionForRecommendation,
+          occurredAt: new Date().toISOString(),
+        }),
+      ];
+    });
+  }
 
   function handleCompleteEntryPractice() {
     const result = completeFlashcardEntryPractice({
@@ -64,7 +105,7 @@ export function StudentLaunchFlow({
     });
 
     setCurrentProgression(result.progression);
-    setSessionEvents((events) => [...events, ...result.events]);
+    appendSessionEvents(result.events, result.progression);
     setLastEarnedDust(result.dust.total);
   }
 
@@ -85,11 +126,11 @@ export function StudentLaunchFlow({
     }
 
     setActiveGameMode(nextMode);
-    setSessionEvents((events) => [...events, event]);
+    appendSessionEvents([event]);
   }
 
   function handleGameEvent(event: GameProgressEvent) {
-    setSessionEvents((events) => [...events, event]);
+    appendSessionEvents([event]);
   }
 
   function handleGameComplete(result: GameModeCompletionResult) {
@@ -97,7 +138,7 @@ export function StudentLaunchFlow({
     setLastEarnedDust(result.earnedStarDust);
 
     if (result.event) {
-      setSessionEvents((events) => [...events, result.event as GameProgressEvent]);
+      appendSessionEvents([result.event], result.progression);
     }
   }
 
@@ -152,6 +193,9 @@ export function StudentLaunchFlow({
         />
       )}
       {activeGameMode && activeGameMode !== "memory-match" && <PairingEnginePreview unit={unit} gameMode={activeGameMode} />}
+      {recoveryRecommendation && (
+        <TrainingRecoveryRecommendationCard recommendation={recoveryRecommendation} rewardName={tenant.rewardName} />
+      )}
       <SessionEventLog events={sessionEvents} />
     </div>
   );
