@@ -31,6 +31,7 @@ export function TrainingRecoveryReportSummary({
 
       <dl className="mt-5 grid gap-3 text-sm sm:grid-cols-3">
         <Metric label="Recommended" value={String(summary.recommendedCount)} />
+        <Metric label="Focus changes" value={String(summary.focusSelectedCount)} />
         <Metric label="Started" value={String(summary.startedCount)} />
         <Metric label="Items heard" value={String(summary.itemShownCount)} />
         <Metric label="Responses" value={String(summary.answerSubmittedCount)} />
@@ -52,6 +53,7 @@ export function TrainingRecoveryReportSummary({
 export interface TrainingRecoveryEventSummary {
   trainingEventCount: number;
   recommendedCount: number;
+  focusSelectedCount: number;
   startedCount: number;
   itemShownCount: number;
   answerSubmittedCount: number;
@@ -70,6 +72,7 @@ export function summarizeTrainingRecoveryEvents(events: GameProgressEvent[]): Tr
   return {
     trainingEventCount: trainingEvents.length,
     recommendedCount: countTrainingEvents(trainingEvents, "training_recommended"),
+    focusSelectedCount: countTrainingEvents(trainingEvents, "training_focus_selected"),
     startedCount: countTrainingEvents(trainingEvents, "training_started"),
     itemShownCount: countTrainingEvents(trainingEvents, "training_item_shown"),
     answerSubmittedCount: countTrainingEvents(trainingEvents, "training_answer_submitted"),
@@ -93,6 +96,7 @@ export function getTrainingEventType(event: GameProgressEvent): TrainingAcademyE
   if (
     value === "training_recommended" ||
     value === "training_started" ||
+    value === "training_focus_selected" ||
     value === "training_item_shown" ||
     value === "training_answer_submitted" ||
     value === "training_answer_result" ||
