@@ -19,6 +19,7 @@ Every future engagement must begin by checking this list before code, design, AI
 - Confirm all learner-facing text in student games, flashcards, instructions, feedback, and critical controls has audio support through recorded audio, teacher audio, partner audio, or text-to-speech.
 - Confirm the preferred learner audio interaction is tap/click the text itself; autoplay is a controlled opt-in exception only.
 - Confirm rewards use earned collection mechanics, not gambling-like pressure.
+- Confirm AI Tutor, when present, is optional premium entitlement and the core platform still works without it.
 - Confirm any Z.ai or outside AI output must obey schema, component, integration, audio-support, and review standards before adoption.
 - Confirm public repository, library, and asset research has been considered before major custom engine, media, PWA, AI-verifier, reward, avatar, or content-pipeline work.
 - Confirm no external code or assets are adopted without license, provenance, white-label fit, and integration review.
@@ -52,6 +53,8 @@ The platform must support tenant-specific:
 - Multimedia catalogs for audio and video
 - Audio cues for vocabulary, sentences, instructions, feedback, and critical learner controls
 - Unit playlists and optional background media
+- Feature entitlements and premium package options
+- Optional bounded AI Tutor capability for eligible upper-level packages
 - Local or closed companion deployments
 
 ## 3. Build Order Standard
@@ -78,6 +81,7 @@ Required component habits:
 - Keep media playback separate from game scoring while allowing controlled game/media coordination.
 - Keep learner text separate from audio playback, but make student-facing text itself able to receive audio cue ids and act as the default listen/replay control.
 - Keep tenant branding separate from hard-coded MiniStar assumptions.
+- Keep tenant feature entitlements separate from individual game or media screens.
 - Build mobile-first and QR-classroom friendly.
 - Keep student surfaces simple enough for young learners.
 - Use stable dimensions for game boards, cards, counters, controls, and rewards so animation or dynamic text does not shift the layout.
@@ -217,6 +221,7 @@ The following must not be hard-coded as global assumptions:
 - MiniStar curriculum sequence
 - MiniStar visual blacklist rules
 - MiniStar voice, pronunciation, audio vendor, or audio style
+- MiniStar AI Tutor availability, tutor name, tutor persona, tutor voice, or tutor package state
 
 They may be default tenant configuration for MiniStar English Lab, but other tenants must be able to define different equivalents.
 
@@ -231,6 +236,9 @@ Required abstractions:
 - Reward catalog
 - Visual rules
 - Content rules
+- Feature entitlements
+- Premium package tiers
+- Optional AI Tutor plan
 - QR launch route
 - Content package
 - Multimedia catalog
@@ -250,6 +258,7 @@ Teacher-led requirements:
 - Teacher can monitor media engagement separately from language-game mastery.
 - Teacher can confirm audio support exists for learner-facing text before assignment.
 - Teacher can trigger or recommend Training Academy review.
+- Teacher or school can enable premium AI Tutor only when the tenant has adopted that package.
 
 Student self-progression requirements:
 
@@ -261,6 +270,7 @@ Student self-progression requirements:
 - Student can see progress, Star Dust, and reward movement.
 - Student can access approved unit media such as songs, videos, chants, or playlists.
 - Student can return without a heavy login burden, especially for younger learners.
+- Student progression cannot depend on AI Tutor being enabled.
 
 ## 11. Agent Standards
 
@@ -363,6 +373,7 @@ Every significant change should be reviewed against this checklist:
 - Does this keep games data-driven?
 - Does this report or preserve standard scoring/progress events?
 - Does this avoid promoting legacy code without a plan?
+- Does this keep AI Tutor optional, premium-gated, and disabled cleanly when not adopted?
 - Does this include public repository/license research when major custom work or external assets are involved?
 - Does this include or update a verification path in `docs/VERIFICATION_CHECKLIST.md` when user-facing flows change or local verification is blocked?
 - Does this remain compatible with `docs/BLUEPLAN.md`?
@@ -471,3 +482,32 @@ Required standing rules:
 - External code must not enter `apps/web`, `apps/ai-service`, or shared packages without a written integration plan.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-010, `docs/FUTURE_REQUIREMENTS.md` FR-003, and `docs/RESEARCH_NOTES_PUBLIC_REPOS.md`.
+
+## 20. Optional Premium AI Tutor Standard
+
+AI Tutor is a future upper-level learning capability and an optional premium package. It is not required for the core Living Textbook platform to function.
+
+Baseline Living Textbook must remain complete without AI Tutor:
+
+- QR/front-door launch
+- Audio-first flashcards
+- Game progression
+- Multimedia packages
+- Earned rewards
+- Teacher launch protocols
+- Teacher-visible progress reporting
+
+Required standing rules:
+
+- AI Tutor must be represented through tenant feature entitlements and unit/package tutor plans.
+- AI Tutor must be disabled cleanly when a school, publisher, or tenant has not adopted the package.
+- Active AI Tutor plans must require premium or enterprise entitlement.
+- AI Tutor should be aimed first at upper-level speaking, writing, correction, role play, and adaptive review.
+- No open-ended general chatbot for children is allowed.
+- No tutor response should ignore the current tenant, curriculum, unit, approved vocabulary, or approved sentence patterns unless a reviewed mode explicitly allows broader scope.
+- No raw transcript storage should be default behavior.
+- No active tutor UI, model call, speech service, billing logic, or student chat route should be built before the foundation slice is locally verified.
+- AI Tutor usage must be cost-controlled through tenant/package enablement, allowed levels, allowed modes, usage limits, and teacher/school controls.
+- Teacher reporting should distinguish premium tutor summaries from baseline game/media progress.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-011 and DR-012, `docs/adr/0007-bounded-ai-tutor-upper-levels.md`, `docs/adr/0008-ai-tutor-premium-entitlement.md`, `docs/AI_TUTOR_STRATEGY.md`, and `docs/future-requirements/FR-006-bounded-ai-tutor-upper-levels.md`.
