@@ -6,6 +6,17 @@ export const ministarTenant: TenantConfig = {
   curriculumName: "MiniStar English",
   rewardName: "Star Dust",
   avatarFamilies: ["starter-avatars"],
+  featureEntitlements: {
+    aiTutor: {
+      enabled: false,
+      packageTier: "premium",
+      allowedLevels: [6, 7, 8],
+      allowedModes: ["fix-my-sentence", "role-play", "review-coach"],
+      monthlyUsageLimit: 0,
+      teacherEnabled: false,
+      schoolEnabled: false,
+    },
+  },
   brand: {
     primary: "#0f172a",
     primaryText: "#ffffff",
