@@ -168,3 +168,26 @@ npm run dev --workspace @living-textbook/web -- --hostname 127.0.0.1 --port 3000
 5. If port `3000` is intentionally unavailable, try `3001`, but stop stale same-app Next servers first because Next may block multiple dev servers for the same app directory.
 
 Why this matters: It avoids wasting time debugging the app when the real issue is a stale local development process.
+
+## OW-008: Managed Session Allows Local Reads But Rejects Local Writes
+
+Status: Active
+
+Observed behavior: Some managed Codex desktop sessions can read the local `LivingTextbook` checkout but reject local write operations, including directory creation and `apply_patch`, even inside `D:\LIVING TEXTBOOOK PROJECT`. Git network fetch may also be blocked from the agent side while the user can still pull successfully in PowerShell.
+
+Observed failure signatures:
+
+- Shell write command returns `approval required by policy`, but sandbox approval is unavailable.
+- `apply_patch` returns `writing outside of the project; rejected by user approval settings`.
+- `git fetch` is blocked for the agent even though the repository owner can run `git pull --ff-only` locally.
+
+Procedure:
+
+1. Read local files for context when available.
+2. Use the GitHub connector for repository writes on `legacy-source-import`.
+3. Read back connector-created files before asking for local verification.
+4. Ask the human owner to run `git pull --ff-only` locally when connector commits need to be synchronized.
+5. After the human pull, run typecheck/build and browser verification locally if the agent is allowed to execute those commands.
+6. Keep the generated `apps/web/next-env.d.ts` local modification uncommitted unless a real source change requires it.
+
+Why this matters: It keeps progress moving without unsafe local workarounds, and it makes the human-side pull an explicit bridge rather than a mystery failure.
