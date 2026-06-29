@@ -66,6 +66,17 @@ interface GameModeConfig {
 
 Mode configs should live near `apps/web/src/features/game-shell/gameModeCatalog.ts` until a larger registry is needed.
 
+Current catalog status:
+
+- `flashcards`: active entry-practice config.
+- `memory-match`: active playable pairing config.
+- `quiz`: planned selection assessment config only.
+- `sentence-builder`: planned text/syntax config only.
+- `speak-it`: planned speaking/listening config only.
+- `balloon-pop`: planned arcade reinforcement config only.
+
+Config-only modes are not playable implementations and must not be presented as finished games.
+
 ## Input Payload Contract
 
 Every game receives reviewed content. It does not generate curriculum on its own.
@@ -152,6 +163,10 @@ Current profiles:
 
 - `entry-vocabulary-practice`: awards the vocabulary slice for required flashcard entry practice.
 - `pairing-reinforcement-v1`: awards an accuracy-sensitive completion bonus for pairing reinforcement games such as Memory Match.
+- `selection-assessment-v1`: planned profile for quiz-style selection assessment.
+- `syntax-construction-v1`: planned profile for sentence building, ordering, and fill-in modes.
+- `speaking-listening-practice-v1`: planned profile for audio-led speaking/listening practice without AI Tutor.
+- `arcade-reinforcement-v1`: planned profile for reflex-based vocabulary reinforcement.
 
 Rules:
 
@@ -160,6 +175,7 @@ Rules:
 - Scoring events should include `scoringProfileId` metadata when possible.
 - Tenant reward names may change, but scoring profile behavior must remain explainable to teachers and parents.
 - Future profile changes should be versioned rather than silently changing historical meaning.
+- Planned profiles do not make a mode playable; they only reserve the scoring contract.
 
 ## Audio Contract
 
