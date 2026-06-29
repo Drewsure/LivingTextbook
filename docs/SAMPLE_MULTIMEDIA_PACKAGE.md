@@ -38,6 +38,7 @@ The unit package includes:
 - 1 video asset
 - 1 playlist
 - 1 optional game-background media setting
+- 1 disabled AI Tutor plan showing premium entitlement boundaries
 - 1 permanent QR route concept
 - 1 front-door entry-code/user-code access policy
 - 1 teacher-visible progress summary concept
@@ -47,6 +48,8 @@ The unit package includes:
 This is sample data, not a hard-coded product rule.
 
 The sample should guide implementation without making MiniStar the only supported tenant.
+
+AI Tutor is deliberately disabled for the Level 1 sample package. The package records that AI Tutor would require a premium entitlement and upper-level availability, but the core unit still works through QR launch, audio flashcards, games, multimedia, rewards, and reporting.
 
 ## Route Concept
 
@@ -70,7 +73,7 @@ The sample front-door route lets a student:
 3. Open the reviewed unit package.
 4. Complete flashcard entry practice.
 5. Unlock, start, and complete Memory Match.
-6. Play or manually start/complete sample media assets through the playback shell.
+6. Play, pause, resume, or manually start/complete sample media assets through the playback shell.
 7. Enable or disable optional background media after Memory Match starts.
 8. See the teacher-visible report preview update from the same local event stream.
 
@@ -111,7 +114,7 @@ This is still a structural implementation, not premium game polish. Art, animati
 
 The sample includes an audio chant and lesson video as package assets. It also includes a multimedia plan where the chant may be used as optional background/support media for Memory Match.
 
-`UnitMediaPlaybackCard` renders native browser audio/video controls for package media assets when `sourceUri` or `localBundlePath` is available. Manual start/complete controls remain available so the reporting contract can be tested even when demo media files are not yet present in the local bundle.
+`UnitMediaPlaybackCard` renders native browser audio/video controls for package media assets when `sourceUri` or `localBundlePath` is available. Manual start, pause/resume, and complete controls remain available so the reporting contract can be tested even when demo media files are not yet present in the local bundle.
 
 Background media is off by default and requires teacher enablement.
 
@@ -124,8 +127,9 @@ The sample teacher report separates:
 - Memory Match starts/completions
 - Memory Match card reveals, answer submissions, answer results, and mastery updates
 - audio cue engagement for learner-facing text, when implemented as telemetry
-- media starts/completions
+- media starts, pauses, and completions
 - optional background media use
+- optional AI Tutor summaries only when a premium tenant package enables them
 - average Star Dust
 
-This separation is intentional. Media engagement should support learning, but it should not be merged into language mastery as an opaque score.
+This separation is intentional. Media engagement should support learning, but it should not be merged into language mastery as an opaque score. AI Tutor, when later enabled, should also remain separate from baseline game/media progress.
