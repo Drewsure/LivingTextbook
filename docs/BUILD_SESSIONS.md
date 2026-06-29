@@ -66,20 +66,26 @@ Next outputs:
 
 Purpose: Add the smallest deterministic recovery path before database persistence, AI Tutor, or premium polish.
 
-Current status: Active local-state prototype exists on `legacy-source-import` at `/training/[code]`. It uses the shared launch/session/progression shape, reuses tap-to-speak audio support, awards small recovery Star Dust, records teacher-visible recovery metadata, and returns the student to the normal unit route. Local typecheck/build passed after the repository owner pulled the connector-side work; browser route was reported working.
+Current status: Active local-state prototype exists on `legacy-source-import` at `/training/[code]`. It uses the shared launch/session/progression shape, reuses tap-to-speak audio support, awards small recovery Star Dust, records teacher-visible recovery metadata, returns the student to the normal unit route, and now includes a reusable teacher recovery summary adapter. The front-door teacher report sample also counts recovery events from the same unified stream. Local typecheck/build passed before this reporting expansion; another local pull/typecheck/build is required after the connector-side reporting change.
 
 Implemented path:
 
-Training recommendation -> vocabulary review -> tap-to-speak review terms -> target sentence listening -> start review event -> answer submission/result metadata -> training completed -> small recovery Star Dust -> return-to-unit event -> link back to `/launch/[code]`.
+Training recommendation -> vocabulary review -> tap-to-speak review terms -> target sentence listening -> start review event -> answer submission/result metadata -> training completed -> small recovery Star Dust -> teacher recovery summary -> return-to-unit event -> link back to `/launch/[code]`.
+
+Implemented report path:
+
+Training metadata bridge -> recovery summary counts -> front-door teacher report metrics -> event list display using `trainingEventType` metadata.
 
 Remaining gate:
 
+- Pull latest `legacy-source-import` locally and run typecheck/build.
+- Verify teacher recovery summary on `/training/demo-unit-1`.
+- Verify front-door recovery counts on `/enter/ministar`.
 - Run mobile verification for `/training/demo-unit-1`.
 - Promote dedicated Training Academy event types into `packages/content-model` only after the metadata bridge proves stable.
 
 Next outputs:
 
-- Teacher report integration for recovery events.
 - Trigger logic from low score or repeated misses.
 - Focus-specific configs for sentence, listening, spelling, and mode-practice recovery.
 - Persistence plan after local-state behavior is verified.
@@ -88,7 +94,7 @@ Next outputs:
 
 Purpose: Make multilingual assist support part of the content-package foundation without hard-coding Japanese or depending on live AI translation.
 
-Current status: Connector-side implementation in progress on `legacy-source-import`. Shared content-model contracts, MiniStar tenant language settings, and a reviewed MiniStar Japanese sample plan are being added. Local pull, typecheck/build, and browser verification are required after this connector-side change.
+Current status: Implemented on `legacy-source-import`. Shared content-model contracts, MiniStar tenant language settings, and a reviewed MiniStar Japanese sample plan are present. The repository owner pulled the connector-side change and reported local typecheck/build passing. Browser verification remains useful after each follow-up reporting change.
 
 Implemented path:
 
@@ -220,11 +226,10 @@ If a proposed task does not fit one of these sessions, document whether it is:
 
 - a new required session,
 - a future requirement,
-- a research checkpoint,
 - or a distraction from the current foundation path.
 
 ## Next Recommended Build Task
 
 Do not add premium polish yet.
 
-The hard gate is to pull the active assist-language connector-side work, run typecheck/build, and verify `/`, `/launch/demo-unit-1`, and `/enter/ministar`. After that, the next safest structural task is teacher-report integration for Training Academy recovery events, followed by trigger logic for low scores or repeated misses.
+The hard gate is to pull the active recovery-reporting connector-side work, run typecheck/build, and verify `/training/demo-unit-1` plus `/enter/ministar`. After that, the next safest structural task is Training Academy trigger logic from low score or repeated misses.
