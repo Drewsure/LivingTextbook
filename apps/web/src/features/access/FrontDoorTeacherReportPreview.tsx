@@ -17,6 +17,7 @@ export function FrontDoorTeacherReportPreview({ tenant, progression, events }: F
   const answerResults = countEvents(events, "answer_result");
   const masteryUpdates = countEvents(events, "mastery_updated");
   const mediaStarts = countEvents(events, "media_started");
+  const mediaPauses = countEvents(events, "media_paused");
   const mediaCompletions = countEvents(events, "media_completed");
   const backgroundMediaEvents = events.filter(
     (event) => event.type === "background_media_enabled" || event.type === "background_media_disabled",
@@ -44,6 +45,7 @@ export function FrontDoorTeacherReportPreview({ tenant, progression, events }: F
         <Metric label="Results" value={String(answerResults)} />
         <Metric label="Mastery updates" value={String(masteryUpdates)} />
         <Metric label="Media starts" value={String(mediaStarts)} />
+        <Metric label="Media pauses" value={String(mediaPauses)} />
         <Metric label="Media complete" value={String(mediaCompletions)} />
         <Metric label="Background media" value={String(backgroundMediaEvents)} />
         <Metric label={tenant.rewardName} value={String(progression.earnedStarDust)} />
