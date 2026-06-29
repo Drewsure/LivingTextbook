@@ -1,4 +1,4 @@
-import type { TenantFeatureEntitlements } from "@living-textbook/content-model";
+import type { TenantFeatureEntitlements, TenantLanguageSettings } from "@living-textbook/content-model";
 
 export interface TenantBrand {
   primary: string;
@@ -21,5 +21,6 @@ export interface TenantConfig {
   rewardName: string;
   avatarFamilies: string[];
   featureEntitlements?: TenantFeatureEntitlements;
+  languageSettings?: TenantLanguageSettings;
   brand: TenantBrand;
 }
