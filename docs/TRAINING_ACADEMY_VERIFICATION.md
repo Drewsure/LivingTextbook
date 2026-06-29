@@ -7,9 +7,11 @@ Use this checklist after pulling the latest `legacy-source-import` branch.
 1. Confirm the branch is `legacy-source-import`.
 2. Confirm the checkout includes `apps/web/src/features/training/TrainingAcademyFlow.tsx`.
 3. Confirm the checkout includes `apps/web/src/features/training/TrainingRecoveryReportSummary.tsx`.
-4. Run typecheck.
-5. Run build.
-6. Start the local web app.
+4. Confirm the checkout includes `apps/web/src/features/training/trainingRecoveryTrigger.ts`.
+5. Confirm the checkout includes `apps/web/src/features/training/TrainingRecoveryRecommendationCard.tsx`.
+6. Run typecheck.
+7. Run build.
+8. Start the local web app.
 
 Recommended commands:
 
@@ -35,10 +37,32 @@ Visit these routes:
 Expected results:
 
 - `/` shows an `Open Training Academy` link in the recovery route card.
-- `/launch/demo-unit-1` still supports flashcards, Memory Match unlock, and Star Dust progress.
+- `/launch/demo-unit-1` still supports flashcards, Memory Match unlock, Star Dust progress, and triggered recovery recommendations.
 - `/enter/ministar` still supports front-door code entry, multimedia package concept, and teacher-visible progress summary.
 - `/enter/ministar` shows recovery event counts in the teacher-visible sample stream.
 - `/training/demo-unit-1` shows the Training Academy recovery route.
+
+## Trigger Checks
+
+On `/launch/demo-unit-1`:
+
+1. Complete the flashcard entry practice.
+2. Start Memory Match.
+3. Intentionally create at least two mismatched pair checks.
+4. Confirm a `Recovery Practice Recommended` card appears.
+5. Confirm the card explains that Training Academy is optional support and does not block the game path.
+6. Tap the recovery recommendation text and confirm it speaks.
+7. Confirm the session event log records a `training_recommended` event.
+8. Confirm the recommendation event metadata includes `trainingEventType`, `recoveryTriggerId`, `triggerReason`, `sourceGameMode`, `recommendedGameMode`, `recoveryPath`, and `returnPath`.
+9. Click `Open Training` and confirm it routes to `/training/demo-unit-1`.
+10. Return to `/launch/demo-unit-1` and confirm the normal game path is still available.
+
+Low-score trigger check:
+
+1. Complete Memory Match with many attempts.
+2. If the completion reward is low enough, confirm the `Recovery Practice Recommended` card appears or remains visible.
+3. Confirm the metadata trigger reason is `low-completion-score` when that path is the active trigger.
+4. Confirm low-score recovery is deterministic and does not require AI Tutor.
 
 ## Training Academy Checks
 
@@ -85,6 +109,7 @@ On `/enter/ministar`:
 
 - The route is useful as a recovery lane before polish.
 - The route follows the audio-first standard.
+- Recovery recommendations are deterministic, explainable, and triggered by repeated misses or low completion results.
 - Recovery rewards are deterministic and smaller than primary unit-game rewards.
 - Training Academy remains core platform functionality, not premium AI Tutor functionality.
 - Teacher reports can count recovery events without a separate report stream.
