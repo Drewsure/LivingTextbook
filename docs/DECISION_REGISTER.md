@@ -39,6 +39,8 @@ Before accepting a new direction, answer these questions in the task, PR, or imp
 | DR-008 | Multimedia is core living-textbook content | Accepted | Audio, video, playlists, and optional background media belong in the initial content package model, not as later bolt-on pages. |
 | DR-009 | Audio-first learner support | Accepted | Every learner-facing term, sentence, instruction, feedback item, and critical control must have audio support through cue-level metadata. |
 | DR-010 | Research before reinvention | Accepted | Search public repositories, libraries, and asset sources before major custom systems, but require license, provenance, and integration review before adoption. |
+| DR-011 | Bounded upper-level AI tutor | Accepted | Preserve AI Tutor as a curriculum-aware upper-level capability, but do not build it before the core platform slice is verified. |
+| DR-012 | AI Tutor premium entitlement | Accepted | Treat AI Tutor as an optional premium package with tenant feature entitlements, usage limits, and clean disabled states. |
 
 ## DR-001: Tailwind And PostCSS Foundation
 
@@ -252,3 +254,47 @@ Constraints:
 - Do not promote external code into `apps/web`, `apps/ai-service`, or shared packages without an explicit integration plan.
 - Public-repo research should inform Z.ai task specs when outside agents are asked to prototype game modes.
 - This decision is supported by `docs/RESEARCH_NOTES_PUBLIC_REPOS.md` and `docs/FUTURE_REQUIREMENTS.md` FR-003.
+
+## DR-011: Bounded Upper-Level AI Tutor
+
+Status: Accepted
+
+Decision: Preserve AI Tutor as a future upper-level capability, but keep it bounded by tenant, curriculum, level, unit, approved vocabulary, approved sentence patterns, teacher rules, and safety rules.
+
+White-label impact: Positive. A bounded tutor can become a premium differentiator for schools, academies, publishers, and textbook partners without making MiniStar-specific tutor behavior universal.
+
+Cost impact: Mixed. It adds model, speech, moderation, privacy, storage, and support costs. These costs are acceptable only after the core platform works without AI and tutor usage is controlled.
+
+Phase fit: Future capability. Do not build active AI Tutor UI, model calls, or service flows before the first QR/front-door, flashcard, Memory Match, multimedia, and teacher-report slice is locally verified.
+
+Constraints:
+
+- No open-ended general chatbot for children.
+- No tutor response outside approved unit scope unless a reviewed mode explicitly allows it.
+- No AI-generated grading or teacher instructions without verified rules.
+- No raw transcript storage by default.
+- No hard-coded MiniStar tutor identity inside platform code.
+- Tutor interactions should produce teacher-visible learning summaries when implemented.
+- This decision is recorded in `docs/adr/0007-bounded-ai-tutor-upper-levels.md` and `docs/AI_TUTOR_STRATEGY.md`.
+
+## DR-012: AI Tutor Premium Entitlement
+
+Status: Accepted
+
+Decision: Treat AI Tutor as an optional premium entitlement, not a baseline dependency of the Living Textbook platform.
+
+White-label impact: Strongly positive. Schools and textbook partners can adopt the core product without recurring AI costs, while premium tenants can choose AI Tutor for advanced speaking, writing, correction, role play, and adaptive review.
+
+Cost impact: Positive if enforced. The platform avoids forcing model, speech, moderation, and infrastructure costs onto every tenant. Future pricing can use tenant feature flags, usage limits, enabled levels, and enabled tutor modes.
+
+Component boundary: Positive. AI Tutor availability belongs in tenant/package configuration and content-package tutor plans, not scattered conditionals in student game screens.
+
+Constraints:
+
+- Core QR launch, audio flashcards, games, multimedia, rewards, and teacher reporting must work with AI Tutor disabled.
+- AI Tutor must be enabled through tenant feature entitlement or package configuration.
+- Enabled AI Tutor plans must require premium or enterprise entitlement.
+- Usage limits, allowed levels, allowed modes, teacher enablement, and school enablement must be representable before active implementation.
+- Disabled states must be clean and must not block normal student progression.
+- Shared contracts now exist in `packages/content-model/src/index.ts`.
+- This decision is recorded in `docs/adr/0008-ai-tutor-premium-entitlement.md` and `docs/future-requirements/FR-006-bounded-ai-tutor-upper-levels.md`.
