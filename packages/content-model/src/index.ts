@@ -9,6 +9,7 @@ export type ContentPackageId = string;
 export type MediaAssetId = string;
 export type AudioCueId = string;
 export type PermanentQrId = string;
+export type LocaleCode = string;
 
 export type FeaturePackageTier = "core" | "multimedia" | "games" | "premium" | "enterprise";
 export type FeatureEntitlementId = "ai-tutor";
@@ -78,6 +79,8 @@ export type MediaUsageRole = "primary" | "background" | "prompt" | "review" | "c
 export type MediaPlaybackContext = "unit-home" | "game-background" | "teacher-preview" | "student-practice" | "completion-review";
 export type AudioCueKind = "term" | "sentence" | "instruction" | "feedback" | "ui-label" | "story-line";
 export type AudioCueSource = "recorded" | "text-to-speech" | "teacher-recorded" | "partner-provided" | "placeholder";
+export type AssistLanguageSource = "human-reviewed" | "teacher-provided" | "publisher-provided" | "ai-draft";
+export type AssistLanguageVisibility = "teacher-only" | "student-toggle" | "student-default";
 export type QrTargetType =
   | "front-door"
   | "unit-launch"
@@ -100,6 +103,14 @@ export interface TenantFeatureEntitlements {
   aiTutor?: AiTutorEntitlement;
 }
 
+export interface TenantLanguageSettings {
+  targetLanguage: LocaleCode;
+  defaultUiLanguage: LocaleCode;
+  assistLanguages: LocaleCode[];
+  studentAssistEnabledByDefault?: boolean;
+  liveAiAssistAllowed?: boolean;
+}
+
 export interface UnitAiTutorPlan {
   unitKey: string;
   enabled: boolean;
@@ -113,6 +124,20 @@ export interface UnitAiTutorPlan {
   studentAudioInput?: boolean;
   studentAudioOutput?: boolean;
   maxResponseSentences?: number;
+}
+
+export interface UnitAssistLanguagePlan {
+  unitKey: string;
+  targetLanguage: LocaleCode;
+  assistLanguage: LocaleCode;
+  source: AssistLanguageSource;
+  reviewStatus: ContentReviewStatus;
+  studentVisibility: AssistLanguageVisibility;
+  vocabularyGlosses: Record<string, string>;
+  sentenceGlosses: [string, string];
+  instructionGlosses?: Record<string, string>;
+  teacherNotes?: string[];
+  allowLiveAiFallback?: boolean;
 }
 
 export interface TextbookReference {
@@ -253,6 +278,7 @@ export interface ContentPackage {
   mediaAssets?: MediaAsset[];
   audioCues?: AudioCue[];
   audioSupportPlans?: UnitAudioSupportPlan[];
+  assistLanguagePlans?: UnitAssistLanguagePlan[];
   playlists?: UnitMediaPlaylist[];
   multimediaPlans?: UnitMultimediaPlan[];
   aiTutorPlans?: UnitAiTutorPlan[];
@@ -614,6 +640,37 @@ export function validateContentPackage(contentPackage: ContentPackage): string[]
 
     if (!unitKeys.has(plan.unitKey)) {
       errors.push(`AI Tutor plan references missing unit ${plan.unitKey}.`);
+    }
+  }
+
+  for (const plan of contentPackage.assistLanguagePlans ?? []) {
+    const unit = contentPackage.units.find((packageUnit) => getUnitKey(packageUnit.unitMeta) === plan.unitKey);
+
+    if (!unit) {
+      errors.push(`Assist language plan references missing unit ${plan.unitKey}.`);
+      continue;
+    }
+
+    if (plan.targetLanguage.trim().length === 0 || plan.assistLanguage.trim().length === 0) {
+      errors.push(`Assist language plan for ${plan.unitKey} must include target and assist language codes.`);
+    }
+
+    if (plan.targetLanguage === plan.assistLanguage) {
+      errors.push(`Assist language plan for ${plan.unitKey} must use a different assist language from the target language.`);
+    }
+
+    if (plan.studentVisibility !== "teacher-only" && (plan.reviewStatus === "draft" || plan.reviewStatus === "rejected")) {
+      errors.push(`Student-visible assist language plan for ${plan.unitKey} must be reviewed, verified, or approved.`);
+    }
+
+    for (const term of unit.pedagogicalPayload.vocabularyTerms) {
+      if (!plan.vocabularyGlosses[term]) {
+        errors.push(`Assist language plan for ${plan.unitKey} is missing a vocabulary gloss for ${term}.`);
+      }
+    }
+
+    if (plan.sentenceGlosses.length !== unit.pedagogicalPayload.targetSentences.length) {
+      errors.push(`Assist language plan for ${plan.unitKey} must include exactly two sentence glosses.`);
     }
   }
 
