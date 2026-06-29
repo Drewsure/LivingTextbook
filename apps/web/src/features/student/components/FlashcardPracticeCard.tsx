@@ -6,10 +6,12 @@ import type {
   GameModeId,
   LaunchSession,
   StudentProgressionState,
+  UnitAssistLanguagePlan,
   UnitPayload,
 } from "@living-textbook/content-model";
 import { AudioCueText } from "@/features/audio/AudioCueButton";
 import { AudioSupportedAction } from "@/features/audio/AudioSupportedAction";
+import { formatLanguageName } from "@/features/language/languageLabels";
 import { formatLabel, formatMode } from "../studentLabels";
 import type { TenantConfig } from "@/features/tenant/types";
 
@@ -22,6 +24,7 @@ interface FlashcardPracticeCardProps {
   lastEarnedDust: number;
   nextMode?: GameModeId;
   audioCues?: AudioCue[];
+  assistLanguagePlan?: UnitAssistLanguagePlan;
   onComplete: () => void;
 }
 
@@ -34,6 +37,7 @@ export function FlashcardPracticeCard({
   lastEarnedDust,
   nextMode,
   audioCues = [],
+  assistLanguagePlan,
   onComplete,
 }: FlashcardPracticeCardProps) {
   const instructionCue = findAudioCueForGame(audioCues, "instruction", launchSession.entryMode);
@@ -42,6 +46,7 @@ export function FlashcardPracticeCard({
     ? feedbackCue?.text ?? `${formatMode(launchSession.entryMode)} is complete. ${nextMode ? `${formatMode(nextMode)} is ready.` : "The next activity is ready."}`
     : instructionCue?.text ?? "Tap each word to hear it. Then repeat.";
   const actionText = entryComplete ? "Practice complete" : "Mark practice complete";
+  const assistInstruction = assistLanguagePlan?.instructionGlosses?.[entryMessage];
 
   return (
     <Card>
@@ -56,17 +61,23 @@ export function FlashcardPracticeCard({
               className="text-sm"
             />
           </p>
+          {assistLanguagePlan && (
+            <p className="mt-2 text-xs font-semibold text-[var(--tenant-muted)]">
+              Assist: {formatLanguageName(assistLanguagePlan.assistLanguage)} / {assistLanguagePlan.reviewStatus}
+            </p>
+          )}
         </div>
         <StatusPill label={formatLabel(progression.masteryStatus)} tone={entryComplete ? "success" : "neutral"} />
       </div>
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
         {unit.pedagogicalPayload.vocabularyTerms.map((term) => {
           const audioCue = findAudioCue(audioCues, "term", term);
+          const assistGloss = assistLanguagePlan?.vocabularyGlosses[term];
 
           return (
             <div
               key={term}
-              className="flex min-h-24 items-center justify-center rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4 text-center"
+              className="flex min-h-28 flex-col items-center justify-center rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4 text-center"
             >
               <AudioCueText
                 text={audioCue?.text ?? term}
@@ -74,6 +85,14 @@ export function FlashcardPracticeCard({
                 label={`Tap ${term} to hear it`}
                 className="text-lg font-bold"
               />
+              {assistLanguagePlan && assistGloss && (
+                <AudioCueText
+                  text={assistGloss}
+                  language={assistLanguagePlan.assistLanguage}
+                  label={`Tap the ${formatLanguageName(assistLanguagePlan.assistLanguage)} assist for ${term}`}
+                  className="mt-2 text-sm font-semibold text-[var(--tenant-muted)]"
+                />
+              )}
             </div>
           );
         })}
@@ -81,8 +100,9 @@ export function FlashcardPracticeCard({
       <div className="mt-4 rounded-lg border border-[var(--tenant-border)] p-4">
         <p className="text-sm font-semibold">Target sentences</p>
         <div className="mt-3 grid gap-3">
-          {unit.pedagogicalPayload.targetSentences.map((sentence) => {
+          {unit.pedagogicalPayload.targetSentences.map((sentence, index) => {
             const audioCue = findAudioCue(audioCues, "sentence", sentence);
+            const assistSentence = assistLanguagePlan?.sentenceGlosses[index];
 
             return (
               <div key={sentence} className="rounded-lg bg-[var(--tenant-primary-soft)] p-3">
@@ -92,6 +112,16 @@ export function FlashcardPracticeCard({
                   label={`Tap the sentence to hear ${sentence}`}
                   className="text-sm font-semibold"
                 />
+                {assistLanguagePlan && assistSentence && (
+                  <div className="mt-2">
+                    <AudioCueText
+                      text={assistSentence}
+                      language={assistLanguagePlan.assistLanguage}
+                      label={`Tap the ${formatLanguageName(assistLanguagePlan.assistLanguage)} sentence assist`}
+                      className="text-sm font-semibold text-[var(--tenant-muted)]"
+                    />
+                  </div>
+                )}
               </div>
             );
           })}
@@ -108,6 +138,16 @@ export function FlashcardPracticeCard({
               className="text-sm"
             />
           </p>
+          {assistLanguagePlan && assistInstruction && (
+            <p className="mt-1 text-sm text-[var(--tenant-muted)]">
+              <AudioCueText
+                text={assistInstruction}
+                language={assistLanguagePlan.assistLanguage}
+                label="Tap the assist-language entry practice message to hear it"
+                className="text-sm"
+              />
+            </p>
+          )}
           {lastEarnedDust > 0 && (
             <p className="mt-2 text-sm font-semibold text-[var(--tenant-text)]">
               +{lastEarnedDust} {tenant.rewardName}
