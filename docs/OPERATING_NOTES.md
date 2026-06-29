@@ -76,4 +76,22 @@ Procedure:
 5. Clearly distinguish connector readback verification from local build, typecheck, or browser verification.
 6. Avoid local edits on `main` while connector work is happening on `legacy-source-import` unless the task explicitly calls for local branch repair.
 
+Preferred recovery when `.git` write remains blocked:
+
+1. Preserve the stale local folder by renaming it to `LivingTextbook-local-main-backup`.
+2. Clone `Drewsure/LivingTextbook` fresh into `D:\LIVING TEXTBOOOK PROJECT\LivingTextbook` using branch `legacy-source-import`.
+3. Confirm `git status --short --branch` reports `legacy-source-import`.
+4. Confirm `git remote -v` shows the GitHub remote.
+5. Install dependencies if needed.
+6. Run typecheck/build.
+7. Start the local web app and verify `/launch/demo-unit-1` and `/enter/ministar` against `docs/VERIFICATION_CHECKLIST.md`.
+
+Manual PowerShell recovery commands:
+
+```powershell
+cd "D:\LIVING TEXTBOOOK PROJECT"
+Rename-Item "LivingTextbook" "LivingTextbook-local-main-backup"
+git clone --branch legacy-source-import https://github.com/Drewsure/LivingTextbook.git LivingTextbook
+```
+
 Why this matters: It prevents false confidence, avoids testing stale files, and keeps future work from splitting between an unsynced local checkout and the remote branch.
