@@ -10,6 +10,7 @@ import type {
   FrontDoorAccessPolicy,
   GameProgressEvent,
   PermanentQrRoute,
+  UnitAssistLanguagePlan,
 } from "@living-textbook/content-model";
 import { levelOneUnitOne } from "./levelOneUnitOne";
 
@@ -121,6 +122,34 @@ const sampleAudioCues = [
   ...sampleFeedbackAudioCues,
 ];
 
+export const sampleJapaneseAssistPlan: UnitAssistLanguagePlan = {
+  unitKey: sampleUnitKey,
+  targetLanguage: "en",
+  assistLanguage: "ja",
+  source: "human-reviewed",
+  reviewStatus: "reviewed",
+  studentVisibility: "student-toggle",
+  vocabularyGlosses: {
+    hello: "こんにちは",
+    goodbye: "さようなら",
+    please: "お願いします",
+    "thank you": "ありがとう",
+    yes: "はい",
+    no: "いいえ",
+    teacher: "先生",
+    friend: "友だち",
+  },
+  sentenceGlosses: ["こんにちは、先生。", "ありがとう、友だち。"],
+  instructionGlosses: {
+    "Tap each card. Listen and repeat.": "カードをタップして、聞いて、まねして言いましょう。",
+    "Great work. Memory Match is unlocked.": "よくできました。メモリーマッチができるようになりました。",
+  },
+  teacherNotes: [
+    "Japanese assist is optional, reviewed sample support for early learners and must not become a platform-wide assumption.",
+  ],
+  allowLiveAiFallback: false,
+};
+
 export const sampleMultimediaContentPackage: ContentPackage = {
   meta: {
     packageId: contentPackageId,
@@ -207,6 +236,7 @@ export const sampleMultimediaContentPackage: ContentPackage = {
       fallbackVoice: "tenant-default-child-friendly-en",
     },
   ],
+  assistLanguagePlans: [sampleJapaneseAssistPlan],
   playlists: [
     {
       playlistId: "playlist-ministar-l1-u1-greetings",
@@ -308,6 +338,7 @@ export const sampleTeacherProgressSummaryConcept: TeacherProgressSummaryConcept 
     "Media pause and resume engagement",
     "Optional background media use",
     "Audio cue engagement for learner-facing text",
+    "Reviewed assist-language support",
     "Star Dust progress",
   ],
   sampleEvents: [
