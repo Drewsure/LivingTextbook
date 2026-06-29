@@ -28,6 +28,7 @@ export function UnitMediaPlaybackCard({
   const [playbackError, setPlaybackError] = useState(false);
   const sourceUri = asset.sourceUri ?? asset.localBundlePath;
   const statusLabel = completed ? "Completed" : paused ? "Paused" : started ? "Started" : "Ready";
+  const startActionLabel = paused ? "Resume media" : "Start media";
 
   return (
     <article className="rounded-lg border border-[var(--tenant-border)] p-4">
@@ -93,11 +94,11 @@ export function UnitMediaPlaybackCard({
         <AudioSupportedAction
           type="button"
           variant="secondary"
-          audioText="Start media"
+          audioText={startActionLabel}
           onClick={onStart}
-          disabled={started}
+          disabled={(started && !paused) || completed}
         >
-          Start media
+          {startActionLabel}
         </AudioSupportedAction>
         <AudioSupportedAction
           type="button"
