@@ -66,18 +66,15 @@ Next outputs:
 
 Purpose: Add the smallest deterministic recovery path before database persistence, AI Tutor, or premium polish.
 
-Current status: Active connector-side local-state prototype exists on `legacy-source-import` at `/training/[code]`. It uses the shared launch/session/progression shape, reuses tap-to-speak audio support, awards small recovery Star Dust, records teacher-visible recovery metadata, and returns the student to the normal unit route. Local pull, typecheck/build, and browser verification are required after this connector-side change.
+Current status: Active local-state prototype exists on `legacy-source-import` at `/training/[code]`. It uses the shared launch/session/progression shape, reuses tap-to-speak audio support, awards small recovery Star Dust, records teacher-visible recovery metadata, and returns the student to the normal unit route. Local typecheck/build passed after the repository owner pulled the connector-side work; browser route was reported working.
 
 Implemented path:
 
 Training recommendation -> vocabulary review -> tap-to-speak review terms -> target sentence listening -> start review event -> answer submission/result metadata -> training completed -> small recovery Star Dust -> return-to-unit event -> link back to `/launch/[code]`.
 
-Required gate:
+Remaining gate:
 
-- Pull latest `legacy-source-import` locally.
-- Run typecheck/build.
-- Verify `/training/demo-unit-1` against `docs/VERIFICATION_CHECKLIST.md`.
-- Confirm `/launch/demo-unit-1` and `/enter/ministar` still work after the new route.
+- Run mobile verification for `/training/demo-unit-1`.
 - Promote dedicated Training Academy event types into `packages/content-model` only after the metadata bridge proves stable.
 
 Next outputs:
@@ -86,6 +83,32 @@ Next outputs:
 - Trigger logic from low score or repeated misses.
 - Focus-specific configs for sentence, listening, spelling, and mode-practice recovery.
 - Persistence plan after local-state behavior is verified.
+
+## Session 2.75: Reviewed Assist Language Foundation
+
+Purpose: Make multilingual assist support part of the content-package foundation without hard-coding Japanese or depending on live AI translation.
+
+Current status: Connector-side implementation in progress on `legacy-source-import`. Shared content-model contracts, MiniStar tenant language settings, and a reviewed MiniStar Japanese sample plan are being added. Local pull, typecheck/build, and browser verification are required after this connector-side change.
+
+Implemented path:
+
+Tenant language settings -> optional content-package assist language plan -> reviewed vocabulary and sentence glosses -> package summary visibility -> optional student-facing flashcard assist text -> tap-to-speak assist text.
+
+Required gate:
+
+- Pull latest `legacy-source-import` locally.
+- Run typecheck/build.
+- Verify `/` shows assist-language package status.
+- Verify `/launch/demo-unit-1` and `/enter/ministar` show Japanese assist text under flashcard terms and target sentences.
+- Confirm Japanese is package data, not hard-coded globally.
+- Confirm live AI assist remains disabled for the core sample.
+
+Next outputs:
+
+- Teacher toggle/state for showing or hiding assist language.
+- Assist-language review workflow for PDF/imported units.
+- Optional recorded assist-language audio cues.
+- Broader UI localization later, separate from learning-content assist.
 
 ## Session 3: Content Package And PDF Unit Onboarding
 
@@ -99,6 +122,7 @@ Outputs:
 - AI authoring/verifier integration plan.
 - Mapping from textbook page/unit to digital launch payload.
 - Mapping from textbook page/unit/activity to multimedia assets and playlists.
+- Mapping from textbook content to reviewed assist-language package data when tenants require it.
 
 ## Session 4: QR Registry And Route Permanence
 
@@ -152,11 +176,12 @@ Outputs:
 - Sample game payloads.
 - Sample audio/video platform payloads.
 - Sample unit playlist and optional game-background media setting.
+- Sample assist-language package if required by the tenant.
 - Pilot verification checklist.
 
 ## Session 8: Premium Experience Layer
 
-Purpose: Add polish only after the vertical slice, content package, QR strategy, multimedia foundation, game-engine foundation, and Training Academy foundation are stable.
+Purpose: Add polish only after the vertical slice, content package, QR strategy, multimedia foundation, game-engine foundation, Training Academy foundation, and assist-language foundation are stable.
 
 Outputs:
 
@@ -202,4 +227,4 @@ If a proposed task does not fit one of these sessions, document whether it is:
 
 Do not add premium polish yet.
 
-The hard gate is to pull the active Training Academy connector-side work, run typecheck/build, and verify `/training/demo-unit-1` alongside `/launch/demo-unit-1` and `/enter/ministar`. After that, the next safest structural task is teacher-report integration for recovery events, followed by trigger logic for low scores or repeated misses.
+The hard gate is to pull the active assist-language connector-side work, run typecheck/build, and verify `/`, `/launch/demo-unit-1`, and `/enter/ministar`. After that, the next safest structural task is teacher-report integration for Training Academy recovery events, followed by trigger logic for low scores or repeated misses.
