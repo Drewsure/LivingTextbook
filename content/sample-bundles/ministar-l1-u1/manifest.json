@@ -1,0 +1,56 @@
+{
+  "bundle_id": "ministar-level-1-unit-1-demo",
+  "tenant_id": "ministar",
+  "curriculum_id": "ministar-english",
+  "series_id": "ministar-english",
+  "book_id": "level-1",
+  "unit_ids": ["unit-1"],
+  "version": "0.1.0",
+  "created_at": "2026-06-29T00:00:00.000Z",
+  "content_package_path": "content-package.json",
+  "media_root": "media/",
+  "offline_ready": false,
+  "requires_hosted_redirect": false,
+  "notes": "Planning manifest only. Media files are not bundled yet.",
+  "assets": [
+    {
+      "asset_id": "media-ministar-l1-u1-greetings-chant",
+      "kind": "audio",
+      "type": "chant",
+      "local_path": "media/audio/greetings-chant.mp3",
+      "source_uri": "/media/demo/ministar/l1-u1/greetings-chant.mp3",
+      "checksum": "sha256-placeholder-not-ready",
+      "duration_seconds": 48,
+      "rights_status": "partner-provided"
+    },
+    {
+      "asset_id": "media-ministar-l1-u1-greetings-video",
+      "kind": "video",
+      "type": "lesson-video",
+      "local_path": "media/video/hello-friends.mp4",
+      "poster_path": "media/posters/hello-friends-poster.jpg",
+      "transcript_path": "media/captions/hello-friends-transcript.vtt",
+      "source_uri": "/media/demo/ministar/l1-u1/hello-friends.mp4",
+      "checksum": "sha256-placeholder-not-ready",
+      "duration_seconds": 92,
+      "rights_status": "partner-provided"
+    }
+  ],
+  "routes": [
+    {
+      "qr_id": "qr-ministar-l1-u1-front-door",
+      "target_type": "front-door",
+      "target_id": "enter:ministar:greetings-demo",
+      "local_fallback_path": "/enter/ministar"
+    }
+  ],
+  "feature_entitlements": {
+    "ai_tutor": {
+      "enabled": false,
+      "package_tier": "premium",
+      "allowed_levels": [6, 7, 8],
+      "allowed_modes": ["fix-my-sentence", "role-play", "review-coach"],
+      "monthly_usage_limit": 0
+    }
+  }
+}
