@@ -143,6 +143,28 @@ Outputs:
 - Sound feedback.
 - Multimedia presentation polish.
 
+## Session 9: Optional Premium AI Tutor Layer
+
+Purpose: Preserve a saleable premium AI Tutor package for upper-level speaking, writing, correction, role play, and adaptive review without making the core platform depend on AI costs.
+
+Current status: Strategy, ADRs, future requirement, standards, decision register entries, shared content-model contracts, tenant feature entitlement shape, disabled MiniStar sample entitlement, disabled Level 1 package plan, dashboard package status, and focused verification checklist exist on `legacy-source-import`. Active tutor UI, model calls, speech services, billing, and tutor routes remain explicitly deferred.
+
+Required gate:
+
+- Complete local build/browser verification of the foundation slice first.
+- Confirm privacy, safety, transcript, usage-limit, and teacher-report rules before active tutor implementation.
+- Select one upper-level unit before building the first tutor prototype.
+- Keep AI Tutor premium-gated and disabled cleanly for tenants that do not adopt it.
+
+Outputs:
+
+- Tenant feature entitlement model.
+- Unit-level tutor plan model.
+- Upper-level tutor prototype route after foundation verification.
+- Teacher-visible tutor summary events.
+- Usage and cost controls.
+- Safety and privacy verification.
+
 ## Build Session Rule
 
 If a proposed task does not fit one of these sessions, document whether it is:
@@ -156,4 +178,4 @@ If a proposed task does not fit one of these sessions, document whether it is:
 
 Do not add premium polish yet.
 
-Next concrete task is still to synchronize or repair the local checkout so `legacy-source-import` can be built and visually verified. If connector-only work must continue before that, the next safest structural tasks are pause telemetry for media playback, local/offline bundle resolution contracts, or the next small parent-engine mode config after a public-repository research pass.
+The hard gate is still to synchronize or repair the local checkout so `legacy-source-import` can be built and visually verified. If connector-only work must continue before that, the next safest structural tasks are pause telemetry for media playback, local/offline bundle resolution contracts, Training Academy route/event contracts, or the next small parent-engine mode config after a public-repository research pass.
