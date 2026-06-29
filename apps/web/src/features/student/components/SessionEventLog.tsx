@@ -11,7 +11,7 @@ export function SessionEventLog({ events }: SessionEventLogProps) {
     <Card>
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h3 className="text-lg font-bold">Progress Summary</h3>
+          <h3 className="text-lg font-bold">Progress Event Log</h3>
           <p className="mt-1 text-sm text-[var(--tenant-muted)]">
             This session has recorded {events.length} update{events.length === 1 ? "" : "s"}.
           </p>
@@ -27,6 +27,7 @@ export function SessionEventLog({ events }: SessionEventLogProps) {
           events.map((event, index) => (
             <div key={`${event.type}-${event.gameMode}-${index}`} className="rounded-lg border border-[var(--tenant-border)] p-4">
               <p className="text-sm font-semibold">{formatLabel(event.type)}</p>
+              <p className="mt-1 font-mono text-xs text-[var(--tenant-muted)]">{event.type}</p>
               <p className="mt-1 text-sm text-[var(--tenant-muted)]">{formatMode(event.gameMode)}</p>
             </div>
           ))
