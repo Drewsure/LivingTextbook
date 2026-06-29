@@ -10,6 +10,24 @@ export type MediaAssetId = string;
 export type AudioCueId = string;
 export type PermanentQrId = string;
 
+export type FeaturePackageTier = "core" | "multimedia" | "games" | "premium" | "enterprise";
+export type FeatureEntitlementId = "ai-tutor";
+
+export type AiTutorModeId =
+  | "speak-with-me"
+  | "fix-my-sentence"
+  | "explain-my-mistake"
+  | "role-play"
+  | "writing-coach"
+  | "review-coach"
+  | "teacher-prompt";
+
+export type AiTutorSourceScope =
+  | "current-unit-only"
+  | "current-module"
+  | "approved-curriculum-window"
+  | "teacher-selected-sources";
+
 export type GameFamily =
   | "core-quiz"
   | "vocabulary-matching"
@@ -67,6 +85,35 @@ export type QrTargetType =
   | "media-playlist"
   | "media-asset"
   | "teacher-preview";
+
+export interface AiTutorEntitlement {
+  enabled: boolean;
+  packageTier: FeaturePackageTier;
+  allowedLevels: number[];
+  allowedModes: AiTutorModeId[];
+  monthlyUsageLimit?: number;
+  teacherEnabled?: boolean;
+  schoolEnabled?: boolean;
+}
+
+export interface TenantFeatureEntitlements {
+  aiTutor?: AiTutorEntitlement;
+}
+
+export interface UnitAiTutorPlan {
+  unitKey: string;
+  enabled: boolean;
+  entitlementRequired: FeaturePackageTier;
+  minimumLevel?: number;
+  allowedModes: AiTutorModeId[];
+  sourceScope: AiTutorSourceScope;
+  approvedTerms?: string[];
+  approvedSentencePatterns?: string[];
+  teacherReviewRequired?: boolean;
+  studentAudioInput?: boolean;
+  studentAudioOutput?: boolean;
+  maxResponseSentences?: number;
+}
 
 export interface TextbookReference {
   seriesId?: SeriesId;
@@ -208,6 +255,7 @@ export interface ContentPackage {
   audioSupportPlans?: UnitAudioSupportPlan[];
   playlists?: UnitMediaPlaylist[];
   multimediaPlans?: UnitMultimediaPlan[];
+  aiTutorPlans?: UnitAiTutorPlan[];
 }
 
 export interface PermanentQrIdentifier {
@@ -318,6 +366,10 @@ function collectAudioCueIds(plan: UnitAudioSupportPlan): AudioCueId[] {
   ];
 }
 
+function isPremiumAiTutorTier(tier: FeaturePackageTier): boolean {
+  return tier === "premium" || tier === "enterprise";
+}
+
 export function getUnitKey(meta: Pick<UnitMeta, "tenantId" | "curriculumId" | "level" | "unit">): string {
   return `${meta.tenantId}:${meta.curriculumId}:L${meta.level}:U${meta.unit}`;
 }
@@ -415,6 +467,58 @@ export function completeEntryPractice(args: {
   };
 }
 
+export function validateAiTutorEntitlement(entitlement: AiTutorEntitlement): string[] {
+  const errors: string[] = [];
+
+  if (entitlement.enabled && !isPremiumAiTutorTier(entitlement.packageTier)) {
+    errors.push("AI Tutor entitlement must use premium or enterprise package tier when enabled.");
+  }
+
+  if (entitlement.enabled && entitlement.allowedLevels.length === 0) {
+    errors.push("Enabled AI Tutor entitlement must list allowed levels.");
+  }
+
+  if (entitlement.enabled && entitlement.allowedModes.length === 0) {
+    errors.push("Enabled AI Tutor entitlement must list allowed tutor modes.");
+  }
+
+  if (entitlement.allowedLevels.some((level) => level < 1 || level > 12)) {
+    errors.push("AI Tutor allowed levels must be between 1 and 12.");
+  }
+
+  if (entitlement.monthlyUsageLimit !== undefined && entitlement.monthlyUsageLimit < 0) {
+    errors.push("AI Tutor monthly usage limit cannot be negative.");
+  }
+
+  return errors;
+}
+
+export function validateUnitAiTutorPlan(plan: UnitAiTutorPlan): string[] {
+  const errors: string[] = [];
+
+  if (plan.unitKey.trim().length === 0) {
+    errors.push("AI Tutor plan must include a unit key.");
+  }
+
+  if (plan.enabled && !isPremiumAiTutorTier(plan.entitlementRequired)) {
+    errors.push("Enabled AI Tutor plan must require premium or enterprise entitlement.");
+  }
+
+  if (plan.enabled && plan.allowedModes.length === 0) {
+    errors.push("Enabled AI Tutor plan must list at least one allowed tutor mode.");
+  }
+
+  if (plan.minimumLevel !== undefined && (plan.minimumLevel < 1 || plan.minimumLevel > 12)) {
+    errors.push("AI Tutor minimum level must be between 1 and 12.");
+  }
+
+  if (plan.maxResponseSentences !== undefined && (plan.maxResponseSentences < 1 || plan.maxResponseSentences > 8)) {
+    errors.push("AI Tutor max response sentences must be between 1 and 8.");
+  }
+
+  return errors;
+}
+
 export function validateUnitPayload(payload: UnitPayload): string[] {
   const errors: string[] = [];
   const termCount = payload.pedagogicalPayload.vocabularyTerms.length;
@@ -437,6 +541,7 @@ export function validateUnitPayload(payload: UnitPayload): string[] {
 export function validateContentPackage(contentPackage: ContentPackage): string[] {
   const errors: string[] = [];
   const audioCueIds = new Set((contentPackage.audioCues ?? []).map((cue) => cue.audioCueId));
+  const unitKeys = new Set(contentPackage.units.map((unit) => getUnitKey(unit.unitMeta)));
 
   if (contentPackage.units.length === 0) {
     errors.push("Content package must include at least one unit payload.");
@@ -501,6 +606,14 @@ export function validateContentPackage(contentPackage: ContentPackage): string[]
   for (const plan of contentPackage.multimediaPlans ?? []) {
     if (plan.defaultVolumePercent !== undefined && (plan.defaultVolumePercent < 0 || plan.defaultVolumePercent > 100)) {
       errors.push(`Multimedia plan for ${plan.unitKey} must use a default volume from 0 to 100.`);
+    }
+  }
+
+  for (const plan of contentPackage.aiTutorPlans ?? []) {
+    errors.push(...validateUnitAiTutorPlan(plan));
+
+    if (!unitKeys.has(plan.unitKey)) {
+      errors.push(`AI Tutor plan references missing unit ${plan.unitKey}.`);
     }
   }
 
