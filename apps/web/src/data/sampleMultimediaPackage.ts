@@ -281,6 +281,7 @@ export interface TeacherProgressSummaryConcept {
   flashcardCompletions: number;
   memoryMatchStarts: number;
   mediaStarts: number;
+  mediaPauses: number;
   mediaCompletions: number;
   backgroundMediaOptIns: number;
   averageStarDust: number;
@@ -296,6 +297,7 @@ export const sampleTeacherProgressSummaryConcept: TeacherProgressSummaryConcept 
   flashcardCompletions: 10,
   memoryMatchStarts: 8,
   mediaStarts: 9,
+  mediaPauses: 3,
   mediaCompletions: 6,
   backgroundMediaOptIns: 4,
   averageStarDust: 325,
@@ -303,6 +305,7 @@ export const sampleTeacherProgressSummaryConcept: TeacherProgressSummaryConcept 
     "Entry practice completion",
     "Memory Match starts",
     "Playlist/media engagement",
+    "Media pause and resume engagement",
     "Optional background media use",
     "Audio cue engagement for learner-facing text",
     "Star Dust progress",
@@ -323,6 +326,17 @@ export const sampleTeacherProgressSummaryConcept: TeacherProgressSummaryConcept 
       launchCode: "demo-unit-1",
       studentSessionId: "demo-unit-1:student-04",
       occurredAt: "2026-06-28T00:06:00.000Z",
+      metadata: {
+        mediaAssetId: "media-ministar-l1-u1-greetings-chant",
+      },
+    },
+    {
+      type: "media_paused",
+      unitKey: sampleUnitKey,
+      gameMode: "flashcards",
+      launchCode: "demo-unit-1",
+      studentSessionId: "demo-unit-1:student-04",
+      occurredAt: "2026-06-28T00:07:00.000Z",
       metadata: {
         mediaAssetId: "media-ministar-l1-u1-greetings-chant",
       },
