@@ -10,6 +10,7 @@ import {
 } from "@/data/sampleMultimediaPackage";
 import { sampleLaunchSession } from "@/data/sampleLaunchSession";
 import type { TenantConfig } from "@/features/tenant/types";
+import { VoiceTutorPackagePanel } from "@/features/ai-tutor/VoiceTutorPackagePanel";
 import { GameSequence } from "@/features/game-shell/GameSequence";
 import { MultimediaPackagePanel } from "@/features/multimedia/MultimediaPackagePanel";
 import { ProgressionSummary } from "@/features/progression/ProgressionSummary";
@@ -26,7 +27,9 @@ interface DashboardOverviewProps {
 export function DashboardOverview({ tenant, unit }: DashboardOverviewProps) {
   const validationErrors = validateUnitPayload(unit);
   const aiTutorAvailability = getAiTutorAvailability({ tenant, level: unit.unitMeta.level, mode: "fix-my-sentence" });
+  const voiceTutorAvailability = getAiTutorAvailability({ tenant, level: unit.unitMeta.level, mode: "speak-with-me" });
   const trainingAcademyPath = getTrainingAcademyPath(sampleLaunchSession.launchCode);
+  const aiTutorPlan = sampleMultimediaContentPackage.aiTutorPlans?.[0];
 
   return (
     <div className="grid gap-5 lg:grid-cols-[1.4fr_0.9fr]">
@@ -87,6 +90,7 @@ export function DashboardOverview({ tenant, unit }: DashboardOverviewProps) {
             QR launch, audio flashcards, games, multimedia, rewards, and teacher reporting remain part of the core package.
           </p>
         </Card>
+        <VoiceTutorPackagePanel availability={voiceTutorAvailability} plan={aiTutorPlan} />
         <TeacherProgressSummaryConcept summary={sampleTeacherProgressSummaryConcept} />
       </aside>
     </div>
