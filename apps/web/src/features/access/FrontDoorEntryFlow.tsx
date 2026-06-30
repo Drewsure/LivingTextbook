@@ -59,6 +59,7 @@ export function FrontDoorEntryFlow({
   const [sessionEvents, setSessionEvents] = useState<GameProgressEvent[]>([]);
   const [lastEarnedDust, setLastEarnedDust] = useState(0);
   const [activeGameMode, setActiveGameMode] = useState<GameModeId | undefined>();
+  const [targetPracticeEngagedItemIds, setTargetPracticeEngagedItemIds] = useState<string[]>([]);
 
   const entryComplete = currentProgression.completedGameModes.includes(launchSession.entryMode);
   const nextMode = launchSession.recommendedNextModes[0];
@@ -67,6 +68,9 @@ export function FrontDoorEntryFlow({
   );
   const nextModeStarted = Boolean(nextMode && activeGameMode === nextMode);
   const mediaAssetCount = contentPackage.mediaAssets?.length ?? 0;
+  const targetPracticeRequiredCount = unit.pedagogicalPayload.vocabularyTerms.length + unit.pedagogicalPayload.targetSentences.length;
+  const targetPracticeEngagedCount = targetPracticeEngagedItemIds.length;
+  const targetPracticeReady = entryComplete || targetPracticeEngagedCount >= targetPracticeRequiredCount;
   const assistLanguagePlan = contentPackage.assistLanguagePlans?.find(
     (plan) => plan.unitKey === launchSession.unitKey && plan.studentVisibility !== "teacher-only",
   );
@@ -100,12 +104,22 @@ export function FrontDoorEntryFlow({
     }
   }
 
+  function handleTargetPracticeEngaged(itemId: string) {
+    setTargetPracticeEngagedItemIds((itemIds) => (itemIds.includes(itemId) ? itemIds : [...itemIds, itemId]));
+  }
+
   function handleCompleteEntryPractice() {
+    if (!targetPracticeReady || entryComplete) {
+      return;
+    }
+
     const result = completeFlashcardEntryPractice({
       progression: currentProgression,
       launchSession,
       unit,
       occurredAt: new Date().toISOString(),
+      targetLanguageEngagedItems: targetPracticeEngagedCount,
+      requiredTargetLanguageItems: targetPracticeRequiredCount,
     });
 
     setCurrentProgression(result.progression);
@@ -209,6 +223,10 @@ export function FrontDoorEntryFlow({
               nextMode={nextMode}
               audioCues={contentPackage.audioCues}
               assistLanguagePlan={assistLanguagePlan}
+              targetPracticeEngagedCount={targetPracticeEngagedCount}
+              targetPracticeRequiredCount={targetPracticeRequiredCount}
+              targetPracticeReady={targetPracticeReady}
+              onTargetPracticeEngaged={handleTargetPracticeEngaged}
               onComplete={handleCompleteEntryPractice}
             />
             <RewardPreviewCard
