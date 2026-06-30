@@ -191,3 +191,25 @@ Procedure:
 6. Keep the generated `apps/web/next-env.d.ts` local modification uncommitted unless a real source change requires it.
 
 Why this matters: It keeps progress moving without unsafe local workarounds, and it makes the human-side pull an explicit bridge rather than a mystery failure.
+
+## OW-009: Tailwind Variable Color Classes Need Explicit Color Syntax
+
+Status: Active
+
+Observed behavior: Tailwind arbitrary text color classes such as `text-[var(--tenant-primary-text)]` can be interpreted ambiguously or fail to compile as a color utility. The visual symptom is a dark tenant-primary button with invisible dark inherited text, even though the component appears correct in JSX.
+
+Observed failure signatures:
+
+- Primary buttons render as dark blocks with no readable label.
+- `Mark practice complete` or `Start Memory Match` appears to be missing even though the button exists and is clickable.
+- Typecheck/build pass because the issue is CSS utility generation, not TypeScript.
+
+Procedure:
+
+1. For tenant color variables used as text colors, use explicit color syntax: `text-[color:var(--tenant-primary-text)]`.
+2. Use the same explicit syntax for secondary or quiet variants when they depend on tenant text variables.
+3. After changing shared UI primitives, verify `/launch/demo-unit-1` visually, not only by typecheck/build.
+4. Confirm primary action buttons show readable labels in both locked/unlocked states.
+5. Add or update visual verification notes if a new arbitrary variable color class is introduced.
+
+Why this matters: Tailwind syntax ambiguity can hide primary learning controls, which blocks young learners from finding Memory Match or completing entry practice.
