@@ -59,7 +59,7 @@ export function SpeakItDemoFlow({
             <p className="text-sm font-semibold text-[var(--tenant-muted)]">Core speaking slice</p>
             <h2 className="mt-1 text-2xl font-bold">Speak It: {unit.unitMeta.theme}</h2>
             <p className="mt-2 max-w-2xl text-sm leading-6 text-[var(--tenant-muted)]">
-              Audio-led speaking practice for classroom and local/offline use. This version is teacher-safe and self-confirmed; it does not request microphone access or require AI Tutor.
+              Audio-led speaking practice for classroom and local/offline use. This version has optional local record/replay, stays self-confirmed, and does not upload audio or require AI Tutor.
             </p>
           </div>
           <StatusPill label="Core mode" tone="success" />
