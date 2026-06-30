@@ -213,3 +213,19 @@ Procedure:
 5. Add or update visual verification notes if a new arbitrary variable color class is introduced.
 
 Why this matters: Tailwind syntax ambiguity can hide primary learning controls, which blocks young learners from finding Memory Match or completing entry practice.
+
+## OW-010: Learner Action Buttons Need Local Style Fallbacks
+
+Status: Active
+
+Observed behavior: A connector-side shared UI primitive update may not immediately appear in a local dev server or a local checkout that has not pulled the latest remote commit. The visual symptom can persist as a black, blank-looking action button even after the shared `Button` source has been corrected on GitHub.
+
+Procedure:
+
+1. Keep the shared `Button` primitive correct, but do not rely only on shared-package Tailwind classes for critical learner action colors.
+2. For wrappers such as `AudioSupportedAction`, pass explicit inline CSS variable fallback styles for background, border, and text color.
+3. Use `var(--tenant-accent)` and `var(--tenant-accent-text)` for primary learner actions.
+4. After pulling and rebuilding, hard refresh `/launch/demo-unit-1` or restart the dev server if the old visual remains.
+5. Verify by screenshot or direct browser view, not only typecheck/build.
+
+Why this matters: Young learners must be able to see the action button immediately. Shared package caching or stale local files should not hide the next step in the classroom flow.
