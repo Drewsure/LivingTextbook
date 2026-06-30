@@ -23,6 +23,7 @@ interface AudioCueTextProps {
   label?: string;
   className?: string;
   autoPlay?: boolean;
+  onPlay?: () => void;
 }
 
 export function playAudioCueText({ text, language = "en", onStatusChange }: SpeechOptions) {
@@ -43,7 +44,7 @@ export function playAudioCueText({ text, language = "en", onStatusChange }: Spee
   window.speechSynthesis.speak(utterance);
 }
 
-export function AudioCueText({ text, language = "en", label, className = "", autoPlay = false }: AudioCueTextProps) {
+export function AudioCueText({ text, language = "en", label, className = "", autoPlay = false, onPlay }: AudioCueTextProps) {
   const [status, setStatus] = useState<AudioPlaybackStatus>("ready");
   const buttonLabel = label ?? `Listen to ${text}`;
 
@@ -55,10 +56,15 @@ export function AudioCueText({ text, language = "en", label, className = "", aut
     playAudioCueText({ text, language, onStatusChange: setStatus });
   }, [autoPlay, language, text]);
 
+  function handlePlay() {
+    onPlay?.();
+    playAudioCueText({ text, language, onStatusChange: setStatus });
+  }
+
   return (
     <button
       type="button"
-      onClick={() => playAudioCueText({ text, language, onStatusChange: setStatus })}
+      onClick={handlePlay}
       aria-label={buttonLabel}
       data-audio-status={status}
       className={`rounded-lg px-2 py-1 text-[var(--tenant-text)] underline decoration-[var(--tenant-primary)] decoration-2 underline-offset-4 transition hover:bg-[var(--tenant-surface)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--tenant-primary)] ${className}`}
