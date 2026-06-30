@@ -43,6 +43,8 @@ Before accepting a new direction, answer these questions in the task, PR, or imp
 | DR-012 | AI Tutor premium entitlement | Accepted | Treat AI Tutor as an optional premium package with tenant feature entitlements, usage limits, and clean disabled states. |
 | DR-013 | Training Academy recovery metadata bridge | Trial | Count recovery events through `trainingEventType` metadata inside the existing progress stream before promoting dedicated event types. |
 | DR-014 | Training Academy focus configs | Accepted | Recovery lanes are config-driven across vocabulary, sentence, listening, spelling, and mode-practice support instead of hard-coded screens. |
+| DR-015 | Target-language entry gate | Accepted | Entry practice completion and next-game unlocks require target-language engagement; support language never satisfies mastery or unlock gates. |
+| DR-016 | Premium voice tutor speech layer | Accepted | Preserve Vocal Image-style speech coaching as an optional, tenant-gated, replaceable premium capability without active model or microphone dependency in the foundation slice. |
 
 ## DR-001: Tailwind And PostCSS Foundation
 
@@ -345,3 +347,47 @@ Constraints:
 - Focus configs are foundation defaults, not permanent tenant policy.
 - Teacher-controlled focus assignment and tenant thresholds come later.
 - This decision is recorded in `docs/adr/0012-training-academy-focus-configs.md`.
+
+## DR-015: Target-Language Entry Gate
+
+Status: Accepted
+
+Decision: Entry practice completion must be gated by target-language engagement. Support-language text can help comprehension, but it must not complete practice, unlock games, award mastery credit, or satisfy target-language item checks.
+
+White-label impact: Strongly positive. MiniStar can use Japanese support while future tenants can choose different assist languages without weakening the target-language learning contract.
+
+Cost impact: Positive. The gate uses local interaction state and event metadata rather than AI services, persistence, or manual teacher review.
+
+Component boundary: Positive. The rule lives in shared flashcard practice flow and progression event metadata, not in a MiniStar-only exception.
+
+Constraints:
+
+- Target-language vocabulary and sentence structures drive the entry-practice count.
+- Assist-language taps do not increment the target-language count.
+- Direct launch and front-door textbook routes must enforce the same gate.
+- Completion and unlock events must record that support-language unlock is not allowed.
+- This decision is recorded in `docs/adr/0015-target-language-entry-gate.md`.
+
+## DR-016: Premium Voice Tutor Speech Layer
+
+Status: Accepted
+
+Decision: Preserve a Vocal Image-style speech coaching direction as an optional premium Voice Tutor layer, but keep it tenant-gated, level-gated, replaceable, and inactive in the foundation student slice.
+
+White-label impact: Strongly positive. Voice coaching can become a premium differentiator for schools, academies, publishers, and local textbook companion packages without making MiniStar-specific behavior universal.
+
+Cost impact: Mixed but controlled. Speech-to-text, pronunciation scoring, moderation, audio storage, and conversation services can become expensive. They are acceptable only when adopted as a premium or enterprise entitlement with usage limits and school/teacher controls.
+
+Portability: Essential. Vocal Image is product inspiration, not a dependency. Public repositories such as `whisper.cpp`, `Montreal Forced Aligner`, and local text-to-speech engines are research candidates only until license, privacy, performance, and integration review is complete.
+
+Component boundary: Positive. The current implementation introduces a voice-tutor capability catalog and dashboard readiness panel without adding active microphone prompts, model calls, or speech uploads to the student flow.
+
+Constraints:
+
+- No active Voice Tutor UI in the foundation student route.
+- No microphone access, model call, transcript storage, or external speech service before explicit premium prototype acceptance.
+- First active prototype should begin with browser record/replay, then transcript match, then deterministic expected-text checks, then pronunciation/fluency feedback.
+- No open-ended child chatbot.
+- Feedback must be age-appropriate, encouraging, bounded by approved unit content, and teacher-reviewable.
+- Open-source candidates require license/provenance/security review before import.
+- This decision is recorded in `docs/adr/0016-premium-voice-tutor-speech-layer.md` and `docs/future-requirements/FR-008-premium-voice-tutor-speech-layer.md`.
