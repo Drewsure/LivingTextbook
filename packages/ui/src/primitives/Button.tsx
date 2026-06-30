@@ -9,11 +9,11 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const variantClasses: Record<ButtonVariant, string> = {
   primary:
-    "border-[var(--tenant-primary)] bg-[var(--tenant-primary)] text-[var(--tenant-primary-text)] hover:brightness-95",
+    "border-[var(--tenant-primary)] bg-[var(--tenant-primary)] text-[color:var(--tenant-primary-text)] hover:brightness-95",
   secondary:
-    "border-[var(--tenant-border)] bg-[var(--tenant-surface)] text-[var(--tenant-text)] hover:bg-[var(--tenant-primary-soft)]",
+    "border-[var(--tenant-border)] bg-[var(--tenant-surface)] text-[color:var(--tenant-text)] hover:bg-[var(--tenant-primary-soft)]",
   quiet:
-    "border-transparent bg-transparent text-[var(--tenant-muted)] hover:bg-[var(--tenant-primary-soft)] hover:text-[var(--tenant-text)]",
+    "border-transparent bg-transparent text-[color:var(--tenant-muted)] hover:bg-[var(--tenant-primary-soft)] hover:text-[color:var(--tenant-text)]",
 };
 
 export function Button({ children, className = "", variant = "primary", ...props }: ButtonProps) {
