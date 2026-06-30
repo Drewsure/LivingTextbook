@@ -25,6 +25,10 @@ interface FlashcardPracticeCardProps {
   nextMode?: GameModeId;
   audioCues?: AudioCue[];
   assistLanguagePlan?: UnitAssistLanguagePlan;
+  targetPracticeEngagedCount: number;
+  targetPracticeRequiredCount: number;
+  targetPracticeReady: boolean;
+  onTargetPracticeEngaged: (itemId: string) => void;
   onComplete: () => void;
 }
 
@@ -38,15 +42,33 @@ export function FlashcardPracticeCard({
   nextMode,
   audioCues = [],
   assistLanguagePlan,
+  targetPracticeEngagedCount,
+  targetPracticeRequiredCount,
+  targetPracticeReady,
+  onTargetPracticeEngaged,
   onComplete,
 }: FlashcardPracticeCardProps) {
   const instructionCue = findAudioCueForGame(audioCues, "instruction", launchSession.entryMode);
   const feedbackCue = findAudioCueForGame(audioCues, "feedback", launchSession.entryMode);
+  const remainingTargetItems = Math.max(targetPracticeRequiredCount - targetPracticeEngagedCount, 0);
   const entryMessage = entryComplete
     ? feedbackCue?.text ?? `${formatMode(launchSession.entryMode)} is complete. ${nextMode ? `${formatMode(nextMode)} is ready.` : "The next activity is ready."}`
-    : instructionCue?.text ?? "Tap each word to hear it. Then repeat.";
-  const actionText = entryComplete ? "Practice complete" : "Mark practice complete";
+    : instructionCue?.text ?? "Tap each English word and sentence to hear it. Then repeat.";
+  const actionText = entryComplete ? "Practice complete" : targetPracticeReady ? "Mark practice complete" : "Listen to English first";
+  const gateMessage = entryComplete
+    ? "English practice is complete."
+    : targetPracticeReady
+      ? "English listening is complete. Mark practice complete to unlock the next game."
+      : `${remainingTargetItems} more English item${remainingTargetItems === 1 ? "" : "s"} must be heard before completion. Japanese assist does not unlock the next game.`;
   const assistInstruction = assistLanguagePlan?.instructionGlosses?.[entryMessage];
+
+  function handleComplete() {
+    if (!targetPracticeReady || entryComplete) {
+      return;
+    }
+
+    onComplete();
+  }
 
   return (
     <Card>
@@ -84,6 +106,7 @@ export function FlashcardPracticeCard({
                 language={audioCue?.language ?? "en"}
                 label={`Tap ${term} to hear it`}
                 className="text-lg font-bold"
+                onPlay={() => onTargetPracticeEngaged(getVocabularyPracticeItemId(term))}
               />
               {assistLanguagePlan && assistGloss && (
                 <AudioCueText
@@ -111,6 +134,7 @@ export function FlashcardPracticeCard({
                   language={audioCue?.language ?? "en"}
                   label={`Tap the sentence to hear ${sentence}`}
                   className="text-sm font-semibold"
+                  onPlay={() => onTargetPracticeEngaged(getSentencePracticeItemId(index))}
                 />
                 {assistLanguagePlan && assistSentence && (
                   <div className="mt-2">
@@ -138,6 +162,17 @@ export function FlashcardPracticeCard({
               className="text-sm"
             />
           </p>
+          <p className="mt-2 text-sm font-semibold text-[var(--tenant-text)]">
+            English listened: {targetPracticeEngagedCount}/{targetPracticeRequiredCount}
+          </p>
+          <p className="mt-1 text-sm text-[var(--tenant-muted)]">
+            <AudioCueText
+              text={gateMessage}
+              language="en"
+              label="Tap the entry practice gate message to hear it"
+              className="text-sm"
+            />
+          </p>
           {assistLanguagePlan && assistInstruction && (
             <p className="mt-1 text-sm text-[var(--tenant-muted)]">
               <AudioCueText
@@ -154,12 +189,20 @@ export function FlashcardPracticeCard({
             </p>
           )}
         </div>
-        <AudioSupportedAction audioText={actionText} onClick={onComplete} disabled={entryComplete}>
+        <AudioSupportedAction audioText={targetPracticeReady ? actionText : gateMessage} onClick={handleComplete} disabled={entryComplete || !targetPracticeReady}>
           {actionText}
         </AudioSupportedAction>
       </div>
     </Card>
   );
+}
+
+function getVocabularyPracticeItemId(term: string): string {
+  return `target-term:${term.trim().toLowerCase()}`;
+}
+
+function getSentencePracticeItemId(index: number): string {
+  return `target-sentence:${index}`;
 }
 
 function findAudioCue(audioCues: AudioCue[], kind: AudioCue["kind"], text: string): AudioCue | undefined {
