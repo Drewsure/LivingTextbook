@@ -36,6 +36,8 @@ export function completeFlashcardEntryPractice(args: {
   launchSession: LaunchSession;
   unit: UnitPayload;
   occurredAt: string;
+  targetLanguageEngagedItems?: number;
+  requiredTargetLanguageItems?: number;
 }): EntryPracticeCompletionResult {
   const alreadyCompleted = args.progression.completedGameModes.includes(args.launchSession.entryMode);
 
@@ -77,6 +79,9 @@ export function completeFlashcardEntryPractice(args: {
       earnedStarDust: dust.total,
       masteredTerms: args.unit.pedagogicalPayload.vocabularyTerms.length,
       totalTerms: args.unit.pedagogicalPayload.vocabularyTerms.length,
+      targetLanguageEngagedItems: args.targetLanguageEngagedItems ?? 0,
+      requiredTargetLanguageItems: args.requiredTargetLanguageItems ?? 0,
+      supportLanguageUnlockAllowed: false,
     },
   };
 
@@ -90,6 +95,8 @@ export function completeFlashcardEntryPractice(args: {
     metadata: {
       sourceMode: args.launchSession.entryMode,
       unlockedModeIndex: index,
+      targetLanguageGateSatisfied: true,
+      supportLanguageUnlockAllowed: false,
     },
   }));
 
