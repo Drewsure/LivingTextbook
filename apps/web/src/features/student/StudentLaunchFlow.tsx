@@ -53,6 +53,7 @@ export function StudentLaunchFlow({
   const [sessionEvents, setSessionEvents] = useState<GameProgressEvent[]>([]);
   const [lastEarnedDust, setLastEarnedDust] = useState(0);
   const [activeGameMode, setActiveGameMode] = useState<GameModeId | undefined>();
+  const [targetPracticeEngagedItemIds, setTargetPracticeEngagedItemIds] = useState<string[]>([]);
 
   const entryComplete = currentProgression.completedGameModes.includes(launchSession.entryMode);
   const nextMode = launchSession.recommendedNextModes[0];
@@ -60,6 +61,9 @@ export function StudentLaunchFlow({
     currentProgression.unlockedGameModes.includes(mode),
   );
   const nextModeStarted = Boolean(nextMode && activeGameMode === nextMode);
+  const targetPracticeRequiredCount = unit.pedagogicalPayload.vocabularyTerms.length + unit.pedagogicalPayload.targetSentences.length;
+  const targetPracticeEngagedCount = targetPracticeEngagedItemIds.length;
+  const targetPracticeReady = entryComplete || targetPracticeEngagedCount >= targetPracticeRequiredCount;
   const recoveryRecommendation = evaluateTrainingRecoveryTrigger({
     events: sessionEvents,
     launchSession,
@@ -96,12 +100,22 @@ export function StudentLaunchFlow({
     });
   }
 
+  function handleTargetPracticeEngaged(itemId: string) {
+    setTargetPracticeEngagedItemIds((itemIds) => (itemIds.includes(itemId) ? itemIds : [...itemIds, itemId]));
+  }
+
   function handleCompleteEntryPractice() {
+    if (!targetPracticeReady || entryComplete) {
+      return;
+    }
+
     const result = completeFlashcardEntryPractice({
       progression: currentProgression,
       launchSession,
       unit,
       occurredAt: new Date().toISOString(),
+      targetLanguageEngagedItems: targetPracticeEngagedCount,
+      requiredTargetLanguageItems: targetPracticeRequiredCount,
     });
 
     setCurrentProgression(result.progression);
@@ -168,6 +182,10 @@ export function StudentLaunchFlow({
         nextMode={nextMode}
         audioCues={audioCues}
         assistLanguagePlan={assistLanguagePlan}
+        targetPracticeEngagedCount={targetPracticeEngagedCount}
+        targetPracticeRequiredCount={targetPracticeRequiredCount}
+        targetPracticeReady={targetPracticeReady}
+        onTargetPracticeEngaged={handleTargetPracticeEngaged}
         onComplete={handleCompleteEntryPractice}
       />
       <RewardPreviewCard
