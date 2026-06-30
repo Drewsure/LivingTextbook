@@ -31,7 +31,7 @@ export function MicrophonePracticeControl({
   const [message, setMessage] = useState("Optional: record yourself, then replay before confirming.");
   const [audioUrl, setAudioUrl] = useState<string>();
   const audioElementRef = useRef<HTMLAudioElement | null>(null);
-  const audioUrlRef = useRef<string>();
+  const audioUrlRef = useRef<string | undefined>(undefined);
   const chunksRef = useRef<Blob[]>([]);
   const recorderRef = useRef<MediaRecorder | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
