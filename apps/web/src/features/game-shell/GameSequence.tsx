@@ -15,6 +15,7 @@ interface SequenceItem {
 
 const flashcards = gameModeCatalog.flashcards;
 const memoryMatch = gameModeCatalog["memory-match"];
+const speakIt = gameModeCatalog["speak-it"];
 
 const firstSliceSequence: SequenceItem[] = [
   {
@@ -28,6 +29,12 @@ const firstSliceSequence: SequenceItem[] = [
     engineId: memoryMatch?.engineId ?? "pairing",
     role: memoryMatch?.role ?? "reinforcement",
     summary: memoryMatch?.summary ?? "Reinforce term recognition after flashcards through pair finding and recall.",
+  },
+  {
+    label: speakIt?.label ?? "Speak It",
+    engineId: speakIt?.engineId ?? "selection",
+    role: speakIt?.role ?? "reinforcement",
+    summary: speakIt?.summary ?? "Practice listening and oral repetition with teacher-controlled, audio-first prompts.",
   },
   {
     label: "Training Academy",
