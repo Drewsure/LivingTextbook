@@ -132,20 +132,22 @@ export const sampleJapaneseAssistPlan: UnitAssistLanguagePlan = {
   vocabularyGlosses: {
     hello: "こんにちは",
     goodbye: "さようなら",
-    please: "お願いします",
+    please: "おねがいします",
     "thank you": "ありがとう",
     yes: "はい",
     no: "いいえ",
-    teacher: "先生",
-    friend: "友だち",
+    teacher: "せんせい",
+    friend: "ともだち",
   },
-  sentenceGlosses: ["こんにちは、先生。", "ありがとう、友だち。"],
+  sentenceGlosses: ["こんにちは、せんせい。", "ありがとう、ともだち。"],
   instructionGlosses: {
-    "Tap each card. Listen and repeat.": "カードをタップして、聞いて、まねして言いましょう。",
-    "Great work. Memory Match is unlocked.": "よくできました。メモリーマッチができるようになりました。",
+    "Tap each card. Listen and repeat.": "ことばをおして、きいて、まねしていいましょう。",
+    "Great work. Memory Match is unlocked.": "よくできました。つぎのげえむができます。",
   },
   teacherNotes: [
     "Japanese assist is optional, reviewed sample support for early learners and must not become a platform-wide assumption.",
+    "English target-language practice is the progression trigger; Japanese assist is comprehension support only.",
+    "Foundation, Bronze, and Plus Japanese support must be written in hiragana only. Silver and later packages may introduce kanji and katakana after review.",
   ],
   allowLiveAiFallback: false,
 };
