@@ -5,7 +5,7 @@ Use this checklist after pulling the latest `legacy-source-import` branch.
 ## Local Setup
 
 1. Confirm the branch is `legacy-source-import`.
-2. Confirm the checkout includes `docs/adr/0010-reviewed-assist-language-packages.md` and `docs/adr/0013-support-only-assist-language.md`.
+2. Confirm the checkout includes `docs/adr/0010-reviewed-assist-language-packages.md`, `docs/adr/0013-support-only-assist-language.md`, and `docs/adr/0015-target-language-entry-gate.md`.
 3. Run typecheck.
 4. Run build.
 5. Start the local web app.
@@ -39,13 +39,18 @@ On `/launch/demo-unit-1` and `/enter/ministar` after opening the unit:
 2. Confirm Japanese assist appears under each vocabulary term.
 3. Confirm Japanese assist appears under both target sentences.
 4. Confirm the Level 1 student-visible Japanese assist uses hiragana only.
-5. Tap English text and confirm English speech works.
-6. Tap Japanese assist text and confirm Japanese speech is attempted through browser speech synthesis.
-7. Tap Japanese assist text before completing flashcards and confirm no next game unlock happens from assist taps alone.
-8. Complete flashcard practice through the English entry-practice action and confirm the original progression path still works.
-9. Confirm Memory Match unlocks only after entry practice completion.
-10. Start Memory Match and confirm the game still works.
-11. Confirm no live AI translation, AI Tutor, model call, or external translation service is required.
+5. Confirm the entry practice area shows the target-language counter, currently `English listened: 0/10` for the sample unit.
+6. Tap only Japanese assist text and confirm Japanese speech is attempted through browser speech synthesis.
+7. Confirm the target-language counter stays unchanged after Japanese-only taps.
+8. Confirm the completion action stays disabled and does not unlock Memory Match after Japanese-only taps.
+9. Tap English vocabulary terms and confirm English speech works.
+10. Tap both English target sentences and confirm English speech works.
+11. Confirm the target-language counter reaches `10/10` only after all 8 English terms and both English sentence structures have been heard.
+12. Confirm `Mark practice complete` becomes available only after the target-language gate is satisfied.
+13. Complete flashcard practice through the English entry-practice action and confirm the original progression path still works.
+14. Confirm Memory Match unlocks only after entry practice completion.
+15. Start Memory Match and confirm the game still works.
+16. Confirm no live AI translation, AI Tutor, model call, or external translation service is required.
 
 ## White-Label Checks
 
