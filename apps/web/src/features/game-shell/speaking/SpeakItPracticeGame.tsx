@@ -13,6 +13,10 @@ import type {
 import { AudioCueText } from "@/features/audio/AudioCueButton";
 import { AudioSupportedAction } from "@/features/audio/AudioSupportedAction";
 import {
+  MicrophonePracticeControl,
+  type MicrophonePracticeEvent,
+} from "@/features/audio/MicrophonePracticeControl";
+import {
   completeGameMode,
   createGameInteractionEvent,
   type GameModeCompletionResult,
@@ -83,6 +87,26 @@ export function SpeakItPracticeGame({
     });
   }
 
+  function handleRecordingEvent(
+    prompt: SpeakItPrompt,
+    microphoneEvent: MicrophonePracticeEvent,
+    metadata: Record<string, string | number | boolean> = {},
+  ) {
+    emitInteractionEvent("round_shown", {
+      promptId: prompt.id,
+      promptKind: prompt.kind,
+      promptText: prompt.label,
+      interactionKind: "local-microphone-practice",
+      microphoneEvent,
+      speechMatchMode: "local-record-replay",
+      microphoneRequired: false,
+      aiTutorRequired: false,
+      transcriptGenerated: false,
+      audioPersisted: false,
+      ...metadata,
+    });
+  }
+
   function handlePromptSpoken(prompt: SpeakItPrompt) {
     if (spokenPromptIds.includes(prompt.id) || complete) {
       return;
@@ -146,19 +170,20 @@ export function SpeakItPracticeGame({
           <h3 className="text-lg font-bold">{mode?.label ?? "Speak It"}</h3>
           <p className="mt-1 text-sm text-[var(--tenant-muted)]">
             <AudioCueText
-              text={instructionCue?.text ?? "Listen, say it out loud, then tap I said it."}
+              text={instructionCue?.text ?? "Listen, record or say it out loud, replay if needed, then tap I said it."}
               language={instructionCue?.language ?? "en"}
               label="Tap the Speak It instruction to hear it"
               className="text-sm"
             />
           </p>
         </div>
-        <StatusPill label={complete ? "Complete" : "No microphone"} tone={complete ? "success" : "neutral"} />
+        <StatusPill label={complete ? "Complete" : "Mic optional"} tone={complete ? "success" : "neutral"} />
       </div>
 
       <dl className="mt-5 grid gap-3 text-sm sm:grid-cols-4">
         <SpeakItFact label="Spoken" value={`${spokenCount}/${prompts.length}`} />
-        <SpeakItFact label="Mode" value="Core" />
+        <SpeakItFact label="Mode" value="Core + mic" />
+        <SpeakItFact label="Mic" value="Local replay" />
         <SpeakItFact label="AI Tutor" value="Off" />
         <SpeakItFact label="Engine" value={mode?.engineId ?? unit.unitMeta.engineId} />
       </dl>
@@ -168,7 +193,7 @@ export function SpeakItPracticeGame({
           const spoken = spokenPromptIds.includes(prompt.id);
 
           return (
-            <article key={prompt.id} className="grid gap-3 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4 sm:grid-cols-[1fr_auto] sm:items-center">
+            <article key={prompt.id} className="grid gap-3 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
               <div>
                 <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">{prompt.kind}</p>
                 <AudioCueText
@@ -179,14 +204,23 @@ export function SpeakItPracticeGame({
                   onPlay={() => handlePromptHeard(prompt)}
                 />
               </div>
-              <AudioSupportedAction
-                audioText={spoken ? "Spoken" : `I said ${prompt.label}`}
-                onClick={() => handlePromptSpoken(prompt)}
-                disabled={spoken || complete}
-                variant={spoken ? "secondary" : "primary"}
-              >
-                {spoken ? "Spoken" : "I said it"}
-              </AudioSupportedAction>
+              <div className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
+                <MicrophonePracticeControl
+                  promptLabel={prompt.label}
+                  disabled={spoken || complete}
+                  onRecordingEvent={(microphoneEvent, metadata) =>
+                    handleRecordingEvent(prompt, microphoneEvent, metadata)
+                  }
+                />
+                <AudioSupportedAction
+                  audioText={spoken ? "Spoken" : `I said ${prompt.label}`}
+                  onClick={() => handlePromptSpoken(prompt)}
+                  disabled={spoken || complete}
+                  variant={spoken ? "secondary" : "primary"}
+                >
+                  {spoken ? "Spoken" : "I said it"}
+                </AudioSupportedAction>
+              </div>
             </article>
           );
         })}
