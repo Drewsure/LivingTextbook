@@ -41,6 +41,7 @@ export function AppShell({ children, tenant, compact = false }: AppShellProps) {
             <nav className="flex gap-3 text-sm font-semibold text-[var(--tenant-text)]" aria-label="Primary">
               <a href="/">Overview</a>
               <a href="/teacher">Teacher Launch</a>
+              <a href="/partner-demo">Partner Demo</a>
             </nav>
           )}
         </div>
