@@ -32,6 +32,7 @@ const samplePartnerTextbookReference = {
 };
 
 export const samplePartnerLaunchCode = "partner-demo-unit-1";
+export const samplePartnerFrontDoorLaunchCode = "partner-front-door-demo-unit-1";
 export const samplePartnerFrontDoorEntryCode = "ROUTINE-101";
 export const samplePartnerFrontDoorUserCode = "LEARNER-07";
 
@@ -315,10 +316,10 @@ export const samplePartnerPermanentQrRoute: PermanentQrRoute = {
     edition: "pilot-2026",
     version: "0.1",
   },
-  targetType: "unit-launch",
-  targetId: `launch:${samplePartnerLaunchCode}`,
+  targetType: "front-door",
+  targetId: "enter:sample-publisher:routines-demo",
   preferredDeployment: "hosted-web",
-  fallbackPath: `/launch/${samplePartnerLaunchCode}`,
+  fallbackPath: "/enter/sample-publisher",
   updatedAt: "2026-07-01T00:00:00.000Z",
 };
 
@@ -342,6 +343,21 @@ export function getSamplePartnerLaunchSession(launchCode = samplePartnerLaunchCo
   });
 }
 
+export function getSamplePartnerFrontDoorLaunchSession(
+  launchCode = samplePartnerFrontDoorLaunchCode,
+): LaunchSession {
+  return createLaunchSession({
+    launchCode,
+    tenantId,
+    curriculumId,
+    unitKey: samplePartnerUnitKey,
+    entryMode: "flashcards",
+    recommendedNextModes: ["memory-match"],
+    openedAt: "2026-07-01T00:00:00.000Z",
+    accessMode: "front-door-code",
+  });
+}
+
 export function getSamplePartnerStudentProgression(launchCode = samplePartnerLaunchCode) {
   const launchSession = getSamplePartnerLaunchSession(launchCode);
 
@@ -351,10 +367,24 @@ export function getSamplePartnerStudentProgression(launchCode = samplePartnerLau
   });
 }
 
+export function getSamplePartnerFrontDoorStudentProgression(
+  launchCode = samplePartnerFrontDoorLaunchCode,
+  userCode = samplePartnerFrontDoorUserCode.toLowerCase(),
+) {
+  const launchSession = getSamplePartnerFrontDoorLaunchSession(launchCode);
+
+  return getInitialStudentProgression({
+    studentSessionId: `${launchCode}:${userCode}`,
+    launchSession,
+  });
+}
+
 export const samplePartnerLaunchSession = getSamplePartnerLaunchSession();
 export const samplePartnerStudentProgression = getSamplePartnerStudentProgression();
+export const samplePartnerFrontDoorLaunchSession = getSamplePartnerFrontDoorLaunchSession();
+export const samplePartnerFrontDoorStudentProgression = getSamplePartnerFrontDoorStudentProgression();
 export const samplePartnerPermanentQrPath = getPermanentQrPath(samplePartnerPermanentQrRoute.identifier);
-export const samplePartnerFrontDoorPath = `/launch/${samplePartnerLaunchCode}`;
+export const samplePartnerFrontDoorPath = "/enter/sample-publisher";
 export const samplePartnerPackageValidationErrors = [
   ...validateContentPackage(samplePartnerContentPackage),
   ...validatePermanentQrRoute(samplePartnerPermanentQrRoute),
