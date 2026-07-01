@@ -2,11 +2,11 @@
 
 Document type: focused verification supplement  
 Status: active scaffold  
-Last updated: 2026-07-01
+Last updated: 2026-07-02
 
 ## Purpose
 
-Verify that the teacher session monitor route presents a single report stream for launch state, target-language entry practice, game unlocks, media engagement, Training Academy recovery, Memory Match completion, Speak It readiness, teacher session settings, and lifecycle controls without pretending that sample data is production persistence.
+Verify that the teacher session monitor route presents a single report stream for launch state, target-language entry practice, game unlocks, media engagement, Training Academy recovery, Memory Match completion, Speak It readiness, teacher session settings, lifecycle controls, and report-export readiness without pretending that sample data is production persistence.
 
 ## Routes
 
@@ -36,16 +36,24 @@ Verify at:
 17. Confirm lifecycle controls include open session, lock new entries, resume entries, end session, and export report.
 18. Confirm lifecycle controls require teacher role and mark export as requiring accepted policy.
 19. Confirm lifecycle control warnings are shown as persistence/policy gaps, not active production controls.
-20. Confirm the event stream includes target-language entry practice completion.
-21. Confirm support-language taps do not appear as unlock triggers.
-22. Confirm game unlock, media, recovery, game completion, and Speak It readiness events appear in one report stream.
-23. Confirm microphone/speech scoring remains marked as disabled or record/replay-only in the core sample.
-24. Confirm the page reuses tenant branding for MiniStar and the sample publisher.
-25. Confirm the route contract for `/teacher/sessions/[launchCode]` is active scaffold, not future-only, and includes `TeacherSessionControlAction[]`.
-26. Confirm no real student identity, transcript, raw audio storage, or cloud speech scoring is implied.
+20. Confirm the page shows a `Report export readiness` section.
+21. Confirm report export is blocked by policy or persistence in the scaffold, not shown as production-ready.
+22. Confirm report export allowed formats include `csv-summary` and `json-event-stream`.
+23. Confirm report export included scopes list teacher summary, student progress, event stream, media engagement, Training Academy recovery, and speech-practice summary.
+24. Confirm the core export exclusions name raw learner audio and learner transcripts.
+25. Confirm report export safety passes while export blockers remain visible.
+26. Confirm the event stream includes target-language entry practice completion.
+27. Confirm support-language taps do not appear as unlock triggers.
+28. Confirm game unlock, media, recovery, game completion, and Speak It readiness events appear in one report stream.
+29. Confirm microphone/speech scoring remains marked as disabled or record/replay-only in the core sample.
+30. Confirm the page reuses tenant branding for MiniStar and the sample publisher.
+31. Confirm the route contract for `/teacher/sessions/[launchCode]` is active scaffold, not future-only, and includes `TeacherSessionControlAction[]` and `TeacherReportExportPlan`.
+32. Confirm no real student identity, transcript, raw audio storage, cloud speech scoring, or live report export is implied.
 
 ## Acceptance Standard
 
 The route should make the future teacher reporting surface tangible while preserving the current foundation rule: no production student monitoring before persistence, privacy, retention, access, and export rules exist.
 
 Safety failures block classroom use. Persistence and policy warnings are expected in the scaffold and must become implementation tasks before a real pilot.
+
+Use `docs/verification/TEACHER_REPORT_EXPORT_CHECKS.md` for the focused export checklist.
