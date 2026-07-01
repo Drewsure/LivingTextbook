@@ -1,6 +1,6 @@
 import { Card, StatusPill } from "@living-textbook/ui";
 import { AppShell } from "@/components/layout/AppShell";
-import { sampleContentIntakeRuns } from "@/data/sampleContentIntakePlan";
+import { sampleContentIntakeRuns, samplePackageReleases } from "@/data/sampleContentIntakePlan";
 import { sampleDeploymentProfiles } from "@/data/sampleDeploymentProfiles";
 import { sampleFrontDoorRouteRegistry } from "@/data/sampleTenantRouteRegistry";
 import {
@@ -32,7 +32,7 @@ export default function TeacherIntakePage() {
             <StatusPill label="Foundation scaffold" tone="success" />
           </div>
         </Card>
-        <ContentIntakeReviewPanel runs={sampleContentIntakeRuns} />
+        <ContentIntakeReviewPanel runs={sampleContentIntakeRuns} releases={samplePackageReleases} />
         <TenantRouteRegistryPanel routes={sampleFrontDoorRouteRegistry} />
         <DeploymentProfilePanel profiles={sampleDeploymentProfiles} />
         <PersistenceBoundaryPanel
