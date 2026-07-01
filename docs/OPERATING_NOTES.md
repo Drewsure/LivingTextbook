@@ -229,3 +229,24 @@ Procedure:
 5. Verify by screenshot or direct browser view, not only typecheck/build.
 
 Why this matters: Young learners must be able to see the action button immediately. Shared package caching or stale local files should not hide the next step in the classroom flow.
+
+## OW-011: Next 16 Windows Build Uses Webpack Fallback
+
+Status: Active
+
+Observed behavior: `next build` can fail on Windows with a Turbopack internal error while processing `apps/web/src/app/globals.css` through PostCSS. The dev server may still start successfully, which indicates the app source and routes are not necessarily broken.
+
+Procedure:
+
+1. Keep the dev server on the normal Next path.
+2. Keep the production build script on `next build --webpack` until a future Next upgrade proves the Windows Turbopack/PostCSS worker path is stable.
+3. Before local verification, pull the branch and run:
+
+```powershell
+npm run typecheck --workspace @living-textbook/web
+npm run build --workspace @living-textbook/web
+```
+
+4. See `docs/operating-notes/2026-07-02-next16-windows-webpack-build.md` for the detailed failure signature and recovery note.
+
+Why this matters: The project can keep the low-cost Next/Tailwind foundation while avoiding repeat production-build interruptions from a tooling worker failure.
