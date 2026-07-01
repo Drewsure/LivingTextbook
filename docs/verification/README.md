@@ -37,6 +37,7 @@ Then run build/typecheck and verify:
 - `/teacher/sessions/partner-demo-unit-1`
 - `/launch/demo-unit-1`
 - `/enter/ministar`
+- `/speak/demo-unit-1`
 - `/partner-demo`
 - `/enter/sample-publisher`
 - `/launch/partner-demo-unit-1`
