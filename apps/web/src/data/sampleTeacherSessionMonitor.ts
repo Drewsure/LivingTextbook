@@ -6,7 +6,7 @@ import type {
   UnitPayload,
 } from "@living-textbook/content-model";
 import type { TeacherSessionSetting, TeacherSessionSettings } from "@living-textbook/content-model/src/sessionSettings";
-import { validateTeacherSessionSettings } from "@living-textbook/content-model/src/sessionSettings";
+import { getTeacherSessionPersistenceWarnings, validateTeacherSessionSettings } from "@living-textbook/content-model/src/sessionSettings";
 import { resolveSampleLaunchContext } from "./sampleLaunchResolver";
 import type { TenantConfig } from "@/features/tenant/types";
 
@@ -29,6 +29,7 @@ export interface TeacherSessionMonitorContext {
   sessionSettings: TeacherSessionSettings;
   settings: TeacherSessionSetting[];
   sessionSettingErrors: string[];
+  sessionSettingWarnings: string[];
   readinessNotes: string[];
 }
 
@@ -40,6 +41,7 @@ export function resolveSampleTeacherSessionMonitorContext(launchCode: string): T
   const progression = createMonitorProgression(launchContext.progression, launchContext.launchSession, latestEvent);
   const sessionSettings = createMonitorSessionSettings(launchContext.launchSession, isPartner);
   const sessionSettingErrors = validateTeacherSessionSettings(sessionSettings);
+  const sessionSettingWarnings = getTeacherSessionPersistenceWarnings(sessionSettings);
 
   return {
     tenant: launchContext.tenant,
@@ -57,6 +59,7 @@ export function resolveSampleTeacherSessionMonitorContext(launchCode: string): T
     sessionSettings,
     settings: createMonitorSettings(sessionSettings),
     sessionSettingErrors,
+    sessionSettingWarnings,
     readinessNotes: [
       "This route uses reviewed sample data and local event examples only.",
       "A real classroom monitor needs persisted launch sessions, event storage, student/session policy, and export controls.",
