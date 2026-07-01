@@ -6,6 +6,7 @@ Focused verification supplements:
 
 - `docs/verification/AI_TUTOR_ENTITLEMENT_CHECKS.md`
 - `docs/verification/MEDIA_TELEMETRY_CHECKS.md`
+- `docs/verification/SECOND_TENANT_PACKAGE_CHECKS.md`
 
 ## Current Hard Gate
 
@@ -25,5 +26,8 @@ Then run build/typecheck and verify:
 - `/teacher`
 - `/launch/demo-unit-1`
 - `/enter/ministar`
+- `/partner-demo`
+- `/launch/partner-demo-unit-1`
+- `/speak/partner-demo-unit-1`
 
 Do not mark connector-side changes as locally verified until this is complete.
