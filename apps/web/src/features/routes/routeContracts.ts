@@ -31,6 +31,14 @@ export const appRouteContracts: AppRouteContract[] = [
     requiredState: ["TenantConfig", "UnitPayload", "LaunchSession"],
   },
   {
+    id: "teacher-content-intake",
+    pattern: "/teacher/intake",
+    audience: "teacher",
+    status: "active-scaffold",
+    purpose: "Let teacher/admin users inspect source intake gates, reviewed package readiness, and front-door route registry data before assignment.",
+    requiredState: ["ContentIntakeRun[]", "FrontDoorRouteRegistryEntry[]", "TenantConfig"],
+  },
+  {
     id: "partner-pilot-demo",
     pattern: "/partner-demo",
     audience: "platform",
