@@ -50,6 +50,7 @@ Before accepting a new direction, answer these questions in the task, PR, or imp
 | DR-023 | Reviewed content intake scaffold | Accepted | Show PDF/DOCX/source intake as a reviewed gate before any package becomes student-facing. |
 | DR-024 | Deployment profile scaffold | Accepted | Keep hosted PWA, local classroom server, and packaged local app paths visible from the start, with hosted PWA as the recommended first pilot. |
 | DR-025 | Persistence boundary before backend choice | Accepted | Define durable record boundaries before selecting Supabase, Firebase, SQLite, or another backend. |
+| DR-026 | Teacher session monitor scaffold | Accepted | Add a sample teacher monitor route on the shared event stream without implying production student-data storage. |
 
 ## DR-001: Tailwind And PostCSS Foundation
 
@@ -480,3 +481,20 @@ Constraints:
 - Student progress storage requires privacy, retention, access-control, and export policy decisions.
 - Teacher microphone approval and similar toggles must eventually move into persisted launch/session settings.
 - This decision is recorded in `docs/adr/0024-persistence-boundary-before-backend-choice.md` and `docs/decision-register/DR-025-persistence-boundary-before-backend-choice.md`.
+
+## DR-026: Teacher Session Monitor Scaffold
+
+Status: Accepted
+
+Decision: Add an active teacher session monitor route using sample data and the shared progress event stream.
+
+White-label impact: Strongly positive. Teachers and textbook partners can see the reporting direction for MiniStar and partner tenants without waiting for a full backend.
+
+Cost impact: Positive. The scaffold is low-cost and backend-agnostic while making persistence needs visible before pilot commitments.
+
+Constraints:
+
+- The route must not be presented as production analytics.
+- No real student identity, transcript, raw audio, or cloud speech scoring is stored or implied.
+- Support-language activity cannot satisfy unlock or mastery requirements.
+- This decision is recorded in `docs/adr/0025-teacher-session-monitor-scaffold.md` and `docs/decision-register/DR-026-teacher-session-monitor-scaffold.md`.
