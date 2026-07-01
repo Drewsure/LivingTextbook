@@ -130,7 +130,7 @@ Next outputs:
 
 Purpose: Support white-label tenant curriculum intake from PDF units, teacher docs, or structured spreadsheets.
 
-Current status: Active scaffold. `/teacher/intake` now shows reviewed source intake gates, package readiness, source-to-route decisions, and route registry data. It remains a review concept, not an automatic PDF-to-student assignment pipeline.
+Current status: Active scaffold. `/teacher/intake` now shows reviewed source intake gates, package readiness, source-to-route decisions, route registry data, deployment profiles, and persistence boundaries. It remains a review concept, not an automatic PDF-to-student assignment pipeline.
 
 Outputs:
 
@@ -146,7 +146,7 @@ Outputs:
 
 Purpose: Make QR codes stable enough for printed textbooks and classroom materials.
 
-Current status: Active scaffold. The front-door route resolver now uses tenant route registry data for MiniStar and the sample publisher. Permanent textbook QR schema remains a future route contract.
+Current status: Active scaffold. The front-door route resolver now uses tenant route registry data for MiniStar and the sample publisher. The persistence boundary now identifies the route registry as a durable backend requirement. Permanent textbook QR schema remains a future route contract.
 
 Outputs:
 
@@ -160,7 +160,7 @@ Outputs:
 
 Purpose: Add a white-label audio/video companion platform as part of the core Living Textbook package without hard-coding any one publisher's assets.
 
-Current status: Sample multimedia content package, route concept, media event stream, native playback shell, manual progress fallback controls, and optional background-media event controls exist. Rights-managed asset storage, pause telemetry, offline/local bundle resolution, and production media management remain future work.
+Current status: Sample multimedia content package, route concept, media event stream, native playback shell, manual progress fallback controls, and optional background-media event controls exist. The persistence boundary now names media manifests, rights records, local bundle paths, and hosted/local storage choices as first-class requirements.
 
 Outputs:
 
@@ -177,7 +177,7 @@ Outputs:
 
 Purpose: Package the same platform for closed local use when a publisher, school, or textbook partner needs a non-public installation.
 
-Current status: Deployment profile scaffold exists in `/teacher/intake`. Hosted PWA is the recommended first pilot path. Local classroom server and packaged local app remain first-class paths, but require persistence, offline media bundle, installer/update, sync/export, and QR/deep-link decisions before production.
+Current status: Deployment profile and persistence boundary scaffolds exist in `/teacher/intake`. Hosted PWA is the recommended first pilot path. Local classroom server and packaged local app remain first-class paths, but require offline media bundle, installer/update, sync/export, backup, local storage, and QR/deep-link decisions before production.
 
 Outputs:
 
@@ -191,7 +191,7 @@ Outputs:
 
 Purpose: Prepare a real partner pilot without polluting the MiniStar reference implementation.
 
-Current status: Active scaffold. A white-label pilot readiness panel and partner timeline document define the practical partner promise: a testable pilot in roughly 8-12 weeks, with a narrower first scope than the eventual commercial product. A second sample tenant and partner-style content package now prove the white-label path in code at `/partner-demo`, `/enter/sample-publisher`, `/launch/partner-demo-unit-1`, and `/speak/partner-demo-unit-1`. `/teacher/intake` now adds reviewed source intake gates, tenant route registry data, and deployment profile choices.
+Current status: Active scaffold. A white-label pilot readiness panel and partner timeline document define the practical partner promise: a testable pilot in roughly 8-12 weeks, with a narrower first scope than the eventual commercial product. A second sample tenant and partner-style content package now prove the white-label path in code at `/partner-demo`, `/enter/sample-publisher`, `/launch/partner-demo-unit-1`, and `/speak/partner-demo-unit-1`. `/teacher/intake` now adds reviewed source intake gates, tenant route registry data, deployment profile choices, and persistence boundaries.
 
 Outputs:
 
@@ -205,9 +205,9 @@ Outputs:
 
 Next outputs:
 
-- Add database/persistence boundaries for tenant route registry, launch sessions, content packages, and progress events.
-- Add a teacher-facing route/session monitor once persistence shape is stable.
+- Add a teacher-facing route/session monitor concept using existing launch sessions, progress events, media events, and recovery metadata.
 - Decide whether the first partner pilot uses manually reviewed unit data or a draft PDF import workflow.
+- Choose the actual first pilot backend only after privacy, reporting, and deployment constraints are reviewed.
 
 ## Session 8: Premium Experience Layer
 
@@ -256,4 +256,4 @@ If a proposed task does not fit one of these sessions, document whether it is:
 
 Do not add premium polish yet.
 
-The hard gate is to keep typecheck/build passing after every route or package addition. The next safest structural task is to add database/persistence boundaries for tenant route registry, launch sessions, content packages, progress events, media events, and deployment profiles before adding deeper teacher reporting screens.
+The hard gate is to keep typecheck/build passing after every route or package addition. The next safest structural task is to add a teacher-facing route/session monitor concept using the existing event stream and persistence boundary, without introducing a real backend before the storage policy is decided.
