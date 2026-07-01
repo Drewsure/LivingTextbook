@@ -30,7 +30,7 @@ export function AppShell({ children, tenant, compact = false }: AppShellProps) {
       className="min-h-screen bg-[var(--tenant-background)] text-[var(--tenant-text)]"
     >
       <header className="border-b border-[var(--tenant-border)] bg-[var(--tenant-surface)]">
-        <div className="mx-auto flex min-h-16 w-full max-w-6xl items-center justify-between px-4">
+        <div className="mx-auto flex min-h-16 w-full max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3">
           <div>
             <p className="text-xs font-semibold uppercase tracking-wide text-[var(--tenant-muted)]">
               White-label tenant
@@ -38,9 +38,10 @@ export function AppShell({ children, tenant, compact = false }: AppShellProps) {
             <h1 className="text-lg font-bold">{tenant.displayName}</h1>
           </div>
           {!compact && (
-            <nav className="flex gap-3 text-sm font-semibold text-[var(--tenant-text)]" aria-label="Primary">
+            <nav className="flex flex-wrap justify-end gap-3 text-sm font-semibold text-[var(--tenant-text)]" aria-label="Primary">
               <a href="/">Overview</a>
               <a href="/teacher">Teacher Launch</a>
+              <a href="/teacher/intake">Content Intake</a>
               <a href="/partner-demo">Partner Demo</a>
             </nav>
           )}
