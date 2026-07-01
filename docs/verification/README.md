@@ -10,7 +10,11 @@ Focused verification supplements:
 - `docs/verification/MEDIA_TELEMETRY_CHECKS.md`
 - `docs/verification/PERSISTENCE_BOUNDARY_CHECKS.md`
 - `docs/verification/SECOND_TENANT_PACKAGE_CHECKS.md`
+- `docs/verification/SELECTION_ENGINE_PREVIEW_CHECKS.md`
+- `docs/verification/SPEAK_IT_CORE_CHECKS.md`
+- `docs/verification/TEACHER_MICROPHONE_APPROVAL_CHECKS.md`
 - `docs/verification/TEACHER_SESSION_MONITOR_CHECKS.md`
+- `docs/verification/VOICE_TUTOR_PACKAGE_CHECKS.md`
 
 ## Current Hard Gate
 
