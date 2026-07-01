@@ -185,7 +185,7 @@ Outputs:
 
 Purpose: Prepare a real partner pilot without polluting the MiniStar reference implementation.
 
-Current status: Started. A white-label pilot readiness panel and partner timeline document now define the practical partner promise: a testable pilot in roughly 8-12 weeks, with a narrower first scope than the eventual commercial product.
+Current status: Active scaffold. A white-label pilot readiness panel and partner timeline document define the practical partner promise: a testable pilot in roughly 8-12 weeks, with a narrower first scope than the eventual commercial product. A second sample tenant and partner-style content package now prove the white-label path in code at `/partner-demo`, `/launch/partner-demo-unit-1`, and `/speak/partner-demo-unit-1`.
 
 Outputs:
 
@@ -199,8 +199,8 @@ Outputs:
 
 Next outputs:
 
-- Add a second sample tenant config.
-- Add one sample partner content package.
+- Add a multi-tenant front-door resolver so partner entry codes can route through the same `/enter/[tenantId]` pattern.
+- Add a reviewed partner content intake/import pipeline concept.
 - Choose the first pilot deployment style: hosted PWA, local classroom server, packaged local app, or hybrid.
 - Decide whether the first partner pilot uses manually reviewed unit data or a draft PDF import workflow.
 
@@ -251,4 +251,4 @@ If a proposed task does not fit one of these sessions, document whether it is:
 
 Do not add premium polish yet.
 
-The hard gate is to keep typecheck/build passing after every route or package addition. The next safest structural task is to add a second sample tenant config and one partner-style content package so the white-label claim is proven in code, not just documentation.
+The hard gate is to keep typecheck/build passing after every route or package addition. The next safest structural task is to pull and verify the second sample tenant package, then add a multi-tenant front-door resolver and partner content intake/import concept.
