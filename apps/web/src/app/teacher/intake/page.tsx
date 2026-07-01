@@ -2,6 +2,7 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import { AppShell } from "@/components/layout/AppShell";
 import { sampleContentIntakeRuns, samplePackageReleases } from "@/data/sampleContentIntakePlan";
 import { sampleDeploymentProfiles } from "@/data/sampleDeploymentProfiles";
+import { sampleLocalBundleManifests } from "@/data/sampleLocalBundlePlan";
 import { sampleFrontDoorRouteRegistry } from "@/data/sampleTenantRouteRegistry";
 import {
   sampleDurableRecordContracts,
@@ -12,6 +13,7 @@ import {
 } from "@/data/samplePersistencePlan";
 import { ContentIntakeReviewPanel } from "@/features/content-intake/ContentIntakeReviewPanel";
 import { DeploymentProfilePanel } from "@/features/deployment/DeploymentProfilePanel";
+import { LocalBundleManifestPanel } from "@/features/deployment/LocalBundleManifestPanel";
 import { PersistenceBoundaryPanel } from "@/features/persistence/PersistenceBoundaryPanel";
 import { TenantRouteRegistryPanel } from "@/features/routes/TenantRouteRegistryPanel";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
@@ -35,6 +37,7 @@ export default function TeacherIntakePage() {
         <ContentIntakeReviewPanel runs={sampleContentIntakeRuns} releases={samplePackageReleases} />
         <TenantRouteRegistryPanel routes={sampleFrontDoorRouteRegistry} />
         <DeploymentProfilePanel profiles={sampleDeploymentProfiles} />
+        <LocalBundleManifestPanel manifests={sampleLocalBundleManifests} />
         <PersistenceBoundaryPanel
           boundaries={samplePersistenceBoundaries}
           strategyOptions={samplePersistenceStrategyOptions}
