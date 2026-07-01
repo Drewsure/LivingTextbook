@@ -3,10 +3,11 @@ import type {
   GameProgressEvent,
   LaunchSession,
   StudentProgressionState,
+  TeacherSessionSetting,
+  TeacherSessionSettings,
   UnitPayload,
 } from "@living-textbook/content-model";
-import type { TeacherSessionSetting, TeacherSessionSettings } from "@living-textbook/content-model/src/sessionSettings";
-import { getTeacherSessionPersistenceWarnings, validateTeacherSessionSettings } from "@living-textbook/content-model/src/sessionSettings";
+import { getTeacherSessionPersistenceWarnings, validateTeacherSessionSettings } from "@living-textbook/content-model";
 import { resolveSampleLaunchContext } from "./sampleLaunchResolver";
 import type { TenantConfig } from "@/features/tenant/types";
 
