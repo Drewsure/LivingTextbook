@@ -46,6 +46,10 @@ Before accepting a new direction, answer these questions in the task, PR, or imp
 | DR-015 | Target-language entry gate | Accepted | Entry practice completion and next-game unlocks require target-language engagement; support language never satisfies mastery or unlock gates. |
 | DR-016 | Premium voice tutor speech layer | Accepted | Preserve Vocal Image-style speech coaching as an optional, tenant-gated, replaceable premium capability without active model or microphone dependency in the foundation slice. |
 | DR-021 | Second sample tenant package | Accepted | Add a second sample tenant and partner-style content package to prove the white-label path in code. |
+| DR-022 | Multi-tenant front-door resolver | Accepted | Resolve `/enter/[tenantId]` from tenant route registry data rather than hard-coded MiniStar-only routing. |
+| DR-023 | Reviewed content intake scaffold | Accepted | Show PDF/DOCX/source intake as a reviewed gate before any package becomes student-facing. |
+| DR-024 | Deployment profile scaffold | Accepted | Keep hosted PWA, local classroom server, and packaged local app paths visible from the start, with hosted PWA as the recommended first pilot. |
+| DR-025 | Persistence boundary before backend choice | Accepted | Define durable record boundaries before selecting Supabase, Firebase, SQLite, or another backend. |
 
 ## DR-001: Tailwind And PostCSS Foundation
 
@@ -411,3 +415,68 @@ Constraints:
 - Target-language engagement remains the unlock trigger.
 - Missing partner media files are acceptable placeholders only while the media catalog and rights-managed storage layer are still in foundation mode.
 - This decision is recorded in `docs/adr/0020-second-sample-tenant-package.md`.
+
+## DR-022: Multi-Tenant Front-Door Resolver
+
+Status: Accepted
+
+Decision: Resolve `/enter/[tenantId]` from tenant route registry data instead of one-off MiniStar-only conditionals.
+
+White-label impact: Strongly positive. This keeps the front-door entry-code/user-code model portable across MiniStar, sample publisher tenants, and future textbook partners.
+
+Cost impact: Positive. Static registry data is cheap for the scaffold and reveals the future backend boundary before real persistence is selected.
+
+Constraints:
+
+- Route registry entries must name tenant, launch code, access policy, teacher report label, and demo user code behavior.
+- Unknown tenants should remain controlled rather than falling through to incorrect tenant data.
+- This decision is recorded in `docs/adr/0021-multi-tenant-front-door-resolver.md` and `docs/decision-register/DR-022-multi-tenant-front-door-resolver.md`.
+
+## DR-023: Reviewed Content Intake Scaffold
+
+Status: Accepted
+
+Decision: Add a teacher/admin content intake review scaffold before building automatic PDF/DOCX import.
+
+White-label impact: Strongly positive. Textbook partners need confidence that source files, AI drafts, media assets, and route mappings are reviewed before students see them.
+
+Cost impact: Positive. A visible review scaffold is cheaper and safer than prematurely building a full import pipeline.
+
+Constraints:
+
+- Raw PDFs, DOCX files, and AI drafts cannot become student-facing directly.
+- Intake gates must include source check, content extraction, vocabulary/sentence review, audio coverage, media rights, assist language, and route readiness.
+- This decision is recorded in `docs/adr/0022-reviewed-content-intake-scaffold.md` and `docs/decision-register/DR-023-reviewed-content-intake-scaffold.md`.
+
+## DR-024: Deployment Profile Scaffold
+
+Status: Accepted
+
+Decision: Show hosted PWA, local classroom server, and packaged local app deployment paths from the beginning, with hosted PWA as the recommended first pilot.
+
+White-label impact: Strongly positive. The colleague/publisher textbook scenario remains inside the core product strategy instead of becoming a later add-on.
+
+Cost impact: Positive if phased. Hosted PWA is the fastest and least expensive pilot path. Local and packaged modes remain planned, but only after media bundles, sync/export, installer/update, and QR/deep-link behavior are decided.
+
+Constraints:
+
+- Do not present local/packaged deployment as production-ready until persistence and offline media packaging exist.
+- Do not make hosted assumptions that prevent local/closed deployments later.
+- This decision is recorded in `docs/adr/0023-deployment-profile-scaffold.md` and `docs/decision-register/DR-024-deployment-profile-scaffold.md`.
+
+## DR-025: Persistence Boundary Before Backend Choice
+
+Status: Accepted
+
+Decision: Define persistence boundaries before choosing a production backend vendor or local storage implementation.
+
+White-label impact: Strongly positive. The platform can support hosted pilots and future closed/local deployments without locking all tenants to one storage shape too early.
+
+Cost impact: Strongly positive. Static data remains acceptable for the current scaffold, while durable records are clearly named before a paid backend or local sync stack is introduced.
+
+Constraints:
+
+- Route registry, launch sessions, reviewed content packages, media manifests, deployment profiles, and progress/media event streams must become durable before real pilots.
+- Student progress storage requires privacy, retention, access-control, and export policy decisions.
+- Teacher microphone approval and similar toggles must eventually move into persisted launch/session settings.
+- This decision is recorded in `docs/adr/0024-persistence-boundary-before-backend-choice.md` and `docs/decision-register/DR-025-persistence-boundary-before-backend-choice.md`.
