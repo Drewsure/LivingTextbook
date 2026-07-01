@@ -31,6 +31,14 @@ export const appRouteContracts: AppRouteContract[] = [
     requiredState: ["TenantConfig", "UnitPayload", "LaunchSession"],
   },
   {
+    id: "partner-pilot-demo",
+    pattern: "/partner-demo",
+    audience: "platform",
+    status: "active-scaffold",
+    purpose: "Show a second sample tenant and partner-style content package to prove the white-label path.",
+    requiredState: ["TenantConfig", "ContentPackage", "UnitPayload", "LaunchSession"],
+  },
+  {
     id: "student-launch",
     pattern: "/launch/[code]",
     audience: "student",
