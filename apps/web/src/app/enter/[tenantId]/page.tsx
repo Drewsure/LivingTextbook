@@ -1,45 +1,28 @@
 import { notFound } from "next/navigation";
 import { AppShell } from "@/components/layout/AppShell";
-import { getSampleFrontDoorLaunchSession, getSampleFrontDoorStudentProgression } from "@/data/sampleLaunchSession";
-import {
-  sampleFrontDoorAccessPolicy,
-  sampleFrontDoorEntryCode,
-  sampleFrontDoorUserCode,
-  sampleMultimediaContentPackage,
-} from "@/data/sampleMultimediaPackage";
+import { resolveSampleFrontDoorContext } from "@/data/sampleFrontDoorResolver";
 import { FrontDoorEntryFlow } from "@/features/access/FrontDoorEntryFlow";
-import { ministarTenant } from "@/features/tenant/ministarTenant";
 
 export default async function FrontDoorEntryPage({ params }: { params: Promise<{ tenantId: string }> }) {
   const { tenantId } = await params;
+  const context = resolveSampleFrontDoorContext(tenantId);
+  const unit = context?.unit;
 
-  if (tenantId !== ministarTenant.id) {
+  if (!context || !unit) {
     notFound();
   }
-
-  const unit = sampleMultimediaContentPackage.units[0];
-
-  if (!unit) {
-    notFound();
-  }
-
-  const launchSession = getSampleFrontDoorLaunchSession();
-  const progression = getSampleFrontDoorStudentProgression(
-    launchSession.launchCode,
-    sampleFrontDoorUserCode.toLowerCase(),
-  );
 
   return (
-    <AppShell tenant={ministarTenant} compact>
+    <AppShell tenant={context.tenant} compact>
       <FrontDoorEntryFlow
-        tenant={ministarTenant}
+        tenant={context.tenant}
         unit={unit}
-        contentPackage={sampleMultimediaContentPackage}
-        launchSession={launchSession}
-        progression={progression}
-        accessPolicy={sampleFrontDoorAccessPolicy}
-        expectedEntryCode={sampleFrontDoorEntryCode}
-        expectedUserCode={sampleFrontDoorUserCode}
+        contentPackage={context.contentPackage}
+        launchSession={context.launchSession}
+        progression={context.progression}
+        accessPolicy={context.accessPolicy}
+        expectedEntryCode={context.expectedEntryCode}
+        expectedUserCode={context.expectedUserCode}
       />
     </AppShell>
   );
