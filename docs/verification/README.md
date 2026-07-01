@@ -19,17 +19,26 @@ Focused verification supplements:
 
 ## Current Hard Gate
 
-Local verification is still blocked until the local checkout is synchronized to `legacy-source-import`.
+Connector-side changes are not locally verified until the local checkout has pulled the latest `legacy-source-import` commits, typecheck/build pass, and the browser routes have been reviewed.
 
-Required local setup:
+Normal local verification flow:
 
 ```powershell
-cd "D:\LIVING TEXTBOOOK PROJECT"
-Rename-Item "LivingTextbook" "LivingTextbook-local-main-backup"
-git clone --branch legacy-source-import https://github.com/Drewsure/LivingTextbook.git LivingTextbook
+cd "D:\LIVING TEXTBOOOK PROJECT\LivingTextbook"
+git pull --ff-only
+npm run typecheck --workspace @living-textbook/web
+npm run build --workspace @living-textbook/web
+npm run dev --workspace @living-textbook/web -- --hostname 127.0.0.1 --port 3000
 ```
 
-Then run build/typecheck and verify:
+If `apps/web/next-env.d.ts` blocks the pull, restore the generated file and pull again:
+
+```powershell
+git restore apps/web/next-env.d.ts
+git pull --ff-only
+```
+
+Then verify:
 
 - `/`
 - `/teacher`
