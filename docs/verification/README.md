@@ -10,6 +10,7 @@ Focused verification supplements:
 - `docs/verification/MEDIA_TELEMETRY_CHECKS.md`
 - `docs/verification/PERSISTENCE_BOUNDARY_CHECKS.md`
 - `docs/verification/SECOND_TENANT_PACKAGE_CHECKS.md`
+- `docs/verification/TEACHER_SESSION_MONITOR_CHECKS.md`
 
 ## Current Hard Gate
 
@@ -28,6 +29,8 @@ Then run build/typecheck and verify:
 - `/`
 - `/teacher`
 - `/teacher/intake`
+- `/teacher/sessions/demo-unit-1`
+- `/teacher/sessions/partner-demo-unit-1`
 - `/launch/demo-unit-1`
 - `/enter/ministar`
 - `/partner-demo`
