@@ -60,12 +60,13 @@ export default function PartnerDemoPage() {
             </div>
             <dl className="mt-5 grid gap-3 text-sm text-[var(--tenant-muted)]">
               <RouteLink label="Partner demo" href="/partner-demo" />
+              <RouteLink label="Front door" href={samplePartnerFrontDoorPath} />
               <RouteLink label="Student launch" href={`/launch/${samplePartnerLaunchCode}`} />
               <RouteLink label="Speak It" href={`/speak/${samplePartnerLaunchCode}`} />
             </dl>
             <p className="mt-4 text-xs leading-5 text-[var(--tenant-muted)]">
               Demo codes for a future partner front door: {samplePartnerFrontDoorEntryCode} / {samplePartnerFrontDoorUserCode}.
-              This first proof routes directly to launch while the reusable front-door resolver remains a later step.
+              The front door now resolves tenant-specific packages while direct launch remains useful for QR testing.
             </p>
           </Card>
         </aside>
