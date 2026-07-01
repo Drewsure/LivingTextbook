@@ -2,7 +2,7 @@
 
 Document type: foundation data contract  
 Status: active scaffold  
-Last updated: 2026-07-01
+Last updated: 2026-07-02
 
 ## Purpose
 
@@ -24,13 +24,20 @@ It currently defines:
 - `TeacherSessionSettings`
 - `TeacherSessionSetting`
 - `TeacherSessionControlAction`
+- `TeacherReportExportPlan`
 - `SessionSettingReadiness`
 - `TeacherSessionControlReadiness`
+- `TeacherReportExportReadiness`
+- `TeacherReportExportFormat`
+- `TeacherReportExportScope`
 - `SessionDataRetentionPolicy`
 - `validateTeacherSessionSettings`
 - `getTeacherSessionPersistenceWarnings`
 - `validateTeacherSessionControlActions`
 - `getTeacherSessionControlWarnings`
+- `createTeacherReportExportPlan`
+- `validateTeacherReportExportPlan`
+- `getTeacherReportExportWarnings`
 
 ## Settings Covered
 
@@ -63,6 +70,17 @@ AI Tutor remains optional, premium/enterprise, and disabled for core sessions un
 
 Progress reporting requires privacy, retention, export, access-control, and school policy decisions before real student data is stored.
 
+### Report Export
+
+Report export is a policy-bound package, not a raw database dump. The scaffolded export contract can describe allowed formats and scopes, but export remains blocked until persistence and school or tenant policy are accepted.
+
+Core report export must exclude:
+
+- raw learner audio,
+- learner transcripts.
+
+A future premium transcript or speech-scoring package may add separate export policy, but that must not become part of the core teacher report by default.
+
 ## Lifecycle Controls Covered
 
 Teacher session lifecycle actions are scaffolded as contract data, not live production commands. The current action set includes:
@@ -83,10 +101,13 @@ Every lifecycle action must require a teacher role before classroom use. Report 
 
 `validateTeacherSessionControlActions` checks lifecycle command safety. `getTeacherSessionControlWarnings` identifies lifecycle actions that still need persistence or policy work before pilot use.
 
+`validateTeacherReportExportPlan` checks report-export safety. `getTeacherReportExportWarnings` identifies policy, persistence, and retention blockers before a real export is allowed.
+
 ## Current Non-Goals
 
 - No production backend has been selected.
 - No real student reports are stored.
+- No live report export is generated.
 - No raw audio or transcript storage is enabled.
 - No teacher roster or authentication layer is implemented.
 - No premium AI Tutor usage meter is active.
@@ -98,4 +119,5 @@ Every lifecycle action must require a teacher role before classroom use. Report 
 2. Add teacher controls for open, locked, expired, and completed sessions.
 3. Add school/tenant policy controls for retention and export.
 4. Add local/closed deployment mapping for classroom server and packaged app modes.
-5. Keep all changes white-label and tenant-configurable.
+5. Connect approved export plans to real report generation after persistence is selected.
+6. Keep all changes white-label and tenant-configurable.
