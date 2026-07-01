@@ -3,14 +3,18 @@ import type {
   GameProgressEvent,
   LaunchSession,
   StudentProgressionState,
+  TeacherReportExportPlan,
   TeacherSessionControlAction,
   TeacherSessionSetting,
   TeacherSessionSettings,
   UnitPayload,
 } from "@living-textbook/content-model";
 import {
+  createTeacherReportExportPlan,
+  getTeacherReportExportWarnings,
   getTeacherSessionControlWarnings,
   getTeacherSessionPersistenceWarnings,
+  validateTeacherReportExportPlan,
   validateTeacherSessionControlActions,
   validateTeacherSessionSettings,
 } from "@living-textbook/content-model";
@@ -40,6 +44,9 @@ export interface TeacherSessionMonitorContext {
   sessionControlActions: TeacherSessionControlAction[];
   sessionControlErrors: string[];
   sessionControlWarnings: string[];
+  reportExportPlan: TeacherReportExportPlan;
+  reportExportErrors: string[];
+  reportExportWarnings: string[];
   readinessNotes: string[];
 }
 
@@ -55,6 +62,9 @@ export function resolveSampleTeacherSessionMonitorContext(launchCode: string): T
   const sessionControlActions = createTeacherSessionControlActions();
   const sessionControlErrors = validateTeacherSessionControlActions(sessionControlActions);
   const sessionControlWarnings = getTeacherSessionControlWarnings(sessionControlActions);
+  const reportExportPlan = createMonitorReportExportPlan(sessionSettings);
+  const reportExportErrors = validateTeacherReportExportPlan(reportExportPlan);
+  const reportExportWarnings = getTeacherReportExportWarnings(reportExportPlan);
 
   return {
     tenant: launchContext.tenant,
@@ -76,6 +86,9 @@ export function resolveSampleTeacherSessionMonitorContext(launchCode: string): T
     sessionControlActions,
     sessionControlErrors,
     sessionControlWarnings,
+    reportExportPlan,
+    reportExportErrors,
+    reportExportWarnings,
     readinessNotes: [
       "This route uses reviewed sample data and local event examples only.",
       "A real classroom monitor needs persisted launch sessions, event storage, student/session policy, and export controls.",
@@ -258,6 +271,24 @@ function createTeacherSessionControlActions(): TeacherSessionControlAction[] {
       note: "Report export must wait for school policy, student-data retention, and access-control decisions.",
     },
   ];
+}
+
+function createMonitorReportExportPlan(sessionSettings: TeacherSessionSettings): TeacherReportExportPlan {
+  return createTeacherReportExportPlan({
+    settings: sessionSettings,
+    allowedFormats: ["csv-summary", "json-event-stream"],
+    includedScopes: [
+      "teacher-summary",
+      "student-progress",
+      "event-stream",
+      "media-engagement",
+      "training-recovery",
+      "speech-practice-summary",
+    ],
+    policyAccepted: false,
+    persistenceReady: false,
+    note: "Export is intentionally blocked in the scaffold until school policy, access control, retention, and event persistence are accepted.",
+  });
 }
 
 function createSampleMonitorEvents(launchSession: LaunchSession, isPartner: boolean): GameProgressEvent[] {
