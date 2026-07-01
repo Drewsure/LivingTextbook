@@ -112,8 +112,11 @@ export const appRouteContracts: AppRouteContract[] = [
       "LaunchSession",
       "StudentProgressionState",
       "GameProgressEvent[]",
-      "TeacherSessionMonitorMetric[]",
+      "TeacherSessionSettings",
       "TeacherSessionSetting[]",
+      "TeacherSessionMonitorMetric[]",
+      "sessionSettingErrors[]",
+      "sessionSettingWarnings[]",
     ],
   },
 ];
