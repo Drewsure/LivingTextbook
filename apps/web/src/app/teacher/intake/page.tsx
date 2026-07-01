@@ -3,7 +3,13 @@ import { AppShell } from "@/components/layout/AppShell";
 import { sampleContentIntakeRuns } from "@/data/sampleContentIntakePlan";
 import { sampleDeploymentProfiles } from "@/data/sampleDeploymentProfiles";
 import { sampleFrontDoorRouteRegistry } from "@/data/sampleTenantRouteRegistry";
-import { samplePersistenceBoundaries, samplePersistenceStrategyOptions } from "@/data/samplePersistencePlan";
+import {
+  sampleDurableRecordContracts,
+  sampleDurableRecordErrors,
+  sampleDurableRecordWarnings,
+  samplePersistenceBoundaries,
+  samplePersistenceStrategyOptions,
+} from "@/data/samplePersistencePlan";
 import { ContentIntakeReviewPanel } from "@/features/content-intake/ContentIntakeReviewPanel";
 import { DeploymentProfilePanel } from "@/features/deployment/DeploymentProfilePanel";
 import { PersistenceBoundaryPanel } from "@/features/persistence/PersistenceBoundaryPanel";
@@ -29,7 +35,13 @@ export default function TeacherIntakePage() {
         <ContentIntakeReviewPanel runs={sampleContentIntakeRuns} />
         <TenantRouteRegistryPanel routes={sampleFrontDoorRouteRegistry} />
         <DeploymentProfilePanel profiles={sampleDeploymentProfiles} />
-        <PersistenceBoundaryPanel boundaries={samplePersistenceBoundaries} strategyOptions={samplePersistenceStrategyOptions} />
+        <PersistenceBoundaryPanel
+          boundaries={samplePersistenceBoundaries}
+          strategyOptions={samplePersistenceStrategyOptions}
+          durableRecords={sampleDurableRecordContracts}
+          durableRecordErrors={sampleDurableRecordErrors}
+          durableRecordWarnings={sampleDurableRecordWarnings}
+        />
       </div>
     </AppShell>
   );
