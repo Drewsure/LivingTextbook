@@ -3,11 +3,17 @@ import type {
   GameProgressEvent,
   LaunchSession,
   StudentProgressionState,
+  TeacherSessionControlAction,
   TeacherSessionSetting,
   TeacherSessionSettings,
   UnitPayload,
 } from "@living-textbook/content-model";
-import { getTeacherSessionPersistenceWarnings, validateTeacherSessionSettings } from "@living-textbook/content-model";
+import {
+  getTeacherSessionControlWarnings,
+  getTeacherSessionPersistenceWarnings,
+  validateTeacherSessionControlActions,
+  validateTeacherSessionSettings,
+} from "@living-textbook/content-model";
 import { resolveSampleLaunchContext } from "./sampleLaunchResolver";
 import type { TenantConfig } from "@/features/tenant/types";
 
@@ -31,6 +37,9 @@ export interface TeacherSessionMonitorContext {
   settings: TeacherSessionSetting[];
   sessionSettingErrors: string[];
   sessionSettingWarnings: string[];
+  sessionControlActions: TeacherSessionControlAction[];
+  sessionControlErrors: string[];
+  sessionControlWarnings: string[];
   readinessNotes: string[];
 }
 
@@ -43,6 +52,9 @@ export function resolveSampleTeacherSessionMonitorContext(launchCode: string): T
   const sessionSettings = createMonitorSessionSettings(launchContext.launchSession, isPartner);
   const sessionSettingErrors = validateTeacherSessionSettings(sessionSettings);
   const sessionSettingWarnings = getTeacherSessionPersistenceWarnings(sessionSettings);
+  const sessionControlActions = createTeacherSessionControlActions();
+  const sessionControlErrors = validateTeacherSessionControlActions(sessionControlActions);
+  const sessionControlWarnings = getTeacherSessionControlWarnings(sessionControlActions);
 
   return {
     tenant: launchContext.tenant,
@@ -61,6 +73,9 @@ export function resolveSampleTeacherSessionMonitorContext(launchCode: string): T
     settings: createMonitorSettings(sessionSettings),
     sessionSettingErrors,
     sessionSettingWarnings,
+    sessionControlActions,
+    sessionControlErrors,
+    sessionControlWarnings,
     readinessNotes: [
       "This route uses reviewed sample data and local event examples only.",
       "A real classroom monitor needs persisted launch sessions, event storage, student/session policy, and export controls.",
@@ -196,6 +211,51 @@ function createMonitorSettings(sessionSettings: TeacherSessionSettings): Teacher
       label: "Progress retention",
       status: sessionSettings.reporting.retentionPolicy === "demo-only" ? "requires-persistence" : "enabled",
       note: "Real reports need privacy, retention, export, and school access rules before event storage is enabled.",
+    },
+  ];
+}
+
+function createTeacherSessionControlActions(): TeacherSessionControlAction[] {
+  return [
+    {
+      actionId: "open-session",
+      label: "Open session",
+      status: "requires-persistence",
+      requiresTeacherRole: true,
+      requiresPolicy: false,
+      note: "Opening a real class should create or update a durable launch session before students scan the QR code.",
+    },
+    {
+      actionId: "lock-session",
+      label: "Lock new entries",
+      status: "requires-persistence",
+      requiresTeacherRole: true,
+      requiresPolicy: false,
+      note: "Teachers need a way to stop late or accidental joins while preserving students already inside the session.",
+    },
+    {
+      actionId: "resume-session",
+      label: "Resume entries",
+      status: "requires-persistence",
+      requiresTeacherRole: true,
+      requiresPolicy: false,
+      note: "A locked session should be reopenable by the teacher without issuing a new printed or projected code.",
+    },
+    {
+      actionId: "end-session",
+      label: "End session",
+      status: "requires-persistence",
+      requiresTeacherRole: true,
+      requiresPolicy: false,
+      note: "Ending a session should freeze the teacher report and prevent further student event writes for that launch code.",
+    },
+    {
+      actionId: "export-report",
+      label: "Export report",
+      status: "requires-policy",
+      requiresTeacherRole: true,
+      requiresPolicy: true,
+      note: "Report export must wait for school policy, student-data retention, and access-control decisions.",
     },
   ];
 }
