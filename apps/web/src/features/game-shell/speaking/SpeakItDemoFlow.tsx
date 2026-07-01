@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, StatusPill } from "@living-textbook/ui";
 import type {
   AudioCue,
@@ -11,6 +11,11 @@ import type {
 } from "@living-textbook/content-model";
 import { UnitSessionProgressSummary } from "@/features/progression/UnitSessionProgressSummary";
 import { SessionEventLog } from "@/features/student/components/SessionEventLog";
+import {
+  getMicrophonePracticeSettings,
+  getTeacherMicrophoneApprovalStorageKey,
+  parseStoredTeacherMicrophoneApproval,
+} from "@/features/tenant/microphonePracticeSettings";
 import type { TenantConfig } from "@/features/tenant/types";
 import { SpeakItPracticeGame } from "./SpeakItPracticeGame";
 import type { GameModeCompletionResult } from "@/features/progression/localProgressionAdapter";
@@ -30,6 +35,9 @@ export function SpeakItDemoFlow({
   progression,
   audioCues = [],
 }: SpeakItDemoFlowProps) {
+  const microphonePracticeSettings = getMicrophonePracticeSettings(tenant);
+  const microphoneApprovalStorageKey = getTeacherMicrophoneApprovalStorageKey(tenant.id);
+  const [teacherMicApproved, setTeacherMicApproved] = useState(microphonePracticeSettings.localRecordReplayEnabled);
   const [currentProgression, setCurrentProgression] = useState<StudentProgressionState>({
     ...progression,
     currentStep: "recommended-game",
@@ -37,6 +45,23 @@ export function SpeakItDemoFlow({
   });
   const [sessionEvents, setSessionEvents] = useState<GameProgressEvent[]>([]);
   const [lastEarnedDust, setLastEarnedDust] = useState(0);
+
+  useEffect(() => {
+    function syncTeacherMicrophoneApproval() {
+      const storedApproval = parseStoredTeacherMicrophoneApproval(window.localStorage.getItem(microphoneApprovalStorageKey));
+      setTeacherMicApproved(storedApproval ?? microphonePracticeSettings.localRecordReplayEnabled);
+    }
+
+    syncTeacherMicrophoneApproval();
+    window.addEventListener("storage", syncTeacherMicrophoneApproval);
+
+    return () => window.removeEventListener("storage", syncTeacherMicrophoneApproval);
+  }, [microphoneApprovalStorageKey, microphonePracticeSettings.localRecordReplayEnabled]);
+
+  const launchMicrophonePracticeSettings = {
+    ...microphonePracticeSettings,
+    localRecordReplayEnabled: microphonePracticeSettings.localRecordReplayEnabled && teacherMicApproved,
+  };
 
   function handleEvent(event: GameProgressEvent) {
     setSessionEvents((events) => [...events, event]);
@@ -59,10 +84,10 @@ export function SpeakItDemoFlow({
             <p className="text-sm font-semibold text-[var(--tenant-muted)]">Core speaking slice</p>
             <h2 className="mt-1 text-2xl font-bold">Speak It: {unit.unitMeta.theme}</h2>
             <p className="mt-2 max-w-2xl text-sm leading-6 text-[var(--tenant-muted)]">
-              Audio-led speaking practice for classroom and local/offline use. This version has optional local record/replay, stays self-confirmed, and does not upload audio or require AI Tutor.
+              Audio-led speaking practice for classroom and local/offline use. Local record/replay follows the teacher microphone approval setting; AI speech scoring remains premium and off.
             </p>
           </div>
-          <StatusPill label="Core mode" tone="success" />
+          <StatusPill label={launchMicrophonePracticeSettings.localRecordReplayEnabled ? "Mic approved" : "Mic off"} tone={launchMicrophonePracticeSettings.localRecordReplayEnabled ? "success" : "warning"} />
         </div>
         {lastEarnedDust > 0 && (
           <p className="mt-4 text-sm font-semibold text-[var(--tenant-text)]">
@@ -85,6 +110,7 @@ export function SpeakItDemoFlow({
         launchSession={launchSession}
         progression={currentProgression}
         audioCues={audioCues}
+        microphonePractice={launchMicrophonePracticeSettings}
         onEvent={handleEvent}
         onComplete={handleComplete}
       />
