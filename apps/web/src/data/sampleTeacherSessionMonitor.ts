@@ -45,7 +45,7 @@ export interface TeacherSessionMonitorContext {
 
 export function resolveSampleTeacherSessionMonitorContext(launchCode: string): TeacherSessionMonitorContext {
   const launchContext = resolveSampleLaunchContext(launchCode);
-  const isPartner = launchContext.tenant.tenantId === "sample-publisher";
+  const isPartner = launchContext.tenant.id === "sample-publisher";
   const events = createSampleMonitorEvents(launchContext.launchSession, isPartner);
   const latestEvent = events[events.length - 1];
   const progression = createMonitorProgression(launchContext.progression, launchContext.launchSession, latestEvent);
