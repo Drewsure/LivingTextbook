@@ -1,5 +1,9 @@
 import { Card, StatusPill } from "@living-textbook/ui";
-import type { SessionSettingReadiness, TeacherSessionControlReadiness } from "@living-textbook/content-model";
+import type {
+  SessionSettingReadiness,
+  TeacherReportExportReadiness,
+  TeacherSessionControlReadiness,
+} from "@living-textbook/content-model";
 import type { TeacherSessionMonitorContext } from "@/data/sampleTeacherSessionMonitor";
 import { FrontDoorTeacherReportPreview } from "@/features/access/FrontDoorTeacherReportPreview";
 
@@ -21,10 +25,18 @@ const controlTone: Record<TeacherSessionControlReadiness, "neutral" | "success" 
   disabled: "neutral",
 };
 
+const exportTone: Record<TeacherReportExportReadiness, "neutral" | "success" | "warning"> = {
+  ready: "success",
+  "demo-preview": "warning",
+  "blocked-persistence": "warning",
+  "blocked-policy": "warning",
+};
+
 export function TeacherSessionMonitorPanel({ context }: TeacherSessionMonitorPanelProps) {
   const unitTitle = context.unit?.unitMeta.theme ?? context.launchSession.unitKey;
   const settingsReady = context.sessionSettingErrors.length === 0;
   const controlsReady = context.sessionControlErrors.length === 0;
+  const reportExportSafe = context.reportExportErrors.length === 0;
 
   return (
     <div className="grid gap-5">
@@ -156,6 +168,69 @@ export function TeacherSessionMonitorPanel({ context }: TeacherSessionMonitorPan
             </section>
           ))}
         </div>
+      </Card>
+
+      <Card>
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <p className="text-sm font-semibold text-[var(--tenant-muted)]">Report export readiness</p>
+            <h3 className="mt-1 text-lg font-bold">What a teacher report may contain</h3>
+            <p className="mt-1 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
+              Export is treated as a policy-bound report package, not a quick dump of classroom data. Core exports exclude raw learner audio and transcripts unless a future premium policy explicitly allows them.
+            </p>
+          </div>
+          <StatusPill label={context.reportExportPlan.readiness} tone={exportTone[context.reportExportPlan.readiness]} />
+        </div>
+
+        <div className="mt-5 grid gap-3 lg:grid-cols-3">
+          <section className="rounded-lg border border-[var(--tenant-border)] p-3">
+            <h4 className="text-sm font-bold">Allowed formats</h4>
+            <ul className="mt-2 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
+              {context.reportExportPlan.allowedFormats.map((format) => (
+                <li key={format}>{format}</li>
+              ))}
+            </ul>
+          </section>
+          <section className="rounded-lg border border-[var(--tenant-border)] p-3">
+            <h4 className="text-sm font-bold">Included scopes</h4>
+            <ul className="mt-2 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
+              {context.reportExportPlan.includedScopes.map((scope) => (
+                <li key={scope}>{scope}</li>
+              ))}
+            </ul>
+          </section>
+          <section className="rounded-lg border border-[var(--tenant-border)] p-3">
+            <h4 className="text-sm font-bold">Excluded from core export</h4>
+            <ul className="mt-2 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
+              <li>{context.reportExportPlan.excludesRawAudio ? "Raw learner audio" : "Raw audio exclusion missing"}</li>
+              <li>{context.reportExportPlan.excludesTranscripts ? "Learner transcripts" : "Transcript exclusion missing"}</li>
+            </ul>
+          </section>
+        </div>
+
+        <div className="mt-5 grid gap-3 lg:grid-cols-2">
+          <div className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3 text-sm leading-6 text-[var(--tenant-muted)]">
+            <p className="font-semibold text-[var(--tenant-text)]">Export safety</p>
+            {reportExportSafe ? (
+              <p className="mt-2">The scaffolded export plan passes the shared safety contract.</p>
+            ) : (
+              <ul className="mt-2 grid gap-2">
+                {context.reportExportErrors.map((error) => (
+                  <li key={error}>{error}</li>
+                ))}
+              </ul>
+            )}
+          </div>
+          <div className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3 text-sm leading-6 text-[var(--tenant-muted)]">
+            <p className="font-semibold text-[var(--tenant-text)]">Export blockers</p>
+            <ul className="mt-2 grid gap-2">
+              {context.reportExportWarnings.map((warning) => (
+                <li key={warning}>{warning}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+        <p className="mt-4 text-sm leading-6 text-[var(--tenant-muted)]">{context.reportExportPlan.note}</p>
       </Card>
 
       <Card>
