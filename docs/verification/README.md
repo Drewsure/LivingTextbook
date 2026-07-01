@@ -5,6 +5,7 @@ Use `docs/VERIFICATION_CHECKLIST.md` as the primary local verification path afte
 Focused verification supplements:
 
 - `docs/verification/AI_TUTOR_ENTITLEMENT_CHECKS.md`
+- `docs/verification/CONTENT_INTAKE_CHECKS.md`
 - `docs/verification/MEDIA_TELEMETRY_CHECKS.md`
 - `docs/verification/SECOND_TENANT_PACKAGE_CHECKS.md`
 
@@ -24,6 +25,7 @@ Then run build/typecheck and verify:
 
 - `/`
 - `/teacher`
+- `/teacher/intake`
 - `/launch/demo-unit-1`
 - `/enter/ministar`
 - `/partner-demo`
