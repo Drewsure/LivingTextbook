@@ -23,10 +23,14 @@ It currently defines:
 
 - `TeacherSessionSettings`
 - `TeacherSessionSetting`
+- `TeacherSessionControlAction`
 - `SessionSettingReadiness`
+- `TeacherSessionControlReadiness`
 - `SessionDataRetentionPolicy`
 - `validateTeacherSessionSettings`
 - `getTeacherSessionPersistenceWarnings`
+- `validateTeacherSessionControlActions`
+- `getTeacherSessionControlWarnings`
 
 ## Settings Covered
 
@@ -59,11 +63,25 @@ AI Tutor remains optional, premium/enterprise, and disabled for core sessions un
 
 Progress reporting requires privacy, retention, export, access-control, and school policy decisions before real student data is stored.
 
+## Lifecycle Controls Covered
+
+Teacher session lifecycle actions are scaffolded as contract data, not live production commands. The current action set includes:
+
+- open session,
+- lock new entries,
+- resume entries,
+- end session,
+- export report.
+
+Every lifecycle action must require a teacher role before classroom use. Report export must also require accepted school or tenant policy.
+
 ## Safety Errors vs Persistence Warnings
 
 `validateTeacherSessionSettings` checks safety rules. These should fail only when the session would violate platform rules, such as allowing support-language mastery credit or enabling speech scoring without AI Tutor.
 
 `getTeacherSessionPersistenceWarnings` checks readiness gaps. These warnings are acceptable in the scaffold, but must be resolved before classroom use. Examples include demo-local microphone approval, background-media enablement, demo-only reporting, and disabled export.
+
+`validateTeacherSessionControlActions` checks lifecycle command safety. `getTeacherSessionControlWarnings` identifies lifecycle actions that still need persistence or policy work before pilot use.
 
 ## Current Non-Goals
 
@@ -72,6 +90,7 @@ Progress reporting requires privacy, retention, export, access-control, and scho
 - No raw audio or transcript storage is enabled.
 - No teacher roster or authentication layer is implemented.
 - No premium AI Tutor usage meter is active.
+- No lifecycle command mutates live session state yet.
 
 ## Future Work
 
