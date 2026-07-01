@@ -1,12 +1,13 @@
 import { Card, StatusPill } from "@living-textbook/ui";
-import type { TeacherSessionMonitorContext, TeacherSessionSettingStatus } from "@/data/sampleTeacherSessionMonitor";
+import type { SessionSettingReadiness } from "@living-textbook/content-model/src/sessionSettings";
+import type { TeacherSessionMonitorContext } from "@/data/sampleTeacherSessionMonitor";
 import { FrontDoorTeacherReportPreview } from "@/features/access/FrontDoorTeacherReportPreview";
 
 interface TeacherSessionMonitorPanelProps {
   context: TeacherSessionMonitorContext;
 }
 
-const settingTone: Record<TeacherSessionSettingStatus, "neutral" | "success" | "warning"> = {
+const settingTone: Record<SessionSettingReadiness, "neutral" | "success" | "warning"> = {
   enabled: "success",
   disabled: "neutral",
   "requires-persistence": "warning",
@@ -15,6 +16,7 @@ const settingTone: Record<TeacherSessionSettingStatus, "neutral" | "success" | "
 
 export function TeacherSessionMonitorPanel({ context }: TeacherSessionMonitorPanelProps) {
   const unitTitle = context.unit?.unitMeta.theme ?? context.launchSession.unitKey;
+  const settingsReady = context.sessionSettingErrors.length === 0;
 
   return (
     <div className="grid gap-5">
@@ -59,8 +61,24 @@ export function TeacherSessionMonitorPanel({ context }: TeacherSessionMonitorPan
               These controls are shown as policy shape, not live classroom state. Production use needs persisted launch-session settings so teacher choices reliably reach student devices.
             </p>
           </div>
-          <StatusPill label={`${context.settings.length} settings`} tone="warning" />
+          <StatusPill label={settingsReady ? "Contract valid" : "Contract review"} tone={settingsReady ? "success" : "warning"} />
         </div>
+
+        <div className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3 text-sm leading-6 text-[var(--tenant-muted)]">
+          {settingsReady ? (
+            <p>The sample session settings pass the shared contract. Production still needs persistence before classroom use.</p>
+          ) : (
+            <div>
+              <p className="font-semibold text-[var(--tenant-text)]">Settings needing review</p>
+              <ul className="mt-2 grid gap-2">
+                {context.sessionSettingErrors.map((error) => (
+                  <li key={error}>{error}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+
         <div className="mt-5 grid gap-3 md:grid-cols-2">
           {context.settings.map((setting) => (
             <section key={setting.settingId} className="rounded-lg border border-[var(--tenant-border)] p-3">
