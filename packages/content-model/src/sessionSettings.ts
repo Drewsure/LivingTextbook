@@ -2,11 +2,22 @@ import type { AssistLanguageVisibility, FeaturePackageTier, LaunchCode, TenantId
 
 export type SessionSettingReadiness = "enabled" | "disabled" | "requires-persistence" | "premium-disabled";
 export type SessionDataRetentionPolicy = "demo-only" | "session-only" | "school-policy" | "tenant-policy";
+export type TeacherSessionControlReadiness = "ready" | "requires-persistence" | "requires-policy" | "disabled";
+export type TeacherSessionControlActionId = "open-session" | "lock-session" | "resume-session" | "end-session" | "export-report";
 
 export interface TeacherSessionSetting {
   settingId: string;
   label: string;
   status: SessionSettingReadiness;
+  note: string;
+}
+
+export interface TeacherSessionControlAction {
+  actionId: TeacherSessionControlActionId;
+  label: string;
+  status: TeacherSessionControlReadiness;
+  requiresTeacherRole: boolean;
+  requiresPolicy: boolean;
   note: string;
 }
 
@@ -113,4 +124,41 @@ export function getTeacherSessionPersistenceWarnings(settings: TeacherSessionSet
   }
 
   return warnings;
+}
+
+export function validateTeacherSessionControlActions(actions: TeacherSessionControlAction[]): string[] {
+  const errors: string[] = [];
+  const ids = new Set<TeacherSessionControlActionId>();
+
+  for (const action of actions) {
+    if (ids.has(action.actionId)) {
+      errors.push(`Duplicate teacher session control action: ${action.actionId}.`);
+    }
+
+    ids.add(action.actionId);
+
+    if (action.label.trim().length === 0) {
+      errors.push(`Teacher session control ${action.actionId} must include a label.`);
+    }
+
+    if (action.note.trim().length === 0) {
+      errors.push(`Teacher session control ${action.actionId} must include a note.`);
+    }
+
+    if (!action.requiresTeacherRole) {
+      errors.push(`Teacher session control ${action.actionId} must require a teacher role before classroom use.`);
+    }
+
+    if (action.actionId === "export-report" && !action.requiresPolicy) {
+      errors.push("Report export must require accepted school or tenant policy.");
+    }
+  }
+
+  return errors;
+}
+
+export function getTeacherSessionControlWarnings(actions: TeacherSessionControlAction[]): string[] {
+  return actions
+    .filter((action) => action.status === "requires-persistence" || action.status === "requires-policy")
+    .map((action) => `${action.label} is not pilot-ready. Current readiness: ${action.status}.`);
 }
