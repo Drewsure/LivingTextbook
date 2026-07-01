@@ -1,10 +1,17 @@
 import { Card, StatusPill } from "@living-textbook/ui";
-import type { TeacherSessionMonitorContext } from "@/data/sampleTeacherSessionMonitor";
+import type { TeacherSessionMonitorContext, TeacherSessionSettingStatus } from "@/data/sampleTeacherSessionMonitor";
 import { FrontDoorTeacherReportPreview } from "@/features/access/FrontDoorTeacherReportPreview";
 
 interface TeacherSessionMonitorPanelProps {
   context: TeacherSessionMonitorContext;
 }
+
+const settingTone: Record<TeacherSessionSettingStatus, "neutral" | "success" | "warning"> = {
+  enabled: "success",
+  disabled: "neutral",
+  "requires-persistence": "warning",
+  "premium-disabled": "neutral",
+};
 
 export function TeacherSessionMonitorPanel({ context }: TeacherSessionMonitorPanelProps) {
   const unitTitle = context.unit?.unitMeta.theme ?? context.launchSession.unitKey;
@@ -41,6 +48,30 @@ export function TeacherSessionMonitorPanel({ context }: TeacherSessionMonitorPan
             </div>
           ))}
         </dl>
+      </Card>
+
+      <Card>
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <p className="text-sm font-semibold text-[var(--tenant-muted)]">Session controls to persist</p>
+            <h3 className="mt-1 text-lg font-bold">Teacher settings before classroom use</h3>
+            <p className="mt-1 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
+              These controls are shown as policy shape, not live classroom state. Production use needs persisted launch-session settings so teacher choices reliably reach student devices.
+            </p>
+          </div>
+          <StatusPill label={`${context.settings.length} settings`} tone="warning" />
+        </div>
+        <div className="mt-5 grid gap-3 md:grid-cols-2">
+          {context.settings.map((setting) => (
+            <section key={setting.settingId} className="rounded-lg border border-[var(--tenant-border)] p-3">
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <h4 className="text-sm font-bold">{setting.label}</h4>
+                <StatusPill label={setting.status} tone={settingTone[setting.status]} />
+              </div>
+              <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">{setting.note}</p>
+            </section>
+          ))}
+        </div>
       </Card>
 
       <Card>
