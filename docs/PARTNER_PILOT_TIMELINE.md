@@ -21,7 +21,7 @@ The platform has a working foundation slice:
 
 This is not yet a complete product, but it is enough to support a credible pilot plan.
 
-The current second-tenant proof is visible at `/partner-demo`, with matching student routes at `/launch/partner-demo-unit-1` and `/speak/partner-demo-unit-1`.
+The current second-tenant proof is visible at `/partner-demo`, with matching student routes at `/enter/sample-publisher`, `/launch/partner-demo-unit-1`, and `/speak/partner-demo-unit-1`.
 
 ## Timeframe To Quote
 
