@@ -29,8 +29,9 @@ export interface SelectionEnginePreviewModel {
 }
 
 export function buildSelectionEnginePreview(unit: UnitPayload): SelectionEnginePreviewModel {
-  const vocabularyRounds = unit.pedagogicalPayload.vocabularyTerms.slice(0, 3).map((term, index, terms) => {
-    const roundTerms = getDeterministicOptions(unit.pedagogicalPayload.vocabularyTerms, index);
+  const vocabularyTerms = unit.pedagogicalPayload.vocabularyTerms;
+  const vocabularyRounds = vocabularyTerms.slice(0, 3).map((term, index) => {
+    const roundTerms = getDeterministicOptions(vocabularyTerms, index);
     const correctOptionId = `vocab-${index}-${slug(term)}`;
 
     return {
@@ -79,7 +80,11 @@ export function buildSelectionEnginePreview(unit: UnitPayload): SelectionEngineP
 }
 
 function getDeterministicOptions(terms: string[], correctIndex: number): string[] {
-  const correct = terms[correctIndex];
+  if (terms.length === 0) {
+    return [];
+  }
+
+  const correct = terms[correctIndex] ?? terms[0];
   const optionIndexes = [correctIndex, (correctIndex + 1) % terms.length, (correctIndex + 2) % terms.length];
 
   return Array.from(new Set(optionIndexes.map((index) => terms[index] ?? correct))).slice(0, 3);
