@@ -1,5 +1,5 @@
 import { Card, StatusPill } from "@living-textbook/ui";
-import type { SessionSettingReadiness } from "@living-textbook/content-model";
+import type { SessionSettingReadiness, TeacherSessionControlReadiness } from "@living-textbook/content-model";
 import type { TeacherSessionMonitorContext } from "@/data/sampleTeacherSessionMonitor";
 import { FrontDoorTeacherReportPreview } from "@/features/access/FrontDoorTeacherReportPreview";
 
@@ -14,9 +14,17 @@ const settingTone: Record<SessionSettingReadiness, "neutral" | "success" | "warn
   "premium-disabled": "neutral",
 };
 
+const controlTone: Record<TeacherSessionControlReadiness, "neutral" | "success" | "warning"> = {
+  ready: "success",
+  "requires-persistence": "warning",
+  "requires-policy": "warning",
+  disabled: "neutral",
+};
+
 export function TeacherSessionMonitorPanel({ context }: TeacherSessionMonitorPanelProps) {
   const unitTitle = context.unit?.unitMeta.theme ?? context.launchSession.unitKey;
   const settingsReady = context.sessionSettingErrors.length === 0;
+  const controlsReady = context.sessionControlErrors.length === 0;
 
   return (
     <div className="grid gap-5">
@@ -97,6 +105,54 @@ export function TeacherSessionMonitorPanel({ context }: TeacherSessionMonitorPan
                 <StatusPill label={setting.status} tone={settingTone[setting.status]} />
               </div>
               <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">{setting.note}</p>
+            </section>
+          ))}
+        </div>
+      </Card>
+
+      <Card>
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <p className="text-sm font-semibold text-[var(--tenant-muted)]">Session lifecycle controls</p>
+            <h3 className="mt-1 text-lg font-bold">Open, lock, end, and export state</h3>
+            <p className="mt-1 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
+              These are the teacher-owned commands that must eventually write to persisted launch-session records. They are listed here before backend selection so the real pilot does not bury classroom control in one-off UI state.
+            </p>
+          </div>
+          <StatusPill label={controlsReady ? "Control map valid" : "Control review"} tone={controlsReady ? "success" : "warning"} />
+        </div>
+
+        <div className="mt-5 grid gap-3 lg:grid-cols-2">
+          <div className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3 text-sm leading-6 text-[var(--tenant-muted)]">
+            <p className="font-semibold text-[var(--tenant-text)]">Control safety</p>
+            {controlsReady ? (
+              <p className="mt-2">All scaffolded lifecycle actions require a teacher role. Report export also requires accepted policy.</p>
+            ) : (
+              <ul className="mt-2 grid gap-2">
+                {context.sessionControlErrors.map((error) => (
+                  <li key={error}>{error}</li>
+                ))}
+              </ul>
+            )}
+          </div>
+          <div className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3 text-sm leading-6 text-[var(--tenant-muted)]">
+            <p className="font-semibold text-[var(--tenant-text)]">Control warnings</p>
+            <ul className="mt-2 grid gap-2">
+              {context.sessionControlWarnings.map((warning) => (
+                <li key={warning}>{warning}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-5">
+          {context.sessionControlActions.map((action) => (
+            <section key={action.actionId} className="rounded-lg border border-[var(--tenant-border)] p-3">
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <h4 className="text-sm font-bold">{action.label}</h4>
+                <StatusPill label={action.status} tone={controlTone[action.status]} />
+              </div>
+              <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">{action.note}</p>
             </section>
           ))}
         </div>
