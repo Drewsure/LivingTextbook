@@ -21,6 +21,7 @@ import {
   createGameInteractionEvent,
   type GameModeCompletionResult,
 } from "@/features/progression/localProgressionAdapter";
+import type { TenantMicrophonePracticeSettings } from "@/features/tenant/types";
 import { getGameModeCatalogItem } from "../gameModeCatalog";
 import { getGameScoringProfileForMode } from "../scoringProfiles";
 
@@ -30,6 +31,7 @@ interface SpeakItPracticeGameProps {
   launchSession: LaunchSession;
   progression: StudentProgressionState;
   audioCues?: AudioCue[];
+  microphonePractice: TenantMicrophonePracticeSettings;
   onEvent?: (event: GameProgressEvent) => void;
   onComplete: (result: GameModeCompletionResult) => void;
 }
@@ -47,6 +49,7 @@ export function SpeakItPracticeGame({
   launchSession,
   progression,
   audioCues = [],
+  microphonePractice,
   onEvent,
   onComplete,
 }: SpeakItPracticeGameProps) {
@@ -59,6 +62,7 @@ export function SpeakItPracticeGame({
   const spokenCount = spokenPromptIds.length;
   const complete = spokenCount >= prompts.length || completedAlready;
   const instructionCue = findAudioCueForGame(audioCues, "instruction", gameMode);
+  const localMicEnabled = microphonePractice.localRecordReplayEnabled;
 
   function emitInteractionEvent(
     type: "round_shown" | "answer_submitted" | "answer_result" | "mastery_updated",
@@ -83,6 +87,7 @@ export function SpeakItPracticeGame({
       promptText: prompt.label,
       speechMatchMode: "listen-repeat",
       microphoneRequired: false,
+      microphoneTeacherApproved: localMicEnabled,
       aiTutorRequired: false,
     });
   }
@@ -100,6 +105,7 @@ export function SpeakItPracticeGame({
       microphoneEvent,
       speechMatchMode: "local-record-replay",
       microphoneRequired: false,
+      microphoneTeacherApproved: localMicEnabled,
       aiTutorRequired: false,
       transcriptGenerated: false,
       audioPersisted: false,
@@ -122,6 +128,7 @@ export function SpeakItPracticeGame({
       responseType: "student-self-confirmed",
       speechMatchMode: "no-ai-core",
       microphoneRequired: false,
+      microphoneTeacherApproved: localMicEnabled,
     });
     emitInteractionEvent("answer_result", {
       promptId: prompt.id,
@@ -147,6 +154,7 @@ export function SpeakItPracticeGame({
           scoringProfileId: scoringProfile?.id ?? "none",
           speechMatchMode: "no-ai-core",
           microphoneRequired: false,
+          microphoneTeacherApproved: localMicEnabled,
           aiTutorRequired: false,
         },
       });
@@ -170,20 +178,20 @@ export function SpeakItPracticeGame({
           <h3 className="text-lg font-bold">{mode?.label ?? "Speak It"}</h3>
           <p className="mt-1 text-sm text-[var(--tenant-muted)]">
             <AudioCueText
-              text={instructionCue?.text ?? "Listen, record or say it out loud, replay if needed, then tap I said it."}
+              text={instructionCue?.text ?? (localMicEnabled ? "Listen, record or say it out loud, replay if needed, then tap I said it." : "Listen, say it out loud, then tap I said it.")}
               language={instructionCue?.language ?? "en"}
               label="Tap the Speak It instruction to hear it"
               className="text-sm"
             />
           </p>
         </div>
-        <StatusPill label={complete ? "Complete" : "Mic optional"} tone={complete ? "success" : "neutral"} />
+        <StatusPill label={complete ? "Complete" : localMicEnabled ? "Mic approved" : "Mic off"} tone={complete || localMicEnabled ? "success" : "warning"} />
       </div>
 
-      <dl className="mt-5 grid gap-3 text-sm sm:grid-cols-4">
+      <dl className="mt-5 grid gap-3 text-sm sm:grid-cols-5">
         <SpeakItFact label="Spoken" value={`${spokenCount}/${prompts.length}`} />
-        <SpeakItFact label="Mode" value="Core + mic" />
-        <SpeakItFact label="Mic" value="Local replay" />
+        <SpeakItFact label="Mode" value={localMicEnabled ? "Core + mic" : "Core"} />
+        <SpeakItFact label="Mic" value={localMicEnabled ? "Local replay" : "Teacher off"} />
         <SpeakItFact label="AI Tutor" value="Off" />
         <SpeakItFact label="Engine" value={mode?.engineId ?? unit.unitMeta.engineId} />
       </dl>
@@ -204,14 +212,16 @@ export function SpeakItPracticeGame({
                   onPlay={() => handlePromptHeard(prompt)}
                 />
               </div>
-              <div className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
-                <MicrophonePracticeControl
-                  promptLabel={prompt.label}
-                  disabled={spoken || complete}
-                  onRecordingEvent={(microphoneEvent, metadata) =>
-                    handleRecordingEvent(prompt, microphoneEvent, metadata)
-                  }
-                />
+              <div className={localMicEnabled ? "grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center" : "flex flex-wrap justify-end gap-3"}>
+                {localMicEnabled && (
+                  <MicrophonePracticeControl
+                    promptLabel={prompt.label}
+                    disabled={spoken || complete}
+                    onRecordingEvent={(microphoneEvent, metadata) =>
+                      handleRecordingEvent(prompt, microphoneEvent, metadata)
+                    }
+                  />
+                )}
                 <AudioSupportedAction
                   audioText={spoken ? "Spoken" : `I said ${prompt.label}`}
                   onClick={() => handlePromptSpoken(prompt)}
