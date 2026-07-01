@@ -70,14 +70,6 @@ export function validateTeacherSessionSettings(settings: TeacherSessionSettings)
     errors.push("Assist-language activity cannot award mastery credit.");
   }
 
-  if (
-    settings.microphonePractice.enabled &&
-    settings.microphonePractice.requiresTeacherApproval &&
-    !settings.microphonePractice.approvalPersisted
-  ) {
-    errors.push("Teacher-approved microphone practice must use persisted session settings before classroom use.");
-  }
-
   if (settings.microphonePractice.storesRawAudio && settings.reporting.retentionPolicy === "demo-only") {
     errors.push("Demo-only sessions must not store raw audio.");
   }
@@ -99,4 +91,26 @@ export function validateTeacherSessionSettings(settings: TeacherSessionSettings)
   }
 
   return errors;
+}
+
+export function getTeacherSessionPersistenceWarnings(settings: TeacherSessionSettings): string[] {
+  const warnings: string[] = [];
+
+  if (settings.microphonePractice.enabled && settings.microphonePractice.requiresTeacherApproval && !settings.microphonePractice.approvalPersisted) {
+    warnings.push("Teacher microphone approval is still demo-local and must become a persisted launch-session setting.");
+  }
+
+  if (settings.backgroundMedia.allowed && settings.backgroundMedia.requiresTeacherEnablement) {
+    warnings.push("Background media requires persisted teacher enablement before student devices can rely on it.");
+  }
+
+  if (settings.reporting.reportProgressToTeacher && settings.reporting.retentionPolicy === "demo-only") {
+    warnings.push("Teacher reporting is demo-only until privacy, retention, access, and export rules are accepted.");
+  }
+
+  if (!settings.reporting.exportAllowed) {
+    warnings.push("Teacher report export is not enabled for this scaffold.");
+  }
+
+  return warnings;
 }
