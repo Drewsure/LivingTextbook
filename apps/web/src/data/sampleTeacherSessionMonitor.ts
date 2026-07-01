@@ -8,6 +8,8 @@ import type {
 import { resolveSampleLaunchContext } from "./sampleLaunchResolver";
 import type { TenantConfig } from "@/features/tenant/types";
 
+type ProgressGameMode = StudentProgressionState["unlockedGameModes"][number];
+
 export interface TeacherSessionMonitorMetric {
   label: string;
   value: string;
@@ -62,12 +64,16 @@ function createMonitorProgression(
   return {
     ...progression,
     currentStep: "completion-review",
-    unlockedGameModes: Array.from(new Set([...progression.unlockedGameModes, ...launchSession.recommendedNextModes, "speak-it"])),
-    completedGameModes: Array.from(new Set([...progression.completedGameModes, launchSession.entryMode, "memory-match"])),
+    unlockedGameModes: uniqueModes([...progression.unlockedGameModes, ...launchSession.recommendedNextModes, "speak-it"]),
+    completedGameModes: uniqueModes([...progression.completedGameModes, launchSession.entryMode, "memory-match"]),
     earnedStarDust: 425,
     masteryStatus: "in-progress",
     lastEventAt: latestEvent?.occurredAt,
   };
+}
+
+function uniqueModes(modes: ProgressGameMode[]): ProgressGameMode[] {
+  return Array.from(new Set(modes));
 }
 
 function createMonitorMetrics(args: {
