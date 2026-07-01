@@ -9,7 +9,7 @@ The platform now has sample student routes, front-door routes, Training Academy 
 
 ## Decision
 
-Add an active scaffold route at `/teacher/sessions/[launchCode]`. The route uses sample data and a shared event stream to show how launch state, target-language entry practice, game unlocks, media events, Training Academy recovery, Memory Match completion, and Speak It readiness can appear in one teacher monitor.
+Add an active scaffold route at `/teacher/sessions/[launchCode]`. The route uses sample data and a shared event stream to show how launch state, target-language entry practice, game unlocks, media events, Training Academy recovery, Memory Match completion, Speak It readiness, and teacher session settings can appear in one teacher monitor.
 
 The route is explicitly sample/local. It does not store real student data, transcripts, raw audio, or production reports.
 
@@ -18,6 +18,7 @@ The route is explicitly sample/local. It does not store real student data, trans
 - Teachers and partners can see the intended reporting direction earlier.
 - The route reuses the current `GameProgressEvent` stream rather than creating a separate reporting model too soon.
 - The build exposes what must become durable before a real pilot: launch sessions, progress/media events, teacher toggles, student/session policy, and export controls.
+- Teacher controls such as microphone approval, background media, assist-language visibility, AI Tutor availability, and retention policy must move into persisted launch/session settings before classroom use.
 - The route can prove MiniStar and partner tenant rendering before deeper backend work begins.
 
 ## Guardrails
