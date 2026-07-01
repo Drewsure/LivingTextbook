@@ -13,6 +13,7 @@ Focused verification supplements:
 - `docs/verification/SELECTION_ENGINE_PREVIEW_CHECKS.md`
 - `docs/verification/SPEAK_IT_CORE_CHECKS.md`
 - `docs/verification/TEACHER_MICROPHONE_APPROVAL_CHECKS.md`
+- `docs/verification/TEACHER_REPORT_EXPORT_CHECKS.md`
 - `docs/verification/TEACHER_SESSION_MONITOR_CHECKS.md`
 - `docs/verification/VOICE_TUTOR_PACKAGE_CHECKS.md`
 
