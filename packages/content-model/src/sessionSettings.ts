@@ -4,6 +4,15 @@ export type SessionSettingReadiness = "enabled" | "disabled" | "requires-persist
 export type SessionDataRetentionPolicy = "demo-only" | "session-only" | "school-policy" | "tenant-policy";
 export type TeacherSessionControlReadiness = "ready" | "requires-persistence" | "requires-policy" | "disabled";
 export type TeacherSessionControlActionId = "open-session" | "lock-session" | "resume-session" | "end-session" | "export-report";
+export type TeacherReportExportReadiness = "ready" | "demo-preview" | "blocked-persistence" | "blocked-policy";
+export type TeacherReportExportFormat = "csv-summary" | "json-event-stream" | "pdf-family-summary";
+export type TeacherReportExportScope =
+  | "teacher-summary"
+  | "student-progress"
+  | "event-stream"
+  | "media-engagement"
+  | "training-recovery"
+  | "speech-practice-summary";
 
 export interface TeacherSessionSetting {
   settingId: string;
@@ -18,6 +27,22 @@ export interface TeacherSessionControlAction {
   status: TeacherSessionControlReadiness;
   requiresTeacherRole: boolean;
   requiresPolicy: boolean;
+  note: string;
+}
+
+export interface TeacherReportExportPlan {
+  launchCode: LaunchCode;
+  tenantId: TenantId;
+  readiness: TeacherReportExportReadiness;
+  allowedFormats: TeacherReportExportFormat[];
+  includedScopes: TeacherReportExportScope[];
+  requiresTeacherRole: boolean;
+  requiresAcceptedPolicy: boolean;
+  policyAccepted: boolean;
+  persistenceReady: boolean;
+  retentionPolicy: SessionDataRetentionPolicy;
+  excludesRawAudio: boolean;
+  excludesTranscripts: boolean;
   note: string;
 }
 
@@ -161,4 +186,106 @@ export function getTeacherSessionControlWarnings(actions: TeacherSessionControlA
   return actions
     .filter((action) => action.status === "requires-persistence" || action.status === "requires-policy")
     .map((action) => `${action.label} is not pilot-ready. Current readiness: ${action.status}.`);
+}
+
+export function createTeacherReportExportPlan(args: {
+  settings: TeacherSessionSettings;
+  allowedFormats: TeacherReportExportFormat[];
+  includedScopes: TeacherReportExportScope[];
+  policyAccepted?: boolean;
+  persistenceReady?: boolean;
+  note: string;
+}): TeacherReportExportPlan {
+  const policyAccepted = args.policyAccepted ?? false;
+  const persistenceReady = args.persistenceReady ?? args.settings.reporting.retentionPolicy !== "demo-only";
+
+  let readiness: TeacherReportExportReadiness = "ready";
+
+  if (!args.settings.reporting.exportAllowed || !policyAccepted) {
+    readiness = "blocked-policy";
+  } else if (!persistenceReady) {
+    readiness = "blocked-persistence";
+  } else if (args.settings.reporting.retentionPolicy === "demo-only") {
+    readiness = "demo-preview";
+  }
+
+  return {
+    launchCode: args.settings.launchCode,
+    tenantId: args.settings.tenantId,
+    readiness,
+    allowedFormats: args.allowedFormats,
+    includedScopes: args.includedScopes,
+    requiresTeacherRole: true,
+    requiresAcceptedPolicy: true,
+    policyAccepted,
+    persistenceReady,
+    retentionPolicy: args.settings.reporting.retentionPolicy,
+    excludesRawAudio: !args.settings.reporting.storesRawAudio,
+    excludesTranscripts: !args.settings.reporting.storesTranscript,
+    note: args.note,
+  };
+}
+
+export function validateTeacherReportExportPlan(plan: TeacherReportExportPlan): string[] {
+  const errors: string[] = [];
+
+  if (plan.launchCode.trim().length === 0) {
+    errors.push("Teacher report export plan requires a launch code.");
+  }
+
+  if (plan.tenantId.trim().length === 0) {
+    errors.push("Teacher report export plan requires a tenant id.");
+  }
+
+  if (plan.allowedFormats.length === 0) {
+    errors.push("Teacher report export plan must list at least one allowed format.");
+  }
+
+  if (plan.includedScopes.length === 0) {
+    errors.push("Teacher report export plan must list at least one report scope.");
+  }
+
+  if (!plan.requiresTeacherRole) {
+    errors.push("Teacher report export must require a teacher role.");
+  }
+
+  if (!plan.requiresAcceptedPolicy) {
+    errors.push("Teacher report export must require accepted school or tenant policy.");
+  }
+
+  if (!plan.excludesRawAudio) {
+    errors.push("Core teacher report export must exclude raw learner audio.");
+  }
+
+  if (!plan.excludesTranscripts) {
+    errors.push("Core teacher report export must exclude learner transcripts unless a premium transcript policy is accepted.");
+  }
+
+  if (plan.readiness === "ready" && (!plan.policyAccepted || !plan.persistenceReady)) {
+    errors.push("Teacher report export cannot be ready without accepted policy and persistence.");
+  }
+
+  return errors;
+}
+
+export function getTeacherReportExportWarnings(plan: TeacherReportExportPlan): string[] {
+  const warnings: string[] = [];
+
+  if (!plan.policyAccepted) {
+    warnings.push("Report export is blocked until school or tenant policy is accepted.");
+  }
+
+  if (!plan.persistenceReady) {
+    warnings.push("Report export is blocked until launch sessions and progress events are persisted.");
+  }
+
+  if (plan.retentionPolicy === "demo-only") {
+    warnings.push("Demo-only retention is not sufficient for real teacher report export.");
+  }
+
+  if (plan.readiness !== "ready") {
+    warnings.push(`Report export readiness is ${plan.readiness}.`);
+  }
+
+  return warnings;
 }
