@@ -1,6 +1,7 @@
 import { Card, StatusPill } from "@living-textbook/ui";
 import { validateUnitPayload } from "@living-textbook/content-model";
 import type { UnitPayload } from "@living-textbook/content-model";
+import { sampleLaunchSession } from "@/data/sampleLaunchSession";
 import {
   sampleFrontDoorPath,
   sampleMultimediaContentPackage,
@@ -8,16 +9,17 @@ import {
   samplePermanentQrPath,
   sampleTeacherProgressSummaryConcept,
 } from "@/data/sampleMultimediaPackage";
-import { sampleLaunchSession } from "@/data/sampleLaunchSession";
-import type { TenantConfig } from "@/features/tenant/types";
+import { whiteLabelPilotReadiness } from "@/data/whiteLabelPilotReadiness";
 import { VoiceTutorPackagePanel } from "@/features/ai-tutor/VoiceTutorPackagePanel";
 import { GameSequence } from "@/features/game-shell/GameSequence";
 import { MultimediaPackagePanel } from "@/features/multimedia/MultimediaPackagePanel";
+import { WhiteLabelPilotReadinessPanel } from "@/features/pilot/WhiteLabelPilotReadinessPanel";
 import { ProgressionSummary } from "@/features/progression/ProgressionSummary";
 import { getTrainingAcademyPath } from "@/features/routes/routeContracts";
 import { TeacherLaunchPanel } from "@/features/teacher/TeacherLaunchPanel";
 import { TeacherProgressSummaryConcept } from "@/features/teacher/TeacherProgressSummaryConcept";
 import { getAiTutorAvailability } from "@/features/tenant/tenantEntitlements";
+import type { TenantConfig } from "@/features/tenant/types";
 
 interface DashboardOverviewProps {
   tenant: TenantConfig;
@@ -55,6 +57,7 @@ export function DashboardOverview({ tenant, unit }: DashboardOverviewProps) {
           frontDoorPath={sampleFrontDoorPath}
           validationErrors={samplePackageValidationErrors}
         />
+        <WhiteLabelPilotReadinessPanel readiness={whiteLabelPilotReadiness} />
         <GameSequence unit={unit} />
       </section>
       <aside className="space-y-5">
