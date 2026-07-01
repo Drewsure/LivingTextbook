@@ -47,7 +47,7 @@ Remaining gate:
 
 Purpose: Turn Memory Match into the first reusable `pairing` parent engine implementation and use it as the pattern for future game modes.
 
-Current status: Initial playable pairing implementation exists and has been locally browser-verified in the first slice. Memory Match uses pairing adapter/state helpers, emits start/completion events, emits item-level `round_shown`, `answer_submitted`, `answer_result`, and `mastery_updated` events, supports card tap-to-hear audio, uses a shared scoring profile, and updates local progression.
+Current status: Initial playable pairing implementation exists and has been locally browser-verified in the first slice. Memory Match uses pairing adapter/state helpers, emits start/completion events, emits item-level `round_shown`, `answer_submitted`, `answer_result`, and `mastery_updated` events, supports card tap-to-hear audio, uses a shared scoring profile, and updates local progression. Speak It now adds the first core speech-practice shell with optional local microphone record/replay, no upload, no transcript, and no AI Tutor dependency.
 
 Required gate:
 
@@ -185,6 +185,8 @@ Outputs:
 
 Purpose: Prepare a real partner pilot without polluting the MiniStar reference implementation.
 
+Current status: Started. A white-label pilot readiness panel and partner timeline document now define the practical partner promise: a testable pilot in roughly 8-12 weeks, with a narrower first scope than the eventual commercial product.
+
 Outputs:
 
 - Tenant config.
@@ -194,6 +196,13 @@ Outputs:
 - Sample unit playlist and optional game-background media setting.
 - Sample assist-language package if required by the tenant.
 - Pilot verification checklist.
+
+Next outputs:
+
+- Add a second sample tenant config.
+- Add one sample partner content package.
+- Choose the first pilot deployment style: hosted PWA, local classroom server, packaged local app, or hybrid.
+- Decide whether the first partner pilot uses manually reviewed unit data or a draft PDF import workflow.
 
 ## Session 8: Premium Experience Layer
 
@@ -242,4 +251,4 @@ If a proposed task does not fit one of these sessions, document whether it is:
 
 Do not add premium polish yet.
 
-The hard gate is to pull the active focus-config connector-side work, run typecheck/build, and verify `/training/demo-unit-1`. After that, the next safest structural task is teacher-facing trigger settings and threshold controls for recovery recommendations.
+The hard gate is to keep typecheck/build passing after every route or package addition. The next safest structural task is to add a second sample tenant config and one partner-style content package so the white-label claim is proven in code, not just documentation.
