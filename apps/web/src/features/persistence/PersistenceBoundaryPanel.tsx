@@ -1,13 +1,18 @@
 import { Card, StatusPill } from "@living-textbook/ui";
+import type { DurableRecordContract, PersistenceRecordReadiness } from "@living-textbook/content-model/src/persistenceRecords";
 import type {
   PersistenceBoundary,
   PersistenceReadinessStatus,
   PersistenceStrategyOption,
 } from "@/data/samplePersistencePlan";
+import { persistenceRecordReadinessLabels } from "@/data/samplePersistencePlan";
 
 interface PersistenceBoundaryPanelProps {
   boundaries: PersistenceBoundary[];
   strategyOptions: PersistenceStrategyOption[];
+  durableRecords: DurableRecordContract[];
+  durableRecordErrors: string[];
+  durableRecordWarnings: string[];
 }
 
 const statusTone: Record<PersistenceReadinessStatus, "neutral" | "success" | "warning"> = {
@@ -16,14 +21,29 @@ const statusTone: Record<PersistenceReadinessStatus, "neutral" | "success" | "wa
   "needs-policy": "warning",
 };
 
+const readinessTone: Record<PersistenceRecordReadiness, "neutral" | "success" | "warning"> = {
+  "static-demo": "neutral",
+  "durable-required": "warning",
+  "policy-required": "warning",
+  "pilot-ready": "success",
+  "not-stored": "neutral",
+};
+
 const costTone: Record<PersistenceStrategyOption["costPosture"], "neutral" | "success" | "warning"> = {
   lowest: "success",
   controlled: "neutral",
   higher: "warning",
 };
 
-export function PersistenceBoundaryPanel({ boundaries, strategyOptions }: PersistenceBoundaryPanelProps) {
+export function PersistenceBoundaryPanel({
+  boundaries,
+  strategyOptions,
+  durableRecords,
+  durableRecordErrors,
+  durableRecordWarnings,
+}: PersistenceBoundaryPanelProps) {
   const backendNeeded = boundaries.filter((boundary) => boundary.status !== "demo-static").length;
+  const recordMapValid = durableRecordErrors.length === 0;
 
   return (
     <Card>
@@ -69,6 +89,64 @@ export function PersistenceBoundaryPanel({ boundaries, strategyOptions }: Persis
             </dl>
           </article>
         ))}
+      </div>
+
+      <div className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <h3 className="text-base font-bold">Durable record map</h3>
+            <p className="mt-1 text-sm leading-6 text-[var(--tenant-muted)]">
+              These records are the bridge from static demo screens to a real pilot. The map keeps backend choice open while showing what must be persisted, policy-approved, or kept out of core storage.
+            </p>
+          </div>
+          <StatusPill label={recordMapValid ? "Map valid" : "Map review"} tone={recordMapValid ? "success" : "warning"} />
+        </div>
+
+        <div className="mt-4 grid gap-3 lg:grid-cols-2">
+          <div className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-3 text-sm leading-6 text-[var(--tenant-muted)]">
+            <p className="font-semibold text-[var(--tenant-text)]">Safety contract</p>
+            {recordMapValid ? (
+              <p className="mt-2">No core record stores raw learner audio or transcripts. Student-data records require policy before pilot use.</p>
+            ) : (
+              <ul className="mt-2 grid gap-2">
+                {durableRecordErrors.map((error) => (
+                  <li key={error}>{error}</li>
+                ))}
+              </ul>
+            )}
+          </div>
+          <div className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-3 text-sm leading-6 text-[var(--tenant-muted)]">
+            <p className="font-semibold text-[var(--tenant-text)]">Pilot warnings</p>
+            <ul className="mt-2 grid gap-2">
+              {durableRecordWarnings.map((warning) => (
+                <li key={warning}>{warning}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+          {durableRecords.map((record) => (
+            <section key={record.recordId} className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-3">
+              <div className="flex flex-wrap items-start justify-between gap-2">
+                <h4 className="text-sm font-bold">{record.label}</h4>
+                <StatusPill label={persistenceRecordReadinessLabels[record.readiness]} tone={readinessTone[record.readiness]} />
+              </div>
+              <p className="mt-2 text-xs font-semibold uppercase text-[var(--tenant-muted)]">{record.category}</p>
+              <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">{record.note}</p>
+              <dl className="mt-3 grid gap-2 text-xs text-[var(--tenant-muted)]">
+                <div>
+                  <dt className="font-semibold text-[var(--tenant-text)]">Source</dt>
+                  <dd className="mt-1">{record.sourceOfTruth}</dd>
+                </div>
+                <div>
+                  <dt className="font-semibold text-[var(--tenant-text)]">Store path</dt>
+                  <dd className="mt-1">{record.recommendedFirstPilotStore.join(", ")}</dd>
+                </div>
+              </dl>
+            </section>
+          ))}
+        </div>
       </div>
 
       <div className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
