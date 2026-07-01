@@ -10,6 +10,7 @@ The platform has a working foundation slice:
 - second sample tenant proof route,
 - teacher launch route,
 - teacher/admin content intake route,
+- deployment profile scaffold,
 - student QR launch route,
 - front-door entry-code/user-code route,
 - flashcard entry practice,
@@ -30,13 +31,19 @@ Recommended external wording:
 
 > We can prepare a testable white-label Living Textbook pilot in roughly 8-12 weeks, with commercial readiness following after pilot feedback.
 
+## Deployment Guidance
+
+The recommended first pilot path is a hosted PWA. It is the fastest, lowest-friction way to test branded content, permanent-ish route behavior, media engagement, games, and teacher reporting assumptions without taking on installer and offline sync complexity too early.
+
+Local classroom server and packaged local app paths remain first-class requirements for closed textbook companion deployments. They should move forward after the pilot scope chooses clear rules for local routing, yearly content-package updates, media rights, offline bundle manifests, reporting export/sync, and QR/deep-link fallback behavior.
+
 ## Milestones
 
 | Window | Outcome | Notes |
 | --- | --- | --- |
-| Now-2 weeks | Internal proof-of-concept | Verify current routes, stabilize local checks, and choose the first partner pilot scope. |
+| Now-2 weeks | Internal proof-of-concept | Verify current routes, stabilize local checks, choose the first partner pilot scope, and select the first deployment profile. |
 | 3-6 weeks | Pilot content package | Expand the second-tenant sample into a small set of reviewed partner units, media assets, and game payloads. |
-| 6-8 weeks | Partner-facing demo | Show branded shell, QR/front-door entry, content intake review, 2-4 games, media playlist, and teacher progress view. |
+| 6-8 weeks | Partner-facing demo | Show branded shell, QR/front-door entry, content intake review, deployment profile, 2-4 games, media playlist, and teacher progress view. |
 | 8-12 weeks | Testable pilot | Run a controlled pilot with real unit content, reporting, and deployment assumptions. |
 | 4-6 months | Commercial product candidate | Add persistence, admin tools, content import review, local/offline packaging, security/privacy review, and broader game coverage. |
 
