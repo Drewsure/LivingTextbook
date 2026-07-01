@@ -6,6 +6,7 @@ Focused verification supplements:
 
 - `docs/verification/AI_TUTOR_ENTITLEMENT_CHECKS.md`
 - `docs/verification/CONTENT_INTAKE_CHECKS.md`
+- `docs/verification/DEPLOYMENT_PROFILE_CHECKS.md`
 - `docs/verification/MEDIA_TELEMETRY_CHECKS.md`
 - `docs/verification/SECOND_TENANT_PACKAGE_CHECKS.md`
 
