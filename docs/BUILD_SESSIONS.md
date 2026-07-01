@@ -130,6 +130,8 @@ Next outputs:
 
 Purpose: Support white-label tenant curriculum intake from PDF units, teacher docs, or structured spreadsheets.
 
+Current status: Active scaffold. `/teacher/intake` now shows reviewed source intake gates, package readiness, source-to-route decisions, and route registry data. It remains a review concept, not an automatic PDF-to-student assignment pipeline.
+
 Outputs:
 
 - Content package model.
@@ -143,6 +145,8 @@ Outputs:
 ## Session 4: QR Registry And Route Permanence
 
 Purpose: Make QR codes stable enough for printed textbooks and classroom materials.
+
+Current status: Active scaffold. The front-door route resolver now uses tenant route registry data for MiniStar and the sample publisher. Permanent textbook QR schema remains a future route contract.
 
 Outputs:
 
@@ -173,6 +177,8 @@ Outputs:
 
 Purpose: Package the same platform for closed local use when a publisher, school, or textbook partner needs a non-public installation.
 
+Current status: Deployment profile scaffold exists in `/teacher/intake`. Hosted PWA is the recommended first pilot path. Local classroom server and packaged local app remain first-class paths, but require persistence, offline media bundle, installer/update, sync/export, and QR/deep-link decisions before production.
+
 Outputs:
 
 - Local app packaging recommendation.
@@ -185,7 +191,7 @@ Outputs:
 
 Purpose: Prepare a real partner pilot without polluting the MiniStar reference implementation.
 
-Current status: Active scaffold. A white-label pilot readiness panel and partner timeline document define the practical partner promise: a testable pilot in roughly 8-12 weeks, with a narrower first scope than the eventual commercial product. A second sample tenant and partner-style content package now prove the white-label path in code at `/partner-demo`, `/enter/sample-publisher`, `/launch/partner-demo-unit-1`, and `/speak/partner-demo-unit-1`.
+Current status: Active scaffold. A white-label pilot readiness panel and partner timeline document define the practical partner promise: a testable pilot in roughly 8-12 weeks, with a narrower first scope than the eventual commercial product. A second sample tenant and partner-style content package now prove the white-label path in code at `/partner-demo`, `/enter/sample-publisher`, `/launch/partner-demo-unit-1`, and `/speak/partner-demo-unit-1`. `/teacher/intake` now adds reviewed source intake gates, tenant route registry data, and deployment profile choices.
 
 Outputs:
 
@@ -199,9 +205,8 @@ Outputs:
 
 Next outputs:
 
-- Add a reviewed partner content intake/import pipeline concept.
-- Add tenant-level front-door route registry data so `/enter/[tenantId]` can move beyond static demo resolution.
-- Choose the first pilot deployment style: hosted PWA, local classroom server, packaged local app, or hybrid.
+- Add database/persistence boundaries for tenant route registry, launch sessions, content packages, and progress events.
+- Add a teacher-facing route/session monitor once persistence shape is stable.
 - Decide whether the first partner pilot uses manually reviewed unit data or a draft PDF import workflow.
 
 ## Session 8: Premium Experience Layer
@@ -251,4 +256,4 @@ If a proposed task does not fit one of these sessions, document whether it is:
 
 Do not add premium polish yet.
 
-The hard gate is to keep typecheck/build passing after every route or package addition. The next safest structural task is to pull and verify the multi-tenant front-door resolver, then add a reviewed partner content intake/import concept.
+The hard gate is to keep typecheck/build passing after every route or package addition. The next safest structural task is to add database/persistence boundaries for tenant route registry, launch sessions, content packages, progress events, media events, and deployment profiles before adding deeper teacher reporting screens.
