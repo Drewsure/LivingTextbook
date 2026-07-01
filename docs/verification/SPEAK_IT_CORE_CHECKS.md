@@ -2,9 +2,20 @@
 
 Use this checklist after pulling `legacy-source-import` and restarting the local web app.
 
-## Full Test Address
+## Full Test Addresses
+
+[http://127.0.0.1:3000/teacher](http://127.0.0.1:3000/teacher)
 
 [http://127.0.0.1:3000/speak/demo-unit-1](http://127.0.0.1:3000/speak/demo-unit-1)
+
+## Teacher Approval Checks
+
+1. Open `http://127.0.0.1:3000/teacher`.
+2. Confirm the page includes `Microphone approval`.
+3. Confirm the panel states local record/replay has no API cost.
+4. Confirm the panel states AI transcription or pronunciation scoring is premium and may create API usage costs.
+5. Click `Keep mic off`, then open `http://127.0.0.1:3000/speak/demo-unit-1` and confirm record/replay controls are hidden.
+6. Return to `http://127.0.0.1:3000/teacher`, click `Allow local mic`, then reopen `http://127.0.0.1:3000/speak/demo-unit-1` and confirm record/replay controls appear.
 
 ## Route Checks
 
@@ -17,7 +28,7 @@ Use this checklist after pulling `legacy-source-import` and restarting the local
 
 ## Microphone Practice Checks
 
-1. Tap `Record` on one English prompt and confirm the browser asks for microphone permission.
+1. With teacher mic approval on, tap `Record` on one English prompt and confirm the browser asks for microphone permission.
 2. Say the English prompt aloud.
 3. Tap `Stop` and confirm a replay-ready message appears.
 4. Tap `Replay` and confirm the recorded audio plays locally.
@@ -38,6 +49,7 @@ Use this checklist after pulling `legacy-source-import` and restarting the local
 ## Boundary Checks
 
 - No microphone permission prompt occurs before `Record` is tapped.
+- No microphone controls appear when teacher approval is off.
 - No speech-to-text service is required.
 - No pronunciation score is displayed.
 - No transcript or raw audio is stored.
