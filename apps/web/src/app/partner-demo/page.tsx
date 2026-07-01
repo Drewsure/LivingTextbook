@@ -1,0 +1,91 @@
+import { Card, StatusPill } from "@living-textbook/ui";
+import { AppShell } from "@/components/layout/AppShell";
+import {
+  samplePartnerContentPackage,
+  samplePartnerFrontDoorEntryCode,
+  samplePartnerFrontDoorPath,
+  samplePartnerFrontDoorUserCode,
+  samplePartnerLaunchCode,
+  samplePartnerLaunchSession,
+  samplePartnerPackageValidationErrors,
+  samplePartnerPermanentQrPath,
+  samplePartnerUnitOne,
+} from "@/data/samplePartnerPackage";
+import { GameSequence } from "@/features/game-shell/GameSequence";
+import { MultimediaPackagePanel } from "@/features/multimedia/MultimediaPackagePanel";
+import { ProgressionSummary } from "@/features/progression/ProgressionSummary";
+import { TeacherLaunchPanel } from "@/features/teacher/TeacherLaunchPanel";
+import { TeacherMicrophonePracticePanel } from "@/features/teacher/TeacherMicrophonePracticePanel";
+import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
+
+export default function PartnerDemoPage() {
+  return (
+    <AppShell tenant={samplePublisherTenant}>
+      <div className="grid gap-5 lg:grid-cols-[1.4fr_0.9fr]">
+        <section className="space-y-5">
+          <Card>
+            <div className="flex flex-wrap items-start justify-between gap-4">
+              <div>
+                <p className="text-sm font-semibold text-[var(--tenant-muted)]">White-label proof</p>
+                <h2 className="mt-1 text-2xl font-bold">Partner textbook pilot shell</h2>
+                <p className="mt-2 max-w-2xl text-sm leading-6 text-[var(--tenant-muted)]">
+                  This route uses a second tenant, a partner-style PDF content package, a different reward name,
+                  no MiniStar assist language, and the same reusable launch, media, progression, and speaking contracts.
+                </p>
+              </div>
+              <StatusPill label="Second tenant" tone="success" />
+            </div>
+          </Card>
+
+          <TeacherLaunchPanel unit={samplePartnerUnitOne} launchSession={samplePartnerLaunchSession} />
+          <MultimediaPackagePanel
+            contentPackage={samplePartnerContentPackage}
+            permanentQrPath={samplePartnerPermanentQrPath}
+            frontDoorPath={samplePartnerFrontDoorPath}
+            validationErrors={samplePartnerPackageValidationErrors}
+          />
+          <GameSequence unit={samplePartnerUnitOne} />
+        </section>
+
+        <aside className="space-y-5">
+          <ProgressionSummary tenant={samplePublisherTenant} unit={samplePartnerUnitOne} />
+          <TeacherMicrophonePracticePanel tenant={samplePublisherTenant} />
+          <Card>
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <p className="text-sm font-semibold text-[var(--tenant-muted)]">Routes to test</p>
+                <h2 className="mt-1 text-lg font-bold">Partner package paths</h2>
+              </div>
+              <StatusPill label="Active scaffold" tone="success" />
+            </div>
+            <dl className="mt-5 grid gap-3 text-sm text-[var(--tenant-muted)]">
+              <RouteLink label="Partner demo" href="/partner-demo" />
+              <RouteLink label="Student launch" href={`/launch/${samplePartnerLaunchCode}`} />
+              <RouteLink label="Speak It" href={`/speak/${samplePartnerLaunchCode}`} />
+            </dl>
+            <p className="mt-4 text-xs leading-5 text-[var(--tenant-muted)]">
+              Demo codes for a future partner front door: {samplePartnerFrontDoorEntryCode} / {samplePartnerFrontDoorUserCode}.
+              This first proof routes directly to launch while the reusable front-door resolver remains a later step.
+            </p>
+          </Card>
+        </aside>
+      </div>
+    </AppShell>
+  );
+}
+
+function RouteLink({ label, href }: { label: string; href: string }) {
+  return (
+    <div className="grid gap-1">
+      <dt className="font-semibold text-[var(--tenant-text)]">{label}</dt>
+      <dd>
+        <a
+          href={href}
+          className="break-words font-semibold text-[var(--tenant-primary)] underline decoration-[var(--tenant-accent)] decoration-2 underline-offset-4"
+        >
+          {href}
+        </a>
+      </dd>
+    </div>
+  );
+}
