@@ -109,7 +109,7 @@ export const appRouteContracts: AppRouteContract[] = [
     pattern: "/teacher/sessions/[launchCode]",
     audience: "teacher",
     status: "active-scaffold",
-    purpose: "Monitor sample student completion, media engagement, mastery, speaking-practice readiness, teacher settings, and Training Academy recommendations from one report stream.",
+    purpose: "Monitor sample student completion, media engagement, mastery, speaking-practice readiness, teacher settings, lifecycle controls, and Training Academy recommendations from one report stream.",
     requiredState: [
       "TenantConfig",
       "LaunchSession",
@@ -117,9 +117,12 @@ export const appRouteContracts: AppRouteContract[] = [
       "GameProgressEvent[]",
       "TeacherSessionSettings",
       "TeacherSessionSetting[]",
+      "TeacherSessionControlAction[]",
       "TeacherSessionMonitorMetric[]",
       "sessionSettingErrors[]",
       "sessionSettingWarnings[]",
+      "sessionControlErrors[]",
+      "sessionControlWarnings[]",
     ],
   },
 ];
