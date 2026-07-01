@@ -27,6 +27,7 @@ Then run build/typecheck and verify:
 - `/launch/demo-unit-1`
 - `/enter/ministar`
 - `/partner-demo`
+- `/enter/sample-publisher`
 - `/launch/partner-demo-unit-1`
 - `/speak/partner-demo-unit-1`
 
