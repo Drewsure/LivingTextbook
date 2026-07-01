@@ -45,6 +45,7 @@ Before accepting a new direction, answer these questions in the task, PR, or imp
 | DR-014 | Training Academy focus configs | Accepted | Recovery lanes are config-driven across vocabulary, sentence, listening, spelling, and mode-practice support instead of hard-coded screens. |
 | DR-015 | Target-language entry gate | Accepted | Entry practice completion and next-game unlocks require target-language engagement; support language never satisfies mastery or unlock gates. |
 | DR-016 | Premium voice tutor speech layer | Accepted | Preserve Vocal Image-style speech coaching as an optional, tenant-gated, replaceable premium capability without active model or microphone dependency in the foundation slice. |
+| DR-021 | Second sample tenant package | Accepted | Add a second sample tenant and partner-style content package to prove the white-label path in code. |
 
 ## DR-001: Tailwind And PostCSS Foundation
 
@@ -391,3 +392,22 @@ Constraints:
 - Feedback must be age-appropriate, encouraging, bounded by approved unit content, and teacher-reviewable.
 - Open-source candidates require license/provenance/security review before import.
 - This decision is recorded in `docs/adr/0016-premium-voice-tutor-speech-layer.md` and `docs/future-requirements/FR-008-premium-voice-tutor-speech-layer.md`.
+
+## DR-021: Second Sample Tenant Package
+
+Status: Accepted
+
+Decision: Add a second sample tenant and partner-style content package as a foundation proof that the Living Textbook app is not MiniStar-only.
+
+White-label impact: Strongly positive. The same route family, app shell, launch flow, Speak It route, multimedia panel, progression summary, and teacher controls can render a different tenant, different reward name, different textbook metadata, and different package rules.
+
+Cost impact: Positive. This is a cheap static sample that exposes hard-coded assumptions before partner onboarding, persistence, and import workflows become expensive.
+
+Constraints:
+
+- Partner demo content is reviewed sample data, not an import pipeline.
+- Partner routes must reuse shared platform components.
+- MiniStar assist language, Star Dust naming, avatar rules, or visual rules must not leak into partner sample routes.
+- Target-language engagement remains the unlock trigger.
+- Missing partner media files are acceptable placeholders only while the media catalog and rights-managed storage layer are still in foundation mode.
+- This decision is recorded in `docs/adr/0020-second-sample-tenant-package.md`.
