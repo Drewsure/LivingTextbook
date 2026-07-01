@@ -1,4 +1,12 @@
 import type { DeploymentChannel } from "@living-textbook/content-model";
+import type {
+  DurableRecordContract,
+  PersistenceRecordReadiness,
+} from "@living-textbook/content-model/src/persistenceRecords";
+import {
+  getDurableRecordReadinessWarnings,
+  validateDurableRecordContracts,
+} from "@living-textbook/content-model/src/persistenceRecords";
 
 export type PersistenceReadinessStatus = "demo-static" | "needs-backend" | "needs-policy";
 
@@ -31,6 +39,141 @@ export interface PersistenceStrategyOption {
   fit: string;
   caution: string;
 }
+
+export const sampleDurableRecordContracts: DurableRecordContract[] = [
+  {
+    recordId: "tenant-config-record",
+    category: "tenant-config",
+    label: "Tenant configuration record",
+    readiness: "static-demo",
+    sourceOfTruth: "TenantConfig plus tenant language and entitlement settings",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: false,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    recommendedFirstPilotStore: ["source-control-demo", "hosted-database", "local-classroom-store"],
+    note: "Static tenant config is acceptable for demos; partner self-maintenance requires an admin-editable record later.",
+  },
+  {
+    recordId: "reviewed-content-package-record",
+    category: "content-package",
+    label: "Reviewed content package record",
+    readiness: "durable-required",
+    sourceOfTruth: "ContentPackage, unit payloads, audio cues, assist-language plans, multimedia plans",
+    requiredBeforePilot: true,
+    containsStudentData: false,
+    containsMediaRights: false,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
+    note: "PDF/DOCX intake must publish reviewed package versions rather than live-editing student routes from source files.",
+  },
+  {
+    recordId: "qr-route-registry-record",
+    category: "route-registry",
+    label: "QR and route registry record",
+    readiness: "durable-required",
+    sourceOfTruth: "FrontDoorRouteRegistryEntry and PermanentQrRoute records",
+    requiredBeforePilot: true,
+    containsStudentData: false,
+    containsMediaRights: false,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
+    note: "Printed QR codes need stable IDs, redirects, and local fallback targets that survive yearly textbook updates.",
+  },
+  {
+    recordId: "teacher-launch-session-record",
+    category: "launch-session",
+    label: "Teacher launch session and settings record",
+    readiness: "durable-required",
+    sourceOfTruth: "LaunchSession plus TeacherSessionSettings",
+    requiredBeforePilot: true,
+    containsStudentData: true,
+    containsMediaRights: false,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    ownsTeacherSessionSettings: true,
+    recommendedFirstPilotStore: ["hosted-database", "local-classroom-store", "school-policy"],
+    note: "Teacher microphone approval, assist-language visibility, background media, AI Tutor state, and reporting settings belong here.",
+  },
+  {
+    recordId: "progress-event-stream-record",
+    category: "progress-event-stream",
+    label: "Progress and media event stream record",
+    readiness: "policy-required",
+    sourceOfTruth: "GameProgressEvent, media events, recovery metadata, Star Dust changes, mastery updates",
+    requiredBeforePilot: true,
+    containsStudentData: true,
+    containsMediaRights: false,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    recommendedFirstPilotStore: ["hosted-database", "local-classroom-store", "school-policy"],
+    note: "This stream powers reports and recovery, but retention/export/access policy must be chosen before real student storage.",
+  },
+  {
+    recordId: "media-manifest-rights-record",
+    category: "media-manifest",
+    label: "Media manifest and rights record",
+    readiness: "durable-required",
+    sourceOfTruth: "MediaAsset, UnitMediaPlaylist, UnitMultimediaPlan, rights status, local bundle paths",
+    requiredBeforePilot: true,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    recommendedFirstPilotStore: ["hosted-object-storage", "hosted-database", "local-classroom-store"],
+    note: "Music, videos, chants, and posters need rights-safe manifests for hosted and local packages.",
+  },
+  {
+    recordId: "deployment-profile-record",
+    category: "deployment-profile",
+    label: "Deployment profile record",
+    readiness: "static-demo",
+    sourceOfTruth: "TenantDeploymentProfile and pilot readiness decisions",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: false,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    recommendedFirstPilotStore: ["source-control-demo", "hosted-database", "local-classroom-store"],
+    note: "Demo profiles can stay static while hosted PWA, local server, and packaged app options are compared.",
+  },
+  {
+    recordId: "report-export-policy-record",
+    category: "report-export-policy",
+    label: "Report export and retention policy record",
+    readiness: "policy-required",
+    sourceOfTruth: "School/tenant privacy, retention, export, parent access, and admin access rules",
+    requiredBeforePilot: true,
+    containsStudentData: true,
+    containsMediaRights: false,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    recommendedFirstPilotStore: ["school-policy", "hosted-database", "local-classroom-store"],
+    note: "Reports are a saleable feature, but real student event storage needs clear school policy before activation.",
+  },
+];
+
+export const sampleDurableRecordErrors = validateDurableRecordContracts(sampleDurableRecordContracts);
+export const sampleDurableRecordWarnings = getDurableRecordReadinessWarnings(sampleDurableRecordContracts);
+
+export const persistenceRecordReadinessLabels: Record<PersistenceRecordReadiness, string> = {
+  "static-demo": "Static demo",
+  "durable-required": "Durable required",
+  "policy-required": "Policy required",
+  "pilot-ready": "Pilot ready",
+  "not-stored": "Not stored",
+};
 
 export const samplePersistenceBoundaries: PersistenceBoundary[] = [
   {
