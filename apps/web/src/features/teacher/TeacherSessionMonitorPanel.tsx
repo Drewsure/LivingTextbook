@@ -61,22 +61,32 @@ export function TeacherSessionMonitorPanel({ context }: TeacherSessionMonitorPan
               These controls are shown as policy shape, not live classroom state. Production use needs persisted launch-session settings so teacher choices reliably reach student devices.
             </p>
           </div>
-          <StatusPill label={settingsReady ? "Contract valid" : "Contract review"} tone={settingsReady ? "success" : "warning"} />
+          <StatusPill label={settingsReady ? "Safety valid" : "Safety review"} tone={settingsReady ? "success" : "warning"} />
         </div>
 
-        <div className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3 text-sm leading-6 text-[var(--tenant-muted)]">
-          {settingsReady ? (
-            <p>The sample session settings pass the shared contract. Production still needs persistence before classroom use.</p>
-          ) : (
-            <div>
-              <p className="font-semibold text-[var(--tenant-text)]">Settings needing review</p>
-              <ul className="mt-2 grid gap-2">
-                {context.sessionSettingErrors.map((error) => (
-                  <li key={error}>{error}</li>
-                ))}
-              </ul>
-            </div>
-          )}
+        <div className="mt-5 grid gap-3 lg:grid-cols-2">
+          <div className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3 text-sm leading-6 text-[var(--tenant-muted)]">
+            {settingsReady ? (
+              <p>The sample session settings pass the shared safety contract.</p>
+            ) : (
+              <div>
+                <p className="font-semibold text-[var(--tenant-text)]">Settings needing safety review</p>
+                <ul className="mt-2 grid gap-2">
+                  {context.sessionSettingErrors.map((error) => (
+                    <li key={error}>{error}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+          <div className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3 text-sm leading-6 text-[var(--tenant-muted)]">
+            <p className="font-semibold text-[var(--tenant-text)]">Persistence warnings</p>
+            <ul className="mt-2 grid gap-2">
+              {context.sessionSettingWarnings.map((warning) => (
+                <li key={warning}>{warning}</li>
+              ))}
+            </ul>
+          </div>
         </div>
 
         <div className="mt-5 grid gap-3 md:grid-cols-2">
