@@ -18,13 +18,14 @@ A white-label pilot needs teacher-visible reporting. Showing the monitor early h
 - Added `TeacherSessionMonitorPanel`.
 - Added `http://127.0.0.1:3000/teacher/sessions/demo-unit-1` and partner-compatible launch-code route behavior.
 - Added app-shell navigation to the demo session monitor.
+- Added sample teacher session settings for learner text audio, assist-language policy, microphone approval, background media, AI Tutor premium-disabled state, and progress retention.
 - Reused `FrontDoorTeacherReportPreview` for shared event-stream reporting.
 - Updated route contracts to mark `/teacher/sessions/[launchCode]` as active scaffold.
 - Added focused verification in `docs/verification/TEACHER_SESSION_MONITOR_CHECKS.md`.
 
 ## Follow-Up
 
-- Move launch sessions and report events into the selected persistence layer before live classroom testing.
+- Move launch sessions, teacher settings, and report events into the selected persistence layer before live classroom testing.
 - Add teacher controls for open/locked/expired launch sessions once persistence exists.
 - Add class-level aggregation only after privacy and access-control rules are accepted.
 - Preserve the same route for MiniStar and partner tenants.
