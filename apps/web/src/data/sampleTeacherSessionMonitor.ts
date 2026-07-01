@@ -5,23 +5,16 @@ import type {
   StudentProgressionState,
   UnitPayload,
 } from "@living-textbook/content-model";
+import type { TeacherSessionSetting, TeacherSessionSettings } from "@living-textbook/content-model/src/sessionSettings";
+import { validateTeacherSessionSettings } from "@living-textbook/content-model/src/sessionSettings";
 import { resolveSampleLaunchContext } from "./sampleLaunchResolver";
 import type { TenantConfig } from "@/features/tenant/types";
 
 type ProgressGameMode = StudentProgressionState["unlockedGameModes"][number];
 
-export type TeacherSessionSettingStatus = "enabled" | "disabled" | "requires-persistence" | "premium-disabled";
-
 export interface TeacherSessionMonitorMetric {
   label: string;
   value: string;
-  note: string;
-}
-
-export interface TeacherSessionSetting {
-  settingId: string;
-  label: string;
-  status: TeacherSessionSettingStatus;
   note: string;
 }
 
@@ -33,7 +26,9 @@ export interface TeacherSessionMonitorContext {
   progression: StudentProgressionState;
   events: GameProgressEvent[];
   metrics: TeacherSessionMonitorMetric[];
+  sessionSettings: TeacherSessionSettings;
   settings: TeacherSessionSetting[];
+  sessionSettingErrors: string[];
   readinessNotes: string[];
 }
 
@@ -43,6 +38,8 @@ export function resolveSampleTeacherSessionMonitorContext(launchCode: string): T
   const events = createSampleMonitorEvents(launchContext.launchSession, isPartner);
   const latestEvent = events[events.length - 1];
   const progression = createMonitorProgression(launchContext.progression, launchContext.launchSession, latestEvent);
+  const sessionSettings = createMonitorSessionSettings(launchContext.launchSession, isPartner);
+  const sessionSettingErrors = validateTeacherSessionSettings(sessionSettings);
 
   return {
     tenant: launchContext.tenant,
@@ -57,7 +54,9 @@ export function resolveSampleTeacherSessionMonitorContext(launchCode: string): T
       eventCount: events.length,
       rewardName: launchContext.tenant.rewardName,
     }),
-    settings: createMonitorSettings(isPartner),
+    sessionSettings,
+    settings: createMonitorSettings(sessionSettings),
+    sessionSettingErrors,
     readinessNotes: [
       "This route uses reviewed sample data and local event examples only.",
       "A real classroom monitor needs persisted launch sessions, event storage, student/session policy, and export controls.",
@@ -117,42 +116,81 @@ function createMonitorMetrics(args: {
   ];
 }
 
-function createMonitorSettings(isPartner: boolean): TeacherSessionSetting[] {
+function createMonitorSessionSettings(launchSession: LaunchSession, isPartner: boolean): TeacherSessionSettings {
+  return {
+    launchCode: launchSession.launchCode,
+    tenantId: launchSession.tenantId,
+    audioRequired: true,
+    assistLanguage: {
+      enabled: !isPartner,
+      unlockAllowed: false,
+      masteryCreditAllowed: false,
+      visibility: isPartner ? "teacher-only" : "student-toggle",
+    },
+    microphonePractice: {
+      enabled: true,
+      requiresTeacherApproval: true,
+      approvalPersisted: false,
+      storesRawAudio: false,
+    },
+    backgroundMedia: {
+      allowed: true,
+      defaultEnabled: false,
+      requiresTeacherEnablement: true,
+    },
+    aiTutor: {
+      enabled: false,
+      packageTier: "premium",
+      speechScoringEnabled: false,
+      storesTranscript: false,
+    },
+    reporting: {
+      reportProgressToTeacher: true,
+      retentionPolicy: "demo-only",
+      exportAllowed: false,
+      storesRawAudio: false,
+      storesTranscript: false,
+    },
+    updatedAt: "2026-07-01T00:00:00.000Z",
+  };
+}
+
+function createMonitorSettings(sessionSettings: TeacherSessionSettings): TeacherSessionSetting[] {
   return [
     {
       settingId: "audio-required",
       label: "Learner text audio",
-      status: "enabled",
+      status: sessionSettings.audioRequired ? "enabled" : "disabled",
       note: "Vocabulary, target sentences, instructions, and key controls require audio support before student assignment.",
     },
     {
       settingId: "assist-language",
       label: "Assist language",
-      status: isPartner ? "disabled" : "enabled",
+      status: sessionSettings.assistLanguage.enabled ? "enabled" : "disabled",
       note: "Assist text can support comprehension, but it cannot unlock games, award mastery, or replace target-language engagement.",
     },
     {
       settingId: "microphone-practice",
       label: "Microphone practice",
-      status: "requires-persistence",
+      status: sessionSettings.microphonePractice.approvalPersisted ? "enabled" : "requires-persistence",
       note: "Teacher approval must become a persisted session setting before student devices can rely on it across a classroom.",
     },
     {
       settingId: "background-media",
       label: "Game background media",
-      status: "requires-persistence",
+      status: sessionSettings.backgroundMedia.requiresTeacherEnablement ? "requires-persistence" : "enabled",
       note: "Background audio or video is optional and teacher-controlled; comprehension audio remains required either way.",
     },
     {
       settingId: "ai-tutor",
       label: "AI Tutor package",
-      status: "premium-disabled",
+      status: sessionSettings.aiTutor.enabled ? "enabled" : "premium-disabled",
       note: "AI Tutor, speech scoring, transcripts, and model calls remain optional paid features, not core session requirements.",
     },
     {
       settingId: "data-retention",
       label: "Progress retention",
-      status: "requires-persistence",
+      status: sessionSettings.reporting.retentionPolicy === "demo-only" ? "requires-persistence" : "enabled",
       note: "Real reports need privacy, retention, export, and school access rules before event storage is enabled.",
     },
   ];
