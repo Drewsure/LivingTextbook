@@ -35,9 +35,10 @@ export const appRouteContracts: AppRouteContract[] = [
     pattern: "/teacher/intake",
     audience: "teacher",
     status: "active-scaffold",
-    purpose: "Let teacher/admin users inspect source intake gates, reviewed package readiness, front-door route registry data, deployment profiles, persistence boundaries, and durable record requirements before assignment.",
+    purpose: "Let teacher/admin users inspect source intake gates, package releases, reviewed package readiness, front-door route registry data, deployment profiles, persistence boundaries, and durable record requirements before assignment.",
     requiredState: [
       "ContentIntakeRun[]",
+      "ContentPackageRelease[]",
       "FrontDoorRouteRegistryEntry[]",
       "TenantDeploymentProfile[]",
       "PersistenceBoundary[]",
