@@ -24,6 +24,9 @@ npm run dev --workspace @living-textbook/web -- --hostname 127.0.0.1 --port 3000
 - `/teacher/intake` shows the content intake and route registry page.
 - The intake panel lists both the MiniStar DOCX sample and the Sample Publisher PDF sample.
 - The intake gates distinguish completed review items from media-rights and teacher-approval items that remain pending.
+- The package release section shows MiniStar and Sample Publisher release records.
+- Release records show edition, version, stable route path, active QR state, unit count, media count, and game-mode count.
+- Release records list changes since the previous version and release gates for media files, rights proof, route persistence, or teacher approval.
 - The route registry panel lists `/enter/ministar` and `/enter/sample-publisher`.
 - The route registry keeps permanent QR paths separate from front-door paths.
 - The teacher/admin page does not claim automated PDF extraction is production-ready.
@@ -32,6 +35,8 @@ npm run dev --workspace @living-textbook/web -- --hostname 127.0.0.1 --port 3000
 ## Failure Signals
 
 - Raw PDF/DOCX intake is treated as automatically student-ready.
+- A package release is shown as QR-active before route registry, media, or teacher approval gates are represented.
+- Yearly package changes are not visible to the teacher/admin review route.
 - Missing media files are hidden instead of represented as pending rights/file handoff.
 - Route data is hard-coded only inside route components.
 - The intake route introduces production auth claims or database persistence that do not exist yet.
