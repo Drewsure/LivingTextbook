@@ -1,4 +1,8 @@
-import type { TenantFeatureEntitlements, TenantLanguageSettings } from "@living-textbook/content-model";
+import type {
+  FeaturePackageTier,
+  TenantFeatureEntitlements,
+  TenantLanguageSettings,
+} from "@living-textbook/content-model";
 
 export interface TenantBrand {
   primary: string;
@@ -14,6 +18,15 @@ export interface TenantBrand {
   border: string;
 }
 
+export interface TenantMicrophonePracticeSettings {
+  localRecordReplayEnabled: boolean;
+  teacherApprovalRequired: boolean;
+  aiSpeechScoringEnabled: boolean;
+  aiSpeechScoringPackageTier?: FeaturePackageTier;
+  privacyNotice: string;
+  costNotice: string;
+}
+
 export interface TenantConfig {
   id: string;
   displayName: string;
@@ -22,5 +35,6 @@ export interface TenantConfig {
   avatarFamilies: string[];
   featureEntitlements?: TenantFeatureEntitlements;
   languageSettings?: TenantLanguageSettings;
+  microphonePractice?: TenantMicrophonePracticeSettings;
   brand: TenantBrand;
 }
