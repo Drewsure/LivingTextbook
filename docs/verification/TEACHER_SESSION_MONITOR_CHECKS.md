@@ -6,7 +6,7 @@ Last updated: 2026-07-01
 
 ## Purpose
 
-Verify that the teacher session monitor route presents a single report stream for launch state, target-language entry practice, game unlocks, media engagement, Training Academy recovery, Memory Match completion, Speak It readiness, and teacher session settings without pretending that sample data is production persistence.
+Verify that the teacher session monitor route presents a single report stream for launch state, target-language entry practice, game unlocks, media engagement, Training Academy recovery, Memory Match completion, Speak It readiness, teacher session settings, and lifecycle controls without pretending that sample data is production persistence.
 
 ## Routes
 
@@ -32,16 +32,20 @@ Verify at:
 13. Confirm persistence warnings are visible for demo-local approval, background media enablement, demo-only reporting, or disabled export when those gaps apply.
 14. Confirm the shared contract file exists at `packages/content-model/src/sessionSettings.ts`.
 15. Confirm the settings contract document exists at `docs/TEACHER_SESSION_SETTINGS_CONTRACT.md`.
-16. Confirm the event stream includes target-language entry practice completion.
-17. Confirm support-language taps do not appear as unlock triggers.
-18. Confirm game unlock, media, recovery, game completion, and Speak It readiness events appear in one report stream.
-19. Confirm microphone/speech scoring remains marked as disabled or record/replay-only in the core sample.
-20. Confirm the page reuses tenant branding for MiniStar and the sample publisher.
-21. Confirm the route contract for `/teacher/sessions/[launchCode]` is active scaffold, not future-only.
-22. Confirm no real student identity, transcript, raw audio storage, or cloud speech scoring is implied.
+16. Confirm the page shows a `Session lifecycle controls` section.
+17. Confirm lifecycle controls include open session, lock new entries, resume entries, end session, and export report.
+18. Confirm lifecycle controls require teacher role and mark export as requiring accepted policy.
+19. Confirm lifecycle control warnings are shown as persistence/policy gaps, not active production controls.
+20. Confirm the event stream includes target-language entry practice completion.
+21. Confirm support-language taps do not appear as unlock triggers.
+22. Confirm game unlock, media, recovery, game completion, and Speak It readiness events appear in one report stream.
+23. Confirm microphone/speech scoring remains marked as disabled or record/replay-only in the core sample.
+24. Confirm the page reuses tenant branding for MiniStar and the sample publisher.
+25. Confirm the route contract for `/teacher/sessions/[launchCode]` is active scaffold, not future-only, and includes `TeacherSessionControlAction[]`.
+26. Confirm no real student identity, transcript, raw audio storage, or cloud speech scoring is implied.
 
 ## Acceptance Standard
 
 The route should make the future teacher reporting surface tangible while preserving the current foundation rule: no production student monitoring before persistence, privacy, retention, access, and export rules exist.
 
-Safety failures block classroom use. Persistence warnings are expected in the scaffold and must become implementation tasks before a real pilot.
+Safety failures block classroom use. Persistence and policy warnings are expected in the scaffold and must become implementation tasks before a real pilot.
