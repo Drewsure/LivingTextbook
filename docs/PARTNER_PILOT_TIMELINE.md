@@ -9,6 +9,7 @@ The platform has a working foundation slice:
 - tenant-branded shell,
 - second sample tenant proof route,
 - teacher launch route,
+- teacher/admin content intake route,
 - student QR launch route,
 - front-door entry-code/user-code route,
 - flashcard entry practice,
@@ -21,7 +22,7 @@ The platform has a working foundation slice:
 
 This is not yet a complete product, but it is enough to support a credible pilot plan.
 
-The current second-tenant proof is visible at `/partner-demo`, with matching student routes at `/enter/sample-publisher`, `/launch/partner-demo-unit-1`, and `/speak/partner-demo-unit-1`.
+The current second-tenant proof is visible at `/partner-demo`, with review and student routes at `/teacher/intake`, `/enter/sample-publisher`, `/launch/partner-demo-unit-1`, and `/speak/partner-demo-unit-1`.
 
 ## Timeframe To Quote
 
@@ -35,7 +36,7 @@ Recommended external wording:
 | --- | --- | --- |
 | Now-2 weeks | Internal proof-of-concept | Verify current routes, stabilize local checks, and choose the first partner pilot scope. |
 | 3-6 weeks | Pilot content package | Expand the second-tenant sample into a small set of reviewed partner units, media assets, and game payloads. |
-| 6-8 weeks | Partner-facing demo | Show branded shell, QR/front-door entry, 2-4 games, media playlist, and teacher progress view. |
+| 6-8 weeks | Partner-facing demo | Show branded shell, QR/front-door entry, content intake review, 2-4 games, media playlist, and teacher progress view. |
 | 8-12 weeks | Testable pilot | Run a controlled pilot with real unit content, reporting, and deployment assumptions. |
 | 4-6 months | Commercial product candidate | Add persistence, admin tools, content import review, local/offline packaging, security/privacy review, and broader game coverage. |
 
