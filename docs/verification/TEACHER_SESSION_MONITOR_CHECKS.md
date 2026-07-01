@@ -27,14 +27,21 @@ Verify at:
 8. Confirm background media is optional and teacher-controlled.
 9. Confirm AI Tutor is premium-disabled, not a core session dependency.
 10. Confirm progress retention requires persistence, privacy, export, and school access rules.
-11. Confirm the event stream includes target-language entry practice completion.
-12. Confirm support-language taps do not appear as unlock triggers.
-13. Confirm game unlock, media, recovery, game completion, and Speak It readiness events appear in one report stream.
-14. Confirm microphone/speech scoring remains marked as disabled or record/replay-only in the core sample.
-15. Confirm the page reuses tenant branding for MiniStar and the sample publisher.
-16. Confirm the route contract for `/teacher/sessions/[launchCode]` is active scaffold, not future-only.
-17. Confirm no real student identity, transcript, raw audio storage, or cloud speech scoring is implied.
+11. Confirm the page displays the shared settings contract result as either `Safety valid` or `Safety review`.
+12. Confirm the safety contract does not treat demo-only persistence gaps as safety failures.
+13. Confirm persistence warnings are visible for demo-local approval, background media enablement, demo-only reporting, or disabled export when those gaps apply.
+14. Confirm the shared contract file exists at `packages/content-model/src/sessionSettings.ts`.
+15. Confirm the settings contract document exists at `docs/TEACHER_SESSION_SETTINGS_CONTRACT.md`.
+16. Confirm the event stream includes target-language entry practice completion.
+17. Confirm support-language taps do not appear as unlock triggers.
+18. Confirm game unlock, media, recovery, game completion, and Speak It readiness events appear in one report stream.
+19. Confirm microphone/speech scoring remains marked as disabled or record/replay-only in the core sample.
+20. Confirm the page reuses tenant branding for MiniStar and the sample publisher.
+21. Confirm the route contract for `/teacher/sessions/[launchCode]` is active scaffold, not future-only.
+22. Confirm no real student identity, transcript, raw audio storage, or cloud speech scoring is implied.
 
 ## Acceptance Standard
 
 The route should make the future teacher reporting surface tangible while preserving the current foundation rule: no production student monitoring before persistence, privacy, retention, access, and export rules exist.
+
+Safety failures block classroom use. Persistence warnings are expected in the scaffold and must become implementation tasks before a real pilot.
