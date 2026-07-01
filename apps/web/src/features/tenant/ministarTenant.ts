@@ -13,6 +13,14 @@ export const ministarTenant: TenantConfig = {
     studentAssistEnabledByDefault: false,
     liveAiAssistAllowed: false,
   },
+  microphonePractice: {
+    localRecordReplayEnabled: true,
+    teacherApprovalRequired: true,
+    aiSpeechScoringEnabled: false,
+    aiSpeechScoringPackageTier: "premium",
+    privacyNotice: "Local record/replay stays in the browser tab and is not uploaded or stored by the core package.",
+    costNotice: "Local record/replay has no API cost. AI transcription or pronunciation scoring is premium and may create API usage costs.",
+  },
   featureEntitlements: {
     aiTutor: {
       enabled: false,
