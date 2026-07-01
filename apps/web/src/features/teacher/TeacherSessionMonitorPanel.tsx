@@ -1,5 +1,5 @@
 import { Card, StatusPill } from "@living-textbook/ui";
-import type { SessionSettingReadiness } from "@living-textbook/content-model/src/sessionSettings";
+import type { SessionSettingReadiness } from "@living-textbook/content-model";
 import type { TeacherSessionMonitorContext } from "@/data/sampleTeacherSessionMonitor";
 import { FrontDoorTeacherReportPreview } from "@/features/access/FrontDoorTeacherReportPreview";
 
