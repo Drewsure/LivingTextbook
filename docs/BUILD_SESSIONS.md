@@ -66,7 +66,7 @@ Next outputs:
 
 Purpose: Add the smallest deterministic recovery path before database persistence, AI Tutor, or premium polish.
 
-Current status: Active local-state prototype exists on `legacy-source-import` at `/training/[code]`. It uses the shared launch/session/progression shape, reuses tap-to-speak audio support, awards small recovery Star Dust, records teacher-visible recovery metadata, returns the student to the normal unit route, includes a reusable teacher recovery summary adapter, includes deterministic recovery trigger logic in the student launch flow, and now supports focus-specific recovery configs. The front-door teacher report sample also counts recovery events from the same unified stream. Local typecheck/build passed before this focus-config expansion; another local pull/typecheck/build is required after the connector-side focus-config change.
+Current status: Active local-state prototype exists on `legacy-source-import` at `/training/[code]`. It uses the shared launch/session/progression shape, reuses tap-to-speak audio support, awards small recovery Star Dust, records teacher-visible recovery metadata, returns the student to the normal unit route, includes a reusable teacher recovery summary adapter, includes deterministic recovery trigger logic in the student launch flow, and now supports focus-specific recovery configs. The front-door teacher report sample and teacher session monitor count recovery events from the same unified stream. Local typecheck/build is required after each connector-side change.
 
 Implemented path:
 
@@ -82,7 +82,7 @@ Focus config contract -> Vocabulary, Sentences, Listening, Spelling, and Game pr
 
 Implemented report path:
 
-Training metadata bridge -> recovery summary counts -> focus-change counts -> front-door teacher report metrics -> event list display using `trainingEventType` metadata.
+Training metadata bridge -> recovery summary counts -> focus-change counts -> front-door teacher report metrics -> teacher session monitor metrics -> event list display using `trainingEventType` metadata.
 
 Remaining gate:
 
@@ -91,14 +91,15 @@ Remaining gate:
 - Verify focus selector on `/training/demo-unit-1`.
 - Verify `training_focus_selected` metadata and teacher summary counts.
 - Verify front-door recovery counts on `/enter/ministar`.
-- Run mobile verification for `/launch/demo-unit-1` and `/training/demo-unit-1`.
+- Verify teacher session monitor counts recovery records on `/teacher/sessions/demo-unit-1`.
+- Run mobile verification for `/launch/demo-unit-1`, `/training/demo-unit-1`, and `/teacher/sessions/demo-unit-1`.
 - Promote dedicated Training Academy event types into `packages/content-model` only after the metadata bridge proves stable.
 
 Next outputs:
 
 - Teacher-facing trigger settings and thresholds after the local rule proves usable.
 - Query-param or launch-session selected focus when a trigger points to a specific recovery lane.
-- Persistence plan after local-state behavior is verified.
+- Persistence-backed report aggregation after storage policy is selected.
 
 ## Session 2.75: Reviewed Assist Language Foundation
 
@@ -191,7 +192,7 @@ Outputs:
 
 Purpose: Prepare a real partner pilot without polluting the MiniStar reference implementation.
 
-Current status: Active scaffold. A white-label pilot readiness panel and partner timeline document define the practical partner promise: a testable pilot in roughly 8-12 weeks, with a narrower first scope than the eventual commercial product. A second sample tenant and partner-style content package now prove the white-label path in code at `/partner-demo`, `/enter/sample-publisher`, `/launch/partner-demo-unit-1`, and `/speak/partner-demo-unit-1`. `/teacher/intake` now adds reviewed source intake gates, tenant route registry data, deployment profile choices, and persistence boundaries.
+Current status: Active scaffold. A white-label pilot readiness panel and partner timeline document define the practical partner promise: a testable pilot in roughly 8-12 weeks, with a narrower first scope than the eventual commercial product. A second sample tenant and partner-style content package prove the white-label path in code at `/partner-demo`, `/enter/sample-publisher`, `/launch/partner-demo-unit-1`, and `/speak/partner-demo-unit-1`. `/teacher/intake` adds reviewed source intake gates, tenant route registry data, deployment profile choices, and persistence boundaries. `/teacher/sessions/demo-unit-1` and `/teacher/sessions/partner-demo-unit-1` now show teacher session monitor scaffolds on the shared event stream.
 
 Outputs:
 
@@ -205,7 +206,7 @@ Outputs:
 
 Next outputs:
 
-- Add a teacher-facing route/session monitor concept using existing launch sessions, progress events, media events, and recovery metadata.
+- Run local typecheck/build and browser verification for the new admin routes.
 - Decide whether the first partner pilot uses manually reviewed unit data or a draft PDF import workflow.
 - Choose the actual first pilot backend only after privacy, reporting, and deployment constraints are reviewed.
 
@@ -256,4 +257,4 @@ If a proposed task does not fit one of these sessions, document whether it is:
 
 Do not add premium polish yet.
 
-The hard gate is to keep typecheck/build passing after every route or package addition. The next safest structural task is to add a teacher-facing route/session monitor concept using the existing event stream and persistence boundary, without introducing a real backend before the storage policy is decided.
+The hard gate is to keep typecheck/build passing after every route or package addition. The next safest task is local verification of `/teacher/intake`, `/teacher/sessions/demo-unit-1`, and `/teacher/sessions/partner-demo-unit-1`; after that, choose the first persistence spike or continue with teacher session settings that remain backend-agnostic.
