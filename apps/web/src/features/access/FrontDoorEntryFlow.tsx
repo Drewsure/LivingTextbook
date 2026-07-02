@@ -94,17 +94,26 @@ export function FrontDoorEntryFlow({
       return;
     }
 
+    const normalizedUserCode = userCode.trim();
+    const progressionForLearner: StudentProgressionState = normalizedUserCode
+      ? {
+          ...currentProgression,
+          studentSessionId: `${launchSession.launchCode}:${normalizedUserCode.toLowerCase()}`,
+        }
+      : currentProgression;
+
     setEntryError(undefined);
+    setCurrentProgression(progressionForLearner);
     setUnitOpen(true);
 
     if (sessionEvents.length === 0) {
       setSessionEvents([
         createLaunchOpenedEvent({
-          progression: currentProgression,
+          progression: progressionForLearner,
           launchSession,
           occurredAt: new Date().toISOString(),
           entryCode,
-          userCode,
+          userCode: normalizedUserCode,
         }),
       ]);
     }
