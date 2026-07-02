@@ -11,6 +11,7 @@ Focused verification supplements:
 - `docs/verification/MEDIA_TELEMETRY_CHECKS.md`
 - `docs/verification/PERSISTENCE_ADAPTER_CHECKS.md`
 - `docs/verification/PERSISTENCE_BOUNDARY_CHECKS.md`
+- `docs/verification/PILOT_HANDOFF_PACKAGE_CHECKS.md`
 - `docs/verification/PILOT_POLICY_CHECKS.md`
 - `docs/verification/PILOT_READINESS_GATE_CHECKS.md`
 - `docs/verification/PWA_INSTALLABILITY_CHECKS.md`
