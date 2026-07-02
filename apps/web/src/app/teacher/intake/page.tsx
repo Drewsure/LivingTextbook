@@ -8,6 +8,11 @@ import {
   samplePersistenceAdapterPlans,
   samplePersistenceAdapterWarnings,
 } from "@/data/samplePersistenceAdapterPlan";
+import {
+  samplePilotPolicyErrors,
+  samplePilotPolicyPlans,
+  samplePilotPolicyWarnings,
+} from "@/data/samplePilotPolicyPlan";
 import { sampleFrontDoorRouteRegistry } from "@/data/sampleTenantRouteRegistry";
 import {
   sampleDurableRecordContracts,
@@ -19,6 +24,7 @@ import {
 import { ContentIntakeReviewPanel } from "@/features/content-intake/ContentIntakeReviewPanel";
 import { DeploymentProfilePanel } from "@/features/deployment/DeploymentProfilePanel";
 import { LocalBundleManifestPanel } from "@/features/deployment/LocalBundleManifestPanel";
+import { PilotPolicyReadinessPanel } from "@/features/policy/PilotPolicyReadinessPanel";
 import { PersistenceAdapterReadinessPanel } from "@/features/persistence/PersistenceAdapterReadinessPanel";
 import { PersistenceBoundaryPanel } from "@/features/persistence/PersistenceBoundaryPanel";
 import { TenantRouteRegistryPanel } from "@/features/routes/TenantRouteRegistryPanel";
@@ -50,6 +56,11 @@ export default function TeacherIntakePage() {
           durableRecords={sampleDurableRecordContracts}
           durableRecordErrors={sampleDurableRecordErrors}
           durableRecordWarnings={sampleDurableRecordWarnings}
+        />
+        <PilotPolicyReadinessPanel
+          plans={samplePilotPolicyPlans}
+          errors={samplePilotPolicyErrors}
+          warnings={samplePilotPolicyWarnings}
         />
         <PersistenceAdapterReadinessPanel
           plans={samplePersistenceAdapterPlans}
