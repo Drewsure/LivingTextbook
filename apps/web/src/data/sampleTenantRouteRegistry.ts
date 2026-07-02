@@ -5,10 +5,12 @@ import type {
   StudentProgressionState,
   UnitPayload,
 } from "@living-textbook/content-model";
+import type { ClassRosterPlan } from "@living-textbook/content-model/src/classRoster";
 import {
   getSampleFrontDoorLaunchSession,
   getSampleFrontDoorStudentProgression,
 } from "./sampleLaunchSession";
+import { findSampleClassRosterPlan } from "./sampleClassRosterPlans";
 import {
   getSamplePartnerFrontDoorLaunchSession,
   getSamplePartnerFrontDoorStudentProgression,
@@ -55,6 +57,8 @@ export interface SampleFrontDoorContext {
   accessPolicy: FrontDoorAccessPolicy;
   expectedEntryCode: string;
   expectedUserCode: string;
+  allowedUserCodes: string[];
+  classRosterPlan?: ClassRosterPlan;
 }
 
 export const sampleFrontDoorRouteRegistry: SampleFrontDoorRouteRegistryEntry[] = [
@@ -96,6 +100,10 @@ export function createSampleFrontDoorContext(
   route: SampleFrontDoorRouteRegistryEntry,
 ): SampleFrontDoorContext {
   const launchSession = route.createLaunchSession();
+  const classRosterPlan = findSampleClassRosterPlan(launchSession.launchCode);
+  const allowedUserCodes = Array.from(
+    new Set([route.expectedUserCode, ...(classRosterPlan?.slots.map((slot) => slot.userCode) ?? [])]),
+  );
   const progression = route.createProgression(launchSession.launchCode, route.expectedUserCode.toLowerCase());
 
   return {
@@ -108,5 +116,7 @@ export function createSampleFrontDoorContext(
     accessPolicy: route.accessPolicy,
     expectedEntryCode: route.expectedEntryCode,
     expectedUserCode: route.expectedUserCode,
+    allowedUserCodes,
+    classRosterPlan,
   };
 }
