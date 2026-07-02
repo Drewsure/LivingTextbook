@@ -12,6 +12,7 @@ Focused verification supplements:
 - `docs/verification/PERSISTENCE_BOUNDARY_CHECKS.md`
 - `docs/verification/PILOT_POLICY_CHECKS.md`
 - `docs/verification/PILOT_READINESS_GATE_CHECKS.md`
+- `docs/verification/PWA_INSTALLABILITY_CHECKS.md`
 - `docs/verification/SECOND_TENANT_PACKAGE_CHECKS.md`
 - `docs/verification/SELECTION_ENGINE_PREVIEW_CHECKS.md`
 - `docs/verification/SPEAK_IT_CORE_CHECKS.md`
@@ -57,5 +58,7 @@ Then verify:
 - `/enter/sample-publisher`
 - `/launch/partner-demo-unit-1`
 - `/speak/partner-demo-unit-1`
+- `/manifest.webmanifest`
+- `/icons/living-textbook-icon.svg`
 
 Do not mark connector-side changes as locally verified until this is complete.
