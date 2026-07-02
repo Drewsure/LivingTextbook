@@ -1,6 +1,6 @@
 import type { ContentPackage } from "@living-textbook/content-model";
 import { getUnitKey, validateContentPackage } from "@living-textbook/content-model";
-import { samplePackageReleases, type ContentPackageRelease } from "./sampleContentIntakePlan";
+import { samplePackageReleases } from "./sampleContentIntakePlan";
 import { sampleMultimediaContentPackage } from "./sampleMultimediaPackage";
 import { samplePartnerContentPackage } from "./samplePartnerPackage";
 
@@ -88,7 +88,7 @@ function buildUnitPackageReadiness(contentPackage: ContentPackage): UnitPackageR
         label: "Validated unit payload",
         status: validationErrors.length === 0 ? "ready" : "blocked",
         blocksPilot: validationErrors.length > 0,
-        evidence: validationErrors.length === 0 ? "No package validation errors" : `${validationErrors.length} validation issue(s)` ,
+        evidence: validationErrors.length === 0 ? "No package validation errors" : `${validationErrors.length} validation issue(s)`,
         nextStep: validationErrors[0] ?? "Maintain 8-12 terms, exactly 2 sentences, audio support, and visual blacklist checks.",
       },
       {
@@ -96,7 +96,7 @@ function buildUnitPackageReadiness(contentPackage: ContentPackage): UnitPackageR
         label: "Audio-first learner support",
         status: audioSupportReady && (contentPackage.audioCues?.length ?? 0) > 0 ? "ready" : "blocked",
         blocksPilot: !audioSupportReady || (contentPackage.audioCues?.length ?? 0) === 0,
-        evidence: `${audioSupportPlans.length} support plan(s), ${contentPackage.audioCues?.length ?? 0} cue(s)` ,
+        evidence: `${audioSupportPlans.length} support plan(s), ${contentPackage.audioCues?.length ?? 0} cue(s)`,
         nextStep: "Every student-facing term, sentence, instruction, feedback item, and critical control needs a cue plan.",
       },
       {
@@ -104,7 +104,7 @@ function buildUnitPackageReadiness(contentPackage: ContentPackage): UnitPackageR
         label: "Media assets and rights",
         status: mediaRightsReady ? "review" : "blocked",
         blocksPilot: !mediaRightsReady,
-        evidence: `${audioAssets.length} audio asset(s), ${videoAssets.length} video asset(s)` ,
+        evidence: `${audioAssets.length} audio asset(s), ${videoAssets.length} video asset(s)`,
         nextStep: "Replace placeholders with owned, licensed, or partner-provided files before production assignment.",
       },
       {
@@ -120,7 +120,7 @@ function buildUnitPackageReadiness(contentPackage: ContentPackage): UnitPackageR
         label: "Assist-language review",
         status: assistLanguagePlans.every((plan) => reviewedStatuses.has(plan.reviewStatus)) ? "ready" : "review",
         blocksPilot: false,
-        evidence: `${assistLanguagePlans.length} assist-language plan(s)` ,
+        evidence: `${assistLanguagePlans.length} assist-language plan(s)`,
         nextStep: "Support language remains optional comprehension support and never unlocks target-language progression.",
       },
       {
