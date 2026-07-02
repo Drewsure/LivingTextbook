@@ -1,6 +1,6 @@
 # Living Textbook Verification Index
 
-Use `docs/VERIFICATION_CHECKLIST.md` as the primary local verification path after the `legacy-source-import` branch is synced and the app is running.
+Use `docs/VERIFICATION_CHECKLIST.md` as the primary local verification path after the `legacy-source-import` branch is synced and the app is running. Use `docs/LOCAL_SYNC_AND_VERIFY_RUNBOOK.md` when the local Windows checkout needs to catch up to connector-side commits.
 
 Focused verification supplements:
 
