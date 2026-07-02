@@ -8,6 +8,7 @@ import {
 import { sampleContentIntakeRuns, samplePackageReleases } from "@/data/sampleContentIntakePlan";
 import { sampleDeploymentProfiles } from "@/data/sampleDeploymentProfiles";
 import { sampleLocalBundleManifests } from "@/data/sampleLocalBundlePlan";
+import { samplePilotHandoffPackage } from "@/data/samplePilotHandoffPackage";
 import {
   samplePersistenceAdapterErrors,
   samplePersistenceAdapterPlans,
@@ -38,6 +39,7 @@ import { UnitPackageReadinessPanel } from "@/features/content-intake/UnitPackage
 import { DeploymentProfilePanel } from "@/features/deployment/DeploymentProfilePanel";
 import { LocalBundleManifestPanel } from "@/features/deployment/LocalBundleManifestPanel";
 import { PilotPolicyReadinessPanel } from "@/features/policy/PilotPolicyReadinessPanel";
+import { PilotHandoffPackagePanel } from "@/features/pilot/PilotHandoffPackagePanel";
 import { PilotReadinessGatePanel } from "@/features/pilot/PilotReadinessGatePanel";
 import { PersistenceAdapterReadinessPanel } from "@/features/persistence/PersistenceAdapterReadinessPanel";
 import { PersistenceBoundaryPanel } from "@/features/persistence/PersistenceBoundaryPanel";
@@ -67,6 +69,7 @@ export default function TeacherIntakePage() {
           policyPlans={samplePilotPolicyPlans}
           persistencePlans={samplePersistenceAdapterPlans}
         />
+        <PilotHandoffPackagePanel handoffPackage={samplePilotHandoffPackage} />
         <UnitPackageReadinessPanel packages={sampleUnitPackageReadiness} />
         <TeacherAssignmentReadinessPanel
           plans={sampleTeacherAssignmentPlans}
