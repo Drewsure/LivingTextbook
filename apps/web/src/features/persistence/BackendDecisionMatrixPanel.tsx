@@ -112,13 +112,13 @@ function MatrixMetric({
   tone: "neutral" | "success" | "warning";
 }) {
   return (
-    <div className="rounded-lg border border-[var(--tenant-border)] p-3">
+    <section className="rounded-lg border border-[var(--tenant-border)] p-3">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <dt className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">{label}</dt>
+        <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">{label}</p>
         <StatusPill label={tone === "success" ? "OK" : tone === "warning" ? "Open" : "Info"} tone={tone} />
       </div>
-      <dd className="mt-2 break-words text-lg font-bold text-[var(--tenant-text)]">{value}</dd>
-    </div>
+      <p className="mt-2 break-words text-lg font-bold text-[var(--tenant-text)]">{value}</p>
+    </section>
   );
 }
 
