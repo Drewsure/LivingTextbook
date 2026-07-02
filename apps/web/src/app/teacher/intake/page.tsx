@@ -3,6 +3,11 @@ import { AppShell } from "@/components/layout/AppShell";
 import { sampleContentIntakeRuns, samplePackageReleases } from "@/data/sampleContentIntakePlan";
 import { sampleDeploymentProfiles } from "@/data/sampleDeploymentProfiles";
 import { sampleLocalBundleManifests } from "@/data/sampleLocalBundlePlan";
+import {
+  samplePersistenceAdapterErrors,
+  samplePersistenceAdapterPlans,
+  samplePersistenceAdapterWarnings,
+} from "@/data/samplePersistenceAdapterPlan";
 import { sampleFrontDoorRouteRegistry } from "@/data/sampleTenantRouteRegistry";
 import {
   sampleDurableRecordContracts,
@@ -14,6 +19,7 @@ import {
 import { ContentIntakeReviewPanel } from "@/features/content-intake/ContentIntakeReviewPanel";
 import { DeploymentProfilePanel } from "@/features/deployment/DeploymentProfilePanel";
 import { LocalBundleManifestPanel } from "@/features/deployment/LocalBundleManifestPanel";
+import { PersistenceAdapterReadinessPanel } from "@/features/persistence/PersistenceAdapterReadinessPanel";
 import { PersistenceBoundaryPanel } from "@/features/persistence/PersistenceBoundaryPanel";
 import { TenantRouteRegistryPanel } from "@/features/routes/TenantRouteRegistryPanel";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
@@ -44,6 +50,11 @@ export default function TeacherIntakePage() {
           durableRecords={sampleDurableRecordContracts}
           durableRecordErrors={sampleDurableRecordErrors}
           durableRecordWarnings={sampleDurableRecordWarnings}
+        />
+        <PersistenceAdapterReadinessPanel
+          plans={samplePersistenceAdapterPlans}
+          errors={samplePersistenceAdapterErrors}
+          warnings={samplePersistenceAdapterWarnings}
         />
       </div>
     </AppShell>
