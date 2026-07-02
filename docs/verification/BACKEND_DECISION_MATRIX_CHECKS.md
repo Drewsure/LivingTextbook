@@ -7,13 +7,11 @@ Use this checklist after pulling the latest `legacy-source-import` branch locall
 ```powershell
 cd "D:\LIVING TEXTBOOOK PROJECT\LivingTextbook"
 git restore apps/web/next-env.d.ts
-Git pull --ff-only
+git pull --ff-only
 npm run typecheck --workspace @living-textbook/web
 npm run build --workspace @living-textbook/web
 npm run dev --workspace @living-textbook/web -- --hostname 127.0.0.1 --port 3000
 ```
-
-If `Git pull` is copied with the wrong capitalization, PowerShell usually still accepts it, but use `git pull --ff-only` for consistency.
 
 ## Browser Route
 
