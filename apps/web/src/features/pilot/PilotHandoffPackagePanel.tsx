@@ -38,12 +38,12 @@ export function PilotHandoffPackagePanel({ handoffPackage }: PilotHandoffPackage
         <StatusPill label={handoffPackage.recommendedPilotWindow} tone="success" />
       </div>
 
-      <dl className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <HandoffMetric label="Deployment" value={handoffPackage.recommendedDeployment} tone="success" />
         <HandoffMetric label="Routes" value={String(routeCount)} tone="success" />
         <HandoffMetric label="Ready assets" value={`${readyAssets}/${handoffPackage.assets.length}`} tone={readyAssets === handoffPackage.assets.length ? "success" : "warning"} />
         <HandoffMetric label="Blocked decisions" value={String(blockedDecisions)} tone={blockedDecisions > 0 ? "warning" : "success"} />
-      </dl>
+      </div>
 
       <div className="mt-5 grid gap-4 lg:grid-cols-[0.95fr_1.05fr]">
         <section className="rounded-lg border border-[var(--tenant-border)] p-4">
@@ -127,13 +127,13 @@ function HandoffMetric({
   tone: "neutral" | "success" | "warning";
 }) {
   return (
-    <div className="rounded-lg border border-[var(--tenant-border)] p-3">
+    <section className="rounded-lg border border-[var(--tenant-border)] p-3">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <dt className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">{label}</dt>
+        <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">{label}</p>
         <StatusPill label={tone === "success" ? "OK" : tone === "warning" ? "Open" : "Info"} tone={tone} />
       </div>
-      <dd className="mt-2 break-words text-sm font-bold text-[var(--tenant-text)]">{value}</dd>
-    </div>
+      <p className="mt-2 break-words text-sm font-bold text-[var(--tenant-text)]">{value}</p>
+    </section>
   );
 }
 
