@@ -202,3 +202,9 @@ export const sampleTeacherAssignmentPlans: TeacherAssignmentPlan[] = [
 
 export const sampleTeacherAssignmentErrors = sampleTeacherAssignmentPlans.flatMap(validateTeacherAssignmentPlan);
 export const sampleTeacherAssignmentWarnings = sampleTeacherAssignmentPlans.flatMap(getTeacherAssignmentWarnings);
+
+export function findSampleTeacherAssignmentPlan(launchCode: string): TeacherAssignmentPlan | undefined {
+  return sampleTeacherAssignmentPlans.find(
+    (plan) => plan.launchCode === launchCode || plan.access.routePath.endsWith(`/${launchCode}`),
+  );
+}
