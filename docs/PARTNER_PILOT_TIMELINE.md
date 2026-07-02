@@ -10,9 +10,11 @@ The platform has a working foundation slice:
 - second sample tenant proof route,
 - teacher launch route,
 - teacher/admin content intake route,
+- pilot handoff package panel,
 - deployment profile scaffold,
 - persistence boundary scaffold,
 - teacher session monitor scaffold,
+- coded learner roster identity scaffold,
 - student QR launch route,
 - front-door entry-code/user-code route,
 - flashcard entry practice,
@@ -33,6 +35,12 @@ Recommended external wording:
 
 > We can prepare a testable white-label Living Textbook pilot in roughly 8-12 weeks, with commercial readiness following after pilot feedback.
 
+## Handoff Guidance
+
+Use `/teacher/intake` as the internal pilot handoff surface. It now shows the pilot readiness gate plus a handoff package that names partner-facing routes, available assets, blocked report/storage work, human decision owners, and cost-impact notes.
+
+The handoff package is not a sales page and not a production checklist. It is the working truth: what can be shown now, what requires partner input, and what must be settled before real student data is recorded.
+
 ## Deployment Guidance
 
 The recommended first pilot path is a hosted PWA. It is the fastest, lowest-friction way to test branded content, permanent-ish route behavior, media engagement, games, and teacher reporting assumptions without taking on installer and offline sync complexity too early.
@@ -49,7 +57,7 @@ The teacher session monitor route now demonstrates the desired report shape usin
 | --- | --- | --- |
 | Now-2 weeks | Internal proof-of-concept | Verify current routes, stabilize local checks, choose the first partner pilot scope, and select the first deployment profile. |
 | 3-6 weeks | Pilot content package | Expand the second-tenant sample into a small set of reviewed partner units, media assets, and game payloads. |
-| 6-8 weeks | Partner-facing demo | Show branded shell, QR/front-door entry, content intake review, deployment profile, teacher session monitor, 2-4 games, and media playlist. |
+| 6-8 weeks | Partner-facing demo | Show branded shell, QR/front-door entry, content intake review, deployment profile, teacher session monitor, pilot handoff package, 2-4 games, and media playlist. |
 | 8-12 weeks | Testable pilot | Run a controlled pilot with real unit content, reporting persistence, privacy rules, and deployment assumptions. |
 | 4-6 months | Commercial product candidate | Add persistence, admin tools, content import review, local/offline packaging, security/privacy review, and broader game coverage. |
 
