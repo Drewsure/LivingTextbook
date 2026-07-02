@@ -15,6 +15,7 @@ Focused verification supplements:
 - `docs/verification/PILOT_HANDOFF_PACKAGE_CHECKS.md`
 - `docs/verification/PILOT_POLICY_CHECKS.md`
 - `docs/verification/PILOT_READINESS_GATE_CHECKS.md`
+- `docs/verification/PUBLISHER_MAINTENANCE_CHECKS.md`
 - `docs/verification/PWA_INSTALLABILITY_CHECKS.md`
 - `docs/verification/SECOND_TENANT_PACKAGE_CHECKS.md`
 - `docs/verification/SELECTION_ENGINE_PREVIEW_CHECKS.md`
