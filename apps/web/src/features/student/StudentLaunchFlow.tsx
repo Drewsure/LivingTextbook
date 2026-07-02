@@ -10,6 +10,7 @@ import type {
   UnitAssistLanguagePlan,
   UnitPayload,
 } from "@living-textbook/content-model";
+import type { TeacherAssignmentPlan } from "@living-textbook/content-model/src/teacherAssignment";
 import { PairingMemoryMatchGame } from "@/features/game-shell/pairing/PairingMemoryMatchGame";
 import { PairingEnginePreview } from "@/features/game-shell/pairing/PairingEnginePreview";
 import {
@@ -31,6 +32,7 @@ import { NextGameUnlockCard } from "./components/NextGameUnlockCard";
 import { RewardPreviewCard } from "./components/RewardPreviewCard";
 import { SessionEventLog } from "./components/SessionEventLog";
 import { StudentProgressHeader } from "./components/StudentProgressHeader";
+import { TeacherAssignmentSettingsCard } from "./components/TeacherAssignmentSettingsCard";
 
 interface StudentLaunchFlowProps {
   tenant: TenantConfig;
@@ -39,6 +41,7 @@ interface StudentLaunchFlowProps {
   progression: StudentProgressionState;
   audioCues?: AudioCue[];
   assistLanguagePlan?: UnitAssistLanguagePlan;
+  assignmentPlan?: TeacherAssignmentPlan;
 }
 
 export function StudentLaunchFlow({
@@ -48,6 +51,7 @@ export function StudentLaunchFlow({
   progression,
   audioCues = [],
   assistLanguagePlan,
+  assignmentPlan,
 }: StudentLaunchFlowProps) {
   const [currentProgression, setCurrentProgression] = useState(progression);
   const [sessionEvents, setSessionEvents] = useState<GameProgressEvent[]>([]);
@@ -165,6 +169,7 @@ export function StudentLaunchFlow({
         entryComplete={entryComplete}
         nextMode={nextMode}
       />
+      <TeacherAssignmentSettingsCard assignmentPlan={assignmentPlan} />
       <UnitSessionProgressSummary
         title="Student Progress"
         launchSession={launchSession}
