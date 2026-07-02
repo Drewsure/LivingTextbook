@@ -1,0 +1,98 @@
+import type { PilotPolicyPlan } from "@living-textbook/content-model/src/pilotPolicy";
+import {
+  getPilotPolicyWarnings,
+  validatePilotPolicyPlan,
+} from "@living-textbook/content-model/src/pilotPolicy";
+
+export const samplePilotPolicyPlans: PilotPolicyPlan[] = [
+  {
+    policyPlanId: "sample-publisher-first-pilot-policy",
+    tenantId: "sample-publisher",
+    label: "Sample publisher first pilot policy",
+    readiness: "policy-required",
+    nextReviewOwner: "School or tenant administrator",
+    note: "The first partner-style pilot can proceed as a demo, but real student progress storage, report export, and local deployment require explicit school or tenant policy acceptance.",
+    requirements: [
+      {
+        requirementId: "student-progress-retention-policy",
+        category: "student-data",
+        label: "Student progress retention",
+        status: "needed",
+        requiredBeforePilot: true,
+        blocksStudentData: true,
+        blocksReportExport: false,
+        blocksLocalDeployment: false,
+        note: "Define how long progress events are stored, who can see them, and how they are deleted or exported.",
+      },
+      {
+        requirementId: "teacher-report-export-policy",
+        category: "report-export",
+        label: "Teacher report export policy",
+        status: "needed",
+        requiredBeforePilot: true,
+        blocksStudentData: false,
+        blocksReportExport: true,
+        blocksLocalDeployment: false,
+        note: "Define allowed report formats, recipients, access controls, and whether family-facing summaries are permitted.",
+      },
+      {
+        requirementId: "raw-audio-storage-policy",
+        category: "raw-audio",
+        label: "Raw learner audio storage",
+        status: "not-applicable",
+        requiredBeforePilot: false,
+        blocksStudentData: false,
+        blocksReportExport: false,
+        blocksLocalDeployment: false,
+        note: "Core pilot does not store raw learner audio. Future premium speech packages need a separate policy.",
+      },
+      {
+        requirementId: "transcript-storage-policy",
+        category: "transcripts",
+        label: "Learner transcript storage",
+        status: "premium-only",
+        requiredBeforePilot: false,
+        blocksStudentData: false,
+        blocksReportExport: false,
+        blocksLocalDeployment: false,
+        note: "Core pilot does not store transcripts. AI Tutor or speech scoring requires premium policy review first.",
+      },
+      {
+        requirementId: "media-rights-policy",
+        category: "media-rights",
+        label: "Media rights and bundle policy",
+        status: "needed",
+        requiredBeforePilot: true,
+        blocksStudentData: false,
+        blocksReportExport: false,
+        blocksLocalDeployment: false,
+        note: "Confirm which audio/video assets are owned, licensed, partner-provided, hosted, or packaged locally.",
+      },
+      {
+        requirementId: "local-deployment-backup-policy",
+        category: "local-deployment",
+        label: "Local deployment backup and update policy",
+        status: "needed",
+        requiredBeforePilot: true,
+        blocksStudentData: false,
+        blocksReportExport: false,
+        blocksLocalDeployment: true,
+        note: "Closed classroom deployments require backup, restore, update, export, and device ownership rules.",
+      },
+      {
+        requirementId: "ai-tutor-premium-policy",
+        category: "ai-tutor",
+        label: "AI Tutor premium policy",
+        status: "premium-only",
+        requiredBeforePilot: false,
+        blocksStudentData: false,
+        blocksReportExport: false,
+        blocksLocalDeployment: false,
+        note: "AI Tutor remains optional and premium-gated; the core pilot must work without model calls or transcript storage.",
+      },
+    ],
+  },
+];
+
+export const samplePilotPolicyErrors = samplePilotPolicyPlans.flatMap(validatePilotPolicyPlan);
+export const samplePilotPolicyWarnings = samplePilotPolicyPlans.flatMap(getPilotPolicyWarnings);
