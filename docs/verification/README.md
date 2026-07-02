@@ -10,6 +10,7 @@ Focused verification supplements:
 - `docs/verification/MEDIA_TELEMETRY_CHECKS.md`
 - `docs/verification/PERSISTENCE_ADAPTER_CHECKS.md`
 - `docs/verification/PERSISTENCE_BOUNDARY_CHECKS.md`
+- `docs/verification/PILOT_POLICY_CHECKS.md`
 - `docs/verification/SECOND_TENANT_PACKAGE_CHECKS.md`
 - `docs/verification/SELECTION_ENGINE_PREVIEW_CHECKS.md`
 - `docs/verification/SPEAK_IT_CORE_CHECKS.md`
