@@ -18,15 +18,18 @@ npm run dev --workspace @living-textbook/web -- --hostname 127.0.0.1 --port 3000
 Open:
 
 - `http://127.0.0.1:3000/teacher/intake`
+- `http://127.0.0.1:3000/teacher/sessions/demo-unit-1`
+- `http://127.0.0.1:3000/teacher/sessions/partner-demo-unit-1`
 
 ## Expected Result
 
-- The page shows a `Class roster identity boundary` panel.
-- The panel lists MiniStar, sample publisher, and closed local classroom roster plans.
-- The panel shows learner slots using codes rather than real learner names.
-- The panel shows that raw audio and transcripts are not stored as roster fields.
-- The panel separates validation errors from open warnings.
-- The panel makes clear that durable reports require persistence and policy decisions.
+- The intake page shows a `Class roster identity boundary` panel.
+- The intake panel lists MiniStar, sample publisher, and closed local classroom roster plans.
+- Teacher session routes show a `Roster identity` card before the monitor details.
+- Roster cards show learner slots using codes rather than real learner names.
+- Roster cards show that raw audio and transcripts are not stored as roster fields.
+- Roster cards separate validation errors from open warnings.
+- Roster cards make clear that durable reports require persistence and policy decisions.
 
 ## Regression Guard
 
