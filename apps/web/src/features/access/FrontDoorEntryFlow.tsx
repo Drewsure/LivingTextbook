@@ -39,6 +39,7 @@ interface FrontDoorEntryFlowProps {
   accessPolicy: FrontDoorAccessPolicy;
   expectedEntryCode: string;
   expectedUserCode: string;
+  allowedUserCodes?: string[];
 }
 
 export function FrontDoorEntryFlow({
@@ -50,6 +51,7 @@ export function FrontDoorEntryFlow({
   accessPolicy,
   expectedEntryCode,
   expectedUserCode,
+  allowedUserCodes,
 }: FrontDoorEntryFlowProps) {
   const [entryCode, setEntryCode] = useState(expectedEntryCode);
   const [userCode, setUserCode] = useState(expectedUserCode);
@@ -68,6 +70,10 @@ export function FrontDoorEntryFlow({
   );
   const nextModeStarted = Boolean(nextMode && activeGameMode === nextMode);
   const mediaAssetCount = contentPackage.mediaAssets?.length ?? 0;
+  const acceptedUserCodes = Array.from(
+    new Set([expectedUserCode, ...(allowedUserCodes ?? [])].map((code) => code.trim()).filter(Boolean)),
+  );
+  const acceptedUserCodeSet = new Set(acceptedUserCodes.map((code) => code.toUpperCase()));
   const targetPracticeRequiredCount = unit.pedagogicalPayload.vocabularyTerms.length + unit.pedagogicalPayload.targetSentences.length;
   const targetPracticeEngagedCount = targetPracticeEngagedItemIds.length;
   const targetPracticeReady = entryComplete || targetPracticeEngagedCount >= targetPracticeRequiredCount;
@@ -83,7 +89,7 @@ export function FrontDoorEntryFlow({
       return;
     }
 
-    if (accessPolicy.userCodeRequired && userCode.trim().toUpperCase() !== expectedUserCode.toUpperCase()) {
+    if (accessPolicy.userCodeRequired && !acceptedUserCodeSet.has(userCode.trim().toUpperCase())) {
       setEntryError("Check the user code so your teacher can see this progress.");
       return;
     }
@@ -199,7 +205,7 @@ export function FrontDoorEntryFlow({
 
           {entryError && <p className="mt-3 text-sm font-semibold text-amber-800">{entryError}</p>}
           <p className="mt-3 text-xs text-[var(--tenant-muted)]">
-            Demo codes: {expectedEntryCode} / {expectedUserCode}. Real partner builds can replace these with tenant-managed entry and user codes.
+            Demo entry code: {expectedEntryCode}. Demo learner codes: {acceptedUserCodes.join(", ")}. These are roster slots for classroom reporting, not production student accounts.
           </p>
         </Card>
 
