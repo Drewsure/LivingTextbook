@@ -20,6 +20,7 @@ import {
   samplePilotPolicyPlans,
   samplePilotPolicyWarnings,
 } from "@/data/samplePilotPolicyPlan";
+import { samplePublisherMaintenancePlan } from "@/data/samplePublisherMaintenancePlan";
 import { sampleFrontDoorRouteRegistry } from "@/data/sampleTenantRouteRegistry";
 import {
   sampleTeacherAssignmentErrors,
@@ -45,6 +46,7 @@ import { PilotReadinessGatePanel } from "@/features/pilot/PilotReadinessGatePane
 import { BackendDecisionMatrixPanel } from "@/features/persistence/BackendDecisionMatrixPanel";
 import { PersistenceAdapterReadinessPanel } from "@/features/persistence/PersistenceAdapterReadinessPanel";
 import { PersistenceBoundaryPanel } from "@/features/persistence/PersistenceBoundaryPanel";
+import { PublisherMaintenancePlanPanel } from "@/features/publisher/PublisherMaintenancePlanPanel";
 import { TenantRouteRegistryPanel } from "@/features/routes/TenantRouteRegistryPanel";
 import { ClassRosterReadinessPanel } from "@/features/teacher/ClassRosterReadinessPanel";
 import { TeacherAssignmentReadinessPanel } from "@/features/teacher/TeacherAssignmentReadinessPanel";
@@ -72,6 +74,7 @@ export default function TeacherIntakePage() {
           persistencePlans={samplePersistenceAdapterPlans}
         />
         <PilotHandoffPackagePanel handoffPackage={samplePilotHandoffPackage} />
+        <PublisherMaintenancePlanPanel plan={samplePublisherMaintenancePlan} />
         <UnitPackageReadinessPanel packages={sampleUnitPackageReadiness} />
         <TeacherAssignmentReadinessPanel
           plans={sampleTeacherAssignmentPlans}
