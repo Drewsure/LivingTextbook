@@ -28,6 +28,7 @@ Open:
 - The intake page shows a `Class roster identity boundary` panel.
 - The intake panel lists MiniStar, sample publisher, and closed local classroom roster plans.
 - Teacher session routes show a `Roster identity` card before the monitor details.
+- Teacher report previews show coded learner slots, not real learner names.
 - Front-door routes list roster-based demo learner codes.
 - Front-door routes accept the expected teacher/user code and at least one roster learner code for the launch code.
 - Roster cards show learner slots using codes rather than real learner names.
