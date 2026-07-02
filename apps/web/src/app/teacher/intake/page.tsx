@@ -1,5 +1,10 @@
 import { Card, StatusPill } from "@living-textbook/ui";
 import { AppShell } from "@/components/layout/AppShell";
+import {
+  sampleClassRosterErrors,
+  sampleClassRosterPlans,
+  sampleClassRosterWarnings,
+} from "@/data/sampleClassRosterPlans";
 import { sampleContentIntakeRuns, samplePackageReleases } from "@/data/sampleContentIntakePlan";
 import { sampleDeploymentProfiles } from "@/data/sampleDeploymentProfiles";
 import { sampleLocalBundleManifests } from "@/data/sampleLocalBundlePlan";
@@ -37,6 +42,7 @@ import { PilotReadinessGatePanel } from "@/features/pilot/PilotReadinessGatePane
 import { PersistenceAdapterReadinessPanel } from "@/features/persistence/PersistenceAdapterReadinessPanel";
 import { PersistenceBoundaryPanel } from "@/features/persistence/PersistenceBoundaryPanel";
 import { TenantRouteRegistryPanel } from "@/features/routes/TenantRouteRegistryPanel";
+import { ClassRosterReadinessPanel } from "@/features/teacher/ClassRosterReadinessPanel";
 import { TeacherAssignmentReadinessPanel } from "@/features/teacher/TeacherAssignmentReadinessPanel";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 
@@ -66,6 +72,11 @@ export default function TeacherIntakePage() {
           plans={sampleTeacherAssignmentPlans}
           errors={sampleTeacherAssignmentErrors}
           warnings={sampleTeacherAssignmentWarnings}
+        />
+        <ClassRosterReadinessPanel
+          plans={sampleClassRosterPlans}
+          errors={sampleClassRosterErrors}
+          warnings={sampleClassRosterWarnings}
         />
         <ContentIntakeReviewPanel runs={sampleContentIntakeRuns} releases={samplePackageReleases} />
         <TenantRouteRegistryPanel routes={sampleFrontDoorRouteRegistry} />
