@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Living Textbook icon</title>
+  <desc id="desc">A white-label app icon showing an open book with a play symbol and learning spark.</desc>
+  <rect width="512" height="512" rx="112" fill="#0f172a"/>
+  <path d="M124 154c0-18 15-33 33-33h74c21 0 40 8 54 22 14-14 33-22 54-22h16c18 0 33 15 33 33v234c0 10-8 18-18 18h-42c-15 0-29 6-40 17l-2 2c-7 7-19 7-26 0l-2-2c-11-11-25-17-40-17h-76c-10 0-18-8-18-18V154Z" fill="#f8fafc"/>
+  <path d="M285 166c12-15 31-24 53-24h17c6 0 11 5 11 11v218h-38c-16 0-31 5-43 14V166Z" fill="#dbeafe"/>
+  <path d="M146 153c0-6 5-11 11-11h74c23 0 42 9 54 24v219c-12-9-27-14-43-14h-96V153Z" fill="#ffffff"/>
+  <path d="M221 214c0-11 12-18 22-12l75 45c9 5 9 18 0 23l-75 45c-10 6-22-1-22-12v-89Z" fill="#2563eb"/>
+  <path d="M368 86l13 32 34 4-26 22 8 34-29-18-29 18 8-34-26-22 34-4 13-32Z" fill="#facc15"/>
+</svg>
