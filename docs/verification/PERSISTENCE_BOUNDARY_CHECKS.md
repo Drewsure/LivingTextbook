@@ -2,7 +2,7 @@
 
 Document type: focused verification supplement  
 Status: active scaffold  
-Last updated: 2026-07-01
+Last updated: 2026-07-02
 
 ## Purpose
 
@@ -38,13 +38,19 @@ Verify at:
 13. Confirm the durable record map states that raw learner audio and transcripts are not stored in the core persistence scaffold.
 14. Confirm student-data records require school policy before pilot use.
 15. Confirm media-rights records include hosted object storage or local bundle manifest decisions.
-16. Confirm the route contract for `/teacher/intake` includes `PersistenceBoundary[]`, `PersistenceStrategyOption[]`, `DurableRecordContract[]`, `durableRecordErrors[]`, and `durableRecordWarnings[]`.
+16. Confirm the page renders a `Persistence adapter readiness` section.
+17. Confirm the adapter readiness section shows static demo, hosted pilot, and local classroom adapter plans.
+18. Confirm hosted pilot is marked as the recommended first pilot path.
+19. Confirm local classroom remains visible for closed/offline companion deployments.
+20. Confirm adapter write intents reject raw learner audio and learner transcripts.
+21. Confirm export-capable adapter intents remain policy gated.
+22. Confirm the route contract for `/teacher/intake` includes `PersistenceBoundary[]`, `PersistenceStrategyOption[]`, `DurableRecordContract[]`, `PersistenceAdapterPlan[]`, validation errors, and readiness warnings.
 
 ## Acceptance Standard
 
 A reviewer should be able to see which parts of the app are currently safe as static/demo data and which parts require persistence, privacy, retention, export, and deployment decisions before real student use.
 
-The durable record map should make backend selection easier, not premature. It should define records and safety boundaries without choosing Supabase, Firebase, SQLite, Postgres, or any other vendor yet.
+The durable record map and adapter readiness map should make backend selection easier, not premature. They should define records, write intents, and safety boundaries without choosing Supabase, Firebase, SQLite, Postgres, or any other vendor yet.
 
 ## Non-Goals
 
@@ -52,3 +58,6 @@ The durable record map should make backend selection easier, not premature. It s
 - This scaffold does not store real student progress.
 - This scaffold does not activate authentication, billing, or AI Tutor usage tracking.
 - This scaffold does not store raw learner audio or learner transcripts.
+- This scaffold does not implement offline sync, backup, restore, or live report export.
+
+Use `docs/verification/PERSISTENCE_ADAPTER_CHECKS.md` for the focused adapter checklist.
