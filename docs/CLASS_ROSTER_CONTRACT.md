@@ -2,6 +2,8 @@
 
 The class roster layer defines how Living Textbook recognizes learners for teacher reports, QR launches, entry-code flows, and local or hosted pilots. It is not a full authentication system and it must not become a quiet place for collecting personal data before the tenant has accepted policy, persistence, and reporting rules.
 
+Related standard: `docs/LEARNER_IDENTITY_AND_ROSTER_STANDARD.md`.
+
 ## Purpose
 
 - Support teacher-led QR onboarding and student self-progression from day one.
@@ -51,7 +53,10 @@ Closed local deployments still need a roster contract. A local app may avoid hos
 - Shared model: `packages/content-model/src/classRoster.ts`
 - Sample plans: `apps/web/src/data/sampleClassRosterPlans.ts`
 - Review panel: `apps/web/src/features/teacher/ClassRosterReadinessPanel.tsx`
+- Teacher session card: `apps/web/src/features/teacher/TeacherSessionRosterIdentityCard.tsx`
 - Teacher intake route: `/teacher/intake`
+- Teacher session routes: `/teacher/sessions/demo-unit-1` and `/teacher/sessions/partner-demo-unit-1`
+- Front-door routes: `/enter/ministar` and `/enter/sample-publisher`
 
 ## Acceptance Rule
 
