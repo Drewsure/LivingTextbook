@@ -158,3 +158,11 @@ export const sampleClassRosterPlans: ClassRosterPlan[] = [
 
 export const sampleClassRosterErrors = sampleClassRosterPlans.flatMap(validateClassRosterPlan);
 export const sampleClassRosterWarnings = sampleClassRosterPlans.flatMap(getClassRosterWarnings);
+
+export function findSampleClassRosterPlan(launchCode: string, rosterId?: string): ClassRosterPlan | undefined {
+  if (rosterId) {
+    return sampleClassRosterPlans.find((plan) => plan.rosterId === rosterId && plan.launchCode === launchCode);
+  }
+
+  return sampleClassRosterPlans.find((plan) => plan.launchCode === launchCode);
+}
