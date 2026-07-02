@@ -21,6 +21,7 @@ export function FrontDoorTeacherReportPreview({ tenant, progression, events }: F
   const mediaPauses = countEvents(events, "media_paused");
   const mediaCompletions = countEvents(events, "media_completed");
   const recoverySummary = summarizeTrainingRecoveryEvents(events);
+  const learnerLabels = collectLearnerLabels(events, progression.studentSessionId);
   const backgroundMediaEvents = events.filter(
     (event) => event.type === "background_media_enabled" || event.type === "background_media_disabled",
   ).length;
@@ -39,6 +40,7 @@ export function FrontDoorTeacherReportPreview({ tenant, progression, events }: F
       </div>
 
       <dl className="mt-5 grid gap-3 text-sm sm:grid-cols-2">
+        <Metric label="Learner slots" value={String(learnerLabels.length)} />
         <Metric label="Entry practice" value={String(entryPracticeCompletions)} />
         <Metric label="Game starts" value={String(gameStarts)} />
         <Metric label="Game complete" value={String(gameCompletions)} />
@@ -56,6 +58,23 @@ export function FrontDoorTeacherReportPreview({ tenant, progression, events }: F
         <Metric label="Background media" value={String(backgroundMediaEvents)} />
         <Metric label={tenant.rewardName} value={String(progression.earnedStarDust)} />
       </dl>
+
+      <div className="mt-5 rounded-lg border border-[var(--tenant-border)] p-4 text-sm text-[var(--tenant-muted)]">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <p className="font-semibold text-[var(--tenant-text)]">Learner identity</p>
+            <p className="mt-1">Reports use coded learner slots, not real names or accounts in the foundation slice.</p>
+          </div>
+          <StatusPill label="Coded slots" tone="neutral" />
+        </div>
+        <div className="mt-3 flex flex-wrap gap-2">
+          {learnerLabels.map((label) => (
+            <span key={label} className="rounded-full border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] px-3 py-1 text-xs font-semibold text-[var(--tenant-text)]">
+              {label}
+            </span>
+          ))}
+        </div>
+      </div>
 
       <div className="mt-5 rounded-lg border border-[var(--tenant-border)] p-4 text-sm text-[var(--tenant-muted)]">
         <p className="font-semibold text-[var(--tenant-text)]">Recovery detail</p>
@@ -99,6 +118,25 @@ function Metric({ label, value }: { label: string; value: string }) {
 
 function countEvents(events: GameProgressEvent[], type: GameProgressEvent["type"]): number {
   return events.filter((event) => event.type === type).length;
+}
+
+function collectLearnerLabels(events: GameProgressEvent[], fallbackSessionId: string): string[] {
+  const sessionIds = new Set([fallbackSessionId]);
+
+  for (const event of events) {
+    if (event.studentSessionId) {
+      sessionIds.add(event.studentSessionId);
+    }
+  }
+
+  return Array.from(
+    new Set(
+      Array.from(sessionIds).map((sessionId) => {
+        const parts = sessionId.split(":");
+        return parts[parts.length - 1] || sessionId;
+      }),
+    ),
+  );
 }
 
 function formatMetadata(metadata: NonNullable<GameProgressEvent["metadata"]>): string {
