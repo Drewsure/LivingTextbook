@@ -9,8 +9,10 @@ import type {
   StudentProgressionState,
   UnitPayload,
 } from "@living-textbook/content-model";
+import type { TeacherAssignmentPlan } from "@living-textbook/content-model/src/teacherAssignment";
 import { UnitSessionProgressSummary } from "@/features/progression/UnitSessionProgressSummary";
 import { SessionEventLog } from "@/features/student/components/SessionEventLog";
+import { TeacherAssignmentSettingsCard } from "@/features/student/components/TeacherAssignmentSettingsCard";
 import {
   getMicrophonePracticeSettings,
   getTeacherMicrophoneApprovalStorageKey,
@@ -26,6 +28,7 @@ interface SpeakItDemoFlowProps {
   launchSession: LaunchSession;
   progression: StudentProgressionState;
   audioCues?: AudioCue[];
+  assignmentPlan?: TeacherAssignmentPlan;
 }
 
 export function SpeakItDemoFlow({
@@ -34,6 +37,7 @@ export function SpeakItDemoFlow({
   launchSession,
   progression,
   audioCues = [],
+  assignmentPlan,
 }: SpeakItDemoFlowProps) {
   const microphonePracticeSettings = getMicrophonePracticeSettings(tenant);
   const microphoneApprovalStorageKey = getTeacherMicrophoneApprovalStorageKey(tenant.id);
@@ -95,6 +99,8 @@ export function SpeakItDemoFlow({
           </p>
         )}
       </Card>
+
+      <TeacherAssignmentSettingsCard assignmentPlan={assignmentPlan} />
 
       <UnitSessionProgressSummary
         title="Speaking Progress"
