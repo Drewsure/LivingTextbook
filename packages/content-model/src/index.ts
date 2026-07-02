@@ -724,3 +724,4 @@ export function calculateStarDust(args: {
 }
 
 export * from "./sessionSettings";
+export * from "./persistenceAdapter";
