@@ -67,7 +67,7 @@ export function validateTeacherAssignmentPlan(plan: TeacherAssignmentPlan): stri
       errors.push(`${control.label} cannot be enabled for pilot until policy readiness is accepted.`);
     }
 
-    if (control.costBearing && control.status === "enabled" && control.status !== "teacher-optional") {
+    if (control.costBearing && control.status === "enabled") {
       errors.push(`${control.label} is cost-bearing and should not be enabled by default in core assignment plans.`);
     }
   }
