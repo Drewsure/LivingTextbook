@@ -14,6 +14,11 @@ import {
   samplePilotPolicyWarnings,
 } from "@/data/samplePilotPolicyPlan";
 import { sampleFrontDoorRouteRegistry } from "@/data/sampleTenantRouteRegistry";
+import {
+  sampleTeacherAssignmentErrors,
+  sampleTeacherAssignmentPlans,
+  sampleTeacherAssignmentWarnings,
+} from "@/data/sampleTeacherAssignmentPlans";
 import { sampleUnitPackageReadiness } from "@/data/sampleUnitPackageReadiness";
 import { whiteLabelPilotReadiness } from "@/data/whiteLabelPilotReadiness";
 import {
@@ -32,6 +37,7 @@ import { PilotReadinessGatePanel } from "@/features/pilot/PilotReadinessGatePane
 import { PersistenceAdapterReadinessPanel } from "@/features/persistence/PersistenceAdapterReadinessPanel";
 import { PersistenceBoundaryPanel } from "@/features/persistence/PersistenceBoundaryPanel";
 import { TenantRouteRegistryPanel } from "@/features/routes/TenantRouteRegistryPanel";
+import { TeacherAssignmentReadinessPanel } from "@/features/teacher/TeacherAssignmentReadinessPanel";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 
 export default function TeacherIntakePage() {
@@ -56,6 +62,11 @@ export default function TeacherIntakePage() {
           persistencePlans={samplePersistenceAdapterPlans}
         />
         <UnitPackageReadinessPanel packages={sampleUnitPackageReadiness} />
+        <TeacherAssignmentReadinessPanel
+          plans={sampleTeacherAssignmentPlans}
+          errors={sampleTeacherAssignmentErrors}
+          warnings={sampleTeacherAssignmentWarnings}
+        />
         <ContentIntakeReviewPanel runs={sampleContentIntakeRuns} releases={samplePackageReleases} />
         <TenantRouteRegistryPanel routes={sampleFrontDoorRouteRegistry} />
         <DeploymentProfilePanel profiles={sampleDeploymentProfiles} />
