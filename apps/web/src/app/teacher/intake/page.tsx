@@ -14,6 +14,7 @@ import {
   samplePilotPolicyWarnings,
 } from "@/data/samplePilotPolicyPlan";
 import { sampleFrontDoorRouteRegistry } from "@/data/sampleTenantRouteRegistry";
+import { whiteLabelPilotReadiness } from "@/data/whiteLabelPilotReadiness";
 import {
   sampleDurableRecordContracts,
   sampleDurableRecordErrors,
@@ -25,6 +26,7 @@ import { ContentIntakeReviewPanel } from "@/features/content-intake/ContentIntak
 import { DeploymentProfilePanel } from "@/features/deployment/DeploymentProfilePanel";
 import { LocalBundleManifestPanel } from "@/features/deployment/LocalBundleManifestPanel";
 import { PilotPolicyReadinessPanel } from "@/features/policy/PilotPolicyReadinessPanel";
+import { PilotReadinessGatePanel } from "@/features/pilot/PilotReadinessGatePanel";
 import { PersistenceAdapterReadinessPanel } from "@/features/persistence/PersistenceAdapterReadinessPanel";
 import { PersistenceBoundaryPanel } from "@/features/persistence/PersistenceBoundaryPanel";
 import { TenantRouteRegistryPanel } from "@/features/routes/TenantRouteRegistryPanel";
@@ -46,6 +48,11 @@ export default function TeacherIntakePage() {
             <StatusPill label="Foundation scaffold" tone="success" />
           </div>
         </Card>
+        <PilotReadinessGatePanel
+          readiness={whiteLabelPilotReadiness}
+          policyPlans={samplePilotPolicyPlans}
+          persistencePlans={samplePersistenceAdapterPlans}
+        />
         <ContentIntakeReviewPanel runs={sampleContentIntakeRuns} releases={samplePackageReleases} />
         <TenantRouteRegistryPanel routes={sampleFrontDoorRouteRegistry} />
         <DeploymentProfilePanel profiles={sampleDeploymentProfiles} />
