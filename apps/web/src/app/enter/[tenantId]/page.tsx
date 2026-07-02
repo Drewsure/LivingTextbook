@@ -23,6 +23,7 @@ export default async function FrontDoorEntryPage({ params }: { params: Promise<{
         accessPolicy={context.accessPolicy}
         expectedEntryCode={context.expectedEntryCode}
         expectedUserCode={context.expectedUserCode}
+        allowedUserCodes={context.allowedUserCodes}
       />
     </AppShell>
   );
