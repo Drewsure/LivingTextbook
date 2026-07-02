@@ -14,6 +14,7 @@ import {
   samplePilotPolicyWarnings,
 } from "@/data/samplePilotPolicyPlan";
 import { sampleFrontDoorRouteRegistry } from "@/data/sampleTenantRouteRegistry";
+import { sampleUnitPackageReadiness } from "@/data/sampleUnitPackageReadiness";
 import { whiteLabelPilotReadiness } from "@/data/whiteLabelPilotReadiness";
 import {
   sampleDurableRecordContracts,
@@ -23,6 +24,7 @@ import {
   samplePersistenceStrategyOptions,
 } from "@/data/samplePersistencePlan";
 import { ContentIntakeReviewPanel } from "@/features/content-intake/ContentIntakeReviewPanel";
+import { UnitPackageReadinessPanel } from "@/features/content-intake/UnitPackageReadinessPanel";
 import { DeploymentProfilePanel } from "@/features/deployment/DeploymentProfilePanel";
 import { LocalBundleManifestPanel } from "@/features/deployment/LocalBundleManifestPanel";
 import { PilotPolicyReadinessPanel } from "@/features/policy/PilotPolicyReadinessPanel";
@@ -53,6 +55,7 @@ export default function TeacherIntakePage() {
           policyPlans={samplePilotPolicyPlans}
           persistencePlans={samplePersistenceAdapterPlans}
         />
+        <UnitPackageReadinessPanel packages={sampleUnitPackageReadiness} />
         <ContentIntakeReviewPanel runs={sampleContentIntakeRuns} releases={samplePackageReleases} />
         <TenantRouteRegistryPanel routes={sampleFrontDoorRouteRegistry} />
         <DeploymentProfilePanel profiles={sampleDeploymentProfiles} />
