@@ -64,6 +64,7 @@ Then verify:
 - `/enter/sample-publisher`
 - `/launch/partner-demo-unit-1`
 - `/speak/partner-demo-unit-1`
+- `/q/tenant/sample-publisher/series/starter-english/book/level-1/unit/unit-1/activity/hello-friends/language/en/edition/2026/version/1.0.0`
 - `/manifest.webmanifest`
 - `/icons/living-textbook-icon.svg`
 
