@@ -9,6 +9,7 @@ Focused verification supplements:
 - `docs/verification/CLASS_ROSTER_READINESS_CHECKS.md`
 - `docs/verification/CONTENT_INTAKE_CHECKS.md`
 - `docs/verification/DEPLOYMENT_PROFILE_CHECKS.md`
+- `docs/verification/EDITION_QR_ALIAS_CHECKS.md`
 - `docs/verification/MEDIA_TELEMETRY_CHECKS.md`
 - `docs/verification/PERSISTENCE_ADAPTER_CHECKS.md`
 - `docs/verification/PERSISTENCE_BOUNDARY_CHECKS.md`
