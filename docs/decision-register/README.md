@@ -13,6 +13,7 @@
 - `DR-039-backend-decision-matrix.md`
 - `DR-040-publisher-maintenance-contract.md`
 - `DR-041-unit-game-offer-map.md`
+- `DR-042-edition-qr-alias-registry.md`
 
 ## Maintenance Rule
 
