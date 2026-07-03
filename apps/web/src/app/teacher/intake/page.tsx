@@ -27,6 +27,7 @@ import {
   sampleTeacherAssignmentPlans,
   sampleTeacherAssignmentWarnings,
 } from "@/data/sampleTeacherAssignmentPlans";
+import { sampleUnitGameOfferMap } from "@/data/sampleUnitGameOfferMap";
 import { sampleUnitPackageReadiness } from "@/data/sampleUnitPackageReadiness";
 import { whiteLabelPilotReadiness } from "@/data/whiteLabelPilotReadiness";
 import {
@@ -40,6 +41,7 @@ import { ContentIntakeReviewPanel } from "@/features/content-intake/ContentIntak
 import { UnitPackageReadinessPanel } from "@/features/content-intake/UnitPackageReadinessPanel";
 import { DeploymentProfilePanel } from "@/features/deployment/DeploymentProfilePanel";
 import { LocalBundleManifestPanel } from "@/features/deployment/LocalBundleManifestPanel";
+import { UnitGameOfferMapPanel } from "@/features/game-offers/UnitGameOfferMapPanel";
 import { PilotPolicyReadinessPanel } from "@/features/policy/PilotPolicyReadinessPanel";
 import { PilotHandoffPackagePanel } from "@/features/pilot/PilotHandoffPackagePanel";
 import { PilotReadinessGatePanel } from "@/features/pilot/PilotReadinessGatePanel";
@@ -75,6 +77,7 @@ export default function TeacherIntakePage() {
         />
         <PilotHandoffPackagePanel handoffPackage={samplePilotHandoffPackage} />
         <PublisherMaintenancePlanPanel plan={samplePublisherMaintenancePlan} />
+        <UnitGameOfferMapPanel map={sampleUnitGameOfferMap} />
         <UnitPackageReadinessPanel packages={sampleUnitPackageReadiness} />
         <TeacherAssignmentReadinessPanel
           plans={sampleTeacherAssignmentPlans}
