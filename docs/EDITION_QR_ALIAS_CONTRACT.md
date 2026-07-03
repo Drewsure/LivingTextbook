@@ -58,18 +58,21 @@ Blocked:
 
 ## Standing Rules
 
-- Route registry comes before resolver implementation.
+- Route registry comes before production redirects.
 - Edition changes require reviewed alias updates and rollback notes.
 - Legacy aliases should not silently redirect to the wrong edition.
 - Local bundle references must use signed manifest ids, not manual folder paths.
 - Media QR targets should resolve through playlist or package aliases, not raw media files.
-- `/q/...` remains a future resolver route until persistence, package versioning, and local-bundle rules are accepted.
+- `/q/...` may preview alias resolution now, but production redirects remain deferred until persistence, package versioning, and local-bundle rules are accepted.
 
 ## Current Implementation
 
 - Sample data: `apps/web/src/data/sampleEditionQrAliasPlan.ts`
-- Panel: `apps/web/src/features/routes/EditionQrAliasPanel.tsx`
-- Route: `/teacher/intake`
+- Admin panel: `apps/web/src/features/routes/EditionQrAliasPanel.tsx`
+- Admin route: `/teacher/intake`
+- Resolver preview route: `/q/tenant/sample-publisher/series/starter-english/book/level-1/unit/unit-1/activity/hello-friends/language/en/edition/2026/version/1.0.0`
+
+The resolver preview shows the matched alias and whether the target is safe to open. It does not perform automatic production redirects.
 
 ## Follow-Up
 
