@@ -9,6 +9,7 @@ Focused verification supplements:
 - `docs/verification/CLASS_ROSTER_READINESS_CHECKS.md`
 - `docs/verification/CONTENT_INTAKE_CHECKS.md`
 - `docs/verification/DEPLOYMENT_PROFILE_CHECKS.md`
+- `docs/verification/GAME_OFFER_MAP_CHECKS.md`
 - `docs/verification/MEDIA_TELEMETRY_CHECKS.md`
 - `docs/verification/PERSISTENCE_ADAPTER_CHECKS.md`
 - `docs/verification/PERSISTENCE_BOUNDARY_CHECKS.md`
@@ -24,6 +25,7 @@ Focused verification supplements:
 - `docs/verification/TEACHER_MICROPHONE_APPROVAL_CHECKS.md`
 - `docs/verification/TEACHER_REPORT_EXPORT_CHECKS.md`
 - `docs/verification/TEACHER_SESSION_MONITOR_CHECKS.md`
+- `docs/verification/UNIT_GAME_OFFER_MAP_CHECKS.md`
 - `docs/verification/UNIT_PACKAGE_READINESS_CHECKS.md`
 - `docs/verification/VOICE_TUTOR_PACKAGE_CHECKS.md`
 
