@@ -12,6 +12,7 @@
 - `DR-038-pilot-handoff-package.md`
 - `DR-039-backend-decision-matrix.md`
 - `DR-040-publisher-maintenance-contract.md`
+- `DR-041-unit-game-offer-map.md`
 
 ## Maintenance Rule
 
