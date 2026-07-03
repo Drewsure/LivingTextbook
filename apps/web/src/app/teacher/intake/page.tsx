@@ -8,6 +8,7 @@ import {
 } from "@/data/sampleClassRosterPlans";
 import { sampleContentIntakeRuns, samplePackageReleases } from "@/data/sampleContentIntakePlan";
 import { sampleDeploymentProfiles } from "@/data/sampleDeploymentProfiles";
+import { sampleEditionQrAliasPlan } from "@/data/sampleEditionQrAliasPlan";
 import { sampleLocalBundleManifests } from "@/data/sampleLocalBundlePlan";
 import { samplePilotHandoffPackage } from "@/data/samplePilotHandoffPackage";
 import {
@@ -49,6 +50,7 @@ import { BackendDecisionMatrixPanel } from "@/features/persistence/BackendDecisi
 import { PersistenceAdapterReadinessPanel } from "@/features/persistence/PersistenceAdapterReadinessPanel";
 import { PersistenceBoundaryPanel } from "@/features/persistence/PersistenceBoundaryPanel";
 import { PublisherMaintenancePlanPanel } from "@/features/publisher/PublisherMaintenancePlanPanel";
+import { EditionQrAliasPanel } from "@/features/routes/EditionQrAliasPanel";
 import { TenantRouteRegistryPanel } from "@/features/routes/TenantRouteRegistryPanel";
 import { ClassRosterReadinessPanel } from "@/features/teacher/ClassRosterReadinessPanel";
 import { TeacherAssignmentReadinessPanel } from "@/features/teacher/TeacherAssignmentReadinessPanel";
@@ -91,6 +93,7 @@ export default function TeacherIntakePage() {
         />
         <ContentIntakeReviewPanel runs={sampleContentIntakeRuns} releases={samplePackageReleases} />
         <TenantRouteRegistryPanel routes={sampleFrontDoorRouteRegistry} />
+        <EditionQrAliasPanel plan={sampleEditionQrAliasPlan} />
         <DeploymentProfilePanel profiles={sampleDeploymentProfiles} />
         <LocalBundleManifestPanel manifests={sampleLocalBundleManifests} />
         <BackendDecisionMatrixPanel matrix={sampleBackendDecisionMatrix} />
