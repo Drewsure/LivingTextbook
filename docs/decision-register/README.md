@@ -14,6 +14,7 @@
 - `DR-040-publisher-maintenance-contract.md`
 - `DR-041-unit-game-offer-map.md`
 - `DR-042-edition-qr-alias-registry.md`
+- `DR-043-game-prototype-surface-standard.md`
 
 ## Maintenance Rule
 
