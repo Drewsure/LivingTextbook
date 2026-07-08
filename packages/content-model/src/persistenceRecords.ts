@@ -6,7 +6,9 @@ export type PersistenceRecordCategory =
   | "progress-event-stream"
   | "media-manifest"
   | "deployment-profile"
-  | "report-export-policy";
+  | "report-export-policy"
+  | "package-publish-gate"
+  | "package-approval-ledger";
 
 export type PersistenceRecordReadiness =
   | "static-demo"
