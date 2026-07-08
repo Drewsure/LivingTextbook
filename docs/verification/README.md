@@ -10,6 +10,7 @@ Focused verification supplements:
 - `docs/verification/CONTENT_INTAKE_CHECKS.md`
 - `docs/verification/DEPLOYMENT_PROFILE_CHECKS.md`
 - `docs/verification/EDITION_QR_ALIAS_CHECKS.md`
+- `docs/verification/GAME_PROTOTYPE_ASSIGNMENT_CHECKS.md`
 - `docs/verification/MEDIA_TELEMETRY_CHECKS.md`
 - `docs/verification/PERSISTENCE_ADAPTER_CHECKS.md`
 - `docs/verification/PERSISTENCE_BOUNDARY_CHECKS.md`
@@ -37,6 +38,7 @@ Normal local verification flow:
 
 ```powershell
 cd "D:\LIVING TEXTBOOOK PROJECT\LivingTextbook"
+git fetch origin legacy-source-import
 git pull --ff-only
 npm run typecheck --workspace @living-textbook/web
 npm run build --workspace @living-textbook/web
@@ -47,6 +49,7 @@ If `apps/web/next-env.d.ts` blocks the pull, restore the generated file and pull
 
 ```powershell
 git restore apps/web/next-env.d.ts
+git fetch origin legacy-source-import
 git pull --ff-only
 ```
 
