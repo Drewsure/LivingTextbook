@@ -11,6 +11,7 @@ import { sampleDeploymentProfiles } from "@/data/sampleDeploymentProfiles";
 import { sampleEditionQrAliasPlan } from "@/data/sampleEditionQrAliasPlan";
 import { sampleGamePrototypeAssignmentPlan } from "@/data/sampleGamePrototypeAssignmentPlan";
 import { sampleLocalBundleManifests } from "@/data/sampleLocalBundlePlan";
+import { samplePackagePublishGate } from "@/data/samplePackagePublishGate";
 import { samplePilotHandoffPackage } from "@/data/samplePilotHandoffPackage";
 import {
   samplePersistenceAdapterErrors,
@@ -46,6 +47,7 @@ import { LocalBundleManifestPanel } from "@/features/deployment/LocalBundleManif
 import { GamePrototypeAssignmentPanel } from "@/features/game-offers/GamePrototypeAssignmentPanel";
 import { UnitGameOfferMapPanel } from "@/features/game-offers/UnitGameOfferMapPanel";
 import { PilotPolicyReadinessPanel } from "@/features/policy/PilotPolicyReadinessPanel";
+import { PackagePublishGatePanel } from "@/features/pilot/PackagePublishGatePanel";
 import { PilotHandoffPackagePanel } from "@/features/pilot/PilotHandoffPackagePanel";
 import { PilotReadinessGatePanel } from "@/features/pilot/PilotReadinessGatePanel";
 import { BackendDecisionMatrixPanel } from "@/features/persistence/BackendDecisionMatrixPanel";
@@ -80,6 +82,7 @@ export default function TeacherIntakePage() {
           persistencePlans={samplePersistenceAdapterPlans}
         />
         <PilotHandoffPackagePanel handoffPackage={samplePilotHandoffPackage} />
+        <PackagePublishGatePanel gate={samplePackagePublishGate} />
         <PublisherMaintenancePlanPanel plan={samplePublisherMaintenancePlan} />
         <UnitGameOfferMapPanel map={sampleUnitGameOfferMap} />
         <GamePrototypeAssignmentPanel plan={sampleGamePrototypeAssignmentPlan} />
