@@ -11,6 +11,7 @@ import { sampleDeploymentProfiles } from "@/data/sampleDeploymentProfiles";
 import { sampleEditionQrAliasPlan } from "@/data/sampleEditionQrAliasPlan";
 import { sampleGamePrototypeAssignmentPlan } from "@/data/sampleGamePrototypeAssignmentPlan";
 import { sampleLocalBundleManifests } from "@/data/sampleLocalBundlePlan";
+import { samplePackageApprovalLedger } from "@/data/samplePackageApprovalLedger";
 import { samplePackagePublishGate } from "@/data/samplePackagePublishGate";
 import { samplePilotHandoffPackage } from "@/data/samplePilotHandoffPackage";
 import {
@@ -47,6 +48,7 @@ import { LocalBundleManifestPanel } from "@/features/deployment/LocalBundleManif
 import { GamePrototypeAssignmentPanel } from "@/features/game-offers/GamePrototypeAssignmentPanel";
 import { UnitGameOfferMapPanel } from "@/features/game-offers/UnitGameOfferMapPanel";
 import { PilotPolicyReadinessPanel } from "@/features/policy/PilotPolicyReadinessPanel";
+import { PackageApprovalLedgerPanel } from "@/features/pilot/PackageApprovalLedgerPanel";
 import { PackagePublishGatePanel } from "@/features/pilot/PackagePublishGatePanel";
 import { PilotHandoffPackagePanel } from "@/features/pilot/PilotHandoffPackagePanel";
 import { PilotReadinessGatePanel } from "@/features/pilot/PilotReadinessGatePanel";
@@ -83,6 +85,7 @@ export default function TeacherIntakePage() {
         />
         <PilotHandoffPackagePanel handoffPackage={samplePilotHandoffPackage} />
         <PackagePublishGatePanel gate={samplePackagePublishGate} />
+        <PackageApprovalLedgerPanel ledger={samplePackageApprovalLedger} />
         <PublisherMaintenancePlanPanel plan={samplePublisherMaintenancePlan} />
         <UnitGameOfferMapPanel map={sampleUnitGameOfferMap} />
         <GamePrototypeAssignmentPanel plan={sampleGamePrototypeAssignmentPlan} />
