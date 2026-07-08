@@ -15,6 +15,7 @@
 - `DR-041-unit-game-offer-map.md`
 - `DR-042-edition-qr-alias-registry.md`
 - `DR-043-game-prototype-surface-standard.md`
+- `DR-044-package-publish-gate.md`
 
 ## Maintenance Rule
 
