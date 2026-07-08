@@ -2,7 +2,7 @@
 
 Document type: foundation data contract  
 Status: active scaffold  
-Last updated: 2026-07-01
+Last updated: 2026-07-09
 
 ## Purpose
 
@@ -43,6 +43,36 @@ The scaffold currently tracks:
 - Media manifest and rights records.
 - Deployment profile records.
 - Report export and retention policy records.
+- Package publish gate records.
+- Package approval ledger records.
+
+## Package Release Records
+
+Package publish gates and approval ledgers are now first-class durable records.
+
+A package publish gate records:
+
+- release candidate,
+- release-blocking gates,
+- gate owner,
+- status,
+- evidence,
+- next step,
+- required-before-pilot items,
+- not-allowed-yet items.
+
+A package approval ledger records:
+
+- release candidate,
+- sign-off role,
+- owner,
+- approver identity when persistence exists,
+- timestamp when persistence exists,
+- evidence links,
+- cannot-approve-while blockers,
+- rollback or replacement relationship when releases are superseded.
+
+These records protect the platform from treating a controlled demo as a real pilot. They also support white-label yearly textbook maintenance because publishers need auditable releases for content, media, games, QR, reports, policy, deployment, and platform review.
 
 ## Safety Rules
 
@@ -50,6 +80,8 @@ The scaffold currently tracks:
 - Core persistence must not store learner transcripts.
 - Student-data records require privacy, retention, export, access-control, and school/parent policy before pilot use.
 - Teacher session settings belong with launch-session records.
+- Package approval ledgers require approver identity and policy rules before real sign-offs are stored.
+- Package publish gates must not mark a package pilot-publishable while release-blocking items remain open.
 - Local/closed deployment capable records must preserve a local classroom store path.
 
 ## Pilot Warnings
@@ -58,11 +90,14 @@ Warnings are expected in scaffold mode. They identify the remaining decisions be
 
 - which records must move from static/demo to durable storage,
 - which student-data records require school policy,
-- which media-rights records require hosted object storage or local bundle manifest rules.
+- which media-rights records require hosted object storage or local bundle manifest rules,
+- which package release gates require evidence-backed storage,
+- which approval ledgers require approver identity, timestamp, and policy rules.
 
 ## Non-Goals
 
 - No backend vendor is selected here.
 - No real student event storage is activated here.
+- No real package approvals are captured here.
 - No AI Tutor usage, transcript storage, cloud speech scoring, or raw audio upload is activated here.
 - No authentication or billing layer is implemented here.
