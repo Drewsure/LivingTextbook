@@ -17,7 +17,9 @@ export type PersistenceBoundaryCategory =
   | "launch-session"
   | "progress-event"
   | "media-manifest"
-  | "deployment-profile";
+  | "deployment-profile"
+  | "package-publish-gate"
+  | "package-approval-ledger";
 
 export interface PersistenceBoundary {
   boundaryId: string;
@@ -162,6 +164,36 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     recommendedFirstPilotStore: ["school-policy", "hosted-database", "local-classroom-store"],
     note: "Reports are a saleable feature, but real student event storage needs clear school policy before activation.",
   },
+  {
+    recordId: "package-publish-gate-record",
+    category: "package-publish-gate",
+    label: "Package publish gate record",
+    readiness: "durable-required",
+    sourceOfTruth: "PackagePublishGate, release-blocking items, gate status, owner, evidence, and next step fields",
+    requiredBeforePilot: true,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
+    note: "The release gate must become durable so a tenant package cannot be promoted while media rights, reports, persistence, deployment, or policy gates remain open.",
+  },
+  {
+    recordId: "package-approval-ledger-record",
+    category: "package-approval-ledger",
+    label: "Package approval ledger record",
+    readiness: "policy-required",
+    sourceOfTruth: "PackageApprovalLedger, sign-off roles, owners, evidence links, approver identity, timestamp, and release candidate",
+    requiredBeforePilot: true,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store", "school-policy"],
+    note: "The ledger needs policy and identity rules before real signatures, but its record shape should be fixed before backend selection.",
+  },
 ];
 
 export const sampleDurableRecordErrors = validateDurableRecordContracts(sampleDurableRecordContracts);
@@ -260,6 +292,30 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     deploymentChannels: ["hosted-web", "desktop-app", "local-classroom-server"],
     nextDecision: "Keep profile data in source control for demos; move it to admin-editable records before partner rollout.",
   },
+  {
+    boundaryId: "package-publish-gate-boundary",
+    category: "package-publish-gate",
+    label: "Package publish gates",
+    status: "needs-backend",
+    recordShape: "PackagePublishGate, release candidate, blocking gates, owner, evidence, next step, not-allowed-yet rules",
+    whyItMatters:
+      "A tenant package must not move from demo-ready to pilot-publishable unless its release-blocking gates are durable, reviewable, and connected to evidence.",
+    visibleTo: ["Platform admin", "Tenant admin", "Content reviewer"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision: "Store publish-gate state beside package releases before any partner package is marked pilot-publishable.",
+  },
+  {
+    boundaryId: "package-approval-ledger-boundary",
+    category: "package-approval-ledger",
+    label: "Package approval ledgers",
+    status: "needs-policy",
+    recordShape: "PackageApprovalLedger, sign-off owner, approver identity, timestamp, evidence links, blockers, release candidate",
+    whyItMatters:
+      "Publisher and school pilots need accountable sign-off for content, media, game QA, QR stability, privacy, deployment, and platform release review.",
+    visibleTo: ["Platform admin", "Tenant admin", "School admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision: "Define approver identity, timestamp, evidence, and rollback fields before real approval storage is enabled.",
+  },
 ];
 
 export const samplePersistenceStrategyOptions: PersistenceStrategyOption[] = [
@@ -276,8 +332,8 @@ export const samplePersistenceStrategyOptions: PersistenceStrategyOption[] = [
     label: "Hosted managed database",
     recommendedForFirstPilot: true,
     costPosture: "controlled",
-    fit: "Best first pilot path for route registry, launch sessions, progress reports, and admin review without local installer complexity.",
-    caution: "Requires privacy rules, access control, backup/export policy, and monthly service cost planning.",
+    fit: "Best first pilot path for route registry, launch sessions, progress reports, package release gates, approval ledgers, and admin review without local installer complexity.",
+    caution: "Requires privacy rules, access control, backup/export policy, approver identity rules, and monthly service cost planning.",
   },
   {
     optionId: "local-first-store",
@@ -285,6 +341,6 @@ export const samplePersistenceStrategyOptions: PersistenceStrategyOption[] = [
     recommendedForFirstPilot: false,
     costPosture: "higher",
     fit: "Important for closed textbook companion deployments and schools that cannot rely on hosted services.",
-    caution: "Needs sync/export, backup, device support, update, and QR/deep-link fallback decisions.",
+    caution: "Needs sync/export, backup, device support, update, approval audit handling, and QR/deep-link fallback decisions.",
   },
 ];
