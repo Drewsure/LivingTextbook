@@ -9,6 +9,7 @@ import {
 import { sampleContentIntakeRuns, samplePackageReleases } from "@/data/sampleContentIntakePlan";
 import { sampleDeploymentProfiles } from "@/data/sampleDeploymentProfiles";
 import { sampleEditionQrAliasPlan } from "@/data/sampleEditionQrAliasPlan";
+import { sampleGamePrototypeAssignmentPlan } from "@/data/sampleGamePrototypeAssignmentPlan";
 import { sampleLocalBundleManifests } from "@/data/sampleLocalBundlePlan";
 import { samplePilotHandoffPackage } from "@/data/samplePilotHandoffPackage";
 import {
@@ -42,6 +43,7 @@ import { ContentIntakeReviewPanel } from "@/features/content-intake/ContentIntak
 import { UnitPackageReadinessPanel } from "@/features/content-intake/UnitPackageReadinessPanel";
 import { DeploymentProfilePanel } from "@/features/deployment/DeploymentProfilePanel";
 import { LocalBundleManifestPanel } from "@/features/deployment/LocalBundleManifestPanel";
+import { GamePrototypeAssignmentPanel } from "@/features/game-offers/GamePrototypeAssignmentPanel";
 import { UnitGameOfferMapPanel } from "@/features/game-offers/UnitGameOfferMapPanel";
 import { PilotPolicyReadinessPanel } from "@/features/policy/PilotPolicyReadinessPanel";
 import { PilotHandoffPackagePanel } from "@/features/pilot/PilotHandoffPackagePanel";
@@ -80,6 +82,7 @@ export default function TeacherIntakePage() {
         <PilotHandoffPackagePanel handoffPackage={samplePilotHandoffPackage} />
         <PublisherMaintenancePlanPanel plan={samplePublisherMaintenancePlan} />
         <UnitGameOfferMapPanel map={sampleUnitGameOfferMap} />
+        <GamePrototypeAssignmentPanel plan={sampleGamePrototypeAssignmentPlan} />
         <UnitPackageReadinessPanel packages={sampleUnitPackageReadiness} />
         <TeacherAssignmentReadinessPanel
           plans={sampleTeacherAssignmentPlans}
