@@ -7,7 +7,7 @@ Use these checks after pulling connector-side commits locally.
 ```powershell
 Set-Location -LiteralPath "D:\LIVING TEXTBOOOK PROJECT\LivingTextbook"
 git fetch origin legacy-source-import
- git restore apps/web/next-env.d.ts
+git restore apps/web/next-env.d.ts
 git pull --ff-only
 npm run typecheck --workspace @living-textbook/web
 npm run build --workspace @living-textbook/web
