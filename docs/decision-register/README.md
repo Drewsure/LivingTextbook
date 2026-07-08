@@ -18,6 +18,7 @@
 - `DR-044-package-publish-gate.md`
 - `DR-045-package-approval-ledger.md`
 - `DR-046-package-release-durable-records.md`
+- `DR-047-release-control-adapter-write-intents.md`
 
 ## Maintenance Rule
 
