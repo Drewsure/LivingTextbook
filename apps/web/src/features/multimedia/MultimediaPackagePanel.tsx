@@ -130,12 +130,14 @@ function RouteRow({ label, value }: { label: string; value: string }) {
 
 function AudioSupportPlanSummary({ plan, cues }: { plan: UnitAudioSupportPlan; cues: AudioCue[] }) {
   const cueSources = Array.from(new Set(cues.map((cue) => cue.source))).join(", ");
+  const coveredModes = Object.keys(plan.gameModeAudioCueIds ?? {}).sort();
 
   return (
     <dl className="mt-3 grid gap-2 text-sm text-[var(--tenant-muted)]">
       <RouteRow label="Required" value={plan.required ? "Yes" : "No"} />
       <RouteRow label="Vocabulary cues" value={String(plan.vocabularyAudioCueIds.length)} />
       <RouteRow label="Sentence cues" value={String(plan.sentenceAudioCueIds.length)} />
+      <RouteRow label="Covered modes" value={coveredModes.length > 0 ? coveredModes.join(", ") : "Not configured"} />
       <RouteRow label="Instruction/feedback cues" value={String((plan.instructionAudioCueIds?.length ?? 0) + (plan.feedbackAudioCueIds?.length ?? 0))} />
       <RouteRow label="Cue source" value={cueSources || "Not configured"} />
       <RouteRow label="Fallback voice" value={plan.fallbackVoice ?? "Tenant default"} />

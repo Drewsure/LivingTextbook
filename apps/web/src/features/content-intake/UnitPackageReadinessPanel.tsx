@@ -49,11 +49,36 @@ export function UnitPackageReadinessPanel({ packages }: UnitPackageReadinessPane
               <ReadinessMetric label="Terms / sentences" value={`${packageSummary.termCount} / ${packageSummary.sentenceCount}`} />
               <ReadinessMetric label="Game modes" value={String(packageSummary.gameModeCount)} />
               <ReadinessMetric label="Audio cues" value={String(packageSummary.audioCueCount)} />
+              <ReadinessMetric label="Audio-covered modes" value={String(packageSummary.audioCoveredGameModeCount)} />
               <ReadinessMetric label="Audio / video" value={`${packageSummary.audioAssetCount} / ${packageSummary.videoAssetCount}`} />
               <ReadinessMetric label="Assist plans" value={String(packageSummary.assistLanguageCount)} />
               <ReadinessMetric label="Media assets" value={String(packageSummary.mediaAssetCount)} />
               <ReadinessMetric label="Validation issues" value={String(packageSummary.validationErrorCount)} />
             </dl>
+
+            {packageSummary.audioCoveredGameModes.length > 0 && (
+              <section className="mt-4 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3">
+                <div className="flex flex-wrap items-start justify-between gap-2">
+                  <div>
+                    <h4 className="text-sm font-bold text-[var(--tenant-text)]">Audio-covered game modes</h4>
+                    <p className="mt-1 text-sm leading-6 text-[var(--tenant-muted)]">
+                      These modes have explicit package-level cue coverage before student assignment.
+                    </p>
+                  </div>
+                  <StatusPill label={`${packageSummary.audioCoveredGameModeCount} modes`} tone="success" />
+                </div>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {packageSummary.audioCoveredGameModes.map((mode) => (
+                    <span
+                      key={mode}
+                      className="rounded-full border border-[var(--tenant-border)] bg-[var(--tenant-surface)] px-3 py-1 text-xs font-semibold text-[var(--tenant-text)]"
+                    >
+                      {mode}
+                    </span>
+                  ))}
+                </div>
+              </section>
+            )}
 
             <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
               {packageSummary.gates.map((gate) => (

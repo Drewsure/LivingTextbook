@@ -30,6 +30,8 @@ export interface UnitPackageReadinessSummary {
   audioAssetCount: number;
   videoAssetCount: number;
   audioCueCount: number;
+  audioCoveredGameModeCount: number;
+  audioCoveredGameModes: string[];
   assistLanguageCount: number;
   validationErrorCount: number;
   gates: UnitPackageReadinessGate[];
@@ -49,6 +51,9 @@ function buildUnitPackageReadiness(contentPackage: ContentPackage): UnitPackageR
   const audioAssets = mediaAssets.filter((asset) => asset.kind === "audio");
   const videoAssets = mediaAssets.filter((asset) => asset.kind === "video");
   const audioSupportPlans = contentPackage.audioSupportPlans ?? [];
+  const audioCoveredGameModes = Array.from(
+    new Set(audioSupportPlans.flatMap((plan) => Object.keys(plan.gameModeAudioCueIds ?? {}))),
+  ).sort();
   const assistLanguagePlans = contentPackage.assistLanguagePlans ?? [];
   const termCount = contentPackage.units.reduce((total, unit) => total + unit.pedagogicalPayload.vocabularyTerms.length, 0);
   const sentenceCount = contentPackage.units.reduce((total, unit) => total + unit.pedagogicalPayload.targetSentences.length, 0);
@@ -72,6 +77,8 @@ function buildUnitPackageReadiness(contentPackage: ContentPackage): UnitPackageR
     audioAssetCount: audioAssets.length,
     videoAssetCount: videoAssets.length,
     audioCueCount: contentPackage.audioCues?.length ?? 0,
+    audioCoveredGameModeCount: audioCoveredGameModes.length,
+    audioCoveredGameModes,
     assistLanguageCount: assistLanguagePlans.length,
     validationErrorCount: validationErrors.length,
     gates: [
@@ -94,10 +101,10 @@ function buildUnitPackageReadiness(contentPackage: ContentPackage): UnitPackageR
       {
         gateId: "audio-support",
         label: "Audio-first learner support",
-        status: audioSupportReady && (contentPackage.audioCues?.length ?? 0) > 0 ? "ready" : "blocked",
-        blocksPilot: !audioSupportReady || (contentPackage.audioCues?.length ?? 0) === 0,
-        evidence: `${audioSupportPlans.length} support plan(s), ${contentPackage.audioCues?.length ?? 0} cue(s)`,
-        nextStep: "Every student-facing term, sentence, instruction, feedback item, and critical control needs a cue plan.",
+        status: audioSupportReady && (contentPackage.audioCues?.length ?? 0) > 0 && audioCoveredGameModes.length > 0 ? "ready" : "blocked",
+        blocksPilot: !audioSupportReady || (contentPackage.audioCues?.length ?? 0) === 0 || audioCoveredGameModes.length === 0,
+        evidence: `${audioSupportPlans.length} support plan(s), ${contentPackage.audioCues?.length ?? 0} cue(s), ${audioCoveredGameModes.length} covered mode(s)`,
+        nextStep: "Every student-facing term, sentence, instruction, feedback item, critical control, and active game mode needs a cue plan.",
       },
       {
         gateId: "media-assets",
