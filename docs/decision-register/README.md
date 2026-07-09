@@ -22,6 +22,7 @@
 - `DR-048-vendor-neutral-backend-schema-draft.md`
 - `DR-049-backend-migration-candidates.md`
 - `DR-050-backend-migration-specs.md`
+- `DR-051-source-review-queue.md`
 
 ## Maintenance Rule
 

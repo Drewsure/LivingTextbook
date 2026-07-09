@@ -28,6 +28,7 @@ import {
   samplePilotPolicyWarnings,
 } from "@/data/samplePilotPolicyPlan";
 import { samplePublisherMaintenancePlan } from "@/data/samplePublisherMaintenancePlan";
+import { sampleSourceReviewQueue } from "@/data/sampleSourceReviewQueue";
 import { sampleFrontDoorRouteRegistry } from "@/data/sampleTenantRouteRegistry";
 import {
   sampleTeacherAssignmentErrors,
@@ -45,6 +46,7 @@ import {
   samplePersistenceStrategyOptions,
 } from "@/data/samplePersistencePlan";
 import { ContentIntakeReviewPanel } from "@/features/content-intake/ContentIntakeReviewPanel";
+import { SourceReviewQueuePanel } from "@/features/content-intake/SourceReviewQueuePanel";
 import { UnitPackageReadinessPanel } from "@/features/content-intake/UnitPackageReadinessPanel";
 import { DeploymentProfilePanel } from "@/features/deployment/DeploymentProfilePanel";
 import { LocalBundleManifestPanel } from "@/features/deployment/LocalBundleManifestPanel";
@@ -106,6 +108,7 @@ export default function TeacherIntakePage() {
           errors={sampleClassRosterErrors}
           warnings={sampleClassRosterWarnings}
         />
+        <SourceReviewQueuePanel queue={sampleSourceReviewQueue} />
         <ContentIntakeReviewPanel runs={sampleContentIntakeRuns} releases={samplePackageReleases} />
         <TenantRouteRegistryPanel routes={sampleFrontDoorRouteRegistry} />
         <EditionQrAliasPanel plan={sampleEditionQrAliasPlan} />

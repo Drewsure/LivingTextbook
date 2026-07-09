@@ -27,6 +27,7 @@ Focused verification supplements:
 - `docs/verification/SECOND_TENANT_PACKAGE_CHECKS.md`
 - `docs/verification/SELECTION_ENGINE_PREVIEW_CHECKS.md`
 - `docs/verification/SPEAK_IT_CORE_CHECKS.md`
+- `docs/verification/SOURCE_REVIEW_QUEUE_CHECKS.md`
 - `docs/verification/TEACHER_ASSIGNMENT_READINESS_CHECKS.md`
 - `docs/verification/TEACHER_MICROPHONE_APPROVAL_CHECKS.md`
 - `docs/verification/TEACHER_REPORT_EXPORT_CHECKS.md`
