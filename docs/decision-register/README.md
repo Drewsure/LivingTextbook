@@ -25,6 +25,7 @@
 - `DR-051-source-review-queue.md`
 - `DR-052-ai-authoring-verifier-handoff.md`
 - `DR-053-teacher-session-preflight.md`
+- `DR-054-teacher-assignment-rollout.md`
 
 ## Maintenance Rule
 

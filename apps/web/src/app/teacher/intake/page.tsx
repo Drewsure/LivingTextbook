@@ -36,6 +36,7 @@ import {
   sampleTeacherAssignmentPlans,
   sampleTeacherAssignmentWarnings,
 } from "@/data/sampleTeacherAssignmentPlans";
+import { sampleAssignmentRolloutPlans } from "@/data/sampleAssignmentRolloutPlan";
 import { sampleUnitGameOfferMap } from "@/data/sampleUnitGameOfferMap";
 import { sampleUnitPackageReadiness } from "@/data/sampleUnitPackageReadiness";
 import { whiteLabelPilotReadiness } from "@/data/whiteLabelPilotReadiness";
@@ -69,6 +70,7 @@ import { PublisherMaintenancePlanPanel } from "@/features/publisher/PublisherMai
 import { EditionQrAliasPanel } from "@/features/routes/EditionQrAliasPanel";
 import { TenantRouteRegistryPanel } from "@/features/routes/TenantRouteRegistryPanel";
 import { ClassRosterReadinessPanel } from "@/features/teacher/ClassRosterReadinessPanel";
+import { TeacherAssignmentRolloutPanel } from "@/features/teacher/TeacherAssignmentRolloutPanel";
 import { TeacherAssignmentReadinessPanel } from "@/features/teacher/TeacherAssignmentReadinessPanel";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 
@@ -105,6 +107,7 @@ export default function TeacherIntakePage() {
           errors={sampleTeacherAssignmentErrors}
           warnings={sampleTeacherAssignmentWarnings}
         />
+        <TeacherAssignmentRolloutPanel plans={sampleAssignmentRolloutPlans} />
         <ClassRosterReadinessPanel
           plans={sampleClassRosterPlans}
           errors={sampleClassRosterErrors}
