@@ -161,6 +161,14 @@ export function getQuizPath(launchCode: LaunchCode): string {
   return `/quiz/${encodeURIComponent(launchCode)}`;
 }
 
+export function getSpeakItPath(launchCode: LaunchCode): string {
+  return `/speak/${encodeURIComponent(launchCode)}`;
+}
+
+export function getTeacherSessionMonitorPath(launchCode: LaunchCode): string {
+  return `/teacher/sessions/${encodeURIComponent(launchCode)}`;
+}
+
 export function getPermanentTextbookQrPath(identifier: PermanentQrIdentifier): string {
   return getPermanentQrPath(identifier);
 }

@@ -1,6 +1,13 @@
 import { Card, StatusPill } from "@living-textbook/ui";
 import type { LaunchSession, UnitPayload } from "@living-textbook/content-model";
-import { getStudentLaunchPath } from "@/features/routes/routeContracts";
+import {
+  getQuizPath,
+  getSentenceBuilderPath,
+  getSpeakItPath,
+  getStudentLaunchPath,
+  getTeacherSessionMonitorPath,
+  getTrainingAcademyPath,
+} from "@/features/routes/routeContracts";
 
 interface TeacherLaunchPanelProps {
   unit: UnitPayload;
@@ -9,6 +16,38 @@ interface TeacherLaunchPanelProps {
 
 export function TeacherLaunchPanel({ unit, launchSession }: TeacherLaunchPanelProps) {
   const launchPath = getStudentLaunchPath(launchSession.launchCode);
+  const routeShortcuts = [
+    {
+      label: "Student launch",
+      href: launchPath,
+      summary: "QR entry, flashcards, unlock flow, Memory Match, and local student summary.",
+    },
+    {
+      label: "Quiz",
+      href: getQuizPath(launchSession.launchCode),
+      summary: "Plain selection-engine baseline before arcade skins.",
+    },
+    {
+      label: "Sentence Builder",
+      href: getSentenceBuilderPath(launchSession.launchCode),
+      summary: "Text-spelling route for reviewed target sentence construction.",
+    },
+    {
+      label: "Speak It",
+      href: getSpeakItPath(launchSession.launchCode),
+      summary: "Teacher-controlled listening and local record/replay practice.",
+    },
+    {
+      label: "Training Academy",
+      href: getTrainingAcademyPath(launchSession.launchCode),
+      summary: "Deterministic recovery lane for missed vocabulary or sentence practice.",
+    },
+    {
+      label: "Teacher monitor",
+      href: getTeacherSessionMonitorPath(launchSession.launchCode),
+      summary: "Teacher-visible event stream, settings, controls, and report concept.",
+    },
+  ];
 
   return (
     <Card>
@@ -50,6 +89,30 @@ export function TeacherLaunchPanel({ unit, launchSession }: TeacherLaunchPanelPr
           Open student launch
         </a>
       </div>
+      <section className="mt-5 rounded-lg border border-[var(--tenant-border)] p-4">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <h3 className="text-sm font-bold text-[var(--tenant-text)]">Demo route shortcuts</h3>
+            <p className="mt-1 text-sm leading-6 text-[var(--tenant-muted)]">
+              Use these reviewed routes for local demos and browser checks. They are still scaffold routes, not production classroom links.
+            </p>
+          </div>
+          <StatusPill label={`${routeShortcuts.length} routes`} tone="neutral" />
+        </div>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2">
+          {routeShortcuts.map((shortcut) => (
+            <a
+              key={shortcut.href}
+              href={shortcut.href}
+              className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] p-3 text-sm transition hover:bg-[var(--tenant-primary-soft)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--tenant-primary)]"
+            >
+              <span className="font-bold text-[var(--tenant-text)]">{shortcut.label}</span>
+              <span className="mt-1 block break-all text-xs font-semibold text-[var(--tenant-muted)]">{shortcut.href}</span>
+              <span className="mt-2 block leading-5 text-[var(--tenant-muted)]">{shortcut.summary}</span>
+            </a>
+          ))}
+        </div>
+      </section>
     </Card>
   );
 }

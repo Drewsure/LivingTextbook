@@ -35,6 +35,7 @@
 - `DR-061-sentence-builder-reporting.md`
 - `DR-062-quiz-selection-playable-slice.md`
 - `DR-063-quiz-reporting-bridge.md`
+- `DR-064-teacher-demo-route-shortcuts.md`
 
 ## Maintenance Rule
 

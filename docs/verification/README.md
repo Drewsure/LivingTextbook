@@ -39,6 +39,7 @@ Focused verification supplements:
 - `docs/verification/SOURCE_REVIEW_QUEUE_CHECKS.md`
 - `docs/verification/TEACHER_ASSIGNMENT_READINESS_CHECKS.md`
 - `docs/verification/TEACHER_ASSIGNMENT_ROLLOUT_CHECKS.md`
+- `docs/verification/TEACHER_DEMO_ROUTE_SHORTCUT_CHECKS.md`
 - `docs/verification/TEACHER_MICROPHONE_APPROVAL_CHECKS.md`
 - `docs/verification/TEACHER_REPORT_EXPORT_CHECKS.md`
 - `docs/verification/TEACHER_SESSION_PREFLIGHT_CHECKS.md`
