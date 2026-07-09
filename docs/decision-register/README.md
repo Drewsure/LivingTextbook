@@ -32,6 +32,7 @@
 - `DR-058-text-spelling-engine-scaffold.md`
 - `DR-059-sentence-builder-playable-slice.md`
 - `DR-060-sentence-builder-discovery.md`
+- `DR-061-sentence-builder-reporting.md`
 
 ## Maintenance Rule
 

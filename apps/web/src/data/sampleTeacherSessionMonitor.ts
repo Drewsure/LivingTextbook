@@ -182,9 +182,9 @@ function createMonitorProgression(
   return {
     ...progression,
     currentStep: "completion-review",
-    unlockedGameModes: uniqueModes([...progression.unlockedGameModes, ...launchSession.recommendedNextModes, "speak-it"]),
-    completedGameModes: uniqueModes([...progression.completedGameModes, launchSession.entryMode, "memory-match"]),
-    earnedStarDust: 425,
+    unlockedGameModes: uniqueModes([...progression.unlockedGameModes, ...launchSession.recommendedNextModes, "sentence-builder", "speak-it"]),
+    completedGameModes: uniqueModes([...progression.completedGameModes, launchSession.entryMode, "memory-match", "sentence-builder"]),
+    earnedStarDust: 725,
     masteryStatus: "in-progress",
     lastEventAt: latestEvent?.occurredAt,
   };
@@ -218,7 +218,7 @@ function createMonitorMetrics(args: {
     },
     {
       label: args.rewardName,
-      value: "425",
+      value: "725",
       note: "Sample earned reward total, not a stored production grade.",
     },
   ];
@@ -493,10 +493,49 @@ function createSampleMonitorEvents(launchSession: LaunchSession, isPartner: bool
     {
       type: "game_started",
       unitKey,
+      gameMode: "sentence-builder",
+      launchCode,
+      studentSessionId,
+      occurredAt: "2026-07-01T00:12:30.000Z",
+      metadata: {
+        parentEngine: "text-spelling",
+        scoringProfileId: "syntax-construction-v1",
+      },
+    },
+    {
+      type: "answer_result",
+      unitKey,
+      gameMode: "sentence-builder",
+      launchCode,
+      studentSessionId,
+      occurredAt: "2026-07-01T00:12:50.000Z",
+      metadata: {
+        correct: true,
+        roundId: "sentence-builder-1",
+        targetLanguageAttempt: true,
+      },
+    },
+    {
+      type: "mastery_updated",
+      unitKey,
+      gameMode: "sentence-builder",
+      launchCode,
+      studentSessionId,
+      occurredAt: "2026-07-01T00:13:20.000Z",
+      metadata: {
+        completed: true,
+        earnedStarDust: 300,
+        completedRounds: 2,
+        parentEngine: "text-spelling",
+      },
+    },
+    {
+      type: "game_started",
+      unitKey,
       gameMode: "speak-it",
       launchCode,
       studentSessionId,
-      occurredAt: "2026-07-01T00:13:00.000Z",
+      occurredAt: "2026-07-01T00:14:00.000Z",
       metadata: {
         microphoneAllowedByTeacher: false,
         recordReplayOnly: true,
