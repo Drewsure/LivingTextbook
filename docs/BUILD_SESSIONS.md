@@ -64,6 +64,7 @@ Next outputs:
 - Browser-verify teacher demo route shortcuts at `/teacher`.
 - Mobile verification.
 - Compatibility with optional background/support media without requiring it.
+- Explicit package-level audio support coverage for every active student-facing game mode.
 
 ## Session 2.5: Training Academy Recovery Lane
 
