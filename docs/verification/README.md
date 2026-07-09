@@ -20,6 +20,7 @@ Focused verification supplements:
 - `docs/verification/MEDIA_RIGHTS_READINESS_CHECKS.md`
 - `docs/verification/PACKAGE_APPROVAL_LEDGER_CHECKS.md`
 - `docs/verification/PACKAGE_PUBLISH_GATE_CHECKS.md`
+- `docs/verification/PARTNER_DEMO_ACTIVE_ROUTE_CHECKS.md`
 - `docs/verification/PERSISTENCE_ADAPTER_CHECKS.md`
 - `docs/verification/PERSISTENCE_BOUNDARY_CHECKS.md`
 - `docs/verification/PILOT_HANDOFF_PACKAGE_CHECKS.md`

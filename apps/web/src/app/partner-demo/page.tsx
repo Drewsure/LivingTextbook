@@ -14,6 +14,14 @@ import {
 import { GameSequence } from "@/features/game-shell/GameSequence";
 import { MultimediaPackagePanel } from "@/features/multimedia/MultimediaPackagePanel";
 import { ProgressionSummary } from "@/features/progression/ProgressionSummary";
+import {
+  getQuizPath,
+  getSentenceBuilderPath,
+  getSpeakItPath,
+  getStudentLaunchPath,
+  getTeacherSessionMonitorPath,
+  getTrainingAcademyPath,
+} from "@/features/routes/routeContracts";
 import { TeacherLaunchPanel } from "@/features/teacher/TeacherLaunchPanel";
 import { TeacherMicrophonePracticePanel } from "@/features/teacher/TeacherMicrophonePracticePanel";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
@@ -61,8 +69,12 @@ export default function PartnerDemoPage() {
             <dl className="mt-5 grid gap-3 text-sm text-[var(--tenant-muted)]">
               <RouteLink label="Partner demo" href="/partner-demo" />
               <RouteLink label="Front door" href={samplePartnerFrontDoorPath} />
-              <RouteLink label="Student launch" href={`/launch/${samplePartnerLaunchCode}`} />
-              <RouteLink label="Speak It" href={`/speak/${samplePartnerLaunchCode}`} />
+              <RouteLink label="Student launch" href={getStudentLaunchPath(samplePartnerLaunchCode)} />
+              <RouteLink label="Quiz" href={getQuizPath(samplePartnerLaunchCode)} />
+              <RouteLink label="Sentence Builder" href={getSentenceBuilderPath(samplePartnerLaunchCode)} />
+              <RouteLink label="Speak It" href={getSpeakItPath(samplePartnerLaunchCode)} />
+              <RouteLink label="Training Academy" href={getTrainingAcademyPath(samplePartnerLaunchCode)} />
+              <RouteLink label="Teacher monitor" href={getTeacherSessionMonitorPath(samplePartnerLaunchCode)} />
             </dl>
             <p className="mt-4 text-xs leading-5 text-[var(--tenant-muted)]">
               Demo codes for a future partner front door: {samplePartnerFrontDoorEntryCode} / {samplePartnerFrontDoorUserCode}.
