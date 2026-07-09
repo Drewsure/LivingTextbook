@@ -15,6 +15,7 @@ interface SequenceItem {
 
 const flashcards = gameModeCatalog.flashcards;
 const memoryMatch = gameModeCatalog["memory-match"];
+const sentenceBuilder = gameModeCatalog["sentence-builder"];
 const speakIt = gameModeCatalog["speak-it"];
 
 const firstSliceSequence: SequenceItem[] = [
@@ -29,6 +30,12 @@ const firstSliceSequence: SequenceItem[] = [
     engineId: memoryMatch?.engineId ?? "pairing",
     role: memoryMatch?.role ?? "reinforcement",
     summary: memoryMatch?.summary ?? "Reinforce term recognition after flashcards through pair finding and recall.",
+  },
+  {
+    label: sentenceBuilder?.label ?? "Sentence Builder",
+    engineId: sentenceBuilder?.engineId ?? "text-spelling",
+    role: sentenceBuilder?.role ?? "reinforcement",
+    summary: sentenceBuilder?.summary ?? "Build the two approved target sentence patterns from unit-safe word parts and audio cues.",
   },
   {
     label: speakIt?.label ?? "Speak It",

@@ -31,6 +31,7 @@
 - `DR-057-local-deployment-preflight.md`
 - `DR-058-text-spelling-engine-scaffold.md`
 - `DR-059-sentence-builder-playable-slice.md`
+- `DR-060-sentence-builder-discovery.md`
 
 ## Maintenance Rule
 
