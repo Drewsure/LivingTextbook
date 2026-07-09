@@ -47,6 +47,7 @@
 - `DR-073-package-game-audio-coverage-migration-spec.md`
 - `DR-074-package-game-audio-coverage-schema-draft.md`
 - `DR-075-package-game-audio-coverage-publish-gate.md`
+- `DR-076-teacher-session-game-audio-preflight.md`
 
 ## Maintenance Rule
 

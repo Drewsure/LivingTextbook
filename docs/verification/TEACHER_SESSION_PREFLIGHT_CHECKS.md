@@ -21,6 +21,7 @@ Confirm:
 - Settings safety passes.
 - Settings persistence warns that durable launch-session storage is still needed.
 - Lifecycle controls warn that persistence/policy is still needed.
+- Assigned game audio appears and either passes for audio-covered assigned modes or warns when an assigned mode has a missing reviewed audio plan.
 - Report export warns that policy and persistence are required.
 
 ## Product Checks
@@ -28,4 +29,5 @@ Confirm:
 - The panel does not imply live production reporting exists.
 - The panel does not enable export.
 - Raw audio and transcripts remain excluded from core reports.
+- Assigned game audio coverage is visible before pilot use.
 - Assist-language progression restrictions remain visible in the monitor flow.

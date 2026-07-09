@@ -78,6 +78,7 @@ export function resolveSampleTeacherSessionMonitorContext(launchCode: string): T
   const reportExportPlan = createMonitorReportExportPlan(sessionSettings);
   const reportExportErrors = validateTeacherReportExportPlan(reportExportPlan);
   const reportExportWarnings = getTeacherReportExportWarnings(reportExportPlan);
+  const assignedGameModes = uniqueModes([launchContext.launchSession.entryMode, ...launchContext.launchSession.recommendedNextModes]);
   const preflightChecks = createTeacherSessionPreflightChecks({
     sessionSettingErrors,
     sessionSettingWarnings,
@@ -85,6 +86,8 @@ export function resolveSampleTeacherSessionMonitorContext(launchCode: string): T
     sessionControlWarnings,
     reportExportErrors,
     reportExportWarnings,
+    assignedGameModes,
+    audioCoveredGameModes: getAudioCoveredGameModes(launchContext.contentPackage),
   });
 
   return {
@@ -100,7 +103,7 @@ export function resolveSampleTeacherSessionMonitorContext(launchCode: string): T
       eventCount: events.length,
       rewardName: launchContext.tenant.rewardName,
     }),
-    assignedGameModes: uniqueModes([launchContext.launchSession.entryMode, ...launchContext.launchSession.recommendedNextModes]),
+    assignedGameModes,
     sessionSettings,
     settings: createMonitorSettings(sessionSettings),
     sessionSettingErrors,
@@ -128,7 +131,11 @@ function createTeacherSessionPreflightChecks(args: {
   sessionControlWarnings: string[];
   reportExportErrors: string[];
   reportExportWarnings: string[];
+  assignedGameModes: GameModeId[];
+  audioCoveredGameModes: GameModeId[];
 }): TeacherSessionPreflightCheck[] {
+  const missingAudioModes = args.assignedGameModes.filter((mode) => !args.audioCoveredGameModes.includes(mode));
+
   return [
     {
       checkId: "settings-safety",
@@ -163,6 +170,16 @@ function createTeacherSessionPreflightChecks(args: {
             : "Lifecycle controls are pilot-ready.",
     },
     {
+      checkId: "assigned-game-audio",
+      label: "Assigned game audio",
+      status: missingAudioModes.length === 0 ? "pass" : "warning",
+      owner: "platform",
+      note:
+        missingAudioModes.length === 0
+          ? `Assigned game modes are audio-covered: ${args.assignedGameModes.join(", ")}.`
+          : `Audio coverage needs review before pilot use for: ${missingAudioModes.join(", ")}.`,
+    },
+    {
       checkId: "report-export",
       label: "Report export",
       status: args.reportExportErrors.length > 0 ? "blocked" : args.reportExportWarnings.length > 0 ? "warning" : "pass",
@@ -195,6 +212,16 @@ function createMonitorProgression(
 
 function uniqueModes(modes: ProgressGameMode[]): ProgressGameMode[] {
   return Array.from(new Set(modes));
+}
+
+function getAudioCoveredGameModes(contentPackage: ContentPackage): GameModeId[] {
+  return Array.from(
+    new Set(
+      (contentPackage.audioSupportPlans ?? []).flatMap((plan) =>
+        Object.keys(plan.gameModeAudioCueIds ?? {}) as GameModeId[],
+      ),
+    ),
+  );
 }
 
 function createMonitorMetrics(args: {
