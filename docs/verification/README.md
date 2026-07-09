@@ -80,11 +80,16 @@ Then verify:
 - `/teacher/sessions/demo-unit-1`
 - `/teacher/sessions/partner-demo-unit-1`
 - `/launch/demo-unit-1`
+- `/quiz/demo-unit-1`
+- `/sentence/demo-unit-1`
 - `/enter/ministar`
 - `/speak/demo-unit-1`
+- `/training/demo-unit-1`
 - `/partner-demo`
 - `/enter/sample-publisher`
 - `/launch/partner-demo-unit-1`
+- `/quiz/partner-demo-unit-1`
+- `/sentence/partner-demo-unit-1`
 - `/speak/partner-demo-unit-1`
 - `/q/tenant/sample-publisher/series/starter-english/book/level-1/unit/unit-1/activity/hello-friends/language/en/edition/2026/version/1.0.0`
 - `/manifest.webmanifest`

@@ -79,11 +79,16 @@ After a successful build and dev-server start, check:
 - `http://127.0.0.1:3000/teacher/sessions/demo-unit-1`
 - `http://127.0.0.1:3000/teacher/sessions/partner-demo-unit-1`
 - `http://127.0.0.1:3000/launch/demo-unit-1`
+- `http://127.0.0.1:3000/quiz/demo-unit-1`
+- `http://127.0.0.1:3000/sentence/demo-unit-1`
 - `http://127.0.0.1:3000/enter/ministar`
 - `http://127.0.0.1:3000/speak/demo-unit-1`
+- `http://127.0.0.1:3000/training/demo-unit-1`
 - `http://127.0.0.1:3000/partner-demo`
 - `http://127.0.0.1:3000/enter/sample-publisher`
 - `http://127.0.0.1:3000/launch/partner-demo-unit-1`
+- `http://127.0.0.1:3000/quiz/partner-demo-unit-1`
+- `http://127.0.0.1:3000/sentence/partner-demo-unit-1`
 - `http://127.0.0.1:3000/speak/partner-demo-unit-1`
 - `http://127.0.0.1:3000/manifest.webmanifest`
 - `http://127.0.0.1:3000/icons/living-textbook-icon.svg`

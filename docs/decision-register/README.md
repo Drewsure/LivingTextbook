@@ -36,6 +36,7 @@
 - `DR-062-quiz-selection-playable-slice.md`
 - `DR-063-quiz-reporting-bridge.md`
 - `DR-064-teacher-demo-route-shortcuts.md`
+- `DR-065-active-route-verification-list.md`
 
 ## Maintenance Rule
 

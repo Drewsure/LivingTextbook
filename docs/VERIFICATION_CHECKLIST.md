@@ -17,13 +17,21 @@ Visit these routes:
 - `/`
 - `/teacher`
 - `/launch/demo-unit-1`
+- `/quiz/demo-unit-1`
+- `/sentence/demo-unit-1`
+- `/speak/demo-unit-1`
+- `/training/demo-unit-1`
 - `/enter/ministar`
 
 Expected results:
 
 - `/` shows the foundation dashboard, teacher launch panel, multimedia package concept, game sequence, progression contract, and teacher progress summary concept.
-- `/teacher` shows the Teacher Launch Protocol and student launch path.
+- `/teacher` shows the Teacher Launch Protocol, student launch path, and demo route shortcuts.
 - `/launch/demo-unit-1` shows flashcard entry practice, unit-session summary, next game lock state, earned rewards, and an empty progress summary.
+- `/quiz/demo-unit-1` shows the audio-supported selection-engine quiz.
+- `/sentence/demo-unit-1` shows the audio-supported Sentence Builder route.
+- `/speak/demo-unit-1` shows the teacher-controlled Speak It route.
+- `/training/demo-unit-1` shows the deterministic Training Academy recovery lane.
 - `/enter/ministar` shows the front-door entry form and teacher-visible report preview.
 
 ## Dashboard Multimedia Package Checks
@@ -199,7 +207,7 @@ Check at narrow mobile width:
 - Long labels wrap instead of overlapping.
 - Unit-session summary cards wrap without overlapping status pills.
 - Event log entries remain scannable.
-- Teacher launch route remains readable.
+- Teacher launch route and demo shortcut cards remain readable.
 - Media controls are large enough for classroom devices.
 - Native audio/video controls do not overflow their playback cards.
 - Dashboard multimedia package rows wrap instead of overflowing.
