@@ -20,6 +20,7 @@
 - `DR-046-package-release-durable-records.md`
 - `DR-047-release-control-adapter-write-intents.md`
 - `DR-048-vendor-neutral-backend-schema-draft.md`
+- `DR-049-backend-migration-candidates.md`
 
 ## Maintenance Rule
 
