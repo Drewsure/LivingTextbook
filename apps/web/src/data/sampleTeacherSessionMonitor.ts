@@ -29,6 +29,16 @@ export interface TeacherSessionMonitorMetric {
   note: string;
 }
 
+export type TeacherSessionPreflightStatus = "pass" | "warning" | "blocked";
+
+export interface TeacherSessionPreflightCheck {
+  checkId: string;
+  label: string;
+  status: TeacherSessionPreflightStatus;
+  owner: "teacher" | "platform" | "policy" | "persistence";
+  note: string;
+}
+
 export interface TeacherSessionMonitorContext {
   tenant: TenantConfig;
   contentPackage: ContentPackage;
@@ -47,6 +57,7 @@ export interface TeacherSessionMonitorContext {
   reportExportPlan: TeacherReportExportPlan;
   reportExportErrors: string[];
   reportExportWarnings: string[];
+  preflightChecks: TeacherSessionPreflightCheck[];
   readinessNotes: string[];
 }
 
@@ -65,6 +76,14 @@ export function resolveSampleTeacherSessionMonitorContext(launchCode: string): T
   const reportExportPlan = createMonitorReportExportPlan(sessionSettings);
   const reportExportErrors = validateTeacherReportExportPlan(reportExportPlan);
   const reportExportWarnings = getTeacherReportExportWarnings(reportExportPlan);
+  const preflightChecks = createTeacherSessionPreflightChecks({
+    sessionSettingErrors,
+    sessionSettingWarnings,
+    sessionControlErrors,
+    sessionControlWarnings,
+    reportExportErrors,
+    reportExportWarnings,
+  });
 
   return {
     tenant: launchContext.tenant,
@@ -89,6 +108,7 @@ export function resolveSampleTeacherSessionMonitorContext(launchCode: string): T
     reportExportPlan,
     reportExportErrors,
     reportExportWarnings,
+    preflightChecks,
     readinessNotes: [
       "This route uses reviewed sample data and local event examples only.",
       "A real classroom monitor needs persisted launch sessions, event storage, student/session policy, and export controls.",
@@ -96,6 +116,62 @@ export function resolveSampleTeacherSessionMonitorContext(launchCode: string): T
       "Premium AI Tutor, speech scoring, transcript storage, and cloud audio upload remain optional tenant add-ons.",
     ],
   };
+}
+
+function createTeacherSessionPreflightChecks(args: {
+  sessionSettingErrors: string[];
+  sessionSettingWarnings: string[];
+  sessionControlErrors: string[];
+  sessionControlWarnings: string[];
+  reportExportErrors: string[];
+  reportExportWarnings: string[];
+}): TeacherSessionPreflightCheck[] {
+  return [
+    {
+      checkId: "settings-safety",
+      label: "Settings safety",
+      status: args.sessionSettingErrors.length === 0 ? "pass" : "blocked",
+      owner: "platform",
+      note:
+        args.sessionSettingErrors.length === 0
+          ? "Session settings pass the shared safety rules: audio remains required, support language cannot unlock progress, and raw audio/transcripts are excluded."
+          : args.sessionSettingErrors.join(" "),
+    },
+    {
+      checkId: "settings-persistence",
+      label: "Settings persistence",
+      status: args.sessionSettingWarnings.length === 0 ? "pass" : "warning",
+      owner: "persistence",
+      note:
+        args.sessionSettingWarnings.length === 0
+          ? "Teacher settings are ready to persist."
+          : "Teacher choices still need durable launch-session storage before classroom pilot use.",
+    },
+    {
+      checkId: "session-controls",
+      label: "Lifecycle controls",
+      status: args.sessionControlErrors.length > 0 ? "blocked" : args.sessionControlWarnings.length > 0 ? "warning" : "pass",
+      owner: "teacher",
+      note:
+        args.sessionControlErrors.length > 0
+          ? args.sessionControlErrors.join(" ")
+          : args.sessionControlWarnings.length > 0
+            ? "Open, lock, resume, end, and export commands are mapped but still need persistence or policy gates."
+            : "Lifecycle controls are pilot-ready.",
+    },
+    {
+      checkId: "report-export",
+      label: "Report export",
+      status: args.reportExportErrors.length > 0 ? "blocked" : args.reportExportWarnings.length > 0 ? "warning" : "pass",
+      owner: "policy",
+      note:
+        args.reportExportErrors.length > 0
+          ? args.reportExportErrors.join(" ")
+          : args.reportExportWarnings.length > 0
+            ? "Report export remains blocked until policy, persistence, access, and retention rules are accepted."
+            : "Report export is ready under accepted policy.",
+    },
+  ];
 }
 
 function createMonitorProgression(
