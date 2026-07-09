@@ -1,6 +1,7 @@
 import { Card, StatusPill } from "@living-textbook/ui";
 import { AppShell } from "@/components/layout/AppShell";
 import { sampleBackendDecisionMatrix } from "@/data/sampleBackendDecisionMatrix";
+import { sampleBackendMigrationPlan } from "@/data/sampleBackendMigrationCandidates";
 import { sampleBackendSchemaDraft } from "@/data/sampleBackendSchemaDraft";
 import {
   sampleClassRosterErrors,
@@ -54,6 +55,7 @@ import { PackagePublishGatePanel } from "@/features/pilot/PackagePublishGatePane
 import { PilotHandoffPackagePanel } from "@/features/pilot/PilotHandoffPackagePanel";
 import { PilotReadinessGatePanel } from "@/features/pilot/PilotReadinessGatePanel";
 import { BackendDecisionMatrixPanel } from "@/features/persistence/BackendDecisionMatrixPanel";
+import { BackendMigrationPlanPanel } from "@/features/persistence/BackendMigrationPlanPanel";
 import { BackendSchemaDraftPanel } from "@/features/persistence/BackendSchemaDraftPanel";
 import { PersistenceAdapterReadinessPanel } from "@/features/persistence/PersistenceAdapterReadinessPanel";
 import { PersistenceBoundaryPanel } from "@/features/persistence/PersistenceBoundaryPanel";
@@ -109,6 +111,7 @@ export default function TeacherIntakePage() {
         <LocalBundleManifestPanel manifests={sampleLocalBundleManifests} />
         <BackendDecisionMatrixPanel matrix={sampleBackendDecisionMatrix} />
         <BackendSchemaDraftPanel draft={sampleBackendSchemaDraft} />
+        <BackendMigrationPlanPanel plan={sampleBackendMigrationPlan} />
         <PersistenceBoundaryPanel
           boundaries={samplePersistenceBoundaries}
           strategyOptions={samplePersistenceStrategyOptions}
