@@ -21,9 +21,11 @@ Confirm:
 - Local companion rollout is blocked.
 - Gate cards show pass, warning, and blocked statuses.
 - Media rights, report policy, progress persistence, local bundle, and local storage blockers are visible.
+- Game audio coverage is visible before scheduling, with local companion coverage still under review.
 
 ## Product Checks
 
 - The panel does not imply that a package draft is a scheduled pilot.
 - The panel keeps local/closed deployment visible without prioritizing it over the hosted pilot.
 - The panel preserves white-label tenant separation.
+- The panel does not allow scheduling around missing assigned-game audio coverage.

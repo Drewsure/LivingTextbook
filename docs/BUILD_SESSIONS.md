@@ -233,6 +233,7 @@ Next outputs:
 - Confirm safety failures and persistence warnings are displayed separately.
 - Confirm teacher session preflight shows assigned game audio coverage before pilot use.
 - Confirm teacher assignment readiness shows audio-covered game modes against assigned game modes.
+- Confirm assignment rollout surfaces game audio coverage before scheduling.
 - Confirm the publish gate blocks release while media rights, report policy, deployment profile, persistence, and pilot package policy are unresolved.
 - Confirm the publish gate blocks release while assigned game modes are missing reviewed audio coverage or approved fallback.
 - Confirm the approval ledger does not imply real signed approvals before authentication and persistence exist.

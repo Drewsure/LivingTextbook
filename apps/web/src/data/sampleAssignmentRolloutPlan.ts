@@ -48,6 +48,13 @@ export const sampleAssignmentRolloutPlans: AssignmentRolloutPlan[] = [
         note: "The direct launch route is available at /launch/demo-unit-1.",
       },
       {
+        gateId: "game-audio-coverage",
+        label: "Game audio coverage",
+        status: "pass",
+        owner: "platform",
+        note: "Assigned demo modes have reviewed package audio coverage for instructions, prompts, feedback, and critical controls.",
+      },
+      {
         gateId: "progress-persistence",
         label: "Progress persistence",
         status: "warning",
@@ -96,6 +103,13 @@ export const sampleAssignmentRolloutPlans: AssignmentRolloutPlan[] = [
         note: "Partner audio/video files and rights proof are not present.",
       },
       {
+        gateId: "game-audio-coverage",
+        label: "Game audio coverage",
+        status: "pass",
+        owner: "platform",
+        note: "The front-door pilot draft has audio-covered assignment metadata for Flashcards, Memory Match, Quiz, Sentence Builder, and Speak It.",
+      },
+      {
         gateId: "learner-codes",
         label: "Learner codes",
         status: "warning",
@@ -135,6 +149,13 @@ export const sampleAssignmentRolloutPlans: AssignmentRolloutPlan[] = [
         status: "warning",
         owner: "platform",
         note: "Hybrid QR strategy is defined, but local deep-link behavior is not production-ready.",
+      },
+      {
+        gateId: "game-audio-coverage",
+        label: "Game audio coverage",
+        status: "warning",
+        owner: "platform",
+        note: "Local companion scheduling needs reviewed offline audio coverage for every assigned game mode before pilot use.",
       },
     ],
   },

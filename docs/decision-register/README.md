@@ -49,6 +49,7 @@
 - `DR-075-package-game-audio-coverage-publish-gate.md`
 - `DR-076-teacher-session-game-audio-preflight.md`
 - `DR-077-teacher-assignment-game-audio-coverage.md`
+- `DR-078-assignment-rollout-game-audio-coverage.md`
 
 ## Maintenance Rule
 
