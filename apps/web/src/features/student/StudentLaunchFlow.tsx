@@ -29,6 +29,7 @@ import {
 } from "@/features/training/trainingRecoveryTrigger";
 import { FlashcardPracticeCard } from "./components/FlashcardPracticeCard";
 import { NextGameUnlockCard } from "./components/NextGameUnlockCard";
+import { RecommendedGameRoutesCard } from "./components/RecommendedGameRoutesCard";
 import { RewardPreviewCard } from "./components/RewardPreviewCard";
 import { SessionEventLog } from "./components/SessionEventLog";
 import { StudentProgressHeader } from "./components/StudentProgressHeader";
@@ -204,6 +205,7 @@ export function StudentLaunchFlow({
         started={nextModeStarted}
         onStart={handleStartNextMode}
       />
+      <RecommendedGameRoutesCard launchSession={launchSession} progression={currentProgression} />
       {activeGameMode === "memory-match" && (
         <PairingMemoryMatchGame
           unit={unit}

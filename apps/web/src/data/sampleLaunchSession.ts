@@ -16,7 +16,7 @@ export function getSampleLaunchSession(launchCode = "demo-unit-1") {
     curriculumId: levelOneUnitOne.unitMeta.curriculumId,
     unitKey: sampleUnitKey,
     entryMode: "flashcards",
-    recommendedNextModes: ["memory-match"],
+    recommendedNextModes: ["memory-match", "quiz", "sentence-builder", "speak-it"],
     openedAt: "2026-06-28T00:00:00.000Z",
   });
 }
@@ -28,7 +28,7 @@ export function getSampleFrontDoorLaunchSession(launchCode = "front-door-demo-un
     curriculumId: levelOneUnitOne.unitMeta.curriculumId,
     unitKey: sampleUnitKey,
     entryMode: "flashcards",
-    recommendedNextModes: ["memory-match"],
+    recommendedNextModes: ["memory-match", "quiz", "sentence-builder", "speak-it"],
     openedAt: "2026-06-28T00:00:00.000Z",
     accessMode: "front-door-code",
   });

@@ -31,7 +31,7 @@ Current status: Implemented on `legacy-source-import`. Local typecheck/build/bro
 
 Implemented path:
 
-Teacher launch -> QR route -> flashcards -> tap-to-speak learner text -> completion event -> reward preview -> Memory Match unlock -> game_started -> playable Memory Match -> game_completed -> Star Dust update -> reusable unit-session summary.
+Teacher launch -> QR route -> flashcards -> tap-to-speak learner text -> completion event -> reward preview -> Memory Match/Quiz/Sentence Builder/Speak It unlock -> game_started -> playable Memory Match -> linked follow-on games -> game_completed -> Star Dust update -> reusable unit-session summary.
 
 Implemented front-door expansion:
 

@@ -38,6 +38,7 @@
 - `DR-064-teacher-demo-route-shortcuts.md`
 - `DR-065-active-route-verification-list.md`
 - `DR-066-partner-demo-active-routes.md`
+- `DR-067-recommended-game-path-ui.md`
 
 ## Maintenance Rule
 

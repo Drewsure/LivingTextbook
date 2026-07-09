@@ -26,6 +26,7 @@ import { UnitSessionProgressSummary } from "@/features/progression/UnitSessionPr
 import { starterRewardCatalog } from "@/features/rewards/rewardCatalog";
 import { FlashcardPracticeCard } from "@/features/student/components/FlashcardPracticeCard";
 import { NextGameUnlockCard } from "@/features/student/components/NextGameUnlockCard";
+import { RecommendedGameRoutesCard } from "@/features/student/components/RecommendedGameRoutesCard";
 import { RewardPreviewCard } from "@/features/student/components/RewardPreviewCard";
 import { FrontDoorTeacherReportPreview } from "./FrontDoorTeacherReportPreview";
 import type { TenantConfig } from "@/features/tenant/types";
@@ -255,6 +256,7 @@ export function FrontDoorEntryFlow({
               started={nextModeStarted}
               onStart={handleStartNextMode}
             />
+            <RecommendedGameRoutesCard launchSession={launchSession} progression={currentProgression} />
             {activeGameMode === "memory-match" && (
               <PairingMemoryMatchGame
                 unit={unit}
