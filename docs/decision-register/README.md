@@ -52,6 +52,7 @@
 - `DR-078-assignment-rollout-game-audio-coverage.md`
 - `DR-079-active-route-verification-list.md`
 - `DR-080-teacher-session-monitor-game-audio-coverage.md`
+- `DR-081-teacher-report-language-engagement-summary.md`
 
 ## Maintenance Rule
 

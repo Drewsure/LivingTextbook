@@ -20,6 +20,9 @@ export function FrontDoorTeacherReportPreview({ tenant, progression, events }: F
   const mediaStarts = countEvents(events, "media_started");
   const mediaPauses = countEvents(events, "media_paused");
   const mediaCompletions = countEvents(events, "media_completed");
+  const targetLanguageItemsHeard = sumMetadataNumber(events, "targetLanguageItemsHeard");
+  const supportLanguageTaps = sumMetadataNumber(events, "supportLanguageTaps");
+  const supportLanguageUnlockEvents = countMetadataBoolean(events, "supportLanguageUnlockAllowed", true);
   const recoverySummary = summarizeTrainingRecoveryEvents(events);
   const learnerLabels = collectLearnerLabels(events, progression.studentSessionId);
   const backgroundMediaEvents = events.filter(
@@ -55,6 +58,9 @@ export function FrontDoorTeacherReportPreview({ tenant, progression, events }: F
         <Metric label="Media starts" value={String(mediaStarts)} />
         <Metric label="Media pauses" value={String(mediaPauses)} />
         <Metric label="Media complete" value={String(mediaCompletions)} />
+        <Metric label="English audio heard" value={String(targetLanguageItemsHeard)} />
+        <Metric label="Support taps" value={String(supportLanguageTaps)} />
+        <Metric label="Support unlocks" value={String(supportLanguageUnlockEvents)} />
         <Metric label="Background media" value={String(backgroundMediaEvents)} />
         <Metric label={tenant.rewardName} value={String(progression.earnedStarDust)} />
       </dl>
@@ -73,6 +79,18 @@ export function FrontDoorTeacherReportPreview({ tenant, progression, events }: F
               {label}
             </span>
           ))}
+        </div>
+      </div>
+
+      <div className="mt-5 rounded-lg border border-[var(--tenant-border)] p-4 text-sm text-[var(--tenant-muted)]">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <p className="font-semibold text-[var(--tenant-text)]">Language engagement rule</p>
+            <p className="mt-1">
+              English audio engagement can support progression. Support-language taps are reportable comprehension support only.
+            </p>
+          </div>
+          <StatusPill label={supportLanguageUnlockEvents === 0 ? "Support only" : "Review"} tone={supportLanguageUnlockEvents === 0 ? "success" : "warning"} />
         </div>
       </div>
 
@@ -118,6 +136,17 @@ function Metric({ label, value }: { label: string; value: string }) {
 
 function countEvents(events: GameProgressEvent[], type: GameProgressEvent["type"]): number {
   return events.filter((event) => event.type === type).length;
+}
+
+function sumMetadataNumber(events: GameProgressEvent[], key: string): number {
+  return events.reduce((total, event) => {
+    const value = event.metadata?.[key];
+    return typeof value === "number" ? total + value : total;
+  }, 0);
+}
+
+function countMetadataBoolean(events: GameProgressEvent[], key: string, expected: boolean): number {
+  return events.filter((event) => event.metadata?.[key] === expected).length;
 }
 
 function collectLearnerLabels(events: GameProgressEvent[], fallbackSessionId: string): string[] {

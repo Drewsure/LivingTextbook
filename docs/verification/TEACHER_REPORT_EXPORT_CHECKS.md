@@ -14,11 +14,13 @@ Checks:
 3. The allowed formats include `csv-summary` and `json-event-stream`.
 4. The included scopes show teacher summary, student progress, event stream, media engagement, Training Academy recovery, and speech-practice summary.
 5. The excluded list clearly names raw learner audio and learner transcripts.
-6. Export safety passes the shared contract.
-7. Export blockers mention missing school/tenant policy and missing persistence.
-8. The MiniStar and sample-publisher routes use the same shared export contract.
-9. Typecheck passes with the shared `TeacherReportExportPlan` contract.
-10. Production build passes through the package build script.
+6. Teacher-visible summary separates English audio heard from support-language taps.
+7. Support-language taps are reportable but not shown as unlock triggers.
+8. Export safety passes the shared contract.
+9. Export blockers mention missing school/tenant policy and missing persistence.
+10. The MiniStar and sample-publisher routes use the same shared export contract.
+11. Typecheck passes with the shared `TeacherReportExportPlan` contract.
+12. Production build passes through the package build script.
 
 Expected local commands:
 
