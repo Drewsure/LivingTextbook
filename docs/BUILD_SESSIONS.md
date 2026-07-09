@@ -47,7 +47,7 @@ Remaining gate:
 
 Purpose: Turn Memory Match into the first reusable `pairing` parent engine implementation and use it as the pattern for future game modes.
 
-Current status: Initial playable pairing implementation exists and has been locally browser-verified in the first slice. Memory Match uses pairing adapter/state helpers, emits start/completion events, emits item-level `round_shown`, `answer_submitted`, `answer_result`, and `mastery_updated` events, supports card tap-to-hear audio, uses a shared scoring profile, and updates local progression. Selection and text-spelling previews now show the next parent-engine contracts before full playable implementation. Speak It now adds the first core speech-practice shell with optional local microphone record/replay, no upload, no transcript, and no AI Tutor dependency.
+Current status: Initial playable pairing implementation exists and has been locally browser-verified in the first slice. Memory Match uses pairing adapter/state helpers, emits start/completion events, emits item-level `round_shown`, `answer_submitted`, `answer_result`, and `mastery_updated` events, supports card tap-to-hear audio, uses a shared scoring profile, and updates local progression. Selection and text-spelling previews now show parent-engine contracts. Sentence Builder adds the first playable text-spelling route at `/sentence/[code]`. Speak It now adds the first core speech-practice shell with optional local microphone record/replay, no upload, no transcript, and no AI Tutor dependency.
 
 Required gate:
 
@@ -59,7 +59,7 @@ Next outputs:
 
 - Stronger event metadata if teacher reports need item-level detail.
 - Additional scoring profiles for the next selected parent engine or mode.
-- Promote Sentence Builder from preview to playable text-spelling mode after the adapter/event contract is reviewed.
+- Browser-verify Sentence Builder at `/sentence/demo-unit-1` and `/sentence/partner-demo-unit-1`.
 - Mobile verification.
 - Compatibility with optional background/support media without requiring it.
 
