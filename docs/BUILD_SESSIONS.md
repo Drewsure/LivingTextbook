@@ -232,6 +232,7 @@ Next outputs:
 - Browser-verify the teacher preflight, assigned game path, and monitor settings contract at `/teacher/sessions/demo-unit-1` and `/teacher/sessions/partner-demo-unit-1`.
 - Confirm safety failures and persistence warnings are displayed separately.
 - Confirm teacher session preflight shows assigned game audio coverage before pilot use.
+- Confirm teacher assignment readiness shows audio-covered game modes against assigned game modes.
 - Confirm the publish gate blocks release while media rights, report policy, deployment profile, persistence, and pilot package policy are unresolved.
 - Confirm the publish gate blocks release while assigned game modes are missing reviewed audio coverage or approved fallback.
 - Confirm the approval ledger does not imply real signed approvals before authentication and persistence exist.

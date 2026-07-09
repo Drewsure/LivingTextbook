@@ -64,6 +64,7 @@ export function TeacherAssignmentReadinessPanel({ plans, errors, warnings }: Tea
               <AssignmentMetric label="Launch code" value={plan.launchCode} />
               <AssignmentMetric label="Access mode" value={plan.access.accessMode} />
               <AssignmentMetric label="Target modes" value={String(plan.targetGameModes.length)} />
+              <AssignmentMetric label="Audio-covered" value={`${plan.audioCoveredGameModes.length}/${plan.targetGameModes.length}`} />
               <AssignmentMetric label="Stable QR" value={plan.access.stableQrReady ? "Ready" : "Not ready"} />
               <AssignmentMetric label="Entry code" value={plan.access.entryCodeRequired ? "Required" : "No"} />
               <AssignmentMetric label="User code" value={plan.access.userCodeRequired ? "Required" : "No"} />
@@ -81,7 +82,10 @@ export function TeacherAssignmentReadinessPanel({ plans, errors, warnings }: Tea
                     These are the reviewed modes this assignment can expose after the target-language entry gate.
                   </p>
                 </div>
-                <StatusPill label={`${plan.targetGameModes.length} modes`} tone="neutral" />
+                <StatusPill
+                  label={`${plan.audioCoveredGameModes.length}/${plan.targetGameModes.length} audio-covered`}
+                  tone={plan.audioCoveredGameModes.length === plan.targetGameModes.length ? "success" : "warning"}
+                />
               </div>
               <div className="mt-3 flex flex-wrap gap-2">
                 {plan.targetGameModes.map((mode) => (
@@ -89,7 +93,7 @@ export function TeacherAssignmentReadinessPanel({ plans, errors, warnings }: Tea
                     key={mode}
                     className="rounded-full border border-[var(--tenant-border)] bg-[var(--tenant-surface)] px-3 py-1 text-xs font-semibold text-[var(--tenant-text)]"
                   >
-                    {formatMode(mode)}
+                    {formatMode(mode)} {plan.audioCoveredGameModes.includes(mode) ? "(audio)" : "(audio review)"}
                   </span>
                 ))}
               </div>

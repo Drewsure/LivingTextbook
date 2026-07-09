@@ -19,6 +19,7 @@ export const sampleTeacherAssignmentPlans: TeacherAssignmentPlan[] = [
     audience: "whole-class",
     readiness: "requires-persistence",
     targetGameModes: ["flashcards", "memory-match", "quiz", "sentence-builder", "speak-it"],
+    audioCoveredGameModes: ["flashcards", "memory-match", "quiz", "sentence-builder", "speak-it"],
     access: {
       accessMode: "teacher-qr",
       routePath: "/launch/demo-unit-1",
@@ -90,6 +91,7 @@ export const sampleTeacherAssignmentPlans: TeacherAssignmentPlan[] = [
     audience: "whole-class",
     readiness: "requires-policy",
     targetGameModes: ["flashcards", "memory-match", "quiz", "sentence-builder", "speak-it"],
+    audioCoveredGameModes: ["flashcards", "memory-match", "quiz", "sentence-builder", "speak-it"],
     access: {
       accessMode: "front-door-code",
       routePath: "/enter/sample-publisher",
@@ -153,6 +155,7 @@ export const sampleTeacherAssignmentPlans: TeacherAssignmentPlan[] = [
     audience: "small-group",
     readiness: "requires-persistence",
     targetGameModes: ["flashcards", "memory-match", "quiz", "sentence-builder", "speak-it"],
+    audioCoveredGameModes: ["flashcards", "memory-match", "quiz", "sentence-builder"],
     access: {
       accessMode: "permanent-qr",
       routePath: "/q/tenant/sample-publisher/series/sample-partner-series/book/starter-book/unit/unit-1/activity/daily-routines-entry",
@@ -193,6 +196,7 @@ export const sampleTeacherAssignmentPlans: TeacherAssignmentPlan[] = [
     ],
     requiredBeforePilot: [
       "Build local bundle manifest with checksums and media paths.",
+      "Close local package audio coverage for every assigned game mode.",
       "Define update and restore process for yearly textbook revisions.",
       "Choose local classroom server or packaged desktop app target.",
     ],

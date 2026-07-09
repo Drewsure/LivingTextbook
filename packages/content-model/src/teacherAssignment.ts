@@ -33,6 +33,7 @@ export interface TeacherAssignmentPlan {
   audience: TeacherAssignmentAudience;
   readiness: TeacherAssignmentReadiness;
   targetGameModes: GameModeId[];
+  audioCoveredGameModes: GameModeId[];
   access: TeacherAssignmentAccessPlan;
   controls: TeacherAssignmentControlPlan[];
   requiredBeforePilot: string[];
@@ -52,6 +53,16 @@ export function validateTeacherAssignmentPlan(plan: TeacherAssignmentPlan): stri
 
   if (plan.targetGameModes.length === 0) {
     errors.push("Teacher assignment must include at least one target game mode.");
+  }
+
+  if (plan.audioCoveredGameModes.length === 0) {
+    errors.push("Teacher assignment must include audio-covered game mode metadata.");
+  }
+
+  const missingAudioModes = plan.targetGameModes.filter((mode) => !plan.audioCoveredGameModes.includes(mode));
+
+  if (plan.readiness === "ready-for-pilot" && missingAudioModes.length > 0) {
+    errors.push(`Ready-for-pilot assignments must have audio coverage for every target mode. Missing: ${missingAudioModes.join(", ")}.`);
   }
 
   if (plan.readiness === "ready-for-pilot" && plan.requiredBeforePilot.length > 0) {
@@ -77,6 +88,7 @@ export function validateTeacherAssignmentPlan(plan: TeacherAssignmentPlan): stri
 
 export function getTeacherAssignmentWarnings(plan: TeacherAssignmentPlan): string[] {
   const warnings: string[] = [];
+  const missingAudioModes = plan.targetGameModes.filter((mode) => !plan.audioCoveredGameModes.includes(mode));
 
   if (!plan.access.stableQrReady) {
     warnings.push(`${plan.label}: stable QR registry is not ready.`);
@@ -84,6 +96,10 @@ export function getTeacherAssignmentWarnings(plan: TeacherAssignmentPlan): strin
 
   if (!plan.access.localFallbackReady && plan.access.accessMode === "permanent-qr") {
     warnings.push(`${plan.label}: permanent QR path has no local fallback yet.`);
+  }
+
+  if (missingAudioModes.length > 0) {
+    warnings.push(`${plan.label}: missing reviewed audio coverage for ${missingAudioModes.join(", ")}.`);
   }
 
   for (const blocker of plan.requiredBeforePilot) {
