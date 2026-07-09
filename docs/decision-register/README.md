@@ -40,6 +40,7 @@
 - `DR-066-partner-demo-active-routes.md`
 - `DR-067-recommended-game-path-ui.md`
 - `DR-068-teacher-assignment-game-path.md`
+- `DR-069-teacher-session-assigned-game-path.md`
 
 ## Maintenance Rule
 

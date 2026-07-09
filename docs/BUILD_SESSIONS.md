@@ -225,7 +225,7 @@ Next outputs:
 
 - Pull latest `legacy-source-import` locally and run typecheck/build after connector-side changes.
 - Browser-verify the package publish gate, approval ledger, backend schema draft, backend migration candidates, backend migration specs, and persistence boundary at `/teacher/intake`.
-- Browser-verify the teacher preflight and monitor settings contract at `/teacher/sessions/demo-unit-1` and `/teacher/sessions/partner-demo-unit-1`.
+- Browser-verify the teacher preflight, assigned game path, and monitor settings contract at `/teacher/sessions/demo-unit-1` and `/teacher/sessions/partner-demo-unit-1`.
 - Confirm safety failures and persistence warnings are displayed separately.
 - Confirm the publish gate blocks release while media rights, report policy, deployment profile, persistence, and pilot package policy are unresolved.
 - Confirm the approval ledger does not imply real signed approvals before authentication and persistence exist.

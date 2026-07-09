@@ -1,6 +1,7 @@
 import type {
   ContentPackage,
   GameProgressEvent,
+  GameModeId,
   LaunchSession,
   StudentProgressionState,
   TeacherReportExportPlan,
@@ -47,6 +48,7 @@ export interface TeacherSessionMonitorContext {
   progression: StudentProgressionState;
   events: GameProgressEvent[];
   metrics: TeacherSessionMonitorMetric[];
+  assignedGameModes: GameModeId[];
   sessionSettings: TeacherSessionSettings;
   settings: TeacherSessionSetting[];
   sessionSettingErrors: string[];
@@ -98,6 +100,7 @@ export function resolveSampleTeacherSessionMonitorContext(launchCode: string): T
       eventCount: events.length,
       rewardName: launchContext.tenant.rewardName,
     }),
+    assignedGameModes: uniqueModes([launchContext.launchSession.entryMode, ...launchContext.launchSession.recommendedNextModes]),
     sessionSettings,
     settings: createMonitorSettings(sessionSettings),
     sessionSettingErrors,

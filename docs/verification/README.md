@@ -46,6 +46,7 @@ Focused verification supplements:
 - `docs/verification/TEACHER_MICROPHONE_APPROVAL_CHECKS.md`
 - `docs/verification/TEACHER_REPORT_EXPORT_CHECKS.md`
 - `docs/verification/TEACHER_SESSION_PREFLIGHT_CHECKS.md`
+- `docs/verification/TEACHER_SESSION_ASSIGNED_GAME_PATH_CHECKS.md`
 - `docs/verification/TEACHER_SESSION_MONITOR_CHECKS.md`
 - `docs/verification/TEXT_SPELLING_ENGINE_CHECKS.md`
 - `docs/verification/UNIT_GAME_OFFER_MAP_CHECKS.md`

@@ -6,6 +6,7 @@ import type {
 } from "@living-textbook/content-model";
 import type { TeacherSessionMonitorContext } from "@/data/sampleTeacherSessionMonitor";
 import { FrontDoorTeacherReportPreview } from "@/features/access/FrontDoorTeacherReportPreview";
+import { formatMode } from "@/lib/formatLabels";
 
 interface TeacherSessionMonitorPanelProps {
   context: TeacherSessionMonitorContext;
@@ -70,6 +71,29 @@ export function TeacherSessionMonitorPanel({ context }: TeacherSessionMonitorPan
             </div>
           ))}
         </dl>
+      </Card>
+
+      <Card>
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <p className="text-sm font-semibold text-[var(--tenant-muted)]">Assigned game path</p>
+            <h3 className="mt-1 text-lg font-bold">What this launch is allowed to include</h3>
+            <p className="mt-1 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
+              These modes come from the launch session entry mode and recommended game path. Production use still needs persisted teacher assignment settings.
+            </p>
+          </div>
+          <StatusPill label={`${context.assignedGameModes.length} modes`} tone="neutral" />
+        </div>
+        <div className="mt-4 flex flex-wrap gap-2">
+          {context.assignedGameModes.map((mode) => (
+            <span
+              key={mode}
+              className="rounded-full border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] px-3 py-1 text-xs font-semibold text-[var(--tenant-text)]"
+            >
+              {formatMode(mode)}
+            </span>
+          ))}
+        </div>
       </Card>
 
       <Card>
