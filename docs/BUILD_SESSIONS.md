@@ -131,7 +131,7 @@ Next outputs:
 
 Purpose: Support white-label tenant curriculum intake from PDF units, teacher docs, or structured spreadsheets.
 
-Current status: Active scaffold. `/teacher/intake` now shows reviewed source intake gates, package readiness, source-to-route decisions, route registry data, deployment profiles, package publish gates, package approval ledger, backend schema draft, backend migration candidates, and persistence boundaries. Package publish gates and approval ledgers are named in the durable record map, and the backend schema plus migration candidates now name the vendor-neutral path needed before backend-specific migration work. It remains a review concept, not an automatic PDF-to-student assignment pipeline.
+Current status: Active scaffold. `/teacher/intake` now shows reviewed source intake gates, package readiness, source-to-route decisions, route registry data, deployment profiles, package publish gates, package approval ledger, backend schema draft, backend migration candidates, backend migration specs, and persistence boundaries. Package publish gates and approval ledgers are named in the durable record map, and the backend schema, candidates, and specs now name the vendor-neutral path needed before backend-specific migration work. It remains a review concept, not an automatic PDF-to-student assignment pipeline.
 
 Outputs:
 
@@ -147,7 +147,7 @@ Outputs:
 
 Purpose: Make QR codes stable enough for printed textbooks and classroom materials.
 
-Current status: Active scaffold. The front-door route resolver now uses tenant route registry data for MiniStar and the sample publisher. The persistence boundary now identifies the route registry as a durable backend requirement. Permanent textbook QR schema remains a future route contract and is now included in the backend schema draft, backend migration candidates, package publish gate, and approval ledger as a release-blocking review domain.
+Current status: Active scaffold. The front-door route resolver now uses tenant route registry data for MiniStar and the sample publisher. The persistence boundary now identifies the route registry as a durable backend requirement. Permanent textbook QR schema remains a future route contract and is now included in the backend schema draft, backend migration candidates, backend migration specs, package publish gate, and approval ledger as a release-blocking review domain.
 
 Outputs:
 
@@ -192,7 +192,7 @@ Outputs:
 
 Purpose: Prepare a real partner pilot without polluting the MiniStar reference implementation.
 
-Current status: Active scaffold. A white-label pilot readiness panel and partner timeline document define the practical partner promise: a testable pilot in roughly 8-12 weeks, with a narrower first scope than the eventual commercial product. A second sample tenant and partner-style content package prove the white-label path in code at `/partner-demo`, `/enter/sample-publisher`, `/launch/partner-demo-unit-1`, and `/speak/partner-demo-unit-1`. `/teacher/intake` adds reviewed source intake gates, tenant route registry data, deployment profile choices, package publish gate, package approval ledger, release-control durable records, backend schema draft, backend migration candidates, and persistence boundaries. `/teacher/sessions/demo-unit-1` and `/teacher/sessions/partner-demo-unit-1` now show teacher session monitor scaffolds on the shared event stream. The teacher session settings contract now separates safety failures from persistence warnings for audio, assist language, microphone approval, background media, AI Tutor, and reporting/retention.
+Current status: Active scaffold. A white-label pilot readiness panel and partner timeline document define the practical partner promise: a testable pilot in roughly 8-12 weeks, with a narrower first scope than the eventual commercial product. A second sample tenant and partner-style content package prove the white-label path in code at `/partner-demo`, `/enter/sample-publisher`, `/launch/partner-demo-unit-1`, and `/speak/partner-demo-unit-1`. `/teacher/intake` adds reviewed source intake gates, tenant route registry data, deployment profile choices, package publish gate, package approval ledger, release-control durable records, backend schema draft, backend migration candidates, backend migration specs, and persistence boundaries. `/teacher/sessions/demo-unit-1` and `/teacher/sessions/partner-demo-unit-1` now show teacher session monitor scaffolds on the shared event stream. The teacher session settings contract now separates safety failures from persistence warnings for audio, assist language, microphone approval, background media, AI Tutor, and reporting/retention.
 
 Outputs:
 
@@ -207,12 +207,13 @@ Outputs:
 - Durable record map entries for publish gates and approval ledgers.
 - Vendor-neutral backend schema draft.
 - Backend migration candidates.
+- Backend migration specs.
 - Pilot verification checklist.
 
 Next outputs:
 
 - Pull latest `legacy-source-import` locally and run typecheck/build after connector-side changes.
-- Browser-verify the package publish gate, approval ledger, backend schema draft, backend migration candidates, and persistence boundary at `/teacher/intake`.
+- Browser-verify the package publish gate, approval ledger, backend schema draft, backend migration candidates, backend migration specs, and persistence boundary at `/teacher/intake`.
 - Browser-verify the teacher monitor settings contract at `/teacher/sessions/demo-unit-1` and `/teacher/sessions/partner-demo-unit-1`.
 - Confirm safety failures and persistence warnings are displayed separately.
 - Confirm the publish gate blocks release while media rights, report policy, deployment profile, persistence, and pilot package policy are unresolved.
@@ -220,6 +221,7 @@ Next outputs:
 - Confirm the durable record map includes publish gate and approval ledger records.
 - Confirm the backend schema draft includes tenant, package release, QR alias, media manifest, launch session, progress event, publish gate, and approval ledger entities.
 - Confirm migration candidates sequence admin/release records before student progress storage.
+- Confirm migration specs name primary keys, tenant scope, indexes, retention, export, local fallback, and policy blockers before backend-specific migrations.
 - Decide whether the first partner pilot uses manually reviewed unit data or a draft PDF import workflow.
 - Choose the actual first pilot backend only after privacy, reporting, release-control, schema, migration sequence, and deployment constraints are reviewed.
 

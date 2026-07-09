@@ -7,6 +7,7 @@ Focused verification supplements:
 - `docs/verification/AI_TUTOR_ENTITLEMENT_CHECKS.md`
 - `docs/verification/BACKEND_DECISION_MATRIX_CHECKS.md`
 - `docs/verification/BACKEND_MIGRATION_CANDIDATES_CHECKS.md`
+- `docs/verification/BACKEND_MIGRATION_SPEC_CHECKS.md`
 - `docs/verification/BACKEND_SCHEMA_DRAFT_CHECKS.md`
 - `docs/verification/CLASS_ROSTER_READINESS_CHECKS.md`
 - `docs/verification/CONTENT_INTAKE_CHECKS.md`

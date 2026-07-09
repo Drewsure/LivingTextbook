@@ -2,6 +2,7 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import { AppShell } from "@/components/layout/AppShell";
 import { sampleBackendDecisionMatrix } from "@/data/sampleBackendDecisionMatrix";
 import { sampleBackendMigrationPlan } from "@/data/sampleBackendMigrationCandidates";
+import { sampleBackendMigrationSpecPlan } from "@/data/sampleBackendMigrationSpecs";
 import { sampleBackendSchemaDraft } from "@/data/sampleBackendSchemaDraft";
 import {
   sampleClassRosterErrors,
@@ -56,6 +57,7 @@ import { PilotHandoffPackagePanel } from "@/features/pilot/PilotHandoffPackagePa
 import { PilotReadinessGatePanel } from "@/features/pilot/PilotReadinessGatePanel";
 import { BackendDecisionMatrixPanel } from "@/features/persistence/BackendDecisionMatrixPanel";
 import { BackendMigrationPlanPanel } from "@/features/persistence/BackendMigrationPlanPanel";
+import { BackendMigrationSpecPanel } from "@/features/persistence/BackendMigrationSpecPanel";
 import { BackendSchemaDraftPanel } from "@/features/persistence/BackendSchemaDraftPanel";
 import { PersistenceAdapterReadinessPanel } from "@/features/persistence/PersistenceAdapterReadinessPanel";
 import { PersistenceBoundaryPanel } from "@/features/persistence/PersistenceBoundaryPanel";
@@ -112,6 +114,7 @@ export default function TeacherIntakePage() {
         <BackendDecisionMatrixPanel matrix={sampleBackendDecisionMatrix} />
         <BackendSchemaDraftPanel draft={sampleBackendSchemaDraft} />
         <BackendMigrationPlanPanel plan={sampleBackendMigrationPlan} />
+        <BackendMigrationSpecPanel plan={sampleBackendMigrationSpecPlan} />
         <PersistenceBoundaryPanel
           boundaries={samplePersistenceBoundaries}
           strategyOptions={samplePersistenceStrategyOptions}

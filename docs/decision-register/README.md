@@ -21,6 +21,7 @@
 - `DR-047-release-control-adapter-write-intents.md`
 - `DR-048-vendor-neutral-backend-schema-draft.md`
 - `DR-049-backend-migration-candidates.md`
+- `DR-050-backend-migration-specs.md`
 
 ## Maintenance Rule
 
