@@ -10,6 +10,7 @@ import type {
   UnitPayload,
 } from "@living-textbook/content-model";
 import { AudioCueButton, AudioCueText, playAudioCueText } from "@/features/audio/AudioCueButton";
+import { AudioSupportedAction } from "@/features/audio/AudioSupportedAction";
 import {
   completeGameMode,
   createGameInteractionEvent,
@@ -259,21 +260,20 @@ export function SentenceBuilderPracticeGame({
           <AudioCueText text={feedback} language="en" label="Tap the Sentence Builder feedback to hear it" className="text-sm font-semibold" />
         </p>
         <div className="flex flex-wrap gap-2">
-          <button
-            type="button"
+          <AudioSupportedAction
+            audioText="Reset sentence"
             onClick={handleResetRound}
-            className="inline-flex min-h-11 items-center justify-center rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] px-4 py-2 text-sm font-semibold text-[var(--tenant-text)]"
+            variant="secondary"
           >
             Reset
-          </button>
-          <button
-            type="button"
+          </AudioSupportedAction>
+          <AudioSupportedAction
+            audioText="Submit sentence"
             onClick={handleSubmit}
             disabled={selectedTiles.length !== currentRound.expectedAnswer.length || completed}
-            className="inline-flex min-h-11 items-center justify-center rounded-lg bg-[var(--tenant-primary)] px-4 py-2 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50"
           >
             Submit sentence
-          </button>
+          </AudioSupportedAction>
         </div>
       </div>
     </Card>

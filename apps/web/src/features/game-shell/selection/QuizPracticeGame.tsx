@@ -10,6 +10,7 @@ import type {
   UnitPayload,
 } from "@living-textbook/content-model";
 import { AudioCueButton, AudioCueText, playAudioCueText } from "@/features/audio/AudioCueButton";
+import { AudioSupportedAction } from "@/features/audio/AudioSupportedAction";
 import {
   completeGameMode,
   createGameInteractionEvent,
@@ -239,14 +240,13 @@ export function QuizPracticeGame({
         <p className="text-sm font-semibold text-[var(--tenant-text)]">
           <AudioCueText text={feedback} language="en" label="Tap the quiz feedback to hear it" className="text-sm font-semibold" />
         </p>
-        <button
-          type="button"
+        <AudioSupportedAction
+          audioText="Submit answer"
           onClick={handleSubmit}
           disabled={!selectedOptionId || completed}
-          className="inline-flex min-h-11 items-center justify-center rounded-lg bg-[var(--tenant-primary)] px-4 py-2 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50"
         >
           Submit answer
-        </button>
+        </AudioSupportedAction>
       </div>
     </Card>
   );
