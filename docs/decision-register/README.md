@@ -27,6 +27,7 @@
 - `DR-053-teacher-session-preflight.md`
 - `DR-054-teacher-assignment-rollout.md`
 - `DR-055-qr-print-readiness.md`
+- `DR-056-media-rights-readiness.md`
 
 ## Maintenance Rule
 

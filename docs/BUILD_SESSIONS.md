@@ -164,7 +164,7 @@ Outputs:
 
 Purpose: Add a white-label audio/video companion platform as part of the core Living Textbook package without hard-coding any one publisher's assets.
 
-Current status: Sample multimedia content package, route concept, media event stream, native playback shell, manual progress fallback controls, and optional background-media event controls exist. The persistence boundary now names media manifests, rights records, local bundle paths, hosted/local storage choices, package publish gates, and approval ledgers as first-class requirements. The backend schema draft and migration candidates name media manifests and rights as their own entity, with object/local storage separated from database metadata.
+Current status: Sample multimedia content package, route concept, media event stream, native playback shell, manual progress fallback controls, optional background-media event controls, and media rights readiness exist. The persistence boundary now names media manifests, rights records, local bundle paths, hosted/local storage choices, package publish gates, and approval ledgers as first-class requirements. The backend schema draft and migration candidates name media manifests and rights as their own entity, with object/local storage separated from database metadata.
 
 Outputs:
 
@@ -176,6 +176,7 @@ Outputs:
 - Teacher and student multimedia launch routes.
 - Media engagement events.
 - Rights/ownership metadata fields.
+- Media rights readiness gate for demo, pilot, background-media, and offline/local use.
 
 ## Session 6: Local/Closed Deployment Mode
 

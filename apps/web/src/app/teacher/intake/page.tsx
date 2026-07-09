@@ -15,6 +15,7 @@ import { sampleDeploymentProfiles } from "@/data/sampleDeploymentProfiles";
 import { sampleEditionQrAliasPlan } from "@/data/sampleEditionQrAliasPlan";
 import { sampleGamePrototypeAssignmentPlan } from "@/data/sampleGamePrototypeAssignmentPlan";
 import { sampleLocalBundleManifests } from "@/data/sampleLocalBundlePlan";
+import { sampleMediaRightsPlan } from "@/data/sampleMediaRightsPlan";
 import { samplePackageApprovalLedger } from "@/data/samplePackageApprovalLedger";
 import { samplePackagePublishGate } from "@/data/samplePackagePublishGate";
 import { samplePilotHandoffPackage } from "@/data/samplePilotHandoffPackage";
@@ -56,6 +57,7 @@ import { DeploymentProfilePanel } from "@/features/deployment/DeploymentProfileP
 import { LocalBundleManifestPanel } from "@/features/deployment/LocalBundleManifestPanel";
 import { GamePrototypeAssignmentPanel } from "@/features/game-offers/GamePrototypeAssignmentPanel";
 import { UnitGameOfferMapPanel } from "@/features/game-offers/UnitGameOfferMapPanel";
+import { MediaRightsReadinessPanel } from "@/features/multimedia/MediaRightsReadinessPanel";
 import { PilotPolicyReadinessPanel } from "@/features/policy/PilotPolicyReadinessPanel";
 import { PackageApprovalLedgerPanel } from "@/features/pilot/PackageApprovalLedgerPanel";
 import { PackagePublishGatePanel } from "@/features/pilot/PackagePublishGatePanel";
@@ -121,6 +123,7 @@ export default function TeacherIntakePage() {
         <TenantRouteRegistryPanel routes={sampleFrontDoorRouteRegistry} />
         <EditionQrAliasPanel plan={sampleEditionQrAliasPlan} />
         <QrPrintReadinessPanel records={sampleQrPrintReadinessRecords} />
+        <MediaRightsReadinessPanel plan={sampleMediaRightsPlan} />
         <DeploymentProfilePanel profiles={sampleDeploymentProfiles} />
         <LocalBundleManifestPanel manifests={sampleLocalBundleManifests} />
         <BackendDecisionMatrixPanel matrix={sampleBackendDecisionMatrix} />
