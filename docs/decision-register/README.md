@@ -26,6 +26,7 @@
 - `DR-052-ai-authoring-verifier-handoff.md`
 - `DR-053-teacher-session-preflight.md`
 - `DR-054-teacher-assignment-rollout.md`
+- `DR-055-qr-print-readiness.md`
 
 ## Maintenance Rule
 

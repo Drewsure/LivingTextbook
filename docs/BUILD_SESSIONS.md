@@ -149,7 +149,7 @@ Outputs:
 
 Purpose: Make QR codes stable enough for printed textbooks and classroom materials.
 
-Current status: Active scaffold. The front-door route resolver now uses tenant route registry data for MiniStar and the sample publisher. The persistence boundary now identifies the route registry as a durable backend requirement. Permanent textbook QR schema remains a future route contract and is now included in the backend schema draft, backend migration candidates, backend migration specs, package publish gate, and approval ledger as a release-blocking review domain.
+Current status: Active scaffold. The front-door route resolver now uses tenant route registry data for MiniStar and the sample publisher. The persistence boundary now identifies the route registry as a durable backend requirement. Permanent textbook QR schema remains a future route contract and is now included in the backend schema draft, backend migration candidates, backend migration specs, package publish gate, and approval ledger as a release-blocking review domain. QR print readiness now separates demo/draft aliases from production textbook printing.
 
 Outputs:
 
@@ -158,6 +158,7 @@ Outputs:
 - Front-door entry-code/user-code route contract.
 - Strategy for stable registry, optional hosted redirect, local app deep link, and offline fallback.
 - Rules forbidding QR codes that point directly to fragile local file paths.
+- QR print-readiness gates for textbook, workbook, and classroom-card publishing.
 
 ## Session 5: Multimedia Platform Foundation
 

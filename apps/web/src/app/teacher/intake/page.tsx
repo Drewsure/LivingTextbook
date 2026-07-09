@@ -29,6 +29,7 @@ import {
   samplePilotPolicyWarnings,
 } from "@/data/samplePilotPolicyPlan";
 import { samplePublisherMaintenancePlan } from "@/data/samplePublisherMaintenancePlan";
+import { sampleQrPrintReadinessRecords } from "@/data/sampleQrPrintReadiness";
 import { sampleSourceReviewQueue } from "@/data/sampleSourceReviewQueue";
 import { sampleFrontDoorRouteRegistry } from "@/data/sampleTenantRouteRegistry";
 import {
@@ -68,6 +69,7 @@ import { PersistenceAdapterReadinessPanel } from "@/features/persistence/Persist
 import { PersistenceBoundaryPanel } from "@/features/persistence/PersistenceBoundaryPanel";
 import { PublisherMaintenancePlanPanel } from "@/features/publisher/PublisherMaintenancePlanPanel";
 import { EditionQrAliasPanel } from "@/features/routes/EditionQrAliasPanel";
+import { QrPrintReadinessPanel } from "@/features/routes/QrPrintReadinessPanel";
 import { TenantRouteRegistryPanel } from "@/features/routes/TenantRouteRegistryPanel";
 import { ClassRosterReadinessPanel } from "@/features/teacher/ClassRosterReadinessPanel";
 import { TeacherAssignmentRolloutPanel } from "@/features/teacher/TeacherAssignmentRolloutPanel";
@@ -118,6 +120,7 @@ export default function TeacherIntakePage() {
         <ContentIntakeReviewPanel runs={sampleContentIntakeRuns} releases={samplePackageReleases} />
         <TenantRouteRegistryPanel routes={sampleFrontDoorRouteRegistry} />
         <EditionQrAliasPanel plan={sampleEditionQrAliasPlan} />
+        <QrPrintReadinessPanel records={sampleQrPrintReadinessRecords} />
         <DeploymentProfilePanel profiles={sampleDeploymentProfiles} />
         <LocalBundleManifestPanel manifests={sampleLocalBundleManifests} />
         <BackendDecisionMatrixPanel matrix={sampleBackendDecisionMatrix} />
