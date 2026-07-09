@@ -136,6 +136,8 @@ Purpose: Support white-label tenant curriculum intake from PDF units, teacher do
 
 Current status: Active scaffold. `/teacher/intake` now shows source review queue, AI authoring/verifier handoff, reviewed source intake gates, package readiness, source-to-route decisions, route registry data, deployment profiles, package publish gates, package approval ledger, backend schema draft, backend migration candidates, backend migration specs, and persistence boundaries. Package publish gates and approval ledgers are named in the durable record map, and the backend schema, candidates, and specs now name the vendor-neutral path needed before backend-specific migration work. It remains a review concept, not an automatic PDF-to-student assignment pipeline.
 
+Teacher assignment readiness now shows the assigned game path for each sample plan so Quiz and Sentence Builder are visible in teacher/admin review before persistence exists.
+
 Outputs:
 
 - Content package model.
