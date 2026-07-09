@@ -131,7 +131,7 @@ Next outputs:
 
 Purpose: Support white-label tenant curriculum intake from PDF units, teacher docs, or structured spreadsheets.
 
-Current status: Active scaffold. `/teacher/intake` now shows reviewed source intake gates, package readiness, source-to-route decisions, route registry data, deployment profiles, package publish gates, package approval ledger, and persistence boundaries. Package publish gates and approval ledgers are now named in the durable record map so release control is part of backend planning. It remains a review concept, not an automatic PDF-to-student assignment pipeline.
+Current status: Active scaffold. `/teacher/intake` now shows reviewed source intake gates, package readiness, source-to-route decisions, route registry data, deployment profiles, package publish gates, package approval ledger, backend schema draft, and persistence boundaries. Package publish gates and approval ledgers are named in the durable record map, and the backend schema draft now names the vendor-neutral entities needed before migration work. It remains a review concept, not an automatic PDF-to-student assignment pipeline.
 
 Outputs:
 
@@ -147,7 +147,7 @@ Outputs:
 
 Purpose: Make QR codes stable enough for printed textbooks and classroom materials.
 
-Current status: Active scaffold. The front-door route resolver now uses tenant route registry data for MiniStar and the sample publisher. The persistence boundary now identifies the route registry as a durable backend requirement. Permanent textbook QR schema remains a future route contract and is now included in the package publish gate and approval ledger as a release-blocking review domain.
+Current status: Active scaffold. The front-door route resolver now uses tenant route registry data for MiniStar and the sample publisher. The persistence boundary now identifies the route registry as a durable backend requirement. Permanent textbook QR schema remains a future route contract and is now included in the backend schema draft, package publish gate, and approval ledger as a release-blocking review domain.
 
 Outputs:
 
@@ -161,7 +161,7 @@ Outputs:
 
 Purpose: Add a white-label audio/video companion platform as part of the core Living Textbook package without hard-coding any one publisher's assets.
 
-Current status: Sample multimedia content package, route concept, media event stream, native playback shell, manual progress fallback controls, and optional background-media event controls exist. The persistence boundary now names media manifests, rights records, local bundle paths, hosted/local storage choices, package publish gates, and approval ledgers as first-class requirements. Media rights and delivery metadata are included in release control as blocking review domains.
+Current status: Sample multimedia content package, route concept, media event stream, native playback shell, manual progress fallback controls, and optional background-media event controls exist. The persistence boundary now names media manifests, rights records, local bundle paths, hosted/local storage choices, package publish gates, and approval ledgers as first-class requirements. The backend schema draft names media manifests and rights as their own entity, with object/local storage separated from database metadata.
 
 Outputs:
 
@@ -178,7 +178,7 @@ Outputs:
 
 Purpose: Package the same platform for closed local use when a publisher, school, or textbook partner needs a non-public installation.
 
-Current status: Deployment profile and persistence boundary scaffolds exist in `/teacher/intake`. Hosted PWA is the recommended first pilot path. Local classroom server and packaged local app remain first-class paths, but require offline media bundle, installer/update, sync/export, backup, local storage, approval audit handling, and QR/deep-link decisions before production. Deployment profile and support approval are included in release control as blocking review domains.
+Current status: Deployment profile and persistence boundary scaffolds exist in `/teacher/intake`. Hosted PWA is the recommended first pilot path. Local classroom server and packaged local app remain first-class paths, but require offline media bundle, installer/update, sync/export, backup, local storage, approval audit handling, and QR/deep-link decisions before production. The backend schema draft preserves hosted/local vocabulary compatibility.
 
 Outputs:
 
@@ -192,7 +192,7 @@ Outputs:
 
 Purpose: Prepare a real partner pilot without polluting the MiniStar reference implementation.
 
-Current status: Active scaffold. A white-label pilot readiness panel and partner timeline document define the practical partner promise: a testable pilot in roughly 8-12 weeks, with a narrower first scope than the eventual commercial product. A second sample tenant and partner-style content package prove the white-label path in code at `/partner-demo`, `/enter/sample-publisher`, `/launch/partner-demo-unit-1`, and `/speak/partner-demo-unit-1`. `/teacher/intake` adds reviewed source intake gates, tenant route registry data, deployment profile choices, package publish gate, package approval ledger, release-control durable records, and persistence boundaries. `/teacher/sessions/demo-unit-1` and `/teacher/sessions/partner-demo-unit-1` now show teacher session monitor scaffolds on the shared event stream. The teacher session settings contract now separates safety failures from persistence warnings for audio, assist language, microphone approval, background media, AI Tutor, and reporting/retention.
+Current status: Active scaffold. A white-label pilot readiness panel and partner timeline document define the practical partner promise: a testable pilot in roughly 8-12 weeks, with a narrower first scope than the eventual commercial product. A second sample tenant and partner-style content package prove the white-label path in code at `/partner-demo`, `/enter/sample-publisher`, `/launch/partner-demo-unit-1`, and `/speak/partner-demo-unit-1`. `/teacher/intake` adds reviewed source intake gates, tenant route registry data, deployment profile choices, package publish gate, package approval ledger, release-control durable records, backend schema draft, and persistence boundaries. `/teacher/sessions/demo-unit-1` and `/teacher/sessions/partner-demo-unit-1` now show teacher session monitor scaffolds on the shared event stream. The teacher session settings contract now separates safety failures from persistence warnings for audio, assist language, microphone approval, background media, AI Tutor, and reporting/retention.
 
 Outputs:
 
@@ -205,23 +205,25 @@ Outputs:
 - Package publish gate that separates demo-ready from pilot-publishable.
 - Package approval ledger that names required human sign-offs.
 - Durable record map entries for publish gates and approval ledgers.
+- Vendor-neutral backend schema draft.
 - Pilot verification checklist.
 
 Next outputs:
 
 - Pull latest `legacy-source-import` locally and run typecheck/build after connector-side changes.
-- Browser-verify the package publish gate, approval ledger, and persistence boundary at `/teacher/intake`.
+- Browser-verify the package publish gate, approval ledger, backend schema draft, and persistence boundary at `/teacher/intake`.
 - Browser-verify the teacher monitor settings contract at `/teacher/sessions/demo-unit-1` and `/teacher/sessions/partner-demo-unit-1`.
 - Confirm safety failures and persistence warnings are displayed separately.
 - Confirm the publish gate blocks release while media rights, report policy, deployment profile, persistence, and pilot package policy are unresolved.
 - Confirm the approval ledger does not imply real signed approvals before authentication and persistence exist.
 - Confirm the durable record map includes publish gate and approval ledger records.
+- Confirm the backend schema draft includes tenant, package release, QR alias, media manifest, launch session, progress event, publish gate, and approval ledger entities.
 - Decide whether the first partner pilot uses manually reviewed unit data or a draft PDF import workflow.
-- Choose the actual first pilot backend only after privacy, reporting, release-control, and deployment constraints are reviewed.
+- Choose the actual first pilot backend only after privacy, reporting, release-control, schema, and deployment constraints are reviewed.
 
 ## Session 8: Premium Experience Layer
 
-Purpose: Add polish only after the vertical slice, content package, QR strategy, multimedia foundation, game-engine foundation, Training Academy foundation, assist-language foundation, package publish gate, approval ledger, and release-control durable records are stable.
+Purpose: Add polish only after the vertical slice, content package, QR strategy, multimedia foundation, game-engine foundation, Training Academy foundation, assist-language foundation, package publish gate, approval ledger, release-control durable records, and backend schema draft are stable.
 
 Outputs:
 
@@ -266,4 +268,4 @@ If a proposed task does not fit one of these sessions, document whether it is:
 
 Do not add premium polish yet.
 
-The hard gate is to keep typecheck/build passing after every route or package addition. The next safest task is local verification of `/teacher/intake`, `/teacher/sessions/demo-unit-1`, and `/teacher/sessions/partner-demo-unit-1`; after that, continue with backend-agnostic teacher session settings, package release-control refinement, and persistence-adapter work before choosing a real storage vendor.
+The hard gate is to keep typecheck/build passing after every route or package addition. The next safest task is local verification of `/teacher/intake`, `/teacher/sessions/demo-unit-1`, and `/teacher/sessions/partner-demo-unit-1`; after that, continue with backend-agnostic migration candidates, teacher session settings, package release-control refinement, and persistence-adapter work before choosing a real storage vendor.
