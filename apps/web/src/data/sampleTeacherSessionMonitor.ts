@@ -182,9 +182,9 @@ function createMonitorProgression(
   return {
     ...progression,
     currentStep: "completion-review",
-    unlockedGameModes: uniqueModes([...progression.unlockedGameModes, ...launchSession.recommendedNextModes, "sentence-builder", "speak-it"]),
-    completedGameModes: uniqueModes([...progression.completedGameModes, launchSession.entryMode, "memory-match", "sentence-builder"]),
-    earnedStarDust: 725,
+    unlockedGameModes: uniqueModes([...progression.unlockedGameModes, ...launchSession.recommendedNextModes, "quiz", "sentence-builder", "speak-it"]),
+    completedGameModes: uniqueModes([...progression.completedGameModes, launchSession.entryMode, "memory-match", "quiz", "sentence-builder"]),
+    earnedStarDust: 1000,
     masteryStatus: "in-progress",
     lastEventAt: latestEvent?.occurredAt,
   };
@@ -218,7 +218,7 @@ function createMonitorMetrics(args: {
     },
     {
       label: args.rewardName,
-      value: "725",
+      value: "1000",
       note: "Sample earned reward total, not a stored production grade.",
     },
   ];
@@ -532,10 +532,50 @@ function createSampleMonitorEvents(launchSession: LaunchSession, isPartner: bool
     {
       type: "game_started",
       unitKey,
+      gameMode: "quiz",
+      launchCode,
+      studentSessionId,
+      occurredAt: "2026-07-01T00:13:30.000Z",
+      metadata: {
+        parentEngine: "selection",
+        scoringProfileId: "selection-assessment-v1",
+      },
+    },
+    {
+      type: "answer_result",
+      unitKey,
+      gameMode: "quiz",
+      launchCode,
+      studentSessionId,
+      occurredAt: "2026-07-01T00:13:50.000Z",
+      metadata: {
+        correct: true,
+        roundId: "selection-vocabulary-1",
+        targetLanguageAttempt: true,
+      },
+    },
+    {
+      type: "mastery_updated",
+      unitKey,
+      gameMode: "quiz",
+      launchCode,
+      studentSessionId,
+      occurredAt: "2026-07-01T00:14:30.000Z",
+      metadata: {
+        completed: true,
+        earnedStarDust: 275,
+        completedRounds: 4,
+        correctRounds: 3,
+        parentEngine: "selection",
+      },
+    },
+    {
+      type: "game_started",
+      unitKey,
       gameMode: "speak-it",
       launchCode,
       studentSessionId,
-      occurredAt: "2026-07-01T00:14:00.000Z",
+      occurredAt: "2026-07-01T00:15:00.000Z",
       metadata: {
         microphoneAllowedByTeacher: false,
         recordReplayOnly: true,
