@@ -19,6 +19,7 @@
 - `DR-045-package-approval-ledger.md`
 - `DR-046-package-release-durable-records.md`
 - `DR-047-release-control-adapter-write-intents.md`
+- `DR-048-vendor-neutral-backend-schema-draft.md`
 
 ## Maintenance Rule
 
