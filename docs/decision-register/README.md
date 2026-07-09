@@ -50,6 +50,7 @@
 - `DR-076-teacher-session-game-audio-preflight.md`
 - `DR-077-teacher-assignment-game-audio-coverage.md`
 - `DR-078-assignment-rollout-game-audio-coverage.md`
+- `DR-079-active-route-verification-list.md`
 
 ## Maintenance Rule
 
