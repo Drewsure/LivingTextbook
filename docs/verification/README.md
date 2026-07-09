@@ -15,6 +15,7 @@ Focused verification supplements:
 - `docs/verification/DEPLOYMENT_PROFILE_CHECKS.md`
 - `docs/verification/EDITION_QR_ALIAS_CHECKS.md`
 - `docs/verification/GAME_PROTOTYPE_ASSIGNMENT_CHECKS.md`
+- `docs/verification/LOCAL_DEPLOYMENT_PREFLIGHT_CHECKS.md`
 - `docs/verification/MEDIA_TELEMETRY_CHECKS.md`
 - `docs/verification/MEDIA_RIGHTS_READINESS_CHECKS.md`
 - `docs/verification/PACKAGE_APPROVAL_LEDGER_CHECKS.md`

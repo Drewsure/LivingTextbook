@@ -28,6 +28,7 @@
 - `DR-054-teacher-assignment-rollout.md`
 - `DR-055-qr-print-readiness.md`
 - `DR-056-media-rights-readiness.md`
+- `DR-057-local-deployment-preflight.md`
 
 ## Maintenance Rule
 

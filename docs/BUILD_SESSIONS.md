@@ -182,7 +182,7 @@ Outputs:
 
 Purpose: Package the same platform for closed local use when a publisher, school, or textbook partner needs a non-public installation.
 
-Current status: Deployment profile and persistence boundary scaffolds exist in `/teacher/intake`. Hosted PWA is the recommended first pilot path. Local classroom server and packaged local app remain first-class paths, but require offline media bundle, installer/update, sync/export, backup, local storage, approval audit handling, and QR/deep-link decisions before production. The backend schema draft preserves hosted/local vocabulary compatibility, and local classroom export/restore is intentionally deferred until hosted pilot schema is validated.
+Current status: Deployment profile, local deployment preflight, and persistence boundary scaffolds exist in `/teacher/intake`. Hosted PWA is the recommended first pilot path. Local classroom server and packaged local app remain first-class paths, but require offline media bundle, installer/update, sync/export, backup, local storage, approval audit handling, and QR/deep-link decisions before production. The backend schema draft preserves hosted/local vocabulary compatibility, and local classroom export/restore is intentionally deferred until hosted pilot schema is validated.
 
 Outputs:
 
@@ -191,6 +191,7 @@ Outputs:
 - Local storage/sync strategy.
 - QR/deep-link behavior for installed apps.
 - Update path for future content packages and multimedia packages.
+- Local deployment preflight covering installer/update, media bundle, reporting/export, backup/restore, QR/deep-link, and offline access control.
 
 ## Session 7: Tenant Pilot Package
 

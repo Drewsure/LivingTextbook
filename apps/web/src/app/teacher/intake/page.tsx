@@ -15,6 +15,7 @@ import { sampleDeploymentProfiles } from "@/data/sampleDeploymentProfiles";
 import { sampleEditionQrAliasPlan } from "@/data/sampleEditionQrAliasPlan";
 import { sampleGamePrototypeAssignmentPlan } from "@/data/sampleGamePrototypeAssignmentPlan";
 import { sampleLocalBundleManifests } from "@/data/sampleLocalBundlePlan";
+import { sampleLocalDeploymentPreflightPlan } from "@/data/sampleLocalDeploymentPreflight";
 import { sampleMediaRightsPlan } from "@/data/sampleMediaRightsPlan";
 import { samplePackageApprovalLedger } from "@/data/samplePackageApprovalLedger";
 import { samplePackagePublishGate } from "@/data/samplePackagePublishGate";
@@ -54,6 +55,7 @@ import { AuthoringVerifierPlanPanel } from "@/features/content-intake/AuthoringV
 import { SourceReviewQueuePanel } from "@/features/content-intake/SourceReviewQueuePanel";
 import { UnitPackageReadinessPanel } from "@/features/content-intake/UnitPackageReadinessPanel";
 import { DeploymentProfilePanel } from "@/features/deployment/DeploymentProfilePanel";
+import { LocalDeploymentPreflightPanel } from "@/features/deployment/LocalDeploymentPreflightPanel";
 import { LocalBundleManifestPanel } from "@/features/deployment/LocalBundleManifestPanel";
 import { GamePrototypeAssignmentPanel } from "@/features/game-offers/GamePrototypeAssignmentPanel";
 import { UnitGameOfferMapPanel } from "@/features/game-offers/UnitGameOfferMapPanel";
@@ -125,6 +127,7 @@ export default function TeacherIntakePage() {
         <QrPrintReadinessPanel records={sampleQrPrintReadinessRecords} />
         <MediaRightsReadinessPanel plan={sampleMediaRightsPlan} />
         <DeploymentProfilePanel profiles={sampleDeploymentProfiles} />
+        <LocalDeploymentPreflightPanel plan={sampleLocalDeploymentPreflightPlan} />
         <LocalBundleManifestPanel manifests={sampleLocalBundleManifests} />
         <BackendDecisionMatrixPanel matrix={sampleBackendDecisionMatrix} />
         <BackendSchemaDraftPanel draft={sampleBackendSchemaDraft} />
