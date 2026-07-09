@@ -234,9 +234,10 @@ Next outputs:
 - Confirm the publish gate blocks release while media rights, report policy, deployment profile, persistence, and pilot package policy are unresolved.
 - Confirm the approval ledger does not imply real signed approvals before authentication and persistence exist.
 - Confirm the durable record map includes publish gate and approval ledger records.
-- Confirm the backend schema draft includes tenant, package release, QR alias, media manifest, launch session, progress event, publish gate, and approval ledger entities.
+- Confirm the backend schema draft includes tenant, package release, package game/audio coverage, QR alias, media manifest, launch session, progress event, publish gate, and approval ledger entities.
 - Confirm migration candidates sequence admin/release records before student progress storage.
 - Confirm migration specs name primary keys, tenant scope, indexes, retention, export, local fallback, and policy blockers before backend-specific migrations.
+- Confirm package game/audio coverage is present in schema draft, write intents, migration candidates, and migration specs before vendor-specific backend work begins.
 - Decide whether the first partner pilot uses manually reviewed unit data or a draft PDF import workflow.
 - Choose the actual first pilot backend only after privacy, reporting, release-control, schema, migration sequence, and deployment constraints are reviewed.
 

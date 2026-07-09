@@ -74,6 +74,27 @@ export const sampleBackendSchemaDraft: BackendSchemaDraft = {
       migrationNote: "First migration should keep content payload blobs separate from release metadata if records grow large.",
     },
     {
+      entityId: "package_game_audio_coverage",
+      label: "Package game/audio coverage",
+      status: "required-before-pilot",
+      deploymentFit: "hybrid",
+      purpose:
+        "Stores the reviewed snapshot of assigned game modes, audio-covered modes, cue source summaries, and unresolved audio gaps for each package release.",
+      fields: [
+        { name: "coverage_id", type: "stable id", required: true, note: "One reviewed coverage snapshot per package release." },
+        { name: "tenant_id", type: "foreign key/string", required: true, note: "Tenant boundary for coverage records." },
+        { name: "package_id", type: "foreign key/string", required: true, note: "Release candidate being checked." },
+        { name: "assigned_game_modes", type: "string array/json", required: true, note: "Modes the package promises to route or unlock." },
+        { name: "audio_covered_game_modes", type: "string array/json", required: true, note: "Modes with reviewed text/audio support." },
+        { name: "audio_gap_count", type: "integer", required: true, note: "Blocks pilot publish when required game audio coverage is missing." },
+      ],
+      relationships: ["Belongs to tenant", "Belongs to package release", "Feeds package publish gate", "Feeds local bundle manifest"],
+      indexes: ["package_id unique", "tenant_id + package_id", "tenant_id + audio_gap_count"],
+      forbiddenFields: ["Raw audio blobs", "Learner recordings", "Transcript text", "Unreviewed generated cue output"],
+      migrationNote:
+        "This is release metadata only; actual audio files stay in media manifests, hosted object storage, or local bundles.",
+    },
+    {
       entityId: "route_alias",
       label: "Route alias and QR registry",
       status: "required-before-pilot",
@@ -185,6 +206,7 @@ export const sampleBackendSchemaDraft: BackendSchemaDraft = {
     "Every record belongs to a tenant or to a tenant-owned package release.",
     "Raw learner audio and transcripts stay out of core schema.",
     "Media files live in object storage or local bundles; schema stores manifests and rights metadata.",
+    "Package game/audio coverage stores release metadata only, not raw audio files or learner recordings.",
     "Support language never unlocks target-language progression.",
     "AI Tutor and speech scoring stay premium-gated and disabled unless tenant policy accepts them.",
     "Local and hosted implementations must preserve the same record vocabulary.",

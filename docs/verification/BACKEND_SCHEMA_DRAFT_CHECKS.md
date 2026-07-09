@@ -11,18 +11,19 @@ Use after pulling the latest `legacy-source-import` branch and running local typ
 1. The teacher intake page renders a `Backend schema draft` panel after the backend decision matrix.
 2. The panel states that it is vendor-neutral and not a migration file.
 3. The schema decision rule is visible.
-4. The panel lists Tenant, Package release, Route alias, Media manifest, Launch session, Progress event, Package publish gate, and Package approval ledger entities.
+4. The panel lists Tenant, Package release, Package game/audio coverage, Route alias, Media manifest, Launch session, Progress event, Package publish gate, and Package approval ledger entities.
 5. Each entity shows fields, relationships, indexes, forbidden fields, and migration note.
 6. Tenant records include brand tokens and feature entitlements.
 7. Package release records include edition/version and review status.
-8. Route alias records prohibit localhost and direct media-file QR targets.
-9. Media manifest records include rights status and local/hosted delivery paths.
-10. Launch session records include settings for audio, assist language, microphone, AI Tutor, background media, retention, and report export.
-11. Progress event records forbid raw learner audio and transcripts.
-12. Package publish gate records forbid pilot-publishable status while blockers are open.
-13. Package approval ledger records do not imply fake signed approvals.
-14. Cross-cutting rules preserve tenant boundaries, audio/transcript exclusions, media manifest separation, support-language limits, AI Tutor gating, and hosted/local vocabulary compatibility.
-15. The panel uses existing tenant styling and does not introduce premium polish.
+8. Package game/audio coverage records include assigned game modes, audio-covered game modes, audio gap count, and forbid raw audio, learner recordings, transcripts, and unreviewed cue output.
+9. Route alias records prohibit localhost and direct media-file QR targets.
+10. Media manifest records include rights status and local/hosted delivery paths.
+11. Launch session records include settings for audio, assist language, microphone, AI Tutor, background media, retention, and report export.
+12. Progress event records forbid raw learner audio and transcripts.
+13. Package publish gate records forbid pilot-publishable status while blockers are open.
+14. Package approval ledger records do not imply fake signed approvals.
+15. Cross-cutting rules preserve tenant boundaries, audio/transcript exclusions, media manifest separation, package game/audio coverage as metadata only, support-language limits, AI Tutor gating, and hosted/local vocabulary compatibility.
+16. The panel uses existing tenant styling and does not introduce premium polish.
 
 ## Build Verification
 

@@ -45,6 +45,7 @@
 - `DR-071-audio-covered-mode-readiness.md`
 - `DR-072-package-game-audio-coverage-write-intents.md`
 - `DR-073-package-game-audio-coverage-migration-spec.md`
+- `DR-074-package-game-audio-coverage-schema-draft.md`
 
 ## Maintenance Rule
 
