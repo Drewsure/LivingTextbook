@@ -32,6 +32,7 @@ This is a bridge between product architecture and implementation. It names the r
 
 - Tenant entitlement store.
 - Package release store.
+- Package game/audio coverage snapshot.
 - Permanent QR alias store.
 - Progress event stream.
 

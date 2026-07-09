@@ -67,6 +67,7 @@ Next outputs:
 - Explicit package-level audio support coverage for every active student-facing game mode.
 - Teacher/admin package readiness must show which active game modes have explicit audio coverage.
 - Persistence adapter write intents must preserve reviewed package game/audio coverage snapshots before pilot release.
+- Backend migration specs must include package game/audio coverage snapshots before vendor-specific migrations.
 
 ## Session 2.5: Training Academy Recovery Lane
 
