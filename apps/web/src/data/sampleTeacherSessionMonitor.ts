@@ -49,6 +49,8 @@ export interface TeacherSessionMonitorContext {
   events: GameProgressEvent[];
   metrics: TeacherSessionMonitorMetric[];
   assignedGameModes: GameModeId[];
+  audioCoveredGameModes: GameModeId[];
+  assignedGameAudioGaps: GameModeId[];
   sessionSettings: TeacherSessionSettings;
   settings: TeacherSessionSetting[];
   sessionSettingErrors: string[];
@@ -79,6 +81,8 @@ export function resolveSampleTeacherSessionMonitorContext(launchCode: string): T
   const reportExportErrors = validateTeacherReportExportPlan(reportExportPlan);
   const reportExportWarnings = getTeacherReportExportWarnings(reportExportPlan);
   const assignedGameModes = uniqueModes([launchContext.launchSession.entryMode, ...launchContext.launchSession.recommendedNextModes]);
+  const audioCoveredGameModes = getAudioCoveredGameModes(launchContext.contentPackage);
+  const assignedGameAudioGaps = assignedGameModes.filter((mode) => !audioCoveredGameModes.includes(mode));
   const preflightChecks = createTeacherSessionPreflightChecks({
     sessionSettingErrors,
     sessionSettingWarnings,
@@ -87,7 +91,7 @@ export function resolveSampleTeacherSessionMonitorContext(launchCode: string): T
     reportExportErrors,
     reportExportWarnings,
     assignedGameModes,
-    audioCoveredGameModes: getAudioCoveredGameModes(launchContext.contentPackage),
+    audioCoveredGameModes,
   });
 
   return {
@@ -104,6 +108,8 @@ export function resolveSampleTeacherSessionMonitorContext(launchCode: string): T
       rewardName: launchContext.tenant.rewardName,
     }),
     assignedGameModes,
+    audioCoveredGameModes,
+    assignedGameAudioGaps,
     sessionSettings,
     settings: createMonitorSettings(sessionSettings),
     sessionSettingErrors,

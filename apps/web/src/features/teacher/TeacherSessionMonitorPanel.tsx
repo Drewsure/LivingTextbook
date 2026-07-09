@@ -82,7 +82,10 @@ export function TeacherSessionMonitorPanel({ context }: TeacherSessionMonitorPan
               These modes come from the launch session entry mode and recommended game path. Production use still needs persisted teacher assignment settings.
             </p>
           </div>
-          <StatusPill label={`${context.assignedGameModes.length} modes`} tone="neutral" />
+          <StatusPill
+            label={`${context.audioCoveredGameModes.length}/${context.assignedGameModes.length} audio-covered`}
+            tone={context.assignedGameAudioGaps.length === 0 ? "success" : "warning"}
+          />
         </div>
         <div className="mt-4 flex flex-wrap gap-2">
           {context.assignedGameModes.map((mode) => (
@@ -90,10 +93,15 @@ export function TeacherSessionMonitorPanel({ context }: TeacherSessionMonitorPan
               key={mode}
               className="rounded-full border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] px-3 py-1 text-xs font-semibold text-[var(--tenant-text)]"
             >
-              {formatMode(mode)}
+              {formatMode(mode)} {context.audioCoveredGameModes.includes(mode) ? "(audio)" : "(audio review)"}
             </span>
           ))}
         </div>
+        <p className="mt-3 text-sm leading-6 text-[var(--tenant-muted)]">
+          {context.assignedGameAudioGaps.length === 0
+            ? "Every assigned mode in this launch has reviewed package audio coverage."
+            : `Audio coverage still needs review for: ${context.assignedGameAudioGaps.map(formatMode).join(", ")}.`}
+        </p>
       </Card>
 
       <Card>

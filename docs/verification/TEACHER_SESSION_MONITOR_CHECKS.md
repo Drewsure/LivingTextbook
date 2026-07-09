@@ -2,7 +2,7 @@
 
 Document type: focused verification supplement  
 Status: active scaffold  
-Last updated: 2026-07-02
+Last updated: 2026-07-10
 
 ## Purpose
 
@@ -45,10 +45,11 @@ Verify at:
 26. Confirm the event stream includes target-language entry practice completion.
 27. Confirm support-language taps do not appear as unlock triggers.
 28. Confirm game unlock, media, recovery, game completion, and Speak It readiness events appear in one report stream.
-29. Confirm microphone/speech scoring remains marked as disabled or record/replay-only in the core sample.
-30. Confirm the page reuses tenant branding for MiniStar and the sample publisher.
-31. Confirm the route contract for `/teacher/sessions/[launchCode]` is active scaffold, not future-only, and includes `TeacherSessionControlAction[]` and `TeacherReportExportPlan`.
-32. Confirm no real student identity, transcript, raw audio storage, cloud speech scoring, or live report export is implied.
+29. Confirm assigned game path shows audio-covered count and marks each assigned mode as audio-covered or needing audio review.
+30. Confirm microphone/speech scoring remains marked as disabled or record/replay-only in the core sample.
+31. Confirm the page reuses tenant branding for MiniStar and the sample publisher.
+32. Confirm the route contract for `/teacher/sessions/[launchCode]` is active scaffold, not future-only, and includes `TeacherSessionControlAction[]` and `TeacherReportExportPlan`.
+33. Confirm no real student identity, transcript, raw audio storage, cloud speech scoring, or live report export is implied.
 
 ## Acceptance Standard
 
