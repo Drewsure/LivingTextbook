@@ -15,11 +15,12 @@ Use after pulling the latest `legacy-source-import` branch and running local typ
 5. Content, media, games, QR, reports, policy, deployment, and persistence gates are visible.
 6. Each gate shows owner, status, evidence, next step, required-before-pilot items, and not-allowed-yet items.
 7. Media rights are not treated as complete while real audio/video assets are placeholders.
-8. Teacher reports and persistence remain blocked until real policy and backend decisions are accepted.
-9. The gate keeps support language as support only; it does not unlock target-language progression.
-10. The gate keeps optional AI Tutor and speech scoring tenant-gated and cost-visible.
-11. The panel uses the existing app shell, tenant styling variables, card rhythm, and status-pill primitives.
-12. No premium polish or mascot-specific visuals are introduced by this gate.
+8. Game audio coverage is visible as a release-blocking gate and requires assigned game modes to have reviewed audio coverage or an approved fallback.
+9. Teacher reports and persistence remain blocked until real policy and backend decisions are accepted.
+10. The gate keeps support language as support only; it does not unlock target-language progression.
+11. The gate keeps optional AI Tutor and speech scoring tenant-gated and cost-visible.
+12. The panel uses the existing app shell, tenant styling variables, card rhythm, and status-pill primitives.
+13. No premium polish or mascot-specific visuals are introduced by this gate.
 
 ## Build Verification
 
@@ -44,6 +45,6 @@ Do not mark this verified if:
 
 - the gate implies a demo package is ready for live student data,
 - a release-blocking item is hidden in secondary documentation only,
-- media rights, QR stability, persistence, reports, or policy are omitted,
+- media rights, game audio coverage, QR stability, persistence, reports, or policy are omitted,
 - the panel creates tenant-specific hard-coding,
 - the page fails typecheck/build after sync.

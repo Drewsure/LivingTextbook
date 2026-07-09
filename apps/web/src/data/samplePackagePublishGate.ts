@@ -96,6 +96,26 @@ export const samplePackagePublishGate: PackagePublishGate = {
       notAllowedYet: ["No one-off game may bypass scoring, audio, route, or teacher-report events."],
     },
     {
+      gateId: "game-audio-coverage",
+      label: "Game audio coverage",
+      domain: "games",
+      status: "needs-review",
+      owner: "shared",
+      blocksRelease: true,
+      evidence:
+        "The package now tracks assigned game modes and audio-covered modes, but real pilot release still needs reviewed cue coverage for each active game mode.",
+      nextStep:
+        "Close any audio gap between assigned game modes and audio-covered game modes before marking the package pilot-publishable.",
+      requiredBeforePilot: [
+        "Every assigned game mode has reviewed instructions, terms, sentences, feedback, and critical controls covered by audio cues or approved fallback.",
+        "Coverage is stored as package release metadata and does not store raw audio blobs, learner recordings, or transcripts.",
+      ],
+      notAllowedYet: [
+        "No pilot release with an assigned game mode that has missing learner audio coverage.",
+        "No unreviewed generated cue output may count as release-ready audio coverage.",
+      ],
+    },
+    {
       gateId: "stable-qr-alias",
       label: "Stable QR alias and edition route",
       domain: "qr",
@@ -176,6 +196,7 @@ export const samplePackagePublishGate: PackagePublishGate = {
     "A package cannot be published to real learners while any release-blocking gate is blocked or needs review.",
     "Support language helps comprehension but never unlocks target-language progression.",
     "All learner-facing text must remain audio-supported before student assignment.",
+    "Every assigned game mode must have reviewed audio coverage or an approved fallback before pilot release.",
     "QR codes must resolve stable registry entries and must not point directly to raw local files.",
     "Optional premium features such as AI Tutor and speech scoring stay tenant-gated and cost-visible.",
   ],

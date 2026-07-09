@@ -2,7 +2,7 @@
 
 Document type: foundation product/data contract  
 Status: active scaffold  
-Last updated: 2026-07-09
+Last updated: 2026-07-10
 
 ## Purpose
 
@@ -56,9 +56,10 @@ A package may be shown as a controlled demo while review gates are open. It cann
 A real pilot package requires closure on:
 
 - reviewed student-facing content,
-- target-language audio support for learner text,
+- target-language audio support for learner text and every assigned game mode,
 - media rights and delivery metadata,
 - approved unit game offer map,
+- package game/audio coverage with unresolved audio gaps closed,
 - stable QR alias and edition route,
 - teacher report/export policy,
 - selected deployment profile,
@@ -72,6 +73,7 @@ A real pilot package requires closure on:
 - A partner package can maintain music, videos, games, and yearly updates through the same release-control pattern.
 - Optional AI Tutor or speech scoring must remain tenant-gated and cost-visible.
 - Local/closed deployment must stay visible, but must not be promised until backup, update, sync, and offline media procedures are accepted.
+- Game/audio coverage is release metadata only; raw audio files stay in media manifests, hosted storage, or local bundles.
 
 ## Non-Goals
 

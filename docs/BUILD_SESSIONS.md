@@ -232,6 +232,7 @@ Next outputs:
 - Browser-verify the teacher preflight, assigned game path, and monitor settings contract at `/teacher/sessions/demo-unit-1` and `/teacher/sessions/partner-demo-unit-1`.
 - Confirm safety failures and persistence warnings are displayed separately.
 - Confirm the publish gate blocks release while media rights, report policy, deployment profile, persistence, and pilot package policy are unresolved.
+- Confirm the publish gate blocks release while assigned game modes are missing reviewed audio coverage or approved fallback.
 - Confirm the approval ledger does not imply real signed approvals before authentication and persistence exist.
 - Confirm the durable record map includes publish gate and approval ledger records.
 - Confirm the backend schema draft includes tenant, package release, package game/audio coverage, QR alias, media manifest, launch session, progress event, publish gate, and approval ledger entities.
