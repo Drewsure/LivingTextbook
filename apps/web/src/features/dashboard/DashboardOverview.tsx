@@ -13,6 +13,7 @@ import { whiteLabelPilotReadiness } from "@/data/whiteLabelPilotReadiness";
 import { VoiceTutorPackagePanel } from "@/features/ai-tutor/VoiceTutorPackagePanel";
 import { GameSequence } from "@/features/game-shell/GameSequence";
 import { SelectionEnginePreview } from "@/features/game-shell/selection/SelectionEnginePreview";
+import { SentenceBuilderEnginePreview } from "@/features/game-shell/text-spelling/SentenceBuilderEnginePreview";
 import { MultimediaPackagePanel } from "@/features/multimedia/MultimediaPackagePanel";
 import { WhiteLabelPilotReadinessPanel } from "@/features/pilot/WhiteLabelPilotReadinessPanel";
 import { ProgressionSummary } from "@/features/progression/ProgressionSummary";
@@ -61,6 +62,7 @@ export function DashboardOverview({ tenant, unit }: DashboardOverviewProps) {
         <WhiteLabelPilotReadinessPanel readiness={whiteLabelPilotReadiness} />
         <GameSequence unit={unit} />
         <SelectionEnginePreview unit={unit} />
+        <SentenceBuilderEnginePreview unit={unit} />
       </section>
       <aside className="space-y-5">
         <ProgressionSummary tenant={tenant} unit={unit} />

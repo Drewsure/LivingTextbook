@@ -29,6 +29,7 @@
 - `DR-055-qr-print-readiness.md`
 - `DR-056-media-rights-readiness.md`
 - `DR-057-local-deployment-preflight.md`
+- `DR-058-text-spelling-engine-scaffold.md`
 
 ## Maintenance Rule
 
