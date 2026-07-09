@@ -1,0 +1,70 @@
+# Backend Migration Candidates
+
+Document type: foundation implementation contract  
+Status: active scaffold  
+Last updated: 2026-07-09
+
+## Purpose
+
+Backend migration candidates define the ordered implementation slices for moving from static demo data to a real first pilot.
+
+They are vendor-neutral. They do not choose Supabase, Firebase, SQLite, Postgres, or a local-first vendor. They name sequence, prerequisites, rollback/export needs, and forbidden shortcuts before production persistence work starts.
+
+## Current UI Surface
+
+Review at:
+
+- `http://127.0.0.1:3000/teacher/intake`
+
+Current files:
+
+- `apps/web/src/data/sampleBackendMigrationCandidates.ts`
+- `apps/web/src/features/persistence/BackendMigrationPlanPanel.tsx`
+- `apps/web/src/app/teacher/intake/page.tsx`
+
+## Sequencing Rule
+
+Migrate identity-light administrative records first, then route/package release control, then teacher sessions, then event streams and reports.
+
+Do not store real student progress until policy, retention, export, and access rules are accepted.
+
+## Candidate Migration Order
+
+1. Tenant and feature entitlement records.
+2. Package release and reviewed content records.
+3. Stable QR and route alias registry.
+4. Media manifest and rights records.
+5. Publish gate and approval ledger records.
+6. Teacher launch session and settings records.
+7. Progress and media event stream records.
+8. Local classroom export and restore records.
+
+## Required Per Candidate
+
+Each candidate must define:
+
+- target entities,
+- implementation track,
+- readiness status,
+- risk,
+- purpose,
+- prerequisites,
+- implementation notes,
+- rollback or export needs,
+- forbidden shortcuts.
+
+## Standing Rules
+
+- Do not create production migrations before backend choice and policy gates are accepted.
+- Migrations must preserve tenant boundaries and release-control records.
+- Raw learner audio and transcripts stay out of core storage.
+- Hosted and local implementations must use the same record vocabulary.
+- Every migration candidate needs rollback or export expectations before implementation.
+
+## Non-Goals
+
+- This is not migration SQL.
+- This does not choose a backend vendor.
+- This does not activate production writes.
+- This does not capture real package approvals.
+- This does not store real student data.
