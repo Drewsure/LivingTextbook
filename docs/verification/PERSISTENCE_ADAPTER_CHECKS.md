@@ -23,8 +23,8 @@ Verify at:
 5. Confirm the page shows a `Static demo adapter` plan.
 6. Confirm the page shows a `Hosted pilot adapter` plan marked as the first pilot fit.
 7. Confirm the page shows a `Local classroom adapter` plan for closed deployments.
-8. Confirm hosted write intents include route registry, teacher launch-session settings, progress/media events, package publish gates, and package approval ledgers.
-9. Confirm local write intents include local media bundle manifests, local progress export packages, local package publish gates, and local package approval ledgers.
+8. Confirm hosted write intents include route registry, teacher launch-session settings, progress/media events, package game/audio coverage snapshots, package publish gates, and package approval ledgers.
+9. Confirm local write intents include local media bundle manifests, local package game/audio coverage snapshots, local progress export packages, local package publish gates, and local package approval ledgers.
 10. Confirm student-data write intents require school or tenant policy.
 11. Confirm package approval ledger write intents require policy before real signatures are stored.
 12. Confirm package publish gate write intents are required before pilot release.

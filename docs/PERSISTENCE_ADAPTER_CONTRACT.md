@@ -60,6 +60,7 @@ The hosted pilot path should support:
 - route registry entries,
 - teacher launch-session settings,
 - progress and media events,
+- package game/audio coverage snapshots,
 - package publish gates,
 - package approval ledgers.
 
@@ -70,6 +71,7 @@ Package publish gates are backend-required before a package can be marked pilot-
 The local/closed deployment path should support:
 
 - local media bundle manifests,
+- local package game/audio coverage snapshots,
 - local progress export packages,
 - local package publish gates,
 - local package approval ledgers.

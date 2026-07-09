@@ -43,6 +43,7 @@
 - `DR-069-teacher-session-assigned-game-path.md`
 - `DR-070-game-mode-audio-coverage.md`
 - `DR-071-audio-covered-mode-readiness.md`
+- `DR-072-package-game-audio-coverage-write-intents.md`
 
 ## Maintenance Rule
 
