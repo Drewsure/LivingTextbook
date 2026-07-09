@@ -4,6 +4,7 @@ import { sampleBackendDecisionMatrix } from "@/data/sampleBackendDecisionMatrix"
 import { sampleBackendMigrationPlan } from "@/data/sampleBackendMigrationCandidates";
 import { sampleBackendMigrationSpecPlan } from "@/data/sampleBackendMigrationSpecs";
 import { sampleBackendSchemaDraft } from "@/data/sampleBackendSchemaDraft";
+import { sampleAuthoringVerifierPlan } from "@/data/sampleAuthoringVerifierPlan";
 import {
   sampleClassRosterErrors,
   sampleClassRosterPlans,
@@ -46,6 +47,7 @@ import {
   samplePersistenceStrategyOptions,
 } from "@/data/samplePersistencePlan";
 import { ContentIntakeReviewPanel } from "@/features/content-intake/ContentIntakeReviewPanel";
+import { AuthoringVerifierPlanPanel } from "@/features/content-intake/AuthoringVerifierPlanPanel";
 import { SourceReviewQueuePanel } from "@/features/content-intake/SourceReviewQueuePanel";
 import { UnitPackageReadinessPanel } from "@/features/content-intake/UnitPackageReadinessPanel";
 import { DeploymentProfilePanel } from "@/features/deployment/DeploymentProfilePanel";
@@ -109,6 +111,7 @@ export default function TeacherIntakePage() {
           warnings={sampleClassRosterWarnings}
         />
         <SourceReviewQueuePanel queue={sampleSourceReviewQueue} />
+        <AuthoringVerifierPlanPanel plan={sampleAuthoringVerifierPlan} />
         <ContentIntakeReviewPanel runs={sampleContentIntakeRuns} releases={samplePackageReleases} />
         <TenantRouteRegistryPanel routes={sampleFrontDoorRouteRegistry} />
         <EditionQrAliasPanel plan={sampleEditionQrAliasPlan} />

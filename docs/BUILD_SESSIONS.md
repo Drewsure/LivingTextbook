@@ -131,7 +131,7 @@ Next outputs:
 
 Purpose: Support white-label tenant curriculum intake from PDF units, teacher docs, or structured spreadsheets.
 
-Current status: Active scaffold. `/teacher/intake` now shows source review queue, reviewed source intake gates, package readiness, source-to-route decisions, route registry data, deployment profiles, package publish gates, package approval ledger, backend schema draft, backend migration candidates, backend migration specs, and persistence boundaries. Package publish gates and approval ledgers are named in the durable record map, and the backend schema, candidates, and specs now name the vendor-neutral path needed before backend-specific migration work. It remains a review concept, not an automatic PDF-to-student assignment pipeline.
+Current status: Active scaffold. `/teacher/intake` now shows source review queue, AI authoring/verifier handoff, reviewed source intake gates, package readiness, source-to-route decisions, route registry data, deployment profiles, package publish gates, package approval ledger, backend schema draft, backend migration candidates, backend migration specs, and persistence boundaries. Package publish gates and approval ledgers are named in the durable record map, and the backend schema, candidates, and specs now name the vendor-neutral path needed before backend-specific migration work. It remains a review concept, not an automatic PDF-to-student assignment pipeline.
 
 Outputs:
 
@@ -139,6 +139,7 @@ Outputs:
 - PDF-derived unit metadata workflow.
 - Human review step for imported units.
 - AI authoring/verifier integration plan.
+- AI authoring/verifier handoff that blocks unreviewed AI drafts from student assignment.
 - Source review queue for raw PDF, DOCX, audio, video, and teacher-note handoff.
 - Mapping from textbook page/unit to digital launch payload.
 - Mapping from textbook page/unit/activity to multimedia assets and playlists.

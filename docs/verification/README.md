@@ -5,6 +5,7 @@ Use `docs/VERIFICATION_CHECKLIST.md` as the primary local verification path afte
 Focused verification supplements:
 
 - `docs/verification/AI_TUTOR_ENTITLEMENT_CHECKS.md`
+- `docs/verification/AI_AUTHORING_VERIFIER_CHECKS.md`
 - `docs/verification/BACKEND_DECISION_MATRIX_CHECKS.md`
 - `docs/verification/BACKEND_MIGRATION_CANDIDATES_CHECKS.md`
 - `docs/verification/BACKEND_MIGRATION_SPEC_CHECKS.md`

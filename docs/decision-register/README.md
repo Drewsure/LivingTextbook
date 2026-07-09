@@ -23,6 +23,7 @@
 - `DR-049-backend-migration-candidates.md`
 - `DR-050-backend-migration-specs.md`
 - `DR-051-source-review-queue.md`
+- `DR-052-ai-authoring-verifier-handoff.md`
 
 ## Maintenance Rule
 
