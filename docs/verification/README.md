@@ -28,6 +28,7 @@ Focused verification supplements:
 - `docs/verification/PUBLISHER_MAINTENANCE_CHECKS.md`
 - `docs/verification/PWA_INSTALLABILITY_CHECKS.md`
 - `docs/verification/QR_PRINT_READINESS_CHECKS.md`
+- `docs/verification/QUIZ_SELECTION_PLAYABLE_CHECKS.md`
 - `docs/verification/SECOND_TENANT_PACKAGE_CHECKS.md`
 - `docs/verification/SELECTION_ENGINE_PREVIEW_CHECKS.md`
 - `docs/verification/SENTENCE_BUILDER_PLAYABLE_CHECKS.md`

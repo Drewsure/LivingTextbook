@@ -33,6 +33,7 @@
 - `DR-059-sentence-builder-playable-slice.md`
 - `DR-060-sentence-builder-discovery.md`
 - `DR-061-sentence-builder-reporting.md`
+- `DR-062-quiz-selection-playable-slice.md`
 
 ## Maintenance Rule
 

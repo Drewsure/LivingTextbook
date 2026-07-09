@@ -91,6 +91,14 @@ export const appRouteContracts: AppRouteContract[] = [
     requiredState: ["TenantConfig", "UnitPayload", "LaunchSession", "StudentProgressionState", "AudioCue[]"],
   },
   {
+    id: "quiz",
+    pattern: "/quiz/[code]",
+    audience: "student",
+    status: "active-scaffold",
+    purpose: "Let a student answer reviewed vocabulary and sentence prompts through the selection parent engine.",
+    requiredState: ["TenantConfig", "UnitPayload", "LaunchSession", "StudentProgressionState", "AudioCue[]"],
+  },
+  {
     id: "permanent-textbook-qr",
     pattern: "/q/tenant/[tenantId]/series/[seriesId]/book/[bookId]/unit/[unitId]/activity/[activityId]",
     audience: "student",
@@ -147,6 +155,10 @@ export function getTrainingAcademyPath(launchCode: LaunchCode): string {
 
 export function getSentenceBuilderPath(launchCode: LaunchCode): string {
   return `/sentence/${encodeURIComponent(launchCode)}`;
+}
+
+export function getQuizPath(launchCode: LaunchCode): string {
+  return `/quiz/${encodeURIComponent(launchCode)}`;
 }
 
 export function getPermanentTextbookQrPath(identifier: PermanentQrIdentifier): string {
