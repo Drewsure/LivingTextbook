@@ -30,6 +30,9 @@ export function UnitSessionProgressSummary({
   const mediaStarted = countEvents(events, "media_started");
   const mediaPaused = countEvents(events, "media_paused");
   const mediaCompleted = countEvents(events, "media_completed");
+  const targetLanguageEngagedItems = sumMetadataNumber(events, "targetLanguageEngagedItems");
+  const requiredTargetLanguageItems = maxMetadataNumber(events, "requiredTargetLanguageItems");
+  const supportLanguageUnlockEvents = countMetadataBoolean(events, "supportLanguageUnlockAllowed", true);
   const latestBackgroundEvent = [...events]
     .reverse()
     .find((event) => event.type === "background_media_enabled" || event.type === "background_media_disabled");
@@ -87,6 +90,11 @@ export function UnitSessionProgressSummary({
         <SummaryFact label={rewardName} value={String(progression.earnedStarDust)} />
         <SummaryFact label="Completed modes" value={String(progression.completedGameModes.length)} />
         <SummaryFact label="Events" value={String(events.length)} />
+        <SummaryFact
+          label="English listened"
+          value={requiredTargetLanguageItems > 0 ? `${targetLanguageEngagedItems}/${requiredTargetLanguageItems}` : String(targetLanguageEngagedItems)}
+        />
+        <SummaryFact label="Support unlocks" value={String(supportLanguageUnlockEvents)} />
       </dl>
     </Card>
   );
@@ -125,6 +133,24 @@ function SummaryFact({ label, value }: { label: string; value: string }) {
 
 function countEvents(events: GameProgressEvent[], type: GameProgressEvent["type"]): number {
   return events.filter((event) => event.type === type).length;
+}
+
+function sumMetadataNumber(events: GameProgressEvent[], key: string): number {
+  return events.reduce((total, event) => {
+    const value = event.metadata?.[key];
+    return typeof value === "number" ? total + value : total;
+  }, 0);
+}
+
+function maxMetadataNumber(events: GameProgressEvent[], key: string): number {
+  return events.reduce((max, event) => {
+    const value = event.metadata?.[key];
+    return typeof value === "number" ? Math.max(max, value) : max;
+  }, 0);
+}
+
+function countMetadataBoolean(events: GameProgressEvent[], key: string, expected: boolean): number {
+  return events.filter((event) => event.metadata?.[key] === expected).length;
 }
 
 function createSummaryText({

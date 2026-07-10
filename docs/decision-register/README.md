@@ -54,6 +54,7 @@
 - `DR-080-teacher-session-monitor-game-audio-coverage.md`
 - `DR-081-teacher-report-language-engagement-summary.md`
 - `DR-082-game-action-audio-controls.md`
+- `DR-083-student-progress-language-gate-summary.md`
 
 ## Maintenance Rule
 

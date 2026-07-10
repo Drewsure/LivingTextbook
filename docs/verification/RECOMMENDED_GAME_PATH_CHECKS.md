@@ -18,3 +18,4 @@ Then verify:
 - Speak It links to `/speak/demo-unit-1`.
 - `http://127.0.0.1:3000/enter/ministar` shows the same behavior after opening the unit.
 - Support-language text alone does not unlock the recommended path.
+- Student progress summary shows English listened progress and keeps support unlocks at zero.

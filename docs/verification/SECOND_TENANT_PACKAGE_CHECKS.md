@@ -30,6 +30,7 @@ npm run dev --workspace @living-textbook/web -- --hostname 127.0.0.1 --port 3000
 - Tapping English target-language terms and sentences increments the entry-practice gate.
 - Assist language is not shown for the sample publisher package.
 - Completing entry practice unlocks Memory Match.
+- Student progress summary shows English listened progress and support unlocks remain zero.
 - `/speak/partner-demo-unit-1` opens the same partner tenant and unit in Speak It.
 - Microphone record/replay follows the teacher approval setting for the sample publisher tenant.
 - Missing demo media files are acceptable placeholders during this phase, but the UI must remain usable.

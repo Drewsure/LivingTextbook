@@ -236,6 +236,7 @@ Next outputs:
 - Confirm teacher session monitor shows assigned game audio coverage in the report surface.
 - Confirm teacher report summaries separate English audio engagement from support-language taps.
 - Confirm game action buttons use the shared audio-supported action pattern when a child must understand the control.
+- Confirm student progress summaries show English listened progress and support unlocks separately.
 - Confirm teacher assignment readiness shows audio-covered game modes against assigned game modes.
 - Confirm assignment rollout surfaces game audio coverage before scheduling.
 - Confirm the publish gate blocks release while media rights, report policy, deployment profile, persistence, and pilot package policy are unresolved.
