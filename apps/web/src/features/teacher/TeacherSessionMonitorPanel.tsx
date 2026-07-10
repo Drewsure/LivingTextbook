@@ -153,7 +153,7 @@ export function TeacherSessionMonitorPanel({ context }: TeacherSessionMonitorPan
             <p className="text-sm font-semibold text-[var(--tenant-muted)]">Session controls to persist</p>
             <h3 className="mt-1 text-lg font-bold">Teacher settings before classroom use</h3>
             <p className="mt-1 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
-              These controls are shown as policy shape, not live classroom state. Production use needs persisted launch-session settings so teacher choices reliably reach student devices.
+              These controls are shown as policy shape, not live classroom state. Production use needs persisted launch-session settings so teacher choices reliably reach student devices. Background media must stay below tap-to-speak learning audio and cannot unlock progress.
             </p>
           </div>
           <StatusPill label={settingsReady ? "Safety valid" : "Safety review"} tone={settingsReady ? "success" : "warning"} />

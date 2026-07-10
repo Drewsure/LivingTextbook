@@ -66,6 +66,9 @@ export interface TeacherSessionSettings {
     allowed: boolean;
     defaultEnabled: boolean;
     requiresTeacherEnablement: boolean;
+    pausesForLearningAudio: boolean;
+    unlockAllowed: boolean;
+    masteryCreditAllowed: boolean;
   };
   trainingRecovery: {
     enabled: boolean;
@@ -119,6 +122,18 @@ export function validateTeacherSessionSettings(settings: TeacherSessionSettings)
     errors.push("Demo-only sessions must not store raw audio.");
   }
 
+  if (settings.backgroundMedia.allowed && !settings.backgroundMedia.pausesForLearningAudio) {
+    errors.push("Background media must pause, duck, or mute when learner-facing audio plays.");
+  }
+
+  if (settings.backgroundMedia.unlockAllowed) {
+    errors.push("Background media cannot unlock games or progression.");
+  }
+
+  if (settings.backgroundMedia.masteryCreditAllowed) {
+    errors.push("Background media cannot award mastery credit.");
+  }
+
   if (settings.trainingRecovery.enabled && settings.trainingRecovery.repeatedMissThreshold < 1) {
     errors.push("Training Academy repeated-miss threshold must be at least 1.");
   }
@@ -163,6 +178,10 @@ export function getTeacherSessionPersistenceWarnings(settings: TeacherSessionSet
 
   if (settings.backgroundMedia.allowed && settings.backgroundMedia.requiresTeacherEnablement) {
     warnings.push("Background media requires persisted teacher enablement before student devices can rely on it.");
+  }
+
+  if (settings.backgroundMedia.allowed && settings.backgroundMedia.pausesForLearningAudio) {
+    warnings.push("Background media audio-priority behavior must be implemented consistently in every enabled game mode.");
   }
 
   if (settings.trainingRecovery.enabled && settings.trainingRecovery.teacherCanAdjust && !settings.trainingRecovery.settingsPersisted) {

@@ -281,6 +281,9 @@ function createMonitorSessionSettings(launchSession: LaunchSession, isPartner: b
       allowed: true,
       defaultEnabled: false,
       requiresTeacherEnablement: true,
+      pausesForLearningAudio: true,
+      unlockAllowed: false,
+      masteryCreditAllowed: false,
     },
     trainingRecovery: {
       enabled: true,
@@ -332,7 +335,9 @@ function createMonitorSettings(sessionSettings: TeacherSessionSettings): Teacher
       settingId: "background-media",
       label: "Game background media",
       status: sessionSettings.backgroundMedia.requiresTeacherEnablement ? "requires-persistence" : "enabled",
-      note: "Background audio or video is optional and teacher-controlled; comprehension audio remains required either way.",
+      note: sessionSettings.backgroundMedia.pausesForLearningAudio
+        ? "Background audio or video is optional and teacher-controlled. It must pause, duck, or mute for tap-to-speak learning audio and cannot unlock progress or mastery."
+        : "Background audio priority needs review before this session can be student-ready.",
     },
     {
       settingId: "training-recovery",

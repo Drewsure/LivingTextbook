@@ -86,6 +86,7 @@
 - `DR-112-first-pilot-source-strategy.md`
 - `DR-113-first-pilot-backend-selection-gate.md`
 - `DR-114-background-media-policy.md`
+- `DR-115-background-media-session-safety.md`
 
 ## Maintenance Rule
 
