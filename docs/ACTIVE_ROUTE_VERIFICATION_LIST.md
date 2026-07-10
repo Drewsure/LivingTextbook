@@ -37,6 +37,7 @@ This list names the routes that should be checked after foundation changes. It i
 - `http://127.0.0.1:3000/quiz/partner-demo-unit-1`
 - `http://127.0.0.1:3000/sentence/partner-demo-unit-1`
 - `http://127.0.0.1:3000/speak/partner-demo-unit-1`
+- `http://127.0.0.1:3000/media/playlist-sample-publisher-l1-u1-routines`
 - `http://127.0.0.1:3000/teacher/sessions/partner-demo-unit-1`
 
 ## Stable QR Alias Route

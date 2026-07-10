@@ -70,6 +70,7 @@
 - `DR-096-active-route-verification-script.md`
 - `DR-097-foundation-verification-script.md`
 - `DR-098-media-playlist-route-scaffold.md`
+- `DR-099-white-label-media-playlist-resolution.md`
 
 ## Maintenance Rule
 

@@ -75,6 +75,14 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     note: "White-label focused Training Academy route.",
   },
   {
+    routeId: "partner-media-playlist",
+    group: "sample-publisher",
+    label: "Sample publisher media playlist",
+    path: "/media/playlist-sample-publisher-l1-u1-routines",
+    status: "active-scaffold",
+    note: "White-label reviewed playlist route for package-linked audio and video metadata.",
+  },
+  {
     routeId: "sample-stable-qr",
     group: "stable-qr",
     label: "Sample stable QR alias",
