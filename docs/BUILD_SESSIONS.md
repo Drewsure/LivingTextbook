@@ -255,7 +255,7 @@ Next outputs:
 - Confirm migration candidates sequence admin/release records before student progress storage.
 - Confirm migration specs name primary keys, tenant scope, indexes, retention, export, local fallback, and policy blockers before backend-specific migrations.
 - Confirm package game/audio coverage is present in schema draft, write intents, migration candidates, and migration specs before vendor-specific backend work begins.
-- Decide whether the first partner pilot uses manually reviewed unit data or a draft PDF import workflow.
+- Confirm `/teacher/intake` shows the first pilot source strategy: manually reviewed units first, draft PDF import later, automatic PDF-to-student publishing blocked.
 - Choose the actual first pilot backend only after privacy, reporting, release-control, schema, migration sequence, and deployment constraints are reviewed.
 
 ## Session 8: Premium Experience Layer

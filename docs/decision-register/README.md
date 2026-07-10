@@ -83,6 +83,7 @@
 - `DR-109-student-launch-content-checks.md`
 - `DR-110-media-playlist-demo-controls.md`
 - `DR-111-multiple-route-content-checks.md`
+- `DR-112-first-pilot-source-strategy.md`
 
 ## Maintenance Rule
 

@@ -21,6 +21,7 @@ import { sampleMediaRightsPlan } from "@/data/sampleMediaRightsPlan";
 import { samplePackageApprovalLedger } from "@/data/samplePackageApprovalLedger";
 import { samplePackagePublishGate } from "@/data/samplePackagePublishGate";
 import { samplePilotHandoffPackage } from "@/data/samplePilotHandoffPackage";
+import { samplePilotSourceStrategy } from "@/data/samplePilotSourceStrategy";
 import { sampleProgressEventTaxonomy } from "@/data/sampleProgressEventTaxonomy";
 import {
   samplePersistenceAdapterErrors,
@@ -54,6 +55,7 @@ import {
 } from "@/data/samplePersistencePlan";
 import { ContentIntakeReviewPanel } from "@/features/content-intake/ContentIntakeReviewPanel";
 import { AuthoringVerifierPlanPanel } from "@/features/content-intake/AuthoringVerifierPlanPanel";
+import { PilotSourceStrategyPanel } from "@/features/content-intake/PilotSourceStrategyPanel";
 import { SourceReviewQueuePanel } from "@/features/content-intake/SourceReviewQueuePanel";
 import { UnitPackageReadinessPanel } from "@/features/content-intake/UnitPackageReadinessPanel";
 import { DeploymentProfilePanel } from "@/features/deployment/DeploymentProfilePanel";
@@ -105,6 +107,7 @@ export default function TeacherIntakePage() {
           policyPlans={samplePilotPolicyPlans}
           persistencePlans={samplePersistenceAdapterPlans}
         />
+        <PilotSourceStrategyPanel strategy={samplePilotSourceStrategy} />
         <PilotHandoffPackagePanel handoffPackage={samplePilotHandoffPackage} />
         <PackagePublishGatePanel gate={samplePackagePublishGate} />
         <PackageApprovalLedgerPanel ledger={samplePackageApprovalLedger} />
