@@ -137,7 +137,7 @@ Next outputs:
 
 Purpose: Support white-label tenant curriculum intake from PDF units, teacher docs, or structured spreadsheets.
 
-Current status: Active scaffold. `/teacher/intake` now shows source review queue, AI authoring/verifier handoff, reviewed source intake gates, package readiness, source-to-route decisions, route registry data, deployment profiles, package publish gates, package approval ledger, backend schema draft, backend migration candidates, backend migration specs, and persistence boundaries. Package publish gates and approval ledgers are named in the durable record map, and the backend schema, candidates, and specs now name the vendor-neutral path needed before backend-specific migration work. It remains a review concept, not an automatic PDF-to-student assignment pipeline.
+Current status: Active scaffold. `/teacher/intake` now shows source review queue, AI authoring/verifier handoff, reviewed source intake gates, package readiness, source-to-route decisions, route registry data, deployment profiles, pilot release candidate summary, package publish gates, package approval ledger, backend schema draft, backend migration candidates, backend migration specs, and persistence boundaries. Package release candidates, publish gates, and approval ledgers are named in the durable record map, and the backend schema, candidates, and specs now name the vendor-neutral path needed before backend-specific migration work. It remains a review concept, not an automatic PDF-to-student assignment pipeline.
 
 Teacher assignment readiness now shows the assigned game path for each sample plan so Quiz and Sentence Builder are visible in teacher/admin review before persistence exists.
 
@@ -219,7 +219,7 @@ Outputs:
 - Package publish gate that separates demo-ready from pilot-publishable.
 - Package approval ledger that names required human sign-offs.
 - Assignment rollout gate that separates demo preview from scheduled pilot use.
-- Durable record map entries for publish gates and approval ledgers.
+- Durable record map entries for release candidates, publish gates, and approval ledgers.
 - Vendor-neutral backend schema draft.
 - Backend migration candidates.
 - Backend migration specs.

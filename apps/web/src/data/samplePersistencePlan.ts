@@ -18,6 +18,7 @@ export type PersistenceBoundaryCategory =
   | "progress-event"
   | "media-manifest"
   | "deployment-profile"
+  | "package-release-candidate"
   | "package-publish-gate"
   | "package-approval-ledger";
 
@@ -165,6 +166,21 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     note: "Reports are a saleable feature, but real student event storage needs clear school policy before activation.",
   },
   {
+    recordId: "package-release-candidate-record",
+    category: "package-release-candidate",
+    label: "Package release candidate record",
+    readiness: "durable-required",
+    sourceOfTruth: "PilotReleaseCandidate summary, publish gate status, approval ledger status, candidate version, and target pilot route",
+    requiredBeforePilot: true,
+    containsStudentData: false,
+    containsMediaRights: false,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
+    note: "A tenant package needs one durable release-candidate status so demo-visible and pilot-publishable states cannot be confused.",
+  },
+  {
     recordId: "package-publish-gate-record",
     category: "package-publish-gate",
     label: "Package publish gate record",
@@ -291,6 +307,18 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     visibleTo: ["Platform admin", "Tenant admin"],
     deploymentChannels: ["hosted-web", "desktop-app", "local-classroom-server"],
     nextDecision: "Keep profile data in source control for demos; move it to admin-editable records before partner rollout.",
+  },
+  {
+    boundaryId: "package-release-candidate-boundary",
+    category: "package-release-candidate",
+    label: "Package release candidate status",
+    status: "needs-backend",
+    recordShape: "Release candidate, tenant, package, target route, open gate count, open approval count, pilot-ready flag",
+    whyItMatters:
+      "Commercial pilot planning needs one durable status that joins publish gate blockers and approval ledger blockers without implying a production publish button.",
+    visibleTo: ["Platform admin", "Tenant admin", "School admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision: "Store release-candidate status beside publish gates and approval ledgers before any package is marked pilot-ready.",
   },
   {
     boundaryId: "package-publish-gate-boundary",

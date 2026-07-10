@@ -26,6 +26,7 @@ Verify at:
    - progress/media event stream,
    - media manifest and rights records,
    - deployment profile records,
+   - package release candidate records,
    - package publish gate records,
    - package approval ledger records.
 4. Confirm the progress/media event stream is marked as requiring policy, not only backend storage.
@@ -39,7 +40,7 @@ Verify at:
 12. Confirm the page renders a `Durable record map` section.
 13. Confirm the durable record map includes teacher launch session and settings as a launch-session record.
 14. Confirm the durable record map includes progress/media event stream and report export/retention policy records.
-15. Confirm the durable record map includes package publish gate and package approval ledger records.
+15. Confirm the durable record map includes package release candidate, package publish gate, and package approval ledger records.
 16. Confirm the durable record map states that raw learner audio and transcripts are not stored in the core persistence scaffold.
 17. Confirm student-data records require school policy before pilot use.
 18. Confirm media-rights records include hosted object storage or local bundle manifest decisions.
@@ -50,7 +51,8 @@ Verify at:
 23. Confirm local classroom remains visible for closed/offline companion deployments.
 24. Confirm adapter write intents reject raw learner audio and learner transcripts.
 25. Confirm export-capable adapter intents remain policy gated.
-26. Confirm the route contract for `/teacher/intake` includes `PersistenceBoundary[]`, `PersistenceStrategyOption[]`, `DurableRecordContract[]`, `PersistenceAdapterPlan[]`, validation errors, and readiness warnings.
+26. Confirm package release candidate records distinguish demo-visible from pilot-ready state.
+27. Confirm the route contract for `/teacher/intake` includes `PersistenceBoundary[]`, `PersistenceStrategyOption[]`, `DurableRecordContract[]`, `PersistenceAdapterPlan[]`, validation errors, and readiness warnings.
 
 ## Acceptance Standard
 

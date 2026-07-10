@@ -90,6 +90,7 @@
 - `DR-116-media-events-support-only-metadata.md`
 - `DR-117-visible-media-support-only-preview.md`
 - `DR-118-pilot-release-candidate-summary.md`
+- `DR-119-release-candidate-durable-record.md`
 
 ## Maintenance Rule
 

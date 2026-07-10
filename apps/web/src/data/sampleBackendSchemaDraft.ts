@@ -169,6 +169,28 @@ export const sampleBackendSchemaDraft: BackendSchemaDraft = {
       migrationNote: "Event retention and export policy must be accepted before real student use; support-only events must remain non-scoring in report queries.",
     },
     {
+      entityId: "package_release_candidate",
+      label: "Package release candidate",
+      status: "required-before-pilot",
+      deploymentFit: "hybrid",
+      purpose:
+        "Stores the backend-agnostic release summary that joins publish-gate blockers and approval-ledger blockers before a package can be called pilot-ready.",
+      fields: [
+        { name: "candidate_id", type: "stable id", required: true, note: "One release candidate status per package/version under review." },
+        { name: "tenant_id", type: "foreign key/string", required: true, note: "Tenant boundary for release-control state." },
+        { name: "package_id", type: "foreign key/string", required: true, note: "Reviewed package under release review." },
+        { name: "target_pilot_route", type: "string", required: true, note: "Route used for controlled demo or pilot launch." },
+        { name: "open_gate_count", type: "integer", required: true, note: "Must be zero before pilot-ready status." },
+        { name: "open_approval_count", type: "integer", required: true, note: "Must be zero before pilot-ready status." },
+        { name: "pilot_ready", type: "boolean", required: true, note: "Derived from gate and ledger status, not manually toggled." },
+      ],
+      relationships: ["Belongs to package release", "Summarizes package publish gate", "Summarizes package approval ledger"],
+      indexes: ["package_id unique", "tenant_id + package_id", "tenant_id + pilot_ready"],
+      forbiddenFields: ["Manual pilot-ready override", "Fake signed approval", "Chat-only evidence"],
+      migrationNote:
+        "This record should be computed or validated from publish gate and ledger records so demo-visible routes cannot be mistaken for live pilot release.",
+    },
+    {
       entityId: "package_publish_gate",
       label: "Package publish gate",
       status: "required-before-pilot",
@@ -180,7 +202,7 @@ export const sampleBackendSchemaDraft: BackendSchemaDraft = {
         { name: "gate_items", type: "json/child records", required: true, note: "Content, media, games, QR, reports, policy, deployment, persistence." },
         { name: "overall_status", type: "enum", required: true, note: "Demo-ready, review-open, blocked, pilot-publishable." },
       ],
-      relationships: ["Belongs to package release", "References media manifest", "References approval ledger"],
+      relationships: ["Belongs to package release", "Feeds package release candidate", "References media manifest", "References approval ledger"],
       indexes: ["package_id unique", "overall_status", "package_id + overall_status"],
       forbiddenFields: ["Pilot-publishable status while blockers are open", "Evidence only in chat history"],
       migrationNote: "Must be writable before any admin can change release status for a real tenant package.",
