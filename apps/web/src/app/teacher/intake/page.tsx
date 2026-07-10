@@ -15,6 +15,7 @@ import {
 import { sampleContentIntakeRuns, samplePackageReleases } from "@/data/sampleContentIntakePlan";
 import { sampleDeploymentProfiles } from "@/data/sampleDeploymentProfiles";
 import { sampleEditionQrAliasPlan } from "@/data/sampleEditionQrAliasPlan";
+import { sampleGameBackgroundMediaPolicy } from "@/data/sampleGameBackgroundMediaPolicy";
 import { sampleGamePrototypeAssignmentPlan } from "@/data/sampleGamePrototypeAssignmentPlan";
 import { sampleLocalBundleManifests } from "@/data/sampleLocalBundlePlan";
 import { sampleLocalDeploymentPreflightPlan } from "@/data/sampleLocalDeploymentPreflight";
@@ -64,6 +65,7 @@ import { LocalDeploymentPreflightPanel } from "@/features/deployment/LocalDeploy
 import { LocalBundleManifestPanel } from "@/features/deployment/LocalBundleManifestPanel";
 import { GamePrototypeAssignmentPanel } from "@/features/game-offers/GamePrototypeAssignmentPanel";
 import { UnitGameOfferMapPanel } from "@/features/game-offers/UnitGameOfferMapPanel";
+import { GameBackgroundMediaPolicyPanel } from "@/features/multimedia/GameBackgroundMediaPolicyPanel";
 import { MediaRightsReadinessPanel } from "@/features/multimedia/MediaRightsReadinessPanel";
 import { PilotPolicyReadinessPanel } from "@/features/policy/PilotPolicyReadinessPanel";
 import { PackageApprovalLedgerPanel } from "@/features/pilot/PackageApprovalLedgerPanel";
@@ -136,6 +138,7 @@ export default function TeacherIntakePage() {
         <TenantRouteRegistryPanel routes={sampleFrontDoorRouteRegistry} />
         <EditionQrAliasPanel plan={sampleEditionQrAliasPlan} />
         <QrPrintReadinessPanel records={sampleQrPrintReadinessRecords} />
+        <GameBackgroundMediaPolicyPanel policy={sampleGameBackgroundMediaPolicy} />
         <MediaRightsReadinessPanel plan={sampleMediaRightsPlan} />
         <DeploymentProfilePanel profiles={sampleDeploymentProfiles} />
         <LocalDeploymentPreflightPanel plan={sampleLocalDeploymentPreflightPlan} />

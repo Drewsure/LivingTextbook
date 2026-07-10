@@ -185,6 +185,7 @@ Outputs:
 - Media engagement events.
 - Rights/ownership metadata fields.
 - Media rights readiness gate for demo, pilot, background-media, and offline/local use.
+- Background media policy that keeps music/chant enrichment teacher-controlled, support-only, and lower priority than tap-to-speak learning audio.
 
 ## Session 6: Local/Closed Deployment Mode
 
