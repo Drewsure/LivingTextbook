@@ -102,6 +102,16 @@ Recommended scoring:
 
 The active prototype awards up to 100 recovery Star Dust for a small vocabulary review. This is intentionally below primary unit-game reward capacity.
 
+## Foundation Trigger Settings
+
+The current teacher-session settings contract exposes deterministic trigger thresholds:
+
+- repeated missed checks: 2,
+- low completion reward threshold: 120 Star Dust or below,
+- high attempt ratio threshold: 2.25x or higher.
+
+These are scaffold defaults, not permanent global policy. A teacher or tenant may later adjust them, but adjustable thresholds must be persisted with the launch session before classroom use.
+
 ## Event Contract
 
 Training Academy should emit standard events before database persistence is introduced.
@@ -140,6 +150,7 @@ Teacher reports should show:
 - Whether the student completed the practice.
 - Whether mastery improved afterward.
 - Whether the student returned to normal unit progression.
+- Which trigger thresholds were active for the session.
 
 Teacher reports should not shame the student. Language should be recovery-oriented.
 

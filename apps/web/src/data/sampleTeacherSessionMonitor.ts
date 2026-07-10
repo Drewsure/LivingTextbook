@@ -282,6 +282,15 @@ function createMonitorSessionSettings(launchSession: LaunchSession, isPartner: b
       defaultEnabled: false,
       requiresTeacherEnablement: true,
     },
+    trainingRecovery: {
+      enabled: true,
+      repeatedMissThreshold: 2,
+      lowCompletionRewardThreshold: 120,
+      highAttemptRatioThreshold: 2.25,
+      teacherCanAdjust: true,
+      settingsPersisted: false,
+      rewardsAreDeterministic: true,
+    },
     aiTutor: {
       enabled: false,
       packageTier: "premium",
@@ -324,6 +333,12 @@ function createMonitorSettings(sessionSettings: TeacherSessionSettings): Teacher
       label: "Game background media",
       status: sessionSettings.backgroundMedia.requiresTeacherEnablement ? "requires-persistence" : "enabled",
       note: "Background audio or video is optional and teacher-controlled; comprehension audio remains required either way.",
+    },
+    {
+      settingId: "training-recovery",
+      label: "Training Academy triggers",
+      status: sessionSettings.trainingRecovery.settingsPersisted ? "enabled" : "requires-persistence",
+      note: `Recovery is deterministic: recommend after ${sessionSettings.trainingRecovery.repeatedMissThreshold} missed checks, low completion at ${sessionSettings.trainingRecovery.lowCompletionRewardThreshold} reward or below, or attempt ratio ${sessionSettings.trainingRecovery.highAttemptRatioThreshold}x or higher.`,
     },
     {
       settingId: "ai-tutor",

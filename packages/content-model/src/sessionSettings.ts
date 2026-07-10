@@ -67,6 +67,15 @@ export interface TeacherSessionSettings {
     defaultEnabled: boolean;
     requiresTeacherEnablement: boolean;
   };
+  trainingRecovery: {
+    enabled: boolean;
+    repeatedMissThreshold: number;
+    lowCompletionRewardThreshold: number;
+    highAttemptRatioThreshold: number;
+    teacherCanAdjust: boolean;
+    settingsPersisted: boolean;
+    rewardsAreDeterministic: boolean;
+  };
   aiTutor: {
     enabled: boolean;
     packageTier: FeaturePackageTier;
@@ -110,6 +119,22 @@ export function validateTeacherSessionSettings(settings: TeacherSessionSettings)
     errors.push("Demo-only sessions must not store raw audio.");
   }
 
+  if (settings.trainingRecovery.enabled && settings.trainingRecovery.repeatedMissThreshold < 1) {
+    errors.push("Training Academy repeated-miss threshold must be at least 1.");
+  }
+
+  if (settings.trainingRecovery.enabled && settings.trainingRecovery.lowCompletionRewardThreshold < 0) {
+    errors.push("Training Academy low-completion reward threshold cannot be negative.");
+  }
+
+  if (settings.trainingRecovery.enabled && settings.trainingRecovery.highAttemptRatioThreshold < 1) {
+    errors.push("Training Academy high-attempt ratio threshold must be at least 1.");
+  }
+
+  if (settings.trainingRecovery.enabled && !settings.trainingRecovery.rewardsAreDeterministic) {
+    errors.push("Training Academy recovery rewards must remain deterministic.");
+  }
+
   if (settings.aiTutor.enabled && settings.aiTutor.packageTier !== "premium" && settings.aiTutor.packageTier !== "enterprise") {
     errors.push("Enabled AI Tutor session settings must require premium or enterprise entitlement.");
   }
@@ -138,6 +163,10 @@ export function getTeacherSessionPersistenceWarnings(settings: TeacherSessionSet
 
   if (settings.backgroundMedia.allowed && settings.backgroundMedia.requiresTeacherEnablement) {
     warnings.push("Background media requires persisted teacher enablement before student devices can rely on it.");
+  }
+
+  if (settings.trainingRecovery.enabled && settings.trainingRecovery.teacherCanAdjust && !settings.trainingRecovery.settingsPersisted) {
+    warnings.push("Training Academy trigger thresholds are demo-local and must become persisted launch-session settings before teacher adjustment.");
   }
 
   if (settings.reporting.reportProgressToTeacher && settings.reporting.retentionPolicy === "demo-only") {

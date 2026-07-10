@@ -62,6 +62,16 @@ Core microphone practice remains local record/replay unless a tenant adopts a pr
 
 Background media is optional and teacher-controlled. It must not replace comprehension audio, and games must remain usable when background media is disabled.
 
+### Training Academy Recovery
+
+Training Academy recovery triggers are deterministic, teacher-visible session settings. The foundation defaults are:
+
+- repeated missed checks: 2,
+- low completion reward threshold: 120 Star Dust or below,
+- high attempt ratio threshold: 2.25x or higher.
+
+Teachers may later adjust thresholds, but those settings must be persisted with the launch session before classroom use. Recovery rewards must stay deterministic and smaller than primary game rewards.
+
 ### AI Tutor
 
 AI Tutor remains optional, premium/enterprise, and disabled for core sessions unless explicitly adopted by the tenant or school.
@@ -97,7 +107,7 @@ Every lifecycle action must require a teacher role before classroom use. Report 
 
 `validateTeacherSessionSettings` checks safety rules. These should fail only when the session would violate platform rules, such as allowing support-language mastery credit or enabling speech scoring without AI Tutor.
 
-`getTeacherSessionPersistenceWarnings` checks readiness gaps. These warnings are acceptable in the scaffold, but must be resolved before classroom use. Examples include demo-local microphone approval, background-media enablement, demo-only reporting, and disabled export.
+`getTeacherSessionPersistenceWarnings` checks readiness gaps. These warnings are acceptable in the scaffold, but must be resolved before classroom use. Examples include demo-local microphone approval, background-media enablement, teacher-adjustable Training Academy thresholds, demo-only reporting, and disabled export.
 
 `validateTeacherSessionControlActions` checks lifecycle command safety. `getTeacherSessionControlWarnings` identifies lifecycle actions that still need persistence or policy work before pilot use.
 
@@ -120,4 +130,5 @@ Every lifecycle action must require a teacher role before classroom use. Report 
 3. Add school/tenant policy controls for retention and export.
 4. Add local/closed deployment mapping for classroom server and packaged app modes.
 5. Connect approved export plans to real report generation after persistence is selected.
-6. Keep all changes white-label and tenant-configurable.
+6. Add teacher-editable Training Academy threshold controls after persistence exists.
+7. Keep all changes white-label and tenant-configurable.

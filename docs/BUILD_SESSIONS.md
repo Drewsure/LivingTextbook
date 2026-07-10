@@ -104,7 +104,6 @@ Remaining gate:
 
 Next outputs:
 
-- Teacher-facing trigger settings and thresholds after the local rule proves usable.
 - Query-param or launch-session selected focus when a trigger points to a specific recovery lane.
 - Persistence-backed report aggregation after storage policy is selected.
 
