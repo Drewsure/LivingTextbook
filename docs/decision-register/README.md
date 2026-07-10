@@ -93,6 +93,7 @@
 - `DR-119-release-candidate-durable-record.md`
 - `DR-120-release-candidate-migration-spec.md`
 - `DR-121-teacher-session-pilot-readiness-snapshot.md`
+- `DR-122-teacher-report-package-boundary.md`
 
 ## Maintenance Rule
 

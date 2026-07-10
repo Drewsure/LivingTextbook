@@ -53,6 +53,27 @@ export interface TeacherSessionPilotReadinessSnapshot {
   requiredBeforeLiveUse: string[];
 }
 
+export type TeacherReportPackageBoundaryStatus = "demo-preview" | "export-blocked" | "export-ready";
+
+export interface TeacherReportPackageBoundaryMetric {
+  label: string;
+  value: string;
+  note: string;
+}
+
+export interface TeacherReportPackageBoundary {
+  boundaryId: string;
+  label: string;
+  status: TeacherReportPackageBoundaryStatus;
+  decision: string;
+  summary: string;
+  metrics: TeacherReportPackageBoundaryMetric[];
+  includedEvidence: string[];
+  supportOnlySignals: string[];
+  excludedSensitiveFields: string[];
+  requiredBeforeExport: string[];
+}
+
 export interface TeacherSessionMonitorContext {
   tenant: TenantConfig;
   contentPackage: ContentPackage;
@@ -74,6 +95,7 @@ export interface TeacherSessionMonitorContext {
   reportExportPlan: TeacherReportExportPlan;
   reportExportErrors: string[];
   reportExportWarnings: string[];
+  reportPackageBoundary: TeacherReportPackageBoundary;
   preflightChecks: TeacherSessionPreflightCheck[];
   pilotReadinessSnapshot: TeacherSessionPilotReadinessSnapshot;
   readinessNotes: string[];
@@ -94,6 +116,12 @@ export function resolveSampleTeacherSessionMonitorContext(launchCode: string): T
   const reportExportPlan = createMonitorReportExportPlan(sessionSettings);
   const reportExportErrors = validateTeacherReportExportPlan(reportExportPlan);
   const reportExportWarnings = getTeacherReportExportWarnings(reportExportPlan);
+  const reportPackageBoundary = createTeacherReportPackageBoundary({
+    events,
+    reportExportErrors,
+    reportExportPlan,
+    reportExportWarnings,
+  });
   const assignedGameModes = uniqueModes([launchContext.launchSession.entryMode, ...launchContext.launchSession.recommendedNextModes]);
   const audioCoveredGameModes = getAudioCoveredGameModes(launchContext.contentPackage);
   const assignedGameAudioGaps = assignedGameModes.filter((mode) => !audioCoveredGameModes.includes(mode));
@@ -144,6 +172,7 @@ export function resolveSampleTeacherSessionMonitorContext(launchCode: string): T
     reportExportPlan,
     reportExportErrors,
     reportExportWarnings,
+    reportPackageBoundary,
     preflightChecks,
     pilotReadinessSnapshot,
     readinessNotes: [
@@ -151,6 +180,104 @@ export function resolveSampleTeacherSessionMonitorContext(launchCode: string): T
       "A real classroom monitor needs persisted launch sessions, event storage, student/session policy, and export controls.",
       "Support-language taps may appear in reports, but only target-language engagement can unlock progression.",
       "Premium AI Tutor, speech scoring, transcript storage, and cloud audio upload remain optional tenant add-ons.",
+    ],
+  };
+}
+
+function createTeacherReportPackageBoundary(args: {
+  events: GameProgressEvent[];
+  reportExportErrors: string[];
+  reportExportPlan: TeacherReportExportPlan;
+  reportExportWarnings: string[];
+}): TeacherReportPackageBoundary {
+  const learningEvidenceEventTypes: GameProgressEvent["type"][] = [
+    "entry_practice_completed",
+    "game_started",
+    "answer_result",
+    "game_completed",
+    "mastery_updated",
+    "training_recommended",
+  ];
+  const mediaEventTypes: GameProgressEvent["type"][] = [
+    "media_playlist_opened",
+    "media_started",
+    "media_paused",
+    "media_completed",
+    "background_media_enabled",
+    "background_media_disabled",
+  ];
+  const supportOnlyEvents = args.events.filter((event) =>
+    mediaEventTypes.includes(event.type) ||
+    event.type === "route_guidance_listened" ||
+    event.metadata?.supportLanguageUnlockAllowed === false ||
+    event.metadata?.progressionUnlockAllowed === false ||
+    event.metadata?.masteryCreditAllowed === false,
+  );
+  const learningEvidenceEvents = args.events.filter((event) => learningEvidenceEventTypes.includes(event.type));
+  const status: TeacherReportPackageBoundaryStatus =
+    args.reportExportPlan.readiness === "ready"
+      ? "export-ready"
+      : args.reportExportErrors.length > 0 || args.reportExportWarnings.length > 0
+        ? "export-blocked"
+        : "demo-preview";
+
+  return {
+    boundaryId: `teacher-report-package:${args.reportExportPlan.launchCode}`,
+    label: "Report package boundary",
+    status,
+    decision:
+      status === "export-ready"
+        ? "This teacher report package can be exported under the accepted tenant policy."
+        : "This teacher report package can be previewed, but live export stays blocked until policy, persistence, retention, and access rules are accepted.",
+    summary:
+      "Teacher reports are policy-bound packages. They include learning evidence and support-only summaries, while keeping sensitive audio, transcripts, and premium tutor data out of the core report.",
+    metrics: [
+      {
+        label: "Learning evidence events",
+        value: String(learningEvidenceEvents.length),
+        note: "Target-language attempts, completions, mastery, and Training Academy recovery signals.",
+      },
+      {
+        label: "Support-only events",
+        value: String(supportOnlyEvents.length),
+        note: "Media, background audio, support-language, and guidance signals that do not unlock progress.",
+      },
+      {
+        label: "Allowed formats",
+        value: String(args.reportExportPlan.allowedFormats.length),
+        note: args.reportExportPlan.allowedFormats.join(", "),
+      },
+      {
+        label: "Export blockers",
+        value: String(args.reportExportWarnings.length + args.reportExportErrors.length),
+        note: "Policy and persistence gates must close before live export.",
+      },
+    ],
+    includedEvidence: [
+      "Coded student/session identity, launch code, unit, tenant, and timestamp.",
+      "Target-language entry practice completion and target-language listening counts.",
+      "Game starts, answer results, game completion, deterministic score, and mastery updates.",
+      "Training Academy recovery recommendations and completion summaries.",
+      "Media engagement summaries marked support-only.",
+      "Speech practice availability and completion summary without raw audio or transcripts.",
+    ],
+    supportOnlySignals: [
+      "Support-language taps may be reported for teacher awareness, but cannot unlock games.",
+      "Playlist opens, media playback, and background media may be reported, but cannot award mastery.",
+      "Route guidance listen taps may help explain student navigation, but cannot award Star Dust.",
+      "Background media must pause, duck, or mute when learning audio plays.",
+    ],
+    excludedSensitiveFields: [
+      args.reportExportPlan.excludesRawAudio ? "Raw learner audio is excluded from core reports." : "Raw learner audio exclusion is missing.",
+      args.reportExportPlan.excludesTranscripts ? "Learner transcripts are excluded from core reports." : "Learner transcript exclusion is missing.",
+      "Open-ended AI Tutor chat remains outside core reports unless a premium policy is accepted.",
+      "Unreviewed teacher notes, free-text student entries, and private identifiers are outside this scaffold.",
+    ],
+    requiredBeforeExport: [
+      "Accepted school or tenant reporting policy.",
+      "Persisted launch session and progress-event records with event-effect taxonomy intact.",
+      "Teacher role, access control, retention, and export audit rules.",
+      "Tenant-specific report format approval for CSV, JSON, or family PDF summaries.",
     ],
   };
 }

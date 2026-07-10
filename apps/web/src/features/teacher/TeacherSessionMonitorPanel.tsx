@@ -7,6 +7,8 @@ import type {
   TeacherSessionControlReadiness,
 } from "@living-textbook/content-model";
 import type {
+  TeacherReportPackageBoundary,
+  TeacherReportPackageBoundaryStatus,
   TeacherSessionMonitorContext,
   TeacherSessionPilotReadinessSnapshot,
   TeacherSessionPilotReadinessStatus,
@@ -43,6 +45,12 @@ const pilotReadinessTone: Record<TeacherSessionPilotReadinessStatus, "neutral" |
   "demo-safe": "neutral",
   "pilot-blocked": "warning",
   "pilot-ready": "success",
+};
+
+const reportPackageBoundaryTone: Record<TeacherReportPackageBoundaryStatus, "neutral" | "success" | "warning"> = {
+  "demo-preview": "neutral",
+  "export-blocked": "warning",
+  "export-ready": "success",
 };
 
 export function TeacherSessionMonitorPanel({ context }: TeacherSessionMonitorPanelProps) {
@@ -127,6 +135,8 @@ export function TeacherSessionMonitorPanel({ context }: TeacherSessionMonitorPan
       </Card>
 
       <SessionPilotReadinessCard snapshot={context.pilotReadinessSnapshot} />
+
+      <TeacherReportPackageBoundaryCard boundary={context.reportPackageBoundary} />
 
       <Card>
         <div className="flex flex-wrap items-start justify-between gap-4">
@@ -401,6 +411,54 @@ function SessionPilotReadinessCard({ snapshot }: { snapshot: TeacherSessionPilot
         <SessionReadinessList title="Pilot blockers" items={snapshot.pilotBlockers} tone={snapshot.pilotBlockers.length > 0 ? "warning" : "success"} />
         <SessionReadinessList title="Before live use" items={snapshot.requiredBeforeLiveUse} tone="neutral" />
       </div>
+    </Card>
+  );
+}
+
+function TeacherReportPackageBoundaryCard({ boundary }: { boundary: TeacherReportPackageBoundary }) {
+  return (
+    <Card>
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <p className="text-sm font-semibold text-[var(--tenant-muted)]">Report package boundary</p>
+          <h3 className="mt-1 text-lg font-bold">{boundary.label}</h3>
+          <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">{boundary.summary}</p>
+        </div>
+        <StatusPill label={boundary.status} tone={reportPackageBoundaryTone[boundary.status]} />
+      </div>
+
+      <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
+        <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Export decision</p>
+        <p className="mt-2 text-sm font-semibold leading-6 text-[var(--tenant-text)]">{boundary.decision}</p>
+      </section>
+
+      <dl className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+        {boundary.metrics.map((metric) => (
+          <div key={metric.label} className="rounded-lg border border-[var(--tenant-border)] p-3">
+            <dt className="text-xs font-semibold text-[var(--tenant-muted)]">{metric.label}</dt>
+            <dd className="mt-1 text-lg font-bold">{metric.value}</dd>
+            <dd className="mt-2 text-xs leading-5 text-[var(--tenant-muted)]">{metric.note}</dd>
+          </div>
+        ))}
+      </dl>
+
+      <div className="mt-5 grid gap-3 lg:grid-cols-3">
+        <SessionReadinessList title="Included evidence" items={boundary.includedEvidence} tone="success" />
+        <SessionReadinessList title="Support-only signals" items={boundary.supportOnlySignals} tone="neutral" />
+        <SessionReadinessList title="Excluded sensitive fields" items={boundary.excludedSensitiveFields} tone="warning" />
+      </div>
+
+      <section className="mt-5 rounded-lg border border-[var(--tenant-border)] p-4">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <h4 className="text-sm font-bold text-[var(--tenant-text)]">Required before export</h4>
+          <StatusPill label={String(boundary.requiredBeforeExport.length)} tone="warning" />
+        </div>
+        <ul className="mt-3 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)] sm:grid-cols-2">
+          {boundary.requiredBeforeExport.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+      </section>
     </Card>
   );
 }
