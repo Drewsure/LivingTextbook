@@ -43,6 +43,11 @@ export function TeacherLaunchPanel({ unit, launchSession }: TeacherLaunchPanelPr
       summary: "Deterministic recovery lane for missed vocabulary or sentence practice.",
     },
     {
+      label: "Training: Sentences",
+      href: getTrainingAcademyPath(launchSession.launchCode, "sentence-review"),
+      summary: "Focused recovery lane opened directly to reviewed sentence patterns.",
+    },
+    {
       label: "Teacher monitor",
       href: getTeacherSessionMonitorPath(launchSession.launchCode),
       summary: "Teacher-visible event stream, settings, controls, and report concept.",
