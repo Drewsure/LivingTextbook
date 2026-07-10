@@ -102,11 +102,14 @@ export function MediaPlaylistEventPreview({
 
       <div className="mt-4 grid gap-2 text-sm text-[var(--tenant-muted)]">
         {events.length === 0 ? (
-          <p className="rounded-lg border border-[var(--tenant-border)] p-3">Use the media controls to preview reportable events.</p>
+          <p className="rounded-lg border border-[var(--tenant-border)] p-3">Use the media controls to preview reportable support-only events.</p>
         ) : (
           events.map((event, index) => (
             <p key={`${event.type}-${event.occurredAt}-${index}`} className="rounded-lg border border-[var(--tenant-border)] p-3">
               <span className="font-semibold text-[var(--tenant-text)]">{event.type}</span> / {event.metadata?.mediaAssetId}
+              <span className="mt-1 block text-xs leading-5">
+                Support-only event stream: unlock {String(event.metadata?.progressionUnlockAllowed)}, mastery {String(event.metadata?.masteryCreditAllowed)}, Star Dust {String(event.metadata?.starDustAwarded ?? 0)}
+              </span>
             </p>
           ))
         )}

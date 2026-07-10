@@ -88,6 +88,7 @@
 - `DR-114-background-media-policy.md`
 - `DR-115-background-media-session-safety.md`
 - `DR-116-media-events-support-only-metadata.md`
+- `DR-117-visible-media-support-only-preview.md`
 
 ## Maintenance Rule
 

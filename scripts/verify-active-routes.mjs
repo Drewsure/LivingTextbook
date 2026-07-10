@@ -10,8 +10,8 @@ const expectedTextByPath = new Map([
   ["/launch/partner-demo-unit-1", ["Unit media"]],
   ["/teacher/sessions/demo-unit-1", ["Media engagement", "tap-to-speak learning audio"]],
   ["/teacher/sessions/partner-demo-unit-1", ["Media engagement", "tap-to-speak learning audio"]],
-  ["/media/playlist-ministar-l1-u1-greetings", ["Media playlist route", "Demo media controls"]],
-  ["/media/playlist-sample-publisher-l1-u1-routines", ["Media playlist route", "Demo media controls"]],
+  ["/media/playlist-ministar-l1-u1-greetings", ["Media playlist route", "Demo media controls", "support-only events"]],
+  ["/media/playlist-sample-publisher-l1-u1-routines", ["Media playlist route", "Demo media controls", "support-only events"]],
 ]);
 
 if (urls.length === 0) {
