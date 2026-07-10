@@ -234,6 +234,7 @@ Next outputs:
 - Confirm safety failures and persistence warnings are displayed separately.
 - Confirm teacher session preflight shows assigned game audio coverage before pilot use.
 - Confirm teacher session monitor shows assigned game audio coverage in the report surface.
+- Confirm teacher session monitor shows media engagement by asset without treating media as mastery.
 - Confirm teacher report summaries separate English audio engagement from support-language taps.
 - Confirm game action buttons use the shared audio-supported action pattern when a child must understand the control.
 - Confirm student progress summaries show English listened progress and support unlocks separately.

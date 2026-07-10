@@ -17,6 +17,8 @@ On `/enter/ministar` after opening the sample unit:
 9. Confirm the media card status changes to `Completed`.
 10. Confirm the unit-session summary counts starts, pauses, and completions.
 11. Confirm the teacher-visible report preview counts media starts, media pauses, and media completions separately.
+12. Confirm the teacher session monitor shows a dedicated `Media engagement` section.
+13. Confirm media engagement shows started, paused, completed, and background media counts by asset.
 
 ## Native Playback Event Checks
 
@@ -34,3 +36,4 @@ Where browser media controls are available:
 2. Confirm event metadata includes media asset id, media kind, media type, and duration seconds.
 3. Confirm media events do not affect game mastery scoring.
 4. Confirm background media enabled/disabled events remain separate from normal media playback events.
+5. Confirm teacher monitor language states that media engagement is report-only and does not unlock games, award mastery, or replace target-language practice.

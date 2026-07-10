@@ -1,5 +1,7 @@
 import { Card, StatusPill } from "@living-textbook/ui";
 import type {
+  GameProgressEvent,
+  MediaAsset,
   SessionSettingReadiness,
   TeacherReportExportReadiness,
   TeacherSessionControlReadiness,
@@ -38,6 +40,14 @@ export function TeacherSessionMonitorPanel({ context }: TeacherSessionMonitorPan
   const settingsReady = context.sessionSettingErrors.length === 0;
   const controlsReady = context.sessionControlErrors.length === 0;
   const reportExportSafe = context.reportExportErrors.length === 0;
+  const mediaAssets = context.contentPackage.mediaAssets ?? [];
+  const mediaEvents = context.events.filter((event) =>
+    event.type === "media_started" ||
+    event.type === "media_paused" ||
+    event.type === "media_completed" ||
+    event.type === "background_media_enabled" ||
+    event.type === "background_media_disabled",
+  );
 
   return (
     <div className="grid gap-5">
@@ -71,6 +81,24 @@ export function TeacherSessionMonitorPanel({ context }: TeacherSessionMonitorPan
             </div>
           ))}
         </dl>
+      </Card>
+
+      <Card>
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <p className="text-sm font-semibold text-[var(--tenant-muted)]">Media engagement</p>
+            <h3 className="mt-1 text-lg font-bold">Songs, video, and background media</h3>
+            <p className="mt-1 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
+              These events help teachers understand whether students used the unit media. They are report-only support signals and do not unlock games, award mastery, or replace target-language practice.
+            </p>
+          </div>
+          <StatusPill label={`${mediaEvents.length} media events`} tone={mediaEvents.length > 0 ? "success" : "neutral"} />
+        </div>
+        <div className="mt-5 grid gap-3 lg:grid-cols-2">
+          {mediaAssets.map((asset) => (
+            <MediaEngagementAssetCard key={asset.mediaAssetId} asset={asset} events={mediaEvents} />
+          ))}
+        </div>
       </Card>
 
       <Card>
@@ -283,6 +311,52 @@ export function TeacherSessionMonitorPanel({ context }: TeacherSessionMonitorPan
       </Card>
 
       <FrontDoorTeacherReportPreview tenant={context.tenant} progression={context.progression} events={context.events} />
+    </div>
+  );
+}
+
+function MediaEngagementAssetCard({
+  asset,
+  events,
+}: {
+  asset: MediaAsset;
+  events: GameProgressEvent[];
+}) {
+  const assetEvents = events.filter((event) => event.metadata?.mediaAssetId === asset.mediaAssetId);
+  const starts = assetEvents.filter((event) => event.type === "media_started").length;
+  const pauses = assetEvents.filter((event) => event.type === "media_paused").length;
+  const completions = assetEvents.filter((event) => event.type === "media_completed").length;
+  const backgroundEvents = assetEvents.filter(
+    (event) => event.type === "background_media_enabled" || event.type === "background_media_disabled",
+  ).length;
+
+  return (
+    <section className="rounded-lg border border-[var(--tenant-border)] p-3">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">{asset.kind} / {asset.type}</p>
+          <h4 className="mt-1 text-sm font-bold text-[var(--tenant-text)]">{asset.title}</h4>
+        </div>
+        <StatusPill label={asset.rightsStatus} tone={asset.rightsStatus === "unknown" ? "warning" : "success"} />
+      </div>
+      <dl className="mt-3 grid gap-2 text-xs text-[var(--tenant-muted)] sm:grid-cols-4">
+        <MediaFact label="Started" value={String(starts)} />
+        <MediaFact label="Paused" value={String(pauses)} />
+        <MediaFact label="Complete" value={String(completions)} />
+        <MediaFact label="Background" value={String(backgroundEvents)} />
+      </dl>
+      <p className="mt-3 break-words text-xs leading-5 text-[var(--tenant-muted)]">
+        Local bundle: {asset.localBundlePath ?? "Not configured"}
+      </p>
+    </section>
+  );
+}
+
+function MediaFact({ label, value }: { label: string; value: string }) {
+  return (
+    <div>
+      <dt className="font-semibold text-[var(--tenant-text)]">{label}</dt>
+      <dd className="mt-1">{value}</dd>
     </div>
   );
 }

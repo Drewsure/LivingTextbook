@@ -75,6 +75,7 @@
 - `DR-101-media-playlist-return-path.md`
 - `DR-102-teacher-unit-media-shortcut.md`
 - `DR-103-media-playlist-unit-key-match.md`
+- `DR-104-teacher-monitor-media-engagement.md`
 
 ## Maintenance Rule
 

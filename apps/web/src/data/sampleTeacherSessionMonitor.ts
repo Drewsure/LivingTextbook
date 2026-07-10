@@ -422,7 +422,9 @@ function createSampleMonitorEvents(launchSession: LaunchSession, isPartner: bool
   const unitKey = launchSession.unitKey;
   const launchCode = launchSession.launchCode;
   const studentSessionId = `${launchCode}:${isPartner ? "partner-student-02" : "student-04"}`;
-  const mediaAssetId = isPartner ? "media-sample-publisher-u1-morning-song" : "media-ministar-l1-u1-greetings-chant";
+  const mediaAssetId = isPartner
+    ? "media-sample-publisher-l1-u1-routine-chant"
+    : "media-ministar-l1-u1-greetings-chant";
 
   return [
     {
@@ -471,6 +473,45 @@ function createSampleMonitorEvents(launchSession: LaunchSession, isPartner: bool
       metadata: {
         mediaAssetId,
         playbackContext: "unit-home",
+      },
+    },
+    {
+      type: "media_paused",
+      unitKey,
+      gameMode: "flashcards",
+      launchCode,
+      studentSessionId,
+      occurredAt: "2026-07-01T00:06:25.000Z",
+      metadata: {
+        mediaAssetId,
+        playbackContext: "unit-home",
+        progressSeconds: 24,
+      },
+    },
+    {
+      type: "media_completed",
+      unitKey,
+      gameMode: "flashcards",
+      launchCode,
+      studentSessionId,
+      occurredAt: "2026-07-01T00:06:55.000Z",
+      metadata: {
+        mediaAssetId,
+        playbackContext: "unit-home",
+      },
+    },
+    {
+      type: "background_media_enabled",
+      unitKey,
+      gameMode: "memory-match",
+      launchCode,
+      studentSessionId,
+      occurredAt: "2026-07-01T00:06:58.000Z",
+      metadata: {
+        mediaAssetId,
+        playbackContext: "game-background",
+        teacherEnabled: true,
+        volumePercent: isPartner ? 30 : 35,
       },
     },
     {
