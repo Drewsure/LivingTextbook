@@ -20,6 +20,7 @@ import { sampleMediaRightsPlan } from "@/data/sampleMediaRightsPlan";
 import { samplePackageApprovalLedger } from "@/data/samplePackageApprovalLedger";
 import { samplePackagePublishGate } from "@/data/samplePackagePublishGate";
 import { samplePilotHandoffPackage } from "@/data/samplePilotHandoffPackage";
+import { sampleProgressEventTaxonomy } from "@/data/sampleProgressEventTaxonomy";
 import {
   samplePersistenceAdapterErrors,
   samplePersistenceAdapterPlans,
@@ -71,6 +72,7 @@ import { BackendMigrationSpecPanel } from "@/features/persistence/BackendMigrati
 import { BackendSchemaDraftPanel } from "@/features/persistence/BackendSchemaDraftPanel";
 import { PersistenceAdapterReadinessPanel } from "@/features/persistence/PersistenceAdapterReadinessPanel";
 import { PersistenceBoundaryPanel } from "@/features/persistence/PersistenceBoundaryPanel";
+import { ProgressEventTaxonomyPanel } from "@/features/progression/ProgressEventTaxonomyPanel";
 import { PublisherMaintenancePlanPanel } from "@/features/publisher/PublisherMaintenancePlanPanel";
 import { EditionQrAliasPanel } from "@/features/routes/EditionQrAliasPanel";
 import { QrPrintReadinessPanel } from "@/features/routes/QrPrintReadinessPanel";
@@ -114,6 +116,7 @@ export default function TeacherIntakePage() {
           warnings={sampleTeacherAssignmentWarnings}
         />
         <TeacherAssignmentRolloutPanel plans={sampleAssignmentRolloutPlans} />
+        <ProgressEventTaxonomyPanel events={sampleProgressEventTaxonomy} />
         <ClassRosterReadinessPanel
           plans={sampleClassRosterPlans}
           errors={sampleClassRosterErrors}

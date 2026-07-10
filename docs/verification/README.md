@@ -27,6 +27,7 @@ Focused verification supplements:
 - `docs/verification/PERSISTENCE_BOUNDARY_CHECKS.md`
 - `docs/verification/PILOT_HANDOFF_PACKAGE_CHECKS.md`
 - `docs/verification/PILOT_POLICY_CHECKS.md`
+- `docs/verification/PROGRESS_EVENT_TAXONOMY_CHECKS.md`
 - `docs/verification/PILOT_READINESS_GATE_CHECKS.md`
 - `docs/verification/PUBLISHER_MAINTENANCE_CHECKS.md`
 - `docs/verification/PWA_INSTALLABILITY_CHECKS.md`

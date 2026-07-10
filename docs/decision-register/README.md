@@ -57,6 +57,7 @@
 - `DR-083-student-progress-language-gate-summary.md`
 - `DR-084-recommended-route-audio-controls.md`
 - `DR-085-route-guidance-listen-events.md`
+- `DR-086-progress-event-taxonomy-panel.md`
 
 ## Maintenance Rule
 

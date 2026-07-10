@@ -239,6 +239,7 @@ Next outputs:
 - Confirm student progress summaries show English listened progress and support unlocks separately.
 - Confirm recommended game route cards separate `Listen` from `Open` so audio support never causes navigation or unlocks by itself.
 - Confirm recommended route listen taps are reportable as `route_guidance_listened`, with no Star Dust, mastery, or unlock effect.
+- Confirm `/teacher/intake` shows the progress event taxonomy before backend event storage is finalized.
 - Confirm teacher assignment readiness shows audio-covered game modes against assigned game modes.
 - Confirm assignment rollout surfaces game audio coverage before scheduling.
 - Confirm the publish gate blocks release while media rights, report policy, deployment profile, persistence, and pilot package policy are unresolved.
