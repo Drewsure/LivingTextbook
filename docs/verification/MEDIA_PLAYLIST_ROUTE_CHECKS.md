@@ -18,3 +18,4 @@ Then verify:
 - The route appears in `docs/ACTIVE_ROUTE_VERIFICATION_LIST.md` and the active route matrix.
 - Student launch pages show a package-driven `Unit media` shortcut when a reviewed playlist exists.
 - The student shortcut states that media does not unlock games or replace target-language practice.
+- The teacher launch page shows a package-driven `Unit media` shortcut when a reviewed playlist exists.

@@ -73,6 +73,7 @@
 - `DR-099-white-label-media-playlist-resolution.md`
 - `DR-100-student-unit-media-shortcut.md`
 - `DR-101-media-playlist-return-path.md`
+- `DR-102-teacher-unit-media-shortcut.md`
 
 ## Maintenance Rule
 

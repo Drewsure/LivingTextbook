@@ -1,6 +1,8 @@
 import { Card, StatusPill } from "@living-textbook/ui";
-import type { LaunchSession, UnitPayload } from "@living-textbook/content-model";
+import { getUnitKey } from "@living-textbook/content-model";
+import type { ContentPackage, LaunchSession, UnitPayload } from "@living-textbook/content-model";
 import {
+  getMediaPlaylistPath,
   getQuizPath,
   getSentenceBuilderPath,
   getSpeakItPath,
@@ -12,16 +14,27 @@ import {
 interface TeacherLaunchPanelProps {
   unit: UnitPayload;
   launchSession: LaunchSession;
+  contentPackage?: ContentPackage;
 }
 
-export function TeacherLaunchPanel({ unit, launchSession }: TeacherLaunchPanelProps) {
+export function TeacherLaunchPanel({ unit, launchSession, contentPackage }: TeacherLaunchPanelProps) {
   const launchPath = getStudentLaunchPath(launchSession.launchCode);
+  const playlist = contentPackage?.playlists?.find((candidate) => candidate.unitKey === getUnitKey(unit.unitMeta));
   const routeShortcuts = [
     {
       label: "Student launch",
       href: launchPath,
       summary: "QR entry, flashcards, unlock flow, Memory Match, and local student summary.",
     },
+    ...(playlist
+      ? [
+          {
+            label: "Unit media",
+            href: getMediaPlaylistPath(playlist.playlistId),
+            summary: "Reviewed audio/video playlist for the current unit; support only, not a progression unlock.",
+          },
+        ]
+      : []),
     {
       label: "Quiz",
       href: getQuizPath(launchSession.launchCode),
