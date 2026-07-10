@@ -72,12 +72,17 @@ export const samplePackagePublishGate: PackagePublishGate = {
       owner: "tenant",
       blocksRelease: true,
       evidence: "The model supports unit playlists and media assets, but real files, licenses, durations, and delivery paths are not attached yet.",
-      nextStep: "Collect the partner's owned audio/video list with file names, rights owner, duration, local bundle path, hosted path, and replacement policy.",
+      nextStep: "Collect the partner's owned audio/video list with file names, rights owner, duration, local bundle path, hosted path, route target, reporting expectation, and replacement policy.",
       requiredBeforePilot: [
         "Every required audio cue has a real file or approved TTS fallback.",
         "Every video has rights, poster, duration, and delivery route metadata.",
+        "Every unit playlist has a reviewed route and local/hosted bundle decision.",
+        "Media engagement reporting is approved as support-only and cannot drive mastery.",
       ],
-      notAllowedYet: ["No unlicensed music, chants, videos, posters, or background media can ship in a tenant package."],
+      notAllowedYet: [
+        "No unlicensed music, chants, videos, posters, or background media can ship in a tenant package.",
+        "No media-only completion may unlock games, award mastery, or substitute for target-language practice.",
+      ],
     },
     {
       gateId: "game-offer-map",
@@ -142,6 +147,7 @@ export const samplePackagePublishGate: PackagePublishGate = {
       requiredBeforePilot: [
         "Report fields are limited to the approved pilot data contract.",
         "Exports are blocked until policy and persistence are accepted.",
+        "Media engagement is reported separately from mastery, support language, and reward totals.",
       ],
       notAllowedYet: ["No real student report exports before privacy, retention, and access-control policy are accepted."],
     },
