@@ -25,6 +25,7 @@ This list names the routes that should be checked after foundation changes. It i
 - `http://127.0.0.1:3000/quiz/demo-unit-1`
 - `http://127.0.0.1:3000/sentence/demo-unit-1`
 - `http://127.0.0.1:3000/speak/demo-unit-1`
+- `http://127.0.0.1:3000/media/playlist-ministar-l1-u1-greetings`
 - `http://127.0.0.1:3000/teacher/sessions/demo-unit-1`
 
 ## Sample Publisher White-Label Routes

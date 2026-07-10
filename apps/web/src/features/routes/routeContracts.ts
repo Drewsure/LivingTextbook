@@ -111,8 +111,8 @@ export const appRouteContracts: AppRouteContract[] = [
     id: "unit-media-playlist",
     pattern: "/media/[playlistId]",
     audience: "student",
-    status: "future",
-    purpose: "Open a unit-linked playlist or media activity from a launch session, QR route, or teacher preview.",
+    status: "active-scaffold",
+    purpose: "Open a unit-linked playlist scaffold from a launch session, QR route, or teacher preview without treating media files as loose public assets.",
     requiredState: ["UnitMediaPlaylist", "MediaAsset[]", "GameProgressEvent[]"],
   },
   {

@@ -69,6 +69,7 @@
 - `DR-095-active-route-matrix-full-local-links.md`
 - `DR-096-active-route-verification-script.md`
 - `DR-097-foundation-verification-script.md`
+- `DR-098-media-playlist-route-scaffold.md`
 
 ## Maintenance Rule
 

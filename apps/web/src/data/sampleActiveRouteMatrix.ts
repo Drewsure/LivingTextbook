@@ -51,6 +51,14 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     note: "Focused Training Academy route.",
   },
   {
+    routeId: "ministar-media-playlist",
+    group: "ministar",
+    label: "MiniStar media playlist",
+    path: "/media/playlist-ministar-l1-u1-greetings",
+    status: "active-scaffold",
+    note: "Reviewed playlist route for package-linked audio and video metadata.",
+  },
+  {
     routeId: "partner-launch",
     group: "sample-publisher",
     label: "Sample publisher launch",
@@ -75,4 +83,3 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     note: "Active QR registry alias, not a direct media file.",
   },
 ];
-

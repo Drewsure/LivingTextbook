@@ -61,6 +61,7 @@ Next outputs:
 - Additional scoring profiles for the next selected parent engine or mode.
 - Browser-verify Quiz at `/quiz/demo-unit-1` and `/quiz/partner-demo-unit-1`.
 - Browser-verify Sentence Builder at `/sentence/demo-unit-1` and `/sentence/partner-demo-unit-1`.
+- Browser-verify the package-linked media playlist at `/media/playlist-ministar-l1-u1-greetings`.
 - Browser-verify teacher demo route shortcuts at `/teacher`.
 - Mobile verification.
 - Compatibility with optional background/support media without requiring it.
