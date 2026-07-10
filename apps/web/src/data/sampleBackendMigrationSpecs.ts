@@ -217,6 +217,63 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       policyBlockers: ["Partner policy needed for retired textbook editions and replacement links."],
     },
     {
+      specId: "spec-package-release-candidate",
+      label: "Package release candidate status",
+      candidateId: "m005-publish-gate-and-approval-ledger",
+      storeKind: "release-record",
+      status: "ready-for-review",
+      purpose:
+        "Stores the computed release-candidate status that joins package publish gate blockers and approval ledger blockers before a package can be called pilot-ready.",
+      primaryKey: "release_candidate_id",
+      tenantScope: "Scoped by tenant_id, package_release_id, package_id, and release_version.",
+      fields: [
+        {
+          name: "release_candidate_id",
+          type: "string",
+          required: true,
+          note: "Stable id for one package/version under pilot release review.",
+        },
+        {
+          name: "package_release_id",
+          type: "string",
+          required: true,
+          note: "Links candidate status to the reviewed package release.",
+        },
+        {
+          name: "target_pilot_route",
+          type: "string",
+          required: true,
+          note: "Controlled route shown in demos or pilot launch review.",
+        },
+        {
+          name: "open_gate_count",
+          type: "integer",
+          required: true,
+          note: "Derived from release-blocking publish gate items.",
+        },
+        {
+          name: "open_approval_count",
+          type: "integer",
+          required: true,
+          note: "Derived from required approval ledger sign-offs.",
+        },
+        {
+          name: "pilot_ready",
+          type: "boolean",
+          required: true,
+          note: "Must be false unless open gate and approval counts are zero.",
+        },
+      ],
+      indexes: ["tenant_id + package_release_id", "package_release_id unique", "tenant_id + pilot_ready"],
+      retentionRule: "Retain with the package release while any demo route, pilot launch, QR alias, or local bundle references it.",
+      exportRule: "Must export with release-control records for hosted and local deployment audit.",
+      localFallback: "Local classroom bundle stores the same candidate status beside publish gate and approval ledger records.",
+      policyBlockers: [
+        "Pilot-ready status cannot be manually overridden.",
+        "Real approval identity and evidence policy are required before a candidate can move beyond demo-ready.",
+      ],
+    },
+    {
       specId: "spec-progress-event",
       label: "Progress event stream",
       candidateId: "m007-progress-event-stream",

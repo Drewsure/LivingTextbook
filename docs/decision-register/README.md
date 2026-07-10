@@ -91,6 +91,7 @@
 - `DR-117-visible-media-support-only-preview.md`
 - `DR-118-pilot-release-candidate-summary.md`
 - `DR-119-release-candidate-durable-record.md`
+- `DR-120-release-candidate-migration-spec.md`
 
 ## Maintenance Rule
 

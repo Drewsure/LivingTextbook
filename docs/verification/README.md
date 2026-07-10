@@ -40,6 +40,7 @@ Focused verification supplements:
 - `docs/verification/PILOT_RELEASE_CANDIDATE_CHECKS.md`
 - `docs/verification/PUBLISHER_MAINTENANCE_CHECKS.md`
 - `docs/verification/RELEASE_CANDIDATE_DURABLE_RECORD_CHECKS.md`
+- `docs/verification/RELEASE_CANDIDATE_MIGRATION_SPEC_CHECKS.md`
 - `docs/verification/PWA_INSTALLABILITY_CHECKS.md`
 - `docs/verification/QR_PRINT_READINESS_CHECKS.md`
 - `docs/verification/RECOMMENDED_GAME_PATH_CHECKS.md`

@@ -11,13 +11,13 @@ Use after pulling the latest `legacy-source-import` branch and running local typ
 1. The teacher intake page renders a `Backend migration candidates` panel after the backend schema draft.
 2. The panel states it is vendor-neutral and not production migration work.
 3. The sequencing rule is visible.
-4. The panel lists migration candidates for tenant records, package release/content, route aliases, media manifests, publish gates/approval ledgers, launch sessions, progress events, and local export/restore.
+4. The panel lists migration candidates for tenant records, package release/content, route aliases, media manifests, release candidates/publish gates/approval ledgers, launch sessions, progress events, and local export/restore.
 5. Each candidate shows target entities, prerequisites, implementation notes, rollback/export needs, and not-allowed-yet items.
 6. Tenant migration forbids tenant-specific schema forks and global hard-coded support language.
 7. Package release migration forbids raw PDF or AI extraction becoming active student payload automatically.
 8. Route alias migration forbids localhost QR targets and direct media-file QR targets.
 9. Media migration blocks anonymous ownership and unversioned replacement.
-10. Publish gate/approval ledger migration requires approver identity, evidence storage, and rollback rules before real signatures.
+10. Release candidate/publish gate/approval ledger migration requires derived candidate status, approver identity, evidence storage, and rollback rules before real signatures.
 11. Launch-session migration keeps support language from satisfying mastery or unlocks.
 12. Progress-event migration preserves event effect taxonomy.
 13. Progress-event migration forbids raw learner audio, transcripts, open-ended personal notes, ungated exports, and support-only events used for mastery or unlocks.
@@ -50,5 +50,6 @@ Do not mark this verified if:
 - production migrations are implied as already approved,
 - student progress storage appears before policy acceptance,
 - release-control migrations are omitted,
+- release candidate status is omitted from release-control migrations,
 - rollback/export requirements are missing,
 - typecheck/build fails after sync.
