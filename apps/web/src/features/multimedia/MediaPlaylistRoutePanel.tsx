@@ -4,9 +4,10 @@ import type { ContentPackage, MediaAsset, UnitMediaPlaylist, UnitMultimediaPlan 
 interface MediaPlaylistRoutePanelProps {
   playlist: UnitMediaPlaylist;
   contentPackage: ContentPackage;
+  returnPath?: string;
 }
 
-export function MediaPlaylistRoutePanel({ playlist, contentPackage }: MediaPlaylistRoutePanelProps) {
+export function MediaPlaylistRoutePanel({ playlist, contentPackage, returnPath }: MediaPlaylistRoutePanelProps) {
   const assets = playlist.mediaAssetIds
     .map((mediaAssetId) => contentPackage.mediaAssets?.find((asset) => asset.mediaAssetId === mediaAssetId))
     .filter((asset): asset is MediaAsset => Boolean(asset));
@@ -25,6 +26,15 @@ export function MediaPlaylistRoutePanel({ playlist, contentPackage }: MediaPlayl
         </div>
         <StatusPill label={`${assets.length} assets`} tone={assets.length > 0 ? "success" : "warning"} />
       </div>
+
+      {returnPath && (
+        <a
+          href={returnPath}
+          className="mt-5 inline-flex min-h-11 items-center justify-center rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] px-4 py-2 text-sm font-semibold text-[var(--tenant-text)] transition hover:brightness-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--tenant-primary)]"
+        >
+          Return to unit
+        </a>
+      )}
 
       <div className="mt-5 grid gap-3 sm:grid-cols-4">
         <PlaylistFact label="Tenant" value={playlist.tenantId} />
