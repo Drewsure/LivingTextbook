@@ -1,4 +1,5 @@
 import { Card, StatusPill } from "@living-textbook/ui";
+import { getUnitKey } from "@living-textbook/content-model";
 import type { ContentPackage, MediaAsset, UnitMediaPlaylist, UnitMultimediaPlan } from "@living-textbook/content-model";
 
 interface MediaPlaylistRoutePanelProps {
@@ -12,7 +13,7 @@ export function MediaPlaylistRoutePanel({ playlist, contentPackage, returnPath }
     .map((mediaAssetId) => contentPackage.mediaAssets?.find((asset) => asset.mediaAssetId === mediaAssetId))
     .filter((asset): asset is MediaAsset => Boolean(asset));
   const multimediaPlan = contentPackage.multimediaPlans?.find((plan) => plan.primaryPlaylistId === playlist.playlistId);
-  const unit = contentPackage.units.find((packageUnit) => packageUnit.unitMeta.contentPackageId === contentPackage.meta.packageId);
+  const unit = contentPackage.units.find((packageUnit) => getUnitKey(packageUnit.unitMeta) === playlist.unitKey);
 
   return (
     <Card>
