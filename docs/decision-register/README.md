@@ -66,6 +66,7 @@
 - `DR-092-focused-training-active-route-check.md`
 - `DR-093-active-route-matrix-panel.md`
 - `DR-094-package-audio-coverage-snapshot-flag.md`
+- `DR-095-active-route-matrix-full-local-links.md`
 
 ## Maintenance Rule
 

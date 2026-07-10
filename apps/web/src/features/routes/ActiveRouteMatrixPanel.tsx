@@ -12,6 +12,8 @@ const groupLabels: Record<ActiveRouteGroup, string> = {
   "stable-qr": "Stable QR",
 };
 
+const localBaseUrl = "http://127.0.0.1:3000";
+
 export function ActiveRouteMatrixPanel({ routes }: ActiveRouteMatrixPanelProps) {
   return (
     <Card>
@@ -36,7 +38,12 @@ export function ActiveRouteMatrixPanel({ routes }: ActiveRouteMatrixPanelProps) 
               </div>
               <StatusPill label={route.status} tone={route.status === "active-demo" ? "success" : "neutral"} />
             </div>
-            <p className="mt-2 break-all font-mono text-xs text-[var(--tenant-muted)]">{route.path}</p>
+            <a
+              href={route.path}
+              className="mt-2 block break-all font-mono text-xs font-semibold text-[var(--tenant-text)] underline decoration-[var(--tenant-border)] underline-offset-4 transition hover:text-[var(--tenant-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--tenant-primary)]"
+            >
+              {`${localBaseUrl}${route.path}`}
+            </a>
             <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">{route.note}</p>
           </article>
         ))}
@@ -44,4 +51,3 @@ export function ActiveRouteMatrixPanel({ routes }: ActiveRouteMatrixPanelProps) 
     </Card>
   );
 }
-

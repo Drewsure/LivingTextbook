@@ -14,5 +14,5 @@ Then verify:
 - The matrix includes core, MiniStar, sample publisher, and stable QR groups.
 - The matrix includes focused Training Academy routes with `?focus=sentence-review`.
 - The stable QR route is marked as an active demo route, not a direct media file.
+- Route entries display full local `http://127.0.0.1:3000` addresses and remain clickable.
 - The panel does not imply all scaffold routes are production QR promises.
-
