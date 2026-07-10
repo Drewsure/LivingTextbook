@@ -20,6 +20,7 @@ Confirm:
 - The panel says the specs are vendor-neutral/no vendor lock.
 - Tenant entitlement, package release, package game/audio coverage snapshot, permanent QR alias, and progress event stream specs are visible.
 - Progress event stream is marked policy-blocked.
+- Progress event stream includes `event_effect` and `taxonomy_version`.
 - Each spec names fields, indexes, retention, export, local fallback, and policy blockers.
 
 ## Product Checks
@@ -28,5 +29,6 @@ Confirm:
 - No spec stores raw learner audio.
 - No spec stores raw AI Tutor transcripts.
 - No spec stores unreviewed PDF source as student-facing content.
+- No spec allows support-only events to drive mastery, Star Dust, or unlock calculations.
 - Tenant and package records preserve white-label boundaries.
 - Local fallback language remains visible where relevant.

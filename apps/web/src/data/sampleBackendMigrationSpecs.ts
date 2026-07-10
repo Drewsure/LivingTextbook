@@ -223,7 +223,7 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       storeKind: "event-record",
       status: "blocked-by-policy",
       purpose:
-        "Stores normalized game, training, media, and speaking events for teacher reports without preserving unnecessary sensitive payloads.",
+        "Stores normalized game, training, media, speaking, and support-only guidance events for teacher reports without preserving unnecessary sensitive payloads.",
       primaryKey: "event_id",
       tenantScope: "Scoped by tenant_id, launch_session_id, and anonymous/student roster id depending on school policy.",
       fields: [
@@ -240,6 +240,18 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
           note: "Standard event vocabulary such as game_started, answer_result, media_completed, or mastery_updated.",
         },
         {
+          name: "event_effect",
+          type: "string enum",
+          required: true,
+          note: "Reviewed taxonomy effect: progress-affecting, report-only, or support-only.",
+        },
+        {
+          name: "taxonomy_version",
+          type: "string",
+          required: true,
+          note: "Version of the accepted event taxonomy used for aggregation and export interpretation.",
+        },
+        {
           name: "event_payload",
           type: "json",
           required: true,
@@ -252,12 +264,13 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
           note: "Client event time with server received time added by implementation.",
         },
       ],
-      indexes: ["tenant_id + launch_session_id + occurred_at", "event_type", "anonymous_or_roster_student_id"],
+      indexes: ["tenant_id + launch_session_id + occurred_at", "event_type", "event_effect", "anonymous_or_roster_student_id"],
       retentionRule: "Retention depends on school reporting policy and parent/school agreement.",
       exportRule: "Must export teacher-readable CSV/JSON summaries and raw normalized events when policy allows.",
       localFallback: "Local app queues events in an exportable local store and syncs only if the school enables hosted reporting.",
       policyBlockers: [
         "Student identity model, retention length, guardian consent, and speech-report policy must be accepted before production writes.",
+        "Report aggregation must ignore support-only events for mastery, Star Dust, and unlock calculations.",
       ],
     },
   ],

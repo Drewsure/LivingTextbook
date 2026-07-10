@@ -19,11 +19,13 @@ Use after pulling the latest `legacy-source-import` branch and running local typ
 9. Route alias records prohibit localhost and direct media-file QR targets.
 10. Media manifest records include rights status and local/hosted delivery paths.
 11. Launch session records include settings for audio, assist language, microphone, AI Tutor, background media, retention, and report export.
-12. Progress event records forbid raw learner audio and transcripts.
-13. Package publish gate records forbid pilot-publishable status while blockers are open.
-14. Package approval ledger records do not imply fake signed approvals.
-15. Cross-cutting rules preserve tenant boundaries, audio/transcript exclusions, media manifest separation, package game/audio coverage as metadata only, support-language limits, AI Tutor gating, and hosted/local vocabulary compatibility.
-16. The panel uses existing tenant styling and does not introduce premium polish.
+12. Progress event records include `event_effect` and `taxonomy_version`.
+13. Progress event records forbid raw learner audio and transcripts.
+14. Progress event rules block support-only events from mastery/scoring interpretation.
+15. Package publish gate records forbid pilot-publishable status while blockers are open.
+16. Package approval ledger records do not imply fake signed approvals.
+17. Cross-cutting rules preserve tenant boundaries, audio/transcript exclusions, media manifest separation, package game/audio coverage as metadata only, progress event effect taxonomy, support-language limits, AI Tutor gating, and hosted/local vocabulary compatibility.
+18. The panel uses existing tenant styling and does not introduce premium polish.
 
 ## Build Verification
 

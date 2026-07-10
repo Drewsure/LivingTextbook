@@ -143,15 +143,16 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
       status: "needs-policy",
       risk: "high",
       targetEntities: ["progress_event"],
-      purpose: "Persist coded learner game, media, recovery, mastery, and Star Dust events for teacher reports and Training Academy recovery.",
+      purpose: "Persist coded learner game, media, recovery, mastery, support-only guidance, and Star Dust events for teacher reports and Training Academy recovery.",
       prerequisites: ["Privacy policy accepted", "Retention period accepted", "Report export fields accepted", "Access roles accepted"],
       implementationNotes: [
         "Use append-only event patterns where possible.",
-        "Index by session, learner code, event type, and time.",
+        "Index by session, learner code, event type, event effect, and time.",
+        "Preserve the reviewed event taxonomy effect so support-only guidance never becomes scoring evidence.",
         "Keep raw audio and transcripts out of metadata.",
       ],
       rollbackOrExportNeeds: ["Export teacher report data", "Delete/archive by retention policy", "Support school-owned export package"],
-      notAllowedYet: ["Raw learner audio", "Speech transcript", "Open-ended personal notes", "Ungated report exports"],
+      notAllowedYet: ["Raw learner audio", "Speech transcript", "Open-ended personal notes", "Ungated report exports", "Support-only events used for mastery or unlocks"],
     },
     {
       migrationId: "m008-local-classroom-export-store",
@@ -176,6 +177,7 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
     "Migrations must preserve tenant boundaries and release-control records.",
     "Raw learner audio and transcripts stay out of core storage.",
     "Hosted and local implementations must use the same record vocabulary.",
+    "Hosted and local event stores must preserve event effect taxonomy.",
     "Every migration candidate needs rollback or export expectations before implementation.",
   ],
 };

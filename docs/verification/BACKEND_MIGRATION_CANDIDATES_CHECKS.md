@@ -19,10 +19,11 @@ Use after pulling the latest `legacy-source-import` branch and running local typ
 9. Media migration blocks anonymous ownership and unversioned replacement.
 10. Publish gate/approval ledger migration requires approver identity, evidence storage, and rollback rules before real signatures.
 11. Launch-session migration keeps support language from satisfying mastery or unlocks.
-12. Progress-event migration forbids raw learner audio, transcripts, open-ended personal notes, and ungated exports.
-13. Local classroom migration is deferred and requires backup/restore, installer/update, and local bundle integrity before production.
-14. Standing rules forbid production migrations before backend choice and policy gates are accepted.
-15. The panel uses existing tenant styling and does not introduce premium polish.
+12. Progress-event migration preserves event effect taxonomy.
+13. Progress-event migration forbids raw learner audio, transcripts, open-ended personal notes, ungated exports, and support-only events used for mastery or unlocks.
+14. Local classroom migration is deferred and requires backup/restore, installer/update, and local bundle integrity before production.
+15. Standing rules forbid production migrations before backend choice and policy gates are accepted.
+16. The panel uses existing tenant styling and does not introduce premium polish.
 
 ## Build Verification
 

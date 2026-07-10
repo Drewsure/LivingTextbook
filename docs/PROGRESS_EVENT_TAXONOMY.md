@@ -24,6 +24,11 @@ The source data lives in:
 
 - `apps/web/src/data/sampleProgressEventTaxonomy.ts`
 
+Backend planning references the same idea through:
+
+- `event_effect`
+- `taxonomy_version`
+
 ## Hard Rules
 
 - Support-language taps are support-only.
@@ -33,4 +38,4 @@ The source data lives in:
 - Entry practice completion requires target-language engagement.
 - Answer results and mastery updates are the main item-level evidence events.
 - Random rewards must not be introduced through event taxonomy changes.
-
+- Backend report queries must ignore `support-only` events for mastery, Star Dust, and unlock calculations.

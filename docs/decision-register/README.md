@@ -58,6 +58,7 @@
 - `DR-084-recommended-route-audio-controls.md`
 - `DR-085-route-guidance-listen-events.md`
 - `DR-086-progress-event-taxonomy-panel.md`
+- `DR-087-progress-event-taxonomy-storage.md`
 
 ## Maintenance Rule
 
