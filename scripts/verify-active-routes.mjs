@@ -8,8 +8,8 @@ const expectedTextByPath = new Map([
   ["/teacher/intake", ["Package publish gate", "Pilot source strategy", "Pilot release candidate", "Backend selection gate", "Background media policy"]],
   ["/launch/demo-unit-1", ["Unit media"]],
   ["/launch/partner-demo-unit-1", ["Unit media"]],
-  ["/teacher/sessions/demo-unit-1", ["Media engagement", "tap-to-speak learning audio"]],
-  ["/teacher/sessions/partner-demo-unit-1", ["Media engagement", "tap-to-speak learning audio"]],
+  ["/teacher/sessions/demo-unit-1", ["Session pilot readiness", "Media engagement", "tap-to-speak learning audio"]],
+  ["/teacher/sessions/partner-demo-unit-1", ["Session pilot readiness", "Media engagement", "tap-to-speak learning audio"]],
   ["/media/playlist-ministar-l1-u1-greetings", ["Media playlist route", "Demo media controls", "support-only events"]],
   ["/media/playlist-sample-publisher-l1-u1-routines", ["Media playlist route", "Demo media controls", "support-only events"]],
 ]);

@@ -40,6 +40,19 @@ export interface TeacherSessionPreflightCheck {
   note: string;
 }
 
+export type TeacherSessionPilotReadinessStatus = "demo-safe" | "pilot-blocked" | "pilot-ready";
+
+export interface TeacherSessionPilotReadinessSnapshot {
+  snapshotId: string;
+  label: string;
+  status: TeacherSessionPilotReadinessStatus;
+  decision: string;
+  summary: string;
+  demoSafeSignals: string[];
+  pilotBlockers: string[];
+  requiredBeforeLiveUse: string[];
+}
+
 export interface TeacherSessionMonitorContext {
   tenant: TenantConfig;
   contentPackage: ContentPackage;
@@ -62,6 +75,7 @@ export interface TeacherSessionMonitorContext {
   reportExportErrors: string[];
   reportExportWarnings: string[];
   preflightChecks: TeacherSessionPreflightCheck[];
+  pilotReadinessSnapshot: TeacherSessionPilotReadinessSnapshot;
   readinessNotes: string[];
 }
 
@@ -93,6 +107,16 @@ export function resolveSampleTeacherSessionMonitorContext(launchCode: string): T
     assignedGameModes,
     audioCoveredGameModes,
   });
+  const pilotReadinessSnapshot = createPilotReadinessSnapshot({
+    launchCode: launchContext.launchSession.launchCode,
+    assignedGameAudioGaps,
+    sessionSettingErrors,
+    sessionSettingWarnings,
+    sessionControlErrors,
+    sessionControlWarnings,
+    reportExportErrors,
+    reportExportWarnings,
+  });
 
   return {
     tenant: launchContext.tenant,
@@ -121,11 +145,74 @@ export function resolveSampleTeacherSessionMonitorContext(launchCode: string): T
     reportExportErrors,
     reportExportWarnings,
     preflightChecks,
+    pilotReadinessSnapshot,
     readinessNotes: [
       "This route uses reviewed sample data and local event examples only.",
       "A real classroom monitor needs persisted launch sessions, event storage, student/session policy, and export controls.",
       "Support-language taps may appear in reports, but only target-language engagement can unlock progression.",
       "Premium AI Tutor, speech scoring, transcript storage, and cloud audio upload remain optional tenant add-ons.",
+    ],
+  };
+}
+
+function createPilotReadinessSnapshot(args: {
+  launchCode: string;
+  assignedGameAudioGaps: GameModeId[];
+  sessionSettingErrors: string[];
+  sessionSettingWarnings: string[];
+  sessionControlErrors: string[];
+  sessionControlWarnings: string[];
+  reportExportErrors: string[];
+  reportExportWarnings: string[];
+}): TeacherSessionPilotReadinessSnapshot {
+  const hasHardBlockers =
+    args.sessionSettingErrors.length > 0 ||
+    args.sessionControlErrors.length > 0 ||
+    args.reportExportErrors.length > 0 ||
+    args.assignedGameAudioGaps.length > 0;
+  const hasOpenPilotWork =
+    hasHardBlockers ||
+    args.sessionSettingWarnings.length > 0 ||
+    args.sessionControlWarnings.length > 0 ||
+    args.reportExportWarnings.length > 0;
+  const status: TeacherSessionPilotReadinessStatus = hasHardBlockers
+    ? "pilot-blocked"
+    : hasOpenPilotWork
+      ? "demo-safe"
+      : "pilot-ready";
+
+  return {
+    snapshotId: `session-pilot-readiness:${args.launchCode}`,
+    label: "Session pilot readiness",
+    status,
+    decision:
+      status === "pilot-ready"
+        ? "This launch session is ready for pilot use under the accepted policy."
+        : "This launch session is safe as a demo monitor, but it is not ready for live classroom reporting until persistence and policy gates close.",
+    summary:
+      "The session uses reviewed sample package data and standard event shapes. Live use still needs durable launch-session settings, accepted reporting policy, and persisted event storage.",
+    demoSafeSignals: [
+      "Reviewed sample package data is used for this route.",
+      "Assigned games report standard progress events.",
+      "Assigned games have reviewed learner-audio coverage.",
+      "Media events are support-only and cannot unlock progress or mastery.",
+      "Core report scaffolds exclude raw learner audio and transcripts.",
+    ],
+    pilotBlockers: [
+      ...args.sessionSettingErrors,
+      ...args.sessionControlErrors,
+      ...args.reportExportErrors,
+      ...args.assignedGameAudioGaps.map((mode) => `Assigned game mode ${mode} still needs learner-audio coverage.`),
+      ...args.sessionSettingWarnings,
+      ...args.sessionControlWarnings,
+      ...args.reportExportWarnings,
+    ],
+    requiredBeforeLiveUse: [
+      "Persist teacher launch-session settings across student devices.",
+      "Choose the first backend only after privacy, reporting, deployment, and cost gates are accepted.",
+      "Accept retention, access, export, and school/tenant reporting policy.",
+      "Persist event storage with event-effect taxonomy intact.",
+      "Verify teacher and student routes on classroom mobile devices.",
     ],
   };
 }

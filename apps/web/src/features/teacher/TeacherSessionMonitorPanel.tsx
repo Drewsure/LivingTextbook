@@ -6,7 +6,11 @@ import type {
   TeacherReportExportReadiness,
   TeacherSessionControlReadiness,
 } from "@living-textbook/content-model";
-import type { TeacherSessionMonitorContext } from "@/data/sampleTeacherSessionMonitor";
+import type {
+  TeacherSessionMonitorContext,
+  TeacherSessionPilotReadinessSnapshot,
+  TeacherSessionPilotReadinessStatus,
+} from "@/data/sampleTeacherSessionMonitor";
 import { FrontDoorTeacherReportPreview } from "@/features/access/FrontDoorTeacherReportPreview";
 import { formatMode } from "@/lib/formatLabels";
 
@@ -33,6 +37,12 @@ const exportTone: Record<TeacherReportExportReadiness, "neutral" | "success" | "
   "demo-preview": "warning",
   "blocked-persistence": "warning",
   "blocked-policy": "warning",
+};
+
+const pilotReadinessTone: Record<TeacherSessionPilotReadinessStatus, "neutral" | "success" | "warning"> = {
+  "demo-safe": "neutral",
+  "pilot-blocked": "warning",
+  "pilot-ready": "success",
 };
 
 export function TeacherSessionMonitorPanel({ context }: TeacherSessionMonitorPanelProps) {
@@ -115,6 +125,8 @@ export function TeacherSessionMonitorPanel({ context }: TeacherSessionMonitorPan
           ))}
         </div>
       </Card>
+
+      <SessionPilotReadinessCard snapshot={context.pilotReadinessSnapshot} />
 
       <Card>
         <div className="flex flex-wrap items-start justify-between gap-4">
@@ -363,6 +375,56 @@ function MediaEngagementAssetCard({
       <p className="mt-3 break-words text-xs leading-5 text-[var(--tenant-muted)]">
         Local bundle: {asset.localBundlePath ?? "Not configured"}
       </p>
+    </section>
+  );
+}
+
+function SessionPilotReadinessCard({ snapshot }: { snapshot: TeacherSessionPilotReadinessSnapshot }) {
+  return (
+    <Card>
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <p className="text-sm font-semibold text-[var(--tenant-muted)]">Session pilot readiness</p>
+          <h3 className="mt-1 text-lg font-bold">{snapshot.label}</h3>
+          <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">{snapshot.summary}</p>
+        </div>
+        <StatusPill label={snapshot.status} tone={pilotReadinessTone[snapshot.status]} />
+      </div>
+
+      <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
+        <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Current decision</p>
+        <p className="mt-2 text-sm font-semibold leading-6 text-[var(--tenant-text)]">{snapshot.decision}</p>
+      </section>
+
+      <div className="mt-5 grid gap-3 lg:grid-cols-3">
+        <SessionReadinessList title="Demo-safe signals" items={snapshot.demoSafeSignals} tone="success" />
+        <SessionReadinessList title="Pilot blockers" items={snapshot.pilotBlockers} tone={snapshot.pilotBlockers.length > 0 ? "warning" : "success"} />
+        <SessionReadinessList title="Before live use" items={snapshot.requiredBeforeLiveUse} tone="neutral" />
+      </div>
+    </Card>
+  );
+}
+
+function SessionReadinessList({
+  title,
+  items,
+  tone,
+}: {
+  title: string;
+  items: string[];
+  tone: "neutral" | "success" | "warning";
+}) {
+  return (
+    <section className="rounded-lg border border-[var(--tenant-border)] p-4">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <h4 className="text-sm font-bold text-[var(--tenant-text)]">{title}</h4>
+        <StatusPill label={String(items.length)} tone={tone} />
+      </div>
+      <ul className="mt-3 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
+        {items.map((item) => (
+          <li key={item}>{item}</li>
+        ))}
+      </ul>
     </section>
   );
 }
