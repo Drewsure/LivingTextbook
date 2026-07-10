@@ -28,7 +28,7 @@ Open:
 ## Product Checks
 
 - Routes load without 500 errors.
-- Key routes also confirm expected page text, including teacher intake publish gate, media playlist route, and teacher session media engagement.
+- Key routes also confirm expected page text, including student launch unit media, teacher intake publish gate, media playlist route, and teacher session media engagement.
 - Student routes preserve target-language progression gates.
 - Teacher/admin routes do not imply live production storage unless persistence is accepted.
 - Sample publisher routes remain white-label and do not depend on MiniStar-only branding.

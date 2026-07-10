@@ -6,6 +6,8 @@ const activeRouteSection = routeList.split("## Planned QR Route, Not Active Yet"
 const urls = Array.from(activeRouteSection.matchAll(/`(http:\/\/127\.0\.0\.1:3000\/[^`]*)`/g), (match) => match[1]);
 const expectedTextByPath = new Map([
   ["/teacher/intake", "Package publish gate"],
+  ["/launch/demo-unit-1", "Unit media"],
+  ["/launch/partner-demo-unit-1", "Unit media"],
   ["/teacher/sessions/demo-unit-1", "Media engagement"],
   ["/teacher/sessions/partner-demo-unit-1", "Media engagement"],
   ["/media/playlist-ministar-l1-u1-greetings", "Media playlist route"],
