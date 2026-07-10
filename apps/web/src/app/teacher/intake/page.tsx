@@ -72,6 +72,7 @@ import { PackageApprovalLedgerPanel } from "@/features/pilot/PackageApprovalLedg
 import { PackagePublishGatePanel } from "@/features/pilot/PackagePublishGatePanel";
 import { PilotHandoffPackagePanel } from "@/features/pilot/PilotHandoffPackagePanel";
 import { PilotReadinessGatePanel } from "@/features/pilot/PilotReadinessGatePanel";
+import { PilotReleaseCandidatePanel } from "@/features/pilot/PilotReleaseCandidatePanel";
 import { BackendDecisionMatrixPanel } from "@/features/persistence/BackendDecisionMatrixPanel";
 import { BackendMigrationPlanPanel } from "@/features/persistence/BackendMigrationPlanPanel";
 import { BackendMigrationSpecPanel } from "@/features/persistence/BackendMigrationSpecPanel";
@@ -113,6 +114,7 @@ export default function TeacherIntakePage() {
         />
         <PilotSourceStrategyPanel strategy={samplePilotSourceStrategy} />
         <PilotHandoffPackagePanel handoffPackage={samplePilotHandoffPackage} />
+        <PilotReleaseCandidatePanel gate={samplePackagePublishGate} ledger={samplePackageApprovalLedger} />
         <PackagePublishGatePanel gate={samplePackagePublishGate} />
         <PackageApprovalLedgerPanel ledger={samplePackageApprovalLedger} />
         <PublisherMaintenancePlanPanel plan={samplePublisherMaintenancePlan} />

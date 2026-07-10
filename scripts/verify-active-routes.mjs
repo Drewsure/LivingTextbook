@@ -5,7 +5,7 @@ const routeList = readFileSync(routeListPath, "utf8");
 const activeRouteSection = routeList.split("## Planned QR Route, Not Active Yet")[0] ?? routeList;
 const urls = Array.from(activeRouteSection.matchAll(/`(http:\/\/127\.0\.0\.1:3000\/[^`]*)`/g), (match) => match[1]);
 const expectedTextByPath = new Map([
-  ["/teacher/intake", ["Package publish gate", "Pilot source strategy", "Backend selection gate", "Background media policy"]],
+  ["/teacher/intake", ["Package publish gate", "Pilot source strategy", "Pilot release candidate", "Backend selection gate", "Background media policy"]],
   ["/launch/demo-unit-1", ["Unit media"]],
   ["/launch/partner-demo-unit-1", ["Unit media"]],
   ["/teacher/sessions/demo-unit-1", ["Media engagement", "tap-to-speak learning audio"]],
