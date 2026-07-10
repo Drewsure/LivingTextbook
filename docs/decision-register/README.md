@@ -63,6 +63,7 @@
 - `DR-089-teacher-training-recovery-trigger-settings.md`
 - `DR-090-training-focus-route-query.md`
 - `DR-091-focused-training-demo-shortcut.md`
+- `DR-092-focused-training-active-route-check.md`
 
 ## Maintenance Rule
 

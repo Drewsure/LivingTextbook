@@ -14,6 +14,7 @@ Open:
 - `http://127.0.0.1:3000/`
 - `http://127.0.0.1:3000/teacher/intake`
 - `http://127.0.0.1:3000/launch/demo-unit-1`
+- `http://127.0.0.1:3000/training/demo-unit-1?focus=sentence-review`
 - `http://127.0.0.1:3000/launch/partner-demo-unit-1`
 - `http://127.0.0.1:3000/teacher/sessions/demo-unit-1`
 - `http://127.0.0.1:3000/teacher/sessions/partner-demo-unit-1`
