@@ -5,13 +5,13 @@ const routeList = readFileSync(routeListPath, "utf8");
 const activeRouteSection = routeList.split("## Planned QR Route, Not Active Yet")[0] ?? routeList;
 const urls = Array.from(activeRouteSection.matchAll(/`(http:\/\/127\.0\.0\.1:3000\/[^`]*)`/g), (match) => match[1]);
 const expectedTextByPath = new Map([
-  ["/teacher/intake", "Package publish gate"],
-  ["/launch/demo-unit-1", "Unit media"],
-  ["/launch/partner-demo-unit-1", "Unit media"],
-  ["/teacher/sessions/demo-unit-1", "Media engagement"],
-  ["/teacher/sessions/partner-demo-unit-1", "Media engagement"],
-  ["/media/playlist-ministar-l1-u1-greetings", "Media playlist route"],
-  ["/media/playlist-sample-publisher-l1-u1-routines", "Media playlist route"],
+  ["/teacher/intake", ["Package publish gate"]],
+  ["/launch/demo-unit-1", ["Unit media"]],
+  ["/launch/partner-demo-unit-1", ["Unit media"]],
+  ["/teacher/sessions/demo-unit-1", ["Media engagement"]],
+  ["/teacher/sessions/partner-demo-unit-1", ["Media engagement"]],
+  ["/media/playlist-ministar-l1-u1-greetings", ["Media playlist route", "Demo media controls"]],
+  ["/media/playlist-sample-publisher-l1-u1-routines", ["Media playlist route", "Demo media controls"]],
 ]);
 
 if (urls.length === 0) {
@@ -24,16 +24,16 @@ const results = [];
 for (const url of urls) {
   try {
     const response = await fetch(url, { redirect: "manual" });
-    const expectedText = expectedTextByPath.get(new URL(url).pathname);
-    const body = expectedText && response.ok ? await response.text() : "";
-    const hasExpectedText = expectedText ? body.includes(expectedText) : true;
+    const expectedText = expectedTextByPath.get(new URL(url).pathname) ?? [];
+    const body = expectedText.length > 0 && response.ok ? await response.text() : "";
+    const missingExpectedText = expectedText.filter((text) => !body.includes(text));
 
     results.push({
       url,
       status: response.status,
-      ok: response.status >= 200 && response.status < 400 && hasExpectedText,
+      ok: response.status >= 200 && response.status < 400 && missingExpectedText.length === 0,
       expectedText,
-      hasExpectedText,
+      missingExpectedText,
     });
   } catch (error) {
     results.push({ url, status: "error", ok: false, error: error instanceof Error ? error.message : String(error) });
@@ -43,10 +43,10 @@ for (const url of urls) {
 for (const result of results) {
   const marker = result.ok ? "PASS" : "FAIL";
   const textCheck =
-    result.expectedText && !result.hasExpectedText
-      ? ` missing expected text: ${result.expectedText}`
-      : result.expectedText
-        ? ` contains: ${result.expectedText}`
+    result.expectedText?.length > 0 && result.missingExpectedText?.length > 0
+      ? ` missing expected text: ${result.missingExpectedText.join(", ")}`
+      : result.expectedText?.length > 0
+        ? ` contains: ${result.expectedText.join(", ")}`
         : "";
   const detail = result.error ? ` ${result.error}` : textCheck;
   console.log(`${marker} ${result.status} ${result.url}${detail}`);
