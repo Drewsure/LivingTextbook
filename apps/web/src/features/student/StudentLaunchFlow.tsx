@@ -16,6 +16,7 @@ import { PairingMemoryMatchGame } from "@/features/game-shell/pairing/PairingMem
 import { PairingEnginePreview } from "@/features/game-shell/pairing/PairingEnginePreview";
 import {
   completeFlashcardEntryPractice,
+  createMediaPlaylistOpenedEvent,
   createRouteGuidanceListenedEvent,
   startUnlockedGameMode,
   type GameModeCompletionResult,
@@ -170,6 +171,18 @@ export function StudentLaunchFlow({
     ]);
   }
 
+  function handleMediaPlaylistOpened(playlistId: string, routeHref: string) {
+    appendSessionEvents([
+      createMediaPlaylistOpenedEvent({
+        progression: currentProgression,
+        launchSession,
+        playlistId,
+        routeHref,
+        occurredAt: new Date().toISOString(),
+      }),
+    ]);
+  }
+
   function handleGameComplete(result: GameModeCompletionResult) {
     setCurrentProgression(result.progression);
     setLastEarnedDust(result.earnedStarDust);
@@ -189,7 +202,11 @@ export function StudentLaunchFlow({
         nextMode={nextMode}
       />
       <TeacherAssignmentSettingsCard assignmentPlan={assignmentPlan} />
-      <UnitMediaShortcutCard contentPackage={contentPackage} unit={unit} />
+      <UnitMediaShortcutCard
+        contentPackage={contentPackage}
+        unit={unit}
+        onMediaPlaylistOpened={handleMediaPlaylistOpened}
+      />
       <UnitSessionProgressSummary
         title="Student Progress"
         launchSession={launchSession}

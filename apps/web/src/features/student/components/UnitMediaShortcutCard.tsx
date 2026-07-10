@@ -6,9 +6,10 @@ import { getMediaPlaylistPath } from "@/features/routes/routeContracts";
 interface UnitMediaShortcutCardProps {
   contentPackage: ContentPackage;
   unit: UnitPayload;
+  onMediaPlaylistOpened?: (playlistId: string, routeHref: string) => void;
 }
 
-export function UnitMediaShortcutCard({ contentPackage, unit }: UnitMediaShortcutCardProps) {
+export function UnitMediaShortcutCard({ contentPackage, unit, onMediaPlaylistOpened }: UnitMediaShortcutCardProps) {
   const unitKey = getUnitKey(unit.unitMeta);
   const playlist = contentPackage.playlists?.find((candidate) => candidate.unitKey === unitKey);
   const multimediaPlan = playlist
@@ -19,6 +20,8 @@ export function UnitMediaShortcutCard({ contentPackage, unit }: UnitMediaShortcu
   if (!playlist) {
     return null;
   }
+
+  const playlistRoute = getMediaPlaylistPath(playlist.playlistId);
 
   return (
     <Card>
@@ -41,7 +44,8 @@ export function UnitMediaShortcutCard({ contentPackage, unit }: UnitMediaShortcu
           <p className="mt-1">Playlist engagement is separate from Star Dust and mastery unlocks.</p>
         </div>
         <a
-          href={getMediaPlaylistPath(playlist.playlistId)}
+          href={playlistRoute}
+          onClick={() => onMediaPlaylistOpened?.(playlist.playlistId, playlistRoute)}
           className="inline-flex min-h-11 items-center justify-center rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] px-4 py-2 text-sm font-semibold text-[var(--tenant-text)] transition hover:brightness-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--tenant-primary)]"
         >
           Open unit media

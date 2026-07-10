@@ -464,6 +464,23 @@ function createSampleMonitorEvents(launchSession: LaunchSession, isPartner: bool
       },
     },
     {
+      type: "media_playlist_opened",
+      unitKey,
+      gameMode: "flashcards",
+      launchCode,
+      studentSessionId,
+      occurredAt: "2026-07-01T00:05:50.000Z",
+      metadata: {
+        playlistId: isPartner ? "playlist-sample-publisher-l1-u1-routines" : "playlist-ministar-l1-u1-greetings",
+        routeHref: isPartner
+          ? "/media/playlist-sample-publisher-l1-u1-routines"
+          : "/media/playlist-ministar-l1-u1-greetings",
+        progressionUnlockAllowed: false,
+        masteryCreditAllowed: false,
+        starDustAwarded: 0,
+      },
+    },
+    {
       type: "media_started",
       unitKey,
       gameMode: "flashcards",

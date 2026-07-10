@@ -350,6 +350,7 @@ export type GameEventType =
   | "game_unlocked"
   | "training_recommended"
   | "media_started"
+  | "media_playlist_opened"
   | "media_paused"
   | "media_completed"
   | "background_media_enabled"

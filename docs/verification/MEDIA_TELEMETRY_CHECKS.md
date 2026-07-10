@@ -19,6 +19,7 @@ On `/enter/ministar` after opening the sample unit:
 11. Confirm the teacher-visible report preview counts media starts, media pauses, and media completions separately.
 12. Confirm the teacher session monitor shows a dedicated `Media engagement` section.
 13. Confirm media engagement shows started, paused, completed, and background media counts by asset.
+14. Confirm playlist route opens are shown separately from actual media playback.
 
 ## Native Playback Event Checks
 
@@ -37,3 +38,4 @@ Where browser media controls are available:
 3. Confirm media events do not affect game mastery scoring.
 4. Confirm background media enabled/disabled events remain separate from normal media playback events.
 5. Confirm teacher monitor language states that media engagement is report-only and does not unlock games, award mastery, or replace target-language practice.
+6. Confirm `media_playlist_opened` is report-only and does not count as media playback completion.

@@ -271,6 +271,30 @@ export function createMediaProgressEvent(args: {
   };
 }
 
+export function createMediaPlaylistOpenedEvent(args: {
+  progression: StudentProgressionState;
+  launchSession: LaunchSession;
+  playlistId: string;
+  routeHref: string;
+  occurredAt: string;
+}): GameProgressEvent {
+  return {
+    type: "media_playlist_opened",
+    unitKey: args.launchSession.unitKey,
+    gameMode: args.launchSession.entryMode,
+    launchCode: args.launchSession.launchCode,
+    studentSessionId: args.progression.studentSessionId,
+    occurredAt: args.occurredAt,
+    metadata: {
+      playlistId: args.playlistId,
+      routeHref: args.routeHref,
+      progressionUnlockAllowed: false,
+      masteryCreditAllowed: false,
+      starDustAwarded: 0,
+    },
+  };
+}
+
 export function createBackgroundMediaEvent(args: {
   type: "background_media_enabled" | "background_media_disabled";
   progression: StudentProgressionState;

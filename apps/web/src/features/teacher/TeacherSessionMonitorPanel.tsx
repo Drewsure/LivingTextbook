@@ -43,6 +43,7 @@ export function TeacherSessionMonitorPanel({ context }: TeacherSessionMonitorPan
   const mediaAssets = context.contentPackage.mediaAssets ?? [];
   const mediaEvents = context.events.filter((event) =>
     event.type === "media_started" ||
+    event.type === "media_playlist_opened" ||
     event.type === "media_paused" ||
     event.type === "media_completed" ||
     event.type === "background_media_enabled" ||
@@ -95,6 +96,20 @@ export function TeacherSessionMonitorPanel({ context }: TeacherSessionMonitorPan
           <StatusPill label={`${mediaEvents.length} media events`} tone={mediaEvents.length > 0 ? "success" : "neutral"} />
         </div>
         <div className="mt-5 grid gap-3 lg:grid-cols-2">
+          <section className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3 lg:col-span-2">
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <h4 className="text-sm font-bold text-[var(--tenant-text)]">Playlist route opens</h4>
+                <p className="mt-1 text-sm leading-6 text-[var(--tenant-muted)]">
+                  Opening a playlist is visible to teachers, but it remains support-only until actual playback or learning events occur.
+                </p>
+              </div>
+              <StatusPill
+                label={`${mediaEvents.filter((event) => event.type === "media_playlist_opened").length} opened`}
+                tone="neutral"
+              />
+            </div>
+          </section>
           {mediaAssets.map((asset) => (
             <MediaEngagementAssetCard key={asset.mediaAssetId} asset={asset} events={mediaEvents} />
           ))}

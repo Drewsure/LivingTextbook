@@ -109,6 +109,14 @@ export const sampleProgressEventTaxonomy: ProgressEventTaxonomyItem[] = [
     notAllowed: ["Do not use media playback alone as game mastery."],
   },
   {
+    eventType: "media_playlist_opened",
+    effect: "report-only",
+    teacherVisible: true,
+    persistenceRequired: true,
+    summary: "Records that a student opened a reviewed unit playlist route.",
+    notAllowed: ["Do not unlock progress.", "Do not award Star Dust.", "Do not count as media playback completion."],
+  },
+  {
     eventType: "media_paused",
     effect: "report-only",
     teacherVisible: true,
@@ -157,4 +165,3 @@ export const sampleProgressEventTaxonomy: ProgressEventTaxonomyItem[] = [
     notAllowed: ["Do not imply production persistence in the current scaffold."],
   },
 ];
-
