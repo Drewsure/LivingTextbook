@@ -22,6 +22,13 @@ On `/enter/ministar` after opening the sample unit:
 14. Confirm playlist route opens are shown separately from actual media playback.
 15. Confirm the compact teacher-visible report preview includes `Playlist opens`.
 
+On the active playlist routes:
+
+1. Confirm `Demo media controls` appears.
+2. Confirm `Start media`, `Mark paused`, and `Mark complete` controls are visible for each asset.
+3. Confirm local event preview entries appear after using the controls.
+4. Confirm the route says the controls do not write production reports, unlock games, or award mastery.
+
 ## Native Playback Event Checks
 
 Where browser media controls are available:

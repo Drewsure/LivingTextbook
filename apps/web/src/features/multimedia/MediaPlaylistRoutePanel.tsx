@@ -1,14 +1,30 @@
 import { Card, StatusPill } from "@living-textbook/ui";
 import { getUnitKey } from "@living-textbook/content-model";
-import type { ContentPackage, MediaAsset, UnitMediaPlaylist, UnitMultimediaPlan } from "@living-textbook/content-model";
+import type {
+  ContentPackage,
+  LaunchSession,
+  MediaAsset,
+  StudentProgressionState,
+  UnitMediaPlaylist,
+  UnitMultimediaPlan,
+} from "@living-textbook/content-model";
+import { MediaPlaylistEventPreview } from "./MediaPlaylistEventPreview";
 
 interface MediaPlaylistRoutePanelProps {
   playlist: UnitMediaPlaylist;
   contentPackage: ContentPackage;
+  launchSession: LaunchSession;
+  progression: StudentProgressionState;
   returnPath?: string;
 }
 
-export function MediaPlaylistRoutePanel({ playlist, contentPackage, returnPath }: MediaPlaylistRoutePanelProps) {
+export function MediaPlaylistRoutePanel({
+  playlist,
+  contentPackage,
+  launchSession,
+  progression,
+  returnPath,
+}: MediaPlaylistRoutePanelProps) {
   const assets = playlist.mediaAssetIds
     .map((mediaAssetId) => contentPackage.mediaAssets?.find((asset) => asset.mediaAssetId === mediaAssetId))
     .filter((asset): asset is MediaAsset => Boolean(asset));
@@ -45,6 +61,13 @@ export function MediaPlaylistRoutePanel({ playlist, contentPackage, returnPath }
       </div>
 
       {multimediaPlan && <BackgroundMediaPolicy plan={multimediaPlan} assets={contentPackage.mediaAssets ?? []} />}
+
+      <MediaPlaylistEventPreview
+        playlist={playlist}
+        assets={assets}
+        launchSession={launchSession}
+        progression={progression}
+      />
 
       <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
         <div className="flex flex-wrap items-start justify-between gap-3">
