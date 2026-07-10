@@ -26,6 +26,7 @@ Confirm the page includes a `Publisher maintenance` panel with:
 - the partner promise,
 - ready-domain, owner-decision, and guardrail metrics,
 - pilot, annual-edition, and mid-year refresh windows,
+- a `Maintenance change queue` for yearly content/media/game/route/report updates,
 - standing rules for QR stability, media ownership, local/hosted manifests, and game contracts,
 - maintenance item cards for content, media, games, routes, and reports.
 
@@ -39,6 +40,7 @@ Confirm the panel makes these rules clear:
 - yearly media changes require versioned manifests,
 - games remain tied to reusable engines and standard progress events,
 - teacher reports require privacy, retention, role, and export policy.
+- maintenance changes list route impact, media impact, game impact, report impact, required approvals, open blockers, and next action.
 
 ## Acceptance
 

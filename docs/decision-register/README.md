@@ -96,6 +96,7 @@
 - `DR-122-teacher-report-package-boundary.md`
 - `DR-123-teacher-report-package-storage-contract.md`
 - `DR-124-teacher-report-package-preview-route.md`
+- `DR-125-publisher-maintenance-change-queue.md`
 
 ## Maintenance Rule
 

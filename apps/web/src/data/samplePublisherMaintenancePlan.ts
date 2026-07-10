@@ -1,5 +1,7 @@
 export type PublisherMaintenanceStatus = "ready" | "needs-owner" | "blocked";
 export type PublisherMaintenanceDomain = "content" | "media" | "games" | "routes" | "reports";
+export type PublisherMaintenanceChangeStatus = "draft" | "review-required" | "blocked" | "ready-for-release";
+export type PublisherMaintenanceRouteImpact = "none" | "alias-preserved" | "requires-redirect";
 
 export interface PublisherMaintenanceItem {
   itemId: string;
@@ -22,6 +24,23 @@ export interface PublisherReleaseWindow {
   requiredProof: string[];
 }
 
+export interface PublisherMaintenanceChangeRequest {
+  requestId: string;
+  label: string;
+  domain: PublisherMaintenanceDomain;
+  requestedBy: string;
+  targetEdition: string;
+  changeType: string;
+  status: PublisherMaintenanceChangeStatus;
+  routeImpact: PublisherMaintenanceRouteImpact;
+  mediaImpact: string;
+  gameImpact: string;
+  reportImpact: string;
+  requiredApprovals: string[];
+  blockedBy: string[];
+  nextAction: string;
+}
+
 export interface PublisherMaintenancePlan {
   planId: string;
   label: string;
@@ -29,6 +48,7 @@ export interface PublisherMaintenancePlan {
   partnerPromise: string;
   items: PublisherMaintenanceItem[];
   releaseWindows: PublisherReleaseWindow[];
+  changeRequests: PublisherMaintenanceChangeRequest[];
   standingRules: string[];
 }
 
@@ -132,6 +152,56 @@ export const samplePublisherMaintenancePlan: PublisherMaintenancePlan = {
       timing: "Optional, only for non-breaking improvements",
       purpose: "Add reviewed bonus media, fix content errors, or unlock extra game modes without changing printed QR meaning.",
       requiredProof: ["Change log", "No route break", "No report-schema change", "Teacher-visible notice"],
+    },
+  ],
+  changeRequests: [
+    {
+      requestId: "change-annual-audio-refresh",
+      label: "Replace Unit 1 routine chant with 2027 recording",
+      domain: "media",
+      requestedBy: "Publisher media owner",
+      targetEdition: "2027 annual edition",
+      changeType: "Media replacement",
+      status: "review-required",
+      routeImpact: "alias-preserved",
+      mediaImpact: "Requires new media manifest version and proof of audio ownership.",
+      gameImpact: "Can become optional background media only after learning-audio ducking is verified.",
+      reportImpact: "Media engagement remains support-only and does not change mastery scoring.",
+      requiredApprovals: ["Media rights", "Audio QA", "Package release gate"],
+      blockedBy: ["Updated rights proof not attached", "Local bundle path not reviewed"],
+      nextAction: "Attach the 2027 media manifest and confirm hosted/local delivery paths.",
+    },
+    {
+      requestId: "change-add-sentence-builder",
+      label: "Add Sentence Builder to Unit 1 after flashcards and Memory Match",
+      domain: "games",
+      requestedBy: "Publisher curriculum reviewer",
+      targetEdition: "2026 pilot refresh",
+      changeType: "Game availability",
+      status: "ready-for-release",
+      routeImpact: "none",
+      mediaImpact: "Uses existing term and sentence audio cues.",
+      gameImpact: "Adds a text-spelling engine mode using existing target sentences and standard scoring events.",
+      reportImpact: "Adds answer_result and mastery_updated rows to teacher report packages.",
+      requiredApprovals: ["Game QA", "Audio coverage", "Teacher assignment review"],
+      blockedBy: [],
+      nextAction: "Include in the next release candidate only if mobile route checks pass.",
+    },
+    {
+      requestId: "change-qr-edition-redirect",
+      label: "Redirect old printed QR to current 2027 Unit 1 package",
+      domain: "routes",
+      requestedBy: "Platform operator",
+      targetEdition: "2027 annual edition",
+      changeType: "QR alias update",
+      status: "blocked",
+      routeImpact: "requires-redirect",
+      mediaImpact: "No direct media QR target allowed.",
+      gameImpact: "Must preserve teacher front-door entry before game launch.",
+      reportImpact: "Report package policy must match the destination package.",
+      requiredApprovals: ["QR print readiness", "Release rollback", "School/publisher notice"],
+      blockedBy: ["Old edition fallback message not written", "Rollback route not reviewed"],
+      nextAction: "Define fallback wording and rollback target before updating the alias.",
     },
   ],
   standingRules: [

@@ -1,8 +1,11 @@
 import { Card, StatusPill } from "@living-textbook/ui";
 import type {
+  PublisherMaintenanceChangeRequest,
+  PublisherMaintenanceChangeStatus,
   PublisherMaintenanceDomain,
   PublisherMaintenanceItem,
   PublisherMaintenancePlan,
+  PublisherMaintenanceRouteImpact,
   PublisherMaintenanceStatus,
   PublisherReleaseWindow,
 } from "@/data/samplePublisherMaintenancePlan";
@@ -31,10 +34,24 @@ const domainLabel: Record<PublisherMaintenanceDomain, string> = {
   reports: "Reports",
 };
 
+const changeStatusTone: Record<PublisherMaintenanceChangeStatus, "neutral" | "success" | "warning"> = {
+  blocked: "warning",
+  draft: "neutral",
+  "ready-for-release": "success",
+  "review-required": "warning",
+};
+
+const routeImpactLabel: Record<PublisherMaintenanceRouteImpact, string> = {
+  "alias-preserved": "Alias preserved",
+  none: "No route change",
+  "requires-redirect": "Redirect review",
+};
+
 export function PublisherMaintenancePlanPanel({ plan }: PublisherMaintenancePlanPanelProps) {
   const readyCount = plan.items.filter((item) => item.status === "ready").length;
   const ownerNeededCount = plan.items.filter((item) => item.status === "needs-owner").length;
   const guardrailCount = plan.items.reduce((total, item) => total + item.notAllowedYet.length, 0);
+  const blockedChangeCount = plan.changeRequests.filter((change) => change.status === "blocked").length;
 
   return (
     <Card>
@@ -52,10 +69,11 @@ export function PublisherMaintenancePlanPanel({ plan }: PublisherMaintenancePlan
         <p className="mt-2 text-sm leading-6 text-[var(--tenant-text)]">{plan.partnerPromise}</p>
       </section>
 
-      <div className="mt-5 grid gap-3 sm:grid-cols-3">
+      <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <MaintenanceMetric label="Ready domains" value={`${readyCount}/${plan.items.length}`} tone={readyCount === plan.items.length ? "success" : "warning"} />
         <MaintenanceMetric label="Owner decisions" value={String(ownerNeededCount)} tone={ownerNeededCount > 0 ? "warning" : "success"} />
         <MaintenanceMetric label="Guardrails" value={String(guardrailCount)} tone="neutral" />
+        <MaintenanceMetric label="Blocked changes" value={String(blockedChangeCount)} tone={blockedChangeCount > 0 ? "warning" : "success"} />
       </div>
 
       <div className="mt-5 grid gap-4 lg:grid-cols-[1fr_1fr]">
@@ -97,6 +115,24 @@ export function PublisherMaintenancePlanPanel({ plan }: PublisherMaintenancePlan
           <MaintenanceItemCard key={item.itemId} item={item} />
         ))}
       </div>
+
+      <section className="mt-5 rounded-lg border border-[var(--tenant-border)] p-4">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Maintenance change queue</p>
+            <h3 className="mt-1 text-base font-bold text-[var(--tenant-text)]">Yearly content, media, game, route, and report updates</h3>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
+              Changes stay in a review queue until route impact, media rights, game/audio coverage, report impact, approvals, and rollback behavior are clear.
+            </p>
+          </div>
+          <StatusPill label={`${plan.changeRequests.length} requests`} tone={blockedChangeCount > 0 ? "warning" : "success"} />
+        </div>
+        <div className="mt-4 grid gap-3">
+          {plan.changeRequests.map((changeRequest) => (
+            <MaintenanceChangeRequestCard key={changeRequest.requestId} changeRequest={changeRequest} />
+          ))}
+        </div>
+      </section>
     </Card>
   );
 }
@@ -173,5 +209,75 @@ function MaintenanceItemCard({ item }: { item: PublisherMaintenanceItem }) {
         ))}
       </ul>
     </article>
+  );
+}
+
+function MaintenanceChangeRequestCard({ changeRequest }: { changeRequest: PublisherMaintenanceChangeRequest }) {
+  return (
+    <article className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">
+            {domainLabel[changeRequest.domain]} / {changeRequest.changeType}
+          </p>
+          <h4 className="mt-1 text-sm font-bold text-[var(--tenant-text)]">{changeRequest.label}</h4>
+          <p className="mt-1 text-xs font-semibold uppercase text-[var(--tenant-muted)]">
+            {changeRequest.requestedBy} / {changeRequest.targetEdition}
+          </p>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <StatusPill label={changeRequest.status} tone={changeStatusTone[changeRequest.status]} />
+          <StatusPill label={routeImpactLabel[changeRequest.routeImpact]} tone={changeRequest.routeImpact === "requires-redirect" ? "warning" : "neutral"} />
+        </div>
+      </div>
+
+      <dl className="mt-3 grid gap-3 text-sm leading-6 text-[var(--tenant-muted)] lg:grid-cols-3">
+        <MaintenanceDetail label="Media impact" value={changeRequest.mediaImpact} />
+        <MaintenanceDetail label="Game impact" value={changeRequest.gameImpact} />
+        <MaintenanceDetail label="Report impact" value={changeRequest.reportImpact} />
+      </dl>
+
+      <div className="mt-3 grid gap-3 lg:grid-cols-2">
+        <section className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] p-3">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Required approvals</p>
+            <StatusPill label={String(changeRequest.requiredApprovals.length)} tone="neutral" />
+          </div>
+          <ul className="mt-2 grid gap-1 text-sm leading-6 text-[var(--tenant-muted)]">
+            {changeRequest.requiredApprovals.map((approval) => (
+              <li key={approval}>{approval}</li>
+            ))}
+          </ul>
+        </section>
+        <section className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] p-3">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Blocked by</p>
+            <StatusPill label={String(changeRequest.blockedBy.length)} tone={changeRequest.blockedBy.length > 0 ? "warning" : "success"} />
+          </div>
+          {changeRequest.blockedBy.length > 0 ? (
+            <ul className="mt-2 grid gap-1 text-sm leading-6 text-[var(--tenant-muted)]">
+              {changeRequest.blockedBy.map((blocker) => (
+                <li key={blocker}>{blocker}</li>
+              ))}
+            </ul>
+          ) : (
+            <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">No open blockers.</p>
+          )}
+        </section>
+      </div>
+
+      <p className="mt-3 text-sm leading-6 text-[var(--tenant-muted)]">
+        <span className="font-semibold text-[var(--tenant-text)]">Next:</span> {changeRequest.nextAction}
+      </p>
+    </article>
+  );
+}
+
+function MaintenanceDetail({ label, value }: { label: string; value: string }) {
+  return (
+    <div>
+      <dt className="font-semibold text-[var(--tenant-text)]">{label}</dt>
+      <dd className="mt-1">{value}</dd>
+    </div>
   );
 }
