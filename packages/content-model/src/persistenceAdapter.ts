@@ -19,6 +19,7 @@ export interface PersistenceWriteIntent {
   rejectsRawAudio: boolean;
   rejectsTranscripts: boolean;
   preservesEventEffectTaxonomy?: boolean;
+  preservesGameAudioCoverageSnapshot?: boolean;
   note: string;
 }
 
@@ -99,6 +100,10 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "progress-event-stream" && !intent.preservesEventEffectTaxonomy) {
       errors.push(`Progress event write intent ${intent.intentId} must preserve event effect taxonomy.`);
+    }
+
+    if (intent.intentId.includes("package-audio-coverage") && !intent.preservesGameAudioCoverageSnapshot) {
+      errors.push(`Package game/audio coverage write intent ${intent.intentId} must preserve reviewed game/audio coverage snapshots.`);
     }
   }
 

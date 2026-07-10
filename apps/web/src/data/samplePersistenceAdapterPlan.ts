@@ -124,6 +124,7 @@ export const samplePersistenceAdapterPlans: PersistenceAdapterPlan[] = [
         allowsExport: false,
         rejectsRawAudio: true,
         rejectsTranscripts: true,
+        preservesGameAudioCoverageSnapshot: true,
         note: "Hosted pilots need a durable snapshot of assigned game modes, audio-covered modes, cue source decisions, and reviewed package version so releases cannot drift after approval.",
       },
       {
@@ -223,6 +224,7 @@ export const samplePersistenceAdapterPlans: PersistenceAdapterPlan[] = [
         allowsExport: true,
         rejectsRawAudio: true,
         rejectsTranscripts: true,
+        preservesGameAudioCoverageSnapshot: true,
         note: "Closed deployments need local records of assigned game modes and audio-covered modes so offline yearly textbook updates preserve reviewed learning/audio coverage.",
       },
       {

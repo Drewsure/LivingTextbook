@@ -65,6 +65,7 @@
 - `DR-091-focused-training-demo-shortcut.md`
 - `DR-092-focused-training-active-route-check.md`
 - `DR-093-active-route-matrix-panel.md`
+- `DR-094-package-audio-coverage-snapshot-flag.md`
 
 ## Maintenance Rule
 

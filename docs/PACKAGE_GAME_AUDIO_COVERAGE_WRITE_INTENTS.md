@@ -10,6 +10,8 @@ Persistence adapter plans now include write intents for package game/audio cover
 - Local classroom adapter includes `local-package-audio-coverage-write`.
 - Both intents reject raw learner audio and transcripts.
 - Both intents are required before pilot use.
+- Both intents set `preservesGameAudioCoverageSnapshot: true`.
+- The shared content model rejects package game/audio coverage write intents that omit the snapshot preservation flag.
 
 ## Stored Shape To Preserve
 

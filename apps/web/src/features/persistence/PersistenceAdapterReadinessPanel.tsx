@@ -120,6 +120,12 @@ export function PersistenceAdapterReadinessPanel({
                         <dd className="mt-1">{intent.preservesEventEffectTaxonomy ? "Preserved" : "Needs review"}</dd>
                       </div>
                     )}
+                    {intent.intentId.includes("package-audio-coverage") && (
+                      <div>
+                        <dt className="font-semibold text-[var(--tenant-text)]">Game/audio snapshot</dt>
+                        <dd className="mt-1">{intent.preservesGameAudioCoverageSnapshot ? "Preserved" : "Needs review"}</dd>
+                      </div>
+                    )}
                   </dl>
                 </article>
               ))}
