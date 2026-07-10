@@ -19,6 +19,7 @@ export type PersistenceBoundaryCategory =
   | "media-manifest"
   | "deployment-profile"
   | "teacher-report-package"
+  | "publisher-maintenance-change"
   | "package-release-candidate"
   | "package-publish-gate"
   | "package-approval-ledger";
@@ -182,6 +183,21 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     note: "Teacher reports need a durable package boundary so learning evidence, support-only events, excluded sensitive fields, and export blockers are preserved across hosted and local deployments.",
   },
   {
+    recordId: "publisher-maintenance-change-record",
+    category: "publisher-maintenance-change",
+    label: "Publisher maintenance change request record",
+    readiness: "durable-required",
+    sourceOfTruth: "PublisherMaintenanceChangeRequest plus package release, media manifest, game offer, QR alias, and report package impact",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
+    note: "Yearly publisher updates need durable change requests so media, games, QR aliases, and reports move through review instead of manual file or route edits.",
+  },
+  {
     recordId: "package-release-candidate-record",
     category: "package-release-candidate",
     label: "Package release candidate record",
@@ -311,6 +327,18 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     visibleTo: ["Teacher", "Tenant admin", "School admin"],
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision: "Define report package storage, access control, retention, and export audit rules before live classroom reporting.",
+  },
+  {
+    boundaryId: "publisher-maintenance-change-boundary",
+    category: "publisher-maintenance-change",
+    label: "Publisher maintenance change requests",
+    status: "needs-backend",
+    recordShape: "Maintenance change request, domain, target edition, route impact, media/game/report impact, approvals, blockers, next action",
+    whyItMatters:
+      "White-label partners need year-on-year content, media, game, route, and report updates without silent route breaks or unmanaged files.",
+    visibleTo: ["Platform admin", "Tenant admin", "Content reviewer", "Publisher media owner"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision: "Store maintenance changes with release candidates before partner self-maintenance is enabled.",
   },
   {
     boundaryId: "media-manifest-boundary",

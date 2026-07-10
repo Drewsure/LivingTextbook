@@ -37,6 +37,7 @@ Focused verification supplements:
 - `docs/verification/PILOT_SOURCE_STRATEGY_CHECKS.md`
 - `docs/verification/PROGRESS_EVENT_TAXONOMY_CHECKS.md`
 - `docs/verification/PUBLISHER_MAINTENANCE_CHANGE_QUEUE_CHECKS.md`
+- `docs/verification/PUBLISHER_MAINTENANCE_CHANGE_STORAGE_CHECKS.md`
 - `docs/verification/PILOT_READINESS_GATE_CHECKS.md`
 - `docs/verification/PILOT_RELEASE_CANDIDATE_CHECKS.md`
 - `docs/verification/PUBLISHER_MAINTENANCE_CHECKS.md`

@@ -213,6 +213,30 @@ export const sampleBackendSchemaDraft: BackendSchemaDraft = {
         "This record should be computed or validated from publish gate and ledger records so demo-visible routes cannot be mistaken for live pilot release.",
     },
     {
+      entityId: "publisher_maintenance_change",
+      label: "Publisher maintenance change request",
+      status: "required-before-pilot",
+      deploymentFit: "hybrid",
+      purpose:
+        "Stores reviewed year-on-year content, media, game, QR, and report update requests before they can affect a package release.",
+      fields: [
+        { name: "change_request_id", type: "stable id", required: true, note: "One requested maintenance change." },
+        { name: "tenant_id", type: "foreign key/string", required: true, note: "Tenant or publisher owner." },
+        { name: "package_id", type: "foreign key/string", required: true, note: "Package or release candidate affected by the change." },
+        { name: "target_edition", type: "string", required: true, note: "Edition or refresh window the change belongs to." },
+        { name: "domain", type: "enum", required: true, note: "Content, media, games, routes, or reports." },
+        { name: "status", type: "enum", required: true, note: "Draft, review-required, blocked, or ready-for-release." },
+        { name: "route_impact", type: "enum", required: true, note: "None, alias-preserved, or requires-redirect." },
+        { name: "required_approvals", type: "json/string array", required: true, note: "Approvals required before release." },
+        { name: "blocked_by", type: "json/string array", required: true, note: "Open blockers preventing release." },
+      ],
+      relationships: ["Belongs to tenant", "Belongs to package release", "May reference media manifest, route alias, game offer map, or report package"],
+      indexes: ["tenant_id + package_id", "tenant_id + target_edition", "tenant_id + status", "tenant_id + domain"],
+      forbiddenFields: ["Direct binary media replacement", "Silent QR retargeting", "Unreviewed game activation", "Report export policy override"],
+      migrationNote:
+        "Maintenance changes are review records. They must not mutate active package routes or media manifests until release gates and approvals accept them.",
+    },
+    {
       entityId: "package_publish_gate",
       label: "Package publish gate",
       status: "required-before-pilot",
@@ -255,6 +279,7 @@ export const sampleBackendSchemaDraft: BackendSchemaDraft = {
     "Package game/audio coverage stores release metadata only, not raw audio files or learner recordings.",
     "Progress events must preserve event_effect so support-only activity never becomes mastery evidence.",
     "Teacher report packages must preserve learning-evidence, support-only, and excluded-sensitive-field boundaries before export.",
+    "Publisher maintenance changes must be reviewed before they alter routes, media manifests, game offers, or report packages.",
     "Support language never unlocks target-language progression.",
     "AI Tutor and speech scoring stay premium-gated and disabled unless tenant policy accepts them.",
     "Local and hosted implementations must preserve the same record vocabulary.",

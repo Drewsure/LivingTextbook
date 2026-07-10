@@ -190,6 +190,24 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
       rollbackOrExportNeeds: ["Export report package boundary as JSON", "Regenerate from normalized events when policy allows", "Support local report package export"],
       notAllowedYet: ["Ungated teacher report export", "Raw audio in report package", "Learner transcript in core report", "Support-only events counted as mastery"],
     },
+    {
+      migrationId: "m010-publisher-maintenance-change-requests",
+      label: "Publisher maintenance change request records",
+      track: "shared",
+      status: "ready-to-design",
+      risk: "medium",
+      targetEntities: ["publisher_maintenance_change"],
+      purpose: "Persist year-on-year publisher content, media, game, route, and report update requests before package release mutation.",
+      prerequisites: ["Package release versioning accepted", "Media rights workflow accepted", "QR alias rollback rule accepted"],
+      implementationNotes: [
+        "Keep change requests tenant-scoped and package-scoped.",
+        "Represent route impact explicitly before QR alias changes.",
+        "Represent media, game, and report impacts before release approval.",
+        "Do not let change requests directly mutate active student routes.",
+      ],
+      rollbackOrExportNeeds: ["Export change requests with release candidate records", "Retain blocked and superseded requests for audit", "Support local bundle change history"],
+      notAllowedYet: ["Silent QR retargeting", "Direct media file replacement", "Unreviewed game activation", "Report policy override by change request"],
+    },
   ],
   standingRules: [
     "Do not create production migrations before backend choice and policy gates are accepted.",
@@ -198,6 +216,7 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
     "Hosted and local implementations must use the same record vocabulary.",
     "Hosted and local event stores must preserve event effect taxonomy.",
     "Teacher report packages must preserve learning-evidence, support-only, and excluded-sensitive-field boundaries.",
+    "Publisher maintenance changes must pass release review before active package mutation.",
     "Every migration candidate needs rollback or export expectations before implementation.",
   ],
 };

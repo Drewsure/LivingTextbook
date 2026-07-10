@@ -8,6 +8,7 @@ export type PersistenceRecordCategory =
   | "deployment-profile"
   | "report-export-policy"
   | "teacher-report-package"
+  | "publisher-maintenance-change"
   | "package-release-candidate"
   | "package-publish-gate"
   | "package-approval-ledger";
