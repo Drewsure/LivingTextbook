@@ -41,6 +41,7 @@ Training Academy may be recommended when:
 Active prototype route:
 
 - `/training/[launchCode]`
+- `/training/[launchCode]?focus=[TrainingFocusType]`
 
 Planned route forms:
 
@@ -55,6 +56,8 @@ Routes must preserve:
 - Student session id or safe anonymous practice id.
 - Practice focus.
 - Return path to the normal unit progression route.
+
+When a recovery trigger knows the recommended focus, it should pass the focus through the query string. The route must fall back safely to vocabulary review if an unknown focus is provided.
 
 ## Practice Focus Types
 
@@ -201,8 +204,9 @@ Current prototype checks:
 2. Run typecheck/build.
 3. Verify `/launch/demo-unit-1` and `/enter/ministar` still work.
 4. Verify `/training/demo-unit-1` loads.
-5. Tap review terms and confirm they speak.
-6. Start review, complete review, and record return.
-7. Confirm the event log shows `trainingEventType` metadata for the required recovery actions.
-8. Confirm small recovery Star Dust is awarded and the student can return to `/launch/demo-unit-1`.
-9. Confirm no AI Tutor entitlement is required.
+5. Verify `/training/demo-unit-1?focus=sentence-review` opens the sentence review lane.
+6. Tap review terms and confirm they speak.
+7. Start review, complete review, and record return.
+8. Confirm the event log shows `trainingEventType` metadata for the required recovery actions.
+9. Confirm small recovery Star Dust is awarded and the student can return to `/launch/demo-unit-1`.
+10. Confirm no AI Tutor entitlement is required.

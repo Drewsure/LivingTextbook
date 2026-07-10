@@ -104,7 +104,6 @@ Remaining gate:
 
 Next outputs:
 
-- Query-param or launch-session selected focus when a trigger points to a specific recovery lane.
 - Persistence-backed report aggregation after storage policy is selected.
 
 ## Session 2.75: Reviewed Assist Language Foundation

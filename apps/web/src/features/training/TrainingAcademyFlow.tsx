@@ -25,11 +25,13 @@ interface TrainingAcademyFlowProps {
   unit: UnitPayload;
   launchSession: LaunchSession;
   progression: StudentProgressionState;
+  initialFocusType?: TrainingFocusType;
 }
 
-export function TrainingAcademyFlow({ tenant, unit, launchSession, progression }: TrainingAcademyFlowProps) {
+export function TrainingAcademyFlow({ tenant, unit, launchSession, progression, initialFocusType = "vocabulary-review" }: TrainingAcademyFlowProps) {
   const focusOptions = useMemo(() => createTrainingAcademyFocusConfigs({ unit, launchSession }), [unit, launchSession]);
-  const [selectedFocusType, setSelectedFocusType] = useState<TrainingFocusType>("vocabulary-review");
+  const initialFocusIsAvailable = focusOptions.some((option) => option.focusType === initialFocusType);
+  const [selectedFocusType, setSelectedFocusType] = useState<TrainingFocusType>(initialFocusIsAvailable ? initialFocusType : "vocabulary-review");
   const recommendation = useMemo(
     () => createTrainingAcademyRecommendation({ unit, launchSession, focusType: selectedFocusType }),
     [unit, launchSession, selectedFocusType],

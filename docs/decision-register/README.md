@@ -61,6 +61,7 @@
 - `DR-087-progress-event-taxonomy-storage.md`
 - `DR-088-persistence-event-taxonomy-write-intents.md`
 - `DR-089-teacher-training-recovery-trigger-settings.md`
+- `DR-090-training-focus-route-query.md`
 
 ## Maintenance Rule
 

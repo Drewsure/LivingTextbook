@@ -42,6 +42,7 @@ Expected results:
 - `/enter/ministar` still supports front-door code entry, multimedia package concept, and teacher-visible progress summary.
 - `/enter/ministar` shows recovery event counts in the teacher-visible sample stream.
 - `/training/demo-unit-1` shows the Training Academy recovery route and a recovery-focus selector.
+- `/training/demo-unit-1?focus=sentence-review` opens with sentence review selected.
 
 ## Trigger Checks
 
@@ -115,6 +116,7 @@ On `/enter/ministar`:
 - The route follows the audio-first standard.
 - Recovery recommendations are deterministic, explainable, and triggered by repeated misses or low completion results.
 - Recovery focus is config-driven and not hard-coded to vocabulary only.
+- Recovery trigger links may pass a focus query string and must fall back safely for unknown values.
 - Recovery rewards are deterministic and smaller than primary unit-game rewards.
 - Training Academy remains core platform functionality, not premium AI Tutor functionality.
 - Teacher reports can count recovery events without a separate report stream.

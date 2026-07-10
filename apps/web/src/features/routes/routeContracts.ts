@@ -1,5 +1,6 @@
 import { getLaunchPath, getPermanentQrPath } from "@living-textbook/content-model";
 import type { LaunchCode, PermanentQrIdentifier, TenantId } from "@living-textbook/content-model";
+import type { TrainingFocusType } from "@/features/training/trainingAcademyAdapter";
 
 export type AppRouteAudience = "platform" | "teacher" | "student";
 export type AppRouteStatus = "active-scaffold" | "future";
@@ -149,8 +150,10 @@ export function getStudentLaunchPath(launchCode: LaunchCode): string {
   return getLaunchPath(launchCode);
 }
 
-export function getTrainingAcademyPath(launchCode: LaunchCode): string {
-  return `/training/${encodeURIComponent(launchCode)}`;
+export function getTrainingAcademyPath(launchCode: LaunchCode, focusType?: TrainingFocusType): string {
+  const basePath = `/training/${encodeURIComponent(launchCode)}`;
+
+  return focusType ? `${basePath}?focus=${encodeURIComponent(focusType)}` : basePath;
 }
 
 export function getSentenceBuilderPath(launchCode: LaunchCode): string {
