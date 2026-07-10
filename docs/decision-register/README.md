@@ -55,6 +55,7 @@
 - `DR-081-teacher-report-language-engagement-summary.md`
 - `DR-082-game-action-audio-controls.md`
 - `DR-083-student-progress-language-gate-summary.md`
+- `DR-084-recommended-route-audio-controls.md`
 
 ## Maintenance Rule
 

@@ -2,7 +2,7 @@
 
 import { Card, StatusPill } from "@living-textbook/ui";
 import type { GameModeId, LaunchSession, StudentProgressionState } from "@living-textbook/content-model";
-import { AudioCueText } from "@/features/audio/AudioCueButton";
+import { AudioCueButton, AudioCueText } from "@/features/audio/AudioCueButton";
 import {
   getQuizPath,
   getSentenceBuilderPath,
@@ -49,27 +49,44 @@ export function RecommendedGameRoutesCard({ launchSession, progression }: Recomm
       </div>
 
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
-        {recommendedRoutes.map((route) => (
-          <a
-            key={route.mode}
-            href={route.unlocked ? route.href : "#"}
-            aria-disabled={!route.unlocked}
-            className={`rounded-lg border p-3 text-sm transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--tenant-primary)] ${
-              route.unlocked
-                ? "border-[var(--tenant-border)] bg-[var(--tenant-surface)] hover:bg-[var(--tenant-primary-soft)]"
-                : "pointer-events-none border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] opacity-70"
-            }`}
-          >
-            <span className="flex flex-wrap items-center justify-between gap-2">
-              <span className="font-bold text-[var(--tenant-text)]">
-                {route.order}. {formatMode(route.mode)}
+        {recommendedRoutes.map((route) => {
+          const listenText = `${formatMode(route.mode)}. ${route.summary}`;
+
+          return (
+            <div
+              key={route.mode}
+              className={`rounded-lg border p-3 text-sm transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--tenant-primary)] ${
+                route.unlocked
+                  ? "border-[var(--tenant-border)] bg-[var(--tenant-surface)]"
+                  : "border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] opacity-80"
+              }`}
+            >
+              <span className="flex flex-wrap items-center justify-between gap-2">
+                <span className="font-bold text-[var(--tenant-text)]">
+                  {route.order}. {formatMode(route.mode)}
+                </span>
+                <StatusPill label={route.completed ? "Complete" : route.unlocked ? "Ready" : "Locked"} tone={route.unlocked ? "success" : "warning"} />
               </span>
-              <StatusPill label={route.completed ? "Complete" : route.unlocked ? "Ready" : "Locked"} tone={route.unlocked ? "success" : "warning"} />
-            </span>
-            <span className="mt-2 block leading-5 text-[var(--tenant-muted)]">{route.summary}</span>
-            <span className="mt-2 block break-all text-xs font-semibold text-[var(--tenant-muted)]">{route.unlocked ? route.href : "Finish flashcards to unlock."}</span>
-          </a>
-        ))}
+              <span className="mt-2 block leading-5 text-[var(--tenant-muted)]">{route.summary}</span>
+              <span className="mt-3 flex flex-wrap items-center gap-2">
+                <AudioCueButton text={listenText} label={`Listen to ${formatMode(route.mode)} route`} compact />
+                {route.unlocked ? (
+                  <a
+                    href={route.href}
+                    className="inline-flex min-h-10 items-center justify-center rounded-lg bg-[var(--tenant-primary)] px-3 py-2 text-sm font-semibold text-white transition hover:brightness-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--tenant-primary)]"
+                  >
+                    Open
+                  </a>
+                ) : (
+                  <span className="inline-flex min-h-10 items-center rounded-lg border border-[var(--tenant-border)] px-3 py-2 text-sm font-semibold text-[var(--tenant-muted)]">
+                    Finish flashcards
+                  </span>
+                )}
+              </span>
+              <span className="mt-2 block break-all text-xs font-semibold text-[var(--tenant-muted)]">{route.unlocked ? route.href : "Finish flashcards to unlock."}</span>
+            </div>
+          );
+        })}
       </div>
     </Card>
   );

@@ -250,3 +250,33 @@ npm run build --workspace @living-textbook/web
 4. See `docs/operating-notes/2026-07-02-next16-windows-webpack-build.md` for the detailed failure signature and recovery note.
 
 Why this matters: The project can keep the low-cost Next/Tailwind foundation while avoiding repeat production-build interruptions from a tooling worker failure.
+
+## OW-012: Transient Git Index Lock After Parallel Checks
+
+Status: Active
+
+Observed behavior: A `git commit` can briefly fail with `.git/index.lock` after nearby parallel status/diff/staging checks. In the observed cases, no active Git process remained and the lock disappeared without manual deletion.
+
+Observed failure signature:
+
+- `fatal: Unable to create '.git/index.lock': File exists.`
+
+Procedure:
+
+1. Do not immediately delete `.git/index.lock`.
+2. Check for an active Git process:
+
+```powershell
+Get-Process git -ErrorAction SilentlyContinue
+```
+
+3. Check whether `.git\index.lock` still exists:
+
+```powershell
+Get-Item .git\index.lock -ErrorAction SilentlyContinue
+```
+
+4. If no Git process is active and the lock has already cleared, retry the original Git command.
+5. Only consider manually removing the lock after confirming no Git process is active and the lock persists.
+
+Why this matters: It avoids corrupting the repository while still giving future sessions a quick recovery path for a repeat Windows/local tooling hiccup.
