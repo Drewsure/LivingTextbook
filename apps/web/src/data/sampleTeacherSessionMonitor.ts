@@ -495,6 +495,9 @@ function createSampleMonitorEvents(launchSession: LaunchSession, isPartner: bool
       metadata: {
         mediaAssetId,
         playbackContext: "unit-home",
+        progressionUnlockAllowed: false,
+        masteryCreditAllowed: false,
+        starDustAwarded: 0,
       },
     },
     {
@@ -508,6 +511,9 @@ function createSampleMonitorEvents(launchSession: LaunchSession, isPartner: bool
         mediaAssetId,
         playbackContext: "unit-home",
         progressSeconds: 24,
+        progressionUnlockAllowed: false,
+        masteryCreditAllowed: false,
+        starDustAwarded: 0,
       },
     },
     {
@@ -520,6 +526,9 @@ function createSampleMonitorEvents(launchSession: LaunchSession, isPartner: bool
       metadata: {
         mediaAssetId,
         playbackContext: "unit-home",
+        progressionUnlockAllowed: false,
+        masteryCreditAllowed: false,
+        starDustAwarded: 0,
       },
     },
     {
@@ -534,6 +543,10 @@ function createSampleMonitorEvents(launchSession: LaunchSession, isPartner: bool
         playbackContext: "game-background",
         teacherEnabled: true,
         volumePercent: isPartner ? 30 : 35,
+        progressionUnlockAllowed: false,
+        masteryCreditAllowed: false,
+        starDustAwarded: 0,
+        pausesForLearningAudio: true,
       },
     },
     {

@@ -267,6 +267,9 @@ export function createMediaProgressEvent(args: {
       mediaKind: args.mediaAsset.kind,
       mediaType: args.mediaAsset.type,
       durationSeconds: args.mediaAsset.durationSeconds ?? 0,
+      progressionUnlockAllowed: false,
+      masteryCreditAllowed: false,
+      starDustAwarded: 0,
     },
   };
 }
@@ -316,6 +319,10 @@ export function createBackgroundMediaEvent(args: {
       mediaKind: args.mediaAsset.kind,
       mediaType: args.mediaAsset.type,
       volumePercent: args.volumePercent,
+      progressionUnlockAllowed: false,
+      masteryCreditAllowed: false,
+      starDustAwarded: 0,
+      pausesForLearningAudio: true,
     },
   };
 }
