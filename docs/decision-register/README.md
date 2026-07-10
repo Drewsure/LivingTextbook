@@ -56,6 +56,7 @@
 - `DR-082-game-action-audio-controls.md`
 - `DR-083-student-progress-language-gate-summary.md`
 - `DR-084-recommended-route-audio-controls.md`
+- `DR-085-route-guidance-listen-events.md`
 
 ## Maintenance Rule
 

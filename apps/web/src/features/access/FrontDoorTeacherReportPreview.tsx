@@ -20,6 +20,7 @@ export function FrontDoorTeacherReportPreview({ tenant, progression, events }: F
   const mediaStarts = countEvents(events, "media_started");
   const mediaPauses = countEvents(events, "media_paused");
   const mediaCompletions = countEvents(events, "media_completed");
+  const routeGuidanceListens = countEvents(events, "route_guidance_listened");
   const targetLanguageItemsHeard = sumMetadataNumber(events, "targetLanguageItemsHeard");
   const supportLanguageTaps = sumMetadataNumber(events, "supportLanguageTaps");
   const supportLanguageUnlockEvents = countMetadataBoolean(events, "supportLanguageUnlockAllowed", true);
@@ -58,6 +59,7 @@ export function FrontDoorTeacherReportPreview({ tenant, progression, events }: F
         <Metric label="Media starts" value={String(mediaStarts)} />
         <Metric label="Media pauses" value={String(mediaPauses)} />
         <Metric label="Media complete" value={String(mediaCompletions)} />
+        <Metric label="Route listens" value={String(routeGuidanceListens)} />
         <Metric label="English audio heard" value={String(targetLanguageItemsHeard)} />
         <Metric label="Support taps" value={String(supportLanguageTaps)} />
         <Metric label="Support unlocks" value={String(supportLanguageUnlockEvents)} />

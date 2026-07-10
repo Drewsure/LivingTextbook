@@ -156,6 +156,30 @@ export function createGameInteractionEvent(args: {
   return event;
 }
 
+export function createRouteGuidanceListenedEvent(args: {
+  progression: StudentProgressionState;
+  launchSession: LaunchSession;
+  gameMode: GameModeId;
+  occurredAt: string;
+  routeStatus: "locked" | "unlocked" | "complete";
+  routeHref: string;
+}): GameProgressEvent {
+  return {
+    type: "route_guidance_listened",
+    unitKey: args.launchSession.unitKey,
+    gameMode: args.gameMode,
+    launchCode: args.launchSession.launchCode,
+    studentSessionId: args.progression.studentSessionId,
+    occurredAt: args.occurredAt,
+    metadata: {
+      routeStatus: args.routeStatus,
+      routeHref: args.routeHref,
+      progressionUnlockAllowed: false,
+      supportLanguageUnlockAllowed: false,
+    },
+  };
+}
+
 export function completeGameMode(args: {
   progression: StudentProgressionState;
   launchSession: LaunchSession;

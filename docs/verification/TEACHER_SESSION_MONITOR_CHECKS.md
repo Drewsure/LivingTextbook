@@ -44,14 +44,15 @@ Verify at:
 25. Confirm report export safety passes while export blockers remain visible.
 26. Confirm the event stream includes target-language entry practice completion.
 27. Confirm English audio heard, support taps, and support unlock metrics are visible.
-28. Confirm support-language taps do not appear as unlock triggers.
-29. Confirm the language engagement rule says English audio can support progression while support-language taps are reportable support only.
-30. Confirm game unlock, media, recovery, game completion, and Speak It readiness events appear in one report stream.
-31. Confirm assigned game path shows audio-covered count and marks each assigned mode as audio-covered or needing audio review.
-32. Confirm microphone/speech scoring remains marked as disabled or record/replay-only in the core sample.
-33. Confirm the page reuses tenant branding for MiniStar and the sample publisher.
-34. Confirm the route contract for `/teacher/sessions/[launchCode]` is active scaffold, not future-only, and includes `TeacherSessionControlAction[]` and `TeacherReportExportPlan`.
-35. Confirm no real student identity, transcript, raw audio storage, cloud speech scoring, or live report export is implied.
+28. Confirm route guidance listens are visible as support metrics, not mastery progress.
+29. Confirm support-language taps do not appear as unlock triggers.
+30. Confirm the language engagement rule says English audio can support progression while support-language taps are reportable support only.
+31. Confirm game unlock, media, recovery, game completion, and Speak It readiness events appear in one report stream.
+32. Confirm assigned game path shows audio-covered count and marks each assigned mode as audio-covered or needing audio review.
+33. Confirm microphone/speech scoring remains marked as disabled or record/replay-only in the core sample.
+34. Confirm the page reuses tenant branding for MiniStar and the sample publisher.
+35. Confirm the route contract for `/teacher/sessions/[launchCode]` is active scaffold, not future-only, and includes `TeacherSessionControlAction[]` and `TeacherReportExportPlan`.
+36. Confirm no real student identity, transcript, raw audio storage, cloud speech scoring, or live report export is implied.
 
 ## Acceptance Standard
 

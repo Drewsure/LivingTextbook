@@ -14,9 +14,10 @@ import { formatMode } from "../studentLabels";
 interface RecommendedGameRoutesCardProps {
   launchSession: LaunchSession;
   progression: StudentProgressionState;
+  onRouteGuidanceListened?: (mode: GameModeId, routeStatus: "locked" | "unlocked" | "complete", routeHref: string) => void;
 }
 
-export function RecommendedGameRoutesCard({ launchSession, progression }: RecommendedGameRoutesCardProps) {
+export function RecommendedGameRoutesCard({ launchSession, progression, onRouteGuidanceListened }: RecommendedGameRoutesCardProps) {
   const recommendedRoutes = launchSession.recommendedNextModes.map((mode, index) => ({
     mode,
     order: index + 1,
@@ -69,7 +70,18 @@ export function RecommendedGameRoutesCard({ launchSession, progression }: Recomm
               </span>
               <span className="mt-2 block leading-5 text-[var(--tenant-muted)]">{route.summary}</span>
               <span className="mt-3 flex flex-wrap items-center gap-2">
-                <AudioCueButton text={listenText} label={`Listen to ${formatMode(route.mode)} route`} compact />
+                <AudioCueButton
+                  text={listenText}
+                  label={`Listen to ${formatMode(route.mode)} route`}
+                  compact
+                  onPlay={() =>
+                    onRouteGuidanceListened?.(
+                      route.mode,
+                      route.completed ? "complete" : route.unlocked ? "unlocked" : "locked",
+                      route.href,
+                    )
+                  }
+                />
                 {route.unlocked ? (
                   <a
                     href={route.href}

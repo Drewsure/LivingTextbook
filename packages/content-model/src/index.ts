@@ -354,6 +354,7 @@ export type GameEventType =
   | "media_completed"
   | "background_media_enabled"
   | "background_media_disabled"
+  | "route_guidance_listened"
   | "game_completed"
   | "mastery_updated";
 

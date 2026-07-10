@@ -15,6 +15,7 @@ interface AudioCueButtonProps {
   language?: string;
   label?: string;
   compact?: boolean;
+  onPlay?: () => void;
 }
 
 interface AudioCueTextProps {
@@ -75,14 +76,19 @@ export function AudioCueText({ text, language = "en", label, className = "", aut
   );
 }
 
-export function AudioCueButton({ text, language = "en", label, compact = false }: AudioCueButtonProps) {
+export function AudioCueButton({ text, language = "en", label, compact = false, onPlay }: AudioCueButtonProps) {
   const [status, setStatus] = useState<AudioPlaybackStatus>("ready");
   const buttonLabel = label ?? `Listen to ${text}`;
+
+  function handlePlay() {
+    onPlay?.();
+    playAudioCueText({ text, language, onStatusChange: setStatus });
+  }
 
   return (
     <button
       type="button"
-      onClick={() => playAudioCueText({ text, language, onStatusChange: setStatus })}
+      onClick={handlePlay}
       aria-label={buttonLabel}
       className={`inline-flex min-h-10 items-center justify-center rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] px-3 py-2 text-sm font-semibold text-[var(--tenant-text)] transition hover:brightness-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--tenant-primary)] ${
         compact ? "min-w-20" : "min-w-24"

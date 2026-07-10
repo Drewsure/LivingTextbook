@@ -15,6 +15,7 @@ import { PairingMemoryMatchGame } from "@/features/game-shell/pairing/PairingMem
 import { PairingEnginePreview } from "@/features/game-shell/pairing/PairingEnginePreview";
 import {
   completeFlashcardEntryPractice,
+  createRouteGuidanceListenedEvent,
   startUnlockedGameMode,
   type GameModeCompletionResult,
 } from "@/features/progression/localProgressionAdapter";
@@ -152,6 +153,19 @@ export function StudentLaunchFlow({
     appendSessionEvents([event]);
   }
 
+  function handleRouteGuidanceListened(mode: GameModeId, routeStatus: "locked" | "unlocked" | "complete", routeHref: string) {
+    appendSessionEvents([
+      createRouteGuidanceListenedEvent({
+        progression: currentProgression,
+        launchSession,
+        gameMode: mode,
+        routeStatus,
+        routeHref,
+        occurredAt: new Date().toISOString(),
+      }),
+    ]);
+  }
+
   function handleGameComplete(result: GameModeCompletionResult) {
     setCurrentProgression(result.progression);
     setLastEarnedDust(result.earnedStarDust);
@@ -205,7 +219,11 @@ export function StudentLaunchFlow({
         started={nextModeStarted}
         onStart={handleStartNextMode}
       />
-      <RecommendedGameRoutesCard launchSession={launchSession} progression={currentProgression} />
+      <RecommendedGameRoutesCard
+        launchSession={launchSession}
+        progression={currentProgression}
+        onRouteGuidanceListened={handleRouteGuidanceListened}
+      />
       {activeGameMode === "memory-match" && (
         <PairingMemoryMatchGame
           unit={unit}

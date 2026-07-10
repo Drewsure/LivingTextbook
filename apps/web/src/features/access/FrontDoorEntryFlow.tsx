@@ -19,6 +19,7 @@ import { UnitMediaEngagementPanel } from "@/features/multimedia/UnitMediaEngagem
 import {
   completeFlashcardEntryPractice,
   createLaunchOpenedEvent,
+  createRouteGuidanceListenedEvent,
   startUnlockedGameMode,
   type GameModeCompletionResult,
 } from "@/features/progression/localProgressionAdapter";
@@ -167,6 +168,20 @@ export function FrontDoorEntryFlow({
     setSessionEvents((events) => [...events, event]);
   }
 
+  function handleRouteGuidanceListened(mode: GameModeId, routeStatus: "locked" | "unlocked" | "complete", routeHref: string) {
+    setSessionEvents((events) => [
+      ...events,
+      createRouteGuidanceListenedEvent({
+        progression: currentProgression,
+        launchSession,
+        gameMode: mode,
+        routeStatus,
+        routeHref,
+        occurredAt: new Date().toISOString(),
+      }),
+    ]);
+  }
+
   function handleGameComplete(result: GameModeCompletionResult) {
     setCurrentProgression(result.progression);
     setLastEarnedDust(result.earnedStarDust);
@@ -256,7 +271,11 @@ export function FrontDoorEntryFlow({
               started={nextModeStarted}
               onStart={handleStartNextMode}
             />
-            <RecommendedGameRoutesCard launchSession={launchSession} progression={currentProgression} />
+            <RecommendedGameRoutesCard
+              launchSession={launchSession}
+              progression={currentProgression}
+              onRouteGuidanceListened={handleRouteGuidanceListened}
+            />
             {activeGameMode === "memory-match" && (
               <PairingMemoryMatchGame
                 unit={unit}
