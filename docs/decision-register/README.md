@@ -68,6 +68,7 @@
 - `DR-094-package-audio-coverage-snapshot-flag.md`
 - `DR-095-active-route-matrix-full-local-links.md`
 - `DR-096-active-route-verification-script.md`
+- `DR-097-foundation-verification-script.md`
 
 ## Maintenance Rule
 

@@ -8,6 +8,10 @@ Run after adding or changing routes.
 - `npm run build --workspace @living-textbook/web`
 - `npm run verify:routes`
 
+When the local dev server is already running, these can be run together:
+
+- `npm run verify:foundation`
+
 ## Minimum Browser Checks
 
 Open:
