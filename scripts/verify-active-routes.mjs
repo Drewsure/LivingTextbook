@@ -4,6 +4,13 @@ const routeListPath = new URL("../docs/ACTIVE_ROUTE_VERIFICATION_LIST.md", impor
 const routeList = readFileSync(routeListPath, "utf8");
 const activeRouteSection = routeList.split("## Planned QR Route, Not Active Yet")[0] ?? routeList;
 const urls = Array.from(activeRouteSection.matchAll(/`(http:\/\/127\.0\.0\.1:3000\/[^`]*)`/g), (match) => match[1]);
+const expectedTextByPath = new Map([
+  ["/teacher/intake", "Package publish gate"],
+  ["/teacher/sessions/demo-unit-1", "Media engagement"],
+  ["/teacher/sessions/partner-demo-unit-1", "Media engagement"],
+  ["/media/playlist-ministar-l1-u1-greetings", "Media playlist route"],
+  ["/media/playlist-sample-publisher-l1-u1-routines", "Media playlist route"],
+]);
 
 if (urls.length === 0) {
   console.error("No active local routes found in docs/ACTIVE_ROUTE_VERIFICATION_LIST.md.");
@@ -15,7 +22,17 @@ const results = [];
 for (const url of urls) {
   try {
     const response = await fetch(url, { redirect: "manual" });
-    results.push({ url, status: response.status, ok: response.status >= 200 && response.status < 400 });
+    const expectedText = expectedTextByPath.get(new URL(url).pathname);
+    const body = expectedText && response.ok ? await response.text() : "";
+    const hasExpectedText = expectedText ? body.includes(expectedText) : true;
+
+    results.push({
+      url,
+      status: response.status,
+      ok: response.status >= 200 && response.status < 400 && hasExpectedText,
+      expectedText,
+      hasExpectedText,
+    });
   } catch (error) {
     results.push({ url, status: "error", ok: false, error: error instanceof Error ? error.message : String(error) });
   }
@@ -23,7 +40,13 @@ for (const url of urls) {
 
 for (const result of results) {
   const marker = result.ok ? "PASS" : "FAIL";
-  const detail = result.error ? ` ${result.error}` : "";
+  const textCheck =
+    result.expectedText && !result.hasExpectedText
+      ? ` missing expected text: ${result.expectedText}`
+      : result.expectedText
+        ? ` contains: ${result.expectedText}`
+        : "";
+  const detail = result.error ? ` ${result.error}` : textCheck;
   console.log(`${marker} ${result.status} ${result.url}${detail}`);
 }
 

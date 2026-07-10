@@ -77,6 +77,7 @@
 - `DR-103-media-playlist-unit-key-match.md`
 - `DR-104-teacher-monitor-media-engagement.md`
 - `DR-105-publish-gate-media-reporting-obligation.md`
+- `DR-106-active-route-content-checks.md`
 
 ## Maintenance Rule
 
