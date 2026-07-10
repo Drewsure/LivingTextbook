@@ -17,6 +17,7 @@ export function FrontDoorTeacherReportPreview({ tenant, progression, events }: F
   const answersSubmitted = countEvents(events, "answer_submitted");
   const answerResults = countEvents(events, "answer_result");
   const masteryUpdates = countEvents(events, "mastery_updated");
+  const mediaPlaylistOpens = countEvents(events, "media_playlist_opened");
   const mediaStarts = countEvents(events, "media_started");
   const mediaPauses = countEvents(events, "media_paused");
   const mediaCompletions = countEvents(events, "media_completed");
@@ -56,6 +57,7 @@ export function FrontDoorTeacherReportPreview({ tenant, progression, events }: F
         <Metric label="Answers" value={String(answersSubmitted)} />
         <Metric label="Results" value={String(answerResults)} />
         <Metric label="Mastery updates" value={String(masteryUpdates)} />
+        <Metric label="Playlist opens" value={String(mediaPlaylistOpens)} />
         <Metric label="Media starts" value={String(mediaStarts)} />
         <Metric label="Media pauses" value={String(mediaPauses)} />
         <Metric label="Media complete" value={String(mediaCompletions)} />

@@ -20,6 +20,7 @@ On `/enter/ministar` after opening the sample unit:
 12. Confirm the teacher session monitor shows a dedicated `Media engagement` section.
 13. Confirm media engagement shows started, paused, completed, and background media counts by asset.
 14. Confirm playlist route opens are shown separately from actual media playback.
+15. Confirm the compact teacher-visible report preview includes `Playlist opens`.
 
 ## Native Playback Event Checks
 

@@ -17,6 +17,7 @@ Checks:
 6. Teacher-visible summary separates English audio heard from support-language taps.
 7. Teacher-visible summary separates route guidance listens from mastery, game completion, and target-language item engagement.
 8. Support-language taps are reportable but not shown as unlock triggers.
+9. Playlist opens and media playback remain separate report fields.
 9. Export safety passes the shared contract.
 10. Export blockers mention missing school/tenant policy and missing persistence.
 11. The MiniStar and sample-publisher routes use the same shared export contract.

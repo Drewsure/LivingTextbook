@@ -79,6 +79,7 @@
 - `DR-105-publish-gate-media-reporting-obligation.md`
 - `DR-106-active-route-content-checks.md`
 - `DR-107-media-playlist-opened-event.md`
+- `DR-108-compact-report-playlist-opens.md`
 
 ## Maintenance Rule
 
