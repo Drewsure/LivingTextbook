@@ -330,5 +330,68 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
         "Report aggregation must ignore support-only events for mastery, Star Dust, and unlock calculations.",
       ],
     },
+    {
+      specId: "spec-teacher-report-package",
+      label: "Teacher report package boundary",
+      candidateId: "m009-teacher-report-package-boundary",
+      storeKind: "session-record",
+      status: "blocked-by-policy",
+      purpose:
+        "Stores a policy-bound report package snapshot for one teacher launch session without turning raw events into an ungated data export.",
+      primaryKey: "report_package_id",
+      tenantScope: "Scoped by tenant_id, launch_session_id, package_release_id, and report_policy_revision.",
+      fields: [
+        {
+          name: "report_package_id",
+          type: "string",
+          required: true,
+          note: "Stable id for one report package snapshot.",
+        },
+        {
+          name: "launch_session_id",
+          type: "string",
+          required: true,
+          note: "Links report package to the teacher session.",
+        },
+        {
+          name: "included_evidence",
+          type: "json",
+          required: true,
+          note: "Learning evidence allowed in the teacher report, such as target-language attempts, completion, mastery, recovery, and score summaries.",
+        },
+        {
+          name: "support_only_signals",
+          type: "json",
+          required: true,
+          note: "Support-language, media, background audio, and route guidance events that may be reported but never scored.",
+        },
+        {
+          name: "excluded_sensitive_fields",
+          type: "json",
+          required: true,
+          note: "Raw audio, transcripts, open-ended AI Tutor chat, unreviewed notes, and private identifiers excluded from core export.",
+        },
+        {
+          name: "export_blockers",
+          type: "json",
+          required: true,
+          note: "Open policy, persistence, retention, access, or format blockers.",
+        },
+        {
+          name: "report_policy_revision",
+          type: "string",
+          required: true,
+          note: "Policy version used when the package was generated or previewed.",
+        },
+      ],
+      indexes: ["tenant_id + launch_session_id", "launch_session_id unique", "report_policy_revision", "export_blockers contains"],
+      retentionRule: "Retain only according to school reporting policy; demo previews are not production records.",
+      exportRule: "Export only after policy permits teacher report export. CSV/PDF summaries must preserve support-only and excluded-field labels.",
+      localFallback: "Local classroom deployments store the same report package JSON beside local progress export packages.",
+      policyBlockers: [
+        "Teacher access roles, retention length, export audit, and parent/school visibility must be accepted before production writes.",
+        "Support-only events must remain excluded from mastery, Star Dust, and unlock calculations in every exported format.",
+      ],
+    },
   ],
 };

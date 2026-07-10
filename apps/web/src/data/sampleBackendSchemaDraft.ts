@@ -169,6 +169,28 @@ export const sampleBackendSchemaDraft: BackendSchemaDraft = {
       migrationNote: "Event retention and export policy must be accepted before real student use; support-only events must remain non-scoring in report queries.",
     },
     {
+      entityId: "teacher_report_package",
+      label: "Teacher report package boundary",
+      status: "policy-required",
+      deploymentFit: "hybrid",
+      purpose:
+        "Stores the policy-bound report package summary that separates learning evidence, support-only signals, excluded sensitive fields, and export blockers before teacher export.",
+      fields: [
+        { name: "report_package_id", type: "stable id", required: true, note: "One report package boundary per launch session or export snapshot." },
+        { name: "tenant_id", type: "foreign key/string", required: true, note: "Tenant boundary for report access." },
+        { name: "session_id", type: "foreign key/string", required: true, note: "Teacher launch session being summarized." },
+        { name: "included_evidence", type: "json/string array", required: true, note: "Reviewed learning evidence included in the report." },
+        { name: "support_only_signals", type: "json/string array", required: true, note: "Support-language, media, background audio, and guidance signals with no mastery effect." },
+        { name: "excluded_sensitive_fields", type: "json/string array", required: true, note: "Raw audio, transcripts, AI Tutor chat, private identifiers, and unreviewed notes stay outside core export." },
+        { name: "export_blockers", type: "json/string array", required: true, note: "Policy, persistence, retention, access, and format gates still blocking export." },
+      ],
+      relationships: ["Belongs to launch session", "Summarizes progress events", "Uses report export policy"],
+      indexes: ["session_id unique", "tenant_id + session_id", "tenant_id + export_blockers"],
+      forbiddenFields: ["Raw learner audio", "Learner transcripts", "Open-ended AI Tutor chat", "Support-only events used as mastery"],
+      migrationNote:
+        "Report packages are export boundaries, not raw data dumps. Hosted and local implementations must preserve support-only event semantics and exclusion rules.",
+    },
+    {
       entityId: "package_release_candidate",
       label: "Package release candidate",
       status: "required-before-pilot",
@@ -232,6 +254,7 @@ export const sampleBackendSchemaDraft: BackendSchemaDraft = {
     "Media files live in object storage or local bundles; schema stores manifests and rights metadata.",
     "Package game/audio coverage stores release metadata only, not raw audio files or learner recordings.",
     "Progress events must preserve event_effect so support-only activity never becomes mastery evidence.",
+    "Teacher report packages must preserve learning-evidence, support-only, and excluded-sensitive-field boundaries before export.",
     "Support language never unlocks target-language progression.",
     "AI Tutor and speech scoring stay premium-gated and disabled unless tenant policy accepts them.",
     "Local and hosted implementations must preserve the same record vocabulary.",

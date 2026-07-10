@@ -18,6 +18,7 @@ export type PersistenceBoundaryCategory =
   | "progress-event"
   | "media-manifest"
   | "deployment-profile"
+  | "teacher-report-package"
   | "package-release-candidate"
   | "package-publish-gate"
   | "package-approval-ledger";
@@ -166,6 +167,21 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     note: "Reports are a saleable feature, but real student event storage needs clear school policy before activation.",
   },
   {
+    recordId: "teacher-report-package-record",
+    category: "teacher-report-package",
+    label: "Teacher report package boundary record",
+    readiness: "policy-required",
+    sourceOfTruth: "TeacherReportPackageBoundary plus TeacherReportExportPlan, event-effect taxonomy, and school/tenant export policy",
+    requiredBeforePilot: true,
+    containsStudentData: true,
+    containsMediaRights: false,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    recommendedFirstPilotStore: ["school-policy", "hosted-database", "local-classroom-store"],
+    note: "Teacher reports need a durable package boundary so learning evidence, support-only events, excluded sensitive fields, and export blockers are preserved across hosted and local deployments.",
+  },
+  {
     recordId: "package-release-candidate-record",
     category: "package-release-candidate",
     label: "Package release candidate record",
@@ -283,6 +299,18 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     visibleTo: ["Teacher", "Tenant admin", "Student summary"],
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision: "Set retention, privacy, export, and parent/school policy before storing real student data.",
+  },
+  {
+    boundaryId: "teacher-report-package-boundary",
+    category: "teacher-report-package",
+    label: "Teacher report package boundary",
+    status: "needs-policy",
+    recordShape: "TeacherReportPackageBoundary, included evidence, support-only signals, excluded sensitive fields, export gates",
+    whyItMatters:
+      "Teacher reports are a saleable feature, but must stay policy-bound and must not treat support-only events as mastery evidence.",
+    visibleTo: ["Teacher", "Tenant admin", "School admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision: "Define report package storage, access control, retention, and export audit rules before live classroom reporting.",
   },
   {
     boundaryId: "media-manifest-boundary",

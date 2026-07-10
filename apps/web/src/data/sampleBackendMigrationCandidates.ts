@@ -161,7 +161,7 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
       track: "local-classroom",
       status: "defer",
       risk: "high",
-      targetEntities: ["media_manifest", "route_alias", "package_release_candidate", "package_publish_gate", "package_approval_ledger", "progress_event"],
+      targetEntities: ["media_manifest", "route_alias", "package_release_candidate", "package_publish_gate", "package_approval_ledger", "progress_event", "teacher_report_package"],
       purpose: "Prepare closed/local deployments to backup, restore, and export package, media, release-control, and progress records without hosted dependency.",
       prerequisites: ["Hosted pilot schema validated", "Local backup/restore strategy accepted", "Installer/update path accepted"],
       implementationNotes: [
@@ -172,6 +172,24 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
       rollbackOrExportNeeds: ["Whole package export", "Teacher progress export", "Local media bundle manifest", "Release approval ledger export"],
       notAllowedYet: ["Unbacked local-only progress", "Unversioned media folder replacement", "Manual-only production update path"],
     },
+    {
+      migrationId: "m009-teacher-report-package-boundary",
+      label: "Teacher report package boundary records",
+      track: "hosted-pilot",
+      status: "needs-policy",
+      risk: "high",
+      targetEntities: ["teacher_report_package"],
+      purpose: "Persist teacher report package boundaries so exports preserve learning evidence, support-only signals, excluded sensitive fields, and live-use blockers.",
+      prerequisites: ["Report export policy accepted", "Progress event taxonomy accepted", "Teacher/session access roles accepted", "Retention and audit rules accepted"],
+      implementationNotes: [
+        "Build report package summaries from launch session and progress event records.",
+        "Preserve support-only event semantics in every export format.",
+        "Store excluded sensitive-field rules with the report package snapshot.",
+        "Keep raw learner audio, transcripts, and open-ended AI Tutor chat out of core report packages.",
+      ],
+      rollbackOrExportNeeds: ["Export report package boundary as JSON", "Regenerate from normalized events when policy allows", "Support local report package export"],
+      notAllowedYet: ["Ungated teacher report export", "Raw audio in report package", "Learner transcript in core report", "Support-only events counted as mastery"],
+    },
   ],
   standingRules: [
     "Do not create production migrations before backend choice and policy gates are accepted.",
@@ -179,6 +197,7 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
     "Raw learner audio and transcripts stay out of core storage.",
     "Hosted and local implementations must use the same record vocabulary.",
     "Hosted and local event stores must preserve event effect taxonomy.",
+    "Teacher report packages must preserve learning-evidence, support-only, and excluded-sensitive-field boundaries.",
     "Every migration candidate needs rollback or export expectations before implementation.",
   ],
 };
