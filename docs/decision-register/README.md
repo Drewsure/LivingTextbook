@@ -71,6 +71,7 @@
 - `DR-097-foundation-verification-script.md`
 - `DR-098-media-playlist-route-scaffold.md`
 - `DR-099-white-label-media-playlist-resolution.md`
+- `DR-100-student-unit-media-shortcut.md`
 
 ## Maintenance Rule
 

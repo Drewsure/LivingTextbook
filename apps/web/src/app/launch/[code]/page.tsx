@@ -19,6 +19,7 @@ export default async function LaunchPage({ params }: { params: Promise<{ code: s
         unit={unit}
         launchSession={launchSession}
         progression={progression}
+        contentPackage={contentPackage}
         audioCues={contentPackage.audioCues}
         assistLanguagePlan={assistLanguagePlan}
         assignmentPlan={assignmentPlan}

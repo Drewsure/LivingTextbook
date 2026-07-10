@@ -3,6 +3,7 @@
 import { useState } from "react";
 import type {
   AudioCue,
+  ContentPackage,
   GameModeId,
   GameProgressEvent,
   LaunchSession,
@@ -35,12 +36,14 @@ import { RewardPreviewCard } from "./components/RewardPreviewCard";
 import { SessionEventLog } from "./components/SessionEventLog";
 import { StudentProgressHeader } from "./components/StudentProgressHeader";
 import { TeacherAssignmentSettingsCard } from "./components/TeacherAssignmentSettingsCard";
+import { UnitMediaShortcutCard } from "./components/UnitMediaShortcutCard";
 
 interface StudentLaunchFlowProps {
   tenant: TenantConfig;
   unit: UnitPayload;
   launchSession: LaunchSession;
   progression: StudentProgressionState;
+  contentPackage: ContentPackage;
   audioCues?: AudioCue[];
   assistLanguagePlan?: UnitAssistLanguagePlan;
   assignmentPlan?: TeacherAssignmentPlan;
@@ -51,6 +54,7 @@ export function StudentLaunchFlow({
   unit,
   launchSession,
   progression,
+  contentPackage,
   audioCues = [],
   assistLanguagePlan,
   assignmentPlan,
@@ -185,6 +189,7 @@ export function StudentLaunchFlow({
         nextMode={nextMode}
       />
       <TeacherAssignmentSettingsCard assignmentPlan={assignmentPlan} />
+      <UnitMediaShortcutCard contentPackage={contentPackage} unit={unit} />
       <UnitSessionProgressSummary
         title="Student Progress"
         launchSession={launchSession}
