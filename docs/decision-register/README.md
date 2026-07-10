@@ -59,6 +59,7 @@
 - `DR-085-route-guidance-listen-events.md`
 - `DR-086-progress-event-taxonomy-panel.md`
 - `DR-087-progress-event-taxonomy-storage.md`
+- `DR-088-persistence-event-taxonomy-write-intents.md`
 
 ## Maintenance Rule
 

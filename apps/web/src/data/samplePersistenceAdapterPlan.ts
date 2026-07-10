@@ -91,6 +91,7 @@ export const samplePersistenceAdapterPlans: PersistenceAdapterPlan[] = [
         allowsExport: true,
         rejectsRawAudio: true,
         rejectsTranscripts: true,
+        preservesEventEffectTaxonomy: true,
         note: "Event storage powers reports and recovery, but policy must define retention, access, export, and parent/school visibility.",
       },
       {
@@ -189,6 +190,7 @@ export const samplePersistenceAdapterPlans: PersistenceAdapterPlan[] = [
         allowsExport: true,
         rejectsRawAudio: true,
         rejectsTranscripts: true,
+        preservesEventEffectTaxonomy: true,
         note: "Local deployments need backup/export and retention rules before school-owned devices store learner progress.",
       },
       {

@@ -18,6 +18,7 @@ export interface PersistenceWriteIntent {
   allowsExport: boolean;
   rejectsRawAudio: boolean;
   rejectsTranscripts: boolean;
+  preservesEventEffectTaxonomy?: boolean;
   note: string;
 }
 
@@ -94,6 +95,10 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.readiness === "pilot-ready" && intent.requiredBeforePilot && intent.containsStudentData && !intent.requiresSchoolPolicy) {
       errors.push(`Pilot-ready student-data write intent ${intent.intentId} must include policy readiness.`);
+    }
+
+    if (intent.category === "progress-event-stream" && !intent.preservesEventEffectTaxonomy) {
+      errors.push(`Progress event write intent ${intent.intentId} must preserve event effect taxonomy.`);
     }
   }
 

@@ -241,6 +241,7 @@ Next outputs:
 - Confirm recommended route listen taps are reportable as `route_guidance_listened`, with no Star Dust, mastery, or unlock effect.
 - Confirm `/teacher/intake` shows the progress event taxonomy before backend event storage is finalized.
 - Confirm backend schema and migration specs preserve event effect taxonomy before progress-event storage is implemented.
+- Confirm progress-event persistence write intents preserve event effect taxonomy in hosted and local adapters.
 - Confirm teacher assignment readiness shows audio-covered game modes against assigned game modes.
 - Confirm assignment rollout surfaces game audio coverage before scheduling.
 - Confirm the publish gate blocks release while media rights, report policy, deployment profile, persistence, and pilot package policy are unresolved.

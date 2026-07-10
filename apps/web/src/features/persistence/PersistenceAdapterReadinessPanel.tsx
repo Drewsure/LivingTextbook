@@ -114,6 +114,12 @@ export function PersistenceAdapterReadinessPanel({
                       <dt className="font-semibold text-[var(--tenant-text)]">Export</dt>
                       <dd className="mt-1">{intent.allowsExport ? "Policy gated" : "No export"}</dd>
                     </div>
+                    {intent.category === "progress-event-stream" && (
+                      <div>
+                        <dt className="font-semibold text-[var(--tenant-text)]">Event taxonomy</dt>
+                        <dd className="mt-1">{intent.preservesEventEffectTaxonomy ? "Preserved" : "Needs review"}</dd>
+                      </div>
+                    )}
                   </dl>
                 </article>
               ))}
