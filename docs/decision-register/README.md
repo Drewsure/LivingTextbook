@@ -67,6 +67,7 @@
 - `DR-093-active-route-matrix-panel.md`
 - `DR-094-package-audio-coverage-snapshot-flag.md`
 - `DR-095-active-route-matrix-full-local-links.md`
+- `DR-096-active-route-verification-script.md`
 
 ## Maintenance Rule
 

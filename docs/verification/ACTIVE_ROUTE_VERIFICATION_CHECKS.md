@@ -6,6 +6,7 @@ Run after adding or changing routes.
 
 - `npm run typecheck --workspace @living-textbook/web`
 - `npm run build --workspace @living-textbook/web`
+- `npm run verify:routes`
 
 ## Minimum Browser Checks
 
