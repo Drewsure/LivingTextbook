@@ -60,6 +60,7 @@ Focused verification supplements:
 - `docs/verification/TEACHER_MICROPHONE_APPROVAL_CHECKS.md`
 - `docs/verification/TEACHER_REPORT_EXPORT_CHECKS.md`
 - `docs/verification/TEACHER_REPORT_PACKAGE_BOUNDARY_CHECKS.md`
+- `docs/verification/TEACHER_REPORT_PACKAGE_PREVIEW_ROUTE_CHECKS.md`
 - `docs/verification/TEACHER_REPORT_PACKAGE_STORAGE_CHECKS.md`
 - `docs/verification/TEACHER_SESSION_PREFLIGHT_CHECKS.md`
 - `docs/verification/TEACHER_SESSION_ASSIGNED_GAME_PATH_CHECKS.md`

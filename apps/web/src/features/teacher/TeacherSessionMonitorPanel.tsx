@@ -136,7 +136,10 @@ export function TeacherSessionMonitorPanel({ context }: TeacherSessionMonitorPan
 
       <SessionPilotReadinessCard snapshot={context.pilotReadinessSnapshot} />
 
-      <TeacherReportPackageBoundaryCard boundary={context.reportPackageBoundary} />
+      <TeacherReportPackageBoundaryCard
+        boundary={context.reportPackageBoundary}
+        href={`/teacher/sessions/${context.launchSession.launchCode}/report-package`}
+      />
 
       <Card>
         <div className="flex flex-wrap items-start justify-between gap-4">
@@ -415,7 +418,7 @@ function SessionPilotReadinessCard({ snapshot }: { snapshot: TeacherSessionPilot
   );
 }
 
-function TeacherReportPackageBoundaryCard({ boundary }: { boundary: TeacherReportPackageBoundary }) {
+function TeacherReportPackageBoundaryCard({ boundary, href }: { boundary: TeacherReportPackageBoundary; href: string }) {
   return (
     <Card>
       <div className="flex flex-wrap items-start justify-between gap-4">
@@ -431,6 +434,15 @@ function TeacherReportPackageBoundaryCard({ boundary }: { boundary: TeacherRepor
         <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Export decision</p>
         <p className="mt-2 text-sm font-semibold leading-6 text-[var(--tenant-text)]">{boundary.decision}</p>
       </section>
+
+      <div className="mt-4">
+        <a
+          className="inline-flex min-h-11 items-center justify-center rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] px-4 py-2 text-sm font-semibold text-[var(--tenant-text)]"
+          href={href}
+        >
+          Open report package preview
+        </a>
+      </div>
 
       <dl className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
         {boundary.metrics.map((metric) => (
