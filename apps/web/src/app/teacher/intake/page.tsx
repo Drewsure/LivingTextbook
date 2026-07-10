@@ -4,6 +4,7 @@ import { sampleBackendDecisionMatrix } from "@/data/sampleBackendDecisionMatrix"
 import { sampleBackendMigrationPlan } from "@/data/sampleBackendMigrationCandidates";
 import { sampleBackendMigrationSpecPlan } from "@/data/sampleBackendMigrationSpecs";
 import { sampleBackendSchemaDraft } from "@/data/sampleBackendSchemaDraft";
+import { samplePilotBackendSelectionGate } from "@/data/samplePilotBackendSelectionGate";
 import { sampleActiveRouteMatrix } from "@/data/sampleActiveRouteMatrix";
 import { sampleAuthoringVerifierPlan } from "@/data/sampleAuthoringVerifierPlan";
 import {
@@ -73,6 +74,7 @@ import { BackendDecisionMatrixPanel } from "@/features/persistence/BackendDecisi
 import { BackendMigrationPlanPanel } from "@/features/persistence/BackendMigrationPlanPanel";
 import { BackendMigrationSpecPanel } from "@/features/persistence/BackendMigrationSpecPanel";
 import { BackendSchemaDraftPanel } from "@/features/persistence/BackendSchemaDraftPanel";
+import { PilotBackendSelectionGatePanel } from "@/features/persistence/PilotBackendSelectionGatePanel";
 import { PersistenceAdapterReadinessPanel } from "@/features/persistence/PersistenceAdapterReadinessPanel";
 import { PersistenceBoundaryPanel } from "@/features/persistence/PersistenceBoundaryPanel";
 import { ProgressEventTaxonomyPanel } from "@/features/progression/ProgressEventTaxonomyPanel";
@@ -139,6 +141,7 @@ export default function TeacherIntakePage() {
         <LocalDeploymentPreflightPanel plan={sampleLocalDeploymentPreflightPlan} />
         <LocalBundleManifestPanel manifests={sampleLocalBundleManifests} />
         <BackendDecisionMatrixPanel matrix={sampleBackendDecisionMatrix} />
+        <PilotBackendSelectionGatePanel gate={samplePilotBackendSelectionGate} />
         <BackendSchemaDraftPanel draft={sampleBackendSchemaDraft} />
         <BackendMigrationPlanPanel plan={sampleBackendMigrationPlan} />
         <BackendMigrationSpecPanel plan={sampleBackendMigrationSpecPlan} />

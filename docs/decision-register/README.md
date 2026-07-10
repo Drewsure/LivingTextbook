@@ -84,6 +84,7 @@
 - `DR-110-media-playlist-demo-controls.md`
 - `DR-111-multiple-route-content-checks.md`
 - `DR-112-first-pilot-source-strategy.md`
+- `DR-113-first-pilot-backend-selection-gate.md`
 
 ## Maintenance Rule
 
