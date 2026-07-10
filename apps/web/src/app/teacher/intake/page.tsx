@@ -4,6 +4,7 @@ import { sampleBackendDecisionMatrix } from "@/data/sampleBackendDecisionMatrix"
 import { sampleBackendMigrationPlan } from "@/data/sampleBackendMigrationCandidates";
 import { sampleBackendMigrationSpecPlan } from "@/data/sampleBackendMigrationSpecs";
 import { sampleBackendSchemaDraft } from "@/data/sampleBackendSchemaDraft";
+import { sampleActiveRouteMatrix } from "@/data/sampleActiveRouteMatrix";
 import { sampleAuthoringVerifierPlan } from "@/data/sampleAuthoringVerifierPlan";
 import {
   sampleClassRosterErrors,
@@ -75,6 +76,7 @@ import { PersistenceBoundaryPanel } from "@/features/persistence/PersistenceBoun
 import { ProgressEventTaxonomyPanel } from "@/features/progression/ProgressEventTaxonomyPanel";
 import { PublisherMaintenancePlanPanel } from "@/features/publisher/PublisherMaintenancePlanPanel";
 import { EditionQrAliasPanel } from "@/features/routes/EditionQrAliasPanel";
+import { ActiveRouteMatrixPanel } from "@/features/routes/ActiveRouteMatrixPanel";
 import { QrPrintReadinessPanel } from "@/features/routes/QrPrintReadinessPanel";
 import { TenantRouteRegistryPanel } from "@/features/routes/TenantRouteRegistryPanel";
 import { ClassRosterReadinessPanel } from "@/features/teacher/ClassRosterReadinessPanel";
@@ -125,6 +127,7 @@ export default function TeacherIntakePage() {
         <SourceReviewQueuePanel queue={sampleSourceReviewQueue} />
         <AuthoringVerifierPlanPanel plan={sampleAuthoringVerifierPlan} />
         <ContentIntakeReviewPanel runs={sampleContentIntakeRuns} releases={samplePackageReleases} />
+        <ActiveRouteMatrixPanel routes={sampleActiveRouteMatrix} />
         <TenantRouteRegistryPanel routes={sampleFrontDoorRouteRegistry} />
         <EditionQrAliasPanel plan={sampleEditionQrAliasPlan} />
         <QrPrintReadinessPanel records={sampleQrPrintReadinessRecords} />
