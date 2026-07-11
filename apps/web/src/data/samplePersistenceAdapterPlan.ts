@@ -94,7 +94,8 @@ export const samplePersistenceAdapterPlans: PersistenceAdapterPlan[] = [
         rejectsRawAudio: true,
         rejectsTranscripts: true,
         preservesEventEffectTaxonomy: true,
-        note: "Event storage powers reports and recovery, but policy must define retention, access, export, and parent/school visibility.",
+        requiresEventAcceptanceGate: true,
+        note: "Event storage powers reports and recovery, but writes require a passed event acceptance gate and policy must define retention, access, export, and parent/school visibility.",
       },
       {
         intentId: "hosted-teacher-report-package-write",
@@ -293,7 +294,8 @@ export const samplePersistenceAdapterPlans: PersistenceAdapterPlan[] = [
         rejectsRawAudio: true,
         rejectsTranscripts: true,
         preservesEventEffectTaxonomy: true,
-        note: "Local deployments need backup/export and retention rules before school-owned devices store learner progress.",
+        requiresEventAcceptanceGate: true,
+        note: "Local deployments need a passed event acceptance gate plus backup/export and retention rules before school-owned devices store learner progress.",
       },
       {
         intentId: "local-teacher-report-package-write",

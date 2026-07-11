@@ -280,6 +280,7 @@ Next outputs:
 - Confirm teacher session monitor routes show an event acceptance gate before live student event storage is enabled.
 - Confirm launch-session storage contracts preserve event acceptance gates before live student event writes are enabled.
 - Confirm teacher report package previews include an event acceptance summary before report export or live event storage is enabled.
+- Confirm progress-event write intents require a passed event acceptance gate before live student event writes are enabled.
 
 ## Session 8: Premium Experience Layer
 

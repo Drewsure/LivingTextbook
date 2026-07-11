@@ -151,6 +151,7 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
       prerequisites: ["Privacy policy accepted", "Retention period accepted", "Report export fields accepted", "Access roles accepted"],
       implementationNotes: [
         "Use append-only event patterns where possible.",
+        "Require the launch-session event acceptance gate to pass before accepting student event writes.",
         "Index by session, learner code, event type, event effect, and time.",
         "Preserve the reviewed event taxonomy effect so support-only guidance never becomes scoring evidence.",
         "Keep raw audio and transcripts out of metadata.",
@@ -254,7 +255,7 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
     "Raw learner audio and transcripts stay out of core storage.",
     "Hosted and local implementations must use the same record vocabulary.",
     "Launch-session migrations must preserve teacher settings snapshots and event acceptance gates before accepting student events.",
-    "Hosted and local event stores must preserve event effect taxonomy.",
+    "Hosted and local event stores must require a passed event acceptance gate and preserve event effect taxonomy.",
     "Teacher report packages must preserve learning-evidence, support-only, and excluded-sensitive-field boundaries.",
     "Publisher maintenance changes must pass release review before active package mutation.",
     "Local companion handoff records must block offline-ready claims until required artifacts are complete.",

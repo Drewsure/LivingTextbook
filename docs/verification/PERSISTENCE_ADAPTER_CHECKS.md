@@ -27,21 +27,22 @@ Verify at:
 9. Confirm local write intents include local media bundle manifests, local package game/audio coverage snapshots, local progress export packages, local package release candidate status, local package publish gates, and local package approval ledgers.
 10. Confirm package game/audio coverage write intents preserve reviewed game/audio coverage snapshots.
 11. Confirm progress-event write intents preserve event effect taxonomy.
-12. Confirm student-data write intents require school or tenant policy.
-13. Confirm package approval ledger write intents require policy before real signatures are stored.
-14. Confirm package release candidate and package publish gate write intents are required before pilot release.
-15. Confirm core write intents reject raw learner audio.
-16. Confirm core write intents reject learner transcripts.
-17. Confirm export-capable intents are policy gated.
-18. Confirm local-classroom intents show offline support.
-19. Confirm local-classroom handoff steps mention backup/restore and release-control export or restore.
-20. Confirm hosted handoff steps mention migration/table mapping and release-gate validation before publish status changes.
-21. Confirm handoff steps are visible for each adapter plan.
-22. Confirm the shared contract exists at `packages/content-model/src/persistenceAdapter.ts`.
-23. Confirm the sample data exists at `apps/web/src/data/samplePersistenceAdapterPlan.ts`.
-24. Confirm the UI panel exists at `apps/web/src/features/persistence/PersistenceAdapterReadinessPanel.tsx`.
-25. Confirm typecheck passes after pulling latest.
-26. Confirm production build passes after pulling latest.
+12. Confirm progress-event write intents require a passed event acceptance gate.
+13. Confirm student-data write intents require school or tenant policy.
+14. Confirm package approval ledger write intents require policy before real signatures are stored.
+15. Confirm package release candidate and package publish gate write intents are required before pilot release.
+16. Confirm core write intents reject raw learner audio.
+17. Confirm core write intents reject learner transcripts.
+18. Confirm export-capable intents are policy gated.
+19. Confirm local-classroom intents show offline support.
+20. Confirm local-classroom handoff steps mention backup/restore and release-control export or restore.
+21. Confirm hosted handoff steps mention migration/table mapping and release-gate validation before publish status changes.
+22. Confirm handoff steps are visible for each adapter plan.
+23. Confirm the shared contract exists at `packages/content-model/src/persistenceAdapter.ts`.
+24. Confirm the sample data exists at `apps/web/src/data/samplePersistenceAdapterPlan.ts`.
+25. Confirm the UI panel exists at `apps/web/src/features/persistence/PersistenceAdapterReadinessPanel.tsx`.
+26. Confirm typecheck passes after pulling latest.
+27. Confirm production build passes after pulling latest.
 
 ## Expected Commands
 

@@ -120,6 +120,12 @@ export function PersistenceAdapterReadinessPanel({
                         <dd className="mt-1">{intent.preservesEventEffectTaxonomy ? "Preserved" : "Needs review"}</dd>
                       </div>
                     )}
+                    {intent.category === "progress-event-stream" && (
+                      <div>
+                        <dt className="font-semibold text-[var(--tenant-text)]">Event acceptance</dt>
+                        <dd className="mt-1">{intent.requiresEventAcceptanceGate ? "Gate required" : "Needs review"}</dd>
+                      </div>
+                    )}
                     {intent.intentId.includes("package-audio-coverage") && (
                       <div>
                         <dt className="font-semibold text-[var(--tenant-text)]">Game/audio snapshot</dt>
