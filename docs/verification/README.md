@@ -25,6 +25,7 @@ Focused verification supplements:
 - `docs/verification/GAME_MODE_AUDIO_COVERAGE_CHECKS.md`
 - `docs/verification/LOCAL_DEPLOYMENT_PREFLIGHT_CHECKS.md`
 - `docs/verification/LOCAL_COMPANION_PACKAGE_PREVIEW_CHECKS.md`
+- `docs/verification/LOCAL_COMPANION_NAV_LINK_CHECKS.md`
 - `docs/verification/MEDIA_TELEMETRY_CHECKS.md`
 - `docs/verification/MEDIA_RIGHTS_READINESS_CHECKS.md`
 - `docs/verification/MEDIA_SUPPORT_ONLY_EVENT_CHECKS.md`
