@@ -67,6 +67,7 @@ export function TeacherSessionMonitorPanel({ context }: TeacherSessionMonitorPan
     event.type === "background_media_enabled" ||
     event.type === "background_media_disabled",
   );
+  const settingsSnapshot = createTeacherSessionSettingsSnapshot(context);
 
   return (
     <div className="grid gap-5">
@@ -220,6 +221,22 @@ export function TeacherSessionMonitorPanel({ context }: TeacherSessionMonitorPan
             </section>
           ))}
         </div>
+      </Card>
+
+      <Card>
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <p className="text-sm font-semibold text-[var(--tenant-muted)]">Settings snapshot</p>
+            <h3 className="mt-1 text-lg font-bold">Machine-readable launch-session settings</h3>
+            <p className="mt-1 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
+              This preview is the shape a future launch-session record can persist. It keeps classroom toggles separate from student progress, media events, and report exports.
+            </p>
+          </div>
+          <StatusPill label="Preview only" tone="warning" />
+        </div>
+        <pre className="mt-5 max-h-96 overflow-auto rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4 text-xs leading-5 text-[var(--tenant-text)]">
+          {JSON.stringify(settingsSnapshot, null, 2)}
+        </pre>
       </Card>
 
       <Card>
@@ -506,4 +523,68 @@ function MediaFact({ label, value }: { label: string; value: string }) {
       <dd className="mt-1">{value}</dd>
     </div>
   );
+}
+
+function createTeacherSessionSettingsSnapshot(context: TeacherSessionMonitorContext) {
+  const settings = context.sessionSettings;
+
+  return {
+    launch_code: settings.launchCode,
+    tenant_id: settings.tenantId,
+    unit_key: context.launchSession.unitKey,
+    entry_mode: context.launchSession.entryMode,
+    recommended_next_modes: context.launchSession.recommendedNextModes,
+    audio_required: settings.audioRequired,
+    assist_language: {
+      enabled: settings.assistLanguage.enabled,
+      visibility: settings.assistLanguage.visibility,
+      unlock_allowed: settings.assistLanguage.unlockAllowed,
+      mastery_credit_allowed: settings.assistLanguage.masteryCreditAllowed,
+    },
+    microphone_practice: {
+      enabled: settings.microphonePractice.enabled,
+      requires_teacher_approval: settings.microphonePractice.requiresTeacherApproval,
+      approval_persisted: settings.microphonePractice.approvalPersisted,
+      stores_raw_audio: settings.microphonePractice.storesRawAudio,
+    },
+    background_media: {
+      allowed: settings.backgroundMedia.allowed,
+      default_enabled: settings.backgroundMedia.defaultEnabled,
+      requires_teacher_enablement: settings.backgroundMedia.requiresTeacherEnablement,
+      pauses_for_learning_audio: settings.backgroundMedia.pausesForLearningAudio,
+      unlock_allowed: settings.backgroundMedia.unlockAllowed,
+      mastery_credit_allowed: settings.backgroundMedia.masteryCreditAllowed,
+    },
+    training_recovery: {
+      enabled: settings.trainingRecovery.enabled,
+      repeated_miss_threshold: settings.trainingRecovery.repeatedMissThreshold,
+      low_completion_reward_threshold: settings.trainingRecovery.lowCompletionRewardThreshold,
+      high_attempt_ratio_threshold: settings.trainingRecovery.highAttemptRatioThreshold,
+      teacher_can_adjust: settings.trainingRecovery.teacherCanAdjust,
+      settings_persisted: settings.trainingRecovery.settingsPersisted,
+      rewards_are_deterministic: settings.trainingRecovery.rewardsAreDeterministic,
+    },
+    ai_tutor: {
+      enabled: settings.aiTutor.enabled,
+      package_tier: settings.aiTutor.packageTier,
+      speech_scoring_enabled: settings.aiTutor.speechScoringEnabled,
+      stores_transcript: settings.aiTutor.storesTranscript,
+    },
+    reporting: {
+      report_progress_to_teacher: settings.reporting.reportProgressToTeacher,
+      retention_policy: settings.reporting.retentionPolicy,
+      export_allowed: settings.reporting.exportAllowed,
+      stores_raw_audio: settings.reporting.storesRawAudio,
+      stores_transcript: settings.reporting.storesTranscript,
+    },
+    validation: {
+      safety_errors: context.sessionSettingErrors,
+      persistence_warnings: context.sessionSettingWarnings,
+      control_errors: context.sessionControlErrors,
+      control_warnings: context.sessionControlWarnings,
+      report_export_errors: context.reportExportErrors,
+      report_export_warnings: context.reportExportWarnings,
+    },
+    updated_at: settings.updatedAt,
+  };
 }
