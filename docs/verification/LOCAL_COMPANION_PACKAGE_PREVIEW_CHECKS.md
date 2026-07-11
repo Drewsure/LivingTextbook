@@ -12,6 +12,7 @@ Then verify:
 - The page shows `Local companion package preview`.
 - The page shows bundled media assets and checksum status.
 - The page shows `Package handoff checklist`.
+- The page shows `Generated manifest snapshot`.
 - The handoff checklist separates publisher, platform, and school-owned requirements.
 - The page shows local QR fallback routes.
 - The page shows local deployment preflight blockers.

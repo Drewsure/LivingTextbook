@@ -27,6 +27,7 @@ Focused verification supplements:
 - `docs/verification/LOCAL_COMPANION_PACKAGE_PREVIEW_CHECKS.md`
 - `docs/verification/LOCAL_COMPANION_HANDOFF_CHECKLIST_CHECKS.md`
 - `docs/verification/LOCAL_COMPANION_HANDOFF_STORAGE_CHECKS.md`
+- `docs/verification/LOCAL_COMPANION_MANIFEST_SNAPSHOT_CHECKS.md`
 - `docs/verification/LOCAL_COMPANION_NAV_LINK_CHECKS.md`
 - `docs/verification/MEDIA_TELEMETRY_CHECKS.md`
 - `docs/verification/MEDIA_RIGHTS_READINESS_CHECKS.md`

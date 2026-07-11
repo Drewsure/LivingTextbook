@@ -38,6 +38,10 @@ export function LocalCompanionPackagePreviewPanel({ manifest, preflight }: Local
   const warningCount = countLocalDeploymentChecks(preflight, "warning");
   const handoffBlockedCount = manifest.handoffItems.filter((item) => item.status === "blocked").length;
   const handoffNeededCount = manifest.handoffItems.filter((item) => item.status === "needed").length;
+  const manifestSnapshot = createLocalCompanionManifestSnapshot(manifest, {
+    handoffBlockedCount,
+    preflightBlockedCount: blockedCount,
+  });
 
   return (
     <div className="grid gap-5">
@@ -60,6 +64,22 @@ export function LocalCompanionPackagePreviewPanel({ manifest, preflight }: Local
             Open publisher front door
           </a>
         </div>
+      </Card>
+
+      <Card>
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <p className="text-sm font-semibold text-[var(--tenant-muted)]">Generated manifest snapshot</p>
+            <h3 className="mt-1 text-lg font-bold">Machine-readable package preview</h3>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
+              This is the shape a future exporter can write into a closed package. It is rendered from reviewed scaffold data and still marks the package as not offline-ready.
+            </p>
+          </div>
+          <StatusPill label="Preview only" tone="warning" />
+        </div>
+        <pre className="mt-5 max-h-96 overflow-auto rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4 text-xs leading-5 text-[var(--tenant-text)]">
+          {JSON.stringify(manifestSnapshot, null, 2)}
+        </pre>
       </Card>
 
       <Card>
@@ -204,4 +224,41 @@ function BundleFact({ label, value }: { label: string; value: string }) {
       <dd className="mt-1 break-words text-sm font-bold text-[var(--tenant-text)]">{value}</dd>
     </div>
   );
+}
+
+function createLocalCompanionManifestSnapshot(
+  manifest: LocalBundleManifestSummary,
+  counts: { handoffBlockedCount: number; preflightBlockedCount: number },
+) {
+  return {
+    bundle_id: manifest.bundleId,
+    tenant_name: manifest.tenantName,
+    version: manifest.version,
+    readiness: manifest.readiness,
+    offline_ready_allowed: manifest.offlineReady && counts.handoffBlockedCount === 0 && counts.preflightBlockedCount === 0,
+    content_package_path: manifest.contentPackagePath,
+    media_root: manifest.mediaRoot,
+    requires_hosted_redirect: manifest.requiresHostedRedirect,
+    ai_tutor_enabled: manifest.aiTutorEnabled,
+    assets: manifest.assets.map((asset) => ({
+      asset_id: asset.assetId,
+      kind: asset.kind,
+      local_path: asset.localPath,
+      rights_status: asset.rightsStatus,
+      checksum_ready: asset.checksumReady,
+    })),
+    routes: manifest.routes.map((route) => ({
+      qr_id: route.qrId,
+      target_type: route.targetType,
+      target_id: route.targetId,
+      local_fallback_path: route.localFallbackPath,
+    })),
+    handoff: manifest.handoffItems.map((item) => ({
+      item_id: item.itemId,
+      owner: item.owner,
+      artifact: item.artifact,
+      status: item.status,
+      next_step: item.nextStep,
+    })),
+  };
 }
