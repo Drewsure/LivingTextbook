@@ -9,6 +9,9 @@ import type {
 import type {
   TeacherReportPackageBoundary,
   TeacherReportPackageBoundaryStatus,
+  TeacherSessionEventAcceptanceGate,
+  TeacherSessionEventAcceptanceItemStatus,
+  TeacherSessionEventAcceptanceStatus,
   TeacherSessionMonitorContext,
   TeacherSessionPilotReadinessSnapshot,
   TeacherSessionPilotReadinessStatus,
@@ -51,6 +54,18 @@ const reportPackageBoundaryTone: Record<TeacherReportPackageBoundaryStatus, "neu
   "demo-preview": "neutral",
   "export-blocked": "warning",
   "export-ready": "success",
+};
+
+const eventAcceptanceTone: Record<TeacherSessionEventAcceptanceStatus, "neutral" | "success" | "warning"> = {
+  blocked: "warning",
+  "demo-only": "neutral",
+  ready: "success",
+};
+
+const eventAcceptanceItemTone: Record<TeacherSessionEventAcceptanceItemStatus, "neutral" | "success" | "warning"> = {
+  blocked: "warning",
+  pass: "success",
+  warning: "warning",
 };
 
 export function TeacherSessionMonitorPanel({ context }: TeacherSessionMonitorPanelProps) {
@@ -141,6 +156,8 @@ export function TeacherSessionMonitorPanel({ context }: TeacherSessionMonitorPan
         boundary={context.reportPackageBoundary}
         href={`/teacher/sessions/${context.launchSession.launchCode}/report-package`}
       />
+
+      <TeacherSessionEventAcceptanceGateCard gate={context.eventAcceptanceGate} />
 
       <Card>
         <div className="flex flex-wrap items-start justify-between gap-4">
@@ -488,6 +505,55 @@ function TeacherReportPackageBoundaryCard({ boundary, href }: { boundary: Teache
           ))}
         </ul>
       </section>
+    </Card>
+  );
+}
+
+function TeacherSessionEventAcceptanceGateCard({ gate }: { gate: TeacherSessionEventAcceptanceGate }) {
+  const blockedCount = gate.items.filter((item) => item.status === "blocked").length;
+  const warningCount = gate.items.filter((item) => item.status === "warning").length;
+
+  return (
+    <Card>
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <p className="text-sm font-semibold text-[var(--tenant-muted)]">Event acceptance gate</p>
+          <h3 className="mt-1 text-lg font-bold">{gate.label}</h3>
+          <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">{gate.summary}</p>
+        </div>
+        <StatusPill label={gate.status} tone={eventAcceptanceTone[gate.status]} />
+      </div>
+
+      <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
+        <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Current decision</p>
+        <p className="mt-2 text-sm font-semibold leading-6 text-[var(--tenant-text)]">{gate.decision}</p>
+      </section>
+
+      <dl className="mt-5 grid gap-3 sm:grid-cols-3">
+        <MediaFact label="Gate items" value={String(gate.items.length)} />
+        <MediaFact label="Warnings" value={String(warningCount)} />
+        <MediaFact label="Blocked" value={String(blockedCount)} />
+      </dl>
+
+      <div className="mt-5 grid gap-3 lg:grid-cols-2">
+        {gate.items.map((item) => (
+          <section key={item.itemId} className="rounded-lg border border-[var(--tenant-border)] p-3">
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">{item.owner}</p>
+                <h4 className="mt-1 text-sm font-bold text-[var(--tenant-text)]">{item.label}</h4>
+              </div>
+              <StatusPill label={item.status} tone={eventAcceptanceItemTone[item.status]} />
+            </div>
+            <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">
+              <span className="font-semibold text-[var(--tenant-text)]">Evidence:</span> {item.evidence}
+            </p>
+            <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">
+              <span className="font-semibold text-[var(--tenant-text)]">Next:</span> {item.nextStep}
+            </p>
+          </section>
+        ))}
+      </div>
     </Card>
   );
 }

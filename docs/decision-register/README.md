@@ -110,6 +110,7 @@
 - `DR-136-local-companion-artifact-map.md`
 - `DR-137-teacher-session-settings-snapshot.md`
 - `DR-138-teacher-session-settings-storage-contract.md`
+- `DR-139-teacher-session-event-acceptance-gate.md`
 
 ## Maintenance Rule
 

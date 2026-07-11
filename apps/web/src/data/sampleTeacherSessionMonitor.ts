@@ -40,6 +40,27 @@ export interface TeacherSessionPreflightCheck {
   note: string;
 }
 
+export type TeacherSessionEventAcceptanceStatus = "demo-only" | "blocked" | "ready";
+export type TeacherSessionEventAcceptanceItemStatus = "pass" | "warning" | "blocked";
+
+export interface TeacherSessionEventAcceptanceItem {
+  itemId: string;
+  label: string;
+  status: TeacherSessionEventAcceptanceItemStatus;
+  owner: "teacher" | "platform" | "policy" | "persistence";
+  evidence: string;
+  nextStep: string;
+}
+
+export interface TeacherSessionEventAcceptanceGate {
+  gateId: string;
+  label: string;
+  status: TeacherSessionEventAcceptanceStatus;
+  decision: string;
+  summary: string;
+  items: TeacherSessionEventAcceptanceItem[];
+}
+
 export type TeacherSessionPilotReadinessStatus = "demo-safe" | "pilot-blocked" | "pilot-ready";
 
 export interface TeacherSessionPilotReadinessSnapshot {
@@ -97,6 +118,7 @@ export interface TeacherSessionMonitorContext {
   reportExportWarnings: string[];
   reportPackageBoundary: TeacherReportPackageBoundary;
   preflightChecks: TeacherSessionPreflightCheck[];
+  eventAcceptanceGate: TeacherSessionEventAcceptanceGate;
   pilotReadinessSnapshot: TeacherSessionPilotReadinessSnapshot;
   readinessNotes: string[];
 }
@@ -145,6 +167,14 @@ export function resolveSampleTeacherSessionMonitorContext(launchCode: string): T
     reportExportErrors,
     reportExportWarnings,
   });
+  const eventAcceptanceGate = createTeacherSessionEventAcceptanceGate({
+    launchCode: launchContext.launchSession.launchCode,
+    assignedGameAudioGaps,
+    sessionSettingErrors,
+    sessionSettingWarnings,
+    reportExportErrors,
+    reportExportWarnings,
+  });
 
   return {
     tenant: launchContext.tenant,
@@ -174,6 +204,7 @@ export function resolveSampleTeacherSessionMonitorContext(launchCode: string): T
     reportExportWarnings,
     reportPackageBoundary,
     preflightChecks,
+    eventAcceptanceGate,
     pilotReadinessSnapshot,
     readinessNotes: [
       "This route uses reviewed sample data and local event examples only.",
@@ -181,6 +212,91 @@ export function resolveSampleTeacherSessionMonitorContext(launchCode: string): T
       "Support-language taps may appear in reports, but only target-language engagement can unlock progression.",
       "Premium AI Tutor, speech scoring, transcript storage, and cloud audio upload remain optional tenant add-ons.",
     ],
+  };
+}
+
+function createTeacherSessionEventAcceptanceGate(args: {
+  launchCode: string;
+  assignedGameAudioGaps: GameModeId[];
+  sessionSettingErrors: string[];
+  sessionSettingWarnings: string[];
+  reportExportErrors: string[];
+  reportExportWarnings: string[];
+}): TeacherSessionEventAcceptanceGate {
+  const items: TeacherSessionEventAcceptanceItem[] = [
+    {
+      itemId: "reviewed-package-audio",
+      label: "Reviewed package and game audio",
+      status: args.assignedGameAudioGaps.length === 0 ? "pass" : "blocked",
+      owner: "platform",
+      evidence:
+        args.assignedGameAudioGaps.length === 0
+          ? "Every assigned game mode has reviewed learner-audio coverage."
+          : `Missing audio coverage for: ${args.assignedGameAudioGaps.join(", ")}.`,
+      nextStep: "Keep assigned game modes tied to reviewed audio coverage before accepting live events.",
+    },
+    {
+      itemId: "settings-persistence",
+      label: "Launch-session settings persistence",
+      status: args.sessionSettingErrors.length === 0 && args.sessionSettingWarnings.length === 0 ? "pass" : "blocked",
+      owner: "persistence",
+      evidence:
+        args.sessionSettingWarnings.length > 0 || args.sessionSettingErrors.length > 0
+          ? "Settings are visible as a snapshot, but persistence warnings remain."
+          : "Settings snapshot is valid and has no open persistence warning.",
+      nextStep: "Persist settings snapshot, validation state, and settings revision before live event writes.",
+    },
+    {
+      itemId: "event-taxonomy",
+      label: "Event effect taxonomy",
+      status: "pass",
+      owner: "platform",
+      evidence: "Events distinguish progress-affecting, report-only, and support-only signals.",
+      nextStep: "Preserve event_effect in every hosted and local event write.",
+    },
+    {
+      itemId: "report-policy",
+      label: "Reporting and retention policy",
+      status: args.reportExportErrors.length === 0 && args.reportExportWarnings.length === 0 ? "pass" : "blocked",
+      owner: "policy",
+      evidence:
+        args.reportExportErrors.length > 0 || args.reportExportWarnings.length > 0
+          ? "Report export is blocked by policy or persistence warnings."
+          : "Report export plan has no open blocker.",
+      nextStep: "Accept school or tenant reporting, retention, access, and export policy before live student storage.",
+    },
+    {
+      itemId: "student-identity",
+      label: "Coded student identity",
+      status: "warning",
+      owner: "policy",
+      evidence: "Demo routes use coded learners, not real roster identities.",
+      nextStep: "Choose roster identity, retention, parent/school visibility, and deletion rules before pilot.",
+    },
+    {
+      itemId: "sensitive-data-exclusion",
+      label: "Sensitive data exclusion",
+      status: "pass",
+      owner: "platform",
+      evidence: "Core reports and settings reject raw learner audio, transcripts, and ungated AI Tutor state.",
+      nextStep: "Keep premium speech or AI Tutor data outside the core event stream unless a paid policy accepts it.",
+    },
+  ];
+  const blockedCount = items.filter((item) => item.status === "blocked").length;
+  const warningCount = items.filter((item) => item.status === "warning").length;
+  const status: TeacherSessionEventAcceptanceStatus = blockedCount > 0 ? "blocked" : warningCount > 0 ? "demo-only" : "ready";
+
+  return {
+    gateId: `event-acceptance:${args.launchCode}`,
+    label: "Event acceptance gate",
+    status,
+    decision:
+      status === "ready"
+        ? "This session can accept live student events under the accepted policy."
+        : "This session can display demo events, but live student event storage remains blocked.",
+    summary:
+      "Live event storage requires reviewed game/audio coverage, persisted session settings, event taxonomy preservation, reporting policy, coded student identity rules, and sensitive-data exclusions.",
+    items,
   };
 }
 
