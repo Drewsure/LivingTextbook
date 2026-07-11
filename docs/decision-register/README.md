@@ -102,6 +102,7 @@
 - `DR-128-local-companion-package-preview-route.md`
 - `DR-129-local-companion-nav-link.md`
 - `DR-130-local-companion-package-handoff-checklist.md`
+- `DR-131-local-companion-handoff-storage-contract.md`
 
 ## Maintenance Rule
 

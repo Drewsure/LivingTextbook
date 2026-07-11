@@ -161,7 +161,7 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
       track: "local-classroom",
       status: "defer",
       risk: "high",
-      targetEntities: ["media_manifest", "route_alias", "package_release_candidate", "package_publish_gate", "package_approval_ledger", "progress_event", "teacher_report_package"],
+      targetEntities: ["media_manifest", "route_alias", "package_release_candidate", "package_publish_gate", "package_approval_ledger", "progress_event", "teacher_report_package", "local_companion_handoff"],
       purpose: "Prepare closed/local deployments to backup, restore, and export package, media, release-control, and progress records without hosted dependency.",
       prerequisites: ["Hosted pilot schema validated", "Local backup/restore strategy accepted", "Installer/update path accepted"],
       implementationNotes: [
@@ -208,6 +208,24 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
       rollbackOrExportNeeds: ["Export change requests with release candidate records", "Retain blocked and superseded requests for audit", "Support local bundle change history"],
       notAllowedYet: ["Silent QR retargeting", "Direct media file replacement", "Unreviewed game activation", "Report policy override by change request"],
     },
+    {
+      migrationId: "m011-local-companion-handoff-records",
+      label: "Local companion handoff records",
+      track: "local-classroom",
+      status: "ready-to-design",
+      risk: "medium",
+      targetEntities: ["local_companion_handoff"],
+      purpose: "Persist closed/local package handoff requirements before offline-ready claims, installer builds, or local server packages.",
+      prerequisites: ["Local bundle manifest accepted", "Media rights workflow accepted", "Checksum procedure accepted", "Local report policy accepted"],
+      implementationNotes: [
+        "Treat handoff records as release-control artifacts, not student progress records.",
+        "Derive offline-ready status from checklist completion.",
+        "Export checklist records with local bundle manifests.",
+        "Block manual offline-ready overrides when artifacts are missing.",
+      ],
+      rollbackOrExportNeeds: ["Export local companion handoff record", "Retain superseded handoff records with package release history", "Restore checklist state with local bundle backups"],
+      notAllowedYet: ["Manual offline-ready override", "Installer build with missing rights proof", "Checksum-free media bundle", "Local report export without policy"],
+    },
   ],
   standingRules: [
     "Do not create production migrations before backend choice and policy gates are accepted.",
@@ -217,6 +235,7 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
     "Hosted and local event stores must preserve event effect taxonomy.",
     "Teacher report packages must preserve learning-evidence, support-only, and excluded-sensitive-field boundaries.",
     "Publisher maintenance changes must pass release review before active package mutation.",
+    "Local companion handoff records must block offline-ready claims until required artifacts are complete.",
     "Every migration candidate needs rollback or export expectations before implementation.",
   ],
 };

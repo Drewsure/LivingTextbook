@@ -237,6 +237,28 @@ export const sampleBackendSchemaDraft: BackendSchemaDraft = {
         "Maintenance changes are review records. They must not mutate active package routes or media manifests until release gates and approvals accept them.",
     },
     {
+      entityId: "local_companion_handoff",
+      label: "Local companion handoff checklist",
+      status: "required-before-pilot",
+      deploymentFit: "hybrid",
+      purpose:
+        "Stores the checklist of source, media rights, checksum, route fallback, and local report-policy artifacts required before a closed companion package is offline-ready.",
+      fields: [
+        { name: "handoff_id", type: "stable id", required: true, note: "One handoff checklist for a bundle/package candidate." },
+        { name: "tenant_id", type: "foreign key/string", required: true, note: "Tenant or publisher owner." },
+        { name: "bundle_id", type: "string", required: true, note: "Local bundle manifest this handoff belongs to." },
+        { name: "package_id", type: "foreign key/string", required: true, note: "Package release or candidate under review." },
+        { name: "items", type: "json/child records", required: true, note: "Owner, artifact, status, blocker, and next action for each handoff item." },
+        { name: "blocked_count", type: "integer", required: true, note: "Must be zero before offline-ready status." },
+        { name: "offline_ready_allowed", type: "boolean", required: true, note: "Derived from blocked count, media rights, checksums, route fallback, and report policy." },
+      ],
+      relationships: ["Belongs to tenant", "Belongs to package release", "References local bundle manifest", "Feeds local deployment preflight"],
+      indexes: ["bundle_id unique", "tenant_id + package_id", "tenant_id + offline_ready_allowed"],
+      forbiddenFields: ["Raw media binaries", "Raw learner audio", "Learner transcripts", "Manual offline-ready override"],
+      migrationNote:
+        "Handoff records should be exported with local bundles and must not mark packages offline-ready while required artifacts are missing.",
+    },
+    {
       entityId: "package_publish_gate",
       label: "Package publish gate",
       status: "required-before-pilot",
@@ -280,6 +302,7 @@ export const sampleBackendSchemaDraft: BackendSchemaDraft = {
     "Progress events must preserve event_effect so support-only activity never becomes mastery evidence.",
     "Teacher report packages must preserve learning-evidence, support-only, and excluded-sensitive-field boundaries before export.",
     "Publisher maintenance changes must be reviewed before they alter routes, media manifests, game offers, or report packages.",
+    "Local companion handoff records must block offline-ready status until source, media rights, checksums, routes, and report policy are accepted.",
     "Support language never unlocks target-language progression.",
     "AI Tutor and speech scoring stay premium-gated and disabled unless tenant policy accepts them.",
     "Local and hosted implementations must preserve the same record vocabulary.",

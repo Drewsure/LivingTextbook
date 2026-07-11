@@ -9,6 +9,7 @@ export type PersistenceRecordCategory =
   | "report-export-policy"
   | "teacher-report-package"
   | "publisher-maintenance-change"
+  | "local-companion-handoff"
   | "package-release-candidate"
   | "package-publish-gate"
   | "package-approval-ledger";

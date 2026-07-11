@@ -462,5 +462,62 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
         "Change requests cannot directly mutate active routes, media manifests, game offers, or teacher reports.",
       ],
     },
+    {
+      specId: "spec-local-companion-handoff",
+      label: "Local companion handoff checklist",
+      candidateId: "m011-local-companion-handoff-records",
+      storeKind: "release-record",
+      status: "ready-for-review",
+      purpose:
+        "Stores closed/local companion package handoff checklist state before package export, installer packaging, or local classroom server release.",
+      primaryKey: "handoff_id",
+      tenantScope: "Scoped by tenant_id, package_release_id, bundle_id, and handoff_revision.",
+      fields: [
+        {
+          name: "handoff_id",
+          type: "string",
+          required: true,
+          note: "Stable id for one handoff checklist snapshot.",
+        },
+        {
+          name: "bundle_id",
+          type: "string",
+          required: true,
+          note: "Local bundle manifest this checklist belongs to.",
+        },
+        {
+          name: "handoff_items",
+          type: "json",
+          required: true,
+          note: "Owner, artifact, status, blocker, and next action for each handoff requirement.",
+        },
+        {
+          name: "blocked_count",
+          type: "integer",
+          required: true,
+          note: "Open blockers preventing offline-ready release.",
+        },
+        {
+          name: "offline_ready_allowed",
+          type: "boolean",
+          required: true,
+          note: "Derived from blocked count, rights proof, checksums, route fallback, and report policy.",
+        },
+        {
+          name: "handoff_revision",
+          type: "string",
+          required: true,
+          note: "Version of the handoff checklist used for export and audit.",
+        },
+      ],
+      indexes: ["tenant_id + bundle_id", "bundle_id unique", "tenant_id + offline_ready_allowed", "handoff_revision"],
+      retentionRule: "Retain with the package release and local bundle history while any closed deployment or printed QR alias references it.",
+      exportRule: "Must export as JSON with local bundle manifests for partner handoff, backup, and restore.",
+      localFallback: "Local classroom bundles store the same checklist in the package manifest folder.",
+      policyBlockers: [
+        "Offline-ready status cannot be true while source, media rights, checksums, route fallback, or report policy items are blocked.",
+        "Installer and local server builds must read this checklist before packaging.",
+      ],
+    },
   ],
 };

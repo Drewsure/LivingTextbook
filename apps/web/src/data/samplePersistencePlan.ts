@@ -20,6 +20,7 @@ export type PersistenceBoundaryCategory =
   | "deployment-profile"
   | "teacher-report-package"
   | "publisher-maintenance-change"
+  | "local-companion-handoff"
   | "package-release-candidate"
   | "package-publish-gate"
   | "package-approval-ledger";
@@ -198,6 +199,21 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     note: "Yearly publisher updates need durable change requests so media, games, QR aliases, and reports move through review instead of manual file or route edits.",
   },
   {
+    recordId: "local-companion-handoff-record",
+    category: "local-companion-handoff",
+    label: "Local companion handoff record",
+    readiness: "durable-required",
+    sourceOfTruth: "LocalCompanionHandoffItem plus LocalBundleManifestSummary, media rights, checksum manifest, QR fallback, and local report policy",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
+    note: "Closed companion packages need a durable handoff checklist so source files, media rights, checksums, route fallback, and local report policy are not tracked only in UI or chat.",
+  },
+  {
     recordId: "package-release-candidate-record",
     category: "package-release-candidate",
     label: "Package release candidate record",
@@ -339,6 +355,18 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     visibleTo: ["Platform admin", "Tenant admin", "Content reviewer", "Publisher media owner"],
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision: "Store maintenance changes with release candidates before partner self-maintenance is enabled.",
+  },
+  {
+    boundaryId: "local-companion-handoff-boundary",
+    category: "local-companion-handoff",
+    label: "Local companion handoff checklist",
+    status: "needs-backend",
+    recordShape: "Bundle id, handoff items, owner, artifact, status, blocker, next action, offline-ready gate",
+    whyItMatters:
+      "A closed companion product needs auditable handoff artifacts before installers, local servers, or offline media bundles are promised.",
+    visibleTo: ["Platform admin", "Tenant admin", "Publisher media owner", "School admin"],
+    deploymentChannels: ["desktop-app", "local-classroom-server", "hosted-web"],
+    nextDecision: "Store handoff checklist records beside local bundle manifests before closed package production.",
   },
   {
     boundaryId: "media-manifest-boundary",
