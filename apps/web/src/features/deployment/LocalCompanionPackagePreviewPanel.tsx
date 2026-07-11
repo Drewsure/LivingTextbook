@@ -1,5 +1,6 @@
 import { Card, StatusPill } from "@living-textbook/ui";
 import type {
+  LocalCompanionArtifactStatus,
   LocalBundleManifestSummary,
   LocalBundleReadiness,
   LocalCompanionGameStatus,
@@ -49,6 +50,12 @@ const gameTone: Record<LocalCompanionGameStatus, "neutral" | "success" | "warnin
   planned: "neutral",
 };
 
+const artifactTone: Record<LocalCompanionArtifactStatus, "neutral" | "success" | "warning"> = {
+  blocked: "warning",
+  pending: "neutral",
+  ready: "success",
+};
+
 export function LocalCompanionPackagePreviewPanel({ manifest, preflight, releaseGate }: LocalCompanionPackagePreviewPanelProps) {
   const blockedCount = countLocalDeploymentChecks(preflight, "blocked");
   const warningCount = countLocalDeploymentChecks(preflight, "warning");
@@ -83,6 +90,42 @@ export function LocalCompanionPackagePreviewPanel({ manifest, preflight, release
           <a className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] px-4 py-2 text-[var(--tenant-text)]" href="/enter/sample-publisher">
             Open publisher front door
           </a>
+        </div>
+      </Card>
+
+      <Card>
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <p className="text-sm font-semibold text-[var(--tenant-muted)]">Package artifact map</p>
+            <h3 className="mt-1 text-lg font-bold">What would travel inside the closed package</h3>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
+              This is a planning map for a future exporter. It shows generated files, publisher-provided files, school-policy files, and future-build artifacts without pretending the package is ready.
+            </p>
+          </div>
+          <StatusPill label={`${manifest.artifacts.length} artifacts`} tone="neutral" />
+        </div>
+        <div className="mt-5 grid gap-3 lg:grid-cols-2">
+          {manifest.artifacts.map((artifact) => (
+            <section key={artifact.artifactId} className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3">
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div>
+                  <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">{artifact.kind} / {artifact.source}</p>
+                  <h4 className="mt-1 text-sm font-bold text-[var(--tenant-text)]">{artifact.label}</h4>
+                </div>
+                <StatusPill label={artifact.status} tone={artifactTone[artifact.status]} />
+              </div>
+              <dl className="mt-3 grid gap-2 text-xs text-[var(--tenant-muted)] sm:grid-cols-2">
+                <BundleFact label="Path" value={artifact.path} />
+                <BundleFact label="Required for" value={artifact.requiredFor} />
+              </dl>
+              <p className="mt-3 text-sm leading-6 text-[var(--tenant-muted)]">
+                <span className="font-semibold text-[var(--tenant-text)]">Blocked by:</span> {artifact.blockedBy}
+              </p>
+              <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">
+                <span className="font-semibold text-[var(--tenant-text)]">Next:</span> {artifact.nextStep}
+              </p>
+            </section>
+          ))}
         </div>
       </Card>
 
@@ -357,6 +400,14 @@ function createLocalCompanionManifestSnapshot(
       status: game.status,
       audio_covered: game.audioCovered,
       reports_progress: game.reportsProgress,
+    })),
+    artifacts: manifest.artifacts.map((artifact) => ({
+      artifact_id: artifact.artifactId,
+      kind: artifact.kind,
+      path: artifact.path,
+      status: artifact.status,
+      required_for: artifact.requiredFor,
+      source: artifact.source,
     })),
     handoff: manifest.handoffItems.map((item) => ({
       item_id: item.itemId,

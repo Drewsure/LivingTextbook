@@ -265,6 +265,7 @@ Next outputs:
 - Confirm `/teacher/intake` shows a publisher maintenance change queue for year-on-year content, media, game, route, and report updates.
 - Confirm durable records, adapter plans, schema draft, and migration specs include publisher maintenance change requests before partner self-maintenance.
 - Confirm `/local/sample-publisher` shows the closed/local companion package preview without implying offline-ready installer status.
+- Confirm `/local/sample-publisher` shows a package artifact map before exporter or installer work begins.
 - Confirm `/local/sample-publisher` shows a package handoff checklist separating publisher, platform, and school-owned requirements.
 - Confirm durable records, adapter plans, schema draft, and migration specs include local companion handoff and release gate records before local package generation.
 - Confirm `/local/sample-publisher` shows a generated manifest snapshot as preview-only package metadata.

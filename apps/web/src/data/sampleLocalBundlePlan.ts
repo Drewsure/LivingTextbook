@@ -1,6 +1,7 @@
 export type LocalBundleReadiness = "planning" | "media-missing" | "offline-ready";
 export type LocalCompanionHandoffStatus = "provided" | "needed" | "blocked";
 export type LocalCompanionGameStatus = "included" | "planned" | "blocked";
+export type LocalCompanionArtifactStatus = "ready" | "pending" | "blocked";
 
 export interface LocalBundleAssetSummary {
   assetId: string;
@@ -40,6 +41,18 @@ export interface LocalCompanionHandoffItem {
   nextStep: string;
 }
 
+export interface LocalCompanionPackageArtifact {
+  artifactId: string;
+  label: string;
+  kind: "content" | "media" | "route" | "game" | "reporting" | "release-control" | "installer";
+  path: string;
+  status: LocalCompanionArtifactStatus;
+  requiredFor: "preview" | "closed-handoff" | "offline-ready";
+  source: "generated" | "publisher-provided" | "school-policy" | "future-build";
+  blockedBy: string;
+  nextStep: string;
+}
+
 export interface LocalBundleManifestSummary {
   bundleId: string;
   tenantName: string;
@@ -54,6 +67,7 @@ export interface LocalBundleManifestSummary {
   assets: LocalBundleAssetSummary[];
   routes: LocalBundleRouteSummary[];
   games: LocalCompanionGameSummary[];
+  artifacts: LocalCompanionPackageArtifact[];
   handoffItems: LocalCompanionHandoffItem[];
 }
 
@@ -117,6 +131,41 @@ export const sampleLocalBundleManifests: LocalBundleManifestSummary[] = [
         audioCovered: true,
         reportsProgress: true,
         note: "Unlocked after entry practice; local package must preserve the same event stream.",
+      },
+    ],
+    artifacts: [
+      {
+        artifactId: "ministar-content-package-artifact",
+        label: "Reviewed content package",
+        kind: "content",
+        path: "content-package.json",
+        status: "ready",
+        requiredFor: "preview",
+        source: "generated",
+        blockedBy: "None for demo preview.",
+        nextStep: "Keep package data aligned with the hosted MiniStar sample route.",
+      },
+      {
+        artifactId: "ministar-media-artifact",
+        label: "Media folder",
+        kind: "media",
+        path: "media/",
+        status: "pending",
+        requiredFor: "closed-handoff",
+        source: "publisher-provided",
+        blockedBy: "Final rights-safe files and checksums are not bundled.",
+        nextStep: "Attach final audio/video files and generate checksum manifest.",
+      },
+      {
+        artifactId: "ministar-release-gate-artifact",
+        label: "Release gate snapshot",
+        kind: "release-control",
+        path: "release/local-release-gate.json",
+        status: "blocked",
+        requiredFor: "offline-ready",
+        source: "generated",
+        blockedBy: "Installer/update, backup/export, and school policy are unresolved.",
+        nextStep: "Generate only after release gate blockers are closed.",
       },
     ],
     handoffItems: [
@@ -232,6 +281,85 @@ export const sampleLocalBundleManifests: LocalBundleManifestSummary[] = [
         audioCovered: true,
         reportsProgress: true,
         note: "Microphone behavior remains teacher/school policy gated in the local package.",
+      },
+    ],
+    artifacts: [
+      {
+        artifactId: "partner-content-package-artifact",
+        label: "Reviewed content package",
+        kind: "content",
+        path: "content-package.json",
+        status: "ready",
+        requiredFor: "preview",
+        source: "generated",
+        blockedBy: "None for static planning preview.",
+        nextStep: "Freeze after publisher source review and game/audio coverage review.",
+      },
+      {
+        artifactId: "partner-media-folder-artifact",
+        label: "Media folder",
+        kind: "media",
+        path: "media/audio, media/video",
+        status: "blocked",
+        requiredFor: "closed-handoff",
+        source: "publisher-provided",
+        blockedBy: "Real audio/video files, rights proof, and checksums are missing.",
+        nextStep: "Collect partner media files, rights notes, and checksums.",
+      },
+      {
+        artifactId: "partner-route-registry-artifact",
+        label: "Route registry snapshot",
+        kind: "route",
+        path: "routes/qr-registry.json",
+        status: "pending",
+        requiredFor: "closed-handoff",
+        source: "generated",
+        blockedBy: "Local deep-link and hosted redirect behavior still need device testing.",
+        nextStep: "Test printed QR flow against hosted redirect, local browser, and packaged companion fallback.",
+      },
+      {
+        artifactId: "partner-game-routes-artifact",
+        label: "Game route manifest",
+        kind: "game",
+        path: "games/game-routes.json",
+        status: "pending",
+        requiredFor: "closed-handoff",
+        source: "generated",
+        blockedBy: "Speak It remains teacher/school microphone-policy gated.",
+        nextStep: "Keep included games audio-covered and reportable before package export.",
+      },
+      {
+        artifactId: "partner-report-policy-artifact",
+        label: "Local report policy",
+        kind: "reporting",
+        path: "policy/report-policy.json",
+        status: "blocked",
+        requiredFor: "offline-ready",
+        source: "school-policy",
+        blockedBy: "Backup, restore, retention, and teacher export policy are not approved.",
+        nextStep: "Choose local-only export, hosted sync, or no retained reporting for the pilot.",
+      },
+      {
+        artifactId: "partner-release-gate-artifact",
+        label: "Release gate snapshot",
+        kind: "release-control",
+        path: "release/local-release-gate.json",
+        status: "blocked",
+        requiredFor: "closed-handoff",
+        source: "generated",
+        blockedBy: "Local release gate blockers are still open.",
+        nextStep: "Generate snapshot only after media, installer, backup, QR, game/audio, and school policy gates are closed.",
+      },
+      {
+        artifactId: "partner-installer-artifact",
+        label: "Installer/update package",
+        kind: "installer",
+        path: "installer/",
+        status: "blocked",
+        requiredFor: "offline-ready",
+        source: "future-build",
+        blockedBy: "Local companion shell, update channel, rollback, and yearly edition migration are not designed.",
+        nextStep: "Choose the local shell strategy after hosted pilot requirements are stable.",
       },
     ],
     handoffItems: [

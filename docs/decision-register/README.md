@@ -107,6 +107,7 @@
 - `DR-133-local-companion-bundled-game-routes.md`
 - `DR-134-local-companion-release-gate.md`
 - `DR-135-local-companion-release-gate-storage-contract.md`
+- `DR-136-local-companion-artifact-map.md`
 
 ## Maintenance Rule
 
