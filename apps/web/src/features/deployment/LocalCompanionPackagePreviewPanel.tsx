@@ -6,14 +6,17 @@ import type {
   LocalCompanionHandoffStatus,
 } from "@/data/sampleLocalBundlePlan";
 import type {
+  LocalCompanionReleaseGate,
+  LocalCompanionReleaseGateStatus,
   LocalDeploymentPreflightPlan,
   LocalDeploymentPreflightStatus,
 } from "@/data/sampleLocalDeploymentPreflight";
-import { countLocalDeploymentChecks } from "@/data/sampleLocalDeploymentPreflight";
+import { countLocalCompanionReleaseGateItems, countLocalDeploymentChecks } from "@/data/sampleLocalDeploymentPreflight";
 
 interface LocalCompanionPackagePreviewPanelProps {
   manifest: LocalBundleManifestSummary;
   preflight: LocalDeploymentPreflightPlan;
+  releaseGate: LocalCompanionReleaseGate;
 }
 
 const readinessTone: Record<LocalBundleReadiness, "neutral" | "success" | "warning"> = {
@@ -23,6 +26,12 @@ const readinessTone: Record<LocalBundleReadiness, "neutral" | "success" | "warni
 };
 
 const preflightTone: Record<LocalDeploymentPreflightStatus, "neutral" | "success" | "warning"> = {
+  blocked: "warning",
+  pass: "success",
+  warning: "warning",
+};
+
+const releaseGateTone: Record<LocalCompanionReleaseGateStatus, "neutral" | "success" | "warning"> = {
   blocked: "warning",
   pass: "success",
   warning: "warning",
@@ -40,14 +49,18 @@ const gameTone: Record<LocalCompanionGameStatus, "neutral" | "success" | "warnin
   planned: "neutral",
 };
 
-export function LocalCompanionPackagePreviewPanel({ manifest, preflight }: LocalCompanionPackagePreviewPanelProps) {
+export function LocalCompanionPackagePreviewPanel({ manifest, preflight, releaseGate }: LocalCompanionPackagePreviewPanelProps) {
   const blockedCount = countLocalDeploymentChecks(preflight, "blocked");
   const warningCount = countLocalDeploymentChecks(preflight, "warning");
+  const releaseBlockedCount = countLocalCompanionReleaseGateItems(releaseGate, "blocked");
+  const releaseWarningCount = countLocalCompanionReleaseGateItems(releaseGate, "warning");
+  const releasePassCount = countLocalCompanionReleaseGateItems(releaseGate, "pass");
   const handoffBlockedCount = manifest.handoffItems.filter((item) => item.status === "blocked").length;
   const handoffNeededCount = manifest.handoffItems.filter((item) => item.status === "needed").length;
   const manifestSnapshot = createLocalCompanionManifestSnapshot(manifest, {
     handoffBlockedCount,
     preflightBlockedCount: blockedCount,
+    releaseBlockedCount,
   });
 
   return (
@@ -70,6 +83,46 @@ export function LocalCompanionPackagePreviewPanel({ manifest, preflight }: Local
           <a className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] px-4 py-2 text-[var(--tenant-text)]" href="/enter/sample-publisher">
             Open publisher front door
           </a>
+        </div>
+      </Card>
+
+      <Card>
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <p className="text-sm font-semibold text-[var(--tenant-muted)]">{releaseGate.label}</p>
+            <h3 className="mt-1 text-lg font-bold">{releaseGate.decision}</h3>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">{releaseGate.summary}</p>
+          </div>
+          <StatusPill label={`${releaseBlockedCount} blocked`} tone={releaseBlockedCount > 0 ? "warning" : "success"} />
+        </div>
+
+        <dl className="mt-5 grid gap-3 sm:grid-cols-3">
+          <BundleFact label="Passed" value={String(releasePassCount)} />
+          <BundleFact label="Warnings" value={String(releaseWarningCount)} />
+          <BundleFact label="Blocked" value={String(releaseBlockedCount)} />
+        </dl>
+
+        <div className="mt-5 grid gap-3 lg:grid-cols-2">
+          {releaseGate.items.map((item) => (
+            <section key={item.gateId} className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3">
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div>
+                  <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">{item.owner}</p>
+                  <h4 className="mt-1 text-sm font-bold text-[var(--tenant-text)]">{item.label}</h4>
+                </div>
+                <StatusPill label={item.status} tone={releaseGateTone[item.status]} />
+              </div>
+              <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">
+                <span className="font-semibold text-[var(--tenant-text)]">Evidence:</span> {item.evidence}
+              </p>
+              <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">
+                <span className="font-semibold text-[var(--tenant-text)]">Blocker:</span> {item.blocker}
+              </p>
+              <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">
+                <span className="font-semibold text-[var(--tenant-text)]">Next:</span> {item.nextAction}
+              </p>
+            </section>
+          ))}
         </div>
       </Card>
 
@@ -267,14 +320,18 @@ function BundleFact({ label, value }: { label: string; value: string }) {
 
 function createLocalCompanionManifestSnapshot(
   manifest: LocalBundleManifestSummary,
-  counts: { handoffBlockedCount: number; preflightBlockedCount: number },
+  counts: { handoffBlockedCount: number; preflightBlockedCount: number; releaseBlockedCount: number },
 ) {
   return {
     bundle_id: manifest.bundleId,
     tenant_name: manifest.tenantName,
     version: manifest.version,
     readiness: manifest.readiness,
-    offline_ready_allowed: manifest.offlineReady && counts.handoffBlockedCount === 0 && counts.preflightBlockedCount === 0,
+    offline_ready_allowed:
+      manifest.offlineReady &&
+      counts.handoffBlockedCount === 0 &&
+      counts.preflightBlockedCount === 0 &&
+      counts.releaseBlockedCount === 0,
     content_package_path: manifest.contentPackagePath,
     media_root: manifest.mediaRoot,
     requires_hosted_redirect: manifest.requiresHostedRedirect,

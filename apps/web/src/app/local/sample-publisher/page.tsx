@@ -1,6 +1,6 @@
 import { AppShell } from "@/components/layout/AppShell";
 import { sampleLocalBundleManifests } from "@/data/sampleLocalBundlePlan";
-import { sampleLocalDeploymentPreflightPlan } from "@/data/sampleLocalDeploymentPreflight";
+import { sampleLocalCompanionReleaseGate, sampleLocalDeploymentPreflightPlan } from "@/data/sampleLocalDeploymentPreflight";
 import { LocalCompanionPackagePreviewPanel } from "@/features/deployment/LocalCompanionPackagePreviewPanel";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 
@@ -16,6 +16,7 @@ export default function SamplePublisherLocalCompanionPage() {
       <LocalCompanionPackagePreviewPanel
         manifest={manifest}
         preflight={sampleLocalDeploymentPreflightPlan}
+        releaseGate={sampleLocalCompanionReleaseGate}
       />
     </AppShell>
   );

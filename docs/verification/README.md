@@ -30,6 +30,7 @@ Focused verification supplements:
 - `docs/verification/LOCAL_COMPANION_GAME_ROUTE_CHECKS.md`
 - `docs/verification/LOCAL_COMPANION_MANIFEST_SNAPSHOT_CHECKS.md`
 - `docs/verification/LOCAL_COMPANION_NAV_LINK_CHECKS.md`
+- `docs/verification/LOCAL_COMPANION_RELEASE_GATE_CHECKS.md`
 - `docs/verification/MEDIA_TELEMETRY_CHECKS.md`
 - `docs/verification/MEDIA_RIGHTS_READINESS_CHECKS.md`
 - `docs/verification/MEDIA_SUPPORT_ONLY_EVENT_CHECKS.md`

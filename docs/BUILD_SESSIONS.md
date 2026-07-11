@@ -269,6 +269,7 @@ Next outputs:
 - Confirm durable records, adapter plans, schema draft, and migration specs include local companion handoff records before local package generation.
 - Confirm `/local/sample-publisher` shows a generated manifest snapshot as preview-only package metadata.
 - Confirm `/local/sample-publisher` shows bundled game routes with engine, audio coverage, and progress reporting status.
+- Confirm `/local/sample-publisher` shows a local release gate that blocks closed handoff until media rights, installer/update, backup/export, QR fallback, school access/privacy, and game/audio/reporting checks are reviewed.
 - Confirm shared navigation exposes the local companion preview during review.
 - Confirm `/teacher/intake` shows a pilot release candidate summary that joins publish gates and approval ledgers before any live pilot claim.
 - Confirm `/teacher/intake` shows the backend selection gate before choosing the actual first pilot backend.
