@@ -111,6 +111,7 @@
 - `DR-137-teacher-session-settings-snapshot.md`
 - `DR-138-teacher-session-settings-storage-contract.md`
 - `DR-139-teacher-session-event-acceptance-gate.md`
+- `DR-140-teacher-session-event-acceptance-storage-contract.md`
 
 ## Maintenance Rule
 

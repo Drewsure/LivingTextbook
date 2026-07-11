@@ -21,6 +21,7 @@ export interface PersistenceWriteIntent {
   preservesEventEffectTaxonomy?: boolean;
   preservesGameAudioCoverageSnapshot?: boolean;
   preservesTeacherSessionSettingsSnapshot?: boolean;
+  preservesTeacherSessionEventAcceptanceGate?: boolean;
   note: string;
 }
 
@@ -109,6 +110,10 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "launch-session" && !intent.preservesTeacherSessionSettingsSnapshot) {
       errors.push(`Launch session write intent ${intent.intentId} must preserve teacher session settings snapshots.`);
+    }
+
+    if (intent.category === "launch-session" && !intent.preservesTeacherSessionEventAcceptanceGate) {
+      errors.push(`Launch session write intent ${intent.intentId} must preserve teacher session event acceptance gates.`);
     }
   }
 

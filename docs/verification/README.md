@@ -77,6 +77,7 @@ Focused verification supplements:
 - `docs/verification/TEACHER_SESSION_PREFLIGHT_CHECKS.md`
 - `docs/verification/TEACHER_SESSION_ASSIGNED_GAME_PATH_CHECKS.md`
 - `docs/verification/TEACHER_SESSION_EVENT_ACCEPTANCE_GATE_CHECKS.md`
+- `docs/verification/TEACHER_SESSION_EVENT_ACCEPTANCE_STORAGE_CHECKS.md`
 - `docs/verification/TEACHER_SESSION_MONITOR_CHECKS.md`
 - `docs/verification/TEACHER_SESSION_PILOT_READINESS_CHECKS.md`
 - `docs/verification/TEACHER_SESSION_SETTINGS_SNAPSHOT_CHECKS.md`
