@@ -230,6 +230,7 @@ Next outputs:
 - Pull latest `legacy-source-import` locally and run typecheck/build after connector-side changes.
 - Use `docs/ACTIVE_ROUTE_VERIFICATION_LIST.md` for route checks after route, package, assignment, game, audio, QR, or teacher-report changes.
 - Confirm `/teacher/intake` shows the active route matrix for non-technical route review.
+- Confirm the active route matrix stays aligned with the full automated active-route verification list.
 - Browser-verify the package publish gate, approval ledger, backend schema draft, backend migration candidates, backend migration specs, and persistence boundary at `/teacher/intake`.
 - Browser-verify the teacher preflight, assigned game path, and monitor settings contract at `/teacher/sessions/demo-unit-1` and `/teacher/sessions/partner-demo-unit-1`.
 - Confirm teacher session pages show a session pilot readiness snapshot that separates demo-safe monitoring from live classroom blockers.

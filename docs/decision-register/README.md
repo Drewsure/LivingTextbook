@@ -98,6 +98,7 @@
 - `DR-124-teacher-report-package-preview-route.md`
 - `DR-125-publisher-maintenance-change-queue.md`
 - `DR-126-publisher-maintenance-change-storage-contract.md`
+- `DR-127-active-route-matrix-26-route-alignment.md`
 
 ## Maintenance Rule
 
