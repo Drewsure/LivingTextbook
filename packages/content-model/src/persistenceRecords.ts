@@ -10,6 +10,7 @@ export type PersistenceRecordCategory =
   | "teacher-report-package"
   | "publisher-maintenance-change"
   | "local-companion-handoff"
+  | "local-companion-release-gate"
   | "package-release-candidate"
   | "package-publish-gate"
   | "package-approval-ledger";

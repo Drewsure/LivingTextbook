@@ -106,6 +106,7 @@
 - `DR-132-local-companion-generated-manifest-snapshot.md`
 - `DR-133-local-companion-bundled-game-routes.md`
 - `DR-134-local-companion-release-gate.md`
+- `DR-135-local-companion-release-gate-storage-contract.md`
 
 ## Maintenance Rule
 

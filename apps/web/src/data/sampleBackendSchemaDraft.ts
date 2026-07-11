@@ -259,6 +259,29 @@ export const sampleBackendSchemaDraft: BackendSchemaDraft = {
         "Handoff records should be exported with local bundles and must not mark packages offline-ready while required artifacts are missing.",
     },
     {
+      entityId: "local_companion_release_gate",
+      label: "Local companion release gate",
+      status: "required-before-pilot",
+      deploymentFit: "hybrid",
+      purpose:
+        "Stores the release decision that blocks closed local companion handoff until installer/update, media rights, backup/export, QR fallback, game audio/reporting, and school access/privacy gates are resolved.",
+      fields: [
+        { name: "release_gate_id", type: "stable id", required: true, note: "One release gate snapshot for a local bundle/package candidate." },
+        { name: "tenant_id", type: "foreign key/string", required: true, note: "Tenant or publisher owner." },
+        { name: "bundle_id", type: "string", required: true, note: "Local bundle manifest this gate belongs to." },
+        { name: "package_id", type: "foreign key/string", required: true, note: "Package release or candidate under review." },
+        { name: "decision", type: "enum/string", required: true, note: "Previewable only, blocked, ready for controlled handoff, or archived." },
+        { name: "gate_items", type: "json/child records", required: true, note: "Owner, status, evidence, blocker, and next action for each local release gate item." },
+        { name: "blocked_count", type: "integer", required: true, note: "Must be zero before controlled closed handoff." },
+        { name: "closed_handoff_allowed", type: "boolean", required: true, note: "Derived from blocked count, installer/update, media rights, backup/export, QR fallback, and school policy." },
+      ],
+      relationships: ["Belongs to tenant", "Belongs to package release", "References local companion handoff", "Feeds package publish gate"],
+      indexes: ["bundle_id unique", "tenant_id + package_id", "tenant_id + closed_handoff_allowed", "tenant_id + blocked_count"],
+      forbiddenFields: ["Raw media binaries", "Raw learner audio", "Learner transcripts", "Manual closed-handoff override"],
+      migrationNote:
+        "Release gate records should be exported with local bundle manifests and must remain blocked while installer/update, backup/export, media rights, QR fallback, or school policy blockers are open.",
+    },
+    {
       entityId: "package_publish_gate",
       label: "Package publish gate",
       status: "required-before-pilot",
@@ -303,6 +326,7 @@ export const sampleBackendSchemaDraft: BackendSchemaDraft = {
     "Teacher report packages must preserve learning-evidence, support-only, and excluded-sensitive-field boundaries before export.",
     "Publisher maintenance changes must be reviewed before they alter routes, media manifests, game offers, or report packages.",
     "Local companion handoff records must block offline-ready status until source, media rights, checksums, routes, and report policy are accepted.",
+    "Local companion release gates must block closed handoff until installer, update, backup, export, QR fallback, media rights, game audio/reporting, and school access policies are accepted.",
     "Support language never unlocks target-language progression.",
     "AI Tutor and speech scoring stay premium-gated and disabled unless tenant policy accepts them.",
     "Local and hosted implementations must preserve the same record vocabulary.",

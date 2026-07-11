@@ -161,7 +161,7 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
       track: "local-classroom",
       status: "defer",
       risk: "high",
-      targetEntities: ["media_manifest", "route_alias", "package_release_candidate", "package_publish_gate", "package_approval_ledger", "progress_event", "teacher_report_package", "local_companion_handoff"],
+      targetEntities: ["media_manifest", "route_alias", "package_release_candidate", "package_publish_gate", "package_approval_ledger", "progress_event", "teacher_report_package", "local_companion_handoff", "local_companion_release_gate"],
       purpose: "Prepare closed/local deployments to backup, restore, and export package, media, release-control, and progress records without hosted dependency.",
       prerequisites: ["Hosted pilot schema validated", "Local backup/restore strategy accepted", "Installer/update path accepted"],
       implementationNotes: [
@@ -226,6 +226,24 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
       rollbackOrExportNeeds: ["Export local companion handoff record", "Retain superseded handoff records with package release history", "Restore checklist state with local bundle backups"],
       notAllowedYet: ["Manual offline-ready override", "Installer build with missing rights proof", "Checksum-free media bundle", "Local report export without policy"],
     },
+    {
+      migrationId: "m012-local-companion-release-gate-records",
+      label: "Local companion release gate records",
+      track: "local-classroom",
+      status: "ready-to-design",
+      risk: "medium",
+      targetEntities: ["local_companion_release_gate"],
+      purpose: "Persist closed/local package release decisions before publisher handoff, installer packaging, or school-owned local deployment.",
+      prerequisites: ["Local companion handoff record accepted", "Installer/update strategy accepted", "Backup/export policy accepted", "Media rights and checksum procedure accepted", "School access/privacy policy accepted"],
+      implementationNotes: [
+        "Treat the gate as release-control metadata, not student progress data.",
+        "Derive closed-handoff status from release gate item status.",
+        "Export release gate records with local bundle manifests.",
+        "Block manual closed-handoff overrides when any required gate item is blocked.",
+      ],
+      rollbackOrExportNeeds: ["Export local companion release gate record", "Retain superseded gate snapshots with package release history", "Restore gate state with local bundle backups"],
+      notAllowedYet: ["Manual closed-handoff override", "Installer handoff with open blockers", "Offline bundle without backup/export policy", "Local school deployment without privacy/access policy"],
+    },
   ],
   standingRules: [
     "Do not create production migrations before backend choice and policy gates are accepted.",
@@ -236,6 +254,7 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
     "Teacher report packages must preserve learning-evidence, support-only, and excluded-sensitive-field boundaries.",
     "Publisher maintenance changes must pass release review before active package mutation.",
     "Local companion handoff records must block offline-ready claims until required artifacts are complete.",
+    "Local companion release gate records must block closed handoff until installer, update, backup, export, media rights, QR fallback, game/audio reporting, and school policy requirements are complete.",
     "Every migration candidate needs rollback or export expectations before implementation.",
   ],
 };

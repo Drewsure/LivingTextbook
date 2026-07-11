@@ -21,6 +21,7 @@ export type PersistenceBoundaryCategory =
   | "teacher-report-package"
   | "publisher-maintenance-change"
   | "local-companion-handoff"
+  | "local-companion-release-gate"
   | "package-release-candidate"
   | "package-publish-gate"
   | "package-approval-ledger";
@@ -214,6 +215,21 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     note: "Closed companion packages need a durable handoff checklist so source files, media rights, checksums, route fallback, and local report policy are not tracked only in UI or chat.",
   },
   {
+    recordId: "local-companion-release-gate-record",
+    category: "local-companion-release-gate",
+    label: "Local companion release gate record",
+    readiness: "durable-required",
+    sourceOfTruth: "LocalCompanionReleaseGate plus LocalBundleManifestSummary, deployment preflight, media rights, installer/update, backup/export, QR fallback, and school access policy",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
+    note: "Closed local products need a durable release decision so previewable packages cannot be confused with installer-ready, offline-ready, or school-approved packages.",
+  },
+  {
     recordId: "package-release-candidate-record",
     category: "package-release-candidate",
     label: "Package release candidate record",
@@ -367,6 +383,18 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     visibleTo: ["Platform admin", "Tenant admin", "Publisher media owner", "School admin"],
     deploymentChannels: ["desktop-app", "local-classroom-server", "hosted-web"],
     nextDecision: "Store handoff checklist records beside local bundle manifests before closed package production.",
+  },
+  {
+    boundaryId: "local-companion-release-gate-boundary",
+    category: "local-companion-release-gate",
+    label: "Local companion release gate",
+    status: "needs-backend",
+    recordShape: "Release gate id, bundle id, package id, decision, gate items, blocked count, previewable flag, closed-handoff flag",
+    whyItMatters:
+      "A closed textbook companion must not be handed to a publisher or school until installer, update, backup, export, media rights, QR fallback, and access/privacy gates are durable and auditable.",
+    visibleTo: ["Platform admin", "Tenant admin", "Publisher media owner", "School admin"],
+    deploymentChannels: ["desktop-app", "local-classroom-server", "hosted-web"],
+    nextDecision: "Store local release gate records before local installer packaging, school handoff, or offline-ready claims.",
   },
   {
     boundaryId: "media-manifest-boundary",

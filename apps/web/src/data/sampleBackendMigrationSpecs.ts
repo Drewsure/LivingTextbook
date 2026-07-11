@@ -519,5 +519,68 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
         "Installer and local server builds must read this checklist before packaging.",
       ],
     },
+    {
+      specId: "spec-local-companion-release-gate",
+      label: "Local companion release gate",
+      candidateId: "m012-local-companion-release-gate-records",
+      storeKind: "release-record",
+      status: "ready-for-review",
+      purpose:
+        "Stores closed/local companion release gate state before publisher handoff, installer packaging, or local classroom server release.",
+      primaryKey: "release_gate_id",
+      tenantScope: "Scoped by tenant_id, package_release_id, bundle_id, and gate_revision.",
+      fields: [
+        {
+          name: "release_gate_id",
+          type: "string",
+          required: true,
+          note: "Stable id for one local release gate snapshot.",
+        },
+        {
+          name: "bundle_id",
+          type: "string",
+          required: true,
+          note: "Local bundle manifest this release gate belongs to.",
+        },
+        {
+          name: "decision",
+          type: "string",
+          required: true,
+          note: "Previewable only, blocked, controlled-handoff-ready, or archived.",
+        },
+        {
+          name: "gate_items",
+          type: "json",
+          required: true,
+          note: "Owner, status, evidence, blocker, and next action for each local release gate item.",
+        },
+        {
+          name: "blocked_count",
+          type: "integer",
+          required: true,
+          note: "Open blockers preventing closed handoff.",
+        },
+        {
+          name: "closed_handoff_allowed",
+          type: "boolean",
+          required: true,
+          note: "Derived from blocked count, installer/update, media rights, backup/export, QR fallback, and school policy.",
+        },
+        {
+          name: "gate_revision",
+          type: "string",
+          required: true,
+          note: "Version of the gate checklist used for export and audit.",
+        },
+      ],
+      indexes: ["tenant_id + bundle_id", "bundle_id unique", "tenant_id + closed_handoff_allowed", "gate_revision"],
+      retentionRule: "Retain with the package release and local bundle history while any closed deployment, installer package, or printed QR alias references it.",
+      exportRule: "Must export as JSON with local bundle manifests for publisher handoff, backup, restore, and audit.",
+      localFallback: "Local classroom bundles store the same release gate snapshot in the package manifest folder.",
+      policyBlockers: [
+        "Closed handoff cannot be true while installer/update, media rights/checksums, backup/export, QR fallback, game/audio reporting, or school access/privacy items are blocked.",
+        "Installer, local server, and desktop companion builds must read this gate before packaging.",
+      ],
+    },
   ],
 };
