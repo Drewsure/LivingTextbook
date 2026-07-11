@@ -43,6 +43,14 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     note: "White-label second-tenant demonstration route.",
   },
   {
+    routeId: "local-sample-publisher",
+    group: "sample-publisher",
+    label: "Sample publisher local companion",
+    path: "/local/sample-publisher",
+    status: "active-scaffold",
+    note: "Closed/local companion package preview for publisher handoff planning.",
+  },
+  {
     routeId: "manifest",
     group: "core",
     label: "PWA manifest",

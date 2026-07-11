@@ -5,7 +5,7 @@ Use `docs/VERIFICATION_CHECKLIST.md` as the primary local verification path afte
 Focused verification supplements:
 
 - `docs/verification/AI_TUTOR_ENTITLEMENT_CHECKS.md`
-- `docs/verification/ACTIVE_ROUTE_MATRIX_26_ROUTE_CHECKS.md`
+- `docs/verification/ACTIVE_ROUTE_MATRIX_27_ROUTE_CHECKS.md`
 - `docs/verification/ACTIVE_ROUTE_MATRIX_PANEL_CHECKS.md`
 - `docs/verification/MEDIA_PLAYLIST_ROUTE_CHECKS.md`
 - `docs/verification/AUDIO_COVERED_MODE_READINESS_CHECKS.md`
@@ -24,6 +24,7 @@ Focused verification supplements:
 - `docs/verification/GAME_PROTOTYPE_ASSIGNMENT_CHECKS.md`
 - `docs/verification/GAME_MODE_AUDIO_COVERAGE_CHECKS.md`
 - `docs/verification/LOCAL_DEPLOYMENT_PREFLIGHT_CHECKS.md`
+- `docs/verification/LOCAL_COMPANION_PACKAGE_PREVIEW_CHECKS.md`
 - `docs/verification/MEDIA_TELEMETRY_CHECKS.md`
 - `docs/verification/MEDIA_RIGHTS_READINESS_CHECKS.md`
 - `docs/verification/MEDIA_SUPPORT_ONLY_EVENT_CHECKS.md`

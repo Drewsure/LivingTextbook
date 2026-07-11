@@ -99,6 +99,7 @@
 - `DR-125-publisher-maintenance-change-queue.md`
 - `DR-126-publisher-maintenance-change-storage-contract.md`
 - `DR-127-active-route-matrix-26-route-alignment.md`
+- `DR-128-local-companion-package-preview-route.md`
 
 ## Maintenance Rule
 
