@@ -276,6 +276,7 @@ Next outputs:
 - Confirm `/teacher/intake` shows a pilot release candidate summary that joins publish gates and approval ledgers before any live pilot claim.
 - Confirm `/teacher/intake` shows the backend selection gate before choosing the actual first pilot backend.
 - Confirm teacher session monitor routes show a machine-readable settings snapshot before launch-session persistence is implemented.
+- Confirm launch-session adapter plans, schema draft, migration candidates, and migration specs preserve teacher session settings snapshots before live student events are stored.
 
 ## Session 8: Premium Experience Layer
 

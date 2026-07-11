@@ -109,6 +109,7 @@
 - `DR-135-local-companion-release-gate-storage-contract.md`
 - `DR-136-local-companion-artifact-map.md`
 - `DR-137-teacher-session-settings-snapshot.md`
+- `DR-138-teacher-session-settings-storage-contract.md`
 
 ## Maintenance Rule
 

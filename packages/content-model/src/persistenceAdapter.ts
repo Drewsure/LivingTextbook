@@ -20,6 +20,7 @@ export interface PersistenceWriteIntent {
   rejectsTranscripts: boolean;
   preservesEventEffectTaxonomy?: boolean;
   preservesGameAudioCoverageSnapshot?: boolean;
+  preservesTeacherSessionSettingsSnapshot?: boolean;
   note: string;
 }
 
@@ -104,6 +105,10 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.intentId.includes("package-audio-coverage") && !intent.preservesGameAudioCoverageSnapshot) {
       errors.push(`Package game/audio coverage write intent ${intent.intentId} must preserve reviewed game/audio coverage snapshots.`);
+    }
+
+    if (intent.category === "launch-session" && !intent.preservesTeacherSessionSettingsSnapshot) {
+      errors.push(`Launch session write intent ${intent.intentId} must preserve teacher session settings snapshots.`);
     }
   }
 
