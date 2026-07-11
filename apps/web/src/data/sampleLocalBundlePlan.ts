@@ -1,4 +1,5 @@
 export type LocalBundleReadiness = "planning" | "media-missing" | "offline-ready";
+export type LocalCompanionHandoffStatus = "provided" | "needed" | "blocked";
 
 export interface LocalBundleAssetSummary {
   assetId: string;
@@ -16,6 +17,16 @@ export interface LocalBundleRouteSummary {
   localFallbackPath: string;
 }
 
+export interface LocalCompanionHandoffItem {
+  itemId: string;
+  label: string;
+  owner: "publisher" | "platform" | "school";
+  status: LocalCompanionHandoffStatus;
+  artifact: string;
+  whyNeeded: string;
+  nextStep: string;
+}
+
 export interface LocalBundleManifestSummary {
   bundleId: string;
   tenantName: string;
@@ -29,6 +40,7 @@ export interface LocalBundleManifestSummary {
   notes: string;
   assets: LocalBundleAssetSummary[];
   routes: LocalBundleRouteSummary[];
+  handoffItems: LocalCompanionHandoffItem[];
 }
 
 export const sampleLocalBundleManifests: LocalBundleManifestSummary[] = [
@@ -69,6 +81,26 @@ export const sampleLocalBundleManifests: LocalBundleManifestSummary[] = [
         localFallbackPath: "/enter/ministar",
       },
     ],
+    handoffItems: [
+      {
+        itemId: "ministar-content-package-json",
+        label: "Reviewed content package",
+        owner: "platform",
+        status: "provided",
+        artifact: "content-package.json",
+        whyNeeded: "The local package needs reviewed vocabulary, sentence, game, audio, and teacher protocol metadata.",
+        nextStep: "Keep aligned with the hosted sample package.",
+      },
+      {
+        itemId: "ministar-media-files",
+        label: "Audio/video files",
+        owner: "publisher",
+        status: "needed",
+        artifact: "media/audio and media/video folders",
+        whyNeeded: "A closed package cannot rely on missing hosted demo media.",
+        nextStep: "Attach rights-safe files and generate checksums.",
+      },
+    ],
   },
   {
     bundleId: "sample-publisher-unit-1-planning",
@@ -105,6 +137,53 @@ export const sampleLocalBundleManifests: LocalBundleManifestSummary[] = [
         targetType: "front-door",
         targetId: "enter:sample-publisher:routines-demo",
         localFallbackPath: "/enter/sample-publisher",
+      },
+    ],
+    handoffItems: [
+      {
+        itemId: "partner-source-pdf",
+        label: "Publisher source unit",
+        owner: "publisher",
+        status: "needed",
+        artifact: "unit-1-source.pdf plus review notes",
+        whyNeeded: "The platform must review source pages before building a student-facing package.",
+        nextStep: "Attach page range, unit title, target words, and any teacher notes.",
+      },
+      {
+        itemId: "partner-content-package-json",
+        label: "Reviewed content package",
+        owner: "platform",
+        status: "provided",
+        artifact: "content-package.json",
+        whyNeeded: "The local app needs the same reviewed package vocabulary as hosted routes.",
+        nextStep: "Freeze the package only after source review and game/audio coverage pass.",
+      },
+      {
+        itemId: "partner-media-rights",
+        label: "Audio/video rights proof",
+        owner: "publisher",
+        status: "blocked",
+        artifact: "media-rights.csv or signed rights notes",
+        whyNeeded: "Closed distribution still needs rights, ownership, and version records for every asset.",
+        nextStep: "Provide ownership/license notes for the morning song and routine video.",
+      },
+      {
+        itemId: "partner-checksum-manifest",
+        label: "Checksum manifest",
+        owner: "platform",
+        status: "blocked",
+        artifact: "checksums.json",
+        whyNeeded: "The installer or local server must detect missing or replaced media files.",
+        nextStep: "Generate checksums after final media files are attached.",
+      },
+      {
+        itemId: "partner-local-report-policy",
+        label: "Local report export policy",
+        owner: "school",
+        status: "needed",
+        artifact: "report-policy.json",
+        whyNeeded: "Teacher reports, backup, restore, and export cannot store student data without school policy.",
+        nextStep: "Choose local-only export, hosted sync, or no retained reporting for the pilot.",
       },
     ],
   },

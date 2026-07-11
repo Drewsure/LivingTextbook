@@ -1,5 +1,9 @@
 import { Card, StatusPill } from "@living-textbook/ui";
-import type { LocalBundleManifestSummary, LocalBundleReadiness } from "@/data/sampleLocalBundlePlan";
+import type {
+  LocalBundleManifestSummary,
+  LocalBundleReadiness,
+  LocalCompanionHandoffStatus,
+} from "@/data/sampleLocalBundlePlan";
 import type {
   LocalDeploymentPreflightPlan,
   LocalDeploymentPreflightStatus,
@@ -23,9 +27,17 @@ const preflightTone: Record<LocalDeploymentPreflightStatus, "neutral" | "success
   warning: "warning",
 };
 
+const handoffTone: Record<LocalCompanionHandoffStatus, "neutral" | "success" | "warning"> = {
+  blocked: "warning",
+  needed: "warning",
+  provided: "success",
+};
+
 export function LocalCompanionPackagePreviewPanel({ manifest, preflight }: LocalCompanionPackagePreviewPanelProps) {
   const blockedCount = countLocalDeploymentChecks(preflight, "blocked");
   const warningCount = countLocalDeploymentChecks(preflight, "warning");
+  const handoffBlockedCount = manifest.handoffItems.filter((item) => item.status === "blocked").length;
+  const handoffNeededCount = manifest.handoffItems.filter((item) => item.status === "needed").length;
 
   return (
     <div className="grid gap-5">
@@ -66,6 +78,43 @@ export function LocalCompanionPackagePreviewPanel({ manifest, preflight }: Local
           <BundleFact label="Offline ready" value={manifest.offlineReady ? "Yes" : "No"} />
           <BundleFact label="Hosted redirect" value={manifest.requiresHostedRedirect ? "Required" : "Not required"} />
         </dl>
+      </Card>
+
+      <Card>
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <p className="text-sm font-semibold text-[var(--tenant-muted)]">Package handoff checklist</p>
+            <h3 className="mt-1 text-lg font-bold">What must exist before a closed companion package</h3>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
+              This checklist separates publisher-provided source material, platform-generated manifests, and school policy decisions. A package can be previewed before these are complete, but it cannot be called offline-ready.
+            </p>
+          </div>
+          <StatusPill label={`${handoffBlockedCount} blocked`} tone={handoffBlockedCount > 0 ? "warning" : "success"} />
+        </div>
+
+        <dl className="mt-5 grid gap-3 sm:grid-cols-3">
+          <BundleFact label="Checklist items" value={String(manifest.handoffItems.length)} />
+          <BundleFact label="Needed" value={String(handoffNeededCount)} />
+          <BundleFact label="Blocked" value={String(handoffBlockedCount)} />
+        </dl>
+
+        <div className="mt-5 grid gap-3 lg:grid-cols-2">
+          {manifest.handoffItems.map((item) => (
+            <section key={item.itemId} className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3">
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div>
+                  <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">{item.owner} / {item.artifact}</p>
+                  <h4 className="mt-1 text-sm font-bold text-[var(--tenant-text)]">{item.label}</h4>
+                </div>
+                <StatusPill label={item.status} tone={handoffTone[item.status]} />
+              </div>
+              <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">{item.whyNeeded}</p>
+              <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">
+                <span className="font-semibold text-[var(--tenant-text)]">Next:</span> {item.nextStep}
+              </p>
+            </section>
+          ))}
+        </div>
       </Card>
 
       <div className="grid gap-5 lg:grid-cols-2">

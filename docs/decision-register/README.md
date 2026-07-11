@@ -101,6 +101,7 @@
 - `DR-127-active-route-matrix-26-route-alignment.md`
 - `DR-128-local-companion-package-preview-route.md`
 - `DR-129-local-companion-nav-link.md`
+- `DR-130-local-companion-package-handoff-checklist.md`
 
 ## Maintenance Rule
 

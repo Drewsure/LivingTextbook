@@ -7,7 +7,7 @@ const urls = Array.from(activeRouteSection.matchAll(/`(http:\/\/127\.0\.0\.1:300
 const expectedTextByPath = new Map([
   ["/", ["Local Preview"]],
   ["/teacher/intake", ["Package publish gate", "Pilot source strategy", "Pilot release candidate", "Backend selection gate", "Background media policy", "Maintenance change queue", "27 checked routes"]],
-  ["/local/sample-publisher", ["Local companion package preview", "Closed local companion", "Local deployment preflight"]],
+  ["/local/sample-publisher", ["Local companion package preview", "Closed local companion", "Package handoff checklist", "Local deployment preflight"]],
   ["/launch/demo-unit-1", ["Unit media"]],
   ["/launch/partner-demo-unit-1", ["Unit media"]],
   ["/teacher/sessions/demo-unit-1", ["Session pilot readiness", "Report package boundary", "Media engagement", "tap-to-speak learning audio"]],
