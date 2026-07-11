@@ -187,6 +187,7 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
       prerequisites: ["Report export policy accepted", "Progress event taxonomy accepted", "Teacher/session access roles accepted", "Retention and audit rules accepted"],
       implementationNotes: [
         "Build report package summaries from launch session and progress event records.",
+        "Preserve the launch-session event acceptance summary in every report package snapshot.",
         "Preserve support-only event semantics in every export format.",
         "Store excluded sensitive-field rules with the report package snapshot.",
         "Keep raw learner audio, transcripts, and open-ended AI Tutor chat out of core report packages.",
@@ -256,7 +257,7 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
     "Hosted and local implementations must use the same record vocabulary.",
     "Launch-session migrations must preserve teacher settings snapshots and event acceptance gates before accepting student events.",
     "Hosted and local event stores must require a passed event acceptance gate and preserve event effect taxonomy.",
-    "Teacher report packages must preserve learning-evidence, support-only, and excluded-sensitive-field boundaries.",
+    "Teacher report packages must preserve event acceptance summaries, learning-evidence, support-only, and excluded-sensitive-field boundaries.",
     "Publisher maintenance changes must pass release review before active package mutation.",
     "Local companion handoff records must block offline-ready claims until required artifacts are complete.",
     "Local companion release gate records must block closed handoff until installer, update, backup, export, media rights, QR fallback, game/audio reporting, and school policy requirements are complete.",

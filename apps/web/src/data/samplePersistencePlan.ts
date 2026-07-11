@@ -174,7 +174,7 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     category: "teacher-report-package",
     label: "Teacher report package boundary record",
     readiness: "policy-required",
-    sourceOfTruth: "TeacherReportPackageBoundary plus TeacherReportExportPlan, event-effect taxonomy, and school/tenant export policy",
+    sourceOfTruth: "TeacherReportPackageBoundary plus TeacherReportExportPlan, event acceptance gate summary, event-effect taxonomy, and school/tenant export policy",
     requiredBeforePilot: true,
     containsStudentData: true,
     containsMediaRights: false,
@@ -182,7 +182,7 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     storesRawAudio: false,
     storesTranscript: false,
     recommendedFirstPilotStore: ["school-policy", "hosted-database", "local-classroom-store"],
-    note: "Teacher reports need a durable package boundary so learning evidence, support-only events, excluded sensitive fields, and export blockers are preserved across hosted and local deployments.",
+    note: "Teacher reports need a durable package boundary so event acceptance status, learning evidence, support-only events, excluded sensitive fields, and export blockers are preserved across hosted and local deployments.",
   },
   {
     recordId: "publisher-maintenance-change-record",

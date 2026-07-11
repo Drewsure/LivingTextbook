@@ -22,10 +22,11 @@ Use after pulling the latest `legacy-source-import` branch and running local typ
 12. Progress event records include `event_effect`, `taxonomy_version`, and `event_acceptance_gate_id`.
 13. Progress event records forbid raw learner audio and transcripts.
 14. Progress event rules block support-only events from mastery/scoring interpretation.
-15. Package publish gate records forbid pilot-publishable status while blockers are open.
-16. Package approval ledger records do not imply fake signed approvals.
-17. Cross-cutting rules preserve tenant boundaries, audio/transcript exclusions, media manifest separation, package game/audio coverage as metadata only, progress event effect taxonomy, event acceptance gate requirements, support-language limits, AI Tutor gating, and hosted/local vocabulary compatibility.
-18. The panel uses existing tenant styling and does not introduce premium polish.
+15. Teacher report package records include `event_acceptance_summary`.
+16. Package publish gate records forbid pilot-publishable status while blockers are open.
+17. Package approval ledger records do not imply fake signed approvals.
+18. Cross-cutting rules preserve tenant boundaries, audio/transcript exclusions, media manifest separation, package game/audio coverage as metadata only, progress event effect taxonomy, event acceptance gate requirements, report event acceptance summaries, support-language limits, AI Tutor gating, and hosted/local vocabulary compatibility.
+19. The panel uses existing tenant styling and does not introduce premium polish.
 
 ## Build Verification
 

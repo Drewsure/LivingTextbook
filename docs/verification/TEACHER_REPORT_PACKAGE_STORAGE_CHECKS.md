@@ -14,5 +14,7 @@ Then verify:
 - Backend schema draft includes `teacher_report_package`.
 - Backend migration candidates include a teacher report package boundary migration.
 - Backend migration specs define primary key, tenant scope, fields, indexes, retention, export, local fallback, and policy blockers.
+- Report package write intents preserve event acceptance summaries.
+- Backend schema and migration specs include `event_acceptance_summary`.
 - Report package storage rejects raw learner audio and transcripts.
 - Support-only event semantics remain preserved for hosted and local exports.

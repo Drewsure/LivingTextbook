@@ -114,6 +114,7 @@
 - `DR-140-teacher-session-event-acceptance-storage-contract.md`
 - `DR-141-teacher-report-event-acceptance-summary.md`
 - `DR-142-progress-event-acceptance-gate-write-intents.md`
+- `DR-143-report-package-event-acceptance-storage.md`
 
 ## Maintenance Rule
 

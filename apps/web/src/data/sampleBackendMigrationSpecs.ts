@@ -438,6 +438,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
           note: "Links report package to the teacher session.",
         },
         {
+          name: "event_acceptance_summary",
+          type: "json",
+          required: true,
+          note: "Gate status, blocked/warning counts, and decision used when the report package was generated.",
+        },
+        {
           name: "included_evidence",
           type: "json",
           required: true,
@@ -468,12 +474,13 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
           note: "Policy version used when the package was generated or previewed.",
         },
       ],
-      indexes: ["tenant_id + launch_session_id", "launch_session_id unique", "report_policy_revision", "export_blockers contains"],
+      indexes: ["tenant_id + launch_session_id", "launch_session_id unique", "event_acceptance_summary", "report_policy_revision", "export_blockers contains"],
       retentionRule: "Retain only according to school reporting policy; demo previews are not production records.",
       exportRule: "Export only after policy permits teacher report export. CSV/PDF summaries must preserve support-only and excluded-field labels.",
       localFallback: "Local classroom deployments store the same report package JSON beside local progress export packages.",
       policyBlockers: [
         "Teacher access roles, retention length, export audit, and parent/school visibility must be accepted before production writes.",
+        "Report package writes must preserve event acceptance gate status and cannot hide blocked or demo-only live event status.",
         "Support-only events must remain excluded from mastery, Star Dust, and unlock calculations in every exported format.",
       ],
     },

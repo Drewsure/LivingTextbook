@@ -20,6 +20,7 @@ export interface PersistenceWriteIntent {
   rejectsTranscripts: boolean;
   preservesEventEffectTaxonomy?: boolean;
   requiresEventAcceptanceGate?: boolean;
+  preservesReportEventAcceptanceSummary?: boolean;
   preservesGameAudioCoverageSnapshot?: boolean;
   preservesTeacherSessionSettingsSnapshot?: boolean;
   preservesTeacherSessionEventAcceptanceGate?: boolean;
@@ -107,6 +108,10 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "progress-event-stream" && intent.containsStudentData && !intent.requiresEventAcceptanceGate) {
       errors.push(`Progress event write intent ${intent.intentId} must require a passed teacher session event acceptance gate.`);
+    }
+
+    if (intent.category === "teacher-report-package" && !intent.preservesReportEventAcceptanceSummary) {
+      errors.push(`Teacher report package write intent ${intent.intentId} must preserve event acceptance summaries.`);
     }
 
     if (intent.intentId.includes("package-audio-coverage") && !intent.preservesGameAudioCoverageSnapshot) {
