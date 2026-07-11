@@ -28,6 +28,9 @@ export function TeacherReportPackagePreviewPanel({ context }: TeacherReportPacka
   const rows = createReportPackageRows(context.events);
   const learningRows = rows.filter((row) => row.effect === "learning-evidence");
   const supportRows = rows.filter((row) => row.effect === "support-only");
+  const eventAcceptanceGate = context.eventAcceptanceGate;
+  const eventAcceptanceBlocked = eventAcceptanceGate.items.filter((item) => item.status === "blocked").length;
+  const eventAcceptanceWarnings = eventAcceptanceGate.items.filter((item) => item.status === "warning").length;
   const unitTitle = context.unit?.unitMeta.theme ?? context.launchSession.unitKey;
 
   return (
@@ -75,6 +78,39 @@ export function TeacherReportPackagePreviewPanel({ context }: TeacherReportPacka
       <Card>
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
+            <p className="text-sm font-semibold text-[var(--tenant-muted)]">Event acceptance summary</p>
+            <h3 className="mt-1 text-lg font-bold">{eventAcceptanceGate.label}</h3>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
+              {eventAcceptanceGate.decision}
+            </p>
+          </div>
+          <StatusPill label={eventAcceptanceGate.status} tone={getEventAcceptanceTone(eventAcceptanceGate.status)} />
+        </div>
+        <dl className="mt-5 grid gap-3 sm:grid-cols-3">
+          <Metric label="Gate items" value={String(eventAcceptanceGate.items.length)} />
+          <Metric label="Blocked" value={String(eventAcceptanceBlocked)} />
+          <Metric label="Warnings" value={String(eventAcceptanceWarnings)} />
+        </dl>
+        <div className="mt-5 grid gap-3">
+          {eventAcceptanceGate.items.map((item) => (
+            <section key={item.itemId} className="rounded-lg border border-[var(--tenant-border)] p-3">
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div>
+                  <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">{item.owner}</p>
+                  <h4 className="mt-1 text-sm font-bold text-[var(--tenant-text)]">{item.label}</h4>
+                </div>
+                <StatusPill label={item.status} tone={item.status === "pass" ? "success" : "warning"} />
+              </div>
+              <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">{item.evidence}</p>
+              <p className="mt-2 text-xs font-semibold text-[var(--tenant-text)]">Next: {item.nextStep}</p>
+            </section>
+          ))}
+        </div>
+      </Card>
+
+      <Card>
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
             <p className="text-sm font-semibold text-[var(--tenant-muted)]">Sanitized event rows</p>
             <h3 className="mt-1 text-lg font-bold">What a teacher report package may summarize</h3>
             <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
@@ -111,6 +147,10 @@ export function TeacherReportPackagePreviewPanel({ context }: TeacherReportPacka
       </div>
     </div>
   );
+}
+
+function getEventAcceptanceTone(status: TeacherSessionMonitorContext["eventAcceptanceGate"]["status"]) {
+  return status === "ready" ? "success" : "warning";
 }
 
 function createReportPackageRows(events: GameProgressEvent[]): ReportPackageRow[] {

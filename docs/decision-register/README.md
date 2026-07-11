@@ -112,6 +112,7 @@
 - `DR-138-teacher-session-settings-storage-contract.md`
 - `DR-139-teacher-session-event-acceptance-gate.md`
 - `DR-140-teacher-session-event-acceptance-storage-contract.md`
+- `DR-141-teacher-report-event-acceptance-summary.md`
 
 ## Maintenance Rule
 

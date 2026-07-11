@@ -279,6 +279,7 @@ Next outputs:
 - Confirm launch-session adapter plans, schema draft, migration candidates, and migration specs preserve teacher session settings snapshots before live student events are stored.
 - Confirm teacher session monitor routes show an event acceptance gate before live student event storage is enabled.
 - Confirm launch-session storage contracts preserve event acceptance gates before live student event writes are enabled.
+- Confirm teacher report package previews include an event acceptance summary before report export or live event storage is enabled.
 
 ## Session 8: Premium Experience Layer
 
