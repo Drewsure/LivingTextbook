@@ -2,6 +2,7 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import type {
   LocalBundleManifestSummary,
   LocalBundleReadiness,
+  LocalCompanionGameStatus,
   LocalCompanionHandoffStatus,
 } from "@/data/sampleLocalBundlePlan";
 import type {
@@ -31,6 +32,12 @@ const handoffTone: Record<LocalCompanionHandoffStatus, "neutral" | "success" | "
   blocked: "warning",
   needed: "warning",
   provided: "success",
+};
+
+const gameTone: Record<LocalCompanionGameStatus, "neutral" | "success" | "warning"> = {
+  blocked: "warning",
+  included: "success",
+  planned: "neutral",
 };
 
 export function LocalCompanionPackagePreviewPanel({ manifest, preflight }: LocalCompanionPackagePreviewPanelProps) {
@@ -63,6 +70,38 @@ export function LocalCompanionPackagePreviewPanel({ manifest, preflight }: Local
           <a className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] px-4 py-2 text-[var(--tenant-text)]" href="/enter/sample-publisher">
             Open publisher front door
           </a>
+        </div>
+      </Card>
+
+      <Card>
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <p className="text-sm font-semibold text-[var(--tenant-muted)]">Bundled game routes</p>
+            <h3 className="mt-1 text-lg font-bold">Game modes inside the local package</h3>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
+              Local companion packages must preserve the same reusable engine route, audio coverage, and progress-reporting contract as hosted routes.
+            </p>
+          </div>
+          <StatusPill label={`${manifest.games.length} games`} tone="success" />
+        </div>
+        <div className="mt-5 grid gap-3 lg:grid-cols-2">
+          {manifest.games.map((game) => (
+            <section key={game.gameId} className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3">
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div>
+                  <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">{game.gameMode} / {game.engineId}</p>
+                  <h4 className="mt-1 text-sm font-bold text-[var(--tenant-text)]">{game.label}</h4>
+                </div>
+                <StatusPill label={game.status} tone={gameTone[game.status]} />
+              </div>
+              <dl className="mt-3 grid gap-2 text-xs text-[var(--tenant-muted)] sm:grid-cols-3">
+                <BundleFact label="Audio" value={game.audioCovered ? "Covered" : "Needs review"} />
+                <BundleFact label="Reports" value={game.reportsProgress ? "Progress events" : "No events"} />
+                <BundleFact label="Route" value={game.localPath} />
+              </dl>
+              <p className="mt-3 text-sm leading-6 text-[var(--tenant-muted)]">{game.note}</p>
+            </section>
+          ))}
         </div>
       </Card>
 
@@ -252,6 +291,15 @@ function createLocalCompanionManifestSnapshot(
       target_type: route.targetType,
       target_id: route.targetId,
       local_fallback_path: route.localFallbackPath,
+    })),
+    games: manifest.games.map((game) => ({
+      game_id: game.gameId,
+      game_mode: game.gameMode,
+      engine_id: game.engineId,
+      local_path: game.localPath,
+      status: game.status,
+      audio_covered: game.audioCovered,
+      reports_progress: game.reportsProgress,
     })),
     handoff: manifest.handoffItems.map((item) => ({
       item_id: item.itemId,

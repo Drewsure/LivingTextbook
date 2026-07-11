@@ -1,5 +1,6 @@
 export type LocalBundleReadiness = "planning" | "media-missing" | "offline-ready";
 export type LocalCompanionHandoffStatus = "provided" | "needed" | "blocked";
+export type LocalCompanionGameStatus = "included" | "planned" | "blocked";
 
 export interface LocalBundleAssetSummary {
   assetId: string;
@@ -15,6 +16,18 @@ export interface LocalBundleRouteSummary {
   targetType: "front-door" | "unit-launch" | "media-playlist" | "game-mode";
   targetId: string;
   localFallbackPath: string;
+}
+
+export interface LocalCompanionGameSummary {
+  gameId: string;
+  label: string;
+  gameMode: string;
+  engineId: string;
+  localPath: string;
+  status: LocalCompanionGameStatus;
+  audioCovered: boolean;
+  reportsProgress: boolean;
+  note: string;
 }
 
 export interface LocalCompanionHandoffItem {
@@ -40,6 +53,7 @@ export interface LocalBundleManifestSummary {
   notes: string;
   assets: LocalBundleAssetSummary[];
   routes: LocalBundleRouteSummary[];
+  games: LocalCompanionGameSummary[];
   handoffItems: LocalCompanionHandoffItem[];
 }
 
@@ -79,6 +93,30 @@ export const sampleLocalBundleManifests: LocalBundleManifestSummary[] = [
         targetType: "front-door",
         targetId: "enter:ministar:greetings-demo",
         localFallbackPath: "/enter/ministar",
+      },
+    ],
+    games: [
+      {
+        gameId: "ministar-local-flashcards",
+        label: "Entry flashcards",
+        gameMode: "flashcards",
+        engineId: "selection",
+        localPath: "/launch/demo-unit-1",
+        status: "included",
+        audioCovered: true,
+        reportsProgress: true,
+        note: "Entry practice keeps target-language audio as the progression trigger.",
+      },
+      {
+        gameId: "ministar-local-memory",
+        label: "Memory Match",
+        gameMode: "memory-match",
+        engineId: "pairing",
+        localPath: "/launch/demo-unit-1",
+        status: "planned",
+        audioCovered: true,
+        reportsProgress: true,
+        note: "Unlocked after entry practice; local package must preserve the same event stream.",
       },
     ],
     handoffItems: [
@@ -137,6 +175,63 @@ export const sampleLocalBundleManifests: LocalBundleManifestSummary[] = [
         targetType: "front-door",
         targetId: "enter:sample-publisher:routines-demo",
         localFallbackPath: "/enter/sample-publisher",
+      },
+    ],
+    games: [
+      {
+        gameId: "partner-local-flashcards",
+        label: "Entry flashcards",
+        gameMode: "flashcards",
+        engineId: "selection",
+        localPath: "/launch/partner-demo-unit-1",
+        status: "included",
+        audioCovered: true,
+        reportsProgress: true,
+        note: "Entry practice is the first student route after teacher/front-door access.",
+      },
+      {
+        gameId: "partner-local-memory",
+        label: "Memory Match",
+        gameMode: "memory-match",
+        engineId: "pairing",
+        localPath: "/launch/partner-demo-unit-1",
+        status: "included",
+        audioCovered: true,
+        reportsProgress: true,
+        note: "Pairing-engine game stays inside the standard progress event stream.",
+      },
+      {
+        gameId: "partner-local-quiz",
+        label: "Quiz",
+        gameMode: "quiz",
+        engineId: "selection",
+        localPath: "/quiz/partner-demo-unit-1",
+        status: "included",
+        audioCovered: true,
+        reportsProgress: true,
+        note: "Selection-engine assessment route is part of the local companion route surface.",
+      },
+      {
+        gameId: "partner-local-sentence",
+        label: "Sentence Builder",
+        gameMode: "sentence-builder",
+        engineId: "text-spelling",
+        localPath: "/sentence/partner-demo-unit-1",
+        status: "included",
+        audioCovered: true,
+        reportsProgress: true,
+        note: "Text-spelling route uses reviewed target sentences and tap-to-speak controls.",
+      },
+      {
+        gameId: "partner-local-speak",
+        label: "Speak It",
+        gameMode: "speak-it",
+        engineId: "speaking-listening",
+        localPath: "/speak/partner-demo-unit-1",
+        status: "planned",
+        audioCovered: true,
+        reportsProgress: true,
+        note: "Microphone behavior remains teacher/school policy gated in the local package.",
       },
     ],
     handoffItems: [
