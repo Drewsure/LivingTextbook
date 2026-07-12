@@ -6,9 +6,15 @@ const routeVerifier = readSource("./verify-active-routes.mjs");
 const docs = readSource("../docs/ACTIVITY_PATHWAY_COMPATIBILITY_MATRIX.md");
 const failures = [];
 
-const plannedOutputs = ["vocabulary-listening-sheet", "sentence-practice-sheet", "teacher-answer-key"];
+const readyOutputs = ["vocabulary-listening-sheet", "sentence-practice-sheet"];
+const plannedOutputs = ["teacher-answer-key"];
 const blockedOutputs = ["word-search-printable", "crossword-printable"];
-const blockedGates = ["print-layout-renderer", "qr-audio-bridge", "version-and-rights", "teacher-export-policy"];
+const readyGates = ["print-layout-renderer"];
+const blockedGates = ["qr-audio-bridge", "version-and-rights", "teacher-export-policy"];
+
+for (const outputId of readyOutputs) {
+  requireItemStatus(outputId, "ready");
+}
 
 for (const outputId of plannedOutputs) {
   requireItemStatus(outputId, "planned");
@@ -22,14 +28,21 @@ for (const gateId of blockedGates) {
   requireGateStatus(gateId, "blocked");
 }
 
+for (const gateId of readyGates) {
+  requireGateStatus(gateId, "ready");
+}
+
 requireText(plan, "PDF export blocked", "Printable plan must explicitly block PDF export.");
 requireText(plan, "No automatic Star Dust or mastery", "Printable plan must not imply automatic digital mastery.");
 requireText(plan, "Printed QR or short code must resolve", "Printable plan must preserve QR/audio bridge.");
+requireText(plan, "/print/partner-demo-unit-1", "Printable plan must reference the sample publisher print route.");
 requireText(panel, "Printable output readiness", "Printable readiness panel must expose its heading.");
 requireText(panel, "PDF export blocked", "Printable readiness panel must expose export blocked state.");
 requireText(routeVerifier, "Printable output readiness", "Active route verifier must check printable readiness panel.");
 requireText(routeVerifier, "Vocabulary listening sheet", "Active route verifier must check printable vocabulary output.");
 requireText(routeVerifier, "Sentence practice worksheet", "Active route verifier must check printable sentence output.");
+requireText(routeVerifier, "/print/demo-unit-1", "Active route verifier must check MiniStar printable route.");
+requireText(routeVerifier, "/print/partner-demo-unit-1", "Active route verifier must check sample publisher printable route.");
 requireText(docs, "Printable vocabulary sheet", "Activity pathway docs must preserve printable vocabulary planning.");
 
 if (failures.length > 0) {
@@ -41,7 +54,7 @@ if (failures.length > 0) {
 }
 
 console.log(
-  `PASS printable readiness covers ${plannedOutputs.length} planned output(s), ${blockedOutputs.length} blocked puzzle output(s), and ${blockedGates.length} export gate(s).`,
+  `PASS printable readiness covers ${readyOutputs.length} ready preview output(s), ${plannedOutputs.length} planned output(s), ${blockedOutputs.length} blocked puzzle output(s), and ${blockedGates.length} export blocker(s).`,
 );
 
 function readSource(relativePath) {

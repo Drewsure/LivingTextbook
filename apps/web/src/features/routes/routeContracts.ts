@@ -116,6 +116,14 @@ export const appRouteContracts: AppRouteContract[] = [
     requiredState: ["UnitMediaPlaylist", "MediaAsset[]", "GameProgressEvent[]"],
   },
   {
+    id: "printable-worksheet-preview",
+    pattern: "/print/[code]",
+    audience: "teacher",
+    status: "active-scaffold",
+    purpose: "Render a browser-print worksheet preview from reviewed package data while PDF export remains blocked.",
+    requiredState: ["TenantConfig", "ContentPackage", "UnitPayload", "AudioCue[]", "UnitAssistLanguagePlan?"],
+  },
+  {
     id: "teacher-unit-review",
     pattern: "/teacher/units/[unitKey]",
     audience: "teacher",
@@ -182,4 +190,8 @@ export function getFrontDoorPath(tenantId: TenantId): string {
 
 export function getMediaPlaylistPath(playlistId: string): string {
   return `/media/${encodeURIComponent(playlistId)}`;
+}
+
+export function getPrintableWorksheetPath(launchCode: LaunchCode): string {
+  return `/print/${encodeURIComponent(launchCode)}`;
 }

@@ -15,6 +15,7 @@ Add a printable output readiness plan, teacher/admin panel, and verifier.
 ## Consequences
 
 - `/teacher/intake` shows planned vocabulary, sentence, and teacher answer-key printables.
+- `/print/[code]` now provides a browser-print preview for vocabulary and sentence sheets.
 - Word Search and Crossword remain blocked until puzzle-specific rules exist.
 - PDF export is explicitly blocked until renderer, QR/audio, version/rights, and teacher export policy gates are closed.
 - `npm run verify:printables` is included in `npm run verify:foundation`.

@@ -7,6 +7,7 @@ Related:
 - `docs/ACTIVITY_PATHWAY_COMPATIBILITY_MATRIX.md`
 - `docs/COMPETITIVE_FEATURE_COVERAGE_MATRIX.md`
 - `docs/UNIT_GAME_OFFER_MAP_CONTRACT.md`
+- `docs/verification/PRINTABLE_WORKSHEET_ROUTE_CHECKS.md`
 
 ## Purpose
 
@@ -27,6 +28,8 @@ Panel:
 Route:
 
 - `/teacher/intake`
+- `/print/demo-unit-1`
+- `/print/partner-demo-unit-1`
 
 Verifier:
 
@@ -34,10 +37,13 @@ Verifier:
 
 ## Current Outputs
 
-Planned:
+Ready browser-print previews:
 
 - Vocabulary listening sheet
 - Sentence practice worksheet
+
+Planned:
+
 - Teacher answer key
 
 Blocked:
@@ -49,7 +55,6 @@ Blocked:
 
 PDF export is blocked until:
 
-- print layout renderer exists,
 - QR/audio bridge exists,
 - package version and rights snapshot exist,
 - teacher export/access policy exists,
@@ -69,4 +74,4 @@ PDF export is blocked until:
 
 ## Follow-Up
 
-Build simple browser-print output first, then PDF generation. Puzzle printables should come after vocabulary and sentence printables prove layout, QR/audio, and versioning rules.
+Build QR placement and version/right snapshots next, then PDF generation. Puzzle printables should come after vocabulary and sentence printables prove layout, QR/audio, and versioning rules.

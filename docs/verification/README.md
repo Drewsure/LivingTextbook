@@ -6,7 +6,7 @@ Focused verification supplements:
 
 - `docs/verification/ACTIVITY_PATHWAY_COMPATIBILITY_CHECKS.md`
 - `docs/verification/AI_TUTOR_ENTITLEMENT_CHECKS.md`
-- `docs/verification/ACTIVE_ROUTE_MATRIX_27_ROUTE_CHECKS.md`
+- `docs/verification/ACTIVE_ROUTE_MATRIX_29_ROUTE_CHECKS.md`
 - `docs/verification/ACTIVE_ROUTE_MATRIX_PANEL_CHECKS.md`
 - `docs/verification/MEDIA_PLAYLIST_ROUTE_CHECKS.md`
 - `docs/verification/AUDIO_COVERED_MODE_READINESS_CHECKS.md`
@@ -53,6 +53,7 @@ Focused verification supplements:
 - `docs/verification/PILOT_POLICY_CHECKS.md`
 - `docs/verification/PILOT_SOURCE_STRATEGY_CHECKS.md`
 - `docs/verification/PRINTABLE_OUTPUT_READINESS_CHECKS.md`
+- `docs/verification/PRINTABLE_WORKSHEET_ROUTE_CHECKS.md`
 - `docs/verification/PROGRESS_EVENT_TAXONOMY_CHECKS.md`
 - `docs/verification/PROGRESS_EVENT_TAXONOMY_REVISION_CHECKS.md`
 - `docs/verification/PRIVATE_TENANT_LIBRARY_CHECKS.md`
@@ -139,6 +140,7 @@ Then verify:
 - `/sentence/demo-unit-1`
 - `/enter/ministar`
 - `/speak/demo-unit-1`
+- `/print/demo-unit-1`
 - `/training/demo-unit-1`
 - `/partner-demo`
 - `/enter/sample-publisher`
@@ -146,6 +148,7 @@ Then verify:
 - `/quiz/partner-demo-unit-1`
 - `/sentence/partner-demo-unit-1`
 - `/speak/partner-demo-unit-1`
+- `/print/partner-demo-unit-1`
 - `/q/tenant/sample-publisher/series/starter-english/book/level-1/unit/unit-1/activity/hello-friends/language/en/edition/2026/version/1.0.0`
 - `/manifest.webmanifest`
 - `/icons/living-textbook-icon.svg`

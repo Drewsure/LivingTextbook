@@ -160,7 +160,7 @@ Outputs:
 - AI authoring/verifier handoff that blocks unreviewed AI drafts from student assignment.
 - Curated activity pathway and compatibility rules for each reviewed unit package.
 - Planned printable worksheet/PDF output from reviewed payloads.
-- Printable output readiness gates for layout, QR/audio, version/rights snapshot, and teacher export policy.
+- Printable output readiness gates for browser-print preview, QR/audio, version/rights snapshot, and teacher export policy.
 - Private tenant library planning for drafts, tenant-approved packages, school sharing, and public community blocking.
 - Teacher authoring readiness for quick drafts, copy/edit, activity pathway edits, printable authoring, and direct-AI-publish blocking.
 - Source review queue for raw PDF, DOCX, audio, video, and teacher-note handoff.
@@ -275,6 +275,7 @@ Next outputs:
 - Confirm `/teacher/intake` shows the competitive feature coverage panel before teacher authoring, printables, private library, sharing, or embed work begins.
 - Confirm `/teacher/intake` shows the activity pathway compatibility panel before template conversion, printable, or text-puzzle work begins.
 - Confirm `/teacher/intake` shows the printable output readiness panel before worksheet/PDF implementation begins.
+- Confirm `/print/demo-unit-1` and `/print/partner-demo-unit-1` load before expanding printable output, QR placement, or PDF generation.
 - Confirm `/teacher/intake` shows the private tenant library plan before teacher authoring, copy/edit, sharing, or public-community work begins.
 - Confirm `/teacher/intake` shows the share/embed readiness panel before public links, iframe embeds, colleague sharing, or public community discovery work begins.
 - Confirm `/teacher/intake` shows the teacher authoring readiness panel before live teacher editor or copy/edit implementation begins.

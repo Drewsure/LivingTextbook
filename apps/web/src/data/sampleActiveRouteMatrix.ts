@@ -123,6 +123,14 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     note: "Reviewed playlist route for package-linked audio and video metadata.",
   },
   {
+    routeId: "ministar-printable-preview",
+    group: "ministar",
+    label: "MiniStar printable worksheet preview",
+    path: "/print/demo-unit-1",
+    status: "active-scaffold",
+    note: "Browser-print worksheet preview from reviewed package data; PDF export remains blocked.",
+  },
+  {
     routeId: "ministar-teacher-session",
     group: "ministar",
     label: "MiniStar teacher session",
@@ -201,6 +209,14 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     path: "/media/playlist-sample-publisher-l1-u1-routines",
     status: "active-scaffold",
     note: "White-label reviewed playlist route for package-linked audio and video metadata.",
+  },
+  {
+    routeId: "partner-printable-preview",
+    group: "sample-publisher",
+    label: "Sample publisher printable worksheet preview",
+    path: "/print/partner-demo-unit-1",
+    status: "active-scaffold",
+    note: "White-label browser-print worksheet preview from reviewed package data; PDF export remains blocked.",
   },
   {
     routeId: "partner-teacher-session",

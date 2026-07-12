@@ -18,4 +18,4 @@ Printables matter for teachers, homework, and textbook partners. But an unmanage
 
 ## Follow-Up
 
-Build simple browser-print output before PDF generation, then add printable route/package versioning and QR/audio bridge verification.
+Review the browser-print output before PDF generation, then add package versioning, QR/audio bridge verification, and teacher export policy.
