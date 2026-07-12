@@ -122,6 +122,7 @@
 - `DR-148-package-readiness-verifier.md`
 - `DR-149-local-bundle-readiness-verifier.md`
 - `DR-150-foundation-verification-gate-panel.md`
+- `DR-151-competitive-feature-coverage-matrix.md`
 
 ## Maintenance Rule
 

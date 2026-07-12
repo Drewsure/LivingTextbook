@@ -15,6 +15,8 @@ Assist language support is optional reviewed content-package data.
 
 Japanese may be enabled for MiniStar, but it is not a universal platform requirement. Other tenants may choose Korean, Thai, Chinese, Spanish, Arabic, another support language, or no assist language.
 
+This document governs assist language. It does not mean Japanese is only an assist language. A Japanese-language school could use Japanese as the target learning language in a future white-label tenant, but that is a target-language expansion, not an assist-language shortcut.
+
 ## Core Rules
 
 - Target learning language and assist languages belong in tenant/package configuration.
@@ -37,6 +39,22 @@ MiniStar Japanese assist has level-band rules:
 - Silver and later: kanji and katakana may be introduced after review.
 - Teacher notes, admin notes, and review metadata may use normal professional Japanese or English because they are not student-facing assist copy.
 - If a future tenant uses different level names, the content package must state the equivalent script policy during review.
+
+## Target-Language Expansion Boundary
+
+When Japanese is the target learning language, Japanese becomes the progression trigger. Assist language then becomes English or another configured support language.
+
+Future Japanese target-language packages should plan for:
+
+- hiragana, katakana, kanji, and optional furigana/ruby display,
+- Japanese audio cues and pronunciation models,
+- kana/kanji typing support,
+- phrase and particle segmentation rather than only English whitespace tokenization,
+- level-aware script policy,
+- teacher-reviewed Japanese curriculum rules,
+- optional handwriting or stroke-order modes later.
+
+Do not treat MiniStar Japanese assist copy as proof that the platform is already ready for Japanese-as-target-language pilots.
 
 ## White-Label Requirements
 
@@ -75,3 +93,4 @@ MiniStar Level 1 Unit 1 includes a reviewed Japanese assist plan for greetings. 
 - Teacher/admin workflow for approving AI-drafted translations.
 - Per-student language preference persistence.
 - Explicit content-model fields for assist progression role and script policy.
+- Explicit target-language expansion fields for Japanese script, furigana, and segmentation policy.

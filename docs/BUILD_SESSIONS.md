@@ -13,6 +13,7 @@ Required reads:
 - `docs/PRINCIPLES_AND_STANDARDS.md`
 - `docs/DECISION_REGISTER.md`
 - `docs/FUTURE_REQUIREMENTS.md`
+- `docs/COMPETITIVE_FEATURE_COVERAGE_MATRIX.md` when teacher authoring, activity switching, printables, sharing, library, or competitor coverage is being discussed
 - `docs/OPERATING_NOTES.md`
 - `docs/RESEARCH_NOTES_PUBLIC_REPOS.md` when major custom systems or external assets are being considered
 
@@ -23,6 +24,7 @@ Outputs:
 - Any major architecture choice is entered in the decision register.
 - Any public-repository or public-asset candidate has license/provenance review before adoption.
 - `/teacher/intake` exposes the current foundation verification gate so partner/admin review can see the canonical command and what it protects.
+- `/teacher/intake` exposes competitive feature coverage so teacher time-saving, curated activity pathways, private libraries, printables, and target-language expansion are visible during admin review.
 
 ## Session 1: First Vertical Slice
 
@@ -149,6 +151,8 @@ Outputs:
 - Human review step for imported units.
 - AI authoring/verifier integration plan.
 - AI authoring/verifier handoff that blocks unreviewed AI drafts from student assignment.
+- Curated activity pathway and compatibility rules for each reviewed unit package.
+- Planned printable worksheet/PDF output from reviewed payloads.
 - Source review queue for raw PDF, DOCX, audio, video, and teacher-note handoff.
 - Mapping from textbook page/unit to digital launch payload.
 - Mapping from textbook page/unit/activity to multimedia assets and playlists.
@@ -258,6 +262,8 @@ Next outputs:
 - Confirm the publish gate blocks release while media rights, report policy, deployment profile, persistence, and pilot package policy are unresolved.
 - Confirm the publish gate blocks release until media routes, local/hosted bundle decisions, and support-only media reporting are reviewed.
 - Confirm the publish gate blocks release while assigned game modes are missing reviewed audio coverage or approved fallback.
+- Confirm `/teacher/intake` shows the competitive feature coverage panel before teacher authoring, printables, private library, sharing, or embed work begins.
+- Confirm curated activity pathways remain the default teacher-facing answer to switch-template style expectations.
 - Confirm the approval ledger does not imply real signed approvals before authentication and persistence exist.
 - Confirm the durable record map includes publish gate and approval ledger records.
 - Confirm the durable record map, adapter plans, schema draft, and migration specs include teacher report package boundary records before live report export.

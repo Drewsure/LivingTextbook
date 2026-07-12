@@ -250,3 +250,70 @@ References:
 - `docs/DECISION_REGISTER.md` DR-009
 - `docs/adr/0006-audio-first-learner-support.md`
 - `docs/SAMPLE_MULTIMEDIA_PACKAGE.md`
+
+## FR-006: Competitive Feature Coverage And Curated Activity Pathways
+
+Status: Active foundation requirement; `docs/COMPETITIVE_FEATURE_COVERAGE_MATRIX.md` and `/teacher/intake` now record the current coverage stance.
+
+Requirement: Maintain a competitive feature coverage matrix so Wordwall-style teacher expectations are reviewed without causing unfocused feature copying.
+
+Accepted direction:
+
+- Living Textbook should provide curated teacher-approved activity pathways per reviewed unit.
+- The platform should not make unrestricted switch-template behavior the default promise.
+- Each unit should eventually identify required, recommended, optional, premium, printable, and blocked activities.
+- Compatibility rules should explain why a payload can or cannot become a particular activity type.
+- Printable/PDF outputs are planned and should be generated from reviewed package data.
+- Private tenant libraries should come before any public community library.
+- Public community sharing is not v1 because moderation, copyright, privacy, quality, and tenant-isolation risks are high.
+- Embeds and public sharing links are optional later capabilities, not foundation blockers.
+
+Revisit when:
+
+- Teacher activity authoring begins.
+- Printable/PDF worksheet output is scoped.
+- Tenant library, copy/edit, or package-sharing work begins.
+- A public marketplace/community idea is proposed.
+- Activity conversion rules are added to the unit game offer map.
+
+References:
+
+- `docs/COMPETITIVE_FEATURE_COVERAGE_MATRIX.md`
+- `docs/UNIT_GAME_OFFER_MAP_CONTRACT.md`
+- `docs/PRINCIPLES_AND_STANDARDS.md`
+
+## FR-007: Japanese As Target Language For White-Label Tenants
+
+Status: Planned opportunity; not part of the current MiniStar English pilot.
+
+Requirement: Preserve the option for Japanese-language schools to use the platform with Japanese as the target learning language.
+
+Boundary:
+
+- MiniStar Japanese assist support is not the same as Japanese-as-target-language support.
+- For MiniStar English, English remains the progression trigger.
+- For a Japanese-learning tenant, Japanese would become the progression trigger and English could become an assist language.
+
+Future capabilities:
+
+- Target language configurable as Japanese.
+- Hiragana, katakana, kanji, and optional furigana/ruby rendering.
+- Japanese audio cues and pronunciation models.
+- Kana/kanji typing support.
+- Japanese phrase and particle segmentation.
+- Level-aware script policy.
+- Teacher-reviewed Japanese curriculum rules.
+- Optional handwriting or stroke-order modes later.
+
+Revisit when:
+
+- A Japanese-language school or publisher opportunity appears.
+- Content model language fields are revised.
+- Text/spelling engine work expands beyond English spacing/tokenization.
+- UI typography and ruby/furigana rendering are scoped.
+
+References:
+
+- `docs/ASSIST_LANGUAGE_STANDARD.md`
+- `docs/COMPETITIVE_FEATURE_COVERAGE_MATRIX.md`
+- `docs/PRINCIPLES_AND_STANDARDS.md`

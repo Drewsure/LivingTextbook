@@ -6,7 +6,7 @@ const activeRouteSection = routeList.split("## Planned QR Route, Not Active Yet"
 const urls = Array.from(activeRouteSection.matchAll(/`(http:\/\/127\.0\.0\.1:3000\/[^`]*)`/g), (match) => match[1]);
 const expectedTextByPath = new Map([
   ["/", ["Local Preview"]],
-  ["/teacher/intake", ["Foundation verification gate", "verify:package-readiness", "verify:local-bundle", "Package publish gate", "Pilot source strategy", "Pilot release candidate", "Backend selection gate", "Background media policy", "Maintenance change queue", "Event acceptance", "Event safety", "Report event acceptance", "taxonomy-v2026.07.foundation", "Required event fields", "27 checked routes"]],
+  ["/teacher/intake", ["Foundation verification gate", "verify:package-readiness", "verify:local-bundle", "Competitive feature coverage", "Curated activity pathways", "Private tenant library first", "Japanese as target language", "Package publish gate", "Pilot source strategy", "Pilot release candidate", "Backend selection gate", "Background media policy", "Maintenance change queue", "Event acceptance", "Event safety", "Report event acceptance", "taxonomy-v2026.07.foundation", "Required event fields", "27 checked routes"]],
   ["/local/sample-publisher", ["Local companion package preview", "Closed local companion", "Local release gate", "Package artifact map", "Package handoff checklist", "Generated manifest snapshot", "Bundled game routes", "Local deployment preflight"]],
   ["/launch/demo-unit-1", ["Unit media"]],
   ["/launch/partner-demo-unit-1", ["Unit media"]],

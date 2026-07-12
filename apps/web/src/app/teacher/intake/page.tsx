@@ -18,6 +18,7 @@ import { sampleEditionQrAliasPlan } from "@/data/sampleEditionQrAliasPlan";
 import { sampleGameBackgroundMediaPolicy } from "@/data/sampleGameBackgroundMediaPolicy";
 import { sampleGamePrototypeAssignmentPlan } from "@/data/sampleGamePrototypeAssignmentPlan";
 import { sampleFoundationVerificationGate } from "@/data/sampleFoundationVerificationGate";
+import { sampleCompetitiveFeatureCoverageMatrix } from "@/data/sampleCompetitiveFeatureCoverage";
 import { sampleLocalBundleManifests } from "@/data/sampleLocalBundlePlan";
 import { sampleLocalDeploymentPreflightPlan } from "@/data/sampleLocalDeploymentPreflight";
 import { sampleMediaRightsPlan } from "@/data/sampleMediaRightsPlan";
@@ -67,6 +68,7 @@ import { LocalBundleManifestPanel } from "@/features/deployment/LocalBundleManif
 import { GamePrototypeAssignmentPanel } from "@/features/game-offers/GamePrototypeAssignmentPanel";
 import { UnitGameOfferMapPanel } from "@/features/game-offers/UnitGameOfferMapPanel";
 import { GameBackgroundMediaPolicyPanel } from "@/features/multimedia/GameBackgroundMediaPolicyPanel";
+import { CompetitiveFeatureCoveragePanel } from "@/features/policy/CompetitiveFeatureCoveragePanel";
 import { FoundationVerificationGatePanel } from "@/features/policy/FoundationVerificationGatePanel";
 import { MediaRightsReadinessPanel } from "@/features/multimedia/MediaRightsReadinessPanel";
 import { PilotPolicyReadinessPanel } from "@/features/policy/PilotPolicyReadinessPanel";
@@ -110,6 +112,7 @@ export default function TeacherIntakePage() {
           </div>
         </Card>
         <FoundationVerificationGatePanel gate={sampleFoundationVerificationGate} />
+        <CompetitiveFeatureCoveragePanel matrix={sampleCompetitiveFeatureCoverageMatrix} />
         <PilotReadinessGatePanel
           readiness={whiteLabelPilotReadiness}
           policyPlans={samplePilotPolicyPlans}

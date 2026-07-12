@@ -18,6 +18,7 @@ Focused verification supplements:
 - `docs/verification/BACKGROUND_MEDIA_POLICY_CHECKS.md`
 - `docs/verification/BACKGROUND_MEDIA_SESSION_SAFETY_CHECKS.md`
 - `docs/verification/CLASS_ROSTER_READINESS_CHECKS.md`
+- `docs/verification/COMPETITIVE_FEATURE_COVERAGE_CHECKS.md`
 - `docs/verification/CONTENT_INTAKE_CHECKS.md`
 - `docs/verification/DEPLOYMENT_PROFILE_CHECKS.md`
 - `docs/verification/EDITION_QR_ALIAS_CHECKS.md`

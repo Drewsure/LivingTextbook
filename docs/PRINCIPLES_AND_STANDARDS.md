@@ -25,6 +25,7 @@ Every future engagement must begin by checking this list before code, design, AI
 - Confirm no external code or assets are adopted without license, provenance, white-label fit, and integration review.
 - Confirm no legacy code is promoted into `apps/web` or `apps/ai-service` without an explicit integration plan.
 - Confirm textbook partner, multimedia, local/closed deployment, and permanent QR requirements are preserved when white-label architecture is affected.
+- Confirm competitive coverage has been checked for teacher time-saving, activity pathways, printables, assignment/reporting, private libraries, sharing/embedding, and testing implications when the affected area overlaps those concerns.
 - Confirm hybrid QR is the default: stable QR registry, optional tiny hosted redirect, and local app/content-package fallback.
 - Confirm changes are compatible with the current `docs/BLUEPLAN.md` unless a documented standards update is intentionally made.
 
@@ -56,6 +57,7 @@ The platform must support tenant-specific:
 - Feature entitlements and premium package options
 - Optional bounded AI Tutor capability for eligible upper-level packages
 - Local or closed companion deployments
+- Target-language expansion beyond English, including Japanese as a possible target language for suitable tenants
 
 ## 3. Build Order Standard
 
@@ -121,7 +123,35 @@ Minimum game event requirements:
 
 A game mode is not platform-ready until it can participate in teacher launch, student progression, scoring, audio support, and review flows.
 
-## 6. Progression And Collection Standards
+## 6. Activity Pathway And Competitive Coverage Standards
+
+The platform should not copy a competitor's unrestricted template switching as the default student or teacher experience.
+
+Living Textbook should provide curated, teacher-approved activity pathways generated from reviewed unit packages. For each unit, the teacher/admin package should show:
+
+- Required entry activity
+- Recommended next activities
+- Optional review activities
+- Teacher-only or premium activities
+- Printable companion outputs when available
+- Blocked activity types and the reason they are blocked
+- Audio coverage status for each offered activity
+- Target-language progression trigger
+- Support-language role
+- Timer, difficulty, motion, background media, microphone, and AI Tutor controls where relevant
+
+Template or activity conversion is still important, but it should be governed by compatibility rules. Some payloads can safely become flashcards, quiz, matching, sentence builder, and printables. Other payloads should not become crossword, word search, typing, or arcade modes unless the content structure, text rules, audio plan, and scoring/reporting rules fit.
+
+The first library model should be private and tenant-scoped. Public community sharing is not a v1 requirement because it introduces moderation, copyright, privacy, student-safety, tenant-isolation, and quality-control risk. The preferred order is:
+
+1. Private teacher drafts inside one tenant.
+2. Tenant-approved package library.
+3. School or publisher sharing inside the same tenant.
+4. Cross-tenant marketplace or public community only after governance exists.
+
+Printable activities are a planned platform capability. They should be generated from the same reviewed content package as interactive activities so worksheets, homework, classroom printouts, and textbook companions do not drift from the digital unit.
+
+## 7. Progression And Collection Standards
 
 Earned collection is the default engagement model.
 
@@ -150,7 +180,7 @@ Reward design principles:
 - Teachers and parents should be able to understand why a reward was earned.
 - The system must support white-label reward themes, not only MiniStar-specific mascots.
 
-## 7. Star Dust Standard
+## 8. Star Dust Standard
 
 Star Dust is a mastery economy, not just a points animation.
 
@@ -178,7 +208,7 @@ Module progression:
 
 Training Academy should help students recover gaps without feeling like they failed. Low-scoring areas should map to review games or practice sessions.
 
-## 8. AI Authoring Standards
+## 9. AI Authoring Standards
 
 The AI Authoring Studio generates structured curriculum/game payloads, not final ad hoc game code.
 
@@ -208,7 +238,7 @@ The Vision/Verifier layer must check:
 
 No generated payload should be assigned to students until it passes verification or teacher approval.
 
-## 9. White-Label Standards
+## 10. White-Label Standards
 
 Tenant configurability is a first-class requirement.
 
@@ -244,8 +274,11 @@ Required abstractions:
 - Multimedia catalog
 - Audio cue catalog
 - Local/closed deployment profile
+- Target language, script policy, segmentation policy, and assist-language options
 
-## 10. Teacher And Student Experience Standards
+The platform must not assume English is always the target language. MiniStar English uses English as the progression trigger, but a white-label Japanese-learning tenant could configure Japanese as the target learning language. That future path requires kana, kanji, optional furigana/ruby text, Japanese audio, Japanese segmentation, and level-aware script policy.
+
+## 11. Teacher And Student Experience Standards
 
 The platform must support both teacher-led classroom use and student self-progression from day one.
 
