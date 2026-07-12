@@ -125,6 +125,7 @@
 - `DR-151-competitive-feature-coverage-matrix.md`
 - `DR-152-activity-pathway-compatibility-matrix.md`
 - `DR-153-printable-output-readiness.md`
+- `DR-154-private-tenant-library-first.md`
 
 ## Maintenance Rule
 

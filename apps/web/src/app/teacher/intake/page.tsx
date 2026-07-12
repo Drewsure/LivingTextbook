@@ -39,6 +39,7 @@ import {
   samplePilotPolicyWarnings,
 } from "@/data/samplePilotPolicyPlan";
 import { samplePublisherMaintenancePlan } from "@/data/samplePublisherMaintenancePlan";
+import { sampleTenantLibraryPlan } from "@/data/sampleTenantLibraryPlan";
 import { sampleQrPrintReadinessRecords } from "@/data/sampleQrPrintReadiness";
 import { sampleSourceReviewQueue } from "@/data/sampleSourceReviewQueue";
 import { sampleFrontDoorRouteRegistry } from "@/data/sampleTenantRouteRegistry";
@@ -90,6 +91,7 @@ import { PersistenceAdapterReadinessPanel } from "@/features/persistence/Persist
 import { PersistenceBoundaryPanel } from "@/features/persistence/PersistenceBoundaryPanel";
 import { ProgressEventTaxonomyPanel } from "@/features/progression/ProgressEventTaxonomyPanel";
 import { PublisherMaintenancePlanPanel } from "@/features/publisher/PublisherMaintenancePlanPanel";
+import { TenantLibraryPlanPanel } from "@/features/publisher/TenantLibraryPlanPanel";
 import { EditionQrAliasPanel } from "@/features/routes/EditionQrAliasPanel";
 import { ActiveRouteMatrixPanel } from "@/features/routes/ActiveRouteMatrixPanel";
 import { QrPrintReadinessPanel } from "@/features/routes/QrPrintReadinessPanel";
@@ -128,6 +130,7 @@ export default function TeacherIntakePage() {
         <PackagePublishGatePanel gate={samplePackagePublishGate} />
         <PackageApprovalLedgerPanel ledger={samplePackageApprovalLedger} />
         <PublisherMaintenancePlanPanel plan={samplePublisherMaintenancePlan} />
+        <TenantLibraryPlanPanel plan={sampleTenantLibraryPlan} />
         <ActivityPathwayCompatibilityPanel matrix={sampleActivityPathwayCompatibilityMatrix} />
         <PrintableOutputReadinessPanel plan={samplePrintableOutputPlan} />
         <UnitGameOfferMapPanel map={sampleUnitGameOfferMap} />

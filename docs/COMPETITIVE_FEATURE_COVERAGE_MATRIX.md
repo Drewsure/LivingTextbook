@@ -73,7 +73,7 @@ For each reviewed unit package, the teacher/admin package should name:
 
 This preserves the time-saving value of template switching while keeping young learner flow, reporting, and white-label governance stable.
 
-The current sample implementation is recorded in `docs/ACTIVITY_PATHWAY_COMPATIBILITY_MATRIX.md`, `docs/PRINTABLE_OUTPUT_READINESS_CONTRACT.md`, and shown on `/teacher/intake`.
+The current sample implementation is recorded in `docs/ACTIVITY_PATHWAY_COMPATIBILITY_MATRIX.md`, `docs/PRINTABLE_OUTPUT_READINESS_CONTRACT.md`, `docs/PRIVATE_TENANT_LIBRARY_CONTRACT.md`, and shown on `/teacher/intake`.
 
 ## Community Library Standard
 
@@ -87,6 +87,8 @@ Build order:
 4. Cross-tenant marketplace or public community only after moderation, copyright, privacy, licensing, and quality systems exist.
 
 Public community sharing is not a v1 requirement.
+
+The current private library planning contract is recorded in `docs/PRIVATE_TENANT_LIBRARY_CONTRACT.md`.
 
 ## Japanese Target-Language Opportunity
 

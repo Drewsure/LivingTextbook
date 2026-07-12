@@ -267,6 +267,7 @@ Accepted direction:
 - Printable/PDF outputs are planned and should be generated from reviewed package data.
 - Printable output readiness must block PDF export until layout, QR/audio bridge, version/rights snapshot, and teacher export policy exist.
 - Private tenant libraries should come before any public community library.
+- Private tenant library readiness must preserve teacher private drafts, tenant-approved package libraries, school sharing, and public community blocking.
 - Public community sharing is not v1 because moderation, copyright, privacy, quality, and tenant-isolation risks are high.
 - Embeds and public sharing links are optional later capabilities, not foundation blockers.
 
@@ -283,6 +284,7 @@ References:
 - `docs/COMPETITIVE_FEATURE_COVERAGE_MATRIX.md`
 - `docs/ACTIVITY_PATHWAY_COMPATIBILITY_MATRIX.md`
 - `docs/PRINTABLE_OUTPUT_READINESS_CONTRACT.md`
+- `docs/PRIVATE_TENANT_LIBRARY_CONTRACT.md`
 - `docs/UNIT_GAME_OFFER_MAP_CONTRACT.md`
 - `docs/PRINCIPLES_AND_STANDARDS.md`
 
