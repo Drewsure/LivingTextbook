@@ -9,7 +9,7 @@ Run after teacher session settings, monitor routes, persistence, microphone, AI 
 - Confirm `/teacher/sessions/demo-unit-1` shows `Settings snapshot`.
 - Confirm `/teacher/sessions/partner-demo-unit-1` shows `Settings snapshot`.
 - Confirm the snapshot includes launch code, tenant id, unit key, entry mode, and recommended next modes.
-- Confirm assist language has unlock and mastery credit flags set separately from visibility.
+- Confirm assist language has unlock, mastery credit, teacher enablement, and persistence flags set separately from visibility.
 - Confirm microphone practice shows teacher approval, persistence, and raw-audio storage flags.
 - Confirm background media shows learning-audio priority and non-scoring flags.
 - Confirm AI Tutor remains premium-disabled unless a tenant adopts it.
@@ -18,5 +18,6 @@ Run after teacher session settings, monitor routes, persistence, microphone, AI 
 ## Verification Command
 
 ```powershell
+npm run verify:session-settings
 npm run verify:foundation
 ```

@@ -132,6 +132,7 @@
 - `DR-158-printable-worksheet-preview-route.md`
 - `DR-159-teacher-assist-language-toggle.md`
 - `DR-160-assist-language-session-settings-contract.md`
+- `DR-161-teacher-session-settings-contract-verifier.md`
 
 ## Maintenance Rule
 
