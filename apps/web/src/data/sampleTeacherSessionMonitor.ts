@@ -597,6 +597,8 @@ function createMonitorSessionSettings(launchSession: LaunchSession, isPartner: b
     audioRequired: true,
     assistLanguage: {
       enabled: !isPartner,
+      requiresTeacherEnablement: true,
+      teacherEnablementPersisted: false,
       unlockAllowed: false,
       masteryCreditAllowed: false,
       visibility: isPartner ? "teacher-only" : "student-toggle",
@@ -652,8 +654,13 @@ function createMonitorSettings(sessionSettings: TeacherSessionSettings): Teacher
     {
       settingId: "assist-language",
       label: "Assist language",
-      status: sessionSettings.assistLanguage.enabled ? "enabled" : "disabled",
-      note: "Assist text can support comprehension, but it cannot unlock games, award mastery, or replace target-language engagement.",
+      status:
+        sessionSettings.assistLanguage.requiresTeacherEnablement && !sessionSettings.assistLanguage.teacherEnablementPersisted
+          ? "requires-persistence"
+          : sessionSettings.assistLanguage.enabled
+            ? "enabled"
+            : "disabled",
+      note: "Assist text can support comprehension, but the teacher's on/off choice must persist with the launch session. It cannot unlock games, award mastery, or replace target-language engagement.",
     },
     {
       settingId: "microphone-practice",

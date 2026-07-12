@@ -131,6 +131,7 @@
 - `DR-157-share-embed-readiness.md`
 - `DR-158-printable-worksheet-preview-route.md`
 - `DR-159-teacher-assist-language-toggle.md`
+- `DR-160-assist-language-session-settings-contract.md`
 
 ## Maintenance Rule
 

@@ -53,6 +53,8 @@ On `/launch/demo-unit-1` and `/enter/ministar` after opening the unit:
 16. Confirm Memory Match unlocks only after entry practice completion.
 17. Start Memory Match and confirm the game still works.
 18. Confirm no live AI translation, AI Tutor, model call, or external translation service is required.
+19. Open `http://127.0.0.1:3000/teacher/sessions/demo-unit-1` and confirm the settings snapshot includes `teacher_enablement_persisted` for assist language.
+20. Confirm the teacher session warnings state that assist-language visibility still needs persisted teacher enablement before classroom use.
 
 ## White-Label Checks
 
@@ -65,7 +67,7 @@ On `/launch/demo-unit-1` and `/enter/ministar` after opening the unit:
 - Silver and later Japanese assist packages may introduce kanji and katakana only after review.
 - Live AI fallback is explicit and disabled by default for the core sample.
 - Assist language support remains separate from full UI localization and optional premium AI Tutor.
-- Teacher-controlled visibility is local scaffold behavior until launch-session settings are persisted.
+- Teacher-controlled visibility is local scaffold behavior until launch-session settings are persisted; the teacher-session settings snapshot must preserve the future durable setting shape.
 
 ## Acceptance Criteria
 

@@ -52,6 +52,8 @@ export interface TeacherSessionSettings {
   audioRequired: boolean;
   assistLanguage: {
     enabled: boolean;
+    requiresTeacherEnablement: boolean;
+    teacherEnablementPersisted: boolean;
     unlockAllowed: boolean;
     masteryCreditAllowed: boolean;
     visibility: AssistLanguageVisibility;
@@ -118,6 +120,10 @@ export function validateTeacherSessionSettings(settings: TeacherSessionSettings)
     errors.push("Assist-language activity cannot award mastery credit.");
   }
 
+  if (settings.assistLanguage.enabled && settings.assistLanguage.visibility === "teacher-only") {
+    errors.push("Enabled assist language cannot remain teacher-only.");
+  }
+
   if (settings.microphonePractice.storesRawAudio && settings.reporting.retentionPolicy === "demo-only") {
     errors.push("Demo-only sessions must not store raw audio.");
   }
@@ -178,6 +184,10 @@ export function getTeacherSessionPersistenceWarnings(settings: TeacherSessionSet
 
   if (settings.backgroundMedia.allowed && settings.backgroundMedia.requiresTeacherEnablement) {
     warnings.push("Background media requires persisted teacher enablement before student devices can rely on it.");
+  }
+
+  if (settings.assistLanguage.requiresTeacherEnablement && !settings.assistLanguage.teacherEnablementPersisted) {
+    warnings.push("Assist-language visibility requires persisted teacher enablement before student devices can rely on it.");
   }
 
   if (settings.backgroundMedia.allowed && settings.backgroundMedia.pausesForLearningAudio) {

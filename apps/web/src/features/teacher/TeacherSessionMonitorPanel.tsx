@@ -604,6 +604,8 @@ function createTeacherSessionSettingsSnapshot(context: TeacherSessionMonitorCont
     assist_language: {
       enabled: settings.assistLanguage.enabled,
       visibility: settings.assistLanguage.visibility,
+      requires_teacher_enablement: settings.assistLanguage.requiresTeacherEnablement,
+      teacher_enablement_persisted: settings.assistLanguage.teacherEnablementPersisted,
       unlock_allowed: settings.assistLanguage.unlockAllowed,
       mastery_credit_allowed: settings.assistLanguage.masteryCreditAllowed,
     },

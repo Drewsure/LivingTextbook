@@ -31,7 +31,7 @@ This document governs assist language. It does not mean Japanese is only an assi
 - AI may later draft assist language for teacher/admin review, but reviewed package content is the source of truth for students.
 - Assist text shown to students should be tappable/listenable where it appears in learning flows.
 - Recorded, partner-provided, teacher-recorded, or text-to-speech assist audio may be used depending on tenant package and rights.
-- Assist language visibility is teacher-controlled for classroom launch. The current scaffold stores this as a local browser setting; future launch sessions must persist it.
+- Assist language visibility is teacher-controlled for classroom launch. The current scaffold stores the teacher page toggle locally, and the teacher-session settings contract now models the durable setting that future launch sessions must persist.
 
 ## Japanese Script Rules
 
@@ -87,11 +87,11 @@ Unit content packages should represent:
 
 ## Current MiniStar Sample
 
-MiniStar Level 1 Unit 1 includes a reviewed Japanese assist plan for greetings. It is hiragana-only student support and is a proof of the architecture, not a full localization rollout. It is off by default and can be enabled from `/teacher`.
+MiniStar Level 1 Unit 1 includes a reviewed Japanese assist plan for greetings. It is hiragana-only student support and is a proof of the architecture, not a full localization rollout. It is off by default, can be enabled from `/teacher`, and appears in teacher-session settings as a persisted-launch-session requirement before classroom use.
 
 ## Not Yet Built
 
-- Durable teacher toggle for enabling/disabling assist language per launch session.
+- Backend-persisted teacher toggle for enabling/disabling assist language per launch session.
 - Full UI localization.
 - Assist-language audio cue catalog with recorded files.
 - Teacher/admin workflow for approving AI-drafted translations.

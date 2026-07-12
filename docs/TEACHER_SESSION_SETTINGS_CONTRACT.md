@@ -2,7 +2,7 @@
 
 Document type: foundation data contract  
 Status: active scaffold  
-Last updated: 2026-07-02
+Last updated: 2026-07-12
 
 ## Purpose
 
@@ -53,6 +53,8 @@ Assist language can support comprehension, but it must not:
 - award mastery,
 - replace target-language engagement,
 - satisfy unit completion.
+
+Assist-language visibility is a teacher-controlled launch-session setting. Both enabling and disabling support language must persist with the launch session before classroom use, so student devices receive the same rule. A local browser toggle is acceptable for scaffold review only.
 
 ### Microphone Practice
 
@@ -107,7 +109,7 @@ Every lifecycle action must require a teacher role before classroom use. Report 
 
 `validateTeacherSessionSettings` checks safety rules. These should fail only when the session would violate platform rules, such as allowing support-language mastery credit or enabling speech scoring without AI Tutor.
 
-`getTeacherSessionPersistenceWarnings` checks readiness gaps. These warnings are acceptable in the scaffold, but must be resolved before classroom use. Examples include demo-local microphone approval, background-media enablement, teacher-adjustable Training Academy thresholds, demo-only reporting, and disabled export.
+`getTeacherSessionPersistenceWarnings` checks readiness gaps. These warnings are acceptable in the scaffold, but must be resolved before classroom use. Examples include demo-local assist-language enablement, microphone approval, background-media enablement, teacher-adjustable Training Academy thresholds, demo-only reporting, and disabled export.
 
 `validateTeacherSessionControlActions` checks lifecycle command safety. `getTeacherSessionControlWarnings` identifies lifecycle actions that still need persistence or policy work before pilot use.
 

@@ -304,6 +304,7 @@ Next outputs:
 - Confirm `/teacher/intake` shows the backend selection gate before choosing the actual first pilot backend.
 - Confirm teacher session monitor routes show a machine-readable settings snapshot before launch-session persistence is implemented.
 - Confirm launch-session adapter plans, schema draft, migration candidates, and migration specs preserve teacher session settings snapshots before live student events are stored.
+- Confirm assist-language teacher enablement is represented in the teacher-session settings snapshot before support language is used in real classroom launches.
 - Confirm teacher session monitor routes show an event acceptance gate before live student event storage is enabled.
 - Confirm launch-session storage contracts preserve event acceptance gates before live student event writes are enabled.
 - Confirm teacher report package previews include an event acceptance summary before report export or live event storage is enabled.
