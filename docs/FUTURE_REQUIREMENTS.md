@@ -260,6 +260,7 @@ Requirement: Maintain a competitive feature coverage matrix so Wordwall-style te
 Accepted direction:
 
 - Living Textbook should provide curated teacher-approved activity pathways per reviewed unit.
+- Fast teacher authoring should create drafts only; direct assignment from drafts or AI output remains blocked.
 - The platform should not make unrestricted switch-template behavior the default promise.
 - Each unit should eventually identify required, recommended, optional, premium, printable, and blocked activities.
 - Compatibility rules should explain why a payload can or cannot become a particular activity type.
@@ -282,6 +283,7 @@ Revisit when:
 References:
 
 - `docs/COMPETITIVE_FEATURE_COVERAGE_MATRIX.md`
+- `docs/TEACHER_AUTHORING_READINESS_CONTRACT.md`
 - `docs/ACTIVITY_PATHWAY_COMPATIBILITY_MATRIX.md`
 - `docs/PRINTABLE_OUTPUT_READINESS_CONTRACT.md`
 - `docs/PRIVATE_TENANT_LIBRARY_CONTRACT.md`

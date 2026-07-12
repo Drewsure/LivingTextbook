@@ -8,6 +8,7 @@ import { samplePilotBackendSelectionGate } from "@/data/samplePilotBackendSelect
 import { samplePrintableOutputPlan } from "@/data/samplePrintableOutputPlan";
 import { sampleActiveRouteMatrix } from "@/data/sampleActiveRouteMatrix";
 import { sampleAuthoringVerifierPlan } from "@/data/sampleAuthoringVerifierPlan";
+import { sampleTeacherAuthoringReadinessPlan } from "@/data/sampleTeacherAuthoringReadiness";
 import {
   sampleClassRosterErrors,
   sampleClassRosterPlans,
@@ -65,6 +66,7 @@ import { AuthoringVerifierPlanPanel } from "@/features/content-intake/AuthoringV
 import { PilotSourceStrategyPanel } from "@/features/content-intake/PilotSourceStrategyPanel";
 import { PrintableOutputReadinessPanel } from "@/features/content-intake/PrintableOutputReadinessPanel";
 import { SourceReviewQueuePanel } from "@/features/content-intake/SourceReviewQueuePanel";
+import { TeacherAuthoringReadinessPanel } from "@/features/content-intake/TeacherAuthoringReadinessPanel";
 import { UnitPackageReadinessPanel } from "@/features/content-intake/UnitPackageReadinessPanel";
 import { DeploymentProfilePanel } from "@/features/deployment/DeploymentProfilePanel";
 import { LocalDeploymentPreflightPanel } from "@/features/deployment/LocalDeploymentPreflightPanel";
@@ -149,6 +151,7 @@ export default function TeacherIntakePage() {
           warnings={sampleClassRosterWarnings}
         />
         <SourceReviewQueuePanel queue={sampleSourceReviewQueue} />
+        <TeacherAuthoringReadinessPanel plan={sampleTeacherAuthoringReadinessPlan} />
         <AuthoringVerifierPlanPanel plan={sampleAuthoringVerifierPlan} />
         <ContentIntakeReviewPanel runs={sampleContentIntakeRuns} releases={samplePackageReleases} />
         <ActiveRouteMatrixPanel routes={sampleActiveRouteMatrix} />

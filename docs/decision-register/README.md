@@ -126,6 +126,7 @@
 - `DR-152-activity-pathway-compatibility-matrix.md`
 - `DR-153-printable-output-readiness.md`
 - `DR-154-private-tenant-library-first.md`
+- `DR-155-teacher-authoring-readiness.md`
 
 ## Maintenance Rule
 

@@ -23,6 +23,8 @@ AI can draft structure. It cannot publish student-facing content by itself.
 
 No AI draft, PDF extraction, translation, visual prompt, or media match becomes student-facing until verifier and teacher review gates are complete.
 
+Teacher authoring follows the same rule. Fast authoring creates draft packages only; direct AI publish and direct draft assignment are blocked.
+
 ## Required Rejections
 
 The verifier/handoff must reject:
@@ -45,3 +47,7 @@ The verifier/handoff must reject:
 `/teacher/intake` now shows this handoff as a review panel between source review and package release.
 
 This is still a scaffold. It does not call a live model, run production verification, or assign AI output directly to students.
+
+Related teacher authoring readiness contract:
+
+- `docs/TEACHER_AUTHORING_READINESS_CONTRACT.md`
