@@ -13,6 +13,7 @@ This list names the routes that should be checked after foundation changes. It i
 - `http://127.0.0.1:3000/`
 - `http://127.0.0.1:3000/teacher`
 - `http://127.0.0.1:3000/teacher/intake`
+- `http://127.0.0.1:3000/teacher/authoring/draft-sample-publisher-l1-u1`
 - `http://127.0.0.1:3000/partner-demo`
 - `http://127.0.0.1:3000/local/sample-publisher`
 - `http://127.0.0.1:3000/manifest.webmanifest`

@@ -8,6 +8,8 @@ Run after teacher authoring, draft, copy/edit, AI authoring, activity pathway ed
 
 - Confirm `npm run verify:teacher-authoring` passes.
 - Confirm `/teacher/intake` shows `Teacher authoring readiness`.
+- Confirm `/teacher/authoring/draft-sample-publisher-l1-u1` shows `Teacher draft package`.
+- Confirm the draft route shows `Draft only`, `Student assignment blocked`, `Review before assignment`, `Audio before students`, and `No direct publish`.
 - Confirm quick draft, copy/edit, activity pathway edit, and printable authoring remain planned.
 - Confirm direct AI publish remains blocked.
 - Confirm fast authoring creates draft packages only.

@@ -35,6 +35,14 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     note: "Admin review surface for package, route, policy, and backend planning.",
   },
   {
+    routeId: "teacher-draft-authoring-preview",
+    group: "core",
+    label: "Teacher draft package preview",
+    path: "/teacher/authoring/draft-sample-publisher-l1-u1",
+    status: "active-scaffold",
+    note: "Teacher-only draft preview; student assignment remains blocked until review gates pass.",
+  },
+  {
     routeId: "partner-demo",
     group: "core",
     label: "Partner demo",

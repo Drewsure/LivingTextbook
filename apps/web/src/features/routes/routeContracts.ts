@@ -52,6 +52,14 @@ export const appRouteContracts: AppRouteContract[] = [
     ],
   },
   {
+    id: "teacher-draft-authoring-preview",
+    pattern: "/teacher/authoring/[draftId]",
+    audience: "teacher",
+    status: "active-scaffold",
+    purpose: "Preview a teacher-only draft package while blocking direct student assignment until review, audio, rights, route, and approval gates pass.",
+    requiredState: ["TenantConfig", "TeacherDraftPackagePreview", "TeacherAuthoringGate[]"],
+  },
+  {
     id: "partner-pilot-demo",
     pattern: "/partner-demo",
     audience: "platform",
@@ -198,6 +206,10 @@ export function getTeacherSessionMonitorPath(launchCode: LaunchCode): string {
 
 export function getTeacherUnitReviewPath(unitKey: string): string {
   return `/teacher/units/${encodeURIComponent(unitKey)}`;
+}
+
+export function getTeacherDraftAuthoringPath(draftId: string): string {
+  return `/teacher/authoring/${encodeURIComponent(draftId)}`;
 }
 
 export function getPermanentTextbookQrPath(identifier: PermanentQrIdentifier): string {

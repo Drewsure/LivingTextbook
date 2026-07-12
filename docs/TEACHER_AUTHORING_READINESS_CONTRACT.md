@@ -20,14 +20,17 @@ No teacher draft, AI suggestion, copied package, activity pathway change, printa
 Sample data:
 
 - `apps/web/src/data/sampleTeacherAuthoringReadiness.ts`
+- `apps/web/src/data/sampleTeacherDraftPackage.ts`
 
 Panel:
 
 - `apps/web/src/features/content-intake/TeacherAuthoringReadinessPanel.tsx`
+- `apps/web/src/features/content-intake/TeacherDraftPackagePreviewPanel.tsx`
 
 Route:
 
 - `/teacher/intake`
+- `/teacher/authoring/draft-sample-publisher-l1-u1`
 
 Verifier:
 
@@ -45,6 +48,23 @@ Planned:
 Blocked:
 
 - Direct AI publish
+
+## Teacher Draft Preview Route
+
+The current scaffold includes one teacher-only draft package preview route:
+
+- `http://127.0.0.1:3000/teacher/authoring/draft-sample-publisher-l1-u1`
+
+This route is not a live editor. It shows the shape of a draft package, source lineage, blocked actions, requested activity path, audio-review requirements, and review gates.
+
+The route must continue to show:
+
+- `Teacher draft package`
+- `Draft only`
+- `Student assignment blocked`
+- `Review before assignment`
+- `Audio before students`
+- `No direct publish`
 
 ## Student Assignment Rule
 

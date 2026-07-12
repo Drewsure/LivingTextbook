@@ -2,6 +2,8 @@ import { readFileSync } from "node:fs";
 
 const plan = readSource("../apps/web/src/data/sampleTeacherAuthoringReadiness.ts");
 const panel = readSource("../apps/web/src/features/content-intake/TeacherAuthoringReadinessPanel.tsx");
+const draftPreview = readSource("../apps/web/src/features/content-intake/TeacherDraftPackagePreviewPanel.tsx");
+const draftData = readSource("../apps/web/src/data/sampleTeacherDraftPackage.ts");
 const routeVerifier = readSource("./verify-active-routes.mjs");
 const aiHandoff = readSource("../docs/AI_AUTHORING_VERIFIER_HANDOFF.md");
 const failures = [];
@@ -28,7 +30,13 @@ requireText(plan, "AI draft to assignment", "Teacher authoring plan must block d
 requireText(plan, "Audio before students", "Teacher authoring plan must preserve audio-before-students gate.");
 requireText(panel, "Teacher authoring readiness", "Teacher authoring panel must expose its heading.");
 requireText(panel, "Required before student use", "Teacher authoring panel must show student-use requirements.");
+requireText(draftData, "canAssignToStudents: false", "Teacher draft package must block student assignment.");
+requireText(draftData, "Skip audio support", "Teacher draft package must block skipped audio support.");
+requireText(draftPreview, "Teacher draft package", "Teacher draft preview must expose its heading.");
+requireText(draftPreview, "Student assignment blocked", "Teacher draft preview must show assignment block.");
+requireText(draftPreview, "No direct publish", "Teacher draft preview must show no-direct-publish boundary.");
 requireText(routeVerifier, "Teacher authoring readiness", "Active route verifier must check teacher authoring panel.");
+requireText(routeVerifier, "/teacher/authoring/draft-sample-publisher-l1-u1", "Active route verifier must check teacher draft preview route.");
 requireText(routeVerifier, "Direct AI publish", "Active route verifier must check direct AI publish block.");
 requireText(aiHandoff, "AI can draft structure. It cannot publish student-facing content by itself.", "AI handoff docs must preserve no-direct-publish rule.");
 
