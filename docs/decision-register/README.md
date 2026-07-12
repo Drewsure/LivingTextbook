@@ -149,6 +149,7 @@
 - `DR-175-teacher-draft-package-preview-route.md`
 - `DR-176-teacher-draft-package-storage-contract.md`
 - `DR-177-teacher-private-library-route.md`
+- `DR-178-tenant-library-item-storage-contract.md`
 
 ## Maintenance Rule
 

@@ -14,6 +14,7 @@ export type PersistenceBoundaryCategory =
   | "tenant-config"
   | "content-package"
   | "teacher-draft-package"
+  | "tenant-library-item"
   | "route-registry"
   | "launch-session"
   | "progress-event"
@@ -96,6 +97,24 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     blocksDirectStudentAssignment: true,
     recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
     note: "Teacher drafts need durable owner, source lineage, visibility, and review gate records before live authoring or private library workflows are enabled.",
+  },
+  {
+    recordId: "tenant-library-item-record",
+    category: "tenant-library-item",
+    label: "Tenant library item record",
+    readiness: "durable-required",
+    sourceOfTruth: "TeacherPrivateLibraryPreview, TenantLibraryPlan, source lineage, visibility, owner, allowed and blocked actions",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesLibrarySourceLineage: true,
+    blocksStudentDataCopy: true,
+    blocksPublicCommunityPublishing: true,
+    recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
+    note: "Tenant library items need durable ownership, visibility, source lineage, rights, and blocked-action records before live copy/edit, school sharing, search, or public-community decisions are enabled.",
   },
   {
     recordId: "qr-route-registry-record",
@@ -362,6 +381,18 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     visibleTo: ["Teacher", "Tenant admin", "Content reviewer"],
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision: "Persist draft ownership, source lineage, visibility, and review gates before live authoring or copy/edit workflows are enabled.",
+  },
+  {
+    boundaryId: "tenant-library-item-boundary",
+    category: "tenant-library-item",
+    label: "Tenant library items",
+    status: "needs-backend",
+    recordShape: "Library item id, tenant, owner, visibility, source lineage, rights snapshot, allowed actions, blocked actions, public-community block",
+    whyItMatters:
+      "Teachers and publishers need reusable resources inside one tenant, but copies must preserve ownership, rights, and source lineage without copying student data or opening public sharing.",
+    visibleTo: ["Teacher", "Tenant admin", "Content reviewer", "School admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision: "Persist tenant library item ownership, source lineage, visibility, and blocked actions before live library search, copy/edit, school sharing, or public-community work.",
   },
   {
     boundaryId: "route-registry-boundary",

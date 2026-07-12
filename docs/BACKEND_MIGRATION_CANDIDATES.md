@@ -33,13 +33,14 @@ Do not store real student progress until policy, retention, export, and access r
 1. Tenant and feature entitlement records.
 2. Package release and reviewed content records.
 3. Teacher draft package records.
-4. Stable QR and route alias registry.
-5. Media manifest and rights records.
-6. Publish gate and approval ledger records.
-7. Teacher launch session and settings records.
-8. Progress and media event stream records.
-9. Earned collection inventory records.
-10. Local classroom export and restore records.
+4. Tenant library item records.
+5. Stable QR and route alias registry.
+6. Media manifest and rights records.
+7. Publish gate and approval ledger records.
+8. Teacher launch session and settings records.
+9. Progress and media event stream records.
+10. Earned collection inventory records.
+11. Local classroom export and restore records.
 
 ## Required Per Candidate
 
@@ -63,6 +64,7 @@ Each candidate must define:
 - Hosted and local implementations must use the same record vocabulary.
 - Collection inventory must be deterministic, mastery-earned, exportable, and blocked from random pressure or purchase-like unlock paths.
 - Teacher draft package migrations must preserve owner, source lineage, visibility, review gates, audio plan state, and direct-assignment blocks.
+- Tenant library item migrations must preserve source lineage, block student-data copies, and block public community publishing.
 - Every migration candidate needs rollback or export expectations before implementation.
 
 ## Non-Goals

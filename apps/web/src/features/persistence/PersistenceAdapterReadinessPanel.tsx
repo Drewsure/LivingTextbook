@@ -156,6 +156,24 @@ export function PersistenceAdapterReadinessPanel({
                         <dd className="mt-1">{intent.blocksDirectStudentAssignment ? "Blocked" : "Needs review"}</dd>
                       </div>
                     )}
+                    {intent.category === "tenant-library-item" && (
+                      <div>
+                        <dt className="font-semibold text-[var(--tenant-text)]">Source lineage</dt>
+                        <dd className="mt-1">{intent.preservesLibrarySourceLineage ? "Preserved" : "Needs review"}</dd>
+                      </div>
+                    )}
+                    {intent.category === "tenant-library-item" && (
+                      <div>
+                        <dt className="font-semibold text-[var(--tenant-text)]">Student data copies</dt>
+                        <dd className="mt-1">{intent.blocksStudentDataCopy ? "Blocked" : "Needs review"}</dd>
+                      </div>
+                    )}
+                    {intent.category === "tenant-library-item" && (
+                      <div>
+                        <dt className="font-semibold text-[var(--tenant-text)]">Public community</dt>
+                        <dd className="mt-1">{intent.blocksPublicCommunityPublishing ? "Blocked" : "Needs review"}</dd>
+                      </div>
+                    )}
                     {intent.intentId.includes("package-audio-coverage") && (
                       <div>
                         <dt className="font-semibold text-[var(--tenant-text)]">Game/audio snapshot</dt>

@@ -38,6 +38,7 @@ The scaffold currently tracks:
 - Tenant configuration records.
 - Reviewed content package records.
 - Teacher draft package records.
+- Tenant library item records.
 - QR and route registry records.
 - Teacher launch session and settings records.
 - Progress and media event stream records.
@@ -87,6 +88,7 @@ These records protect the platform from treating a controlled demo as a real pil
 - Package approval ledgers require approver identity and policy rules before real sign-offs are stored.
 - Package publish gates must not mark a package pilot-publishable while release-blocking items remain open.
 - Teacher draft packages must preserve owner, source lineage, visibility, draft payload, requested activity path, review gates, audio plan state, and direct-assignment blocks before becoming package releases.
+- Tenant library items must preserve source lineage, block student-data copies, and block public community publishing before live library reuse, copy/edit, school sharing, or search work begins.
 - Local/closed deployment capable records must preserve a local classroom store path.
 
 ## Pilot Warnings

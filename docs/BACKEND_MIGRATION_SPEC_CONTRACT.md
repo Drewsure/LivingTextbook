@@ -29,12 +29,14 @@ This is a bridge between product architecture and implementation. It names the r
 - Progress events remain policy-blocked until student identity, retention, consent, and reporting policy are accepted.
 - Earned collection inventory remains policy-blocked until student identity, export, retention, and reward catalog rules are accepted.
 - Teacher draft package specs must preserve owner, source lineage, visibility, review gates, audio plan state, and direct-assignment blocks before draft packages can become student-facing releases.
+- Tenant library item specs must preserve source lineage, block student-data copies, and block public community publishing before copy/edit, school sharing, search, or public-community work begins.
 
 ## Current Pilot Specs
 
 - Tenant entitlement store.
 - Package release store.
 - Teacher draft package store.
+- Tenant library item store.
 - Package game/audio coverage snapshot.
 - Permanent QR alias store.
 - Progress event stream.

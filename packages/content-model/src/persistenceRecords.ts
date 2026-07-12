@@ -2,6 +2,7 @@ export type PersistenceRecordCategory =
   | "tenant-config"
   | "content-package"
   | "teacher-draft-package"
+  | "tenant-library-item"
   | "route-registry"
   | "launch-session"
   | "progress-event-stream"
@@ -51,6 +52,9 @@ export interface DurableRecordContract {
   rejectsRandomRewardPressure?: boolean;
   preservesDraftReviewGate?: boolean;
   blocksDirectStudentAssignment?: boolean;
+  preservesLibrarySourceLineage?: boolean;
+  blocksStudentDataCopy?: boolean;
+  blocksPublicCommunityPublishing?: boolean;
   recommendedFirstPilotStore: PersistenceStorageTier[];
   note: string;
 }
@@ -120,6 +124,18 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "teacher-draft-package" && !record.blocksDirectStudentAssignment) {
       errors.push(`Teacher draft durable record ${record.recordId} must block direct student assignment.`);
+    }
+
+    if (record.category === "tenant-library-item" && !record.preservesLibrarySourceLineage) {
+      errors.push(`Tenant library durable record ${record.recordId} must preserve source lineage.`);
+    }
+
+    if (record.category === "tenant-library-item" && !record.blocksStudentDataCopy) {
+      errors.push(`Tenant library durable record ${record.recordId} must block student data copies.`);
+    }
+
+    if (record.category === "tenant-library-item" && !record.blocksPublicCommunityPublishing) {
+      errors.push(`Tenant library durable record ${record.recordId} must block public community publishing.`);
     }
 
     if (record.supportsLocalDeployment && !record.recommendedFirstPilotStore.includes("local-classroom-store")) {

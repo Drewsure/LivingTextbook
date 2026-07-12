@@ -98,6 +98,31 @@ export const sampleBackendSchemaDraft: BackendSchemaDraft = {
         "Draft package records are authoring records, not student payloads. They must preserve source lineage and block assignment until review gates pass.",
     },
     {
+      entityId: "tenant_library_item",
+      label: "Tenant library item",
+      status: "required-before-pilot",
+      deploymentFit: "hybrid",
+      purpose:
+        "Stores private tenant library entries for teacher drafts, reviewed packages, school-sharing plans, and blocked public-community lanes.",
+      fields: [
+        { name: "library_item_id", type: "stable id", required: true, note: "One reusable library entry." },
+        { name: "tenant_id", type: "foreign key/string", required: true, note: "Tenant boundary for visibility and ownership." },
+        { name: "owner_id", type: "role/id", required: true, note: "Teacher, tenant admin, school, or platform owner." },
+        { name: "visibility", type: "enum", required: true, note: "Private draft, tenant-approved, school-shared, or public-community-blocked." },
+        { name: "source_lineage", type: "json/string array", required: true, note: "Copied-from package, edition, version, draft, and rights lineage." },
+        { name: "rights_snapshot", type: "json/object", required: true, note: "Media, text, printable, and activity-path rights state at copy time." },
+        { name: "allowed_actions", type: "json/string array", required: true, note: "Actions currently allowed by review and policy gates." },
+        { name: "blocked_actions", type: "json/string array", required: true, note: "Actions explicitly blocked, including public sharing and student-data copy." },
+        { name: "student_data_copy_allowed", type: "boolean", required: true, note: "Must remain false for library item records." },
+        { name: "public_community_publish_allowed", type: "boolean", required: true, note: "Must remain false for v1." },
+      ],
+      relationships: ["Belongs to tenant", "May reference teacher draft", "May reference package release", "May reference rights records"],
+      indexes: ["tenant_id + owner_id", "tenant_id + visibility", "tenant_id + library_item_id", "public_community_publish_allowed"],
+      forbiddenFields: ["Student progress copy", "Report export copy", "Raw learner audio", "Learner transcript", "Public community publish flag true"],
+      migrationNote:
+        "Library item records preserve reusable resource ownership and source lineage. They are not a public marketplace and must not copy student data.",
+    },
+    {
       entityId: "package_game_audio_coverage",
       label: "Package game/audio coverage",
       status: "required-before-pilot",
@@ -376,6 +401,7 @@ export const sampleBackendSchemaDraft: BackendSchemaDraft = {
   crossCuttingRules: [
     "Every record belongs to a tenant or to a tenant-owned package release.",
     "Teacher drafts must preserve owner, source lineage, review gates, and direct-assignment blocks before they can become package releases.",
+    "Tenant library items must preserve source lineage, block student-data copies, and block public community publishing for v1.",
     "Raw learner audio and transcripts stay out of core schema.",
     "Media files live in object storage or local bundles; schema stores manifests and rights metadata.",
     "Package game/audio coverage stores release metadata only, not raw audio files or learner recordings.",

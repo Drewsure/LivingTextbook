@@ -28,6 +28,9 @@ export interface PersistenceWriteIntent {
   rejectsRandomRewardPressure?: boolean;
   preservesDraftReviewGate?: boolean;
   blocksDirectStudentAssignment?: boolean;
+  preservesLibrarySourceLineage?: boolean;
+  blocksStudentDataCopy?: boolean;
+  blocksPublicCommunityPublishing?: boolean;
   note: string;
 }
 
@@ -132,6 +135,18 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "teacher-draft-package" && !intent.blocksDirectStudentAssignment) {
       errors.push(`Teacher draft package write intent ${intent.intentId} must block direct student assignment.`);
+    }
+
+    if (intent.category === "tenant-library-item" && !intent.preservesLibrarySourceLineage) {
+      errors.push(`Tenant library write intent ${intent.intentId} must preserve source lineage.`);
+    }
+
+    if (intent.category === "tenant-library-item" && !intent.blocksStudentDataCopy) {
+      errors.push(`Tenant library write intent ${intent.intentId} must block student data copies.`);
+    }
+
+    if (intent.category === "tenant-library-item" && !intent.blocksPublicCommunityPublishing) {
+      errors.push(`Tenant library write intent ${intent.intentId} must block public community publishing.`);
     }
 
     if (intent.intentId.includes("package-audio-coverage") && !intent.preservesGameAudioCoverageSnapshot) {

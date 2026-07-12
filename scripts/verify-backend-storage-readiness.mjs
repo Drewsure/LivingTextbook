@@ -12,6 +12,7 @@ const requiredSchemaEntities = [
   "tenant",
   "package_release",
   "teacher_draft_package",
+  "tenant_library_item",
   "package_game_audio_coverage",
   "route_alias",
   "media_manifest",
@@ -31,6 +32,7 @@ const requiredMigrationCandidates = [
   "m001-tenant-and-entitlements",
   "m002-package-release-and-content",
   "m014-teacher-draft-package-records",
+  "m015-tenant-library-item-records",
   "m003-route-alias-registry",
   "m004-media-manifest-rights",
   "m005-publish-gate-and-approval-ledger",
@@ -49,6 +51,7 @@ const requiredMigrationSpecs = [
   "spec-package-release",
   "spec-package-game-audio-coverage",
   "spec-teacher-draft-package",
+  "spec-tenant-library-item",
   "spec-launch-session-settings",
   "spec-qr-alias",
   "spec-progress-event",
@@ -76,6 +79,9 @@ requireText(schemaDraft, "Learner transcript", "Backend schema must explicitly f
 requireText(schemaDraft, "teacher_draft_package", "Backend schema must include teacher draft packages.");
 requireText(schemaDraft, "can_assign_to_students", "Backend schema must preserve direct assignment blocks for teacher drafts.");
 requireText(schemaDraft, "Direct AI publish", "Backend schema must block direct AI publish in teacher draft records.");
+requireText(schemaDraft, "tenant_library_item", "Backend schema must include tenant library items.");
+requireText(schemaDraft, "student_data_copy_allowed", "Backend schema must block student data copies for library items.");
+requireText(schemaDraft, "public_community_publish_allowed", "Backend schema must block public community publishing for library items.");
 requireText(schemaDraft, "event_effect", "Backend schema must preserve event effect taxonomy.");
 requireText(schemaDraft, "event_acceptance_gate", "Backend schema must preserve event acceptance gates.");
 requireText(schemaDraft, "collection_inventory", "Backend schema must include collection inventory.");
@@ -85,6 +91,9 @@ requireText(schemaDraft, "assist_language_teacher_enablement_persisted", "Backen
 requireText(migrationSpecs, "assist_language_teacher_enablement_persisted", "Migration specs must preserve assist-language teacher enablement.");
 requireText(migrationSpecs, "spec-teacher-draft-package", "Migration specs must include teacher draft packages.");
 requireText(migrationSpecs, "can_assign_to_students", "Migration specs must preserve teacher draft assignment blocks.");
+requireText(migrationSpecs, "spec-tenant-library-item", "Migration specs must include tenant library items.");
+requireText(migrationSpecs, "student_data_copy_allowed", "Migration specs must block student data copies for library items.");
+requireText(migrationSpecs, "public_community_publish_allowed", "Migration specs must block public community publishing for library items.");
 requireText(migrationSpecs, "event_acceptance_gate_id", "Migration specs must require event acceptance gate ids for events.");
 requireText(migrationSpecs, "spec-earned-collection-inventory", "Migration specs must include earned collection inventory.");
 requireText(migrationSpecs, "unlock_source_event_id", "Migration specs must preserve collection unlock source events.");
@@ -95,6 +104,11 @@ requireText(persistenceAdapter, "hosted-teacher-draft-package-write", "Persisten
 requireText(persistenceAdapter, "local-teacher-draft-package-write", "Persistence adapter must include local teacher draft writes.");
 requireText(persistenceAdapter, "preservesDraftReviewGate: true", "Persistence adapter must preserve teacher draft review gates.");
 requireText(persistenceAdapter, "blocksDirectStudentAssignment: true", "Persistence adapter must block direct draft assignment.");
+requireText(persistenceAdapter, "hosted-tenant-library-item-write", "Persistence adapter must include hosted tenant library writes.");
+requireText(persistenceAdapter, "local-tenant-library-item-write", "Persistence adapter must include local tenant library writes.");
+requireText(persistenceAdapter, "preservesLibrarySourceLineage: true", "Persistence adapter must preserve library source lineage.");
+requireText(persistenceAdapter, "blocksStudentDataCopy: true", "Persistence adapter must block student data copies.");
+requireText(persistenceAdapter, "blocksPublicCommunityPublishing: true", "Persistence adapter must block public community publishing.");
 requireText(persistenceAdapter, "hosted-collection-inventory-write", "Persistence adapter must include hosted collection inventory writes.");
 requireText(persistenceAdapter, "local-collection-inventory-write", "Persistence adapter must include local collection inventory writes.");
 requireText(persistenceAdapter, "preservesEarnedCollectionRules: true", "Persistence adapter must preserve earned collection rules.");
@@ -107,6 +121,10 @@ requireText(durableRecords, "ownsTeacherSessionSettings: true", "Durable record 
 requireText(durableRecords, "teacher-draft-package-record", "Durable record plan must include teacher draft packages.");
 requireText(durableRecords, "preservesDraftReviewGate: true", "Durable record plan must preserve teacher draft review gates.");
 requireText(durableRecords, "blocksDirectStudentAssignment: true", "Durable record plan must block direct draft assignment.");
+requireText(durableRecords, "tenant-library-item-record", "Durable record plan must include tenant library items.");
+requireText(durableRecords, "preservesLibrarySourceLineage: true", "Durable record plan must preserve library source lineage.");
+requireText(durableRecords, "blocksStudentDataCopy: true", "Durable record plan must block student data copies.");
+requireText(durableRecords, "blocksPublicCommunityPublishing: true", "Durable record plan must block public community publishing.");
 requireText(durableRecords, "requiresEventAcceptanceGate: true", "Durable record plan must require event acceptance gates for student event storage.");
 requireText(durableRecords, "earned-collection-inventory-record", "Durable record plan must include earned collection inventory.");
 requireText(durableRecords, "preservesEarnedCollectionRules: true", "Durable record plan must preserve earned collection rules.");

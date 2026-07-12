@@ -29,6 +29,7 @@ The current draft includes:
 - Tenant
 - Package release
 - Teacher draft package
+- Tenant library item
 - Package game/audio coverage
 - Route alias and QR registry
 - Media manifest and rights
@@ -64,6 +65,7 @@ Each entity should name:
 - Package game/audio coverage stores release metadata only, not raw audio files or learner recordings.
 - Earned collection inventory stores deterministic mastery-earned ownership only; random reward pressure and paid gacha-like ownership are forbidden.
 - Teacher draft packages preserve owner, source lineage, visibility, draft payload, requested activity path, review gates, audio plan state, and direct-assignment blocks before becoming package releases.
+- Tenant library items preserve source lineage, block student-data copies, and block public community publishing for v1.
 - Progress events and collection inventory must preserve support-only boundaries so assist language, media, or route guidance cannot unlock mastery.
 - Support language never unlocks target-language progression.
 - AI Tutor and speech scoring stay premium-gated and disabled unless tenant policy accepts them.
