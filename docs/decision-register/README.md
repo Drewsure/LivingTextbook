@@ -133,6 +133,7 @@
 - `DR-159-teacher-assist-language-toggle.md`
 - `DR-160-assist-language-session-settings-contract.md`
 - `DR-161-teacher-session-settings-contract-verifier.md`
+- `DR-162-foundation-gate-session-settings-visibility.md`
 
 ## Maintenance Rule
 

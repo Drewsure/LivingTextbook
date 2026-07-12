@@ -10,6 +10,8 @@ Run after teacher intake, verification scripts, package-readiness, local-bundle,
 - Confirm the panel shows `npm run verify:foundation`.
 - Confirm the panel names `npm run verify:package-readiness`.
 - Confirm the panel names `npm run verify:local-bundle`.
+- Confirm the panel names `npm run verify:session-settings`.
+- Confirm the panel includes `Teacher session settings safety`.
 - Confirm active route verification checks those strings.
 - Confirm the panel describes the gate as a foundation review aid, not a production CI status system.
 
