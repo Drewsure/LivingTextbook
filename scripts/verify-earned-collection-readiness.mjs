@@ -41,6 +41,9 @@ requireText(collectionPanel, "deterministic ownership loop", "Collection panel m
 requireText(collectionPanel, "not a random pressure loop or paid gacha system", "Collection panel must reject random/gacha mechanics.");
 requireText(collectionPanel, "Mastery unlocks only", "Collection panel must state mastery unlock rules.");
 requireText(collectionPanel, "No random rewards", "Collection panel must show no-random status.");
+requireText(collectionPanel, "Ownership provenance", "Collection panel must show ownership provenance.");
+requireText(collectionPanel, "Unlock source event", "Collection panel must show unlock source events.");
+requireText(collectionPanel, "Policy-gated storage preview", "Collection panel must show storage policy gate.");
 requireText(principles, "Earned collection is the default engagement model.", "Principles must preserve earned collection standard.");
 requireText(principles, "Surprise rewards are allowed only as child-safe bonus cosmetics.", "Principles must restrict surprise rewards.");
 

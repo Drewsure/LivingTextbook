@@ -18,6 +18,9 @@ Expected result:
 - The page shows `Collection room preview`.
 - The page shows `Mastery unlocks only`.
 - The page shows `No random rewards`.
+- The page shows `Ownership provenance`.
+- The page shows `Unlock source event`.
+- The page shows `Policy-gated storage preview`.
 - Reward categories include mastery-owned item types such as badges, titles, cosmetics, room items, companion evolution, and power-ups.
 - The page uses the tenant reward name.
 - The page does not imply paid gacha, random pressure rewards, or premium art is already complete.

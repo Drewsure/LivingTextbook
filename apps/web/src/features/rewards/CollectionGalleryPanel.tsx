@@ -1,4 +1,5 @@
 import { Card, StatusPill } from "@living-textbook/ui";
+import { createCollectionInventoryPreview } from "./collectionInventory";
 import { getEarnedRewards, getNextReward } from "./rewardCatalog";
 import type { RewardCatalogItem, RewardKind } from "./rewardCatalog";
 import type { StudentProgressionState } from "@living-textbook/content-model";
@@ -37,6 +38,7 @@ export function CollectionGalleryPanel({ tenant, progression, catalog, launchCod
   const earnedRewards = getEarnedRewards(catalog, progression.earnedStarDust);
   const nextReward = getNextReward(catalog, progression.earnedStarDust);
   const categories = Array.from(new Set(catalog.map((reward) => reward.kind)));
+  const inventoryPreview = createCollectionInventoryPreview({ catalog, progression, launchCode });
 
   return (
     <div className="grid gap-5">
@@ -101,6 +103,46 @@ export function CollectionGalleryPanel({ tenant, progression, catalog, launchCod
           </p>
         )}
       </Card>
+
+      <Card>
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <p className="text-sm font-semibold text-[var(--tenant-muted)]">Ownership provenance</p>
+            <h3 className="mt-1 text-lg font-bold">Policy-gated storage preview</h3>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
+              This preview shows how earned items will later become collection inventory records. Each owned item needs an unlock source event and a deterministic mastery rule snapshot before storage is enabled.
+            </p>
+          </div>
+          <StatusPill label="No purchase state" tone="success" />
+        </div>
+
+        {inventoryPreview.length > 0 ? (
+          <div className="mt-5 grid gap-3 lg:grid-cols-2">
+            {inventoryPreview.map((item) => (
+              <article key={item.collectionItemId} className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
+                <div className="flex flex-wrap items-start justify-between gap-3">
+                  <div>
+                    <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">{kindLabels[item.rewardKind]}</p>
+                    <h4 className="mt-1 text-sm font-bold text-[var(--tenant-text)]">{item.rewardLabel}</h4>
+                  </div>
+                  <StatusPill label="Owned preview" tone="success" />
+                </div>
+                <dl className="mt-3 grid gap-2 text-xs leading-5 text-[var(--tenant-muted)]">
+                  <CollectionInventoryFact label="Collection item" value={item.collectionItemId} />
+                  <CollectionInventoryFact label="Unlock source event" value={item.unlockSourceEventType} />
+                  <CollectionInventoryFact label="Unlock source id" value={item.unlockSourceEventId} />
+                  <CollectionInventoryFact label="Mastery rule snapshot" value={item.masteryRuleSnapshot} />
+                  <CollectionInventoryFact label="Storage readiness" value={item.storageReadiness} />
+                </dl>
+              </article>
+            ))}
+          </div>
+        ) : (
+          <p className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4 text-sm leading-6 text-[var(--tenant-muted)]">
+            No collection inventory records are owned yet. Storage remains policy-gated until a learner earns an item through accepted target-language progress. Unlock source event evidence will be required before ownership is stored.
+          </p>
+        )}
+      </Card>
     </div>
   );
 }
@@ -110,6 +152,15 @@ function CollectionMetric({ label, value }: { label: string; value: string }) {
     <div className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3">
       <dt className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">{label}</dt>
       <dd className="mt-1 break-words text-sm font-bold text-[var(--tenant-text)]">{value}</dd>
+    </div>
+  );
+}
+
+function CollectionInventoryFact({ label, value }: { label: string; value: string }) {
+  return (
+    <div>
+      <dt className="font-semibold text-[var(--tenant-text)]">{label}</dt>
+      <dd className="mt-1 break-words">{value}</dd>
     </div>
   );
 }
