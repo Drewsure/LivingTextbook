@@ -265,6 +265,7 @@ Accepted direction:
 - Compatibility rules should explain why a payload can or cannot become a particular activity type.
 - The current sample compatibility matrix must remain visible until the contract is promoted to shared package data.
 - Printable/PDF outputs are planned and should be generated from reviewed package data.
+- Printable output readiness must block PDF export until layout, QR/audio bridge, version/rights snapshot, and teacher export policy exist.
 - Private tenant libraries should come before any public community library.
 - Public community sharing is not v1 because moderation, copyright, privacy, quality, and tenant-isolation risks are high.
 - Embeds and public sharing links are optional later capabilities, not foundation blockers.
@@ -281,6 +282,7 @@ References:
 
 - `docs/COMPETITIVE_FEATURE_COVERAGE_MATRIX.md`
 - `docs/ACTIVITY_PATHWAY_COMPATIBILITY_MATRIX.md`
+- `docs/PRINTABLE_OUTPUT_READINESS_CONTRACT.md`
 - `docs/UNIT_GAME_OFFER_MAP_CONTRACT.md`
 - `docs/PRINCIPLES_AND_STANDARDS.md`
 

@@ -124,6 +124,7 @@
 - `DR-150-foundation-verification-gate-panel.md`
 - `DR-151-competitive-feature-coverage-matrix.md`
 - `DR-152-activity-pathway-compatibility-matrix.md`
+- `DR-153-printable-output-readiness.md`
 
 ## Maintenance Rule
 

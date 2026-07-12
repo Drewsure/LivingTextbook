@@ -52,6 +52,7 @@ Focused verification supplements:
 - `docs/verification/PILOT_HANDOFF_PACKAGE_CHECKS.md`
 - `docs/verification/PILOT_POLICY_CHECKS.md`
 - `docs/verification/PILOT_SOURCE_STRATEGY_CHECKS.md`
+- `docs/verification/PRINTABLE_OUTPUT_READINESS_CHECKS.md`
 - `docs/verification/PROGRESS_EVENT_TAXONOMY_CHECKS.md`
 - `docs/verification/PROGRESS_EVENT_TAXONOMY_REVISION_CHECKS.md`
 - `docs/verification/PROGRESS_EVENT_TAXONOMY_COVERAGE_VERIFIER_CHECKS.md`

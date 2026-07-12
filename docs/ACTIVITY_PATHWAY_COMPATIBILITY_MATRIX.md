@@ -41,6 +41,10 @@ Current verifier:
 
 - `npm run verify:activity-pathways`
 
+Printable output contract:
+
+- `docs/PRINTABLE_OUTPUT_READINESS_CONTRACT.md`
+
 ## Compatibility Statuses
 
 Offered:
@@ -80,6 +84,7 @@ Planned printables:
 
 - Printable vocabulary sheet
 - Printable sentence practice
+- Teacher answer key
 
 Premium:
 
@@ -96,6 +101,7 @@ Blocked conversions:
 - Support language cannot unlock progress.
 - Target-language practice remains the progression trigger.
 - Printable outputs must come from reviewed package data.
+- Printable export remains blocked until layout, QR/audio, version/rights, and teacher export-policy gates exist.
 - Printable QR or short links should resolve to reviewed audio cues where young learners need listening support.
 - Text puzzle outputs require text normalization and layout validation.
 - Crossword outputs require reviewed clue text, not only vocabulary terms.

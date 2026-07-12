@@ -26,6 +26,7 @@ Outputs:
 - `/teacher/intake` exposes the current foundation verification gate so partner/admin review can see the canonical command and what it protects.
 - `/teacher/intake` exposes competitive feature coverage so teacher time-saving, curated activity pathways, private libraries, printables, and target-language expansion are visible during admin review.
 - `/teacher/intake` exposes activity pathway compatibility so offered, planned, premium, teacher-review, and blocked outputs are visible before authoring or printables are built.
+- `/teacher/intake` exposes printable output readiness so worksheet/PDF expectations are planned without pretending export is ready.
 
 ## Session 1: First Vertical Slice
 
@@ -154,6 +155,7 @@ Outputs:
 - AI authoring/verifier handoff that blocks unreviewed AI drafts from student assignment.
 - Curated activity pathway and compatibility rules for each reviewed unit package.
 - Planned printable worksheet/PDF output from reviewed payloads.
+- Printable output readiness gates for layout, QR/audio, version/rights snapshot, and teacher export policy.
 - Source review queue for raw PDF, DOCX, audio, video, and teacher-note handoff.
 - Mapping from textbook page/unit to digital launch payload.
 - Mapping from textbook page/unit/activity to multimedia assets and playlists.
@@ -265,6 +267,7 @@ Next outputs:
 - Confirm the publish gate blocks release while assigned game modes are missing reviewed audio coverage or approved fallback.
 - Confirm `/teacher/intake` shows the competitive feature coverage panel before teacher authoring, printables, private library, sharing, or embed work begins.
 - Confirm `/teacher/intake` shows the activity pathway compatibility panel before template conversion, printable, or text-puzzle work begins.
+- Confirm `/teacher/intake` shows the printable output readiness panel before worksheet/PDF implementation begins.
 - Confirm curated activity pathways remain the default teacher-facing answer to switch-template style expectations.
 - Confirm the approval ledger does not imply real signed approvals before authentication and persistence exist.
 - Confirm the durable record map includes publish gate and approval ledger records.

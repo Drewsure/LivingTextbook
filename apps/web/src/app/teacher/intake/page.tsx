@@ -5,6 +5,7 @@ import { sampleBackendMigrationPlan } from "@/data/sampleBackendMigrationCandida
 import { sampleBackendMigrationSpecPlan } from "@/data/sampleBackendMigrationSpecs";
 import { sampleBackendSchemaDraft } from "@/data/sampleBackendSchemaDraft";
 import { samplePilotBackendSelectionGate } from "@/data/samplePilotBackendSelectionGate";
+import { samplePrintableOutputPlan } from "@/data/samplePrintableOutputPlan";
 import { sampleActiveRouteMatrix } from "@/data/sampleActiveRouteMatrix";
 import { sampleAuthoringVerifierPlan } from "@/data/sampleAuthoringVerifierPlan";
 import {
@@ -61,6 +62,7 @@ import {
 import { ContentIntakeReviewPanel } from "@/features/content-intake/ContentIntakeReviewPanel";
 import { AuthoringVerifierPlanPanel } from "@/features/content-intake/AuthoringVerifierPlanPanel";
 import { PilotSourceStrategyPanel } from "@/features/content-intake/PilotSourceStrategyPanel";
+import { PrintableOutputReadinessPanel } from "@/features/content-intake/PrintableOutputReadinessPanel";
 import { SourceReviewQueuePanel } from "@/features/content-intake/SourceReviewQueuePanel";
 import { UnitPackageReadinessPanel } from "@/features/content-intake/UnitPackageReadinessPanel";
 import { DeploymentProfilePanel } from "@/features/deployment/DeploymentProfilePanel";
@@ -127,6 +129,7 @@ export default function TeacherIntakePage() {
         <PackageApprovalLedgerPanel ledger={samplePackageApprovalLedger} />
         <PublisherMaintenancePlanPanel plan={samplePublisherMaintenancePlan} />
         <ActivityPathwayCompatibilityPanel matrix={sampleActivityPathwayCompatibilityMatrix} />
+        <PrintableOutputReadinessPanel plan={samplePrintableOutputPlan} />
         <UnitGameOfferMapPanel map={sampleUnitGameOfferMap} />
         <GamePrototypeAssignmentPanel plan={sampleGamePrototypeAssignmentPlan} />
         <UnitPackageReadinessPanel packages={sampleUnitPackageReadiness} />

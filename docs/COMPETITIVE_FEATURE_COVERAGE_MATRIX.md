@@ -73,7 +73,7 @@ For each reviewed unit package, the teacher/admin package should name:
 
 This preserves the time-saving value of template switching while keeping young learner flow, reporting, and white-label governance stable.
 
-The current sample implementation is recorded in `docs/ACTIVITY_PATHWAY_COMPATIBILITY_MATRIX.md` and shown on `/teacher/intake`.
+The current sample implementation is recorded in `docs/ACTIVITY_PATHWAY_COMPATIBILITY_MATRIX.md`, `docs/PRINTABLE_OUTPUT_READINESS_CONTRACT.md`, and shown on `/teacher/intake`.
 
 ## Community Library Standard
 
