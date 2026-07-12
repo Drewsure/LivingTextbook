@@ -11,6 +11,7 @@ Added the first practical printable route as a browser-print preview while keepi
 - Teacher launch shortcut for the current unit printable preview
 - Partner demo route-list shortcut for the sample publisher printable preview
 - Print cleanup that hides the app shell header and reduces awkward card breaks in browser print
+- Version snapshot metadata on the worksheet preview
 - Active route matrix entries for `/print/demo-unit-1` and `/print/partner-demo-unit-1`
 - Active route verification checks for both printable routes
 

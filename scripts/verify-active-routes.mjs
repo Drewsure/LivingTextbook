@@ -17,9 +17,9 @@ const expectedTextByPath = new Map([
   ["/teacher/sessions/demo-unit-1/report-package", ["Report package preview", "Export blocked", "Event acceptance summary", "Support-only signals"]],
   ["/teacher/sessions/partner-demo-unit-1/report-package", ["Report package preview", "Export blocked", "Event acceptance summary", "Support-only signals"]],
   ["/media/playlist-ministar-l1-u1-greetings", ["Media playlist route", "Demo media controls", "support-only events"]],
-  ["/print/demo-unit-1", ["Printable worksheet preview", "Browser-print preview", "Vocabulary listening sheet", "Sentence practice worksheet", "PDF export blocked", "Audio bridge"]],
+  ["/print/demo-unit-1", ["Printable worksheet preview", "Browser-print preview", "Vocabulary listening sheet", "Sentence practice worksheet", "PDF export blocked", "Audio bridge", "Version snapshot"]],
   ["/media/playlist-sample-publisher-l1-u1-routines", ["Media playlist route", "Demo media controls", "support-only events"]],
-  ["/print/partner-demo-unit-1", ["Printable worksheet preview", "Browser-print preview", "Vocabulary listening sheet", "Sentence practice worksheet", "PDF export blocked", "Audio bridge"]],
+  ["/print/partner-demo-unit-1", ["Printable worksheet preview", "Browser-print preview", "Vocabulary listening sheet", "Sentence practice worksheet", "PDF export blocked", "Audio bridge", "Version snapshot"]],
 ]);
 
 if (urls.length === 0) {

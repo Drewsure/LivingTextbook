@@ -71,6 +71,7 @@ PDF export is blocked until:
 - Crossword requires reviewed clue text, not only vocabulary terms.
 - Word Search requires text normalization and layout validation.
 - Printed materials should include package id, edition/version, generated date, and tenant/source identity when exported.
+- Browser-print previews should show a version snapshot before formal PDF export exists.
 
 ## Follow-Up
 

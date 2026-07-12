@@ -19,6 +19,7 @@ Teachers need printable materials, but jumping straight to PDF export would hide
 - Expose the current unit printable preview from the teacher launch shortcuts.
 - Expose the sample publisher printable preview from the partner demo route list.
 - Hide the app shell header in browser print and keep worksheet sections print-friendly.
+- Show a version snapshot with package, source, edition, version, pages, review, and export boundary.
 
 ## Follow-Up
 

@@ -24,6 +24,7 @@ export function PrintableWorksheetPreview({
   const audioPlan = contentPackage.audioSupportPlans?.find((candidate) => candidate.unitKey === getPrintableUnitKey(unit));
   const targetLanguage = unit.unitMeta.textbookReference?.language ?? "en";
   const supportLanguage = assistLanguagePlan?.assistLanguage;
+  const textbookReference = unit.unitMeta.textbookReference ?? contentPackage.meta.textbookReference;
 
   return (
     <main className="mx-auto grid max-w-5xl gap-5 p-4 print:max-w-none print:gap-3 print:p-0">
@@ -125,9 +126,13 @@ export function PrintableWorksheetPreview({
 
       <Card className="print:break-inside-avoid print:shadow-none">
         <p className="text-sm font-semibold text-[var(--tenant-muted)]">Package and export boundary</p>
+        <h2 className="mt-1 text-lg font-bold">Version snapshot</h2>
         <dl className="mt-3 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)] md:grid-cols-2">
           <PrintableDetail label="Package" value={contentPackage.meta.packageId} />
           <PrintableDetail label="Source" value={contentPackage.meta.sourceDocumentName ?? contentPackage.meta.sourceType} />
+          <PrintableDetail label="Edition" value={textbookReference?.edition ?? "review snapshot"} />
+          <PrintableDetail label="Version" value={textbookReference?.version ?? "review snapshot"} />
+          <PrintableDetail label="Textbook pages" value={formatTextbookPages(textbookReference)} />
           <PrintableDetail label="Review" value={contentPackage.meta.reviewStatus} />
           <PrintableDetail label="Export" value="PDF export blocked" />
         </dl>
@@ -178,4 +183,14 @@ function toWordBank(sentence: string): string[] {
 
 function getPrintableUnitKey(unit: UnitPayload): string {
   return `${unit.unitMeta.tenantId}:${unit.unitMeta.curriculumId}:L${unit.unitMeta.level}:U${unit.unitMeta.unit}`;
+}
+
+function formatTextbookPages(reference: UnitPayload["unitMeta"]["textbookReference"]): string {
+  if (!reference?.pageStart) {
+    return "not linked";
+  }
+
+  return reference.pageEnd && reference.pageEnd !== reference.pageStart
+    ? `${reference.pageStart}-${reference.pageEnd}`
+    : String(reference.pageStart);
 }
