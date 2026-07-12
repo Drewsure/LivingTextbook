@@ -17,6 +17,7 @@ Teachers need printable materials, but jumping straight to PDF export would hide
 - Keep PDF export blocked.
 - Add MiniStar and sample publisher print routes to active route verification.
 - Expose the current unit printable preview from the teacher launch shortcuts.
+- Expose the sample publisher printable preview from the partner demo route list.
 
 ## Follow-Up
 

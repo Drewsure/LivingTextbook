@@ -9,6 +9,7 @@ Added the first practical printable route as a browser-print preview while keepi
 - `apps/web/src/app/print/[code]/page.tsx`
 - `apps/web/src/features/printables/PrintableWorksheetPreview.tsx`
 - Teacher launch shortcut for the current unit printable preview
+- Partner demo route-list shortcut for the sample publisher printable preview
 - Active route matrix entries for `/print/demo-unit-1` and `/print/partner-demo-unit-1`
 - Active route verification checks for both printable routes
 

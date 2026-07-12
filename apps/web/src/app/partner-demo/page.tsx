@@ -20,6 +20,7 @@ import {
   getSpeakItPath,
   getStudentLaunchPath,
   getTeacherSessionMonitorPath,
+  getPrintableWorksheetPath,
   getTrainingAcademyPath,
 } from "@/features/routes/routeContracts";
 import { TeacherLaunchPanel } from "@/features/teacher/TeacherLaunchPanel";
@@ -45,7 +46,11 @@ export default function PartnerDemoPage() {
             </div>
           </Card>
 
-          <TeacherLaunchPanel unit={samplePartnerUnitOne} launchSession={samplePartnerLaunchSession} />
+          <TeacherLaunchPanel
+            unit={samplePartnerUnitOne}
+            launchSession={samplePartnerLaunchSession}
+            contentPackage={samplePartnerContentPackage}
+          />
           <MultimediaPackagePanel
             contentPackage={samplePartnerContentPackage}
             permanentQrPath={samplePartnerPermanentQrPath}
@@ -70,6 +75,7 @@ export default function PartnerDemoPage() {
               <RouteLink label="Partner demo" href="/partner-demo" />
               <RouteLink label="Front door" href={samplePartnerFrontDoorPath} />
               <RouteLink label="Student launch" href={getStudentLaunchPath(samplePartnerLaunchCode)} />
+              <RouteLink label="Printable Worksheet" href={getPrintableWorksheetPath(samplePartnerLaunchCode)} />
               <RouteLink label="Quiz" href={getQuizPath(samplePartnerLaunchCode)} />
               <RouteLink label="Sentence Builder" href={getSentenceBuilderPath(samplePartnerLaunchCode)} />
               <RouteLink label="Speak It" href={getSpeakItPath(samplePartnerLaunchCode)} />

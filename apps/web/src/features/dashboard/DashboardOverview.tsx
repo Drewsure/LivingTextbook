@@ -52,7 +52,11 @@ export function DashboardOverview({ tenant, unit }: DashboardOverviewProps) {
             <StatusPill label={validationErrors.length === 0 ? "Payload valid" : "Needs review"} tone={validationErrors.length === 0 ? "success" : "warning"} />
           </div>
         </Card>
-        <TeacherLaunchPanel unit={unit} launchSession={sampleLaunchSession} />
+        <TeacherLaunchPanel
+          unit={unit}
+          launchSession={sampleLaunchSession}
+          contentPackage={sampleMultimediaContentPackage}
+        />
         <MultimediaPackagePanel
           contentPackage={sampleMultimediaContentPackage}
           permanentQrPath={samplePermanentQrPath}

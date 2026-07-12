@@ -18,6 +18,7 @@ npm run dev --workspace @living-textbook/web -- --hostname 127.0.0.1 --port 3000
 - `http://127.0.0.1:3000/partner-demo`
 - `http://127.0.0.1:3000/enter/sample-publisher`
 - `http://127.0.0.1:3000/launch/partner-demo-unit-1`
+- `http://127.0.0.1:3000/print/partner-demo-unit-1`
 - `http://127.0.0.1:3000/speak/partner-demo-unit-1`
 
 ## Expected Results
@@ -27,6 +28,8 @@ npm run dev --workspace @living-textbook/web -- --hostname 127.0.0.1 --port 3000
 - `/partner-demo` shows a valid package with audio cues, audio file placeholder, video placeholder, playlist, optional background media, and premium AI Tutor off.
 - `/enter/sample-publisher` opens the partner textbook front door and accepts `ROUTINE-101` / `LEARNER-07`.
 - `/launch/partner-demo-unit-1` opens the student launch with the partner tenant palette and Daily Routines terms.
+- `/partner-demo` and the teacher launch shortcut list expose `/print/partner-demo-unit-1`.
+- `/print/partner-demo-unit-1` shows a browser-print worksheet preview with Daily Routines vocabulary, target sentences, and PDF export blocked.
 - Tapping English target-language terms and sentences increments the entry-practice gate.
 - Assist language is not shown for the sample publisher package.
 - Completing entry practice unlocks Memory Match.
