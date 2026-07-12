@@ -2,7 +2,7 @@
 
 Document type: foundation data contract  
 Status: active scaffold  
-Last updated: 2026-07-09
+Last updated: 2026-07-12
 
 ## Purpose
 
@@ -33,11 +33,11 @@ Used for source-controlled reviewed sample data. It is useful for design and sal
 
 ### Hosted Pilot Adapter
 
-The recommended first pilot path. It should support durable route registry writes, teacher launch-session settings, progress/media event writes, package publish gates, and package approval ledgers after privacy, release-control, and policy requirements are accepted.
+The recommended first pilot path. It should support durable route registry writes, teacher launch-session settings, progress/media event writes, earned collection inventory writes, package publish gates, and package approval ledgers after privacy, release-control, and policy requirements are accepted.
 
 ### Local Classroom Adapter
 
-A future closed deployment path for schools or textbook partners who require a local classroom server or packaged local app. It must support local media bundles, local progress export packages, package publish gates, package approval ledgers, backup/restore, and year-on-year content updates.
+A future closed deployment path for schools or textbook partners who require a local classroom server or packaged local app. It must support local media bundles, local progress export packages, local earned collection inventory, package publish gates, package approval ledgers, backup/restore, and year-on-year content updates.
 
 ## Core Safety Rules
 
@@ -51,7 +51,9 @@ Every core adapter plan must:
 - identify whether it can run offline,
 - name the deployment channels it supports,
 - keep media/object storage concerns separate from student progress records,
-- keep approval evidence storage separate from raw student progress records.
+- keep approval evidence storage separate from raw student progress records,
+- preserve deterministic mastery-earned collection ownership,
+- reject random pressure loops, paid gacha-like ownership, and purchase-like unlock states.
 
 ## Required Hosted Pilot Write Intents
 
@@ -60,6 +62,7 @@ The hosted pilot path should support:
 - route registry entries,
 - teacher launch-session settings,
 - progress and media events,
+- earned collection inventory,
 - package game/audio coverage snapshots,
 - package publish gates,
 - package approval ledgers.
@@ -73,6 +76,7 @@ The local/closed deployment path should support:
 - local media bundle manifests,
 - local package game/audio coverage snapshots,
 - local progress export packages,
+- local earned collection inventory,
 - local package publish gates,
 - local package approval ledgers.
 

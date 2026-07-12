@@ -16,6 +16,7 @@ export type PersistenceBoundaryCategory =
   | "route-registry"
   | "launch-session"
   | "progress-event"
+  | "collection-inventory"
   | "media-manifest"
   | "deployment-profile"
   | "teacher-report-package"
@@ -125,6 +126,23 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     requiresEventAcceptanceGate: true,
     recommendedFirstPilotStore: ["hosted-database", "local-classroom-store", "school-policy"],
     note: "This stream powers reports and recovery, but it must preserve event effect taxonomy, require a passed event acceptance gate, and have retention/export/access policy before real student storage.",
+  },
+  {
+    recordId: "earned-collection-inventory-record",
+    category: "collection-inventory",
+    label: "Earned collection inventory record",
+    readiness: "policy-required",
+    sourceOfTruth: "Reward catalog, collection unlock events, learner inventory snapshots, mastery rule snapshots",
+    requiredBeforePilot: true,
+    containsStudentData: true,
+    containsMediaRights: false,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesEarnedCollectionRules: true,
+    rejectsRandomRewardPressure: true,
+    recommendedFirstPilotStore: ["hosted-database", "local-classroom-store", "school-policy"],
+    note: "Student-owned collection items need durable ownership records, but unlocks must come from accepted mastery/completion events rather than random pressure loops or purchase-like mechanics.",
   },
   {
     recordId: "media-manifest-rights-record",
@@ -350,6 +368,18 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     visibleTo: ["Teacher", "Tenant admin", "Student summary"],
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision: "Set retention, privacy, export, and parent/school policy before storing real student data.",
+  },
+  {
+    boundaryId: "collection-inventory-boundary",
+    category: "collection-inventory",
+    label: "Earned collection inventory",
+    status: "needs-policy",
+    recordShape: "Collection item ownership, reward id, reward kind, unlock source event, earned-at time, mastery rule snapshot",
+    whyItMatters:
+      "Avatars, room items, titles, cosmetics, companion evolution, and power-ups are core engagement features, but ownership must remain deterministic and mastery-earned.",
+    visibleTo: ["Student summary", "Teacher", "Tenant admin", "School admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision: "Define collection ownership storage, retention, export, and local fallback before real student accounts or long-term progression are enabled.",
   },
   {
     boundaryId: "teacher-report-package-boundary",

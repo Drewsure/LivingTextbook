@@ -2,7 +2,7 @@
 
 Document type: foundation data contract  
 Status: active scaffold  
-Last updated: 2026-07-09
+Last updated: 2026-07-12
 
 ## Purpose
 
@@ -40,6 +40,7 @@ The scaffold currently tracks:
 - QR and route registry records.
 - Teacher launch session and settings records.
 - Progress and media event stream records.
+- Earned collection inventory records.
 - Media manifest and rights records.
 - Deployment profile records.
 - Report export and retention policy records.
@@ -80,6 +81,8 @@ These records protect the platform from treating a controlled demo as a real pil
 - Core persistence must not store learner transcripts.
 - Student-data records require privacy, retention, export, access-control, and school/parent policy before pilot use.
 - Teacher session settings belong with launch-session records.
+- Earned collection inventory must preserve deterministic mastery-earned unlock rules.
+- Earned collection inventory must reject random reward pressure, paid gacha-like ownership, and support-only unlocks.
 - Package approval ledgers require approver identity and policy rules before real sign-offs are stored.
 - Package publish gates must not mark a package pilot-publishable while release-blocking items remain open.
 - Local/closed deployment capable records must preserve a local classroom store path.

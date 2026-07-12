@@ -2,7 +2,7 @@
 
 Document type: foundation data contract  
 Status: active scaffold  
-Last updated: 2026-07-10
+Last updated: 2026-07-12
 
 ## Purpose
 
@@ -33,6 +33,12 @@ The current draft includes:
 - Media manifest and rights
 - Teacher launch session
 - Progress and media event
+- Earned collection inventory
+- Teacher report package boundary
+- Package release candidate
+- Publisher maintenance change request
+- Local companion handoff checklist
+- Local companion release gate
 - Package publish gate
 - Package approval ledger
 
@@ -55,6 +61,8 @@ Each entity should name:
 - Raw learner audio and transcripts stay out of core schema.
 - Media files live in object storage or local bundles; schema stores manifests and rights metadata.
 - Package game/audio coverage stores release metadata only, not raw audio files or learner recordings.
+- Earned collection inventory stores deterministic mastery-earned ownership only; random reward pressure and paid gacha-like ownership are forbidden.
+- Progress events and collection inventory must preserve support-only boundaries so assist language, media, or route guidance cannot unlock mastery.
 - Support language never unlocks target-language progression.
 - AI Tutor and speech scoring stay premium-gated and disabled unless tenant policy accepts them.
 - Local and hosted implementations must preserve the same record vocabulary.

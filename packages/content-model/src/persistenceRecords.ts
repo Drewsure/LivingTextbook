@@ -4,6 +4,7 @@ export type PersistenceRecordCategory =
   | "route-registry"
   | "launch-session"
   | "progress-event-stream"
+  | "collection-inventory"
   | "media-manifest"
   | "deployment-profile"
   | "report-export-policy"
@@ -45,6 +46,8 @@ export interface DurableRecordContract {
   preservesEventEffectTaxonomy?: boolean;
   requiresEventAcceptanceGate?: boolean;
   preservesReportEventAcceptanceSummary?: boolean;
+  preservesEarnedCollectionRules?: boolean;
+  rejectsRandomRewardPressure?: boolean;
   recommendedFirstPilotStore: PersistenceStorageTier[];
   note: string;
 }
@@ -98,6 +101,14 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "teacher-report-package" && !record.preservesReportEventAcceptanceSummary) {
       errors.push(`Teacher report package durable record ${record.recordId} must preserve event acceptance summaries.`);
+    }
+
+    if (record.category === "collection-inventory" && !record.preservesEarnedCollectionRules) {
+      errors.push(`Collection inventory durable record ${record.recordId} must preserve earned collection rules.`);
+    }
+
+    if (record.category === "collection-inventory" && !record.rejectsRandomRewardPressure) {
+      errors.push(`Collection inventory durable record ${record.recordId} must reject random reward pressure.`);
     }
 
     if (record.supportsLocalDeployment && !record.recommendedFirstPilotStore.includes("local-classroom-store")) {

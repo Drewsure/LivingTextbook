@@ -144,6 +144,7 @@
 - `DR-170-private-assignment-link-verifier.md`
 - `DR-171-earned-collection-room-route.md`
 - `DR-172-earned-collection-readiness-verifier.md`
+- `DR-173-earned-collection-storage-contract.md`
 
 ## Maintenance Rule
 

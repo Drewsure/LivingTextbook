@@ -2,7 +2,7 @@
 
 Document type: foundation implementation contract  
 Status: active scaffold  
-Last updated: 2026-07-09
+Last updated: 2026-07-12
 
 ## Purpose
 
@@ -24,7 +24,7 @@ Current files:
 
 ## Sequencing Rule
 
-Migrate identity-light administrative records first, then route/package release control, then teacher sessions, then event streams and reports.
+Migrate identity-light administrative records first, then route/package release control, then teacher sessions, then event streams, collection inventory, and reports.
 
 Do not store real student progress until policy, retention, export, and access rules are accepted.
 
@@ -37,7 +37,8 @@ Do not store real student progress until policy, retention, export, and access r
 5. Publish gate and approval ledger records.
 6. Teacher launch session and settings records.
 7. Progress and media event stream records.
-8. Local classroom export and restore records.
+8. Earned collection inventory records.
+9. Local classroom export and restore records.
 
 ## Required Per Candidate
 
@@ -59,6 +60,7 @@ Each candidate must define:
 - Migrations must preserve tenant boundaries and release-control records.
 - Raw learner audio and transcripts stay out of core storage.
 - Hosted and local implementations must use the same record vocabulary.
+- Collection inventory must be deterministic, mastery-earned, exportable, and blocked from random pressure or purchase-like unlock paths.
 - Every migration candidate needs rollback or export expectations before implementation.
 
 ## Non-Goals

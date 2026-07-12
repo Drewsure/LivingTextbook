@@ -27,6 +27,7 @@ This is a bridge between product architecture and implementation. It names the r
 - Specs must not store unreviewed PDF material as student-facing content.
 - Specs must support hosted and local-classroom vocabulary where practical.
 - Progress events remain policy-blocked until student identity, retention, consent, and reporting policy are accepted.
+- Earned collection inventory remains policy-blocked until student identity, export, retention, and reward catalog rules are accepted.
 
 ## Current Pilot Specs
 
@@ -35,6 +36,11 @@ This is a bridge between product architecture and implementation. It names the r
 - Package game/audio coverage snapshot.
 - Permanent QR alias store.
 - Progress event stream.
+- Earned collection inventory.
+- Teacher report package boundary.
+- Publisher maintenance change request.
+- Local companion handoff checklist.
+- Local companion release gate.
 
 ## Implementation Gate
 
@@ -55,4 +61,5 @@ Before real backend migrations are written, the project must confirm:
 - Each spec names field shape, indexes, retention, export, local fallback, and policy blockers.
 - Specs do not imply that production storage is ready.
 - The progress event stream is visibly policy-blocked.
+- The earned collection inventory is visibly policy-blocked and rejects random pressure or purchase-like ownership.
 - Future backend work can map these specs to Supabase, Firebase, SQLite/local, or another store without changing product vocabulary.

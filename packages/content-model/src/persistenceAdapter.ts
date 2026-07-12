@@ -24,6 +24,8 @@ export interface PersistenceWriteIntent {
   preservesGameAudioCoverageSnapshot?: boolean;
   preservesTeacherSessionSettingsSnapshot?: boolean;
   preservesTeacherSessionEventAcceptanceGate?: boolean;
+  preservesEarnedCollectionRules?: boolean;
+  rejectsRandomRewardPressure?: boolean;
   note: string;
 }
 
@@ -112,6 +114,14 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "teacher-report-package" && !intent.preservesReportEventAcceptanceSummary) {
       errors.push(`Teacher report package write intent ${intent.intentId} must preserve event acceptance summaries.`);
+    }
+
+    if (intent.category === "collection-inventory" && !intent.preservesEarnedCollectionRules) {
+      errors.push(`Collection inventory write intent ${intent.intentId} must preserve earned collection rules.`);
+    }
+
+    if (intent.category === "collection-inventory" && !intent.rejectsRandomRewardPressure) {
+      errors.push(`Collection inventory write intent ${intent.intentId} must reject random reward pressure.`);
     }
 
     if (intent.intentId.includes("package-audio-coverage") && !intent.preservesGameAudioCoverageSnapshot) {

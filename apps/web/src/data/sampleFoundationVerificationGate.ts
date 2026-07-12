@@ -114,7 +114,7 @@ export const sampleFoundationVerificationGate: FoundationVerificationGate = {
       command: "npm run verify:backend-storage",
       status: "pass",
       protects: "Backend schema, migration candidates, migration specs, durable records, and adapter plans preserve the same vendor-neutral storage contract.",
-      evidence: "The verifier checks schema entities, migration candidates, migration specs, raw-audio/transcript exclusions, event acceptance gates, and hosted/local launch-session writes.",
+      evidence: "The verifier checks schema entities, migration candidates, migration specs, raw-audio/transcript exclusions, event acceptance gates, earned collection storage, and hosted/local launch-session writes.",
       nextStep: "Run this before backend selection or any vendor-specific migration work.",
     },
     {

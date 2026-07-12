@@ -1,6 +1,11 @@
 export type BackendMigrationSpecStatus = "draft" | "ready-for-review" | "blocked-by-policy";
 
-export type BackendMigrationSpecStoreKind = "admin-record" | "release-record" | "session-record" | "event-record";
+export type BackendMigrationSpecStoreKind =
+  | "admin-record"
+  | "release-record"
+  | "session-record"
+  | "event-record"
+  | "collection-record";
 
 export interface BackendMigrationSpecField {
   name: string;
@@ -418,6 +423,76 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
         "Student identity model, retention length, guardian consent, and speech-report policy must be accepted before production writes.",
         "Progress event writes must be blocked until the related launch session has a passed event acceptance gate.",
         "Report aggregation must ignore support-only events for mastery, Star Dust, and unlock calculations.",
+      ],
+    },
+    {
+      specId: "spec-earned-collection-inventory",
+      label: "Earned collection inventory",
+      candidateId: "m013-earned-collection-inventory",
+      storeKind: "collection-record",
+      status: "blocked-by-policy",
+      purpose:
+        "Stores learner-owned reward items and avatar/room/companion progression while preserving deterministic mastery-earned unlock rules.",
+      primaryKey: "collection_item_id",
+      tenantScope: "Scoped by tenant_id, launch_session_id, learner_code, reward_id, and reward_catalog_revision.",
+      fields: [
+        {
+          name: "collection_item_id",
+          type: "string",
+          required: true,
+          note: "Stable id for one owned reward or collection state.",
+        },
+        {
+          name: "learner_code",
+          type: "coded string",
+          required: true,
+          note: "Identity-light student code aligned with roster and progress event records.",
+        },
+        {
+          name: "reward_id",
+          type: "string",
+          required: true,
+          note: "Reviewed reward catalog id.",
+        },
+        {
+          name: "reward_kind",
+          type: "string enum",
+          required: true,
+          note: "Badge, title, cosmetic, room item, companion evolution, palette, or power-up.",
+        },
+        {
+          name: "unlock_source_event_id",
+          type: "string",
+          required: true,
+          note: "Accepted mastery/completion/progress event that created ownership.",
+        },
+        {
+          name: "mastery_rule_snapshot",
+          type: "json",
+          required: true,
+          note: "Deterministic rule used for the unlock. No random reward seed, purchase state, or pressure loop.",
+        },
+        {
+          name: "reward_catalog_revision",
+          type: "string",
+          required: true,
+          note: "Reward catalog version used when ownership was created.",
+        },
+        {
+          name: "ownership_status",
+          type: "string enum",
+          required: true,
+          note: "Owned, revoked-by-policy, archived, or migrated.",
+        },
+      ],
+      indexes: ["tenant_id + launch_session_id + learner_code", "reward_id", "unlock_source_event_id unique", "reward_catalog_revision"],
+      retentionRule: "Retain according to school/tenant progression policy; collection history must be exportable before long-term student accounts are enabled.",
+      exportRule: "Must export as JSON with reward id, reward kind, unlock source event, and rule snapshot for hosted and local deployments.",
+      localFallback: "Local classroom deployments store the same inventory JSON beside local progress export packages.",
+      policyBlockers: [
+        "Student identity, retention, export, and parent/school visibility policy must be accepted before production writes.",
+        "Collection ownership must be derived from target-language mastery or completion events, not support-only events.",
+        "Random pressure loops, paid gacha-like mechanics, and purchase-like ownership states are blocked.",
       ],
     },
     {

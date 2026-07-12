@@ -132,6 +132,18 @@ export function PersistenceAdapterReadinessPanel({
                         <dd className="mt-1">{intent.preservesReportEventAcceptanceSummary ? "Preserved" : "Needs review"}</dd>
                       </div>
                     )}
+                    {intent.category === "collection-inventory" && (
+                      <div>
+                        <dt className="font-semibold text-[var(--tenant-text)]">Collection rules</dt>
+                        <dd className="mt-1">{intent.preservesEarnedCollectionRules ? "Mastery earned" : "Needs review"}</dd>
+                      </div>
+                    )}
+                    {intent.category === "collection-inventory" && (
+                      <div>
+                        <dt className="font-semibold text-[var(--tenant-text)]">Random pressure</dt>
+                        <dd className="mt-1">{intent.rejectsRandomRewardPressure ? "Blocked" : "Needs review"}</dd>
+                      </div>
+                    )}
                     {intent.intentId.includes("package-audio-coverage") && (
                       <div>
                         <dt className="font-semibold text-[var(--tenant-text)]">Game/audio snapshot</dt>
