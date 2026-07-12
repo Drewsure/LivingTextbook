@@ -73,7 +73,7 @@ For each reviewed unit package, the teacher/admin package should name:
 
 This preserves the time-saving value of template switching while keeping young learner flow, reporting, and white-label governance stable.
 
-The current sample implementation is recorded in `docs/TEACHER_AUTHORING_READINESS_CONTRACT.md`, `docs/ACTIVITY_PATHWAY_COMPATIBILITY_MATRIX.md`, `docs/PRINTABLE_OUTPUT_READINESS_CONTRACT.md`, `docs/PRIVATE_TENANT_LIBRARY_CONTRACT.md`, and shown on `/teacher/intake`.
+The current sample implementation is recorded in `docs/TEACHER_AUTHORING_READINESS_CONTRACT.md`, `docs/ACTIVITY_PATHWAY_COMPATIBILITY_MATRIX.md`, `docs/PRINTABLE_OUTPUT_READINESS_CONTRACT.md`, `docs/PRIVATE_TENANT_LIBRARY_CONTRACT.md`, `docs/TARGET_LANGUAGE_EXPANSION_CONTRACT.md`, and shown on `/teacher/intake`.
 
 ## Community Library Standard
 
@@ -107,3 +107,5 @@ Future target-language support should consider:
 - Japanese teacher review and school-specific curriculum rules.
 
 This is plausible and valuable for white-label expansion, but should be planned as a target-language expansion, not as an assist-language tweak.
+
+The active foundation gate for this opportunity is `docs/TARGET_LANGUAGE_EXPANSION_CONTRACT.md`.

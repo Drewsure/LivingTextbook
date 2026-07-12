@@ -127,6 +127,7 @@
 - `DR-153-printable-output-readiness.md`
 - `DR-154-private-tenant-library-first.md`
 - `DR-155-teacher-authoring-readiness.md`
+- `DR-156-target-language-expansion-readiness.md`
 
 ## Maintenance Rule
 

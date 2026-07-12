@@ -8,6 +8,7 @@ Related:
 - `docs/adr/0010-reviewed-assist-language-packages.md`
 - `docs/adr/0013-support-only-assist-language.md`
 - `docs/ASSIST_LANGUAGE_VERIFICATION.md`
+- `docs/TARGET_LANGUAGE_EXPANSION_CONTRACT.md`
 
 ## Product Rule
 
@@ -56,6 +57,8 @@ Future Japanese target-language packages should plan for:
 
 Do not treat MiniStar Japanese assist copy as proof that the platform is already ready for Japanese-as-target-language pilots.
 
+The current foundation gate for this is recorded in `docs/TARGET_LANGUAGE_EXPANSION_CONTRACT.md` and shown on `/teacher/intake`.
+
 ## White-Label Requirements
 
 Tenant settings should represent:
@@ -93,4 +96,4 @@ MiniStar Level 1 Unit 1 includes a reviewed Japanese assist plan for greetings. 
 - Teacher/admin workflow for approving AI-drafted translations.
 - Per-student language preference persistence.
 - Explicit content-model fields for assist progression role and script policy.
-- Explicit target-language expansion fields for Japanese script, furigana, and segmentation policy.
+- Durable content-model fields for target-language expansion roles, Japanese script policy, furigana, and segmentation policy.

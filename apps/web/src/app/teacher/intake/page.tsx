@@ -9,6 +9,7 @@ import { samplePrintableOutputPlan } from "@/data/samplePrintableOutputPlan";
 import { sampleActiveRouteMatrix } from "@/data/sampleActiveRouteMatrix";
 import { sampleAuthoringVerifierPlan } from "@/data/sampleAuthoringVerifierPlan";
 import { sampleTeacherAuthoringReadinessPlan } from "@/data/sampleTeacherAuthoringReadiness";
+import { sampleTargetLanguageExpansionPlan } from "@/data/sampleTargetLanguageExpansionPlan";
 import {
   sampleClassRosterErrors,
   sampleClassRosterPlans,
@@ -74,6 +75,7 @@ import { LocalBundleManifestPanel } from "@/features/deployment/LocalBundleManif
 import { ActivityPathwayCompatibilityPanel } from "@/features/game-offers/ActivityPathwayCompatibilityPanel";
 import { GamePrototypeAssignmentPanel } from "@/features/game-offers/GamePrototypeAssignmentPanel";
 import { UnitGameOfferMapPanel } from "@/features/game-offers/UnitGameOfferMapPanel";
+import { TargetLanguageExpansionPanel } from "@/features/language/TargetLanguageExpansionPanel";
 import { GameBackgroundMediaPolicyPanel } from "@/features/multimedia/GameBackgroundMediaPolicyPanel";
 import { CompetitiveFeatureCoveragePanel } from "@/features/policy/CompetitiveFeatureCoveragePanel";
 import { FoundationVerificationGatePanel } from "@/features/policy/FoundationVerificationGatePanel";
@@ -133,6 +135,7 @@ export default function TeacherIntakePage() {
         <PackageApprovalLedgerPanel ledger={samplePackageApprovalLedger} />
         <PublisherMaintenancePlanPanel plan={samplePublisherMaintenancePlan} />
         <TenantLibraryPlanPanel plan={sampleTenantLibraryPlan} />
+        <TargetLanguageExpansionPanel plan={sampleTargetLanguageExpansionPlan} />
         <ActivityPathwayCompatibilityPanel matrix={sampleActivityPathwayCompatibilityMatrix} />
         <PrintableOutputReadinessPanel plan={samplePrintableOutputPlan} />
         <UnitGameOfferMapPanel map={sampleUnitGameOfferMap} />

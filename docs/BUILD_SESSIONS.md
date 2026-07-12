@@ -29,6 +29,7 @@ Outputs:
 - `/teacher/intake` exposes printable output readiness so worksheet/PDF expectations are planned without pretending export is ready.
 - `/teacher/intake` exposes private tenant library planning so community-resource expectations have a safe v1 workaround before public sharing.
 - `/teacher/intake` exposes teacher authoring readiness so fast creation/editing remains draft-first and review-gated.
+- `/teacher/intake` exposes target-language expansion readiness so Japanese-as-target-language and other non-English target-language opportunities are not confused with assist-language support.
 
 ## Session 1: First Vertical Slice
 
@@ -139,6 +140,7 @@ Next outputs:
 - Assist-language review workflow for PDF/imported units.
 - Optional recorded assist-language audio cues.
 - Broader UI localization later, separate from learning-content assist.
+- Target-language expansion remains visible on `/teacher/intake`; Japanese target-language pilots stay blocked until script policy, segmentation, audio, input, and teacher review gates pass.
 
 ## Session 3: Content Package And PDF Unit Onboarding
 
@@ -274,6 +276,7 @@ Next outputs:
 - Confirm `/teacher/intake` shows the printable output readiness panel before worksheet/PDF implementation begins.
 - Confirm `/teacher/intake` shows the private tenant library plan before teacher authoring, copy/edit, sharing, or public-community work begins.
 - Confirm `/teacher/intake` shows the teacher authoring readiness panel before live teacher editor or copy/edit implementation begins.
+- Confirm `/teacher/intake` shows the target-language expansion readiness panel before Japanese target-language or other non-English target-language pilots are scoped.
 - Confirm curated activity pathways remain the default teacher-facing answer to switch-template style expectations.
 - Confirm the approval ledger does not imply real signed approvals before authentication and persistence exist.
 - Confirm the durable record map includes publish gate and approval ledger records.

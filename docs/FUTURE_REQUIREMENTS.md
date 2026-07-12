@@ -292,7 +292,7 @@ References:
 
 ## FR-007: Japanese As Target Language For White-Label Tenants
 
-Status: Planned opportunity; not part of the current MiniStar English pilot.
+Status: Planned opportunity with a visible readiness gate; not part of the current MiniStar English pilot.
 
 Requirement: Preserve the option for Japanese-language schools to use the platform with Japanese as the target learning language.
 
@@ -313,6 +313,12 @@ Future capabilities:
 - Teacher-reviewed Japanese curriculum rules.
 - Optional handwriting or stroke-order modes later.
 
+Current scaffold:
+
+- `docs/TARGET_LANGUAGE_EXPANSION_CONTRACT.md` records the target-language expansion contract.
+- `/teacher/intake` shows Japanese target-language readiness and blockers.
+- `npm run verify:target-language` checks that the plan, route verification, and assist-language boundary remain in place.
+
 Revisit when:
 
 - A Japanese-language school or publisher opportunity appears.
@@ -324,4 +330,5 @@ References:
 
 - `docs/ASSIST_LANGUAGE_STANDARD.md`
 - `docs/COMPETITIVE_FEATURE_COVERAGE_MATRIX.md`
+- `docs/TARGET_LANGUAGE_EXPANSION_CONTRACT.md`
 - `docs/PRINCIPLES_AND_STANDARDS.md`
