@@ -116,6 +116,7 @@
 - `DR-142-progress-event-acceptance-gate-write-intents.md`
 - `DR-143-report-package-event-acceptance-storage.md`
 - `DR-144-durable-record-event-acceptance-safeguards.md`
+- `DR-145-progress-event-taxonomy-revision-contract.md`
 
 ## Maintenance Rule
 

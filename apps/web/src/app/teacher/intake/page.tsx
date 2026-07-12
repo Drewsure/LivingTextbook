@@ -24,7 +24,7 @@ import { samplePackageApprovalLedger } from "@/data/samplePackageApprovalLedger"
 import { samplePackagePublishGate } from "@/data/samplePackagePublishGate";
 import { samplePilotHandoffPackage } from "@/data/samplePilotHandoffPackage";
 import { samplePilotSourceStrategy } from "@/data/samplePilotSourceStrategy";
-import { sampleProgressEventTaxonomy } from "@/data/sampleProgressEventTaxonomy";
+import { sampleProgressEventTaxonomyRegistry } from "@/data/sampleProgressEventTaxonomy";
 import {
   samplePersistenceAdapterErrors,
   samplePersistenceAdapterPlans,
@@ -127,7 +127,7 @@ export default function TeacherIntakePage() {
           warnings={sampleTeacherAssignmentWarnings}
         />
         <TeacherAssignmentRolloutPanel plans={sampleAssignmentRolloutPlans} />
-        <ProgressEventTaxonomyPanel events={sampleProgressEventTaxonomy} />
+        <ProgressEventTaxonomyPanel taxonomy={sampleProgressEventTaxonomyRegistry} />
         <ClassRosterReadinessPanel
           plans={sampleClassRosterPlans}
           errors={sampleClassRosterErrors}

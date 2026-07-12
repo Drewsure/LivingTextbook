@@ -1,11 +1,12 @@
 import { Card, StatusPill } from "@living-textbook/ui";
-import type { ProgressEventEffect, ProgressEventTaxonomyItem } from "@/data/sampleProgressEventTaxonomy";
+import type { ProgressEventEffect, ProgressEventTaxonomyRegistry } from "@/data/sampleProgressEventTaxonomy";
 
 interface ProgressEventTaxonomyPanelProps {
-  events: ProgressEventTaxonomyItem[];
+  taxonomy: ProgressEventTaxonomyRegistry;
 }
 
-export function ProgressEventTaxonomyPanel({ events }: ProgressEventTaxonomyPanelProps) {
+export function ProgressEventTaxonomyPanel({ taxonomy }: ProgressEventTaxonomyPanelProps) {
+  const events = taxonomy.events;
   const progressAffectingCount = events.filter((event) => event.effect === "progress-affecting").length;
   const supportOnlyCount = events.filter((event) => event.effect === "support-only").length;
 
@@ -19,13 +20,31 @@ export function ProgressEventTaxonomyPanel({ events }: ProgressEventTaxonomyPane
             Backend storage and teacher reports must preserve the difference between mastery evidence, report-only activity, and support-only help.
           </p>
         </div>
-        <StatusPill label={`${events.length} event types`} tone="success" />
+        <div className="flex flex-wrap gap-2">
+          <StatusPill label={taxonomy.taxonomyVersion} tone="neutral" />
+          <StatusPill label={`${events.length} event types`} tone="success" />
+        </div>
       </div>
 
       <div className="mt-4 grid gap-3 sm:grid-cols-3">
         <TaxonomySummary label="Progress-affecting" value={String(progressAffectingCount)} tone="success" />
         <TaxonomySummary label="Support-only" value={String(supportOnlyCount)} tone="warning" />
         <TaxonomySummary label="Teacher visible" value={String(events.filter((event) => event.teacherVisible).length)} tone="neutral" />
+      </div>
+
+      <div className="mt-4 grid gap-3 lg:grid-cols-2">
+        <section className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3">
+          <h3 className="text-sm font-bold text-[var(--tenant-text)]">Required event fields</h3>
+          <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">{taxonomy.requiredEventFields.join(", ")}</p>
+        </section>
+        <section className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3">
+          <h3 className="text-sm font-bold text-[var(--tenant-text)]">Change control</h3>
+          <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">{taxonomy.changeControl}</p>
+        </section>
+        <section className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3 lg:col-span-2">
+          <h3 className="text-sm font-bold text-[var(--tenant-text)]">Storage rule</h3>
+          <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">{taxonomy.storageRule}</p>
+        </section>
       </div>
 
       <div className="mt-5 grid gap-3 md:grid-cols-2">
@@ -75,4 +94,3 @@ function getEffectTone(effect: ProgressEventEffect): "neutral" | "success" | "wa
 
   return "neutral";
 }
-

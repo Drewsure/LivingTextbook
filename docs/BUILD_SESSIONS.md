@@ -246,6 +246,7 @@ Next outputs:
 - Confirm recommended game route cards separate `Listen` from `Open` so audio support never causes navigation or unlocks by itself.
 - Confirm recommended route listen taps are reportable as `route_guidance_listened`, with no Star Dust, mastery, or unlock effect.
 - Confirm `/teacher/intake` shows the progress event taxonomy before backend event storage is finalized.
+- Confirm `/teacher/intake` shows the progress event taxonomy revision and required event fields before backend event storage is finalized.
 - Confirm backend schema and migration specs preserve event effect taxonomy before progress-event storage is implemented.
 - Confirm progress-event persistence write intents preserve event effect taxonomy in hosted and local adapters.
 - Confirm package game/audio coverage write intents show machine-readable snapshot preservation.

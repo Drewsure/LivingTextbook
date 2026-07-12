@@ -28,6 +28,21 @@ Backend planning references the same idea through:
 
 - `event_effect`
 - `taxonomy_version`
+- `event_acceptance_gate_id`
+
+Current scaffold revision:
+
+- `taxonomy-v2026.07.foundation`
+
+Required event fields for hosted or local storage:
+
+- `event_id`
+- `event_type`
+- `event_effect`
+- `taxonomy_version`
+- `event_acceptance_gate_id`
+- `metadata`
+- `occurred_at`
 
 ## Hard Rules
 
@@ -39,3 +54,4 @@ Backend planning references the same idea through:
 - Answer results and mastery updates are the main item-level evidence events.
 - Random rewards must not be introduced through event taxonomy changes.
 - Backend report queries must ignore `support-only` events for mastery, Star Dust, and unlock calculations.
+- New game, media, route-guidance, speech, AI Tutor, or reward events must be classified in the taxonomy before pilot release.

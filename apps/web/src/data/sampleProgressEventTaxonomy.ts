@@ -11,6 +11,16 @@ export interface ProgressEventTaxonomyItem {
   notAllowed: string[];
 }
 
+export interface ProgressEventTaxonomyRegistry {
+  taxonomyVersion: string;
+  label: string;
+  status: "active-scaffold" | "ready-for-policy-review";
+  requiredEventFields: string[];
+  storageRule: string;
+  changeControl: string;
+  events: ProgressEventTaxonomyItem[];
+}
+
 export const sampleProgressEventTaxonomy: ProgressEventTaxonomyItem[] = [
   {
     eventType: "launch_opened",
@@ -165,3 +175,15 @@ export const sampleProgressEventTaxonomy: ProgressEventTaxonomyItem[] = [
     notAllowed: ["Do not imply production persistence in the current scaffold."],
   },
 ];
+
+export const sampleProgressEventTaxonomyRegistry: ProgressEventTaxonomyRegistry = {
+  taxonomyVersion: "taxonomy-v2026.07.foundation",
+  label: "Foundation progress event taxonomy",
+  status: "active-scaffold",
+  requiredEventFields: ["event_id", "event_type", "event_effect", "taxonomy_version", "event_acceptance_gate_id", "metadata", "occurred_at"],
+  storageRule:
+    "Every hosted or local progress-event write must preserve event_effect, taxonomy_version, and the event acceptance gate reference before it can be used for reporting or mastery.",
+  changeControl:
+    "New game, media, route-guidance, speech, AI Tutor, or reward events must be classified here before a package can be called pilot-ready.",
+  events: sampleProgressEventTaxonomy,
+};
