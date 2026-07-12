@@ -11,6 +11,7 @@ Related:
 - `docs/BUILD_SESSIONS.md`
 - `docs/UNIT_GAME_OFFER_MAP_CONTRACT.md`
 - `docs/LOCAL_OFFLINE_BUNDLE_CONTRACT.md`
+- `docs/SHARE_EMBED_READINESS_CONTRACT.md`
 
 ## Purpose
 
@@ -73,7 +74,7 @@ For each reviewed unit package, the teacher/admin package should name:
 
 This preserves the time-saving value of template switching while keeping young learner flow, reporting, and white-label governance stable.
 
-The current sample implementation is recorded in `docs/TEACHER_AUTHORING_READINESS_CONTRACT.md`, `docs/ACTIVITY_PATHWAY_COMPATIBILITY_MATRIX.md`, `docs/PRINTABLE_OUTPUT_READINESS_CONTRACT.md`, `docs/PRIVATE_TENANT_LIBRARY_CONTRACT.md`, `docs/TARGET_LANGUAGE_EXPANSION_CONTRACT.md`, and shown on `/teacher/intake`.
+The current sample implementation is recorded in `docs/TEACHER_AUTHORING_READINESS_CONTRACT.md`, `docs/ACTIVITY_PATHWAY_COMPATIBILITY_MATRIX.md`, `docs/PRINTABLE_OUTPUT_READINESS_CONTRACT.md`, `docs/PRIVATE_TENANT_LIBRARY_CONTRACT.md`, `docs/TARGET_LANGUAGE_EXPANSION_CONTRACT.md`, `docs/SHARE_EMBED_READINESS_CONTRACT.md`, and shown on `/teacher/intake`.
 
 ## Community Library Standard
 
@@ -89,6 +90,14 @@ Build order:
 Public community sharing is not a v1 requirement.
 
 The current private library planning contract is recorded in `docs/PRIVATE_TENANT_LIBRARY_CONTRACT.md`.
+
+## Share And Embed Standard
+
+Private assignment links and stable QR routes are the first sharing model.
+
+Public share links, website iframe embeds, and public community discovery remain blocked for v1 until tenant access control, report boundaries, rights visibility, embed origin policy, moderation, and quality controls exist.
+
+The current share/embed planning contract is recorded in `docs/SHARE_EMBED_READINESS_CONTRACT.md`.
 
 ## Japanese Target-Language Opportunity
 

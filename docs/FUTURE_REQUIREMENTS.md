@@ -332,3 +332,44 @@ References:
 - `docs/COMPETITIVE_FEATURE_COVERAGE_MATRIX.md`
 - `docs/TARGET_LANGUAGE_EXPANSION_CONTRACT.md`
 - `docs/PRINCIPLES_AND_STANDARDS.md`
+
+## FR-008: Private Assignment Sharing And Future Embeds
+
+Status: Planned with a visible readiness gate; public sharing and iframe embeds are blocked for v1.
+
+Requirement: Preserve share-link and embed opportunities without weakening tenant privacy, student reporting, package rights, or young-learner focus.
+
+Accepted direction:
+
+- Private assignment links and stable QR routes come first.
+- Teacher colleague sharing should happen inside private tenant libraries through copy-as-draft and review.
+- Public share links are blocked for v1.
+- Website iframe embeds are optional later.
+- Public community discovery is blocked for v1.
+
+Future capabilities:
+
+- Assignment link records tied to reviewed package versions.
+- Tenant-scoped access control.
+- Report package boundaries for shared assignments.
+- Embed origin allowlists, sandbox policy, token expiry, and fallback links.
+- Rights and visibility checks before public or embedded sharing.
+
+Current scaffold:
+
+- `docs/SHARE_EMBED_READINESS_CONTRACT.md` records the share/embed contract.
+- `/teacher/intake` shows share/embed readiness and blockers.
+- `npm run verify:share-embed` checks the plan and route verification.
+
+Revisit when:
+
+- Assignment persistence is implemented.
+- Teacher colleague sharing begins.
+- Public visibility, embed, or community library work is proposed.
+- A publisher asks to place playable activities inside an external site.
+
+References:
+
+- `docs/SHARE_EMBED_READINESS_CONTRACT.md`
+- `docs/PRIVATE_TENANT_LIBRARY_CONTRACT.md`
+- `docs/COMPETITIVE_FEATURE_COVERAGE_MATRIX.md`

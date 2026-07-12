@@ -28,6 +28,7 @@ Outputs:
 - `/teacher/intake` exposes activity pathway compatibility so offered, planned, premium, teacher-review, and blocked outputs are visible before authoring or printables are built.
 - `/teacher/intake` exposes printable output readiness so worksheet/PDF expectations are planned without pretending export is ready.
 - `/teacher/intake` exposes private tenant library planning so community-resource expectations have a safe v1 workaround before public sharing.
+- `/teacher/intake` exposes share/embed readiness so private assignment links can advance while public sharing and iframe embeds remain gated.
 - `/teacher/intake` exposes teacher authoring readiness so fast creation/editing remains draft-first and review-gated.
 - `/teacher/intake` exposes target-language expansion readiness so Japanese-as-target-language and other non-English target-language opportunities are not confused with assist-language support.
 
@@ -275,6 +276,7 @@ Next outputs:
 - Confirm `/teacher/intake` shows the activity pathway compatibility panel before template conversion, printable, or text-puzzle work begins.
 - Confirm `/teacher/intake` shows the printable output readiness panel before worksheet/PDF implementation begins.
 - Confirm `/teacher/intake` shows the private tenant library plan before teacher authoring, copy/edit, sharing, or public-community work begins.
+- Confirm `/teacher/intake` shows the share/embed readiness panel before public links, iframe embeds, colleague sharing, or public community discovery work begins.
 - Confirm `/teacher/intake` shows the teacher authoring readiness panel before live teacher editor or copy/edit implementation begins.
 - Confirm `/teacher/intake` shows the target-language expansion readiness panel before Japanese target-language or other non-English target-language pilots are scoped.
 - Confirm curated activity pathways remain the default teacher-facing answer to switch-template style expectations.

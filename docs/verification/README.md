@@ -75,6 +75,7 @@ Focused verification supplements:
 - `docs/verification/SENTENCE_BUILDER_PLAYABLE_CHECKS.md`
 - `docs/verification/SENTENCE_BUILDER_DISCOVERY_CHECKS.md`
 - `docs/verification/SENTENCE_BUILDER_REPORTING_CHECKS.md`
+- `docs/verification/SHARE_EMBED_READINESS_CHECKS.md`
 - `docs/verification/SPEAK_IT_CORE_CHECKS.md`
 - `docs/verification/SOURCE_REVIEW_QUEUE_CHECKS.md`
 - `docs/verification/TEACHER_ASSIGNMENT_READINESS_CHECKS.md`

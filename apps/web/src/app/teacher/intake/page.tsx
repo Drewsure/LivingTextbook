@@ -41,6 +41,7 @@ import {
   samplePilotPolicyWarnings,
 } from "@/data/samplePilotPolicyPlan";
 import { samplePublisherMaintenancePlan } from "@/data/samplePublisherMaintenancePlan";
+import { sampleShareEmbedReadinessPlan } from "@/data/sampleShareEmbedReadinessPlan";
 import { sampleTenantLibraryPlan } from "@/data/sampleTenantLibraryPlan";
 import { sampleQrPrintReadinessRecords } from "@/data/sampleQrPrintReadiness";
 import { sampleSourceReviewQueue } from "@/data/sampleSourceReviewQueue";
@@ -99,6 +100,7 @@ import { TenantLibraryPlanPanel } from "@/features/publisher/TenantLibraryPlanPa
 import { EditionQrAliasPanel } from "@/features/routes/EditionQrAliasPanel";
 import { ActiveRouteMatrixPanel } from "@/features/routes/ActiveRouteMatrixPanel";
 import { QrPrintReadinessPanel } from "@/features/routes/QrPrintReadinessPanel";
+import { ShareEmbedReadinessPanel } from "@/features/routes/ShareEmbedReadinessPanel";
 import { TenantRouteRegistryPanel } from "@/features/routes/TenantRouteRegistryPanel";
 import { ClassRosterReadinessPanel } from "@/features/teacher/ClassRosterReadinessPanel";
 import { TeacherAssignmentRolloutPanel } from "@/features/teacher/TeacherAssignmentRolloutPanel";
@@ -135,6 +137,7 @@ export default function TeacherIntakePage() {
         <PackageApprovalLedgerPanel ledger={samplePackageApprovalLedger} />
         <PublisherMaintenancePlanPanel plan={samplePublisherMaintenancePlan} />
         <TenantLibraryPlanPanel plan={sampleTenantLibraryPlan} />
+        <ShareEmbedReadinessPanel plan={sampleShareEmbedReadinessPlan} />
         <TargetLanguageExpansionPanel plan={sampleTargetLanguageExpansionPlan} />
         <ActivityPathwayCompatibilityPanel matrix={sampleActivityPathwayCompatibilityMatrix} />
         <PrintableOutputReadinessPanel plan={samplePrintableOutputPlan} />
