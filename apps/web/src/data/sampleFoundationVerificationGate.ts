@@ -82,6 +82,15 @@ export const sampleFoundationVerificationGate: FoundationVerificationGate = {
       nextStep: "Do not enable Japanese target-language pilots, public links, iframe embeds, or public assignment discovery before the named gates pass.",
     },
     {
+      checkId: "earned-collection-readiness",
+      label: "Earned collection readiness",
+      command: "npm run verify:collection",
+      status: "pass",
+      protects: "Collection mechanics stay deterministic, mastery-earned, and child-safe before premium avatar, room, mascot, or animation polish begins.",
+      evidence: "The verifier checks reward categories, collection routes, no-random copy, and principles around earned collection.",
+      nextStep: "Run this before changing reward categories, avatar/room/companion collection rules, or surprise reward mechanics.",
+    },
+    {
       checkId: "class-roster-readiness",
       label: "Class roster readiness",
       command: "npm run verify:class-roster",

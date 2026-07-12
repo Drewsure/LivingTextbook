@@ -3,6 +3,7 @@
 Run after reward catalog, collection route, student launch rewards, tenant reward names, or progression mechanics change.
 
 ```powershell
+npm run verify:collection
 npm run verify:foundation
 ```
 
