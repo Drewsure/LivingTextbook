@@ -117,6 +117,7 @@
 - `DR-143-report-package-event-acceptance-storage.md`
 - `DR-144-durable-record-event-acceptance-safeguards.md`
 - `DR-145-progress-event-taxonomy-revision-contract.md`
+- `DR-146-progress-event-taxonomy-coverage-verifier.md`
 
 ## Maintenance Rule
 

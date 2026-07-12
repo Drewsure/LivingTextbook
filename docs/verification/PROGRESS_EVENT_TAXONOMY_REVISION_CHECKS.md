@@ -11,9 +11,11 @@ Run after taxonomy, game event, media event, speaking event, AI Tutor event, rew
 - Confirm the required event fields include `event_effect`, `taxonomy_version`, and `event_acceptance_gate_id`.
 - Confirm new event types are classified as progress-affecting, report-only, or support-only before pilot release.
 - Confirm support-only events cannot unlock progress, award Star Dust, update mastery, or replace target-language practice.
+- Confirm `npm run verify:taxonomy` passes.
 
 ## Verification Command
 
 ```powershell
+npm run verify:taxonomy
 npm run verify:foundation
 ```

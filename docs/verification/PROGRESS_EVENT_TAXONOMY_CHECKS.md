@@ -3,6 +3,7 @@
 Run after syncing `legacy-source-import`.
 
 ```powershell
+npm run verify:taxonomy
 npm run typecheck --workspace @living-textbook/web
 npm run build --workspace @living-textbook/web
 ```
