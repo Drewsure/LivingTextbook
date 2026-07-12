@@ -130,6 +130,7 @@
 - `DR-156-target-language-expansion-readiness.md`
 - `DR-157-share-embed-readiness.md`
 - `DR-158-printable-worksheet-preview-route.md`
+- `DR-159-teacher-assist-language-toggle.md`
 
 ## Maintenance Rule
 

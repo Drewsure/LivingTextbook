@@ -36,21 +36,23 @@ On `/`:
 On `/launch/demo-unit-1` and `/enter/ministar` after opening the unit:
 
 1. Confirm flashcard terms still show English as the target learning text.
-2. Confirm Japanese assist appears under each vocabulary term.
-3. Confirm Japanese assist appears under both target sentences.
-4. Confirm the Level 1 student-visible Japanese assist uses hiragana only.
-5. Confirm the entry practice area shows the target-language counter, currently `English listened: 0/10` for the sample unit.
-6. Tap only Japanese assist text and confirm Japanese speech is attempted through browser speech synthesis.
-7. Confirm the target-language counter stays unchanged after Japanese-only taps.
-8. Confirm the completion action stays disabled and does not unlock Memory Match after Japanese-only taps.
-9. Tap English vocabulary terms and confirm English speech works.
-10. Tap both English target sentences and confirm English speech works.
-11. Confirm the target-language counter reaches `10/10` only after all 8 English terms and both English sentence structures have been heard.
-12. Confirm `Mark practice complete` becomes available only after the target-language gate is satisfied.
-13. Complete flashcard practice through the English entry-practice action and confirm the original progression path still works.
-14. Confirm Memory Match unlocks only after entry practice completion.
-15. Start Memory Match and confirm the game still works.
-16. Confirm no live AI translation, AI Tutor, model call, or external translation service is required.
+2. Confirm Japanese assist is hidden by default when the teacher support-language control is off.
+3. Open `/teacher`, enable `Show assist language`, then return to `/launch/demo-unit-1`.
+4. Confirm Japanese assist appears under each vocabulary term.
+5. Confirm Japanese assist appears under both target sentences.
+6. Confirm the Level 1 student-visible Japanese assist uses hiragana only.
+7. Confirm the entry practice area shows the target-language counter, currently `English listened: 0/10` for the sample unit.
+8. Tap only Japanese assist text and confirm Japanese speech is attempted through browser speech synthesis.
+9. Confirm the target-language counter stays unchanged after Japanese-only taps.
+10. Confirm the completion action stays disabled and does not unlock Memory Match after Japanese-only taps.
+11. Tap English vocabulary terms and confirm English speech works.
+12. Tap both English target sentences and confirm English speech works.
+13. Confirm the target-language counter reaches `10/10` only after all 8 English terms and both English sentence structures have been heard.
+14. Confirm `Mark practice complete` becomes available only after the target-language gate is satisfied.
+15. Complete flashcard practice through the English entry-practice action and confirm the original progression path still works.
+16. Confirm Memory Match unlocks only after entry practice completion.
+17. Start Memory Match and confirm the game still works.
+18. Confirm no live AI translation, AI Tutor, model call, or external translation service is required.
 
 ## White-Label Checks
 
@@ -63,6 +65,7 @@ On `/launch/demo-unit-1` and `/enter/ministar` after opening the unit:
 - Silver and later Japanese assist packages may introduce kanji and katakana only after review.
 - Live AI fallback is explicit and disabled by default for the core sample.
 - Assist language support remains separate from full UI localization and optional premium AI Tutor.
+- Teacher-controlled visibility is local scaffold behavior until launch-session settings are persisted.
 
 ## Acceptance Criteria
 

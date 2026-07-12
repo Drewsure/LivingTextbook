@@ -120,7 +120,7 @@ Next outputs:
 
 Purpose: Make multilingual assist support part of the content-package foundation without hard-coding Japanese or depending on live AI translation.
 
-Current status: Implemented on `legacy-source-import`. Shared content-model contracts, MiniStar tenant language settings, and a reviewed MiniStar Japanese sample plan are present. The repository owner pulled the connector-side change and reported local typecheck/build passing. Browser verification remains useful after each follow-up reporting change.
+Current status: Implemented on `legacy-source-import`. Shared content-model contracts, MiniStar tenant language settings, a reviewed MiniStar Japanese sample plan, and a local teacher visibility toggle are present. Browser verification remains useful after each follow-up reporting change.
 
 Implemented path:
 
@@ -137,11 +137,11 @@ Required gate:
 
 Next outputs:
 
-- Teacher toggle/state for showing or hiding assist language.
 - Assist-language review workflow for PDF/imported units.
 - Optional recorded assist-language audio cues.
 - Broader UI localization later, separate from learning-content assist.
 - Target-language expansion remains visible on `/teacher/intake`; Japanese target-language pilots stay blocked until script policy, segmentation, audio, input, and teacher review gates pass.
+- Durable launch-session storage for the teacher assist-language visibility setting.
 
 ## Session 3: Content Package And PDF Unit Onboarding
 

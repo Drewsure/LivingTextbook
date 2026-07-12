@@ -18,6 +18,7 @@ import { MultimediaPackagePanel } from "@/features/multimedia/MultimediaPackageP
 import { WhiteLabelPilotReadinessPanel } from "@/features/pilot/WhiteLabelPilotReadinessPanel";
 import { ProgressionSummary } from "@/features/progression/ProgressionSummary";
 import { getTrainingAcademyPath } from "@/features/routes/routeContracts";
+import { TeacherAssistLanguagePanel } from "@/features/teacher/TeacherAssistLanguagePanel";
 import { TeacherLaunchPanel } from "@/features/teacher/TeacherLaunchPanel";
 import { TeacherProgressSummaryConcept } from "@/features/teacher/TeacherProgressSummaryConcept";
 import { getAiTutorAvailability } from "@/features/tenant/tenantEntitlements";
@@ -57,6 +58,7 @@ export function DashboardOverview({ tenant, unit }: DashboardOverviewProps) {
           launchSession={sampleLaunchSession}
           contentPackage={sampleMultimediaContentPackage}
         />
+        <TeacherAssistLanguagePanel tenant={tenant} />
         <MultimediaPackagePanel
           contentPackage={sampleMultimediaContentPackage}
           permanentQrPath={samplePermanentQrPath}

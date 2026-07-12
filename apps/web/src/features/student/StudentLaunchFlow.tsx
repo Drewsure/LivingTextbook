@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type {
   AudioCue,
   ContentPackage,
@@ -25,6 +25,11 @@ import { UnitSessionProgressSummary } from "@/features/progression/UnitSessionPr
 import { starterRewardCatalog } from "@/features/rewards/rewardCatalog";
 import type { TenantConfig } from "@/features/tenant/types";
 import { TrainingRecoveryRecommendationCard } from "@/features/training/TrainingRecoveryRecommendationCard";
+import {
+  getDefaultAssistLanguageEnabled,
+  getTeacherAssistLanguageApprovalStorageKey,
+  parseStoredTeacherAssistLanguageApproval,
+} from "@/features/tenant/assistLanguageSettings";
 import {
   createTrainingRecoveryRecommendationEvent,
   evaluateTrainingRecoveryTrigger,
@@ -65,6 +70,7 @@ export function StudentLaunchFlow({
   const [lastEarnedDust, setLastEarnedDust] = useState(0);
   const [activeGameMode, setActiveGameMode] = useState<GameModeId | undefined>();
   const [targetPracticeEngagedItemIds, setTargetPracticeEngagedItemIds] = useState<string[]>([]);
+  const [assistLanguageEnabled, setAssistLanguageEnabled] = useState(getDefaultAssistLanguageEnabled(tenant));
 
   const entryComplete = currentProgression.completedGameModes.includes(launchSession.entryMode);
   const nextMode = launchSession.recommendedNextModes[0];
@@ -79,6 +85,21 @@ export function StudentLaunchFlow({
     events: sessionEvents,
     launchSession,
   });
+  const activeAssistLanguagePlan = assistLanguageEnabled ? assistLanguagePlan : undefined;
+
+  useEffect(() => {
+    const storageKey = getTeacherAssistLanguageApprovalStorageKey(tenant.id);
+
+    function syncAssistLanguageApproval() {
+      const storedApproval = parseStoredTeacherAssistLanguageApproval(window.localStorage.getItem(storageKey));
+      setAssistLanguageEnabled(storedApproval ?? getDefaultAssistLanguageEnabled(tenant));
+    }
+
+    syncAssistLanguageApproval();
+    window.addEventListener("storage", syncAssistLanguageApproval);
+
+    return () => window.removeEventListener("storage", syncAssistLanguageApproval);
+  }, [tenant]);
 
   function appendSessionEvents(
     nextEvents: GameProgressEvent[],
@@ -223,7 +244,7 @@ export function StudentLaunchFlow({
         lastEarnedDust={lastEarnedDust}
         nextMode={nextMode}
         audioCues={audioCues}
-        assistLanguagePlan={assistLanguagePlan}
+        assistLanguagePlan={activeAssistLanguagePlan}
         targetPracticeEngagedCount={targetPracticeEngagedCount}
         targetPracticeRequiredCount={targetPracticeRequiredCount}
         targetPracticeReady={targetPracticeReady}
