@@ -10,6 +10,8 @@ Run after teacher intake, verification scripts, package-readiness, local-bundle,
 - Confirm the panel shows `npm run verify:foundation`.
 - Confirm the panel names `npm run verify:package-readiness`.
 - Confirm the panel names `npm run verify:local-bundle`.
+- Confirm the panel names `npm run verify:class-roster`.
+- Confirm the panel includes `Class roster readiness`.
 - Confirm the panel names `npm run verify:session-settings`.
 - Confirm the panel includes `Teacher session settings safety`.
 - Confirm the panel names `npm run verify:backend-storage`.

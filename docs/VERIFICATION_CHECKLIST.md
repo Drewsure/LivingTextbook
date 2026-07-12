@@ -10,7 +10,7 @@ Use this checklist when the `legacy-source-import` branch is locally accessible.
 4. Run `npm run verify:foundation` from the repository root.
 5. Start the local dev server.
 
-`npm run verify:foundation` runs taxonomy coverage, game-mode coverage, package readiness coverage, local bundle readiness coverage, activity-pathway checks, printable checks, tenant-library checks, teacher-authoring checks, target-language checks, share/embed checks, teacher-session settings checks, backend-storage checks, release-control checks, web typecheck, production build, and active route checks.
+`npm run verify:foundation` runs taxonomy coverage, game-mode coverage, package readiness coverage, local bundle readiness coverage, activity-pathway checks, printable checks, tenant-library checks, teacher-authoring checks, target-language checks, share/embed checks, class-roster checks, teacher-session settings checks, backend-storage checks, release-control checks, web typecheck, production build, and active route checks.
 
 ## Route Smoke Checks
 

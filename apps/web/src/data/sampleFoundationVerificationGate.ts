@@ -82,6 +82,15 @@ export const sampleFoundationVerificationGate: FoundationVerificationGate = {
       nextStep: "Do not enable Japanese target-language pilots, public links, or iframe embeds before the named gates pass.",
     },
     {
+      checkId: "class-roster-readiness",
+      label: "Class roster readiness",
+      command: "npm run verify:class-roster",
+      status: "pass",
+      protects: "Teacher-issued learner codes can power classroom reports without premature accounts, real names, family contact, raw audio, or speech transcripts.",
+      evidence: "The verifier checks three roster plans, five roster data boundaries, validation guards, front-door code copy, teacher session roster cards, and storage previews.",
+      nextStep: "Run this before changing learner identity, roster slots, front-door codes, teacher reports, microphone features, AI Tutor speech records, or local/classroom export claims.",
+    },
+    {
       checkId: "teacher-session-settings",
       label: "Teacher session settings safety",
       command: "npm run verify:session-settings",

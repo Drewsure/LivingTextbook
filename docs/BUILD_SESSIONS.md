@@ -269,6 +269,7 @@ Next outputs:
 - Confirm package game/audio coverage write intents show machine-readable snapshot preservation.
 - Confirm teacher assignment readiness shows audio-covered game modes against assigned game modes.
 - Confirm assignment rollout surfaces game audio coverage before scheduling.
+- Confirm `npm run verify:class-roster` passes after learner identity, roster slots, front-door codes, teacher reports, microphone practice, AI Tutor speech records, backend schema, local deployment, or report export changes.
 - Confirm the publish gate blocks release while media rights, report policy, deployment profile, persistence, and pilot package policy are unresolved.
 - Confirm the publish gate blocks release until media routes, local/hosted bundle decisions, and support-only media reporting are reviewed.
 - Confirm the publish gate blocks release while assigned game modes are missing reviewed audio coverage or approved fallback.

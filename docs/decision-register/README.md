@@ -138,6 +138,7 @@
 - `DR-164-assist-language-enable-persistence-field.md`
 - `DR-165-backend-storage-readiness-verifier.md`
 - `DR-166-release-control-readiness-verifier.md`
+- `DR-167-class-roster-readiness-verifier.md`
 
 ## Maintenance Rule
 
