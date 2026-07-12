@@ -27,9 +27,9 @@ export function AppShell({ children, tenant, compact = false }: AppShellProps) {
   return (
     <main
       style={getTenantStyle(tenant)}
-      className="min-h-screen bg-[var(--tenant-background)] text-[var(--tenant-text)]"
+      className="min-h-screen bg-[var(--tenant-background)] text-[var(--tenant-text)] print:bg-white"
     >
-      <header className="border-b border-[var(--tenant-border)] bg-[var(--tenant-surface)]">
+      <header className="border-b border-[var(--tenant-border)] bg-[var(--tenant-surface)] print:hidden">
         <div className="mx-auto flex min-h-16 w-full max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3">
           <div>
             <p className="text-xs font-semibold uppercase tracking-wide text-[var(--tenant-muted)]">
@@ -49,7 +49,7 @@ export function AppShell({ children, tenant, compact = false }: AppShellProps) {
           )}
         </div>
       </header>
-      <div className="mx-auto w-full max-w-6xl px-4 py-6">{children}</div>
+      <div className="mx-auto w-full max-w-6xl px-4 py-6 print:max-w-none print:px-0 print:py-0">{children}</div>
     </main>
   );
 }

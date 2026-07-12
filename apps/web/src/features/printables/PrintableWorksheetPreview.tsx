@@ -26,8 +26,8 @@ export function PrintableWorksheetPreview({
   const supportLanguage = assistLanguagePlan?.assistLanguage;
 
   return (
-    <main className="mx-auto grid max-w-5xl gap-5 p-4 print:max-w-none print:p-0">
-      <Card>
+    <main className="mx-auto grid max-w-5xl gap-5 p-4 print:max-w-none print:gap-3 print:p-0">
+      <Card className="print:break-inside-avoid print:shadow-none">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
             <p className="text-sm font-semibold text-[var(--tenant-muted)]">Printable worksheet preview</p>
@@ -55,7 +55,7 @@ export function PrintableWorksheetPreview({
         </dl>
       </Card>
 
-      <Card>
+      <Card className="print:break-inside-avoid print:shadow-none">
         <div className="grid gap-3 md:grid-cols-2">
           <PrintableRoute label="Practice online" path={launchPath} />
           <PrintableRoute label="Sentence builder" path={sentencePath} />
@@ -66,7 +66,7 @@ export function PrintableWorksheetPreview({
         </p>
       </Card>
 
-      <Card>
+      <Card className="print:break-inside-avoid print:shadow-none">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <p className="text-sm font-semibold text-[var(--tenant-muted)]">Vocabulary listening sheet</p>
@@ -101,7 +101,7 @@ export function PrintableWorksheetPreview({
         </div>
       </Card>
 
-      <Card>
+      <Card className="print:break-inside-avoid print:shadow-none">
         <p className="text-sm font-semibold text-[var(--tenant-muted)]">Sentence practice worksheet</p>
         <h2 className="mt-1 text-lg font-bold">Build the target sentences</h2>
         <div className="mt-5 grid gap-4 md:grid-cols-2">
@@ -123,7 +123,7 @@ export function PrintableWorksheetPreview({
         </div>
       </Card>
 
-      <Card>
+      <Card className="print:break-inside-avoid print:shadow-none">
         <p className="text-sm font-semibold text-[var(--tenant-muted)]">Package and export boundary</p>
         <dl className="mt-3 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)] md:grid-cols-2">
           <PrintableDetail label="Package" value={contentPackage.meta.packageId} />
