@@ -39,6 +39,7 @@ Focused verification supplements:
 - `docs/verification/MEDIA_SUPPORT_ONLY_EVENT_CHECKS.md`
 - `docs/verification/MEDIA_SUPPORT_ONLY_PREVIEW_CHECKS.md`
 - `docs/verification/PACKAGE_APPROVAL_LEDGER_CHECKS.md`
+- `docs/verification/PACKAGE_READINESS_VERIFIER_CHECKS.md`
 - `docs/verification/PACKAGE_PUBLISH_GATE_CHECKS.md`
 - `docs/verification/PARTNER_DEMO_ACTIVE_ROUTE_CHECKS.md`
 - `docs/verification/PERSISTENCE_ADAPTER_CHECKS.md`

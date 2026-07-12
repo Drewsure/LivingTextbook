@@ -10,7 +10,7 @@ Use this checklist when the `legacy-source-import` branch is locally accessible.
 4. Run `npm run verify:foundation` from the repository root.
 5. Start the local dev server.
 
-`npm run verify:foundation` runs taxonomy coverage, game-mode coverage, web typecheck, production build, and active route checks.
+`npm run verify:foundation` runs taxonomy coverage, game-mode coverage, package readiness coverage, web typecheck, production build, and active route checks.
 
 ## Route Smoke Checks
 
@@ -164,6 +164,15 @@ When reviewing game-shell changes:
 - Confirm each active mode has a catalog entry with family, parent engine, role, skill focus, supported levels, term range, sentence count, scoring profile, audio requirement, and background-media policy.
 - Confirm each active scoring profile has an id, label, dust caps, and a teacher-readable summary.
 - Confirm game components use `scoringProfiles.ts` helpers instead of hard-coding reward math directly in presentation code.
+
+## Package Readiness Checks
+
+When reviewing content package, media package, pilot handoff, route registry, AI Tutor, or local companion changes:
+
+- Run `npm run verify:package-readiness`.
+- Confirm each active sample tenant remains represented in package readiness summaries.
+- Confirm active modes retain explicit audio cue coverage.
+- Confirm media, front-door access, background-media teacher controls, support-language policy, and optional premium AI Tutor policy remain intact.
 - Confirm completion events include scoring profile metadata when a profile is used.
 
 ## Multimedia Checks

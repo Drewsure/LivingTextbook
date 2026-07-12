@@ -119,6 +119,7 @@
 - `DR-145-progress-event-taxonomy-revision-contract.md`
 - `DR-146-progress-event-taxonomy-coverage-verifier.md`
 - `DR-147-game-mode-coverage-verifier.md`
+- `DR-148-package-readiness-verifier.md`
 
 ## Maintenance Rule
 
