@@ -16,6 +16,7 @@ Teachers need printable materials, but jumping straight to PDF export would hide
 - Keep paper work from awarding Star Dust, mastery, or completion.
 - Keep PDF export blocked.
 - Add MiniStar and sample publisher print routes to active route verification.
+- Expose the current unit printable preview from the teacher launch shortcuts.
 
 ## Follow-Up
 

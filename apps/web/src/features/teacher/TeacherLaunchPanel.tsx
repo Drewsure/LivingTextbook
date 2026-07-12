@@ -3,6 +3,7 @@ import { getUnitKey } from "@living-textbook/content-model";
 import type { ContentPackage, LaunchSession, UnitPayload } from "@living-textbook/content-model";
 import {
   getMediaPlaylistPath,
+  getPrintableWorksheetPath,
   getQuizPath,
   getSentenceBuilderPath,
   getSpeakItPath,
@@ -35,6 +36,11 @@ export function TeacherLaunchPanel({ unit, launchSession, contentPackage }: Teac
           },
         ]
       : []),
+    {
+      label: "Printable Worksheet",
+      href: getPrintableWorksheetPath(launchSession.launchCode),
+      summary: "Browser-print vocabulary and sentence preview; PDF export remains blocked.",
+    },
     {
       label: "Quiz",
       href: getQuizPath(launchSession.launchCode),
