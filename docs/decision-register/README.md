@@ -115,6 +115,7 @@
 - `DR-141-teacher-report-event-acceptance-summary.md`
 - `DR-142-progress-event-acceptance-gate-write-intents.md`
 - `DR-143-report-package-event-acceptance-storage.md`
+- `DR-144-durable-record-event-acceptance-safeguards.md`
 
 ## Maintenance Rule
 

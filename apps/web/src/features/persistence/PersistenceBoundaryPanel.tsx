@@ -106,7 +106,7 @@ export function PersistenceBoundaryPanel({
           <div className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-3 text-sm leading-6 text-[var(--tenant-muted)]">
             <p className="font-semibold text-[var(--tenant-text)]">Safety contract</p>
             {recordMapValid ? (
-              <p className="mt-2">No core record stores raw learner audio or transcripts. Student-data records require policy before pilot use.</p>
+              <p className="mt-2">No core record stores raw learner audio or transcripts. Student-data records require policy before pilot use, and progress/report records preserve event acceptance safeguards.</p>
             ) : (
               <ul className="mt-2 grid gap-2">
                 {durableRecordErrors.map((error) => (
@@ -143,6 +143,20 @@ export function PersistenceBoundaryPanel({
                   <dt className="font-semibold text-[var(--tenant-text)]">Store path</dt>
                   <dd className="mt-1">{record.recommendedFirstPilotStore.join(", ")}</dd>
                 </div>
+                {record.category === "progress-event-stream" && (
+                  <div>
+                    <dt className="font-semibold text-[var(--tenant-text)]">Event safety</dt>
+                    <dd className="mt-1">
+                      {record.preservesEventEffectTaxonomy ? "Taxonomy preserved" : "Taxonomy review"}; {record.requiresEventAcceptanceGate ? "gate required" : "gate review"}
+                    </dd>
+                  </div>
+                )}
+                {record.category === "teacher-report-package" && (
+                  <div>
+                    <dt className="font-semibold text-[var(--tenant-text)]">Report event acceptance</dt>
+                    <dd className="mt-1">{record.preservesReportEventAcceptanceSummary ? "Summary preserved" : "Needs review"}</dd>
+                  </div>
+                )}
               </dl>
             </section>
           ))}

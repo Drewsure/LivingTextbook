@@ -42,6 +42,9 @@ export interface DurableRecordContract {
   storesRawAudio: boolean;
   storesTranscript: boolean;
   ownsTeacherSessionSettings?: boolean;
+  preservesEventEffectTaxonomy?: boolean;
+  requiresEventAcceptanceGate?: boolean;
+  preservesReportEventAcceptanceSummary?: boolean;
   recommendedFirstPilotStore: PersistenceStorageTier[];
   note: string;
 }
@@ -83,6 +86,18 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.ownsTeacherSessionSettings && record.category !== "launch-session") {
       errors.push(`Teacher session settings must belong to a launch-session record, not ${record.category}.`);
+    }
+
+    if (record.category === "progress-event-stream" && !record.preservesEventEffectTaxonomy) {
+      errors.push(`Progress event durable record ${record.recordId} must preserve event effect taxonomy.`);
+    }
+
+    if (record.category === "progress-event-stream" && record.containsStudentData && !record.requiresEventAcceptanceGate) {
+      errors.push(`Progress event durable record ${record.recordId} must require a passed event acceptance gate.`);
+    }
+
+    if (record.category === "teacher-report-package" && !record.preservesReportEventAcceptanceSummary) {
+      errors.push(`Teacher report package durable record ${record.recordId} must preserve event acceptance summaries.`);
     }
 
     if (record.supportsLocalDeployment && !record.recommendedFirstPilotStore.includes("local-classroom-store")) {

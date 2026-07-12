@@ -41,6 +41,7 @@ Focused verification supplements:
 - `docs/verification/PACKAGE_PUBLISH_GATE_CHECKS.md`
 - `docs/verification/PARTNER_DEMO_ACTIVE_ROUTE_CHECKS.md`
 - `docs/verification/PERSISTENCE_ADAPTER_CHECKS.md`
+- `docs/verification/PERSISTENCE_DURABLE_EVENT_ACCEPTANCE_CHECKS.md`
 - `docs/verification/PERSISTENCE_BOUNDARY_CHECKS.md`
 - `docs/verification/PILOT_HANDOFF_PACKAGE_CHECKS.md`
 - `docs/verification/PILOT_POLICY_CHECKS.md`

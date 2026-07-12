@@ -121,8 +121,10 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     supportsLocalDeployment: true,
     storesRawAudio: false,
     storesTranscript: false,
+    preservesEventEffectTaxonomy: true,
+    requiresEventAcceptanceGate: true,
     recommendedFirstPilotStore: ["hosted-database", "local-classroom-store", "school-policy"],
-    note: "This stream powers reports and recovery, but retention/export/access policy must be chosen before real student storage.",
+    note: "This stream powers reports and recovery, but it must preserve event effect taxonomy, require a passed event acceptance gate, and have retention/export/access policy before real student storage.",
   },
   {
     recordId: "media-manifest-rights-record",
@@ -181,6 +183,7 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     supportsLocalDeployment: true,
     storesRawAudio: false,
     storesTranscript: false,
+    preservesReportEventAcceptanceSummary: true,
     recommendedFirstPilotStore: ["school-policy", "hosted-database", "local-classroom-store"],
     note: "Teacher reports need a durable package boundary so event acceptance status, learning evidence, support-only events, excluded sensitive fields, and export blockers are preserved across hosted and local deployments.",
   },
@@ -341,7 +344,7 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     category: "progress-event",
     label: "Progress and media event stream",
     status: "needs-policy",
-    recordShape: "GameProgressEvent, media events, recovery metadata, Star Dust changes, mastery updates",
+    recordShape: "GameProgressEvent, event_effect, event_acceptance_gate_id, media events, recovery metadata, Star Dust changes, mastery updates",
     whyItMatters:
       "Teacher reports, recovery recommendations, and mastery progression require trustworthy event records.",
     visibleTo: ["Teacher", "Tenant admin", "Student summary"],
@@ -353,7 +356,7 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     category: "teacher-report-package",
     label: "Teacher report package boundary",
     status: "needs-policy",
-    recordShape: "TeacherReportPackageBoundary, included evidence, support-only signals, excluded sensitive fields, export gates",
+    recordShape: "TeacherReportPackageBoundary, event acceptance summary, included evidence, support-only signals, excluded sensitive fields, export gates",
     whyItMatters:
       "Teacher reports are a saleable feature, but must stay policy-bound and must not treat support-only events as mastery evidence.",
     visibleTo: ["Teacher", "Tenant admin", "School admin"],

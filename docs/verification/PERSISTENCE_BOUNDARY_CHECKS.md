@@ -44,15 +44,17 @@ Verify at:
 16. Confirm the durable record map states that raw learner audio and transcripts are not stored in the core persistence scaffold.
 17. Confirm student-data records require school policy before pilot use.
 18. Confirm media-rights records include hosted object storage or local bundle manifest decisions.
-19. Confirm package approval ledgers remain policy-required before real signatures are stored.
-20. Confirm the page renders a `Persistence adapter readiness` section.
-21. Confirm the adapter readiness section shows static demo, hosted pilot, and local classroom adapter plans.
-22. Confirm hosted pilot is marked as the recommended first pilot path.
-23. Confirm local classroom remains visible for closed/offline companion deployments.
-24. Confirm adapter write intents reject raw learner audio and learner transcripts.
-25. Confirm export-capable adapter intents remain policy gated.
-26. Confirm package release candidate records distinguish demo-visible from pilot-ready state.
-27. Confirm the route contract for `/teacher/intake` includes `PersistenceBoundary[]`, `PersistenceStrategyOption[]`, `DurableRecordContract[]`, `PersistenceAdapterPlan[]`, validation errors, and readiness warnings.
+19. Confirm progress-event durable records preserve event effect taxonomy and require a passed event acceptance gate.
+20. Confirm teacher report package durable records preserve event acceptance summaries.
+21. Confirm package approval ledgers remain policy-required before real signatures are stored.
+22. Confirm the page renders a `Persistence adapter readiness` section.
+23. Confirm the adapter readiness section shows static demo, hosted pilot, and local classroom adapter plans.
+24. Confirm hosted pilot is marked as the recommended first pilot path.
+25. Confirm local classroom remains visible for closed/offline companion deployments.
+26. Confirm adapter write intents reject raw learner audio and learner transcripts.
+27. Confirm export-capable adapter intents remain policy gated.
+28. Confirm package release candidate records distinguish demo-visible from pilot-ready state.
+29. Confirm the route contract for `/teacher/intake` includes `PersistenceBoundary[]`, `PersistenceStrategyOption[]`, `DurableRecordContract[]`, `PersistenceAdapterPlan[]`, validation errors, and readiness warnings.
 
 ## Acceptance Standard
 

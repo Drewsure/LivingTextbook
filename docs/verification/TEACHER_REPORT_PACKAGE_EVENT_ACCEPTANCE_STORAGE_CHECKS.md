@@ -7,6 +7,7 @@ Run after teacher report package, report export, event acceptance, backend schem
 ## Checks
 
 - Confirm teacher report package write intents preserve event acceptance summaries.
+- Confirm teacher report package durable records preserve event acceptance summaries.
 - Confirm backend schema draft teacher report packages include `event_acceptance_summary`.
 - Confirm migration specs include `event_acceptance_summary` in `spec-teacher-report-package`.
 - Confirm report package storage rejects raw learner audio, transcripts, ungated AI Tutor state, and private identifiers.

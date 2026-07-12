@@ -8,6 +8,7 @@ Run after persistence adapter, progress event storage, event taxonomy, launch-se
 
 - Confirm progress-event write intents require a passed event acceptance gate.
 - Confirm `packages/content-model/src/persistenceAdapter.ts` rejects student-data progress-event intents without `requiresEventAcceptanceGate`.
+- Confirm `packages/content-model/src/persistenceRecords.ts` rejects progress-event durable records without `requiresEventAcceptanceGate`.
 - Confirm `/teacher/intake` shows `Event acceptance` in the persistence adapter map.
 - Confirm backend schema draft progress events include `event_acceptance_gate_id`.
 - Confirm migration specs include `event_acceptance_gate_id` in `spec-progress-event`.
