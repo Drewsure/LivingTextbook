@@ -84,6 +84,14 @@ export const appRouteContracts: AppRouteContract[] = [
     requiredState: ["TenantConfig", "TeacherAssignmentPlan", "LaunchSession", "ContentPackage", "TeacherSessionSettings"],
   },
   {
+    id: "earned-collection",
+    pattern: "/collection/[code]",
+    audience: "student",
+    status: "active-scaffold",
+    purpose: "Show deterministic mastery-earned collection items, avatar/cosmetic/room/pet categories, and the next unlock without random pressure loops.",
+    requiredState: ["TenantConfig", "LaunchSession", "StudentProgressionState", "RewardCatalogItem[]"],
+  },
+  {
     id: "training-academy",
     pattern: "/training/[code]",
     audience: "student",
@@ -202,6 +210,10 @@ export function getFrontDoorPath(tenantId: TenantId): string {
 
 export function getPrivateAssignmentPath(assignmentId: string): string {
   return `/assign/${encodeURIComponent(assignmentId)}`;
+}
+
+export function getCollectionPath(launchCode: LaunchCode): string {
+  return `/collection/${encodeURIComponent(launchCode)}`;
 }
 
 export function getMediaPlaylistPath(playlistId: string): string {

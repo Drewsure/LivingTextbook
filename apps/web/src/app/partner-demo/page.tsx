@@ -22,6 +22,7 @@ import {
   getTeacherSessionMonitorPath,
   getTeacherUnitReviewPath,
   getPrivateAssignmentPath,
+  getCollectionPath,
   getPrintableWorksheetPath,
   getTrainingAcademyPath,
 } from "@/features/routes/routeContracts";
@@ -80,6 +81,7 @@ export default function PartnerDemoPage() {
               <RouteLink label="Private assignment link" href={getPrivateAssignmentPath("assignment-sample-publisher-front-door")} />
               <RouteLink label="Front door" href={samplePartnerFrontDoorPath} />
               <RouteLink label="Student launch" href={getStudentLaunchPath(samplePartnerLaunchCode)} />
+              <RouteLink label="Collection room" href={getCollectionPath(samplePartnerLaunchCode)} />
               <RouteLink label="Printable Worksheet" href={getPrintableWorksheetPath(samplePartnerLaunchCode)} />
               <RouteLink label="Quiz" href={getQuizPath(samplePartnerLaunchCode)} />
               <RouteLink label="Sentence Builder" href={getSentenceBuilderPath(samplePartnerLaunchCode)} />

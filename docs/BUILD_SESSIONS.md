@@ -249,6 +249,7 @@ Next outputs:
 - Confirm the active route matrix stays aligned with the full automated active-route verification list.
 - Confirm teacher unit review routes show package evidence, curated activity paths, route readiness, assignment controls, and pilot blockers before expanding teacher authoring or assignment persistence.
 - Confirm private assignment link routes show student-facing assignment scope and private-first sharing rules before public links or embeds are considered.
+- Confirm collection room routes show deterministic earned collection mechanics before premium avatar, room, mascot, or animation polish begins.
 - Browser-verify the package publish gate, approval ledger, backend schema draft, backend migration candidates, backend migration specs, and persistence boundary at `/teacher/intake`.
 - Browser-verify the teacher preflight, assigned game path, and monitor settings contract at `/teacher/sessions/demo-unit-1` and `/teacher/sessions/partner-demo-unit-1`.
 - Confirm teacher session pages show a session pilot readiness snapshot that separates demo-safe monitoring from live classroom blockers.

@@ -91,6 +91,14 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     note: "Student-facing private assignment preview, not public sharing.",
   },
   {
+    routeId: "ministar-collection",
+    group: "ministar",
+    label: "MiniStar collection room",
+    path: "/collection/demo-unit-1",
+    status: "active-scaffold",
+    note: "Deterministic mastery-earned collection preview.",
+  },
+  {
     routeId: "ministar-training",
     group: "ministar",
     label: "MiniStar Training Academy",
@@ -193,6 +201,14 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     path: "/assign/assignment-sample-publisher-front-door",
     status: "active-scaffold",
     note: "White-label private assignment preview with front-door access requirements.",
+  },
+  {
+    routeId: "partner-collection",
+    group: "sample-publisher",
+    label: "Sample publisher collection room",
+    path: "/collection/partner-demo-unit-1",
+    status: "active-scaffold",
+    note: "White-label deterministic collection preview using the tenant reward name.",
   },
   {
     routeId: "partner-training",

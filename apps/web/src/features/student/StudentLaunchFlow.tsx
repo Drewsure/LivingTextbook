@@ -44,6 +44,7 @@ import { SessionEventLog } from "./components/SessionEventLog";
 import { StudentProgressHeader } from "./components/StudentProgressHeader";
 import { TeacherAssignmentSettingsCard } from "./components/TeacherAssignmentSettingsCard";
 import { UnitMediaShortcutCard } from "./components/UnitMediaShortcutCard";
+import { getCollectionPath } from "@/features/routes/routeContracts";
 
 interface StudentLaunchFlowProps {
   tenant: TenantConfig;
@@ -265,6 +266,7 @@ export function StudentLaunchFlow({
         tenant={tenant}
         earnedStarDust={currentProgression.earnedStarDust}
         catalog={starterRewardCatalog}
+        collectionHref={getCollectionPath(launchSession.launchCode)}
       />
       <NextGameUnlockCard
         nextMode={nextMode}

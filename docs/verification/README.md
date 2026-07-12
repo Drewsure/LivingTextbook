@@ -6,7 +6,7 @@ Focused verification supplements:
 
 - `docs/verification/ACTIVITY_PATHWAY_COMPATIBILITY_CHECKS.md`
 - `docs/verification/AI_TUTOR_ENTITLEMENT_CHECKS.md`
-- `docs/verification/ACTIVE_ROUTE_MATRIX_33_ROUTE_CHECKS.md`
+- `docs/verification/ACTIVE_ROUTE_MATRIX_35_ROUTE_CHECKS.md`
 - `docs/verification/ACTIVE_ROUTE_MATRIX_PANEL_CHECKS.md`
 - `docs/verification/MEDIA_PLAYLIST_ROUTE_CHECKS.md`
 - `docs/verification/AUDIO_COVERED_MODE_READINESS_CHECKS.md`
@@ -21,6 +21,7 @@ Focused verification supplements:
 - `docs/verification/BACKGROUND_MEDIA_SESSION_SAFETY_CHECKS.md`
 - `docs/verification/CLASS_ROSTER_READINESS_CHECKS.md`
 - `docs/verification/CLASS_ROSTER_READINESS_VERIFIER_CHECKS.md`
+- `docs/verification/COLLECTION_ROOM_ROUTE_CHECKS.md`
 - `docs/verification/COMPETITIVE_FEATURE_COVERAGE_CHECKS.md`
 - `docs/verification/CONTENT_INTAKE_CHECKS.md`
 - `docs/verification/DEPLOYMENT_PROFILE_CHECKS.md`

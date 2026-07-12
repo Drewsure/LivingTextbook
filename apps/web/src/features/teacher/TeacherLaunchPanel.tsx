@@ -2,6 +2,7 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import { getUnitKey } from "@living-textbook/content-model";
 import type { ContentPackage, LaunchSession, UnitPayload } from "@living-textbook/content-model";
 import {
+  getCollectionPath,
   getMediaPlaylistPath,
   getPrintableWorksheetPath,
   getQuizPath,
@@ -33,6 +34,11 @@ export function TeacherLaunchPanel({ unit, launchSession, contentPackage }: Teac
       label: "Student launch",
       href: launchPath,
       summary: "QR entry, flashcards, unlock flow, Memory Match, and local student summary.",
+    },
+    {
+      label: "Collection room",
+      href: getCollectionPath(launchSession.launchCode),
+      summary: "Deterministic mastery-earned collection preview. No random pressure rewards.",
     },
     ...(playlist
       ? [

@@ -7,9 +7,10 @@ interface RewardPreviewCardProps {
   tenant: TenantConfig;
   earnedStarDust: number;
   catalog: RewardCatalogItem[];
+  collectionHref?: string;
 }
 
-export function RewardPreviewCard({ tenant, earnedStarDust, catalog }: RewardPreviewCardProps) {
+export function RewardPreviewCard({ tenant, earnedStarDust, catalog, collectionHref }: RewardPreviewCardProps) {
   const earnedRewards = getEarnedRewards(catalog, earnedStarDust);
   const nextReward = getNextReward(catalog, earnedStarDust);
 
@@ -46,6 +47,14 @@ export function RewardPreviewCard({ tenant, earnedStarDust, catalog }: RewardPre
           Next: {nextReward.label} at {nextReward.requiredStarDust} {tenant.rewardName}.
         </p>
       )}
+      {collectionHref ? (
+        <a
+          href={collectionHref}
+          className="mt-4 inline-flex min-h-11 items-center justify-center rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] px-4 py-2 text-sm font-bold text-[var(--tenant-text)] transition hover:bg-[var(--tenant-primary-soft)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--tenant-primary)]"
+        >
+          Open collection room
+        </a>
+      ) : null}
     </Card>
   );
 }
