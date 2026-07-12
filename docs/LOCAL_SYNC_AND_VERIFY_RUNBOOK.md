@@ -8,10 +8,11 @@ Use this when the connector has pushed new branch changes and the local Windows 
 cd "D:\LIVING TEXTBOOOK PROJECT\LivingTextbook"
 git restore apps/web/next-env.d.ts
 git pull --ff-only
-npm run typecheck --workspace @living-textbook/web
-npm run build --workspace @living-textbook/web
+npm run verify:foundation
 npm run dev --workspace @living-textbook/web -- --hostname 127.0.0.1 --port 3000
 ```
+
+`npm run verify:foundation` now runs taxonomy coverage, game-mode coverage, web typecheck, production build, and active route checks.
 
 ## If Port 3000 Is Busy
 
@@ -95,4 +96,4 @@ After a successful build and dev-server start, check:
 
 ## Rule
 
-Do not mark connector-side changes as locally verified until `typecheck`, `build`, and the relevant browser route checks have passed locally.
+Do not mark connector-side changes as locally verified until `npm run verify:foundation` and the relevant browser route checks have passed locally.

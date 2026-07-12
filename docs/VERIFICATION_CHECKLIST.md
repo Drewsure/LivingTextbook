@@ -7,8 +7,10 @@ Use this checklist when the `legacy-source-import` branch is locally accessible.
 1. Confirm the working branch is `legacy-source-import`.
 2. Confirm the local checkout is aligned with the remote branch.
 3. Install dependencies from the repository root when needed.
-4. Run typecheck/build for the web app.
+4. Run `npm run verify:foundation` from the repository root.
 5. Start the local dev server.
+
+`npm run verify:foundation` runs taxonomy coverage, game-mode coverage, web typecheck, production build, and active route checks.
 
 ## Route Smoke Checks
 
@@ -158,6 +160,7 @@ On `/launch/demo-unit-1`:
 
 When reviewing game-shell changes:
 
+- Run `npm run verify:game-modes`.
 - Confirm each active mode has a catalog entry with family, parent engine, role, skill focus, supported levels, term range, sentence count, scoring profile, audio requirement, and background-media policy.
 - Confirm each active scoring profile has an id, label, dust caps, and a teacher-readable summary.
 - Confirm game components use `scoringProfiles.ts` helpers instead of hard-coding reward math directly in presentation code.
