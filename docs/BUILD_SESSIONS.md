@@ -283,6 +283,7 @@ Next outputs:
 - Confirm `/teacher/intake` shows the printable output readiness panel before worksheet/PDF implementation begins.
 - Confirm `/print/demo-unit-1` and `/print/partner-demo-unit-1` load before expanding printable output, QR placement, or PDF generation.
 - Confirm `/teacher/intake` shows the private tenant library plan before teacher authoring, copy/edit, sharing, or public-community work begins.
+- Confirm `/teacher/library/sample-publisher` shows private drafts, tenant-approved packages, school sharing plans, and public-community blocking before live library search or copy/edit work begins.
 - Confirm `/teacher/intake` shows the share/embed readiness panel before public links, iframe embeds, colleague sharing, or public community discovery work begins.
 - Confirm `/teacher/intake` shows the teacher authoring readiness panel before live teacher editor or copy/edit implementation begins.
 - Confirm `/teacher/intake` shows the target-language expansion readiness panel before Japanese target-language or other non-English target-language pilots are scoped.
@@ -323,6 +324,7 @@ Next outputs:
 - Confirm teacher report package storage preserves event acceptance summaries before report export is enabled.
 - Confirm durable record contracts preserve progress-event taxonomy, progress-event acceptance gates, and report event acceptance summaries before backend selection.
 - Confirm teacher draft package routes preserve draft-only, source-lineage, audio-before-students, and review-before-assignment boundaries before live authoring.
+- Confirm private teacher library routes preserve source lineage, no-student-data-copy rules, and public-community blocking before teacher library persistence or sharing is implemented.
 - Confirm backend schema, adapter plans, durable records, and migration specs preserve teacher draft packages before live teacher authoring, copy/edit, private-library drafts, or assignment persistence.
 
 ## Session 8: Premium Experience Layer

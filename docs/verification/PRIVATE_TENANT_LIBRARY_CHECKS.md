@@ -8,6 +8,7 @@ Run after library, sharing, copy/edit, package versioning, teacher authoring, co
 
 - Confirm `npm run verify:tenant-library` passes.
 - Confirm `/teacher/intake` shows `Private tenant library`.
+- Confirm `/teacher/library/sample-publisher` shows `Teacher private library`.
 - Confirm teacher private drafts, tenant-approved package library, and school shared library remain planned.
 - Confirm public community library remains blocked for v1.
 - Confirm private drafts cannot be assigned directly to students.

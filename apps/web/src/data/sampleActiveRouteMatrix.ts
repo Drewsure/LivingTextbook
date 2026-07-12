@@ -43,6 +43,14 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     note: "Teacher-only draft preview; student assignment remains blocked until review gates pass.",
   },
   {
+    routeId: "teacher-private-library",
+    group: "core",
+    label: "Teacher private library",
+    path: "/teacher/library/sample-publisher",
+    status: "active-scaffold",
+    note: "Tenant-scoped library route for private drafts, reviewed packages, planned school sharing, and blocked public community publishing.",
+  },
+  {
     routeId: "partner-demo",
     group: "core",
     label: "Partner demo",

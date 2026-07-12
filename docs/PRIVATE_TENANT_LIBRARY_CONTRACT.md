@@ -23,10 +23,12 @@ Sample data:
 Panel:
 
 - `apps/web/src/features/publisher/TenantLibraryPlanPanel.tsx`
+- `apps/web/src/features/publisher/TeacherPrivateLibraryPanel.tsx`
 
 Route:
 
 - `/teacher/intake`
+- `/teacher/library/sample-publisher`
 
 Verifier:
 

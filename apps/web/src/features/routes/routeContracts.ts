@@ -60,6 +60,14 @@ export const appRouteContracts: AppRouteContract[] = [
     requiredState: ["TenantConfig", "TeacherDraftPackagePreview", "TeacherAuthoringGate[]"],
   },
   {
+    id: "teacher-private-library",
+    pattern: "/teacher/library/[tenantId]",
+    audience: "teacher",
+    status: "active-scaffold",
+    purpose: "Show a tenant-scoped private teacher library with draft packages, reviewed packages, planned school sharing, and blocked public community publishing.",
+    requiredState: ["TenantConfig", "TenantLibraryPlan", "TeacherPrivateLibraryPreview", "TeacherDraftPackagePreview[]"],
+  },
+  {
     id: "partner-pilot-demo",
     pattern: "/partner-demo",
     audience: "platform",
@@ -210,6 +218,10 @@ export function getTeacherUnitReviewPath(unitKey: string): string {
 
 export function getTeacherDraftAuthoringPath(draftId: string): string {
   return `/teacher/authoring/${encodeURIComponent(draftId)}`;
+}
+
+export function getTeacherPrivateLibraryPath(tenantId: TenantId): string {
+  return `/teacher/library/${encodeURIComponent(tenantId)}`;
 }
 
 export function getPermanentTextbookQrPath(identifier: PermanentQrIdentifier): string {

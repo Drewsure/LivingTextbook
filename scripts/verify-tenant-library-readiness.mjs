@@ -1,7 +1,9 @@
 import { readFileSync } from "node:fs";
 
 const plan = readSource("../apps/web/src/data/sampleTenantLibraryPlan.ts");
+const routeData = readSource("../apps/web/src/data/sampleTeacherPrivateLibrary.ts");
 const panel = readSource("../apps/web/src/features/publisher/TenantLibraryPlanPanel.tsx");
+const routePanel = readSource("../apps/web/src/features/publisher/TeacherPrivateLibraryPanel.tsx");
 const routeVerifier = readSource("./verify-active-routes.mjs");
 const docs = readSource("../docs/COMPETITIVE_FEATURE_COVERAGE_MATRIX.md");
 const failures = [];
@@ -27,6 +29,12 @@ requireText(plan, "No student assignment", "Private drafts must not become stude
 requireText(plan, "No student data copied", "School sharing must not copy student data.");
 requireText(panel, "Private tenant library", "Tenant library panel must expose its heading.");
 requireText(panel, "Public community decision", "Tenant library panel must expose public community decision.");
+requireText(routeData, "sample-publisher-teacher-private-library", "Teacher private library route data must exist.");
+requireText(routeData, "Public community library remains blocked", "Teacher private library route data must block public community sharing.");
+requireText(routeData, "Library sharing must not copy student data", "Teacher private library route data must block student data copies.");
+requireText(routePanel, "Teacher private library", "Teacher private library route panel must expose its heading.");
+requireText(routePanel, "No student data copied", "Teacher private library route panel must expose student-data separation.");
+requireText(routeVerifier, "/teacher/library/sample-publisher", "Active route verifier must check teacher private library route.");
 requireText(routeVerifier, "Private tenant library", "Active route verifier must check tenant library panel.");
 requireText(routeVerifier, "Teacher private drafts", "Active route verifier must check private drafts.");
 requireText(routeVerifier, "Tenant-approved package library", "Active route verifier must check tenant-approved library.");
