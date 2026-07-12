@@ -2,7 +2,7 @@
 
 Document type: foundation implementation contract  
 Status: active scaffold  
-Last updated: 2026-07-12
+Last updated: 2026-07-13
 
 ## Purpose
 
@@ -32,13 +32,14 @@ Do not store real student progress until policy, retention, export, and access r
 
 1. Tenant and feature entitlement records.
 2. Package release and reviewed content records.
-3. Stable QR and route alias registry.
-4. Media manifest and rights records.
-5. Publish gate and approval ledger records.
-6. Teacher launch session and settings records.
-7. Progress and media event stream records.
-8. Earned collection inventory records.
-9. Local classroom export and restore records.
+3. Teacher draft package records.
+4. Stable QR and route alias registry.
+5. Media manifest and rights records.
+6. Publish gate and approval ledger records.
+7. Teacher launch session and settings records.
+8. Progress and media event stream records.
+9. Earned collection inventory records.
+10. Local classroom export and restore records.
 
 ## Required Per Candidate
 
@@ -61,6 +62,7 @@ Each candidate must define:
 - Raw learner audio and transcripts stay out of core storage.
 - Hosted and local implementations must use the same record vocabulary.
 - Collection inventory must be deterministic, mastery-earned, exportable, and blocked from random pressure or purchase-like unlock paths.
+- Teacher draft package migrations must preserve owner, source lineage, visibility, review gates, audio plan state, and direct-assignment blocks.
 - Every migration candidate needs rollback or export expectations before implementation.
 
 ## Non-Goals

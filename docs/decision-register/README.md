@@ -147,6 +147,7 @@
 - `DR-173-earned-collection-storage-contract.md`
 - `DR-174-collection-ownership-provenance-preview.md`
 - `DR-175-teacher-draft-package-preview-route.md`
+- `DR-176-teacher-draft-package-storage-contract.md`
 
 ## Maintenance Rule
 

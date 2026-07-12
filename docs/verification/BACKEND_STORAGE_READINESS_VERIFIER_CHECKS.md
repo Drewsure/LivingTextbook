@@ -2,7 +2,7 @@
 
 ## Scope
 
-Run before backend selection, vendor-specific migrations, persistence adapter changes, launch-session storage work, earned collection storage work, report package storage work, local companion storage work, or route registry persistence work.
+Run before backend selection, vendor-specific migrations, persistence adapter changes, launch-session storage work, teacher draft storage work, earned collection storage work, report package storage work, local companion storage work, or route registry persistence work.
 
 ## Automated Command
 
@@ -22,12 +22,14 @@ npm run verify:foundation
 - Migration candidates stay sequenced before backend-specific implementation.
 - Migration specs preserve tenant, package, launch-session, event, report, and local companion records.
 - Earned collection inventory preserves mastery-earned ownership and blocks random reward pressure.
+- Teacher draft packages preserve owner, source lineage, review gates, audio plan state, and direct-assignment blocks.
 - Core storage rejects raw learner audio and transcripts.
 - Progress events preserve event effect taxonomy and event acceptance gates.
 - Launch sessions preserve teacher session settings and assist-language teacher enablement.
 - Hosted and local adapter plans both include launch-session writes.
 - Hosted and local adapter plans both include earned collection inventory writes.
-- Durable record plans assign teacher settings to launch sessions, require event acceptance gates, and preserve earned collection rules.
+- Hosted and local adapter plans both include teacher draft package writes.
+- Durable record plans assign teacher settings to launch sessions, require event acceptance gates, preserve earned collection rules, and preserve teacher draft review gates.
 
 ## Human Follow-Up
 

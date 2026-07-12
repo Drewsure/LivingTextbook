@@ -69,6 +69,24 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
       notAllowedYet: ["Auto-publish AI/PDF extraction", "Raw PDF as active student payload"],
     },
     {
+      migrationId: "m014-teacher-draft-package-records",
+      label: "Teacher draft package records",
+      track: "shared",
+      status: "ready-to-design",
+      risk: "medium",
+      targetEntities: ["teacher_draft_package"],
+      purpose: "Persist teacher-owned draft packages, source lineage, private visibility, requested activity path, audio plan, and review gates before live authoring.",
+      prerequisites: ["Teacher identity model accepted", "Private tenant library rules accepted", "Review-before-assignment gate accepted"],
+      implementationNotes: [
+        "Keep drafts tenant-scoped and owner-scoped.",
+        "Preserve copied-from package/version lineage.",
+        "Store draft payloads as reviewed structured data, not raw source files.",
+        "Block student assignment until review gates and approval rules pass.",
+      ],
+      rollbackOrExportNeeds: ["Export teacher draft package JSON", "Retain copy lineage when drafts become approved packages", "Support local draft backup and restore"],
+      notAllowedYet: ["Direct draft assignment", "Direct AI publish", "Overwrite reviewed source package", "Skip audio support"],
+    },
+    {
       migrationId: "m003-route-alias-registry",
       label: "Stable QR and route alias registry",
       track: "hosted-pilot",
@@ -271,6 +289,7 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
   standingRules: [
     "Do not create production migrations before backend choice and policy gates are accepted.",
     "Migrations must preserve tenant boundaries and release-control records.",
+    "Teacher draft packages must preserve owner, source lineage, review gates, and direct student-assignment blocks.",
     "Raw learner audio and transcripts stay out of core storage.",
     "Hosted and local implementations must use the same record vocabulary.",
     "Launch-session migrations must preserve teacher settings snapshots and event acceptance gates before accepting student events.",

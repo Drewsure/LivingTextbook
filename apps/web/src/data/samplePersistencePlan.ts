@@ -13,6 +13,7 @@ export type PersistenceReadinessStatus = "demo-static" | "needs-backend" | "need
 export type PersistenceBoundaryCategory =
   | "tenant-config"
   | "content-package"
+  | "teacher-draft-package"
   | "route-registry"
   | "launch-session"
   | "progress-event"
@@ -78,6 +79,23 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     storesTranscript: false,
     recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
     note: "PDF/DOCX intake must publish reviewed package versions rather than live-editing student routes from source files.",
+  },
+  {
+    recordId: "teacher-draft-package-record",
+    category: "teacher-draft-package",
+    label: "Teacher draft package record",
+    readiness: "durable-required",
+    sourceOfTruth: "TeacherDraftPackagePreview, source lineage, owner, visibility, draft payload, review gates, audio plan",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesDraftReviewGate: true,
+    blocksDirectStudentAssignment: true,
+    recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
+    note: "Teacher drafts need durable owner, source lineage, visibility, and review gate records before live authoring or private library workflows are enabled.",
   },
   {
     recordId: "qr-route-registry-record",
@@ -332,6 +350,18 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     visibleTo: ["Teacher", "Tenant admin", "Content reviewer"],
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision: "Choose where approved package versions are stored and how yearly textbook updates are versioned.",
+  },
+  {
+    boundaryId: "teacher-draft-package-boundary",
+    category: "teacher-draft-package",
+    label: "Teacher draft packages",
+    status: "needs-backend",
+    recordShape: "Draft owner, tenant, source package lineage, draft payload, visibility, review gates, audio plan, assignment block",
+    whyItMatters:
+      "Teachers need fast draft workflows, but drafts must remain private and review-gated before becoming student-facing packages.",
+    visibleTo: ["Teacher", "Tenant admin", "Content reviewer"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision: "Persist draft ownership, source lineage, visibility, and review gates before live authoring or copy/edit workflows are enabled.",
   },
   {
     boundaryId: "route-registry-boundary",

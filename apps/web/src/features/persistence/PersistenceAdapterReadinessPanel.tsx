@@ -144,6 +144,18 @@ export function PersistenceAdapterReadinessPanel({
                         <dd className="mt-1">{intent.rejectsRandomRewardPressure ? "Blocked" : "Needs review"}</dd>
                       </div>
                     )}
+                    {intent.category === "teacher-draft-package" && (
+                      <div>
+                        <dt className="font-semibold text-[var(--tenant-text)]">Draft review gate</dt>
+                        <dd className="mt-1">{intent.preservesDraftReviewGate ? "Preserved" : "Needs review"}</dd>
+                      </div>
+                    )}
+                    {intent.category === "teacher-draft-package" && (
+                      <div>
+                        <dt className="font-semibold text-[var(--tenant-text)]">Student assignment</dt>
+                        <dd className="mt-1">{intent.blocksDirectStudentAssignment ? "Blocked" : "Needs review"}</dd>
+                      </div>
+                    )}
                     {intent.intentId.includes("package-audio-coverage") && (
                       <div>
                         <dt className="font-semibold text-[var(--tenant-text)]">Game/audio snapshot</dt>

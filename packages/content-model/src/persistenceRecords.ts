@@ -1,6 +1,7 @@
 export type PersistenceRecordCategory =
   | "tenant-config"
   | "content-package"
+  | "teacher-draft-package"
   | "route-registry"
   | "launch-session"
   | "progress-event-stream"
@@ -48,6 +49,8 @@ export interface DurableRecordContract {
   preservesReportEventAcceptanceSummary?: boolean;
   preservesEarnedCollectionRules?: boolean;
   rejectsRandomRewardPressure?: boolean;
+  preservesDraftReviewGate?: boolean;
+  blocksDirectStudentAssignment?: boolean;
   recommendedFirstPilotStore: PersistenceStorageTier[];
   note: string;
 }
@@ -109,6 +112,14 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "collection-inventory" && !record.rejectsRandomRewardPressure) {
       errors.push(`Collection inventory durable record ${record.recordId} must reject random reward pressure.`);
+    }
+
+    if (record.category === "teacher-draft-package" && !record.preservesDraftReviewGate) {
+      errors.push(`Teacher draft durable record ${record.recordId} must preserve review gates.`);
+    }
+
+    if (record.category === "teacher-draft-package" && !record.blocksDirectStudentAssignment) {
+      errors.push(`Teacher draft durable record ${record.recordId} must block direct student assignment.`);
     }
 
     if (record.supportsLocalDeployment && !record.recommendedFirstPilotStore.includes("local-classroom-store")) {

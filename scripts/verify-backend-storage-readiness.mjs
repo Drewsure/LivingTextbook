@@ -11,6 +11,7 @@ const failures = [];
 const requiredSchemaEntities = [
   "tenant",
   "package_release",
+  "teacher_draft_package",
   "package_game_audio_coverage",
   "route_alias",
   "media_manifest",
@@ -29,6 +30,7 @@ const requiredSchemaEntities = [
 const requiredMigrationCandidates = [
   "m001-tenant-and-entitlements",
   "m002-package-release-and-content",
+  "m014-teacher-draft-package-records",
   "m003-route-alias-registry",
   "m004-media-manifest-rights",
   "m005-publish-gate-and-approval-ledger",
@@ -46,6 +48,7 @@ const requiredMigrationSpecs = [
   "spec-tenant-entitlement",
   "spec-package-release",
   "spec-package-game-audio-coverage",
+  "spec-teacher-draft-package",
   "spec-launch-session-settings",
   "spec-qr-alias",
   "spec-progress-event",
@@ -70,6 +73,9 @@ for (const specId of requiredMigrationSpecs) {
 
 requireText(schemaDraft, "Raw learner audio", "Backend schema must explicitly forbid raw learner audio.");
 requireText(schemaDraft, "Learner transcript", "Backend schema must explicitly forbid learner transcripts.");
+requireText(schemaDraft, "teacher_draft_package", "Backend schema must include teacher draft packages.");
+requireText(schemaDraft, "can_assign_to_students", "Backend schema must preserve direct assignment blocks for teacher drafts.");
+requireText(schemaDraft, "Direct AI publish", "Backend schema must block direct AI publish in teacher draft records.");
 requireText(schemaDraft, "event_effect", "Backend schema must preserve event effect taxonomy.");
 requireText(schemaDraft, "event_acceptance_gate", "Backend schema must preserve event acceptance gates.");
 requireText(schemaDraft, "collection_inventory", "Backend schema must include collection inventory.");
@@ -77,12 +83,18 @@ requireText(schemaDraft, "unlock_source_event_id", "Backend schema must preserve
 requireText(schemaDraft, "Random reward seed", "Backend schema must forbid random reward seeds for collection ownership.");
 requireText(schemaDraft, "assist_language_teacher_enablement_persisted", "Backend schema must preserve assist-language teacher enablement.");
 requireText(migrationSpecs, "assist_language_teacher_enablement_persisted", "Migration specs must preserve assist-language teacher enablement.");
+requireText(migrationSpecs, "spec-teacher-draft-package", "Migration specs must include teacher draft packages.");
+requireText(migrationSpecs, "can_assign_to_students", "Migration specs must preserve teacher draft assignment blocks.");
 requireText(migrationSpecs, "event_acceptance_gate_id", "Migration specs must require event acceptance gate ids for events.");
 requireText(migrationSpecs, "spec-earned-collection-inventory", "Migration specs must include earned collection inventory.");
 requireText(migrationSpecs, "unlock_source_event_id", "Migration specs must preserve collection unlock source events.");
 requireText(migrationSpecs, "support-only events", "Migration specs must preserve support-only event boundaries.");
 requireText(persistenceAdapter, "hosted-launch-session-write", "Persistence adapter must include hosted launch-session writes.");
 requireText(persistenceAdapter, "local-launch-session-write", "Persistence adapter must include local launch-session writes.");
+requireText(persistenceAdapter, "hosted-teacher-draft-package-write", "Persistence adapter must include hosted teacher draft writes.");
+requireText(persistenceAdapter, "local-teacher-draft-package-write", "Persistence adapter must include local teacher draft writes.");
+requireText(persistenceAdapter, "preservesDraftReviewGate: true", "Persistence adapter must preserve teacher draft review gates.");
+requireText(persistenceAdapter, "blocksDirectStudentAssignment: true", "Persistence adapter must block direct draft assignment.");
 requireText(persistenceAdapter, "hosted-collection-inventory-write", "Persistence adapter must include hosted collection inventory writes.");
 requireText(persistenceAdapter, "local-collection-inventory-write", "Persistence adapter must include local collection inventory writes.");
 requireText(persistenceAdapter, "preservesEarnedCollectionRules: true", "Persistence adapter must preserve earned collection rules.");
@@ -92,6 +104,9 @@ requireText(persistenceAdapter, "preservesTeacherSessionEventAcceptanceGate: tru
 requireText(persistenceAdapter, "rejectsRawAudio: true", "Persistence adapter write intents must reject raw audio.");
 requireText(persistenceAdapter, "rejectsTranscripts: true", "Persistence adapter write intents must reject transcripts.");
 requireText(durableRecords, "ownsTeacherSessionSettings: true", "Durable record plan must assign teacher session settings to launch sessions.");
+requireText(durableRecords, "teacher-draft-package-record", "Durable record plan must include teacher draft packages.");
+requireText(durableRecords, "preservesDraftReviewGate: true", "Durable record plan must preserve teacher draft review gates.");
+requireText(durableRecords, "blocksDirectStudentAssignment: true", "Durable record plan must block direct draft assignment.");
 requireText(durableRecords, "requiresEventAcceptanceGate: true", "Durable record plan must require event acceptance gates for student event storage.");
 requireText(durableRecords, "earned-collection-inventory-record", "Durable record plan must include earned collection inventory.");
 requireText(durableRecords, "preservesEarnedCollectionRules: true", "Durable record plan must preserve earned collection rules.");

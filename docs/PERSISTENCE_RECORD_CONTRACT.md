@@ -2,7 +2,7 @@
 
 Document type: foundation data contract  
 Status: active scaffold  
-Last updated: 2026-07-12
+Last updated: 2026-07-13
 
 ## Purpose
 
@@ -37,6 +37,7 @@ The scaffold currently tracks:
 
 - Tenant configuration records.
 - Reviewed content package records.
+- Teacher draft package records.
 - QR and route registry records.
 - Teacher launch session and settings records.
 - Progress and media event stream records.
@@ -85,6 +86,7 @@ These records protect the platform from treating a controlled demo as a real pil
 - Earned collection inventory must reject random reward pressure, paid gacha-like ownership, and support-only unlocks.
 - Package approval ledgers require approver identity and policy rules before real sign-offs are stored.
 - Package publish gates must not mark a package pilot-publishable while release-blocking items remain open.
+- Teacher draft packages must preserve owner, source lineage, visibility, draft payload, requested activity path, review gates, audio plan state, and direct-assignment blocks before becoming package releases.
 - Local/closed deployment capable records must preserve a local classroom store path.
 
 ## Pilot Warnings

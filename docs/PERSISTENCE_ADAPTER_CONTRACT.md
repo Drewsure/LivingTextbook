@@ -2,7 +2,7 @@
 
 Document type: foundation data contract  
 Status: active scaffold  
-Last updated: 2026-07-12
+Last updated: 2026-07-13
 
 ## Purpose
 
@@ -33,11 +33,11 @@ Used for source-controlled reviewed sample data. It is useful for design and sal
 
 ### Hosted Pilot Adapter
 
-The recommended first pilot path. It should support durable route registry writes, teacher launch-session settings, progress/media event writes, earned collection inventory writes, package publish gates, and package approval ledgers after privacy, release-control, and policy requirements are accepted.
+The recommended first pilot path. It should support durable route registry writes, teacher launch-session settings, teacher draft package writes, progress/media event writes, earned collection inventory writes, package publish gates, and package approval ledgers after privacy, release-control, and policy requirements are accepted.
 
 ### Local Classroom Adapter
 
-A future closed deployment path for schools or textbook partners who require a local classroom server or packaged local app. It must support local media bundles, local progress export packages, local earned collection inventory, package publish gates, package approval ledgers, backup/restore, and year-on-year content updates.
+A future closed deployment path for schools or textbook partners who require a local classroom server or packaged local app. It must support local media bundles, local teacher draft packages, local progress export packages, local earned collection inventory, package publish gates, package approval ledgers, backup/restore, and year-on-year content updates.
 
 ## Core Safety Rules
 
@@ -53,7 +53,9 @@ Every core adapter plan must:
 - keep media/object storage concerns separate from student progress records,
 - keep approval evidence storage separate from raw student progress records,
 - preserve deterministic mastery-earned collection ownership,
-- reject random pressure loops, paid gacha-like ownership, and purchase-like unlock states.
+- reject random pressure loops, paid gacha-like ownership, and purchase-like unlock states,
+- preserve teacher draft review gates and source lineage,
+- block direct student assignment from unreviewed teacher drafts.
 
 ## Required Hosted Pilot Write Intents
 
@@ -61,6 +63,7 @@ The hosted pilot path should support:
 
 - route registry entries,
 - teacher launch-session settings,
+- teacher draft packages,
 - progress and media events,
 - earned collection inventory,
 - package game/audio coverage snapshots,
@@ -74,6 +77,7 @@ Package publish gates are backend-required before a package can be marked pilot-
 The local/closed deployment path should support:
 
 - local media bundle manifests,
+- local teacher draft packages,
 - local package game/audio coverage snapshots,
 - local progress export packages,
 - local earned collection inventory,

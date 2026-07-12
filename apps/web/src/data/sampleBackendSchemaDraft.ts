@@ -74,6 +74,30 @@ export const sampleBackendSchemaDraft: BackendSchemaDraft = {
       migrationNote: "First migration should keep content payload blobs separate from release metadata if records grow large.",
     },
     {
+      entityId: "teacher_draft_package",
+      label: "Teacher draft package",
+      status: "required-before-pilot",
+      deploymentFit: "hybrid",
+      purpose:
+        "Stores teacher-owned draft packages, source lineage, visibility, draft payloads, requested activity paths, audio plans, and review gates before student assignment.",
+      fields: [
+        { name: "draft_id", type: "stable id", required: true, note: "One teacher-owned draft package." },
+        { name: "tenant_id", type: "foreign key/string", required: true, note: "Tenant boundary for draft visibility and package lineage." },
+        { name: "owner_teacher_id", type: "role/id", required: true, note: "Teacher or staff owner. Real auth required before production writes." },
+        { name: "source_package_id", type: "foreign key/string", required: true, note: "Reviewed package or source intake record copied from." },
+        { name: "visibility", type: "enum", required: true, note: "Private teacher draft, tenant review, returned, approved, or archived." },
+        { name: "draft_payload", type: "json/object", required: true, note: "Reviewed shape only; not raw PDF, not direct AI output." },
+        { name: "requested_activity_path", type: "json/string array", required: true, note: "Teacher-selected modes pending compatibility and audio checks." },
+        { name: "review_gates", type: "json/object", required: true, note: "Schema, audio, route, rights, version, and approval gate state." },
+        { name: "can_assign_to_students", type: "boolean", required: true, note: "False until review gates and approval ledger pass." },
+      ],
+      relationships: ["Belongs to tenant", "Belongs to teacher owner", "References source package", "May become package release after approval"],
+      indexes: ["tenant_id + owner_teacher_id", "tenant_id + visibility", "source_package_id", "tenant_id + can_assign_to_students"],
+      forbiddenFields: ["Direct draft assignment", "Direct AI publish", "Raw PDF as draft payload", "Raw learner audio", "Learner transcript"],
+      migrationNote:
+        "Draft package records are authoring records, not student payloads. They must preserve source lineage and block assignment until review gates pass.",
+    },
+    {
       entityId: "package_game_audio_coverage",
       label: "Package game/audio coverage",
       status: "required-before-pilot",
@@ -351,6 +375,7 @@ export const sampleBackendSchemaDraft: BackendSchemaDraft = {
   ],
   crossCuttingRules: [
     "Every record belongs to a tenant or to a tenant-owned package release.",
+    "Teacher drafts must preserve owner, source lineage, review gates, and direct-assignment blocks before they can become package releases.",
     "Raw learner audio and transcripts stay out of core schema.",
     "Media files live in object storage or local bundles; schema stores manifests and rights metadata.",
     "Package game/audio coverage stores release metadata only, not raw audio files or learner recordings.",

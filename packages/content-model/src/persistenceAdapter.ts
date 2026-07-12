@@ -26,6 +26,8 @@ export interface PersistenceWriteIntent {
   preservesTeacherSessionEventAcceptanceGate?: boolean;
   preservesEarnedCollectionRules?: boolean;
   rejectsRandomRewardPressure?: boolean;
+  preservesDraftReviewGate?: boolean;
+  blocksDirectStudentAssignment?: boolean;
   note: string;
 }
 
@@ -122,6 +124,14 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "collection-inventory" && !intent.rejectsRandomRewardPressure) {
       errors.push(`Collection inventory write intent ${intent.intentId} must reject random reward pressure.`);
+    }
+
+    if (intent.category === "teacher-draft-package" && !intent.preservesDraftReviewGate) {
+      errors.push(`Teacher draft package write intent ${intent.intentId} must preserve review gates.`);
+    }
+
+    if (intent.category === "teacher-draft-package" && !intent.blocksDirectStudentAssignment) {
+      errors.push(`Teacher draft package write intent ${intent.intentId} must block direct student assignment.`);
     }
 
     if (intent.intentId.includes("package-audio-coverage") && !intent.preservesGameAudioCoverageSnapshot) {
