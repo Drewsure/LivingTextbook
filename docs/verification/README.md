@@ -26,6 +26,7 @@ Focused verification supplements:
 - `docs/verification/GAME_MODE_COVERAGE_VERIFIER_CHECKS.md`
 - `docs/verification/LOCAL_DEPLOYMENT_PREFLIGHT_CHECKS.md`
 - `docs/verification/LOCAL_COMPANION_PACKAGE_PREVIEW_CHECKS.md`
+- `docs/verification/LOCAL_BUNDLE_READINESS_VERIFIER_CHECKS.md`
 - `docs/verification/LOCAL_COMPANION_ARTIFACT_MAP_CHECKS.md`
 - `docs/verification/LOCAL_COMPANION_HANDOFF_CHECKLIST_CHECKS.md`
 - `docs/verification/LOCAL_COMPANION_HANDOFF_STORAGE_CHECKS.md`

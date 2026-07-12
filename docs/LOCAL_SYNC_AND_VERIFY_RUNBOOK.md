@@ -12,7 +12,7 @@ npm run verify:foundation
 npm run dev --workspace @living-textbook/web -- --hostname 127.0.0.1 --port 3000
 ```
 
-`npm run verify:foundation` now runs taxonomy coverage, game-mode coverage, package readiness coverage, web typecheck, production build, and active route checks.
+`npm run verify:foundation` now runs taxonomy coverage, game-mode coverage, package readiness coverage, local bundle readiness coverage, web typecheck, production build, and active route checks.
 
 ## If Port 3000 Is Busy
 

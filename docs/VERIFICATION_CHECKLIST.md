@@ -10,7 +10,7 @@ Use this checklist when the `legacy-source-import` branch is locally accessible.
 4. Run `npm run verify:foundation` from the repository root.
 5. Start the local dev server.
 
-`npm run verify:foundation` runs taxonomy coverage, game-mode coverage, package readiness coverage, web typecheck, production build, and active route checks.
+`npm run verify:foundation` runs taxonomy coverage, game-mode coverage, package readiness coverage, local bundle readiness coverage, web typecheck, production build, and active route checks.
 
 ## Route Smoke Checks
 
@@ -173,6 +173,15 @@ When reviewing content package, media package, pilot handoff, route registry, AI
 - Confirm each active sample tenant remains represented in package readiness summaries.
 - Confirm active modes retain explicit audio cue coverage.
 - Confirm media, front-door access, background-media teacher controls, support-language policy, and optional premium AI Tutor policy remain intact.
+
+## Local Bundle Readiness Checks
+
+When reviewing closed/local companion changes:
+
+- Run `npm run verify:local-bundle`.
+- Confirm bundle manifests remain preview-only while media rights, checksums, installer/update, reporting/export, backup/restore, or school policy gates are unresolved.
+- Confirm local game routes stay audio-covered and reportable.
+- Confirm package artifacts still include content package, QR registry, game routes, report policy, release gate, installer, and checksum expectations.
 - Confirm completion events include scoring profile metadata when a profile is used.
 
 ## Multimedia Checks
