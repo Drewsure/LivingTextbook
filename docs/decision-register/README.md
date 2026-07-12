@@ -137,6 +137,7 @@
 - `DR-163-launch-context-session-settings.md`
 - `DR-164-assist-language-enable-persistence-field.md`
 - `DR-165-backend-storage-readiness-verifier.md`
+- `DR-166-release-control-readiness-verifier.md`
 
 ## Maintenance Rule
 

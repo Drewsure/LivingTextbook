@@ -100,6 +100,15 @@ export const sampleFoundationVerificationGate: FoundationVerificationGate = {
       nextStep: "Run this before backend selection or any vendor-specific migration work.",
     },
     {
+      checkId: "release-control-readiness",
+      label: "Release control readiness",
+      command: "npm run verify:release-control",
+      status: "pass",
+      protects: "Demo-visible packages cannot be mistaken for pilot-publishable packages while release gates or required approvals remain open.",
+      evidence: "The verifier checks publish gates, approval signoffs, derived pilot-readiness logic, and release-control storage previews.",
+      nextStep: "Run this before changing publish gates, approval ledgers, release candidate status, or pilot handoff claims.",
+    },
+    {
       checkId: "web-typecheck-build",
       label: "Web typecheck and build",
       command: "npm run typecheck --workspace @living-textbook/web && npm run build --workspace @living-textbook/web",

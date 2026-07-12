@@ -301,6 +301,7 @@ Next outputs:
 - Confirm local companion release gate storage contracts exist before installer packaging, local server release, desktop companion handoff, or offline-ready claims.
 - Confirm shared navigation exposes the local companion preview during review.
 - Confirm `/teacher/intake` shows a pilot release candidate summary that joins publish gates and approval ledgers before any live pilot claim.
+- Confirm `npm run verify:release-control` passes after publish gate, approval ledger, release candidate, or pilot handoff changes.
 - Confirm `/teacher/intake` shows the backend selection gate before choosing the actual first pilot backend.
 - Confirm teacher session monitor routes show a machine-readable settings snapshot before launch-session persistence is implemented.
 - Confirm launch-session adapter plans, schema draft, migration candidates, and migration specs preserve teacher session settings snapshots before live student events are stored.
