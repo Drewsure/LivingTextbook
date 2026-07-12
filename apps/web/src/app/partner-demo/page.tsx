@@ -21,6 +21,7 @@ import {
   getStudentLaunchPath,
   getTeacherSessionMonitorPath,
   getTeacherUnitReviewPath,
+  getPrivateAssignmentPath,
   getPrintableWorksheetPath,
   getTrainingAcademyPath,
 } from "@/features/routes/routeContracts";
@@ -76,6 +77,7 @@ export default function PartnerDemoPage() {
             <dl className="mt-5 grid gap-3 text-sm text-[var(--tenant-muted)]">
               <RouteLink label="Partner demo" href="/partner-demo" />
               <RouteLink label="Teacher unit review" href={getTeacherUnitReviewPath(getUnitKey(samplePartnerUnitOne.unitMeta))} />
+              <RouteLink label="Private assignment link" href={getPrivateAssignmentPath("assignment-sample-publisher-front-door")} />
               <RouteLink label="Front door" href={samplePartnerFrontDoorPath} />
               <RouteLink label="Student launch" href={getStudentLaunchPath(samplePartnerLaunchCode)} />
               <RouteLink label="Printable Worksheet" href={getPrintableWorksheetPath(samplePartnerLaunchCode)} />

@@ -83,6 +83,14 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     note: "Teacher-facing unit review surface before assignment or launch.",
   },
   {
+    routeId: "ministar-private-assignment",
+    group: "ministar",
+    label: "MiniStar private assignment link",
+    path: "/assign/assignment-ministar-demo-whole-class",
+    status: "active-scaffold",
+    note: "Student-facing private assignment preview, not public sharing.",
+  },
+  {
     routeId: "ministar-training",
     group: "ministar",
     label: "MiniStar Training Academy",
@@ -177,6 +185,14 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     path: "/teacher/units/sample-publisher%3Apartner-textbook-companion%3AL1%3AU1",
     status: "active-scaffold",
     note: "White-label teacher unit review surface before partner assignment or pilot launch.",
+  },
+  {
+    routeId: "partner-private-assignment",
+    group: "sample-publisher",
+    label: "Sample publisher private assignment link",
+    path: "/assign/assignment-sample-publisher-front-door",
+    status: "active-scaffold",
+    note: "White-label private assignment preview with front-door access requirements.",
   },
   {
     routeId: "partner-training",

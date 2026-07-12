@@ -17,6 +17,7 @@ import {
   getFrontDoorPath,
   getMediaPlaylistPath,
   getPrintableWorksheetPath,
+  getPrivateAssignmentPath,
   getQuizPath,
   getSentenceBuilderPath,
   getSpeakItPath,
@@ -93,6 +94,16 @@ function buildTeacherUnitReviewContext(args: {
     packageReadiness,
     assignmentPlan,
     routes: [
+      ...(assignmentPlan
+        ? [
+            {
+              label: "Private assignment link",
+              href: getPrivateAssignmentPath(assignmentPlan.assignmentId),
+              status: "review" as const,
+              note: "Student-facing private assignment preview. Not public sharing, public community discovery, or an iframe embed.",
+            },
+          ]
+        : []),
       {
         label: "Front door",
         href: getFrontDoorPath(args.tenant.id),

@@ -76,6 +76,14 @@ export const appRouteContracts: AppRouteContract[] = [
     requiredState: ["TenantConfig", "FrontDoorAccessPolicy", "LaunchSession", "ContentPackage"],
   },
   {
+    id: "private-assignment-link",
+    pattern: "/assign/[assignmentId]",
+    audience: "student",
+    status: "active-scaffold",
+    purpose: "Open a tenant-scoped private assignment preview that routes students to the correct launch or front-door path without exposing public sharing or teacher/admin controls.",
+    requiredState: ["TenantConfig", "TeacherAssignmentPlan", "LaunchSession", "ContentPackage", "TeacherSessionSettings"],
+  },
+  {
     id: "training-academy",
     pattern: "/training/[code]",
     audience: "student",
@@ -190,6 +198,10 @@ export function getPermanentTextbookQrPath(identifier: PermanentQrIdentifier): s
 
 export function getFrontDoorPath(tenantId: TenantId): string {
   return `/enter/${encodeURIComponent(tenantId)}`;
+}
+
+export function getPrivateAssignmentPath(assignmentId: string): string {
+  return `/assign/${encodeURIComponent(assignmentId)}`;
 }
 
 export function getMediaPlaylistPath(playlistId: string): string {

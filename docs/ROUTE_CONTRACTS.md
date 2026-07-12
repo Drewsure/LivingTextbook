@@ -22,6 +22,7 @@ This document defines the clean route and state contracts for the first Living T
 | `/teacher` | Teacher | Active scaffold | Teacher Launch Protocol and student launch path. |
 | `/launch/[code]` | Student | Active interactive slice | Short classroom QR entry route. Student starts with flashcards, unlocks Memory Match, and can complete the first playable pairing game. |
 | `/enter/[tenantId]` | Student | Active interactive slice | Tenant-branded front door where students enter an entry code and optional user code before opening the unit package. |
+| `/assign/[assignmentId]` | Student | Active scaffold | Tenant-scoped private assignment preview that routes students to the correct launch/front-door path without exposing public sharing or teacher/admin controls. |
 | `/q/tenant/[tenantId]/series/[seriesId]/book/[bookId]/unit/[unitId]/activity/[activityId]` | Student / teacher | Future contract | Permanent printed textbook QR route that resolves a stable identifier to the current unit, game, media playlist, front door, or teacher preview. |
 | `/media/[playlistId]` | Student / teacher | Future contract | Unit-linked playlist or media activity route resolved from a launch session, permanent QR, or teacher preview. |
 | `/teacher/units/[unitKey]` | Teacher | Active scaffold | Unit-specific approval, content review, launch settings, audio support review, media review, route readiness, and class assignment blockers. |
