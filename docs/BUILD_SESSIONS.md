@@ -248,6 +248,7 @@ Next outputs:
 - Confirm `/teacher/intake` shows the progress event taxonomy before backend event storage is finalized.
 - Confirm `/teacher/intake` shows the progress event taxonomy revision and required event fields before backend event storage is finalized.
 - Confirm `npm run verify:taxonomy` passes before adding, renaming, or removing shared progress event types.
+- Confirm `npm run verify:game-modes` passes before adding, renaming, routing, or delegating shared game modes.
 - Confirm backend schema and migration specs preserve event effect taxonomy before progress-event storage is implemented.
 - Confirm progress-event persistence write intents preserve event effect taxonomy in hosted and local adapters.
 - Confirm package game/audio coverage write intents show machine-readable snapshot preservation.

@@ -118,6 +118,7 @@
 - `DR-144-durable-record-event-acceptance-safeguards.md`
 - `DR-145-progress-event-taxonomy-revision-contract.md`
 - `DR-146-progress-event-taxonomy-coverage-verifier.md`
+- `DR-147-game-mode-coverage-verifier.md`
 
 ## Maintenance Rule
 

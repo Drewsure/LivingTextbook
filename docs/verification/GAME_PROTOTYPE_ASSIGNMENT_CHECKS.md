@@ -14,6 +14,12 @@ npm run build --workspace @living-textbook/web
 npm run dev --workspace @living-textbook/web -- --hostname 127.0.0.1 --port 3000
 ```
 
+Also run:
+
+```powershell
+npm run verify:game-modes
+```
+
 If `git pull --ff-only` still says already up to date but the new panel is missing, run:
 
 ```powershell
@@ -43,6 +49,7 @@ Confirm the page includes a `Prototype assignments` panel with:
 
 Confirm the panel makes these rules clear:
 
+- shared game modes must pass the game mode coverage verifier before external prototype work is promoted,
 - Phaser is preferred for action, reflex, physics, and motion-heavy modes,
 - DOM/reference prototypes are preferred first for syntax, spelling, quiz, and report-heavy modes,
 - Sentence Builder starts DOM/reference because accessibility, audio, and event output matter first,
