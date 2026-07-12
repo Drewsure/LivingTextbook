@@ -2,7 +2,7 @@
 
 Document type: QA operating note  
 Status: active scaffold  
-Last updated: 2026-07-10
+Last updated: 2026-07-12
 
 ## Purpose
 
@@ -21,6 +21,7 @@ This list names the routes that should be checked after foundation changes. It i
 
 - `http://127.0.0.1:3000/enter/ministar`
 - `http://127.0.0.1:3000/launch/demo-unit-1`
+- `http://127.0.0.1:3000/teacher/units/ministar%3Aministar-english%3AL1%3AU1`
 - `http://127.0.0.1:3000/training/demo-unit-1`
 - `http://127.0.0.1:3000/training/demo-unit-1?focus=sentence-review`
 - `http://127.0.0.1:3000/quiz/demo-unit-1`
@@ -35,6 +36,7 @@ This list names the routes that should be checked after foundation changes. It i
 
 - `http://127.0.0.1:3000/enter/sample-publisher`
 - `http://127.0.0.1:3000/launch/partner-demo-unit-1`
+- `http://127.0.0.1:3000/teacher/units/sample-publisher%3Apartner-textbook-companion%3AL1%3AU1`
 - `http://127.0.0.1:3000/training/partner-demo-unit-1`
 - `http://127.0.0.1:3000/training/partner-demo-unit-1?focus=sentence-review`
 - `http://127.0.0.1:3000/quiz/partner-demo-unit-1`

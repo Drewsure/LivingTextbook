@@ -75,6 +75,14 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     note: "Student flashcards, game unlock, and recommended path.",
   },
   {
+    routeId: "ministar-teacher-unit-review",
+    group: "ministar",
+    label: "MiniStar teacher unit review",
+    path: "/teacher/units/ministar%3Aministar-english%3AL1%3AU1",
+    status: "active-scaffold",
+    note: "Teacher-facing unit review surface before assignment or launch.",
+  },
+  {
     routeId: "ministar-training",
     group: "ministar",
     label: "MiniStar Training Academy",
@@ -161,6 +169,14 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     path: "/launch/partner-demo-unit-1",
     status: "active-scaffold",
     note: "White-label student launch for the sample publisher package.",
+  },
+  {
+    routeId: "partner-teacher-unit-review",
+    group: "sample-publisher",
+    label: "Sample publisher teacher unit review",
+    path: "/teacher/units/sample-publisher%3Apartner-textbook-companion%3AL1%3AU1",
+    status: "active-scaffold",
+    note: "White-label teacher unit review surface before partner assignment or pilot launch.",
   },
   {
     routeId: "partner-training",

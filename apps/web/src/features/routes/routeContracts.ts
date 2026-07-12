@@ -127,9 +127,9 @@ export const appRouteContracts: AppRouteContract[] = [
     id: "teacher-unit-review",
     pattern: "/teacher/units/[unitKey]",
     audience: "teacher",
-    status: "future",
-    purpose: "Review generated content, approve assignment, configure media, and configure classroom launch settings.",
-    requiredState: ["TenantConfig", "UnitPayload", "ContentPackage", "VerificationResult"],
+    status: "active-scaffold",
+    purpose: "Review generated content, audio coverage, curated activity paths, media, assignment controls, and pilot blockers before classroom launch.",
+    requiredState: ["TenantConfig", "UnitPayload", "ContentPackage", "LaunchSession", "TeacherAssignmentPlan", "UnitPackageReadinessSummary"],
   },
   {
     id: "teacher-session-monitor",
@@ -178,6 +178,10 @@ export function getSpeakItPath(launchCode: LaunchCode): string {
 
 export function getTeacherSessionMonitorPath(launchCode: LaunchCode): string {
   return `/teacher/sessions/${encodeURIComponent(launchCode)}`;
+}
+
+export function getTeacherUnitReviewPath(unitKey: string): string {
+  return `/teacher/units/${encodeURIComponent(unitKey)}`;
 }
 
 export function getPermanentTextbookQrPath(identifier: PermanentQrIdentifier): string {

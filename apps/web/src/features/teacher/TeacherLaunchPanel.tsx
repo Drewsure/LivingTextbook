@@ -9,6 +9,7 @@ import {
   getSpeakItPath,
   getStudentLaunchPath,
   getTeacherSessionMonitorPath,
+  getTeacherUnitReviewPath,
   getTrainingAcademyPath,
 } from "@/features/routes/routeContracts";
 
@@ -20,8 +21,14 @@ interface TeacherLaunchPanelProps {
 
 export function TeacherLaunchPanel({ unit, launchSession, contentPackage }: TeacherLaunchPanelProps) {
   const launchPath = getStudentLaunchPath(launchSession.launchCode);
+  const teacherUnitReviewPath = getTeacherUnitReviewPath(getUnitKey(unit.unitMeta));
   const playlist = contentPackage?.playlists?.find((candidate) => candidate.unitKey === getUnitKey(unit.unitMeta));
   const routeShortcuts = [
+    {
+      label: "Teacher unit review",
+      href: teacherUnitReviewPath,
+      summary: "Review content, audio coverage, activity paths, media, assignment controls, and pilot blockers before launch.",
+    },
     {
       label: "Student launch",
       href: launchPath,

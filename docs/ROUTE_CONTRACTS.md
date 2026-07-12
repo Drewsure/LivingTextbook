@@ -24,7 +24,7 @@ This document defines the clean route and state contracts for the first Living T
 | `/enter/[tenantId]` | Student | Active interactive slice | Tenant-branded front door where students enter an entry code and optional user code before opening the unit package. |
 | `/q/tenant/[tenantId]/series/[seriesId]/book/[bookId]/unit/[unitId]/activity/[activityId]` | Student / teacher | Future contract | Permanent printed textbook QR route that resolves a stable identifier to the current unit, game, media playlist, front door, or teacher preview. |
 | `/media/[playlistId]` | Student / teacher | Future contract | Unit-linked playlist or media activity route resolved from a launch session, permanent QR, or teacher preview. |
-| `/teacher/units/[unitKey]` | Teacher | Future | Unit-specific approval, content review, launch settings, audio support review, media review, and class assignment. |
+| `/teacher/units/[unitKey]` | Teacher | Active scaffold | Unit-specific approval, content review, launch settings, audio support review, media review, route readiness, and class assignment blockers. |
 | `/teacher/sessions/[launchCode]` | Teacher | Future | Live classroom monitoring, audio cue engagement, media engagement, completion, Training Academy recommendations. |
 | `/student/progress` | Student | Future | Lightweight return route for unlocked games, media, rewards, and mastery status. |
 | `/training/[code]` | Student | Future | Remedial or adaptive Training Academy route for targeted review. |
