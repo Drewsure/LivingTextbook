@@ -77,7 +77,7 @@ export const samplePersistenceAdapterPlans: PersistenceAdapterPlan[] = [
         rejectsTranscripts: true,
         preservesTeacherSessionSettingsSnapshot: true,
         preservesTeacherSessionEventAcceptanceGate: true,
-        note: "Teacher toggles, microphone approval, session state, and report settings must travel across student devices.",
+        note: "Teacher toggles, assist-language teacher enablement, microphone approval, session state, and report settings must travel across student devices.",
       },
       {
         intentId: "hosted-progress-event-write",
@@ -278,7 +278,7 @@ export const samplePersistenceAdapterPlans: PersistenceAdapterPlan[] = [
         rejectsTranscripts: true,
         preservesTeacherSessionSettingsSnapshot: true,
         preservesTeacherSessionEventAcceptanceGate: true,
-        note: "Closed/local deployments need the same settings snapshot so teacher controls, microphone approval, background media, Training Academy thresholds, AI Tutor state, and reporting policy travel with the local package.",
+        note: "Closed/local deployments need the same settings snapshot so teacher controls, assist-language teacher enablement, microphone approval, background media, Training Academy thresholds, AI Tutor state, and reporting policy travel with the local package.",
       },
       {
         intentId: "local-progress-export-write",

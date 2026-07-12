@@ -10,6 +10,7 @@ Run after launch-session settings, persistence adapter, backend schema, migratio
 - Confirm hosted adapter plans include launch-session settings writes.
 - Confirm local adapter plans include launch-session settings writes.
 - Confirm backend schema draft includes `settings_snapshot`, `settings_validation`, and `settings_revision`.
+- Confirm backend schema draft and migration specs preserve `assist_language_teacher_enablement_persisted`.
 - Confirm backend migration candidates mention non-scoring support language and background media.
 - Confirm backend migration specs include `spec-launch-session-settings`.
 - Confirm raw microphone audio, learner transcripts, and ungated AI Tutor state are forbidden in core launch-session records.

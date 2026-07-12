@@ -210,6 +210,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
           note: "Audio, assist-language, microphone, background-media, Training Academy, AI Tutor, and reporting settings.",
         },
         {
+          name: "assist_language_teacher_enablement_persisted",
+          type: "boolean",
+          required: true,
+          note: "Derived from the settings snapshot; true only when the teacher's support-language on/off choice is durable for student devices.",
+        },
+        {
           name: "settings_validation",
           type: "json",
           required: true,
@@ -246,7 +252,7 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       localFallback: "Local classroom deployments store the same launch-session settings and event acceptance snapshots before accepting student events.",
       policyBlockers: [
         "Teacher role, session access, retention, and reporting policy must be accepted before production writes.",
-        "Settings snapshots must not allow support language, background media, or route guidance to unlock progress or award mastery.",
+        "Settings snapshots must preserve assist-language teacher enablement and must not allow support language, background media, or route guidance to unlock progress or award mastery.",
         "Event acceptance gates must block live student event writes until settings persistence, report policy, event taxonomy, coded identity, and sensitive-data exclusions are ready.",
         "Raw microphone audio, transcripts, and ungated AI Tutor state must stay out of the core launch-session record.",
       ],

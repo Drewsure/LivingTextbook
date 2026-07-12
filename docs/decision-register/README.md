@@ -135,6 +135,7 @@
 - `DR-161-teacher-session-settings-contract-verifier.md`
 - `DR-162-foundation-gate-session-settings-visibility.md`
 - `DR-163-launch-context-session-settings.md`
+- `DR-164-assist-language-enable-persistence-field.md`
 
 ## Maintenance Rule
 
