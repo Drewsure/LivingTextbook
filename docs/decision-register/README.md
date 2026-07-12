@@ -123,6 +123,7 @@
 - `DR-149-local-bundle-readiness-verifier.md`
 - `DR-150-foundation-verification-gate-panel.md`
 - `DR-151-competitive-feature-coverage-matrix.md`
+- `DR-152-activity-pathway-compatibility-matrix.md`
 
 ## Maintenance Rule
 

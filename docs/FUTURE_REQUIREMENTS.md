@@ -263,6 +263,7 @@ Accepted direction:
 - The platform should not make unrestricted switch-template behavior the default promise.
 - Each unit should eventually identify required, recommended, optional, premium, printable, and blocked activities.
 - Compatibility rules should explain why a payload can or cannot become a particular activity type.
+- The current sample compatibility matrix must remain visible until the contract is promoted to shared package data.
 - Printable/PDF outputs are planned and should be generated from reviewed package data.
 - Private tenant libraries should come before any public community library.
 - Public community sharing is not v1 because moderation, copyright, privacy, quality, and tenant-isolation risks are high.
@@ -279,6 +280,7 @@ Revisit when:
 References:
 
 - `docs/COMPETITIVE_FEATURE_COVERAGE_MATRIX.md`
+- `docs/ACTIVITY_PATHWAY_COMPATIBILITY_MATRIX.md`
 - `docs/UNIT_GAME_OFFER_MAP_CONTRACT.md`
 - `docs/PRINCIPLES_AND_STANDARDS.md`
 

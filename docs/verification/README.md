@@ -4,6 +4,7 @@ Use `docs/VERIFICATION_CHECKLIST.md` as the primary local verification path afte
 
 Focused verification supplements:
 
+- `docs/verification/ACTIVITY_PATHWAY_COMPATIBILITY_CHECKS.md`
 - `docs/verification/AI_TUTOR_ENTITLEMENT_CHECKS.md`
 - `docs/verification/ACTIVE_ROUTE_MATRIX_27_ROUTE_CHECKS.md`
 - `docs/verification/ACTIVE_ROUTE_MATRIX_PANEL_CHECKS.md`

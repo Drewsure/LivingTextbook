@@ -14,6 +14,7 @@ A unit game offer map answers:
 - Which games are teacher-only or hidden until reviewed?
 - Which parent engine renders each game?
 - Which audio, media, teacher-control, route, and reporting rules apply?
+- Which activity outputs are compatible, planned, teacher-review-only, premium, or blocked?
 
 ## Availability States
 
@@ -63,6 +64,8 @@ Every offer should identify:
 ## Standing Rules
 
 - Do not build 48 separate games.
+- Do not offer unrestricted switch-template behavior as the core promise.
+- Use curated, teacher-approved activity pathways for each reviewed unit package.
 - Every offered game maps to a reusable parent engine.
 - Every offered game has learner-facing audio requirements.
 - Background music/video is optional and separate from comprehension audio.
@@ -70,11 +73,16 @@ Every offer should identify:
 - Teacher-only microphone games cannot start microphones automatically.
 - Hidden or blocked modes cannot appear in normal student progression.
 - Student-facing game offers must emit standard progress events.
+- Printable activities must be generated from reviewed package data and should preserve audio/QR support where needed.
+- Text puzzle conversions require text normalization, layout validation, and reviewed clue rules where applicable.
+- Non-space-delimited target languages require reviewed segmentation rules before sentence or puzzle conversion.
 
 ## Current Implementation
 
 - Sample data: `apps/web/src/data/sampleUnitGameOfferMap.ts`
+- Compatibility sample: `apps/web/src/data/sampleActivityPathwayCompatibility.ts`
 - Panel: `apps/web/src/features/game-offers/UnitGameOfferMapPanel.tsx`
+- Compatibility panel: `apps/web/src/features/game-offers/ActivityPathwayCompatibilityPanel.tsx`
 - Route: `/teacher/intake`
 
 ## Follow-Up

@@ -25,6 +25,7 @@ Outputs:
 - Any public-repository or public-asset candidate has license/provenance review before adoption.
 - `/teacher/intake` exposes the current foundation verification gate so partner/admin review can see the canonical command and what it protects.
 - `/teacher/intake` exposes competitive feature coverage so teacher time-saving, curated activity pathways, private libraries, printables, and target-language expansion are visible during admin review.
+- `/teacher/intake` exposes activity pathway compatibility so offered, planned, premium, teacher-review, and blocked outputs are visible before authoring or printables are built.
 
 ## Session 1: First Vertical Slice
 
@@ -263,6 +264,7 @@ Next outputs:
 - Confirm the publish gate blocks release until media routes, local/hosted bundle decisions, and support-only media reporting are reviewed.
 - Confirm the publish gate blocks release while assigned game modes are missing reviewed audio coverage or approved fallback.
 - Confirm `/teacher/intake` shows the competitive feature coverage panel before teacher authoring, printables, private library, sharing, or embed work begins.
+- Confirm `/teacher/intake` shows the activity pathway compatibility panel before template conversion, printable, or text-puzzle work begins.
 - Confirm curated activity pathways remain the default teacher-facing answer to switch-template style expectations.
 - Confirm the approval ledger does not imply real signed approvals before authentication and persistence exist.
 - Confirm the durable record map includes publish gate and approval ledger records.
