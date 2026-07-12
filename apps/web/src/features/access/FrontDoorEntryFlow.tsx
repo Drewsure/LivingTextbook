@@ -10,6 +10,7 @@ import type {
   GameProgressEvent,
   LaunchSession,
   StudentProgressionState,
+  TeacherSessionSettings,
   UnitPayload,
 } from "@living-textbook/content-model";
 import { AudioSupportedAction } from "@/features/audio/AudioSupportedAction";
@@ -38,6 +39,7 @@ interface FrontDoorEntryFlowProps {
   contentPackage: ContentPackage;
   launchSession: LaunchSession;
   progression: StudentProgressionState;
+  sessionSettings?: TeacherSessionSettings;
   accessPolicy: FrontDoorAccessPolicy;
   expectedEntryCode: string;
   expectedUserCode: string;
@@ -50,6 +52,7 @@ export function FrontDoorEntryFlow({
   contentPackage,
   launchSession,
   progression,
+  sessionSettings,
   accessPolicy,
   expectedEntryCode,
   expectedUserCode,
@@ -82,6 +85,7 @@ export function FrontDoorEntryFlow({
   const assistLanguagePlan = contentPackage.assistLanguagePlans?.find(
     (plan) => plan.unitKey === launchSession.unitKey && plan.studentVisibility !== "teacher-only",
   );
+  const activeAssistLanguagePlan = sessionSettings?.assistLanguage.enabled ? assistLanguagePlan : undefined;
 
   function handleOpenUnit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -253,7 +257,7 @@ export function FrontDoorEntryFlow({
               lastEarnedDust={lastEarnedDust}
               nextMode={nextMode}
               audioCues={contentPackage.audioCues}
-              assistLanguagePlan={assistLanguagePlan}
+              assistLanguagePlan={activeAssistLanguagePlan}
               targetPracticeEngagedCount={targetPracticeEngagedCount}
               targetPracticeRequiredCount={targetPracticeRequiredCount}
               targetPracticeReady={targetPracticeReady}

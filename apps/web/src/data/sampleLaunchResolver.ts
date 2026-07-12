@@ -2,6 +2,7 @@ import type {
   ContentPackage,
   LaunchSession,
   StudentProgressionState,
+  TeacherSessionSettings,
   UnitAssistLanguagePlan,
   UnitPayload,
 } from "@living-textbook/content-model";
@@ -14,6 +15,7 @@ import {
   samplePartnerLaunchCode,
 } from "./samplePartnerPackage";
 import { sampleMultimediaContentPackage } from "./sampleMultimediaPackage";
+import { createSampleTeacherSessionSettings } from "./sampleTeacherSessionSettings";
 import { findSampleTeacherAssignmentPlan } from "./sampleTeacherAssignmentPlans";
 import { ministarTenant } from "@/features/tenant/ministarTenant";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
@@ -25,6 +27,7 @@ export interface SampleLaunchContext {
   unit?: UnitPayload;
   launchSession: LaunchSession;
   progression: StudentProgressionState;
+  sessionSettings: TeacherSessionSettings;
   assistLanguagePlan?: UnitAssistLanguagePlan;
   assignmentPlan?: TeacherAssignmentPlan;
 }
@@ -53,14 +56,20 @@ export function resolveSampleLaunchContext(code: string): SampleLaunchContext {
   });
 }
 
-function withPackagePlans(context: Omit<SampleLaunchContext, "assistLanguagePlan" | "assignmentPlan">): SampleLaunchContext {
+function withPackagePlans(context: Omit<SampleLaunchContext, "assistLanguagePlan" | "assignmentPlan" | "sessionSettings">): SampleLaunchContext {
   const assistLanguagePlan = context.contentPackage.assistLanguagePlans?.find(
     (plan) => plan.unitKey === context.launchSession.unitKey && plan.studentVisibility !== "teacher-only",
   );
   const assignmentPlan = findSampleTeacherAssignmentPlan(context.launchSession.launchCode);
+  const sessionSettings = createSampleTeacherSessionSettings({
+    launchSession: context.launchSession,
+    assistLanguageEnabled: Boolean(context.tenant.languageSettings?.studentAssistEnabledByDefault && assistLanguagePlan),
+    assistLanguageVisibility: "student-toggle",
+  });
 
   return {
     ...context,
+    sessionSettings,
     assistLanguagePlan,
     assignmentPlan,
   };

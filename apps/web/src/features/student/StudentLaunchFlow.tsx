@@ -8,6 +8,7 @@ import type {
   GameProgressEvent,
   LaunchSession,
   StudentProgressionState,
+  TeacherSessionSettings,
   UnitAssistLanguagePlan,
   UnitPayload,
 } from "@living-textbook/content-model";
@@ -49,6 +50,7 @@ interface StudentLaunchFlowProps {
   unit: UnitPayload;
   launchSession: LaunchSession;
   progression: StudentProgressionState;
+  sessionSettings?: TeacherSessionSettings;
   contentPackage: ContentPackage;
   audioCues?: AudioCue[];
   assistLanguagePlan?: UnitAssistLanguagePlan;
@@ -60,6 +62,7 @@ export function StudentLaunchFlow({
   unit,
   launchSession,
   progression,
+  sessionSettings,
   contentPackage,
   audioCues = [],
   assistLanguagePlan,
@@ -70,7 +73,9 @@ export function StudentLaunchFlow({
   const [lastEarnedDust, setLastEarnedDust] = useState(0);
   const [activeGameMode, setActiveGameMode] = useState<GameModeId | undefined>();
   const [targetPracticeEngagedItemIds, setTargetPracticeEngagedItemIds] = useState<string[]>([]);
-  const [assistLanguageEnabled, setAssistLanguageEnabled] = useState(getDefaultAssistLanguageEnabled(tenant));
+  const [assistLanguageEnabled, setAssistLanguageEnabled] = useState(
+    sessionSettings?.assistLanguage.enabled ?? getDefaultAssistLanguageEnabled(tenant),
+  );
 
   const entryComplete = currentProgression.completedGameModes.includes(launchSession.entryMode);
   const nextMode = launchSession.recommendedNextModes[0];
@@ -88,18 +93,23 @@ export function StudentLaunchFlow({
   const activeAssistLanguagePlan = assistLanguageEnabled ? assistLanguagePlan : undefined;
 
   useEffect(() => {
+    if (sessionSettings?.assistLanguage.teacherEnablementPersisted) {
+      setAssistLanguageEnabled(sessionSettings.assistLanguage.enabled);
+      return;
+    }
+
     const storageKey = getTeacherAssistLanguageApprovalStorageKey(tenant.id);
 
     function syncAssistLanguageApproval() {
       const storedApproval = parseStoredTeacherAssistLanguageApproval(window.localStorage.getItem(storageKey));
-      setAssistLanguageEnabled(storedApproval ?? getDefaultAssistLanguageEnabled(tenant));
+      setAssistLanguageEnabled(storedApproval ?? sessionSettings?.assistLanguage.enabled ?? getDefaultAssistLanguageEnabled(tenant));
     }
 
     syncAssistLanguageApproval();
     window.addEventListener("storage", syncAssistLanguageApproval);
 
     return () => window.removeEventListener("storage", syncAssistLanguageApproval);
-  }, [tenant]);
+  }, [tenant, sessionSettings]);
 
   function appendSessionEvents(
     nextEvents: GameProgressEvent[],

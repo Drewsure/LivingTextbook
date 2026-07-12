@@ -1,6 +1,9 @@
 import { readFileSync } from "node:fs";
 
 const contract = readSource("../packages/content-model/src/sessionSettings.ts");
+const settingsHelper = readSource("../apps/web/src/data/sampleTeacherSessionSettings.ts");
+const launchResolver = readSource("../apps/web/src/data/sampleLaunchResolver.ts");
+const frontDoorRegistry = readSource("../apps/web/src/data/sampleTenantRouteRegistry.ts");
 const sampleMonitor = readSource("../apps/web/src/data/sampleTeacherSessionMonitor.ts");
 const monitorPanel = readSource("../apps/web/src/features/teacher/TeacherSessionMonitorPanel.tsx");
 const routeVerifier = readSource("./verify-active-routes.mjs");
@@ -33,7 +36,7 @@ const persistenceWarnings = [
 
 const sampleMarkers = [
   "requiresTeacherEnablement: true",
-  "teacherEnablementPersisted: false",
+  "teacherEnablementPersisted: args.teacherEnablementPersisted ?? false",
   "unlockAllowed: false",
   "masteryCreditAllowed: false",
   "pausesForLearningAudio: true",
@@ -54,9 +57,12 @@ for (const warning of persistenceWarnings) {
 }
 
 for (const marker of sampleMarkers) {
-  requireText(sampleMonitor, marker, `Sample teacher session monitor missing marker: ${marker}.`);
+  requireText(settingsHelper, marker, `Sample teacher session settings helper missing marker: ${marker}.`);
 }
 
+requireText(launchResolver, "sessionSettings", "Direct launch context must carry teacher session settings.");
+requireText(frontDoorRegistry, "sessionSettings", "Front-door context must carry teacher session settings.");
+requireText(sampleMonitor, "createSampleTeacherSessionSettings", "Teacher session monitor must reuse the shared sample settings helper.");
 requireText(sampleMonitor, "Assist text can support comprehension, but the teacher's on/off choice must persist", "Sample settings copy must explain persisted assist-language choice.");
 requireText(monitorPanel, "teacher_enablement_persisted", "Teacher session settings snapshot must expose assist-language persistence state.");
 requireText(routeVerifier, "teacher_enablement_persisted", "Active route verifier must guard assist-language persistence snapshot text.");

@@ -20,6 +20,7 @@ import {
   validateTeacherSessionSettings,
 } from "@living-textbook/content-model";
 import { resolveSampleLaunchContext } from "./sampleLaunchResolver";
+import { createSampleTeacherSessionSettings } from "./sampleTeacherSessionSettings";
 import type { TenantConfig } from "@/features/tenant/types";
 
 type ProgressGameMode = StudentProgressionState["unlockedGameModes"][number];
@@ -591,56 +592,11 @@ function createMonitorMetrics(args: {
 }
 
 function createMonitorSessionSettings(launchSession: LaunchSession, isPartner: boolean): TeacherSessionSettings {
-  return {
-    launchCode: launchSession.launchCode,
-    tenantId: launchSession.tenantId,
-    audioRequired: true,
-    assistLanguage: {
-      enabled: !isPartner,
-      requiresTeacherEnablement: true,
-      teacherEnablementPersisted: false,
-      unlockAllowed: false,
-      masteryCreditAllowed: false,
-      visibility: isPartner ? "teacher-only" : "student-toggle",
-    },
-    microphonePractice: {
-      enabled: true,
-      requiresTeacherApproval: true,
-      approvalPersisted: false,
-      storesRawAudio: false,
-    },
-    backgroundMedia: {
-      allowed: true,
-      defaultEnabled: false,
-      requiresTeacherEnablement: true,
-      pausesForLearningAudio: true,
-      unlockAllowed: false,
-      masteryCreditAllowed: false,
-    },
-    trainingRecovery: {
-      enabled: true,
-      repeatedMissThreshold: 2,
-      lowCompletionRewardThreshold: 120,
-      highAttemptRatioThreshold: 2.25,
-      teacherCanAdjust: true,
-      settingsPersisted: false,
-      rewardsAreDeterministic: true,
-    },
-    aiTutor: {
-      enabled: false,
-      packageTier: "premium",
-      speechScoringEnabled: false,
-      storesTranscript: false,
-    },
-    reporting: {
-      reportProgressToTeacher: true,
-      retentionPolicy: "demo-only",
-      exportAllowed: false,
-      storesRawAudio: false,
-      storesTranscript: false,
-    },
-    updatedAt: "2026-07-01T00:00:00.000Z",
-  };
+  return createSampleTeacherSessionSettings({
+    launchSession,
+    assistLanguageEnabled: !isPartner,
+    assistLanguageVisibility: "student-toggle",
+  });
 }
 
 function createMonitorSettings(sessionSettings: TeacherSessionSettings): TeacherSessionSetting[] {

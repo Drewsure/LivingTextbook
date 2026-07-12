@@ -3,6 +3,7 @@ import type {
   FrontDoorAccessPolicy,
   LaunchSession,
   StudentProgressionState,
+  TeacherSessionSettings,
   UnitPayload,
 } from "@living-textbook/content-model";
 import type { ClassRosterPlan } from "@living-textbook/content-model/src/classRoster";
@@ -27,6 +28,7 @@ import {
   sampleMultimediaContentPackage,
   samplePermanentQrPath,
 } from "./sampleMultimediaPackage";
+import { createSampleTeacherSessionSettings } from "./sampleTeacherSessionSettings";
 import { ministarTenant } from "@/features/tenant/ministarTenant";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 import type { TenantConfig } from "@/features/tenant/types";
@@ -54,6 +56,7 @@ export interface SampleFrontDoorContext {
   unit?: UnitPayload;
   launchSession: LaunchSession;
   progression: StudentProgressionState;
+  sessionSettings: TeacherSessionSettings;
   accessPolicy: FrontDoorAccessPolicy;
   expectedEntryCode: string;
   expectedUserCode: string;
@@ -105,6 +108,14 @@ export function createSampleFrontDoorContext(
     new Set([route.expectedUserCode, ...(classRosterPlan?.slots.map((slot) => slot.userCode) ?? [])]),
   );
   const progression = route.createProgression(launchSession.launchCode, route.expectedUserCode.toLowerCase());
+  const assistLanguagePlan = route.contentPackage.assistLanguagePlans?.find(
+    (plan) => plan.unitKey === launchSession.unitKey && plan.studentVisibility !== "teacher-only",
+  );
+  const sessionSettings = createSampleTeacherSessionSettings({
+    launchSession,
+    assistLanguageEnabled: Boolean(route.tenant.languageSettings?.studentAssistEnabledByDefault && assistLanguagePlan),
+    assistLanguageVisibility: "student-toggle",
+  });
 
   return {
     route,
@@ -113,6 +124,7 @@ export function createSampleFrontDoorContext(
     unit: route.contentPackage.units[0],
     launchSession,
     progression,
+    sessionSettings,
     accessPolicy: route.accessPolicy,
     expectedEntryCode: route.expectedEntryCode,
     expectedUserCode: route.expectedUserCode,

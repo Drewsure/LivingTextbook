@@ -5,7 +5,7 @@ import { StudentLaunchFlow } from "@/features/student/StudentLaunchFlow";
 
 export default async function LaunchPage({ params }: { params: Promise<{ code: string }> }) {
   const { code } = await params;
-  const { tenant, contentPackage, unit, launchSession, progression, assistLanguagePlan, assignmentPlan } =
+  const { tenant, contentPackage, unit, launchSession, progression, sessionSettings, assistLanguagePlan, assignmentPlan } =
     resolveSampleLaunchContext(code);
 
   if (!unit) {
@@ -19,6 +19,7 @@ export default async function LaunchPage({ params }: { params: Promise<{ code: s
         unit={unit}
         launchSession={launchSession}
         progression={progression}
+        sessionSettings={sessionSettings}
         contentPackage={contentPackage}
         audioCues={contentPackage.audioCues}
         assistLanguagePlan={assistLanguagePlan}

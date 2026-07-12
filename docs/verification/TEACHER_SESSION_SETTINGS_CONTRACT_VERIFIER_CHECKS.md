@@ -26,6 +26,8 @@ npm run verify:foundation
 - Background media cannot unlock progress or mastery.
 - AI Tutor speech scoring cannot run when AI Tutor is disabled.
 - Assist-language teacher enablement must appear in the settings snapshot.
+- Direct launch contexts must carry teacher session settings.
+- Front-door QR/class-code contexts must carry teacher session settings.
 - Route verification must preserve the `teacher_enablement_persisted` snapshot field.
 
 ## Human Follow-Up

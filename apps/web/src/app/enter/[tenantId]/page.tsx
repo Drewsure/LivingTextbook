@@ -20,6 +20,7 @@ export default async function FrontDoorEntryPage({ params }: { params: Promise<{
         contentPackage={context.contentPackage}
         launchSession={context.launchSession}
         progression={context.progression}
+        sessionSettings={context.sessionSettings}
         accessPolicy={context.accessPolicy}
         expectedEntryCode={context.expectedEntryCode}
         expectedUserCode={context.expectedUserCode}
