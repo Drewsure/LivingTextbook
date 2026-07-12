@@ -121,6 +121,7 @@
 - `DR-147-game-mode-coverage-verifier.md`
 - `DR-148-package-readiness-verifier.md`
 - `DR-149-local-bundle-readiness-verifier.md`
+- `DR-150-foundation-verification-gate-panel.md`
 
 ## Maintenance Rule
 

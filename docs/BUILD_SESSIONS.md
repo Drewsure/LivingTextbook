@@ -22,6 +22,7 @@ Outputs:
 - Any recurring workaround is documented.
 - Any major architecture choice is entered in the decision register.
 - Any public-repository or public-asset candidate has license/provenance review before adoption.
+- `/teacher/intake` exposes the current foundation verification gate so partner/admin review can see the canonical command and what it protects.
 
 ## Session 1: First Vertical Slice
 
