@@ -106,6 +106,9 @@ export function PrivateAssignmentLinkPanel({ assignment }: PrivateAssignmentLink
                 <li key={boundary}>{boundary}</li>
               ))}
             </ul>
+            <p className="mt-3 rounded-lg bg-[var(--tenant-primary-soft)] p-3 text-sm font-semibold leading-6 text-[var(--tenant-text)]">
+              Teacher reports remain policy-blocked until persistence and retention rules are accepted.
+            </p>
           </section>
 
           <section className="rounded-lg border border-[var(--tenant-border)] p-4">

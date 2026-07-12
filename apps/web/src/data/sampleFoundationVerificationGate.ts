@@ -75,11 +75,11 @@ export const sampleFoundationVerificationGate: FoundationVerificationGate = {
     {
       checkId: "language-share-readiness",
       label: "Language and share gates",
-      command: "npm run verify:target-language && npm run verify:share-embed",
+      command: "npm run verify:target-language && npm run verify:share-embed && npm run verify:private-assignments",
       status: "pass",
       protects: "Target-language expansion stays separate from assist language, and sharing/embed features stay private-first for v1.",
-      evidence: "The focused verifiers check Japanese-as-target-language blockers, assist-language boundaries, private assignment links, and public/embed blocks.",
-      nextStep: "Do not enable Japanese target-language pilots, public links, or iframe embeds before the named gates pass.",
+      evidence: "The focused verifiers check Japanese-as-target-language blockers, assist-language boundaries, private assignment routes, and public/embed blocks.",
+      nextStep: "Do not enable Japanese target-language pilots, public links, iframe embeds, or public assignment discovery before the named gates pass.",
     },
     {
       checkId: "class-roster-readiness",

@@ -141,6 +141,7 @@
 - `DR-167-class-roster-readiness-verifier.md`
 - `DR-168-teacher-unit-review-route.md`
 - `DR-169-private-assignment-link-route.md`
+- `DR-170-private-assignment-link-verifier.md`
 
 ## Maintenance Rule
 

@@ -3,6 +3,7 @@
 Run after assignment readiness, sharing, route contracts, student launch access, front-door codes, report boundaries, or teacher controls change.
 
 ```powershell
+npm run verify:private-assignments
 npm run verify:foundation
 ```
 
