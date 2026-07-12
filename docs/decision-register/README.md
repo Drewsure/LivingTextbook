@@ -136,6 +136,7 @@
 - `DR-162-foundation-gate-session-settings-visibility.md`
 - `DR-163-launch-context-session-settings.md`
 - `DR-164-assist-language-enable-persistence-field.md`
+- `DR-165-backend-storage-readiness-verifier.md`
 
 ## Maintenance Rule
 

@@ -91,6 +91,15 @@ export const sampleFoundationVerificationGate: FoundationVerificationGate = {
       nextStep: "Expand this check when settings move from sample data into hosted or local persistence.",
     },
     {
+      checkId: "backend-storage-readiness",
+      label: "Backend storage readiness",
+      command: "npm run verify:backend-storage",
+      status: "pass",
+      protects: "Backend schema, migration candidates, migration specs, durable records, and adapter plans preserve the same vendor-neutral storage contract.",
+      evidence: "The verifier checks schema entities, migration candidates, migration specs, raw-audio/transcript exclusions, event acceptance gates, and hosted/local launch-session writes.",
+      nextStep: "Run this before backend selection or any vendor-specific migration work.",
+    },
+    {
       checkId: "web-typecheck-build",
       label: "Web typecheck and build",
       command: "npm run typecheck --workspace @living-textbook/web && npm run build --workspace @living-textbook/web",

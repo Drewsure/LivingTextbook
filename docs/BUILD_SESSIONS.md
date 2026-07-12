@@ -308,6 +308,7 @@ Next outputs:
 - Confirm `npm run verify:session-settings` passes after teacher settings, assist language, microphone, background media, AI Tutor, or reporting changes.
 - Confirm direct launch and front-door QR/class-code contexts both carry teacher session settings before support-language visibility changes.
 - Confirm backend schema, migration specs, and adapter plans preserve assist-language teacher enablement before backend-specific migrations.
+- Confirm `npm run verify:backend-storage` passes before backend selection, persistence adapters, or vendor-specific migrations.
 - Confirm teacher session monitor routes show an event acceptance gate before live student event storage is enabled.
 - Confirm launch-session storage contracts preserve event acceptance gates before live student event writes are enabled.
 - Confirm teacher report package previews include an event acceptance summary before report export or live event storage is enabled.
