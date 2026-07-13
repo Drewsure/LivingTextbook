@@ -129,6 +129,36 @@ Standing blocks:
 - No support-language progress trigger.
 - No unreviewed image coordinates.
 
+## Multimedia Asset Readiness
+
+Audio, music, video, posters, captions, playlists, background media, and local bundle media are target-specific media cases. A reviewed media upload cannot become an active unit asset until the required manifest and binding records are defined:
+
+- `media_manifest`
+- `media_playlist_binding`
+- `background_media_policy_binding`
+- `local_media_bundle_entry`
+
+Required readiness:
+
+- Media rights proof.
+- Learning audio separation.
+- Optional playback required.
+- Captions or transcript required for video policy.
+- Poster or fallback required for video.
+- Background media cannot override learning audio.
+- Local bundle checksum and relative path required.
+- No media-only progress.
+
+Standing blocks:
+
+- No media-only progress.
+- No background music overriding learning audio.
+- No required progress through video only.
+- No unlicensed media.
+- No raw learner audio storage.
+- No automatic transcode-to-publish.
+- No local folder activation.
+
 ## Follow-Up
 
 The backend-neutral storage contract now includes `upload_review_decision` records. Hosted and local adapters must preserve upload review packets and keep upload promotion blocked.
@@ -138,5 +168,7 @@ Add target-specific promotion records before live approve-for-draft, ready-for-a
 The backend-neutral storage contract now includes `upload_promotion_gate` records. Hosted and local adapters must preserve target-specific promotion gates and keep student-facing promotion blocked until target records, target review, and release-control policy exist.
 
 The backend-neutral storage contract now includes `game_asset_manifest` and `label_anchor_record` records. Hosted and local adapters must preserve image rights, alt text, reviewed label anchors, target-language label audio coverage, and support-language non-progress behavior before Labelled Diagram assets can become student-facing.
+
+The multimedia asset readiness preview now names the media target records required before uploaded songs, chants, videos, posters, background tracks, or local media bundle files can become active unit assets. The existing `media_manifest` storage contract remains the first durable record; `media_playlist_binding`, `background_media_policy_binding`, and `local_media_bundle_entry` need matching storage contracts before live upload promotion into playlists, game background media, or local bundle media is enabled.
 
 The backend-neutral storage contract includes `upload_intake_asset` records. Hosted and local adapters must preserve upload source lineage and block student-facing uploaded file use until file policy, rights, review, route mapping, audio coverage, and release gates pass.

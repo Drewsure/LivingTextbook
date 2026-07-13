@@ -45,6 +45,10 @@ Verify at:
 27. Confirm Labelled Diagram assets require image rights proof, alt text, anchor coordinate review, target-language label text, and audio label coverage.
 28. Confirm support-language labels are support-only and cannot trigger progress.
 29. Confirm the scaffold blocks student-facing image games, auto-generated labels, live label editors, asset promotion without release gate, and unreviewed image coordinates.
+30. Confirm the page shows `Multimedia asset readiness`.
+31. Confirm the page shows `media_manifest`, `media_playlist_binding`, `background_media_policy_binding`, and `local_media_bundle_entry`.
+32. Confirm multimedia assets require learning audio separation, optional playback, captions or transcript policy, background-media priority, and local bundle checksums.
+33. Confirm the scaffold blocks media-only progress, background music overriding learning audio, video-only progress, unlicensed media, raw learner audio storage, automatic transcode-to-publish, and local folder activation.
 
 ## Automated Command
 
@@ -78,3 +82,4 @@ Labelled Diagram asset storage is also covered by `npm run verify:backend-storag
 - This scaffold defines upload promotion gate storage contracts only; it does not create target records or release uploaded assets.
 - This scaffold defines Labelled Diagram asset readiness only; it does not implement a live label editor, coordinate editor, or student-facing image game.
 - This scaffold defines Labelled Diagram asset storage contracts only; it does not store live image assets or label anchors yet.
+- This scaffold defines multimedia asset readiness only; it does not implement live media uploads, media processing, transcoding, playlist promotion, background-media assignment, or local bundle media activation.
