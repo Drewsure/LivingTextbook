@@ -36,6 +36,8 @@ export interface PersistenceWriteIntent {
   blocksEvidenceUpload?: boolean;
   preservesReviewAuditTrail?: boolean;
   blocksReviewAuditStateChange?: boolean;
+  preservesVerifierPreflightChecks?: boolean;
+  blocksAutomaticVerifierSubmit?: boolean;
   preservesLibrarySourceLineage?: boolean;
   blocksStudentDataCopy?: boolean;
   blocksPublicCommunityPublishing?: boolean;
@@ -183,6 +185,14 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "teacher-draft-review-audit" && !intent.blocksReviewAuditStateChange) {
       errors.push(`Teacher draft review audit write intent ${intent.intentId} must block audit-driven state changes.`);
+    }
+
+    if (intent.category === "teacher-draft-verifier-submission" && !intent.preservesVerifierPreflightChecks) {
+      errors.push(`Teacher draft verifier submission write intent ${intent.intentId} must preserve verifier preflight checks.`);
+    }
+
+    if (intent.category === "teacher-draft-verifier-submission" && !intent.blocksAutomaticVerifierSubmit) {
+      errors.push(`Teacher draft verifier submission write intent ${intent.intentId} must block automatic verifier submission.`);
     }
 
     if (intent.category === "tenant-library-item" && !intent.preservesLibrarySourceLineage) {

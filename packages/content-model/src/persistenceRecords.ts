@@ -6,6 +6,7 @@ export type PersistenceRecordCategory =
   | "teacher-draft-review-decision"
   | "teacher-draft-review-evidence"
   | "teacher-draft-review-audit"
+  | "teacher-draft-verifier-submission"
   | "tenant-library-item"
   | "route-registry"
   | "launch-session"
@@ -64,6 +65,8 @@ export interface DurableRecordContract {
   blocksEvidenceUpload?: boolean;
   preservesReviewAuditTrail?: boolean;
   blocksReviewAuditStateChange?: boolean;
+  preservesVerifierPreflightChecks?: boolean;
+  blocksAutomaticVerifierSubmit?: boolean;
   preservesLibrarySourceLineage?: boolean;
   blocksStudentDataCopy?: boolean;
   blocksPublicCommunityPublishing?: boolean;
@@ -176,6 +179,14 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "teacher-draft-review-audit" && !record.blocksReviewAuditStateChange) {
       errors.push(`Teacher draft review audit record ${record.recordId} must block audit-driven state changes.`);
+    }
+
+    if (record.category === "teacher-draft-verifier-submission" && !record.preservesVerifierPreflightChecks) {
+      errors.push(`Teacher draft verifier submission record ${record.recordId} must preserve verifier preflight checks.`);
+    }
+
+    if (record.category === "teacher-draft-verifier-submission" && !record.blocksAutomaticVerifierSubmit) {
+      errors.push(`Teacher draft verifier submission record ${record.recordId} must block automatic verifier submission.`);
     }
 
     if (record.category === "tenant-library-item" && !record.preservesLibrarySourceLineage) {

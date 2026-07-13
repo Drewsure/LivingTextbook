@@ -125,6 +125,33 @@ export const sampleBackendSchemaDraft: BackendSchemaDraft = {
         "Review handoff records are submission-preparation records. They must preserve packet sections and keep live submission blocked until the verifier and approval workflow exists.",
     },
     {
+      entityId: "teacher_draft_verifier_submission",
+      label: "Teacher draft verifier submission preflight",
+      status: "required-before-pilot",
+      deploymentFit: "hybrid",
+      purpose:
+        "Stores verifier submission preflight checks for teacher drafts while blocking automatic verifier submission until schema, audio, language, route, evidence, identity, and approval requirements pass.",
+      fields: [
+        { name: "submission_id", type: "stable id", required: true, note: "One verifier submission preflight snapshot." },
+        { name: "handoff_id", type: "foreign key/string", required: true, note: "Review handoff packet being preflighted." },
+        { name: "draft_id", type: "foreign key/string", required: true, note: "Teacher draft package under review." },
+        { name: "tenant_id", type: "foreign key/string", required: true, note: "Tenant boundary for verifier preflight records." },
+        { name: "owner_teacher_id", type: "role/id", required: true, note: "Teacher or staff owner. Real auth required before production writes." },
+        { name: "schema_preflight", type: "json/object", required: true, note: "Schema packet readiness and blocking details." },
+        { name: "audio_preflight", type: "json/object", required: true, note: "Term, sentence, instruction, fallback, and regeneration readiness." },
+        { name: "language_preflight", type: "json/object", required: true, note: "Target-language and assist-language boundary checks." },
+        { name: "route_preflight", type: "json/object", required: true, note: "Activity path and route compatibility readiness." },
+        { name: "evidence_preflight", type: "json/object", required: true, note: "Reviewer identity, evidence packet, audit, and approval-ledger blockers." },
+        { name: "automatic_submit_allowed", type: "boolean", required: true, note: "False until verifier workflow, identity, evidence, and approval policy exist." },
+        { name: "can_assign_to_students", type: "boolean", required: true, note: "False until an approved reviewed package release is created." },
+      ],
+      relationships: ["Belongs to review handoff", "Belongs to teacher draft package", "Belongs to tenant", "May feed verifier workflow"],
+      indexes: ["tenant_id + handoff_id", "submission_id unique", "tenant_id + owner_teacher_id", "tenant_id + automatic_submit_allowed"],
+      forbiddenFields: ["Automatic verifier submit", "Direct student assignment", "Direct AI publish", "Raw learner audio", "Learner transcript"],
+      migrationNote:
+        "Verifier submission preflights are gates, not submissions. They must preserve checks and keep submit blocked until the verifier workflow and approval policy exist.",
+    },
+    {
       entityId: "teacher_draft_review_decision",
       label: "Teacher draft reviewer decision",
       status: "required-before-pilot",

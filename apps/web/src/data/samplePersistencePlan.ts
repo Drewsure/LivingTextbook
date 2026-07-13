@@ -18,6 +18,7 @@ export type PersistenceBoundaryCategory =
   | "teacher-draft-review-decision"
   | "teacher-draft-review-evidence"
   | "teacher-draft-review-audit"
+  | "teacher-draft-verifier-submission"
   | "tenant-library-item"
   | "route-registry"
   | "launch-session"
@@ -119,6 +120,24 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     blocksDirectStudentAssignment: true,
     recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
     note: "Teacher draft review handoff packets need durable schema, lineage, audio, rights/version, route/activity, and approval sections before a real submit-for-review workflow is enabled.",
+  },
+  {
+    recordId: "teacher-draft-verifier-submission-record",
+    category: "teacher-draft-verifier-submission",
+    label: "Teacher draft verifier submission preflight record",
+    readiness: "durable-required",
+    sourceOfTruth: "Verifier submission preflight, schema/audio/language/route/evidence checks, automatic submission block",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesVerifierPreflightChecks: true,
+    blocksAutomaticVerifierSubmit: true,
+    blocksDirectStudentAssignment: true,
+    recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
+    note: "Verifier submission preflight records need durable schema, audio, support-language, route, evidence, and approval checks before any draft can enter a live verifier workflow.",
   },
   {
     recordId: "teacher-draft-review-decision-record",
@@ -467,6 +486,18 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     visibleTo: ["Teacher", "Tenant admin", "Content reviewer"],
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision: "Persist review handoff packets before enabling submit-for-review, verifier workflow, or approved package creation from teacher drafts.",
+  },
+  {
+    boundaryId: "teacher-draft-verifier-submission-boundary",
+    category: "teacher-draft-verifier-submission",
+    label: "Teacher draft verifier submission preflights",
+    status: "needs-backend",
+    recordShape: "Submission id, handoff id, draft id, tenant id, owner id, schema check, audio check, support-language check, route check, evidence check, submit block",
+    whyItMatters:
+      "Drafts need a durable preflight before verifier workflow, but the preflight must not auto-submit, approve, publish, or assign students.",
+    visibleTo: ["Teacher", "Content reviewer", "Tenant admin", "Platform admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision: "Persist verifier submission preflights before enabling submit-to-verifier, verifier automation, or package workflow promotion.",
   },
   {
     boundaryId: "teacher-draft-review-decision-boundary",

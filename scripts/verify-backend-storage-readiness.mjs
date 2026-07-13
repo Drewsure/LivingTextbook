@@ -13,6 +13,7 @@ const requiredSchemaEntities = [
   "package_release",
   "teacher_draft_package",
   "teacher_draft_review_handoff",
+  "teacher_draft_verifier_submission",
   "teacher_draft_review_decision",
   "teacher_draft_review_evidence",
   "teacher_draft_review_audit",
@@ -37,6 +38,7 @@ const requiredMigrationCandidates = [
   "m002-package-release-and-content",
   "m014-teacher-draft-package-records",
   "m016-teacher-draft-review-handoff-records",
+  "m020-teacher-draft-verifier-submission-records",
   "m017-teacher-draft-review-decision-records",
   "m018-teacher-draft-review-evidence-records",
   "m019-teacher-draft-review-audit-records",
@@ -60,6 +62,7 @@ const requiredMigrationSpecs = [
   "spec-package-game-audio-coverage",
   "spec-teacher-draft-package",
   "spec-teacher-draft-review-handoff",
+  "spec-teacher-draft-verifier-submission",
   "spec-teacher-draft-review-decision",
   "spec-teacher-draft-review-evidence",
   "spec-teacher-draft-review-audit",
@@ -95,6 +98,9 @@ requireText(schemaDraft, "teacher_draft_review_handoff", "Backend schema must in
 requireText(schemaDraft, "schema_validation_packet", "Backend schema must preserve review handoff schema packets.");
 requireText(schemaDraft, "audio_coverage_packet", "Backend schema must preserve review handoff audio packets.");
 requireText(schemaDraft, "live_review_submission_allowed", "Backend schema must preserve review handoff submission blocks.");
+requireText(schemaDraft, "teacher_draft_verifier_submission", "Backend schema must include teacher draft verifier submission preflights.");
+requireText(schemaDraft, "schema_preflight", "Backend schema must preserve verifier schema preflight checks.");
+requireText(schemaDraft, "automatic_submit_allowed", "Backend schema must preserve automatic verifier submission blocks.");
 requireText(schemaDraft, "teacher_draft_review_decision", "Backend schema must include teacher draft reviewer decisions.");
 requireText(schemaDraft, "evidence_required", "Backend schema must preserve reviewer decision evidence requirements.");
 requireText(schemaDraft, "state_change_allowed", "Backend schema must preserve reviewer decision state-change blocks.");
@@ -119,6 +125,9 @@ requireText(migrationSpecs, "can_assign_to_students", "Migration specs must pres
 requireText(migrationSpecs, "spec-teacher-draft-review-handoff", "Migration specs must include teacher draft review handoff packets.");
 requireText(migrationSpecs, "route_activity_packet", "Migration specs must preserve review handoff route/activity packets.");
 requireText(migrationSpecs, "live_review_submission_allowed", "Migration specs must preserve review handoff submission blocks.");
+requireText(migrationSpecs, "spec-teacher-draft-verifier-submission", "Migration specs must include teacher draft verifier submission preflights.");
+requireText(migrationSpecs, "language_preflight", "Migration specs must preserve verifier support-language boundary checks.");
+requireText(migrationSpecs, "automatic_submit_allowed", "Migration specs must preserve automatic verifier submission blocks.");
 requireText(migrationSpecs, "spec-teacher-draft-review-decision", "Migration specs must include teacher draft reviewer decisions.");
 requireText(migrationSpecs, "reviewer_id", "Migration specs must preserve reviewer identity.");
 requireText(migrationSpecs, "state_change_allowed", "Migration specs must preserve reviewer decision state-change blocks.");
@@ -145,6 +154,10 @@ requireText(persistenceAdapter, "hosted-teacher-draft-review-handoff-write", "Pe
 requireText(persistenceAdapter, "local-teacher-draft-review-handoff-write", "Persistence adapter must include local teacher draft review handoff writes.");
 requireText(persistenceAdapter, "preservesReviewPacketSections: true", "Persistence adapter must preserve teacher draft review packet sections.");
 requireText(persistenceAdapter, "blocksLiveReviewSubmission: true", "Persistence adapter must block live review submission.");
+requireText(persistenceAdapter, "hosted-teacher-draft-verifier-submission-write", "Persistence adapter must include hosted teacher draft verifier submission writes.");
+requireText(persistenceAdapter, "local-teacher-draft-verifier-submission-write", "Persistence adapter must include local teacher draft verifier submission writes.");
+requireText(persistenceAdapter, "preservesVerifierPreflightChecks: true", "Persistence adapter must preserve verifier preflight checks.");
+requireText(persistenceAdapter, "blocksAutomaticVerifierSubmit: true", "Persistence adapter must block automatic verifier submission.");
 requireText(persistenceAdapter, "hosted-teacher-draft-review-decision-write", "Persistence adapter must include hosted teacher draft reviewer decision writes.");
 requireText(persistenceAdapter, "local-teacher-draft-review-decision-write", "Persistence adapter must include local teacher draft reviewer decision writes.");
 requireText(persistenceAdapter, "preservesReviewerEvidenceRequirements: true", "Persistence adapter must preserve reviewer evidence requirements.");
@@ -177,6 +190,9 @@ requireText(durableRecords, "blocksDirectStudentAssignment: true", "Durable reco
 requireText(durableRecords, "teacher-draft-review-handoff-record", "Durable record plan must include teacher draft review handoff packets.");
 requireText(durableRecords, "preservesReviewPacketSections: true", "Durable record plan must preserve review handoff packet sections.");
 requireText(durableRecords, "blocksLiveReviewSubmission: true", "Durable record plan must block live review submission.");
+requireText(durableRecords, "teacher-draft-verifier-submission-record", "Durable record plan must include teacher draft verifier submission preflights.");
+requireText(durableRecords, "preservesVerifierPreflightChecks: true", "Durable record plan must preserve verifier preflight checks.");
+requireText(durableRecords, "blocksAutomaticVerifierSubmit: true", "Durable record plan must block automatic verifier submission.");
 requireText(durableRecords, "teacher-draft-review-decision-record", "Durable record plan must include teacher draft reviewer decisions.");
 requireText(durableRecords, "preservesReviewerEvidenceRequirements: true", "Durable record plan must preserve reviewer evidence requirements.");
 requireText(durableRecords, "blocksReviewerStateChange: true", "Durable record plan must block reviewer state changes.");

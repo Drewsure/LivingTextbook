@@ -74,6 +74,8 @@ The review queue route is a read-only workbench preview. It shows draft handoff 
 
 The review queue route includes a verifier submission preflight. It shows schema, audio, support-language, route, and evidence checks that a future verifier workflow must pass, while keeping automatic verifier submission blocked.
 
+The backend-neutral storage contract includes `teacher_draft_verifier_submission` records. Hosted and local adapters must preserve verifier preflight checks and block automatic verifier submission until workflow, identity, evidence, and approval policy exist.
+
 The review queue route includes reviewer decision previews. `Return for edits`, `Needs audio`, and `Ready for approval` are visible as future outcomes only. Their actions remain disabled until reviewer identity, evidence storage, verifier workflow, package approval, and release-control policy exist.
 
 The backend-neutral storage contract includes `teacher_draft_review_decision` records. Hosted and local adapters must preserve reviewer evidence requirements and block package state changes until identity, evidence, verifier, approval, and release-control rules pass.

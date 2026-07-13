@@ -106,6 +106,25 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
       notAllowedYet: ["Live review submission without verifier workflow", "Direct draft assignment", "Direct AI publish", "Packet sections only in UI state"],
     },
     {
+      migrationId: "m020-teacher-draft-verifier-submission-records",
+      label: "Teacher draft verifier submission preflight records",
+      track: "shared",
+      status: "ready-to-design",
+      risk: "medium",
+      targetEntities: ["teacher_draft_verifier_submission"],
+      purpose:
+        "Persist verifier submission preflight checks before teacher drafts can enter a live verifier workflow.",
+      prerequisites: ["Teacher draft review handoff records accepted", "Verifier workflow accepted", "Audio regeneration policy accepted", "Evidence and approval ledger policy accepted"],
+      implementationNotes: [
+        "Keep verifier preflights tenant-scoped, handoff-scoped, and owner-scoped.",
+        "Preserve schema, audio, support-language, route, evidence, audit, and approval checks.",
+        "Block automatic verifier submission until workflow, identity, evidence, and release-control rules pass.",
+        "Do not let preflight records assign students or directly create package releases.",
+      ],
+      rollbackOrExportNeeds: ["Export verifier preflight JSON", "Retain blocked and passed preflight snapshots", "Support local verifier preflight backup and restore"],
+      notAllowedYet: ["Automatic verifier submit", "Direct draft assignment", "Direct AI publish", "Preflight checks only in UI state"],
+    },
+    {
       migrationId: "m017-teacher-draft-review-decision-records",
       label: "Teacher draft reviewer decision records",
       track: "shared",

@@ -2,7 +2,7 @@
 
 ## Scope
 
-Run before backend selection, vendor-specific migrations, persistence adapter changes, launch-session storage work, teacher draft storage work, teacher draft review handoff work, teacher draft reviewer decision work, teacher draft review evidence work, teacher draft review audit trail work, tenant library storage work, earned collection storage work, report package storage work, local companion storage work, or route registry persistence work.
+Run before backend selection, vendor-specific migrations, persistence adapter changes, launch-session storage work, teacher draft storage work, teacher draft review handoff work, teacher draft verifier submission work, teacher draft reviewer decision work, teacher draft review evidence work, teacher draft review audit trail work, tenant library storage work, earned collection storage work, report package storage work, local companion storage work, or route registry persistence work.
 
 ## Automated Command
 
@@ -24,6 +24,7 @@ npm run verify:foundation
 - Earned collection inventory preserves mastery-earned ownership and blocks random reward pressure.
 - Teacher draft packages preserve owner, source lineage, review gates, audio plan state, and direct-assignment blocks.
 - Teacher draft review handoff packets preserve schema, lineage, audio, rights/version, route/activity, and approval packet sections while blocking live review submission.
+- Teacher draft verifier submission preflights preserve schema, audio, language, route, and evidence checks while blocking automatic verifier submission.
 - Teacher draft reviewer decisions preserve evidence requirements and block package state changes.
 - Teacher draft review evidence packets preserve evidence requirements and block uploads.
 - Teacher draft review audit trails preserve event sequence and block audit-driven package state changes.
@@ -35,11 +36,12 @@ npm run verify:foundation
 - Hosted and local adapter plans both include earned collection inventory writes.
 - Hosted and local adapter plans both include teacher draft package writes.
 - Hosted and local adapter plans both include teacher draft review handoff packet writes.
+- Hosted and local adapter plans both include teacher draft verifier submission preflight writes.
 - Hosted and local adapter plans both include teacher draft reviewer decision writes.
 - Hosted and local adapter plans both include teacher draft review evidence packet writes.
 - Hosted and local adapter plans both include teacher draft review audit trail writes.
 - Hosted and local adapter plans both include tenant library item writes.
-- Durable record plans assign teacher settings to launch sessions, require event acceptance gates, preserve earned collection rules, preserve teacher draft review gates, preserve draft review handoff packet sections, preserve reviewer decision evidence requirements, preserve review evidence packets, preserve review audit trails, and preserve tenant library source-lineage rules.
+- Durable record plans assign teacher settings to launch sessions, require event acceptance gates, preserve earned collection rules, preserve teacher draft review gates, preserve draft review handoff packet sections, preserve verifier preflight checks, preserve reviewer decision evidence requirements, preserve review evidence packets, preserve review audit trails, and preserve tenant library source-lineage rules.
 
 ## Human Follow-Up
 
