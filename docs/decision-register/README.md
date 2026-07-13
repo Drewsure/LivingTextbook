@@ -165,6 +165,7 @@
 - `DR-191-verifier-submission-storage-contract.md`
 - `DR-192-upload-channel-readiness-preview.md`
 - `DR-193-upload-intake-storage-contract.md`
+- `DR-194-upload-review-queue-preview.md`
 
 ## Maintenance Rule
 

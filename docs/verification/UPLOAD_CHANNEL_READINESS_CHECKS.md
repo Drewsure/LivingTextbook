@@ -30,6 +30,12 @@ Verify at:
 12. Confirm Labelled Diagram images require rights, safety, alt text, and label-anchor review.
 13. Confirm music cannot become a mastery trigger.
 14. Confirm video cannot be required for progress without fallback.
+15. Confirm the page shows `Upload review queue`.
+16. Confirm the page shows `Review queue preview`.
+17. Confirm PDF/text, Labelled Diagram image, audio/music, and video review items are visible.
+18. Confirm each queue item shows source lineage, rights proof, scan/file policy, and target mapping packet requirements.
+19. Confirm reviewer decision options are disabled previews only.
+20. Confirm queue rules block student-facing use, direct game assignment, automatic PDF-to-game publish, and uploaded media as mastery trigger.
 
 ## Automated Command
 
@@ -49,3 +55,4 @@ npm run verify:foundation
 - This scaffold does not store uploaded files.
 - This scaffold does not run OCR, image labeling, media transcoding, virus scanning, or content moderation.
 - This scaffold does not make uploaded files student-facing.
+- This scaffold does not approve, publish, import, assign, promote, or process upload queue items.

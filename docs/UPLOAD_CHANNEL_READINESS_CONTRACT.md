@@ -19,6 +19,11 @@ Sample data:
 Panel:
 
 - `apps/web/src/features/content-intake/UploadChannelReadinessPanel.tsx`
+- `apps/web/src/features/content-intake/UploadReviewQueuePanel.tsx`
+
+Review queue sample:
+
+- `apps/web/src/data/sampleUploadReviewQueue.ts`
 
 Route:
 
@@ -38,6 +43,7 @@ Verifier:
 ## Standing Rules
 
 - Upload controls must not bypass review.
+- Upload review queue previews must not approve, assign, publish, import, promote, or make assets student-facing.
 - PDF/text extraction creates drafts only.
 - Uploaded images need ownership, classroom-safety review, alt text, and label anchors before Labelled Diagram assignment.
 - Uploaded audio/music can enrich a unit, but learner-critical term, sentence, and instruction audio remain separately reviewable.
@@ -46,8 +52,28 @@ Verifier:
 - Local/offline bundle use requires explicit rights and packaging policy.
 - Raw learner audio and learner transcripts stay out of the core upload scaffold.
 
+## Upload Review Queue
+
+The upload review queue is the required bridge between intake channels and later source drafts, game assets, media playlists, or local bundles.
+
+Each queue item must preserve:
+
+- Source lineage packet.
+- Rights proof packet.
+- Scan and file policy packet.
+- Target mapping packet.
+
+The foundation preview may show decision options such as `Approve for draft`, `Ready for asset review`, `Needs rights proof`, and `Return for replacement`, but those options remain disabled until reviewer identity, audit trail, evidence storage, target-specific asset review, and release-control gates exist.
+
+Standing blocks:
+
+- Student-facing use blocked.
+- No direct game assignment.
+- No automatic PDF-to-game publish.
+- No uploaded media as mastery trigger.
+
 ## Follow-Up
 
-Add durable upload intake storage records before live file pickers, object storage, local bundle upload folders, OCR pipelines, image label editors, or media processing workflows are implemented.
+Add durable upload review records before live approve-for-draft, ready-for-asset-review, return-for-replacement, rights-request, OCR promotion, image-label promotion, media playlist promotion, or local-bundle promotion workflows are implemented.
 
 The backend-neutral storage contract includes `upload_intake_asset` records. Hosted and local adapters must preserve upload source lineage and block student-facing uploaded file use until file policy, rights, review, route mapping, audio coverage, and release gates pass.
