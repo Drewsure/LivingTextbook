@@ -287,6 +287,7 @@ Next outputs:
 - Confirm `/teacher/intake` shows the share/embed readiness panel before public links, iframe embeds, colleague sharing, or public community discovery work begins.
 - Confirm `/teacher/intake` shows the teacher authoring readiness panel before live teacher editor or copy/edit implementation begins.
 - Confirm `/teacher/authoring/draft-sample-publisher-l1-u1` keeps local edit preview actions blocked before live save, review submission, or assignment work begins.
+- Confirm `/teacher/authoring/draft-sample-publisher-l1-u1` keeps draft audio coverage visible before live authoring or audio generation work begins.
 - Confirm `/teacher/intake` shows the target-language expansion readiness panel before Japanese target-language or other non-English target-language pilots are scoped.
 - Confirm curated activity pathways remain the default teacher-facing answer to switch-template style expectations.
 - Confirm the approval ledger does not imply real signed approvals before authentication and persistence exist.
@@ -326,6 +327,7 @@ Next outputs:
 - Confirm durable record contracts preserve progress-event taxonomy, progress-event acceptance gates, and report event acceptance summaries before backend selection.
 - Confirm teacher draft package routes preserve draft-only, source-lineage, audio-before-students, and review-before-assignment boundaries before live authoring.
 - Confirm local draft edit previews cannot save, submit for review, assign to students, or regenerate audio before persistence and verifier workflows exist.
+- Confirm teacher draft audio coverage previews preserve term, sentence, instruction, and fallback audio requirements before student use.
 - Confirm private teacher library routes preserve source lineage, no-student-data-copy rules, and public-community blocking before teacher library persistence or sharing is implemented.
 - Confirm backend schema, adapter plans, durable records, and migration specs preserve teacher draft packages before live teacher authoring, copy/edit, private-library drafts, or assignment persistence.
 - Confirm backend schema, adapter plans, durable records, and migration specs preserve tenant library items before live library search, copy/edit, school sharing, or public-community decisions.

@@ -26,6 +26,7 @@ Panel:
 
 - `apps/web/src/features/content-intake/TeacherAuthoringReadinessPanel.tsx`
 - `apps/web/src/features/content-intake/TeacherDraftPackagePreviewPanel.tsx`
+- `apps/web/src/features/content-intake/TeacherDraftAudioCoveragePreview.tsx`
 - `apps/web/src/features/content-intake/TeacherDraftLocalEditPreview.tsx`
 
 Route:
@@ -60,11 +61,17 @@ This route is not a live editor. It shows the shape of a draft package, source l
 
 The route also includes a local-only edit preview. It can validate draft shape in the browser, but it cannot save, publish, assign, or regenerate audio.
 
+The route includes a draft audio coverage preview. It must keep term audio, sentence audio, and instruction audio visible before student use.
+
 The route must continue to show:
 
 - `Teacher draft package`
 - `Draft only`
 - `Local edit preview`
+- `Draft audio coverage preview`
+- `Term audio`
+- `Sentence audio`
+- `Instruction audio`
 - `Save draft blocked`
 - `Submit for review blocked`
 - `Student assignment blocked`
@@ -92,6 +99,7 @@ Student assignment requires:
 - Direct draft assignment is blocked.
 - Direct AI publish is blocked.
 - Local edit previews do not save, publish, assign, or regenerate audio.
+- Draft audio coverage must be reviewed before student use.
 - Teacher edits must preserve package source and lineage.
 - Support language cannot become the progression trigger.
 - Teacher-created printables must not imply automatic digital mastery.

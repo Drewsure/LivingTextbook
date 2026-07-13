@@ -151,6 +151,7 @@
 - `DR-177-teacher-private-library-route.md`
 - `DR-178-tenant-library-item-storage-contract.md`
 - `DR-179-local-draft-editor-preview.md`
+- `DR-180-draft-audio-coverage-preview.md`
 
 ## Maintenance Rule
 

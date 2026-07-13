@@ -10,6 +10,7 @@ Run after teacher authoring, draft, copy/edit, AI authoring, activity pathway ed
 - Confirm `/teacher/intake` shows `Teacher authoring readiness`.
 - Confirm `/teacher/authoring/draft-sample-publisher-l1-u1` shows `Teacher draft package`.
 - Confirm `/teacher/authoring/draft-sample-publisher-l1-u1` shows `Local edit preview`.
+- Confirm `/teacher/authoring/draft-sample-publisher-l1-u1` shows `Draft audio coverage preview`, `Term audio`, `Sentence audio`, and `Instruction audio`.
 - Confirm the local edit preview shows `Save draft blocked`, `Submit for review blocked`, `Student assignment blocked`, and `Audio regeneration required`.
 - Confirm the draft route shows `Draft only`, `Student assignment blocked`, `Review before assignment`, `Audio before students`, and `No direct publish`.
 - Confirm quick draft, copy/edit, activity pathway edit, and printable authoring remain planned.
