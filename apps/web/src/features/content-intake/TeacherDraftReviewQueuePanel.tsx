@@ -1,6 +1,7 @@
 import { Card, StatusPill } from "@living-textbook/ui";
 import type {
   TeacherDraftReviewQueue,
+  TeacherDraftReviewAuditTrailEvent,
   TeacherDraftReviewQueueItem,
   TeacherDraftReviewQueueStatus,
   TeacherDraftReviewerDecisionOption,
@@ -22,6 +23,11 @@ const decisionStatusTone: Record<TeacherDraftReviewerDecisionStatus, "neutral" |
   "preview-only": "neutral",
   blocked: "warning",
   future: "neutral",
+};
+
+const auditTrailStatusTone: Record<TeacherDraftReviewAuditTrailEvent["previewStatus"], "neutral" | "warning"> = {
+  "recorded-preview": "neutral",
+  "blocked-preview": "warning",
 };
 
 export function TeacherDraftReviewQueuePanel({ queue }: TeacherDraftReviewQueuePanelProps) {
@@ -138,6 +144,29 @@ function ReviewQueueItemCard({ item }: { item: TeacherDraftReviewQueueItem }) {
           <ReviewQueueList title="Evidence upload blocked by" items={item.evidenceUploadBlockedBy} tone="warning" />
         </div>
       </section>
+
+      <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-white p-4">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Review audit trail preview</p>
+            <h4 className="mt-1 text-sm font-bold text-[var(--tenant-text)]">Audit trail storage required</h4>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
+              Future review actions must leave an auditable trail, but this preview does not submit, approve, publish, upload,
+              or transition package state.
+            </p>
+          </div>
+          <StatusPill label="No live state transition" tone="warning" />
+        </div>
+
+        <div className="mt-4 grid gap-3 lg:grid-cols-[1.4fr_0.8fr]">
+          <div className="grid gap-3">
+            {item.auditTrailPreview.map((event) => (
+              <AuditTrailEventCard key={event.eventId} event={event} />
+            ))}
+          </div>
+          <ReviewQueueList title="Audit trail blocked by" items={item.auditTrailBlockedBy} tone="warning" />
+        </div>
+      </section>
     </Card>
   );
 }
@@ -155,6 +184,26 @@ function ReviewerDecisionCard({ decision }: { decision: TeacherDraftReviewerDeci
       <div className="mt-3 grid gap-3">
         <ReviewQueueList title="Evidence required" items={decision.evidenceRequired} tone="neutral" />
         <ReviewQueueList title="Decision blocked by" items={decision.blockedBy} tone={decision.blockedBy.length > 0 ? "warning" : "success"} />
+      </div>
+    </article>
+  );
+}
+
+function AuditTrailEventCard({ event }: { event: TeacherDraftReviewAuditTrailEvent }) {
+  return (
+    <article className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <h5 className="text-sm font-bold text-[var(--tenant-text)]">{event.label}</h5>
+          <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">
+            Actor: {event.actor}. Evidence link: {event.evidenceLink}.
+          </p>
+        </div>
+        <StatusPill label={event.previewStatus} tone={auditTrailStatusTone[event.previewStatus]} />
+      </div>
+
+      <div className="mt-3">
+        <ReviewQueueList title="Event blocked by" items={event.blockedBy} tone={event.blockedBy.length > 0 ? "warning" : "success"} />
       </div>
     </article>
   );

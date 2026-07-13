@@ -80,6 +80,8 @@ The review queue route includes a review evidence packet preview. It lists the p
 
 The backend-neutral storage contract includes `teacher_draft_review_evidence` records. Hosted and local adapters must preserve evidence packet metadata and block uploads until reviewer identity, storage, retention, rights, and approval policy exist.
 
+The review queue route includes a review audit trail preview. It shows the future sequence of handoff, reviewer decision, evidence, and approval-ledger events without allowing live state transitions, approvals, publishing, uploads, or student assignment.
+
 The route must continue to show:
 
 - `Teacher draft package`
@@ -129,6 +131,13 @@ The review queue route must continue to show:
 - `Reviewer identity evidence`
 - `Evidence storage required`
 - `No file upload in foundation preview`
+- `Review audit trail preview`
+- `Audit trail storage required`
+- `Handoff packet created`
+- `Reviewer decision drafted`
+- `Evidence packet blocked`
+- `Approval ledger blocked`
+- `No live state transition`
 
 ## Student Assignment Rule
 
@@ -154,6 +163,7 @@ Student assignment requires:
 - Review queue previews do not approve, submit, publish, or assign.
 - Reviewer decision previews do not change package state.
 - Evidence packet previews do not upload, sign, approve, publish, or assign.
+- Review audit trail previews do not change package state, approve, publish, upload evidence, or assign students.
 - Teacher edits must preserve package source and lineage.
 - Support language cannot become the progression trigger.
 - Teacher-created printables must not imply automatic digital mastery.

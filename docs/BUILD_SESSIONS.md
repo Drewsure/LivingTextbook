@@ -292,6 +292,7 @@ Next outputs:
 - Confirm `/teacher/review` keeps draft review queue items read-only and blocked before live verifier submission, package approval, direct AI publish, or student assignment work begins.
 - Confirm `/teacher/review` keeps reviewer decision previews disabled before reviewer identity, evidence storage, verifier workflow, package approval, and release-control policy exist.
 - Confirm `/teacher/review` keeps review evidence packet previews blocked before evidence upload, signature capture, approval ledgers, or real file storage exist.
+- Confirm `/teacher/review` keeps review audit trail previews blocked before live state transitions, approvals, evidence upload, publishing, or student assignment exist.
 - Confirm backend schema, adapter plans, durable records, and migration specs preserve teacher draft reviewer decisions before live return-for-edits, needs-audio, ready-for-approval, or package-state-change work begins.
 - Confirm backend schema, adapter plans, durable records, and migration specs preserve teacher draft review evidence packets before file upload, signature capture, approval evidence, or evidence export work begins.
 - Confirm backend schema, adapter plans, durable records, and migration specs preserve teacher draft review handoff packets before live submit-for-review, verifier workflow, or package approval work begins.

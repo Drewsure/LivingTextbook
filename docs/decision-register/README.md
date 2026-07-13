@@ -159,6 +159,7 @@
 - `DR-185-reviewer-decision-storage-contract.md`
 - `DR-186-review-evidence-packet-preview.md`
 - `DR-187-review-evidence-storage-contract.md`
+- `DR-188-review-audit-trail-preview.md`
 
 ## Maintenance Rule
 

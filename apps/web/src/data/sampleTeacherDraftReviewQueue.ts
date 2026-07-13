@@ -13,6 +13,15 @@ export interface TeacherDraftReviewerDecisionOption {
   outcome: string;
 }
 
+export interface TeacherDraftReviewAuditTrailEvent {
+  eventId: string;
+  label: string;
+  actor: string;
+  previewStatus: "recorded-preview" | "blocked-preview";
+  evidenceLink: string;
+  blockedBy: string[];
+}
+
 export interface TeacherDraftReviewQueueItem {
   queueItemId: string;
   draft: TeacherDraftPackagePreview;
@@ -25,6 +34,8 @@ export interface TeacherDraftReviewQueueItem {
   reviewerDecisionOptions: TeacherDraftReviewerDecisionOption[];
   evidencePacketPreview: string[];
   evidenceUploadBlockedBy: string[];
+  auditTrailPreview: TeacherDraftReviewAuditTrailEvent[];
+  auditTrailBlockedBy: string[];
   nextStep: string;
 }
 
@@ -107,6 +118,46 @@ export const sampleTeacherDraftReviewQueue: TeacherDraftReviewQueue = {
             "Approval ledger policy required",
             "No file upload in foundation preview",
           ],
+          auditTrailPreview: [
+            {
+              eventId: "audit-handoff-packet-created",
+              label: "Handoff packet created",
+              actor: "Teacher owner",
+              previewStatus: "recorded-preview",
+              evidenceLink: "Draft review handoff packet",
+              blockedBy: ["Durable audit trail storage required"],
+            },
+            {
+              eventId: "audit-reviewer-decision-drafted",
+              label: "Reviewer decision drafted",
+              actor: "Content reviewer",
+              previewStatus: "blocked-preview",
+              evidenceLink: "Reviewer decision preview",
+              blockedBy: ["Reviewer identity required", "No live state transition"],
+            },
+            {
+              eventId: "audit-evidence-packet-blocked",
+              label: "Evidence packet blocked",
+              actor: "Content reviewer",
+              previewStatus: "blocked-preview",
+              evidenceLink: "Review evidence packet preview",
+              blockedBy: ["Audit trail storage required", "Evidence storage required"],
+            },
+            {
+              eventId: "audit-approval-ledger-blocked",
+              label: "Approval ledger blocked",
+              actor: "Tenant approver",
+              previewStatus: "blocked-preview",
+              evidenceLink: "Package approval ledger",
+              blockedBy: ["Approver identity required", "Release-control policy required"],
+            },
+          ],
+          auditTrailBlockedBy: [
+            "Audit trail storage required",
+            "Reviewer authentication required",
+            "Approval ledger policy required",
+            "No live state transition",
+          ],
           nextStep:
             "Connect this queue to persisted teacher draft review handoff records after authentication, verifier workflow, and package approval policy exist.",
         },
@@ -116,6 +167,7 @@ export const sampleTeacherDraftReviewQueue: TeacherDraftReviewQueue = {
     "Verifier submission blocked until handoff packets are durable.",
     "Package approval blocked until evidence, approver identity, and release-control policy exist.",
     "Student assignment blocked until a reviewed package release is created.",
+    "Review audit trail preview cannot change package state.",
     "No direct AI publish from teacher drafts or review queue items.",
   ],
 };
