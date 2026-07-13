@@ -26,6 +26,7 @@ Panel:
 
 - `apps/web/src/features/content-intake/TeacherAuthoringReadinessPanel.tsx`
 - `apps/web/src/features/content-intake/TeacherDraftPackagePreviewPanel.tsx`
+- `apps/web/src/features/content-intake/TeacherDraftLocalEditPreview.tsx`
 
 Route:
 
@@ -57,13 +58,19 @@ The current scaffold includes one teacher-only draft package preview route:
 
 This route is not a live editor. It shows the shape of a draft package, source lineage, blocked actions, requested activity path, audio-review requirements, and review gates.
 
+The route also includes a local-only edit preview. It can validate draft shape in the browser, but it cannot save, publish, assign, or regenerate audio.
+
 The route must continue to show:
 
 - `Teacher draft package`
 - `Draft only`
+- `Local edit preview`
+- `Save draft blocked`
+- `Submit for review blocked`
 - `Student assignment blocked`
 - `Review before assignment`
 - `Audio before students`
+- `Audio regeneration required`
 - `No direct publish`
 
 ## Student Assignment Rule
@@ -84,6 +91,7 @@ Student assignment requires:
 
 - Direct draft assignment is blocked.
 - Direct AI publish is blocked.
+- Local edit previews do not save, publish, assign, or regenerate audio.
 - Teacher edits must preserve package source and lineage.
 - Support language cannot become the progression trigger.
 - Teacher-created printables must not imply automatic digital mastery.

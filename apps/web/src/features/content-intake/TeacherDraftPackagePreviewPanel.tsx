@@ -4,6 +4,7 @@ import type {
   TeacherDraftPackagePreview,
   TeacherDraftPackageStatus,
 } from "@/data/sampleTeacherDraftPackage";
+import { TeacherDraftLocalEditPreview } from "./TeacherDraftLocalEditPreview";
 import { formatMode } from "@/lib/formatLabels";
 
 interface TeacherDraftPackagePreviewPanelProps {
@@ -47,6 +48,8 @@ export function TeacherDraftPackagePreviewPanel({ draft }: TeacherDraftPackagePr
           <DraftMetric label="Student assignment" value={draft.canAssignToStudents ? "Allowed" : "Blocked"} />
         </dl>
       </Card>
+
+      <TeacherDraftLocalEditPreview draft={draft} />
 
       <Card>
         <div className="flex flex-wrap items-start justify-between gap-3">
