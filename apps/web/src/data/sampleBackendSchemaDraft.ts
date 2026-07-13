@@ -207,6 +207,33 @@ export const sampleBackendSchemaDraft: BackendSchemaDraft = {
         "Upload review records are promotion gates, not promotion actions. They must preserve packet readiness and keep uploaded files blocked until target-specific review and release-control policy exist.",
     },
     {
+      entityId: "upload_promotion_gate",
+      label: "Upload promotion gate",
+      status: "required-before-pilot",
+      deploymentFit: "hybrid",
+      purpose:
+        "Stores target-specific promotion gates for reviewed uploads before they can become draft packages, Labelled Diagram assets, media playlist items, local bundle files, or assignments.",
+      fields: [
+        { name: "promotion_id", type: "stable id", required: true, note: "One upload promotion gate snapshot." },
+        { name: "upload_review_id", type: "foreign key/string", required: true, note: "Upload review decision being considered for promotion." },
+        { name: "upload_id", type: "foreign key/string", required: true, note: "Upload intake asset related to the promotion." },
+        { name: "tenant_id", type: "foreign key/string", required: true, note: "Tenant boundary for promotion gates." },
+        { name: "target_kind", type: "enum/string", required: true, note: "Draft package, game asset, media playlist, game background media, or local bundle." },
+        { name: "target_record_id", type: "string", required: false, note: "Target record when the target-specific storage contract exists." },
+        { name: "source_lineage_snapshot", type: "json/object", required: true, note: "Source lineage copied from upload intake and review records." },
+        { name: "target_mapping_packet", type: "json/object", required: true, note: "Reviewed target mapping for the chosen promotion lane." },
+        { name: "required_gates", type: "json/string array", required: true, note: "Target-specific gates that must pass before promotion." },
+        { name: "blocked_by", type: "json/string array", required: true, note: "Open blockers preventing promotion." },
+        { name: "promotion_status", type: "enum/string", required: true, note: "Preview, blocked, ready-for-target-review, accepted, returned, or archived." },
+        { name: "student_facing_promotion_allowed", type: "boolean", required: true, note: "False until the target record and release-control gates pass." },
+      ],
+      relationships: ["Belongs to upload review decision", "Belongs to upload intake asset", "Belongs to tenant", "May feed draft, game asset, media, or local bundle records"],
+      indexes: ["tenant_id + upload_review_id", "promotion_id unique", "tenant_id + target_kind", "tenant_id + promotion_status", "student_facing_promotion_allowed"],
+      forbiddenFields: ["Folder placement promotion", "Direct assignment", "Automatic PDF-to-game publish", "Uploaded media as mastery trigger", "Raw learner audio", "Learner transcript"],
+      migrationNote:
+        "Upload promotion gates preserve target-specific readiness. They cannot create target records or student-facing assets until release-control and target storage policy exist.",
+    },
+    {
       entityId: "teacher_draft_review_decision",
       label: "Teacher draft reviewer decision",
       status: "required-before-pilot",

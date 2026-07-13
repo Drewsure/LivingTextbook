@@ -9,6 +9,7 @@ export type PersistenceRecordCategory =
   | "teacher-draft-verifier-submission"
   | "upload-intake"
   | "upload-review"
+  | "upload-promotion"
   | "tenant-library-item"
   | "route-registry"
   | "launch-session"
@@ -73,6 +74,8 @@ export interface DurableRecordContract {
   blocksStudentFacingUploadUse?: boolean;
   preservesUploadReviewPackets?: boolean;
   blocksUploadReviewPromotion?: boolean;
+  preservesUploadPromotionTargets?: boolean;
+  blocksStudentFacingPromotion?: boolean;
   preservesLibrarySourceLineage?: boolean;
   blocksStudentDataCopy?: boolean;
   blocksPublicCommunityPublishing?: boolean;
@@ -213,6 +216,14 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "upload-review" && !record.blocksStudentFacingUploadUse) {
       errors.push(`Upload review record ${record.recordId} must block student-facing upload use.`);
+    }
+
+    if (record.category === "upload-promotion" && !record.preservesUploadPromotionTargets) {
+      errors.push(`Upload promotion record ${record.recordId} must preserve upload promotion targets.`);
+    }
+
+    if (record.category === "upload-promotion" && !record.blocksStudentFacingPromotion) {
+      errors.push(`Upload promotion record ${record.recordId} must block student-facing promotion.`);
     }
 
     if (record.category === "tenant-library-item" && !record.preservesLibrarySourceLineage) {

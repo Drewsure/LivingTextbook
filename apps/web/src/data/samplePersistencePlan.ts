@@ -21,6 +21,7 @@ export type PersistenceBoundaryCategory =
   | "teacher-draft-verifier-submission"
   | "upload-intake"
   | "upload-review"
+  | "upload-promotion"
   | "tenant-library-item"
   | "route-registry"
   | "launch-session"
@@ -176,6 +177,25 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     blocksUploadReviewPromotion: true,
     recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
     note: "Upload review records need durable review packets, reviewer identity, rights evidence, decision status, target-specific blockers, and promotion blocks before uploaded files can become drafts, assets, playlists, local bundles, or assignments.",
+  },
+  {
+    recordId: "upload-promotion-record",
+    category: "upload-promotion",
+    label: "Upload promotion gate record",
+    readiness: "durable-required",
+    sourceOfTruth: "UploadPromotionReadinessPlan, upload review decision, target kind, target mapping, required gates, blocked promotion state",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesUploadSourceLineage: true,
+    preservesUploadReviewPackets: true,
+    preservesUploadPromotionTargets: true,
+    blocksStudentFacingPromotion: true,
+    recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
+    note: "Upload promotion gates need durable target kind, target mapping, required gates, blockers, and release-control state before reviewed uploads can become draft packages, game assets, media playlists, local bundles, or assignments.",
   },
   {
     recordId: "teacher-draft-review-decision-record",
@@ -560,6 +580,18 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     visibleTo: ["Teacher", "Tenant admin", "Content reviewer", "Publisher media owner", "Platform admin"],
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision: "Persist upload review records before enabling approve-for-draft, ready-for-asset-review, rights-request, return-for-replacement, OCR promotion, image-label promotion, media playlist promotion, or local-bundle promotion.",
+  },
+  {
+    boundaryId: "upload-promotion-boundary",
+    category: "upload-promotion",
+    label: "Upload promotion gate records",
+    status: "needs-backend",
+    recordShape: "Promotion id, upload review id, upload id, tenant id, target kind, target record id, required gates, blockers, promotion status, student-facing promotion block",
+    whyItMatters:
+      "Target-specific promotion needs durable gates so reviewed uploads cannot become drafts, game assets, playlists, local bundles, or assignments by preview decision or storage location alone.",
+    visibleTo: ["Teacher", "Tenant admin", "Content reviewer", "Publisher media owner", "Platform admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision: "Persist upload promotion gates before live draft package promotion, game asset promotion, media playlist promotion, or local bundle promotion.",
   },
   {
     boundaryId: "teacher-draft-review-decision-boundary",

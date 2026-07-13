@@ -163,6 +163,25 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
       notAllowedYet: ["Direct game assignment", "Automatic PDF-to-game publish", "Uploaded media as mastery trigger", "Offline approval bypass", "Student-facing use from review alone"],
     },
     {
+      migrationId: "m023-upload-promotion-gates",
+      label: "Upload promotion gate records",
+      track: "shared",
+      status: "ready-to-design",
+      risk: "medium",
+      targetEntities: ["upload_promotion_gate"],
+      purpose:
+        "Persist target-specific upload promotion gates before reviewed uploads can become draft packages, Labelled Diagram assets, media playlist items, local bundle files, or assignments.",
+      prerequisites: ["Upload review records accepted", "Target-specific promotion readiness accepted", "Release-control policy accepted", "Target storage contracts accepted"],
+      implementationNotes: [
+        "Keep promotion gates tenant-scoped, upload-review-scoped, and target-scoped.",
+        "Preserve target kind, target mapping, required gates, blockers, and student-facing promotion block.",
+        "Block promotion until the target record, target review, and package release gates pass.",
+        "Do not let folder placement, object storage path, or local file presence create target records.",
+      ],
+      rollbackOrExportNeeds: ["Export upload promotion gate JSON", "Retain blocked promotion snapshots", "Support local promotion gate backup and restore"],
+      notAllowedYet: ["Folder placement promotion", "Direct assignment", "Automatic PDF-to-game publish", "Uploaded media as mastery trigger", "Promotion without target record"],
+    },
+    {
       migrationId: "m017-teacher-draft-review-decision-records",
       label: "Teacher draft reviewer decision records",
       track: "shared",
@@ -445,6 +464,7 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
     "Teacher draft reviewer decision records must preserve evidence requirements and block state changes until identity, evidence, verifier, and approval workflows exist.",
     "Teacher draft review evidence records must preserve evidence packet requirements and block uploads until identity, storage, retention, rights, and approval policies exist.",
     "Upload review records must preserve review packets and block upload promotion until target-specific review and release-control policy exist.",
+    "Upload promotion gates must preserve target-specific gates and block student-facing promotion until target records and release-control policy exist.",
     "Tenant library items must preserve source lineage, block student-data copies, and block public community publishing.",
     "Raw learner audio and transcripts stay out of core storage.",
     "Hosted and local implementations must use the same record vocabulary.",

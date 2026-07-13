@@ -42,6 +42,8 @@ export interface PersistenceWriteIntent {
   blocksStudentFacingUploadUse?: boolean;
   preservesUploadReviewPackets?: boolean;
   blocksUploadReviewPromotion?: boolean;
+  preservesUploadPromotionTargets?: boolean;
+  blocksStudentFacingPromotion?: boolean;
   preservesLibrarySourceLineage?: boolean;
   blocksStudentDataCopy?: boolean;
   blocksPublicCommunityPublishing?: boolean;
@@ -217,6 +219,14 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "upload-review" && !intent.blocksStudentFacingUploadUse) {
       errors.push(`Upload review write intent ${intent.intentId} must block student-facing upload use.`);
+    }
+
+    if (intent.category === "upload-promotion" && !intent.preservesUploadPromotionTargets) {
+      errors.push(`Upload promotion write intent ${intent.intentId} must preserve upload promotion targets.`);
+    }
+
+    if (intent.category === "upload-promotion" && !intent.blocksStudentFacingPromotion) {
+      errors.push(`Upload promotion write intent ${intent.intentId} must block student-facing promotion.`);
     }
 
     if (intent.category === "tenant-library-item" && !intent.preservesLibrarySourceLineage) {

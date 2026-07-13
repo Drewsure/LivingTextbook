@@ -53,7 +53,7 @@ This command is also included in:
 npm run verify:foundation
 ```
 
-Upload review storage is also covered by:
+Upload review and promotion storage are also covered by:
 
 ```powershell
 npm run verify:backend-storage
@@ -68,3 +68,4 @@ npm run verify:backend-storage
 - This scaffold does not approve, publish, import, assign, promote, or process upload queue items.
 - This scaffold defines upload review storage contracts only; it does not implement target-specific promotion workflows.
 - This scaffold shows target-specific upload promotion readiness only; it does not promote uploads into drafts, game assets, playlists, or local bundles.
+- This scaffold defines upload promotion gate storage contracts only; it does not create target records or release uploaded assets.
