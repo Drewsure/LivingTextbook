@@ -64,6 +64,8 @@ Upload review and promotion storage are also covered by:
 npm run verify:backend-storage
 ```
 
+Labelled Diagram asset storage is also covered by `npm run verify:backend-storage`; that verifier must keep `game_asset_manifest`, `label_anchor_record`, image `alt_text`, `label_audio_cue_id`, and `support_language_progress_allowed` in the backend-neutral schema, migration specs, durable records, and hosted/local adapter plans.
+
 ## Non-Goals
 
 - This scaffold does not implement file pickers.
@@ -75,3 +77,4 @@ npm run verify:backend-storage
 - This scaffold shows target-specific upload promotion readiness only; it does not promote uploads into drafts, game assets, playlists, or local bundles.
 - This scaffold defines upload promotion gate storage contracts only; it does not create target records or release uploaded assets.
 - This scaffold defines Labelled Diagram asset readiness only; it does not implement a live label editor, coordinate editor, or student-facing image game.
+- This scaffold defines Labelled Diagram asset storage contracts only; it does not store live image assets or label anchors yet.

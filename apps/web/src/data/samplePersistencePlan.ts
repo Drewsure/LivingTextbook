@@ -22,6 +22,8 @@ export type PersistenceBoundaryCategory =
   | "upload-intake"
   | "upload-review"
   | "upload-promotion"
+  | "game-asset-manifest"
+  | "label-anchor-record"
   | "tenant-library-item"
   | "route-registry"
   | "launch-session"
@@ -196,6 +198,43 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     blocksStudentFacingPromotion: true,
     recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
     note: "Upload promotion gates need durable target kind, target mapping, required gates, blockers, and release-control state before reviewed uploads can become draft packages, game assets, media playlists, local bundles, or assignments.",
+  },
+  {
+    recordId: "game-asset-manifest-record",
+    category: "game-asset-manifest",
+    label: "Game asset manifest record",
+    readiness: "durable-required",
+    sourceOfTruth: "LabelledDiagramAssetReadinessPlan, game_asset_manifest, upload promotion gate, image metadata, rights proof, alt text, review status, release gate",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesUploadSourceLineage: true,
+    preservesGameAssetManifest: true,
+    blocksStudentFacingGameAssetUse: true,
+    recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
+    note: "Game asset manifests need durable image metadata, rights proof, alt text, source lineage, review status, and release-gate state before reviewed uploads can become reusable Labelled Diagram assets.",
+  },
+  {
+    recordId: "label-anchor-record",
+    category: "label-anchor-record",
+    label: "Label anchor record",
+    readiness: "durable-required",
+    sourceOfTruth: "LabelledDiagramAssetReadinessPlan, label_anchor_record, target-language label text, anchor coordinate, label audio cue, support-language support-only policy",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesLabelAnchorRecords: true,
+    requiresLabelAudioCoverage: true,
+    blocksSupportLanguageProgress: true,
+    blocksStudentFacingGameAssetUse: true,
+    recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
+    note: "Label anchor records need durable target-language labels, reviewed anchor coordinates, tap-to-speak label audio, and support-language support-only flags before Labelled Diagram activities can be assigned.",
   },
   {
     recordId: "teacher-draft-review-decision-record",
@@ -592,6 +631,30 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     visibleTo: ["Teacher", "Tenant admin", "Content reviewer", "Publisher media owner", "Platform admin"],
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision: "Persist upload promotion gates before live draft package promotion, game asset promotion, media playlist promotion, or local bundle promotion.",
+  },
+  {
+    boundaryId: "game-asset-manifest-boundary",
+    category: "game-asset-manifest",
+    label: "Game asset manifest records",
+    status: "needs-backend",
+    recordShape: "Asset id, tenant id, source upload id, upload review id, promotion id, asset kind, image metadata, source lineage, rights proof, alt text, review status, release gate status, student-facing asset block",
+    whyItMatters:
+      "Labelled Diagram and future image-based games need reusable reviewed asset manifests so uploaded images cannot become student-facing game assets by storage location or preview state alone.",
+    visibleTo: ["Teacher", "Tenant admin", "Content reviewer", "Publisher media owner", "Platform admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision: "Persist game asset manifests before enabling live image-game asset libraries, label editors, or student-facing Labelled Diagram routes.",
+  },
+  {
+    boundaryId: "label-anchor-boundary",
+    category: "label-anchor-record",
+    label: "Label anchor records",
+    status: "needs-backend",
+    recordShape: "Anchor id, asset id, tenant id, anchor geometry, target-language label text, support-language label text, label audio cue id, review status, support-language progress block, student-facing anchor block",
+    whyItMatters:
+      "Labelled Diagram labels need durable coordinates, target-language text, and audio coverage before students can use the activity; support-language labels must remain explanation only.",
+    visibleTo: ["Teacher", "Tenant admin", "Content reviewer", "Publisher media owner", "Platform admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision: "Persist label anchor records before enabling live label editing, auto-generated labels, image-game assignment, or support-language-triggered progress.",
   },
   {
     boundaryId: "teacher-draft-review-decision-boundary",

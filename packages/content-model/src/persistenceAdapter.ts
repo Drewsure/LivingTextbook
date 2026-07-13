@@ -44,6 +44,11 @@ export interface PersistenceWriteIntent {
   blocksUploadReviewPromotion?: boolean;
   preservesUploadPromotionTargets?: boolean;
   blocksStudentFacingPromotion?: boolean;
+  preservesGameAssetManifest?: boolean;
+  blocksStudentFacingGameAssetUse?: boolean;
+  preservesLabelAnchorRecords?: boolean;
+  requiresLabelAudioCoverage?: boolean;
+  blocksSupportLanguageProgress?: boolean;
   preservesLibrarySourceLineage?: boolean;
   blocksStudentDataCopy?: boolean;
   blocksPublicCommunityPublishing?: boolean;
@@ -227,6 +232,26 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "upload-promotion" && !intent.blocksStudentFacingPromotion) {
       errors.push(`Upload promotion write intent ${intent.intentId} must block student-facing promotion.`);
+    }
+
+    if (intent.category === "game-asset-manifest" && !intent.preservesGameAssetManifest) {
+      errors.push(`Game asset manifest write intent ${intent.intentId} must preserve reviewed game asset metadata.`);
+    }
+
+    if (intent.category === "game-asset-manifest" && !intent.blocksStudentFacingGameAssetUse) {
+      errors.push(`Game asset manifest write intent ${intent.intentId} must block student-facing asset use.`);
+    }
+
+    if (intent.category === "label-anchor-record" && !intent.preservesLabelAnchorRecords) {
+      errors.push(`Label anchor write intent ${intent.intentId} must preserve reviewed label anchors.`);
+    }
+
+    if (intent.category === "label-anchor-record" && !intent.requiresLabelAudioCoverage) {
+      errors.push(`Label anchor write intent ${intent.intentId} must require label audio coverage.`);
+    }
+
+    if (intent.category === "label-anchor-record" && !intent.blocksSupportLanguageProgress) {
+      errors.push(`Label anchor write intent ${intent.intentId} must block support-language progress triggers.`);
     }
 
     if (intent.category === "tenant-library-item" && !intent.preservesLibrarySourceLineage) {

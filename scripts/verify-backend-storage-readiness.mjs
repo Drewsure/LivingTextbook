@@ -17,6 +17,8 @@ const requiredSchemaEntities = [
   "upload_intake_asset",
   "upload_review_decision",
   "upload_promotion_gate",
+  "game_asset_manifest",
+  "label_anchor_record",
   "teacher_draft_review_decision",
   "teacher_draft_review_evidence",
   "teacher_draft_review_audit",
@@ -45,6 +47,8 @@ const requiredMigrationCandidates = [
   "m021-upload-intake-records",
   "m022-upload-review-records",
   "m023-upload-promotion-gates",
+  "m024-game-asset-manifests",
+  "m025-label-anchor-records",
   "m017-teacher-draft-review-decision-records",
   "m018-teacher-draft-review-evidence-records",
   "m019-teacher-draft-review-audit-records",
@@ -72,6 +76,8 @@ const requiredMigrationSpecs = [
   "spec-upload-intake-asset",
   "spec-upload-review-decision",
   "spec-upload-promotion-gate",
+  "spec-game-asset-manifest",
+  "spec-label-anchor-record",
   "spec-teacher-draft-review-decision",
   "spec-teacher-draft-review-evidence",
   "spec-teacher-draft-review-audit",
@@ -120,6 +126,13 @@ requireText(schemaDraft, "promotion_allowed", "Backend schema must block upload 
 requireText(schemaDraft, "upload_promotion_gate", "Backend schema must include upload promotion gates.");
 requireText(schemaDraft, "target_kind", "Backend schema must preserve upload promotion target kinds.");
 requireText(schemaDraft, "student_facing_promotion_allowed", "Backend schema must block student-facing upload promotion.");
+requireText(schemaDraft, "game_asset_manifest", "Backend schema must include game asset manifests.");
+requireText(schemaDraft, "alt_text", "Backend schema must require image asset alt text.");
+requireText(schemaDraft, "student_facing_asset_allowed", "Backend schema must block student-facing image asset use.");
+requireText(schemaDraft, "label_anchor_record", "Backend schema must include label anchor records.");
+requireText(schemaDraft, "target_language_label", "Backend schema must preserve target-language label text.");
+requireText(schemaDraft, "label_audio_cue_id", "Backend schema must require label audio cue ids.");
+requireText(schemaDraft, "support_language_progress_allowed", "Backend schema must block support-language progress triggers.");
 requireText(schemaDraft, "teacher_draft_review_decision", "Backend schema must include teacher draft reviewer decisions.");
 requireText(schemaDraft, "evidence_required", "Backend schema must preserve reviewer decision evidence requirements.");
 requireText(schemaDraft, "state_change_allowed", "Backend schema must preserve reviewer decision state-change blocks.");
@@ -156,6 +169,13 @@ requireText(migrationSpecs, "promotion_allowed", "Migration specs must preserve 
 requireText(migrationSpecs, "spec-upload-promotion-gate", "Migration specs must include upload promotion gates.");
 requireText(migrationSpecs, "target_kind", "Migration specs must preserve upload promotion target kinds.");
 requireText(migrationSpecs, "student_facing_promotion_allowed", "Migration specs must preserve upload promotion blocks.");
+requireText(migrationSpecs, "spec-game-asset-manifest", "Migration specs must include game asset manifests.");
+requireText(migrationSpecs, "alt_text", "Migration specs must require image asset alt text.");
+requireText(migrationSpecs, "student_facing_asset_allowed", "Migration specs must preserve image asset student-facing blocks.");
+requireText(migrationSpecs, "spec-label-anchor-record", "Migration specs must include label anchor records.");
+requireText(migrationSpecs, "target_language_label", "Migration specs must preserve target-language labels.");
+requireText(migrationSpecs, "label_audio_cue_id", "Migration specs must require label audio cue ids.");
+requireText(migrationSpecs, "support_language_progress_allowed", "Migration specs must block support-language progress triggers.");
 requireText(migrationSpecs, "spec-teacher-draft-review-decision", "Migration specs must include teacher draft reviewer decisions.");
 requireText(migrationSpecs, "reviewer_id", "Migration specs must preserve reviewer identity.");
 requireText(migrationSpecs, "state_change_allowed", "Migration specs must preserve reviewer decision state-change blocks.");
@@ -198,6 +218,15 @@ requireText(persistenceAdapter, "hosted-upload-promotion-write", "Persistence ad
 requireText(persistenceAdapter, "local-upload-promotion-write", "Persistence adapter must include local upload promotion writes.");
 requireText(persistenceAdapter, "preservesUploadPromotionTargets: true", "Persistence adapter must preserve upload promotion targets.");
 requireText(persistenceAdapter, "blocksStudentFacingPromotion: true", "Persistence adapter must block student-facing promotion.");
+requireText(persistenceAdapter, "hosted-game-asset-manifest-write", "Persistence adapter must include hosted game asset manifest writes.");
+requireText(persistenceAdapter, "local-game-asset-manifest-write", "Persistence adapter must include local game asset manifest writes.");
+requireText(persistenceAdapter, "preservesGameAssetManifest: true", "Persistence adapter must preserve game asset manifests.");
+requireText(persistenceAdapter, "blocksStudentFacingGameAssetUse: true", "Persistence adapter must block student-facing game asset use.");
+requireText(persistenceAdapter, "hosted-label-anchor-write", "Persistence adapter must include hosted label anchor writes.");
+requireText(persistenceAdapter, "local-label-anchor-write", "Persistence adapter must include local label anchor writes.");
+requireText(persistenceAdapter, "preservesLabelAnchorRecords: true", "Persistence adapter must preserve label anchor records.");
+requireText(persistenceAdapter, "requiresLabelAudioCoverage: true", "Persistence adapter must require label audio coverage.");
+requireText(persistenceAdapter, "blocksSupportLanguageProgress: true", "Persistence adapter must block support-language progress triggers.");
 requireText(persistenceAdapter, "hosted-teacher-draft-review-decision-write", "Persistence adapter must include hosted teacher draft reviewer decision writes.");
 requireText(persistenceAdapter, "local-teacher-draft-review-decision-write", "Persistence adapter must include local teacher draft reviewer decision writes.");
 requireText(persistenceAdapter, "preservesReviewerEvidenceRequirements: true", "Persistence adapter must preserve reviewer evidence requirements.");
@@ -242,6 +271,13 @@ requireText(durableRecords, "blocksUploadReviewPromotion: true", "Durable record
 requireText(durableRecords, "upload-promotion-record", "Durable record plan must include upload promotion records.");
 requireText(durableRecords, "preservesUploadPromotionTargets: true", "Durable record plan must preserve upload promotion targets.");
 requireText(durableRecords, "blocksStudentFacingPromotion: true", "Durable record plan must block student-facing promotion.");
+requireText(durableRecords, "game-asset-manifest-record", "Durable record plan must include game asset manifest records.");
+requireText(durableRecords, "preservesGameAssetManifest: true", "Durable record plan must preserve game asset manifests.");
+requireText(durableRecords, "blocksStudentFacingGameAssetUse: true", "Durable record plan must block student-facing game asset use.");
+requireText(durableRecords, "label-anchor-record", "Durable record plan must include label anchor records.");
+requireText(durableRecords, "preservesLabelAnchorRecords: true", "Durable record plan must preserve label anchor records.");
+requireText(durableRecords, "requiresLabelAudioCoverage: true", "Durable record plan must require label audio coverage.");
+requireText(durableRecords, "blocksSupportLanguageProgress: true", "Durable record plan must block support-language progress triggers.");
 requireText(durableRecords, "teacher-draft-review-decision-record", "Durable record plan must include teacher draft reviewer decisions.");
 requireText(durableRecords, "preservesReviewerEvidenceRequirements: true", "Durable record plan must preserve reviewer evidence requirements.");
 requireText(durableRecords, "blocksReviewerStateChange: true", "Durable record plan must block reviewer state changes.");

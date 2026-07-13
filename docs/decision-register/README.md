@@ -170,6 +170,7 @@
 - `DR-196-upload-promotion-readiness-preview.md`
 - `DR-197-upload-promotion-storage-contract.md`
 - `DR-198-labelled-diagram-asset-readiness-preview.md`
+- `DR-199-labelled-diagram-asset-storage-contract.md`
 
 ## Maintenance Rule
 

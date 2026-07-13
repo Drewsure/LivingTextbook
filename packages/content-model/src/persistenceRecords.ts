@@ -10,6 +10,8 @@ export type PersistenceRecordCategory =
   | "upload-intake"
   | "upload-review"
   | "upload-promotion"
+  | "game-asset-manifest"
+  | "label-anchor-record"
   | "tenant-library-item"
   | "route-registry"
   | "launch-session"
@@ -76,6 +78,11 @@ export interface DurableRecordContract {
   blocksUploadReviewPromotion?: boolean;
   preservesUploadPromotionTargets?: boolean;
   blocksStudentFacingPromotion?: boolean;
+  preservesGameAssetManifest?: boolean;
+  blocksStudentFacingGameAssetUse?: boolean;
+  preservesLabelAnchorRecords?: boolean;
+  requiresLabelAudioCoverage?: boolean;
+  blocksSupportLanguageProgress?: boolean;
   preservesLibrarySourceLineage?: boolean;
   blocksStudentDataCopy?: boolean;
   blocksPublicCommunityPublishing?: boolean;
@@ -224,6 +231,26 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "upload-promotion" && !record.blocksStudentFacingPromotion) {
       errors.push(`Upload promotion record ${record.recordId} must block student-facing promotion.`);
+    }
+
+    if (record.category === "game-asset-manifest" && !record.preservesGameAssetManifest) {
+      errors.push(`Game asset manifest record ${record.recordId} must preserve reviewed game asset metadata.`);
+    }
+
+    if (record.category === "game-asset-manifest" && !record.blocksStudentFacingGameAssetUse) {
+      errors.push(`Game asset manifest record ${record.recordId} must block student-facing asset use.`);
+    }
+
+    if (record.category === "label-anchor-record" && !record.preservesLabelAnchorRecords) {
+      errors.push(`Label anchor record ${record.recordId} must preserve reviewed label anchors.`);
+    }
+
+    if (record.category === "label-anchor-record" && !record.requiresLabelAudioCoverage) {
+      errors.push(`Label anchor record ${record.recordId} must require label audio coverage.`);
+    }
+
+    if (record.category === "label-anchor-record" && !record.blocksSupportLanguageProgress) {
+      errors.push(`Label anchor record ${record.recordId} must block support-language progress triggers.`);
     }
 
     if (record.category === "tenant-library-item" && !record.preservesLibrarySourceLineage) {

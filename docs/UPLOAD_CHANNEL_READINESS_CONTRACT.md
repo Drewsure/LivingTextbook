@@ -103,6 +103,12 @@ Labelled Diagram images are a target-specific game-asset case. A reviewed image 
 - `game_asset_manifest`
 - `label_anchor_record`
 
+These are backend-neutral storage contracts, not live editor features. Hosted and local implementations must preserve the same two records before any image-game asset library, coordinate editor, label editor, or student-facing Labelled Diagram route is enabled.
+
+`game_asset_manifest` must preserve source upload lineage, upload review lineage, promotion gate lineage, image metadata, rights proof, alt text, target language, review status, release gate status, and a student-facing asset block.
+
+`label_anchor_record` must preserve target-language label text, support-language support-only text, reviewed anchor geometry, label audio cue id, label review status, a support-language progress block, and a student-facing anchor block.
+
 Required readiness:
 
 - Image rights proof.
@@ -130,5 +136,7 @@ The backend-neutral storage contract now includes `upload_review_decision` recor
 Add target-specific promotion records before live approve-for-draft, ready-for-asset-review, return-for-replacement, rights-request, OCR promotion, image-label promotion, media playlist promotion, or local-bundle promotion workflows are implemented.
 
 The backend-neutral storage contract now includes `upload_promotion_gate` records. Hosted and local adapters must preserve target-specific promotion gates and keep student-facing promotion blocked until target records, target review, and release-control policy exist.
+
+The backend-neutral storage contract now includes `game_asset_manifest` and `label_anchor_record` records. Hosted and local adapters must preserve image rights, alt text, reviewed label anchors, target-language label audio coverage, and support-language non-progress behavior before Labelled Diagram assets can become student-facing.
 
 The backend-neutral storage contract includes `upload_intake_asset` records. Hosted and local adapters must preserve upload source lineage and block student-facing uploaded file use until file policy, rights, review, route mapping, audio coverage, and release gates pass.
