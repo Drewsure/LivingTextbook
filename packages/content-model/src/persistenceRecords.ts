@@ -4,6 +4,7 @@ export type PersistenceRecordCategory =
   | "teacher-draft-package"
   | "teacher-draft-review-handoff"
   | "teacher-draft-review-decision"
+  | "teacher-draft-review-evidence"
   | "tenant-library-item"
   | "route-registry"
   | "launch-session"
@@ -58,6 +59,8 @@ export interface DurableRecordContract {
   blocksLiveReviewSubmission?: boolean;
   preservesReviewerEvidenceRequirements?: boolean;
   blocksReviewerStateChange?: boolean;
+  preservesReviewEvidencePacket?: boolean;
+  blocksEvidenceUpload?: boolean;
   preservesLibrarySourceLineage?: boolean;
   blocksStudentDataCopy?: boolean;
   blocksPublicCommunityPublishing?: boolean;
@@ -154,6 +157,14 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "teacher-draft-review-decision" && !record.blocksDirectStudentAssignment) {
       errors.push(`Teacher draft reviewer decision record ${record.recordId} must block direct student assignment.`);
+    }
+
+    if (record.category === "teacher-draft-review-evidence" && !record.preservesReviewEvidencePacket) {
+      errors.push(`Teacher draft review evidence record ${record.recordId} must preserve review evidence packets.`);
+    }
+
+    if (record.category === "teacher-draft-review-evidence" && !record.blocksEvidenceUpload) {
+      errors.push(`Teacher draft review evidence record ${record.recordId} must block evidence uploads.`);
     }
 
     if (record.category === "tenant-library-item" && !record.preservesLibrarySourceLineage) {

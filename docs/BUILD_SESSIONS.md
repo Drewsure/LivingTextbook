@@ -293,6 +293,7 @@ Next outputs:
 - Confirm `/teacher/review` keeps reviewer decision previews disabled before reviewer identity, evidence storage, verifier workflow, package approval, and release-control policy exist.
 - Confirm `/teacher/review` keeps review evidence packet previews blocked before evidence upload, signature capture, approval ledgers, or real file storage exist.
 - Confirm backend schema, adapter plans, durable records, and migration specs preserve teacher draft reviewer decisions before live return-for-edits, needs-audio, ready-for-approval, or package-state-change work begins.
+- Confirm backend schema, adapter plans, durable records, and migration specs preserve teacher draft review evidence packets before file upload, signature capture, approval evidence, or evidence export work begins.
 - Confirm backend schema, adapter plans, durable records, and migration specs preserve teacher draft review handoff packets before live submit-for-review, verifier workflow, or package approval work begins.
 - Confirm `/teacher/intake` shows the target-language expansion readiness panel before Japanese target-language or other non-English target-language pilots are scoped.
 - Confirm curated activity pathways remain the default teacher-facing answer to switch-template style expectations.

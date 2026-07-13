@@ -78,6 +78,8 @@ The backend-neutral storage contract includes `teacher_draft_review_decision` re
 
 The review queue route includes a review evidence packet preview. It lists the proof a future reviewer decision must carry, while file upload, signature capture, and evidence storage remain blocked.
 
+The backend-neutral storage contract includes `teacher_draft_review_evidence` records. Hosted and local adapters must preserve evidence packet metadata and block uploads until reviewer identity, storage, retention, rights, and approval policy exist.
+
 The route must continue to show:
 
 - `Teacher draft package`

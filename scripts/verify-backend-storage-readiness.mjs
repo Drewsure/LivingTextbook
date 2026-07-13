@@ -14,6 +14,7 @@ const requiredSchemaEntities = [
   "teacher_draft_package",
   "teacher_draft_review_handoff",
   "teacher_draft_review_decision",
+  "teacher_draft_review_evidence",
   "tenant_library_item",
   "package_game_audio_coverage",
   "route_alias",
@@ -36,6 +37,7 @@ const requiredMigrationCandidates = [
   "m014-teacher-draft-package-records",
   "m016-teacher-draft-review-handoff-records",
   "m017-teacher-draft-review-decision-records",
+  "m018-teacher-draft-review-evidence-records",
   "m015-tenant-library-item-records",
   "m003-route-alias-registry",
   "m004-media-manifest-rights",
@@ -57,6 +59,7 @@ const requiredMigrationSpecs = [
   "spec-teacher-draft-package",
   "spec-teacher-draft-review-handoff",
   "spec-teacher-draft-review-decision",
+  "spec-teacher-draft-review-evidence",
   "spec-tenant-library-item",
   "spec-launch-session-settings",
   "spec-qr-alias",
@@ -92,6 +95,9 @@ requireText(schemaDraft, "live_review_submission_allowed", "Backend schema must 
 requireText(schemaDraft, "teacher_draft_review_decision", "Backend schema must include teacher draft reviewer decisions.");
 requireText(schemaDraft, "evidence_required", "Backend schema must preserve reviewer decision evidence requirements.");
 requireText(schemaDraft, "state_change_allowed", "Backend schema must preserve reviewer decision state-change blocks.");
+requireText(schemaDraft, "teacher_draft_review_evidence", "Backend schema must include teacher draft review evidence packets.");
+requireText(schemaDraft, "evidence_packet_id", "Backend schema must preserve review evidence packet ids.");
+requireText(schemaDraft, "upload_allowed", "Backend schema must preserve evidence upload blocks.");
 requireText(schemaDraft, "tenant_library_item", "Backend schema must include tenant library items.");
 requireText(schemaDraft, "student_data_copy_allowed", "Backend schema must block student data copies for library items.");
 requireText(schemaDraft, "public_community_publish_allowed", "Backend schema must block public community publishing for library items.");
@@ -110,6 +116,9 @@ requireText(migrationSpecs, "live_review_submission_allowed", "Migration specs m
 requireText(migrationSpecs, "spec-teacher-draft-review-decision", "Migration specs must include teacher draft reviewer decisions.");
 requireText(migrationSpecs, "reviewer_id", "Migration specs must preserve reviewer identity.");
 requireText(migrationSpecs, "state_change_allowed", "Migration specs must preserve reviewer decision state-change blocks.");
+requireText(migrationSpecs, "spec-teacher-draft-review-evidence", "Migration specs must include teacher draft review evidence packets.");
+requireText(migrationSpecs, "evidence_uri", "Migration specs must preserve evidence storage references.");
+requireText(migrationSpecs, "upload_allowed", "Migration specs must preserve evidence upload blocks.");
 requireText(migrationSpecs, "spec-tenant-library-item", "Migration specs must include tenant library items.");
 requireText(migrationSpecs, "student_data_copy_allowed", "Migration specs must block student data copies for library items.");
 requireText(migrationSpecs, "public_community_publish_allowed", "Migration specs must block public community publishing for library items.");
@@ -131,6 +140,10 @@ requireText(persistenceAdapter, "hosted-teacher-draft-review-decision-write", "P
 requireText(persistenceAdapter, "local-teacher-draft-review-decision-write", "Persistence adapter must include local teacher draft reviewer decision writes.");
 requireText(persistenceAdapter, "preservesReviewerEvidenceRequirements: true", "Persistence adapter must preserve reviewer evidence requirements.");
 requireText(persistenceAdapter, "blocksReviewerStateChange: true", "Persistence adapter must block reviewer state changes.");
+requireText(persistenceAdapter, "hosted-teacher-draft-review-evidence-write", "Persistence adapter must include hosted teacher draft review evidence writes.");
+requireText(persistenceAdapter, "local-teacher-draft-review-evidence-write", "Persistence adapter must include local teacher draft review evidence writes.");
+requireText(persistenceAdapter, "preservesReviewEvidencePacket: true", "Persistence adapter must preserve review evidence packets.");
+requireText(persistenceAdapter, "blocksEvidenceUpload: true", "Persistence adapter must block evidence uploads.");
 requireText(persistenceAdapter, "hosted-tenant-library-item-write", "Persistence adapter must include hosted tenant library writes.");
 requireText(persistenceAdapter, "local-tenant-library-item-write", "Persistence adapter must include local tenant library writes.");
 requireText(persistenceAdapter, "preservesLibrarySourceLineage: true", "Persistence adapter must preserve library source lineage.");
@@ -154,6 +167,9 @@ requireText(durableRecords, "blocksLiveReviewSubmission: true", "Durable record 
 requireText(durableRecords, "teacher-draft-review-decision-record", "Durable record plan must include teacher draft reviewer decisions.");
 requireText(durableRecords, "preservesReviewerEvidenceRequirements: true", "Durable record plan must preserve reviewer evidence requirements.");
 requireText(durableRecords, "blocksReviewerStateChange: true", "Durable record plan must block reviewer state changes.");
+requireText(durableRecords, "teacher-draft-review-evidence-record", "Durable record plan must include teacher draft review evidence packets.");
+requireText(durableRecords, "preservesReviewEvidencePacket: true", "Durable record plan must preserve review evidence packets.");
+requireText(durableRecords, "blocksEvidenceUpload: true", "Durable record plan must block evidence uploads.");
 requireText(durableRecords, "tenant-library-item-record", "Durable record plan must include tenant library items.");
 requireText(durableRecords, "preservesLibrarySourceLineage: true", "Durable record plan must preserve library source lineage.");
 requireText(durableRecords, "blocksStudentDataCopy: true", "Durable record plan must block student data copies.");

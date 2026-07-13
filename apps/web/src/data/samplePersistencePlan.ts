@@ -16,6 +16,7 @@ export type PersistenceBoundaryCategory =
   | "teacher-draft-package"
   | "teacher-draft-review-handoff"
   | "teacher-draft-review-decision"
+  | "teacher-draft-review-evidence"
   | "tenant-library-item"
   | "route-registry"
   | "launch-session"
@@ -135,6 +136,23 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     blocksDirectStudentAssignment: true,
     recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
     note: "Reviewer decisions need durable reviewer identity, evidence, outcome, and blocked-state records before return-for-edits, needs-audio, or ready-for-approval decisions can affect package workflow.",
+  },
+  {
+    recordId: "teacher-draft-review-evidence-record",
+    category: "teacher-draft-review-evidence",
+    label: "Teacher draft review evidence packet record",
+    readiness: "durable-required",
+    sourceOfTruth: "Review evidence packet preview, evidence requirements, reviewer identity, draft revision, storage blockers",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesReviewEvidencePacket: true,
+    blocksEvidenceUpload: true,
+    recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
+    note: "Review evidence packets need durable identity, draft revision, audio gap, rights/version, route compatibility, and release-control proof before file upload or signature capture can be enabled.",
   },
   {
     recordId: "tenant-library-item-record",
@@ -443,6 +461,18 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     visibleTo: ["Teacher", "Tenant admin", "Content reviewer", "Platform admin"],
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision: "Persist reviewer decisions only after reviewer identity, evidence storage, verifier workflow, and package approval policy are accepted.",
+  },
+  {
+    boundaryId: "teacher-draft-review-evidence-boundary",
+    category: "teacher-draft-review-evidence",
+    label: "Teacher draft review evidence packets",
+    status: "needs-backend",
+    recordShape: "Evidence packet id, decision id, handoff id, draft id, reviewer id, evidence type, evidence uri, evidence status, upload block",
+    whyItMatters:
+      "Review decisions need proof, but evidence uploads and signatures must remain blocked until identity, storage, retention, rights, and approval policy exist.",
+    visibleTo: ["Content reviewer", "Tenant admin", "Platform admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision: "Persist evidence packets only after reviewer identity, evidence storage, file handling, retention, and approval ledger policy are accepted.",
   },
   {
     boundaryId: "tenant-library-item-boundary",
