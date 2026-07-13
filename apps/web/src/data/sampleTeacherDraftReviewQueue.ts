@@ -2,6 +2,16 @@ import { sampleTeacherDraftPackages } from "./sampleTeacherDraftPackage";
 import type { TeacherDraftPackagePreview } from "./sampleTeacherDraftPackage";
 
 export type TeacherDraftReviewQueueStatus = "handoff-preview" | "blocked" | "ready-for-verifier" | "returned";
+export type TeacherDraftReviewerDecisionStatus = "preview-only" | "blocked" | "future";
+
+export interface TeacherDraftReviewerDecisionOption {
+  decisionId: string;
+  label: string;
+  status: TeacherDraftReviewerDecisionStatus;
+  evidenceRequired: string[];
+  blockedBy: string[];
+  outcome: string;
+}
 
 export interface TeacherDraftReviewQueueItem {
   queueItemId: string;
@@ -12,6 +22,7 @@ export interface TeacherDraftReviewQueueItem {
   blockedBy: string[];
   allowedActions: string[];
   notAllowedYet: string[];
+  reviewerDecisionOptions: TeacherDraftReviewerDecisionOption[];
   nextStep: string;
 }
 
@@ -54,6 +65,32 @@ export const sampleTeacherDraftReviewQueue: TeacherDraftReviewQueue = {
           ],
           allowedActions: ["Preview packet", "Review blockers", "Inspect source lineage"],
           notAllowedYet: ["Submit to verifier", "Approve package", "Assign to students", "Direct AI publish"],
+          reviewerDecisionOptions: [
+            {
+              decisionId: "return-for-edits",
+              label: "Return for edits",
+              status: "preview-only",
+              evidenceRequired: ["Reviewer note", "Teacher owner", "Draft revision"],
+              blockedBy: ["Reviewer identity required", "Draft persistence required"],
+              outcome: "Draft returns to the teacher without becoming student-facing.",
+            },
+            {
+              decisionId: "needs-audio",
+              label: "Needs audio",
+              status: "preview-only",
+              evidenceRequired: ["Missing cue list", "Fallback voice decision", "Audio review owner"],
+              blockedBy: ["Audio regeneration required", "Audio ownership policy required"],
+              outcome: "Draft remains blocked until term, sentence, instruction, and fallback audio coverage is reviewed.",
+            },
+            {
+              decisionId: "ready-for-approval",
+              label: "Ready for approval",
+              status: "blocked",
+              evidenceRequired: ["Schema pass", "Audio pass", "Rights/version pass", "Route compatibility pass"],
+              blockedBy: ["Package approval ledger required", "Release-control policy required", "Approver identity required"],
+              outcome: "Future path only: creates an approval candidate, not a student assignment.",
+            },
+          ],
           nextStep:
             "Connect this queue to persisted teacher draft review handoff records after authentication, verifier workflow, and package approval policy exist.",
         },

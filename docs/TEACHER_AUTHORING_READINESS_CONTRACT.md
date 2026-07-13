@@ -72,6 +72,8 @@ The backend-neutral storage contract includes `teacher_draft_review_handoff` rec
 
 The review queue route is a read-only workbench preview. It shows draft handoff queue items, packet sections, blockers, allowed actions, and next steps without enabling live verifier submission, package approval, direct AI publish, or student assignment.
 
+The review queue route includes reviewer decision previews. `Return for edits`, `Needs audio`, and `Ready for approval` are visible as future outcomes only. Their actions remain disabled until reviewer identity, evidence storage, verifier workflow, package approval, and release-control policy exist.
+
 The route must continue to show:
 
 - `Teacher draft package`
@@ -109,6 +111,13 @@ The review queue route must continue to show:
 - `Student assignment blocked`
 - `No live approval`
 - `No direct AI publish`
+- `Reviewer decision preview`
+- `Decision actions disabled`
+- `Return for edits`
+- `Needs audio`
+- `Ready for approval`
+- `Approval still blocked`
+- `Approver identity required`
 
 ## Student Assignment Rule
 
@@ -132,6 +141,7 @@ Student assignment requires:
 - Draft audio coverage must be reviewed before student use.
 - Draft review handoff previews do not submit; they summarize review requirements only.
 - Review queue previews do not approve, submit, publish, or assign.
+- Reviewer decision previews do not change package state.
 - Teacher edits must preserve package source and lineage.
 - Support language cannot become the progression trigger.
 - Teacher-created printables must not imply automatic digital mastery.

@@ -155,6 +155,7 @@
 - `DR-181-draft-review-handoff-preview.md`
 - `DR-182-draft-review-handoff-storage-contract.md`
 - `DR-183-teacher-draft-review-queue-preview.md`
+- `DR-184-reviewer-decision-preview.md`
 
 ## Maintenance Rule
 
