@@ -15,6 +15,7 @@ export type PersistenceBoundaryCategory =
   | "content-package"
   | "teacher-draft-package"
   | "teacher-draft-review-handoff"
+  | "teacher-draft-review-decision"
   | "tenant-library-item"
   | "route-registry"
   | "launch-session"
@@ -116,6 +117,24 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     blocksDirectStudentAssignment: true,
     recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
     note: "Teacher draft review handoff packets need durable schema, lineage, audio, rights/version, route/activity, and approval sections before a real submit-for-review workflow is enabled.",
+  },
+  {
+    recordId: "teacher-draft-review-decision-record",
+    category: "teacher-draft-review-decision",
+    label: "Teacher draft reviewer decision record",
+    readiness: "durable-required",
+    sourceOfTruth: "TeacherDraftReviewerDecisionOption, reviewer identity, evidence requirements, blocked decision state, review outcome",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesReviewerEvidenceRequirements: true,
+    blocksReviewerStateChange: true,
+    blocksDirectStudentAssignment: true,
+    recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
+    note: "Reviewer decisions need durable reviewer identity, evidence, outcome, and blocked-state records before return-for-edits, needs-audio, or ready-for-approval decisions can affect package workflow.",
   },
   {
     recordId: "tenant-library-item-record",
@@ -412,6 +431,18 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     visibleTo: ["Teacher", "Tenant admin", "Content reviewer"],
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision: "Persist review handoff packets before enabling submit-for-review, verifier workflow, or approved package creation from teacher drafts.",
+  },
+  {
+    boundaryId: "teacher-draft-review-decision-boundary",
+    category: "teacher-draft-review-decision",
+    label: "Teacher draft reviewer decisions",
+    status: "needs-backend",
+    recordShape: "Decision id, handoff id, draft id, reviewer id, decision label, evidence required, evidence attached, blockers, outcome, state-change block",
+    whyItMatters:
+      "Reviewers need auditable decisions, but preview decisions must not change package state, approve content, publish, or assign students until identity, evidence, verifier, and release-control policy exist.",
+    visibleTo: ["Teacher", "Tenant admin", "Content reviewer", "Platform admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision: "Persist reviewer decisions only after reviewer identity, evidence storage, verifier workflow, and package approval policy are accepted.",
   },
   {
     boundaryId: "tenant-library-item-boundary",

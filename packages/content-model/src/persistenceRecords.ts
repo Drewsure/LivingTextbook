@@ -3,6 +3,7 @@ export type PersistenceRecordCategory =
   | "content-package"
   | "teacher-draft-package"
   | "teacher-draft-review-handoff"
+  | "teacher-draft-review-decision"
   | "tenant-library-item"
   | "route-registry"
   | "launch-session"
@@ -55,6 +56,8 @@ export interface DurableRecordContract {
   blocksDirectStudentAssignment?: boolean;
   preservesReviewPacketSections?: boolean;
   blocksLiveReviewSubmission?: boolean;
+  preservesReviewerEvidenceRequirements?: boolean;
+  blocksReviewerStateChange?: boolean;
   preservesLibrarySourceLineage?: boolean;
   blocksStudentDataCopy?: boolean;
   blocksPublicCommunityPublishing?: boolean;
@@ -139,6 +142,18 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "teacher-draft-review-handoff" && !record.blocksDirectStudentAssignment) {
       errors.push(`Teacher draft review handoff record ${record.recordId} must block direct student assignment.`);
+    }
+
+    if (record.category === "teacher-draft-review-decision" && !record.preservesReviewerEvidenceRequirements) {
+      errors.push(`Teacher draft reviewer decision record ${record.recordId} must preserve reviewer evidence requirements.`);
+    }
+
+    if (record.category === "teacher-draft-review-decision" && !record.blocksReviewerStateChange) {
+      errors.push(`Teacher draft reviewer decision record ${record.recordId} must block reviewer state changes.`);
+    }
+
+    if (record.category === "teacher-draft-review-decision" && !record.blocksDirectStudentAssignment) {
+      errors.push(`Teacher draft reviewer decision record ${record.recordId} must block direct student assignment.`);
     }
 
     if (record.category === "tenant-library-item" && !record.preservesLibrarySourceLineage) {

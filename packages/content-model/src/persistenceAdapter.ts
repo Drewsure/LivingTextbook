@@ -30,6 +30,8 @@ export interface PersistenceWriteIntent {
   blocksDirectStudentAssignment?: boolean;
   preservesReviewPacketSections?: boolean;
   blocksLiveReviewSubmission?: boolean;
+  preservesReviewerEvidenceRequirements?: boolean;
+  blocksReviewerStateChange?: boolean;
   preservesLibrarySourceLineage?: boolean;
   blocksStudentDataCopy?: boolean;
   blocksPublicCommunityPublishing?: boolean;
@@ -149,6 +151,18 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "teacher-draft-review-handoff" && !intent.blocksDirectStudentAssignment) {
       errors.push(`Teacher draft review handoff write intent ${intent.intentId} must block direct student assignment.`);
+    }
+
+    if (intent.category === "teacher-draft-review-decision" && !intent.preservesReviewerEvidenceRequirements) {
+      errors.push(`Teacher draft reviewer decision write intent ${intent.intentId} must preserve reviewer evidence requirements.`);
+    }
+
+    if (intent.category === "teacher-draft-review-decision" && !intent.blocksReviewerStateChange) {
+      errors.push(`Teacher draft reviewer decision write intent ${intent.intentId} must block reviewer state changes.`);
+    }
+
+    if (intent.category === "teacher-draft-review-decision" && !intent.blocksDirectStudentAssignment) {
+      errors.push(`Teacher draft reviewer decision write intent ${intent.intentId} must block direct student assignment.`);
     }
 
     if (intent.category === "tenant-library-item" && !intent.preservesLibrarySourceLineage) {

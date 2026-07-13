@@ -106,6 +106,25 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
       notAllowedYet: ["Live review submission without verifier workflow", "Direct draft assignment", "Direct AI publish", "Packet sections only in UI state"],
     },
     {
+      migrationId: "m017-teacher-draft-review-decision-records",
+      label: "Teacher draft reviewer decision records",
+      track: "shared",
+      status: "ready-to-design",
+      risk: "medium",
+      targetEntities: ["teacher_draft_review_decision"],
+      purpose:
+        "Persist reviewer decision records before return-for-edits, needs-audio, or ready-for-approval outcomes can change workflow state.",
+      prerequisites: ["Teacher draft review handoff records accepted", "Reviewer identity model accepted", "Evidence storage path accepted", "Approval ledger policy accepted"],
+      implementationNotes: [
+        "Keep reviewer decisions tenant-scoped, handoff-scoped, and reviewer-scoped.",
+        "Preserve decision label, evidence required, evidence attached, blockers, and outcome.",
+        "Block state changes until reviewer identity, evidence storage, verifier workflow, package approval, and release-control policy pass.",
+        "Do not let reviewer decisions assign students or directly create package releases.",
+      ],
+      rollbackOrExportNeeds: ["Export reviewer decision JSON", "Retain returned/blocked/approved decision snapshots", "Support local review decision backup and restore"],
+      notAllowedYet: ["Anonymous approval", "Decision changes package state without evidence", "Direct student assignment", "Direct AI publish", "Fake signed approval"],
+    },
+    {
       migrationId: "m015-tenant-library-item-records",
       label: "Tenant library item records",
       track: "shared",
@@ -328,6 +347,7 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
     "Migrations must preserve tenant boundaries and release-control records.",
     "Teacher draft packages must preserve owner, source lineage, review gates, and direct student-assignment blocks.",
     "Teacher draft review handoff records must preserve packet sections and block live submission until verifier and approval workflows exist.",
+    "Teacher draft reviewer decision records must preserve evidence requirements and block state changes until identity, evidence, verifier, and approval workflows exist.",
     "Tenant library items must preserve source lineage, block student-data copies, and block public community publishing.",
     "Raw learner audio and transcripts stay out of core storage.",
     "Hosted and local implementations must use the same record vocabulary.",
