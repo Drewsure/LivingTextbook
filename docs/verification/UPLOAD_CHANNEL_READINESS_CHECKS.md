@@ -36,6 +36,10 @@ Verify at:
 18. Confirm each queue item shows source lineage, rights proof, scan/file policy, and target mapping packet requirements.
 19. Confirm reviewer decision options are disabled previews only.
 20. Confirm queue rules block student-facing use, direct game assignment, automatic PDF-to-game publish, and uploaded media as mastery trigger.
+21. Confirm the page shows `Upload promotion readiness`.
+22. Confirm PDF/text, Labelled Diagram image, audio/music, and video/local bundle promotion lanes are visible.
+23. Confirm promotion rules block student-facing promotion, direct assignment, folder placement promotion, and reviewed upload bypass.
+24. Confirm each promotion lane shows storage required before live promotion.
 
 ## Automated Command
 
@@ -63,3 +67,4 @@ npm run verify:backend-storage
 - This scaffold does not make uploaded files student-facing.
 - This scaffold does not approve, publish, import, assign, promote, or process upload queue items.
 - This scaffold defines upload review storage contracts only; it does not implement target-specific promotion workflows.
+- This scaffold shows target-specific upload promotion readiness only; it does not promote uploads into drafts, game assets, playlists, or local bundles.

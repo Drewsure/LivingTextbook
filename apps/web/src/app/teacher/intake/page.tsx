@@ -10,6 +10,7 @@ import { sampleActiveRouteMatrix } from "@/data/sampleActiveRouteMatrix";
 import { sampleAuthoringVerifierPlan } from "@/data/sampleAuthoringVerifierPlan";
 import { sampleTeacherAuthoringReadinessPlan } from "@/data/sampleTeacherAuthoringReadiness";
 import { sampleUploadChannelReadinessPlan } from "@/data/sampleUploadChannelReadiness";
+import { sampleUploadPromotionReadinessPlan } from "@/data/sampleUploadPromotionReadiness";
 import { sampleUploadReviewQueue } from "@/data/sampleUploadReviewQueue";
 import { sampleTargetLanguageExpansionPlan } from "@/data/sampleTargetLanguageExpansionPlan";
 import {
@@ -72,6 +73,7 @@ import { PrintableOutputReadinessPanel } from "@/features/content-intake/Printab
 import { SourceReviewQueuePanel } from "@/features/content-intake/SourceReviewQueuePanel";
 import { TeacherAuthoringReadinessPanel } from "@/features/content-intake/TeacherAuthoringReadinessPanel";
 import { UploadChannelReadinessPanel } from "@/features/content-intake/UploadChannelReadinessPanel";
+import { UploadPromotionReadinessPanel } from "@/features/content-intake/UploadPromotionReadinessPanel";
 import { UploadReviewQueuePanel } from "@/features/content-intake/UploadReviewQueuePanel";
 import { UnitPackageReadinessPanel } from "@/features/content-intake/UnitPackageReadinessPanel";
 import { DeploymentProfilePanel } from "@/features/deployment/DeploymentProfilePanel";
@@ -162,6 +164,7 @@ export default function TeacherIntakePage() {
         />
         <UploadChannelReadinessPanel plan={sampleUploadChannelReadinessPlan} />
         <UploadReviewQueuePanel queue={sampleUploadReviewQueue} />
+        <UploadPromotionReadinessPanel plan={sampleUploadPromotionReadinessPlan} />
         <SourceReviewQueuePanel queue={sampleSourceReviewQueue} />
         <TeacherAuthoringReadinessPanel plan={sampleTeacherAuthoringReadinessPlan} />
         <AuthoringVerifierPlanPanel plan={sampleAuthoringVerifierPlan} />

@@ -167,6 +167,7 @@
 - `DR-193-upload-intake-storage-contract.md`
 - `DR-194-upload-review-queue-preview.md`
 - `DR-195-upload-review-storage-contract.md`
+- `DR-196-upload-promotion-readiness-preview.md`
 
 ## Maintenance Rule
 

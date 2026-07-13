@@ -24,6 +24,7 @@ Panel:
 Review queue sample:
 
 - `apps/web/src/data/sampleUploadReviewQueue.ts`
+- `apps/web/src/data/sampleUploadPromotionReadiness.ts`
 
 Route:
 
@@ -71,6 +72,26 @@ Standing blocks:
 - No direct game assignment.
 - No automatic PDF-to-game publish.
 - No uploaded media as mastery trigger.
+
+## Upload Promotion Readiness
+
+Reviewed uploads still need target-specific promotion gates before they can become platform assets.
+
+Promotion lanes:
+
+- PDF/text to draft package.
+- Labelled Diagram asset promotion.
+- Audio/music playlist promotion.
+- Video/local bundle promotion.
+
+Standing blocks:
+
+- No student-facing promotion.
+- No direct assignment.
+- No folder placement promotion.
+- No reviewed upload bypass.
+
+Each lane must name required gates, current blockers, preview-only actions, not-allowed shortcuts, and storage required before live promotion.
 
 ## Follow-Up
 
