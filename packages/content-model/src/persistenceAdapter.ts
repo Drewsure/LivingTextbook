@@ -49,6 +49,12 @@ export interface PersistenceWriteIntent {
   preservesLabelAnchorRecords?: boolean;
   requiresLabelAudioCoverage?: boolean;
   blocksSupportLanguageProgress?: boolean;
+  preservesMediaPlaylistBinding?: boolean;
+  blocksMediaOnlyProgress?: boolean;
+  preservesBackgroundMediaPolicy?: boolean;
+  requiresLearningAudioPriority?: boolean;
+  preservesLocalMediaBundleEntry?: boolean;
+  blocksLocalFolderActivation?: boolean;
   preservesLibrarySourceLineage?: boolean;
   blocksStudentDataCopy?: boolean;
   blocksPublicCommunityPublishing?: boolean;
@@ -252,6 +258,30 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "label-anchor-record" && !intent.blocksSupportLanguageProgress) {
       errors.push(`Label anchor write intent ${intent.intentId} must block support-language progress triggers.`);
+    }
+
+    if (intent.category === "media-playlist-binding" && !intent.preservesMediaPlaylistBinding) {
+      errors.push(`Media playlist binding write intent ${intent.intentId} must preserve media playlist bindings.`);
+    }
+
+    if (intent.category === "media-playlist-binding" && !intent.blocksMediaOnlyProgress) {
+      errors.push(`Media playlist binding write intent ${intent.intentId} must block media-only progress.`);
+    }
+
+    if (intent.category === "background-media-policy-binding" && !intent.preservesBackgroundMediaPolicy) {
+      errors.push(`Background media policy binding write intent ${intent.intentId} must preserve background media policy.`);
+    }
+
+    if (intent.category === "background-media-policy-binding" && !intent.requiresLearningAudioPriority) {
+      errors.push(`Background media policy binding write intent ${intent.intentId} must require learning-audio priority.`);
+    }
+
+    if (intent.category === "local-media-bundle-entry" && !intent.preservesLocalMediaBundleEntry) {
+      errors.push(`Local media bundle entry write intent ${intent.intentId} must preserve local media bundle entries.`);
+    }
+
+    if (intent.category === "local-media-bundle-entry" && !intent.blocksLocalFolderActivation) {
+      errors.push(`Local media bundle entry write intent ${intent.intentId} must block local folder activation.`);
     }
 
     if (intent.category === "tenant-library-item" && !intent.preservesLibrarySourceLineage) {

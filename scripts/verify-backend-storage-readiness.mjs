@@ -26,6 +26,9 @@ const requiredSchemaEntities = [
   "package_game_audio_coverage",
   "route_alias",
   "media_manifest",
+  "media_playlist_binding",
+  "background_media_policy_binding",
+  "local_media_bundle_entry",
   "launch_session",
   "progress_event",
   "collection_inventory",
@@ -55,6 +58,9 @@ const requiredMigrationCandidates = [
   "m015-tenant-library-item-records",
   "m003-route-alias-registry",
   "m004-media-manifest-rights",
+  "m026-media-playlist-bindings",
+  "m027-background-media-policy-bindings",
+  "m028-local-media-bundle-entries",
   "m005-publish-gate-and-approval-ledger",
   "m006-launch-session-settings",
   "m007-progress-event-stream",
@@ -70,6 +76,10 @@ const requiredMigrationSpecs = [
   "spec-tenant-entitlement",
   "spec-package-release",
   "spec-package-game-audio-coverage",
+  "spec-media-manifest",
+  "spec-media-playlist-binding",
+  "spec-background-media-policy-binding",
+  "spec-local-media-bundle-entry",
   "spec-teacher-draft-package",
   "spec-teacher-draft-review-handoff",
   "spec-teacher-draft-verifier-submission",
@@ -145,6 +155,13 @@ requireText(schemaDraft, "state_change_allowed", "Backend schema must preserve r
 requireText(schemaDraft, "tenant_library_item", "Backend schema must include tenant library items.");
 requireText(schemaDraft, "student_data_copy_allowed", "Backend schema must block student data copies for library items.");
 requireText(schemaDraft, "public_community_publish_allowed", "Backend schema must block public community publishing for library items.");
+requireText(schemaDraft, "media_manifest", "Backend schema must include media manifests.");
+requireText(schemaDraft, "media_playlist_binding", "Backend schema must include media playlist bindings.");
+requireText(schemaDraft, "media_only_progress_allowed", "Backend schema must block media-only progress.");
+requireText(schemaDraft, "background_media_policy_binding", "Backend schema must include background media policy bindings.");
+requireText(schemaDraft, "learning_audio_priority", "Backend schema must preserve learning-audio priority.");
+requireText(schemaDraft, "local_media_bundle_entry", "Backend schema must include local media bundle entries.");
+requireText(schemaDraft, "local_activation_allowed", "Backend schema must block local media activation.");
 requireText(schemaDraft, "event_effect", "Backend schema must preserve event effect taxonomy.");
 requireText(schemaDraft, "event_acceptance_gate", "Backend schema must preserve event acceptance gates.");
 requireText(schemaDraft, "collection_inventory", "Backend schema must include collection inventory.");
@@ -188,6 +205,13 @@ requireText(migrationSpecs, "event_label", "Migration specs must preserve review
 requireText(migrationSpecs, "spec-tenant-library-item", "Migration specs must include tenant library items.");
 requireText(migrationSpecs, "student_data_copy_allowed", "Migration specs must block student data copies for library items.");
 requireText(migrationSpecs, "public_community_publish_allowed", "Migration specs must block public community publishing for library items.");
+requireText(migrationSpecs, "spec-media-manifest", "Migration specs must include media manifests.");
+requireText(migrationSpecs, "spec-media-playlist-binding", "Migration specs must include media playlist bindings.");
+requireText(migrationSpecs, "media_only_progress_allowed", "Migration specs must block media-only progress.");
+requireText(migrationSpecs, "spec-background-media-policy-binding", "Migration specs must include background media policy bindings.");
+requireText(migrationSpecs, "learning_audio_priority", "Migration specs must preserve learning-audio priority.");
+requireText(migrationSpecs, "spec-local-media-bundle-entry", "Migration specs must include local media bundle entries.");
+requireText(migrationSpecs, "local_activation_allowed", "Migration specs must block local media activation.");
 requireText(migrationSpecs, "event_acceptance_gate_id", "Migration specs must require event acceptance gate ids for events.");
 requireText(migrationSpecs, "spec-earned-collection-inventory", "Migration specs must include earned collection inventory.");
 requireText(migrationSpecs, "unlock_source_event_id", "Migration specs must preserve collection unlock source events.");
@@ -244,6 +268,18 @@ requireText(persistenceAdapter, "local-tenant-library-item-write", "Persistence 
 requireText(persistenceAdapter, "preservesLibrarySourceLineage: true", "Persistence adapter must preserve library source lineage.");
 requireText(persistenceAdapter, "blocksStudentDataCopy: true", "Persistence adapter must block student data copies.");
 requireText(persistenceAdapter, "blocksPublicCommunityPublishing: true", "Persistence adapter must block public community publishing.");
+requireText(persistenceAdapter, "hosted-media-playlist-binding-write", "Persistence adapter must include hosted media playlist binding writes.");
+requireText(persistenceAdapter, "local-media-playlist-binding-write", "Persistence adapter must include local media playlist binding writes.");
+requireText(persistenceAdapter, "preservesMediaPlaylistBinding: true", "Persistence adapter must preserve media playlist bindings.");
+requireText(persistenceAdapter, "blocksMediaOnlyProgress: true", "Persistence adapter must block media-only progress.");
+requireText(persistenceAdapter, "hosted-background-media-policy-binding-write", "Persistence adapter must include hosted background media policy binding writes.");
+requireText(persistenceAdapter, "local-background-media-policy-binding-write", "Persistence adapter must include local background media policy binding writes.");
+requireText(persistenceAdapter, "preservesBackgroundMediaPolicy: true", "Persistence adapter must preserve background media policy.");
+requireText(persistenceAdapter, "requiresLearningAudioPriority: true", "Persistence adapter must require learning-audio priority.");
+requireText(persistenceAdapter, "hosted-local-media-bundle-entry-write", "Persistence adapter must include hosted local media bundle entry writes.");
+requireText(persistenceAdapter, "local-media-bundle-entry-write", "Persistence adapter must include local media bundle entry writes.");
+requireText(persistenceAdapter, "preservesLocalMediaBundleEntry: true", "Persistence adapter must preserve local media bundle entries.");
+requireText(persistenceAdapter, "blocksLocalFolderActivation: true", "Persistence adapter must block local folder activation.");
 requireText(persistenceAdapter, "hosted-collection-inventory-write", "Persistence adapter must include hosted collection inventory writes.");
 requireText(persistenceAdapter, "local-collection-inventory-write", "Persistence adapter must include local collection inventory writes.");
 requireText(persistenceAdapter, "preservesEarnedCollectionRules: true", "Persistence adapter must preserve earned collection rules.");
@@ -291,6 +327,15 @@ requireText(durableRecords, "tenant-library-item-record", "Durable record plan m
 requireText(durableRecords, "preservesLibrarySourceLineage: true", "Durable record plan must preserve library source lineage.");
 requireText(durableRecords, "blocksStudentDataCopy: true", "Durable record plan must block student data copies.");
 requireText(durableRecords, "blocksPublicCommunityPublishing: true", "Durable record plan must block public community publishing.");
+requireText(durableRecords, "media-playlist-binding-record", "Durable record plan must include media playlist binding records.");
+requireText(durableRecords, "preservesMediaPlaylistBinding: true", "Durable record plan must preserve media playlist bindings.");
+requireText(durableRecords, "blocksMediaOnlyProgress: true", "Durable record plan must block media-only progress.");
+requireText(durableRecords, "background-media-policy-binding-record", "Durable record plan must include background media policy binding records.");
+requireText(durableRecords, "preservesBackgroundMediaPolicy: true", "Durable record plan must preserve background media policy.");
+requireText(durableRecords, "requiresLearningAudioPriority: true", "Durable record plan must require learning-audio priority.");
+requireText(durableRecords, "local-media-bundle-entry-record", "Durable record plan must include local media bundle entry records.");
+requireText(durableRecords, "preservesLocalMediaBundleEntry: true", "Durable record plan must preserve local media bundle entries.");
+requireText(durableRecords, "blocksLocalFolderActivation: true", "Durable record plan must block local folder activation.");
 requireText(durableRecords, "requiresEventAcceptanceGate: true", "Durable record plan must require event acceptance gates for student event storage.");
 requireText(durableRecords, "earned-collection-inventory-record", "Durable record plan must include earned collection inventory.");
 requireText(durableRecords, "preservesEarnedCollectionRules: true", "Durable record plan must preserve earned collection rules.");

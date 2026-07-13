@@ -30,6 +30,9 @@ export type PersistenceBoundaryCategory =
   | "progress-event"
   | "collection-inventory"
   | "media-manifest"
+  | "media-playlist-binding"
+  | "background-media-policy-binding"
+  | "local-media-bundle-entry"
   | "deployment-profile"
   | "teacher-report-package"
   | "publisher-maintenance-change"
@@ -385,6 +388,58 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     storesTranscript: false,
     recommendedFirstPilotStore: ["hosted-object-storage", "hosted-database", "local-classroom-store"],
     note: "Music, videos, chants, and posters need rights-safe manifests for hosted and local packages.",
+  },
+  {
+    recordId: "media-playlist-binding-record",
+    category: "media-playlist-binding",
+    label: "Media playlist binding record",
+    readiness: "durable-required",
+    sourceOfTruth: "MultimediaAssetReadinessPlan, media_playlist_binding, UnitMediaPlaylist, accepted media manifest, optional playback policy",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesMediaPlaylistBinding: true,
+    blocksMediaOnlyProgress: true,
+    recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
+    note: "Playlist bindings need durable unit, route, media ids, ordering, optional playback, and non-mastery policy before uploaded songs, chants, or videos can become active unit playlists.",
+  },
+  {
+    recordId: "background-media-policy-binding-record",
+    category: "background-media-policy-binding",
+    label: "Background media policy binding record",
+    readiness: "durable-required",
+    sourceOfTruth: "MultimediaAssetReadinessPlan, background_media_policy_binding, game background media policy, teacher controls, learning-audio priority",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesBackgroundMediaPolicy: true,
+    requiresLearningAudioPriority: true,
+    blocksMediaOnlyProgress: true,
+    recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
+    note: "Background media bindings need durable mute, duck, pause, teacher-control, and non-scoring policy before music or video can attach to games.",
+  },
+  {
+    recordId: "local-media-bundle-entry-record",
+    category: "local-media-bundle-entry",
+    label: "Local media bundle entry record",
+    readiness: "durable-required",
+    sourceOfTruth: "MultimediaAssetReadinessPlan, local_media_bundle_entry, local bundle manifest, checksum, relative path, update rule, release gate",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesLocalMediaBundleEntry: true,
+    blocksLocalFolderActivation: true,
+    recommendedFirstPilotStore: ["local-classroom-store", "hosted-object-storage", "hosted-database"],
+    note: "Local media bundle entries need checksums, relative paths, rights proof, update rules, and release gates before closed textbook packages can activate packaged media.",
   },
   {
     recordId: "deployment-profile-record",
@@ -811,6 +866,42 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     visibleTo: ["Teacher", "Tenant admin", "Content reviewer"],
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision: "Choose hosted object storage and local bundle manifest rules before real partner media is imported.",
+  },
+  {
+    boundaryId: "media-playlist-binding-boundary",
+    category: "media-playlist-binding",
+    label: "Media playlist binding records",
+    status: "needs-backend",
+    recordShape: "Binding id, tenant id, unit key, playlist id, media ids, display order, optional playback flag, support-only event policy, media-only progress block",
+    whyItMatters:
+      "Songs, chants, and videos can enrich a unit, but playlist placement must not mark mastery, unlock games, or make passive listening a required progress path.",
+    visibleTo: ["Teacher", "Tenant admin", "Content reviewer", "Publisher media owner"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision: "Persist playlist bindings before live media playlist promotion, yearly playlist maintenance, or partner self-maintained media catalogs.",
+  },
+  {
+    boundaryId: "background-media-policy-binding-boundary",
+    category: "background-media-policy-binding",
+    label: "Background media policy binding records",
+    status: "needs-backend",
+    recordShape: "Binding id, tenant id, game mode, unit key, media id, teacher controls, mute/duck/pause behavior, learning-audio priority, non-scoring event policy",
+    whyItMatters:
+      "Background media can make games feel richer, but it must never obscure tap-to-speak, instructions, term audio, sentence audio, or label audio.",
+    visibleTo: ["Teacher", "Tenant admin", "Content reviewer", "Publisher media owner"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision: "Persist background media policy bindings before game background tracks, auto-play settings, or background video surfaces are enabled.",
+  },
+  {
+    boundaryId: "local-media-bundle-entry-boundary",
+    category: "local-media-bundle-entry",
+    label: "Local media bundle entry records",
+    status: "needs-backend",
+    recordShape: "Entry id, tenant id, package id, media id, checksum, relative path, rights proof, update rule, release gate status, local activation block",
+    whyItMatters:
+      "Closed textbook companions must know exactly which media files are packaged, where they live, and whether they are allowed to activate without relying on local folder presence.",
+    visibleTo: ["Tenant admin", "Publisher media owner", "Platform admin", "School admin"],
+    deploymentChannels: ["desktop-app", "local-classroom-server", "hosted-web"],
+    nextDecision: "Persist local media bundle entries before local media activation, installer packaging, or closed textbook media handoff.",
   },
   {
     boundaryId: "deployment-profile-boundary",

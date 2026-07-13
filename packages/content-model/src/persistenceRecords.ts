@@ -18,6 +18,9 @@ export type PersistenceRecordCategory =
   | "progress-event-stream"
   | "collection-inventory"
   | "media-manifest"
+  | "media-playlist-binding"
+  | "background-media-policy-binding"
+  | "local-media-bundle-entry"
   | "deployment-profile"
   | "report-export-policy"
   | "teacher-report-package"
@@ -83,6 +86,12 @@ export interface DurableRecordContract {
   preservesLabelAnchorRecords?: boolean;
   requiresLabelAudioCoverage?: boolean;
   blocksSupportLanguageProgress?: boolean;
+  preservesMediaPlaylistBinding?: boolean;
+  blocksMediaOnlyProgress?: boolean;
+  preservesBackgroundMediaPolicy?: boolean;
+  requiresLearningAudioPriority?: boolean;
+  preservesLocalMediaBundleEntry?: boolean;
+  blocksLocalFolderActivation?: boolean;
   preservesLibrarySourceLineage?: boolean;
   blocksStudentDataCopy?: boolean;
   blocksPublicCommunityPublishing?: boolean;
@@ -251,6 +260,30 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "label-anchor-record" && !record.blocksSupportLanguageProgress) {
       errors.push(`Label anchor record ${record.recordId} must block support-language progress triggers.`);
+    }
+
+    if (record.category === "media-playlist-binding" && !record.preservesMediaPlaylistBinding) {
+      errors.push(`Media playlist binding record ${record.recordId} must preserve media playlist bindings.`);
+    }
+
+    if (record.category === "media-playlist-binding" && !record.blocksMediaOnlyProgress) {
+      errors.push(`Media playlist binding record ${record.recordId} must block media-only progress.`);
+    }
+
+    if (record.category === "background-media-policy-binding" && !record.preservesBackgroundMediaPolicy) {
+      errors.push(`Background media policy binding record ${record.recordId} must preserve background media policy.`);
+    }
+
+    if (record.category === "background-media-policy-binding" && !record.requiresLearningAudioPriority) {
+      errors.push(`Background media policy binding record ${record.recordId} must require learning-audio priority.`);
+    }
+
+    if (record.category === "local-media-bundle-entry" && !record.preservesLocalMediaBundleEntry) {
+      errors.push(`Local media bundle entry record ${record.recordId} must preserve local media bundle entries.`);
+    }
+
+    if (record.category === "local-media-bundle-entry" && !record.blocksLocalFolderActivation) {
+      errors.push(`Local media bundle entry record ${record.recordId} must block local folder activation.`);
     }
 
     if (record.category === "tenant-library-item" && !record.preservesLibrarySourceLineage) {

@@ -172,6 +172,7 @@
 - `DR-198-labelled-diagram-asset-readiness-preview.md`
 - `DR-199-labelled-diagram-asset-storage-contract.md`
 - `DR-200-multimedia-asset-readiness-preview.md`
+- `DR-201-multimedia-binding-storage-contract.md`
 
 ## Maintenance Rule
 
