@@ -290,6 +290,7 @@ Next outputs:
 - Confirm `/teacher/intake` shows the upload review queue before adding live upload approval, OCR promotion, image-label promotion, media playlist promotion, local-bundle promotion, or student-facing uploaded asset use.
 - Confirm uploads remain intake records first and cannot become student-facing until source lineage, rights, file policy, review, audio coverage, route mapping, and package release gates pass.
 - Confirm backend schema, adapter plans, durable records, and migration specs preserve upload intake records before live file pickers, object storage, local upload folders, OCR, image label anchors, or media processing begin.
+- Confirm backend schema, adapter plans, durable records, and migration specs preserve upload review records before live approve-for-draft, ready-for-asset-review, rights-request, return-for-replacement, OCR promotion, image-label promotion, media playlist promotion, local-bundle promotion, or student-facing upload use.
 - Confirm `/teacher/authoring/draft-sample-publisher-l1-u1` keeps local edit preview actions blocked before live save, review submission, or assignment work begins.
 - Confirm `/teacher/authoring/draft-sample-publisher-l1-u1` keeps draft audio coverage visible before live authoring or audio generation work begins.
 - Confirm `/teacher/authoring/draft-sample-publisher-l1-u1` keeps draft review handoff packets read-only and blocked before live submit-for-review, verifier workflow, or package approval work begins.

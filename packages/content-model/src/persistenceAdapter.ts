@@ -40,6 +40,8 @@ export interface PersistenceWriteIntent {
   blocksAutomaticVerifierSubmit?: boolean;
   preservesUploadSourceLineage?: boolean;
   blocksStudentFacingUploadUse?: boolean;
+  preservesUploadReviewPackets?: boolean;
+  blocksUploadReviewPromotion?: boolean;
   preservesLibrarySourceLineage?: boolean;
   blocksStudentDataCopy?: boolean;
   blocksPublicCommunityPublishing?: boolean;
@@ -203,6 +205,18 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "upload-intake" && !intent.blocksStudentFacingUploadUse) {
       errors.push(`Upload intake write intent ${intent.intentId} must block student-facing upload use.`);
+    }
+
+    if (intent.category === "upload-review" && !intent.preservesUploadReviewPackets) {
+      errors.push(`Upload review write intent ${intent.intentId} must preserve upload review packets.`);
+    }
+
+    if (intent.category === "upload-review" && !intent.blocksUploadReviewPromotion) {
+      errors.push(`Upload review write intent ${intent.intentId} must block upload promotion.`);
+    }
+
+    if (intent.category === "upload-review" && !intent.blocksStudentFacingUploadUse) {
+      errors.push(`Upload review write intent ${intent.intentId} must block student-facing upload use.`);
     }
 
     if (intent.category === "tenant-library-item" && !intent.preservesLibrarySourceLineage) {

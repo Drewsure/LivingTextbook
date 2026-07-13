@@ -144,6 +144,25 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
       notAllowedYet: ["Student-facing upload by default", "Automatic PDF-to-game publish", "Unreviewed Labelled Diagram image", "Music as mastery trigger", "Video-only progression"],
     },
     {
+      migrationId: "m022-upload-review-records",
+      label: "Upload review decision records",
+      track: "shared",
+      status: "ready-to-design",
+      risk: "medium",
+      targetEntities: ["upload_review_decision"],
+      purpose:
+        "Persist upload review queue decisions before approve-for-draft, ready-for-asset-review, rights-request, return-for-replacement, OCR promotion, image-label promotion, media playlist promotion, or local-bundle promotion can become live.",
+      prerequisites: ["Upload intake records accepted", "Upload review queue preview accepted", "Reviewer identity model accepted", "Review audit and evidence policy accepted"],
+      implementationNotes: [
+        "Keep upload reviews tenant-scoped, upload-scoped, and reviewer-scoped.",
+        "Preserve source lineage, rights proof, scan/file policy, and target mapping packets.",
+        "Block promotion until reviewer identity, audit trail, evidence, target-specific review, and release-control gates pass.",
+        "Do not let upload reviews assign students, publish packages, create games, or promote media by themselves.",
+      ],
+      rollbackOrExportNeeds: ["Export upload review decision JSON", "Retain blocked and returned decision snapshots", "Support local upload review backup and restore"],
+      notAllowedYet: ["Direct game assignment", "Automatic PDF-to-game publish", "Uploaded media as mastery trigger", "Offline approval bypass", "Student-facing use from review alone"],
+    },
+    {
       migrationId: "m017-teacher-draft-review-decision-records",
       label: "Teacher draft reviewer decision records",
       track: "shared",
@@ -425,6 +444,7 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
     "Teacher draft review handoff records must preserve packet sections and block live submission until verifier and approval workflows exist.",
     "Teacher draft reviewer decision records must preserve evidence requirements and block state changes until identity, evidence, verifier, and approval workflows exist.",
     "Teacher draft review evidence records must preserve evidence packet requirements and block uploads until identity, storage, retention, rights, and approval policies exist.",
+    "Upload review records must preserve review packets and block upload promotion until target-specific review and release-control policy exist.",
     "Tenant library items must preserve source lineage, block student-data copies, and block public community publishing.",
     "Raw learner audio and transcripts stay out of core storage.",
     "Hosted and local implementations must use the same record vocabulary.",

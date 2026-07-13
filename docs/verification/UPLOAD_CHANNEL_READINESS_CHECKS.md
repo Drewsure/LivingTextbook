@@ -49,6 +49,12 @@ This command is also included in:
 npm run verify:foundation
 ```
 
+Upload review storage is also covered by:
+
+```powershell
+npm run verify:backend-storage
+```
+
 ## Non-Goals
 
 - This scaffold does not implement file pickers.
@@ -56,3 +62,4 @@ npm run verify:foundation
 - This scaffold does not run OCR, image labeling, media transcoding, virus scanning, or content moderation.
 - This scaffold does not make uploaded files student-facing.
 - This scaffold does not approve, publish, import, assign, promote, or process upload queue items.
+- This scaffold defines upload review storage contracts only; it does not implement target-specific promotion workflows.

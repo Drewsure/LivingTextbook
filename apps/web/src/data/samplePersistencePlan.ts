@@ -20,6 +20,7 @@ export type PersistenceBoundaryCategory =
   | "teacher-draft-review-audit"
   | "teacher-draft-verifier-submission"
   | "upload-intake"
+  | "upload-review"
   | "tenant-library-item"
   | "route-registry"
   | "launch-session"
@@ -156,6 +157,25 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     blocksStudentFacingUploadUse: true,
     recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
     note: "Upload intake records need durable source lineage, file metadata, rights, review status, target mapping, and blocked-use state before live file pickers or object/local storage are enabled.",
+  },
+  {
+    recordId: "upload-review-record",
+    category: "upload-review",
+    label: "Upload review record",
+    readiness: "durable-required",
+    sourceOfTruth: "UploadReviewQueue, source lineage packet, rights proof packet, scan/file policy packet, target mapping packet, disabled decision previews",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesUploadSourceLineage: true,
+    blocksStudentFacingUploadUse: true,
+    preservesUploadReviewPackets: true,
+    blocksUploadReviewPromotion: true,
+    recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
+    note: "Upload review records need durable review packets, reviewer identity, rights evidence, decision status, target-specific blockers, and promotion blocks before uploaded files can become drafts, assets, playlists, local bundles, or assignments.",
   },
   {
     recordId: "teacher-draft-review-decision-record",
@@ -528,6 +548,18 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     visibleTo: ["Teacher", "Tenant admin", "Content reviewer", "Publisher media owner", "Platform admin"],
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision: "Persist upload intake records before live file pickers, OCR, image label anchors, media processing, object storage, or local upload folders.",
+  },
+  {
+    boundaryId: "upload-review-boundary",
+    category: "upload-review",
+    label: "Upload review records",
+    status: "needs-backend",
+    recordShape: "Upload review id, upload id, tenant id, reviewer id, source lineage packet, rights proof packet, scan/file policy packet, target mapping packet, decision status, blockers, promotion block",
+    whyItMatters:
+      "Uploaded files need durable review decisions before they can be promoted into source drafts, Labelled Diagram assets, playlists, local bundles, or student-facing assignments.",
+    visibleTo: ["Teacher", "Tenant admin", "Content reviewer", "Publisher media owner", "Platform admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision: "Persist upload review records before enabling approve-for-draft, ready-for-asset-review, rights-request, return-for-replacement, OCR promotion, image-label promotion, media playlist promotion, or local-bundle promotion.",
   },
   {
     boundaryId: "teacher-draft-review-decision-boundary",

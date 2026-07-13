@@ -15,6 +15,7 @@ const requiredSchemaEntities = [
   "teacher_draft_review_handoff",
   "teacher_draft_verifier_submission",
   "upload_intake_asset",
+  "upload_review_decision",
   "teacher_draft_review_decision",
   "teacher_draft_review_evidence",
   "teacher_draft_review_audit",
@@ -41,6 +42,7 @@ const requiredMigrationCandidates = [
   "m016-teacher-draft-review-handoff-records",
   "m020-teacher-draft-verifier-submission-records",
   "m021-upload-intake-records",
+  "m022-upload-review-records",
   "m017-teacher-draft-review-decision-records",
   "m018-teacher-draft-review-evidence-records",
   "m019-teacher-draft-review-audit-records",
@@ -66,6 +68,7 @@ const requiredMigrationSpecs = [
   "spec-teacher-draft-review-handoff",
   "spec-teacher-draft-verifier-submission",
   "spec-upload-intake-asset",
+  "spec-upload-review-decision",
   "spec-teacher-draft-review-decision",
   "spec-teacher-draft-review-evidence",
   "spec-teacher-draft-review-audit",
@@ -107,6 +110,10 @@ requireText(schemaDraft, "automatic_submit_allowed", "Backend schema must preser
 requireText(schemaDraft, "upload_intake_asset", "Backend schema must include upload intake assets.");
 requireText(schemaDraft, "source_lineage", "Backend schema must preserve upload source lineage.");
 requireText(schemaDraft, "student_facing_use_allowed", "Backend schema must block student-facing upload use.");
+requireText(schemaDraft, "upload_review_decision", "Backend schema must include upload review decisions.");
+requireText(schemaDraft, "source_lineage_packet", "Backend schema must preserve upload review source lineage packets.");
+requireText(schemaDraft, "rights_proof_packet", "Backend schema must preserve upload review rights proof packets.");
+requireText(schemaDraft, "promotion_allowed", "Backend schema must block upload review promotion.");
 requireText(schemaDraft, "teacher_draft_review_decision", "Backend schema must include teacher draft reviewer decisions.");
 requireText(schemaDraft, "evidence_required", "Backend schema must preserve reviewer decision evidence requirements.");
 requireText(schemaDraft, "state_change_allowed", "Backend schema must preserve reviewer decision state-change blocks.");
@@ -137,6 +144,9 @@ requireText(migrationSpecs, "automatic_submit_allowed", "Migration specs must pr
 requireText(migrationSpecs, "spec-upload-intake-asset", "Migration specs must include upload intake assets.");
 requireText(migrationSpecs, "file_metadata", "Migration specs must preserve upload file metadata.");
 requireText(migrationSpecs, "target_mapping", "Migration specs must preserve upload target mapping.");
+requireText(migrationSpecs, "spec-upload-review-decision", "Migration specs must include upload review decisions.");
+requireText(migrationSpecs, "rights_proof_packet", "Migration specs must preserve upload review rights proof packets.");
+requireText(migrationSpecs, "promotion_allowed", "Migration specs must preserve upload review promotion blocks.");
 requireText(migrationSpecs, "spec-teacher-draft-review-decision", "Migration specs must include teacher draft reviewer decisions.");
 requireText(migrationSpecs, "reviewer_id", "Migration specs must preserve reviewer identity.");
 requireText(migrationSpecs, "state_change_allowed", "Migration specs must preserve reviewer decision state-change blocks.");
@@ -171,6 +181,10 @@ requireText(persistenceAdapter, "hosted-upload-intake-write", "Persistence adapt
 requireText(persistenceAdapter, "local-upload-intake-write", "Persistence adapter must include local upload intake writes.");
 requireText(persistenceAdapter, "preservesUploadSourceLineage: true", "Persistence adapter must preserve upload source lineage.");
 requireText(persistenceAdapter, "blocksStudentFacingUploadUse: true", "Persistence adapter must block student-facing upload use.");
+requireText(persistenceAdapter, "hosted-upload-review-write", "Persistence adapter must include hosted upload review writes.");
+requireText(persistenceAdapter, "local-upload-review-write", "Persistence adapter must include local upload review writes.");
+requireText(persistenceAdapter, "preservesUploadReviewPackets: true", "Persistence adapter must preserve upload review packets.");
+requireText(persistenceAdapter, "blocksUploadReviewPromotion: true", "Persistence adapter must block upload review promotion.");
 requireText(persistenceAdapter, "hosted-teacher-draft-review-decision-write", "Persistence adapter must include hosted teacher draft reviewer decision writes.");
 requireText(persistenceAdapter, "local-teacher-draft-review-decision-write", "Persistence adapter must include local teacher draft reviewer decision writes.");
 requireText(persistenceAdapter, "preservesReviewerEvidenceRequirements: true", "Persistence adapter must preserve reviewer evidence requirements.");
@@ -209,6 +223,9 @@ requireText(durableRecords, "blocksAutomaticVerifierSubmit: true", "Durable reco
 requireText(durableRecords, "upload-intake-record", "Durable record plan must include upload intake records.");
 requireText(durableRecords, "preservesUploadSourceLineage: true", "Durable record plan must preserve upload source lineage.");
 requireText(durableRecords, "blocksStudentFacingUploadUse: true", "Durable record plan must block student-facing upload use.");
+requireText(durableRecords, "upload-review-record", "Durable record plan must include upload review records.");
+requireText(durableRecords, "preservesUploadReviewPackets: true", "Durable record plan must preserve upload review packets.");
+requireText(durableRecords, "blocksUploadReviewPromotion: true", "Durable record plan must block upload review promotion.");
 requireText(durableRecords, "teacher-draft-review-decision-record", "Durable record plan must include teacher draft reviewer decisions.");
 requireText(durableRecords, "preservesReviewerEvidenceRequirements: true", "Durable record plan must preserve reviewer evidence requirements.");
 requireText(durableRecords, "blocksReviewerStateChange: true", "Durable record plan must block reviewer state changes.");

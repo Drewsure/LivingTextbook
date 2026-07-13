@@ -8,6 +8,7 @@ export type PersistenceRecordCategory =
   | "teacher-draft-review-audit"
   | "teacher-draft-verifier-submission"
   | "upload-intake"
+  | "upload-review"
   | "tenant-library-item"
   | "route-registry"
   | "launch-session"
@@ -70,6 +71,8 @@ export interface DurableRecordContract {
   blocksAutomaticVerifierSubmit?: boolean;
   preservesUploadSourceLineage?: boolean;
   blocksStudentFacingUploadUse?: boolean;
+  preservesUploadReviewPackets?: boolean;
+  blocksUploadReviewPromotion?: boolean;
   preservesLibrarySourceLineage?: boolean;
   blocksStudentDataCopy?: boolean;
   blocksPublicCommunityPublishing?: boolean;
@@ -198,6 +201,18 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "upload-intake" && !record.blocksStudentFacingUploadUse) {
       errors.push(`Upload intake record ${record.recordId} must block student-facing upload use.`);
+    }
+
+    if (record.category === "upload-review" && !record.preservesUploadReviewPackets) {
+      errors.push(`Upload review record ${record.recordId} must preserve upload review packets.`);
+    }
+
+    if (record.category === "upload-review" && !record.blocksUploadReviewPromotion) {
+      errors.push(`Upload review record ${record.recordId} must block upload promotion.`);
+    }
+
+    if (record.category === "upload-review" && !record.blocksStudentFacingUploadUse) {
+      errors.push(`Upload review record ${record.recordId} must block student-facing upload use.`);
     }
 
     if (record.category === "tenant-library-item" && !record.preservesLibrarySourceLineage) {
