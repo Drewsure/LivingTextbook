@@ -19,6 +19,7 @@ export type PersistenceBoundaryCategory =
   | "teacher-draft-review-evidence"
   | "teacher-draft-review-audit"
   | "teacher-draft-verifier-submission"
+  | "upload-intake"
   | "tenant-library-item"
   | "route-registry"
   | "launch-session"
@@ -138,6 +139,23 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     blocksDirectStudentAssignment: true,
     recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
     note: "Verifier submission preflight records need durable schema, audio, support-language, route, evidence, and approval checks before any draft can enter a live verifier workflow.",
+  },
+  {
+    recordId: "upload-intake-record",
+    category: "upload-intake",
+    label: "Upload intake record",
+    readiness: "durable-required",
+    sourceOfTruth: "UploadChannelReadinessPlan, upload source lineage, file type, review status, rights policy, target mapping",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesUploadSourceLineage: true,
+    blocksStudentFacingUploadUse: true,
+    recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
+    note: "Upload intake records need durable source lineage, file metadata, rights, review status, target mapping, and blocked-use state before live file pickers or object/local storage are enabled.",
   },
   {
     recordId: "teacher-draft-review-decision-record",
@@ -498,6 +516,18 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     visibleTo: ["Teacher", "Content reviewer", "Tenant admin", "Platform admin"],
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision: "Persist verifier submission preflights before enabling submit-to-verifier, verifier automation, or package workflow promotion.",
+  },
+  {
+    boundaryId: "upload-intake-boundary",
+    category: "upload-intake",
+    label: "Upload intake records",
+    status: "needs-backend",
+    recordShape: "Upload id, tenant id, uploader id, source kind, file kind, file metadata, source lineage, rights status, scan status, target mapping, review status, student-facing block",
+    whyItMatters:
+      "PDFs, text, images, audio, music, and video need durable intake records before they can feed drafts, Labelled Diagram assets, playlists, or local bundles.",
+    visibleTo: ["Teacher", "Tenant admin", "Content reviewer", "Publisher media owner", "Platform admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision: "Persist upload intake records before live file pickers, OCR, image label anchors, media processing, object storage, or local upload folders.",
   },
   {
     boundaryId: "teacher-draft-review-decision-boundary",

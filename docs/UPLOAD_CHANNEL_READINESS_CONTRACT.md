@@ -49,3 +49,5 @@ Verifier:
 ## Follow-Up
 
 Add durable upload intake storage records before live file pickers, object storage, local bundle upload folders, OCR pipelines, image label editors, or media processing workflows are implemented.
+
+The backend-neutral storage contract includes `upload_intake_asset` records. Hosted and local adapters must preserve upload source lineage and block student-facing uploaded file use until file policy, rights, review, route mapping, audio coverage, and release gates pass.

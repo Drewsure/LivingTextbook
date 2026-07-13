@@ -38,6 +38,8 @@ export interface PersistenceWriteIntent {
   blocksReviewAuditStateChange?: boolean;
   preservesVerifierPreflightChecks?: boolean;
   blocksAutomaticVerifierSubmit?: boolean;
+  preservesUploadSourceLineage?: boolean;
+  blocksStudentFacingUploadUse?: boolean;
   preservesLibrarySourceLineage?: boolean;
   blocksStudentDataCopy?: boolean;
   blocksPublicCommunityPublishing?: boolean;
@@ -193,6 +195,14 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "teacher-draft-verifier-submission" && !intent.blocksAutomaticVerifierSubmit) {
       errors.push(`Teacher draft verifier submission write intent ${intent.intentId} must block automatic verifier submission.`);
+    }
+
+    if (intent.category === "upload-intake" && !intent.preservesUploadSourceLineage) {
+      errors.push(`Upload intake write intent ${intent.intentId} must preserve upload source lineage.`);
+    }
+
+    if (intent.category === "upload-intake" && !intent.blocksStudentFacingUploadUse) {
+      errors.push(`Upload intake write intent ${intent.intentId} must block student-facing upload use.`);
     }
 
     if (intent.category === "tenant-library-item" && !intent.preservesLibrarySourceLineage) {

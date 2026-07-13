@@ -23,31 +23,32 @@ Verify at:
 5. Confirm the page shows a `Static demo adapter` plan.
 6. Confirm the page shows a `Hosted pilot adapter` plan marked as the first pilot fit.
 7. Confirm the page shows a `Local classroom adapter` plan for closed deployments.
-8. Confirm hosted write intents include route registry, teacher draft packages, teacher draft review handoff packets, teacher draft verifier submission preflights, teacher draft reviewer decisions, teacher draft review evidence packets, teacher draft review audit trails, teacher launch-session settings, progress/media events, package game/audio coverage snapshots, package release candidate status, package publish gates, and package approval ledgers.
-9. Confirm local write intents include local media bundle manifests, local teacher draft packages, local teacher draft review handoff packets, local teacher draft verifier submission preflights, local teacher draft reviewer decisions, local teacher draft review evidence packets, local teacher draft review audit trails, local package game/audio coverage snapshots, local progress export packages, local package release candidate status, local package publish gates, and local package approval ledgers.
+8. Confirm hosted write intents include route registry, upload intake, teacher draft packages, teacher draft review handoff packets, teacher draft verifier submission preflights, teacher draft reviewer decisions, teacher draft review evidence packets, teacher draft review audit trails, teacher launch-session settings, progress/media events, package game/audio coverage snapshots, package release candidate status, package publish gates, and package approval ledgers.
+9. Confirm local write intents include local media bundle manifests, local upload intake, local teacher draft packages, local teacher draft review handoff packets, local teacher draft verifier submission preflights, local teacher draft reviewer decisions, local teacher draft review evidence packets, local teacher draft review audit trails, local package game/audio coverage snapshots, local progress export packages, local package release candidate status, local package publish gates, and local package approval ledgers.
 10. Confirm package game/audio coverage write intents preserve reviewed game/audio coverage snapshots.
 11. Confirm progress-event write intents preserve event effect taxonomy.
 12. Confirm progress-event write intents require a passed event acceptance gate.
 13. Confirm student-data write intents require school or tenant policy.
 14. Confirm teacher draft review handoff write intents preserve packet sections and block live review submission until verifier and approval workflow exists.
 15. Confirm teacher draft verifier submission write intents preserve preflight checks and block automatic verifier submission until workflow, identity, evidence, and approval policy exist.
-16. Confirm teacher draft reviewer decision write intents preserve evidence requirements and block state changes until reviewer identity, evidence storage, verifier workflow, and approval policy exist.
-17. Confirm teacher draft review evidence write intents preserve evidence packets and block uploads until reviewer identity, storage, retention, rights, and approval policy exist.
-18. Confirm teacher draft review audit trail write intents preserve audit events and block audit-driven package state changes until identity, evidence, approval ledger, and release-control policy exist.
-19. Confirm package approval ledger write intents require policy before real signatures are stored.
-20. Confirm package release candidate and package publish gate write intents are required before pilot release.
-21. Confirm core write intents reject raw learner audio.
-22. Confirm core write intents reject learner transcripts.
-23. Confirm export-capable intents are policy gated.
-24. Confirm local-classroom intents show offline support.
-25. Confirm local-classroom handoff steps mention backup/restore and release-control export or restore.
-26. Confirm hosted handoff steps mention migration/table mapping and release-gate validation before publish status changes.
-27. Confirm handoff steps are visible for each adapter plan.
-28. Confirm the shared contract exists at `packages/content-model/src/persistenceAdapter.ts`.
-29. Confirm the sample data exists at `apps/web/src/data/samplePersistenceAdapterPlan.ts`.
-30. Confirm the UI panel exists at `apps/web/src/features/persistence/PersistenceAdapterReadinessPanel.tsx`.
-31. Confirm typecheck passes after pulling latest.
-32. Confirm production build passes after pulling latest.
+16. Confirm upload intake write intents preserve source lineage and block student-facing uploaded file use until file policy, rights, review, route mapping, audio coverage, and release gates pass.
+17. Confirm teacher draft reviewer decision write intents preserve evidence requirements and block state changes until reviewer identity, evidence storage, verifier workflow, and approval policy exist.
+18. Confirm teacher draft review evidence write intents preserve evidence packets and block uploads until reviewer identity, storage, retention, rights, and approval policy exist.
+19. Confirm teacher draft review audit trail write intents preserve audit events and block audit-driven package state changes until identity, evidence, approval ledger, and release-control policy exist.
+20. Confirm package approval ledger write intents require policy before real signatures are stored.
+21. Confirm package release candidate and package publish gate write intents are required before pilot release.
+22. Confirm core write intents reject raw learner audio.
+23. Confirm core write intents reject learner transcripts.
+24. Confirm export-capable intents are policy gated.
+25. Confirm local-classroom intents show offline support.
+26. Confirm local-classroom handoff steps mention backup/restore and release-control export or restore.
+27. Confirm hosted handoff steps mention migration/table mapping and release-gate validation before publish status changes.
+28. Confirm handoff steps are visible for each adapter plan.
+29. Confirm the shared contract exists at `packages/content-model/src/persistenceAdapter.ts`.
+30. Confirm the sample data exists at `apps/web/src/data/samplePersistenceAdapterPlan.ts`.
+31. Confirm the UI panel exists at `apps/web/src/features/persistence/PersistenceAdapterReadinessPanel.tsx`.
+32. Confirm typecheck passes after pulling latest.
+33. Confirm production build passes after pulling latest.
 
 ## Expected Commands
 

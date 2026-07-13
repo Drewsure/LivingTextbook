@@ -14,6 +14,7 @@ const requiredSchemaEntities = [
   "teacher_draft_package",
   "teacher_draft_review_handoff",
   "teacher_draft_verifier_submission",
+  "upload_intake_asset",
   "teacher_draft_review_decision",
   "teacher_draft_review_evidence",
   "teacher_draft_review_audit",
@@ -39,6 +40,7 @@ const requiredMigrationCandidates = [
   "m014-teacher-draft-package-records",
   "m016-teacher-draft-review-handoff-records",
   "m020-teacher-draft-verifier-submission-records",
+  "m021-upload-intake-records",
   "m017-teacher-draft-review-decision-records",
   "m018-teacher-draft-review-evidence-records",
   "m019-teacher-draft-review-audit-records",
@@ -63,6 +65,7 @@ const requiredMigrationSpecs = [
   "spec-teacher-draft-package",
   "spec-teacher-draft-review-handoff",
   "spec-teacher-draft-verifier-submission",
+  "spec-upload-intake-asset",
   "spec-teacher-draft-review-decision",
   "spec-teacher-draft-review-evidence",
   "spec-teacher-draft-review-audit",
@@ -101,6 +104,9 @@ requireText(schemaDraft, "live_review_submission_allowed", "Backend schema must 
 requireText(schemaDraft, "teacher_draft_verifier_submission", "Backend schema must include teacher draft verifier submission preflights.");
 requireText(schemaDraft, "schema_preflight", "Backend schema must preserve verifier schema preflight checks.");
 requireText(schemaDraft, "automatic_submit_allowed", "Backend schema must preserve automatic verifier submission blocks.");
+requireText(schemaDraft, "upload_intake_asset", "Backend schema must include upload intake assets.");
+requireText(schemaDraft, "source_lineage", "Backend schema must preserve upload source lineage.");
+requireText(schemaDraft, "student_facing_use_allowed", "Backend schema must block student-facing upload use.");
 requireText(schemaDraft, "teacher_draft_review_decision", "Backend schema must include teacher draft reviewer decisions.");
 requireText(schemaDraft, "evidence_required", "Backend schema must preserve reviewer decision evidence requirements.");
 requireText(schemaDraft, "state_change_allowed", "Backend schema must preserve reviewer decision state-change blocks.");
@@ -128,6 +134,9 @@ requireText(migrationSpecs, "live_review_submission_allowed", "Migration specs m
 requireText(migrationSpecs, "spec-teacher-draft-verifier-submission", "Migration specs must include teacher draft verifier submission preflights.");
 requireText(migrationSpecs, "language_preflight", "Migration specs must preserve verifier support-language boundary checks.");
 requireText(migrationSpecs, "automatic_submit_allowed", "Migration specs must preserve automatic verifier submission blocks.");
+requireText(migrationSpecs, "spec-upload-intake-asset", "Migration specs must include upload intake assets.");
+requireText(migrationSpecs, "file_metadata", "Migration specs must preserve upload file metadata.");
+requireText(migrationSpecs, "target_mapping", "Migration specs must preserve upload target mapping.");
 requireText(migrationSpecs, "spec-teacher-draft-review-decision", "Migration specs must include teacher draft reviewer decisions.");
 requireText(migrationSpecs, "reviewer_id", "Migration specs must preserve reviewer identity.");
 requireText(migrationSpecs, "state_change_allowed", "Migration specs must preserve reviewer decision state-change blocks.");
@@ -158,6 +167,10 @@ requireText(persistenceAdapter, "hosted-teacher-draft-verifier-submission-write"
 requireText(persistenceAdapter, "local-teacher-draft-verifier-submission-write", "Persistence adapter must include local teacher draft verifier submission writes.");
 requireText(persistenceAdapter, "preservesVerifierPreflightChecks: true", "Persistence adapter must preserve verifier preflight checks.");
 requireText(persistenceAdapter, "blocksAutomaticVerifierSubmit: true", "Persistence adapter must block automatic verifier submission.");
+requireText(persistenceAdapter, "hosted-upload-intake-write", "Persistence adapter must include hosted upload intake writes.");
+requireText(persistenceAdapter, "local-upload-intake-write", "Persistence adapter must include local upload intake writes.");
+requireText(persistenceAdapter, "preservesUploadSourceLineage: true", "Persistence adapter must preserve upload source lineage.");
+requireText(persistenceAdapter, "blocksStudentFacingUploadUse: true", "Persistence adapter must block student-facing upload use.");
 requireText(persistenceAdapter, "hosted-teacher-draft-review-decision-write", "Persistence adapter must include hosted teacher draft reviewer decision writes.");
 requireText(persistenceAdapter, "local-teacher-draft-review-decision-write", "Persistence adapter must include local teacher draft reviewer decision writes.");
 requireText(persistenceAdapter, "preservesReviewerEvidenceRequirements: true", "Persistence adapter must preserve reviewer evidence requirements.");
@@ -193,6 +206,9 @@ requireText(durableRecords, "blocksLiveReviewSubmission: true", "Durable record 
 requireText(durableRecords, "teacher-draft-verifier-submission-record", "Durable record plan must include teacher draft verifier submission preflights.");
 requireText(durableRecords, "preservesVerifierPreflightChecks: true", "Durable record plan must preserve verifier preflight checks.");
 requireText(durableRecords, "blocksAutomaticVerifierSubmit: true", "Durable record plan must block automatic verifier submission.");
+requireText(durableRecords, "upload-intake-record", "Durable record plan must include upload intake records.");
+requireText(durableRecords, "preservesUploadSourceLineage: true", "Durable record plan must preserve upload source lineage.");
+requireText(durableRecords, "blocksStudentFacingUploadUse: true", "Durable record plan must block student-facing upload use.");
 requireText(durableRecords, "teacher-draft-review-decision-record", "Durable record plan must include teacher draft reviewer decisions.");
 requireText(durableRecords, "preservesReviewerEvidenceRequirements: true", "Durable record plan must preserve reviewer evidence requirements.");
 requireText(durableRecords, "blocksReviewerStateChange: true", "Durable record plan must block reviewer state changes.");

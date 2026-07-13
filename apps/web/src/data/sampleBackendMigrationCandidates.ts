@@ -125,6 +125,25 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
       notAllowedYet: ["Automatic verifier submit", "Direct draft assignment", "Direct AI publish", "Preflight checks only in UI state"],
     },
     {
+      migrationId: "m021-upload-intake-records",
+      label: "Upload intake records",
+      track: "shared",
+      status: "ready-to-design",
+      risk: "medium",
+      targetEntities: ["upload_intake_asset"],
+      purpose:
+        "Persist governed upload intake records before live file pickers, OCR, image label anchors, media processing, object storage, or local upload folders are enabled.",
+      prerequisites: ["Upload channel readiness accepted", "File type and size policy accepted", "Rights proof policy accepted", "Review workflow accepted"],
+      implementationNotes: [
+        "Keep uploads tenant-scoped, uploader-scoped, and target-scoped.",
+        "Preserve file metadata, source lineage, rights status, scan status, target mapping, and review status.",
+        "Block student-facing use until source lineage, rights, scan/type/size policy, review, route mapping, audio coverage, and release gates pass.",
+        "Do not let uploaded files become games, media playlists, or local bundle assets by storage location alone.",
+      ],
+      rollbackOrExportNeeds: ["Export upload intake metadata JSON", "Retain file checksum and source lineage", "Support local upload intake backup and restore"],
+      notAllowedYet: ["Student-facing upload by default", "Automatic PDF-to-game publish", "Unreviewed Labelled Diagram image", "Music as mastery trigger", "Video-only progression"],
+    },
+    {
       migrationId: "m017-teacher-draft-review-decision-records",
       label: "Teacher draft reviewer decision records",
       track: "shared",

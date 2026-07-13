@@ -164,6 +164,7 @@
 - `DR-190-verifier-submission-preflight-preview.md`
 - `DR-191-verifier-submission-storage-contract.md`
 - `DR-192-upload-channel-readiness-preview.md`
+- `DR-193-upload-intake-storage-contract.md`
 
 ## Maintenance Rule
 

@@ -7,6 +7,7 @@ export type PersistenceRecordCategory =
   | "teacher-draft-review-evidence"
   | "teacher-draft-review-audit"
   | "teacher-draft-verifier-submission"
+  | "upload-intake"
   | "tenant-library-item"
   | "route-registry"
   | "launch-session"
@@ -67,6 +68,8 @@ export interface DurableRecordContract {
   blocksReviewAuditStateChange?: boolean;
   preservesVerifierPreflightChecks?: boolean;
   blocksAutomaticVerifierSubmit?: boolean;
+  preservesUploadSourceLineage?: boolean;
+  blocksStudentFacingUploadUse?: boolean;
   preservesLibrarySourceLineage?: boolean;
   blocksStudentDataCopy?: boolean;
   blocksPublicCommunityPublishing?: boolean;
@@ -187,6 +190,14 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "teacher-draft-verifier-submission" && !record.blocksAutomaticVerifierSubmit) {
       errors.push(`Teacher draft verifier submission record ${record.recordId} must block automatic verifier submission.`);
+    }
+
+    if (record.category === "upload-intake" && !record.preservesUploadSourceLineage) {
+      errors.push(`Upload intake record ${record.recordId} must preserve upload source lineage.`);
+    }
+
+    if (record.category === "upload-intake" && !record.blocksStudentFacingUploadUse) {
+      errors.push(`Upload intake record ${record.recordId} must block student-facing upload use.`);
     }
 
     if (record.category === "tenant-library-item" && !record.preservesLibrarySourceLineage) {

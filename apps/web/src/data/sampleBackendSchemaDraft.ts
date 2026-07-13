@@ -152,6 +152,33 @@ export const sampleBackendSchemaDraft: BackendSchemaDraft = {
         "Verifier submission preflights are gates, not submissions. They must preserve checks and keep submit blocked until the verifier workflow and approval policy exist.",
     },
     {
+      entityId: "upload_intake_asset",
+      label: "Upload intake asset",
+      status: "required-before-pilot",
+      deploymentFit: "hybrid",
+      purpose:
+        "Stores governed upload intake records for PDF/text sources, Labelled Diagram images, audio/music, video, media playlists, and local bundle assets while blocking student-facing use until review gates pass.",
+      fields: [
+        { name: "upload_id", type: "stable id", required: true, note: "One uploaded file or uploaded source record." },
+        { name: "tenant_id", type: "foreign key/string", required: true, note: "Tenant boundary for upload visibility and rights." },
+        { name: "uploader_id", type: "role/id", required: true, note: "Teacher, tenant admin, publisher media owner, or platform actor. Real auth required before production writes." },
+        { name: "source_kind", type: "enum/string", required: true, note: "Source file, game asset, or media asset." },
+        { name: "file_kind", type: "enum/string", required: true, note: "PDF, DOCX, text, image, audio, music, or video." },
+        { name: "file_metadata", type: "json/object", required: true, note: "Filename, size, MIME/type, checksum, dimensions/duration when available, and storage reference." },
+        { name: "source_lineage", type: "json/object", required: true, note: "Owner, tenant, edition, unit, revision, and extracted-source lineage." },
+        { name: "rights_status", type: "enum/string", required: true, note: "Missing, needs proof, demo-cleared, pilot-cleared, local-bundle-cleared, or blocked." },
+        { name: "scan_status", type: "enum/string", required: true, note: "Pending, passed, failed, skipped-demo, or blocked." },
+        { name: "target_mapping", type: "json/object", required: true, note: "Draft package, Labelled Diagram, playlist, game background, or local bundle target mapping." },
+        { name: "review_status", type: "enum/string", required: true, note: "Draft, needs review, returned, approved, archived, or blocked." },
+        { name: "student_facing_use_allowed", type: "boolean", required: true, note: "False until source lineage, rights, scan/type/size policy, review, route mapping, audio coverage, and release gates pass." },
+      ],
+      relationships: ["Belongs to tenant", "May feed teacher draft package", "May feed media manifest", "May feed game asset manifest", "May feed local bundle manifest"],
+      indexes: ["tenant_id + upload_id", "tenant_id + uploader_id", "tenant_id + file_kind", "tenant_id + review_status", "student_facing_use_allowed"],
+      forbiddenFields: ["Student-facing upload by default", "Unscanned production file", "Direct PDF-to-game publish", "Raw learner audio", "Learner transcript"],
+      migrationNote:
+        "Upload intake records are governed file metadata and lineage records. Files live in object storage or local bundle folders only after storage, scan, rights, and review policy exist.",
+    },
+    {
       entityId: "teacher_draft_review_decision",
       label: "Teacher draft reviewer decision",
       status: "required-before-pilot",
