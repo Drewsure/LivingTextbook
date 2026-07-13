@@ -163,6 +163,7 @@
 - `DR-189-review-audit-trail-storage-contract.md`
 - `DR-190-verifier-submission-preflight-preview.md`
 - `DR-191-verifier-submission-storage-contract.md`
+- `DR-192-upload-channel-readiness-preview.md`
 
 ## Maintenance Rule
 

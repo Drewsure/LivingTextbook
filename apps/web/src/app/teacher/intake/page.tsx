@@ -9,6 +9,7 @@ import { samplePrintableOutputPlan } from "@/data/samplePrintableOutputPlan";
 import { sampleActiveRouteMatrix } from "@/data/sampleActiveRouteMatrix";
 import { sampleAuthoringVerifierPlan } from "@/data/sampleAuthoringVerifierPlan";
 import { sampleTeacherAuthoringReadinessPlan } from "@/data/sampleTeacherAuthoringReadiness";
+import { sampleUploadChannelReadinessPlan } from "@/data/sampleUploadChannelReadiness";
 import { sampleTargetLanguageExpansionPlan } from "@/data/sampleTargetLanguageExpansionPlan";
 import {
   sampleClassRosterErrors,
@@ -69,6 +70,7 @@ import { PilotSourceStrategyPanel } from "@/features/content-intake/PilotSourceS
 import { PrintableOutputReadinessPanel } from "@/features/content-intake/PrintableOutputReadinessPanel";
 import { SourceReviewQueuePanel } from "@/features/content-intake/SourceReviewQueuePanel";
 import { TeacherAuthoringReadinessPanel } from "@/features/content-intake/TeacherAuthoringReadinessPanel";
+import { UploadChannelReadinessPanel } from "@/features/content-intake/UploadChannelReadinessPanel";
 import { UnitPackageReadinessPanel } from "@/features/content-intake/UnitPackageReadinessPanel";
 import { DeploymentProfilePanel } from "@/features/deployment/DeploymentProfilePanel";
 import { LocalDeploymentPreflightPanel } from "@/features/deployment/LocalDeploymentPreflightPanel";
@@ -156,6 +158,7 @@ export default function TeacherIntakePage() {
           errors={sampleClassRosterErrors}
           warnings={sampleClassRosterWarnings}
         />
+        <UploadChannelReadinessPanel plan={sampleUploadChannelReadinessPlan} />
         <SourceReviewQueuePanel queue={sampleSourceReviewQueue} />
         <TeacherAuthoringReadinessPanel plan={sampleTeacherAuthoringReadinessPlan} />
         <AuthoringVerifierPlanPanel plan={sampleAuthoringVerifierPlan} />

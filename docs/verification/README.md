@@ -108,6 +108,7 @@ Focused verification supplements:
 - `docs/verification/TEACHER_UNIT_REVIEW_ROUTE_CHECKS.md`
 - `docs/verification/TEXT_SPELLING_ENGINE_CHECKS.md`
 - `docs/verification/TARGET_LANGUAGE_EXPANSION_CHECKS.md`
+- `docs/verification/UPLOAD_CHANNEL_READINESS_CHECKS.md`
 - `docs/verification/UNIT_GAME_OFFER_MAP_CHECKS.md`
 - `docs/verification/UNIT_PACKAGE_READINESS_CHECKS.md`
 - `docs/verification/VOICE_TUTOR_PACKAGE_CHECKS.md`

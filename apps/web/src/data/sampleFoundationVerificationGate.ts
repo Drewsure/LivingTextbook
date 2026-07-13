@@ -23,7 +23,7 @@ export const sampleFoundationVerificationGate: FoundationVerificationGate = {
   gateId: "foundation-verification-2026-07",
   label: "Foundation verification gate",
   summary:
-    "This gate is the current no-shortcuts check before connector-side changes are treated as locally verified. It protects schema discipline, reusable game modes, package readiness, local companion honesty, teacher-session safety, production build health, and active route availability.",
+    "This gate is the current no-shortcuts check before connector-side changes are treated as locally verified. It protects schema discipline, reusable game modes, package readiness, upload governance, local companion honesty, teacher-session safety, production build health, and active route availability.",
   canonicalCommand: "npm run verify:foundation",
   lastKnownStatus: "pass",
   checks: [
@@ -107,6 +107,15 @@ export const sampleFoundationVerificationGate: FoundationVerificationGate = {
       protects: "Teacher launch settings keep learner audio required, assist language support-only, raw audio excluded, background media subordinate, and AI Tutor premium-gated.",
       evidence: "The verifier checks eleven safety guards, six persistence warnings, and the assist-language teacher enablement snapshot field.",
       nextStep: "Expand this check when settings move from sample data into hosted or local persistence.",
+    },
+    {
+      checkId: "upload-channel-readiness",
+      label: "Upload channel readiness",
+      command: "npm run verify:upload-channels",
+      status: "pass",
+      protects: "PDF/text, image, audio/music, and video uploads remain governed intake records before live file pickers, game assets, media playlists, or local bundles exist.",
+      evidence: "The verifier checks four upload channels, source-lineage rules, Labelled Diagram image rules, media upload policies, and blocked student-facing shortcuts.",
+      nextStep: "Run this before adding live upload controls, OCR, image label anchors, object storage, media processing, or local bundle upload folders.",
     },
     {
       checkId: "backend-storage-readiness",
