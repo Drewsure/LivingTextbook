@@ -160,6 +160,7 @@
 - `DR-186-review-evidence-packet-preview.md`
 - `DR-187-review-evidence-storage-contract.md`
 - `DR-188-review-audit-trail-preview.md`
+- `DR-189-review-audit-trail-storage-contract.md`
 
 ## Maintenance Rule
 

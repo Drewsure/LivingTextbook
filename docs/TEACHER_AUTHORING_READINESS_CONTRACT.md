@@ -82,6 +82,8 @@ The backend-neutral storage contract includes `teacher_draft_review_evidence` re
 
 The review queue route includes a review audit trail preview. It shows the future sequence of handoff, reviewer decision, evidence, and approval-ledger events without allowing live state transitions, approvals, publishing, uploads, or student assignment.
 
+The backend-neutral storage contract includes `teacher_draft_review_audit` records. Hosted and local adapters must preserve review audit events and block audit-driven state changes until identity, evidence, approval ledger, and release-control policy exist.
+
 The route must continue to show:
 
 - `Teacher draft package`

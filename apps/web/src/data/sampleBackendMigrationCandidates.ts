@@ -144,6 +144,25 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
       notAllowedYet: ["Anonymous evidence", "Upload without storage policy", "Chat-only approval proof", "Raw learner audio or transcripts"],
     },
     {
+      migrationId: "m019-teacher-draft-review-audit-records",
+      label: "Teacher draft review audit trail records",
+      track: "shared",
+      status: "ready-to-design",
+      risk: "medium",
+      targetEntities: ["teacher_draft_review_audit"],
+      purpose:
+        "Persist review audit trail events before handoff, reviewer decision, evidence, or approval-ledger events can support package workflow changes.",
+      prerequisites: ["Review handoff records accepted", "Reviewer decision records accepted", "Evidence packet records accepted", "Approval ledger policy accepted"],
+      implementationNotes: [
+        "Keep audit events tenant-scoped, handoff-scoped, and actor-scoped.",
+        "Preserve event label, event status, evidence link, and state-change block.",
+        "Block audit-driven state changes until reviewer identity, evidence, approval ledger, and release-control policy pass.",
+        "Do not let audit events assign students, approve packages, upload evidence, or publish directly.",
+      ],
+      rollbackOrExportNeeds: ["Export review audit trail JSON", "Retain audit snapshots with review decisions", "Support local audit trail backup and restore"],
+      notAllowedYet: ["Anonymous audit event", "State change without approval ledger", "Direct student assignment", "Direct AI publish", "Chat-only approval proof"],
+    },
+    {
       migrationId: "m015-tenant-library-item-records",
       label: "Tenant library item records",
       track: "shared",

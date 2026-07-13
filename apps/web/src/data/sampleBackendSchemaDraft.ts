@@ -176,6 +176,31 @@ export const sampleBackendSchemaDraft: BackendSchemaDraft = {
         "Evidence records are proof metadata, not unbounded file dumps. Files belong in object storage or local bundles after policy accepts upload and retention rules.",
     },
     {
+      entityId: "teacher_draft_review_audit",
+      label: "Teacher draft review audit trail",
+      status: "required-before-pilot",
+      deploymentFit: "hybrid",
+      purpose:
+        "Stores the ordered review audit trail for handoff, reviewer decision, evidence, and approval-ledger events while blocking audit-driven package state changes.",
+      fields: [
+        { name: "audit_event_id", type: "stable id", required: true, note: "One review audit trail event." },
+        { name: "handoff_id", type: "foreign key/string", required: true, note: "Review handoff packet related to the event." },
+        { name: "decision_id", type: "foreign key/string", required: false, note: "Reviewer decision related to the event when present." },
+        { name: "evidence_packet_id", type: "foreign key/string", required: false, note: "Evidence packet related to the event when present." },
+        { name: "tenant_id", type: "foreign key/string", required: true, note: "Tenant boundary for review audit records." },
+        { name: "actor_id", type: "role/id", required: true, note: "Teacher, reviewer, tenant approver, or platform actor. Real auth required before production writes." },
+        { name: "event_label", type: "enum/string", required: true, note: "Handoff packet created, reviewer decision drafted, evidence packet blocked, approval ledger blocked, or future review event." },
+        { name: "event_status", type: "enum/string", required: true, note: "Preview, blocked, accepted, returned, archived, or future audited state." },
+        { name: "evidence_link", type: "string", required: false, note: "Reference to handoff, decision, evidence, or approval-ledger proof metadata." },
+        { name: "state_change_allowed", type: "boolean", required: true, note: "False until identity, verifier, evidence, approval ledger, and release-control gates pass." },
+      ],
+      relationships: ["Belongs to review handoff", "May reference reviewer decision", "May reference evidence packet", "Belongs to tenant"],
+      indexes: ["tenant_id + handoff_id", "audit_event_id unique", "tenant_id + actor_id", "tenant_id + event_status"],
+      forbiddenFields: ["Anonymous audit event", "State change without approval ledger", "Direct student assignment", "Direct AI publish", "Chat-only approval proof"],
+      migrationNote:
+        "Review audit records preserve workflow history. They cannot drive package state changes until reviewer identity, evidence storage, approval ledger, and release-control policy exist.",
+    },
+    {
       entityId: "tenant_library_item",
       label: "Tenant library item",
       status: "required-before-pilot",

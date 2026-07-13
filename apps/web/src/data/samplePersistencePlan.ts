@@ -17,6 +17,7 @@ export type PersistenceBoundaryCategory =
   | "teacher-draft-review-handoff"
   | "teacher-draft-review-decision"
   | "teacher-draft-review-evidence"
+  | "teacher-draft-review-audit"
   | "tenant-library-item"
   | "route-registry"
   | "launch-session"
@@ -153,6 +154,23 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     blocksEvidenceUpload: true,
     recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
     note: "Review evidence packets need durable identity, draft revision, audio gap, rights/version, route compatibility, and release-control proof before file upload or signature capture can be enabled.",
+  },
+  {
+    recordId: "teacher-draft-review-audit-record",
+    category: "teacher-draft-review-audit",
+    label: "Teacher draft review audit trail record",
+    readiness: "durable-required",
+    sourceOfTruth: "Review audit trail preview, review event sequence, actor, evidence link, blocked state transition",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesReviewAuditTrail: true,
+    blocksReviewAuditStateChange: true,
+    recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
+    note: "Review audit trail records need durable handoff, decision, evidence, and approval-ledger events before any reviewer action can change package state.",
   },
   {
     recordId: "tenant-library-item-record",
@@ -473,6 +491,18 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     visibleTo: ["Content reviewer", "Tenant admin", "Platform admin"],
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision: "Persist evidence packets only after reviewer identity, evidence storage, file handling, retention, and approval ledger policy are accepted.",
+  },
+  {
+    boundaryId: "teacher-draft-review-audit-boundary",
+    category: "teacher-draft-review-audit",
+    label: "Teacher draft review audit trails",
+    status: "needs-backend",
+    recordShape: "Audit event id, handoff id, decision id, evidence packet id, tenant id, actor id, event label, preview status, evidence link, state-change block",
+    whyItMatters:
+      "Review workflows need an accountable event sequence, but audit events must not approve, publish, upload evidence, or assign students by themselves.",
+    visibleTo: ["Content reviewer", "Tenant admin", "Platform admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision: "Persist review audit trails before enabling live reviewer actions or package state transitions.",
   },
   {
     boundaryId: "tenant-library-item-boundary",

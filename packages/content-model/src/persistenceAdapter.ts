@@ -34,6 +34,8 @@ export interface PersistenceWriteIntent {
   blocksReviewerStateChange?: boolean;
   preservesReviewEvidencePacket?: boolean;
   blocksEvidenceUpload?: boolean;
+  preservesReviewAuditTrail?: boolean;
+  blocksReviewAuditStateChange?: boolean;
   preservesLibrarySourceLineage?: boolean;
   blocksStudentDataCopy?: boolean;
   blocksPublicCommunityPublishing?: boolean;
@@ -173,6 +175,14 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "teacher-draft-review-evidence" && !intent.blocksEvidenceUpload) {
       errors.push(`Teacher draft review evidence write intent ${intent.intentId} must block evidence uploads.`);
+    }
+
+    if (intent.category === "teacher-draft-review-audit" && !intent.preservesReviewAuditTrail) {
+      errors.push(`Teacher draft review audit write intent ${intent.intentId} must preserve review audit trails.`);
+    }
+
+    if (intent.category === "teacher-draft-review-audit" && !intent.blocksReviewAuditStateChange) {
+      errors.push(`Teacher draft review audit write intent ${intent.intentId} must block audit-driven state changes.`);
     }
 
     if (intent.category === "tenant-library-item" && !intent.preservesLibrarySourceLineage) {
