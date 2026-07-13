@@ -29,11 +29,13 @@ Panel:
 - `apps/web/src/features/content-intake/TeacherDraftAudioCoveragePreview.tsx`
 - `apps/web/src/features/content-intake/TeacherDraftLocalEditPreview.tsx`
 - `apps/web/src/features/content-intake/TeacherDraftReviewHandoffPreview.tsx`
+- `apps/web/src/features/content-intake/TeacherDraftReviewQueuePanel.tsx`
 
 Route:
 
 - `/teacher/intake`
 - `/teacher/authoring/draft-sample-publisher-l1-u1`
+- `/teacher/review`
 
 Verifier:
 
@@ -68,6 +70,8 @@ The route includes a draft review handoff preview. It shows the schema, source l
 
 The backend-neutral storage contract includes `teacher_draft_review_handoff` records. Hosted and local adapters must preserve the same packet sections and must keep live review submission blocked until the real verifier and package approval workflow exists.
 
+The review queue route is a read-only workbench preview. It shows draft handoff queue items, packet sections, blockers, allowed actions, and next steps without enabling live verifier submission, package approval, direct AI publish, or student assignment.
+
 The route must continue to show:
 
 - `Teacher draft package`
@@ -95,6 +99,17 @@ The route must continue to show:
 - `Audio regeneration required`
 - `No direct publish`
 
+The review queue route must continue to show:
+
+- `Teacher draft review queue`
+- `Review workbench preview`
+- `Review handoff packet`
+- `Verifier submission blocked`
+- `Package approval blocked`
+- `Student assignment blocked`
+- `No live approval`
+- `No direct AI publish`
+
 ## Student Assignment Rule
 
 Fast authoring creates draft packages only.
@@ -116,6 +131,7 @@ Student assignment requires:
 - Local edit previews do not save, publish, assign, or regenerate audio.
 - Draft audio coverage must be reviewed before student use.
 - Draft review handoff previews do not submit; they summarize review requirements only.
+- Review queue previews do not approve, submit, publish, or assign.
 - Teacher edits must preserve package source and lineage.
 - Support language cannot become the progression trigger.
 - Teacher-created printables must not imply automatic digital mastery.

@@ -43,6 +43,14 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     note: "Teacher-only draft preview; student assignment remains blocked until review gates pass.",
   },
   {
+    routeId: "teacher-draft-review-queue",
+    group: "core",
+    label: "Teacher draft review queue",
+    path: "/teacher/review",
+    status: "active-scaffold",
+    note: "Read-only review workbench preview for draft handoff packets; live approval and assignment remain blocked.",
+  },
+  {
     routeId: "teacher-private-library",
     group: "core",
     label: "Teacher private library",

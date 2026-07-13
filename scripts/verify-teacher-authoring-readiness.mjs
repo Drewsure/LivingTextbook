@@ -6,6 +6,8 @@ const draftPreview = readSource("../apps/web/src/features/content-intake/Teacher
 const audioCoveragePreview = readSource("../apps/web/src/features/content-intake/TeacherDraftAudioCoveragePreview.tsx");
 const localEditorPreview = readSource("../apps/web/src/features/content-intake/TeacherDraftLocalEditPreview.tsx");
 const reviewHandoffPreview = readSource("../apps/web/src/features/content-intake/TeacherDraftReviewHandoffPreview.tsx");
+const reviewQueue = readSource("../apps/web/src/data/sampleTeacherDraftReviewQueue.ts");
+const reviewQueuePanel = readSource("../apps/web/src/features/content-intake/TeacherDraftReviewQueuePanel.tsx");
 const draftData = readSource("../apps/web/src/data/sampleTeacherDraftPackage.ts");
 const routeVerifier = readSource("./verify-active-routes.mjs");
 const aiHandoff = readSource("../docs/AI_AUTHORING_VERIFIER_HANDOFF.md");
@@ -56,6 +58,14 @@ requireText(reviewHandoffPreview, "Route and activity packet", "Draft review han
 requireText(reviewHandoffPreview, "Approval packet", "Draft review handoff preview must show approval packet.");
 requireText(reviewHandoffPreview, "Draft persistence required", "Draft review handoff preview must preserve draft persistence blocker.");
 requireText(reviewHandoffPreview, "No student assignment", "Draft review handoff preview must preserve no-student-assignment blocker.");
+requireText(reviewQueue, "sampleTeacherDraftReviewQueue", "Teacher draft review queue sample data must exist.");
+requireText(reviewQueue, "Verifier submission blocked", "Teacher draft review queue must block verifier submission.");
+requireText(reviewQueue, "Package approval blocked", "Teacher draft review queue must block package approval.");
+requireText(reviewQueue, "Student assignment blocked", "Teacher draft review queue must block student assignment.");
+requireText(reviewQueuePanel, "Teacher draft review queue", "Teacher draft review queue panel must expose its heading.");
+requireText(reviewQueuePanel, "Review workbench preview", "Teacher draft review queue panel must expose its preview label.");
+requireText(reviewQueuePanel, "No live approval", "Teacher draft review queue panel must block live approval.");
+requireText(reviewQueuePanel, "No direct AI publish", "Teacher draft review queue panel must block direct AI publish.");
 requireText(localEditorPreview, "Local edit preview", "Local editor preview must expose its heading.");
 requireText(localEditorPreview, "Save draft blocked", "Local editor preview must block save.");
 requireText(localEditorPreview, "Submit for review blocked", "Local editor preview must block submit for review.");

@@ -60,6 +60,14 @@ export const appRouteContracts: AppRouteContract[] = [
     requiredState: ["TenantConfig", "TeacherDraftPackagePreview", "TeacherAuthoringGate[]"],
   },
   {
+    id: "teacher-draft-review-queue",
+    pattern: "/teacher/review",
+    audience: "teacher",
+    status: "active-scaffold",
+    purpose: "Preview teacher draft review handoff queue items while blocking live verifier submission, approval, publishing, and student assignment.",
+    requiredState: ["TenantConfig", "TeacherDraftReviewQueue", "TeacherDraftReviewQueueItem[]"],
+  },
+  {
     id: "teacher-private-library",
     pattern: "/teacher/library/[tenantId]",
     audience: "teacher",
@@ -218,6 +226,10 @@ export function getTeacherUnitReviewPath(unitKey: string): string {
 
 export function getTeacherDraftAuthoringPath(draftId: string): string {
   return `/teacher/authoring/${encodeURIComponent(draftId)}`;
+}
+
+export function getTeacherDraftReviewQueuePath(): string {
+  return "/teacher/review";
 }
 
 export function getTeacherPrivateLibraryPath(tenantId: TenantId): string {
