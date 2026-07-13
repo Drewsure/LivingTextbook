@@ -66,6 +66,8 @@ The route includes a draft audio coverage preview. It must keep term audio, sent
 
 The route includes a draft review handoff preview. It shows the schema, source lineage, audio coverage, rights/version, route/activity, and approval packets that a future submit-for-review workflow must carry, while keeping review submission blocked until durable storage, ownership, verifier workflow, audio regeneration, and package approval exist.
 
+The backend-neutral storage contract includes `teacher_draft_review_handoff` records. Hosted and local adapters must preserve the same packet sections and must keep live review submission blocked until the real verifier and package approval workflow exists.
+
 The route must continue to show:
 
 - `Teacher draft package`

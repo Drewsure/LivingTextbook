@@ -12,6 +12,7 @@ const requiredSchemaEntities = [
   "tenant",
   "package_release",
   "teacher_draft_package",
+  "teacher_draft_review_handoff",
   "tenant_library_item",
   "package_game_audio_coverage",
   "route_alias",
@@ -32,6 +33,7 @@ const requiredMigrationCandidates = [
   "m001-tenant-and-entitlements",
   "m002-package-release-and-content",
   "m014-teacher-draft-package-records",
+  "m016-teacher-draft-review-handoff-records",
   "m015-tenant-library-item-records",
   "m003-route-alias-registry",
   "m004-media-manifest-rights",
@@ -51,6 +53,7 @@ const requiredMigrationSpecs = [
   "spec-package-release",
   "spec-package-game-audio-coverage",
   "spec-teacher-draft-package",
+  "spec-teacher-draft-review-handoff",
   "spec-tenant-library-item",
   "spec-launch-session-settings",
   "spec-qr-alias",
@@ -79,6 +82,10 @@ requireText(schemaDraft, "Learner transcript", "Backend schema must explicitly f
 requireText(schemaDraft, "teacher_draft_package", "Backend schema must include teacher draft packages.");
 requireText(schemaDraft, "can_assign_to_students", "Backend schema must preserve direct assignment blocks for teacher drafts.");
 requireText(schemaDraft, "Direct AI publish", "Backend schema must block direct AI publish in teacher draft records.");
+requireText(schemaDraft, "teacher_draft_review_handoff", "Backend schema must include teacher draft review handoff packets.");
+requireText(schemaDraft, "schema_validation_packet", "Backend schema must preserve review handoff schema packets.");
+requireText(schemaDraft, "audio_coverage_packet", "Backend schema must preserve review handoff audio packets.");
+requireText(schemaDraft, "live_review_submission_allowed", "Backend schema must preserve review handoff submission blocks.");
 requireText(schemaDraft, "tenant_library_item", "Backend schema must include tenant library items.");
 requireText(schemaDraft, "student_data_copy_allowed", "Backend schema must block student data copies for library items.");
 requireText(schemaDraft, "public_community_publish_allowed", "Backend schema must block public community publishing for library items.");
@@ -91,6 +98,9 @@ requireText(schemaDraft, "assist_language_teacher_enablement_persisted", "Backen
 requireText(migrationSpecs, "assist_language_teacher_enablement_persisted", "Migration specs must preserve assist-language teacher enablement.");
 requireText(migrationSpecs, "spec-teacher-draft-package", "Migration specs must include teacher draft packages.");
 requireText(migrationSpecs, "can_assign_to_students", "Migration specs must preserve teacher draft assignment blocks.");
+requireText(migrationSpecs, "spec-teacher-draft-review-handoff", "Migration specs must include teacher draft review handoff packets.");
+requireText(migrationSpecs, "route_activity_packet", "Migration specs must preserve review handoff route/activity packets.");
+requireText(migrationSpecs, "live_review_submission_allowed", "Migration specs must preserve review handoff submission blocks.");
 requireText(migrationSpecs, "spec-tenant-library-item", "Migration specs must include tenant library items.");
 requireText(migrationSpecs, "student_data_copy_allowed", "Migration specs must block student data copies for library items.");
 requireText(migrationSpecs, "public_community_publish_allowed", "Migration specs must block public community publishing for library items.");
@@ -104,6 +114,10 @@ requireText(persistenceAdapter, "hosted-teacher-draft-package-write", "Persisten
 requireText(persistenceAdapter, "local-teacher-draft-package-write", "Persistence adapter must include local teacher draft writes.");
 requireText(persistenceAdapter, "preservesDraftReviewGate: true", "Persistence adapter must preserve teacher draft review gates.");
 requireText(persistenceAdapter, "blocksDirectStudentAssignment: true", "Persistence adapter must block direct draft assignment.");
+requireText(persistenceAdapter, "hosted-teacher-draft-review-handoff-write", "Persistence adapter must include hosted teacher draft review handoff writes.");
+requireText(persistenceAdapter, "local-teacher-draft-review-handoff-write", "Persistence adapter must include local teacher draft review handoff writes.");
+requireText(persistenceAdapter, "preservesReviewPacketSections: true", "Persistence adapter must preserve teacher draft review packet sections.");
+requireText(persistenceAdapter, "blocksLiveReviewSubmission: true", "Persistence adapter must block live review submission.");
 requireText(persistenceAdapter, "hosted-tenant-library-item-write", "Persistence adapter must include hosted tenant library writes.");
 requireText(persistenceAdapter, "local-tenant-library-item-write", "Persistence adapter must include local tenant library writes.");
 requireText(persistenceAdapter, "preservesLibrarySourceLineage: true", "Persistence adapter must preserve library source lineage.");
@@ -121,6 +135,9 @@ requireText(durableRecords, "ownsTeacherSessionSettings: true", "Durable record 
 requireText(durableRecords, "teacher-draft-package-record", "Durable record plan must include teacher draft packages.");
 requireText(durableRecords, "preservesDraftReviewGate: true", "Durable record plan must preserve teacher draft review gates.");
 requireText(durableRecords, "blocksDirectStudentAssignment: true", "Durable record plan must block direct draft assignment.");
+requireText(durableRecords, "teacher-draft-review-handoff-record", "Durable record plan must include teacher draft review handoff packets.");
+requireText(durableRecords, "preservesReviewPacketSections: true", "Durable record plan must preserve review handoff packet sections.");
+requireText(durableRecords, "blocksLiveReviewSubmission: true", "Durable record plan must block live review submission.");
 requireText(durableRecords, "tenant-library-item-record", "Durable record plan must include tenant library items.");
 requireText(durableRecords, "preservesLibrarySourceLineage: true", "Durable record plan must preserve library source lineage.");
 requireText(durableRecords, "blocksStudentDataCopy: true", "Durable record plan must block student data copies.");

@@ -2,6 +2,7 @@ export type PersistenceRecordCategory =
   | "tenant-config"
   | "content-package"
   | "teacher-draft-package"
+  | "teacher-draft-review-handoff"
   | "tenant-library-item"
   | "route-registry"
   | "launch-session"
@@ -52,6 +53,8 @@ export interface DurableRecordContract {
   rejectsRandomRewardPressure?: boolean;
   preservesDraftReviewGate?: boolean;
   blocksDirectStudentAssignment?: boolean;
+  preservesReviewPacketSections?: boolean;
+  blocksLiveReviewSubmission?: boolean;
   preservesLibrarySourceLineage?: boolean;
   blocksStudentDataCopy?: boolean;
   blocksPublicCommunityPublishing?: boolean;
@@ -124,6 +127,18 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "teacher-draft-package" && !record.blocksDirectStudentAssignment) {
       errors.push(`Teacher draft durable record ${record.recordId} must block direct student assignment.`);
+    }
+
+    if (record.category === "teacher-draft-review-handoff" && !record.preservesReviewPacketSections) {
+      errors.push(`Teacher draft review handoff record ${record.recordId} must preserve review packet sections.`);
+    }
+
+    if (record.category === "teacher-draft-review-handoff" && !record.blocksLiveReviewSubmission) {
+      errors.push(`Teacher draft review handoff record ${record.recordId} must block live review submission.`);
+    }
+
+    if (record.category === "teacher-draft-review-handoff" && !record.blocksDirectStudentAssignment) {
+      errors.push(`Teacher draft review handoff record ${record.recordId} must block direct student assignment.`);
     }
 
     if (record.category === "tenant-library-item" && !record.preservesLibrarySourceLineage) {

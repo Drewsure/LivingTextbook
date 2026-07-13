@@ -87,6 +87,25 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
       notAllowedYet: ["Direct draft assignment", "Direct AI publish", "Overwrite reviewed source package", "Skip audio support"],
     },
     {
+      migrationId: "m016-teacher-draft-review-handoff-records",
+      label: "Teacher draft review handoff records",
+      track: "shared",
+      status: "ready-to-design",
+      risk: "medium",
+      targetEntities: ["teacher_draft_review_handoff"],
+      purpose:
+        "Persist read-only review handoff packets before teacher drafts can be submitted to verifier or human review.",
+      prerequisites: ["Teacher draft package records accepted", "Teacher identity model accepted", "Verifier workflow accepted", "Review packet sections accepted"],
+      implementationNotes: [
+        "Keep handoff packets tenant-scoped, draft-scoped, and owner-scoped.",
+        "Preserve schema, source lineage, audio coverage, rights/version, route/activity, and approval packet sections.",
+        "Keep live review submission blocked until persistence, ownership, verifier, audio, rights, and package approval gates exist.",
+        "Do not let handoff packets create student-facing package releases directly.",
+      ],
+      rollbackOrExportNeeds: ["Export review handoff packet JSON", "Retain packet snapshot when a draft is returned or approved", "Support local handoff backup and restore"],
+      notAllowedYet: ["Live review submission without verifier workflow", "Direct draft assignment", "Direct AI publish", "Packet sections only in UI state"],
+    },
+    {
       migrationId: "m015-tenant-library-item-records",
       label: "Tenant library item records",
       track: "shared",
@@ -308,6 +327,7 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
     "Do not create production migrations before backend choice and policy gates are accepted.",
     "Migrations must preserve tenant boundaries and release-control records.",
     "Teacher draft packages must preserve owner, source lineage, review gates, and direct student-assignment blocks.",
+    "Teacher draft review handoff records must preserve packet sections and block live submission until verifier and approval workflows exist.",
     "Tenant library items must preserve source lineage, block student-data copies, and block public community publishing.",
     "Raw learner audio and transcripts stay out of core storage.",
     "Hosted and local implementations must use the same record vocabulary.",

@@ -98,6 +98,33 @@ export const sampleBackendSchemaDraft: BackendSchemaDraft = {
         "Draft package records are authoring records, not student payloads. They must preserve source lineage and block assignment until review gates pass.",
     },
     {
+      entityId: "teacher_draft_review_handoff",
+      label: "Teacher draft review handoff",
+      status: "required-before-pilot",
+      deploymentFit: "hybrid",
+      purpose:
+        "Stores the read-only review packet that a teacher draft would send to verifier and human review, while blocking live submission until persistence, ownership, audio, rights, route, and approval gates exist.",
+      fields: [
+        { name: "handoff_id", type: "stable id", required: true, note: "One review handoff packet snapshot." },
+        { name: "draft_id", type: "foreign key/string", required: true, note: "Teacher draft package being summarized." },
+        { name: "tenant_id", type: "foreign key/string", required: true, note: "Tenant boundary for review visibility." },
+        { name: "owner_teacher_id", type: "role/id", required: true, note: "Teacher or staff owner. Real auth required before production writes." },
+        { name: "schema_validation_packet", type: "json/object", required: true, note: "Vocabulary, target sentence, and schema-shape review summary." },
+        { name: "source_lineage_packet", type: "json/object", required: true, note: "Copied-from package, edition, version, draft, and source lineage summary." },
+        { name: "audio_coverage_packet", type: "json/object", required: true, note: "Term, sentence, instruction, fallback voice, and regeneration review requirements." },
+        { name: "rights_version_packet", type: "json/object", required: true, note: "Media rights, package version, copied-from version, and owner evidence requirements." },
+        { name: "route_activity_packet", type: "json/object", required: true, note: "Curated activity pathway and compatibility review summary." },
+        { name: "approval_packet", type: "json/object", required: true, note: "Verifier, reviewer, package approval, and release-control gate summary." },
+        { name: "live_review_submission_allowed", type: "boolean", required: true, note: "False until durable workflow, ownership, verifier, audio, rights, and approval gates exist." },
+        { name: "can_assign_to_students", type: "boolean", required: true, note: "False until the handoff produces an approved reviewed package." },
+      ],
+      relationships: ["Belongs to teacher draft package", "Belongs to tenant", "May feed verifier workflow", "May feed package approval ledger"],
+      indexes: ["tenant_id + draft_id", "handoff_id unique", "tenant_id + owner_teacher_id", "tenant_id + live_review_submission_allowed"],
+      forbiddenFields: ["Live review submission without persisted draft", "Direct draft assignment", "Direct AI publish", "Raw learner audio", "Learner transcript"],
+      migrationNote:
+        "Review handoff records are submission-preparation records. They must preserve packet sections and keep live submission blocked until the verifier and approval workflow exists.",
+    },
+    {
       entityId: "tenant_library_item",
       label: "Tenant library item",
       status: "required-before-pilot",
@@ -401,6 +428,7 @@ export const sampleBackendSchemaDraft: BackendSchemaDraft = {
   crossCuttingRules: [
     "Every record belongs to a tenant or to a tenant-owned package release.",
     "Teacher drafts must preserve owner, source lineage, review gates, and direct-assignment blocks before they can become package releases.",
+    "Teacher draft review handoff records must preserve schema, lineage, audio, rights/version, route/activity, and approval packets while blocking live submission and student assignment.",
     "Tenant library items must preserve source lineage, block student-data copies, and block public community publishing for v1.",
     "Raw learner audio and transcripts stay out of core schema.",
     "Media files live in object storage or local bundles; schema stores manifests and rights metadata.",

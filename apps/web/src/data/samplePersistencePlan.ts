@@ -14,6 +14,7 @@ export type PersistenceBoundaryCategory =
   | "tenant-config"
   | "content-package"
   | "teacher-draft-package"
+  | "teacher-draft-review-handoff"
   | "tenant-library-item"
   | "route-registry"
   | "launch-session"
@@ -97,6 +98,24 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     blocksDirectStudentAssignment: true,
     recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
     note: "Teacher drafts need durable owner, source lineage, visibility, and review gate records before live authoring or private library workflows are enabled.",
+  },
+  {
+    recordId: "teacher-draft-review-handoff-record",
+    category: "teacher-draft-review-handoff",
+    label: "Teacher draft review handoff record",
+    readiness: "durable-required",
+    sourceOfTruth: "TeacherDraftReviewHandoffPreview, review packet sections, submission blockers, draft owner, verifier handoff state",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesReviewPacketSections: true,
+    blocksLiveReviewSubmission: true,
+    blocksDirectStudentAssignment: true,
+    recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
+    note: "Teacher draft review handoff packets need durable schema, lineage, audio, rights/version, route/activity, and approval sections before a real submit-for-review workflow is enabled.",
   },
   {
     recordId: "tenant-library-item-record",
@@ -381,6 +400,18 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     visibleTo: ["Teacher", "Tenant admin", "Content reviewer"],
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision: "Persist draft ownership, source lineage, visibility, and review gates before live authoring or copy/edit workflows are enabled.",
+  },
+  {
+    boundaryId: "teacher-draft-review-handoff-boundary",
+    category: "teacher-draft-review-handoff",
+    label: "Teacher draft review handoff packets",
+    status: "needs-backend",
+    recordShape: "Draft id, teacher owner, schema packet, source lineage packet, audio coverage packet, rights/version packet, route/activity packet, approval packet, submission block",
+    whyItMatters:
+      "Teachers need to see what will be submitted to review, but the platform must not create live review submissions until durable storage, ownership, verifier workflow, audio regeneration, and package approval exist.",
+    visibleTo: ["Teacher", "Tenant admin", "Content reviewer"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision: "Persist review handoff packets before enabling submit-for-review, verifier workflow, or approved package creation from teacher drafts.",
   },
   {
     boundaryId: "tenant-library-item-boundary",

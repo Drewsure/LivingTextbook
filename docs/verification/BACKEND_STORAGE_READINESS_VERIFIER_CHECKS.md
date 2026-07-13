@@ -2,7 +2,7 @@
 
 ## Scope
 
-Run before backend selection, vendor-specific migrations, persistence adapter changes, launch-session storage work, teacher draft storage work, tenant library storage work, earned collection storage work, report package storage work, local companion storage work, or route registry persistence work.
+Run before backend selection, vendor-specific migrations, persistence adapter changes, launch-session storage work, teacher draft storage work, teacher draft review handoff work, tenant library storage work, earned collection storage work, report package storage work, local companion storage work, or route registry persistence work.
 
 ## Automated Command
 
@@ -23,6 +23,7 @@ npm run verify:foundation
 - Migration specs preserve tenant, package, launch-session, event, report, and local companion records.
 - Earned collection inventory preserves mastery-earned ownership and blocks random reward pressure.
 - Teacher draft packages preserve owner, source lineage, review gates, audio plan state, and direct-assignment blocks.
+- Teacher draft review handoff packets preserve schema, lineage, audio, rights/version, route/activity, and approval packet sections while blocking live review submission.
 - Tenant library items preserve source lineage, block student-data copies, and block public community publishing.
 - Core storage rejects raw learner audio and transcripts.
 - Progress events preserve event effect taxonomy and event acceptance gates.
@@ -30,8 +31,9 @@ npm run verify:foundation
 - Hosted and local adapter plans both include launch-session writes.
 - Hosted and local adapter plans both include earned collection inventory writes.
 - Hosted and local adapter plans both include teacher draft package writes.
+- Hosted and local adapter plans both include teacher draft review handoff packet writes.
 - Hosted and local adapter plans both include tenant library item writes.
-- Durable record plans assign teacher settings to launch sessions, require event acceptance gates, preserve earned collection rules, preserve teacher draft review gates, and preserve tenant library source-lineage rules.
+- Durable record plans assign teacher settings to launch sessions, require event acceptance gates, preserve earned collection rules, preserve teacher draft review gates, preserve draft review handoff packet sections, and preserve tenant library source-lineage rules.
 
 ## Human Follow-Up
 

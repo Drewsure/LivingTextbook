@@ -153,6 +153,7 @@
 - `DR-179-local-draft-editor-preview.md`
 - `DR-180-draft-audio-coverage-preview.md`
 - `DR-181-draft-review-handoff-preview.md`
+- `DR-182-draft-review-handoff-storage-contract.md`
 
 ## Maintenance Rule
 
