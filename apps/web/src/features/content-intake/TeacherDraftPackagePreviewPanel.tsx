@@ -6,6 +6,7 @@ import type {
 } from "@/data/sampleTeacherDraftPackage";
 import { TeacherDraftAudioCoveragePreview } from "./TeacherDraftAudioCoveragePreview";
 import { TeacherDraftLocalEditPreview } from "./TeacherDraftLocalEditPreview";
+import { TeacherDraftReviewHandoffPreview } from "./TeacherDraftReviewHandoffPreview";
 import { formatMode } from "@/lib/formatLabels";
 
 interface TeacherDraftPackagePreviewPanelProps {
@@ -52,6 +53,7 @@ export function TeacherDraftPackagePreviewPanel({ draft }: TeacherDraftPackagePr
 
       <TeacherDraftLocalEditPreview draft={draft} />
       <TeacherDraftAudioCoveragePreview draft={draft} />
+      <TeacherDraftReviewHandoffPreview draft={draft} />
 
       <Card>
         <div className="flex flex-wrap items-start justify-between gap-3">

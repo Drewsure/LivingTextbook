@@ -28,6 +28,7 @@ Panel:
 - `apps/web/src/features/content-intake/TeacherDraftPackagePreviewPanel.tsx`
 - `apps/web/src/features/content-intake/TeacherDraftAudioCoveragePreview.tsx`
 - `apps/web/src/features/content-intake/TeacherDraftLocalEditPreview.tsx`
+- `apps/web/src/features/content-intake/TeacherDraftReviewHandoffPreview.tsx`
 
 Route:
 
@@ -63,12 +64,24 @@ The route also includes a local-only edit preview. It can validate draft shape i
 
 The route includes a draft audio coverage preview. It must keep term audio, sentence audio, and instruction audio visible before student use.
 
+The route includes a draft review handoff preview. It shows the schema, source lineage, audio coverage, rights/version, route/activity, and approval packets that a future submit-for-review workflow must carry, while keeping review submission blocked until durable storage, ownership, verifier workflow, audio regeneration, and package approval exist.
+
 The route must continue to show:
 
 - `Teacher draft package`
 - `Draft only`
 - `Local edit preview`
 - `Draft audio coverage preview`
+- `Draft review handoff preview`
+- `Review packet blocked`
+- `Schema validation packet`
+- `Source lineage packet`
+- `Audio coverage packet`
+- `Rights and version packet`
+- `Route and activity packet`
+- `Approval packet`
+- `Draft persistence required`
+- `No student assignment`
 - `Term audio`
 - `Sentence audio`
 - `Instruction audio`
@@ -100,6 +113,7 @@ Student assignment requires:
 - Direct AI publish is blocked.
 - Local edit previews do not save, publish, assign, or regenerate audio.
 - Draft audio coverage must be reviewed before student use.
+- Draft review handoff previews do not submit; they summarize review requirements only.
 - Teacher edits must preserve package source and lineage.
 - Support language cannot become the progression trigger.
 - Teacher-created printables must not imply automatic digital mastery.
