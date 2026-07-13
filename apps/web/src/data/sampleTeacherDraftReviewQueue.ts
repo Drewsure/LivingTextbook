@@ -23,6 +23,8 @@ export interface TeacherDraftReviewQueueItem {
   allowedActions: string[];
   notAllowedYet: string[];
   reviewerDecisionOptions: TeacherDraftReviewerDecisionOption[];
+  evidencePacketPreview: string[];
+  evidenceUploadBlockedBy: string[];
   nextStep: string;
 }
 
@@ -90,6 +92,20 @@ export const sampleTeacherDraftReviewQueue: TeacherDraftReviewQueue = {
               blockedBy: ["Package approval ledger required", "Release-control policy required", "Approver identity required"],
               outcome: "Future path only: creates an approval candidate, not a student assignment.",
             },
+          ],
+          evidencePacketPreview: [
+            "Reviewer identity evidence",
+            "Draft revision evidence",
+            "Audio gap evidence",
+            "Rights and version evidence",
+            "Route compatibility evidence",
+            "Release-control evidence",
+          ],
+          evidenceUploadBlockedBy: [
+            "Evidence storage required",
+            "Reviewer authentication required",
+            "Approval ledger policy required",
+            "No file upload in foundation preview",
           ],
           nextStep:
             "Connect this queue to persisted teacher draft review handoff records after authentication, verifier workflow, and package approval policy exist.",

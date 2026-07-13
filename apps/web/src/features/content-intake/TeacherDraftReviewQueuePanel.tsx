@@ -120,6 +120,24 @@ function ReviewQueueItemCard({ item }: { item: TeacherDraftReviewQueueItem }) {
           ))}
         </div>
       </section>
+
+      <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-white p-4">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Review evidence packet preview</p>
+            <h4 className="mt-1 text-sm font-bold text-[var(--tenant-text)]">Evidence upload blocked</h4>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
+              Reviewer decisions will need evidence, but this route does not upload files, capture signatures, or store proof.
+            </p>
+          </div>
+          <StatusPill label="Evidence storage required" tone="warning" />
+        </div>
+
+        <div className="mt-4 grid gap-3 lg:grid-cols-2">
+          <ReviewQueueList title="Evidence packet requirements" items={item.evidencePacketPreview} tone="neutral" />
+          <ReviewQueueList title="Evidence upload blocked by" items={item.evidenceUploadBlockedBy} tone="warning" />
+        </div>
+      </section>
     </Card>
   );
 }

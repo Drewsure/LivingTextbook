@@ -66,6 +66,9 @@ requireText(reviewQueue, "Return for edits", "Teacher draft review queue must sh
 requireText(reviewQueue, "Needs audio", "Teacher draft review queue must show needs-audio decision.");
 requireText(reviewQueue, "Ready for approval", "Teacher draft review queue must show ready-for-approval decision.");
 requireText(reviewQueue, "Approver identity required", "Teacher draft review queue must block approval without approver identity.");
+requireText(reviewQueue, "Reviewer identity evidence", "Teacher draft review queue must show reviewer identity evidence.");
+requireText(reviewQueue, "Evidence storage required", "Teacher draft review queue must block evidence upload without storage.");
+requireText(reviewQueue, "No file upload in foundation preview", "Teacher draft review queue must block file upload in foundation preview.");
 requireText(reviewQueuePanel, "Teacher draft review queue", "Teacher draft review queue panel must expose its heading.");
 requireText(reviewQueuePanel, "Review workbench preview", "Teacher draft review queue panel must expose its preview label.");
 requireText(reviewQueuePanel, "No live approval", "Teacher draft review queue panel must block live approval.");
@@ -73,6 +76,8 @@ requireText(reviewQueuePanel, "No direct AI publish", "Teacher draft review queu
 requireText(reviewQueuePanel, "Reviewer decision preview", "Teacher draft review queue panel must expose reviewer decision preview.");
 requireText(reviewQueuePanel, "Decision actions disabled", "Teacher draft review queue panel must disable decision actions.");
 requireText(reviewQueuePanel, "Approval still blocked", "Teacher draft review queue panel must keep approval blocked.");
+requireText(reviewQueuePanel, "Review evidence packet preview", "Teacher draft review queue panel must expose evidence packet preview.");
+requireText(reviewQueuePanel, "Evidence upload blocked", "Teacher draft review queue panel must block evidence upload.");
 requireText(localEditorPreview, "Local edit preview", "Local editor preview must expose its heading.");
 requireText(localEditorPreview, "Save draft blocked", "Local editor preview must block save.");
 requireText(localEditorPreview, "Submit for review blocked", "Local editor preview must block submit for review.");

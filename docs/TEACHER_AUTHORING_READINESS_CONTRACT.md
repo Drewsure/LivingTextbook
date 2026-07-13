@@ -76,6 +76,8 @@ The review queue route includes reviewer decision previews. `Return for edits`, 
 
 The backend-neutral storage contract includes `teacher_draft_review_decision` records. Hosted and local adapters must preserve reviewer evidence requirements and block package state changes until identity, evidence, verifier, approval, and release-control rules pass.
 
+The review queue route includes a review evidence packet preview. It lists the proof a future reviewer decision must carry, while file upload, signature capture, and evidence storage remain blocked.
+
 The route must continue to show:
 
 - `Teacher draft package`
@@ -120,6 +122,11 @@ The review queue route must continue to show:
 - `Ready for approval`
 - `Approval still blocked`
 - `Approver identity required`
+- `Review evidence packet preview`
+- `Evidence upload blocked`
+- `Reviewer identity evidence`
+- `Evidence storage required`
+- `No file upload in foundation preview`
 
 ## Student Assignment Rule
 
@@ -144,6 +151,7 @@ Student assignment requires:
 - Draft review handoff previews do not submit; they summarize review requirements only.
 - Review queue previews do not approve, submit, publish, or assign.
 - Reviewer decision previews do not change package state.
+- Evidence packet previews do not upload, sign, approve, publish, or assign.
 - Teacher edits must preserve package source and lineage.
 - Support language cannot become the progression trigger.
 - Teacher-created printables must not imply automatic digital mastery.

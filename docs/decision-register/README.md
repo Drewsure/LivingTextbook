@@ -157,6 +157,7 @@
 - `DR-183-teacher-draft-review-queue-preview.md`
 - `DR-184-reviewer-decision-preview.md`
 - `DR-185-reviewer-decision-storage-contract.md`
+- `DR-186-review-evidence-packet-preview.md`
 
 ## Maintenance Rule
 
