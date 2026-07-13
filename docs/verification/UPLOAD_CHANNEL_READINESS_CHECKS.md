@@ -2,7 +2,7 @@
 
 Document type: focused verification supplement
 Status: active scaffold
-Last updated: 2026-07-13
+Last updated: 2026-07-14
 
 ## Purpose
 
@@ -40,6 +40,11 @@ Verify at:
 22. Confirm PDF/text, Labelled Diagram image, audio/music, and video/local bundle promotion lanes are visible.
 23. Confirm promotion rules block student-facing promotion, direct assignment, folder placement promotion, and reviewed upload bypass.
 24. Confirm each promotion lane shows storage required before live promotion.
+25. Confirm the page shows `Labelled Diagram asset readiness`.
+26. Confirm the page shows `game_asset_manifest` and `label_anchor_record`.
+27. Confirm Labelled Diagram assets require image rights proof, alt text, anchor coordinate review, target-language label text, and audio label coverage.
+28. Confirm support-language labels are support-only and cannot trigger progress.
+29. Confirm the scaffold blocks student-facing image games, auto-generated labels, live label editors, asset promotion without release gate, and unreviewed image coordinates.
 
 ## Automated Command
 
@@ -69,3 +74,4 @@ npm run verify:backend-storage
 - This scaffold defines upload review storage contracts only; it does not implement target-specific promotion workflows.
 - This scaffold shows target-specific upload promotion readiness only; it does not promote uploads into drafts, game assets, playlists, or local bundles.
 - This scaffold defines upload promotion gate storage contracts only; it does not create target records or release uploaded assets.
+- This scaffold defines Labelled Diagram asset readiness only; it does not implement a live label editor, coordinate editor, or student-facing image game.

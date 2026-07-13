@@ -3,9 +3,11 @@ import { readFileSync } from "node:fs";
 const plan = readSource("../apps/web/src/data/sampleUploadChannelReadiness.ts");
 const reviewQueue = readSource("../apps/web/src/data/sampleUploadReviewQueue.ts");
 const promotionReadiness = readSource("../apps/web/src/data/sampleUploadPromotionReadiness.ts");
+const labelledDiagramAssetReadiness = readSource("../apps/web/src/data/sampleLabelledDiagramAssetReadiness.ts");
 const panel = readSource("../apps/web/src/features/content-intake/UploadChannelReadinessPanel.tsx");
 const reviewQueuePanel = readSource("../apps/web/src/features/content-intake/UploadReviewQueuePanel.tsx");
 const promotionReadinessPanel = readSource("../apps/web/src/features/content-intake/UploadPromotionReadinessPanel.tsx");
+const labelledDiagramAssetPanel = readSource("../apps/web/src/features/content-intake/LabelledDiagramAssetReadinessPanel.tsx");
 const teacherIntake = readSource("../apps/web/src/app/teacher/intake/page.tsx");
 const routeVerifier = readSource("./verify-active-routes.mjs");
 const failures = [];
@@ -95,6 +97,29 @@ for (const text of requiredPromotionTexts) {
   requireText(promotionReadiness, text, `Upload promotion readiness missing required text: ${text}.`);
 }
 
+const requiredLabelledDiagramAssetTexts = [
+  "Labelled Diagram asset readiness",
+  "game_asset_manifest",
+  "label_anchor_record",
+  "Image rights proof",
+  "Alt text required",
+  "Anchor coordinate review",
+  "Audio label coverage",
+  "Target-language label text",
+  "Support-language labels are support-only",
+  "Game asset manifest required",
+  "Asset release gate required",
+  "No student-facing image game",
+  "No auto-generated labels",
+  "No live label editor",
+  "No asset promotion without release gate",
+  "No support-language progress trigger",
+];
+
+for (const text of requiredLabelledDiagramAssetTexts) {
+  requireText(labelledDiagramAssetReadiness, text, `Labelled Diagram asset readiness missing required text: ${text}.`);
+}
+
 requireText(panel, "Upload channel readiness", "Upload readiness panel must expose its heading.");
 requireText(panel, "Foundation rule", "Upload readiness panel must expose the foundation rule.");
 requireText(panel, "Accepted file types", "Upload readiness panel must show accepted file types.");
@@ -105,13 +130,18 @@ requireText(reviewQueuePanel, "Reviewer decision preview", "Upload review queue 
 requireText(reviewQueuePanel, "Live actions blocked", "Upload review queue panel must show live actions are blocked.");
 requireText(promotionReadinessPanel, "Target-specific promotion preview", "Upload promotion panel must expose target-specific promotion preview heading.");
 requireText(promotionReadinessPanel, "Storage before live", "Upload promotion panel must show storage-before-live gates.");
+requireText(labelledDiagramAssetPanel, "Game asset landing zone", "Labelled Diagram asset panel must expose the asset landing zone heading.");
+requireText(labelledDiagramAssetPanel, "game_asset_manifest", "Labelled Diagram asset panel must expose game asset manifest.");
+requireText(labelledDiagramAssetPanel, "label_anchor_record", "Labelled Diagram asset panel must expose label anchor record.");
 requireText(teacherIntake, "UploadChannelReadinessPanel", "Teacher intake route must render upload readiness.");
 requireText(teacherIntake, "UploadReviewQueuePanel", "Teacher intake route must render upload review queue.");
 requireText(teacherIntake, "UploadPromotionReadinessPanel", "Teacher intake route must render upload promotion readiness.");
+requireText(teacherIntake, "LabelledDiagramAssetReadinessPanel", "Teacher intake route must render Labelled Diagram asset readiness.");
 requireText(routeVerifier, "Upload channel readiness", "Active route verifier must check upload channel readiness.");
 requireText(routeVerifier, "Image upload for Labelled Diagram", "Active route verifier must check labelled diagram image upload readiness.");
 requireText(routeVerifier, "Upload review queue", "Active route verifier must check upload review queue.");
 requireText(routeVerifier, "Upload promotion readiness", "Active route verifier must check upload promotion readiness.");
+requireText(routeVerifier, "Labelled Diagram asset readiness", "Active route verifier must check Labelled Diagram asset readiness.");
 
 if (failures.length > 0) {
   for (const failure of failures) {

@@ -2,7 +2,7 @@
 
 Document type: foundation contract
 Status: active scaffold
-Last updated: 2026-07-13
+Last updated: 2026-07-14
 
 ## Purpose
 
@@ -20,11 +20,14 @@ Panel:
 
 - `apps/web/src/features/content-intake/UploadChannelReadinessPanel.tsx`
 - `apps/web/src/features/content-intake/UploadReviewQueuePanel.tsx`
+- `apps/web/src/features/content-intake/UploadPromotionReadinessPanel.tsx`
+- `apps/web/src/features/content-intake/LabelledDiagramAssetReadinessPanel.tsx`
 
-Review queue sample:
+Upload and target-readiness sample data:
 
 - `apps/web/src/data/sampleUploadReviewQueue.ts`
 - `apps/web/src/data/sampleUploadPromotionReadiness.ts`
+- `apps/web/src/data/sampleLabelledDiagramAssetReadiness.ts`
 
 Route:
 
@@ -92,6 +95,33 @@ Standing blocks:
 - No reviewed upload bypass.
 
 Each lane must name required gates, current blockers, preview-only actions, not-allowed shortcuts, and storage required before live promotion.
+
+## Labelled Diagram Asset Readiness
+
+Labelled Diagram images are a target-specific game-asset case. A reviewed image upload cannot become a student-facing Labelled Diagram game until both target records are defined:
+
+- `game_asset_manifest`
+- `label_anchor_record`
+
+Required readiness:
+
+- Image rights proof.
+- Alt text required.
+- Image safety review.
+- Anchor coordinate review.
+- Target-language label text.
+- Audio label coverage.
+- Support-language labels are support-only.
+- Asset release gate required.
+
+Standing blocks:
+
+- No student-facing image game.
+- No auto-generated labels.
+- No live label editor.
+- No asset promotion without release gate.
+- No support-language progress trigger.
+- No unreviewed image coordinates.
 
 ## Follow-Up
 
