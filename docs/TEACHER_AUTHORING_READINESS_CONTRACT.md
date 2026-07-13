@@ -72,6 +72,8 @@ The backend-neutral storage contract includes `teacher_draft_review_handoff` rec
 
 The review queue route is a read-only workbench preview. It shows draft handoff queue items, packet sections, blockers, allowed actions, and next steps without enabling live verifier submission, package approval, direct AI publish, or student assignment.
 
+The review queue route includes a verifier submission preflight. It shows schema, audio, support-language, route, and evidence checks that a future verifier workflow must pass, while keeping automatic verifier submission blocked.
+
 The review queue route includes reviewer decision previews. `Return for edits`, `Needs audio`, and `Ready for approval` are visible as future outcomes only. Their actions remain disabled until reviewer identity, evidence storage, verifier workflow, package approval, and release-control policy exist.
 
 The backend-neutral storage contract includes `teacher_draft_review_decision` records. Hosted and local adapters must preserve reviewer evidence requirements and block package state changes until identity, evidence, verifier, approval, and release-control rules pass.
@@ -121,6 +123,14 @@ The review queue route must continue to show:
 - `Student assignment blocked`
 - `No live approval`
 - `No direct AI publish`
+- `Verifier submission preflight`
+- `Verifier submission still blocked`
+- `Schema packet ready`
+- `Audio regeneration pending`
+- `Support language support-only`
+- `Route compatibility ready`
+- `Review evidence pending`
+- `No automatic verifier submit`
 - `Reviewer decision preview`
 - `Decision actions disabled`
 - `Return for edits`
@@ -163,6 +173,7 @@ Student assignment requires:
 - Draft audio coverage must be reviewed before student use.
 - Draft review handoff previews do not submit; they summarize review requirements only.
 - Review queue previews do not approve, submit, publish, or assign.
+- Verifier preflight previews do not submit to verifier or promote draft state.
 - Reviewer decision previews do not change package state.
 - Evidence packet previews do not upload, sign, approve, publish, or assign.
 - Review audit trail previews do not change package state, approve, publish, upload evidence, or assign students.

@@ -22,6 +22,13 @@ export interface TeacherDraftReviewAuditTrailEvent {
   blockedBy: string[];
 }
 
+export interface TeacherDraftVerifierPreflightCheck {
+  checkId: string;
+  label: string;
+  status: "ready-preview" | "blocked-preview";
+  detail: string;
+}
+
 export interface TeacherDraftReviewQueueItem {
   queueItemId: string;
   draft: TeacherDraftPackagePreview;
@@ -36,6 +43,8 @@ export interface TeacherDraftReviewQueueItem {
   evidenceUploadBlockedBy: string[];
   auditTrailPreview: TeacherDraftReviewAuditTrailEvent[];
   auditTrailBlockedBy: string[];
+  verifierPreflightChecks: TeacherDraftVerifierPreflightCheck[];
+  verifierSubmissionBlockedBy: string[];
   nextStep: string;
 }
 
@@ -157,6 +166,45 @@ export const sampleTeacherDraftReviewQueue: TeacherDraftReviewQueue = {
             "Reviewer authentication required",
             "Approval ledger policy required",
             "No live state transition",
+          ],
+          verifierPreflightChecks: [
+            {
+              checkId: "schema-packet-ready",
+              label: "Schema packet ready",
+              status: "ready-preview",
+              detail: "Vocabulary count, sentence count, and package shape can be preview-checked before verifier submission.",
+            },
+            {
+              checkId: "audio-regeneration-pending",
+              label: "Audio regeneration pending",
+              status: "blocked-preview",
+              detail: "Term, sentence, instruction, and fallback audio must be regenerated and reviewed before student-facing release.",
+            },
+            {
+              checkId: "support-language-support-only",
+              label: "Support language support-only",
+              status: "ready-preview",
+              detail: "Assist-language clicks can support comprehension, but English or target-language tasks remain the progression trigger.",
+            },
+            {
+              checkId: "route-compatibility-ready",
+              label: "Route compatibility ready",
+              status: "ready-preview",
+              detail: "Curated activity path and route targets can be checked before verifier workflow exists.",
+            },
+            {
+              checkId: "review-evidence-pending",
+              label: "Review evidence pending",
+              status: "blocked-preview",
+              detail: "Reviewer identity, evidence packets, audit trail, and approval ledger storage must exist before live verifier submission.",
+            },
+          ],
+          verifierSubmissionBlockedBy: [
+            "No automatic verifier submit",
+            "Verifier workflow required",
+            "Reviewer identity required",
+            "Evidence storage required",
+            "Approval ledger policy required",
           ],
           nextStep:
             "Connect this queue to persisted teacher draft review handoff records after authentication, verifier workflow, and package approval policy exist.",

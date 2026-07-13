@@ -4,6 +4,7 @@ import type {
   TeacherDraftReviewAuditTrailEvent,
   TeacherDraftReviewQueueItem,
   TeacherDraftReviewQueueStatus,
+  TeacherDraftVerifierPreflightCheck,
   TeacherDraftReviewerDecisionOption,
   TeacherDraftReviewerDecisionStatus,
 } from "@/data/sampleTeacherDraftReviewQueue";
@@ -27,6 +28,11 @@ const decisionStatusTone: Record<TeacherDraftReviewerDecisionStatus, "neutral" |
 
 const auditTrailStatusTone: Record<TeacherDraftReviewAuditTrailEvent["previewStatus"], "neutral" | "warning"> = {
   "recorded-preview": "neutral",
+  "blocked-preview": "warning",
+};
+
+const verifierPreflightStatusTone: Record<TeacherDraftVerifierPreflightCheck["status"], "neutral" | "warning"> = {
+  "ready-preview": "neutral",
   "blocked-preview": "warning",
 };
 
@@ -110,6 +116,29 @@ function ReviewQueueItemCard({ item }: { item: TeacherDraftReviewQueueItem }) {
       <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-white p-4">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
+            <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Verifier submission preflight</p>
+            <h4 className="mt-1 text-sm font-bold text-[var(--tenant-text)]">Verifier submission still blocked</h4>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
+              The future verifier workflow must check schema, audio, language, route, evidence, and approval readiness before a
+              draft can leave preview review.
+            </p>
+          </div>
+          <StatusPill label="No automatic verifier submit" tone="warning" />
+        </div>
+
+        <div className="mt-4 grid gap-3 lg:grid-cols-[1.4fr_0.8fr]">
+          <div className="grid gap-3">
+            {item.verifierPreflightChecks.map((check) => (
+              <VerifierPreflightCheckCard key={check.checkId} check={check} />
+            ))}
+          </div>
+          <ReviewQueueList title="Verifier submission blocked by" items={item.verifierSubmissionBlockedBy} tone="warning" />
+        </div>
+      </section>
+
+      <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-white p-4">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
             <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Reviewer decision preview</p>
             <h4 className="mt-1 text-sm font-bold text-[var(--tenant-text)]">Decision actions disabled</h4>
             <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
@@ -168,6 +197,20 @@ function ReviewQueueItemCard({ item }: { item: TeacherDraftReviewQueueItem }) {
         </div>
       </section>
     </Card>
+  );
+}
+
+function VerifierPreflightCheckCard({ check }: { check: TeacherDraftVerifierPreflightCheck }) {
+  return (
+    <article className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <h5 className="text-sm font-bold text-[var(--tenant-text)]">{check.label}</h5>
+          <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">{check.detail}</p>
+        </div>
+        <StatusPill label={check.status} tone={verifierPreflightStatusTone[check.status]} />
+      </div>
+    </article>
   );
 }
 

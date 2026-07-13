@@ -74,6 +74,12 @@ requireText(reviewQueue, "Reviewer decision drafted", "Teacher draft review queu
 requireText(reviewQueue, "Evidence packet blocked", "Teacher draft review queue must show the review audit evidence-blocked event.");
 requireText(reviewQueue, "Approval ledger blocked", "Teacher draft review queue must show the review audit approval-ledger event.");
 requireText(reviewQueue, "No live state transition", "Teacher draft review queue must block live state transitions from audit preview events.");
+requireText(reviewQueue, "Schema packet ready", "Teacher draft review queue must show verifier preflight schema readiness.");
+requireText(reviewQueue, "Audio regeneration pending", "Teacher draft review queue must show verifier preflight audio blocking.");
+requireText(reviewQueue, "Support language support-only", "Teacher draft review queue must show verifier preflight support-language boundary.");
+requireText(reviewQueue, "Route compatibility ready", "Teacher draft review queue must show verifier preflight route readiness.");
+requireText(reviewQueue, "Review evidence pending", "Teacher draft review queue must show verifier preflight evidence blocking.");
+requireText(reviewQueue, "No automatic verifier submit", "Teacher draft review queue must block automatic verifier submission.");
 requireText(reviewQueuePanel, "Teacher draft review queue", "Teacher draft review queue panel must expose its heading.");
 requireText(reviewQueuePanel, "Review workbench preview", "Teacher draft review queue panel must expose its preview label.");
 requireText(reviewQueuePanel, "No live approval", "Teacher draft review queue panel must block live approval.");
@@ -85,6 +91,8 @@ requireText(reviewQueuePanel, "Review evidence packet preview", "Teacher draft r
 requireText(reviewQueuePanel, "Evidence upload blocked", "Teacher draft review queue panel must block evidence upload.");
 requireText(reviewQueuePanel, "Review audit trail preview", "Teacher draft review queue panel must expose audit trail preview.");
 requireText(reviewQueuePanel, "Audit trail storage required", "Teacher draft review queue panel must block audit trail storage.");
+requireText(reviewQueuePanel, "Verifier submission preflight", "Teacher draft review queue panel must expose verifier preflight.");
+requireText(reviewQueuePanel, "Verifier submission still blocked", "Teacher draft review queue panel must block verifier submission.");
 requireText(localEditorPreview, "Local edit preview", "Local editor preview must expose its heading.");
 requireText(localEditorPreview, "Save draft blocked", "Local editor preview must block save.");
 requireText(localEditorPreview, "Submit for review blocked", "Local editor preview must block submit for review.");

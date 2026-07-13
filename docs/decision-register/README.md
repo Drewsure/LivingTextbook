@@ -161,6 +161,7 @@
 - `DR-187-review-evidence-storage-contract.md`
 - `DR-188-review-audit-trail-preview.md`
 - `DR-189-review-audit-trail-storage-contract.md`
+- `DR-190-verifier-submission-preflight-preview.md`
 
 ## Maintenance Rule
 
