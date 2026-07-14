@@ -49,6 +49,15 @@ Verify at:
 31. Confirm the page shows `media_manifest`, `media_playlist_binding`, `background_media_policy_binding`, and `local_media_bundle_entry`.
 32. Confirm multimedia assets require learning audio separation, optional playback, captions or transcript policy, background-media priority, and local bundle checksums.
 33. Confirm the scaffold blocks media-only progress, background music overriding learning audio, video-only progress, unlicensed media, raw learner audio storage, automatic transcode-to-publish, and local folder activation.
+34. Confirm the page shows `Content entry option scaffold`.
+35. Confirm the content entry workflow shows `Pick a template`, `Enter content`, and `Play`.
+36. Confirm the scaffold shows `Activity title`, `+ Instruction`, `Generate With AI`, `Flip tiles`, `Done`, and `+ Add an item`.
+37. Confirm the scaffold shows `Single sided`, `Double sided`, and row limit text `min 2 max 50`.
+38. Confirm row columns include `Front`, `Back`, target-language text, and support-language text.
+39. Confirm formatting tools include `Bold`, `Superscript`, `Subscript`, and `Symbol picker`.
+40. Confirm per-row actions include `Audio cue`, `Image upload`, `Reorder item`, `Duplicate item`, and `Delete item`.
+41. Confirm required records include teacher draft package, upload intake/review/promotion, media/game manifests, and activity compatibility snapshots.
+42. Confirm the scaffold blocks live media upload, Done-to-student routing, direct AI publish, unreviewed image activation, support-language progress triggers, file picker writes, and unchecked template switching.
 
 ## Automated Command
 
@@ -83,3 +92,4 @@ Labelled Diagram asset storage is also covered by `npm run verify:backend-storag
 - This scaffold defines Labelled Diagram asset readiness only; it does not implement a live label editor, coordinate editor, or student-facing image game.
 - This scaffold defines Labelled Diagram asset storage contracts only; it does not store live image assets or label anchors yet.
 - This scaffold defines multimedia asset readiness only; it does not implement live media uploads, media processing, transcoding, playlist promotion, background-media assignment, or local bundle media activation.
+- This scaffold defines content entry options only; it does not implement live file pickers, row persistence, AI generation, template switching, draft saving, or Done-to-student routing.

@@ -19,6 +19,7 @@ Sample data:
 Panel:
 
 - `apps/web/src/features/content-intake/UploadChannelReadinessPanel.tsx`
+- `apps/web/src/features/content-intake/ContentEntryOptionScaffoldPanel.tsx`
 - `apps/web/src/features/content-intake/UploadReviewQueuePanel.tsx`
 - `apps/web/src/features/content-intake/UploadPromotionReadinessPanel.tsx`
 - `apps/web/src/features/content-intake/LabelledDiagramAssetReadinessPanel.tsx`
@@ -27,6 +28,7 @@ Upload and target-readiness sample data:
 
 - `apps/web/src/data/sampleUploadReviewQueue.ts`
 - `apps/web/src/data/sampleUploadPromotionReadiness.ts`
+- `apps/web/src/data/sampleContentEntryOptionScaffold.ts`
 - `apps/web/src/data/sampleLabelledDiagramAssetReadiness.ts`
 
 Route:
@@ -44,9 +46,37 @@ Verifier:
 - Audio and music upload
 - Video upload
 
+## Content Entry Option Scaffold
+
+The teacher-facing content entry panel must offer the practical options teachers expect before live authoring and upload controls are enabled:
+
+- Workflow steps: `Pick a template`, `Enter content`, and `Play`.
+- Activity metadata: `Activity title` and `+ Instruction`.
+- Teacher helpers: `Generate With AI` and `Flip tiles`.
+- Card shape controls: `Single sided` and `Double sided`.
+- Row editor columns: `Front`, `Back`, target-language text, and support-language text.
+- Row limits: `min 2 max 50`.
+- Formatting tools: `Bold`, `Superscript`, `Subscript`, and `Symbol picker`.
+- Row actions: `Audio cue`, `Image upload`, `Reorder item`, `Duplicate item`, and `Delete item`.
+- Authoring action: `+ Add an item`.
+- Completion action: `Done`.
+
+These controls are foundation previews only. They must create draft/review intent records, not live uploads, student assignments, public routes, or released game assets.
+
+Standing blocks:
+
+- No live media upload.
+- No Done-to-student route.
+- No direct AI publish.
+- No unreviewed image activation.
+- No support-language progress trigger.
+- No file picker writes.
+- No template switch without compatibility check.
+
 ## Standing Rules
 
 - Upload controls must not bypass review.
+- Content entry controls must not bypass draft, compatibility, rights, audio, review, and release gates.
 - Upload review queue previews must not approve, assign, publish, import, promote, or make assets student-facing.
 - PDF/text extraction creates drafts only.
 - Uploaded images need ownership, classroom-safety review, alt text, and label anchors before Labelled Diagram assignment.
@@ -170,5 +200,7 @@ The backend-neutral storage contract now includes `upload_promotion_gate` record
 The backend-neutral storage contract now includes `game_asset_manifest` and `label_anchor_record` records. Hosted and local adapters must preserve image rights, alt text, reviewed label anchors, target-language label audio coverage, and support-language non-progress behavior before Labelled Diagram assets can become student-facing.
 
 The backend-neutral storage contract now includes `media_manifest`, `media_playlist_binding`, `background_media_policy_binding`, and `local_media_bundle_entry` records. Hosted and local adapters must preserve media rights, optional playback, non-mastery playlist policy, learning-audio priority, teacher background-media controls, checksums, relative paths, update rules, and local activation blocks before live upload promotion into playlists, game background media, or local bundle media is enabled.
+
+The content entry option scaffold must stay visible in `/teacher/intake` until a real authoring workbench replaces it. When live controls are introduced, they must still preserve teacher draft packages, review handoff records, upload intake/review/promotion records, media/game asset manifests, and activity compatibility snapshots before student assignment.
 
 The backend-neutral storage contract includes `upload_intake_asset` records. Hosted and local adapters must preserve upload source lineage and block student-facing uploaded file use until file policy, rights, review, route mapping, audio coverage, and release gates pass.

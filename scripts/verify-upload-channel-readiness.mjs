@@ -5,11 +5,13 @@ const reviewQueue = readSource("../apps/web/src/data/sampleUploadReviewQueue.ts"
 const promotionReadiness = readSource("../apps/web/src/data/sampleUploadPromotionReadiness.ts");
 const labelledDiagramAssetReadiness = readSource("../apps/web/src/data/sampleLabelledDiagramAssetReadiness.ts");
 const multimediaAssetReadiness = readSource("../apps/web/src/data/sampleMultimediaAssetReadiness.ts");
+const contentEntryOptionScaffold = readSource("../apps/web/src/data/sampleContentEntryOptionScaffold.ts");
 const panel = readSource("../apps/web/src/features/content-intake/UploadChannelReadinessPanel.tsx");
 const reviewQueuePanel = readSource("../apps/web/src/features/content-intake/UploadReviewQueuePanel.tsx");
 const promotionReadinessPanel = readSource("../apps/web/src/features/content-intake/UploadPromotionReadinessPanel.tsx");
 const labelledDiagramAssetPanel = readSource("../apps/web/src/features/content-intake/LabelledDiagramAssetReadinessPanel.tsx");
 const multimediaAssetPanel = readSource("../apps/web/src/features/content-intake/MultimediaAssetReadinessPanel.tsx");
+const contentEntryOptionPanel = readSource("../apps/web/src/features/content-intake/ContentEntryOptionScaffoldPanel.tsx");
 const teacherIntake = readSource("../apps/web/src/app/teacher/intake/page.tsx");
 const routeVerifier = readSource("./verify-active-routes.mjs");
 const failures = [];
@@ -145,6 +147,56 @@ for (const text of requiredMultimediaAssetTexts) {
   requireText(multimediaAssetReadiness, text, `Multimedia asset readiness missing required text: ${text}.`);
 }
 
+const requiredContentEntryTexts = [
+  "Content entry option scaffold",
+  "Pick a template",
+  "Enter content",
+  "Play",
+  "Activity title",
+  "+ Instruction",
+  "Generate With AI",
+  "Flip tiles",
+  "Done",
+  "+ Add an item",
+  "Single sided",
+  "Double sided",
+  "Row editor options",
+  "min 2 max 50",
+  "Front",
+  "Back",
+  "Target-language text",
+  "Support-language text",
+  "Bold",
+  "Superscript",
+  "Subscript",
+  "Symbol picker",
+  "Audio cue",
+  "Image upload",
+  "Reorder item",
+  "Duplicate item",
+  "Delete item",
+  "teacher_draft_package",
+  "upload_intake_asset",
+  "upload_review_decision",
+  "upload_promotion_gate",
+  "activity_compatibility_snapshot",
+  "No live media upload",
+  "No Done-to-student route",
+  "No direct AI publish",
+  "No unreviewed image activation",
+  "No support-language progress trigger",
+  "No file picker writes",
+  "No template switch without compatibility check",
+  "Rights review gate",
+  "Audio coverage gate",
+  "Compatibility review gate",
+  "Release control gate",
+];
+
+for (const text of requiredContentEntryTexts) {
+  requireText(contentEntryOptionScaffold, text, `Content entry option scaffold missing required text: ${text}.`);
+}
+
 requireText(panel, "Upload channel readiness", "Upload readiness panel must expose its heading.");
 requireText(panel, "Foundation rule", "Upload readiness panel must expose the foundation rule.");
 requireText(panel, "Accepted file types", "Upload readiness panel must show accepted file types.");
@@ -161,7 +213,16 @@ requireText(labelledDiagramAssetPanel, "label_anchor_record", "Labelled Diagram 
 requireText(multimediaAssetPanel, "Media asset landing zone", "Multimedia asset panel must expose the media landing zone heading.");
 requireText(multimediaAssetPanel, "Manifest and binding records", "Multimedia asset panel must expose manifest and binding records.");
 requireText(multimediaAssetPanel, "Media lanes", "Multimedia asset panel must expose media lanes.");
+requireText(contentEntryOptionPanel, "Teacher content entry options", "Content entry option panel must expose its heading.");
+requireText(contentEntryOptionPanel, "Template workflow", "Content entry option panel must expose the workflow.");
+requireText(contentEntryOptionPanel, "Activity controls", "Content entry option panel must expose activity controls.");
+requireText(contentEntryOptionPanel, "Card sidedness", "Content entry option panel must expose sidedness controls.");
+requireText(contentEntryOptionPanel, "Formatting toolbar", "Content entry option panel must expose formatting toolbar.");
+requireText(contentEntryOptionPanel, "Per-row upload and item actions", "Content entry option panel must expose row actions.");
+requireText(contentEntryOptionPanel, "Required records before live tools", "Content entry option panel must expose required records.");
+requireText(contentEntryOptionPanel, "Blocked shortcuts", "Content entry option panel must expose blocked shortcuts.");
 requireText(teacherIntake, "UploadChannelReadinessPanel", "Teacher intake route must render upload readiness.");
+requireText(teacherIntake, "ContentEntryOptionScaffoldPanel", "Teacher intake route must render content entry option scaffold.");
 requireText(teacherIntake, "UploadReviewQueuePanel", "Teacher intake route must render upload review queue.");
 requireText(teacherIntake, "UploadPromotionReadinessPanel", "Teacher intake route must render upload promotion readiness.");
 requireText(teacherIntake, "LabelledDiagramAssetReadinessPanel", "Teacher intake route must render Labelled Diagram asset readiness.");
@@ -172,6 +233,10 @@ requireText(routeVerifier, "Upload review queue", "Active route verifier must ch
 requireText(routeVerifier, "Upload promotion readiness", "Active route verifier must check upload promotion readiness.");
 requireText(routeVerifier, "Labelled Diagram asset readiness", "Active route verifier must check Labelled Diagram asset readiness.");
 requireText(routeVerifier, "Multimedia asset readiness", "Active route verifier must check multimedia asset readiness.");
+requireText(routeVerifier, "Content entry option scaffold", "Active route verifier must check content entry option scaffold.");
+requireText(routeVerifier, "Generate With AI", "Active route verifier must check AI generation control.");
+requireText(routeVerifier, "Flip tiles", "Active route verifier must check flip tiles control.");
+requireText(routeVerifier, "No Done-to-student route", "Active route verifier must check Done is blocked from student routes.");
 
 if (failures.length > 0) {
   for (const failure of failures) {

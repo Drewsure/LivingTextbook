@@ -59,6 +59,14 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     note: "Tenant-scoped library route for private drafts, reviewed packages, planned school sharing, and blocked public community publishing.",
   },
   {
+    routeId: "teacher-media-library",
+    group: "sample-publisher",
+    label: "Teacher media library",
+    path: "/teacher/media/sample-publisher",
+    status: "active-scaffold",
+    note: "Read-only media maintenance preview for partner-owned audio, music, video, posters, playlists, and local media bundles.",
+  },
+  {
     routeId: "partner-demo",
     group: "core",
     label: "Partner demo",

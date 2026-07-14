@@ -9,6 +9,7 @@ import { samplePrintableOutputPlan } from "@/data/samplePrintableOutputPlan";
 import { sampleActiveRouteMatrix } from "@/data/sampleActiveRouteMatrix";
 import { sampleAuthoringVerifierPlan } from "@/data/sampleAuthoringVerifierPlan";
 import { sampleTeacherAuthoringReadinessPlan } from "@/data/sampleTeacherAuthoringReadiness";
+import { sampleContentEntryOptionScaffold } from "@/data/sampleContentEntryOptionScaffold";
 import { sampleLabelledDiagramAssetReadinessPlan } from "@/data/sampleLabelledDiagramAssetReadiness";
 import { sampleMultimediaAssetReadinessPlan } from "@/data/sampleMultimediaAssetReadiness";
 import { sampleUploadChannelReadinessPlan } from "@/data/sampleUploadChannelReadiness";
@@ -70,6 +71,7 @@ import {
 } from "@/data/samplePersistencePlan";
 import { ContentIntakeReviewPanel } from "@/features/content-intake/ContentIntakeReviewPanel";
 import { AuthoringVerifierPlanPanel } from "@/features/content-intake/AuthoringVerifierPlanPanel";
+import { ContentEntryOptionScaffoldPanel } from "@/features/content-intake/ContentEntryOptionScaffoldPanel";
 import { LabelledDiagramAssetReadinessPanel } from "@/features/content-intake/LabelledDiagramAssetReadinessPanel";
 import { MultimediaAssetReadinessPanel } from "@/features/content-intake/MultimediaAssetReadinessPanel";
 import { PilotSourceStrategyPanel } from "@/features/content-intake/PilotSourceStrategyPanel";
@@ -167,6 +169,7 @@ export default function TeacherIntakePage() {
           warnings={sampleClassRosterWarnings}
         />
         <UploadChannelReadinessPanel plan={sampleUploadChannelReadinessPlan} />
+        <ContentEntryOptionScaffoldPanel scaffold={sampleContentEntryOptionScaffold} />
         <UploadReviewQueuePanel queue={sampleUploadReviewQueue} />
         <UploadPromotionReadinessPanel plan={sampleUploadPromotionReadinessPlan} />
         <LabelledDiagramAssetReadinessPanel plan={sampleLabelledDiagramAssetReadinessPlan} />
