@@ -195,6 +195,7 @@
 - `DR-221-student-launch-context-boundary.md`
 - `DR-222-teacher-session-launch-gate-boundary.md`
 - `DR-223-report-package-launch-gate-boundary.md`
+- `DR-224-private-assignment-launch-context-boundary.md`
 
 ## Maintenance Rule
 

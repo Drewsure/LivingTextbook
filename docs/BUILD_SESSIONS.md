@@ -374,6 +374,7 @@ Next outputs:
 - Confirm `/teacher/launch-gate/starter-english-level-1-unit-1-2026.1-pilot-candidate-classroom-launch-gate` loads as a review-only workspace before adding any live classroom launch route, launch button, report export, or launch-ready state transition.
 - Confirm student launch and front-door routes show controlled-practice launch context before real classroom launch, production student accounts, or live learner data collection is enabled.
 - Confirm teacher session monitor and report-package routes show a session launch gate boundary before live classroom launch, real learner data collection, report export, or launch-ready state transition.
+- Confirm private assignment routes show controlled-practice launch context before real classroom launch, production student accounts, report export, or live learner data collection is enabled.
 
 ## Session 8: Premium Experience Layer
 
