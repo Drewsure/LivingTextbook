@@ -353,6 +353,7 @@ Next outputs:
 - Confirm private teacher library routes preserve source lineage, no-student-data-copy rules, and public-community blocking before teacher library persistence or sharing is implemented.
 - Confirm backend schema, adapter plans, durable records, and migration specs preserve teacher draft packages before live teacher authoring, copy/edit, private-library drafts, or assignment persistence.
 - Confirm backend schema, adapter plans, durable records, and migration specs preserve tenant library items before live library search, copy/edit, school sharing, or public-community decisions.
+- Confirm `/teacher/media/sample-publisher` shows media rights, target records, maintenance stages, and blocked live actions before live media upload, replacement, playlist promotion, background-media assignment, or local media activation begins.
 
 ## Session 8: Premium Experience Layer
 
