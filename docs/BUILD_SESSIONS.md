@@ -356,6 +356,7 @@ Next outputs:
 - Confirm `/teacher/media/sample-publisher` shows media rights, target records, maintenance stages, and blocked live actions before live media upload, replacement, playlist promotion, background-media assignment, or local media activation begins.
 - Confirm `/teacher/intake` shows the content entry option scaffold with template flow, activity title, instructions, AI draft control, flip tiles, single/double sided rows, row audio/image controls, formatting tools, item reorder/duplicate/delete, `min 2 max 50` limits, and blocked Done-to-student routing before live upload or authoring controls are implemented.
 - Confirm `/teacher/authoring/draft-sample-publisher-l1-u1` shows the disabled content-entry workbench preview before any real draft save, file picker, AI generation, template switch, upload, Done-to-student route, or assignment workflow is implemented.
+- Confirm Flip Tiles remains a concrete source template while the upload/content-entry guide applies across compatible game families, with approved learner fonts, tenant font packs, hiragana-safe font handling, readable tile sizing, and font rendering gates before live styling controls.
 
 ## Session 8: Premium Experience Layer
 

@@ -50,6 +50,8 @@ Verifier:
 
 The teacher-facing content entry panel must offer the practical options teachers expect before live authoring and upload controls are enabled:
 
+- Source example: `Flip Tiles source template`.
+- Reusable pattern: `Cross-game upload guide`.
 - Workflow steps: `Pick a template`, `Enter content`, and `Play`.
 - Activity metadata: `Activity title` and `+ Instruction`.
 - Teacher helpers: `Generate With AI` and `Flip tiles`.
@@ -57,11 +59,16 @@ The teacher-facing content entry panel must offer the practical options teachers
 - Row editor columns: `Front`, `Back`, target-language text, and support-language text.
 - Row limits: `min 2 max 50`.
 - Formatting tools: `Bold`, `Superscript`, `Subscript`, and `Symbol picker`.
+- Font/rendering controls: `Approved learner font`, `Tenant font pack`, `Hiragana-safe font`, `Readable tile sizing`, and `Font rendering gate`.
 - Row actions: `Audio cue`, `Image upload`, `Reorder item`, `Duplicate item`, and `Delete item`.
 - Authoring action: `+ Add an item`.
 - Completion action: `Done`.
 
 These controls are foundation previews only. They must create draft/review intent records, not live uploads, student assignments, public routes, or released game assets.
+
+The Flip Tiles template is the current concrete example, not the only target. The same upload/content-entry pattern may support flashcards, matching, quiz, sentence builder, labelled diagram, media playlist, and printable outputs after compatibility review.
+
+Font controls are tenant-approved configuration, not arbitrary teacher styling. Tenant font packs must preserve readability, licensing, multilingual rendering, hiragana/furigana support where applicable, tile sizing, text wrapping, and print/export behavior.
 
 Standing blocks:
 
@@ -77,6 +84,7 @@ Standing blocks:
 
 - Upload controls must not bypass review.
 - Content entry controls must not bypass draft, compatibility, rights, audio, review, and release gates.
+- Font and rendering controls must not bypass tenant-approved readability, licensing, accessibility, language, or template-layout gates.
 - Upload review queue previews must not approve, assign, publish, import, promote, or make assets student-facing.
 - PDF/text extraction creates drafts only.
 - Uploaded images need ownership, classroom-safety review, alt text, and label anchors before Labelled Diagram assignment.

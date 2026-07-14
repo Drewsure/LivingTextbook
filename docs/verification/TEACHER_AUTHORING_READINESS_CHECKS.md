@@ -12,7 +12,8 @@ Run after teacher authoring, draft, copy/edit, AI authoring, activity pathway ed
 - Confirm `/teacher/authoring/draft-sample-publisher-l1-u1` shows `Local edit preview`.
 - Confirm `/teacher/authoring/draft-sample-publisher-l1-u1` shows `Draft content-entry workbench preview`.
 - Confirm `/teacher/authoring/draft-sample-publisher-l1-u1` shows `Activity title`, `+ Instruction`, `Single sided`, `Double sided`, and `min 2 max 50`.
-- Confirm `/teacher/authoring/draft-sample-publisher-l1-u1` shows `Generate With AI blocked`, `Flip tiles preview`, and `No Done-to-student route`.
+- Confirm `/teacher/authoring/draft-sample-publisher-l1-u1` shows `Generate With AI blocked`, `Flip tiles preview`, `Cross-game upload guide`, and `No Done-to-student route`.
+- Confirm `/teacher/authoring/draft-sample-publisher-l1-u1` shows `Approved learner font`, `Tenant font pack`, `Hiragana-safe font`, and `Font rendering gate`.
 - Confirm `/teacher/authoring/draft-sample-publisher-l1-u1` shows `Audio cue required`, `Image upload blocked`, `No live file picker`, and `No template switch without compatibility check`.
 - Confirm `/teacher/authoring/draft-sample-publisher-l1-u1` shows `Draft audio coverage preview`, `Term audio`, `Sentence audio`, and `Instruction audio`.
 - Confirm `/teacher/authoring/draft-sample-publisher-l1-u1` shows `Draft review handoff preview`, `Review packet blocked`, `Schema validation packet`, `Audio coverage packet`, and `Draft persistence required`.

@@ -20,6 +20,8 @@ export function ContentEntryOptionScaffoldPanel({ scaffold }: ContentEntryOption
   const blockedCount =
     scaffold.globalControls.filter((control) => control.status !== "foundation-preview").length +
     scaffold.rowEditor.rowActions.filter((action) => action.status !== "foundation-preview").length +
+    scaffold.crossGameGuide.filter((control) => control.status !== "foundation-preview").length +
+    scaffold.fontRenderingControls.filter((control) => control.status !== "foundation-preview").length +
     scaffold.reviewGates.filter((gate) => gate.status !== "foundation-preview").length;
 
   return (
@@ -53,10 +55,17 @@ export function ContentEntryOptionScaffoldPanel({ scaffold }: ContentEntryOption
         </div>
       </section>
 
+      <div className="mt-5 grid gap-4 lg:grid-cols-[0.85fr_1.15fr]">
+        <ContentEntryControlList title="Source template" controls={[scaffold.sourceTemplate]} />
+        <ContentEntryControlList title="Cross-game upload guide" controls={scaffold.crossGameGuide} />
+      </div>
+
       <div className="mt-5 grid gap-4 lg:grid-cols-[1fr_0.8fr]">
         <ContentEntryControlList title="Activity controls" controls={scaffold.globalControls} />
         <ContentEntryControlList title="Card sidedness" controls={scaffold.sidednessOptions} />
       </div>
+
+      <ContentEntryControlList title="Approved font and rendering controls" controls={scaffold.fontRenderingControls} />
 
       <section className="mt-5 rounded-lg border border-[var(--tenant-border)] p-4">
         <div className="flex flex-wrap items-start justify-between gap-3">

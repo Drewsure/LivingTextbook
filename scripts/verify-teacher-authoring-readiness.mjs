@@ -108,6 +108,7 @@ requireText(contentEntryWorkbenchPreview, "Double sided", "Content-entry workben
 requireText(contentEntryWorkbenchPreview, "min 2 max 50", "Content-entry workbench preview must show item limits.");
 requireText(contentEntryWorkbenchPreview, "Generate With AI blocked", "Content-entry workbench preview must block AI generation.");
 requireText(contentEntryWorkbenchPreview, "Flip tiles preview", "Content-entry workbench preview must show flip tiles preview.");
+requireText(contentEntryWorkbenchPreview, "Cross-game upload guide", "Content-entry workbench preview must show cross-game upload guide.");
 requireText(contentEntryWorkbenchPreview, "Done blocked", "Content-entry workbench preview must block Done.");
 requireText(contentEntryWorkbenchPreview, "Front", "Content-entry workbench preview must show Front field.");
 requireText(contentEntryWorkbenchPreview, "Back", "Content-entry workbench preview must show Back field.");
@@ -115,6 +116,11 @@ requireText(contentEntryWorkbenchPreview, "Bold", "Content-entry workbench previ
 requireText(contentEntryWorkbenchPreview, "Superscript", "Content-entry workbench preview must show Superscript formatting.");
 requireText(contentEntryWorkbenchPreview, "Subscript", "Content-entry workbench preview must show Subscript formatting.");
 requireText(contentEntryWorkbenchPreview, "Symbol picker", "Content-entry workbench preview must show symbol picker.");
+requireText(contentEntryWorkbenchPreview, "Approved learner font", "Content-entry workbench preview must show approved learner font control.");
+requireText(contentEntryWorkbenchPreview, "Tenant font pack", "Content-entry workbench preview must show tenant font pack control.");
+requireText(contentEntryWorkbenchPreview, "Hiragana-safe font", "Content-entry workbench preview must show hiragana-safe font control.");
+requireText(contentEntryWorkbenchPreview, "Readable tile sizing", "Content-entry workbench preview must show readable tile sizing control.");
+requireText(contentEntryWorkbenchPreview, "Font rendering gate", "Content-entry workbench preview must show font rendering gate.");
 requireText(contentEntryWorkbenchPreview, "Audio cue required", "Content-entry workbench preview must show audio cue requirement.");
 requireText(contentEntryWorkbenchPreview, "Image upload blocked", "Content-entry workbench preview must block image upload.");
 requireText(contentEntryWorkbenchPreview, "Reorder item", "Content-entry workbench preview must show reorder item action.");
@@ -128,6 +134,7 @@ requireText(routeVerifier, "Teacher authoring readiness", "Active route verifier
 requireText(routeVerifier, "/teacher/authoring/draft-sample-publisher-l1-u1", "Active route verifier must check teacher draft preview route.");
 requireText(routeVerifier, "Direct AI publish", "Active route verifier must check direct AI publish block.");
 requireText(routeVerifier, "Draft content-entry workbench preview", "Active route verifier must check content-entry workbench preview.");
+requireText(routeVerifier, "Approved learner font", "Active route verifier must check draft font controls.");
 requireText(aiHandoff, "AI can draft structure. It cannot publish student-facing content by itself.", "AI handoff docs must preserve no-direct-publish rule.");
 
 if (failures.length > 0) {

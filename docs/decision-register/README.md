@@ -176,6 +176,7 @@
 - `DR-202-teacher-media-library-preview-route.md`
 - `DR-203-content-entry-option-scaffold.md`
 - `DR-204-draft-content-entry-workbench-preview.md`
+- `DR-205-flip-tiles-cross-game-upload-font-guide.md`
 
 ## Maintenance Rule
 

@@ -149,6 +149,11 @@ for (const text of requiredMultimediaAssetTexts) {
 
 const requiredContentEntryTexts = [
   "Content entry option scaffold",
+  "Flip Tiles source template",
+  "Cross-game upload guide",
+  "Pairing-family games",
+  "Selection-family games",
+  "Text and printable outputs",
   "Pick a template",
   "Enter content",
   "Play",
@@ -170,6 +175,11 @@ const requiredContentEntryTexts = [
   "Superscript",
   "Subscript",
   "Symbol picker",
+  "Approved learner font",
+  "Tenant font pack",
+  "Hiragana-safe font",
+  "Readable tile sizing",
+  "Font rendering gate",
   "Audio cue",
   "Image upload",
   "Reorder item",
@@ -180,6 +190,8 @@ const requiredContentEntryTexts = [
   "upload_review_decision",
   "upload_promotion_gate",
   "activity_compatibility_snapshot",
+  "template_rendering_profile",
+  "font_accessibility_profile",
   "No live media upload",
   "No Done-to-student route",
   "No direct AI publish",
@@ -214,9 +226,12 @@ requireText(multimediaAssetPanel, "Media asset landing zone", "Multimedia asset 
 requireText(multimediaAssetPanel, "Manifest and binding records", "Multimedia asset panel must expose manifest and binding records.");
 requireText(multimediaAssetPanel, "Media lanes", "Multimedia asset panel must expose media lanes.");
 requireText(contentEntryOptionPanel, "Teacher content entry options", "Content entry option panel must expose its heading.");
+requireText(contentEntryOptionPanel, "Source template", "Content entry option panel must expose the source template section.");
+requireText(contentEntryOptionPanel, "Cross-game upload guide", "Content entry option panel must expose the cross-game upload guide.");
 requireText(contentEntryOptionPanel, "Template workflow", "Content entry option panel must expose the workflow.");
 requireText(contentEntryOptionPanel, "Activity controls", "Content entry option panel must expose activity controls.");
 requireText(contentEntryOptionPanel, "Card sidedness", "Content entry option panel must expose sidedness controls.");
+requireText(contentEntryOptionPanel, "Approved font and rendering controls", "Content entry option panel must expose font/rendering controls.");
 requireText(contentEntryOptionPanel, "Formatting toolbar", "Content entry option panel must expose formatting toolbar.");
 requireText(contentEntryOptionPanel, "Per-row upload and item actions", "Content entry option panel must expose row actions.");
 requireText(contentEntryOptionPanel, "Required records before live tools", "Content entry option panel must expose required records.");
@@ -236,6 +251,8 @@ requireText(routeVerifier, "Multimedia asset readiness", "Active route verifier 
 requireText(routeVerifier, "Content entry option scaffold", "Active route verifier must check content entry option scaffold.");
 requireText(routeVerifier, "Generate With AI", "Active route verifier must check AI generation control.");
 requireText(routeVerifier, "Flip tiles", "Active route verifier must check flip tiles control.");
+requireText(routeVerifier, "Approved learner font", "Active route verifier must check font controls.");
+requireText(routeVerifier, "Cross-game upload guide", "Active route verifier must check cross-game upload guide.");
 requireText(routeVerifier, "No Done-to-student route", "Active route verifier must check Done is blocked from student routes.");
 
 if (failures.length > 0) {

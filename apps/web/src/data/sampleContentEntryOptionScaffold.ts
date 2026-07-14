@@ -25,9 +25,12 @@ export interface ContentEntryOptionScaffold {
   label: string;
   summary: string;
   foundationRule: string;
+  sourceTemplate: ContentEntryControl;
   workflowSteps: ContentEntryWorkflowStep[];
+  crossGameGuide: ContentEntryControl[];
   globalControls: ContentEntryControl[];
   sidednessOptions: ContentEntryControl[];
+  fontRenderingControls: ContentEntryControl[];
   rowEditor: {
     label: string;
     itemLimit: string;
@@ -47,6 +50,13 @@ export const sampleContentEntryOptionScaffold: ContentEntryOptionScaffold = {
     "Foundation preview for the teacher-facing content entry panel: template flow, AI draft support, sided cards, per-row text, audio, image, formatting, reorder, duplicate, delete, and review-gated completion.",
   foundationRule:
     "Content entry creates teacher draft records only. The Done control cannot route content to students until storage, rights, audio coverage, compatibility, review, and package release gates pass.",
+  sourceTemplate: {
+    controlId: "flip-tiles-source-template",
+    label: "Flip Tiles source template",
+    status: "foundation-preview",
+    detail:
+      "The current upload-panel example comes from a Flip Tiles authoring template, but its row, media, formatting, and font controls define a reusable guide for many activity pathways.",
+  },
   workflowSteps: [
     {
       stepId: "pick-template",
@@ -62,6 +72,33 @@ export const sampleContentEntryOptionScaffold: ContentEntryOptionScaffold = {
       stepId: "play-preview",
       label: "Play",
       detail: "Teacher can preview the activity, but student assignment stays blocked until package review and release gates pass.",
+    },
+  ],
+  crossGameGuide: [
+    {
+      controlId: "cross-game-upload-guide",
+      label: "Cross-game upload guide",
+      status: "foundation-preview",
+      detail:
+        "The same content rows can guide flashcards, flip tiles, matching, quiz, sentence builder, labelled diagram, media playlist, and printable outputs after compatibility review.",
+    },
+    {
+      controlId: "pairing-family-application",
+      label: "Pairing-family games",
+      status: "foundation-preview",
+      detail: "Front/back rows can map to Flashcards, Flip Tiles, Memory Match, Matching Pairs, Match Up, and Word Match.",
+    },
+    {
+      controlId: "selection-family-application",
+      label: "Selection-family games",
+      status: "requires-review",
+      detail: "Rows can become quiz choices only after distractors, scoring, audio prompts, and answer keys pass review.",
+    },
+    {
+      controlId: "text-family-application",
+      label: "Text and printable outputs",
+      status: "requires-review",
+      detail: "Rows can become Sentence Builder, Type Answer, worksheets, and symbol-heavy printables after text shape and renderer checks pass.",
     },
   ],
   globalControls: [
@@ -114,6 +151,38 @@ export const sampleContentEntryOptionScaffold: ContentEntryOptionScaffold = {
       label: "Double sided",
       status: "foundation-preview",
       detail: "Double-sided rows support source/target pairs, front/back flashcards, matching, and translation support where allowed.",
+    },
+  ],
+  fontRenderingControls: [
+    {
+      controlId: "approved-learner-font",
+      label: "Approved learner font",
+      status: "foundation-preview",
+      detail: "Early learner surfaces must use approved readable fonts rather than arbitrary teacher-uploaded fonts.",
+    },
+    {
+      controlId: "tenant-font-pack",
+      label: "Tenant font pack",
+      status: "requires-review",
+      detail: "White-label tenants can have brand and curriculum font packs, but they must pass readability and licensing checks.",
+    },
+    {
+      controlId: "hiragana-safe-font",
+      label: "Hiragana-safe font",
+      status: "requires-review",
+      detail: "Japanese target-language or assist-language materials need fonts that preserve hiragana readability and furigana rendering.",
+    },
+    {
+      controlId: "readable-tile-sizing",
+      label: "Readable tile sizing",
+      status: "foundation-preview",
+      detail: "Tile text must keep stable sizing, wrapping, contrast, and touch targets across mobile, classroom screens, and printables.",
+    },
+    {
+      controlId: "font-rendering-gate",
+      label: "Font rendering gate",
+      status: "requires-review",
+      detail: "Font, symbol, formula, and multilingual rendering must be checked before a template is assigned to students.",
     },
   ],
   rowEditor: {
@@ -188,6 +257,8 @@ export const sampleContentEntryOptionScaffold: ContentEntryOptionScaffold = {
       "media_manifest",
       "media_playlist_binding",
       "activity_compatibility_snapshot",
+      "template_rendering_profile",
+      "font_accessibility_profile",
     ],
     blockedShortcuts: [
       "No live media upload",

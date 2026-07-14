@@ -65,7 +65,7 @@ This route is not a live editor. It shows the shape of a draft package, source l
 
 The route also includes a local-only edit preview. It can validate draft shape in the browser, but it cannot save, publish, assign, or regenerate audio.
 
-The route includes a disabled content-entry workbench preview. It shows the future teacher authoring surface for activity title, instruction, single/double sided cards, row front/back values, formatting tools, row audio cues, image upload positions, reorder, duplicate, delete, add item, flip tiles, AI draft help, item limits, and Done. It cannot save, upload, publish, assign, switch templates, or route Done to students.
+The route includes a disabled content-entry workbench preview. It shows the future teacher authoring surface for activity title, instruction, single/double sided cards, row front/back values, formatting tools, row audio cues, image upload positions, reorder, duplicate, delete, add item, flip tiles, AI draft help, cross-game upload guidance, approved font/rendering controls, item limits, and Done. It cannot save, upload, publish, assign, switch templates, or route Done to students.
 
 The route includes a draft audio coverage preview. It must keep term audio, sentence audio, and instruction audio visible before student use.
 
@@ -101,6 +101,11 @@ The route must continue to show:
 - `+ Instruction`
 - `Generate With AI blocked`
 - `Flip tiles preview`
+- `Cross-game upload guide`
+- `Approved learner font`
+- `Tenant font pack`
+- `Hiragana-safe font`
+- `Font rendering gate`
 - `Single sided`
 - `Double sided`
 - `min 2 max 50`
@@ -189,6 +194,7 @@ Student assignment requires:
 - Direct AI publish is blocked.
 - Local edit previews do not save, publish, assign, or regenerate audio.
 - Content-entry workbench previews do not save, upload, switch templates, publish, assign, or route Done to students.
+- Font/rendering controls are tenant-approved configuration only; they cannot bypass readability, licensing, accessibility, language, or template-layout review.
 - Draft audio coverage must be reviewed before student use.
 - Draft review handoff previews do not submit; they summarize review requirements only.
 - Review queue previews do not approve, submit, publish, or assign.

@@ -6,6 +6,7 @@ interface TeacherDraftContentEntryWorkbenchPreviewProps {
 }
 
 const formattingTools = ["Bold", "Superscript", "Subscript", "Symbol picker"];
+const fontRenderingTools = ["Approved learner font", "Tenant font pack", "Hiragana-safe font", "Readable tile sizing", "Font rendering gate"];
 const rowActions = ["Audio cue required", "Image upload blocked", "Reorder item", "Duplicate item", "Delete item"];
 const blockedActions = [
   "No live file picker",
@@ -83,6 +84,9 @@ export function TeacherDraftContentEntryWorkbenchPreview({ draft }: TeacherDraft
               Flip tiles preview
             </button>
             <button type="button" disabled className="min-h-10 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] px-3 text-left text-sm font-bold text-[var(--tenant-text)]">
+              Cross-game upload guide
+            </button>
+            <button type="button" disabled className="min-h-10 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] px-3 text-left text-sm font-bold text-[var(--tenant-text)]">
               Done blocked
             </button>
           </div>
@@ -117,6 +121,11 @@ export function TeacherDraftContentEntryWorkbenchPreview({ draft }: TeacherDraft
 
         <div className="mt-4 flex flex-wrap gap-2">
           {formattingTools.map((tool) => (
+            <button key={tool} type="button" disabled className="rounded-lg border border-[var(--tenant-border)] bg-white px-3 py-2 text-xs font-bold text-[var(--tenant-text)]">
+              {tool}
+            </button>
+          ))}
+          {fontRenderingTools.map((tool) => (
             <button key={tool} type="button" disabled className="rounded-lg border border-[var(--tenant-border)] bg-white px-3 py-2 text-xs font-bold text-[var(--tenant-text)]">
               {tool}
             </button>

@@ -50,14 +50,17 @@ Verify at:
 32. Confirm multimedia assets require learning audio separation, optional playback, captions or transcript policy, background-media priority, and local bundle checksums.
 33. Confirm the scaffold blocks media-only progress, background music overriding learning audio, video-only progress, unlicensed media, raw learner audio storage, automatic transcode-to-publish, and local folder activation.
 34. Confirm the page shows `Content entry option scaffold`.
-35. Confirm the content entry workflow shows `Pick a template`, `Enter content`, and `Play`.
-36. Confirm the scaffold shows `Activity title`, `+ Instruction`, `Generate With AI`, `Flip tiles`, `Done`, and `+ Add an item`.
-37. Confirm the scaffold shows `Single sided`, `Double sided`, and row limit text `min 2 max 50`.
-38. Confirm row columns include `Front`, `Back`, target-language text, and support-language text.
-39. Confirm formatting tools include `Bold`, `Superscript`, `Subscript`, and `Symbol picker`.
-40. Confirm per-row actions include `Audio cue`, `Image upload`, `Reorder item`, `Duplicate item`, and `Delete item`.
-41. Confirm required records include teacher draft package, upload intake/review/promotion, media/game manifests, and activity compatibility snapshots.
-42. Confirm the scaffold blocks live media upload, Done-to-student routing, direct AI publish, unreviewed image activation, support-language progress triggers, file picker writes, and unchecked template switching.
+35. Confirm the page shows `Flip Tiles source template`.
+36. Confirm the page shows `Cross-game upload guide`, `Pairing-family games`, `Selection-family games`, and `Text and printable outputs`.
+37. Confirm the content entry workflow shows `Pick a template`, `Enter content`, and `Play`.
+38. Confirm the scaffold shows `Activity title`, `+ Instruction`, `Generate With AI`, `Flip tiles`, `Done`, and `+ Add an item`.
+39. Confirm the scaffold shows `Single sided`, `Double sided`, and row limit text `min 2 max 50`.
+40. Confirm row columns include `Front`, `Back`, target-language text, and support-language text.
+41. Confirm formatting tools include `Bold`, `Superscript`, `Subscript`, and `Symbol picker`.
+42. Confirm font/rendering controls include `Approved learner font`, `Tenant font pack`, `Hiragana-safe font`, `Readable tile sizing`, and `Font rendering gate`.
+43. Confirm per-row actions include `Audio cue`, `Image upload`, `Reorder item`, `Duplicate item`, and `Delete item`.
+44. Confirm required records include teacher draft package, upload intake/review/promotion, media/game manifests, activity compatibility snapshots, template rendering profiles, and font accessibility profiles.
+45. Confirm the scaffold blocks live media upload, Done-to-student routing, direct AI publish, unreviewed image activation, support-language progress triggers, file picker writes, and unchecked template switching.
 
 ## Automated Command
 
