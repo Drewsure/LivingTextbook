@@ -76,6 +76,14 @@ export const appRouteContracts: AppRouteContract[] = [
     requiredState: ["TenantConfig", "TenantLibraryPlan", "TeacherPrivateLibraryPreview", "TeacherDraftPackagePreview[]"],
   },
   {
+    id: "teacher-media-library",
+    pattern: "/teacher/media/[tenantId]",
+    audience: "teacher",
+    status: "active-scaffold",
+    purpose: "Show a tenant-scoped media maintenance preview with rights state, target records, blocked live upload actions, and local bundle media readiness.",
+    requiredState: ["TenantConfig", "MediaRightsPlan", "TeacherMediaLibraryPreview", "MediaRightsRecord[]"],
+  },
+  {
     id: "partner-pilot-demo",
     pattern: "/partner-demo",
     audience: "platform",
@@ -234,6 +242,10 @@ export function getTeacherDraftReviewQueuePath(): string {
 
 export function getTeacherPrivateLibraryPath(tenantId: TenantId): string {
   return `/teacher/library/${encodeURIComponent(tenantId)}`;
+}
+
+export function getTeacherMediaLibraryPath(tenantId: TenantId): string {
+  return `/teacher/media/${encodeURIComponent(tenantId)}`;
 }
 
 export function getPermanentTextbookQrPath(identifier: PermanentQrIdentifier): string {

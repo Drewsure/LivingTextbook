@@ -44,6 +44,7 @@ export function AppShell({ children, tenant, compact = false }: AppShellProps) {
               <a href="/teacher/intake">Content Intake</a>
               <a href="/teacher/review">Review Queue</a>
               <a href="/teacher/library/sample-publisher">Library</a>
+              <a href="/teacher/media/sample-publisher">Media</a>
               <a href="/teacher/sessions/demo-unit-1">Session Monitor</a>
               <a href="/partner-demo">Partner Demo</a>
               <a href="/local/sample-publisher">Local Preview</a>

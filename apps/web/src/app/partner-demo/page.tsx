@@ -26,6 +26,7 @@ import {
   getPrintableWorksheetPath,
   getTrainingAcademyPath,
   getTeacherPrivateLibraryPath,
+  getTeacherMediaLibraryPath,
 } from "@/features/routes/routeContracts";
 import { getUnitKey } from "@living-textbook/content-model";
 import { TeacherLaunchPanel } from "@/features/teacher/TeacherLaunchPanel";
@@ -80,6 +81,7 @@ export default function PartnerDemoPage() {
               <RouteLink label="Partner demo" href="/partner-demo" />
               <RouteLink label="Teacher unit review" href={getTeacherUnitReviewPath(getUnitKey(samplePartnerUnitOne.unitMeta))} />
               <RouteLink label="Teacher private library" href={getTeacherPrivateLibraryPath("sample-publisher")} />
+              <RouteLink label="Teacher media library" href={getTeacherMediaLibraryPath("sample-publisher")} />
               <RouteLink label="Private assignment link" href={getPrivateAssignmentPath("assignment-sample-publisher-front-door")} />
               <RouteLink label="Front door" href={samplePartnerFrontDoorPath} />
               <RouteLink label="Student launch" href={getStudentLaunchPath(samplePartnerLaunchCode)} />
