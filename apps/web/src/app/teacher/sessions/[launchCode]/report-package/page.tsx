@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { AppShell } from "@/components/layout/AppShell";
 import { resolveSampleTeacherSessionMonitorContext } from "@/data/sampleTeacherSessionMonitor";
 import { TeacherReportPackagePreviewPanel } from "@/features/teacher/TeacherReportPackagePreviewPanel";
+import { TeacherSessionLaunchGateBoundaryPanel } from "@/features/teacher/TeacherSessionLaunchGateBoundaryPanel";
 
 export default async function TeacherReportPackagePreviewPage({
   params,
@@ -17,7 +18,10 @@ export default async function TeacherReportPackagePreviewPage({
 
   return (
     <AppShell tenant={context.tenant}>
-      <TeacherReportPackagePreviewPanel context={context} />
+      <div className="grid gap-5">
+        <TeacherSessionLaunchGateBoundaryPanel boundary={context.launchGateBoundary} />
+        <TeacherReportPackagePreviewPanel context={context} />
+      </div>
     </AppShell>
   );
 }

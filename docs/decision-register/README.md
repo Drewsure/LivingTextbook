@@ -194,6 +194,7 @@
 - `DR-220-classroom-launch-gate-route.md`
 - `DR-221-student-launch-context-boundary.md`
 - `DR-222-teacher-session-launch-gate-boundary.md`
+- `DR-223-report-package-launch-gate-boundary.md`
 
 ## Maintenance Rule
 
