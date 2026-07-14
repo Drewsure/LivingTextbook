@@ -637,6 +637,24 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
       rollbackOrExportNeeds: ["Export dry-run rehearsal metadata with release-control records", "Retain superseded rehearsal snapshots for audit", "Support local bundle dry-run metadata export"],
       notAllowedYet: ["Student launch from rehearsal", "Real learner data collection", "Live progress storage", "Report export approval", "Pilot approval from dry run alone"],
     },
+    {
+      migrationId: "m034-classroom-launch-gate-records",
+      label: "Classroom launch gate records",
+      track: "shared",
+      status: "ready-to-design",
+      risk: "medium",
+      targetEntities: ["classroom_launch_gate"],
+      purpose: "Persist the final launch-blocked go/no-go boundary before live classroom launch, real learner data collection, report export, or launch-ready status changes.",
+      prerequisites: ["Teacher dry-run rehearsal accepted", "Package publish gate accepted", "Pilot evidence packet accepted", "School policy accepted", "Persistence adapter accepted"],
+      implementationNotes: [
+        "Keep launch gates tenant-scoped, package-scoped, and release-candidate-scoped.",
+        "Preserve source gate ids for publish gate, approval ledger, evidence packet, and teacher dry run.",
+        "Block live classroom launch, real learner data collection, live progress storage, report export, and manual launch-ready overrides.",
+        "Do not let a launch gate become a launch button until policy, persistence, evidence, approvals, and dry-run checks pass.",
+      ],
+      rollbackOrExportNeeds: ["Export classroom launch gate metadata with release-control records", "Retain superseded launch gate snapshots for audit", "Support local bundle launch gate metadata export"],
+      notAllowedYet: ["Live classroom launch", "Launch button", "Real learner data collection", "Report export approval", "Manual launch-ready override"],
+    },
   ],
   standingRules: [
     "Do not create production migrations before backend choice and policy gates are accepted.",
@@ -664,6 +682,7 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
     "Local companion release gate records must block closed handoff until installer, update, backup, export, media rights, QR fallback, game/audio reporting, and school policy requirements are complete.",
     "Pilot evidence packet records must block live evidence upload and signed approval capture until identity, storage, retention, and release-control policy are accepted.",
     "Teacher dry-run rehearsal records must preserve rehearsal evidence while blocking real learner data, live progress, report export, and student launch.",
+    "Classroom launch gate records must keep live classroom launch blocked until source gates, school policy, and accepted persistence pass.",
     "Every migration candidate needs rollback or export expectations before implementation.",
   ],
 };

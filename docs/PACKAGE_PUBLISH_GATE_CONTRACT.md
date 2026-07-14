@@ -98,6 +98,8 @@ It is derived from the package publish gate, approval ledger, pilot evidence pac
 
 This gate is not a launch workflow. It cannot invite students, create a live class, store learner records, export reports, or approve a pilot.
 
+The backend-neutral record is `classroom_launch_gate` / `classroom-launch-gate`. Hosted and local implementations must preserve source gate references, required-before-launch items, launch-blocked status, policy blockers, persistence blockers, real-learner-data blocks, and report-export blocks before any live classroom launch workflow exists.
+
 ## Required Blocking Areas Before Real Pilot
 
 A real pilot package requires closure on:

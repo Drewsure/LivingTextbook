@@ -858,6 +858,44 @@ export const sampleBackendSchemaDraft: BackendSchemaDraft = {
       migrationNote:
         "Dry-run rehearsal records preserve teacher-only preflight evidence. Hosted and local implementations must keep launch, real learner data, live progress, and report export blocked until classroom policy and release-control gates pass.",
     },
+    {
+      entityId: "classroom_launch_gate",
+      label: "Classroom launch gate",
+      status: "required-before-pilot",
+      deploymentFit: "hybrid",
+      purpose:
+        "Stores the final pre-launch go/no-go boundary that keeps teacher dry-run evidence separate from live classroom launch.",
+      fields: [
+        { name: "classroom_launch_gate_id", type: "stable id", required: true, note: "One launch gate snapshot per release candidate." },
+        { name: "tenant_id", type: "foreign key/string", required: true, note: "Tenant boundary for launch gate records." },
+        { name: "package_id", type: "foreign key/string", required: true, note: "Package or handoff candidate under classroom launch review." },
+        { name: "release_candidate_id", type: "foreign key/string", required: true, note: "Release candidate this gate belongs to." },
+        { name: "source_gate_ids", type: "json/string array", required: true, note: "References publish gate, approval ledger, evidence packet, and dry-run rehearsal sources." },
+        { name: "required_before_launch", type: "json/child records", required: true, note: "Release, approval, evidence, dry-run, policy, and persistence items still required." },
+        { name: "blocked_actions", type: "json/string array", required: true, note: "Live student launch, learner data, report export, and pilot approval blocks." },
+        { name: "launch_status", type: "enum/string", required: true, note: "Launch blocked, needs policy, or future launch-ready status." },
+        { name: "live_classroom_launch_allowed", type: "boolean", required: true, note: "False until all source gates, policy, and persistence pass." },
+        { name: "real_learner_data_allowed", type: "boolean", required: true, note: "False until school policy and durable storage are accepted." },
+        { name: "report_export_allowed", type: "boolean", required: true, note: "False until report policy, retention, access, and export rules are accepted." },
+      ],
+      relationships: [
+        "Belongs to package release candidate",
+        "Summarizes package publish gate",
+        "Summarizes package approval ledger",
+        "Summarizes pilot evidence packet",
+        "Summarizes teacher dry-run rehearsal",
+      ],
+      indexes: [
+        "tenant_id + package_id",
+        "classroom_launch_gate_id unique",
+        "tenant_id + release_candidate_id",
+        "launch_status",
+        "live_classroom_launch_allowed",
+      ],
+      forbiddenFields: ["Launch button state", "Manual launch-ready override", "Real learner name", "Raw learner audio", "Learner transcript", "Report export approval"],
+      migrationNote:
+        "Classroom launch gate records preserve the final go/no-go boundary. Hosted and local implementations must keep live launch, real learner data, and report export blocked until source gates, policy, and persistence pass.",
+    },
   ],
   crossCuttingRules: [
     "Every record belongs to a tenant or to a tenant-owned package release.",
@@ -878,6 +916,7 @@ export const sampleBackendSchemaDraft: BackendSchemaDraft = {
     "Local companion release gates must block closed handoff until installer, update, backup, export, QR fallback, media rights, game audio/reporting, and school access policies are accepted.",
     "Pilot evidence packets must preserve release proof metadata while blocking live evidence upload and signed approval capture until identity, retention, storage, and policy are accepted.",
     "Teacher dry-run rehearsals must preserve teacher-only route, game/audio, media/support-language, report, and local fallback checks while blocking real learner data, live progress, report export, and student launch.",
+    "Classroom launch gates must preserve launch-blocked status, source gate references, policy blockers, persistence blockers, real-learner-data blocks, and report-export blocks before live classroom launch.",
     "Support language never unlocks target-language progression.",
     "AI Tutor and speech scoring stay premium-gated and disabled unless tenant policy accepts them.",
     "Local and hosted implementations must preserve the same record vocabulary.",

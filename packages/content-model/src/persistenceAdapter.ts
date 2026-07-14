@@ -70,6 +70,10 @@ export interface PersistenceWriteIntent {
   blocksStudentLaunchAction?: boolean;
   blocksRealLearnerDataCollection?: boolean;
   blocksLiveReportExport?: boolean;
+  preservesClassroomLaunchGate?: boolean;
+  blocksLiveClassroomLaunch?: boolean;
+  blocksLaunchWithoutPolicy?: boolean;
+  blocksLaunchWithoutPersistence?: boolean;
   note: string;
 }
 
@@ -362,6 +366,22 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "teacher-dry-run-rehearsal" && !intent.blocksLiveReportExport) {
       errors.push(`Teacher dry-run rehearsal write intent ${intent.intentId} must block live report export.`);
+    }
+
+    if (intent.category === "classroom-launch-gate" && !intent.preservesClassroomLaunchGate) {
+      errors.push(`Classroom launch gate write intent ${intent.intentId} must preserve launch gate status, blockers, and source references.`);
+    }
+
+    if (intent.category === "classroom-launch-gate" && !intent.blocksLiveClassroomLaunch) {
+      errors.push(`Classroom launch gate write intent ${intent.intentId} must block live classroom launch.`);
+    }
+
+    if (intent.category === "classroom-launch-gate" && !intent.blocksLaunchWithoutPolicy) {
+      errors.push(`Classroom launch gate write intent ${intent.intentId} must block launch without school policy.`);
+    }
+
+    if (intent.category === "classroom-launch-gate" && !intent.blocksLaunchWithoutPersistence) {
+      errors.push(`Classroom launch gate write intent ${intent.intentId} must block launch without accepted persistence.`);
     }
 
     if (intent.intentId.includes("package-audio-coverage") && !intent.preservesGameAudioCoverageSnapshot) {

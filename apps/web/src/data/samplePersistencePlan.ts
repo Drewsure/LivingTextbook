@@ -45,7 +45,8 @@ export type PersistenceBoundaryCategory =
   | "package-publish-gate"
   | "package-approval-ledger"
   | "pilot-evidence-packet"
-  | "teacher-dry-run-rehearsal";
+  | "teacher-dry-run-rehearsal"
+  | "classroom-launch-gate";
 
 export interface PersistenceBoundary {
   boundaryId: string;
@@ -671,6 +672,27 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     recommendedFirstPilotStore: ["hosted-database", "local-classroom-store", "school-policy"],
     note: "The dry-run rehearsal must become durable before a classroom pilot so route, game/audio, media/support-language, report, and local fallback checks are auditable without collecting real learner data or exporting reports.",
   },
+  {
+    recordId: "classroom-launch-gate-record",
+    category: "classroom-launch-gate",
+    label: "Classroom launch gate record",
+    readiness: "durable-required",
+    sourceOfTruth: "ClassroomLaunchGate, PackagePublishGate, PackageApprovalLedger, PilotEvidencePacket, TeacherDryRunRehearsal, blocked launch actions",
+    requiredBeforePilot: true,
+    containsStudentData: false,
+    containsMediaRights: false,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesClassroomLaunchGate: true,
+    blocksLiveClassroomLaunch: true,
+    blocksLaunchWithoutPolicy: true,
+    blocksLaunchWithoutPersistence: true,
+    blocksRealLearnerDataCollection: true,
+    blocksLiveReportExport: true,
+    recommendedFirstPilotStore: ["hosted-database", "local-classroom-store", "school-policy"],
+    note: "The classroom launch gate must become durable before live classroom launch so go/no-go status, source gate references, policy blockers, persistence blockers, learner-data blocks, and report-export blocks are auditable.",
+  },
 ];
 
 export const sampleDurableRecordErrors = validateDurableRecordContracts(sampleDurableRecordContracts);
@@ -1104,6 +1126,18 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     visibleTo: ["Teacher", "Tenant admin", "Platform admin", "School admin"],
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision: "Store teacher dry-run rehearsal metadata before live classroom launch, real learner data collection, report export, or pilot-ready status changes.",
+  },
+  {
+    boundaryId: "classroom-launch-gate-boundary",
+    category: "classroom-launch-gate",
+    label: "Classroom launch gate records",
+    status: "needs-backend",
+    recordShape: "Launch gate id, package id, release candidate, source gate ids, required before launch, blocked actions, launch status, live launch block",
+    whyItMatters:
+      "The classroom launch gate is the final hard stop before children use a package; it needs durable go/no-go evidence without becoming a launch button.",
+    visibleTo: ["Teacher", "Tenant admin", "Platform admin", "School admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision: "Store classroom launch gate metadata before live classroom launch, real learner data collection, report export, or launch-ready status changes.",
   },
 ];
 

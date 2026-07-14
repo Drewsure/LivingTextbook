@@ -34,7 +34,8 @@ export type PersistenceRecordCategory =
   | "package-publish-gate"
   | "package-approval-ledger"
   | "pilot-evidence-packet"
-  | "teacher-dry-run-rehearsal";
+  | "teacher-dry-run-rehearsal"
+  | "classroom-launch-gate";
 
 export type PersistenceRecordReadiness =
   | "static-demo"
@@ -112,6 +113,10 @@ export interface DurableRecordContract {
   blocksStudentLaunchAction?: boolean;
   blocksRealLearnerDataCollection?: boolean;
   blocksLiveReportExport?: boolean;
+  preservesClassroomLaunchGate?: boolean;
+  blocksLiveClassroomLaunch?: boolean;
+  blocksLaunchWithoutPolicy?: boolean;
+  blocksLaunchWithoutPersistence?: boolean;
   recommendedFirstPilotStore: PersistenceStorageTier[];
   note: string;
 }
@@ -369,6 +374,22 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "teacher-dry-run-rehearsal" && !record.blocksLiveReportExport) {
       errors.push(`Teacher dry-run rehearsal record ${record.recordId} must block live report export.`);
+    }
+
+    if (record.category === "classroom-launch-gate" && !record.preservesClassroomLaunchGate) {
+      errors.push(`Classroom launch gate record ${record.recordId} must preserve launch gate status, blockers, and source references.`);
+    }
+
+    if (record.category === "classroom-launch-gate" && !record.blocksLiveClassroomLaunch) {
+      errors.push(`Classroom launch gate record ${record.recordId} must block live classroom launch.`);
+    }
+
+    if (record.category === "classroom-launch-gate" && !record.blocksLaunchWithoutPolicy) {
+      errors.push(`Classroom launch gate record ${record.recordId} must block launch without school policy.`);
+    }
+
+    if (record.category === "classroom-launch-gate" && !record.blocksLaunchWithoutPersistence) {
+      errors.push(`Classroom launch gate record ${record.recordId} must block launch without accepted persistence.`);
     }
 
     if (record.supportsLocalDeployment && !record.recommendedFirstPilotStore.includes("local-classroom-store")) {
