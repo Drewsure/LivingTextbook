@@ -12,6 +12,8 @@ export type PersistenceRecordCategory =
   | "upload-promotion"
   | "game-asset-manifest"
   | "label-anchor-record"
+  | "template-rendering-profile"
+  | "font-accessibility-profile"
   | "tenant-library-item"
   | "route-registry"
   | "launch-session"
@@ -86,6 +88,10 @@ export interface DurableRecordContract {
   preservesLabelAnchorRecords?: boolean;
   requiresLabelAudioCoverage?: boolean;
   blocksSupportLanguageProgress?: boolean;
+  preservesTemplateRenderingProfile?: boolean;
+  blocksUnsafeTemplateRendering?: boolean;
+  preservesFontAccessibilityProfile?: boolean;
+  blocksUnapprovedFontUse?: boolean;
   preservesMediaPlaylistBinding?: boolean;
   blocksMediaOnlyProgress?: boolean;
   preservesBackgroundMediaPolicy?: boolean;
@@ -260,6 +266,22 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "label-anchor-record" && !record.blocksSupportLanguageProgress) {
       errors.push(`Label anchor record ${record.recordId} must block support-language progress triggers.`);
+    }
+
+    if (record.category === "template-rendering-profile" && !record.preservesTemplateRenderingProfile) {
+      errors.push(`Template rendering profile record ${record.recordId} must preserve template rendering controls.`);
+    }
+
+    if (record.category === "template-rendering-profile" && !record.blocksUnsafeTemplateRendering) {
+      errors.push(`Template rendering profile record ${record.recordId} must block unsafe template rendering.`);
+    }
+
+    if (record.category === "font-accessibility-profile" && !record.preservesFontAccessibilityProfile) {
+      errors.push(`Font accessibility profile record ${record.recordId} must preserve font accessibility controls.`);
+    }
+
+    if (record.category === "font-accessibility-profile" && !record.blocksUnapprovedFontUse) {
+      errors.push(`Font accessibility profile record ${record.recordId} must block unapproved font use.`);
     }
 
     if (record.category === "media-playlist-binding" && !record.preservesMediaPlaylistBinding) {

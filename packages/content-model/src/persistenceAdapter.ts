@@ -49,6 +49,10 @@ export interface PersistenceWriteIntent {
   preservesLabelAnchorRecords?: boolean;
   requiresLabelAudioCoverage?: boolean;
   blocksSupportLanguageProgress?: boolean;
+  preservesTemplateRenderingProfile?: boolean;
+  blocksUnsafeTemplateRendering?: boolean;
+  preservesFontAccessibilityProfile?: boolean;
+  blocksUnapprovedFontUse?: boolean;
   preservesMediaPlaylistBinding?: boolean;
   blocksMediaOnlyProgress?: boolean;
   preservesBackgroundMediaPolicy?: boolean;
@@ -258,6 +262,22 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "label-anchor-record" && !intent.blocksSupportLanguageProgress) {
       errors.push(`Label anchor write intent ${intent.intentId} must block support-language progress triggers.`);
+    }
+
+    if (intent.category === "template-rendering-profile" && !intent.preservesTemplateRenderingProfile) {
+      errors.push(`Template rendering profile write intent ${intent.intentId} must preserve template rendering controls.`);
+    }
+
+    if (intent.category === "template-rendering-profile" && !intent.blocksUnsafeTemplateRendering) {
+      errors.push(`Template rendering profile write intent ${intent.intentId} must block unsafe template rendering.`);
+    }
+
+    if (intent.category === "font-accessibility-profile" && !intent.preservesFontAccessibilityProfile) {
+      errors.push(`Font accessibility profile write intent ${intent.intentId} must preserve font accessibility controls.`);
+    }
+
+    if (intent.category === "font-accessibility-profile" && !intent.blocksUnapprovedFontUse) {
+      errors.push(`Font accessibility profile write intent ${intent.intentId} must block unapproved font use.`);
     }
 
     if (intent.category === "media-playlist-binding" && !intent.preservesMediaPlaylistBinding) {

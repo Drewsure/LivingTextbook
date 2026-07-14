@@ -19,6 +19,8 @@ const requiredSchemaEntities = [
   "upload_promotion_gate",
   "game_asset_manifest",
   "label_anchor_record",
+  "template_rendering_profile",
+  "font_accessibility_profile",
   "teacher_draft_review_decision",
   "teacher_draft_review_evidence",
   "teacher_draft_review_audit",
@@ -52,6 +54,8 @@ const requiredMigrationCandidates = [
   "m023-upload-promotion-gates",
   "m024-game-asset-manifests",
   "m025-label-anchor-records",
+  "m029-template-rendering-profiles",
+  "m030-font-accessibility-profiles",
   "m017-teacher-draft-review-decision-records",
   "m018-teacher-draft-review-evidence-records",
   "m019-teacher-draft-review-audit-records",
@@ -88,6 +92,8 @@ const requiredMigrationSpecs = [
   "spec-upload-promotion-gate",
   "spec-game-asset-manifest",
   "spec-label-anchor-record",
+  "spec-template-rendering-profile",
+  "spec-font-accessibility-profile",
   "spec-teacher-draft-review-decision",
   "spec-teacher-draft-review-evidence",
   "spec-teacher-draft-review-audit",
@@ -143,6 +149,20 @@ requireText(schemaDraft, "label_anchor_record", "Backend schema must include lab
 requireText(schemaDraft, "target_language_label", "Backend schema must preserve target-language label text.");
 requireText(schemaDraft, "label_audio_cue_id", "Backend schema must require label audio cue ids.");
 requireText(schemaDraft, "support_language_progress_allowed", "Backend schema must block support-language progress triggers.");
+requireText(schemaDraft, "template_rendering_profile", "Backend schema must include template rendering profiles.");
+requireText(schemaDraft, "source_template", "Backend schema must preserve template source identity.");
+requireText(schemaDraft, "compatible_game_families", "Backend schema must preserve curated compatible game families.");
+requireText(schemaDraft, "row_shape_policy", "Backend schema must preserve template row shape policies.");
+requireText(schemaDraft, "layout_constraints", "Backend schema must preserve template layout constraints.");
+requireText(schemaDraft, "student_facing_rendering_allowed", "Backend schema must block student-facing rendering profiles.");
+requireText(schemaDraft, "font_accessibility_profile", "Backend schema must include font accessibility profiles.");
+requireText(schemaDraft, "approved_learner_font", "Backend schema must preserve approved learner fonts.");
+requireText(schemaDraft, "tenant_font_pack", "Backend schema must preserve tenant font packs.");
+requireText(schemaDraft, "language_rendering_rules", "Backend schema must preserve multilingual rendering rules.");
+requireText(schemaDraft, "readability_checks", "Backend schema must preserve font readability checks.");
+requireText(schemaDraft, "student_facing_font_allowed", "Backend schema must block student-facing font profiles.");
+requireText(schemaDraft, "Arbitrary teacher font upload", "Backend schema must block arbitrary teacher font upload.");
+requireText(schemaDraft, "Broken hiragana/furigana rendering", "Backend schema must block unsafe hiragana/furigana rendering.");
 requireText(schemaDraft, "teacher_draft_review_decision", "Backend schema must include teacher draft reviewer decisions.");
 requireText(schemaDraft, "evidence_required", "Backend schema must preserve reviewer decision evidence requirements.");
 requireText(schemaDraft, "state_change_allowed", "Backend schema must preserve reviewer decision state-change blocks.");
@@ -193,6 +213,12 @@ requireText(migrationSpecs, "spec-label-anchor-record", "Migration specs must in
 requireText(migrationSpecs, "target_language_label", "Migration specs must preserve target-language labels.");
 requireText(migrationSpecs, "label_audio_cue_id", "Migration specs must require label audio cue ids.");
 requireText(migrationSpecs, "support_language_progress_allowed", "Migration specs must block support-language progress triggers.");
+requireText(migrationSpecs, "spec-template-rendering-profile", "Migration specs must include template rendering profiles.");
+requireText(migrationSpecs, "template_profile_id", "Migration specs must preserve template rendering profile ids.");
+requireText(migrationSpecs, "student_facing_rendering_allowed", "Migration specs must block student-facing rendering profiles.");
+requireText(migrationSpecs, "spec-font-accessibility-profile", "Migration specs must include font accessibility profiles.");
+requireText(migrationSpecs, "font_profile_id", "Migration specs must preserve font profile ids.");
+requireText(migrationSpecs, "student_facing_font_allowed", "Migration specs must block student-facing font profiles.");
 requireText(migrationSpecs, "spec-teacher-draft-review-decision", "Migration specs must include teacher draft reviewer decisions.");
 requireText(migrationSpecs, "reviewer_id", "Migration specs must preserve reviewer identity.");
 requireText(migrationSpecs, "state_change_allowed", "Migration specs must preserve reviewer decision state-change blocks.");
@@ -251,6 +277,14 @@ requireText(persistenceAdapter, "local-label-anchor-write", "Persistence adapter
 requireText(persistenceAdapter, "preservesLabelAnchorRecords: true", "Persistence adapter must preserve label anchor records.");
 requireText(persistenceAdapter, "requiresLabelAudioCoverage: true", "Persistence adapter must require label audio coverage.");
 requireText(persistenceAdapter, "blocksSupportLanguageProgress: true", "Persistence adapter must block support-language progress triggers.");
+requireText(persistenceAdapter, "hosted-template-rendering-profile-write", "Persistence adapter must include hosted template rendering profile writes.");
+requireText(persistenceAdapter, "local-template-rendering-profile-write", "Persistence adapter must include local template rendering profile writes.");
+requireText(persistenceAdapter, "preservesTemplateRenderingProfile: true", "Persistence adapter must preserve template rendering profiles.");
+requireText(persistenceAdapter, "blocksUnsafeTemplateRendering: true", "Persistence adapter must block unsafe template rendering.");
+requireText(persistenceAdapter, "hosted-font-accessibility-profile-write", "Persistence adapter must include hosted font accessibility profile writes.");
+requireText(persistenceAdapter, "local-font-accessibility-profile-write", "Persistence adapter must include local font accessibility profile writes.");
+requireText(persistenceAdapter, "preservesFontAccessibilityProfile: true", "Persistence adapter must preserve font accessibility profiles.");
+requireText(persistenceAdapter, "blocksUnapprovedFontUse: true", "Persistence adapter must block unapproved font use.");
 requireText(persistenceAdapter, "hosted-teacher-draft-review-decision-write", "Persistence adapter must include hosted teacher draft reviewer decision writes.");
 requireText(persistenceAdapter, "local-teacher-draft-review-decision-write", "Persistence adapter must include local teacher draft reviewer decision writes.");
 requireText(persistenceAdapter, "preservesReviewerEvidenceRequirements: true", "Persistence adapter must preserve reviewer evidence requirements.");
@@ -314,6 +348,12 @@ requireText(durableRecords, "label-anchor-record", "Durable record plan must inc
 requireText(durableRecords, "preservesLabelAnchorRecords: true", "Durable record plan must preserve label anchor records.");
 requireText(durableRecords, "requiresLabelAudioCoverage: true", "Durable record plan must require label audio coverage.");
 requireText(durableRecords, "blocksSupportLanguageProgress: true", "Durable record plan must block support-language progress triggers.");
+requireText(durableRecords, "template-rendering-profile-record", "Durable record plan must include template rendering profiles.");
+requireText(durableRecords, "preservesTemplateRenderingProfile: true", "Durable record plan must preserve template rendering profiles.");
+requireText(durableRecords, "blocksUnsafeTemplateRendering: true", "Durable record plan must block unsafe template rendering.");
+requireText(durableRecords, "font-accessibility-profile-record", "Durable record plan must include font accessibility profiles.");
+requireText(durableRecords, "preservesFontAccessibilityProfile: true", "Durable record plan must preserve font accessibility profiles.");
+requireText(durableRecords, "blocksUnapprovedFontUse: true", "Durable record plan must block unapproved font use.");
 requireText(durableRecords, "teacher-draft-review-decision-record", "Durable record plan must include teacher draft reviewer decisions.");
 requireText(durableRecords, "preservesReviewerEvidenceRequirements: true", "Durable record plan must preserve reviewer evidence requirements.");
 requireText(durableRecords, "blocksReviewerStateChange: true", "Durable record plan must block reviewer state changes.");

@@ -24,6 +24,8 @@ export type PersistenceBoundaryCategory =
   | "upload-promotion"
   | "game-asset-manifest"
   | "label-anchor-record"
+  | "template-rendering-profile"
+  | "font-accessibility-profile"
   | "tenant-library-item"
   | "route-registry"
   | "launch-session"
@@ -238,6 +240,40 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     blocksStudentFacingGameAssetUse: true,
     recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
     note: "Label anchor records need durable target-language labels, reviewed anchor coordinates, tap-to-speak label audio, and support-language support-only flags before Labelled Diagram activities can be assigned.",
+  },
+  {
+    recordId: "template-rendering-profile-record",
+    category: "template-rendering-profile",
+    label: "Template rendering profile record",
+    readiness: "durable-required",
+    sourceOfTruth: "ContentEntryOptionScaffold, template_rendering_profile, cross-game upload guide, activity compatibility snapshots",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: false,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesTemplateRenderingProfile: true,
+    blocksUnsafeTemplateRendering: true,
+    recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
+    note: "Template rendering profiles need durable source template, compatible game families, row shape, media slot, layout, and student-facing block records before Flip Tiles-style content entry can be reused across games.",
+  },
+  {
+    recordId: "font-accessibility-profile-record",
+    category: "font-accessibility-profile",
+    label: "Font accessibility profile record",
+    readiness: "durable-required",
+    sourceOfTruth: "ContentEntryOptionScaffold, font_accessibility_profile, tenant font pack, approved learner font, language rendering rules",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesFontAccessibilityProfile: true,
+    blocksUnapprovedFontUse: true,
+    recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
+    note: "Font accessibility profiles need durable approved learner fonts, tenant font packs, language rendering rules, readability checks, license status, and student-facing blocks before live font controls are enabled.",
   },
   {
     recordId: "teacher-draft-review-decision-record",
@@ -710,6 +746,30 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     visibleTo: ["Teacher", "Tenant admin", "Content reviewer", "Publisher media owner", "Platform admin"],
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision: "Persist label anchor records before enabling live label editing, auto-generated labels, image-game assignment, or support-language-triggered progress.",
+  },
+  {
+    boundaryId: "template-rendering-profile-boundary",
+    category: "template-rendering-profile",
+    label: "Template rendering profiles",
+    status: "needs-backend",
+    recordShape: "Template profile id, tenant, source template, compatible game families, row shape policy, media slot policy, layout constraints, compatibility review status, student-facing rendering block",
+    whyItMatters:
+      "Flip Tiles gives a useful source authoring template, but cross-game reuse needs durable rendering profiles so templates cannot switch, overflow, or accept unsafe media slots by accident.",
+    visibleTo: ["Teacher", "Tenant admin", "Content reviewer", "Platform admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision: "Persist template rendering profiles before enabling live cross-game authoring, template switching, tenant skins, or printable rendering controls.",
+  },
+  {
+    boundaryId: "font-accessibility-profile-boundary",
+    category: "font-accessibility-profile",
+    label: "Font accessibility profiles",
+    status: "needs-backend",
+    recordShape: "Font profile id, tenant, approved learner font, tenant font pack, language rendering rules, readability checks, license status, review status, student-facing font block",
+    whyItMatters:
+      "White-label tenants need brand fonts, but children need readable, licensed, language-safe fonts that preserve hiragana/furigana, tile layout, contrast, wrapping, and printability.",
+    visibleTo: ["Tenant admin", "Content reviewer", "Platform admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision: "Persist font accessibility profiles before enabling tenant font packs, live font controls, local font bundles, or student-facing brand typography.",
   },
   {
     boundaryId: "teacher-draft-review-decision-boundary",

@@ -2,7 +2,7 @@
 
 Document type: foundation data contract  
 Status: active scaffold  
-Last updated: 2026-07-13
+Last updated: 2026-07-14
 
 ## Purpose
 
@@ -29,6 +29,18 @@ The current draft includes:
 - Tenant
 - Package release
 - Teacher draft package
+- Teacher draft review handoff
+- Teacher draft verifier submission
+- Upload intake asset
+- Upload review decision
+- Upload promotion gate
+- Game asset manifest
+- Label anchor record
+- Template rendering profile
+- Font accessibility profile
+- Teacher draft reviewer decision
+- Teacher draft review evidence
+- Teacher draft review audit
 - Tenant library item
 - Package game/audio coverage
 - Route alias and QR registry
@@ -66,6 +78,8 @@ Each entity should name:
 - Earned collection inventory stores deterministic mastery-earned ownership only; random reward pressure and paid gacha-like ownership are forbidden.
 - Teacher draft packages preserve owner, source lineage, visibility, draft payload, requested activity path, review gates, audio plan state, and direct-assignment blocks before becoming package releases.
 - Tenant library items preserve source lineage, block student-data copies, and block public community publishing for v1.
+- Template rendering profiles preserve source templates, compatible game families, row/media slot policies, layout constraints, and student-facing rendering blocks before cross-game upload patterns or printables go live.
+- Font accessibility profiles preserve approved learner fonts, tenant font packs, multilingual rendering rules, readability checks, license status, and student-facing font blocks before font controls go live.
 - Progress events and collection inventory must preserve support-only boundaries so assist language, media, or route guidance cannot unlock mastery.
 - Support language never unlocks target-language progression.
 - AI Tutor and speech scoring stay premium-gated and disabled unless tenant policy accepts them.
