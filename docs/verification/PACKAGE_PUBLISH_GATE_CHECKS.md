@@ -25,6 +25,10 @@ Use after pulling the latest `legacy-source-import` branch and running local typ
 15. The gate keeps optional AI Tutor and speech scoring tenant-gated and cost-visible.
 16. The panel uses the existing app shell, tenant styling variables, card rhythm, and status-pill primitives.
 17. No premium polish or mascot-specific visuals are introduced by this gate.
+18. The teacher intake page renders a `Publisher pilot readiness summary` derived from the package publish gate.
+19. The summary clearly separates `Demo-ready now`, `Pilot blockers`, `Missing evidence`, and `Still not allowed`.
+20. The summary displays `Source of truth: package publish gate` and `No publish action`.
+21. The summary does not duplicate or replace release-control data with a second hand-maintained source of truth.
 
 ## Build Verification
 

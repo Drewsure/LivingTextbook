@@ -182,6 +182,7 @@
 - `DR-208-draft-profile-binding-preview.md`
 - `DR-209-activity-compatibility-snapshot-storage-contract.md`
 - `DR-210-publish-gate-profile-compatibility-readiness.md`
+- `DR-211-publisher-pilot-readiness-summary.md`
 
 ## Maintenance Rule
 

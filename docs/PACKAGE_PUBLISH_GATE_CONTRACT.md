@@ -19,7 +19,9 @@ Review at:
 Current files:
 
 - `apps/web/src/data/samplePackagePublishGate.ts`
+- `apps/web/src/data/samplePilotReadinessSummary.ts`
 - `apps/web/src/features/pilot/PackagePublishGatePanel.tsx`
+- `apps/web/src/features/pilot/PilotReadinessSummaryPanel.tsx`
 - `apps/web/src/app/teacher/intake/page.tsx`
 
 ## Gate Domains
@@ -50,6 +52,17 @@ Each item records:
 Demo-ready is not pilot-publishable.
 
 A package may be shown as a controlled demo while review gates are open. It cannot be marked pilot-publishable while any release-blocking item is blocked or still needs review.
+
+## Publisher Readiness Summary
+
+The `Publisher pilot readiness summary` is a non-technical view derived from the package publish gate. It groups the same source data into:
+
+- demo-ready now,
+- pilot blockers,
+- missing evidence,
+- still-not-allowed promises.
+
+This summary is useful for partner conversations, but it is not a publish action and cannot override the package publish gate. The package publish gate remains the source of truth.
 
 ## Required Blocking Areas Before Real Pilot
 
@@ -95,3 +108,4 @@ The gate is useful when a future engineer, agent, teacher, or publisher can answ
 - What must be reviewed before real students use it?
 - Which promises are still forbidden?
 - What changes when persistence and policy are accepted?
+- Can a publisher understand what is demo-ready without mistaking it for pilot approval?

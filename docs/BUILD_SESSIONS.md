@@ -362,6 +362,7 @@ Next outputs:
 - Confirm `/teacher/authoring/draft-sample-publisher-l1-u1` shows draft profile bindings before live draft template switching, printable rendering, or tenant font configuration is enabled.
 - Confirm backend schema, migration candidates, migration specs, adapter plans, and durable records preserve `activity_compatibility_snapshot` before enabling live teacher pathway changes, extra template conversions, or printable switching.
 - Confirm package publish gates require reviewed `activity_compatibility_snapshot`, `template_rendering_profile`, and `font_accessibility_profile` records before pilot release.
+- Confirm `/teacher/intake` shows a publisher pilot readiness summary sourced from the package publish gate before partner demos, pilot handoff, or commercial readiness conversations.
 
 ## Session 8: Premium Experience Layer
 

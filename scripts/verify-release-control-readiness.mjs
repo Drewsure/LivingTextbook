@@ -5,6 +5,8 @@ const approvalLedger = readSource("../apps/web/src/data/samplePackageApprovalLed
 const releasePanel = readSource("../apps/web/src/features/pilot/PilotReleaseCandidatePanel.tsx");
 const publishPanel = readSource("../apps/web/src/features/pilot/PackagePublishGatePanel.tsx");
 const approvalPanel = readSource("../apps/web/src/features/pilot/PackageApprovalLedgerPanel.tsx");
+const readinessSummary = readSource("../apps/web/src/data/samplePilotReadinessSummary.ts");
+const readinessSummaryPanel = readSource("../apps/web/src/features/pilot/PilotReadinessSummaryPanel.tsx");
 const backendSchema = readSource("../apps/web/src/data/sampleBackendSchemaDraft.ts");
 const migrationSpecs = readSource("../apps/web/src/data/sampleBackendMigrationSpecs.ts");
 const routeVerifier = readSource("./verify-active-routes.mjs");
@@ -56,12 +58,23 @@ requireText(releasePanel, "blockingGateCount === 0 && requiredApprovalOpenCount 
 requireText(releasePanel, "not a production publish button", "Release candidate panel must avoid implying production publishing.");
 requireText(publishPanel, "Do not publish yet", "Publish gate panel must display do-not-publish status while blockers remain.");
 requireText(approvalPanel, "Approvals open", "Approval ledger panel must show open approval status while signoffs remain.");
+requireText(readinessSummary, "samplePackagePublishGate", "Pilot readiness summary must derive from the package publish gate source.");
+requireText(readinessSummary, "Publisher pilot readiness summary", "Pilot readiness summary must expose a publisher-facing summary title.");
+requireText(readinessSummary, "Source of truth: package publish gate", "Pilot readiness summary must name the package publish gate as source of truth.");
+requireText(readinessSummary, "No publish action", "Pilot readiness summary must make clear it is not a publish action.");
+requireText(readinessSummary, "status === \"ready\"", "Pilot readiness summary must derive demo-ready gates from ready gate status.");
+requireText(readinessSummary, "item.blocksRelease && item.status !== \"ready\"", "Pilot readiness summary must derive pilot blockers from release-blocking non-ready gates.");
+requireText(readinessSummaryPanel, "Demo-ready now", "Pilot readiness summary panel must show controlled-demo evidence.");
+requireText(readinessSummaryPanel, "Pilot blockers", "Pilot readiness summary panel must show release-blocking issues.");
+requireText(readinessSummaryPanel, "Missing evidence", "Pilot readiness summary panel must show missing evidence.");
+requireText(readinessSummaryPanel, "Still not allowed", "Pilot readiness summary panel must show forbidden promises.");
 requireText(backendSchema, "package_release_candidate", "Backend schema must include package release candidate record.");
 requireText(backendSchema, "package_publish_gate", "Backend schema must include package publish gate record.");
 requireText(backendSchema, "package_approval_ledger", "Backend schema must include package approval ledger record.");
 requireText(migrationSpecs, "spec-package-release-candidate", "Migration specs must include package release candidate status.");
 requireText(routeVerifier, "Pilot release candidate", "Active route verifier must keep pilot release candidate visible.");
 requireText(routeVerifier, "Package publish gate", "Active route verifier must keep publish gate visible.");
+requireText(routeVerifier, "Publisher pilot readiness summary", "Active route verifier must keep publisher readiness summary visible.");
 
 if (failures.length > 0) {
   for (const failure of failures) {
