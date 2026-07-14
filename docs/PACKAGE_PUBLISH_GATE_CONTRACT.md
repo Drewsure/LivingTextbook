@@ -23,11 +23,13 @@ Current files:
 - `apps/web/src/data/samplePilotLaunchChecklist.ts`
 - `apps/web/src/data/samplePilotReadinessSummary.ts`
 - `apps/web/src/data/sampleTeacherDryRunRehearsal.ts`
+- `apps/web/src/data/sampleClassroomLaunchGate.ts`
 - `apps/web/src/features/pilot/PackagePublishGatePanel.tsx`
 - `apps/web/src/features/pilot/PilotEvidencePacketPanel.tsx`
 - `apps/web/src/features/pilot/PilotLaunchChecklistPanel.tsx`
 - `apps/web/src/features/pilot/PilotReadinessSummaryPanel.tsx`
 - `apps/web/src/features/pilot/TeacherDryRunRehearsalPanel.tsx`
+- `apps/web/src/features/pilot/ClassroomLaunchGatePanel.tsx`
 - `apps/web/src/app/teacher/intake/page.tsx`
 
 ## Gate Domains
@@ -88,6 +90,14 @@ The `Teacher dry-run rehearsal preview` turns the pilot launch checklist into a 
 
 It can rehearse entry codes, QR/front-door routes, flashcards, target-language unlocks, game audio, support-language limits, media playlists, teacher reports, and local fallback expectations. It is dry-run evidence only: it cannot collect real learner data, store live progress, export reports, upload evidence, or approve a classroom pilot.
 
+## Classroom Launch Gate
+
+The `Classroom launch gate preview` is the final foundation boundary between teacher rehearsal and real student use.
+
+It is derived from the package publish gate, approval ledger, pilot evidence packet, and teacher dry-run rehearsal. It shows `Launch blocked`, `No live student session`, `No launch button`, `Real learner data blocked`, and `Report export still blocked` until release, policy, evidence, dry-run, and persistence obligations are closed.
+
+This gate is not a launch workflow. It cannot invite students, create a live class, store learner records, export reports, or approve a pilot.
+
 ## Required Blocking Areas Before Real Pilot
 
 A real pilot package requires closure on:
@@ -124,6 +134,7 @@ A real pilot package requires closure on:
 - This scaffold does not accept evidence uploads or signed approvals.
 - This scaffold does not launch classroom pilots.
 - This scaffold does not collect real learner data during teacher dry runs.
+- This scaffold does not expose a live classroom launch button.
 
 ## Acceptance Criteria
 
@@ -138,3 +149,4 @@ The gate is useful when a future engineer, agent, teacher, or publisher can answ
 - Can a publisher understand what is demo-ready without mistaking it for pilot approval?
 - Can the team explain what remains before a classroom dry run and real pilot launch?
 - Can a teacher rehearse routes, games, audio, media, support-language limits, reporting, and local fallback without triggering live student workflows?
+- Can the team see the final launch boundary before real children, real learner records, or report exports are enabled?

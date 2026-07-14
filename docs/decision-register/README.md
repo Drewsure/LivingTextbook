@@ -189,6 +189,7 @@
 - `DR-215-teacher-dry-run-rehearsal-preview.md`
 - `DR-216-teacher-dry-run-rehearsal-storage-contract.md`
 - `DR-217-teacher-dry-run-route.md`
+- `DR-218-classroom-launch-gate-preview.md`
 
 ## Maintenance Rule
 

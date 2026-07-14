@@ -369,6 +369,7 @@ Next outputs:
 - Confirm `/teacher/intake` shows a teacher dry-run rehearsal preview before enabling live classroom launch, real learner data collection, report export, or pilot-ready status changes.
 - Confirm backend schema, migration candidates, migration specs, adapter plans, and durable records preserve `teacher_dry_run_rehearsal` before live classroom launch, real learner data collection, report export, or pilot-ready status changes.
 - Confirm `/teacher/dry-run/sample-publisher-first-handoff-teacher-dry-run` loads before enabling live classroom launch, report export, or pilot-ready status changes.
+- Confirm `/teacher/intake` and `/teacher/dry-run/sample-publisher-first-handoff-teacher-dry-run` show a classroom launch gate preview with `Launch blocked`, `No live student session`, `No launch button`, `Real learner data blocked`, and `Report export still blocked` before any live classroom workflow is implemented.
 
 ## Session 8: Premium Experience Layer
 

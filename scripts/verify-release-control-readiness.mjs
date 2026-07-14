@@ -13,6 +13,8 @@ const launchChecklist = readSource("../apps/web/src/data/samplePilotLaunchCheckl
 const launchChecklistPanel = readSource("../apps/web/src/features/pilot/PilotLaunchChecklistPanel.tsx");
 const teacherDryRun = readSource("../apps/web/src/data/sampleTeacherDryRunRehearsal.ts");
 const teacherDryRunPanel = readSource("../apps/web/src/features/pilot/TeacherDryRunRehearsalPanel.tsx");
+const classroomLaunchGate = readSource("../apps/web/src/data/sampleClassroomLaunchGate.ts");
+const classroomLaunchGatePanel = readSource("../apps/web/src/features/pilot/ClassroomLaunchGatePanel.tsx");
 const backendSchema = readSource("../apps/web/src/data/sampleBackendSchemaDraft.ts");
 const migrationSpecs = readSource("../apps/web/src/data/sampleBackendMigrationSpecs.ts");
 const routeVerifier = readSource("./verify-active-routes.mjs");
@@ -105,6 +107,22 @@ requireText(teacherDryRun, "Report and policy rehearsal", "Teacher dry-run rehea
 requireText(teacherDryRunPanel, "Teacher-only rehearsal", "Teacher dry-run rehearsal panel must be visible.");
 requireText(teacherDryRunPanel, "Dry-run evidence only", "Teacher dry-run rehearsal panel must keep evidence preview-only.");
 requireText(teacherDryRunPanel, "No live workflow", "Teacher dry-run rehearsal panel must block live workflow behavior.");
+requireText(classroomLaunchGate, "samplePackagePublishGate", "Classroom launch gate must derive from the package publish gate.");
+requireText(classroomLaunchGate, "samplePackageApprovalLedger", "Classroom launch gate must derive from the package approval ledger.");
+requireText(classroomLaunchGate, "samplePilotEvidencePacket", "Classroom launch gate must derive from the pilot evidence packet.");
+requireText(classroomLaunchGate, "sampleTeacherDryRunRehearsal", "Classroom launch gate must derive from the teacher dry-run rehearsal.");
+requireText(classroomLaunchGate, "Classroom launch gate preview", "Classroom launch gate must expose a teacher-facing title.");
+requireText(classroomLaunchGate, "Launch blocked", "Classroom launch gate must keep live launch blocked.");
+requireText(classroomLaunchGate, "Dry-run evidence required", "Classroom launch gate must require dry-run/evidence closure.");
+requireText(classroomLaunchGate, "Policy and persistence required", "Classroom launch gate must require policy and persistence closure.");
+requireText(classroomLaunchGate, "No live student session", "Classroom launch gate must block live student sessions.");
+requireText(classroomLaunchGate, "No launch button", "Classroom launch gate must block launch button behavior.");
+requireText(classroomLaunchGate, "Real learner data blocked", "Classroom launch gate must block real learner data.");
+requireText(classroomLaunchGate, "Report export still blocked", "Classroom launch gate must block report export.");
+requireText(classroomLaunchGatePanel, "Classroom launch gate", "Classroom launch gate panel must be visible.");
+requireText(classroomLaunchGatePanel, "Required before launch", "Classroom launch gate panel must show required launch conditions.");
+requireText(classroomLaunchGatePanel, "Blocked actions", "Classroom launch gate panel must show blocked actions.");
+requireText(classroomLaunchGatePanel, "Preview only", "Classroom launch gate panel must stay preview-only.");
 requireText(backendSchema, "package_release_candidate", "Backend schema must include package release candidate record.");
 requireText(backendSchema, "package_publish_gate", "Backend schema must include package publish gate record.");
 requireText(backendSchema, "package_approval_ledger", "Backend schema must include package approval ledger record.");
@@ -115,6 +133,7 @@ requireText(routeVerifier, "Publisher pilot readiness summary", "Active route ve
 requireText(routeVerifier, "Pilot evidence packet", "Active route verifier must keep pilot evidence packet visible.");
 requireText(routeVerifier, "Pilot launch checklist preview", "Active route verifier must keep pilot launch checklist visible.");
 requireText(routeVerifier, "Teacher dry-run rehearsal preview", "Active route verifier must keep teacher dry-run rehearsal visible.");
+requireText(routeVerifier, "Classroom launch gate preview", "Active route verifier must keep classroom launch gate visible.");
 
 if (failures.length > 0) {
   for (const failure of failures) {

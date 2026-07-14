@@ -1,7 +1,9 @@
 import { notFound } from "next/navigation";
 import { Card, StatusPill } from "@living-textbook/ui";
 import { AppShell } from "@/components/layout/AppShell";
+import { sampleClassroomLaunchGate } from "@/data/sampleClassroomLaunchGate";
 import { sampleTeacherDryRunRehearsal } from "@/data/sampleTeacherDryRunRehearsal";
+import { ClassroomLaunchGatePanel } from "@/features/pilot/ClassroomLaunchGatePanel";
 import { TeacherDryRunRehearsalPanel } from "@/features/pilot/TeacherDryRunRehearsalPanel";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 
@@ -68,6 +70,7 @@ export default async function TeacherDryRunPage({ params }: TeacherDryRunPagePro
         </Card>
 
         <TeacherDryRunRehearsalPanel rehearsal={sampleTeacherDryRunRehearsal} />
+        <ClassroomLaunchGatePanel gate={sampleClassroomLaunchGate} />
       </div>
     </AppShell>
   );

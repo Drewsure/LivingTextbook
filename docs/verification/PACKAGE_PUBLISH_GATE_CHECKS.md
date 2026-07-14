@@ -39,6 +39,10 @@ Use after pulling the latest `legacy-source-import` branch and running local typ
 29. The rehearsal shows `No student launch action`, `Teacher-only rehearsal`, `Dry-run evidence only`, and `Do not collect real learner data`.
 30. The rehearsal includes `Entry and route rehearsal`, `Game and audio rehearsal`, `Media and support-language rehearsal`, and `Report and policy rehearsal`.
 31. The rehearsal does not create assignments, store live learner progress, export reports, upload evidence, or approve a classroom pilot.
+32. The teacher intake page renders a `Classroom launch gate preview` derived from the publish gate, approval ledger, evidence packet, and teacher dry run.
+33. The classroom launch gate shows `Launch blocked`, `No live student session`, `No launch button`, `Dry-run evidence required`, and `Policy and persistence required`.
+34. The classroom launch gate keeps `Real learner data blocked` and `Report export still blocked` visible before any future launch workflow.
+35. The classroom launch gate appears on the focused teacher dry-run route as the final boundary after rehearsal.
 
 ## Build Verification
 
@@ -66,4 +70,5 @@ Do not mark this verified if:
 - media rights, game audio coverage, activity compatibility/profile readiness, QR stability, persistence, reports, or policy are omitted,
 - the panel creates tenant-specific hard-coding,
 - the teacher dry-run rehearsal can be mistaken for a live student launch,
+- the classroom launch gate hides the launch-blocked, no-live-student-session, or no-launch-button boundary,
 - the page fails typecheck/build after sync.
