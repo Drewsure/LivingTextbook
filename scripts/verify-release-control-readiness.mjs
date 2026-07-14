@@ -7,6 +7,8 @@ const publishPanel = readSource("../apps/web/src/features/pilot/PackagePublishGa
 const approvalPanel = readSource("../apps/web/src/features/pilot/PackageApprovalLedgerPanel.tsx");
 const readinessSummary = readSource("../apps/web/src/data/samplePilotReadinessSummary.ts");
 const readinessSummaryPanel = readSource("../apps/web/src/features/pilot/PilotReadinessSummaryPanel.tsx");
+const evidencePacket = readSource("../apps/web/src/data/samplePilotEvidencePacket.ts");
+const evidencePacketPanel = readSource("../apps/web/src/features/pilot/PilotEvidencePacketPanel.tsx");
 const backendSchema = readSource("../apps/web/src/data/sampleBackendSchemaDraft.ts");
 const migrationSpecs = readSource("../apps/web/src/data/sampleBackendMigrationSpecs.ts");
 const routeVerifier = readSource("./verify-active-routes.mjs");
@@ -68,6 +70,15 @@ requireText(readinessSummaryPanel, "Demo-ready now", "Pilot readiness summary pa
 requireText(readinessSummaryPanel, "Pilot blockers", "Pilot readiness summary panel must show release-blocking issues.");
 requireText(readinessSummaryPanel, "Missing evidence", "Pilot readiness summary panel must show missing evidence.");
 requireText(readinessSummaryPanel, "Still not allowed", "Pilot readiness summary panel must show forbidden promises.");
+requireText(evidencePacket, "samplePackagePublishGate", "Pilot evidence packet must derive gate evidence from package publish gate.");
+requireText(evidencePacket, "samplePackageApprovalLedger", "Pilot evidence packet must derive approval evidence from package approval ledger.");
+requireText(evidencePacket, "No evidence upload", "Pilot evidence packet must block live evidence upload.");
+requireText(evidencePacket, "No signed approval capture", "Pilot evidence packet must block signed approval capture.");
+requireText(evidencePacket, "No chat-only approval proof", "Pilot evidence packet must block chat-only approval proof.");
+requireText(evidencePacketPanel, "Pilot evidence packet", "Pilot evidence packet panel must be visible.");
+requireText(evidencePacketPanel, "Gate evidence needed", "Pilot evidence packet panel must show gate evidence.");
+requireText(evidencePacketPanel, "Approval evidence needed", "Pilot evidence packet panel must show approval evidence.");
+requireText(evidencePacketPanel, "Package evidence stays metadata first", "Pilot evidence packet panel must keep evidence metadata-first.");
 requireText(backendSchema, "package_release_candidate", "Backend schema must include package release candidate record.");
 requireText(backendSchema, "package_publish_gate", "Backend schema must include package publish gate record.");
 requireText(backendSchema, "package_approval_ledger", "Backend schema must include package approval ledger record.");
@@ -75,6 +86,7 @@ requireText(migrationSpecs, "spec-package-release-candidate", "Migration specs m
 requireText(routeVerifier, "Pilot release candidate", "Active route verifier must keep pilot release candidate visible.");
 requireText(routeVerifier, "Package publish gate", "Active route verifier must keep publish gate visible.");
 requireText(routeVerifier, "Publisher pilot readiness summary", "Active route verifier must keep publisher readiness summary visible.");
+requireText(routeVerifier, "Pilot evidence packet", "Active route verifier must keep pilot evidence packet visible.");
 
 if (failures.length > 0) {
   for (const failure of failures) {

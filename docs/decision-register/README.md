@@ -183,6 +183,7 @@
 - `DR-209-activity-compatibility-snapshot-storage-contract.md`
 - `DR-210-publish-gate-profile-compatibility-readiness.md`
 - `DR-211-publisher-pilot-readiness-summary.md`
+- `DR-212-pilot-evidence-packet-preview.md`
 
 ## Maintenance Rule
 

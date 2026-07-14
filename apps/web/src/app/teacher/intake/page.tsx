@@ -34,6 +34,7 @@ import { sampleLocalDeploymentPreflightPlan } from "@/data/sampleLocalDeployment
 import { sampleMediaRightsPlan } from "@/data/sampleMediaRightsPlan";
 import { samplePackageApprovalLedger } from "@/data/samplePackageApprovalLedger";
 import { samplePackagePublishGate } from "@/data/samplePackagePublishGate";
+import { samplePilotEvidencePacket } from "@/data/samplePilotEvidencePacket";
 import { samplePilotHandoffPackage } from "@/data/samplePilotHandoffPackage";
 import { samplePilotReadinessSummary } from "@/data/samplePilotReadinessSummary";
 import { samplePilotSourceStrategy } from "@/data/samplePilotSourceStrategy";
@@ -99,6 +100,7 @@ import { MediaRightsReadinessPanel } from "@/features/multimedia/MediaRightsRead
 import { PilotPolicyReadinessPanel } from "@/features/policy/PilotPolicyReadinessPanel";
 import { PackageApprovalLedgerPanel } from "@/features/pilot/PackageApprovalLedgerPanel";
 import { PackagePublishGatePanel } from "@/features/pilot/PackagePublishGatePanel";
+import { PilotEvidencePacketPanel } from "@/features/pilot/PilotEvidencePacketPanel";
 import { PilotHandoffPackagePanel } from "@/features/pilot/PilotHandoffPackagePanel";
 import { PilotReadinessGatePanel } from "@/features/pilot/PilotReadinessGatePanel";
 import { PilotReleaseCandidatePanel } from "@/features/pilot/PilotReleaseCandidatePanel";
@@ -147,6 +149,7 @@ export default function TeacherIntakePage() {
           persistencePlans={samplePersistenceAdapterPlans}
         />
         <PilotReadinessSummaryPanel summary={samplePilotReadinessSummary} />
+        <PilotEvidencePacketPanel packet={samplePilotEvidencePacket} />
         <PilotSourceStrategyPanel strategy={samplePilotSourceStrategy} />
         <PilotHandoffPackagePanel handoffPackage={samplePilotHandoffPackage} />
         <PilotReleaseCandidatePanel gate={samplePackagePublishGate} ledger={samplePackageApprovalLedger} />

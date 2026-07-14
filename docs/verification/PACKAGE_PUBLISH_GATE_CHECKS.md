@@ -29,6 +29,9 @@ Use after pulling the latest `legacy-source-import` branch and running local typ
 19. The summary clearly separates `Demo-ready now`, `Pilot blockers`, `Missing evidence`, and `Still not allowed`.
 20. The summary displays `Source of truth: package publish gate` and `No publish action`.
 21. The summary does not duplicate or replace release-control data with a second hand-maintained source of truth.
+22. The teacher intake page renders a `Pilot evidence packet preview` derived from the package publish gate and package approval ledger.
+23. The evidence packet shows `Gate evidence needed`, `Approval evidence needed`, `No evidence upload`, and `No signed approval capture`.
+24. The evidence packet states that package evidence stays metadata first and cannot approve a pilot by itself.
 
 ## Build Verification
 

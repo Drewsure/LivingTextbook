@@ -19,8 +19,10 @@ Review at:
 Current files:
 
 - `apps/web/src/data/samplePackagePublishGate.ts`
+- `apps/web/src/data/samplePilotEvidencePacket.ts`
 - `apps/web/src/data/samplePilotReadinessSummary.ts`
 - `apps/web/src/features/pilot/PackagePublishGatePanel.tsx`
+- `apps/web/src/features/pilot/PilotEvidencePacketPanel.tsx`
 - `apps/web/src/features/pilot/PilotReadinessSummaryPanel.tsx`
 - `apps/web/src/app/teacher/intake/page.tsx`
 
@@ -64,6 +66,12 @@ The `Publisher pilot readiness summary` is a non-technical view derived from the
 
 This summary is useful for partner conversations, but it is not a publish action and cannot override the package publish gate. The package publish gate remains the source of truth.
 
+## Pilot Evidence Packet
+
+The `Pilot evidence packet preview` shows what proof must eventually be collected before a partner pilot. It is derived from the package publish gate and package approval ledger.
+
+The evidence packet is metadata-first. It can name required proof, current evidence, blockers, and owners, but it cannot upload files, capture signatures, or approve release in the foundation build.
+
 ## Required Blocking Areas Before Real Pilot
 
 A real pilot package requires closure on:
@@ -97,6 +105,7 @@ A real pilot package requires closure on:
 - This scaffold does not store real student data.
 - This scaffold does not grant media rights.
 - This scaffold does not turn isolated Z.ai prototypes into integrated games automatically.
+- This scaffold does not accept evidence uploads or signed approvals.
 
 ## Acceptance Criteria
 
