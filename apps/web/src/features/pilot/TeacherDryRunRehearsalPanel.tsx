@@ -34,6 +34,12 @@ export function TeacherDryRunRehearsalPanel({ rehearsal }: TeacherDryRunRehearsa
           <p className="text-sm font-semibold text-[var(--tenant-muted)]">Teacher-only rehearsal</p>
           <h2 className="mt-1 text-lg font-bold">{rehearsal.label}</h2>
           <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">{rehearsal.summary}</p>
+          <a
+            href={rehearsal.workspacePath}
+            className="mt-3 inline-flex rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] px-3 py-2 text-sm font-semibold text-[var(--tenant-text)] underline decoration-[var(--tenant-border)] underline-offset-4 transition hover:text-[var(--tenant-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--tenant-primary)]"
+          >
+            Open dry-run workspace
+          </a>
         </div>
         <div className="flex flex-wrap gap-2">
           <StatusPill label={rehearsal.studentLaunchStatus} tone="neutral" />

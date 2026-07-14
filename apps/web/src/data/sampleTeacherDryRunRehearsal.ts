@@ -25,6 +25,7 @@ export interface TeacherDryRunRehearsal {
   tenantId: string;
   packageId: string;
   releaseCandidate: string;
+  workspacePath: string;
   sourceOfTruth: string;
   studentLaunchStatus: string;
   evidenceStatus: string;
@@ -60,6 +61,7 @@ export function createTeacherDryRunRehearsal({
     tenantId: handoffPackage.tenantId,
     packageId: handoffPackage.packageId,
     releaseCandidate: checklist.releaseCandidate,
+    workspacePath: `/teacher/dry-run/${handoffPackage.packageId}-teacher-dry-run`,
     sourceOfTruth: "Source of truth: pilot launch checklist and pilot handoff package",
     studentLaunchStatus: "No student launch action",
     evidenceStatus: "Dry-run evidence only",

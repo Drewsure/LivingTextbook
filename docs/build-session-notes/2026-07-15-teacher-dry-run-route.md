@@ -16,6 +16,7 @@ Teachers need a practical pre-classroom route that is simpler than the full inta
 
 - Active route list includes the dry-run route.
 - Active route verifier expects `Teacher dry-run route workspace`, `No classroom launch action`, `Rehearsal route shortcuts`, and the dry-run safety text.
+- Teacher dry-run panels expose `Open dry-run workspace`.
 
 ## Boundary
 
