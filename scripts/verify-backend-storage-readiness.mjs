@@ -42,6 +42,7 @@ const requiredSchemaEntities = [
   "local_companion_release_gate",
   "package_publish_gate",
   "package_approval_ledger",
+  "pilot_evidence_packet",
 ];
 
 const requiredMigrationCandidates = [
@@ -76,6 +77,7 @@ const requiredMigrationCandidates = [
   "m010-publisher-maintenance-change-requests",
   "m011-local-companion-handoff-records",
   "m012-local-companion-release-gate-records",
+  "m032-pilot-evidence-packet-records",
 ];
 
 const requiredMigrationSpecs = [
@@ -109,6 +111,7 @@ const requiredMigrationSpecs = [
   "spec-publisher-maintenance-change",
   "spec-local-companion-handoff",
   "spec-local-companion-release-gate",
+  "spec-pilot-evidence-packet",
 ];
 
 for (const entityId of requiredSchemaEntities) {
@@ -256,6 +259,15 @@ requireText(migrationSpecs, "event_acceptance_gate_id", "Migration specs must re
 requireText(migrationSpecs, "spec-earned-collection-inventory", "Migration specs must include earned collection inventory.");
 requireText(migrationSpecs, "unlock_source_event_id", "Migration specs must preserve collection unlock source events.");
 requireText(migrationSpecs, "support-only events", "Migration specs must preserve support-only event boundaries.");
+requireText(schemaDraft, "pilot_evidence_packet", "Backend schema must include pilot evidence packet records.");
+requireText(schemaDraft, "gate_evidence", "Backend schema must preserve gate evidence in pilot evidence packets.");
+requireText(schemaDraft, "approval_evidence", "Backend schema must preserve approval evidence in pilot evidence packets.");
+requireText(schemaDraft, "signed_approval_capture_allowed", "Backend schema must block signed approval capture.");
+requireText(schemaDraft, "Chat-only approval proof", "Backend schema must block chat-only approval proof.");
+requireText(migrationSpecs, "spec-pilot-evidence-packet", "Migration specs must include pilot evidence packets.");
+requireText(migrationSpecs, "evidence_packet_id", "Migration specs must preserve pilot evidence packet ids.");
+requireText(migrationSpecs, "upload_allowed", "Migration specs must preserve evidence upload blocks.");
+requireText(migrationSpecs, "signed_approval_capture_allowed", "Migration specs must preserve signed approval capture blocks.");
 requireText(persistenceAdapter, "hosted-launch-session-write", "Persistence adapter must include hosted launch-session writes.");
 requireText(persistenceAdapter, "local-launch-session-write", "Persistence adapter must include local launch-session writes.");
 requireText(persistenceAdapter, "hosted-teacher-draft-package-write", "Persistence adapter must include hosted teacher draft writes.");
@@ -320,6 +332,10 @@ requireText(persistenceAdapter, "local-tenant-library-item-write", "Persistence 
 requireText(persistenceAdapter, "preservesLibrarySourceLineage: true", "Persistence adapter must preserve library source lineage.");
 requireText(persistenceAdapter, "blocksStudentDataCopy: true", "Persistence adapter must block student data copies.");
 requireText(persistenceAdapter, "blocksPublicCommunityPublishing: true", "Persistence adapter must block public community publishing.");
+requireText(persistenceAdapter, "hosted-pilot-evidence-packet-write", "Persistence adapter must include hosted pilot evidence packet writes.");
+requireText(persistenceAdapter, "local-pilot-evidence-packet-write", "Persistence adapter must include local pilot evidence packet writes.");
+requireText(persistenceAdapter, "preservesPilotEvidencePacket: true", "Persistence adapter must preserve pilot evidence packet metadata.");
+requireText(persistenceAdapter, "blocksSignedApprovalCapture: true", "Persistence adapter must block signed approval capture.");
 requireText(persistenceAdapter, "hosted-media-playlist-binding-write", "Persistence adapter must include hosted media playlist binding writes.");
 requireText(persistenceAdapter, "local-media-playlist-binding-write", "Persistence adapter must include local media playlist binding writes.");
 requireText(persistenceAdapter, "preservesMediaPlaylistBinding: true", "Persistence adapter must preserve media playlist bindings.");
@@ -388,6 +404,9 @@ requireText(durableRecords, "tenant-library-item-record", "Durable record plan m
 requireText(durableRecords, "preservesLibrarySourceLineage: true", "Durable record plan must preserve library source lineage.");
 requireText(durableRecords, "blocksStudentDataCopy: true", "Durable record plan must block student data copies.");
 requireText(durableRecords, "blocksPublicCommunityPublishing: true", "Durable record plan must block public community publishing.");
+requireText(durableRecords, "pilot-evidence-packet-record", "Durable record plan must include pilot evidence packet records.");
+requireText(durableRecords, "preservesPilotEvidencePacket: true", "Durable record plan must preserve pilot evidence packets.");
+requireText(durableRecords, "blocksSignedApprovalCapture: true", "Durable record plan must block signed approval capture.");
 requireText(durableRecords, "media-playlist-binding-record", "Durable record plan must include media playlist binding records.");
 requireText(durableRecords, "preservesMediaPlaylistBinding: true", "Durable record plan must preserve media playlist bindings.");
 requireText(durableRecords, "blocksMediaOnlyProgress: true", "Durable record plan must block media-only progress.");
@@ -402,6 +421,7 @@ requireText(durableRecords, "earned-collection-inventory-record", "Durable recor
 requireText(durableRecords, "preservesEarnedCollectionRules: true", "Durable record plan must preserve earned collection rules.");
 requireText(durableRecords, "rejectsRandomRewardPressure: true", "Durable record plan must reject random reward pressure.");
 requireText(routeVerifier, "Backend selection gate", "Active route verifier must keep backend selection gate visible on teacher intake.");
+requireText(routeVerifier, "pilot_evidence_packet", "Active route verifier must keep pilot evidence packet storage visible on teacher intake.");
 
 if (failures.length > 0) {
   for (const failure of failures) {

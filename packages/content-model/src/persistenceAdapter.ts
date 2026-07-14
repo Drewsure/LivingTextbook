@@ -64,6 +64,8 @@ export interface PersistenceWriteIntent {
   preservesLibrarySourceLineage?: boolean;
   blocksStudentDataCopy?: boolean;
   blocksPublicCommunityPublishing?: boolean;
+  preservesPilotEvidencePacket?: boolean;
+  blocksSignedApprovalCapture?: boolean;
   note: string;
 }
 
@@ -328,6 +330,18 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "tenant-library-item" && !intent.blocksPublicCommunityPublishing) {
       errors.push(`Tenant library write intent ${intent.intentId} must block public community publishing.`);
+    }
+
+    if (intent.category === "pilot-evidence-packet" && !intent.preservesPilotEvidencePacket) {
+      errors.push(`Pilot evidence packet write intent ${intent.intentId} must preserve release evidence packet metadata.`);
+    }
+
+    if (intent.category === "pilot-evidence-packet" && !intent.blocksEvidenceUpload) {
+      errors.push(`Pilot evidence packet write intent ${intent.intentId} must block evidence uploads until storage policy exists.`);
+    }
+
+    if (intent.category === "pilot-evidence-packet" && !intent.blocksSignedApprovalCapture) {
+      errors.push(`Pilot evidence packet write intent ${intent.intentId} must block signed approval capture until identity and policy exist.`);
     }
 
     if (intent.intentId.includes("package-audio-coverage") && !intent.preservesGameAudioCoverageSnapshot) {

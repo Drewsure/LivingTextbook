@@ -32,7 +32,8 @@ export type PersistenceRecordCategory =
   | "local-companion-release-gate"
   | "package-release-candidate"
   | "package-publish-gate"
-  | "package-approval-ledger";
+  | "package-approval-ledger"
+  | "pilot-evidence-packet";
 
 export type PersistenceRecordReadiness =
   | "static-demo"
@@ -104,6 +105,8 @@ export interface DurableRecordContract {
   preservesLibrarySourceLineage?: boolean;
   blocksStudentDataCopy?: boolean;
   blocksPublicCommunityPublishing?: boolean;
+  preservesPilotEvidencePacket?: boolean;
+  blocksSignedApprovalCapture?: boolean;
   recommendedFirstPilotStore: PersistenceStorageTier[];
   note: string;
 }
@@ -333,6 +336,18 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "tenant-library-item" && !record.blocksPublicCommunityPublishing) {
       errors.push(`Tenant library durable record ${record.recordId} must block public community publishing.`);
+    }
+
+    if (record.category === "pilot-evidence-packet" && !record.preservesPilotEvidencePacket) {
+      errors.push(`Pilot evidence packet record ${record.recordId} must preserve release evidence packet metadata.`);
+    }
+
+    if (record.category === "pilot-evidence-packet" && !record.blocksEvidenceUpload) {
+      errors.push(`Pilot evidence packet record ${record.recordId} must block live evidence uploads until storage policy exists.`);
+    }
+
+    if (record.category === "pilot-evidence-packet" && !record.blocksSignedApprovalCapture) {
+      errors.push(`Pilot evidence packet record ${record.recordId} must block signed approval capture until identity and policy exist.`);
     }
 
     if (record.supportsLocalDeployment && !record.recommendedFirstPilotStore.includes("local-classroom-store")) {

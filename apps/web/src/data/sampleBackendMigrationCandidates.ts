@@ -601,6 +601,24 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
       rollbackOrExportNeeds: ["Export local companion release gate record", "Retain superseded gate snapshots with package release history", "Restore gate state with local bundle backups"],
       notAllowedYet: ["Manual closed-handoff override", "Installer handoff with open blockers", "Offline bundle without backup/export policy", "Local school deployment without privacy/access policy"],
     },
+    {
+      migrationId: "m032-pilot-evidence-packet-records",
+      label: "Pilot evidence packet records",
+      track: "shared",
+      status: "ready-to-design",
+      risk: "medium",
+      targetEntities: ["pilot_evidence_packet"],
+      purpose: "Persist package-level evidence packet metadata before live evidence upload, signed approval capture, or partner pilot release workflows.",
+      prerequisites: ["Package publish gate accepted", "Package approval ledger accepted", "Evidence retention policy accepted", "Approver identity model accepted"],
+      implementationNotes: [
+        "Keep evidence packets tenant-scoped and package-scoped.",
+        "Derive gate evidence from package publish gate items.",
+        "Derive approval evidence from package approval ledger sign-offs.",
+        "Block upload and signed approval capture until identity, storage, retention, and rollback policy exist.",
+      ],
+      rollbackOrExportNeeds: ["Export evidence packet metadata with release-control records", "Retain superseded packet snapshots for audit", "Support local bundle evidence metadata export"],
+      notAllowedYet: ["Evidence upload without storage policy", "Signed approval without identity", "Chat-only approval proof", "Pilot release from evidence packet alone"],
+    },
   ],
   standingRules: [
     "Do not create production migrations before backend choice and policy gates are accepted.",
@@ -626,6 +644,7 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
     "Publisher maintenance changes must pass release review before active package mutation.",
     "Local companion handoff records must block offline-ready claims until required artifacts are complete.",
     "Local companion release gate records must block closed handoff until installer, update, backup, export, media rights, QR fallback, game/audio reporting, and school policy requirements are complete.",
+    "Pilot evidence packet records must block live evidence upload and signed approval capture until identity, storage, retention, and release-control policy are accepted.",
     "Every migration candidate needs rollback or export expectations before implementation.",
   ],
 };

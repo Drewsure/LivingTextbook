@@ -30,7 +30,8 @@ Verify at:
    - deployment profile records,
    - package release candidate records,
    - package publish gate records,
-   - package approval ledger records.
+   - package approval ledger records,
+   - pilot evidence packet records.
 4. Confirm the progress/media event stream is marked as requiring policy, not only backend storage.
 5. Confirm teacher launch sessions mention teacher toggles and microphone approval as future persisted session records.
 6. Confirm media manifest records mention rights status and local bundle paths.
@@ -50,14 +51,15 @@ Verify at:
 20. Confirm teacher draft review handoff records preserve packet sections and block live review submission.
 21. Confirm teacher report package durable records preserve event acceptance summaries.
 22. Confirm package approval ledgers remain policy-required before real signatures are stored.
-23. Confirm the page renders a `Persistence adapter readiness` section.
-24. Confirm the adapter readiness section shows static demo, hosted pilot, and local classroom adapter plans.
-25. Confirm hosted pilot is marked as the recommended first pilot path.
-26. Confirm local classroom remains visible for closed/offline companion deployments.
-27. Confirm adapter write intents reject raw learner audio and learner transcripts.
-28. Confirm export-capable adapter intents remain policy gated.
-29. Confirm package release candidate records distinguish demo-visible from pilot-ready state.
-30. Confirm the route contract for `/teacher/intake` includes `PersistenceBoundary[]`, `PersistenceStrategyOption[]`, `DurableRecordContract[]`, `PersistenceAdapterPlan[]`, validation errors, and readiness warnings.
+23. Confirm pilot evidence packet records preserve gate evidence and approval evidence while blocking evidence upload and signed approval capture.
+24. Confirm the page renders a `Persistence adapter readiness` section.
+25. Confirm the adapter readiness section shows static demo, hosted pilot, and local classroom adapter plans.
+26. Confirm hosted pilot is marked as the recommended first pilot path.
+27. Confirm local classroom remains visible for closed/offline companion deployments.
+28. Confirm adapter write intents reject raw learner audio and learner transcripts.
+29. Confirm export-capable adapter intents remain policy gated.
+30. Confirm package release candidate records distinguish demo-visible from pilot-ready state.
+31. Confirm the route contract for `/teacher/intake` includes `PersistenceBoundary[]`, `PersistenceStrategyOption[]`, `DurableRecordContract[]`, `PersistenceAdapterPlan[]`, validation errors, and readiness warnings.
 
 ## Acceptance Standard
 

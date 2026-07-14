@@ -43,7 +43,8 @@ export type PersistenceBoundaryCategory =
   | "local-companion-release-gate"
   | "package-release-candidate"
   | "package-publish-gate"
-  | "package-approval-ledger";
+  | "package-approval-ledger"
+  | "pilot-evidence-packet";
 
 export interface PersistenceBoundary {
   boundaryId: string;
@@ -632,6 +633,24 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store", "school-policy"],
     note: "The ledger needs policy and identity rules before real signatures, but its record shape should be fixed before backend selection.",
   },
+  {
+    recordId: "pilot-evidence-packet-record",
+    category: "pilot-evidence-packet",
+    label: "Pilot evidence packet record",
+    readiness: "durable-required",
+    sourceOfTruth: "PilotEvidencePacket, PackagePublishGate, PackageApprovalLedger, evidence metadata, blockers, upload/signature policy",
+    requiredBeforePilot: true,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesPilotEvidencePacket: true,
+    blocksEvidenceUpload: true,
+    blocksSignedApprovalCapture: true,
+    recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store", "school-policy"],
+    note: "The evidence packet must become durable before real partner pilot proof is collected, while keeping file upload and signed approval capture blocked until identity, storage, retention, and policy are accepted.",
+  },
 ];
 
 export const sampleDurableRecordErrors = validateDurableRecordContracts(sampleDurableRecordContracts);
@@ -1041,6 +1060,18 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     visibleTo: ["Platform admin", "Tenant admin", "School admin"],
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision: "Define approver identity, timestamp, evidence, and rollback fields before real approval storage is enabled.",
+  },
+  {
+    boundaryId: "pilot-evidence-packet-boundary",
+    category: "pilot-evidence-packet",
+    label: "Pilot evidence packet records",
+    status: "needs-backend",
+    recordShape: "Evidence packet id, package id, release candidate, gate evidence, approval evidence, blockers, upload/signature policy",
+    whyItMatters:
+      "A publisher pilot needs auditable proof for rights, game/audio quality, QR stability, reports, deployment, and policy before launch; this proof cannot live only in chat or UI notes.",
+    visibleTo: ["Platform admin", "Tenant admin", "Publisher media owner", "School admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision: "Store evidence packet metadata beside publish gates and approval ledgers before live evidence upload or signed approval capture.",
   },
 ];
 

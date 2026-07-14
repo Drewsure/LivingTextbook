@@ -810,6 +810,28 @@ export const sampleBackendSchemaDraft: BackendSchemaDraft = {
       forbiddenFields: ["Fake signed approvals", "Unowned media sign-off", "Policy override without evidence"],
       migrationNote: "Real signatures require authentication, timestamp, evidence, and export/rollback policy.",
     },
+    {
+      entityId: "pilot_evidence_packet",
+      label: "Pilot evidence packet",
+      status: "required-before-pilot",
+      deploymentFit: "hybrid",
+      purpose:
+        "Stores package-level evidence metadata required before a controlled demo can become a real pilot, while blocking live evidence upload and signed approval capture until policy and identity exist.",
+      fields: [
+        { name: "evidence_packet_id", type: "stable id", required: true, note: "One evidence packet snapshot per release candidate." },
+        { name: "package_id", type: "foreign key/string", required: true, note: "Release candidate under evidence review." },
+        { name: "release_candidate_id", type: "foreign key/string", required: true, note: "Package release candidate this packet belongs to." },
+        { name: "gate_evidence", type: "json/child records", required: true, note: "Evidence requirements derived from package publish gate items." },
+        { name: "approval_evidence", type: "json/child records", required: true, note: "Evidence requirements derived from package approval ledger sign-offs." },
+        { name: "upload_allowed", type: "boolean", required: true, note: "False until storage, identity, retention, and rights policy are accepted." },
+        { name: "signed_approval_capture_allowed", type: "boolean", required: true, note: "False until approver identity, timestamp, evidence, and rollback rules exist." },
+      ],
+      relationships: ["Belongs to package release candidate", "Summarizes package publish gate", "Summarizes package approval ledger", "May reference future evidence files"],
+      indexes: ["package_id + release_candidate_id", "evidence_packet_id unique", "tenant_id + upload_allowed", "tenant_id + signed_approval_capture_allowed"],
+      forbiddenFields: ["Raw learner audio", "Learner transcript", "Chat-only approval proof", "Anonymous evidence", "Signed approval without identity"],
+      migrationNote:
+        "Evidence packets preserve proof metadata only. Hosted and local implementations must keep upload and signature capture blocked until storage, identity, retention, and release-control policy are accepted.",
+    },
   ],
   crossCuttingRules: [
     "Every record belongs to a tenant or to a tenant-owned package release.",
@@ -828,6 +850,7 @@ export const sampleBackendSchemaDraft: BackendSchemaDraft = {
     "Publisher maintenance changes must be reviewed before they alter routes, media manifests, game offers, or report packages.",
     "Local companion handoff records must block offline-ready status until source, media rights, checksums, routes, and report policy are accepted.",
     "Local companion release gates must block closed handoff until installer, update, backup, export, QR fallback, media rights, game audio/reporting, and school access policies are accepted.",
+    "Pilot evidence packets must preserve release proof metadata while blocking live evidence upload and signed approval capture until identity, retention, storage, and policy are accepted.",
     "Support language never unlocks target-language progression.",
     "AI Tutor and speech scoring stay premium-gated and disabled unless tenant policy accepts them.",
     "Local and hosted implementations must preserve the same record vocabulary.",

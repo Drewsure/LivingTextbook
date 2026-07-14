@@ -33,6 +33,7 @@ This is a bridge between product architecture and implementation. It names the r
 - Activity compatibility snapshot specs must preserve payload shape, allowed activity modes, blocked conversions, target-language trigger policy, printable output policy, and student-facing pathway blocks before extra conversions or teacher pathway changes go live.
 - Template rendering profile specs must preserve source templates, curated game-family compatibility, row/media slot policy, layout constraints, and student-facing rendering blocks before any cross-game upload pattern or printable rendering goes live.
 - Font accessibility profile specs must preserve approved learner fonts, tenant font packs, multilingual rendering rules, readability checks, licensing, and student-facing font blocks before any tenant font control goes live.
+- Pilot evidence packet specs must preserve gate evidence, approval evidence, upload blocks, signed-approval capture blocks, retention, export, and local fallback before live evidence upload or approval capture goes live.
 
 ## Current Pilot Specs
 
@@ -51,6 +52,7 @@ This is a bridge between product architecture and implementation. It names the r
 - Publisher maintenance change request.
 - Local companion handoff checklist.
 - Local companion release gate.
+- Pilot evidence packet.
 
 ## Implementation Gate
 

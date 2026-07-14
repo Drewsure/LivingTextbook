@@ -184,6 +184,7 @@
 - `DR-210-publish-gate-profile-compatibility-readiness.md`
 - `DR-211-publisher-pilot-readiness-summary.md`
 - `DR-212-pilot-evidence-packet-preview.md`
+- `DR-213-pilot-evidence-packet-storage-contract.md`
 
 ## Maintenance Rule
 

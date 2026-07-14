@@ -39,10 +39,11 @@ Do not store real student progress until policy, retention, export, and access r
 7. Stable QR and route alias registry.
 8. Media manifest and rights records.
 9. Publish gate and approval ledger records.
-10. Teacher launch session and settings records.
-11. Progress and media event stream records.
-12. Earned collection inventory records.
-13. Local classroom export and restore records.
+10. Pilot evidence packet records.
+11. Teacher launch session and settings records.
+12. Progress and media event stream records.
+13. Earned collection inventory records.
+14. Local classroom export and restore records.
 
 ## Required Per Candidate
 
@@ -70,6 +71,7 @@ Each candidate must define:
 - Activity compatibility snapshot migrations must preserve payload shape, allowed activity modes, blocked conversions, target-language trigger policy, printable output policy, and student-facing pathway blocks.
 - Template rendering profile migrations must preserve source template identity, curated compatibility, row/media slot policy, layout constraints, and student-facing rendering blocks.
 - Font accessibility profile migrations must preserve approved learner fonts, tenant font packs, multilingual rendering rules, readability/license checks, and student-facing font blocks.
+- Pilot evidence packet migrations must preserve gate evidence, approval evidence, upload blocks, signed-approval capture blocks, export rules, and local fallback metadata before live evidence collection.
 - Every migration candidate needs rollback or export expectations before implementation.
 
 ## Non-Goals
