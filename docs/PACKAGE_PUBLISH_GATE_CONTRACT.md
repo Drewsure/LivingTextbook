@@ -22,10 +22,12 @@ Current files:
 - `apps/web/src/data/samplePilotEvidencePacket.ts`
 - `apps/web/src/data/samplePilotLaunchChecklist.ts`
 - `apps/web/src/data/samplePilotReadinessSummary.ts`
+- `apps/web/src/data/sampleTeacherDryRunRehearsal.ts`
 - `apps/web/src/features/pilot/PackagePublishGatePanel.tsx`
 - `apps/web/src/features/pilot/PilotEvidencePacketPanel.tsx`
 - `apps/web/src/features/pilot/PilotLaunchChecklistPanel.tsx`
 - `apps/web/src/features/pilot/PilotReadinessSummaryPanel.tsx`
+- `apps/web/src/features/pilot/TeacherDryRunRehearsalPanel.tsx`
 - `apps/web/src/app/teacher/intake/page.tsx`
 
 ## Gate Domains
@@ -80,6 +82,12 @@ The `Pilot launch checklist preview` translates readiness, evidence, and handoff
 
 It can show what is controlled-demo ready, what the publisher must provide, what policy blocks classroom use, and what a teacher dry run must check. It cannot launch students, capture approvals, upload evidence, or mark the package pilot-ready.
 
+## Teacher Dry-Run Rehearsal
+
+The `Teacher dry-run rehearsal preview` turns the pilot launch checklist into a concrete teacher-only script before children use the package.
+
+It can rehearse entry codes, QR/front-door routes, flashcards, target-language unlocks, game audio, support-language limits, media playlists, teacher reports, and local fallback expectations. It is dry-run evidence only: it cannot collect real learner data, store live progress, export reports, upload evidence, or approve a classroom pilot.
+
 ## Required Blocking Areas Before Real Pilot
 
 A real pilot package requires closure on:
@@ -115,6 +123,7 @@ A real pilot package requires closure on:
 - This scaffold does not turn isolated Z.ai prototypes into integrated games automatically.
 - This scaffold does not accept evidence uploads or signed approvals.
 - This scaffold does not launch classroom pilots.
+- This scaffold does not collect real learner data during teacher dry runs.
 
 ## Acceptance Criteria
 
@@ -128,3 +137,4 @@ The gate is useful when a future engineer, agent, teacher, or publisher can answ
 - What changes when persistence and policy are accepted?
 - Can a publisher understand what is demo-ready without mistaking it for pilot approval?
 - Can the team explain what remains before a classroom dry run and real pilot launch?
+- Can a teacher rehearse routes, games, audio, media, support-language limits, reporting, and local fallback without triggering live student workflows?

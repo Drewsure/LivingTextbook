@@ -39,6 +39,7 @@ import { samplePilotHandoffPackage } from "@/data/samplePilotHandoffPackage";
 import { samplePilotLaunchChecklist } from "@/data/samplePilotLaunchChecklist";
 import { samplePilotReadinessSummary } from "@/data/samplePilotReadinessSummary";
 import { samplePilotSourceStrategy } from "@/data/samplePilotSourceStrategy";
+import { sampleTeacherDryRunRehearsal } from "@/data/sampleTeacherDryRunRehearsal";
 import { sampleProgressEventTaxonomyRegistry } from "@/data/sampleProgressEventTaxonomy";
 import {
   samplePersistenceAdapterErrors,
@@ -107,6 +108,7 @@ import { PilotLaunchChecklistPanel } from "@/features/pilot/PilotLaunchChecklist
 import { PilotReadinessGatePanel } from "@/features/pilot/PilotReadinessGatePanel";
 import { PilotReleaseCandidatePanel } from "@/features/pilot/PilotReleaseCandidatePanel";
 import { PilotReadinessSummaryPanel } from "@/features/pilot/PilotReadinessSummaryPanel";
+import { TeacherDryRunRehearsalPanel } from "@/features/pilot/TeacherDryRunRehearsalPanel";
 import { BackendDecisionMatrixPanel } from "@/features/persistence/BackendDecisionMatrixPanel";
 import { BackendMigrationPlanPanel } from "@/features/persistence/BackendMigrationPlanPanel";
 import { BackendMigrationSpecPanel } from "@/features/persistence/BackendMigrationSpecPanel";
@@ -153,6 +155,7 @@ export default function TeacherIntakePage() {
         <PilotReadinessSummaryPanel summary={samplePilotReadinessSummary} />
         <PilotEvidencePacketPanel packet={samplePilotEvidencePacket} />
         <PilotLaunchChecklistPanel checklist={samplePilotLaunchChecklist} />
+        <TeacherDryRunRehearsalPanel rehearsal={sampleTeacherDryRunRehearsal} />
         <PilotSourceStrategyPanel strategy={samplePilotSourceStrategy} />
         <PilotHandoffPackagePanel handoffPackage={samplePilotHandoffPackage} />
         <PilotReleaseCandidatePanel gate={samplePackagePublishGate} ledger={samplePackageApprovalLedger} />

@@ -186,6 +186,7 @@
 - `DR-212-pilot-evidence-packet-preview.md`
 - `DR-213-pilot-evidence-packet-storage-contract.md`
 - `DR-214-pilot-launch-checklist-preview.md`
+- `DR-215-teacher-dry-run-rehearsal-preview.md`
 
 ## Maintenance Rule
 

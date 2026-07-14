@@ -11,6 +11,8 @@ const evidencePacket = readSource("../apps/web/src/data/samplePilotEvidencePacke
 const evidencePacketPanel = readSource("../apps/web/src/features/pilot/PilotEvidencePacketPanel.tsx");
 const launchChecklist = readSource("../apps/web/src/data/samplePilotLaunchChecklist.ts");
 const launchChecklistPanel = readSource("../apps/web/src/features/pilot/PilotLaunchChecklistPanel.tsx");
+const teacherDryRun = readSource("../apps/web/src/data/sampleTeacherDryRunRehearsal.ts");
+const teacherDryRunPanel = readSource("../apps/web/src/features/pilot/TeacherDryRunRehearsalPanel.tsx");
 const backendSchema = readSource("../apps/web/src/data/sampleBackendSchemaDraft.ts");
 const migrationSpecs = readSource("../apps/web/src/data/sampleBackendMigrationSpecs.ts");
 const routeVerifier = readSource("./verify-active-routes.mjs");
@@ -90,6 +92,19 @@ requireText(launchChecklist, "Teacher classroom dry run", "Pilot launch checklis
 requireText(launchChecklistPanel, "Partner pilot launch planning", "Pilot launch checklist panel must be visible.");
 requireText(launchChecklistPanel, "Required before classroom pilot", "Pilot launch checklist panel must show classroom pilot requirements.");
 requireText(launchChecklistPanel, "Go/no-go blocked", "Pilot launch checklist panel must show go/no-go status.");
+requireText(teacherDryRun, "samplePilotLaunchChecklist", "Teacher dry-run rehearsal must derive from the pilot launch checklist.");
+requireText(teacherDryRun, "samplePilotHandoffPackage", "Teacher dry-run rehearsal must derive from the pilot handoff package.");
+requireText(teacherDryRun, "samplePilotEvidencePacket", "Teacher dry-run rehearsal must derive from the pilot evidence packet.");
+requireText(teacherDryRun, "Teacher dry-run rehearsal preview", "Teacher dry-run rehearsal must expose a teacher-facing title.");
+requireText(teacherDryRun, "No student launch action", "Teacher dry-run rehearsal must block student launch actions.");
+requireText(teacherDryRun, "Do not collect real learner data", "Teacher dry-run rehearsal must block real learner data collection.");
+requireText(teacherDryRun, "Entry and route rehearsal", "Teacher dry-run rehearsal must include entry and route checks.");
+requireText(teacherDryRun, "Game and audio rehearsal", "Teacher dry-run rehearsal must include game and audio checks.");
+requireText(teacherDryRun, "Media and support-language rehearsal", "Teacher dry-run rehearsal must include media/support-language checks.");
+requireText(teacherDryRun, "Report and policy rehearsal", "Teacher dry-run rehearsal must include report and policy checks.");
+requireText(teacherDryRunPanel, "Teacher-only rehearsal", "Teacher dry-run rehearsal panel must be visible.");
+requireText(teacherDryRunPanel, "Dry-run evidence only", "Teacher dry-run rehearsal panel must keep evidence preview-only.");
+requireText(teacherDryRunPanel, "No live workflow", "Teacher dry-run rehearsal panel must block live workflow behavior.");
 requireText(backendSchema, "package_release_candidate", "Backend schema must include package release candidate record.");
 requireText(backendSchema, "package_publish_gate", "Backend schema must include package publish gate record.");
 requireText(backendSchema, "package_approval_ledger", "Backend schema must include package approval ledger record.");
@@ -99,6 +114,7 @@ requireText(routeVerifier, "Package publish gate", "Active route verifier must k
 requireText(routeVerifier, "Publisher pilot readiness summary", "Active route verifier must keep publisher readiness summary visible.");
 requireText(routeVerifier, "Pilot evidence packet", "Active route verifier must keep pilot evidence packet visible.");
 requireText(routeVerifier, "Pilot launch checklist preview", "Active route verifier must keep pilot launch checklist visible.");
+requireText(routeVerifier, "Teacher dry-run rehearsal preview", "Active route verifier must keep teacher dry-run rehearsal visible.");
 
 if (failures.length > 0) {
   for (const failure of failures) {

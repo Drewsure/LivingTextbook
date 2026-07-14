@@ -35,6 +35,10 @@ Use after pulling the latest `legacy-source-import` branch and running local typ
 25. The teacher intake page renders a `Pilot launch checklist preview` derived from readiness, evidence, and handoff data.
 26. The checklist shows `No classroom launch action`, `Go/no-go blocked`, `Required before classroom pilot`, `Teacher classroom dry run`, and `Controlled partner demo`.
 27. The checklist does not launch students, capture approvals, upload evidence, or mark the package pilot-ready.
+28. The teacher intake page renders a `Teacher dry-run rehearsal preview` derived from the pilot launch checklist, evidence packet, and handoff package.
+29. The rehearsal shows `No student launch action`, `Teacher-only rehearsal`, `Dry-run evidence only`, and `Do not collect real learner data`.
+30. The rehearsal includes `Entry and route rehearsal`, `Game and audio rehearsal`, `Media and support-language rehearsal`, and `Report and policy rehearsal`.
+31. The rehearsal does not create assignments, store live learner progress, export reports, upload evidence, or approve a classroom pilot.
 
 ## Build Verification
 
@@ -61,4 +65,5 @@ Do not mark this verified if:
 - a release-blocking item is hidden in secondary documentation only,
 - media rights, game audio coverage, activity compatibility/profile readiness, QR stability, persistence, reports, or policy are omitted,
 - the panel creates tenant-specific hard-coding,
+- the teacher dry-run rehearsal can be mistaken for a live student launch,
 - the page fails typecheck/build after sync.
