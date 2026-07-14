@@ -33,6 +33,12 @@ export function ClassroomLaunchGatePanel({ gate }: ClassroomLaunchGatePanelProps
           <p className="text-sm font-semibold text-[var(--tenant-muted)]">Classroom launch gate</p>
           <h2 className="mt-1 text-lg font-bold">{gate.label}</h2>
           <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">{gate.summary}</p>
+          <a
+            href={gate.workspacePath}
+            className="mt-3 inline-flex rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] px-3 py-2 text-sm font-semibold text-[var(--tenant-text)] underline decoration-[var(--tenant-border)] underline-offset-4 transition hover:text-[var(--tenant-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--tenant-primary)]"
+          >
+            Open launch gate workspace
+          </a>
         </div>
         <div className="flex flex-wrap gap-2">
           <StatusPill label={gate.launchStatus} tone="warning" />

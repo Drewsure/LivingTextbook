@@ -43,6 +43,14 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     note: "Teacher-only dry-run workspace for route, game/audio, media, support-language, report, and local fallback checks.",
   },
   {
+    routeId: "teacher-classroom-launch-gate",
+    group: "sample-publisher",
+    label: "Sample publisher classroom launch gate",
+    path: "/teacher/launch-gate/starter-english-level-1-unit-1-2026.1-pilot-candidate-classroom-launch-gate",
+    status: "active-scaffold",
+    note: "Teacher/admin go/no-go review workspace that keeps live classroom launch blocked.",
+  },
+  {
     routeId: "teacher-draft-authoring-preview",
     group: "core",
     label: "Teacher draft package preview",

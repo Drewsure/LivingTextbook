@@ -29,6 +29,7 @@ export interface ClassroomLaunchGate {
   tenantId: string;
   packageId: string;
   releaseCandidate: string;
+  workspacePath: string;
   launchStatus: string;
   sourceOfTruth: string;
   summary: string;
@@ -145,6 +146,7 @@ export function createClassroomLaunchGate({
     tenantId: gate.tenantId,
     packageId: gate.packageId,
     releaseCandidate: gate.releaseCandidate,
+    workspacePath: `/teacher/launch-gate/${gate.packageId}-${gate.releaseCandidate.toLowerCase().replaceAll(" ", "-")}-classroom-launch-gate`,
     launchStatus: "Launch blocked",
     sourceOfTruth:
       "Source of truth: package publish gate, approval ledger, pilot evidence packet, and teacher dry-run rehearsal",

@@ -15,6 +15,7 @@ A tenant package may contain reviewed content, games, QR routes, audio, video, p
 Review at:
 
 - `http://127.0.0.1:3000/teacher/intake`
+- `http://127.0.0.1:3000/teacher/launch-gate/starter-english-level-1-unit-1-2026.1-pilot-candidate-classroom-launch-gate`
 
 Current files:
 
@@ -99,6 +100,8 @@ It is derived from the package publish gate, approval ledger, pilot evidence pac
 This gate is not a launch workflow. It cannot invite students, create a live class, store learner records, export reports, or approve a pilot.
 
 The backend-neutral record is `classroom_launch_gate` / `classroom-launch-gate`. Hosted and local implementations must preserve source gate references, required-before-launch items, launch-blocked status, policy blockers, persistence blockers, real-learner-data blocks, and report-export blocks before any live classroom launch workflow exists.
+
+The focused route is a review workspace only. It may link to source routes for evidence review, but it must not create assignments, expose a launch button, or change package status.
 
 ## Required Blocking Areas Before Real Pilot
 
