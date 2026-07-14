@@ -185,6 +185,7 @@
 - `DR-211-publisher-pilot-readiness-summary.md`
 - `DR-212-pilot-evidence-packet-preview.md`
 - `DR-213-pilot-evidence-packet-storage-contract.md`
+- `DR-214-pilot-launch-checklist-preview.md`
 
 ## Maintenance Rule
 

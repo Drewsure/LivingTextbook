@@ -36,6 +36,7 @@ import { samplePackageApprovalLedger } from "@/data/samplePackageApprovalLedger"
 import { samplePackagePublishGate } from "@/data/samplePackagePublishGate";
 import { samplePilotEvidencePacket } from "@/data/samplePilotEvidencePacket";
 import { samplePilotHandoffPackage } from "@/data/samplePilotHandoffPackage";
+import { samplePilotLaunchChecklist } from "@/data/samplePilotLaunchChecklist";
 import { samplePilotReadinessSummary } from "@/data/samplePilotReadinessSummary";
 import { samplePilotSourceStrategy } from "@/data/samplePilotSourceStrategy";
 import { sampleProgressEventTaxonomyRegistry } from "@/data/sampleProgressEventTaxonomy";
@@ -102,6 +103,7 @@ import { PackageApprovalLedgerPanel } from "@/features/pilot/PackageApprovalLedg
 import { PackagePublishGatePanel } from "@/features/pilot/PackagePublishGatePanel";
 import { PilotEvidencePacketPanel } from "@/features/pilot/PilotEvidencePacketPanel";
 import { PilotHandoffPackagePanel } from "@/features/pilot/PilotHandoffPackagePanel";
+import { PilotLaunchChecklistPanel } from "@/features/pilot/PilotLaunchChecklistPanel";
 import { PilotReadinessGatePanel } from "@/features/pilot/PilotReadinessGatePanel";
 import { PilotReleaseCandidatePanel } from "@/features/pilot/PilotReleaseCandidatePanel";
 import { PilotReadinessSummaryPanel } from "@/features/pilot/PilotReadinessSummaryPanel";
@@ -150,6 +152,7 @@ export default function TeacherIntakePage() {
         />
         <PilotReadinessSummaryPanel summary={samplePilotReadinessSummary} />
         <PilotEvidencePacketPanel packet={samplePilotEvidencePacket} />
+        <PilotLaunchChecklistPanel checklist={samplePilotLaunchChecklist} />
         <PilotSourceStrategyPanel strategy={samplePilotSourceStrategy} />
         <PilotHandoffPackagePanel handoffPackage={samplePilotHandoffPackage} />
         <PilotReleaseCandidatePanel gate={samplePackagePublishGate} ledger={samplePackageApprovalLedger} />

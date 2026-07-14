@@ -20,9 +20,11 @@ Current files:
 
 - `apps/web/src/data/samplePackagePublishGate.ts`
 - `apps/web/src/data/samplePilotEvidencePacket.ts`
+- `apps/web/src/data/samplePilotLaunchChecklist.ts`
 - `apps/web/src/data/samplePilotReadinessSummary.ts`
 - `apps/web/src/features/pilot/PackagePublishGatePanel.tsx`
 - `apps/web/src/features/pilot/PilotEvidencePacketPanel.tsx`
+- `apps/web/src/features/pilot/PilotLaunchChecklistPanel.tsx`
 - `apps/web/src/features/pilot/PilotReadinessSummaryPanel.tsx`
 - `apps/web/src/app/teacher/intake/page.tsx`
 
@@ -72,6 +74,12 @@ The `Pilot evidence packet preview` shows what proof must eventually be collecte
 
 The evidence packet is metadata-first. It can name required proof, current evidence, blockers, and owners, but it cannot upload files, capture signatures, or approve release in the foundation build.
 
+## Pilot Launch Checklist
+
+The `Pilot launch checklist preview` translates readiness, evidence, and handoff data into staged go/no-go planning.
+
+It can show what is controlled-demo ready, what the publisher must provide, what policy blocks classroom use, and what a teacher dry run must check. It cannot launch students, capture approvals, upload evidence, or mark the package pilot-ready.
+
 ## Required Blocking Areas Before Real Pilot
 
 A real pilot package requires closure on:
@@ -106,6 +114,7 @@ A real pilot package requires closure on:
 - This scaffold does not grant media rights.
 - This scaffold does not turn isolated Z.ai prototypes into integrated games automatically.
 - This scaffold does not accept evidence uploads or signed approvals.
+- This scaffold does not launch classroom pilots.
 
 ## Acceptance Criteria
 
@@ -118,3 +127,4 @@ The gate is useful when a future engineer, agent, teacher, or publisher can answ
 - Which promises are still forbidden?
 - What changes when persistence and policy are accepted?
 - Can a publisher understand what is demo-ready without mistaking it for pilot approval?
+- Can the team explain what remains before a classroom dry run and real pilot launch?

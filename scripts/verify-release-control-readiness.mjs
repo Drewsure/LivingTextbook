@@ -9,6 +9,8 @@ const readinessSummary = readSource("../apps/web/src/data/samplePilotReadinessSu
 const readinessSummaryPanel = readSource("../apps/web/src/features/pilot/PilotReadinessSummaryPanel.tsx");
 const evidencePacket = readSource("../apps/web/src/data/samplePilotEvidencePacket.ts");
 const evidencePacketPanel = readSource("../apps/web/src/features/pilot/PilotEvidencePacketPanel.tsx");
+const launchChecklist = readSource("../apps/web/src/data/samplePilotLaunchChecklist.ts");
+const launchChecklistPanel = readSource("../apps/web/src/features/pilot/PilotLaunchChecklistPanel.tsx");
 const backendSchema = readSource("../apps/web/src/data/sampleBackendSchemaDraft.ts");
 const migrationSpecs = readSource("../apps/web/src/data/sampleBackendMigrationSpecs.ts");
 const routeVerifier = readSource("./verify-active-routes.mjs");
@@ -79,6 +81,15 @@ requireText(evidencePacketPanel, "Pilot evidence packet", "Pilot evidence packet
 requireText(evidencePacketPanel, "Gate evidence needed", "Pilot evidence packet panel must show gate evidence.");
 requireText(evidencePacketPanel, "Approval evidence needed", "Pilot evidence packet panel must show approval evidence.");
 requireText(evidencePacketPanel, "Package evidence stays metadata first", "Pilot evidence packet panel must keep evidence metadata-first.");
+requireText(launchChecklist, "samplePilotReadinessSummary", "Pilot launch checklist must derive from readiness summary.");
+requireText(launchChecklist, "samplePilotEvidencePacket", "Pilot launch checklist must derive from evidence packet.");
+requireText(launchChecklist, "samplePilotHandoffPackage", "Pilot launch checklist must derive from pilot handoff package.");
+requireText(launchChecklist, "No classroom launch action", "Pilot launch checklist must block live classroom launch actions.");
+requireText(launchChecklist, "Controlled partner demo", "Pilot launch checklist must separate controlled demo from real pilot.");
+requireText(launchChecklist, "Teacher classroom dry run", "Pilot launch checklist must require teacher rehearsal before real pilot.");
+requireText(launchChecklistPanel, "Partner pilot launch planning", "Pilot launch checklist panel must be visible.");
+requireText(launchChecklistPanel, "Required before classroom pilot", "Pilot launch checklist panel must show classroom pilot requirements.");
+requireText(launchChecklistPanel, "Go/no-go blocked", "Pilot launch checklist panel must show go/no-go status.");
 requireText(backendSchema, "package_release_candidate", "Backend schema must include package release candidate record.");
 requireText(backendSchema, "package_publish_gate", "Backend schema must include package publish gate record.");
 requireText(backendSchema, "package_approval_ledger", "Backend schema must include package approval ledger record.");
@@ -87,6 +98,7 @@ requireText(routeVerifier, "Pilot release candidate", "Active route verifier mus
 requireText(routeVerifier, "Package publish gate", "Active route verifier must keep publish gate visible.");
 requireText(routeVerifier, "Publisher pilot readiness summary", "Active route verifier must keep publisher readiness summary visible.");
 requireText(routeVerifier, "Pilot evidence packet", "Active route verifier must keep pilot evidence packet visible.");
+requireText(routeVerifier, "Pilot launch checklist preview", "Active route verifier must keep pilot launch checklist visible.");
 
 if (failures.length > 0) {
   for (const failure of failures) {

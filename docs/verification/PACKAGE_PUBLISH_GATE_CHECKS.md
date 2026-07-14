@@ -32,6 +32,9 @@ Use after pulling the latest `legacy-source-import` branch and running local typ
 22. The teacher intake page renders a `Pilot evidence packet preview` derived from the package publish gate and package approval ledger.
 23. The evidence packet shows `Gate evidence needed`, `Approval evidence needed`, `No evidence upload`, and `No signed approval capture`.
 24. The evidence packet states that package evidence stays metadata first and cannot approve a pilot by itself.
+25. The teacher intake page renders a `Pilot launch checklist preview` derived from readiness, evidence, and handoff data.
+26. The checklist shows `No classroom launch action`, `Go/no-go blocked`, `Required before classroom pilot`, `Teacher classroom dry run`, and `Controlled partner demo`.
+27. The checklist does not launch students, capture approvals, upload evidence, or mark the package pilot-ready.
 
 ## Build Verification
 
