@@ -179,6 +179,7 @@
 - `DR-205-flip-tiles-cross-game-upload-font-guide.md`
 - `DR-206-template-rendering-font-storage-contract.md`
 - `DR-207-template-font-profile-readiness-panel.md`
+- `DR-208-draft-profile-binding-preview.md`
 
 ## Maintenance Rule
 

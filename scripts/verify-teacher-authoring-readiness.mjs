@@ -121,6 +121,12 @@ requireText(contentEntryWorkbenchPreview, "Tenant font pack", "Content-entry wor
 requireText(contentEntryWorkbenchPreview, "Hiragana-safe font", "Content-entry workbench preview must show hiragana-safe font control.");
 requireText(contentEntryWorkbenchPreview, "Readable tile sizing", "Content-entry workbench preview must show readable tile sizing control.");
 requireText(contentEntryWorkbenchPreview, "Font rendering gate", "Content-entry workbench preview must show font rendering gate.");
+requireText(contentEntryWorkbenchPreview, "Profile binding preview", "Content-entry workbench preview must show profile bindings.");
+requireText(contentEntryWorkbenchPreview, "template_rendering_profile: template-profile-flip-tiles-cross-game-v1", "Content-entry workbench preview must show template profile binding.");
+requireText(contentEntryWorkbenchPreview, "font_accessibility_profile: font-profile-young-learner-ja-safe-v1", "Content-entry workbench preview must show font profile binding.");
+requireText(contentEntryWorkbenchPreview, "Student-facing rendering blocked", "Content-entry workbench preview must block student-facing rendering.");
+requireText(contentEntryWorkbenchPreview, "Student-facing font blocked", "Content-entry workbench preview must block student-facing font use.");
+requireText(contentEntryWorkbenchPreview, "Reviewed profile required before template switch or printable render", "Content-entry workbench preview must require reviewed profiles.");
 requireText(contentEntryWorkbenchPreview, "Audio cue required", "Content-entry workbench preview must show audio cue requirement.");
 requireText(contentEntryWorkbenchPreview, "Image upload blocked", "Content-entry workbench preview must block image upload.");
 requireText(contentEntryWorkbenchPreview, "Reorder item", "Content-entry workbench preview must show reorder item action.");
@@ -135,6 +141,8 @@ requireText(routeVerifier, "/teacher/authoring/draft-sample-publisher-l1-u1", "A
 requireText(routeVerifier, "Direct AI publish", "Active route verifier must check direct AI publish block.");
 requireText(routeVerifier, "Draft content-entry workbench preview", "Active route verifier must check content-entry workbench preview.");
 requireText(routeVerifier, "Approved learner font", "Active route verifier must check draft font controls.");
+requireText(routeVerifier, "Profile binding preview", "Active route verifier must check draft profile bindings.");
+requireText(routeVerifier, "Student-facing rendering blocked", "Active route verifier must check draft rendering block.");
 requireText(aiHandoff, "AI can draft structure. It cannot publish student-facing content by itself.", "AI handoff docs must preserve no-direct-publish rule.");
 
 if (failures.length > 0) {

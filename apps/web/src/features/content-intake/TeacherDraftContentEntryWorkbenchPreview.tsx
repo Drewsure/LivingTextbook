@@ -8,6 +8,13 @@ interface TeacherDraftContentEntryWorkbenchPreviewProps {
 const formattingTools = ["Bold", "Superscript", "Subscript", "Symbol picker"];
 const fontRenderingTools = ["Approved learner font", "Tenant font pack", "Hiragana-safe font", "Readable tile sizing", "Font rendering gate"];
 const rowActions = ["Audio cue required", "Image upload blocked", "Reorder item", "Duplicate item", "Delete item"];
+const profileBindings = [
+  "template_rendering_profile: template-profile-flip-tiles-cross-game-v1",
+  "font_accessibility_profile: font-profile-young-learner-ja-safe-v1",
+  "Student-facing rendering blocked",
+  "Student-facing font blocked",
+  "Reviewed profile required before template switch or printable render",
+];
 const blockedActions = [
   "No live file picker",
   "No Done-to-student route",
@@ -144,6 +151,21 @@ export function TeacherDraftContentEntryWorkbenchPreview({ draft }: TeacherDraft
         <ul className="mt-3 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)] md:grid-cols-2">
           {blockedActions.map((action) => (
             <li key={action}>{action}</li>
+          ))}
+        </ul>
+      </section>
+
+      <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-white/80 p-4">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <h4 className="text-sm font-bold text-[var(--tenant-text)]">Profile binding preview</h4>
+          <StatusPill label="Review required" tone="warning" />
+        </div>
+        <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">
+          Template and font controls are visible for planning only. A reviewed profile must be attached before the draft can switch templates, render printables, or use tenant font configuration with students.
+        </p>
+        <ul className="mt-3 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)] md:grid-cols-2">
+          {profileBindings.map((binding) => (
+            <li key={binding}>{binding}</li>
           ))}
         </ul>
       </section>
