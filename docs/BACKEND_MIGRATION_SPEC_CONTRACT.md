@@ -30,6 +30,7 @@ This is a bridge between product architecture and implementation. It names the r
 - Earned collection inventory remains policy-blocked until student identity, export, retention, and reward catalog rules are accepted.
 - Teacher draft package specs must preserve owner, source lineage, visibility, review gates, audio plan state, and direct-assignment blocks before draft packages can become student-facing releases.
 - Tenant library item specs must preserve source lineage, block student-data copies, and block public community publishing before copy/edit, school sharing, search, or public-community work begins.
+- Activity compatibility snapshot specs must preserve payload shape, allowed activity modes, blocked conversions, target-language trigger policy, printable output policy, and student-facing pathway blocks before extra conversions or teacher pathway changes go live.
 - Template rendering profile specs must preserve source templates, curated game-family compatibility, row/media slot policy, layout constraints, and student-facing rendering blocks before any cross-game upload pattern or printable rendering goes live.
 - Font accessibility profile specs must preserve approved learner fonts, tenant font packs, multilingual rendering rules, readability checks, licensing, and student-facing font blocks before any tenant font control goes live.
 
@@ -39,6 +40,7 @@ This is a bridge between product architecture and implementation. It names the r
 - Package release store.
 - Teacher draft package store.
 - Tenant library item store.
+- Activity compatibility snapshot store.
 - Template rendering profile store.
 - Font accessibility profile store.
 - Package game/audio coverage snapshot.

@@ -13,6 +13,8 @@ Run after activity pathway, game offer, printable, template conversion, text puz
 - Confirm Word Search and Crossword remain blocked until text-only puzzle validation and reviewed clue rules exist.
 - Confirm target-language trigger rules are visible.
 - Confirm support language cannot unlock progress.
+- Confirm backend storage readiness includes `activity_compatibility_snapshot`.
+- Confirm activity compatibility snapshots preserve allowed modes, blocked conversions, target-language trigger policy, printable output policy, and student-facing pathway blocks.
 - Confirm `npm run verify:foundation` includes the activity pathway verifier.
 
 ## Verification Command

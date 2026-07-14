@@ -33,7 +33,7 @@ Do not store real student progress until policy, retention, export, and access r
 1. Tenant and feature entitlement records.
 2. Package release and reviewed content records.
 3. Teacher draft package records.
-4. Upload intake, review, promotion, game asset, label anchor, template rendering, and font accessibility records.
+4. Upload intake, review, promotion, game asset, label anchor, activity compatibility, template rendering, and font accessibility records.
 5. Teacher draft review decision, evidence, audit, and verifier submission records.
 6. Tenant library item records.
 7. Stable QR and route alias registry.
@@ -67,6 +67,7 @@ Each candidate must define:
 - Collection inventory must be deterministic, mastery-earned, exportable, and blocked from random pressure or purchase-like unlock paths.
 - Teacher draft package migrations must preserve owner, source lineage, visibility, review gates, audio plan state, and direct-assignment blocks.
 - Tenant library item migrations must preserve source lineage, block student-data copies, and block public community publishing.
+- Activity compatibility snapshot migrations must preserve payload shape, allowed activity modes, blocked conversions, target-language trigger policy, printable output policy, and student-facing pathway blocks.
 - Template rendering profile migrations must preserve source template identity, curated compatibility, row/media slot policy, layout constraints, and student-facing rendering blocks.
 - Font accessibility profile migrations must preserve approved learner fonts, tenant font packs, multilingual rendering rules, readability/license checks, and student-facing font blocks.
 - Every migration candidate needs rollback or export expectations before implementation.

@@ -49,6 +49,8 @@ export interface PersistenceWriteIntent {
   preservesLabelAnchorRecords?: boolean;
   requiresLabelAudioCoverage?: boolean;
   blocksSupportLanguageProgress?: boolean;
+  preservesActivityCompatibilitySnapshot?: boolean;
+  blocksUncheckedActivityConversion?: boolean;
   preservesTemplateRenderingProfile?: boolean;
   blocksUnsafeTemplateRendering?: boolean;
   preservesFontAccessibilityProfile?: boolean;
@@ -262,6 +264,18 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "label-anchor-record" && !intent.blocksSupportLanguageProgress) {
       errors.push(`Label anchor write intent ${intent.intentId} must block support-language progress triggers.`);
+    }
+
+    if (intent.category === "activity-compatibility-snapshot" && !intent.preservesActivityCompatibilitySnapshot) {
+      errors.push(`Activity compatibility snapshot write intent ${intent.intentId} must preserve curated compatibility outcomes.`);
+    }
+
+    if (intent.category === "activity-compatibility-snapshot" && !intent.blocksUncheckedActivityConversion) {
+      errors.push(`Activity compatibility snapshot write intent ${intent.intentId} must block unchecked activity conversion.`);
+    }
+
+    if (intent.category === "activity-compatibility-snapshot" && !intent.blocksSupportLanguageProgress) {
+      errors.push(`Activity compatibility snapshot write intent ${intent.intentId} must block support-language progress triggers.`);
     }
 
     if (intent.category === "template-rendering-profile" && !intent.preservesTemplateRenderingProfile) {

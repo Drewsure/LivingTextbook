@@ -12,6 +12,7 @@ export type PersistenceRecordCategory =
   | "upload-promotion"
   | "game-asset-manifest"
   | "label-anchor-record"
+  | "activity-compatibility-snapshot"
   | "template-rendering-profile"
   | "font-accessibility-profile"
   | "tenant-library-item"
@@ -88,6 +89,8 @@ export interface DurableRecordContract {
   preservesLabelAnchorRecords?: boolean;
   requiresLabelAudioCoverage?: boolean;
   blocksSupportLanguageProgress?: boolean;
+  preservesActivityCompatibilitySnapshot?: boolean;
+  blocksUncheckedActivityConversion?: boolean;
   preservesTemplateRenderingProfile?: boolean;
   blocksUnsafeTemplateRendering?: boolean;
   preservesFontAccessibilityProfile?: boolean;
@@ -266,6 +269,18 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "label-anchor-record" && !record.blocksSupportLanguageProgress) {
       errors.push(`Label anchor record ${record.recordId} must block support-language progress triggers.`);
+    }
+
+    if (record.category === "activity-compatibility-snapshot" && !record.preservesActivityCompatibilitySnapshot) {
+      errors.push(`Activity compatibility snapshot record ${record.recordId} must preserve curated compatibility outcomes.`);
+    }
+
+    if (record.category === "activity-compatibility-snapshot" && !record.blocksUncheckedActivityConversion) {
+      errors.push(`Activity compatibility snapshot record ${record.recordId} must block unchecked activity conversion.`);
+    }
+
+    if (record.category === "activity-compatibility-snapshot" && !record.blocksSupportLanguageProgress) {
+      errors.push(`Activity compatibility snapshot record ${record.recordId} must block support-language progress triggers.`);
     }
 
     if (record.category === "template-rendering-profile" && !record.preservesTemplateRenderingProfile) {

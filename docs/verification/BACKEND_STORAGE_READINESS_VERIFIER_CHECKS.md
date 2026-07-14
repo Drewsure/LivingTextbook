@@ -2,7 +2,7 @@
 
 ## Scope
 
-Run before backend selection, vendor-specific migrations, persistence adapter changes, upload intake work, template rendering profile work, font accessibility profile work, launch-session storage work, teacher draft storage work, teacher draft review handoff work, teacher draft verifier submission work, teacher draft reviewer decision work, teacher draft review evidence work, teacher draft review audit trail work, tenant library storage work, earned collection storage work, report package storage work, local companion storage work, or route registry persistence work.
+Run before backend selection, vendor-specific migrations, persistence adapter changes, upload intake work, activity compatibility snapshot work, template rendering profile work, font accessibility profile work, launch-session storage work, teacher draft storage work, teacher draft review handoff work, teacher draft verifier submission work, teacher draft reviewer decision work, teacher draft review evidence work, teacher draft review audit trail work, tenant library storage work, earned collection storage work, report package storage work, local companion storage work, or route registry persistence work.
 
 ## Automated Command
 
@@ -26,6 +26,7 @@ npm run verify:foundation
 - Teacher draft review handoff packets preserve schema, lineage, audio, rights/version, route/activity, and approval packet sections while blocking live review submission.
 - Teacher draft verifier submission preflights preserve schema, audio, language, route, and evidence checks while blocking automatic verifier submission.
 - Upload intake records preserve source lineage, file metadata, target mapping, rights/scan/review state, and block student-facing upload use.
+- Activity compatibility snapshots preserve payload shape, allowed activity modes, blocked conversions, target-language trigger policy, printable output policy, and student-facing pathway blocks.
 - Template rendering profiles preserve Flip Tiles-style source template identity, compatible game families, row/media slot policy, layout constraints, and student-facing rendering blocks.
 - Font accessibility profiles preserve approved learner fonts, tenant font packs, multilingual rendering rules, readability checks, license review, and student-facing font blocks.
 - Teacher draft reviewer decisions preserve evidence requirements and block package state changes.
@@ -41,13 +42,14 @@ npm run verify:foundation
 - Hosted and local adapter plans both include teacher draft review handoff packet writes.
 - Hosted and local adapter plans both include teacher draft verifier submission preflight writes.
 - Hosted and local adapter plans both include upload intake writes.
+- Hosted and local adapter plans both include activity compatibility snapshot writes.
 - Hosted and local adapter plans both include template rendering profile writes.
 - Hosted and local adapter plans both include font accessibility profile writes.
 - Hosted and local adapter plans both include teacher draft reviewer decision writes.
 - Hosted and local adapter plans both include teacher draft review evidence packet writes.
 - Hosted and local adapter plans both include teacher draft review audit trail writes.
 - Hosted and local adapter plans both include tenant library item writes.
-- Durable record plans assign teacher settings to launch sessions, require event acceptance gates, preserve earned collection rules, preserve teacher draft review gates, preserve draft review handoff packet sections, preserve verifier preflight checks, preserve upload source lineage, preserve template rendering profiles, preserve font accessibility profiles, preserve reviewer decision evidence requirements, preserve review evidence packets, preserve review audit trails, and preserve tenant library source-lineage rules.
+- Durable record plans assign teacher settings to launch sessions, require event acceptance gates, preserve earned collection rules, preserve teacher draft review gates, preserve draft review handoff packet sections, preserve verifier preflight checks, preserve upload source lineage, preserve activity compatibility snapshots, preserve template rendering profiles, preserve font accessibility profiles, preserve reviewer decision evidence requirements, preserve review evidence packets, preserve review audit trails, and preserve tenant library source-lineage rules.
 
 ## Human Follow-Up
 

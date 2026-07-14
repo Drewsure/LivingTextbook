@@ -220,6 +220,25 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
       notAllowedYet: ["Support-language progress trigger", "Missing label audio", "Auto-generated labels as active labels", "Direct assignment", "Raw learner audio"],
     },
     {
+      migrationId: "m031-activity-compatibility-snapshots",
+      label: "Activity compatibility snapshot records",
+      track: "shared",
+      status: "ready-to-design",
+      risk: "medium",
+      targetEntities: ["activity_compatibility_snapshot"],
+      purpose:
+        "Persist reviewed compatibility outcomes before teachers can change activity pathways, switch to extra templates, or render printable variants from a payload.",
+      prerequisites: ["Activity pathway compatibility matrix accepted", "Target-language trigger policy accepted", "Printable output policy accepted", "Release-control policy accepted"],
+      implementationNotes: [
+        "Keep compatibility snapshots tenant-scoped and package/unit-scoped.",
+        "Preserve payload shape, allowed activity modes, blocked conversions, target-language trigger policy, and printable output policy.",
+        "Block student-facing pathway changes until compatibility, audio, media, language, and release gates pass.",
+        "Do not let compatibility snapshots become a switch-to-anything shortcut.",
+      ],
+      rollbackOrExportNeeds: ["Export activity compatibility snapshot JSON", "Retain reviewed and blocked conversion reasons", "Support local activity compatibility backup and restore"],
+      notAllowedYet: ["Switch-to-anything promise", "Support-language progress trigger", "Unchecked crossword conversion", "Media-only mastery path", "Direct assignment"],
+    },
+    {
       migrationId: "m029-template-rendering-profiles",
       label: "Template rendering profile records",
       track: "shared",

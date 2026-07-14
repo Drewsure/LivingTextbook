@@ -41,6 +41,10 @@ Current verifier:
 
 - `npm run verify:activity-pathways`
 
+Backend storage verifier:
+
+- `npm run verify:backend-storage`
+
 Printable output contract:
 
 - `docs/PRINTABLE_OUTPUT_READINESS_CONTRACT.md`
@@ -107,7 +111,9 @@ Blocked conversions:
 - Crossword outputs require reviewed clue text, not only vocabulary terms.
 - Premium arcade modes require teacher controls, accessibility settings, audio clarity, and standard events.
 - Japanese or other non-space-delimited target languages need reviewed segmentation rules before sentence or puzzle conversion.
+- Before teacher pathway changes, extra template conversions, or printable switching go live, the backend-neutral storage contract must include `activity_compatibility_snapshot` records.
+- Activity compatibility snapshots must preserve payload shape, allowed activity modes, blocked conversions, target-language trigger policy, printable output policy, and student-facing pathway blocks.
 
 ## Follow-Up
 
-Promote this sample shape into a shared package contract after teacher authoring and printable output requirements are clearer.
+Promote this sample shape into durable `activity_compatibility_snapshot` records before live teacher pathway switching, extra conversions, or printable rendering controls are implemented.

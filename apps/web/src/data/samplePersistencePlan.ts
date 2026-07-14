@@ -24,6 +24,7 @@ export type PersistenceBoundaryCategory =
   | "upload-promotion"
   | "game-asset-manifest"
   | "label-anchor-record"
+  | "activity-compatibility-snapshot"
   | "template-rendering-profile"
   | "font-accessibility-profile"
   | "tenant-library-item"
@@ -240,6 +241,24 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     blocksStudentFacingGameAssetUse: true,
     recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
     note: "Label anchor records need durable target-language labels, reviewed anchor coordinates, tap-to-speak label audio, and support-language support-only flags before Labelled Diagram activities can be assigned.",
+  },
+  {
+    recordId: "activity-compatibility-snapshot-record",
+    category: "activity-compatibility-snapshot",
+    label: "Activity compatibility snapshot record",
+    readiness: "durable-required",
+    sourceOfTruth: "ActivityPathwayCompatibilityMatrix, ContentEntryOptionScaffold, activity_compatibility_snapshot, curated activity pathways",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: false,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesActivityCompatibilitySnapshot: true,
+    blocksUncheckedActivityConversion: true,
+    blocksSupportLanguageProgress: true,
+    recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
+    note: "Activity compatibility snapshots need durable allowed modes, blocked conversions, item-count rules, target-language trigger policy, and printable limits before teachers can change a unit pathway.",
   },
   {
     recordId: "template-rendering-profile-record",
@@ -746,6 +765,18 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     visibleTo: ["Teacher", "Tenant admin", "Content reviewer", "Publisher media owner", "Platform admin"],
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision: "Persist label anchor records before enabling live label editing, auto-generated labels, image-game assignment, or support-language-triggered progress.",
+  },
+  {
+    boundaryId: "activity-compatibility-snapshot-boundary",
+    category: "activity-compatibility-snapshot",
+    label: "Activity compatibility snapshots",
+    status: "needs-backend",
+    recordShape: "Snapshot id, tenant, package/unit, payload shape, allowed activity modes, blocked conversions, item-count rules, target-language trigger policy, printable policy, student-facing pathway block",
+    whyItMatters:
+      "Curated pathways are safer than a giant switch-to-anything panel, but the allowed and blocked conversions must be durable so teachers cannot accidentally assign an incompatible game.",
+    visibleTo: ["Teacher", "Tenant admin", "Content reviewer", "Platform admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision: "Persist activity compatibility snapshots before enabling teacher pathway changes, extra template conversions, or printable switching.",
   },
   {
     boundaryId: "template-rendering-profile-boundary",

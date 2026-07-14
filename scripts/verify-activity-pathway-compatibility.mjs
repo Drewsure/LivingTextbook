@@ -4,6 +4,8 @@ const matrix = readSource("../apps/web/src/data/sampleActivityPathwayCompatibili
 const panel = readSource("../apps/web/src/features/game-offers/ActivityPathwayCompatibilityPanel.tsx");
 const routeVerifier = readSource("./verify-active-routes.mjs");
 const docs = readSource("../docs/COMPETITIVE_FEATURE_COVERAGE_MATRIX.md");
+const pathwayDocs = readSource("../docs/ACTIVITY_PATHWAY_COMPATIBILITY_MATRIX.md");
+const backendStorageVerifier = readSource("./verify-backend-storage-readiness.mjs");
 
 const failures = [];
 const requiredOfferedItems = ["entry-flashcards", "memory-match", "teacher-review-quiz", "sentence-builder"];
@@ -40,6 +42,10 @@ requireText(routeVerifier, "Printable vocabulary sheet", "Active route verifier 
 requireText(routeVerifier, "Target-language trigger", "Active route verifier must check target-language trigger visibility.");
 requireText(docs, "curated teacher-approved pathways", "Competitive matrix docs must preserve curated pathway stance.");
 requireText(docs, "Add printable/PDF activity output", "Competitive matrix docs must preserve printable planning.");
+requireText(pathwayDocs, "activity_compatibility_snapshot", "Activity pathway docs must preserve compatibility snapshot storage contract.");
+requireText(pathwayDocs, "student-facing pathway blocks", "Activity pathway docs must preserve student-facing pathway blocks.");
+requireText(backendStorageVerifier, "activity_compatibility_snapshot", "Backend storage verifier must require activity compatibility snapshots.");
+requireText(backendStorageVerifier, "blocksUncheckedActivityConversion: true", "Backend storage verifier must require unchecked conversion blocks.");
 
 if (failures.length > 0) {
   for (const failure of failures) {

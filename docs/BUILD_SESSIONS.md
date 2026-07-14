@@ -360,6 +360,7 @@ Next outputs:
 - Confirm backend schema, migration candidates, migration specs, adapter plans, and durable records preserve `template_rendering_profile` and `font_accessibility_profile` before enabling live cross-game template rendering, tenant font packs, font uploads, or printable rendering controls.
 - Confirm `/teacher/intake` shows template/font profile readiness with student-facing rendering and font blocks before live template switching, printable rendering, or tenant font configuration is enabled.
 - Confirm `/teacher/authoring/draft-sample-publisher-l1-u1` shows draft profile bindings before live draft template switching, printable rendering, or tenant font configuration is enabled.
+- Confirm backend schema, migration candidates, migration specs, adapter plans, and durable records preserve `activity_compatibility_snapshot` before enabling live teacher pathway changes, extra template conversions, or printable switching.
 
 ## Session 8: Premium Experience Layer
 

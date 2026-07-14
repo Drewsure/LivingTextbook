@@ -294,6 +294,31 @@ export const sampleBackendSchemaDraft: BackendSchemaDraft = {
         "Label anchor records must keep target-language labels and audio separate from support-language explanation. They cannot unlock progress or become student-facing until reviewed.",
     },
     {
+      entityId: "activity_compatibility_snapshot",
+      label: "Activity compatibility snapshot",
+      status: "required-before-pilot",
+      deploymentFit: "hybrid",
+      purpose:
+        "Stores reviewed compatibility outcomes for a package/unit payload so teachers can offer curated activity pathways without a switch-to-anything panel.",
+      fields: [
+        { name: "compatibility_snapshot_id", type: "stable id", required: true, note: "One reviewed snapshot for a package/unit/activity payload shape." },
+        { name: "tenant_id", type: "foreign key/string", required: true, note: "Tenant boundary for white-label pathway rules." },
+        { name: "package_release_candidate_id", type: "foreign key/string", required: false, note: "Draft or release candidate this compatibility result belongs to." },
+        { name: "unit_key", type: "string", required: true, note: "Stable unit identifier used by QR routes, assignments, reports, and local bundles." },
+        { name: "payload_shape", type: "json/object", required: true, note: "Vocabulary count, sentence count, media requirements, image/label needs, and text shape constraints." },
+        { name: "allowed_activity_modes", type: "json/string array", required: true, note: "Curated modes the payload can safely become after review." },
+        { name: "blocked_conversions", type: "json/object array", required: true, note: "Unavailable modes and the reason they are blocked." },
+        { name: "target_language_trigger_policy", type: "json/object", required: true, note: "Target-language-only progress rules for the allowed modes." },
+        { name: "printable_output_policy", type: "json/object", required: true, note: "Printable outputs that can be previewed, blocked, or deferred." },
+        { name: "student_facing_pathway_allowed", type: "boolean", required: true, note: "False until compatibility, audio, media, language, and release gates pass." },
+      ],
+      relationships: ["Belongs to tenant", "May belong to package release candidate", "References template rendering profile", "Feeds teacher assignment pathways and printable previews"],
+      indexes: ["tenant_id + unit_key", "compatibility_snapshot_id unique", "tenant_id + package_release_candidate_id", "student_facing_pathway_allowed"],
+      forbiddenFields: ["Switch-to-anything promise", "Support-language progress trigger", "Unchecked crossword conversion", "Media-only mastery path", "Raw learner audio", "Learner transcript"],
+      migrationNote:
+        "Activity compatibility snapshots must keep curated allowed modes and blocked conversions durable before teacher pathway changes, printable switching, or extra template conversions become live.",
+    },
+    {
       entityId: "template_rendering_profile",
       label: "Template rendering profile",
       status: "required-before-pilot",

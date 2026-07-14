@@ -19,6 +19,7 @@ const requiredSchemaEntities = [
   "upload_promotion_gate",
   "game_asset_manifest",
   "label_anchor_record",
+  "activity_compatibility_snapshot",
   "template_rendering_profile",
   "font_accessibility_profile",
   "teacher_draft_review_decision",
@@ -54,6 +55,7 @@ const requiredMigrationCandidates = [
   "m023-upload-promotion-gates",
   "m024-game-asset-manifests",
   "m025-label-anchor-records",
+  "m031-activity-compatibility-snapshots",
   "m029-template-rendering-profiles",
   "m030-font-accessibility-profiles",
   "m017-teacher-draft-review-decision-records",
@@ -92,6 +94,7 @@ const requiredMigrationSpecs = [
   "spec-upload-promotion-gate",
   "spec-game-asset-manifest",
   "spec-label-anchor-record",
+  "spec-activity-compatibility-snapshot",
   "spec-template-rendering-profile",
   "spec-font-accessibility-profile",
   "spec-teacher-draft-review-decision",
@@ -149,6 +152,13 @@ requireText(schemaDraft, "label_anchor_record", "Backend schema must include lab
 requireText(schemaDraft, "target_language_label", "Backend schema must preserve target-language label text.");
 requireText(schemaDraft, "label_audio_cue_id", "Backend schema must require label audio cue ids.");
 requireText(schemaDraft, "support_language_progress_allowed", "Backend schema must block support-language progress triggers.");
+requireText(schemaDraft, "activity_compatibility_snapshot", "Backend schema must include activity compatibility snapshots.");
+requireText(schemaDraft, "payload_shape", "Backend schema must preserve payload shape for compatibility.");
+requireText(schemaDraft, "allowed_activity_modes", "Backend schema must preserve allowed activity modes.");
+requireText(schemaDraft, "blocked_conversions", "Backend schema must preserve blocked activity conversions.");
+requireText(schemaDraft, "target_language_trigger_policy", "Backend schema must preserve target-language trigger policy.");
+requireText(schemaDraft, "printable_output_policy", "Backend schema must preserve printable output policy.");
+requireText(schemaDraft, "student_facing_pathway_allowed", "Backend schema must block student-facing pathway changes.");
 requireText(schemaDraft, "template_rendering_profile", "Backend schema must include template rendering profiles.");
 requireText(schemaDraft, "source_template", "Backend schema must preserve template source identity.");
 requireText(schemaDraft, "compatible_game_families", "Backend schema must preserve curated compatible game families.");
@@ -213,6 +223,10 @@ requireText(migrationSpecs, "spec-label-anchor-record", "Migration specs must in
 requireText(migrationSpecs, "target_language_label", "Migration specs must preserve target-language labels.");
 requireText(migrationSpecs, "label_audio_cue_id", "Migration specs must require label audio cue ids.");
 requireText(migrationSpecs, "support_language_progress_allowed", "Migration specs must block support-language progress triggers.");
+requireText(migrationSpecs, "spec-activity-compatibility-snapshot", "Migration specs must include activity compatibility snapshots.");
+requireText(migrationSpecs, "compatibility_snapshot_id", "Migration specs must preserve compatibility snapshot ids.");
+requireText(migrationSpecs, "allowed_activity_modes", "Migration specs must preserve allowed activity modes.");
+requireText(migrationSpecs, "student_facing_pathway_allowed", "Migration specs must block student-facing pathway changes.");
 requireText(migrationSpecs, "spec-template-rendering-profile", "Migration specs must include template rendering profiles.");
 requireText(migrationSpecs, "template_profile_id", "Migration specs must preserve template rendering profile ids.");
 requireText(migrationSpecs, "student_facing_rendering_allowed", "Migration specs must block student-facing rendering profiles.");
@@ -277,6 +291,10 @@ requireText(persistenceAdapter, "local-label-anchor-write", "Persistence adapter
 requireText(persistenceAdapter, "preservesLabelAnchorRecords: true", "Persistence adapter must preserve label anchor records.");
 requireText(persistenceAdapter, "requiresLabelAudioCoverage: true", "Persistence adapter must require label audio coverage.");
 requireText(persistenceAdapter, "blocksSupportLanguageProgress: true", "Persistence adapter must block support-language progress triggers.");
+requireText(persistenceAdapter, "hosted-activity-compatibility-snapshot-write", "Persistence adapter must include hosted activity compatibility snapshot writes.");
+requireText(persistenceAdapter, "local-activity-compatibility-snapshot-write", "Persistence adapter must include local activity compatibility snapshot writes.");
+requireText(persistenceAdapter, "preservesActivityCompatibilitySnapshot: true", "Persistence adapter must preserve activity compatibility snapshots.");
+requireText(persistenceAdapter, "blocksUncheckedActivityConversion: true", "Persistence adapter must block unchecked activity conversions.");
 requireText(persistenceAdapter, "hosted-template-rendering-profile-write", "Persistence adapter must include hosted template rendering profile writes.");
 requireText(persistenceAdapter, "local-template-rendering-profile-write", "Persistence adapter must include local template rendering profile writes.");
 requireText(persistenceAdapter, "preservesTemplateRenderingProfile: true", "Persistence adapter must preserve template rendering profiles.");
@@ -348,6 +366,9 @@ requireText(durableRecords, "label-anchor-record", "Durable record plan must inc
 requireText(durableRecords, "preservesLabelAnchorRecords: true", "Durable record plan must preserve label anchor records.");
 requireText(durableRecords, "requiresLabelAudioCoverage: true", "Durable record plan must require label audio coverage.");
 requireText(durableRecords, "blocksSupportLanguageProgress: true", "Durable record plan must block support-language progress triggers.");
+requireText(durableRecords, "activity-compatibility-snapshot-record", "Durable record plan must include activity compatibility snapshots.");
+requireText(durableRecords, "preservesActivityCompatibilitySnapshot: true", "Durable record plan must preserve activity compatibility snapshots.");
+requireText(durableRecords, "blocksUncheckedActivityConversion: true", "Durable record plan must block unchecked activity conversions.");
 requireText(durableRecords, "template-rendering-profile-record", "Durable record plan must include template rendering profiles.");
 requireText(durableRecords, "preservesTemplateRenderingProfile: true", "Durable record plan must preserve template rendering profiles.");
 requireText(durableRecords, "blocksUnsafeTemplateRendering: true", "Durable record plan must block unsafe template rendering.");
