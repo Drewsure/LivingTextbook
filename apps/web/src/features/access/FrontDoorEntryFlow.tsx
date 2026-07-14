@@ -30,6 +30,7 @@ import { FlashcardPracticeCard } from "@/features/student/components/FlashcardPr
 import { NextGameUnlockCard } from "@/features/student/components/NextGameUnlockCard";
 import { RecommendedGameRoutesCard } from "@/features/student/components/RecommendedGameRoutesCard";
 import { RewardPreviewCard } from "@/features/student/components/RewardPreviewCard";
+import { LaunchContextSafetyCard } from "@/features/student/components/LaunchContextSafetyCard";
 import { FrontDoorTeacherReportPreview } from "./FrontDoorTeacherReportPreview";
 import type { TenantConfig } from "@/features/tenant/types";
 
@@ -237,6 +238,12 @@ export function FrontDoorEntryFlow({
             Demo entry code: {expectedEntryCode}. Demo learner codes: {acceptedUserCodes.join(", ")}. These are roster slots for classroom reporting, not production student accounts.
           </p>
         </Card>
+
+        <LaunchContextSafetyCard
+          title="Controlled front-door practice"
+          accessLabel="Entry and user code preview"
+          reportLabel={accessPolicy.reportProgressToTeacher ? "Teacher report preview" : "Reports off"}
+        />
 
         {unitOpen && (
           <>

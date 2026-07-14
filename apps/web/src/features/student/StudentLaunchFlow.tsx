@@ -37,6 +37,7 @@ import {
   hasRecordedTrainingRecoveryRecommendation,
 } from "@/features/training/trainingRecoveryTrigger";
 import { FlashcardPracticeCard } from "./components/FlashcardPracticeCard";
+import { LaunchContextSafetyCard } from "./components/LaunchContextSafetyCard";
 import { NextGameUnlockCard } from "./components/NextGameUnlockCard";
 import { RecommendedGameRoutesCard } from "./components/RecommendedGameRoutesCard";
 import { RewardPreviewCard } from "./components/RewardPreviewCard";
@@ -232,6 +233,11 @@ export function StudentLaunchFlow({
         progression={currentProgression}
         entryComplete={entryComplete}
         nextMode={nextMode}
+      />
+      <LaunchContextSafetyCard
+        title="Controlled student practice"
+        accessLabel={assignmentPlan ? "Private assignment preview" : "Direct demo route"}
+        reportLabel={sessionSettings?.reporting.reportProgressToTeacher ? "Teacher report preview" : "Reports off"}
       />
       <TeacherAssignmentSettingsCard assignmentPlan={assignmentPlan} />
       <UnitMediaShortcutCard
