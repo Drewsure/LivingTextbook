@@ -27,6 +27,7 @@ Panel:
 - `apps/web/src/features/content-intake/TeacherAuthoringReadinessPanel.tsx`
 - `apps/web/src/features/content-intake/TeacherDraftPackagePreviewPanel.tsx`
 - `apps/web/src/features/content-intake/TeacherDraftAudioCoveragePreview.tsx`
+- `apps/web/src/features/content-intake/TeacherDraftContentEntryWorkbenchPreview.tsx`
 - `apps/web/src/features/content-intake/TeacherDraftLocalEditPreview.tsx`
 - `apps/web/src/features/content-intake/TeacherDraftReviewHandoffPreview.tsx`
 - `apps/web/src/features/content-intake/TeacherDraftReviewQueuePanel.tsx`
@@ -64,6 +65,8 @@ This route is not a live editor. It shows the shape of a draft package, source l
 
 The route also includes a local-only edit preview. It can validate draft shape in the browser, but it cannot save, publish, assign, or regenerate audio.
 
+The route includes a disabled content-entry workbench preview. It shows the future teacher authoring surface for activity title, instruction, single/double sided cards, row front/back values, formatting tools, row audio cues, image upload positions, reorder, duplicate, delete, add item, flip tiles, AI draft help, item limits, and Done. It cannot save, upload, publish, assign, switch templates, or route Done to students.
+
 The route includes a draft audio coverage preview. It must keep term audio, sentence audio, and instruction audio visible before student use.
 
 The route includes a draft review handoff preview. It shows the schema, source lineage, audio coverage, rights/version, route/activity, and approval packets that a future submit-for-review workflow must carry, while keeping review submission blocked until durable storage, ownership, verifier workflow, audio regeneration, and package approval exist.
@@ -93,6 +96,19 @@ The route must continue to show:
 - `Teacher draft package`
 - `Draft only`
 - `Local edit preview`
+- `Draft content-entry workbench preview`
+- `Activity title`
+- `+ Instruction`
+- `Generate With AI blocked`
+- `Flip tiles preview`
+- `Single sided`
+- `Double sided`
+- `min 2 max 50`
+- `Audio cue required`
+- `Image upload blocked`
+- `No live file picker`
+- `No Done-to-student route`
+- `No template switch without compatibility check`
 - `Draft audio coverage preview`
 - `Draft review handoff preview`
 - `Review packet blocked`
@@ -172,6 +188,7 @@ Student assignment requires:
 - Direct draft assignment is blocked.
 - Direct AI publish is blocked.
 - Local edit previews do not save, publish, assign, or regenerate audio.
+- Content-entry workbench previews do not save, upload, switch templates, publish, assign, or route Done to students.
 - Draft audio coverage must be reviewed before student use.
 - Draft review handoff previews do not submit; they summarize review requirements only.
 - Review queue previews do not approve, submit, publish, or assign.

@@ -4,6 +4,7 @@ const plan = readSource("../apps/web/src/data/sampleTeacherAuthoringReadiness.ts
 const panel = readSource("../apps/web/src/features/content-intake/TeacherAuthoringReadinessPanel.tsx");
 const draftPreview = readSource("../apps/web/src/features/content-intake/TeacherDraftPackagePreviewPanel.tsx");
 const audioCoveragePreview = readSource("../apps/web/src/features/content-intake/TeacherDraftAudioCoveragePreview.tsx");
+const contentEntryWorkbenchPreview = readSource("../apps/web/src/features/content-intake/TeacherDraftContentEntryWorkbenchPreview.tsx");
 const localEditorPreview = readSource("../apps/web/src/features/content-intake/TeacherDraftLocalEditPreview.tsx");
 const reviewHandoffPreview = readSource("../apps/web/src/features/content-intake/TeacherDraftReviewHandoffPreview.tsx");
 const reviewQueue = readSource("../apps/web/src/data/sampleTeacherDraftReviewQueue.ts");
@@ -41,6 +42,7 @@ requireText(draftPreview, "Teacher draft package", "Teacher draft preview must e
 requireText(draftPreview, "Student assignment blocked", "Teacher draft preview must show assignment block.");
 requireText(draftPreview, "No direct publish", "Teacher draft preview must show no-direct-publish boundary.");
 requireText(draftPreview, "TeacherDraftLocalEditPreview", "Teacher draft preview must render the local edit preview.");
+requireText(draftPreview, "TeacherDraftContentEntryWorkbenchPreview", "Teacher draft preview must render the content-entry workbench preview.");
 requireText(draftPreview, "TeacherDraftAudioCoveragePreview", "Teacher draft preview must render the draft audio coverage preview.");
 requireText(draftPreview, "TeacherDraftReviewHandoffPreview", "Teacher draft preview must render the review handoff preview.");
 requireText(audioCoveragePreview, "Draft audio coverage preview", "Draft audio coverage preview must expose its heading.");
@@ -98,9 +100,34 @@ requireText(localEditorPreview, "Save draft blocked", "Local editor preview must
 requireText(localEditorPreview, "Submit for review blocked", "Local editor preview must block submit for review.");
 requireText(localEditorPreview, "Student assignment blocked", "Local editor preview must block student assignment.");
 requireText(localEditorPreview, "Audio regeneration required", "Local editor preview must preserve audio regeneration requirement.");
+requireText(contentEntryWorkbenchPreview, "Draft content-entry workbench preview", "Content-entry workbench preview must expose its heading.");
+requireText(contentEntryWorkbenchPreview, "Activity title", "Content-entry workbench preview must show activity title.");
+requireText(contentEntryWorkbenchPreview, "+ Instruction", "Content-entry workbench preview must show instruction control.");
+requireText(contentEntryWorkbenchPreview, "Single sided", "Content-entry workbench preview must show single-sided control.");
+requireText(contentEntryWorkbenchPreview, "Double sided", "Content-entry workbench preview must show double-sided control.");
+requireText(contentEntryWorkbenchPreview, "min 2 max 50", "Content-entry workbench preview must show item limits.");
+requireText(contentEntryWorkbenchPreview, "Generate With AI blocked", "Content-entry workbench preview must block AI generation.");
+requireText(contentEntryWorkbenchPreview, "Flip tiles preview", "Content-entry workbench preview must show flip tiles preview.");
+requireText(contentEntryWorkbenchPreview, "Done blocked", "Content-entry workbench preview must block Done.");
+requireText(contentEntryWorkbenchPreview, "Front", "Content-entry workbench preview must show Front field.");
+requireText(contentEntryWorkbenchPreview, "Back", "Content-entry workbench preview must show Back field.");
+requireText(contentEntryWorkbenchPreview, "Bold", "Content-entry workbench preview must show Bold formatting.");
+requireText(contentEntryWorkbenchPreview, "Superscript", "Content-entry workbench preview must show Superscript formatting.");
+requireText(contentEntryWorkbenchPreview, "Subscript", "Content-entry workbench preview must show Subscript formatting.");
+requireText(contentEntryWorkbenchPreview, "Symbol picker", "Content-entry workbench preview must show symbol picker.");
+requireText(contentEntryWorkbenchPreview, "Audio cue required", "Content-entry workbench preview must show audio cue requirement.");
+requireText(contentEntryWorkbenchPreview, "Image upload blocked", "Content-entry workbench preview must block image upload.");
+requireText(contentEntryWorkbenchPreview, "Reorder item", "Content-entry workbench preview must show reorder item action.");
+requireText(contentEntryWorkbenchPreview, "Duplicate item", "Content-entry workbench preview must show duplicate item action.");
+requireText(contentEntryWorkbenchPreview, "Delete item", "Content-entry workbench preview must show delete item action.");
+requireText(contentEntryWorkbenchPreview, "+ Add an item", "Content-entry workbench preview must show add item action.");
+requireText(contentEntryWorkbenchPreview, "No live file picker", "Content-entry workbench preview must block live file pickers.");
+requireText(contentEntryWorkbenchPreview, "No Done-to-student route", "Content-entry workbench preview must block Done-to-student routing.");
+requireText(contentEntryWorkbenchPreview, "No template switch without compatibility check", "Content-entry workbench preview must block unchecked template switching.");
 requireText(routeVerifier, "Teacher authoring readiness", "Active route verifier must check teacher authoring panel.");
 requireText(routeVerifier, "/teacher/authoring/draft-sample-publisher-l1-u1", "Active route verifier must check teacher draft preview route.");
 requireText(routeVerifier, "Direct AI publish", "Active route verifier must check direct AI publish block.");
+requireText(routeVerifier, "Draft content-entry workbench preview", "Active route verifier must check content-entry workbench preview.");
 requireText(aiHandoff, "AI can draft structure. It cannot publish student-facing content by itself.", "AI handoff docs must preserve no-direct-publish rule.");
 
 if (failures.length > 0) {

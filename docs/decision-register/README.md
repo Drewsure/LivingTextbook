@@ -175,6 +175,7 @@
 - `DR-201-multimedia-binding-storage-contract.md`
 - `DR-202-teacher-media-library-preview-route.md`
 - `DR-203-content-entry-option-scaffold.md`
+- `DR-204-draft-content-entry-workbench-preview.md`
 
 ## Maintenance Rule
 

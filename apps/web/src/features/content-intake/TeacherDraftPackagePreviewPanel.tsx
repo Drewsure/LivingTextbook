@@ -5,6 +5,7 @@ import type {
   TeacherDraftPackageStatus,
 } from "@/data/sampleTeacherDraftPackage";
 import { TeacherDraftAudioCoveragePreview } from "./TeacherDraftAudioCoveragePreview";
+import { TeacherDraftContentEntryWorkbenchPreview } from "./TeacherDraftContentEntryWorkbenchPreview";
 import { TeacherDraftLocalEditPreview } from "./TeacherDraftLocalEditPreview";
 import { TeacherDraftReviewHandoffPreview } from "./TeacherDraftReviewHandoffPreview";
 import { formatMode } from "@/lib/formatLabels";
@@ -52,6 +53,7 @@ export function TeacherDraftPackagePreviewPanel({ draft }: TeacherDraftPackagePr
       </Card>
 
       <TeacherDraftLocalEditPreview draft={draft} />
+      <TeacherDraftContentEntryWorkbenchPreview draft={draft} />
       <TeacherDraftAudioCoveragePreview draft={draft} />
       <TeacherDraftReviewHandoffPreview draft={draft} />
 
