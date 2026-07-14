@@ -19,6 +19,7 @@ import {
   validateTeacherSessionControlActions,
   validateTeacherSessionSettings,
 } from "@living-textbook/content-model";
+import { sampleClassroomLaunchGate } from "./sampleClassroomLaunchGate";
 import { resolveSampleLaunchContext } from "./sampleLaunchResolver";
 import { createSampleTeacherSessionSettings } from "./sampleTeacherSessionSettings";
 import type { TenantConfig } from "@/features/tenant/types";
@@ -96,6 +97,22 @@ export interface TeacherReportPackageBoundary {
   requiredBeforeExport: string[];
 }
 
+export type TeacherSessionLaunchGateBoundaryStatus = "launch-blocked" | "preview-only" | "ready";
+
+export interface TeacherSessionLaunchGateBoundary {
+  boundaryId: string;
+  label: string;
+  status: TeacherSessionLaunchGateBoundaryStatus;
+  launchStatus: string;
+  decision: string;
+  summary: string;
+  workspacePath: string;
+  sourceOfTruth: string;
+  blockedActions: string[];
+  requiredBeforeLiveSession: string[];
+  reportRules: string[];
+}
+
 export interface TeacherSessionMonitorContext {
   tenant: TenantConfig;
   contentPackage: ContentPackage;
@@ -118,6 +135,7 @@ export interface TeacherSessionMonitorContext {
   reportExportErrors: string[];
   reportExportWarnings: string[];
   reportPackageBoundary: TeacherReportPackageBoundary;
+  launchGateBoundary: TeacherSessionLaunchGateBoundary;
   preflightChecks: TeacherSessionPreflightCheck[];
   eventAcceptanceGate: TeacherSessionEventAcceptanceGate;
   pilotReadinessSnapshot: TeacherSessionPilotReadinessSnapshot;
@@ -145,6 +163,7 @@ export function resolveSampleTeacherSessionMonitorContext(launchCode: string): T
     reportExportPlan,
     reportExportWarnings,
   });
+  const launchGateBoundary = createTeacherSessionLaunchGateBoundary(launchContext.launchSession);
   const assignedGameModes = uniqueModes([launchContext.launchSession.entryMode, ...launchContext.launchSession.recommendedNextModes]);
   const audioCoveredGameModes = getAudioCoveredGameModes(launchContext.contentPackage);
   const assignedGameAudioGaps = assignedGameModes.filter((mode) => !audioCoveredGameModes.includes(mode));
@@ -204,6 +223,7 @@ export function resolveSampleTeacherSessionMonitorContext(launchCode: string): T
     reportExportErrors,
     reportExportWarnings,
     reportPackageBoundary,
+    launchGateBoundary,
     preflightChecks,
     eventAcceptanceGate,
     pilotReadinessSnapshot,
@@ -212,6 +232,45 @@ export function resolveSampleTeacherSessionMonitorContext(launchCode: string): T
       "A real classroom monitor needs persisted launch sessions, event storage, student/session policy, and export controls.",
       "Support-language taps may appear in reports, but only target-language engagement can unlock progression.",
       "Premium AI Tutor, speech scoring, transcript storage, and cloud audio upload remain optional tenant add-ons.",
+    ],
+  };
+}
+
+function createTeacherSessionLaunchGateBoundary(launchSession: LaunchSession): TeacherSessionLaunchGateBoundary {
+  const gate = sampleClassroomLaunchGate;
+  const blockedActions = uniqueStrings([
+    "No live classroom launch",
+    "No launch button",
+    "Real learner data blocked",
+    "Report export still blocked",
+    ...gate.items.flatMap((item) => item.blockedActions),
+  ]);
+  const requiredBeforeLiveSession = uniqueStrings([
+    "Classroom launch gate must close.",
+    "Teacher dry-run evidence must be reviewed.",
+    "School privacy, retention, and report export policy must be accepted.",
+    "Persistence adapter and event acceptance gate must be verified.",
+    ...gate.items.flatMap((item) => item.requiredBeforeLaunch),
+  ]);
+
+  return {
+    boundaryId: `${launchSession.launchCode}-teacher-session-launch-gate-boundary`,
+    label: "Session launch gate boundary",
+    status: "launch-blocked",
+    launchStatus: gate.launchStatus,
+    decision: "This teacher session report remains a preview and cannot authorize a live classroom launch.",
+    summary:
+      `${launchSession.launchCode} can be reviewed by teachers, but it is not a live classroom session. Reporting, event review, and roster visibility stay preview-only until policy, persistence, approval, dry-run, and classroom launch gates are closed.`,
+    workspacePath: gate.workspacePath,
+    sourceOfTruth: gate.sourceOfTruth,
+    blockedActions: blockedActions.slice(0, 8),
+    requiredBeforeLiveSession: requiredBeforeLiveSession.slice(0, 8),
+    reportRules: [
+      "No live classroom launch",
+      "Real learner data blocked",
+      "Report export still blocked",
+      "Teacher reports must remain preview-only until policy, persistence, and access-control rules are accepted.",
+      "Support-language, media, and dry-run evidence may appear in review, but target-language events remain the progression trigger.",
     ],
   };
 }
@@ -549,6 +608,10 @@ function createMonitorProgression(
 
 function uniqueModes(modes: ProgressGameMode[]): ProgressGameMode[] {
   return Array.from(new Set(modes));
+}
+
+function uniqueStrings(items: string[]): string[] {
+  return Array.from(new Set(items.filter(Boolean)));
 }
 
 function getAudioCoveredGameModes(contentPackage: ContentPackage): GameModeId[] {

@@ -193,6 +193,7 @@
 - `DR-219-classroom-launch-gate-storage-contract.md`
 - `DR-220-classroom-launch-gate-route.md`
 - `DR-221-student-launch-context-boundary.md`
+- `DR-222-teacher-session-launch-gate-boundary.md`
 
 ## Maintenance Rule
 

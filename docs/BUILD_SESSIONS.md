@@ -373,6 +373,7 @@ Next outputs:
 - Confirm backend schema, migration candidates, migration specs, adapter plans, and durable records preserve `classroom_launch_gate` before live classroom launch, launch buttons, real learner data collection, report export, or launch-ready status changes.
 - Confirm `/teacher/launch-gate/starter-english-level-1-unit-1-2026.1-pilot-candidate-classroom-launch-gate` loads as a review-only workspace before adding any live classroom launch route, launch button, report export, or launch-ready state transition.
 - Confirm student launch and front-door routes show controlled-practice launch context before real classroom launch, production student accounts, or live learner data collection is enabled.
+- Confirm teacher session monitor routes show a session launch gate boundary before live classroom launch, real learner data collection, report export, or launch-ready state transition.
 
 ## Session 8: Premium Experience Layer
 
