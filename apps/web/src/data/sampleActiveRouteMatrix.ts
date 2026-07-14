@@ -35,6 +35,14 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     note: "Admin review surface for package, route, policy, and backend planning.",
   },
   {
+    routeId: "teacher-dry-run-rehearsal",
+    group: "sample-publisher",
+    label: "Sample publisher teacher dry run",
+    path: "/teacher/dry-run/sample-publisher-first-handoff-teacher-dry-run",
+    status: "active-scaffold",
+    note: "Teacher-only dry-run workspace for route, game/audio, media, support-language, report, and local fallback checks.",
+  },
+  {
     routeId: "teacher-draft-authoring-preview",
     group: "core",
     label: "Teacher draft package preview",
