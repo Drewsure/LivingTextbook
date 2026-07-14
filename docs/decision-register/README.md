@@ -181,6 +181,7 @@
 - `DR-207-template-font-profile-readiness-panel.md`
 - `DR-208-draft-profile-binding-preview.md`
 - `DR-209-activity-compatibility-snapshot-storage-contract.md`
+- `DR-210-publish-gate-profile-compatibility-readiness.md`
 
 ## Maintenance Rule
 

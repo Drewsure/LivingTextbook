@@ -2,7 +2,7 @@
 
 Document type: foundation product/data contract  
 Status: active scaffold  
-Last updated: 2026-07-10
+Last updated: 2026-07-14
 
 ## Purpose
 
@@ -60,6 +60,7 @@ A real pilot package requires closure on:
 - media rights and delivery metadata,
 - approved unit game offer map,
 - package game/audio coverage with unresolved audio gaps closed,
+- reviewed activity compatibility snapshots, template rendering profiles, and font accessibility profiles,
 - stable QR alias and edition route,
 - teacher report/export policy,
 - selected deployment profile,
@@ -74,6 +75,7 @@ A real pilot package requires closure on:
 - Optional AI Tutor or speech scoring must remain tenant-gated and cost-visible.
 - Local/closed deployment must stay visible, but must not be promised until backup, update, sync, and offline media procedures are accepted.
 - Game/audio coverage is release metadata only; raw audio files stay in media manifests, hosted storage, or local bundles.
+- Activity compatibility, template rendering, and font accessibility profiles are release gates before pathway changes, rendered variants, printables, tenant font packs, or extra conversions become student-facing.
 
 ## Non-Goals
 

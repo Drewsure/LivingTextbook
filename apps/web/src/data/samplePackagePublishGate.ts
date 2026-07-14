@@ -121,6 +121,28 @@ export const samplePackagePublishGate: PackagePublishGate = {
       ],
     },
     {
+      gateId: "activity-rendering-profile-gate",
+      label: "Activity compatibility and rendering profiles",
+      domain: "games",
+      status: "needs-review",
+      owner: "shared",
+      blocksRelease: true,
+      evidence:
+        "Activity compatibility, template rendering, and font accessibility storage contracts exist, but real pilot units still need reviewed profile records attached to each release candidate.",
+      nextStep:
+        "Attach reviewed activity_compatibility_snapshot, template_rendering_profile, and font_accessibility_profile records to each pilot unit before allowing pathway changes or rendered variants.",
+      requiredBeforePilot: [
+        "Each pilot unit has a reviewed activity_compatibility_snapshot with allowed modes, blocked conversions, target-language trigger policy, and printable output policy.",
+        "Each pilot unit has reviewed template_rendering_profile and font_accessibility_profile records before student-facing rendered variants or tenant font packs are enabled.",
+        "Student-facing pathway, rendering, and font blocks are closed only through release-control review.",
+      ],
+      notAllowedYet: [
+        "No switch-to-anything panel can ship as a pilot feature.",
+        "No unchecked printable or puzzle conversion can become student-facing.",
+        "No unapproved tenant font pack or arbitrary teacher font upload can become student-facing.",
+      ],
+    },
+    {
       gateId: "stable-qr-alias",
       label: "Stable QR alias and edition route",
       domain: "qr",

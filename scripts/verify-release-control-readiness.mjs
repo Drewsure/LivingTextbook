@@ -15,6 +15,7 @@ const requiredGateIds = [
   "audio-video-rights",
   "game-offer-map",
   "game-audio-coverage",
+  "activity-rendering-profile-gate",
   "stable-qr-alias",
   "teacher-report-policy",
   "deployment-profile",
@@ -44,6 +45,10 @@ requireText(publishGate, "A package may be shown as a controlled demo", "Publish
 requireText(publishGate, "cannot be marked pilot-publishable", "Publish gate must block pilot-publishable status while blockers remain.");
 requireText(publishGate, "Support language helps comprehension but never unlocks target-language progression.", "Publish gate must preserve support-language rule.");
 requireText(publishGate, "Every assigned game mode must have reviewed audio coverage", "Publish gate must require game audio coverage.");
+requireText(publishGate, "activity_compatibility_snapshot", "Publish gate must require activity compatibility snapshots.");
+requireText(publishGate, "template_rendering_profile", "Publish gate must require template rendering profiles.");
+requireText(publishGate, "font_accessibility_profile", "Publish gate must require font accessibility profiles.");
+requireText(publishGate, "No switch-to-anything panel can ship as a pilot feature.", "Publish gate must block switch-to-anything behavior.");
 requireText(publishGate, "Do not connect live student records to a backend before policy and adapter gates are closed.", "Publish gate must block live backend writes.");
 requireText(approvalLedger, "No sign-off can override a release-blocking safety rule.", "Approval ledger must prevent sign-off overrides.");
 requireText(approvalLedger, "approver identity, timestamp, release candidate, package version, and evidence links", "Approval ledger must name durable approval evidence.");
