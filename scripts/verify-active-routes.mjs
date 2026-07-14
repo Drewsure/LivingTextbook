@@ -34,6 +34,7 @@ const expectedTextByPath = new Map([
   ["/print/demo-unit-1", ["Printable worksheet preview", "Browser-print preview", "Vocabulary listening sheet", "Sentence practice worksheet", "PDF export blocked", "Audio bridge", "Version snapshot"]],
   ["/media/playlist-sample-publisher-l1-u1-routines", ["Media playlist route", "Demo media controls", "support-only events"]],
   ["/print/partner-demo-unit-1", ["Printable worksheet preview", "Browser-print preview", "Vocabulary listening sheet", "Sentence practice worksheet", "PDF export blocked", "Audio bridge", "Version snapshot"]],
+  ["/q/tenant/sample-publisher/series/starter-english/book/level-1/unit/unit-1/activity/hello-friends/language/en/edition/2026/version/1.0.0", ["Edition QR resolver preview", "Printed QR id", "qr-sample-publisher-starter-l1-u1-hello", "The printed QR id stays constant", "Resolved target", "/enter/sample-publisher", "Guardrails", "Direct localhost target", "Direct media file target", "Unreviewed package swap", "Open resolved preview"]],
 ]);
 
 if (urls.length === 0) {
