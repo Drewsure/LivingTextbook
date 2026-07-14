@@ -20,6 +20,7 @@ Panel:
 
 - `apps/web/src/features/content-intake/UploadChannelReadinessPanel.tsx`
 - `apps/web/src/features/content-intake/ContentEntryOptionScaffoldPanel.tsx`
+- `apps/web/src/features/content-intake/TemplateRenderingFontProfilePanel.tsx`
 - `apps/web/src/features/content-intake/UploadReviewQueuePanel.tsx`
 - `apps/web/src/features/content-intake/UploadPromotionReadinessPanel.tsx`
 - `apps/web/src/features/content-intake/LabelledDiagramAssetReadinessPanel.tsx`
@@ -29,6 +30,7 @@ Upload and target-readiness sample data:
 - `apps/web/src/data/sampleUploadReviewQueue.ts`
 - `apps/web/src/data/sampleUploadPromotionReadiness.ts`
 - `apps/web/src/data/sampleContentEntryOptionScaffold.ts`
+- `apps/web/src/data/sampleTemplateRenderingFontProfiles.ts`
 - `apps/web/src/data/sampleLabelledDiagramAssetReadiness.ts`
 
 Route:
@@ -69,6 +71,25 @@ These controls are foundation previews only. They must create draft/review inten
 The Flip Tiles template is the current concrete example, not the only target. The same upload/content-entry pattern may support flashcards, matching, quiz, sentence builder, labelled diagram, media playlist, and printable outputs after compatibility review.
 
 Font controls are tenant-approved configuration, not arbitrary teacher styling. Tenant font packs must preserve readability, licensing, multilingual rendering, hiragana/furigana support where applicable, tile sizing, text wrapping, and print/export behavior.
+
+## Template And Font Profile Readiness
+
+The upload/content-entry guide must expose a visible readiness layer for:
+
+- `template_rendering_profile`
+- `font_accessibility_profile`
+
+The readiness panel must show:
+
+- `Template and font profile readiness`.
+- The source template profile, currently `Flip Tiles cross-game rendering profile`.
+- The font profile, currently `Young learner and Japanese-safe font profile`.
+- Compatible families, row shape policy, media slot policy, and layout constraints.
+- Tenant font pack rules, language rendering rules, and readability checks.
+- `Student-facing rendering blocked`.
+- `Student-facing font blocked`.
+
+This panel is an admin/teacher preview. It does not enable template switching, printable output, tenant font uploads, or student-facing rendering.
 
 Standing blocks:
 
@@ -210,5 +231,7 @@ The backend-neutral storage contract now includes `game_asset_manifest` and `lab
 The backend-neutral storage contract now includes `media_manifest`, `media_playlist_binding`, `background_media_policy_binding`, and `local_media_bundle_entry` records. Hosted and local adapters must preserve media rights, optional playback, non-mastery playlist policy, learning-audio priority, teacher background-media controls, checksums, relative paths, update rules, and local activation blocks before live upload promotion into playlists, game background media, or local bundle media is enabled.
 
 The content entry option scaffold must stay visible in `/teacher/intake` until a real authoring workbench replaces it. When live controls are introduced, they must still preserve teacher draft packages, review handoff records, upload intake/review/promotion records, media/game asset manifests, and activity compatibility snapshots before student assignment.
+
+The template/font profile readiness panel must stay visible in `/teacher/intake` until live profile editing replaces it. When live controls are introduced, they must preserve `template_rendering_profile`, `font_accessibility_profile`, compatibility review, language rendering review, font license review, printable renderer review, and student-facing rendering/font blocks.
 
 The backend-neutral storage contract includes `upload_intake_asset` records. Hosted and local adapters must preserve upload source lineage and block student-facing uploaded file use until file policy, rights, review, route mapping, audio coverage, and release gates pass.

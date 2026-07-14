@@ -61,6 +61,12 @@ Verify at:
 43. Confirm per-row actions include `Audio cue`, `Image upload`, `Reorder item`, `Duplicate item`, and `Delete item`.
 44. Confirm required records include teacher draft package, upload intake/review/promotion, media/game manifests, activity compatibility snapshots, template rendering profiles, and font accessibility profiles.
 45. Confirm the scaffold blocks live media upload, Done-to-student routing, direct AI publish, unreviewed image activation, support-language progress triggers, file picker writes, and unchecked template switching.
+46. Confirm the page shows `Template and font profile readiness`.
+47. Confirm the page shows `Rendering and font profile gate`.
+48. Confirm the page shows `Flip Tiles cross-game rendering profile` and `Young learner and Japanese-safe font profile`.
+49. Confirm the page shows compatible families, row shape policy, media slot policy, layout constraints, tenant font pack, language rendering rules, and readability checks.
+50. Confirm the page shows `Student-facing rendering blocked` and `Student-facing font blocked`.
+51. Confirm the profile panel blocks switch-to-anything panels, arbitrary teacher font uploads, unlicensed fonts, broken hiragana/furigana rendering, and unchecked printable output.
 
 ## Automated Command
 
@@ -82,6 +88,8 @@ npm run verify:backend-storage
 
 Labelled Diagram asset storage is also covered by `npm run verify:backend-storage`; that verifier must keep `game_asset_manifest`, `label_anchor_record`, image `alt_text`, `label_audio_cue_id`, and `support_language_progress_allowed` in the backend-neutral schema, migration specs, durable records, and hosted/local adapter plans.
 
+Template rendering and font accessibility storage are also covered by `npm run verify:backend-storage`; that verifier must keep `template_rendering_profile`, `font_accessibility_profile`, student-facing rendering/font blocks, hosted/local adapter write intents, and durable record contracts.
+
 ## Non-Goals
 
 - This scaffold does not implement file pickers.
@@ -96,3 +104,4 @@ Labelled Diagram asset storage is also covered by `npm run verify:backend-storag
 - This scaffold defines Labelled Diagram asset storage contracts only; it does not store live image assets or label anchors yet.
 - This scaffold defines multimedia asset readiness only; it does not implement live media uploads, media processing, transcoding, playlist promotion, background-media assignment, or local bundle media activation.
 - This scaffold defines content entry options only; it does not implement live file pickers, row persistence, AI generation, template switching, draft saving, or Done-to-student routing.
+- This scaffold defines template/font profile readiness only; it does not implement live rendering profiles, font uploads, tenant theme editing, printable rendering, or student-facing template switching.

@@ -178,6 +178,7 @@
 - `DR-204-draft-content-entry-workbench-preview.md`
 - `DR-205-flip-tiles-cross-game-upload-font-guide.md`
 - `DR-206-template-rendering-font-storage-contract.md`
+- `DR-207-template-font-profile-readiness-panel.md`
 
 ## Maintenance Rule
 

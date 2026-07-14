@@ -6,12 +6,14 @@ const promotionReadiness = readSource("../apps/web/src/data/sampleUploadPromotio
 const labelledDiagramAssetReadiness = readSource("../apps/web/src/data/sampleLabelledDiagramAssetReadiness.ts");
 const multimediaAssetReadiness = readSource("../apps/web/src/data/sampleMultimediaAssetReadiness.ts");
 const contentEntryOptionScaffold = readSource("../apps/web/src/data/sampleContentEntryOptionScaffold.ts");
+const templateRenderingFontProfiles = readSource("../apps/web/src/data/sampleTemplateRenderingFontProfiles.ts");
 const panel = readSource("../apps/web/src/features/content-intake/UploadChannelReadinessPanel.tsx");
 const reviewQueuePanel = readSource("../apps/web/src/features/content-intake/UploadReviewQueuePanel.tsx");
 const promotionReadinessPanel = readSource("../apps/web/src/features/content-intake/UploadPromotionReadinessPanel.tsx");
 const labelledDiagramAssetPanel = readSource("../apps/web/src/features/content-intake/LabelledDiagramAssetReadinessPanel.tsx");
 const multimediaAssetPanel = readSource("../apps/web/src/features/content-intake/MultimediaAssetReadinessPanel.tsx");
 const contentEntryOptionPanel = readSource("../apps/web/src/features/content-intake/ContentEntryOptionScaffoldPanel.tsx");
+const templateRenderingFontProfilePanel = readSource("../apps/web/src/features/content-intake/TemplateRenderingFontProfilePanel.tsx");
 const teacherIntake = readSource("../apps/web/src/app/teacher/intake/page.tsx");
 const routeVerifier = readSource("./verify-active-routes.mjs");
 const failures = [];
@@ -209,6 +211,26 @@ for (const text of requiredContentEntryTexts) {
   requireText(contentEntryOptionScaffold, text, `Content entry option scaffold missing required text: ${text}.`);
 }
 
+const requiredTemplateRenderingFontTexts = [
+  "Template and font profile readiness",
+  "Flip Tiles cross-game rendering profile",
+  "Young learner and Japanese-safe font profile",
+  "template-profile-flip-tiles-cross-game-v1",
+  "font-profile-young-learner-ja-safe-v1",
+  "No switch-to-anything panel",
+  "No arbitrary teacher font upload",
+  "Foundation, Bronze, and Plus Japanese support text uses hiragana-first rendering.",
+  "Silver and above may introduce katakana, kanji, and furigana where approved.",
+  "template_rendering_profile",
+  "font_accessibility_profile",
+  "Reviewed profile required",
+  "Printable renderer review required",
+];
+
+for (const text of requiredTemplateRenderingFontTexts) {
+  requireText(templateRenderingFontProfiles, text, `Template rendering/font profile plan missing required text: ${text}.`);
+}
+
 requireText(panel, "Upload channel readiness", "Upload readiness panel must expose its heading.");
 requireText(panel, "Foundation rule", "Upload readiness panel must expose the foundation rule.");
 requireText(panel, "Accepted file types", "Upload readiness panel must show accepted file types.");
@@ -236,8 +258,21 @@ requireText(contentEntryOptionPanel, "Formatting toolbar", "Content entry option
 requireText(contentEntryOptionPanel, "Per-row upload and item actions", "Content entry option panel must expose row actions.");
 requireText(contentEntryOptionPanel, "Required records before live tools", "Content entry option panel must expose required records.");
 requireText(contentEntryOptionPanel, "Blocked shortcuts", "Content entry option panel must expose blocked shortcuts.");
+requireText(templateRenderingFontProfilePanel, "TemplateRenderingFontProfilePlan", "Template rendering/font profile panel must accept the plan type.");
+requireText(templateRenderingFontProfilePanel, "Rendering and font profile gate", "Template rendering/font profile panel must expose its heading.");
+requireText(templateRenderingFontProfilePanel, "Student-facing rendering blocked", "Template rendering/font profile panel must block student-facing rendering.");
+requireText(templateRenderingFontProfilePanel, "Student-facing font blocked", "Template rendering/font profile panel must block student-facing font use.");
+requireText(templateRenderingFontProfilePanel, "Compatible families", "Template rendering/font profile panel must show compatible families.");
+requireText(templateRenderingFontProfilePanel, "Row shape policy", "Template rendering/font profile panel must show row shape policy.");
+requireText(templateRenderingFontProfilePanel, "Media slot policy", "Template rendering/font profile panel must show media slot policy.");
+requireText(templateRenderingFontProfilePanel, "Layout constraints", "Template rendering/font profile panel must show layout constraints.");
+requireText(templateRenderingFontProfilePanel, "Tenant font pack", "Template rendering/font profile panel must show tenant font pack.");
+requireText(templateRenderingFontProfilePanel, "Language rendering rules", "Template rendering/font profile panel must show language rendering rules.");
+requireText(templateRenderingFontProfilePanel, "Readability checks", "Template rendering/font profile panel must show readability checks.");
+requireText(templateRenderingFontProfilePanel, "Required records before live rendering", "Template rendering/font profile panel must expose required records.");
 requireText(teacherIntake, "UploadChannelReadinessPanel", "Teacher intake route must render upload readiness.");
 requireText(teacherIntake, "ContentEntryOptionScaffoldPanel", "Teacher intake route must render content entry option scaffold.");
+requireText(teacherIntake, "TemplateRenderingFontProfilePanel", "Teacher intake route must render template rendering/font profile readiness.");
 requireText(teacherIntake, "UploadReviewQueuePanel", "Teacher intake route must render upload review queue.");
 requireText(teacherIntake, "UploadPromotionReadinessPanel", "Teacher intake route must render upload promotion readiness.");
 requireText(teacherIntake, "LabelledDiagramAssetReadinessPanel", "Teacher intake route must render Labelled Diagram asset readiness.");
@@ -253,6 +288,9 @@ requireText(routeVerifier, "Generate With AI", "Active route verifier must check
 requireText(routeVerifier, "Flip tiles", "Active route verifier must check flip tiles control.");
 requireText(routeVerifier, "Approved learner font", "Active route verifier must check font controls.");
 requireText(routeVerifier, "Cross-game upload guide", "Active route verifier must check cross-game upload guide.");
+requireText(routeVerifier, "Template and font profile readiness", "Active route verifier must check template rendering/font profile readiness.");
+requireText(routeVerifier, "Student-facing rendering blocked", "Active route verifier must check student-facing rendering is blocked.");
+requireText(routeVerifier, "Student-facing font blocked", "Active route verifier must check student-facing font use is blocked.");
 requireText(routeVerifier, "No Done-to-student route", "Active route verifier must check Done is blocked from student routes.");
 
 if (failures.length > 0) {

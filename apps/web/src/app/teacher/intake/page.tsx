@@ -10,6 +10,7 @@ import { sampleActiveRouteMatrix } from "@/data/sampleActiveRouteMatrix";
 import { sampleAuthoringVerifierPlan } from "@/data/sampleAuthoringVerifierPlan";
 import { sampleTeacherAuthoringReadinessPlan } from "@/data/sampleTeacherAuthoringReadiness";
 import { sampleContentEntryOptionScaffold } from "@/data/sampleContentEntryOptionScaffold";
+import { sampleTemplateRenderingFontProfilePlan } from "@/data/sampleTemplateRenderingFontProfiles";
 import { sampleLabelledDiagramAssetReadinessPlan } from "@/data/sampleLabelledDiagramAssetReadiness";
 import { sampleMultimediaAssetReadinessPlan } from "@/data/sampleMultimediaAssetReadiness";
 import { sampleUploadChannelReadinessPlan } from "@/data/sampleUploadChannelReadiness";
@@ -78,6 +79,7 @@ import { PilotSourceStrategyPanel } from "@/features/content-intake/PilotSourceS
 import { PrintableOutputReadinessPanel } from "@/features/content-intake/PrintableOutputReadinessPanel";
 import { SourceReviewQueuePanel } from "@/features/content-intake/SourceReviewQueuePanel";
 import { TeacherAuthoringReadinessPanel } from "@/features/content-intake/TeacherAuthoringReadinessPanel";
+import { TemplateRenderingFontProfilePanel } from "@/features/content-intake/TemplateRenderingFontProfilePanel";
 import { UploadChannelReadinessPanel } from "@/features/content-intake/UploadChannelReadinessPanel";
 import { UploadPromotionReadinessPanel } from "@/features/content-intake/UploadPromotionReadinessPanel";
 import { UploadReviewQueuePanel } from "@/features/content-intake/UploadReviewQueuePanel";
@@ -170,6 +172,7 @@ export default function TeacherIntakePage() {
         />
         <UploadChannelReadinessPanel plan={sampleUploadChannelReadinessPlan} />
         <ContentEntryOptionScaffoldPanel scaffold={sampleContentEntryOptionScaffold} />
+        <TemplateRenderingFontProfilePanel plan={sampleTemplateRenderingFontProfilePlan} />
         <UploadReviewQueuePanel queue={sampleUploadReviewQueue} />
         <UploadPromotionReadinessPanel plan={sampleUploadPromotionReadinessPlan} />
         <LabelledDiagramAssetReadinessPanel plan={sampleLabelledDiagramAssetReadinessPlan} />
