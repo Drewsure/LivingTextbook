@@ -44,7 +44,8 @@ export type PersistenceBoundaryCategory =
   | "package-release-candidate"
   | "package-publish-gate"
   | "package-approval-ledger"
-  | "pilot-evidence-packet";
+  | "pilot-evidence-packet"
+  | "teacher-dry-run-rehearsal";
 
 export interface PersistenceBoundary {
   boundaryId: string;
@@ -651,6 +652,25 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store", "school-policy"],
     note: "The evidence packet must become durable before real partner pilot proof is collected, while keeping file upload and signed approval capture blocked until identity, storage, retention, and policy are accepted.",
   },
+  {
+    recordId: "teacher-dry-run-rehearsal-record",
+    category: "teacher-dry-run-rehearsal",
+    label: "Teacher dry-run rehearsal record",
+    readiness: "durable-required",
+    sourceOfTruth: "TeacherDryRunRehearsal, PilotLaunchChecklist, PilotHandoffPackage, route rehearsal evidence, blocked live actions",
+    requiredBeforePilot: true,
+    containsStudentData: false,
+    containsMediaRights: false,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesTeacherDryRunRehearsal: true,
+    blocksStudentLaunchAction: true,
+    blocksRealLearnerDataCollection: true,
+    blocksLiveReportExport: true,
+    recommendedFirstPilotStore: ["hosted-database", "local-classroom-store", "school-policy"],
+    note: "The dry-run rehearsal must become durable before a classroom pilot so route, game/audio, media/support-language, report, and local fallback checks are auditable without collecting real learner data or exporting reports.",
+  },
 ];
 
 export const sampleDurableRecordErrors = validateDurableRecordContracts(sampleDurableRecordContracts);
@@ -1072,6 +1092,18 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     visibleTo: ["Platform admin", "Tenant admin", "Publisher media owner", "School admin"],
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision: "Store evidence packet metadata beside publish gates and approval ledgers before live evidence upload or signed approval capture.",
+  },
+  {
+    boundaryId: "teacher-dry-run-rehearsal-boundary",
+    category: "teacher-dry-run-rehearsal",
+    label: "Teacher dry-run rehearsal records",
+    status: "needs-backend",
+    recordShape: "Dry run id, package id, release candidate, route checks, game/audio checks, media/support-language checks, report/policy checks, blocked live actions",
+    whyItMatters:
+      "A teacher dry run is the last safe rehearsal before children touch a package; it needs durable evidence without becoming live progress, report export, or pilot approval.",
+    visibleTo: ["Teacher", "Tenant admin", "Platform admin", "School admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision: "Store teacher dry-run rehearsal metadata before live classroom launch, real learner data collection, report export, or pilot-ready status changes.",
   },
 ];
 

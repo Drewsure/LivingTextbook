@@ -43,6 +43,7 @@ const requiredSchemaEntities = [
   "package_publish_gate",
   "package_approval_ledger",
   "pilot_evidence_packet",
+  "teacher_dry_run_rehearsal",
 ];
 
 const requiredMigrationCandidates = [
@@ -78,6 +79,7 @@ const requiredMigrationCandidates = [
   "m011-local-companion-handoff-records",
   "m012-local-companion-release-gate-records",
   "m032-pilot-evidence-packet-records",
+  "m033-teacher-dry-run-rehearsal-records",
 ];
 
 const requiredMigrationSpecs = [
@@ -112,6 +114,7 @@ const requiredMigrationSpecs = [
   "spec-local-companion-handoff",
   "spec-local-companion-release-gate",
   "spec-pilot-evidence-packet",
+  "spec-teacher-dry-run-rehearsal",
 ];
 
 for (const entityId of requiredSchemaEntities) {
@@ -264,10 +267,25 @@ requireText(schemaDraft, "gate_evidence", "Backend schema must preserve gate evi
 requireText(schemaDraft, "approval_evidence", "Backend schema must preserve approval evidence in pilot evidence packets.");
 requireText(schemaDraft, "signed_approval_capture_allowed", "Backend schema must block signed approval capture.");
 requireText(schemaDraft, "Chat-only approval proof", "Backend schema must block chat-only approval proof.");
+requireText(schemaDraft, "teacher_dry_run_rehearsal", "Backend schema must include teacher dry-run rehearsal records.");
+requireText(schemaDraft, "dry_run_id", "Backend schema must preserve dry-run ids.");
+requireText(schemaDraft, "route_rehearsal_results", "Backend schema must preserve route rehearsal checks.");
+requireText(schemaDraft, "game_audio_rehearsal_results", "Backend schema must preserve game/audio rehearsal checks.");
+requireText(schemaDraft, "media_support_language_results", "Backend schema must preserve media/support-language rehearsal checks.");
+requireText(schemaDraft, "report_policy_rehearsal_results", "Backend schema must preserve report/policy rehearsal checks.");
+requireText(schemaDraft, "student_launch_allowed", "Backend schema must block student launch from dry-run records.");
+requireText(schemaDraft, "real_learner_data_allowed", "Backend schema must block real learner data from dry-run records.");
+requireText(schemaDraft, "report_export_allowed", "Backend schema must block report export from dry-run records.");
+requireText(schemaDraft, "Real learner name", "Backend schema must forbid real learner names in dry-run records.");
 requireText(migrationSpecs, "spec-pilot-evidence-packet", "Migration specs must include pilot evidence packets.");
 requireText(migrationSpecs, "evidence_packet_id", "Migration specs must preserve pilot evidence packet ids.");
 requireText(migrationSpecs, "upload_allowed", "Migration specs must preserve evidence upload blocks.");
 requireText(migrationSpecs, "signed_approval_capture_allowed", "Migration specs must preserve signed approval capture blocks.");
+requireText(migrationSpecs, "spec-teacher-dry-run-rehearsal", "Migration specs must include teacher dry-run rehearsals.");
+requireText(migrationSpecs, "route_rehearsal_results", "Migration specs must preserve route rehearsal checks.");
+requireText(migrationSpecs, "student_launch_allowed", "Migration specs must block student launch from dry-run records.");
+requireText(migrationSpecs, "real_learner_data_allowed", "Migration specs must block real learner data from dry-run records.");
+requireText(migrationSpecs, "report_export_allowed", "Migration specs must block report export from dry-run records.");
 requireText(persistenceAdapter, "hosted-launch-session-write", "Persistence adapter must include hosted launch-session writes.");
 requireText(persistenceAdapter, "local-launch-session-write", "Persistence adapter must include local launch-session writes.");
 requireText(persistenceAdapter, "hosted-teacher-draft-package-write", "Persistence adapter must include hosted teacher draft writes.");
@@ -336,6 +354,12 @@ requireText(persistenceAdapter, "hosted-pilot-evidence-packet-write", "Persisten
 requireText(persistenceAdapter, "local-pilot-evidence-packet-write", "Persistence adapter must include local pilot evidence packet writes.");
 requireText(persistenceAdapter, "preservesPilotEvidencePacket: true", "Persistence adapter must preserve pilot evidence packet metadata.");
 requireText(persistenceAdapter, "blocksSignedApprovalCapture: true", "Persistence adapter must block signed approval capture.");
+requireText(persistenceAdapter, "hosted-teacher-dry-run-rehearsal-write", "Persistence adapter must include hosted teacher dry-run rehearsal writes.");
+requireText(persistenceAdapter, "local-teacher-dry-run-rehearsal-write", "Persistence adapter must include local teacher dry-run rehearsal writes.");
+requireText(persistenceAdapter, "preservesTeacherDryRunRehearsal: true", "Persistence adapter must preserve teacher dry-run rehearsal checks.");
+requireText(persistenceAdapter, "blocksStudentLaunchAction: true", "Persistence adapter must block student launch from dry-run records.");
+requireText(persistenceAdapter, "blocksRealLearnerDataCollection: true", "Persistence adapter must block real learner data collection from dry-run records.");
+requireText(persistenceAdapter, "blocksLiveReportExport: true", "Persistence adapter must block live report export from dry-run records.");
 requireText(persistenceAdapter, "hosted-media-playlist-binding-write", "Persistence adapter must include hosted media playlist binding writes.");
 requireText(persistenceAdapter, "local-media-playlist-binding-write", "Persistence adapter must include local media playlist binding writes.");
 requireText(persistenceAdapter, "preservesMediaPlaylistBinding: true", "Persistence adapter must preserve media playlist bindings.");
@@ -407,6 +431,11 @@ requireText(durableRecords, "blocksPublicCommunityPublishing: true", "Durable re
 requireText(durableRecords, "pilot-evidence-packet-record", "Durable record plan must include pilot evidence packet records.");
 requireText(durableRecords, "preservesPilotEvidencePacket: true", "Durable record plan must preserve pilot evidence packets.");
 requireText(durableRecords, "blocksSignedApprovalCapture: true", "Durable record plan must block signed approval capture.");
+requireText(durableRecords, "teacher-dry-run-rehearsal-record", "Durable record plan must include teacher dry-run rehearsal records.");
+requireText(durableRecords, "preservesTeacherDryRunRehearsal: true", "Durable record plan must preserve teacher dry-run rehearsal checks.");
+requireText(durableRecords, "blocksStudentLaunchAction: true", "Durable record plan must block student launch from dry-run records.");
+requireText(durableRecords, "blocksRealLearnerDataCollection: true", "Durable record plan must block real learner data collection from dry-run records.");
+requireText(durableRecords, "blocksLiveReportExport: true", "Durable record plan must block live report export from dry-run records.");
 requireText(durableRecords, "media-playlist-binding-record", "Durable record plan must include media playlist binding records.");
 requireText(durableRecords, "preservesMediaPlaylistBinding: true", "Durable record plan must preserve media playlist bindings.");
 requireText(durableRecords, "blocksMediaOnlyProgress: true", "Durable record plan must block media-only progress.");
@@ -422,6 +451,7 @@ requireText(durableRecords, "preservesEarnedCollectionRules: true", "Durable rec
 requireText(durableRecords, "rejectsRandomRewardPressure: true", "Durable record plan must reject random reward pressure.");
 requireText(routeVerifier, "Backend selection gate", "Active route verifier must keep backend selection gate visible on teacher intake.");
 requireText(routeVerifier, "pilot_evidence_packet", "Active route verifier must keep pilot evidence packet storage visible on teacher intake.");
+requireText(routeVerifier, "teacher_dry_run_rehearsal", "Active route verifier must keep teacher dry-run rehearsal storage visible on teacher intake.");
 
 if (failures.length > 0) {
   for (const failure of failures) {

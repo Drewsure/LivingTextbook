@@ -33,7 +33,8 @@ export type PersistenceRecordCategory =
   | "package-release-candidate"
   | "package-publish-gate"
   | "package-approval-ledger"
-  | "pilot-evidence-packet";
+  | "pilot-evidence-packet"
+  | "teacher-dry-run-rehearsal";
 
 export type PersistenceRecordReadiness =
   | "static-demo"
@@ -107,6 +108,10 @@ export interface DurableRecordContract {
   blocksPublicCommunityPublishing?: boolean;
   preservesPilotEvidencePacket?: boolean;
   blocksSignedApprovalCapture?: boolean;
+  preservesTeacherDryRunRehearsal?: boolean;
+  blocksStudentLaunchAction?: boolean;
+  blocksRealLearnerDataCollection?: boolean;
+  blocksLiveReportExport?: boolean;
   recommendedFirstPilotStore: PersistenceStorageTier[];
   note: string;
 }
@@ -348,6 +353,22 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "pilot-evidence-packet" && !record.blocksSignedApprovalCapture) {
       errors.push(`Pilot evidence packet record ${record.recordId} must block signed approval capture until identity and policy exist.`);
+    }
+
+    if (record.category === "teacher-dry-run-rehearsal" && !record.preservesTeacherDryRunRehearsal) {
+      errors.push(`Teacher dry-run rehearsal record ${record.recordId} must preserve rehearsal route, game, media, report, and local fallback checks.`);
+    }
+
+    if (record.category === "teacher-dry-run-rehearsal" && !record.blocksStudentLaunchAction) {
+      errors.push(`Teacher dry-run rehearsal record ${record.recordId} must block live student launch actions.`);
+    }
+
+    if (record.category === "teacher-dry-run-rehearsal" && !record.blocksRealLearnerDataCollection) {
+      errors.push(`Teacher dry-run rehearsal record ${record.recordId} must block real learner data collection.`);
+    }
+
+    if (record.category === "teacher-dry-run-rehearsal" && !record.blocksLiveReportExport) {
+      errors.push(`Teacher dry-run rehearsal record ${record.recordId} must block live report export.`);
     }
 
     if (record.supportsLocalDeployment && !record.recommendedFirstPilotStore.includes("local-classroom-store")) {

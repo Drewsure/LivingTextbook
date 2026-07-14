@@ -66,6 +66,10 @@ export interface PersistenceWriteIntent {
   blocksPublicCommunityPublishing?: boolean;
   preservesPilotEvidencePacket?: boolean;
   blocksSignedApprovalCapture?: boolean;
+  preservesTeacherDryRunRehearsal?: boolean;
+  blocksStudentLaunchAction?: boolean;
+  blocksRealLearnerDataCollection?: boolean;
+  blocksLiveReportExport?: boolean;
   note: string;
 }
 
@@ -342,6 +346,22 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "pilot-evidence-packet" && !intent.blocksSignedApprovalCapture) {
       errors.push(`Pilot evidence packet write intent ${intent.intentId} must block signed approval capture until identity and policy exist.`);
+    }
+
+    if (intent.category === "teacher-dry-run-rehearsal" && !intent.preservesTeacherDryRunRehearsal) {
+      errors.push(`Teacher dry-run rehearsal write intent ${intent.intentId} must preserve route, game, audio, media, report, and local fallback checks.`);
+    }
+
+    if (intent.category === "teacher-dry-run-rehearsal" && !intent.blocksStudentLaunchAction) {
+      errors.push(`Teacher dry-run rehearsal write intent ${intent.intentId} must block live student launch actions.`);
+    }
+
+    if (intent.category === "teacher-dry-run-rehearsal" && !intent.blocksRealLearnerDataCollection) {
+      errors.push(`Teacher dry-run rehearsal write intent ${intent.intentId} must block real learner data collection.`);
+    }
+
+    if (intent.category === "teacher-dry-run-rehearsal" && !intent.blocksLiveReportExport) {
+      errors.push(`Teacher dry-run rehearsal write intent ${intent.intentId} must block live report export.`);
     }
 
     if (intent.intentId.includes("package-audio-coverage") && !intent.preservesGameAudioCoverageSnapshot) {

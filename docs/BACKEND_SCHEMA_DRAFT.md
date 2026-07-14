@@ -56,6 +56,8 @@ The current draft includes:
 - Local companion release gate
 - Package publish gate
 - Package approval ledger
+- Pilot evidence packet
+- Teacher dry-run rehearsal
 
 ## Required Fields Per Entity
 
@@ -83,6 +85,7 @@ Each entity should name:
 - Template rendering profiles preserve source templates, compatible game families, row/media slot policies, layout constraints, and student-facing rendering blocks before cross-game upload patterns or printables go live.
 - Font accessibility profiles preserve approved learner fonts, tenant font packs, multilingual rendering rules, readability checks, license status, and student-facing font blocks before font controls go live.
 - Progress events and collection inventory must preserve support-only boundaries so assist language, media, or route guidance cannot unlock mastery.
+- Teacher dry-run rehearsal records preserve route, game/audio, media/support-language, report, and local fallback checks while blocking real learner data, live progress, report export, and student launch.
 - Support language never unlocks target-language progression.
 - AI Tutor and speech scoring stay premium-gated and disabled unless tenant policy accepts them.
 - Local and hosted implementations must preserve the same record vocabulary.

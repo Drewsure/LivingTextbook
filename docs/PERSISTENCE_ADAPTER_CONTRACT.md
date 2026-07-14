@@ -33,11 +33,11 @@ Used for source-controlled reviewed sample data. It is useful for design and sal
 
 ### Hosted Pilot Adapter
 
-The recommended first pilot path. It should support durable route registry writes, teacher launch-session settings, teacher draft package writes, tenant library item writes, progress/media event writes, earned collection inventory writes, package publish gates, and package approval ledgers after privacy, release-control, and policy requirements are accepted.
+The recommended first pilot path. It should support durable route registry writes, teacher launch-session settings, teacher draft package writes, tenant library item writes, progress/media event writes, earned collection inventory writes, package publish gates, package approval ledgers, pilot evidence packets, and teacher dry-run rehearsals after privacy, release-control, and policy requirements are accepted.
 
 ### Local Classroom Adapter
 
-A future closed deployment path for schools or textbook partners who require a local classroom server or packaged local app. It must support local media bundles, local teacher draft packages, local tenant library items, local progress export packages, local earned collection inventory, package publish gates, package approval ledgers, backup/restore, and year-on-year content updates.
+A future closed deployment path for schools or textbook partners who require a local classroom server or packaged local app. It must support local media bundles, local teacher draft packages, local tenant library items, local progress export packages, local earned collection inventory, package publish gates, package approval ledgers, pilot evidence packets, teacher dry-run rehearsals, backup/restore, and year-on-year content updates.
 
 ## Core Safety Rules
 
@@ -72,7 +72,9 @@ The hosted pilot path should support:
 - earned collection inventory,
 - package game/audio coverage snapshots,
 - package publish gates,
-- package approval ledgers.
+- package approval ledgers,
+- pilot evidence packets,
+- teacher dry-run rehearsals.
 
 Package publish gates are backend-required before a package can be marked pilot-publishable. Package approval ledgers remain policy-required until approver identity, timestamp, evidence, export, and rollback rules are accepted.
 
@@ -87,7 +89,9 @@ The local/closed deployment path should support:
 - local progress export packages,
 - local earned collection inventory,
 - local package publish gates,
-- local package approval ledgers.
+- local package approval ledgers,
+- local pilot evidence packets,
+- local teacher dry-run rehearsals.
 
 Local approval records need backup, restore, export, approver identity, timestamp, and policy rules before a closed deployment captures real sign-offs.
 
@@ -113,6 +117,7 @@ It shows:
 - No real student progress is stored.
 - No live route registry mutation exists.
 - No real package approval signature is stored.
+- No teacher dry-run record can launch students, collect real learner data, store live progress, or export reports.
 - No local installer, sync, backup, or restore workflow exists yet.
 - No report or approval export is generated.
 - No raw audio or transcript storage is enabled.

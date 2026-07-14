@@ -187,6 +187,7 @@
 - `DR-213-pilot-evidence-packet-storage-contract.md`
 - `DR-214-pilot-launch-checklist-preview.md`
 - `DR-215-teacher-dry-run-rehearsal-preview.md`
+- `DR-216-teacher-dry-run-rehearsal-storage-contract.md`
 
 ## Maintenance Rule
 

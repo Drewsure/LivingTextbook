@@ -832,6 +832,32 @@ export const sampleBackendSchemaDraft: BackendSchemaDraft = {
       migrationNote:
         "Evidence packets preserve proof metadata only. Hosted and local implementations must keep upload and signature capture blocked until storage, identity, retention, and release-control policy are accepted.",
     },
+    {
+      entityId: "teacher_dry_run_rehearsal",
+      label: "Teacher dry-run rehearsal",
+      status: "required-before-pilot",
+      deploymentFit: "hybrid",
+      purpose:
+        "Stores teacher-only rehearsal evidence before classroom launch while blocking live student launch, real learner data collection, report export, and pilot approval.",
+      fields: [
+        { name: "dry_run_id", type: "stable id", required: true, note: "One teacher dry-run rehearsal snapshot." },
+        { name: "tenant_id", type: "foreign key/string", required: true, note: "Tenant boundary for rehearsal records." },
+        { name: "package_id", type: "foreign key/string", required: true, note: "Package or handoff candidate being rehearsed." },
+        { name: "release_candidate_id", type: "foreign key/string", required: true, note: "Release candidate this rehearsal belongs to." },
+        { name: "route_rehearsal_results", type: "json/child records", required: true, note: "Entry code, QR/front-door, and direct launch route checks." },
+        { name: "game_audio_rehearsal_results", type: "json/child records", required: true, note: "Flashcard, unlock, game route, tap-to-speak, and microphone-local-only checks." },
+        { name: "media_support_language_results", type: "json/child records", required: true, note: "Playlist, background media, assist-language, and support-only event checks." },
+        { name: "report_policy_rehearsal_results", type: "json/child records", required: true, note: "Teacher monitor, report package, evidence, and export-block checks." },
+        { name: "student_launch_allowed", type: "boolean", required: true, note: "False until publish gate, policy, persistence, evidence, and approval requirements pass." },
+        { name: "real_learner_data_allowed", type: "boolean", required: true, note: "False during dry-run rehearsal." },
+        { name: "report_export_allowed", type: "boolean", required: true, note: "False until report policy, retention, access, and export rules are accepted." },
+      ],
+      relationships: ["Belongs to package release candidate", "References pilot launch checklist", "References pilot handoff package", "May feed future pilot go/no-go evidence"],
+      indexes: ["tenant_id + package_id", "dry_run_id unique", "tenant_id + release_candidate_id", "student_launch_allowed", "report_export_allowed"],
+      forbiddenFields: ["Real learner name", "Real student id", "Raw learner audio", "Learner transcript", "Live progress event", "Report export approval"],
+      migrationNote:
+        "Dry-run rehearsal records preserve teacher-only preflight evidence. Hosted and local implementations must keep launch, real learner data, live progress, and report export blocked until classroom policy and release-control gates pass.",
+    },
   ],
   crossCuttingRules: [
     "Every record belongs to a tenant or to a tenant-owned package release.",
@@ -851,6 +877,7 @@ export const sampleBackendSchemaDraft: BackendSchemaDraft = {
     "Local companion handoff records must block offline-ready status until source, media rights, checksums, routes, and report policy are accepted.",
     "Local companion release gates must block closed handoff until installer, update, backup, export, QR fallback, media rights, game audio/reporting, and school access policies are accepted.",
     "Pilot evidence packets must preserve release proof metadata while blocking live evidence upload and signed approval capture until identity, retention, storage, and policy are accepted.",
+    "Teacher dry-run rehearsals must preserve teacher-only route, game/audio, media/support-language, report, and local fallback checks while blocking real learner data, live progress, report export, and student launch.",
     "Support language never unlocks target-language progression.",
     "AI Tutor and speech scoring stay premium-gated and disabled unless tenant policy accepts them.",
     "Local and hosted implementations must preserve the same record vocabulary.",

@@ -33,6 +33,7 @@ npm run verify:foundation
 - Teacher draft review evidence packets preserve evidence requirements and block uploads.
 - Teacher draft review audit trails preserve event sequence and block audit-driven package state changes.
 - Tenant library items preserve source lineage, block student-data copies, and block public community publishing.
+- Teacher dry-run rehearsal records preserve route, game/audio, media/support-language, report, and local fallback checks while blocking student launch, real learner data collection, live progress, and report export.
 - Core storage rejects raw learner audio and transcripts.
 - Progress events preserve event effect taxonomy and event acceptance gates.
 - Launch sessions preserve teacher session settings and assist-language teacher enablement.
@@ -49,6 +50,7 @@ npm run verify:foundation
 - Hosted and local adapter plans both include teacher draft review evidence packet writes.
 - Hosted and local adapter plans both include teacher draft review audit trail writes.
 - Hosted and local adapter plans both include tenant library item writes.
+- Hosted and local adapter plans both include teacher dry-run rehearsal writes.
 - Durable record plans assign teacher settings to launch sessions, require event acceptance gates, preserve earned collection rules, preserve teacher draft review gates, preserve draft review handoff packet sections, preserve verifier preflight checks, preserve upload source lineage, preserve activity compatibility snapshots, preserve template rendering profiles, preserve font accessibility profiles, preserve reviewer decision evidence requirements, preserve review evidence packets, preserve review audit trails, and preserve tenant library source-lineage rules.
 
 ## Human Follow-Up

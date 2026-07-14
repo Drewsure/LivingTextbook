@@ -48,6 +48,8 @@ The scaffold currently tracks:
 - Report export and retention policy records.
 - Package publish gate records.
 - Package approval ledger records.
+- Pilot evidence packet records.
+- Teacher dry-run rehearsal records.
 
 ## Package Release Records
 
@@ -77,6 +79,12 @@ A package approval ledger records:
 
 These records protect the platform from treating a controlled demo as a real pilot. They also support white-label yearly textbook maintenance because publishers need auditable releases for content, media, games, QR, reports, policy, deployment, and platform review.
 
+## Teacher Dry-Run Records
+
+Teacher dry-run rehearsal records preserve route checks, game/audio checks, media/support-language checks, report/policy checks, and local fallback checks before classroom launch.
+
+They are release-control evidence, not student progress records. They must block student launch, real learner data collection, live progress storage, report export, raw learner audio, and learner transcripts.
+
 ## Safety Rules
 
 - Core persistence must not store raw learner audio.
@@ -87,6 +95,7 @@ These records protect the platform from treating a controlled demo as a real pil
 - Earned collection inventory must reject random reward pressure, paid gacha-like ownership, and support-only unlocks.
 - Package approval ledgers require approver identity and policy rules before real sign-offs are stored.
 - Package publish gates must not mark a package pilot-publishable while release-blocking items remain open.
+- Teacher dry-run rehearsal records must not launch students, collect real learner data, store live progress, or export reports.
 - Teacher draft packages must preserve owner, source lineage, visibility, draft payload, requested activity path, review gates, audio plan state, and direct-assignment blocks before becoming package releases.
 - Tenant library items must preserve source lineage, block student-data copies, and block public community publishing before live library reuse, copy/edit, school sharing, or search work begins.
 - Local/closed deployment capable records must preserve a local classroom store path.
