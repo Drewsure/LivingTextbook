@@ -211,6 +211,7 @@
 - `DR-237-evidence-packet-flow.md`
 - `DR-238-evidence-packet-storage-contract.md`
 - `DR-239-evidence-packet-review-index-route.md`
+- `DR-240-evidence-packet-handoff-preview-route.md`
 
 ## Maintenance Rule
 

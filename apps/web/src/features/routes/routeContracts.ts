@@ -109,6 +109,15 @@ export const appRouteContracts: AppRouteContract[] = [
     requiredState: ["TenantConfig", "EvidencePacketReviewIndex", "EvidencePacketFlow[]", "evidence_packet"],
   },
   {
+    id: "teacher-evidence-packet-handoff",
+    pattern: "/teacher/evidence/[tenantId]/handoff",
+    audience: "teacher",
+    status: "active-scaffold",
+    purpose:
+      "Preview a tenant evidence packet handoff bundle while export, signed approval capture, promotion, publishing, route creation, playlist creation, and assignment remain blocked.",
+    requiredState: ["TenantConfig", "EvidencePacketHandoffPackage", "evidence_packet", "release_control_packet"],
+  },
+  {
     id: "teacher-labelled-diagram-asset-workspace",
     pattern: "/teacher/assets/labelled-diagram/[assetId]",
     audience: "teacher",
@@ -304,6 +313,10 @@ export function getTeacherUploadWorkspacePath(tenantId: TenantId): string {
 
 export function getTeacherEvidencePacketReviewPath(tenantId: TenantId): string {
   return `/teacher/evidence/${encodeURIComponent(tenantId)}`;
+}
+
+export function getTeacherEvidencePacketHandoffPath(tenantId: TenantId): string {
+  return `/teacher/evidence/${encodeURIComponent(tenantId)}/handoff`;
 }
 
 export function getTeacherLabelledDiagramAssetWorkspacePath(assetId: string): string {

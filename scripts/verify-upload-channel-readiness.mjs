@@ -11,10 +11,12 @@ const multimediaAssetReadiness = readSource("../apps/web/src/data/sampleMultimed
 const mediaAssetWorkspace = readSource("../apps/web/src/data/sampleMediaAssetWorkspace.ts");
 const evidencePacketFlows = readSource("../apps/web/src/data/sampleEvidencePacketFlows.ts");
 const evidencePacketReviewIndex = readSource("../apps/web/src/data/sampleEvidencePacketReviewIndex.ts");
+const evidencePacketHandoffPackage = readSource("../apps/web/src/data/sampleEvidencePacketHandoffPackage.ts");
 const contentEntryOptionScaffold = readSource("../apps/web/src/data/sampleContentEntryOptionScaffold.ts");
 const templateRenderingFontProfiles = readSource("../apps/web/src/data/sampleTemplateRenderingFontProfiles.ts");
 const evidencePacketFlowPanel = readSource("../apps/web/src/features/evidence/EvidencePacketFlowPanel.tsx");
 const evidencePacketReviewIndexPanel = readSource("../apps/web/src/features/evidence/EvidencePacketReviewIndexPanel.tsx");
+const evidencePacketHandoffPanel = readSource("../apps/web/src/features/evidence/EvidencePacketHandoffPanel.tsx");
 const panel = readSource("../apps/web/src/features/content-intake/UploadChannelReadinessPanel.tsx");
 const filePolicyPanel = readSource("../apps/web/src/features/content-intake/UploadFilePolicyPanel.tsx");
 const intakeControlPreviewPanel = readSource("../apps/web/src/features/content-intake/UploadIntakeControlPreviewPanel.tsx");
@@ -30,6 +32,7 @@ const templateRenderingFontProfilePanel = readSource("../apps/web/src/features/c
 const teacherUploadWorkspace = readSource("../apps/web/src/features/content-intake/TeacherUploadWorkspacePanel.tsx");
 const teacherUploadRoute = readSource("../apps/web/src/app/teacher/uploads/[tenantId]/page.tsx");
 const teacherEvidencePacketRoute = readSource("../apps/web/src/app/teacher/evidence/[tenantId]/page.tsx");
+const teacherEvidencePacketHandoffRoute = readSource("../apps/web/src/app/teacher/evidence/[tenantId]/handoff/page.tsx");
 const teacherLabelledDiagramAssetRoute = readSource("../apps/web/src/app/teacher/assets/labelled-diagram/[assetId]/page.tsx");
 const teacherMediaAssetRoute = readSource("../apps/web/src/app/teacher/assets/media/[assetId]/page.tsx");
 const teacherIntake = readSource("../apps/web/src/app/teacher/intake/page.tsx");
@@ -319,6 +322,32 @@ for (const text of requiredEvidencePacketReviewTexts) {
   requireText(evidencePacketReviewIndex, text, `Evidence packet review index data missing required text: ${text}.`);
 }
 
+const requiredEvidencePacketHandoffTexts = [
+  "Evidence packet handoff preview",
+  "Upload intake evidence",
+  "Labelled Diagram evidence",
+  "Media evidence",
+  "source_lineage_packet",
+  "rights_proof_packet",
+  "scan_and_file_policy_packet",
+  "target_mapping_packet",
+  "game_asset_manifest_packet",
+  "label_anchor_record_packet",
+  "media_manifest_packet",
+  "caption_transcript_packet",
+  "No evidence packet export",
+  "No signed approval capture",
+  "No publish action",
+  "No upload promotion",
+  "No route creation",
+  "No playlist creation",
+  "No assignment route from evidence",
+];
+
+for (const text of requiredEvidencePacketHandoffTexts) {
+  requireText(evidencePacketHandoffPackage, text, `Evidence packet handoff package missing required text: ${text}.`);
+}
+
 const requiredContentEntryTexts = [
   "Content entry option scaffold",
   "Flip Tiles source template",
@@ -461,6 +490,12 @@ requireText(evidencePacketReviewIndexPanel, "Storage handoff", "Evidence packet 
 requireText(evidencePacketReviewIndexPanel, "Records required before evidence becomes durable", "Evidence packet review index panel must show durable record requirement.");
 requireText(evidencePacketReviewIndexPanel, "Storage contract records", "Evidence packet review index panel must show storage contract records.");
 requireText(evidencePacketReviewIndexPanel, "Standing review-only rules", "Evidence packet review index panel must show standing review-only rules.");
+requireText(evidencePacketHandoffPanel, "Evidence handoff preview", "Evidence packet handoff panel must expose its heading.");
+requireText(evidencePacketHandoffPanel, "Handoff sections", "Evidence packet handoff panel must expose handoff sections.");
+requireText(evidencePacketHandoffPanel, "Evidence that would enter an export packet", "Evidence packet handoff panel must show export-packet shape.");
+requireText(evidencePacketHandoffPanel, "Recipient duties", "Evidence packet handoff panel must expose recipient duties.");
+requireText(evidencePacketHandoffPanel, "Live actions blocked", "Evidence packet handoff panel must show blocked live actions.");
+requireText(evidencePacketHandoffPanel, "No export or approval workflow yet", "Evidence packet handoff panel must block export and approval workflow.");
 requireText(contentEntryOptionPanel, "Teacher content entry options", "Content entry option panel must expose its heading.");
 requireText(contentEntryOptionPanel, "Source template", "Content entry option panel must expose the source template section.");
 requireText(contentEntryOptionPanel, "Cross-game upload guide", "Content entry option panel must expose the cross-game upload guide.");
@@ -502,6 +537,8 @@ requireText(teacherUploadRoute, "sampleUploadTargetMappingPlan", "Teacher upload
 requireText(teacherUploadRoute, "sampleUploadEvidencePacketFlow", "Teacher upload route must pass the upload evidence packet flow.");
 requireText(teacherEvidencePacketRoute, "EvidencePacketReviewIndexPanel", "Teacher evidence packet route must render the review index panel.");
 requireText(teacherEvidencePacketRoute, "samplePublisherEvidencePacketReviewIndex", "Teacher evidence packet route must pass the sample publisher evidence review index.");
+requireText(teacherEvidencePacketHandoffRoute, "EvidencePacketHandoffPanel", "Teacher evidence packet handoff route must render the handoff panel.");
+requireText(teacherEvidencePacketHandoffRoute, "samplePublisherEvidencePacketHandoffPackage", "Teacher evidence packet handoff route must pass the sample publisher handoff package.");
 requireText(teacherLabelledDiagramAssetRoute, "findLabelledDiagramAssetWorkspace", "Teacher Labelled Diagram asset route must resolve the workspace by id.");
 requireText(teacherLabelledDiagramAssetRoute, "LabelledDiagramAssetWorkspacePanel", "Teacher Labelled Diagram asset route must render the workspace panel.");
 requireText(teacherLabelledDiagramAssetRoute, "sampleLabelledDiagramEvidencePacketFlow", "Teacher Labelled Diagram asset route must pass the evidence packet flow.");
@@ -511,9 +548,11 @@ requireText(teacherMediaAssetRoute, "MediaAssetWorkspacePanel", "Teacher media a
 requireText(teacherMediaAssetRoute, "sampleMediaEvidencePacketFlow", "Teacher media asset route must pass the evidence packet flow.");
 requireText(mediaAssetWorkspacePanel, "EvidencePacketFlowPanel", "Teacher media asset workspace must render evidence packet flow.");
 requireText(routeContracts, "getTeacherEvidencePacketReviewPath", "Route contracts must expose an evidence packet review helper.");
+requireText(routeContracts, "getTeacherEvidencePacketHandoffPath", "Route contracts must expose an evidence packet handoff helper.");
 requireText(routeContracts, "getTeacherLabelledDiagramAssetWorkspacePath", "Route contracts must expose a Labelled Diagram asset workspace helper.");
 requireText(routeContracts, "getTeacherMediaAssetWorkspacePath", "Route contracts must expose a media asset workspace helper.");
 requireText(partnerDemo, "Evidence packet review index", "Partner demo must link to the evidence packet review index.");
+requireText(partnerDemo, "Evidence handoff preview", "Partner demo must link to the evidence packet handoff preview.");
 requireText(partnerDemo, "Labelled Diagram asset workspace", "Partner demo must link to the Labelled Diagram asset workspace.");
 requireText(partnerDemo, "Media asset workspace", "Partner demo must link to the media asset workspace.");
 requireText(routeVerifier, "Upload channel readiness", "Active route verifier must check upload channel readiness.");
@@ -538,6 +577,8 @@ requireText(routeVerifier, "Labelled Diagram evidence packet flow", "Active rout
 requireText(routeVerifier, "Media evidence packet flow", "Active route verifier must check media evidence packets.");
 requireText(routeVerifier, "Evidence packet review index", "Active route verifier must check the evidence packet review index.");
 requireText(routeVerifier, "/teacher/evidence/sample-publisher", "Active route verifier must check the evidence packet review route.");
+requireText(routeVerifier, "Evidence handoff preview", "Active route verifier must check the evidence packet handoff preview.");
+requireText(routeVerifier, "/teacher/evidence/sample-publisher/handoff", "Active route verifier must check the evidence packet handoff route.");
 requireText(routeVerifier, "No live evidence upload", "Active route verifier must check live evidence upload remains blocked.");
 requireText(routeVerifier, "No live upload button", "Active route verifier must check live upload buttons remain blocked.");
 requireText(routeVerifier, "No assignment route from uploaded file", "Active route verifier must check uploaded files cannot create assignments.");

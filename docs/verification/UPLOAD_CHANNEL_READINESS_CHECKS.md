@@ -15,6 +15,7 @@ Verify at:
 - `http://127.0.0.1:3000/teacher/intake`
 - `http://127.0.0.1:3000/teacher/uploads/sample-publisher`
 - `http://127.0.0.1:3000/teacher/evidence/sample-publisher`
+- `http://127.0.0.1:3000/teacher/evidence/sample-publisher/handoff`
 
 ## Required Checks
 
@@ -100,6 +101,10 @@ Verify at:
 80. Confirm the review index rolls up upload, Labelled Diagram, and media evidence sources before live upload controls exist.
 81. Confirm the review index shows `Storage handoff`, `Storage contract records`, and `Standing review-only rules`.
 82. Confirm the review index keeps `No live evidence upload`, `No signed approval capture`, `No approve or publish action`, `No playlist creation from uploaded media`, and `No student-facing use from evidence packets alone` visible.
+83. Confirm the evidence packet handoff route shows `Evidence handoff preview`.
+84. Confirm the handoff route shows upload intake, Labelled Diagram, and media evidence sections.
+85. Confirm the handoff route shows recipient duties for publisher reviewer, school approver, and platform operator.
+86. Confirm the handoff route keeps `No evidence packet export`, `No signed approval capture`, `No publish action`, `No upload promotion`, `No route creation`, `No playlist creation`, and `No assignment route from evidence` visible.
 
 ## Automated Command
 
@@ -145,3 +150,4 @@ Template rendering and font accessibility storage are also covered by `npm run v
 - This scaffold defines content entry options only; it does not implement live file pickers, row persistence, AI generation, template switching, draft saving, or Done-to-student routing.
 - This scaffold defines template/font profile readiness only; it does not implement live rendering profiles, font uploads, tenant theme editing, printable rendering, or student-facing template switching.
 - This scaffold defines an evidence packet review index only; it does not upload evidence, capture signatures, approve, publish, create routes, assign students, or make evidence packets student-facing.
+- This scaffold defines an evidence packet handoff preview only; it does not export packets, collect signatures, publish, promote uploads, create routes, create playlists, or assign students from evidence.

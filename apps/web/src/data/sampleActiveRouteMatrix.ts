@@ -91,6 +91,14 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     note: "Teacher/admin rollup for upload, Labelled Diagram, and media evidence packets before live evidence upload, signed approval, promotion, or assignment exists.",
   },
   {
+    routeId: "teacher-evidence-packet-handoff",
+    group: "core",
+    label: "Evidence handoff preview",
+    path: "/teacher/evidence/sample-publisher/handoff",
+    status: "active-scaffold",
+    note: "Read-only handoff package preview for evidence sections, recipients, export blockers, and next gates before signed approvals or exports exist.",
+  },
+  {
     routeId: "teacher-labelled-diagram-asset-workspace",
     group: "sample-publisher",
     label: "Labelled Diagram asset workspace",

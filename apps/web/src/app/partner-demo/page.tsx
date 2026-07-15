@@ -28,6 +28,7 @@ import {
   getTeacherPrivateLibraryPath,
   getTeacherMediaLibraryPath,
   getTeacherUploadWorkspacePath,
+  getTeacherEvidencePacketHandoffPath,
   getTeacherEvidencePacketReviewPath,
   getTeacherLabelledDiagramAssetWorkspacePath,
   getTeacherMediaAssetWorkspacePath,
@@ -87,6 +88,7 @@ export default function PartnerDemoPage() {
               <RouteLink label="Teacher private library" href={getTeacherPrivateLibraryPath("sample-publisher")} />
               <RouteLink label="Teacher upload workspace" href={getTeacherUploadWorkspacePath("sample-publisher")} />
               <RouteLink label="Evidence packet review index" href={getTeacherEvidencePacketReviewPath("sample-publisher")} />
+              <RouteLink label="Evidence handoff preview" href={getTeacherEvidencePacketHandoffPath("sample-publisher")} />
               <RouteLink
                 label="Labelled Diagram asset workspace"
                 href={getTeacherLabelledDiagramAssetWorkspacePath("sample-publisher-l1-u1-labelled-diagram")}
