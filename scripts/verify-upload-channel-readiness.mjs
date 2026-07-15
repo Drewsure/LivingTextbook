@@ -10,6 +10,7 @@ const contentEntryOptionScaffold = readSource("../apps/web/src/data/sampleConten
 const templateRenderingFontProfiles = readSource("../apps/web/src/data/sampleTemplateRenderingFontProfiles.ts");
 const panel = readSource("../apps/web/src/features/content-intake/UploadChannelReadinessPanel.tsx");
 const filePolicyPanel = readSource("../apps/web/src/features/content-intake/UploadFilePolicyPanel.tsx");
+const intakeControlPreviewPanel = readSource("../apps/web/src/features/content-intake/UploadIntakeControlPreviewPanel.tsx");
 const reviewQueuePanel = readSource("../apps/web/src/features/content-intake/UploadReviewQueuePanel.tsx");
 const promotionReadinessPanel = readSource("../apps/web/src/features/content-intake/UploadPromotionReadinessPanel.tsx");
 const labelledDiagramAssetPanel = readSource("../apps/web/src/features/content-intake/LabelledDiagramAssetReadinessPanel.tsx");
@@ -270,6 +271,13 @@ requireText(filePolicyPanel, "Maximums required", "Upload file policy panel must
 requireText(filePolicyPanel, "Required checks", "Upload file policy panel must show required checks.");
 requireText(filePolicyPanel, "Blocked shortcuts", "Upload file policy panel must show blocked shortcuts.");
 requireText(filePolicyPanel, "Next gate", "Upload file policy panel must show the next gate.");
+requireText(intakeControlPreviewPanel, "Upload intake control preview", "Upload intake control preview panel must expose its heading.");
+requireText(intakeControlPreviewPanel, "No file input element", "Upload intake control preview must confirm no file input exists.");
+requireText(intakeControlPreviewPanel, "Select file blocked", "Upload intake control preview must block file selection.");
+requireText(intakeControlPreviewPanel, "Create intake record blocked", "Upload intake control preview must block intake record creation.");
+requireText(intakeControlPreviewPanel, "Source metadata", "Upload intake control preview must show source metadata gate.");
+requireText(intakeControlPreviewPanel, "Scan policy", "Upload intake control preview must show scan policy gate.");
+requireText(intakeControlPreviewPanel, "Target mapping", "Upload intake control preview must show target mapping gate.");
 requireText(reviewQueuePanel, "Review queue preview", "Upload review queue panel must expose review queue preview heading.");
 requireText(reviewQueuePanel, "Reviewer decision preview", "Upload review queue panel must expose disabled decision previews.");
 requireText(reviewQueuePanel, "Live actions blocked", "Upload review queue panel must show live actions are blocked.");
@@ -312,11 +320,14 @@ requireText(teacherIntake, "UploadPromotionReadinessPanel", "Teacher intake rout
 requireText(teacherIntake, "LabelledDiagramAssetReadinessPanel", "Teacher intake route must render Labelled Diagram asset readiness.");
 requireText(teacherIntake, "MultimediaAssetReadinessPanel", "Teacher intake route must render multimedia asset readiness.");
 requireText(teacherUploadWorkspace, "Teacher upload workspace", "Teacher upload workspace must expose its heading.");
+requireText(teacherUploadWorkspace, "UploadIntakeControlPreviewPanel", "Teacher upload workspace must render disabled intake controls.");
 requireText(teacherUploadWorkspace, "UploadFilePolicyPanel", "Teacher upload workspace must render upload file policy.");
 requireText(teacherUploadWorkspace, "No live file picker", "Teacher upload workspace must block live file picker use.");
 requireText(teacherUploadRoute, "sampleUploadFilePolicyPlan", "Teacher upload route must pass the upload file policy plan.");
 requireText(routeVerifier, "Upload channel readiness", "Active route verifier must check upload channel readiness.");
 requireText(routeVerifier, "Upload file policy profiles", "Active route verifier must check upload file policy profiles.");
+requireText(routeVerifier, "Upload intake control preview", "Active route verifier must check disabled upload controls.");
+requireText(routeVerifier, "No file input element", "Active route verifier must check that no file input exists.");
 requireText(routeVerifier, "File type and size policy", "Active route verifier must check upload file policy heading.");
 requireText(routeVerifier, "Image upload for Labelled Diagram", "Active route verifier must check labelled diagram image upload readiness.");
 requireText(routeVerifier, "Upload review queue", "Active route verifier must check upload review queue.");

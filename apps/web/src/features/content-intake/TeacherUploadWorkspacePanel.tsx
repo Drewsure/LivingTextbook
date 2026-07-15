@@ -9,6 +9,7 @@ import { LabelledDiagramAssetReadinessPanel } from "./LabelledDiagramAssetReadin
 import { MultimediaAssetReadinessPanel } from "./MultimediaAssetReadinessPanel";
 import { UploadChannelReadinessPanel } from "./UploadChannelReadinessPanel";
 import { UploadFilePolicyPanel } from "./UploadFilePolicyPanel";
+import { UploadIntakeControlPreviewPanel } from "./UploadIntakeControlPreviewPanel";
 import { UploadPromotionReadinessPanel } from "./UploadPromotionReadinessPanel";
 import { UploadReviewQueuePanel } from "./UploadReviewQueuePanel";
 
@@ -88,6 +89,7 @@ export function TeacherUploadWorkspacePanel({
         </div>
       </Card>
 
+      <UploadIntakeControlPreviewPanel channelPlan={channelPlan} filePolicyPlan={filePolicyPlan} />
       <UploadChannelReadinessPanel plan={channelPlan} />
       <UploadFilePolicyPanel plan={filePolicyPlan} />
       <UploadReviewQueuePanel queue={reviewQueue} />
