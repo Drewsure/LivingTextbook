@@ -14,6 +14,7 @@ const evidencePacketReviewIndex = readSource("../apps/web/src/data/sampleEvidenc
 const evidencePacketHandoffPackage = readSource("../apps/web/src/data/sampleEvidencePacketHandoffPackage.ts");
 const evidenceExportReadiness = readSource("../apps/web/src/data/sampleEvidenceExportReadiness.ts");
 const evidenceAttachmentStorageReadiness = readSource("../apps/web/src/data/sampleEvidenceAttachmentStorageReadiness.ts");
+const evidenceStorageAdapterSelectionGate = readSource("../apps/web/src/data/sampleEvidenceStorageAdapterSelectionGate.ts");
 const contentEntryOptionScaffold = readSource("../apps/web/src/data/sampleContentEntryOptionScaffold.ts");
 const templateRenderingFontProfiles = readSource("../apps/web/src/data/sampleTemplateRenderingFontProfiles.ts");
 const evidencePacketFlowPanel = readSource("../apps/web/src/features/evidence/EvidencePacketFlowPanel.tsx");
@@ -21,6 +22,7 @@ const evidencePacketReviewIndexPanel = readSource("../apps/web/src/features/evid
 const evidencePacketHandoffPanel = readSource("../apps/web/src/features/evidence/EvidencePacketHandoffPanel.tsx");
 const evidenceExportReadinessPanel = readSource("../apps/web/src/features/evidence/EvidenceExportReadinessPanel.tsx");
 const evidenceAttachmentStorageReadinessPanel = readSource("../apps/web/src/features/evidence/EvidenceAttachmentStorageReadinessPanel.tsx");
+const evidenceStorageAdapterSelectionGatePanel = readSource("../apps/web/src/features/evidence/EvidenceStorageAdapterSelectionGatePanel.tsx");
 const panel = readSource("../apps/web/src/features/content-intake/UploadChannelReadinessPanel.tsx");
 const filePolicyPanel = readSource("../apps/web/src/features/content-intake/UploadFilePolicyPanel.tsx");
 const intakeControlPreviewPanel = readSource("../apps/web/src/features/content-intake/UploadIntakeControlPreviewPanel.tsx");
@@ -415,6 +417,43 @@ for (const text of requiredEvidenceAttachmentStorageReadinessTexts) {
   );
 }
 
+const requiredEvidenceStorageAdapterSelectionTexts = [
+  "Evidence storage adapter selection gate",
+  "Storage adapter selection blocked",
+  "Hosted managed evidence storage candidate",
+  "Closed local evidence store candidate",
+  "Hybrid archive evidence store candidate",
+  "tenant isolation",
+  "metadata separate from binary files",
+  "quarantine-first storage",
+  "checksum required",
+  "malware scan status",
+  "access-control policy",
+  "audit log retention",
+  "delete/export policy",
+  "local backup responsibility",
+  "release-control mutation block",
+  "Choose hosted managed evidence storage first",
+  "local storage as a premium/closed-deployment path",
+  "hybrid archive movement as a later migration lane",
+  "No storage adapter selected",
+  "No object bucket creation",
+  "No local evidence folder activation",
+  "No signed URL generation",
+  "No direct file upload",
+  "No attachment migration",
+  "No production retention clock",
+  "No release-state mutation",
+];
+
+for (const text of requiredEvidenceStorageAdapterSelectionTexts) {
+  requireText(
+    evidenceStorageAdapterSelectionGate,
+    text,
+    `Evidence storage adapter selection gate missing required text: ${text}.`,
+  );
+}
+
 const requiredContentEntryTexts = [
   "Content entry option scaffold",
   "Flip Tiles source template",
@@ -573,6 +612,12 @@ requireText(evidenceAttachmentStorageReadinessPanel, "Storage candidates", "Evid
 requireText(evidenceAttachmentStorageReadinessPanel, "Required attachment metadata", "Evidence attachment storage readiness panel must show required metadata.");
 requireText(evidenceAttachmentStorageReadinessPanel, "Storage policy gates", "Evidence attachment storage readiness panel must show policy gates.");
 requireText(evidenceAttachmentStorageReadinessPanel, "Blocked storage actions", "Evidence attachment storage readiness panel must show blocked actions.");
+requireText(evidenceStorageAdapterSelectionGatePanel, "Evidence storage adapter selection gate", "Evidence storage adapter selection gate panel must expose its heading.");
+requireText(evidenceStorageAdapterSelectionGatePanel, "First pilot recommendation", "Evidence storage adapter selection gate panel must show the recommendation.");
+requireText(evidenceStorageAdapterSelectionGatePanel, "Adapter candidates", "Evidence storage adapter selection gate panel must show adapter candidates.");
+requireText(evidenceStorageAdapterSelectionGatePanel, "Vendor-neutral requirements", "Evidence storage adapter selection gate panel must show vendor-neutral requirements.");
+requireText(evidenceStorageAdapterSelectionGatePanel, "Selection rules", "Evidence storage adapter selection gate panel must show selection rules.");
+requireText(evidenceStorageAdapterSelectionGatePanel, "Blocked actions", "Evidence storage adapter selection gate panel must show blocked actions.");
 requireText(contentEntryOptionPanel, "Teacher content entry options", "Content entry option panel must expose its heading.");
 requireText(contentEntryOptionPanel, "Source template", "Content entry option panel must expose the source template section.");
 requireText(contentEntryOptionPanel, "Cross-game upload guide", "Content entry option panel must expose the cross-game upload guide.");
@@ -605,6 +650,7 @@ requireText(teacherIntake, "LabelledDiagramAssetReadinessPanel", "Teacher intake
 requireText(teacherIntake, "MultimediaAssetReadinessPanel", "Teacher intake route must render multimedia asset readiness.");
 requireText(teacherIntake, "EvidenceExportReadinessPanel", "Teacher intake route must render evidence export readiness.");
 requireText(teacherIntake, "EvidenceAttachmentStorageReadinessPanel", "Teacher intake route must render evidence attachment storage readiness.");
+requireText(teacherIntake, "EvidenceStorageAdapterSelectionGatePanel", "Teacher intake route must render evidence storage adapter selection gate.");
 requireText(teacherUploadWorkspace, "Teacher upload workspace", "Teacher upload workspace must expose its heading.");
 requireText(teacherUploadWorkspace, "UploadIntakeControlPreviewPanel", "Teacher upload workspace must render disabled intake controls.");
 requireText(teacherUploadWorkspace, "UploadFilePolicyPanel", "Teacher upload workspace must render upload file policy.");
@@ -667,6 +713,13 @@ requireText(routeVerifier, "Attachment storage blocked", "Active route verifier 
 requireText(routeVerifier, "Hosted object storage candidate", "Active route verifier must check hosted object storage candidate.");
 requireText(routeVerifier, "Closed local evidence folder candidate", "Active route verifier must check closed local evidence folder candidate.");
 requireText(routeVerifier, "Hybrid export archive candidate", "Active route verifier must check hybrid export archive candidate.");
+requireText(routeVerifier, "Evidence storage adapter selection gate", "Active route verifier must check evidence storage adapter selection gate.");
+requireText(routeVerifier, "Storage adapter selection blocked", "Active route verifier must check storage adapter selection remains blocked.");
+requireText(routeVerifier, "Hosted managed evidence storage candidate", "Active route verifier must check hosted managed evidence storage candidate.");
+requireText(routeVerifier, "Closed local evidence store candidate", "Active route verifier must check closed local evidence store candidate.");
+requireText(routeVerifier, "Hybrid archive evidence store candidate", "Active route verifier must check hybrid archive evidence store candidate.");
+requireText(routeVerifier, "No signed URL generation", "Active route verifier must check signed URL generation is blocked.");
+requireText(routeVerifier, "No attachment migration", "Active route verifier must check attachment migration is blocked.");
 requireText(routeVerifier, "No object storage write", "Active route verifier must check object storage writes remain blocked.");
 requireText(routeVerifier, "No local folder write", "Active route verifier must check local folder writes remain blocked.");
 requireText(routeVerifier, "No attachment download", "Active route verifier must check attachment downloads remain blocked.");

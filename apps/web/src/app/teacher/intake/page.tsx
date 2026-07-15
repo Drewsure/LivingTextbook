@@ -27,6 +27,7 @@ import { sampleDeploymentProfiles } from "@/data/sampleDeploymentProfiles";
 import { sampleEditionQrAliasPlan } from "@/data/sampleEditionQrAliasPlan";
 import { sampleEvidenceAttachmentStorageReadinessPlan } from "@/data/sampleEvidenceAttachmentStorageReadiness";
 import { sampleEvidenceExportReadinessPlan } from "@/data/sampleEvidenceExportReadiness";
+import { sampleEvidenceStorageAdapterSelectionGate } from "@/data/sampleEvidenceStorageAdapterSelectionGate";
 import { sampleGameBackgroundMediaPolicy } from "@/data/sampleGameBackgroundMediaPolicy";
 import { sampleGamePrototypeAssignmentPlan } from "@/data/sampleGamePrototypeAssignmentPlan";
 import { sampleFoundationVerificationGate } from "@/data/sampleFoundationVerificationGate";
@@ -115,6 +116,7 @@ import { ClassroomLaunchGatePanel } from "@/features/pilot/ClassroomLaunchGatePa
 import { TeacherDryRunRehearsalPanel } from "@/features/pilot/TeacherDryRunRehearsalPanel";
 import { EvidenceExportReadinessPanel } from "@/features/evidence/EvidenceExportReadinessPanel";
 import { EvidenceAttachmentStorageReadinessPanel } from "@/features/evidence/EvidenceAttachmentStorageReadinessPanel";
+import { EvidenceStorageAdapterSelectionGatePanel } from "@/features/evidence/EvidenceStorageAdapterSelectionGatePanel";
 import { BackendDecisionMatrixPanel } from "@/features/persistence/BackendDecisionMatrixPanel";
 import { BackendMigrationPlanPanel } from "@/features/persistence/BackendMigrationPlanPanel";
 import { BackendMigrationSpecPanel } from "@/features/persistence/BackendMigrationSpecPanel";
@@ -162,6 +164,7 @@ export default function TeacherIntakePage() {
         <PilotEvidencePacketPanel packet={samplePilotEvidencePacket} />
         <EvidenceExportReadinessPanel plan={sampleEvidenceExportReadinessPlan} />
         <EvidenceAttachmentStorageReadinessPanel plan={sampleEvidenceAttachmentStorageReadinessPlan} />
+        <EvidenceStorageAdapterSelectionGatePanel gate={sampleEvidenceStorageAdapterSelectionGate} />
         <PilotLaunchChecklistPanel checklist={samplePilotLaunchChecklist} />
         <TeacherDryRunRehearsalPanel rehearsal={sampleTeacherDryRunRehearsal} />
         <ClassroomLaunchGatePanel gate={sampleClassroomLaunchGate} />

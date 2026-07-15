@@ -50,6 +50,23 @@ const expectedTextByPath = new Map([
   ["/q/tenant/sample-publisher/series/starter-english/book/level-1/unit/unit-1/activity/hello-friends/language/en/edition/2026/version/1.0.0", ["Edition QR resolver preview", "Printed QR id", "qr-sample-publisher-starter-l1-u1-hello", "The printed QR id stays constant", "Resolved target", "/enter/sample-publisher", "Guardrails", "Direct localhost target", "Direct media file target", "Unreviewed package swap", "Open resolved preview"]],
 ]);
 
+expectedTextByPath.get("/teacher/intake")?.push(
+  "Evidence storage adapter selection gate",
+  "Storage adapter selection blocked",
+  "Hosted managed evidence storage candidate",
+  "Closed local evidence store candidate",
+  "Hybrid archive evidence store candidate",
+  "First pilot recommendation",
+  "No storage adapter selected",
+  "No object bucket creation",
+  "No local evidence folder activation",
+  "No signed URL generation",
+  "No direct file upload",
+  "No attachment migration",
+  "No production retention clock",
+  "No release-state mutation",
+);
+
 if (urls.length === 0) {
   console.error("No active local routes found in docs/ACTIVE_ROUTE_VERIFICATION_LIST.md.");
   process.exit(1);
