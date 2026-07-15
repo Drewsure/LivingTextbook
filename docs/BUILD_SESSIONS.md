@@ -298,6 +298,7 @@ Next outputs:
 - Confirm `/teacher/intake` shows the upload review queue before adding live upload approval, OCR promotion, image-label promotion, media playlist promotion, local-bundle promotion, or student-facing uploaded asset use.
 - Confirm `/teacher/intake` shows target-specific upload promotion readiness before adding live upload promotion into teacher drafts, Labelled Diagram assets, media playlists, game background media, or local bundle files.
 - Confirm `/teacher/intake` shows Labelled Diagram asset readiness before adding live image label editors, label coordinate storage, game asset manifests, or student-facing Labelled Diagram routes.
+- Confirm `/teacher/assets/labelled-diagram/sample-publisher-l1-u1-labelled-diagram` stays teacher-only and blocks live upload, label editing, coordinate editing, student-facing image gameplay, and assignment routes from uploaded images.
 - Confirm `/teacher/intake` shows multimedia asset readiness before adding live media uploads, media processing, playlist promotion, background-media assignment, video-only lesson paths, or local media bundle activation.
 - Confirm uploads remain intake records first and cannot become student-facing until source lineage, rights, file policy, review, audio coverage, route mapping, and package release gates pass.
 - Confirm backend schema, adapter plans, durable records, and migration specs preserve upload intake records before live file pickers, object storage, local upload folders, OCR, image label anchors, or media processing begin.

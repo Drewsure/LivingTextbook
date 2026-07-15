@@ -30,6 +30,7 @@ Open:
 - Routes load without 500 errors.
 - Key routes also confirm expected page text, including student launch unit media, teacher intake publish gate, media playlist route, media demo controls, and teacher session media engagement.
 - The teacher upload workspace route confirms disabled intake controls, upload channel, file policy, target mapping, review, promotion, Labelled Diagram asset, multimedia asset, and no-live-file-picker boundaries.
+- The Labelled Diagram asset workspace confirms teacher-only image review, `game_asset_manifest`, `label_anchor_record`, `target_mapping_packet`, target-language audio coverage, support-language non-progress, and blocked live label/editor/student-game actions.
 - Playable routes confirm activity shell text for Training Academy, Quiz, Sentence Builder, and Speak It, including tenant-specific themes where needed.
 - Student routes preserve target-language progression gates.
 - Teacher/admin routes do not imply live production storage unless persistence is accepted.

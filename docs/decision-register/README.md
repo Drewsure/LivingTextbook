@@ -206,6 +206,7 @@
 - `DR-232-partner-demo-upload-workspace-shortcut.md`
 - `DR-233-upload-target-mapping-preview.md`
 - `DR-234-upload-target-mapping-storage-enforcement.md`
+- `DR-235-labelled-diagram-asset-workspace-route.md`
 
 ## Maintenance Rule
 

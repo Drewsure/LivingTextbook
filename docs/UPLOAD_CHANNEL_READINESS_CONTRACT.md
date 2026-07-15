@@ -168,6 +168,8 @@ These are backend-neutral storage contracts, not live editor features. Hosted an
 
 `label_anchor_record` must preserve target-language label text, support-language support-only text, reviewed anchor geometry, label audio cue id, label review status, a support-language progress block, and a student-facing anchor block.
 
+The dedicated teacher route `/teacher/assets/labelled-diagram/sample-publisher-l1-u1-labelled-diagram` is a review workspace only. It may show a manifest preview, anchor preview, target mapping packet, required packets, related evidence routes, and blocked actions; it must not provide live upload, coordinate editing, label editing, route promotion, assignment, or student-facing image gameplay.
+
 Required readiness:
 
 - Image rights proof.

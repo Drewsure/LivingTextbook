@@ -100,6 +100,15 @@ export const appRouteContracts: AppRouteContract[] = [
     ],
   },
   {
+    id: "teacher-labelled-diagram-asset-workspace",
+    pattern: "/teacher/assets/labelled-diagram/[assetId]",
+    audience: "teacher",
+    status: "active-scaffold",
+    purpose:
+      "Show a teacher-only Labelled Diagram asset review workspace with game asset manifest, label anchor, audio coverage, target mapping, support-language, and release-gate boundaries before any student-facing image game exists.",
+    requiredState: ["TenantConfig", "LabelledDiagramAssetWorkspace", "game_asset_manifest", "label_anchor_record"],
+  },
+  {
     id: "partner-pilot-demo",
     pattern: "/partner-demo",
     audience: "platform",
@@ -266,6 +275,10 @@ export function getTeacherMediaLibraryPath(tenantId: TenantId): string {
 
 export function getTeacherUploadWorkspacePath(tenantId: TenantId): string {
   return `/teacher/uploads/${encodeURIComponent(tenantId)}`;
+}
+
+export function getTeacherLabelledDiagramAssetWorkspacePath(assetId: string): string {
+  return `/teacher/assets/labelled-diagram/${encodeURIComponent(assetId)}`;
 }
 
 export function getPermanentTextbookQrPath(identifier: PermanentQrIdentifier): string {

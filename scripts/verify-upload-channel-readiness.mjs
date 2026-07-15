@@ -6,6 +6,7 @@ const targetMapping = readSource("../apps/web/src/data/sampleUploadTargetMapping
 const reviewQueue = readSource("../apps/web/src/data/sampleUploadReviewQueue.ts");
 const promotionReadiness = readSource("../apps/web/src/data/sampleUploadPromotionReadiness.ts");
 const labelledDiagramAssetReadiness = readSource("../apps/web/src/data/sampleLabelledDiagramAssetReadiness.ts");
+const labelledDiagramAssetWorkspace = readSource("../apps/web/src/data/sampleLabelledDiagramAssetWorkspace.ts");
 const multimediaAssetReadiness = readSource("../apps/web/src/data/sampleMultimediaAssetReadiness.ts");
 const contentEntryOptionScaffold = readSource("../apps/web/src/data/sampleContentEntryOptionScaffold.ts");
 const templateRenderingFontProfiles = readSource("../apps/web/src/data/sampleTemplateRenderingFontProfiles.ts");
@@ -16,12 +17,16 @@ const targetMappingPanel = readSource("../apps/web/src/features/content-intake/U
 const reviewQueuePanel = readSource("../apps/web/src/features/content-intake/UploadReviewQueuePanel.tsx");
 const promotionReadinessPanel = readSource("../apps/web/src/features/content-intake/UploadPromotionReadinessPanel.tsx");
 const labelledDiagramAssetPanel = readSource("../apps/web/src/features/content-intake/LabelledDiagramAssetReadinessPanel.tsx");
+const labelledDiagramAssetWorkspacePanel = readSource("../apps/web/src/features/game-assets/LabelledDiagramAssetWorkspacePanel.tsx");
 const multimediaAssetPanel = readSource("../apps/web/src/features/content-intake/MultimediaAssetReadinessPanel.tsx");
 const contentEntryOptionPanel = readSource("../apps/web/src/features/content-intake/ContentEntryOptionScaffoldPanel.tsx");
 const templateRenderingFontProfilePanel = readSource("../apps/web/src/features/content-intake/TemplateRenderingFontProfilePanel.tsx");
 const teacherUploadWorkspace = readSource("../apps/web/src/features/content-intake/TeacherUploadWorkspacePanel.tsx");
 const teacherUploadRoute = readSource("../apps/web/src/app/teacher/uploads/[tenantId]/page.tsx");
+const teacherLabelledDiagramAssetRoute = readSource("../apps/web/src/app/teacher/assets/labelled-diagram/[assetId]/page.tsx");
 const teacherIntake = readSource("../apps/web/src/app/teacher/intake/page.tsx");
+const partnerDemo = readSource("../apps/web/src/app/partner-demo/page.tsx");
+const routeContracts = readSource("../apps/web/src/features/routes/routeContracts.ts");
 const routeVerifier = readSource("./verify-active-routes.mjs");
 const failures = [];
 
@@ -179,6 +184,31 @@ for (const text of requiredLabelledDiagramAssetTexts) {
   requireText(labelledDiagramAssetReadiness, text, `Labelled Diagram asset readiness missing required text: ${text}.`);
 }
 
+const requiredLabelledDiagramWorkspaceTexts = [
+  "Labelled Diagram asset workspace",
+  "Teacher-only asset review",
+  "Manifest and anchors preview",
+  "game_asset_manifest",
+  "label_anchor_record",
+  "target_mapping_packet",
+  "student_facing_asset_allowed: false",
+  "support_language_progress_allowed: false",
+  "Image rights proof",
+  "Alt text required",
+  "Anchor coordinate review",
+  "Audio label coverage",
+  "Target-language label text only",
+  "Support-language labels are support-only",
+  "No live label editor",
+  "No coordinate editor",
+  "No student-facing image game",
+  "No assignment route from uploaded image",
+];
+
+for (const text of requiredLabelledDiagramWorkspaceTexts) {
+  requireText(labelledDiagramAssetWorkspace, text, `Labelled Diagram asset workspace missing required text: ${text}.`);
+}
+
 const requiredMultimediaAssetTexts = [
   "Multimedia asset readiness",
   "media_manifest",
@@ -318,6 +348,12 @@ requireText(promotionReadinessPanel, "Storage before live", "Upload promotion pa
 requireText(labelledDiagramAssetPanel, "Game asset landing zone", "Labelled Diagram asset panel must expose the asset landing zone heading.");
 requireText(labelledDiagramAssetPanel, "game_asset_manifest", "Labelled Diagram asset panel must expose game asset manifest.");
 requireText(labelledDiagramAssetPanel, "label_anchor_record", "Labelled Diagram asset panel must expose label anchor record.");
+requireText(labelledDiagramAssetWorkspacePanel, "Teacher-only asset review", "Labelled Diagram asset workspace panel must expose teacher-only review heading.");
+requireText(labelledDiagramAssetWorkspacePanel, "Manifest and anchors preview", "Labelled Diagram asset workspace panel must expose manifest/anchor preview.");
+requireText(labelledDiagramAssetWorkspacePanel, "game_asset_manifest", "Labelled Diagram asset workspace panel must expose game asset manifest.");
+requireText(labelledDiagramAssetWorkspacePanel, "label_anchor_record", "Labelled Diagram asset workspace panel must expose label anchor record.");
+requireText(labelledDiagramAssetWorkspacePanel, "Required packets", "Labelled Diagram asset workspace panel must show required packets.");
+requireText(labelledDiagramAssetWorkspacePanel, "Blocked live actions", "Labelled Diagram asset workspace panel must show blocked live actions.");
 requireText(multimediaAssetPanel, "Media asset landing zone", "Multimedia asset panel must expose the media landing zone heading.");
 requireText(multimediaAssetPanel, "Manifest and binding records", "Multimedia asset panel must expose manifest and binding records.");
 requireText(multimediaAssetPanel, "Media lanes", "Multimedia asset panel must expose media lanes.");
@@ -358,6 +394,10 @@ requireText(teacherUploadWorkspace, "UploadTargetMappingPanel", "Teacher upload 
 requireText(teacherUploadWorkspace, "No live file picker", "Teacher upload workspace must block live file picker use.");
 requireText(teacherUploadRoute, "sampleUploadFilePolicyPlan", "Teacher upload route must pass the upload file policy plan.");
 requireText(teacherUploadRoute, "sampleUploadTargetMappingPlan", "Teacher upload route must pass the upload target mapping plan.");
+requireText(teacherLabelledDiagramAssetRoute, "findLabelledDiagramAssetWorkspace", "Teacher Labelled Diagram asset route must resolve the workspace by id.");
+requireText(teacherLabelledDiagramAssetRoute, "LabelledDiagramAssetWorkspacePanel", "Teacher Labelled Diagram asset route must render the workspace panel.");
+requireText(routeContracts, "getTeacherLabelledDiagramAssetWorkspacePath", "Route contracts must expose a Labelled Diagram asset workspace helper.");
+requireText(partnerDemo, "Labelled Diagram asset workspace", "Partner demo must link to the Labelled Diagram asset workspace.");
 requireText(routeVerifier, "Upload channel readiness", "Active route verifier must check upload channel readiness.");
 requireText(routeVerifier, "Upload file policy profiles", "Active route verifier must check upload file policy profiles.");
 requireText(routeVerifier, "Upload intake control preview", "Active route verifier must check disabled upload controls.");
@@ -369,6 +409,8 @@ requireText(routeVerifier, "Image upload for Labelled Diagram", "Active route ve
 requireText(routeVerifier, "Upload review queue", "Active route verifier must check upload review queue.");
 requireText(routeVerifier, "Upload promotion readiness", "Active route verifier must check upload promotion readiness.");
 requireText(routeVerifier, "Labelled Diagram asset readiness", "Active route verifier must check Labelled Diagram asset readiness.");
+requireText(routeVerifier, "Labelled Diagram asset workspace", "Active route verifier must check Labelled Diagram asset workspace.");
+requireText(routeVerifier, "No assignment route from uploaded image", "Active route verifier must check uploaded images cannot create assignment routes.");
 requireText(routeVerifier, "Multimedia asset readiness", "Active route verifier must check multimedia asset readiness.");
 requireText(routeVerifier, "Content entry option scaffold", "Active route verifier must check content entry option scaffold.");
 requireText(routeVerifier, "Generate With AI", "Active route verifier must check AI generation control.");

@@ -80,6 +80,10 @@ Verify at:
 61. Confirm the dedicated upload workspace shows `Upload target mapping preview`.
 62. Confirm target mapping shows `target_mapping_packet`, source-to-target lanes, target records, required evidence, allowed preview actions, blocked shortcuts, and next gates.
 63. Confirm target mapping blocks route creation directly from upload, uploaded files as student assignment targets, upload-to-assignment shortcuts, and folder placement activation.
+64. Confirm the dedicated Labelled Diagram asset workspace route shows `Teacher-only asset review`.
+65. Confirm the asset workspace shows `game_asset_manifest`, `label_anchor_record`, `target_mapping_packet`, image rights proof, alt text, anchor coordinate review, and audio label coverage.
+66. Confirm the asset workspace keeps target-language label text as the progress trigger and `support_language_progress_allowed: false` visible.
+67. Confirm the asset workspace blocks live label editing, coordinate editing, student-facing image games, auto-generated labels, asset promotion without release gate, and assignment routes from uploaded images.
 
 ## Automated Command
 
@@ -114,6 +118,7 @@ Template rendering and font accessibility storage are also covered by `npm run v
 - This scaffold defines upload file policy profiles only; it does not validate, scan, checksum, transcode, or store real files yet.
 - This scaffold previews disabled intake controls only; it does not render live file inputs or create upload records.
 - This scaffold defines upload target mapping only; it does not create draft packages, game assets, playlist bindings, local bundle entries, routes, or assignments.
+- This scaffold defines a Labelled Diagram asset workspace only; it does not implement a live image editor, coordinate editor, label editor, upload picker, route promotion, or student-facing image game.
 - This scaffold shows target-specific upload promotion readiness only; it does not promote uploads into drafts, game assets, playlists, or local bundles.
 - This scaffold defines upload promotion gate storage contracts only; it does not create target records or release uploaded assets.
 - This scaffold defines Labelled Diagram asset readiness only; it does not implement a live label editor, coordinate editor, or student-facing image game.
