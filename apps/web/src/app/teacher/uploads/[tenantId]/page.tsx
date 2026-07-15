@@ -3,6 +3,7 @@ import { AppShell } from "@/components/layout/AppShell";
 import { sampleLabelledDiagramAssetReadinessPlan } from "@/data/sampleLabelledDiagramAssetReadiness";
 import { sampleMultimediaAssetReadinessPlan } from "@/data/sampleMultimediaAssetReadiness";
 import { sampleUploadChannelReadinessPlan } from "@/data/sampleUploadChannelReadiness";
+import { sampleUploadFilePolicyPlan } from "@/data/sampleUploadFilePolicy";
 import { sampleUploadPromotionReadinessPlan } from "@/data/sampleUploadPromotionReadiness";
 import { sampleUploadReviewQueue } from "@/data/sampleUploadReviewQueue";
 import { TeacherUploadWorkspacePanel } from "@/features/content-intake/TeacherUploadWorkspacePanel";
@@ -24,6 +25,7 @@ export default async function TeacherUploadWorkspacePage({
       <TeacherUploadWorkspacePanel
         tenantId={tenantId}
         channelPlan={sampleUploadChannelReadinessPlan}
+        filePolicyPlan={sampleUploadFilePolicyPlan}
         reviewQueue={sampleUploadReviewQueue}
         promotionPlan={sampleUploadPromotionReadinessPlan}
         labelledDiagramPlan={sampleLabelledDiagramAssetReadinessPlan}

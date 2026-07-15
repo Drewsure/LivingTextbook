@@ -71,6 +71,9 @@ Verify at:
 52. Confirm the dedicated upload workspace shows `Teacher upload workspace`.
 53. Confirm the dedicated upload workspace shows `Read-only upload command center`.
 54. Confirm the dedicated upload workspace keeps `No live file picker`, `No uploaded file becomes student-facing`, and `No automatic PDF-to-game publish` visible before live storage work.
+55. Confirm the dedicated upload workspace shows `Upload file policy profiles`.
+56. Confirm file policy profiles show `File type and size policy`, accepted extensions, required maximums, required checks, blocked shortcuts, and next storage gates.
+57. Confirm file policies preserve `scan_and_file_policy_packet`, MIME type validation, checksum capture, virus/malware scan status, and `No upload promotion without file policy acceptance`.
 
 ## Automated Command
 
@@ -102,6 +105,7 @@ Template rendering and font accessibility storage are also covered by `npm run v
 - This scaffold does not make uploaded files student-facing.
 - This scaffold does not approve, publish, import, assign, promote, or process upload queue items.
 - This scaffold defines upload review storage contracts only; it does not implement target-specific promotion workflows.
+- This scaffold defines upload file policy profiles only; it does not validate, scan, checksum, transcode, or store real files yet.
 - This scaffold shows target-specific upload promotion readiness only; it does not promote uploads into drafts, game assets, playlists, or local bundles.
 - This scaffold defines upload promotion gate storage contracts only; it does not create target records or release uploaded assets.
 - This scaffold defines Labelled Diagram asset readiness only; it does not implement a live label editor, coordinate editor, or student-facing image game.

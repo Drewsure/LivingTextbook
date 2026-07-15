@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 
 const plan = readSource("../apps/web/src/data/sampleUploadChannelReadiness.ts");
+const filePolicy = readSource("../apps/web/src/data/sampleUploadFilePolicy.ts");
 const reviewQueue = readSource("../apps/web/src/data/sampleUploadReviewQueue.ts");
 const promotionReadiness = readSource("../apps/web/src/data/sampleUploadPromotionReadiness.ts");
 const labelledDiagramAssetReadiness = readSource("../apps/web/src/data/sampleLabelledDiagramAssetReadiness.ts");
@@ -8,12 +9,15 @@ const multimediaAssetReadiness = readSource("../apps/web/src/data/sampleMultimed
 const contentEntryOptionScaffold = readSource("../apps/web/src/data/sampleContentEntryOptionScaffold.ts");
 const templateRenderingFontProfiles = readSource("../apps/web/src/data/sampleTemplateRenderingFontProfiles.ts");
 const panel = readSource("../apps/web/src/features/content-intake/UploadChannelReadinessPanel.tsx");
+const filePolicyPanel = readSource("../apps/web/src/features/content-intake/UploadFilePolicyPanel.tsx");
 const reviewQueuePanel = readSource("../apps/web/src/features/content-intake/UploadReviewQueuePanel.tsx");
 const promotionReadinessPanel = readSource("../apps/web/src/features/content-intake/UploadPromotionReadinessPanel.tsx");
 const labelledDiagramAssetPanel = readSource("../apps/web/src/features/content-intake/LabelledDiagramAssetReadinessPanel.tsx");
 const multimediaAssetPanel = readSource("../apps/web/src/features/content-intake/MultimediaAssetReadinessPanel.tsx");
 const contentEntryOptionPanel = readSource("../apps/web/src/features/content-intake/ContentEntryOptionScaffoldPanel.tsx");
 const templateRenderingFontProfilePanel = readSource("../apps/web/src/features/content-intake/TemplateRenderingFontProfilePanel.tsx");
+const teacherUploadWorkspace = readSource("../apps/web/src/features/content-intake/TeacherUploadWorkspacePanel.tsx");
+const teacherUploadRoute = readSource("../apps/web/src/app/teacher/uploads/[tenantId]/page.tsx");
 const teacherIntake = readSource("../apps/web/src/app/teacher/intake/page.tsx");
 const routeVerifier = readSource("./verify-active-routes.mjs");
 const failures = [];
@@ -53,6 +57,29 @@ for (const channelId of requiredChannels) {
 
 for (const text of requiredTexts) {
   requireText(plan, text, `Upload readiness plan missing required text: ${text}.`);
+}
+
+const requiredFilePolicyTexts = [
+  "Upload file policy profiles",
+  "File type and size policy",
+  "PDF/text source policy",
+  "Labelled Diagram image policy",
+  "Audio/music policy",
+  "Video and local-bundle policy",
+  "scan_and_file_policy_packet",
+  "MIME type validation",
+  "checksum capture",
+  "virus/malware scan status",
+  "No file picker writes",
+  "No upload promotion without file policy acceptance",
+  "No automatic PDF-to-game publish",
+  "No student-facing image game",
+  "No music as mastery trigger",
+  "No video-only progress",
+];
+
+for (const text of requiredFilePolicyTexts) {
+  requireText(filePolicy, text, `Upload file policy plan missing required text: ${text}.`);
 }
 
 const requiredReviewQueueTexts = [
@@ -236,6 +263,13 @@ requireText(panel, "Foundation rule", "Upload readiness panel must expose the fo
 requireText(panel, "Accepted file types", "Upload readiness panel must show accepted file types.");
 requireText(panel, "Upload targets", "Upload readiness panel must show upload targets.");
 requireText(panel, "Not allowed yet", "Upload readiness panel must show blocked shortcuts.");
+requireText(filePolicyPanel, "File type and size policy", "Upload file policy panel must expose its heading.");
+requireText(filePolicyPanel, "Required records", "Upload file policy panel must expose required records.");
+requireText(filePolicyPanel, "Accepted extensions", "Upload file policy panel must show accepted extensions.");
+requireText(filePolicyPanel, "Maximums required", "Upload file policy panel must show maximums.");
+requireText(filePolicyPanel, "Required checks", "Upload file policy panel must show required checks.");
+requireText(filePolicyPanel, "Blocked shortcuts", "Upload file policy panel must show blocked shortcuts.");
+requireText(filePolicyPanel, "Next gate", "Upload file policy panel must show the next gate.");
 requireText(reviewQueuePanel, "Review queue preview", "Upload review queue panel must expose review queue preview heading.");
 requireText(reviewQueuePanel, "Reviewer decision preview", "Upload review queue panel must expose disabled decision previews.");
 requireText(reviewQueuePanel, "Live actions blocked", "Upload review queue panel must show live actions are blocked.");
@@ -277,7 +311,13 @@ requireText(teacherIntake, "UploadReviewQueuePanel", "Teacher intake route must 
 requireText(teacherIntake, "UploadPromotionReadinessPanel", "Teacher intake route must render upload promotion readiness.");
 requireText(teacherIntake, "LabelledDiagramAssetReadinessPanel", "Teacher intake route must render Labelled Diagram asset readiness.");
 requireText(teacherIntake, "MultimediaAssetReadinessPanel", "Teacher intake route must render multimedia asset readiness.");
+requireText(teacherUploadWorkspace, "Teacher upload workspace", "Teacher upload workspace must expose its heading.");
+requireText(teacherUploadWorkspace, "UploadFilePolicyPanel", "Teacher upload workspace must render upload file policy.");
+requireText(teacherUploadWorkspace, "No live file picker", "Teacher upload workspace must block live file picker use.");
+requireText(teacherUploadRoute, "sampleUploadFilePolicyPlan", "Teacher upload route must pass the upload file policy plan.");
 requireText(routeVerifier, "Upload channel readiness", "Active route verifier must check upload channel readiness.");
+requireText(routeVerifier, "Upload file policy profiles", "Active route verifier must check upload file policy profiles.");
+requireText(routeVerifier, "File type and size policy", "Active route verifier must check upload file policy heading.");
 requireText(routeVerifier, "Image upload for Labelled Diagram", "Active route verifier must check labelled diagram image upload readiness.");
 requireText(routeVerifier, "Upload review queue", "Active route verifier must check upload review queue.");
 requireText(routeVerifier, "Upload promotion readiness", "Active route verifier must check upload promotion readiness.");
