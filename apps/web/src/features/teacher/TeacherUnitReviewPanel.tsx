@@ -64,6 +64,27 @@ export function TeacherUnitReviewPanel({ review }: TeacherUnitReviewPanelProps) 
       </Card>
 
       <Card>
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <p className="text-sm font-semibold text-[var(--tenant-muted)]">Launch safety</p>
+            <h3 className="mt-1 text-lg font-bold">Assignment stays review-only</h3>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
+              This teacher unit surface helps review routes and assignment options, but it cannot start a live classroom launch. Target-language activity remains the progression trigger; support media, support language, and teacher review links cannot replace learner English work.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <StatusPill label="No live classroom launch" tone="warning" />
+            <StatusPill label="Review only" tone="neutral" />
+          </div>
+        </div>
+        <div className="mt-5 grid gap-3 md:grid-cols-3">
+          <LaunchSafetyFact label="Student accounts" value="No production student accounts" />
+          <LaunchSafetyFact label="Learner data" value="Real learner data blocked" />
+          <LaunchSafetyFact label="Reports" value="Report export still blocked" />
+        </div>
+      </Card>
+
+      <Card>
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
             <p className="text-sm font-semibold text-[var(--tenant-muted)]">Package evidence</p>
@@ -183,5 +204,14 @@ function ReviewMetric({ label, value }: { label: string; value: string }) {
       <dt className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">{label}</dt>
       <dd className="mt-1 break-words text-sm font-bold text-[var(--tenant-text)]">{value}</dd>
     </div>
+  );
+}
+
+function LaunchSafetyFact({ label, value }: { label: string; value: string }) {
+  return (
+    <section className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3">
+      <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">{label}</p>
+      <p className="mt-1 text-sm font-bold text-[var(--tenant-text)]">{value}</p>
+    </section>
   );
 }

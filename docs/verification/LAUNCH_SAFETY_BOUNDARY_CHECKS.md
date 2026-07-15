@@ -13,6 +13,7 @@ npm run verify:launch-safety
 - Direct student launch routes show `Controlled student practice`.
 - Front-door routes show `Controlled front-door practice`.
 - Private assignment routes show `Controlled assignment practice`.
+- Teacher unit review routes show `Assignment stays review-only`.
 - Student-facing doorways show `No live classroom launch`, `Target language unlocks progress`, and `No production student accounts`.
 - Teacher session monitor routes show `Session launch gate boundary`.
 - Report package routes show `Session launch gate boundary`.

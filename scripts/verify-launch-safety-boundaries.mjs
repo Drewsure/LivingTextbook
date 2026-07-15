@@ -7,6 +7,7 @@ const assignmentPage = readSource("../apps/web/src/app/assign/[assignmentId]/pag
 const sessionPage = readSource("../apps/web/src/app/teacher/sessions/[launchCode]/page.tsx");
 const reportPackagePage = readSource("../apps/web/src/app/teacher/sessions/[launchCode]/report-package/page.tsx");
 const sessionBoundaryPanel = readSource("../apps/web/src/features/teacher/TeacherSessionLaunchGateBoundaryPanel.tsx");
+const teacherUnitReviewPanel = readSource("../apps/web/src/features/teacher/TeacherUnitReviewPanel.tsx");
 const sessionMonitorData = readSource("../apps/web/src/data/sampleTeacherSessionMonitor.ts");
 const routeVerifier = readSource("./verify-active-routes.mjs");
 const buildSessions = readSource("../docs/BUILD_SESSIONS.md");
@@ -22,6 +23,8 @@ const studentRoutes = [
 ];
 
 const teacherRoutes = [
+  "/teacher/units/ministar%3Aministar-english%3AL1%3AU1",
+  "/teacher/units/sample-publisher%3Apartner-textbook-companion%3AL1%3AU1",
   "/teacher/sessions/demo-unit-1",
   "/teacher/sessions/partner-demo-unit-1",
   "/teacher/sessions/demo-unit-1/report-package",
@@ -57,6 +60,10 @@ requireText(frontDoorFlow, "Controlled front-door practice", "Front-door flow mu
 requireText(assignmentPage, "Controlled assignment practice", "Private assignment page must render controlled-assignment-practice boundary.");
 requireText(sessionPage, "TeacherSessionLaunchGateBoundaryPanel", "Teacher session monitor route must render launch gate boundary panel.");
 requireText(reportPackagePage, "TeacherSessionLaunchGateBoundaryPanel", "Report package route must render launch gate boundary panel.");
+requireText(teacherUnitReviewPanel, "Assignment stays review-only", "Teacher unit review must state assignment remains review-only.");
+requireText(teacherUnitReviewPanel, "No live classroom launch", "Teacher unit review must keep live classroom launch blocked.");
+requireText(teacherUnitReviewPanel, "Real learner data blocked", "Teacher unit review must keep real learner data blocked.");
+requireText(teacherUnitReviewPanel, "Report export still blocked", "Teacher unit review must keep report export blocked.");
 requireText(sessionBoundaryPanel, "Open classroom launch gate", "Session launch gate boundary panel must link to the launch gate workspace.");
 requireText(sessionBoundaryPanel, "No live classroom launch", "Session launch gate boundary panel must state no live classroom launch.");
 requireText(sessionMonitorData, "Real learner data blocked", "Session monitor data must preserve real learner data blocker.");

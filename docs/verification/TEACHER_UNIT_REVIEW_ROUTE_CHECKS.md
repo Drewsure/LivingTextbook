@@ -15,6 +15,9 @@ Expected result:
 
 - The page shows `Teacher unit review`.
 - The page says `Review before assignment`.
+- The page shows `Launch safety`.
+- The page says `Assignment stays review-only`.
+- The page shows `No live classroom launch`, `No production student accounts`, `Real learner data blocked`, and `Report export still blocked`.
 - The page shows `Audio and media coverage`.
 - The page shows a `Curated activity path`.
 - Activity cards mark which game modes have audio coverage.

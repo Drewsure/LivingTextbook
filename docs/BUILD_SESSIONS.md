@@ -375,7 +375,8 @@ Next outputs:
 - Confirm student launch and front-door routes show controlled-practice launch context before real classroom launch, production student accounts, or live learner data collection is enabled.
 - Confirm teacher session monitor and report-package routes show a session launch gate boundary before live classroom launch, real learner data collection, report export, or launch-ready state transition.
 - Confirm private assignment routes show controlled-practice launch context before real classroom launch, production student accounts, report export, or live learner data collection is enabled.
-- Confirm `npm run verify:launch-safety` passes after launch, front-door, private assignment, teacher session monitor, report package, or classroom launch gate changes.
+- Confirm teacher unit review routes show launch-safety status before live assignment, real classroom launch, production student accounts, report export, or live learner data collection is enabled.
+- Confirm `npm run verify:launch-safety` passes after launch, front-door, private assignment, teacher unit review, teacher session monitor, report package, or classroom launch gate changes.
 - Confirm stable QR alias routes are content-checked for printed QR id, resolved target, and guardrails before real textbook QR commitments are made.
 
 ## Session 8: Premium Experience Layer
