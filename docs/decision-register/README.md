@@ -199,6 +199,7 @@
 - `DR-225-stable-qr-route-content-verification.md`
 - `DR-226-launch-safety-boundary-verifier.md`
 - `DR-227-teacher-unit-review-launch-safety.md`
+- `DR-228-playable-route-content-verification.md`
 
 ## Maintenance Rule
 

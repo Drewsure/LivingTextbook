@@ -1,9 +1,8 @@
+import { notFound } from "next/navigation";
 import { AppShell } from "@/components/layout/AppShell";
-import { getSampleLaunchSession, getSampleStudentProgression } from "@/data/sampleLaunchSession";
-import { levelOneUnitOne } from "@/data/levelOneUnitOne";
+import { resolveSampleLaunchContext } from "@/data/sampleLaunchResolver";
 import { TrainingAcademyFlow } from "@/features/training/TrainingAcademyFlow";
 import type { TrainingFocusType } from "@/features/training/trainingAcademyAdapter";
-import { ministarTenant } from "@/features/tenant/ministarTenant";
 
 const allowedFocusTypes: TrainingFocusType[] = [
   "vocabulary-review",
@@ -26,18 +25,23 @@ export default async function TrainingAcademyPage({
   const initialFocusType = allowedFocusTypes.includes(focus as TrainingFocusType)
     ? (focus as TrainingFocusType)
     : undefined;
-  const launchSession = getSampleLaunchSession(code);
+  const { tenant, unit, launchSession, progression: launchProgression } = resolveSampleLaunchContext(code);
+
+  if (!unit) {
+    notFound();
+  }
+
   const progression = {
-    ...getSampleStudentProgression(code),
+    ...launchProgression,
     currentStep: "training-academy" as const,
     masteryStatus: "needs-review" as const,
   };
 
   return (
-    <AppShell tenant={ministarTenant} compact>
+    <AppShell tenant={tenant} compact>
       <TrainingAcademyFlow
-        tenant={ministarTenant}
-        unit={levelOneUnitOne}
+        tenant={tenant}
+        unit={unit}
         launchSession={launchSession}
         progression={progression}
         initialFocusType={initialFocusType}

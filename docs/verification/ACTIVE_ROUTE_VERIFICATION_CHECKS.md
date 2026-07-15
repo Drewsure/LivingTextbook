@@ -29,6 +29,7 @@ Open:
 
 - Routes load without 500 errors.
 - Key routes also confirm expected page text, including student launch unit media, teacher intake publish gate, media playlist route, media demo controls, and teacher session media engagement.
+- Playable routes confirm activity shell text for Training Academy, Quiz, Sentence Builder, and Speak It, including tenant-specific themes where needed.
 - Student routes preserve target-language progression gates.
 - Teacher/admin routes do not imply live production storage unless persistence is accepted.
 - Sample publisher routes remain white-label and do not depend on MiniStar-only branding.

@@ -71,6 +71,8 @@ Next outputs:
 - Additional scoring profiles for the next selected parent engine or mode.
 - Browser-verify Quiz at `/quiz/demo-unit-1` and `/quiz/partner-demo-unit-1`.
 - Browser-verify Sentence Builder at `/sentence/demo-unit-1` and `/sentence/partner-demo-unit-1`.
+- Confirm Training Academy uses the shared white-label launch resolver before changing recovery routes.
+- Confirm active route verification content-checks Training Academy, Quiz, Sentence Builder, and Speak It routes for both sample tenants.
 - Browser-verify the package-linked media playlist at `/media/playlist-ministar-l1-u1-greetings`.
 - Browser-verify teacher demo route shortcuts at `/teacher`.
 - Mobile verification.
