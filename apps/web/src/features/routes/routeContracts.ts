@@ -109,6 +109,22 @@ export const appRouteContracts: AppRouteContract[] = [
     requiredState: ["TenantConfig", "LabelledDiagramAssetWorkspace", "game_asset_manifest", "label_anchor_record"],
   },
   {
+    id: "teacher-media-asset-workspace",
+    pattern: "/teacher/assets/media/[assetId]",
+    audience: "teacher",
+    status: "active-scaffold",
+    purpose:
+      "Show a teacher-only media asset review workspace with media manifest, playlist binding, background-media policy, local bundle entry, rights, optional playback, and learning-audio priority boundaries before live media upload exists.",
+    requiredState: [
+      "TenantConfig",
+      "MediaAssetWorkspace",
+      "media_manifest",
+      "media_playlist_binding",
+      "background_media_policy_binding",
+      "local_media_bundle_entry",
+    ],
+  },
+  {
     id: "partner-pilot-demo",
     pattern: "/partner-demo",
     audience: "platform",
@@ -279,6 +295,10 @@ export function getTeacherUploadWorkspacePath(tenantId: TenantId): string {
 
 export function getTeacherLabelledDiagramAssetWorkspacePath(assetId: string): string {
   return `/teacher/assets/labelled-diagram/${encodeURIComponent(assetId)}`;
+}
+
+export function getTeacherMediaAssetWorkspacePath(assetId: string): string {
+  return `/teacher/assets/media/${encodeURIComponent(assetId)}`;
 }
 
 export function getPermanentTextbookQrPath(identifier: PermanentQrIdentifier): string {

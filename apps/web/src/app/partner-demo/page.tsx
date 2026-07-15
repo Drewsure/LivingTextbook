@@ -29,6 +29,7 @@ import {
   getTeacherMediaLibraryPath,
   getTeacherUploadWorkspacePath,
   getTeacherLabelledDiagramAssetWorkspacePath,
+  getTeacherMediaAssetWorkspacePath,
 } from "@/features/routes/routeContracts";
 import { getUnitKey } from "@living-textbook/content-model";
 import { TeacherLaunchPanel } from "@/features/teacher/TeacherLaunchPanel";
@@ -88,6 +89,7 @@ export default function PartnerDemoPage() {
                 label="Labelled Diagram asset workspace"
                 href={getTeacherLabelledDiagramAssetWorkspacePath("sample-publisher-l1-u1-labelled-diagram")}
               />
+              <RouteLink label="Media asset workspace" href={getTeacherMediaAssetWorkspacePath("sample-publisher-l1-u1-routines-media")} />
               <RouteLink label="Teacher media library" href={getTeacherMediaLibraryPath("sample-publisher")} />
               <RouteLink label="Private assignment link" href={getPrivateAssignmentPath("assignment-sample-publisher-front-door")} />
               <RouteLink label="Front door" href={samplePartnerFrontDoorPath} />

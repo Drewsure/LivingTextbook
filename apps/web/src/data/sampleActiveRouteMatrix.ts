@@ -91,6 +91,14 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     note: "Teacher-only image asset review workspace for manifest, label anchors, audio coverage, support-language boundaries, and blocked student-facing image games.",
   },
   {
+    routeId: "teacher-media-asset-workspace",
+    group: "sample-publisher",
+    label: "Media asset workspace",
+    path: "/teacher/assets/media/sample-publisher-l1-u1-routines-media",
+    status: "active-scaffold",
+    note: "Teacher-only media review workspace for manifests, playlist bindings, background media policy, local bundle entries, and blocked media-only progress.",
+  },
+  {
     routeId: "teacher-media-library",
     group: "sample-publisher",
     label: "Teacher media library",
