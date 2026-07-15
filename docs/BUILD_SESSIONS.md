@@ -32,6 +32,7 @@ Outputs:
 - Private assignment routes must remain focused assignment previews, not public activity pages, public community sharing, or iframe embeds.
 - `/teacher/intake` exposes teacher authoring readiness so fast creation/editing remains draft-first and review-gated.
 - `/teacher/intake` exposes target-language expansion readiness so Japanese-as-target-language and other non-English target-language opportunities are not confused with assist-language support.
+- `/teacher/uploads/sample-publisher` exposes the dedicated upload workspace so file intake, review, promotion, Labelled Diagram image assets, and multimedia asset gates have a visible route boundary before live file pickers or storage are built.
 
 ## Session 1: First Vertical Slice
 
@@ -289,6 +290,7 @@ Next outputs:
 - Confirm `/teacher/intake` shows the share/embed readiness panel before public links, iframe embeds, colleague sharing, or public community discovery work begins.
 - Confirm `/teacher/intake` shows the teacher authoring readiness panel before live teacher editor or copy/edit implementation begins.
 - Confirm `/teacher/intake` shows upload channel readiness before adding live upload controls for PDFs, text, images, audio, music, video, Labelled Diagram assets, media playlists, or local bundles.
+- Confirm `/teacher/uploads/sample-publisher` shows upload channel, review queue, promotion, Labelled Diagram asset, and multimedia asset readiness before adding live file pickers, object storage, local upload folders, OCR, media processing, image label editors, or student-facing uploaded asset use.
 - Confirm `/teacher/intake` shows the upload review queue before adding live upload approval, OCR promotion, image-label promotion, media playlist promotion, local-bundle promotion, or student-facing uploaded asset use.
 - Confirm `/teacher/intake` shows target-specific upload promotion readiness before adding live upload promotion into teacher drafts, Labelled Diagram assets, media playlists, game background media, or local bundle files.
 - Confirm `/teacher/intake` shows Labelled Diagram asset readiness before adding live image label editors, label coordinate storage, game asset manifests, or student-facing Labelled Diagram routes.

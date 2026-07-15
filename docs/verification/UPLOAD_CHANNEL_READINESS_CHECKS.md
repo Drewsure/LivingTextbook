@@ -13,6 +13,7 @@ Verify that upload paths are treated as governed intake channels before live upl
 Verify at:
 
 - `http://127.0.0.1:3000/teacher/intake`
+- `http://127.0.0.1:3000/teacher/uploads/sample-publisher`
 
 ## Required Checks
 
@@ -67,6 +68,9 @@ Verify at:
 49. Confirm the page shows compatible families, row shape policy, media slot policy, layout constraints, tenant font pack, language rendering rules, and readability checks.
 50. Confirm the page shows `Student-facing rendering blocked` and `Student-facing font blocked`.
 51. Confirm the profile panel blocks switch-to-anything panels, arbitrary teacher font uploads, unlicensed fonts, broken hiragana/furigana rendering, and unchecked printable output.
+52. Confirm the dedicated upload workspace shows `Teacher upload workspace`.
+53. Confirm the dedicated upload workspace shows `Read-only upload command center`.
+54. Confirm the dedicated upload workspace keeps `No live file picker`, `No uploaded file becomes student-facing`, and `No automatic PDF-to-game publish` visible before live storage work.
 
 ## Automated Command
 

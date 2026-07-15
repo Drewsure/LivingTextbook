@@ -75,6 +75,14 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     note: "Tenant-scoped library route for private drafts, reviewed packages, planned school sharing, and blocked public community publishing.",
   },
   {
+    routeId: "teacher-upload-workspace",
+    group: "core",
+    label: "Teacher upload workspace",
+    path: "/teacher/uploads/sample-publisher",
+    status: "active-scaffold",
+    note: "Read-only upload command center for PDF/text, Labelled Diagram images, audio, music, video, promotion gates, and blocked live upload actions.",
+  },
+  {
     routeId: "teacher-media-library",
     group: "sample-publisher",
     label: "Teacher media library",

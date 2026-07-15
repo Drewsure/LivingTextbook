@@ -200,6 +200,7 @@
 - `DR-226-launch-safety-boundary-verifier.md`
 - `DR-227-teacher-unit-review-launch-safety.md`
 - `DR-228-playable-route-content-verification.md`
+- `DR-229-teacher-upload-workspace-route.md`
 
 ## Maintenance Rule
 
