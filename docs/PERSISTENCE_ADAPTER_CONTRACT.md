@@ -33,11 +33,11 @@ Used for source-controlled reviewed sample data. It is useful for design and sal
 
 ### Hosted Pilot Adapter
 
-The recommended first pilot path. It should support durable route registry writes, teacher launch-session settings, teacher draft package writes, tenant library item writes, progress/media event writes, earned collection inventory writes, package publish gates, package approval ledgers, pilot evidence packets, and teacher dry-run rehearsals after privacy, release-control, and policy requirements are accepted.
+The recommended first pilot path. It should support durable route registry writes, teacher launch-session settings, teacher draft package writes, tenant library item writes, progress/media event writes, earned collection inventory writes, evidence packet records, package publish gates, package approval ledgers, pilot evidence packets, and teacher dry-run rehearsals after privacy, release-control, and policy requirements are accepted.
 
 ### Local Classroom Adapter
 
-A future closed deployment path for schools or textbook partners who require a local classroom server or packaged local app. It must support local media bundles, local teacher draft packages, local tenant library items, local progress export packages, local earned collection inventory, package publish gates, package approval ledgers, pilot evidence packets, teacher dry-run rehearsals, backup/restore, and year-on-year content updates.
+A future closed deployment path for schools or textbook partners who require a local classroom server or packaged local app. It must support local media bundles, local teacher draft packages, local tenant library items, local progress export packages, local earned collection inventory, local evidence packet records, package publish gates, package approval ledgers, pilot evidence packets, teacher dry-run rehearsals, backup/restore, and year-on-year content updates.
 
 ## Core Safety Rules
 
@@ -71,6 +71,7 @@ The hosted pilot path should support:
 - progress and media events,
 - earned collection inventory,
 - package game/audio coverage snapshots,
+- evidence packet records,
 - package publish gates,
 - package approval ledgers,
 - pilot evidence packets,
@@ -86,6 +87,7 @@ The local/closed deployment path should support:
 - local teacher draft packages,
 - local tenant library items,
 - local package game/audio coverage snapshots,
+- local evidence packet records,
 - local progress export packages,
 - local earned collection inventory,
 - local package publish gates,

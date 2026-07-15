@@ -10,6 +10,7 @@ export type PersistenceRecordCategory =
   | "upload-intake"
   | "upload-review"
   | "upload-promotion"
+  | "evidence-packet"
   | "game-asset-manifest"
   | "label-anchor-record"
   | "activity-compatibility-snapshot"
@@ -88,6 +89,8 @@ export interface DurableRecordContract {
   blocksUploadReviewPromotion?: boolean;
   preservesUploadPromotionTargets?: boolean;
   blocksStudentFacingPromotion?: boolean;
+  preservesEvidencePacketFlow?: boolean;
+  blocksEvidencePacketPromotion?: boolean;
   preservesGameAssetManifest?: boolean;
   blocksStudentFacingGameAssetUse?: boolean;
   preservesLabelAnchorRecords?: boolean;
@@ -271,6 +274,26 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "upload-promotion" && !record.blocksStudentFacingPromotion) {
       errors.push(`Upload promotion record ${record.recordId} must block student-facing promotion.`);
+    }
+
+    if (record.category === "evidence-packet" && !record.preservesEvidencePacketFlow) {
+      errors.push(`Evidence packet record ${record.recordId} must preserve evidence packet flow state.`);
+    }
+
+    if (record.category === "evidence-packet" && !record.blocksEvidenceUpload) {
+      errors.push(`Evidence packet record ${record.recordId} must block live evidence uploads.`);
+    }
+
+    if (record.category === "evidence-packet" && !record.blocksSignedApprovalCapture) {
+      errors.push(`Evidence packet record ${record.recordId} must block signed approval capture.`);
+    }
+
+    if (record.category === "evidence-packet" && !record.blocksEvidencePacketPromotion) {
+      errors.push(`Evidence packet record ${record.recordId} must block evidence-driven promotion.`);
+    }
+
+    if (record.category === "evidence-packet" && !record.blocksStudentFacingUploadUse) {
+      errors.push(`Evidence packet record ${record.recordId} must block student-facing upload use.`);
     }
 
     if (record.category === "game-asset-manifest" && !record.preservesGameAssetManifest) {

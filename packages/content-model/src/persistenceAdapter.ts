@@ -45,6 +45,8 @@ export interface PersistenceWriteIntent {
   blocksUploadReviewPromotion?: boolean;
   preservesUploadPromotionTargets?: boolean;
   blocksStudentFacingPromotion?: boolean;
+  preservesEvidencePacketFlow?: boolean;
+  blocksEvidencePacketPromotion?: boolean;
   preservesGameAssetManifest?: boolean;
   blocksStudentFacingGameAssetUse?: boolean;
   preservesLabelAnchorRecords?: boolean;
@@ -263,6 +265,26 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "upload-promotion" && !intent.blocksStudentFacingPromotion) {
       errors.push(`Upload promotion write intent ${intent.intentId} must block student-facing promotion.`);
+    }
+
+    if (intent.category === "evidence-packet" && !intent.preservesEvidencePacketFlow) {
+      errors.push(`Evidence packet write intent ${intent.intentId} must preserve evidence packet flow state.`);
+    }
+
+    if (intent.category === "evidence-packet" && !intent.blocksEvidenceUpload) {
+      errors.push(`Evidence packet write intent ${intent.intentId} must block live evidence uploads.`);
+    }
+
+    if (intent.category === "evidence-packet" && !intent.blocksSignedApprovalCapture) {
+      errors.push(`Evidence packet write intent ${intent.intentId} must block signed approval capture.`);
+    }
+
+    if (intent.category === "evidence-packet" && !intent.blocksEvidencePacketPromotion) {
+      errors.push(`Evidence packet write intent ${intent.intentId} must block evidence-driven promotion.`);
+    }
+
+    if (intent.category === "evidence-packet" && !intent.blocksStudentFacingUploadUse) {
+      errors.push(`Evidence packet write intent ${intent.intentId} must block student-facing upload use.`);
     }
 
     if (intent.category === "game-asset-manifest" && !intent.preservesGameAssetManifest) {

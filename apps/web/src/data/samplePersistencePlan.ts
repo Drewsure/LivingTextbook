@@ -22,6 +22,7 @@ export type PersistenceBoundaryCategory =
   | "upload-intake"
   | "upload-review"
   | "upload-promotion"
+  | "evidence-packet"
   | "game-asset-manifest"
   | "label-anchor-record"
   | "activity-compatibility-snapshot"
@@ -209,6 +210,26 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     blocksStudentFacingPromotion: true,
     recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
     note: "Upload promotion gates need durable target kind, target mapping, required gates, blockers, and release-control state before reviewed uploads can become draft packages, game assets, media playlists, local bundles, or assignments.",
+  },
+  {
+    recordId: "evidence-packet-record",
+    category: "evidence-packet",
+    label: "Evidence packet record",
+    readiness: "durable-required",
+    sourceOfTruth: "EvidencePacketFlow, upload workspace, Labelled Diagram asset workspace, media asset workspace",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesEvidencePacketFlow: true,
+    blocksEvidenceUpload: true,
+    blocksSignedApprovalCapture: true,
+    blocksEvidencePacketPromotion: true,
+    blocksStudentFacingUploadUse: true,
+    recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
+    note: "Evidence packet records preserve source lineage, rights proof, scan/file policy, target mapping, asset/media manifests, captions, accessibility, missing evidence, blocked live actions, and release-control state before real upload, approval, publish, transcode, playlist, editor, local activation, or assignment workflows exist.",
   },
   {
     recordId: "game-asset-manifest-record",
@@ -804,6 +825,18 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     visibleTo: ["Teacher", "Tenant admin", "Content reviewer", "Publisher media owner", "Platform admin"],
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision: "Persist upload promotion gates before live draft package promotion, game asset promotion, media playlist promotion, or local bundle promotion.",
+  },
+  {
+    boundaryId: "evidence-packet-boundary",
+    category: "evidence-packet",
+    label: "Evidence packet records",
+    status: "needs-backend",
+    recordShape: "Evidence packet id, tenant id, flow id, scope, source record, packet key, status, owner role, required evidence, missing evidence, blocked live actions, handoff rule, promotion block",
+    whyItMatters:
+      "Upload, image asset, and media workspaces need durable evidence packets so future file, editor, transcode, playlist, approval, and assignment controls cannot bypass proof and release gates.",
+    visibleTo: ["Teacher", "Tenant admin", "Content reviewer", "Publisher media owner", "Platform admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision: "Persist evidence packet records before enabling live upload buttons, evidence uploads, signed approvals, asset editors, playlist creation, media transcodes, local activation, or assignment shortcuts.",
   },
   {
     boundaryId: "game-asset-manifest-boundary",

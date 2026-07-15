@@ -182,6 +182,25 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
       notAllowedYet: ["Folder placement promotion", "Direct assignment", "Automatic PDF-to-game publish", "Uploaded media as mastery trigger", "Promotion without target record"],
     },
     {
+      migrationId: "m035-evidence-packet-records",
+      label: "Evidence packet records",
+      track: "shared",
+      status: "ready-to-design",
+      risk: "medium",
+      targetEntities: ["evidence_packet"],
+      purpose:
+        "Persist reusable evidence packet flow records before live upload buttons, evidence uploads, signed approvals, asset editors, media transcodes, playlist creation, local activation, or assignment shortcuts are enabled.",
+      prerequisites: ["Evidence packet flow accepted", "Reviewer identity model accepted", "Release-control policy accepted", "Hosted/local evidence storage policy accepted"],
+      implementationNotes: [
+        "Keep evidence packets tenant-scoped, flow-scoped, packet-key-scoped, and source-record-scoped.",
+        "Preserve required evidence, missing evidence, owner role, packet status, handoff rule, and blocked live actions.",
+        "Block evidence upload, signed approval capture, live promotion, and student-facing use until identity, storage, policy, and release gates pass.",
+        "Do not let evidence packet completion create drafts, game assets, media playlists, local bundle entries, routes, or assignments directly.",
+      ],
+      rollbackOrExportNeeds: ["Export evidence packet JSON", "Retain missing-evidence and blocked snapshots", "Support local evidence packet backup and restore"],
+      notAllowedYet: ["Live upload button", "Evidence upload", "Signed approval capture", "Direct promotion", "Direct assignment", "Playlist creation from uploaded media", "Local folder activation"],
+    },
+    {
       migrationId: "m024-game-asset-manifests",
       label: "Game asset manifest records",
       track: "shared",

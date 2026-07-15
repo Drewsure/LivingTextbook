@@ -46,6 +46,7 @@ The scaffold currently tracks:
 - Media manifest and rights records.
 - Deployment profile records.
 - Report export and retention policy records.
+- Evidence packet records.
 - Package publish gate records.
 - Package approval ledger records.
 - Pilot evidence packet records.
@@ -95,6 +96,7 @@ They are release-control evidence, not student progress records. They must block
 - Earned collection inventory must reject random reward pressure, paid gacha-like ownership, and support-only unlocks.
 - Package approval ledgers require approver identity and policy rules before real sign-offs are stored.
 - Package publish gates must not mark a package pilot-publishable while release-blocking items remain open.
+- Evidence packet records must preserve packet status, required evidence, missing evidence, blocked live actions, and handoff rules while blocking evidence upload, signed approval capture, promotion, and student-facing use.
 - Teacher dry-run rehearsal records must not launch students, collect real learner data, store live progress, or export reports.
 - Teacher draft packages must preserve owner, source lineage, visibility, draft payload, requested activity path, review gates, audio plan state, and direct-assignment blocks before becoming package releases.
 - Tenant library items must preserve source lineage, block student-data copies, and block public community publishing before live library reuse, copy/edit, school sharing, or search work begins.
