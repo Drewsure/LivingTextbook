@@ -2,7 +2,7 @@
 
 Document type: focused verification supplement
 Status: active scaffold
-Last updated: 2026-07-14
+Last updated: 2026-07-15
 
 ## Purpose
 
@@ -110,6 +110,11 @@ Verify at:
 89. Confirm the export readiness panel shows publisher, school, and platform recipient lanes.
 90. Confirm the export readiness panel shows identity/signature gates and retention/policy gates.
 91. Confirm the export readiness panel keeps `No evidence packet export`, `No signed approval capture`, `No PDF generation`, `No JSON export`, `No downloadable ZIP`, `No email handoff`, `No release-state mutation`, and `No student assignment from export` visible.
+92. Confirm `/teacher/intake` shows `Evidence attachment storage readiness`.
+93. Confirm the attachment storage panel shows `Hosted object storage candidate`, `Closed local evidence folder candidate`, and `Hybrid export archive candidate`.
+94. Confirm required attachment metadata includes `quarantine path`, `checksum required`, `malware scan status`, `retention period`, and `delete/export policy`.
+95. Confirm storage policy gates include storage adapter selection, access control, encryption, local backup responsibility, audit retention, student-facing attachment policy, and release-control mutation policy.
+96. Confirm blocked storage actions include `No evidence file upload`, `No object storage write`, `No local folder write`, `No attachment download`, `No signed approval attachment`, `No release-state mutation`, and `No student-facing attachment`.
 
 ## Automated Command
 
@@ -157,3 +162,4 @@ Template rendering and font accessibility storage are also covered by `npm run v
 - This scaffold defines an evidence packet review index only; it does not upload evidence, capture signatures, approve, publish, create routes, assign students, or make evidence packets student-facing.
 - This scaffold defines an evidence packet handoff preview only; it does not export packets, collect signatures, publish, promote uploads, create routes, create playlists, or assign students from evidence.
 - This scaffold defines evidence export readiness only; it does not generate PDFs, export JSON, create downloadable ZIP files, send email handoffs, capture signatures, mutate release state, or assign students from exported evidence.
+- This scaffold defines evidence attachment storage readiness only; it does not upload files, write to object storage, write to local folders, download attachments, attach signed approvals, mutate release state, or make attachments student-facing.

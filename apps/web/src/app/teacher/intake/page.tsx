@@ -25,6 +25,7 @@ import {
 import { sampleContentIntakeRuns, samplePackageReleases } from "@/data/sampleContentIntakePlan";
 import { sampleDeploymentProfiles } from "@/data/sampleDeploymentProfiles";
 import { sampleEditionQrAliasPlan } from "@/data/sampleEditionQrAliasPlan";
+import { sampleEvidenceAttachmentStorageReadinessPlan } from "@/data/sampleEvidenceAttachmentStorageReadiness";
 import { sampleEvidenceExportReadinessPlan } from "@/data/sampleEvidenceExportReadiness";
 import { sampleGameBackgroundMediaPolicy } from "@/data/sampleGameBackgroundMediaPolicy";
 import { sampleGamePrototypeAssignmentPlan } from "@/data/sampleGamePrototypeAssignmentPlan";
@@ -113,6 +114,7 @@ import { PilotReadinessSummaryPanel } from "@/features/pilot/PilotReadinessSumma
 import { ClassroomLaunchGatePanel } from "@/features/pilot/ClassroomLaunchGatePanel";
 import { TeacherDryRunRehearsalPanel } from "@/features/pilot/TeacherDryRunRehearsalPanel";
 import { EvidenceExportReadinessPanel } from "@/features/evidence/EvidenceExportReadinessPanel";
+import { EvidenceAttachmentStorageReadinessPanel } from "@/features/evidence/EvidenceAttachmentStorageReadinessPanel";
 import { BackendDecisionMatrixPanel } from "@/features/persistence/BackendDecisionMatrixPanel";
 import { BackendMigrationPlanPanel } from "@/features/persistence/BackendMigrationPlanPanel";
 import { BackendMigrationSpecPanel } from "@/features/persistence/BackendMigrationSpecPanel";
@@ -159,6 +161,7 @@ export default function TeacherIntakePage() {
         <PilotReadinessSummaryPanel summary={samplePilotReadinessSummary} />
         <PilotEvidencePacketPanel packet={samplePilotEvidencePacket} />
         <EvidenceExportReadinessPanel plan={sampleEvidenceExportReadinessPlan} />
+        <EvidenceAttachmentStorageReadinessPanel plan={sampleEvidenceAttachmentStorageReadinessPlan} />
         <PilotLaunchChecklistPanel checklist={samplePilotLaunchChecklist} />
         <TeacherDryRunRehearsalPanel rehearsal={sampleTeacherDryRunRehearsal} />
         <ClassroomLaunchGatePanel gate={sampleClassroomLaunchGate} />

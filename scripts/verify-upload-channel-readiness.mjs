@@ -13,12 +13,14 @@ const evidencePacketFlows = readSource("../apps/web/src/data/sampleEvidencePacke
 const evidencePacketReviewIndex = readSource("../apps/web/src/data/sampleEvidencePacketReviewIndex.ts");
 const evidencePacketHandoffPackage = readSource("../apps/web/src/data/sampleEvidencePacketHandoffPackage.ts");
 const evidenceExportReadiness = readSource("../apps/web/src/data/sampleEvidenceExportReadiness.ts");
+const evidenceAttachmentStorageReadiness = readSource("../apps/web/src/data/sampleEvidenceAttachmentStorageReadiness.ts");
 const contentEntryOptionScaffold = readSource("../apps/web/src/data/sampleContentEntryOptionScaffold.ts");
 const templateRenderingFontProfiles = readSource("../apps/web/src/data/sampleTemplateRenderingFontProfiles.ts");
 const evidencePacketFlowPanel = readSource("../apps/web/src/features/evidence/EvidencePacketFlowPanel.tsx");
 const evidencePacketReviewIndexPanel = readSource("../apps/web/src/features/evidence/EvidencePacketReviewIndexPanel.tsx");
 const evidencePacketHandoffPanel = readSource("../apps/web/src/features/evidence/EvidencePacketHandoffPanel.tsx");
 const evidenceExportReadinessPanel = readSource("../apps/web/src/features/evidence/EvidenceExportReadinessPanel.tsx");
+const evidenceAttachmentStorageReadinessPanel = readSource("../apps/web/src/features/evidence/EvidenceAttachmentStorageReadinessPanel.tsx");
 const panel = readSource("../apps/web/src/features/content-intake/UploadChannelReadinessPanel.tsx");
 const filePolicyPanel = readSource("../apps/web/src/features/content-intake/UploadFilePolicyPanel.tsx");
 const intakeControlPreviewPanel = readSource("../apps/web/src/features/content-intake/UploadIntakeControlPreviewPanel.tsx");
@@ -380,6 +382,39 @@ for (const text of requiredEvidenceExportReadinessTexts) {
   requireText(evidenceExportReadiness, text, `Evidence export readiness plan missing required text: ${text}.`);
 }
 
+const requiredEvidenceAttachmentStorageReadinessTexts = [
+  "Evidence attachment storage readiness",
+  "Attachment storage blocked",
+  "Hosted object storage candidate",
+  "Closed local evidence folder candidate",
+  "Hybrid export archive candidate",
+  "quarantine path",
+  "checksum required",
+  "malware scan status",
+  "retention period",
+  "delete/export policy",
+  "storage adapter selected",
+  "access-control policy accepted",
+  "encryption policy accepted",
+  "local backup responsibility accepted",
+  "audit log retention accepted",
+  "No evidence file upload",
+  "No object storage write",
+  "No local folder write",
+  "No attachment download",
+  "No signed approval attachment",
+  "No release-state mutation",
+  "No student-facing attachment",
+];
+
+for (const text of requiredEvidenceAttachmentStorageReadinessTexts) {
+  requireText(
+    evidenceAttachmentStorageReadiness,
+    text,
+    `Evidence attachment storage readiness plan missing required text: ${text}.`,
+  );
+}
+
 const requiredContentEntryTexts = [
   "Content entry option scaffold",
   "Flip Tiles source template",
@@ -533,6 +568,11 @@ requireText(evidenceExportReadinessPanel, "Recipient lanes", "Evidence export re
 requireText(evidenceExportReadinessPanel, "Identity, signature, and policy gates", "Evidence export readiness panel must expose identity/signature/policy gates.");
 requireText(evidenceExportReadinessPanel, "Required before export controls exist", "Evidence export readiness panel must block export controls until gates pass.");
 requireText(evidenceExportReadinessPanel, "Blocked actions", "Evidence export readiness panel must show blocked export actions.");
+requireText(evidenceAttachmentStorageReadinessPanel, "Evidence attachment storage readiness", "Evidence attachment storage readiness panel must expose its heading.");
+requireText(evidenceAttachmentStorageReadinessPanel, "Storage candidates", "Evidence attachment storage readiness panel must show storage candidates.");
+requireText(evidenceAttachmentStorageReadinessPanel, "Required attachment metadata", "Evidence attachment storage readiness panel must show required metadata.");
+requireText(evidenceAttachmentStorageReadinessPanel, "Storage policy gates", "Evidence attachment storage readiness panel must show policy gates.");
+requireText(evidenceAttachmentStorageReadinessPanel, "Blocked storage actions", "Evidence attachment storage readiness panel must show blocked actions.");
 requireText(contentEntryOptionPanel, "Teacher content entry options", "Content entry option panel must expose its heading.");
 requireText(contentEntryOptionPanel, "Source template", "Content entry option panel must expose the source template section.");
 requireText(contentEntryOptionPanel, "Cross-game upload guide", "Content entry option panel must expose the cross-game upload guide.");
@@ -564,6 +604,7 @@ requireText(teacherIntake, "UploadPromotionReadinessPanel", "Teacher intake rout
 requireText(teacherIntake, "LabelledDiagramAssetReadinessPanel", "Teacher intake route must render Labelled Diagram asset readiness.");
 requireText(teacherIntake, "MultimediaAssetReadinessPanel", "Teacher intake route must render multimedia asset readiness.");
 requireText(teacherIntake, "EvidenceExportReadinessPanel", "Teacher intake route must render evidence export readiness.");
+requireText(teacherIntake, "EvidenceAttachmentStorageReadinessPanel", "Teacher intake route must render evidence attachment storage readiness.");
 requireText(teacherUploadWorkspace, "Teacher upload workspace", "Teacher upload workspace must expose its heading.");
 requireText(teacherUploadWorkspace, "UploadIntakeControlPreviewPanel", "Teacher upload workspace must render disabled intake controls.");
 requireText(teacherUploadWorkspace, "UploadFilePolicyPanel", "Teacher upload workspace must render upload file policy.");
@@ -621,6 +662,14 @@ requireText(routeVerifier, "No live evidence upload", "Active route verifier mus
 requireText(routeVerifier, "No live upload button", "Active route verifier must check live upload buttons remain blocked.");
 requireText(routeVerifier, "No assignment route from uploaded file", "Active route verifier must check uploaded files cannot create assignments.");
 requireText(routeVerifier, "No playlist creation from uploaded media", "Active route verifier must check uploaded media cannot create playlists.");
+requireText(routeVerifier, "Evidence attachment storage readiness", "Active route verifier must check evidence attachment storage readiness.");
+requireText(routeVerifier, "Attachment storage blocked", "Active route verifier must check evidence attachment storage remains blocked.");
+requireText(routeVerifier, "Hosted object storage candidate", "Active route verifier must check hosted object storage candidate.");
+requireText(routeVerifier, "Closed local evidence folder candidate", "Active route verifier must check closed local evidence folder candidate.");
+requireText(routeVerifier, "Hybrid export archive candidate", "Active route verifier must check hybrid export archive candidate.");
+requireText(routeVerifier, "No object storage write", "Active route verifier must check object storage writes remain blocked.");
+requireText(routeVerifier, "No local folder write", "Active route verifier must check local folder writes remain blocked.");
+requireText(routeVerifier, "No attachment download", "Active route verifier must check attachment downloads remain blocked.");
 requireText(routeVerifier, "Content entry option scaffold", "Active route verifier must check content entry option scaffold.");
 requireText(routeVerifier, "Generate With AI", "Active route verifier must check AI generation control.");
 requireText(routeVerifier, "Flip tiles", "Active route verifier must check flip tiles control.");
