@@ -23,6 +23,7 @@ export type PersistenceBoundaryCategory =
   | "upload-review"
   | "upload-promotion"
   | "evidence-packet"
+  | "evidence-attachment"
   | "game-asset-manifest"
   | "label-anchor-record"
   | "activity-compatibility-snapshot"
@@ -230,6 +231,27 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     blocksStudentFacingUploadUse: true,
     recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
     note: "Evidence packet records preserve source lineage, rights proof, scan/file policy, target mapping, asset/media manifests, captions, accessibility, missing evidence, blocked live actions, and release-control state before real upload, approval, publish, transcode, playlist, editor, local activation, or assignment workflows exist.",
+  },
+  {
+    recordId: "evidence-attachment-record",
+    category: "evidence-attachment",
+    label: "Evidence attachment record",
+    readiness: "durable-required",
+    sourceOfTruth: "EvidenceAttachmentStorageReadinessPlan, evidence_packet, attachment metadata, quarantine/checksum/malware/retention/delete policy",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesEvidenceAttachmentMetadata: true,
+    blocksAttachmentUpload: true,
+    blocksAttachmentDownload: true,
+    blocksStorageWrite: true,
+    blocksSignedApprovalCapture: true,
+    blocksStudentFacingAttachment: true,
+    recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
+    note: "Evidence attachment records preserve attachment metadata, storage candidate, quarantine path, checksum, malware scan status, retention period, delete/export policy, and access-control state before real file upload, object/local writes, downloads, signatures, release mutation, or student-facing use exists.",
   },
   {
     recordId: "game-asset-manifest-record",

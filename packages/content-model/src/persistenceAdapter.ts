@@ -47,6 +47,11 @@ export interface PersistenceWriteIntent {
   blocksStudentFacingPromotion?: boolean;
   preservesEvidencePacketFlow?: boolean;
   blocksEvidencePacketPromotion?: boolean;
+  preservesEvidenceAttachmentMetadata?: boolean;
+  blocksAttachmentUpload?: boolean;
+  blocksAttachmentDownload?: boolean;
+  blocksStorageWrite?: boolean;
+  blocksStudentFacingAttachment?: boolean;
   preservesGameAssetManifest?: boolean;
   blocksStudentFacingGameAssetUse?: boolean;
   preservesLabelAnchorRecords?: boolean;
@@ -285,6 +290,26 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "evidence-packet" && !intent.blocksStudentFacingUploadUse) {
       errors.push(`Evidence packet write intent ${intent.intentId} must block student-facing upload use.`);
+    }
+
+    if (intent.category === "evidence-attachment" && !intent.preservesEvidenceAttachmentMetadata) {
+      errors.push(`Evidence attachment write intent ${intent.intentId} must preserve evidence attachment metadata.`);
+    }
+
+    if (intent.category === "evidence-attachment" && !intent.blocksAttachmentUpload) {
+      errors.push(`Evidence attachment write intent ${intent.intentId} must block attachment upload.`);
+    }
+
+    if (intent.category === "evidence-attachment" && !intent.blocksAttachmentDownload) {
+      errors.push(`Evidence attachment write intent ${intent.intentId} must block attachment download.`);
+    }
+
+    if (intent.category === "evidence-attachment" && !intent.blocksStorageWrite) {
+      errors.push(`Evidence attachment write intent ${intent.intentId} must block storage writes.`);
+    }
+
+    if (intent.category === "evidence-attachment" && !intent.blocksStudentFacingAttachment) {
+      errors.push(`Evidence attachment write intent ${intent.intentId} must block student-facing attachments.`);
     }
 
     if (intent.category === "game-asset-manifest" && !intent.preservesGameAssetManifest) {

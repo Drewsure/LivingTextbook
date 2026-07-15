@@ -201,6 +201,25 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
       notAllowedYet: ["Live upload button", "Evidence upload", "Signed approval capture", "Direct promotion", "Direct assignment", "Playlist creation from uploaded media", "Local folder activation"],
     },
     {
+      migrationId: "m036-evidence-attachment-records",
+      label: "Evidence attachment records",
+      track: "shared",
+      status: "ready-to-design",
+      risk: "medium",
+      targetEntities: ["evidence_attachment"],
+      purpose:
+        "Persist evidence attachment metadata before any file upload, object storage write, local folder write, attachment download, signed approval attachment, release-state mutation, or student-facing attachment exists.",
+      prerequisites: ["Evidence attachment storage readiness accepted", "Evidence packet records accepted", "Storage adapter policy accepted", "Release-control policy accepted"],
+      implementationNotes: [
+        "Keep attachments tenant-scoped, evidence-packet-scoped, source-packet-key-scoped, and storage-candidate-scoped.",
+        "Preserve quarantine path, checksum requirement, malware scan status, retention period, delete/export policy, access-control status, and storage write/download blocks.",
+        "Block storage writes, downloads, signatures, release-state mutation, and student-facing attachments until policy, identity, adapter, and release-control gates pass.",
+        "Do not let object storage paths, local folder paths, or archive manifests create accepted evidence by themselves.",
+      ],
+      rollbackOrExportNeeds: ["Export evidence attachment metadata JSON", "Retain quarantine and checksum snapshots", "Support local evidence attachment backup and restore"],
+      notAllowedYet: ["Evidence file upload", "Object storage write", "Local folder write", "Attachment download", "Signed approval attachment", "Release-state mutation", "Student-facing attachment"],
+    },
+    {
       migrationId: "m024-game-asset-manifests",
       label: "Game asset manifest records",
       track: "shared",

@@ -11,6 +11,7 @@ export type PersistenceRecordCategory =
   | "upload-review"
   | "upload-promotion"
   | "evidence-packet"
+  | "evidence-attachment"
   | "game-asset-manifest"
   | "label-anchor-record"
   | "activity-compatibility-snapshot"
@@ -91,6 +92,11 @@ export interface DurableRecordContract {
   blocksStudentFacingPromotion?: boolean;
   preservesEvidencePacketFlow?: boolean;
   blocksEvidencePacketPromotion?: boolean;
+  preservesEvidenceAttachmentMetadata?: boolean;
+  blocksAttachmentUpload?: boolean;
+  blocksAttachmentDownload?: boolean;
+  blocksStorageWrite?: boolean;
+  blocksStudentFacingAttachment?: boolean;
   preservesGameAssetManifest?: boolean;
   blocksStudentFacingGameAssetUse?: boolean;
   preservesLabelAnchorRecords?: boolean;
@@ -294,6 +300,26 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "evidence-packet" && !record.blocksStudentFacingUploadUse) {
       errors.push(`Evidence packet record ${record.recordId} must block student-facing upload use.`);
+    }
+
+    if (record.category === "evidence-attachment" && !record.preservesEvidenceAttachmentMetadata) {
+      errors.push(`Evidence attachment record ${record.recordId} must preserve evidence attachment metadata.`);
+    }
+
+    if (record.category === "evidence-attachment" && !record.blocksAttachmentUpload) {
+      errors.push(`Evidence attachment record ${record.recordId} must block attachment upload.`);
+    }
+
+    if (record.category === "evidence-attachment" && !record.blocksAttachmentDownload) {
+      errors.push(`Evidence attachment record ${record.recordId} must block attachment download.`);
+    }
+
+    if (record.category === "evidence-attachment" && !record.blocksStorageWrite) {
+      errors.push(`Evidence attachment record ${record.recordId} must block storage writes.`);
+    }
+
+    if (record.category === "evidence-attachment" && !record.blocksStudentFacingAttachment) {
+      errors.push(`Evidence attachment record ${record.recordId} must block student-facing attachments.`);
     }
 
     if (record.category === "game-asset-manifest" && !record.preservesGameAssetManifest) {

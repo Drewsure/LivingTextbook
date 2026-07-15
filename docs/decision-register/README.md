@@ -214,6 +214,7 @@
 - `DR-240-evidence-packet-handoff-preview-route.md`
 - `DR-241-evidence-export-readiness-gate.md`
 - `DR-242-evidence-attachment-storage-readiness.md`
+- `DR-243-evidence-attachment-storage-contract.md`
 
 ## Maintenance Rule
 

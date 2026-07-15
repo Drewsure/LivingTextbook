@@ -18,6 +18,7 @@ const requiredSchemaEntities = [
   "upload_review_decision",
   "upload_promotion_gate",
   "evidence_packet",
+  "evidence_attachment",
   "game_asset_manifest",
   "label_anchor_record",
   "activity_compatibility_snapshot",
@@ -58,6 +59,7 @@ const requiredMigrationCandidates = [
   "m022-upload-review-records",
   "m023-upload-promotion-gates",
   "m035-evidence-packet-records",
+  "m036-evidence-attachment-records",
   "m024-game-asset-manifests",
   "m025-label-anchor-records",
   "m031-activity-compatibility-snapshots",
@@ -101,6 +103,7 @@ const requiredMigrationSpecs = [
   "spec-upload-review-decision",
   "spec-upload-promotion-gate",
   "spec-evidence-packet",
+  "spec-evidence-attachment",
   "spec-game-asset-manifest",
   "spec-label-anchor-record",
   "spec-activity-compatibility-snapshot",
@@ -164,6 +167,17 @@ requireText(schemaDraft, "packet_key", "Backend schema must preserve evidence pa
 requireText(schemaDraft, "missing_evidence", "Backend schema must preserve missing evidence.");
 requireText(schemaDraft, "blocked_live_actions", "Backend schema must preserve blocked live actions.");
 requireText(schemaDraft, "signed_approval_capture_allowed", "Backend schema must block signed approval capture.");
+requireText(schemaDraft, "evidence_attachment", "Backend schema must include evidence attachment records.");
+requireText(schemaDraft, "attachment_id", "Backend schema must preserve evidence attachment ids.");
+requireText(schemaDraft, "storage_candidate", "Backend schema must preserve evidence attachment storage candidates.");
+requireText(schemaDraft, "quarantine_path", "Backend schema must preserve evidence attachment quarantine paths.");
+requireText(schemaDraft, "checksum_required", "Backend schema must require evidence attachment checksums.");
+requireText(schemaDraft, "malware_scan_status", "Backend schema must preserve malware scan status.");
+requireText(schemaDraft, "retention_period", "Backend schema must preserve evidence attachment retention period.");
+requireText(schemaDraft, "delete_export_policy", "Backend schema must preserve delete/export policy.");
+requireText(schemaDraft, "storage_write_allowed", "Backend schema must block storage writes.");
+requireText(schemaDraft, "download_allowed", "Backend schema must block attachment downloads.");
+requireText(schemaDraft, "student_facing_attachment_allowed", "Backend schema must block student-facing attachments.");
 requireText(schemaDraft, "game_asset_manifest", "Backend schema must include game asset manifests.");
 requireText(schemaDraft, "alt_text", "Backend schema must require image asset alt text.");
 requireText(schemaDraft, "student_facing_asset_allowed", "Backend schema must block student-facing image asset use.");
@@ -242,6 +256,16 @@ requireText(migrationSpecs, "packet_key", "Migration specs must preserve evidenc
 requireText(migrationSpecs, "missing_evidence", "Migration specs must preserve missing evidence.");
 requireText(migrationSpecs, "blocked_live_actions", "Migration specs must preserve blocked live actions.");
 requireText(migrationSpecs, "signed_approval_capture_allowed", "Migration specs must block signed approval capture.");
+requireText(migrationSpecs, "spec-evidence-attachment", "Migration specs must include evidence attachment records.");
+requireText(migrationSpecs, "attachment_id", "Migration specs must preserve evidence attachment ids.");
+requireText(migrationSpecs, "storage_candidate", "Migration specs must preserve storage candidates.");
+requireText(migrationSpecs, "quarantine_path", "Migration specs must preserve quarantine paths.");
+requireText(migrationSpecs, "checksum_required", "Migration specs must require checksums.");
+requireText(migrationSpecs, "malware_scan_status", "Migration specs must preserve malware scan status.");
+requireText(migrationSpecs, "delete_export_policy", "Migration specs must preserve delete/export policy.");
+requireText(migrationSpecs, "storage_write_allowed", "Migration specs must block storage writes.");
+requireText(migrationSpecs, "download_allowed", "Migration specs must block downloads.");
+requireText(migrationSpecs, "student_facing_attachment_allowed", "Migration specs must block student-facing attachments.");
 requireText(migrationSpecs, "spec-game-asset-manifest", "Migration specs must include game asset manifests.");
 requireText(migrationSpecs, "alt_text", "Migration specs must require image asset alt text.");
 requireText(migrationSpecs, "student_facing_asset_allowed", "Migration specs must preserve image asset student-facing blocks.");
@@ -347,6 +371,13 @@ requireText(persistenceAdapter, "hosted-evidence-packet-write", "Persistence ada
 requireText(persistenceAdapter, "local-evidence-packet-write", "Persistence adapter must include local evidence packet writes.");
 requireText(persistenceAdapter, "preservesEvidencePacketFlow: true", "Persistence adapter must preserve evidence packet flows.");
 requireText(persistenceAdapter, "blocksEvidencePacketPromotion: true", "Persistence adapter must block evidence packet promotion.");
+requireText(persistenceAdapter, "hosted-evidence-attachment-write", "Persistence adapter must include hosted evidence attachment writes.");
+requireText(persistenceAdapter, "local-evidence-attachment-write", "Persistence adapter must include local evidence attachment writes.");
+requireText(persistenceAdapter, "preservesEvidenceAttachmentMetadata: true", "Persistence adapter must preserve evidence attachment metadata.");
+requireText(persistenceAdapter, "blocksAttachmentUpload: true", "Persistence adapter must block attachment upload.");
+requireText(persistenceAdapter, "blocksAttachmentDownload: true", "Persistence adapter must block attachment download.");
+requireText(persistenceAdapter, "blocksStorageWrite: true", "Persistence adapter must block storage writes.");
+requireText(persistenceAdapter, "blocksStudentFacingAttachment: true", "Persistence adapter must block student-facing attachments.");
 requireText(persistenceAdapter, "hosted-game-asset-manifest-write", "Persistence adapter must include hosted game asset manifest writes.");
 requireText(persistenceAdapter, "local-game-asset-manifest-write", "Persistence adapter must include local game asset manifest writes.");
 requireText(persistenceAdapter, "preservesGameAssetManifest: true", "Persistence adapter must preserve game asset manifests.");
@@ -444,6 +475,12 @@ requireText(durableRecords, "blocksStudentFacingPromotion: true", "Durable recor
 requireText(durableRecords, "evidence-packet-record", "Durable record plan must include evidence packet records.");
 requireText(durableRecords, "preservesEvidencePacketFlow: true", "Durable record plan must preserve evidence packet flows.");
 requireText(durableRecords, "blocksEvidencePacketPromotion: true", "Durable record plan must block evidence packet promotion.");
+requireText(durableRecords, "evidence-attachment-record", "Durable record plan must include evidence attachment records.");
+requireText(durableRecords, "preservesEvidenceAttachmentMetadata: true", "Durable record plan must preserve evidence attachment metadata.");
+requireText(durableRecords, "blocksAttachmentUpload: true", "Durable record plan must block attachment upload.");
+requireText(durableRecords, "blocksAttachmentDownload: true", "Durable record plan must block attachment download.");
+requireText(durableRecords, "blocksStorageWrite: true", "Durable record plan must block storage writes.");
+requireText(durableRecords, "blocksStudentFacingAttachment: true", "Durable record plan must block student-facing attachments.");
 requireText(durableRecords, "game-asset-manifest-record", "Durable record plan must include game asset manifest records.");
 requireText(durableRecords, "preservesGameAssetManifest: true", "Durable record plan must preserve game asset manifests.");
 requireText(durableRecords, "blocksStudentFacingGameAssetUse: true", "Durable record plan must block student-facing game asset use.");
@@ -502,6 +539,8 @@ requireText(durableRecords, "rejectsRandomRewardPressure: true", "Durable record
 requireText(routeVerifier, "Backend selection gate", "Active route verifier must keep backend selection gate visible on teacher intake.");
 requireText(routeVerifier, "evidence_packet", "Active route verifier must keep generic evidence packet storage visible on teacher intake.");
 requireText(routeVerifier, "Evidence packet record", "Active route verifier must keep evidence packet durable records visible on teacher intake.");
+requireText(routeVerifier, "evidence_attachment", "Active route verifier must keep evidence attachment storage visible on teacher intake.");
+requireText(routeVerifier, "Evidence attachment record", "Active route verifier must keep evidence attachment durable records visible on teacher intake.");
 requireText(routeVerifier, "pilot_evidence_packet", "Active route verifier must keep pilot evidence packet storage visible on teacher intake.");
 requireText(routeVerifier, "teacher_dry_run_rehearsal", "Active route verifier must keep teacher dry-run rehearsal storage visible on teacher intake.");
 requireText(routeVerifier, "classroom_launch_gate", "Active route verifier must keep classroom launch gate storage visible on teacher intake.");
