@@ -6,6 +6,7 @@ import { sampleUploadChannelReadinessPlan } from "@/data/sampleUploadChannelRead
 import { sampleUploadFilePolicyPlan } from "@/data/sampleUploadFilePolicy";
 import { sampleUploadPromotionReadinessPlan } from "@/data/sampleUploadPromotionReadiness";
 import { sampleUploadReviewQueue } from "@/data/sampleUploadReviewQueue";
+import { sampleUploadTargetMappingPlan } from "@/data/sampleUploadTargetMapping";
 import { TeacherUploadWorkspacePanel } from "@/features/content-intake/TeacherUploadWorkspacePanel";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 
@@ -26,6 +27,7 @@ export default async function TeacherUploadWorkspacePage({
         tenantId={tenantId}
         channelPlan={sampleUploadChannelReadinessPlan}
         filePolicyPlan={sampleUploadFilePolicyPlan}
+        targetMappingPlan={sampleUploadTargetMappingPlan}
         reviewQueue={sampleUploadReviewQueue}
         promotionPlan={sampleUploadPromotionReadinessPlan}
         labelledDiagramPlan={sampleLabelledDiagramAssetReadinessPlan}

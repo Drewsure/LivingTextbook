@@ -77,6 +77,9 @@ Verify at:
 58. Confirm the dedicated upload workspace shows `Upload intake control preview`.
 59. Confirm the upload intake control preview shows `No file input element`, `Select file blocked`, and `Create intake record blocked`.
 60. Confirm the upload intake control preview shows source metadata, scan policy, and target mapping gates for each channel.
+61. Confirm the dedicated upload workspace shows `Upload target mapping preview`.
+62. Confirm target mapping shows `target_mapping_packet`, source-to-target lanes, target records, required evidence, allowed preview actions, blocked shortcuts, and next gates.
+63. Confirm target mapping blocks route creation directly from upload, uploaded files as student assignment targets, upload-to-assignment shortcuts, and folder placement activation.
 
 ## Automated Command
 
@@ -110,6 +113,7 @@ Template rendering and font accessibility storage are also covered by `npm run v
 - This scaffold defines upload review storage contracts only; it does not implement target-specific promotion workflows.
 - This scaffold defines upload file policy profiles only; it does not validate, scan, checksum, transcode, or store real files yet.
 - This scaffold previews disabled intake controls only; it does not render live file inputs or create upload records.
+- This scaffold defines upload target mapping only; it does not create draft packages, game assets, playlist bindings, local bundle entries, routes, or assignments.
 - This scaffold shows target-specific upload promotion readiness only; it does not promote uploads into drafts, game assets, playlists, or local bundles.
 - This scaffold defines upload promotion gate storage contracts only; it does not create target records or release uploaded assets.
 - This scaffold defines Labelled Diagram asset readiness only; it does not implement a live label editor, coordinate editor, or student-facing image game.

@@ -5,6 +5,7 @@ import type { UploadFilePolicyPlan } from "@/data/sampleUploadFilePolicy";
 import type { UploadChannelReadinessPlan } from "@/data/sampleUploadChannelReadiness";
 import type { UploadPromotionReadinessPlan } from "@/data/sampleUploadPromotionReadiness";
 import type { UploadReviewQueue } from "@/data/sampleUploadReviewQueue";
+import type { UploadTargetMappingPlan } from "@/data/sampleUploadTargetMapping";
 import { LabelledDiagramAssetReadinessPanel } from "./LabelledDiagramAssetReadinessPanel";
 import { MultimediaAssetReadinessPanel } from "./MultimediaAssetReadinessPanel";
 import { UploadChannelReadinessPanel } from "./UploadChannelReadinessPanel";
@@ -12,11 +13,13 @@ import { UploadFilePolicyPanel } from "./UploadFilePolicyPanel";
 import { UploadIntakeControlPreviewPanel } from "./UploadIntakeControlPreviewPanel";
 import { UploadPromotionReadinessPanel } from "./UploadPromotionReadinessPanel";
 import { UploadReviewQueuePanel } from "./UploadReviewQueuePanel";
+import { UploadTargetMappingPanel } from "./UploadTargetMappingPanel";
 
 interface TeacherUploadWorkspacePanelProps {
   tenantId: string;
   channelPlan: UploadChannelReadinessPlan;
   filePolicyPlan: UploadFilePolicyPlan;
+  targetMappingPlan: UploadTargetMappingPlan;
   reviewQueue: UploadReviewQueue;
   promotionPlan: UploadPromotionReadinessPlan;
   labelledDiagramPlan: LabelledDiagramAssetReadinessPlan;
@@ -36,6 +39,7 @@ export function TeacherUploadWorkspacePanel({
   tenantId,
   channelPlan,
   filePolicyPlan,
+  targetMappingPlan,
   reviewQueue,
   promotionPlan,
   labelledDiagramPlan,
@@ -62,6 +66,7 @@ export function TeacherUploadWorkspacePanel({
         <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
           <WorkspaceMetric label="Upload channels" value={String(channelPlan.channels.length)} />
           <WorkspaceMetric label="File policies" value={String(filePolicyPlan.profiles.length)} />
+          <WorkspaceMetric label="Target mappings" value={String(targetMappingPlan.lanes.length)} />
           <WorkspaceMetric label="Review queue items" value={String(reviewQueue.items.length)} />
           <WorkspaceMetric label="Blocked review items" value={String(blockedReviewItems)} tone="warning" />
           <WorkspaceMetric label="Promotion lanes" value={String(promotionPlan.lanes.length)} />
@@ -92,6 +97,7 @@ export function TeacherUploadWorkspacePanel({
       <UploadIntakeControlPreviewPanel channelPlan={channelPlan} filePolicyPlan={filePolicyPlan} />
       <UploadChannelReadinessPanel plan={channelPlan} />
       <UploadFilePolicyPanel plan={filePolicyPlan} />
+      <UploadTargetMappingPanel plan={targetMappingPlan} />
       <UploadReviewQueuePanel queue={reviewQueue} />
       <UploadPromotionReadinessPanel plan={promotionPlan} />
       <LabelledDiagramAssetReadinessPanel plan={labelledDiagramPlan} />

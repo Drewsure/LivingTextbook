@@ -204,6 +204,7 @@
 - `DR-230-upload-file-policy-profiles.md`
 - `DR-231-disabled-upload-intake-controls.md`
 - `DR-232-partner-demo-upload-workspace-shortcut.md`
+- `DR-233-upload-target-mapping-preview.md`
 
 ## Maintenance Rule
 
