@@ -88,6 +88,13 @@ Verify at:
 69. Confirm the media workspace shows `media_manifest`, `media_playlist_binding`, `background_media_policy_binding`, `local_media_bundle_entry`, and `target_mapping_packet`.
 70. Confirm the media workspace keeps optional playback, learning-audio priority, captions/transcript policy, checksum capture, and relative path requirements visible.
 71. Confirm the media workspace blocks media-only progress, background music overriding learning audio, video-only progress, live media upload, automatic transcode-to-publish, local folder activation, and playlist routes from uploaded media.
+72. Confirm the dedicated upload, Labelled Diagram, and media workspaces show `Evidence packet flow`.
+73. Confirm the upload evidence packet flow shows `source_lineage_packet`, `rights_proof_packet`, `scan_and_file_policy_packet`, `target_mapping_packet`, `upload_review_decision_packet`, and `release_control_packet`.
+74. Confirm the upload evidence packet flow blocks live upload buttons, upload progress, approve/publish actions, assignment routes from uploaded files, object storage writes, and local folder activation.
+75. Confirm the Labelled Diagram evidence packet flow shows `game_asset_manifest_packet`, `label_anchor_record_packet`, `audio_coverage_packet`, `accessibility_packet`, and `release_control_packet`.
+76. Confirm the Labelled Diagram evidence packet flow blocks live label editing, coordinate editing, auto-generated active labels, student-facing image games, asset promotion without release gates, and assignment routes from uploaded images.
+77. Confirm the media evidence packet flow shows `media_manifest_packet`, `caption_transcript_packet`, `background_media_policy_packet`, `local_bundle_checksum_packet`, and `release_control_packet`.
+78. Confirm the media evidence packet flow blocks live media upload, automatic transcode-to-publish, playlist creation from uploaded media, media-only progress, background music overriding learning audio, and local folder activation.
 
 ## Automated Command
 
@@ -115,6 +122,7 @@ Template rendering and font accessibility storage are also covered by `npm run v
 
 - This scaffold does not implement file pickers.
 - This scaffold does not store uploaded files.
+- This scaffold does not upload, store, approve, publish, sign, route, assign, transcode, playlist, or activate files from evidence packet flows.
 - This scaffold does not run OCR, image labeling, media transcoding, virus scanning, or content moderation.
 - This scaffold does not make uploaded files student-facing.
 - This scaffold does not approve, publish, import, assign, promote, or process upload queue items.

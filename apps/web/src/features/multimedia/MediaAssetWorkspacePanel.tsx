@@ -4,9 +4,12 @@ import type {
   MediaAssetWorkspace,
   MediaAssetWorkspaceStatus,
 } from "@/data/sampleMediaAssetWorkspace";
+import type { EvidencePacketFlow } from "@/data/sampleEvidencePacketFlows";
+import { EvidencePacketFlowPanel } from "@/features/evidence/EvidencePacketFlowPanel";
 
 interface MediaAssetWorkspacePanelProps {
   workspace: MediaAssetWorkspace;
+  evidenceFlow: EvidencePacketFlow;
 }
 
 const statusTone: Record<MediaAssetWorkspaceStatus, "neutral" | "warning"> = {
@@ -14,7 +17,7 @@ const statusTone: Record<MediaAssetWorkspaceStatus, "neutral" | "warning"> = {
   blocked: "warning",
 };
 
-export function MediaAssetWorkspacePanel({ workspace }: MediaAssetWorkspacePanelProps) {
+export function MediaAssetWorkspacePanel({ workspace, evidenceFlow }: MediaAssetWorkspacePanelProps) {
   return (
     <div className="grid gap-5">
       <Card>
@@ -61,6 +64,8 @@ export function MediaAssetWorkspacePanel({ workspace }: MediaAssetWorkspacePanel
           </ul>
         </Card>
       </div>
+
+      <EvidencePacketFlowPanel flow={evidenceFlow} />
 
       <Card>
         <div className="flex flex-wrap items-center justify-between gap-3">

@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { AppShell } from "@/components/layout/AppShell";
+import { sampleMediaEvidencePacketFlow } from "@/data/sampleEvidencePacketFlows";
 import { findMediaAssetWorkspace } from "@/data/sampleMediaAssetWorkspace";
 import { MediaAssetWorkspacePanel } from "@/features/multimedia/MediaAssetWorkspacePanel";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
@@ -18,7 +19,7 @@ export default async function TeacherMediaAssetWorkspacePage({
 
   return (
     <AppShell tenant={samplePublisherTenant}>
-      <MediaAssetWorkspacePanel workspace={workspace} />
+      <MediaAssetWorkspacePanel workspace={workspace} evidenceFlow={sampleMediaEvidencePacketFlow} />
     </AppShell>
   );
 }

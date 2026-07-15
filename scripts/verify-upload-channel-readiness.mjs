@@ -9,8 +9,10 @@ const labelledDiagramAssetReadiness = readSource("../apps/web/src/data/sampleLab
 const labelledDiagramAssetWorkspace = readSource("../apps/web/src/data/sampleLabelledDiagramAssetWorkspace.ts");
 const multimediaAssetReadiness = readSource("../apps/web/src/data/sampleMultimediaAssetReadiness.ts");
 const mediaAssetWorkspace = readSource("../apps/web/src/data/sampleMediaAssetWorkspace.ts");
+const evidencePacketFlows = readSource("../apps/web/src/data/sampleEvidencePacketFlows.ts");
 const contentEntryOptionScaffold = readSource("../apps/web/src/data/sampleContentEntryOptionScaffold.ts");
 const templateRenderingFontProfiles = readSource("../apps/web/src/data/sampleTemplateRenderingFontProfiles.ts");
+const evidencePacketFlowPanel = readSource("../apps/web/src/features/evidence/EvidencePacketFlowPanel.tsx");
 const panel = readSource("../apps/web/src/features/content-intake/UploadChannelReadinessPanel.tsx");
 const filePolicyPanel = readSource("../apps/web/src/features/content-intake/UploadFilePolicyPanel.tsx");
 const intakeControlPreviewPanel = readSource("../apps/web/src/features/content-intake/UploadIntakeControlPreviewPanel.tsx");
@@ -258,6 +260,44 @@ for (const text of requiredMediaWorkspaceTexts) {
   requireText(mediaAssetWorkspace, text, `Media asset workspace missing required text: ${text}.`);
 }
 
+const requiredEvidencePacketTexts = [
+  "Evidence packet flow",
+  "evidence_packet",
+  "source_lineage_packet",
+  "rights_proof_packet",
+  "scan_and_file_policy_packet",
+  "target_mapping_packet",
+  "upload_review_decision_packet",
+  "release_control_packet",
+  "game_asset_manifest_packet",
+  "label_anchor_record_packet",
+  "audio_coverage_packet",
+  "accessibility_packet",
+  "media_manifest_packet",
+  "caption_transcript_packet",
+  "background_media_policy_packet",
+  "local_bundle_checksum_packet",
+  "No live upload button",
+  "No upload progress bar",
+  "No approve or publish action",
+  "No assignment route from uploaded file",
+  "No object storage write",
+  "No local folder activation",
+  "No live label editor",
+  "No coordinate editor",
+  "No student-facing image game",
+  "No assignment route from uploaded image",
+  "No live media upload",
+  "No automatic transcode-to-publish",
+  "No playlist creation from uploaded media",
+  "optional_playback_required: true",
+  "Learning audio priority required",
+];
+
+for (const text of requiredEvidencePacketTexts) {
+  requireText(evidencePacketFlows, text, `Evidence packet flow data missing required text: ${text}.`);
+}
+
 const requiredContentEntryTexts = [
   "Content entry option scaffold",
   "Flip Tiles source template",
@@ -388,6 +428,11 @@ requireText(mediaAssetWorkspacePanel, "media_manifest", "Media asset workspace p
 requireText(mediaAssetWorkspacePanel, "Playlist, background, and local bundle targets", "Media asset workspace panel must expose binding targets.");
 requireText(mediaAssetWorkspacePanel, "Required packets", "Media asset workspace panel must show required packets.");
 requireText(mediaAssetWorkspacePanel, "Blocked live actions", "Media asset workspace panel must show blocked live actions.");
+requireText(evidencePacketFlowPanel, "Evidence packet flow", "Evidence packet flow panel must expose its heading.");
+requireText(evidencePacketFlowPanel, "Handoff rule", "Evidence packet flow panel must expose its handoff rule.");
+requireText(evidencePacketFlowPanel, "Required evidence", "Evidence packet flow panel must show required evidence.");
+requireText(evidencePacketFlowPanel, "Missing evidence", "Evidence packet flow panel must show missing evidence.");
+requireText(evidencePacketFlowPanel, "Blocked until evidence packets pass", "Evidence packet flow panel must show blocked live actions.");
 requireText(contentEntryOptionPanel, "Teacher content entry options", "Content entry option panel must expose its heading.");
 requireText(contentEntryOptionPanel, "Source template", "Content entry option panel must expose the source template section.");
 requireText(contentEntryOptionPanel, "Cross-game upload guide", "Content entry option panel must expose the cross-game upload guide.");
@@ -423,12 +468,18 @@ requireText(teacherUploadWorkspace, "UploadIntakeControlPreviewPanel", "Teacher 
 requireText(teacherUploadWorkspace, "UploadFilePolicyPanel", "Teacher upload workspace must render upload file policy.");
 requireText(teacherUploadWorkspace, "UploadTargetMappingPanel", "Teacher upload workspace must render upload target mapping.");
 requireText(teacherUploadWorkspace, "No live file picker", "Teacher upload workspace must block live file picker use.");
+requireText(teacherUploadWorkspace, "EvidencePacketFlowPanel", "Teacher upload workspace must render evidence packet flow.");
 requireText(teacherUploadRoute, "sampleUploadFilePolicyPlan", "Teacher upload route must pass the upload file policy plan.");
 requireText(teacherUploadRoute, "sampleUploadTargetMappingPlan", "Teacher upload route must pass the upload target mapping plan.");
+requireText(teacherUploadRoute, "sampleUploadEvidencePacketFlow", "Teacher upload route must pass the upload evidence packet flow.");
 requireText(teacherLabelledDiagramAssetRoute, "findLabelledDiagramAssetWorkspace", "Teacher Labelled Diagram asset route must resolve the workspace by id.");
 requireText(teacherLabelledDiagramAssetRoute, "LabelledDiagramAssetWorkspacePanel", "Teacher Labelled Diagram asset route must render the workspace panel.");
+requireText(teacherLabelledDiagramAssetRoute, "sampleLabelledDiagramEvidencePacketFlow", "Teacher Labelled Diagram asset route must pass the evidence packet flow.");
+requireText(labelledDiagramAssetWorkspacePanel, "EvidencePacketFlowPanel", "Teacher Labelled Diagram asset workspace must render evidence packet flow.");
 requireText(teacherMediaAssetRoute, "findMediaAssetWorkspace", "Teacher media asset route must resolve the workspace by id.");
 requireText(teacherMediaAssetRoute, "MediaAssetWorkspacePanel", "Teacher media asset route must render the workspace panel.");
+requireText(teacherMediaAssetRoute, "sampleMediaEvidencePacketFlow", "Teacher media asset route must pass the evidence packet flow.");
+requireText(mediaAssetWorkspacePanel, "EvidencePacketFlowPanel", "Teacher media asset workspace must render evidence packet flow.");
 requireText(routeContracts, "getTeacherLabelledDiagramAssetWorkspacePath", "Route contracts must expose a Labelled Diagram asset workspace helper.");
 requireText(routeContracts, "getTeacherMediaAssetWorkspacePath", "Route contracts must expose a media asset workspace helper.");
 requireText(partnerDemo, "Labelled Diagram asset workspace", "Partner demo must link to the Labelled Diagram asset workspace.");
@@ -449,6 +500,13 @@ requireText(routeVerifier, "No assignment route from uploaded image", "Active ro
 requireText(routeVerifier, "Multimedia asset readiness", "Active route verifier must check multimedia asset readiness.");
 requireText(routeVerifier, "Media asset workspace", "Active route verifier must check media asset workspace.");
 requireText(routeVerifier, "No playlist route from uploaded media", "Active route verifier must check uploaded media cannot create playlist routes.");
+requireText(routeVerifier, "Evidence packet flow", "Active route verifier must check evidence packet flows.");
+requireText(routeVerifier, "Upload evidence packet flow", "Active route verifier must check upload evidence packets.");
+requireText(routeVerifier, "Labelled Diagram evidence packet flow", "Active route verifier must check Labelled Diagram evidence packets.");
+requireText(routeVerifier, "Media evidence packet flow", "Active route verifier must check media evidence packets.");
+requireText(routeVerifier, "No live upload button", "Active route verifier must check live upload buttons remain blocked.");
+requireText(routeVerifier, "No assignment route from uploaded file", "Active route verifier must check uploaded files cannot create assignments.");
+requireText(routeVerifier, "No playlist creation from uploaded media", "Active route verifier must check uploaded media cannot create playlists.");
 requireText(routeVerifier, "Content entry option scaffold", "Active route verifier must check content entry option scaffold.");
 requireText(routeVerifier, "Generate With AI", "Active route verifier must check AI generation control.");
 requireText(routeVerifier, "Flip tiles", "Active route verifier must check flip tiles control.");

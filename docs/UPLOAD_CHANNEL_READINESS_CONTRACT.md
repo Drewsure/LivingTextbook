@@ -72,6 +72,14 @@ The Flip Tiles template is the current concrete example, not the only target. Th
 
 Font controls are tenant-approved configuration, not arbitrary teacher styling. Tenant font packs must preserve readability, licensing, multilingual rendering, hiragana/furigana support where applicable, tile sizing, text wrapping, and print/export behavior.
 
+## Evidence Packet Flow
+
+Dedicated upload, Labelled Diagram, and media workspaces must expose an `Evidence packet flow` before any real upload button, upload progress, object storage write, local folder activation, label editor, coordinate editor, transcode job, playlist creation, approval action, publish action, route creation, or assignment shortcut is introduced.
+
+Evidence packets are review artifacts. They preserve source lineage, rights proof, scan and file policy, target mapping, review decisions, asset manifests, label anchors, media manifests, caption/transcript policy, background media policy, local bundle checksums, accessibility checks, audio coverage, and release control.
+
+Standing rule: no file can move from intake to review, promotion, route creation, assignment, local bundle activation, or student-facing gameplay until the required `evidence_packet` records are preserved and the relevant release gate passes.
+
 ## Template And Font Profile Readiness
 
 The upload/content-entry guide must expose a visible readiness layer for:

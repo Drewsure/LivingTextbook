@@ -6,6 +6,8 @@ import type { UploadChannelReadinessPlan } from "@/data/sampleUploadChannelReadi
 import type { UploadPromotionReadinessPlan } from "@/data/sampleUploadPromotionReadiness";
 import type { UploadReviewQueue } from "@/data/sampleUploadReviewQueue";
 import type { UploadTargetMappingPlan } from "@/data/sampleUploadTargetMapping";
+import type { EvidencePacketFlow } from "@/data/sampleEvidencePacketFlows";
+import { EvidencePacketFlowPanel } from "@/features/evidence/EvidencePacketFlowPanel";
 import { LabelledDiagramAssetReadinessPanel } from "./LabelledDiagramAssetReadinessPanel";
 import { MultimediaAssetReadinessPanel } from "./MultimediaAssetReadinessPanel";
 import { UploadChannelReadinessPanel } from "./UploadChannelReadinessPanel";
@@ -24,6 +26,7 @@ interface TeacherUploadWorkspacePanelProps {
   promotionPlan: UploadPromotionReadinessPlan;
   labelledDiagramPlan: LabelledDiagramAssetReadinessPlan;
   multimediaPlan: MultimediaAssetReadinessPlan;
+  evidenceFlow: EvidencePacketFlow;
 }
 
 const guardrails = [
@@ -44,6 +47,7 @@ export function TeacherUploadWorkspacePanel({
   promotionPlan,
   labelledDiagramPlan,
   multimediaPlan,
+  evidenceFlow,
 }: TeacherUploadWorkspacePanelProps) {
   const blockedReviewItems = reviewQueue.items.filter((item) => item.status !== "ready-preview").length;
   const blockedPromotionLanes = promotionPlan.lanes.filter((lane) => lane.status === "blocked-preview").length;
@@ -71,6 +75,7 @@ export function TeacherUploadWorkspacePanel({
           <WorkspaceMetric label="Blocked review items" value={String(blockedReviewItems)} tone="warning" />
           <WorkspaceMetric label="Promotion lanes" value={String(promotionPlan.lanes.length)} />
           <WorkspaceMetric label="Blocked promotions" value={String(blockedPromotionLanes)} tone="warning" />
+          <WorkspaceMetric label="Evidence packets" value={String(evidenceFlow.packets.length)} tone="warning" />
         </div>
       </Card>
 
@@ -94,6 +99,7 @@ export function TeacherUploadWorkspacePanel({
         </div>
       </Card>
 
+      <EvidencePacketFlowPanel flow={evidenceFlow} />
       <UploadIntakeControlPreviewPanel channelPlan={channelPlan} filePolicyPlan={filePolicyPlan} />
       <UploadChannelReadinessPanel plan={channelPlan} />
       <UploadFilePolicyPanel plan={filePolicyPlan} />

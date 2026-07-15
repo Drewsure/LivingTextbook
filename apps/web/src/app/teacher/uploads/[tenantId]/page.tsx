@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { AppShell } from "@/components/layout/AppShell";
+import { sampleUploadEvidencePacketFlow } from "@/data/sampleEvidencePacketFlows";
 import { sampleLabelledDiagramAssetReadinessPlan } from "@/data/sampleLabelledDiagramAssetReadiness";
 import { sampleMultimediaAssetReadinessPlan } from "@/data/sampleMultimediaAssetReadiness";
 import { sampleUploadChannelReadinessPlan } from "@/data/sampleUploadChannelReadiness";
@@ -32,6 +33,7 @@ export default async function TeacherUploadWorkspacePage({
         promotionPlan={sampleUploadPromotionReadinessPlan}
         labelledDiagramPlan={sampleLabelledDiagramAssetReadinessPlan}
         multimediaPlan={sampleMultimediaAssetReadinessPlan}
+        evidenceFlow={sampleUploadEvidencePacketFlow}
       />
     </AppShell>
   );

@@ -4,9 +4,12 @@ import type {
   LabelledDiagramAssetWorkspace,
   LabelledDiagramAssetWorkspaceStatus,
 } from "@/data/sampleLabelledDiagramAssetWorkspace";
+import type { EvidencePacketFlow } from "@/data/sampleEvidencePacketFlows";
+import { EvidencePacketFlowPanel } from "@/features/evidence/EvidencePacketFlowPanel";
 
 interface LabelledDiagramAssetWorkspacePanelProps {
   workspace: LabelledDiagramAssetWorkspace;
+  evidenceFlow: EvidencePacketFlow;
 }
 
 const statusTone: Record<LabelledDiagramAssetWorkspaceStatus, "neutral" | "warning"> = {
@@ -14,7 +17,7 @@ const statusTone: Record<LabelledDiagramAssetWorkspaceStatus, "neutral" | "warni
   blocked: "warning",
 };
 
-export function LabelledDiagramAssetWorkspacePanel({ workspace }: LabelledDiagramAssetWorkspacePanelProps) {
+export function LabelledDiagramAssetWorkspacePanel({ workspace, evidenceFlow }: LabelledDiagramAssetWorkspacePanelProps) {
   return (
     <div className="grid gap-5">
       <Card>
@@ -71,6 +74,8 @@ export function LabelledDiagramAssetWorkspacePanel({ workspace }: LabelledDiagra
           </dl>
         </Card>
       </div>
+
+      <EvidencePacketFlowPanel flow={evidenceFlow} />
 
       <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
         <Card>
