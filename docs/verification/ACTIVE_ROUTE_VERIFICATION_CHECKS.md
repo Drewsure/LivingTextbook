@@ -32,6 +32,7 @@ Open:
 - The teacher upload workspace route confirms disabled intake controls, upload channel, file policy, target mapping, review, promotion, Labelled Diagram asset, multimedia asset, and no-live-file-picker boundaries.
 - The evidence packet review index route confirms upload, Labelled Diagram, and media evidence rollups while live evidence upload, signed approval, publish/promotion, playlist creation, and assignment remain blocked.
 - The evidence packet handoff route confirms export packet shape, recipient duties, next gates, and blocked export/signature/publish/promotion/route/playlist/assignment behavior.
+- The teacher intake route confirms evidence export readiness, including blocked PDF, JSON, local manifest, signature, email handoff, release-state mutation, and student-assignment behavior.
 - The Labelled Diagram asset workspace confirms teacher-only image review, `game_asset_manifest`, `label_anchor_record`, `target_mapping_packet`, target-language audio coverage, support-language non-progress, and blocked live label/editor/student-game actions.
 - The media asset workspace confirms teacher-only media review, `media_manifest`, `media_playlist_binding`, `background_media_policy_binding`, `local_media_bundle_entry`, optional playback, learning-audio priority, media-only progress blocking, and blocked live upload/transcode/playlist actions.
 - Playable routes confirm activity shell text for Training Academy, Quiz, Sentence Builder, and Speak It, including tenant-specific themes where needed.

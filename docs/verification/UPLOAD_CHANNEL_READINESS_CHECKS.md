@@ -105,6 +105,11 @@ Verify at:
 84. Confirm the handoff route shows upload intake, Labelled Diagram, and media evidence sections.
 85. Confirm the handoff route shows recipient duties for publisher reviewer, school approver, and platform operator.
 86. Confirm the handoff route keeps `No evidence packet export`, `No signed approval capture`, `No publish action`, `No upload promotion`, `No route creation`, `No playlist creation`, and `No assignment route from evidence` visible.
+87. Confirm `/teacher/intake` shows `Evidence export readiness`.
+88. Confirm the export readiness panel shows `Reviewer summary PDF`, `Machine-readable JSON packet`, and `Local companion evidence manifest`.
+89. Confirm the export readiness panel shows publisher, school, and platform recipient lanes.
+90. Confirm the export readiness panel shows identity/signature gates and retention/policy gates.
+91. Confirm the export readiness panel keeps `No evidence packet export`, `No signed approval capture`, `No PDF generation`, `No JSON export`, `No downloadable ZIP`, `No email handoff`, `No release-state mutation`, and `No student assignment from export` visible.
 
 ## Automated Command
 
@@ -151,3 +156,4 @@ Template rendering and font accessibility storage are also covered by `npm run v
 - This scaffold defines template/font profile readiness only; it does not implement live rendering profiles, font uploads, tenant theme editing, printable rendering, or student-facing template switching.
 - This scaffold defines an evidence packet review index only; it does not upload evidence, capture signatures, approve, publish, create routes, assign students, or make evidence packets student-facing.
 - This scaffold defines an evidence packet handoff preview only; it does not export packets, collect signatures, publish, promote uploads, create routes, create playlists, or assign students from evidence.
+- This scaffold defines evidence export readiness only; it does not generate PDFs, export JSON, create downloadable ZIP files, send email handoffs, capture signatures, mutate release state, or assign students from exported evidence.

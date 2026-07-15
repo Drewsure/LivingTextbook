@@ -12,11 +12,13 @@ const mediaAssetWorkspace = readSource("../apps/web/src/data/sampleMediaAssetWor
 const evidencePacketFlows = readSource("../apps/web/src/data/sampleEvidencePacketFlows.ts");
 const evidencePacketReviewIndex = readSource("../apps/web/src/data/sampleEvidencePacketReviewIndex.ts");
 const evidencePacketHandoffPackage = readSource("../apps/web/src/data/sampleEvidencePacketHandoffPackage.ts");
+const evidenceExportReadiness = readSource("../apps/web/src/data/sampleEvidenceExportReadiness.ts");
 const contentEntryOptionScaffold = readSource("../apps/web/src/data/sampleContentEntryOptionScaffold.ts");
 const templateRenderingFontProfiles = readSource("../apps/web/src/data/sampleTemplateRenderingFontProfiles.ts");
 const evidencePacketFlowPanel = readSource("../apps/web/src/features/evidence/EvidencePacketFlowPanel.tsx");
 const evidencePacketReviewIndexPanel = readSource("../apps/web/src/features/evidence/EvidencePacketReviewIndexPanel.tsx");
 const evidencePacketHandoffPanel = readSource("../apps/web/src/features/evidence/EvidencePacketHandoffPanel.tsx");
+const evidenceExportReadinessPanel = readSource("../apps/web/src/features/evidence/EvidenceExportReadinessPanel.tsx");
 const panel = readSource("../apps/web/src/features/content-intake/UploadChannelReadinessPanel.tsx");
 const filePolicyPanel = readSource("../apps/web/src/features/content-intake/UploadFilePolicyPanel.tsx");
 const intakeControlPreviewPanel = readSource("../apps/web/src/features/content-intake/UploadIntakeControlPreviewPanel.tsx");
@@ -348,6 +350,36 @@ for (const text of requiredEvidencePacketHandoffTexts) {
   requireText(evidencePacketHandoffPackage, text, `Evidence packet handoff package missing required text: ${text}.`);
 }
 
+const requiredEvidenceExportReadinessTexts = [
+  "Evidence export readiness",
+  "Evidence export blocked",
+  "Signed approval capture blocked",
+  "Attachment storage and audit policy required",
+  "Reviewer summary PDF",
+  "Machine-readable JSON packet",
+  "Local companion evidence manifest",
+  "Publisher evidence recipient",
+  "School evidence recipient",
+  "Platform evidence recipient",
+  "authenticated reviewer identity",
+  "signature revocation policy",
+  "evidence attachment storage policy",
+  "retention period",
+  "PII minimization check",
+  "No evidence packet export",
+  "No signed approval capture",
+  "No PDF generation",
+  "No JSON export",
+  "No downloadable ZIP",
+  "No email handoff",
+  "No release-state mutation",
+  "No student assignment from export",
+];
+
+for (const text of requiredEvidenceExportReadinessTexts) {
+  requireText(evidenceExportReadiness, text, `Evidence export readiness plan missing required text: ${text}.`);
+}
+
 const requiredContentEntryTexts = [
   "Content entry option scaffold",
   "Flip Tiles source template",
@@ -496,6 +528,11 @@ requireText(evidencePacketHandoffPanel, "Evidence that would enter an export pac
 requireText(evidencePacketHandoffPanel, "Recipient duties", "Evidence packet handoff panel must expose recipient duties.");
 requireText(evidencePacketHandoffPanel, "Live actions blocked", "Evidence packet handoff panel must show blocked live actions.");
 requireText(evidencePacketHandoffPanel, "No export or approval workflow yet", "Evidence packet handoff panel must block export and approval workflow.");
+requireText(evidenceExportReadinessPanel, "Evidence export readiness", "Evidence export readiness panel must expose its heading.");
+requireText(evidenceExportReadinessPanel, "Recipient lanes", "Evidence export readiness panel must expose recipient lanes.");
+requireText(evidenceExportReadinessPanel, "Identity, signature, and policy gates", "Evidence export readiness panel must expose identity/signature/policy gates.");
+requireText(evidenceExportReadinessPanel, "Required before export controls exist", "Evidence export readiness panel must block export controls until gates pass.");
+requireText(evidenceExportReadinessPanel, "Blocked actions", "Evidence export readiness panel must show blocked export actions.");
 requireText(contentEntryOptionPanel, "Teacher content entry options", "Content entry option panel must expose its heading.");
 requireText(contentEntryOptionPanel, "Source template", "Content entry option panel must expose the source template section.");
 requireText(contentEntryOptionPanel, "Cross-game upload guide", "Content entry option panel must expose the cross-game upload guide.");
@@ -526,6 +563,7 @@ requireText(teacherIntake, "UploadReviewQueuePanel", "Teacher intake route must 
 requireText(teacherIntake, "UploadPromotionReadinessPanel", "Teacher intake route must render upload promotion readiness.");
 requireText(teacherIntake, "LabelledDiagramAssetReadinessPanel", "Teacher intake route must render Labelled Diagram asset readiness.");
 requireText(teacherIntake, "MultimediaAssetReadinessPanel", "Teacher intake route must render multimedia asset readiness.");
+requireText(teacherIntake, "EvidenceExportReadinessPanel", "Teacher intake route must render evidence export readiness.");
 requireText(teacherUploadWorkspace, "Teacher upload workspace", "Teacher upload workspace must expose its heading.");
 requireText(teacherUploadWorkspace, "UploadIntakeControlPreviewPanel", "Teacher upload workspace must render disabled intake controls.");
 requireText(teacherUploadWorkspace, "UploadFilePolicyPanel", "Teacher upload workspace must render upload file policy.");

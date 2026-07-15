@@ -25,6 +25,7 @@ import {
 import { sampleContentIntakeRuns, samplePackageReleases } from "@/data/sampleContentIntakePlan";
 import { sampleDeploymentProfiles } from "@/data/sampleDeploymentProfiles";
 import { sampleEditionQrAliasPlan } from "@/data/sampleEditionQrAliasPlan";
+import { sampleEvidenceExportReadinessPlan } from "@/data/sampleEvidenceExportReadiness";
 import { sampleGameBackgroundMediaPolicy } from "@/data/sampleGameBackgroundMediaPolicy";
 import { sampleGamePrototypeAssignmentPlan } from "@/data/sampleGamePrototypeAssignmentPlan";
 import { sampleFoundationVerificationGate } from "@/data/sampleFoundationVerificationGate";
@@ -111,6 +112,7 @@ import { PilotReleaseCandidatePanel } from "@/features/pilot/PilotReleaseCandida
 import { PilotReadinessSummaryPanel } from "@/features/pilot/PilotReadinessSummaryPanel";
 import { ClassroomLaunchGatePanel } from "@/features/pilot/ClassroomLaunchGatePanel";
 import { TeacherDryRunRehearsalPanel } from "@/features/pilot/TeacherDryRunRehearsalPanel";
+import { EvidenceExportReadinessPanel } from "@/features/evidence/EvidenceExportReadinessPanel";
 import { BackendDecisionMatrixPanel } from "@/features/persistence/BackendDecisionMatrixPanel";
 import { BackendMigrationPlanPanel } from "@/features/persistence/BackendMigrationPlanPanel";
 import { BackendMigrationSpecPanel } from "@/features/persistence/BackendMigrationSpecPanel";
@@ -156,6 +158,7 @@ export default function TeacherIntakePage() {
         />
         <PilotReadinessSummaryPanel summary={samplePilotReadinessSummary} />
         <PilotEvidencePacketPanel packet={samplePilotEvidencePacket} />
+        <EvidenceExportReadinessPanel plan={sampleEvidenceExportReadinessPlan} />
         <PilotLaunchChecklistPanel checklist={samplePilotLaunchChecklist} />
         <TeacherDryRunRehearsalPanel rehearsal={sampleTeacherDryRunRehearsal} />
         <ClassroomLaunchGatePanel gate={sampleClassroomLaunchGate} />
