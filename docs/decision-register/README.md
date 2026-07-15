@@ -203,6 +203,7 @@
 - `DR-229-teacher-upload-workspace-route.md`
 - `DR-230-upload-file-policy-profiles.md`
 - `DR-231-disabled-upload-intake-controls.md`
+- `DR-232-partner-demo-upload-workspace-shortcut.md`
 
 ## Maintenance Rule
 

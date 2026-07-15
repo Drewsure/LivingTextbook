@@ -84,6 +84,22 @@ export const appRouteContracts: AppRouteContract[] = [
     requiredState: ["TenantConfig", "MediaRightsPlan", "TeacherMediaLibraryPreview", "MediaRightsRecord[]"],
   },
   {
+    id: "teacher-upload-workspace",
+    pattern: "/teacher/uploads/[tenantId]",
+    audience: "teacher",
+    status: "active-scaffold",
+    purpose: "Show tenant-scoped upload intake controls, file policies, review queues, promotion gates, Labelled Diagram asset gates, and multimedia asset gates while live file input remains blocked.",
+    requiredState: [
+      "TenantConfig",
+      "UploadChannelReadinessPlan",
+      "UploadFilePolicyPlan",
+      "UploadReviewQueue",
+      "UploadPromotionReadinessPlan",
+      "LabelledDiagramAssetReadinessPlan",
+      "MultimediaAssetReadinessPlan",
+    ],
+  },
+  {
     id: "partner-pilot-demo",
     pattern: "/partner-demo",
     audience: "platform",
@@ -246,6 +262,10 @@ export function getTeacherPrivateLibraryPath(tenantId: TenantId): string {
 
 export function getTeacherMediaLibraryPath(tenantId: TenantId): string {
   return `/teacher/media/${encodeURIComponent(tenantId)}`;
+}
+
+export function getTeacherUploadWorkspacePath(tenantId: TenantId): string {
+  return `/teacher/uploads/${encodeURIComponent(tenantId)}`;
 }
 
 export function getPermanentTextbookQrPath(identifier: PermanentQrIdentifier): string {

@@ -293,6 +293,7 @@ Next outputs:
 - Confirm `/teacher/uploads/sample-publisher` shows upload channel, review queue, promotion, Labelled Diagram asset, and multimedia asset readiness before adding live file pickers, object storage, local upload folders, OCR, media processing, image label editors, or student-facing uploaded asset use.
 - Confirm `/teacher/uploads/sample-publisher` shows file policy profiles before live upload controls validate extensions, enforce size or duration limits, scan files, create checksums, transcode media, or promote uploaded files.
 - Confirm `/teacher/uploads/sample-publisher` shows disabled intake controls before adding a real file input, drag-and-drop zone, upload progress bar, intake-record write, object storage write, or local folder write.
+- Confirm `/partner-demo` links to `/teacher/uploads/sample-publisher` before using the partner demo as a white-label handoff route.
 - Confirm `/teacher/intake` shows the upload review queue before adding live upload approval, OCR promotion, image-label promotion, media playlist promotion, local-bundle promotion, or student-facing uploaded asset use.
 - Confirm `/teacher/intake` shows target-specific upload promotion readiness before adding live upload promotion into teacher drafts, Labelled Diagram assets, media playlists, game background media, or local bundle files.
 - Confirm `/teacher/intake` shows Labelled Diagram asset readiness before adding live image label editors, label coordinate storage, game asset manifests, or student-facing Labelled Diagram routes.

@@ -29,6 +29,7 @@ npm run dev --workspace @living-textbook/web -- --hostname 127.0.0.1 --port 3000
 - `/enter/sample-publisher` opens the partner textbook front door and accepts `ROUTINE-101` / `LEARNER-07`.
 - `/launch/partner-demo-unit-1` opens the student launch with the partner tenant palette and Daily Routines terms.
 - `/partner-demo` and the teacher launch shortcut list expose `/print/partner-demo-unit-1`.
+- `/partner-demo` exposes `/teacher/uploads/sample-publisher` so partner upload planning is visible beside library and media planning.
 - `/print/partner-demo-unit-1` shows a browser-print worksheet preview with Daily Routines vocabulary, target sentences, and PDF export blocked.
 - Tapping English target-language terms and sentences increments the entry-practice gate.
 - Assist language is not shown for the sample publisher package.
