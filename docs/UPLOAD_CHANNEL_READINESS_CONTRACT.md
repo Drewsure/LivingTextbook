@@ -226,6 +226,8 @@ Add target-specific promotion records before live approve-for-draft, ready-for-a
 
 The backend-neutral storage contract now includes `upload_promotion_gate` records. Hosted and local adapters must preserve target-specific promotion gates and keep student-facing promotion blocked until target records, target review, and release-control policy exist.
 
+Upload review and upload promotion storage must preserve `target_mapping_packet` as a named packet. This packet is not optional metadata: it is the reviewed source-to-target map that prevents a PDF, image, audio/music file, video, or local folder placement from creating a draft package, game asset, playlist, local bundle entry, route, or assignment directly.
+
 The backend-neutral storage contract now includes `game_asset_manifest` and `label_anchor_record` records. Hosted and local adapters must preserve image rights, alt text, reviewed label anchors, target-language label audio coverage, and support-language non-progress behavior before Labelled Diagram assets can become student-facing.
 
 The backend-neutral storage contract now includes `media_manifest`, `media_playlist_binding`, `background_media_policy_binding`, and `local_media_bundle_entry` records. Hosted and local adapters must preserve media rights, optional playback, non-mastery playlist policy, learning-audio priority, teacher background-media controls, checksums, relative paths, update rules, and local activation blocks before live upload promotion into playlists, game background media, or local bundle media is enabled.

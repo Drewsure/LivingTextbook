@@ -150,6 +150,7 @@ requireText(schemaDraft, "student_facing_use_allowed", "Backend schema must bloc
 requireText(schemaDraft, "upload_review_decision", "Backend schema must include upload review decisions.");
 requireText(schemaDraft, "source_lineage_packet", "Backend schema must preserve upload review source lineage packets.");
 requireText(schemaDraft, "rights_proof_packet", "Backend schema must preserve upload review rights proof packets.");
+requireText(schemaDraft, "target_mapping_packet", "Backend schema must preserve upload target mapping packets.");
 requireText(schemaDraft, "promotion_allowed", "Backend schema must block upload review promotion.");
 requireText(schemaDraft, "upload_promotion_gate", "Backend schema must include upload promotion gates.");
 requireText(schemaDraft, "target_kind", "Backend schema must preserve upload promotion target kinds.");
@@ -221,6 +222,7 @@ requireText(migrationSpecs, "file_metadata", "Migration specs must preserve uplo
 requireText(migrationSpecs, "target_mapping", "Migration specs must preserve upload target mapping.");
 requireText(migrationSpecs, "spec-upload-review-decision", "Migration specs must include upload review decisions.");
 requireText(migrationSpecs, "rights_proof_packet", "Migration specs must preserve upload review rights proof packets.");
+requireText(migrationSpecs, "target_mapping_packet", "Migration specs must preserve upload target mapping packets.");
 requireText(migrationSpecs, "promotion_allowed", "Migration specs must preserve upload review promotion blocks.");
 requireText(migrationSpecs, "spec-upload-promotion-gate", "Migration specs must include upload promotion gates.");
 requireText(migrationSpecs, "target_kind", "Migration specs must preserve upload promotion target kinds.");
@@ -320,6 +322,7 @@ requireText(persistenceAdapter, "blocksStudentFacingUploadUse: true", "Persisten
 requireText(persistenceAdapter, "hosted-upload-review-write", "Persistence adapter must include hosted upload review writes.");
 requireText(persistenceAdapter, "local-upload-review-write", "Persistence adapter must include local upload review writes.");
 requireText(persistenceAdapter, "preservesUploadReviewPackets: true", "Persistence adapter must preserve upload review packets.");
+requireText(persistenceAdapter, "preservesUploadTargetMappingPacket: true", "Persistence adapter must preserve upload target mapping packets.");
 requireText(persistenceAdapter, "blocksUploadReviewPromotion: true", "Persistence adapter must block upload review promotion.");
 requireText(persistenceAdapter, "hosted-upload-promotion-write", "Persistence adapter must include hosted upload promotion writes.");
 requireText(persistenceAdapter, "local-upload-promotion-write", "Persistence adapter must include local upload promotion writes.");
@@ -414,6 +417,7 @@ requireText(durableRecords, "preservesUploadSourceLineage: true", "Durable recor
 requireText(durableRecords, "blocksStudentFacingUploadUse: true", "Durable record plan must block student-facing upload use.");
 requireText(durableRecords, "upload-review-record", "Durable record plan must include upload review records.");
 requireText(durableRecords, "preservesUploadReviewPackets: true", "Durable record plan must preserve upload review packets.");
+requireText(durableRecords, "preservesUploadTargetMappingPacket: true", "Durable record plan must preserve upload target mapping packets.");
 requireText(durableRecords, "blocksUploadReviewPromotion: true", "Durable record plan must block upload review promotion.");
 requireText(durableRecords, "upload-promotion-record", "Durable record plan must include upload promotion records.");
 requireText(durableRecords, "preservesUploadPromotionTargets: true", "Durable record plan must preserve upload promotion targets.");

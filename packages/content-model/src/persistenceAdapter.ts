@@ -41,6 +41,7 @@ export interface PersistenceWriteIntent {
   preservesUploadSourceLineage?: boolean;
   blocksStudentFacingUploadUse?: boolean;
   preservesUploadReviewPackets?: boolean;
+  preservesUploadTargetMappingPacket?: boolean;
   blocksUploadReviewPromotion?: boolean;
   preservesUploadPromotionTargets?: boolean;
   blocksStudentFacingPromotion?: boolean;
@@ -240,6 +241,10 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
       errors.push(`Upload review write intent ${intent.intentId} must preserve upload review packets.`);
     }
 
+    if (intent.category === "upload-review" && !intent.preservesUploadTargetMappingPacket) {
+      errors.push(`Upload review write intent ${intent.intentId} must preserve upload target mapping packets.`);
+    }
+
     if (intent.category === "upload-review" && !intent.blocksUploadReviewPromotion) {
       errors.push(`Upload review write intent ${intent.intentId} must block upload promotion.`);
     }
@@ -250,6 +255,10 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "upload-promotion" && !intent.preservesUploadPromotionTargets) {
       errors.push(`Upload promotion write intent ${intent.intentId} must preserve upload promotion targets.`);
+    }
+
+    if (intent.category === "upload-promotion" && !intent.preservesUploadTargetMappingPacket) {
+      errors.push(`Upload promotion write intent ${intent.intentId} must preserve upload target mapping packets.`);
     }
 
     if (intent.category === "upload-promotion" && !intent.blocksStudentFacingPromotion) {

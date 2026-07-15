@@ -84,6 +84,7 @@ export interface DurableRecordContract {
   preservesUploadSourceLineage?: boolean;
   blocksStudentFacingUploadUse?: boolean;
   preservesUploadReviewPackets?: boolean;
+  preservesUploadTargetMappingPacket?: boolean;
   blocksUploadReviewPromotion?: boolean;
   preservesUploadPromotionTargets?: boolean;
   blocksStudentFacingPromotion?: boolean;
@@ -248,6 +249,10 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
       errors.push(`Upload review record ${record.recordId} must preserve upload review packets.`);
     }
 
+    if (record.category === "upload-review" && !record.preservesUploadTargetMappingPacket) {
+      errors.push(`Upload review record ${record.recordId} must preserve upload target mapping packets.`);
+    }
+
     if (record.category === "upload-review" && !record.blocksUploadReviewPromotion) {
       errors.push(`Upload review record ${record.recordId} must block upload promotion.`);
     }
@@ -258,6 +263,10 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "upload-promotion" && !record.preservesUploadPromotionTargets) {
       errors.push(`Upload promotion record ${record.recordId} must preserve upload promotion targets.`);
+    }
+
+    if (record.category === "upload-promotion" && !record.preservesUploadTargetMappingPacket) {
+      errors.push(`Upload promotion record ${record.recordId} must preserve upload target mapping packets.`);
     }
 
     if (record.category === "upload-promotion" && !record.blocksStudentFacingPromotion) {
