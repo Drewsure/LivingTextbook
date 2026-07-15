@@ -34,6 +34,7 @@ Outputs:
 - `/teacher/intake` exposes target-language expansion readiness so Japanese-as-target-language and other non-English target-language opportunities are not confused with assist-language support.
 - `/teacher/uploads/sample-publisher` exposes the dedicated upload workspace so file intake, review, promotion, Labelled Diagram image assets, and multimedia asset gates have a visible route boundary before live file pickers or storage are built.
 - `/teacher/uploads/sample-publisher`, `/teacher/assets/labelled-diagram/sample-publisher-l1-u1-labelled-diagram`, and `/teacher/assets/media/sample-publisher-l1-u1-routines-media` expose evidence packet flows before live file inputs, object/local storage, approval actions, publish actions, route creation, label editing, media transcoding, playlist creation, or assignment shortcuts are built.
+- `/teacher/evidence/sample-publisher` exposes the tenant evidence packet review index so upload, Labelled Diagram, and media evidence blockers stay visible in one admin route before live evidence upload, signed approval capture, promotion, publishing, route creation, playlist creation, or assignment shortcuts are built.
 - Backend schema, migration candidates, migration specs, adapter plans, durable records, and persistence boundaries preserve `evidence_packet` before live evidence upload, signed approval capture, upload promotion, asset editing, media transcoding, playlist creation, local activation, or assignment shortcuts are built.
 
 ## Session 1: First Vertical Slice
@@ -297,6 +298,7 @@ Next outputs:
 - Confirm `/teacher/uploads/sample-publisher` shows disabled intake controls before adding a real file input, drag-and-drop zone, upload progress bar, intake-record write, object storage write, or local folder write.
 - Confirm `/teacher/uploads/sample-publisher` shows upload target mapping before uploaded files can create draft packages, game assets, media playlist bindings, local bundle entries, routes, or assignments.
 - Confirm `/partner-demo` links to `/teacher/uploads/sample-publisher` before using the partner demo as a white-label handoff route.
+- Confirm `/teacher/evidence/sample-publisher` shows the cross-source evidence packet review index before enabling live evidence upload, signed approval capture, upload promotion, asset publishing, playlist creation, route creation, or assignment shortcuts.
 - Confirm `/teacher/intake` shows the upload review queue before adding live upload approval, OCR promotion, image-label promotion, media playlist promotion, local-bundle promotion, or student-facing uploaded asset use.
 - Confirm `/teacher/intake` shows target-specific upload promotion readiness before adding live upload promotion into teacher drafts, Labelled Diagram assets, media playlists, game background media, or local bundle files.
 - Confirm `/teacher/intake` shows Labelled Diagram asset readiness before adding live image label editors, label coordinate storage, game asset manifests, or student-facing Labelled Diagram routes.

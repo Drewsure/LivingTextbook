@@ -14,6 +14,7 @@ Verify at:
 
 - `http://127.0.0.1:3000/teacher/intake`
 - `http://127.0.0.1:3000/teacher/uploads/sample-publisher`
+- `http://127.0.0.1:3000/teacher/evidence/sample-publisher`
 
 ## Required Checks
 
@@ -95,6 +96,10 @@ Verify at:
 76. Confirm the Labelled Diagram evidence packet flow blocks live label editing, coordinate editing, auto-generated active labels, student-facing image games, asset promotion without release gates, and assignment routes from uploaded images.
 77. Confirm the media evidence packet flow shows `media_manifest_packet`, `caption_transcript_packet`, `background_media_policy_packet`, `local_bundle_checksum_packet`, and `release_control_packet`.
 78. Confirm the media evidence packet flow blocks live media upload, automatic transcode-to-publish, playlist creation from uploaded media, media-only progress, background music overriding learning audio, and local folder activation.
+79. Confirm the evidence packet review index route shows `Evidence packet review index`.
+80. Confirm the review index rolls up upload, Labelled Diagram, and media evidence sources before live upload controls exist.
+81. Confirm the review index shows `Storage handoff`, `Storage contract records`, and `Standing review-only rules`.
+82. Confirm the review index keeps `No live evidence upload`, `No signed approval capture`, `No approve or publish action`, `No playlist creation from uploaded media`, and `No student-facing use from evidence packets alone` visible.
 
 ## Automated Command
 
@@ -139,3 +144,4 @@ Template rendering and font accessibility storage are also covered by `npm run v
 - This scaffold defines multimedia asset readiness only; it does not implement live media uploads, media processing, transcoding, playlist promotion, background-media assignment, or local bundle media activation.
 - This scaffold defines content entry options only; it does not implement live file pickers, row persistence, AI generation, template switching, draft saving, or Done-to-student routing.
 - This scaffold defines template/font profile readiness only; it does not implement live rendering profiles, font uploads, tenant theme editing, printable rendering, or student-facing template switching.
+- This scaffold defines an evidence packet review index only; it does not upload evidence, capture signatures, approve, publish, create routes, assign students, or make evidence packets student-facing.

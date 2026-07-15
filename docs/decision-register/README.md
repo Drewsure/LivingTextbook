@@ -210,6 +210,7 @@
 - `DR-236-media-asset-workspace-route.md`
 - `DR-237-evidence-packet-flow.md`
 - `DR-238-evidence-packet-storage-contract.md`
+- `DR-239-evidence-packet-review-index-route.md`
 
 ## Maintenance Rule
 

@@ -1,0 +1,23 @@
+import { notFound } from "next/navigation";
+import { AppShell } from "@/components/layout/AppShell";
+import { samplePublisherEvidencePacketReviewIndex } from "@/data/sampleEvidencePacketReviewIndex";
+import { EvidencePacketReviewIndexPanel } from "@/features/evidence/EvidencePacketReviewIndexPanel";
+import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
+
+export default async function TeacherEvidencePacketReviewPage({
+  params,
+}: {
+  params: Promise<{ tenantId: string }>;
+}) {
+  const { tenantId } = await params;
+
+  if (tenantId !== samplePublisherTenant.id) {
+    notFound();
+  }
+
+  return (
+    <AppShell tenant={samplePublisherTenant}>
+      <EvidencePacketReviewIndexPanel index={samplePublisherEvidencePacketReviewIndex} />
+    </AppShell>
+  );
+}

@@ -100,6 +100,15 @@ export const appRouteContracts: AppRouteContract[] = [
     ],
   },
   {
+    id: "teacher-evidence-packet-review",
+    pattern: "/teacher/evidence/[tenantId]",
+    audience: "teacher",
+    status: "active-scaffold",
+    purpose:
+      "Show a tenant-scoped evidence packet review index for upload, Labelled Diagram, and media asset workspaces while evidence upload, signed approval, promotion, publishing, and assignment remain blocked.",
+    requiredState: ["TenantConfig", "EvidencePacketReviewIndex", "EvidencePacketFlow[]", "evidence_packet"],
+  },
+  {
     id: "teacher-labelled-diagram-asset-workspace",
     pattern: "/teacher/assets/labelled-diagram/[assetId]",
     audience: "teacher",
@@ -291,6 +300,10 @@ export function getTeacherMediaLibraryPath(tenantId: TenantId): string {
 
 export function getTeacherUploadWorkspacePath(tenantId: TenantId): string {
   return `/teacher/uploads/${encodeURIComponent(tenantId)}`;
+}
+
+export function getTeacherEvidencePacketReviewPath(tenantId: TenantId): string {
+  return `/teacher/evidence/${encodeURIComponent(tenantId)}`;
 }
 
 export function getTeacherLabelledDiagramAssetWorkspacePath(assetId: string): string {

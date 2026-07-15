@@ -83,6 +83,14 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     note: "Read-only upload command center for PDF/text, Labelled Diagram images, audio, music, video, promotion gates, and blocked live upload actions.",
   },
   {
+    routeId: "teacher-evidence-packet-review",
+    group: "core",
+    label: "Evidence packet review index",
+    path: "/teacher/evidence/sample-publisher",
+    status: "active-scaffold",
+    note: "Teacher/admin rollup for upload, Labelled Diagram, and media evidence packets before live evidence upload, signed approval, promotion, or assignment exists.",
+  },
+  {
     routeId: "teacher-labelled-diagram-asset-workspace",
     group: "sample-publisher",
     label: "Labelled Diagram asset workspace",
