@@ -197,6 +197,7 @@
 - `DR-223-report-package-launch-gate-boundary.md`
 - `DR-224-private-assignment-launch-context-boundary.md`
 - `DR-225-stable-qr-route-content-verification.md`
+- `DR-226-launch-safety-boundary-verifier.md`
 
 ## Maintenance Rule
 

@@ -41,6 +41,7 @@ Focused verification supplements:
 - `docs/verification/LOCAL_COMPANION_NAV_LINK_CHECKS.md`
 - `docs/verification/LOCAL_COMPANION_RELEASE_GATE_CHECKS.md`
 - `docs/verification/LOCAL_COMPANION_RELEASE_GATE_STORAGE_CHECKS.md`
+- `docs/verification/LAUNCH_SAFETY_BOUNDARY_CHECKS.md`
 - `docs/verification/MEDIA_TELEMETRY_CHECKS.md`
 - `docs/verification/MEDIA_RIGHTS_READINESS_CHECKS.md`
 - `docs/verification/MEDIA_SUPPORT_ONLY_EVENT_CHECKS.md`

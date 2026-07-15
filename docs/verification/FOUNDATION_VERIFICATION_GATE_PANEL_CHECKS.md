@@ -11,6 +11,8 @@ Run after teacher intake, verification scripts, package-readiness, local-bundle,
 - Confirm the panel names `npm run verify:package-readiness`.
 - Confirm the panel names `npm run verify:local-bundle`.
 - Confirm the panel names `npm run verify:private-assignments`.
+- Confirm the panel names `npm run verify:launch-safety`.
+- Confirm the panel includes `Launch safety boundaries`.
 - Confirm the panel names `npm run verify:collection`.
 - Confirm the panel includes `Earned collection readiness`.
 - Confirm the panel names `npm run verify:class-roster`.

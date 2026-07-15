@@ -23,7 +23,7 @@ export const sampleFoundationVerificationGate: FoundationVerificationGate = {
   gateId: "foundation-verification-2026-07",
   label: "Foundation verification gate",
   summary:
-    "This gate is the current no-shortcuts check before connector-side changes are treated as locally verified. It protects schema discipline, reusable game modes, package readiness, upload governance, local companion honesty, teacher-session safety, production build health, and active route availability.",
+    "This gate is the current no-shortcuts check before connector-side changes are treated as locally verified. It protects schema discipline, reusable game modes, package readiness, launch safety, upload governance, local companion honesty, teacher-session safety, production build health, and active route availability.",
   canonicalCommand: "npm run verify:foundation",
   lastKnownStatus: "pass",
   checks: [
@@ -80,6 +80,15 @@ export const sampleFoundationVerificationGate: FoundationVerificationGate = {
       protects: "Target-language expansion stays separate from assist language, and sharing/embed features stay private-first for v1.",
       evidence: "The focused verifiers check Japanese-as-target-language blockers, assist-language boundaries, private assignment routes, and public/embed blocks.",
       nextStep: "Do not enable Japanese target-language pilots, public links, iframe embeds, or public assignment discovery before the named gates pass.",
+    },
+    {
+      checkId: "launch-safety-boundaries",
+      label: "Launch safety boundaries",
+      command: "npm run verify:launch-safety",
+      status: "pass",
+      protects: "Student doorways, assignment links, teacher session monitors, and report package routes keep live classroom launch, production accounts, real learner data, and report export blocked until release gates close.",
+      evidence: "The verifier checks student launch, front-door, assignment, teacher session, and report package routes for controlled-practice and launch-gate markers.",
+      nextStep: "Run this before changing launch, assignment, session monitor, report package, classroom launch gate, or route-sharing behavior.",
     },
     {
       checkId: "earned-collection-readiness",
@@ -150,7 +159,7 @@ export const sampleFoundationVerificationGate: FoundationVerificationGate = {
       command: "npm run verify:routes",
       status: "pass",
       protects: "Teacher, student, game, media, report, local companion, and QR routes stay reachable.",
-      evidence: "The verifier checks 39 active routes and required page text.",
+      evidence: "The verifier checks 41 active routes and required page text.",
       nextStep: "Add new active routes to the route matrix before treating them as part of a pilot.",
     },
   ],
