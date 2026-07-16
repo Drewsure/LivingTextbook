@@ -52,7 +52,8 @@ export type PersistenceBoundaryCategory =
   | "classroom-launch-gate"
   | "school-launch-policy-gate"
   | "school-policy-handoff-packet"
-  | "school-policy-acceptance-preflight";
+  | "school-policy-acceptance-preflight"
+  | "school-policy-text-pack";
 
 export interface PersistenceBoundary {
   boundaryId: string;
@@ -837,6 +838,35 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     note:
       "The school policy acceptance preflight must become durable before any future accept button can be designed. It preserves the missing policy, identity, evidence, storage, release-control, support-language, microphone, AI Tutor, rollback, and minimum-record requirements while blocking acceptance, signatures, evidence export, storage activation, launch-ready status, production QR promises, learner data, report export, and live classroom workflow.",
   },
+  {
+    recordId: "school-policy-text-pack-record",
+    category: "school-policy-text-pack",
+    label: "School policy text pack record",
+    readiness: "policy-required",
+    sourceOfTruth: "SchoolPolicyTextPack, SchoolPolicyAcceptancePreflight, policy clauses, minimum version fields, blocked actions, and review rules",
+    requiredBeforePilot: true,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesSchoolPolicyTextPack: true,
+    blocksPolicyTextAcceptance: true,
+    blocksPolicyTextSignatureCapture: true,
+    blocksPolicyTextEvidenceExport: true,
+    blocksPolicyTextStorageActivation: true,
+    blocksPolicyTextLaunchReadyStatus: true,
+    blocksPolicyAcceptanceWorkflow: true,
+    blocksLaunchWithoutSchoolPolicy: true,
+    blocksRealLearnerDataCollection: true,
+    blocksLiveReportExport: true,
+    blocksLiveClassroomLaunch: true,
+    blocksSupportLanguageProgress: true,
+    blocksSignedApprovalCapture: true,
+    recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store", "school-policy"],
+    note:
+      "The school policy text pack must become durable before schools can review exact acceptance language. It preserves clause versions for privacy, QR/progression, media, local package, microphone, AI Tutor, storage, rollback, evidence, signature, and revocation while blocking acceptance, signatures, evidence export, storage activation, launch-ready status, production QR promises, learner data, report export, and live classroom workflow.",
+  },
 ];
 
 export const sampleDurableRecordErrors = validateDurableRecordContracts(sampleDurableRecordContracts);
@@ -1350,6 +1380,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision:
       "Store school policy acceptance preflight metadata before policy acceptance, signed approval capture, evidence export, storage activation, production QR promises, launch-ready status, AI Tutor activation, or live classroom workflow.",
+  },
+  {
+    boundaryId: "school-policy-text-pack-boundary",
+    category: "school-policy-text-pack",
+    label: "School policy text pack records",
+    status: "needs-policy",
+    recordShape:
+      "Policy text pack id, acceptance preflight id, package id, release candidate, policy text version, clause versions, minimum version fields, blocked actions, and review rules",
+    whyItMatters:
+      "A future school acceptance must point to exact reviewed policy text instead of broad meeting notes. This record keeps privacy, learner-data, QR/progression, media/local package, microphone, AI Tutor, storage, rollback, evidence, signature, and revocation clauses auditable before acceptance exists.",
+    visibleTo: ["School admin", "Teacher", "Tenant admin", "Publisher admin", "Platform admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Store school policy text pack metadata before policy acceptance, signed approval capture, evidence export, storage activation, production QR promises, launch-ready status, AI Tutor activation, or live classroom workflow.",
   },
 ];
 

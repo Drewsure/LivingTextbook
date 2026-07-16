@@ -2994,5 +2994,131 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
         "Live launch, learner data, report export, local activation, production QR promises, and launch-ready status remain blocked until school, publisher, platform, dry-run, and persistence requirements pass.",
       ],
     },
+    {
+      specId: "spec-school-policy-text-pack",
+      label: "School policy text pack",
+      candidateId: "m041-school-policy-text-pack-records",
+      storeKind: "release-record",
+      status: "blocked-by-policy",
+      purpose:
+        "Stores versioned school policy clause packs before accepted terms, signature capture, evidence export, storage activation, or launch-ready workflow exists.",
+      primaryKey: "school_policy_text_pack_id",
+      tenantScope:
+        "Scoped by tenant_id, package_release_id, release_candidate_id, school_policy_acceptance_preflight_id, policy_text_version, and policy_text_revision.",
+      fields: [
+        {
+          name: "school_policy_text_pack_id",
+          type: "string",
+          required: true,
+          note: "Stable id for one reviewed school policy text pack snapshot.",
+        },
+        {
+          name: "school_policy_acceptance_preflight_id",
+          type: "string",
+          required: true,
+          note: "Acceptance preflight that this text pack satisfies or extends.",
+        },
+        {
+          name: "release_candidate_id",
+          type: "string",
+          required: true,
+          note: "Release candidate this policy text applies to.",
+        },
+        {
+          name: "policy_text_version",
+          type: "string",
+          required: true,
+          note: "Human-readable policy text version shown during school review.",
+        },
+        {
+          name: "policy_text_revision",
+          type: "string",
+          required: true,
+          note: "Machine-readable revision used for audit, rollback, and superseded-policy comparisons.",
+        },
+        {
+          name: "policy_clauses",
+          type: "json",
+          required: true,
+          note: "Versioned clauses for privacy, QR/progression, media, local package, microphone, AI Tutor, storage, rollback, evidence, signature, and revocation.",
+        },
+        {
+          name: "minimum_version_fields",
+          type: "json",
+          required: true,
+          note: "Fields a future accepted policy record must preserve before acceptance can affect release state.",
+        },
+        {
+          name: "blocked_actions",
+          type: "json",
+          required: true,
+          note: "Acceptance, signature, evidence export, storage activation, launch-ready, production QR, AI Tutor, learner data, report export, and live classroom blocks.",
+        },
+        {
+          name: "review_rules",
+          type: "json",
+          required: true,
+          note: "Rules for school review, legal review, tenant customization, superseded versions, and revocation.",
+        },
+        {
+          name: "policy_text_acceptance_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until authenticated school acceptance workflow exists.",
+        },
+        {
+          name: "policy_text_signature_capture_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until signature method and identity policy are accepted.",
+        },
+        {
+          name: "policy_text_evidence_export_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until evidence storage, retention, access-control, and export policy are accepted.",
+        },
+        {
+          name: "policy_text_storage_activation_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until hosted/local storage adapter policy is accepted.",
+        },
+        {
+          name: "launch_ready_status_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until school policy text, acceptance, evidence, storage, release-control, and dry-run gates pass.",
+        },
+        {
+          name: "live_classroom_launch_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until school, publisher, platform, dry-run, storage, and persistence gates pass.",
+        },
+      ],
+      indexes: [
+        "tenant_id + release_candidate_id",
+        "school_policy_text_pack_id unique",
+        "school_policy_acceptance_preflight_id",
+        "policy_text_version",
+        "policy_text_acceptance_allowed",
+        "launch_ready_status_allowed",
+        "policy_text_revision",
+      ],
+      retentionRule:
+        "Retain current and superseded policy text packs with release-control history while any school pilot approval, local bundle, policy decision, report policy, or printed QR route references the candidate.",
+      exportRule:
+        "Must export as JSON only after evidence export and school policy export rules are accepted; until then, it is metadata for review surfaces only.",
+      localFallback:
+        "Local classroom bundles store the same school policy text pack metadata beside release-control records after local package and school policy export rules allow it.",
+      policyBlockers: [
+        "School policy text packs cannot accept policy, capture signatures, export evidence, activate storage, or approve launch by themselves.",
+        "Storage activation remains blocked until hosted or local storage adapter policy is accepted.",
+        "AI Tutor and microphone scoring remain blocked until tenant and school opt-in policy accepts cost and privacy implications.",
+        "Support-language-only progression must remain blocked even when school policy text is reviewed.",
+        "Live launch, learner data, report export, local activation, production QR promises, and launch-ready status remain blocked until school, publisher, platform, dry-run, and persistence requirements pass.",
+      ],
+    },
   ],
 };

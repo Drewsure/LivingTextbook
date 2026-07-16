@@ -183,6 +183,8 @@ It is derived from the school policy acceptance preflight and organizes draft po
 
 This pack is not acceptance text. It can list required text, review notes, blocked actions, minimum version fields, and review rules, but it cannot accept policy, capture signatures, export evidence, activate storage, create launch-ready status, create production QR promises, activate AI Tutor, collect real learner data, export reports, or start a live classroom workflow.
 
+The backend-neutral record is `school_policy_text_pack` / `school-policy-text-pack`. Hosted and local implementations must preserve policy text versions, clause versions, minimum version fields, blocked actions, and review rules while blocking policy acceptance, signed approval capture, evidence export, storage activation, release-state mutation, launch-ready status, production QR promises, AI Tutor activation, support-language-only progression, learner data, report export, and live classroom workflow.
+
 ## Required Blocking Areas Before Real Pilot
 
 A real pilot package requires closure on:

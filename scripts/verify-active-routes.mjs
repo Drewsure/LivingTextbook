@@ -78,6 +78,9 @@ expectedTextByPath.get("/teacher/intake")?.push(
   "school_policy_acceptance_preflight",
   "School policy acceptance preflight record",
   "school-policy-acceptance-preflight-record",
+  "school_policy_text_pack",
+  "School policy text pack record",
+  "school-policy-text-pack-record",
 );
 
 if (urls.length === 0) {

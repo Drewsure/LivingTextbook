@@ -841,6 +841,44 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
         "Live classroom launch",
       ],
     },
+    {
+      migrationId: "m041-school-policy-text-pack-records",
+      label: "School policy text pack records",
+      track: "shared",
+      status: "needs-policy",
+      risk: "medium",
+      targetEntities: ["school_policy_text_pack"],
+      purpose:
+        "Persist versioned school policy clause packs before any acceptance text, accept button, signature capture, evidence export, storage activation, or launch-ready workflow is designed.",
+      prerequisites: [
+        "School policy acceptance preflight accepted as requirements artifact",
+        "School privacy, retention, and access-control policy drafted",
+        "Microphone and AI Tutor opt-in policy drafted if those premium features are offered",
+        "Storage, evidence export, rollback, and revocation policy drafted",
+        "Publisher media and local package policy drafted",
+      ],
+      implementationNotes: [
+        "Keep policy text packs tenant-scoped, package-scoped, preflight-scoped, and release-candidate-scoped.",
+        "Preserve policy clauses, minimum version fields, blocked actions, and review rules.",
+        "Block policy acceptance, signed approval capture, evidence export, storage activation, launch-ready status, production QR promises, AI Tutor activation, and live classroom workflow.",
+        "Do not let policy text packs replace the school acceptance preflight, evidence packet, approval ledger, or release-control gates.",
+      ],
+      rollbackOrExportNeeds: [
+        "Export policy text pack metadata with release-control records only after export policy is accepted",
+        "Retain superseded policy text versions for audit",
+        "Support local bundle policy text metadata export when local policy allows it",
+      ],
+      notAllowedYet: [
+        "Accepted terms",
+        "Accept button",
+        "Signed approval capture",
+        "Evidence export",
+        "Storage activation",
+        "Launch-ready status",
+        "AI Tutor activation",
+        "Live classroom launch",
+      ],
+    },
   ],
   standingRules: [
     "Do not create production migrations before backend choice and policy gates are accepted.",
@@ -870,6 +908,7 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
     "Teacher dry-run rehearsal records must preserve rehearsal evidence while blocking real learner data, live progress, report export, and student launch.",
     "Classroom launch gate records must keep live classroom launch blocked until source gates, school policy, and accepted persistence pass.",
     "School launch policy gate records must keep school policy acceptance, live classroom launch, real learner data, report export, local activation, and launch-ready status blocked until school, publisher, platform, dry-run, and persistence requirements pass.",
+    "School policy text pack records must preserve exact clause versions while blocking acceptance, signatures, evidence export, storage activation, production QR promises, launch-ready status, AI Tutor activation, learner data, report export, and live classroom workflow.",
     "Every migration candidate needs rollback or export expectations before implementation.",
   ],
 };

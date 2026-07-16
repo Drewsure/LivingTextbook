@@ -41,7 +41,8 @@ export type PersistenceRecordCategory =
   | "classroom-launch-gate"
   | "school-launch-policy-gate"
   | "school-policy-handoff-packet"
-  | "school-policy-acceptance-preflight";
+  | "school-policy-acceptance-preflight"
+  | "school-policy-text-pack";
 
 export type PersistenceRecordReadiness =
   | "static-demo"
@@ -146,6 +147,12 @@ export interface DurableRecordContract {
   blocksPreflightEvidenceExport?: boolean;
   blocksPreflightStorageActivation?: boolean;
   blocksPreflightLaunchReadyStatus?: boolean;
+  preservesSchoolPolicyTextPack?: boolean;
+  blocksPolicyTextAcceptance?: boolean;
+  blocksPolicyTextSignatureCapture?: boolean;
+  blocksPolicyTextEvidenceExport?: boolean;
+  blocksPolicyTextStorageActivation?: boolean;
+  blocksPolicyTextLaunchReadyStatus?: boolean;
   recommendedFirstPilotStore: PersistenceStorageTier[];
   note: string;
 }
@@ -547,6 +554,34 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "school-policy-acceptance-preflight" && !record.blocksLiveClassroomLaunch) {
       errors.push(`School policy acceptance preflight record ${record.recordId} must block live classroom launch.`);
+    }
+
+    if (record.category === "school-policy-text-pack" && !record.preservesSchoolPolicyTextPack) {
+      errors.push(`School policy text pack record ${record.recordId} must preserve policy clauses, minimum version fields, blocked actions, and review rules.`);
+    }
+
+    if (record.category === "school-policy-text-pack" && !record.blocksPolicyTextAcceptance) {
+      errors.push(`School policy text pack record ${record.recordId} must block policy acceptance from text packs.`);
+    }
+
+    if (record.category === "school-policy-text-pack" && !record.blocksPolicyTextSignatureCapture) {
+      errors.push(`School policy text pack record ${record.recordId} must block signature capture from text packs.`);
+    }
+
+    if (record.category === "school-policy-text-pack" && !record.blocksPolicyTextEvidenceExport) {
+      errors.push(`School policy text pack record ${record.recordId} must block evidence export from text packs.`);
+    }
+
+    if (record.category === "school-policy-text-pack" && !record.blocksPolicyTextStorageActivation) {
+      errors.push(`School policy text pack record ${record.recordId} must block storage activation from text packs.`);
+    }
+
+    if (record.category === "school-policy-text-pack" && !record.blocksPolicyTextLaunchReadyStatus) {
+      errors.push(`School policy text pack record ${record.recordId} must block launch-ready status from text packs.`);
+    }
+
+    if (record.category === "school-policy-text-pack" && !record.blocksLiveClassroomLaunch) {
+      errors.push(`School policy text pack record ${record.recordId} must block live classroom launch.`);
     }
 
     if (record.supportsLocalDeployment && !record.recommendedFirstPilotStore.includes("local-classroom-store")) {

@@ -97,6 +97,12 @@ export interface PersistenceWriteIntent {
   blocksPreflightEvidenceExport?: boolean;
   blocksPreflightStorageActivation?: boolean;
   blocksPreflightLaunchReadyStatus?: boolean;
+  preservesSchoolPolicyTextPack?: boolean;
+  blocksPolicyTextAcceptance?: boolean;
+  blocksPolicyTextSignatureCapture?: boolean;
+  blocksPolicyTextEvidenceExport?: boolean;
+  blocksPolicyTextStorageActivation?: boolean;
+  blocksPolicyTextLaunchReadyStatus?: boolean;
   note: string;
 }
 
@@ -533,6 +539,34 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "school-policy-acceptance-preflight" && !intent.blocksLiveClassroomLaunch) {
       errors.push(`School policy acceptance preflight write intent ${intent.intentId} must block live classroom launch.`);
+    }
+
+    if (intent.category === "school-policy-text-pack" && !intent.preservesSchoolPolicyTextPack) {
+      errors.push(`School policy text pack write intent ${intent.intentId} must preserve policy clauses, minimum version fields, blocked actions, and review rules.`);
+    }
+
+    if (intent.category === "school-policy-text-pack" && !intent.blocksPolicyTextAcceptance) {
+      errors.push(`School policy text pack write intent ${intent.intentId} must block policy acceptance from text packs.`);
+    }
+
+    if (intent.category === "school-policy-text-pack" && !intent.blocksPolicyTextSignatureCapture) {
+      errors.push(`School policy text pack write intent ${intent.intentId} must block signature capture from text packs.`);
+    }
+
+    if (intent.category === "school-policy-text-pack" && !intent.blocksPolicyTextEvidenceExport) {
+      errors.push(`School policy text pack write intent ${intent.intentId} must block evidence export from text packs.`);
+    }
+
+    if (intent.category === "school-policy-text-pack" && !intent.blocksPolicyTextStorageActivation) {
+      errors.push(`School policy text pack write intent ${intent.intentId} must block storage activation from text packs.`);
+    }
+
+    if (intent.category === "school-policy-text-pack" && !intent.blocksPolicyTextLaunchReadyStatus) {
+      errors.push(`School policy text pack write intent ${intent.intentId} must block launch-ready status from text packs.`);
+    }
+
+    if (intent.category === "school-policy-text-pack" && !intent.blocksLiveClassroomLaunch) {
+      errors.push(`School policy text pack write intent ${intent.intentId} must block live classroom launch.`);
     }
 
     if (intent.intentId.includes("package-audio-coverage") && !intent.preservesGameAudioCoverageSnapshot) {
