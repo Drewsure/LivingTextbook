@@ -118,6 +118,15 @@ export const appRouteContracts: AppRouteContract[] = [
     requiredState: ["TenantConfig", "EvidencePacketHandoffPackage", "evidence_packet", "release_control_packet"],
   },
   {
+    id: "teacher-school-policy-handoff",
+    pattern: "/teacher/policy-handoff/[packetId]",
+    audience: "teacher",
+    status: "active-scaffold",
+    purpose:
+      "Preview the school policy handoff packet as a direct meeting route while policy acceptance, signed approval, evidence export, launch-ready status, production QR promises, and live classroom workflow remain blocked.",
+    requiredState: ["TenantConfig", "SchoolPolicyHandoffPacket", "SchoolLaunchPolicyGate", "school_policy_handoff_packet"],
+  },
+  {
     id: "teacher-labelled-diagram-asset-workspace",
     pattern: "/teacher/assets/labelled-diagram/[assetId]",
     audience: "teacher",
@@ -317,6 +326,10 @@ export function getTeacherEvidencePacketReviewPath(tenantId: TenantId): string {
 
 export function getTeacherEvidencePacketHandoffPath(tenantId: TenantId): string {
   return `/teacher/evidence/${encodeURIComponent(tenantId)}/handoff`;
+}
+
+export function getTeacherSchoolPolicyHandoffPath(packetId: string): string {
+  return `/teacher/policy-handoff/${encodeURIComponent(packetId)}`;
 }
 
 export function getTeacherLabelledDiagramAssetWorkspacePath(assetId: string): string {

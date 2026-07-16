@@ -16,6 +16,7 @@ Review at:
 
 - `http://127.0.0.1:3000/teacher/intake`
 - `http://127.0.0.1:3000/teacher/launch-gate/starter-english-level-1-unit-1-2026.1-pilot-candidate-classroom-launch-gate`
+- `http://127.0.0.1:3000/teacher/policy-handoff/starter-english-level-1-unit-1-2026.1-pilot-candidate-classroom-launch-gate-school-policy-gate-handoff-packet`
 
 Current files:
 
@@ -36,6 +37,7 @@ Current files:
 - `apps/web/src/features/pilot/SchoolLaunchPolicyGatePanel.tsx`
 - `apps/web/src/features/pilot/SchoolPolicyHandoffPacketPanel.tsx`
 - `apps/web/src/app/teacher/intake/page.tsx`
+- `apps/web/src/app/teacher/policy-handoff/[packetId]/page.tsx`
 
 ## Gate Domains
 
@@ -142,6 +144,8 @@ This packet is a handoff draft only. It can name evidence needed, deferred decis
 The packet is part of the white-label foundation because schools and publishers need a readable pre-sales and pilot-readiness artifact. It must remain tenant-neutral and must not hard-code MiniStar-only mascots, curriculum, or school language.
 
 The backend-neutral record is `school_policy_handoff_packet` / `school-policy-handoff-packet`. Hosted and local implementations must preserve packet sections, evidence needs, deferred decisions, blocked actions, and discussion-only status while blocking policy acceptance, signed approval capture, evidence export, release-state mutation, launch-ready status, local activation, production QR promises, learner data, report export, and live classroom workflow.
+
+The focused route is a meeting packet preview only. It may link back to source evidence routes, but it must not create assignments, accept policy, capture signatures, export evidence, activate local deployment, create production QR promises, or change package status.
 
 ## Required Blocking Areas Before Real Pilot
 

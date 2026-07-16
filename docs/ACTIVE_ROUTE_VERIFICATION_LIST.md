@@ -15,6 +15,7 @@ This list names the routes that should be checked after foundation changes. It i
 - `http://127.0.0.1:3000/teacher/intake`
 - `http://127.0.0.1:3000/teacher/dry-run/sample-publisher-first-handoff-teacher-dry-run`
 - `http://127.0.0.1:3000/teacher/launch-gate/starter-english-level-1-unit-1-2026.1-pilot-candidate-classroom-launch-gate`
+- `http://127.0.0.1:3000/teacher/policy-handoff/starter-english-level-1-unit-1-2026.1-pilot-candidate-classroom-launch-gate-school-policy-gate-handoff-packet`
 - `http://127.0.0.1:3000/teacher/authoring/draft-sample-publisher-l1-u1`
 - `http://127.0.0.1:3000/teacher/review`
 - `http://127.0.0.1:3000/teacher/library/sample-publisher`

@@ -1,18 +1,16 @@
 import { notFound } from "next/navigation";
 import { Card, StatusPill } from "@living-textbook/ui";
 import { AppShell } from "@/components/layout/AppShell";
-import { sampleClassroomLaunchGate } from "@/data/sampleClassroomLaunchGate";
 import { sampleSchoolLaunchPolicyGate } from "@/data/sampleSchoolLaunchPolicyGate";
 import { sampleSchoolPolicyHandoffPacket } from "@/data/sampleSchoolPolicyHandoffPacket";
 import { sampleTeacherDryRunRehearsal } from "@/data/sampleTeacherDryRunRehearsal";
-import { ClassroomLaunchGatePanel } from "@/features/pilot/ClassroomLaunchGatePanel";
 import { SchoolLaunchPolicyGatePanel } from "@/features/pilot/SchoolLaunchPolicyGatePanel";
 import { SchoolPolicyHandoffPacketPanel } from "@/features/pilot/SchoolPolicyHandoffPacketPanel";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 
-interface ClassroomLaunchGatePageProps {
+interface SchoolPolicyHandoffPageProps {
   params: Promise<{
-    gateId: string;
+    packetId: string;
   }>;
 }
 
@@ -22,34 +20,29 @@ const sourceRoutes = [
   {
     label: "Teacher intake source",
     path: "/teacher/intake",
-    note: "Broad admin review surface for package, storage, upload, release, and policy readiness.",
+    note: "Broad admin review surface for package, route, upload, release, storage, and policy readiness.",
+  },
+  {
+    label: "Classroom launch gate source",
+    path: "/teacher/launch-gate/starter-english-level-1-unit-1-2026.1-pilot-candidate-classroom-launch-gate",
+    note: "Go/no-go route that keeps launch, learner data, and report export blocked.",
   },
   {
     label: "Teacher dry-run source",
     path: sampleTeacherDryRunRehearsal.workspacePath,
-    note: "Teacher-only route, game/audio, media, report, and local fallback rehearsal workspace.",
+    note: "Teacher-only rehearsal route for entry, games, audio, media, reports, and local fallback.",
   },
   {
-    label: "Partner session report preview",
-    path: "/teacher/sessions/partner-demo-unit-1/report-package",
-    note: "Read-only report package preview; export remains blocked until policy and persistence pass.",
-  },
-  {
-    label: "Partner launch demo route",
-    path: "/launch/partner-demo-unit-1",
-    note: "Controlled demo route only; it is not a live classroom assignment or pilot launch.",
-  },
-  {
-    label: "School policy handoff source",
-    path: "/teacher/policy-handoff/starter-english-level-1-unit-1-2026.1-pilot-candidate-classroom-launch-gate-school-policy-gate-handoff-packet",
-    note: "Direct school meeting packet preview; it cannot accept policy, export evidence, or approve launch.",
+    label: "Evidence handoff source",
+    path: "/teacher/evidence/sample-publisher/handoff",
+    note: "Evidence packet handoff preview; export and signed approval remain blocked.",
   },
 ];
 
-export default async function ClassroomLaunchGatePage({ params }: ClassroomLaunchGatePageProps) {
-  const { gateId } = await params;
+export default async function SchoolPolicyHandoffPage({ params }: SchoolPolicyHandoffPageProps) {
+  const { packetId } = await params;
 
-  if (gateId !== sampleClassroomLaunchGate.gateId) {
+  if (packetId !== sampleSchoolPolicyHandoffPacket.packetId) {
     notFound();
   }
 
@@ -59,15 +52,15 @@ export default async function ClassroomLaunchGatePage({ params }: ClassroomLaunc
         <Card>
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
-              <p className="text-sm font-semibold text-[var(--tenant-muted)]">Classroom launch gate route workspace</p>
-              <h2 className="mt-1 text-2xl font-bold">Final pre-launch review</h2>
+              <p className="text-sm font-semibold text-[var(--tenant-muted)]">School policy handoff route workspace</p>
+              <h2 className="mt-1 text-2xl font-bold">School meeting packet preview</h2>
               <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
-                Use this teacher/admin page to review why the package is still blocked before real classroom use. It is a go/no-go review surface only; it cannot invite students, create assignments, collect real learner data, store live progress, export reports, or approve a pilot.
+                Use this teacher/admin page as the direct meeting view for school, publisher, and platform policy review. It is a discussion packet only; it cannot accept policy, capture signatures, export evidence, create launch-ready status, activate local deployment, or start a live classroom workflow.
               </p>
             </div>
             <div className="flex flex-wrap gap-2">
-              <StatusPill label="No live classroom launch" tone="warning" />
-              <StatusPill label="Review only" tone="neutral" />
+              <StatusPill label="Discussion only" tone="warning" />
+              <StatusPill label="No policy acceptance" tone="neutral" />
             </div>
           </div>
         </Card>
@@ -75,10 +68,10 @@ export default async function ClassroomLaunchGatePage({ params }: ClassroomLaunc
         <Card>
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
-              <p className="text-sm font-semibold text-[var(--tenant-muted)]">Launch gate source routes</p>
-              <h2 className="mt-1 text-lg font-bold">Review the evidence sources without starting a class</h2>
+              <p className="text-sm font-semibold text-[var(--tenant-muted)]">Handoff source routes</p>
+              <h2 className="mt-1 text-lg font-bold">Review the source evidence without approving launch</h2>
               <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
-                These source links support partner and school review. They do not schedule a class, create a launch button, or change package status.
+                These routes help a school meeting stay grounded in the current foundation records. They do not create assignments, approve reports, store learner data, or change release state.
               </p>
             </div>
             <StatusPill label={`${sourceRoutes.length} source routes`} tone="neutral" />
@@ -99,9 +92,8 @@ export default async function ClassroomLaunchGatePage({ params }: ClassroomLaunc
           </div>
         </Card>
 
-        <ClassroomLaunchGatePanel gate={sampleClassroomLaunchGate} />
-        <SchoolLaunchPolicyGatePanel gate={sampleSchoolLaunchPolicyGate} />
         <SchoolPolicyHandoffPacketPanel packet={sampleSchoolPolicyHandoffPacket} />
+        <SchoolLaunchPolicyGatePanel gate={sampleSchoolLaunchPolicyGate} />
       </div>
     </AppShell>
   );

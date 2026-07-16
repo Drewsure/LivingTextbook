@@ -53,6 +53,8 @@ Use after pulling the latest `legacy-source-import` branch and running local typ
 43. The handoff packet shows `Handoff draft only`, `No policy acceptance`, `Evidence needed`, `Deferred decisions`, and `Blocked actions`.
 44. The handoff packet includes `Privacy, retention, and learner data`, `Teacher-led QR and student progression rules`, `Publisher media, music, video, and local package`, `Teacher dry-run and evidence packet`, and `Platform storage, release, and rollback controls`.
 45. The handoff packet blocks `No support-language-only progression`, `No AI Tutor activation`, `No launch-ready status`, evidence export, signed approval capture, local activation, production QR promises, and live classroom workflow.
+46. The focused school policy handoff route renders the same handoff packet and launch policy gate as a meeting packet preview.
+47. The focused route shows `School policy handoff route workspace`, `School meeting packet preview`, `Discussion only`, `Handoff source routes`, `Teacher intake source`, `Classroom launch gate source`, `Teacher dry-run source`, and `Evidence handoff source`.
 
 ## Build Verification
 
@@ -84,4 +86,5 @@ Do not mark this verified if:
 - the school launch policy gate blurs controlled demo readiness with school-approved launch readiness,
 - the school launch policy gate hides school, publisher, platform, or shared teacher dry-run ownership,
 - the school policy handoff packet can be mistaken for policy acceptance, launch readiness, signed approval, evidence export, local activation, or production QR commitment,
+- the focused school policy handoff route accepts policy, captures signatures, exports evidence, creates assignments, creates production QR promises, mutates release state, or launches students,
 - the page fails typecheck/build after sync.

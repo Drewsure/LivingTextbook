@@ -51,6 +51,14 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     note: "Teacher/admin go/no-go review workspace that keeps live classroom launch blocked.",
   },
   {
+    routeId: "teacher-school-policy-handoff",
+    group: "sample-publisher",
+    label: "School policy handoff packet",
+    path: "/teacher/policy-handoff/starter-english-level-1-unit-1-2026.1-pilot-candidate-classroom-launch-gate-school-policy-gate-handoff-packet",
+    status: "active-scaffold",
+    note: "Direct school meeting packet preview; policy acceptance, signed approval, evidence export, and live classroom workflow remain blocked.",
+  },
+  {
     routeId: "teacher-draft-authoring-preview",
     group: "core",
     label: "Teacher draft package preview",

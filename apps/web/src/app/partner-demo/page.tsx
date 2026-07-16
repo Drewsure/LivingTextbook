@@ -32,8 +32,10 @@ import {
   getTeacherEvidencePacketReviewPath,
   getTeacherLabelledDiagramAssetWorkspacePath,
   getTeacherMediaAssetWorkspacePath,
+  getTeacherSchoolPolicyHandoffPath,
 } from "@/features/routes/routeContracts";
 import { getUnitKey } from "@living-textbook/content-model";
+import { sampleSchoolPolicyHandoffPacket } from "@/data/sampleSchoolPolicyHandoffPacket";
 import { TeacherLaunchPanel } from "@/features/teacher/TeacherLaunchPanel";
 import { TeacherMicrophonePracticePanel } from "@/features/teacher/TeacherMicrophonePracticePanel";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
@@ -89,6 +91,7 @@ export default function PartnerDemoPage() {
               <RouteLink label="Teacher upload workspace" href={getTeacherUploadWorkspacePath("sample-publisher")} />
               <RouteLink label="Evidence packet review index" href={getTeacherEvidencePacketReviewPath("sample-publisher")} />
               <RouteLink label="Evidence handoff preview" href={getTeacherEvidencePacketHandoffPath("sample-publisher")} />
+              <RouteLink label="School policy handoff packet" href={getTeacherSchoolPolicyHandoffPath(sampleSchoolPolicyHandoffPacket.packetId)} />
               <RouteLink
                 label="Labelled Diagram asset workspace"
                 href={getTeacherLabelledDiagramAssetWorkspacePath("sample-publisher-l1-u1-labelled-diagram")}
