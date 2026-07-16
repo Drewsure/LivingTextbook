@@ -202,6 +202,8 @@ It is derived from the school policy text version pack and organizes future acce
 
 This preview is not an accepted record. It can show minimum accepted-record fields, non-accepted markers, blocked actions, and review rules, but it cannot store accepted terms, capture signatures, export evidence, activate storage, create launch-ready status, create production QR promises, activate AI Tutor, collect real learner data, export reports, or start a live classroom workflow.
 
+The backend-neutral record is `school_policy_acceptance_record_preview` / `school-policy-acceptance-record-preview`. Hosted and local implementations must preserve minimum accepted-record fields, non-accepted markers, blocked actions, and review rules while blocking accepted terms storage, signed approval capture, evidence export, storage activation, release-state mutation, launch-ready status, production QR promises, AI Tutor activation, support-language-only progression, learner data, report export, and live classroom workflow.
+
 ## Required Blocking Areas Before Real Pilot
 
 A real pilot package requires closure on:

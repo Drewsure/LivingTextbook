@@ -103,6 +103,12 @@ export interface PersistenceWriteIntent {
   blocksPolicyTextEvidenceExport?: boolean;
   blocksPolicyTextStorageActivation?: boolean;
   blocksPolicyTextLaunchReadyStatus?: boolean;
+  preservesSchoolPolicyAcceptanceRecordPreview?: boolean;
+  blocksAcceptedTermsStorage?: boolean;
+  blocksAcceptanceSignatureCapture?: boolean;
+  blocksAcceptanceEvidenceExport?: boolean;
+  blocksAcceptanceStorageActivation?: boolean;
+  blocksAcceptanceLaunchReadyStatus?: boolean;
   note: string;
 }
 
@@ -567,6 +573,37 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "school-policy-text-pack" && !intent.blocksLiveClassroomLaunch) {
       errors.push(`School policy text pack write intent ${intent.intentId} must block live classroom launch.`);
+    }
+
+    if (
+      intent.category === "school-policy-acceptance-record-preview" &&
+      !intent.preservesSchoolPolicyAcceptanceRecordPreview
+    ) {
+      errors.push(`School policy acceptance record preview write intent ${intent.intentId} must preserve minimum accepted-record fields, non-accepted markers, blocked actions, and review rules.`);
+    }
+
+    if (intent.category === "school-policy-acceptance-record-preview" && !intent.blocksAcceptedTermsStorage) {
+      errors.push(`School policy acceptance record preview write intent ${intent.intentId} must block accepted terms storage.`);
+    }
+
+    if (intent.category === "school-policy-acceptance-record-preview" && !intent.blocksAcceptanceSignatureCapture) {
+      errors.push(`School policy acceptance record preview write intent ${intent.intentId} must block acceptance signature capture.`);
+    }
+
+    if (intent.category === "school-policy-acceptance-record-preview" && !intent.blocksAcceptanceEvidenceExport) {
+      errors.push(`School policy acceptance record preview write intent ${intent.intentId} must block acceptance evidence export.`);
+    }
+
+    if (intent.category === "school-policy-acceptance-record-preview" && !intent.blocksAcceptanceStorageActivation) {
+      errors.push(`School policy acceptance record preview write intent ${intent.intentId} must block acceptance storage activation.`);
+    }
+
+    if (intent.category === "school-policy-acceptance-record-preview" && !intent.blocksAcceptanceLaunchReadyStatus) {
+      errors.push(`School policy acceptance record preview write intent ${intent.intentId} must block acceptance launch-ready status.`);
+    }
+
+    if (intent.category === "school-policy-acceptance-record-preview" && !intent.blocksLiveClassroomLaunch) {
+      errors.push(`School policy acceptance record preview write intent ${intent.intentId} must block live classroom launch.`);
     }
 
     if (intent.intentId.includes("package-audio-coverage") && !intent.preservesGameAudioCoverageSnapshot) {

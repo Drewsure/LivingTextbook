@@ -81,6 +81,9 @@ expectedTextByPath.get("/teacher/intake")?.push(
   "school_policy_text_pack",
   "School policy text pack record",
   "school-policy-text-pack-record",
+  "school_policy_acceptance_record_preview",
+  "School policy acceptance record preview",
+  "school-policy-acceptance-record-preview-record",
 );
 
 if (urls.length === 0) {

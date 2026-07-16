@@ -53,7 +53,8 @@ export type PersistenceBoundaryCategory =
   | "school-launch-policy-gate"
   | "school-policy-handoff-packet"
   | "school-policy-acceptance-preflight"
-  | "school-policy-text-pack";
+  | "school-policy-text-pack"
+  | "school-policy-acceptance-record-preview";
 
 export interface PersistenceBoundary {
   boundaryId: string;
@@ -867,6 +868,36 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     note:
       "The school policy text pack must become durable before schools can review exact acceptance language. It preserves clause versions for privacy, QR/progression, media, local package, microphone, AI Tutor, storage, rollback, evidence, signature, and revocation while blocking acceptance, signatures, evidence export, storage activation, launch-ready status, production QR promises, learner data, report export, and live classroom workflow.",
   },
+  {
+    recordId: "school-policy-acceptance-record-preview-record",
+    category: "school-policy-acceptance-record-preview",
+    label: "School policy acceptance record preview",
+    readiness: "policy-required",
+    sourceOfTruth:
+      "SchoolPolicyAcceptanceRecordPreview, SchoolPolicyTextPack, minimum accepted-record fields, non-accepted markers, blocked actions, and review rules",
+    requiredBeforePilot: true,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesSchoolPolicyAcceptanceRecordPreview: true,
+    blocksAcceptedTermsStorage: true,
+    blocksAcceptanceSignatureCapture: true,
+    blocksAcceptanceEvidenceExport: true,
+    blocksAcceptanceStorageActivation: true,
+    blocksAcceptanceLaunchReadyStatus: true,
+    blocksPolicyAcceptanceWorkflow: true,
+    blocksLaunchWithoutSchoolPolicy: true,
+    blocksRealLearnerDataCollection: true,
+    blocksLiveReportExport: true,
+    blocksLiveClassroomLaunch: true,
+    blocksSupportLanguageProgress: true,
+    blocksSignedApprovalCapture: true,
+    recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store", "school-policy"],
+    note:
+      "The school policy acceptance record preview must become durable before accepted terms can ever be designed. It preserves future approver, policy text, release candidate, evidence packet, operating consent, premium feature consent, storage/rollback, and acceptance-effect fields while blocking accepted terms storage, signatures, evidence export, storage activation, launch-ready status, production QR promises, learner data, report export, AI Tutor activation, and live classroom workflow.",
+  },
 ];
 
 export const sampleDurableRecordErrors = validateDurableRecordContracts(sampleDurableRecordContracts);
@@ -1394,6 +1425,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision:
       "Store school policy text pack metadata before policy acceptance, signed approval capture, evidence export, storage activation, production QR promises, launch-ready status, AI Tutor activation, or live classroom workflow.",
+  },
+  {
+    boundaryId: "school-policy-acceptance-record-preview-boundary",
+    category: "school-policy-acceptance-record-preview",
+    label: "School policy acceptance record preview records",
+    status: "needs-policy",
+    recordShape:
+      "Acceptance record preview id, policy text pack id, package id, release candidate, minimum accepted-record fields, non-accepted markers, blocked actions, and review rules",
+    whyItMatters:
+      "A future school acceptance must be auditable before it exists. This record keeps the future accepted-record shape visible while blocking accepted terms, signatures, evidence export, storage activation, launch-ready status, production QR promises, AI Tutor activation, learner data, report export, and live classroom workflow.",
+    visibleTo: ["School admin", "Teacher", "Tenant admin", "Publisher admin", "Platform admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Store acceptance record preview metadata before accepted terms storage, signature capture, evidence export, storage activation, production QR promises, launch-ready status, AI Tutor activation, or live classroom workflow.",
   },
 ];
 

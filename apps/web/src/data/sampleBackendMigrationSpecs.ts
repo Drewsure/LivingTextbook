@@ -3120,5 +3120,131 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
         "Live launch, learner data, report export, local activation, production QR promises, and launch-ready status remain blocked until school, publisher, platform, dry-run, and persistence requirements pass.",
       ],
     },
+    {
+      specId: "spec-school-policy-acceptance-record-preview",
+      label: "School policy acceptance record preview",
+      candidateId: "m042-school-policy-acceptance-record-preview-records",
+      storeKind: "release-record",
+      status: "blocked-by-policy",
+      purpose:
+        "Stores future accepted-record preview fields before accepted terms, signature capture, evidence export, storage activation, or launch-ready workflow exists.",
+      primaryKey: "school_policy_acceptance_record_preview_id",
+      tenantScope:
+        "Scoped by tenant_id, package_release_id, release_candidate_id, school_policy_text_pack_id, school_policy_acceptance_preflight_id, and acceptance_preview_revision.",
+      fields: [
+        {
+          name: "school_policy_acceptance_record_preview_id",
+          type: "string",
+          required: true,
+          note: "Stable id for one school policy acceptance record preview snapshot.",
+        },
+        {
+          name: "school_policy_text_pack_id",
+          type: "string",
+          required: true,
+          note: "Policy text pack that this future acceptance preview derives from.",
+        },
+        {
+          name: "school_policy_acceptance_preflight_id",
+          type: "string",
+          required: true,
+          note: "Acceptance preflight that defines the missing acceptance requirements.",
+        },
+        {
+          name: "release_candidate_id",
+          type: "string",
+          required: true,
+          note: "Release candidate this acceptance preview applies to.",
+        },
+        {
+          name: "acceptance_preview_revision",
+          type: "string",
+          required: true,
+          note: "Machine-readable revision used for audit, rollback, and superseded-preview comparisons.",
+        },
+        {
+          name: "minimum_accepted_record_fields",
+          type: "json",
+          required: true,
+          note: "Future approver, policy text, release candidate, evidence packet, operating consent, premium feature consent, storage/rollback, and acceptance-effect fields.",
+        },
+        {
+          name: "non_accepted_markers",
+          type: "json",
+          required: true,
+          note: "Markers proving that no accepted terms, signatures, evidence exports, storage tokens, launch status, or production QR promises are stored.",
+        },
+        {
+          name: "blocked_actions",
+          type: "json",
+          required: true,
+          note: "Accepted terms storage, signature capture, evidence export, storage activation, launch-ready, production QR, AI Tutor, learner data, report export, and live classroom blocks.",
+        },
+        {
+          name: "review_rules",
+          type: "json",
+          required: true,
+          note: "Rules for school review, legal review, tenant customization, superseded previews, and revocation.",
+        },
+        {
+          name: "accepted_terms_storage_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until authenticated accepted-terms workflow exists.",
+        },
+        {
+          name: "acceptance_signature_capture_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until signature method and identity policy are accepted.",
+        },
+        {
+          name: "acceptance_evidence_export_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until evidence storage, retention, access-control, and export policy are accepted.",
+        },
+        {
+          name: "acceptance_storage_activation_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until hosted/local storage adapter policy is accepted.",
+        },
+        {
+          name: "launch_ready_status_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until school acceptance, evidence, storage, release-control, and dry-run gates pass.",
+        },
+        {
+          name: "live_classroom_launch_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until school, publisher, platform, dry-run, storage, and persistence gates pass.",
+        },
+      ],
+      indexes: [
+        "tenant_id + release_candidate_id",
+        "school_policy_acceptance_record_preview_id unique",
+        "school_policy_text_pack_id",
+        "school_policy_acceptance_preflight_id",
+        "accepted_terms_storage_allowed",
+        "launch_ready_status_allowed",
+        "acceptance_preview_revision",
+      ],
+      retentionRule:
+        "Retain current and superseded acceptance record previews with release-control history while any school pilot approval, local bundle, policy decision, report policy, or printed QR route references the candidate.",
+      exportRule:
+        "Must export as JSON only after evidence export and school policy export rules are accepted; until then, it is metadata for review surfaces only.",
+      localFallback:
+        "Local classroom bundles store the same acceptance record preview metadata beside release-control records after local package and school policy export rules allow it.",
+      policyBlockers: [
+        "School policy acceptance record previews cannot store accepted terms, capture signatures, export evidence, activate storage, or approve launch by themselves.",
+        "Storage activation remains blocked until hosted or local storage adapter policy is accepted.",
+        "AI Tutor and microphone scoring remain blocked until tenant and school opt-in policy accepts cost and privacy implications.",
+        "Support-language-only progression must remain blocked even when school policy text is reviewed.",
+        "Live launch, learner data, report export, local activation, production QR promises, and launch-ready status remain blocked until school, publisher, platform, dry-run, and persistence requirements pass.",
+      ],
+    },
   ],
 };
