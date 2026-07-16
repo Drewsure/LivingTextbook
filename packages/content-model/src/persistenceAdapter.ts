@@ -110,8 +110,10 @@ export interface PersistenceWriteIntent {
   blocksAcceptanceStorageActivation?: boolean;
   blocksAcceptanceLaunchReadyStatus?: boolean;
   preservesSchoolPolicyRevocationRollbackPreview?: boolean;
+  preservesSchoolPolicyRollbackImpactMatrix?: boolean;
   blocksRevocationAction?: boolean;
   blocksRollbackAction?: boolean;
+  blocksReleaseStateMutation?: boolean;
   blocksProductionQrRedirectMutation?: boolean;
   blocksLearnerDataDeletionWorkflow?: boolean;
   blocksMediaReplacement?: boolean;
@@ -655,6 +657,45 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "school-policy-revocation-rollback-preview" && !intent.blocksLiveClassroomLaunch) {
       errors.push(`School policy revocation rollback preview write intent ${intent.intentId} must block live classroom launch.`);
+    }
+
+    if (
+      intent.category === "school-policy-rollback-impact-matrix" &&
+      !intent.preservesSchoolPolicyRollbackImpactMatrix
+    ) {
+      errors.push(`School policy rollback impact matrix write intent ${intent.intentId} must preserve affected records, required evidence, blocked actions, and matrix rules.`);
+    }
+
+    if (intent.category === "school-policy-rollback-impact-matrix" && !intent.blocksReleaseStateMutation) {
+      errors.push(`School policy rollback impact matrix write intent ${intent.intentId} must block release-state mutation.`);
+    }
+
+    if (intent.category === "school-policy-rollback-impact-matrix" && !intent.blocksProductionQrRedirectMutation) {
+      errors.push(`School policy rollback impact matrix write intent ${intent.intentId} must block production QR redirect mutation.`);
+    }
+
+    if (intent.category === "school-policy-rollback-impact-matrix" && !intent.blocksLearnerDataDeletionWorkflow) {
+      errors.push(`School policy rollback impact matrix write intent ${intent.intentId} must block learner-data deletion workflows.`);
+    }
+
+    if (intent.category === "school-policy-rollback-impact-matrix" && !intent.blocksLiveReportExport) {
+      errors.push(`School policy rollback impact matrix write intent ${intent.intentId} must block report export.`);
+    }
+
+    if (intent.category === "school-policy-rollback-impact-matrix" && !intent.blocksMediaReplacement) {
+      errors.push(`School policy rollback impact matrix write intent ${intent.intentId} must block media replacement.`);
+    }
+
+    if (intent.category === "school-policy-rollback-impact-matrix" && !intent.blocksLocalBundleDeactivation) {
+      errors.push(`School policy rollback impact matrix write intent ${intent.intentId} must block local bundle deactivation.`);
+    }
+
+    if (intent.category === "school-policy-rollback-impact-matrix" && !intent.blocksAiTutorEntitlementChange) {
+      errors.push(`School policy rollback impact matrix write intent ${intent.intentId} must block AI Tutor entitlement changes.`);
+    }
+
+    if (intent.category === "school-policy-rollback-impact-matrix" && !intent.blocksLiveClassroomLaunch) {
+      errors.push(`School policy rollback impact matrix write intent ${intent.intentId} must block live classroom launch.`);
     }
 
     if (intent.intentId.includes("package-audio-coverage") && !intent.preservesGameAudioCoverageSnapshot) {

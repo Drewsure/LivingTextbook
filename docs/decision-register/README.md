@@ -234,6 +234,7 @@
 - `DR-260-school-policy-revocation-rollback-storage-contract.md`
 - `DR-261-school-rollback-storage-handoff-preview.md`
 - `DR-262-school-rollback-impact-matrix.md`
+- `DR-263-school-rollback-impact-storage-contract.md`
 
 ## Maintenance Rule
 

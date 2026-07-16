@@ -54,6 +54,7 @@ const requiredSchemaEntities = [
   "school_policy_text_pack",
   "school_policy_acceptance_record_preview",
   "school_policy_revocation_rollback_preview",
+  "school_policy_rollback_impact_matrix",
 ];
 
 const requiredMigrationCandidates = [
@@ -100,6 +101,7 @@ const requiredMigrationCandidates = [
   "m041-school-policy-text-pack-records",
   "m042-school-policy-acceptance-record-preview-records",
   "m043-school-policy-revocation-rollback-preview-records",
+  "m044-school-policy-rollback-impact-matrix-records",
 ];
 
 const requiredMigrationSpecs = [
@@ -145,6 +147,7 @@ const requiredMigrationSpecs = [
   "spec-school-policy-text-pack",
   "spec-school-policy-acceptance-record-preview",
   "spec-school-policy-revocation-rollback-preview",
+  "spec-school-policy-rollback-impact-matrix",
 ];
 
 for (const entityId of requiredSchemaEntities) {
@@ -405,6 +408,12 @@ requireText(schemaDraft, "learner_data_deletion_workflow_allowed", "Backend sche
 requireText(schemaDraft, "media_replacement_allowed", "Backend schema must block media replacement.");
 requireText(schemaDraft, "local_bundle_deactivation_allowed", "Backend schema must block local bundle deactivation.");
 requireText(schemaDraft, "ai_tutor_entitlement_change_allowed", "Backend schema must block AI Tutor entitlement changes.");
+requireText(schemaDraft, "school_policy_rollback_impact_matrix", "Backend schema must include school rollback impact matrix records.");
+requireText(schemaDraft, "school_policy_rollback_impact_matrix_id", "Backend schema must preserve school rollback impact matrix ids.");
+requireText(schemaDraft, "impact_rows", "Backend schema must preserve school rollback impact rows.");
+requireText(schemaDraft, "affected_records", "Backend schema must preserve school rollback affected records.");
+requireText(schemaDraft, "required_evidence", "Backend schema must preserve school rollback required evidence.");
+requireText(schemaDraft, "release_state_mutation_allowed", "Backend schema must block rollback impact matrix release-state mutation.");
 requireText(migrationSpecs, "spec-pilot-evidence-packet", "Migration specs must include pilot evidence packets.");
 requireText(migrationSpecs, "evidence_packet_id", "Migration specs must preserve pilot evidence packet ids.");
 requireText(migrationSpecs, "upload_allowed", "Migration specs must preserve evidence upload blocks.");
@@ -467,6 +476,9 @@ requireText(migrationSpecs, "learner_data_deletion_workflow_allowed", "Migration
 requireText(migrationSpecs, "media_replacement_allowed", "Migration specs must block media replacement.");
 requireText(migrationSpecs, "local_bundle_deactivation_allowed", "Migration specs must block local bundle deactivation.");
 requireText(migrationSpecs, "ai_tutor_entitlement_change_allowed", "Migration specs must block AI Tutor entitlement changes.");
+requireText(migrationSpecs, "spec-school-policy-rollback-impact-matrix", "Migration specs must include school rollback impact matrices.");
+requireText(migrationSpecs, "school_policy_rollback_impact_matrix_id", "Migration specs must preserve school rollback impact matrix ids.");
+requireText(migrationSpecs, "impact_matrix_revision", "Migration specs must preserve school rollback impact matrix revisions.");
 requireText(persistenceAdapter, "hosted-launch-session-write", "Persistence adapter must include hosted launch-session writes.");
 requireText(persistenceAdapter, "local-launch-session-write", "Persistence adapter must include local launch-session writes.");
 requireText(persistenceAdapter, "hosted-teacher-draft-package-write", "Persistence adapter must include hosted teacher draft writes.");
@@ -741,6 +753,9 @@ requireText(durableRecords, "blocksLearnerDataDeletionWorkflow: true", "Durable 
 requireText(durableRecords, "blocksMediaReplacement: true", "Durable record plan must block media replacement.");
 requireText(durableRecords, "blocksLocalBundleDeactivation: true", "Durable record plan must block local bundle deactivation.");
 requireText(durableRecords, "blocksAiTutorEntitlementChange: true", "Durable record plan must block AI Tutor entitlement changes.");
+requireText(durableRecords, "school-policy-rollback-impact-matrix-record", "Durable record plan must include school rollback impact matrix records.");
+requireText(durableRecords, "preservesSchoolPolicyRollbackImpactMatrix: true", "Durable record plan must preserve school rollback impact matrix records.");
+requireText(durableRecords, "blocksReleaseStateMutation: true", "Durable record plan must block rollback impact matrix release-state mutation.");
 requireText(durableRecords, "media-playlist-binding-record", "Durable record plan must include media playlist binding records.");
 requireText(durableRecords, "preservesMediaPlaylistBinding: true", "Durable record plan must preserve media playlist bindings.");
 requireText(durableRecords, "blocksMediaOnlyProgress: true", "Durable record plan must block media-only progress.");
@@ -769,6 +784,7 @@ requireText(routeVerifier, "school_policy_handoff_packet", "Active route verifie
 requireText(routeVerifier, "school_policy_text_pack", "Active route verifier must keep school policy text pack storage visible on teacher intake.");
 requireText(routeVerifier, "school_policy_acceptance_record_preview", "Active route verifier must keep school policy acceptance record preview storage visible on teacher intake.");
 requireText(routeVerifier, "school_policy_revocation_rollback_preview", "Active route verifier must keep school policy revocation rollback preview storage visible on teacher intake.");
+requireText(routeVerifier, "school_policy_rollback_impact_matrix", "Active route verifier must keep school rollback impact matrix storage visible on teacher intake.");
 
 if (failures.length > 0) {
   for (const failure of failures) {

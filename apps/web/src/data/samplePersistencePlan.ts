@@ -55,7 +55,8 @@ export type PersistenceBoundaryCategory =
   | "school-policy-acceptance-preflight"
   | "school-policy-text-pack"
   | "school-policy-acceptance-record-preview"
-  | "school-policy-revocation-rollback-preview";
+  | "school-policy-revocation-rollback-preview"
+  | "school-policy-rollback-impact-matrix";
 
 export interface PersistenceBoundary {
   boundaryId: string;
@@ -927,6 +928,33 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     note:
       "The school policy revocation and rollback preview must become durable before school acceptance can affect launch readiness. It preserves who can revoke, which release and printed QR scopes are affected, how learner-data/report, media/local package, and premium feature effects are handled, while blocking revocation actions, rollback buttons, release-state mutation, production QR redirect mutation, learner-data deletion, report export, media replacement, local bundle deactivation, AI Tutor entitlement changes, and live classroom shutdown workflows.",
   },
+  {
+    recordId: "school-policy-rollback-impact-matrix-record",
+    category: "school-policy-rollback-impact-matrix",
+    label: "School rollback impact matrix record",
+    readiness: "policy-required",
+    sourceOfTruth:
+      "SchoolPolicyRollbackImpactMatrix, SchoolPolicyRevocationRollbackPlan, affected records, required evidence, blocked actions, and matrix rules",
+    requiredBeforePilot: true,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesSchoolPolicyRollbackImpactMatrix: true,
+    blocksReleaseStateMutation: true,
+    blocksProductionQrRedirectMutation: true,
+    blocksLearnerDataDeletionWorkflow: true,
+    blocksLiveReportExport: true,
+    blocksMediaReplacement: true,
+    blocksLocalBundleDeactivation: true,
+    blocksAiTutorEntitlementChange: true,
+    blocksLiveClassroomLaunch: true,
+    blocksLaunchWithoutSchoolPolicy: true,
+    recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store", "school-policy"],
+    note:
+      "The school rollback impact matrix must become durable before school rollback workflows are designed. It preserves affected release, QR route, learner-data/report, media/local package, premium feature, and support-operation records and evidence while blocking release-state mutation, production QR redirect mutation, learner-data deletion, report export, media replacement, local bundle deactivation, AI Tutor entitlement changes, and classroom shutdown workflows.",
+  },
 ];
 
 export const sampleDurableRecordErrors = validateDurableRecordContracts(sampleDurableRecordContracts);
@@ -1482,6 +1510,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision:
       "Store revocation and rollback preview metadata before revocation actions, rollback buttons, release-state mutation, production QR redirect mutation, learner-data deletion, report export, media replacement, local bundle deactivation, AI Tutor entitlement changes, or live classroom shutdown workflows.",
+  },
+  {
+    boundaryId: "school-policy-rollback-impact-matrix-boundary",
+    category: "school-policy-rollback-impact-matrix",
+    label: "School rollback impact matrix records",
+    status: "needs-policy",
+    recordShape:
+      "Rollback impact matrix id, revocation rollback plan id, package id, release candidate, impact rows, affected records, required evidence, blocked actions, and matrix rules",
+    whyItMatters:
+      "A future rollback must not be designed as a single button. This record keeps release, QR route, learner-data/report, media/local package, premium feature, and support-operation effects auditable before any live rollback action exists.",
+    visibleTo: ["School admin", "Teacher", "Tenant admin", "Publisher admin", "Platform admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Store rollback impact matrix metadata before release-state mutation, production QR redirect mutation, learner-data deletion, report export, media replacement, local bundle deactivation, AI Tutor entitlement changes, or classroom shutdown workflows can be designed.",
   },
 ];
 

@@ -223,6 +223,8 @@ The backend-neutral record is `school_policy_revocation_rollback_preview` / `sch
 
 The `School rollback impact matrix` extends that preview by naming affected records and required evidence across release state, printed QR routes, learner-data/reporting, media/local packages, premium features, and support operations. It is also review-only: it cannot mutate releases, redirect QR routes, delete learner data, export reports, replace media, change AI Tutor entitlements, or shut down classrooms.
 
+The backend-neutral record is `school_policy_rollback_impact_matrix` / `school-policy-rollback-impact-matrix`. Hosted and local implementations must preserve impact rows, affected records, required evidence, blocked actions, and matrix rules while blocking release-state mutation, production QR redirect mutation, learner-data deletion, report export, media replacement, local bundle deactivation, AI Tutor entitlement changes, and live classroom shutdown workflows.
+
 ## Required Blocking Areas Before Real Pilot
 
 A real pilot package requires closure on:

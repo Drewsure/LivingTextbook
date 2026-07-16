@@ -958,6 +958,44 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
         "Live classroom shutdown workflow",
       ],
     },
+    {
+      migrationId: "m044-school-policy-rollback-impact-matrix-records",
+      label: "School rollback impact matrix records",
+      track: "shared",
+      status: "needs-policy",
+      risk: "medium",
+      targetEntities: ["school_policy_rollback_impact_matrix"],
+      purpose:
+        "Persist rollback impact matrix rows before rollback workflows can affect release state, printed QR behavior, learner-data/report handling, media/local package handling, premium feature entitlement, or support operations.",
+      prerequisites: [
+        "School policy revocation rollback preview accepted as review artifact",
+        "Release-control rollback and audit policy drafted",
+        "Printed QR fallback and local companion route policy drafted",
+        "Learner-data/report retention and deletion policy drafted",
+        "Publisher media/local package and premium feature revocation policy drafted",
+      ],
+      implementationNotes: [
+        "Keep rollback impact matrices tenant-scoped, package-scoped, rollback-preview-scoped, and release-candidate-scoped.",
+        "Preserve impact rows, affected records, required evidence, blocked actions, and matrix rules.",
+        "Block release-state mutation, production QR redirect mutation, learner-data deletion, report export, media replacement, local bundle deactivation, AI Tutor entitlement changes, and live classroom shutdown workflows.",
+        "Do not let impact matrices replace the revocation rollback preview, acceptance record preview, evidence packet, approval ledger, report policy, or local package policy.",
+      ],
+      rollbackOrExportNeeds: [
+        "Export rollback impact matrix metadata with release-control records only after export policy is accepted",
+        "Retain superseded impact matrix versions for audit",
+        "Support local bundle impact matrix metadata export when local policy allows it",
+      ],
+      notAllowedYet: [
+        "Release-state mutation",
+        "Production QR redirect mutation",
+        "Learner-data deletion workflow",
+        "Report export",
+        "Media replacement",
+        "Local bundle deactivation",
+        "AI Tutor entitlement change",
+        "Live classroom shutdown workflow",
+      ],
+    },
   ],
   standingRules: [
     "Do not create production migrations before backend choice and policy gates are accepted.",
@@ -990,6 +1028,7 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
     "School policy text pack records must preserve exact clause versions while blocking acceptance, signatures, evidence export, storage activation, production QR promises, launch-ready status, AI Tutor activation, learner data, report export, and live classroom workflow.",
     "School policy acceptance record preview records must preserve future accepted-record shape while blocking accepted terms storage, signatures, evidence export, storage activation, production QR promises, launch-ready status, AI Tutor activation, learner data, report export, and live classroom workflow.",
     "School policy revocation rollback preview records must preserve revocation authority, rollback scope, printed QR effect, learner-data/report effect, media/local package effect, premium feature effect, and blocked actions while blocking revocation actions, rollback buttons, release-state mutation, QR mutation, learner-data deletion, report export, media replacement, local bundle deactivation, AI Tutor entitlement changes, and live classroom shutdown workflow.",
+    "School rollback impact matrix records must preserve affected records, required evidence, blocked actions, and matrix rules while blocking release-state mutation, QR mutation, learner-data deletion, report export, media replacement, local bundle deactivation, AI Tutor entitlement changes, and live classroom shutdown workflow.",
     "Every migration candidate needs rollback or export expectations before implementation.",
   ],
 };

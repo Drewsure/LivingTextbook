@@ -3385,5 +3385,136 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
         "Live launch shutdown remains blocked until school, publisher, platform, dry-run, release-control, support, and persistence requirements pass.",
       ],
     },
+    {
+      specId: "spec-school-policy-rollback-impact-matrix",
+      label: "School rollback impact matrix",
+      candidateId: "m044-school-policy-rollback-impact-matrix-records",
+      storeKind: "release-record",
+      status: "blocked-by-policy",
+      purpose:
+        "Stores rollback impact matrix rows before school rollback workflows can affect release state, printed QR behavior, learner data/report handling, media/local package handling, premium feature entitlement, or support operations.",
+      primaryKey: "school_policy_rollback_impact_matrix_id",
+      tenantScope:
+        "Scoped by tenant_id, package_release_id, release_candidate_id, school_policy_revocation_rollback_preview_id, and impact_matrix_revision.",
+      fields: [
+        {
+          name: "school_policy_rollback_impact_matrix_id",
+          type: "string",
+          required: true,
+          note: "Stable id for one rollback impact matrix snapshot.",
+        },
+        {
+          name: "school_policy_revocation_rollback_preview_id",
+          type: "string",
+          required: true,
+          note: "Revocation rollback preview that this impact matrix derives from.",
+        },
+        {
+          name: "release_candidate_id",
+          type: "string",
+          required: true,
+          note: "Release candidate this rollback impact matrix applies to.",
+        },
+        {
+          name: "impact_matrix_revision",
+          type: "string",
+          required: true,
+          note: "Machine-readable revision used for audit and superseded-impact comparisons.",
+        },
+        {
+          name: "impact_rows",
+          type: "json",
+          required: true,
+          note: "Release, printed QR, learner-data/report, media/local package, premium feature, and support-operation impact rows.",
+        },
+        {
+          name: "affected_records",
+          type: "json",
+          required: true,
+          note: "Record ids and categories affected by a future rollback.",
+        },
+        {
+          name: "required_evidence",
+          type: "json",
+          required: true,
+          note: "Evidence requirements before a live rollback workflow can be designed.",
+        },
+        {
+          name: "blocked_actions",
+          type: "json",
+          required: true,
+          note: "Release-state mutation, QR redirect mutation, learner-data deletion, report export, media replacement, local bundle deactivation, AI Tutor entitlement change, and live classroom shutdown blocks.",
+        },
+        {
+          name: "matrix_rules",
+          type: "json",
+          required: true,
+          note: "Rules keeping the matrix review-only and preserving target-language progression boundaries.",
+        },
+        {
+          name: "release_state_mutation_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until release-control rollback policy is accepted.",
+        },
+        {
+          name: "production_qr_redirect_mutation_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until printed QR fallback policy is accepted.",
+        },
+        {
+          name: "learner_data_deletion_workflow_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until retention, deletion, export, and audit policy are accepted.",
+        },
+        {
+          name: "media_replacement_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until publisher media rights and package release policy are accepted.",
+        },
+        {
+          name: "local_bundle_deactivation_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until local package deactivation and backup policy exist.",
+        },
+        {
+          name: "ai_tutor_entitlement_change_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until premium feature revocation and billing policy are accepted.",
+        },
+        {
+          name: "live_classroom_shutdown_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until school, release-control, report, local package, and support policies pass.",
+        },
+      ],
+      indexes: [
+        "tenant_id + release_candidate_id",
+        "school_policy_rollback_impact_matrix_id unique",
+        "school_policy_revocation_rollback_preview_id",
+        "release_state_mutation_allowed",
+        "production_qr_redirect_mutation_allowed",
+        "impact_matrix_revision",
+      ],
+      retentionRule:
+        "Retain current and superseded rollback impact matrices with release-control history while any school pilot approval, local bundle, policy decision, report policy, or printed QR route references the candidate.",
+      exportRule:
+        "Must export as JSON only after evidence export, school policy export, retention, and rollback policy rules are accepted; until then, it is metadata for review surfaces only.",
+      localFallback:
+        "Local classroom bundles store the same rollback impact matrix metadata beside release-control records after local package, route fallback, and school policy export rules allow it.",
+      policyBlockers: [
+        "School rollback impact matrices cannot mutate releases, redirect QR routes, delete learner data, export reports, replace media, deactivate local bundles, change premium entitlements, or shut down live classrooms by themselves.",
+        "Production QR fallback behavior remains blocked until printed QR, cache, installed PWA, and local companion policies are accepted.",
+        "Learner data deletion and report access remain blocked until retention, export, deletion, and audit rules are accepted.",
+        "AI Tutor and microphone scoring remain blocked until tenant and school opt-in policy accepts cost, privacy, and revocation implications.",
+        "Local bundle deactivation remains blocked until backup, update, archive, and school support procedures are accepted.",
+      ],
+    },
   ],
 };

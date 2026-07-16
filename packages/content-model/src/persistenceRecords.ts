@@ -44,7 +44,8 @@ export type PersistenceRecordCategory =
   | "school-policy-acceptance-preflight"
   | "school-policy-text-pack"
   | "school-policy-acceptance-record-preview"
-  | "school-policy-revocation-rollback-preview";
+  | "school-policy-revocation-rollback-preview"
+  | "school-policy-rollback-impact-matrix";
 
 export type PersistenceRecordReadiness =
   | "static-demo"
@@ -162,8 +163,10 @@ export interface DurableRecordContract {
   blocksAcceptanceStorageActivation?: boolean;
   blocksAcceptanceLaunchReadyStatus?: boolean;
   preservesSchoolPolicyRevocationRollbackPreview?: boolean;
+  preservesSchoolPolicyRollbackImpactMatrix?: boolean;
   blocksRevocationAction?: boolean;
   blocksRollbackAction?: boolean;
+  blocksReleaseStateMutation?: boolean;
   blocksProductionQrRedirectMutation?: boolean;
   blocksLearnerDataDeletionWorkflow?: boolean;
   blocksMediaReplacement?: boolean;
@@ -672,6 +675,45 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "school-policy-revocation-rollback-preview" && !record.blocksLiveClassroomLaunch) {
       errors.push(`School policy revocation rollback preview ${record.recordId} must block live classroom launch.`);
+    }
+
+    if (
+      record.category === "school-policy-rollback-impact-matrix" &&
+      !record.preservesSchoolPolicyRollbackImpactMatrix
+    ) {
+      errors.push(`School policy rollback impact matrix ${record.recordId} must preserve affected records, required evidence, blocked actions, and matrix rules.`);
+    }
+
+    if (record.category === "school-policy-rollback-impact-matrix" && !record.blocksReleaseStateMutation) {
+      errors.push(`School policy rollback impact matrix ${record.recordId} must block release-state mutation.`);
+    }
+
+    if (record.category === "school-policy-rollback-impact-matrix" && !record.blocksProductionQrRedirectMutation) {
+      errors.push(`School policy rollback impact matrix ${record.recordId} must block production QR redirect mutation.`);
+    }
+
+    if (record.category === "school-policy-rollback-impact-matrix" && !record.blocksLearnerDataDeletionWorkflow) {
+      errors.push(`School policy rollback impact matrix ${record.recordId} must block learner-data deletion workflows.`);
+    }
+
+    if (record.category === "school-policy-rollback-impact-matrix" && !record.blocksLiveReportExport) {
+      errors.push(`School policy rollback impact matrix ${record.recordId} must block report export.`);
+    }
+
+    if (record.category === "school-policy-rollback-impact-matrix" && !record.blocksMediaReplacement) {
+      errors.push(`School policy rollback impact matrix ${record.recordId} must block media replacement.`);
+    }
+
+    if (record.category === "school-policy-rollback-impact-matrix" && !record.blocksLocalBundleDeactivation) {
+      errors.push(`School policy rollback impact matrix ${record.recordId} must block local bundle deactivation.`);
+    }
+
+    if (record.category === "school-policy-rollback-impact-matrix" && !record.blocksAiTutorEntitlementChange) {
+      errors.push(`School policy rollback impact matrix ${record.recordId} must block AI Tutor entitlement changes.`);
+    }
+
+    if (record.category === "school-policy-rollback-impact-matrix" && !record.blocksLiveClassroomLaunch) {
+      errors.push(`School policy rollback impact matrix ${record.recordId} must block live classroom launch.`);
     }
 
     if (record.supportsLocalDeployment && !record.recommendedFirstPilotStore.includes("local-classroom-store")) {
