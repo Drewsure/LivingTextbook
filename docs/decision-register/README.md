@@ -238,6 +238,7 @@
 - `DR-264-school-rollback-safe-fallback-plan.md`
 - `DR-265-school-rollback-safe-fallback-storage-contract.md`
 - `DR-266-school-rollback-safe-fallback-preflight.md`
+- `DR-267-school-rollback-safe-fallback-preflight-storage-contract.md`
 
 ## Maintenance Rule
 

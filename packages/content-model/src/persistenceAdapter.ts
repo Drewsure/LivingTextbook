@@ -112,6 +112,7 @@ export interface PersistenceWriteIntent {
   preservesSchoolPolicyRevocationRollbackPreview?: boolean;
   preservesSchoolPolicyRollbackImpactMatrix?: boolean;
   preservesSchoolRollbackSafeFallbackPlan?: boolean;
+  preservesSchoolRollbackSafeFallbackPreflight?: boolean;
   blocksRevocationAction?: boolean;
   blocksRollbackAction?: boolean;
   blocksReleaseStateMutation?: boolean;
@@ -734,6 +735,45 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "school-rollback-safe-fallback-plan" && !intent.blocksStudentReassignment) {
       errors.push(`School rollback safe fallback plan write intent ${intent.intentId} must block student reassignment.`);
+    }
+
+    if (
+      intent.category === "school-rollback-safe-fallback-preflight" &&
+      !intent.preservesSchoolRollbackSafeFallbackPreflight
+    ) {
+      errors.push(`School rollback safe fallback preflight write intent ${intent.intentId} must preserve preflight lanes, minimum activation fields, blocked actions, and preflight rules.`);
+    }
+
+    if (intent.category === "school-rollback-safe-fallback-preflight" && !intent.blocksReleaseStateMutation) {
+      errors.push(`School rollback safe fallback preflight write intent ${intent.intentId} must block release-state mutation.`);
+    }
+
+    if (intent.category === "school-rollback-safe-fallback-preflight" && !intent.blocksProductionQrRedirectMutation) {
+      errors.push(`School rollback safe fallback preflight write intent ${intent.intentId} must block production QR redirect mutation.`);
+    }
+
+    if (intent.category === "school-rollback-safe-fallback-preflight" && !intent.blocksLiveNotification) {
+      errors.push(`School rollback safe fallback preflight write intent ${intent.intentId} must block live notifications.`);
+    }
+
+    if (intent.category === "school-rollback-safe-fallback-preflight" && !intent.blocksLiveClassroomLaunch) {
+      errors.push(`School rollback safe fallback preflight write intent ${intent.intentId} must block live classroom launch.`);
+    }
+
+    if (intent.category === "school-rollback-safe-fallback-preflight" && !intent.blocksLiveReportExport) {
+      errors.push(`School rollback safe fallback preflight write intent ${intent.intentId} must block report export.`);
+    }
+
+    if (intent.category === "school-rollback-safe-fallback-preflight" && !intent.blocksMediaReplacement) {
+      errors.push(`School rollback safe fallback preflight write intent ${intent.intentId} must block media replacement.`);
+    }
+
+    if (intent.category === "school-rollback-safe-fallback-preflight" && !intent.blocksLocalBundleDeactivation) {
+      errors.push(`School rollback safe fallback preflight write intent ${intent.intentId} must block local bundle deactivation.`);
+    }
+
+    if (intent.category === "school-rollback-safe-fallback-preflight" && !intent.blocksStudentReassignment) {
+      errors.push(`School rollback safe fallback preflight write intent ${intent.intentId} must block student reassignment.`);
     }
 
     if (intent.intentId.includes("package-audio-coverage") && !intent.preservesGameAudioCoverageSnapshot) {

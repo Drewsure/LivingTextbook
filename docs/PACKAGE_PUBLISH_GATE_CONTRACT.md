@@ -231,6 +231,8 @@ The backend-neutral record is `school_rollback_safe_fallback_plan` / `school-rol
 
 The `School rollback safe fallback preflight` lists the checks required before fallback copy or route-pause behavior can move beyond review: child-safe copy review, school communication policy, printed QR fallback policy, local companion fallback policy, media playlist fallback policy, and assignment/report policy. It is not an activation workflow and cannot change route, release, local package, media, report, learner-data, or assignment state.
 
+The backend-neutral record is `school_rollback_safe_fallback_preflight` / `school-rollback-safe-fallback-preflight`. Hosted and local implementations must preserve preflight lanes, minimum activation fields, blocked actions, and preflight rules while blocking fallback activation, release-state mutation, production QR redirects, live notifications, classroom shutdown, report export, media replacement, local bundle deactivation, and student reassignment workflows.
+
 ## Required Blocking Areas Before Real Pilot
 
 A real pilot package requires closure on:
@@ -292,4 +294,5 @@ The gate is useful when a future engineer, agent, teacher, or publisher can answ
 - Can the team see which records and evidence areas would be affected by rollback before any live rollback workflow exists?
 - Can the team review safe fallback copy and route-pause responsibilities before production QR or local package behavior changes?
 - Can hosted and local deployments preserve safe fallback wording without enabling notifications, QR redirects, shutdowns, media replacement, local deactivation, or reassignment?
+- Can hosted and local deployments preserve safe fallback preflight checklist records without enabling fallback activation, release mutation, notifications, QR redirects, shutdowns, media replacement, local deactivation, report export, or reassignment?
 - Can the team see the preflight checks required before fallback copy, printed QR pause behavior, local companion fallback, or media playlist pause can ever be activated?

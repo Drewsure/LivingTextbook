@@ -57,7 +57,8 @@ export type PersistenceBoundaryCategory =
   | "school-policy-acceptance-record-preview"
   | "school-policy-revocation-rollback-preview"
   | "school-policy-rollback-impact-matrix"
-  | "school-rollback-safe-fallback-plan";
+  | "school-rollback-safe-fallback-plan"
+  | "school-rollback-safe-fallback-preflight";
 
 export interface PersistenceBoundary {
   boundaryId: string;
@@ -982,6 +983,33 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     note:
       "The school rollback safe fallback plan must become durable before any printed QR pause, local companion fallback, media playlist pause, or teacher handoff workflow is designed. It preserves child-safe pause copy and owner responsibilities while blocking production QR redirect mutation, live notification, classroom shutdown, report export, media replacement, local bundle deactivation, and student reassignment.",
   },
+  {
+    recordId: "school-rollback-safe-fallback-preflight-record",
+    category: "school-rollback-safe-fallback-preflight",
+    label: "School rollback safe fallback preflight record",
+    readiness: "policy-required",
+    sourceOfTruth:
+      "SchoolRollbackSafeFallbackPreflight, SchoolRollbackSafeFallbackPlan, preflight lanes, minimum activation fields, blocked actions, and preflight rules",
+    requiredBeforePilot: true,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesSchoolRollbackSafeFallbackPreflight: true,
+    blocksReleaseStateMutation: true,
+    blocksProductionQrRedirectMutation: true,
+    blocksLiveNotification: true,
+    blocksLiveClassroomLaunch: true,
+    blocksLiveReportExport: true,
+    blocksMediaReplacement: true,
+    blocksLocalBundleDeactivation: true,
+    blocksStudentReassignment: true,
+    blocksLaunchWithoutSchoolPolicy: true,
+    recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store", "school-policy"],
+    note:
+      "The school rollback safe fallback preflight must become durable before any safe fallback activation workflow is designed. It preserves checklist lanes, minimum activation fields, and blocked actions while blocking fallback activation, release mutation, production QR redirects, live notifications, classroom shutdown, report export, media replacement, local bundle deactivation, and student reassignment.",
+  },
 ];
 
 export const sampleDurableRecordErrors = validateDurableRecordContracts(sampleDurableRecordContracts);
@@ -1565,6 +1593,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision:
       "Store safe fallback plan metadata before live notification, production QR redirect mutation, classroom shutdown, media replacement, local bundle deactivation, report export, or student reassignment workflows can be designed.",
+  },
+  {
+    boundaryId: "school-rollback-safe-fallback-preflight-boundary",
+    category: "school-rollback-safe-fallback-preflight",
+    label: "School rollback safe fallback preflight records",
+    status: "needs-policy",
+    recordShape:
+      "Safe fallback preflight id, safe fallback plan id, package id, release candidate, preflight lanes, minimum activation fields, blocked actions, and preflight rules",
+    whyItMatters:
+      "A safe fallback should not become operational just because the wording exists. This record keeps the final activation checklist auditable before any route pause, notification, media pause, local fallback, report, or reassignment workflow is designed.",
+    visibleTo: ["School admin", "Teacher", "Tenant admin", "Publisher admin", "Platform admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Store safe fallback preflight metadata before fallback activation, release-state mutation, live notification, production QR redirect mutation, classroom shutdown, media replacement, local bundle deactivation, report export, or student reassignment workflows can be designed.",
   },
 ];
 

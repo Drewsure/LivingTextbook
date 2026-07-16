@@ -56,6 +56,7 @@ const requiredSchemaEntities = [
   "school_policy_revocation_rollback_preview",
   "school_policy_rollback_impact_matrix",
   "school_rollback_safe_fallback_plan",
+  "school_rollback_safe_fallback_preflight",
 ];
 
 const requiredMigrationCandidates = [
@@ -104,6 +105,7 @@ const requiredMigrationCandidates = [
   "m043-school-policy-revocation-rollback-preview-records",
   "m044-school-policy-rollback-impact-matrix-records",
   "m045-school-rollback-safe-fallback-plan-records",
+  "m046-school-rollback-safe-fallback-preflight-records",
 ];
 
 const requiredMigrationSpecs = [
@@ -151,6 +153,7 @@ const requiredMigrationSpecs = [
   "spec-school-policy-revocation-rollback-preview",
   "spec-school-policy-rollback-impact-matrix",
   "spec-school-rollback-safe-fallback-plan",
+  "spec-school-rollback-safe-fallback-preflight",
 ];
 
 for (const entityId of requiredSchemaEntities) {
@@ -423,6 +426,11 @@ requireText(schemaDraft, "message_drafts", "Backend schema must preserve school 
 requireText(schemaDraft, "route_fallbacks", "Backend schema must preserve school rollback route fallbacks.");
 requireText(schemaDraft, "live_notification_allowed", "Backend schema must block live fallback notifications.");
 requireText(schemaDraft, "student_reassignment_allowed", "Backend schema must block fallback student reassignment.");
+requireText(schemaDraft, "school_rollback_safe_fallback_preflight", "Backend schema must include school rollback safe fallback preflight records.");
+requireText(schemaDraft, "school_rollback_safe_fallback_preflight_id", "Backend schema must preserve school rollback safe fallback preflight ids.");
+requireText(schemaDraft, "preflight_lanes", "Backend schema must preserve school rollback safe fallback preflight lanes.");
+requireText(schemaDraft, "minimum_activation_fields", "Backend schema must preserve school rollback safe fallback minimum activation fields.");
+requireText(schemaDraft, "fallback_activation_allowed", "Backend schema must block fallback activation.");
 requireText(migrationSpecs, "spec-pilot-evidence-packet", "Migration specs must include pilot evidence packets.");
 requireText(migrationSpecs, "evidence_packet_id", "Migration specs must preserve pilot evidence packet ids.");
 requireText(migrationSpecs, "upload_allowed", "Migration specs must preserve evidence upload blocks.");
@@ -491,6 +499,10 @@ requireText(migrationSpecs, "impact_matrix_revision", "Migration specs must pres
 requireText(migrationSpecs, "spec-school-rollback-safe-fallback-plan", "Migration specs must include school rollback safe fallback plans.");
 requireText(migrationSpecs, "school_rollback_safe_fallback_plan_id", "Migration specs must preserve school rollback safe fallback plan ids.");
 requireText(migrationSpecs, "safe_fallback_revision", "Migration specs must preserve school rollback safe fallback revisions.");
+requireText(migrationSpecs, "spec-school-rollback-safe-fallback-preflight", "Migration specs must include school rollback safe fallback preflights.");
+requireText(migrationSpecs, "school_rollback_safe_fallback_preflight_id", "Migration specs must preserve school rollback safe fallback preflight ids.");
+requireText(migrationSpecs, "safe_fallback_preflight_revision", "Migration specs must preserve school rollback safe fallback preflight revisions.");
+requireText(migrationSpecs, "fallback_activation_allowed", "Migration specs must block fallback activation.");
 requireText(persistenceAdapter, "hosted-launch-session-write", "Persistence adapter must include hosted launch-session writes.");
 requireText(persistenceAdapter, "local-launch-session-write", "Persistence adapter must include local launch-session writes.");
 requireText(persistenceAdapter, "hosted-teacher-draft-package-write", "Persistence adapter must include hosted teacher draft writes.");
@@ -772,6 +784,9 @@ requireText(durableRecords, "school-rollback-safe-fallback-plan-record", "Durabl
 requireText(durableRecords, "preservesSchoolRollbackSafeFallbackPlan: true", "Durable record plan must preserve school rollback safe fallback plan records.");
 requireText(durableRecords, "blocksLiveNotification: true", "Durable record plan must block live fallback notifications.");
 requireText(durableRecords, "blocksStudentReassignment: true", "Durable record plan must block fallback student reassignment.");
+requireText(durableRecords, "school-rollback-safe-fallback-preflight-record", "Durable record plan must include school rollback safe fallback preflight records.");
+requireText(durableRecords, "preservesSchoolRollbackSafeFallbackPreflight: true", "Durable record plan must preserve school rollback safe fallback preflight records.");
+requireText(durableRecords, "blocksReleaseStateMutation: true", "Durable record plan must block safe fallback preflight release-state mutation.");
 requireText(durableRecords, "media-playlist-binding-record", "Durable record plan must include media playlist binding records.");
 requireText(durableRecords, "preservesMediaPlaylistBinding: true", "Durable record plan must preserve media playlist bindings.");
 requireText(durableRecords, "blocksMediaOnlyProgress: true", "Durable record plan must block media-only progress.");
@@ -802,6 +817,7 @@ requireText(routeVerifier, "school_policy_acceptance_record_preview", "Active ro
 requireText(routeVerifier, "school_policy_revocation_rollback_preview", "Active route verifier must keep school policy revocation rollback preview storage visible on teacher intake.");
 requireText(routeVerifier, "school_policy_rollback_impact_matrix", "Active route verifier must keep school rollback impact matrix storage visible on teacher intake.");
 requireText(routeVerifier, "school_rollback_safe_fallback_plan", "Active route verifier must keep school rollback safe fallback plan storage visible on teacher intake.");
+requireText(routeVerifier, "school_rollback_safe_fallback_preflight", "Active route verifier must keep school rollback safe fallback preflight storage visible on teacher intake.");
 
 if (failures.length > 0) {
   for (const failure of failures) {

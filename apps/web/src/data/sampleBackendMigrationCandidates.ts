@@ -1033,6 +1033,45 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
         "Student reassignment",
       ],
     },
+    {
+      migrationId: "m046-school-rollback-safe-fallback-preflight-records",
+      label: "School rollback safe fallback preflight records",
+      track: "shared",
+      status: "needs-policy",
+      risk: "medium",
+      targetEntities: ["school_rollback_safe_fallback_preflight"],
+      purpose:
+        "Persist safe fallback activation preflight lanes before any fallback copy, printed QR pause, local companion fallback, media playlist pause, report, or reassignment workflow can move beyond review.",
+      prerequisites: [
+        "School rollback safe fallback plan accepted as review artifact",
+        "Child-safe copy review policy drafted",
+        "Printed QR fallback and school communication policy drafted",
+        "Local companion backup, update, archive, and support policy drafted",
+        "Media playlist pause, report, and assignment policies drafted",
+      ],
+      implementationNotes: [
+        "Keep safe fallback preflights tenant-scoped, package-scoped, plan-scoped, and release-candidate-scoped.",
+        "Preserve preflight lanes, minimum activation fields, blocked actions, and preflight rules.",
+        "Block fallback activation, release-state mutation, live notifications, production QR redirect mutation, classroom shutdown, report export, media replacement, local bundle deactivation, and student reassignment.",
+        "Do not let preflight records replace school policy acceptance, release-control rollback, evidence export, route registry mutation, media replacement, local deactivation, report export, or assignment workflows.",
+      ],
+      rollbackOrExportNeeds: [
+        "Export safe fallback preflight metadata with release-control records only after export policy is accepted",
+        "Retain superseded preflight checklist decisions for audit",
+        "Support local bundle safe fallback preflight metadata export when local policy allows it",
+      ],
+      notAllowedYet: [
+        "Fallback activation",
+        "Release-state mutation",
+        "Live notification",
+        "Production QR redirect mutation",
+        "Classroom shutdown workflow",
+        "Report export",
+        "Media replacement",
+        "Local bundle deactivation",
+        "Student reassignment",
+      ],
+    },
   ],
   standingRules: [
     "Do not create production migrations before backend choice and policy gates are accepted.",
@@ -1067,6 +1106,7 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
     "School policy revocation rollback preview records must preserve revocation authority, rollback scope, printed QR effect, learner-data/report effect, media/local package effect, premium feature effect, and blocked actions while blocking revocation actions, rollback buttons, release-state mutation, QR mutation, learner-data deletion, report export, media replacement, local bundle deactivation, AI Tutor entitlement changes, and live classroom shutdown workflow.",
     "School rollback impact matrix records must preserve affected records, required evidence, blocked actions, and matrix rules while blocking release-state mutation, QR mutation, learner-data deletion, report export, media replacement, local bundle deactivation, AI Tutor entitlement changes, and live classroom shutdown workflow.",
     "School rollback safe fallback plan records must preserve child-safe message drafts, route fallbacks, blocked actions, and fallback rules while blocking live notifications, production QR redirect mutation, classroom shutdown, report export, media replacement, local bundle deactivation, and student reassignment.",
+    "School rollback safe fallback preflight records must preserve activation checklist lanes, minimum activation fields, blocked actions, and preflight rules while blocking fallback activation, release-state mutation, live notifications, production QR redirect mutation, classroom shutdown, report export, media replacement, local bundle deactivation, and student reassignment.",
     "Every migration candidate needs rollback or export expectations before implementation.",
   ],
 };
