@@ -222,6 +222,7 @@
 - `DR-248-school-launch-policy-gate.md`
 - `DR-249-school-launch-policy-gate-storage-contract.md`
 - `DR-250-school-policy-handoff-packet.md`
+- `DR-251-school-policy-handoff-storage-contract.md`
 
 ## Maintenance Rule
 

@@ -141,6 +141,8 @@ This packet is a handoff draft only. It can name evidence needed, deferred decis
 
 The packet is part of the white-label foundation because schools and publishers need a readable pre-sales and pilot-readiness artifact. It must remain tenant-neutral and must not hard-code MiniStar-only mascots, curriculum, or school language.
 
+The backend-neutral record is `school_policy_handoff_packet` / `school-policy-handoff-packet`. Hosted and local implementations must preserve packet sections, evidence needs, deferred decisions, blocked actions, and discussion-only status while blocking policy acceptance, signed approval capture, evidence export, release-state mutation, launch-ready status, local activation, production QR promises, learner data, report export, and live classroom workflow.
+
 ## Required Blocking Areas Before Real Pilot
 
 A real pilot package requires closure on:

@@ -50,7 +50,8 @@ export type PersistenceBoundaryCategory =
   | "reviewer-identity-signature-gate"
   | "teacher-dry-run-rehearsal"
   | "classroom-launch-gate"
-  | "school-launch-policy-gate";
+  | "school-launch-policy-gate"
+  | "school-policy-handoff-packet";
 
 export interface PersistenceBoundary {
   boundaryId: string;
@@ -783,6 +784,30 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     note:
       "The school launch policy gate must become durable before a controlled demo can be discussed as school launch readiness. It preserves school, publisher, platform, and shared dry-run ownership while blocking policy acceptance workflows, live classroom launch, learner data, report export, local activation, and support-language-only progression.",
   },
+  {
+    recordId: "school-policy-handoff-packet-record",
+    category: "school-policy-handoff-packet",
+    label: "School policy handoff packet record",
+    readiness: "policy-required",
+    sourceOfTruth: "SchoolPolicyHandoffPacket, SchoolLaunchPolicyGate, packet sections, evidence needs, deferred decisions, and blocked actions",
+    requiredBeforePilot: true,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesSchoolPolicyHandoffPacket: true,
+    blocksPolicyHandoffAcceptance: true,
+    blocksHandoffEvidenceExport: true,
+    blocksPolicyAcceptanceWorkflow: true,
+    blocksLaunchWithoutSchoolPolicy: true,
+    blocksRealLearnerDataCollection: true,
+    blocksLiveReportExport: true,
+    blocksLiveClassroomLaunch: true,
+    recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store", "school-policy"],
+    note:
+      "The school policy handoff packet must become durable before school meetings can become audited pilot-readiness artifacts. It preserves discussion sections, evidence needs, deferred decisions, blocked actions, and premium opt-in boundaries while blocking policy acceptance, signed approval capture, evidence export, launch-ready status, local activation, and live classroom launch.",
+  },
 ];
 
 export const sampleDurableRecordErrors = validateDurableRecordContracts(sampleDurableRecordContracts);
@@ -1268,6 +1293,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision:
       "Store school launch policy gate metadata before policy acceptance workflows, live classroom launch, real learner data collection, report export, local activation, or launch-ready status changes.",
+  },
+  {
+    boundaryId: "school-policy-handoff-packet-boundary",
+    category: "school-policy-handoff-packet",
+    label: "School policy handoff packet records",
+    status: "needs-policy",
+    recordShape:
+      "Handoff packet id, school launch policy gate id, package id, release candidate, packet sections, evidence needed, deferred decisions, blocked actions, and discussion-only status",
+    whyItMatters:
+      "Schools and publishers need a readable meeting packet before policy acceptance, signed approval, evidence export, launch-ready status, or production QR commitments exist. This record keeps the discussion artifact auditable without making it an approval workflow.",
+    visibleTo: ["School admin", "Teacher", "Tenant admin", "Publisher admin", "Platform admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Store school policy handoff packet metadata before policy acceptance, signed approval capture, evidence export, local activation, production QR promises, or live classroom workflow.",
   },
 ];
 

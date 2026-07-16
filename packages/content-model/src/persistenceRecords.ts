@@ -39,7 +39,8 @@ export type PersistenceRecordCategory =
   | "reviewer-identity-signature-gate"
   | "teacher-dry-run-rehearsal"
   | "classroom-launch-gate"
-  | "school-launch-policy-gate";
+  | "school-launch-policy-gate"
+  | "school-policy-handoff-packet";
 
 export type PersistenceRecordReadiness =
   | "static-demo"
@@ -136,6 +137,9 @@ export interface DurableRecordContract {
   preservesSchoolLaunchPolicyGate?: boolean;
   blocksPolicyAcceptanceWorkflow?: boolean;
   blocksLaunchWithoutSchoolPolicy?: boolean;
+  preservesSchoolPolicyHandoffPacket?: boolean;
+  blocksPolicyHandoffAcceptance?: boolean;
+  blocksHandoffEvidenceExport?: boolean;
   recommendedFirstPilotStore: PersistenceStorageTier[];
   note: string;
 }
@@ -493,6 +497,26 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "school-launch-policy-gate" && !record.blocksLiveReportExport) {
       errors.push(`School launch policy gate record ${record.recordId} must block live report export.`);
+    }
+
+    if (record.category === "school-policy-handoff-packet" && !record.preservesSchoolPolicyHandoffPacket) {
+      errors.push(`School policy handoff packet record ${record.recordId} must preserve packet sections, evidence needs, deferred decisions, and blocked actions.`);
+    }
+
+    if (record.category === "school-policy-handoff-packet" && !record.blocksPolicyHandoffAcceptance) {
+      errors.push(`School policy handoff packet record ${record.recordId} must block policy acceptance from handoff packets.`);
+    }
+
+    if (record.category === "school-policy-handoff-packet" && !record.blocksHandoffEvidenceExport) {
+      errors.push(`School policy handoff packet record ${record.recordId} must block evidence export from handoff packets.`);
+    }
+
+    if (record.category === "school-policy-handoff-packet" && !record.blocksLiveClassroomLaunch) {
+      errors.push(`School policy handoff packet record ${record.recordId} must block live classroom launch.`);
+    }
+
+    if (record.category === "school-policy-handoff-packet" && !record.blocksLaunchWithoutSchoolPolicy) {
+      errors.push(`School policy handoff packet record ${record.recordId} must block launch without school policy.`);
     }
 
     if (record.supportsLocalDeployment && !record.recommendedFirstPilotStore.includes("local-classroom-store")) {

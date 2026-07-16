@@ -89,6 +89,9 @@ export interface PersistenceWriteIntent {
   preservesSchoolLaunchPolicyGate?: boolean;
   blocksPolicyAcceptanceWorkflow?: boolean;
   blocksLaunchWithoutSchoolPolicy?: boolean;
+  preservesSchoolPolicyHandoffPacket?: boolean;
+  blocksPolicyHandoffAcceptance?: boolean;
+  blocksHandoffEvidenceExport?: boolean;
   note: string;
 }
 
@@ -481,6 +484,26 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "school-launch-policy-gate" && !intent.blocksLiveReportExport) {
       errors.push(`School launch policy gate write intent ${intent.intentId} must block live report export.`);
+    }
+
+    if (intent.category === "school-policy-handoff-packet" && !intent.preservesSchoolPolicyHandoffPacket) {
+      errors.push(`School policy handoff packet write intent ${intent.intentId} must preserve packet sections, evidence needs, deferred decisions, and blocked actions.`);
+    }
+
+    if (intent.category === "school-policy-handoff-packet" && !intent.blocksPolicyHandoffAcceptance) {
+      errors.push(`School policy handoff packet write intent ${intent.intentId} must block policy acceptance from handoff packets.`);
+    }
+
+    if (intent.category === "school-policy-handoff-packet" && !intent.blocksHandoffEvidenceExport) {
+      errors.push(`School policy handoff packet write intent ${intent.intentId} must block evidence export from handoff packets.`);
+    }
+
+    if (intent.category === "school-policy-handoff-packet" && !intent.blocksLiveClassroomLaunch) {
+      errors.push(`School policy handoff packet write intent ${intent.intentId} must block live classroom launch.`);
+    }
+
+    if (intent.category === "school-policy-handoff-packet" && !intent.blocksLaunchWithoutSchoolPolicy) {
+      errors.push(`School policy handoff packet write intent ${intent.intentId} must block launch without school policy.`);
     }
 
     if (intent.intentId.includes("package-audio-coverage") && !intent.preservesGameAudioCoverageSnapshot) {

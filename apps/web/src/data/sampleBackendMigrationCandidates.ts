@@ -766,6 +766,43 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
         "Launch-ready status",
       ],
     },
+    {
+      migrationId: "m039-school-policy-handoff-packet-records",
+      label: "School policy handoff packet records",
+      track: "shared",
+      status: "needs-policy",
+      risk: "medium",
+      targetEntities: ["school_policy_handoff_packet"],
+      purpose:
+        "Persist school-facing handoff packet sections before school meeting artifacts can become audited pilot-readiness records.",
+      prerequisites: [
+        "School launch policy gate accepted",
+        "Evidence storage adapter accepted",
+        "Reviewer identity and signature gate accepted",
+        "School privacy and retention policy accepted",
+        "Report export and access-control policy accepted",
+      ],
+      implementationNotes: [
+        "Keep handoff packets tenant-scoped, package-scoped, policy-gate-scoped, and release-candidate-scoped.",
+        "Preserve packet sections, evidence needs, deferred decisions, blocked actions, and discussion-only status.",
+        "Block policy acceptance, signed approval capture, evidence export, launch-ready status, local activation, production QR promises, and live classroom workflow.",
+        "Do not let a handoff packet replace the school launch policy gate, evidence packet, approval ledger, or release-control gates.",
+      ],
+      rollbackOrExportNeeds: [
+        "Export handoff packet metadata with release-control records only after export policy is accepted",
+        "Retain superseded handoff snapshots for audit",
+        "Support local bundle handoff packet metadata export when local policy allows it",
+      ],
+      notAllowedYet: [
+        "Policy acceptance from handoff packet",
+        "Signed approval capture",
+        "Evidence export",
+        "Live classroom launch",
+        "Production QR promise",
+        "Local deployment activation",
+        "Launch-ready status",
+      ],
+    },
   ],
   standingRules: [
     "Do not create production migrations before backend choice and policy gates are accepted.",
