@@ -53,6 +53,7 @@ const requiredSchemaEntities = [
   "school_policy_acceptance_preflight",
   "school_policy_text_pack",
   "school_policy_acceptance_record_preview",
+  "school_policy_revocation_rollback_preview",
 ];
 
 const requiredMigrationCandidates = [
@@ -98,6 +99,7 @@ const requiredMigrationCandidates = [
   "m040-school-policy-acceptance-preflight-records",
   "m041-school-policy-text-pack-records",
   "m042-school-policy-acceptance-record-preview-records",
+  "m043-school-policy-revocation-rollback-preview-records",
 ];
 
 const requiredMigrationSpecs = [
@@ -142,6 +144,7 @@ const requiredMigrationSpecs = [
   "spec-school-policy-acceptance-preflight",
   "spec-school-policy-text-pack",
   "spec-school-policy-acceptance-record-preview",
+  "spec-school-policy-revocation-rollback-preview",
 ];
 
 for (const entityId of requiredSchemaEntities) {
@@ -391,6 +394,17 @@ requireText(schemaDraft, "non_accepted_markers", "Backend schema must preserve n
 requireText(schemaDraft, "accepted_terms_storage_allowed", "Backend schema must block accepted terms storage.");
 requireText(schemaDraft, "acceptance_signature_capture_allowed", "Backend schema must block acceptance signature capture.");
 requireText(schemaDraft, "acceptance_storage_activation_allowed", "Backend schema must block acceptance storage activation.");
+requireText(schemaDraft, "school_policy_revocation_rollback_preview", "Backend schema must include school policy revocation rollback preview records.");
+requireText(schemaDraft, "school_policy_revocation_rollback_preview_id", "Backend schema must preserve school policy revocation rollback preview ids.");
+requireText(schemaDraft, "rollback_lanes", "Backend schema must preserve school policy rollback lanes.");
+requireText(schemaDraft, "minimum_rollback_record_fields", "Backend schema must preserve minimum rollback record fields.");
+requireText(schemaDraft, "revocation_action_allowed", "Backend schema must block revocation actions.");
+requireText(schemaDraft, "rollback_action_allowed", "Backend schema must block rollback actions.");
+requireText(schemaDraft, "production_qr_redirect_mutation_allowed", "Backend schema must block production QR redirect mutation.");
+requireText(schemaDraft, "learner_data_deletion_workflow_allowed", "Backend schema must block learner-data deletion workflows.");
+requireText(schemaDraft, "media_replacement_allowed", "Backend schema must block media replacement.");
+requireText(schemaDraft, "local_bundle_deactivation_allowed", "Backend schema must block local bundle deactivation.");
+requireText(schemaDraft, "ai_tutor_entitlement_change_allowed", "Backend schema must block AI Tutor entitlement changes.");
 requireText(migrationSpecs, "spec-pilot-evidence-packet", "Migration specs must include pilot evidence packets.");
 requireText(migrationSpecs, "evidence_packet_id", "Migration specs must preserve pilot evidence packet ids.");
 requireText(migrationSpecs, "upload_allowed", "Migration specs must preserve evidence upload blocks.");
@@ -442,6 +456,17 @@ requireText(migrationSpecs, "non_accepted_markers", "Migration specs must preser
 requireText(migrationSpecs, "accepted_terms_storage_allowed", "Migration specs must block accepted terms storage.");
 requireText(migrationSpecs, "acceptance_signature_capture_allowed", "Migration specs must block acceptance signature capture.");
 requireText(migrationSpecs, "acceptance_storage_activation_allowed", "Migration specs must block acceptance storage activation.");
+requireText(migrationSpecs, "spec-school-policy-revocation-rollback-preview", "Migration specs must include school policy revocation rollback previews.");
+requireText(migrationSpecs, "school_policy_revocation_rollback_preview_id", "Migration specs must preserve school policy revocation rollback preview ids.");
+requireText(migrationSpecs, "rollback_lanes", "Migration specs must preserve school policy rollback lanes.");
+requireText(migrationSpecs, "minimum_rollback_record_fields", "Migration specs must preserve minimum rollback record fields.");
+requireText(migrationSpecs, "revocation_action_allowed", "Migration specs must block revocation actions.");
+requireText(migrationSpecs, "rollback_action_allowed", "Migration specs must block rollback actions.");
+requireText(migrationSpecs, "production_qr_redirect_mutation_allowed", "Migration specs must block production QR redirect mutation.");
+requireText(migrationSpecs, "learner_data_deletion_workflow_allowed", "Migration specs must block learner-data deletion workflows.");
+requireText(migrationSpecs, "media_replacement_allowed", "Migration specs must block media replacement.");
+requireText(migrationSpecs, "local_bundle_deactivation_allowed", "Migration specs must block local bundle deactivation.");
+requireText(migrationSpecs, "ai_tutor_entitlement_change_allowed", "Migration specs must block AI Tutor entitlement changes.");
 requireText(persistenceAdapter, "hosted-launch-session-write", "Persistence adapter must include hosted launch-session writes.");
 requireText(persistenceAdapter, "local-launch-session-write", "Persistence adapter must include local launch-session writes.");
 requireText(persistenceAdapter, "hosted-teacher-draft-package-write", "Persistence adapter must include hosted teacher draft writes.");
@@ -573,6 +598,16 @@ requireText(persistenceAdapter, "blocksAcceptanceSignatureCapture: true", "Persi
 requireText(persistenceAdapter, "blocksAcceptanceEvidenceExport: true", "Persistence adapter must block acceptance evidence export.");
 requireText(persistenceAdapter, "blocksAcceptanceStorageActivation: true", "Persistence adapter must block acceptance storage activation.");
 requireText(persistenceAdapter, "blocksAcceptanceLaunchReadyStatus: true", "Persistence adapter must block acceptance launch-ready status.");
+requireText(persistenceAdapter, "hosted-school-policy-revocation-rollback-preview-write", "Persistence adapter must include hosted school policy revocation rollback preview writes.");
+requireText(persistenceAdapter, "local-school-policy-revocation-rollback-preview-write", "Persistence adapter must include local school policy revocation rollback preview writes.");
+requireText(persistenceAdapter, "preservesSchoolPolicyRevocationRollbackPreview: true", "Persistence adapter must preserve school policy revocation rollback previews.");
+requireText(persistenceAdapter, "blocksRevocationAction: true", "Persistence adapter must block revocation actions.");
+requireText(persistenceAdapter, "blocksRollbackAction: true", "Persistence adapter must block rollback actions.");
+requireText(persistenceAdapter, "blocksProductionQrRedirectMutation: true", "Persistence adapter must block production QR redirect mutation.");
+requireText(persistenceAdapter, "blocksLearnerDataDeletionWorkflow: true", "Persistence adapter must block learner-data deletion workflows.");
+requireText(persistenceAdapter, "blocksMediaReplacement: true", "Persistence adapter must block media replacement.");
+requireText(persistenceAdapter, "blocksLocalBundleDeactivation: true", "Persistence adapter must block local bundle deactivation.");
+requireText(persistenceAdapter, "blocksAiTutorEntitlementChange: true", "Persistence adapter must block AI Tutor entitlement changes.");
 requireText(persistenceAdapter, "hosted-media-playlist-binding-write", "Persistence adapter must include hosted media playlist binding writes.");
 requireText(persistenceAdapter, "local-media-playlist-binding-write", "Persistence adapter must include local media playlist binding writes.");
 requireText(persistenceAdapter, "preservesMediaPlaylistBinding: true", "Persistence adapter must preserve media playlist bindings.");
@@ -697,6 +732,15 @@ requireText(durableRecords, "blocksAcceptanceSignatureCapture: true", "Durable r
 requireText(durableRecords, "blocksAcceptanceEvidenceExport: true", "Durable record plan must block acceptance evidence export.");
 requireText(durableRecords, "blocksAcceptanceStorageActivation: true", "Durable record plan must block acceptance storage activation.");
 requireText(durableRecords, "blocksAcceptanceLaunchReadyStatus: true", "Durable record plan must block acceptance launch-ready status.");
+requireText(durableRecords, "school-policy-revocation-rollback-preview-record", "Durable record plan must include school policy revocation rollback preview records.");
+requireText(durableRecords, "preservesSchoolPolicyRevocationRollbackPreview: true", "Durable record plan must preserve school policy revocation rollback previews.");
+requireText(durableRecords, "blocksRevocationAction: true", "Durable record plan must block revocation actions.");
+requireText(durableRecords, "blocksRollbackAction: true", "Durable record plan must block rollback actions.");
+requireText(durableRecords, "blocksProductionQrRedirectMutation: true", "Durable record plan must block production QR redirect mutation.");
+requireText(durableRecords, "blocksLearnerDataDeletionWorkflow: true", "Durable record plan must block learner-data deletion workflows.");
+requireText(durableRecords, "blocksMediaReplacement: true", "Durable record plan must block media replacement.");
+requireText(durableRecords, "blocksLocalBundleDeactivation: true", "Durable record plan must block local bundle deactivation.");
+requireText(durableRecords, "blocksAiTutorEntitlementChange: true", "Durable record plan must block AI Tutor entitlement changes.");
 requireText(durableRecords, "media-playlist-binding-record", "Durable record plan must include media playlist binding records.");
 requireText(durableRecords, "preservesMediaPlaylistBinding: true", "Durable record plan must preserve media playlist bindings.");
 requireText(durableRecords, "blocksMediaOnlyProgress: true", "Durable record plan must block media-only progress.");
@@ -724,6 +768,7 @@ requireText(routeVerifier, "school_launch_policy_gate", "Active route verifier m
 requireText(routeVerifier, "school_policy_handoff_packet", "Active route verifier must keep school policy handoff packet storage visible on teacher intake.");
 requireText(routeVerifier, "school_policy_text_pack", "Active route verifier must keep school policy text pack storage visible on teacher intake.");
 requireText(routeVerifier, "school_policy_acceptance_record_preview", "Active route verifier must keep school policy acceptance record preview storage visible on teacher intake.");
+requireText(routeVerifier, "school_policy_revocation_rollback_preview", "Active route verifier must keep school policy revocation rollback preview storage visible on teacher intake.");
 
 if (failures.length > 0) {
   for (const failure of failures) {

@@ -109,6 +109,14 @@ export interface PersistenceWriteIntent {
   blocksAcceptanceEvidenceExport?: boolean;
   blocksAcceptanceStorageActivation?: boolean;
   blocksAcceptanceLaunchReadyStatus?: boolean;
+  preservesSchoolPolicyRevocationRollbackPreview?: boolean;
+  blocksRevocationAction?: boolean;
+  blocksRollbackAction?: boolean;
+  blocksProductionQrRedirectMutation?: boolean;
+  blocksLearnerDataDeletionWorkflow?: boolean;
+  blocksMediaReplacement?: boolean;
+  blocksLocalBundleDeactivation?: boolean;
+  blocksAiTutorEntitlementChange?: boolean;
   note: string;
 }
 
@@ -604,6 +612,49 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "school-policy-acceptance-record-preview" && !intent.blocksLiveClassroomLaunch) {
       errors.push(`School policy acceptance record preview write intent ${intent.intentId} must block live classroom launch.`);
+    }
+
+    if (
+      intent.category === "school-policy-revocation-rollback-preview" &&
+      !intent.preservesSchoolPolicyRevocationRollbackPreview
+    ) {
+      errors.push(`School policy revocation rollback preview write intent ${intent.intentId} must preserve revocation authority, rollback scope, QR effects, learner-data/report effects, media/local effects, premium feature effects, and blocked actions.`);
+    }
+
+    if (intent.category === "school-policy-revocation-rollback-preview" && !intent.blocksRevocationAction) {
+      errors.push(`School policy revocation rollback preview write intent ${intent.intentId} must block revocation actions.`);
+    }
+
+    if (intent.category === "school-policy-revocation-rollback-preview" && !intent.blocksRollbackAction) {
+      errors.push(`School policy revocation rollback preview write intent ${intent.intentId} must block rollback actions.`);
+    }
+
+    if (intent.category === "school-policy-revocation-rollback-preview" && !intent.blocksProductionQrRedirectMutation) {
+      errors.push(`School policy revocation rollback preview write intent ${intent.intentId} must block production QR redirect mutation.`);
+    }
+
+    if (intent.category === "school-policy-revocation-rollback-preview" && !intent.blocksLearnerDataDeletionWorkflow) {
+      errors.push(`School policy revocation rollback preview write intent ${intent.intentId} must block learner-data deletion workflows.`);
+    }
+
+    if (intent.category === "school-policy-revocation-rollback-preview" && !intent.blocksLiveReportExport) {
+      errors.push(`School policy revocation rollback preview write intent ${intent.intentId} must block report export.`);
+    }
+
+    if (intent.category === "school-policy-revocation-rollback-preview" && !intent.blocksMediaReplacement) {
+      errors.push(`School policy revocation rollback preview write intent ${intent.intentId} must block media replacement.`);
+    }
+
+    if (intent.category === "school-policy-revocation-rollback-preview" && !intent.blocksLocalBundleDeactivation) {
+      errors.push(`School policy revocation rollback preview write intent ${intent.intentId} must block local bundle deactivation.`);
+    }
+
+    if (intent.category === "school-policy-revocation-rollback-preview" && !intent.blocksAiTutorEntitlementChange) {
+      errors.push(`School policy revocation rollback preview write intent ${intent.intentId} must block AI Tutor entitlement changes.`);
+    }
+
+    if (intent.category === "school-policy-revocation-rollback-preview" && !intent.blocksLiveClassroomLaunch) {
+      errors.push(`School policy revocation rollback preview write intent ${intent.intentId} must block live classroom launch.`);
     }
 
     if (intent.intentId.includes("package-audio-coverage") && !intent.preservesGameAudioCoverageSnapshot) {

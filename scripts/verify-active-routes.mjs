@@ -84,6 +84,9 @@ expectedTextByPath.get("/teacher/intake")?.push(
   "school_policy_acceptance_record_preview",
   "School policy acceptance record preview",
   "school-policy-acceptance-record-preview-record",
+  "school_policy_revocation_rollback_preview",
+  "School policy revocation and rollback preview record",
+  "school-policy-revocation-rollback-preview-record",
 );
 
 if (urls.length === 0) {

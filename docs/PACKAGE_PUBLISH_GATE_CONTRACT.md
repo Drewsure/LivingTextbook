@@ -219,6 +219,8 @@ It is derived from the future school acceptance record preview and organizes rev
 
 This preview is not a rollback workflow. It can show required policy, blocked effects, minimum rollback record fields, blocked actions, and review rules, but it cannot revoke consent, mutate release state, redirect production QR codes, delete learner data, export reports, replace media, deactivate local bundles, change AI Tutor entitlement, or shut down live classrooms.
 
+The backend-neutral record is `school_policy_revocation_rollback_preview` / `school-policy-revocation-rollback-preview`. Hosted and local implementations must preserve revocation authority, release rollback scope, printed QR effect, learner-data/report effect, media/local package effect, premium feature effect, minimum rollback record fields, blocked actions, and review rules while blocking revocation actions, rollback buttons, release-state mutation, production QR redirect mutation, learner-data deletion, report export, media replacement, local bundle deactivation, AI Tutor entitlement changes, and live classroom shutdown workflows.
+
 ## Required Blocking Areas Before Real Pilot
 
 A real pilot package requires closure on:

@@ -43,7 +43,8 @@ export type PersistenceRecordCategory =
   | "school-policy-handoff-packet"
   | "school-policy-acceptance-preflight"
   | "school-policy-text-pack"
-  | "school-policy-acceptance-record-preview";
+  | "school-policy-acceptance-record-preview"
+  | "school-policy-revocation-rollback-preview";
 
 export type PersistenceRecordReadiness =
   | "static-demo"
@@ -160,6 +161,14 @@ export interface DurableRecordContract {
   blocksAcceptanceEvidenceExport?: boolean;
   blocksAcceptanceStorageActivation?: boolean;
   blocksAcceptanceLaunchReadyStatus?: boolean;
+  preservesSchoolPolicyRevocationRollbackPreview?: boolean;
+  blocksRevocationAction?: boolean;
+  blocksRollbackAction?: boolean;
+  blocksProductionQrRedirectMutation?: boolean;
+  blocksLearnerDataDeletionWorkflow?: boolean;
+  blocksMediaReplacement?: boolean;
+  blocksLocalBundleDeactivation?: boolean;
+  blocksAiTutorEntitlementChange?: boolean;
   recommendedFirstPilotStore: PersistenceStorageTier[];
   note: string;
 }
@@ -620,6 +629,49 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "school-policy-acceptance-record-preview" && !record.blocksLiveClassroomLaunch) {
       errors.push(`School policy acceptance record preview ${record.recordId} must block live classroom launch.`);
+    }
+
+    if (
+      record.category === "school-policy-revocation-rollback-preview" &&
+      !record.preservesSchoolPolicyRevocationRollbackPreview
+    ) {
+      errors.push(`School policy revocation rollback preview ${record.recordId} must preserve revocation authority, rollback scope, QR effects, learner-data/report effects, media/local effects, premium feature effects, and blocked actions.`);
+    }
+
+    if (record.category === "school-policy-revocation-rollback-preview" && !record.blocksRevocationAction) {
+      errors.push(`School policy revocation rollback preview ${record.recordId} must block revocation actions.`);
+    }
+
+    if (record.category === "school-policy-revocation-rollback-preview" && !record.blocksRollbackAction) {
+      errors.push(`School policy revocation rollback preview ${record.recordId} must block rollback actions.`);
+    }
+
+    if (record.category === "school-policy-revocation-rollback-preview" && !record.blocksProductionQrRedirectMutation) {
+      errors.push(`School policy revocation rollback preview ${record.recordId} must block production QR redirect mutation.`);
+    }
+
+    if (record.category === "school-policy-revocation-rollback-preview" && !record.blocksLearnerDataDeletionWorkflow) {
+      errors.push(`School policy revocation rollback preview ${record.recordId} must block learner-data deletion workflows.`);
+    }
+
+    if (record.category === "school-policy-revocation-rollback-preview" && !record.blocksLiveReportExport) {
+      errors.push(`School policy revocation rollback preview ${record.recordId} must block report export.`);
+    }
+
+    if (record.category === "school-policy-revocation-rollback-preview" && !record.blocksMediaReplacement) {
+      errors.push(`School policy revocation rollback preview ${record.recordId} must block media replacement.`);
+    }
+
+    if (record.category === "school-policy-revocation-rollback-preview" && !record.blocksLocalBundleDeactivation) {
+      errors.push(`School policy revocation rollback preview ${record.recordId} must block local bundle deactivation.`);
+    }
+
+    if (record.category === "school-policy-revocation-rollback-preview" && !record.blocksAiTutorEntitlementChange) {
+      errors.push(`School policy revocation rollback preview ${record.recordId} must block AI Tutor entitlement changes.`);
+    }
+
+    if (record.category === "school-policy-revocation-rollback-preview" && !record.blocksLiveClassroomLaunch) {
+      errors.push(`School policy revocation rollback preview ${record.recordId} must block live classroom launch.`);
     }
 
     if (record.supportsLocalDeployment && !record.recommendedFirstPilotStore.includes("local-classroom-store")) {

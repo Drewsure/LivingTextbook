@@ -54,7 +54,8 @@ export type PersistenceBoundaryCategory =
   | "school-policy-handoff-packet"
   | "school-policy-acceptance-preflight"
   | "school-policy-text-pack"
-  | "school-policy-acceptance-record-preview";
+  | "school-policy-acceptance-record-preview"
+  | "school-policy-revocation-rollback-preview";
 
 export interface PersistenceBoundary {
   boundaryId: string;
@@ -898,6 +899,34 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     note:
       "The school policy acceptance record preview must become durable before accepted terms can ever be designed. It preserves future approver, policy text, release candidate, evidence packet, operating consent, premium feature consent, storage/rollback, and acceptance-effect fields while blocking accepted terms storage, signatures, evidence export, storage activation, launch-ready status, production QR promises, learner data, report export, AI Tutor activation, and live classroom workflow.",
   },
+  {
+    recordId: "school-policy-revocation-rollback-preview-record",
+    category: "school-policy-revocation-rollback-preview",
+    label: "School policy revocation and rollback preview record",
+    readiness: "policy-required",
+    sourceOfTruth:
+      "SchoolPolicyRevocationRollbackPlan, SchoolPolicyAcceptanceRecordPreview, revocation authority, rollback scope, QR effect, learner-data/report effect, media/local package effect, premium feature effect, blocked actions, and review rules",
+    requiredBeforePilot: true,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesSchoolPolicyRevocationRollbackPreview: true,
+    blocksRevocationAction: true,
+    blocksRollbackAction: true,
+    blocksProductionQrRedirectMutation: true,
+    blocksLearnerDataDeletionWorkflow: true,
+    blocksLiveReportExport: true,
+    blocksMediaReplacement: true,
+    blocksLocalBundleDeactivation: true,
+    blocksAiTutorEntitlementChange: true,
+    blocksLiveClassroomLaunch: true,
+    blocksLaunchWithoutSchoolPolicy: true,
+    recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store", "school-policy"],
+    note:
+      "The school policy revocation and rollback preview must become durable before school acceptance can affect launch readiness. It preserves who can revoke, which release and printed QR scopes are affected, how learner-data/report, media/local package, and premium feature effects are handled, while blocking revocation actions, rollback buttons, release-state mutation, production QR redirect mutation, learner-data deletion, report export, media replacement, local bundle deactivation, AI Tutor entitlement changes, and live classroom shutdown workflows.",
+  },
 ];
 
 export const sampleDurableRecordErrors = validateDurableRecordContracts(sampleDurableRecordContracts);
@@ -1439,6 +1468,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision:
       "Store acceptance record preview metadata before accepted terms storage, signature capture, evidence export, storage activation, production QR promises, launch-ready status, AI Tutor activation, or live classroom workflow.",
+  },
+  {
+    boundaryId: "school-policy-revocation-rollback-preview-boundary",
+    category: "school-policy-revocation-rollback-preview",
+    label: "School policy revocation and rollback preview records",
+    status: "needs-policy",
+    recordShape:
+      "Revocation rollback plan id, acceptance record preview id, school id, package id, release candidate, authorized revoker role, affected release scope, affected QR route scope, learner data/report effect, media/local package effect, premium feature effect, audit retention rule, and rollback completion owner",
+    whyItMatters:
+      "A future school acceptance must have an exit path before it changes release state. This record keeps revocation authority, release rollback, printed QR behavior, learner-data/report handling, media/local package handling, and optional AI Tutor or microphone feature effects auditable while all actions remain blocked.",
+    visibleTo: ["School admin", "Teacher", "Tenant admin", "Publisher admin", "Platform admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Store revocation and rollback preview metadata before revocation actions, rollback buttons, release-state mutation, production QR redirect mutation, learner-data deletion, report export, media replacement, local bundle deactivation, AI Tutor entitlement changes, or live classroom shutdown workflows.",
   },
 ];
 
