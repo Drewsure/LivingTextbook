@@ -185,6 +185,23 @@ This pack is not acceptance text. It can list required text, review notes, block
 
 The backend-neutral record is `school_policy_text_pack` / `school-policy-text-pack`. Hosted and local implementations must preserve policy text versions, clause versions, minimum version fields, blocked actions, and review rules while blocking policy acceptance, signed approval capture, evidence export, storage activation, release-state mutation, launch-ready status, production QR promises, AI Tutor activation, support-language-only progression, learner data, report export, and live classroom workflow.
 
+## Future School Acceptance Record Preview
+
+The `Future school acceptance record preview` names the minimum fields a future authenticated school acceptance record would need before it can ever be built.
+
+It is derived from the school policy text version pack and organizes future acceptance around:
+
+- authenticated school approver,
+- accepted policy text version,
+- release candidate binding,
+- evidence packet binding,
+- school operating consent,
+- premium feature consent,
+- storage and rollback consent,
+- acceptance effect.
+
+This preview is not an accepted record. It can show minimum accepted-record fields, non-accepted markers, blocked actions, and review rules, but it cannot store accepted terms, capture signatures, export evidence, activate storage, create launch-ready status, create production QR promises, activate AI Tutor, collect real learner data, export reports, or start a live classroom workflow.
+
 ## Required Blocking Areas Before Real Pilot
 
 A real pilot package requires closure on:
@@ -241,3 +258,4 @@ The gate is useful when a future engineer, agent, teacher, or publisher can answ
 - Can a school meeting use the handoff packet to discuss privacy, QR use, progression rules, media, dry-run evidence, storage, release, and rollback without triggering acceptance, launch, or export workflows?
 - Can the team see exactly what remains before a future school policy acceptance button, signature capture, evidence export, storage activation, production QR promise, AI Tutor activation, or live classroom workflow can exist?
 - Can the team see the exact versioned policy clauses that must be reviewed before any future school acceptance is designed?
+- Can the team see the minimum future accepted-record fields without storing accepted terms, capturing signatures, or changing launch status?

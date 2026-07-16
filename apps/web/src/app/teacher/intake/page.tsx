@@ -45,6 +45,7 @@ import { samplePilotSourceStrategy } from "@/data/samplePilotSourceStrategy";
 import { sampleClassroomLaunchGate } from "@/data/sampleClassroomLaunchGate";
 import { sampleSchoolLaunchPolicyGate } from "@/data/sampleSchoolLaunchPolicyGate";
 import { sampleSchoolPolicyAcceptancePreflight } from "@/data/sampleSchoolPolicyAcceptancePreflight";
+import { sampleSchoolPolicyAcceptanceRecordPreview } from "@/data/sampleSchoolPolicyAcceptanceRecordPreview";
 import { sampleSchoolPolicyHandoffPacket } from "@/data/sampleSchoolPolicyHandoffPacket";
 import { sampleSchoolPolicyTextPack } from "@/data/sampleSchoolPolicyTextPack";
 import { sampleTeacherDryRunRehearsal } from "@/data/sampleTeacherDryRunRehearsal";
@@ -117,6 +118,7 @@ import { PilotReadinessGatePanel } from "@/features/pilot/PilotReadinessGatePane
 import { PilotReleaseCandidatePanel } from "@/features/pilot/PilotReleaseCandidatePanel";
 import { PilotReadinessSummaryPanel } from "@/features/pilot/PilotReadinessSummaryPanel";
 import { ClassroomLaunchGatePanel } from "@/features/pilot/ClassroomLaunchGatePanel";
+import { SchoolPolicyAcceptanceRecordPreviewPanel } from "@/features/pilot/SchoolPolicyAcceptanceRecordPreviewPanel";
 import { SchoolPolicyAcceptancePreflightPanel } from "@/features/pilot/SchoolPolicyAcceptancePreflightPanel";
 import { SchoolLaunchPolicyGatePanel } from "@/features/pilot/SchoolLaunchPolicyGatePanel";
 import { SchoolPolicyHandoffPacketPanel } from "@/features/pilot/SchoolPolicyHandoffPacketPanel";
@@ -180,6 +182,7 @@ export default function TeacherIntakePage() {
         <SchoolPolicyHandoffPacketPanel packet={sampleSchoolPolicyHandoffPacket} />
         <SchoolPolicyAcceptancePreflightPanel preflight={sampleSchoolPolicyAcceptancePreflight} />
         <SchoolPolicyTextPackPanel pack={sampleSchoolPolicyTextPack} />
+        <SchoolPolicyAcceptanceRecordPreviewPanel preview={sampleSchoolPolicyAcceptanceRecordPreview} />
         <PilotSourceStrategyPanel strategy={samplePilotSourceStrategy} />
         <PilotHandoffPackagePanel handoffPackage={samplePilotHandoffPackage} />
         <PilotReleaseCandidatePanel gate={samplePackagePublishGate} ledger={samplePackageApprovalLedger} />

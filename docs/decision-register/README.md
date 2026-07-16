@@ -228,6 +228,7 @@
 - `DR-254-school-policy-acceptance-preflight-storage-contract.md`
 - `DR-255-school-policy-text-version-pack.md`
 - `DR-256-school-policy-text-pack-storage-contract.md`
+- `DR-257-school-acceptance-record-preview.md`
 
 ## Maintenance Rule
 
