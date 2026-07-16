@@ -9,6 +9,7 @@ import { sampleSchoolPolicyHandoffPacket } from "@/data/sampleSchoolPolicyHandof
 import { sampleSchoolPolicyRollbackImpactMatrix } from "@/data/sampleSchoolPolicyRollbackImpactMatrix";
 import { sampleSchoolPolicyRevocationRollbackPlan } from "@/data/sampleSchoolPolicyRevocationRollbackPlan";
 import { sampleSchoolPolicyTextPack } from "@/data/sampleSchoolPolicyTextPack";
+import { sampleSchoolRollbackSafeFallbackActivationPreview } from "@/data/sampleSchoolRollbackSafeFallbackActivationPreview";
 import { sampleSchoolRollbackSafeFallbackPreflight } from "@/data/sampleSchoolRollbackSafeFallbackPreflight";
 import { sampleSchoolRollbackSafeFallbackPlan } from "@/data/sampleSchoolRollbackSafeFallbackPlan";
 import { sampleTeacherDryRunRehearsal } from "@/data/sampleTeacherDryRunRehearsal";
@@ -20,6 +21,7 @@ import { SchoolPolicyHandoffPacketPanel } from "@/features/pilot/SchoolPolicyHan
 import { SchoolPolicyRollbackImpactMatrixPanel } from "@/features/pilot/SchoolPolicyRollbackImpactMatrixPanel";
 import { SchoolPolicyRevocationRollbackPanel } from "@/features/pilot/SchoolPolicyRevocationRollbackPanel";
 import { SchoolPolicyTextPackPanel } from "@/features/pilot/SchoolPolicyTextPackPanel";
+import { SchoolRollbackSafeFallbackActivationPreviewPanel } from "@/features/pilot/SchoolRollbackSafeFallbackActivationPreviewPanel";
 import { SchoolRollbackSafeFallbackPreflightPanel } from "@/features/pilot/SchoolRollbackSafeFallbackPreflightPanel";
 import { SchoolRollbackSafeFallbackPanel } from "@/features/pilot/SchoolRollbackSafeFallbackPanel";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
@@ -123,6 +125,7 @@ export default async function ClassroomLaunchGatePage({ params }: ClassroomLaunc
         <SchoolPolicyRollbackImpactMatrixPanel matrix={sampleSchoolPolicyRollbackImpactMatrix} />
         <SchoolRollbackSafeFallbackPanel plan={sampleSchoolRollbackSafeFallbackPlan} />
         <SchoolRollbackSafeFallbackPreflightPanel preflight={sampleSchoolRollbackSafeFallbackPreflight} />
+        <SchoolRollbackSafeFallbackActivationPreviewPanel preview={sampleSchoolRollbackSafeFallbackActivationPreview} />
       </div>
     </AppShell>
   );

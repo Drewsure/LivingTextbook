@@ -31,6 +31,8 @@ const schoolRollbackSafeFallbackPlan = readSource("../apps/web/src/data/sampleSc
 const schoolRollbackSafeFallbackPanel = readSource("../apps/web/src/features/pilot/SchoolRollbackSafeFallbackPanel.tsx");
 const schoolRollbackSafeFallbackPreflight = readSource("../apps/web/src/data/sampleSchoolRollbackSafeFallbackPreflight.ts");
 const schoolRollbackSafeFallbackPreflightPanel = readSource("../apps/web/src/features/pilot/SchoolRollbackSafeFallbackPreflightPanel.tsx");
+const schoolRollbackSafeFallbackActivationPreview = readSource("../apps/web/src/data/sampleSchoolRollbackSafeFallbackActivationPreview.ts");
+const schoolRollbackSafeFallbackActivationPreviewPanel = readSource("../apps/web/src/features/pilot/SchoolRollbackSafeFallbackActivationPreviewPanel.tsx");
 const schoolPolicyHandoffPacket = readSource("../apps/web/src/data/sampleSchoolPolicyHandoffPacket.ts");
 const schoolPolicyHandoffPacketPanel = readSource("../apps/web/src/features/pilot/SchoolPolicyHandoffPacketPanel.tsx");
 const backendSchema = readSource("../apps/web/src/data/sampleBackendSchemaDraft.ts");
@@ -279,6 +281,18 @@ requireText(schoolRollbackSafeFallbackPreflight, "No fallback activation", "Scho
 requireText(schoolRollbackSafeFallbackPreflight, "No student reassignment", "School rollback safe fallback preflight must block student reassignment.");
 requireText(schoolRollbackSafeFallbackPreflightPanel, "School rollback safe fallback preflight", "School rollback safe fallback preflight panel must be visible.");
 requireText(schoolRollbackSafeFallbackPreflightPanel, "No fallback activation", "School rollback safe fallback preflight panel must block activation behavior.");
+requireText(schoolRollbackSafeFallbackActivationPreview, "sampleSchoolRollbackSafeFallbackPreflight", "School rollback safe fallback activation preview must derive from the safe fallback preflight.");
+requireText(schoolRollbackSafeFallbackActivationPreview, "Future safe fallback activation record preview", "School rollback safe fallback activation preview must expose a school-facing title.");
+requireText(schoolRollbackSafeFallbackActivationPreview, "Activation record blocked", "School rollback safe fallback activation preview must remain blocked.");
+requireText(schoolRollbackSafeFallbackActivationPreview, "Authenticated school operator", "School rollback safe fallback activation preview must require authenticated operator identity.");
+requireText(schoolRollbackSafeFallbackActivationPreview, "Accepted safe fallback preflight", "School rollback safe fallback activation preview must bind to the preflight.");
+requireText(schoolRollbackSafeFallbackActivationPreview, "Printed QR route scope", "School rollback safe fallback activation preview must cover printed QR route scope.");
+requireText(schoolRollbackSafeFallbackActivationPreview, "Local companion fallback binding", "School rollback safe fallback activation preview must cover local fallback binding.");
+requireText(schoolRollbackSafeFallbackActivationPreview, "Media playlist fallback binding", "School rollback safe fallback activation preview must cover media fallback binding.");
+requireText(schoolRollbackSafeFallbackActivationPreview, "No fallback activated", "School rollback safe fallback activation preview must block activated status.");
+requireText(schoolRollbackSafeFallbackActivationPreview, "No activate fallback button", "School rollback safe fallback activation preview must block activation buttons.");
+requireText(schoolRollbackSafeFallbackActivationPreviewPanel, "Future safe fallback activation record preview", "School rollback safe fallback activation preview panel must be visible.");
+requireText(schoolRollbackSafeFallbackActivationPreviewPanel, "No fallback activated", "School rollback safe fallback activation preview panel must block activation behavior.");
 requireText(backendSchema, "package_release_candidate", "Backend schema must include package release candidate record.");
 requireText(backendSchema, "package_publish_gate", "Backend schema must include package publish gate record.");
 requireText(backendSchema, "package_approval_ledger", "Backend schema must include package approval ledger record.");
@@ -299,6 +313,7 @@ requireText(routeVerifier, "School policy revocation and rollback preview", "Act
 requireText(routeVerifier, "School rollback impact matrix", "Active route verifier must keep school rollback impact matrix visible.");
 requireText(routeVerifier, "School rollback safe fallback plan", "Active route verifier must keep school rollback safe fallback plan visible.");
 requireText(routeVerifier, "School rollback safe fallback preflight", "Active route verifier must keep school rollback safe fallback preflight visible.");
+requireText(routeVerifier, "Future safe fallback activation record preview", "Active route verifier must keep school rollback safe fallback activation preview visible.");
 requireText(routeVerifier, "school_rollback_safe_fallback_plan", "Active route verifier must keep school rollback safe fallback plan storage visible.");
 
 if (failures.length > 0) {

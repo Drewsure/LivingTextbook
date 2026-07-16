@@ -233,6 +233,8 @@ The `School rollback safe fallback preflight` lists the checks required before f
 
 The backend-neutral record is `school_rollback_safe_fallback_preflight` / `school-rollback-safe-fallback-preflight`. Hosted and local implementations must preserve preflight lanes, minimum activation fields, blocked actions, and preflight rules while blocking fallback activation, release-state mutation, production QR redirects, live notifications, classroom shutdown, report export, media replacement, local bundle deactivation, and student reassignment workflows.
 
+The `Future safe fallback activation record preview` names the minimum fields a future authenticated school fallback activation record would need before it can ever be built. It is not an activation record and cannot activate fallback behavior, mutate releases or QR routes, send notifications, shut down classrooms, replace media, deactivate local bundles, export reports, or reassign students.
+
 ## Required Blocking Areas Before Real Pilot
 
 A real pilot package requires closure on:
@@ -295,4 +297,5 @@ The gate is useful when a future engineer, agent, teacher, or publisher can answ
 - Can the team review safe fallback copy and route-pause responsibilities before production QR or local package behavior changes?
 - Can hosted and local deployments preserve safe fallback wording without enabling notifications, QR redirects, shutdowns, media replacement, local deactivation, or reassignment?
 - Can hosted and local deployments preserve safe fallback preflight checklist records without enabling fallback activation, release mutation, notifications, QR redirects, shutdowns, media replacement, local deactivation, report export, or reassignment?
+- Can the future safe fallback activation record be reviewed without creating an activate button, fallback activated marker, QR redirect, notification, media replacement, report export, local deactivation, or reassignment?
 - Can the team see the preflight checks required before fallback copy, printed QR pause behavior, local companion fallback, or media playlist pause can ever be activated?

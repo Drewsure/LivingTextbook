@@ -116,6 +116,26 @@ expectedTextByPath.get("/teacher/intake")?.push(
   "No AI Tutor entitlement change",
 );
 
+const safeFallbackActivationPreviewExpected = [
+  "Future safe fallback activation record preview",
+  "Activation record blocked",
+  "Authenticated school operator",
+  "Accepted safe fallback preflight",
+  "Printed QR route scope",
+  "Local companion fallback binding",
+  "Media playlist fallback binding",
+  "No fallback activated",
+  "No activate fallback button",
+];
+
+expectedTextByPath.get("/teacher/intake")?.push(...safeFallbackActivationPreviewExpected);
+expectedTextByPath
+  .get("/teacher/launch-gate/starter-english-level-1-unit-1-2026.1-pilot-candidate-classroom-launch-gate")
+  ?.push(...safeFallbackActivationPreviewExpected);
+expectedTextByPath
+  .get("/teacher/policy-handoff/starter-english-level-1-unit-1-2026.1-pilot-candidate-classroom-launch-gate-school-policy-gate-handoff-packet")
+  ?.push(...safeFallbackActivationPreviewExpected);
+
 if (urls.length === 0) {
   console.error("No active local routes found in docs/ACTIVE_ROUTE_VERIFICATION_LIST.md.");
   process.exit(1);
