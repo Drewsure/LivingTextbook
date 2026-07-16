@@ -50,6 +50,7 @@ import { sampleSchoolPolicyHandoffPacket } from "@/data/sampleSchoolPolicyHandof
 import { sampleSchoolPolicyRollbackImpactMatrix } from "@/data/sampleSchoolPolicyRollbackImpactMatrix";
 import { sampleSchoolPolicyRevocationRollbackPlan } from "@/data/sampleSchoolPolicyRevocationRollbackPlan";
 import { sampleSchoolPolicyTextPack } from "@/data/sampleSchoolPolicyTextPack";
+import { sampleSchoolRollbackSafeFallbackPreflight } from "@/data/sampleSchoolRollbackSafeFallbackPreflight";
 import { sampleSchoolRollbackSafeFallbackPlan } from "@/data/sampleSchoolRollbackSafeFallbackPlan";
 import { sampleTeacherDryRunRehearsal } from "@/data/sampleTeacherDryRunRehearsal";
 import { sampleProgressEventTaxonomyRegistry } from "@/data/sampleProgressEventTaxonomy";
@@ -128,6 +129,7 @@ import { SchoolPolicyHandoffPacketPanel } from "@/features/pilot/SchoolPolicyHan
 import { SchoolPolicyRollbackImpactMatrixPanel } from "@/features/pilot/SchoolPolicyRollbackImpactMatrixPanel";
 import { SchoolPolicyRevocationRollbackPanel } from "@/features/pilot/SchoolPolicyRevocationRollbackPanel";
 import { SchoolPolicyTextPackPanel } from "@/features/pilot/SchoolPolicyTextPackPanel";
+import { SchoolRollbackSafeFallbackPreflightPanel } from "@/features/pilot/SchoolRollbackSafeFallbackPreflightPanel";
 import { SchoolRollbackSafeFallbackPanel } from "@/features/pilot/SchoolRollbackSafeFallbackPanel";
 import { TeacherDryRunRehearsalPanel } from "@/features/pilot/TeacherDryRunRehearsalPanel";
 import { EvidenceExportReadinessPanel } from "@/features/evidence/EvidenceExportReadinessPanel";
@@ -192,6 +194,7 @@ export default function TeacherIntakePage() {
         <SchoolPolicyRevocationRollbackPanel plan={sampleSchoolPolicyRevocationRollbackPlan} />
         <SchoolPolicyRollbackImpactMatrixPanel matrix={sampleSchoolPolicyRollbackImpactMatrix} />
         <SchoolRollbackSafeFallbackPanel plan={sampleSchoolRollbackSafeFallbackPlan} />
+        <SchoolRollbackSafeFallbackPreflightPanel preflight={sampleSchoolRollbackSafeFallbackPreflight} />
         <PilotSourceStrategyPanel strategy={samplePilotSourceStrategy} />
         <PilotHandoffPackagePanel handoffPackage={samplePilotHandoffPackage} />
         <PilotReleaseCandidatePanel gate={samplePackagePublishGate} ledger={samplePackageApprovalLedger} />

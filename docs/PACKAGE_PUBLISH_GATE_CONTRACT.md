@@ -229,6 +229,8 @@ The `School rollback safe fallback plan` previews child-safe pause messages, tea
 
 The backend-neutral record is `school_rollback_safe_fallback_plan` / `school-rollback-safe-fallback-plan`. Hosted and local implementations must preserve message drafts, route fallbacks, blocked actions, and fallback rules while blocking production QR redirect mutation, live notifications, classroom shutdown, report export, media replacement, local bundle deactivation, and student reassignment workflows.
 
+The `School rollback safe fallback preflight` lists the checks required before fallback copy or route-pause behavior can move beyond review: child-safe copy review, school communication policy, printed QR fallback policy, local companion fallback policy, media playlist fallback policy, and assignment/report policy. It is not an activation workflow and cannot change route, release, local package, media, report, learner-data, or assignment state.
+
 ## Required Blocking Areas Before Real Pilot
 
 A real pilot package requires closure on:
@@ -290,3 +292,4 @@ The gate is useful when a future engineer, agent, teacher, or publisher can answ
 - Can the team see which records and evidence areas would be affected by rollback before any live rollback workflow exists?
 - Can the team review safe fallback copy and route-pause responsibilities before production QR or local package behavior changes?
 - Can hosted and local deployments preserve safe fallback wording without enabling notifications, QR redirects, shutdowns, media replacement, local deactivation, or reassignment?
+- Can the team see the preflight checks required before fallback copy, printed QR pause behavior, local companion fallback, or media playlist pause can ever be activated?
