@@ -65,6 +65,9 @@ expectedTextByPath.get("/teacher/intake")?.push(
   "No attachment migration",
   "No production retention clock",
   "No release-state mutation",
+  "reviewer_identity_signature_gate",
+  "Reviewer identity and signature gate record",
+  "reviewer-identity-signature-gate-record",
 );
 
 if (urls.length === 0) {

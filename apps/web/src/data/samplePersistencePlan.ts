@@ -47,6 +47,7 @@ export type PersistenceBoundaryCategory =
   | "package-publish-gate"
   | "package-approval-ledger"
   | "pilot-evidence-packet"
+  | "reviewer-identity-signature-gate"
   | "teacher-dry-run-rehearsal"
   | "classroom-launch-gate";
 
@@ -699,6 +700,27 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     note: "The evidence packet must become durable before real partner pilot proof is collected, while keeping file upload and signed approval capture blocked until identity, storage, retention, and policy are accepted.",
   },
   {
+    recordId: "reviewer-identity-signature-gate-record",
+    category: "reviewer-identity-signature-gate",
+    label: "Reviewer identity and signature gate record",
+    readiness: "policy-required",
+    sourceOfTruth:
+      "ReviewerIdentitySignatureGate, authenticated reviewer identity, approval intent, signature policy, audit retention, revocation policy, and release-control binding",
+    requiredBeforePilot: true,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesReviewerIdentitySignatureGate: true,
+    blocksApprovalCapture: true,
+    blocksSignatureAttachmentUpload: true,
+    blocksApprovalDrivenAssignment: true,
+    recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store", "school-policy"],
+    note:
+      "Reviewer identity and signature gate records must exist before signed approval capture. They preserve identity, approval intent, signature policy, revocation, and audit requirements while blocking approve buttons, signature attachments, signed PDFs, release-state mutation, evidence downloads, and approval-driven assignment.",
+  },
+  {
     recordId: "teacher-dry-run-rehearsal-record",
     category: "teacher-dry-run-rehearsal",
     label: "Teacher dry-run rehearsal record",
@@ -1171,6 +1193,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     visibleTo: ["Platform admin", "Tenant admin", "Publisher media owner", "School admin"],
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision: "Store evidence packet metadata beside publish gates and approval ledgers before live evidence upload or signed approval capture.",
+  },
+  {
+    boundaryId: "reviewer-identity-signature-gate-boundary",
+    category: "reviewer-identity-signature-gate",
+    label: "Reviewer identity and signature gate records",
+    status: "needs-policy",
+    recordShape:
+      "Reviewer identity gate id, package id, evidence packet version id, approval scope, approval intent, signature method policy, revocation policy, audit retention, and blocked approval actions",
+    whyItMatters:
+      "A white-label tenant must know who approved, what was approved, whether evidence was complete, and how signatures are revoked or exported before any approval can affect release state.",
+    visibleTo: ["Platform admin", "Tenant admin", "Publisher reviewer", "School approver"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Store reviewer identity and signature gate metadata before enabling approve buttons, signed approval capture, signature attachments, signed PDFs, evidence downloads, or approval-based assignments.",
   },
   {
     boundaryId: "teacher-dry-run-rehearsal-boundary",

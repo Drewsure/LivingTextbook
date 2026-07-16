@@ -26,8 +26,9 @@ Use after pulling the latest `legacy-source-import` branch and running local typ
 16. Teacher report package records include `event_acceptance_summary`.
 17. Package publish gate records forbid pilot-publishable status while blockers are open.
 18. Package approval ledger records do not imply fake signed approvals.
-19. Cross-cutting rules preserve tenant boundaries, audio/transcript exclusions, media manifest separation, teacher draft review handoff packet sections, package game/audio coverage as metadata only, progress event effect taxonomy, event acceptance gate requirements, report event acceptance summaries, support-language limits, AI Tutor gating, and hosted/local vocabulary compatibility.
-20. The panel uses existing tenant styling and does not introduce premium polish.
+19. Reviewer identity and signature gate records preserve reviewer identity requirements, approval intent requirements, signature policy requirements, audit retention requirements, approval capture blocks, signature attachment upload blocks, and approval-driven assignment blocks.
+20. Cross-cutting rules preserve tenant boundaries, audio/transcript exclusions, media manifest separation, teacher draft review handoff packet sections, package game/audio coverage as metadata only, progress event effect taxonomy, event acceptance gate requirements, report event acceptance summaries, support-language limits, AI Tutor gating, and hosted/local vocabulary compatibility.
+21. The panel uses existing tenant styling and does not introduce premium polish.
 
 ## Build Verification
 

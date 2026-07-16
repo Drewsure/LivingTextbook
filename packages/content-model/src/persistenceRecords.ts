@@ -36,6 +36,7 @@ export type PersistenceRecordCategory =
   | "package-publish-gate"
   | "package-approval-ledger"
   | "pilot-evidence-packet"
+  | "reviewer-identity-signature-gate"
   | "teacher-dry-run-rehearsal"
   | "classroom-launch-gate";
 
@@ -119,6 +120,10 @@ export interface DurableRecordContract {
   blocksPublicCommunityPublishing?: boolean;
   preservesPilotEvidencePacket?: boolean;
   blocksSignedApprovalCapture?: boolean;
+  preservesReviewerIdentitySignatureGate?: boolean;
+  blocksApprovalCapture?: boolean;
+  blocksSignatureAttachmentUpload?: boolean;
+  blocksApprovalDrivenAssignment?: boolean;
   preservesTeacherDryRunRehearsal?: boolean;
   blocksStudentLaunchAction?: boolean;
   blocksRealLearnerDataCollection?: boolean;
@@ -416,6 +421,22 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "pilot-evidence-packet" && !record.blocksSignedApprovalCapture) {
       errors.push(`Pilot evidence packet record ${record.recordId} must block signed approval capture until identity and policy exist.`);
+    }
+
+    if (record.category === "reviewer-identity-signature-gate" && !record.preservesReviewerIdentitySignatureGate) {
+      errors.push(`Reviewer identity signature gate record ${record.recordId} must preserve reviewer identity, approval intent, signature policy, and audit retention gates.`);
+    }
+
+    if (record.category === "reviewer-identity-signature-gate" && !record.blocksApprovalCapture) {
+      errors.push(`Reviewer identity signature gate record ${record.recordId} must block approval capture.`);
+    }
+
+    if (record.category === "reviewer-identity-signature-gate" && !record.blocksSignatureAttachmentUpload) {
+      errors.push(`Reviewer identity signature gate record ${record.recordId} must block signature attachment upload.`);
+    }
+
+    if (record.category === "reviewer-identity-signature-gate" && !record.blocksApprovalDrivenAssignment) {
+      errors.push(`Reviewer identity signature gate record ${record.recordId} must block student assignment from approval.`);
     }
 
     if (record.category === "teacher-dry-run-rehearsal" && !record.preservesTeacherDryRunRehearsal) {

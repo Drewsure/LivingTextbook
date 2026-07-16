@@ -29,6 +29,7 @@ npm run verify:foundation
 - Upload review and promotion records preserve `target_mapping_packet` so uploads cannot become drafts, assets, playlists, local bundles, routes, or assignments through a vague target field.
 - Evidence packet records preserve packet keys, required evidence, missing evidence, blocked live actions, and handoff rules while blocking evidence upload, signed approval capture, promotion, and student-facing use.
 - Evidence attachment records preserve storage candidate, quarantine path, checksum requirement, malware scan status, retention period, delete/export policy, access-control status, and hosted/local/hybrid storage blocks while blocking upload, object writes, local folder writes, downloads, signed approval attachments, release-state mutation, and student-facing attachments.
+- Reviewer identity and signature gate records preserve reviewer identity, approval intent, signature policy, audit retention, revocation, and release-control binding while blocking approval capture, signature attachment upload, signed PDF packets, release-state mutation, evidence downloads, and approval-driven assignment.
 - Activity compatibility snapshots preserve payload shape, allowed activity modes, blocked conversions, target-language trigger policy, printable output policy, and student-facing pathway blocks.
 - Template rendering profiles preserve Flip Tiles-style source template identity, compatible game families, row/media slot policy, layout constraints, and student-facing rendering blocks.
 - Font accessibility profiles preserve approved learner fonts, tenant font packs, multilingual rendering rules, readability checks, license review, and student-facing font blocks.
@@ -48,6 +49,7 @@ npm run verify:foundation
 - Hosted and local adapter plans both include upload intake, upload review, and upload promotion writes with target mapping packet preservation.
 - Hosted and local adapter plans both include evidence packet writes.
 - Hosted and local adapter plans both include evidence attachment metadata writes.
+- Hosted and local adapter plans both include reviewer identity and signature gate writes.
 - Hosted and local adapter plans both include activity compatibility snapshot writes.
 - Hosted and local adapter plans both include template rendering profile writes.
 - Hosted and local adapter plans both include font accessibility profile writes.
@@ -56,7 +58,7 @@ npm run verify:foundation
 - Hosted and local adapter plans both include teacher draft review audit trail writes.
 - Hosted and local adapter plans both include tenant library item writes.
 - Hosted and local adapter plans both include teacher dry-run rehearsal writes.
-- Durable record plans assign teacher settings to launch sessions, require event acceptance gates, preserve earned collection rules, preserve teacher draft review gates, preserve draft review handoff packet sections, preserve verifier preflight checks, preserve upload source lineage, preserve upload target mapping packets, preserve evidence packet flows, preserve evidence attachment metadata, preserve activity compatibility snapshots, preserve template rendering profiles, preserve font accessibility profiles, preserve reviewer decision evidence requirements, preserve review evidence packets, preserve review audit trails, and preserve tenant library source-lineage rules.
+- Durable record plans assign teacher settings to launch sessions, require event acceptance gates, preserve earned collection rules, preserve teacher draft review gates, preserve draft review handoff packet sections, preserve verifier preflight checks, preserve upload source lineage, preserve upload target mapping packets, preserve evidence packet flows, preserve evidence attachment metadata, preserve reviewer identity/signature gates, preserve activity compatibility snapshots, preserve template rendering profiles, preserve font accessibility profiles, preserve reviewer decision evidence requirements, preserve review evidence packets, preserve review audit trails, and preserve tenant library source-lineage rules.
 
 ## Human Follow-Up
 

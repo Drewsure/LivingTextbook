@@ -658,6 +658,43 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
       notAllowedYet: ["Evidence upload without storage policy", "Signed approval without identity", "Chat-only approval proof", "Pilot release from evidence packet alone"],
     },
     {
+      migrationId: "m037-reviewer-identity-signature-gates",
+      label: "Reviewer identity and signature gate records",
+      track: "shared",
+      status: "needs-policy",
+      risk: "medium",
+      targetEntities: ["reviewer_identity_signature_gate"],
+      purpose:
+        "Persist reviewer identity, approval intent, signature policy, audit retention, revocation, and release-control binding requirements before signed approval capture, approve buttons, signature attachments, signed PDF packets, evidence downloads, or approval-driven assignments can become live.",
+      prerequisites: [
+        "Pilot evidence packet records accepted",
+        "Package approval ledger accepted",
+        "Reviewer identity model accepted",
+        "Signature and revocation policy accepted",
+        "Evidence attachment storage policy accepted",
+      ],
+      implementationNotes: [
+        "Keep identity/signature gates tenant-scoped, package-scoped, release-candidate-scoped, and evidence-packet-version-scoped.",
+        "Preserve reviewer identity requirements, approval intent requirements, signature policy requirements, and audit retention requirements.",
+        "Block approval capture, signature attachment upload, signed PDF generation, release-state mutation, evidence download, and approval-driven assignment.",
+        "Do not let typed signatures, external signature files, or account approvals satisfy missing rights, scan, audio, accessibility, storage, or launch evidence.",
+      ],
+      rollbackOrExportNeeds: [
+        "Export reviewer identity and signature gate metadata with release-control records",
+        "Retain superseded approval policy snapshots for audit",
+        "Support local backup and restore of approval identity policy without storing raw signatures in chat history",
+      ],
+      notAllowedYet: [
+        "Signed approval capture",
+        "Approve button",
+        "Release-state mutation",
+        "Signature attachment upload",
+        "Signed PDF packet",
+        "Evidence download",
+        "Student assignment from approval",
+      ],
+    },
+    {
       migrationId: "m033-teacher-dry-run-rehearsal-records",
       label: "Teacher dry-run rehearsal records",
       track: "shared",

@@ -45,6 +45,7 @@ const requiredSchemaEntities = [
   "package_publish_gate",
   "package_approval_ledger",
   "pilot_evidence_packet",
+  "reviewer_identity_signature_gate",
   "teacher_dry_run_rehearsal",
   "classroom_launch_gate",
 ];
@@ -84,6 +85,7 @@ const requiredMigrationCandidates = [
   "m011-local-companion-handoff-records",
   "m012-local-companion-release-gate-records",
   "m032-pilot-evidence-packet-records",
+  "m037-reviewer-identity-signature-gates",
   "m033-teacher-dry-run-rehearsal-records",
   "m034-classroom-launch-gate-records",
 ];
@@ -122,6 +124,7 @@ const requiredMigrationSpecs = [
   "spec-local-companion-handoff",
   "spec-local-companion-release-gate",
   "spec-pilot-evidence-packet",
+  "spec-reviewer-identity-signature-gate",
   "spec-teacher-dry-run-rehearsal",
   "spec-classroom-launch-gate",
 ];
@@ -311,6 +314,17 @@ requireText(schemaDraft, "gate_evidence", "Backend schema must preserve gate evi
 requireText(schemaDraft, "approval_evidence", "Backend schema must preserve approval evidence in pilot evidence packets.");
 requireText(schemaDraft, "signed_approval_capture_allowed", "Backend schema must block signed approval capture.");
 requireText(schemaDraft, "Chat-only approval proof", "Backend schema must block chat-only approval proof.");
+requireText(schemaDraft, "reviewer_identity_signature_gate", "Backend schema must include reviewer identity and signature gate records.");
+requireText(schemaDraft, "identity_signature_gate_id", "Backend schema must preserve reviewer identity signature gate ids.");
+requireText(schemaDraft, "reviewer_identity_requirements", "Backend schema must preserve reviewer identity requirements.");
+requireText(schemaDraft, "approval_intent_requirements", "Backend schema must preserve approval intent requirements.");
+requireText(schemaDraft, "signature_policy_requirements", "Backend schema must preserve signature policy requirements.");
+requireText(schemaDraft, "audit_retention_requirements", "Backend schema must preserve audit retention requirements.");
+requireText(schemaDraft, "approval_capture_allowed", "Backend schema must block approval capture.");
+requireText(schemaDraft, "signature_attachment_upload_allowed", "Backend schema must block signature attachment upload.");
+requireText(schemaDraft, "approval_driven_assignment_allowed", "Backend schema must block approval-driven assignment.");
+requireText(schemaDraft, "Anonymous approval", "Backend schema must block anonymous approvals.");
+requireText(schemaDraft, "Signed PDF packet", "Backend schema must block signed PDF packets.");
 requireText(schemaDraft, "teacher_dry_run_rehearsal", "Backend schema must include teacher dry-run rehearsal records.");
 requireText(schemaDraft, "dry_run_id", "Backend schema must preserve dry-run ids.");
 requireText(schemaDraft, "route_rehearsal_results", "Backend schema must preserve route rehearsal checks.");
@@ -331,6 +345,15 @@ requireText(migrationSpecs, "spec-pilot-evidence-packet", "Migration specs must 
 requireText(migrationSpecs, "evidence_packet_id", "Migration specs must preserve pilot evidence packet ids.");
 requireText(migrationSpecs, "upload_allowed", "Migration specs must preserve evidence upload blocks.");
 requireText(migrationSpecs, "signed_approval_capture_allowed", "Migration specs must preserve signed approval capture blocks.");
+requireText(migrationSpecs, "spec-reviewer-identity-signature-gate", "Migration specs must include reviewer identity and signature gate records.");
+requireText(migrationSpecs, "identity_signature_gate_id", "Migration specs must preserve reviewer identity signature gate ids.");
+requireText(migrationSpecs, "reviewer_identity_requirements", "Migration specs must preserve reviewer identity requirements.");
+requireText(migrationSpecs, "approval_intent_requirements", "Migration specs must preserve approval intent requirements.");
+requireText(migrationSpecs, "signature_policy_requirements", "Migration specs must preserve signature policy requirements.");
+requireText(migrationSpecs, "audit_retention_requirements", "Migration specs must preserve audit retention requirements.");
+requireText(migrationSpecs, "approval_capture_allowed", "Migration specs must block approval capture.");
+requireText(migrationSpecs, "signature_attachment_upload_allowed", "Migration specs must block signature attachment upload.");
+requireText(migrationSpecs, "approval_driven_assignment_allowed", "Migration specs must block approval-driven assignment.");
 requireText(migrationSpecs, "spec-teacher-dry-run-rehearsal", "Migration specs must include teacher dry-run rehearsals.");
 requireText(migrationSpecs, "route_rehearsal_results", "Migration specs must preserve route rehearsal checks.");
 requireText(migrationSpecs, "student_launch_allowed", "Migration specs must block student launch from dry-run records.");
@@ -420,6 +443,12 @@ requireText(persistenceAdapter, "hosted-pilot-evidence-packet-write", "Persisten
 requireText(persistenceAdapter, "local-pilot-evidence-packet-write", "Persistence adapter must include local pilot evidence packet writes.");
 requireText(persistenceAdapter, "preservesPilotEvidencePacket: true", "Persistence adapter must preserve pilot evidence packet metadata.");
 requireText(persistenceAdapter, "blocksSignedApprovalCapture: true", "Persistence adapter must block signed approval capture.");
+requireText(persistenceAdapter, "hosted-reviewer-identity-signature-gate-write", "Persistence adapter must include hosted reviewer identity signature gate writes.");
+requireText(persistenceAdapter, "local-reviewer-identity-signature-gate-write", "Persistence adapter must include local reviewer identity signature gate writes.");
+requireText(persistenceAdapter, "preservesReviewerIdentitySignatureGate: true", "Persistence adapter must preserve reviewer identity and signature gates.");
+requireText(persistenceAdapter, "blocksApprovalCapture: true", "Persistence adapter must block approval capture.");
+requireText(persistenceAdapter, "blocksSignatureAttachmentUpload: true", "Persistence adapter must block signature attachment upload.");
+requireText(persistenceAdapter, "blocksApprovalDrivenAssignment: true", "Persistence adapter must block approval-driven assignment.");
 requireText(persistenceAdapter, "hosted-teacher-dry-run-rehearsal-write", "Persistence adapter must include hosted teacher dry-run rehearsal writes.");
 requireText(persistenceAdapter, "local-teacher-dry-run-rehearsal-write", "Persistence adapter must include local teacher dry-run rehearsal writes.");
 requireText(persistenceAdapter, "preservesTeacherDryRunRehearsal: true", "Persistence adapter must preserve teacher dry-run rehearsal checks.");
@@ -513,6 +542,11 @@ requireText(durableRecords, "blocksPublicCommunityPublishing: true", "Durable re
 requireText(durableRecords, "pilot-evidence-packet-record", "Durable record plan must include pilot evidence packet records.");
 requireText(durableRecords, "preservesPilotEvidencePacket: true", "Durable record plan must preserve pilot evidence packets.");
 requireText(durableRecords, "blocksSignedApprovalCapture: true", "Durable record plan must block signed approval capture.");
+requireText(durableRecords, "reviewer-identity-signature-gate-record", "Durable record plan must include reviewer identity signature gate records.");
+requireText(durableRecords, "preservesReviewerIdentitySignatureGate: true", "Durable record plan must preserve reviewer identity and signature gates.");
+requireText(durableRecords, "blocksApprovalCapture: true", "Durable record plan must block approval capture.");
+requireText(durableRecords, "blocksSignatureAttachmentUpload: true", "Durable record plan must block signature attachment upload.");
+requireText(durableRecords, "blocksApprovalDrivenAssignment: true", "Durable record plan must block approval-driven assignment.");
 requireText(durableRecords, "teacher-dry-run-rehearsal-record", "Durable record plan must include teacher dry-run rehearsal records.");
 requireText(durableRecords, "preservesTeacherDryRunRehearsal: true", "Durable record plan must preserve teacher dry-run rehearsal checks.");
 requireText(durableRecords, "blocksStudentLaunchAction: true", "Durable record plan must block student launch from dry-run records.");
@@ -542,6 +576,8 @@ requireText(routeVerifier, "Evidence packet record", "Active route verifier must
 requireText(routeVerifier, "evidence_attachment", "Active route verifier must keep evidence attachment storage visible on teacher intake.");
 requireText(routeVerifier, "Evidence attachment record", "Active route verifier must keep evidence attachment durable records visible on teacher intake.");
 requireText(routeVerifier, "pilot_evidence_packet", "Active route verifier must keep pilot evidence packet storage visible on teacher intake.");
+requireText(routeVerifier, "reviewer_identity_signature_gate", "Active route verifier must keep reviewer identity signature gate storage visible on teacher intake.");
+requireText(routeVerifier, "Reviewer identity and signature gate record", "Active route verifier must keep reviewer identity signature durable records visible on teacher intake.");
 requireText(routeVerifier, "teacher_dry_run_rehearsal", "Active route verifier must keep teacher dry-run rehearsal storage visible on teacher intake.");
 requireText(routeVerifier, "classroom_launch_gate", "Active route verifier must keep classroom launch gate storage visible on teacher intake.");
 

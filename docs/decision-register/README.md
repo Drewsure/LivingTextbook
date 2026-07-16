@@ -218,6 +218,7 @@
 - `DR-244-evidence-storage-adapter-selection-gate.md`
 - `DR-245-evidence-packet-assembly-gate.md`
 - `DR-246-reviewer-identity-signature-gate.md`
+- `DR-247-reviewer-identity-signature-storage-contract.md`
 
 ## Maintenance Rule
 

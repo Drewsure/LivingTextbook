@@ -74,6 +74,10 @@ export interface PersistenceWriteIntent {
   blocksPublicCommunityPublishing?: boolean;
   preservesPilotEvidencePacket?: boolean;
   blocksSignedApprovalCapture?: boolean;
+  preservesReviewerIdentitySignatureGate?: boolean;
+  blocksApprovalCapture?: boolean;
+  blocksSignatureAttachmentUpload?: boolean;
+  blocksApprovalDrivenAssignment?: boolean;
   preservesTeacherDryRunRehearsal?: boolean;
   blocksStudentLaunchAction?: boolean;
   blocksRealLearnerDataCollection?: boolean;
@@ -406,6 +410,22 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "pilot-evidence-packet" && !intent.blocksSignedApprovalCapture) {
       errors.push(`Pilot evidence packet write intent ${intent.intentId} must block signed approval capture until identity and policy exist.`);
+    }
+
+    if (intent.category === "reviewer-identity-signature-gate" && !intent.preservesReviewerIdentitySignatureGate) {
+      errors.push(`Reviewer identity signature gate write intent ${intent.intentId} must preserve reviewer identity, approval intent, signature policy, and audit retention gates.`);
+    }
+
+    if (intent.category === "reviewer-identity-signature-gate" && !intent.blocksApprovalCapture) {
+      errors.push(`Reviewer identity signature gate write intent ${intent.intentId} must block approval capture.`);
+    }
+
+    if (intent.category === "reviewer-identity-signature-gate" && !intent.blocksSignatureAttachmentUpload) {
+      errors.push(`Reviewer identity signature gate write intent ${intent.intentId} must block signature attachment upload.`);
+    }
+
+    if (intent.category === "reviewer-identity-signature-gate" && !intent.blocksApprovalDrivenAssignment) {
+      errors.push(`Reviewer identity signature gate write intent ${intent.intentId} must block student assignment from approval.`);
     }
 
     if (intent.category === "teacher-dry-run-rehearsal" && !intent.preservesTeacherDryRunRehearsal) {
