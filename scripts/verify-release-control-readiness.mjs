@@ -27,6 +27,8 @@ const schoolPolicyRevocationRollbackPlan = readSource("../apps/web/src/data/samp
 const schoolPolicyRevocationRollbackPanel = readSource("../apps/web/src/features/pilot/SchoolPolicyRevocationRollbackPanel.tsx");
 const schoolPolicyRollbackImpactMatrix = readSource("../apps/web/src/data/sampleSchoolPolicyRollbackImpactMatrix.ts");
 const schoolPolicyRollbackImpactMatrixPanel = readSource("../apps/web/src/features/pilot/SchoolPolicyRollbackImpactMatrixPanel.tsx");
+const schoolRollbackSafeFallbackPlan = readSource("../apps/web/src/data/sampleSchoolRollbackSafeFallbackPlan.ts");
+const schoolRollbackSafeFallbackPanel = readSource("../apps/web/src/features/pilot/SchoolRollbackSafeFallbackPanel.tsx");
 const schoolPolicyHandoffPacket = readSource("../apps/web/src/data/sampleSchoolPolicyHandoffPacket.ts");
 const schoolPolicyHandoffPacketPanel = readSource("../apps/web/src/features/pilot/SchoolPolicyHandoffPacketPanel.tsx");
 const backendSchema = readSource("../apps/web/src/data/sampleBackendSchemaDraft.ts");
@@ -253,6 +255,18 @@ requireText(schoolPolicyRollbackImpactMatrix, "No AI Tutor entitlement change", 
 requireText(schoolPolicyRollbackImpactMatrixPanel, "School rollback impact matrix", "School rollback impact matrix panel must be visible.");
 requireText(schoolPolicyRollbackImpactMatrixPanel, "No release-state mutation", "School rollback impact matrix panel must show blocked release-state mutation.");
 requireText(schoolPolicyRollbackImpactMatrixPanel, "No live workflow", "School rollback impact matrix panel must block live workflow behavior.");
+requireText(schoolRollbackSafeFallbackPlan, "sampleSchoolPolicyRollbackImpactMatrix", "School rollback safe fallback plan must derive from the rollback impact matrix.");
+requireText(schoolRollbackSafeFallbackPlan, "School rollback safe fallback plan", "School rollback safe fallback plan must expose a school-facing title.");
+requireText(schoolRollbackSafeFallbackPlan, "Fallback messaging blocked", "School rollback safe fallback plan must stay blocked.");
+requireText(schoolRollbackSafeFallbackPlan, "Student pause notice", "School rollback safe fallback plan must include student pause notice copy.");
+requireText(schoolRollbackSafeFallbackPlan, "Teacher contact handoff", "School rollback safe fallback plan must include teacher contact handoff copy.");
+requireText(schoolRollbackSafeFallbackPlan, "Local companion safe fallback", "School rollback safe fallback plan must include local companion fallback.");
+requireText(schoolRollbackSafeFallbackPlan, "No production QR redirect mutation", "School rollback safe fallback plan must block production QR redirects.");
+requireText(schoolRollbackSafeFallbackPlan, "No live notification", "School rollback safe fallback plan must block live notifications.");
+requireText(schoolRollbackSafeFallbackPlan, "No classroom shutdown workflow", "School rollback safe fallback plan must block classroom shutdown workflow.");
+requireText(schoolRollbackSafeFallbackPanel, "School rollback safe fallback plan", "School rollback safe fallback panel must be visible.");
+requireText(schoolRollbackSafeFallbackPanel, "No live notification", "School rollback safe fallback panel must block live notification behavior.");
+requireText(schoolRollbackSafeFallbackPanel, "No production QR", "School rollback safe fallback panel must block production QR behavior.");
 requireText(backendSchema, "package_release_candidate", "Backend schema must include package release candidate record.");
 requireText(backendSchema, "package_publish_gate", "Backend schema must include package publish gate record.");
 requireText(backendSchema, "package_approval_ledger", "Backend schema must include package approval ledger record.");
@@ -271,6 +285,7 @@ requireText(routeVerifier, "School policy text version pack", "Active route veri
 requireText(routeVerifier, "Future school acceptance record preview", "Active route verifier must keep school acceptance record preview visible.");
 requireText(routeVerifier, "School policy revocation and rollback preview", "Active route verifier must keep school policy revocation rollback preview visible.");
 requireText(routeVerifier, "School rollback impact matrix", "Active route verifier must keep school rollback impact matrix visible.");
+requireText(routeVerifier, "School rollback safe fallback plan", "Active route verifier must keep school rollback safe fallback plan visible.");
 
 if (failures.length > 0) {
   for (const failure of failures) {

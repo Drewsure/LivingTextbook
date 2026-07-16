@@ -9,6 +9,7 @@ import { sampleSchoolPolicyHandoffPacket } from "@/data/sampleSchoolPolicyHandof
 import { sampleSchoolPolicyRollbackImpactMatrix } from "@/data/sampleSchoolPolicyRollbackImpactMatrix";
 import { sampleSchoolPolicyRevocationRollbackPlan } from "@/data/sampleSchoolPolicyRevocationRollbackPlan";
 import { sampleSchoolPolicyTextPack } from "@/data/sampleSchoolPolicyTextPack";
+import { sampleSchoolRollbackSafeFallbackPlan } from "@/data/sampleSchoolRollbackSafeFallbackPlan";
 import { sampleTeacherDryRunRehearsal } from "@/data/sampleTeacherDryRunRehearsal";
 import { ClassroomLaunchGatePanel } from "@/features/pilot/ClassroomLaunchGatePanel";
 import { SchoolPolicyAcceptanceRecordPreviewPanel } from "@/features/pilot/SchoolPolicyAcceptanceRecordPreviewPanel";
@@ -18,6 +19,7 @@ import { SchoolPolicyHandoffPacketPanel } from "@/features/pilot/SchoolPolicyHan
 import { SchoolPolicyRollbackImpactMatrixPanel } from "@/features/pilot/SchoolPolicyRollbackImpactMatrixPanel";
 import { SchoolPolicyRevocationRollbackPanel } from "@/features/pilot/SchoolPolicyRevocationRollbackPanel";
 import { SchoolPolicyTextPackPanel } from "@/features/pilot/SchoolPolicyTextPackPanel";
+import { SchoolRollbackSafeFallbackPanel } from "@/features/pilot/SchoolRollbackSafeFallbackPanel";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 
 interface ClassroomLaunchGatePageProps {
@@ -117,6 +119,7 @@ export default async function ClassroomLaunchGatePage({ params }: ClassroomLaunc
         <SchoolPolicyAcceptanceRecordPreviewPanel preview={sampleSchoolPolicyAcceptanceRecordPreview} />
         <SchoolPolicyRevocationRollbackPanel plan={sampleSchoolPolicyRevocationRollbackPlan} />
         <SchoolPolicyRollbackImpactMatrixPanel matrix={sampleSchoolPolicyRollbackImpactMatrix} />
+        <SchoolRollbackSafeFallbackPanel plan={sampleSchoolRollbackSafeFallbackPlan} />
       </div>
     </AppShell>
   );

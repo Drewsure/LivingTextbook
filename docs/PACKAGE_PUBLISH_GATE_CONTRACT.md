@@ -225,6 +225,8 @@ The `School rollback impact matrix` extends that preview by naming affected reco
 
 The backend-neutral record is `school_policy_rollback_impact_matrix` / `school-policy-rollback-impact-matrix`. Hosted and local implementations must preserve impact rows, affected records, required evidence, blocked actions, and matrix rules while blocking release-state mutation, production QR redirect mutation, learner-data deletion, report export, media replacement, local bundle deactivation, AI Tutor entitlement changes, and live classroom shutdown workflows.
 
+The `School rollback safe fallback plan` previews child-safe pause messages, teacher contact handoffs, school admin notices, publisher media notices, printed QR safe-pause rules, local companion fallback rules, and media playlist fallback rules before any production QR redirect or local package deactivation exists. It cannot send live notifications, change routes, shut down classrooms, replace media, export reports, or reassign students.
+
 ## Required Blocking Areas Before Real Pilot
 
 A real pilot package requires closure on:
@@ -284,3 +286,4 @@ The gate is useful when a future engineer, agent, teacher, or publisher can answ
 - Can the team see the minimum future accepted-record fields without storing accepted terms, capturing signatures, or changing launch status?
 - Can the team see how revocation and rollback would be handled before acceptance affects launch readiness?
 - Can the team see which records and evidence areas would be affected by rollback before any live rollback workflow exists?
+- Can the team review safe fallback copy and route-pause responsibilities before production QR or local package behavior changes?

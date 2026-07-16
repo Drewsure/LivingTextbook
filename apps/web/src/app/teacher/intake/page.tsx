@@ -50,6 +50,7 @@ import { sampleSchoolPolicyHandoffPacket } from "@/data/sampleSchoolPolicyHandof
 import { sampleSchoolPolicyRollbackImpactMatrix } from "@/data/sampleSchoolPolicyRollbackImpactMatrix";
 import { sampleSchoolPolicyRevocationRollbackPlan } from "@/data/sampleSchoolPolicyRevocationRollbackPlan";
 import { sampleSchoolPolicyTextPack } from "@/data/sampleSchoolPolicyTextPack";
+import { sampleSchoolRollbackSafeFallbackPlan } from "@/data/sampleSchoolRollbackSafeFallbackPlan";
 import { sampleTeacherDryRunRehearsal } from "@/data/sampleTeacherDryRunRehearsal";
 import { sampleProgressEventTaxonomyRegistry } from "@/data/sampleProgressEventTaxonomy";
 import {
@@ -127,6 +128,7 @@ import { SchoolPolicyHandoffPacketPanel } from "@/features/pilot/SchoolPolicyHan
 import { SchoolPolicyRollbackImpactMatrixPanel } from "@/features/pilot/SchoolPolicyRollbackImpactMatrixPanel";
 import { SchoolPolicyRevocationRollbackPanel } from "@/features/pilot/SchoolPolicyRevocationRollbackPanel";
 import { SchoolPolicyTextPackPanel } from "@/features/pilot/SchoolPolicyTextPackPanel";
+import { SchoolRollbackSafeFallbackPanel } from "@/features/pilot/SchoolRollbackSafeFallbackPanel";
 import { TeacherDryRunRehearsalPanel } from "@/features/pilot/TeacherDryRunRehearsalPanel";
 import { EvidenceExportReadinessPanel } from "@/features/evidence/EvidenceExportReadinessPanel";
 import { EvidenceAttachmentStorageReadinessPanel } from "@/features/evidence/EvidenceAttachmentStorageReadinessPanel";
@@ -189,6 +191,7 @@ export default function TeacherIntakePage() {
         <SchoolPolicyAcceptanceRecordPreviewPanel preview={sampleSchoolPolicyAcceptanceRecordPreview} />
         <SchoolPolicyRevocationRollbackPanel plan={sampleSchoolPolicyRevocationRollbackPlan} />
         <SchoolPolicyRollbackImpactMatrixPanel matrix={sampleSchoolPolicyRollbackImpactMatrix} />
+        <SchoolRollbackSafeFallbackPanel plan={sampleSchoolRollbackSafeFallbackPlan} />
         <PilotSourceStrategyPanel strategy={samplePilotSourceStrategy} />
         <PilotHandoffPackagePanel handoffPackage={samplePilotHandoffPackage} />
         <PilotReleaseCandidatePanel gate={samplePackagePublishGate} ledger={samplePackageApprovalLedger} />
