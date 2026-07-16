@@ -120,6 +120,11 @@ Verify at:
 99. Confirm the selection gate still shows `Closed local evidence store candidate` and `Hybrid archive evidence store candidate`.
 100. Confirm vendor-neutral requirements include tenant isolation, metadata separated from binary files, quarantine-first storage, checksums, malware scan status, access control, audit logs, delete/export policy, local backup responsibility, and release-control mutation blocks.
 101. Confirm blocked actions include `No storage adapter selected`, `No object bucket creation`, `No local evidence folder activation`, `No signed URL generation`, `No direct file upload`, `No attachment migration`, `No production retention clock`, and `No release-state mutation`.
+102. Confirm `/teacher/evidence/sample-publisher` shows `Evidence packet assembly gate`.
+103. Confirm the assembly gate shows `Assembly blocked`, `Packet version not frozen`, `Evidence export blocked`, and `Storage adapter selection blocked`.
+104. Confirm release readiness lanes include `Upload intake assembly lane`, `Labelled Diagram assembly lane`, `Media assembly lane`, and `Release-control assembly lane`.
+105. Confirm the assembly gate shows required preconditions including authenticated reviewer identity, evidence storage adapter selection, attachment metadata, rights proof, scan provider result, audio coverage, accessibility signoff, release control, teacher dry-run evidence, and classroom launch gate acceptance.
+106. Confirm blocked actions include `No packet version freeze`, `No approval capture`, `No release state mutation`, `No student assignment`, `No export generation`, `No QR promotion`, `No route promotion`, `No local bundle activation`, `No storage write`, and `No evidence download`.
 
 ## Automated Command
 
@@ -169,3 +174,4 @@ Template rendering and font accessibility storage are also covered by `npm run v
 - This scaffold defines evidence export readiness only; it does not generate PDFs, export JSON, create downloadable ZIP files, send email handoffs, capture signatures, mutate release state, or assign students from exported evidence.
 - This scaffold defines evidence attachment storage readiness only; it does not upload files, write to object storage, write to local folders, download attachments, attach signed approvals, mutate release state, or make attachments student-facing.
 - This scaffold defines evidence storage adapter selection only; it does not select a backend vendor, create buckets, activate local folders, generate signed URLs, migrate attachments, start retention clocks, or enable upload/download behavior.
+- This scaffold defines an evidence packet assembly gate only; it does not freeze packet versions, capture approvals, mutate release state, create assignments, generate exports, promote QR routes, promote routes, activate local bundles, write storage, or download evidence.

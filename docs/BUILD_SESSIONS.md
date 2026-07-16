@@ -385,6 +385,7 @@ Next outputs:
 - Confirm `/teacher/intake` shows a publisher pilot readiness summary sourced from the package publish gate before partner demos, pilot handoff, or commercial readiness conversations.
 - Confirm `/teacher/intake` shows a pilot evidence packet preview before enabling live evidence upload, signed approval capture, or partner pilot release workflows.
 - Confirm backend schema, migration candidates, migration specs, adapter plans, and durable records preserve `pilot_evidence_packet` before live evidence upload, signed approval capture, or partner pilot release workflows.
+- Confirm `/teacher/evidence/sample-publisher` shows an evidence packet assembly gate with release readiness lanes, packet-version freeze blocks, and approval/export/QR/assignment/storage blocks before live evidence upload, packet export, signed approval capture, route promotion, QR promotion, local bundle activation, or student assignment is enabled.
 - Confirm `/teacher/intake` shows a pilot launch checklist preview before enabling live classroom launch, evidence upload, signed approval capture, or pilot-ready status changes.
 - Confirm `/teacher/intake` shows a teacher dry-run rehearsal preview before enabling live classroom launch, real learner data collection, report export, or pilot-ready status changes.
 - Confirm backend schema, migration candidates, migration specs, adapter plans, and durable records preserve `teacher_dry_run_rehearsal` before live classroom launch, real learner data collection, report export, or pilot-ready status changes.

@@ -11,6 +11,7 @@ const multimediaAssetReadiness = readSource("../apps/web/src/data/sampleMultimed
 const mediaAssetWorkspace = readSource("../apps/web/src/data/sampleMediaAssetWorkspace.ts");
 const evidencePacketFlows = readSource("../apps/web/src/data/sampleEvidencePacketFlows.ts");
 const evidencePacketReviewIndex = readSource("../apps/web/src/data/sampleEvidencePacketReviewIndex.ts");
+const evidencePacketAssemblyGate = readSource("../apps/web/src/data/sampleEvidencePacketAssemblyGate.ts");
 const evidencePacketHandoffPackage = readSource("../apps/web/src/data/sampleEvidencePacketHandoffPackage.ts");
 const evidenceExportReadiness = readSource("../apps/web/src/data/sampleEvidenceExportReadiness.ts");
 const evidenceAttachmentStorageReadiness = readSource("../apps/web/src/data/sampleEvidenceAttachmentStorageReadiness.ts");
@@ -19,6 +20,7 @@ const contentEntryOptionScaffold = readSource("../apps/web/src/data/sampleConten
 const templateRenderingFontProfiles = readSource("../apps/web/src/data/sampleTemplateRenderingFontProfiles.ts");
 const evidencePacketFlowPanel = readSource("../apps/web/src/features/evidence/EvidencePacketFlowPanel.tsx");
 const evidencePacketReviewIndexPanel = readSource("../apps/web/src/features/evidence/EvidencePacketReviewIndexPanel.tsx");
+const evidencePacketAssemblyGatePanel = readSource("../apps/web/src/features/evidence/EvidencePacketAssemblyGatePanel.tsx");
 const evidencePacketHandoffPanel = readSource("../apps/web/src/features/evidence/EvidencePacketHandoffPanel.tsx");
 const evidenceExportReadinessPanel = readSource("../apps/web/src/features/evidence/EvidenceExportReadinessPanel.tsx");
 const evidenceAttachmentStorageReadinessPanel = readSource("../apps/web/src/features/evidence/EvidenceAttachmentStorageReadinessPanel.tsx");
@@ -328,6 +330,59 @@ for (const text of requiredEvidencePacketReviewTexts) {
   requireText(evidencePacketReviewIndex, text, `Evidence packet review index data missing required text: ${text}.`);
 }
 
+const requiredEvidencePacketAssemblyTexts = [
+  "Evidence packet assembly gate",
+  "Assembly blocked",
+  "Packet version not frozen",
+  "Evidence export blocked",
+  "Storage adapter selection blocked",
+  "Release readiness lanes",
+  "Upload intake assembly lane",
+  "Labelled Diagram assembly lane",
+  "Media assembly lane",
+  "Release-control assembly lane",
+  "source_lineage_packet",
+  "rights_proof_packet",
+  "scan_and_file_policy_packet",
+  "target_mapping_packet",
+  "upload_review_decision_packet",
+  "game_asset_manifest_packet",
+  "label_anchor_record_packet",
+  "audio_coverage_packet",
+  "accessibility_packet",
+  "media_manifest_packet",
+  "caption_transcript_packet",
+  "background_media_policy_packet",
+  "local_bundle_checksum_packet",
+  "release_control_packet",
+  "pilot_evidence_packet",
+  "classroom_launch_gate",
+  "Authenticated reviewer identity",
+  "Evidence storage adapter selected",
+  "Attachment metadata complete",
+  "Rights proof attached",
+  "Scan provider result",
+  "Audio coverage verified",
+  "Accessibility signoff",
+  "Release control state machine connected",
+  "Teacher dry-run evidence accepted",
+  "Classroom launch gate accepted",
+  "No packet version freeze",
+  "No approval capture",
+  "No release state mutation",
+  "No student assignment",
+  "No export generation",
+  "No QR promotion",
+  "No route promotion",
+  "No local bundle activation",
+  "No storage write",
+  "No evidence download",
+];
+
+for (const text of requiredEvidencePacketAssemblyTexts) {
+  requireText(evidencePacketAssemblyGate, text, `Evidence packet assembly gate data missing required text: ${text}.`);
+}
+
 const requiredEvidencePacketHandoffTexts = [
   "Evidence packet handoff preview",
   "Upload intake evidence",
@@ -596,6 +651,17 @@ requireText(evidencePacketReviewIndexPanel, "Storage handoff", "Evidence packet 
 requireText(evidencePacketReviewIndexPanel, "Records required before evidence becomes durable", "Evidence packet review index panel must show durable record requirement.");
 requireText(evidencePacketReviewIndexPanel, "Storage contract records", "Evidence packet review index panel must show storage contract records.");
 requireText(evidencePacketReviewIndexPanel, "Standing review-only rules", "Evidence packet review index panel must show standing review-only rules.");
+requireText(evidencePacketAssemblyGatePanel, "Evidence assembly readiness", "Evidence packet assembly gate panel must expose its heading.");
+requireText(evidencePacketAssemblyGatePanel, "Source review route", "Evidence packet assembly gate panel must show the source review route.");
+requireText(evidencePacketAssemblyGatePanel, "Handoff preview route", "Evidence packet assembly gate panel must show the handoff preview route.");
+requireText(evidencePacketAssemblyGatePanel, "Release readiness lanes", "Evidence packet assembly gate panel must expose release readiness lanes.");
+requireText(
+  evidencePacketAssemblyGatePanel,
+  "Evidence that must assemble before release control can move",
+  "Evidence packet assembly gate panel must show the release-control assembly purpose.",
+);
+requireText(evidencePacketAssemblyGatePanel, "Required before packet version freeze", "Evidence packet assembly gate panel must show packet freeze requirements.");
+requireText(evidencePacketAssemblyGatePanel, "Reviewer instructions and blocked actions", "Evidence packet assembly gate panel must show reviewer instructions and blocked actions.");
 requireText(evidencePacketHandoffPanel, "Evidence handoff preview", "Evidence packet handoff panel must expose its heading.");
 requireText(evidencePacketHandoffPanel, "Handoff sections", "Evidence packet handoff panel must expose handoff sections.");
 requireText(evidencePacketHandoffPanel, "Evidence that would enter an export packet", "Evidence packet handoff panel must show export-packet shape.");
@@ -662,6 +728,8 @@ requireText(teacherUploadRoute, "sampleUploadTargetMappingPlan", "Teacher upload
 requireText(teacherUploadRoute, "sampleUploadEvidencePacketFlow", "Teacher upload route must pass the upload evidence packet flow.");
 requireText(teacherEvidencePacketRoute, "EvidencePacketReviewIndexPanel", "Teacher evidence packet route must render the review index panel.");
 requireText(teacherEvidencePacketRoute, "samplePublisherEvidencePacketReviewIndex", "Teacher evidence packet route must pass the sample publisher evidence review index.");
+requireText(teacherEvidencePacketRoute, "EvidencePacketAssemblyGatePanel", "Teacher evidence packet route must render the assembly gate panel.");
+requireText(teacherEvidencePacketRoute, "sampleEvidencePacketAssemblyGate", "Teacher evidence packet route must pass the sample evidence packet assembly gate.");
 requireText(teacherEvidencePacketHandoffRoute, "EvidencePacketHandoffPanel", "Teacher evidence packet handoff route must render the handoff panel.");
 requireText(teacherEvidencePacketHandoffRoute, "samplePublisherEvidencePacketHandoffPackage", "Teacher evidence packet handoff route must pass the sample publisher handoff package.");
 requireText(teacherLabelledDiagramAssetRoute, "findLabelledDiagramAssetWorkspace", "Teacher Labelled Diagram asset route must resolve the workspace by id.");
@@ -702,6 +770,12 @@ requireText(routeVerifier, "Labelled Diagram evidence packet flow", "Active rout
 requireText(routeVerifier, "Media evidence packet flow", "Active route verifier must check media evidence packets.");
 requireText(routeVerifier, "Evidence packet review index", "Active route verifier must check the evidence packet review index.");
 requireText(routeVerifier, "/teacher/evidence/sample-publisher", "Active route verifier must check the evidence packet review route.");
+requireText(routeVerifier, "Evidence packet assembly gate", "Active route verifier must check the evidence packet assembly gate.");
+requireText(routeVerifier, "Assembly blocked", "Active route verifier must check evidence packet assembly remains blocked.");
+requireText(routeVerifier, "Packet version not frozen", "Active route verifier must check packet version freeze remains blocked.");
+requireText(routeVerifier, "Release readiness lanes", "Active route verifier must check evidence packet release readiness lanes.");
+requireText(routeVerifier, "No packet version freeze", "Active route verifier must check packet version freeze is blocked.");
+requireText(routeVerifier, "No QR promotion", "Active route verifier must check QR promotion from evidence is blocked.");
 requireText(routeVerifier, "Evidence handoff preview", "Active route verifier must check the evidence packet handoff preview.");
 requireText(routeVerifier, "/teacher/evidence/sample-publisher/handoff", "Active route verifier must check the evidence packet handoff route.");
 requireText(routeVerifier, "No live evidence upload", "Active route verifier must check live evidence upload remains blocked.");
