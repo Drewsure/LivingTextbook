@@ -3780,5 +3780,143 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
         "Media playlist fallback remains blocked until rights proof, caption/transcript review, and learning-audio priority are accepted.",
       ],
     },
+    {
+      specId: "spec-school-rollback-safe-fallback-activation-preview",
+      label: "School rollback safe fallback activation preview",
+      candidateId: "m047-school-rollback-safe-fallback-activation-preview-records",
+      storeKind: "release-record",
+      status: "blocked-by-policy",
+      purpose:
+        "Stores future safe fallback activation record shape before any activation workflow, printed QR pause, local companion fallback, media playlist pause, report export, or reassignment behavior can be implemented.",
+      primaryKey: "school_rollback_safe_fallback_activation_preview_id",
+      tenantScope:
+        "Scoped by tenant_id, package_release_id, release_candidate_id, school_rollback_safe_fallback_preflight_id, and safe_fallback_activation_preview_revision.",
+      fields: [
+        {
+          name: "school_rollback_safe_fallback_activation_preview_id",
+          type: "string",
+          required: true,
+          note: "Stable id for one school rollback safe fallback activation preview snapshot.",
+        },
+        {
+          name: "school_rollback_safe_fallback_preflight_id",
+          type: "string",
+          required: true,
+          note: "Safe fallback preflight that this activation preview derives from.",
+        },
+        {
+          name: "release_candidate_id",
+          type: "string",
+          required: true,
+          note: "Release candidate this safe fallback activation preview applies to.",
+        },
+        {
+          name: "safe_fallback_activation_preview_revision",
+          type: "string",
+          required: true,
+          note: "Machine-readable revision used for audit and superseded-preview comparisons.",
+        },
+        {
+          name: "minimum_activation_record_fields",
+          type: "json",
+          required: true,
+          note: "Authenticated operator, accepted preflight, copy version, QR scope, local fallback, media fallback, assignment/report scope, and activation effect fields.",
+        },
+        {
+          name: "non_activated_markers",
+          type: "json",
+          required: true,
+          note: "Markers proving no fallback has activated and no live side effect exists.",
+        },
+        {
+          name: "blocked_actions",
+          type: "json",
+          required: true,
+          note: "Activate button, release mutation, QR mutation, notification, classroom shutdown, report export, media replacement, local deactivation, and reassignment blocks.",
+        },
+        {
+          name: "review_rules",
+          type: "json",
+          required: true,
+          note: "Rules keeping activation preview review-only, identity-bound, scope-bound, and policy-gated.",
+        },
+        {
+          name: "fallback_activation_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until a future policy-approved activation workflow exists.",
+        },
+        {
+          name: "release_state_mutation_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until release-control policy accepts a mutation workflow.",
+        },
+        {
+          name: "production_qr_redirect_mutation_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until printed QR fallback policy is accepted.",
+        },
+        {
+          name: "live_notification_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until school communication, identity, and audit policy are accepted.",
+        },
+        {
+          name: "live_classroom_shutdown_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until school, release-control, report, local package, and support policies pass.",
+        },
+        {
+          name: "report_export_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until report retention, access, and export policy are accepted.",
+        },
+        {
+          name: "media_replacement_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until publisher media rights and package release policy are accepted.",
+        },
+        {
+          name: "local_bundle_deactivation_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until local package deactivation and backup policy exist.",
+        },
+        {
+          name: "student_reassignment_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until teacher assignment, school communication, and release-control policy are accepted.",
+        },
+      ],
+      indexes: [
+        "tenant_id + release_candidate_id",
+        "school_rollback_safe_fallback_activation_preview_id unique",
+        "school_rollback_safe_fallback_preflight_id",
+        "fallback_activation_allowed",
+        "release_state_mutation_allowed",
+        "production_qr_redirect_mutation_allowed",
+        "safe_fallback_activation_preview_revision",
+      ],
+      retentionRule:
+        "Retain current and superseded safe fallback activation previews with release-control history while any school pilot approval, local bundle, policy decision, report policy, or printed QR route references the candidate.",
+      exportRule:
+        "Must export as JSON only after evidence export, school policy export, retention, and rollback policy rules are accepted; until then, it is metadata for review surfaces only.",
+      localFallback:
+        "Local classroom bundles store the same safe fallback activation preview metadata beside release-control records after local package, route fallback, media, and school communication rules allow it.",
+      policyBlockers: [
+        "School rollback safe fallback activation previews cannot activate fallback behavior, send notifications, mutate releases, redirect QR routes, shut down classrooms, export reports, replace media, deactivate local bundles, or reassign students by themselves.",
+        "Not-activated markers must remain true until a separate future activation workflow is designed and accepted.",
+        "Production QR fallback behavior remains blocked until printed QR, cache, installed PWA, and local companion policies are accepted.",
+        "Local companion fallback remains blocked until backup, restore, update, archive, and school support procedures are accepted.",
+        "Media playlist fallback remains blocked until rights proof, caption/transcript review, and learning-audio priority are accepted.",
+      ],
+    },
   ],
 };

@@ -47,7 +47,8 @@ export type PersistenceRecordCategory =
   | "school-policy-revocation-rollback-preview"
   | "school-policy-rollback-impact-matrix"
   | "school-rollback-safe-fallback-plan"
-  | "school-rollback-safe-fallback-preflight";
+  | "school-rollback-safe-fallback-preflight"
+  | "school-rollback-safe-fallback-activation-preview";
 
 export type PersistenceRecordReadiness =
   | "static-demo"
@@ -168,6 +169,7 @@ export interface DurableRecordContract {
   preservesSchoolPolicyRollbackImpactMatrix?: boolean;
   preservesSchoolRollbackSafeFallbackPlan?: boolean;
   preservesSchoolRollbackSafeFallbackPreflight?: boolean;
+  preservesSchoolRollbackSafeFallbackActivationPreview?: boolean;
   blocksRevocationAction?: boolean;
   blocksRollbackAction?: boolean;
   blocksReleaseStateMutation?: boolean;
@@ -791,6 +793,45 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "school-rollback-safe-fallback-preflight" && !record.blocksStudentReassignment) {
       errors.push(`School rollback safe fallback preflight ${record.recordId} must block student reassignment.`);
+    }
+
+    if (
+      record.category === "school-rollback-safe-fallback-activation-preview" &&
+      !record.preservesSchoolRollbackSafeFallbackActivationPreview
+    ) {
+      errors.push(`School rollback safe fallback activation preview ${record.recordId} must preserve minimum activation fields, non-activated markers, blocked actions, and review rules.`);
+    }
+
+    if (record.category === "school-rollback-safe-fallback-activation-preview" && !record.blocksReleaseStateMutation) {
+      errors.push(`School rollback safe fallback activation preview ${record.recordId} must block release-state mutation.`);
+    }
+
+    if (record.category === "school-rollback-safe-fallback-activation-preview" && !record.blocksProductionQrRedirectMutation) {
+      errors.push(`School rollback safe fallback activation preview ${record.recordId} must block production QR redirect mutation.`);
+    }
+
+    if (record.category === "school-rollback-safe-fallback-activation-preview" && !record.blocksLiveNotification) {
+      errors.push(`School rollback safe fallback activation preview ${record.recordId} must block live notifications.`);
+    }
+
+    if (record.category === "school-rollback-safe-fallback-activation-preview" && !record.blocksLiveClassroomLaunch) {
+      errors.push(`School rollback safe fallback activation preview ${record.recordId} must block live classroom launch.`);
+    }
+
+    if (record.category === "school-rollback-safe-fallback-activation-preview" && !record.blocksLiveReportExport) {
+      errors.push(`School rollback safe fallback activation preview ${record.recordId} must block report export.`);
+    }
+
+    if (record.category === "school-rollback-safe-fallback-activation-preview" && !record.blocksMediaReplacement) {
+      errors.push(`School rollback safe fallback activation preview ${record.recordId} must block media replacement.`);
+    }
+
+    if (record.category === "school-rollback-safe-fallback-activation-preview" && !record.blocksLocalBundleDeactivation) {
+      errors.push(`School rollback safe fallback activation preview ${record.recordId} must block local bundle deactivation.`);
+    }
+
+    if (record.category === "school-rollback-safe-fallback-activation-preview" && !record.blocksStudentReassignment) {
+      errors.push(`School rollback safe fallback activation preview ${record.recordId} must block student reassignment.`);
     }
 
     if (record.supportsLocalDeployment && !record.recommendedFirstPilotStore.includes("local-classroom-store")) {
