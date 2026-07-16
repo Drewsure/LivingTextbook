@@ -17,6 +17,8 @@ const classroomLaunchGate = readSource("../apps/web/src/data/sampleClassroomLaun
 const classroomLaunchGatePanel = readSource("../apps/web/src/features/pilot/ClassroomLaunchGatePanel.tsx");
 const schoolLaunchPolicyGate = readSource("../apps/web/src/data/sampleSchoolLaunchPolicyGate.ts");
 const schoolLaunchPolicyGatePanel = readSource("../apps/web/src/features/pilot/SchoolLaunchPolicyGatePanel.tsx");
+const schoolPolicyHandoffPacket = readSource("../apps/web/src/data/sampleSchoolPolicyHandoffPacket.ts");
+const schoolPolicyHandoffPacketPanel = readSource("../apps/web/src/features/pilot/SchoolPolicyHandoffPacketPanel.tsx");
 const backendSchema = readSource("../apps/web/src/data/sampleBackendSchemaDraft.ts");
 const migrationSpecs = readSource("../apps/web/src/data/sampleBackendMigrationSpecs.ts");
 const routeVerifier = readSource("./verify-active-routes.mjs");
@@ -143,6 +145,23 @@ requireText(schoolLaunchPolicyGatePanel, "School launch policy gate", "School la
 requireText(schoolLaunchPolicyGatePanel, "Required before live launch", "School launch policy gate panel must show live-launch requirements.");
 requireText(schoolLaunchPolicyGatePanel, "No school policy acceptance", "School launch policy gate panel must block live policy acceptance.");
 requireText(schoolLaunchPolicyGatePanel, "No approval workflow", "School launch policy gate panel must block approval workflow behavior.");
+requireText(schoolPolicyHandoffPacket, "sampleSchoolLaunchPolicyGate", "School policy handoff packet must derive from the school launch policy gate.");
+requireText(schoolPolicyHandoffPacket, "School policy handoff packet preview", "School policy handoff packet must expose a school-facing title.");
+requireText(schoolPolicyHandoffPacket, "Handoff draft only", "School policy handoff packet must stay draft-only.");
+requireText(schoolPolicyHandoffPacket, "Privacy, retention, and learner data", "School policy handoff packet must include privacy and learner-data discussion.");
+requireText(schoolPolicyHandoffPacket, "Teacher-led QR and student progression rules", "School policy handoff packet must include teacher QR and progression rules.");
+requireText(schoolPolicyHandoffPacket, "Publisher media, music, video, and local package", "School policy handoff packet must include publisher media/local package rules.");
+requireText(schoolPolicyHandoffPacket, "Teacher dry-run and evidence packet", "School policy handoff packet must include dry-run evidence.");
+requireText(schoolPolicyHandoffPacket, "Platform storage, release, and rollback controls", "School policy handoff packet must include platform storage/release controls.");
+requireText(schoolPolicyHandoffPacket, "No support-language-only progression", "School policy handoff packet must preserve target-language progression rules.");
+requireText(schoolPolicyHandoffPacket, "No AI Tutor activation", "School policy handoff packet must keep AI Tutor opt-in and blocked by default.");
+requireText(schoolPolicyHandoffPacket, "No launch-ready status", "School policy handoff packet must block launch-ready status.");
+requireText(schoolPolicyHandoffPacketPanel, "School policy handoff packet", "School policy handoff packet panel must be visible.");
+requireText(schoolPolicyHandoffPacketPanel, "Evidence needed", "School policy handoff packet panel must show evidence needs.");
+requireText(schoolPolicyHandoffPacketPanel, "Deferred decisions", "School policy handoff packet panel must show deferred decisions.");
+requireText(schoolPolicyHandoffPacketPanel, "Blocked actions", "School policy handoff packet panel must show blocked actions.");
+requireText(schoolPolicyHandoffPacketPanel, "No policy acceptance", "School policy handoff packet panel must block policy acceptance.");
+requireText(schoolPolicyHandoffPacketPanel, "create launch", "School policy handoff packet panel must state no live launch workflow is created.");
 requireText(backendSchema, "package_release_candidate", "Backend schema must include package release candidate record.");
 requireText(backendSchema, "package_publish_gate", "Backend schema must include package publish gate record.");
 requireText(backendSchema, "package_approval_ledger", "Backend schema must include package approval ledger record.");
@@ -155,6 +174,7 @@ requireText(routeVerifier, "Pilot launch checklist preview", "Active route verif
 requireText(routeVerifier, "Teacher dry-run rehearsal preview", "Active route verifier must keep teacher dry-run rehearsal visible.");
 requireText(routeVerifier, "Classroom launch gate preview", "Active route verifier must keep classroom launch gate visible.");
 requireText(routeVerifier, "School launch policy gate preview", "Active route verifier must keep school launch policy gate visible.");
+requireText(routeVerifier, "School policy handoff packet preview", "Active route verifier must keep school policy handoff packet visible.");
 
 if (failures.length > 0) {
   for (const failure of failures) {

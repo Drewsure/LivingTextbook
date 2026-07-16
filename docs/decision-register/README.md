@@ -221,6 +221,7 @@
 - `DR-247-reviewer-identity-signature-storage-contract.md`
 - `DR-248-school-launch-policy-gate.md`
 - `DR-249-school-launch-policy-gate-storage-contract.md`
+- `DR-250-school-policy-handoff-packet.md`
 
 ## Maintenance Rule
 

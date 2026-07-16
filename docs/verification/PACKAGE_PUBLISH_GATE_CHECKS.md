@@ -48,6 +48,11 @@ Use after pulling the latest `legacy-source-import` branch and running local typ
 38. The school launch policy gate shows `School launch decision blocked`, `School privacy and retention acceptance`, `Classroom operating mode acceptance`, `Publisher media and local package acceptance`, `Teacher dry-run evidence acceptance`, and `Platform release and storage acceptance`.
 39. The school launch policy gate shows `No school policy acceptance`, `No approval workflow`, `No real learner data collection`, `No teacher report export`, and `No support-language-only progression`.
 40. The school launch policy gate remains a review packet only and does not imply a live launch, policy acceptance workflow, release mutation, or report export.
+41. The teacher intake page renders a `School policy handoff packet preview` derived from the school launch policy gate.
+42. The focused classroom launch gate route renders the same school policy handoff packet.
+43. The handoff packet shows `Handoff draft only`, `No policy acceptance`, `Evidence needed`, `Deferred decisions`, and `Blocked actions`.
+44. The handoff packet includes `Privacy, retention, and learner data`, `Teacher-led QR and student progression rules`, `Publisher media, music, video, and local package`, `Teacher dry-run and evidence packet`, and `Platform storage, release, and rollback controls`.
+45. The handoff packet blocks `No support-language-only progression`, `No AI Tutor activation`, `No launch-ready status`, evidence export, signed approval capture, local activation, production QR promises, and live classroom workflow.
 
 ## Build Verification
 
@@ -78,4 +83,5 @@ Do not mark this verified if:
 - the classroom launch gate hides the launch-blocked, no-live-student-session, or no-launch-button boundary,
 - the school launch policy gate blurs controlled demo readiness with school-approved launch readiness,
 - the school launch policy gate hides school, publisher, platform, or shared teacher dry-run ownership,
+- the school policy handoff packet can be mistaken for policy acceptance, launch readiness, signed approval, evidence export, local activation, or production QR commitment,
 - the page fails typecheck/build after sync.

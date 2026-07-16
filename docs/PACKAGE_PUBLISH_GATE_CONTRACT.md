@@ -2,7 +2,7 @@
 
 Document type: foundation product/data contract  
 Status: active scaffold  
-Last updated: 2026-07-14
+Last updated: 2026-07-16
 
 ## Purpose
 
@@ -26,6 +26,7 @@ Current files:
 - `apps/web/src/data/sampleTeacherDryRunRehearsal.ts`
 - `apps/web/src/data/sampleClassroomLaunchGate.ts`
 - `apps/web/src/data/sampleSchoolLaunchPolicyGate.ts`
+- `apps/web/src/data/sampleSchoolPolicyHandoffPacket.ts`
 - `apps/web/src/features/pilot/PackagePublishGatePanel.tsx`
 - `apps/web/src/features/pilot/PilotEvidencePacketPanel.tsx`
 - `apps/web/src/features/pilot/PilotLaunchChecklistPanel.tsx`
@@ -33,6 +34,7 @@ Current files:
 - `apps/web/src/features/pilot/TeacherDryRunRehearsalPanel.tsx`
 - `apps/web/src/features/pilot/ClassroomLaunchGatePanel.tsx`
 - `apps/web/src/features/pilot/SchoolLaunchPolicyGatePanel.tsx`
+- `apps/web/src/features/pilot/SchoolPolicyHandoffPacketPanel.tsx`
 - `apps/web/src/app/teacher/intake/page.tsx`
 
 ## Gate Domains
@@ -123,6 +125,22 @@ This distinction is a white-label product rule: a tenant can have a strong contr
 
 The backend-neutral record is `school_launch_policy_gate` / `school-launch-policy-gate`. Hosted and local implementations must preserve school, publisher, platform, and shared dry-run ownership while blocking policy acceptance workflows, live launch, real learner data, report export, local activation, release-state mutation, launch-ready status, and support-language-only progression.
 
+## School Policy Handoff Packet
+
+The `School policy handoff packet preview` translates the school launch policy gate into a school-facing discussion guide.
+
+It is derived from the school launch policy gate and organizes a future school meeting around:
+
+- privacy, retention, and learner data,
+- teacher-led QR and student progression rules,
+- publisher media, music, video, and local package responsibilities,
+- teacher dry-run and evidence packet expectations,
+- platform storage, release, and rollback controls.
+
+This packet is a handoff draft only. It can name evidence needed, deferred decisions, and blocked actions, but it cannot accept policy, capture signatures, create launch-ready status, export evidence, mutate release state, activate local deployment, create production QR promises, or start a live classroom workflow.
+
+The packet is part of the white-label foundation because schools and publishers need a readable pre-sales and pilot-readiness artifact. It must remain tenant-neutral and must not hard-code MiniStar-only mascots, curriculum, or school language.
+
 ## Required Blocking Areas Before Real Pilot
 
 A real pilot package requires closure on:
@@ -176,3 +194,4 @@ The gate is useful when a future engineer, agent, teacher, or publisher can answ
 - Can a teacher rehearse routes, games, audio, media, support-language limits, reporting, and local fallback without triggering live student workflows?
 - Can the team see the final launch boundary before real children, real learner records, or report exports are enabled?
 - Can the team clearly distinguish a partner demo from a school-approved launch, including which obligations belong to the school, publisher, platform, and shared teacher dry-run process?
+- Can a school meeting use the handoff packet to discuss privacy, QR use, progression rules, media, dry-run evidence, storage, release, and rollback without triggering acceptance, launch, or export workflows?
