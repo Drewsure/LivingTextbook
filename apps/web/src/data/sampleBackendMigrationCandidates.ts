@@ -996,6 +996,43 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
         "Live classroom shutdown workflow",
       ],
     },
+    {
+      migrationId: "m045-school-rollback-safe-fallback-plan-records",
+      label: "School rollback safe fallback plan records",
+      track: "shared",
+      status: "needs-policy",
+      risk: "medium",
+      targetEntities: ["school_rollback_safe_fallback_plan"],
+      purpose:
+        "Persist child-safe fallback messages and route fallback responsibilities before rollback can affect printed QR routes, installed PWA paths, local companion packages, media playlists, teacher handoff, or school support pages.",
+      prerequisites: [
+        "School rollback impact matrix accepted as review artifact",
+        "Printed QR fallback and school communication policy drafted",
+        "Local companion backup, update, archive, and support policy drafted",
+        "Publisher media playlist pause and replacement policy drafted",
+        "Teacher assignment and student communication policy drafted",
+      ],
+      implementationNotes: [
+        "Keep safe fallback plans tenant-scoped, package-scoped, impact-matrix-scoped, and release-candidate-scoped.",
+        "Preserve message drafts, route fallbacks, blocked actions, and fallback rules.",
+        "Block live notifications, production QR redirect mutation, classroom shutdown, report export, media replacement, local bundle deactivation, and student reassignment.",
+        "Do not let safe fallback plans replace school policy acceptance, release-control rollback, evidence export, route registry mutation, media replacement, or assignment workflows.",
+      ],
+      rollbackOrExportNeeds: [
+        "Export safe fallback plan metadata with release-control records only after export policy is accepted",
+        "Retain superseded fallback wording for audit",
+        "Support local bundle safe fallback metadata export when local policy allows it",
+      ],
+      notAllowedYet: [
+        "Live notification",
+        "Production QR redirect mutation",
+        "Classroom shutdown workflow",
+        "Report export",
+        "Media replacement",
+        "Local bundle deactivation",
+        "Student reassignment",
+      ],
+    },
   ],
   standingRules: [
     "Do not create production migrations before backend choice and policy gates are accepted.",
@@ -1029,6 +1066,7 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
     "School policy acceptance record preview records must preserve future accepted-record shape while blocking accepted terms storage, signatures, evidence export, storage activation, production QR promises, launch-ready status, AI Tutor activation, learner data, report export, and live classroom workflow.",
     "School policy revocation rollback preview records must preserve revocation authority, rollback scope, printed QR effect, learner-data/report effect, media/local package effect, premium feature effect, and blocked actions while blocking revocation actions, rollback buttons, release-state mutation, QR mutation, learner-data deletion, report export, media replacement, local bundle deactivation, AI Tutor entitlement changes, and live classroom shutdown workflow.",
     "School rollback impact matrix records must preserve affected records, required evidence, blocked actions, and matrix rules while blocking release-state mutation, QR mutation, learner-data deletion, report export, media replacement, local bundle deactivation, AI Tutor entitlement changes, and live classroom shutdown workflow.",
+    "School rollback safe fallback plan records must preserve child-safe message drafts, route fallbacks, blocked actions, and fallback rules while blocking live notifications, production QR redirect mutation, classroom shutdown, report export, media replacement, local bundle deactivation, and student reassignment.",
     "Every migration candidate needs rollback or export expectations before implementation.",
   ],
 };

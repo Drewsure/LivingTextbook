@@ -286,6 +286,7 @@ requireText(routeVerifier, "Future school acceptance record preview", "Active ro
 requireText(routeVerifier, "School policy revocation and rollback preview", "Active route verifier must keep school policy revocation rollback preview visible.");
 requireText(routeVerifier, "School rollback impact matrix", "Active route verifier must keep school rollback impact matrix visible.");
 requireText(routeVerifier, "School rollback safe fallback plan", "Active route verifier must keep school rollback safe fallback plan visible.");
+requireText(routeVerifier, "school_rollback_safe_fallback_plan", "Active route verifier must keep school rollback safe fallback plan storage visible.");
 
 if (failures.length > 0) {
   for (const failure of failures) {

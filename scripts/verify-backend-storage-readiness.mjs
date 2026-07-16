@@ -55,6 +55,7 @@ const requiredSchemaEntities = [
   "school_policy_acceptance_record_preview",
   "school_policy_revocation_rollback_preview",
   "school_policy_rollback_impact_matrix",
+  "school_rollback_safe_fallback_plan",
 ];
 
 const requiredMigrationCandidates = [
@@ -102,6 +103,7 @@ const requiredMigrationCandidates = [
   "m042-school-policy-acceptance-record-preview-records",
   "m043-school-policy-revocation-rollback-preview-records",
   "m044-school-policy-rollback-impact-matrix-records",
+  "m045-school-rollback-safe-fallback-plan-records",
 ];
 
 const requiredMigrationSpecs = [
@@ -148,6 +150,7 @@ const requiredMigrationSpecs = [
   "spec-school-policy-acceptance-record-preview",
   "spec-school-policy-revocation-rollback-preview",
   "spec-school-policy-rollback-impact-matrix",
+  "spec-school-rollback-safe-fallback-plan",
 ];
 
 for (const entityId of requiredSchemaEntities) {
@@ -414,6 +417,12 @@ requireText(schemaDraft, "impact_rows", "Backend schema must preserve school rol
 requireText(schemaDraft, "affected_records", "Backend schema must preserve school rollback affected records.");
 requireText(schemaDraft, "required_evidence", "Backend schema must preserve school rollback required evidence.");
 requireText(schemaDraft, "release_state_mutation_allowed", "Backend schema must block rollback impact matrix release-state mutation.");
+requireText(schemaDraft, "school_rollback_safe_fallback_plan", "Backend schema must include school rollback safe fallback plan records.");
+requireText(schemaDraft, "school_rollback_safe_fallback_plan_id", "Backend schema must preserve school rollback safe fallback plan ids.");
+requireText(schemaDraft, "message_drafts", "Backend schema must preserve school rollback safe fallback message drafts.");
+requireText(schemaDraft, "route_fallbacks", "Backend schema must preserve school rollback route fallbacks.");
+requireText(schemaDraft, "live_notification_allowed", "Backend schema must block live fallback notifications.");
+requireText(schemaDraft, "student_reassignment_allowed", "Backend schema must block fallback student reassignment.");
 requireText(migrationSpecs, "spec-pilot-evidence-packet", "Migration specs must include pilot evidence packets.");
 requireText(migrationSpecs, "evidence_packet_id", "Migration specs must preserve pilot evidence packet ids.");
 requireText(migrationSpecs, "upload_allowed", "Migration specs must preserve evidence upload blocks.");
@@ -479,6 +488,9 @@ requireText(migrationSpecs, "ai_tutor_entitlement_change_allowed", "Migration sp
 requireText(migrationSpecs, "spec-school-policy-rollback-impact-matrix", "Migration specs must include school rollback impact matrices.");
 requireText(migrationSpecs, "school_policy_rollback_impact_matrix_id", "Migration specs must preserve school rollback impact matrix ids.");
 requireText(migrationSpecs, "impact_matrix_revision", "Migration specs must preserve school rollback impact matrix revisions.");
+requireText(migrationSpecs, "spec-school-rollback-safe-fallback-plan", "Migration specs must include school rollback safe fallback plans.");
+requireText(migrationSpecs, "school_rollback_safe_fallback_plan_id", "Migration specs must preserve school rollback safe fallback plan ids.");
+requireText(migrationSpecs, "safe_fallback_revision", "Migration specs must preserve school rollback safe fallback revisions.");
 requireText(persistenceAdapter, "hosted-launch-session-write", "Persistence adapter must include hosted launch-session writes.");
 requireText(persistenceAdapter, "local-launch-session-write", "Persistence adapter must include local launch-session writes.");
 requireText(persistenceAdapter, "hosted-teacher-draft-package-write", "Persistence adapter must include hosted teacher draft writes.");
@@ -756,6 +768,10 @@ requireText(durableRecords, "blocksAiTutorEntitlementChange: true", "Durable rec
 requireText(durableRecords, "school-policy-rollback-impact-matrix-record", "Durable record plan must include school rollback impact matrix records.");
 requireText(durableRecords, "preservesSchoolPolicyRollbackImpactMatrix: true", "Durable record plan must preserve school rollback impact matrix records.");
 requireText(durableRecords, "blocksReleaseStateMutation: true", "Durable record plan must block rollback impact matrix release-state mutation.");
+requireText(durableRecords, "school-rollback-safe-fallback-plan-record", "Durable record plan must include school rollback safe fallback plan records.");
+requireText(durableRecords, "preservesSchoolRollbackSafeFallbackPlan: true", "Durable record plan must preserve school rollback safe fallback plan records.");
+requireText(durableRecords, "blocksLiveNotification: true", "Durable record plan must block live fallback notifications.");
+requireText(durableRecords, "blocksStudentReassignment: true", "Durable record plan must block fallback student reassignment.");
 requireText(durableRecords, "media-playlist-binding-record", "Durable record plan must include media playlist binding records.");
 requireText(durableRecords, "preservesMediaPlaylistBinding: true", "Durable record plan must preserve media playlist bindings.");
 requireText(durableRecords, "blocksMediaOnlyProgress: true", "Durable record plan must block media-only progress.");
@@ -785,6 +801,7 @@ requireText(routeVerifier, "school_policy_text_pack", "Active route verifier mus
 requireText(routeVerifier, "school_policy_acceptance_record_preview", "Active route verifier must keep school policy acceptance record preview storage visible on teacher intake.");
 requireText(routeVerifier, "school_policy_revocation_rollback_preview", "Active route verifier must keep school policy revocation rollback preview storage visible on teacher intake.");
 requireText(routeVerifier, "school_policy_rollback_impact_matrix", "Active route verifier must keep school rollback impact matrix storage visible on teacher intake.");
+requireText(routeVerifier, "school_rollback_safe_fallback_plan", "Active route verifier must keep school rollback safe fallback plan storage visible on teacher intake.");
 
 if (failures.length > 0) {
   for (const failure of failures) {
