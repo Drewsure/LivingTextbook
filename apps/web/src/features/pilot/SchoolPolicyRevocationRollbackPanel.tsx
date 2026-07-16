@@ -59,6 +59,28 @@ export function SchoolPolicyRevocationRollbackPanel({ plan }: SchoolPolicyRevoca
         </div>
       </section>
 
+      <section className="mt-5 rounded-lg border border-[var(--tenant-border)] p-4">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Storage contract handoff</p>
+            <h3 className="mt-1 text-base font-bold text-[var(--tenant-text)]">{plan.storageContract.entityId}</h3>
+            <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">
+              Hosted and local implementations must preserve this record vocabulary before any rollback or revocation
+              workflow is designed.
+            </p>
+          </div>
+          <StatusPill label="Storage contract only" tone="neutral" />
+        </div>
+        <div className="mt-3 grid gap-3 lg:grid-cols-3">
+          <RollbackMetric label="Category" value={plan.storageContract.categoryId} tone="neutral" />
+          <RollbackMetric label="Durable record" value={plan.storageContract.durableRecordId} tone="neutral" />
+          <RollbackMetric label="Primary key" value={plan.storageContract.schemaPrimaryKey} tone="neutral" />
+          <RollbackMetric label="Hosted intent" value={plan.storageContract.hostedWriteIntentId} tone="neutral" />
+          <RollbackMetric label="Local intent" value={plan.storageContract.localWriteIntentId} tone="neutral" />
+          <RollbackMetric label="Blocked live actions" value={String(plan.storageContract.blockedLiveActions.length)} tone="warning" />
+        </div>
+      </section>
+
       <div className="mt-5 grid gap-4 xl:grid-cols-2">
         {plan.lanes.map((lane) => (
           <RollbackLaneCard key={lane.laneId} lane={lane} />

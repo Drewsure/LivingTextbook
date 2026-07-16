@@ -16,6 +16,16 @@ export interface SchoolPolicyRollbackLane {
   blockedEffects: string[];
 }
 
+export interface SchoolPolicyRollbackStorageContract {
+  entityId: string;
+  categoryId: string;
+  durableRecordId: string;
+  schemaPrimaryKey: string;
+  hostedWriteIntentId: string;
+  localWriteIntentId: string;
+  blockedLiveActions: string[];
+}
+
 export interface SchoolPolicyRevocationRollbackPlan {
   planId: string;
   label: string;
@@ -25,6 +35,7 @@ export interface SchoolPolicyRevocationRollbackPlan {
   sourceOfTruth: string;
   statusLabel: string;
   summary: string;
+  storageContract: SchoolPolicyRollbackStorageContract;
   lanes: SchoolPolicyRollbackLane[];
   minimumRollbackRecordFields: string[];
   blockedActions: string[];
@@ -50,6 +61,26 @@ export function createSchoolPolicyRevocationRollbackPlan({
     statusLabel: "Rollback policy blocked",
     summary:
       "This preview names the rollback and revocation decisions that must exist before school acceptance can ever affect launch readiness. It cannot revoke, approve, roll back, export, or mutate a release.",
+    storageContract: {
+      entityId: "school_policy_revocation_rollback_preview",
+      categoryId: "school-policy-revocation-rollback-preview",
+      durableRecordId: "school-policy-revocation-rollback-preview-record",
+      schemaPrimaryKey: "school_policy_revocation_rollback_preview_id",
+      hostedWriteIntentId: "hosted-school-policy-revocation-rollback-preview-write",
+      localWriteIntentId: "local-school-policy-revocation-rollback-preview-write",
+      blockedLiveActions: [
+        "Revocation action",
+        "Rollback button",
+        "Release-state mutation",
+        "Production QR redirect mutation",
+        "Learner-data deletion workflow",
+        "Report export",
+        "Media replacement",
+        "Local bundle deactivation",
+        "AI Tutor entitlement change",
+        "Live classroom shutdown workflow",
+      ],
+    },
     lanes: [
       {
         laneId: "revocation-request-authority",

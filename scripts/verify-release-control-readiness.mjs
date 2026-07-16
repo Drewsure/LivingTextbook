@@ -226,9 +226,14 @@ requireText(schoolPolicyRevocationRollbackPlan, "Learner data and report effect"
 requireText(schoolPolicyRevocationRollbackPlan, "Microphone and AI Tutor effect", "School policy revocation rollback plan must cover premium features.");
 requireText(schoolPolicyRevocationRollbackPlan, "No rollback button", "School policy revocation rollback plan must block rollback buttons.");
 requireText(schoolPolicyRevocationRollbackPlan, "No production QR redirect mutation", "School policy revocation rollback plan must block production QR mutation.");
+requireText(schoolPolicyRevocationRollbackPlan, "school_policy_revocation_rollback_preview", "School policy revocation rollback plan must expose the storage entity.");
+requireText(schoolPolicyRevocationRollbackPlan, "hosted-school-policy-revocation-rollback-preview-write", "School policy revocation rollback plan must expose hosted write intent.");
+requireText(schoolPolicyRevocationRollbackPlan, "local-school-policy-revocation-rollback-preview-write", "School policy revocation rollback plan must expose local write intent.");
 requireText(schoolPolicyRevocationRollbackPanel, "School policy revocation and rollback preview", "School policy revocation rollback panel must be visible.");
 requireText(schoolPolicyRevocationRollbackPanel, "No rollback action", "School policy revocation rollback panel must block rollback actions.");
 requireText(schoolPolicyRevocationRollbackPanel, "Minimum rollback record fields", "School policy revocation rollback panel must show minimum rollback fields.");
+requireText(schoolPolicyRevocationRollbackPanel, "Storage contract handoff", "School policy revocation rollback panel must show storage contract handoff.");
+requireText(schoolPolicyRevocationRollbackPanel, "Storage contract only", "School policy revocation rollback panel must keep storage handoff non-actionable.");
 requireText(backendSchema, "package_release_candidate", "Backend schema must include package release candidate record.");
 requireText(backendSchema, "package_publish_gate", "Backend schema must include package publish gate record.");
 requireText(backendSchema, "package_approval_ledger", "Backend schema must include package approval ledger record.");

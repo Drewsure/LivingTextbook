@@ -232,6 +232,7 @@
 - `DR-258-school-acceptance-record-preview-storage-contract.md`
 - `DR-259-school-policy-revocation-rollback-preview.md`
 - `DR-260-school-policy-revocation-rollback-storage-contract.md`
+- `DR-261-school-rollback-storage-handoff-preview.md`
 
 ## Maintenance Rule
 
