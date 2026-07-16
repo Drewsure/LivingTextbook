@@ -219,6 +219,7 @@
 - `DR-245-evidence-packet-assembly-gate.md`
 - `DR-246-reviewer-identity-signature-gate.md`
 - `DR-247-reviewer-identity-signature-storage-contract.md`
+- `DR-248-school-launch-policy-gate.md`
 
 ## Maintenance Rule
 

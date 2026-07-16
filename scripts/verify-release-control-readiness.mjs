@@ -15,6 +15,8 @@ const teacherDryRun = readSource("../apps/web/src/data/sampleTeacherDryRunRehear
 const teacherDryRunPanel = readSource("../apps/web/src/features/pilot/TeacherDryRunRehearsalPanel.tsx");
 const classroomLaunchGate = readSource("../apps/web/src/data/sampleClassroomLaunchGate.ts");
 const classroomLaunchGatePanel = readSource("../apps/web/src/features/pilot/ClassroomLaunchGatePanel.tsx");
+const schoolLaunchPolicyGate = readSource("../apps/web/src/data/sampleSchoolLaunchPolicyGate.ts");
+const schoolLaunchPolicyGatePanel = readSource("../apps/web/src/features/pilot/SchoolLaunchPolicyGatePanel.tsx");
 const backendSchema = readSource("../apps/web/src/data/sampleBackendSchemaDraft.ts");
 const migrationSpecs = readSource("../apps/web/src/data/sampleBackendMigrationSpecs.ts");
 const routeVerifier = readSource("./verify-active-routes.mjs");
@@ -123,6 +125,24 @@ requireText(classroomLaunchGatePanel, "Classroom launch gate", "Classroom launch
 requireText(classroomLaunchGatePanel, "Required before launch", "Classroom launch gate panel must show required launch conditions.");
 requireText(classroomLaunchGatePanel, "Blocked actions", "Classroom launch gate panel must show blocked actions.");
 requireText(classroomLaunchGatePanel, "Preview only", "Classroom launch gate panel must stay preview-only.");
+requireText(schoolLaunchPolicyGate, "samplePilotPolicyPlans", "School launch policy gate must derive school policy requirements from pilot policy plans.");
+requireText(schoolLaunchPolicyGate, "sampleClassroomLaunchGate", "School launch policy gate must derive from the classroom launch gate.");
+requireText(schoolLaunchPolicyGate, "sampleTeacherDryRunRehearsal", "School launch policy gate must derive from the teacher dry-run rehearsal.");
+requireText(schoolLaunchPolicyGate, "School launch policy gate preview", "School launch policy gate must expose a teacher-facing title.");
+requireText(schoolLaunchPolicyGate, "School launch decision blocked", "School launch policy gate must keep school launch blocked.");
+requireText(schoolLaunchPolicyGate, "School privacy and retention acceptance", "School launch policy gate must require privacy and retention acceptance.");
+requireText(schoolLaunchPolicyGate, "Classroom operating mode acceptance", "School launch policy gate must require classroom operating mode acceptance.");
+requireText(schoolLaunchPolicyGate, "Publisher media and local package acceptance", "School launch policy gate must require publisher media/local package acceptance.");
+requireText(schoolLaunchPolicyGate, "Teacher dry-run evidence acceptance", "School launch policy gate must require teacher dry-run evidence acceptance.");
+requireText(schoolLaunchPolicyGate, "Platform release and storage acceptance", "School launch policy gate must require platform release and storage acceptance.");
+requireText(schoolLaunchPolicyGate, "No real learner data collection", "School launch policy gate must block real learner data collection.");
+requireText(schoolLaunchPolicyGate, "No teacher report export", "School launch policy gate must block teacher report export.");
+requireText(schoolLaunchPolicyGate, "No support-language-only progression", "School launch policy gate must preserve target-language progress rules.");
+requireText(schoolLaunchPolicyGate, "No live classroom workflow can start from this preview.", "School launch policy gate must stay preview-only.");
+requireText(schoolLaunchPolicyGatePanel, "School launch policy gate", "School launch policy gate panel must be visible.");
+requireText(schoolLaunchPolicyGatePanel, "Required before live launch", "School launch policy gate panel must show live-launch requirements.");
+requireText(schoolLaunchPolicyGatePanel, "No school policy acceptance", "School launch policy gate panel must block live policy acceptance.");
+requireText(schoolLaunchPolicyGatePanel, "No approval workflow", "School launch policy gate panel must block approval workflow behavior.");
 requireText(backendSchema, "package_release_candidate", "Backend schema must include package release candidate record.");
 requireText(backendSchema, "package_publish_gate", "Backend schema must include package publish gate record.");
 requireText(backendSchema, "package_approval_ledger", "Backend schema must include package approval ledger record.");
@@ -134,6 +154,7 @@ requireText(routeVerifier, "Pilot evidence packet", "Active route verifier must 
 requireText(routeVerifier, "Pilot launch checklist preview", "Active route verifier must keep pilot launch checklist visible.");
 requireText(routeVerifier, "Teacher dry-run rehearsal preview", "Active route verifier must keep teacher dry-run rehearsal visible.");
 requireText(routeVerifier, "Classroom launch gate preview", "Active route verifier must keep classroom launch gate visible.");
+requireText(routeVerifier, "School launch policy gate preview", "Active route verifier must keep school launch policy gate visible.");
 
 if (failures.length > 0) {
   for (const failure of failures) {

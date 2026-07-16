@@ -2,8 +2,10 @@ import { notFound } from "next/navigation";
 import { Card, StatusPill } from "@living-textbook/ui";
 import { AppShell } from "@/components/layout/AppShell";
 import { sampleClassroomLaunchGate } from "@/data/sampleClassroomLaunchGate";
+import { sampleSchoolLaunchPolicyGate } from "@/data/sampleSchoolLaunchPolicyGate";
 import { sampleTeacherDryRunRehearsal } from "@/data/sampleTeacherDryRunRehearsal";
 import { ClassroomLaunchGatePanel } from "@/features/pilot/ClassroomLaunchGatePanel";
+import { SchoolLaunchPolicyGatePanel } from "@/features/pilot/SchoolLaunchPolicyGatePanel";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 
 interface ClassroomLaunchGatePageProps {
@@ -91,6 +93,7 @@ export default async function ClassroomLaunchGatePage({ params }: ClassroomLaunc
         </Card>
 
         <ClassroomLaunchGatePanel gate={sampleClassroomLaunchGate} />
+        <SchoolLaunchPolicyGatePanel gate={sampleSchoolLaunchPolicyGate} />
       </div>
     </AppShell>
   );

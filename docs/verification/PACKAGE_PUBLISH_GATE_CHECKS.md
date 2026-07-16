@@ -43,6 +43,11 @@ Use after pulling the latest `legacy-source-import` branch and running local typ
 33. The classroom launch gate shows `Launch blocked`, `No live student session`, `No launch button`, `Dry-run evidence required`, and `Policy and persistence required`.
 34. The classroom launch gate keeps `Real learner data blocked` and `Report export still blocked` visible before any future launch workflow.
 35. The classroom launch gate appears on the focused teacher dry-run route as the final boundary after rehearsal.
+36. The teacher intake page renders a `School launch policy gate preview` derived from policy readiness, the classroom launch gate, and teacher dry-run rehearsal.
+37. The focused classroom launch gate route renders the same school launch policy gate.
+38. The school launch policy gate shows `School launch decision blocked`, `School privacy and retention acceptance`, `Classroom operating mode acceptance`, `Publisher media and local package acceptance`, `Teacher dry-run evidence acceptance`, and `Platform release and storage acceptance`.
+39. The school launch policy gate shows `No school policy acceptance`, `No approval workflow`, `No real learner data collection`, `No teacher report export`, and `No support-language-only progression`.
+40. The school launch policy gate remains a review packet only and does not imply a live launch, policy acceptance workflow, release mutation, or report export.
 
 ## Build Verification
 
@@ -71,4 +76,6 @@ Do not mark this verified if:
 - the panel creates tenant-specific hard-coding,
 - the teacher dry-run rehearsal can be mistaken for a live student launch,
 - the classroom launch gate hides the launch-blocked, no-live-student-session, or no-launch-button boundary,
+- the school launch policy gate blurs controlled demo readiness with school-approved launch readiness,
+- the school launch policy gate hides school, publisher, platform, or shared teacher dry-run ownership,
 - the page fails typecheck/build after sync.

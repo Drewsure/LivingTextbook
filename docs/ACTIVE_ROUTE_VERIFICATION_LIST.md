@@ -2,7 +2,7 @@
 
 Document type: QA operating note  
 Status: active scaffold  
-Last updated: 2026-07-13
+Last updated: 2026-07-16
 
 ## Purpose
 

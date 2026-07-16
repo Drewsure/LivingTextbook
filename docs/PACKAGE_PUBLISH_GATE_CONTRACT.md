@@ -25,12 +25,14 @@ Current files:
 - `apps/web/src/data/samplePilotReadinessSummary.ts`
 - `apps/web/src/data/sampleTeacherDryRunRehearsal.ts`
 - `apps/web/src/data/sampleClassroomLaunchGate.ts`
+- `apps/web/src/data/sampleSchoolLaunchPolicyGate.ts`
 - `apps/web/src/features/pilot/PackagePublishGatePanel.tsx`
 - `apps/web/src/features/pilot/PilotEvidencePacketPanel.tsx`
 - `apps/web/src/features/pilot/PilotLaunchChecklistPanel.tsx`
 - `apps/web/src/features/pilot/PilotReadinessSummaryPanel.tsx`
 - `apps/web/src/features/pilot/TeacherDryRunRehearsalPanel.tsx`
 - `apps/web/src/features/pilot/ClassroomLaunchGatePanel.tsx`
+- `apps/web/src/features/pilot/SchoolLaunchPolicyGatePanel.tsx`
 - `apps/web/src/app/teacher/intake/page.tsx`
 
 ## Gate Domains
@@ -103,6 +105,22 @@ The backend-neutral record is `classroom_launch_gate` / `classroom-launch-gate`.
 
 The focused route is a review workspace only. It may link to source routes for evidence review, but it must not create assignments, expose a launch button, or change package status.
 
+## School Launch Policy Gate
+
+The `School launch policy gate preview` separates a partner demo from a school-approved classroom launch.
+
+It is derived from pilot policy readiness, the classroom launch gate, and the teacher dry-run rehearsal. It names the ownership lanes that must close before live classroom use:
+
+- school privacy and retention acceptance,
+- classroom operating mode acceptance,
+- publisher media and local package acceptance,
+- teacher dry-run evidence acceptance,
+- platform release and storage acceptance.
+
+This gate is a review packet only. It cannot accept school policy, approve a launch, create a live student session, collect real learner data, export reports, activate local deployment, mutate release state, or mark a package launch-ready.
+
+This distinction is a white-label product rule: a tenant can have a strong controlled demo while school-owned privacy, retention, reporting, access-control, support-language, microphone, AI Tutor, media, local deployment, and storage decisions remain open.
+
 ## Required Blocking Areas Before Real Pilot
 
 A real pilot package requires closure on:
@@ -155,3 +173,4 @@ The gate is useful when a future engineer, agent, teacher, or publisher can answ
 - Can the team explain what remains before a classroom dry run and real pilot launch?
 - Can a teacher rehearse routes, games, audio, media, support-language limits, reporting, and local fallback without triggering live student workflows?
 - Can the team see the final launch boundary before real children, real learner records, or report exports are enabled?
+- Can the team clearly distinguish a partner demo from a school-approved launch, including which obligations belong to the school, publisher, platform, and shared teacher dry-run process?
