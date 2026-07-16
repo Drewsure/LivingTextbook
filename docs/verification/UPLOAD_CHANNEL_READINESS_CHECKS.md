@@ -125,6 +125,12 @@ Verify at:
 104. Confirm release readiness lanes include `Upload intake assembly lane`, `Labelled Diagram assembly lane`, `Media assembly lane`, and `Release-control assembly lane`.
 105. Confirm the assembly gate shows required preconditions including authenticated reviewer identity, evidence storage adapter selection, attachment metadata, rights proof, scan provider result, audio coverage, accessibility signoff, release control, teacher dry-run evidence, and classroom launch gate acceptance.
 106. Confirm blocked actions include `No packet version freeze`, `No approval capture`, `No release state mutation`, `No student assignment`, `No export generation`, `No QR promotion`, `No route promotion`, `No local bundle activation`, `No storage write`, and `No evidence download`.
+107. Confirm `/teacher/evidence/sample-publisher` shows `Reviewer identity and signature gate`.
+108. Confirm the identity/signature gate shows `Reviewer identity blocked`, `Signed approval capture blocked`, and `Approval intent preview only`.
+109. Confirm identity and approval lanes include `Authenticated reviewer identity lane`, `Approval intent lane`, `Signature policy lane`, and `Audit and retention lane`.
+110. Confirm minimum approval record fields include `reviewer_identity_id`, `role_at_approval`, `approval_intent_text`, `revocation_policy_id`, `release_control_state_before`, and `release_control_state_after`.
+111. Confirm signature policy rules keep approval optional per tenant, block evidence bypass, keep support language non-progress, require the evidence attachment storage contract for future signature attachments, and require local backup/restore ownership for local deployments.
+112. Confirm blocked approval actions include `No signed approval capture`, `No approve button`, `No release-state mutation`, `No packet version freeze`, `No audit record write`, `No signature attachment upload`, `No signed PDF packet`, `No evidence download`, and `No student assignment from approval`.
 
 ## Automated Command
 
@@ -175,3 +181,4 @@ Template rendering and font accessibility storage are also covered by `npm run v
 - This scaffold defines evidence attachment storage readiness only; it does not upload files, write to object storage, write to local folders, download attachments, attach signed approvals, mutate release state, or make attachments student-facing.
 - This scaffold defines evidence storage adapter selection only; it does not select a backend vendor, create buckets, activate local folders, generate signed URLs, migrate attachments, start retention clocks, or enable upload/download behavior.
 - This scaffold defines an evidence packet assembly gate only; it does not freeze packet versions, capture approvals, mutate release state, create assignments, generate exports, promote QR routes, promote routes, activate local bundles, write storage, or download evidence.
+- This scaffold defines reviewer identity and signature readiness only; it does not authenticate reviewers, capture signatures, create approve buttons, mutate release state, write audit records, upload signature attachments, generate signed PDF packets, download evidence, or create student assignments from approval.

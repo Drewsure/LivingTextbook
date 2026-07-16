@@ -12,6 +12,7 @@ const mediaAssetWorkspace = readSource("../apps/web/src/data/sampleMediaAssetWor
 const evidencePacketFlows = readSource("../apps/web/src/data/sampleEvidencePacketFlows.ts");
 const evidencePacketReviewIndex = readSource("../apps/web/src/data/sampleEvidencePacketReviewIndex.ts");
 const evidencePacketAssemblyGate = readSource("../apps/web/src/data/sampleEvidencePacketAssemblyGate.ts");
+const reviewerIdentitySignatureGate = readSource("../apps/web/src/data/sampleReviewerIdentitySignatureGate.ts");
 const evidencePacketHandoffPackage = readSource("../apps/web/src/data/sampleEvidencePacketHandoffPackage.ts");
 const evidenceExportReadiness = readSource("../apps/web/src/data/sampleEvidenceExportReadiness.ts");
 const evidenceAttachmentStorageReadiness = readSource("../apps/web/src/data/sampleEvidenceAttachmentStorageReadiness.ts");
@@ -21,6 +22,7 @@ const templateRenderingFontProfiles = readSource("../apps/web/src/data/sampleTem
 const evidencePacketFlowPanel = readSource("../apps/web/src/features/evidence/EvidencePacketFlowPanel.tsx");
 const evidencePacketReviewIndexPanel = readSource("../apps/web/src/features/evidence/EvidencePacketReviewIndexPanel.tsx");
 const evidencePacketAssemblyGatePanel = readSource("../apps/web/src/features/evidence/EvidencePacketAssemblyGatePanel.tsx");
+const reviewerIdentitySignatureGatePanel = readSource("../apps/web/src/features/evidence/ReviewerIdentitySignatureGatePanel.tsx");
 const evidencePacketHandoffPanel = readSource("../apps/web/src/features/evidence/EvidencePacketHandoffPanel.tsx");
 const evidenceExportReadinessPanel = readSource("../apps/web/src/features/evidence/EvidenceExportReadinessPanel.tsx");
 const evidenceAttachmentStorageReadinessPanel = readSource("../apps/web/src/features/evidence/EvidenceAttachmentStorageReadinessPanel.tsx");
@@ -383,6 +385,63 @@ for (const text of requiredEvidencePacketAssemblyTexts) {
   requireText(evidencePacketAssemblyGate, text, `Evidence packet assembly gate data missing required text: ${text}.`);
 }
 
+const requiredReviewerIdentitySignatureTexts = [
+  "Reviewer identity and signature gate",
+  "Reviewer identity blocked",
+  "Signed approval capture blocked",
+  "Approval intent preview only",
+  "Authenticated reviewer identity lane",
+  "Approval intent lane",
+  "Signature policy lane",
+  "Audit and retention lane",
+  "identity provider selected",
+  "reviewer account id",
+  "tenant role binding",
+  "multi-school role boundary",
+  "session re-authentication rule",
+  "package version id",
+  "evidence packet version id",
+  "approval scope",
+  "timestamped approval intent",
+  "signature method policy",
+  "signature revocation policy",
+  "evidence attachment policy",
+  "retention and deletion policy",
+  "export recipient policy",
+  "audit log retention",
+  "evidence export scope",
+  "delete/export policy",
+  "PII minimization check",
+  "release-control binding",
+  "reviewer_identity_id",
+  "role_at_approval",
+  "approval_intent_text",
+  "revocation_policy_id",
+  "release_control_state_before",
+  "release_control_state_after",
+  "Approval capture must be optional per white-label tenant",
+  "Typed or account-based approval can never replace missing rights",
+  "Support-language evidence can explain a decision but cannot unlock progress or release state",
+  "Any future signature attachment must use the evidence attachment storage contract",
+  "No signed approval capture",
+  "No approve button",
+  "No release-state mutation",
+  "No packet version freeze",
+  "No audit record write",
+  "No signature attachment upload",
+  "No signed PDF packet",
+  "No evidence download",
+  "No student assignment from approval",
+];
+
+for (const text of requiredReviewerIdentitySignatureTexts) {
+  requireText(
+    reviewerIdentitySignatureGate,
+    text,
+    `Reviewer identity and signature gate data missing required text: ${text}.`,
+  );
+}
+
 const requiredEvidencePacketHandoffTexts = [
   "Evidence packet handoff preview",
   "Upload intake evidence",
@@ -662,6 +721,17 @@ requireText(
 );
 requireText(evidencePacketAssemblyGatePanel, "Required before packet version freeze", "Evidence packet assembly gate panel must show packet freeze requirements.");
 requireText(evidencePacketAssemblyGatePanel, "Reviewer instructions and blocked actions", "Evidence packet assembly gate panel must show reviewer instructions and blocked actions.");
+requireText(reviewerIdentitySignatureGatePanel, "Approval identity readiness", "Reviewer identity and signature gate panel must expose its heading.");
+requireText(reviewerIdentitySignatureGatePanel, "Identity and approval lanes", "Reviewer identity and signature gate panel must show identity and approval lanes.");
+requireText(
+  reviewerIdentitySignatureGatePanel,
+  "Required before signed approval capture can exist",
+  "Reviewer identity and signature gate panel must show signed approval capture requirements.",
+);
+requireText(reviewerIdentitySignatureGatePanel, "Minimum approval record", "Reviewer identity and signature gate panel must show the minimum approval record.");
+requireText(reviewerIdentitySignatureGatePanel, "Fields required before approval persistence", "Reviewer identity and signature gate panel must show approval persistence fields.");
+requireText(reviewerIdentitySignatureGatePanel, "Signature policy rules", "Reviewer identity and signature gate panel must show signature policy rules.");
+requireText(reviewerIdentitySignatureGatePanel, "Approval cannot bypass evidence", "Reviewer identity and signature gate panel must block evidence bypass.");
 requireText(evidencePacketHandoffPanel, "Evidence handoff preview", "Evidence packet handoff panel must expose its heading.");
 requireText(evidencePacketHandoffPanel, "Handoff sections", "Evidence packet handoff panel must expose handoff sections.");
 requireText(evidencePacketHandoffPanel, "Evidence that would enter an export packet", "Evidence packet handoff panel must show export-packet shape.");
@@ -730,6 +800,8 @@ requireText(teacherEvidencePacketRoute, "EvidencePacketReviewIndexPanel", "Teach
 requireText(teacherEvidencePacketRoute, "samplePublisherEvidencePacketReviewIndex", "Teacher evidence packet route must pass the sample publisher evidence review index.");
 requireText(teacherEvidencePacketRoute, "EvidencePacketAssemblyGatePanel", "Teacher evidence packet route must render the assembly gate panel.");
 requireText(teacherEvidencePacketRoute, "sampleEvidencePacketAssemblyGate", "Teacher evidence packet route must pass the sample evidence packet assembly gate.");
+requireText(teacherEvidencePacketRoute, "ReviewerIdentitySignatureGatePanel", "Teacher evidence packet route must render the reviewer identity and signature gate panel.");
+requireText(teacherEvidencePacketRoute, "sampleReviewerIdentitySignatureGate", "Teacher evidence packet route must pass the sample reviewer identity and signature gate.");
 requireText(teacherEvidencePacketHandoffRoute, "EvidencePacketHandoffPanel", "Teacher evidence packet handoff route must render the handoff panel.");
 requireText(teacherEvidencePacketHandoffRoute, "samplePublisherEvidencePacketHandoffPackage", "Teacher evidence packet handoff route must pass the sample publisher handoff package.");
 requireText(teacherLabelledDiagramAssetRoute, "findLabelledDiagramAssetWorkspace", "Teacher Labelled Diagram asset route must resolve the workspace by id.");
@@ -776,6 +848,14 @@ requireText(routeVerifier, "Packet version not frozen", "Active route verifier m
 requireText(routeVerifier, "Release readiness lanes", "Active route verifier must check evidence packet release readiness lanes.");
 requireText(routeVerifier, "No packet version freeze", "Active route verifier must check packet version freeze is blocked.");
 requireText(routeVerifier, "No QR promotion", "Active route verifier must check QR promotion from evidence is blocked.");
+requireText(routeVerifier, "Reviewer identity and signature gate", "Active route verifier must check reviewer identity and signature gate.");
+requireText(routeVerifier, "Reviewer identity blocked", "Active route verifier must check reviewer identity remains blocked.");
+requireText(routeVerifier, "Approval intent preview only", "Active route verifier must check approval intent remains preview-only.");
+requireText(routeVerifier, "Authenticated reviewer identity lane", "Active route verifier must check authenticated reviewer identity lane.");
+requireText(routeVerifier, "Signature policy lane", "Active route verifier must check signature policy lane.");
+requireText(routeVerifier, "No signature attachment upload", "Active route verifier must check signature attachment upload is blocked.");
+requireText(routeVerifier, "No signed PDF packet", "Active route verifier must check signed PDF packets remain blocked.");
+requireText(routeVerifier, "No student assignment from approval", "Active route verifier must check approvals cannot create student assignments.");
 requireText(routeVerifier, "Evidence handoff preview", "Active route verifier must check the evidence packet handoff preview.");
 requireText(routeVerifier, "/teacher/evidence/sample-publisher/handoff", "Active route verifier must check the evidence packet handoff route.");
 requireText(routeVerifier, "No live evidence upload", "Active route verifier must check live evidence upload remains blocked.");
