@@ -60,6 +60,10 @@ Use after pulling the latest `legacy-source-import` branch and running local typ
 50. The preflight shows `Acceptance blocked`, `Authenticated school approver`, `Policy text and scope`, `Evidence packet and attachment readiness`, `Release-control binding`, `Child safety and progression boundaries`, `Minimum acceptance record`, and `No accept button`.
 51. The preflight blocks support-language-only progression, AI Tutor activation, microphone/scoring opt-ins without policy, evidence export, signed approval capture, storage activation, release-state mutation, production QR promises, and live classroom workflow.
 52. The preflight can be used for school discussion and implementation planning, but it cannot be mistaken for a policy acceptance workflow, signature capture workflow, evidence export workflow, storage setup workflow, launch-ready marker, or student launch workflow.
+53. The teacher intake page renders a `School policy text version pack` derived from the school policy acceptance preflight.
+54. The focused classroom launch gate route and focused school policy handoff route render the same text version pack.
+55. The text version pack shows `Policy text blocked`, `Versioned policy text only`, `Microphone and AI Tutor optional features`, and `No policy acceptance from text pack`.
+56. The text version pack names privacy/retention/learner data, teacher-led QR and progression rules, publisher media/local package responsibilities, optional premium feature terms, storage/rollback terms, and evidence/signature/revocation terms.
 
 ## Build Verification
 
@@ -93,4 +97,5 @@ Do not mark this verified if:
 - the school policy handoff packet can be mistaken for policy acceptance, launch readiness, signed approval, evidence export, local activation, or production QR commitment,
 - the focused school policy handoff route accepts policy, captures signatures, exports evidence, creates assignments, creates production QR promises, mutates release state, or launches students,
 - the school policy acceptance preflight exposes an accept button, captures approval, captures signatures, exports evidence, activates storage, marks launch-ready status, activates AI Tutor, permits support-language-only progression, creates production QR promises, mutates release state, or starts a classroom workflow,
+- the school policy text version pack can be mistaken for accepted terms, captures signatures, exports evidence, activates storage, marks launch-ready status, activates AI Tutor, creates production QR promises, mutates release state, or starts a classroom workflow,
 - the page fails typecheck/build after sync.

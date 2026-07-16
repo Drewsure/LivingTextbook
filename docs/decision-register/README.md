@@ -226,6 +226,7 @@
 - `DR-252-school-policy-handoff-route.md`
 - `DR-253-school-policy-acceptance-preflight.md`
 - `DR-254-school-policy-acceptance-preflight-storage-contract.md`
+- `DR-255-school-policy-text-version-pack.md`
 
 ## Maintenance Rule
 

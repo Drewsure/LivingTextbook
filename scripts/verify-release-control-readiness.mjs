@@ -19,6 +19,8 @@ const schoolLaunchPolicyGate = readSource("../apps/web/src/data/sampleSchoolLaun
 const schoolLaunchPolicyGatePanel = readSource("../apps/web/src/features/pilot/SchoolLaunchPolicyGatePanel.tsx");
 const schoolPolicyAcceptancePreflight = readSource("../apps/web/src/data/sampleSchoolPolicyAcceptancePreflight.ts");
 const schoolPolicyAcceptancePreflightPanel = readSource("../apps/web/src/features/pilot/SchoolPolicyAcceptancePreflightPanel.tsx");
+const schoolPolicyTextPack = readSource("../apps/web/src/data/sampleSchoolPolicyTextPack.ts");
+const schoolPolicyTextPackPanel = readSource("../apps/web/src/features/pilot/SchoolPolicyTextPackPanel.tsx");
 const schoolPolicyHandoffPacket = readSource("../apps/web/src/data/sampleSchoolPolicyHandoffPacket.ts");
 const schoolPolicyHandoffPacketPanel = readSource("../apps/web/src/features/pilot/SchoolPolicyHandoffPacketPanel.tsx");
 const backendSchema = readSource("../apps/web/src/data/sampleBackendSchemaDraft.ts");
@@ -181,6 +183,22 @@ requireText(schoolPolicyAcceptancePreflightPanel, "School policy acceptance pref
 requireText(schoolPolicyAcceptancePreflightPanel, "Missing before acceptance", "School policy acceptance preflight panel must show missing acceptance requirements.");
 requireText(schoolPolicyAcceptancePreflightPanel, "Minimum acceptance record", "School policy acceptance preflight panel must show minimum acceptance record.");
 requireText(schoolPolicyAcceptancePreflightPanel, "No accept button", "School policy acceptance preflight panel must block accept button behavior.");
+requireText(schoolPolicyTextPack, "sampleSchoolPolicyAcceptancePreflight", "School policy text pack must derive from the acceptance preflight.");
+requireText(schoolPolicyTextPack, "School policy text version pack", "School policy text pack must expose a school-facing title.");
+requireText(schoolPolicyTextPack, "Policy text blocked", "School policy text pack must keep policy text blocked.");
+requireText(schoolPolicyTextPack, "Privacy, retention, and learner data", "School policy text pack must include privacy and learner-data clauses.");
+requireText(schoolPolicyTextPack, "Teacher-led QR and progression rules", "School policy text pack must include QR and progression clauses.");
+requireText(schoolPolicyTextPack, "Publisher media, music, video, and local package", "School policy text pack must include publisher media/local package clauses.");
+requireText(schoolPolicyTextPack, "Microphone and AI Tutor optional features", "School policy text pack must include premium optional feature clauses.");
+requireText(schoolPolicyTextPack, "Hosted, local, storage, and rollback", "School policy text pack must include storage and rollback clauses.");
+requireText(schoolPolicyTextPack, "Evidence, signature method, and revocation", "School policy text pack must include evidence and signature clauses.");
+requireText(schoolPolicyTextPack, "No policy acceptance from text pack", "School policy text pack must block policy acceptance.");
+requireText(schoolPolicyTextPack, "No support-language-only progression", "School policy text pack must preserve target-language progression rules.");
+requireText(schoolPolicyTextPack, "No AI Tutor activation", "School policy text pack must block AI Tutor activation.");
+requireText(schoolPolicyTextPackPanel, "School policy text version pack", "School policy text pack panel must be visible.");
+requireText(schoolPolicyTextPackPanel, "Versioned policy text only", "School policy text pack panel must keep text review-only.");
+requireText(schoolPolicyTextPackPanel, "Minimum version fields", "School policy text pack panel must show version fields.");
+requireText(schoolPolicyTextPackPanel, "Blocked actions", "School policy text pack panel must show blocked actions.");
 requireText(backendSchema, "package_release_candidate", "Backend schema must include package release candidate record.");
 requireText(backendSchema, "package_publish_gate", "Backend schema must include package publish gate record.");
 requireText(backendSchema, "package_approval_ledger", "Backend schema must include package approval ledger record.");
@@ -195,6 +213,7 @@ requireText(routeVerifier, "Classroom launch gate preview", "Active route verifi
 requireText(routeVerifier, "School launch policy gate preview", "Active route verifier must keep school launch policy gate visible.");
 requireText(routeVerifier, "School policy handoff packet preview", "Active route verifier must keep school policy handoff packet visible.");
 requireText(routeVerifier, "School policy acceptance preflight", "Active route verifier must keep school policy acceptance preflight visible.");
+requireText(routeVerifier, "School policy text version pack", "Active route verifier must keep school policy text pack visible.");
 
 if (failures.length > 0) {
   for (const failure of failures) {

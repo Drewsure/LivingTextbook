@@ -168,6 +168,21 @@ The preflight protects the white-label product by ensuring a school acceptance i
 
 The backend-neutral record is `school_policy_acceptance_preflight` / `school-policy-acceptance-preflight`. Hosted and local implementations must preserve preflight lanes, missing-before-acceptance items, blocked actions, minimum acceptance fields, and operating rules while blocking acceptance, signed approval capture, evidence export, storage activation, release-state mutation, launch-ready status, production QR promises, AI Tutor activation, support-language-only progression, learner data, report export, and live classroom workflow.
 
+## School Policy Text Version Pack
+
+The `School policy text version pack` names the policy clauses that must become exact reviewed text before any school acceptance workflow exists.
+
+It is derived from the school policy acceptance preflight and organizes draft policy text around:
+
+- privacy, retention, and learner data,
+- teacher-led QR and progression rules,
+- publisher media, music, video, and local package responsibilities,
+- microphone and AI Tutor optional premium features,
+- hosted/local storage and rollback,
+- evidence, signature method, and revocation.
+
+This pack is not acceptance text. It can list required text, review notes, blocked actions, minimum version fields, and review rules, but it cannot accept policy, capture signatures, export evidence, activate storage, create launch-ready status, create production QR promises, activate AI Tutor, collect real learner data, export reports, or start a live classroom workflow.
+
 ## Required Blocking Areas Before Real Pilot
 
 A real pilot package requires closure on:
@@ -223,3 +238,4 @@ The gate is useful when a future engineer, agent, teacher, or publisher can answ
 - Can the team clearly distinguish a partner demo from a school-approved launch, including which obligations belong to the school, publisher, platform, and shared teacher dry-run process?
 - Can a school meeting use the handoff packet to discuss privacy, QR use, progression rules, media, dry-run evidence, storage, release, and rollback without triggering acceptance, launch, or export workflows?
 - Can the team see exactly what remains before a future school policy acceptance button, signature capture, evidence export, storage activation, production QR promise, AI Tutor activation, or live classroom workflow can exist?
+- Can the team see the exact versioned policy clauses that must be reviewed before any future school acceptance is designed?

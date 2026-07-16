@@ -4,10 +4,12 @@ import { AppShell } from "@/components/layout/AppShell";
 import { sampleSchoolLaunchPolicyGate } from "@/data/sampleSchoolLaunchPolicyGate";
 import { sampleSchoolPolicyAcceptancePreflight } from "@/data/sampleSchoolPolicyAcceptancePreflight";
 import { sampleSchoolPolicyHandoffPacket } from "@/data/sampleSchoolPolicyHandoffPacket";
+import { sampleSchoolPolicyTextPack } from "@/data/sampleSchoolPolicyTextPack";
 import { sampleTeacherDryRunRehearsal } from "@/data/sampleTeacherDryRunRehearsal";
 import { SchoolLaunchPolicyGatePanel } from "@/features/pilot/SchoolLaunchPolicyGatePanel";
 import { SchoolPolicyAcceptancePreflightPanel } from "@/features/pilot/SchoolPolicyAcceptancePreflightPanel";
 import { SchoolPolicyHandoffPacketPanel } from "@/features/pilot/SchoolPolicyHandoffPacketPanel";
+import { SchoolPolicyTextPackPanel } from "@/features/pilot/SchoolPolicyTextPackPanel";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 
 interface SchoolPolicyHandoffPageProps {
@@ -96,6 +98,7 @@ export default async function SchoolPolicyHandoffPage({ params }: SchoolPolicyHa
 
         <SchoolPolicyHandoffPacketPanel packet={sampleSchoolPolicyHandoffPacket} />
         <SchoolPolicyAcceptancePreflightPanel preflight={sampleSchoolPolicyAcceptancePreflight} />
+        <SchoolPolicyTextPackPanel pack={sampleSchoolPolicyTextPack} />
         <SchoolLaunchPolicyGatePanel gate={sampleSchoolLaunchPolicyGate} />
       </div>
     </AppShell>
