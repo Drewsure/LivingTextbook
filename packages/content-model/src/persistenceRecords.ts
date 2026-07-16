@@ -40,7 +40,8 @@ export type PersistenceRecordCategory =
   | "teacher-dry-run-rehearsal"
   | "classroom-launch-gate"
   | "school-launch-policy-gate"
-  | "school-policy-handoff-packet";
+  | "school-policy-handoff-packet"
+  | "school-policy-acceptance-preflight";
 
 export type PersistenceRecordReadiness =
   | "static-demo"
@@ -140,6 +141,11 @@ export interface DurableRecordContract {
   preservesSchoolPolicyHandoffPacket?: boolean;
   blocksPolicyHandoffAcceptance?: boolean;
   blocksHandoffEvidenceExport?: boolean;
+  preservesSchoolPolicyAcceptancePreflight?: boolean;
+  blocksPreflightPolicyAcceptance?: boolean;
+  blocksPreflightEvidenceExport?: boolean;
+  blocksPreflightStorageActivation?: boolean;
+  blocksPreflightLaunchReadyStatus?: boolean;
   recommendedFirstPilotStore: PersistenceStorageTier[];
   note: string;
 }
@@ -517,6 +523,30 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "school-policy-handoff-packet" && !record.blocksLaunchWithoutSchoolPolicy) {
       errors.push(`School policy handoff packet record ${record.recordId} must block launch without school policy.`);
+    }
+
+    if (record.category === "school-policy-acceptance-preflight" && !record.preservesSchoolPolicyAcceptancePreflight) {
+      errors.push(`School policy acceptance preflight record ${record.recordId} must preserve missing acceptance requirements, blocked actions, minimum acceptance fields, and operating rules.`);
+    }
+
+    if (record.category === "school-policy-acceptance-preflight" && !record.blocksPreflightPolicyAcceptance) {
+      errors.push(`School policy acceptance preflight record ${record.recordId} must block policy acceptance from preflight records.`);
+    }
+
+    if (record.category === "school-policy-acceptance-preflight" && !record.blocksPreflightEvidenceExport) {
+      errors.push(`School policy acceptance preflight record ${record.recordId} must block evidence export from preflight records.`);
+    }
+
+    if (record.category === "school-policy-acceptance-preflight" && !record.blocksPreflightStorageActivation) {
+      errors.push(`School policy acceptance preflight record ${record.recordId} must block storage activation from preflight records.`);
+    }
+
+    if (record.category === "school-policy-acceptance-preflight" && !record.blocksPreflightLaunchReadyStatus) {
+      errors.push(`School policy acceptance preflight record ${record.recordId} must block launch-ready status from preflight records.`);
+    }
+
+    if (record.category === "school-policy-acceptance-preflight" && !record.blocksLiveClassroomLaunch) {
+      errors.push(`School policy acceptance preflight record ${record.recordId} must block live classroom launch.`);
     }
 
     if (record.supportsLocalDeployment && !record.recommendedFirstPilotStore.includes("local-classroom-store")) {

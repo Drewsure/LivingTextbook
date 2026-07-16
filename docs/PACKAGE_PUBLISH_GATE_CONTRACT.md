@@ -166,6 +166,8 @@ This preflight is review-only. It can show missing requirements, blocked actions
 
 The preflight protects the white-label product by ensuring a school acceptance is never a vague meeting note. Future implementations must tie acceptance to a known school approver, tenant, school, release candidate, handoff packet version, policy text version, storage policy, learner-data rules, support-language rules, microphone/AI Tutor opt-ins, and rollback/revocation plan.
 
+The backend-neutral record is `school_policy_acceptance_preflight` / `school-policy-acceptance-preflight`. Hosted and local implementations must preserve preflight lanes, missing-before-acceptance items, blocked actions, minimum acceptance fields, and operating rules while blocking acceptance, signed approval capture, evidence export, storage activation, release-state mutation, launch-ready status, production QR promises, AI Tutor activation, support-language-only progression, learner data, report export, and live classroom workflow.
+
 ## Required Blocking Areas Before Real Pilot
 
 A real pilot package requires closure on:

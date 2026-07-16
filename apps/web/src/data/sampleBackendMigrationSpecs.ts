@@ -2874,5 +2874,125 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
         "Live launch, learner data, report export, local activation, production QR promises, and launch-ready status remain blocked until school, publisher, platform, dry-run, and persistence requirements pass.",
       ],
     },
+    {
+      specId: "spec-school-policy-acceptance-preflight",
+      label: "School policy acceptance preflight",
+      candidateId: "m040-school-policy-acceptance-preflight-records",
+      storeKind: "release-record",
+      status: "blocked-by-policy",
+      purpose:
+        "Stores school policy acceptance preflight requirements before an authenticated accept button, signature capture, evidence export, storage activation, or launch-ready workflow exists.",
+      primaryKey: "school_policy_acceptance_preflight_id",
+      tenantScope:
+        "Scoped by tenant_id, package_release_id, release_candidate_id, school_policy_handoff_packet_id, reviewer_identity_signature_gate_id, and preflight_revision.",
+      fields: [
+        {
+          name: "school_policy_acceptance_preflight_id",
+          type: "string",
+          required: true,
+          note: "Stable id for one school acceptance preflight snapshot.",
+        },
+        {
+          name: "school_policy_handoff_packet_id",
+          type: "string",
+          required: true,
+          note: "School policy handoff packet this preflight extends.",
+        },
+        {
+          name: "reviewer_identity_signature_gate_id",
+          type: "string",
+          required: true,
+          note: "Reviewer identity/signature gate linked to this preflight.",
+        },
+        {
+          name: "release_candidate_id",
+          type: "string",
+          required: true,
+          note: "Release candidate this preflight belongs to.",
+        },
+        {
+          name: "preflight_lanes",
+          type: "json",
+          required: true,
+          note: "Authenticated approver, policy text, evidence, release binding, child-safety, and deployment readiness lanes.",
+        },
+        {
+          name: "missing_before_acceptance",
+          type: "json",
+          required: true,
+          note: "Policy, identity, evidence, storage, release-control, support-language, microphone, AI Tutor, rollback, and revocation requirements.",
+        },
+        {
+          name: "blocked_actions",
+          type: "json",
+          required: true,
+          note: "Accept button, signed approval, evidence export, storage activation, production QR, launch-ready, AI Tutor, learner data, report export, and live classroom blocks.",
+        },
+        {
+          name: "minimum_acceptance_record",
+          type: "json",
+          required: true,
+          note: "Fields a future authenticated acceptance record must contain before acceptance can affect release state.",
+        },
+        {
+          name: "operating_rules",
+          type: "json",
+          required: true,
+          note: "Rules for support-language support-only behavior, premium opt-ins, rollback, revocation, and live launch blocks.",
+        },
+        {
+          name: "policy_acceptance_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until authenticated policy acceptance workflow exists.",
+        },
+        {
+          name: "preflight_evidence_export_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until evidence storage, identity, retention, and export policy are accepted.",
+        },
+        {
+          name: "preflight_storage_activation_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until hosted/local storage adapter policy is accepted.",
+        },
+        {
+          name: "launch_ready_status_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until release-control, school policy, evidence, storage, and dry-run gates pass.",
+        },
+        {
+          name: "live_classroom_launch_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until school policy, release-control, dry-run, storage, and persistence gates pass.",
+        },
+      ],
+      indexes: [
+        "tenant_id + release_candidate_id",
+        "school_policy_acceptance_preflight_id unique",
+        "school_policy_handoff_packet_id",
+        "reviewer_identity_signature_gate_id",
+        "policy_acceptance_allowed",
+        "launch_ready_status_allowed",
+        "preflight_revision",
+      ],
+      retentionRule:
+        "Retain with release-control history while any school pilot approval, local bundle, policy decision, report policy, or printed QR route references the candidate.",
+      exportRule:
+        "Must export as JSON only after evidence export policy is accepted; until then, it is metadata for review surfaces only.",
+      localFallback:
+        "Local classroom bundles store the same school policy acceptance preflight metadata beside release-control records after local policy allows export.",
+      policyBlockers: [
+        "School policy acceptance preflights cannot accept policy, capture signatures, export evidence, or approve launch by themselves.",
+        "Storage activation remains blocked until hosted or local storage adapter policy is accepted.",
+        "AI Tutor and microphone scoring remain blocked until tenant and school opt-in policy accepts cost and privacy implications.",
+        "Support-language-only progression must remain blocked even when school policy is accepted.",
+        "Live launch, learner data, report export, local activation, production QR promises, and launch-ready status remain blocked until school, publisher, platform, dry-run, and persistence requirements pass.",
+      ],
+    },
   ],
 };

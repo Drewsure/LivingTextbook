@@ -50,6 +50,7 @@ const requiredSchemaEntities = [
   "classroom_launch_gate",
   "school_launch_policy_gate",
   "school_policy_handoff_packet",
+  "school_policy_acceptance_preflight",
 ];
 
 const requiredMigrationCandidates = [
@@ -92,6 +93,7 @@ const requiredMigrationCandidates = [
   "m034-classroom-launch-gate-records",
   "m038-school-launch-policy-gate-records",
   "m039-school-policy-handoff-packet-records",
+  "m040-school-policy-acceptance-preflight-records",
 ];
 
 const requiredMigrationSpecs = [
@@ -133,6 +135,7 @@ const requiredMigrationSpecs = [
   "spec-classroom-launch-gate",
   "spec-school-launch-policy-gate",
   "spec-school-policy-handoff-packet",
+  "spec-school-policy-acceptance-preflight",
 ];
 
 for (const entityId of requiredSchemaEntities) {
@@ -360,6 +363,13 @@ requireText(schemaDraft, "deferred_decisions", "Backend schema must preserve sch
 requireText(schemaDraft, "policy_handoff_acceptance_allowed", "Backend schema must block policy acceptance from handoff packets.");
 requireText(schemaDraft, "handoff_evidence_export_allowed", "Backend schema must block handoff evidence export.");
 requireText(schemaDraft, "Production QR promise", "Backend schema must forbid production QR promises from handoff packets.");
+requireText(schemaDraft, "school_policy_acceptance_preflight", "Backend schema must include school policy acceptance preflight records.");
+requireText(schemaDraft, "school_policy_acceptance_preflight_id", "Backend schema must preserve school policy acceptance preflight ids.");
+requireText(schemaDraft, "reviewer_identity_signature_gate_id", "Backend schema must link acceptance preflight to reviewer identity/signature gate.");
+requireText(schemaDraft, "missing_before_acceptance", "Backend schema must preserve missing acceptance requirements.");
+requireText(schemaDraft, "minimum_acceptance_record", "Backend schema must preserve minimum acceptance record fields.");
+requireText(schemaDraft, "preflight_storage_activation_allowed", "Backend schema must block preflight storage activation.");
+requireText(schemaDraft, "launch_ready_status_allowed", "Backend schema must block launch-ready status from preflight records.");
 requireText(migrationSpecs, "spec-pilot-evidence-packet", "Migration specs must include pilot evidence packets.");
 requireText(migrationSpecs, "evidence_packet_id", "Migration specs must preserve pilot evidence packet ids.");
 requireText(migrationSpecs, "upload_allowed", "Migration specs must preserve evidence upload blocks.");
@@ -391,6 +401,12 @@ requireText(migrationSpecs, "school_policy_handoff_packet_id", "Migration specs 
 requireText(migrationSpecs, "packet_sections", "Migration specs must preserve school policy handoff packet sections.");
 requireText(migrationSpecs, "policy_handoff_acceptance_allowed", "Migration specs must block handoff policy acceptance.");
 requireText(migrationSpecs, "handoff_evidence_export_allowed", "Migration specs must block handoff evidence export.");
+requireText(migrationSpecs, "spec-school-policy-acceptance-preflight", "Migration specs must include school policy acceptance preflights.");
+requireText(migrationSpecs, "school_policy_acceptance_preflight_id", "Migration specs must preserve school policy acceptance preflight ids.");
+requireText(migrationSpecs, "missing_before_acceptance", "Migration specs must preserve missing acceptance requirements.");
+requireText(migrationSpecs, "minimum_acceptance_record", "Migration specs must preserve minimum acceptance record fields.");
+requireText(migrationSpecs, "preflight_storage_activation_allowed", "Migration specs must block preflight storage activation.");
+requireText(migrationSpecs, "launch_ready_status_allowed", "Migration specs must block preflight launch-ready status.");
 requireText(persistenceAdapter, "hosted-launch-session-write", "Persistence adapter must include hosted launch-session writes.");
 requireText(persistenceAdapter, "local-launch-session-write", "Persistence adapter must include local launch-session writes.");
 requireText(persistenceAdapter, "hosted-teacher-draft-package-write", "Persistence adapter must include hosted teacher draft writes.");
@@ -499,6 +515,13 @@ requireText(persistenceAdapter, "local-school-policy-handoff-packet-write", "Per
 requireText(persistenceAdapter, "preservesSchoolPolicyHandoffPacket: true", "Persistence adapter must preserve school policy handoff packets.");
 requireText(persistenceAdapter, "blocksPolicyHandoffAcceptance: true", "Persistence adapter must block policy acceptance from handoff packets.");
 requireText(persistenceAdapter, "blocksHandoffEvidenceExport: true", "Persistence adapter must block evidence export from handoff packets.");
+requireText(persistenceAdapter, "hosted-school-policy-acceptance-preflight-write", "Persistence adapter must include hosted school policy acceptance preflight writes.");
+requireText(persistenceAdapter, "local-school-policy-acceptance-preflight-write", "Persistence adapter must include local school policy acceptance preflight writes.");
+requireText(persistenceAdapter, "preservesSchoolPolicyAcceptancePreflight: true", "Persistence adapter must preserve school policy acceptance preflight records.");
+requireText(persistenceAdapter, "blocksPreflightPolicyAcceptance: true", "Persistence adapter must block preflight policy acceptance.");
+requireText(persistenceAdapter, "blocksPreflightEvidenceExport: true", "Persistence adapter must block preflight evidence export.");
+requireText(persistenceAdapter, "blocksPreflightStorageActivation: true", "Persistence adapter must block preflight storage activation.");
+requireText(persistenceAdapter, "blocksPreflightLaunchReadyStatus: true", "Persistence adapter must block preflight launch-ready status.");
 requireText(persistenceAdapter, "hosted-media-playlist-binding-write", "Persistence adapter must include hosted media playlist binding writes.");
 requireText(persistenceAdapter, "local-media-playlist-binding-write", "Persistence adapter must include local media playlist binding writes.");
 requireText(persistenceAdapter, "preservesMediaPlaylistBinding: true", "Persistence adapter must preserve media playlist bindings.");
@@ -603,6 +626,12 @@ requireText(durableRecords, "school-policy-handoff-packet-record", "Durable reco
 requireText(durableRecords, "preservesSchoolPolicyHandoffPacket: true", "Durable record plan must preserve school policy handoff packets.");
 requireText(durableRecords, "blocksPolicyHandoffAcceptance: true", "Durable record plan must block policy handoff acceptance.");
 requireText(durableRecords, "blocksHandoffEvidenceExport: true", "Durable record plan must block handoff evidence export.");
+requireText(durableRecords, "school-policy-acceptance-preflight-record", "Durable record plan must include school policy acceptance preflight records.");
+requireText(durableRecords, "preservesSchoolPolicyAcceptancePreflight: true", "Durable record plan must preserve school policy acceptance preflight records.");
+requireText(durableRecords, "blocksPreflightPolicyAcceptance: true", "Durable record plan must block preflight policy acceptance.");
+requireText(durableRecords, "blocksPreflightEvidenceExport: true", "Durable record plan must block preflight evidence export.");
+requireText(durableRecords, "blocksPreflightStorageActivation: true", "Durable record plan must block preflight storage activation.");
+requireText(durableRecords, "blocksPreflightLaunchReadyStatus: true", "Durable record plan must block preflight launch-ready status.");
 requireText(durableRecords, "media-playlist-binding-record", "Durable record plan must include media playlist binding records.");
 requireText(durableRecords, "preservesMediaPlaylistBinding: true", "Durable record plan must preserve media playlist bindings.");
 requireText(durableRecords, "blocksMediaOnlyProgress: true", "Durable record plan must block media-only progress.");

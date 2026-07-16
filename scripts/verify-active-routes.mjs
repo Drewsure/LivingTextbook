@@ -75,6 +75,9 @@ expectedTextByPath.get("/teacher/intake")?.push(
   "school_policy_handoff_packet",
   "School policy handoff packet record",
   "school-policy-handoff-packet-record",
+  "school_policy_acceptance_preflight",
+  "School policy acceptance preflight record",
+  "school-policy-acceptance-preflight-record",
 );
 
 if (urls.length === 0) {

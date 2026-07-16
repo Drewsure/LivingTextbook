@@ -92,6 +92,11 @@ export interface PersistenceWriteIntent {
   preservesSchoolPolicyHandoffPacket?: boolean;
   blocksPolicyHandoffAcceptance?: boolean;
   blocksHandoffEvidenceExport?: boolean;
+  preservesSchoolPolicyAcceptancePreflight?: boolean;
+  blocksPreflightPolicyAcceptance?: boolean;
+  blocksPreflightEvidenceExport?: boolean;
+  blocksPreflightStorageActivation?: boolean;
+  blocksPreflightLaunchReadyStatus?: boolean;
   note: string;
 }
 
@@ -504,6 +509,30 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "school-policy-handoff-packet" && !intent.blocksLaunchWithoutSchoolPolicy) {
       errors.push(`School policy handoff packet write intent ${intent.intentId} must block launch without school policy.`);
+    }
+
+    if (intent.category === "school-policy-acceptance-preflight" && !intent.preservesSchoolPolicyAcceptancePreflight) {
+      errors.push(`School policy acceptance preflight write intent ${intent.intentId} must preserve missing acceptance requirements, blocked actions, minimum acceptance fields, and operating rules.`);
+    }
+
+    if (intent.category === "school-policy-acceptance-preflight" && !intent.blocksPreflightPolicyAcceptance) {
+      errors.push(`School policy acceptance preflight write intent ${intent.intentId} must block policy acceptance from preflight records.`);
+    }
+
+    if (intent.category === "school-policy-acceptance-preflight" && !intent.blocksPreflightEvidenceExport) {
+      errors.push(`School policy acceptance preflight write intent ${intent.intentId} must block evidence export from preflight records.`);
+    }
+
+    if (intent.category === "school-policy-acceptance-preflight" && !intent.blocksPreflightStorageActivation) {
+      errors.push(`School policy acceptance preflight write intent ${intent.intentId} must block storage activation from preflight records.`);
+    }
+
+    if (intent.category === "school-policy-acceptance-preflight" && !intent.blocksPreflightLaunchReadyStatus) {
+      errors.push(`School policy acceptance preflight write intent ${intent.intentId} must block launch-ready status from preflight records.`);
+    }
+
+    if (intent.category === "school-policy-acceptance-preflight" && !intent.blocksLiveClassroomLaunch) {
+      errors.push(`School policy acceptance preflight write intent ${intent.intentId} must block live classroom launch.`);
     }
 
     if (intent.intentId.includes("package-audio-coverage") && !intent.preservesGameAudioCoverageSnapshot) {
