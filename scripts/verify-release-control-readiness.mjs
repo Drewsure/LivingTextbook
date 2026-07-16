@@ -25,6 +25,8 @@ const schoolPolicyAcceptanceRecordPreview = readSource("../apps/web/src/data/sam
 const schoolPolicyAcceptanceRecordPreviewPanel = readSource("../apps/web/src/features/pilot/SchoolPolicyAcceptanceRecordPreviewPanel.tsx");
 const schoolPolicyRevocationRollbackPlan = readSource("../apps/web/src/data/sampleSchoolPolicyRevocationRollbackPlan.ts");
 const schoolPolicyRevocationRollbackPanel = readSource("../apps/web/src/features/pilot/SchoolPolicyRevocationRollbackPanel.tsx");
+const schoolPolicyRollbackImpactMatrix = readSource("../apps/web/src/data/sampleSchoolPolicyRollbackImpactMatrix.ts");
+const schoolPolicyRollbackImpactMatrixPanel = readSource("../apps/web/src/features/pilot/SchoolPolicyRollbackImpactMatrixPanel.tsx");
 const schoolPolicyHandoffPacket = readSource("../apps/web/src/data/sampleSchoolPolicyHandoffPacket.ts");
 const schoolPolicyHandoffPacketPanel = readSource("../apps/web/src/features/pilot/SchoolPolicyHandoffPacketPanel.tsx");
 const backendSchema = readSource("../apps/web/src/data/sampleBackendSchemaDraft.ts");
@@ -234,6 +236,23 @@ requireText(schoolPolicyRevocationRollbackPanel, "No rollback action", "School p
 requireText(schoolPolicyRevocationRollbackPanel, "Minimum rollback record fields", "School policy revocation rollback panel must show minimum rollback fields.");
 requireText(schoolPolicyRevocationRollbackPanel, "Storage contract handoff", "School policy revocation rollback panel must show storage contract handoff.");
 requireText(schoolPolicyRevocationRollbackPanel, "Storage contract only", "School policy revocation rollback panel must keep storage handoff non-actionable.");
+requireText(schoolPolicyRollbackImpactMatrix, "sampleSchoolPolicyRevocationRollbackPlan", "School rollback impact matrix must derive from the revocation rollback plan.");
+requireText(schoolPolicyRollbackImpactMatrix, "School rollback impact matrix", "School rollback impact matrix must expose a school-facing title.");
+requireText(schoolPolicyRollbackImpactMatrix, "Impact matrix blocked", "School rollback impact matrix must stay blocked.");
+requireText(schoolPolicyRollbackImpactMatrix, "package_release_candidate", "School rollback impact matrix must cover release candidate records.");
+requireText(schoolPolicyRollbackImpactMatrix, "route_alias", "School rollback impact matrix must cover route aliases.");
+requireText(schoolPolicyRollbackImpactMatrix, "launch_session", "School rollback impact matrix must cover launch sessions.");
+requireText(schoolPolicyRollbackImpactMatrix, "media_manifest", "School rollback impact matrix must cover media manifests.");
+requireText(schoolPolicyRollbackImpactMatrix, "teacher_session_settings", "School rollback impact matrix must cover teacher session settings.");
+requireText(schoolPolicyRollbackImpactMatrix, "evidence_packet", "School rollback impact matrix must cover evidence packets.");
+requireText(schoolPolicyRollbackImpactMatrix, "No release-state mutation", "School rollback impact matrix must block release-state mutation.");
+requireText(schoolPolicyRollbackImpactMatrix, "No production QR redirect mutation", "School rollback impact matrix must block production QR redirect mutation.");
+requireText(schoolPolicyRollbackImpactMatrix, "No learner-data deletion workflow", "School rollback impact matrix must block learner-data deletion.");
+requireText(schoolPolicyRollbackImpactMatrix, "No media replacement", "School rollback impact matrix must block media replacement.");
+requireText(schoolPolicyRollbackImpactMatrix, "No AI Tutor entitlement change", "School rollback impact matrix must block AI Tutor entitlement changes.");
+requireText(schoolPolicyRollbackImpactMatrixPanel, "School rollback impact matrix", "School rollback impact matrix panel must be visible.");
+requireText(schoolPolicyRollbackImpactMatrixPanel, "No release-state mutation", "School rollback impact matrix panel must show blocked release-state mutation.");
+requireText(schoolPolicyRollbackImpactMatrixPanel, "No live workflow", "School rollback impact matrix panel must block live workflow behavior.");
 requireText(backendSchema, "package_release_candidate", "Backend schema must include package release candidate record.");
 requireText(backendSchema, "package_publish_gate", "Backend schema must include package publish gate record.");
 requireText(backendSchema, "package_approval_ledger", "Backend schema must include package approval ledger record.");
@@ -251,6 +270,7 @@ requireText(routeVerifier, "School policy acceptance preflight", "Active route v
 requireText(routeVerifier, "School policy text version pack", "Active route verifier must keep school policy text pack visible.");
 requireText(routeVerifier, "Future school acceptance record preview", "Active route verifier must keep school acceptance record preview visible.");
 requireText(routeVerifier, "School policy revocation and rollback preview", "Active route verifier must keep school policy revocation rollback preview visible.");
+requireText(routeVerifier, "School rollback impact matrix", "Active route verifier must keep school rollback impact matrix visible.");
 
 if (failures.length > 0) {
   for (const failure of failures) {

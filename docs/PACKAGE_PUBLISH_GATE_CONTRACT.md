@@ -221,6 +221,8 @@ This preview is not a rollback workflow. It can show required policy, blocked ef
 
 The backend-neutral record is `school_policy_revocation_rollback_preview` / `school-policy-revocation-rollback-preview`. Hosted and local implementations must preserve revocation authority, release rollback scope, printed QR effect, learner-data/report effect, media/local package effect, premium feature effect, minimum rollback record fields, blocked actions, and review rules while blocking revocation actions, rollback buttons, release-state mutation, production QR redirect mutation, learner-data deletion, report export, media replacement, local bundle deactivation, AI Tutor entitlement changes, and live classroom shutdown workflows.
 
+The `School rollback impact matrix` extends that preview by naming affected records and required evidence across release state, printed QR routes, learner-data/reporting, media/local packages, premium features, and support operations. It is also review-only: it cannot mutate releases, redirect QR routes, delete learner data, export reports, replace media, change AI Tutor entitlements, or shut down classrooms.
+
 ## Required Blocking Areas Before Real Pilot
 
 A real pilot package requires closure on:
@@ -279,3 +281,4 @@ The gate is useful when a future engineer, agent, teacher, or publisher can answ
 - Can the team see the exact versioned policy clauses that must be reviewed before any future school acceptance is designed?
 - Can the team see the minimum future accepted-record fields without storing accepted terms, capturing signatures, or changing launch status?
 - Can the team see how revocation and rollback would be handled before acceptance affects launch readiness?
+- Can the team see which records and evidence areas would be affected by rollback before any live rollback workflow exists?
