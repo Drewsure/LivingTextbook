@@ -55,6 +55,11 @@ Use after pulling the latest `legacy-source-import` branch and running local typ
 45. The handoff packet blocks `No support-language-only progression`, `No AI Tutor activation`, `No launch-ready status`, evidence export, signed approval capture, local activation, production QR promises, and live classroom workflow.
 46. The focused school policy handoff route renders the same handoff packet and launch policy gate as a meeting packet preview.
 47. The focused route shows `School policy handoff route workspace`, `School meeting packet preview`, `Discussion only`, `Handoff source routes`, `Teacher intake source`, `Classroom launch gate source`, `Teacher dry-run source`, and `Evidence handoff source`.
+48. The teacher intake page renders a `School policy acceptance preflight` derived from the school policy handoff packet and reviewer identity/signature gate.
+49. The focused classroom launch gate route and focused school policy handoff route render the same acceptance preflight.
+50. The preflight shows `Acceptance blocked`, `Authenticated school approver`, `Policy text and scope`, `Evidence packet and attachment readiness`, `Release-control binding`, `Child safety and progression boundaries`, `Minimum acceptance record`, and `No accept button`.
+51. The preflight blocks support-language-only progression, AI Tutor activation, microphone/scoring opt-ins without policy, evidence export, signed approval capture, storage activation, release-state mutation, production QR promises, and live classroom workflow.
+52. The preflight can be used for school discussion and implementation planning, but it cannot be mistaken for a policy acceptance workflow, signature capture workflow, evidence export workflow, storage setup workflow, launch-ready marker, or student launch workflow.
 
 ## Build Verification
 
@@ -87,4 +92,5 @@ Do not mark this verified if:
 - the school launch policy gate hides school, publisher, platform, or shared teacher dry-run ownership,
 - the school policy handoff packet can be mistaken for policy acceptance, launch readiness, signed approval, evidence export, local activation, or production QR commitment,
 - the focused school policy handoff route accepts policy, captures signatures, exports evidence, creates assignments, creates production QR promises, mutates release state, or launches students,
+- the school policy acceptance preflight exposes an accept button, captures approval, captures signatures, exports evidence, activates storage, marks launch-ready status, activates AI Tutor, permits support-language-only progression, creates production QR promises, mutates release state, or starts a classroom workflow,
 - the page fails typecheck/build after sync.

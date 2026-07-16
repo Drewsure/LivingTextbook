@@ -28,6 +28,7 @@ Current files:
 - `apps/web/src/data/sampleClassroomLaunchGate.ts`
 - `apps/web/src/data/sampleSchoolLaunchPolicyGate.ts`
 - `apps/web/src/data/sampleSchoolPolicyHandoffPacket.ts`
+- `apps/web/src/data/sampleSchoolPolicyAcceptancePreflight.ts`
 - `apps/web/src/features/pilot/PackagePublishGatePanel.tsx`
 - `apps/web/src/features/pilot/PilotEvidencePacketPanel.tsx`
 - `apps/web/src/features/pilot/PilotLaunchChecklistPanel.tsx`
@@ -36,6 +37,7 @@ Current files:
 - `apps/web/src/features/pilot/ClassroomLaunchGatePanel.tsx`
 - `apps/web/src/features/pilot/SchoolLaunchPolicyGatePanel.tsx`
 - `apps/web/src/features/pilot/SchoolPolicyHandoffPacketPanel.tsx`
+- `apps/web/src/features/pilot/SchoolPolicyAcceptancePreflightPanel.tsx`
 - `apps/web/src/app/teacher/intake/page.tsx`
 - `apps/web/src/app/teacher/policy-handoff/[packetId]/page.tsx`
 
@@ -147,6 +149,23 @@ The backend-neutral record is `school_policy_handoff_packet` / `school-policy-ha
 
 The focused route is a meeting packet preview only. It may link back to source evidence routes, but it must not create assignments, accept policy, capture signatures, export evidence, activate local deployment, create production QR promises, or change package status.
 
+## School Policy Acceptance Preflight
+
+The `School policy acceptance preflight` is the hard boundary before any future school acceptance workflow exists.
+
+It is derived from the school policy handoff packet and reviewer identity/signature gate. It names the lanes that must be closed before an eventual school acceptance action can be designed:
+
+- authenticated school approver,
+- policy text and scope,
+- evidence packet and attachment readiness,
+- release-control binding,
+- child safety and progression boundaries,
+- hosted, local, and rollback readiness.
+
+This preflight is review-only. It can show missing requirements, blocked actions, minimum acceptance record fields, and operating rules, but it cannot accept policy, collect a signature, export evidence, activate storage, create launch-ready status, create production QR promises, invite students, collect real learner data, export reports, or mutate release state.
+
+The preflight protects the white-label product by ensuring a school acceptance is never a vague meeting note. Future implementations must tie acceptance to a known school approver, tenant, school, release candidate, handoff packet version, policy text version, storage policy, learner-data rules, support-language rules, microphone/AI Tutor opt-ins, and rollback/revocation plan.
+
 ## Required Blocking Areas Before Real Pilot
 
 A real pilot package requires closure on:
@@ -201,3 +220,4 @@ The gate is useful when a future engineer, agent, teacher, or publisher can answ
 - Can the team see the final launch boundary before real children, real learner records, or report exports are enabled?
 - Can the team clearly distinguish a partner demo from a school-approved launch, including which obligations belong to the school, publisher, platform, and shared teacher dry-run process?
 - Can a school meeting use the handoff packet to discuss privacy, QR use, progression rules, media, dry-run evidence, storage, release, and rollback without triggering acceptance, launch, or export workflows?
+- Can the team see exactly what remains before a future school policy acceptance button, signature capture, evidence export, storage activation, production QR promise, AI Tutor activation, or live classroom workflow can exist?

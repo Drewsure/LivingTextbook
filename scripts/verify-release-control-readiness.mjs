@@ -17,6 +17,8 @@ const classroomLaunchGate = readSource("../apps/web/src/data/sampleClassroomLaun
 const classroomLaunchGatePanel = readSource("../apps/web/src/features/pilot/ClassroomLaunchGatePanel.tsx");
 const schoolLaunchPolicyGate = readSource("../apps/web/src/data/sampleSchoolLaunchPolicyGate.ts");
 const schoolLaunchPolicyGatePanel = readSource("../apps/web/src/features/pilot/SchoolLaunchPolicyGatePanel.tsx");
+const schoolPolicyAcceptancePreflight = readSource("../apps/web/src/data/sampleSchoolPolicyAcceptancePreflight.ts");
+const schoolPolicyAcceptancePreflightPanel = readSource("../apps/web/src/features/pilot/SchoolPolicyAcceptancePreflightPanel.tsx");
 const schoolPolicyHandoffPacket = readSource("../apps/web/src/data/sampleSchoolPolicyHandoffPacket.ts");
 const schoolPolicyHandoffPacketPanel = readSource("../apps/web/src/features/pilot/SchoolPolicyHandoffPacketPanel.tsx");
 const backendSchema = readSource("../apps/web/src/data/sampleBackendSchemaDraft.ts");
@@ -162,6 +164,23 @@ requireText(schoolPolicyHandoffPacketPanel, "Deferred decisions", "School policy
 requireText(schoolPolicyHandoffPacketPanel, "Blocked actions", "School policy handoff packet panel must show blocked actions.");
 requireText(schoolPolicyHandoffPacketPanel, "No policy acceptance", "School policy handoff packet panel must block policy acceptance.");
 requireText(schoolPolicyHandoffPacketPanel, "create launch", "School policy handoff packet panel must state no live launch workflow is created.");
+requireText(schoolPolicyAcceptancePreflight, "sampleSchoolPolicyHandoffPacket", "School policy acceptance preflight must derive from the school policy handoff packet.");
+requireText(schoolPolicyAcceptancePreflight, "sampleReviewerIdentitySignatureGate", "School policy acceptance preflight must include reviewer identity/signature gates.");
+requireText(schoolPolicyAcceptancePreflight, "School policy acceptance preflight", "School policy acceptance preflight must expose a school-facing title.");
+requireText(schoolPolicyAcceptancePreflight, "Acceptance blocked", "School policy acceptance preflight must keep acceptance blocked.");
+requireText(schoolPolicyAcceptancePreflight, "Authenticated school approver", "School policy acceptance preflight must require authenticated school approver identity.");
+requireText(schoolPolicyAcceptancePreflight, "Policy text and scope", "School policy acceptance preflight must require policy text and scope.");
+requireText(schoolPolicyAcceptancePreflight, "Evidence packet and attachment readiness", "School policy acceptance preflight must require evidence and attachment readiness.");
+requireText(schoolPolicyAcceptancePreflight, "Release-control binding", "School policy acceptance preflight must require release-control binding.");
+requireText(schoolPolicyAcceptancePreflight, "Child safety and progression boundaries", "School policy acceptance preflight must preserve child safety and progression boundaries.");
+requireText(schoolPolicyAcceptancePreflight, "Hosted, local, and rollback readiness", "School policy acceptance preflight must require deployment readiness.");
+requireText(schoolPolicyAcceptancePreflight, "No accept button", "School policy acceptance preflight must block accept button behavior.");
+requireText(schoolPolicyAcceptancePreflight, "No support-language-only progression", "School policy acceptance preflight must block support-language-only progression.");
+requireText(schoolPolicyAcceptancePreflight, "No AI Tutor activation", "School policy acceptance preflight must block AI Tutor activation.");
+requireText(schoolPolicyAcceptancePreflightPanel, "School policy acceptance preflight", "School policy acceptance preflight panel must be visible.");
+requireText(schoolPolicyAcceptancePreflightPanel, "Missing before acceptance", "School policy acceptance preflight panel must show missing acceptance requirements.");
+requireText(schoolPolicyAcceptancePreflightPanel, "Minimum acceptance record", "School policy acceptance preflight panel must show minimum acceptance record.");
+requireText(schoolPolicyAcceptancePreflightPanel, "No accept button", "School policy acceptance preflight panel must block accept button behavior.");
 requireText(backendSchema, "package_release_candidate", "Backend schema must include package release candidate record.");
 requireText(backendSchema, "package_publish_gate", "Backend schema must include package publish gate record.");
 requireText(backendSchema, "package_approval_ledger", "Backend schema must include package approval ledger record.");
@@ -175,6 +194,7 @@ requireText(routeVerifier, "Teacher dry-run rehearsal preview", "Active route ve
 requireText(routeVerifier, "Classroom launch gate preview", "Active route verifier must keep classroom launch gate visible.");
 requireText(routeVerifier, "School launch policy gate preview", "Active route verifier must keep school launch policy gate visible.");
 requireText(routeVerifier, "School policy handoff packet preview", "Active route verifier must keep school policy handoff packet visible.");
+requireText(routeVerifier, "School policy acceptance preflight", "Active route verifier must keep school policy acceptance preflight visible.");
 
 if (failures.length > 0) {
   for (const failure of failures) {
