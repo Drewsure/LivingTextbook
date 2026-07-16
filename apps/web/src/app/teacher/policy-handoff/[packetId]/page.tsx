@@ -5,12 +5,14 @@ import { sampleSchoolLaunchPolicyGate } from "@/data/sampleSchoolLaunchPolicyGat
 import { sampleSchoolPolicyAcceptancePreflight } from "@/data/sampleSchoolPolicyAcceptancePreflight";
 import { sampleSchoolPolicyAcceptanceRecordPreview } from "@/data/sampleSchoolPolicyAcceptanceRecordPreview";
 import { sampleSchoolPolicyHandoffPacket } from "@/data/sampleSchoolPolicyHandoffPacket";
+import { sampleSchoolPolicyRevocationRollbackPlan } from "@/data/sampleSchoolPolicyRevocationRollbackPlan";
 import { sampleSchoolPolicyTextPack } from "@/data/sampleSchoolPolicyTextPack";
 import { sampleTeacherDryRunRehearsal } from "@/data/sampleTeacherDryRunRehearsal";
 import { SchoolLaunchPolicyGatePanel } from "@/features/pilot/SchoolLaunchPolicyGatePanel";
 import { SchoolPolicyAcceptanceRecordPreviewPanel } from "@/features/pilot/SchoolPolicyAcceptanceRecordPreviewPanel";
 import { SchoolPolicyAcceptancePreflightPanel } from "@/features/pilot/SchoolPolicyAcceptancePreflightPanel";
 import { SchoolPolicyHandoffPacketPanel } from "@/features/pilot/SchoolPolicyHandoffPacketPanel";
+import { SchoolPolicyRevocationRollbackPanel } from "@/features/pilot/SchoolPolicyRevocationRollbackPanel";
 import { SchoolPolicyTextPackPanel } from "@/features/pilot/SchoolPolicyTextPackPanel";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 
@@ -102,6 +104,7 @@ export default async function SchoolPolicyHandoffPage({ params }: SchoolPolicyHa
         <SchoolPolicyAcceptancePreflightPanel preflight={sampleSchoolPolicyAcceptancePreflight} />
         <SchoolPolicyTextPackPanel pack={sampleSchoolPolicyTextPack} />
         <SchoolPolicyAcceptanceRecordPreviewPanel preview={sampleSchoolPolicyAcceptanceRecordPreview} />
+        <SchoolPolicyRevocationRollbackPanel plan={sampleSchoolPolicyRevocationRollbackPlan} />
         <SchoolLaunchPolicyGatePanel gate={sampleSchoolLaunchPolicyGate} />
       </div>
     </AppShell>

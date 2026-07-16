@@ -204,6 +204,21 @@ This preview is not an accepted record. It can show minimum accepted-record fiel
 
 The backend-neutral record is `school_policy_acceptance_record_preview` / `school-policy-acceptance-record-preview`. Hosted and local implementations must preserve minimum accepted-record fields, non-accepted markers, blocked actions, and review rules while blocking accepted terms storage, signed approval capture, evidence export, storage activation, release-state mutation, launch-ready status, production QR promises, AI Tutor activation, support-language-only progression, learner data, report export, and live classroom workflow.
 
+## School Policy Revocation And Rollback Preview
+
+The `School policy revocation and rollback preview` names the exit path that must exist before school acceptance can ever affect launch readiness.
+
+It is derived from the future school acceptance record preview and organizes review around:
+
+- revocation request authority,
+- release rollback scope,
+- printed QR and route effect,
+- learner data and report effect,
+- publisher media and local package effect,
+- microphone and AI Tutor effect.
+
+This preview is not a rollback workflow. It can show required policy, blocked effects, minimum rollback record fields, blocked actions, and review rules, but it cannot revoke consent, mutate release state, redirect production QR codes, delete learner data, export reports, replace media, deactivate local bundles, change AI Tutor entitlement, or shut down live classrooms.
+
 ## Required Blocking Areas Before Real Pilot
 
 A real pilot package requires closure on:
@@ -261,3 +276,4 @@ The gate is useful when a future engineer, agent, teacher, or publisher can answ
 - Can the team see exactly what remains before a future school policy acceptance button, signature capture, evidence export, storage activation, production QR promise, AI Tutor activation, or live classroom workflow can exist?
 - Can the team see the exact versioned policy clauses that must be reviewed before any future school acceptance is designed?
 - Can the team see the minimum future accepted-record fields without storing accepted terms, capturing signatures, or changing launch status?
+- Can the team see how revocation and rollback would be handled before acceptance affects launch readiness?

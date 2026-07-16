@@ -23,6 +23,8 @@ const schoolPolicyTextPack = readSource("../apps/web/src/data/sampleSchoolPolicy
 const schoolPolicyTextPackPanel = readSource("../apps/web/src/features/pilot/SchoolPolicyTextPackPanel.tsx");
 const schoolPolicyAcceptanceRecordPreview = readSource("../apps/web/src/data/sampleSchoolPolicyAcceptanceRecordPreview.ts");
 const schoolPolicyAcceptanceRecordPreviewPanel = readSource("../apps/web/src/features/pilot/SchoolPolicyAcceptanceRecordPreviewPanel.tsx");
+const schoolPolicyRevocationRollbackPlan = readSource("../apps/web/src/data/sampleSchoolPolicyRevocationRollbackPlan.ts");
+const schoolPolicyRevocationRollbackPanel = readSource("../apps/web/src/features/pilot/SchoolPolicyRevocationRollbackPanel.tsx");
 const schoolPolicyHandoffPacket = readSource("../apps/web/src/data/sampleSchoolPolicyHandoffPacket.ts");
 const schoolPolicyHandoffPacketPanel = readSource("../apps/web/src/features/pilot/SchoolPolicyHandoffPacketPanel.tsx");
 const backendSchema = readSource("../apps/web/src/data/sampleBackendSchemaDraft.ts");
@@ -215,6 +217,18 @@ requireText(schoolPolicyAcceptanceRecordPreviewPanel, "Future school acceptance 
 requireText(schoolPolicyAcceptanceRecordPreviewPanel, "No accepted terms stored", "School policy acceptance record preview panel must block accepted terms.");
 requireText(schoolPolicyAcceptanceRecordPreviewPanel, "Minimum accepted-record fields", "School policy acceptance record preview panel must show minimum accepted-record fields.");
 requireText(schoolPolicyAcceptanceRecordPreviewPanel, "Non-accepted markers", "School policy acceptance record preview panel must show non-accepted markers.");
+requireText(schoolPolicyRevocationRollbackPlan, "sampleSchoolPolicyAcceptanceRecordPreview", "School policy revocation rollback plan must derive from the acceptance record preview.");
+requireText(schoolPolicyRevocationRollbackPlan, "School policy revocation and rollback preview", "School policy revocation rollback plan must expose a school-facing title.");
+requireText(schoolPolicyRevocationRollbackPlan, "Rollback policy blocked", "School policy revocation rollback plan must remain blocked.");
+requireText(schoolPolicyRevocationRollbackPlan, "Revocation request authority", "School policy revocation rollback plan must require revocation authority.");
+requireText(schoolPolicyRevocationRollbackPlan, "Printed QR and route effect", "School policy revocation rollback plan must cover printed QR routes.");
+requireText(schoolPolicyRevocationRollbackPlan, "Learner data and report effect", "School policy revocation rollback plan must cover learner data and reports.");
+requireText(schoolPolicyRevocationRollbackPlan, "Microphone and AI Tutor effect", "School policy revocation rollback plan must cover premium features.");
+requireText(schoolPolicyRevocationRollbackPlan, "No rollback button", "School policy revocation rollback plan must block rollback buttons.");
+requireText(schoolPolicyRevocationRollbackPlan, "No production QR redirect mutation", "School policy revocation rollback plan must block production QR mutation.");
+requireText(schoolPolicyRevocationRollbackPanel, "School policy revocation and rollback preview", "School policy revocation rollback panel must be visible.");
+requireText(schoolPolicyRevocationRollbackPanel, "No rollback action", "School policy revocation rollback panel must block rollback actions.");
+requireText(schoolPolicyRevocationRollbackPanel, "Minimum rollback record fields", "School policy revocation rollback panel must show minimum rollback fields.");
 requireText(backendSchema, "package_release_candidate", "Backend schema must include package release candidate record.");
 requireText(backendSchema, "package_publish_gate", "Backend schema must include package publish gate record.");
 requireText(backendSchema, "package_approval_ledger", "Backend schema must include package approval ledger record.");
@@ -231,6 +245,7 @@ requireText(routeVerifier, "School policy handoff packet preview", "Active route
 requireText(routeVerifier, "School policy acceptance preflight", "Active route verifier must keep school policy acceptance preflight visible.");
 requireText(routeVerifier, "School policy text version pack", "Active route verifier must keep school policy text pack visible.");
 requireText(routeVerifier, "Future school acceptance record preview", "Active route verifier must keep school acceptance record preview visible.");
+requireText(routeVerifier, "School policy revocation and rollback preview", "Active route verifier must keep school policy revocation rollback preview visible.");
 
 if (failures.length > 0) {
   for (const failure of failures) {
