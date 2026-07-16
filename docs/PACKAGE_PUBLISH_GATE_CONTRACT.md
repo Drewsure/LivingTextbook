@@ -121,6 +121,8 @@ This gate is a review packet only. It cannot accept school policy, approve a lau
 
 This distinction is a white-label product rule: a tenant can have a strong controlled demo while school-owned privacy, retention, reporting, access-control, support-language, microphone, AI Tutor, media, local deployment, and storage decisions remain open.
 
+The backend-neutral record is `school_launch_policy_gate` / `school-launch-policy-gate`. Hosted and local implementations must preserve school, publisher, platform, and shared dry-run ownership while blocking policy acceptance workflows, live launch, real learner data, report export, local activation, release-state mutation, launch-ready status, and support-language-only progression.
+
 ## Required Blocking Areas Before Real Pilot
 
 A real pilot package requires closure on:

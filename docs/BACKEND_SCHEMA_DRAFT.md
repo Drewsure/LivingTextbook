@@ -58,6 +58,8 @@ The current draft includes:
 - Package approval ledger
 - Pilot evidence packet
 - Teacher dry-run rehearsal
+- Classroom launch gate
+- School launch policy gate
 
 ## Required Fields Per Entity
 
@@ -86,6 +88,7 @@ Each entity should name:
 - Font accessibility profiles preserve approved learner fonts, tenant font packs, multilingual rendering rules, readability checks, license status, and student-facing font blocks before font controls go live.
 - Progress events and collection inventory must preserve support-only boundaries so assist language, media, or route guidance cannot unlock mastery.
 - Teacher dry-run rehearsal records preserve route, game/audio, media/support-language, report, and local fallback checks while blocking real learner data, live progress, report export, and student launch.
+- School launch policy gate records preserve school, publisher, platform, and shared dry-run ownership while blocking policy acceptance workflows, live launch, real learner data, report export, local activation, launch-ready status, and support-language-only progression.
 - Support language never unlocks target-language progression.
 - AI Tutor and speech scoring stay premium-gated and disabled unless tenant policy accepts them.
 - Local and hosted implementations must preserve the same record vocabulary.

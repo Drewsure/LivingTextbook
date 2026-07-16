@@ -220,6 +220,7 @@
 - `DR-246-reviewer-identity-signature-gate.md`
 - `DR-247-reviewer-identity-signature-storage-contract.md`
 - `DR-248-school-launch-policy-gate.md`
+- `DR-249-school-launch-policy-gate-storage-contract.md`
 
 ## Maintenance Rule
 

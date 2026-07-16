@@ -68,6 +68,9 @@ expectedTextByPath.get("/teacher/intake")?.push(
   "reviewer_identity_signature_gate",
   "Reviewer identity and signature gate record",
   "reviewer-identity-signature-gate-record",
+  "school_launch_policy_gate",
+  "School launch policy gate record",
+  "school-launch-policy-gate-record",
 );
 
 if (urls.length === 0) {

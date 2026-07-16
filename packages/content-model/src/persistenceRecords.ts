@@ -38,7 +38,8 @@ export type PersistenceRecordCategory =
   | "pilot-evidence-packet"
   | "reviewer-identity-signature-gate"
   | "teacher-dry-run-rehearsal"
-  | "classroom-launch-gate";
+  | "classroom-launch-gate"
+  | "school-launch-policy-gate";
 
 export type PersistenceRecordReadiness =
   | "static-demo"
@@ -132,6 +133,9 @@ export interface DurableRecordContract {
   blocksLiveClassroomLaunch?: boolean;
   blocksLaunchWithoutPolicy?: boolean;
   blocksLaunchWithoutPersistence?: boolean;
+  preservesSchoolLaunchPolicyGate?: boolean;
+  blocksPolicyAcceptanceWorkflow?: boolean;
+  blocksLaunchWithoutSchoolPolicy?: boolean;
   recommendedFirstPilotStore: PersistenceStorageTier[];
   note: string;
 }
@@ -469,6 +473,26 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "classroom-launch-gate" && !record.blocksLaunchWithoutPersistence) {
       errors.push(`Classroom launch gate record ${record.recordId} must block launch without accepted persistence.`);
+    }
+
+    if (record.category === "school-launch-policy-gate" && !record.preservesSchoolLaunchPolicyGate) {
+      errors.push(`School launch policy gate record ${record.recordId} must preserve school policy launch gates.`);
+    }
+
+    if (record.category === "school-launch-policy-gate" && !record.blocksPolicyAcceptanceWorkflow) {
+      errors.push(`School launch policy gate record ${record.recordId} must block policy acceptance workflows.`);
+    }
+
+    if (record.category === "school-launch-policy-gate" && !record.blocksLaunchWithoutSchoolPolicy) {
+      errors.push(`School launch policy gate record ${record.recordId} must block launch without school policy.`);
+    }
+
+    if (record.category === "school-launch-policy-gate" && !record.blocksRealLearnerDataCollection) {
+      errors.push(`School launch policy gate record ${record.recordId} must block real learner data collection.`);
+    }
+
+    if (record.category === "school-launch-policy-gate" && !record.blocksLiveReportExport) {
+      errors.push(`School launch policy gate record ${record.recordId} must block live report export.`);
     }
 
     if (record.supportsLocalDeployment && !record.recommendedFirstPilotStore.includes("local-classroom-store")) {

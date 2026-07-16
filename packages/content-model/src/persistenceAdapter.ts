@@ -86,6 +86,9 @@ export interface PersistenceWriteIntent {
   blocksLiveClassroomLaunch?: boolean;
   blocksLaunchWithoutPolicy?: boolean;
   blocksLaunchWithoutPersistence?: boolean;
+  preservesSchoolLaunchPolicyGate?: boolean;
+  blocksPolicyAcceptanceWorkflow?: boolean;
+  blocksLaunchWithoutSchoolPolicy?: boolean;
   note: string;
 }
 
@@ -458,6 +461,26 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "classroom-launch-gate" && !intent.blocksLaunchWithoutPersistence) {
       errors.push(`Classroom launch gate write intent ${intent.intentId} must block launch without accepted persistence.`);
+    }
+
+    if (intent.category === "school-launch-policy-gate" && !intent.preservesSchoolLaunchPolicyGate) {
+      errors.push(`School launch policy gate write intent ${intent.intentId} must preserve school policy launch gates.`);
+    }
+
+    if (intent.category === "school-launch-policy-gate" && !intent.blocksPolicyAcceptanceWorkflow) {
+      errors.push(`School launch policy gate write intent ${intent.intentId} must block policy acceptance workflows.`);
+    }
+
+    if (intent.category === "school-launch-policy-gate" && !intent.blocksLaunchWithoutSchoolPolicy) {
+      errors.push(`School launch policy gate write intent ${intent.intentId} must block launch without school policy.`);
+    }
+
+    if (intent.category === "school-launch-policy-gate" && !intent.blocksRealLearnerDataCollection) {
+      errors.push(`School launch policy gate write intent ${intent.intentId} must block real learner data collection.`);
+    }
+
+    if (intent.category === "school-launch-policy-gate" && !intent.blocksLiveReportExport) {
+      errors.push(`School launch policy gate write intent ${intent.intentId} must block live report export.`);
     }
 
     if (intent.intentId.includes("package-audio-coverage") && !intent.preservesGameAudioCoverageSnapshot) {

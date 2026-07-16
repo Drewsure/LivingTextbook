@@ -2,7 +2,7 @@
 
 Document type: foundation data contract  
 Status: active scaffold  
-Last updated: 2026-07-13
+Last updated: 2026-07-16
 
 ## Purpose
 
@@ -33,11 +33,11 @@ Used for source-controlled reviewed sample data. It is useful for design and sal
 
 ### Hosted Pilot Adapter
 
-The recommended first pilot path. It should support durable route registry writes, teacher launch-session settings, teacher draft package writes, tenant library item writes, progress/media event writes, earned collection inventory writes, evidence packet records, package publish gates, package approval ledgers, pilot evidence packets, and teacher dry-run rehearsals after privacy, release-control, and policy requirements are accepted.
+The recommended first pilot path. It should support durable route registry writes, teacher launch-session settings, teacher draft package writes, tenant library item writes, progress/media event writes, earned collection inventory writes, evidence packet records, package publish gates, package approval ledgers, pilot evidence packets, teacher dry-run rehearsals, classroom launch gates, and school launch policy gates after privacy, release-control, and policy requirements are accepted.
 
 ### Local Classroom Adapter
 
-A future closed deployment path for schools or textbook partners who require a local classroom server or packaged local app. It must support local media bundles, local teacher draft packages, local tenant library items, local progress export packages, local earned collection inventory, local evidence packet records, package publish gates, package approval ledgers, pilot evidence packets, teacher dry-run rehearsals, backup/restore, and year-on-year content updates.
+A future closed deployment path for schools or textbook partners who require a local classroom server or packaged local app. It must support local media bundles, local teacher draft packages, local tenant library items, local progress export packages, local earned collection inventory, local evidence packet records, package publish gates, package approval ledgers, pilot evidence packets, teacher dry-run rehearsals, classroom launch gates, school launch policy gates, backup/restore, and year-on-year content updates.
 
 ## Core Safety Rules
 
@@ -75,7 +75,9 @@ The hosted pilot path should support:
 - package publish gates,
 - package approval ledgers,
 - pilot evidence packets,
-- teacher dry-run rehearsals.
+- teacher dry-run rehearsals,
+- classroom launch gates,
+- school launch policy gates.
 
 Package publish gates are backend-required before a package can be marked pilot-publishable. Package approval ledgers remain policy-required until approver identity, timestamp, evidence, export, and rollback rules are accepted.
 
@@ -93,7 +95,9 @@ The local/closed deployment path should support:
 - local package publish gates,
 - local package approval ledgers,
 - local pilot evidence packets,
-- local teacher dry-run rehearsals.
+- local teacher dry-run rehearsals,
+- local classroom launch gates,
+- local school launch policy gates.
 
 Local approval records need backup, restore, export, approver identity, timestamp, and policy rules before a closed deployment captures real sign-offs.
 
@@ -120,6 +124,7 @@ It shows:
 - No live route registry mutation exists.
 - No real package approval signature is stored.
 - No teacher dry-run record can launch students, collect real learner data, store live progress, or export reports.
+- No school launch policy gate can accept school policy, launch students, collect real learner data, export reports, activate local deployment, or mark a package launch-ready.
 - No local installer, sync, backup, or restore workflow exists yet.
 - No report or approval export is generated.
 - No raw audio or transcript storage is enabled.

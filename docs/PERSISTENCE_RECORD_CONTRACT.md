@@ -2,7 +2,7 @@
 
 Document type: foundation data contract  
 Status: active scaffold  
-Last updated: 2026-07-13
+Last updated: 2026-07-16
 
 ## Purpose
 
@@ -51,6 +51,8 @@ The scaffold currently tracks:
 - Package approval ledger records.
 - Pilot evidence packet records.
 - Teacher dry-run rehearsal records.
+- Classroom launch gate records.
+- School launch policy gate records.
 
 ## Package Release Records
 
@@ -86,6 +88,12 @@ Teacher dry-run rehearsal records preserve route checks, game/audio checks, medi
 
 They are release-control evidence, not student progress records. They must block student launch, real learner data collection, live progress storage, report export, raw learner audio, and learner transcripts.
 
+## School Launch Policy Gate Records
+
+School launch policy gate records preserve school, publisher, platform, and shared dry-run ownership before a controlled demo can be discussed as school launch readiness.
+
+They must block school policy acceptance workflows, live classroom launch, real learner data collection, teacher report export, local deployment activation, release-state mutation, launch-ready status, and support-language-only progression until the relevant policy, storage, evidence, release, and dry-run gates pass.
+
 ## Safety Rules
 
 - Core persistence must not store raw learner audio.
@@ -98,6 +106,7 @@ They are release-control evidence, not student progress records. They must block
 - Package publish gates must not mark a package pilot-publishable while release-blocking items remain open.
 - Evidence packet records must preserve packet status, required evidence, missing evidence, blocked live actions, and handoff rules while blocking evidence upload, signed approval capture, promotion, and student-facing use.
 - Teacher dry-run rehearsal records must not launch students, collect real learner data, store live progress, or export reports.
+- School launch policy gate records must not accept policy, launch students, collect real learner data, export reports, activate local deployment, or mark a package launch-ready.
 - Teacher draft packages must preserve owner, source lineage, visibility, draft payload, requested activity path, review gates, audio plan state, and direct-assignment blocks before becoming package releases.
 - Tenant library items must preserve source lineage, block student-data copies, and block public community publishing before live library reuse, copy/edit, school sharing, or search work begins.
 - Local/closed deployment capable records must preserve a local classroom store path.

@@ -41,10 +41,12 @@ Do not store real student progress until policy, retention, export, and access r
 9. Publish gate and approval ledger records.
 10. Pilot evidence packet records.
 11. Teacher dry-run rehearsal records.
-12. Teacher launch session and settings records.
-13. Progress and media event stream records.
-14. Earned collection inventory records.
-15. Local classroom export and restore records.
+12. Classroom launch gate records.
+13. School launch policy gate records.
+14. Teacher launch session and settings records.
+15. Progress and media event stream records.
+16. Earned collection inventory records.
+17. Local classroom export and restore records.
 
 ## Required Per Candidate
 
@@ -74,6 +76,7 @@ Each candidate must define:
 - Font accessibility profile migrations must preserve approved learner fonts, tenant font packs, multilingual rendering rules, readability/license checks, and student-facing font blocks.
 - Pilot evidence packet migrations must preserve gate evidence, approval evidence, upload blocks, signed-approval capture blocks, export rules, and local fallback metadata before live evidence collection.
 - Teacher dry-run rehearsal migrations must preserve route, game/audio, media/support-language, report, and local fallback checks while blocking student launch, real learner data collection, live progress storage, and report export.
+- School launch policy gate migrations must preserve school, publisher, platform, and shared dry-run ownership while blocking policy acceptance workflows, live launch, real learner data, report export, local activation, launch-ready status, and support-language-only progression.
 - Every migration candidate needs rollback or export expectations before implementation.
 
 ## Non-Goals

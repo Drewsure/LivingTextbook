@@ -49,7 +49,8 @@ export type PersistenceBoundaryCategory =
   | "pilot-evidence-packet"
   | "reviewer-identity-signature-gate"
   | "teacher-dry-run-rehearsal"
-  | "classroom-launch-gate";
+  | "classroom-launch-gate"
+  | "school-launch-policy-gate";
 
 export interface PersistenceBoundary {
   boundaryId: string;
@@ -760,6 +761,28 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     recommendedFirstPilotStore: ["hosted-database", "local-classroom-store", "school-policy"],
     note: "The classroom launch gate must become durable before live classroom launch so go/no-go status, source gate references, policy blockers, persistence blockers, learner-data blocks, and report-export blocks are auditable.",
   },
+  {
+    recordId: "school-launch-policy-gate-record",
+    category: "school-launch-policy-gate",
+    label: "School launch policy gate record",
+    readiness: "policy-required",
+    sourceOfTruth: "SchoolLaunchPolicyGate, PilotPolicyPlan, ClassroomLaunchGate, TeacherDryRunRehearsal, school/publisher/platform ownership lanes",
+    requiredBeforePilot: true,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesSchoolLaunchPolicyGate: true,
+    blocksPolicyAcceptanceWorkflow: true,
+    blocksLaunchWithoutSchoolPolicy: true,
+    blocksRealLearnerDataCollection: true,
+    blocksLiveReportExport: true,
+    blocksLiveClassroomLaunch: true,
+    recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store", "school-policy"],
+    note:
+      "The school launch policy gate must become durable before a controlled demo can be discussed as school launch readiness. It preserves school, publisher, platform, and shared dry-run ownership while blocking policy acceptance workflows, live classroom launch, learner data, report export, local activation, and support-language-only progression.",
+  },
 ];
 
 export const sampleDurableRecordErrors = validateDurableRecordContracts(sampleDurableRecordContracts);
@@ -1231,6 +1254,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     visibleTo: ["Teacher", "Tenant admin", "Platform admin", "School admin"],
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision: "Store classroom launch gate metadata before live classroom launch, real learner data collection, report export, or launch-ready status changes.",
+  },
+  {
+    boundaryId: "school-launch-policy-gate-boundary",
+    category: "school-launch-policy-gate",
+    label: "School launch policy gate records",
+    status: "needs-policy",
+    recordShape:
+      "School launch policy gate id, package id, release candidate, school/publisher/platform/shared ownership lanes, required policy decisions, blocked actions, and launch decision status",
+    whyItMatters:
+      "A white-label partner demo can look ready before a school has accepted privacy, retention, report export, media, local deployment, and classroom operating rules. This record keeps that distinction auditable.",
+    visibleTo: ["School admin", "Teacher", "Tenant admin", "Publisher admin", "Platform admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Store school launch policy gate metadata before policy acceptance workflows, live classroom launch, real learner data collection, report export, local activation, or launch-ready status changes.",
   },
 ];
 

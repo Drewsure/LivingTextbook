@@ -35,6 +35,7 @@ This is a bridge between product architecture and implementation. It names the r
 - Font accessibility profile specs must preserve approved learner fonts, tenant font packs, multilingual rendering rules, readability checks, licensing, and student-facing font blocks before any tenant font control goes live.
 - Pilot evidence packet specs must preserve gate evidence, approval evidence, upload blocks, signed-approval capture blocks, retention, export, and local fallback before live evidence upload or approval capture goes live.
 - Teacher dry-run rehearsal specs must preserve teacher-only route, game/audio, media/support-language, report, and local fallback checks before live classroom launch.
+- School launch policy gate specs must preserve school, publisher, platform, and shared dry-run ownership while blocking policy acceptance workflows, live launch, real learner data, report export, local activation, launch-ready status, and support-language-only progression.
 
 ## Current Pilot Specs
 
@@ -55,6 +56,8 @@ This is a bridge between product architecture and implementation. It names the r
 - Local companion release gate.
 - Pilot evidence packet.
 - Teacher dry-run rehearsal.
+- Classroom launch gate.
+- School launch policy gate.
 
 ## Implementation Gate
 
