@@ -251,6 +251,7 @@
 - `DR-277-source-extraction-review-packet-storage-contract.md`
 - `DR-278-source-review-queue-verifier.md`
 - `DR-279-source-review-workspace-route.md`
+- `DR-280-ministar-source-review-route-verification.md`
 
 ## Maintenance Rule
 

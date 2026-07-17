@@ -99,7 +99,9 @@ requireText(partnerDemo, "Teacher source review workspace", "Partner demo must l
 requireText(partnerDemo, "getTeacherSourceReviewWorkspacePath", "Partner demo must use the source review route helper.");
 requireText(activeRouteMatrix, "teacher-source-review-workspace", "Active route matrix must include the source review workspace.");
 requireText(activeRouteMatrix, "/teacher/sources/sample-publisher", "Active route matrix must include the source review workspace path.");
+requireText(activeRouteMatrix, "/teacher/sources/ministar", "Active route matrix must include the MiniStar source review workspace path.");
 requireText(activeRouteList, "http://127.0.0.1:3000/teacher/sources/sample-publisher", "Active route list must include the source review workspace.");
+requireText(activeRouteList, "http://127.0.0.1:3000/teacher/sources/ministar", "Active route list must include the MiniStar source review workspace.");
 requireText(backendSchema, "source_extraction_review_packet", "Backend schema must include source extraction review packets.");
 requireText(backendSchema, "teacher_draft_creation_allowed", "Backend schema must block draft creation from unreviewed extraction.");
 requireText(backendSchema, "student_facing_payload_allowed", "Backend schema must block student-facing extraction payloads.");

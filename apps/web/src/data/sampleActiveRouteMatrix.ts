@@ -171,6 +171,14 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     note: "MiniStar tenant entry flow.",
   },
   {
+    routeId: "ministar-source-review-workspace",
+    group: "ministar",
+    label: "MiniStar source review workspace",
+    path: "/teacher/sources/ministar",
+    status: "active-scaffold",
+    note: "MiniStar curriculum DOCX source review lane before extraction, teacher draft, package release, or student assignment.",
+  },
+  {
     routeId: "ministar-launch",
     group: "ministar",
     label: "MiniStar launch",
