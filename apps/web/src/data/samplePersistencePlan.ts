@@ -59,7 +59,8 @@ export type PersistenceBoundaryCategory =
   | "school-policy-rollback-impact-matrix"
   | "school-rollback-safe-fallback-plan"
   | "school-rollback-safe-fallback-preflight"
-  | "school-rollback-safe-fallback-activation-preview";
+  | "school-rollback-safe-fallback-activation-preview"
+  | "school-rollback-safe-fallback-restoration-preview";
 
 export interface PersistenceBoundary {
   boundaryId: string;
@@ -1038,6 +1039,33 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     note:
       "The school rollback safe fallback activation preview must become durable before any activation workflow is designed. It preserves future activation field shape and non-activated markers while blocking release mutation, production QR redirects, live notifications, classroom shutdown, report export, media replacement, local bundle deactivation, and student reassignment.",
   },
+  {
+    recordId: "school-rollback-safe-fallback-restoration-preview-record",
+    category: "school-rollback-safe-fallback-restoration-preview",
+    label: "School rollback safe fallback restoration preview record",
+    readiness: "policy-required",
+    sourceOfTruth:
+      "SchoolRollbackSafeFallbackRestorationPreview, SchoolRollbackSafeFallbackActivationPreview, minimum restoration fields, non-restored markers, blocked actions, and review rules",
+    requiredBeforePilot: true,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesSchoolRollbackSafeFallbackRestorationPreview: true,
+    blocksReleaseStateMutation: true,
+    blocksProductionQrRedirectMutation: true,
+    blocksLiveNotification: true,
+    blocksLiveClassroomLaunch: true,
+    blocksLiveReportExport: true,
+    blocksMediaReplacement: true,
+    blocksLocalBundleRestoration: true,
+    blocksStudentReassignment: true,
+    blocksLaunchWithoutSchoolPolicy: true,
+    recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store", "school-policy"],
+    note:
+      "The school rollback safe fallback restoration preview must become durable before any restoration workflow is designed. It preserves future restoration field shape and non-restored markers while blocking release mutation, production QR redirects, live notifications, classroom restart, report export, media restoration, local bundle restoration, and student reassignment.",
+  },
 ];
 
 export const sampleDurableRecordErrors = validateDurableRecordContracts(sampleDurableRecordContracts);
@@ -1649,6 +1677,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision:
       "Store safe fallback activation preview metadata before fallback activation, release-state mutation, live notification, production QR redirect mutation, classroom shutdown, media replacement, local bundle deactivation, report export, or student reassignment workflows can be designed.",
+  },
+  {
+    boundaryId: "school-rollback-safe-fallback-restoration-preview-boundary",
+    category: "school-rollback-safe-fallback-restoration-preview",
+    label: "School rollback safe fallback restoration preview records",
+    status: "needs-policy",
+    recordShape:
+      "Safe fallback restoration preview id, safe fallback activation preview id, package id, release candidate, minimum restoration fields, non-restored markers, blocked actions, and review rules",
+    whyItMatters:
+      "A future restoration workflow needs an auditable record shape before any normal-route restore, notification, media restore, local bundle restore, report, classroom restart, or reassignment behavior is considered.",
+    visibleTo: ["School admin", "Teacher", "Tenant admin", "Publisher admin", "Platform admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Store safe fallback restoration preview metadata before restoration activation, release-state mutation, live notification, production QR redirect mutation, classroom restart, media restoration, local bundle restoration, report export, or student reassignment workflows can be designed.",
   },
 ];
 

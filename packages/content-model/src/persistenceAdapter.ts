@@ -114,6 +114,7 @@ export interface PersistenceWriteIntent {
   preservesSchoolRollbackSafeFallbackPlan?: boolean;
   preservesSchoolRollbackSafeFallbackPreflight?: boolean;
   preservesSchoolRollbackSafeFallbackActivationPreview?: boolean;
+  preservesSchoolRollbackSafeFallbackRestorationPreview?: boolean;
   blocksRevocationAction?: boolean;
   blocksRollbackAction?: boolean;
   blocksReleaseStateMutation?: boolean;
@@ -121,6 +122,7 @@ export interface PersistenceWriteIntent {
   blocksLearnerDataDeletionWorkflow?: boolean;
   blocksMediaReplacement?: boolean;
   blocksLocalBundleDeactivation?: boolean;
+  blocksLocalBundleRestoration?: boolean;
   blocksAiTutorEntitlementChange?: boolean;
   blocksLiveNotification?: boolean;
   blocksStudentReassignment?: boolean;
@@ -814,6 +816,45 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "school-rollback-safe-fallback-activation-preview" && !intent.blocksStudentReassignment) {
       errors.push(`School rollback safe fallback activation preview write intent ${intent.intentId} must block student reassignment.`);
+    }
+
+    if (
+      intent.category === "school-rollback-safe-fallback-restoration-preview" &&
+      !intent.preservesSchoolRollbackSafeFallbackRestorationPreview
+    ) {
+      errors.push(`School rollback safe fallback restoration preview write intent ${intent.intentId} must preserve minimum restoration fields, non-restored markers, blocked actions, and review rules.`);
+    }
+
+    if (intent.category === "school-rollback-safe-fallback-restoration-preview" && !intent.blocksReleaseStateMutation) {
+      errors.push(`School rollback safe fallback restoration preview write intent ${intent.intentId} must block release-state mutation.`);
+    }
+
+    if (intent.category === "school-rollback-safe-fallback-restoration-preview" && !intent.blocksProductionQrRedirectMutation) {
+      errors.push(`School rollback safe fallback restoration preview write intent ${intent.intentId} must block production QR redirect mutation.`);
+    }
+
+    if (intent.category === "school-rollback-safe-fallback-restoration-preview" && !intent.blocksLiveNotification) {
+      errors.push(`School rollback safe fallback restoration preview write intent ${intent.intentId} must block live notifications.`);
+    }
+
+    if (intent.category === "school-rollback-safe-fallback-restoration-preview" && !intent.blocksLiveClassroomLaunch) {
+      errors.push(`School rollback safe fallback restoration preview write intent ${intent.intentId} must block live classroom restart.`);
+    }
+
+    if (intent.category === "school-rollback-safe-fallback-restoration-preview" && !intent.blocksLiveReportExport) {
+      errors.push(`School rollback safe fallback restoration preview write intent ${intent.intentId} must block report export.`);
+    }
+
+    if (intent.category === "school-rollback-safe-fallback-restoration-preview" && !intent.blocksMediaReplacement) {
+      errors.push(`School rollback safe fallback restoration preview write intent ${intent.intentId} must block media restoration.`);
+    }
+
+    if (intent.category === "school-rollback-safe-fallback-restoration-preview" && !intent.blocksLocalBundleRestoration) {
+      errors.push(`School rollback safe fallback restoration preview write intent ${intent.intentId} must block local bundle restoration.`);
+    }
+
+    if (intent.category === "school-rollback-safe-fallback-restoration-preview" && !intent.blocksStudentReassignment) {
+      errors.push(`School rollback safe fallback restoration preview write intent ${intent.intentId} must block student reassignment.`);
     }
 
     if (intent.intentId.includes("package-audio-coverage") && !intent.preservesGameAudioCoverageSnapshot) {

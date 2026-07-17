@@ -1111,6 +1111,45 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
         "Student reassignment",
       ],
     },
+    {
+      migrationId: "m048-school-rollback-safe-fallback-restoration-preview-records",
+      label: "School rollback safe fallback restoration preview records",
+      track: "shared",
+      status: "needs-policy",
+      risk: "medium",
+      targetEntities: ["school_rollback_safe_fallback_restoration_preview"],
+      purpose:
+        "Persist future safe fallback restoration record shape before any normal-route restore, local companion restore, media playlist restore, report export, classroom restart, or reassignment behavior can be implemented.",
+      prerequisites: [
+        "School rollback safe fallback activation preview accepted as review artifact",
+        "Authenticated restoration operator policy drafted",
+        "Printed QR restoration and school communication policy drafted",
+        "Local companion restore, backup, archive, and support policy drafted",
+        "Media playlist restoration, report continuity, and assignment policies drafted",
+      ],
+      implementationNotes: [
+        "Keep safe fallback restoration previews tenant-scoped, package-scoped, activation-preview-scoped, and release-candidate-scoped.",
+        "Preserve minimum restoration record fields, non-restored markers, blocked actions, and review rules.",
+        "Block restoration activation, release-state mutation, live notifications, production QR redirect mutation, classroom restart, report export, media restoration, local bundle restoration, and student reassignment.",
+        "Do not let restoration preview records replace school policy acceptance, release-control rollback, route registry mutation, media restoration, local restoration, report export, or assignment workflows.",
+      ],
+      rollbackOrExportNeeds: [
+        "Export safe fallback restoration preview metadata with release-control records only after export policy is accepted",
+        "Retain superseded restoration preview field definitions for audit",
+        "Support local bundle safe fallback restoration preview metadata export when local policy allows it",
+      ],
+      notAllowedYet: [
+        "Restoration activation",
+        "Release-state mutation",
+        "Live notification",
+        "Production QR redirect mutation",
+        "Classroom restart workflow",
+        "Report export",
+        "Media restoration",
+        "Local bundle restoration",
+        "Student reassignment",
+      ],
+    },
   ],
   standingRules: [
     "Do not create production migrations before backend choice and policy gates are accepted.",
@@ -1147,6 +1186,7 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
     "School rollback safe fallback plan records must preserve child-safe message drafts, route fallbacks, blocked actions, and fallback rules while blocking live notifications, production QR redirect mutation, classroom shutdown, report export, media replacement, local bundle deactivation, and student reassignment.",
     "School rollback safe fallback preflight records must preserve activation checklist lanes, minimum activation fields, blocked actions, and preflight rules while blocking fallback activation, release-state mutation, live notifications, production QR redirect mutation, classroom shutdown, report export, media replacement, local bundle deactivation, and student reassignment.",
     "School rollback safe fallback activation preview records must preserve future activation field shape, non-activated markers, blocked actions, and review rules while blocking fallback activation, release-state mutation, live notifications, production QR redirect mutation, classroom shutdown, report export, media replacement, local bundle deactivation, and student reassignment.",
+    "School rollback safe fallback restoration preview records must preserve future restoration field shape, non-restored markers, blocked actions, and review rules while blocking restoration activation, release-state mutation, live notifications, production QR redirect mutation, classroom restart, report export, media restoration, local bundle restoration, and student reassignment.",
     "Every migration candidate needs rollback or export expectations before implementation.",
   ],
 };

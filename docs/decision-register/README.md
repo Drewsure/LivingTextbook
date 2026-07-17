@@ -242,6 +242,7 @@
 - `DR-268-school-rollback-safe-fallback-activation-preview.md`
 - `DR-269-school-rollback-safe-fallback-activation-preview-storage-contract.md`
 - `DR-270-school-rollback-safe-fallback-restoration-preview.md`
+- `DR-271-school-rollback-safe-fallback-restoration-preview-storage-contract.md`
 
 ## Maintenance Rule
 

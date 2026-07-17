@@ -239,6 +239,8 @@ The backend-neutral record is `school_rollback_safe_fallback_activation_preview`
 
 The `Future safe fallback restoration record preview` names the minimum fields a future authenticated school restoration record would need after a safe fallback event. It is not a restoration record and cannot restore routes, mutate QR targets, send notifications, restart classrooms, restore local bundles, replace media, export reports, or reassign students.
 
+The backend-neutral record is `school_rollback_safe_fallback_restoration_preview` / `school-rollback-safe-fallback-restoration-preview`. Hosted and local implementations must preserve minimum restoration fields, non-restored markers, blocked actions, and review rules while blocking restoration activation, release-state mutation, production QR redirects, live notifications, classroom restart, report export, media restoration, local bundle restoration, and student reassignment workflows.
+
 ## Required Blocking Areas Before Real Pilot
 
 A real pilot package requires closure on:

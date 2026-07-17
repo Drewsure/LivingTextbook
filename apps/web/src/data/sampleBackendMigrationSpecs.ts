@@ -3918,5 +3918,143 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
         "Media playlist fallback remains blocked until rights proof, caption/transcript review, and learning-audio priority are accepted.",
       ],
     },
+    {
+      specId: "spec-school-rollback-safe-fallback-restoration-preview",
+      label: "School rollback safe fallback restoration preview",
+      candidateId: "m048-school-rollback-safe-fallback-restoration-preview-records",
+      storeKind: "release-record",
+      status: "blocked-by-policy",
+      purpose:
+        "Stores future safe fallback restoration record shape before any normal-route restore, local companion restore, media playlist restore, report export, classroom restart, or reassignment behavior can be implemented.",
+      primaryKey: "school_rollback_safe_fallback_restoration_preview_id",
+      tenantScope:
+        "Scoped by tenant_id, package_release_id, release_candidate_id, school_rollback_safe_fallback_activation_preview_id, and safe_fallback_restoration_preview_revision.",
+      fields: [
+        {
+          name: "school_rollback_safe_fallback_restoration_preview_id",
+          type: "string",
+          required: true,
+          note: "Stable id for one school rollback safe fallback restoration preview snapshot.",
+        },
+        {
+          name: "school_rollback_safe_fallback_activation_preview_id",
+          type: "string",
+          required: true,
+          note: "Safe fallback activation preview that this restoration preview derives from.",
+        },
+        {
+          name: "release_candidate_id",
+          type: "string",
+          required: true,
+          note: "Release candidate this safe fallback restoration preview applies to.",
+        },
+        {
+          name: "safe_fallback_restoration_preview_revision",
+          type: "string",
+          required: true,
+          note: "Machine-readable revision used for audit and superseded-preview comparisons.",
+        },
+        {
+          name: "minimum_restoration_record_fields",
+          type: "json",
+          required: true,
+          note: "Authenticated operator, source activation binding, route restoration map, local package restore, media restore, report and assignment continuity, communication, and restoration effect fields.",
+        },
+        {
+          name: "non_restored_markers",
+          type: "json",
+          required: true,
+          note: "Markers proving no restoration has activated and no live side effect exists.",
+        },
+        {
+          name: "blocked_actions",
+          type: "json",
+          required: true,
+          note: "Restore button, release mutation, QR mutation, notification, classroom restart, report export, media restoration, local restoration, and reassignment blocks.",
+        },
+        {
+          name: "review_rules",
+          type: "json",
+          required: true,
+          note: "Rules keeping restoration preview review-only, identity-bound, activation-bound, scope-bound, and policy-gated.",
+        },
+        {
+          name: "restoration_activation_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until a future policy-approved restoration workflow exists.",
+        },
+        {
+          name: "release_state_mutation_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until release-control policy accepts a mutation workflow.",
+        },
+        {
+          name: "production_qr_redirect_mutation_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until printed QR restoration policy is accepted.",
+        },
+        {
+          name: "live_notification_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until school communication, identity, and audit policy are accepted.",
+        },
+        {
+          name: "live_classroom_restart_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until school, release-control, report, local package, and support policies pass.",
+        },
+        {
+          name: "report_export_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until report retention, access, and export policy are accepted.",
+        },
+        {
+          name: "media_restoration_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until publisher media rights and package release policy are accepted.",
+        },
+        {
+          name: "local_bundle_restoration_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until local package restore and backup policy exist.",
+        },
+        {
+          name: "student_reassignment_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until teacher assignment, school communication, and release-control policy are accepted.",
+        },
+      ],
+      indexes: [
+        "tenant_id + release_candidate_id",
+        "school_rollback_safe_fallback_restoration_preview_id unique",
+        "school_rollback_safe_fallback_activation_preview_id",
+        "restoration_activation_allowed",
+        "release_state_mutation_allowed",
+        "production_qr_redirect_mutation_allowed",
+        "safe_fallback_restoration_preview_revision",
+      ],
+      retentionRule:
+        "Retain current and superseded safe fallback restoration previews with release-control history while any school pilot approval, local bundle, policy decision, report policy, or printed QR route references the candidate.",
+      exportRule:
+        "Must export as JSON only after evidence export, school policy export, retention, and rollback policy rules are accepted; until then, it is metadata for review surfaces only.",
+      localFallback:
+        "Local classroom bundles store the same safe fallback restoration preview metadata beside release-control records after local package, route restoration, media, and school communication rules allow it.",
+      policyBlockers: [
+        "School rollback safe fallback restoration previews cannot restore routes, send notifications, mutate releases, redirect QR routes, restart classrooms, export reports, restore media, restore local bundles, or reassign students by themselves.",
+        "Non-restored markers must remain true until a separate future restoration workflow is designed and accepted.",
+        "Production QR restoration behavior remains blocked until printed QR, cache, installed PWA, and local companion policies are accepted.",
+        "Local companion restoration remains blocked until backup, restore, update, archive, and school support procedures are accepted.",
+        "Media playlist restoration remains blocked until rights proof, caption/transcript review, and learning-audio priority are accepted.",
+      ],
+    },
   ],
 };
