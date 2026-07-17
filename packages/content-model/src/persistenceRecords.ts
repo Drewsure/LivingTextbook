@@ -9,6 +9,7 @@ export type PersistenceRecordCategory =
   | "teacher-draft-verifier-submission"
   | "teacher-assignment-rollout-gate"
   | "private-assignment-link"
+  | "class-roster-plan"
   | "upload-intake"
   | "upload-review"
   | "upload-promotion"
@@ -102,6 +103,11 @@ export interface DurableRecordContract {
   blocksPublicSharing?: boolean;
   blocksIframeEmbed?: boolean;
   blocksTeacherAdminControlExposure?: boolean;
+  preservesClassRosterPlan?: boolean;
+  blocksRealLearnerNameStorage?: boolean;
+  blocksFamilyContactStorage?: boolean;
+  blocksRawAudioStorage?: boolean;
+  blocksTranscriptStorage?: boolean;
   preservesUploadSourceLineage?: boolean;
   blocksStudentFacingUploadUse?: boolean;
   preservesUploadReviewPackets?: boolean;
@@ -351,6 +357,30 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "private-assignment-link" && !record.blocksLiveReportExport) {
       errors.push(`Private assignment link ${record.recordId} must block live report export.`);
+    }
+
+    if (record.category === "class-roster-plan" && !record.preservesClassRosterPlan) {
+      errors.push(`Class roster plan ${record.recordId} must preserve roster ids, learner code slots, data boundaries, readiness, and pilot blockers.`);
+    }
+
+    if (record.category === "class-roster-plan" && !record.blocksRealLearnerNameStorage) {
+      errors.push(`Class roster plan ${record.recordId} must block real learner name storage.`);
+    }
+
+    if (record.category === "class-roster-plan" && !record.blocksFamilyContactStorage) {
+      errors.push(`Class roster plan ${record.recordId} must block family contact storage.`);
+    }
+
+    if (record.category === "class-roster-plan" && !record.blocksRawAudioStorage) {
+      errors.push(`Class roster plan ${record.recordId} must block raw audio storage.`);
+    }
+
+    if (record.category === "class-roster-plan" && !record.blocksTranscriptStorage) {
+      errors.push(`Class roster plan ${record.recordId} must block transcript storage.`);
+    }
+
+    if (record.category === "class-roster-plan" && !record.blocksLiveReportExport) {
+      errors.push(`Class roster plan ${record.recordId} must block live report export.`);
     }
 
     if (record.category === "upload-intake" && !record.preservesUploadSourceLineage) {

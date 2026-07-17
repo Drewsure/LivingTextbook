@@ -35,7 +35,12 @@ Open:
 - Roster cards show that raw audio and transcripts are not stored as roster fields.
 - Roster cards separate validation errors from open warnings.
 - Roster cards make clear that durable reports require persistence and policy decisions.
+- The teacher intake route shows the `class_roster_plan` backend entity.
+- The teacher intake route shows the `Class roster plan record` durable record.
+- The teacher intake route shows the `class-roster-plan-record` storage marker.
 
 ## Regression Guard
 
 Do not mark a roster as pilot-ready if it stores real names, family contacts, raw audio, or transcripts without a documented policy and persistence decision. Support-language activity, microphone replay, and AI Tutor speech features must not create roster identity records by themselves.
+
+Roster storage must remain coded and policy-gated. The `class_roster_plan` record can preserve learner slots, launch binding, readiness, identity mode, and data boundaries, but it must not become a hidden account, parent-contact, transcript, or speech-audio store.

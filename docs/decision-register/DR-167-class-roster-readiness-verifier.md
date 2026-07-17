@@ -11,4 +11,4 @@ Implications:
 - Backend and migration previews must preserve coded learner identity and exclude raw speech data.
 - Microphone practice, speech matching, and optional AI Tutor features need separate policy before storing voice data or transcripts.
 
-Next: Expand this verifier when real persistence, report export, school roster integrations, or premium speech/tutor reporting become implementation work.
+Next: Expand this verifier when real persistence, report export, school roster integrations, or premium speech/tutor reporting become implementation work. The first storage expansion is recorded in `DR-275-class-roster-plan-storage-contract.md`.

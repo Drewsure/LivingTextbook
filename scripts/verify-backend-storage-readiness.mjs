@@ -16,6 +16,7 @@ const requiredSchemaEntities = [
   "teacher_draft_verifier_submission",
   "teacher_assignment_rollout_gate",
   "private_assignment_link",
+  "class_roster_plan",
   "upload_intake_asset",
   "upload_review_decision",
   "upload_promotion_gate",
@@ -71,6 +72,7 @@ const requiredMigrationCandidates = [
   "m020-teacher-draft-verifier-submission-records",
   "m049-teacher-assignment-rollout-gate-records",
   "m050-private-assignment-link-records",
+  "m051-class-roster-plan-records",
   "m021-upload-intake-records",
   "m022-upload-review-records",
   "m023-upload-promotion-gates",
@@ -129,6 +131,7 @@ const requiredMigrationSpecs = [
   "spec-teacher-draft-verifier-submission",
   "spec-teacher-assignment-rollout-gate",
   "spec-private-assignment-link",
+  "spec-class-roster-plan",
   "spec-upload-intake-asset",
   "spec-upload-review-decision",
   "spec-upload-promotion-gate",
@@ -206,6 +209,14 @@ requireText(schemaDraft, "student_target_path", "Backend schema must preserve pr
 requireText(schemaDraft, "public_sharing_allowed", "Backend schema must block public sharing for private assignment links.");
 requireText(schemaDraft, "iframe_embed_allowed", "Backend schema must block iframe embeds for private assignment links.");
 requireText(schemaDraft, "teacher_admin_controls_exposed", "Backend schema must block teacher/admin controls on private assignment links.");
+requireText(schemaDraft, "class_roster_plan", "Backend schema must include class roster plan records.");
+requireText(schemaDraft, "class_roster_plan_id", "Backend schema must preserve class roster plan ids.");
+requireText(schemaDraft, "learner_code_slots", "Backend schema must preserve coded learner slots.");
+requireText(schemaDraft, "data_boundaries", "Backend schema must preserve class roster data boundaries.");
+requireText(schemaDraft, "real_learner_name_storage_allowed", "Backend schema must block real learner name storage.");
+requireText(schemaDraft, "family_contact_storage_allowed", "Backend schema must block family contact storage.");
+requireText(schemaDraft, "raw_audio_storage_allowed", "Backend schema must block raw audio storage for class rosters.");
+requireText(schemaDraft, "transcript_storage_allowed", "Backend schema must block transcript storage for class rosters.");
 requireText(schemaDraft, "upload_intake_asset", "Backend schema must include upload intake assets.");
 requireText(schemaDraft, "source_lineage", "Backend schema must preserve upload source lineage.");
 requireText(schemaDraft, "student_facing_use_allowed", "Backend schema must block student-facing upload use.");
@@ -562,6 +573,15 @@ requireText(migrationSpecs, "assignment_link_revision", "Migration specs must pr
 requireText(migrationSpecs, "public_sharing_allowed", "Migration specs must block private assignment public sharing.");
 requireText(migrationSpecs, "iframe_embed_allowed", "Migration specs must block private assignment iframe embeds.");
 requireText(migrationSpecs, "teacher_admin_controls_exposed", "Migration specs must block teacher/admin controls on assignment links.");
+requireText(migrationSpecs, "spec-class-roster-plan", "Migration specs must include class roster plans.");
+requireText(migrationSpecs, "class_roster_plan_id", "Migration specs must preserve class roster plan ids.");
+requireText(migrationSpecs, "roster_plan_revision", "Migration specs must preserve class roster plan revisions.");
+requireText(migrationSpecs, "learner_code_slots", "Migration specs must preserve coded learner slots.");
+requireText(migrationSpecs, "data_boundaries", "Migration specs must preserve class roster data boundaries.");
+requireText(migrationSpecs, "real_learner_name_storage_allowed", "Migration specs must block real learner name storage.");
+requireText(migrationSpecs, "family_contact_storage_allowed", "Migration specs must block family contact storage.");
+requireText(migrationSpecs, "raw_audio_storage_allowed", "Migration specs must block raw audio storage for class rosters.");
+requireText(migrationSpecs, "transcript_storage_allowed", "Migration specs must block transcript storage for class rosters.");
 requireText(persistenceAdapter, "hosted-launch-session-write", "Persistence adapter must include hosted launch-session writes.");
 requireText(persistenceAdapter, "local-launch-session-write", "Persistence adapter must include local launch-session writes.");
 requireText(persistenceAdapter, "hosted-teacher-draft-package-write", "Persistence adapter must include hosted teacher draft writes.");
@@ -588,6 +608,13 @@ requireText(persistenceAdapter, "preservesPrivateAssignmentLink: true", "Persist
 requireText(persistenceAdapter, "blocksPublicSharing: true", "Persistence adapter must block public sharing.");
 requireText(persistenceAdapter, "blocksIframeEmbed: true", "Persistence adapter must block iframe embeds.");
 requireText(persistenceAdapter, "blocksTeacherAdminControlExposure: true", "Persistence adapter must block teacher/admin controls.");
+requireText(persistenceAdapter, "hosted-class-roster-plan-write", "Persistence adapter must include hosted class roster plan writes.");
+requireText(persistenceAdapter, "local-class-roster-plan-write", "Persistence adapter must include local class roster plan writes.");
+requireText(persistenceAdapter, "preservesClassRosterPlan: true", "Persistence adapter must preserve class roster plans.");
+requireText(persistenceAdapter, "blocksRealLearnerNameStorage: true", "Persistence adapter must block real learner name storage.");
+requireText(persistenceAdapter, "blocksFamilyContactStorage: true", "Persistence adapter must block family contact storage.");
+requireText(persistenceAdapter, "blocksRawAudioStorage: true", "Persistence adapter must block raw audio storage.");
+requireText(persistenceAdapter, "blocksTranscriptStorage: true", "Persistence adapter must block transcript storage.");
 requireText(persistenceAdapter, "hosted-upload-intake-write", "Persistence adapter must include hosted upload intake writes.");
 requireText(persistenceAdapter, "local-upload-intake-write", "Persistence adapter must include local upload intake writes.");
 requireText(persistenceAdapter, "preservesUploadSourceLineage: true", "Persistence adapter must preserve upload source lineage.");
@@ -758,6 +785,12 @@ requireText(durableRecords, "preservesPrivateAssignmentLink: true", "Durable rec
 requireText(durableRecords, "blocksPublicSharing: true", "Durable record plan must block public sharing.");
 requireText(durableRecords, "blocksIframeEmbed: true", "Durable record plan must block iframe embeds.");
 requireText(durableRecords, "blocksTeacherAdminControlExposure: true", "Durable record plan must block teacher/admin controls.");
+requireText(durableRecords, "class-roster-plan-record", "Durable record plan must include class roster plan records.");
+requireText(durableRecords, "preservesClassRosterPlan: true", "Durable record plan must preserve class roster plans.");
+requireText(durableRecords, "blocksRealLearnerNameStorage: true", "Durable record plan must block real learner name storage.");
+requireText(durableRecords, "blocksFamilyContactStorage: true", "Durable record plan must block family contact storage.");
+requireText(durableRecords, "blocksRawAudioStorage: true", "Durable record plan must block raw audio storage.");
+requireText(durableRecords, "blocksTranscriptStorage: true", "Durable record plan must block transcript storage.");
 requireText(durableRecords, "upload-intake-record", "Durable record plan must include upload intake records.");
 requireText(durableRecords, "preservesUploadSourceLineage: true", "Durable record plan must preserve upload source lineage.");
 requireText(durableRecords, "blocksStudentFacingUploadUse: true", "Durable record plan must block student-facing upload use.");
@@ -911,6 +944,8 @@ requireText(routeVerifier, "school_rollback_safe_fallback_activation_preview", "
 requireText(routeVerifier, "school_rollback_safe_fallback_restoration_preview", "Active route verifier must keep school rollback safe fallback restoration preview storage visible on teacher intake.");
 requireText(routeVerifier, "teacher_assignment_rollout_gate", "Active route verifier must keep teacher assignment rollout gate storage visible on teacher intake.");
 requireText(routeVerifier, "private_assignment_link", "Active route verifier must keep private assignment link storage visible on teacher intake.");
+requireText(routeVerifier, "class_roster_plan", "Active route verifier must keep class roster plan storage visible on teacher intake.");
+requireText(routeVerifier, "Class roster plan record", "Active route verifier must keep class roster durable records visible on teacher intake.");
 
 if (failures.length > 0) {
   for (const failure of failures) {

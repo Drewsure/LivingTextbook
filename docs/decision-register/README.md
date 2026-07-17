@@ -246,6 +246,7 @@
 - `DR-272-teacher-assignment-rollout-verifier.md`
 - `DR-273-teacher-assignment-rollout-storage-contract.md`
 - `DR-274-private-assignment-link-storage-contract.md`
+- `DR-275-class-roster-plan-storage-contract.md`
 
 ## Maintenance Rule
 

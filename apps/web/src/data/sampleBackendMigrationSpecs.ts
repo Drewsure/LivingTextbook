@@ -917,6 +917,123 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       ],
     },
     {
+      specId: "spec-class-roster-plan",
+      label: "Class roster plan",
+      candidateId: "m051-class-roster-plan-records",
+      storeKind: "admin-record",
+      status: "ready-for-review",
+      purpose:
+        "Stores coded learner roster plans for launch sessions and reports while keeping personal and speech data out of core roster storage.",
+      primaryKey: "class_roster_plan_id",
+      tenantScope: "Scoped by tenant_id, package_id, launch_code, roster_readiness, identity_mode, and roster_plan_revision.",
+      fields: [
+        {
+          name: "class_roster_plan_id",
+          type: "string",
+          required: true,
+          note: "Stable id for one class roster plan.",
+        },
+        {
+          name: "launch_code",
+          type: "string",
+          required: true,
+          note: "Launch/front-door code this roster plan belongs to.",
+        },
+        {
+          name: "roster_plan_revision",
+          type: "string",
+          required: true,
+          note: "Machine-readable revision for roster audit and superseded plan checks.",
+        },
+        {
+          name: "roster_readiness",
+          type: "string enum",
+          required: true,
+          note: "Demo-only, requires-policy, requires-persistence, or pilot-ready.",
+        },
+        {
+          name: "identity_mode",
+          type: "string enum",
+          required: true,
+          note: "Anonymous practice, teacher-issued code, school roster id, or family-managed.",
+        },
+        {
+          name: "learner_code_slots",
+          type: "json",
+          required: true,
+          note: "Coded learner slots without real names, family contact, raw audio, or transcripts.",
+        },
+        {
+          name: "data_boundaries",
+          type: "json",
+          required: true,
+          note: "Allowed and blocked fields with policy and persistence requirements.",
+        },
+        {
+          name: "required_before_pilot",
+          type: "json",
+          required: true,
+          note: "Open blockers before roster can be pilot-ready.",
+        },
+        {
+          name: "progress_summary_allowed",
+          type: "boolean",
+          required: true,
+          note: "May be true for coded summaries, but durable export still needs report policy.",
+        },
+        {
+          name: "real_learner_name_storage_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until school policy, identity, privacy, retention, and persistence pass.",
+        },
+        {
+          name: "family_contact_storage_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false in the core roster contract.",
+        },
+        {
+          name: "raw_audio_storage_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false; microphone audio belongs outside core roster storage.",
+        },
+        {
+          name: "transcript_storage_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false; speech transcripts belong outside core roster storage.",
+        },
+        {
+          name: "report_export_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until report persistence, retention, access, and school export policy pass.",
+        },
+      ],
+      indexes: [
+        "tenant_id + launch_code",
+        "class_roster_plan_id unique",
+        "tenant_id + package_id",
+        "tenant_id + roster_readiness",
+        "tenant_id + identity_mode",
+        "roster_plan_revision",
+      ],
+      retentionRule:
+        "Retain active and superseded roster plan metadata while launch sessions, front-door routes, report policies, or local classroom bundles reference the roster.",
+      exportRule:
+        "Must export coded roster metadata only; no real learner names, family contact, raw audio, transcripts, production credentials, or report payloads.",
+      localFallback:
+        "Local classroom bundles store the same coded roster plan metadata beside launch-session and report-policy records, without turning learner codes into accounts.",
+      policyBlockers: [
+        "Class roster plans cannot store real learner names, family contact, raw audio, or transcripts by default.",
+        "Teacher-issued learner codes are reporting slots, not authentication credentials.",
+        "Report exports remain blocked until report retention, access, school policy, and data-removal procedures are accepted.",
+        "School roster ids and family-managed accounts require separate policy and persistence work.",
+      ],
+    },
+    {
       specId: "spec-upload-intake-asset",
       label: "Upload intake asset",
       candidateId: "m021-upload-intake-records",

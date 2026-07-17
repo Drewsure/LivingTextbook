@@ -48,10 +48,19 @@ Microphone practice can remain local replay only. Raw audio and transcripts are 
 
 Closed local deployments still need a roster contract. A local app may avoid hosted accounts, but it still needs backup, restore, teacher export, update, and data-removal procedures before it can support a real textbook partner.
 
+## Storage Contract
+
+Class roster persistence uses the backend-neutral `class_roster_plan` schema entity and `class-roster-plan` persistence category. The record stores only coded learner slots, roster readiness, launch/package binding, identity mode, data boundaries, progress-summary allowance, and pilot blockers.
+
+The storage contract intentionally blocks real learner names, family contact, raw microphone audio, learner transcripts, production account creation, and live report export until school policy, persistence, retention, and reporting rules are accepted. Hosted and closed/local deployments must use the same vocabulary so white-label partners can move between deployment models without changing the privacy boundary.
+
 ## Current Implementation
 
 - Shared model: `packages/content-model/src/classRoster.ts`
 - Sample plans: `apps/web/src/data/sampleClassRosterPlans.ts`
+- Backend schema entity: `class_roster_plan`
+- Persistence category: `class-roster-plan`
+- Durable record: `class-roster-plan-record`
 - Review panel: `apps/web/src/features/teacher/ClassRosterReadinessPanel.tsx`
 - Teacher session card: `apps/web/src/features/teacher/TeacherSessionRosterIdentityCard.tsx`
 - Teacher intake route: `/teacher/intake`
@@ -67,3 +76,4 @@ A roster plan cannot be treated as pilot-ready until:
 - persistence and retention rules are accepted,
 - report export rules are accepted,
 - microphone and AI Tutor data are explicitly outside the core roster unless a premium policy says otherwise.
+- the `class_roster_plan` storage contract is visible on `/teacher/intake` and passes backend storage verification.

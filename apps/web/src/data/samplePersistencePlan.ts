@@ -21,6 +21,7 @@ export type PersistenceBoundaryCategory =
   | "teacher-draft-verifier-submission"
   | "teacher-assignment-rollout-gate"
   | "private-assignment-link"
+  | "class-roster-plan"
   | "upload-intake"
   | "upload-review"
   | "upload-promotion"
@@ -214,6 +215,29 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
     note:
       "Private assignment links need durable tenant scope, assignment binding, student target path, access mode, visibility, safety boundaries, expiry policy, and report boundary before they become real access records. They must not become public share links, iframe embeds, teacher/admin pages, real learner data collectors, or report exporters.",
+  },
+  {
+    recordId: "class-roster-plan-record",
+    category: "class-roster-plan",
+    label: "Class roster plan record",
+    readiness: "durable-required",
+    sourceOfTruth:
+      "ClassRosterPlan, learner code slots, roster data boundaries, launch code, package id, readiness, identity mode, and pilot blockers",
+    requiredBeforePilot: true,
+    containsStudentData: false,
+    containsMediaRights: false,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesClassRosterPlan: true,
+    blocksRealLearnerNameStorage: true,
+    blocksFamilyContactStorage: true,
+    blocksRawAudioStorage: true,
+    blocksTranscriptStorage: true,
+    blocksLiveReportExport: true,
+    recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
+    note:
+      "Class roster plans need durable coded learner slots, launch-code binding, data boundaries, and pilot blockers before reports or local deployments can rely on them. Real names, family contact, raw audio, transcripts, production accounts, and report exports remain blocked.",
   },
   {
     recordId: "upload-intake-record",
@@ -1215,6 +1239,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision:
       "Persist private assignment links before enabling real access links, link revocation, school-year link policy, public sharing, iframe embeds, real learner data collection, or report export workflows.",
+  },
+  {
+    boundaryId: "class-roster-plan-boundary",
+    category: "class-roster-plan",
+    label: "Class roster plan records",
+    status: "needs-backend",
+    recordShape:
+      "Roster plan id, tenant, package, launch code, readiness, identity mode, learner code slots, data boundaries, required-before-pilot blockers, progress-summary permission, real-name block, family-contact block, raw-audio block, transcript block, and report-export block",
+    whyItMatters:
+      "Front-door learner codes and teacher reports need coded roster records before real pilots, but the roster must not become a quiet store for personal data, speech recordings, transcripts, or production accounts.",
+    visibleTo: ["Teacher", "Tenant admin", "School admin", "Platform admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Persist class roster plans before enabling durable class history, real report export, school roster integration, family-managed accounts, speech transcript reporting, or local roster backup/restore.",
   },
   {
     boundaryId: "upload-intake-boundary",

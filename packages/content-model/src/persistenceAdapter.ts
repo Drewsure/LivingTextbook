@@ -43,6 +43,11 @@ export interface PersistenceWriteIntent {
   blocksPublicSharing?: boolean;
   blocksIframeEmbed?: boolean;
   blocksTeacherAdminControlExposure?: boolean;
+  preservesClassRosterPlan?: boolean;
+  blocksRealLearnerNameStorage?: boolean;
+  blocksFamilyContactStorage?: boolean;
+  blocksRawAudioStorage?: boolean;
+  blocksTranscriptStorage?: boolean;
   preservesUploadSourceLineage?: boolean;
   blocksStudentFacingUploadUse?: boolean;
   preservesUploadReviewPackets?: boolean;
@@ -327,6 +332,30 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "private-assignment-link" && !intent.blocksLiveReportExport) {
       errors.push(`Private assignment link write intent ${intent.intentId} must block live report export.`);
+    }
+
+    if (intent.category === "class-roster-plan" && !intent.preservesClassRosterPlan) {
+      errors.push(`Class roster plan write intent ${intent.intentId} must preserve roster ids, learner code slots, data boundaries, readiness, and pilot blockers.`);
+    }
+
+    if (intent.category === "class-roster-plan" && !intent.blocksRealLearnerNameStorage) {
+      errors.push(`Class roster plan write intent ${intent.intentId} must block real learner name storage.`);
+    }
+
+    if (intent.category === "class-roster-plan" && !intent.blocksFamilyContactStorage) {
+      errors.push(`Class roster plan write intent ${intent.intentId} must block family contact storage.`);
+    }
+
+    if (intent.category === "class-roster-plan" && !intent.blocksRawAudioStorage) {
+      errors.push(`Class roster plan write intent ${intent.intentId} must block raw audio storage.`);
+    }
+
+    if (intent.category === "class-roster-plan" && !intent.blocksTranscriptStorage) {
+      errors.push(`Class roster plan write intent ${intent.intentId} must block transcript storage.`);
+    }
+
+    if (intent.category === "class-roster-plan" && !intent.blocksLiveReportExport) {
+      errors.push(`Class roster plan write intent ${intent.intentId} must block live report export.`);
     }
 
     if (intent.category === "upload-intake" && !intent.preservesUploadSourceLineage) {

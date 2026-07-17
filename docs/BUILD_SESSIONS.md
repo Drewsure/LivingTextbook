@@ -279,6 +279,7 @@ Next outputs:
 - Confirm teacher unit review routes show package evidence, curated activity paths, route readiness, assignment controls, and pilot blockers before expanding teacher authoring or assignment persistence.
 - Confirm private assignment link routes show student-facing assignment scope and private-first sharing rules before public links or embeds are considered.
 - Confirm private assignment link storage preserves `private_assignment_link` while blocking public sharing, iframe embeds, teacher/admin controls, real learner data collection, and report export.
+- Confirm class roster plan storage preserves `class_roster_plan` while blocking real learner names, family contact, raw audio, transcripts, production accounts, and live report export.
 - Confirm collection room routes show deterministic earned collection mechanics before premium avatar, room, mascot, or animation polish begins.
 - Browser-verify the package publish gate, approval ledger, backend schema draft, backend migration candidates, backend migration specs, and persistence boundary at `/teacher/intake`.
 - Browser-verify the teacher preflight, assigned game path, and monitor settings contract at `/teacher/sessions/demo-unit-1` and `/teacher/sessions/partner-demo-unit-1`.
@@ -307,6 +308,7 @@ Next outputs:
 - Confirm assignment rollout storage preserves `teacher_assignment_rollout_gate` while blocking scheduling, student launch, live classroom launch, real learner data collection, and report export.
 - Confirm `npm run verify:assignment-rollout` passes before assignment rollout, private assignment, package readiness, or school pilot scheduling copy changes.
 - Confirm `npm run verify:class-roster` passes after learner identity, roster slots, front-door codes, teacher reports, microphone practice, AI Tutor speech records, backend schema, local deployment, or report export changes.
+- Confirm `npm run verify:backend-storage` passes after roster storage, private assignment link, teacher assignment rollout, upload, evidence, media, local companion, or school policy storage contracts change.
 - Confirm the publish gate blocks release while media rights, report policy, deployment profile, persistence, and pilot package policy are unresolved.
 - Confirm the publish gate blocks release until media routes, local/hosted bundle decisions, and support-only media reporting are reviewed.
 - Confirm the publish gate blocks release while assigned game modes are missing reviewed audio coverage or approved fallback.
