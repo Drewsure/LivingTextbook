@@ -122,6 +122,21 @@ expectedTextByPath.get("/teacher/intake")?.push(
   "No AI Tutor entitlement change",
 );
 
+const assignmentRolloutExpected = [
+  "Assignment rollout",
+  "From reviewed assignment to scheduled pilot",
+  "demo-preview",
+  "Sample publisher front-door pilot rollout",
+  "Closed local companion rollout",
+  "Game audio coverage",
+  "Media rights",
+  "Progress persistence",
+  "Report policy",
+  "Local storage",
+];
+
+expectedTextByPath.get("/teacher/intake")?.push(...assignmentRolloutExpected);
+
 const safeFallbackActivationPreviewExpected = [
   "Future safe fallback activation record preview",
   "Activation record blocked",

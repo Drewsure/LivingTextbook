@@ -243,6 +243,7 @@
 - `DR-269-school-rollback-safe-fallback-activation-preview-storage-contract.md`
 - `DR-270-school-rollback-safe-fallback-restoration-preview.md`
 - `DR-271-school-rollback-safe-fallback-restoration-preview-storage-contract.md`
+- `DR-272-teacher-assignment-rollout-verifier.md`
 
 ## Maintenance Rule
 

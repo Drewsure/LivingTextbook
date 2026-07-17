@@ -31,6 +31,7 @@ Outputs:
 - `/teacher/intake` exposes share/embed readiness so private assignment links can advance while public sharing and iframe embeds remain gated.
 - Private assignment routes must remain focused assignment previews, not public activity pages, public community sharing, or iframe embeds.
 - `/teacher/intake` exposes teacher authoring readiness so fast creation/editing remains draft-first and review-gated.
+- `/teacher/intake` exposes assignment rollout gates so reviewed assignments, demo previews, blocked partner pilots, local companion drafts, media-rights blockers, report-policy blockers, persistence blockers, and game-audio coverage remain visible before scheduling.
 - `/teacher/intake` exposes target-language expansion readiness so Japanese-as-target-language and other non-English target-language opportunities are not confused with assist-language support.
 - `/teacher/uploads/sample-publisher` exposes the dedicated upload workspace so file intake, review, promotion, Labelled Diagram image assets, and multimedia asset gates have a visible route boundary before live file pickers or storage are built.
 - `/teacher/uploads/sample-publisher`, `/teacher/assets/labelled-diagram/sample-publisher-l1-u1-labelled-diagram`, and `/teacher/assets/media/sample-publisher-l1-u1-routines-media` expose evidence packet flows before live file inputs, object/local storage, approval actions, publish actions, route creation, label editing, media transcoding, playlist creation, or assignment shortcuts are built.
@@ -55,6 +56,7 @@ Outputs:
 - Backend schema, migration candidates, migration specs, adapter plans, durable records, and persistence boundaries preserve `school_rollback_safe_fallback_activation_preview` before fallback activation, release-state mutation, production QR redirect mutation, live notification, classroom shutdown, report export, media replacement, local bundle deactivation, or student reassignment workflows can be designed.
 - Backend schema, migration candidates, migration specs, adapter plans, durable records, and persistence boundaries preserve `school_rollback_safe_fallback_restoration_preview` before restoration activation, release-state mutation, production QR redirect mutation, live notification, classroom restart, report export, media restoration, local bundle restoration, or student reassignment workflows can be designed.
 - Backend schema, migration candidates, migration specs, adapter plans, durable records, and persistence boundaries preserve `evidence_packet` and `evidence_attachment` before live evidence upload, signed approval capture, storage writes, attachment downloads, upload promotion, asset editing, media transcoding, playlist creation, local activation, release-state mutation, student-facing attachments, or assignment shortcuts are built.
+- Package publish gates, approval ledgers, and assignment rollout gates must remain visible before any school pilot is scheduled.
 
 ## Session 1: First Vertical Slice
 
@@ -299,6 +301,7 @@ Next outputs:
 - Confirm package game/audio coverage write intents show machine-readable snapshot preservation.
 - Confirm teacher assignment readiness shows audio-covered game modes against assigned game modes.
 - Confirm assignment rollout surfaces game audio coverage before scheduling.
+- Confirm `npm run verify:assignment-rollout` passes before assignment rollout, private assignment, package readiness, or school pilot scheduling copy changes.
 - Confirm `npm run verify:class-roster` passes after learner identity, roster slots, front-door codes, teacher reports, microphone practice, AI Tutor speech records, backend schema, local deployment, or report export changes.
 - Confirm the publish gate blocks release while media rights, report policy, deployment profile, persistence, and pilot package policy are unresolved.
 - Confirm the publish gate blocks release until media routes, local/hosted bundle decisions, and support-only media reporting are reviewed.
