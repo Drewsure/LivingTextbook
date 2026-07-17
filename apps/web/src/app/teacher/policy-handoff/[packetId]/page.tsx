@@ -11,6 +11,7 @@ import { sampleSchoolPolicyTextPack } from "@/data/sampleSchoolPolicyTextPack";
 import { sampleSchoolRollbackSafeFallbackActivationPreview } from "@/data/sampleSchoolRollbackSafeFallbackActivationPreview";
 import { sampleSchoolRollbackSafeFallbackPreflight } from "@/data/sampleSchoolRollbackSafeFallbackPreflight";
 import { sampleSchoolRollbackSafeFallbackPlan } from "@/data/sampleSchoolRollbackSafeFallbackPlan";
+import { sampleSchoolRollbackSafeFallbackRestorationPreview } from "@/data/sampleSchoolRollbackSafeFallbackRestorationPreview";
 import { sampleTeacherDryRunRehearsal } from "@/data/sampleTeacherDryRunRehearsal";
 import { SchoolLaunchPolicyGatePanel } from "@/features/pilot/SchoolLaunchPolicyGatePanel";
 import { SchoolPolicyAcceptanceRecordPreviewPanel } from "@/features/pilot/SchoolPolicyAcceptanceRecordPreviewPanel";
@@ -22,6 +23,7 @@ import { SchoolPolicyTextPackPanel } from "@/features/pilot/SchoolPolicyTextPack
 import { SchoolRollbackSafeFallbackActivationPreviewPanel } from "@/features/pilot/SchoolRollbackSafeFallbackActivationPreviewPanel";
 import { SchoolRollbackSafeFallbackPreflightPanel } from "@/features/pilot/SchoolRollbackSafeFallbackPreflightPanel";
 import { SchoolRollbackSafeFallbackPanel } from "@/features/pilot/SchoolRollbackSafeFallbackPanel";
+import { SchoolRollbackSafeFallbackRestorationPreviewPanel } from "@/features/pilot/SchoolRollbackSafeFallbackRestorationPreviewPanel";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 
 interface SchoolPolicyHandoffPageProps {
@@ -117,6 +119,7 @@ export default async function SchoolPolicyHandoffPage({ params }: SchoolPolicyHa
         <SchoolRollbackSafeFallbackPanel plan={sampleSchoolRollbackSafeFallbackPlan} />
         <SchoolRollbackSafeFallbackPreflightPanel preflight={sampleSchoolRollbackSafeFallbackPreflight} />
         <SchoolRollbackSafeFallbackActivationPreviewPanel preview={sampleSchoolRollbackSafeFallbackActivationPreview} />
+        <SchoolRollbackSafeFallbackRestorationPreviewPanel preview={sampleSchoolRollbackSafeFallbackRestorationPreview} />
         <SchoolLaunchPolicyGatePanel gate={sampleSchoolLaunchPolicyGate} />
       </div>
     </AppShell>

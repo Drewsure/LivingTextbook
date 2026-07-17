@@ -33,6 +33,8 @@ const schoolRollbackSafeFallbackPreflight = readSource("../apps/web/src/data/sam
 const schoolRollbackSafeFallbackPreflightPanel = readSource("../apps/web/src/features/pilot/SchoolRollbackSafeFallbackPreflightPanel.tsx");
 const schoolRollbackSafeFallbackActivationPreview = readSource("../apps/web/src/data/sampleSchoolRollbackSafeFallbackActivationPreview.ts");
 const schoolRollbackSafeFallbackActivationPreviewPanel = readSource("../apps/web/src/features/pilot/SchoolRollbackSafeFallbackActivationPreviewPanel.tsx");
+const schoolRollbackSafeFallbackRestorationPreview = readSource("../apps/web/src/data/sampleSchoolRollbackSafeFallbackRestorationPreview.ts");
+const schoolRollbackSafeFallbackRestorationPreviewPanel = readSource("../apps/web/src/features/pilot/SchoolRollbackSafeFallbackRestorationPreviewPanel.tsx");
 const schoolPolicyHandoffPacket = readSource("../apps/web/src/data/sampleSchoolPolicyHandoffPacket.ts");
 const schoolPolicyHandoffPacketPanel = readSource("../apps/web/src/features/pilot/SchoolPolicyHandoffPacketPanel.tsx");
 const backendSchema = readSource("../apps/web/src/data/sampleBackendSchemaDraft.ts");
@@ -293,6 +295,18 @@ requireText(schoolRollbackSafeFallbackActivationPreview, "No fallback activated"
 requireText(schoolRollbackSafeFallbackActivationPreview, "No activate fallback button", "School rollback safe fallback activation preview must block activation buttons.");
 requireText(schoolRollbackSafeFallbackActivationPreviewPanel, "Future safe fallback activation record preview", "School rollback safe fallback activation preview panel must be visible.");
 requireText(schoolRollbackSafeFallbackActivationPreviewPanel, "No fallback activated", "School rollback safe fallback activation preview panel must block activation behavior.");
+requireText(schoolRollbackSafeFallbackRestorationPreview, "sampleSchoolRollbackSafeFallbackActivationPreview", "School rollback safe fallback restoration preview must derive from the activation preview.");
+requireText(schoolRollbackSafeFallbackRestorationPreview, "Future safe fallback restoration record preview", "School rollback safe fallback restoration preview must expose a school-facing title.");
+requireText(schoolRollbackSafeFallbackRestorationPreview, "Restoration record blocked", "School rollback safe fallback restoration preview must remain blocked.");
+requireText(schoolRollbackSafeFallbackRestorationPreview, "Authenticated restoration operator", "School rollback safe fallback restoration preview must require authenticated operator identity.");
+requireText(schoolRollbackSafeFallbackRestorationPreview, "Source activation binding", "School rollback safe fallback restoration preview must bind to activation source.");
+requireText(schoolRollbackSafeFallbackRestorationPreview, "Route restoration map", "School rollback safe fallback restoration preview must cover route restoration.");
+requireText(schoolRollbackSafeFallbackRestorationPreview, "Local package restoration", "School rollback safe fallback restoration preview must cover local restoration.");
+requireText(schoolRollbackSafeFallbackRestorationPreview, "Media restoration scope", "School rollback safe fallback restoration preview must cover media restoration.");
+requireText(schoolRollbackSafeFallbackRestorationPreview, "No restoration activated", "School rollback safe fallback restoration preview must block restored status.");
+requireText(schoolRollbackSafeFallbackRestorationPreview, "No restore normal route button", "School rollback safe fallback restoration preview must block restore buttons.");
+requireText(schoolRollbackSafeFallbackRestorationPreviewPanel, "Future safe fallback restoration record preview", "School rollback safe fallback restoration preview panel must be visible.");
+requireText(schoolRollbackSafeFallbackRestorationPreviewPanel, "No restoration activated", "School rollback safe fallback restoration preview panel must block restoration behavior.");
 requireText(backendSchema, "package_release_candidate", "Backend schema must include package release candidate record.");
 requireText(backendSchema, "package_publish_gate", "Backend schema must include package publish gate record.");
 requireText(backendSchema, "package_approval_ledger", "Backend schema must include package approval ledger record.");
@@ -314,6 +328,7 @@ requireText(routeVerifier, "School rollback impact matrix", "Active route verifi
 requireText(routeVerifier, "School rollback safe fallback plan", "Active route verifier must keep school rollback safe fallback plan visible.");
 requireText(routeVerifier, "School rollback safe fallback preflight", "Active route verifier must keep school rollback safe fallback preflight visible.");
 requireText(routeVerifier, "Future safe fallback activation record preview", "Active route verifier must keep school rollback safe fallback activation preview visible.");
+requireText(routeVerifier, "Future safe fallback restoration record preview", "Active route verifier must keep school rollback safe fallback restoration preview visible.");
 requireText(routeVerifier, "school_rollback_safe_fallback_plan", "Active route verifier must keep school rollback safe fallback plan storage visible.");
 
 if (failures.length > 0) {

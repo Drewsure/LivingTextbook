@@ -53,6 +53,7 @@ import { sampleSchoolPolicyTextPack } from "@/data/sampleSchoolPolicyTextPack";
 import { sampleSchoolRollbackSafeFallbackActivationPreview } from "@/data/sampleSchoolRollbackSafeFallbackActivationPreview";
 import { sampleSchoolRollbackSafeFallbackPreflight } from "@/data/sampleSchoolRollbackSafeFallbackPreflight";
 import { sampleSchoolRollbackSafeFallbackPlan } from "@/data/sampleSchoolRollbackSafeFallbackPlan";
+import { sampleSchoolRollbackSafeFallbackRestorationPreview } from "@/data/sampleSchoolRollbackSafeFallbackRestorationPreview";
 import { sampleTeacherDryRunRehearsal } from "@/data/sampleTeacherDryRunRehearsal";
 import { sampleProgressEventTaxonomyRegistry } from "@/data/sampleProgressEventTaxonomy";
 import {
@@ -133,6 +134,7 @@ import { SchoolPolicyTextPackPanel } from "@/features/pilot/SchoolPolicyTextPack
 import { SchoolRollbackSafeFallbackActivationPreviewPanel } from "@/features/pilot/SchoolRollbackSafeFallbackActivationPreviewPanel";
 import { SchoolRollbackSafeFallbackPreflightPanel } from "@/features/pilot/SchoolRollbackSafeFallbackPreflightPanel";
 import { SchoolRollbackSafeFallbackPanel } from "@/features/pilot/SchoolRollbackSafeFallbackPanel";
+import { SchoolRollbackSafeFallbackRestorationPreviewPanel } from "@/features/pilot/SchoolRollbackSafeFallbackRestorationPreviewPanel";
 import { TeacherDryRunRehearsalPanel } from "@/features/pilot/TeacherDryRunRehearsalPanel";
 import { EvidenceExportReadinessPanel } from "@/features/evidence/EvidenceExportReadinessPanel";
 import { EvidenceAttachmentStorageReadinessPanel } from "@/features/evidence/EvidenceAttachmentStorageReadinessPanel";
@@ -198,6 +200,7 @@ export default function TeacherIntakePage() {
         <SchoolRollbackSafeFallbackPanel plan={sampleSchoolRollbackSafeFallbackPlan} />
         <SchoolRollbackSafeFallbackPreflightPanel preflight={sampleSchoolRollbackSafeFallbackPreflight} />
         <SchoolRollbackSafeFallbackActivationPreviewPanel preview={sampleSchoolRollbackSafeFallbackActivationPreview} />
+        <SchoolRollbackSafeFallbackRestorationPreviewPanel preview={sampleSchoolRollbackSafeFallbackRestorationPreview} />
         <PilotSourceStrategyPanel strategy={samplePilotSourceStrategy} />
         <PilotHandoffPackagePanel handoffPackage={samplePilotHandoffPackage} />
         <PilotReleaseCandidatePanel gate={samplePackagePublishGate} ledger={samplePackageApprovalLedger} />

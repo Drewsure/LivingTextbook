@@ -139,6 +139,26 @@ expectedTextByPath
   .get("/teacher/policy-handoff/starter-english-level-1-unit-1-2026.1-pilot-candidate-classroom-launch-gate-school-policy-gate-handoff-packet")
   ?.push(...safeFallbackActivationPreviewExpected);
 
+const safeFallbackRestorationPreviewExpected = [
+  "Future safe fallback restoration record preview",
+  "Restoration record blocked",
+  "Authenticated restoration operator",
+  "Source activation binding",
+  "Route restoration map",
+  "Local package restoration",
+  "Media restoration scope",
+  "No restoration activated",
+  "No restore normal route button",
+];
+
+expectedTextByPath.get("/teacher/intake")?.push(...safeFallbackRestorationPreviewExpected);
+expectedTextByPath
+  .get("/teacher/launch-gate/starter-english-level-1-unit-1-2026.1-pilot-candidate-classroom-launch-gate")
+  ?.push(...safeFallbackRestorationPreviewExpected);
+expectedTextByPath
+  .get("/teacher/policy-handoff/starter-english-level-1-unit-1-2026.1-pilot-candidate-classroom-launch-gate-school-policy-gate-handoff-packet")
+  ?.push(...safeFallbackRestorationPreviewExpected);
+
 if (urls.length === 0) {
   console.error("No active local routes found in docs/ACTIVE_ROUTE_VERIFICATION_LIST.md.");
   process.exit(1);
