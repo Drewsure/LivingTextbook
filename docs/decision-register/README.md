@@ -252,6 +252,7 @@
 - `DR-278-source-review-queue-verifier.md`
 - `DR-279-source-review-workspace-route.md`
 - `DR-280-ministar-source-review-route-verification.md`
+- `DR-281-source-extraction-review-packet-preview.md`
 
 ## Maintenance Rule
 

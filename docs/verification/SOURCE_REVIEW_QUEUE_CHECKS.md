@@ -17,6 +17,7 @@ Open:
 Confirm:
 
 - The source review queue appears before the reviewed package pipeline.
+- The source review workspace routes show extraction review packet previews.
 - MiniStar DOCX, sample publisher PDF, sample publisher audio, and sample publisher video items are visible.
 - Audio and video items show rights-review ownership.
 - Blockers are visible for missing production PDF/media/rights inputs.
@@ -31,3 +32,4 @@ Confirm:
 - The queue does not make support language a progression trigger.
 - Source files remain separate from canonical package releases.
 - Extraction review packets remain review evidence and cannot create routes, games, playlists, package releases, or assignments by themselves.
+- Extraction review packet previews block teacher draft creation, student-facing payloads, playlist creation, and package release without verifier handoff.

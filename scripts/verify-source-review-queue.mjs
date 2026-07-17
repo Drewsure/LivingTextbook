@@ -1,8 +1,10 @@
 import { readFileSync } from "node:fs";
 
 const queueData = readSource("../apps/web/src/data/sampleSourceReviewQueue.ts");
+const extractionPacketData = readSource("../apps/web/src/data/sampleSourceExtractionReviewPackets.ts");
 const queuePanel = readSource("../apps/web/src/features/content-intake/SourceReviewQueuePanel.tsx");
 const sourceWorkspacePanel = readSource("../apps/web/src/features/content-intake/TeacherSourceReviewWorkspacePanel.tsx");
+const extractionPacketPanel = readSource("../apps/web/src/features/content-intake/SourceExtractionReviewPacketPanel.tsx");
 const sourceWorkspaceRoute = readSource("../apps/web/src/app/teacher/sources/[tenantId]/page.tsx");
 const teacherIntakePage = readSource("../apps/web/src/app/teacher/intake/page.tsx");
 const routeContracts = readSource("../apps/web/src/features/routes/routeContracts.ts");
@@ -77,6 +79,17 @@ requireText(queueData, "rights-review", "Source review queue must assign media o
 requireText(queueData, "Real source PDF must be supplied for production pilot.", "Source review queue must block missing real PDFs.");
 requireText(queueData, "Rights proof and real files are not present in the scaffold.", "Source review queue must block missing media rights.");
 requireText(queueData, "Rights proof and bundle strategy are unresolved.", "Source review queue must block unresolved video bundle strategy.");
+requireText(extractionPacketData, "source-extract-ministar-master-docx-manual-v1", "Extraction packet data must include the MiniStar DOCX packet.");
+requireText(extractionPacketData, "source-extract-sample-publisher-pdf-ocr-v1", "Extraction packet data must include the sample publisher PDF OCR packet.");
+requireText(extractionPacketData, "source-extract-sample-publisher-media-ai-v1", "Extraction packet data must include the sample publisher media AI packet.");
+requireText(extractionPacketData, "No teacher draft creation from this packet.", "Extraction packets must block teacher draft creation.");
+requireText(extractionPacketData, "No student-facing payload from this packet.", "Extraction packets must block student-facing payloads.");
+requireText(extractionPacketData, "No package release without verifier handoff.", "Extraction packets must block release without verifier handoff.");
+requireText(extractionPacketData, "No playlist creation from uploaded media.", "Extraction packets must block playlist creation from uploaded media.");
+requireText(extractionPacketPanel, "Source extraction review packets", "Extraction packet panel must expose its heading.");
+requireText(extractionPacketPanel, "Extraction evidence preview", "Extraction packet panel must expose evidence preview copy.");
+requireText(extractionPacketPanel, "Draft creation", "Extraction packet panel must show draft creation status.");
+requireText(extractionPacketPanel, "Student payload", "Extraction packet panel must show student payload status.");
 requireText(queuePanel, "Source review queue", "Source review panel must expose the queue heading.");
 requireText(queuePanel, "What source intake cannot skip", "Source review panel must expose hard rules.");
 requireText(queuePanel, "Required records before extraction promotion", "Source review panel must show extraction-promotion records.");
@@ -87,8 +100,10 @@ requireText(sourceWorkspacePanel, "Review-only source intake", "Source review wo
 requireText(sourceWorkspacePanel, "No live extraction action", "Source review workspace panel must block live extraction.");
 requireText(sourceWorkspacePanel, "Extraction stays evidence-first", "Source review workspace panel must preserve evidence-first extraction.");
 requireText(sourceWorkspacePanel, "SourceReviewQueuePanel", "Source review workspace panel must render the source review queue.");
+requireText(sourceWorkspacePanel, "SourceExtractionReviewPacketPanel", "Source review workspace panel must render extraction packet previews.");
 requireText(sourceWorkspaceRoute, "TeacherSourceReviewWorkspacePanel", "Source review route must render the workspace panel.");
 requireText(sourceWorkspaceRoute, "sampleSourceReviewQueue", "Source review route must pass the source review queue.");
+requireText(sourceWorkspaceRoute, "sampleSourceExtractionReviewPackets", "Source review route must pass extraction review packets.");
 requireText(sourceWorkspaceRoute, "samplePublisherTenant", "Source review route must support the sample publisher tenant.");
 requireText(sourceWorkspaceRoute, "ministarTenant", "Source review route must support the MiniStar tenant.");
 requireText(teacherIntakePage, "SourceReviewQueuePanel", "Teacher intake page must render the source review queue panel.");

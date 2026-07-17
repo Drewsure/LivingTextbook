@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { AppShell } from "@/components/layout/AppShell";
+import { sampleSourceExtractionReviewPackets } from "@/data/sampleSourceExtractionReviewPackets";
 import { sampleSourceReviewQueue } from "@/data/sampleSourceReviewQueue";
 import { TeacherSourceReviewWorkspacePanel } from "@/features/content-intake/TeacherSourceReviewWorkspacePanel";
 import { ministarTenant } from "@/features/tenant/ministarTenant";
@@ -20,7 +21,12 @@ export default async function TeacherSourceReviewWorkspacePage({
 
   return (
     <AppShell tenant={tenant}>
-      <TeacherSourceReviewWorkspacePanel tenantId={tenantId} tenantName={tenant.displayName} queue={sampleSourceReviewQueue} />
+      <TeacherSourceReviewWorkspacePanel
+        tenantId={tenantId}
+        tenantName={tenant.displayName}
+        queue={sampleSourceReviewQueue}
+        extractionPackets={sampleSourceExtractionReviewPackets}
+      />
     </AppShell>
   );
 }
