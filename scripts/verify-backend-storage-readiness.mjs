@@ -15,6 +15,7 @@ const requiredSchemaEntities = [
   "teacher_draft_review_handoff",
   "teacher_draft_verifier_submission",
   "teacher_assignment_rollout_gate",
+  "private_assignment_link",
   "upload_intake_asset",
   "upload_review_decision",
   "upload_promotion_gate",
@@ -69,6 +70,7 @@ const requiredMigrationCandidates = [
   "m016-teacher-draft-review-handoff-records",
   "m020-teacher-draft-verifier-submission-records",
   "m049-teacher-assignment-rollout-gate-records",
+  "m050-private-assignment-link-records",
   "m021-upload-intake-records",
   "m022-upload-review-records",
   "m023-upload-promotion-gates",
@@ -126,6 +128,7 @@ const requiredMigrationSpecs = [
   "spec-teacher-draft-review-handoff",
   "spec-teacher-draft-verifier-submission",
   "spec-teacher-assignment-rollout-gate",
+  "spec-private-assignment-link",
   "spec-upload-intake-asset",
   "spec-upload-review-decision",
   "spec-upload-promotion-gate",
@@ -196,6 +199,13 @@ requireText(schemaDraft, "gate_evidence", "Backend schema must preserve teacher 
 requireText(schemaDraft, "scheduling_allowed", "Backend schema must block teacher assignment scheduling.");
 requireText(schemaDraft, "student_launch_allowed", "Backend schema must block student launch from assignment rollout gates.");
 requireText(schemaDraft, "real_learner_data_collection_allowed", "Backend schema must block real learner data collection from assignment rollout gates.");
+requireText(schemaDraft, "private_assignment_link", "Backend schema must include private assignment link records.");
+requireText(schemaDraft, "private_assignment_link_id", "Backend schema must preserve private assignment link ids.");
+requireText(schemaDraft, "assignment_path", "Backend schema must preserve private assignment paths.");
+requireText(schemaDraft, "student_target_path", "Backend schema must preserve private assignment student target paths.");
+requireText(schemaDraft, "public_sharing_allowed", "Backend schema must block public sharing for private assignment links.");
+requireText(schemaDraft, "iframe_embed_allowed", "Backend schema must block iframe embeds for private assignment links.");
+requireText(schemaDraft, "teacher_admin_controls_exposed", "Backend schema must block teacher/admin controls on private assignment links.");
 requireText(schemaDraft, "upload_intake_asset", "Backend schema must include upload intake assets.");
 requireText(schemaDraft, "source_lineage", "Backend schema must preserve upload source lineage.");
 requireText(schemaDraft, "student_facing_use_allowed", "Backend schema must block student-facing upload use.");
@@ -546,6 +556,12 @@ requireText(migrationSpecs, "rollout_gate_revision", "Migration specs must prese
 requireText(migrationSpecs, "gate_evidence", "Migration specs must preserve teacher assignment rollout gate evidence.");
 requireText(migrationSpecs, "scheduling_allowed", "Migration specs must block teacher assignment scheduling.");
 requireText(migrationSpecs, "real_learner_data_collection_allowed", "Migration specs must block real learner data collection.");
+requireText(migrationSpecs, "spec-private-assignment-link", "Migration specs must include private assignment links.");
+requireText(migrationSpecs, "private_assignment_link_id", "Migration specs must preserve private assignment link ids.");
+requireText(migrationSpecs, "assignment_link_revision", "Migration specs must preserve private assignment link revisions.");
+requireText(migrationSpecs, "public_sharing_allowed", "Migration specs must block private assignment public sharing.");
+requireText(migrationSpecs, "iframe_embed_allowed", "Migration specs must block private assignment iframe embeds.");
+requireText(migrationSpecs, "teacher_admin_controls_exposed", "Migration specs must block teacher/admin controls on assignment links.");
 requireText(persistenceAdapter, "hosted-launch-session-write", "Persistence adapter must include hosted launch-session writes.");
 requireText(persistenceAdapter, "local-launch-session-write", "Persistence adapter must include local launch-session writes.");
 requireText(persistenceAdapter, "hosted-teacher-draft-package-write", "Persistence adapter must include hosted teacher draft writes.");
@@ -566,6 +582,12 @@ requireText(persistenceAdapter, "preservesTeacherAssignmentRolloutGate: true", "
 requireText(persistenceAdapter, "blocksStudentLaunchAction: true", "Persistence adapter must block student launch actions.");
 requireText(persistenceAdapter, "blocksLiveClassroomLaunch: true", "Persistence adapter must block live classroom launch.");
 requireText(persistenceAdapter, "blocksRealLearnerDataCollection: true", "Persistence adapter must block real learner data collection.");
+requireText(persistenceAdapter, "hosted-private-assignment-link-write", "Persistence adapter must include hosted private assignment link writes.");
+requireText(persistenceAdapter, "local-private-assignment-link-write", "Persistence adapter must include local private assignment link writes.");
+requireText(persistenceAdapter, "preservesPrivateAssignmentLink: true", "Persistence adapter must preserve private assignment links.");
+requireText(persistenceAdapter, "blocksPublicSharing: true", "Persistence adapter must block public sharing.");
+requireText(persistenceAdapter, "blocksIframeEmbed: true", "Persistence adapter must block iframe embeds.");
+requireText(persistenceAdapter, "blocksTeacherAdminControlExposure: true", "Persistence adapter must block teacher/admin controls.");
 requireText(persistenceAdapter, "hosted-upload-intake-write", "Persistence adapter must include hosted upload intake writes.");
 requireText(persistenceAdapter, "local-upload-intake-write", "Persistence adapter must include local upload intake writes.");
 requireText(persistenceAdapter, "preservesUploadSourceLineage: true", "Persistence adapter must preserve upload source lineage.");
@@ -731,6 +753,11 @@ requireText(durableRecords, "teacher-assignment-rollout-gate-record", "Durable r
 requireText(durableRecords, "preservesTeacherAssignmentRolloutGate: true", "Durable record plan must preserve teacher assignment rollout gates.");
 requireText(durableRecords, "blocksStudentLaunchAction: true", "Durable record plan must block student launch actions.");
 requireText(durableRecords, "blocksRealLearnerDataCollection: true", "Durable record plan must block real learner data collection.");
+requireText(durableRecords, "private-assignment-link-record", "Durable record plan must include private assignment link records.");
+requireText(durableRecords, "preservesPrivateAssignmentLink: true", "Durable record plan must preserve private assignment links.");
+requireText(durableRecords, "blocksPublicSharing: true", "Durable record plan must block public sharing.");
+requireText(durableRecords, "blocksIframeEmbed: true", "Durable record plan must block iframe embeds.");
+requireText(durableRecords, "blocksTeacherAdminControlExposure: true", "Durable record plan must block teacher/admin controls.");
 requireText(durableRecords, "upload-intake-record", "Durable record plan must include upload intake records.");
 requireText(durableRecords, "preservesUploadSourceLineage: true", "Durable record plan must preserve upload source lineage.");
 requireText(durableRecords, "blocksStudentFacingUploadUse: true", "Durable record plan must block student-facing upload use.");
@@ -883,6 +910,7 @@ requireText(routeVerifier, "school_rollback_safe_fallback_preflight", "Active ro
 requireText(routeVerifier, "school_rollback_safe_fallback_activation_preview", "Active route verifier must keep school rollback safe fallback activation preview storage visible on teacher intake.");
 requireText(routeVerifier, "school_rollback_safe_fallback_restoration_preview", "Active route verifier must keep school rollback safe fallback restoration preview storage visible on teacher intake.");
 requireText(routeVerifier, "teacher_assignment_rollout_gate", "Active route verifier must keep teacher assignment rollout gate storage visible on teacher intake.");
+requireText(routeVerifier, "private_assignment_link", "Active route verifier must keep private assignment link storage visible on teacher intake.");
 
 if (failures.length > 0) {
   for (const failure of failures) {

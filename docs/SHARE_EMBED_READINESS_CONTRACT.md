@@ -61,6 +61,14 @@ The sample data lives in `apps/web/src/data/sampleShareEmbedReadinessPlan.ts`.
 
 The focused verifier is `npm run verify:share-embed`, and it is included in `npm run verify:foundation`.
 
+## Storage Contract
+
+The backend-neutral private assignment record is `private_assignment_link` / `private-assignment-link`.
+
+Hosted and local implementations must preserve tenant scope, assignment binding, package binding, launch-session binding, assignment path, student target path, access mode, visibility, safety boundaries, expiry policy, report boundary, and target-language trigger policy.
+
+The record must block public sharing, iframe embed use, public community discovery, teacher/admin control exposure, real learner data collection, and report export until the relevant access, rights, moderation, reporting, retention, and school policies pass.
+
 ## Acceptance Standard
 
 No future agent should build public share links, public community search, or website embeds before this contract's blockers are resolved.

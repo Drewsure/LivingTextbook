@@ -22,6 +22,7 @@ Expected result:
 - The page does not expose teacher/admin intake controls.
 - The page states that it is not public sharing, public community discovery, or an iframe embed.
 - Teacher reports remain policy-blocked until persistence and retention are accepted.
+- `/teacher/intake` shows `private_assignment_link`, `Private assignment link record`, and `private-assignment-link-record` in the backend storage readiness inventory.
 
 Regression guard:
 

@@ -20,6 +20,7 @@ export type PersistenceBoundaryCategory =
   | "teacher-draft-review-audit"
   | "teacher-draft-verifier-submission"
   | "teacher-assignment-rollout-gate"
+  | "private-assignment-link"
   | "upload-intake"
   | "upload-review"
   | "upload-promotion"
@@ -190,6 +191,29 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
     note:
       "Assignment rollout gates need durable status, evidence, blockers, and teacher-visible scheduling rules before a reviewed assignment can move toward a scheduled classroom pilot. Demo and blocked rollouts must not launch students, collect real learner data, or export reports.",
+  },
+  {
+    recordId: "private-assignment-link-record",
+    category: "private-assignment-link",
+    label: "Private assignment link record",
+    readiness: "durable-required",
+    sourceOfTruth:
+      "PrivateAssignmentLinkContext, TeacherAssignmentPlan, route contract, launch session, access rules, safety boundaries, and report boundary",
+    requiredBeforePilot: true,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesPrivateAssignmentLink: true,
+    blocksPublicSharing: true,
+    blocksIframeEmbed: true,
+    blocksTeacherAdminControlExposure: true,
+    blocksRealLearnerDataCollection: true,
+    blocksLiveReportExport: true,
+    recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
+    note:
+      "Private assignment links need durable tenant scope, assignment binding, student target path, access mode, visibility, safety boundaries, expiry policy, and report boundary before they become real access records. They must not become public share links, iframe embeds, teacher/admin pages, real learner data collectors, or report exporters.",
   },
   {
     recordId: "upload-intake-record",
@@ -1177,6 +1201,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision:
       "Persist assignment rollout gates before enabling schedule-class, student launch, live classroom launch, real learner data collection, or report export workflows.",
+  },
+  {
+    boundaryId: "private-assignment-link-boundary",
+    category: "private-assignment-link",
+    label: "Private assignment link records",
+    status: "needs-backend",
+    recordShape:
+      "Private assignment link id, tenant, assignment, package, launch session, assignment path, student target path, access mode, visibility, safety boundaries, expiry policy, report boundary, target-language trigger policy, public-sharing block, iframe block, teacher-control block, learner-data block, and report-export block",
+    whyItMatters:
+      "Private assignment links are the first safe sharing lane. This record keeps them tenant-scoped and student-focused so they cannot drift into public community sharing, iframe embeds, teacher/admin pages, real learner data collection, or report export by route alone.",
+    visibleTo: ["Teacher", "Tenant admin", "School admin", "Platform admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Persist private assignment links before enabling real access links, link revocation, school-year link policy, public sharing, iframe embeds, real learner data collection, or report export workflows.",
   },
   {
     boundaryId: "upload-intake-boundary",

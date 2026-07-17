@@ -8,6 +8,7 @@ export type PersistenceRecordCategory =
   | "teacher-draft-review-audit"
   | "teacher-draft-verifier-submission"
   | "teacher-assignment-rollout-gate"
+  | "private-assignment-link"
   | "upload-intake"
   | "upload-review"
   | "upload-promotion"
@@ -97,6 +98,10 @@ export interface DurableRecordContract {
   preservesVerifierPreflightChecks?: boolean;
   blocksAutomaticVerifierSubmit?: boolean;
   preservesTeacherAssignmentRolloutGate?: boolean;
+  preservesPrivateAssignmentLink?: boolean;
+  blocksPublicSharing?: boolean;
+  blocksIframeEmbed?: boolean;
+  blocksTeacherAdminControlExposure?: boolean;
   preservesUploadSourceLineage?: boolean;
   blocksStudentFacingUploadUse?: boolean;
   preservesUploadReviewPackets?: boolean;
@@ -322,6 +327,30 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "teacher-assignment-rollout-gate" && !record.blocksLiveReportExport) {
       errors.push(`Teacher assignment rollout gate ${record.recordId} must block live report export.`);
+    }
+
+    if (record.category === "private-assignment-link" && !record.preservesPrivateAssignmentLink) {
+      errors.push(`Private assignment link ${record.recordId} must preserve tenant scope, assignment binding, student target, access rules, and safety boundaries.`);
+    }
+
+    if (record.category === "private-assignment-link" && !record.blocksPublicSharing) {
+      errors.push(`Private assignment link ${record.recordId} must block public sharing.`);
+    }
+
+    if (record.category === "private-assignment-link" && !record.blocksIframeEmbed) {
+      errors.push(`Private assignment link ${record.recordId} must block iframe embed use.`);
+    }
+
+    if (record.category === "private-assignment-link" && !record.blocksTeacherAdminControlExposure) {
+      errors.push(`Private assignment link ${record.recordId} must block teacher/admin control exposure.`);
+    }
+
+    if (record.category === "private-assignment-link" && !record.blocksRealLearnerDataCollection) {
+      errors.push(`Private assignment link ${record.recordId} must block real learner data collection.`);
+    }
+
+    if (record.category === "private-assignment-link" && !record.blocksLiveReportExport) {
+      errors.push(`Private assignment link ${record.recordId} must block live report export.`);
     }
 
     if (record.category === "upload-intake" && !record.preservesUploadSourceLineage) {

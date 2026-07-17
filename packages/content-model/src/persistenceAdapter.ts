@@ -39,6 +39,10 @@ export interface PersistenceWriteIntent {
   preservesVerifierPreflightChecks?: boolean;
   blocksAutomaticVerifierSubmit?: boolean;
   preservesTeacherAssignmentRolloutGate?: boolean;
+  preservesPrivateAssignmentLink?: boolean;
+  blocksPublicSharing?: boolean;
+  blocksIframeEmbed?: boolean;
+  blocksTeacherAdminControlExposure?: boolean;
   preservesUploadSourceLineage?: boolean;
   blocksStudentFacingUploadUse?: boolean;
   preservesUploadReviewPackets?: boolean;
@@ -299,6 +303,30 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "teacher-assignment-rollout-gate" && !intent.blocksLiveReportExport) {
       errors.push(`Teacher assignment rollout gate write intent ${intent.intentId} must block live report export.`);
+    }
+
+    if (intent.category === "private-assignment-link" && !intent.preservesPrivateAssignmentLink) {
+      errors.push(`Private assignment link write intent ${intent.intentId} must preserve tenant scope, assignment binding, student target, access rules, and safety boundaries.`);
+    }
+
+    if (intent.category === "private-assignment-link" && !intent.blocksPublicSharing) {
+      errors.push(`Private assignment link write intent ${intent.intentId} must block public sharing.`);
+    }
+
+    if (intent.category === "private-assignment-link" && !intent.blocksIframeEmbed) {
+      errors.push(`Private assignment link write intent ${intent.intentId} must block iframe embed use.`);
+    }
+
+    if (intent.category === "private-assignment-link" && !intent.blocksTeacherAdminControlExposure) {
+      errors.push(`Private assignment link write intent ${intent.intentId} must block teacher/admin control exposure.`);
+    }
+
+    if (intent.category === "private-assignment-link" && !intent.blocksRealLearnerDataCollection) {
+      errors.push(`Private assignment link write intent ${intent.intentId} must block real learner data collection.`);
+    }
+
+    if (intent.category === "private-assignment-link" && !intent.blocksLiveReportExport) {
+      errors.push(`Private assignment link write intent ${intent.intentId} must block live report export.`);
     }
 
     if (intent.category === "upload-intake" && !intent.preservesUploadSourceLineage) {

@@ -29,6 +29,7 @@ Outputs:
 - `/teacher/intake` exposes printable output readiness so worksheet/PDF expectations are planned without pretending export is ready.
 - `/teacher/intake` exposes private tenant library planning so community-resource expectations have a safe v1 workaround before public sharing.
 - `/teacher/intake` exposes share/embed readiness so private assignment links can advance while public sharing and iframe embeds remain gated.
+- Backend schema, migration candidates, migration specs, adapter plans, durable records, and persistence boundaries preserve `private_assignment_link` before real assignment access, public sharing, iframe embed, teacher/admin exposure, real learner data collection, or report export workflows can be designed.
 - Private assignment routes must remain focused assignment previews, not public activity pages, public community sharing, or iframe embeds.
 - `/teacher/intake` exposes teacher authoring readiness so fast creation/editing remains draft-first and review-gated.
 - `/teacher/intake` exposes assignment rollout gates so reviewed assignments, demo previews, blocked partner pilots, local companion drafts, media-rights blockers, report-policy blockers, persistence blockers, and game-audio coverage remain visible before scheduling.
@@ -277,6 +278,7 @@ Next outputs:
 - Confirm the active route matrix stays aligned with the full automated active-route verification list.
 - Confirm teacher unit review routes show package evidence, curated activity paths, route readiness, assignment controls, and pilot blockers before expanding teacher authoring or assignment persistence.
 - Confirm private assignment link routes show student-facing assignment scope and private-first sharing rules before public links or embeds are considered.
+- Confirm private assignment link storage preserves `private_assignment_link` while blocking public sharing, iframe embeds, teacher/admin controls, real learner data collection, and report export.
 - Confirm collection room routes show deterministic earned collection mechanics before premium avatar, room, mascot, or animation polish begins.
 - Browser-verify the package publish gate, approval ledger, backend schema draft, backend migration candidates, backend migration specs, and persistence boundary at `/teacher/intake`.
 - Browser-verify the teacher preflight, assigned game path, and monitor settings contract at `/teacher/sessions/demo-unit-1` and `/teacher/sessions/partner-demo-unit-1`.

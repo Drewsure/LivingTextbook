@@ -11,4 +11,4 @@ Implications:
 - Assignment links point students to the correct direct launch or front-door path.
 - Reporting and exports remain blocked until persistence, retention, and policy are accepted.
 
-Next: Persist assignment-link records after the backend and access model are selected.
+Follow-up completed: `DR-274-private-assignment-link-storage-contract.md` defines the backend-neutral `private_assignment_link` record. Real access links still require backend selection, access policy, retention policy, and school approval before live use.

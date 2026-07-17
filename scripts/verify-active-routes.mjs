@@ -105,6 +105,9 @@ expectedTextByPath.get("/teacher/intake")?.push(
   "teacher_assignment_rollout_gate",
   "Teacher assignment rollout gate record",
   "teacher-assignment-rollout-gate-record",
+  "private_assignment_link",
+  "Private assignment link record",
+  "private-assignment-link-record",
   "School rollback impact matrix",
   "Impact matrix blocked",
   "School rollback safe fallback plan",
@@ -138,6 +141,8 @@ const assignmentRolloutExpected = [
   "Local storage",
   "teacher_assignment_rollout_gate",
   "Teacher assignment rollout gate record",
+  "private_assignment_link",
+  "Private assignment link record",
 ];
 
 expectedTextByPath.get("/teacher/intake")?.push(...assignmentRolloutExpected);

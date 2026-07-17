@@ -245,6 +245,7 @@
 - `DR-271-school-rollback-safe-fallback-restoration-preview-storage-contract.md`
 - `DR-272-teacher-assignment-rollout-verifier.md`
 - `DR-273-teacher-assignment-rollout-storage-contract.md`
+- `DR-274-private-assignment-link-storage-contract.md`
 
 ## Maintenance Rule
 
