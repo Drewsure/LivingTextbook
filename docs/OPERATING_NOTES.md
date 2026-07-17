@@ -280,3 +280,28 @@ Get-Item .git\index.lock -ErrorAction SilentlyContinue
 5. Only consider manually removing the lock after confirming no Git process is active and the lock persists.
 
 Why this matters: It avoids corrupting the repository while still giving future sessions a quick recovery path for a repeat Windows/local tooling hiccup.
+
+## OW-013: Full Foundation Verification May Need A Longer Tool Window
+
+Status: Active
+
+Observed behavior: `npm run verify:foundation` can pass but take longer than a short command timeout because it runs many focused verifiers, Next type generation, a production build, and 47 live route checks. A timeout with no failure output should not be treated as a broken build until rerun with a longer window.
+
+Observed failure signature:
+
+- Tool reports `command timed out` around 300 seconds.
+- A rerun with a longer timeout completes successfully.
+
+Procedure:
+
+1. Run targeted checks first when developing a narrow slice.
+2. Before commit, run the full command with a longer timeout:
+
+```powershell
+npm run verify:foundation
+```
+
+3. If a managed tool timeout occurs without verifier failure output, rerun the same command with a longer command window.
+4. Treat actual `FAIL` lines from a verifier as build failures; treat a bare timeout as inconclusive.
+
+Why this matters: The foundation gate is intentionally broad. A longer verification window protects quality without misreading a slow Windows/Next route pass as a product defect.
