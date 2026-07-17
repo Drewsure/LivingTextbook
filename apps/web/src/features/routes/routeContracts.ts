@@ -52,6 +52,15 @@ export const appRouteContracts: AppRouteContract[] = [
     ],
   },
   {
+    id: "teacher-source-review-workspace",
+    pattern: "/teacher/sources/[tenantId]",
+    audience: "teacher",
+    status: "active-scaffold",
+    purpose:
+      "Show a tenant-scoped source review workspace for PDF, DOCX, audio, video, OCR/parser, and AI extraction evidence while live extraction, package release, route creation, playlist creation, and assignment remain blocked.",
+    requiredState: ["TenantConfig", "SourceReviewQueue", "source_extraction_review_packet", "teacher_draft_review_handoff"],
+  },
+  {
     id: "teacher-draft-authoring-preview",
     pattern: "/teacher/authoring/[draftId]",
     audience: "teacher",
@@ -306,6 +315,10 @@ export function getTeacherDraftAuthoringPath(draftId: string): string {
 
 export function getTeacherDraftReviewQueuePath(): string {
   return "/teacher/review";
+}
+
+export function getTeacherSourceReviewWorkspacePath(tenantId: TenantId): string {
+  return `/teacher/sources/${encodeURIComponent(tenantId)}`;
 }
 
 export function getTeacherPrivateLibraryPath(tenantId: TenantId): string {

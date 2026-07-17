@@ -35,6 +35,14 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     note: "Admin review surface for package, route, policy, and backend planning.",
   },
   {
+    routeId: "teacher-source-review-workspace",
+    group: "core",
+    label: "Teacher source review workspace",
+    path: "/teacher/sources/sample-publisher",
+    status: "active-scaffold",
+    note: "Tenant-scoped source review lane for PDF, audio, video, OCR/parser, and AI extraction evidence before package or student use.",
+  },
+  {
     routeId: "teacher-dry-run-rehearsal",
     group: "sample-publisher",
     label: "Sample publisher teacher dry run",

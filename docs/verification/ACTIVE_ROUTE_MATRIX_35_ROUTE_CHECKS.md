@@ -9,7 +9,8 @@ npm run verify:foundation
 Then verify:
 
 - `http://127.0.0.1:3000/teacher/intake` loads.
-- The active route matrix shows `46 checked routes`.
+- The active route matrix shows `48 checked routes`.
+- The matrix includes the teacher source review workspace route.
 - The matrix includes the teacher draft package preview route.
 - The matrix includes the teacher private library route.
 - The matrix includes the teacher upload workspace route.
