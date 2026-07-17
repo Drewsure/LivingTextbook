@@ -18,3 +18,4 @@ White-label partners will provide PDF units, DOCX curriculum documents, audio, v
 - Rights review for audio/video is visible from the start.
 - AI extraction remains an assistant, not the source of truth.
 - Package releases remain the canonical student-facing layer.
+- The durable source extraction storage contract is recorded in `DR-277-source-extraction-review-packet-storage-contract.md`.

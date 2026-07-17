@@ -34,6 +34,12 @@ Each source item should identify:
 - Blockers.
 - Output candidate.
 
+## Storage Contract
+
+The backend-neutral storage contract now includes `source_extraction_review_packet` records. Hosted and local adapters must preserve source lineage, extraction method, OCR confidence, segmentation review, candidate payload summaries, review status, and blockers before extracted content can feed teacher drafts.
+
+Extraction packets are review evidence only. They must block raw PDF student payloads, unreviewed OCR assignments, unreviewed extraction promotion, direct student assignment, package release creation, route creation, game creation, media playlist creation, and local bundle promotion.
+
 ## Current Sample Queue
 
 The scaffold currently includes:
@@ -50,3 +56,4 @@ The scaffold currently includes:
 - Rights review is visible for partner audio/video.
 - The MiniStar DOCX is ready for extraction but still requires teacher review.
 - The sample publisher PDF is triage-only until a real production source exists.
+- `/teacher/intake` shows `source_extraction_review_packet`, `Source extraction review packet record`, and the backend storage gate before live OCR/parser/AI extraction workflows are enabled.

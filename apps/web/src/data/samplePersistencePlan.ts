@@ -22,6 +22,7 @@ export type PersistenceBoundaryCategory =
   | "teacher-assignment-rollout-gate"
   | "private-assignment-link"
   | "class-roster-plan"
+  | "source-extraction-review-packet"
   | "upload-file-policy-profile"
   | "upload-intake"
   | "upload-review"
@@ -239,6 +240,27 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
     note:
       "Class roster plans need durable coded learner slots, launch-code binding, data boundaries, and pilot blockers before reports or local deployments can rely on them. Real names, family contact, raw audio, transcripts, production accounts, and report exports remain blocked.",
+  },
+  {
+    recordId: "source-extraction-review-packet-record",
+    category: "source-extraction-review-packet",
+    label: "Source extraction review packet record",
+    readiness: "durable-required",
+    sourceOfTruth: "SourceReviewQueue, upload intake asset, OCR confidence summary, segmentation review packet, candidate payload summary, review blockers",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesSourceExtractionReviewPacket: true,
+    blocksUnreviewedExtractionPromotion: true,
+    blocksRawPdfStudentPayload: true,
+    blocksUnreviewedOcrAssignment: true,
+    blocksDirectStudentAssignment: true,
+    recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
+    note:
+      "Source extraction review packets preserve OCR/parser/AI proposal evidence before extracted sources can feed teacher drafts. They do not create packages, routes, games, playlists, local bundles, or assignments.",
   },
   {
     recordId: "upload-file-policy-profile-record",
@@ -1277,6 +1299,18 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision:
       "Persist class roster plans before enabling durable class history, real report export, school roster integration, family-managed accounts, speech transcript reporting, or local roster backup/restore.",
+  },
+  {
+    boundaryId: "source-extraction-review-packet-boundary",
+    category: "source-extraction-review-packet",
+    label: "Source extraction review packet records",
+    status: "needs-backend",
+    recordShape: "Extraction packet id, upload id, tenant id, source lineage packet, extraction method, OCR confidence summary, segmentation review packet, candidate payload summary, review status, blockers, teacher draft creation block, student-facing payload block",
+    whyItMatters:
+      "PDF/text imports need durable extraction review packets so OCR, parser output, and AI structure proposals cannot become draft packages or student-facing content by themselves.",
+    visibleTo: ["Teacher", "Tenant admin", "Content reviewer", "Publisher owner", "Platform admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision: "Persist source extraction review packets before enabling OCR-to-draft workflows, parser-to-draft workflows, AI extraction promotion, spreadsheet import promotion, or PDF-derived package assignment.",
   },
   {
     boundaryId: "upload-file-policy-profile-boundary",

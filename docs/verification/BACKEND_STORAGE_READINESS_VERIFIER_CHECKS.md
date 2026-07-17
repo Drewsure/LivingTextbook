@@ -2,7 +2,7 @@
 
 ## Scope
 
-Run before backend selection, vendor-specific migrations, persistence adapter changes, class roster plan work, upload file policy profile work, upload intake work, evidence packet work, evidence attachment storage work, activity compatibility snapshot work, template rendering profile work, font accessibility profile work, launch-session storage work, teacher draft storage work, teacher draft review handoff work, teacher draft verifier submission work, teacher draft reviewer decision work, teacher draft review evidence work, teacher draft review audit trail work, tenant library storage work, earned collection storage work, report package storage work, local companion storage work, classroom launch gate work, school launch policy gate work, or route registry persistence work.
+Run before backend selection, vendor-specific migrations, persistence adapter changes, class roster plan work, source extraction review packet work, upload file policy profile work, upload intake work, evidence packet work, evidence attachment storage work, activity compatibility snapshot work, template rendering profile work, font accessibility profile work, launch-session storage work, teacher draft storage work, teacher draft review handoff work, teacher draft verifier submission work, teacher draft reviewer decision work, teacher draft review evidence work, teacher draft review audit trail work, tenant library storage work, earned collection storage work, report package storage work, local companion storage work, classroom launch gate work, school launch policy gate work, or route registry persistence work.
 
 ## Automated Command
 
@@ -32,6 +32,7 @@ npm run verify:foundation
 - Reviewer identity and signature gate records preserve reviewer identity, approval intent, signature policy, audit retention, revocation, and release-control binding while blocking approval capture, signature attachment upload, signed PDF packets, release-state mutation, evidence downloads, and approval-driven assignment.
 - School launch policy gate records preserve school, publisher, platform, and shared dry-run ownership while blocking policy acceptance workflows, live launch, real learner data, report export, local activation, launch-ready status, and support-language-only progression.
 - Class roster plan records preserve coded learner slots, launch/package binding, roster readiness, identity mode, and data boundaries while blocking real learner names, family contact, raw audio, transcripts, production accounts, and report export.
+- Source extraction review packet records preserve source lineage, extraction method, OCR confidence, segmentation review, candidate payloads, review status, and blockers while blocking raw PDF student payloads, unreviewed OCR assignments, unreviewed extraction promotion, and direct student assignment.
 - Upload file policy profile records preserve accepted extensions, MIME rules, maximums, required checks, scan/file policy packets, and blocked shortcuts while blocking uploads without accepted policy, unsafe MIME types, oversize uploads, unchecked file scans, and student-facing uploaded file use.
 - Activity compatibility snapshots preserve payload shape, allowed activity modes, blocked conversions, target-language trigger policy, printable output policy, and student-facing pathway blocks.
 - Template rendering profiles preserve Flip Tiles-style source template identity, compatible game families, row/media slot policy, layout constraints, and student-facing rendering blocks.
@@ -55,6 +56,7 @@ npm run verify:foundation
 - Hosted and local adapter plans both include reviewer identity and signature gate writes.
 - Hosted and local adapter plans both include school launch policy gate writes.
 - Hosted and local adapter plans both include class roster plan writes.
+- Hosted and local adapter plans both include source extraction review packet writes.
 - Hosted and local adapter plans both include upload file policy profile writes.
 - Hosted and local adapter plans both include activity compatibility snapshot writes.
 - Hosted and local adapter plans both include template rendering profile writes.
@@ -64,7 +66,7 @@ npm run verify:foundation
 - Hosted and local adapter plans both include teacher draft review audit trail writes.
 - Hosted and local adapter plans both include tenant library item writes.
 - Hosted and local adapter plans both include teacher dry-run rehearsal writes.
-- Durable record plans assign teacher settings to launch sessions, require event acceptance gates, preserve earned collection rules, preserve teacher draft review gates, preserve draft review handoff packet sections, preserve verifier preflight checks, preserve upload file policy profiles, preserve upload source lineage, preserve upload target mapping packets, preserve evidence packet flows, preserve evidence attachment metadata, preserve reviewer identity/signature gates, preserve school launch policy gates, preserve class roster plan boundaries, preserve activity compatibility snapshots, preserve template rendering profiles, preserve font accessibility profiles, preserve reviewer decision evidence requirements, preserve review evidence packets, preserve review audit trails, and preserve tenant library source-lineage rules.
+- Durable record plans assign teacher settings to launch sessions, require event acceptance gates, preserve earned collection rules, preserve teacher draft review gates, preserve draft review handoff packet sections, preserve verifier preflight checks, preserve source extraction review packets, preserve upload file policy profiles, preserve upload source lineage, preserve upload target mapping packets, preserve evidence packet flows, preserve evidence attachment metadata, preserve reviewer identity/signature gates, preserve school launch policy gates, preserve class roster plan boundaries, preserve activity compatibility snapshots, preserve template rendering profiles, preserve font accessibility profiles, preserve reviewer decision evidence requirements, preserve review evidence packets, preserve review audit trails, and preserve tenant library source-lineage rules.
 
 ## Human Follow-Up
 

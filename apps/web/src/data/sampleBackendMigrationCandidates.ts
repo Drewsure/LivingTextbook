@@ -230,6 +230,25 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
       ],
     },
     {
+      migrationId: "m053-source-extraction-review-packet-records",
+      label: "Source extraction review packet records",
+      track: "shared",
+      status: "ready-to-design",
+      risk: "medium",
+      targetEntities: ["source_extraction_review_packet"],
+      purpose:
+        "Persist reviewed PDF/text extraction packets before OCR, parser output, AI structure proposals, unit segmentation, vocabulary candidates, or sentence candidates can become teacher drafts.",
+      prerequisites: ["Upload intake records accepted", "Upload file policy profiles accepted", "Source review queue accepted", "AI authoring/verifier handoff accepted"],
+      implementationNotes: [
+        "Keep extraction packets tenant-scoped and upload-scoped.",
+        "Preserve source lineage, extraction method, OCR confidence, segmentation review, candidate payload summary, review status, and blockers.",
+        "Block teacher draft creation until source lineage, OCR/segmentation review, schema check, rights, and audio plan gates pass.",
+        "Do not let extraction packets create package releases, routes, games, playlists, or assignments by themselves.",
+      ],
+      rollbackOrExportNeeds: ["Export extraction review packet JSON", "Retain rejected and uncertain OCR spans", "Support local extraction packet backup and restore"],
+      notAllowedYet: ["Raw PDF as student payload", "Unreviewed OCR assignment", "Automatic PDF-to-game publish", "Unreviewed AI draft assignment", "Direct student assignment"],
+    },
+    {
       migrationId: "m052-upload-file-policy-profile-records",
       label: "Upload file policy profile records",
       track: "shared",
@@ -1285,6 +1304,7 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
     "Teacher assignment rollout gate records must preserve rollout status, gate evidence, blockers, and teacher-visible scheduling rules while blocking scheduling, student launch, live classroom launch, real learner data collection, and report export.",
     "Private assignment link records must preserve tenant scope, assignment binding, student target, access rules, and safety boundaries while blocking public sharing, iframe embeds, teacher/admin controls, real learner data collection, and report export.",
     "Class roster plan records must preserve coded learner slots, readiness, data boundaries, and pilot blockers while blocking real names, family contact, raw audio, transcripts, production accounts, and report export.",
+    "Source extraction review packet records must preserve source lineage, extraction method, OCR confidence, segmentation review, candidate payloads, review status, and blockers while preventing raw PDF student payloads, unreviewed OCR assignments, direct assignment, and unreviewed extraction promotion.",
     "Upload file policy profile records must preserve accepted extensions, MIME rules, maximums, required checks, scan/file policy packets, and blocked shortcuts while blocking uploads without policy, unsafe MIME types, oversize files, unchecked scans, and student-facing uploaded file use.",
     "Upload review records must preserve review packets and block upload promotion until target-specific review and release-control policy exist.",
     "Upload promotion gates must preserve target-specific gates and block student-facing promotion until target records and release-control policy exist.",

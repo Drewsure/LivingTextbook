@@ -48,6 +48,10 @@ export interface PersistenceWriteIntent {
   blocksFamilyContactStorage?: boolean;
   blocksRawAudioStorage?: boolean;
   blocksTranscriptStorage?: boolean;
+  preservesSourceExtractionReviewPacket?: boolean;
+  blocksUnreviewedExtractionPromotion?: boolean;
+  blocksRawPdfStudentPayload?: boolean;
+  blocksUnreviewedOcrAssignment?: boolean;
   preservesUploadFilePolicyProfile?: boolean;
   requiresScanAndFilePolicyPacket?: boolean;
   blocksUploadWithoutFilePolicy?: boolean;
@@ -362,6 +366,26 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "class-roster-plan" && !intent.blocksLiveReportExport) {
       errors.push(`Class roster plan write intent ${intent.intentId} must block live report export.`);
+    }
+
+    if (intent.category === "source-extraction-review-packet" && !intent.preservesSourceExtractionReviewPacket) {
+      errors.push(`Source extraction write intent ${intent.intentId} must preserve extraction source, OCR confidence, segmentation review, candidate payloads, and review blockers.`);
+    }
+
+    if (intent.category === "source-extraction-review-packet" && !intent.blocksUnreviewedExtractionPromotion) {
+      errors.push(`Source extraction write intent ${intent.intentId} must block unreviewed extraction promotion.`);
+    }
+
+    if (intent.category === "source-extraction-review-packet" && !intent.blocksRawPdfStudentPayload) {
+      errors.push(`Source extraction write intent ${intent.intentId} must block raw PDF student payloads.`);
+    }
+
+    if (intent.category === "source-extraction-review-packet" && !intent.blocksUnreviewedOcrAssignment) {
+      errors.push(`Source extraction write intent ${intent.intentId} must block unreviewed OCR assignments.`);
+    }
+
+    if (intent.category === "source-extraction-review-packet" && !intent.blocksDirectStudentAssignment) {
+      errors.push(`Source extraction write intent ${intent.intentId} must block direct student assignment.`);
     }
 
     if (intent.category === "upload-file-policy-profile" && !intent.preservesUploadFilePolicyProfile) {

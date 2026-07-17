@@ -17,6 +17,7 @@ const requiredSchemaEntities = [
   "teacher_assignment_rollout_gate",
   "private_assignment_link",
   "class_roster_plan",
+  "source_extraction_review_packet",
   "upload_file_policy_profile",
   "upload_intake_asset",
   "upload_review_decision",
@@ -74,6 +75,7 @@ const requiredMigrationCandidates = [
   "m049-teacher-assignment-rollout-gate-records",
   "m050-private-assignment-link-records",
   "m051-class-roster-plan-records",
+  "m053-source-extraction-review-packet-records",
   "m052-upload-file-policy-profile-records",
   "m021-upload-intake-records",
   "m022-upload-review-records",
@@ -134,6 +136,7 @@ const requiredMigrationSpecs = [
   "spec-teacher-assignment-rollout-gate",
   "spec-private-assignment-link",
   "spec-class-roster-plan",
+  "spec-source-extraction-review-packet",
   "spec-upload-file-policy-profile",
   "spec-upload-intake-asset",
   "spec-upload-review-decision",
@@ -220,6 +223,14 @@ requireText(schemaDraft, "real_learner_name_storage_allowed", "Backend schema mu
 requireText(schemaDraft, "family_contact_storage_allowed", "Backend schema must block family contact storage.");
 requireText(schemaDraft, "raw_audio_storage_allowed", "Backend schema must block raw audio storage for class rosters.");
 requireText(schemaDraft, "transcript_storage_allowed", "Backend schema must block transcript storage for class rosters.");
+requireText(schemaDraft, "source_extraction_review_packet", "Backend schema must include source extraction review packets.");
+requireText(schemaDraft, "source_extraction_review_packet_id", "Backend schema must preserve source extraction review packet ids.");
+requireText(schemaDraft, "extraction_method", "Backend schema must preserve extraction methods.");
+requireText(schemaDraft, "ocr_confidence_summary", "Backend schema must preserve OCR confidence summaries.");
+requireText(schemaDraft, "segmentation_review_packet", "Backend schema must preserve segmentation review packets.");
+requireText(schemaDraft, "candidate_payload_summary", "Backend schema must preserve candidate payload summaries.");
+requireText(schemaDraft, "teacher_draft_creation_allowed", "Backend schema must block teacher draft creation from extraction packets.");
+requireText(schemaDraft, "student_facing_payload_allowed", "Backend schema must block student-facing extraction payloads.");
 requireText(schemaDraft, "upload_file_policy_profile", "Backend schema must include upload file policy profiles.");
 requireText(schemaDraft, "upload_file_policy_profile_id", "Backend schema must preserve upload file policy profile ids.");
 requireText(schemaDraft, "accepted_extensions", "Backend schema must preserve accepted upload extensions.");
@@ -594,6 +605,13 @@ requireText(migrationSpecs, "real_learner_name_storage_allowed", "Migration spec
 requireText(migrationSpecs, "family_contact_storage_allowed", "Migration specs must block family contact storage.");
 requireText(migrationSpecs, "raw_audio_storage_allowed", "Migration specs must block raw audio storage for class rosters.");
 requireText(migrationSpecs, "transcript_storage_allowed", "Migration specs must block transcript storage for class rosters.");
+requireText(migrationSpecs, "spec-source-extraction-review-packet", "Migration specs must include source extraction review packets.");
+requireText(migrationSpecs, "source_extraction_review_packet_id", "Migration specs must preserve source extraction review packet ids.");
+requireText(migrationSpecs, "extraction_revision", "Migration specs must preserve extraction revisions.");
+requireText(migrationSpecs, "ocr_confidence_summary", "Migration specs must preserve OCR confidence summaries.");
+requireText(migrationSpecs, "segmentation_review_packet", "Migration specs must preserve segmentation review packets.");
+requireText(migrationSpecs, "candidate_payload_summary", "Migration specs must preserve candidate payload summaries.");
+requireText(migrationSpecs, "student_facing_payload_allowed", "Migration specs must block student-facing extraction payloads.");
 requireText(migrationSpecs, "spec-upload-file-policy-profile", "Migration specs must include upload file policy profiles.");
 requireText(migrationSpecs, "upload_file_policy_profile_id", "Migration specs must preserve upload file policy profile ids.");
 requireText(migrationSpecs, "policy_revision", "Migration specs must preserve upload file policy revisions.");
@@ -633,6 +651,12 @@ requireText(persistenceAdapter, "blocksRealLearnerNameStorage: true", "Persisten
 requireText(persistenceAdapter, "blocksFamilyContactStorage: true", "Persistence adapter must block family contact storage.");
 requireText(persistenceAdapter, "blocksRawAudioStorage: true", "Persistence adapter must block raw audio storage.");
 requireText(persistenceAdapter, "blocksTranscriptStorage: true", "Persistence adapter must block transcript storage.");
+requireText(persistenceAdapter, "hosted-source-extraction-review-packet-write", "Persistence adapter must include hosted source extraction review writes.");
+requireText(persistenceAdapter, "local-source-extraction-review-packet-write", "Persistence adapter must include local source extraction review writes.");
+requireText(persistenceAdapter, "preservesSourceExtractionReviewPacket: true", "Persistence adapter must preserve source extraction review packets.");
+requireText(persistenceAdapter, "blocksUnreviewedExtractionPromotion: true", "Persistence adapter must block unreviewed extraction promotion.");
+requireText(persistenceAdapter, "blocksRawPdfStudentPayload: true", "Persistence adapter must block raw PDF student payloads.");
+requireText(persistenceAdapter, "blocksUnreviewedOcrAssignment: true", "Persistence adapter must block unreviewed OCR assignments.");
 requireText(persistenceAdapter, "hosted-upload-file-policy-profile-write", "Persistence adapter must include hosted upload file policy writes.");
 requireText(persistenceAdapter, "local-upload-file-policy-profile-write", "Persistence adapter must include local upload file policy writes.");
 requireText(persistenceAdapter, "preservesUploadFilePolicyProfile: true", "Persistence adapter must preserve upload file policy profiles.");
@@ -817,6 +841,11 @@ requireText(durableRecords, "blocksRealLearnerNameStorage: true", "Durable recor
 requireText(durableRecords, "blocksFamilyContactStorage: true", "Durable record plan must block family contact storage.");
 requireText(durableRecords, "blocksRawAudioStorage: true", "Durable record plan must block raw audio storage.");
 requireText(durableRecords, "blocksTranscriptStorage: true", "Durable record plan must block transcript storage.");
+requireText(durableRecords, "source-extraction-review-packet-record", "Durable record plan must include source extraction review packets.");
+requireText(durableRecords, "preservesSourceExtractionReviewPacket: true", "Durable record plan must preserve source extraction review packets.");
+requireText(durableRecords, "blocksUnreviewedExtractionPromotion: true", "Durable record plan must block unreviewed extraction promotion.");
+requireText(durableRecords, "blocksRawPdfStudentPayload: true", "Durable record plan must block raw PDF student payloads.");
+requireText(durableRecords, "blocksUnreviewedOcrAssignment: true", "Durable record plan must block unreviewed OCR assignments.");
 requireText(durableRecords, "upload-file-policy-profile-record", "Durable record plan must include upload file policy profiles.");
 requireText(durableRecords, "preservesUploadFilePolicyProfile: true", "Durable record plan must preserve upload file policy profiles.");
 requireText(durableRecords, "requiresScanAndFilePolicyPacket: true", "Durable record plan must require scan and file policy packets.");
@@ -979,6 +1008,8 @@ requireText(routeVerifier, "teacher_assignment_rollout_gate", "Active route veri
 requireText(routeVerifier, "private_assignment_link", "Active route verifier must keep private assignment link storage visible on teacher intake.");
 requireText(routeVerifier, "class_roster_plan", "Active route verifier must keep class roster plan storage visible on teacher intake.");
 requireText(routeVerifier, "Class roster plan record", "Active route verifier must keep class roster durable records visible on teacher intake.");
+requireText(routeVerifier, "source_extraction_review_packet", "Active route verifier must keep source extraction review storage visible on teacher intake.");
+requireText(routeVerifier, "Source extraction review packet record", "Active route verifier must keep source extraction durable records visible on teacher intake.");
 requireText(routeVerifier, "upload_file_policy_profile", "Active route verifier must keep upload file policy storage visible on teacher intake.");
 requireText(routeVerifier, "Upload file policy profile record", "Active route verifier must keep upload file policy durable records visible on teacher intake.");
 

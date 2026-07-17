@@ -248,6 +248,7 @@
 - `DR-274-private-assignment-link-storage-contract.md`
 - `DR-275-class-roster-plan-storage-contract.md`
 - `DR-276-upload-file-policy-profile-storage-contract.md`
+- `DR-277-source-extraction-review-packet-storage-contract.md`
 
 ## Maintenance Rule
 

@@ -10,6 +10,7 @@ export type PersistenceRecordCategory =
   | "teacher-assignment-rollout-gate"
   | "private-assignment-link"
   | "class-roster-plan"
+  | "source-extraction-review-packet"
   | "upload-file-policy-profile"
   | "upload-intake"
   | "upload-review"
@@ -109,6 +110,10 @@ export interface DurableRecordContract {
   blocksFamilyContactStorage?: boolean;
   blocksRawAudioStorage?: boolean;
   blocksTranscriptStorage?: boolean;
+  preservesSourceExtractionReviewPacket?: boolean;
+  blocksUnreviewedExtractionPromotion?: boolean;
+  blocksRawPdfStudentPayload?: boolean;
+  blocksUnreviewedOcrAssignment?: boolean;
   preservesUploadFilePolicyProfile?: boolean;
   requiresScanAndFilePolicyPacket?: boolean;
   blocksUploadWithoutFilePolicy?: boolean;
@@ -388,6 +393,26 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "class-roster-plan" && !record.blocksLiveReportExport) {
       errors.push(`Class roster plan ${record.recordId} must block live report export.`);
+    }
+
+    if (record.category === "source-extraction-review-packet" && !record.preservesSourceExtractionReviewPacket) {
+      errors.push(`Source extraction review packet ${record.recordId} must preserve extraction source, OCR confidence, segmentation review, candidate payloads, and review blockers.`);
+    }
+
+    if (record.category === "source-extraction-review-packet" && !record.blocksUnreviewedExtractionPromotion) {
+      errors.push(`Source extraction review packet ${record.recordId} must block unreviewed extraction promotion.`);
+    }
+
+    if (record.category === "source-extraction-review-packet" && !record.blocksRawPdfStudentPayload) {
+      errors.push(`Source extraction review packet ${record.recordId} must block raw PDF student payloads.`);
+    }
+
+    if (record.category === "source-extraction-review-packet" && !record.blocksUnreviewedOcrAssignment) {
+      errors.push(`Source extraction review packet ${record.recordId} must block unreviewed OCR assignments.`);
+    }
+
+    if (record.category === "source-extraction-review-packet" && !record.blocksDirectStudentAssignment) {
+      errors.push(`Source extraction review packet ${record.recordId} must block direct student assignment.`);
     }
 
     if (record.category === "upload-file-policy-profile" && !record.preservesUploadFilePolicyProfile) {

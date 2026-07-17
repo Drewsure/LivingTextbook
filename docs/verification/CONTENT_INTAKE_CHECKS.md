@@ -30,11 +30,13 @@ npm run dev --workspace @living-textbook/web -- --hostname 127.0.0.1 --port 3000
 - The route registry panel lists `/enter/ministar` and `/enter/sample-publisher`.
 - The route registry keeps permanent QR paths separate from front-door paths.
 - The teacher/admin page does not claim automated PDF extraction is production-ready.
+- The teacher/admin page shows `source_extraction_review_packet` and `Source extraction review packet record` before OCR/parser/AI extraction workflows are enabled.
 - The student front-door routes still require target-language practice after entry.
 
 ## Failure Signals
 
 - Raw PDF/DOCX intake is treated as automatically student-ready.
+- OCR, parser output, or AI extraction can create assignments, routes, games, or package releases without a reviewed extraction packet.
 - A package release is shown as QR-active before route registry, media, or teacher approval gates are represented.
 - Yearly package changes are not visible to the teacher/admin review route.
 - Missing media files are hidden instead of represented as pending rights/file handoff.
