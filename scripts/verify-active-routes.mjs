@@ -158,6 +158,19 @@ const assignmentRolloutExpected = [
 
 expectedTextByPath.get("/teacher/intake")?.push(...assignmentRolloutExpected);
 
+const sourceExtractionExpected = [
+  "Required records before extraction promotion",
+  "Blocked extraction shortcuts",
+  "source_extraction_review_packet",
+  "upload_file_policy_profile",
+  "teacher_draft_review_handoff",
+  "No raw PDF as student payload",
+  "No unreviewed OCR assignment",
+  "No AI extraction direct assignment",
+];
+
+expectedTextByPath.get("/teacher/intake")?.push(...sourceExtractionExpected);
+
 const safeFallbackActivationPreviewExpected = [
   "Future safe fallback activation record preview",
   "Activation record blocked",

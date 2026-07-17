@@ -55,6 +55,11 @@ export function SourceReviewQueuePanel({ queue }: SourceReviewQueuePanelProps) {
         </ul>
       </section>
 
+      <div className="mt-5 grid gap-3 lg:grid-cols-2">
+        <SourceReviewList title="Required records before extraction promotion" items={queue.requiredRecords} tone="neutral" />
+        <SourceReviewList title="Blocked extraction shortcuts" items={queue.blockedShortcuts} tone="warning" />
+      </div>
+
       <div className="mt-5 grid gap-4">
         {queue.items.map((item) => (
           <SourceReviewItemCard key={item.sourceId} item={item} />

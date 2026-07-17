@@ -22,6 +22,8 @@ export interface SourceReviewQueue {
   label: string;
   summary: string;
   hardRules: string[];
+  requiredRecords: string[];
+  blockedShortcuts: string[];
   items: SourceReviewItem[];
 }
 
@@ -36,6 +38,20 @@ export const sampleSourceReviewQueue: SourceReviewQueue = {
     "Media files require rights/ownership notes before pilot assignment.",
     "Support-language text is reviewed content support only and cannot unlock progression by itself.",
     "Every source item must map to a package, route, media manifest, or teacher-only note before release.",
+  ],
+  requiredRecords: [
+    "source_extraction_review_packet",
+    "upload_file_policy_profile",
+    "upload_intake_asset",
+    "teacher_draft_package",
+    "teacher_draft_review_handoff",
+  ],
+  blockedShortcuts: [
+    "No raw PDF as student payload",
+    "No unreviewed OCR assignment",
+    "No automatic PDF-to-game publish",
+    "No AI extraction direct assignment",
+    "No parser output as a route target",
   ],
   items: [
     {
