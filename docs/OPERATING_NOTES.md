@@ -305,3 +305,18 @@ npm run verify:foundation
 4. Treat actual `FAIL` lines from a verifier as build failures; treat a bare timeout as inconclusive.
 
 Why this matters: The foundation gate is intentionally broad. A longer verification window protects quality without misreading a slow Windows/Next route pass as a product defect.
+
+## OW-014: Next Route Type Generation Must Run Sequentially
+
+Status: Active
+
+Observed behavior: Running `npm run typecheck --workspace @living-textbook/web` and `npm run build --workspace @living-textbook/web` in parallel can produce temporary `TS6053` missing-file errors under `apps/web/.next/types/app/...`. This is a generated route-type race, not necessarily a source-code failure.
+
+Procedure:
+
+1. Run typecheck and build sequentially.
+2. If the route-type `TS6053` error appears after a parallel run, wait for build to finish and rerun typecheck.
+3. Treat a repeated sequential failure as real.
+4. See `docs/operating-notes/2026-07-17-next-route-typegen-sequential-run.md` for the detailed note.
+
+Why this matters: Next route type generation writes into `.next/types`. Sequential verification avoids false failures and keeps the local build process calm.

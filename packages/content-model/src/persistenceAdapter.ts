@@ -38,6 +38,7 @@ export interface PersistenceWriteIntent {
   blocksReviewAuditStateChange?: boolean;
   preservesVerifierPreflightChecks?: boolean;
   blocksAutomaticVerifierSubmit?: boolean;
+  preservesTeacherAssignmentRolloutGate?: boolean;
   preservesUploadSourceLineage?: boolean;
   blocksStudentFacingUploadUse?: boolean;
   preservesUploadReviewPackets?: boolean;
@@ -278,6 +279,26 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "teacher-draft-verifier-submission" && !intent.blocksAutomaticVerifierSubmit) {
       errors.push(`Teacher draft verifier submission write intent ${intent.intentId} must block automatic verifier submission.`);
+    }
+
+    if (intent.category === "teacher-assignment-rollout-gate" && !intent.preservesTeacherAssignmentRolloutGate) {
+      errors.push(`Teacher assignment rollout gate write intent ${intent.intentId} must preserve rollout status, gate evidence, blockers, and scheduling rules.`);
+    }
+
+    if (intent.category === "teacher-assignment-rollout-gate" && !intent.blocksStudentLaunchAction) {
+      errors.push(`Teacher assignment rollout gate write intent ${intent.intentId} must block student launch actions.`);
+    }
+
+    if (intent.category === "teacher-assignment-rollout-gate" && !intent.blocksLiveClassroomLaunch) {
+      errors.push(`Teacher assignment rollout gate write intent ${intent.intentId} must block live classroom launch.`);
+    }
+
+    if (intent.category === "teacher-assignment-rollout-gate" && !intent.blocksRealLearnerDataCollection) {
+      errors.push(`Teacher assignment rollout gate write intent ${intent.intentId} must block real learner data collection.`);
+    }
+
+    if (intent.category === "teacher-assignment-rollout-gate" && !intent.blocksLiveReportExport) {
+      errors.push(`Teacher assignment rollout gate write intent ${intent.intentId} must block live report export.`);
     }
 
     if (intent.category === "upload-intake" && !intent.preservesUploadSourceLineage) {

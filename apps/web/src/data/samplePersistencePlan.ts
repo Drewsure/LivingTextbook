@@ -19,6 +19,7 @@ export type PersistenceBoundaryCategory =
   | "teacher-draft-review-evidence"
   | "teacher-draft-review-audit"
   | "teacher-draft-verifier-submission"
+  | "teacher-assignment-rollout-gate"
   | "upload-intake"
   | "upload-review"
   | "upload-promotion"
@@ -166,6 +167,29 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     blocksDirectStudentAssignment: true,
     recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
     note: "Verifier submission preflight records need durable schema, audio, support-language, route, evidence, and approval checks before any draft can enter a live verifier workflow.",
+  },
+  {
+    recordId: "teacher-assignment-rollout-gate-record",
+    category: "teacher-assignment-rollout-gate",
+    label: "Teacher assignment rollout gate record",
+    readiness: "durable-required",
+    sourceOfTruth:
+      "AssignmentRolloutPlan, rollout status, gate summary, gate evidence, blockers, and teacher-visible scheduling rules",
+    requiredBeforePilot: true,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesTeacherAssignmentRolloutGate: true,
+    blocksStudentLaunchAction: true,
+    blocksLiveClassroomLaunch: true,
+    blocksRealLearnerDataCollection: true,
+    blocksLiveReportExport: true,
+    blocksLaunchWithoutSchoolPolicy: true,
+    recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
+    note:
+      "Assignment rollout gates need durable status, evidence, blockers, and teacher-visible scheduling rules before a reviewed assignment can move toward a scheduled classroom pilot. Demo and blocked rollouts must not launch students, collect real learner data, or export reports.",
   },
   {
     recordId: "upload-intake-record",
@@ -1139,6 +1163,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     visibleTo: ["Teacher", "Content reviewer", "Tenant admin", "Platform admin"],
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision: "Persist verifier submission preflights before enabling submit-to-verifier, verifier automation, or package workflow promotion.",
+  },
+  {
+    boundaryId: "teacher-assignment-rollout-gate-boundary",
+    category: "teacher-assignment-rollout-gate",
+    label: "Teacher assignment rollout gate records",
+    status: "needs-backend",
+    recordShape:
+      "Rollout gate id, tenant, assignment, package, rollout status, gate summary, gate evidence, blockers, teacher-visible summary, scheduling block, student launch block, real learner data block, and report export block",
+    whyItMatters:
+      "The platform can show safe demos before it can run a live classroom pilot. This record keeps that distinction durable so demo-preview and blocked rollouts cannot become scheduled classes by URL access, package draft status, or local bundle presence.",
+    visibleTo: ["Teacher", "Tenant admin", "School admin", "Publisher admin", "Platform admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Persist assignment rollout gates before enabling schedule-class, student launch, live classroom launch, real learner data collection, or report export workflows.",
   },
   {
     boundaryId: "upload-intake-boundary",

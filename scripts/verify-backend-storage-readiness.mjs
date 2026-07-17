@@ -14,6 +14,7 @@ const requiredSchemaEntities = [
   "teacher_draft_package",
   "teacher_draft_review_handoff",
   "teacher_draft_verifier_submission",
+  "teacher_assignment_rollout_gate",
   "upload_intake_asset",
   "upload_review_decision",
   "upload_promotion_gate",
@@ -67,6 +68,7 @@ const requiredMigrationCandidates = [
   "m014-teacher-draft-package-records",
   "m016-teacher-draft-review-handoff-records",
   "m020-teacher-draft-verifier-submission-records",
+  "m049-teacher-assignment-rollout-gate-records",
   "m021-upload-intake-records",
   "m022-upload-review-records",
   "m023-upload-promotion-gates",
@@ -123,6 +125,7 @@ const requiredMigrationSpecs = [
   "spec-teacher-draft-package",
   "spec-teacher-draft-review-handoff",
   "spec-teacher-draft-verifier-submission",
+  "spec-teacher-assignment-rollout-gate",
   "spec-upload-intake-asset",
   "spec-upload-review-decision",
   "spec-upload-promotion-gate",
@@ -186,6 +189,13 @@ requireText(schemaDraft, "live_review_submission_allowed", "Backend schema must 
 requireText(schemaDraft, "teacher_draft_verifier_submission", "Backend schema must include teacher draft verifier submission preflights.");
 requireText(schemaDraft, "schema_preflight", "Backend schema must preserve verifier schema preflight checks.");
 requireText(schemaDraft, "automatic_submit_allowed", "Backend schema must preserve automatic verifier submission blocks.");
+requireText(schemaDraft, "teacher_assignment_rollout_gate", "Backend schema must include teacher assignment rollout gate records.");
+requireText(schemaDraft, "rollout_gate_id", "Backend schema must preserve teacher assignment rollout gate ids.");
+requireText(schemaDraft, "rollout_status", "Backend schema must preserve teacher assignment rollout status.");
+requireText(schemaDraft, "gate_evidence", "Backend schema must preserve teacher assignment rollout gate evidence.");
+requireText(schemaDraft, "scheduling_allowed", "Backend schema must block teacher assignment scheduling.");
+requireText(schemaDraft, "student_launch_allowed", "Backend schema must block student launch from assignment rollout gates.");
+requireText(schemaDraft, "real_learner_data_collection_allowed", "Backend schema must block real learner data collection from assignment rollout gates.");
 requireText(schemaDraft, "upload_intake_asset", "Backend schema must include upload intake assets.");
 requireText(schemaDraft, "source_lineage", "Backend schema must preserve upload source lineage.");
 requireText(schemaDraft, "student_facing_use_allowed", "Backend schema must block student-facing upload use.");
@@ -530,6 +540,12 @@ requireText(migrationSpecs, "safe_fallback_restoration_preview_revision", "Migra
 requireText(migrationSpecs, "minimum_restoration_record_fields", "Migration specs must preserve school rollback safe fallback restoration fields.");
 requireText(migrationSpecs, "restoration_activation_allowed", "Migration specs must block safe fallback restoration activation.");
 requireText(migrationSpecs, "local_bundle_restoration_allowed", "Migration specs must block safe fallback local bundle restoration.");
+requireText(migrationSpecs, "spec-teacher-assignment-rollout-gate", "Migration specs must include teacher assignment rollout gates.");
+requireText(migrationSpecs, "rollout_gate_id", "Migration specs must preserve teacher assignment rollout gate ids.");
+requireText(migrationSpecs, "rollout_gate_revision", "Migration specs must preserve teacher assignment rollout gate revisions.");
+requireText(migrationSpecs, "gate_evidence", "Migration specs must preserve teacher assignment rollout gate evidence.");
+requireText(migrationSpecs, "scheduling_allowed", "Migration specs must block teacher assignment scheduling.");
+requireText(migrationSpecs, "real_learner_data_collection_allowed", "Migration specs must block real learner data collection.");
 requireText(persistenceAdapter, "hosted-launch-session-write", "Persistence adapter must include hosted launch-session writes.");
 requireText(persistenceAdapter, "local-launch-session-write", "Persistence adapter must include local launch-session writes.");
 requireText(persistenceAdapter, "hosted-teacher-draft-package-write", "Persistence adapter must include hosted teacher draft writes.");
@@ -544,6 +560,12 @@ requireText(persistenceAdapter, "hosted-teacher-draft-verifier-submission-write"
 requireText(persistenceAdapter, "local-teacher-draft-verifier-submission-write", "Persistence adapter must include local teacher draft verifier submission writes.");
 requireText(persistenceAdapter, "preservesVerifierPreflightChecks: true", "Persistence adapter must preserve verifier preflight checks.");
 requireText(persistenceAdapter, "blocksAutomaticVerifierSubmit: true", "Persistence adapter must block automatic verifier submission.");
+requireText(persistenceAdapter, "hosted-teacher-assignment-rollout-gate-write", "Persistence adapter must include hosted teacher assignment rollout gate writes.");
+requireText(persistenceAdapter, "local-teacher-assignment-rollout-gate-write", "Persistence adapter must include local teacher assignment rollout gate writes.");
+requireText(persistenceAdapter, "preservesTeacherAssignmentRolloutGate: true", "Persistence adapter must preserve teacher assignment rollout gates.");
+requireText(persistenceAdapter, "blocksStudentLaunchAction: true", "Persistence adapter must block student launch actions.");
+requireText(persistenceAdapter, "blocksLiveClassroomLaunch: true", "Persistence adapter must block live classroom launch.");
+requireText(persistenceAdapter, "blocksRealLearnerDataCollection: true", "Persistence adapter must block real learner data collection.");
 requireText(persistenceAdapter, "hosted-upload-intake-write", "Persistence adapter must include hosted upload intake writes.");
 requireText(persistenceAdapter, "local-upload-intake-write", "Persistence adapter must include local upload intake writes.");
 requireText(persistenceAdapter, "preservesUploadSourceLineage: true", "Persistence adapter must preserve upload source lineage.");
@@ -705,6 +727,10 @@ requireText(durableRecords, "blocksLiveReviewSubmission: true", "Durable record 
 requireText(durableRecords, "teacher-draft-verifier-submission-record", "Durable record plan must include teacher draft verifier submission preflights.");
 requireText(durableRecords, "preservesVerifierPreflightChecks: true", "Durable record plan must preserve verifier preflight checks.");
 requireText(durableRecords, "blocksAutomaticVerifierSubmit: true", "Durable record plan must block automatic verifier submission.");
+requireText(durableRecords, "teacher-assignment-rollout-gate-record", "Durable record plan must include teacher assignment rollout gate records.");
+requireText(durableRecords, "preservesTeacherAssignmentRolloutGate: true", "Durable record plan must preserve teacher assignment rollout gates.");
+requireText(durableRecords, "blocksStudentLaunchAction: true", "Durable record plan must block student launch actions.");
+requireText(durableRecords, "blocksRealLearnerDataCollection: true", "Durable record plan must block real learner data collection.");
 requireText(durableRecords, "upload-intake-record", "Durable record plan must include upload intake records.");
 requireText(durableRecords, "preservesUploadSourceLineage: true", "Durable record plan must preserve upload source lineage.");
 requireText(durableRecords, "blocksStudentFacingUploadUse: true", "Durable record plan must block student-facing upload use.");
@@ -856,6 +882,7 @@ requireText(routeVerifier, "school_rollback_safe_fallback_plan", "Active route v
 requireText(routeVerifier, "school_rollback_safe_fallback_preflight", "Active route verifier must keep school rollback safe fallback preflight storage visible on teacher intake.");
 requireText(routeVerifier, "school_rollback_safe_fallback_activation_preview", "Active route verifier must keep school rollback safe fallback activation preview storage visible on teacher intake.");
 requireText(routeVerifier, "school_rollback_safe_fallback_restoration_preview", "Active route verifier must keep school rollback safe fallback restoration preview storage visible on teacher intake.");
+requireText(routeVerifier, "teacher_assignment_rollout_gate", "Active route verifier must keep teacher assignment rollout gate storage visible on teacher intake.");
 
 if (failures.length > 0) {
   for (const failure of failures) {

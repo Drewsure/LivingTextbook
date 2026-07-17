@@ -7,6 +7,7 @@ export type PersistenceRecordCategory =
   | "teacher-draft-review-evidence"
   | "teacher-draft-review-audit"
   | "teacher-draft-verifier-submission"
+  | "teacher-assignment-rollout-gate"
   | "upload-intake"
   | "upload-review"
   | "upload-promotion"
@@ -95,6 +96,7 @@ export interface DurableRecordContract {
   blocksReviewAuditStateChange?: boolean;
   preservesVerifierPreflightChecks?: boolean;
   blocksAutomaticVerifierSubmit?: boolean;
+  preservesTeacherAssignmentRolloutGate?: boolean;
   preservesUploadSourceLineage?: boolean;
   blocksStudentFacingUploadUse?: boolean;
   preservesUploadReviewPackets?: boolean;
@@ -300,6 +302,26 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "teacher-draft-verifier-submission" && !record.blocksAutomaticVerifierSubmit) {
       errors.push(`Teacher draft verifier submission record ${record.recordId} must block automatic verifier submission.`);
+    }
+
+    if (record.category === "teacher-assignment-rollout-gate" && !record.preservesTeacherAssignmentRolloutGate) {
+      errors.push(`Teacher assignment rollout gate ${record.recordId} must preserve rollout status, gate evidence, blockers, and scheduling rules.`);
+    }
+
+    if (record.category === "teacher-assignment-rollout-gate" && !record.blocksStudentLaunchAction) {
+      errors.push(`Teacher assignment rollout gate ${record.recordId} must block student launch actions.`);
+    }
+
+    if (record.category === "teacher-assignment-rollout-gate" && !record.blocksLiveClassroomLaunch) {
+      errors.push(`Teacher assignment rollout gate ${record.recordId} must block live classroom launch.`);
+    }
+
+    if (record.category === "teacher-assignment-rollout-gate" && !record.blocksRealLearnerDataCollection) {
+      errors.push(`Teacher assignment rollout gate ${record.recordId} must block real learner data collection.`);
+    }
+
+    if (record.category === "teacher-assignment-rollout-gate" && !record.blocksLiveReportExport) {
+      errors.push(`Teacher assignment rollout gate ${record.recordId} must block live report export.`);
     }
 
     if (record.category === "upload-intake" && !record.preservesUploadSourceLineage) {

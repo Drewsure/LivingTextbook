@@ -32,6 +32,7 @@ Outputs:
 - Private assignment routes must remain focused assignment previews, not public activity pages, public community sharing, or iframe embeds.
 - `/teacher/intake` exposes teacher authoring readiness so fast creation/editing remains draft-first and review-gated.
 - `/teacher/intake` exposes assignment rollout gates so reviewed assignments, demo previews, blocked partner pilots, local companion drafts, media-rights blockers, report-policy blockers, persistence blockers, and game-audio coverage remain visible before scheduling.
+- Backend schema, migration candidates, migration specs, adapter plans, durable records, and persistence boundaries preserve `teacher_assignment_rollout_gate` before assignment scheduling, student launch, live classroom launch, real learner data collection, or report export workflows can be designed.
 - `/teacher/intake` exposes target-language expansion readiness so Japanese-as-target-language and other non-English target-language opportunities are not confused with assist-language support.
 - `/teacher/uploads/sample-publisher` exposes the dedicated upload workspace so file intake, review, promotion, Labelled Diagram image assets, and multimedia asset gates have a visible route boundary before live file pickers or storage are built.
 - `/teacher/uploads/sample-publisher`, `/teacher/assets/labelled-diagram/sample-publisher-l1-u1-labelled-diagram`, and `/teacher/assets/media/sample-publisher-l1-u1-routines-media` expose evidence packet flows before live file inputs, object/local storage, approval actions, publish actions, route creation, label editing, media transcoding, playlist creation, or assignment shortcuts are built.
@@ -301,6 +302,7 @@ Next outputs:
 - Confirm package game/audio coverage write intents show machine-readable snapshot preservation.
 - Confirm teacher assignment readiness shows audio-covered game modes against assigned game modes.
 - Confirm assignment rollout surfaces game audio coverage before scheduling.
+- Confirm assignment rollout storage preserves `teacher_assignment_rollout_gate` while blocking scheduling, student launch, live classroom launch, real learner data collection, and report export.
 - Confirm `npm run verify:assignment-rollout` passes before assignment rollout, private assignment, package readiness, or school pilot scheduling copy changes.
 - Confirm `npm run verify:class-roster` passes after learner identity, roster slots, front-door codes, teacher reports, microphone practice, AI Tutor speech records, backend schema, local deployment, or report export changes.
 - Confirm the publish gate blocks release while media rights, report policy, deployment profile, persistence, and pilot package policy are unresolved.
