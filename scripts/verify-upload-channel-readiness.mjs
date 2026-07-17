@@ -90,6 +90,7 @@ for (const text of requiredTexts) {
 
 const requiredFilePolicyTexts = [
   "Upload file policy profiles",
+  "upload_file_policy_profile",
   "File type and size policy",
   "PDF/text source policy",
   "Labelled Diagram image policy",
@@ -658,6 +659,7 @@ requireText(panel, "Not allowed yet", "Upload readiness panel must show blocked 
 requireText(filePolicyPanel, "File type and size policy", "Upload file policy panel must expose its heading.");
 requireText(filePolicyPanel, "Required records", "Upload file policy panel must expose required records.");
 requireText(filePolicyPanel, "Accepted extensions", "Upload file policy panel must show accepted extensions.");
+requireText(filePolicyPanel, "Accepted MIME types", "Upload file policy panel must show accepted MIME types.");
 requireText(filePolicyPanel, "Maximums required", "Upload file policy panel must show maximums.");
 requireText(filePolicyPanel, "Required checks", "Upload file policy panel must show required checks.");
 requireText(filePolicyPanel, "Blocked shortcuts", "Upload file policy panel must show blocked shortcuts.");
@@ -825,6 +827,7 @@ requireText(routeVerifier, "Upload file policy profiles", "Active route verifier
 requireText(routeVerifier, "Upload intake control preview", "Active route verifier must check disabled upload controls.");
 requireText(routeVerifier, "No file input element", "Active route verifier must check that no file input exists.");
 requireText(routeVerifier, "File type and size policy", "Active route verifier must check upload file policy heading.");
+requireText(routeVerifier, "Accepted MIME types", "Active route verifier must check upload MIME policy.");
 requireText(routeVerifier, "Upload target mapping preview", "Active route verifier must check upload target mapping.");
 requireText(routeVerifier, "No upload-to-assignment shortcut", "Active route verifier must check upload-to-assignment shortcut is blocked.");
 requireText(routeVerifier, "Image upload for Labelled Diagram", "Active route verifier must check labelled diagram image upload readiness.");

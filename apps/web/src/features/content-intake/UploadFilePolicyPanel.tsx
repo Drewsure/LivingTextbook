@@ -77,8 +77,9 @@ function FilePolicyProfileCard({ profile }: { profile: UploadFilePolicyProfile }
         </div>
         <StatusPill label={profile.status} tone={statusTone[profile.status]} />
       </div>
-      <div className="mt-4 grid gap-3 lg:grid-cols-4">
+      <div className="mt-4 grid gap-3 lg:grid-cols-3 xl:grid-cols-5">
         <FilePolicyList title="Accepted extensions" items={profile.acceptedExtensions} tone="neutral" />
+        <FilePolicyList title="Accepted MIME types" items={profile.acceptedMimeTypes} tone="neutral" />
         <FilePolicyList title="Maximums required" items={profile.maximums} tone="warning" />
         <FilePolicyList title="Required checks" items={profile.requiredChecks} tone="warning" />
         <FilePolicyList title="Blocked shortcuts" items={profile.blockedShortcuts} tone="warning" />

@@ -10,6 +10,7 @@ export type PersistenceRecordCategory =
   | "teacher-assignment-rollout-gate"
   | "private-assignment-link"
   | "class-roster-plan"
+  | "upload-file-policy-profile"
   | "upload-intake"
   | "upload-review"
   | "upload-promotion"
@@ -108,6 +109,12 @@ export interface DurableRecordContract {
   blocksFamilyContactStorage?: boolean;
   blocksRawAudioStorage?: boolean;
   blocksTranscriptStorage?: boolean;
+  preservesUploadFilePolicyProfile?: boolean;
+  requiresScanAndFilePolicyPacket?: boolean;
+  blocksUploadWithoutFilePolicy?: boolean;
+  blocksUnsafeMimeType?: boolean;
+  blocksOversizeUpload?: boolean;
+  blocksUncheckedFileScan?: boolean;
   preservesUploadSourceLineage?: boolean;
   blocksStudentFacingUploadUse?: boolean;
   preservesUploadReviewPackets?: boolean;
@@ -381,6 +388,34 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "class-roster-plan" && !record.blocksLiveReportExport) {
       errors.push(`Class roster plan ${record.recordId} must block live report export.`);
+    }
+
+    if (record.category === "upload-file-policy-profile" && !record.preservesUploadFilePolicyProfile) {
+      errors.push(`Upload file policy profile ${record.recordId} must preserve accepted file kinds, MIME rules, size limits, scan requirements, rights requirements, and blocked shortcuts.`);
+    }
+
+    if (record.category === "upload-file-policy-profile" && !record.requiresScanAndFilePolicyPacket) {
+      errors.push(`Upload file policy profile ${record.recordId} must require a scan and file policy packet.`);
+    }
+
+    if (record.category === "upload-file-policy-profile" && !record.blocksUploadWithoutFilePolicy) {
+      errors.push(`Upload file policy profile ${record.recordId} must block uploads without accepted file policy.`);
+    }
+
+    if (record.category === "upload-file-policy-profile" && !record.blocksUnsafeMimeType) {
+      errors.push(`Upload file policy profile ${record.recordId} must block unsafe MIME types.`);
+    }
+
+    if (record.category === "upload-file-policy-profile" && !record.blocksOversizeUpload) {
+      errors.push(`Upload file policy profile ${record.recordId} must block oversize uploads.`);
+    }
+
+    if (record.category === "upload-file-policy-profile" && !record.blocksUncheckedFileScan) {
+      errors.push(`Upload file policy profile ${record.recordId} must block unchecked file scans.`);
+    }
+
+    if (record.category === "upload-file-policy-profile" && !record.blocksStudentFacingUploadUse) {
+      errors.push(`Upload file policy profile ${record.recordId} must block student-facing uploaded file use.`);
     }
 
     if (record.category === "upload-intake" && !record.preservesUploadSourceLineage) {

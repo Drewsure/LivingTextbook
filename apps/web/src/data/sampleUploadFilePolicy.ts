@@ -6,6 +6,7 @@ export interface UploadFilePolicyProfile {
   channelId: string;
   status: UploadFilePolicyStatus;
   acceptedExtensions: string[];
+  acceptedMimeTypes: string[];
   maximums: string[];
   requiredChecks: string[];
   blockedShortcuts: string[];
@@ -34,6 +35,7 @@ export const sampleUploadFilePolicyPlan: UploadFilePolicyPlan = {
     "No uploaded file becomes student-facing until package release gates pass.",
   ],
   requiredRecords: [
+    "upload_file_policy_profile",
     "upload_intake_asset",
     "scan_and_file_policy_packet",
     "rights_proof_packet",
@@ -48,6 +50,7 @@ export const sampleUploadFilePolicyPlan: UploadFilePolicyPlan = {
       channelId: "source-pdf-text-upload",
       status: "planned",
       acceptedExtensions: ["pdf", "docx", "txt", "md", "csv"],
+      acceptedMimeTypes: ["application/pdf", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "text/plain", "text/markdown", "text/csv"],
       maximums: ["Max pages per import batch required", "Max extracted text length required", "OCR quality threshold required"],
       requiredChecks: ["Source lineage review", "Text extraction review", "Unit segmentation review", "Rights proof review"],
       blockedShortcuts: ["No automatic PDF-to-game publish", "No raw PDF as student payload", "No unreviewed OCR assignment"],
@@ -59,6 +62,7 @@ export const sampleUploadFilePolicyPlan: UploadFilePolicyPlan = {
       channelId: "labelled-diagram-image-upload",
       status: "blocked-preview",
       acceptedExtensions: ["jpg", "jpeg", "png", "webp", "svg"],
+      acceptedMimeTypes: ["image/jpeg", "image/png", "image/webp", "image/svg+xml"],
       maximums: ["Max image dimensions required", "Compression budget required", "Touch-target label density required"],
       requiredChecks: ["Image safety review", "Image rights proof", "Alt text review", "Label anchor readiness review"],
       blockedShortcuts: ["No student-facing image game", "No unreviewed label anchors", "No image use without alt text"],
@@ -70,6 +74,7 @@ export const sampleUploadFilePolicyPlan: UploadFilePolicyPlan = {
       channelId: "audio-music-upload",
       status: "blocked-preview",
       acceptedExtensions: ["mp3", "wav", "m4a", "ogg"],
+      acceptedMimeTypes: ["audio/mpeg", "audio/wav", "audio/mp4", "audio/ogg"],
       maximums: ["Max duration required", "Max file size required", "Loudness and volume normalization policy required"],
       requiredChecks: ["Playback rights proof", "Transcript or lyric policy", "Background-media priority review", "Learning audio separation review"],
       blockedShortcuts: ["No music as mastery trigger", "No autoplay without teacher policy", "No raw learner audio storage"],
@@ -81,6 +86,7 @@ export const sampleUploadFilePolicyPlan: UploadFilePolicyPlan = {
       channelId: "video-upload",
       status: "blocked-preview",
       acceptedExtensions: ["mp4", "webm", "mov"],
+      acceptedMimeTypes: ["video/mp4", "video/webm", "video/quicktime"],
       maximums: ["Max duration required", "Max file size required", "Poster image and caption policy required"],
       requiredChecks: ["Video rights proof", "Caption or transcript review", "Poster image review", "Local bundle checksum review"],
       blockedShortcuts: ["No video-only progress", "No uncaptioned production video", "No local folder activation"],

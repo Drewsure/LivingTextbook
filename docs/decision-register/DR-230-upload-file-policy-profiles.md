@@ -17,4 +17,4 @@ Teachers and publishers will need to upload source PDFs, images, audio, music, v
 
 ## Follow-Up
 
-When real storage begins, implement `scan_and_file_policy_packet` first, then connect file pickers to upload intake records, not directly to draft packages, game assets, playlists, or local bundles.
+When real storage begins, implement `scan_and_file_policy_packet` first, then connect file pickers to upload intake records, not directly to draft packages, game assets, playlists, or local bundles. The backend-neutral storage contract for this policy layer is recorded in `DR-276-upload-file-policy-profile-storage-contract.md`.

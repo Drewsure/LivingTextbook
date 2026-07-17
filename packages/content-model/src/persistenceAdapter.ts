@@ -48,6 +48,12 @@ export interface PersistenceWriteIntent {
   blocksFamilyContactStorage?: boolean;
   blocksRawAudioStorage?: boolean;
   blocksTranscriptStorage?: boolean;
+  preservesUploadFilePolicyProfile?: boolean;
+  requiresScanAndFilePolicyPacket?: boolean;
+  blocksUploadWithoutFilePolicy?: boolean;
+  blocksUnsafeMimeType?: boolean;
+  blocksOversizeUpload?: boolean;
+  blocksUncheckedFileScan?: boolean;
   preservesUploadSourceLineage?: boolean;
   blocksStudentFacingUploadUse?: boolean;
   preservesUploadReviewPackets?: boolean;
@@ -356,6 +362,34 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "class-roster-plan" && !intent.blocksLiveReportExport) {
       errors.push(`Class roster plan write intent ${intent.intentId} must block live report export.`);
+    }
+
+    if (intent.category === "upload-file-policy-profile" && !intent.preservesUploadFilePolicyProfile) {
+      errors.push(`Upload file policy write intent ${intent.intentId} must preserve accepted file kinds, MIME rules, size limits, scan requirements, rights requirements, and blocked shortcuts.`);
+    }
+
+    if (intent.category === "upload-file-policy-profile" && !intent.requiresScanAndFilePolicyPacket) {
+      errors.push(`Upload file policy write intent ${intent.intentId} must require a scan and file policy packet.`);
+    }
+
+    if (intent.category === "upload-file-policy-profile" && !intent.blocksUploadWithoutFilePolicy) {
+      errors.push(`Upload file policy write intent ${intent.intentId} must block uploads without accepted file policy.`);
+    }
+
+    if (intent.category === "upload-file-policy-profile" && !intent.blocksUnsafeMimeType) {
+      errors.push(`Upload file policy write intent ${intent.intentId} must block unsafe MIME types.`);
+    }
+
+    if (intent.category === "upload-file-policy-profile" && !intent.blocksOversizeUpload) {
+      errors.push(`Upload file policy write intent ${intent.intentId} must block oversize uploads.`);
+    }
+
+    if (intent.category === "upload-file-policy-profile" && !intent.blocksUncheckedFileScan) {
+      errors.push(`Upload file policy write intent ${intent.intentId} must block unchecked file scans.`);
+    }
+
+    if (intent.category === "upload-file-policy-profile" && !intent.blocksStudentFacingUploadUse) {
+      errors.push(`Upload file policy write intent ${intent.intentId} must block student-facing uploaded file use.`);
     }
 
     if (intent.category === "upload-intake" && !intent.preservesUploadSourceLineage) {

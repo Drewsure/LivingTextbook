@@ -76,61 +76,62 @@ Verify at:
 55. Confirm the dedicated upload workspace shows `Upload file policy profiles`.
 56. Confirm file policy profiles show `File type and size policy`, accepted extensions, required maximums, required checks, blocked shortcuts, and next storage gates.
 57. Confirm file policies preserve `scan_and_file_policy_packet`, MIME type validation, checksum capture, virus/malware scan status, and `No upload promotion without file policy acceptance`.
-58. Confirm the dedicated upload workspace shows `Upload intake control preview`.
-59. Confirm the upload intake control preview shows `No file input element`, `Select file blocked`, and `Create intake record blocked`.
-60. Confirm the upload intake control preview shows source metadata, scan policy, and target mapping gates for each channel.
-61. Confirm the dedicated upload workspace shows `Upload target mapping preview`.
-62. Confirm target mapping shows `target_mapping_packet`, source-to-target lanes, target records, required evidence, allowed preview actions, blocked shortcuts, and next gates.
-63. Confirm target mapping blocks route creation directly from upload, uploaded files as student assignment targets, upload-to-assignment shortcuts, and folder placement activation.
-64. Confirm the dedicated Labelled Diagram asset workspace route shows `Teacher-only asset review`.
-65. Confirm the asset workspace shows `game_asset_manifest`, `label_anchor_record`, `target_mapping_packet`, image rights proof, alt text, anchor coordinate review, and audio label coverage.
-66. Confirm the asset workspace keeps target-language label text as the progress trigger and `support_language_progress_allowed: false` visible.
-67. Confirm the asset workspace blocks live label editing, coordinate editing, student-facing image games, auto-generated labels, asset promotion without release gate, and assignment routes from uploaded images.
-68. Confirm the dedicated media asset workspace route shows `Teacher-only media review`.
-69. Confirm the media workspace shows `media_manifest`, `media_playlist_binding`, `background_media_policy_binding`, `local_media_bundle_entry`, and `target_mapping_packet`.
-70. Confirm the media workspace keeps optional playback, learning-audio priority, captions/transcript policy, checksum capture, and relative path requirements visible.
-71. Confirm the media workspace blocks media-only progress, background music overriding learning audio, video-only progress, live media upload, automatic transcode-to-publish, local folder activation, and playlist routes from uploaded media.
-72. Confirm the dedicated upload, Labelled Diagram, and media workspaces show `Evidence packet flow`.
-73. Confirm the upload evidence packet flow shows `source_lineage_packet`, `rights_proof_packet`, `scan_and_file_policy_packet`, `target_mapping_packet`, `upload_review_decision_packet`, and `release_control_packet`.
-74. Confirm the upload evidence packet flow blocks live upload buttons, upload progress, approve/publish actions, assignment routes from uploaded files, object storage writes, and local folder activation.
-75. Confirm the Labelled Diagram evidence packet flow shows `game_asset_manifest_packet`, `label_anchor_record_packet`, `audio_coverage_packet`, `accessibility_packet`, and `release_control_packet`.
-76. Confirm the Labelled Diagram evidence packet flow blocks live label editing, coordinate editing, auto-generated active labels, student-facing image games, asset promotion without release gates, and assignment routes from uploaded images.
-77. Confirm the media evidence packet flow shows `media_manifest_packet`, `caption_transcript_packet`, `background_media_policy_packet`, `local_bundle_checksum_packet`, and `release_control_packet`.
-78. Confirm the media evidence packet flow blocks live media upload, automatic transcode-to-publish, playlist creation from uploaded media, media-only progress, background music overriding learning audio, and local folder activation.
-79. Confirm the evidence packet review index route shows `Evidence packet review index`.
-80. Confirm the review index rolls up upload, Labelled Diagram, and media evidence sources before live upload controls exist.
-81. Confirm the review index shows `Storage handoff`, `Storage contract records`, and `Standing review-only rules`.
-82. Confirm the review index keeps `No live evidence upload`, `No signed approval capture`, `No approve or publish action`, `No playlist creation from uploaded media`, and `No student-facing use from evidence packets alone` visible.
-83. Confirm the evidence packet handoff route shows `Evidence handoff preview`.
-84. Confirm the handoff route shows upload intake, Labelled Diagram, and media evidence sections.
-85. Confirm the handoff route shows recipient duties for publisher reviewer, school approver, and platform operator.
-86. Confirm the handoff route keeps `No evidence packet export`, `No signed approval capture`, `No publish action`, `No upload promotion`, `No route creation`, `No playlist creation`, and `No assignment route from evidence` visible.
-87. Confirm `/teacher/intake` shows `Evidence export readiness`.
-88. Confirm the export readiness panel shows `Reviewer summary PDF`, `Machine-readable JSON packet`, and `Local companion evidence manifest`.
-89. Confirm the export readiness panel shows publisher, school, and platform recipient lanes.
-90. Confirm the export readiness panel shows identity/signature gates and retention/policy gates.
-91. Confirm the export readiness panel keeps `No evidence packet export`, `No signed approval capture`, `No PDF generation`, `No JSON export`, `No downloadable ZIP`, `No email handoff`, `No release-state mutation`, and `No student assignment from export` visible.
-92. Confirm `/teacher/intake` shows `Evidence attachment storage readiness`.
-93. Confirm the attachment storage panel shows `Hosted object storage candidate`, `Closed local evidence folder candidate`, and `Hybrid export archive candidate`.
-94. Confirm required attachment metadata includes `quarantine path`, `checksum required`, `malware scan status`, `retention period`, and `delete/export policy`.
-95. Confirm storage policy gates include storage adapter selection, access control, encryption, local backup responsibility, audit retention, student-facing attachment policy, and release-control mutation policy.
-96. Confirm blocked storage actions include `No evidence file upload`, `No object storage write`, `No local folder write`, `No attachment download`, `No signed approval attachment`, `No release-state mutation`, and `No student-facing attachment`.
-97. Confirm `/teacher/intake` shows `Evidence storage adapter selection gate`.
-98. Confirm the selection gate recommends `Hosted managed evidence storage candidate` for the first controlled pilot.
-99. Confirm the selection gate still shows `Closed local evidence store candidate` and `Hybrid archive evidence store candidate`.
-100. Confirm vendor-neutral requirements include tenant isolation, metadata separated from binary files, quarantine-first storage, checksums, malware scan status, access control, audit logs, delete/export policy, local backup responsibility, and release-control mutation blocks.
-101. Confirm blocked actions include `No storage adapter selected`, `No object bucket creation`, `No local evidence folder activation`, `No signed URL generation`, `No direct file upload`, `No attachment migration`, `No production retention clock`, and `No release-state mutation`.
-102. Confirm `/teacher/evidence/sample-publisher` shows `Evidence packet assembly gate`.
-103. Confirm the assembly gate shows `Assembly blocked`, `Packet version not frozen`, `Evidence export blocked`, and `Storage adapter selection blocked`.
-104. Confirm release readiness lanes include `Upload intake assembly lane`, `Labelled Diagram assembly lane`, `Media assembly lane`, and `Release-control assembly lane`.
-105. Confirm the assembly gate shows required preconditions including authenticated reviewer identity, evidence storage adapter selection, attachment metadata, rights proof, scan provider result, audio coverage, accessibility signoff, release control, teacher dry-run evidence, and classroom launch gate acceptance.
-106. Confirm blocked actions include `No packet version freeze`, `No approval capture`, `No release state mutation`, `No student assignment`, `No export generation`, `No QR promotion`, `No route promotion`, `No local bundle activation`, `No storage write`, and `No evidence download`.
-107. Confirm `/teacher/evidence/sample-publisher` shows `Reviewer identity and signature gate`.
-108. Confirm the identity/signature gate shows `Reviewer identity blocked`, `Signed approval capture blocked`, and `Approval intent preview only`.
-109. Confirm identity and approval lanes include `Authenticated reviewer identity lane`, `Approval intent lane`, `Signature policy lane`, and `Audit and retention lane`.
-110. Confirm minimum approval record fields include `reviewer_identity_id`, `role_at_approval`, `approval_intent_text`, `revocation_policy_id`, `release_control_state_before`, and `release_control_state_after`.
-111. Confirm signature policy rules keep approval optional per tenant, block evidence bypass, keep support language non-progress, require the evidence attachment storage contract for future signature attachments, and require local backup/restore ownership for local deployments.
-112. Confirm blocked approval actions include `No signed approval capture`, `No approve button`, `No release-state mutation`, `No packet version freeze`, `No audit record write`, `No signature attachment upload`, `No signed PDF packet`, `No evidence download`, and `No student assignment from approval`.
+58. Confirm file policy profiles show accepted MIME types and require the `upload_file_policy_profile` storage record before live file controls.
+59. Confirm the dedicated upload workspace shows `Upload intake control preview`.
+60. Confirm the upload intake control preview shows `No file input element`, `Select file blocked`, and `Create intake record blocked`.
+61. Confirm the upload intake control preview shows source metadata, scan policy, and target mapping gates for each channel.
+62. Confirm the dedicated upload workspace shows `Upload target mapping preview`.
+63. Confirm target mapping shows `target_mapping_packet`, source-to-target lanes, target records, required evidence, allowed preview actions, blocked shortcuts, and next gates.
+64. Confirm target mapping blocks route creation directly from upload, uploaded files as student assignment targets, upload-to-assignment shortcuts, and folder placement activation.
+65. Confirm the dedicated Labelled Diagram asset workspace route shows `Teacher-only asset review`.
+66. Confirm the asset workspace shows `game_asset_manifest`, `label_anchor_record`, `target_mapping_packet`, image rights proof, alt text, anchor coordinate review, and audio label coverage.
+67. Confirm the asset workspace keeps target-language label text as the progress trigger and `support_language_progress_allowed: false` visible.
+68. Confirm the asset workspace blocks live label editing, coordinate editing, student-facing image games, auto-generated labels, asset promotion without release gate, and assignment routes from uploaded images.
+69. Confirm the dedicated media asset workspace route shows `Teacher-only media review`.
+70. Confirm the media workspace shows `media_manifest`, `media_playlist_binding`, `background_media_policy_binding`, `local_media_bundle_entry`, and `target_mapping_packet`.
+71. Confirm the media workspace keeps optional playback, learning-audio priority, captions/transcript policy, checksum capture, and relative path requirements visible.
+72. Confirm the media workspace blocks media-only progress, background music overriding learning audio, video-only progress, live media upload, automatic transcode-to-publish, local folder activation, and playlist routes from uploaded media.
+73. Confirm the dedicated upload, Labelled Diagram, and media workspaces show `Evidence packet flow`.
+74. Confirm the upload evidence packet flow shows `source_lineage_packet`, `rights_proof_packet`, `scan_and_file_policy_packet`, `target_mapping_packet`, `upload_review_decision_packet`, and `release_control_packet`.
+75. Confirm the upload evidence packet flow blocks live upload buttons, upload progress, approve/publish actions, assignment routes from uploaded files, object storage writes, and local folder activation.
+76. Confirm the Labelled Diagram evidence packet flow shows `game_asset_manifest_packet`, `label_anchor_record_packet`, `audio_coverage_packet`, `accessibility_packet`, and `release_control_packet`.
+77. Confirm the Labelled Diagram evidence packet flow blocks live label editing, coordinate editing, auto-generated active labels, student-facing image games, asset promotion without release gates, and assignment routes from uploaded images.
+78. Confirm the media evidence packet flow shows `media_manifest_packet`, `caption_transcript_packet`, `background_media_policy_packet`, `local_bundle_checksum_packet`, and `release_control_packet`.
+79. Confirm the media evidence packet flow blocks live media upload, automatic transcode-to-publish, playlist creation from uploaded media, media-only progress, background music overriding learning audio, and local folder activation.
+80. Confirm the evidence packet review index route shows `Evidence packet review index`.
+81. Confirm the review index rolls up upload, Labelled Diagram, and media evidence sources before live upload controls exist.
+82. Confirm the review index shows `Storage handoff`, `Storage contract records`, and `Standing review-only rules`.
+83. Confirm the review index keeps `No live evidence upload`, `No signed approval capture`, `No approve or publish action`, `No playlist creation from uploaded media`, and `No student-facing use from evidence packets alone` visible.
+84. Confirm the evidence packet handoff route shows `Evidence handoff preview`.
+85. Confirm the handoff route shows upload intake, Labelled Diagram, and media evidence sections.
+86. Confirm the handoff route shows recipient duties for publisher reviewer, school approver, and platform operator.
+87. Confirm the handoff route keeps `No evidence packet export`, `No signed approval capture`, `No publish action`, `No upload promotion`, `No route creation`, `No playlist creation`, and `No assignment route from evidence` visible.
+88. Confirm `/teacher/intake` shows `Evidence export readiness`.
+89. Confirm the export readiness panel shows `Reviewer summary PDF`, `Machine-readable JSON packet`, and `Local companion evidence manifest`.
+90. Confirm the export readiness panel shows publisher, school, and platform recipient lanes.
+91. Confirm the export readiness panel shows identity/signature gates and retention/policy gates.
+92. Confirm the export readiness panel keeps `No evidence packet export`, `No signed approval capture`, `No PDF generation`, `No JSON export`, `No downloadable ZIP`, `No email handoff`, `No release-state mutation`, and `No student assignment from export` visible.
+93. Confirm `/teacher/intake` shows `Evidence attachment storage readiness`.
+94. Confirm the attachment storage panel shows `Hosted object storage candidate`, `Closed local evidence folder candidate`, and `Hybrid export archive candidate`.
+95. Confirm required attachment metadata includes `quarantine path`, `checksum required`, `malware scan status`, `retention period`, and `delete/export policy`.
+96. Confirm storage policy gates include storage adapter selection, access control, encryption, local backup responsibility, audit retention, student-facing attachment policy, and release-control mutation policy.
+97. Confirm blocked storage actions include `No evidence file upload`, `No object storage write`, `No local folder write`, `No attachment download`, `No signed approval attachment`, `No release-state mutation`, and `No student-facing attachment`.
+98. Confirm `/teacher/intake` shows `Evidence storage adapter selection gate`.
+99. Confirm the selection gate recommends `Hosted managed evidence storage candidate` for the first controlled pilot.
+100. Confirm the selection gate still shows `Closed local evidence store candidate` and `Hybrid archive evidence store candidate`.
+101. Confirm vendor-neutral requirements include tenant isolation, metadata separated from binary files, quarantine-first storage, checksums, malware scan status, access control, audit logs, delete/export policy, local backup responsibility, and release-control mutation blocks.
+102. Confirm blocked actions include `No storage adapter selected`, `No object bucket creation`, `No local evidence folder activation`, `No signed URL generation`, `No direct file upload`, `No attachment migration`, `No production retention clock`, and `No release-state mutation`.
+103. Confirm `/teacher/evidence/sample-publisher` shows `Evidence packet assembly gate`.
+104. Confirm the assembly gate shows `Assembly blocked`, `Packet version not frozen`, `Evidence export blocked`, and `Storage adapter selection blocked`.
+105. Confirm release readiness lanes include `Upload intake assembly lane`, `Labelled Diagram assembly lane`, `Media assembly lane`, and `Release-control assembly lane`.
+106. Confirm the assembly gate shows required preconditions including authenticated reviewer identity, evidence storage adapter selection, attachment metadata, rights proof, scan provider result, audio coverage, accessibility signoff, release control, teacher dry-run evidence, and classroom launch gate acceptance.
+107. Confirm blocked actions include `No packet version freeze`, `No approval capture`, `No release state mutation`, `No student assignment`, `No export generation`, `No QR promotion`, `No route promotion`, `No local bundle activation`, `No storage write`, and `No evidence download`.
+108. Confirm `/teacher/evidence/sample-publisher` shows `Reviewer identity and signature gate`.
+109. Confirm the identity/signature gate shows `Reviewer identity blocked`, `Signed approval capture blocked`, and `Approval intent preview only`.
+110. Confirm identity and approval lanes include `Authenticated reviewer identity lane`, `Approval intent lane`, `Signature policy lane`, and `Audit and retention lane`.
+111. Confirm minimum approval record fields include `reviewer_identity_id`, `role_at_approval`, `approval_intent_text`, `revocation_policy_id`, `release_control_state_before`, and `release_control_state_after`.
+112. Confirm signature policy rules keep approval optional per tenant, block evidence bypass, keep support language non-progress, require the evidence attachment storage contract for future signature attachments, and require local backup/restore ownership for local deployments.
+113. Confirm blocked approval actions include `No signed approval capture`, `No approve button`, `No release-state mutation`, `No packet version freeze`, `No audit record write`, `No signature attachment upload`, `No signed PDF packet`, `No evidence download`, and `No student assignment from approval`.
 
 ## Automated Command
 

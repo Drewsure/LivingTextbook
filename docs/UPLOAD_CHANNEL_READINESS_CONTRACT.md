@@ -248,6 +248,8 @@ The content entry option scaffold must stay visible in `/teacher/intake` until a
 
 The template/font profile readiness panel must stay visible in `/teacher/intake` until live profile editing replaces it. When live controls are introduced, they must preserve `template_rendering_profile`, `font_accessibility_profile`, compatibility review, language rendering review, font license review, printable renderer review, and student-facing rendering/font blocks.
 
+The backend-neutral storage contract now includes `upload_file_policy_profile` records. Hosted and local adapters must preserve accepted extensions, accepted MIME types, file size and duration maximums, required checks, `scan_and_file_policy_packet`, blocked shortcuts, and student-facing upload blocks before live file pickers, drag-and-drop uploads, checksum capture, MIME validation, malware scans, media transcodes, object storage writes, local upload folders, or upload promotion are enabled.
+
 The backend-neutral storage contract includes `upload_intake_asset` records. Hosted and local adapters must preserve upload source lineage and block student-facing uploaded file use until file policy, rights, review, route mapping, audio coverage, and release gates pass.
 
 The backend-neutral storage contract now includes generic `evidence_packet` records. Hosted and local adapters must preserve packet keys, required evidence, missing evidence, blocked live actions, owner roles, handoff rules, and student-facing blocks before any live upload button, evidence upload, signed approval capture, publish action, asset editor, media transcode, playlist creation, local activation, or assignment shortcut is enabled.

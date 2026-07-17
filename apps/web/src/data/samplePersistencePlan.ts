@@ -22,6 +22,7 @@ export type PersistenceBoundaryCategory =
   | "teacher-assignment-rollout-gate"
   | "private-assignment-link"
   | "class-roster-plan"
+  | "upload-file-policy-profile"
   | "upload-intake"
   | "upload-review"
   | "upload-promotion"
@@ -238,6 +239,29 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
     note:
       "Class roster plans need durable coded learner slots, launch-code binding, data boundaries, and pilot blockers before reports or local deployments can rely on them. Real names, family contact, raw audio, transcripts, production accounts, and report exports remain blocked.",
+  },
+  {
+    recordId: "upload-file-policy-profile-record",
+    category: "upload-file-policy-profile",
+    label: "Upload file policy profile record",
+    readiness: "durable-required",
+    sourceOfTruth: "UploadFilePolicyPlan, accepted extensions, MIME rules, maximums, required checks, scan_and_file_policy_packet, blocked shortcuts",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesUploadFilePolicyProfile: true,
+    requiresScanAndFilePolicyPacket: true,
+    blocksUploadWithoutFilePolicy: true,
+    blocksUnsafeMimeType: true,
+    blocksOversizeUpload: true,
+    blocksUncheckedFileScan: true,
+    blocksStudentFacingUploadUse: true,
+    recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
+    note:
+      "Upload file policy profiles preserve upload limits and required checks before live file pickers, object/local writes, scans, transcodes, or promotions can exist. They do not store binaries or create student-facing assets.",
   },
   {
     recordId: "upload-intake-record",
@@ -1253,6 +1277,18 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision:
       "Persist class roster plans before enabling durable class history, real report export, school roster integration, family-managed accounts, speech transcript reporting, or local roster backup/restore.",
+  },
+  {
+    boundaryId: "upload-file-policy-profile-boundary",
+    category: "upload-file-policy-profile",
+    label: "Upload file policy profile records",
+    status: "needs-backend",
+    recordShape: "Policy profile id, tenant id, package id, upload channel, accepted extensions, accepted MIME types, maximums, required checks, scan/file policy packet, blocked shortcuts, student-facing upload block",
+    whyItMatters:
+      "Live upload controls need reusable tenant file policy records before they can validate files, scan files, write storage, transcode media, or feed review queues.",
+    visibleTo: ["Teacher", "Tenant admin", "Content reviewer", "Publisher media owner", "Platform admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision: "Persist upload file policy profiles before enabling real file inputs, drag-and-drop uploads, checksum capture, MIME validation, malware scans, media transcodes, object storage writes, local upload folders, or upload promotion.",
   },
   {
     boundaryId: "upload-intake-boundary",

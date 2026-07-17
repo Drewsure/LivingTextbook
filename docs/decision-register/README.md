@@ -247,6 +247,7 @@
 - `DR-273-teacher-assignment-rollout-storage-contract.md`
 - `DR-274-private-assignment-link-storage-contract.md`
 - `DR-275-class-roster-plan-storage-contract.md`
+- `DR-276-upload-file-policy-profile-storage-contract.md`
 
 ## Maintenance Rule
 

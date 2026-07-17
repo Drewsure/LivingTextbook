@@ -230,6 +230,25 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
       ],
     },
     {
+      migrationId: "m052-upload-file-policy-profile-records",
+      label: "Upload file policy profile records",
+      track: "shared",
+      status: "ready-to-design",
+      risk: "medium",
+      targetEntities: ["upload_file_policy_profile"],
+      purpose:
+        "Persist tenant upload file policy profiles before live file pickers, checksum capture, MIME validation, scans, transcodes, object storage writes, or local upload folders are enabled.",
+      prerequisites: ["Upload channel readiness accepted", "File type and size policy accepted", "Rights proof policy accepted", "Storage adapter selection accepted"],
+      implementationNotes: [
+        "Keep file policy profiles tenant-scoped, upload-channel-scoped, and optionally package-scoped.",
+        "Preserve accepted extensions, accepted MIME types, file size and duration maximums, required checks, scan/file policy packet, and blocked shortcuts.",
+        "Block upload intake writes unless the relevant file policy profile is accepted.",
+        "Do not let policy profiles upload files, scan files, transcode media, create target records, or assign students.",
+      ],
+      rollbackOrExportNeeds: ["Export upload file policy profile JSON", "Retain accepted policy revisions", "Support local file policy backup and restore"],
+      notAllowedYet: ["Live file picker", "Unchecked MIME type", "Oversize file", "Unchecked production scan", "Direct upload-to-assignment shortcut", "Student-facing uploaded file use"],
+    },
+    {
       migrationId: "m021-upload-intake-records",
       label: "Upload intake records",
       track: "shared",
@@ -1266,6 +1285,7 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
     "Teacher assignment rollout gate records must preserve rollout status, gate evidence, blockers, and teacher-visible scheduling rules while blocking scheduling, student launch, live classroom launch, real learner data collection, and report export.",
     "Private assignment link records must preserve tenant scope, assignment binding, student target, access rules, and safety boundaries while blocking public sharing, iframe embeds, teacher/admin controls, real learner data collection, and report export.",
     "Class roster plan records must preserve coded learner slots, readiness, data boundaries, and pilot blockers while blocking real names, family contact, raw audio, transcripts, production accounts, and report export.",
+    "Upload file policy profile records must preserve accepted extensions, MIME rules, maximums, required checks, scan/file policy packets, and blocked shortcuts while blocking uploads without policy, unsafe MIME types, oversize files, unchecked scans, and student-facing uploaded file use.",
     "Upload review records must preserve review packets and block upload promotion until target-specific review and release-control policy exist.",
     "Upload promotion gates must preserve target-specific gates and block student-facing promotion until target records and release-control policy exist.",
     "Game asset manifests must preserve image rights, alt text, source lineage, and release gates while blocking student-facing image-game use.",
