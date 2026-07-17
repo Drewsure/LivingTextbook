@@ -249,6 +249,7 @@
 - `DR-275-class-roster-plan-storage-contract.md`
 - `DR-276-upload-file-policy-profile-storage-contract.md`
 - `DR-277-source-extraction-review-packet-storage-contract.md`
+- `DR-278-source-review-queue-verifier.md`
 
 ## Maintenance Rule
 

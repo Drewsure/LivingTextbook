@@ -85,6 +85,7 @@ Focused verification supplements:
 - `docs/verification/SHARE_EMBED_READINESS_CHECKS.md`
 - `docs/verification/SPEAK_IT_CORE_CHECKS.md`
 - `docs/verification/SOURCE_REVIEW_QUEUE_CHECKS.md`
+- `npm run verify:source-review`
 - `docs/verification/TEACHER_ASSIGNMENT_READINESS_CHECKS.md`
 - `docs/verification/TEACHER_ASSIGNMENT_GAME_PATH_CHECKS.md`
 - `docs/verification/TEACHER_AUTHORING_READINESS_CHECKS.md`

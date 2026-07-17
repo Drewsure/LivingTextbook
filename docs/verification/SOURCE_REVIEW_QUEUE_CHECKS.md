@@ -6,6 +6,7 @@ Run these checks when source review queue behavior changes.
 
 - `npm run typecheck --workspace @living-textbook/web`
 - `npm run build --workspace @living-textbook/web`
+- `npm run verify:source-review`
 
 ## Browser Checks
 
@@ -21,7 +22,7 @@ Confirm:
 - Blockers are visible for missing production PDF/media/rights inputs.
 - Hard rules mention preservation, human review, rights, support-language limits, and package mapping.
 - Required records include `source_extraction_review_packet`, `upload_file_policy_profile`, and `teacher_draft_review_handoff`.
-- Blocked extraction shortcuts include `No raw PDF as student payload`, `No unreviewed OCR assignment`, and `No AI extraction direct assignment`.
+- Blocked extraction shortcuts include `No raw PDF as student payload`, `No unreviewed OCR assignment`, `No automatic PDF-to-game publish`, `No AI extraction direct assignment`, and `No parser output as a route target`.
 
 ## Product Checks
 

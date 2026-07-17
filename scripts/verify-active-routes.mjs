@@ -163,10 +163,14 @@ const sourceExtractionExpected = [
   "Blocked extraction shortcuts",
   "source_extraction_review_packet",
   "upload_file_policy_profile",
+  "upload_intake_asset",
+  "teacher_draft_package",
   "teacher_draft_review_handoff",
   "No raw PDF as student payload",
   "No unreviewed OCR assignment",
+  "No automatic PDF-to-game publish",
   "No AI extraction direct assignment",
+  "No parser output as a route target",
 ];
 
 expectedTextByPath.get("/teacher/intake")?.push(...sourceExtractionExpected);
