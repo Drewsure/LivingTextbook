@@ -43,6 +43,9 @@ Confirm:
 - Verifier submission packet preview shows `ai_verifier_submission_packet`, `schema_validation_packet`, `pedagogical_lock_packet`, `audio_coverage_packet`, `engine_binding_packet`, `gamification_mapping_packet`, `activity_compatibility_snapshot`, `media_rights_manifest`, and `teacher_approval_packet`.
 - Verifier submission packet preview shows evidence and rejection rules for schema validation, pedagogical lock, target-language progression, audio coverage, engine binding, gamification mapping, media rights, and teacher approval.
 - Verifier submission packet preview blocks verifier submission, generated package approval, route creation, playlist creation, assignment creation, and student-ready marking until durable verifier storage, reviewer identity, media evidence, audio approval, approval ledger, and release-control binding exist.
+- Generated package manifest preview shows `ai_generated_package_manifest`, `teacher_draft_package`, `teacher_draft_verifier_submission`, `package_game_audio_coverage`, `engine_mode_config_binding`, `collection_unlock_binding`, `activity_compatibility_snapshot`, `media_rights_manifest`, and `teacher_approval_packet`.
+- Generated package manifest preview links prompt, draft JSON, audio, engine, gamification, verifier, and review queue records before package assembly.
+- Generated package manifest preview blocks package assembly, route registry writes, media playlist writes, assignment writes, local bundle writes, and student-ready marking.
 - Mode recommendation preview reuses the activity compatibility matrix.
 - Mode recommendation preview shows a recommended generated pathway and blocked conversion guardrails.
 - Mode recommendation preview blocks a broad switch panel as the default product promise.

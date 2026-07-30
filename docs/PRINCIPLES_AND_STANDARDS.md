@@ -222,6 +222,8 @@ AI-generated game packages must include a verifier submission packet before teac
 
 AI-generated draft packages must enter the normal teacher review queue, not a privileged AI shortcut lane. The queue must show source lineage, verifier packet requirements, blocked route/playlist/assignment actions, audio blockers, media-rights blockers, and approval blockers before any generated package review workflow can be activated.
 
+AI-generated draft packages must produce a generated package manifest before package assembly exists. The manifest links prompt, draft JSON, audio, engine, gamification, verifier, and review queue evidence while keeping package assembly, route registry writes, media playlist writes, assignment writes, local bundle writes, and student-ready marking blocked.
+
 AI generation must bind generated activity proposals to the existing game mode catalog, parent engines, scoring profiles, and standard event contract. It must not generate one-off game code, bypass parent engines, or promote Z.ai/outside prototypes without integration review.
 
 Required content rules:

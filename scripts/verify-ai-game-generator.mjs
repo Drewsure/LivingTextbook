@@ -7,6 +7,7 @@ const requestBuilderData = readSource("../apps/web/src/data/sampleAiGenerationRe
 const audioCoveragePlan = readSource("../apps/web/src/data/sampleAiGeneratorAudioCoveragePlan.ts");
 const gamificationMappingPlan = readSource("../apps/web/src/data/sampleAiGamificationMappingPlan.ts");
 const verifierSubmissionPacket = readSource("../apps/web/src/data/sampleAiVerifierSubmissionPacket.ts");
+const generatedPackageManifest = readSource("../apps/web/src/data/sampleAiGeneratedPackageManifest.ts");
 const draftPreviewData = readSource("../apps/web/src/data/sampleAiGeneratedDraftPayloadPreview.ts");
 const compatibilityMatrix = readSource("../apps/web/src/data/sampleActivityPathwayCompatibility.ts");
 const panel = readSource("../apps/web/src/features/content-intake/AiGameGeneratorPlanPanel.tsx");
@@ -16,6 +17,7 @@ const requestBuilderPanel = readSource("../apps/web/src/features/content-intake/
 const audioCoveragePanel = readSource("../apps/web/src/features/content-intake/AiGeneratorAudioCoveragePlanPanel.tsx");
 const gamificationMappingPanel = readSource("../apps/web/src/features/content-intake/AiGamificationMappingPanel.tsx");
 const verifierSubmissionPanel = readSource("../apps/web/src/features/content-intake/AiVerifierSubmissionPacketPanel.tsx");
+const generatedPackageManifestPanel = readSource("../apps/web/src/features/content-intake/AiGeneratedPackageManifestPanel.tsx");
 const draftPreviewPanel = readSource("../apps/web/src/features/content-intake/AiGeneratedDraftPayloadPreviewPanel.tsx");
 const modeRecommendationPanel = readSource("../apps/web/src/features/content-intake/AiModeRecommendationPanel.tsx");
 const route = readSource("../apps/web/src/app/teacher/generator/[tenantId]/page.tsx");
@@ -188,6 +190,30 @@ requireText(verifierSubmissionPanel, "Required verifier packets", "AI verifier p
 requireText(verifierSubmissionPanel, "Verifier checks", "AI verifier packet panel must show verifier checks.");
 requireText(verifierSubmissionPanel, "Evidence", "AI verifier packet panel must show evidence.");
 requireText(verifierSubmissionPanel, "Rejection rule", "AI verifier packet panel must show rejection rules.");
+requireText(generatedPackageManifest, "sampleAiGeneratedPackageManifests", "AI generated package manifest data must exist.");
+requireText(generatedPackageManifest, "ai_generated_package_manifest", "AI generated package manifest must name manifest record.");
+requireText(generatedPackageManifest, "teacher_draft_package", "AI generated package manifest must name teacher draft package record.");
+requireText(generatedPackageManifest, "teacher_draft_verifier_submission", "AI generated package manifest must name verifier submission record.");
+requireText(generatedPackageManifest, "package_game_audio_coverage", "AI generated package manifest must name audio coverage record.");
+requireText(generatedPackageManifest, "engine_mode_config_binding", "AI generated package manifest must name engine binding record.");
+requireText(generatedPackageManifest, "collection_unlock_binding", "AI generated package manifest must name collection unlock record.");
+requireText(generatedPackageManifest, "media_rights_manifest", "AI generated package manifest must name media rights manifest.");
+requireText(generatedPackageManifest, "teacher_approval_packet", "AI generated package manifest must name teacher approval packet.");
+requireText(generatedPackageManifest, "Package assembly blocked", "AI generated package manifest must block package assembly.");
+requireText(generatedPackageManifest, "No route registry write", "AI generated package manifest must block route registry writes.");
+requireText(generatedPackageManifest, "No media playlist write", "AI generated package manifest must block playlist writes.");
+requireText(generatedPackageManifest, "No assignment write", "AI generated package manifest must block assignment writes.");
+requireText(
+  generatedPackageManifest,
+  "Assign generated package from manifest blocked",
+  "AI generated package manifest must block assignment from manifest.",
+);
+requireText(generatedPackageManifestPanel, "AI generated package manifest", "AI generated package manifest panel must expose heading.");
+requireText(generatedPackageManifestPanel, "One bundle, many gates", "AI generated package manifest panel must expose bundle gate label.");
+requireText(generatedPackageManifestPanel, "Manifest links", "AI generated package manifest panel must show manifest links.");
+requireText(generatedPackageManifestPanel, "Package records", "AI generated package manifest panel must show package records.");
+requireText(generatedPackageManifestPanel, "Release locks", "AI generated package manifest panel must show release locks.");
+requireText(generatedPackageManifestPanel, "Blocked package actions", "AI generated package manifest panel must show blocked package actions.");
 requireText(compatibilityMatrix, "This matrix defines which student games", "Generator mode recommendations must reuse the compatibility matrix.");
 requireText(modeRecommendationPanel, "AI mode recommendation preview", "Mode recommendation panel must expose heading.");
 requireText(modeRecommendationPanel, "Recommended generated pathway", "Mode recommendation panel must expose recommended pathway.");
@@ -215,6 +241,7 @@ requireText(route, "AiGeneratorAudioCoveragePlanPanel", "Generator route must re
 requireText(route, "AiGamificationMappingPanel", "Generator route must render the gamification mapping panel.");
 requireText(route, "AiVerifierSubmissionPacketPanel", "Generator route must render the verifier submission packet panel.");
 requireText(route, "AiModeRecommendationPanel", "Generator route must render the mode recommendation panel.");
+requireText(route, "AiGeneratedPackageManifestPanel", "Generator route must render the generated package manifest panel.");
 requireText(route, "AiGeneratedDraftPayloadPreviewPanel", "Generator route must render the draft payload preview panel.");
 requireText(route, "sampleAiGameGeneratorPlan", "Generator route must use the sample generator plan.");
 requireText(route, "sampleAiEngineBindingPlans", "Generator route must use the sample engine binding plan data.");
@@ -223,6 +250,7 @@ requireText(route, "sampleActivityPathwayCompatibilityMatrix", "Generator route 
 requireText(route, "sampleAiGeneratorAudioCoveragePlans", "Generator route must use the sample audio coverage plan data.");
 requireText(route, "sampleAiGamificationMappingPlans", "Generator route must use the sample gamification mapping plan data.");
 requireText(route, "sampleAiVerifierSubmissionPackets", "Generator route must use the sample verifier submission packet data.");
+requireText(route, "sampleAiGeneratedPackageManifests", "Generator route must use the sample generated package manifest data.");
 requireText(route, "sampleAiGenerationRequestBuilders", "Generator route must use request builder data.");
 requireText(route, "sampleAiGeneratedDraftPayloadPreviews", "Generator route must use the sample draft payload preview data.");
 requireText(route, "samplePublisherTenant", "Generator route must support sample publisher tenant.");
