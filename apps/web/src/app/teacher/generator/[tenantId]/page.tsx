@@ -9,6 +9,10 @@ import {
   filterAiGeneratedPackageManifestsByTenant,
   sampleAiGeneratedPackageManifests,
 } from "@/data/sampleAiGeneratedPackageManifest";
+import {
+  filterAiGeneratedPublishReadinessGatesByTenant,
+  sampleAiGeneratedPublishReadinessGates,
+} from "@/data/sampleAiGeneratedPublishReadinessGate";
 import { filterAiEngineBindingPlansByTenant, sampleAiEngineBindingPlans } from "@/data/sampleAiEngineBindingPlan";
 import {
   filterAiGenerationRequestBuildersByTenant,
@@ -39,6 +43,7 @@ import { AiGenerationRequestBuilderPanel } from "@/features/content-intake/AiGen
 import { AiGeneratorCostEntitlementGatePanel } from "@/features/content-intake/AiGeneratorCostEntitlementGatePanel";
 import { AiGeneratedDraftPayloadPreviewPanel } from "@/features/content-intake/AiGeneratedDraftPayloadPreviewPanel";
 import { AiGeneratedPackageManifestPanel } from "@/features/content-intake/AiGeneratedPackageManifestPanel";
+import { AiGeneratedPublishReadinessGatePanel } from "@/features/content-intake/AiGeneratedPublishReadinessGatePanel";
 import { AiEngineBindingPlanPanel } from "@/features/content-intake/AiEngineBindingPlanPanel";
 import { AiGamificationMappingPanel } from "@/features/content-intake/AiGamificationMappingPanel";
 import { AiGeneratorAudioCoveragePlanPanel } from "@/features/content-intake/AiGeneratorAudioCoveragePlanPanel";
@@ -90,6 +95,9 @@ export default async function TeacherAiGameGeneratorPage({
         <AiModeRecommendationPanel matrix={sampleActivityPathwayCompatibilityMatrix} />
         <AiGeneratedPackageManifestPanel
           manifests={filterAiGeneratedPackageManifestsByTenant(sampleAiGeneratedPackageManifests, tenantId)}
+        />
+        <AiGeneratedPublishReadinessGatePanel
+          gates={filterAiGeneratedPublishReadinessGatesByTenant(sampleAiGeneratedPublishReadinessGates, tenantId)}
         />
         <AiGeneratedDraftPayloadPreviewPanel
           previews={filterAiGeneratedDraftPayloadPreviewsByTenant(sampleAiGeneratedDraftPayloadPreviews, tenantId)}

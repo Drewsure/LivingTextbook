@@ -10,6 +10,7 @@ const gamificationMappingPlan = readSource("../apps/web/src/data/sampleAiGamific
 const rewardReadinessGate = readSource("../apps/web/src/data/sampleAiRewardReadinessGate.ts");
 const verifierSubmissionPacket = readSource("../apps/web/src/data/sampleAiVerifierSubmissionPacket.ts");
 const generatedPackageManifest = readSource("../apps/web/src/data/sampleAiGeneratedPackageManifest.ts");
+const generatedPublishReadinessGate = readSource("../apps/web/src/data/sampleAiGeneratedPublishReadinessGate.ts");
 const draftPreviewData = readSource("../apps/web/src/data/sampleAiGeneratedDraftPayloadPreview.ts");
 const draftPayloadValidator = readSource("../packages/content-model/src/aiGeneratedDraftPayload.ts");
 const correctionQueueData = readSource("../apps/web/src/data/sampleAiDraftCorrectionQueue.ts");
@@ -24,6 +25,9 @@ const gamificationMappingPanel = readSource("../apps/web/src/features/content-in
 const rewardReadinessGatePanel = readSource("../apps/web/src/features/content-intake/AiRewardReadinessGatePanel.tsx");
 const verifierSubmissionPanel = readSource("../apps/web/src/features/content-intake/AiVerifierSubmissionPacketPanel.tsx");
 const generatedPackageManifestPanel = readSource("../apps/web/src/features/content-intake/AiGeneratedPackageManifestPanel.tsx");
+const generatedPublishReadinessGatePanel = readSource(
+  "../apps/web/src/features/content-intake/AiGeneratedPublishReadinessGatePanel.tsx",
+);
 const draftPreviewPanel = readSource("../apps/web/src/features/content-intake/AiGeneratedDraftPayloadPreviewPanel.tsx");
 const correctionQueuePanel = readSource("../apps/web/src/features/content-intake/AiDraftCorrectionQueuePanel.tsx");
 const modeRecommendationPanel = readSource("../apps/web/src/features/content-intake/AiModeRecommendationPanel.tsx");
@@ -259,6 +263,101 @@ requireText(generatedPackageManifestPanel, "Manifest links", "AI generated packa
 requireText(generatedPackageManifestPanel, "Package records", "AI generated package manifest panel must show package records.");
 requireText(generatedPackageManifestPanel, "Release locks", "AI generated package manifest panel must show release locks.");
 requireText(generatedPackageManifestPanel, "Blocked package actions", "AI generated package manifest panel must show blocked package actions.");
+requireText(
+  generatedPublishReadinessGate,
+  "sampleAiGeneratedPublishReadinessGates",
+  "AI generated publish readiness gate data must exist.",
+);
+requireText(
+  generatedPublishReadinessGate,
+  "Student route publish blocked",
+  "AI generated publish readiness gate must block student route publishing.",
+);
+requireText(
+  generatedPublishReadinessGate,
+  "Correction queue clear",
+  "AI generated publish readiness gate must depend on the correction queue.",
+);
+requireText(
+  generatedPublishReadinessGate,
+  "Verifier packet approved",
+  "AI generated publish readiness gate must depend on verifier approval.",
+);
+requireText(
+  generatedPublishReadinessGate,
+  "Manifest records complete",
+  "AI generated publish readiness gate must depend on manifest completeness.",
+);
+requireText(
+  generatedPublishReadinessGate,
+  "Reward readiness passed",
+  "AI generated publish readiness gate must depend on reward readiness.",
+);
+requireText(
+  generatedPublishReadinessGate,
+  "Release-control binding attached",
+  "AI generated publish readiness gate must require release-control binding.",
+);
+requireText(
+  generatedPublishReadinessGate,
+  "Teacher approval ledger captured",
+  "AI generated publish readiness gate must require teacher approval ledger capture.",
+);
+requireText(
+  generatedPublishReadinessGate,
+  "Create launch route from generated package blocked",
+  "AI generated publish readiness gate must block launch route creation.",
+);
+requireText(
+  generatedPublishReadinessGate,
+  "Write tenant route registry entry blocked",
+  "AI generated publish readiness gate must block route registry writes.",
+);
+requireText(
+  generatedPublishReadinessGate,
+  "Write media playlist from generated package blocked",
+  "AI generated publish readiness gate must block playlist writes.",
+);
+requireText(
+  generatedPublishReadinessGate,
+  "Mark generated package student-ready blocked",
+  "AI generated publish readiness gate must block student-ready markers.",
+);
+requireText(
+  generatedPublishReadinessGatePanel,
+  "AI generated publish readiness gate",
+  "AI generated publish readiness panel must expose heading.",
+);
+requireText(
+  generatedPublishReadinessGatePanel,
+  "No generated package can skip release control",
+  "AI generated publish readiness panel must expose release-control rule.",
+);
+requireText(
+  generatedPublishReadinessGatePanel,
+  "Route creation blocked",
+  "AI generated publish readiness panel must expose route creation block.",
+);
+requireText(
+  generatedPublishReadinessGatePanel,
+  "Publish readiness checks",
+  "AI generated publish readiness panel must expose readiness checks.",
+);
+requireText(
+  generatedPublishReadinessGatePanel,
+  "Allowed now",
+  "AI generated publish readiness panel must expose allowed review actions.",
+);
+requireText(
+  generatedPublishReadinessGatePanel,
+  "Blocked publish actions",
+  "AI generated publish readiness panel must expose blocked publish actions.",
+);
+requireText(
+  generatedPublishReadinessGatePanel,
+  "Next publish records",
+  "AI generated publish readiness panel must expose next publish records.",
+);
 requireText(compatibilityMatrix, "This matrix defines which student games", "Generator mode recommendations must reuse the compatibility matrix.");
 requireText(modeRecommendationPanel, "AI mode recommendation preview", "Mode recommendation panel must expose heading.");
 requireText(modeRecommendationPanel, "Recommended generated pathway", "Mode recommendation panel must expose recommended pathway.");
@@ -368,6 +467,7 @@ requireText(route, "AiRewardReadinessGatePanel", "Generator route must render th
 requireText(route, "AiVerifierSubmissionPacketPanel", "Generator route must render the verifier submission packet panel.");
 requireText(route, "AiModeRecommendationPanel", "Generator route must render the mode recommendation panel.");
 requireText(route, "AiGeneratedPackageManifestPanel", "Generator route must render the generated package manifest panel.");
+requireText(route, "AiGeneratedPublishReadinessGatePanel", "Generator route must render the generated publish readiness gate panel.");
 requireText(route, "AiGeneratedDraftPayloadPreviewPanel", "Generator route must render the draft payload preview panel.");
 requireText(route, "AiDraftCorrectionQueuePanel", "Generator route must render the draft correction queue panel.");
 requireText(route, "sampleAiGameGeneratorPlan", "Generator route must use the sample generator plan.");
@@ -380,6 +480,11 @@ requireText(route, "sampleAiGamificationMappingPlans", "Generator route must use
 requireText(route, "sampleAiRewardReadinessGates", "Generator route must use the sample reward readiness gate data.");
 requireText(route, "sampleAiVerifierSubmissionPackets", "Generator route must use the sample verifier submission packet data.");
 requireText(route, "sampleAiGeneratedPackageManifests", "Generator route must use the sample generated package manifest data.");
+requireText(
+  route,
+  "sampleAiGeneratedPublishReadinessGates",
+  "Generator route must use the sample generated publish readiness gate data.",
+);
 requireText(route, "sampleAiGenerationRequestBuilders", "Generator route must use request builder data.");
 requireText(route, "sampleAiGeneratedDraftPayloadPreviews", "Generator route must use the sample draft payload preview data.");
 requireText(route, "sampleAiDraftCorrectionQueues", "Generator route must use the sample draft correction queue data.");

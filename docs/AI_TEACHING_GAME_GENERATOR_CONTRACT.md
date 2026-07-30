@@ -105,6 +105,12 @@ Generated draft packages must produce an `ai_generated_package_manifest` before 
 
 The manifest must also have a backend-neutral storage contract before live generation. Hosted and local adapters must preserve prompt, draft JSON, audio, engine, gamification, verifier, review queue, media-rights, and release-lock lineage while blocking package assembly, route registry writes, media playlist writes, assignments, local bundle writes, and student-ready markers.
 
+## Generated Publish Readiness Gate Rule
+
+Generated packages must show an `ai_generated_publish_readiness_gate` before any generated package can become a student-facing route.
+
+The gate must gather correction queue status, verifier packet approval, manifest completeness, reward readiness, release-control binding, and teacher approval ledger capture. It may allow review and correction work, but route registry writes, media playlist writes, assignment creation, local bundle writes, and student-ready markers remain blocked.
+
 ## Blocked Actions
 
 - No direct AI publish.
