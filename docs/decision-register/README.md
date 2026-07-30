@@ -268,6 +268,7 @@
 - `DR-294-ai-generator-cost-entitlement-gate.md`
 - `DR-295-ai-generated-draft-payload-validator.md`
 - `DR-296-ai-draft-correction-queue.md`
+- `DR-297-ai-reward-readiness-gate.md`
 
 ## Maintenance Rule
 

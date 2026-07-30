@@ -7,6 +7,7 @@ const costEntitlementGate = readSource("../apps/web/src/data/sampleAiGeneratorCo
 const requestBuilderData = readSource("../apps/web/src/data/sampleAiGenerationRequestBuilder.ts");
 const audioCoveragePlan = readSource("../apps/web/src/data/sampleAiGeneratorAudioCoveragePlan.ts");
 const gamificationMappingPlan = readSource("../apps/web/src/data/sampleAiGamificationMappingPlan.ts");
+const rewardReadinessGate = readSource("../apps/web/src/data/sampleAiRewardReadinessGate.ts");
 const verifierSubmissionPacket = readSource("../apps/web/src/data/sampleAiVerifierSubmissionPacket.ts");
 const generatedPackageManifest = readSource("../apps/web/src/data/sampleAiGeneratedPackageManifest.ts");
 const draftPreviewData = readSource("../apps/web/src/data/sampleAiGeneratedDraftPayloadPreview.ts");
@@ -20,6 +21,7 @@ const costEntitlementGatePanel = readSource("../apps/web/src/features/content-in
 const requestBuilderPanel = readSource("../apps/web/src/features/content-intake/AiGenerationRequestBuilderPanel.tsx");
 const audioCoveragePanel = readSource("../apps/web/src/features/content-intake/AiGeneratorAudioCoveragePlanPanel.tsx");
 const gamificationMappingPanel = readSource("../apps/web/src/features/content-intake/AiGamificationMappingPanel.tsx");
+const rewardReadinessGatePanel = readSource("../apps/web/src/features/content-intake/AiRewardReadinessGatePanel.tsx");
 const verifierSubmissionPanel = readSource("../apps/web/src/features/content-intake/AiVerifierSubmissionPacketPanel.tsx");
 const generatedPackageManifestPanel = readSource("../apps/web/src/features/content-intake/AiGeneratedPackageManifestPanel.tsx");
 const draftPreviewPanel = readSource("../apps/web/src/features/content-intake/AiGeneratedDraftPayloadPreviewPanel.tsx");
@@ -186,6 +188,26 @@ requireText(gamificationMappingPanel, "Mastery unlocks only", "AI gamification p
 requireText(gamificationMappingPanel, "No random rewards", "AI gamification panel must reject random rewards.");
 requireText(gamificationMappingPanel, "Star Dust allocation", "AI gamification panel must show Star Dust allocation.");
 requireText(gamificationMappingPanel, "Accepted events", "AI gamification panel must show accepted events.");
+requireText(rewardReadinessGate, "sampleAiRewardReadinessGates", "AI reward readiness gate data must exist.");
+requireText(rewardReadinessGate, "1,000 Star Dust unit cap", "AI reward gate must preserve the unit reward cap.");
+requireText(rewardReadinessGate, "75% mastery threshold", "AI reward gate must preserve the mastery threshold.");
+requireText(rewardReadinessGate, "Deterministic collection unlocks", "AI reward gate must preserve deterministic collection unlocks.");
+requireText(rewardReadinessGate, "Accepted learning events only", "AI reward gate must restrict rewards to accepted events.");
+requireText(rewardReadinessGate, "Correction queue clear before rewards", "AI reward gate must depend on correction queue state.");
+requireText(rewardReadinessGate, "Reward publish blocked", "AI reward gate must block reward publishing.");
+requireText(rewardReadinessGate, "Collection inventory write blocked", "AI reward gate must block inventory writes.");
+requireText(rewardReadinessGate, "Generated surprise reward blocked", "AI reward gate must block generated surprise rewards.");
+requireText(rewardReadinessGate, "Spin Wheel ticket issuance blocked", "AI reward gate must block ticket issuance.");
+requireText(rewardReadinessGate, "Avatar evolution write blocked", "AI reward gate must block avatar evolution writes.");
+requireText(rewardReadinessGatePanel, "AI reward readiness gate", "AI reward gate panel must expose heading.");
+requireText(
+  rewardReadinessGatePanel,
+  "Generated rewards stay deterministic",
+  "AI reward gate panel must expose deterministic reward label.",
+);
+requireText(rewardReadinessGatePanel, "No generated surprise rewards", "AI reward gate panel must expose surprise reward block.");
+requireText(rewardReadinessGatePanel, "Reward readiness checks", "AI reward gate panel must expose readiness checks.");
+requireText(rewardReadinessGatePanel, "Required before student use", "AI reward gate panel must expose required records.");
 requireText(verifierSubmissionPacket, "sampleAiVerifierSubmissionPackets", "AI verifier submission packet data must exist.");
 requireText(verifierSubmissionPacket, "ai_verifier_submission_packet", "AI verifier packet must name verifier submission packet.");
 requireText(verifierSubmissionPacket, "schema_validation_packet", "AI verifier packet must name schema validation packet.");
@@ -342,6 +364,7 @@ requireText(route, "AiGeneratorCostEntitlementGatePanel", "Generator route must 
 requireText(route, "AiGenerationRequestBuilderPanel", "Generator route must render the request builder panel.");
 requireText(route, "AiGeneratorAudioCoveragePlanPanel", "Generator route must render the audio coverage plan panel.");
 requireText(route, "AiGamificationMappingPanel", "Generator route must render the gamification mapping panel.");
+requireText(route, "AiRewardReadinessGatePanel", "Generator route must render the reward readiness gate panel.");
 requireText(route, "AiVerifierSubmissionPacketPanel", "Generator route must render the verifier submission packet panel.");
 requireText(route, "AiModeRecommendationPanel", "Generator route must render the mode recommendation panel.");
 requireText(route, "AiGeneratedPackageManifestPanel", "Generator route must render the generated package manifest panel.");
@@ -354,6 +377,7 @@ requireText(route, "sampleAiGeneratorCostEntitlementGates", "Generator route mus
 requireText(route, "sampleActivityPathwayCompatibilityMatrix", "Generator route must use the compatibility matrix.");
 requireText(route, "sampleAiGeneratorAudioCoveragePlans", "Generator route must use the sample audio coverage plan data.");
 requireText(route, "sampleAiGamificationMappingPlans", "Generator route must use the sample gamification mapping plan data.");
+requireText(route, "sampleAiRewardReadinessGates", "Generator route must use the sample reward readiness gate data.");
 requireText(route, "sampleAiVerifierSubmissionPackets", "Generator route must use the sample verifier submission packet data.");
 requireText(route, "sampleAiGeneratedPackageManifests", "Generator route must use the sample generated package manifest data.");
 requireText(route, "sampleAiGenerationRequestBuilders", "Generator route must use request builder data.");
