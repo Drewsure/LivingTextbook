@@ -49,6 +49,10 @@ The teacher generator route may show a disabled request-builder form for source 
 
 Future AI generation must run from reviewed, versioned, tenant-scoped prompt packages. A prompt package must name its template version, input slots, output schema locks, tenant brand rules, model-use state, usage budget, and cost controls. It must block raw student data, student prompt editing, live model use, voice generation, tenant billing, and student assignment until the tenant has approved the correct AI package and storage/review controls exist.
 
+## Cost And Entitlement Gate Rule
+
+Future AI generation must pass a `premium_ai_cost_gate` before any model call, voice generation, speech scoring, AI Tutor activation, or billing action exists. The gate must name tenant AI generation entitlement, usage budget ceiling, model rate-card snapshot, voice-generation package separation, cost estimate preview, and school approval requirements. Teachers cannot self-enable premium AI, and children must never see premium upsell copy.
+
 ## Engine Binding Rule
 
 Generated activity proposals must bind to the existing game mode catalog, parent engines, scoring profiles, and standard event contract. The generator may propose payload mappings and mode configs, but it must not generate standalone game code, bypass parent engines, override scoring profiles without review, or promote Z.ai/outside prototypes into production without an integration plan.

@@ -265,6 +265,7 @@
 - `DR-291-ai-generated-draft-review-queue-integration.md`
 - `DR-292-ai-generated-package-manifest-preview.md`
 - `DR-293-ai-generated-package-manifest-storage-contract.md`
+- `DR-294-ai-generator-cost-entitlement-gate.md`
 
 ## Maintenance Rule
 

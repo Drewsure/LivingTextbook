@@ -13,6 +13,10 @@ import {
   filterAiGenerationRequestBuildersByTenant,
   sampleAiGenerationRequestBuilders,
 } from "@/data/sampleAiGenerationRequestBuilder";
+import {
+  filterAiGeneratorCostEntitlementGatesByTenant,
+  sampleAiGeneratorCostEntitlementGates,
+} from "@/data/sampleAiGeneratorCostEntitlementGate";
 import { sampleAiGameGeneratorPlan } from "@/data/sampleAiGameGeneratorPlan";
 import {
   filterAiGeneratorAudioCoveragePlansByTenant,
@@ -29,6 +33,7 @@ import {
 } from "@/data/sampleAiVerifierSubmissionPacket";
 import { sampleActivityPathwayCompatibilityMatrix } from "@/data/sampleActivityPathwayCompatibility";
 import { AiGenerationRequestBuilderPanel } from "@/features/content-intake/AiGenerationRequestBuilderPanel";
+import { AiGeneratorCostEntitlementGatePanel } from "@/features/content-intake/AiGeneratorCostEntitlementGatePanel";
 import { AiGeneratedDraftPayloadPreviewPanel } from "@/features/content-intake/AiGeneratedDraftPayloadPreviewPanel";
 import { AiGeneratedPackageManifestPanel } from "@/features/content-intake/AiGeneratedPackageManifestPanel";
 import { AiEngineBindingPlanPanel } from "@/features/content-intake/AiEngineBindingPlanPanel";
@@ -59,6 +64,9 @@ export default async function TeacherAiGameGeneratorPage({
       <div className="grid gap-5">
         <AiGameGeneratorPlanPanel plan={sampleAiGameGeneratorPlan} tenantId={tenantId} />
         <AiPromptPackagePlanPanel plans={filterAiPromptPackagePlansByTenant(sampleAiPromptPackagePlans, tenantId)} />
+        <AiGeneratorCostEntitlementGatePanel
+          gates={filterAiGeneratorCostEntitlementGatesByTenant(sampleAiGeneratorCostEntitlementGates, tenantId)}
+        />
         <AiGenerationRequestBuilderPanel
           builders={filterAiGenerationRequestBuildersByTenant(sampleAiGenerationRequestBuilders, tenantId)}
         />
