@@ -1,4 +1,5 @@
 import type { GameModeId } from "@living-textbook/content-model";
+import { sampleAiGeneratedDraftPayloadPreviews } from "./sampleAiGeneratedDraftPayloadPreview";
 import { samplePartnerContentPackage } from "./samplePartnerPackage";
 
 export type TeacherDraftPackageStatus = "teacher-only-draft" | "submitted-for-review" | "student-ready";
@@ -31,6 +32,7 @@ export interface TeacherDraftPackagePreview {
 }
 
 const partnerUnit = samplePartnerContentPackage.units[0];
+const aiDraftPreview = sampleAiGeneratedDraftPayloadPreviews[0];
 
 export const sampleTeacherDraftPackages: TeacherDraftPackagePreview[] = [
   {
@@ -81,6 +83,72 @@ export const sampleTeacherDraftPackages: TeacherDraftPackagePreview[] = [
         status: "review-required",
         evidence: "Draft records source package lineage but does not yet have durable teacher ownership storage.",
         nextStep: "Persist owner, source package, copied-from version, and visibility before live authoring.",
+      },
+    ],
+  },
+  {
+    draftId: "ai-draft-sample-publisher-l1-routines-v1",
+    tenantId: "sample-publisher",
+    sourcePackageId: aiDraftPreview?.previewId ?? "ai-draft-preview-sample-publisher-l1-routines-v1",
+    unitKey: "sample-publisher:partner-textbook-companion:L1:U1",
+    label: "AI-generated daily routines draft preview",
+    status: "teacher-only-draft",
+    canAssignToStudents: false,
+    sourceLineage: [
+      "Created from AI generator draft preview, not from a published package.",
+      "Requires AI verifier submission packet before teacher approval.",
+      "Generated content cannot create routes, playlists, assignments, or local bundles.",
+      "Original textbook/source package remains authoritative until human review.",
+    ],
+    vocabularyDraft: ["wake up", "wash", "eat", "drink", "brush", "pack", "walk", "sleep"],
+    targetSentenceDrafts: ["I wake up in the morning.", "I brush my teeth, please."],
+    requestedActivityPath: ["flashcards", "memory-match", "sentence-builder", "quiz"],
+    audioPlanSummary:
+      "AI-generated text still needs reviewed target-language term, sentence, instruction, feedback, and control audio before it can enter student use.",
+    allowedActions: ["Preview AI draft package", "Inspect verifier packet blockers", "Compare with source evidence"],
+    blockedActions: [
+      "Assign generated draft to students",
+      "Approve generated package",
+      "Submit to live verifier",
+      "Create route from AI draft",
+      "Create playlist from AI draft",
+      "Skip media rights proof",
+    ],
+    reviewGates: [
+      {
+        gateId: "ai-source-lineage",
+        label: "AI source lineage",
+        status: "review-required",
+        evidence: "AI draft references the generator preview and must be tied to reviewed source evidence before approval.",
+        nextStep: "Persist source evidence packet ids and prompt package version before review workflow activation.",
+      },
+      {
+        gateId: "ai-verifier-packet-required",
+        label: "AI verifier packet required",
+        status: "blocked",
+        evidence: "Verifier submission packet is visible, but no durable verifier workflow exists.",
+        nextStep: "Create durable verifier submission records before any generated package can be submitted.",
+      },
+      {
+        gateId: "ai-audio-before-students",
+        label: "AI audio before students",
+        status: "blocked",
+        evidence: "Target-language audio cues are required-not-approved.",
+        nextStep: "Attach or generate approved learner audio under tenant cost and review policy.",
+      },
+      {
+        gateId: "ai-media-rights-manifest",
+        label: "AI media rights manifest",
+        status: "blocked",
+        evidence: "Generated draft cannot prove partner audio/video/image rights from the preview alone.",
+        nextStep: "Attach media rights evidence before playlist, background media, or printable image use.",
+      },
+      {
+        gateId: "ai-teacher-approval-ledger",
+        label: "AI teacher approval ledger",
+        status: "blocked",
+        evidence: "No reviewer identity, approval ledger, or release-control binding exists.",
+        nextStep: "Keep package in review queue until approval and release-control records are implemented.",
       },
     ],
   },

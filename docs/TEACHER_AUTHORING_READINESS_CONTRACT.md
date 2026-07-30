@@ -77,6 +77,8 @@ The backend-neutral storage contract includes `teacher_draft_review_handoff` rec
 
 The review queue route is a read-only workbench preview. It shows draft handoff queue items, packet sections, blockers, allowed actions, and next steps without enabling live verifier submission, package approval, direct AI publish, or student assignment.
 
+AI-generated draft packages must enter this same review queue as read-only items. They must show source lineage, verifier packet requirements, blocked route/playlist/assignment actions, target-language audio blockers, media-rights blockers, engine/gamification checks, and teacher approval blockers before any generated package can move toward approval.
+
 The review queue route includes a verifier submission preflight. It shows schema, audio, support-language, route, and evidence checks that a future verifier workflow must pass, while keeping automatic verifier submission blocked.
 
 The backend-neutral storage contract includes `teacher_draft_verifier_submission` records. Hosted and local adapters must preserve verifier preflight checks and block automatic verifier submission until workflow, identity, evidence, and approval policy exist.
@@ -148,6 +150,12 @@ The review queue route must continue to show:
 - `Teacher draft review queue`
 - `Review workbench preview`
 - `Review handoff packet`
+- `AI-generated daily routines draft preview`
+- `Source lineage`
+- `AI verifier submission packet`
+- `AI verifier submission packet required`
+- `Create route from AI draft`
+- `Create playlist from AI draft`
 - `Verifier submission blocked`
 - `Package approval blocked`
 - `Student assignment blocked`

@@ -53,6 +53,32 @@ const expectedTextByPath = new Map([
   ["/q/tenant/sample-publisher/series/starter-english/book/level-1/unit/unit-1/activity/hello-friends/language/en/edition/2026/version/1.0.0", ["Edition QR resolver preview", "Printed QR id", "qr-sample-publisher-starter-l1-u1-hello", "The printed QR id stays constant", "Resolved target", "/enter/sample-publisher", "Guardrails", "Direct localhost target", "Direct media file target", "Unreviewed package swap", "Open resolved preview"]],
 ]);
 
+expectedTextByPath.get("/teacher/review")?.push(
+  "AI-generated daily routines draft preview",
+  "Source lineage",
+  "Created from AI generator draft preview",
+  "Requires AI verifier submission packet before teacher approval.",
+  "Generated content cannot create routes, playlists, assignments, or local bundles.",
+  "AI verifier submission packet",
+  "AI verifier submission packet required",
+  "Submit AI draft to verifier",
+  "Approve generated package",
+  "Create route from AI draft",
+  "Create playlist from AI draft",
+  "Assign generated draft to students",
+  "Mark generated package student-ready",
+  "AI draft queued for review",
+  "AI verifier packet reviewed",
+  "AI draft returned or rejected",
+  "AI schema packet ready",
+  "AI audio coverage pending",
+  "AI engine binding ready",
+  "AI gamification mapping ready",
+  "AI media rights pending",
+  "AI teacher approval missing",
+  "No live AI verifier workflow",
+);
+
 expectedTextByPath.get("/teacher/intake")?.push(
   "Evidence storage adapter selection gate",
   "Storage adapter selection blocked",

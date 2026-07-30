@@ -92,8 +92,13 @@ function ReviewQueueItemCard({ item }: { item: TeacherDraftReviewQueueItem }) {
         </div>
         <div className="flex flex-wrap gap-2">
           <StatusPill label={item.status} tone={statusTone[item.status]} />
+          <StatusPill label={item.draft.status} tone="neutral" />
           <StatusPill label="Verifier submission blocked" tone="warning" />
         </div>
+      </div>
+
+      <div className="mt-5">
+        <ReviewQueueList title="Source lineage" items={item.draft.sourceLineage} tone="neutral" />
       </div>
 
       <div className="mt-5 grid gap-3 lg:grid-cols-3">

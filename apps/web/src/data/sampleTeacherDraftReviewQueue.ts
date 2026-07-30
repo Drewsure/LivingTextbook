@@ -57,6 +57,9 @@ export interface TeacherDraftReviewQueue {
 }
 
 const draft = sampleTeacherDraftPackages[0];
+const aiGeneratedDraft = sampleTeacherDraftPackages.find(
+  (teacherDraft) => teacherDraft.draftId === "ai-draft-sample-publisher-l1-routines-v1",
+);
 
 export const sampleTeacherDraftReviewQueue: TeacherDraftReviewQueue = {
   queueId: "teacher-draft-review-queue-sample-publisher",
@@ -209,12 +212,199 @@ export const sampleTeacherDraftReviewQueue: TeacherDraftReviewQueue = {
           nextStep:
             "Connect this queue to persisted teacher draft review handoff records after authentication, verifier workflow, and package approval policy exist.",
         },
+        ...(aiGeneratedDraft
+          ? [
+              {
+                queueItemId: "queue-ai-draft-sample-publisher-l1-routines-v1",
+                draft: aiGeneratedDraft,
+                status: "blocked" as const,
+                reviewerLane: "ai-draft-verifier-review",
+                packetSections: [
+                  "AI verifier submission packet",
+                  "Schema validation packet",
+                  "Pedagogical lock packet",
+                  "Audio coverage packet",
+                  "Engine binding packet",
+                  "Gamification mapping packet",
+                  "Activity compatibility snapshot",
+                  "Media rights manifest",
+                  "Teacher approval packet",
+                ],
+                blockedBy: [
+                  "AI verifier submission packet required",
+                  "Durable verifier storage required",
+                  "Reviewer identity required",
+                  "Audio cue approval required",
+                  "Media rights proof required",
+                  "Approval ledger binding required",
+                ],
+                allowedActions: [
+                  "Preview AI draft package",
+                  "Inspect AI verifier packet",
+                  "Review blocked actions",
+                  "Compare with source evidence",
+                ],
+                notAllowedYet: [
+                  "Submit AI draft to verifier",
+                  "Approve generated package",
+                  "Create route from AI draft",
+                  "Create playlist from AI draft",
+                  "Assign generated draft to students",
+                  "Mark generated package student-ready",
+                ],
+                reviewerDecisionOptions: [
+                  {
+                    decisionId: "return-ai-draft-for-edits",
+                    label: "Return AI draft for edits",
+                    status: "preview-only" as const,
+                    evidenceRequired: ["Reviewer note", "Prompt package version", "Source evidence packet"],
+                    blockedBy: ["Reviewer identity required", "Draft persistence required"],
+                    outcome: "Generated draft returns to teacher review without becoming student-facing.",
+                  },
+                  {
+                    decisionId: "ai-draft-needs-audio",
+                    label: "AI draft needs audio",
+                    status: "preview-only" as const,
+                    evidenceRequired: ["Missing cue list", "Voice policy decision", "Audio approval owner"],
+                    blockedBy: ["Audio cue approval required", "No API voice cost approval"],
+                    outcome:
+                      "Generated draft remains blocked until target-language term, sentence, instruction, feedback, and control audio is reviewed.",
+                  },
+                  {
+                    decisionId: "reject-ai-draft",
+                    label: "Reject AI draft",
+                    status: "preview-only" as const,
+                    evidenceRequired: ["Reason code", "Source mismatch note", "Reviewer identity"],
+                    blockedBy: ["Reviewer identity required", "Review audit storage required"],
+                    outcome: "Generated draft is marked unsuitable in a future audit trail without changing package release state.",
+                  },
+                  {
+                    decisionId: "ai-draft-ready-for-approval",
+                    label: "AI draft ready for approval",
+                    status: "blocked" as const,
+                    evidenceRequired: [
+                      "Verifier pass",
+                      "Target audio pass",
+                      "Media rights pass",
+                      "Engine binding pass",
+                      "Gamification mapping pass",
+                    ],
+                    blockedBy: ["Package approval ledger required", "Release-control policy required", "Approver identity required"],
+                    outcome: "Future path only: creates an approval candidate, not a route, playlist, or student assignment.",
+                  },
+                ],
+                evidencePacketPreview: [
+                  "AI prompt package version evidence",
+                  "AI draft JSON snapshot",
+                  "AI verifier submission packet evidence",
+                  "Audio coverage evidence",
+                  "Media rights manifest evidence",
+                  "Teacher approval evidence",
+                ],
+                evidenceUploadBlockedBy: [
+                  "Evidence storage required",
+                  "Reviewer authentication required",
+                  "AI prompt package persistence required",
+                  "Approval ledger policy required",
+                  "No file upload in foundation preview",
+                ],
+                auditTrailPreview: [
+                  {
+                    eventId: "audit-ai-draft-queued",
+                    label: "AI draft queued for review",
+                    actor: "Teacher owner",
+                    previewStatus: "recorded-preview" as const,
+                    evidenceLink: "AI draft payload preview",
+                    blockedBy: ["Durable audit trail storage required"],
+                  },
+                  {
+                    eventId: "audit-ai-verifier-packet-reviewed",
+                    label: "AI verifier packet reviewed",
+                    actor: "Content reviewer",
+                    previewStatus: "blocked-preview" as const,
+                    evidenceLink: "AI verifier submission packet",
+                    blockedBy: ["Reviewer identity required", "No live verifier workflow"],
+                  },
+                  {
+                    eventId: "audit-ai-draft-returned",
+                    label: "AI draft returned or rejected",
+                    actor: "Content reviewer",
+                    previewStatus: "blocked-preview" as const,
+                    evidenceLink: "Reviewer decision preview",
+                    blockedBy: ["Review audit storage required", "No live state transition"],
+                  },
+                ],
+                auditTrailBlockedBy: [
+                  "Audit trail storage required",
+                  "Reviewer authentication required",
+                  "AI verifier workflow required",
+                  "Approval ledger policy required",
+                  "No live state transition",
+                ],
+                verifierPreflightChecks: [
+                  {
+                    checkId: "ai-schema-packet-ready",
+                    label: "AI schema packet ready",
+                    status: "ready-preview" as const,
+                    detail: "Generated payload keeps 8 vocabulary terms, exactly 2 target sentences, and JSON-first shape.",
+                  },
+                  {
+                    checkId: "ai-pedagogical-lock-ready",
+                    label: "AI pedagogical lock ready",
+                    status: "ready-preview" as const,
+                    detail: "Level 1 routines content is bounded to the reviewed 8-term unit payload.",
+                  },
+                  {
+                    checkId: "ai-audio-coverage-pending",
+                    label: "AI audio coverage pending",
+                    status: "blocked-preview" as const,
+                    detail: "Target-language learner text still needs approved audio cues before student use.",
+                  },
+                  {
+                    checkId: "ai-engine-binding-ready",
+                    label: "AI engine binding ready",
+                    status: "ready-preview" as const,
+                    detail: "Generated pathway binds to flashcards, memory match, sentence builder, and quiz parent engines.",
+                  },
+                  {
+                    checkId: "ai-gamification-mapping-ready",
+                    label: "AI gamification mapping ready",
+                    status: "ready-preview" as const,
+                    detail: "Star Dust and collection unlocks remain deterministic and mastery-based.",
+                  },
+                  {
+                    checkId: "ai-media-rights-pending",
+                    label: "AI media rights pending",
+                    status: "blocked-preview" as const,
+                    detail: "Partner audio, video, image, playlist, and background media rights evidence is not attached.",
+                  },
+                  {
+                    checkId: "ai-teacher-approval-missing",
+                    label: "AI teacher approval missing",
+                    status: "blocked-preview" as const,
+                    detail: "No reviewer identity, teacher approval packet, or release-control binding exists yet.",
+                  },
+                ],
+                verifierSubmissionBlockedBy: [
+                  "No live AI verifier workflow",
+                  "AI verifier packet not durable",
+                  "Reviewer identity required",
+                  "Evidence storage required",
+                  "Audio cue approval required",
+                  "Approval ledger policy required",
+                ],
+                nextStep:
+                  "Persist AI draft queue items and verifier packets before allowing any generated package review submission, approval, route creation, playlist creation, or assignment.",
+              },
+            ]
+          : []),
       ]
     : [],
   hardRules: [
     "Verifier submission blocked until handoff packets are durable.",
     "Package approval blocked until evidence, approver identity, and release-control policy exist.",
     "Student assignment blocked until a reviewed package release is created.",
+    "AI-generated drafts enter the same review queue as teacher drafts and stay read-only until verifier and approval records exist.",
     "Review audit trail preview cannot change package state.",
     "No direct AI publish from teacher drafts or review queue items.",
   ],

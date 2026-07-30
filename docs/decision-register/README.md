@@ -262,6 +262,7 @@
 - `DR-288-ai-generator-gamification-mapping-preview.md`
 - `DR-289-ai-generator-engine-binding-preview.md`
 - `DR-290-ai-generator-verifier-submission-packet.md`
+- `DR-291-ai-generated-draft-review-queue-integration.md`
 
 ## Maintenance Rule
 
