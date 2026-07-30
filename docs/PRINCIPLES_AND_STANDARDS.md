@@ -216,6 +216,8 @@ AI teaching game generator creates draft package requests, verifier packets, tar
 
 AI generation must run from reviewed, versioned, tenant-scoped prompt packages. Prompt packages must lock input slots, JSON schema, content limits, audio requirements, tenant brand rules, support-language rules, model-use state, usage budget, and cost controls. No raw student data may be sent into prompt packages, and students must never edit generator prompts or see premium upsell copy.
 
+AI-generated game packages must include deterministic gamification mappings before review. Generated activities must name their accepted events, Star Dust scoring lanes, mastery thresholds, collection unlock bindings, and blocked reward shortcuts. AI generation cannot create random rewards, generated gacha, purchase-like unlocks, support-language-only mastery, or media-only Star Dust.
+
 Required content rules:
 
 - Default 8 vocabulary terms

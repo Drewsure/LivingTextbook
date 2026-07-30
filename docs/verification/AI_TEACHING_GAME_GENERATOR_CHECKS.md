@@ -36,6 +36,8 @@ Confirm:
 - Audio coverage planner enumerates target-language term audio, sentence audio, instruction audio, feedback audio, and critical control audio.
 - Audio coverage planner keeps support-language audio support-only and blocks media-only listening from counting toward mastery.
 - Audio coverage planner blocks live synthetic voice generation and voice API cost until tenant approval.
+- Gamification mapping preview shows accepted events, Star Dust allocation, mastery thresholds, score-profile snapshot, event acceptance map, and collection unlock bindings.
+- Gamification mapping preview blocks random reward generation, generated gacha, media-only Star Dust, support-language-only mastery, purchase-like unlocks, and unreviewed score profiles.
 - Mode recommendation preview reuses the activity compatibility matrix.
 - Mode recommendation preview shows a recommended generated pathway and blocked conversion guardrails.
 - Mode recommendation preview blocks a broad switch panel as the default product promise.
