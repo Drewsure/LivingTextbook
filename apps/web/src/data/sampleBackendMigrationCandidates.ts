@@ -198,6 +198,43 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
       ],
     },
     {
+      migrationId: "m056-ai-generated-publish-readiness-gate-records",
+      label: "AI generated publish readiness gate records",
+      track: "shared",
+      status: "ready-to-design",
+      risk: "medium",
+      targetEntities: ["ai_generated_publish_readiness_gate"],
+      purpose:
+        "Persist last-mile generated publish readiness checks before AI drafts can create launch routes, route registry entries, media playlists, assignments, local bundles, or student-ready markers.",
+      prerequisites: [
+        "AI generated package manifest accepted",
+        "AI draft correction queue accepted",
+        "AI verifier submission packet accepted",
+        "AI reward readiness gate accepted",
+        "Package publish gate and approval ledger policy accepted",
+      ],
+      implementationNotes: [
+        "Keep publish gates tenant-scoped, generation-request-scoped, and manifest-scoped.",
+        "Preserve correction queue, verifier packet, manifest completeness, reward gate, package publish gate, and package approval ledger checks.",
+        "Block route registry writes, media playlist writes, assignment writes, local bundle writes, and student-ready markers.",
+        "Do not let an AI generated publish gate create a route or assignment by itself.",
+      ],
+      rollbackOrExportNeeds: [
+        "Export generated publish readiness gate JSON with linked correction, verifier, manifest, reward, publish gate, and approval ledger ids",
+        "Retain blocked and cleared publish gate snapshots for audit",
+        "Support local publish gate backup and restore without enabling offline route or assignment writes",
+      ],
+      notAllowedYet: [
+        "Generated route creation",
+        "Route registry write",
+        "Media playlist write",
+        "Student assignment",
+        "Local bundle write",
+        "Student-ready marker",
+        "Direct AI publish",
+      ],
+    },
+    {
       migrationId: "m049-teacher-assignment-rollout-gate-records",
       label: "Teacher assignment rollout gate records",
       track: "shared",

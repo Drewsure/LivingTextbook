@@ -9,6 +9,7 @@ export type PersistenceRecordCategory =
   | "teacher-draft-verifier-submission"
   | "ai-generated-package-manifest"
   | "ai-reward-readiness-gate"
+  | "ai-generated-publish-readiness-gate"
   | "teacher-assignment-rollout-gate"
   | "private-assignment-link"
   | "class-roster-plan"
@@ -117,6 +118,11 @@ export interface DurableRecordContract {
   blocksSpinWheelTicketIssuance?: boolean;
   blocksAvatarEvolutionWrite?: boolean;
   requiresAiDraftCorrectionQueueClearance?: boolean;
+  preservesAiGeneratedPublishReadinessGate?: boolean;
+  requiresVerifierPacketApproval?: boolean;
+  requiresManifestCompleteness?: boolean;
+  requiresReleaseControlBinding?: boolean;
+  requiresTeacherApprovalLedger?: boolean;
   preservesTeacherAssignmentRolloutGate?: boolean;
   preservesPrivateAssignmentLink?: boolean;
   blocksPublicSharing?: boolean;
@@ -402,6 +408,57 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "ai-reward-readiness-gate" && !record.requiresAiDraftCorrectionQueueClearance) {
       errors.push(`AI reward readiness gate record ${record.recordId} must require correction queue clearance.`);
+    }
+
+    if (
+      record.category === "ai-generated-publish-readiness-gate" &&
+      !record.preservesAiGeneratedPublishReadinessGate
+    ) {
+      errors.push(`AI generated publish readiness gate record ${record.recordId} must preserve publish readiness checks.`);
+    }
+
+    if (record.category === "ai-generated-publish-readiness-gate" && !record.requiresAiDraftCorrectionQueueClearance) {
+      errors.push(`AI generated publish readiness gate record ${record.recordId} must require correction queue clearance.`);
+    }
+
+    if (record.category === "ai-generated-publish-readiness-gate" && !record.requiresVerifierPacketApproval) {
+      errors.push(`AI generated publish readiness gate record ${record.recordId} must require verifier packet approval.`);
+    }
+
+    if (record.category === "ai-generated-publish-readiness-gate" && !record.requiresManifestCompleteness) {
+      errors.push(`AI generated publish readiness gate record ${record.recordId} must require manifest completeness.`);
+    }
+
+    if (record.category === "ai-generated-publish-readiness-gate" && !record.preservesAiRewardReadinessGate) {
+      errors.push(`AI generated publish readiness gate record ${record.recordId} must preserve reward readiness state.`);
+    }
+
+    if (record.category === "ai-generated-publish-readiness-gate" && !record.requiresReleaseControlBinding) {
+      errors.push(`AI generated publish readiness gate record ${record.recordId} must require release-control binding.`);
+    }
+
+    if (record.category === "ai-generated-publish-readiness-gate" && !record.requiresTeacherApprovalLedger) {
+      errors.push(`AI generated publish readiness gate record ${record.recordId} must require teacher approval ledger capture.`);
+    }
+
+    if (record.category === "ai-generated-publish-readiness-gate" && !record.blocksGeneratedPackageRouteWrite) {
+      errors.push(`AI generated publish readiness gate record ${record.recordId} must block route registry writes.`);
+    }
+
+    if (record.category === "ai-generated-publish-readiness-gate" && !record.blocksGeneratedPackagePlaylistWrite) {
+      errors.push(`AI generated publish readiness gate record ${record.recordId} must block media playlist writes.`);
+    }
+
+    if (record.category === "ai-generated-publish-readiness-gate" && !record.blocksGeneratedPackageAssignment) {
+      errors.push(`AI generated publish readiness gate record ${record.recordId} must block assignment writes.`);
+    }
+
+    if (record.category === "ai-generated-publish-readiness-gate" && !record.blocksGeneratedPackageLocalBundleWrite) {
+      errors.push(`AI generated publish readiness gate record ${record.recordId} must block local bundle writes.`);
+    }
+
+    if (record.category === "ai-generated-publish-readiness-gate" && !record.blocksStudentReadyMarker) {
+      errors.push(`AI generated publish readiness gate record ${record.recordId} must block student-ready markers.`);
     }
 
     if (record.category === "teacher-assignment-rollout-gate" && !record.preservesTeacherAssignmentRolloutGate) {

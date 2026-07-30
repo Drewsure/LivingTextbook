@@ -461,6 +461,8 @@ const aiGameGeneratorIntakeExpected = [
   "AI generated package manifest record",
   "ai_reward_readiness_gate",
   "AI reward readiness gate record",
+  "ai_generated_publish_readiness_gate",
+  "AI generated publish readiness gate record",
   "activity_compatibility_snapshot",
   "package_game_audio_coverage",
 ];

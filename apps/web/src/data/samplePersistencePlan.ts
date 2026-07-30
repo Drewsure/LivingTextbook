@@ -21,6 +21,7 @@ export type PersistenceBoundaryCategory =
   | "teacher-draft-verifier-submission"
   | "ai-generated-package-manifest"
   | "ai-reward-readiness-gate"
+  | "ai-generated-publish-readiness-gate"
   | "teacher-assignment-rollout-gate"
   | "private-assignment-link"
   | "class-roster-plan"
@@ -226,6 +227,36 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
     note:
       "AI reward readiness gates need durable scoring, mastery, correction-queue, accepted-event, and collection unlock checks before generated packages can affect rewards, inventory, Spin Wheel tickets, avatars, or assignments.",
+  },
+  {
+    recordId: "ai-generated-publish-readiness-gate-record",
+    category: "ai-generated-publish-readiness-gate",
+    label: "AI generated publish readiness gate record",
+    readiness: "durable-required",
+    sourceOfTruth:
+      "AiGeneratedPublishReadinessGate, AI draft correction queue, AI verifier packet, generated package manifest, AI reward readiness gate, package publish gate, and package approval ledger",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesAiGeneratedPublishReadinessGate: true,
+    requiresAiDraftCorrectionQueueClearance: true,
+    requiresVerifierPacketApproval: true,
+    requiresManifestCompleteness: true,
+    preservesAiRewardReadinessGate: true,
+    requiresReleaseControlBinding: true,
+    requiresTeacherApprovalLedger: true,
+    blocksGeneratedPackageRouteWrite: true,
+    blocksGeneratedPackagePlaylistWrite: true,
+    blocksGeneratedPackageAssignment: true,
+    blocksGeneratedPackageLocalBundleWrite: true,
+    blocksStudentReadyMarker: true,
+    blocksDirectStudentAssignment: true,
+    recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
+    note:
+      "AI generated publish readiness gates need durable correction, verifier, manifest, reward, release-control, and approval checks before generated packages can create routes, playlists, assignments, local bundles, or student-ready markers.",
   },
   {
     recordId: "teacher-assignment-rollout-gate-record",
@@ -1340,6 +1371,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision:
       "Persist AI reward readiness gates before enabling generated reward publishing, collection inventory writes, Spin Wheel ticket issuance, avatar evolution writes, or assignment workflows.",
+  },
+  {
+    boundaryId: "ai-generated-publish-readiness-gate-boundary",
+    category: "ai-generated-publish-readiness-gate",
+    label: "AI generated publish readiness gate records",
+    status: "needs-backend",
+    recordShape:
+      "Publish gate id, tenant id, request id, generated manifest id, correction queue id, verifier packet id, reward gate id, publish gate id, approval ledger id, future student route, publish readiness checks, blocked publish actions, and route/playlist/assignment/local-bundle/student-ready blocks",
+    whyItMatters:
+      "Generated package publishing needs one durable last-mile gate so a UI preview cannot create launch routes, route registry entries, playlists, assignments, local bundles, or student-ready markers before verifier, reward, approval, and release-control rules pass.",
+    visibleTo: ["Teacher", "Tenant admin", "Content reviewer", "Platform admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Persist AI generated publish readiness gates before enabling generated route creation, route registry writes, playlist writes, assignment creation, local bundle writes, or student-ready markers.",
   },
   {
     boundaryId: "teacher-assignment-rollout-gate-boundary",

@@ -921,6 +921,143 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       ],
     },
     {
+      specId: "spec-ai-generated-publish-readiness-gate",
+      label: "AI generated publish readiness gate",
+      candidateId: "m056-ai-generated-publish-readiness-gate-records",
+      storeKind: "admin-record",
+      status: "ready-for-review",
+      purpose:
+        "Stores last-mile generated publish readiness checks while keeping generated route, playlist, assignment, local bundle, and student-ready writes blocked.",
+      primaryKey: "ai_generated_publish_readiness_gate_id",
+      tenantScope:
+        "Scoped by tenant_id, generation_request_id, ai_generated_package_manifest_id, ai_verifier_submission_packet_id, ai_reward_readiness_gate_id, and gate_revision.",
+      fields: [
+        {
+          name: "ai_generated_publish_readiness_gate_id",
+          type: "string",
+          required: true,
+          note: "Stable id for one generated publish readiness gate snapshot.",
+        },
+        {
+          name: "generation_request_id",
+          type: "string",
+          required: true,
+          note: "AI generation request this publish gate belongs to.",
+        },
+        {
+          name: "ai_generated_package_manifest_id",
+          type: "string",
+          required: true,
+          note: "Generated package manifest being checked.",
+        },
+        {
+          name: "ai_draft_correction_queue_id",
+          type: "string",
+          required: true,
+          note: "Correction queue that must clear before generated publishing can move forward.",
+        },
+        {
+          name: "ai_verifier_submission_packet_id",
+          type: "string",
+          required: true,
+          note: "Verifier packet that must be approved before generated publishing can move forward.",
+        },
+        {
+          name: "ai_reward_readiness_gate_id",
+          type: "string",
+          required: true,
+          note: "Reward readiness gate that must pass before collection or assignment effects.",
+        },
+        {
+          name: "package_publish_gate_id",
+          type: "string",
+          required: true,
+          note: "Normal package publish gate this generated package must bind to.",
+        },
+        {
+          name: "package_approval_ledger_id",
+          type: "string",
+          required: true,
+          note: "Teacher/reviewer approval ledger required before generated publishing.",
+        },
+        {
+          name: "future_student_route",
+          type: "string",
+          required: true,
+          note: "Preview-only future student route target.",
+        },
+        {
+          name: "publish_readiness_checks",
+          type: "json",
+          required: true,
+          note: "Correction, verifier, manifest, reward, release-control, and approval checks.",
+        },
+        {
+          name: "blocked_publish_actions",
+          type: "json",
+          required: true,
+          note: "Route registry, playlist, assignment, local bundle, and student-ready blocks.",
+        },
+        {
+          name: "student_route_publish_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until all generated publish gates pass.",
+        },
+        {
+          name: "route_registry_write_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until release-control and approval ledger pass.",
+        },
+        {
+          name: "media_playlist_write_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until media rights and audio priority pass.",
+        },
+        {
+          name: "assignment_write_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until assignment rollout and school policy gates pass.",
+        },
+        {
+          name: "local_bundle_write_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until local companion package policy passes.",
+        },
+        {
+          name: "student_ready_marker_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until package release and launch safety gates pass.",
+        },
+      ],
+      indexes: [
+        "tenant_id + ai_generated_publish_readiness_gate_id",
+        "ai_generated_publish_readiness_gate_id unique",
+        "tenant_id + generation_request_id",
+        "tenant_id + ai_generated_package_manifest_id",
+        "tenant_id + ai_verifier_submission_packet_id",
+        "student_route_publish_allowed",
+        "route_registry_write_allowed",
+        "assignment_write_allowed",
+      ],
+      retentionRule:
+        "Retain according to tenant authoring and release policy; blocked, cleared, rejected, and superseded generated publish gate snapshots remain auditable.",
+      exportRule:
+        "Must export generated publish readiness checks and linked correction, verifier, manifest, reward, publish gate, and approval ledger ids without exporting unrelated tenant packages or model internals.",
+      localFallback:
+        "Local classroom deployments store the same generated publish readiness gate JSON for backup/export without allowing offline route registry, playlist, assignment, local bundle, or student-ready writes.",
+      policyBlockers: [
+        "Correction queue, verifier packet, manifest, reward gate, package publish gate, approval ledger, and school policy must pass before generated publishing.",
+        "Generated publish gates cannot create launch routes, write route registry entries, create playlists, assign students, write local bundles, or mark content student-ready by themselves.",
+        "Direct AI publish, support-language-only progression, media-only progress, raw learner audio, and transcripts remain blocked.",
+      ],
+    },
+    {
       specId: "spec-teacher-assignment-rollout-gate",
       label: "Teacher assignment rollout gate",
       candidateId: "m049-teacher-assignment-rollout-gate-records",

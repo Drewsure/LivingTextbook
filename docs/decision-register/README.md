@@ -271,6 +271,7 @@
 - `DR-297-ai-reward-readiness-gate.md`
 - `DR-298-ai-reward-readiness-gate-storage-contract.md`
 - `DR-299-ai-generated-publish-readiness-gate.md`
+- `DR-300-ai-generated-publish-readiness-storage-contract.md`
 
 ## Maintenance Rule
 

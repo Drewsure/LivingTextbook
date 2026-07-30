@@ -57,6 +57,7 @@ Confirm:
 - Generated package manifest storage contract appears in schema draft, migration candidates, migration specs, durable records, and hosted/local adapter plans before live generation is enabled.
 - AI generated publish readiness gate shows correction queue clearance, verifier packet approval, manifest completeness, reward readiness, release-control binding, and teacher approval ledger capture before any student route can exist.
 - AI generated publish readiness gate allows review/correction work only and blocks route registry writes, media playlist writes, assignment creation, local bundle writes, and student-ready markers.
+- AI generated publish readiness gate storage contract appears in schema draft, migration candidates, migration specs, durable records, and hosted/local adapter plans before generated package publishing is enabled.
 - Mode recommendation preview reuses the activity compatibility matrix.
 - Mode recommendation preview shows a recommended generated pathway and blocked conversion guardrails.
 - Mode recommendation preview blocks a broad switch panel as the default product promise.

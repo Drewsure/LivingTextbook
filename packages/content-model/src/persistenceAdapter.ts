@@ -53,6 +53,11 @@ export interface PersistenceWriteIntent {
   blocksSpinWheelTicketIssuance?: boolean;
   blocksAvatarEvolutionWrite?: boolean;
   requiresAiDraftCorrectionQueueClearance?: boolean;
+  preservesAiGeneratedPublishReadinessGate?: boolean;
+  requiresVerifierPacketApproval?: boolean;
+  requiresManifestCompleteness?: boolean;
+  requiresReleaseControlBinding?: boolean;
+  requiresTeacherApprovalLedger?: boolean;
   preservesTeacherAssignmentRolloutGate?: boolean;
   preservesPrivateAssignmentLink?: boolean;
   blocksPublicSharing?: boolean;
@@ -373,6 +378,57 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "ai-reward-readiness-gate" && !intent.requiresAiDraftCorrectionQueueClearance) {
       errors.push(`AI reward readiness gate write intent ${intent.intentId} must require correction queue clearance.`);
+    }
+
+    if (
+      intent.category === "ai-generated-publish-readiness-gate" &&
+      !intent.preservesAiGeneratedPublishReadinessGate
+    ) {
+      errors.push(`AI generated publish readiness gate write intent ${intent.intentId} must preserve publish readiness checks.`);
+    }
+
+    if (intent.category === "ai-generated-publish-readiness-gate" && !intent.requiresAiDraftCorrectionQueueClearance) {
+      errors.push(`AI generated publish readiness gate write intent ${intent.intentId} must require correction queue clearance.`);
+    }
+
+    if (intent.category === "ai-generated-publish-readiness-gate" && !intent.requiresVerifierPacketApproval) {
+      errors.push(`AI generated publish readiness gate write intent ${intent.intentId} must require verifier packet approval.`);
+    }
+
+    if (intent.category === "ai-generated-publish-readiness-gate" && !intent.requiresManifestCompleteness) {
+      errors.push(`AI generated publish readiness gate write intent ${intent.intentId} must require manifest completeness.`);
+    }
+
+    if (intent.category === "ai-generated-publish-readiness-gate" && !intent.preservesAiRewardReadinessGate) {
+      errors.push(`AI generated publish readiness gate write intent ${intent.intentId} must preserve reward readiness state.`);
+    }
+
+    if (intent.category === "ai-generated-publish-readiness-gate" && !intent.requiresReleaseControlBinding) {
+      errors.push(`AI generated publish readiness gate write intent ${intent.intentId} must require release-control binding.`);
+    }
+
+    if (intent.category === "ai-generated-publish-readiness-gate" && !intent.requiresTeacherApprovalLedger) {
+      errors.push(`AI generated publish readiness gate write intent ${intent.intentId} must require teacher approval ledger capture.`);
+    }
+
+    if (intent.category === "ai-generated-publish-readiness-gate" && !intent.blocksGeneratedPackageRouteWrite) {
+      errors.push(`AI generated publish readiness gate write intent ${intent.intentId} must block route registry writes.`);
+    }
+
+    if (intent.category === "ai-generated-publish-readiness-gate" && !intent.blocksGeneratedPackagePlaylistWrite) {
+      errors.push(`AI generated publish readiness gate write intent ${intent.intentId} must block media playlist writes.`);
+    }
+
+    if (intent.category === "ai-generated-publish-readiness-gate" && !intent.blocksGeneratedPackageAssignment) {
+      errors.push(`AI generated publish readiness gate write intent ${intent.intentId} must block assignment writes.`);
+    }
+
+    if (intent.category === "ai-generated-publish-readiness-gate" && !intent.blocksGeneratedPackageLocalBundleWrite) {
+      errors.push(`AI generated publish readiness gate write intent ${intent.intentId} must block local bundle writes.`);
+    }
+
+    if (intent.category === "ai-generated-publish-readiness-gate" && !intent.blocksStudentReadyMarker) {
+      errors.push(`AI generated publish readiness gate write intent ${intent.intentId} must block student-ready markers.`);
     }
 
     if (intent.category === "teacher-assignment-rollout-gate" && !intent.preservesTeacherAssignmentRolloutGate) {
