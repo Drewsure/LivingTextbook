@@ -126,6 +126,7 @@ requireText(tenantCoveragePanel, "Tenant record lanes", "AI generator tenant cov
 requireText(tenantCoveragePanel, "Blocked generator actions", "AI generator tenant coverage panel must expose blocked actions.");
 requireText(tenantCoveragePanel, "Next tenant requirements", "AI generator tenant coverage panel must expose next requirements.");
 requireText(engineBindingPlan, "sampleAiEngineBindingPlans", "AI engine binding plan data must exist.");
+requireText(engineBindingPlan, "MiniStar generated-mode engine binding", "AI engine binding plan must include MiniStar request seed.");
 requireText(engineBindingPlan, "ai_engine_binding_plan", "AI engine binding plan must name the binding record.");
 requireText(engineBindingPlan, "game_mode_catalog_snapshot", "AI engine binding plan must name the game catalog snapshot.");
 requireText(engineBindingPlan, "engine_mode_config_binding", "AI engine binding plan must name engine mode config binding.");
@@ -141,6 +142,8 @@ requireText(engineBindingPanel, "No generated game code", "AI engine binding pan
 requireText(engineBindingPanel, "Parent engine", "AI engine binding panel must show parent engine details.");
 requireText(engineBindingPanel, "Scoring profile", "AI engine binding panel must show scoring profile details.");
 requireText(promptPackagePlan, "sampleAiPromptPackagePlans", "AI prompt package plan data must exist.");
+requireText(promptPackagePlan, "MiniStar generator prompt package", "AI prompt package plan must include MiniStar request seed.");
+requireText(promptPackagePlan, "ministar-l1-greetings-game-draft", "AI prompt package plan must bind to MiniStar greetings request.");
 requireText(promptPackagePlan, "ai-generator-prompt-v2026.07.foundation", "AI prompt package must be versioned.");
 requireText(promptPackagePlan, "Model use disabled until tenant AI package approval", "AI prompt package must keep model use disabled.");
 requireText(promptPackagePlan, "Usage budget required", "AI prompt package must require usage budget.");
@@ -156,6 +159,7 @@ requireText(promptPackagePanel, "Model use disabled", "AI prompt package panel m
 requireText(promptPackagePanel, "Output schema locks", "AI prompt package panel must expose output schema locks.");
 requireText(promptPackagePanel, "Cost controls", "AI prompt package panel must expose cost controls.");
 requireText(costEntitlementGate, "sampleAiGeneratorCostEntitlementGates", "AI generator cost gate data must exist.");
+requireText(costEntitlementGate, "MiniStar AI cost and entitlement gate", "AI generator cost gate data must include MiniStar request seed.");
 requireText(costEntitlementGate, "premium_ai_cost_gate", "AI generator cost gate must name premium AI cost gate.");
 requireText(costEntitlementGate, "tenant_ai_generation_entitlement", "AI generator cost gate must name tenant entitlement.");
 requireText(costEntitlementGate, "usage_budget_ceiling", "AI generator cost gate must name usage budget ceilings.");
@@ -174,6 +178,8 @@ requireText(costEntitlementGatePanel, "Entitlement checks", "AI generator cost g
 requireText(costEntitlementGatePanel, "Cost estimate preview", "AI generator cost gate panel must expose estimate preview.");
 requireText(costEntitlementGatePanel, "Hard cost ceilings", "AI generator cost gate panel must expose hard ceilings.");
 requireText(requestBuilderData, "sampleAiGenerationRequestBuilders", "AI request builder data must exist.");
+requireText(requestBuilderData, "requestId: string", "AI request builder data must be request-specific.");
+requireText(requestBuilderData, "MiniStar AI game request builder", "AI request builder data must include MiniStar request seed.");
 requireText(requestBuilderData, "Source evidence packet", "AI request builder must include source evidence packet field.");
 requireText(requestBuilderData, "Target level", "AI request builder must include target level field.");
 requireText(requestBuilderData, "Unit theme", "AI request builder must include unit theme field.");
@@ -192,6 +198,8 @@ requireText(requestBuilderData, "No model billing", "AI request builder must blo
 requireText(requestBuilderPanel, "AI generation request builder", "AI request builder panel must expose heading.");
 requireText(requestBuilderPanel, "Disabled generator setup form", "AI request builder panel must expose disabled form label.");
 requireText(audioCoveragePlan, "sampleAiGeneratorAudioCoveragePlans", "AI generator audio coverage plan data must exist.");
+requireText(audioCoveragePlan, "MiniStar AI audio coverage plan", "AI generator audio plan must include MiniStar request seed.");
+requireText(audioCoveragePlan, "ja-hiragana", "AI generator audio plan must preserve hiragana-only support audio for early MiniStar levels.");
 requireText(audioCoveragePlan, "ai_audio_coverage_plan", "AI generator audio plan must name the audio coverage plan record.");
 requireText(audioCoveragePlan, "audio_cue_manifest", "AI generator audio plan must name the audio cue manifest.");
 requireText(audioCoveragePlan, "Learning audio wins over background music", "AI generator audio plan must prioritize learning audio.");
@@ -206,6 +214,7 @@ requireText(audioCoveragePanel, "Learning audio priority", "AI generator audio p
 requireText(audioCoveragePanel, "Progress policy", "AI generator audio panel must expose progress policies.");
 requireText(audioCoveragePanel, "Review note", "AI generator audio panel must expose review notes.");
 requireText(gamificationMappingPlan, "sampleAiGamificationMappingPlans", "AI gamification mapping plan data must exist.");
+requireText(gamificationMappingPlan, "MiniStar AI gamification map", "AI gamification mapping must include MiniStar request seed.");
 requireText(gamificationMappingPlan, "ai_gamification_mapping_plan", "AI gamification mapping must name the mapping record.");
 requireText(gamificationMappingPlan, "game_scoring_profile_snapshot", "AI gamification mapping must name scoring profile snapshot.");
 requireText(gamificationMappingPlan, "collection_unlock_binding", "AI gamification mapping must name collection unlock binding.");

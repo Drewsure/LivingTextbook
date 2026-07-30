@@ -212,16 +212,18 @@ function requestRecordLane(
 }
 
 function tenantBuilderLane(request: AiGameGeneratorRequest): AiGeneratorTenantCoverageLane {
-  const builder = sampleAiGenerationRequestBuilders.find((item) => item.tenantId === request.tenantId);
+  const builder = sampleAiGenerationRequestBuilders.find(
+    (item) => item.tenantId === request.tenantId && item.requestId === request.requestId,
+  );
 
   return {
     laneId: "request-builder",
     label: "Generation request builder",
     recordType: "ai_generation_request_packet",
-    status: builder ? "partial" : "missing",
+    status: builder ? "covered" : "missing",
     evidence: builder
-      ? `${builder.builderId} exists for ${request.tenantId}, but request-specific builder binding is still needed.`
-      : `ai_generation_request_packet is missing for ${request.tenantId}.`,
+      ? `${builder.builderId} is present for ${request.requestId}.`
+      : `ai_generation_request_packet is missing for ${request.requestId}.`,
     nextStep: "Create a request-specific disabled builder binding before generate, cost-estimate, submit, or model-billing actions exist.",
   };
 }
