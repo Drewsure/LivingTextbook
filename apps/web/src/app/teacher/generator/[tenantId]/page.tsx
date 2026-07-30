@@ -9,9 +9,11 @@ import {
   sampleAiGenerationRequestBuilders,
 } from "@/data/sampleAiGenerationRequestBuilder";
 import { sampleAiGameGeneratorPlan } from "@/data/sampleAiGameGeneratorPlan";
+import { sampleActivityPathwayCompatibilityMatrix } from "@/data/sampleActivityPathwayCompatibility";
 import { AiGenerationRequestBuilderPanel } from "@/features/content-intake/AiGenerationRequestBuilderPanel";
 import { AiGeneratedDraftPayloadPreviewPanel } from "@/features/content-intake/AiGeneratedDraftPayloadPreviewPanel";
 import { AiGameGeneratorPlanPanel } from "@/features/content-intake/AiGameGeneratorPlanPanel";
+import { AiModeRecommendationPanel } from "@/features/content-intake/AiModeRecommendationPanel";
 import { ministarTenant } from "@/features/tenant/ministarTenant";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 
@@ -35,6 +37,7 @@ export default async function TeacherAiGameGeneratorPage({
         <AiGenerationRequestBuilderPanel
           builders={filterAiGenerationRequestBuildersByTenant(sampleAiGenerationRequestBuilders, tenantId)}
         />
+        <AiModeRecommendationPanel matrix={sampleActivityPathwayCompatibilityMatrix} />
         <AiGeneratedDraftPayloadPreviewPanel
           previews={filterAiGeneratedDraftPayloadPreviewsByTenant(sampleAiGeneratedDraftPayloadPreviews, tenantId)}
         />

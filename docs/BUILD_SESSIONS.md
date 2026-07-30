@@ -450,6 +450,7 @@ Next outputs:
 - Confirm `/teacher/generator/sample-publisher` shows generator draft requests, verifier packets, target-language audio requirements, curated activity pathways, premium AI cost gates, no live model call, no direct publish, and no student assignment before live AI generation, model billing, route creation, playlist creation, or assignment flows are implemented.
 - Confirm `/teacher/generator/sample-publisher` shows a Draft JSON preview with target-language-only progress, `support_language_progress_allowed: false`, unapproved audio blocking, and blocked copy/verifier/publish/playlist/assignment actions before live generator workflows are implemented.
 - Confirm `/teacher/generator/sample-publisher` shows a disabled request-builder form with source evidence packet, target level, unit theme, target language, assist-language policy, curated mode pathway, audio coverage requirement, AI package state, and blocked generate/cost/submit/model-billing actions before live generator workflows are implemented.
+- Confirm `/teacher/generator/sample-publisher` shows mode recommendations sourced from the activity compatibility matrix, with a recommended generated pathway and blocked conversion guardrails, before any live recommendation engine or broad switch panel is implemented.
 - Confirm `npm run verify:ai-generator` passes after changes to AI authoring, game generation, activity pathway generation, target-language audio requirements, premium AI Tutor generation requests, or generator routes.
 
 ## Session 8: Premium Experience Layer

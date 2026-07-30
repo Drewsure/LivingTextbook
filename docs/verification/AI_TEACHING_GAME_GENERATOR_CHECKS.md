@@ -30,6 +30,9 @@ Confirm:
 - Draft JSON preview blocks copy, verifier submission, publish, playlist creation, and assignment.
 - Disabled request builder shows source evidence packet, target level, unit theme, target language, support-language policy, curated mode pathway, audio coverage requirement, and AI package state.
 - Disabled request builder blocks generation, API cost estimation, request submission, live prompt dispatch, model billing, route creation, and student assignment.
+- Mode recommendation preview reuses the activity compatibility matrix.
+- Mode recommendation preview shows a recommended generated pathway and blocked conversion guardrails.
+- Mode recommendation preview blocks a broad switch panel as the default product promise.
 - Optional AI Tutor requests remain premium-gated and disabled until school adoption, privacy, transcript, usage-limit, and cost controls exist.
 - `/teacher/generator/sample-publisher` loads as a teacher/admin route.
 - `/teacher/intake` includes the generator foundation panel.

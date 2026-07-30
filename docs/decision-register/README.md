@@ -256,6 +256,7 @@
 - `DR-282-ai-teaching-game-generator-foundation.md`
 - `DR-283-ai-generator-draft-payload-preview.md`
 - `DR-284-ai-generation-request-builder-preview.md`
+- `DR-285-ai-mode-recommendation-from-compatibility-matrix.md`
 
 ## Maintenance Rule
 
