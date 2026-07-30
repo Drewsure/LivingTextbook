@@ -20,8 +20,8 @@ Confirm:
 - Tenant coverage shows `ai_game_generator_request`, `ai_prompt_package`, `premium_ai_cost_gate`, `ai_generation_request_packet`, `ai_audio_coverage_plan`, `ai_gamification_mapping_plan`, `ai_reward_readiness_gate`, `ai_engine_binding_plan`, `ai_verifier_submission_packet`, `ai_generated_package_manifest`, `ai_generated_publish_readiness_gate`, `ai_generated_draft_payload_preview`, and `ai_draft_correction_queue` lanes.
 - Missing generator preview records remain visible and block generator request submission, live model calls, verifier submission, package assembly, route or playlist creation, and student assignment.
 - Tenant coverage storage contract appears in schema draft, migration candidates, migration specs, durable records, and hosted/local adapter plans before live generation is enabled.
-- MiniStar has tenant-specific prompt package, cost gate, request builder, audio coverage, gamification mapping, reward readiness, engine binding, Draft JSON preview, derived correction queue, and blocked verifier submission packet seed records for the Level 1 greetings generator request.
-- MiniStar generated package manifest, publish readiness, audio approval, media-rights, and teacher approval lanes remain blocked until those request-specific records are created and reviewed.
+- MiniStar has tenant-specific prompt package, cost gate, request builder, audio coverage, gamification mapping, reward readiness, engine binding, Draft JSON preview, derived correction queue, blocked verifier submission packet, generated package manifest, and derived publish readiness seed records for the Level 1 greetings generator request.
+- MiniStar audio approval, media-rights, teacher approval, durable storage, release-control, route creation, playlist creation, assignment, and student-ready lanes remain blocked until those request-specific records are created and reviewed.
 - 8 default vocabulary terms remains the canonical unit default.
 - 8-12 allowed terms remains the bounded extension range.
 - Exactly 2 target sentence structures are required.

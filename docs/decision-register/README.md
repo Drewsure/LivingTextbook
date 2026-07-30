@@ -277,6 +277,7 @@
 - `DR-303-ministar-ai-generator-seed-records.md`
 - `DR-304-ministar-draft-json-correction-queue.md`
 - `DR-305-ministar-ai-verifier-submission-packet.md`
+- `DR-306-ministar-generated-package-manifest.md`
 
 ## Maintenance Rule
 

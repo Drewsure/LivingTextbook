@@ -305,6 +305,22 @@ requireText(generatedPackageManifest, "Package assembly blocked", "AI generated 
 requireText(generatedPackageManifest, "No route registry write", "AI generated package manifest must block route registry writes.");
 requireText(generatedPackageManifest, "No media playlist write", "AI generated package manifest must block playlist writes.");
 requireText(generatedPackageManifest, "No assignment write", "AI generated package manifest must block assignment writes.");
+requireText(generatedPackageManifest, "MiniStar generated package manifest", "MiniStar generator must expose a generated package manifest.");
+requireText(
+  generatedPackageManifest,
+  "ai-generated-package-manifest-ministar-l1-greetings-v1",
+  "MiniStar generated package manifest must be request-specific.",
+);
+requireText(
+  generatedPackageManifest,
+  "MiniStar media rights not attached",
+  "MiniStar generated package manifest must keep media rights missing until evidence exists.",
+);
+requireText(
+  generatedPackageManifest,
+  "MiniStar teacher approval not captured",
+  "MiniStar generated package manifest must keep teacher approval missing until reviewer evidence exists.",
+);
 requireText(
   generatedPackageManifest,
   "Assign generated package from manifest blocked",

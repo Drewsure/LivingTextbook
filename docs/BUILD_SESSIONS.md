@@ -271,7 +271,7 @@ Outputs:
 - Sample game payloads.
 - AI teaching game generator draft request preview.
 - AI generator tenant coverage gate that shows covered, partial, and missing request-specific records by tenant.
-- MiniStar Level 1 greetings generator seed records for prompt package, cost entitlement, disabled request builder, audio coverage, deterministic gamification, reward readiness, parent-engine binding, Draft JSON preview, derived correction queue, and blocked verifier submission packet.
+- MiniStar Level 1 greetings generator seed records for prompt package, cost entitlement, disabled request builder, audio coverage, deterministic gamification, reward readiness, parent-engine binding, Draft JSON preview, derived correction queue, blocked verifier submission packet, generated package manifest, and derived publish readiness.
 - Shared AI-generated draft payload validator with visible schema guard blocks and warnings.
 - AI draft correction queue with owner, next-record, and student-use effect fields.
 - AI reward readiness gate with deterministic Star Dust, accepted-event, and collection inventory protections.
