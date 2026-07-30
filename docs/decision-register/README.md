@@ -275,6 +275,7 @@
 - `DR-301-ai-generator-tenant-coverage-gate.md`
 - `DR-302-ai-generator-tenant-coverage-storage-contract.md`
 - `DR-303-ministar-ai-generator-seed-records.md`
+- `DR-304-ministar-draft-json-correction-queue.md`
 
 ## Maintenance Rule
 

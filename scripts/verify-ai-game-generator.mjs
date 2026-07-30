@@ -414,6 +414,16 @@ requireText(draftPreviewData, "Submit to verifier blocked", "Generator draft pay
 requireText(draftPreviewData, "Create student assignment blocked", "Generator draft payload preview must block assignment creation.");
 requireText(draftPreviewData, "sampleAiGeneratedDraftPayloadPreviewErrors", "Generator draft payload preview must expose shared validator errors.");
 requireText(draftPreviewData, "sampleAiGeneratedDraftPayloadPreviewWarnings", "Generator draft payload preview must expose shared validator warnings.");
+requireText(draftPreviewData, "MiniStar Draft JSON preview", "MiniStar generator must expose a draft JSON preview.");
+requireText(draftPreviewData, "ai-draft-preview-ministar-l1-greetings-v1", "MiniStar generator draft preview must be request-specific.");
+requireText(draftPreviewData, "Hello, teacher.", "MiniStar generator draft preview must include the first target sentence.");
+requireText(draftPreviewData, "Thank you, friend.", "MiniStar generator draft preview must include the second target sentence.");
+requireText(draftPreviewData, "ja-hiragana", "MiniStar generator draft preview must preserve hiragana-only support language metadata.");
+requireText(
+  draftPreviewData,
+  "Use Japanese support to unlock progress blocked",
+  "MiniStar generator draft preview must block support-language progression.",
+);
 requireText(
   draftPreviewData,
   "validateAiGeneratedDraftPayloadPreview",
