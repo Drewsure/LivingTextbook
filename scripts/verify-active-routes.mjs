@@ -225,12 +225,25 @@ expectedTextByPath
 
 const aiGameGeneratorExpected = [
   "AI teaching game generator",
+  "AI generator tenant coverage",
+  "White-label generator records by tenant",
+  "Tenant-specific records required",
+  "Missing generator preview records",
   "Generator request preview",
   "Sample publisher daily routines game draft",
+  "Upper-level AI tutor role-play draft coverage",
   "Draft only",
   "No live model call",
   "No direct AI publish",
   "No student assignment",
+  "No generator request submission",
+  "No verifier submission",
+  "No package assembly",
+  "No route or playlist creation",
+  "ai_game_generator_request",
+  "ai_prompt_package",
+  "ai_generated_draft_payload_preview",
+  "ai_generated_publish_readiness_gate",
   "No unreviewed activity conversion",
   "No support-language-only progression",
   "No API cost without tenant approval",
@@ -440,6 +453,37 @@ const aiGameGeneratorExpected = [
   "No regenerate live AI",
 ];
 
+const ministarAiGameGeneratorExpected = [
+  "AI teaching game generator",
+  "AI generator tenant coverage",
+  "White-label generator records by tenant",
+  "Tenant-specific records required",
+  "MiniStar greetings entry-sequence draft",
+  "MiniStar greetings entry-sequence draft coverage",
+  "Missing generator preview records",
+  "ministar-l1-greetings-game-draft",
+  "ai_game_generator_request",
+  "ai_prompt_package",
+  "ai_generation_request_packet",
+  "ai_audio_coverage_plan",
+  "ai_reward_readiness_gate",
+  "ai_verifier_submission_packet",
+  "ai_generated_package_manifest",
+  "ai_generated_draft_payload_preview",
+  "ai_generated_publish_readiness_gate",
+  "No generator request submission",
+  "No live model call",
+  "No verifier submission",
+  "No package assembly",
+  "No route or playlist creation",
+  "No student assignment",
+  "Japanese support is teacher-enabled only",
+  "hiragana-only",
+  "Support language cannot unlock progress",
+  "English is the target-language trigger",
+  "Speak It",
+];
+
 const aiGameGeneratorIntakeExpected = [
   "AI teaching game generator",
   "Generator request preview",
@@ -468,6 +512,7 @@ const aiGameGeneratorIntakeExpected = [
 ];
 
 expectedTextByPath.set("/teacher/generator/sample-publisher", aiGameGeneratorExpected);
+expectedTextByPath.set("/teacher/generator/ministar", ministarAiGameGeneratorExpected);
 expectedTextByPath.get("/teacher/intake")?.push(...aiGameGeneratorIntakeExpected);
 expectedTextByPath
   .get("/partner-demo")
@@ -478,7 +523,7 @@ if (teacherIntakeExpected) {
   const routeCountIndex = teacherIntakeExpected.indexOf("49 checked routes");
 
   if (routeCountIndex >= 0) {
-    teacherIntakeExpected[routeCountIndex] = "50 checked routes";
+    teacherIntakeExpected[routeCountIndex] = "51 checked routes";
   }
 }
 

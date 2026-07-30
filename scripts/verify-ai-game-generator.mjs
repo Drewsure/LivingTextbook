@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 
 const plan = readSource("../apps/web/src/data/sampleAiGameGeneratorPlan.ts");
+const tenantCoverage = readSource("../apps/web/src/data/sampleAiGeneratorTenantCoverage.ts");
 const engineBindingPlan = readSource("../apps/web/src/data/sampleAiEngineBindingPlan.ts");
 const promptPackagePlan = readSource("../apps/web/src/data/sampleAiPromptPackagePlan.ts");
 const costEntitlementGate = readSource("../apps/web/src/data/sampleAiGeneratorCostEntitlementGate.ts");
@@ -16,6 +17,7 @@ const draftPayloadValidator = readSource("../packages/content-model/src/aiGenera
 const correctionQueueData = readSource("../apps/web/src/data/sampleAiDraftCorrectionQueue.ts");
 const compatibilityMatrix = readSource("../apps/web/src/data/sampleActivityPathwayCompatibility.ts");
 const panel = readSource("../apps/web/src/features/content-intake/AiGameGeneratorPlanPanel.tsx");
+const tenantCoveragePanel = readSource("../apps/web/src/features/content-intake/AiGeneratorTenantCoveragePanel.tsx");
 const engineBindingPanel = readSource("../apps/web/src/features/content-intake/AiEngineBindingPlanPanel.tsx");
 const promptPackagePanel = readSource("../apps/web/src/features/content-intake/AiPromptPackagePlanPanel.tsx");
 const costEntitlementGatePanel = readSource("../apps/web/src/features/content-intake/AiGeneratorCostEntitlementGatePanel.tsx");
@@ -97,6 +99,32 @@ requireText(panel, "Generator request preview", "Generator panel must expose req
 requireText(panel, "API cost package gate", "Generator panel must expose API cost gate.");
 requireText(panel, "Target-language audio rule", "Generator panel must expose target-language audio rule.");
 requireText(panel, "Assist language policy", "Generator panel must expose assist-language policy.");
+requireText(tenantCoverage, "sampleAiGeneratorTenantCoverage", "AI generator tenant coverage data must exist.");
+requireText(tenantCoverage, "ai_game_generator_request", "AI generator tenant coverage must include the request record lane.");
+requireText(tenantCoverage, "ai_prompt_package", "AI generator tenant coverage must include prompt package coverage.");
+requireText(tenantCoverage, "ai_generation_request_packet", "AI generator tenant coverage must include request builder coverage.");
+requireText(tenantCoverage, "ai_audio_coverage_plan", "AI generator tenant coverage must include audio coverage.");
+requireText(tenantCoverage, "ai_reward_readiness_gate", "AI generator tenant coverage must include reward readiness coverage.");
+requireText(tenantCoverage, "ai_generated_draft_payload_preview", "AI generator tenant coverage must include draft JSON coverage.");
+requireText(tenantCoverage, "ai_generated_publish_readiness_gate", "AI generator tenant coverage must include publish readiness coverage.");
+requireText(tenantCoverage, "Missing generator preview records", "AI generator tenant coverage must make missing records visible.");
+requireText(tenantCoverage, "No generator request submission", "AI generator tenant coverage must block generator submission.");
+requireText(tenantCoverage, "No live model call", "AI generator tenant coverage must block live model calls.");
+requireText(tenantCoverage, "No student assignment", "AI generator tenant coverage must block student assignment.");
+requireText(tenantCoveragePanel, "AI generator tenant coverage", "AI generator tenant coverage panel must expose heading.");
+requireText(
+  tenantCoveragePanel,
+  "White-label generator records by tenant",
+  "AI generator tenant coverage panel must expose white-label heading.",
+);
+requireText(
+  tenantCoveragePanel,
+  "Tenant-specific records required",
+  "AI generator tenant coverage panel must expose tenant-specific requirement.",
+);
+requireText(tenantCoveragePanel, "Tenant record lanes", "AI generator tenant coverage panel must expose lane list.");
+requireText(tenantCoveragePanel, "Blocked generator actions", "AI generator tenant coverage panel must expose blocked actions.");
+requireText(tenantCoveragePanel, "Next tenant requirements", "AI generator tenant coverage panel must expose next requirements.");
 requireText(engineBindingPlan, "sampleAiEngineBindingPlans", "AI engine binding plan data must exist.");
 requireText(engineBindingPlan, "ai_engine_binding_plan", "AI engine binding plan must name the binding record.");
 requireText(engineBindingPlan, "game_mode_catalog_snapshot", "AI engine binding plan must name the game catalog snapshot.");
@@ -457,6 +485,7 @@ requireText(correctionQueuePanel, "Next record", "AI draft correction queue pane
 requireText(correctionQueuePanel, "Student-use effect", "AI draft correction queue panel must expose student-use effect.");
 requireText(correctionQueuePanel, "Blocked correction actions", "AI draft correction queue panel must expose blocked actions.");
 requireText(route, "AiGameGeneratorPlanPanel", "Generator route must render the generator panel.");
+requireText(route, "AiGeneratorTenantCoveragePanel", "Generator route must render the tenant coverage panel.");
 requireText(route, "AiEngineBindingPlanPanel", "Generator route must render the engine binding panel.");
 requireText(route, "AiPromptPackagePlanPanel", "Generator route must render the prompt package plan panel.");
 requireText(route, "AiGeneratorCostEntitlementGatePanel", "Generator route must render the cost entitlement gate panel.");
@@ -471,6 +500,7 @@ requireText(route, "AiGeneratedPublishReadinessGatePanel", "Generator route must
 requireText(route, "AiGeneratedDraftPayloadPreviewPanel", "Generator route must render the draft payload preview panel.");
 requireText(route, "AiDraftCorrectionQueuePanel", "Generator route must render the draft correction queue panel.");
 requireText(route, "sampleAiGameGeneratorPlan", "Generator route must use the sample generator plan.");
+requireText(route, "sampleAiGeneratorTenantCoverage", "Generator route must use tenant coverage data.");
 requireText(route, "sampleAiEngineBindingPlans", "Generator route must use the sample engine binding plan data.");
 requireText(route, "sampleAiPromptPackagePlans", "Generator route must use the sample prompt package plan data.");
 requireText(route, "sampleAiGeneratorCostEntitlementGates", "Generator route must use the sample cost entitlement gate data.");
@@ -499,9 +529,12 @@ requireText(partnerDemo, "AI teaching game generator", "Partner demo must link t
 requireText(partnerDemo, "getTeacherAiGameGeneratorPath", "Partner demo must use the generator route helper.");
 requireText(activeRouteMatrix, "teacher-ai-game-generator", "Active route matrix must include the generator route.");
 requireText(activeRouteMatrix, "/teacher/generator/sample-publisher", "Active route matrix must include the sample publisher generator route.");
+requireText(activeRouteMatrix, "/teacher/generator/ministar", "Active route matrix must include the MiniStar generator route.");
 requireText(activeRouteList, "http://127.0.0.1:3000/teacher/generator/sample-publisher", "Active route list must include the sample publisher generator route.");
+requireText(activeRouteList, "http://127.0.0.1:3000/teacher/generator/ministar", "Active route list must include the MiniStar generator route.");
 requireText(routeVerifier, "/teacher/generator/sample-publisher", "Active route verifier must check the generator route.");
-requireText(routeVerifier, "50 checked routes", "Active route verifier must expect the updated route count.");
+requireText(routeVerifier, "/teacher/generator/ministar", "Active route verifier must check the MiniStar generator route.");
+requireText(routeVerifier, "51 checked routes", "Active route verifier must expect the updated route count.");
 requireText(principles, "AI teaching game generator creates draft package requests", "Principles must preserve generator-as-draft rule.");
 requireText(handoff, "The AI teaching game generator creates draft package requests", "AI handoff must include generator boundary.");
 requireText(packageJson, '"verify:ai-generator"', "package.json must expose verify:ai-generator.");

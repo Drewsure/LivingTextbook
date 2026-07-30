@@ -35,6 +35,7 @@ This list names the routes that should be checked after foundation changes. It i
 
 - `http://127.0.0.1:3000/enter/ministar`
 - `http://127.0.0.1:3000/teacher/sources/ministar`
+- `http://127.0.0.1:3000/teacher/generator/ministar`
 - `http://127.0.0.1:3000/launch/demo-unit-1`
 - `http://127.0.0.1:3000/teacher/units/ministar%3Aministar-english%3AL1%3AU1`
 - `http://127.0.0.1:3000/assign/assignment-ministar-demo-whole-class`

@@ -24,6 +24,10 @@ import {
 } from "@/data/sampleAiGeneratorCostEntitlementGate";
 import { sampleAiGameGeneratorPlan } from "@/data/sampleAiGameGeneratorPlan";
 import {
+  filterAiGeneratorTenantCoverageByTenant,
+  sampleAiGeneratorTenantCoverage,
+} from "@/data/sampleAiGeneratorTenantCoverage";
+import {
   filterAiGeneratorAudioCoveragePlansByTenant,
   sampleAiGeneratorAudioCoveragePlans,
 } from "@/data/sampleAiGeneratorAudioCoveragePlan";
@@ -48,6 +52,7 @@ import { AiEngineBindingPlanPanel } from "@/features/content-intake/AiEngineBind
 import { AiGamificationMappingPanel } from "@/features/content-intake/AiGamificationMappingPanel";
 import { AiGeneratorAudioCoveragePlanPanel } from "@/features/content-intake/AiGeneratorAudioCoveragePlanPanel";
 import { AiGameGeneratorPlanPanel } from "@/features/content-intake/AiGameGeneratorPlanPanel";
+import { AiGeneratorTenantCoveragePanel } from "@/features/content-intake/AiGeneratorTenantCoveragePanel";
 import { AiModeRecommendationPanel } from "@/features/content-intake/AiModeRecommendationPanel";
 import { AiPromptPackagePlanPanel } from "@/features/content-intake/AiPromptPackagePlanPanel";
 import { AiRewardReadinessGatePanel } from "@/features/content-intake/AiRewardReadinessGatePanel";
@@ -72,6 +77,9 @@ export default async function TeacherAiGameGeneratorPage({
     <AppShell tenant={tenant}>
       <div className="grid gap-5">
         <AiGameGeneratorPlanPanel plan={sampleAiGameGeneratorPlan} tenantId={tenantId} />
+        <AiGeneratorTenantCoveragePanel
+          coverages={filterAiGeneratorTenantCoverageByTenant(sampleAiGeneratorTenantCoverage, tenantId)}
+        />
         <AiPromptPackagePlanPanel plans={filterAiPromptPackagePlansByTenant(sampleAiPromptPackagePlans, tenantId)} />
         <AiGeneratorCostEntitlementGatePanel
           gates={filterAiGeneratorCostEntitlementGatesByTenant(sampleAiGeneratorCostEntitlementGates, tenantId)}

@@ -51,6 +51,14 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     note: "Teacher/admin generator preview for draft package requests, verifier packets, target-language audio coverage, premium AI cost gates, and curated activity pathways.",
   },
   {
+    routeId: "teacher-ai-game-generator-ministar",
+    group: "ministar",
+    label: "MiniStar AI generator coverage",
+    path: "/teacher/generator/ministar",
+    status: "active-scaffold",
+    note: "MiniStar tenant generator coverage route that shows request-specific missing records before live generation, publishing, route creation, or student assignment.",
+  },
+  {
     routeId: "teacher-dry-run-rehearsal",
     group: "sample-publisher",
     label: "Sample publisher teacher dry run",

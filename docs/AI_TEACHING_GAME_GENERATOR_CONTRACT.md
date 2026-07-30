@@ -16,6 +16,14 @@ AI teaching game generator creates draft package requests, verifier packets, aud
 
 The generator cannot bypass source review, package review, target-language audio coverage, media rights, activity compatibility, teacher approval, package publish gates, launch safety, or school policy gates.
 
+## Tenant Coverage Rule
+
+A tenant generator route loading is not enough to call that tenant generator-ready.
+
+Each tenant request must show request-specific generator record coverage for `ai_game_generator_request`, `ai_prompt_package`, `premium_ai_cost_gate`, `ai_generation_request_packet`, `ai_audio_coverage_plan`, `ai_gamification_mapping_plan`, `ai_reward_readiness_gate`, `ai_engine_binding_plan`, `ai_verifier_submission_packet`, `ai_generated_package_manifest`, `ai_generated_publish_readiness_gate`, `ai_generated_draft_payload_preview`, and `ai_draft_correction_queue`.
+
+Missing generator preview records must stay visible and must block generator request submission, live model calls, verifier submission, package assembly, route or playlist creation, and student assignment. Partial tenant-level builder records are allowed as scaffolds only; they must be upgraded to request-specific bindings before live workflows exist.
+
 ## Required Output Rules
 
 - 8 default vocabulary terms.
