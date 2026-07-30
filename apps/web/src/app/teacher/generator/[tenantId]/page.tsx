@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { AppShell } from "@/components/layout/AppShell";
+import { filterAiDraftCorrectionQueuesByTenant, sampleAiDraftCorrectionQueues } from "@/data/sampleAiDraftCorrectionQueue";
 import {
   filterAiGeneratedDraftPayloadPreviewsByTenant,
   sampleAiGeneratedDraftPayloadPreviews,
@@ -32,6 +33,7 @@ import {
   sampleAiVerifierSubmissionPackets,
 } from "@/data/sampleAiVerifierSubmissionPacket";
 import { sampleActivityPathwayCompatibilityMatrix } from "@/data/sampleActivityPathwayCompatibility";
+import { AiDraftCorrectionQueuePanel } from "@/features/content-intake/AiDraftCorrectionQueuePanel";
 import { AiGenerationRequestBuilderPanel } from "@/features/content-intake/AiGenerationRequestBuilderPanel";
 import { AiGeneratorCostEntitlementGatePanel } from "@/features/content-intake/AiGeneratorCostEntitlementGatePanel";
 import { AiGeneratedDraftPayloadPreviewPanel } from "@/features/content-intake/AiGeneratedDraftPayloadPreviewPanel";
@@ -86,6 +88,9 @@ export default async function TeacherAiGameGeneratorPage({
         />
         <AiGeneratedDraftPayloadPreviewPanel
           previews={filterAiGeneratedDraftPayloadPreviewsByTenant(sampleAiGeneratedDraftPayloadPreviews, tenantId)}
+        />
+        <AiDraftCorrectionQueuePanel
+          queues={filterAiDraftCorrectionQueuesByTenant(sampleAiDraftCorrectionQueues, tenantId)}
         />
       </div>
     </AppShell>

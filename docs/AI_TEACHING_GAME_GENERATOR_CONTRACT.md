@@ -47,6 +47,12 @@ AI-generated draft payloads must pass the shared `validateAiGeneratedDraftPayloa
 
 The validator must enforce the 8-12 vocabulary range, exactly 2 target sentences, `target_language_progress_trigger: target-language-only`, `support_language_progress_allowed: false`, `media_only_progress_allowed: false`, teacher draft verifier submission, blocked draft actions, next required records, and target-language audio approval. The generator route must show schema guard blocks and warnings while the preview remains draft-only.
 
+## Draft Correction Queue Rule
+
+Schema guard output must be converted into a teacher/admin correction queue before generated drafts can enter real review. The queue must show schema/audio/progress repair lanes, required owners, next records, student-use effects, validation block counts, and review warning counts.
+
+The correction queue must not offer auto-fix, live AI regeneration, verifier submission, package assembly, route creation, playlist creation, or student assignment.
+
 ## Request Builder Rule
 
 The teacher generator route may show a disabled request-builder form for source evidence packet, target level, unit theme, target language, assist-language policy, curated mode pathway, audio coverage requirement, and AI package state. The form must keep generation, API cost estimation, request submission, live prompt dispatch, model billing, route creation, and student assignment blocked until the premium AI package, persistence, verifier, and approval workflows exist.

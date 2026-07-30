@@ -401,6 +401,14 @@ const aiGameGeneratorExpected = [
   "Student use blocked",
   "Schema guard blocks",
   "Schema guard warnings",
+  "AI draft correction queue",
+  "Repair before review",
+  "Schema/audio/progress repair lanes",
+  "Required owner",
+  "Next record",
+  "Student-use effect",
+  "No auto-fix from AI draft",
+  "No regenerate live AI",
 ];
 
 const aiGameGeneratorIntakeExpected = [

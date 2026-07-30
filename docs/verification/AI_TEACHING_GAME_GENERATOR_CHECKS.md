@@ -36,6 +36,8 @@ Confirm:
 - Draft JSON preview blocks copy, verifier submission, publish, playlist creation, and assignment.
 - Draft JSON preview calls the shared `validateAiGeneratedDraftPayloadPreview` contract and exposes schema guard blocks and warnings.
 - Shared draft payload validation enforces the 8-12 vocabulary range, exactly 2 target sentences, target-language-only progress, support-language and media-only progress blocking, required verifier submission state, required blocked actions, next required records, and target-language audio approval.
+- AI draft correction queue converts schema guard output into schema/audio/progress repair lanes with required owner, next record, and student-use effect fields.
+- AI draft correction queue blocks auto-fix, live AI regeneration, verifier submission, package assembly, route creation, playlist creation, and student assignment.
 - Disabled request builder shows source evidence packet, target level, unit theme, target language, support-language policy, curated mode pathway, audio coverage requirement, and AI package state.
 - Disabled request builder blocks generation, API cost estimation, request submission, live prompt dispatch, model billing, route creation, and student assignment.
 - Audio coverage planner shows `ai_audio_coverage_plan`, `audio_cue_manifest`, and `package_game_audio_coverage` before generated packages can be reviewed.

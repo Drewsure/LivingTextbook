@@ -11,6 +11,7 @@ const verifierSubmissionPacket = readSource("../apps/web/src/data/sampleAiVerifi
 const generatedPackageManifest = readSource("../apps/web/src/data/sampleAiGeneratedPackageManifest.ts");
 const draftPreviewData = readSource("../apps/web/src/data/sampleAiGeneratedDraftPayloadPreview.ts");
 const draftPayloadValidator = readSource("../packages/content-model/src/aiGeneratedDraftPayload.ts");
+const correctionQueueData = readSource("../apps/web/src/data/sampleAiDraftCorrectionQueue.ts");
 const compatibilityMatrix = readSource("../apps/web/src/data/sampleActivityPathwayCompatibility.ts");
 const panel = readSource("../apps/web/src/features/content-intake/AiGameGeneratorPlanPanel.tsx");
 const engineBindingPanel = readSource("../apps/web/src/features/content-intake/AiEngineBindingPlanPanel.tsx");
@@ -22,6 +23,7 @@ const gamificationMappingPanel = readSource("../apps/web/src/features/content-in
 const verifierSubmissionPanel = readSource("../apps/web/src/features/content-intake/AiVerifierSubmissionPacketPanel.tsx");
 const generatedPackageManifestPanel = readSource("../apps/web/src/features/content-intake/AiGeneratedPackageManifestPanel.tsx");
 const draftPreviewPanel = readSource("../apps/web/src/features/content-intake/AiGeneratedDraftPayloadPreviewPanel.tsx");
+const correctionQueuePanel = readSource("../apps/web/src/features/content-intake/AiDraftCorrectionQueuePanel.tsx");
 const modeRecommendationPanel = readSource("../apps/web/src/features/content-intake/AiModeRecommendationPanel.tsx");
 const route = readSource("../apps/web/src/app/teacher/generator/[tenantId]/page.tsx");
 const teacherIntake = readSource("../apps/web/src/app/teacher/intake/page.tsx");
@@ -317,6 +319,22 @@ requireText(draftPreviewPanel, "Schema guard active", "Generator draft payload p
 requireText(draftPreviewPanel, "Student use blocked", "Generator draft payload panel must expose student-use block status.");
 requireText(draftPreviewPanel, "Schema guard blocks", "Generator draft payload panel must show validation blocks.");
 requireText(draftPreviewPanel, "Schema guard warnings", "Generator draft payload panel must show validation warnings.");
+requireText(correctionQueueData, "sampleAiDraftCorrectionQueues", "AI draft correction queue data must exist.");
+requireText(correctionQueueData, "validateAiGeneratedDraftPayloadPreview", "AI draft correction queue must use shared validator blocks.");
+requireText(correctionQueueData, "getAiGeneratedDraftPayloadPreviewWarnings", "AI draft correction queue must use shared validator warnings.");
+requireText(correctionQueueData, "Audio coverage repair lane", "AI draft correction queue must route audio issues.");
+requireText(correctionQueueData, "Progress policy repair lane", "AI draft correction queue must route progress policy issues.");
+requireText(correctionQueueData, "Pedagogical payload repair lane", "AI draft correction queue must route payload issues.");
+requireText(correctionQueueData, "No auto-fix from AI draft", "AI draft correction queue must block auto-fix.");
+requireText(correctionQueueData, "No regenerate live AI", "AI draft correction queue must block live regeneration.");
+requireText(correctionQueueData, "No student assignment", "AI draft correction queue must block student assignment.");
+requireText(correctionQueuePanel, "AI draft correction queue", "AI draft correction queue panel must expose heading.");
+requireText(correctionQueuePanel, "Repair before review", "AI draft correction queue panel must expose repair-before-review label.");
+requireText(correctionQueuePanel, "Schema/audio/progress repair lanes", "AI draft correction queue panel must expose repair lanes.");
+requireText(correctionQueuePanel, "Required owner", "AI draft correction queue panel must expose ownership.");
+requireText(correctionQueuePanel, "Next record", "AI draft correction queue panel must expose next records.");
+requireText(correctionQueuePanel, "Student-use effect", "AI draft correction queue panel must expose student-use effect.");
+requireText(correctionQueuePanel, "Blocked correction actions", "AI draft correction queue panel must expose blocked actions.");
 requireText(route, "AiGameGeneratorPlanPanel", "Generator route must render the generator panel.");
 requireText(route, "AiEngineBindingPlanPanel", "Generator route must render the engine binding panel.");
 requireText(route, "AiPromptPackagePlanPanel", "Generator route must render the prompt package plan panel.");
@@ -328,6 +346,7 @@ requireText(route, "AiVerifierSubmissionPacketPanel", "Generator route must rend
 requireText(route, "AiModeRecommendationPanel", "Generator route must render the mode recommendation panel.");
 requireText(route, "AiGeneratedPackageManifestPanel", "Generator route must render the generated package manifest panel.");
 requireText(route, "AiGeneratedDraftPayloadPreviewPanel", "Generator route must render the draft payload preview panel.");
+requireText(route, "AiDraftCorrectionQueuePanel", "Generator route must render the draft correction queue panel.");
 requireText(route, "sampleAiGameGeneratorPlan", "Generator route must use the sample generator plan.");
 requireText(route, "sampleAiEngineBindingPlans", "Generator route must use the sample engine binding plan data.");
 requireText(route, "sampleAiPromptPackagePlans", "Generator route must use the sample prompt package plan data.");
@@ -339,6 +358,7 @@ requireText(route, "sampleAiVerifierSubmissionPackets", "Generator route must us
 requireText(route, "sampleAiGeneratedPackageManifests", "Generator route must use the sample generated package manifest data.");
 requireText(route, "sampleAiGenerationRequestBuilders", "Generator route must use request builder data.");
 requireText(route, "sampleAiGeneratedDraftPayloadPreviews", "Generator route must use the sample draft payload preview data.");
+requireText(route, "sampleAiDraftCorrectionQueues", "Generator route must use the sample draft correction queue data.");
 requireText(route, "samplePublisherTenant", "Generator route must support sample publisher tenant.");
 requireText(route, "ministarTenant", "Generator route must support MiniStar tenant.");
 requireText(teacherIntake, "AiGameGeneratorPlanPanel", "Teacher intake must render the generator panel.");
