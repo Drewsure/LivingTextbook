@@ -214,6 +214,8 @@ The AI Authoring Studio generates structured curriculum/game payloads, not final
 
 AI teaching game generator creates draft package requests, verifier packets, target-language audio plans, and curated activity pathway proposals. It must not create student-facing routes, live game code, playlist releases, or assignments without the normal review gates.
 
+AI generation must run from reviewed, versioned, tenant-scoped prompt packages. Prompt packages must lock input slots, JSON schema, content limits, audio requirements, tenant brand rules, support-language rules, model-use state, usage budget, and cost controls. No raw student data may be sent into prompt packages, and students must never edit generator prompts or see premium upsell copy.
+
 Required content rules:
 
 - Default 8 vocabulary terms

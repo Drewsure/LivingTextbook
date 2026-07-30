@@ -13,12 +13,14 @@ import {
   filterAiGeneratorAudioCoveragePlansByTenant,
   sampleAiGeneratorAudioCoveragePlans,
 } from "@/data/sampleAiGeneratorAudioCoveragePlan";
+import { filterAiPromptPackagePlansByTenant, sampleAiPromptPackagePlans } from "@/data/sampleAiPromptPackagePlan";
 import { sampleActivityPathwayCompatibilityMatrix } from "@/data/sampleActivityPathwayCompatibility";
 import { AiGenerationRequestBuilderPanel } from "@/features/content-intake/AiGenerationRequestBuilderPanel";
 import { AiGeneratedDraftPayloadPreviewPanel } from "@/features/content-intake/AiGeneratedDraftPayloadPreviewPanel";
 import { AiGeneratorAudioCoveragePlanPanel } from "@/features/content-intake/AiGeneratorAudioCoveragePlanPanel";
 import { AiGameGeneratorPlanPanel } from "@/features/content-intake/AiGameGeneratorPlanPanel";
 import { AiModeRecommendationPanel } from "@/features/content-intake/AiModeRecommendationPanel";
+import { AiPromptPackagePlanPanel } from "@/features/content-intake/AiPromptPackagePlanPanel";
 import { ministarTenant } from "@/features/tenant/ministarTenant";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 
@@ -39,6 +41,7 @@ export default async function TeacherAiGameGeneratorPage({
     <AppShell tenant={tenant}>
       <div className="grid gap-5">
         <AiGameGeneratorPlanPanel plan={sampleAiGameGeneratorPlan} tenantId={tenantId} />
+        <AiPromptPackagePlanPanel plans={filterAiPromptPackagePlansByTenant(sampleAiPromptPackagePlans, tenantId)} />
         <AiGenerationRequestBuilderPanel
           builders={filterAiGenerationRequestBuildersByTenant(sampleAiGenerationRequestBuilders, tenantId)}
         />

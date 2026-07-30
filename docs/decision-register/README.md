@@ -258,6 +258,7 @@
 - `DR-284-ai-generation-request-builder-preview.md`
 - `DR-285-ai-mode-recommendation-from-compatibility-matrix.md`
 - `DR-286-ai-generator-audio-coverage-plan.md`
+- `DR-287-ai-generator-prompt-package-preview.md`
 
 ## Maintenance Rule
 
