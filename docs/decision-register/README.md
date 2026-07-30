@@ -260,6 +260,7 @@
 - `DR-286-ai-generator-audio-coverage-plan.md`
 - `DR-287-ai-generator-prompt-package-preview.md`
 - `DR-288-ai-generator-gamification-mapping-preview.md`
+- `DR-289-ai-generator-engine-binding-preview.md`
 
 ## Maintenance Rule
 

@@ -26,6 +26,8 @@ Confirm:
 - Verifier packet required before package review.
 - Prompt package preview shows a reviewed template version, input slots, output schema locks, tenant rules, model-use state, usage budget, and cost controls.
 - Prompt package preview blocks raw student data, student prompt editing, live model use, voice generation, tenant billing, and student assignment.
+- Engine binding preview shows mode catalog bindings, parent engines, scoring profiles, audio requirements, and standard event contracts.
+- Engine binding preview blocks generated one-off game code, parent-engine bypass, unmapped modes, unreviewed scoring overrides, and direct student route creation.
 - `teacher_draft_package`, `teacher_draft_verifier_submission`, `activity_compatibility_snapshot`, and `package_game_audio_coverage` records are named before package review.
 - Draft JSON preview keeps `target_language_progress_trigger` as `target-language-only`.
 - Draft JSON preview keeps `support_language_progress_allowed: false`.

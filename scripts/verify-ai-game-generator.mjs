@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 
 const plan = readSource("../apps/web/src/data/sampleAiGameGeneratorPlan.ts");
+const engineBindingPlan = readSource("../apps/web/src/data/sampleAiEngineBindingPlan.ts");
 const promptPackagePlan = readSource("../apps/web/src/data/sampleAiPromptPackagePlan.ts");
 const requestBuilderData = readSource("../apps/web/src/data/sampleAiGenerationRequestBuilder.ts");
 const audioCoveragePlan = readSource("../apps/web/src/data/sampleAiGeneratorAudioCoveragePlan.ts");
@@ -8,6 +9,7 @@ const gamificationMappingPlan = readSource("../apps/web/src/data/sampleAiGamific
 const draftPreviewData = readSource("../apps/web/src/data/sampleAiGeneratedDraftPayloadPreview.ts");
 const compatibilityMatrix = readSource("../apps/web/src/data/sampleActivityPathwayCompatibility.ts");
 const panel = readSource("../apps/web/src/features/content-intake/AiGameGeneratorPlanPanel.tsx");
+const engineBindingPanel = readSource("../apps/web/src/features/content-intake/AiEngineBindingPlanPanel.tsx");
 const promptPackagePanel = readSource("../apps/web/src/features/content-intake/AiPromptPackagePlanPanel.tsx");
 const requestBuilderPanel = readSource("../apps/web/src/features/content-intake/AiGenerationRequestBuilderPanel.tsx");
 const audioCoveragePanel = readSource("../apps/web/src/features/content-intake/AiGeneratorAudioCoveragePlanPanel.tsx");
@@ -80,6 +82,21 @@ requireText(panel, "Generator request preview", "Generator panel must expose req
 requireText(panel, "API cost package gate", "Generator panel must expose API cost gate.");
 requireText(panel, "Target-language audio rule", "Generator panel must expose target-language audio rule.");
 requireText(panel, "Assist language policy", "Generator panel must expose assist-language policy.");
+requireText(engineBindingPlan, "sampleAiEngineBindingPlans", "AI engine binding plan data must exist.");
+requireText(engineBindingPlan, "ai_engine_binding_plan", "AI engine binding plan must name the binding record.");
+requireText(engineBindingPlan, "game_mode_catalog_snapshot", "AI engine binding plan must name the game catalog snapshot.");
+requireText(engineBindingPlan, "engine_mode_config_binding", "AI engine binding plan must name engine mode config binding.");
+requireText(engineBindingPlan, "scoring_profile_binding", "AI engine binding plan must name scoring profile binding.");
+requireText(engineBindingPlan, "standard_event_contract", "AI engine binding plan must name standard event contract.");
+requireText(engineBindingPlan, "Generated game code blocked", "AI engine binding plan must block generated game code.");
+requireText(engineBindingPlan, "Bypass parent engine blocked", "AI engine binding plan must block bypassing parent engines.");
+requireText(engineBindingPlan, "Z.ai prototypes stay isolated until integration review", "AI engine binding plan must govern Z.ai prototype adoption.");
+requireText(engineBindingPanel, "AI engine binding preview", "AI engine binding panel must expose heading.");
+requireText(engineBindingPanel, "Use existing parent engines", "AI engine binding panel must expose existing parent engine rule.");
+requireText(engineBindingPanel, "Game mode catalog binding", "AI engine binding panel must show catalog binding.");
+requireText(engineBindingPanel, "No generated game code", "AI engine binding panel must block generated game code.");
+requireText(engineBindingPanel, "Parent engine", "AI engine binding panel must show parent engine details.");
+requireText(engineBindingPanel, "Scoring profile", "AI engine binding panel must show scoring profile details.");
 requireText(promptPackagePlan, "sampleAiPromptPackagePlans", "AI prompt package plan data must exist.");
 requireText(promptPackagePlan, "ai-generator-prompt-v2026.07.foundation", "AI prompt package must be versioned.");
 requireText(promptPackagePlan, "Model use disabled until tenant AI package approval", "AI prompt package must keep model use disabled.");
@@ -162,6 +179,7 @@ requireText(draftPreviewData, "Create student assignment blocked", "Generator dr
 requireText(draftPreviewPanel, "AI draft payload preview", "Generator draft payload panel must expose heading.");
 requireText(draftPreviewPanel, "Draft JSON preview", "Generator draft payload panel must expose JSON preview label.");
 requireText(route, "AiGameGeneratorPlanPanel", "Generator route must render the generator panel.");
+requireText(route, "AiEngineBindingPlanPanel", "Generator route must render the engine binding panel.");
 requireText(route, "AiPromptPackagePlanPanel", "Generator route must render the prompt package plan panel.");
 requireText(route, "AiGenerationRequestBuilderPanel", "Generator route must render the request builder panel.");
 requireText(route, "AiGeneratorAudioCoveragePlanPanel", "Generator route must render the audio coverage plan panel.");
@@ -169,6 +187,7 @@ requireText(route, "AiGamificationMappingPanel", "Generator route must render th
 requireText(route, "AiModeRecommendationPanel", "Generator route must render the mode recommendation panel.");
 requireText(route, "AiGeneratedDraftPayloadPreviewPanel", "Generator route must render the draft payload preview panel.");
 requireText(route, "sampleAiGameGeneratorPlan", "Generator route must use the sample generator plan.");
+requireText(route, "sampleAiEngineBindingPlans", "Generator route must use the sample engine binding plan data.");
 requireText(route, "sampleAiPromptPackagePlans", "Generator route must use the sample prompt package plan data.");
 requireText(route, "sampleActivityPathwayCompatibilityMatrix", "Generator route must use the compatibility matrix.");
 requireText(route, "sampleAiGeneratorAudioCoveragePlans", "Generator route must use the sample audio coverage plan data.");
