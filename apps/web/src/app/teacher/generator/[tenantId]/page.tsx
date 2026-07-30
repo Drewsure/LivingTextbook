@@ -9,9 +9,14 @@ import {
   sampleAiGenerationRequestBuilders,
 } from "@/data/sampleAiGenerationRequestBuilder";
 import { sampleAiGameGeneratorPlan } from "@/data/sampleAiGameGeneratorPlan";
+import {
+  filterAiGeneratorAudioCoveragePlansByTenant,
+  sampleAiGeneratorAudioCoveragePlans,
+} from "@/data/sampleAiGeneratorAudioCoveragePlan";
 import { sampleActivityPathwayCompatibilityMatrix } from "@/data/sampleActivityPathwayCompatibility";
 import { AiGenerationRequestBuilderPanel } from "@/features/content-intake/AiGenerationRequestBuilderPanel";
 import { AiGeneratedDraftPayloadPreviewPanel } from "@/features/content-intake/AiGeneratedDraftPayloadPreviewPanel";
+import { AiGeneratorAudioCoveragePlanPanel } from "@/features/content-intake/AiGeneratorAudioCoveragePlanPanel";
 import { AiGameGeneratorPlanPanel } from "@/features/content-intake/AiGameGeneratorPlanPanel";
 import { AiModeRecommendationPanel } from "@/features/content-intake/AiModeRecommendationPanel";
 import { ministarTenant } from "@/features/tenant/ministarTenant";
@@ -36,6 +41,9 @@ export default async function TeacherAiGameGeneratorPage({
         <AiGameGeneratorPlanPanel plan={sampleAiGameGeneratorPlan} tenantId={tenantId} />
         <AiGenerationRequestBuilderPanel
           builders={filterAiGenerationRequestBuildersByTenant(sampleAiGenerationRequestBuilders, tenantId)}
+        />
+        <AiGeneratorAudioCoveragePlanPanel
+          plans={filterAiGeneratorAudioCoveragePlansByTenant(sampleAiGeneratorAudioCoveragePlans, tenantId)}
         />
         <AiModeRecommendationPanel matrix={sampleActivityPathwayCompatibilityMatrix} />
         <AiGeneratedDraftPayloadPreviewPanel

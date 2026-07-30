@@ -30,6 +30,10 @@ Confirm:
 - Draft JSON preview blocks copy, verifier submission, publish, playlist creation, and assignment.
 - Disabled request builder shows source evidence packet, target level, unit theme, target language, support-language policy, curated mode pathway, audio coverage requirement, and AI package state.
 - Disabled request builder blocks generation, API cost estimation, request submission, live prompt dispatch, model billing, route creation, and student assignment.
+- Audio coverage planner shows `ai_audio_coverage_plan`, `audio_cue_manifest`, and `package_game_audio_coverage` before generated packages can be reviewed.
+- Audio coverage planner enumerates target-language term audio, sentence audio, instruction audio, feedback audio, and critical control audio.
+- Audio coverage planner keeps support-language audio support-only and blocks media-only listening from counting toward mastery.
+- Audio coverage planner blocks live synthetic voice generation and voice API cost until tenant approval.
 - Mode recommendation preview reuses the activity compatibility matrix.
 - Mode recommendation preview shows a recommended generated pathway and blocked conversion guardrails.
 - Mode recommendation preview blocks a broad switch panel as the default product promise.
