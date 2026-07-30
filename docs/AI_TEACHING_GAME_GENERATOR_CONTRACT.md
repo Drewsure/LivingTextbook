@@ -79,6 +79,8 @@ Generated draft packages must enter the standard teacher draft review queue as r
 
 Generated draft packages must produce an `ai_generated_package_manifest` before package assembly exists. The manifest must link the prompt package, Draft JSON preview, audio coverage plan, engine binding plan, gamification mapping plan, verifier submission packet, and review queue item. It must name the package records needed for future storage and keep package assembly, route registry writes, media playlist writes, assignment writes, local bundle writes, and student-ready marking blocked.
 
+The manifest must also have a backend-neutral storage contract before live generation. Hosted and local adapters must preserve prompt, draft JSON, audio, engine, gamification, verifier, review queue, media-rights, and release-lock lineage while blocking package assembly, route registry writes, media playlist writes, assignments, local bundle writes, and student-ready markers.
+
 ## Blocked Actions
 
 - No direct AI publish.

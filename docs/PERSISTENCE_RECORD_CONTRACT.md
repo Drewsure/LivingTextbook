@@ -2,7 +2,7 @@
 
 Document type: foundation data contract  
 Status: active scaffold  
-Last updated: 2026-07-16
+Last updated: 2026-07-31
 
 ## Purpose
 
@@ -38,6 +38,7 @@ The scaffold currently tracks:
 - Tenant configuration records.
 - Reviewed content package records.
 - Teacher draft package records.
+- AI generated package manifest records.
 - Tenant library item records.
 - QR and route registry records.
 - Teacher launch session and settings records.
@@ -108,6 +109,7 @@ They must block school policy acceptance workflows, live classroom launch, real 
 - Teacher dry-run rehearsal records must not launch students, collect real learner data, store live progress, or export reports.
 - School launch policy gate records must not accept policy, launch students, collect real learner data, export reports, activate local deployment, or mark a package launch-ready.
 - Teacher draft packages must preserve owner, source lineage, visibility, draft payload, requested activity path, review gates, audio plan state, and direct-assignment blocks before becoming package releases.
+- AI generated package manifests must preserve prompt, draft JSON, audio, engine, gamification, verifier, review queue, media-rights, and release-lock lineage while blocking package assembly, route registry writes, media playlist writes, assignments, local bundle writes, and student-ready markers.
 - Tenant library items must preserve source lineage, block student-data copies, and block public community publishing before live library reuse, copy/edit, school sharing, or search work begins.
 - Local/closed deployment capable records must preserve a local classroom store path.
 

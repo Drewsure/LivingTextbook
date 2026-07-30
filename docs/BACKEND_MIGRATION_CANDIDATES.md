@@ -2,7 +2,7 @@
 
 Document type: foundation implementation contract  
 Status: active scaffold  
-Last updated: 2026-07-14
+Last updated: 2026-07-31
 
 ## Purpose
 
@@ -35,18 +35,19 @@ Do not store real student progress until policy, retention, export, and access r
 3. Teacher draft package records.
 4. Upload intake, review, promotion, game asset, label anchor, activity compatibility, template rendering, and font accessibility records.
 5. Teacher draft review decision, evidence, audit, and verifier submission records.
-6. Tenant library item records.
-7. Stable QR and route alias registry.
-8. Media manifest and rights records.
-9. Publish gate and approval ledger records.
-10. Pilot evidence packet records.
-11. Teacher dry-run rehearsal records.
-12. Classroom launch gate records.
-13. School launch policy gate records.
-14. Teacher launch session and settings records.
-15. Progress and media event stream records.
-16. Earned collection inventory records.
-17. Local classroom export and restore records.
+6. AI generated package manifest records.
+7. Tenant library item records.
+8. Stable QR and route alias registry.
+9. Media manifest and rights records.
+10. Publish gate and approval ledger records.
+11. Pilot evidence packet records.
+12. Teacher dry-run rehearsal records.
+13. Classroom launch gate records.
+14. School launch policy gate records.
+15. Teacher launch session and settings records.
+16. Progress and media event stream records.
+17. Earned collection inventory records.
+18. Local classroom export and restore records.
 
 ## Required Per Candidate
 
@@ -70,6 +71,7 @@ Each candidate must define:
 - Hosted and local implementations must use the same record vocabulary.
 - Collection inventory must be deterministic, mastery-earned, exportable, and blocked from random pressure or purchase-like unlock paths.
 - Teacher draft package migrations must preserve owner, source lineage, visibility, review gates, audio plan state, and direct-assignment blocks.
+- AI generated package manifest migrations must preserve prompt, draft, audio, engine, gamification, verifier, review queue, media-rights, and release-lock lineage while blocking package assembly, route registry writes, media playlist writes, assignments, local bundle writes, and student-ready markers.
 - Tenant library item migrations must preserve source lineage, block student-data copies, and block public community publishing.
 - Activity compatibility snapshot migrations must preserve payload shape, allowed activity modes, blocked conversions, target-language trigger policy, printable output policy, and student-facing pathway blocks.
 - Template rendering profile migrations must preserve source template identity, curated compatibility, row/media slot policy, layout constraints, and student-facing rendering blocks.

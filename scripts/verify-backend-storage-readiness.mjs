@@ -14,6 +14,7 @@ const requiredSchemaEntities = [
   "teacher_draft_package",
   "teacher_draft_review_handoff",
   "teacher_draft_verifier_submission",
+  "ai_generated_package_manifest",
   "teacher_assignment_rollout_gate",
   "private_assignment_link",
   "class_roster_plan",
@@ -72,6 +73,7 @@ const requiredMigrationCandidates = [
   "m014-teacher-draft-package-records",
   "m016-teacher-draft-review-handoff-records",
   "m020-teacher-draft-verifier-submission-records",
+  "m054-ai-generated-package-manifest-records",
   "m049-teacher-assignment-rollout-gate-records",
   "m050-private-assignment-link-records",
   "m051-class-roster-plan-records",
@@ -133,6 +135,7 @@ const requiredMigrationSpecs = [
   "spec-teacher-draft-package",
   "spec-teacher-draft-review-handoff",
   "spec-teacher-draft-verifier-submission",
+  "spec-ai-generated-package-manifest",
   "spec-teacher-assignment-rollout-gate",
   "spec-private-assignment-link",
   "spec-class-roster-plan",
@@ -201,6 +204,24 @@ requireText(schemaDraft, "live_review_submission_allowed", "Backend schema must 
 requireText(schemaDraft, "teacher_draft_verifier_submission", "Backend schema must include teacher draft verifier submission preflights.");
 requireText(schemaDraft, "schema_preflight", "Backend schema must preserve verifier schema preflight checks.");
 requireText(schemaDraft, "automatic_submit_allowed", "Backend schema must preserve automatic verifier submission blocks.");
+requireText(schemaDraft, "ai_generated_package_manifest", "Backend schema must include AI generated package manifests.");
+requireText(schemaDraft, "ai_generated_package_manifest_id", "Backend schema must preserve generated package manifest ids.");
+requireText(schemaDraft, "generation_request_id", "Backend schema must preserve AI generation request ids.");
+requireText(schemaDraft, "prompt_package_id", "Backend schema must preserve generated package prompt package ids.");
+requireText(schemaDraft, "draft_preview_id", "Backend schema must preserve generated package draft preview ids.");
+requireText(schemaDraft, "audio_coverage_plan_id", "Backend schema must preserve generated package audio coverage plan ids.");
+requireText(schemaDraft, "engine_binding_plan_id", "Backend schema must preserve generated package engine binding plan ids.");
+requireText(schemaDraft, "gamification_mapping_id", "Backend schema must preserve generated package gamification mapping ids.");
+requireText(schemaDraft, "verifier_submission_packet_id", "Backend schema must preserve generated package verifier packet ids.");
+requireText(schemaDraft, "review_queue_item_id", "Backend schema must preserve generated package review queue item ids.");
+requireText(schemaDraft, "media_rights_packet_id", "Backend schema must preserve generated package media-rights packet ids.");
+requireText(schemaDraft, "release_locks", "Backend schema must preserve generated package release locks.");
+requireText(schemaDraft, "package_assembly_allowed", "Backend schema must block generated package assembly.");
+requireText(schemaDraft, "route_registry_write_allowed", "Backend schema must block generated package route registry writes.");
+requireText(schemaDraft, "media_playlist_write_allowed", "Backend schema must block generated package media playlist writes.");
+requireText(schemaDraft, "assignment_write_allowed", "Backend schema must block generated package assignments.");
+requireText(schemaDraft, "local_bundle_write_allowed", "Backend schema must block generated package local bundle writes.");
+requireText(schemaDraft, "student_ready_marker_allowed", "Backend schema must block generated package student-ready markers.");
 requireText(schemaDraft, "teacher_assignment_rollout_gate", "Backend schema must include teacher assignment rollout gate records.");
 requireText(schemaDraft, "rollout_gate_id", "Backend schema must preserve teacher assignment rollout gate ids.");
 requireText(schemaDraft, "rollout_status", "Backend schema must preserve teacher assignment rollout status.");
@@ -330,6 +351,22 @@ requireText(migrationSpecs, "live_review_submission_allowed", "Migration specs m
 requireText(migrationSpecs, "spec-teacher-draft-verifier-submission", "Migration specs must include teacher draft verifier submission preflights.");
 requireText(migrationSpecs, "language_preflight", "Migration specs must preserve verifier support-language boundary checks.");
 requireText(migrationSpecs, "automatic_submit_allowed", "Migration specs must preserve automatic verifier submission blocks.");
+requireText(migrationSpecs, "spec-ai-generated-package-manifest", "Migration specs must include AI generated package manifests.");
+requireText(migrationSpecs, "ai_generated_package_manifest_id", "Migration specs must preserve generated package manifest ids.");
+requireText(migrationSpecs, "prompt_package_id", "Migration specs must preserve generated package prompt package ids.");
+requireText(migrationSpecs, "draft_preview_id", "Migration specs must preserve generated package draft preview ids.");
+requireText(migrationSpecs, "audio_coverage_plan_id", "Migration specs must preserve generated package audio coverage plan ids.");
+requireText(migrationSpecs, "engine_binding_plan_id", "Migration specs must preserve generated package engine binding plan ids.");
+requireText(migrationSpecs, "gamification_mapping_id", "Migration specs must preserve generated package gamification mapping ids.");
+requireText(migrationSpecs, "verifier_submission_packet_id", "Migration specs must preserve generated package verifier packet ids.");
+requireText(migrationSpecs, "review_queue_item_id", "Migration specs must preserve generated package review queue item ids.");
+requireText(migrationSpecs, "release_locks", "Migration specs must preserve generated package release locks.");
+requireText(migrationSpecs, "package_assembly_allowed", "Migration specs must block generated package assembly.");
+requireText(migrationSpecs, "route_registry_write_allowed", "Migration specs must block generated package route registry writes.");
+requireText(migrationSpecs, "media_playlist_write_allowed", "Migration specs must block generated package media playlist writes.");
+requireText(migrationSpecs, "assignment_write_allowed", "Migration specs must block generated package assignments.");
+requireText(migrationSpecs, "local_bundle_write_allowed", "Migration specs must block generated package local bundle writes.");
+requireText(migrationSpecs, "student_ready_marker_allowed", "Migration specs must block generated package student-ready markers.");
 requireText(migrationSpecs, "spec-upload-intake-asset", "Migration specs must include upload intake assets.");
 requireText(migrationSpecs, "file_metadata", "Migration specs must preserve upload file metadata.");
 requireText(migrationSpecs, "target_mapping", "Migration specs must preserve upload target mapping.");
@@ -632,6 +669,15 @@ requireText(persistenceAdapter, "hosted-teacher-draft-verifier-submission-write"
 requireText(persistenceAdapter, "local-teacher-draft-verifier-submission-write", "Persistence adapter must include local teacher draft verifier submission writes.");
 requireText(persistenceAdapter, "preservesVerifierPreflightChecks: true", "Persistence adapter must preserve verifier preflight checks.");
 requireText(persistenceAdapter, "blocksAutomaticVerifierSubmit: true", "Persistence adapter must block automatic verifier submission.");
+requireText(persistenceAdapter, "hosted-ai-generated-package-manifest-write", "Persistence adapter must include hosted AI generated package manifest writes.");
+requireText(persistenceAdapter, "local-ai-generated-package-manifest-write", "Persistence adapter must include local AI generated package manifest writes.");
+requireText(persistenceAdapter, "preservesAiGeneratedPackageManifest: true", "Persistence adapter must preserve AI generated package manifest links.");
+requireText(persistenceAdapter, "blocksGeneratedPackageAssembly: true", "Persistence adapter must block generated package assembly.");
+requireText(persistenceAdapter, "blocksGeneratedPackageRouteWrite: true", "Persistence adapter must block generated package route registry writes.");
+requireText(persistenceAdapter, "blocksGeneratedPackagePlaylistWrite: true", "Persistence adapter must block generated package media playlist writes.");
+requireText(persistenceAdapter, "blocksGeneratedPackageAssignment: true", "Persistence adapter must block generated package assignments.");
+requireText(persistenceAdapter, "blocksGeneratedPackageLocalBundleWrite: true", "Persistence adapter must block generated package local bundle writes.");
+requireText(persistenceAdapter, "blocksStudentReadyMarker: true", "Persistence adapter must block generated package student-ready markers.");
 requireText(persistenceAdapter, "hosted-teacher-assignment-rollout-gate-write", "Persistence adapter must include hosted teacher assignment rollout gate writes.");
 requireText(persistenceAdapter, "local-teacher-assignment-rollout-gate-write", "Persistence adapter must include local teacher assignment rollout gate writes.");
 requireText(persistenceAdapter, "preservesTeacherAssignmentRolloutGate: true", "Persistence adapter must preserve teacher assignment rollout gates.");
@@ -826,6 +872,15 @@ requireText(durableRecords, "blocksLiveReviewSubmission: true", "Durable record 
 requireText(durableRecords, "teacher-draft-verifier-submission-record", "Durable record plan must include teacher draft verifier submission preflights.");
 requireText(durableRecords, "preservesVerifierPreflightChecks: true", "Durable record plan must preserve verifier preflight checks.");
 requireText(durableRecords, "blocksAutomaticVerifierSubmit: true", "Durable record plan must block automatic verifier submission.");
+requireText(durableRecords, "ai-generated-package-manifest-record", "Durable record plan must include AI generated package manifest records.");
+requireText(durableRecords, "AI generated package manifest record", "Durable record plan must expose AI generated package manifest record labels.");
+requireText(durableRecords, "preservesAiGeneratedPackageManifest: true", "Durable record plan must preserve AI generated package manifest links.");
+requireText(durableRecords, "blocksGeneratedPackageAssembly: true", "Durable record plan must block generated package assembly.");
+requireText(durableRecords, "blocksGeneratedPackageRouteWrite: true", "Durable record plan must block generated package route registry writes.");
+requireText(durableRecords, "blocksGeneratedPackagePlaylistWrite: true", "Durable record plan must block generated package media playlist writes.");
+requireText(durableRecords, "blocksGeneratedPackageAssignment: true", "Durable record plan must block generated package assignments.");
+requireText(durableRecords, "blocksGeneratedPackageLocalBundleWrite: true", "Durable record plan must block generated package local bundle writes.");
+requireText(durableRecords, "blocksStudentReadyMarker: true", "Durable record plan must block generated package student-ready markers.");
 requireText(durableRecords, "teacher-assignment-rollout-gate-record", "Durable record plan must include teacher assignment rollout gate records.");
 requireText(durableRecords, "preservesTeacherAssignmentRolloutGate: true", "Durable record plan must preserve teacher assignment rollout gates.");
 requireText(durableRecords, "blocksStudentLaunchAction: true", "Durable record plan must block student launch actions.");
@@ -1005,6 +1060,8 @@ requireText(routeVerifier, "school_rollback_safe_fallback_preflight", "Active ro
 requireText(routeVerifier, "school_rollback_safe_fallback_activation_preview", "Active route verifier must keep school rollback safe fallback activation preview storage visible on teacher intake.");
 requireText(routeVerifier, "school_rollback_safe_fallback_restoration_preview", "Active route verifier must keep school rollback safe fallback restoration preview storage visible on teacher intake.");
 requireText(routeVerifier, "teacher_assignment_rollout_gate", "Active route verifier must keep teacher assignment rollout gate storage visible on teacher intake.");
+requireText(routeVerifier, "ai_generated_package_manifest", "Active route verifier must keep AI generated package manifest storage visible on teacher intake.");
+requireText(routeVerifier, "AI generated package manifest record", "Active route verifier must keep AI generated package manifest durable records visible on teacher intake.");
 requireText(routeVerifier, "private_assignment_link", "Active route verifier must keep private assignment link storage visible on teacher intake.");
 requireText(routeVerifier, "class_roster_plan", "Active route verifier must keep class roster plan storage visible on teacher intake.");
 requireText(routeVerifier, "Class roster plan record", "Active route verifier must keep class roster durable records visible on teacher intake.");

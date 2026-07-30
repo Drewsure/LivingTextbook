@@ -7,6 +7,7 @@ export type PersistenceRecordCategory =
   | "teacher-draft-review-evidence"
   | "teacher-draft-review-audit"
   | "teacher-draft-verifier-submission"
+  | "ai-generated-package-manifest"
   | "teacher-assignment-rollout-gate"
   | "private-assignment-link"
   | "class-roster-plan"
@@ -100,6 +101,13 @@ export interface DurableRecordContract {
   blocksReviewAuditStateChange?: boolean;
   preservesVerifierPreflightChecks?: boolean;
   blocksAutomaticVerifierSubmit?: boolean;
+  preservesAiGeneratedPackageManifest?: boolean;
+  blocksGeneratedPackageAssembly?: boolean;
+  blocksGeneratedPackageRouteWrite?: boolean;
+  blocksGeneratedPackagePlaylistWrite?: boolean;
+  blocksGeneratedPackageAssignment?: boolean;
+  blocksGeneratedPackageLocalBundleWrite?: boolean;
+  blocksStudentReadyMarker?: boolean;
   preservesTeacherAssignmentRolloutGate?: boolean;
   preservesPrivateAssignmentLink?: boolean;
   blocksPublicSharing?: boolean;
@@ -325,6 +333,34 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "teacher-draft-verifier-submission" && !record.blocksAutomaticVerifierSubmit) {
       errors.push(`Teacher draft verifier submission record ${record.recordId} must block automatic verifier submission.`);
+    }
+
+    if (record.category === "ai-generated-package-manifest" && !record.preservesAiGeneratedPackageManifest) {
+      errors.push(`AI generated package manifest record ${record.recordId} must preserve generated package manifest links.`);
+    }
+
+    if (record.category === "ai-generated-package-manifest" && !record.blocksGeneratedPackageAssembly) {
+      errors.push(`AI generated package manifest record ${record.recordId} must block package assembly.`);
+    }
+
+    if (record.category === "ai-generated-package-manifest" && !record.blocksGeneratedPackageRouteWrite) {
+      errors.push(`AI generated package manifest record ${record.recordId} must block route registry writes.`);
+    }
+
+    if (record.category === "ai-generated-package-manifest" && !record.blocksGeneratedPackagePlaylistWrite) {
+      errors.push(`AI generated package manifest record ${record.recordId} must block media playlist writes.`);
+    }
+
+    if (record.category === "ai-generated-package-manifest" && !record.blocksGeneratedPackageAssignment) {
+      errors.push(`AI generated package manifest record ${record.recordId} must block generated package assignments.`);
+    }
+
+    if (record.category === "ai-generated-package-manifest" && !record.blocksGeneratedPackageLocalBundleWrite) {
+      errors.push(`AI generated package manifest record ${record.recordId} must block local bundle writes.`);
+    }
+
+    if (record.category === "ai-generated-package-manifest" && !record.blocksStudentReadyMarker) {
+      errors.push(`AI generated package manifest record ${record.recordId} must block student-ready markers.`);
     }
 
     if (record.category === "teacher-assignment-rollout-gate" && !record.preservesTeacherAssignmentRolloutGate) {

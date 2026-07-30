@@ -2,7 +2,7 @@
 
 Document type: foundation data contract  
 Status: active scaffold  
-Last updated: 2026-07-14
+Last updated: 2026-07-31
 
 ## Purpose
 
@@ -31,6 +31,7 @@ The current draft includes:
 - Teacher draft package
 - Teacher draft review handoff
 - Teacher draft verifier submission
+- AI generated package manifest
 - Upload intake asset
 - Upload review decision
 - Upload promotion gate
@@ -82,6 +83,8 @@ Each entity should name:
 - Package game/audio coverage stores release metadata only, not raw audio files or learner recordings.
 - Earned collection inventory stores deterministic mastery-earned ownership only; random reward pressure and paid gacha-like ownership are forbidden.
 - Teacher draft packages preserve owner, source lineage, visibility, draft payload, requested activity path, review gates, audio plan state, and direct-assignment blocks before becoming package releases.
+- AI generated package manifests preserve prompt package, draft JSON, audio coverage, engine binding, gamification mapping, verifier packet, review queue, media-rights, and release-lock lineage before generated drafts can move toward package assembly.
+- AI generated package manifests block package assembly, route registry writes, media playlist writes, assignment writes, local bundle writes, and student-ready markers until review, approval ledger, and release-control gates pass.
 - Tenant library items preserve source lineage, block student-data copies, and block public community publishing for v1.
 - Activity compatibility snapshots preserve payload shape, allowed activity modes, blocked conversions, target-language trigger policy, printable output policy, and student-facing pathway blocks before extra conversions or pathway changes go live.
 - Template rendering profiles preserve source templates, compatible game families, row/media slot policies, layout constraints, and student-facing rendering blocks before cross-game upload patterns or printables go live.

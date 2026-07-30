@@ -29,6 +29,7 @@ This is a bridge between product architecture and implementation. It names the r
 - Progress events remain policy-blocked until student identity, retention, consent, and reporting policy are accepted.
 - Earned collection inventory remains policy-blocked until student identity, export, retention, and reward catalog rules are accepted.
 - Teacher draft package specs must preserve owner, source lineage, visibility, review gates, audio plan state, and direct-assignment blocks before draft packages can become student-facing releases.
+- AI generated package manifest specs must preserve prompt, draft JSON, audio, engine, gamification, verifier, review queue, media-rights, and release-lock lineage while blocking package assembly, route registry writes, media playlist writes, assignments, local bundle writes, and student-ready markers.
 - Tenant library item specs must preserve source lineage, block student-data copies, and block public community publishing before copy/edit, school sharing, search, or public-community work begins.
 - Activity compatibility snapshot specs must preserve payload shape, allowed activity modes, blocked conversions, target-language trigger policy, printable output policy, and student-facing pathway blocks before extra conversions or teacher pathway changes go live.
 - Template rendering profile specs must preserve source templates, curated game-family compatibility, row/media slot policy, layout constraints, and student-facing rendering blocks before any cross-game upload pattern or printable rendering goes live.
@@ -42,6 +43,7 @@ This is a bridge between product architecture and implementation. It names the r
 - Tenant entitlement store.
 - Package release store.
 - Teacher draft package store.
+- AI generated package manifest store.
 - Tenant library item store.
 - Activity compatibility snapshot store.
 - Template rendering profile store.

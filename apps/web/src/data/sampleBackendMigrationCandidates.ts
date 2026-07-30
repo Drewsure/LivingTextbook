@@ -125,6 +125,43 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
       notAllowedYet: ["Automatic verifier submit", "Direct draft assignment", "Direct AI publish", "Preflight checks only in UI state"],
     },
     {
+      migrationId: "m054-ai-generated-package-manifest-records",
+      label: "AI generated package manifest records",
+      track: "shared",
+      status: "ready-to-design",
+      risk: "medium",
+      targetEntities: ["ai_generated_package_manifest"],
+      purpose:
+        "Persist generated package manifest lineage before AI drafts can move toward package assembly, routes, playlists, assignments, local bundles, or student-ready state.",
+      prerequisites: [
+        "AI generation request builder accepted",
+        "Prompt package versioning accepted",
+        "Draft JSON preview accepted",
+        "Audio coverage, engine binding, gamification mapping, verifier packet, and review queue integration accepted",
+        "Media rights and approval ledger policy accepted",
+      ],
+      implementationNotes: [
+        "Keep manifests tenant-scoped and generation-request-scoped.",
+        "Preserve prompt package, draft JSON, audio coverage, engine binding, gamification mapping, verifier packet, review queue item, media-rights packet, and release-lock links.",
+        "Keep package assembly, route registry writes, media playlist writes, assignment writes, local bundle writes, and student-ready markers blocked until approval and release-control gates pass.",
+        "Do not let generated manifests create production package records by themselves.",
+      ],
+      rollbackOrExportNeeds: [
+        "Export generated package manifest JSON with linked prompt, draft, verifier, and review queue ids",
+        "Retain blocked and approved manifest snapshots for audit",
+        "Support local manifest backup and restore without enabling offline package assembly",
+      ],
+      notAllowedYet: [
+        "Direct package assembly",
+        "Route registry write",
+        "Media playlist write",
+        "Student assignment",
+        "Local bundle write",
+        "Student-ready marker",
+        "Direct AI publish",
+      ],
+    },
+    {
       migrationId: "m049-teacher-assignment-rollout-gate-records",
       label: "Teacher assignment rollout gate records",
       track: "shared",

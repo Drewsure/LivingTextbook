@@ -402,6 +402,8 @@ const aiGameGeneratorIntakeExpected = [
   "Support language cannot unlock progress",
   "teacher_draft_package",
   "teacher_draft_verifier_submission",
+  "ai_generated_package_manifest",
+  "AI generated package manifest record",
   "activity_compatibility_snapshot",
   "package_game_audio_coverage",
 ];

@@ -264,6 +264,7 @@
 - `DR-290-ai-generator-verifier-submission-packet.md`
 - `DR-291-ai-generated-draft-review-queue-integration.md`
 - `DR-292-ai-generated-package-manifest-preview.md`
+- `DR-293-ai-generated-package-manifest-storage-contract.md`
 
 ## Maintenance Rule
 

@@ -2,7 +2,7 @@
 
 ## Scope
 
-Run before backend selection, vendor-specific migrations, persistence adapter changes, class roster plan work, source extraction review packet work, upload file policy profile work, upload intake work, evidence packet work, evidence attachment storage work, activity compatibility snapshot work, template rendering profile work, font accessibility profile work, launch-session storage work, teacher draft storage work, teacher draft review handoff work, teacher draft verifier submission work, teacher draft reviewer decision work, teacher draft review evidence work, teacher draft review audit trail work, tenant library storage work, earned collection storage work, report package storage work, local companion storage work, classroom launch gate work, school launch policy gate work, or route registry persistence work.
+Run before backend selection, vendor-specific migrations, persistence adapter changes, class roster plan work, source extraction review packet work, upload file policy profile work, upload intake work, evidence packet work, evidence attachment storage work, activity compatibility snapshot work, template rendering profile work, font accessibility profile work, launch-session storage work, teacher draft storage work, teacher draft review handoff work, teacher draft verifier submission work, AI generated package manifest work, teacher draft reviewer decision work, teacher draft review evidence work, teacher draft review audit trail work, tenant library storage work, earned collection storage work, report package storage work, local companion storage work, classroom launch gate work, school launch policy gate work, or route registry persistence work.
 
 ## Automated Command
 
@@ -25,6 +25,7 @@ npm run verify:foundation
 - Teacher draft packages preserve owner, source lineage, review gates, audio plan state, and direct-assignment blocks.
 - Teacher draft review handoff packets preserve schema, lineage, audio, rights/version, route/activity, and approval packet sections while blocking live review submission.
 - Teacher draft verifier submission preflights preserve schema, audio, language, route, and evidence checks while blocking automatic verifier submission.
+- AI generated package manifests preserve prompt, draft JSON, audio, engine, gamification, verifier, review queue, media-rights, and release-lock lineage while blocking package assembly, route registry writes, media playlist writes, assignments, local bundle writes, and student-ready markers.
 - Upload intake records preserve source lineage, file metadata, target mapping, rights/scan/review state, and block student-facing upload use.
 - Upload review and promotion records preserve `target_mapping_packet` so uploads cannot become drafts, assets, playlists, local bundles, routes, or assignments through a vague target field.
 - Evidence packet records preserve packet keys, required evidence, missing evidence, blocked live actions, and handoff rules while blocking evidence upload, signed approval capture, promotion, and student-facing use.
@@ -50,6 +51,7 @@ npm run verify:foundation
 - Hosted and local adapter plans both include teacher draft package writes.
 - Hosted and local adapter plans both include teacher draft review handoff packet writes.
 - Hosted and local adapter plans both include teacher draft verifier submission preflight writes.
+- Hosted and local adapter plans both include AI generated package manifest writes.
 - Hosted and local adapter plans both include upload intake, upload review, and upload promotion writes with target mapping packet preservation.
 - Hosted and local adapter plans both include evidence packet writes.
 - Hosted and local adapter plans both include evidence attachment metadata writes.
@@ -66,7 +68,7 @@ npm run verify:foundation
 - Hosted and local adapter plans both include teacher draft review audit trail writes.
 - Hosted and local adapter plans both include tenant library item writes.
 - Hosted and local adapter plans both include teacher dry-run rehearsal writes.
-- Durable record plans assign teacher settings to launch sessions, require event acceptance gates, preserve earned collection rules, preserve teacher draft review gates, preserve draft review handoff packet sections, preserve verifier preflight checks, preserve source extraction review packets, preserve upload file policy profiles, preserve upload source lineage, preserve upload target mapping packets, preserve evidence packet flows, preserve evidence attachment metadata, preserve reviewer identity/signature gates, preserve school launch policy gates, preserve class roster plan boundaries, preserve activity compatibility snapshots, preserve template rendering profiles, preserve font accessibility profiles, preserve reviewer decision evidence requirements, preserve review evidence packets, preserve review audit trails, and preserve tenant library source-lineage rules.
+- Durable record plans assign teacher settings to launch sessions, require event acceptance gates, preserve earned collection rules, preserve teacher draft review gates, preserve draft review handoff packet sections, preserve verifier preflight checks, preserve AI generated package manifest lineage, preserve source extraction review packets, preserve upload file policy profiles, preserve upload source lineage, preserve upload target mapping packets, preserve evidence packet flows, preserve evidence attachment metadata, preserve reviewer identity/signature gates, preserve school launch policy gates, preserve class roster plan boundaries, preserve activity compatibility snapshots, preserve template rendering profiles, preserve font accessibility profiles, preserve reviewer decision evidence requirements, preserve review evidence packets, preserve review audit trails, and preserve tenant library source-lineage rules.
 
 ## Human Follow-Up
 

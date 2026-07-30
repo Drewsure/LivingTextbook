@@ -19,6 +19,7 @@ export type PersistenceBoundaryCategory =
   | "teacher-draft-review-evidence"
   | "teacher-draft-review-audit"
   | "teacher-draft-verifier-submission"
+  | "ai-generated-package-manifest"
   | "teacher-assignment-rollout-gate"
   | "private-assignment-link"
   | "class-roster-plan"
@@ -171,6 +172,31 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     blocksDirectStudentAssignment: true,
     recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
     note: "Verifier submission preflight records need durable schema, audio, support-language, route, evidence, and approval checks before any draft can enter a live verifier workflow.",
+  },
+  {
+    recordId: "ai-generated-package-manifest-record",
+    category: "ai-generated-package-manifest",
+    label: "AI generated package manifest record",
+    readiness: "durable-required",
+    sourceOfTruth:
+      "AiGeneratedPackageManifest, prompt package, Draft JSON preview, audio coverage plan, engine binding plan, gamification mapping plan, verifier packet, review queue item, release locks",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesAiGeneratedPackageManifest: true,
+    blocksGeneratedPackageAssembly: true,
+    blocksGeneratedPackageRouteWrite: true,
+    blocksGeneratedPackagePlaylistWrite: true,
+    blocksGeneratedPackageAssignment: true,
+    blocksGeneratedPackageLocalBundleWrite: true,
+    blocksStudentReadyMarker: true,
+    blocksDirectStudentAssignment: true,
+    recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
+    note:
+      "Generated package manifests need durable links to prompt, draft JSON, audio, engine, gamification, verifier, review queue, media-rights, and approval records before AI output can become a package assembly candidate.",
   },
   {
     recordId: "teacher-assignment-rollout-gate-record",
@@ -1257,6 +1283,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     visibleTo: ["Teacher", "Content reviewer", "Tenant admin", "Platform admin"],
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision: "Persist verifier submission preflights before enabling submit-to-verifier, verifier automation, or package workflow promotion.",
+  },
+  {
+    boundaryId: "ai-generated-package-manifest-boundary",
+    category: "ai-generated-package-manifest",
+    label: "AI generated package manifest records",
+    status: "needs-backend",
+    recordShape:
+      "Manifest id, tenant id, generation request id, prompt package id, draft JSON id, audio coverage plan id, engine binding plan id, gamification mapping id, verifier packet id, review queue item id, media-rights packet id, release locks, blocked actions, and student-ready block",
+    whyItMatters:
+      "Generated package manifests are the bridge between AI authoring and package assembly, so they need durable lineage before routes, playlists, assignments, local bundles, or student-ready states can be created.",
+    visibleTo: ["Teacher", "Tenant admin", "Content reviewer", "Platform admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Persist generated package manifests before enabling package assembly, route registry writes, media playlist writes, assignment writes, local bundle writes, or student-ready markers.",
   },
   {
     boundaryId: "teacher-assignment-rollout-gate-boundary",

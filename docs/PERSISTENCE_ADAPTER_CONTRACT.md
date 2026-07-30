@@ -2,7 +2,7 @@
 
 Document type: foundation data contract  
 Status: active scaffold  
-Last updated: 2026-07-16
+Last updated: 2026-07-31
 
 ## Purpose
 
@@ -33,11 +33,11 @@ Used for source-controlled reviewed sample data. It is useful for design and sal
 
 ### Hosted Pilot Adapter
 
-The recommended first pilot path. It should support durable route registry writes, teacher launch-session settings, teacher draft package writes, tenant library item writes, progress/media event writes, earned collection inventory writes, evidence packet records, package publish gates, package approval ledgers, pilot evidence packets, teacher dry-run rehearsals, classroom launch gates, and school launch policy gates after privacy, release-control, and policy requirements are accepted.
+The recommended first pilot path. It should support durable route registry writes, teacher launch-session settings, teacher draft package writes, AI generated package manifest writes, tenant library item writes, progress/media event writes, earned collection inventory writes, evidence packet records, package publish gates, package approval ledgers, pilot evidence packets, teacher dry-run rehearsals, classroom launch gates, and school launch policy gates after privacy, release-control, and policy requirements are accepted.
 
 ### Local Classroom Adapter
 
-A future closed deployment path for schools or textbook partners who require a local classroom server or packaged local app. It must support local media bundles, local teacher draft packages, local tenant library items, local progress export packages, local earned collection inventory, local evidence packet records, package publish gates, package approval ledgers, pilot evidence packets, teacher dry-run rehearsals, classroom launch gates, school launch policy gates, backup/restore, and year-on-year content updates.
+A future closed deployment path for schools or textbook partners who require a local classroom server or packaged local app. It must support local media bundles, local teacher draft packages, local AI generated package manifests, local tenant library items, local progress export packages, local earned collection inventory, local evidence packet records, package publish gates, package approval ledgers, pilot evidence packets, teacher dry-run rehearsals, classroom launch gates, school launch policy gates, backup/restore, and year-on-year content updates.
 
 ## Core Safety Rules
 
@@ -56,6 +56,7 @@ Every core adapter plan must:
 - reject random pressure loops, paid gacha-like ownership, and purchase-like unlock states,
 - preserve teacher draft review gates and source lineage,
 - block direct student assignment from unreviewed teacher drafts,
+- preserve AI generated package manifest lineage and block generated package assembly, route registry writes, media playlist writes, assignment writes, local bundle writes, and student-ready markers until review and release-control gates pass,
 - preserve tenant library source lineage,
 - block student data copies in library records,
 - block public community publishing for v1.
@@ -67,6 +68,7 @@ The hosted pilot path should support:
 - route registry entries,
 - teacher launch-session settings,
 - teacher draft packages,
+- AI generated package manifests,
 - tenant library items,
 - progress and media events,
 - earned collection inventory,
@@ -87,6 +89,7 @@ The local/closed deployment path should support:
 
 - local media bundle manifests,
 - local teacher draft packages,
+- local AI generated package manifests,
 - local tenant library items,
 - local package game/audio coverage snapshots,
 - local evidence packet records,

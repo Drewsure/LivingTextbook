@@ -38,6 +38,13 @@ export interface PersistenceWriteIntent {
   blocksReviewAuditStateChange?: boolean;
   preservesVerifierPreflightChecks?: boolean;
   blocksAutomaticVerifierSubmit?: boolean;
+  preservesAiGeneratedPackageManifest?: boolean;
+  blocksGeneratedPackageAssembly?: boolean;
+  blocksGeneratedPackageRouteWrite?: boolean;
+  blocksGeneratedPackagePlaylistWrite?: boolean;
+  blocksGeneratedPackageAssignment?: boolean;
+  blocksGeneratedPackageLocalBundleWrite?: boolean;
+  blocksStudentReadyMarker?: boolean;
   preservesTeacherAssignmentRolloutGate?: boolean;
   preservesPrivateAssignmentLink?: boolean;
   blocksPublicSharing?: boolean;
@@ -298,6 +305,34 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "teacher-draft-verifier-submission" && !intent.blocksAutomaticVerifierSubmit) {
       errors.push(`Teacher draft verifier submission write intent ${intent.intentId} must block automatic verifier submission.`);
+    }
+
+    if (intent.category === "ai-generated-package-manifest" && !intent.preservesAiGeneratedPackageManifest) {
+      errors.push(`AI generated package manifest write intent ${intent.intentId} must preserve generated package manifest links.`);
+    }
+
+    if (intent.category === "ai-generated-package-manifest" && !intent.blocksGeneratedPackageAssembly) {
+      errors.push(`AI generated package manifest write intent ${intent.intentId} must block package assembly.`);
+    }
+
+    if (intent.category === "ai-generated-package-manifest" && !intent.blocksGeneratedPackageRouteWrite) {
+      errors.push(`AI generated package manifest write intent ${intent.intentId} must block route registry writes.`);
+    }
+
+    if (intent.category === "ai-generated-package-manifest" && !intent.blocksGeneratedPackagePlaylistWrite) {
+      errors.push(`AI generated package manifest write intent ${intent.intentId} must block media playlist writes.`);
+    }
+
+    if (intent.category === "ai-generated-package-manifest" && !intent.blocksGeneratedPackageAssignment) {
+      errors.push(`AI generated package manifest write intent ${intent.intentId} must block generated package assignments.`);
+    }
+
+    if (intent.category === "ai-generated-package-manifest" && !intent.blocksGeneratedPackageLocalBundleWrite) {
+      errors.push(`AI generated package manifest write intent ${intent.intentId} must block local bundle writes.`);
+    }
+
+    if (intent.category === "ai-generated-package-manifest" && !intent.blocksStudentReadyMarker) {
+      errors.push(`AI generated package manifest write intent ${intent.intentId} must block student-ready markers.`);
     }
 
     if (intent.category === "teacher-assignment-rollout-gate" && !intent.preservesTeacherAssignmentRolloutGate) {
