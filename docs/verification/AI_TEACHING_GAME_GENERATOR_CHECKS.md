@@ -40,6 +40,9 @@ Confirm:
 - Audio coverage planner blocks live synthetic voice generation and voice API cost until tenant approval.
 - Gamification mapping preview shows accepted events, Star Dust allocation, mastery thresholds, score-profile snapshot, event acceptance map, and collection unlock bindings.
 - Gamification mapping preview blocks random reward generation, generated gacha, media-only Star Dust, support-language-only mastery, purchase-like unlocks, and unreviewed score profiles.
+- Verifier submission packet preview shows `ai_verifier_submission_packet`, `schema_validation_packet`, `pedagogical_lock_packet`, `audio_coverage_packet`, `engine_binding_packet`, `gamification_mapping_packet`, `activity_compatibility_snapshot`, `media_rights_manifest`, and `teacher_approval_packet`.
+- Verifier submission packet preview shows evidence and rejection rules for schema validation, pedagogical lock, target-language progression, audio coverage, engine binding, gamification mapping, media rights, and teacher approval.
+- Verifier submission packet preview blocks verifier submission, generated package approval, route creation, playlist creation, assignment creation, and student-ready marking until durable verifier storage, reviewer identity, media evidence, audio approval, approval ledger, and release-control binding exist.
 - Mode recommendation preview reuses the activity compatibility matrix.
 - Mode recommendation preview shows a recommended generated pathway and blocked conversion guardrails.
 - Mode recommendation preview blocks a broad switch panel as the default product promise.

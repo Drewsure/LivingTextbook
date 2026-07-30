@@ -218,6 +218,8 @@ AI generation must run from reviewed, versioned, tenant-scoped prompt packages. 
 
 AI-generated game packages must include deterministic gamification mappings before review. Generated activities must name their accepted events, Star Dust scoring lanes, mastery thresholds, collection unlock bindings, and blocked reward shortcuts. AI generation cannot create random rewards, generated gacha, purchase-like unlocks, support-language-only mastery, or media-only Star Dust.
 
+AI-generated game packages must include a verifier submission packet before teacher approval. The packet must show schema, pedagogy, target-language progression, audio, engine, gamification, compatibility, media-rights, and teacher-approval evidence with rejection rules. No route, playlist, assignment, package approval, or student-ready marker may be created from a generated package until those checks are durable and reviewed.
+
 AI generation must bind generated activity proposals to the existing game mode catalog, parent engines, scoring profiles, and standard event contract. It must not generate one-off game code, bypass parent engines, or promote Z.ai/outside prototypes without integration review.
 
 Required content rules:

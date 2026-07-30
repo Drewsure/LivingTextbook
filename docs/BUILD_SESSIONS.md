@@ -455,6 +455,7 @@ Next outputs:
 - Confirm `/teacher/generator/sample-publisher` shows mode recommendations sourced from the activity compatibility matrix, with a recommended generated pathway and blocked conversion guardrails, before any live recommendation engine or broad switch panel is implemented.
 - Confirm `/teacher/generator/sample-publisher` shows an AI audio coverage planner with required term, sentence, instruction, feedback, control, support-language, and background-media audio policies before live voice generation, voice API cost, verifier submission, route creation, or student assignment is implemented.
 - Confirm `/teacher/generator/sample-publisher` shows an AI gamification mapping with accepted events, deterministic Star Dust allocation, mastery thresholds, collection unlock bindings, and blocked random/gacha/media-only/support-language mastery shortcuts before generated game drafts can move toward review.
+- Confirm `/teacher/generator/sample-publisher` shows an AI verifier submission packet with required schema, pedagogy, target-language progression, audio, engine, gamification, compatibility, media-rights, and teacher-approval checks before verifier submission, package approval, route creation, playlist creation, assignment creation, or student-ready marking is implemented.
 - Confirm `npm run verify:ai-generator` passes after changes to AI authoring, game generation, activity pathway generation, target-language audio requirements, premium AI Tutor generation requests, or generator routes.
 
 ## Session 8: Premium Experience Layer

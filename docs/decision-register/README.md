@@ -261,6 +261,7 @@
 - `DR-287-ai-generator-prompt-package-preview.md`
 - `DR-288-ai-generator-gamification-mapping-preview.md`
 - `DR-289-ai-generator-engine-binding-preview.md`
+- `DR-290-ai-generator-verifier-submission-packet.md`
 
 ## Maintenance Rule
 

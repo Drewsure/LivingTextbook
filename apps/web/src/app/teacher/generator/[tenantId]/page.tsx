@@ -19,6 +19,10 @@ import {
   sampleAiGamificationMappingPlans,
 } from "@/data/sampleAiGamificationMappingPlan";
 import { filterAiPromptPackagePlansByTenant, sampleAiPromptPackagePlans } from "@/data/sampleAiPromptPackagePlan";
+import {
+  filterAiVerifierSubmissionPacketsByTenant,
+  sampleAiVerifierSubmissionPackets,
+} from "@/data/sampleAiVerifierSubmissionPacket";
 import { sampleActivityPathwayCompatibilityMatrix } from "@/data/sampleActivityPathwayCompatibility";
 import { AiGenerationRequestBuilderPanel } from "@/features/content-intake/AiGenerationRequestBuilderPanel";
 import { AiGeneratedDraftPayloadPreviewPanel } from "@/features/content-intake/AiGeneratedDraftPayloadPreviewPanel";
@@ -28,6 +32,7 @@ import { AiGeneratorAudioCoveragePlanPanel } from "@/features/content-intake/AiG
 import { AiGameGeneratorPlanPanel } from "@/features/content-intake/AiGameGeneratorPlanPanel";
 import { AiModeRecommendationPanel } from "@/features/content-intake/AiModeRecommendationPanel";
 import { AiPromptPackagePlanPanel } from "@/features/content-intake/AiPromptPackagePlanPanel";
+import { AiVerifierSubmissionPacketPanel } from "@/features/content-intake/AiVerifierSubmissionPacketPanel";
 import { ministarTenant } from "@/features/tenant/ministarTenant";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 
@@ -59,6 +64,9 @@ export default async function TeacherAiGameGeneratorPage({
           plans={filterAiGamificationMappingPlansByTenant(sampleAiGamificationMappingPlans, tenantId)}
         />
         <AiEngineBindingPlanPanel plans={filterAiEngineBindingPlansByTenant(sampleAiEngineBindingPlans, tenantId)} />
+        <AiVerifierSubmissionPacketPanel
+          packets={filterAiVerifierSubmissionPacketsByTenant(sampleAiVerifierSubmissionPackets, tenantId)}
+        />
         <AiModeRecommendationPanel matrix={sampleActivityPathwayCompatibilityMatrix} />
         <AiGeneratedDraftPayloadPreviewPanel
           previews={filterAiGeneratedDraftPayloadPreviewsByTenant(sampleAiGeneratedDraftPayloadPreviews, tenantId)}
