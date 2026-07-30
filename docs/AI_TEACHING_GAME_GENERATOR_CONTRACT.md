@@ -37,6 +37,10 @@ The generator cannot bypass source review, package review, target-language audio
 - `media_playlist_binding` when media is part of the request.
 - `ai_tutor_entitlement_packet` when optional AI Tutor is part of the request.
 
+## Draft Payload Preview Rule
+
+The teacher generator route may show a Draft JSON preview so reviewers can understand the output shape. The preview must preserve `target_language_progress_trigger`, `support_language_progress_allowed: false`, `teacher_draft_verifier_submission`, and blocked actions for copy, verifier submission, publish, playlist creation, and assignment until storage and review workflows exist.
+
 ## Blocked Actions
 
 - No direct AI publish.

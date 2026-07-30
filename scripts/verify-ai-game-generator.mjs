@@ -1,7 +1,9 @@
 import { readFileSync } from "node:fs";
 
 const plan = readSource("../apps/web/src/data/sampleAiGameGeneratorPlan.ts");
+const draftPreviewData = readSource("../apps/web/src/data/sampleAiGeneratedDraftPayloadPreview.ts");
 const panel = readSource("../apps/web/src/features/content-intake/AiGameGeneratorPlanPanel.tsx");
+const draftPreviewPanel = readSource("../apps/web/src/features/content-intake/AiGeneratedDraftPayloadPreviewPanel.tsx");
 const route = readSource("../apps/web/src/app/teacher/generator/[tenantId]/page.tsx");
 const teacherIntake = readSource("../apps/web/src/app/teacher/intake/page.tsx");
 const routeContracts = readSource("../apps/web/src/features/routes/routeContracts.ts");
@@ -68,8 +70,22 @@ requireText(panel, "Generator request preview", "Generator panel must expose req
 requireText(panel, "API cost package gate", "Generator panel must expose API cost gate.");
 requireText(panel, "Target-language audio rule", "Generator panel must expose target-language audio rule.");
 requireText(panel, "Assist language policy", "Generator panel must expose assist-language policy.");
+requireText(draftPreviewData, "sampleAiGeneratedDraftPayloadPreviews", "Generator draft payload preview data must exist.");
+requireText(draftPreviewData, "Draft JSON preview", "Generator draft payload preview must name the JSON preview.");
+requireText(draftPreviewData, "target_language_progress_trigger", "Generator draft payload preview must expose target-language trigger.");
+requireText(draftPreviewData, "target-language-only", "Generator draft payload preview must keep target language as the progress trigger.");
+requireText(draftPreviewData, "support_language_progress_allowed", "Generator draft payload preview must include support-language progress flag.");
+requireText(draftPreviewData, "support_language_progress_allowed: false", "Generator draft payload preview must block support-language progress.");
+requireText(draftPreviewData, "audio_coverage_status: required-not-approved", "Generator draft payload preview must block unapproved target audio.");
+requireText(draftPreviewData, "Copy JSON blocked", "Generator draft payload preview must block JSON copy in the foundation.");
+requireText(draftPreviewData, "Submit to verifier blocked", "Generator draft payload preview must block verifier submission in the foundation.");
+requireText(draftPreviewData, "Create student assignment blocked", "Generator draft payload preview must block assignment creation.");
+requireText(draftPreviewPanel, "AI draft payload preview", "Generator draft payload panel must expose heading.");
+requireText(draftPreviewPanel, "Draft JSON preview", "Generator draft payload panel must expose JSON preview label.");
 requireText(route, "AiGameGeneratorPlanPanel", "Generator route must render the generator panel.");
+requireText(route, "AiGeneratedDraftPayloadPreviewPanel", "Generator route must render the draft payload preview panel.");
 requireText(route, "sampleAiGameGeneratorPlan", "Generator route must use the sample generator plan.");
+requireText(route, "sampleAiGeneratedDraftPayloadPreviews", "Generator route must use the sample draft payload preview data.");
 requireText(route, "samplePublisherTenant", "Generator route must support sample publisher tenant.");
 requireText(route, "ministarTenant", "Generator route must support MiniStar tenant.");
 requireText(teacherIntake, "AiGameGeneratorPlanPanel", "Teacher intake must render the generator panel.");

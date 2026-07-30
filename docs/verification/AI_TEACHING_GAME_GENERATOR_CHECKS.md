@@ -25,6 +25,9 @@ Confirm:
 - Support language cannot unlock progress.
 - Verifier packet required before package review.
 - `teacher_draft_package`, `teacher_draft_verifier_submission`, `activity_compatibility_snapshot`, and `package_game_audio_coverage` records are named before package review.
+- Draft JSON preview keeps `target_language_progress_trigger` as `target-language-only`.
+- Draft JSON preview keeps `support_language_progress_allowed: false`.
+- Draft JSON preview blocks copy, verifier submission, publish, playlist creation, and assignment.
 - Optional AI Tutor requests remain premium-gated and disabled until school adoption, privacy, transcript, usage-limit, and cost controls exist.
 - `/teacher/generator/sample-publisher` loads as a teacher/admin route.
 - `/teacher/intake` includes the generator foundation panel.

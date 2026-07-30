@@ -229,10 +229,46 @@ const aiGameGeneratorExpected = [
   "Sentence Builder",
   "Target-language audio rule",
   "Assist language policy",
+  "AI draft payload preview",
+  "Draft JSON preview",
+  "target_language_progress_trigger",
+  "target-language-only",
+  "progress_unlock_allowed",
+  "support_language_progress_allowed",
+  "media_only_progress_allowed",
+  "audio_coverage_status: required-not-approved",
+  "Teacher approval missing",
+  "Media rights missing",
+  "Copy JSON blocked",
+  "Submit to verifier blocked",
+  "Publish generated package blocked",
+  "Create student assignment blocked",
+  "Create playlist from draft blocked",
 ];
 
+const aiGameGeneratorIntakeExpected = aiGameGeneratorExpected.filter(
+  (text) =>
+    ![
+      "AI draft payload preview",
+      "Draft JSON preview",
+      "target_language_progress_trigger",
+      "target-language-only",
+      "progress_unlock_allowed",
+      "support_language_progress_allowed",
+      "media_only_progress_allowed",
+      "audio_coverage_status: required-not-approved",
+      "Teacher approval missing",
+      "Media rights missing",
+      "Copy JSON blocked",
+      "Submit to verifier blocked",
+      "Publish generated package blocked",
+      "Create student assignment blocked",
+      "Create playlist from draft blocked",
+    ].includes(text),
+);
+
 expectedTextByPath.set("/teacher/generator/sample-publisher", aiGameGeneratorExpected);
-expectedTextByPath.get("/teacher/intake")?.push(...aiGameGeneratorExpected);
+expectedTextByPath.get("/teacher/intake")?.push(...aiGameGeneratorIntakeExpected);
 expectedTextByPath
   .get("/partner-demo")
   ?.push("AI teaching game generator", "/teacher/generator/sample-publisher");

@@ -448,6 +448,7 @@ Next outputs:
 - Confirm `npm run verify:launch-safety` passes after launch, front-door, private assignment, teacher unit review, teacher session monitor, report package, or classroom launch gate changes.
 - Confirm stable QR alias routes are content-checked for printed QR id, resolved target, and guardrails before real textbook QR commitments are made.
 - Confirm `/teacher/generator/sample-publisher` shows generator draft requests, verifier packets, target-language audio requirements, curated activity pathways, premium AI cost gates, no live model call, no direct publish, and no student assignment before live AI generation, model billing, route creation, playlist creation, or assignment flows are implemented.
+- Confirm `/teacher/generator/sample-publisher` shows a Draft JSON preview with target-language-only progress, `support_language_progress_allowed: false`, unapproved audio blocking, and blocked copy/verifier/publish/playlist/assignment actions before live generator workflows are implemented.
 - Confirm `npm run verify:ai-generator` passes after changes to AI authoring, game generation, activity pathway generation, target-language audio requirements, premium AI Tutor generation requests, or generator routes.
 
 ## Session 8: Premium Experience Layer

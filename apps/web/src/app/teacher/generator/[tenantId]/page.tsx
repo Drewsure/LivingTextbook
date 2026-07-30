@@ -1,6 +1,11 @@
 import { notFound } from "next/navigation";
 import { AppShell } from "@/components/layout/AppShell";
+import {
+  filterAiGeneratedDraftPayloadPreviewsByTenant,
+  sampleAiGeneratedDraftPayloadPreviews,
+} from "@/data/sampleAiGeneratedDraftPayloadPreview";
 import { sampleAiGameGeneratorPlan } from "@/data/sampleAiGameGeneratorPlan";
+import { AiGeneratedDraftPayloadPreviewPanel } from "@/features/content-intake/AiGeneratedDraftPayloadPreviewPanel";
 import { AiGameGeneratorPlanPanel } from "@/features/content-intake/AiGameGeneratorPlanPanel";
 import { ministarTenant } from "@/features/tenant/ministarTenant";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
@@ -20,7 +25,12 @@ export default async function TeacherAiGameGeneratorPage({
 
   return (
     <AppShell tenant={tenant}>
-      <AiGameGeneratorPlanPanel plan={sampleAiGameGeneratorPlan} tenantId={tenantId} />
+      <div className="grid gap-5">
+        <AiGameGeneratorPlanPanel plan={sampleAiGameGeneratorPlan} tenantId={tenantId} />
+        <AiGeneratedDraftPayloadPreviewPanel
+          previews={filterAiGeneratedDraftPayloadPreviewsByTenant(sampleAiGeneratedDraftPayloadPreviews, tenantId)}
+        />
+      </div>
     </AppShell>
   );
 }
