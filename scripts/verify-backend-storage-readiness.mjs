@@ -17,6 +17,7 @@ const requiredSchemaEntities = [
   "ai_generated_package_manifest",
   "ai_reward_readiness_gate",
   "ai_generated_publish_readiness_gate",
+  "ai_generator_tenant_coverage_gate",
   "teacher_assignment_rollout_gate",
   "private_assignment_link",
   "class_roster_plan",
@@ -78,6 +79,7 @@ const requiredMigrationCandidates = [
   "m054-ai-generated-package-manifest-records",
   "m055-ai-reward-readiness-gate-records",
   "m056-ai-generated-publish-readiness-gate-records",
+  "m057-ai-generator-tenant-coverage-gate-records",
   "m049-teacher-assignment-rollout-gate-records",
   "m050-private-assignment-link-records",
   "m051-class-roster-plan-records",
@@ -142,6 +144,7 @@ const requiredMigrationSpecs = [
   "spec-ai-generated-package-manifest",
   "spec-ai-reward-readiness-gate",
   "spec-ai-generated-publish-readiness-gate",
+  "spec-ai-generator-tenant-coverage-gate",
   "spec-teacher-assignment-rollout-gate",
   "spec-private-assignment-link",
   "spec-class-roster-plan",
@@ -261,6 +264,25 @@ requireText(schemaDraft, "future_student_route", "Backend schema must preserve p
 requireText(schemaDraft, "publish_readiness_checks", "Backend schema must preserve generated publish readiness checks.");
 requireText(schemaDraft, "blocked_publish_actions", "Backend schema must preserve generated publish action blocks.");
 requireText(schemaDraft, "student_route_publish_allowed", "Backend schema must block generated student route publishing.");
+requireText(schemaDraft, "ai_generator_tenant_coverage_gate", "Backend schema must include AI generator tenant coverage gates.");
+requireText(
+  schemaDraft,
+  "ai_generator_tenant_coverage_gate_id",
+  "Backend schema must preserve AI generator tenant coverage gate ids.",
+);
+requireText(schemaDraft, "ai_game_generator_request_id", "Backend schema must preserve generator request ids.");
+requireText(schemaDraft, "ai_prompt_package_id", "Backend schema must preserve prompt package ids.");
+requireText(schemaDraft, "premium_ai_cost_gate_id", "Backend schema must preserve premium AI cost gate ids.");
+requireText(schemaDraft, "ai_generation_request_packet_id", "Backend schema must preserve AI request builder packet ids.");
+requireText(schemaDraft, "tenant_coverage_lanes", "Backend schema must preserve tenant coverage lanes.");
+requireText(schemaDraft, "covered_record_count", "Backend schema must preserve covered generator record counts.");
+requireText(schemaDraft, "partial_record_count", "Backend schema must preserve partial generator record counts.");
+requireText(schemaDraft, "missing_record_count", "Backend schema must preserve missing generator record counts.");
+requireText(schemaDraft, "blocked_generator_actions", "Backend schema must preserve blocked generator actions.");
+requireText(schemaDraft, "next_tenant_requirements", "Backend schema must preserve next tenant generator requirements.");
+requireText(schemaDraft, "generator_request_submission_allowed", "Backend schema must block generator request submission.");
+requireText(schemaDraft, "live_model_call_allowed", "Backend schema must block live model calls.");
+requireText(schemaDraft, "verifier_submission_allowed", "Backend schema must block verifier submission.");
 requireText(schemaDraft, "teacher_assignment_rollout_gate", "Backend schema must include teacher assignment rollout gate records.");
 requireText(schemaDraft, "rollout_gate_id", "Backend schema must preserve teacher assignment rollout gate ids.");
 requireText(schemaDraft, "rollout_status", "Backend schema must preserve teacher assignment rollout status.");
@@ -441,6 +463,23 @@ requireText(
 );
 requireText(migrationSpecs, "publish_readiness_checks", "Migration specs must preserve generated publish readiness checks.");
 requireText(migrationSpecs, "student_route_publish_allowed", "Migration specs must block generated route publishing.");
+requireText(
+  migrationSpecs,
+  "spec-ai-generator-tenant-coverage-gate",
+  "Migration specs must include AI generator tenant coverage gates.",
+);
+requireText(
+  migrationSpecs,
+  "ai_generator_tenant_coverage_gate_id",
+  "Migration specs must preserve AI generator tenant coverage gate ids.",
+);
+requireText(migrationSpecs, "ai_game_generator_request_id", "Migration specs must preserve generator request ids.");
+requireText(migrationSpecs, "tenant_coverage_lanes", "Migration specs must preserve tenant coverage lanes.");
+requireText(migrationSpecs, "missing_record_count", "Migration specs must preserve missing record counts.");
+requireText(migrationSpecs, "blocked_generator_actions", "Migration specs must preserve blocked generator actions.");
+requireText(migrationSpecs, "generator_request_submission_allowed", "Migration specs must block generator request submission.");
+requireText(migrationSpecs, "live_model_call_allowed", "Migration specs must block live model calls.");
+requireText(migrationSpecs, "verifier_submission_allowed", "Migration specs must block verifier submission.");
 requireText(migrationSpecs, "spec-upload-intake-asset", "Migration specs must include upload intake assets.");
 requireText(migrationSpecs, "file_metadata", "Migration specs must preserve upload file metadata.");
 requireText(migrationSpecs, "target_mapping", "Migration specs must preserve upload target mapping.");
@@ -781,6 +820,33 @@ requireText(persistenceAdapter, "requiresVerifierPacketApproval: true", "Persist
 requireText(persistenceAdapter, "requiresManifestCompleteness: true", "Persistence adapter must require manifest completeness.");
 requireText(persistenceAdapter, "requiresReleaseControlBinding: true", "Persistence adapter must require release-control binding.");
 requireText(persistenceAdapter, "requiresTeacherApprovalLedger: true", "Persistence adapter must require teacher approval ledgers.");
+requireText(
+  persistenceAdapter,
+  "hosted-ai-generator-tenant-coverage-gate-write",
+  "Persistence adapter must include hosted AI generator tenant coverage gate writes.",
+);
+requireText(
+  persistenceAdapter,
+  "local-ai-generator-tenant-coverage-gate-write",
+  "Persistence adapter must include local AI generator tenant coverage gate writes.",
+);
+requireText(
+  persistenceAdapter,
+  "preservesAiGeneratorTenantCoverageGate: true",
+  "Persistence adapter must preserve AI generator tenant coverage checks.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresTenantSpecificGeneratorRecords: true",
+  "Persistence adapter must require tenant-specific generator records.",
+);
+requireText(
+  persistenceAdapter,
+  "blocksGeneratorRequestSubmission: true",
+  "Persistence adapter must block generator request submission.",
+);
+requireText(persistenceAdapter, "blocksLiveModelCall: true", "Persistence adapter must block live model calls.");
+requireText(persistenceAdapter, "blocksVerifierSubmission: true", "Persistence adapter must block verifier submission.");
 requireText(persistenceAdapter, "hosted-teacher-assignment-rollout-gate-write", "Persistence adapter must include hosted teacher assignment rollout gate writes.");
 requireText(persistenceAdapter, "local-teacher-assignment-rollout-gate-write", "Persistence adapter must include local teacher assignment rollout gate writes.");
 requireText(persistenceAdapter, "preservesTeacherAssignmentRolloutGate: true", "Persistence adapter must preserve teacher assignment rollout gates.");
@@ -1013,6 +1079,29 @@ requireText(durableRecords, "requiresVerifierPacketApproval: true", "Durable rec
 requireText(durableRecords, "requiresManifestCompleteness: true", "Durable record plan must require manifest completeness.");
 requireText(durableRecords, "requiresReleaseControlBinding: true", "Durable record plan must require release-control binding.");
 requireText(durableRecords, "requiresTeacherApprovalLedger: true", "Durable record plan must require teacher approval ledgers.");
+requireText(
+  durableRecords,
+  "ai-generator-tenant-coverage-gate-record",
+  "Durable record plan must include AI generator tenant coverage gate records.",
+);
+requireText(
+  durableRecords,
+  "AI generator tenant coverage gate record",
+  "Durable record plan must expose AI generator tenant coverage gate labels.",
+);
+requireText(
+  durableRecords,
+  "preservesAiGeneratorTenantCoverageGate: true",
+  "Durable record plan must preserve AI generator tenant coverage checks.",
+);
+requireText(
+  durableRecords,
+  "requiresTenantSpecificGeneratorRecords: true",
+  "Durable record plan must require tenant-specific generator records.",
+);
+requireText(durableRecords, "blocksGeneratorRequestSubmission: true", "Durable record plan must block generator request submission.");
+requireText(durableRecords, "blocksLiveModelCall: true", "Durable record plan must block live model calls.");
+requireText(durableRecords, "blocksVerifierSubmission: true", "Durable record plan must block verifier submission.");
 requireText(durableRecords, "teacher-assignment-rollout-gate-record", "Durable record plan must include teacher assignment rollout gate records.");
 requireText(durableRecords, "preservesTeacherAssignmentRolloutGate: true", "Durable record plan must preserve teacher assignment rollout gates.");
 requireText(durableRecords, "blocksStudentLaunchAction: true", "Durable record plan must block student launch actions.");
@@ -1198,6 +1287,8 @@ requireText(routeVerifier, "ai_reward_readiness_gate", "Active route verifier mu
 requireText(routeVerifier, "AI reward readiness gate record", "Active route verifier must keep AI reward readiness durable records visible on teacher intake.");
 requireText(routeVerifier, "ai_generated_publish_readiness_gate", "Active route verifier must keep AI generated publish readiness storage visible on teacher intake.");
 requireText(routeVerifier, "AI generated publish readiness gate record", "Active route verifier must keep AI generated publish readiness durable records visible on teacher intake.");
+requireText(routeVerifier, "ai_generator_tenant_coverage_gate", "Active route verifier must keep AI generator tenant coverage storage visible on teacher intake.");
+requireText(routeVerifier, "AI generator tenant coverage gate record", "Active route verifier must keep AI generator tenant coverage durable records visible on teacher intake.");
 requireText(routeVerifier, "private_assignment_link", "Active route verifier must keep private assignment link storage visible on teacher intake.");
 requireText(routeVerifier, "class_roster_plan", "Active route verifier must keep class roster plan storage visible on teacher intake.");
 requireText(routeVerifier, "Class roster plan record", "Active route verifier must keep class roster durable records visible on teacher intake.");

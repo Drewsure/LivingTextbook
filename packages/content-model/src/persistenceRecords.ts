@@ -10,6 +10,7 @@ export type PersistenceRecordCategory =
   | "ai-generated-package-manifest"
   | "ai-reward-readiness-gate"
   | "ai-generated-publish-readiness-gate"
+  | "ai-generator-tenant-coverage-gate"
   | "teacher-assignment-rollout-gate"
   | "private-assignment-link"
   | "class-roster-plan"
@@ -123,6 +124,11 @@ export interface DurableRecordContract {
   requiresManifestCompleteness?: boolean;
   requiresReleaseControlBinding?: boolean;
   requiresTeacherApprovalLedger?: boolean;
+  preservesAiGeneratorTenantCoverageGate?: boolean;
+  requiresTenantSpecificGeneratorRecords?: boolean;
+  blocksGeneratorRequestSubmission?: boolean;
+  blocksLiveModelCall?: boolean;
+  blocksVerifierSubmission?: boolean;
   preservesTeacherAssignmentRolloutGate?: boolean;
   preservesPrivateAssignmentLink?: boolean;
   blocksPublicSharing?: boolean;
@@ -459,6 +465,50 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "ai-generated-publish-readiness-gate" && !record.blocksStudentReadyMarker) {
       errors.push(`AI generated publish readiness gate record ${record.recordId} must block student-ready markers.`);
+    }
+
+    if (record.category === "ai-generator-tenant-coverage-gate" && !record.preservesAiGeneratorTenantCoverageGate) {
+      errors.push(`AI generator tenant coverage gate record ${record.recordId} must preserve tenant coverage checks.`);
+    }
+
+    if (record.category === "ai-generator-tenant-coverage-gate" && !record.requiresTenantSpecificGeneratorRecords) {
+      errors.push(`AI generator tenant coverage gate record ${record.recordId} must require tenant-specific generator records.`);
+    }
+
+    if (record.category === "ai-generator-tenant-coverage-gate" && !record.blocksGeneratorRequestSubmission) {
+      errors.push(`AI generator tenant coverage gate record ${record.recordId} must block generator request submission.`);
+    }
+
+    if (record.category === "ai-generator-tenant-coverage-gate" && !record.blocksLiveModelCall) {
+      errors.push(`AI generator tenant coverage gate record ${record.recordId} must block live model calls.`);
+    }
+
+    if (record.category === "ai-generator-tenant-coverage-gate" && !record.blocksVerifierSubmission) {
+      errors.push(`AI generator tenant coverage gate record ${record.recordId} must block verifier submission.`);
+    }
+
+    if (record.category === "ai-generator-tenant-coverage-gate" && !record.blocksGeneratedPackageAssembly) {
+      errors.push(`AI generator tenant coverage gate record ${record.recordId} must block generated package assembly.`);
+    }
+
+    if (record.category === "ai-generator-tenant-coverage-gate" && !record.blocksGeneratedPackageRouteWrite) {
+      errors.push(`AI generator tenant coverage gate record ${record.recordId} must block route registry writes.`);
+    }
+
+    if (record.category === "ai-generator-tenant-coverage-gate" && !record.blocksGeneratedPackagePlaylistWrite) {
+      errors.push(`AI generator tenant coverage gate record ${record.recordId} must block media playlist writes.`);
+    }
+
+    if (record.category === "ai-generator-tenant-coverage-gate" && !record.blocksGeneratedPackageAssignment) {
+      errors.push(`AI generator tenant coverage gate record ${record.recordId} must block assignment writes.`);
+    }
+
+    if (record.category === "ai-generator-tenant-coverage-gate" && !record.blocksGeneratedPackageLocalBundleWrite) {
+      errors.push(`AI generator tenant coverage gate record ${record.recordId} must block local bundle writes.`);
+    }
+
+    if (record.category === "ai-generator-tenant-coverage-gate" && !record.blocksStudentReadyMarker) {
+      errors.push(`AI generator tenant coverage gate record ${record.recordId} must block student-ready markers.`);
     }
 
     if (record.category === "teacher-assignment-rollout-gate" && !record.preservesTeacherAssignmentRolloutGate) {

@@ -24,6 +24,8 @@ Each tenant request must show request-specific generator record coverage for `ai
 
 Missing generator preview records must stay visible and must block generator request submission, live model calls, verifier submission, package assembly, route or playlist creation, and student assignment. Partial tenant-level builder records are allowed as scaffolds only; they must be upgraded to request-specific bindings before live workflows exist.
 
+The backend-neutral storage contract is `ai_generator_tenant_coverage_gate` / `ai-generator-tenant-coverage-gate`. Hosted and local adapters must preserve tenant-specific covered, partial, and missing record lanes while blocking generator request submission, live model calls, verifier submission, package assembly, route registry writes, media playlist writes, assignment creation, local bundle writes, and student-ready markers.
+
 ## Required Output Rules
 
 - 8 default vocabulary terms.

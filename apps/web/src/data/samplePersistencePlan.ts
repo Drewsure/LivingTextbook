@@ -22,6 +22,7 @@ export type PersistenceBoundaryCategory =
   | "ai-generated-package-manifest"
   | "ai-reward-readiness-gate"
   | "ai-generated-publish-readiness-gate"
+  | "ai-generator-tenant-coverage-gate"
   | "teacher-assignment-rollout-gate"
   | "private-assignment-link"
   | "class-roster-plan"
@@ -257,6 +258,35 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
     note:
       "AI generated publish readiness gates need durable correction, verifier, manifest, reward, release-control, and approval checks before generated packages can create routes, playlists, assignments, local bundles, or student-ready markers.",
+  },
+  {
+    recordId: "ai-generator-tenant-coverage-gate-record",
+    category: "ai-generator-tenant-coverage-gate",
+    label: "AI generator tenant coverage gate record",
+    readiness: "durable-required",
+    sourceOfTruth:
+      "AiGeneratorTenantCoverage, AI game generator request, prompt package, cost gate, request builder, audio coverage, gamification mapping, reward readiness, engine binding, verifier packet, generated manifest, publish readiness, draft preview, and correction queue",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesAiGeneratorTenantCoverageGate: true,
+    requiresTenantSpecificGeneratorRecords: true,
+    blocksGeneratorRequestSubmission: true,
+    blocksLiveModelCall: true,
+    blocksVerifierSubmission: true,
+    blocksGeneratedPackageAssembly: true,
+    blocksGeneratedPackageRouteWrite: true,
+    blocksGeneratedPackagePlaylistWrite: true,
+    blocksGeneratedPackageAssignment: true,
+    blocksGeneratedPackageLocalBundleWrite: true,
+    blocksStudentReadyMarker: true,
+    blocksDirectStudentAssignment: true,
+    recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
+    note:
+      "AI generator tenant coverage gates need durable request-by-request record coverage so one tenant's sample generator data cannot imply another tenant is ready for live model calls, verifier submission, package assembly, routes, playlists, assignments, local bundles, or student-ready state.",
   },
   {
     recordId: "teacher-assignment-rollout-gate-record",
@@ -1385,6 +1415,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision:
       "Persist AI generated publish readiness gates before enabling generated route creation, route registry writes, playlist writes, assignment creation, local bundle writes, or student-ready markers.",
+  },
+  {
+    boundaryId: "ai-generator-tenant-coverage-gate-boundary",
+    category: "ai-generator-tenant-coverage-gate",
+    label: "AI generator tenant coverage gate records",
+    status: "needs-backend",
+    recordShape:
+      "Coverage gate id, tenant id, request id, generator request id, prompt package id, cost gate id, request builder id, audio coverage id, gamification mapping id, reward gate id, engine binding id, verifier packet id, generated manifest id, publish readiness gate id, draft preview id, correction queue id, covered count, partial count, missing count, blocked generator actions, and next tenant requirements",
+    whyItMatters:
+      "White-label generator readiness must be request-specific. This record prevents MiniStar, publishers, and premium AI Tutor pathways from borrowing another tenant's sample records or becoming live because a generic route loads.",
+    visibleTo: ["Teacher", "Tenant admin", "Content reviewer", "Platform admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Persist AI generator tenant coverage gates before enabling generator request submission, live model calls, verifier submission, package assembly, route or playlist creation, local bundle writes, or student assignment.",
   },
   {
     boundaryId: "teacher-assignment-rollout-gate-boundary",

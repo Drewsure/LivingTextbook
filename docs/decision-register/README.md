@@ -273,6 +273,7 @@
 - `DR-299-ai-generated-publish-readiness-gate.md`
 - `DR-300-ai-generated-publish-readiness-storage-contract.md`
 - `DR-301-ai-generator-tenant-coverage-gate.md`
+- `DR-302-ai-generator-tenant-coverage-storage-contract.md`
 
 ## Maintenance Rule
 

@@ -58,6 +58,11 @@ export interface PersistenceWriteIntent {
   requiresManifestCompleteness?: boolean;
   requiresReleaseControlBinding?: boolean;
   requiresTeacherApprovalLedger?: boolean;
+  preservesAiGeneratorTenantCoverageGate?: boolean;
+  requiresTenantSpecificGeneratorRecords?: boolean;
+  blocksGeneratorRequestSubmission?: boolean;
+  blocksLiveModelCall?: boolean;
+  blocksVerifierSubmission?: boolean;
   preservesTeacherAssignmentRolloutGate?: boolean;
   preservesPrivateAssignmentLink?: boolean;
   blocksPublicSharing?: boolean;
@@ -429,6 +434,50 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "ai-generated-publish-readiness-gate" && !intent.blocksStudentReadyMarker) {
       errors.push(`AI generated publish readiness gate write intent ${intent.intentId} must block student-ready markers.`);
+    }
+
+    if (intent.category === "ai-generator-tenant-coverage-gate" && !intent.preservesAiGeneratorTenantCoverageGate) {
+      errors.push(`AI generator tenant coverage gate write intent ${intent.intentId} must preserve tenant coverage checks.`);
+    }
+
+    if (intent.category === "ai-generator-tenant-coverage-gate" && !intent.requiresTenantSpecificGeneratorRecords) {
+      errors.push(`AI generator tenant coverage gate write intent ${intent.intentId} must require tenant-specific generator records.`);
+    }
+
+    if (intent.category === "ai-generator-tenant-coverage-gate" && !intent.blocksGeneratorRequestSubmission) {
+      errors.push(`AI generator tenant coverage gate write intent ${intent.intentId} must block generator request submission.`);
+    }
+
+    if (intent.category === "ai-generator-tenant-coverage-gate" && !intent.blocksLiveModelCall) {
+      errors.push(`AI generator tenant coverage gate write intent ${intent.intentId} must block live model calls.`);
+    }
+
+    if (intent.category === "ai-generator-tenant-coverage-gate" && !intent.blocksVerifierSubmission) {
+      errors.push(`AI generator tenant coverage gate write intent ${intent.intentId} must block verifier submission.`);
+    }
+
+    if (intent.category === "ai-generator-tenant-coverage-gate" && !intent.blocksGeneratedPackageAssembly) {
+      errors.push(`AI generator tenant coverage gate write intent ${intent.intentId} must block generated package assembly.`);
+    }
+
+    if (intent.category === "ai-generator-tenant-coverage-gate" && !intent.blocksGeneratedPackageRouteWrite) {
+      errors.push(`AI generator tenant coverage gate write intent ${intent.intentId} must block route registry writes.`);
+    }
+
+    if (intent.category === "ai-generator-tenant-coverage-gate" && !intent.blocksGeneratedPackagePlaylistWrite) {
+      errors.push(`AI generator tenant coverage gate write intent ${intent.intentId} must block media playlist writes.`);
+    }
+
+    if (intent.category === "ai-generator-tenant-coverage-gate" && !intent.blocksGeneratedPackageAssignment) {
+      errors.push(`AI generator tenant coverage gate write intent ${intent.intentId} must block assignment writes.`);
+    }
+
+    if (intent.category === "ai-generator-tenant-coverage-gate" && !intent.blocksGeneratedPackageLocalBundleWrite) {
+      errors.push(`AI generator tenant coverage gate write intent ${intent.intentId} must block local bundle writes.`);
+    }
+
+    if (intent.category === "ai-generator-tenant-coverage-gate" && !intent.blocksStudentReadyMarker) {
+      errors.push(`AI generator tenant coverage gate write intent ${intent.intentId} must block student-ready markers.`);
     }
 
     if (intent.category === "teacher-assignment-rollout-gate" && !intent.preservesTeacherAssignmentRolloutGate) {
