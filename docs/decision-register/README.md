@@ -255,6 +255,7 @@
 - `DR-281-source-extraction-review-packet-preview.md`
 - `DR-282-ai-teaching-game-generator-foundation.md`
 - `DR-283-ai-generator-draft-payload-preview.md`
+- `DR-284-ai-generation-request-builder-preview.md`
 
 ## Maintenance Rule
 

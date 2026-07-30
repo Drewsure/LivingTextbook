@@ -28,6 +28,8 @@ Confirm:
 - Draft JSON preview keeps `target_language_progress_trigger` as `target-language-only`.
 - Draft JSON preview keeps `support_language_progress_allowed: false`.
 - Draft JSON preview blocks copy, verifier submission, publish, playlist creation, and assignment.
+- Disabled request builder shows source evidence packet, target level, unit theme, target language, support-language policy, curated mode pathway, audio coverage requirement, and AI package state.
+- Disabled request builder blocks generation, API cost estimation, request submission, live prompt dispatch, model billing, route creation, and student assignment.
 - Optional AI Tutor requests remain premium-gated and disabled until school adoption, privacy, transcript, usage-limit, and cost controls exist.
 - `/teacher/generator/sample-publisher` loads as a teacher/admin route.
 - `/teacher/intake` includes the generator foundation panel.

@@ -1,8 +1,10 @@
 import { readFileSync } from "node:fs";
 
 const plan = readSource("../apps/web/src/data/sampleAiGameGeneratorPlan.ts");
+const requestBuilderData = readSource("../apps/web/src/data/sampleAiGenerationRequestBuilder.ts");
 const draftPreviewData = readSource("../apps/web/src/data/sampleAiGeneratedDraftPayloadPreview.ts");
 const panel = readSource("../apps/web/src/features/content-intake/AiGameGeneratorPlanPanel.tsx");
+const requestBuilderPanel = readSource("../apps/web/src/features/content-intake/AiGenerationRequestBuilderPanel.tsx");
 const draftPreviewPanel = readSource("../apps/web/src/features/content-intake/AiGeneratedDraftPayloadPreviewPanel.tsx");
 const route = readSource("../apps/web/src/app/teacher/generator/[tenantId]/page.tsx");
 const teacherIntake = readSource("../apps/web/src/app/teacher/intake/page.tsx");
@@ -70,6 +72,24 @@ requireText(panel, "Generator request preview", "Generator panel must expose req
 requireText(panel, "API cost package gate", "Generator panel must expose API cost gate.");
 requireText(panel, "Target-language audio rule", "Generator panel must expose target-language audio rule.");
 requireText(panel, "Assist language policy", "Generator panel must expose assist-language policy.");
+requireText(requestBuilderData, "sampleAiGenerationRequestBuilders", "AI request builder data must exist.");
+requireText(requestBuilderData, "Source evidence packet", "AI request builder must include source evidence packet field.");
+requireText(requestBuilderData, "Target level", "AI request builder must include target level field.");
+requireText(requestBuilderData, "Unit theme", "AI request builder must include unit theme field.");
+requireText(requestBuilderData, "Target language", "AI request builder must include target language field.");
+requireText(requestBuilderData, "Curated mode pathway", "AI request builder must include curated mode pathway field.");
+requireText(requestBuilderData, "Audio coverage requirement", "AI request builder must include audio coverage field.");
+requireText(requestBuilderData, "AI package state", "AI request builder must include AI package state field.");
+requireText(requestBuilderData, "ai_generation_request_packet", "AI request builder must name generation request packet.");
+requireText(requestBuilderData, "request_builder_review_packet", "AI request builder must name request builder review packet.");
+requireText(requestBuilderData, "premium_ai_cost_gate", "AI request builder must name premium AI cost gate.");
+requireText(requestBuilderData, "Generate draft blocked", "AI request builder must block draft generation.");
+requireText(requestBuilderData, "Estimate API cost blocked", "AI request builder must block API cost estimation.");
+requireText(requestBuilderData, "Submit request blocked", "AI request builder must block request submission.");
+requireText(requestBuilderData, "No live prompt dispatch", "AI request builder must block live prompt dispatch.");
+requireText(requestBuilderData, "No model billing", "AI request builder must block model billing.");
+requireText(requestBuilderPanel, "AI generation request builder", "AI request builder panel must expose heading.");
+requireText(requestBuilderPanel, "Disabled generator setup form", "AI request builder panel must expose disabled form label.");
 requireText(draftPreviewData, "sampleAiGeneratedDraftPayloadPreviews", "Generator draft payload preview data must exist.");
 requireText(draftPreviewData, "Draft JSON preview", "Generator draft payload preview must name the JSON preview.");
 requireText(draftPreviewData, "target_language_progress_trigger", "Generator draft payload preview must expose target-language trigger.");
@@ -83,8 +103,10 @@ requireText(draftPreviewData, "Create student assignment blocked", "Generator dr
 requireText(draftPreviewPanel, "AI draft payload preview", "Generator draft payload panel must expose heading.");
 requireText(draftPreviewPanel, "Draft JSON preview", "Generator draft payload panel must expose JSON preview label.");
 requireText(route, "AiGameGeneratorPlanPanel", "Generator route must render the generator panel.");
+requireText(route, "AiGenerationRequestBuilderPanel", "Generator route must render the request builder panel.");
 requireText(route, "AiGeneratedDraftPayloadPreviewPanel", "Generator route must render the draft payload preview panel.");
 requireText(route, "sampleAiGameGeneratorPlan", "Generator route must use the sample generator plan.");
+requireText(route, "sampleAiGenerationRequestBuilders", "Generator route must use request builder data.");
 requireText(route, "sampleAiGeneratedDraftPayloadPreviews", "Generator route must use the sample draft payload preview data.");
 requireText(route, "samplePublisherTenant", "Generator route must support sample publisher tenant.");
 requireText(route, "ministarTenant", "Generator route must support MiniStar tenant.");
