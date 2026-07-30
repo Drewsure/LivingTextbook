@@ -26,7 +26,7 @@ Missing generator preview records must stay visible and must block generator req
 
 The backend-neutral storage contract is `ai_generator_tenant_coverage_gate` / `ai-generator-tenant-coverage-gate`. Hosted and local adapters must preserve tenant-specific covered, partial, and missing record lanes while blocking generator request submission, live model calls, verifier submission, package assembly, route registry writes, media playlist writes, assignment creation, local bundle writes, and student-ready markers.
 
-The MiniStar Level 1 greetings generator seed may include tenant-specific prompt package, cost gate, disabled request builder, audio coverage, gamification mapping, reward readiness, engine binding, Draft JSON preview, and derived correction queue records. That seed does not make MiniStar generator-ready until verifier submission, generated package manifest, publish readiness, audio approval, media-rights, and teacher approval records also exist and pass review.
+The MiniStar Level 1 greetings generator seed may include tenant-specific prompt package, cost gate, disabled request builder, audio coverage, gamification mapping, reward readiness, engine binding, Draft JSON preview, derived correction queue, and blocked verifier submission packet records. That seed does not make MiniStar generator-ready until generated package manifest, publish readiness, audio approval, media-rights, and teacher approval records also exist and pass review.
 
 ## Required Output Rules
 

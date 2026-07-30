@@ -265,6 +265,22 @@ requireText(verifierSubmissionPacket, "media_rights_manifest", "AI verifier pack
 requireText(verifierSubmissionPacket, "teacher_approval_packet", "AI verifier packet must name teacher approval packet.");
 requireText(verifierSubmissionPacket, "Submit verifier packet blocked", "AI verifier packet must block verifier submission.");
 requireText(verifierSubmissionPacket, "Approve generated package blocked", "AI verifier packet must block package approval.");
+requireText(verifierSubmissionPacket, "MiniStar AI verifier packet", "MiniStar generator must expose a verifier packet.");
+requireText(
+  verifierSubmissionPacket,
+  "ai-verifier-submission-ministar-l1-greetings-v1",
+  "MiniStar verifier packet must be request-specific.",
+);
+requireText(
+  verifierSubmissionPacket,
+  "Hiragana support boundary",
+  "MiniStar verifier packet must check the Foundation support-language boundary.",
+);
+requireText(
+  verifierSubmissionPacket,
+  "MiniStar media rights evidence attachments",
+  "MiniStar verifier packet must keep media evidence blocked before approval.",
+);
 requireText(
   verifierSubmissionPacket,
   "Create student assignment from verifier packet blocked",
