@@ -266,6 +266,7 @@
 - `DR-292-ai-generated-package-manifest-preview.md`
 - `DR-293-ai-generated-package-manifest-storage-contract.md`
 - `DR-294-ai-generator-cost-entitlement-gate.md`
+- `DR-295-ai-generated-draft-payload-validator.md`
 
 ## Maintenance Rule
 

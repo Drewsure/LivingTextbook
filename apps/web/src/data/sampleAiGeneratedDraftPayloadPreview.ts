@@ -1,25 +1,11 @@
-export type AiGeneratedDraftPayloadStatus = "draft-only" | "blocked";
+import {
+  getAiGeneratedDraftPayloadPreviewWarnings,
+  type AiGeneratedDraftPayloadPreview,
+  type AiGeneratedDraftPayloadStatus,
+  validateAiGeneratedDraftPayloadPreview,
+} from "@living-textbook/content-model/src/aiGeneratedDraftPayload";
 
-export interface AiGeneratedDraftPreflightItem {
-  checkId: string;
-  label: string;
-  status: AiGeneratedDraftPayloadStatus;
-  result: string;
-  blocksStudentUse: boolean;
-}
-
-export interface AiGeneratedDraftPayloadPreview {
-  previewId: string;
-  requestId: string;
-  tenantId: string;
-  label: string;
-  summary: string;
-  status: AiGeneratedDraftPayloadStatus;
-  draftJson: Record<string, unknown>;
-  preflight: AiGeneratedDraftPreflightItem[];
-  blockedActions: string[];
-  nextRecords: string[];
-}
+export type { AiGeneratedDraftPayloadPreview, AiGeneratedDraftPayloadStatus };
 
 export const sampleAiGeneratedDraftPayloadPreviews: AiGeneratedDraftPayloadPreview[] = [
   {
@@ -122,3 +108,11 @@ export function filterAiGeneratedDraftPayloadPreviewsByTenant(
 ): AiGeneratedDraftPayloadPreview[] {
   return previews.filter((preview) => preview.tenantId === tenantId);
 }
+
+export const sampleAiGeneratedDraftPayloadPreviewErrors = sampleAiGeneratedDraftPayloadPreviews.flatMap(
+  validateAiGeneratedDraftPayloadPreview,
+);
+
+export const sampleAiGeneratedDraftPayloadPreviewWarnings = sampleAiGeneratedDraftPayloadPreviews.flatMap(
+  getAiGeneratedDraftPayloadPreviewWarnings,
+);

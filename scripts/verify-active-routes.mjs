@@ -397,6 +397,10 @@ const aiGameGeneratorExpected = [
   "Publish generated package blocked",
   "Create student assignment blocked",
   "Create playlist from draft blocked",
+  "Schema guard active",
+  "Student use blocked",
+  "Schema guard blocks",
+  "Schema guard warnings",
 ];
 
 const aiGameGeneratorIntakeExpected = [

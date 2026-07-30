@@ -10,6 +10,7 @@ const gamificationMappingPlan = readSource("../apps/web/src/data/sampleAiGamific
 const verifierSubmissionPacket = readSource("../apps/web/src/data/sampleAiVerifierSubmissionPacket.ts");
 const generatedPackageManifest = readSource("../apps/web/src/data/sampleAiGeneratedPackageManifest.ts");
 const draftPreviewData = readSource("../apps/web/src/data/sampleAiGeneratedDraftPayloadPreview.ts");
+const draftPayloadValidator = readSource("../packages/content-model/src/aiGeneratedDraftPayload.ts");
 const compatibilityMatrix = readSource("../apps/web/src/data/sampleActivityPathwayCompatibility.ts");
 const panel = readSource("../apps/web/src/features/content-intake/AiGameGeneratorPlanPanel.tsx");
 const engineBindingPanel = readSource("../apps/web/src/features/content-intake/AiEngineBindingPlanPanel.tsx");
@@ -251,8 +252,71 @@ requireText(draftPreviewData, "audio_coverage_status: required-not-approved", "G
 requireText(draftPreviewData, "Copy JSON blocked", "Generator draft payload preview must block JSON copy in the foundation.");
 requireText(draftPreviewData, "Submit to verifier blocked", "Generator draft payload preview must block verifier submission in the foundation.");
 requireText(draftPreviewData, "Create student assignment blocked", "Generator draft payload preview must block assignment creation.");
+requireText(draftPreviewData, "sampleAiGeneratedDraftPayloadPreviewErrors", "Generator draft payload preview must expose shared validator errors.");
+requireText(draftPreviewData, "sampleAiGeneratedDraftPayloadPreviewWarnings", "Generator draft payload preview must expose shared validator warnings.");
+requireText(
+  draftPreviewData,
+  "validateAiGeneratedDraftPayloadPreview",
+  "Generator draft payload preview data must call the shared preview validator.",
+);
+requireText(
+  draftPreviewData,
+  "getAiGeneratedDraftPayloadPreviewWarnings",
+  "Generator draft payload preview data must call the shared preview warning helper.",
+);
+requireText(draftPayloadValidator, "validateAiGeneratedDraftPayload", "Shared content model must validate generated draft payloads.");
+requireText(draftPayloadValidator, "getAiGeneratedDraftPayloadWarnings", "Shared content model must expose generated draft warnings.");
+requireText(
+  draftPayloadValidator,
+  "validateAiGeneratedDraftPayloadPreview",
+  "Shared content model must validate generated draft preview shells.",
+);
+requireText(
+  draftPayloadValidator,
+  "AI generated draft payload vocabulary_terms count must be between 8 and 12.",
+  "Shared draft validator must enforce the 8-12 vocabulary range.",
+);
+requireText(
+  draftPayloadValidator,
+  "AI generated draft payload must include exactly 2 target_sentences.",
+  "Shared draft validator must enforce exactly two target sentences.",
+);
+requireText(
+  draftPayloadValidator,
+  "target_language_progress_trigger as target-language-only",
+  "Shared draft validator must enforce target-language-only progress.",
+);
+requireText(
+  draftPayloadValidator,
+  "support_language_progress_allowed: false",
+  "Shared draft validator must block support-language progress.",
+);
+requireText(
+  draftPayloadValidator,
+  "media_only_progress_allowed: false",
+  "Shared draft validator must block media-only progress.",
+);
+requireText(
+  draftPayloadValidator,
+  "target-language audio cues must be approved before student assignment",
+  "Shared draft validator must block unapproved target-language audio.",
+);
+requireText(
+  draftPayloadValidator,
+  "AI_GENERATED_DRAFT_REQUIRED_BLOCKED_ACTIONS",
+  "Shared draft validator must name required blocked actions.",
+);
+requireText(
+  draftPayloadValidator,
+  "AI_GENERATED_DRAFT_REQUIRED_NEXT_RECORDS",
+  "Shared draft validator must name next required records.",
+);
 requireText(draftPreviewPanel, "AI draft payload preview", "Generator draft payload panel must expose heading.");
 requireText(draftPreviewPanel, "Draft JSON preview", "Generator draft payload panel must expose JSON preview label.");
+requireText(draftPreviewPanel, "Schema guard active", "Generator draft payload panel must expose schema guard status.");
+requireText(draftPreviewPanel, "Student use blocked", "Generator draft payload panel must expose student-use block status.");
+requireText(draftPreviewPanel, "Schema guard blocks", "Generator draft payload panel must show validation blocks.");
+requireText(draftPreviewPanel, "Schema guard warnings", "Generator draft payload panel must show validation warnings.");
 requireText(route, "AiGameGeneratorPlanPanel", "Generator route must render the generator panel.");
 requireText(route, "AiEngineBindingPlanPanel", "Generator route must render the engine binding panel.");
 requireText(route, "AiPromptPackagePlanPanel", "Generator route must render the prompt package plan panel.");
