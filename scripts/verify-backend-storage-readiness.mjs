@@ -15,6 +15,7 @@ const requiredSchemaEntities = [
   "teacher_draft_review_handoff",
   "teacher_draft_verifier_submission",
   "ai_generated_package_manifest",
+  "ai_reward_readiness_gate",
   "teacher_assignment_rollout_gate",
   "private_assignment_link",
   "class_roster_plan",
@@ -74,6 +75,7 @@ const requiredMigrationCandidates = [
   "m016-teacher-draft-review-handoff-records",
   "m020-teacher-draft-verifier-submission-records",
   "m054-ai-generated-package-manifest-records",
+  "m055-ai-reward-readiness-gate-records",
   "m049-teacher-assignment-rollout-gate-records",
   "m050-private-assignment-link-records",
   "m051-class-roster-plan-records",
@@ -136,6 +138,7 @@ const requiredMigrationSpecs = [
   "spec-teacher-draft-review-handoff",
   "spec-teacher-draft-verifier-submission",
   "spec-ai-generated-package-manifest",
+  "spec-ai-reward-readiness-gate",
   "spec-teacher-assignment-rollout-gate",
   "spec-private-assignment-link",
   "spec-class-roster-plan",
@@ -222,6 +225,17 @@ requireText(schemaDraft, "media_playlist_write_allowed", "Backend schema must bl
 requireText(schemaDraft, "assignment_write_allowed", "Backend schema must block generated package assignments.");
 requireText(schemaDraft, "local_bundle_write_allowed", "Backend schema must block generated package local bundle writes.");
 requireText(schemaDraft, "student_ready_marker_allowed", "Backend schema must block generated package student-ready markers.");
+requireText(schemaDraft, "ai_reward_readiness_gate", "Backend schema must include AI reward readiness gates.");
+requireText(schemaDraft, "ai_reward_readiness_gate_id", "Backend schema must preserve AI reward readiness gate ids.");
+requireText(schemaDraft, "ai_draft_correction_queue_id", "Backend schema must preserve AI draft correction queue ids.");
+requireText(schemaDraft, "star_dust_cap_check", "Backend schema must preserve AI reward Star Dust cap checks.");
+requireText(schemaDraft, "mastery_threshold_check", "Backend schema must preserve AI reward mastery threshold checks.");
+requireText(schemaDraft, "deterministic_unlock_check", "Backend schema must preserve deterministic unlock checks.");
+requireText(schemaDraft, "accepted_event_source_check", "Backend schema must preserve accepted event source checks.");
+requireText(schemaDraft, "reward_publishing_allowed", "Backend schema must block reward publishing.");
+requireText(schemaDraft, "collection_inventory_write_allowed", "Backend schema must block collection inventory writes.");
+requireText(schemaDraft, "spin_wheel_ticket_issuance_allowed", "Backend schema must block Spin Wheel ticket issuance.");
+requireText(schemaDraft, "avatar_evolution_write_allowed", "Backend schema must block avatar evolution writes.");
 requireText(schemaDraft, "teacher_assignment_rollout_gate", "Backend schema must include teacher assignment rollout gate records.");
 requireText(schemaDraft, "rollout_gate_id", "Backend schema must preserve teacher assignment rollout gate ids.");
 requireText(schemaDraft, "rollout_status", "Backend schema must preserve teacher assignment rollout status.");
@@ -367,6 +381,13 @@ requireText(migrationSpecs, "media_playlist_write_allowed", "Migration specs mus
 requireText(migrationSpecs, "assignment_write_allowed", "Migration specs must block generated package assignments.");
 requireText(migrationSpecs, "local_bundle_write_allowed", "Migration specs must block generated package local bundle writes.");
 requireText(migrationSpecs, "student_ready_marker_allowed", "Migration specs must block generated package student-ready markers.");
+requireText(migrationSpecs, "spec-ai-reward-readiness-gate", "Migration specs must include AI reward readiness gates.");
+requireText(migrationSpecs, "ai_reward_readiness_gate_id", "Migration specs must preserve AI reward readiness gate ids.");
+requireText(migrationSpecs, "ai_draft_correction_queue_id", "Migration specs must preserve AI draft correction queue ids.");
+requireText(migrationSpecs, "star_dust_cap_check", "Migration specs must preserve AI reward Star Dust cap checks.");
+requireText(migrationSpecs, "deterministic_unlock_check", "Migration specs must preserve deterministic unlock checks.");
+requireText(migrationSpecs, "reward_publishing_allowed", "Migration specs must block reward publishing.");
+requireText(migrationSpecs, "collection_inventory_write_allowed", "Migration specs must block collection inventory writes.");
 requireText(migrationSpecs, "spec-upload-intake-asset", "Migration specs must include upload intake assets.");
 requireText(migrationSpecs, "file_metadata", "Migration specs must preserve upload file metadata.");
 requireText(migrationSpecs, "target_mapping", "Migration specs must preserve upload target mapping.");
@@ -678,6 +699,16 @@ requireText(persistenceAdapter, "blocksGeneratedPackagePlaylistWrite: true", "Pe
 requireText(persistenceAdapter, "blocksGeneratedPackageAssignment: true", "Persistence adapter must block generated package assignments.");
 requireText(persistenceAdapter, "blocksGeneratedPackageLocalBundleWrite: true", "Persistence adapter must block generated package local bundle writes.");
 requireText(persistenceAdapter, "blocksStudentReadyMarker: true", "Persistence adapter must block generated package student-ready markers.");
+requireText(persistenceAdapter, "hosted-ai-reward-readiness-gate-write", "Persistence adapter must include hosted AI reward readiness gate writes.");
+requireText(persistenceAdapter, "local-ai-reward-readiness-gate-write", "Persistence adapter must include local AI reward readiness gate writes.");
+requireText(persistenceAdapter, "preservesAiRewardReadinessGate: true", "Persistence adapter must preserve AI reward readiness checks.");
+requireText(persistenceAdapter, "preservesDeterministicRewardRules: true", "Persistence adapter must preserve deterministic reward rules.");
+requireText(persistenceAdapter, "blocksRewardPublishing: true", "Persistence adapter must block reward publishing.");
+requireText(persistenceAdapter, "blocksCollectionInventoryWrite: true", "Persistence adapter must block collection inventory writes.");
+requireText(persistenceAdapter, "blocksGeneratedSurpriseRewards: true", "Persistence adapter must block generated surprise rewards.");
+requireText(persistenceAdapter, "blocksSpinWheelTicketIssuance: true", "Persistence adapter must block Spin Wheel ticket issuance.");
+requireText(persistenceAdapter, "blocksAvatarEvolutionWrite: true", "Persistence adapter must block avatar evolution writes.");
+requireText(persistenceAdapter, "requiresAiDraftCorrectionQueueClearance: true", "Persistence adapter must require AI draft correction queue clearance.");
 requireText(persistenceAdapter, "hosted-teacher-assignment-rollout-gate-write", "Persistence adapter must include hosted teacher assignment rollout gate writes.");
 requireText(persistenceAdapter, "local-teacher-assignment-rollout-gate-write", "Persistence adapter must include local teacher assignment rollout gate writes.");
 requireText(persistenceAdapter, "preservesTeacherAssignmentRolloutGate: true", "Persistence adapter must preserve teacher assignment rollout gates.");
@@ -881,6 +912,16 @@ requireText(durableRecords, "blocksGeneratedPackagePlaylistWrite: true", "Durabl
 requireText(durableRecords, "blocksGeneratedPackageAssignment: true", "Durable record plan must block generated package assignments.");
 requireText(durableRecords, "blocksGeneratedPackageLocalBundleWrite: true", "Durable record plan must block generated package local bundle writes.");
 requireText(durableRecords, "blocksStudentReadyMarker: true", "Durable record plan must block generated package student-ready markers.");
+requireText(durableRecords, "ai-reward-readiness-gate-record", "Durable record plan must include AI reward readiness gate records.");
+requireText(durableRecords, "AI reward readiness gate record", "Durable record plan must expose AI reward readiness gate labels.");
+requireText(durableRecords, "preservesAiRewardReadinessGate: true", "Durable record plan must preserve AI reward readiness checks.");
+requireText(durableRecords, "preservesDeterministicRewardRules: true", "Durable record plan must preserve deterministic reward rules.");
+requireText(durableRecords, "blocksRewardPublishing: true", "Durable record plan must block reward publishing.");
+requireText(durableRecords, "blocksCollectionInventoryWrite: true", "Durable record plan must block collection inventory writes.");
+requireText(durableRecords, "blocksGeneratedSurpriseRewards: true", "Durable record plan must block generated surprise rewards.");
+requireText(durableRecords, "blocksSpinWheelTicketIssuance: true", "Durable record plan must block Spin Wheel ticket issuance.");
+requireText(durableRecords, "blocksAvatarEvolutionWrite: true", "Durable record plan must block avatar evolution writes.");
+requireText(durableRecords, "requiresAiDraftCorrectionQueueClearance: true", "Durable record plan must require AI draft correction queue clearance.");
 requireText(durableRecords, "teacher-assignment-rollout-gate-record", "Durable record plan must include teacher assignment rollout gate records.");
 requireText(durableRecords, "preservesTeacherAssignmentRolloutGate: true", "Durable record plan must preserve teacher assignment rollout gates.");
 requireText(durableRecords, "blocksStudentLaunchAction: true", "Durable record plan must block student launch actions.");
@@ -1062,6 +1103,8 @@ requireText(routeVerifier, "school_rollback_safe_fallback_restoration_preview", 
 requireText(routeVerifier, "teacher_assignment_rollout_gate", "Active route verifier must keep teacher assignment rollout gate storage visible on teacher intake.");
 requireText(routeVerifier, "ai_generated_package_manifest", "Active route verifier must keep AI generated package manifest storage visible on teacher intake.");
 requireText(routeVerifier, "AI generated package manifest record", "Active route verifier must keep AI generated package manifest durable records visible on teacher intake.");
+requireText(routeVerifier, "ai_reward_readiness_gate", "Active route verifier must keep AI reward readiness storage visible on teacher intake.");
+requireText(routeVerifier, "AI reward readiness gate record", "Active route verifier must keep AI reward readiness durable records visible on teacher intake.");
 requireText(routeVerifier, "private_assignment_link", "Active route verifier must keep private assignment link storage visible on teacher intake.");
 requireText(routeVerifier, "class_roster_plan", "Active route verifier must keep class roster plan storage visible on teacher intake.");
 requireText(routeVerifier, "Class roster plan record", "Active route verifier must keep class roster durable records visible on teacher intake.");

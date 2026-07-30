@@ -20,6 +20,7 @@ export type PersistenceBoundaryCategory =
   | "teacher-draft-review-audit"
   | "teacher-draft-verifier-submission"
   | "ai-generated-package-manifest"
+  | "ai-reward-readiness-gate"
   | "teacher-assignment-rollout-gate"
   | "private-assignment-link"
   | "class-roster-plan"
@@ -197,6 +198,34 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
     note:
       "Generated package manifests need durable links to prompt, draft JSON, audio, engine, gamification, verifier, review queue, media-rights, and approval records before AI output can become a package assembly candidate.",
+  },
+  {
+    recordId: "ai-reward-readiness-gate-record",
+    category: "ai-reward-readiness-gate",
+    label: "AI reward readiness gate record",
+    readiness: "durable-required",
+    sourceOfTruth:
+      "AiRewardReadinessGate, AI gamification mapping plan, AI draft correction queue, Star Dust thresholds, accepted event sources, collection unlock bindings, and reward blocks",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: false,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesAiRewardReadinessGate: true,
+    preservesDeterministicRewardRules: true,
+    preservesEarnedCollectionRules: true,
+    rejectsRandomRewardPressure: true,
+    blocksRewardPublishing: true,
+    blocksCollectionInventoryWrite: true,
+    blocksGeneratedSurpriseRewards: true,
+    blocksSpinWheelTicketIssuance: true,
+    blocksAvatarEvolutionWrite: true,
+    requiresAiDraftCorrectionQueueClearance: true,
+    blocksDirectStudentAssignment: true,
+    recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
+    note:
+      "AI reward readiness gates need durable scoring, mastery, correction-queue, accepted-event, and collection unlock checks before generated packages can affect rewards, inventory, Spin Wheel tickets, avatars, or assignments.",
   },
   {
     recordId: "teacher-assignment-rollout-gate-record",
@@ -1297,6 +1326,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision:
       "Persist generated package manifests before enabling package assembly, route registry writes, media playlist writes, assignment writes, local bundle writes, or student-ready markers.",
+  },
+  {
+    boundaryId: "ai-reward-readiness-gate-boundary",
+    category: "ai-reward-readiness-gate",
+    label: "AI reward readiness gate records",
+    status: "needs-backend",
+    recordShape:
+      "Reward gate id, tenant id, request id, reward currency, Star Dust cap check, mastery threshold check, deterministic unlock check, accepted event source check, correction-queue clearance check, blocked reward actions, and next reward records",
+    whyItMatters:
+      "Generated package rewards need a durable readiness gate so AI output cannot publish rewards, write collection inventory, issue Spin Wheel tickets, evolve avatars, or assign students from UI state alone.",
+    visibleTo: ["Tenant admin", "Content reviewer", "Platform admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Persist AI reward readiness gates before enabling generated reward publishing, collection inventory writes, Spin Wheel ticket issuance, avatar evolution writes, or assignment workflows.",
   },
   {
     boundaryId: "teacher-assignment-rollout-gate-boundary",

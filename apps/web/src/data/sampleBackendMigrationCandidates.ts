@@ -162,6 +162,42 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
       ],
     },
     {
+      migrationId: "m055-ai-reward-readiness-gate-records",
+      label: "AI reward readiness gate records",
+      track: "shared",
+      status: "ready-to-design",
+      risk: "medium",
+      targetEntities: ["ai_reward_readiness_gate"],
+      purpose:
+        "Persist generated reward readiness checks before AI drafts can publish rewards, write collection inventory, issue Spin Wheel tickets, evolve avatars, or assign students.",
+      prerequisites: [
+        "AI gamification mapping accepted",
+        "AI draft correction queue accepted",
+        "Earned collection rules accepted",
+        "Progress event acceptance map accepted",
+        "Package approval and release-control policy accepted",
+      ],
+      implementationNotes: [
+        "Keep reward gates tenant-scoped and generation-request-scoped.",
+        "Preserve Star Dust cap, mastery threshold, deterministic unlock, accepted-event, and correction-queue checks.",
+        "Block reward publishing, collection inventory writes, generated surprise rewards, Spin Wheel ticket issuance, avatar evolution writes, and assignments.",
+        "Do not let AI reward gates issue inventory or tickets by themselves.",
+      ],
+      rollbackOrExportNeeds: [
+        "Export reward readiness gate JSON with gamification mapping and correction queue ids",
+        "Retain blocked and cleared gate snapshots for audit",
+        "Support local reward gate backup and restore without enabling offline inventory writes",
+      ],
+      notAllowedYet: [
+        "Reward publishing",
+        "Collection inventory write",
+        "Generated surprise reward",
+        "Spin Wheel ticket issuance",
+        "Avatar evolution write",
+        "Student assignment",
+      ],
+    },
+    {
       migrationId: "m049-teacher-assignment-rollout-gate-records",
       label: "Teacher assignment rollout gate records",
       track: "shared",

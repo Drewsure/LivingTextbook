@@ -8,6 +8,7 @@ export type PersistenceRecordCategory =
   | "teacher-draft-review-audit"
   | "teacher-draft-verifier-submission"
   | "ai-generated-package-manifest"
+  | "ai-reward-readiness-gate"
   | "teacher-assignment-rollout-gate"
   | "private-assignment-link"
   | "class-roster-plan"
@@ -108,6 +109,14 @@ export interface DurableRecordContract {
   blocksGeneratedPackageAssignment?: boolean;
   blocksGeneratedPackageLocalBundleWrite?: boolean;
   blocksStudentReadyMarker?: boolean;
+  preservesAiRewardReadinessGate?: boolean;
+  preservesDeterministicRewardRules?: boolean;
+  blocksRewardPublishing?: boolean;
+  blocksCollectionInventoryWrite?: boolean;
+  blocksGeneratedSurpriseRewards?: boolean;
+  blocksSpinWheelTicketIssuance?: boolean;
+  blocksAvatarEvolutionWrite?: boolean;
+  requiresAiDraftCorrectionQueueClearance?: boolean;
   preservesTeacherAssignmentRolloutGate?: boolean;
   preservesPrivateAssignmentLink?: boolean;
   blocksPublicSharing?: boolean;
@@ -361,6 +370,38 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "ai-generated-package-manifest" && !record.blocksStudentReadyMarker) {
       errors.push(`AI generated package manifest record ${record.recordId} must block student-ready markers.`);
+    }
+
+    if (record.category === "ai-reward-readiness-gate" && !record.preservesAiRewardReadinessGate) {
+      errors.push(`AI reward readiness gate record ${record.recordId} must preserve generated reward readiness checks.`);
+    }
+
+    if (record.category === "ai-reward-readiness-gate" && !record.preservesDeterministicRewardRules) {
+      errors.push(`AI reward readiness gate record ${record.recordId} must preserve deterministic reward rules.`);
+    }
+
+    if (record.category === "ai-reward-readiness-gate" && !record.blocksRewardPublishing) {
+      errors.push(`AI reward readiness gate record ${record.recordId} must block reward publishing.`);
+    }
+
+    if (record.category === "ai-reward-readiness-gate" && !record.blocksCollectionInventoryWrite) {
+      errors.push(`AI reward readiness gate record ${record.recordId} must block collection inventory writes.`);
+    }
+
+    if (record.category === "ai-reward-readiness-gate" && !record.blocksGeneratedSurpriseRewards) {
+      errors.push(`AI reward readiness gate record ${record.recordId} must block generated surprise rewards.`);
+    }
+
+    if (record.category === "ai-reward-readiness-gate" && !record.blocksSpinWheelTicketIssuance) {
+      errors.push(`AI reward readiness gate record ${record.recordId} must block Spin Wheel ticket issuance.`);
+    }
+
+    if (record.category === "ai-reward-readiness-gate" && !record.blocksAvatarEvolutionWrite) {
+      errors.push(`AI reward readiness gate record ${record.recordId} must block avatar evolution writes.`);
+    }
+
+    if (record.category === "ai-reward-readiness-gate" && !record.requiresAiDraftCorrectionQueueClearance) {
+      errors.push(`AI reward readiness gate record ${record.recordId} must require correction queue clearance.`);
     }
 
     if (record.category === "teacher-assignment-rollout-gate" && !record.preservesTeacherAssignmentRolloutGate) {

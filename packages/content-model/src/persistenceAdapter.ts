@@ -45,6 +45,14 @@ export interface PersistenceWriteIntent {
   blocksGeneratedPackageAssignment?: boolean;
   blocksGeneratedPackageLocalBundleWrite?: boolean;
   blocksStudentReadyMarker?: boolean;
+  preservesAiRewardReadinessGate?: boolean;
+  preservesDeterministicRewardRules?: boolean;
+  blocksRewardPublishing?: boolean;
+  blocksCollectionInventoryWrite?: boolean;
+  blocksGeneratedSurpriseRewards?: boolean;
+  blocksSpinWheelTicketIssuance?: boolean;
+  blocksAvatarEvolutionWrite?: boolean;
+  requiresAiDraftCorrectionQueueClearance?: boolean;
   preservesTeacherAssignmentRolloutGate?: boolean;
   preservesPrivateAssignmentLink?: boolean;
   blocksPublicSharing?: boolean;
@@ -333,6 +341,38 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "ai-generated-package-manifest" && !intent.blocksStudentReadyMarker) {
       errors.push(`AI generated package manifest write intent ${intent.intentId} must block student-ready markers.`);
+    }
+
+    if (intent.category === "ai-reward-readiness-gate" && !intent.preservesAiRewardReadinessGate) {
+      errors.push(`AI reward readiness gate write intent ${intent.intentId} must preserve generated reward readiness checks.`);
+    }
+
+    if (intent.category === "ai-reward-readiness-gate" && !intent.preservesDeterministicRewardRules) {
+      errors.push(`AI reward readiness gate write intent ${intent.intentId} must preserve deterministic reward rules.`);
+    }
+
+    if (intent.category === "ai-reward-readiness-gate" && !intent.blocksRewardPublishing) {
+      errors.push(`AI reward readiness gate write intent ${intent.intentId} must block reward publishing.`);
+    }
+
+    if (intent.category === "ai-reward-readiness-gate" && !intent.blocksCollectionInventoryWrite) {
+      errors.push(`AI reward readiness gate write intent ${intent.intentId} must block collection inventory writes.`);
+    }
+
+    if (intent.category === "ai-reward-readiness-gate" && !intent.blocksGeneratedSurpriseRewards) {
+      errors.push(`AI reward readiness gate write intent ${intent.intentId} must block generated surprise rewards.`);
+    }
+
+    if (intent.category === "ai-reward-readiness-gate" && !intent.blocksSpinWheelTicketIssuance) {
+      errors.push(`AI reward readiness gate write intent ${intent.intentId} must block Spin Wheel ticket issuance.`);
+    }
+
+    if (intent.category === "ai-reward-readiness-gate" && !intent.blocksAvatarEvolutionWrite) {
+      errors.push(`AI reward readiness gate write intent ${intent.intentId} must block avatar evolution writes.`);
+    }
+
+    if (intent.category === "ai-reward-readiness-gate" && !intent.requiresAiDraftCorrectionQueueClearance) {
+      errors.push(`AI reward readiness gate write intent ${intent.intentId} must require correction queue clearance.`);
     }
 
     if (intent.category === "teacher-assignment-rollout-gate" && !intent.preservesTeacherAssignmentRolloutGate) {

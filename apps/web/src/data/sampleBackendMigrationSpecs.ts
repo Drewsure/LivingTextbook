@@ -798,6 +798,129 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       ],
     },
     {
+      specId: "spec-ai-reward-readiness-gate",
+      label: "AI reward readiness gate",
+      candidateId: "m055-ai-reward-readiness-gate-records",
+      storeKind: "admin-record",
+      status: "ready-for-review",
+      purpose:
+        "Stores deterministic reward readiness checks for generated game packages while keeping reward and inventory writes blocked.",
+      primaryKey: "ai_reward_readiness_gate_id",
+      tenantScope:
+        "Scoped by tenant_id, generation_request_id, gamification_mapping_id, ai_draft_correction_queue_id, and gate_revision.",
+      fields: [
+        {
+          name: "ai_reward_readiness_gate_id",
+          type: "string",
+          required: true,
+          note: "Stable id for one generated reward readiness gate snapshot.",
+        },
+        {
+          name: "generation_request_id",
+          type: "string",
+          required: true,
+          note: "AI generation request this reward gate belongs to.",
+        },
+        {
+          name: "gamification_mapping_id",
+          type: "string",
+          required: true,
+          note: "AI gamification mapping plan being checked.",
+        },
+        {
+          name: "ai_draft_correction_queue_id",
+          type: "string",
+          required: true,
+          note: "AI draft correction queue that must clear before rewards can move toward student use.",
+        },
+        {
+          name: "reward_currency",
+          type: "string",
+          required: true,
+          note: "Tenant reward currency label, such as Star Dust.",
+        },
+        {
+          name: "star_dust_cap_check",
+          type: "json",
+          required: true,
+          note: "1,000 unit-cap or tenant-approved equivalent check.",
+        },
+        {
+          name: "mastery_threshold_check",
+          type: "json",
+          required: true,
+          note: "75% unit/module threshold check.",
+        },
+        {
+          name: "deterministic_unlock_check",
+          type: "json",
+          required: true,
+          note: "Collection unlock threshold and deterministic rule evidence.",
+        },
+        {
+          name: "accepted_event_source_check",
+          type: "json",
+          required: true,
+          note: "Accepted target-language learning events only; no support-language-only or media-only mastery.",
+        },
+        {
+          name: "blocked_reward_actions",
+          type: "json",
+          required: true,
+          note: "Reward publish, inventory, ticket, avatar evolution, assignment, and generated surprise reward blocks.",
+        },
+        {
+          name: "reward_publishing_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until package review, correction queue, and release controls pass.",
+        },
+        {
+          name: "collection_inventory_write_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until student identity, policy, and approved reward binding exist.",
+        },
+        {
+          name: "spin_wheel_ticket_issuance_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until overflow economy and teacher/school policy pass.",
+        },
+        {
+          name: "avatar_evolution_write_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until approved deterministic progression is live.",
+        },
+        {
+          name: "student_assignment_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until assignment rollout and school policy gates pass.",
+        },
+      ],
+      indexes: [
+        "tenant_id + ai_reward_readiness_gate_id",
+        "ai_reward_readiness_gate_id unique",
+        "tenant_id + generation_request_id",
+        "tenant_id + gamification_mapping_id",
+        "reward_publishing_allowed",
+        "collection_inventory_write_allowed",
+      ],
+      retentionRule:
+        "Retain according to tenant authoring and reward policy; blocked, cleared, superseded, and rejected reward gate snapshots remain auditable.",
+      exportRule:
+        "Must export reward readiness checks, blocked reward actions, gamification mapping id, correction queue id, and linked collection records without exporting unrelated tenant packages.",
+      localFallback:
+        "Local classroom deployments store the same reward readiness gate JSON for backup/export without allowing offline reward publishing, inventory writes, ticket issuance, avatar evolution, or assignments.",
+      policyBlockers: [
+        "Package approval, release control, earned collection inventory policy, event acceptance, and school policy must pass before reward writes.",
+        "Generated reward gates cannot publish rewards, write collection inventory, issue Spin Wheel tickets, evolve avatars, or assign students by themselves.",
+        "Generated surprise rewards, random reward odds, paid gacha mechanics, support-language-only mastery, and media-only Star Dust remain blocked.",
+      ],
+    },
+    {
       specId: "spec-teacher-assignment-rollout-gate",
       label: "Teacher assignment rollout gate",
       candidateId: "m049-teacher-assignment-rollout-gate-records",

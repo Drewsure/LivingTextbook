@@ -441,6 +441,8 @@ const aiGameGeneratorIntakeExpected = [
   "teacher_draft_verifier_submission",
   "ai_generated_package_manifest",
   "AI generated package manifest record",
+  "ai_reward_readiness_gate",
+  "AI reward readiness gate record",
   "activity_compatibility_snapshot",
   "package_game_audio_coverage",
 ];
