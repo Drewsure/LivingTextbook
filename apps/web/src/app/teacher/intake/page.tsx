@@ -7,6 +7,7 @@ import { sampleBackendSchemaDraft } from "@/data/sampleBackendSchemaDraft";
 import { samplePilotBackendSelectionGate } from "@/data/samplePilotBackendSelectionGate";
 import { samplePrintableOutputPlan } from "@/data/samplePrintableOutputPlan";
 import { sampleActiveRouteMatrix } from "@/data/sampleActiveRouteMatrix";
+import { sampleAiGameGeneratorPlan } from "@/data/sampleAiGameGeneratorPlan";
 import { sampleAuthoringVerifierPlan } from "@/data/sampleAuthoringVerifierPlan";
 import { sampleTeacherAuthoringReadinessPlan } from "@/data/sampleTeacherAuthoringReadiness";
 import { sampleContentEntryOptionScaffold } from "@/data/sampleContentEntryOptionScaffold";
@@ -90,6 +91,7 @@ import {
   samplePersistenceStrategyOptions,
 } from "@/data/samplePersistencePlan";
 import { ContentIntakeReviewPanel } from "@/features/content-intake/ContentIntakeReviewPanel";
+import { AiGameGeneratorPlanPanel } from "@/features/content-intake/AiGameGeneratorPlanPanel";
 import { AuthoringVerifierPlanPanel } from "@/features/content-intake/AuthoringVerifierPlanPanel";
 import { ContentEntryOptionScaffoldPanel } from "@/features/content-intake/ContentEntryOptionScaffoldPanel";
 import { LabelledDiagramAssetReadinessPanel } from "@/features/content-intake/LabelledDiagramAssetReadinessPanel";
@@ -235,6 +237,7 @@ export default function TeacherIntakePage() {
         <LabelledDiagramAssetReadinessPanel plan={sampleLabelledDiagramAssetReadinessPlan} />
         <MultimediaAssetReadinessPanel plan={sampleMultimediaAssetReadinessPlan} />
         <SourceReviewQueuePanel queue={sampleSourceReviewQueue} />
+        <AiGameGeneratorPlanPanel plan={sampleAiGameGeneratorPlan} />
         <TeacherAuthoringReadinessPanel plan={sampleTeacherAuthoringReadinessPlan} />
         <AuthoringVerifierPlanPanel plan={sampleAuthoringVerifierPlan} />
         <ContentIntakeReviewPanel runs={sampleContentIntakeRuns} releases={samplePackageReleases} />

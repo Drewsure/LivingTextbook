@@ -6,11 +6,13 @@ Focused verification supplements:
 
 - `docs/verification/ACTIVITY_PATHWAY_COMPATIBILITY_CHECKS.md`
 - `docs/verification/AI_TUTOR_ENTITLEMENT_CHECKS.md`
+- `docs/verification/AI_TEACHING_GAME_GENERATOR_CHECKS.md`
 - `docs/verification/ACTIVE_ROUTE_MATRIX_35_ROUTE_CHECKS.md`
 - `docs/verification/ACTIVE_ROUTE_MATRIX_PANEL_CHECKS.md`
 - `docs/verification/MEDIA_PLAYLIST_ROUTE_CHECKS.md`
 - `docs/verification/AUDIO_COVERED_MODE_READINESS_CHECKS.md`
 - `docs/verification/AI_AUTHORING_VERIFIER_CHECKS.md`
+- `npm run verify:ai-generator`
 - `docs/verification/BACKEND_DECISION_MATRIX_CHECKS.md`
 - `docs/verification/BACKEND_MIGRATION_CANDIDATES_CHECKS.md`
 - `docs/verification/BACKEND_MIGRATION_SPEC_CHECKS.md`

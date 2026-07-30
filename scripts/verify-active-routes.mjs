@@ -197,6 +197,55 @@ expectedTextByPath
   .get("/teacher/policy-handoff/starter-english-level-1-unit-1-2026.1-pilot-candidate-classroom-launch-gate-school-policy-gate-handoff-packet")
   ?.push(...safeFallbackActivationPreviewExpected);
 
+const aiGameGeneratorExpected = [
+  "AI teaching game generator",
+  "Generator request preview",
+  "Sample publisher daily routines game draft",
+  "Draft only",
+  "No live model call",
+  "No direct AI publish",
+  "No student assignment",
+  "No unreviewed activity conversion",
+  "No support-language-only progression",
+  "No API cost without tenant approval",
+  "No premium upsell shown to children",
+  "API cost package gate",
+  "Curated activity pathway",
+  "8 default vocabulary terms",
+  "8-12 allowed terms",
+  "Exactly 2 target sentence structures",
+  "Every target-language text needs audio",
+  "Support language cannot unlock progress",
+  "JSON-first draft package payload",
+  "Teacher Launch Protocol required",
+  "Verifier packet required before package review",
+  "teacher_draft_package",
+  "teacher_draft_verifier_submission",
+  "activity_compatibility_snapshot",
+  "package_game_audio_coverage",
+  "media_playlist_binding",
+  "Flashcards",
+  "Memory Match",
+  "Sentence Builder",
+  "Target-language audio rule",
+  "Assist language policy",
+];
+
+expectedTextByPath.set("/teacher/generator/sample-publisher", aiGameGeneratorExpected);
+expectedTextByPath.get("/teacher/intake")?.push(...aiGameGeneratorExpected);
+expectedTextByPath
+  .get("/partner-demo")
+  ?.push("AI teaching game generator", "/teacher/generator/sample-publisher");
+
+const teacherIntakeExpected = expectedTextByPath.get("/teacher/intake");
+if (teacherIntakeExpected) {
+  const routeCountIndex = teacherIntakeExpected.indexOf("49 checked routes");
+
+  if (routeCountIndex >= 0) {
+    teacherIntakeExpected[routeCountIndex] = "50 checked routes";
+  }
+}
+
 const safeFallbackRestorationPreviewExpected = [
   "Future safe fallback restoration record preview",
   "Restoration record blocked",

@@ -43,6 +43,14 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     note: "Tenant-scoped source review lane for PDF, audio, video, OCR/parser, and AI extraction evidence before package or student use.",
   },
   {
+    routeId: "teacher-ai-game-generator",
+    group: "core",
+    label: "AI teaching game generator",
+    path: "/teacher/generator/sample-publisher",
+    status: "active-scaffold",
+    note: "Teacher/admin generator preview for draft package requests, verifier packets, target-language audio coverage, premium AI cost gates, and curated activity pathways.",
+  },
+  {
     routeId: "teacher-dry-run-rehearsal",
     group: "sample-publisher",
     label: "Sample publisher teacher dry run",

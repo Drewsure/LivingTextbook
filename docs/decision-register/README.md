@@ -253,6 +253,7 @@
 - `DR-279-source-review-workspace-route.md`
 - `DR-280-ministar-source-review-route-verification.md`
 - `DR-281-source-extraction-review-packet-preview.md`
+- `DR-282-ai-teaching-game-generator-foundation.md`
 
 ## Maintenance Rule
 

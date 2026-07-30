@@ -253,13 +253,14 @@ Outputs:
 
 Purpose: Prepare a real partner pilot without polluting the MiniStar reference implementation.
 
-Current status: Active scaffold. A white-label pilot readiness panel and partner timeline document define the practical partner promise: a testable pilot in roughly 8-12 weeks, with a narrower first scope than the eventual commercial product. A second sample tenant and partner-style content package prove the white-label path in code at `/partner-demo`, `/enter/sample-publisher`, `/launch/partner-demo-unit-1`, `/quiz/partner-demo-unit-1`, `/sentence/partner-demo-unit-1`, `/speak/partner-demo-unit-1`, `/training/partner-demo-unit-1`, and `/teacher/sessions/partner-demo-unit-1`. Teacher unit review routes at `/teacher/units/ministar%3Aministar-english%3AL1%3AU1` and `/teacher/units/sample-publisher%3Apartner-textbook-companion%3AL1%3AU1` now give teachers a focused pre-assignment review surface. `/teacher/intake` adds reviewed source intake gates, tenant route registry data, deployment profile choices, package publish gate, package approval ledger, assignment rollout gates, release-control durable records, backend schema draft, backend migration candidates, backend migration specs, and persistence boundaries. `/teacher/sessions/demo-unit-1` and `/teacher/sessions/partner-demo-unit-1` now show teacher session preflight and monitor scaffolds on the shared event stream. The teacher session settings contract now separates safety failures from persistence warnings for audio, assist language, microphone approval, background media, AI Tutor, and reporting/retention.
+Current status: Active scaffold. A white-label pilot readiness panel and partner timeline document define the practical partner promise: a testable pilot in roughly 8-12 weeks, with a narrower first scope than the eventual commercial product. A second sample tenant and partner-style content package prove the white-label path in code at `/partner-demo`, `/enter/sample-publisher`, `/launch/partner-demo-unit-1`, `/quiz/partner-demo-unit-1`, `/sentence/partner-demo-unit-1`, `/speak/partner-demo-unit-1`, `/training/partner-demo-unit-1`, and `/teacher/sessions/partner-demo-unit-1`. Teacher unit review routes at `/teacher/units/ministar%3Aministar-english%3AL1%3AU1` and `/teacher/units/sample-publisher%3Apartner-textbook-companion%3AL1%3AU1` now give teachers a focused pre-assignment review surface. `/teacher/generator/sample-publisher` now shows the AI teaching game generator as a draft-only commercial-proof authoring route with no live model call, no direct publish, no student assignment, target-language audio rules, and premium API cost gates. `/teacher/intake` adds reviewed source intake gates, tenant route registry data, deployment profile choices, package publish gate, package approval ledger, assignment rollout gates, release-control durable records, backend schema draft, backend migration candidates, backend migration specs, and persistence boundaries. `/teacher/sessions/demo-unit-1` and `/teacher/sessions/partner-demo-unit-1` now show teacher session preflight and monitor scaffolds on the shared event stream. The teacher session settings contract now separates safety failures from persistence warnings for audio, assist language, microphone approval, background media, AI Tutor, and reporting/retention.
 
 Outputs:
 
 - Tenant config.
 - Sample imported units.
 - Sample game payloads.
+- AI teaching game generator draft request preview.
 - Sample audio/video platform payloads.
 - Sample unit playlist and optional game-background media setting.
 - Sample assist-language package if required by the tenant.
@@ -446,6 +447,8 @@ Next outputs:
 - Confirm upload review and promotion storage preserves `target_mapping_packet` before live upload controls can create draft packages, game assets, playlists, local bundle entries, routes, or assignments.
 - Confirm `npm run verify:launch-safety` passes after launch, front-door, private assignment, teacher unit review, teacher session monitor, report package, or classroom launch gate changes.
 - Confirm stable QR alias routes are content-checked for printed QR id, resolved target, and guardrails before real textbook QR commitments are made.
+- Confirm `/teacher/generator/sample-publisher` shows generator draft requests, verifier packets, target-language audio requirements, curated activity pathways, premium AI cost gates, no live model call, no direct publish, and no student assignment before live AI generation, model billing, route creation, playlist creation, or assignment flows are implemented.
+- Confirm `npm run verify:ai-generator` passes after changes to AI authoring, game generation, activity pathway generation, target-language audio requirements, premium AI Tutor generation requests, or generator routes.
 
 ## Session 8: Premium Experience Layer
 
@@ -494,4 +497,4 @@ If a proposed task does not fit one of these sessions, document whether it is:
 
 Do not add premium polish yet.
 
-The hard gate is to keep typecheck/build passing after every route or package addition. The next safest task is local verification of `/teacher/intake`, `/teacher/sessions/demo-unit-1`, and `/teacher/sessions/partner-demo-unit-1`; after that, continue with backend-agnostic migration candidates, teacher session settings, package release-control refinement, and persistence-adapter work before choosing a real storage vendor.
+The hard gate is to keep typecheck/build passing after every route or package addition. The next safest task is local verification of `/teacher/intake`, `/teacher/generator/sample-publisher`, `/teacher/sessions/demo-unit-1`, and `/teacher/sessions/partner-demo-unit-1`; after that, continue with backend-agnostic migration candidates, teacher session settings, package release-control refinement, and persistence-adapter work before choosing a real storage vendor.

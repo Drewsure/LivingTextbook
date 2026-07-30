@@ -61,6 +61,22 @@ export const appRouteContracts: AppRouteContract[] = [
     requiredState: ["TenantConfig", "SourceReviewQueue", "source_extraction_review_packet", "teacher_draft_review_handoff"],
   },
   {
+    id: "teacher-ai-game-generator",
+    pattern: "/teacher/generator/[tenantId]",
+    audience: "teacher",
+    status: "active-scaffold",
+    purpose:
+      "Show a tenant-scoped AI teaching game generator preview that creates draft package requests, verifier packets, target-language audio plans, and curated activity pathway proposals while live model calls, direct publishing, route creation, and student assignment remain blocked.",
+    requiredState: [
+      "TenantConfig",
+      "AiGameGeneratorPlan",
+      "teacher_draft_package",
+      "teacher_draft_verifier_submission",
+      "activity_compatibility_snapshot",
+      "package_game_audio_coverage",
+    ],
+  },
+  {
     id: "teacher-draft-authoring-preview",
     pattern: "/teacher/authoring/[draftId]",
     audience: "teacher",
@@ -319,6 +335,10 @@ export function getTeacherDraftReviewQueuePath(): string {
 
 export function getTeacherSourceReviewWorkspacePath(tenantId: TenantId): string {
   return `/teacher/sources/${encodeURIComponent(tenantId)}`;
+}
+
+export function getTeacherAiGameGeneratorPath(tenantId: TenantId): string {
+  return `/teacher/generator/${encodeURIComponent(tenantId)}`;
 }
 
 export function getTeacherPrivateLibraryPath(tenantId: TenantId): string {

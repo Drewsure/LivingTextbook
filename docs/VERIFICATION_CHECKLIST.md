@@ -10,7 +10,7 @@ Use this checklist when the `legacy-source-import` branch is locally accessible.
 4. Run `npm run verify:foundation` from the repository root.
 5. Start the local dev server.
 
-`npm run verify:foundation` runs taxonomy coverage, game-mode coverage, package readiness coverage, local bundle readiness coverage, activity-pathway checks, printable checks, tenant-library checks, teacher-authoring checks, target-language checks, share/embed checks, private-assignment checks, earned-collection checks, class-roster checks, teacher-session settings checks, backend-storage checks, release-control checks, web typecheck, production build, and active route checks.
+`npm run verify:foundation` runs taxonomy coverage, game-mode coverage, package readiness coverage, local bundle readiness coverage, activity-pathway checks, printable checks, tenant-library checks, teacher-authoring checks, AI teaching game generator checks, target-language checks, share/embed checks, private-assignment checks, earned-collection checks, class-roster checks, teacher-session settings checks, backend-storage checks, release-control checks, web typecheck, production build, and active route checks.
 
 ## Route Smoke Checks
 
@@ -24,6 +24,7 @@ Visit these routes:
 - `/speak/demo-unit-1`
 - `/training/demo-unit-1`
 - `/enter/ministar`
+- `/teacher/generator/sample-publisher`
 
 Expected results:
 
@@ -35,6 +36,7 @@ Expected results:
 - `/speak/demo-unit-1` shows the teacher-controlled Speak It route.
 - `/training/demo-unit-1` shows the deterministic Training Academy recovery lane.
 - `/enter/ministar` shows the front-door entry form and teacher-visible report preview.
+- `/teacher/generator/sample-publisher` shows the draft-only AI teaching game generator with no live model call, no direct publish, no student assignment, target-language audio requirements, curated activity pathways, and API cost package gates.
 
 ## Dashboard Multimedia Package Checks
 
@@ -173,6 +175,18 @@ When reviewing content package, media package, pilot handoff, route registry, AI
 - Confirm each active sample tenant remains represented in package readiness summaries.
 - Confirm active modes retain explicit audio cue coverage.
 - Confirm media, front-door access, background-media teacher controls, support-language policy, and optional premium AI Tutor policy remain intact.
+
+## AI Teaching Game Generator Checks
+
+When reviewing AI authoring or game-generator changes:
+
+- Run `npm run verify:ai-generator`.
+- Confirm generator output remains Draft only.
+- Confirm no live model call, no direct AI publish, no student assignment, and no API cost without tenant approval are available.
+- Confirm target-language audio is required for every learner-facing text item.
+- Confirm support language cannot unlock progress.
+- Confirm generated activity pathways are curated and compatibility-checked rather than a switch-to-anything promise.
+- Confirm optional AI Tutor requests remain premium-gated, school-approved, and hidden from child-facing upsell.
 
 ## Local Bundle Readiness Checks
 

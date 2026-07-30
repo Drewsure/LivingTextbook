@@ -10,6 +10,8 @@ The AI authoring verifier handoff defines how AI-generated or AI-assisted draft 
 
 AI can draft structure. It cannot publish student-facing content by itself.
 
+The AI teaching game generator creates draft package requests, verifier packets, audio-coverage plans, media-needs notes, and curated activity pathway proposals. It cannot call a live model, create production game code, publish routes, build playlists, or assign students in the foundation scaffold.
+
 ## Required Stages
 
 - Draft from reviewed source item.

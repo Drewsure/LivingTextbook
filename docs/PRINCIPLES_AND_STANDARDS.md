@@ -212,6 +212,8 @@ Training Academy should help students recover gaps without feeling like they fai
 
 The AI Authoring Studio generates structured curriculum/game payloads, not final ad hoc game code.
 
+AI teaching game generator creates draft package requests, verifier packets, target-language audio plans, and curated activity pathway proposals. It must not create student-facing routes, live game code, playlist releases, or assignments without the normal review gates.
+
 Required content rules:
 
 - Default 8 vocabulary terms
@@ -237,6 +239,8 @@ The Vision/Verifier layer must check:
 - Schema validity
 
 No generated payload should be assigned to students until it passes verification or teacher approval.
+
+Live AI generation, speech scoring, and AI Tutor features are optional package capabilities. They require tenant/school adoption, cost controls, privacy review, and teacher-visible enablement before use.
 
 ## 10. White-Label Standards
 
