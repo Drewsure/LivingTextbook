@@ -71,6 +71,7 @@ Confirm:
 - AI generated publish readiness gate storage contract appears in schema draft, migration candidates, migration specs, durable records, and hosted/local adapter plans before generated package publishing is enabled.
 - AI generated package release candidate preview shows private-library handoff, `package_release_candidate`, `tenant_library_item`, manifest, promotion checklist, publish readiness, and student-facing release blockers before generated packages can enter private tenant library or release-control workflows.
 - MiniStar generated package release candidate keeps Japanese support-language release blocked while English remains the target-language trigger.
+- AI generated package release candidate storage contract appears in schema draft, migration candidates, migration specs, durable records, and hosted/local adapter plans before generated package private-library handoff can exist.
 - `/teacher/review` shows AI-generated draft packages as read-only queue items with source lineage, verifier packet requirements, target-language audio blockers, media-rights blockers, route/playlist/assignment blocks, and approval blocks before live AI review submission or generated package approval is implemented.
 - `/teacher/review` shows the MiniStar generated greetings draft as a read-only queue item with MiniStar source lineage, English audio blockers, hiragana-only Japanese support review, media-rights blockers, verifier blockers, approval blockers, and assignment blockers.
 - Mode recommendation preview reuses the activity compatibility matrix.

@@ -16,6 +16,7 @@ const requiredSchemaEntities = [
   "teacher_draft_verifier_submission",
   "ai_generated_package_manifest",
   "ai_generated_package_promotion_checklist",
+  "ai_generated_package_release_candidate",
   "ai_reward_readiness_gate",
   "ai_generated_publish_readiness_gate",
   "ai_generator_tenant_coverage_gate",
@@ -79,6 +80,7 @@ const requiredMigrationCandidates = [
   "m020-teacher-draft-verifier-submission-records",
   "m054-ai-generated-package-manifest-records",
   "m058-ai-generated-package-promotion-checklist-records",
+  "m059-ai-generated-package-release-candidate-records",
   "m055-ai-reward-readiness-gate-records",
   "m056-ai-generated-publish-readiness-gate-records",
   "m057-ai-generator-tenant-coverage-gate-records",
@@ -145,6 +147,7 @@ const requiredMigrationSpecs = [
   "spec-teacher-draft-verifier-submission",
   "spec-ai-generated-package-manifest",
   "spec-ai-generated-package-promotion-checklist",
+  "spec-ai-generated-package-release-candidate",
   "spec-ai-reward-readiness-gate",
   "spec-ai-generated-publish-readiness-gate",
   "spec-ai-generator-tenant-coverage-gate",
@@ -262,6 +265,36 @@ requireText(
   "support_language_promotion_allowed",
   "Backend schema must block support-language-only generated package promotion.",
 );
+requireText(
+  schemaDraft,
+  "ai_generated_package_release_candidate",
+  "Backend schema must include AI generated package release candidates.",
+);
+requireText(
+  schemaDraft,
+  "ai_generated_package_release_candidate_id",
+  "Backend schema must preserve AI generated package release candidate ids.",
+);
+requireText(schemaDraft, "private_library_target", "Backend schema must preserve generated package private library targets.");
+requireText(schemaDraft, "future_tenant_library_item_id", "Backend schema must preserve future tenant library item ids.");
+requireText(
+  schemaDraft,
+  "future_package_release_candidate_id",
+  "Backend schema must preserve future package release candidate ids.",
+);
+requireText(schemaDraft, "candidate_signals", "Backend schema must preserve generated package release candidate signals.");
+requireText(schemaDraft, "candidate_records", "Backend schema must preserve generated package release candidate records.");
+requireText(schemaDraft, "blocked_release_actions", "Backend schema must preserve generated package release action blocks.");
+requireText(
+  schemaDraft,
+  "generated_package_library_publish_allowed",
+  "Backend schema must block generated package library publish.",
+);
+requireText(schemaDraft, "release_candidate_write_allowed", "Backend schema must block release candidate writes.");
+requireText(schemaDraft, "tenant_library_item_write_allowed", "Backend schema must block tenant library item writes.");
+requireText(schemaDraft, "student_facing_release_allowed", "Backend schema must block student-facing release.");
+requireText(schemaDraft, "local_bundle_release_allowed", "Backend schema must block local bundle release.");
+requireText(schemaDraft, "support_language_release_allowed", "Backend schema must block support-language-only release.");
 requireText(schemaDraft, "ai_reward_readiness_gate", "Backend schema must include AI reward readiness gates.");
 requireText(schemaDraft, "ai_reward_readiness_gate_id", "Backend schema must preserve AI reward readiness gate ids.");
 requireText(schemaDraft, "ai_draft_correction_queue_id", "Backend schema must preserve AI draft correction queue ids.");
@@ -495,6 +528,41 @@ requireText(
   "support_language_promotion_allowed",
   "Migration specs must block support-language-only generated package promotion.",
 );
+requireText(
+  migrationSpecs,
+  "spec-ai-generated-package-release-candidate",
+  "Migration specs must include AI generated package release candidates.",
+);
+requireText(
+  migrationSpecs,
+  "ai_generated_package_release_candidate_id",
+  "Migration specs must preserve generated package release candidate ids.",
+);
+requireText(
+  migrationSpecs,
+  "private_library_target",
+  "Migration specs must preserve generated package private library targets.",
+);
+requireText(
+  migrationSpecs,
+  "future_tenant_library_item_id",
+  "Migration specs must preserve future tenant library item ids.",
+);
+requireText(
+  migrationSpecs,
+  "candidate_signals",
+  "Migration specs must preserve generated package release candidate signals.",
+);
+requireText(
+  migrationSpecs,
+  "generated_package_library_publish_allowed",
+  "Migration specs must block generated package library publish.",
+);
+requireText(migrationSpecs, "release_candidate_write_allowed", "Migration specs must block release candidate writes.");
+requireText(migrationSpecs, "tenant_library_item_write_allowed", "Migration specs must block tenant library writes.");
+requireText(migrationSpecs, "student_facing_release_allowed", "Migration specs must block student-facing release.");
+requireText(migrationSpecs, "local_bundle_release_allowed", "Migration specs must block local bundle release.");
+requireText(migrationSpecs, "support_language_release_allowed", "Migration specs must block support-language release.");
 requireText(migrationSpecs, "spec-ai-reward-readiness-gate", "Migration specs must include AI reward readiness gates.");
 requireText(migrationSpecs, "ai_reward_readiness_gate_id", "Migration specs must preserve AI reward readiness gate ids.");
 requireText(migrationSpecs, "ai_draft_correction_queue_id", "Migration specs must preserve AI draft correction queue ids.");
@@ -884,6 +952,56 @@ requireText(
   "blocksGeneratedPackagePromotion: true",
   "Persistence adapter must block generated package promotion.",
 );
+requireText(
+  persistenceAdapter,
+  "hosted-ai-generated-package-release-candidate-write",
+  "Persistence adapter must include hosted AI generated package release candidate writes.",
+);
+requireText(
+  persistenceAdapter,
+  "local-ai-generated-package-release-candidate-write",
+  "Persistence adapter must include local AI generated package release candidate writes.",
+);
+requireText(
+  persistenceAdapter,
+  "preservesAiGeneratedPackageReleaseCandidate: true",
+  "Persistence adapter must preserve AI generated package release candidate signals.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresPrivateLibraryTarget: true",
+  "Persistence adapter must require private library targets.",
+);
+requireText(
+  persistenceAdapter,
+  "blocksGeneratedPackageLibraryPublish: true",
+  "Persistence adapter must block generated package library publish.",
+);
+requireText(
+  persistenceAdapter,
+  "blocksReleaseCandidateWrite: true",
+  "Persistence adapter must block release candidate writes.",
+);
+requireText(
+  persistenceAdapter,
+  "blocksTenantLibraryItemWrite: true",
+  "Persistence adapter must block tenant library item writes.",
+);
+requireText(
+  persistenceAdapter,
+  "blocksStudentFacingRelease: true",
+  "Persistence adapter must block student-facing release.",
+);
+requireText(
+  persistenceAdapter,
+  "blocksGeneratedLocalBundleRelease: true",
+  "Persistence adapter must block generated local bundle release.",
+);
+requireText(
+  persistenceAdapter,
+  "blocksSupportLanguageRelease: true",
+  "Persistence adapter must block support-language release.",
+);
 requireText(persistenceAdapter, "hosted-ai-reward-readiness-gate-write", "Persistence adapter must include hosted AI reward readiness gate writes.");
 requireText(persistenceAdapter, "local-ai-reward-readiness-gate-write", "Persistence adapter must include local AI reward readiness gate writes.");
 requireText(persistenceAdapter, "preservesAiRewardReadinessGate: true", "Persistence adapter must preserve AI reward readiness checks.");
@@ -1169,6 +1287,36 @@ requireText(
   "blocksGeneratedPackagePromotion: true",
   "Durable record plan must block generated package promotion.",
 );
+requireText(
+  durableRecords,
+  "ai-generated-package-release-candidate-record",
+  "Durable record plan must include AI generated package release candidate records.",
+);
+requireText(
+  durableRecords,
+  "AI generated package release candidate record",
+  "Durable record plan must expose AI generated package release candidate labels.",
+);
+requireText(
+  durableRecords,
+  "preservesAiGeneratedPackageReleaseCandidate: true",
+  "Durable record plan must preserve AI generated package release candidate signals.",
+);
+requireText(durableRecords, "requiresPrivateLibraryTarget: true", "Durable record plan must require private library targets.");
+requireText(
+  durableRecords,
+  "blocksGeneratedPackageLibraryPublish: true",
+  "Durable record plan must block generated package library publish.",
+);
+requireText(durableRecords, "blocksReleaseCandidateWrite: true", "Durable record plan must block release candidate writes.");
+requireText(durableRecords, "blocksTenantLibraryItemWrite: true", "Durable record plan must block tenant library item writes.");
+requireText(durableRecords, "blocksStudentFacingRelease: true", "Durable record plan must block student-facing release.");
+requireText(
+  durableRecords,
+  "blocksGeneratedLocalBundleRelease: true",
+  "Durable record plan must block generated local bundle release.",
+);
+requireText(durableRecords, "blocksSupportLanguageRelease: true", "Durable record plan must block support-language release.");
 requireText(durableRecords, "ai-reward-readiness-gate-record", "Durable record plan must include AI reward readiness gate records.");
 requireText(durableRecords, "AI reward readiness gate record", "Durable record plan must expose AI reward readiness gate labels.");
 requireText(durableRecords, "preservesAiRewardReadinessGate: true", "Durable record plan must preserve AI reward readiness checks.");
@@ -1411,6 +1559,16 @@ requireText(
   routeVerifier,
   "AI generated package promotion checklist record",
   "Active route verifier must keep AI generated package promotion checklist durable records visible on teacher intake.",
+);
+requireText(
+  routeVerifier,
+  "ai_generated_package_release_candidate",
+  "Active route verifier must keep AI generated package release candidate storage visible on teacher intake.",
+);
+requireText(
+  routeVerifier,
+  "AI generated package release candidate record",
+  "Active route verifier must keep AI generated package release candidate durable records visible on teacher intake.",
 );
 requireText(routeVerifier, "ai_reward_readiness_gate", "Active route verifier must keep AI reward readiness storage visible on teacher intake.");
 requireText(routeVerifier, "AI reward readiness gate record", "Active route verifier must keep AI reward readiness durable records visible on teacher intake.");

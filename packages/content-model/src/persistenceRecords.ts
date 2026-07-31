@@ -9,6 +9,7 @@ export type PersistenceRecordCategory =
   | "teacher-draft-verifier-submission"
   | "ai-generated-package-manifest"
   | "ai-generated-package-promotion-checklist"
+  | "ai-generated-package-release-candidate"
   | "ai-reward-readiness-gate"
   | "ai-generated-publish-readiness-gate"
   | "ai-generator-tenant-coverage-gate"
@@ -107,9 +108,17 @@ export interface DurableRecordContract {
   blocksAutomaticVerifierSubmit?: boolean;
   preservesAiGeneratedPackageManifest?: boolean;
   preservesAiGeneratedPackagePromotionChecklist?: boolean;
+  preservesAiGeneratedPackageReleaseCandidate?: boolean;
   requiresLineageMap?: boolean;
   requiresTargetLanguageAudioApproval?: boolean;
   blocksGeneratedPackagePromotion?: boolean;
+  requiresPrivateLibraryTarget?: boolean;
+  blocksGeneratedPackageLibraryPublish?: boolean;
+  blocksReleaseCandidateWrite?: boolean;
+  blocksTenantLibraryItemWrite?: boolean;
+  blocksStudentFacingRelease?: boolean;
+  blocksGeneratedLocalBundleRelease?: boolean;
+  blocksSupportLanguageRelease?: boolean;
   blocksGeneratedPackageAssembly?: boolean;
   blocksGeneratedPackageRouteWrite?: boolean;
   blocksGeneratedPackagePlaylistWrite?: boolean;
@@ -449,6 +458,78 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "ai-generated-package-promotion-checklist" && !record.blocksStudentReadyMarker) {
       errors.push(`AI generated package promotion checklist record ${record.recordId} must block student-ready markers.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-release-candidate" &&
+      !record.preservesAiGeneratedPackageReleaseCandidate
+    ) {
+      errors.push(`AI generated package release candidate record ${record.recordId} must preserve release candidate signals.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-release-candidate" &&
+      !record.preservesAiGeneratedPackageManifest
+    ) {
+      errors.push(`AI generated package release candidate record ${record.recordId} must preserve generated package manifest links.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-release-candidate" &&
+      !record.preservesAiGeneratedPackagePromotionChecklist
+    ) {
+      errors.push(`AI generated package release candidate record ${record.recordId} must preserve promotion checklist links.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-release-candidate" &&
+      !record.preservesAiGeneratedPublishReadinessGate
+    ) {
+      errors.push(`AI generated package release candidate record ${record.recordId} must preserve publish readiness links.`);
+    }
+
+    if (record.category === "ai-generated-package-release-candidate" && !record.requiresPrivateLibraryTarget) {
+      errors.push(`AI generated package release candidate record ${record.recordId} must require a private library target.`);
+    }
+
+    if (record.category === "ai-generated-package-release-candidate" && !record.requiresReleaseControlBinding) {
+      errors.push(`AI generated package release candidate record ${record.recordId} must require release-control binding.`);
+    }
+
+    if (record.category === "ai-generated-package-release-candidate" && !record.requiresTeacherApprovalLedger) {
+      errors.push(`AI generated package release candidate record ${record.recordId} must require teacher approval ledger capture.`);
+    }
+
+    if (record.category === "ai-generated-package-release-candidate" && !record.blocksGeneratedPackageLibraryPublish) {
+      errors.push(`AI generated package release candidate record ${record.recordId} must block generated package library publish.`);
+    }
+
+    if (record.category === "ai-generated-package-release-candidate" && !record.blocksReleaseCandidateWrite) {
+      errors.push(`AI generated package release candidate record ${record.recordId} must block release candidate writes.`);
+    }
+
+    if (record.category === "ai-generated-package-release-candidate" && !record.blocksTenantLibraryItemWrite) {
+      errors.push(`AI generated package release candidate record ${record.recordId} must block tenant library item writes.`);
+    }
+
+    if (record.category === "ai-generated-package-release-candidate" && !record.blocksStudentFacingRelease) {
+      errors.push(`AI generated package release candidate record ${record.recordId} must block student-facing release.`);
+    }
+
+    if (record.category === "ai-generated-package-release-candidate" && !record.blocksGeneratedPackageAssignment) {
+      errors.push(`AI generated package release candidate record ${record.recordId} must block generated package assignments.`);
+    }
+
+    if (record.category === "ai-generated-package-release-candidate" && !record.blocksGeneratedLocalBundleRelease) {
+      errors.push(`AI generated package release candidate record ${record.recordId} must block generated local bundle release.`);
+    }
+
+    if (record.category === "ai-generated-package-release-candidate" && !record.blocksStudentReadyMarker) {
+      errors.push(`AI generated package release candidate record ${record.recordId} must block student-ready markers.`);
+    }
+
+    if (record.category === "ai-generated-package-release-candidate" && !record.blocksSupportLanguageRelease) {
+      errors.push(`AI generated package release candidate record ${record.recordId} must block support-language release.`);
     }
 
     if (record.category === "ai-reward-readiness-gate" && !record.preservesAiRewardReadinessGate) {

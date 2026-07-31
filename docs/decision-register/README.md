@@ -283,6 +283,7 @@
 - `DR-309-ai-generated-package-promotion-checklist.md`
 - `DR-310-ai-generated-package-promotion-checklist-storage-contract.md`
 - `DR-311-ai-generated-package-release-candidate-preview.md`
+- `DR-312-ai-generated-package-release-candidate-storage-contract.md`
 
 ## Maintenance Rule
 

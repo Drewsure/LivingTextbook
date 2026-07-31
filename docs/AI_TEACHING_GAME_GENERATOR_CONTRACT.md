@@ -73,6 +73,8 @@ Teacher generator routes may show a review-only `ai_generated_package_release_ca
 
 The release candidate preview cannot write `package_release_candidate`, `tenant_library_item`, route registry, playlist, assignment, local bundle, or student-ready records. It must show private-library handoff as blocked, student-facing release as blocked, and MiniStar Japanese support-language release as blocked while English remains the target-language trigger.
 
+Backend schema, migration candidates, migration specs, durable records, and hosted/local adapter plans must preserve `ai_generated_package_release_candidate` / `ai-generated-package-release-candidate` before generated package private-library handoff exists. The record must keep generated manifest, promotion checklist, publish readiness, private library target, future tenant library item, future package release candidate, release-control, approval, and assignment rollout references while generated package library publish, release candidate writes, tenant library item writes, student-facing release, assignment writes, local bundle release, student-ready markers, and support-language-only release remain blocked.
+
 ## Draft Payload Validation Rule
 
 AI-generated draft payloads must pass the shared `validateAiGeneratedDraftPayload` / `validateAiGeneratedDraftPayloadPreview` contract before review, persistence, verifier submission, package assembly, route creation, playlist creation, or student assignment can be considered.

@@ -40,9 +40,17 @@ export interface PersistenceWriteIntent {
   blocksAutomaticVerifierSubmit?: boolean;
   preservesAiGeneratedPackageManifest?: boolean;
   preservesAiGeneratedPackagePromotionChecklist?: boolean;
+  preservesAiGeneratedPackageReleaseCandidate?: boolean;
   requiresLineageMap?: boolean;
   requiresTargetLanguageAudioApproval?: boolean;
   blocksGeneratedPackagePromotion?: boolean;
+  requiresPrivateLibraryTarget?: boolean;
+  blocksGeneratedPackageLibraryPublish?: boolean;
+  blocksReleaseCandidateWrite?: boolean;
+  blocksTenantLibraryItemWrite?: boolean;
+  blocksStudentFacingRelease?: boolean;
+  blocksGeneratedLocalBundleRelease?: boolean;
+  blocksSupportLanguageRelease?: boolean;
   blocksGeneratedPackageAssembly?: boolean;
   blocksGeneratedPackageRouteWrite?: boolean;
   blocksGeneratedPackagePlaylistWrite?: boolean;
@@ -417,6 +425,78 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "ai-generated-package-promotion-checklist" && !intent.blocksStudentReadyMarker) {
       errors.push(`AI generated package promotion checklist write intent ${intent.intentId} must block student-ready markers.`);
+    }
+
+    if (
+      intent.category === "ai-generated-package-release-candidate" &&
+      !intent.preservesAiGeneratedPackageReleaseCandidate
+    ) {
+      errors.push(`AI generated package release candidate write intent ${intent.intentId} must preserve release candidate signals.`);
+    }
+
+    if (
+      intent.category === "ai-generated-package-release-candidate" &&
+      !intent.preservesAiGeneratedPackageManifest
+    ) {
+      errors.push(`AI generated package release candidate write intent ${intent.intentId} must preserve generated package manifest links.`);
+    }
+
+    if (
+      intent.category === "ai-generated-package-release-candidate" &&
+      !intent.preservesAiGeneratedPackagePromotionChecklist
+    ) {
+      errors.push(`AI generated package release candidate write intent ${intent.intentId} must preserve promotion checklist links.`);
+    }
+
+    if (
+      intent.category === "ai-generated-package-release-candidate" &&
+      !intent.preservesAiGeneratedPublishReadinessGate
+    ) {
+      errors.push(`AI generated package release candidate write intent ${intent.intentId} must preserve publish readiness links.`);
+    }
+
+    if (intent.category === "ai-generated-package-release-candidate" && !intent.requiresPrivateLibraryTarget) {
+      errors.push(`AI generated package release candidate write intent ${intent.intentId} must require a private library target.`);
+    }
+
+    if (intent.category === "ai-generated-package-release-candidate" && !intent.requiresReleaseControlBinding) {
+      errors.push(`AI generated package release candidate write intent ${intent.intentId} must require release-control binding.`);
+    }
+
+    if (intent.category === "ai-generated-package-release-candidate" && !intent.requiresTeacherApprovalLedger) {
+      errors.push(`AI generated package release candidate write intent ${intent.intentId} must require teacher approval ledger capture.`);
+    }
+
+    if (intent.category === "ai-generated-package-release-candidate" && !intent.blocksGeneratedPackageLibraryPublish) {
+      errors.push(`AI generated package release candidate write intent ${intent.intentId} must block generated package library publish.`);
+    }
+
+    if (intent.category === "ai-generated-package-release-candidate" && !intent.blocksReleaseCandidateWrite) {
+      errors.push(`AI generated package release candidate write intent ${intent.intentId} must block release candidate writes.`);
+    }
+
+    if (intent.category === "ai-generated-package-release-candidate" && !intent.blocksTenantLibraryItemWrite) {
+      errors.push(`AI generated package release candidate write intent ${intent.intentId} must block tenant library item writes.`);
+    }
+
+    if (intent.category === "ai-generated-package-release-candidate" && !intent.blocksStudentFacingRelease) {
+      errors.push(`AI generated package release candidate write intent ${intent.intentId} must block student-facing release.`);
+    }
+
+    if (intent.category === "ai-generated-package-release-candidate" && !intent.blocksGeneratedPackageAssignment) {
+      errors.push(`AI generated package release candidate write intent ${intent.intentId} must block generated package assignments.`);
+    }
+
+    if (intent.category === "ai-generated-package-release-candidate" && !intent.blocksGeneratedLocalBundleRelease) {
+      errors.push(`AI generated package release candidate write intent ${intent.intentId} must block generated local bundle release.`);
+    }
+
+    if (intent.category === "ai-generated-package-release-candidate" && !intent.blocksStudentReadyMarker) {
+      errors.push(`AI generated package release candidate write intent ${intent.intentId} must block student-ready markers.`);
+    }
+
+    if (intent.category === "ai-generated-package-release-candidate" && !intent.blocksSupportLanguageRelease) {
+      errors.push(`AI generated package release candidate write intent ${intent.intentId} must block support-language release.`);
     }
 
     if (intent.category === "ai-reward-readiness-gate" && !intent.preservesAiRewardReadinessGate) {

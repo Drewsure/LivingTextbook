@@ -21,6 +21,7 @@ export type PersistenceBoundaryCategory =
   | "teacher-draft-verifier-submission"
   | "ai-generated-package-manifest"
   | "ai-generated-package-promotion-checklist"
+  | "ai-generated-package-release-candidate"
   | "ai-reward-readiness-gate"
   | "ai-generated-publish-readiness-gate"
   | "ai-generator-tenant-coverage-gate"
@@ -235,6 +236,39 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
     note:
       "AI generated package promotion checklists need durable draft-to-playable pathway evidence before generated packages can move toward route registry, playlist, assignment, local bundle, or student-ready work.",
+  },
+  {
+    recordId: "ai-generated-package-release-candidate-record",
+    category: "ai-generated-package-release-candidate",
+    label: "AI generated package release candidate record",
+    readiness: "durable-required",
+    sourceOfTruth:
+      "AiGeneratedPackageReleaseCandidate, generated package manifest, promotion checklist, publish readiness gate, private tenant library target, package release candidate target, tenant library item target, release-control binding, approval ledger, and assignment rollout gate",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesAiGeneratedPackageReleaseCandidate: true,
+    preservesAiGeneratedPackageManifest: true,
+    preservesAiGeneratedPackagePromotionChecklist: true,
+    preservesAiGeneratedPublishReadinessGate: true,
+    requiresPrivateLibraryTarget: true,
+    requiresReleaseControlBinding: true,
+    requiresTeacherApprovalLedger: true,
+    blocksGeneratedPackageLibraryPublish: true,
+    blocksReleaseCandidateWrite: true,
+    blocksTenantLibraryItemWrite: true,
+    blocksStudentFacingRelease: true,
+    blocksGeneratedPackageAssignment: true,
+    blocksGeneratedLocalBundleRelease: true,
+    blocksStudentReadyMarker: true,
+    blocksSupportLanguageRelease: true,
+    blocksDirectStudentAssignment: true,
+    recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
+    note:
+      "AI generated package release candidates need durable private-library handoff evidence before generated packages can write tenant library items, release candidates, student routes, assignments, local bundles, or student-ready state.",
   },
   {
     recordId: "ai-reward-readiness-gate-record",
@@ -1436,6 +1470,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision:
       "Persist AI generated package promotion checklists before enabling promote buttons, route registry writes, playlist writes, assignment writes, local bundle writes, or student-ready markers.",
+  },
+  {
+    boundaryId: "ai-generated-package-release-candidate-boundary",
+    category: "ai-generated-package-release-candidate",
+    label: "AI generated package release candidate records",
+    status: "needs-backend",
+    recordShape:
+      "Generated release candidate id, tenant id, request id, generated manifest id, promotion checklist id, publish readiness gate id, private library target, future tenant library item id, future package release candidate id, route preview, candidate signals, candidate records, blocked release actions, and library/release/assignment/local-bundle/student-ready/support-language blocks",
+    whyItMatters:
+      "Generated package release candidates need a durable handoff record so future private-library and release-control decisions cannot be inferred from UI state or sample data.",
+    visibleTo: ["Teacher", "Tenant admin", "Content reviewer", "Platform admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Persist AI generated package release candidates before enabling generated package library publish, release candidate writes, tenant library item writes, student-facing release, assignment, local bundle release, or student-ready markers.",
   },
   {
     boundaryId: "ai-reward-readiness-gate-boundary",
