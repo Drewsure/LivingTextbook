@@ -40,12 +40,21 @@ export interface PersistenceWriteIntent {
   blocksAutomaticVerifierSubmit?: boolean;
   preservesAiGeneratedGameBuildBrief?: boolean;
   preservesAiPrototypeReturnReview?: boolean;
+  preservesAiPrototypeIntegrationPlan?: boolean;
   requiresPrototypeArtifactEvidence?: boolean;
+  requiresWrapperAdapterReview?: boolean;
+  requiresFixtureReplayReport?: boolean;
+  requiresEventReplayReport?: boolean;
+  requiresAudioCoverageReport?: boolean;
+  requiresScoringReplayReport?: boolean;
   requiresJsonFixtureConformance?: boolean;
   requiresStandardEventReplay?: boolean;
   requiresAudioCueCoverageReview?: boolean;
   requiresMobileAccessibilityReview?: boolean;
   blocksProductionMerge?: boolean;
+  blocksDirectAppImport?: boolean;
+  blocksGameSequenceMutation?: boolean;
+  blocksPackagePromotion?: boolean;
   blocksAudioManifestMutation?: boolean;
   blocksStudentFacingPrototypePreview?: boolean;
   requiresParentEngineBinding?: boolean;
@@ -449,6 +458,62 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "ai-prototype-return-review" && !intent.blocksStudentFacingPrototypePreview) {
       errors.push(`AI prototype return review write intent ${intent.intentId} must block student-facing prototype previews.`);
+    }
+
+    if (intent.category === "ai-prototype-integration-plan" && !intent.preservesAiPrototypeIntegrationPlan) {
+      errors.push(`AI prototype integration plan write intent ${intent.intentId} must preserve integration plan sections.`);
+    }
+
+    if (intent.category === "ai-prototype-integration-plan" && !intent.requiresWrapperAdapterReview) {
+      errors.push(`AI prototype integration plan write intent ${intent.intentId} must require wrapper adapter review.`);
+    }
+
+    if (intent.category === "ai-prototype-integration-plan" && !intent.requiresFixtureReplayReport) {
+      errors.push(`AI prototype integration plan write intent ${intent.intentId} must require fixture replay reports.`);
+    }
+
+    if (intent.category === "ai-prototype-integration-plan" && !intent.requiresEventReplayReport) {
+      errors.push(`AI prototype integration plan write intent ${intent.intentId} must require event replay reports.`);
+    }
+
+    if (intent.category === "ai-prototype-integration-plan" && !intent.requiresAudioCoverageReport) {
+      errors.push(`AI prototype integration plan write intent ${intent.intentId} must require audio coverage reports.`);
+    }
+
+    if (intent.category === "ai-prototype-integration-plan" && !intent.requiresScoringReplayReport) {
+      errors.push(`AI prototype integration plan write intent ${intent.intentId} must require scoring replay reports.`);
+    }
+
+    if (intent.category === "ai-prototype-integration-plan" && !intent.requiresMobileAccessibilityReview) {
+      errors.push(`AI prototype integration plan write intent ${intent.intentId} must require mobile accessibility review.`);
+    }
+
+    if (intent.category === "ai-prototype-integration-plan" && !intent.blocksDirectAppImport) {
+      errors.push(`AI prototype integration plan write intent ${intent.intentId} must block direct app imports.`);
+    }
+
+    if (intent.category === "ai-prototype-integration-plan" && !intent.blocksGeneratedGameRouteWrite) {
+      errors.push(`AI prototype integration plan write intent ${intent.intentId} must block route writes.`);
+    }
+
+    if (intent.category === "ai-prototype-integration-plan" && !intent.blocksGameSequenceMutation) {
+      errors.push(`AI prototype integration plan write intent ${intent.intentId} must block game sequence mutations.`);
+    }
+
+    if (intent.category === "ai-prototype-integration-plan" && !intent.blocksScoringProfileOverride) {
+      errors.push(`AI prototype integration plan write intent ${intent.intentId} must block scoring mutations.`);
+    }
+
+    if (intent.category === "ai-prototype-integration-plan" && !intent.blocksAudioManifestMutation) {
+      errors.push(`AI prototype integration plan write intent ${intent.intentId} must block audio manifest mutations.`);
+    }
+
+    if (intent.category === "ai-prototype-integration-plan" && !intent.blocksPackagePromotion) {
+      errors.push(`AI prototype integration plan write intent ${intent.intentId} must block package promotion.`);
+    }
+
+    if (intent.category === "ai-prototype-integration-plan" && !intent.blocksDirectStudentAssignment) {
+      errors.push(`AI prototype integration plan write intent ${intent.intentId} must block student assignments.`);
     }
 
     if (intent.category === "ai-generated-package-manifest" && !intent.preservesAiGeneratedPackageManifest) {

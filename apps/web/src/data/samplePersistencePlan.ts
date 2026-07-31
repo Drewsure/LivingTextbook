@@ -21,6 +21,7 @@ export type PersistenceBoundaryCategory =
   | "teacher-draft-verifier-submission"
   | "ai-generated-game-build-brief"
   | "ai-prototype-return-review"
+  | "ai-prototype-integration-plan"
   | "ai-generated-package-manifest"
   | "ai-generated-package-promotion-checklist"
   | "ai-generated-package-release-candidate"
@@ -262,6 +263,37 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
     note:
       "AI prototype return reviews need durable evidence before Z.ai or outside prototype returns can affect wrappers, routes, scoring, audio manifests, assignments, or student-facing previews.",
+  },
+  {
+    recordId: "ai-prototype-integration-plan-record",
+    category: "ai-prototype-integration-plan",
+    label: "AI prototype integration plan record",
+    readiness: "durable-required",
+    sourceOfTruth:
+      "AiPrototypeIntegrationPlan, AI prototype return review, wrapper adapter review, fixture replay report, event replay report, audio coverage report, scoring replay report, mobile accessibility report, white-label theme injection check, and Codex integration review decision",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: false,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesAiPrototypeIntegrationPlan: true,
+    requiresWrapperAdapterReview: true,
+    requiresFixtureReplayReport: true,
+    requiresEventReplayReport: true,
+    requiresAudioCoverageReport: true,
+    requiresScoringReplayReport: true,
+    requiresMobileAccessibilityReview: true,
+    blocksDirectAppImport: true,
+    blocksGeneratedGameRouteWrite: true,
+    blocksGameSequenceMutation: true,
+    blocksScoringProfileOverride: true,
+    blocksAudioManifestMutation: true,
+    blocksPackagePromotion: true,
+    blocksDirectStudentAssignment: true,
+    recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
+    note:
+      "AI prototype integration plans need durable wrapper-first evidence before returned prototype code can be considered for apps/web import, route writes, game sequence changes, scoring changes, audio manifest changes, package promotion, or assignments.",
   },
   {
     recordId: "ai-generated-package-promotion-checklist-record",
@@ -1544,6 +1576,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision:
       "Persist AI prototype return reviews before enabling returned prototype uploads, wrapper integration, route registry writes, scoring mutations, audio manifest mutations, or student-facing previews.",
+  },
+  {
+    boundaryId: "ai-prototype-integration-plan-boundary",
+    category: "ai-prototype-integration-plan",
+    label: "AI prototype integration plan records",
+    status: "needs-backend",
+    recordShape:
+      "Integration plan id, tenant id, request id, return review id, source records, integration lanes, test harness requirements, next review records, mode integration plans, and blocked integration actions",
+    whyItMatters:
+      "Returned prototype work needs a durable wrapper-first plan so external code cannot enter apps/web, mutate routes, alter sequences, change scoring/audio, promote packages, or create assignments from informal review evidence.",
+    visibleTo: ["Tenant admin", "Content reviewer", "Platform admin", "External prototype builder"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Persist AI prototype integration plans before enabling wrapper adapter work, route registry writes, game sequence changes, scoring mutations, audio manifest mutations, package promotion, or student assignments.",
   },
   {
     boundaryId: "ai-generated-package-promotion-checklist-boundary",

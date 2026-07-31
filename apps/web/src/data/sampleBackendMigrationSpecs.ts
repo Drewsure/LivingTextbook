@@ -1388,6 +1388,129 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       ],
     },
     {
+      specId: "spec-ai-prototype-integration-plan",
+      label: "AI prototype integration plan",
+      candidateId: "m062-ai-prototype-integration-plan-records",
+      storeKind: "admin-record",
+      status: "ready-for-review",
+      purpose:
+        "Stores wrapper-first integration plans while keeping direct app imports, route writes, game sequence changes, scoring changes, audio manifest changes, package promotion, and assignments blocked.",
+      primaryKey: "ai_prototype_integration_plan_id",
+      tenantScope:
+        "Scoped by tenant_id, generation_request_id, ai_prototype_return_review_id, and integration_plan_revision.",
+      fields: [
+        {
+          name: "ai_prototype_integration_plan_id",
+          type: "string",
+          required: true,
+          note: "Stable id for one prototype integration plan snapshot.",
+        },
+        {
+          name: "generation_request_id",
+          type: "string",
+          required: true,
+          note: "AI generation request this plan belongs to.",
+        },
+        {
+          name: "ai_prototype_return_review_id",
+          type: "string",
+          required: true,
+          note: "Source return review packet.",
+        },
+        {
+          name: "source_records",
+          type: "json",
+          required: true,
+          note: "Required source record ids for integration review.",
+        },
+        {
+          name: "integration_lanes",
+          type: "json",
+          required: true,
+          note: "Quarantine, wrapper adapter, fixture replay, event replay, audio, scoring, accessibility, and decision lanes.",
+        },
+        {
+          name: "test_harness_requirements",
+          type: "json",
+          required: true,
+          note: "Fixture, event, audio, scoring, mobile, and theme-injection tests.",
+        },
+        {
+          name: "next_review_records",
+          type: "json",
+          required: true,
+          note: "Wrapper, replay, audio, accessibility, and Codex review records.",
+        },
+        {
+          name: "mode_integration_plans",
+          type: "json",
+          required: true,
+          note: "Mode-level parent-engine wrapper and test requirements.",
+        },
+        {
+          name: "direct_app_import_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until Codex integration review accepts a patch.",
+        },
+        {
+          name: "route_registry_write_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until route registry and release-control pass.",
+        },
+        {
+          name: "game_sequence_mutation_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until curated activity path review passes.",
+        },
+        {
+          name: "scoring_profile_mutation_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until scoring replay and review pass.",
+        },
+        {
+          name: "audio_manifest_mutation_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until audio coverage review passes.",
+        },
+        {
+          name: "package_promotion_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until package promotion and approval gates pass.",
+        },
+        {
+          name: "assignment_creation_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until assignment rollout gates pass.",
+        },
+      ],
+      indexes: [
+        "tenant_id + ai_prototype_integration_plan_id",
+        "ai_prototype_integration_plan_id unique",
+        "tenant_id + generation_request_id",
+        "tenant_id + ai_prototype_return_review_id",
+        "direct_app_import_allowed",
+        "route_registry_write_allowed",
+      ],
+      retentionRule:
+        "Retain according to tenant prototype review and integration policy; blocked, returned-for-rework, reviewed, superseded, and accepted integration plan snapshots remain auditable.",
+      exportRule:
+        "Must export integration plan lanes and linked return review, wrapper adapter, fixture replay, event replay, audio coverage, scoring replay, and accessibility evidence without exporting raw model internals or unrelated tenant packages.",
+      localFallback:
+        "Local classroom deployments store the same integration plan JSON for backup/export without allowing offline app imports, route writes, sequence changes, scoring mutations, audio manifest changes, promotion, or assignments.",
+      policyBlockers: [
+        "Prototype integration plans cannot import app code, write routes, mutate game sequences, mutate scoring, mutate audio manifests, promote packages, or create assignments by themselves.",
+        "Phaser or premium surfaces must remain removable wrappers around parent-engine, JSON, audio, scoring, event, accessibility, and white-label contracts.",
+        "Support-language scoring or release remains blocked; MiniStar Japanese support cannot score or release English packages.",
+      ],
+    },
+    {
       specId: "spec-ai-reward-readiness-gate",
       label: "AI reward readiness gate",
       candidateId: "m055-ai-reward-readiness-gate-records",

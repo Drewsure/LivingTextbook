@@ -125,6 +125,8 @@ Prototype integration plans must stay wrapper-first and review-only. A plan may 
 
 Prototype integration plans cannot import returned files into `apps/web`, write route registry entries, mutate game sequences, mutate scoring profiles, mutate audio manifests, promote packages, assign students, or treat prototype evidence as package-ready. Phaser and other premium surfaces must remain removable wrappers around the LivingTextbook parent-engine contract.
 
+The backend-neutral storage contract is `ai_prototype_integration_plan` / `ai-prototype-integration-plan`. Hosted and local adapters must preserve wrapper adapter review, fixture replay report, event replay report, audio coverage report, scoring replay report, mobile accessibility review, integration lanes, test harness requirements, next review records, and mode integration plans while blocking direct app import, route writes, game sequence mutation, scoring mutation, audio manifest mutation, package promotion, and direct assignment.
+
 ## Mode Recommendation Rule
 
 Generator mode recommendations must reuse the reviewed activity compatibility matrix. The generator can recommend a tight pathway for a unit, but it must not produce a broad switch panel or unsupported conversions. Blocked conversions stay visible with their payload-fit and compatibility-rule reasons.
