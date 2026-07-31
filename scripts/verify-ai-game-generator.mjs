@@ -12,6 +12,9 @@ const gamificationMappingPlan = readSource("../apps/web/src/data/sampleAiGamific
 const rewardReadinessGate = readSource("../apps/web/src/data/sampleAiRewardReadinessGate.ts");
 const verifierSubmissionPacket = readSource("../apps/web/src/data/sampleAiVerifierSubmissionPacket.ts");
 const generatedPackageManifest = readSource("../apps/web/src/data/sampleAiGeneratedPackageManifest.ts");
+const generatedPackagePromotionChecklist = readSource(
+  "../apps/web/src/data/sampleAiGeneratedPackagePromotionChecklist.ts",
+);
 const generatedPublishReadinessGate = readSource("../apps/web/src/data/sampleAiGeneratedPublishReadinessGate.ts");
 const draftPreviewData = readSource("../apps/web/src/data/sampleAiGeneratedDraftPayloadPreview.ts");
 const draftPayloadValidator = readSource("../packages/content-model/src/aiGeneratedDraftPayload.ts");
@@ -29,6 +32,9 @@ const gamificationMappingPanel = readSource("../apps/web/src/features/content-in
 const rewardReadinessGatePanel = readSource("../apps/web/src/features/content-intake/AiRewardReadinessGatePanel.tsx");
 const verifierSubmissionPanel = readSource("../apps/web/src/features/content-intake/AiVerifierSubmissionPacketPanel.tsx");
 const generatedPackageManifestPanel = readSource("../apps/web/src/features/content-intake/AiGeneratedPackageManifestPanel.tsx");
+const generatedPackagePromotionChecklistPanel = readSource(
+  "../apps/web/src/features/content-intake/AiGeneratedPackagePromotionChecklistPanel.tsx",
+);
 const generatedPublishReadinessGatePanel = readSource(
   "../apps/web/src/features/content-intake/AiGeneratedPublishReadinessGatePanel.tsx",
 );
@@ -337,6 +343,81 @@ requireText(generatedPackageManifestPanel, "Package records", "AI generated pack
 requireText(generatedPackageManifestPanel, "Release locks", "AI generated package manifest panel must show release locks.");
 requireText(generatedPackageManifestPanel, "Blocked package actions", "AI generated package manifest panel must show blocked package actions.");
 requireText(
+  generatedPackagePromotionChecklist,
+  "sampleAiGeneratedPackagePromotionChecklists",
+  "AI generated package promotion checklist data must exist.",
+);
+requireText(
+  generatedPackagePromotionChecklist,
+  "Draft-to-playable package pathway",
+  "AI generated package promotion checklist must name the promotion pathway.",
+);
+requireText(
+  generatedPackagePromotionChecklist,
+  "No promote generated package button",
+  "AI generated package promotion checklist must block direct promotion.",
+);
+requireText(
+  generatedPackagePromotionChecklist,
+  "No generated route registry write",
+  "AI generated package promotion checklist must block route registry writes.",
+);
+requireText(
+  generatedPackagePromotionChecklist,
+  "No generated playlist write",
+  "AI generated package promotion checklist must block playlist writes.",
+);
+requireText(
+  generatedPackagePromotionChecklist,
+  "No generated assignment write",
+  "AI generated package promotion checklist must block assignment writes.",
+);
+requireText(
+  generatedPackagePromotionChecklist,
+  "No student-ready marker from promotion checklist",
+  "AI generated package promotion checklist must block student-ready markers.",
+);
+requireText(
+  generatedPackagePromotionChecklist,
+  "No Japanese support-language promotion",
+  "MiniStar promotion checklist must block support-language promotion.",
+);
+requireText(
+  generatedPackagePromotionChecklist,
+  "English is the target-language trigger",
+  "MiniStar promotion checklist must preserve English target-language progression.",
+);
+requireText(
+  generatedPackagePromotionChecklistPanel,
+  "AI generated package promotion checklist",
+  "AI generated package promotion panel must expose heading.",
+);
+requireText(
+  generatedPackagePromotionChecklistPanel,
+  "Draft-to-playable package pathway",
+  "AI generated package promotion panel must expose pathway heading.",
+);
+requireText(
+  generatedPackagePromotionChecklistPanel,
+  "Promotion review only",
+  "AI generated package promotion panel must expose review-only status.",
+);
+requireText(
+  generatedPackagePromotionChecklistPanel,
+  "Promotion checklist steps",
+  "AI generated package promotion panel must expose checklist steps.",
+);
+requireText(
+  generatedPackagePromotionChecklistPanel,
+  "Blocked promotion actions",
+  "AI generated package promotion panel must expose blocked actions.",
+);
+requireText(
+  generatedPackagePromotionChecklistPanel,
+  "Next promotion records",
+  "AI generated package promotion panel must expose next records.",
+);
+requireText(
   generatedPublishReadinessGate,
   "sampleAiGeneratedPublishReadinessGates",
   "AI generated publish readiness gate data must exist.",
@@ -588,6 +669,11 @@ requireText(route, "AiRewardReadinessGatePanel", "Generator route must render th
 requireText(route, "AiVerifierSubmissionPacketPanel", "Generator route must render the verifier submission packet panel.");
 requireText(route, "AiModeRecommendationPanel", "Generator route must render the mode recommendation panel.");
 requireText(route, "AiGeneratedPackageManifestPanel", "Generator route must render the generated package manifest panel.");
+requireText(
+  route,
+  "AiGeneratedPackagePromotionChecklistPanel",
+  "Generator route must render the generated package promotion checklist panel.",
+);
 requireText(route, "AiGeneratedPublishReadinessGatePanel", "Generator route must render the generated publish readiness gate panel.");
 requireText(route, "AiGeneratedDraftPayloadPreviewPanel", "Generator route must render the draft payload preview panel.");
 requireText(route, "AiDraftCorrectionQueuePanel", "Generator route must render the draft correction queue panel.");
@@ -603,6 +689,11 @@ requireText(route, "sampleAiGamificationMappingPlans", "Generator route must use
 requireText(route, "sampleAiRewardReadinessGates", "Generator route must use the sample reward readiness gate data.");
 requireText(route, "sampleAiVerifierSubmissionPackets", "Generator route must use the sample verifier submission packet data.");
 requireText(route, "sampleAiGeneratedPackageManifests", "Generator route must use the sample generated package manifest data.");
+requireText(
+  route,
+  "sampleAiGeneratedPackagePromotionChecklists",
+  "Generator route must use the sample generated package promotion checklist data.",
+);
 requireText(
   route,
   "sampleAiGeneratedPublishReadinessGates",

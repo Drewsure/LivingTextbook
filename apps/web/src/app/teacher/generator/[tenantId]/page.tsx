@@ -10,6 +10,10 @@ import {
   sampleAiGeneratedPackageManifests,
 } from "@/data/sampleAiGeneratedPackageManifest";
 import {
+  filterAiGeneratedPackagePromotionChecklistsByTenant,
+  sampleAiGeneratedPackagePromotionChecklists,
+} from "@/data/sampleAiGeneratedPackagePromotionChecklist";
+import {
   filterAiGeneratedPublishReadinessGatesByTenant,
   sampleAiGeneratedPublishReadinessGates,
 } from "@/data/sampleAiGeneratedPublishReadinessGate";
@@ -48,6 +52,7 @@ import { AiGenerationRequestBuilderPanel } from "@/features/content-intake/AiGen
 import { AiGeneratorCostEntitlementGatePanel } from "@/features/content-intake/AiGeneratorCostEntitlementGatePanel";
 import { AiGeneratedDraftPayloadPreviewPanel } from "@/features/content-intake/AiGeneratedDraftPayloadPreviewPanel";
 import { AiGeneratedPackageManifestPanel } from "@/features/content-intake/AiGeneratedPackageManifestPanel";
+import { AiGeneratedPackagePromotionChecklistPanel } from "@/features/content-intake/AiGeneratedPackagePromotionChecklistPanel";
 import { AiGeneratedPublishReadinessGatePanel } from "@/features/content-intake/AiGeneratedPublishReadinessGatePanel";
 import { AiEngineBindingPlanPanel } from "@/features/content-intake/AiEngineBindingPlanPanel";
 import { AiGamificationMappingPanel } from "@/features/content-intake/AiGamificationMappingPanel";
@@ -106,6 +111,12 @@ export default async function TeacherAiGameGeneratorPage({
         <AiModeRecommendationPanel matrix={sampleActivityPathwayCompatibilityMatrix} />
         <AiGeneratedPackageManifestPanel
           manifests={filterAiGeneratedPackageManifestsByTenant(sampleAiGeneratedPackageManifests, tenantId)}
+        />
+        <AiGeneratedPackagePromotionChecklistPanel
+          checklists={filterAiGeneratedPackagePromotionChecklistsByTenant(
+            sampleAiGeneratedPackagePromotionChecklists,
+            tenantId,
+          )}
         />
         <AiGeneratedPublishReadinessGatePanel
           gates={filterAiGeneratedPublishReadinessGatesByTenant(sampleAiGeneratedPublishReadinessGates, tenantId)}

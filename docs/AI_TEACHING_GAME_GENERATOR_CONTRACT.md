@@ -59,6 +59,12 @@ Teacher generator routes must show an inspection-only lineage map before live ge
 
 The lineage map cannot generate, submit verifier packets, assemble packages, create routes, create playlists, create assignments, unlock support-language progress, write local bundles, or mark student-ready state. MiniStar lineage must explicitly preserve English as the target-language trigger and Japanese as hiragana-only support.
 
+## Generated Package Promotion Checklist Rule
+
+Teacher generator routes must show a review-only promotion checklist before any generated draft can become a real playable package. The checklist translates the manifest, lineage map, correction queue, audio coverage, verifier packet, reward gate, release-control binding, approval ledger, and assignment rollout gate into one visible draft-to-playable package pathway.
+
+The promotion checklist cannot promote a package, write route registry entries, create playlists, create assignments, write local companion bundles, or mark student-ready state. MiniStar promotion checklists must explicitly preserve English target-language audio approval and keep Japanese hiragana support as support-only.
+
 ## Draft Payload Validation Rule
 
 AI-generated draft payloads must pass the shared `validateAiGeneratedDraftPayload` / `validateAiGeneratedDraftPayloadPreview` contract before review, persistence, verifier submission, package assembly, route creation, playlist creation, or student assignment can be considered.
