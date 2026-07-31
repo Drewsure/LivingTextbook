@@ -10,6 +10,7 @@ const requestBuilderData = readSource("../apps/web/src/data/sampleAiGenerationRe
 const audioCoveragePlan = readSource("../apps/web/src/data/sampleAiGeneratorAudioCoveragePlan.ts");
 const gamificationMappingPlan = readSource("../apps/web/src/data/sampleAiGamificationMappingPlan.ts");
 const rewardReadinessGate = readSource("../apps/web/src/data/sampleAiRewardReadinessGate.ts");
+const generatedGameBuildBrief = readSource("../apps/web/src/data/sampleAiGeneratedGameBuildBrief.ts");
 const verifierSubmissionPacket = readSource("../apps/web/src/data/sampleAiVerifierSubmissionPacket.ts");
 const generatedPackageManifest = readSource("../apps/web/src/data/sampleAiGeneratedPackageManifest.ts");
 const generatedPackagePromotionChecklist = readSource(
@@ -31,6 +32,9 @@ const requestBuilderPanel = readSource("../apps/web/src/features/content-intake/
 const audioCoveragePanel = readSource("../apps/web/src/features/content-intake/AiGeneratorAudioCoveragePlanPanel.tsx");
 const gamificationMappingPanel = readSource("../apps/web/src/features/content-intake/AiGamificationMappingPanel.tsx");
 const rewardReadinessGatePanel = readSource("../apps/web/src/features/content-intake/AiRewardReadinessGatePanel.tsx");
+const generatedGameBuildBriefPanel = readSource(
+  "../apps/web/src/features/content-intake/AiGeneratedGameBuildBriefPanel.tsx",
+);
 const verifierSubmissionPanel = readSource("../apps/web/src/features/content-intake/AiVerifierSubmissionPacketPanel.tsx");
 const generatedPackageManifestPanel = readSource("../apps/web/src/features/content-intake/AiGeneratedPackageManifestPanel.tsx");
 const generatedPackagePromotionChecklistPanel = readSource(
@@ -155,6 +159,40 @@ requireText(engineBindingPanel, "Game mode catalog binding", "AI engine binding 
 requireText(engineBindingPanel, "No generated game code", "AI engine binding panel must block generated game code.");
 requireText(engineBindingPanel, "Parent engine", "AI engine binding panel must show parent engine details.");
 requireText(engineBindingPanel, "Scoring profile", "AI engine binding panel must show scoring profile details.");
+requireText(generatedGameBuildBrief, "sampleAiGeneratedGameBuildBriefPackets", "AI generated game build brief data must exist.");
+requireText(generatedGameBuildBrief, "Z.ai prototype brief", "AI generated game build brief must identify external prototype briefs.");
+requireText(generatedGameBuildBrief, "standard_event_contract", "AI generated game build brief must require the standard event contract.");
+requireText(generatedGameBuildBrief, "audio_cue_manifest", "AI generated game build brief must require audio cue manifests.");
+requireText(generatedGameBuildBrief, "Use deterministic scoring only", "AI generated game build brief must require deterministic scoring.");
+requireText(generatedGameBuildBrief, "No standalone game promotion", "AI generated game build brief must block standalone promotion.");
+requireText(generatedGameBuildBrief, "No Phaser bypass without parent-engine wrapper", "AI generated game build brief must block Phaser bypass.");
+requireText(generatedGameBuildBrief, "No generated game route write", "AI generated game build brief must block route writes.");
+requireText(
+  generatedGameBuildBrief,
+  "No student assignment from build brief",
+  "AI generated game build brief must block student assignments.",
+);
+requireText(
+  generatedGameBuildBrief,
+  "No Japanese support-language scoring or release",
+  "MiniStar generated game build brief must block Japanese support-language scoring or release.",
+);
+requireText(
+  generatedGameBuildBriefPanel,
+  "AI generated game build brief packet",
+  "AI generated game build brief panel must expose heading.",
+);
+requireText(
+  generatedGameBuildBriefPanel,
+  "External prototype instructions",
+  "AI generated game build brief panel must expose external prototype instructions.",
+);
+requireText(generatedGameBuildBriefPanel, "Z.ai prototype brief", "AI generated game build brief panel must expose Z.ai brief label.");
+requireText(generatedGameBuildBriefPanel, "Mode build briefs", "AI generated game build brief panel must expose mode briefs.");
+requireText(generatedGameBuildBriefPanel, "Event contract", "AI generated game build brief panel must expose event contract.");
+requireText(generatedGameBuildBriefPanel, "Audio contract", "AI generated game build brief panel must expose audio contract.");
+requireText(generatedGameBuildBriefPanel, "Scoring contract", "AI generated game build brief panel must expose scoring contract.");
+requireText(generatedGameBuildBriefPanel, "No standalone promotion", "AI generated game build brief panel must block standalone promotion.");
 requireText(promptPackagePlan, "sampleAiPromptPackagePlans", "AI prompt package plan data must exist.");
 requireText(promptPackagePlan, "MiniStar generator prompt package", "AI prompt package plan must include MiniStar request seed.");
 requireText(promptPackagePlan, "ministar-l1-greetings-game-draft", "AI prompt package plan must bind to MiniStar greetings request.");
@@ -744,6 +782,7 @@ requireText(route, "AiGameGeneratorPlanPanel", "Generator route must render the 
 requireText(route, "AiGeneratorTenantCoveragePanel", "Generator route must render the tenant coverage panel.");
 requireText(route, "AiGeneratorLineageMapPanel", "Generator route must render the lineage map panel.");
 requireText(route, "AiEngineBindingPlanPanel", "Generator route must render the engine binding panel.");
+requireText(route, "AiGeneratedGameBuildBriefPanel", "Generator route must render the generated game build brief panel.");
 requireText(route, "AiPromptPackagePlanPanel", "Generator route must render the prompt package plan panel.");
 requireText(route, "AiGeneratorCostEntitlementGatePanel", "Generator route must render the cost entitlement gate panel.");
 requireText(route, "AiGenerationRequestBuilderPanel", "Generator route must render the request builder panel.");
@@ -765,6 +804,7 @@ requireText(route, "sampleAiGameGeneratorPlan", "Generator route must use the sa
 requireText(route, "sampleAiGeneratorTenantCoverage", "Generator route must use tenant coverage data.");
 requireText(route, "sampleAiGeneratorLineageMaps", "Generator route must use lineage map data.");
 requireText(route, "sampleAiEngineBindingPlans", "Generator route must use the sample engine binding plan data.");
+requireText(route, "sampleAiGeneratedGameBuildBriefPackets", "Generator route must use generated game build brief data.");
 requireText(route, "sampleAiPromptPackagePlans", "Generator route must use the sample prompt package plan data.");
 requireText(route, "sampleAiGeneratorCostEntitlementGates", "Generator route must use the sample cost entitlement gate data.");
 requireText(route, "sampleActivityPathwayCompatibilityMatrix", "Generator route must use the compatibility matrix.");

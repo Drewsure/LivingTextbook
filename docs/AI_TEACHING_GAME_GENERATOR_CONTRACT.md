@@ -103,6 +103,12 @@ Future AI generation must pass a `premium_ai_cost_gate` before any model call, v
 
 Generated activity proposals must bind to the existing game mode catalog, parent engines, scoring profiles, and standard event contract. The generator may propose payload mappings and mode configs, but it must not generate standalone game code, bypass parent engines, override scoring profiles without review, or promote Z.ai/outside prototypes into production without an integration plan.
 
+## Generated Game Build Brief Rule
+
+Teacher generator routes may show `ai_generated_game_build_brief` packets for external prototype builders such as Z.ai. A build brief must name the target mode, parent engine, JSON fixture shape, `standard_event_contract`, `audio_cue_manifest`, deterministic scoring contract, integration notes, deliverables, and blocked actions.
+
+Build briefs are not production work orders. They cannot promote standalone games, bypass parent engines, write generated game routes, override scoring profiles, assign students, or allow Phaser builds to skip the LivingTextbook wrapper and event contract. MiniStar briefs must keep Japanese support-language scoring and release blocked.
+
 ## Mode Recommendation Rule
 
 Generator mode recommendations must reuse the reviewed activity compatibility matrix. The generator can recommend a tight pathway for a unit, but it must not produce a broad switch panel or unsupported conversions. Blocked conversions stay visible with their payload-fit and compatibility-rule reasons.

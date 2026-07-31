@@ -41,6 +41,10 @@ import {
   sampleAiGeneratorAudioCoveragePlans,
 } from "@/data/sampleAiGeneratorAudioCoveragePlan";
 import {
+  filterAiGeneratedGameBuildBriefPacketsByTenant,
+  sampleAiGeneratedGameBuildBriefPackets,
+} from "@/data/sampleAiGeneratedGameBuildBrief";
+import {
   filterAiGamificationMappingPlansByTenant,
   sampleAiGamificationMappingPlans,
 } from "@/data/sampleAiGamificationMappingPlan";
@@ -60,6 +64,7 @@ import { AiGeneratedPackagePromotionChecklistPanel } from "@/features/content-in
 import { AiGeneratedPackageReleaseCandidatePanel } from "@/features/content-intake/AiGeneratedPackageReleaseCandidatePanel";
 import { AiGeneratedPublishReadinessGatePanel } from "@/features/content-intake/AiGeneratedPublishReadinessGatePanel";
 import { AiEngineBindingPlanPanel } from "@/features/content-intake/AiEngineBindingPlanPanel";
+import { AiGeneratedGameBuildBriefPanel } from "@/features/content-intake/AiGeneratedGameBuildBriefPanel";
 import { AiGamificationMappingPanel } from "@/features/content-intake/AiGamificationMappingPanel";
 import { AiGeneratorAudioCoveragePlanPanel } from "@/features/content-intake/AiGeneratorAudioCoveragePlanPanel";
 import { AiGameGeneratorPlanPanel } from "@/features/content-intake/AiGameGeneratorPlanPanel";
@@ -110,6 +115,9 @@ export default async function TeacherAiGameGeneratorPage({
           gates={filterAiRewardReadinessGatesByTenant(sampleAiRewardReadinessGates, tenantId)}
         />
         <AiEngineBindingPlanPanel plans={filterAiEngineBindingPlansByTenant(sampleAiEngineBindingPlans, tenantId)} />
+        <AiGeneratedGameBuildBriefPanel
+          packets={filterAiGeneratedGameBuildBriefPacketsByTenant(sampleAiGeneratedGameBuildBriefPackets, tenantId)}
+        />
         <AiVerifierSubmissionPacketPanel
           packets={filterAiVerifierSubmissionPacketsByTenant(sampleAiVerifierSubmissionPackets, tenantId)}
         />
