@@ -295,6 +295,7 @@
 - `DR-321-ai-prototype-fixture-replay-report.md`
 - `DR-322-ai-prototype-fixture-replay-report-storage-contract.md`
 - `DR-323-ai-prototype-event-replay-report.md`
+- `DR-324-ai-prototype-event-replay-report-storage-contract.md`
 
 ## Maintenance Rule
 

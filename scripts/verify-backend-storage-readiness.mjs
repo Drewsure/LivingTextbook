@@ -19,6 +19,7 @@ const requiredSchemaEntities = [
   "ai_prototype_integration_plan",
   "ai_prototype_wrapper_adapter_review",
   "ai_prototype_fixture_replay_report",
+  "ai_prototype_event_replay_report",
   "ai_generated_package_manifest",
   "ai_generated_package_promotion_checklist",
   "ai_generated_package_release_candidate",
@@ -88,6 +89,7 @@ const requiredMigrationCandidates = [
   "m062-ai-prototype-integration-plan-records",
   "m063-ai-prototype-wrapper-adapter-review-records",
   "m064-ai-prototype-fixture-replay-report-records",
+  "m065-ai-prototype-event-replay-report-records",
   "m054-ai-generated-package-manifest-records",
   "m058-ai-generated-package-promotion-checklist-records",
   "m059-ai-generated-package-release-candidate-records",
@@ -160,6 +162,7 @@ const requiredMigrationSpecs = [
   "spec-ai-prototype-integration-plan",
   "spec-ai-prototype-wrapper-adapter-review",
   "spec-ai-prototype-fixture-replay-report",
+  "spec-ai-prototype-event-replay-report",
   "spec-ai-generated-package-manifest",
   "spec-ai-generated-package-promotion-checklist",
   "spec-ai-generated-package-release-candidate",
@@ -312,6 +315,21 @@ requireText(
   "target_language_progress_trigger_required",
   "Backend schema must require target-language progress triggers.",
 );
+requireText(schemaDraft, "ai_prototype_event_replay_report", "Backend schema must include AI prototype event replay reports.");
+requireText(
+  schemaDraft,
+  "ai_prototype_event_replay_report_id",
+  "Backend schema must preserve AI prototype event replay report ids.",
+);
+requireText(schemaDraft, "standard_event_contract_id", "Backend schema must preserve standard event contract ids.");
+requireText(schemaDraft, "progress_event_acceptance_map_id", "Backend schema must preserve progress event acceptance map ids.");
+requireText(schemaDraft, "standard_event_coverage", "Backend schema must preserve standard event coverage.");
+requireText(schemaDraft, "required_event_order", "Backend schema must preserve required event order.");
+requireText(schemaDraft, "allowed_payload_fields", "Backend schema must preserve allowed event payload fields.");
+requireText(schemaDraft, "accepted_progress_effects", "Backend schema must preserve accepted progress effects.");
+requireText(schemaDraft, "hidden_progress_stream_allowed", "Backend schema must block hidden progress streams.");
+requireText(schemaDraft, "report_export_allowed", "Backend schema must block report export from event replay reports.");
+requireText(schemaDraft, "playlist_write_allowed", "Backend schema must block playlist writes from event replay reports.");
 requireText(schemaDraft, "ai_generated_package_manifest", "Backend schema must include AI generated package manifests.");
 requireText(schemaDraft, "ai_generated_package_manifest_id", "Backend schema must preserve generated package manifest ids.");
 requireText(schemaDraft, "generation_request_id", "Backend schema must preserve AI generation request ids.");
@@ -660,6 +678,29 @@ requireText(
   "target_language_progress_trigger_required",
   "Migration specs must require target-language progress triggers.",
 );
+requireText(
+  migrationSpecs,
+  "spec-ai-prototype-event-replay-report",
+  "Migration specs must include AI prototype event replay reports.",
+);
+requireText(
+  migrationSpecs,
+  "ai_prototype_event_replay_report_id",
+  "Migration specs must preserve AI prototype event replay report ids.",
+);
+requireText(migrationSpecs, "standard_event_contract_id", "Migration specs must preserve standard event contract ids.");
+requireText(
+  migrationSpecs,
+  "progress_event_acceptance_map_id",
+  "Migration specs must preserve progress event acceptance map ids.",
+);
+requireText(migrationSpecs, "standard_event_coverage", "Migration specs must preserve standard event coverage.");
+requireText(migrationSpecs, "required_event_order", "Migration specs must preserve required event order.");
+requireText(migrationSpecs, "allowed_payload_fields", "Migration specs must preserve allowed event payload fields.");
+requireText(migrationSpecs, "accepted_progress_effects", "Migration specs must preserve accepted progress effects.");
+requireText(migrationSpecs, "hidden_progress_stream_allowed", "Migration specs must block hidden progress streams.");
+requireText(migrationSpecs, "report_export_allowed", "Migration specs must block report export from event replay reports.");
+requireText(migrationSpecs, "playlist_write_allowed", "Migration specs must block playlist writes from event replay reports.");
 requireText(migrationSpecs, "spec-ai-generated-package-manifest", "Migration specs must include AI generated package manifests.");
 requireText(migrationSpecs, "ai_generated_package_manifest_id", "Migration specs must preserve generated package manifest ids.");
 requireText(migrationSpecs, "prompt_package_id", "Migration specs must preserve generated package prompt package ids.");
@@ -1284,6 +1325,38 @@ requireText(
   "Persistence adapter must require target-language progress triggers.",
 );
 requireText(persistenceAdapter, "blocksHardCodedUnitText: true", "Persistence adapter must block hard-coded unit text.");
+requireText(
+  persistenceAdapter,
+  "hosted-ai-prototype-event-replay-report-write",
+  "Persistence adapter must include hosted AI prototype event replay report writes.",
+);
+requireText(
+  persistenceAdapter,
+  "local-ai-prototype-event-replay-report-write",
+  "Persistence adapter must include local AI prototype event replay report writes.",
+);
+requireText(
+  persistenceAdapter,
+  "preservesAiPrototypeEventReplayReport: true",
+  "Persistence adapter must preserve AI prototype event replay report sections.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresStandardEventCoverage: true",
+  "Persistence adapter must require standard event coverage.",
+);
+requireText(persistenceAdapter, "requiresRequiredEventOrder: true", "Persistence adapter must require event order checks.");
+requireText(
+  persistenceAdapter,
+  "requiresAllowedEventPayloadFields: true",
+  "Persistence adapter must require allowed event payload fields.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresAcceptedProgressEffects: true",
+  "Persistence adapter must require accepted progress effects.",
+);
+requireText(persistenceAdapter, "blocksHiddenProgressStream: true", "Persistence adapter must block hidden progress streams.");
 requireText(persistenceAdapter, "blocksScoreAuthority: true", "Persistence adapter must block wrapper score authority.");
 requireText(persistenceAdapter, "blocksRouteStateOwnership: true", "Persistence adapter must block route state ownership.");
 requireText(persistenceAdapter, "blocksAudioManifestAuthority: true", "Persistence adapter must block audio manifest authority.");
@@ -1759,6 +1832,30 @@ requireText(
   "Durable record plan must require target-language progress triggers.",
 );
 requireText(durableRecords, "blocksHardCodedUnitText: true", "Durable record plan must block hard-coded unit text.");
+requireText(
+  durableRecords,
+  "ai-prototype-event-replay-report-record",
+  "Durable record plan must include AI prototype event replay report records.",
+);
+requireText(
+  durableRecords,
+  "AI prototype event replay report record",
+  "Durable record plan must expose AI prototype event replay report labels.",
+);
+requireText(
+  durableRecords,
+  "preservesAiPrototypeEventReplayReport: true",
+  "Durable record plan must preserve AI prototype event replay report sections.",
+);
+requireText(durableRecords, "requiresStandardEventCoverage: true", "Durable record plan must require standard event coverage.");
+requireText(durableRecords, "requiresRequiredEventOrder: true", "Durable record plan must require event order checks.");
+requireText(
+  durableRecords,
+  "requiresAllowedEventPayloadFields: true",
+  "Durable record plan must require allowed event payload fields.",
+);
+requireText(durableRecords, "requiresAcceptedProgressEffects: true", "Durable record plan must require accepted progress effects.");
+requireText(durableRecords, "blocksHiddenProgressStream: true", "Durable record plan must block hidden progress streams.");
 requireText(durableRecords, "blocksScoreAuthority: true", "Durable record plan must block wrapper score authority.");
 requireText(durableRecords, "blocksRouteStateOwnership: true", "Durable record plan must block route state ownership.");
 requireText(durableRecords, "blocksAudioManifestAuthority: true", "Durable record plan must block audio manifest authority.");
@@ -2087,6 +2184,16 @@ requireText(
   routeVerifier,
   "AI prototype fixture replay report record",
   "Active route verifier must keep AI prototype fixture replay report durable records visible on teacher intake.",
+);
+requireText(
+  routeVerifier,
+  "ai_prototype_event_replay_report",
+  "Active route verifier must keep AI prototype event replay report storage visible on teacher intake.",
+);
+requireText(
+  routeVerifier,
+  "AI prototype event replay report record",
+  "Active route verifier must keep AI prototype event replay report durable records visible on teacher intake.",
 );
 requireText(routeVerifier, "ai_generated_package_manifest", "Active route verifier must keep AI generated package manifest storage visible on teacher intake.");
 requireText(routeVerifier, "AI generated package manifest record", "Active route verifier must keep AI generated package manifest durable records visible on teacher intake.");

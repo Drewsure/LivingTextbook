@@ -12,6 +12,7 @@ export type PersistenceRecordCategory =
   | "ai-prototype-integration-plan"
   | "ai-prototype-wrapper-adapter-review"
   | "ai-prototype-fixture-replay-report"
+  | "ai-prototype-event-replay-report"
   | "ai-generated-package-manifest"
   | "ai-generated-package-promotion-checklist"
   | "ai-generated-package-release-candidate"
@@ -116,11 +117,17 @@ export interface DurableRecordContract {
   preservesAiPrototypeIntegrationPlan?: boolean;
   preservesAiPrototypeWrapperAdapterReview?: boolean;
   preservesAiPrototypeFixtureReplayReport?: boolean;
+  preservesAiPrototypeEventReplayReport?: boolean;
   requiresReviewedUnitJsonFixture?: boolean;
   requiresFixtureCoverage?: boolean;
   requiresFixtureReplayEvidence?: boolean;
   requiresTargetLanguageProgressTrigger?: boolean;
   blocksHardCodedUnitText?: boolean;
+  requiresStandardEventCoverage?: boolean;
+  requiresRequiredEventOrder?: boolean;
+  requiresAllowedEventPayloadFields?: boolean;
+  requiresAcceptedProgressEffects?: boolean;
+  blocksHiddenProgressStream?: boolean;
   requiresFixtureInputContract?: boolean;
   requiresStandardEventOutputContract?: boolean;
   requiresStateOwnershipRules?: boolean;
@@ -673,6 +680,65 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "ai-prototype-fixture-replay-report" && !record.blocksRewardInventoryWrite) {
       errors.push(`AI prototype fixture replay report record ${record.recordId} must block reward inventory writes.`);
+    }
+
+    if (
+      record.category === "ai-prototype-event-replay-report" &&
+      !record.preservesAiPrototypeEventReplayReport
+    ) {
+      errors.push(`AI prototype event replay report record ${record.recordId} must preserve event replay sections.`);
+    }
+
+    if (record.category === "ai-prototype-event-replay-report" && !record.requiresStandardEventCoverage) {
+      errors.push(`AI prototype event replay report record ${record.recordId} must require standard event coverage.`);
+    }
+
+    if (record.category === "ai-prototype-event-replay-report" && !record.requiresRequiredEventOrder) {
+      errors.push(`AI prototype event replay report record ${record.recordId} must require event order checks.`);
+    }
+
+    if (record.category === "ai-prototype-event-replay-report" && !record.requiresAllowedEventPayloadFields) {
+      errors.push(`AI prototype event replay report record ${record.recordId} must require allowed event payload fields.`);
+    }
+
+    if (record.category === "ai-prototype-event-replay-report" && !record.requiresAcceptedProgressEffects) {
+      errors.push(`AI prototype event replay report record ${record.recordId} must require accepted progress effects.`);
+    }
+
+    if (record.category === "ai-prototype-event-replay-report" && !record.requiresTargetLanguageProgressTrigger) {
+      errors.push(`AI prototype event replay report record ${record.recordId} must require target-language progress triggers.`);
+    }
+
+    if (record.category === "ai-prototype-event-replay-report" && !record.blocksHiddenProgressStream) {
+      errors.push(`AI prototype event replay report record ${record.recordId} must block hidden progress streams.`);
+    }
+
+    if (record.category === "ai-prototype-event-replay-report" && !record.blocksScoreAuthority) {
+      errors.push(`AI prototype event replay report record ${record.recordId} must block score authority.`);
+    }
+
+    if (record.category === "ai-prototype-event-replay-report" && !record.blocksRewardInventoryWrite) {
+      errors.push(`AI prototype event replay report record ${record.recordId} must block reward inventory writes.`);
+    }
+
+    if (record.category === "ai-prototype-event-replay-report" && !record.blocksRouteStateOwnership) {
+      errors.push(`AI prototype event replay report record ${record.recordId} must block route state ownership.`);
+    }
+
+    if (record.category === "ai-prototype-event-replay-report" && !record.blocksLiveReportExport) {
+      errors.push(`AI prototype event replay report record ${record.recordId} must block report export.`);
+    }
+
+    if (record.category === "ai-prototype-event-replay-report" && !record.blocksGeneratedPackagePlaylistWrite) {
+      errors.push(`AI prototype event replay report record ${record.recordId} must block playlist writes.`);
+    }
+
+    if (record.category === "ai-prototype-event-replay-report" && !record.blocksGeneratedPackageLocalBundleWrite) {
+      errors.push(`AI prototype event replay report record ${record.recordId} must block local bundle writes.`);
+    }
+
+    if (record.category === "ai-prototype-event-replay-report" && !record.blocksSupportLanguageProgressTrigger) {
+      errors.push(`AI prototype event replay report record ${record.recordId} must block support-language progress triggers.`);
     }
 
     if (record.category === "ai-generated-package-manifest" && !record.preservesAiGeneratedPackageManifest) {

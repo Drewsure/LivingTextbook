@@ -24,6 +24,7 @@ export type PersistenceBoundaryCategory =
   | "ai-prototype-integration-plan"
   | "ai-prototype-wrapper-adapter-review"
   | "ai-prototype-fixture-replay-report"
+  | "ai-prototype-event-replay-report"
   | "ai-generated-package-manifest"
   | "ai-generated-package-promotion-checklist"
   | "ai-generated-package-release-candidate"
@@ -366,6 +367,40 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
     note:
       "AI prototype fixture replay reports need durable reviewed-fixture evidence before returned prototype code can prove it is fixture-driven, tenant-configurable, target-language gated, and safe for future wrapper integration.",
+  },
+  {
+    recordId: "ai-prototype-event-replay-report-record",
+    category: "ai-prototype-event-replay-report",
+    label: "AI prototype event replay report record",
+    readiness: "durable-required",
+    sourceOfTruth:
+      "AiPrototypeEventReplayReport, standard event contract, progress event acceptance map, required event order, allowed payload fields, accepted progress effects, failure triggers, and blocked actions",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: false,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesAiPrototypeEventReplayReport: true,
+    requiresStandardEventCoverage: true,
+    requiresRequiredEventOrder: true,
+    requiresAllowedEventPayloadFields: true,
+    requiresAcceptedProgressEffects: true,
+    requiresTargetLanguageProgressTrigger: true,
+    blocksHiddenProgressStream: true,
+    blocksScoreAuthority: true,
+    blocksRewardInventoryWrite: true,
+    blocksRouteStateOwnership: true,
+    blocksLiveReportExport: true,
+    blocksGeneratedPackagePlaylistWrite: true,
+    blocksGeneratedPackageLocalBundleWrite: true,
+    blocksSupportLanguageProgressTrigger: true,
+    blocksDirectAppImport: true,
+    blocksGeneratedGameRouteWrite: true,
+    blocksDirectStudentAssignment: true,
+    recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
+    note:
+      "AI prototype event replay reports need durable event-order and accepted-effect evidence before returned prototype code can prove it emits platform events without hidden progress, score, reward, report, route, playlist, local bundle, or assignment side effects.",
   },
   {
     recordId: "ai-generated-package-promotion-checklist-record",
@@ -1690,6 +1725,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision:
       "Persist AI prototype fixture replay reports before enabling wrapper integration, direct app imports, route writes, scoring/audio authority, package promotion, or assignments.",
+  },
+  {
+    boundaryId: "ai-prototype-event-replay-report-boundary",
+    category: "ai-prototype-event-replay-report",
+    label: "AI prototype event replay report records",
+    status: "needs-backend",
+    recordShape:
+      "Event replay report id, tenant id, request id, integration plan id, standard event coverage, required event order, allowed payload fields, accepted progress effects, failure triggers, blocked actions",
+    whyItMatters:
+      "A returned prototype must prove it emits the platform event contract without hidden local progress, score authority, reward writes, report exports, route mutations, playlist writes, local bundle writes, or assignments before it can move toward integration.",
+    visibleTo: ["Platform admin", "Tenant admin", "Content reviewer", "Prototype reviewer"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Persist AI prototype event replay reports before enabling wrapper integration, progress storage, report export, route writes, scoring/reward authority, package promotion, or assignments.",
   },
   {
     boundaryId: "ai-generated-package-promotion-checklist-boundary",

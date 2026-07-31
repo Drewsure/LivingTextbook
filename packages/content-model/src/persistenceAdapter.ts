@@ -43,11 +43,17 @@ export interface PersistenceWriteIntent {
   preservesAiPrototypeIntegrationPlan?: boolean;
   preservesAiPrototypeWrapperAdapterReview?: boolean;
   preservesAiPrototypeFixtureReplayReport?: boolean;
+  preservesAiPrototypeEventReplayReport?: boolean;
   requiresReviewedUnitJsonFixture?: boolean;
   requiresFixtureCoverage?: boolean;
   requiresFixtureReplayEvidence?: boolean;
   requiresTargetLanguageProgressTrigger?: boolean;
   blocksHardCodedUnitText?: boolean;
+  requiresStandardEventCoverage?: boolean;
+  requiresRequiredEventOrder?: boolean;
+  requiresAllowedEventPayloadFields?: boolean;
+  requiresAcceptedProgressEffects?: boolean;
+  blocksHiddenProgressStream?: boolean;
   requiresFixtureInputContract?: boolean;
   requiresStandardEventOutputContract?: boolean;
   requiresStateOwnershipRules?: boolean;
@@ -635,6 +641,65 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "ai-prototype-fixture-replay-report" && !intent.blocksRewardInventoryWrite) {
       errors.push(`AI prototype fixture replay report write intent ${intent.intentId} must block reward inventory writes.`);
+    }
+
+    if (
+      intent.category === "ai-prototype-event-replay-report" &&
+      !intent.preservesAiPrototypeEventReplayReport
+    ) {
+      errors.push(`AI prototype event replay report write intent ${intent.intentId} must preserve event replay sections.`);
+    }
+
+    if (intent.category === "ai-prototype-event-replay-report" && !intent.requiresStandardEventCoverage) {
+      errors.push(`AI prototype event replay report write intent ${intent.intentId} must require standard event coverage.`);
+    }
+
+    if (intent.category === "ai-prototype-event-replay-report" && !intent.requiresRequiredEventOrder) {
+      errors.push(`AI prototype event replay report write intent ${intent.intentId} must require event order checks.`);
+    }
+
+    if (intent.category === "ai-prototype-event-replay-report" && !intent.requiresAllowedEventPayloadFields) {
+      errors.push(`AI prototype event replay report write intent ${intent.intentId} must require allowed event payload fields.`);
+    }
+
+    if (intent.category === "ai-prototype-event-replay-report" && !intent.requiresAcceptedProgressEffects) {
+      errors.push(`AI prototype event replay report write intent ${intent.intentId} must require accepted progress effects.`);
+    }
+
+    if (intent.category === "ai-prototype-event-replay-report" && !intent.requiresTargetLanguageProgressTrigger) {
+      errors.push(`AI prototype event replay report write intent ${intent.intentId} must require target-language progress triggers.`);
+    }
+
+    if (intent.category === "ai-prototype-event-replay-report" && !intent.blocksHiddenProgressStream) {
+      errors.push(`AI prototype event replay report write intent ${intent.intentId} must block hidden progress streams.`);
+    }
+
+    if (intent.category === "ai-prototype-event-replay-report" && !intent.blocksScoreAuthority) {
+      errors.push(`AI prototype event replay report write intent ${intent.intentId} must block score authority.`);
+    }
+
+    if (intent.category === "ai-prototype-event-replay-report" && !intent.blocksRewardInventoryWrite) {
+      errors.push(`AI prototype event replay report write intent ${intent.intentId} must block reward inventory writes.`);
+    }
+
+    if (intent.category === "ai-prototype-event-replay-report" && !intent.blocksRouteStateOwnership) {
+      errors.push(`AI prototype event replay report write intent ${intent.intentId} must block route state ownership.`);
+    }
+
+    if (intent.category === "ai-prototype-event-replay-report" && !intent.blocksLiveReportExport) {
+      errors.push(`AI prototype event replay report write intent ${intent.intentId} must block report export.`);
+    }
+
+    if (intent.category === "ai-prototype-event-replay-report" && !intent.blocksGeneratedPackagePlaylistWrite) {
+      errors.push(`AI prototype event replay report write intent ${intent.intentId} must block playlist writes.`);
+    }
+
+    if (intent.category === "ai-prototype-event-replay-report" && !intent.blocksGeneratedPackageLocalBundleWrite) {
+      errors.push(`AI prototype event replay report write intent ${intent.intentId} must block local bundle writes.`);
+    }
+
+    if (intent.category === "ai-prototype-event-replay-report" && !intent.blocksSupportLanguageProgressTrigger) {
+      errors.push(`AI prototype event replay report write intent ${intent.intentId} must block support-language progress triggers.`);
     }
 
     if (intent.category === "ai-generated-package-manifest" && !intent.preservesAiGeneratedPackageManifest) {

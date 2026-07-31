@@ -149,6 +149,8 @@ Prototype event replay reports must prove that returned prototypes emit the Livi
 
 The report must show standard event coverage, required event order, allowed payload fields, accepted progress effects, failure triggers, and blocked actions. Target-language events are the only learning progress candidates; support-language, media-only, and background-audio events must remain support-only.
 
+The backend-neutral storage contract is `ai_prototype_event_replay_report` / `ai-prototype-event-replay-report`. Hosted and local adapters must preserve standard event contract id, progress event acceptance map id, standard event coverage, required event order, allowed payload fields, accepted progress effects, failure triggers, and blocked actions while blocking hidden progress streams, score authority, reward inventory writes, route state ownership, report exports, playlist writes, local bundle writes, support-language progress triggers, direct app imports, package promotion, and assignments.
+
 ## Mode Recommendation Rule
 
 Generator mode recommendations must reuse the reviewed activity compatibility matrix. The generator can recommend a tight pathway for a unit, but it must not produce a broad switch panel or unsupported conversions. Blocked conversions stay visible with their payload-fit and compatibility-rule reasons.
