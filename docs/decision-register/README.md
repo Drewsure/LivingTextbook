@@ -278,6 +278,7 @@
 - `DR-304-ministar-draft-json-correction-queue.md`
 - `DR-305-ministar-ai-verifier-submission-packet.md`
 - `DR-306-ministar-generated-package-manifest.md`
+- `DR-307-ministar-ai-draft-review-queue-item.md`
 
 ## Maintenance Rule
 

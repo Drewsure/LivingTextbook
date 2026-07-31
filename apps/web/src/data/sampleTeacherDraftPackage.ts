@@ -33,6 +33,9 @@ export interface TeacherDraftPackagePreview {
 
 const partnerUnit = samplePartnerContentPackage.units[0];
 const aiDraftPreview = sampleAiGeneratedDraftPayloadPreviews[0];
+const ministarAiDraftPreview = sampleAiGeneratedDraftPayloadPreviews.find(
+  (preview) => preview.previewId === "ai-draft-preview-ministar-l1-greetings-v1",
+);
 
 export const sampleTeacherDraftPackages: TeacherDraftPackagePreview[] = [
   {
@@ -149,6 +152,74 @@ export const sampleTeacherDraftPackages: TeacherDraftPackagePreview[] = [
         status: "blocked",
         evidence: "No reviewer identity, approval ledger, or release-control binding exists.",
         nextStep: "Keep package in review queue until approval and release-control records are implemented.",
+      },
+    ],
+  },
+  {
+    draftId: "ai-draft-ministar-l1-greetings-v1",
+    tenantId: "ministar",
+    sourcePackageId: ministarAiDraftPreview?.previewId ?? "ai-draft-preview-ministar-l1-greetings-v1",
+    unitKey: "ministar:ministar-english:L1:U1",
+    label: "AI-generated MiniStar greetings draft preview",
+    status: "teacher-only-draft",
+    canAssignToStudents: false,
+    sourceLineage: [
+      "Created from the MiniStar AI generator draft preview, not from a published package.",
+      "Requires MiniStar AI verifier submission packet before teacher approval.",
+      "Generated MiniStar content cannot create routes, playlists, assignments, or local bundles.",
+      "English target-language tasks remain authoritative for progress.",
+      "Japanese support remains hiragana-only and support-only.",
+    ],
+    vocabularyDraft: ["hello", "goodbye", "teacher", "friend", "morning", "afternoon", "please", "thank you"],
+    targetSentenceDrafts: ["Hello, teacher.", "Thank you, friend."],
+    requestedActivityPath: ["flashcards", "memory-match", "speak-it"],
+    audioPlanSummary:
+      "MiniStar AI-generated learner text still needs reviewed English term, sentence, instruction, feedback, and control audio before it can enter student use.",
+    allowedActions: ["Preview MiniStar AI draft package", "Inspect MiniStar verifier packet blockers", "Compare with MiniStar source evidence"],
+    blockedActions: [
+      "Assign MiniStar generated draft to students",
+      "Approve MiniStar generated package",
+      "Submit MiniStar draft to live verifier",
+      "Create route from MiniStar AI draft",
+      "Create playlist from MiniStar AI draft",
+      "Use Japanese support to unlock progress",
+      "Skip MiniStar media rights proof",
+    ],
+    reviewGates: [
+      {
+        gateId: "ministar-ai-source-lineage",
+        label: "MiniStar AI source lineage",
+        status: "review-required",
+        evidence: "MiniStar AI draft references the generator preview and must be tied to reviewed source evidence before approval.",
+        nextStep: "Persist MiniStar source evidence packet ids and prompt package version before review workflow activation.",
+      },
+      {
+        gateId: "ministar-ai-verifier-packet-required",
+        label: "MiniStar AI verifier packet required",
+        status: "blocked",
+        evidence: "MiniStar verifier submission packet is visible, but no durable verifier workflow exists.",
+        nextStep: "Create durable verifier submission records before any MiniStar generated package can be submitted.",
+      },
+      {
+        gateId: "ministar-ai-audio-before-students",
+        label: "MiniStar AI audio before students",
+        status: "blocked",
+        evidence: "English target-language audio cues are required-not-approved.",
+        nextStep: "Attach or generate approved learner audio under MiniStar cost and review policy.",
+      },
+      {
+        gateId: "ministar-ai-media-rights-manifest",
+        label: "MiniStar AI media rights manifest",
+        status: "blocked",
+        evidence: "Generated draft cannot prove MiniStar audio/video/image rights from the preview alone.",
+        nextStep: "Attach media rights evidence before playlist, background media, or printable image use.",
+      },
+      {
+        gateId: "ministar-ai-teacher-approval-ledger",
+        label: "MiniStar AI teacher approval ledger",
+        status: "blocked",
+        evidence: "No reviewer identity, approval ledger, or release-control binding exists.",
+        nextStep: "Keep MiniStar package in review queue until approval and release-control records are implemented.",
       },
     ],
   },

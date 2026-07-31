@@ -60,6 +60,9 @@ const draft = sampleTeacherDraftPackages[0];
 const aiGeneratedDraft = sampleTeacherDraftPackages.find(
   (teacherDraft) => teacherDraft.draftId === "ai-draft-sample-publisher-l1-routines-v1",
 );
+const ministarAiGeneratedDraft = sampleTeacherDraftPackages.find(
+  (teacherDraft) => teacherDraft.draftId === "ai-draft-ministar-l1-greetings-v1",
+);
 
 export const sampleTeacherDraftReviewQueue: TeacherDraftReviewQueue = {
   queueId: "teacher-draft-review-queue-sample-publisher",
@@ -395,6 +398,198 @@ export const sampleTeacherDraftReviewQueue: TeacherDraftReviewQueue = {
                 ],
                 nextStep:
                   "Persist AI draft queue items and verifier packets before allowing any generated package review submission, approval, route creation, playlist creation, or assignment.",
+              },
+            ]
+          : []),
+        ...(ministarAiGeneratedDraft
+          ? [
+              {
+                queueItemId: "queue-ai-draft-ministar-l1-greetings-v1",
+                draft: ministarAiGeneratedDraft,
+                status: "blocked" as const,
+                reviewerLane: "ministar-ai-draft-verifier-review",
+                packetSections: [
+                  "MiniStar AI verifier submission packet",
+                  "Schema validation packet",
+                  "Pedagogical lock packet",
+                  "Audio coverage packet",
+                  "Engine binding packet",
+                  "Gamification mapping packet",
+                  "Activity compatibility snapshot",
+                  "Media rights manifest",
+                  "Teacher approval packet",
+                ],
+                blockedBy: [
+                  "MiniStar AI verifier submission packet required",
+                  "Durable verifier storage required",
+                  "Reviewer identity required",
+                  "English audio cue approval required",
+                  "MiniStar media rights proof required",
+                  "Approval ledger binding required",
+                ],
+                allowedActions: [
+                  "Preview MiniStar AI draft package",
+                  "Inspect MiniStar AI verifier packet",
+                  "Review MiniStar blocked actions",
+                  "Compare with MiniStar source evidence",
+                ],
+                notAllowedYet: [
+                  "Submit MiniStar AI draft to verifier",
+                  "Approve MiniStar generated package",
+                  "Create route from MiniStar AI draft",
+                  "Create playlist from MiniStar AI draft",
+                  "Assign MiniStar generated draft to students",
+                  "Mark MiniStar generated package student-ready",
+                ],
+                reviewerDecisionOptions: [
+                  {
+                    decisionId: "return-ministar-ai-draft-for-edits",
+                    label: "Return MiniStar AI draft for edits",
+                    status: "preview-only" as const,
+                    evidenceRequired: ["Reviewer note", "MiniStar prompt package version", "MiniStar source evidence packet"],
+                    blockedBy: ["Reviewer identity required", "Draft persistence required"],
+                    outcome: "MiniStar generated draft returns to teacher review without becoming student-facing.",
+                  },
+                  {
+                    decisionId: "ministar-ai-draft-needs-audio",
+                    label: "MiniStar AI draft needs audio",
+                    status: "preview-only" as const,
+                    evidenceRequired: ["Missing English cue list", "Voice policy decision", "Audio approval owner"],
+                    blockedBy: ["English audio cue approval required", "No API voice cost approval"],
+                    outcome:
+                      "MiniStar generated draft remains blocked until English term, sentence, instruction, feedback, and control audio is reviewed.",
+                  },
+                  {
+                    decisionId: "reject-ministar-ai-draft",
+                    label: "Reject MiniStar AI draft",
+                    status: "preview-only" as const,
+                    evidenceRequired: ["Reason code", "MiniStar source mismatch note", "Reviewer identity"],
+                    blockedBy: ["Reviewer identity required", "Review audit storage required"],
+                    outcome: "MiniStar generated draft is marked unsuitable in a future audit trail without changing package release state.",
+                  },
+                  {
+                    decisionId: "ministar-ai-draft-ready-for-approval",
+                    label: "MiniStar AI draft ready for approval",
+                    status: "blocked" as const,
+                    evidenceRequired: [
+                      "Verifier pass",
+                      "English target audio pass",
+                      "MiniStar media rights pass",
+                      "Engine binding pass",
+                      "Gamification mapping pass",
+                    ],
+                    blockedBy: ["Package approval ledger required", "Release-control policy required", "Approver identity required"],
+                    outcome: "Future path only: creates an approval candidate, not a route, playlist, or student assignment.",
+                  },
+                ],
+                evidencePacketPreview: [
+                  "MiniStar prompt package version evidence",
+                  "MiniStar draft JSON snapshot",
+                  "MiniStar AI verifier submission packet evidence",
+                  "English audio coverage evidence",
+                  "MiniStar media rights manifest evidence",
+                  "MiniStar teacher approval evidence",
+                ],
+                evidenceUploadBlockedBy: [
+                  "Evidence storage required",
+                  "Reviewer authentication required",
+                  "MiniStar prompt package persistence required",
+                  "Approval ledger policy required",
+                  "No file upload in foundation preview",
+                ],
+                auditTrailPreview: [
+                  {
+                    eventId: "audit-ministar-ai-draft-queued",
+                    label: "MiniStar AI draft queued for review",
+                    actor: "Teacher owner",
+                    previewStatus: "recorded-preview" as const,
+                    evidenceLink: "MiniStar AI draft payload preview",
+                    blockedBy: ["Durable audit trail storage required"],
+                  },
+                  {
+                    eventId: "audit-ministar-ai-verifier-packet-reviewed",
+                    label: "MiniStar AI verifier packet reviewed",
+                    actor: "Content reviewer",
+                    previewStatus: "blocked-preview" as const,
+                    evidenceLink: "MiniStar AI verifier submission packet",
+                    blockedBy: ["Reviewer identity required", "No live AI verifier workflow"],
+                  },
+                  {
+                    eventId: "audit-ministar-ai-draft-returned",
+                    label: "MiniStar AI draft returned or rejected",
+                    actor: "Content reviewer",
+                    previewStatus: "blocked-preview" as const,
+                    evidenceLink: "Reviewer decision preview",
+                    blockedBy: ["Review audit storage required", "No live state transition"],
+                  },
+                ],
+                auditTrailBlockedBy: [
+                  "Audit trail storage required",
+                  "Reviewer authentication required",
+                  "AI verifier workflow required",
+                  "Approval ledger policy required",
+                  "No live state transition",
+                ],
+                verifierPreflightChecks: [
+                  {
+                    checkId: "ministar-ai-schema-packet-ready",
+                    label: "MiniStar AI schema packet ready",
+                    status: "ready-preview" as const,
+                    detail: "Generated payload keeps 8 vocabulary terms, exactly 2 target sentences, and JSON-first shape.",
+                  },
+                  {
+                    checkId: "ministar-ai-pedagogical-lock-ready",
+                    label: "MiniStar AI pedagogical lock ready",
+                    status: "ready-preview" as const,
+                    detail: "Level 1 greetings content is bounded to the reviewed 8-term unit payload.",
+                  },
+                  {
+                    checkId: "ministar-ai-support-language-ready",
+                    label: "MiniStar AI support language ready",
+                    status: "ready-preview" as const,
+                    detail: "Japanese support is hiragana-only and support-only; it cannot unlock progress.",
+                  },
+                  {
+                    checkId: "ministar-ai-audio-coverage-pending",
+                    label: "MiniStar AI audio coverage pending",
+                    status: "blocked-preview" as const,
+                    detail: "English learner text still needs approved audio cues before student use.",
+                  },
+                  {
+                    checkId: "ministar-ai-engine-binding-ready",
+                    label: "MiniStar AI engine binding ready",
+                    status: "ready-preview" as const,
+                    detail: "Generated pathway binds to flashcards, memory match, and Speak It parent engines.",
+                  },
+                  {
+                    checkId: "ministar-ai-gamification-mapping-ready",
+                    label: "MiniStar AI gamification mapping ready",
+                    status: "ready-preview" as const,
+                    detail: "Star Dust and collection unlocks remain deterministic and mastery-based.",
+                  },
+                  {
+                    checkId: "ministar-ai-media-rights-pending",
+                    label: "MiniStar AI media rights pending",
+                    status: "blocked-preview" as const,
+                    detail: "MiniStar audio, video, image, playlist, and background media rights evidence is not attached.",
+                  },
+                  {
+                    checkId: "ministar-ai-teacher-approval-missing",
+                    label: "MiniStar AI teacher approval missing",
+                    status: "blocked-preview" as const,
+                    detail: "No reviewer identity, teacher approval packet, or release-control binding exists yet.",
+                  },
+                ],
+                verifierSubmissionBlockedBy: [
+                  "No live AI verifier workflow",
+                  "MiniStar AI verifier packet not durable",
+                  "Reviewer identity required",
+                  "Evidence storage required",
+                  "English audio cue approval required",
+                  "Approval ledger policy required",
+                ],
+                nextStep:
+                  "Persist MiniStar AI draft queue items and verifier packets before allowing any generated package review submission, approval, route creation, playlist creation, or assignment.",
               },
             ]
           : []),

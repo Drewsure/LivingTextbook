@@ -64,10 +64,12 @@ Confirm:
 - AI generated publish readiness gate shows correction queue clearance, verifier packet approval, manifest completeness, reward readiness, release-control binding, and teacher approval ledger capture before any student route can exist.
 - AI generated publish readiness gate allows review/correction work only and blocks route registry writes, media playlist writes, assignment creation, local bundle writes, and student-ready markers.
 - AI generated publish readiness gate storage contract appears in schema draft, migration candidates, migration specs, durable records, and hosted/local adapter plans before generated package publishing is enabled.
+- `/teacher/review` shows AI-generated draft packages as read-only queue items with source lineage, verifier packet requirements, target-language audio blockers, media-rights blockers, route/playlist/assignment blocks, and approval blocks before live AI review submission or generated package approval is implemented.
+- `/teacher/review` shows the MiniStar generated greetings draft as a read-only queue item with MiniStar source lineage, English audio blockers, hiragana-only Japanese support review, media-rights blockers, verifier blockers, approval blockers, and assignment blockers.
 - Mode recommendation preview reuses the activity compatibility matrix.
 - Mode recommendation preview shows a recommended generated pathway and blocked conversion guardrails.
 - Mode recommendation preview blocks a broad switch panel as the default product promise.
 - Optional AI Tutor requests remain premium-gated and disabled until school adoption, privacy, transcript, usage-limit, and cost controls exist.
 - `/teacher/generator/sample-publisher` loads as a teacher/admin route.
-- `/teacher/generator/ministar` loads as a teacher/admin route and shows missing tenant generator preview records instead of silently inheriting sample-publisher records.
+- `/teacher/generator/ministar` loads as a teacher/admin route and shows MiniStar tenant generator preview records without enabling live model calls, verifier submission, package assembly, route creation, playlist creation, or assignment.
 - `/teacher/intake` includes the generator foundation panel.

@@ -272,6 +272,7 @@ Outputs:
 - AI teaching game generator draft request preview.
 - AI generator tenant coverage gate that shows covered, partial, and missing request-specific records by tenant.
 - MiniStar Level 1 greetings generator seed records for prompt package, cost entitlement, disabled request builder, audio coverage, deterministic gamification, reward readiness, parent-engine binding, Draft JSON preview, derived correction queue, blocked verifier submission packet, generated package manifest, and derived publish readiness.
+- MiniStar AI generated draft review queue item with source lineage, hiragana-only support-language review, and blocked verifier, approval, route, playlist, assignment, and student-ready actions.
 - Shared AI-generated draft payload validator with visible schema guard blocks and warnings.
 - AI draft correction queue with owner, next-record, and student-use effect fields.
 - AI reward readiness gate with deterministic Star Dust, accepted-event, and collection inventory protections.
@@ -299,7 +300,7 @@ Next outputs:
 - Confirm `/teacher/generator/sample-publisher` shows the AI reward readiness gate before reward publishing, inventory writes, Spin Wheel ticket issuance, avatar evolution, or assignment workflows are considered.
 - Confirm `/teacher/generator/sample-publisher` shows the AI generated publish readiness gate before generated route creation, route registry writes, playlist writes, assignment creation, local bundle writes, or student-ready markers are considered.
 - Confirm `/teacher/generator/sample-publisher` and `/teacher/generator/ministar` show AI generator tenant coverage before generator request submission, live model calls, verifier submission, package assembly, route creation, playlist creation, or student assignment are considered.
-- Confirm `/teacher/generator/ministar` shows first MiniStar generator seed records while keeping Draft JSON, verifier submission, manifest, publish readiness, correction queue, route creation, playlist creation, and assignment blocked.
+- Confirm `/teacher/generator/ministar` shows MiniStar generator seed records, Draft JSON preview, correction queue, verifier packet, manifest, and publish readiness while keeping live model calls, verifier submission, package assembly, route creation, playlist creation, and assignment blocked.
 - Confirm backend schema, adapter plans, durable records, and migration specs preserve `ai_reward_readiness_gate` before generated reward publishing, collection inventory writes, Spin Wheel ticket issuance, avatar evolution, or student assignment work begins.
 - Confirm backend schema, adapter plans, durable records, and migration specs preserve `ai_generated_publish_readiness_gate` before generated route creation, route registry writes, playlist writes, assignment creation, local bundle writes, or student-ready marker work begins.
 - Confirm backend schema, adapter plans, durable records, and migration specs preserve `ai_generator_tenant_coverage_gate` before generator request submission, live model calls, verifier submission, package assembly, route creation, playlist creation, assignment creation, local bundle writes, or student-ready marker work begins.

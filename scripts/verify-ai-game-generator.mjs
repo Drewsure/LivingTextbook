@@ -33,6 +33,8 @@ const generatedPublishReadinessGatePanel = readSource(
 const draftPreviewPanel = readSource("../apps/web/src/features/content-intake/AiGeneratedDraftPayloadPreviewPanel.tsx");
 const correctionQueuePanel = readSource("../apps/web/src/features/content-intake/AiDraftCorrectionQueuePanel.tsx");
 const modeRecommendationPanel = readSource("../apps/web/src/features/content-intake/AiModeRecommendationPanel.tsx");
+const teacherDraftPackages = readSource("../apps/web/src/data/sampleTeacherDraftPackage.ts");
+const teacherDraftReviewQueue = readSource("../apps/web/src/data/sampleTeacherDraftReviewQueue.ts");
 const route = readSource("../apps/web/src/app/teacher/generator/[tenantId]/page.tsx");
 const teacherIntake = readSource("../apps/web/src/app/teacher/intake/page.tsx");
 const routeContracts = readSource("../apps/web/src/features/routes/routeContracts.ts");
@@ -535,6 +537,32 @@ requireText(correctionQueuePanel, "Required owner", "AI draft correction queue p
 requireText(correctionQueuePanel, "Next record", "AI draft correction queue panel must expose next records.");
 requireText(correctionQueuePanel, "Student-use effect", "AI draft correction queue panel must expose student-use effect.");
 requireText(correctionQueuePanel, "Blocked correction actions", "AI draft correction queue panel must expose blocked actions.");
+requireText(teacherDraftPackages, "AI-generated MiniStar greetings draft preview", "MiniStar AI generated draft must enter draft package data.");
+requireText(
+  teacherDraftPackages,
+  "Japanese support remains hiragana-only and support-only.",
+  "MiniStar AI generated draft must preserve support-language boundaries.",
+);
+requireText(
+  teacherDraftReviewQueue,
+  "queue-ai-draft-ministar-l1-greetings-v1",
+  "MiniStar AI generated draft must enter the normal teacher review queue.",
+);
+requireText(
+  teacherDraftReviewQueue,
+  "Submit MiniStar AI draft to verifier",
+  "MiniStar AI generated draft review queue must block verifier submission.",
+);
+requireText(
+  teacherDraftReviewQueue,
+  "MiniStar AI support language ready",
+  "MiniStar AI generated draft review queue must expose hiragana support-language review.",
+);
+requireText(
+  teacherDraftReviewQueue,
+  "Assign MiniStar generated draft to students",
+  "MiniStar AI generated draft review queue must block student assignment.",
+);
 requireText(route, "AiGameGeneratorPlanPanel", "Generator route must render the generator panel.");
 requireText(route, "AiGeneratorTenantCoveragePanel", "Generator route must render the tenant coverage panel.");
 requireText(route, "AiEngineBindingPlanPanel", "Generator route must render the engine binding panel.");
