@@ -162,6 +162,43 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
       ],
     },
     {
+      migrationId: "m058-ai-generated-package-promotion-checklist-records",
+      label: "AI generated package promotion checklist records",
+      track: "shared",
+      status: "ready-to-design",
+      risk: "medium",
+      targetEntities: ["ai_generated_package_promotion_checklist"],
+      purpose:
+        "Persist generated package promotion checklist evidence before AI drafts can move toward promote buttons, route registry entries, media playlists, assignments, local bundles, or student-ready state.",
+      prerequisites: [
+        "AI generated package manifest accepted",
+        "AI generator lineage map accepted",
+        "AI draft correction queue accepted",
+        "Target-language audio approval policy accepted",
+        "AI verifier, reward, publish gate, approval ledger, and assignment rollout policy accepted",
+      ],
+      implementationNotes: [
+        "Keep promotion checklists tenant-scoped, generation-request-scoped, and manifest-scoped.",
+        "Preserve lineage, correction queue, audio coverage, verifier, manifest, reward, release-control, approval, and assignment rollout step status.",
+        "Block generated package promotion, route registry writes, media playlist writes, assignment writes, local bundle writes, student-ready markers, and support-language-only promotion.",
+        "Do not let a promotion checklist create production package, route, playlist, or assignment records by itself.",
+      ],
+      rollbackOrExportNeeds: [
+        "Export generated package promotion checklist JSON with linked lineage, manifest, verifier, reward, publish gate, approval, and rollout ids",
+        "Retain blocked, reviewed, returned, superseded, and cleared promotion snapshots for audit",
+        "Support local promotion checklist backup and restore without enabling offline route, playlist, assignment, local bundle, or student-ready writes",
+      ],
+      notAllowedYet: [
+        "Generated package promotion",
+        "Route registry write",
+        "Media playlist write",
+        "Student assignment",
+        "Local bundle write",
+        "Student-ready marker",
+        "Support-language-only promotion",
+      ],
+    },
+    {
       migrationId: "m055-ai-reward-readiness-gate-records",
       label: "AI reward readiness gate records",
       track: "shared",

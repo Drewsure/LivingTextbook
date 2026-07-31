@@ -8,6 +8,7 @@ export type PersistenceRecordCategory =
   | "teacher-draft-review-audit"
   | "teacher-draft-verifier-submission"
   | "ai-generated-package-manifest"
+  | "ai-generated-package-promotion-checklist"
   | "ai-reward-readiness-gate"
   | "ai-generated-publish-readiness-gate"
   | "ai-generator-tenant-coverage-gate"
@@ -105,6 +106,10 @@ export interface DurableRecordContract {
   preservesVerifierPreflightChecks?: boolean;
   blocksAutomaticVerifierSubmit?: boolean;
   preservesAiGeneratedPackageManifest?: boolean;
+  preservesAiGeneratedPackagePromotionChecklist?: boolean;
+  requiresLineageMap?: boolean;
+  requiresTargetLanguageAudioApproval?: boolean;
+  blocksGeneratedPackagePromotion?: boolean;
   blocksGeneratedPackageAssembly?: boolean;
   blocksGeneratedPackageRouteWrite?: boolean;
   blocksGeneratedPackagePlaylistWrite?: boolean;
@@ -382,6 +387,68 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "ai-generated-package-manifest" && !record.blocksStudentReadyMarker) {
       errors.push(`AI generated package manifest record ${record.recordId} must block student-ready markers.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-promotion-checklist" &&
+      !record.preservesAiGeneratedPackagePromotionChecklist
+    ) {
+      errors.push(`AI generated package promotion checklist record ${record.recordId} must preserve promotion checklist steps.`);
+    }
+
+    if (record.category === "ai-generated-package-promotion-checklist" && !record.requiresLineageMap) {
+      errors.push(`AI generated package promotion checklist record ${record.recordId} must require a lineage map.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-promotion-checklist" &&
+      !record.requiresTargetLanguageAudioApproval
+    ) {
+      errors.push(`AI generated package promotion checklist record ${record.recordId} must require target-language audio approval.`);
+    }
+
+    if (record.category === "ai-generated-package-promotion-checklist" && !record.requiresVerifierPacketApproval) {
+      errors.push(`AI generated package promotion checklist record ${record.recordId} must require verifier packet approval.`);
+    }
+
+    if (record.category === "ai-generated-package-promotion-checklist" && !record.requiresManifestCompleteness) {
+      errors.push(`AI generated package promotion checklist record ${record.recordId} must require manifest completeness.`);
+    }
+
+    if (record.category === "ai-generated-package-promotion-checklist" && !record.preservesAiRewardReadinessGate) {
+      errors.push(`AI generated package promotion checklist record ${record.recordId} must preserve reward readiness state.`);
+    }
+
+    if (record.category === "ai-generated-package-promotion-checklist" && !record.requiresReleaseControlBinding) {
+      errors.push(`AI generated package promotion checklist record ${record.recordId} must require release-control binding.`);
+    }
+
+    if (record.category === "ai-generated-package-promotion-checklist" && !record.requiresTeacherApprovalLedger) {
+      errors.push(`AI generated package promotion checklist record ${record.recordId} must require teacher approval ledger capture.`);
+    }
+
+    if (record.category === "ai-generated-package-promotion-checklist" && !record.blocksGeneratedPackagePromotion) {
+      errors.push(`AI generated package promotion checklist record ${record.recordId} must block generated package promotion.`);
+    }
+
+    if (record.category === "ai-generated-package-promotion-checklist" && !record.blocksGeneratedPackageRouteWrite) {
+      errors.push(`AI generated package promotion checklist record ${record.recordId} must block route registry writes.`);
+    }
+
+    if (record.category === "ai-generated-package-promotion-checklist" && !record.blocksGeneratedPackagePlaylistWrite) {
+      errors.push(`AI generated package promotion checklist record ${record.recordId} must block media playlist writes.`);
+    }
+
+    if (record.category === "ai-generated-package-promotion-checklist" && !record.blocksGeneratedPackageAssignment) {
+      errors.push(`AI generated package promotion checklist record ${record.recordId} must block generated package assignments.`);
+    }
+
+    if (record.category === "ai-generated-package-promotion-checklist" && !record.blocksGeneratedPackageLocalBundleWrite) {
+      errors.push(`AI generated package promotion checklist record ${record.recordId} must block local bundle writes.`);
+    }
+
+    if (record.category === "ai-generated-package-promotion-checklist" && !record.blocksStudentReadyMarker) {
+      errors.push(`AI generated package promotion checklist record ${record.recordId} must block student-ready markers.`);
     }
 
     if (record.category === "ai-reward-readiness-gate" && !record.preservesAiRewardReadinessGate) {

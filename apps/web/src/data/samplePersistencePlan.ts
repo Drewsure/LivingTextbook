@@ -20,6 +20,7 @@ export type PersistenceBoundaryCategory =
   | "teacher-draft-review-audit"
   | "teacher-draft-verifier-submission"
   | "ai-generated-package-manifest"
+  | "ai-generated-package-promotion-checklist"
   | "ai-reward-readiness-gate"
   | "ai-generated-publish-readiness-gate"
   | "ai-generator-tenant-coverage-gate"
@@ -200,6 +201,40 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
     note:
       "Generated package manifests need durable links to prompt, draft JSON, audio, engine, gamification, verifier, review queue, media-rights, and approval records before AI output can become a package assembly candidate.",
+  },
+  {
+    recordId: "ai-generated-package-promotion-checklist-record",
+    category: "ai-generated-package-promotion-checklist",
+    label: "AI generated package promotion checklist record",
+    readiness: "durable-required",
+    sourceOfTruth:
+      "AiGeneratedPackagePromotionChecklist, lineage map, correction queue, package audio coverage, verifier packet, generated package manifest, reward readiness gate, release-control binding, approval ledger, and assignment rollout gate",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesAiGeneratedPackagePromotionChecklist: true,
+    requiresLineageMap: true,
+    requiresAiDraftCorrectionQueueClearance: true,
+    requiresTargetLanguageAudioApproval: true,
+    requiresVerifierPacketApproval: true,
+    requiresManifestCompleteness: true,
+    preservesAiRewardReadinessGate: true,
+    requiresReleaseControlBinding: true,
+    requiresTeacherApprovalLedger: true,
+    blocksGeneratedPackagePromotion: true,
+    blocksGeneratedPackageRouteWrite: true,
+    blocksGeneratedPackagePlaylistWrite: true,
+    blocksGeneratedPackageAssignment: true,
+    blocksGeneratedPackageLocalBundleWrite: true,
+    blocksStudentReadyMarker: true,
+    blocksDirectStudentAssignment: true,
+    blocksSupportLanguageProgress: true,
+    recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
+    note:
+      "AI generated package promotion checklists need durable draft-to-playable pathway evidence before generated packages can move toward route registry, playlist, assignment, local bundle, or student-ready work.",
   },
   {
     recordId: "ai-reward-readiness-gate-record",
@@ -1387,6 +1422,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision:
       "Persist generated package manifests before enabling package assembly, route registry writes, media playlist writes, assignment writes, local bundle writes, or student-ready markers.",
+  },
+  {
+    boundaryId: "ai-generated-package-promotion-checklist-boundary",
+    category: "ai-generated-package-promotion-checklist",
+    label: "AI generated package promotion checklist records",
+    status: "needs-backend",
+    recordShape:
+      "Promotion checklist id, tenant id, request id, generated manifest id, lineage map id, correction queue id, audio coverage id, verifier packet id, reward gate id, release-control id, approval ledger id, assignment rollout id, promotion steps, blocked promotion actions, and student-ready block",
+    whyItMatters:
+      "Generated package promotion needs a durable checklist so draft-to-playable package decisions cannot be inferred from UI state, sample data, or a generic tenant route.",
+    visibleTo: ["Teacher", "Tenant admin", "Content reviewer", "Platform admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Persist AI generated package promotion checklists before enabling promote buttons, route registry writes, playlist writes, assignment writes, local bundle writes, or student-ready markers.",
   },
   {
     boundaryId: "ai-reward-readiness-gate-boundary",

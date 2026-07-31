@@ -65,6 +65,8 @@ Teacher generator routes must show a review-only promotion checklist before any 
 
 The promotion checklist cannot promote a package, write route registry entries, create playlists, create assignments, write local companion bundles, or mark student-ready state. MiniStar promotion checklists must explicitly preserve English target-language audio approval and keep Japanese hiragana support as support-only.
 
+Backend schema, migration candidates, migration specs, durable records, and hosted/local adapter plans must preserve `ai_generated_package_promotion_checklist` / `ai-generated-package-promotion-checklist` before generated package promotion exists. The record must keep lineage map, correction queue, target-language audio approval, verifier packet, manifest completeness, reward readiness, release-control binding, teacher approval ledger, and assignment rollout gate references, while generated package promotion, route registry writes, media playlist writes, assignment writes, local bundle writes, student-ready markers, and support-language-only promotion remain blocked.
+
 ## Draft Payload Validation Rule
 
 AI-generated draft payloads must pass the shared `validateAiGeneratedDraftPayload` / `validateAiGeneratedDraftPayloadPreview` contract before review, persistence, verifier submission, package assembly, route creation, playlist creation, or student assignment can be considered.

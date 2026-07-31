@@ -45,6 +45,7 @@ Confirm:
 - MiniStar generator lineage shows English target-language progression, hiragana-only Japanese support, teacher review queue binding, and no Japanese support-language unlock.
 - Generator routes show an AI generated package promotion checklist with draft-to-playable package pathway, promotion checklist steps, release boundaries, blocked promotion actions, and no promote button, route registry write, playlist write, assignment write, local bundle write, or student-ready marker.
 - MiniStar generated package promotion checklist shows English audio approval, hiragana support staying support-only, and no Japanese support-language promotion.
+- Generated package promotion checklist storage contract appears in schema draft, migration candidates, migration specs, durable records, and hosted/local adapter plans before generated package promotion can exist.
 - Shared draft payload validation enforces the 8-12 vocabulary range, exactly 2 target sentences, target-language-only progress, support-language and media-only progress blocking, required verifier submission state, required blocked actions, next required records, and target-language audio approval.
 - AI draft correction queue converts schema guard output into schema/audio/progress repair lanes with required owner, next record, and student-use effect fields.
 - AI draft correction queue blocks auto-fix, live AI regeneration, verifier submission, package assembly, route creation, playlist creation, and student assignment.

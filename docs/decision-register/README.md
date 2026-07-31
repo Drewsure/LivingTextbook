@@ -281,6 +281,7 @@
 - `DR-307-ministar-ai-draft-review-queue-item.md`
 - `DR-308-ai-generator-lineage-map.md`
 - `DR-309-ai-generated-package-promotion-checklist.md`
+- `DR-310-ai-generated-package-promotion-checklist-storage-contract.md`
 
 ## Maintenance Rule
 

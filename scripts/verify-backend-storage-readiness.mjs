@@ -15,6 +15,7 @@ const requiredSchemaEntities = [
   "teacher_draft_review_handoff",
   "teacher_draft_verifier_submission",
   "ai_generated_package_manifest",
+  "ai_generated_package_promotion_checklist",
   "ai_reward_readiness_gate",
   "ai_generated_publish_readiness_gate",
   "ai_generator_tenant_coverage_gate",
@@ -77,6 +78,7 @@ const requiredMigrationCandidates = [
   "m016-teacher-draft-review-handoff-records",
   "m020-teacher-draft-verifier-submission-records",
   "m054-ai-generated-package-manifest-records",
+  "m058-ai-generated-package-promotion-checklist-records",
   "m055-ai-reward-readiness-gate-records",
   "m056-ai-generated-publish-readiness-gate-records",
   "m057-ai-generator-tenant-coverage-gate-records",
@@ -142,6 +144,7 @@ const requiredMigrationSpecs = [
   "spec-teacher-draft-review-handoff",
   "spec-teacher-draft-verifier-submission",
   "spec-ai-generated-package-manifest",
+  "spec-ai-generated-package-promotion-checklist",
   "spec-ai-reward-readiness-gate",
   "spec-ai-generated-publish-readiness-gate",
   "spec-ai-generator-tenant-coverage-gate",
@@ -231,6 +234,34 @@ requireText(schemaDraft, "media_playlist_write_allowed", "Backend schema must bl
 requireText(schemaDraft, "assignment_write_allowed", "Backend schema must block generated package assignments.");
 requireText(schemaDraft, "local_bundle_write_allowed", "Backend schema must block generated package local bundle writes.");
 requireText(schemaDraft, "student_ready_marker_allowed", "Backend schema must block generated package student-ready markers.");
+requireText(
+  schemaDraft,
+  "ai_generated_package_promotion_checklist",
+  "Backend schema must include AI generated package promotion checklists.",
+);
+requireText(
+  schemaDraft,
+  "ai_generated_package_promotion_checklist_id",
+  "Backend schema must preserve AI generated package promotion checklist ids.",
+);
+requireText(schemaDraft, "ai_generator_lineage_map_id", "Backend schema must preserve generated package lineage map ids.");
+requireText(
+  schemaDraft,
+  "package_game_audio_coverage_id",
+  "Backend schema must preserve generated package game audio coverage ids.",
+);
+requireText(schemaDraft, "promotion_checklist_steps", "Backend schema must preserve generated package promotion checklist steps.");
+requireText(schemaDraft, "blocked_promotion_actions", "Backend schema must preserve generated package promotion action blocks.");
+requireText(
+  schemaDraft,
+  "generated_package_promotion_allowed",
+  "Backend schema must block generated package promotion.",
+);
+requireText(
+  schemaDraft,
+  "support_language_promotion_allowed",
+  "Backend schema must block support-language-only generated package promotion.",
+);
 requireText(schemaDraft, "ai_reward_readiness_gate", "Backend schema must include AI reward readiness gates.");
 requireText(schemaDraft, "ai_reward_readiness_gate_id", "Backend schema must preserve AI reward readiness gate ids.");
 requireText(schemaDraft, "ai_draft_correction_queue_id", "Backend schema must preserve AI draft correction queue ids.");
@@ -428,6 +459,42 @@ requireText(migrationSpecs, "media_playlist_write_allowed", "Migration specs mus
 requireText(migrationSpecs, "assignment_write_allowed", "Migration specs must block generated package assignments.");
 requireText(migrationSpecs, "local_bundle_write_allowed", "Migration specs must block generated package local bundle writes.");
 requireText(migrationSpecs, "student_ready_marker_allowed", "Migration specs must block generated package student-ready markers.");
+requireText(
+  migrationSpecs,
+  "spec-ai-generated-package-promotion-checklist",
+  "Migration specs must include AI generated package promotion checklists.",
+);
+requireText(
+  migrationSpecs,
+  "ai_generated_package_promotion_checklist_id",
+  "Migration specs must preserve generated package promotion checklist ids.",
+);
+requireText(migrationSpecs, "ai_generator_lineage_map_id", "Migration specs must preserve generated package lineage ids.");
+requireText(
+  migrationSpecs,
+  "package_game_audio_coverage_id",
+  "Migration specs must preserve generated package game audio coverage ids.",
+);
+requireText(
+  migrationSpecs,
+  "promotion_checklist_steps",
+  "Migration specs must preserve generated package promotion checklist steps.",
+);
+requireText(
+  migrationSpecs,
+  "blocked_promotion_actions",
+  "Migration specs must preserve generated package promotion action blocks.",
+);
+requireText(
+  migrationSpecs,
+  "generated_package_promotion_allowed",
+  "Migration specs must block generated package promotion.",
+);
+requireText(
+  migrationSpecs,
+  "support_language_promotion_allowed",
+  "Migration specs must block support-language-only generated package promotion.",
+);
 requireText(migrationSpecs, "spec-ai-reward-readiness-gate", "Migration specs must include AI reward readiness gates.");
 requireText(migrationSpecs, "ai_reward_readiness_gate_id", "Migration specs must preserve AI reward readiness gate ids.");
 requireText(migrationSpecs, "ai_draft_correction_queue_id", "Migration specs must preserve AI draft correction queue ids.");
@@ -791,6 +858,32 @@ requireText(persistenceAdapter, "blocksGeneratedPackagePlaylistWrite: true", "Pe
 requireText(persistenceAdapter, "blocksGeneratedPackageAssignment: true", "Persistence adapter must block generated package assignments.");
 requireText(persistenceAdapter, "blocksGeneratedPackageLocalBundleWrite: true", "Persistence adapter must block generated package local bundle writes.");
 requireText(persistenceAdapter, "blocksStudentReadyMarker: true", "Persistence adapter must block generated package student-ready markers.");
+requireText(
+  persistenceAdapter,
+  "hosted-ai-generated-package-promotion-checklist-write",
+  "Persistence adapter must include hosted AI generated package promotion checklist writes.",
+);
+requireText(
+  persistenceAdapter,
+  "local-ai-generated-package-promotion-checklist-write",
+  "Persistence adapter must include local AI generated package promotion checklist writes.",
+);
+requireText(
+  persistenceAdapter,
+  "preservesAiGeneratedPackagePromotionChecklist: true",
+  "Persistence adapter must preserve AI generated package promotion checklist steps.",
+);
+requireText(persistenceAdapter, "requiresLineageMap: true", "Persistence adapter must require generated package lineage maps.");
+requireText(
+  persistenceAdapter,
+  "requiresTargetLanguageAudioApproval: true",
+  "Persistence adapter must require target-language audio approval before generated package promotion.",
+);
+requireText(
+  persistenceAdapter,
+  "blocksGeneratedPackagePromotion: true",
+  "Persistence adapter must block generated package promotion.",
+);
 requireText(persistenceAdapter, "hosted-ai-reward-readiness-gate-write", "Persistence adapter must include hosted AI reward readiness gate writes.");
 requireText(persistenceAdapter, "local-ai-reward-readiness-gate-write", "Persistence adapter must include local AI reward readiness gate writes.");
 requireText(persistenceAdapter, "preservesAiRewardReadinessGate: true", "Persistence adapter must preserve AI reward readiness checks.");
@@ -1050,6 +1143,32 @@ requireText(durableRecords, "blocksGeneratedPackagePlaylistWrite: true", "Durabl
 requireText(durableRecords, "blocksGeneratedPackageAssignment: true", "Durable record plan must block generated package assignments.");
 requireText(durableRecords, "blocksGeneratedPackageLocalBundleWrite: true", "Durable record plan must block generated package local bundle writes.");
 requireText(durableRecords, "blocksStudentReadyMarker: true", "Durable record plan must block generated package student-ready markers.");
+requireText(
+  durableRecords,
+  "ai-generated-package-promotion-checklist-record",
+  "Durable record plan must include AI generated package promotion checklist records.",
+);
+requireText(
+  durableRecords,
+  "AI generated package promotion checklist record",
+  "Durable record plan must expose AI generated package promotion checklist labels.",
+);
+requireText(
+  durableRecords,
+  "preservesAiGeneratedPackagePromotionChecklist: true",
+  "Durable record plan must preserve AI generated package promotion checklist steps.",
+);
+requireText(durableRecords, "requiresLineageMap: true", "Durable record plan must require generated package lineage maps.");
+requireText(
+  durableRecords,
+  "requiresTargetLanguageAudioApproval: true",
+  "Durable record plan must require target-language audio approval before generated package promotion.",
+);
+requireText(
+  durableRecords,
+  "blocksGeneratedPackagePromotion: true",
+  "Durable record plan must block generated package promotion.",
+);
 requireText(durableRecords, "ai-reward-readiness-gate-record", "Durable record plan must include AI reward readiness gate records.");
 requireText(durableRecords, "AI reward readiness gate record", "Durable record plan must expose AI reward readiness gate labels.");
 requireText(durableRecords, "preservesAiRewardReadinessGate: true", "Durable record plan must preserve AI reward readiness checks.");
@@ -1283,6 +1402,16 @@ requireText(routeVerifier, "school_rollback_safe_fallback_restoration_preview", 
 requireText(routeVerifier, "teacher_assignment_rollout_gate", "Active route verifier must keep teacher assignment rollout gate storage visible on teacher intake.");
 requireText(routeVerifier, "ai_generated_package_manifest", "Active route verifier must keep AI generated package manifest storage visible on teacher intake.");
 requireText(routeVerifier, "AI generated package manifest record", "Active route verifier must keep AI generated package manifest durable records visible on teacher intake.");
+requireText(
+  routeVerifier,
+  "ai_generated_package_promotion_checklist",
+  "Active route verifier must keep AI generated package promotion checklist storage visible on teacher intake.",
+);
+requireText(
+  routeVerifier,
+  "AI generated package promotion checklist record",
+  "Active route verifier must keep AI generated package promotion checklist durable records visible on teacher intake.",
+);
 requireText(routeVerifier, "ai_reward_readiness_gate", "Active route verifier must keep AI reward readiness storage visible on teacher intake.");
 requireText(routeVerifier, "AI reward readiness gate record", "Active route verifier must keep AI reward readiness durable records visible on teacher intake.");
 requireText(routeVerifier, "ai_generated_publish_readiness_gate", "Active route verifier must keep AI generated publish readiness storage visible on teacher intake.");

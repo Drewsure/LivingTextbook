@@ -39,6 +39,10 @@ export interface PersistenceWriteIntent {
   preservesVerifierPreflightChecks?: boolean;
   blocksAutomaticVerifierSubmit?: boolean;
   preservesAiGeneratedPackageManifest?: boolean;
+  preservesAiGeneratedPackagePromotionChecklist?: boolean;
+  requiresLineageMap?: boolean;
+  requiresTargetLanguageAudioApproval?: boolean;
+  blocksGeneratedPackagePromotion?: boolean;
   blocksGeneratedPackageAssembly?: boolean;
   blocksGeneratedPackageRouteWrite?: boolean;
   blocksGeneratedPackagePlaylistWrite?: boolean;
@@ -351,6 +355,68 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "ai-generated-package-manifest" && !intent.blocksStudentReadyMarker) {
       errors.push(`AI generated package manifest write intent ${intent.intentId} must block student-ready markers.`);
+    }
+
+    if (
+      intent.category === "ai-generated-package-promotion-checklist" &&
+      !intent.preservesAiGeneratedPackagePromotionChecklist
+    ) {
+      errors.push(`AI generated package promotion checklist write intent ${intent.intentId} must preserve promotion checklist steps.`);
+    }
+
+    if (intent.category === "ai-generated-package-promotion-checklist" && !intent.requiresLineageMap) {
+      errors.push(`AI generated package promotion checklist write intent ${intent.intentId} must require a lineage map.`);
+    }
+
+    if (
+      intent.category === "ai-generated-package-promotion-checklist" &&
+      !intent.requiresTargetLanguageAudioApproval
+    ) {
+      errors.push(`AI generated package promotion checklist write intent ${intent.intentId} must require target-language audio approval.`);
+    }
+
+    if (intent.category === "ai-generated-package-promotion-checklist" && !intent.requiresVerifierPacketApproval) {
+      errors.push(`AI generated package promotion checklist write intent ${intent.intentId} must require verifier packet approval.`);
+    }
+
+    if (intent.category === "ai-generated-package-promotion-checklist" && !intent.requiresManifestCompleteness) {
+      errors.push(`AI generated package promotion checklist write intent ${intent.intentId} must require manifest completeness.`);
+    }
+
+    if (intent.category === "ai-generated-package-promotion-checklist" && !intent.preservesAiRewardReadinessGate) {
+      errors.push(`AI generated package promotion checklist write intent ${intent.intentId} must preserve reward readiness state.`);
+    }
+
+    if (intent.category === "ai-generated-package-promotion-checklist" && !intent.requiresReleaseControlBinding) {
+      errors.push(`AI generated package promotion checklist write intent ${intent.intentId} must require release-control binding.`);
+    }
+
+    if (intent.category === "ai-generated-package-promotion-checklist" && !intent.requiresTeacherApprovalLedger) {
+      errors.push(`AI generated package promotion checklist write intent ${intent.intentId} must require teacher approval ledger capture.`);
+    }
+
+    if (intent.category === "ai-generated-package-promotion-checklist" && !intent.blocksGeneratedPackagePromotion) {
+      errors.push(`AI generated package promotion checklist write intent ${intent.intentId} must block generated package promotion.`);
+    }
+
+    if (intent.category === "ai-generated-package-promotion-checklist" && !intent.blocksGeneratedPackageRouteWrite) {
+      errors.push(`AI generated package promotion checklist write intent ${intent.intentId} must block route registry writes.`);
+    }
+
+    if (intent.category === "ai-generated-package-promotion-checklist" && !intent.blocksGeneratedPackagePlaylistWrite) {
+      errors.push(`AI generated package promotion checklist write intent ${intent.intentId} must block media playlist writes.`);
+    }
+
+    if (intent.category === "ai-generated-package-promotion-checklist" && !intent.blocksGeneratedPackageAssignment) {
+      errors.push(`AI generated package promotion checklist write intent ${intent.intentId} must block generated package assignments.`);
+    }
+
+    if (intent.category === "ai-generated-package-promotion-checklist" && !intent.blocksGeneratedPackageLocalBundleWrite) {
+      errors.push(`AI generated package promotion checklist write intent ${intent.intentId} must block local bundle writes.`);
+    }
+
+    if (intent.category === "ai-generated-package-promotion-checklist" && !intent.blocksStudentReadyMarker) {
+      errors.push(`AI generated package promotion checklist write intent ${intent.intentId} must block student-ready markers.`);
     }
 
     if (intent.category === "ai-reward-readiness-gate" && !intent.preservesAiRewardReadinessGate) {
