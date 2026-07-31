@@ -14,6 +14,7 @@ const generatedGameBuildBrief = readSource("../apps/web/src/data/sampleAiGenerat
 const prototypeReturnReview = readSource("../apps/web/src/data/sampleAiPrototypeReturnReview.ts");
 const prototypeIntegrationPlan = readSource("../apps/web/src/data/sampleAiPrototypeIntegrationPlan.ts");
 const prototypeWrapperAdapterReview = readSource("../apps/web/src/data/sampleAiPrototypeWrapperAdapterReview.ts");
+const prototypeFixtureReplayReport = readSource("../apps/web/src/data/sampleAiPrototypeFixtureReplayReport.ts");
 const verifierSubmissionPacket = readSource("../apps/web/src/data/sampleAiVerifierSubmissionPacket.ts");
 const generatedPackageManifest = readSource("../apps/web/src/data/sampleAiGeneratedPackageManifest.ts");
 const generatedPackagePromotionChecklist = readSource(
@@ -46,6 +47,9 @@ const prototypeIntegrationPlanPanel = readSource(
 );
 const prototypeWrapperAdapterReviewPanel = readSource(
   "../apps/web/src/features/content-intake/AiPrototypeWrapperAdapterReviewPanel.tsx",
+);
+const prototypeFixtureReplayReportPanel = readSource(
+  "../apps/web/src/features/content-intake/AiPrototypeFixtureReplayReportPanel.tsx",
 );
 const verifierSubmissionPanel = readSource("../apps/web/src/features/content-intake/AiVerifierSubmissionPacketPanel.tsx");
 const generatedPackageManifestPanel = readSource("../apps/web/src/features/content-intake/AiGeneratedPackageManifestPanel.tsx");
@@ -311,6 +315,36 @@ requireText(
   "Rejection triggers",
   "AI prototype wrapper adapter review panel must expose rejection triggers.",
 );
+requireText(prototypeFixtureReplayReport, "sampleAiPrototypeFixtureReplayReports", "AI prototype fixture replay report data must exist.");
+requireText(prototypeFixtureReplayReport, "prototype_fixture_replay_report", "AI prototype fixture replay report must name its record.");
+requireText(prototypeFixtureReplayReport, "reviewed_unit_json_fixture", "AI prototype fixture replay report must require reviewed JSON fixtures.");
+requireText(prototypeFixtureReplayReport, "No hard-coded unit text", "AI prototype fixture replay report must block hard-coded text.");
+requireText(
+  prototypeFixtureReplayReport,
+  "Target-language text remains the only progress trigger",
+  "AI prototype fixture replay report must preserve target-language progress.",
+);
+requireText(prototypeFixtureReplayReport, "Support-language progress trigger", "AI prototype fixture replay report must reject support-language progress.");
+requireText(prototypeFixtureReplayReport, "No tenant hard-coded assets", "AI prototype fixture replay report must block tenant hard-coding.");
+requireText(prototypeFixtureReplayReport, "Score or reward write inside prototype", "AI prototype fixture replay report must block score and reward writes.");
+requireText(
+  prototypeFixtureReplayReportPanel,
+  "AI prototype fixture replay report",
+  "AI prototype fixture replay report panel must expose heading.",
+);
+requireText(
+  prototypeFixtureReplayReportPanel,
+  "Reviewed JSON fixture replay",
+  "AI prototype fixture replay report panel must expose fixture replay heading.",
+);
+requireText(
+  prototypeFixtureReplayReportPanel,
+  "Mode fixture replay reports",
+  "AI prototype fixture replay report panel must expose mode replay reports.",
+);
+requireText(prototypeFixtureReplayReportPanel, "Fixture coverage", "AI prototype fixture replay report panel must expose fixture coverage.");
+requireText(prototypeFixtureReplayReportPanel, "Replay evidence", "AI prototype fixture replay report panel must expose replay evidence.");
+requireText(prototypeFixtureReplayReportPanel, "Failure triggers", "AI prototype fixture replay report panel must expose failure triggers.");
 requireText(promptPackagePlan, "sampleAiPromptPackagePlans", "AI prompt package plan data must exist.");
 requireText(promptPackagePlan, "MiniStar generator prompt package", "AI prompt package plan must include MiniStar request seed.");
 requireText(promptPackagePlan, "ministar-l1-greetings-game-draft", "AI prompt package plan must bind to MiniStar greetings request.");
@@ -904,6 +938,7 @@ requireText(route, "AiGeneratedGameBuildBriefPanel", "Generator route must rende
 requireText(route, "AiPrototypeReturnReviewPanel", "Generator route must render the prototype return review panel.");
 requireText(route, "AiPrototypeIntegrationPlanPanel", "Generator route must render the prototype integration plan panel.");
 requireText(route, "AiPrototypeWrapperAdapterReviewPanel", "Generator route must render the prototype wrapper adapter review panel.");
+requireText(route, "AiPrototypeFixtureReplayReportPanel", "Generator route must render the prototype fixture replay report panel.");
 requireText(route, "AiPromptPackagePlanPanel", "Generator route must render the prompt package plan panel.");
 requireText(route, "AiGeneratorCostEntitlementGatePanel", "Generator route must render the cost entitlement gate panel.");
 requireText(route, "AiGenerationRequestBuilderPanel", "Generator route must render the request builder panel.");
@@ -929,6 +964,7 @@ requireText(route, "sampleAiGeneratedGameBuildBriefPackets", "Generator route mu
 requireText(route, "sampleAiPrototypeReturnReviewPackets", "Generator route must use prototype return review data.");
 requireText(route, "sampleAiPrototypeIntegrationPlans", "Generator route must use prototype integration plan data.");
 requireText(route, "sampleAiPrototypeWrapperAdapterReviews", "Generator route must use prototype wrapper adapter review data.");
+requireText(route, "sampleAiPrototypeFixtureReplayReports", "Generator route must use prototype fixture replay report data.");
 requireText(route, "sampleAiPromptPackagePlans", "Generator route must use the sample prompt package plan data.");
 requireText(route, "sampleAiGeneratorCostEntitlementGates", "Generator route must use the sample cost entitlement gate data.");
 requireText(route, "sampleActivityPathwayCompatibilityMatrix", "Generator route must use the compatibility matrix.");

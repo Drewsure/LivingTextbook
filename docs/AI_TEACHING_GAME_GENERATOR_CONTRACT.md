@@ -135,6 +135,12 @@ The wrapper may own transient local interaction and animation state only. It can
 
 The backend-neutral storage contract is `ai_prototype_wrapper_adapter_review` / `ai-prototype-wrapper-adapter-review`. Hosted and local adapters must preserve parent-engine adapter boundary, fixture input contract, standard event output contract, state ownership rules, wrapper evidence, rejection triggers, and blocked actions while blocking event contract bypass, tenant hard-coding, route state ownership, score authority, audio manifest authority, reward inventory writes, support-language progress triggers, direct app imports, package promotion, and assignments.
 
+## Prototype Fixture Replay Report Rule
+
+Prototype fixture replay reports must prove that returned prototypes load reviewed JSON fixtures rather than hard-coded unit text, tenant visuals, audio, scoring, rewards, routes, or support-language shortcuts.
+
+The report must show fixture coverage, input assertions, output assertions, replay evidence, failure triggers, and blocked actions. It must preserve 8-12 vocabulary terms, exactly 2 target sentences, target-language-only progress, support-only assist language, target-language audio cue references, tenant theme injection, and standard event output while blocking live model calls, direct app imports, route writes, scoring/audio mutation, reward writes, student assignment, and support-language scoring or release.
+
 ## Mode Recommendation Rule
 
 Generator mode recommendations must reuse the reviewed activity compatibility matrix. The generator can recommend a tight pathway for a unit, but it must not produce a broad switch panel or unsupported conversions. Blocked conversions stay visible with their payload-fit and compatibility-rule reasons.

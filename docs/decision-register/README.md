@@ -292,6 +292,7 @@
 - `DR-318-ai-prototype-integration-plan-storage-contract.md`
 - `DR-319-ai-prototype-wrapper-adapter-review.md`
 - `DR-320-ai-prototype-wrapper-adapter-review-storage-contract.md`
+- `DR-321-ai-prototype-fixture-replay-report.md`
 
 ## Maintenance Rule
 
