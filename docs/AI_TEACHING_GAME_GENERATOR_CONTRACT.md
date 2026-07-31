@@ -127,6 +127,12 @@ Prototype integration plans cannot import returned files into `apps/web`, write 
 
 The backend-neutral storage contract is `ai_prototype_integration_plan` / `ai-prototype-integration-plan`. Hosted and local adapters must preserve wrapper adapter review, fixture replay report, event replay report, audio coverage report, scoring replay report, mobile accessibility review, integration lanes, test harness requirements, next review records, and mode integration plans while blocking direct app import, route writes, game sequence mutation, scoring mutation, audio manifest mutation, package promotion, and direct assignment.
 
+## Prototype Wrapper Adapter Review Rule
+
+Prototype wrapper adapter reviews must prove that a returned prototype can be a removable wrapper around a LivingTextbook parent engine. The review must name fixture input contract, standard event output contract, state ownership rules, wrapper evidence, rejection triggers, and blocked actions.
+
+The wrapper may own transient local interaction and animation state only. It cannot own route state, score authority, audio manifest authority, assignment or learner identity, reward inventory writes, tenant branding, or package promotion. Hard-coded vocabulary, sentences, tenant media, mascot, event bypass, support-language progress triggers, hidden control text, route or assignment side effects, or direct score and reward writes reject the wrapper.
+
 ## Mode Recommendation Rule
 
 Generator mode recommendations must reuse the reviewed activity compatibility matrix. The generator can recommend a tight pathway for a unit, but it must not produce a broad switch panel or unsupported conversions. Blocked conversions stay visible with their payload-fit and compatibility-rule reasons.

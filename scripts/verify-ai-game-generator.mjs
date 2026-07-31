@@ -13,6 +13,7 @@ const rewardReadinessGate = readSource("../apps/web/src/data/sampleAiRewardReadi
 const generatedGameBuildBrief = readSource("../apps/web/src/data/sampleAiGeneratedGameBuildBrief.ts");
 const prototypeReturnReview = readSource("../apps/web/src/data/sampleAiPrototypeReturnReview.ts");
 const prototypeIntegrationPlan = readSource("../apps/web/src/data/sampleAiPrototypeIntegrationPlan.ts");
+const prototypeWrapperAdapterReview = readSource("../apps/web/src/data/sampleAiPrototypeWrapperAdapterReview.ts");
 const verifierSubmissionPacket = readSource("../apps/web/src/data/sampleAiVerifierSubmissionPacket.ts");
 const generatedPackageManifest = readSource("../apps/web/src/data/sampleAiGeneratedPackageManifest.ts");
 const generatedPackagePromotionChecklist = readSource(
@@ -42,6 +43,9 @@ const prototypeReturnReviewPanel = readSource(
 );
 const prototypeIntegrationPlanPanel = readSource(
   "../apps/web/src/features/content-intake/AiPrototypeIntegrationPlanPanel.tsx",
+);
+const prototypeWrapperAdapterReviewPanel = readSource(
+  "../apps/web/src/features/content-intake/AiPrototypeWrapperAdapterReviewPanel.tsx",
 );
 const verifierSubmissionPanel = readSource("../apps/web/src/features/content-intake/AiVerifierSubmissionPacketPanel.tsx");
 const generatedPackageManifestPanel = readSource("../apps/web/src/features/content-intake/AiGeneratedPackageManifestPanel.tsx");
@@ -243,6 +247,70 @@ requireText(prototypeIntegrationPlanPanel, "Mode integration plans", "AI prototy
 requireText(prototypeIntegrationPlanPanel, "Integration sequence", "AI prototype integration plan panel must expose integration sequence.");
 requireText(prototypeIntegrationPlanPanel, "Required tests", "AI prototype integration plan panel must expose required tests.");
 requireText(prototypeIntegrationPlanPanel, "Blocked shortcuts", "AI prototype integration plan panel must expose blocked shortcuts.");
+requireText(prototypeWrapperAdapterReview, "sampleAiPrototypeWrapperAdapterReviews", "AI prototype wrapper adapter review data must exist.");
+requireText(prototypeWrapperAdapterReview, "prototype_wrapper_adapter_review", "AI prototype wrapper adapter review must name its record.");
+requireText(
+  prototypeWrapperAdapterReview,
+  "Parent engine owns route, scoring, mastery, progress, rewards, and assignment effects.",
+  "AI prototype wrapper adapter review must keep platform state in the parent engine.",
+);
+requireText(
+  prototypeWrapperAdapterReview,
+  "Fixture input contract is explicit",
+  "AI prototype wrapper adapter review must require explicit fixture input.",
+);
+requireText(
+  prototypeWrapperAdapterReview,
+  "Standard event output contract",
+  "AI prototype wrapper adapter review must require standard event output.",
+);
+requireText(prototypeWrapperAdapterReview, "No event contract bypass", "AI prototype wrapper adapter review must block event bypass.");
+requireText(prototypeWrapperAdapterReview, "No tenant hard-coding", "AI prototype wrapper adapter review must block tenant hard-coding.");
+requireText(
+  prototypeWrapperAdapterReview,
+  "Wrapper may not own score authority",
+  "AI prototype wrapper adapter review must block wrapper score authority.",
+);
+requireText(
+  prototypeWrapperAdapterReview,
+  "Support-language progress trigger",
+  "AI prototype wrapper adapter review must reject support-language progress triggers.",
+);
+requireText(
+  prototypeWrapperAdapterReviewPanel,
+  "AI prototype wrapper adapter review",
+  "AI prototype wrapper adapter review panel must expose heading.",
+);
+requireText(
+  prototypeWrapperAdapterReviewPanel,
+  "Parent-engine adapter boundary",
+  "AI prototype wrapper adapter review panel must expose parent-engine boundary.",
+);
+requireText(
+  prototypeWrapperAdapterReviewPanel,
+  "Mode wrapper reviews",
+  "AI prototype wrapper adapter review panel must expose mode wrapper reviews.",
+);
+requireText(
+  prototypeWrapperAdapterReviewPanel,
+  "Fixture input contract",
+  "AI prototype wrapper adapter review panel must expose fixture input contract.",
+);
+requireText(
+  prototypeWrapperAdapterReviewPanel,
+  "Standard event output contract",
+  "AI prototype wrapper adapter review panel must expose standard event output contract.",
+);
+requireText(
+  prototypeWrapperAdapterReviewPanel,
+  "State ownership",
+  "AI prototype wrapper adapter review panel must expose state ownership.",
+);
+requireText(
+  prototypeWrapperAdapterReviewPanel,
+  "Rejection triggers",
+  "AI prototype wrapper adapter review panel must expose rejection triggers.",
+);
 requireText(promptPackagePlan, "sampleAiPromptPackagePlans", "AI prompt package plan data must exist.");
 requireText(promptPackagePlan, "MiniStar generator prompt package", "AI prompt package plan must include MiniStar request seed.");
 requireText(promptPackagePlan, "ministar-l1-greetings-game-draft", "AI prompt package plan must bind to MiniStar greetings request.");
@@ -835,6 +903,7 @@ requireText(route, "AiEngineBindingPlanPanel", "Generator route must render the 
 requireText(route, "AiGeneratedGameBuildBriefPanel", "Generator route must render the generated game build brief panel.");
 requireText(route, "AiPrototypeReturnReviewPanel", "Generator route must render the prototype return review panel.");
 requireText(route, "AiPrototypeIntegrationPlanPanel", "Generator route must render the prototype integration plan panel.");
+requireText(route, "AiPrototypeWrapperAdapterReviewPanel", "Generator route must render the prototype wrapper adapter review panel.");
 requireText(route, "AiPromptPackagePlanPanel", "Generator route must render the prompt package plan panel.");
 requireText(route, "AiGeneratorCostEntitlementGatePanel", "Generator route must render the cost entitlement gate panel.");
 requireText(route, "AiGenerationRequestBuilderPanel", "Generator route must render the request builder panel.");
@@ -859,6 +928,7 @@ requireText(route, "sampleAiEngineBindingPlans", "Generator route must use the s
 requireText(route, "sampleAiGeneratedGameBuildBriefPackets", "Generator route must use generated game build brief data.");
 requireText(route, "sampleAiPrototypeReturnReviewPackets", "Generator route must use prototype return review data.");
 requireText(route, "sampleAiPrototypeIntegrationPlans", "Generator route must use prototype integration plan data.");
+requireText(route, "sampleAiPrototypeWrapperAdapterReviews", "Generator route must use prototype wrapper adapter review data.");
 requireText(route, "sampleAiPromptPackagePlans", "Generator route must use the sample prompt package plan data.");
 requireText(route, "sampleAiGeneratorCostEntitlementGates", "Generator route must use the sample cost entitlement gate data.");
 requireText(route, "sampleActivityPathwayCompatibilityMatrix", "Generator route must use the compatibility matrix.");

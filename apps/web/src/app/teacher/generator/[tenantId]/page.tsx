@@ -53,6 +53,10 @@ import {
   sampleAiPrototypeIntegrationPlans,
 } from "@/data/sampleAiPrototypeIntegrationPlan";
 import {
+  filterAiPrototypeWrapperAdapterReviewsByTenant,
+  sampleAiPrototypeWrapperAdapterReviews,
+} from "@/data/sampleAiPrototypeWrapperAdapterReview";
+import {
   filterAiGamificationMappingPlansByTenant,
   sampleAiGamificationMappingPlans,
 } from "@/data/sampleAiGamificationMappingPlan";
@@ -75,6 +79,7 @@ import { AiEngineBindingPlanPanel } from "@/features/content-intake/AiEngineBind
 import { AiGeneratedGameBuildBriefPanel } from "@/features/content-intake/AiGeneratedGameBuildBriefPanel";
 import { AiPrototypeReturnReviewPanel } from "@/features/content-intake/AiPrototypeReturnReviewPanel";
 import { AiPrototypeIntegrationPlanPanel } from "@/features/content-intake/AiPrototypeIntegrationPlanPanel";
+import { AiPrototypeWrapperAdapterReviewPanel } from "@/features/content-intake/AiPrototypeWrapperAdapterReviewPanel";
 import { AiGamificationMappingPanel } from "@/features/content-intake/AiGamificationMappingPanel";
 import { AiGeneratorAudioCoveragePlanPanel } from "@/features/content-intake/AiGeneratorAudioCoveragePlanPanel";
 import { AiGameGeneratorPlanPanel } from "@/features/content-intake/AiGameGeneratorPlanPanel";
@@ -133,6 +138,9 @@ export default async function TeacherAiGameGeneratorPage({
         />
         <AiPrototypeIntegrationPlanPanel
           plans={filterAiPrototypeIntegrationPlansByTenant(sampleAiPrototypeIntegrationPlans, tenantId)}
+        />
+        <AiPrototypeWrapperAdapterReviewPanel
+          reviews={filterAiPrototypeWrapperAdapterReviewsByTenant(sampleAiPrototypeWrapperAdapterReviews, tenantId)}
         />
         <AiVerifierSubmissionPacketPanel
           packets={filterAiVerifierSubmissionPacketsByTenant(sampleAiVerifierSubmissionPackets, tenantId)}
