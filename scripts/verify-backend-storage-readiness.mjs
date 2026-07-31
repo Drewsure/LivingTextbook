@@ -14,6 +14,7 @@ const requiredSchemaEntities = [
   "teacher_draft_package",
   "teacher_draft_review_handoff",
   "teacher_draft_verifier_submission",
+  "ai_generated_game_build_brief",
   "ai_generated_package_manifest",
   "ai_generated_package_promotion_checklist",
   "ai_generated_package_release_candidate",
@@ -78,6 +79,7 @@ const requiredMigrationCandidates = [
   "m014-teacher-draft-package-records",
   "m016-teacher-draft-review-handoff-records",
   "m020-teacher-draft-verifier-submission-records",
+  "m060-ai-generated-game-build-brief-records",
   "m054-ai-generated-package-manifest-records",
   "m058-ai-generated-package-promotion-checklist-records",
   "m059-ai-generated-package-release-candidate-records",
@@ -145,6 +147,7 @@ const requiredMigrationSpecs = [
   "spec-teacher-draft-package",
   "spec-teacher-draft-review-handoff",
   "spec-teacher-draft-verifier-submission",
+  "spec-ai-generated-game-build-brief",
   "spec-ai-generated-package-manifest",
   "spec-ai-generated-package-promotion-checklist",
   "spec-ai-generated-package-release-candidate",
@@ -219,6 +222,18 @@ requireText(schemaDraft, "live_review_submission_allowed", "Backend schema must 
 requireText(schemaDraft, "teacher_draft_verifier_submission", "Backend schema must include teacher draft verifier submission preflights.");
 requireText(schemaDraft, "schema_preflight", "Backend schema must preserve verifier schema preflight checks.");
 requireText(schemaDraft, "automatic_submit_allowed", "Backend schema must preserve automatic verifier submission blocks.");
+requireText(schemaDraft, "ai_generated_game_build_brief", "Backend schema must include AI generated game build briefs.");
+requireText(schemaDraft, "ai_generated_game_build_brief_id", "Backend schema must preserve AI generated game build brief ids.");
+requireText(schemaDraft, "target_builder", "Backend schema must preserve generated game target builders.");
+requireText(schemaDraft, "mode_briefs", "Backend schema must preserve generated game mode briefs.");
+requireText(schemaDraft, "parent_engine_binding_id", "Backend schema must preserve generated game parent-engine binding ids.");
+requireText(schemaDraft, "standard_event_contract_id", "Backend schema must preserve generated game standard event contract ids.");
+requireText(schemaDraft, "audio_cue_manifest_id", "Backend schema must preserve generated game audio cue manifest ids.");
+requireText(schemaDraft, "scoring_contract_snapshot", "Backend schema must preserve generated game scoring contracts.");
+requireText(schemaDraft, "standalone_game_promotion_allowed", "Backend schema must block standalone game promotion.");
+requireText(schemaDraft, "phaser_bypass_allowed", "Backend schema must block Phaser bypass.");
+requireText(schemaDraft, "generated_game_route_write_allowed", "Backend schema must block generated game route writes.");
+requireText(schemaDraft, "scoring_profile_override_allowed", "Backend schema must block scoring profile overrides.");
 requireText(schemaDraft, "ai_generated_package_manifest", "Backend schema must include AI generated package manifests.");
 requireText(schemaDraft, "ai_generated_package_manifest_id", "Backend schema must preserve generated package manifest ids.");
 requireText(schemaDraft, "generation_request_id", "Backend schema must preserve AI generation request ids.");
@@ -476,6 +491,19 @@ requireText(migrationSpecs, "live_review_submission_allowed", "Migration specs m
 requireText(migrationSpecs, "spec-teacher-draft-verifier-submission", "Migration specs must include teacher draft verifier submission preflights.");
 requireText(migrationSpecs, "language_preflight", "Migration specs must preserve verifier support-language boundary checks.");
 requireText(migrationSpecs, "automatic_submit_allowed", "Migration specs must preserve automatic verifier submission blocks.");
+requireText(migrationSpecs, "spec-ai-generated-game-build-brief", "Migration specs must include AI generated game build briefs.");
+requireText(migrationSpecs, "ai_generated_game_build_brief_id", "Migration specs must preserve generated game build brief ids.");
+requireText(migrationSpecs, "target_builder", "Migration specs must preserve generated game target builders.");
+requireText(migrationSpecs, "mode_briefs", "Migration specs must preserve generated game mode briefs.");
+requireText(migrationSpecs, "parent_engine_binding_id", "Migration specs must preserve generated game parent-engine binding ids.");
+requireText(migrationSpecs, "standard_event_contract_id", "Migration specs must preserve generated game standard event contract ids.");
+requireText(migrationSpecs, "audio_cue_manifest_id", "Migration specs must preserve generated game audio cue manifest ids.");
+requireText(migrationSpecs, "scoring_contract_snapshot", "Migration specs must preserve generated game scoring contracts.");
+requireText(migrationSpecs, "standalone_game_promotion_allowed", "Migration specs must block standalone game promotion.");
+requireText(migrationSpecs, "phaser_bypass_allowed", "Migration specs must block Phaser bypass.");
+requireText(migrationSpecs, "generated_game_route_write_allowed", "Migration specs must block generated game route writes.");
+requireText(migrationSpecs, "scoring_profile_override_allowed", "Migration specs must block scoring profile overrides.");
+requireText(migrationSpecs, "student_assignment_allowed", "Migration specs must block generated game student assignment.");
 requireText(migrationSpecs, "spec-ai-generated-package-manifest", "Migration specs must include AI generated package manifests.");
 requireText(migrationSpecs, "ai_generated_package_manifest_id", "Migration specs must preserve generated package manifest ids.");
 requireText(migrationSpecs, "prompt_package_id", "Migration specs must preserve generated package prompt package ids.");
@@ -917,6 +945,57 @@ requireText(persistenceAdapter, "hosted-teacher-draft-verifier-submission-write"
 requireText(persistenceAdapter, "local-teacher-draft-verifier-submission-write", "Persistence adapter must include local teacher draft verifier submission writes.");
 requireText(persistenceAdapter, "preservesVerifierPreflightChecks: true", "Persistence adapter must preserve verifier preflight checks.");
 requireText(persistenceAdapter, "blocksAutomaticVerifierSubmit: true", "Persistence adapter must block automatic verifier submission.");
+requireText(
+  persistenceAdapter,
+  "hosted-ai-generated-game-build-brief-write",
+  "Persistence adapter must include hosted AI generated game build brief writes.",
+);
+requireText(
+  persistenceAdapter,
+  "local-ai-generated-game-build-brief-write",
+  "Persistence adapter must include local AI generated game build brief writes.",
+);
+requireText(
+  persistenceAdapter,
+  "preservesAiGeneratedGameBuildBrief: true",
+  "Persistence adapter must preserve AI generated game build brief packets.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresParentEngineBinding: true",
+  "Persistence adapter must require parent-engine binding for generated game build briefs.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresStandardEventContract: true",
+  "Persistence adapter must require standard event contracts for generated game build briefs.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresAudioCueManifest: true",
+  "Persistence adapter must require audio cue manifests for generated game build briefs.",
+);
+requireText(
+  persistenceAdapter,
+  "preservesDeterministicScoringContract: true",
+  "Persistence adapter must preserve deterministic scoring contracts for generated game build briefs.",
+);
+requireText(
+  persistenceAdapter,
+  "blocksStandaloneGamePromotion: true",
+  "Persistence adapter must block standalone game promotion from generated game build briefs.",
+);
+requireText(persistenceAdapter, "blocksPhaserBypass: true", "Persistence adapter must block Phaser bypass.");
+requireText(
+  persistenceAdapter,
+  "blocksGeneratedGameRouteWrite: true",
+  "Persistence adapter must block generated game route writes.",
+);
+requireText(
+  persistenceAdapter,
+  "blocksScoringProfileOverride: true",
+  "Persistence adapter must block generated game scoring profile overrides.",
+);
 requireText(persistenceAdapter, "hosted-ai-generated-package-manifest-write", "Persistence adapter must include hosted AI generated package manifest writes.");
 requireText(persistenceAdapter, "local-ai-generated-package-manifest-write", "Persistence adapter must include local AI generated package manifest writes.");
 requireText(persistenceAdapter, "preservesAiGeneratedPackageManifest: true", "Persistence adapter must preserve AI generated package manifest links.");
@@ -1252,6 +1331,41 @@ requireText(durableRecords, "blocksLiveReviewSubmission: true", "Durable record 
 requireText(durableRecords, "teacher-draft-verifier-submission-record", "Durable record plan must include teacher draft verifier submission preflights.");
 requireText(durableRecords, "preservesVerifierPreflightChecks: true", "Durable record plan must preserve verifier preflight checks.");
 requireText(durableRecords, "blocksAutomaticVerifierSubmit: true", "Durable record plan must block automatic verifier submission.");
+requireText(durableRecords, "ai-generated-game-build-brief-record", "Durable record plan must include AI generated game build brief records.");
+requireText(durableRecords, "AI generated game build brief record", "Durable record plan must expose AI generated game build brief labels.");
+requireText(
+  durableRecords,
+  "preservesAiGeneratedGameBuildBrief: true",
+  "Durable record plan must preserve AI generated game build brief packets.",
+);
+requireText(
+  durableRecords,
+  "requiresParentEngineBinding: true",
+  "Durable record plan must require parent-engine binding for generated game build briefs.",
+);
+requireText(
+  durableRecords,
+  "requiresStandardEventContract: true",
+  "Durable record plan must require standard event contracts for generated game build briefs.",
+);
+requireText(
+  durableRecords,
+  "requiresAudioCueManifest: true",
+  "Durable record plan must require audio cue manifests for generated game build briefs.",
+);
+requireText(
+  durableRecords,
+  "preservesDeterministicScoringContract: true",
+  "Durable record plan must preserve deterministic scoring contracts for generated game build briefs.",
+);
+requireText(
+  durableRecords,
+  "blocksStandaloneGamePromotion: true",
+  "Durable record plan must block standalone game promotion from generated game build briefs.",
+);
+requireText(durableRecords, "blocksPhaserBypass: true", "Durable record plan must block Phaser bypass.");
+requireText(durableRecords, "blocksGeneratedGameRouteWrite: true", "Durable record plan must block generated game route writes.");
+requireText(durableRecords, "blocksScoringProfileOverride: true", "Durable record plan must block generated game scoring profile overrides.");
 requireText(durableRecords, "ai-generated-package-manifest-record", "Durable record plan must include AI generated package manifest records.");
 requireText(durableRecords, "AI generated package manifest record", "Durable record plan must expose AI generated package manifest record labels.");
 requireText(durableRecords, "preservesAiGeneratedPackageManifest: true", "Durable record plan must preserve AI generated package manifest links.");

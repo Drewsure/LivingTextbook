@@ -19,6 +19,7 @@ export type PersistenceBoundaryCategory =
   | "teacher-draft-review-evidence"
   | "teacher-draft-review-audit"
   | "teacher-draft-verifier-submission"
+  | "ai-generated-game-build-brief"
   | "ai-generated-package-manifest"
   | "ai-generated-package-promotion-checklist"
   | "ai-generated-package-release-candidate"
@@ -202,6 +203,33 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
     note:
       "Generated package manifests need durable links to prompt, draft JSON, audio, engine, gamification, verifier, review queue, media-rights, and approval records before AI output can become a package assembly candidate.",
+  },
+  {
+    recordId: "ai-generated-game-build-brief-record",
+    category: "ai-generated-game-build-brief",
+    label: "AI generated game build brief record",
+    readiness: "durable-required",
+    sourceOfTruth:
+      "AiGeneratedGameBuildBriefPacket, AI engine binding plan, game mode catalog snapshot, standard event contract, audio cue manifest, gamification mapping plan, activity compatibility snapshot, and teacher draft verifier submission",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: false,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesAiGeneratedGameBuildBrief: true,
+    requiresParentEngineBinding: true,
+    requiresStandardEventContract: true,
+    requiresAudioCueManifest: true,
+    preservesDeterministicScoringContract: true,
+    blocksStandaloneGamePromotion: true,
+    blocksPhaserBypass: true,
+    blocksGeneratedGameRouteWrite: true,
+    blocksScoringProfileOverride: true,
+    blocksDirectStudentAssignment: true,
+    recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
+    note:
+      "AI generated game build briefs need durable instructions before Z.ai or outside prototypes can be reviewed for integration with parent engines, audio, scoring, events, and deliverables.",
   },
   {
     recordId: "ai-generated-package-promotion-checklist-record",
@@ -1456,6 +1484,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision:
       "Persist generated package manifests before enabling package assembly, route registry writes, media playlist writes, assignment writes, local bundle writes, or student-ready markers.",
+  },
+  {
+    boundaryId: "ai-generated-game-build-brief-boundary",
+    category: "ai-generated-game-build-brief",
+    label: "AI generated game build brief records",
+    status: "needs-backend",
+    recordShape:
+      "Build brief id, tenant id, request id, target builder, mode ids, parent engine binding, JSON fixture shape, standard event contract, audio cue manifest, deterministic scoring contract, integration notes, deliverables, and blocked prototype actions",
+    whyItMatters:
+      "External prototype work needs durable build briefs so Z.ai or other builders cannot define routes, scoring, audio, events, or production integration from ad hoc prompts.",
+    visibleTo: ["Tenant admin", "Content reviewer", "Platform admin", "External prototype builder"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Persist AI generated game build briefs before enabling external prototype handoff, Phaser wrapper review, route integration, scoring profile changes, or student assignments.",
   },
   {
     boundaryId: "ai-generated-package-promotion-checklist-boundary",

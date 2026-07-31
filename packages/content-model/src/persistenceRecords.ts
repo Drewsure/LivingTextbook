@@ -7,6 +7,7 @@ export type PersistenceRecordCategory =
   | "teacher-draft-review-evidence"
   | "teacher-draft-review-audit"
   | "teacher-draft-verifier-submission"
+  | "ai-generated-game-build-brief"
   | "ai-generated-package-manifest"
   | "ai-generated-package-promotion-checklist"
   | "ai-generated-package-release-candidate"
@@ -106,6 +107,15 @@ export interface DurableRecordContract {
   blocksReviewAuditStateChange?: boolean;
   preservesVerifierPreflightChecks?: boolean;
   blocksAutomaticVerifierSubmit?: boolean;
+  preservesAiGeneratedGameBuildBrief?: boolean;
+  requiresParentEngineBinding?: boolean;
+  requiresStandardEventContract?: boolean;
+  requiresAudioCueManifest?: boolean;
+  preservesDeterministicScoringContract?: boolean;
+  blocksStandaloneGamePromotion?: boolean;
+  blocksPhaserBypass?: boolean;
+  blocksGeneratedGameRouteWrite?: boolean;
+  blocksScoringProfileOverride?: boolean;
   preservesAiGeneratedPackageManifest?: boolean;
   preservesAiGeneratedPackagePromotionChecklist?: boolean;
   preservesAiGeneratedPackageReleaseCandidate?: boolean;
@@ -368,6 +378,46 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "teacher-draft-verifier-submission" && !record.blocksAutomaticVerifierSubmit) {
       errors.push(`Teacher draft verifier submission record ${record.recordId} must block automatic verifier submission.`);
+    }
+
+    if (record.category === "ai-generated-game-build-brief" && !record.preservesAiGeneratedGameBuildBrief) {
+      errors.push(`AI generated game build brief record ${record.recordId} must preserve build brief sections.`);
+    }
+
+    if (record.category === "ai-generated-game-build-brief" && !record.requiresParentEngineBinding) {
+      errors.push(`AI generated game build brief record ${record.recordId} must require parent-engine binding.`);
+    }
+
+    if (record.category === "ai-generated-game-build-brief" && !record.requiresStandardEventContract) {
+      errors.push(`AI generated game build brief record ${record.recordId} must require the standard event contract.`);
+    }
+
+    if (record.category === "ai-generated-game-build-brief" && !record.requiresAudioCueManifest) {
+      errors.push(`AI generated game build brief record ${record.recordId} must require an audio cue manifest.`);
+    }
+
+    if (record.category === "ai-generated-game-build-brief" && !record.preservesDeterministicScoringContract) {
+      errors.push(`AI generated game build brief record ${record.recordId} must preserve deterministic scoring rules.`);
+    }
+
+    if (record.category === "ai-generated-game-build-brief" && !record.blocksStandaloneGamePromotion) {
+      errors.push(`AI generated game build brief record ${record.recordId} must block standalone game promotion.`);
+    }
+
+    if (record.category === "ai-generated-game-build-brief" && !record.blocksPhaserBypass) {
+      errors.push(`AI generated game build brief record ${record.recordId} must block Phaser bypass.`);
+    }
+
+    if (record.category === "ai-generated-game-build-brief" && !record.blocksGeneratedGameRouteWrite) {
+      errors.push(`AI generated game build brief record ${record.recordId} must block generated game route writes.`);
+    }
+
+    if (record.category === "ai-generated-game-build-brief" && !record.blocksScoringProfileOverride) {
+      errors.push(`AI generated game build brief record ${record.recordId} must block scoring profile overrides.`);
+    }
+
+    if (record.category === "ai-generated-game-build-brief" && !record.blocksDirectStudentAssignment) {
+      errors.push(`AI generated game build brief record ${record.recordId} must block student assignment.`);
     }
 
     if (record.category === "ai-generated-package-manifest" && !record.preservesAiGeneratedPackageManifest) {

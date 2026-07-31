@@ -38,6 +38,15 @@ export interface PersistenceWriteIntent {
   blocksReviewAuditStateChange?: boolean;
   preservesVerifierPreflightChecks?: boolean;
   blocksAutomaticVerifierSubmit?: boolean;
+  preservesAiGeneratedGameBuildBrief?: boolean;
+  requiresParentEngineBinding?: boolean;
+  requiresStandardEventContract?: boolean;
+  requiresAudioCueManifest?: boolean;
+  preservesDeterministicScoringContract?: boolean;
+  blocksStandaloneGamePromotion?: boolean;
+  blocksPhaserBypass?: boolean;
+  blocksGeneratedGameRouteWrite?: boolean;
+  blocksScoringProfileOverride?: boolean;
   preservesAiGeneratedPackageManifest?: boolean;
   preservesAiGeneratedPackagePromotionChecklist?: boolean;
   preservesAiGeneratedPackageReleaseCandidate?: boolean;
@@ -335,6 +344,46 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "teacher-draft-verifier-submission" && !intent.blocksAutomaticVerifierSubmit) {
       errors.push(`Teacher draft verifier submission write intent ${intent.intentId} must block automatic verifier submission.`);
+    }
+
+    if (intent.category === "ai-generated-game-build-brief" && !intent.preservesAiGeneratedGameBuildBrief) {
+      errors.push(`AI generated game build brief write intent ${intent.intentId} must preserve build brief sections.`);
+    }
+
+    if (intent.category === "ai-generated-game-build-brief" && !intent.requiresParentEngineBinding) {
+      errors.push(`AI generated game build brief write intent ${intent.intentId} must require parent-engine binding.`);
+    }
+
+    if (intent.category === "ai-generated-game-build-brief" && !intent.requiresStandardEventContract) {
+      errors.push(`AI generated game build brief write intent ${intent.intentId} must require the standard event contract.`);
+    }
+
+    if (intent.category === "ai-generated-game-build-brief" && !intent.requiresAudioCueManifest) {
+      errors.push(`AI generated game build brief write intent ${intent.intentId} must require an audio cue manifest.`);
+    }
+
+    if (intent.category === "ai-generated-game-build-brief" && !intent.preservesDeterministicScoringContract) {
+      errors.push(`AI generated game build brief write intent ${intent.intentId} must preserve deterministic scoring rules.`);
+    }
+
+    if (intent.category === "ai-generated-game-build-brief" && !intent.blocksStandaloneGamePromotion) {
+      errors.push(`AI generated game build brief write intent ${intent.intentId} must block standalone game promotion.`);
+    }
+
+    if (intent.category === "ai-generated-game-build-brief" && !intent.blocksPhaserBypass) {
+      errors.push(`AI generated game build brief write intent ${intent.intentId} must block Phaser bypass.`);
+    }
+
+    if (intent.category === "ai-generated-game-build-brief" && !intent.blocksGeneratedGameRouteWrite) {
+      errors.push(`AI generated game build brief write intent ${intent.intentId} must block generated game route writes.`);
+    }
+
+    if (intent.category === "ai-generated-game-build-brief" && !intent.blocksScoringProfileOverride) {
+      errors.push(`AI generated game build brief write intent ${intent.intentId} must block scoring profile overrides.`);
+    }
+
+    if (intent.category === "ai-generated-game-build-brief" && !intent.blocksDirectStudentAssignment) {
+      errors.push(`AI generated game build brief write intent ${intent.intentId} must block student assignment.`);
     }
 
     if (intent.category === "ai-generated-package-manifest" && !intent.preservesAiGeneratedPackageManifest) {

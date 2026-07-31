@@ -109,6 +109,8 @@ Teacher generator routes may show `ai_generated_game_build_brief` packets for ex
 
 Build briefs are not production work orders. They cannot promote standalone games, bypass parent engines, write generated game routes, override scoring profiles, assign students, or allow Phaser builds to skip the LivingTextbook wrapper and event contract. MiniStar briefs must keep Japanese support-language scoring and release blocked.
 
+The backend-neutral storage contract is `ai_generated_game_build_brief` / `ai-generated-game-build-brief`. Hosted and local adapters must preserve parent-engine binding, standard event contract, audio cue manifest, deterministic scoring contract, integration notes, deliverables, and blocked actions while blocking standalone game promotion, Phaser bypass, generated game route writes, scoring profile overrides, direct student assignment, media-only progress, and support-language-only scoring or release.
+
 ## Mode Recommendation Rule
 
 Generator mode recommendations must reuse the reviewed activity compatibility matrix. The generator can recommend a tight pathway for a unit, but it must not produce a broad switch panel or unsupported conversions. Blocked conversions stay visible with their payload-fit and compatibility-rule reasons.

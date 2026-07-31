@@ -1106,6 +1106,135 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       ],
     },
     {
+      specId: "spec-ai-generated-game-build-brief",
+      label: "AI generated game build brief",
+      candidateId: "m060-ai-generated-game-build-brief-records",
+      storeKind: "admin-record",
+      status: "ready-for-review",
+      purpose:
+        "Stores external prototype build instructions while keeping standalone promotion, Phaser bypass, route writes, scoring overrides, and student assignments blocked.",
+      primaryKey: "ai_generated_game_build_brief_id",
+      tenantScope:
+        "Scoped by tenant_id, generation_request_id, parent_engine_binding_id, target_builder, and brief_revision.",
+      fields: [
+        {
+          name: "ai_generated_game_build_brief_id",
+          type: "string",
+          required: true,
+          note: "Stable id for one generated game build brief packet snapshot.",
+        },
+        {
+          name: "generation_request_id",
+          type: "string",
+          required: true,
+          note: "AI generation request this build brief belongs to.",
+        },
+        {
+          name: "target_builder",
+          type: "string",
+          required: true,
+          note: "External or internal builder audience such as Z.ai prototype brief.",
+        },
+        {
+          name: "mode_briefs",
+          type: "json",
+          required: true,
+          note: "Mode ids, parent engine, implementation target, fixture, events, audio, scoring, notes, and deliverables.",
+        },
+        {
+          name: "parent_engine_binding_id",
+          type: "string",
+          required: true,
+          note: "AI engine binding plan required before prototype work.",
+        },
+        {
+          name: "standard_event_contract_id",
+          type: "string",
+          required: true,
+          note: "Standard event contract required for integration.",
+        },
+        {
+          name: "audio_cue_manifest_id",
+          type: "string",
+          required: true,
+          note: "Audio cue manifest required before student-facing game review.",
+        },
+        {
+          name: "scoring_contract_snapshot",
+          type: "json",
+          required: true,
+          note: "Deterministic scoring and accepted event rules.",
+        },
+        {
+          name: "integration_notes",
+          type: "json",
+          required: true,
+          note: "Parent-engine, Phaser wrapper, route, and legacy-code integration notes.",
+        },
+        {
+          name: "deliverables",
+          type: "json",
+          required: true,
+          note: "Prototype files, fixture, README, event log, audio notes, and blockers.",
+        },
+        {
+          name: "blocked_build_actions",
+          type: "json",
+          required: true,
+          note: "Standalone promotion, Phaser bypass, route write, scoring override, assignment, and media-only progress blocks.",
+        },
+        {
+          name: "standalone_game_promotion_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until Codex integration review accepts the prototype.",
+        },
+        {
+          name: "phaser_bypass_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false; Phaser must wrap the parent-engine contract.",
+        },
+        {
+          name: "generated_game_route_write_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until route registry and release-control pass.",
+        },
+        {
+          name: "scoring_profile_override_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until scoring profile review passes.",
+        },
+        {
+          name: "student_assignment_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until reviewed package release and assignment rollout pass.",
+        },
+      ],
+      indexes: [
+        "tenant_id + ai_generated_game_build_brief_id",
+        "ai_generated_game_build_brief_id unique",
+        "tenant_id + generation_request_id",
+        "tenant_id + target_builder",
+        "generated_game_route_write_allowed",
+        "student_assignment_allowed",
+      ],
+      retentionRule:
+        "Retain according to tenant authoring and prototype review policy; blocked, returned, reviewed, superseded, and accepted build brief snapshots remain auditable.",
+      exportRule:
+        "Must export generated build brief mode instructions and linked engine binding, standard event, audio manifest, scoring, and compatibility ids without exporting model internals or unrelated tenant packages.",
+      localFallback:
+        "Local classroom deployments store the same generated build brief JSON for backup/export without allowing offline prototype promotion, route writes, scoring overrides, or assignments.",
+      policyBlockers: [
+        "Generated build briefs cannot promote standalone games, bypass parent engines, write routes, override scoring profiles, or assign students by themselves.",
+        "Phaser prototypes must wrap the LivingTextbook parent-engine, JSON, audio, scoring, and event contract before integration review.",
+        "Support-language scoring or release remains blocked; MiniStar Japanese support cannot score or release English packages.",
+      ],
+    },
+    {
       specId: "spec-ai-reward-readiness-gate",
       label: "AI reward readiness gate",
       candidateId: "m055-ai-reward-readiness-gate-records",

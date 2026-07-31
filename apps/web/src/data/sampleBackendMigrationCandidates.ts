@@ -237,6 +237,43 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
       ],
     },
     {
+      migrationId: "m060-ai-generated-game-build-brief-records",
+      label: "AI generated game build brief records",
+      track: "shared",
+      status: "ready-to-design",
+      risk: "medium",
+      targetEntities: ["ai_generated_game_build_brief"],
+      purpose:
+        "Persist external prototype build instructions before AI-generated game modes can be handed to Z.ai or outside builders for isolated implementation review.",
+      prerequisites: [
+        "AI engine binding plan accepted",
+        "Game mode catalog snapshot accepted",
+        "Standard event contract accepted",
+        "Audio cue manifest policy accepted",
+        "Deterministic scoring and gamification policy accepted",
+      ],
+      implementationNotes: [
+        "Keep build briefs tenant-scoped, generation-request-scoped, and builder-scoped.",
+        "Preserve mode briefs, parent-engine binding, JSON fixture shape, standard events, audio contract, scoring contract, integration notes, deliverables, and blocked actions.",
+        "Block standalone game promotion, Phaser bypass, generated game route writes, scoring profile overrides, student assignments, media-only progress shortcuts, and support-language scoring.",
+        "Do not let a build brief create production package, route, playlist, assignment, or local bundle records by itself.",
+      ],
+      rollbackOrExportNeeds: [
+        "Export generated game build brief JSON with linked engine binding, event contract, audio manifest, gamification, and compatibility ids",
+        "Retain blocked, reviewed, returned, superseded, and accepted build brief snapshots for audit",
+        "Support local generated game build brief backup and restore without enabling offline prototype promotion, route writes, scoring overrides, or assignments",
+      ],
+      notAllowedYet: [
+        "Standalone game promotion",
+        "Phaser bypass",
+        "Generated game route write",
+        "Scoring profile override",
+        "Student assignment",
+        "Media-only progress shortcut",
+        "Support-language scoring or release",
+      ],
+    },
+    {
       migrationId: "m055-ai-reward-readiness-gate-records",
       label: "AI reward readiness gate records",
       track: "shared",
