@@ -15,6 +15,7 @@ const generatedPackageManifest = readSource("../apps/web/src/data/sampleAiGenera
 const generatedPackagePromotionChecklist = readSource(
   "../apps/web/src/data/sampleAiGeneratedPackagePromotionChecklist.ts",
 );
+const generatedPackageReleaseCandidate = readSource("../apps/web/src/data/sampleAiGeneratedPackageReleaseCandidate.ts");
 const generatedPublishReadinessGate = readSource("../apps/web/src/data/sampleAiGeneratedPublishReadinessGate.ts");
 const draftPreviewData = readSource("../apps/web/src/data/sampleAiGeneratedDraftPayloadPreview.ts");
 const draftPayloadValidator = readSource("../packages/content-model/src/aiGeneratedDraftPayload.ts");
@@ -34,6 +35,9 @@ const verifierSubmissionPanel = readSource("../apps/web/src/features/content-int
 const generatedPackageManifestPanel = readSource("../apps/web/src/features/content-intake/AiGeneratedPackageManifestPanel.tsx");
 const generatedPackagePromotionChecklistPanel = readSource(
   "../apps/web/src/features/content-intake/AiGeneratedPackagePromotionChecklistPanel.tsx",
+);
+const generatedPackageReleaseCandidatePanel = readSource(
+  "../apps/web/src/features/content-intake/AiGeneratedPackageReleaseCandidatePanel.tsx",
 );
 const generatedPublishReadinessGatePanel = readSource(
   "../apps/web/src/features/content-intake/AiGeneratedPublishReadinessGatePanel.tsx",
@@ -511,6 +515,86 @@ requireText(
   generatedPublishReadinessGatePanel,
   "Next publish records",
   "AI generated publish readiness panel must expose next publish records.",
+);
+requireText(
+  generatedPackageReleaseCandidate,
+  "sampleAiGeneratedPackageReleaseCandidates",
+  "AI generated package release candidate data must exist.",
+);
+requireText(
+  generatedPackageReleaseCandidate,
+  "Private tenant library handoff blocked",
+  "AI generated release candidate must keep private library handoff blocked.",
+);
+requireText(
+  generatedPackageReleaseCandidate,
+  "package_release_candidate",
+  "AI generated release candidate must name package release candidate records.",
+);
+requireText(
+  generatedPackageReleaseCandidate,
+  "tenant_library_item",
+  "AI generated release candidate must name tenant library item records.",
+);
+requireText(
+  generatedPackageReleaseCandidate,
+  "ai_generated_package_promotion_checklist",
+  "AI generated release candidate must depend on promotion checklist records.",
+);
+requireText(
+  generatedPackageReleaseCandidate,
+  "ai_generated_publish_readiness_gate",
+  "AI generated release candidate must depend on publish readiness records.",
+);
+requireText(
+  generatedPackageReleaseCandidate,
+  "No generated package library publish",
+  "AI generated release candidate must block library publishing.",
+);
+requireText(
+  generatedPackageReleaseCandidate,
+  "No release candidate write",
+  "AI generated release candidate must block release candidate writes.",
+);
+requireText(
+  generatedPackageReleaseCandidate,
+  "No tenant library item write",
+  "AI generated release candidate must block tenant library writes.",
+);
+requireText(
+  generatedPackageReleaseCandidate,
+  "No student-facing release",
+  "AI generated release candidate must block student-facing release.",
+);
+requireText(
+  generatedPackageReleaseCandidate,
+  "No Japanese support-language release",
+  "MiniStar generated release candidate must block Japanese support-language release.",
+);
+requireText(
+  generatedPackageReleaseCandidatePanel,
+  "AI generated package release candidate",
+  "AI generated release candidate panel must expose heading.",
+);
+requireText(
+  generatedPackageReleaseCandidatePanel,
+  "Private-library handoff preview",
+  "AI generated release candidate panel must expose private-library handoff preview.",
+);
+requireText(
+  generatedPackageReleaseCandidatePanel,
+  "Review-only candidate",
+  "AI generated release candidate panel must expose review-only state.",
+);
+requireText(
+  generatedPackageReleaseCandidatePanel,
+  "Release candidate signals",
+  "AI generated release candidate panel must expose release candidate signals.",
+);
+requireText(
+  generatedPackageReleaseCandidatePanel,
+  "Blocked release actions",
+  "AI generated release candidate panel must expose blocked release actions.",
 );
 requireText(compatibilityMatrix, "This matrix defines which student games", "Generator mode recommendations must reuse the compatibility matrix.");
 requireText(modeRecommendationPanel, "AI mode recommendation preview", "Mode recommendation panel must expose heading.");

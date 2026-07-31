@@ -14,6 +14,10 @@ import {
   sampleAiGeneratedPackagePromotionChecklists,
 } from "@/data/sampleAiGeneratedPackagePromotionChecklist";
 import {
+  filterAiGeneratedPackageReleaseCandidatesByTenant,
+  sampleAiGeneratedPackageReleaseCandidates,
+} from "@/data/sampleAiGeneratedPackageReleaseCandidate";
+import {
   filterAiGeneratedPublishReadinessGatesByTenant,
   sampleAiGeneratedPublishReadinessGates,
 } from "@/data/sampleAiGeneratedPublishReadinessGate";
@@ -53,6 +57,7 @@ import { AiGeneratorCostEntitlementGatePanel } from "@/features/content-intake/A
 import { AiGeneratedDraftPayloadPreviewPanel } from "@/features/content-intake/AiGeneratedDraftPayloadPreviewPanel";
 import { AiGeneratedPackageManifestPanel } from "@/features/content-intake/AiGeneratedPackageManifestPanel";
 import { AiGeneratedPackagePromotionChecklistPanel } from "@/features/content-intake/AiGeneratedPackagePromotionChecklistPanel";
+import { AiGeneratedPackageReleaseCandidatePanel } from "@/features/content-intake/AiGeneratedPackageReleaseCandidatePanel";
 import { AiGeneratedPublishReadinessGatePanel } from "@/features/content-intake/AiGeneratedPublishReadinessGatePanel";
 import { AiEngineBindingPlanPanel } from "@/features/content-intake/AiEngineBindingPlanPanel";
 import { AiGamificationMappingPanel } from "@/features/content-intake/AiGamificationMappingPanel";
@@ -120,6 +125,12 @@ export default async function TeacherAiGameGeneratorPage({
         />
         <AiGeneratedPublishReadinessGatePanel
           gates={filterAiGeneratedPublishReadinessGatesByTenant(sampleAiGeneratedPublishReadinessGates, tenantId)}
+        />
+        <AiGeneratedPackageReleaseCandidatePanel
+          candidates={filterAiGeneratedPackageReleaseCandidatesByTenant(
+            sampleAiGeneratedPackageReleaseCandidates,
+            tenantId,
+          )}
         />
         <AiGeneratedDraftPayloadPreviewPanel
           previews={filterAiGeneratedDraftPayloadPreviewsByTenant(sampleAiGeneratedDraftPayloadPreviews, tenantId)}

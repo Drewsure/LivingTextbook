@@ -67,6 +67,12 @@ The promotion checklist cannot promote a package, write route registry entries, 
 
 Backend schema, migration candidates, migration specs, durable records, and hosted/local adapter plans must preserve `ai_generated_package_promotion_checklist` / `ai-generated-package-promotion-checklist` before generated package promotion exists. The record must keep lineage map, correction queue, target-language audio approval, verifier packet, manifest completeness, reward readiness, release-control binding, teacher approval ledger, and assignment rollout gate references, while generated package promotion, route registry writes, media playlist writes, assignment writes, local bundle writes, student-ready markers, and support-language-only promotion remain blocked.
 
+## Generated Package Release Candidate Rule
+
+Teacher generator routes may show a review-only `ai_generated_package_release_candidate` preview after manifest, promotion checklist, and publish readiness records are visible. This preview exists to explain the future handoff from AI-generated package evidence into the private tenant library and normal release-control pipeline.
+
+The release candidate preview cannot write `package_release_candidate`, `tenant_library_item`, route registry, playlist, assignment, local bundle, or student-ready records. It must show private-library handoff as blocked, student-facing release as blocked, and MiniStar Japanese support-language release as blocked while English remains the target-language trigger.
+
 ## Draft Payload Validation Rule
 
 AI-generated draft payloads must pass the shared `validateAiGeneratedDraftPayload` / `validateAiGeneratedDraftPayloadPreview` contract before review, persistence, verifier submission, package assembly, route creation, playlist creation, or student assignment can be considered.

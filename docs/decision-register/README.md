@@ -282,6 +282,7 @@
 - `DR-308-ai-generator-lineage-map.md`
 - `DR-309-ai-generated-package-promotion-checklist.md`
 - `DR-310-ai-generated-package-promotion-checklist-storage-contract.md`
+- `DR-311-ai-generated-package-release-candidate-preview.md`
 
 ## Maintenance Rule
 
