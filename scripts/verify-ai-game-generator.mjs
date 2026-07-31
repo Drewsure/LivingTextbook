@@ -12,6 +12,7 @@ const gamificationMappingPlan = readSource("../apps/web/src/data/sampleAiGamific
 const rewardReadinessGate = readSource("../apps/web/src/data/sampleAiRewardReadinessGate.ts");
 const generatedGameBuildBrief = readSource("../apps/web/src/data/sampleAiGeneratedGameBuildBrief.ts");
 const prototypeReturnReview = readSource("../apps/web/src/data/sampleAiPrototypeReturnReview.ts");
+const prototypeIntegrationPlan = readSource("../apps/web/src/data/sampleAiPrototypeIntegrationPlan.ts");
 const verifierSubmissionPacket = readSource("../apps/web/src/data/sampleAiVerifierSubmissionPacket.ts");
 const generatedPackageManifest = readSource("../apps/web/src/data/sampleAiGeneratedPackageManifest.ts");
 const generatedPackagePromotionChecklist = readSource(
@@ -38,6 +39,9 @@ const generatedGameBuildBriefPanel = readSource(
 );
 const prototypeReturnReviewPanel = readSource(
   "../apps/web/src/features/content-intake/AiPrototypeReturnReviewPanel.tsx",
+);
+const prototypeIntegrationPlanPanel = readSource(
+  "../apps/web/src/features/content-intake/AiPrototypeIntegrationPlanPanel.tsx",
 );
 const verifierSubmissionPanel = readSource("../apps/web/src/features/content-intake/AiVerifierSubmissionPacketPanel.tsx");
 const generatedPackageManifestPanel = readSource("../apps/web/src/features/content-intake/AiGeneratedPackageManifestPanel.tsx");
@@ -221,6 +225,24 @@ requireText(prototypeReturnReviewPanel, "Event evidence", "AI prototype return r
 requireText(prototypeReturnReviewPanel, "Audio evidence", "AI prototype return review panel must expose audio evidence.");
 requireText(prototypeReturnReviewPanel, "Scoring evidence", "AI prototype return review panel must expose scoring evidence.");
 requireText(prototypeReturnReviewPanel, "Accessibility evidence", "AI prototype return review panel must expose accessibility evidence.");
+requireText(prototypeIntegrationPlan, "sampleAiPrototypeIntegrationPlans", "AI prototype integration plan data must exist.");
+requireText(prototypeIntegrationPlan, "ai_prototype_return_review", "AI prototype integration plan must depend on prototype return review records.");
+requireText(prototypeIntegrationPlan, "prototype_wrapper_adapter_review", "AI prototype integration plan must name wrapper adapter review.");
+requireText(prototypeIntegrationPlan, "prototype_fixture_replay_report", "AI prototype integration plan must name fixture replay report.");
+requireText(prototypeIntegrationPlan, "prototype_event_replay_report", "AI prototype integration plan must name event replay report.");
+requireText(prototypeIntegrationPlan, "prototype_audio_coverage_report", "AI prototype integration plan must name audio coverage report.");
+requireText(prototypeIntegrationPlan, "No direct import into apps/web", "AI prototype integration plan must block direct imports.");
+requireText(prototypeIntegrationPlan, "No route registry write", "AI prototype integration plan must block route writes.");
+requireText(prototypeIntegrationPlan, "No game sequence mutation", "AI prototype integration plan must block game sequence mutation.");
+requireText(prototypeIntegrationPlan, "No package promotion", "AI prototype integration plan must block package promotion.");
+requireText(prototypeIntegrationPlanPanel, "AI prototype integration plan", "AI prototype integration plan panel must expose heading.");
+requireText(prototypeIntegrationPlanPanel, "Wrapper-first integration path", "AI prototype integration plan panel must expose wrapper-first path.");
+requireText(prototypeIntegrationPlanPanel, "No direct import", "AI prototype integration plan panel must block direct imports.");
+requireText(prototypeIntegrationPlanPanel, "Codex review required", "AI prototype integration plan panel must require Codex review.");
+requireText(prototypeIntegrationPlanPanel, "Mode integration plans", "AI prototype integration plan panel must expose mode plans.");
+requireText(prototypeIntegrationPlanPanel, "Integration sequence", "AI prototype integration plan panel must expose integration sequence.");
+requireText(prototypeIntegrationPlanPanel, "Required tests", "AI prototype integration plan panel must expose required tests.");
+requireText(prototypeIntegrationPlanPanel, "Blocked shortcuts", "AI prototype integration plan panel must expose blocked shortcuts.");
 requireText(promptPackagePlan, "sampleAiPromptPackagePlans", "AI prompt package plan data must exist.");
 requireText(promptPackagePlan, "MiniStar generator prompt package", "AI prompt package plan must include MiniStar request seed.");
 requireText(promptPackagePlan, "ministar-l1-greetings-game-draft", "AI prompt package plan must bind to MiniStar greetings request.");
@@ -812,6 +834,7 @@ requireText(route, "AiGeneratorLineageMapPanel", "Generator route must render th
 requireText(route, "AiEngineBindingPlanPanel", "Generator route must render the engine binding panel.");
 requireText(route, "AiGeneratedGameBuildBriefPanel", "Generator route must render the generated game build brief panel.");
 requireText(route, "AiPrototypeReturnReviewPanel", "Generator route must render the prototype return review panel.");
+requireText(route, "AiPrototypeIntegrationPlanPanel", "Generator route must render the prototype integration plan panel.");
 requireText(route, "AiPromptPackagePlanPanel", "Generator route must render the prompt package plan panel.");
 requireText(route, "AiGeneratorCostEntitlementGatePanel", "Generator route must render the cost entitlement gate panel.");
 requireText(route, "AiGenerationRequestBuilderPanel", "Generator route must render the request builder panel.");
@@ -835,6 +858,7 @@ requireText(route, "sampleAiGeneratorLineageMaps", "Generator route must use lin
 requireText(route, "sampleAiEngineBindingPlans", "Generator route must use the sample engine binding plan data.");
 requireText(route, "sampleAiGeneratedGameBuildBriefPackets", "Generator route must use generated game build brief data.");
 requireText(route, "sampleAiPrototypeReturnReviewPackets", "Generator route must use prototype return review data.");
+requireText(route, "sampleAiPrototypeIntegrationPlans", "Generator route must use prototype integration plan data.");
 requireText(route, "sampleAiPromptPackagePlans", "Generator route must use the sample prompt package plan data.");
 requireText(route, "sampleAiGeneratorCostEntitlementGates", "Generator route must use the sample cost entitlement gate data.");
 requireText(route, "sampleActivityPathwayCompatibilityMatrix", "Generator route must use the compatibility matrix.");

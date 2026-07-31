@@ -288,6 +288,7 @@
 - `DR-314-ai-generated-game-build-brief-storage-contract.md`
 - `DR-315-ai-prototype-return-review-gate.md`
 - `DR-316-ai-prototype-return-review-storage-contract.md`
+- `DR-317-ai-prototype-integration-plan.md`
 
 ## Maintenance Rule
 

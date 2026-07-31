@@ -119,6 +119,12 @@ Returned prototypes cannot be merged into production, write route registry entri
 
 The backend-neutral storage contract is `ai_prototype_return_review` / `ai-prototype-return-review`. Hosted and local adapters must preserve returned artifact evidence, parent-engine wrapper review, JSON fixture conformance, standard event replay, audio cue coverage review, deterministic scoring review, mobile accessibility review, and white-label fit while blocking production merge, route writes, scoring mutations, audio manifest mutations, direct assignment, and student-facing prototype previews.
 
+## Prototype Integration Plan Rule
+
+Prototype integration plans must stay wrapper-first and review-only. A plan may show quarantine, wrapper adapter proposal, JSON fixture replay, standard event replay, target-language audio coverage, deterministic scoring replay, mobile accessibility inspection, white-label theme injection, and Codex integration decision requirements.
+
+Prototype integration plans cannot import returned files into `apps/web`, write route registry entries, mutate game sequences, mutate scoring profiles, mutate audio manifests, promote packages, assign students, or treat prototype evidence as package-ready. Phaser and other premium surfaces must remain removable wrappers around the LivingTextbook parent-engine contract.
+
 ## Mode Recommendation Rule
 
 Generator mode recommendations must reuse the reviewed activity compatibility matrix. The generator can recommend a tight pathway for a unit, but it must not produce a broad switch panel or unsupported conversions. Blocked conversions stay visible with their payload-fit and compatibility-rule reasons.
