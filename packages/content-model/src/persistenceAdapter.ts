@@ -41,6 +41,19 @@ export interface PersistenceWriteIntent {
   preservesAiGeneratedGameBuildBrief?: boolean;
   preservesAiPrototypeReturnReview?: boolean;
   preservesAiPrototypeIntegrationPlan?: boolean;
+  preservesAiPrototypeWrapperAdapterReview?: boolean;
+  requiresFixtureInputContract?: boolean;
+  requiresStandardEventOutputContract?: boolean;
+  requiresStateOwnershipRules?: boolean;
+  requiresWrapperEvidence?: boolean;
+  requiresRejectionTriggers?: boolean;
+  blocksEventContractBypass?: boolean;
+  blocksTenantHardCoding?: boolean;
+  blocksScoreAuthority?: boolean;
+  blocksRouteStateOwnership?: boolean;
+  blocksAudioManifestAuthority?: boolean;
+  blocksRewardInventoryWrite?: boolean;
+  blocksSupportLanguageProgressTrigger?: boolean;
   requiresPrototypeArtifactEvidence?: boolean;
   requiresWrapperAdapterReview?: boolean;
   requiresFixtureReplayReport?: boolean;
@@ -514,6 +527,61 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "ai-prototype-integration-plan" && !intent.blocksDirectStudentAssignment) {
       errors.push(`AI prototype integration plan write intent ${intent.intentId} must block student assignments.`);
+    }
+
+    if (
+      intent.category === "ai-prototype-wrapper-adapter-review" &&
+      !intent.preservesAiPrototypeWrapperAdapterReview
+    ) {
+      errors.push(`AI prototype wrapper adapter review write intent ${intent.intentId} must preserve adapter review sections.`);
+    }
+
+    if (intent.category === "ai-prototype-wrapper-adapter-review" && !intent.requiresFixtureInputContract) {
+      errors.push(`AI prototype wrapper adapter review write intent ${intent.intentId} must require fixture input contracts.`);
+    }
+
+    if (intent.category === "ai-prototype-wrapper-adapter-review" && !intent.requiresStandardEventOutputContract) {
+      errors.push(`AI prototype wrapper adapter review write intent ${intent.intentId} must require standard event output contracts.`);
+    }
+
+    if (intent.category === "ai-prototype-wrapper-adapter-review" && !intent.requiresStateOwnershipRules) {
+      errors.push(`AI prototype wrapper adapter review write intent ${intent.intentId} must require state ownership rules.`);
+    }
+
+    if (intent.category === "ai-prototype-wrapper-adapter-review" && !intent.requiresWrapperEvidence) {
+      errors.push(`AI prototype wrapper adapter review write intent ${intent.intentId} must require wrapper evidence.`);
+    }
+
+    if (intent.category === "ai-prototype-wrapper-adapter-review" && !intent.requiresRejectionTriggers) {
+      errors.push(`AI prototype wrapper adapter review write intent ${intent.intentId} must require rejection triggers.`);
+    }
+
+    if (intent.category === "ai-prototype-wrapper-adapter-review" && !intent.blocksEventContractBypass) {
+      errors.push(`AI prototype wrapper adapter review write intent ${intent.intentId} must block event contract bypass.`);
+    }
+
+    if (intent.category === "ai-prototype-wrapper-adapter-review" && !intent.blocksTenantHardCoding) {
+      errors.push(`AI prototype wrapper adapter review write intent ${intent.intentId} must block tenant hard-coding.`);
+    }
+
+    if (intent.category === "ai-prototype-wrapper-adapter-review" && !intent.blocksScoreAuthority) {
+      errors.push(`AI prototype wrapper adapter review write intent ${intent.intentId} must block wrapper score authority.`);
+    }
+
+    if (intent.category === "ai-prototype-wrapper-adapter-review" && !intent.blocksRouteStateOwnership) {
+      errors.push(`AI prototype wrapper adapter review write intent ${intent.intentId} must block route state ownership.`);
+    }
+
+    if (intent.category === "ai-prototype-wrapper-adapter-review" && !intent.blocksAudioManifestAuthority) {
+      errors.push(`AI prototype wrapper adapter review write intent ${intent.intentId} must block audio manifest authority.`);
+    }
+
+    if (intent.category === "ai-prototype-wrapper-adapter-review" && !intent.blocksRewardInventoryWrite) {
+      errors.push(`AI prototype wrapper adapter review write intent ${intent.intentId} must block reward inventory writes.`);
+    }
+
+    if (intent.category === "ai-prototype-wrapper-adapter-review" && !intent.blocksSupportLanguageProgressTrigger) {
+      errors.push(`AI prototype wrapper adapter review write intent ${intent.intentId} must block support-language progress triggers.`);
     }
 
     if (intent.category === "ai-generated-package-manifest" && !intent.preservesAiGeneratedPackageManifest) {

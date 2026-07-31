@@ -17,6 +17,7 @@ const requiredSchemaEntities = [
   "ai_generated_game_build_brief",
   "ai_prototype_return_review",
   "ai_prototype_integration_plan",
+  "ai_prototype_wrapper_adapter_review",
   "ai_generated_package_manifest",
   "ai_generated_package_promotion_checklist",
   "ai_generated_package_release_candidate",
@@ -84,6 +85,7 @@ const requiredMigrationCandidates = [
   "m060-ai-generated-game-build-brief-records",
   "m061-ai-prototype-return-review-records",
   "m062-ai-prototype-integration-plan-records",
+  "m063-ai-prototype-wrapper-adapter-review-records",
   "m054-ai-generated-package-manifest-records",
   "m058-ai-generated-package-promotion-checklist-records",
   "m059-ai-generated-package-release-candidate-records",
@@ -154,6 +156,7 @@ const requiredMigrationSpecs = [
   "spec-ai-generated-game-build-brief",
   "spec-ai-prototype-return-review",
   "spec-ai-prototype-integration-plan",
+  "spec-ai-prototype-wrapper-adapter-review",
   "spec-ai-generated-package-manifest",
   "spec-ai-generated-package-promotion-checklist",
   "spec-ai-generated-package-release-candidate",
@@ -265,6 +268,29 @@ requireText(schemaDraft, "mode_integration_plans", "Backend schema must preserve
 requireText(schemaDraft, "direct_app_import_allowed", "Backend schema must block direct app imports.");
 requireText(schemaDraft, "game_sequence_mutation_allowed", "Backend schema must block game sequence mutations.");
 requireText(schemaDraft, "package_promotion_allowed", "Backend schema must block package promotion.");
+requireText(schemaDraft, "ai_prototype_wrapper_adapter_review", "Backend schema must include AI prototype wrapper adapter reviews.");
+requireText(
+  schemaDraft,
+  "ai_prototype_wrapper_adapter_review_id",
+  "Backend schema must preserve AI prototype wrapper adapter review ids.",
+);
+requireText(schemaDraft, "parent_engine_adapter_boundary", "Backend schema must preserve parent-engine adapter boundaries.");
+requireText(schemaDraft, "fixture_input_contract", "Backend schema must preserve wrapper fixture input contracts.");
+requireText(schemaDraft, "standard_event_output_contract", "Backend schema must preserve standard event output contracts.");
+requireText(schemaDraft, "state_ownership_rules", "Backend schema must preserve wrapper state ownership rules.");
+requireText(schemaDraft, "wrapper_evidence", "Backend schema must preserve wrapper evidence.");
+requireText(schemaDraft, "rejection_triggers", "Backend schema must preserve wrapper rejection triggers.");
+requireText(schemaDraft, "event_contract_bypass_allowed", "Backend schema must block event contract bypass.");
+requireText(schemaDraft, "tenant_hard_coding_allowed", "Backend schema must block tenant hard-coding.");
+requireText(schemaDraft, "score_authority_allowed", "Backend schema must block wrapper score authority.");
+requireText(schemaDraft, "route_state_ownership_allowed", "Backend schema must block route state ownership.");
+requireText(schemaDraft, "audio_manifest_authority_allowed", "Backend schema must block audio manifest authority.");
+requireText(schemaDraft, "reward_inventory_write_allowed", "Backend schema must block reward inventory writes.");
+requireText(
+  schemaDraft,
+  "support_language_progress_trigger_allowed",
+  "Backend schema must block support-language progress triggers.",
+);
 requireText(schemaDraft, "ai_generated_package_manifest", "Backend schema must include AI generated package manifests.");
 requireText(schemaDraft, "ai_generated_package_manifest_id", "Backend schema must preserve generated package manifest ids.");
 requireText(schemaDraft, "generation_request_id", "Backend schema must preserve AI generation request ids.");
@@ -564,6 +590,33 @@ requireText(migrationSpecs, "mode_integration_plans", "Migration specs must pres
 requireText(migrationSpecs, "direct_app_import_allowed", "Migration specs must block direct app imports.");
 requireText(migrationSpecs, "game_sequence_mutation_allowed", "Migration specs must block game sequence mutations.");
 requireText(migrationSpecs, "package_promotion_allowed", "Migration specs must block package promotion.");
+requireText(
+  migrationSpecs,
+  "spec-ai-prototype-wrapper-adapter-review",
+  "Migration specs must include AI prototype wrapper adapter reviews.",
+);
+requireText(
+  migrationSpecs,
+  "ai_prototype_wrapper_adapter_review_id",
+  "Migration specs must preserve AI prototype wrapper adapter review ids.",
+);
+requireText(migrationSpecs, "parent_engine_adapter_boundary", "Migration specs must preserve parent-engine adapter boundaries.");
+requireText(migrationSpecs, "fixture_input_contract", "Migration specs must preserve wrapper fixture input contracts.");
+requireText(migrationSpecs, "standard_event_output_contract", "Migration specs must preserve standard event output contracts.");
+requireText(migrationSpecs, "state_ownership_rules", "Migration specs must preserve wrapper state ownership rules.");
+requireText(migrationSpecs, "wrapper_evidence", "Migration specs must preserve wrapper evidence.");
+requireText(migrationSpecs, "rejection_triggers", "Migration specs must preserve wrapper rejection triggers.");
+requireText(migrationSpecs, "event_contract_bypass_allowed", "Migration specs must block event contract bypass.");
+requireText(migrationSpecs, "tenant_hard_coding_allowed", "Migration specs must block tenant hard-coding.");
+requireText(migrationSpecs, "score_authority_allowed", "Migration specs must block wrapper score authority.");
+requireText(migrationSpecs, "route_state_ownership_allowed", "Migration specs must block route state ownership.");
+requireText(migrationSpecs, "audio_manifest_authority_allowed", "Migration specs must block audio manifest authority.");
+requireText(migrationSpecs, "reward_inventory_write_allowed", "Migration specs must block reward inventory writes.");
+requireText(
+  migrationSpecs,
+  "support_language_progress_trigger_allowed",
+  "Migration specs must block support-language progress triggers.",
+);
 requireText(migrationSpecs, "spec-ai-generated-package-manifest", "Migration specs must include AI generated package manifests.");
 requireText(migrationSpecs, "ai_generated_package_manifest_id", "Migration specs must preserve generated package manifest ids.");
 requireText(migrationSpecs, "prompt_package_id", "Migration specs must preserve generated package prompt package ids.");
@@ -1130,6 +1183,41 @@ requireText(persistenceAdapter, "requiresScoringReplayReport: true", "Persistenc
 requireText(persistenceAdapter, "blocksDirectAppImport: true", "Persistence adapter must block direct app imports.");
 requireText(persistenceAdapter, "blocksGameSequenceMutation: true", "Persistence adapter must block game sequence mutations.");
 requireText(persistenceAdapter, "blocksPackagePromotion: true", "Persistence adapter must block package promotion.");
+requireText(
+  persistenceAdapter,
+  "hosted-ai-prototype-wrapper-adapter-review-write",
+  "Persistence adapter must include hosted AI prototype wrapper adapter review writes.",
+);
+requireText(
+  persistenceAdapter,
+  "local-ai-prototype-wrapper-adapter-review-write",
+  "Persistence adapter must include local AI prototype wrapper adapter review writes.",
+);
+requireText(
+  persistenceAdapter,
+  "preservesAiPrototypeWrapperAdapterReview: true",
+  "Persistence adapter must preserve AI prototype wrapper adapter review sections.",
+);
+requireText(persistenceAdapter, "requiresFixtureInputContract: true", "Persistence adapter must require fixture input contracts.");
+requireText(
+  persistenceAdapter,
+  "requiresStandardEventOutputContract: true",
+  "Persistence adapter must require standard event output contracts.",
+);
+requireText(persistenceAdapter, "requiresStateOwnershipRules: true", "Persistence adapter must require state ownership rules.");
+requireText(persistenceAdapter, "requiresWrapperEvidence: true", "Persistence adapter must require wrapper evidence.");
+requireText(persistenceAdapter, "requiresRejectionTriggers: true", "Persistence adapter must require rejection triggers.");
+requireText(persistenceAdapter, "blocksEventContractBypass: true", "Persistence adapter must block event contract bypass.");
+requireText(persistenceAdapter, "blocksTenantHardCoding: true", "Persistence adapter must block tenant hard-coding.");
+requireText(persistenceAdapter, "blocksScoreAuthority: true", "Persistence adapter must block wrapper score authority.");
+requireText(persistenceAdapter, "blocksRouteStateOwnership: true", "Persistence adapter must block route state ownership.");
+requireText(persistenceAdapter, "blocksAudioManifestAuthority: true", "Persistence adapter must block audio manifest authority.");
+requireText(persistenceAdapter, "blocksRewardInventoryWrite: true", "Persistence adapter must block reward inventory writes.");
+requireText(
+  persistenceAdapter,
+  "blocksSupportLanguageProgressTrigger: true",
+  "Persistence adapter must block support-language progress triggers.",
+);
 requireText(persistenceAdapter, "hosted-ai-generated-package-manifest-write", "Persistence adapter must include hosted AI generated package manifest writes.");
 requireText(persistenceAdapter, "local-ai-generated-package-manifest-write", "Persistence adapter must include local AI generated package manifest writes.");
 requireText(persistenceAdapter, "preservesAiGeneratedPackageManifest: true", "Persistence adapter must preserve AI generated package manifest links.");
@@ -1538,6 +1626,41 @@ requireText(durableRecords, "requiresScoringReplayReport: true", "Durable record
 requireText(durableRecords, "blocksDirectAppImport: true", "Durable record plan must block direct app imports.");
 requireText(durableRecords, "blocksGameSequenceMutation: true", "Durable record plan must block game sequence mutations.");
 requireText(durableRecords, "blocksPackagePromotion: true", "Durable record plan must block package promotion.");
+requireText(
+  durableRecords,
+  "ai-prototype-wrapper-adapter-review-record",
+  "Durable record plan must include AI prototype wrapper adapter review records.",
+);
+requireText(
+  durableRecords,
+  "AI prototype wrapper adapter review record",
+  "Durable record plan must expose AI prototype wrapper adapter review labels.",
+);
+requireText(
+  durableRecords,
+  "preservesAiPrototypeWrapperAdapterReview: true",
+  "Durable record plan must preserve AI prototype wrapper adapter review sections.",
+);
+requireText(durableRecords, "requiresFixtureInputContract: true", "Durable record plan must require fixture input contracts.");
+requireText(
+  durableRecords,
+  "requiresStandardEventOutputContract: true",
+  "Durable record plan must require standard event output contracts.",
+);
+requireText(durableRecords, "requiresStateOwnershipRules: true", "Durable record plan must require state ownership rules.");
+requireText(durableRecords, "requiresWrapperEvidence: true", "Durable record plan must require wrapper evidence.");
+requireText(durableRecords, "requiresRejectionTriggers: true", "Durable record plan must require rejection triggers.");
+requireText(durableRecords, "blocksEventContractBypass: true", "Durable record plan must block event contract bypass.");
+requireText(durableRecords, "blocksTenantHardCoding: true", "Durable record plan must block tenant hard-coding.");
+requireText(durableRecords, "blocksScoreAuthority: true", "Durable record plan must block wrapper score authority.");
+requireText(durableRecords, "blocksRouteStateOwnership: true", "Durable record plan must block route state ownership.");
+requireText(durableRecords, "blocksAudioManifestAuthority: true", "Durable record plan must block audio manifest authority.");
+requireText(durableRecords, "blocksRewardInventoryWrite: true", "Durable record plan must block reward inventory writes.");
+requireText(
+  durableRecords,
+  "blocksSupportLanguageProgressTrigger: true",
+  "Durable record plan must block support-language progress triggers.",
+);
 requireText(durableRecords, "ai-generated-package-manifest-record", "Durable record plan must include AI generated package manifest records.");
 requireText(durableRecords, "AI generated package manifest record", "Durable record plan must expose AI generated package manifest record labels.");
 requireText(durableRecords, "preservesAiGeneratedPackageManifest: true", "Durable record plan must preserve AI generated package manifest links.");
@@ -1838,6 +1961,16 @@ requireText(routeVerifier, "ai_prototype_return_review", "Active route verifier 
 requireText(routeVerifier, "AI prototype return review record", "Active route verifier must keep AI prototype return review durable records visible on teacher intake.");
 requireText(routeVerifier, "ai_prototype_integration_plan", "Active route verifier must keep AI prototype integration plan storage visible on teacher intake.");
 requireText(routeVerifier, "AI prototype integration plan record", "Active route verifier must keep AI prototype integration plan durable records visible on teacher intake.");
+requireText(
+  routeVerifier,
+  "ai_prototype_wrapper_adapter_review",
+  "Active route verifier must keep AI prototype wrapper adapter review storage visible on teacher intake.",
+);
+requireText(
+  routeVerifier,
+  "AI prototype wrapper adapter review record",
+  "Active route verifier must keep AI prototype wrapper adapter review durable records visible on teacher intake.",
+);
 requireText(routeVerifier, "ai_generated_package_manifest", "Active route verifier must keep AI generated package manifest storage visible on teacher intake.");
 requireText(routeVerifier, "AI generated package manifest record", "Active route verifier must keep AI generated package manifest durable records visible on teacher intake.");
 requireText(

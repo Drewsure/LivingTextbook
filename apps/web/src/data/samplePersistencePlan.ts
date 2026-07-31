@@ -22,6 +22,7 @@ export type PersistenceBoundaryCategory =
   | "ai-generated-game-build-brief"
   | "ai-prototype-return-review"
   | "ai-prototype-integration-plan"
+  | "ai-prototype-wrapper-adapter-review"
   | "ai-generated-package-manifest"
   | "ai-generated-package-promotion-checklist"
   | "ai-generated-package-release-candidate"
@@ -294,6 +295,42 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
     note:
       "AI prototype integration plans need durable wrapper-first evidence before returned prototype code can be considered for apps/web import, route writes, game sequence changes, scoring changes, audio manifest changes, package promotion, or assignments.",
+  },
+  {
+    recordId: "ai-prototype-wrapper-adapter-review-record",
+    category: "ai-prototype-wrapper-adapter-review",
+    label: "AI prototype wrapper adapter review record",
+    readiness: "durable-required",
+    sourceOfTruth:
+      "AiPrototypeWrapperAdapterReview, AI prototype integration plan, fixture input contract, standard event output contract, state ownership rules, wrapper evidence, rejection triggers, and blocked actions",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: false,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesAiPrototypeWrapperAdapterReview: true,
+    requiresFixtureInputContract: true,
+    requiresStandardEventOutputContract: true,
+    requiresStateOwnershipRules: true,
+    requiresWrapperEvidence: true,
+    requiresRejectionTriggers: true,
+    blocksEventContractBypass: true,
+    blocksTenantHardCoding: true,
+    blocksScoreAuthority: true,
+    blocksRouteStateOwnership: true,
+    blocksAudioManifestAuthority: true,
+    blocksRewardInventoryWrite: true,
+    blocksSupportLanguageProgressTrigger: true,
+    blocksDirectAppImport: true,
+    blocksGeneratedGameRouteWrite: true,
+    blocksScoringProfileOverride: true,
+    blocksAudioManifestMutation: true,
+    blocksPackagePromotion: true,
+    blocksDirectStudentAssignment: true,
+    recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
+    note:
+      "AI prototype wrapper adapter reviews need durable adapter-boundary evidence before returned prototype code can become a parent-engine wrapper, route write, scoring authority, audio manifest authority, package promotion, or assignment.",
   },
   {
     recordId: "ai-generated-package-promotion-checklist-record",
@@ -1590,6 +1627,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision:
       "Persist AI prototype integration plans before enabling wrapper adapter work, route registry writes, game sequence changes, scoring mutations, audio manifest mutations, package promotion, or student assignments.",
+  },
+  {
+    boundaryId: "ai-prototype-wrapper-adapter-review-boundary",
+    category: "ai-prototype-wrapper-adapter-review",
+    label: "AI prototype wrapper adapter review records",
+    status: "needs-backend",
+    recordShape:
+      "Wrapper adapter review id, tenant id, request id, integration plan id, source records, parent-engine adapter boundary, fixture input contract, standard event output contract, state ownership rules, wrapper evidence, rejection triggers, and blocked actions",
+    whyItMatters:
+      "Returned prototype work needs a durable adapter-boundary review so wrapper code cannot bypass standard events, tenant config, target-language audio, route ownership, scoring authority, reward inventory, or assignment gates.",
+    visibleTo: ["Tenant admin", "Content reviewer", "Platform admin", "External prototype builder"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Persist AI prototype wrapper adapter reviews before enabling parent-engine wrapper work, direct app imports, route writes, scoring/audio authority, package promotion, or assignments.",
   },
   {
     boundaryId: "ai-generated-package-promotion-checklist-boundary",

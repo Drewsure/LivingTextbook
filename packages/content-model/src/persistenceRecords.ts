@@ -10,6 +10,7 @@ export type PersistenceRecordCategory =
   | "ai-generated-game-build-brief"
   | "ai-prototype-return-review"
   | "ai-prototype-integration-plan"
+  | "ai-prototype-wrapper-adapter-review"
   | "ai-generated-package-manifest"
   | "ai-generated-package-promotion-checklist"
   | "ai-generated-package-release-candidate"
@@ -112,6 +113,19 @@ export interface DurableRecordContract {
   preservesAiGeneratedGameBuildBrief?: boolean;
   preservesAiPrototypeReturnReview?: boolean;
   preservesAiPrototypeIntegrationPlan?: boolean;
+  preservesAiPrototypeWrapperAdapterReview?: boolean;
+  requiresFixtureInputContract?: boolean;
+  requiresStandardEventOutputContract?: boolean;
+  requiresStateOwnershipRules?: boolean;
+  requiresWrapperEvidence?: boolean;
+  requiresRejectionTriggers?: boolean;
+  blocksEventContractBypass?: boolean;
+  blocksTenantHardCoding?: boolean;
+  blocksScoreAuthority?: boolean;
+  blocksRouteStateOwnership?: boolean;
+  blocksAudioManifestAuthority?: boolean;
+  blocksRewardInventoryWrite?: boolean;
+  blocksSupportLanguageProgressTrigger?: boolean;
   requiresPrototypeArtifactEvidence?: boolean;
   requiresWrapperAdapterReview?: boolean;
   requiresFixtureReplayReport?: boolean;
@@ -550,6 +564,61 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "ai-prototype-integration-plan" && !record.blocksDirectStudentAssignment) {
       errors.push(`AI prototype integration plan record ${record.recordId} must block student assignments.`);
+    }
+
+    if (
+      record.category === "ai-prototype-wrapper-adapter-review" &&
+      !record.preservesAiPrototypeWrapperAdapterReview
+    ) {
+      errors.push(`AI prototype wrapper adapter review record ${record.recordId} must preserve adapter review sections.`);
+    }
+
+    if (record.category === "ai-prototype-wrapper-adapter-review" && !record.requiresFixtureInputContract) {
+      errors.push(`AI prototype wrapper adapter review record ${record.recordId} must require fixture input contracts.`);
+    }
+
+    if (record.category === "ai-prototype-wrapper-adapter-review" && !record.requiresStandardEventOutputContract) {
+      errors.push(`AI prototype wrapper adapter review record ${record.recordId} must require standard event output contracts.`);
+    }
+
+    if (record.category === "ai-prototype-wrapper-adapter-review" && !record.requiresStateOwnershipRules) {
+      errors.push(`AI prototype wrapper adapter review record ${record.recordId} must require state ownership rules.`);
+    }
+
+    if (record.category === "ai-prototype-wrapper-adapter-review" && !record.requiresWrapperEvidence) {
+      errors.push(`AI prototype wrapper adapter review record ${record.recordId} must require wrapper evidence.`);
+    }
+
+    if (record.category === "ai-prototype-wrapper-adapter-review" && !record.requiresRejectionTriggers) {
+      errors.push(`AI prototype wrapper adapter review record ${record.recordId} must require rejection triggers.`);
+    }
+
+    if (record.category === "ai-prototype-wrapper-adapter-review" && !record.blocksEventContractBypass) {
+      errors.push(`AI prototype wrapper adapter review record ${record.recordId} must block event contract bypass.`);
+    }
+
+    if (record.category === "ai-prototype-wrapper-adapter-review" && !record.blocksTenantHardCoding) {
+      errors.push(`AI prototype wrapper adapter review record ${record.recordId} must block tenant hard-coding.`);
+    }
+
+    if (record.category === "ai-prototype-wrapper-adapter-review" && !record.blocksScoreAuthority) {
+      errors.push(`AI prototype wrapper adapter review record ${record.recordId} must block wrapper score authority.`);
+    }
+
+    if (record.category === "ai-prototype-wrapper-adapter-review" && !record.blocksRouteStateOwnership) {
+      errors.push(`AI prototype wrapper adapter review record ${record.recordId} must block route state ownership.`);
+    }
+
+    if (record.category === "ai-prototype-wrapper-adapter-review" && !record.blocksAudioManifestAuthority) {
+      errors.push(`AI prototype wrapper adapter review record ${record.recordId} must block audio manifest authority.`);
+    }
+
+    if (record.category === "ai-prototype-wrapper-adapter-review" && !record.blocksRewardInventoryWrite) {
+      errors.push(`AI prototype wrapper adapter review record ${record.recordId} must block reward inventory writes.`);
+    }
+
+    if (record.category === "ai-prototype-wrapper-adapter-review" && !record.blocksSupportLanguageProgressTrigger) {
+      errors.push(`AI prototype wrapper adapter review record ${record.recordId} must block support-language progress triggers.`);
     }
 
     if (record.category === "ai-generated-package-manifest" && !record.preservesAiGeneratedPackageManifest) {

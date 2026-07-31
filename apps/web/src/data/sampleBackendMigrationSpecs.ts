@@ -1511,6 +1511,141 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       ],
     },
     {
+      specId: "spec-ai-prototype-wrapper-adapter-review",
+      label: "AI prototype wrapper adapter review",
+      candidateId: "m063-ai-prototype-wrapper-adapter-review-records",
+      storeKind: "admin-record",
+      status: "ready-for-review",
+      purpose:
+        "Stores adapter-boundary reviews while keeping event bypass, tenant hard-coding, route ownership, scoring authority, audio authority, reward writes, package promotion, and assignments blocked.",
+      primaryKey: "ai_prototype_wrapper_adapter_review_id",
+      tenantScope:
+        "Scoped by tenant_id, generation_request_id, ai_prototype_integration_plan_id, and wrapper_adapter_review_revision.",
+      fields: [
+        {
+          name: "ai_prototype_wrapper_adapter_review_id",
+          type: "string",
+          required: true,
+          note: "Stable id for one prototype wrapper adapter review snapshot.",
+        },
+        {
+          name: "generation_request_id",
+          type: "string",
+          required: true,
+          note: "AI generation request this adapter review belongs to.",
+        },
+        {
+          name: "ai_prototype_integration_plan_id",
+          type: "string",
+          required: true,
+          note: "Source integration plan snapshot.",
+        },
+        {
+          name: "source_records",
+          type: "json",
+          required: true,
+          note: "Required source record ids for adapter review.",
+        },
+        {
+          name: "parent_engine_adapter_boundary",
+          type: "json",
+          required: true,
+          note: "Platform-owned state and wrapper-owned transient state boundaries.",
+        },
+        {
+          name: "fixture_input_contract",
+          type: "json",
+          required: true,
+          note: "Reviewed fixture shape the wrapper accepts.",
+        },
+        {
+          name: "standard_event_output_contract",
+          type: "json",
+          required: true,
+          note: "Standard events the wrapper must emit.",
+        },
+        {
+          name: "state_ownership_rules",
+          type: "json",
+          required: true,
+          note: "Allowed transient local state and blocked platform authority.",
+        },
+        {
+          name: "wrapper_evidence",
+          type: "json",
+          required: true,
+          note: "Fixture, event, audio, scoring, mobile, and tenant-theme evidence.",
+        },
+        {
+          name: "rejection_triggers",
+          type: "json",
+          required: true,
+          note: "Hard-coded content, event bypass, support-language triggers, route effects, and hidden text.",
+        },
+        {
+          name: "event_contract_bypass_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until standard event adapter review passes.",
+        },
+        {
+          name: "tenant_hard_coding_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false for white-label wrappers.",
+        },
+        {
+          name: "score_authority_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false because scoring profiles own score authority.",
+        },
+        {
+          name: "route_state_ownership_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false because platform routes own route state.",
+        },
+        {
+          name: "audio_manifest_authority_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false because shared audio manifests own audio authority.",
+        },
+        {
+          name: "reward_inventory_write_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until collection inventory gates pass.",
+        },
+        {
+          name: "support_language_progress_trigger_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false for support-language text and audio.",
+        },
+      ],
+      indexes: [
+        "tenant_id + ai_prototype_wrapper_adapter_review_id",
+        "ai_prototype_wrapper_adapter_review_id unique",
+        "tenant_id + generation_request_id",
+        "tenant_id + ai_prototype_integration_plan_id",
+        "event_contract_bypass_allowed",
+        "tenant_hard_coding_allowed",
+      ],
+      retentionRule:
+        "Retain according to tenant prototype review and integration policy; blocked, returned-for-rework, reviewed, superseded, and accepted wrapper adapter review snapshots remain auditable.",
+      exportRule:
+        "Must export adapter boundary, fixture input contract, standard event output contract, state ownership rules, wrapper evidence, and rejection triggers without exporting raw model internals, learner audio, transcripts, or unrelated tenant packages.",
+      localFallback:
+        "Local classroom deployments store the same adapter review JSON for backup/export without allowing offline event bypass, tenant hard-coding, route ownership, scoring authority, audio authority, reward writes, promotion, or assignments.",
+      policyBlockers: [
+        "Wrapper adapter reviews cannot import app code, write routes, own score authority, own audio manifests, write reward inventory, promote packages, or create assignments by themselves.",
+        "Phaser or premium surfaces must emit standard events, request shared audio, and receive tenant config through injection.",
+        "Support-language progress triggers remain blocked; MiniStar Japanese support cannot unlock English package progress.",
+      ],
+    },
+    {
       specId: "spec-ai-reward-readiness-gate",
       label: "AI reward readiness gate",
       candidateId: "m055-ai-reward-readiness-gate-records",
