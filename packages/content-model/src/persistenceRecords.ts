@@ -11,6 +11,7 @@ export type PersistenceRecordCategory =
   | "ai-prototype-return-review"
   | "ai-prototype-integration-plan"
   | "ai-prototype-wrapper-adapter-review"
+  | "ai-prototype-fixture-replay-report"
   | "ai-generated-package-manifest"
   | "ai-generated-package-promotion-checklist"
   | "ai-generated-package-release-candidate"
@@ -114,6 +115,12 @@ export interface DurableRecordContract {
   preservesAiPrototypeReturnReview?: boolean;
   preservesAiPrototypeIntegrationPlan?: boolean;
   preservesAiPrototypeWrapperAdapterReview?: boolean;
+  preservesAiPrototypeFixtureReplayReport?: boolean;
+  requiresReviewedUnitJsonFixture?: boolean;
+  requiresFixtureCoverage?: boolean;
+  requiresFixtureReplayEvidence?: boolean;
+  requiresTargetLanguageProgressTrigger?: boolean;
+  blocksHardCodedUnitText?: boolean;
   requiresFixtureInputContract?: boolean;
   requiresStandardEventOutputContract?: boolean;
   requiresStateOwnershipRules?: boolean;
@@ -619,6 +626,53 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "ai-prototype-wrapper-adapter-review" && !record.blocksSupportLanguageProgressTrigger) {
       errors.push(`AI prototype wrapper adapter review record ${record.recordId} must block support-language progress triggers.`);
+    }
+
+    if (
+      record.category === "ai-prototype-fixture-replay-report" &&
+      !record.preservesAiPrototypeFixtureReplayReport
+    ) {
+      errors.push(`AI prototype fixture replay report record ${record.recordId} must preserve fixture replay sections.`);
+    }
+
+    if (record.category === "ai-prototype-fixture-replay-report" && !record.requiresReviewedUnitJsonFixture) {
+      errors.push(`AI prototype fixture replay report record ${record.recordId} must require reviewed unit JSON fixtures.`);
+    }
+
+    if (record.category === "ai-prototype-fixture-replay-report" && !record.requiresFixtureCoverage) {
+      errors.push(`AI prototype fixture replay report record ${record.recordId} must require fixture coverage.`);
+    }
+
+    if (record.category === "ai-prototype-fixture-replay-report" && !record.requiresFixtureReplayEvidence) {
+      errors.push(`AI prototype fixture replay report record ${record.recordId} must require fixture replay evidence.`);
+    }
+
+    if (record.category === "ai-prototype-fixture-replay-report" && !record.requiresTargetLanguageProgressTrigger) {
+      errors.push(`AI prototype fixture replay report record ${record.recordId} must require target-language progress triggers.`);
+    }
+
+    if (record.category === "ai-prototype-fixture-replay-report" && !record.blocksHardCodedUnitText) {
+      errors.push(`AI prototype fixture replay report record ${record.recordId} must block hard-coded unit text.`);
+    }
+
+    if (record.category === "ai-prototype-fixture-replay-report" && !record.blocksTenantHardCoding) {
+      errors.push(`AI prototype fixture replay report record ${record.recordId} must block tenant hard-coding.`);
+    }
+
+    if (record.category === "ai-prototype-fixture-replay-report" && !record.blocksSupportLanguageProgressTrigger) {
+      errors.push(`AI prototype fixture replay report record ${record.recordId} must block support-language progress triggers.`);
+    }
+
+    if (record.category === "ai-prototype-fixture-replay-report" && !record.blocksScoreAuthority) {
+      errors.push(`AI prototype fixture replay report record ${record.recordId} must block prototype score authority.`);
+    }
+
+    if (record.category === "ai-prototype-fixture-replay-report" && !record.blocksAudioManifestAuthority) {
+      errors.push(`AI prototype fixture replay report record ${record.recordId} must block audio manifest authority.`);
+    }
+
+    if (record.category === "ai-prototype-fixture-replay-report" && !record.blocksRewardInventoryWrite) {
+      errors.push(`AI prototype fixture replay report record ${record.recordId} must block reward inventory writes.`);
     }
 
     if (record.category === "ai-generated-package-manifest" && !record.preservesAiGeneratedPackageManifest) {

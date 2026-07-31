@@ -1646,6 +1646,142 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       ],
     },
     {
+      specId: "spec-ai-prototype-fixture-replay-report",
+      label: "AI prototype fixture replay report",
+      candidateId: "m064-ai-prototype-fixture-replay-report-records",
+      storeKind: "admin-record",
+      status: "ready-for-review",
+      purpose:
+        "Stores reviewed JSON fixture replay evidence while keeping hard-coded unit text, tenant hard-coding, support-language progress, scoring authority, audio authority, reward writes, package promotion, and assignments blocked.",
+      primaryKey: "ai_prototype_fixture_replay_report_id",
+      tenantScope:
+        "Scoped by tenant_id, generation_request_id, ai_prototype_integration_plan_id, reviewed_unit_json_fixture_id, and fixture_replay_revision.",
+      fields: [
+        {
+          name: "ai_prototype_fixture_replay_report_id",
+          type: "string",
+          required: true,
+          note: "Stable id for one prototype fixture replay report snapshot.",
+        },
+        {
+          name: "generation_request_id",
+          type: "string",
+          required: true,
+          note: "AI generation request this fixture replay belongs to.",
+        },
+        {
+          name: "ai_prototype_integration_plan_id",
+          type: "string",
+          required: true,
+          note: "Source integration plan snapshot.",
+        },
+        {
+          name: "reviewed_unit_json_fixture_id",
+          type: "string",
+          required: true,
+          note: "Reviewed unit JSON fixture used for replay.",
+        },
+        {
+          name: "source_records",
+          type: "json",
+          required: true,
+          note: "Required source record ids for replay review.",
+        },
+        {
+          name: "fixture_coverage",
+          type: "json",
+          required: true,
+          note: "Unit meta, pedagogical payload, audio cues, mode config, scoring profile, assist language, and tenant theme coverage.",
+        },
+        {
+          name: "input_assertions",
+          type: "json",
+          required: true,
+          note: "Checks proving fixture-driven vocabulary, sentences, audio, theme, and support-language behavior.",
+        },
+        {
+          name: "output_assertions",
+          type: "json",
+          required: true,
+          note: "Checks proving standard events and blocked score, reward, route, audio, and assignment side effects.",
+        },
+        {
+          name: "replay_evidence",
+          type: "json",
+          required: true,
+          note: "Fixture parse result, term/sentence counts, audio request sample, event log sample, and tenant theme injection sample.",
+        },
+        {
+          name: "failure_triggers",
+          type: "json",
+          required: true,
+          note: "Hard-coded unit text, tenant assumptions, audio gaps, support-language triggers, score writes, reward writes, and route effects.",
+        },
+        {
+          name: "hard_coded_unit_text_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false for all returned prototypes.",
+        },
+        {
+          name: "target_language_progress_trigger_required",
+          type: "boolean",
+          required: true,
+          note: "Must remain true because target-language events are the only learning progress triggers.",
+        },
+        {
+          name: "support_language_progress_trigger_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false for support-language text and audio.",
+        },
+        {
+          name: "tenant_hard_coding_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false for white-label fixture replays.",
+        },
+        {
+          name: "score_authority_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false because scoring profiles own score authority.",
+        },
+        {
+          name: "audio_manifest_authority_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false because shared audio manifests own audio authority.",
+        },
+        {
+          name: "reward_inventory_write_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until collection inventory gates pass.",
+        },
+      ],
+      indexes: [
+        "tenant_id + ai_prototype_fixture_replay_report_id",
+        "ai_prototype_fixture_replay_report_id unique",
+        "tenant_id + generation_request_id",
+        "tenant_id + ai_prototype_integration_plan_id",
+        "tenant_id + reviewed_unit_json_fixture_id",
+        "hard_coded_unit_text_allowed",
+        "support_language_progress_trigger_allowed",
+      ],
+      retentionRule:
+        "Retain according to tenant prototype review and integration policy; blocked, returned-for-rework, reviewed, superseded, and accepted fixture replay snapshots remain auditable.",
+      exportRule:
+        "Must export reviewed fixture id, fixture coverage, input/output assertions, replay evidence, and failure triggers without exporting raw model internals, learner audio, transcripts, or unrelated tenant packages.",
+      localFallback:
+        "Local classroom deployments store the same fixture replay report JSON for backup/export without allowing offline hard-coded unit text, target-language bypass, tenant hard-coding, scoring authority, audio authority, reward writes, promotion, or assignments.",
+      policyBlockers: [
+        "Fixture replay reports cannot import app code, write routes, own score authority, own audio manifests, write reward inventory, promote packages, or create assignments by themselves.",
+        "Returned prototypes must load reviewed unit JSON fixtures and must not hard-code vocabulary, sentences, tenant visuals, media paths, or mascot assumptions.",
+        "Support-language progress triggers remain blocked; MiniStar Japanese support cannot unlock English package progress.",
+      ],
+    },
+    {
       specId: "spec-ai-reward-readiness-gate",
       label: "AI reward readiness gate",
       candidateId: "m055-ai-reward-readiness-gate-records",

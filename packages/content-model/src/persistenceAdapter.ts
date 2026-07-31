@@ -42,6 +42,12 @@ export interface PersistenceWriteIntent {
   preservesAiPrototypeReturnReview?: boolean;
   preservesAiPrototypeIntegrationPlan?: boolean;
   preservesAiPrototypeWrapperAdapterReview?: boolean;
+  preservesAiPrototypeFixtureReplayReport?: boolean;
+  requiresReviewedUnitJsonFixture?: boolean;
+  requiresFixtureCoverage?: boolean;
+  requiresFixtureReplayEvidence?: boolean;
+  requiresTargetLanguageProgressTrigger?: boolean;
+  blocksHardCodedUnitText?: boolean;
   requiresFixtureInputContract?: boolean;
   requiresStandardEventOutputContract?: boolean;
   requiresStateOwnershipRules?: boolean;
@@ -582,6 +588,53 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "ai-prototype-wrapper-adapter-review" && !intent.blocksSupportLanguageProgressTrigger) {
       errors.push(`AI prototype wrapper adapter review write intent ${intent.intentId} must block support-language progress triggers.`);
+    }
+
+    if (
+      intent.category === "ai-prototype-fixture-replay-report" &&
+      !intent.preservesAiPrototypeFixtureReplayReport
+    ) {
+      errors.push(`AI prototype fixture replay report write intent ${intent.intentId} must preserve fixture replay sections.`);
+    }
+
+    if (intent.category === "ai-prototype-fixture-replay-report" && !intent.requiresReviewedUnitJsonFixture) {
+      errors.push(`AI prototype fixture replay report write intent ${intent.intentId} must require reviewed unit JSON fixtures.`);
+    }
+
+    if (intent.category === "ai-prototype-fixture-replay-report" && !intent.requiresFixtureCoverage) {
+      errors.push(`AI prototype fixture replay report write intent ${intent.intentId} must require fixture coverage.`);
+    }
+
+    if (intent.category === "ai-prototype-fixture-replay-report" && !intent.requiresFixtureReplayEvidence) {
+      errors.push(`AI prototype fixture replay report write intent ${intent.intentId} must require fixture replay evidence.`);
+    }
+
+    if (intent.category === "ai-prototype-fixture-replay-report" && !intent.requiresTargetLanguageProgressTrigger) {
+      errors.push(`AI prototype fixture replay report write intent ${intent.intentId} must require target-language progress triggers.`);
+    }
+
+    if (intent.category === "ai-prototype-fixture-replay-report" && !intent.blocksHardCodedUnitText) {
+      errors.push(`AI prototype fixture replay report write intent ${intent.intentId} must block hard-coded unit text.`);
+    }
+
+    if (intent.category === "ai-prototype-fixture-replay-report" && !intent.blocksTenantHardCoding) {
+      errors.push(`AI prototype fixture replay report write intent ${intent.intentId} must block tenant hard-coding.`);
+    }
+
+    if (intent.category === "ai-prototype-fixture-replay-report" && !intent.blocksSupportLanguageProgressTrigger) {
+      errors.push(`AI prototype fixture replay report write intent ${intent.intentId} must block support-language progress triggers.`);
+    }
+
+    if (intent.category === "ai-prototype-fixture-replay-report" && !intent.blocksScoreAuthority) {
+      errors.push(`AI prototype fixture replay report write intent ${intent.intentId} must block prototype score authority.`);
+    }
+
+    if (intent.category === "ai-prototype-fixture-replay-report" && !intent.blocksAudioManifestAuthority) {
+      errors.push(`AI prototype fixture replay report write intent ${intent.intentId} must block audio manifest authority.`);
+    }
+
+    if (intent.category === "ai-prototype-fixture-replay-report" && !intent.blocksRewardInventoryWrite) {
+      errors.push(`AI prototype fixture replay report write intent ${intent.intentId} must block reward inventory writes.`);
     }
 
     if (intent.category === "ai-generated-package-manifest" && !intent.preservesAiGeneratedPackageManifest) {

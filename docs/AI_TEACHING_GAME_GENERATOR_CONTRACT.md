@@ -141,6 +141,8 @@ Prototype fixture replay reports must prove that returned prototypes load review
 
 The report must show fixture coverage, input assertions, output assertions, replay evidence, failure triggers, and blocked actions. It must preserve 8-12 vocabulary terms, exactly 2 target sentences, target-language-only progress, support-only assist language, target-language audio cue references, tenant theme injection, and standard event output while blocking live model calls, direct app imports, route writes, scoring/audio mutation, reward writes, student assignment, and support-language scoring or release.
 
+The backend-neutral storage contract is `ai_prototype_fixture_replay_report` / `ai-prototype-fixture-replay-report`. Hosted and local adapters must preserve reviewed unit JSON fixture id, fixture coverage, input/output assertions, replay evidence, failure triggers, and blocked actions while blocking hard-coded unit text, tenant hard-coding, support-language progress triggers, score authority, audio manifest authority, reward inventory writes, direct app imports, package promotion, and assignments.
+
 ## Mode Recommendation Rule
 
 Generator mode recommendations must reuse the reviewed activity compatibility matrix. The generator can recommend a tight pathway for a unit, but it must not produce a broad switch panel or unsupported conversions. Blocked conversions stay visible with their payload-fit and compatibility-rule reasons.

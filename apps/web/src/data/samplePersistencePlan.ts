@@ -23,6 +23,7 @@ export type PersistenceBoundaryCategory =
   | "ai-prototype-return-review"
   | "ai-prototype-integration-plan"
   | "ai-prototype-wrapper-adapter-review"
+  | "ai-prototype-fixture-replay-report"
   | "ai-generated-package-manifest"
   | "ai-generated-package-promotion-checklist"
   | "ai-generated-package-release-candidate"
@@ -331,6 +332,40 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
     note:
       "AI prototype wrapper adapter reviews need durable adapter-boundary evidence before returned prototype code can become a parent-engine wrapper, route write, scoring authority, audio manifest authority, package promotion, or assignment.",
+  },
+  {
+    recordId: "ai-prototype-fixture-replay-report-record",
+    category: "ai-prototype-fixture-replay-report",
+    label: "AI prototype fixture replay report record",
+    readiness: "durable-required",
+    sourceOfTruth:
+      "AiPrototypeFixtureReplayReport, reviewed unit JSON fixture, fixture coverage, replay evidence, input/output assertions, failure triggers, and blocked actions",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: false,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesAiPrototypeFixtureReplayReport: true,
+    requiresReviewedUnitJsonFixture: true,
+    requiresFixtureCoverage: true,
+    requiresFixtureReplayEvidence: true,
+    requiresTargetLanguageProgressTrigger: true,
+    blocksHardCodedUnitText: true,
+    blocksTenantHardCoding: true,
+    blocksSupportLanguageProgressTrigger: true,
+    blocksScoreAuthority: true,
+    blocksAudioManifestAuthority: true,
+    blocksRewardInventoryWrite: true,
+    blocksDirectAppImport: true,
+    blocksGeneratedGameRouteWrite: true,
+    blocksScoringProfileOverride: true,
+    blocksAudioManifestMutation: true,
+    blocksPackagePromotion: true,
+    blocksDirectStudentAssignment: true,
+    recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
+    note:
+      "AI prototype fixture replay reports need durable reviewed-fixture evidence before returned prototype code can prove it is fixture-driven, tenant-configurable, target-language gated, and safe for future wrapper integration.",
   },
   {
     recordId: "ai-generated-package-promotion-checklist-record",
@@ -1641,6 +1676,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision:
       "Persist AI prototype wrapper adapter reviews before enabling parent-engine wrapper work, direct app imports, route writes, scoring/audio authority, package promotion, or assignments.",
+  },
+  {
+    boundaryId: "ai-prototype-fixture-replay-report-boundary",
+    category: "ai-prototype-fixture-replay-report",
+    label: "AI prototype fixture replay report records",
+    status: "needs-backend",
+    recordShape:
+      "Fixture replay report id, tenant id, request id, integration plan id, reviewed fixture id, fixture coverage, replay evidence, input/output assertions, failure triggers, blocked actions",
+    whyItMatters:
+      "A returned prototype must prove it loads reviewed JSON fixture data instead of hard-coded unit text, tenant visuals, audio, scoring, rewards, or route assumptions before it can move toward integration.",
+    visibleTo: ["Platform admin", "Tenant admin", "Content reviewer", "Prototype reviewer"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Persist AI prototype fixture replay reports before enabling wrapper integration, direct app imports, route writes, scoring/audio authority, package promotion, or assignments.",
   },
   {
     boundaryId: "ai-generated-package-promotion-checklist-boundary",

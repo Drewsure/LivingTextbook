@@ -18,6 +18,7 @@ const requiredSchemaEntities = [
   "ai_prototype_return_review",
   "ai_prototype_integration_plan",
   "ai_prototype_wrapper_adapter_review",
+  "ai_prototype_fixture_replay_report",
   "ai_generated_package_manifest",
   "ai_generated_package_promotion_checklist",
   "ai_generated_package_release_candidate",
@@ -86,6 +87,7 @@ const requiredMigrationCandidates = [
   "m061-ai-prototype-return-review-records",
   "m062-ai-prototype-integration-plan-records",
   "m063-ai-prototype-wrapper-adapter-review-records",
+  "m064-ai-prototype-fixture-replay-report-records",
   "m054-ai-generated-package-manifest-records",
   "m058-ai-generated-package-promotion-checklist-records",
   "m059-ai-generated-package-release-candidate-records",
@@ -157,6 +159,7 @@ const requiredMigrationSpecs = [
   "spec-ai-prototype-return-review",
   "spec-ai-prototype-integration-plan",
   "spec-ai-prototype-wrapper-adapter-review",
+  "spec-ai-prototype-fixture-replay-report",
   "spec-ai-generated-package-manifest",
   "spec-ai-generated-package-promotion-checklist",
   "spec-ai-generated-package-release-candidate",
@@ -290,6 +293,24 @@ requireText(
   schemaDraft,
   "support_language_progress_trigger_allowed",
   "Backend schema must block support-language progress triggers.",
+);
+requireText(schemaDraft, "ai_prototype_fixture_replay_report", "Backend schema must include AI prototype fixture replay reports.");
+requireText(
+  schemaDraft,
+  "ai_prototype_fixture_replay_report_id",
+  "Backend schema must preserve AI prototype fixture replay report ids.",
+);
+requireText(schemaDraft, "reviewed_unit_json_fixture_id", "Backend schema must preserve reviewed unit JSON fixture ids.");
+requireText(schemaDraft, "fixture_coverage", "Backend schema must preserve fixture coverage.");
+requireText(schemaDraft, "input_assertions", "Backend schema must preserve fixture replay input assertions.");
+requireText(schemaDraft, "output_assertions", "Backend schema must preserve fixture replay output assertions.");
+requireText(schemaDraft, "replay_evidence", "Backend schema must preserve fixture replay evidence.");
+requireText(schemaDraft, "failure_triggers", "Backend schema must preserve fixture replay failure triggers.");
+requireText(schemaDraft, "hard_coded_unit_text_allowed", "Backend schema must block hard-coded unit text.");
+requireText(
+  schemaDraft,
+  "target_language_progress_trigger_required",
+  "Backend schema must require target-language progress triggers.",
 );
 requireText(schemaDraft, "ai_generated_package_manifest", "Backend schema must include AI generated package manifests.");
 requireText(schemaDraft, "ai_generated_package_manifest_id", "Backend schema must preserve generated package manifest ids.");
@@ -616,6 +637,28 @@ requireText(
   migrationSpecs,
   "support_language_progress_trigger_allowed",
   "Migration specs must block support-language progress triggers.",
+);
+requireText(
+  migrationSpecs,
+  "spec-ai-prototype-fixture-replay-report",
+  "Migration specs must include AI prototype fixture replay reports.",
+);
+requireText(
+  migrationSpecs,
+  "ai_prototype_fixture_replay_report_id",
+  "Migration specs must preserve AI prototype fixture replay report ids.",
+);
+requireText(migrationSpecs, "reviewed_unit_json_fixture_id", "Migration specs must preserve reviewed unit JSON fixture ids.");
+requireText(migrationSpecs, "fixture_coverage", "Migration specs must preserve fixture coverage.");
+requireText(migrationSpecs, "input_assertions", "Migration specs must preserve fixture replay input assertions.");
+requireText(migrationSpecs, "output_assertions", "Migration specs must preserve fixture replay output assertions.");
+requireText(migrationSpecs, "replay_evidence", "Migration specs must preserve fixture replay evidence.");
+requireText(migrationSpecs, "failure_triggers", "Migration specs must preserve fixture replay failure triggers.");
+requireText(migrationSpecs, "hard_coded_unit_text_allowed", "Migration specs must block hard-coded unit text.");
+requireText(
+  migrationSpecs,
+  "target_language_progress_trigger_required",
+  "Migration specs must require target-language progress triggers.",
 );
 requireText(migrationSpecs, "spec-ai-generated-package-manifest", "Migration specs must include AI generated package manifests.");
 requireText(migrationSpecs, "ai_generated_package_manifest_id", "Migration specs must preserve generated package manifest ids.");
@@ -1209,6 +1252,38 @@ requireText(persistenceAdapter, "requiresWrapperEvidence: true", "Persistence ad
 requireText(persistenceAdapter, "requiresRejectionTriggers: true", "Persistence adapter must require rejection triggers.");
 requireText(persistenceAdapter, "blocksEventContractBypass: true", "Persistence adapter must block event contract bypass.");
 requireText(persistenceAdapter, "blocksTenantHardCoding: true", "Persistence adapter must block tenant hard-coding.");
+requireText(
+  persistenceAdapter,
+  "hosted-ai-prototype-fixture-replay-report-write",
+  "Persistence adapter must include hosted AI prototype fixture replay report writes.",
+);
+requireText(
+  persistenceAdapter,
+  "local-ai-prototype-fixture-replay-report-write",
+  "Persistence adapter must include local AI prototype fixture replay report writes.",
+);
+requireText(
+  persistenceAdapter,
+  "preservesAiPrototypeFixtureReplayReport: true",
+  "Persistence adapter must preserve AI prototype fixture replay report sections.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresReviewedUnitJsonFixture: true",
+  "Persistence adapter must require reviewed unit JSON fixtures.",
+);
+requireText(persistenceAdapter, "requiresFixtureCoverage: true", "Persistence adapter must require fixture coverage.");
+requireText(
+  persistenceAdapter,
+  "requiresFixtureReplayEvidence: true",
+  "Persistence adapter must require fixture replay evidence.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresTargetLanguageProgressTrigger: true",
+  "Persistence adapter must require target-language progress triggers.",
+);
+requireText(persistenceAdapter, "blocksHardCodedUnitText: true", "Persistence adapter must block hard-coded unit text.");
 requireText(persistenceAdapter, "blocksScoreAuthority: true", "Persistence adapter must block wrapper score authority.");
 requireText(persistenceAdapter, "blocksRouteStateOwnership: true", "Persistence adapter must block route state ownership.");
 requireText(persistenceAdapter, "blocksAudioManifestAuthority: true", "Persistence adapter must block audio manifest authority.");
@@ -1652,6 +1727,38 @@ requireText(durableRecords, "requiresWrapperEvidence: true", "Durable record pla
 requireText(durableRecords, "requiresRejectionTriggers: true", "Durable record plan must require rejection triggers.");
 requireText(durableRecords, "blocksEventContractBypass: true", "Durable record plan must block event contract bypass.");
 requireText(durableRecords, "blocksTenantHardCoding: true", "Durable record plan must block tenant hard-coding.");
+requireText(
+  durableRecords,
+  "ai-prototype-fixture-replay-report-record",
+  "Durable record plan must include AI prototype fixture replay report records.",
+);
+requireText(
+  durableRecords,
+  "AI prototype fixture replay report record",
+  "Durable record plan must expose AI prototype fixture replay report labels.",
+);
+requireText(
+  durableRecords,
+  "preservesAiPrototypeFixtureReplayReport: true",
+  "Durable record plan must preserve AI prototype fixture replay report sections.",
+);
+requireText(
+  durableRecords,
+  "requiresReviewedUnitJsonFixture: true",
+  "Durable record plan must require reviewed unit JSON fixtures.",
+);
+requireText(durableRecords, "requiresFixtureCoverage: true", "Durable record plan must require fixture coverage.");
+requireText(
+  durableRecords,
+  "requiresFixtureReplayEvidence: true",
+  "Durable record plan must require fixture replay evidence.",
+);
+requireText(
+  durableRecords,
+  "requiresTargetLanguageProgressTrigger: true",
+  "Durable record plan must require target-language progress triggers.",
+);
+requireText(durableRecords, "blocksHardCodedUnitText: true", "Durable record plan must block hard-coded unit text.");
 requireText(durableRecords, "blocksScoreAuthority: true", "Durable record plan must block wrapper score authority.");
 requireText(durableRecords, "blocksRouteStateOwnership: true", "Durable record plan must block route state ownership.");
 requireText(durableRecords, "blocksAudioManifestAuthority: true", "Durable record plan must block audio manifest authority.");
@@ -1970,6 +2077,16 @@ requireText(
   routeVerifier,
   "AI prototype wrapper adapter review record",
   "Active route verifier must keep AI prototype wrapper adapter review durable records visible on teacher intake.",
+);
+requireText(
+  routeVerifier,
+  "ai_prototype_fixture_replay_report",
+  "Active route verifier must keep AI prototype fixture replay report storage visible on teacher intake.",
+);
+requireText(
+  routeVerifier,
+  "AI prototype fixture replay report record",
+  "Active route verifier must keep AI prototype fixture replay report durable records visible on teacher intake.",
 );
 requireText(routeVerifier, "ai_generated_package_manifest", "Active route verifier must keep AI generated package manifest storage visible on teacher intake.");
 requireText(routeVerifier, "AI generated package manifest record", "Active route verifier must keep AI generated package manifest durable records visible on teacher intake.");
