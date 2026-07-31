@@ -294,6 +294,7 @@
 - `DR-320-ai-prototype-wrapper-adapter-review-storage-contract.md`
 - `DR-321-ai-prototype-fixture-replay-report.md`
 - `DR-322-ai-prototype-fixture-replay-report-storage-contract.md`
+- `DR-323-ai-prototype-event-replay-report.md`
 
 ## Maintenance Rule
 

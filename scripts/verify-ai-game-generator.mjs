@@ -15,6 +15,7 @@ const prototypeReturnReview = readSource("../apps/web/src/data/sampleAiPrototype
 const prototypeIntegrationPlan = readSource("../apps/web/src/data/sampleAiPrototypeIntegrationPlan.ts");
 const prototypeWrapperAdapterReview = readSource("../apps/web/src/data/sampleAiPrototypeWrapperAdapterReview.ts");
 const prototypeFixtureReplayReport = readSource("../apps/web/src/data/sampleAiPrototypeFixtureReplayReport.ts");
+const prototypeEventReplayReport = readSource("../apps/web/src/data/sampleAiPrototypeEventReplayReport.ts");
 const verifierSubmissionPacket = readSource("../apps/web/src/data/sampleAiVerifierSubmissionPacket.ts");
 const generatedPackageManifest = readSource("../apps/web/src/data/sampleAiGeneratedPackageManifest.ts");
 const generatedPackagePromotionChecklist = readSource(
@@ -50,6 +51,9 @@ const prototypeWrapperAdapterReviewPanel = readSource(
 );
 const prototypeFixtureReplayReportPanel = readSource(
   "../apps/web/src/features/content-intake/AiPrototypeFixtureReplayReportPanel.tsx",
+);
+const prototypeEventReplayReportPanel = readSource(
+  "../apps/web/src/features/content-intake/AiPrototypeEventReplayReportPanel.tsx",
 );
 const verifierSubmissionPanel = readSource("../apps/web/src/features/content-intake/AiVerifierSubmissionPacketPanel.tsx");
 const generatedPackageManifestPanel = readSource("../apps/web/src/features/content-intake/AiGeneratedPackageManifestPanel.tsx");
@@ -345,6 +349,47 @@ requireText(
 requireText(prototypeFixtureReplayReportPanel, "Fixture coverage", "AI prototype fixture replay report panel must expose fixture coverage.");
 requireText(prototypeFixtureReplayReportPanel, "Replay evidence", "AI prototype fixture replay report panel must expose replay evidence.");
 requireText(prototypeFixtureReplayReportPanel, "Failure triggers", "AI prototype fixture replay report panel must expose failure triggers.");
+requireText(prototypeEventReplayReport, "sampleAiPrototypeEventReplayReports", "AI prototype event replay report data must exist.");
+requireText(prototypeEventReplayReport, "prototype_event_replay_report", "AI prototype event replay report must name its record.");
+requireText(prototypeEventReplayReport, "standard_event_contract", "AI prototype event replay report must require standard event contracts.");
+requireText(prototypeEventReplayReport, "progress_event_acceptance_map", "AI prototype event replay report must require progress event acceptance.");
+requireText(prototypeEventReplayReport, "game_started", "AI prototype event replay report must include game_started.");
+requireText(prototypeEventReplayReport, "answer_result", "AI prototype event replay report must include answer_result.");
+requireText(prototypeEventReplayReport, "mastery_updated", "AI prototype event replay report must include mastery_updated.");
+requireText(prototypeEventReplayReport, "No hidden local progress counter", "AI prototype event replay report must block hidden progress.");
+requireText(prototypeEventReplayReport, "No direct score authority", "AI prototype event replay report must block direct score authority.");
+requireText(prototypeEventReplayReport, "No reward inventory write", "AI prototype event replay report must block reward inventory writes.");
+requireText(
+  prototypeEventReplayReport,
+  "No Japanese support-language event can unlock English progress",
+  "AI prototype event replay report must block MiniStar support-language events.",
+);
+requireText(
+  prototypeEventReplayReportPanel,
+  "AI prototype event replay report",
+  "AI prototype event replay report panel must expose heading.",
+);
+requireText(
+  prototypeEventReplayReportPanel,
+  "Standard event replay",
+  "AI prototype event replay report panel must expose event replay heading.",
+);
+requireText(
+  prototypeEventReplayReportPanel,
+  "Mode event replay reports",
+  "AI prototype event replay report panel must expose mode replay reports.",
+);
+requireText(prototypeEventReplayReportPanel, "Required order", "AI prototype event replay report panel must expose event order.");
+requireText(
+  prototypeEventReplayReportPanel,
+  "Allowed payload fields",
+  "AI prototype event replay report panel must expose payload field rules.",
+);
+requireText(
+  prototypeEventReplayReportPanel,
+  "Accepted effects",
+  "AI prototype event replay report panel must expose accepted progress effects.",
+);
 requireText(promptPackagePlan, "sampleAiPromptPackagePlans", "AI prompt package plan data must exist.");
 requireText(promptPackagePlan, "MiniStar generator prompt package", "AI prompt package plan must include MiniStar request seed.");
 requireText(promptPackagePlan, "ministar-l1-greetings-game-draft", "AI prompt package plan must bind to MiniStar greetings request.");
@@ -939,6 +984,7 @@ requireText(route, "AiPrototypeReturnReviewPanel", "Generator route must render 
 requireText(route, "AiPrototypeIntegrationPlanPanel", "Generator route must render the prototype integration plan panel.");
 requireText(route, "AiPrototypeWrapperAdapterReviewPanel", "Generator route must render the prototype wrapper adapter review panel.");
 requireText(route, "AiPrototypeFixtureReplayReportPanel", "Generator route must render the prototype fixture replay report panel.");
+requireText(route, "AiPrototypeEventReplayReportPanel", "Generator route must render the prototype event replay report panel.");
 requireText(route, "AiPromptPackagePlanPanel", "Generator route must render the prompt package plan panel.");
 requireText(route, "AiGeneratorCostEntitlementGatePanel", "Generator route must render the cost entitlement gate panel.");
 requireText(route, "AiGenerationRequestBuilderPanel", "Generator route must render the request builder panel.");
@@ -965,6 +1011,7 @@ requireText(route, "sampleAiPrototypeReturnReviewPackets", "Generator route must
 requireText(route, "sampleAiPrototypeIntegrationPlans", "Generator route must use prototype integration plan data.");
 requireText(route, "sampleAiPrototypeWrapperAdapterReviews", "Generator route must use prototype wrapper adapter review data.");
 requireText(route, "sampleAiPrototypeFixtureReplayReports", "Generator route must use prototype fixture replay report data.");
+requireText(route, "sampleAiPrototypeEventReplayReports", "Generator route must use prototype event replay report data.");
 requireText(route, "sampleAiPromptPackagePlans", "Generator route must use the sample prompt package plan data.");
 requireText(route, "sampleAiGeneratorCostEntitlementGates", "Generator route must use the sample cost entitlement gate data.");
 requireText(route, "sampleActivityPathwayCompatibilityMatrix", "Generator route must use the compatibility matrix.");

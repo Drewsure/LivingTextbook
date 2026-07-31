@@ -143,6 +143,12 @@ The report must show fixture coverage, input assertions, output assertions, repl
 
 The backend-neutral storage contract is `ai_prototype_fixture_replay_report` / `ai-prototype-fixture-replay-report`. Hosted and local adapters must preserve reviewed unit JSON fixture id, fixture coverage, input/output assertions, replay evidence, failure triggers, and blocked actions while blocking hard-coded unit text, tenant hard-coding, support-language progress triggers, score authority, audio manifest authority, reward inventory writes, direct app imports, package promotion, and assignments.
 
+## Prototype Event Replay Report Rule
+
+Prototype event replay reports must prove that returned prototypes emit the LivingTextbook standard event contract rather than hidden local progress, direct score authority, direct reward writes, route mutations, report exports, playlist writes, local bundle writes, or assignment side effects.
+
+The report must show standard event coverage, required event order, allowed payload fields, accepted progress effects, failure triggers, and blocked actions. Target-language events are the only learning progress candidates; support-language, media-only, and background-audio events must remain support-only.
+
 ## Mode Recommendation Rule
 
 Generator mode recommendations must reuse the reviewed activity compatibility matrix. The generator can recommend a tight pathway for a unit, but it must not produce a broad switch panel or unsupported conversions. Blocked conversions stay visible with their payload-fit and compatibility-rule reasons.
