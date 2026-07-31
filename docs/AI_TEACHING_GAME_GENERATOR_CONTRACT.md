@@ -53,6 +53,12 @@ The MiniStar Level 1 greetings generator seed may include tenant-specific prompt
 
 The teacher generator route may show a Draft JSON preview so reviewers can understand the output shape. The preview must preserve `target_language_progress_trigger`, `support_language_progress_allowed: false`, `teacher_draft_verifier_submission`, and blocked actions for copy, verifier submission, publish, playlist creation, and assignment until storage and review workflows exist.
 
+## Generator Lineage Map Rule
+
+Teacher generator routes must show an inspection-only lineage map before live generation exists. The map traces a generated request through prompt package, Draft JSON preview, correction queue, verifier packet, generated package manifest, publish readiness gate, and teacher review queue item.
+
+The lineage map cannot generate, submit verifier packets, assemble packages, create routes, create playlists, create assignments, unlock support-language progress, write local bundles, or mark student-ready state. MiniStar lineage must explicitly preserve English as the target-language trigger and Japanese as hiragana-only support.
+
 ## Draft Payload Validation Rule
 
 AI-generated draft payloads must pass the shared `validateAiGeneratedDraftPayload` / `validateAiGeneratedDraftPayloadPreview` contract before review, persistence, verifier submission, package assembly, route creation, playlist creation, or student assignment can be considered.

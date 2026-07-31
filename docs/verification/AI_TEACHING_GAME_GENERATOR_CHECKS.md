@@ -41,6 +41,8 @@ Confirm:
 - Draft JSON preview keeps `support_language_progress_allowed: false`.
 - Draft JSON preview blocks copy, verifier submission, publish, playlist creation, and assignment.
 - Draft JSON preview calls the shared `validateAiGeneratedDraftPayloadPreview` contract and exposes schema guard blocks and warnings.
+- Generator routes show an AI generator lineage map with request-to-review chain, release boundaries, blocked lineage actions, and no live generation, verifier submission, package assembly, route creation, playlist creation, or student assignment.
+- MiniStar generator lineage shows English target-language progression, hiragana-only Japanese support, teacher review queue binding, and no Japanese support-language unlock.
 - Shared draft payload validation enforces the 8-12 vocabulary range, exactly 2 target sentences, target-language-only progress, support-language and media-only progress blocking, required verifier submission state, required blocked actions, next required records, and target-language audio approval.
 - AI draft correction queue converts schema guard output into schema/audio/progress repair lanes with required owner, next record, and student-use effect fields.
 - AI draft correction queue blocks auto-fix, live AI regeneration, verifier submission, package assembly, route creation, playlist creation, and student assignment.

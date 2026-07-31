@@ -27,6 +27,7 @@ import {
   filterAiGeneratorTenantCoverageByTenant,
   sampleAiGeneratorTenantCoverage,
 } from "@/data/sampleAiGeneratorTenantCoverage";
+import { filterAiGeneratorLineageMapsByTenant, sampleAiGeneratorLineageMaps } from "@/data/sampleAiGeneratorLineageMap";
 import {
   filterAiGeneratorAudioCoveragePlansByTenant,
   sampleAiGeneratorAudioCoveragePlans,
@@ -52,6 +53,7 @@ import { AiEngineBindingPlanPanel } from "@/features/content-intake/AiEngineBind
 import { AiGamificationMappingPanel } from "@/features/content-intake/AiGamificationMappingPanel";
 import { AiGeneratorAudioCoveragePlanPanel } from "@/features/content-intake/AiGeneratorAudioCoveragePlanPanel";
 import { AiGameGeneratorPlanPanel } from "@/features/content-intake/AiGameGeneratorPlanPanel";
+import { AiGeneratorLineageMapPanel } from "@/features/content-intake/AiGeneratorLineageMapPanel";
 import { AiGeneratorTenantCoveragePanel } from "@/features/content-intake/AiGeneratorTenantCoveragePanel";
 import { AiModeRecommendationPanel } from "@/features/content-intake/AiModeRecommendationPanel";
 import { AiPromptPackagePlanPanel } from "@/features/content-intake/AiPromptPackagePlanPanel";
@@ -80,6 +82,7 @@ export default async function TeacherAiGameGeneratorPage({
         <AiGeneratorTenantCoveragePanel
           coverages={filterAiGeneratorTenantCoverageByTenant(sampleAiGeneratorTenantCoverage, tenantId)}
         />
+        <AiGeneratorLineageMapPanel maps={filterAiGeneratorLineageMapsByTenant(sampleAiGeneratorLineageMaps, tenantId)} />
         <AiPromptPackagePlanPanel plans={filterAiPromptPackagePlansByTenant(sampleAiPromptPackagePlans, tenantId)} />
         <AiGeneratorCostEntitlementGatePanel
           gates={filterAiGeneratorCostEntitlementGatesByTenant(sampleAiGeneratorCostEntitlementGates, tenantId)}

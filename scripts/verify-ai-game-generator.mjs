@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 
 const plan = readSource("../apps/web/src/data/sampleAiGameGeneratorPlan.ts");
 const tenantCoverage = readSource("../apps/web/src/data/sampleAiGeneratorTenantCoverage.ts");
+const lineageMap = readSource("../apps/web/src/data/sampleAiGeneratorLineageMap.ts");
 const engineBindingPlan = readSource("../apps/web/src/data/sampleAiEngineBindingPlan.ts");
 const promptPackagePlan = readSource("../apps/web/src/data/sampleAiPromptPackagePlan.ts");
 const costEntitlementGate = readSource("../apps/web/src/data/sampleAiGeneratorCostEntitlementGate.ts");
@@ -18,6 +19,7 @@ const correctionQueueData = readSource("../apps/web/src/data/sampleAiDraftCorrec
 const compatibilityMatrix = readSource("../apps/web/src/data/sampleActivityPathwayCompatibility.ts");
 const panel = readSource("../apps/web/src/features/content-intake/AiGameGeneratorPlanPanel.tsx");
 const tenantCoveragePanel = readSource("../apps/web/src/features/content-intake/AiGeneratorTenantCoveragePanel.tsx");
+const lineageMapPanel = readSource("../apps/web/src/features/content-intake/AiGeneratorLineageMapPanel.tsx");
 const engineBindingPanel = readSource("../apps/web/src/features/content-intake/AiEngineBindingPlanPanel.tsx");
 const promptPackagePanel = readSource("../apps/web/src/features/content-intake/AiPromptPackagePlanPanel.tsx");
 const costEntitlementGatePanel = readSource("../apps/web/src/features/content-intake/AiGeneratorCostEntitlementGatePanel.tsx");
@@ -537,6 +539,16 @@ requireText(correctionQueuePanel, "Required owner", "AI draft correction queue p
 requireText(correctionQueuePanel, "Next record", "AI draft correction queue panel must expose next records.");
 requireText(correctionQueuePanel, "Student-use effect", "AI draft correction queue panel must expose student-use effect.");
 requireText(correctionQueuePanel, "Blocked correction actions", "AI draft correction queue panel must expose blocked actions.");
+requireText(lineageMap, "sampleAiGeneratorLineageMaps", "AI generator lineage map data must exist.");
+requireText(lineageMap, "request-to-review lineage", "AI generator lineage map must name request-to-review lineage.");
+requireText(lineageMap, "MiniStar request-to-review lineage", "MiniStar AI generator lineage must be request-specific.");
+requireText(lineageMap, "No live generation from lineage map", "AI generator lineage map must block live generation.");
+requireText(lineageMap, "No student assignment from lineage map", "AI generator lineage map must block assignment.");
+requireText(lineageMap, "No Japanese support-language unlock from lineage map", "MiniStar lineage must block support-language progression.");
+requireText(lineageMapPanel, "AI generator lineage map", "AI generator lineage panel must expose heading.");
+requireText(lineageMapPanel, "Request-to-review chain", "AI generator lineage panel must expose request-to-review chain.");
+requireText(lineageMapPanel, "Blocked lineage actions", "AI generator lineage panel must expose blocked lineage actions.");
+requireText(lineageMapPanel, "Release boundary", "AI generator lineage panel must expose release boundaries.");
 requireText(teacherDraftPackages, "AI-generated MiniStar greetings draft preview", "MiniStar AI generated draft must enter draft package data.");
 requireText(
   teacherDraftPackages,
@@ -565,6 +577,7 @@ requireText(
 );
 requireText(route, "AiGameGeneratorPlanPanel", "Generator route must render the generator panel.");
 requireText(route, "AiGeneratorTenantCoveragePanel", "Generator route must render the tenant coverage panel.");
+requireText(route, "AiGeneratorLineageMapPanel", "Generator route must render the lineage map panel.");
 requireText(route, "AiEngineBindingPlanPanel", "Generator route must render the engine binding panel.");
 requireText(route, "AiPromptPackagePlanPanel", "Generator route must render the prompt package plan panel.");
 requireText(route, "AiGeneratorCostEntitlementGatePanel", "Generator route must render the cost entitlement gate panel.");
@@ -580,6 +593,7 @@ requireText(route, "AiGeneratedDraftPayloadPreviewPanel", "Generator route must 
 requireText(route, "AiDraftCorrectionQueuePanel", "Generator route must render the draft correction queue panel.");
 requireText(route, "sampleAiGameGeneratorPlan", "Generator route must use the sample generator plan.");
 requireText(route, "sampleAiGeneratorTenantCoverage", "Generator route must use tenant coverage data.");
+requireText(route, "sampleAiGeneratorLineageMaps", "Generator route must use lineage map data.");
 requireText(route, "sampleAiEngineBindingPlans", "Generator route must use the sample engine binding plan data.");
 requireText(route, "sampleAiPromptPackagePlans", "Generator route must use the sample prompt package plan data.");
 requireText(route, "sampleAiGeneratorCostEntitlementGates", "Generator route must use the sample cost entitlement gate data.");
