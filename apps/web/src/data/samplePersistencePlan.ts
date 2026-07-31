@@ -20,6 +20,7 @@ export type PersistenceBoundaryCategory =
   | "teacher-draft-review-audit"
   | "teacher-draft-verifier-submission"
   | "ai-generated-game-build-brief"
+  | "ai-prototype-return-review"
   | "ai-generated-package-manifest"
   | "ai-generated-package-promotion-checklist"
   | "ai-generated-package-release-candidate"
@@ -230,6 +231,37 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
     note:
       "AI generated game build briefs need durable instructions before Z.ai or outside prototypes can be reviewed for integration with parent engines, audio, scoring, events, and deliverables.",
+  },
+  {
+    recordId: "ai-prototype-return-review-record",
+    category: "ai-prototype-return-review",
+    label: "AI prototype return review record",
+    readiness: "durable-required",
+    sourceOfTruth:
+      "AiPrototypeReturnReviewPacket, AI generated game build brief, returned artifact manifest, parent-engine wrapper review, JSON fixture conformance, standard event replay, audio cue coverage, deterministic scoring review, mobile accessibility review, and white-label fit review",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: false,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesAiPrototypeReturnReview: true,
+    requiresPrototypeArtifactEvidence: true,
+    requiresParentEngineBinding: true,
+    requiresJsonFixtureConformance: true,
+    requiresStandardEventReplay: true,
+    requiresAudioCueCoverageReview: true,
+    preservesDeterministicScoringContract: true,
+    requiresMobileAccessibilityReview: true,
+    blocksProductionMerge: true,
+    blocksGeneratedGameRouteWrite: true,
+    blocksScoringProfileOverride: true,
+    blocksAudioManifestMutation: true,
+    blocksDirectStudentAssignment: true,
+    blocksStudentFacingPrototypePreview: true,
+    recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
+    note:
+      "AI prototype return reviews need durable evidence before Z.ai or outside prototype returns can affect wrappers, routes, scoring, audio manifests, assignments, or student-facing previews.",
   },
   {
     recordId: "ai-generated-package-promotion-checklist-record",
@@ -1498,6 +1530,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision:
       "Persist AI generated game build briefs before enabling external prototype handoff, Phaser wrapper review, route integration, scoring profile changes, or student assignments.",
+  },
+  {
+    boundaryId: "ai-prototype-return-review-boundary",
+    category: "ai-prototype-return-review",
+    label: "AI prototype return review records",
+    status: "needs-backend",
+    recordShape:
+      "Return review id, tenant id, request id, build brief id, submitted-by label, returned artifact manifest, required evidence, parent-engine wrapper review, JSON fixture conformance, event replay, audio coverage, scoring review, mobile accessibility review, white-label fit review, and blocked return actions",
+    whyItMatters:
+      "Returned prototype work needs durable review evidence so external code cannot become production routes, scoring changes, audio changes, assignments, or student-facing previews from an informal handoff.",
+    visibleTo: ["Tenant admin", "Content reviewer", "Platform admin", "External prototype builder"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Persist AI prototype return reviews before enabling returned prototype uploads, wrapper integration, route registry writes, scoring mutations, audio manifest mutations, or student-facing previews.",
   },
   {
     boundaryId: "ai-generated-package-promotion-checklist-boundary",

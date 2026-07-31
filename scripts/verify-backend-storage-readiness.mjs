@@ -15,6 +15,7 @@ const requiredSchemaEntities = [
   "teacher_draft_review_handoff",
   "teacher_draft_verifier_submission",
   "ai_generated_game_build_brief",
+  "ai_prototype_return_review",
   "ai_generated_package_manifest",
   "ai_generated_package_promotion_checklist",
   "ai_generated_package_release_candidate",
@@ -80,6 +81,7 @@ const requiredMigrationCandidates = [
   "m016-teacher-draft-review-handoff-records",
   "m020-teacher-draft-verifier-submission-records",
   "m060-ai-generated-game-build-brief-records",
+  "m061-ai-prototype-return-review-records",
   "m054-ai-generated-package-manifest-records",
   "m058-ai-generated-package-promotion-checklist-records",
   "m059-ai-generated-package-release-candidate-records",
@@ -148,6 +150,7 @@ const requiredMigrationSpecs = [
   "spec-teacher-draft-review-handoff",
   "spec-teacher-draft-verifier-submission",
   "spec-ai-generated-game-build-brief",
+  "spec-ai-prototype-return-review",
   "spec-ai-generated-package-manifest",
   "spec-ai-generated-package-promotion-checklist",
   "spec-ai-generated-package-release-candidate",
@@ -234,6 +237,21 @@ requireText(schemaDraft, "standalone_game_promotion_allowed", "Backend schema mu
 requireText(schemaDraft, "phaser_bypass_allowed", "Backend schema must block Phaser bypass.");
 requireText(schemaDraft, "generated_game_route_write_allowed", "Backend schema must block generated game route writes.");
 requireText(schemaDraft, "scoring_profile_override_allowed", "Backend schema must block scoring profile overrides.");
+requireText(schemaDraft, "ai_prototype_return_review", "Backend schema must include AI prototype return reviews.");
+requireText(schemaDraft, "ai_prototype_return_review_id", "Backend schema must preserve AI prototype return review ids.");
+requireText(schemaDraft, "ai_generated_game_build_brief_id", "Backend schema must link return reviews to generated game build briefs.");
+requireText(schemaDraft, "returned_artifacts", "Backend schema must preserve returned prototype artifacts.");
+requireText(schemaDraft, "required_evidence", "Backend schema must preserve prototype return evidence requirements.");
+requireText(schemaDraft, "parent_engine_wrapper_review", "Backend schema must preserve parent-engine wrapper review.");
+requireText(schemaDraft, "json_fixture_conformance", "Backend schema must preserve JSON fixture conformance.");
+requireText(schemaDraft, "standard_event_replay", "Backend schema must preserve standard event replay.");
+requireText(schemaDraft, "audio_cue_coverage_review", "Backend schema must preserve audio cue coverage review.");
+requireText(schemaDraft, "deterministic_scoring_review", "Backend schema must preserve deterministic scoring review.");
+requireText(schemaDraft, "mobile_accessibility_review", "Backend schema must preserve mobile accessibility review.");
+requireText(schemaDraft, "white_label_fit_review", "Backend schema must preserve white-label fit review.");
+requireText(schemaDraft, "production_merge_allowed", "Backend schema must block prototype production merge.");
+requireText(schemaDraft, "audio_manifest_mutation_allowed", "Backend schema must block audio manifest mutation.");
+requireText(schemaDraft, "student_facing_preview_allowed", "Backend schema must block student-facing prototype preview.");
 requireText(schemaDraft, "ai_generated_package_manifest", "Backend schema must include AI generated package manifests.");
 requireText(schemaDraft, "ai_generated_package_manifest_id", "Backend schema must preserve generated package manifest ids.");
 requireText(schemaDraft, "generation_request_id", "Backend schema must preserve AI generation request ids.");
@@ -504,6 +522,25 @@ requireText(migrationSpecs, "phaser_bypass_allowed", "Migration specs must block
 requireText(migrationSpecs, "generated_game_route_write_allowed", "Migration specs must block generated game route writes.");
 requireText(migrationSpecs, "scoring_profile_override_allowed", "Migration specs must block scoring profile overrides.");
 requireText(migrationSpecs, "student_assignment_allowed", "Migration specs must block generated game student assignment.");
+requireText(migrationSpecs, "spec-ai-prototype-return-review", "Migration specs must include AI prototype return reviews.");
+requireText(migrationSpecs, "ai_prototype_return_review_id", "Migration specs must preserve AI prototype return review ids.");
+requireText(migrationSpecs, "ai_generated_game_build_brief_id", "Migration specs must link return reviews to generated game build briefs.");
+requireText(migrationSpecs, "submitted_by", "Migration specs must preserve prototype return submitter labels.");
+requireText(migrationSpecs, "returned_artifacts", "Migration specs must preserve returned prototype artifacts.");
+requireText(migrationSpecs, "required_evidence", "Migration specs must preserve prototype return evidence requirements.");
+requireText(migrationSpecs, "parent_engine_wrapper_review", "Migration specs must preserve parent-engine wrapper review.");
+requireText(migrationSpecs, "json_fixture_conformance", "Migration specs must preserve JSON fixture conformance.");
+requireText(migrationSpecs, "standard_event_replay", "Migration specs must preserve standard event replay.");
+requireText(migrationSpecs, "audio_cue_coverage_review", "Migration specs must preserve audio cue coverage review.");
+requireText(migrationSpecs, "deterministic_scoring_review", "Migration specs must preserve deterministic scoring review.");
+requireText(migrationSpecs, "mobile_accessibility_review", "Migration specs must preserve mobile accessibility review.");
+requireText(migrationSpecs, "white_label_fit_review", "Migration specs must preserve white-label fit review.");
+requireText(migrationSpecs, "blocked_return_actions", "Migration specs must preserve prototype return action blocks.");
+requireText(migrationSpecs, "production_merge_allowed", "Migration specs must block prototype production merge.");
+requireText(migrationSpecs, "scoring_profile_mutation_allowed", "Migration specs must block scoring profile mutation.");
+requireText(migrationSpecs, "audio_manifest_mutation_allowed", "Migration specs must block audio manifest mutation.");
+requireText(migrationSpecs, "assignment_creation_allowed", "Migration specs must block assignment creation.");
+requireText(migrationSpecs, "student_facing_preview_allowed", "Migration specs must block student-facing prototype preview.");
 requireText(migrationSpecs, "spec-ai-generated-package-manifest", "Migration specs must include AI generated package manifests.");
 requireText(migrationSpecs, "ai_generated_package_manifest_id", "Migration specs must preserve generated package manifest ids.");
 requireText(migrationSpecs, "prompt_package_id", "Migration specs must preserve generated package prompt package ids.");
@@ -996,6 +1033,57 @@ requireText(
   "blocksScoringProfileOverride: true",
   "Persistence adapter must block generated game scoring profile overrides.",
 );
+requireText(
+  persistenceAdapter,
+  "hosted-ai-prototype-return-review-write",
+  "Persistence adapter must include hosted AI prototype return review writes.",
+);
+requireText(
+  persistenceAdapter,
+  "local-ai-prototype-return-review-write",
+  "Persistence adapter must include local AI prototype return review writes.",
+);
+requireText(
+  persistenceAdapter,
+  "preservesAiPrototypeReturnReview: true",
+  "Persistence adapter must preserve AI prototype return review sections.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresPrototypeArtifactEvidence: true",
+  "Persistence adapter must require returned prototype artifact evidence.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresJsonFixtureConformance: true",
+  "Persistence adapter must require JSON fixture conformance.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresStandardEventReplay: true",
+  "Persistence adapter must require standard event replay.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresAudioCueCoverageReview: true",
+  "Persistence adapter must require audio cue coverage review.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresMobileAccessibilityReview: true",
+  "Persistence adapter must require mobile accessibility review.",
+);
+requireText(persistenceAdapter, "blocksProductionMerge: true", "Persistence adapter must block prototype production merge.");
+requireText(
+  persistenceAdapter,
+  "blocksAudioManifestMutation: true",
+  "Persistence adapter must block audio manifest mutations.",
+);
+requireText(
+  persistenceAdapter,
+  "blocksStudentFacingPrototypePreview: true",
+  "Persistence adapter must block student-facing prototype previews.",
+);
 requireText(persistenceAdapter, "hosted-ai-generated-package-manifest-write", "Persistence adapter must include hosted AI generated package manifest writes.");
 requireText(persistenceAdapter, "local-ai-generated-package-manifest-write", "Persistence adapter must include local AI generated package manifest writes.");
 requireText(persistenceAdapter, "preservesAiGeneratedPackageManifest: true", "Persistence adapter must preserve AI generated package manifest links.");
@@ -1366,6 +1454,29 @@ requireText(
 requireText(durableRecords, "blocksPhaserBypass: true", "Durable record plan must block Phaser bypass.");
 requireText(durableRecords, "blocksGeneratedGameRouteWrite: true", "Durable record plan must block generated game route writes.");
 requireText(durableRecords, "blocksScoringProfileOverride: true", "Durable record plan must block generated game scoring profile overrides.");
+requireText(durableRecords, "ai-prototype-return-review-record", "Durable record plan must include AI prototype return review records.");
+requireText(durableRecords, "AI prototype return review record", "Durable record plan must expose AI prototype return review labels.");
+requireText(
+  durableRecords,
+  "preservesAiPrototypeReturnReview: true",
+  "Durable record plan must preserve AI prototype return review sections.",
+);
+requireText(
+  durableRecords,
+  "requiresPrototypeArtifactEvidence: true",
+  "Durable record plan must require returned prototype artifact evidence.",
+);
+requireText(durableRecords, "requiresJsonFixtureConformance: true", "Durable record plan must require JSON fixture conformance.");
+requireText(durableRecords, "requiresStandardEventReplay: true", "Durable record plan must require standard event replay.");
+requireText(durableRecords, "requiresAudioCueCoverageReview: true", "Durable record plan must require audio cue coverage review.");
+requireText(durableRecords, "requiresMobileAccessibilityReview: true", "Durable record plan must require mobile accessibility review.");
+requireText(durableRecords, "blocksProductionMerge: true", "Durable record plan must block prototype production merge.");
+requireText(durableRecords, "blocksAudioManifestMutation: true", "Durable record plan must block audio manifest mutations.");
+requireText(
+  durableRecords,
+  "blocksStudentFacingPrototypePreview: true",
+  "Durable record plan must block student-facing prototype previews.",
+);
 requireText(durableRecords, "ai-generated-package-manifest-record", "Durable record plan must include AI generated package manifest records.");
 requireText(durableRecords, "AI generated package manifest record", "Durable record plan must expose AI generated package manifest record labels.");
 requireText(durableRecords, "preservesAiGeneratedPackageManifest: true", "Durable record plan must preserve AI generated package manifest links.");
@@ -1662,6 +1773,8 @@ requireText(routeVerifier, "school_rollback_safe_fallback_preflight", "Active ro
 requireText(routeVerifier, "school_rollback_safe_fallback_activation_preview", "Active route verifier must keep school rollback safe fallback activation preview storage visible on teacher intake.");
 requireText(routeVerifier, "school_rollback_safe_fallback_restoration_preview", "Active route verifier must keep school rollback safe fallback restoration preview storage visible on teacher intake.");
 requireText(routeVerifier, "teacher_assignment_rollout_gate", "Active route verifier must keep teacher assignment rollout gate storage visible on teacher intake.");
+requireText(routeVerifier, "ai_prototype_return_review", "Active route verifier must keep AI prototype return review storage visible on teacher intake.");
+requireText(routeVerifier, "AI prototype return review record", "Active route verifier must keep AI prototype return review durable records visible on teacher intake.");
 requireText(routeVerifier, "ai_generated_package_manifest", "Active route verifier must keep AI generated package manifest storage visible on teacher intake.");
 requireText(routeVerifier, "AI generated package manifest record", "Active route verifier must keep AI generated package manifest durable records visible on teacher intake.");
 requireText(

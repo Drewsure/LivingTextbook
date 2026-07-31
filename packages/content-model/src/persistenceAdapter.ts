@@ -39,6 +39,15 @@ export interface PersistenceWriteIntent {
   preservesVerifierPreflightChecks?: boolean;
   blocksAutomaticVerifierSubmit?: boolean;
   preservesAiGeneratedGameBuildBrief?: boolean;
+  preservesAiPrototypeReturnReview?: boolean;
+  requiresPrototypeArtifactEvidence?: boolean;
+  requiresJsonFixtureConformance?: boolean;
+  requiresStandardEventReplay?: boolean;
+  requiresAudioCueCoverageReview?: boolean;
+  requiresMobileAccessibilityReview?: boolean;
+  blocksProductionMerge?: boolean;
+  blocksAudioManifestMutation?: boolean;
+  blocksStudentFacingPrototypePreview?: boolean;
   requiresParentEngineBinding?: boolean;
   requiresStandardEventContract?: boolean;
   requiresAudioCueManifest?: boolean;
@@ -384,6 +393,62 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "ai-generated-game-build-brief" && !intent.blocksDirectStudentAssignment) {
       errors.push(`AI generated game build brief write intent ${intent.intentId} must block student assignment.`);
+    }
+
+    if (intent.category === "ai-prototype-return-review" && !intent.preservesAiPrototypeReturnReview) {
+      errors.push(`AI prototype return review write intent ${intent.intentId} must preserve return review sections.`);
+    }
+
+    if (intent.category === "ai-prototype-return-review" && !intent.requiresPrototypeArtifactEvidence) {
+      errors.push(`AI prototype return review write intent ${intent.intentId} must require prototype artifact evidence.`);
+    }
+
+    if (intent.category === "ai-prototype-return-review" && !intent.requiresParentEngineBinding) {
+      errors.push(`AI prototype return review write intent ${intent.intentId} must require parent-engine wrapper review.`);
+    }
+
+    if (intent.category === "ai-prototype-return-review" && !intent.requiresJsonFixtureConformance) {
+      errors.push(`AI prototype return review write intent ${intent.intentId} must require JSON fixture conformance.`);
+    }
+
+    if (intent.category === "ai-prototype-return-review" && !intent.requiresStandardEventReplay) {
+      errors.push(`AI prototype return review write intent ${intent.intentId} must require standard event replay.`);
+    }
+
+    if (intent.category === "ai-prototype-return-review" && !intent.requiresAudioCueCoverageReview) {
+      errors.push(`AI prototype return review write intent ${intent.intentId} must require audio cue coverage review.`);
+    }
+
+    if (intent.category === "ai-prototype-return-review" && !intent.preservesDeterministicScoringContract) {
+      errors.push(`AI prototype return review write intent ${intent.intentId} must preserve deterministic scoring review.`);
+    }
+
+    if (intent.category === "ai-prototype-return-review" && !intent.requiresMobileAccessibilityReview) {
+      errors.push(`AI prototype return review write intent ${intent.intentId} must require mobile accessibility review.`);
+    }
+
+    if (intent.category === "ai-prototype-return-review" && !intent.blocksProductionMerge) {
+      errors.push(`AI prototype return review write intent ${intent.intentId} must block production merge.`);
+    }
+
+    if (intent.category === "ai-prototype-return-review" && !intent.blocksGeneratedGameRouteWrite) {
+      errors.push(`AI prototype return review write intent ${intent.intentId} must block route writes.`);
+    }
+
+    if (intent.category === "ai-prototype-return-review" && !intent.blocksScoringProfileOverride) {
+      errors.push(`AI prototype return review write intent ${intent.intentId} must block scoring mutations.`);
+    }
+
+    if (intent.category === "ai-prototype-return-review" && !intent.blocksAudioManifestMutation) {
+      errors.push(`AI prototype return review write intent ${intent.intentId} must block audio manifest mutations.`);
+    }
+
+    if (intent.category === "ai-prototype-return-review" && !intent.blocksDirectStudentAssignment) {
+      errors.push(`AI prototype return review write intent ${intent.intentId} must block assignment creation.`);
+    }
+
+    if (intent.category === "ai-prototype-return-review" && !intent.blocksStudentFacingPrototypePreview) {
+      errors.push(`AI prototype return review write intent ${intent.intentId} must block student-facing prototype previews.`);
     }
 
     if (intent.category === "ai-generated-package-manifest" && !intent.preservesAiGeneratedPackageManifest) {

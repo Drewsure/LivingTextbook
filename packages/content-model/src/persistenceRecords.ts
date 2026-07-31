@@ -8,6 +8,7 @@ export type PersistenceRecordCategory =
   | "teacher-draft-review-audit"
   | "teacher-draft-verifier-submission"
   | "ai-generated-game-build-brief"
+  | "ai-prototype-return-review"
   | "ai-generated-package-manifest"
   | "ai-generated-package-promotion-checklist"
   | "ai-generated-package-release-candidate"
@@ -108,6 +109,15 @@ export interface DurableRecordContract {
   preservesVerifierPreflightChecks?: boolean;
   blocksAutomaticVerifierSubmit?: boolean;
   preservesAiGeneratedGameBuildBrief?: boolean;
+  preservesAiPrototypeReturnReview?: boolean;
+  requiresPrototypeArtifactEvidence?: boolean;
+  requiresJsonFixtureConformance?: boolean;
+  requiresStandardEventReplay?: boolean;
+  requiresAudioCueCoverageReview?: boolean;
+  requiresMobileAccessibilityReview?: boolean;
+  blocksProductionMerge?: boolean;
+  blocksAudioManifestMutation?: boolean;
+  blocksStudentFacingPrototypePreview?: boolean;
   requiresParentEngineBinding?: boolean;
   requiresStandardEventContract?: boolean;
   requiresAudioCueManifest?: boolean;
@@ -418,6 +428,62 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "ai-generated-game-build-brief" && !record.blocksDirectStudentAssignment) {
       errors.push(`AI generated game build brief record ${record.recordId} must block student assignment.`);
+    }
+
+    if (record.category === "ai-prototype-return-review" && !record.preservesAiPrototypeReturnReview) {
+      errors.push(`AI prototype return review record ${record.recordId} must preserve return review sections.`);
+    }
+
+    if (record.category === "ai-prototype-return-review" && !record.requiresPrototypeArtifactEvidence) {
+      errors.push(`AI prototype return review record ${record.recordId} must require prototype artifact evidence.`);
+    }
+
+    if (record.category === "ai-prototype-return-review" && !record.requiresParentEngineBinding) {
+      errors.push(`AI prototype return review record ${record.recordId} must require parent-engine wrapper review.`);
+    }
+
+    if (record.category === "ai-prototype-return-review" && !record.requiresJsonFixtureConformance) {
+      errors.push(`AI prototype return review record ${record.recordId} must require JSON fixture conformance.`);
+    }
+
+    if (record.category === "ai-prototype-return-review" && !record.requiresStandardEventReplay) {
+      errors.push(`AI prototype return review record ${record.recordId} must require standard event replay.`);
+    }
+
+    if (record.category === "ai-prototype-return-review" && !record.requiresAudioCueCoverageReview) {
+      errors.push(`AI prototype return review record ${record.recordId} must require audio cue coverage review.`);
+    }
+
+    if (record.category === "ai-prototype-return-review" && !record.preservesDeterministicScoringContract) {
+      errors.push(`AI prototype return review record ${record.recordId} must preserve deterministic scoring review.`);
+    }
+
+    if (record.category === "ai-prototype-return-review" && !record.requiresMobileAccessibilityReview) {
+      errors.push(`AI prototype return review record ${record.recordId} must require mobile accessibility review.`);
+    }
+
+    if (record.category === "ai-prototype-return-review" && !record.blocksProductionMerge) {
+      errors.push(`AI prototype return review record ${record.recordId} must block production merge.`);
+    }
+
+    if (record.category === "ai-prototype-return-review" && !record.blocksGeneratedGameRouteWrite) {
+      errors.push(`AI prototype return review record ${record.recordId} must block route writes.`);
+    }
+
+    if (record.category === "ai-prototype-return-review" && !record.blocksScoringProfileOverride) {
+      errors.push(`AI prototype return review record ${record.recordId} must block scoring mutations.`);
+    }
+
+    if (record.category === "ai-prototype-return-review" && !record.blocksAudioManifestMutation) {
+      errors.push(`AI prototype return review record ${record.recordId} must block audio manifest mutations.`);
+    }
+
+    if (record.category === "ai-prototype-return-review" && !record.blocksDirectStudentAssignment) {
+      errors.push(`AI prototype return review record ${record.recordId} must block assignment creation.`);
+    }
+
+    if (record.category === "ai-prototype-return-review" && !record.blocksStudentFacingPrototypePreview) {
+      errors.push(`AI prototype return review record ${record.recordId} must block student-facing prototype previews.`);
     }
 
     if (record.category === "ai-generated-package-manifest" && !record.preservesAiGeneratedPackageManifest) {

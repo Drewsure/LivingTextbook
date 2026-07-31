@@ -274,6 +274,43 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
       ],
     },
     {
+      migrationId: "m061-ai-prototype-return-review-records",
+      label: "AI prototype return review records",
+      track: "shared",
+      status: "ready-to-design",
+      risk: "medium",
+      targetEntities: ["ai_prototype_return_review"],
+      purpose:
+        "Persist returned prototype review evidence before external game work can feed wrapper integration, route writes, scoring changes, audio manifest changes, assignments, or student-facing previews.",
+      prerequisites: [
+        "AI generated game build brief accepted",
+        "Returned artifact manifest supplied",
+        "Parent-engine wrapper review policy accepted",
+        "JSON fixture conformance policy accepted",
+        "Standard event replay and audio cue coverage policy accepted",
+      ],
+      implementationNotes: [
+        "Keep return reviews tenant-scoped, generation-request-scoped, build-brief-scoped, and builder-scoped.",
+        "Preserve returned artifacts, required evidence, wrapper review, fixture conformance, event replay, audio coverage, scoring review, mobile accessibility, white-label fit, and blocked actions.",
+        "Block production merge, route registry writes, scoring profile mutations, audio manifest mutations, assignments, student-facing previews, media-only progress shortcuts, and support-language scoring.",
+        "Do not let returned prototype evidence create production package, route, playlist, assignment, or local bundle records by itself.",
+      ],
+      rollbackOrExportNeeds: [
+        "Export returned prototype review JSON with linked build brief, event replay, audio coverage, scoring, and accessibility evidence",
+        "Retain blocked, reviewed, returned-for-rework, superseded, and accepted return review snapshots for audit",
+        "Support local returned prototype review backup and restore without enabling offline production merge, route writes, scoring mutations, audio mutations, or assignments",
+      ],
+      notAllowedYet: [
+        "Production merge",
+        "Route registry write",
+        "Scoring profile mutation",
+        "Audio manifest mutation",
+        "Assignment creation",
+        "Student-facing preview",
+        "Support-language scoring or release",
+      ],
+    },
+    {
       migrationId: "m055-ai-reward-readiness-gate-records",
       label: "AI reward readiness gate records",
       track: "shared",
