@@ -111,6 +111,12 @@ Build briefs are not production work orders. They cannot promote standalone game
 
 The backend-neutral storage contract is `ai_generated_game_build_brief` / `ai-generated-game-build-brief`. Hosted and local adapters must preserve parent-engine binding, standard event contract, audio cue manifest, deterministic scoring contract, integration notes, deliverables, and blocked actions while blocking standalone game promotion, Phaser bypass, generated game route writes, scoring profile overrides, direct student assignment, media-only progress, and support-language-only scoring or release.
 
+## Prototype Return Review Rule
+
+Returned prototype work from Z.ai or any outside builder must enter an `ai_prototype_return_review` preview before integration. The review must name the source build brief, returned artifacts, required evidence, parent-engine wrapper review, JSON fixture conformance, standard event replay, audio cue coverage, deterministic scoring, mobile accessibility, white-label fit, and blocked actions.
+
+Returned prototypes cannot be merged into production, write route registry entries, mutate scoring profiles, mutate audio manifests, create assignments, or create student-facing previews from returned code. Phaser returns must still prove they can wrap the LivingTextbook parent-engine, JSON, audio, scoring, and event contracts.
+
 ## Mode Recommendation Rule
 
 Generator mode recommendations must reuse the reviewed activity compatibility matrix. The generator can recommend a tight pathway for a unit, but it must not produce a broad switch panel or unsupported conversions. Blocked conversions stay visible with their payload-fit and compatibility-rule reasons.

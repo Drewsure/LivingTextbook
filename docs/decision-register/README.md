@@ -286,6 +286,7 @@
 - `DR-312-ai-generated-package-release-candidate-storage-contract.md`
 - `DR-313-ai-generated-game-build-brief-packet.md`
 - `DR-314-ai-generated-game-build-brief-storage-contract.md`
+- `DR-315-ai-prototype-return-review-gate.md`
 
 ## Maintenance Rule
 
