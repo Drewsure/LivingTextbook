@@ -17,6 +17,9 @@ const prototypeWrapperAdapterReview = readSource("../apps/web/src/data/sampleAiP
 const prototypeFixtureReplayReport = readSource("../apps/web/src/data/sampleAiPrototypeFixtureReplayReport.ts");
 const prototypeEventReplayReport = readSource("../apps/web/src/data/sampleAiPrototypeEventReplayReport.ts");
 const prototypeAudioCoverageReport = readSource("../apps/web/src/data/sampleAiPrototypeAudioCoverageReport.ts");
+const prototypeMobileAccessibilityReport = readSource(
+  "../apps/web/src/data/sampleAiPrototypeMobileAccessibilityReport.ts",
+);
 const verifierSubmissionPacket = readSource("../apps/web/src/data/sampleAiVerifierSubmissionPacket.ts");
 const generatedPackageManifest = readSource("../apps/web/src/data/sampleAiGeneratedPackageManifest.ts");
 const generatedPackagePromotionChecklist = readSource(
@@ -58,6 +61,9 @@ const prototypeEventReplayReportPanel = readSource(
 );
 const prototypeAudioCoverageReportPanel = readSource(
   "../apps/web/src/features/content-intake/AiPrototypeAudioCoverageReportPanel.tsx",
+);
+const prototypeMobileAccessibilityReportPanel = readSource(
+  "../apps/web/src/features/content-intake/AiPrototypeMobileAccessibilityReportPanel.tsx",
 );
 const verifierSubmissionPanel = readSource("../apps/web/src/features/content-intake/AiVerifierSubmissionPacketPanel.tsx");
 const generatedPackageManifestPanel = readSource("../apps/web/src/features/content-intake/AiGeneratedPackageManifestPanel.tsx");
@@ -247,6 +253,11 @@ requireText(prototypeIntegrationPlan, "prototype_wrapper_adapter_review", "AI pr
 requireText(prototypeIntegrationPlan, "prototype_fixture_replay_report", "AI prototype integration plan must name fixture replay report.");
 requireText(prototypeIntegrationPlan, "prototype_event_replay_report", "AI prototype integration plan must name event replay report.");
 requireText(prototypeIntegrationPlan, "prototype_audio_coverage_report", "AI prototype integration plan must name audio coverage report.");
+requireText(
+  prototypeIntegrationPlan,
+  "prototype_mobile_accessibility_report",
+  "AI prototype integration plan must name mobile accessibility report.",
+);
 requireText(prototypeIntegrationPlan, "No direct import into apps/web", "AI prototype integration plan must block direct imports.");
 requireText(prototypeIntegrationPlan, "No route registry write", "AI prototype integration plan must block route writes.");
 requireText(prototypeIntegrationPlan, "No game sequence mutation", "AI prototype integration plan must block game sequence mutation.");
@@ -448,6 +459,96 @@ requireText(
   prototypeAudioCoverageReportPanel,
   "Support-language rules",
   "AI prototype audio coverage report panel must expose support-language rules.",
+);
+requireText(
+  prototypeMobileAccessibilityReport,
+  "sampleAiPrototypeMobileAccessibilityReports",
+  "AI prototype mobile accessibility report data must exist.",
+);
+requireText(
+  prototypeMobileAccessibilityReport,
+  "prototype_mobile_accessibility_report",
+  "AI prototype mobile accessibility report must name its record.",
+);
+requireText(
+  prototypeMobileAccessibilityReport,
+  "Mobile viewport smoke evidence",
+  "AI prototype mobile accessibility report must require mobile viewport smoke evidence.",
+);
+requireText(
+  prototypeMobileAccessibilityReport,
+  "Touch target checks",
+  "AI prototype mobile accessibility report must require touch target checks.",
+);
+requireText(
+  prototypeMobileAccessibilityReport,
+  "Keyboard and focus checks",
+  "AI prototype mobile accessibility report must require keyboard and focus checks.",
+);
+requireText(
+  prototypeMobileAccessibilityReport,
+  "No text hidden inside black buttons",
+  "AI prototype mobile accessibility report must block hidden black-button text.",
+);
+requireText(
+  prototypeMobileAccessibilityReport,
+  "No viewport overflow",
+  "AI prototype mobile accessibility report must block viewport overflow.",
+);
+requireText(
+  prototypeMobileAccessibilityReport,
+  "No unreadable learner control",
+  "AI prototype mobile accessibility report must block unreadable learner controls.",
+);
+requireText(
+  prototypeMobileAccessibilityReport,
+  "Canvas wrapper exposes DOM controls",
+  "AI prototype mobile accessibility report must require accessible Phaser/canvas wrapper controls.",
+);
+requireText(
+  prototypeMobileAccessibilityReport,
+  "Foundation Japanese support remains hiragana-readable",
+  "AI prototype mobile accessibility report must preserve MiniStar hiragana readability.",
+);
+requireText(
+  prototypeMobileAccessibilityReport,
+  "No student-facing preview from returned code",
+  "AI prototype mobile accessibility report must block student-facing previews.",
+);
+requireText(
+  prototypeMobileAccessibilityReportPanel,
+  "AI prototype mobile accessibility report",
+  "AI prototype mobile accessibility report panel must expose heading.",
+);
+requireText(
+  prototypeMobileAccessibilityReportPanel,
+  "Mobile and accessibility inspection",
+  "AI prototype mobile accessibility report panel must expose mobile inspection heading.",
+);
+requireText(
+  prototypeMobileAccessibilityReportPanel,
+  "Mode mobile/accessibility reports",
+  "AI prototype mobile accessibility report panel must expose mode reports.",
+);
+requireText(
+  prototypeMobileAccessibilityReportPanel,
+  "Viewport checks",
+  "AI prototype mobile accessibility report panel must expose viewport checks.",
+);
+requireText(
+  prototypeMobileAccessibilityReportPanel,
+  "Touch target checks",
+  "AI prototype mobile accessibility report panel must expose touch target checks.",
+);
+requireText(
+  prototypeMobileAccessibilityReportPanel,
+  "Keyboard and focus checks",
+  "AI prototype mobile accessibility report panel must expose keyboard and focus checks.",
+);
+requireText(
+  prototypeMobileAccessibilityReportPanel,
+  "Readable text checks",
+  "AI prototype mobile accessibility report panel must expose readable text checks.",
 );
 requireText(promptPackagePlan, "sampleAiPromptPackagePlans", "AI prompt package plan data must exist.");
 requireText(promptPackagePlan, "MiniStar generator prompt package", "AI prompt package plan must include MiniStar request seed.");

@@ -69,6 +69,10 @@ import {
   sampleAiPrototypeAudioCoverageReports,
 } from "@/data/sampleAiPrototypeAudioCoverageReport";
 import {
+  filterAiPrototypeMobileAccessibilityReportsByTenant,
+  sampleAiPrototypeMobileAccessibilityReports,
+} from "@/data/sampleAiPrototypeMobileAccessibilityReport";
+import {
   filterAiGamificationMappingPlansByTenant,
   sampleAiGamificationMappingPlans,
 } from "@/data/sampleAiGamificationMappingPlan";
@@ -95,6 +99,7 @@ import { AiPrototypeWrapperAdapterReviewPanel } from "@/features/content-intake/
 import { AiPrototypeFixtureReplayReportPanel } from "@/features/content-intake/AiPrototypeFixtureReplayReportPanel";
 import { AiPrototypeEventReplayReportPanel } from "@/features/content-intake/AiPrototypeEventReplayReportPanel";
 import { AiPrototypeAudioCoverageReportPanel } from "@/features/content-intake/AiPrototypeAudioCoverageReportPanel";
+import { AiPrototypeMobileAccessibilityReportPanel } from "@/features/content-intake/AiPrototypeMobileAccessibilityReportPanel";
 import { AiGamificationMappingPanel } from "@/features/content-intake/AiGamificationMappingPanel";
 import { AiGeneratorAudioCoveragePlanPanel } from "@/features/content-intake/AiGeneratorAudioCoveragePlanPanel";
 import { AiGameGeneratorPlanPanel } from "@/features/content-intake/AiGameGeneratorPlanPanel";
@@ -165,6 +170,12 @@ export default async function TeacherAiGameGeneratorPage({
         />
         <AiPrototypeAudioCoverageReportPanel
           reports={filterAiPrototypeAudioCoverageReportsByTenant(sampleAiPrototypeAudioCoverageReports, tenantId)}
+        />
+        <AiPrototypeMobileAccessibilityReportPanel
+          reports={filterAiPrototypeMobileAccessibilityReportsByTenant(
+            sampleAiPrototypeMobileAccessibilityReports,
+            tenantId,
+          )}
         />
         <AiVerifierSubmissionPacketPanel
           packets={filterAiVerifierSubmissionPacketsByTenant(sampleAiVerifierSubmissionPackets, tenantId)}

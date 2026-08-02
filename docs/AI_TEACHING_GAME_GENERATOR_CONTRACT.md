@@ -161,6 +161,14 @@ Prototype audio reports cannot generate voice, trigger voice API cost, mutate au
 
 The backend-neutral storage contract is `ai_prototype_audio_coverage_report` / `ai-prototype-audio-coverage-report`. Hosted and local adapters must preserve audio cue manifest id, package game audio coverage id, background media policy binding id, required cue families, target-language audio checks, control audio checks, support-language audio rules, replay evidence, failure triggers, and blocked actions while blocking generated voice calls, voice API cost, audio manifest mutation, playlist writes, media-only mastery, support-language progress triggers, package audio-complete markers, direct app imports, package promotion, and assignments.
 
+## Prototype Mobile Accessibility Report Rule
+
+Prototype mobile accessibility reports must prove that returned prototypes are safe for phone-first QR classrooms before integration. The report must show mobile viewport smoke evidence, touch target checks, keyboard and focus checks, readable text checks, visual stability checks, and blocked actions.
+
+The report must preserve `prototype_mobile_accessibility_report`, `activity_compatibility_snapshot`, `template_rendering_profile`, `font_accessibility_profile`, and `standard_event_contract` references while proving that learner controls have visible text, accessible names, adequate touch targets, no color-only state, no hidden black-button text, no viewport overflow, and no unreadable learner controls.
+
+Prototype mobile/accessibility reports cannot create student-facing previews, import files into `apps/web`, write route registry entries, waive accessibility because a prototype looks polished, assign students, or allow Phaser/canvas wrappers without accessible DOM controls. MiniStar reports must keep early Japanese support text hiragana-readable and unable to unlock English progress.
+
 ## Mode Recommendation Rule
 
 Generator mode recommendations must reuse the reviewed activity compatibility matrix. The generator can recommend a tight pathway for a unit, but it must not produce a broad switch panel or unsupported conversions. Blocked conversions stay visible with their payload-fit and compatibility-rule reasons.
