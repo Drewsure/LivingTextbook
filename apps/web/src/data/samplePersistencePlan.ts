@@ -26,6 +26,7 @@ export type PersistenceBoundaryCategory =
   | "ai-prototype-fixture-replay-report"
   | "ai-prototype-event-replay-report"
   | "ai-prototype-audio-coverage-report"
+  | "ai-prototype-mobile-accessibility-report"
   | "ai-generated-package-manifest"
   | "ai-generated-package-promotion-checklist"
   | "ai-generated-package-release-candidate"
@@ -434,6 +435,35 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
     note:
       "AI prototype audio coverage reports need durable tap-to-speak, control-audio, support-language, and replay evidence before returned prototypes can claim audio safety or move toward wrapper integration.",
+  },
+  {
+    recordId: "ai-prototype-mobile-accessibility-report-record",
+    category: "ai-prototype-mobile-accessibility-report",
+    label: "AI prototype mobile accessibility report record",
+    readiness: "durable-required",
+    sourceOfTruth:
+      "AiPrototypeMobileAccessibilityReport, activity compatibility snapshot, template rendering profile, font accessibility profile, standard event contract, mobile viewport evidence, touch target checks, keyboard/focus checks, readable text checks, visual stability checks, wrapper accessibility checks, failure triggers, and blocked actions",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: false,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesAiPrototypeMobileAccessibilityReport: true,
+    requiresMobileViewportEvidence: true,
+    requiresTouchTargetChecks: true,
+    requiresKeyboardFocusChecks: true,
+    requiresReadableTextChecks: true,
+    requiresVisualStabilityChecks: true,
+    requiresAccessibleWrapperControls: true,
+    blocksAccessibilityWaiver: true,
+    blocksStudentFacingPrototypePreview: true,
+    blocksDirectAppImport: true,
+    blocksGeneratedGameRouteWrite: true,
+    blocksDirectStudentAssignment: true,
+    recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
+    note:
+      "AI prototype mobile accessibility reports need durable viewport, touch, focus, readable-text, and wrapper-control evidence before returned prototypes can claim mobile safety or move toward apps/web integration.",
   },
   {
     recordId: "ai-generated-package-promotion-checklist-record",
@@ -1786,6 +1816,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision:
       "Persist AI prototype audio coverage reports before enabling wrapper integration, audio-complete markers, playlist writes, voice generation, voice API cost, package promotion, or assignments.",
+  },
+  {
+    boundaryId: "ai-prototype-mobile-accessibility-report-boundary",
+    category: "ai-prototype-mobile-accessibility-report",
+    label: "AI prototype mobile accessibility report records",
+    status: "needs-backend",
+    recordShape:
+      "Mobile accessibility report id, tenant id, request id, integration plan id, activity compatibility snapshot id, template rendering profile id, font accessibility profile id, standard event contract id, viewport evidence, touch target checks, keyboard/focus checks, readable text checks, visual stability checks, wrapper control checks, failure triggers, blocked actions",
+    whyItMatters:
+      "A returned prototype must prove phone-first QR layout, visible controls, accessible touch targets, readable text, and accessible Phaser/canvas wrapper controls before it can move toward integration.",
+    visibleTo: ["Platform admin", "Tenant admin", "Content reviewer", "Prototype reviewer"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Persist AI prototype mobile accessibility reports before enabling apps/web integration, student-facing previews, route writes, accessibility waivers, Phaser/canvas wrapper adoption, package promotion, or assignments.",
   },
   {
     boundaryId: "ai-generated-package-promotion-checklist-boundary",

@@ -14,6 +14,7 @@ export type PersistenceRecordCategory =
   | "ai-prototype-fixture-replay-report"
   | "ai-prototype-event-replay-report"
   | "ai-prototype-audio-coverage-report"
+  | "ai-prototype-mobile-accessibility-report"
   | "ai-generated-package-manifest"
   | "ai-generated-package-promotion-checklist"
   | "ai-generated-package-release-candidate"
@@ -120,6 +121,7 @@ export interface DurableRecordContract {
   preservesAiPrototypeFixtureReplayReport?: boolean;
   preservesAiPrototypeEventReplayReport?: boolean;
   preservesAiPrototypeAudioCoverageReport?: boolean;
+  preservesAiPrototypeMobileAccessibilityReport?: boolean;
   requiresReviewedUnitJsonFixture?: boolean;
   requiresFixtureCoverage?: boolean;
   requiresFixtureReplayEvidence?: boolean;
@@ -138,6 +140,13 @@ export interface DurableRecordContract {
   blocksVoiceApiCost?: boolean;
   blocksMediaOnlyMastery?: boolean;
   blocksPackageAudioCompleteMarker?: boolean;
+  requiresMobileViewportEvidence?: boolean;
+  requiresTouchTargetChecks?: boolean;
+  requiresKeyboardFocusChecks?: boolean;
+  requiresReadableTextChecks?: boolean;
+  requiresVisualStabilityChecks?: boolean;
+  requiresAccessibleWrapperControls?: boolean;
+  blocksAccessibilityWaiver?: boolean;
   requiresFixtureInputContract?: boolean;
   requiresStandardEventOutputContract?: boolean;
   requiresStateOwnershipRules?: boolean;
@@ -804,6 +813,63 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "ai-prototype-audio-coverage-report" && !record.blocksDirectStudentAssignment) {
       errors.push(`AI prototype audio coverage report record ${record.recordId} must block direct student assignments.`);
+    }
+
+    if (
+      record.category === "ai-prototype-mobile-accessibility-report" &&
+      !record.preservesAiPrototypeMobileAccessibilityReport
+    ) {
+      errors.push(`AI prototype mobile accessibility report record ${record.recordId} must preserve mobile accessibility sections.`);
+    }
+
+    if (
+      record.category === "ai-prototype-mobile-accessibility-report" &&
+      !record.requiresMobileViewportEvidence
+    ) {
+      errors.push(`AI prototype mobile accessibility report record ${record.recordId} must require mobile viewport evidence.`);
+    }
+
+    if (record.category === "ai-prototype-mobile-accessibility-report" && !record.requiresTouchTargetChecks) {
+      errors.push(`AI prototype mobile accessibility report record ${record.recordId} must require touch target checks.`);
+    }
+
+    if (record.category === "ai-prototype-mobile-accessibility-report" && !record.requiresKeyboardFocusChecks) {
+      errors.push(`AI prototype mobile accessibility report record ${record.recordId} must require keyboard and focus checks.`);
+    }
+
+    if (record.category === "ai-prototype-mobile-accessibility-report" && !record.requiresReadableTextChecks) {
+      errors.push(`AI prototype mobile accessibility report record ${record.recordId} must require readable text checks.`);
+    }
+
+    if (record.category === "ai-prototype-mobile-accessibility-report" && !record.requiresVisualStabilityChecks) {
+      errors.push(`AI prototype mobile accessibility report record ${record.recordId} must require visual stability checks.`);
+    }
+
+    if (record.category === "ai-prototype-mobile-accessibility-report" && !record.requiresAccessibleWrapperControls) {
+      errors.push(`AI prototype mobile accessibility report record ${record.recordId} must require accessible wrapper controls.`);
+    }
+
+    if (record.category === "ai-prototype-mobile-accessibility-report" && !record.blocksAccessibilityWaiver) {
+      errors.push(`AI prototype mobile accessibility report record ${record.recordId} must block accessibility waivers.`);
+    }
+
+    if (
+      record.category === "ai-prototype-mobile-accessibility-report" &&
+      !record.blocksStudentFacingPrototypePreview
+    ) {
+      errors.push(`AI prototype mobile accessibility report record ${record.recordId} must block student-facing prototype previews.`);
+    }
+
+    if (record.category === "ai-prototype-mobile-accessibility-report" && !record.blocksDirectAppImport) {
+      errors.push(`AI prototype mobile accessibility report record ${record.recordId} must block direct app imports.`);
+    }
+
+    if (record.category === "ai-prototype-mobile-accessibility-report" && !record.blocksGeneratedGameRouteWrite) {
+      errors.push(`AI prototype mobile accessibility report record ${record.recordId} must block route writes.`);
+    }
+
+    if (record.category === "ai-prototype-mobile-accessibility-report" && !record.blocksDirectStudentAssignment) {
+      errors.push(`AI prototype mobile accessibility report record ${record.recordId} must block direct student assignments.`);
     }
 
     if (record.category === "ai-generated-package-manifest" && !record.preservesAiGeneratedPackageManifest) {

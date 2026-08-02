@@ -45,6 +45,7 @@ export interface PersistenceWriteIntent {
   preservesAiPrototypeFixtureReplayReport?: boolean;
   preservesAiPrototypeEventReplayReport?: boolean;
   preservesAiPrototypeAudioCoverageReport?: boolean;
+  preservesAiPrototypeMobileAccessibilityReport?: boolean;
   requiresReviewedUnitJsonFixture?: boolean;
   requiresFixtureCoverage?: boolean;
   requiresFixtureReplayEvidence?: boolean;
@@ -63,6 +64,13 @@ export interface PersistenceWriteIntent {
   blocksVoiceApiCost?: boolean;
   blocksMediaOnlyMastery?: boolean;
   blocksPackageAudioCompleteMarker?: boolean;
+  requiresMobileViewportEvidence?: boolean;
+  requiresTouchTargetChecks?: boolean;
+  requiresKeyboardFocusChecks?: boolean;
+  requiresReadableTextChecks?: boolean;
+  requiresVisualStabilityChecks?: boolean;
+  requiresAccessibleWrapperControls?: boolean;
+  blocksAccessibilityWaiver?: boolean;
   requiresFixtureInputContract?: boolean;
   requiresStandardEventOutputContract?: boolean;
   requiresStateOwnershipRules?: boolean;
@@ -764,6 +772,63 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "ai-prototype-audio-coverage-report" && !intent.blocksDirectStudentAssignment) {
       errors.push(`AI prototype audio coverage report write intent ${intent.intentId} must block direct student assignments.`);
+    }
+
+    if (
+      intent.category === "ai-prototype-mobile-accessibility-report" &&
+      !intent.preservesAiPrototypeMobileAccessibilityReport
+    ) {
+      errors.push(`AI prototype mobile accessibility report write intent ${intent.intentId} must preserve mobile accessibility sections.`);
+    }
+
+    if (
+      intent.category === "ai-prototype-mobile-accessibility-report" &&
+      !intent.requiresMobileViewportEvidence
+    ) {
+      errors.push(`AI prototype mobile accessibility report write intent ${intent.intentId} must require mobile viewport evidence.`);
+    }
+
+    if (intent.category === "ai-prototype-mobile-accessibility-report" && !intent.requiresTouchTargetChecks) {
+      errors.push(`AI prototype mobile accessibility report write intent ${intent.intentId} must require touch target checks.`);
+    }
+
+    if (intent.category === "ai-prototype-mobile-accessibility-report" && !intent.requiresKeyboardFocusChecks) {
+      errors.push(`AI prototype mobile accessibility report write intent ${intent.intentId} must require keyboard and focus checks.`);
+    }
+
+    if (intent.category === "ai-prototype-mobile-accessibility-report" && !intent.requiresReadableTextChecks) {
+      errors.push(`AI prototype mobile accessibility report write intent ${intent.intentId} must require readable text checks.`);
+    }
+
+    if (intent.category === "ai-prototype-mobile-accessibility-report" && !intent.requiresVisualStabilityChecks) {
+      errors.push(`AI prototype mobile accessibility report write intent ${intent.intentId} must require visual stability checks.`);
+    }
+
+    if (intent.category === "ai-prototype-mobile-accessibility-report" && !intent.requiresAccessibleWrapperControls) {
+      errors.push(`AI prototype mobile accessibility report write intent ${intent.intentId} must require accessible wrapper controls.`);
+    }
+
+    if (intent.category === "ai-prototype-mobile-accessibility-report" && !intent.blocksAccessibilityWaiver) {
+      errors.push(`AI prototype mobile accessibility report write intent ${intent.intentId} must block accessibility waivers.`);
+    }
+
+    if (
+      intent.category === "ai-prototype-mobile-accessibility-report" &&
+      !intent.blocksStudentFacingPrototypePreview
+    ) {
+      errors.push(`AI prototype mobile accessibility report write intent ${intent.intentId} must block student-facing prototype previews.`);
+    }
+
+    if (intent.category === "ai-prototype-mobile-accessibility-report" && !intent.blocksDirectAppImport) {
+      errors.push(`AI prototype mobile accessibility report write intent ${intent.intentId} must block direct app imports.`);
+    }
+
+    if (intent.category === "ai-prototype-mobile-accessibility-report" && !intent.blocksGeneratedGameRouteWrite) {
+      errors.push(`AI prototype mobile accessibility report write intent ${intent.intentId} must block route writes.`);
+    }
+
+    if (intent.category === "ai-prototype-mobile-accessibility-report" && !intent.blocksDirectStudentAssignment) {
+      errors.push(`AI prototype mobile accessibility report write intent ${intent.intentId} must block direct student assignments.`);
     }
 
     if (intent.category === "ai-generated-package-manifest" && !intent.preservesAiGeneratedPackageManifest) {

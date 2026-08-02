@@ -509,6 +509,42 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
       ],
     },
     {
+      migrationId: "m067-ai-prototype-mobile-accessibility-report-records",
+      label: "AI prototype mobile accessibility report records",
+      track: "shared",
+      status: "ready-to-design",
+      risk: "medium",
+      targetEntities: ["ai_prototype_mobile_accessibility_report"],
+      purpose:
+        "Persist mobile viewport, touch target, focus, readable text, visual stability, and wrapper accessibility evidence before returned game prototypes can claim mobile, wrapper, route, package, promotion, or assignment readiness.",
+      prerequisites: [
+        "AI prototype integration plan accepted",
+        "Activity compatibility snapshot accepted",
+        "Template rendering profile accepted",
+        "Font accessibility profile accepted",
+        "Standard event contract accepted",
+      ],
+      implementationNotes: [
+        "Keep mobile accessibility reports tenant-scoped, generation-request-scoped, integration-plan-scoped, compatibility-scoped, rendering-profile-scoped, font-profile-scoped, and event-contract-scoped.",
+        "Preserve viewport evidence, touch target checks, keyboard/focus checks, readable text checks, visual stability checks, wrapper control checks, failure triggers, and blocked actions.",
+        "Block accessibility waivers, direct app imports, route writes, student-facing previews, package promotion, and assignments.",
+        "Do not let mobile accessibility reports create screenshots, routes, assignments, package releases, or production preview state by themselves.",
+      ],
+      rollbackOrExportNeeds: [
+        "Export mobile accessibility report JSON with linked integration plan, compatibility snapshot, rendering profile, font profile, event contract, viewport evidence, failure triggers, and blocked actions",
+        "Retain blocked, reviewed, returned-for-rework, superseded, and accepted mobile accessibility snapshots for audit",
+        "Support local mobile accessibility report backup and restore without enabling offline route writes, preview activation, package promotion, accessibility waiver, or assignments",
+      ],
+      notAllowedYet: [
+        "Accessibility waiver",
+        "Direct app import",
+        "Route registry write",
+        "Student-facing preview",
+        "Package promotion",
+        "Assignment creation",
+      ],
+    },
+    {
       migrationId: "m055-ai-reward-readiness-gate-records",
       label: "AI reward readiness gate records",
       track: "shared",

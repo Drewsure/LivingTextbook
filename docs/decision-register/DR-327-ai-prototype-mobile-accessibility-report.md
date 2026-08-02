@@ -18,4 +18,4 @@ White-label game prototypes must work in the real classroom path: teacher QR lau
 
 ## Follow-Up
 
-Add a backend-neutral storage contract for `prototype_mobile_accessibility_report` after this review surface is verified.
+Completed by `DR-328-ai-prototype-mobile-accessibility-storage-contract.md`; future work should keep the report review-only until a backend or local storage adapter is selected.

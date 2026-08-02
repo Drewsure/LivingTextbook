@@ -21,6 +21,7 @@ const requiredSchemaEntities = [
   "ai_prototype_fixture_replay_report",
   "ai_prototype_event_replay_report",
   "ai_prototype_audio_coverage_report",
+  "ai_prototype_mobile_accessibility_report",
   "ai_generated_package_manifest",
   "ai_generated_package_promotion_checklist",
   "ai_generated_package_release_candidate",
@@ -92,6 +93,7 @@ const requiredMigrationCandidates = [
   "m064-ai-prototype-fixture-replay-report-records",
   "m065-ai-prototype-event-replay-report-records",
   "m066-ai-prototype-audio-coverage-report-records",
+  "m067-ai-prototype-mobile-accessibility-report-records",
   "m054-ai-generated-package-manifest-records",
   "m058-ai-generated-package-promotion-checklist-records",
   "m059-ai-generated-package-release-candidate-records",
@@ -166,6 +168,7 @@ const requiredMigrationSpecs = [
   "spec-ai-prototype-fixture-replay-report",
   "spec-ai-prototype-event-replay-report",
   "spec-ai-prototype-audio-coverage-report",
+  "spec-ai-prototype-mobile-accessibility-report",
   "spec-ai-generated-package-manifest",
   "spec-ai-generated-package-promotion-checklist",
   "spec-ai-generated-package-release-candidate",
@@ -364,6 +367,31 @@ requireText(
   "package_audio_complete_marker_allowed",
   "Backend schema must block package audio-complete markers.",
 );
+requireText(
+  schemaDraft,
+  "ai_prototype_mobile_accessibility_report",
+  "Backend schema must include AI prototype mobile accessibility reports.",
+);
+requireText(
+  schemaDraft,
+  "ai_prototype_mobile_accessibility_report_id",
+  "Backend schema must preserve AI prototype mobile accessibility report ids.",
+);
+requireText(
+  schemaDraft,
+  "activity_compatibility_snapshot_id",
+  "Backend schema must preserve prototype activity compatibility snapshot ids.",
+);
+requireText(schemaDraft, "template_rendering_profile_id", "Backend schema must preserve template rendering profile ids.");
+requireText(schemaDraft, "font_accessibility_profile_id", "Backend schema must preserve font accessibility profile ids.");
+requireText(schemaDraft, "viewport_evidence", "Backend schema must preserve mobile viewport evidence.");
+requireText(schemaDraft, "touch_target_checks", "Backend schema must preserve touch target checks.");
+requireText(schemaDraft, "keyboard_focus_checks", "Backend schema must preserve keyboard and focus checks.");
+requireText(schemaDraft, "readable_text_checks", "Backend schema must preserve readable text checks.");
+requireText(schemaDraft, "visual_stability_checks", "Backend schema must preserve visual stability checks.");
+requireText(schemaDraft, "wrapper_control_checks", "Backend schema must preserve wrapper control checks.");
+requireText(schemaDraft, "accessibility_waiver_allowed", "Backend schema must block accessibility waivers.");
+requireText(schemaDraft, "student_facing_preview_allowed", "Backend schema must block student-facing previews.");
 requireText(schemaDraft, "ai_generated_package_manifest", "Backend schema must include AI generated package manifests.");
 requireText(schemaDraft, "ai_generated_package_manifest_id", "Backend schema must preserve generated package manifest ids.");
 requireText(schemaDraft, "generation_request_id", "Backend schema must preserve AI generation request ids.");
@@ -770,6 +798,31 @@ requireText(
   "package_audio_complete_marker_allowed",
   "Migration specs must block package audio-complete markers.",
 );
+requireText(
+  migrationSpecs,
+  "spec-ai-prototype-mobile-accessibility-report",
+  "Migration specs must include AI prototype mobile accessibility reports.",
+);
+requireText(
+  migrationSpecs,
+  "ai_prototype_mobile_accessibility_report_id",
+  "Migration specs must preserve AI prototype mobile accessibility report ids.",
+);
+requireText(
+  migrationSpecs,
+  "activity_compatibility_snapshot_id",
+  "Migration specs must preserve prototype activity compatibility snapshot ids.",
+);
+requireText(migrationSpecs, "template_rendering_profile_id", "Migration specs must preserve template rendering profile ids.");
+requireText(migrationSpecs, "font_accessibility_profile_id", "Migration specs must preserve font accessibility profile ids.");
+requireText(migrationSpecs, "viewport_evidence", "Migration specs must preserve mobile viewport evidence.");
+requireText(migrationSpecs, "touch_target_checks", "Migration specs must preserve touch target checks.");
+requireText(migrationSpecs, "keyboard_focus_checks", "Migration specs must preserve keyboard and focus checks.");
+requireText(migrationSpecs, "readable_text_checks", "Migration specs must preserve readable text checks.");
+requireText(migrationSpecs, "visual_stability_checks", "Migration specs must preserve visual stability checks.");
+requireText(migrationSpecs, "wrapper_control_checks", "Migration specs must preserve wrapper control checks.");
+requireText(migrationSpecs, "accessibility_waiver_allowed", "Migration specs must block accessibility waivers.");
+requireText(migrationSpecs, "student_facing_preview_allowed", "Migration specs must block student-facing previews.");
 requireText(migrationSpecs, "spec-ai-generated-package-manifest", "Migration specs must include AI generated package manifests.");
 requireText(migrationSpecs, "ai_generated_package_manifest_id", "Migration specs must preserve generated package manifest ids.");
 requireText(migrationSpecs, "prompt_package_id", "Migration specs must preserve generated package prompt package ids.");
@@ -1470,6 +1523,49 @@ requireText(
   "blocksPackageAudioCompleteMarker: true",
   "Persistence adapter must block package audio-complete markers.",
 );
+requireText(
+  persistenceAdapter,
+  "hosted-ai-prototype-mobile-accessibility-report-write",
+  "Persistence adapter must include hosted AI prototype mobile accessibility report writes.",
+);
+requireText(
+  persistenceAdapter,
+  "local-ai-prototype-mobile-accessibility-report-write",
+  "Persistence adapter must include local AI prototype mobile accessibility report writes.",
+);
+requireText(
+  persistenceAdapter,
+  "preservesAiPrototypeMobileAccessibilityReport: true",
+  "Persistence adapter must preserve AI prototype mobile accessibility report sections.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresMobileViewportEvidence: true",
+  "Persistence adapter must require mobile viewport evidence.",
+);
+requireText(persistenceAdapter, "requiresTouchTargetChecks: true", "Persistence adapter must require touch target checks.");
+requireText(
+  persistenceAdapter,
+  "requiresKeyboardFocusChecks: true",
+  "Persistence adapter must require keyboard and focus checks.",
+);
+requireText(persistenceAdapter, "requiresReadableTextChecks: true", "Persistence adapter must require readable text checks.");
+requireText(
+  persistenceAdapter,
+  "requiresVisualStabilityChecks: true",
+  "Persistence adapter must require visual stability checks.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresAccessibleWrapperControls: true",
+  "Persistence adapter must require accessible wrapper controls.",
+);
+requireText(persistenceAdapter, "blocksAccessibilityWaiver: true", "Persistence adapter must block accessibility waivers.");
+requireText(
+  persistenceAdapter,
+  "blocksStudentFacingPrototypePreview: true",
+  "Persistence adapter must block student-facing prototype previews.",
+);
 requireText(persistenceAdapter, "hosted-ai-generated-package-manifest-write", "Persistence adapter must include hosted AI generated package manifest writes.");
 requireText(persistenceAdapter, "local-ai-generated-package-manifest-write", "Persistence adapter must include local AI generated package manifest writes.");
 requireText(persistenceAdapter, "preservesAiGeneratedPackageManifest: true", "Persistence adapter must preserve AI generated package manifest links.");
@@ -2004,6 +2100,41 @@ requireText(
   "blocksPackageAudioCompleteMarker: true",
   "Durable record plan must block package audio-complete markers.",
 );
+requireText(
+  durableRecords,
+  "ai-prototype-mobile-accessibility-report-record",
+  "Durable record plan must include AI prototype mobile accessibility report records.",
+);
+requireText(
+  durableRecords,
+  "AI prototype mobile accessibility report record",
+  "Durable record plan must expose AI prototype mobile accessibility report labels.",
+);
+requireText(
+  durableRecords,
+  "preservesAiPrototypeMobileAccessibilityReport: true",
+  "Durable record plan must preserve AI prototype mobile accessibility report sections.",
+);
+requireText(
+  durableRecords,
+  "requiresMobileViewportEvidence: true",
+  "Durable record plan must require mobile viewport evidence.",
+);
+requireText(durableRecords, "requiresTouchTargetChecks: true", "Durable record plan must require touch target checks.");
+requireText(durableRecords, "requiresKeyboardFocusChecks: true", "Durable record plan must require keyboard and focus checks.");
+requireText(durableRecords, "requiresReadableTextChecks: true", "Durable record plan must require readable text checks.");
+requireText(durableRecords, "requiresVisualStabilityChecks: true", "Durable record plan must require visual stability checks.");
+requireText(
+  durableRecords,
+  "requiresAccessibleWrapperControls: true",
+  "Durable record plan must require accessible wrapper controls.",
+);
+requireText(durableRecords, "blocksAccessibilityWaiver: true", "Durable record plan must block accessibility waivers.");
+requireText(
+  durableRecords,
+  "blocksStudentFacingPrototypePreview: true",
+  "Durable record plan must block student-facing prototype previews.",
+);
 requireText(durableRecords, "ai-generated-package-manifest-record", "Durable record plan must include AI generated package manifest records.");
 requireText(durableRecords, "AI generated package manifest record", "Durable record plan must expose AI generated package manifest record labels.");
 requireText(durableRecords, "preservesAiGeneratedPackageManifest: true", "Durable record plan must preserve AI generated package manifest links.");
@@ -2343,6 +2474,16 @@ requireText(
   routeVerifier,
   "AI prototype audio coverage report record",
   "Active route verifier must keep AI prototype audio coverage report durable records visible on teacher intake.",
+);
+requireText(
+  routeVerifier,
+  "ai_prototype_mobile_accessibility_report",
+  "Active route verifier must keep AI prototype mobile accessibility report storage visible on teacher intake.",
+);
+requireText(
+  routeVerifier,
+  "AI prototype mobile accessibility report record",
+  "Active route verifier must keep AI prototype mobile accessibility report durable records visible on teacher intake.",
 );
 requireText(routeVerifier, "ai_generated_package_manifest", "Active route verifier must keep AI generated package manifest storage visible on teacher intake.");
 requireText(routeVerifier, "AI generated package manifest record", "Active route verifier must keep AI generated package manifest durable records visible on teacher intake.");

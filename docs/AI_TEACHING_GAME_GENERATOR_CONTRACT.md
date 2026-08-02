@@ -169,6 +169,8 @@ The report must preserve `prototype_mobile_accessibility_report`, `activity_comp
 
 Prototype mobile/accessibility reports cannot create student-facing previews, import files into `apps/web`, write route registry entries, waive accessibility because a prototype looks polished, assign students, or allow Phaser/canvas wrappers without accessible DOM controls. MiniStar reports must keep early Japanese support text hiragana-readable and unable to unlock English progress.
 
+The backend-neutral storage contract is `ai_prototype_mobile_accessibility_report` / `ai-prototype-mobile-accessibility-report`. Hosted and local adapters must preserve activity compatibility snapshot id, template rendering profile id, font accessibility profile id, standard event contract id, viewport evidence, touch target checks, keyboard/focus checks, readable text checks, visual stability checks, wrapper control checks, failure triggers, and blocked actions while blocking accessibility waivers, student-facing previews, direct app imports, route writes, package promotion, and assignments.
+
 ## Mode Recommendation Rule
 
 Generator mode recommendations must reuse the reviewed activity compatibility matrix. The generator can recommend a tight pathway for a unit, but it must not produce a broad switch panel or unsupported conversions. Blocked conversions stay visible with their payload-fit and compatibility-rule reasons.
