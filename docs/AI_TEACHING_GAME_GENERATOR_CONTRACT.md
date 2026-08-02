@@ -151,6 +151,14 @@ The report must show standard event coverage, required event order, allowed payl
 
 The backend-neutral storage contract is `ai_prototype_event_replay_report` / `ai-prototype-event-replay-report`. Hosted and local adapters must preserve standard event contract id, progress event acceptance map id, standard event coverage, required event order, allowed payload fields, accepted progress effects, failure triggers, and blocked actions while blocking hidden progress streams, score authority, reward inventory writes, route state ownership, report exports, playlist writes, local bundle writes, support-language progress triggers, direct app imports, package promotion, and assignments.
 
+## Prototype Audio Coverage Report Rule
+
+Prototype audio coverage reports must prove that returned prototypes cover every learner-facing target-language text with tap-to-speak or replay audio before integration. The report must cover vocabulary terms, target sentences, instructions, feedback, and critical controls.
+
+The report must preserve `prototype_audio_coverage_report`, `audio_cue_manifest`, `package_game_audio_coverage`, and `background_media_policy_binding` references while showing target-language audio checks, control audio checks, support-language rules, replay evidence, missing cue triggers, and blocked actions.
+
+Prototype audio reports cannot generate voice, trigger voice API cost, mutate audio manifests, write playlists, mark package audio complete, count media-only listening as mastery, let support-language audio unlock progress, or assign students. MiniStar reports must keep Japanese support audio hiragana-only for early levels and unable to unlock English progress.
+
 ## Mode Recommendation Rule
 
 Generator mode recommendations must reuse the reviewed activity compatibility matrix. The generator can recommend a tight pathway for a unit, but it must not produce a broad switch panel or unsupported conversions. Blocked conversions stay visible with their payload-fit and compatibility-rule reasons.

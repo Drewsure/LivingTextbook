@@ -16,6 +16,7 @@ const prototypeIntegrationPlan = readSource("../apps/web/src/data/sampleAiProtot
 const prototypeWrapperAdapterReview = readSource("../apps/web/src/data/sampleAiPrototypeWrapperAdapterReview.ts");
 const prototypeFixtureReplayReport = readSource("../apps/web/src/data/sampleAiPrototypeFixtureReplayReport.ts");
 const prototypeEventReplayReport = readSource("../apps/web/src/data/sampleAiPrototypeEventReplayReport.ts");
+const prototypeAudioCoverageReport = readSource("../apps/web/src/data/sampleAiPrototypeAudioCoverageReport.ts");
 const verifierSubmissionPacket = readSource("../apps/web/src/data/sampleAiVerifierSubmissionPacket.ts");
 const generatedPackageManifest = readSource("../apps/web/src/data/sampleAiGeneratedPackageManifest.ts");
 const generatedPackagePromotionChecklist = readSource(
@@ -54,6 +55,9 @@ const prototypeFixtureReplayReportPanel = readSource(
 );
 const prototypeEventReplayReportPanel = readSource(
   "../apps/web/src/features/content-intake/AiPrototypeEventReplayReportPanel.tsx",
+);
+const prototypeAudioCoverageReportPanel = readSource(
+  "../apps/web/src/features/content-intake/AiPrototypeAudioCoverageReportPanel.tsx",
 );
 const verifierSubmissionPanel = readSource("../apps/web/src/features/content-intake/AiVerifierSubmissionPacketPanel.tsx");
 const generatedPackageManifestPanel = readSource("../apps/web/src/features/content-intake/AiGeneratedPackageManifestPanel.tsx");
@@ -389,6 +393,61 @@ requireText(
   prototypeEventReplayReportPanel,
   "Accepted effects",
   "AI prototype event replay report panel must expose accepted progress effects.",
+);
+requireText(prototypeAudioCoverageReport, "sampleAiPrototypeAudioCoverageReports", "AI prototype audio coverage report data must exist.");
+requireText(prototypeAudioCoverageReport, "prototype_audio_coverage_report", "AI prototype audio coverage report must name its record.");
+requireText(prototypeAudioCoverageReport, "audio_cue_manifest", "AI prototype audio coverage report must require audio cue manifests.");
+requireText(
+  prototypeAudioCoverageReport,
+  "package_game_audio_coverage",
+  "AI prototype audio coverage report must require package game audio coverage.",
+);
+requireText(
+  prototypeAudioCoverageReport,
+  "background_media_policy_binding",
+  "AI prototype audio coverage report must require background media policy binding.",
+);
+requireText(prototypeAudioCoverageReport, "No target-language text without audio", "AI prototype audio coverage report must block missing target audio.");
+requireText(prototypeAudioCoverageReport, "Tap-to-speak coverage", "AI prototype audio coverage report must require tap-to-speak evidence.");
+requireText(prototypeAudioCoverageReport, "Submit controls have separate listen or replay controls", "AI prototype audio coverage report must require control replay.");
+requireText(prototypeAudioCoverageReport, "No generated voice call", "AI prototype audio coverage report must block generated voice calls.");
+requireText(prototypeAudioCoverageReport, "No voice API cost", "AI prototype audio coverage report must block voice API cost.");
+requireText(prototypeAudioCoverageReport, "No media-only mastery", "AI prototype audio coverage report must block media-only mastery.");
+requireText(prototypeAudioCoverageReport, "No support-language progress trigger", "AI prototype audio coverage report must block support-language progress.");
+requireText(
+  prototypeAudioCoverageReport,
+  "No Japanese support-language audio can unlock English progress",
+  "AI prototype audio coverage report must block MiniStar Japanese support-language audio progression.",
+);
+requireText(
+  prototypeAudioCoverageReportPanel,
+  "AI prototype audio coverage report",
+  "AI prototype audio coverage report panel must expose heading.",
+);
+requireText(
+  prototypeAudioCoverageReportPanel,
+  "Tap-to-speak coverage",
+  "AI prototype audio coverage report panel must expose tap-to-speak heading.",
+);
+requireText(
+  prototypeAudioCoverageReportPanel,
+  "Mode audio coverage reports",
+  "AI prototype audio coverage report panel must expose mode audio reports.",
+);
+requireText(
+  prototypeAudioCoverageReportPanel,
+  "Target-language checks",
+  "AI prototype audio coverage report panel must expose target-language checks.",
+);
+requireText(
+  prototypeAudioCoverageReportPanel,
+  "Control audio checks",
+  "AI prototype audio coverage report panel must expose control audio checks.",
+);
+requireText(
+  prototypeAudioCoverageReportPanel,
+  "Support-language rules",
+  "AI prototype audio coverage report panel must expose support-language rules.",
 );
 requireText(promptPackagePlan, "sampleAiPromptPackagePlans", "AI prompt package plan data must exist.");
 requireText(promptPackagePlan, "MiniStar generator prompt package", "AI prompt package plan must include MiniStar request seed.");
@@ -985,6 +1044,7 @@ requireText(route, "AiPrototypeIntegrationPlanPanel", "Generator route must rend
 requireText(route, "AiPrototypeWrapperAdapterReviewPanel", "Generator route must render the prototype wrapper adapter review panel.");
 requireText(route, "AiPrototypeFixtureReplayReportPanel", "Generator route must render the prototype fixture replay report panel.");
 requireText(route, "AiPrototypeEventReplayReportPanel", "Generator route must render the prototype event replay report panel.");
+requireText(route, "AiPrototypeAudioCoverageReportPanel", "Generator route must render the prototype audio coverage report panel.");
 requireText(route, "AiPromptPackagePlanPanel", "Generator route must render the prompt package plan panel.");
 requireText(route, "AiGeneratorCostEntitlementGatePanel", "Generator route must render the cost entitlement gate panel.");
 requireText(route, "AiGenerationRequestBuilderPanel", "Generator route must render the request builder panel.");
@@ -1012,6 +1072,7 @@ requireText(route, "sampleAiPrototypeIntegrationPlans", "Generator route must us
 requireText(route, "sampleAiPrototypeWrapperAdapterReviews", "Generator route must use prototype wrapper adapter review data.");
 requireText(route, "sampleAiPrototypeFixtureReplayReports", "Generator route must use prototype fixture replay report data.");
 requireText(route, "sampleAiPrototypeEventReplayReports", "Generator route must use prototype event replay report data.");
+requireText(route, "sampleAiPrototypeAudioCoverageReports", "Generator route must use prototype audio coverage report data.");
 requireText(route, "sampleAiPromptPackagePlans", "Generator route must use the sample prompt package plan data.");
 requireText(route, "sampleAiGeneratorCostEntitlementGates", "Generator route must use the sample cost entitlement gate data.");
 requireText(route, "sampleActivityPathwayCompatibilityMatrix", "Generator route must use the compatibility matrix.");
