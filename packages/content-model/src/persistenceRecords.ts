@@ -9,6 +9,7 @@ export type PersistenceRecordCategory =
   | "teacher-draft-verifier-submission"
   | "ai-generated-game-build-brief"
   | "ai-external-prototype-task-packet"
+  | "ai-external-task-export-readiness-gate"
   | "ai-prototype-return-review"
   | "ai-prototype-integration-plan"
   | "ai-prototype-wrapper-adapter-review"
@@ -128,6 +129,13 @@ export interface DurableRecordContract {
   requiresExternalPrototypeReturnEvidence?: boolean;
   blocksExternalPrototypeLiveHandoff?: boolean;
   blocksExternalPrototypeTaskShortcuts?: boolean;
+  preservesAiExternalTaskExportReadinessGate?: boolean;
+  requiresExternalTaskExportChannels?: boolean;
+  requiresExternalTaskExportReadinessChecks?: boolean;
+  blocksExternalTaskExport?: boolean;
+  blocksPromptCopyAction?: boolean;
+  blocksRepositoryIssueCreation?: boolean;
+  blocksArchiveDownload?: boolean;
   preservesAiPrototypeReturnReview?: boolean;
   preservesAiPrototypeIntegrationPlan?: boolean;
   preservesAiPrototypeWrapperAdapterReview?: boolean;
@@ -617,6 +625,58 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "ai-external-prototype-task-packet" && !record.blocksExternalPrototypeTaskShortcuts) {
       errors.push(`AI external prototype task packet record ${record.recordId} must block task shortcut actions.`);
+    }
+
+    if (record.category === "ai-external-task-export-readiness-gate" && !record.preservesAiExternalTaskExportReadinessGate) {
+      errors.push(`AI external task export readiness gate record ${record.recordId} must preserve export readiness gate sections.`);
+    }
+
+    if (record.category === "ai-external-task-export-readiness-gate" && !record.requiresExternalTaskExportChannels) {
+      errors.push(`AI external task export readiness gate record ${record.recordId} must require export channel status.`);
+    }
+
+    if (record.category === "ai-external-task-export-readiness-gate" && !record.requiresExternalTaskExportReadinessChecks) {
+      errors.push(`AI external task export readiness gate record ${record.recordId} must require readiness checks.`);
+    }
+
+    if (record.category === "ai-external-task-export-readiness-gate" && !record.blocksExternalTaskExport) {
+      errors.push(`AI external task export readiness gate record ${record.recordId} must block task export.`);
+    }
+
+    if (record.category === "ai-external-task-export-readiness-gate" && !record.blocksPromptCopyAction) {
+      errors.push(`AI external task export readiness gate record ${record.recordId} must block prompt copy actions.`);
+    }
+
+    if (record.category === "ai-external-task-export-readiness-gate" && !record.blocksRepositoryIssueCreation) {
+      errors.push(`AI external task export readiness gate record ${record.recordId} must block repository issue creation.`);
+    }
+
+    if (record.category === "ai-external-task-export-readiness-gate" && !record.blocksArchiveDownload) {
+      errors.push(`AI external task export readiness gate record ${record.recordId} must block archive downloads.`);
+    }
+
+    if (record.category === "ai-external-task-export-readiness-gate" && !record.blocksExternalPrototypeLiveHandoff) {
+      errors.push(`AI external task export readiness gate record ${record.recordId} must block live handoff.`);
+    }
+
+    if (record.category === "ai-external-task-export-readiness-gate" && !record.blocksAppPatchGeneration) {
+      errors.push(`AI external task export readiness gate record ${record.recordId} must block app patch generation.`);
+    }
+
+    if (record.category === "ai-external-task-export-readiness-gate" && !record.blocksGeneratedGameRouteWrite) {
+      errors.push(`AI external task export readiness gate record ${record.recordId} must block route creation.`);
+    }
+
+    if (record.category === "ai-external-task-export-readiness-gate" && !record.blocksScoringProfileOverride) {
+      errors.push(`AI external task export readiness gate record ${record.recordId} must block scoring authority.`);
+    }
+
+    if (record.category === "ai-external-task-export-readiness-gate" && !record.blocksStudentFacingPrototypePreview) {
+      errors.push(`AI external task export readiness gate record ${record.recordId} must block student-facing pathways.`);
+    }
+
+    if (record.category === "ai-external-task-export-readiness-gate" && !record.blocksSupportLanguageProgressTrigger) {
+      errors.push(`AI external task export readiness gate record ${record.recordId} must block support-language progress triggers.`);
     }
 
     if (record.category === "ai-prototype-return-review" && !record.preservesAiPrototypeReturnReview) {

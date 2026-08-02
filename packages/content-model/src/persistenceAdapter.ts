@@ -45,6 +45,13 @@ export interface PersistenceWriteIntent {
   requiresExternalPrototypeReturnEvidence?: boolean;
   blocksExternalPrototypeLiveHandoff?: boolean;
   blocksExternalPrototypeTaskShortcuts?: boolean;
+  preservesAiExternalTaskExportReadinessGate?: boolean;
+  requiresExternalTaskExportChannels?: boolean;
+  requiresExternalTaskExportReadinessChecks?: boolean;
+  blocksExternalTaskExport?: boolean;
+  blocksPromptCopyAction?: boolean;
+  blocksRepositoryIssueCreation?: boolean;
+  blocksArchiveDownload?: boolean;
   preservesAiPrototypeReturnReview?: boolean;
   preservesAiPrototypeIntegrationPlan?: boolean;
   preservesAiPrototypeWrapperAdapterReview?: boolean;
@@ -569,6 +576,58 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "ai-external-prototype-task-packet" && !intent.blocksExternalPrototypeTaskShortcuts) {
       errors.push(`AI external prototype task packet write intent ${intent.intentId} must block task shortcut actions.`);
+    }
+
+    if (intent.category === "ai-external-task-export-readiness-gate" && !intent.preservesAiExternalTaskExportReadinessGate) {
+      errors.push(`AI external task export readiness gate write intent ${intent.intentId} must preserve export readiness gate sections.`);
+    }
+
+    if (intent.category === "ai-external-task-export-readiness-gate" && !intent.requiresExternalTaskExportChannels) {
+      errors.push(`AI external task export readiness gate write intent ${intent.intentId} must require export channel status.`);
+    }
+
+    if (intent.category === "ai-external-task-export-readiness-gate" && !intent.requiresExternalTaskExportReadinessChecks) {
+      errors.push(`AI external task export readiness gate write intent ${intent.intentId} must require readiness checks.`);
+    }
+
+    if (intent.category === "ai-external-task-export-readiness-gate" && !intent.blocksExternalTaskExport) {
+      errors.push(`AI external task export readiness gate write intent ${intent.intentId} must block task export.`);
+    }
+
+    if (intent.category === "ai-external-task-export-readiness-gate" && !intent.blocksPromptCopyAction) {
+      errors.push(`AI external task export readiness gate write intent ${intent.intentId} must block prompt copy actions.`);
+    }
+
+    if (intent.category === "ai-external-task-export-readiness-gate" && !intent.blocksRepositoryIssueCreation) {
+      errors.push(`AI external task export readiness gate write intent ${intent.intentId} must block repository issue creation.`);
+    }
+
+    if (intent.category === "ai-external-task-export-readiness-gate" && !intent.blocksArchiveDownload) {
+      errors.push(`AI external task export readiness gate write intent ${intent.intentId} must block archive downloads.`);
+    }
+
+    if (intent.category === "ai-external-task-export-readiness-gate" && !intent.blocksExternalPrototypeLiveHandoff) {
+      errors.push(`AI external task export readiness gate write intent ${intent.intentId} must block live handoff.`);
+    }
+
+    if (intent.category === "ai-external-task-export-readiness-gate" && !intent.blocksAppPatchGeneration) {
+      errors.push(`AI external task export readiness gate write intent ${intent.intentId} must block app patch generation.`);
+    }
+
+    if (intent.category === "ai-external-task-export-readiness-gate" && !intent.blocksGeneratedGameRouteWrite) {
+      errors.push(`AI external task export readiness gate write intent ${intent.intentId} must block route creation.`);
+    }
+
+    if (intent.category === "ai-external-task-export-readiness-gate" && !intent.blocksScoringProfileOverride) {
+      errors.push(`AI external task export readiness gate write intent ${intent.intentId} must block scoring authority.`);
+    }
+
+    if (intent.category === "ai-external-task-export-readiness-gate" && !intent.blocksStudentFacingPrototypePreview) {
+      errors.push(`AI external task export readiness gate write intent ${intent.intentId} must block student-facing pathways.`);
+    }
+
+    if (intent.category === "ai-external-task-export-readiness-gate" && !intent.blocksSupportLanguageProgressTrigger) {
+      errors.push(`AI external task export readiness gate write intent ${intent.intentId} must block support-language progress triggers.`);
     }
 
     if (intent.category === "ai-prototype-return-review" && !intent.preservesAiPrototypeReturnReview) {

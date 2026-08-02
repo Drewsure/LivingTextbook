@@ -151,6 +151,8 @@ Teacher generator routes may show a review-only external prototype task export r
 
 The gate must require reviewer identity, evidence storage, durable task packet storage, external-builder repository policy, return-review intake, and Codex owner confirmation. It must block task export, prompt copy action, repository issue creation, archive download, live handoff, app writes, route creation, scoring authority, student-facing pathway, and support-language progress. MiniStar gates must keep Japanese support-language progress blocked while English remains the target-language trigger.
 
+The backend-neutral storage contract is `ai_external_task_export_readiness_gate` / `ai-external-task-export-readiness-gate`. Hosted and local adapters must preserve export channels, readiness checks, blocked export actions, reviewer identity requirement, evidence storage requirement, external repository policy requirement, return-review intake requirement, and Codex owner confirmation requirement while blocking task export, prompt copy, repository issue creation, archive download, live handoff, app writes, route creation, scoring authority, student-facing pathways, and support-language progress.
+
 ## Prototype Return Review Rule
 
 Returned prototype work from Z.ai or any outside builder must enter an `ai_prototype_return_review` preview before integration. The review must name the source build brief, returned artifacts, required evidence, parent-engine wrapper review, JSON fixture conformance, standard event replay, audio cue coverage, deterministic scoring, mobile accessibility, white-label fit, and blocked actions.

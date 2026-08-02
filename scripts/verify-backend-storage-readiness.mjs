@@ -16,6 +16,7 @@ const requiredSchemaEntities = [
   "teacher_draft_verifier_submission",
   "ai_generated_game_build_brief",
   "ai_external_prototype_task_packet",
+  "ai_external_task_export_readiness_gate",
   "ai_prototype_return_review",
   "ai_prototype_integration_plan",
   "ai_prototype_wrapper_adapter_review",
@@ -95,6 +96,7 @@ const requiredMigrationCandidates = [
   "m020-teacher-draft-verifier-submission-records",
   "m060-ai-generated-game-build-brief-records",
   "m074-ai-external-prototype-task-packet-records",
+  "m075-ai-external-task-export-readiness-gate-records",
   "m061-ai-prototype-return-review-records",
   "m062-ai-prototype-integration-plan-records",
   "m063-ai-prototype-wrapper-adapter-review-records",
@@ -177,6 +179,7 @@ const requiredMigrationSpecs = [
   "spec-teacher-draft-verifier-submission",
   "spec-ai-generated-game-build-brief",
   "spec-ai-external-prototype-task-packet",
+  "spec-ai-external-task-export-readiness-gate",
   "spec-ai-prototype-return-review",
   "spec-ai-prototype-integration-plan",
   "spec-ai-prototype-wrapper-adapter-review",
@@ -294,6 +297,21 @@ requireText(schemaDraft, "playlist_creation_allowed", "Backend schema must block
 requireText(schemaDraft, "package_assembly_allowed", "Backend schema must block external package assembly.");
 requireText(schemaDraft, "student_assignment_allowed", "Backend schema must block external student assignment.");
 requireText(schemaDraft, "support_language_progress_allowed", "Backend schema must block support-language progress from external tasks.");
+requireText(schemaDraft, "ai_external_task_export_readiness_gate", "Backend schema must include AI external task export readiness gates.");
+requireText(schemaDraft, "ai_external_task_export_readiness_gate_id", "Backend schema must preserve AI external task export readiness gate ids.");
+requireText(schemaDraft, "export_channels", "Backend schema must preserve external task export channels.");
+requireText(schemaDraft, "readiness_checks", "Backend schema must preserve external task export readiness checks.");
+requireText(schemaDraft, "blocked_export_actions", "Backend schema must preserve blocked external task export actions.");
+requireText(schemaDraft, "reviewer_identity_required", "Backend schema must require reviewer identity before external task export.");
+requireText(schemaDraft, "evidence_storage_required", "Backend schema must require evidence storage before external task export.");
+requireText(schemaDraft, "external_repository_policy_required", "Backend schema must require external repository policy before external task export.");
+requireText(schemaDraft, "return_review_intake_required", "Backend schema must require return-review intake before external task export.");
+requireText(schemaDraft, "codex_owner_confirmation_required", "Backend schema must require Codex owner confirmation before external task export.");
+requireText(schemaDraft, "task_export_allowed", "Backend schema must block external task export.");
+requireText(schemaDraft, "prompt_copy_allowed", "Backend schema must block prompt copy actions.");
+requireText(schemaDraft, "repository_issue_creation_allowed", "Backend schema must block repository issue creation.");
+requireText(schemaDraft, "archive_download_allowed", "Backend schema must block archive downloads.");
+requireText(schemaDraft, "student_facing_pathway_allowed", "Backend schema must block student-facing pathways from external task export.");
 requireText(schemaDraft, "ai_prototype_return_review", "Backend schema must include AI prototype return reviews.");
 requireText(schemaDraft, "ai_prototype_return_review_id", "Backend schema must preserve AI prototype return review ids.");
 requireText(schemaDraft, "ai_generated_game_build_brief_id", "Backend schema must link return reviews to generated game build briefs.");
@@ -839,6 +857,16 @@ requireText(migrationSpecs, "reward_inventory_write_allowed", "Migration specs m
 requireText(migrationSpecs, "playlist_creation_allowed", "Migration specs must block external playlist creation.");
 requireText(migrationSpecs, "package_assembly_allowed", "Migration specs must block external package assembly.");
 requireText(migrationSpecs, "support_language_progress_allowed", "Migration specs must block support-language progress from external tasks.");
+requireText(migrationSpecs, "spec-ai-external-task-export-readiness-gate", "Migration specs must include AI external task export readiness gates.");
+requireText(migrationSpecs, "ai_external_task_export_readiness_gate_id", "Migration specs must preserve AI external task export readiness gate ids.");
+requireText(migrationSpecs, "export_channels", "Migration specs must preserve external task export channels.");
+requireText(migrationSpecs, "readiness_checks", "Migration specs must preserve external task export readiness checks.");
+requireText(migrationSpecs, "blocked_export_actions", "Migration specs must preserve blocked external task export actions.");
+requireText(migrationSpecs, "task_export_allowed", "Migration specs must block external task export.");
+requireText(migrationSpecs, "prompt_copy_allowed", "Migration specs must block prompt copy actions.");
+requireText(migrationSpecs, "repository_issue_creation_allowed", "Migration specs must block repository issue creation.");
+requireText(migrationSpecs, "archive_download_allowed", "Migration specs must block archive downloads.");
+requireText(migrationSpecs, "student_facing_pathway_allowed", "Migration specs must block student-facing pathways from external task export.");
 requireText(migrationSpecs, "spec-ai-prototype-return-review", "Migration specs must include AI prototype return reviews.");
 requireText(migrationSpecs, "ai_prototype_return_review_id", "Migration specs must preserve AI prototype return review ids.");
 requireText(migrationSpecs, "ai_generated_game_build_brief_id", "Migration specs must link return reviews to generated game build briefs.");
@@ -1676,6 +1704,39 @@ requireText(
   "blocksExternalPrototypeTaskShortcuts: true",
   "Persistence adapter must block external prototype task shortcuts.",
 );
+requireText(
+  persistenceAdapter,
+  "hosted-ai-external-task-export-readiness-gate-write",
+  "Persistence adapter must include hosted AI external task export readiness gate writes.",
+);
+requireText(
+  persistenceAdapter,
+  "local-ai-external-task-export-readiness-gate-write",
+  "Persistence adapter must include local AI external task export readiness gate writes.",
+);
+requireText(
+  persistenceAdapter,
+  "preservesAiExternalTaskExportReadinessGate: true",
+  "Persistence adapter must preserve AI external task export readiness gates.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresExternalTaskExportChannels: true",
+  "Persistence adapter must require external task export channels.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresExternalTaskExportReadinessChecks: true",
+  "Persistence adapter must require external task export readiness checks.",
+);
+requireText(persistenceAdapter, "blocksExternalTaskExport: true", "Persistence adapter must block external task export.");
+requireText(persistenceAdapter, "blocksPromptCopyAction: true", "Persistence adapter must block prompt copy actions.");
+requireText(
+  persistenceAdapter,
+  "blocksRepositoryIssueCreation: true",
+  "Persistence adapter must block repository issue creation.",
+);
+requireText(persistenceAdapter, "blocksArchiveDownload: true", "Persistence adapter must block archive downloads.");
 requireText(
   persistenceAdapter,
   "hosted-ai-prototype-return-review-write",
@@ -2532,6 +2593,35 @@ requireText(
   "blocksExternalPrototypeTaskShortcuts: true",
   "Durable record plan must block external prototype task shortcuts.",
 );
+requireText(
+  durableRecords,
+  "ai-external-task-export-readiness-gate-record",
+  "Durable record plan must include AI external task export readiness gate records.",
+);
+requireText(
+  durableRecords,
+  "AI external task export readiness gate record",
+  "Durable record plan must expose AI external task export readiness gate labels.",
+);
+requireText(
+  durableRecords,
+  "preservesAiExternalTaskExportReadinessGate: true",
+  "Durable record plan must preserve AI external task export readiness gates.",
+);
+requireText(
+  durableRecords,
+  "requiresExternalTaskExportChannels: true",
+  "Durable record plan must require external task export channels.",
+);
+requireText(
+  durableRecords,
+  "requiresExternalTaskExportReadinessChecks: true",
+  "Durable record plan must require external task export readiness checks.",
+);
+requireText(durableRecords, "blocksExternalTaskExport: true", "Durable record plan must block external task export.");
+requireText(durableRecords, "blocksPromptCopyAction: true", "Durable record plan must block prompt copy actions.");
+requireText(durableRecords, "blocksRepositoryIssueCreation: true", "Durable record plan must block repository issue creation.");
+requireText(durableRecords, "blocksArchiveDownload: true", "Durable record plan must block archive downloads.");
 requireText(durableRecords, "ai-prototype-return-review-record", "Durable record plan must include AI prototype return review records.");
 requireText(durableRecords, "AI prototype return review record", "Durable record plan must expose AI prototype return review labels.");
 requireText(

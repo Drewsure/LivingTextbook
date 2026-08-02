@@ -1414,6 +1414,118 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       ],
     },
     {
+      specId: "spec-ai-external-task-export-readiness-gate",
+      label: "AI external task export readiness gate",
+      candidateId: "m075-ai-external-task-export-readiness-gate-records",
+      storeKind: "admin-record",
+      status: "ready-for-review",
+      purpose:
+        "Stores external task export gate status while keeping prompt copy, repository issue creation, archive downloads, live handoff, app writes, route creation, scoring authority, student-facing pathways, and support-language progress blocked.",
+      primaryKey: "ai_external_task_export_readiness_gate_id",
+      tenantScope:
+        "Scoped by tenant_id, generation_request_id, ai_external_prototype_task_packet_id, and export_gate_revision.",
+      fields: [
+        {
+          name: "ai_external_task_export_readiness_gate_id",
+          type: "string",
+          required: true,
+          note: "Stable id for one external task export readiness gate snapshot.",
+        },
+        {
+          name: "generation_request_id",
+          type: "string",
+          required: true,
+          note: "AI generation request this export gate belongs to.",
+        },
+        {
+          name: "ai_external_prototype_task_packet_id",
+          type: "string",
+          required: true,
+          note: "Source external prototype task packet.",
+        },
+        {
+          name: "export_channels",
+          type: "json",
+          required: true,
+          note: "Prompt copy, repository issue, and archive download channel status.",
+        },
+        {
+          name: "readiness_checks",
+          type: "json",
+          required: true,
+          note: "Reviewer identity, evidence storage, task packet storage, repository policy, return-review intake, and Codex owner confirmation checks.",
+        },
+        {
+          name: "blocked_export_actions",
+          type: "json",
+          required: true,
+          note: "Task export, prompt copy, repository issue, archive download, live handoff, app write, route, scoring, preview, and support-language progress blocks.",
+        },
+        {
+          name: "task_export_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until export readiness passes.",
+        },
+        {
+          name: "prompt_copy_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until export readiness passes.",
+        },
+        {
+          name: "repository_issue_creation_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until repository policy passes.",
+        },
+        {
+          name: "archive_download_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until evidence manifest export passes.",
+        },
+        {
+          name: "live_handoff_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until all export readiness gates pass.",
+        },
+        {
+          name: "student_facing_pathway_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until Codex integration and launch safety pass.",
+        },
+        {
+          name: "support_language_progress_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false. Support language cannot unlock progress.",
+        },
+      ],
+      indexes: [
+        "tenant_id + ai_external_task_export_readiness_gate_id",
+        "ai_external_task_export_readiness_gate_id unique",
+        "tenant_id + generation_request_id",
+        "tenant_id + ai_external_prototype_task_packet_id",
+        "task_export_allowed",
+        "prompt_copy_allowed",
+        "repository_issue_creation_allowed",
+      ],
+      retentionRule:
+        "Retain according to tenant authoring and external prototype policy; blocked, superseded, exported, and accepted export gates remain auditable.",
+      exportRule:
+        "Must export export-readiness gate status and linked task packet, reviewer identity, evidence, repository policy, return-review, and Codex confirmation ids.",
+      localFallback:
+        "Local classroom deployments store the same export readiness gate JSON for backup/export without allowing offline prompt copy, issue creation, archive downloads, live handoff, or app writes.",
+      policyBlockers: [
+        "Export readiness gates cannot export tasks, copy prompts, create repository issues, download archives, start live handoffs, write app files, create routes, own scoring, or create student-facing pathways by themselves.",
+        "Reviewer identity, evidence storage, repository policy, return-review intake, and Codex owner confirmation are required before future export tooling.",
+        "Support-language progress remains blocked; MiniStar Japanese support cannot unlock English package progress.",
+      ],
+    },
+    {
       specId: "spec-ai-prototype-return-review",
       label: "AI prototype return review",
       candidateId: "m061-ai-prototype-return-review-records",

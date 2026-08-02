@@ -21,6 +21,7 @@ export type PersistenceBoundaryCategory =
   | "teacher-draft-verifier-submission"
   | "ai-generated-game-build-brief"
   | "ai-external-prototype-task-packet"
+  | "ai-external-task-export-readiness-gate"
   | "ai-prototype-return-review"
   | "ai-prototype-integration-plan"
   | "ai-prototype-wrapper-adapter-review"
@@ -285,6 +286,37 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
     note:
       "AI external prototype task packets need durable handoff boundaries before outside builder task instructions, exports, or return reviews can be treated as official workflow evidence.",
+  },
+  {
+    recordId: "ai-external-task-export-readiness-gate-record",
+    category: "ai-external-task-export-readiness-gate",
+    label: "AI external task export readiness gate record",
+    readiness: "durable-required",
+    sourceOfTruth:
+      "AiExternalPrototypeTaskExportReadinessGate, AI external prototype task packet, reviewer identity gate, evidence packet, repository policy, prototype return review, and Codex owner confirmation",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: false,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesAiExternalTaskExportReadinessGate: true,
+    requiresExternalTaskExportChannels: true,
+    requiresExternalTaskExportReadinessChecks: true,
+    blocksExternalTaskExport: true,
+    blocksPromptCopyAction: true,
+    blocksRepositoryIssueCreation: true,
+    blocksArchiveDownload: true,
+    blocksExternalPrototypeLiveHandoff: true,
+    blocksAppPatchGeneration: true,
+    blocksGeneratedGameRouteWrite: true,
+    blocksScoringProfileOverride: true,
+    blocksStudentFacingPrototypePreview: true,
+    blocksSupportLanguageProgressTrigger: true,
+    blocksDirectStudentAssignment: true,
+    recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
+    note:
+      "AI external task export readiness gates need durable channel and readiness state before prompt copy, repository issue creation, archive download, or outside-builder handoff tooling exists.",
   },
   {
     recordId: "ai-prototype-return-review-record",
@@ -1983,6 +2015,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision:
       "Persist AI external prototype task packets before enabling outside-builder task export, return review intake, app patch planning, route integration, scoring profile changes, playlists, rewards, package assembly, or assignments.",
+  },
+  {
+    boundaryId: "ai-external-task-export-readiness-gate-boundary",
+    category: "ai-external-task-export-readiness-gate",
+    label: "AI external task export readiness gate records",
+    status: "needs-backend",
+    recordShape:
+      "Export readiness gate id, tenant id, request id, task packet id, source records, export channels, readiness checks, blocked actions, reviewer identity requirement, evidence storage requirement, repository policy requirement, return-review intake requirement, and Codex owner confirmation requirement",
+    whyItMatters:
+      "External task export gates need durable status so prompt copy, repository issue creation, archive downloads, and outside-builder handoffs cannot appear before reviewer identity, evidence storage, repository policy, return-review intake, and Codex owner confirmation.",
+    visibleTo: ["Tenant admin", "Content reviewer", "Platform admin", "External prototype builder"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Persist AI external task export readiness gates before enabling prompt copy, repository issue creation, archive downloads, outside-builder task export, route creation, app patch planning, scoring changes, or assignments.",
   },
   {
     boundaryId: "ai-prototype-return-review-boundary",
