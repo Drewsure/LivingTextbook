@@ -154,6 +154,10 @@ export interface PersistenceWriteIntent {
   requiresTeacherApprovalLedger?: boolean;
   preservesAiGeneratorTenantCoverageGate?: boolean;
   requiresTenantSpecificGeneratorRecords?: boolean;
+  preservesAiGeneratorReviewSummary?: boolean;
+  preservesGeneratorSectionReadiness?: boolean;
+  requiresGeneratorPrimaryBlockers?: boolean;
+  requiresGeneratorNextRecords?: boolean;
   blocksGeneratorRequestSubmission?: boolean;
   blocksLiveModelCall?: boolean;
   blocksVerifierSubmission?: boolean;
@@ -1325,6 +1329,54 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "ai-generator-tenant-coverage-gate" && !intent.blocksStudentReadyMarker) {
       errors.push(`AI generator tenant coverage gate write intent ${intent.intentId} must block student-ready markers.`);
+    }
+
+    if (intent.category === "ai-generator-review-summary" && !intent.preservesAiGeneratorReviewSummary) {
+      errors.push(`AI generator review summary write intent ${intent.intentId} must preserve generator review summary rollups.`);
+    }
+
+    if (intent.category === "ai-generator-review-summary" && !intent.preservesGeneratorSectionReadiness) {
+      errors.push(`AI generator review summary write intent ${intent.intentId} must preserve section readiness.`);
+    }
+
+    if (intent.category === "ai-generator-review-summary" && !intent.requiresGeneratorPrimaryBlockers) {
+      errors.push(`AI generator review summary write intent ${intent.intentId} must require primary blockers.`);
+    }
+
+    if (intent.category === "ai-generator-review-summary" && !intent.requiresGeneratorNextRecords) {
+      errors.push(`AI generator review summary write intent ${intent.intentId} must require next required records.`);
+    }
+
+    if (intent.category === "ai-generator-review-summary" && !intent.blocksLiveModelCall) {
+      errors.push(`AI generator review summary write intent ${intent.intentId} must block live model calls.`);
+    }
+
+    if (intent.category === "ai-generator-review-summary" && !intent.blocksAppPatchGeneration) {
+      errors.push(`AI generator review summary write intent ${intent.intentId} must block app patch generation.`);
+    }
+
+    if (intent.category === "ai-generator-review-summary" && !intent.blocksGeneratedPackageAssembly) {
+      errors.push(`AI generator review summary write intent ${intent.intentId} must block generated package assembly.`);
+    }
+
+    if (intent.category === "ai-generator-review-summary" && !intent.blocksGeneratedPackageRouteWrite) {
+      errors.push(`AI generator review summary write intent ${intent.intentId} must block route registry writes.`);
+    }
+
+    if (intent.category === "ai-generator-review-summary" && !intent.blocksGeneratedPackagePlaylistWrite) {
+      errors.push(`AI generator review summary write intent ${intent.intentId} must block media playlist writes.`);
+    }
+
+    if (intent.category === "ai-generator-review-summary" && !intent.blocksGeneratedPackageAssignment) {
+      errors.push(`AI generator review summary write intent ${intent.intentId} must block assignment writes.`);
+    }
+
+    if (intent.category === "ai-generator-review-summary" && !intent.blocksGeneratedPackageLocalBundleWrite) {
+      errors.push(`AI generator review summary write intent ${intent.intentId} must block local bundle writes.`);
+    }
+
+    if (intent.category === "ai-generator-review-summary" && !intent.blocksStudentReadyMarker) {
+      errors.push(`AI generator review summary write intent ${intent.intentId} must block student-ready markers.`);
     }
 
     if (intent.category === "teacher-assignment-rollout-gate" && !intent.preservesTeacherAssignmentRolloutGate) {

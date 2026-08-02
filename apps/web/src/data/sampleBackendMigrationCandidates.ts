@@ -777,6 +777,42 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
       ],
     },
     {
+      migrationId: "m071-ai-generator-review-summary-records",
+      label: "AI generator review summary records",
+      track: "shared",
+      status: "ready-to-design",
+      risk: "medium",
+      targetEntities: ["ai_generator_review_summary"],
+      purpose:
+        "Persist tenant-specific AI generator review summaries before a readable route rollup can be mistaken for live generation, app patch, package, route, playlist, local bundle, or assignment readiness.",
+      prerequisites: [
+        "AI generator route map accepted",
+        "Tenant coverage, lineage, Codex decision, app patch proposal, verifier, manifest, publish, and correction record policies accepted",
+        "Hosted/local persistence adapter selected",
+      ],
+      implementationNotes: [
+        "Keep review summaries tenant-scoped and generation-request-scoped.",
+        "Preserve section readiness, primary blockers, next required records, source record links, and blocked actions.",
+        "Treat summaries as admin rollups only; the detailed source records remain authoritative.",
+        "Block live generation, app patching, package assembly, route writes, playlist writes, local bundle writes, assignments, and student-ready markers.",
+      ],
+      rollbackOrExportNeeds: [
+        "Export generator review summary JSON with linked source records",
+        "Retain blocked, review-only, missing, superseded, and rejected summary snapshots for audit",
+        "Support local review summary backup and restore without enabling offline generator or assignment actions",
+      ],
+      notAllowedYet: [
+        "Live generation",
+        "App patch write",
+        "Package assembly",
+        "Route registry write",
+        "Media playlist write",
+        "Student assignment",
+        "Local bundle write",
+        "Student-ready marker",
+      ],
+    },
+    {
       migrationId: "m049-teacher-assignment-rollout-gate-records",
       label: "Teacher assignment rollout gate records",
       track: "shared",

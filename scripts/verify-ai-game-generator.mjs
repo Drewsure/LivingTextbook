@@ -268,6 +268,11 @@ requireText(reviewSummaryPanel, "Primary blocker", "AI generator review summary 
 requireText(reviewSummaryPanel, "Next required record", "AI generator review summary panel must show next records.");
 requireText(reviewSummaryPanel, "Blocked actions", "AI generator review summary panel must show blocked actions.");
 requireText(reviewSummaryPanel, "Source records", "AI generator review summary panel must show source records.");
+requireText(
+  checks,
+  "AI generator review summary storage contract",
+  "AI generator checks must mention review summary storage contract.",
+);
 requireText(prototypeReturnReview, "sampleAiPrototypeReturnReviewPackets", "AI prototype return review data must exist.");
 requireText(prototypeReturnReview, "External prototype builder / Z.ai return packet", "AI prototype return review must identify external returns.");
 requireText(prototypeReturnReview, "Parent-engine wrapper review", "AI prototype return review must require parent-engine wrapper review.");

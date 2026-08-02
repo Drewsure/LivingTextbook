@@ -3198,6 +3198,142 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       ],
     },
     {
+      specId: "spec-ai-generator-review-summary",
+      label: "AI generator review summary",
+      candidateId: "m071-ai-generator-review-summary-records",
+      storeKind: "admin-record",
+      status: "ready-for-review",
+      purpose:
+        "Stores tenant-specific generator review rollups while keeping live generation, app patching, package, route, playlist, local bundle, and assignment actions blocked.",
+      primaryKey: "ai_generator_review_summary_id",
+      tenantScope:
+        "Scoped by tenant_id, generation_request_id, review_summary_status, summary_revision, and blocked_action_count.",
+      fields: [
+        {
+          name: "ai_generator_review_summary_id",
+          type: "string",
+          required: true,
+          note: "Stable id for one generator review summary snapshot.",
+        },
+        {
+          name: "generation_request_id",
+          type: "string",
+          required: true,
+          note: "AI generation request this review summary belongs to.",
+        },
+        {
+          name: "review_summary_status",
+          type: "string",
+          required: true,
+          note: "Review-only, blocked, missing, superseded, or rejected.",
+        },
+        {
+          name: "current_boundary",
+          type: "string",
+          required: true,
+          note: "Teacher-visible boundary explaining why the rollup cannot trigger live actions.",
+        },
+        {
+          name: "section_readiness_rollup",
+          type: "json",
+          required: true,
+          note: "Request setup, prototype review, integration gates, package review, and draft repair readiness.",
+        },
+        {
+          name: "primary_blockers",
+          type: "json",
+          required: true,
+          note: "Main blocker text by section.",
+        },
+        {
+          name: "next_required_records",
+          type: "json",
+          required: true,
+          note: "Next records needed before each section can advance.",
+        },
+        {
+          name: "source_record_links",
+          type: "json",
+          required: true,
+          note: "Linked record ids that feed the summary.",
+        },
+        {
+          name: "blocked_actions",
+          type: "json",
+          required: true,
+          note: "Live generation, app patch, package, route, playlist, local bundle, assignment, and student-ready blocks.",
+        },
+        {
+          name: "live_generation_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until tenant coverage, cost, policy, and review gates pass.",
+        },
+        {
+          name: "app_patch_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until Codex decision and integration readiness gates pass.",
+        },
+        {
+          name: "package_assembly_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until verifier, manifest, audio, reward, rights, approval, and release-control gates pass.",
+        },
+        {
+          name: "route_registry_write_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until publish readiness and release-control pass.",
+        },
+        {
+          name: "media_playlist_write_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until media and learning-audio priority gates pass.",
+        },
+        {
+          name: "assignment_write_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until rollout and school policy gates pass.",
+        },
+        {
+          name: "local_bundle_write_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until local companion release gates pass.",
+        },
+        {
+          name: "student_ready_marker_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until all release and launch gates pass.",
+        },
+      ],
+      indexes: [
+        "tenant_id + ai_generator_review_summary_id",
+        "ai_generator_review_summary_id unique",
+        "tenant_id + generation_request_id",
+        "tenant_id + review_summary_status",
+        "live_generation_allowed",
+        "app_patch_allowed",
+        "assignment_write_allowed",
+      ],
+      retentionRule:
+        "Retain according to tenant authoring and AI package policy; blocked, review-only, missing, rejected, and superseded summary snapshots remain auditable.",
+      exportRule:
+        "Must export section readiness, blockers, next required records, source record links, and blocked actions without exporting model secrets, raw prompts, learner audio, or transcripts.",
+      localFallback:
+        "Local classroom deployments store the same generator review summary JSON for backup/export without allowing offline live generation, app patches, package assembly, route writes, playlist writes, local bundle writes, or assignments.",
+      policyBlockers: [
+        "Detailed tenant coverage, lineage, Codex decision, app patch proposal, verifier, manifest, publish, and correction records remain authoritative.",
+        "Generator review summaries cannot trigger live model calls, app patches, package assembly, route registry writes, media playlist writes, local bundle writes, student-ready markers, or assignments by themselves.",
+        "Model secrets, billing transactions, raw learner audio, and transcripts remain blocked.",
+      ],
+    },
+    {
       specId: "spec-teacher-assignment-rollout-gate",
       label: "Teacher assignment rollout gate",
       candidateId: "m049-teacher-assignment-rollout-gate-records",

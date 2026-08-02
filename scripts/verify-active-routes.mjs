@@ -781,6 +781,9 @@ const aiGameGeneratorIntakeExpected = [
   "ai_generator_tenant_coverage_gate",
   "AI generator tenant coverage gate record",
   "ai-generator-tenant-coverage-gate-record",
+  "ai_generator_review_summary",
+  "AI generator review summary record",
+  "ai-generator-review-summary-record",
   "activity_compatibility_snapshot",
   "package_game_audio_coverage",
 ];

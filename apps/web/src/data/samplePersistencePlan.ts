@@ -36,6 +36,7 @@ export type PersistenceBoundaryCategory =
   | "ai-reward-readiness-gate"
   | "ai-generated-publish-readiness-gate"
   | "ai-generator-tenant-coverage-gate"
+  | "ai-generator-review-summary"
   | "teacher-assignment-rollout-gate"
   | "private-assignment-link"
   | "class-roster-plan"
@@ -718,6 +719,36 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
     note:
       "AI generator tenant coverage gates need durable request-by-request record coverage so one tenant's sample generator data cannot imply another tenant is ready for live model calls, verifier submission, package assembly, routes, playlists, assignments, local bundles, or student-ready state.",
+  },
+  {
+    recordId: "ai-generator-review-summary-record",
+    category: "ai-generator-review-summary",
+    label: "AI generator review summary record",
+    readiness: "durable-required",
+    sourceOfTruth:
+      "AiGeneratorReviewSummary, generator route map, lineage map, tenant coverage gate, Codex integration decision, app patch proposal, verifier packet, and draft correction queue",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: false,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesAiGeneratorReviewSummary: true,
+    preservesGeneratorSectionReadiness: true,
+    requiresGeneratorPrimaryBlockers: true,
+    requiresGeneratorNextRecords: true,
+    blocksLiveModelCall: true,
+    blocksAppPatchGeneration: true,
+    blocksGeneratedPackageAssembly: true,
+    blocksGeneratedPackageRouteWrite: true,
+    blocksGeneratedPackagePlaylistWrite: true,
+    blocksGeneratedPackageAssignment: true,
+    blocksGeneratedPackageLocalBundleWrite: true,
+    blocksStudentReadyMarker: true,
+    blocksDirectStudentAssignment: true,
+    recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
+    note:
+      "AI generator review summaries need durable section readiness, primary blockers, next required records, source records, and blocked actions so a readable admin rollup cannot be mistaken for permission to generate, patch app files, assemble packages, create routes or playlists, write local bundles, or assign students.",
   },
   {
     recordId: "teacher-assignment-rollout-gate-record",
@@ -2042,6 +2073,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision:
       "Persist AI generator tenant coverage gates before enabling generator request submission, live model calls, verifier submission, package assembly, route or playlist creation, local bundle writes, or student assignment.",
+  },
+  {
+    boundaryId: "ai-generator-review-summary-boundary",
+    category: "ai-generator-review-summary",
+    label: "AI generator review summary records",
+    status: "needs-backend",
+    recordShape:
+      "Review summary id, tenant id, generation request id, summary status, current boundary, section readiness rollup, primary blockers, next required records, source record links, blocked actions, and live generation/app patch/package/route/playlist/local bundle/assignment/student-ready blocks",
+    whyItMatters:
+      "The generator route needs a durable admin rollup so teachers, reviewers, Codex, and outside AI builders cannot treat a readable summary as permission to skip detailed gates or tenant-specific review.",
+    visibleTo: ["Teacher", "Tenant admin", "Content reviewer", "Platform admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Persist AI generator review summaries before enabling live generator requests, app patch planning, package assembly, route creation, playlist creation, local bundle writes, or student assignment.",
   },
   {
     boundaryId: "teacher-assignment-rollout-gate-boundary",

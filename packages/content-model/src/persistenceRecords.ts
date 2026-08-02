@@ -24,6 +24,7 @@ export type PersistenceRecordCategory =
   | "ai-reward-readiness-gate"
   | "ai-generated-publish-readiness-gate"
   | "ai-generator-tenant-coverage-gate"
+  | "ai-generator-review-summary"
   | "teacher-assignment-rollout-gate"
   | "private-assignment-link"
   | "class-roster-plan"
@@ -233,6 +234,10 @@ export interface DurableRecordContract {
   requiresTeacherApprovalLedger?: boolean;
   preservesAiGeneratorTenantCoverageGate?: boolean;
   requiresTenantSpecificGeneratorRecords?: boolean;
+  preservesAiGeneratorReviewSummary?: boolean;
+  preservesGeneratorSectionReadiness?: boolean;
+  requiresGeneratorPrimaryBlockers?: boolean;
+  requiresGeneratorNextRecords?: boolean;
   blocksGeneratorRequestSubmission?: boolean;
   blocksLiveModelCall?: boolean;
   blocksVerifierSubmission?: boolean;
@@ -1369,6 +1374,54 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "ai-generator-tenant-coverage-gate" && !record.blocksStudentReadyMarker) {
       errors.push(`AI generator tenant coverage gate record ${record.recordId} must block student-ready markers.`);
+    }
+
+    if (record.category === "ai-generator-review-summary" && !record.preservesAiGeneratorReviewSummary) {
+      errors.push(`AI generator review summary record ${record.recordId} must preserve generator review summary rollups.`);
+    }
+
+    if (record.category === "ai-generator-review-summary" && !record.preservesGeneratorSectionReadiness) {
+      errors.push(`AI generator review summary record ${record.recordId} must preserve section readiness.`);
+    }
+
+    if (record.category === "ai-generator-review-summary" && !record.requiresGeneratorPrimaryBlockers) {
+      errors.push(`AI generator review summary record ${record.recordId} must require primary blockers.`);
+    }
+
+    if (record.category === "ai-generator-review-summary" && !record.requiresGeneratorNextRecords) {
+      errors.push(`AI generator review summary record ${record.recordId} must require next required records.`);
+    }
+
+    if (record.category === "ai-generator-review-summary" && !record.blocksLiveModelCall) {
+      errors.push(`AI generator review summary record ${record.recordId} must block live model calls.`);
+    }
+
+    if (record.category === "ai-generator-review-summary" && !record.blocksAppPatchGeneration) {
+      errors.push(`AI generator review summary record ${record.recordId} must block app patch generation.`);
+    }
+
+    if (record.category === "ai-generator-review-summary" && !record.blocksGeneratedPackageAssembly) {
+      errors.push(`AI generator review summary record ${record.recordId} must block generated package assembly.`);
+    }
+
+    if (record.category === "ai-generator-review-summary" && !record.blocksGeneratedPackageRouteWrite) {
+      errors.push(`AI generator review summary record ${record.recordId} must block route registry writes.`);
+    }
+
+    if (record.category === "ai-generator-review-summary" && !record.blocksGeneratedPackagePlaylistWrite) {
+      errors.push(`AI generator review summary record ${record.recordId} must block media playlist writes.`);
+    }
+
+    if (record.category === "ai-generator-review-summary" && !record.blocksGeneratedPackageAssignment) {
+      errors.push(`AI generator review summary record ${record.recordId} must block assignment writes.`);
+    }
+
+    if (record.category === "ai-generator-review-summary" && !record.blocksGeneratedPackageLocalBundleWrite) {
+      errors.push(`AI generator review summary record ${record.recordId} must block local bundle writes.`);
+    }
+
+    if (record.category === "ai-generator-review-summary" && !record.blocksStudentReadyMarker) {
+      errors.push(`AI generator review summary record ${record.recordId} must block student-ready markers.`);
     }
 
     if (record.category === "teacher-assignment-rollout-gate" && !record.preservesTeacherAssignmentRolloutGate) {

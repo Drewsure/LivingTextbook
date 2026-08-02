@@ -26,6 +26,8 @@ Missing generator preview records must stay visible and must block generator req
 
 The backend-neutral storage contract is `ai_generator_tenant_coverage_gate` / `ai-generator-tenant-coverage-gate`. Hosted and local adapters must preserve tenant-specific covered, partial, and missing record lanes while blocking generator request submission, live model calls, verifier submission, package assembly, route registry writes, media playlist writes, assignment creation, local bundle writes, and student-ready markers.
 
+The backend-neutral storage contract for the route rollup is `ai_generator_review_summary` / `ai-generator-review-summary`. Hosted and local adapters must preserve section readiness, primary blockers, next required records, source record links, and blocked actions while blocking live generation, app patch generation, package assembly, route registry writes, media playlist writes, assignment creation, local bundle writes, and student-ready markers.
+
 The MiniStar Level 1 greetings generator seed may include tenant-specific prompt package, cost gate, disabled request builder, audio coverage, gamification mapping, reward readiness, engine binding, Draft JSON preview, derived correction queue, blocked verifier submission packet, generated package manifest, and derived publish readiness records. That seed does not make MiniStar generator-ready until audio approval, media-rights, teacher approval, durable storage, and release-control records also exist and pass review.
 
 ## Required Output Rules
@@ -58,6 +60,12 @@ The teacher generator route may show a Draft JSON preview so reviewers can under
 Teacher generator routes must show an inspection-only lineage map before live generation exists. The map traces a generated request through prompt package, Draft JSON preview, correction queue, verifier packet, generated package manifest, publish readiness gate, and teacher review queue item.
 
 The lineage map cannot generate, submit verifier packets, assemble packages, create routes, create playlists, create assignments, unlock support-language progress, write local bundles, or mark student-ready state. MiniStar lineage must explicitly preserve English as the target-language trigger and Japanese as hiragana-only support.
+
+## Generator Review Summary Rule
+
+Teacher generator routes must show a tenant-aware review summary before detailed panels. The summary is an admin rollup only: it shows section readiness, primary blockers, next required records, source records, and blocked actions.
+
+The review summary cannot call a live model, generate an app patch, assemble a package, create a route, create a playlist, create an assignment, write a local bundle, or mark content student-ready. MiniStar summaries must preserve English as the target-language trigger and keep Japanese hiragana support as support-only.
 
 ## Generated Package Promotion Checklist Rule
 
