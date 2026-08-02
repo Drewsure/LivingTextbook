@@ -171,6 +171,14 @@ Prototype mobile/accessibility reports cannot create student-facing previews, im
 
 The backend-neutral storage contract is `ai_prototype_mobile_accessibility_report` / `ai-prototype-mobile-accessibility-report`. Hosted and local adapters must preserve activity compatibility snapshot id, template rendering profile id, font accessibility profile id, standard event contract id, viewport evidence, touch target checks, keyboard/focus checks, readable text checks, visual stability checks, wrapper control checks, failure triggers, and blocked actions while blocking accessibility waivers, student-facing previews, direct app imports, route writes, package promotion, and assignments.
 
+## Prototype Scoring Replay Report Rule
+
+Prototype scoring replay reports must prove that returned prototypes report answer evidence through the parent scoring profile rather than owning score, Star Dust, mastery, rewards, or package state.
+
+The report must preserve `prototype_scoring_replay_report`, `game_scoring_profile_snapshot`, `progress_event_acceptance_map`, `collection_unlock_binding`, and `standard_event_contract` references while showing deterministic scoring replay, score inputs, score replay checks, mastery replay checks, reward boundary checks, failure triggers, and blocked actions.
+
+Prototype scoring reports cannot mutate scoring profiles, write Star Dust, own direct score authority, write reward inventory, generate random rewards or gacha, count media-only activity as Star Dust, let support-language-only activity become mastery, promote packages, or assign students. MiniStar reports must keep Japanese support-language scoring and release blocked while English remains the target-language trigger.
+
 ## Mode Recommendation Rule
 
 Generator mode recommendations must reuse the reviewed activity compatibility matrix. The generator can recommend a tight pathway for a unit, but it must not produce a broad switch panel or unsupported conversions. Blocked conversions stay visible with their payload-fit and compatibility-rule reasons.

@@ -300,6 +300,7 @@
 - `DR-326-ai-prototype-audio-coverage-storage-contract.md`
 - `DR-327-ai-prototype-mobile-accessibility-report.md`
 - `DR-328-ai-prototype-mobile-accessibility-storage-contract.md`
+- `DR-329-ai-prototype-scoring-replay-report.md`
 
 ## Maintenance Rule
 

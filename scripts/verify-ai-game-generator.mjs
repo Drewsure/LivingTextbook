@@ -20,6 +20,7 @@ const prototypeAudioCoverageReport = readSource("../apps/web/src/data/sampleAiPr
 const prototypeMobileAccessibilityReport = readSource(
   "../apps/web/src/data/sampleAiPrototypeMobileAccessibilityReport.ts",
 );
+const prototypeScoringReplayReport = readSource("../apps/web/src/data/sampleAiPrototypeScoringReplayReport.ts");
 const verifierSubmissionPacket = readSource("../apps/web/src/data/sampleAiVerifierSubmissionPacket.ts");
 const generatedPackageManifest = readSource("../apps/web/src/data/sampleAiGeneratedPackageManifest.ts");
 const generatedPackagePromotionChecklist = readSource(
@@ -64,6 +65,9 @@ const prototypeAudioCoverageReportPanel = readSource(
 );
 const prototypeMobileAccessibilityReportPanel = readSource(
   "../apps/web/src/features/content-intake/AiPrototypeMobileAccessibilityReportPanel.tsx",
+);
+const prototypeScoringReplayReportPanel = readSource(
+  "../apps/web/src/features/content-intake/AiPrototypeScoringReplayReportPanel.tsx",
 );
 const verifierSubmissionPanel = readSource("../apps/web/src/features/content-intake/AiVerifierSubmissionPacketPanel.tsx");
 const generatedPackageManifestPanel = readSource("../apps/web/src/features/content-intake/AiGeneratedPackageManifestPanel.tsx");
@@ -257,6 +261,11 @@ requireText(
   prototypeIntegrationPlan,
   "prototype_mobile_accessibility_report",
   "AI prototype integration plan must name mobile accessibility report.",
+);
+requireText(
+  prototypeIntegrationPlan,
+  "Run deterministic scoring replay",
+  "AI prototype integration plan must require deterministic scoring replay.",
 );
 requireText(prototypeIntegrationPlan, "No direct import into apps/web", "AI prototype integration plan must block direct imports.");
 requireText(prototypeIntegrationPlan, "No route registry write", "AI prototype integration plan must block route writes.");
@@ -549,6 +558,81 @@ requireText(
   prototypeMobileAccessibilityReportPanel,
   "Readable text checks",
   "AI prototype mobile accessibility report panel must expose readable text checks.",
+);
+requireText(
+  prototypeScoringReplayReport,
+  "sampleAiPrototypeScoringReplayReports",
+  "AI prototype scoring replay report data must exist.",
+);
+requireText(
+  prototypeScoringReplayReport,
+  "prototype_scoring_replay_report",
+  "AI prototype scoring replay report must name its record.",
+);
+requireText(
+  prototypeScoringReplayReport,
+  "game_scoring_profile_snapshot",
+  "AI prototype scoring replay report must require scoring profile snapshots.",
+);
+requireText(
+  prototypeScoringReplayReport,
+  "progress_event_acceptance_map",
+  "AI prototype scoring replay report must require progress event acceptance maps.",
+);
+requireText(
+  prototypeScoringReplayReport,
+  "collection_unlock_binding",
+  "AI prototype scoring replay report must preserve collection unlock boundaries.",
+);
+requireText(
+  prototypeScoringReplayReport,
+  "Deterministic scoring replay",
+  "AI prototype scoring replay report must require deterministic scoring replay.",
+);
+requireText(prototypeScoringReplayReport, "1,000 Star Dust cap", "AI prototype scoring replay report must preserve Star Dust cap.");
+requireText(prototypeScoringReplayReport, "No direct score authority", "AI prototype scoring replay report must block direct score authority.");
+requireText(prototypeScoringReplayReport, "No reward inventory write", "AI prototype scoring replay report must block reward inventory writes.");
+requireText(prototypeScoringReplayReport, "No random reward", "AI prototype scoring replay report must block random rewards.");
+requireText(prototypeScoringReplayReport, "No media-only Star Dust", "AI prototype scoring replay report must block media-only Star Dust.");
+requireText(
+  prototypeScoringReplayReport,
+  "No support-language-only mastery",
+  "AI prototype scoring replay report must block support-language-only mastery.",
+);
+requireText(
+  prototypeScoringReplayReport,
+  "No Japanese support-language scoring or release",
+  "AI prototype scoring replay report must block MiniStar Japanese support-language scoring.",
+);
+requireText(
+  prototypeScoringReplayReportPanel,
+  "AI prototype scoring replay report",
+  "AI prototype scoring replay report panel must expose heading.",
+);
+requireText(
+  prototypeScoringReplayReportPanel,
+  "Deterministic scoring replay",
+  "AI prototype scoring replay report panel must expose scoring replay heading.",
+);
+requireText(
+  prototypeScoringReplayReportPanel,
+  "Mode scoring replay reports",
+  "AI prototype scoring replay report panel must expose mode reports.",
+);
+requireText(
+  prototypeScoringReplayReportPanel,
+  "Score replay checks",
+  "AI prototype scoring replay report panel must expose score replay checks.",
+);
+requireText(
+  prototypeScoringReplayReportPanel,
+  "Mastery replay checks",
+  "AI prototype scoring replay report panel must expose mastery replay checks.",
+);
+requireText(
+  prototypeScoringReplayReportPanel,
+  "Reward boundary checks",
+  "AI prototype scoring replay report panel must expose reward boundary checks.",
 );
 requireText(promptPackagePlan, "sampleAiPromptPackagePlans", "AI prompt package plan data must exist.");
 requireText(promptPackagePlan, "MiniStar generator prompt package", "AI prompt package plan must include MiniStar request seed.");
