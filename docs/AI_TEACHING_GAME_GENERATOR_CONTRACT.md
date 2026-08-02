@@ -99,6 +99,14 @@ The release candidate preview cannot write `package_release_candidate`, `tenant_
 
 Backend schema, migration candidates, migration specs, durable records, and hosted/local adapter plans must preserve `ai_generated_package_release_candidate` / `ai-generated-package-release-candidate` before generated package private-library handoff exists. The record must keep generated manifest, promotion checklist, publish readiness, private library target, future tenant library item, future package release candidate, release-control, approval, and assignment rollout references while generated package library publish, release candidate writes, tenant library item writes, student-facing release, assignment writes, local bundle release, student-ready markers, and support-language-only release remain blocked.
 
+## Generated Package Assembly Readiness Rule
+
+Teacher generator routes must show a review-only generated package assembly readiness preview before any generated draft can become a written package, route entry, playlist, local bundle, assignment, or student-ready item.
+
+The preview combines manifest completeness, promotion checklist status, publish readiness, release candidate handoff, teacher approval evidence, media-rights evidence, target-language audio approval, and tenant-specific language boundaries into one assembly decision. It may guide human review and identify next required records, but it cannot assemble packages, write route registries, create media playlists, write local bundles, assign students, mark generated packages student-ready, or treat support-language-only activity as release evidence.
+
+MiniStar assembly readiness must keep English as the target-language assembly trigger. Japanese hiragana support for early levels remains support-only and cannot satisfy assembly, scoring, mastery, reward, route, playlist, assignment, or student-ready gates.
+
 ## Draft Payload Validation Rule
 
 AI-generated draft payloads must pass the shared `validateAiGeneratedDraftPayload` / `validateAiGeneratedDraftPayloadPreview` contract before review, persistence, verifier submission, package assembly, route creation, playlist creation, or student assignment can be considered.

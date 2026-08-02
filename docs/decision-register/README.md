@@ -325,6 +325,7 @@
 - `DR-351-ai-prototype-patch-test-harness-storage-contract.md`
 - `DR-352-ai-prototype-patch-harness-implementation-proposal.md`
 - `DR-353-ai-prototype-patch-harness-implementation-storage-contract.md`
+- `DR-354-ai-generated-package-assembly-readiness.md`
 
 ## Maintenance Rule
 

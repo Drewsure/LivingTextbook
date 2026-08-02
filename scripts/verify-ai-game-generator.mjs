@@ -48,6 +48,9 @@ const generatedPackagePromotionChecklist = readSource(
   "../apps/web/src/data/sampleAiGeneratedPackagePromotionChecklist.ts",
 );
 const generatedPackageReleaseCandidate = readSource("../apps/web/src/data/sampleAiGeneratedPackageReleaseCandidate.ts");
+const generatedPackageAssemblyReadiness = readSource(
+  "../apps/web/src/data/sampleAiGeneratedPackageAssemblyReadiness.ts",
+);
 const generatedPublishReadinessGate = readSource("../apps/web/src/data/sampleAiGeneratedPublishReadinessGate.ts");
 const draftPreviewData = readSource("../apps/web/src/data/sampleAiGeneratedDraftPayloadPreview.ts");
 const draftPayloadValidator = readSource("../packages/content-model/src/aiGeneratedDraftPayload.ts");
@@ -127,6 +130,9 @@ const generatedPackagePromotionChecklistPanel = readSource(
 );
 const generatedPackageReleaseCandidatePanel = readSource(
   "../apps/web/src/features/content-intake/AiGeneratedPackageReleaseCandidatePanel.tsx",
+);
+const generatedPackageAssemblyReadinessPanel = readSource(
+  "../apps/web/src/features/content-intake/AiGeneratedPackageAssemblyReadinessPanel.tsx",
 );
 const generatedPublishReadinessGatePanel = readSource(
   "../apps/web/src/features/content-intake/AiGeneratedPublishReadinessGatePanel.tsx",
@@ -1626,6 +1632,71 @@ requireText(
   "Blocked release actions",
   "AI generated release candidate panel must expose blocked release actions.",
 );
+requireText(
+  generatedPackageAssemblyReadiness,
+  "sampleAiGeneratedPackageAssemblyReadiness",
+  "AI generated package assembly readiness data must exist.",
+);
+requireText(
+  generatedPackageAssemblyReadiness,
+  "Package assembly blocked",
+  "AI generated package assembly readiness must keep package assembly blocked.",
+);
+requireText(
+  generatedPackageAssemblyReadiness,
+  "No package assembly from readiness preview",
+  "AI generated package assembly readiness must block package assembly from preview.",
+);
+requireText(
+  generatedPackageAssemblyReadiness,
+  "No route registry write from readiness preview",
+  "AI generated package assembly readiness must block route registry writes.",
+);
+requireText(
+  generatedPackageAssemblyReadiness,
+  "No media playlist write from readiness preview",
+  "AI generated package assembly readiness must block playlist writes.",
+);
+requireText(
+  generatedPackageAssemblyReadiness,
+  "No local bundle write from readiness preview",
+  "AI generated package assembly readiness must block local bundle writes.",
+);
+requireText(
+  generatedPackageAssemblyReadiness,
+  "No support-language-only assembly",
+  "AI generated package assembly readiness must block support-language-only assembly.",
+);
+requireText(
+  generatedPackageAssemblyReadiness,
+  "Hiragana support boundary",
+  "MiniStar package assembly readiness must expose hiragana support boundary.",
+);
+requireText(
+  generatedPackageAssemblyReadiness,
+  "English is the target-language assembly trigger.",
+  "MiniStar package assembly readiness must keep English as assembly trigger.",
+);
+requireText(
+  generatedPackageAssemblyReadinessPanel,
+  "AI generated package assembly readiness",
+  "AI generated package assembly readiness panel must expose heading.",
+);
+requireText(
+  generatedPackageAssemblyReadinessPanel,
+  "Assembly decision before package write",
+  "AI generated package assembly readiness panel must expose decision heading.",
+);
+requireText(
+  generatedPackageAssemblyReadinessPanel,
+  "Assembly readiness lanes",
+  "AI generated package assembly readiness panel must expose readiness lanes.",
+);
+requireText(
+  generatedPackageAssemblyReadinessPanel,
+  "Blocked assembly actions",
+  "AI generated package assembly readiness panel must expose blocked assembly actions.",
+);
 requireText(compatibilityMatrix, "This matrix defines which student games", "Generator mode recommendations must reuse the compatibility matrix.");
 requireText(modeRecommendationPanel, "AI mode recommendation preview", "Mode recommendation panel must expose heading.");
 requireText(modeRecommendationPanel, "Recommended generated pathway", "Mode recommendation panel must expose recommended pathway.");
@@ -1830,6 +1901,11 @@ requireText(
   "AiGeneratedPackagePromotionChecklistPanel",
   "Generator route must render the generated package promotion checklist panel.",
 );
+requireText(
+  route,
+  "AiGeneratedPackageAssemblyReadinessPanel",
+  "Generator route must render the generated package assembly readiness panel.",
+);
 requireText(route, "AiGeneratedPublishReadinessGatePanel", "Generator route must render the generated publish readiness gate panel.");
 requireText(route, "AiGeneratedDraftPayloadPreviewPanel", "Generator route must render the draft payload preview panel.");
 requireText(route, "AiDraftCorrectionQueuePanel", "Generator route must render the draft correction queue panel.");
@@ -1891,6 +1967,11 @@ requireText(
   route,
   "sampleAiGeneratedPackagePromotionChecklists",
   "Generator route must use the sample generated package promotion checklist data.",
+);
+requireText(
+  route,
+  "sampleAiGeneratedPackageAssemblyReadiness",
+  "Generator route must use the sample generated package assembly readiness data.",
 );
 requireText(
   route,

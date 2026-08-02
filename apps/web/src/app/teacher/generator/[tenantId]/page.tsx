@@ -18,6 +18,10 @@ import {
   sampleAiGeneratedPackageReleaseCandidates,
 } from "@/data/sampleAiGeneratedPackageReleaseCandidate";
 import {
+  filterAiGeneratedPackageAssemblyReadinessByTenant,
+  sampleAiGeneratedPackageAssemblyReadiness,
+} from "@/data/sampleAiGeneratedPackageAssemblyReadiness";
+import {
   filterAiGeneratedPublishReadinessGatesByTenant,
   sampleAiGeneratedPublishReadinessGates,
 } from "@/data/sampleAiGeneratedPublishReadinessGate";
@@ -138,6 +142,7 @@ import { AiGeneratedDraftPayloadPreviewPanel } from "@/features/content-intake/A
 import { AiGeneratedPackageManifestPanel } from "@/features/content-intake/AiGeneratedPackageManifestPanel";
 import { AiGeneratedPackagePromotionChecklistPanel } from "@/features/content-intake/AiGeneratedPackagePromotionChecklistPanel";
 import { AiGeneratedPackageReleaseCandidatePanel } from "@/features/content-intake/AiGeneratedPackageReleaseCandidatePanel";
+import { AiGeneratedPackageAssemblyReadinessPanel } from "@/features/content-intake/AiGeneratedPackageAssemblyReadinessPanel";
 import { AiGeneratedPublishReadinessGatePanel } from "@/features/content-intake/AiGeneratedPublishReadinessGatePanel";
 import { AiEngineBindingPlanPanel } from "@/features/content-intake/AiEngineBindingPlanPanel";
 import { AiExternalPrototypeTaskExportReadinessGatePanel } from "@/features/content-intake/AiExternalPrototypeTaskExportReadinessGatePanel";
@@ -340,6 +345,12 @@ export default async function TeacherAiGameGeneratorPage({
         <AiGeneratedPackageReleaseCandidatePanel
           candidates={filterAiGeneratedPackageReleaseCandidatesByTenant(
             sampleAiGeneratedPackageReleaseCandidates,
+            tenantId,
+          )}
+        />
+        <AiGeneratedPackageAssemblyReadinessPanel
+          readiness={filterAiGeneratedPackageAssemblyReadinessByTenant(
+            sampleAiGeneratedPackageAssemblyReadiness,
             tenantId,
           )}
         />
