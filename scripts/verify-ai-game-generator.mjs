@@ -21,6 +21,9 @@ const prototypeMobileAccessibilityReport = readSource(
   "../apps/web/src/data/sampleAiPrototypeMobileAccessibilityReport.ts",
 );
 const prototypeScoringReplayReport = readSource("../apps/web/src/data/sampleAiPrototypeScoringReplayReport.ts");
+const prototypeIntegrationReadinessGate = readSource(
+  "../apps/web/src/data/sampleAiPrototypeIntegrationReadinessGate.ts",
+);
 const verifierSubmissionPacket = readSource("../apps/web/src/data/sampleAiVerifierSubmissionPacket.ts");
 const generatedPackageManifest = readSource("../apps/web/src/data/sampleAiGeneratedPackageManifest.ts");
 const generatedPackagePromotionChecklist = readSource(
@@ -68,6 +71,9 @@ const prototypeMobileAccessibilityReportPanel = readSource(
 );
 const prototypeScoringReplayReportPanel = readSource(
   "../apps/web/src/features/content-intake/AiPrototypeScoringReplayReportPanel.tsx",
+);
+const prototypeIntegrationReadinessGatePanel = readSource(
+  "../apps/web/src/features/content-intake/AiPrototypeIntegrationReadinessGatePanel.tsx",
 );
 const verifierSubmissionPanel = readSource("../apps/web/src/features/content-intake/AiVerifierSubmissionPacketPanel.tsx");
 const generatedPackageManifestPanel = readSource("../apps/web/src/features/content-intake/AiGeneratedPackageManifestPanel.tsx");
@@ -633,6 +639,71 @@ requireText(
   prototypeScoringReplayReportPanel,
   "Reward boundary checks",
   "AI prototype scoring replay report panel must expose reward boundary checks.",
+);
+requireText(
+  prototypeIntegrationReadinessGate,
+  "sampleAiPrototypeIntegrationReadinessGates",
+  "AI prototype integration readiness gate data must exist.",
+);
+requireText(
+  prototypeIntegrationReadinessGate,
+  "ai_prototype_scoring_replay_report",
+  "AI prototype integration readiness gate must require scoring replay records.",
+);
+requireText(
+  prototypeIntegrationReadinessGate,
+  "codex_integration_review_decision",
+  "AI prototype integration readiness gate must require Codex integration decisions.",
+);
+requireText(
+  prototypeIntegrationReadinessGate,
+  "All prototype evidence before integration",
+  "AI prototype integration readiness gate must preserve all-evidence-before-integration policy.",
+);
+requireText(
+  prototypeIntegrationReadinessGate,
+  "Parent-engine wrapper only",
+  "AI prototype integration readiness gate must preserve parent-engine wrapper policy.",
+);
+requireText(
+  prototypeIntegrationReadinessGate,
+  "No apps/web patch",
+  "AI prototype integration readiness gate must block apps/web patches.",
+);
+requireText(
+  prototypeIntegrationReadinessGate,
+  "No student-facing route",
+  "AI prototype integration readiness gate must block student-facing routes.",
+);
+requireText(
+  prototypeIntegrationReadinessGate,
+  "No Star Dust or reward write",
+  "AI prototype integration readiness gate must block Star Dust and reward writes.",
+);
+requireText(
+  prototypeIntegrationReadinessGate,
+  "Japanese support remains hiragana-only and support-only",
+  "MiniStar prototype integration readiness gate must preserve hiragana support boundary.",
+);
+requireText(
+  prototypeIntegrationReadinessGatePanel,
+  "AI prototype integration readiness gate",
+  "AI prototype integration readiness gate panel must expose heading.",
+);
+requireText(
+  prototypeIntegrationReadinessGatePanel,
+  "All prototype evidence before integration",
+  "AI prototype integration readiness gate panel must expose all-evidence policy.",
+);
+requireText(
+  prototypeIntegrationReadinessGatePanel,
+  "Evidence readiness checks",
+  "AI prototype integration readiness gate panel must expose evidence checks.",
+);
+requireText(
+  prototypeIntegrationReadinessGatePanel,
+  "Codex decision missing",
+  "AI prototype integration readiness gate panel must expose Codex decision blocker.",
 );
 requireText(promptPackagePlan, "sampleAiPromptPackagePlans", "AI prompt package plan data must exist.");
 requireText(promptPackagePlan, "MiniStar generator prompt package", "AI prompt package plan must include MiniStar request seed.");
@@ -1230,6 +1301,11 @@ requireText(route, "AiPrototypeWrapperAdapterReviewPanel", "Generator route must
 requireText(route, "AiPrototypeFixtureReplayReportPanel", "Generator route must render the prototype fixture replay report panel.");
 requireText(route, "AiPrototypeEventReplayReportPanel", "Generator route must render the prototype event replay report panel.");
 requireText(route, "AiPrototypeAudioCoverageReportPanel", "Generator route must render the prototype audio coverage report panel.");
+requireText(
+  route,
+  "AiPrototypeIntegrationReadinessGatePanel",
+  "Generator route must render the prototype integration readiness gate panel.",
+);
 requireText(route, "AiPromptPackagePlanPanel", "Generator route must render the prompt package plan panel.");
 requireText(route, "AiGeneratorCostEntitlementGatePanel", "Generator route must render the cost entitlement gate panel.");
 requireText(route, "AiGenerationRequestBuilderPanel", "Generator route must render the request builder panel.");
@@ -1258,6 +1334,11 @@ requireText(route, "sampleAiPrototypeWrapperAdapterReviews", "Generator route mu
 requireText(route, "sampleAiPrototypeFixtureReplayReports", "Generator route must use prototype fixture replay report data.");
 requireText(route, "sampleAiPrototypeEventReplayReports", "Generator route must use prototype event replay report data.");
 requireText(route, "sampleAiPrototypeAudioCoverageReports", "Generator route must use prototype audio coverage report data.");
+requireText(
+  route,
+  "sampleAiPrototypeIntegrationReadinessGates",
+  "Generator route must use prototype integration readiness gate data.",
+);
 requireText(route, "sampleAiPromptPackagePlans", "Generator route must use the sample prompt package plan data.");
 requireText(route, "sampleAiGeneratorCostEntitlementGates", "Generator route must use the sample cost entitlement gate data.");
 requireText(route, "sampleActivityPathwayCompatibilityMatrix", "Generator route must use the compatibility matrix.");

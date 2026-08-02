@@ -181,6 +181,14 @@ Prototype scoring reports cannot mutate scoring profiles, write Star Dust, own d
 
 The backend-neutral storage contract is `ai_prototype_scoring_replay_report` / `ai-prototype-scoring-replay-report`. Hosted and local adapters must preserve game scoring profile snapshot id, progress event acceptance map id, collection unlock binding id, standard event contract id, deterministic scoring replay, score replay checks, mastery replay checks, reward boundary checks, failure triggers, and blocked actions while blocking direct score authority, scoring profile overrides, Star Dust writes, reward inventory writes, random rewards, media-only mastery, support-language mastery, package promotion, and assignments.
 
+## Prototype Integration Readiness Gate Rule
+
+Prototype integration readiness gates must roll up all review evidence before any returned prototype can propose an `apps/web` integration patch. The gate must show wrapper adapter review, fixture replay report, event replay report, audio coverage report, mobile accessibility report, scoring replay report, and Codex integration review decision requirements in one teacher/admin-visible place.
+
+The gate remains review-only until every evidence check is reviewed and a Codex decision exists. Missing evidence must block direct app imports, route registry writes, student-facing routes, scoring profile mutation, Star Dust or reward writes, audio manifest mutation, package promotion, and student assignment.
+
+MiniStar readiness gates must keep Japanese support language hiragana-only for early levels and support-only. English remains the target-language trigger for scoring, mastery, reward, and release readiness.
+
 ## Mode Recommendation Rule
 
 Generator mode recommendations must reuse the reviewed activity compatibility matrix. The generator can recommend a tight pathway for a unit, but it must not produce a broad switch panel or unsupported conversions. Blocked conversions stay visible with their payload-fit and compatibility-rule reasons.

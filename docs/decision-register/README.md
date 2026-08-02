@@ -302,6 +302,7 @@
 - `DR-328-ai-prototype-mobile-accessibility-storage-contract.md`
 - `DR-329-ai-prototype-scoring-replay-report.md`
 - `DR-330-ai-prototype-scoring-replay-storage-contract.md`
+- `DR-331-ai-prototype-integration-readiness-gate.md`
 
 ## Maintenance Rule
 
