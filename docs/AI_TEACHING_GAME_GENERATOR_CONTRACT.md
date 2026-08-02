@@ -159,6 +159,8 @@ The report must preserve `prototype_audio_coverage_report`, `audio_cue_manifest`
 
 Prototype audio reports cannot generate voice, trigger voice API cost, mutate audio manifests, write playlists, mark package audio complete, count media-only listening as mastery, let support-language audio unlock progress, or assign students. MiniStar reports must keep Japanese support audio hiragana-only for early levels and unable to unlock English progress.
 
+The backend-neutral storage contract is `ai_prototype_audio_coverage_report` / `ai-prototype-audio-coverage-report`. Hosted and local adapters must preserve audio cue manifest id, package game audio coverage id, background media policy binding id, required cue families, target-language audio checks, control audio checks, support-language audio rules, replay evidence, failure triggers, and blocked actions while blocking generated voice calls, voice API cost, audio manifest mutation, playlist writes, media-only mastery, support-language progress triggers, package audio-complete markers, direct app imports, package promotion, and assignments.
+
 ## Mode Recommendation Rule
 
 Generator mode recommendations must reuse the reviewed activity compatibility matrix. The generator can recommend a tight pathway for a unit, but it must not produce a broad switch panel or unsupported conversions. Blocked conversions stay visible with their payload-fit and compatibility-rule reasons.

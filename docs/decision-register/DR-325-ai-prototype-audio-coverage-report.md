@@ -19,4 +19,4 @@ Audio is part of the learning contract, not polish. Young learners and multiling
 
 ## Follow-Up
 
-Add a backend-neutral storage contract for `prototype_audio_coverage_report` after this review surface is verified.
+Completed by `DR-326-ai-prototype-audio-coverage-storage-contract.md`; future work should keep the report review-only until a backend or local storage adapter is selected.

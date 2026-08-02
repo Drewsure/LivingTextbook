@@ -13,6 +13,7 @@ export type PersistenceRecordCategory =
   | "ai-prototype-wrapper-adapter-review"
   | "ai-prototype-fixture-replay-report"
   | "ai-prototype-event-replay-report"
+  | "ai-prototype-audio-coverage-report"
   | "ai-generated-package-manifest"
   | "ai-generated-package-promotion-checklist"
   | "ai-generated-package-release-candidate"
@@ -118,6 +119,7 @@ export interface DurableRecordContract {
   preservesAiPrototypeWrapperAdapterReview?: boolean;
   preservesAiPrototypeFixtureReplayReport?: boolean;
   preservesAiPrototypeEventReplayReport?: boolean;
+  preservesAiPrototypeAudioCoverageReport?: boolean;
   requiresReviewedUnitJsonFixture?: boolean;
   requiresFixtureCoverage?: boolean;
   requiresFixtureReplayEvidence?: boolean;
@@ -128,6 +130,14 @@ export interface DurableRecordContract {
   requiresAllowedEventPayloadFields?: boolean;
   requiresAcceptedProgressEffects?: boolean;
   blocksHiddenProgressStream?: boolean;
+  requiresTargetLanguageAudioCoverage?: boolean;
+  requiresControlAudioCoverage?: boolean;
+  requiresSupportLanguageAudioRules?: boolean;
+  requiresAudioReplayEvidence?: boolean;
+  blocksGeneratedVoiceCall?: boolean;
+  blocksVoiceApiCost?: boolean;
+  blocksMediaOnlyMastery?: boolean;
+  blocksPackageAudioCompleteMarker?: boolean;
   requiresFixtureInputContract?: boolean;
   requiresStandardEventOutputContract?: boolean;
   requiresStateOwnershipRules?: boolean;
@@ -739,6 +749,61 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "ai-prototype-event-replay-report" && !record.blocksSupportLanguageProgressTrigger) {
       errors.push(`AI prototype event replay report record ${record.recordId} must block support-language progress triggers.`);
+    }
+
+    if (
+      record.category === "ai-prototype-audio-coverage-report" &&
+      !record.preservesAiPrototypeAudioCoverageReport
+    ) {
+      errors.push(`AI prototype audio coverage report record ${record.recordId} must preserve audio coverage sections.`);
+    }
+
+    if (record.category === "ai-prototype-audio-coverage-report" && !record.requiresTargetLanguageAudioCoverage) {
+      errors.push(`AI prototype audio coverage report record ${record.recordId} must require target-language audio coverage.`);
+    }
+
+    if (record.category === "ai-prototype-audio-coverage-report" && !record.requiresControlAudioCoverage) {
+      errors.push(`AI prototype audio coverage report record ${record.recordId} must require control audio coverage.`);
+    }
+
+    if (record.category === "ai-prototype-audio-coverage-report" && !record.requiresSupportLanguageAudioRules) {
+      errors.push(`AI prototype audio coverage report record ${record.recordId} must require support-language audio rules.`);
+    }
+
+    if (record.category === "ai-prototype-audio-coverage-report" && !record.requiresAudioReplayEvidence) {
+      errors.push(`AI prototype audio coverage report record ${record.recordId} must require audio replay evidence.`);
+    }
+
+    if (record.category === "ai-prototype-audio-coverage-report" && !record.blocksGeneratedVoiceCall) {
+      errors.push(`AI prototype audio coverage report record ${record.recordId} must block generated voice calls.`);
+    }
+
+    if (record.category === "ai-prototype-audio-coverage-report" && !record.blocksVoiceApiCost) {
+      errors.push(`AI prototype audio coverage report record ${record.recordId} must block voice API cost.`);
+    }
+
+    if (record.category === "ai-prototype-audio-coverage-report" && !record.blocksAudioManifestMutation) {
+      errors.push(`AI prototype audio coverage report record ${record.recordId} must block audio manifest mutation.`);
+    }
+
+    if (record.category === "ai-prototype-audio-coverage-report" && !record.blocksGeneratedPackagePlaylistWrite) {
+      errors.push(`AI prototype audio coverage report record ${record.recordId} must block playlist writes.`);
+    }
+
+    if (record.category === "ai-prototype-audio-coverage-report" && !record.blocksMediaOnlyMastery) {
+      errors.push(`AI prototype audio coverage report record ${record.recordId} must block media-only mastery.`);
+    }
+
+    if (record.category === "ai-prototype-audio-coverage-report" && !record.blocksSupportLanguageProgressTrigger) {
+      errors.push(`AI prototype audio coverage report record ${record.recordId} must block support-language progress triggers.`);
+    }
+
+    if (record.category === "ai-prototype-audio-coverage-report" && !record.blocksPackageAudioCompleteMarker) {
+      errors.push(`AI prototype audio coverage report record ${record.recordId} must block package audio-complete markers.`);
+    }
+
+    if (record.category === "ai-prototype-audio-coverage-report" && !record.blocksDirectStudentAssignment) {
+      errors.push(`AI prototype audio coverage report record ${record.recordId} must block direct student assignments.`);
     }
 
     if (record.category === "ai-generated-package-manifest" && !record.preservesAiGeneratedPackageManifest) {

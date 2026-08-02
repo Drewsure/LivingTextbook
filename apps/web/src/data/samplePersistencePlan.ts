@@ -25,6 +25,7 @@ export type PersistenceBoundaryCategory =
   | "ai-prototype-wrapper-adapter-review"
   | "ai-prototype-fixture-replay-report"
   | "ai-prototype-event-replay-report"
+  | "ai-prototype-audio-coverage-report"
   | "ai-generated-package-manifest"
   | "ai-generated-package-promotion-checklist"
   | "ai-generated-package-release-candidate"
@@ -401,6 +402,38 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
     note:
       "AI prototype event replay reports need durable event-order and accepted-effect evidence before returned prototype code can prove it emits platform events without hidden progress, score, reward, report, route, playlist, local bundle, or assignment side effects.",
+  },
+  {
+    recordId: "ai-prototype-audio-coverage-report-record",
+    category: "ai-prototype-audio-coverage-report",
+    label: "AI prototype audio coverage report record",
+    readiness: "durable-required",
+    sourceOfTruth:
+      "AiPrototypeAudioCoverageReport, audio cue manifest, package game audio coverage, background media policy binding, target-language checks, control audio checks, support-language rules, replay evidence, failure triggers, and blocked actions",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: false,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesAiPrototypeAudioCoverageReport: true,
+    requiresTargetLanguageAudioCoverage: true,
+    requiresControlAudioCoverage: true,
+    requiresSupportLanguageAudioRules: true,
+    requiresAudioReplayEvidence: true,
+    blocksGeneratedVoiceCall: true,
+    blocksVoiceApiCost: true,
+    blocksAudioManifestMutation: true,
+    blocksGeneratedPackagePlaylistWrite: true,
+    blocksMediaOnlyMastery: true,
+    blocksSupportLanguageProgressTrigger: true,
+    blocksPackageAudioCompleteMarker: true,
+    blocksDirectStudentAssignment: true,
+    blocksDirectAppImport: true,
+    blocksGeneratedGameRouteWrite: true,
+    recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
+    note:
+      "AI prototype audio coverage reports need durable tap-to-speak, control-audio, support-language, and replay evidence before returned prototypes can claim audio safety or move toward wrapper integration.",
   },
   {
     recordId: "ai-generated-package-promotion-checklist-record",
@@ -1739,6 +1772,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision:
       "Persist AI prototype event replay reports before enabling wrapper integration, progress storage, report export, route writes, scoring/reward authority, package promotion, or assignments.",
+  },
+  {
+    boundaryId: "ai-prototype-audio-coverage-report-boundary",
+    category: "ai-prototype-audio-coverage-report",
+    label: "AI prototype audio coverage report records",
+    status: "needs-backend",
+    recordShape:
+      "Audio coverage report id, tenant id, request id, integration plan id, audio cue manifest id, package audio coverage id, background media policy binding id, required cue families, target-language checks, control audio checks, support-language rules, replay evidence, failure triggers, blocked actions",
+    whyItMatters:
+      "A returned prototype must prove target-language tap-to-speak coverage, control replay support, support-language boundaries, and background-media safety before it can move toward integration.",
+    visibleTo: ["Platform admin", "Tenant admin", "Content reviewer", "Prototype reviewer"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Persist AI prototype audio coverage reports before enabling wrapper integration, audio-complete markers, playlist writes, voice generation, voice API cost, package promotion, or assignments.",
   },
   {
     boundaryId: "ai-generated-package-promotion-checklist-boundary",

@@ -44,6 +44,7 @@ export interface PersistenceWriteIntent {
   preservesAiPrototypeWrapperAdapterReview?: boolean;
   preservesAiPrototypeFixtureReplayReport?: boolean;
   preservesAiPrototypeEventReplayReport?: boolean;
+  preservesAiPrototypeAudioCoverageReport?: boolean;
   requiresReviewedUnitJsonFixture?: boolean;
   requiresFixtureCoverage?: boolean;
   requiresFixtureReplayEvidence?: boolean;
@@ -54,6 +55,14 @@ export interface PersistenceWriteIntent {
   requiresAllowedEventPayloadFields?: boolean;
   requiresAcceptedProgressEffects?: boolean;
   blocksHiddenProgressStream?: boolean;
+  requiresTargetLanguageAudioCoverage?: boolean;
+  requiresControlAudioCoverage?: boolean;
+  requiresSupportLanguageAudioRules?: boolean;
+  requiresAudioReplayEvidence?: boolean;
+  blocksGeneratedVoiceCall?: boolean;
+  blocksVoiceApiCost?: boolean;
+  blocksMediaOnlyMastery?: boolean;
+  blocksPackageAudioCompleteMarker?: boolean;
   requiresFixtureInputContract?: boolean;
   requiresStandardEventOutputContract?: boolean;
   requiresStateOwnershipRules?: boolean;
@@ -700,6 +709,61 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "ai-prototype-event-replay-report" && !intent.blocksSupportLanguageProgressTrigger) {
       errors.push(`AI prototype event replay report write intent ${intent.intentId} must block support-language progress triggers.`);
+    }
+
+    if (
+      intent.category === "ai-prototype-audio-coverage-report" &&
+      !intent.preservesAiPrototypeAudioCoverageReport
+    ) {
+      errors.push(`AI prototype audio coverage report write intent ${intent.intentId} must preserve audio coverage sections.`);
+    }
+
+    if (intent.category === "ai-prototype-audio-coverage-report" && !intent.requiresTargetLanguageAudioCoverage) {
+      errors.push(`AI prototype audio coverage report write intent ${intent.intentId} must require target-language audio coverage.`);
+    }
+
+    if (intent.category === "ai-prototype-audio-coverage-report" && !intent.requiresControlAudioCoverage) {
+      errors.push(`AI prototype audio coverage report write intent ${intent.intentId} must require control audio coverage.`);
+    }
+
+    if (intent.category === "ai-prototype-audio-coverage-report" && !intent.requiresSupportLanguageAudioRules) {
+      errors.push(`AI prototype audio coverage report write intent ${intent.intentId} must require support-language audio rules.`);
+    }
+
+    if (intent.category === "ai-prototype-audio-coverage-report" && !intent.requiresAudioReplayEvidence) {
+      errors.push(`AI prototype audio coverage report write intent ${intent.intentId} must require audio replay evidence.`);
+    }
+
+    if (intent.category === "ai-prototype-audio-coverage-report" && !intent.blocksGeneratedVoiceCall) {
+      errors.push(`AI prototype audio coverage report write intent ${intent.intentId} must block generated voice calls.`);
+    }
+
+    if (intent.category === "ai-prototype-audio-coverage-report" && !intent.blocksVoiceApiCost) {
+      errors.push(`AI prototype audio coverage report write intent ${intent.intentId} must block voice API cost.`);
+    }
+
+    if (intent.category === "ai-prototype-audio-coverage-report" && !intent.blocksAudioManifestMutation) {
+      errors.push(`AI prototype audio coverage report write intent ${intent.intentId} must block audio manifest mutation.`);
+    }
+
+    if (intent.category === "ai-prototype-audio-coverage-report" && !intent.blocksGeneratedPackagePlaylistWrite) {
+      errors.push(`AI prototype audio coverage report write intent ${intent.intentId} must block playlist writes.`);
+    }
+
+    if (intent.category === "ai-prototype-audio-coverage-report" && !intent.blocksMediaOnlyMastery) {
+      errors.push(`AI prototype audio coverage report write intent ${intent.intentId} must block media-only mastery.`);
+    }
+
+    if (intent.category === "ai-prototype-audio-coverage-report" && !intent.blocksSupportLanguageProgressTrigger) {
+      errors.push(`AI prototype audio coverage report write intent ${intent.intentId} must block support-language progress triggers.`);
+    }
+
+    if (intent.category === "ai-prototype-audio-coverage-report" && !intent.blocksPackageAudioCompleteMarker) {
+      errors.push(`AI prototype audio coverage report write intent ${intent.intentId} must block package audio-complete markers.`);
+    }
+
+    if (intent.category === "ai-prototype-audio-coverage-report" && !intent.blocksDirectStudentAssignment) {
+      errors.push(`AI prototype audio coverage report write intent ${intent.intentId} must block direct student assignments.`);
     }
 
     if (intent.category === "ai-generated-package-manifest" && !intent.preservesAiGeneratedPackageManifest) {

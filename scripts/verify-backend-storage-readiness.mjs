@@ -20,6 +20,7 @@ const requiredSchemaEntities = [
   "ai_prototype_wrapper_adapter_review",
   "ai_prototype_fixture_replay_report",
   "ai_prototype_event_replay_report",
+  "ai_prototype_audio_coverage_report",
   "ai_generated_package_manifest",
   "ai_generated_package_promotion_checklist",
   "ai_generated_package_release_candidate",
@@ -90,6 +91,7 @@ const requiredMigrationCandidates = [
   "m063-ai-prototype-wrapper-adapter-review-records",
   "m064-ai-prototype-fixture-replay-report-records",
   "m065-ai-prototype-event-replay-report-records",
+  "m066-ai-prototype-audio-coverage-report-records",
   "m054-ai-generated-package-manifest-records",
   "m058-ai-generated-package-promotion-checklist-records",
   "m059-ai-generated-package-release-candidate-records",
@@ -163,6 +165,7 @@ const requiredMigrationSpecs = [
   "spec-ai-prototype-wrapper-adapter-review",
   "spec-ai-prototype-fixture-replay-report",
   "spec-ai-prototype-event-replay-report",
+  "spec-ai-prototype-audio-coverage-report",
   "spec-ai-generated-package-manifest",
   "spec-ai-generated-package-promotion-checklist",
   "spec-ai-generated-package-release-candidate",
@@ -330,6 +333,37 @@ requireText(schemaDraft, "accepted_progress_effects", "Backend schema must prese
 requireText(schemaDraft, "hidden_progress_stream_allowed", "Backend schema must block hidden progress streams.");
 requireText(schemaDraft, "report_export_allowed", "Backend schema must block report export from event replay reports.");
 requireText(schemaDraft, "playlist_write_allowed", "Backend schema must block playlist writes from event replay reports.");
+requireText(schemaDraft, "ai_prototype_audio_coverage_report", "Backend schema must include AI prototype audio coverage reports.");
+requireText(
+  schemaDraft,
+  "ai_prototype_audio_coverage_report_id",
+  "Backend schema must preserve AI prototype audio coverage report ids.",
+);
+requireText(schemaDraft, "audio_cue_manifest_id", "Backend schema must preserve prototype audio cue manifest ids.");
+requireText(
+  schemaDraft,
+  "package_game_audio_coverage_id",
+  "Backend schema must preserve prototype package game audio coverage ids.",
+);
+requireText(
+  schemaDraft,
+  "background_media_policy_binding_id",
+  "Backend schema must preserve prototype background media policy binding ids.",
+);
+requireText(schemaDraft, "required_cue_families", "Backend schema must preserve prototype required audio cue families.");
+requireText(schemaDraft, "target_language_audio_checks", "Backend schema must preserve target-language audio checks.");
+requireText(schemaDraft, "control_audio_checks", "Backend schema must preserve control audio checks.");
+requireText(schemaDraft, "support_language_audio_rules", "Backend schema must preserve support-language audio rules.");
+requireText(schemaDraft, "audio_replay_evidence", "Backend schema must preserve audio replay evidence.");
+requireText(schemaDraft, "generated_voice_call_allowed", "Backend schema must block generated voice calls.");
+requireText(schemaDraft, "voice_api_cost_allowed", "Backend schema must block voice API cost.");
+requireText(schemaDraft, "audio_manifest_mutation_allowed", "Backend schema must block prototype audio manifest mutation.");
+requireText(schemaDraft, "media_only_mastery_allowed", "Backend schema must block media-only mastery.");
+requireText(
+  schemaDraft,
+  "package_audio_complete_marker_allowed",
+  "Backend schema must block package audio-complete markers.",
+);
 requireText(schemaDraft, "ai_generated_package_manifest", "Backend schema must include AI generated package manifests.");
 requireText(schemaDraft, "ai_generated_package_manifest_id", "Backend schema must preserve generated package manifest ids.");
 requireText(schemaDraft, "generation_request_id", "Backend schema must preserve AI generation request ids.");
@@ -701,6 +735,41 @@ requireText(migrationSpecs, "accepted_progress_effects", "Migration specs must p
 requireText(migrationSpecs, "hidden_progress_stream_allowed", "Migration specs must block hidden progress streams.");
 requireText(migrationSpecs, "report_export_allowed", "Migration specs must block report export from event replay reports.");
 requireText(migrationSpecs, "playlist_write_allowed", "Migration specs must block playlist writes from event replay reports.");
+requireText(
+  migrationSpecs,
+  "spec-ai-prototype-audio-coverage-report",
+  "Migration specs must include AI prototype audio coverage reports.",
+);
+requireText(
+  migrationSpecs,
+  "ai_prototype_audio_coverage_report_id",
+  "Migration specs must preserve AI prototype audio coverage report ids.",
+);
+requireText(migrationSpecs, "audio_cue_manifest_id", "Migration specs must preserve prototype audio cue manifest ids.");
+requireText(
+  migrationSpecs,
+  "package_game_audio_coverage_id",
+  "Migration specs must preserve prototype package game audio coverage ids.",
+);
+requireText(
+  migrationSpecs,
+  "background_media_policy_binding_id",
+  "Migration specs must preserve prototype background media policy binding ids.",
+);
+requireText(migrationSpecs, "required_cue_families", "Migration specs must preserve prototype required audio cue families.");
+requireText(migrationSpecs, "target_language_audio_checks", "Migration specs must preserve target-language audio checks.");
+requireText(migrationSpecs, "control_audio_checks", "Migration specs must preserve control audio checks.");
+requireText(migrationSpecs, "support_language_audio_rules", "Migration specs must preserve support-language audio rules.");
+requireText(migrationSpecs, "audio_replay_evidence", "Migration specs must preserve audio replay evidence.");
+requireText(migrationSpecs, "generated_voice_call_allowed", "Migration specs must block generated voice calls.");
+requireText(migrationSpecs, "voice_api_cost_allowed", "Migration specs must block voice API cost.");
+requireText(migrationSpecs, "audio_manifest_mutation_allowed", "Migration specs must block prototype audio manifest mutation.");
+requireText(migrationSpecs, "media_only_mastery_allowed", "Migration specs must block media-only mastery.");
+requireText(
+  migrationSpecs,
+  "package_audio_complete_marker_allowed",
+  "Migration specs must block package audio-complete markers.",
+);
 requireText(migrationSpecs, "spec-ai-generated-package-manifest", "Migration specs must include AI generated package manifests.");
 requireText(migrationSpecs, "ai_generated_package_manifest_id", "Migration specs must preserve generated package manifest ids.");
 requireText(migrationSpecs, "prompt_package_id", "Migration specs must preserve generated package prompt package ids.");
@@ -1366,6 +1435,41 @@ requireText(
   "blocksSupportLanguageProgressTrigger: true",
   "Persistence adapter must block support-language progress triggers.",
 );
+requireText(
+  persistenceAdapter,
+  "hosted-ai-prototype-audio-coverage-report-write",
+  "Persistence adapter must include hosted AI prototype audio coverage report writes.",
+);
+requireText(
+  persistenceAdapter,
+  "local-ai-prototype-audio-coverage-report-write",
+  "Persistence adapter must include local AI prototype audio coverage report writes.",
+);
+requireText(
+  persistenceAdapter,
+  "preservesAiPrototypeAudioCoverageReport: true",
+  "Persistence adapter must preserve AI prototype audio coverage report sections.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresTargetLanguageAudioCoverage: true",
+  "Persistence adapter must require target-language audio coverage.",
+);
+requireText(persistenceAdapter, "requiresControlAudioCoverage: true", "Persistence adapter must require control audio coverage.");
+requireText(
+  persistenceAdapter,
+  "requiresSupportLanguageAudioRules: true",
+  "Persistence adapter must require support-language audio rules.",
+);
+requireText(persistenceAdapter, "requiresAudioReplayEvidence: true", "Persistence adapter must require audio replay evidence.");
+requireText(persistenceAdapter, "blocksGeneratedVoiceCall: true", "Persistence adapter must block generated voice calls.");
+requireText(persistenceAdapter, "blocksVoiceApiCost: true", "Persistence adapter must block voice API cost.");
+requireText(persistenceAdapter, "blocksMediaOnlyMastery: true", "Persistence adapter must block media-only mastery.");
+requireText(
+  persistenceAdapter,
+  "blocksPackageAudioCompleteMarker: true",
+  "Persistence adapter must block package audio-complete markers.",
+);
 requireText(persistenceAdapter, "hosted-ai-generated-package-manifest-write", "Persistence adapter must include hosted AI generated package manifest writes.");
 requireText(persistenceAdapter, "local-ai-generated-package-manifest-write", "Persistence adapter must include local AI generated package manifest writes.");
 requireText(persistenceAdapter, "preservesAiGeneratedPackageManifest: true", "Persistence adapter must preserve AI generated package manifest links.");
@@ -1865,6 +1969,41 @@ requireText(
   "blocksSupportLanguageProgressTrigger: true",
   "Durable record plan must block support-language progress triggers.",
 );
+requireText(
+  durableRecords,
+  "ai-prototype-audio-coverage-report-record",
+  "Durable record plan must include AI prototype audio coverage report records.",
+);
+requireText(
+  durableRecords,
+  "AI prototype audio coverage report record",
+  "Durable record plan must expose AI prototype audio coverage report labels.",
+);
+requireText(
+  durableRecords,
+  "preservesAiPrototypeAudioCoverageReport: true",
+  "Durable record plan must preserve AI prototype audio coverage report sections.",
+);
+requireText(
+  durableRecords,
+  "requiresTargetLanguageAudioCoverage: true",
+  "Durable record plan must require target-language audio coverage.",
+);
+requireText(durableRecords, "requiresControlAudioCoverage: true", "Durable record plan must require control audio coverage.");
+requireText(
+  durableRecords,
+  "requiresSupportLanguageAudioRules: true",
+  "Durable record plan must require support-language audio rules.",
+);
+requireText(durableRecords, "requiresAudioReplayEvidence: true", "Durable record plan must require audio replay evidence.");
+requireText(durableRecords, "blocksGeneratedVoiceCall: true", "Durable record plan must block generated voice calls.");
+requireText(durableRecords, "blocksVoiceApiCost: true", "Durable record plan must block voice API cost.");
+requireText(durableRecords, "blocksMediaOnlyMastery: true", "Durable record plan must block media-only mastery.");
+requireText(
+  durableRecords,
+  "blocksPackageAudioCompleteMarker: true",
+  "Durable record plan must block package audio-complete markers.",
+);
 requireText(durableRecords, "ai-generated-package-manifest-record", "Durable record plan must include AI generated package manifest records.");
 requireText(durableRecords, "AI generated package manifest record", "Durable record plan must expose AI generated package manifest record labels.");
 requireText(durableRecords, "preservesAiGeneratedPackageManifest: true", "Durable record plan must preserve AI generated package manifest links.");
@@ -2194,6 +2333,16 @@ requireText(
   routeVerifier,
   "AI prototype event replay report record",
   "Active route verifier must keep AI prototype event replay report durable records visible on teacher intake.",
+);
+requireText(
+  routeVerifier,
+  "ai_prototype_audio_coverage_report",
+  "Active route verifier must keep AI prototype audio coverage report storage visible on teacher intake.",
+);
+requireText(
+  routeVerifier,
+  "AI prototype audio coverage report record",
+  "Active route verifier must keep AI prototype audio coverage report durable records visible on teacher intake.",
 );
 requireText(routeVerifier, "ai_generated_package_manifest", "Active route verifier must keep AI generated package manifest storage visible on teacher intake.");
 requireText(routeVerifier, "AI generated package manifest record", "Active route verifier must keep AI generated package manifest durable records visible on teacher intake.");
