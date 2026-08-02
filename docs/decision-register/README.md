@@ -320,6 +320,7 @@
 - `DR-346-ai-external-task-export-readiness-storage-contract.md`
 - `DR-347-ai-prototype-app-patch-proposal-storage-contract.md`
 - `DR-348-ai-prototype-patch-test-readiness-gate.md`
+- `DR-349-ai-prototype-patch-test-readiness-storage-contract.md`
 
 ## Maintenance Rule
 

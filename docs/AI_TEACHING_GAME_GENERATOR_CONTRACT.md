@@ -257,6 +257,8 @@ Prototype patch test readiness gates must remain review-only until a future patc
 
 The gate must name fixture replay, standard event replay, target-language audio, mobile accessibility, deterministic scoring, route safety, storage contract, and rollback checks. It cannot execute tests, write app files, mutate route aliases, change scoring or rewards, mutate audio manifests, promote packages, assign students, or allow support-language progress. MiniStar gates must also prove Foundation Japanese support stays hiragana-only and support-only.
 
+The backend-neutral storage contract is `ai_prototype_patch_test_readiness_gate` / `ai-prototype-patch-test-readiness-gate`. Hosted and local adapters must preserve required test lanes, rollback requirements, patch test harness plan, route safety release gate, rollback drill record, storage contract verification, Codex patch approval decision, and blocked actions while blocking test execution, app file writes, app patch generation, route writes, scoring mutations, Star Dust or reward writes, audio manifest mutation, package promotion, assignments, and support-language progress.
+
 ## Mode Recommendation Rule
 
 Generator mode recommendations must reuse the reviewed activity compatibility matrix. The generator can recommend a tight pathway for a unit, but it must not produce a broad switch panel or unsupported conversions. Blocked conversions stay visible with their payload-fit and compatibility-rule reasons.

@@ -20,6 +20,7 @@ export type PersistenceRecordCategory =
   | "ai-prototype-scoring-replay-report"
   | "codex-integration-review-decision"
   | "ai-prototype-app-patch-proposal"
+  | "ai-prototype-patch-test-readiness-gate"
   | "ai-prototype-integration-readiness-gate"
   | "ai-generated-package-manifest"
   | "ai-generated-package-promotion-checklist"
@@ -147,11 +148,18 @@ export interface DurableRecordContract {
   preservesAiPrototypeScoringReplayReport?: boolean;
   preservesCodexIntegrationReviewDecision?: boolean;
   preservesAiPrototypeAppPatchProposal?: boolean;
+  preservesAiPrototypePatchTestReadinessGate?: boolean;
   requiresProposedPatchFileScope?: boolean;
   requiresPrePatchGates?: boolean;
   requiresPatchTestGates?: boolean;
+  requiresPatchTestHarnessPlan?: boolean;
+  requiresRouteSafetyReleaseGate?: boolean;
+  requiresRollbackDrillRecord?: boolean;
+  requiresStorageContractVerification?: boolean;
+  requiresCodexPatchApprovalDecision?: boolean;
   requiresReviewerIdentitySignatureGate?: boolean;
   blocksAppFileWrite?: boolean;
+  blocksTestExecution?: boolean;
   requiresManualCodexReview?: boolean;
   blocksAppPatchGeneration?: boolean;
   preservesAiPrototypeIntegrationReadinessGate?: boolean;
@@ -928,6 +936,81 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "ai-prototype-app-patch-proposal" && !record.blocksSupportLanguageProgressTrigger) {
       errors.push(`AI prototype app patch proposal record ${record.recordId} must block support-language progress triggers.`);
+    }
+
+    if (
+      record.category === "ai-prototype-patch-test-readiness-gate" &&
+      !record.preservesAiPrototypePatchTestReadinessGate
+    ) {
+      errors.push(`AI prototype patch test readiness gate record ${record.recordId} must preserve readiness gate sections.`);
+    }
+
+    if (record.category === "ai-prototype-patch-test-readiness-gate" && !record.requiresPatchTestHarnessPlan) {
+      errors.push(`AI prototype patch test readiness gate record ${record.recordId} must require patch test harness plans.`);
+    }
+
+    if (record.category === "ai-prototype-patch-test-readiness-gate" && !record.requiresRouteSafetyReleaseGate) {
+      errors.push(`AI prototype patch test readiness gate record ${record.recordId} must require route safety release gates.`);
+    }
+
+    if (record.category === "ai-prototype-patch-test-readiness-gate" && !record.requiresRollbackDrillRecord) {
+      errors.push(`AI prototype patch test readiness gate record ${record.recordId} must require rollback drill records.`);
+    }
+
+    if (record.category === "ai-prototype-patch-test-readiness-gate" && !record.requiresStorageContractVerification) {
+      errors.push(`AI prototype patch test readiness gate record ${record.recordId} must require storage contract verification.`);
+    }
+
+    if (record.category === "ai-prototype-patch-test-readiness-gate" && !record.requiresCodexPatchApprovalDecision) {
+      errors.push(`AI prototype patch test readiness gate record ${record.recordId} must require Codex patch approval decisions.`);
+    }
+
+    if (record.category === "ai-prototype-patch-test-readiness-gate" && !record.blocksTestExecution) {
+      errors.push(`AI prototype patch test readiness gate record ${record.recordId} must block test execution.`);
+    }
+
+    if (record.category === "ai-prototype-patch-test-readiness-gate" && !record.blocksAppFileWrite) {
+      errors.push(`AI prototype patch test readiness gate record ${record.recordId} must block app file writes.`);
+    }
+
+    if (record.category === "ai-prototype-patch-test-readiness-gate" && !record.blocksAppPatchGeneration) {
+      errors.push(`AI prototype patch test readiness gate record ${record.recordId} must block app patch generation.`);
+    }
+
+    if (record.category === "ai-prototype-patch-test-readiness-gate" && !record.blocksGeneratedGameRouteWrite) {
+      errors.push(`AI prototype patch test readiness gate record ${record.recordId} must block route writes.`);
+    }
+
+    if (record.category === "ai-prototype-patch-test-readiness-gate" && !record.blocksStudentFacingRoute) {
+      errors.push(`AI prototype patch test readiness gate record ${record.recordId} must block student-facing routes.`);
+    }
+
+    if (record.category === "ai-prototype-patch-test-readiness-gate" && !record.blocksScoringProfileOverride) {
+      errors.push(`AI prototype patch test readiness gate record ${record.recordId} must block scoring mutations.`);
+    }
+
+    if (record.category === "ai-prototype-patch-test-readiness-gate" && !record.blocksStarDustWrite) {
+      errors.push(`AI prototype patch test readiness gate record ${record.recordId} must block Star Dust writes.`);
+    }
+
+    if (record.category === "ai-prototype-patch-test-readiness-gate" && !record.blocksRewardInventoryWrite) {
+      errors.push(`AI prototype patch test readiness gate record ${record.recordId} must block reward inventory writes.`);
+    }
+
+    if (record.category === "ai-prototype-patch-test-readiness-gate" && !record.blocksAudioManifestMutation) {
+      errors.push(`AI prototype patch test readiness gate record ${record.recordId} must block audio manifest mutations.`);
+    }
+
+    if (record.category === "ai-prototype-patch-test-readiness-gate" && !record.blocksPackagePromotion) {
+      errors.push(`AI prototype patch test readiness gate record ${record.recordId} must block package promotion.`);
+    }
+
+    if (record.category === "ai-prototype-patch-test-readiness-gate" && !record.blocksDirectStudentAssignment) {
+      errors.push(`AI prototype patch test readiness gate record ${record.recordId} must block student assignments.`);
+    }
+
+    if (record.category === "ai-prototype-patch-test-readiness-gate" && !record.blocksSupportLanguageProgressTrigger) {
+      errors.push(`AI prototype patch test readiness gate record ${record.recordId} must block support-language progress triggers.`);
     }
 
     if (
