@@ -37,6 +37,10 @@ import {
 } from "@/data/sampleAiGeneratorTenantCoverage";
 import { filterAiGeneratorLineageMapsByTenant, sampleAiGeneratorLineageMaps } from "@/data/sampleAiGeneratorLineageMap";
 import {
+  filterAiGeneratorReviewSummariesByTenant,
+  sampleAiGeneratorReviewSummaries,
+} from "@/data/sampleAiGeneratorReviewSummary";
+import {
   filterAiGeneratorAudioCoveragePlansByTenant,
   sampleAiGeneratorAudioCoveragePlans,
 } from "@/data/sampleAiGeneratorAudioCoveragePlan";
@@ -125,6 +129,7 @@ import { AiGamificationMappingPanel } from "@/features/content-intake/AiGamifica
 import { AiGeneratorAudioCoveragePlanPanel } from "@/features/content-intake/AiGeneratorAudioCoveragePlanPanel";
 import { AiGameGeneratorPlanPanel } from "@/features/content-intake/AiGameGeneratorPlanPanel";
 import { AiGeneratorLineageMapPanel } from "@/features/content-intake/AiGeneratorLineageMapPanel";
+import { AiGeneratorReviewSummaryPanel } from "@/features/content-intake/AiGeneratorReviewSummaryPanel";
 import { AiGeneratorTenantCoveragePanel } from "@/features/content-intake/AiGeneratorTenantCoveragePanel";
 import { AiModeRecommendationPanel } from "@/features/content-intake/AiModeRecommendationPanel";
 import { AiPromptPackagePlanPanel } from "@/features/content-intake/AiPromptPackagePlanPanel";
@@ -150,6 +155,9 @@ export default async function TeacherAiGameGeneratorPage({
     <AppShell tenant={tenant}>
       <div className="grid gap-5">
         <AiGeneratorSectionNav />
+        <AiGeneratorReviewSummaryPanel
+          summaries={filterAiGeneratorReviewSummariesByTenant(sampleAiGeneratorReviewSummaries, tenantId)}
+        />
         <section id="generator-request" className="grid scroll-mt-6 gap-5">
           <AiGeneratorSectionHeader
             eyebrow="Generator section"

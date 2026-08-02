@@ -248,6 +248,11 @@ expectedTextByPath
 const aiGameGeneratorExpected = [
   "AI teaching game generator",
   "Generator route map",
+  "AI generator review summary",
+  "Section readiness rollup",
+  "Primary blocker",
+  "Next required record",
+  "No app file writes",
   "Request setup",
   "Prototype review",
   "Integration gates",
@@ -608,6 +613,11 @@ const aiGameGeneratorExpected = [
 const ministarAiGameGeneratorExpected = [
   "AI teaching game generator",
   "Generator route map",
+  "AI generator review summary",
+  "Section readiness rollup",
+  "Primary blocker",
+  "Next required record",
+  "No app file writes",
   "Request setup",
   "Prototype review",
   "Integration gates",
