@@ -47,6 +47,10 @@ export interface PersistenceWriteIntent {
   preservesAiPrototypeAudioCoverageReport?: boolean;
   preservesAiPrototypeMobileAccessibilityReport?: boolean;
   preservesAiPrototypeScoringReplayReport?: boolean;
+  preservesAiPrototypeIntegrationReadinessGate?: boolean;
+  requiresAllPrototypeEvidenceReviewed?: boolean;
+  requiresCodexIntegrationReviewDecision?: boolean;
+  blocksStudentFacingRoute?: boolean;
   requiresReviewedUnitJsonFixture?: boolean;
   requiresFixtureCoverage?: boolean;
   requiresFixtureReplayEvidence?: boolean;
@@ -562,6 +566,81 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "ai-prototype-integration-plan" && !intent.blocksDirectStudentAssignment) {
       errors.push(`AI prototype integration plan write intent ${intent.intentId} must block student assignments.`);
+    }
+
+    if (
+      intent.category === "ai-prototype-integration-readiness-gate" &&
+      !intent.preservesAiPrototypeIntegrationReadinessGate
+    ) {
+      errors.push(`AI prototype integration readiness gate write intent ${intent.intentId} must preserve readiness gate sections.`);
+    }
+
+    if (intent.category === "ai-prototype-integration-readiness-gate" && !intent.requiresWrapperAdapterReview) {
+      errors.push(`AI prototype integration readiness gate write intent ${intent.intentId} must require wrapper adapter review.`);
+    }
+
+    if (intent.category === "ai-prototype-integration-readiness-gate" && !intent.requiresFixtureReplayReport) {
+      errors.push(`AI prototype integration readiness gate write intent ${intent.intentId} must require fixture replay reports.`);
+    }
+
+    if (intent.category === "ai-prototype-integration-readiness-gate" && !intent.requiresEventReplayReport) {
+      errors.push(`AI prototype integration readiness gate write intent ${intent.intentId} must require event replay reports.`);
+    }
+
+    if (intent.category === "ai-prototype-integration-readiness-gate" && !intent.requiresAudioCoverageReport) {
+      errors.push(`AI prototype integration readiness gate write intent ${intent.intentId} must require audio coverage reports.`);
+    }
+
+    if (intent.category === "ai-prototype-integration-readiness-gate" && !intent.requiresMobileAccessibilityReview) {
+      errors.push(`AI prototype integration readiness gate write intent ${intent.intentId} must require mobile accessibility review.`);
+    }
+
+    if (intent.category === "ai-prototype-integration-readiness-gate" && !intent.requiresScoringReplayReport) {
+      errors.push(`AI prototype integration readiness gate write intent ${intent.intentId} must require scoring replay reports.`);
+    }
+
+    if (intent.category === "ai-prototype-integration-readiness-gate" && !intent.requiresAllPrototypeEvidenceReviewed) {
+      errors.push(`AI prototype integration readiness gate write intent ${intent.intentId} must require all prototype evidence reviewed.`);
+    }
+
+    if (intent.category === "ai-prototype-integration-readiness-gate" && !intent.requiresCodexIntegrationReviewDecision) {
+      errors.push(`AI prototype integration readiness gate write intent ${intent.intentId} must require Codex integration review decisions.`);
+    }
+
+    if (intent.category === "ai-prototype-integration-readiness-gate" && !intent.blocksDirectAppImport) {
+      errors.push(`AI prototype integration readiness gate write intent ${intent.intentId} must block direct app imports.`);
+    }
+
+    if (intent.category === "ai-prototype-integration-readiness-gate" && !intent.blocksGeneratedGameRouteWrite) {
+      errors.push(`AI prototype integration readiness gate write intent ${intent.intentId} must block route writes.`);
+    }
+
+    if (intent.category === "ai-prototype-integration-readiness-gate" && !intent.blocksStudentFacingRoute) {
+      errors.push(`AI prototype integration readiness gate write intent ${intent.intentId} must block student-facing routes.`);
+    }
+
+    if (intent.category === "ai-prototype-integration-readiness-gate" && !intent.blocksScoringProfileOverride) {
+      errors.push(`AI prototype integration readiness gate write intent ${intent.intentId} must block scoring mutations.`);
+    }
+
+    if (intent.category === "ai-prototype-integration-readiness-gate" && !intent.blocksStarDustWrite) {
+      errors.push(`AI prototype integration readiness gate write intent ${intent.intentId} must block Star Dust writes.`);
+    }
+
+    if (intent.category === "ai-prototype-integration-readiness-gate" && !intent.blocksRewardInventoryWrite) {
+      errors.push(`AI prototype integration readiness gate write intent ${intent.intentId} must block reward inventory writes.`);
+    }
+
+    if (intent.category === "ai-prototype-integration-readiness-gate" && !intent.blocksAudioManifestMutation) {
+      errors.push(`AI prototype integration readiness gate write intent ${intent.intentId} must block audio manifest mutations.`);
+    }
+
+    if (intent.category === "ai-prototype-integration-readiness-gate" && !intent.blocksPackagePromotion) {
+      errors.push(`AI prototype integration readiness gate write intent ${intent.intentId} must block package promotion.`);
+    }
+
+    if (intent.category === "ai-prototype-integration-readiness-gate" && !intent.blocksDirectStudentAssignment) {
+      errors.push(`AI prototype integration readiness gate write intent ${intent.intentId} must block student assignments.`);
     }
 
     if (

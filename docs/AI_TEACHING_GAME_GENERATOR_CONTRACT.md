@@ -189,6 +189,8 @@ The gate remains review-only until every evidence check is reviewed and a Codex 
 
 MiniStar readiness gates must keep Japanese support language hiragana-only for early levels and support-only. English remains the target-language trigger for scoring, mastery, reward, and release readiness.
 
+The backend-neutral storage contract is `ai_prototype_integration_readiness_gate` / `ai-prototype-integration-readiness-gate`. Hosted and local adapters must preserve linked integration plan, wrapper adapter review, fixture replay report, event replay report, audio coverage report, mobile accessibility report, scoring replay report, Codex integration review decision, evidence readiness checks, all-evidence-reviewed state, and blocked actions while blocking app patches, direct imports, route writes, student-facing routes, scoring mutations, Star Dust or reward writes, audio manifest mutation, package promotion, and assignments.
+
 ## Mode Recommendation Rule
 
 Generator mode recommendations must reuse the reviewed activity compatibility matrix. The generator can recommend a tight pathway for a unit, but it must not produce a broad switch panel or unsupported conversions. Blocked conversions stay visible with their payload-fit and compatibility-rule reasons.

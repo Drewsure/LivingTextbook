@@ -23,6 +23,7 @@ const requiredSchemaEntities = [
   "ai_prototype_audio_coverage_report",
   "ai_prototype_mobile_accessibility_report",
   "ai_prototype_scoring_replay_report",
+  "ai_prototype_integration_readiness_gate",
   "ai_generated_package_manifest",
   "ai_generated_package_promotion_checklist",
   "ai_generated_package_release_candidate",
@@ -96,6 +97,7 @@ const requiredMigrationCandidates = [
   "m066-ai-prototype-audio-coverage-report-records",
   "m067-ai-prototype-mobile-accessibility-report-records",
   "m068-ai-prototype-scoring-replay-report-records",
+  "m069-ai-prototype-integration-readiness-gate-records",
   "m054-ai-generated-package-manifest-records",
   "m058-ai-generated-package-promotion-checklist-records",
   "m059-ai-generated-package-release-candidate-records",
@@ -172,6 +174,7 @@ const requiredMigrationSpecs = [
   "spec-ai-prototype-audio-coverage-report",
   "spec-ai-prototype-mobile-accessibility-report",
   "spec-ai-prototype-scoring-replay-report",
+  "spec-ai-prototype-integration-readiness-gate",
   "spec-ai-generated-package-manifest",
   "spec-ai-generated-package-promotion-checklist",
   "spec-ai-generated-package-release-candidate",
@@ -424,6 +427,35 @@ requireText(schemaDraft, "scoring_profile_override_allowed", "Backend schema mus
 requireText(schemaDraft, "star_dust_write_allowed", "Backend schema must block Star Dust writes.");
 requireText(schemaDraft, "random_reward_allowed", "Backend schema must block random rewards.");
 requireText(schemaDraft, "support_language_mastery_allowed", "Backend schema must block support-language mastery.");
+requireText(
+  schemaDraft,
+  "ai_prototype_integration_readiness_gate",
+  "Backend schema must include AI prototype integration readiness gates.",
+);
+requireText(
+  schemaDraft,
+  "ai_prototype_integration_readiness_gate_id",
+  "Backend schema must preserve AI prototype integration readiness gate ids.",
+);
+requireText(
+  schemaDraft,
+  "codex_integration_review_decision_id",
+  "Backend schema must preserve Codex integration review decision ids.",
+);
+requireText(schemaDraft, "evidence_readiness_checks", "Backend schema must preserve evidence readiness checks.");
+requireText(
+  schemaDraft,
+  "all_prototype_evidence_reviewed",
+  "Backend schema must preserve all-evidence-reviewed state.",
+);
+requireText(schemaDraft, "app_patch_allowed", "Backend schema must block app patches.");
+requireText(schemaDraft, "direct_import_allowed", "Backend schema must block direct imports.");
+requireText(schemaDraft, "student_facing_route_allowed", "Backend schema must block student-facing routes.");
+requireText(
+  schemaDraft,
+  "star_dust_reward_write_allowed",
+  "Backend schema must block Star Dust and reward writes.",
+);
 requireText(schemaDraft, "ai_generated_package_manifest", "Backend schema must include AI generated package manifests.");
 requireText(schemaDraft, "ai_generated_package_manifest_id", "Backend schema must preserve generated package manifest ids.");
 requireText(schemaDraft, "generation_request_id", "Backend schema must preserve AI generation request ids.");
@@ -888,6 +920,35 @@ requireText(migrationSpecs, "scoring_profile_override_allowed", "Migration specs
 requireText(migrationSpecs, "star_dust_write_allowed", "Migration specs must block Star Dust writes.");
 requireText(migrationSpecs, "random_reward_allowed", "Migration specs must block random rewards.");
 requireText(migrationSpecs, "support_language_mastery_allowed", "Migration specs must block support-language mastery.");
+requireText(
+  migrationSpecs,
+  "spec-ai-prototype-integration-readiness-gate",
+  "Migration specs must include AI prototype integration readiness gates.",
+);
+requireText(
+  migrationSpecs,
+  "ai_prototype_integration_readiness_gate_id",
+  "Migration specs must preserve AI prototype integration readiness gate ids.",
+);
+requireText(
+  migrationSpecs,
+  "codex_integration_review_decision_id",
+  "Migration specs must preserve Codex integration review decision ids.",
+);
+requireText(migrationSpecs, "evidence_readiness_checks", "Migration specs must preserve evidence readiness checks.");
+requireText(
+  migrationSpecs,
+  "all_prototype_evidence_reviewed",
+  "Migration specs must preserve all-evidence-reviewed state.",
+);
+requireText(migrationSpecs, "app_patch_allowed", "Migration specs must block app patches.");
+requireText(migrationSpecs, "direct_import_allowed", "Migration specs must block direct imports.");
+requireText(migrationSpecs, "student_facing_route_allowed", "Migration specs must block student-facing routes.");
+requireText(
+  migrationSpecs,
+  "star_dust_reward_write_allowed",
+  "Migration specs must block Star Dust and reward writes.",
+);
 requireText(migrationSpecs, "spec-ai-generated-package-manifest", "Migration specs must include AI generated package manifests.");
 requireText(migrationSpecs, "ai_generated_package_manifest_id", "Migration specs must preserve generated package manifest ids.");
 requireText(migrationSpecs, "prompt_package_id", "Migration specs must preserve generated package prompt package ids.");
@@ -1673,6 +1734,32 @@ requireText(
   "blocksGeneratedSurpriseRewards: true",
   "Persistence adapter must block generated surprise rewards.",
 );
+requireText(
+  persistenceAdapter,
+  "hosted-ai-prototype-integration-readiness-gate-write",
+  "Persistence adapter must include hosted AI prototype integration readiness gate writes.",
+);
+requireText(
+  persistenceAdapter,
+  "local-ai-prototype-integration-readiness-gate-write",
+  "Persistence adapter must include local AI prototype integration readiness gate writes.",
+);
+requireText(
+  persistenceAdapter,
+  "preservesAiPrototypeIntegrationReadinessGate: true",
+  "Persistence adapter must preserve AI prototype integration readiness gate sections.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresAllPrototypeEvidenceReviewed: true",
+  "Persistence adapter must require all prototype evidence reviewed.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresCodexIntegrationReviewDecision: true",
+  "Persistence adapter must require Codex integration review decisions.",
+);
+requireText(persistenceAdapter, "blocksStudentFacingRoute: true", "Persistence adapter must block student-facing routes.");
 requireText(persistenceAdapter, "hosted-ai-generated-package-manifest-write", "Persistence adapter must include hosted AI generated package manifest writes.");
 requireText(persistenceAdapter, "local-ai-generated-package-manifest-write", "Persistence adapter must include local AI generated package manifest writes.");
 requireText(persistenceAdapter, "preservesAiGeneratedPackageManifest: true", "Persistence adapter must preserve AI generated package manifest links.");
@@ -2284,6 +2371,32 @@ requireText(
   "blocksGeneratedSurpriseRewards: true",
   "Durable record plan must block generated surprise rewards.",
 );
+requireText(
+  durableRecords,
+  "ai-prototype-integration-readiness-gate-record",
+  "Durable record plan must include AI prototype integration readiness gate records.",
+);
+requireText(
+  durableRecords,
+  "AI prototype integration readiness gate record",
+  "Durable record plan must expose AI prototype integration readiness gate labels.",
+);
+requireText(
+  durableRecords,
+  "preservesAiPrototypeIntegrationReadinessGate: true",
+  "Durable record plan must preserve AI prototype integration readiness gate sections.",
+);
+requireText(
+  durableRecords,
+  "requiresAllPrototypeEvidenceReviewed: true",
+  "Durable record plan must require all prototype evidence reviewed.",
+);
+requireText(
+  durableRecords,
+  "requiresCodexIntegrationReviewDecision: true",
+  "Durable record plan must require Codex integration review decisions.",
+);
+requireText(durableRecords, "blocksStudentFacingRoute: true", "Durable record plan must block student-facing routes.");
 requireText(durableRecords, "ai-generated-package-manifest-record", "Durable record plan must include AI generated package manifest records.");
 requireText(durableRecords, "AI generated package manifest record", "Durable record plan must expose AI generated package manifest record labels.");
 requireText(durableRecords, "preservesAiGeneratedPackageManifest: true", "Durable record plan must preserve AI generated package manifest links.");
@@ -2643,6 +2756,16 @@ requireText(
   routeVerifier,
   "AI prototype scoring replay report record",
   "Active route verifier must keep AI prototype scoring replay report durable records visible on teacher intake.",
+);
+requireText(
+  routeVerifier,
+  "ai_prototype_integration_readiness_gate",
+  "Active route verifier must keep AI prototype integration readiness gate storage visible on teacher intake.",
+);
+requireText(
+  routeVerifier,
+  "AI prototype integration readiness gate record",
+  "Active route verifier must keep AI prototype integration readiness gate durable records visible on teacher intake.",
 );
 requireText(routeVerifier, "ai_generated_package_manifest", "Active route verifier must keep AI generated package manifest storage visible on teacher intake.");
 requireText(routeVerifier, "AI generated package manifest record", "Active route verifier must keep AI generated package manifest durable records visible on teacher intake.");

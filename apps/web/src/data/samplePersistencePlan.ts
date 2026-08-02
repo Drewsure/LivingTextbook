@@ -28,6 +28,7 @@ export type PersistenceBoundaryCategory =
   | "ai-prototype-audio-coverage-report"
   | "ai-prototype-mobile-accessibility-report"
   | "ai-prototype-scoring-replay-report"
+  | "ai-prototype-integration-readiness-gate"
   | "ai-generated-package-manifest"
   | "ai-generated-package-promotion-checklist"
   | "ai-generated-package-release-candidate"
@@ -497,6 +498,41 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
     note:
       "AI prototype scoring replay reports need durable deterministic scoring, mastery, and reward-boundary evidence before returned prototypes can claim scoring safety or move toward parent-engine integration.",
+  },
+  {
+    recordId: "ai-prototype-integration-readiness-gate-record",
+    category: "ai-prototype-integration-readiness-gate",
+    label: "AI prototype integration readiness gate record",
+    readiness: "durable-required",
+    sourceOfTruth:
+      "AiPrototypeIntegrationReadinessGate, wrapper adapter review, fixture replay report, event replay report, audio coverage report, mobile accessibility report, scoring replay report, Codex integration review decision, evidence readiness checks, and blocked actions",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: false,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesAiPrototypeIntegrationReadinessGate: true,
+    requiresWrapperAdapterReview: true,
+    requiresFixtureReplayReport: true,
+    requiresEventReplayReport: true,
+    requiresAudioCoverageReport: true,
+    requiresMobileAccessibilityReview: true,
+    requiresScoringReplayReport: true,
+    requiresAllPrototypeEvidenceReviewed: true,
+    requiresCodexIntegrationReviewDecision: true,
+    blocksDirectAppImport: true,
+    blocksGeneratedGameRouteWrite: true,
+    blocksStudentFacingRoute: true,
+    blocksScoringProfileOverride: true,
+    blocksStarDustWrite: true,
+    blocksRewardInventoryWrite: true,
+    blocksAudioManifestMutation: true,
+    blocksPackagePromotion: true,
+    blocksDirectStudentAssignment: true,
+    recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
+    note:
+      "AI prototype integration readiness gates need durable all-evidence and Codex decision state before returned prototypes can propose apps/web patches, routes, scoring changes, reward writes, package promotion, or assignments.",
   },
   {
     recordId: "ai-generated-package-promotion-checklist-record",
@@ -1877,6 +1913,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision:
       "Persist AI prototype scoring replay reports before enabling parent-engine wrapper integration, scoring profile acceptance, Star Dust writes, reward inventory writes, package promotion, or assignments.",
+  },
+  {
+    boundaryId: "ai-prototype-integration-readiness-gate-boundary",
+    category: "ai-prototype-integration-readiness-gate",
+    label: "AI prototype integration readiness gate records",
+    status: "needs-backend",
+    recordShape:
+      "Readiness gate id, tenant id, request id, integration plan id, wrapper adapter review id, fixture replay report id, event replay report id, audio coverage report id, mobile accessibility report id, scoring replay report id, Codex decision id, evidence readiness checks, all-evidence-reviewed state, app patch block, route block, Star Dust/reward block, package promotion block, assignment block",
+    whyItMatters:
+      "A returned prototype must prove every evidence lane and Codex decision before it can move toward apps/web integration, route registry writes, student-facing routes, Star Dust or reward writes, package promotion, or assignments.",
+    visibleTo: ["Platform admin", "Tenant admin", "Content reviewer", "Prototype reviewer"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Persist AI prototype integration readiness gates before enabling apps/web patch proposals, route writes, student-facing previews, scoring changes, reward writes, package promotion, or assignments.",
   },
   {
     boundaryId: "ai-generated-package-promotion-checklist-boundary",

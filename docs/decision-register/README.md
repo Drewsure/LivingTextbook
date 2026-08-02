@@ -303,6 +303,7 @@
 - `DR-329-ai-prototype-scoring-replay-report.md`
 - `DR-330-ai-prototype-scoring-replay-storage-contract.md`
 - `DR-331-ai-prototype-integration-readiness-gate.md`
+- `DR-332-ai-prototype-integration-readiness-storage-contract.md`
 
 ## Maintenance Rule
 

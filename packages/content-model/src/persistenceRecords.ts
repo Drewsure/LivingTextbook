@@ -16,6 +16,7 @@ export type PersistenceRecordCategory =
   | "ai-prototype-audio-coverage-report"
   | "ai-prototype-mobile-accessibility-report"
   | "ai-prototype-scoring-replay-report"
+  | "ai-prototype-integration-readiness-gate"
   | "ai-generated-package-manifest"
   | "ai-generated-package-promotion-checklist"
   | "ai-generated-package-release-candidate"
@@ -124,6 +125,10 @@ export interface DurableRecordContract {
   preservesAiPrototypeAudioCoverageReport?: boolean;
   preservesAiPrototypeMobileAccessibilityReport?: boolean;
   preservesAiPrototypeScoringReplayReport?: boolean;
+  preservesAiPrototypeIntegrationReadinessGate?: boolean;
+  requiresAllPrototypeEvidenceReviewed?: boolean;
+  requiresCodexIntegrationReviewDecision?: boolean;
+  blocksStudentFacingRoute?: boolean;
   requiresReviewedUnitJsonFixture?: boolean;
   requiresFixtureCoverage?: boolean;
   requiresFixtureReplayEvidence?: boolean;
@@ -604,6 +609,81 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "ai-prototype-integration-plan" && !record.blocksDirectStudentAssignment) {
       errors.push(`AI prototype integration plan record ${record.recordId} must block student assignments.`);
+    }
+
+    if (
+      record.category === "ai-prototype-integration-readiness-gate" &&
+      !record.preservesAiPrototypeIntegrationReadinessGate
+    ) {
+      errors.push(`AI prototype integration readiness gate record ${record.recordId} must preserve readiness gate sections.`);
+    }
+
+    if (record.category === "ai-prototype-integration-readiness-gate" && !record.requiresWrapperAdapterReview) {
+      errors.push(`AI prototype integration readiness gate record ${record.recordId} must require wrapper adapter review.`);
+    }
+
+    if (record.category === "ai-prototype-integration-readiness-gate" && !record.requiresFixtureReplayReport) {
+      errors.push(`AI prototype integration readiness gate record ${record.recordId} must require fixture replay reports.`);
+    }
+
+    if (record.category === "ai-prototype-integration-readiness-gate" && !record.requiresEventReplayReport) {
+      errors.push(`AI prototype integration readiness gate record ${record.recordId} must require event replay reports.`);
+    }
+
+    if (record.category === "ai-prototype-integration-readiness-gate" && !record.requiresAudioCoverageReport) {
+      errors.push(`AI prototype integration readiness gate record ${record.recordId} must require audio coverage reports.`);
+    }
+
+    if (record.category === "ai-prototype-integration-readiness-gate" && !record.requiresMobileAccessibilityReview) {
+      errors.push(`AI prototype integration readiness gate record ${record.recordId} must require mobile accessibility review.`);
+    }
+
+    if (record.category === "ai-prototype-integration-readiness-gate" && !record.requiresScoringReplayReport) {
+      errors.push(`AI prototype integration readiness gate record ${record.recordId} must require scoring replay reports.`);
+    }
+
+    if (record.category === "ai-prototype-integration-readiness-gate" && !record.requiresAllPrototypeEvidenceReviewed) {
+      errors.push(`AI prototype integration readiness gate record ${record.recordId} must require all prototype evidence reviewed.`);
+    }
+
+    if (record.category === "ai-prototype-integration-readiness-gate" && !record.requiresCodexIntegrationReviewDecision) {
+      errors.push(`AI prototype integration readiness gate record ${record.recordId} must require Codex integration review decisions.`);
+    }
+
+    if (record.category === "ai-prototype-integration-readiness-gate" && !record.blocksDirectAppImport) {
+      errors.push(`AI prototype integration readiness gate record ${record.recordId} must block direct app imports.`);
+    }
+
+    if (record.category === "ai-prototype-integration-readiness-gate" && !record.blocksGeneratedGameRouteWrite) {
+      errors.push(`AI prototype integration readiness gate record ${record.recordId} must block route writes.`);
+    }
+
+    if (record.category === "ai-prototype-integration-readiness-gate" && !record.blocksStudentFacingRoute) {
+      errors.push(`AI prototype integration readiness gate record ${record.recordId} must block student-facing routes.`);
+    }
+
+    if (record.category === "ai-prototype-integration-readiness-gate" && !record.blocksScoringProfileOverride) {
+      errors.push(`AI prototype integration readiness gate record ${record.recordId} must block scoring mutations.`);
+    }
+
+    if (record.category === "ai-prototype-integration-readiness-gate" && !record.blocksStarDustWrite) {
+      errors.push(`AI prototype integration readiness gate record ${record.recordId} must block Star Dust writes.`);
+    }
+
+    if (record.category === "ai-prototype-integration-readiness-gate" && !record.blocksRewardInventoryWrite) {
+      errors.push(`AI prototype integration readiness gate record ${record.recordId} must block reward inventory writes.`);
+    }
+
+    if (record.category === "ai-prototype-integration-readiness-gate" && !record.blocksAudioManifestMutation) {
+      errors.push(`AI prototype integration readiness gate record ${record.recordId} must block audio manifest mutations.`);
+    }
+
+    if (record.category === "ai-prototype-integration-readiness-gate" && !record.blocksPackagePromotion) {
+      errors.push(`AI prototype integration readiness gate record ${record.recordId} must block package promotion.`);
+    }
+
+    if (record.category === "ai-prototype-integration-readiness-gate" && !record.blocksDirectStudentAssignment) {
+      errors.push(`AI prototype integration readiness gate record ${record.recordId} must block student assignments.`);
     }
 
     if (
