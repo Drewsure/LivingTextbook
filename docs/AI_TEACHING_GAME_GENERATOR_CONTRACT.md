@@ -143,6 +143,8 @@ The task packet must name source records, permitted handoff contents, required-b
 
 The external task packet cannot start a live handoff, write app files, create routes, grant scoring authority, write rewards, create playlists, assemble packages, assign students, or create student-facing previews. It must scope outside prototype output to `Drewsure/ministar-lab only` until Codex integration review accepts a wrapper-first plan. MiniStar task packets must block Japanese support-language progress while English remains the target-language trigger.
 
+The backend-neutral storage contract is `ai_external_prototype_task_packet` / `ai-external-prototype-task-packet`. Hosted and local adapters must preserve repository scope, permitted handoff contents, required-before-handoff checks, mode tasks, standard event contract, audio cue manifest, deterministic scoring snapshot, return evidence requirements, and blocked handoff actions while blocking live handoff, app file writes, external-builder scoring authority, route creation, reward inventory writes, playlist creation, package assembly, student assignment, student-facing preview, student-ready markers, and support-language progress.
+
 ## Prototype Return Review Rule
 
 Returned prototype work from Z.ai or any outside builder must enter an `ai_prototype_return_review` preview before integration. The review must name the source build brief, returned artifacts, required evidence, parent-engine wrapper review, JSON fixture conformance, standard event replay, audio cue coverage, deterministic scoring, mobile accessibility, white-label fit, and blocked actions.

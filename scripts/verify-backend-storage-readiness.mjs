@@ -15,6 +15,7 @@ const requiredSchemaEntities = [
   "teacher_draft_review_handoff",
   "teacher_draft_verifier_submission",
   "ai_generated_game_build_brief",
+  "ai_external_prototype_task_packet",
   "ai_prototype_return_review",
   "ai_prototype_integration_plan",
   "ai_prototype_wrapper_adapter_review",
@@ -93,6 +94,7 @@ const requiredMigrationCandidates = [
   "m016-teacher-draft-review-handoff-records",
   "m020-teacher-draft-verifier-submission-records",
   "m060-ai-generated-game-build-brief-records",
+  "m074-ai-external-prototype-task-packet-records",
   "m061-ai-prototype-return-review-records",
   "m062-ai-prototype-integration-plan-records",
   "m063-ai-prototype-wrapper-adapter-review-records",
@@ -174,6 +176,7 @@ const requiredMigrationSpecs = [
   "spec-teacher-draft-review-handoff",
   "spec-teacher-draft-verifier-submission",
   "spec-ai-generated-game-build-brief",
+  "spec-ai-external-prototype-task-packet",
   "spec-ai-prototype-return-review",
   "spec-ai-prototype-integration-plan",
   "spec-ai-prototype-wrapper-adapter-review",
@@ -273,6 +276,24 @@ requireText(schemaDraft, "standalone_game_promotion_allowed", "Backend schema mu
 requireText(schemaDraft, "phaser_bypass_allowed", "Backend schema must block Phaser bypass.");
 requireText(schemaDraft, "generated_game_route_write_allowed", "Backend schema must block generated game route writes.");
 requireText(schemaDraft, "scoring_profile_override_allowed", "Backend schema must block scoring profile overrides.");
+requireText(schemaDraft, "ai_external_prototype_task_packet", "Backend schema must include AI external prototype task packets.");
+requireText(schemaDraft, "ai_external_prototype_task_packet_id", "Backend schema must preserve AI external prototype task packet ids.");
+requireText(schemaDraft, "handoff_state", "Backend schema must preserve external prototype handoff state.");
+requireText(schemaDraft, "repository_scope", "Backend schema must preserve external prototype repository scope.");
+requireText(schemaDraft, "permitted_handoff_contents", "Backend schema must preserve permitted external handoff contents.");
+requireText(schemaDraft, "required_before_handoff", "Backend schema must preserve required-before-handoff checks.");
+requireText(schemaDraft, "mode_tasks", "Backend schema must preserve external prototype mode tasks.");
+requireText(schemaDraft, "return_evidence_requirements", "Backend schema must preserve external prototype return evidence requirements.");
+requireText(schemaDraft, "blocked_handoff_actions", "Backend schema must preserve blocked external handoff actions.");
+requireText(schemaDraft, "live_handoff_allowed", "Backend schema must block live external handoff.");
+requireText(schemaDraft, "app_file_write_allowed", "Backend schema must block external app file writes.");
+requireText(schemaDraft, "external_builder_scoring_authority_allowed", "Backend schema must block external scoring authority.");
+requireText(schemaDraft, "route_creation_allowed", "Backend schema must block external route creation.");
+requireText(schemaDraft, "reward_inventory_write_allowed", "Backend schema must block external reward writes.");
+requireText(schemaDraft, "playlist_creation_allowed", "Backend schema must block external playlist creation.");
+requireText(schemaDraft, "package_assembly_allowed", "Backend schema must block external package assembly.");
+requireText(schemaDraft, "student_assignment_allowed", "Backend schema must block external student assignment.");
+requireText(schemaDraft, "support_language_progress_allowed", "Backend schema must block support-language progress from external tasks.");
 requireText(schemaDraft, "ai_prototype_return_review", "Backend schema must include AI prototype return reviews.");
 requireText(schemaDraft, "ai_prototype_return_review_id", "Backend schema must preserve AI prototype return review ids.");
 requireText(schemaDraft, "ai_generated_game_build_brief_id", "Backend schema must link return reviews to generated game build briefs.");
@@ -801,6 +822,23 @@ requireText(migrationSpecs, "phaser_bypass_allowed", "Migration specs must block
 requireText(migrationSpecs, "generated_game_route_write_allowed", "Migration specs must block generated game route writes.");
 requireText(migrationSpecs, "scoring_profile_override_allowed", "Migration specs must block scoring profile overrides.");
 requireText(migrationSpecs, "student_assignment_allowed", "Migration specs must block generated game student assignment.");
+requireText(migrationSpecs, "spec-ai-external-prototype-task-packet", "Migration specs must include AI external prototype task packets.");
+requireText(migrationSpecs, "ai_external_prototype_task_packet_id", "Migration specs must preserve AI external prototype task packet ids.");
+requireText(migrationSpecs, "handoff_state", "Migration specs must preserve external prototype handoff state.");
+requireText(migrationSpecs, "repository_scope", "Migration specs must preserve external prototype repository scope.");
+requireText(migrationSpecs, "permitted_handoff_contents", "Migration specs must preserve permitted external handoff contents.");
+requireText(migrationSpecs, "required_before_handoff", "Migration specs must preserve required-before-handoff checks.");
+requireText(migrationSpecs, "mode_tasks", "Migration specs must preserve external prototype mode tasks.");
+requireText(migrationSpecs, "return_evidence_requirements", "Migration specs must preserve external prototype return evidence requirements.");
+requireText(migrationSpecs, "blocked_handoff_actions", "Migration specs must preserve blocked external handoff actions.");
+requireText(migrationSpecs, "live_handoff_allowed", "Migration specs must block live external handoff.");
+requireText(migrationSpecs, "app_file_write_allowed", "Migration specs must block external app file writes.");
+requireText(migrationSpecs, "external_builder_scoring_authority_allowed", "Migration specs must block external scoring authority.");
+requireText(migrationSpecs, "route_creation_allowed", "Migration specs must block external route creation.");
+requireText(migrationSpecs, "reward_inventory_write_allowed", "Migration specs must block external reward writes.");
+requireText(migrationSpecs, "playlist_creation_allowed", "Migration specs must block external playlist creation.");
+requireText(migrationSpecs, "package_assembly_allowed", "Migration specs must block external package assembly.");
+requireText(migrationSpecs, "support_language_progress_allowed", "Migration specs must block support-language progress from external tasks.");
 requireText(migrationSpecs, "spec-ai-prototype-return-review", "Migration specs must include AI prototype return reviews.");
 requireText(migrationSpecs, "ai_prototype_return_review_id", "Migration specs must preserve AI prototype return review ids.");
 requireText(migrationSpecs, "ai_generated_game_build_brief_id", "Migration specs must link return reviews to generated game build briefs.");
@@ -1592,6 +1630,51 @@ requireText(
   persistenceAdapter,
   "blocksScoringProfileOverride: true",
   "Persistence adapter must block generated game scoring profile overrides.",
+);
+requireText(
+  persistenceAdapter,
+  "hosted-ai-external-prototype-task-packet-write",
+  "Persistence adapter must include hosted AI external prototype task packet writes.",
+);
+requireText(
+  persistenceAdapter,
+  "local-ai-external-prototype-task-packet-write",
+  "Persistence adapter must include local AI external prototype task packet writes.",
+);
+requireText(
+  persistenceAdapter,
+  "preservesAiExternalPrototypeTaskPacket: true",
+  "Persistence adapter must preserve AI external prototype task packets.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresExternalPrototypeTaskScope: true",
+  "Persistence adapter must require external prototype task scope.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresExternalPrototypeHandoffContents: true",
+  "Persistence adapter must require external prototype handoff contents.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresExternalPrototypeReturnEvidence: true",
+  "Persistence adapter must require external prototype return evidence.",
+);
+requireText(
+  persistenceAdapter,
+  "blocksExternalPrototypeLiveHandoff: true",
+  "Persistence adapter must block live external prototype handoff.",
+);
+requireText(
+  persistenceAdapter,
+  "blocksExternalBuilderAuthority: true",
+  "Persistence adapter must block external builder authority.",
+);
+requireText(
+  persistenceAdapter,
+  "blocksExternalPrototypeTaskShortcuts: true",
+  "Persistence adapter must block external prototype task shortcuts.",
 );
 requireText(
   persistenceAdapter,
@@ -2412,6 +2495,43 @@ requireText(
 requireText(durableRecords, "blocksPhaserBypass: true", "Durable record plan must block Phaser bypass.");
 requireText(durableRecords, "blocksGeneratedGameRouteWrite: true", "Durable record plan must block generated game route writes.");
 requireText(durableRecords, "blocksScoringProfileOverride: true", "Durable record plan must block generated game scoring profile overrides.");
+requireText(durableRecords, "ai-external-prototype-task-packet-record", "Durable record plan must include AI external prototype task packet records.");
+requireText(durableRecords, "AI external prototype task packet record", "Durable record plan must expose AI external prototype task packet labels.");
+requireText(
+  durableRecords,
+  "preservesAiExternalPrototypeTaskPacket: true",
+  "Durable record plan must preserve AI external prototype task packets.",
+);
+requireText(
+  durableRecords,
+  "requiresExternalPrototypeTaskScope: true",
+  "Durable record plan must require external prototype task scope.",
+);
+requireText(
+  durableRecords,
+  "requiresExternalPrototypeHandoffContents: true",
+  "Durable record plan must require external prototype handoff contents.",
+);
+requireText(
+  durableRecords,
+  "requiresExternalPrototypeReturnEvidence: true",
+  "Durable record plan must require external prototype return evidence.",
+);
+requireText(
+  durableRecords,
+  "blocksExternalPrototypeLiveHandoff: true",
+  "Durable record plan must block live external prototype handoff.",
+);
+requireText(
+  durableRecords,
+  "blocksExternalBuilderAuthority: true",
+  "Durable record plan must block external builder authority.",
+);
+requireText(
+  durableRecords,
+  "blocksExternalPrototypeTaskShortcuts: true",
+  "Durable record plan must block external prototype task shortcuts.",
+);
 requireText(durableRecords, "ai-prototype-return-review-record", "Durable record plan must include AI prototype return review records.");
 requireText(durableRecords, "AI prototype return review record", "Durable record plan must expose AI prototype return review labels.");
 requireText(

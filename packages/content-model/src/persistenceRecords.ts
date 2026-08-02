@@ -8,6 +8,7 @@ export type PersistenceRecordCategory =
   | "teacher-draft-review-audit"
   | "teacher-draft-verifier-submission"
   | "ai-generated-game-build-brief"
+  | "ai-external-prototype-task-packet"
   | "ai-prototype-return-review"
   | "ai-prototype-integration-plan"
   | "ai-prototype-wrapper-adapter-review"
@@ -121,6 +122,12 @@ export interface DurableRecordContract {
   preservesVerifierPreflightChecks?: boolean;
   blocksAutomaticVerifierSubmit?: boolean;
   preservesAiGeneratedGameBuildBrief?: boolean;
+  preservesAiExternalPrototypeTaskPacket?: boolean;
+  requiresExternalPrototypeTaskScope?: boolean;
+  requiresExternalPrototypeHandoffContents?: boolean;
+  requiresExternalPrototypeReturnEvidence?: boolean;
+  blocksExternalPrototypeLiveHandoff?: boolean;
+  blocksExternalPrototypeTaskShortcuts?: boolean;
   preservesAiPrototypeReturnReview?: boolean;
   preservesAiPrototypeIntegrationPlan?: boolean;
   preservesAiPrototypeWrapperAdapterReview?: boolean;
@@ -518,6 +525,98 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "ai-generated-game-build-brief" && !record.blocksDirectStudentAssignment) {
       errors.push(`AI generated game build brief record ${record.recordId} must block student assignment.`);
+    }
+
+    if (record.category === "ai-external-prototype-task-packet" && !record.preservesAiExternalPrototypeTaskPacket) {
+      errors.push(`AI external prototype task packet record ${record.recordId} must preserve task packet sections.`);
+    }
+
+    if (record.category === "ai-external-prototype-task-packet" && !record.requiresExternalPrototypeTaskScope) {
+      errors.push(`AI external prototype task packet record ${record.recordId} must require repository and output scope.`);
+    }
+
+    if (record.category === "ai-external-prototype-task-packet" && !record.requiresExternalPrototypeHandoffContents) {
+      errors.push(`AI external prototype task packet record ${record.recordId} must require handoff contents.`);
+    }
+
+    if (record.category === "ai-external-prototype-task-packet" && !record.requiresParentEngineBinding) {
+      errors.push(`AI external prototype task packet record ${record.recordId} must require parent-engine binding.`);
+    }
+
+    if (record.category === "ai-external-prototype-task-packet" && !record.requiresStandardEventContract) {
+      errors.push(`AI external prototype task packet record ${record.recordId} must require the standard event contract.`);
+    }
+
+    if (record.category === "ai-external-prototype-task-packet" && !record.requiresAudioCueManifest) {
+      errors.push(`AI external prototype task packet record ${record.recordId} must require an audio cue manifest.`);
+    }
+
+    if (record.category === "ai-external-prototype-task-packet" && !record.preservesDeterministicScoringContract) {
+      errors.push(`AI external prototype task packet record ${record.recordId} must preserve deterministic scoring rules.`);
+    }
+
+    if (record.category === "ai-external-prototype-task-packet" && !record.requiresExternalPrototypeReturnEvidence) {
+      errors.push(`AI external prototype task packet record ${record.recordId} must require return evidence.`);
+    }
+
+    if (record.category === "ai-external-prototype-task-packet" && !record.blocksExternalPrototypeLiveHandoff) {
+      errors.push(`AI external prototype task packet record ${record.recordId} must block live handoff.`);
+    }
+
+    if (record.category === "ai-external-prototype-task-packet" && !record.blocksExternalBuilderAuthority) {
+      errors.push(`AI external prototype task packet record ${record.recordId} must block external builder authority.`);
+    }
+
+    if (record.category === "ai-external-prototype-task-packet" && !record.blocksAppPatchGeneration) {
+      errors.push(`AI external prototype task packet record ${record.recordId} must block app patch generation.`);
+    }
+
+    if (record.category === "ai-external-prototype-task-packet" && !record.blocksStandaloneGamePromotion) {
+      errors.push(`AI external prototype task packet record ${record.recordId} must block standalone game promotion.`);
+    }
+
+    if (record.category === "ai-external-prototype-task-packet" && !record.blocksPhaserBypass) {
+      errors.push(`AI external prototype task packet record ${record.recordId} must block Phaser bypass.`);
+    }
+
+    if (record.category === "ai-external-prototype-task-packet" && !record.blocksGeneratedGameRouteWrite) {
+      errors.push(`AI external prototype task packet record ${record.recordId} must block route writes.`);
+    }
+
+    if (record.category === "ai-external-prototype-task-packet" && !record.blocksScoringProfileOverride) {
+      errors.push(`AI external prototype task packet record ${record.recordId} must block scoring profile overrides.`);
+    }
+
+    if (record.category === "ai-external-prototype-task-packet" && !record.blocksRewardInventoryWrite) {
+      errors.push(`AI external prototype task packet record ${record.recordId} must block reward inventory writes.`);
+    }
+
+    if (record.category === "ai-external-prototype-task-packet" && !record.blocksGeneratedPackagePlaylistWrite) {
+      errors.push(`AI external prototype task packet record ${record.recordId} must block playlist writes.`);
+    }
+
+    if (record.category === "ai-external-prototype-task-packet" && !record.blocksGeneratedPackageAssembly) {
+      errors.push(`AI external prototype task packet record ${record.recordId} must block package assembly.`);
+    }
+
+    if (record.category === "ai-external-prototype-task-packet" && !record.blocksGeneratedPackageAssignment) {
+      errors.push(`AI external prototype task packet record ${record.recordId} must block assignment writes.`);
+    }
+
+    if (record.category === "ai-external-prototype-task-packet" && !record.blocksStudentFacingPrototypePreview) {
+      errors.push(`AI external prototype task packet record ${record.recordId} must block student-facing previews.`);
+    }
+
+    if (record.category === "ai-external-prototype-task-packet" && !record.blocksSupportLanguageProgressTrigger) {
+      errors.push(`AI external prototype task packet record ${record.recordId} must block support-language progress triggers.`);
+    }
+
+    if (record.category === "ai-external-prototype-task-packet" && !record.blocksStudentReadyMarker) {
+      errors.push(`AI external prototype task packet record ${record.recordId} must block student-ready markers.`);
+    }
+
+    if (record.category === "ai-external-prototype-task-packet" && !record.blocksExternalPrototypeTaskShortcuts) {
+      errors.push(`AI external prototype task packet record ${record.recordId} must block task shortcut actions.`);
     }
 
     if (record.category === "ai-prototype-return-review" && !record.preservesAiPrototypeReturnReview) {

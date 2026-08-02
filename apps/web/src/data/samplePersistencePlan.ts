@@ -20,6 +20,7 @@ export type PersistenceBoundaryCategory =
   | "teacher-draft-review-audit"
   | "teacher-draft-verifier-submission"
   | "ai-generated-game-build-brief"
+  | "ai-external-prototype-task-packet"
   | "ai-prototype-return-review"
   | "ai-prototype-integration-plan"
   | "ai-prototype-wrapper-adapter-review"
@@ -243,6 +244,47 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
     note:
       "AI generated game build briefs need durable instructions before Z.ai or outside prototypes can be reviewed for integration with parent engines, audio, scoring, events, and deliverables.",
+  },
+  {
+    recordId: "ai-external-prototype-task-packet-record",
+    category: "ai-external-prototype-task-packet",
+    label: "AI external prototype task packet record",
+    readiness: "durable-required",
+    sourceOfTruth:
+      "AiExternalPrototypeTaskPacket, AI generated game build brief, AI generator responsibility matrix, reviewer runbook, engine binding plan, standard event contract, audio cue manifest, and reward readiness gate",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: false,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesAiExternalPrototypeTaskPacket: true,
+    requiresExternalPrototypeTaskScope: true,
+    requiresExternalPrototypeHandoffContents: true,
+    requiresParentEngineBinding: true,
+    requiresStandardEventContract: true,
+    requiresAudioCueManifest: true,
+    preservesDeterministicScoringContract: true,
+    requiresExternalPrototypeReturnEvidence: true,
+    blocksExternalPrototypeLiveHandoff: true,
+    blocksExternalBuilderAuthority: true,
+    blocksAppPatchGeneration: true,
+    blocksStandaloneGamePromotion: true,
+    blocksPhaserBypass: true,
+    blocksGeneratedGameRouteWrite: true,
+    blocksScoringProfileOverride: true,
+    blocksRewardInventoryWrite: true,
+    blocksGeneratedPackagePlaylistWrite: true,
+    blocksGeneratedPackageAssembly: true,
+    blocksGeneratedPackageAssignment: true,
+    blocksStudentFacingPrototypePreview: true,
+    blocksSupportLanguageProgressTrigger: true,
+    blocksStudentReadyMarker: true,
+    blocksExternalPrototypeTaskShortcuts: true,
+    blocksDirectStudentAssignment: true,
+    recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
+    note:
+      "AI external prototype task packets need durable handoff boundaries before outside builder task instructions, exports, or return reviews can be treated as official workflow evidence.",
   },
   {
     recordId: "ai-prototype-return-review-record",
@@ -1927,6 +1969,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision:
       "Persist AI generated game build briefs before enabling external prototype handoff, Phaser wrapper review, route integration, scoring profile changes, or student assignments.",
+  },
+  {
+    boundaryId: "ai-external-prototype-task-packet-boundary",
+    category: "ai-external-prototype-task-packet",
+    label: "AI external prototype task packet records",
+    status: "needs-backend",
+    recordShape:
+      "Task packet id, tenant id, request id, build brief id, target builder, handoff state, repository scope, permitted handoff contents, required-before-handoff checks, mode tasks, standard event contract, audio cue manifest, deterministic scoring snapshot, return evidence requirements, and blocked handoff actions",
+    whyItMatters:
+      "Outside prototype task packets need durable boundaries so copy-ready Z.ai or builder instructions cannot become live handoffs, app writes, scoring authority, route writes, playlist writes, package assembly, reward writes, or assignments.",
+    visibleTo: ["Tenant admin", "Content reviewer", "Platform admin", "External prototype builder"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Persist AI external prototype task packets before enabling outside-builder task export, return review intake, app patch planning, route integration, scoring profile changes, playlists, rewards, package assembly, or assignments.",
   },
   {
     boundaryId: "ai-prototype-return-review-boundary",

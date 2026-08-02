@@ -39,6 +39,12 @@ export interface PersistenceWriteIntent {
   preservesVerifierPreflightChecks?: boolean;
   blocksAutomaticVerifierSubmit?: boolean;
   preservesAiGeneratedGameBuildBrief?: boolean;
+  preservesAiExternalPrototypeTaskPacket?: boolean;
+  requiresExternalPrototypeTaskScope?: boolean;
+  requiresExternalPrototypeHandoffContents?: boolean;
+  requiresExternalPrototypeReturnEvidence?: boolean;
+  blocksExternalPrototypeLiveHandoff?: boolean;
+  blocksExternalPrototypeTaskShortcuts?: boolean;
   preservesAiPrototypeReturnReview?: boolean;
   preservesAiPrototypeIntegrationPlan?: boolean;
   preservesAiPrototypeWrapperAdapterReview?: boolean;
@@ -471,6 +477,98 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "ai-generated-game-build-brief" && !intent.blocksDirectStudentAssignment) {
       errors.push(`AI generated game build brief write intent ${intent.intentId} must block student assignment.`);
+    }
+
+    if (intent.category === "ai-external-prototype-task-packet" && !intent.preservesAiExternalPrototypeTaskPacket) {
+      errors.push(`AI external prototype task packet write intent ${intent.intentId} must preserve task packet sections.`);
+    }
+
+    if (intent.category === "ai-external-prototype-task-packet" && !intent.requiresExternalPrototypeTaskScope) {
+      errors.push(`AI external prototype task packet write intent ${intent.intentId} must require repository and output scope.`);
+    }
+
+    if (intent.category === "ai-external-prototype-task-packet" && !intent.requiresExternalPrototypeHandoffContents) {
+      errors.push(`AI external prototype task packet write intent ${intent.intentId} must require handoff contents.`);
+    }
+
+    if (intent.category === "ai-external-prototype-task-packet" && !intent.requiresParentEngineBinding) {
+      errors.push(`AI external prototype task packet write intent ${intent.intentId} must require parent-engine binding.`);
+    }
+
+    if (intent.category === "ai-external-prototype-task-packet" && !intent.requiresStandardEventContract) {
+      errors.push(`AI external prototype task packet write intent ${intent.intentId} must require the standard event contract.`);
+    }
+
+    if (intent.category === "ai-external-prototype-task-packet" && !intent.requiresAudioCueManifest) {
+      errors.push(`AI external prototype task packet write intent ${intent.intentId} must require an audio cue manifest.`);
+    }
+
+    if (intent.category === "ai-external-prototype-task-packet" && !intent.preservesDeterministicScoringContract) {
+      errors.push(`AI external prototype task packet write intent ${intent.intentId} must preserve deterministic scoring rules.`);
+    }
+
+    if (intent.category === "ai-external-prototype-task-packet" && !intent.requiresExternalPrototypeReturnEvidence) {
+      errors.push(`AI external prototype task packet write intent ${intent.intentId} must require return evidence.`);
+    }
+
+    if (intent.category === "ai-external-prototype-task-packet" && !intent.blocksExternalPrototypeLiveHandoff) {
+      errors.push(`AI external prototype task packet write intent ${intent.intentId} must block live handoff.`);
+    }
+
+    if (intent.category === "ai-external-prototype-task-packet" && !intent.blocksExternalBuilderAuthority) {
+      errors.push(`AI external prototype task packet write intent ${intent.intentId} must block external builder authority.`);
+    }
+
+    if (intent.category === "ai-external-prototype-task-packet" && !intent.blocksAppPatchGeneration) {
+      errors.push(`AI external prototype task packet write intent ${intent.intentId} must block app patch generation.`);
+    }
+
+    if (intent.category === "ai-external-prototype-task-packet" && !intent.blocksStandaloneGamePromotion) {
+      errors.push(`AI external prototype task packet write intent ${intent.intentId} must block standalone game promotion.`);
+    }
+
+    if (intent.category === "ai-external-prototype-task-packet" && !intent.blocksPhaserBypass) {
+      errors.push(`AI external prototype task packet write intent ${intent.intentId} must block Phaser bypass.`);
+    }
+
+    if (intent.category === "ai-external-prototype-task-packet" && !intent.blocksGeneratedGameRouteWrite) {
+      errors.push(`AI external prototype task packet write intent ${intent.intentId} must block route writes.`);
+    }
+
+    if (intent.category === "ai-external-prototype-task-packet" && !intent.blocksScoringProfileOverride) {
+      errors.push(`AI external prototype task packet write intent ${intent.intentId} must block scoring profile overrides.`);
+    }
+
+    if (intent.category === "ai-external-prototype-task-packet" && !intent.blocksRewardInventoryWrite) {
+      errors.push(`AI external prototype task packet write intent ${intent.intentId} must block reward inventory writes.`);
+    }
+
+    if (intent.category === "ai-external-prototype-task-packet" && !intent.blocksGeneratedPackagePlaylistWrite) {
+      errors.push(`AI external prototype task packet write intent ${intent.intentId} must block playlist writes.`);
+    }
+
+    if (intent.category === "ai-external-prototype-task-packet" && !intent.blocksGeneratedPackageAssembly) {
+      errors.push(`AI external prototype task packet write intent ${intent.intentId} must block package assembly.`);
+    }
+
+    if (intent.category === "ai-external-prototype-task-packet" && !intent.blocksGeneratedPackageAssignment) {
+      errors.push(`AI external prototype task packet write intent ${intent.intentId} must block assignment writes.`);
+    }
+
+    if (intent.category === "ai-external-prototype-task-packet" && !intent.blocksStudentFacingPrototypePreview) {
+      errors.push(`AI external prototype task packet write intent ${intent.intentId} must block student-facing previews.`);
+    }
+
+    if (intent.category === "ai-external-prototype-task-packet" && !intent.blocksSupportLanguageProgressTrigger) {
+      errors.push(`AI external prototype task packet write intent ${intent.intentId} must block support-language progress triggers.`);
+    }
+
+    if (intent.category === "ai-external-prototype-task-packet" && !intent.blocksStudentReadyMarker) {
+      errors.push(`AI external prototype task packet write intent ${intent.intentId} must block student-ready markers.`);
+    }
+
+    if (intent.category === "ai-external-prototype-task-packet" && !intent.blocksExternalPrototypeTaskShortcuts) {
+      errors.push(`AI external prototype task packet write intent ${intent.intentId} must block task shortcut actions.`);
     }
 
     if (intent.category === "ai-prototype-return-review" && !intent.preservesAiPrototypeReturnReview) {
