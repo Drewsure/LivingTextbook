@@ -14,6 +14,7 @@ const audioCoveragePlan = readSource("../apps/web/src/data/sampleAiGeneratorAudi
 const gamificationMappingPlan = readSource("../apps/web/src/data/sampleAiGamificationMappingPlan.ts");
 const rewardReadinessGate = readSource("../apps/web/src/data/sampleAiRewardReadinessGate.ts");
 const generatedGameBuildBrief = readSource("../apps/web/src/data/sampleAiGeneratedGameBuildBrief.ts");
+const externalPrototypeTaskPacket = readSource("../apps/web/src/data/sampleAiExternalPrototypeTaskPacket.ts");
 const prototypeReturnReview = readSource("../apps/web/src/data/sampleAiPrototypeReturnReview.ts");
 const prototypeIntegrationPlan = readSource("../apps/web/src/data/sampleAiPrototypeIntegrationPlan.ts");
 const prototypeWrapperAdapterReview = readSource("../apps/web/src/data/sampleAiPrototypeWrapperAdapterReview.ts");
@@ -59,6 +60,9 @@ const gamificationMappingPanel = readSource("../apps/web/src/features/content-in
 const rewardReadinessGatePanel = readSource("../apps/web/src/features/content-intake/AiRewardReadinessGatePanel.tsx");
 const generatedGameBuildBriefPanel = readSource(
   "../apps/web/src/features/content-intake/AiGeneratedGameBuildBriefPanel.tsx",
+);
+const externalPrototypeTaskPacketPanel = readSource(
+  "../apps/web/src/features/content-intake/AiExternalPrototypeTaskPacketPanel.tsx",
 );
 const generatorSectionNav = readSource("../apps/web/src/features/content-intake/AiGeneratorSectionNav.tsx");
 const prototypeReturnReviewPanel = readSource(
@@ -252,6 +256,54 @@ requireText(generatedGameBuildBriefPanel, "Event contract", "AI generated game b
 requireText(generatedGameBuildBriefPanel, "Audio contract", "AI generated game build brief panel must expose audio contract.");
 requireText(generatedGameBuildBriefPanel, "Scoring contract", "AI generated game build brief panel must expose scoring contract.");
 requireText(generatedGameBuildBriefPanel, "No standalone promotion", "AI generated game build brief panel must block standalone promotion.");
+requireText(externalPrototypeTaskPacket, "sampleAiExternalPrototypeTaskPackets", "AI external prototype task packet data must exist.");
+requireText(externalPrototypeTaskPacket, "External builder task handoff / Z.ai", "AI external task packet must identify external builder handoff.");
+requireText(externalPrototypeTaskPacket, "Copy-ready task brief preview", "AI external task packet must remain copy-ready preview only.");
+requireText(externalPrototypeTaskPacket, "Drewsure/ministar-lab only", "AI external task packet must scope output to ministar-lab.");
+requireText(externalPrototypeTaskPacket, "Phaser wrapper candidate", "AI external task packet must preserve Phaser wrapper candidates.");
+requireText(externalPrototypeTaskPacket, "DOM reference required", "AI external task packet must preserve DOM reference tasks.");
+requireText(externalPrototypeTaskPacket, "Event log evidence required", "AI external task packet must require event evidence.");
+requireText(externalPrototypeTaskPacket, "Audio cue coverage required", "AI external task packet must require audio evidence.");
+requireText(externalPrototypeTaskPacket, "Codex integration review required", "AI external task packet must require Codex review.");
+requireText(externalPrototypeTaskPacket, "No live handoff", "AI external task packet must block live handoff.");
+requireText(externalPrototypeTaskPacket, "No app file writes", "AI external task packet must block app file writes.");
+requireText(externalPrototypeTaskPacket, "No scoring authority", "AI external task packet must block scoring authority.");
+requireText(externalPrototypeTaskPacket, "No student assignment", "AI external task packet must block student assignment.");
+requireText(
+  externalPrototypeTaskPacket,
+  "No Japanese support-language progress",
+  "MiniStar external task packet must block Japanese support-language progress.",
+);
+requireText(
+  externalPrototypeTaskPacketPanel,
+  "AI external prototype task packet",
+  "AI external prototype task packet panel must expose heading.",
+);
+requireText(
+  externalPrototypeTaskPacketPanel,
+  "Copy-ready task brief preview",
+  "AI external prototype task packet panel must expose copy-ready preview title.",
+);
+requireText(
+  externalPrototypeTaskPacketPanel,
+  "External builder task handoff",
+  "AI external prototype task packet panel must expose external task handoff.",
+);
+requireText(
+  externalPrototypeTaskPacketPanel,
+  "Drewsure/ministar-lab only",
+  "AI external prototype task packet panel must expose repository scope.",
+);
+requireText(
+  externalPrototypeTaskPacketPanel,
+  "No live handoff",
+  "AI external prototype task packet panel must block live handoff.",
+);
+requireText(
+  externalPrototypeTaskPacketPanel,
+  "Blocked task actions",
+  "AI external prototype task packet panel must show blocked task actions.",
+);
 requireText(generatorSectionNav, "Generator route map", "AI generator route map component must expose heading.");
 requireText(generatorSectionNav, "Request setup", "AI generator route map must expose request setup section.");
 requireText(generatorSectionNav, "Prototype review", "AI generator route map must expose prototype review section.");
@@ -1474,6 +1526,7 @@ requireText(route, "AiGeneratorReviewerRunbookPanel", "Generator route must rend
 requireText(route, "AiGeneratorResponsibilityMatrixPanel", "Generator route must render the responsibility matrix panel.");
 requireText(route, "AiEngineBindingPlanPanel", "Generator route must render the engine binding panel.");
 requireText(route, "AiGeneratedGameBuildBriefPanel", "Generator route must render the generated game build brief panel.");
+requireText(route, "AiExternalPrototypeTaskPacketPanel", "Generator route must render the external prototype task packet panel.");
 requireText(route, "AiPrototypeReturnReviewPanel", "Generator route must render the prototype return review panel.");
 requireText(route, "AiPrototypeIntegrationPlanPanel", "Generator route must render the prototype integration plan panel.");
 requireText(route, "AiPrototypeWrapperAdapterReviewPanel", "Generator route must render the prototype wrapper adapter review panel.");
@@ -1515,6 +1568,7 @@ requireText(route, "sampleAiGeneratorReviewerRunbooks", "Generator route must us
 requireText(route, "sampleAiGeneratorResponsibilityMatrices", "Generator route must use responsibility matrix data.");
 requireText(route, "sampleAiEngineBindingPlans", "Generator route must use the sample engine binding plan data.");
 requireText(route, "sampleAiGeneratedGameBuildBriefPackets", "Generator route must use generated game build brief data.");
+requireText(route, "sampleAiExternalPrototypeTaskPackets", "Generator route must use external prototype task packet data.");
 requireText(route, "sampleAiPrototypeReturnReviewPackets", "Generator route must use prototype return review data.");
 requireText(route, "sampleAiPrototypeIntegrationPlans", "Generator route must use prototype integration plan data.");
 requireText(route, "sampleAiPrototypeWrapperAdapterReviews", "Generator route must use prototype wrapper adapter review data.");

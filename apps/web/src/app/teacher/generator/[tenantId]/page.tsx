@@ -57,6 +57,10 @@ import {
   sampleAiGeneratedGameBuildBriefPackets,
 } from "@/data/sampleAiGeneratedGameBuildBrief";
 import {
+  filterAiExternalPrototypeTaskPacketsByTenant,
+  sampleAiExternalPrototypeTaskPackets,
+} from "@/data/sampleAiExternalPrototypeTaskPacket";
+import {
   filterAiPrototypeReturnReviewPacketsByTenant,
   sampleAiPrototypeReturnReviewPackets,
 } from "@/data/sampleAiPrototypeReturnReview";
@@ -120,6 +124,7 @@ import { AiGeneratedPackagePromotionChecklistPanel } from "@/features/content-in
 import { AiGeneratedPackageReleaseCandidatePanel } from "@/features/content-intake/AiGeneratedPackageReleaseCandidatePanel";
 import { AiGeneratedPublishReadinessGatePanel } from "@/features/content-intake/AiGeneratedPublishReadinessGatePanel";
 import { AiEngineBindingPlanPanel } from "@/features/content-intake/AiEngineBindingPlanPanel";
+import { AiExternalPrototypeTaskPacketPanel } from "@/features/content-intake/AiExternalPrototypeTaskPacketPanel";
 import { AiGeneratedGameBuildBriefPanel } from "@/features/content-intake/AiGeneratedGameBuildBriefPanel";
 import { AiGeneratorSectionHeader, AiGeneratorSectionNav } from "@/features/content-intake/AiGeneratorSectionNav";
 import { AiPrototypeReturnReviewPanel } from "@/features/content-intake/AiPrototypeReturnReviewPanel";
@@ -213,6 +218,9 @@ export default async function TeacherAiGameGeneratorPage({
           />
         <AiGeneratedGameBuildBriefPanel
           packets={filterAiGeneratedGameBuildBriefPacketsByTenant(sampleAiGeneratedGameBuildBriefPackets, tenantId)}
+        />
+        <AiExternalPrototypeTaskPacketPanel
+          packets={filterAiExternalPrototypeTaskPacketsByTenant(sampleAiExternalPrototypeTaskPackets, tenantId)}
         />
         <AiPrototypeReturnReviewPanel
           packets={filterAiPrototypeReturnReviewPacketsByTenant(sampleAiPrototypeReturnReviewPackets, tenantId)}
