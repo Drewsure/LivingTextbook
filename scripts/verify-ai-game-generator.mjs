@@ -21,6 +21,9 @@ const prototypeMobileAccessibilityReport = readSource(
   "../apps/web/src/data/sampleAiPrototypeMobileAccessibilityReport.ts",
 );
 const prototypeScoringReplayReport = readSource("../apps/web/src/data/sampleAiPrototypeScoringReplayReport.ts");
+const prototypeCodexIntegrationDecision = readSource(
+  "../apps/web/src/data/sampleAiPrototypeCodexIntegrationDecision.ts",
+);
 const prototypeIntegrationReadinessGate = readSource(
   "../apps/web/src/data/sampleAiPrototypeIntegrationReadinessGate.ts",
 );
@@ -71,6 +74,9 @@ const prototypeMobileAccessibilityReportPanel = readSource(
 );
 const prototypeScoringReplayReportPanel = readSource(
   "../apps/web/src/features/content-intake/AiPrototypeScoringReplayReportPanel.tsx",
+);
+const prototypeCodexIntegrationDecisionPanel = readSource(
+  "../apps/web/src/features/content-intake/AiPrototypeCodexIntegrationDecisionPanel.tsx",
 );
 const prototypeIntegrationReadinessGatePanel = readSource(
   "../apps/web/src/features/content-intake/AiPrototypeIntegrationReadinessGatePanel.tsx",
@@ -639,6 +645,56 @@ requireText(
   prototypeScoringReplayReportPanel,
   "Reward boundary checks",
   "AI prototype scoring replay report panel must expose reward boundary checks.",
+);
+requireText(
+  prototypeCodexIntegrationDecision,
+  "sampleAiPrototypeCodexIntegrationDecisions",
+  "AI prototype Codex integration decision data must exist.",
+);
+requireText(
+  prototypeCodexIntegrationDecision,
+  "Codex integration review decision",
+  "AI prototype Codex integration decision must expose manual decision records.",
+);
+requireText(
+  prototypeCodexIntegrationDecision,
+  "No decision recorded",
+  "AI prototype Codex integration decision must keep decisions unrecorded until evidence passes.",
+);
+requireText(
+  prototypeCodexIntegrationDecision,
+  "No apps/web patch generation",
+  "AI prototype Codex integration decision must block app patch generation.",
+);
+requireText(
+  prototypeCodexIntegrationDecision,
+  "ai_prototype_integration_readiness_gate",
+  "AI prototype Codex integration decision must depend on readiness gates.",
+);
+requireText(
+  prototypeCodexIntegrationDecision,
+  "Japanese support remains support-only and hiragana-safe",
+  "MiniStar prototype Codex integration decision must preserve Japanese support boundary.",
+);
+requireText(
+  prototypeCodexIntegrationDecisionPanel,
+  "Codex integration review decision",
+  "AI prototype Codex integration decision panel must expose heading.",
+);
+requireText(
+  prototypeCodexIntegrationDecisionPanel,
+  "Manual decision before app patch",
+  "AI prototype Codex integration decision panel must expose manual decision policy.",
+);
+requireText(
+  prototypeCodexIntegrationDecisionPanel,
+  "Reviewer decision preview",
+  "AI prototype Codex integration decision panel must expose reviewer decision preview.",
+);
+requireText(
+  prototypeCodexIntegrationDecisionPanel,
+  "No decision recorded",
+  "AI prototype Codex integration decision panel must expose blocked decision state.",
 );
 requireText(
   prototypeIntegrationReadinessGate,
@@ -1303,6 +1359,11 @@ requireText(route, "AiPrototypeEventReplayReportPanel", "Generator route must re
 requireText(route, "AiPrototypeAudioCoverageReportPanel", "Generator route must render the prototype audio coverage report panel.");
 requireText(
   route,
+  "AiPrototypeCodexIntegrationDecisionPanel",
+  "Generator route must render the prototype Codex integration decision panel.",
+);
+requireText(
+  route,
   "AiPrototypeIntegrationReadinessGatePanel",
   "Generator route must render the prototype integration readiness gate panel.",
 );
@@ -1334,6 +1395,11 @@ requireText(route, "sampleAiPrototypeWrapperAdapterReviews", "Generator route mu
 requireText(route, "sampleAiPrototypeFixtureReplayReports", "Generator route must use prototype fixture replay report data.");
 requireText(route, "sampleAiPrototypeEventReplayReports", "Generator route must use prototype event replay report data.");
 requireText(route, "sampleAiPrototypeAudioCoverageReports", "Generator route must use prototype audio coverage report data.");
+requireText(
+  route,
+  "sampleAiPrototypeCodexIntegrationDecisions",
+  "Generator route must use prototype Codex integration decision data.",
+);
 requireText(
   route,
   "sampleAiPrototypeIntegrationReadinessGates",

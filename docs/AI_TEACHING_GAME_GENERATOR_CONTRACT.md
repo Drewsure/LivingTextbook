@@ -181,6 +181,14 @@ Prototype scoring reports cannot mutate scoring profiles, write Star Dust, own d
 
 The backend-neutral storage contract is `ai_prototype_scoring_replay_report` / `ai-prototype-scoring-replay-report`. Hosted and local adapters must preserve game scoring profile snapshot id, progress event acceptance map id, collection unlock binding id, standard event contract id, deterministic scoring replay, score replay checks, mastery replay checks, reward boundary checks, failure triggers, and blocked actions while blocking direct score authority, scoring profile overrides, Star Dust writes, reward inventory writes, random rewards, media-only mastery, support-language mastery, package promotion, and assignments.
 
+## Prototype Codex Integration Decision Rule
+
+Prototype Codex integration decisions must remain manual, review-only, and blocked until wrapper adapter review, fixture replay report, event replay report, audio coverage report, mobile accessibility report, scoring replay report, and integration readiness gate evidence are reviewed.
+
+The decision preview cannot generate `apps/web` patches, import returned code, write route registry entries, create student-facing routes, mutate scoring profiles, write Star Dust or rewards, mutate audio manifests, promote packages, or assign students. Decision options may be shown for review, but no decision is recorded until all evidence passes and Codex completes manual review.
+
+MiniStar Codex decisions must keep Japanese support language support-only and hiragana-safe for early levels while English remains the target-language trigger.
+
 ## Prototype Integration Readiness Gate Rule
 
 Prototype integration readiness gates must roll up all review evidence before any returned prototype can propose an `apps/web` integration patch. The gate must show wrapper adapter review, fixture replay report, event replay report, audio coverage report, mobile accessibility report, scoring replay report, and Codex integration review decision requirements in one teacher/admin-visible place.
