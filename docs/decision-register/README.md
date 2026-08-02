@@ -310,6 +310,7 @@
 - `DR-337-ai-generator-review-summary.md`
 - `DR-338-ai-generator-review-summary-storage-contract.md`
 - `DR-339-ai-generator-reviewer-runbook.md`
+- `DR-340-ai-generator-reviewer-runbook-storage-contract.md`
 - `DR-336-ai-generator-route-map.md`
 
 ## Maintenance Rule

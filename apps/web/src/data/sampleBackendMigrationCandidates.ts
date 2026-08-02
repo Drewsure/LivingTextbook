@@ -813,6 +813,42 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
       ],
     },
     {
+      migrationId: "m072-ai-generator-reviewer-runbook-records",
+      label: "AI generator reviewer runbook records",
+      track: "shared",
+      status: "ready-to-design",
+      risk: "medium",
+      targetEntities: ["ai_generator_reviewer_runbook"],
+      purpose:
+        "Persist tenant-specific AI generator reviewer runbooks before a visible human review order can be mistaken for live generation, app patch, package, route, playlist, local bundle, or assignment readiness.",
+      prerequisites: [
+        "AI generator reviewer runbook accepted",
+        "Review summary, tenant coverage, prototype evidence, integration gate, verifier, manifest, publish, and correction record policies accepted",
+        "Hosted/local persistence adapter selected",
+      ],
+      implementationNotes: [
+        "Keep reviewer runbooks tenant-scoped and generation-request-scoped.",
+        "Preserve human review order, standing rules, evidence lanes, required record ids, and blocked shortcuts.",
+        "Treat runbooks as guidance only; the detailed source records remain authoritative.",
+        "Block live generation, app patching, package assembly, route writes, playlist writes, local bundle writes, assignments, and student-ready markers.",
+      ],
+      rollbackOrExportNeeds: [
+        "Export generator reviewer runbook JSON with linked source records",
+        "Retain blocked, review-only, missing, superseded, and rejected runbook snapshots for audit",
+        "Support local reviewer runbook backup and restore without enabling offline generator or assignment actions",
+      ],
+      notAllowedYet: [
+        "Live generation",
+        "App patch write",
+        "Package assembly",
+        "Route registry write",
+        "Media playlist write",
+        "Student assignment",
+        "Local bundle write",
+        "Student-ready marker",
+      ],
+    },
+    {
       migrationId: "m049-teacher-assignment-rollout-gate-records",
       label: "Teacher assignment rollout gate records",
       track: "shared",

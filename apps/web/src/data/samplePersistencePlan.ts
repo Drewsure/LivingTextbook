@@ -37,6 +37,7 @@ export type PersistenceBoundaryCategory =
   | "ai-generated-publish-readiness-gate"
   | "ai-generator-tenant-coverage-gate"
   | "ai-generator-review-summary"
+  | "ai-generator-reviewer-runbook"
   | "teacher-assignment-rollout-gate"
   | "private-assignment-link"
   | "class-roster-plan"
@@ -749,6 +750,37 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
     note:
       "AI generator review summaries need durable section readiness, primary blockers, next required records, source records, and blocked actions so a readable admin rollup cannot be mistaken for permission to generate, patch app files, assemble packages, create routes or playlists, write local bundles, or assign students.",
+  },
+  {
+    recordId: "ai-generator-reviewer-runbook-record",
+    category: "ai-generator-reviewer-runbook",
+    label: "AI generator reviewer runbook record",
+    readiness: "durable-required",
+    sourceOfTruth:
+      "AiGeneratorReviewerRunbook, generator review summary, tenant coverage gate, prototype return review, integration readiness gate, publish readiness gate, and draft correction queue",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: false,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesAiGeneratorReviewerRunbook: true,
+    preservesGeneratorReviewOrder: true,
+    requiresGeneratorRunbookEvidence: true,
+    requiresGeneratorRunbookRequiredRecords: true,
+    blocksGeneratorRunbookShortcuts: true,
+    blocksLiveModelCall: true,
+    blocksAppPatchGeneration: true,
+    blocksGeneratedPackageAssembly: true,
+    blocksGeneratedPackageRouteWrite: true,
+    blocksGeneratedPackagePlaylistWrite: true,
+    blocksGeneratedPackageAssignment: true,
+    blocksGeneratedPackageLocalBundleWrite: true,
+    blocksStudentReadyMarker: true,
+    blocksDirectStudentAssignment: true,
+    recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
+    note:
+      "AI generator reviewer runbooks need durable human review order, evidence lanes, required records, and blocked shortcuts so teachers, Codex, and outside AI builders cannot skip review by following a visible checklist.",
   },
   {
     recordId: "teacher-assignment-rollout-gate-record",
@@ -2087,6 +2119,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision:
       "Persist AI generator review summaries before enabling live generator requests, app patch planning, package assembly, route creation, playlist creation, local bundle writes, or student assignment.",
+  },
+  {
+    boundaryId: "ai-generator-reviewer-runbook-boundary",
+    category: "ai-generator-reviewer-runbook",
+    label: "AI generator reviewer runbook records",
+    status: "needs-backend",
+    recordShape:
+      "Reviewer runbook id, tenant id, generation request id, runbook status, human review order, standing rules, evidence lanes, required record ids, blocked shortcuts, support-language trigger rules, and live generation/app patch/package/route/playlist/local bundle/assignment/student-ready blocks",
+    whyItMatters:
+      "The generator route needs durable reviewer order so review discipline survives hosted, local, and external-AI handoffs without turning a checklist into workflow permission.",
+    visibleTo: ["Teacher", "Tenant admin", "Content reviewer", "Platform admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Persist AI generator reviewer runbooks before enabling review task assignment, verifier handoff, app patch planning, package assembly, route creation, playlist creation, local bundle writes, or student assignment.",
   },
   {
     boundaryId: "teacher-assignment-rollout-gate-boundary",

@@ -25,6 +25,7 @@ export type PersistenceRecordCategory =
   | "ai-generated-publish-readiness-gate"
   | "ai-generator-tenant-coverage-gate"
   | "ai-generator-review-summary"
+  | "ai-generator-reviewer-runbook"
   | "teacher-assignment-rollout-gate"
   | "private-assignment-link"
   | "class-roster-plan"
@@ -238,6 +239,11 @@ export interface DurableRecordContract {
   preservesGeneratorSectionReadiness?: boolean;
   requiresGeneratorPrimaryBlockers?: boolean;
   requiresGeneratorNextRecords?: boolean;
+  preservesAiGeneratorReviewerRunbook?: boolean;
+  preservesGeneratorReviewOrder?: boolean;
+  requiresGeneratorRunbookEvidence?: boolean;
+  requiresGeneratorRunbookRequiredRecords?: boolean;
+  blocksGeneratorRunbookShortcuts?: boolean;
   blocksGeneratorRequestSubmission?: boolean;
   blocksLiveModelCall?: boolean;
   blocksVerifierSubmission?: boolean;
@@ -1422,6 +1428,58 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "ai-generator-review-summary" && !record.blocksStudentReadyMarker) {
       errors.push(`AI generator review summary record ${record.recordId} must block student-ready markers.`);
+    }
+
+    if (record.category === "ai-generator-reviewer-runbook" && !record.preservesAiGeneratorReviewerRunbook) {
+      errors.push(`AI generator reviewer runbook record ${record.recordId} must preserve reviewer runbook guidance.`);
+    }
+
+    if (record.category === "ai-generator-reviewer-runbook" && !record.preservesGeneratorReviewOrder) {
+      errors.push(`AI generator reviewer runbook record ${record.recordId} must preserve human review order.`);
+    }
+
+    if (record.category === "ai-generator-reviewer-runbook" && !record.requiresGeneratorRunbookEvidence) {
+      errors.push(`AI generator reviewer runbook record ${record.recordId} must require evidence review.`);
+    }
+
+    if (record.category === "ai-generator-reviewer-runbook" && !record.requiresGeneratorRunbookRequiredRecords) {
+      errors.push(`AI generator reviewer runbook record ${record.recordId} must require linked source records.`);
+    }
+
+    if (record.category === "ai-generator-reviewer-runbook" && !record.blocksGeneratorRunbookShortcuts) {
+      errors.push(`AI generator reviewer runbook record ${record.recordId} must block shortcut actions.`);
+    }
+
+    if (record.category === "ai-generator-reviewer-runbook" && !record.blocksLiveModelCall) {
+      errors.push(`AI generator reviewer runbook record ${record.recordId} must block live model calls.`);
+    }
+
+    if (record.category === "ai-generator-reviewer-runbook" && !record.blocksAppPatchGeneration) {
+      errors.push(`AI generator reviewer runbook record ${record.recordId} must block app patch generation.`);
+    }
+
+    if (record.category === "ai-generator-reviewer-runbook" && !record.blocksGeneratedPackageAssembly) {
+      errors.push(`AI generator reviewer runbook record ${record.recordId} must block generated package assembly.`);
+    }
+
+    if (record.category === "ai-generator-reviewer-runbook" && !record.blocksGeneratedPackageRouteWrite) {
+      errors.push(`AI generator reviewer runbook record ${record.recordId} must block route registry writes.`);
+    }
+
+    if (record.category === "ai-generator-reviewer-runbook" && !record.blocksGeneratedPackagePlaylistWrite) {
+      errors.push(`AI generator reviewer runbook record ${record.recordId} must block media playlist writes.`);
+    }
+
+    if (record.category === "ai-generator-reviewer-runbook" && !record.blocksGeneratedPackageAssignment) {
+      errors.push(`AI generator reviewer runbook record ${record.recordId} must block assignment writes.`);
+    }
+
+    if (record.category === "ai-generator-reviewer-runbook" && !record.blocksGeneratedPackageLocalBundleWrite) {
+      errors.push(`AI generator reviewer runbook record ${record.recordId} must block local bundle writes.`);
+    }
+
+    if (record.category === "ai-generator-reviewer-runbook" && !record.blocksStudentReadyMarker) {
+      errors.push(`AI generator reviewer runbook record ${record.recordId} must block student-ready markers.`);
     }
 
     if (record.category === "teacher-assignment-rollout-gate" && !record.preservesTeacherAssignmentRolloutGate) {

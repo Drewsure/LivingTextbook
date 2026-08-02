@@ -158,6 +158,11 @@ export interface PersistenceWriteIntent {
   preservesGeneratorSectionReadiness?: boolean;
   requiresGeneratorPrimaryBlockers?: boolean;
   requiresGeneratorNextRecords?: boolean;
+  preservesAiGeneratorReviewerRunbook?: boolean;
+  preservesGeneratorReviewOrder?: boolean;
+  requiresGeneratorRunbookEvidence?: boolean;
+  requiresGeneratorRunbookRequiredRecords?: boolean;
+  blocksGeneratorRunbookShortcuts?: boolean;
   blocksGeneratorRequestSubmission?: boolean;
   blocksLiveModelCall?: boolean;
   blocksVerifierSubmission?: boolean;
@@ -1377,6 +1382,58 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "ai-generator-review-summary" && !intent.blocksStudentReadyMarker) {
       errors.push(`AI generator review summary write intent ${intent.intentId} must block student-ready markers.`);
+    }
+
+    if (intent.category === "ai-generator-reviewer-runbook" && !intent.preservesAiGeneratorReviewerRunbook) {
+      errors.push(`AI generator reviewer runbook write intent ${intent.intentId} must preserve reviewer runbook guidance.`);
+    }
+
+    if (intent.category === "ai-generator-reviewer-runbook" && !intent.preservesGeneratorReviewOrder) {
+      errors.push(`AI generator reviewer runbook write intent ${intent.intentId} must preserve human review order.`);
+    }
+
+    if (intent.category === "ai-generator-reviewer-runbook" && !intent.requiresGeneratorRunbookEvidence) {
+      errors.push(`AI generator reviewer runbook write intent ${intent.intentId} must require evidence review.`);
+    }
+
+    if (intent.category === "ai-generator-reviewer-runbook" && !intent.requiresGeneratorRunbookRequiredRecords) {
+      errors.push(`AI generator reviewer runbook write intent ${intent.intentId} must require linked source records.`);
+    }
+
+    if (intent.category === "ai-generator-reviewer-runbook" && !intent.blocksGeneratorRunbookShortcuts) {
+      errors.push(`AI generator reviewer runbook write intent ${intent.intentId} must block shortcut actions.`);
+    }
+
+    if (intent.category === "ai-generator-reviewer-runbook" && !intent.blocksLiveModelCall) {
+      errors.push(`AI generator reviewer runbook write intent ${intent.intentId} must block live model calls.`);
+    }
+
+    if (intent.category === "ai-generator-reviewer-runbook" && !intent.blocksAppPatchGeneration) {
+      errors.push(`AI generator reviewer runbook write intent ${intent.intentId} must block app patch generation.`);
+    }
+
+    if (intent.category === "ai-generator-reviewer-runbook" && !intent.blocksGeneratedPackageAssembly) {
+      errors.push(`AI generator reviewer runbook write intent ${intent.intentId} must block generated package assembly.`);
+    }
+
+    if (intent.category === "ai-generator-reviewer-runbook" && !intent.blocksGeneratedPackageRouteWrite) {
+      errors.push(`AI generator reviewer runbook write intent ${intent.intentId} must block route registry writes.`);
+    }
+
+    if (intent.category === "ai-generator-reviewer-runbook" && !intent.blocksGeneratedPackagePlaylistWrite) {
+      errors.push(`AI generator reviewer runbook write intent ${intent.intentId} must block media playlist writes.`);
+    }
+
+    if (intent.category === "ai-generator-reviewer-runbook" && !intent.blocksGeneratedPackageAssignment) {
+      errors.push(`AI generator reviewer runbook write intent ${intent.intentId} must block assignment writes.`);
+    }
+
+    if (intent.category === "ai-generator-reviewer-runbook" && !intent.blocksGeneratedPackageLocalBundleWrite) {
+      errors.push(`AI generator reviewer runbook write intent ${intent.intentId} must block local bundle writes.`);
+    }
+
+    if (intent.category === "ai-generator-reviewer-runbook" && !intent.blocksStudentReadyMarker) {
+      errors.push(`AI generator reviewer runbook write intent ${intent.intentId} must block student-ready markers.`);
     }
 
     if (intent.category === "teacher-assignment-rollout-gate" && !intent.preservesTeacherAssignmentRolloutGate) {

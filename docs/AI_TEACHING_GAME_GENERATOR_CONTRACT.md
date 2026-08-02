@@ -28,6 +28,8 @@ The backend-neutral storage contract is `ai_generator_tenant_coverage_gate` / `a
 
 The backend-neutral storage contract for the route rollup is `ai_generator_review_summary` / `ai-generator-review-summary`. Hosted and local adapters must preserve section readiness, primary blockers, next required records, source record links, and blocked actions while blocking live generation, app patch generation, package assembly, route registry writes, media playlist writes, assignment creation, local bundle writes, and student-ready markers.
 
+The backend-neutral storage contract for the human review order is `ai_generator_reviewer_runbook` / `ai-generator-reviewer-runbook`. Hosted and local adapters must preserve review order, standing rules, evidence lanes, required record ids, target-language trigger rules, assist-language support rules, and blocked shortcuts while blocking live generation, app patch generation, package assembly, route registry writes, media playlist writes, assignment creation, local bundle writes, and student-ready markers.
+
 The MiniStar Level 1 greetings generator seed may include tenant-specific prompt package, cost gate, disabled request builder, audio coverage, gamification mapping, reward readiness, engine binding, Draft JSON preview, derived correction queue, blocked verifier submission packet, generated package manifest, and derived publish readiness records. That seed does not make MiniStar generator-ready until audio approval, media-rights, teacher approval, durable storage, and release-control records also exist and pass review.
 
 ## Required Output Rules

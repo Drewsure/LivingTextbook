@@ -32,6 +32,7 @@ const requiredSchemaEntities = [
   "ai_generated_publish_readiness_gate",
   "ai_generator_tenant_coverage_gate",
   "ai_generator_review_summary",
+  "ai_generator_reviewer_runbook",
   "teacher_assignment_rollout_gate",
   "private_assignment_link",
   "class_roster_plan",
@@ -108,6 +109,7 @@ const requiredMigrationCandidates = [
   "m056-ai-generated-publish-readiness-gate-records",
   "m057-ai-generator-tenant-coverage-gate-records",
   "m071-ai-generator-review-summary-records",
+  "m072-ai-generator-reviewer-runbook-records",
   "m049-teacher-assignment-rollout-gate-records",
   "m050-private-assignment-link-records",
   "m051-class-roster-plan-records",
@@ -187,6 +189,7 @@ const requiredMigrationSpecs = [
   "spec-ai-generated-publish-readiness-gate",
   "spec-ai-generator-tenant-coverage-gate",
   "spec-ai-generator-review-summary",
+  "spec-ai-generator-reviewer-runbook",
   "spec-teacher-assignment-rollout-gate",
   "spec-private-assignment-link",
   "spec-class-roster-plan",
@@ -628,6 +631,19 @@ requireText(schemaDraft, "primary_blockers", "Backend schema must preserve gener
 requireText(schemaDraft, "next_required_records", "Backend schema must preserve generator next required records.");
 requireText(schemaDraft, "source_record_links", "Backend schema must preserve generator source record links.");
 requireText(schemaDraft, "app_patch_allowed", "Backend schema must block app patch permission from summary records.");
+requireText(schemaDraft, "ai_generator_reviewer_runbook", "Backend schema must include AI generator reviewer runbooks.");
+requireText(
+  schemaDraft,
+  "ai_generator_reviewer_runbook_id",
+  "Backend schema must preserve AI generator reviewer runbook ids.",
+);
+requireText(schemaDraft, "human_review_order", "Backend schema must preserve generator human review order.");
+requireText(schemaDraft, "standing_rules", "Backend schema must preserve generator reviewer standing rules.");
+requireText(schemaDraft, "evidence_lanes", "Backend schema must preserve generator reviewer evidence lanes.");
+requireText(schemaDraft, "required_record_ids", "Backend schema must preserve generator reviewer required records.");
+requireText(schemaDraft, "blocked_shortcuts", "Backend schema must preserve generator reviewer blocked shortcuts.");
+requireText(schemaDraft, "target_language_trigger_rule", "Backend schema must preserve target-language trigger rules.");
+requireText(schemaDraft, "assist_language_support_rule", "Backend schema must preserve assist-language support rules.");
 requireText(schemaDraft, "teacher_assignment_rollout_gate", "Backend schema must include teacher assignment rollout gate records.");
 requireText(schemaDraft, "rollout_gate_id", "Backend schema must preserve teacher assignment rollout gate ids.");
 requireText(schemaDraft, "rollout_status", "Backend schema must preserve teacher assignment rollout status.");
@@ -1178,6 +1194,21 @@ requireText(migrationSpecs, "primary_blockers", "Migration specs must preserve g
 requireText(migrationSpecs, "next_required_records", "Migration specs must preserve generator next records.");
 requireText(migrationSpecs, "source_record_links", "Migration specs must preserve generator source record links.");
 requireText(migrationSpecs, "app_patch_allowed", "Migration specs must block app patch permission from summary records.");
+requireText(
+  migrationSpecs,
+  "spec-ai-generator-reviewer-runbook",
+  "Migration specs must include AI generator reviewer runbooks.",
+);
+requireText(
+  migrationSpecs,
+  "ai_generator_reviewer_runbook_id",
+  "Migration specs must preserve AI generator reviewer runbook ids.",
+);
+requireText(migrationSpecs, "human_review_order", "Migration specs must preserve generator human review order.");
+requireText(migrationSpecs, "standing_rules", "Migration specs must preserve generator reviewer standing rules.");
+requireText(migrationSpecs, "evidence_lanes", "Migration specs must preserve generator reviewer evidence lanes.");
+requireText(migrationSpecs, "required_record_ids", "Migration specs must preserve generator reviewer required records.");
+requireText(migrationSpecs, "blocked_shortcuts", "Migration specs must preserve generator reviewer blocked shortcuts.");
 requireText(migrationSpecs, "spec-upload-intake-asset", "Migration specs must include upload intake assets.");
 requireText(migrationSpecs, "file_metadata", "Migration specs must preserve upload file metadata.");
 requireText(migrationSpecs, "target_mapping", "Migration specs must preserve upload target mapping.");
@@ -2051,6 +2082,41 @@ requireText(
   "blocksAppPatchGeneration: true",
   "Persistence adapter must block app patch generation from review summaries.",
 );
+requireText(
+  persistenceAdapter,
+  "hosted-ai-generator-reviewer-runbook-write",
+  "Persistence adapter must include hosted AI generator reviewer runbook writes.",
+);
+requireText(
+  persistenceAdapter,
+  "local-ai-generator-reviewer-runbook-write",
+  "Persistence adapter must include local AI generator reviewer runbook writes.",
+);
+requireText(
+  persistenceAdapter,
+  "preservesAiGeneratorReviewerRunbook: true",
+  "Persistence adapter must preserve AI generator reviewer runbooks.",
+);
+requireText(
+  persistenceAdapter,
+  "preservesGeneratorReviewOrder: true",
+  "Persistence adapter must preserve generator human review order.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresGeneratorRunbookEvidence: true",
+  "Persistence adapter must require generator runbook evidence.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresGeneratorRunbookRequiredRecords: true",
+  "Persistence adapter must require generator runbook source records.",
+);
+requireText(
+  persistenceAdapter,
+  "blocksGeneratorRunbookShortcuts: true",
+  "Persistence adapter must block generator runbook shortcuts.",
+);
 requireText(persistenceAdapter, "hosted-teacher-assignment-rollout-gate-write", "Persistence adapter must include hosted teacher assignment rollout gate writes.");
 requireText(persistenceAdapter, "local-teacher-assignment-rollout-gate-write", "Persistence adapter must include local teacher assignment rollout gate writes.");
 requireText(persistenceAdapter, "preservesTeacherAssignmentRolloutGate: true", "Persistence adapter must preserve teacher assignment rollout gates.");
@@ -2723,6 +2789,41 @@ requireText(
   durableRecords,
   "blocksAppPatchGeneration: true",
   "Durable record plan must block app patch generation from review summaries.",
+);
+requireText(
+  durableRecords,
+  "ai-generator-reviewer-runbook-record",
+  "Durable record plan must include AI generator reviewer runbook records.",
+);
+requireText(
+  durableRecords,
+  "AI generator reviewer runbook record",
+  "Durable record plan must expose AI generator reviewer runbook labels.",
+);
+requireText(
+  durableRecords,
+  "preservesAiGeneratorReviewerRunbook: true",
+  "Durable record plan must preserve AI generator reviewer runbooks.",
+);
+requireText(
+  durableRecords,
+  "preservesGeneratorReviewOrder: true",
+  "Durable record plan must preserve generator human review order.",
+);
+requireText(
+  durableRecords,
+  "requiresGeneratorRunbookEvidence: true",
+  "Durable record plan must require generator runbook evidence.",
+);
+requireText(
+  durableRecords,
+  "requiresGeneratorRunbookRequiredRecords: true",
+  "Durable record plan must require generator runbook source records.",
+);
+requireText(
+  durableRecords,
+  "blocksGeneratorRunbookShortcuts: true",
+  "Durable record plan must block generator runbook shortcuts.",
 );
 requireText(durableRecords, "teacher-assignment-rollout-gate-record", "Durable record plan must include teacher assignment rollout gate records.");
 requireText(durableRecords, "preservesTeacherAssignmentRolloutGate: true", "Durable record plan must preserve teacher assignment rollout gates.");

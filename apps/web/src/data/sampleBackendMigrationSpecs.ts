@@ -3334,6 +3334,148 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       ],
     },
     {
+      specId: "spec-ai-generator-reviewer-runbook",
+      label: "AI generator reviewer runbook",
+      candidateId: "m072-ai-generator-reviewer-runbook-records",
+      storeKind: "admin-record",
+      status: "ready-for-review",
+      purpose:
+        "Stores tenant-specific human review order while keeping live generation, app patching, package, route, playlist, local bundle, and assignment actions blocked.",
+      primaryKey: "ai_generator_reviewer_runbook_id",
+      tenantScope:
+        "Scoped by tenant_id, generation_request_id, reviewer_runbook_status, runbook_revision, and blocked_shortcut_count.",
+      fields: [
+        {
+          name: "ai_generator_reviewer_runbook_id",
+          type: "string",
+          required: true,
+          note: "Stable id for one generator reviewer runbook snapshot.",
+        },
+        {
+          name: "generation_request_id",
+          type: "string",
+          required: true,
+          note: "AI generation request this reviewer runbook belongs to.",
+        },
+        {
+          name: "reviewer_runbook_status",
+          type: "string",
+          required: true,
+          note: "Review-only, blocked, missing, superseded, or rejected.",
+        },
+        {
+          name: "human_review_order",
+          type: "json",
+          required: true,
+          note: "Request setup, prototype review, integration gates, package review, and draft repair order.",
+        },
+        {
+          name: "standing_rules",
+          type: "json",
+          required: true,
+          note: "Guidance-only, source-record authority, and no-live-workflow rules.",
+        },
+        {
+          name: "evidence_lanes",
+          type: "json",
+          required: true,
+          note: "Evidence to review for each runbook step.",
+        },
+        {
+          name: "required_record_ids",
+          type: "json",
+          required: true,
+          note: "Record ids required before each step can move.",
+        },
+        {
+          name: "blocked_shortcuts",
+          type: "json",
+          required: true,
+          note: "Live generation, app patch, package, route, playlist, local bundle, assignment, and student-ready shortcuts.",
+        },
+        {
+          name: "target_language_trigger_rule",
+          type: "string",
+          required: true,
+          note: "Target-language work remains the only progress trigger.",
+        },
+        {
+          name: "assist_language_support_rule",
+          type: "string",
+          required: true,
+          note: "Assist language remains support-only and cannot unlock progress.",
+        },
+        {
+          name: "live_generation_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until tenant coverage, cost, policy, and review gates pass.",
+        },
+        {
+          name: "app_patch_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until Codex decision and integration readiness gates pass.",
+        },
+        {
+          name: "package_assembly_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until verifier, manifest, audio, reward, rights, approval, and release-control gates pass.",
+        },
+        {
+          name: "route_registry_write_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until publish readiness and release-control pass.",
+        },
+        {
+          name: "media_playlist_write_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until media and learning-audio priority gates pass.",
+        },
+        {
+          name: "assignment_write_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until rollout and school policy gates pass.",
+        },
+        {
+          name: "local_bundle_write_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until local companion release gates pass.",
+        },
+        {
+          name: "student_ready_marker_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until all release and launch gates pass.",
+        },
+      ],
+      indexes: [
+        "tenant_id + ai_generator_reviewer_runbook_id",
+        "ai_generator_reviewer_runbook_id unique",
+        "tenant_id + generation_request_id",
+        "tenant_id + reviewer_runbook_status",
+        "live_generation_allowed",
+        "app_patch_allowed",
+        "assignment_write_allowed",
+      ],
+      retentionRule:
+        "Retain according to tenant authoring and AI package policy; blocked, review-only, missing, rejected, and superseded runbook snapshots remain auditable.",
+      exportRule:
+        "Must export review order, standing rules, evidence lanes, required record ids, and blocked shortcuts without exporting model secrets, raw prompts, learner audio, or transcripts.",
+      localFallback:
+        "Local classroom deployments store the same generator reviewer runbook JSON for backup/export without allowing offline live generation, app patches, package assembly, route writes, playlist writes, local bundle writes, or assignments.",
+      policyBlockers: [
+        "Detailed review summary, tenant coverage, prototype evidence, integration readiness, verifier, manifest, publish, and correction records remain authoritative.",
+        "Generator reviewer runbooks cannot trigger live model calls, app patches, package assembly, route registry writes, media playlist writes, local bundle writes, student-ready markers, or assignments by themselves.",
+        "Model secrets, billing transactions, raw learner audio, and transcripts remain blocked.",
+      ],
+    },
+    {
       specId: "spec-teacher-assignment-rollout-gate",
       label: "Teacher assignment rollout gate",
       candidateId: "m049-teacher-assignment-rollout-gate-records",
