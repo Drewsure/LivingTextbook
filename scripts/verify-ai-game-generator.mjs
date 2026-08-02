@@ -5,6 +5,7 @@ const tenantCoverage = readSource("../apps/web/src/data/sampleAiGeneratorTenantC
 const lineageMap = readSource("../apps/web/src/data/sampleAiGeneratorLineageMap.ts");
 const reviewSummary = readSource("../apps/web/src/data/sampleAiGeneratorReviewSummary.ts");
 const reviewerRunbook = readSource("../apps/web/src/data/sampleAiGeneratorReviewerRunbook.ts");
+const responsibilityMatrix = readSource("../apps/web/src/data/sampleAiGeneratorResponsibilityMatrix.ts");
 const engineBindingPlan = readSource("../apps/web/src/data/sampleAiEngineBindingPlan.ts");
 const promptPackagePlan = readSource("../apps/web/src/data/sampleAiPromptPackagePlan.ts");
 const costEntitlementGate = readSource("../apps/web/src/data/sampleAiGeneratorCostEntitlementGate.ts");
@@ -46,6 +47,9 @@ const tenantCoveragePanel = readSource("../apps/web/src/features/content-intake/
 const lineageMapPanel = readSource("../apps/web/src/features/content-intake/AiGeneratorLineageMapPanel.tsx");
 const reviewSummaryPanel = readSource("../apps/web/src/features/content-intake/AiGeneratorReviewSummaryPanel.tsx");
 const reviewerRunbookPanel = readSource("../apps/web/src/features/content-intake/AiGeneratorReviewerRunbookPanel.tsx");
+const responsibilityMatrixPanel = readSource(
+  "../apps/web/src/features/content-intake/AiGeneratorResponsibilityMatrixPanel.tsx",
+);
 const engineBindingPanel = readSource("../apps/web/src/features/content-intake/AiEngineBindingPlanPanel.tsx");
 const promptPackagePanel = readSource("../apps/web/src/features/content-intake/AiPromptPackagePlanPanel.tsx");
 const costEntitlementGatePanel = readSource("../apps/web/src/features/content-intake/AiGeneratorCostEntitlementGatePanel.tsx");
@@ -291,6 +295,20 @@ requireText(reviewerRunbookPanel, "Human review order", "AI generator reviewer r
 requireText(reviewerRunbookPanel, "Standing rules", "AI generator reviewer runbook panel must expose standing rules.");
 requireText(reviewerRunbookPanel, "Evidence to review", "AI generator reviewer runbook panel must show evidence.");
 requireText(reviewerRunbookPanel, "Blocked shortcuts", "AI generator reviewer runbook panel must show blocked shortcuts.");
+requireText(responsibilityMatrix, "sampleAiGeneratorResponsibilityMatrices", "AI generator responsibility matrix data must exist.");
+requireText(responsibilityMatrix, "Codex owns architecture and integration", "AI generator responsibility matrix must name Codex architecture ownership.");
+requireText(responsibilityMatrix, "External AI builder / Z.ai", "AI generator responsibility matrix must name outside AI builder role.");
+requireText(responsibilityMatrix, "No app file writes", "AI generator responsibility matrix must block app file writes.");
+requireText(responsibilityMatrix, "No scoring authority", "AI generator responsibility matrix must block scoring authority.");
+requireText(responsibilityMatrix, "Verifier layer", "AI generator responsibility matrix must name verifier role.");
+requireText(responsibilityMatrix, "Platform admin", "AI generator responsibility matrix must name platform admin role.");
+requireText(responsibilityMatrix, "Support language cannot unlock progress", "AI generator responsibility matrix must block support-language progress.");
+requireText(responsibilityMatrix, "Japanese support cannot unlock progress", "MiniStar responsibility matrix must block Japanese support-language progress.");
+requireText(responsibilityMatrixPanel, "AI generator responsibility matrix", "AI generator responsibility matrix panel must expose heading.");
+requireText(responsibilityMatrixPanel, "Who owns each generator handoff", "AI generator responsibility matrix panel must expose ownership heading.");
+requireText(responsibilityMatrixPanel, "Handoff records", "AI generator responsibility matrix panel must expose handoff records.");
+requireText(responsibilityMatrixPanel, "Cannot do", "AI generator responsibility matrix panel must expose blocked owner actions.");
+requireText(responsibilityMatrixPanel, "No live handoff", "AI generator responsibility matrix panel must block live handoff.");
 requireText(prototypeReturnReview, "sampleAiPrototypeReturnReviewPackets", "AI prototype return review data must exist.");
 requireText(prototypeReturnReview, "External prototype builder / Z.ai return packet", "AI prototype return review must identify external returns.");
 requireText(prototypeReturnReview, "Parent-engine wrapper review", "AI prototype return review must require parent-engine wrapper review.");
@@ -1453,6 +1471,7 @@ requireText(route, "AiGeneratorTenantCoveragePanel", "Generator route must rende
 requireText(route, "AiGeneratorLineageMapPanel", "Generator route must render the lineage map panel.");
 requireText(route, "AiGeneratorReviewSummaryPanel", "Generator route must render the review summary panel.");
 requireText(route, "AiGeneratorReviewerRunbookPanel", "Generator route must render the reviewer runbook panel.");
+requireText(route, "AiGeneratorResponsibilityMatrixPanel", "Generator route must render the responsibility matrix panel.");
 requireText(route, "AiEngineBindingPlanPanel", "Generator route must render the engine binding panel.");
 requireText(route, "AiGeneratedGameBuildBriefPanel", "Generator route must render the generated game build brief panel.");
 requireText(route, "AiPrototypeReturnReviewPanel", "Generator route must render the prototype return review panel.");
@@ -1493,6 +1512,7 @@ requireText(route, "sampleAiGeneratorTenantCoverage", "Generator route must use 
 requireText(route, "sampleAiGeneratorLineageMaps", "Generator route must use lineage map data.");
 requireText(route, "sampleAiGeneratorReviewSummaries", "Generator route must use review summary data.");
 requireText(route, "sampleAiGeneratorReviewerRunbooks", "Generator route must use reviewer runbook data.");
+requireText(route, "sampleAiGeneratorResponsibilityMatrices", "Generator route must use responsibility matrix data.");
 requireText(route, "sampleAiEngineBindingPlans", "Generator route must use the sample engine binding plan data.");
 requireText(route, "sampleAiGeneratedGameBuildBriefPackets", "Generator route must use generated game build brief data.");
 requireText(route, "sampleAiPrototypeReturnReviewPackets", "Generator route must use prototype return review data.");

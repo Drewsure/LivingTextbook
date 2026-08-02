@@ -45,6 +45,10 @@ import {
   sampleAiGeneratorReviewerRunbooks,
 } from "@/data/sampleAiGeneratorReviewerRunbook";
 import {
+  filterAiGeneratorResponsibilityMatricesByTenant,
+  sampleAiGeneratorResponsibilityMatrices,
+} from "@/data/sampleAiGeneratorResponsibilityMatrix";
+import {
   filterAiGeneratorAudioCoveragePlansByTenant,
   sampleAiGeneratorAudioCoveragePlans,
 } from "@/data/sampleAiGeneratorAudioCoveragePlan";
@@ -135,6 +139,7 @@ import { AiGameGeneratorPlanPanel } from "@/features/content-intake/AiGameGenera
 import { AiGeneratorLineageMapPanel } from "@/features/content-intake/AiGeneratorLineageMapPanel";
 import { AiGeneratorReviewSummaryPanel } from "@/features/content-intake/AiGeneratorReviewSummaryPanel";
 import { AiGeneratorReviewerRunbookPanel } from "@/features/content-intake/AiGeneratorReviewerRunbookPanel";
+import { AiGeneratorResponsibilityMatrixPanel } from "@/features/content-intake/AiGeneratorResponsibilityMatrixPanel";
 import { AiGeneratorTenantCoveragePanel } from "@/features/content-intake/AiGeneratorTenantCoveragePanel";
 import { AiModeRecommendationPanel } from "@/features/content-intake/AiModeRecommendationPanel";
 import { AiPromptPackagePlanPanel } from "@/features/content-intake/AiPromptPackagePlanPanel";
@@ -165,6 +170,9 @@ export default async function TeacherAiGameGeneratorPage({
         />
         <AiGeneratorReviewerRunbookPanel
           runbooks={filterAiGeneratorReviewerRunbooksByTenant(sampleAiGeneratorReviewerRunbooks, tenantId)}
+        />
+        <AiGeneratorResponsibilityMatrixPanel
+          matrices={filterAiGeneratorResponsibilityMatricesByTenant(sampleAiGeneratorResponsibilityMatrices, tenantId)}
         />
         <section id="generator-request" className="grid scroll-mt-6 gap-5">
           <AiGeneratorSectionHeader

@@ -30,6 +30,12 @@ The backend-neutral storage contract for the route rollup is `ai_generator_revie
 
 The backend-neutral storage contract for the human review order is `ai_generator_reviewer_runbook` / `ai-generator-reviewer-runbook`. Hosted and local adapters must preserve review order, standing rules, evidence lanes, required record ids, target-language trigger rules, assist-language support rules, and blocked shortcuts while blocking live generation, app patch generation, package assembly, route registry writes, media playlist writes, assignment creation, local bundle writes, and student-ready markers.
 
+## Generator Responsibility Matrix
+
+Teacher generator routes must show a review-only responsibility matrix before detailed generator panels. The matrix separates teacher/school review, Codex architecture and integration, outside AI builder/Z.ai prototype work, verifier checks, and platform admin entitlement/storage/release duties.
+
+Codex owns architecture, schema discipline, parent-engine integration, route safety, verification, and final app review. Outside AI builders may create isolated prototypes from strict briefs only; they cannot write app files, create routes, override scoring, write rewards, create playlists, assemble packages, or assign students. The verifier layer checks JSON, pedagogy, target-language audio, support-language boundaries, and activity compatibility. Platform admins own cost entitlement, storage, release-control, and child-safe premium boundaries.
+
 The MiniStar Level 1 greetings generator seed may include tenant-specific prompt package, cost gate, disabled request builder, audio coverage, gamification mapping, reward readiness, engine binding, Draft JSON preview, derived correction queue, blocked verifier submission packet, generated package manifest, and derived publish readiness records. That seed does not make MiniStar generator-ready until audio approval, media-rights, teacher approval, durable storage, and release-control records also exist and pass review.
 
 ## Required Output Rules
