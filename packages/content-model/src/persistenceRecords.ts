@@ -19,6 +19,7 @@ export type PersistenceRecordCategory =
   | "ai-prototype-mobile-accessibility-report"
   | "ai-prototype-scoring-replay-report"
   | "codex-integration-review-decision"
+  | "ai-prototype-app-patch-proposal"
   | "ai-prototype-integration-readiness-gate"
   | "ai-generated-package-manifest"
   | "ai-generated-package-promotion-checklist"
@@ -145,6 +146,12 @@ export interface DurableRecordContract {
   preservesAiPrototypeMobileAccessibilityReport?: boolean;
   preservesAiPrototypeScoringReplayReport?: boolean;
   preservesCodexIntegrationReviewDecision?: boolean;
+  preservesAiPrototypeAppPatchProposal?: boolean;
+  requiresProposedPatchFileScope?: boolean;
+  requiresPrePatchGates?: boolean;
+  requiresPatchTestGates?: boolean;
+  requiresReviewerIdentitySignatureGate?: boolean;
+  blocksAppFileWrite?: boolean;
   requiresManualCodexReview?: boolean;
   blocksAppPatchGeneration?: boolean;
   preservesAiPrototypeIntegrationReadinessGate?: boolean;
@@ -841,6 +848,86 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "codex-integration-review-decision" && !record.blocksDirectStudentAssignment) {
       errors.push(`Codex integration review decision record ${record.recordId} must block student assignments.`);
+    }
+
+    if (record.category === "ai-prototype-app-patch-proposal" && !record.preservesAiPrototypeAppPatchProposal) {
+      errors.push(`AI prototype app patch proposal record ${record.recordId} must preserve proposal sections.`);
+    }
+
+    if (record.category === "ai-prototype-app-patch-proposal" && !record.requiresCodexIntegrationReviewDecision) {
+      errors.push(`AI prototype app patch proposal record ${record.recordId} must require Codex integration decisions.`);
+    }
+
+    if (record.category === "ai-prototype-app-patch-proposal" && !record.requiresAllPrototypeEvidenceReviewed) {
+      errors.push(`AI prototype app patch proposal record ${record.recordId} must require all prototype evidence reviewed.`);
+    }
+
+    if (record.category === "ai-prototype-app-patch-proposal" && !record.requiresProposedPatchFileScope) {
+      errors.push(`AI prototype app patch proposal record ${record.recordId} must require proposed patch file scope.`);
+    }
+
+    if (record.category === "ai-prototype-app-patch-proposal" && !record.requiresPrePatchGates) {
+      errors.push(`AI prototype app patch proposal record ${record.recordId} must require pre-patch gates.`);
+    }
+
+    if (record.category === "ai-prototype-app-patch-proposal" && !record.requiresPatchTestGates) {
+      errors.push(`AI prototype app patch proposal record ${record.recordId} must require patch test gates.`);
+    }
+
+    if (record.category === "ai-prototype-app-patch-proposal" && !record.requiresReviewerIdentitySignatureGate) {
+      errors.push(`AI prototype app patch proposal record ${record.recordId} must require reviewer identity signature gates.`);
+    }
+
+    if (record.category === "ai-prototype-app-patch-proposal" && !record.requiresReleaseControlBinding) {
+      errors.push(`AI prototype app patch proposal record ${record.recordId} must require release-control binding.`);
+    }
+
+    if (record.category === "ai-prototype-app-patch-proposal" && !record.blocksAppFileWrite) {
+      errors.push(`AI prototype app patch proposal record ${record.recordId} must block app file writes.`);
+    }
+
+    if (record.category === "ai-prototype-app-patch-proposal" && !record.blocksAppPatchGeneration) {
+      errors.push(`AI prototype app patch proposal record ${record.recordId} must block app patch generation.`);
+    }
+
+    if (record.category === "ai-prototype-app-patch-proposal" && !record.blocksDirectAppImport) {
+      errors.push(`AI prototype app patch proposal record ${record.recordId} must block direct app imports.`);
+    }
+
+    if (record.category === "ai-prototype-app-patch-proposal" && !record.blocksGeneratedGameRouteWrite) {
+      errors.push(`AI prototype app patch proposal record ${record.recordId} must block route writes.`);
+    }
+
+    if (record.category === "ai-prototype-app-patch-proposal" && !record.blocksStudentFacingRoute) {
+      errors.push(`AI prototype app patch proposal record ${record.recordId} must block student-facing routes.`);
+    }
+
+    if (record.category === "ai-prototype-app-patch-proposal" && !record.blocksScoringProfileOverride) {
+      errors.push(`AI prototype app patch proposal record ${record.recordId} must block scoring mutations.`);
+    }
+
+    if (record.category === "ai-prototype-app-patch-proposal" && !record.blocksStarDustWrite) {
+      errors.push(`AI prototype app patch proposal record ${record.recordId} must block Star Dust writes.`);
+    }
+
+    if (record.category === "ai-prototype-app-patch-proposal" && !record.blocksRewardInventoryWrite) {
+      errors.push(`AI prototype app patch proposal record ${record.recordId} must block reward inventory writes.`);
+    }
+
+    if (record.category === "ai-prototype-app-patch-proposal" && !record.blocksAudioManifestMutation) {
+      errors.push(`AI prototype app patch proposal record ${record.recordId} must block audio manifest mutations.`);
+    }
+
+    if (record.category === "ai-prototype-app-patch-proposal" && !record.blocksPackagePromotion) {
+      errors.push(`AI prototype app patch proposal record ${record.recordId} must block package promotion.`);
+    }
+
+    if (record.category === "ai-prototype-app-patch-proposal" && !record.blocksDirectStudentAssignment) {
+      errors.push(`AI prototype app patch proposal record ${record.recordId} must block student assignments.`);
+    }
+
+    if (record.category === "ai-prototype-app-patch-proposal" && !record.blocksSupportLanguageProgressTrigger) {
+      errors.push(`AI prototype app patch proposal record ${record.recordId} must block support-language progress triggers.`);
     }
 
     if (

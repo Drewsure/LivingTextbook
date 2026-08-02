@@ -307,6 +307,7 @@
 - `DR-333-ai-prototype-codex-integration-decision-preview.md`
 - `DR-334-codex-integration-review-decision-storage-contract.md`
 - `DR-335-ai-prototype-app-patch-proposal-preview.md`
+- `DR-347-ai-prototype-app-patch-proposal-storage-contract.md`
 - `DR-337-ai-generator-review-summary.md`
 - `DR-338-ai-generator-review-summary-storage-contract.md`
 - `DR-339-ai-generator-reviewer-runbook.md`

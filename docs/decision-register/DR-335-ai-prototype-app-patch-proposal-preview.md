@@ -18,4 +18,4 @@ The safest next step after Codex decision and readiness-gate planning is not liv
 
 ## Follow-Up
 
-Add a backend-neutral storage contract for app patch proposals only after the preview shape stays stable and reviewer identity/signature plus release-control binding are accepted.
+Completed by `DR-347-ai-prototype-app-patch-proposal-storage-contract.md`: app patch proposals now have a backend-neutral storage contract after the preview shape stabilized.

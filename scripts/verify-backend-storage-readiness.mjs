@@ -27,6 +27,7 @@ const requiredSchemaEntities = [
   "ai_prototype_scoring_replay_report",
   "ai_prototype_integration_readiness_gate",
   "codex_integration_review_decision",
+  "ai_prototype_app_patch_proposal",
   "ai_generated_package_manifest",
   "ai_generated_package_promotion_checklist",
   "ai_generated_package_release_candidate",
@@ -107,6 +108,7 @@ const requiredMigrationCandidates = [
   "m068-ai-prototype-scoring-replay-report-records",
   "m069-ai-prototype-integration-readiness-gate-records",
   "m070-codex-integration-review-decision-records",
+  "m076-ai-prototype-app-patch-proposal-records",
   "m054-ai-generated-package-manifest-records",
   "m058-ai-generated-package-promotion-checklist-records",
   "m059-ai-generated-package-release-candidate-records",
@@ -190,6 +192,7 @@ const requiredMigrationSpecs = [
   "spec-ai-prototype-scoring-replay-report",
   "spec-ai-prototype-integration-readiness-gate",
   "spec-codex-integration-review-decision",
+  "spec-ai-prototype-app-patch-proposal",
   "spec-ai-generated-package-manifest",
   "spec-ai-generated-package-promotion-checklist",
   "spec-ai-generated-package-release-candidate",
@@ -534,6 +537,16 @@ requireText(
   "scoring_profile_mutation_allowed",
   "Backend schema must block Codex scoring profile mutations.",
 );
+requireText(schemaDraft, "ai_prototype_app_patch_proposal", "Backend schema must include AI prototype app patch proposals.");
+requireText(schemaDraft, "ai_prototype_app_patch_proposal_id", "Backend schema must preserve AI prototype app patch proposal ids.");
+requireText(schemaDraft, "proposed_file_scope", "Backend schema must preserve prototype app patch proposed file scope.");
+requireText(schemaDraft, "required_before_patch", "Backend schema must preserve prototype app patch pre-patch gates.");
+requireText(schemaDraft, "required_test_gates", "Backend schema must preserve prototype app patch test gates.");
+requireText(schemaDraft, "rollback_requirements", "Backend schema must preserve prototype app patch rollback requirements.");
+requireText(schemaDraft, "blocked_patch_actions", "Backend schema must preserve blocked prototype app patch actions.");
+requireText(schemaDraft, "app_file_write_allowed", "Backend schema must block app file writes.");
+requireText(schemaDraft, "reviewer_identity_signature_gate_id", "Backend schema must link app patch proposals to reviewer identity gates.");
+requireText(schemaDraft, "package_publish_gate_id", "Backend schema must link app patch proposals to release-control gates.");
 requireText(schemaDraft, "ai_generated_package_manifest", "Backend schema must include AI generated package manifests.");
 requireText(schemaDraft, "ai_generated_package_manifest_id", "Backend schema must preserve generated package manifest ids.");
 requireText(schemaDraft, "generation_request_id", "Backend schema must preserve AI generation request ids.");
@@ -1121,6 +1134,18 @@ requireText(
   "scoring_profile_mutation_allowed",
   "Migration specs must block Codex scoring profile mutations.",
 );
+requireText(migrationSpecs, "spec-ai-prototype-app-patch-proposal", "Migration specs must include AI prototype app patch proposals.");
+requireText(
+  migrationSpecs,
+  "ai_prototype_app_patch_proposal_id",
+  "Migration specs must preserve AI prototype app patch proposal ids.",
+);
+requireText(migrationSpecs, "proposed_file_scope", "Migration specs must preserve prototype app patch proposed file scope.");
+requireText(migrationSpecs, "required_before_patch", "Migration specs must preserve prototype app patch pre-patch gates.");
+requireText(migrationSpecs, "required_test_gates", "Migration specs must preserve prototype app patch test gates.");
+requireText(migrationSpecs, "rollback_requirements", "Migration specs must preserve prototype app patch rollback requirements.");
+requireText(migrationSpecs, "blocked_patch_actions", "Migration specs must preserve blocked prototype app patch actions.");
+requireText(migrationSpecs, "app_file_write_allowed", "Migration specs must block app file writes.");
 requireText(migrationSpecs, "spec-ai-generated-package-manifest", "Migration specs must include AI generated package manifests.");
 requireText(migrationSpecs, "ai_generated_package_manifest_id", "Migration specs must preserve generated package manifest ids.");
 requireText(migrationSpecs, "prompt_package_id", "Migration specs must preserve generated package prompt package ids.");
@@ -2081,6 +2106,39 @@ requireText(
   "blocksAppPatchGeneration: true",
   "Persistence adapter must block app patch generation.",
 );
+requireText(
+  persistenceAdapter,
+  "hosted-ai-prototype-app-patch-proposal-write",
+  "Persistence adapter must include hosted AI prototype app patch proposal writes.",
+);
+requireText(
+  persistenceAdapter,
+  "local-ai-prototype-app-patch-proposal-write",
+  "Persistence adapter must include local AI prototype app patch proposal writes.",
+);
+requireText(
+  persistenceAdapter,
+  "preservesAiPrototypeAppPatchProposal: true",
+  "Persistence adapter must preserve AI prototype app patch proposals.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresProposedPatchFileScope: true",
+  "Persistence adapter must require proposed app patch file scope.",
+);
+requireText(persistenceAdapter, "requiresPrePatchGates: true", "Persistence adapter must require pre-patch gates.");
+requireText(persistenceAdapter, "requiresPatchTestGates: true", "Persistence adapter must require patch test gates.");
+requireText(
+  persistenceAdapter,
+  "requiresReviewerIdentitySignatureGate: true",
+  "Persistence adapter must require reviewer identity signature gates for app patch proposals.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresReleaseControlBinding: true",
+  "Persistence adapter must require release-control binding for app patch proposals.",
+);
+requireText(persistenceAdapter, "blocksAppFileWrite: true", "Persistence adapter must block app file writes.");
 requireText(persistenceAdapter, "hosted-ai-generated-package-manifest-write", "Persistence adapter must include hosted AI generated package manifest writes.");
 requireText(persistenceAdapter, "local-ai-generated-package-manifest-write", "Persistence adapter must include local AI generated package manifest writes.");
 requireText(persistenceAdapter, "preservesAiGeneratedPackageManifest: true", "Persistence adapter must preserve AI generated package manifest links.");
@@ -2914,6 +2972,31 @@ requireText(
   "blocksAppPatchGeneration: true",
   "Durable record plan must block app patch generation.",
 );
+requireText(durableRecords, "ai-prototype-app-patch-proposal-record", "Durable record plan must include AI prototype app patch proposal records.");
+requireText(durableRecords, "AI prototype app patch proposal record", "Durable record plan must expose AI prototype app patch proposal labels.");
+requireText(
+  durableRecords,
+  "preservesAiPrototypeAppPatchProposal: true",
+  "Durable record plan must preserve AI prototype app patch proposals.",
+);
+requireText(
+  durableRecords,
+  "requiresProposedPatchFileScope: true",
+  "Durable record plan must require proposed app patch file scope.",
+);
+requireText(durableRecords, "requiresPrePatchGates: true", "Durable record plan must require pre-patch gates.");
+requireText(durableRecords, "requiresPatchTestGates: true", "Durable record plan must require patch test gates.");
+requireText(
+  durableRecords,
+  "requiresReviewerIdentitySignatureGate: true",
+  "Durable record plan must require reviewer identity signature gates for app patch proposals.",
+);
+requireText(
+  durableRecords,
+  "requiresReleaseControlBinding: true",
+  "Durable record plan must require release-control binding for app patch proposals.",
+);
+requireText(durableRecords, "blocksAppFileWrite: true", "Durable record plan must block app file writes.");
 requireText(durableRecords, "ai-generated-package-manifest-record", "Durable record plan must include AI generated package manifest records.");
 requireText(durableRecords, "AI generated package manifest record", "Durable record plan must expose AI generated package manifest record labels.");
 requireText(durableRecords, "preservesAiGeneratedPackageManifest: true", "Durable record plan must preserve AI generated package manifest links.");

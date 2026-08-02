@@ -32,6 +32,7 @@ export type PersistenceBoundaryCategory =
   | "ai-prototype-scoring-replay-report"
   | "ai-prototype-integration-readiness-gate"
   | "codex-integration-review-decision"
+  | "ai-prototype-app-patch-proposal"
   | "ai-generated-package-manifest"
   | "ai-generated-package-promotion-checklist"
   | "ai-generated-package-release-candidate"
@@ -641,6 +642,43 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
     note:
       "Codex integration review decisions need durable manual review state before returned prototypes can move toward apps/web patch planning, route writes, scoring changes, reward writes, package promotion, or assignments.",
+  },
+  {
+    recordId: "ai-prototype-app-patch-proposal-record",
+    category: "ai-prototype-app-patch-proposal",
+    label: "AI prototype app patch proposal record",
+    readiness: "durable-required",
+    sourceOfTruth:
+      "AiPrototypeAppPatchProposal, Codex integration decision, integration readiness gate, reviewer identity signature gate, release-control binding, proposed file scope, required pre-patch gates, required test gates, rollback requirements, and blocked actions",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: false,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesAiPrototypeAppPatchProposal: true,
+    requiresCodexIntegrationReviewDecision: true,
+    requiresAllPrototypeEvidenceReviewed: true,
+    requiresProposedPatchFileScope: true,
+    requiresPrePatchGates: true,
+    requiresPatchTestGates: true,
+    requiresReviewerIdentitySignatureGate: true,
+    requiresReleaseControlBinding: true,
+    blocksAppFileWrite: true,
+    blocksAppPatchGeneration: true,
+    blocksDirectAppImport: true,
+    blocksGeneratedGameRouteWrite: true,
+    blocksStudentFacingRoute: true,
+    blocksScoringProfileOverride: true,
+    blocksStarDustWrite: true,
+    blocksRewardInventoryWrite: true,
+    blocksAudioManifestMutation: true,
+    blocksPackagePromotion: true,
+    blocksDirectStudentAssignment: true,
+    blocksSupportLanguageProgressTrigger: true,
+    recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
+    note:
+      "AI prototype app patch proposals need durable proposed scope, pre-patch gates, test gates, reviewer identity, and release-control requirements before any generated or returned prototype can move toward apps/web file changes.",
   },
   {
     recordId: "ai-generated-package-promotion-checklist-record",
@@ -1973,6 +2011,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     visibleTo: ["Teacher", "Content reviewer", "Tenant admin", "Platform admin"],
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision: "Persist verifier submission preflights before enabling submit-to-verifier, verifier automation, or package workflow promotion.",
+  },
+  {
+    boundaryId: "ai-prototype-app-patch-proposal-boundary",
+    category: "ai-prototype-app-patch-proposal",
+    label: "AI prototype app patch proposal records",
+    status: "needs-backend",
+    recordShape:
+      "App patch proposal id, tenant id, request id, Codex decision id, readiness gate id, reviewer identity gate id, release-control binding id, proposed file scope, required pre-patch gates, required test gates, rollback requirements, and blocked actions",
+    whyItMatters:
+      "Returned prototype work needs a durable patch proposal review so future file changes cannot bypass Codex decision, evidence review, reviewer identity, release-control, target-language progress, audio, scoring, route, package, or assignment gates.",
+    visibleTo: ["Platform admin", "Tenant admin", "Content reviewer", "Prototype reviewer"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Persist AI prototype app patch proposals before enabling generated app patch planning, file writes, route writes, scoring mutations, audio manifest mutations, package promotion, or assignments.",
   },
   {
     boundaryId: "ai-generated-package-manifest-boundary",
