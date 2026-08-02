@@ -24,6 +24,7 @@ const requiredSchemaEntities = [
   "ai_prototype_mobile_accessibility_report",
   "ai_prototype_scoring_replay_report",
   "ai_prototype_integration_readiness_gate",
+  "codex_integration_review_decision",
   "ai_generated_package_manifest",
   "ai_generated_package_promotion_checklist",
   "ai_generated_package_release_candidate",
@@ -98,6 +99,7 @@ const requiredMigrationCandidates = [
   "m067-ai-prototype-mobile-accessibility-report-records",
   "m068-ai-prototype-scoring-replay-report-records",
   "m069-ai-prototype-integration-readiness-gate-records",
+  "m070-codex-integration-review-decision-records",
   "m054-ai-generated-package-manifest-records",
   "m058-ai-generated-package-promotion-checklist-records",
   "m059-ai-generated-package-release-candidate-records",
@@ -175,6 +177,7 @@ const requiredMigrationSpecs = [
   "spec-ai-prototype-mobile-accessibility-report",
   "spec-ai-prototype-scoring-replay-report",
   "spec-ai-prototype-integration-readiness-gate",
+  "spec-codex-integration-review-decision",
   "spec-ai-generated-package-manifest",
   "spec-ai-generated-package-promotion-checklist",
   "spec-ai-generated-package-release-candidate",
@@ -455,6 +458,33 @@ requireText(
   schemaDraft,
   "star_dust_reward_write_allowed",
   "Backend schema must block Star Dust and reward writes.",
+);
+requireText(schemaDraft, "codex_integration_review_decision", "Backend schema must include Codex integration review decisions.");
+requireText(
+  schemaDraft,
+  "codex_integration_review_decision_id",
+  "Backend schema must preserve Codex integration review decision ids.",
+);
+requireText(
+  schemaDraft,
+  "ai_prototype_integration_readiness_gate_id",
+  "Backend schema must link Codex decisions to AI prototype integration readiness gates.",
+);
+requireText(
+  schemaDraft,
+  "manual_codex_review_required",
+  "Backend schema must preserve manual Codex review requirements.",
+);
+requireText(schemaDraft, "decision_recorded", "Backend schema must preserve Codex decision recorded state.");
+requireText(
+  schemaDraft,
+  "app_patch_generation_allowed",
+  "Backend schema must block Codex app patch generation.",
+);
+requireText(
+  schemaDraft,
+  "scoring_profile_mutation_allowed",
+  "Backend schema must block Codex scoring profile mutations.",
 );
 requireText(schemaDraft, "ai_generated_package_manifest", "Backend schema must include AI generated package manifests.");
 requireText(schemaDraft, "ai_generated_package_manifest_id", "Backend schema must preserve generated package manifest ids.");
@@ -948,6 +978,37 @@ requireText(
   migrationSpecs,
   "star_dust_reward_write_allowed",
   "Migration specs must block Star Dust and reward writes.",
+);
+requireText(
+  migrationSpecs,
+  "spec-codex-integration-review-decision",
+  "Migration specs must include Codex integration review decisions.",
+);
+requireText(
+  migrationSpecs,
+  "codex_integration_review_decision_id",
+  "Migration specs must preserve Codex integration review decision ids.",
+);
+requireText(
+  migrationSpecs,
+  "ai_prototype_integration_readiness_gate_id",
+  "Migration specs must link Codex decisions to AI prototype integration readiness gates.",
+);
+requireText(
+  migrationSpecs,
+  "manual_codex_review_required",
+  "Migration specs must preserve manual Codex review requirements.",
+);
+requireText(migrationSpecs, "decision_recorded", "Migration specs must preserve Codex decision recorded state.");
+requireText(
+  migrationSpecs,
+  "app_patch_generation_allowed",
+  "Migration specs must block Codex app patch generation.",
+);
+requireText(
+  migrationSpecs,
+  "scoring_profile_mutation_allowed",
+  "Migration specs must block Codex scoring profile mutations.",
 );
 requireText(migrationSpecs, "spec-ai-generated-package-manifest", "Migration specs must include AI generated package manifests.");
 requireText(migrationSpecs, "ai_generated_package_manifest_id", "Migration specs must preserve generated package manifest ids.");
@@ -1760,6 +1821,31 @@ requireText(
   "Persistence adapter must require Codex integration review decisions.",
 );
 requireText(persistenceAdapter, "blocksStudentFacingRoute: true", "Persistence adapter must block student-facing routes.");
+requireText(
+  persistenceAdapter,
+  "hosted-codex-integration-review-decision-write",
+  "Persistence adapter must include hosted Codex integration review decision writes.",
+);
+requireText(
+  persistenceAdapter,
+  "local-codex-integration-review-decision-write",
+  "Persistence adapter must include local Codex integration review decision writes.",
+);
+requireText(
+  persistenceAdapter,
+  "preservesCodexIntegrationReviewDecision: true",
+  "Persistence adapter must preserve Codex integration review decisions.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresManualCodexReview: true",
+  "Persistence adapter must require manual Codex reviews.",
+);
+requireText(
+  persistenceAdapter,
+  "blocksAppPatchGeneration: true",
+  "Persistence adapter must block app patch generation.",
+);
 requireText(persistenceAdapter, "hosted-ai-generated-package-manifest-write", "Persistence adapter must include hosted AI generated package manifest writes.");
 requireText(persistenceAdapter, "local-ai-generated-package-manifest-write", "Persistence adapter must include local AI generated package manifest writes.");
 requireText(persistenceAdapter, "preservesAiGeneratedPackageManifest: true", "Persistence adapter must preserve AI generated package manifest links.");
@@ -2397,6 +2483,31 @@ requireText(
   "Durable record plan must require Codex integration review decisions.",
 );
 requireText(durableRecords, "blocksStudentFacingRoute: true", "Durable record plan must block student-facing routes.");
+requireText(
+  durableRecords,
+  "codex-integration-review-decision-record",
+  "Durable record plan must include Codex integration review decision records.",
+);
+requireText(
+  durableRecords,
+  "Codex integration review decision record",
+  "Durable record plan must expose Codex integration review decision labels.",
+);
+requireText(
+  durableRecords,
+  "preservesCodexIntegrationReviewDecision: true",
+  "Durable record plan must preserve Codex integration review decisions.",
+);
+requireText(
+  durableRecords,
+  "requiresManualCodexReview: true",
+  "Durable record plan must require manual Codex reviews.",
+);
+requireText(
+  durableRecords,
+  "blocksAppPatchGeneration: true",
+  "Durable record plan must block app patch generation.",
+);
 requireText(durableRecords, "ai-generated-package-manifest-record", "Durable record plan must include AI generated package manifest records.");
 requireText(durableRecords, "AI generated package manifest record", "Durable record plan must expose AI generated package manifest record labels.");
 requireText(durableRecords, "preservesAiGeneratedPackageManifest: true", "Durable record plan must preserve AI generated package manifest links.");
@@ -2766,6 +2877,16 @@ requireText(
   routeVerifier,
   "AI prototype integration readiness gate record",
   "Active route verifier must keep AI prototype integration readiness gate durable records visible on teacher intake.",
+);
+requireText(
+  routeVerifier,
+  "codex_integration_review_decision",
+  "Active route verifier must keep Codex integration review decision storage visible on teacher intake.",
+);
+requireText(
+  routeVerifier,
+  "Codex integration review decision record",
+  "Active route verifier must keep Codex integration review decision durable records visible on teacher intake.",
 );
 requireText(routeVerifier, "ai_generated_package_manifest", "Active route verifier must keep AI generated package manifest storage visible on teacher intake.");
 requireText(routeVerifier, "AI generated package manifest record", "Active route verifier must keep AI generated package manifest durable records visible on teacher intake.");

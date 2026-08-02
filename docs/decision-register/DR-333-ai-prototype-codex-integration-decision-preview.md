@@ -17,4 +17,4 @@ Prototype evidence is necessary but not sufficient. A separate Codex decision pr
 
 ## Follow-Up
 
-Add a backend-neutral storage contract for `codex_integration_review_decision` only after the review-only decision shape stays stable.
+Backend-neutral storage contract added in `DR-334-codex-integration-review-decision-storage-contract.md`.

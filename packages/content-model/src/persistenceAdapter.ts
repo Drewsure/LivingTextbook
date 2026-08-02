@@ -47,6 +47,9 @@ export interface PersistenceWriteIntent {
   preservesAiPrototypeAudioCoverageReport?: boolean;
   preservesAiPrototypeMobileAccessibilityReport?: boolean;
   preservesAiPrototypeScoringReplayReport?: boolean;
+  preservesCodexIntegrationReviewDecision?: boolean;
+  requiresManualCodexReview?: boolean;
+  blocksAppPatchGeneration?: boolean;
   preservesAiPrototypeIntegrationReadinessGate?: boolean;
   requiresAllPrototypeEvidenceReviewed?: boolean;
   requiresCodexIntegrationReviewDecision?: boolean;
@@ -566,6 +569,58 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "ai-prototype-integration-plan" && !intent.blocksDirectStudentAssignment) {
       errors.push(`AI prototype integration plan write intent ${intent.intentId} must block student assignments.`);
+    }
+
+    if (intent.category === "codex-integration-review-decision" && !intent.preservesCodexIntegrationReviewDecision) {
+      errors.push(`Codex integration review decision write intent ${intent.intentId} must preserve decision sections.`);
+    }
+
+    if (intent.category === "codex-integration-review-decision" && !intent.requiresManualCodexReview) {
+      errors.push(`Codex integration review decision write intent ${intent.intentId} must require manual Codex review.`);
+    }
+
+    if (intent.category === "codex-integration-review-decision" && !intent.requiresAllPrototypeEvidenceReviewed) {
+      errors.push(`Codex integration review decision write intent ${intent.intentId} must require all prototype evidence reviewed.`);
+    }
+
+    if (intent.category === "codex-integration-review-decision" && !intent.blocksAppPatchGeneration) {
+      errors.push(`Codex integration review decision write intent ${intent.intentId} must block app patch generation.`);
+    }
+
+    if (intent.category === "codex-integration-review-decision" && !intent.blocksDirectAppImport) {
+      errors.push(`Codex integration review decision write intent ${intent.intentId} must block direct app imports.`);
+    }
+
+    if (intent.category === "codex-integration-review-decision" && !intent.blocksGeneratedGameRouteWrite) {
+      errors.push(`Codex integration review decision write intent ${intent.intentId} must block route writes.`);
+    }
+
+    if (intent.category === "codex-integration-review-decision" && !intent.blocksStudentFacingRoute) {
+      errors.push(`Codex integration review decision write intent ${intent.intentId} must block student-facing routes.`);
+    }
+
+    if (intent.category === "codex-integration-review-decision" && !intent.blocksScoringProfileOverride) {
+      errors.push(`Codex integration review decision write intent ${intent.intentId} must block scoring mutations.`);
+    }
+
+    if (intent.category === "codex-integration-review-decision" && !intent.blocksStarDustWrite) {
+      errors.push(`Codex integration review decision write intent ${intent.intentId} must block Star Dust writes.`);
+    }
+
+    if (intent.category === "codex-integration-review-decision" && !intent.blocksRewardInventoryWrite) {
+      errors.push(`Codex integration review decision write intent ${intent.intentId} must block reward inventory writes.`);
+    }
+
+    if (intent.category === "codex-integration-review-decision" && !intent.blocksAudioManifestMutation) {
+      errors.push(`Codex integration review decision write intent ${intent.intentId} must block audio manifest mutations.`);
+    }
+
+    if (intent.category === "codex-integration-review-decision" && !intent.blocksPackagePromotion) {
+      errors.push(`Codex integration review decision write intent ${intent.intentId} must block package promotion.`);
+    }
+
+    if (intent.category === "codex-integration-review-decision" && !intent.blocksDirectStudentAssignment) {
+      errors.push(`Codex integration review decision write intent ${intent.intentId} must block student assignments.`);
     }
 
     if (

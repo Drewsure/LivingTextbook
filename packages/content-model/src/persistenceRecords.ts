@@ -16,6 +16,7 @@ export type PersistenceRecordCategory =
   | "ai-prototype-audio-coverage-report"
   | "ai-prototype-mobile-accessibility-report"
   | "ai-prototype-scoring-replay-report"
+  | "codex-integration-review-decision"
   | "ai-prototype-integration-readiness-gate"
   | "ai-generated-package-manifest"
   | "ai-generated-package-promotion-checklist"
@@ -125,6 +126,9 @@ export interface DurableRecordContract {
   preservesAiPrototypeAudioCoverageReport?: boolean;
   preservesAiPrototypeMobileAccessibilityReport?: boolean;
   preservesAiPrototypeScoringReplayReport?: boolean;
+  preservesCodexIntegrationReviewDecision?: boolean;
+  requiresManualCodexReview?: boolean;
+  blocksAppPatchGeneration?: boolean;
   preservesAiPrototypeIntegrationReadinessGate?: boolean;
   requiresAllPrototypeEvidenceReviewed?: boolean;
   requiresCodexIntegrationReviewDecision?: boolean;
@@ -609,6 +613,58 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "ai-prototype-integration-plan" && !record.blocksDirectStudentAssignment) {
       errors.push(`AI prototype integration plan record ${record.recordId} must block student assignments.`);
+    }
+
+    if (record.category === "codex-integration-review-decision" && !record.preservesCodexIntegrationReviewDecision) {
+      errors.push(`Codex integration review decision record ${record.recordId} must preserve decision sections.`);
+    }
+
+    if (record.category === "codex-integration-review-decision" && !record.requiresManualCodexReview) {
+      errors.push(`Codex integration review decision record ${record.recordId} must require manual Codex review.`);
+    }
+
+    if (record.category === "codex-integration-review-decision" && !record.requiresAllPrototypeEvidenceReviewed) {
+      errors.push(`Codex integration review decision record ${record.recordId} must require all prototype evidence reviewed.`);
+    }
+
+    if (record.category === "codex-integration-review-decision" && !record.blocksAppPatchGeneration) {
+      errors.push(`Codex integration review decision record ${record.recordId} must block app patch generation.`);
+    }
+
+    if (record.category === "codex-integration-review-decision" && !record.blocksDirectAppImport) {
+      errors.push(`Codex integration review decision record ${record.recordId} must block direct app imports.`);
+    }
+
+    if (record.category === "codex-integration-review-decision" && !record.blocksGeneratedGameRouteWrite) {
+      errors.push(`Codex integration review decision record ${record.recordId} must block route writes.`);
+    }
+
+    if (record.category === "codex-integration-review-decision" && !record.blocksStudentFacingRoute) {
+      errors.push(`Codex integration review decision record ${record.recordId} must block student-facing routes.`);
+    }
+
+    if (record.category === "codex-integration-review-decision" && !record.blocksScoringProfileOverride) {
+      errors.push(`Codex integration review decision record ${record.recordId} must block scoring mutations.`);
+    }
+
+    if (record.category === "codex-integration-review-decision" && !record.blocksStarDustWrite) {
+      errors.push(`Codex integration review decision record ${record.recordId} must block Star Dust writes.`);
+    }
+
+    if (record.category === "codex-integration-review-decision" && !record.blocksRewardInventoryWrite) {
+      errors.push(`Codex integration review decision record ${record.recordId} must block reward inventory writes.`);
+    }
+
+    if (record.category === "codex-integration-review-decision" && !record.blocksAudioManifestMutation) {
+      errors.push(`Codex integration review decision record ${record.recordId} must block audio manifest mutations.`);
+    }
+
+    if (record.category === "codex-integration-review-decision" && !record.blocksPackagePromotion) {
+      errors.push(`Codex integration review decision record ${record.recordId} must block package promotion.`);
+    }
+
+    if (record.category === "codex-integration-review-decision" && !record.blocksDirectStudentAssignment) {
+      errors.push(`Codex integration review decision record ${record.recordId} must block student assignments.`);
     }
 
     if (

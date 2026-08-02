@@ -189,6 +189,8 @@ The decision preview cannot generate `apps/web` patches, import returned code, w
 
 MiniStar Codex decisions must keep Japanese support language support-only and hiragana-safe for early levels while English remains the target-language trigger.
 
+The backend-neutral storage contract is `codex_integration_review_decision` / `codex-integration-review-decision`. Hosted and local adapters must preserve linked integration plan, linked readiness gate, selected decision, decision status, no-decision/decision-recorded state, manual Codex review requirement, all-evidence-reviewed state, reviewer identity requirement, decision options, decision evidence checks, and blocked actions while blocking app patch generation, direct imports, route writes, student-facing routes, scoring profile mutation, Star Dust or reward writes, audio manifest mutation, package promotion, and assignments.
+
 ## Prototype Integration Readiness Gate Rule
 
 Prototype integration readiness gates must roll up all review evidence before any returned prototype can propose an `apps/web` integration patch. The gate must show wrapper adapter review, fixture replay report, event replay report, audio coverage report, mobile accessibility report, scoring replay report, and Codex integration review decision requirements in one teacher/admin-visible place.

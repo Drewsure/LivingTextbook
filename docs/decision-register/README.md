@@ -305,6 +305,7 @@
 - `DR-331-ai-prototype-integration-readiness-gate.md`
 - `DR-332-ai-prototype-integration-readiness-storage-contract.md`
 - `DR-333-ai-prototype-codex-integration-decision-preview.md`
+- `DR-334-codex-integration-review-decision-storage-contract.md`
 
 ## Maintenance Rule
 

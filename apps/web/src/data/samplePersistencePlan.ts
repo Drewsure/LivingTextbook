@@ -29,6 +29,7 @@ export type PersistenceBoundaryCategory =
   | "ai-prototype-mobile-accessibility-report"
   | "ai-prototype-scoring-replay-report"
   | "ai-prototype-integration-readiness-gate"
+  | "codex-integration-review-decision"
   | "ai-generated-package-manifest"
   | "ai-generated-package-promotion-checklist"
   | "ai-generated-package-release-candidate"
@@ -533,6 +534,36 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
     note:
       "AI prototype integration readiness gates need durable all-evidence and Codex decision state before returned prototypes can propose apps/web patches, routes, scoring changes, reward writes, package promotion, or assignments.",
+  },
+  {
+    recordId: "codex-integration-review-decision-record",
+    category: "codex-integration-review-decision",
+    label: "Codex integration review decision record",
+    readiness: "durable-required",
+    sourceOfTruth:
+      "AiPrototypeCodexIntegrationDecision, integration plan, readiness gate, selected decision, decision status, evidence checks, reviewer identity requirement, and blocked actions",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: false,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesCodexIntegrationReviewDecision: true,
+    requiresManualCodexReview: true,
+    requiresAllPrototypeEvidenceReviewed: true,
+    blocksAppPatchGeneration: true,
+    blocksDirectAppImport: true,
+    blocksGeneratedGameRouteWrite: true,
+    blocksStudentFacingRoute: true,
+    blocksScoringProfileOverride: true,
+    blocksStarDustWrite: true,
+    blocksRewardInventoryWrite: true,
+    blocksAudioManifestMutation: true,
+    blocksPackagePromotion: true,
+    blocksDirectStudentAssignment: true,
+    recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
+    note:
+      "Codex integration review decisions need durable manual review state before returned prototypes can move toward apps/web patch planning, route writes, scoring changes, reward writes, package promotion, or assignments.",
   },
   {
     recordId: "ai-generated-package-promotion-checklist-record",
@@ -1927,6 +1958,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision:
       "Persist AI prototype integration readiness gates before enabling apps/web patch proposals, route writes, student-facing previews, scoring changes, reward writes, package promotion, or assignments.",
+  },
+  {
+    boundaryId: "codex-integration-review-decision-boundary",
+    category: "codex-integration-review-decision",
+    label: "Codex integration review decision records",
+    status: "needs-backend",
+    recordShape:
+      "Codex decision id, tenant id, request id, integration plan id, readiness gate id, selected decision, decision status, decision recorded flag, manual review requirement, all-evidence-reviewed state, reviewer identity requirement, evidence checks, decision options, app patch block, route block, scoring mutation block, Star Dust/reward block, audio manifest block, package promotion block, assignment block",
+    whyItMatters:
+      "A returned prototype needs an accountable Codex decision before it can move toward wrapper integration planning, and the decision itself must not create routes, scores, rewards, package releases, or assignments.",
+    visibleTo: ["Platform admin", "Tenant admin", "Content reviewer", "Prototype reviewer"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Persist Codex integration review decisions before enabling apps/web patch generation, route writes, student-facing previews, scoring changes, reward writes, package promotion, or assignments.",
   },
   {
     boundaryId: "ai-generated-package-promotion-checklist-boundary",
