@@ -107,6 +107,8 @@ The preview combines manifest completeness, promotion checklist status, publish 
 
 MiniStar assembly readiness must keep English as the target-language assembly trigger. Japanese hiragana support for early levels remains support-only and cannot satisfy assembly, scoring, mastery, reward, route, playlist, assignment, or student-ready gates.
 
+The backend-neutral storage contract is `ai_generated_package_assembly_readiness` / `ai-generated-package-assembly-readiness`. Hosted and local adapters must preserve manifest, promotion checklist, publish readiness, release candidate, teacher approval, media-rights, target-language audio, and support-language boundary lanes while blocking generated package assembly, route registry writes, media playlist writes, local bundle writes, assignment creation, student-ready markers, and support-language-only assembly.
+
 ## Draft Payload Validation Rule
 
 AI-generated draft payloads must pass the shared `validateAiGeneratedDraftPayload` / `validateAiGeneratedDraftPayloadPreview` contract before review, persistence, verifier submission, package assembly, route creation, playlist creation, or student assignment can be considered.

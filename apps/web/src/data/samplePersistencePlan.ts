@@ -39,6 +39,7 @@ export type PersistenceBoundaryCategory =
   | "ai-generated-package-manifest"
   | "ai-generated-package-promotion-checklist"
   | "ai-generated-package-release-candidate"
+  | "ai-generated-package-assembly-readiness"
   | "ai-reward-readiness-gate"
   | "ai-generated-publish-readiness-gate"
   | "ai-generator-tenant-coverage-gate"
@@ -854,6 +855,40 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
     note:
       "AI generated package release candidates need durable private-library handoff evidence before generated packages can write tenant library items, release candidates, student routes, assignments, local bundles, or student-ready state.",
+  },
+  {
+    recordId: "ai-generated-package-assembly-readiness-record",
+    category: "ai-generated-package-assembly-readiness",
+    label: "AI generated package assembly readiness record",
+    readiness: "durable-required",
+    sourceOfTruth:
+      "AiGeneratedPackageAssemblyReadiness, generated package manifest, promotion checklist, publish readiness gate, release candidate, approval ledger, media-rights evidence, target-language audio coverage, and support-language boundary lanes",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesAiGeneratedPackageAssemblyReadiness: true,
+    preservesAiGeneratedPackageManifest: true,
+    preservesAiGeneratedPackagePromotionChecklist: true,
+    preservesAiGeneratedPublishReadinessGate: true,
+    preservesAiGeneratedPackageReleaseCandidate: true,
+    requiresPackageAssemblyReadinessLanes: true,
+    requiresTargetLanguageAudioApproval: true,
+    requiresMediaRightsEvidence: true,
+    requiresTeacherApprovalLedger: true,
+    blocksGeneratedPackageAssembly: true,
+    blocksGeneratedPackageRouteWrite: true,
+    blocksGeneratedPackagePlaylistWrite: true,
+    blocksGeneratedPackageLocalBundleWrite: true,
+    blocksStudentReadyMarker: true,
+    blocksGeneratedPackageAssignment: true,
+    blocksSupportLanguageAssembly: true,
+    blocksDirectStudentAssignment: true,
+    recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
+    note:
+      "AI generated package assembly readiness needs durable lane evidence before generated packages can assemble packages, write routes, create playlists, write local bundles, assign students, mark student-ready state, or use support-language-only review as assembly evidence.",
   },
   {
     recordId: "ai-reward-readiness-gate-record",
@@ -2357,6 +2392,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision:
       "Persist AI generated package release candidates before enabling generated package library publish, release candidate writes, tenant library item writes, student-facing release, assignment, local bundle release, or student-ready markers.",
+  },
+  {
+    boundaryId: "ai-generated-package-assembly-readiness-boundary",
+    category: "ai-generated-package-assembly-readiness",
+    label: "AI generated package assembly readiness records",
+    status: "needs-backend",
+    recordShape:
+      "Assembly readiness id, tenant id, request id, generated manifest id, promotion checklist id, publish readiness gate id, release candidate id, approval ledger id, media-rights evidence id, package game audio coverage id, assembly readiness lanes, blocked assembly actions, and package/route/playlist/local-bundle/assignment/student-ready/support-language blocks",
+    whyItMatters:
+      "Generated package assembly needs a durable readiness record so future package writes cannot be inferred from UI state, sample data, or a generic release candidate preview.",
+    visibleTo: ["Teacher", "Tenant admin", "Content reviewer", "Platform admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Persist AI generated package assembly readiness before enabling generated package assembly, route writes, playlist writes, local bundle writes, assignment, student-ready markers, or support-language-only assembly.",
   },
   {
     boundaryId: "ai-reward-readiness-gate-boundary",

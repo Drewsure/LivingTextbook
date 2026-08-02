@@ -237,6 +237,43 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
       ],
     },
     {
+      migrationId: "m080-ai-generated-package-assembly-readiness-records",
+      label: "AI generated package assembly readiness records",
+      track: "shared",
+      status: "ready-to-design",
+      risk: "medium",
+      targetEntities: ["ai_generated_package_assembly_readiness"],
+      purpose:
+        "Persist review-only generated package assembly readiness before AI drafts can move toward package assembly, route registry entries, media playlists, local bundles, assignments, or student-ready state.",
+      prerequisites: [
+        "AI generated package manifest accepted",
+        "AI generated package promotion checklist accepted",
+        "AI generated publish readiness gate accepted",
+        "AI generated package release candidate accepted",
+        "Teacher approval, media-rights, and target-language audio evidence policy accepted",
+      ],
+      implementationNotes: [
+        "Keep assembly readiness tenant-scoped, generation-request-scoped, and manifest-scoped.",
+        "Preserve manifest, promotion, publish readiness, release candidate, teacher approval, media rights, target-language audio, and support-language boundary lanes.",
+        "Block package assembly, route registry writes, media playlist writes, local bundle writes, assignment writes, student-ready markers, and support-language-only assembly.",
+        "Do not let an assembly readiness record create production packages, routes, playlists, assignments, or local bundles by itself.",
+      ],
+      rollbackOrExportNeeds: [
+        "Export generated package assembly readiness JSON with linked manifest, promotion, publish readiness, release candidate, approval, media-rights, and audio ids",
+        "Retain blocked, reviewed, returned, superseded, and cleared assembly readiness snapshots for audit",
+        "Support local generated assembly readiness backup and restore without enabling offline package assembly, route, playlist, local bundle, assignment, or student-ready writes",
+      ],
+      notAllowedYet: [
+        "Generated package assembly",
+        "Route registry write",
+        "Media playlist write",
+        "Local bundle write",
+        "Student assignment",
+        "Student-ready marker",
+        "Support-language-only assembly",
+      ],
+    },
+    {
       migrationId: "m060-ai-generated-game-build-brief-records",
       label: "AI generated game build brief records",
       track: "shared",

@@ -34,6 +34,7 @@ const requiredSchemaEntities = [
   "ai_generated_package_manifest",
   "ai_generated_package_promotion_checklist",
   "ai_generated_package_release_candidate",
+  "ai_generated_package_assembly_readiness",
   "ai_reward_readiness_gate",
   "ai_generated_publish_readiness_gate",
   "ai_generator_tenant_coverage_gate",
@@ -118,6 +119,7 @@ const requiredMigrationCandidates = [
   "m054-ai-generated-package-manifest-records",
   "m058-ai-generated-package-promotion-checklist-records",
   "m059-ai-generated-package-release-candidate-records",
+  "m080-ai-generated-package-assembly-readiness-records",
   "m055-ai-reward-readiness-gate-records",
   "m056-ai-generated-publish-readiness-gate-records",
   "m057-ai-generator-tenant-coverage-gate-records",
@@ -205,6 +207,7 @@ const requiredMigrationSpecs = [
   "spec-ai-generated-package-manifest",
   "spec-ai-generated-package-promotion-checklist",
   "spec-ai-generated-package-release-candidate",
+  "spec-ai-generated-package-assembly-readiness",
   "spec-ai-reward-readiness-gate",
   "spec-ai-generated-publish-readiness-gate",
   "spec-ai-generator-tenant-coverage-gate",
@@ -667,6 +670,21 @@ requireText(schemaDraft, "tenant_library_item_write_allowed", "Backend schema mu
 requireText(schemaDraft, "student_facing_release_allowed", "Backend schema must block student-facing release.");
 requireText(schemaDraft, "local_bundle_release_allowed", "Backend schema must block local bundle release.");
 requireText(schemaDraft, "support_language_release_allowed", "Backend schema must block support-language-only release.");
+requireText(
+  schemaDraft,
+  "ai_generated_package_assembly_readiness",
+  "Backend schema must include AI generated package assembly readiness.",
+);
+requireText(
+  schemaDraft,
+  "ai_generated_package_assembly_readiness_id",
+  "Backend schema must preserve AI generated package assembly readiness ids.",
+);
+requireText(schemaDraft, "assembly_readiness_lanes", "Backend schema must preserve package assembly readiness lanes.");
+requireText(schemaDraft, "blocked_assembly_actions", "Backend schema must preserve package assembly action blocks.");
+requireText(schemaDraft, "media_rights_evidence_id", "Backend schema must require media rights evidence.");
+requireText(schemaDraft, "package_game_audio_coverage_id", "Backend schema must require target-language audio evidence.");
+requireText(schemaDraft, "support_language_assembly_allowed", "Backend schema must block support-language-only assembly.");
 requireText(schemaDraft, "ai_reward_readiness_gate", "Backend schema must include AI reward readiness gates.");
 requireText(schemaDraft, "ai_reward_readiness_gate_id", "Backend schema must preserve AI reward readiness gate ids.");
 requireText(schemaDraft, "ai_draft_correction_queue_id", "Backend schema must preserve AI draft correction queue ids.");
@@ -1344,6 +1362,20 @@ requireText(migrationSpecs, "tenant_library_item_write_allowed", "Migration spec
 requireText(migrationSpecs, "student_facing_release_allowed", "Migration specs must block student-facing release.");
 requireText(migrationSpecs, "local_bundle_release_allowed", "Migration specs must block local bundle release.");
 requireText(migrationSpecs, "support_language_release_allowed", "Migration specs must block support-language release.");
+requireText(
+  migrationSpecs,
+  "spec-ai-generated-package-assembly-readiness",
+  "Migration specs must include AI generated package assembly readiness.",
+);
+requireText(
+  migrationSpecs,
+  "ai_generated_package_assembly_readiness_id",
+  "Migration specs must preserve generated package assembly readiness ids.",
+);
+requireText(migrationSpecs, "assembly_readiness_lanes", "Migration specs must preserve package assembly readiness lanes.");
+requireText(migrationSpecs, "blocked_assembly_actions", "Migration specs must preserve package assembly action blocks.");
+requireText(migrationSpecs, "media_rights_evidence_id", "Migration specs must require media rights evidence.");
+requireText(migrationSpecs, "support_language_assembly_allowed", "Migration specs must block support-language assembly.");
 requireText(migrationSpecs, "spec-ai-reward-readiness-gate", "Migration specs must include AI reward readiness gates.");
 requireText(migrationSpecs, "ai_reward_readiness_gate_id", "Migration specs must preserve AI reward readiness gate ids.");
 requireText(migrationSpecs, "ai_draft_correction_queue_id", "Migration specs must preserve AI draft correction queue ids.");
@@ -2439,6 +2471,36 @@ requireText(
   "blocksSupportLanguageRelease: true",
   "Persistence adapter must block support-language release.",
 );
+requireText(
+  persistenceAdapter,
+  "hosted-ai-generated-package-assembly-readiness-write",
+  "Persistence adapter must include hosted AI generated package assembly readiness writes.",
+);
+requireText(
+  persistenceAdapter,
+  "local-ai-generated-package-assembly-readiness-write",
+  "Persistence adapter must include local AI generated package assembly readiness writes.",
+);
+requireText(
+  persistenceAdapter,
+  "preservesAiGeneratedPackageAssemblyReadiness: true",
+  "Persistence adapter must preserve AI generated package assembly readiness lanes.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresPackageAssemblyReadinessLanes: true",
+  "Persistence adapter must require package assembly readiness lanes.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresMediaRightsEvidence: true",
+  "Persistence adapter must require media rights evidence.",
+);
+requireText(
+  persistenceAdapter,
+  "blocksSupportLanguageAssembly: true",
+  "Persistence adapter must block support-language-only assembly.",
+);
 requireText(persistenceAdapter, "hosted-ai-reward-readiness-gate-write", "Persistence adapter must include hosted AI reward readiness gate writes.");
 requireText(persistenceAdapter, "local-ai-reward-readiness-gate-write", "Persistence adapter must include local AI reward readiness gate writes.");
 requireText(persistenceAdapter, "preservesAiRewardReadinessGate: true", "Persistence adapter must preserve AI reward readiness checks.");
@@ -3381,6 +3443,36 @@ requireText(
   "Durable record plan must block generated local bundle release.",
 );
 requireText(durableRecords, "blocksSupportLanguageRelease: true", "Durable record plan must block support-language release.");
+requireText(
+  durableRecords,
+  "ai-generated-package-assembly-readiness-record",
+  "Durable record plan must include AI generated package assembly readiness records.",
+);
+requireText(
+  durableRecords,
+  "AI generated package assembly readiness record",
+  "Durable record plan must expose AI generated package assembly readiness labels.",
+);
+requireText(
+  durableRecords,
+  "preservesAiGeneratedPackageAssemblyReadiness: true",
+  "Durable record plan must preserve AI generated package assembly readiness lanes.",
+);
+requireText(
+  durableRecords,
+  "requiresPackageAssemblyReadinessLanes: true",
+  "Durable record plan must require package assembly readiness lanes.",
+);
+requireText(
+  durableRecords,
+  "requiresMediaRightsEvidence: true",
+  "Durable record plan must require media rights evidence.",
+);
+requireText(
+  durableRecords,
+  "blocksSupportLanguageAssembly: true",
+  "Durable record plan must block support-language-only assembly.",
+);
 requireText(durableRecords, "ai-reward-readiness-gate-record", "Durable record plan must include AI reward readiness gate records.");
 requireText(durableRecords, "AI reward readiness gate record", "Durable record plan must expose AI reward readiness gate labels.");
 requireText(durableRecords, "preservesAiRewardReadinessGate: true", "Durable record plan must preserve AI reward readiness checks.");

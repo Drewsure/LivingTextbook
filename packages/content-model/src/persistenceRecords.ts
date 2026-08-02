@@ -27,6 +27,7 @@ export type PersistenceRecordCategory =
   | "ai-generated-package-manifest"
   | "ai-generated-package-promotion-checklist"
   | "ai-generated-package-release-candidate"
+  | "ai-generated-package-assembly-readiness"
   | "ai-reward-readiness-gate"
   | "ai-generated-publish-readiness-gate"
   | "ai-generator-tenant-coverage-gate"
@@ -248,8 +249,11 @@ export interface DurableRecordContract {
   preservesAiGeneratedPackageManifest?: boolean;
   preservesAiGeneratedPackagePromotionChecklist?: boolean;
   preservesAiGeneratedPackageReleaseCandidate?: boolean;
+  preservesAiGeneratedPackageAssemblyReadiness?: boolean;
   requiresLineageMap?: boolean;
   requiresTargetLanguageAudioApproval?: boolean;
+  requiresPackageAssemblyReadinessLanes?: boolean;
+  requiresMediaRightsEvidence?: boolean;
   blocksGeneratedPackagePromotion?: boolean;
   requiresPrivateLibraryTarget?: boolean;
   blocksGeneratedPackageLibraryPublish?: boolean;
@@ -264,6 +268,7 @@ export interface DurableRecordContract {
   blocksGeneratedPackageAssignment?: boolean;
   blocksGeneratedPackageLocalBundleWrite?: boolean;
   blocksStudentReadyMarker?: boolean;
+  blocksSupportLanguageAssembly?: boolean;
   preservesAiRewardReadinessGate?: boolean;
   preservesDeterministicRewardRules?: boolean;
   blocksRewardPublishing?: boolean;
@@ -1765,6 +1770,91 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "ai-generated-package-release-candidate" && !record.blocksSupportLanguageRelease) {
       errors.push(`AI generated package release candidate record ${record.recordId} must block support-language release.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-assembly-readiness" &&
+      !record.preservesAiGeneratedPackageAssemblyReadiness
+    ) {
+      errors.push(`AI generated package assembly readiness record ${record.recordId} must preserve assembly readiness lanes.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-assembly-readiness" &&
+      !record.preservesAiGeneratedPackageManifest
+    ) {
+      errors.push(`AI generated package assembly readiness record ${record.recordId} must preserve generated package manifest links.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-assembly-readiness" &&
+      !record.preservesAiGeneratedPackagePromotionChecklist
+    ) {
+      errors.push(`AI generated package assembly readiness record ${record.recordId} must preserve promotion checklist links.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-assembly-readiness" &&
+      !record.preservesAiGeneratedPublishReadinessGate
+    ) {
+      errors.push(`AI generated package assembly readiness record ${record.recordId} must preserve publish readiness links.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-assembly-readiness" &&
+      !record.preservesAiGeneratedPackageReleaseCandidate
+    ) {
+      errors.push(`AI generated package assembly readiness record ${record.recordId} must preserve release candidate links.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-assembly-readiness" &&
+      !record.requiresPackageAssemblyReadinessLanes
+    ) {
+      errors.push(`AI generated package assembly readiness record ${record.recordId} must require assembly readiness lanes.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-assembly-readiness" &&
+      !record.requiresTargetLanguageAudioApproval
+    ) {
+      errors.push(`AI generated package assembly readiness record ${record.recordId} must require target-language audio approval.`);
+    }
+
+    if (record.category === "ai-generated-package-assembly-readiness" && !record.requiresMediaRightsEvidence) {
+      errors.push(`AI generated package assembly readiness record ${record.recordId} must require media rights evidence.`);
+    }
+
+    if (record.category === "ai-generated-package-assembly-readiness" && !record.requiresTeacherApprovalLedger) {
+      errors.push(`AI generated package assembly readiness record ${record.recordId} must require teacher approval ledger capture.`);
+    }
+
+    if (record.category === "ai-generated-package-assembly-readiness" && !record.blocksGeneratedPackageAssembly) {
+      errors.push(`AI generated package assembly readiness record ${record.recordId} must block generated package assembly.`);
+    }
+
+    if (record.category === "ai-generated-package-assembly-readiness" && !record.blocksGeneratedPackageRouteWrite) {
+      errors.push(`AI generated package assembly readiness record ${record.recordId} must block route registry writes.`);
+    }
+
+    if (record.category === "ai-generated-package-assembly-readiness" && !record.blocksGeneratedPackagePlaylistWrite) {
+      errors.push(`AI generated package assembly readiness record ${record.recordId} must block media playlist writes.`);
+    }
+
+    if (record.category === "ai-generated-package-assembly-readiness" && !record.blocksGeneratedPackageLocalBundleWrite) {
+      errors.push(`AI generated package assembly readiness record ${record.recordId} must block local bundle writes.`);
+    }
+
+    if (record.category === "ai-generated-package-assembly-readiness" && !record.blocksStudentReadyMarker) {
+      errors.push(`AI generated package assembly readiness record ${record.recordId} must block student-ready markers.`);
+    }
+
+    if (record.category === "ai-generated-package-assembly-readiness" && !record.blocksGeneratedPackageAssignment) {
+      errors.push(`AI generated package assembly readiness record ${record.recordId} must block assignment writes.`);
+    }
+
+    if (record.category === "ai-generated-package-assembly-readiness" && !record.blocksSupportLanguageAssembly) {
+      errors.push(`AI generated package assembly readiness record ${record.recordId} must block support-language-only assembly.`);
     }
 
     if (record.category === "ai-reward-readiness-gate" && !record.preservesAiRewardReadinessGate) {

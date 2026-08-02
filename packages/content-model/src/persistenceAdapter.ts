@@ -160,8 +160,11 @@ export interface PersistenceWriteIntent {
   preservesAiGeneratedPackageManifest?: boolean;
   preservesAiGeneratedPackagePromotionChecklist?: boolean;
   preservesAiGeneratedPackageReleaseCandidate?: boolean;
+  preservesAiGeneratedPackageAssemblyReadiness?: boolean;
   requiresLineageMap?: boolean;
   requiresTargetLanguageAudioApproval?: boolean;
+  requiresPackageAssemblyReadinessLanes?: boolean;
+  requiresMediaRightsEvidence?: boolean;
   blocksGeneratedPackagePromotion?: boolean;
   requiresPrivateLibraryTarget?: boolean;
   blocksGeneratedPackageLibraryPublish?: boolean;
@@ -176,6 +179,7 @@ export interface PersistenceWriteIntent {
   blocksGeneratedPackageAssignment?: boolean;
   blocksGeneratedPackageLocalBundleWrite?: boolean;
   blocksStudentReadyMarker?: boolean;
+  blocksSupportLanguageAssembly?: boolean;
   preservesAiRewardReadinessGate?: boolean;
   preservesDeterministicRewardRules?: boolean;
   blocksRewardPublishing?: boolean;
@@ -1712,6 +1716,91 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "ai-generated-package-release-candidate" && !intent.blocksSupportLanguageRelease) {
       errors.push(`AI generated package release candidate write intent ${intent.intentId} must block support-language release.`);
+    }
+
+    if (
+      intent.category === "ai-generated-package-assembly-readiness" &&
+      !intent.preservesAiGeneratedPackageAssemblyReadiness
+    ) {
+      errors.push(`AI generated package assembly readiness write intent ${intent.intentId} must preserve assembly readiness lanes.`);
+    }
+
+    if (
+      intent.category === "ai-generated-package-assembly-readiness" &&
+      !intent.preservesAiGeneratedPackageManifest
+    ) {
+      errors.push(`AI generated package assembly readiness write intent ${intent.intentId} must preserve generated package manifest links.`);
+    }
+
+    if (
+      intent.category === "ai-generated-package-assembly-readiness" &&
+      !intent.preservesAiGeneratedPackagePromotionChecklist
+    ) {
+      errors.push(`AI generated package assembly readiness write intent ${intent.intentId} must preserve promotion checklist links.`);
+    }
+
+    if (
+      intent.category === "ai-generated-package-assembly-readiness" &&
+      !intent.preservesAiGeneratedPublishReadinessGate
+    ) {
+      errors.push(`AI generated package assembly readiness write intent ${intent.intentId} must preserve publish readiness links.`);
+    }
+
+    if (
+      intent.category === "ai-generated-package-assembly-readiness" &&
+      !intent.preservesAiGeneratedPackageReleaseCandidate
+    ) {
+      errors.push(`AI generated package assembly readiness write intent ${intent.intentId} must preserve release candidate links.`);
+    }
+
+    if (
+      intent.category === "ai-generated-package-assembly-readiness" &&
+      !intent.requiresPackageAssemblyReadinessLanes
+    ) {
+      errors.push(`AI generated package assembly readiness write intent ${intent.intentId} must require assembly readiness lanes.`);
+    }
+
+    if (
+      intent.category === "ai-generated-package-assembly-readiness" &&
+      !intent.requiresTargetLanguageAudioApproval
+    ) {
+      errors.push(`AI generated package assembly readiness write intent ${intent.intentId} must require target-language audio approval.`);
+    }
+
+    if (intent.category === "ai-generated-package-assembly-readiness" && !intent.requiresMediaRightsEvidence) {
+      errors.push(`AI generated package assembly readiness write intent ${intent.intentId} must require media rights evidence.`);
+    }
+
+    if (intent.category === "ai-generated-package-assembly-readiness" && !intent.requiresTeacherApprovalLedger) {
+      errors.push(`AI generated package assembly readiness write intent ${intent.intentId} must require teacher approval ledger capture.`);
+    }
+
+    if (intent.category === "ai-generated-package-assembly-readiness" && !intent.blocksGeneratedPackageAssembly) {
+      errors.push(`AI generated package assembly readiness write intent ${intent.intentId} must block generated package assembly.`);
+    }
+
+    if (intent.category === "ai-generated-package-assembly-readiness" && !intent.blocksGeneratedPackageRouteWrite) {
+      errors.push(`AI generated package assembly readiness write intent ${intent.intentId} must block route registry writes.`);
+    }
+
+    if (intent.category === "ai-generated-package-assembly-readiness" && !intent.blocksGeneratedPackagePlaylistWrite) {
+      errors.push(`AI generated package assembly readiness write intent ${intent.intentId} must block media playlist writes.`);
+    }
+
+    if (intent.category === "ai-generated-package-assembly-readiness" && !intent.blocksGeneratedPackageLocalBundleWrite) {
+      errors.push(`AI generated package assembly readiness write intent ${intent.intentId} must block local bundle writes.`);
+    }
+
+    if (intent.category === "ai-generated-package-assembly-readiness" && !intent.blocksStudentReadyMarker) {
+      errors.push(`AI generated package assembly readiness write intent ${intent.intentId} must block student-ready markers.`);
+    }
+
+    if (intent.category === "ai-generated-package-assembly-readiness" && !intent.blocksGeneratedPackageAssignment) {
+      errors.push(`AI generated package assembly readiness write intent ${intent.intentId} must block assignment writes.`);
+    }
+
+    if (intent.category === "ai-generated-package-assembly-readiness" && !intent.blocksSupportLanguageAssembly) {
+      errors.push(`AI generated package assembly readiness write intent ${intent.intentId} must block support-language-only assembly.`);
     }
 
     if (intent.category === "ai-reward-readiness-gate" && !intent.preservesAiRewardReadinessGate) {

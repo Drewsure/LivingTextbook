@@ -1106,6 +1106,148 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       ],
     },
     {
+      specId: "spec-ai-generated-package-assembly-readiness",
+      label: "AI generated package assembly readiness",
+      candidateId: "m080-ai-generated-package-assembly-readiness-records",
+      storeKind: "admin-record",
+      status: "ready-for-review",
+      purpose:
+        "Stores generated package assembly readiness lanes while keeping package assembly, route, playlist, local bundle, assignment, and student-ready writes blocked.",
+      primaryKey: "ai_generated_package_assembly_readiness_id",
+      tenantScope:
+        "Scoped by tenant_id, generation_request_id, ai_generated_package_manifest_id, ai_generated_package_promotion_checklist_id, ai_generated_publish_readiness_gate_id, ai_generated_package_release_candidate_id, and readiness_revision.",
+      fields: [
+        {
+          name: "ai_generated_package_assembly_readiness_id",
+          type: "string",
+          required: true,
+          note: "Stable id for one generated package assembly readiness snapshot.",
+        },
+        {
+          name: "generation_request_id",
+          type: "string",
+          required: true,
+          note: "AI generation request this assembly readiness belongs to.",
+        },
+        {
+          name: "ai_generated_package_manifest_id",
+          type: "string",
+          required: true,
+          note: "Generated package manifest being checked.",
+        },
+        {
+          name: "ai_generated_package_promotion_checklist_id",
+          type: "string",
+          required: true,
+          note: "Promotion checklist required before assembly readiness can clear.",
+        },
+        {
+          name: "ai_generated_publish_readiness_gate_id",
+          type: "string",
+          required: true,
+          note: "Publish readiness gate required before assembly readiness can clear.",
+        },
+        {
+          name: "ai_generated_package_release_candidate_id",
+          type: "string",
+          required: true,
+          note: "Release candidate handoff preview required before assembly readiness can clear.",
+        },
+        {
+          name: "package_approval_ledger_id",
+          type: "string",
+          required: true,
+          note: "Teacher/reviewer approval evidence required before assembly.",
+        },
+        {
+          name: "media_rights_evidence_id",
+          type: "string",
+          required: true,
+          note: "Media-rights evidence packet or attachment id.",
+        },
+        {
+          name: "package_game_audio_coverage_id",
+          type: "string",
+          required: true,
+          note: "Target-language game audio approval id.",
+        },
+        {
+          name: "assembly_readiness_lanes",
+          type: "json",
+          required: true,
+          note: "Manifest, promotion, publish, release, teacher approval, media rights, target audio, and support-language boundary lanes.",
+        },
+        {
+          name: "blocked_assembly_actions",
+          type: "json",
+          required: true,
+          note: "Package assembly, route, playlist, local bundle, assignment, student-ready, and support-language-only blocks.",
+        },
+        {
+          name: "package_assembly_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until every assembly readiness lane passes.",
+        },
+        {
+          name: "route_registry_write_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until package release-control passes.",
+        },
+        {
+          name: "media_playlist_write_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until media rights and learning-audio priority pass.",
+        },
+        {
+          name: "local_bundle_write_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until local companion policy passes.",
+        },
+        {
+          name: "student_ready_marker_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until release and launch safety gates pass.",
+        },
+        {
+          name: "assignment_write_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until assignment rollout and school policy gates pass.",
+        },
+        {
+          name: "support_language_assembly_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false for MiniStar and any assist-language-only assembly path.",
+        },
+      ],
+      indexes: [
+        "tenant_id + ai_generated_package_assembly_readiness_id",
+        "ai_generated_package_assembly_readiness_id unique",
+        "tenant_id + generation_request_id",
+        "tenant_id + ai_generated_package_manifest_id",
+        "package_assembly_allowed",
+        "route_registry_write_allowed",
+        "assignment_write_allowed",
+      ],
+      retentionRule:
+        "Retain according to tenant authoring and release policy; blocked, returned, reviewed, cleared, and superseded generated assembly readiness snapshots remain auditable.",
+      exportRule:
+        "Must export assembly readiness lanes and linked manifest, promotion, publish readiness, release candidate, approval, media-rights, and audio ids without exporting model internals or unrelated tenant packages.",
+      localFallback:
+        "Local classroom deployments store the same generated assembly readiness JSON for backup/export without allowing offline package assembly, route writes, playlist writes, local bundle writes, assignments, or student-ready writes.",
+      policyBlockers: [
+        "Generated assembly readiness cannot assemble packages, write routes, create playlists, assign students, write local bundles, or mark student-ready state by itself.",
+        "Teacher approval, media-rights evidence, target-language audio approval, release-control binding, and school policy must pass before future assembly.",
+        "Support-language-only assembly remains blocked; MiniStar Japanese support cannot assemble English packages.",
+      ],
+    },
+    {
       specId: "spec-ai-generated-game-build-brief",
       label: "AI generated game build brief",
       candidateId: "m060-ai-generated-game-build-brief-records",
