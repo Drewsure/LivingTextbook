@@ -15,6 +15,9 @@ const gamificationMappingPlan = readSource("../apps/web/src/data/sampleAiGamific
 const rewardReadinessGate = readSource("../apps/web/src/data/sampleAiRewardReadinessGate.ts");
 const generatedGameBuildBrief = readSource("../apps/web/src/data/sampleAiGeneratedGameBuildBrief.ts");
 const externalPrototypeTaskPacket = readSource("../apps/web/src/data/sampleAiExternalPrototypeTaskPacket.ts");
+const externalPrototypeTaskExportReadinessGate = readSource(
+  "../apps/web/src/data/sampleAiExternalPrototypeTaskExportReadinessGate.ts",
+);
 const prototypeReturnReview = readSource("../apps/web/src/data/sampleAiPrototypeReturnReview.ts");
 const prototypeIntegrationPlan = readSource("../apps/web/src/data/sampleAiPrototypeIntegrationPlan.ts");
 const prototypeWrapperAdapterReview = readSource("../apps/web/src/data/sampleAiPrototypeWrapperAdapterReview.ts");
@@ -63,6 +66,9 @@ const generatedGameBuildBriefPanel = readSource(
 );
 const externalPrototypeTaskPacketPanel = readSource(
   "../apps/web/src/features/content-intake/AiExternalPrototypeTaskPacketPanel.tsx",
+);
+const externalPrototypeTaskExportReadinessGatePanel = readSource(
+  "../apps/web/src/features/content-intake/AiExternalPrototypeTaskExportReadinessGatePanel.tsx",
 );
 const generatorSectionNav = readSource("../apps/web/src/features/content-intake/AiGeneratorSectionNav.tsx");
 const prototypeReturnReviewPanel = readSource(
@@ -303,6 +309,91 @@ requireText(
   externalPrototypeTaskPacketPanel,
   "Blocked task actions",
   "AI external prototype task packet panel must show blocked task actions.",
+);
+requireText(
+  externalPrototypeTaskExportReadinessGate,
+  "sampleAiExternalPrototypeTaskExportReadinessGates",
+  "AI external task export readiness gate data must exist.",
+);
+requireText(
+  externalPrototypeTaskExportReadinessGate,
+  "AI external task export readiness gate",
+  "AI external task export readiness gate must name the gate.",
+);
+requireText(
+  externalPrototypeTaskExportReadinessGate,
+  "Export readiness blocked",
+  "AI external task export readiness gate must remain blocked.",
+);
+requireText(
+  externalPrototypeTaskExportReadinessGate,
+  "No task export",
+  "AI external task export readiness gate must block task export.",
+);
+requireText(
+  externalPrototypeTaskExportReadinessGate,
+  "No prompt copy action",
+  "AI external task export readiness gate must block prompt copy.",
+);
+requireText(
+  externalPrototypeTaskExportReadinessGate,
+  "No repository issue creation",
+  "AI external task export readiness gate must block repository issue creation.",
+);
+requireText(
+  externalPrototypeTaskExportReadinessGate,
+  "No archive download",
+  "AI external task export readiness gate must block archive download.",
+);
+requireText(
+  externalPrototypeTaskExportReadinessGate,
+  "Reviewer identity required",
+  "AI external task export readiness gate must require reviewer identity.",
+);
+requireText(
+  externalPrototypeTaskExportReadinessGate,
+  "Evidence storage required",
+  "AI external task export readiness gate must require evidence storage.",
+);
+requireText(
+  externalPrototypeTaskExportReadinessGate,
+  "External builder repository policy required",
+  "AI external task export readiness gate must require repository policy.",
+);
+requireText(
+  externalPrototypeTaskExportReadinessGate,
+  "Codex owner confirmation required",
+  "AI external task export readiness gate must require Codex owner confirmation.",
+);
+requireText(
+  externalPrototypeTaskExportReadinessGate,
+  "No Japanese support-language progress",
+  "MiniStar external task export readiness gate must block Japanese support-language progress.",
+);
+requireText(
+  externalPrototypeTaskExportReadinessGatePanel,
+  "AI external task export readiness gate",
+  "AI external task export readiness gate panel must expose heading.",
+);
+requireText(
+  externalPrototypeTaskExportReadinessGatePanel,
+  "Export readiness blocked",
+  "AI external task export readiness gate panel must expose blocked title.",
+);
+requireText(
+  externalPrototypeTaskExportReadinessGatePanel,
+  "No task export",
+  "AI external task export readiness gate panel must block task export.",
+);
+requireText(
+  externalPrototypeTaskExportReadinessGatePanel,
+  "Export channels",
+  "AI external task export readiness gate panel must expose export channels.",
+);
+requireText(
+  externalPrototypeTaskExportReadinessGatePanel,
+  "Readiness checks",
+  "AI external task export readiness gate panel must expose readiness checks.",
 );
 requireText(generatorSectionNav, "Generator route map", "AI generator route map component must expose heading.");
 requireText(generatorSectionNav, "Request setup", "AI generator route map must expose request setup section.");
@@ -1527,6 +1618,11 @@ requireText(route, "AiGeneratorResponsibilityMatrixPanel", "Generator route must
 requireText(route, "AiEngineBindingPlanPanel", "Generator route must render the engine binding panel.");
 requireText(route, "AiGeneratedGameBuildBriefPanel", "Generator route must render the generated game build brief panel.");
 requireText(route, "AiExternalPrototypeTaskPacketPanel", "Generator route must render the external prototype task packet panel.");
+requireText(
+  route,
+  "AiExternalPrototypeTaskExportReadinessGatePanel",
+  "Generator route must render the external prototype task export readiness gate panel.",
+);
 requireText(route, "AiPrototypeReturnReviewPanel", "Generator route must render the prototype return review panel.");
 requireText(route, "AiPrototypeIntegrationPlanPanel", "Generator route must render the prototype integration plan panel.");
 requireText(route, "AiPrototypeWrapperAdapterReviewPanel", "Generator route must render the prototype wrapper adapter review panel.");
@@ -1569,6 +1665,11 @@ requireText(route, "sampleAiGeneratorResponsibilityMatrices", "Generator route m
 requireText(route, "sampleAiEngineBindingPlans", "Generator route must use the sample engine binding plan data.");
 requireText(route, "sampleAiGeneratedGameBuildBriefPackets", "Generator route must use generated game build brief data.");
 requireText(route, "sampleAiExternalPrototypeTaskPackets", "Generator route must use external prototype task packet data.");
+requireText(
+  route,
+  "sampleAiExternalPrototypeTaskExportReadinessGates",
+  "Generator route must use external prototype task export readiness gate data.",
+);
 requireText(route, "sampleAiPrototypeReturnReviewPackets", "Generator route must use prototype return review data.");
 requireText(route, "sampleAiPrototypeIntegrationPlans", "Generator route must use prototype integration plan data.");
 requireText(route, "sampleAiPrototypeWrapperAdapterReviews", "Generator route must use prototype wrapper adapter review data.");

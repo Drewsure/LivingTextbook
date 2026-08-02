@@ -145,6 +145,12 @@ The external task packet cannot start a live handoff, write app files, create ro
 
 The backend-neutral storage contract is `ai_external_prototype_task_packet` / `ai-external-prototype-task-packet`. Hosted and local adapters must preserve repository scope, permitted handoff contents, required-before-handoff checks, mode tasks, standard event contract, audio cue manifest, deterministic scoring snapshot, return evidence requirements, and blocked handoff actions while blocking live handoff, app file writes, external-builder scoring authority, route creation, reward inventory writes, playlist creation, package assembly, student assignment, student-facing preview, student-ready markers, and support-language progress.
 
+## External Prototype Task Export Readiness Rule
+
+Teacher generator routes may show a review-only external prototype task export readiness gate after the task packet. The gate defines what must be true before any future prompt copy, repository issue creation, archive download, or outside-builder handoff exists.
+
+The gate must require reviewer identity, evidence storage, durable task packet storage, external-builder repository policy, return-review intake, and Codex owner confirmation. It must block task export, prompt copy action, repository issue creation, archive download, live handoff, app writes, route creation, scoring authority, student-facing pathway, and support-language progress. MiniStar gates must keep Japanese support-language progress blocked while English remains the target-language trigger.
+
 ## Prototype Return Review Rule
 
 Returned prototype work from Z.ai or any outside builder must enter an `ai_prototype_return_review` preview before integration. The review must name the source build brief, returned artifacts, required evidence, parent-engine wrapper review, JSON fixture conformance, standard event replay, audio cue coverage, deterministic scoring, mobile accessibility, white-label fit, and blocked actions.

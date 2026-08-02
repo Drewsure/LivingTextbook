@@ -61,6 +61,10 @@ import {
   sampleAiExternalPrototypeTaskPackets,
 } from "@/data/sampleAiExternalPrototypeTaskPacket";
 import {
+  filterAiExternalPrototypeTaskExportReadinessGatesByTenant,
+  sampleAiExternalPrototypeTaskExportReadinessGates,
+} from "@/data/sampleAiExternalPrototypeTaskExportReadinessGate";
+import {
   filterAiPrototypeReturnReviewPacketsByTenant,
   sampleAiPrototypeReturnReviewPackets,
 } from "@/data/sampleAiPrototypeReturnReview";
@@ -124,6 +128,7 @@ import { AiGeneratedPackagePromotionChecklistPanel } from "@/features/content-in
 import { AiGeneratedPackageReleaseCandidatePanel } from "@/features/content-intake/AiGeneratedPackageReleaseCandidatePanel";
 import { AiGeneratedPublishReadinessGatePanel } from "@/features/content-intake/AiGeneratedPublishReadinessGatePanel";
 import { AiEngineBindingPlanPanel } from "@/features/content-intake/AiEngineBindingPlanPanel";
+import { AiExternalPrototypeTaskExportReadinessGatePanel } from "@/features/content-intake/AiExternalPrototypeTaskExportReadinessGatePanel";
 import { AiExternalPrototypeTaskPacketPanel } from "@/features/content-intake/AiExternalPrototypeTaskPacketPanel";
 import { AiGeneratedGameBuildBriefPanel } from "@/features/content-intake/AiGeneratedGameBuildBriefPanel";
 import { AiGeneratorSectionHeader, AiGeneratorSectionNav } from "@/features/content-intake/AiGeneratorSectionNav";
@@ -221,6 +226,12 @@ export default async function TeacherAiGameGeneratorPage({
         />
         <AiExternalPrototypeTaskPacketPanel
           packets={filterAiExternalPrototypeTaskPacketsByTenant(sampleAiExternalPrototypeTaskPackets, tenantId)}
+        />
+        <AiExternalPrototypeTaskExportReadinessGatePanel
+          gates={filterAiExternalPrototypeTaskExportReadinessGatesByTenant(
+            sampleAiExternalPrototypeTaskExportReadinessGates,
+            tenantId,
+          )}
         />
         <AiPrototypeReturnReviewPanel
           packets={filterAiPrototypeReturnReviewPacketsByTenant(sampleAiPrototypeReturnReviewPackets, tenantId)}

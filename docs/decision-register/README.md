@@ -315,6 +315,7 @@
 - `DR-342-ai-generator-responsibility-matrix-storage-contract.md`
 - `DR-343-ai-external-prototype-task-packet.md`
 - `DR-344-ai-external-prototype-task-packet-storage-contract.md`
+- `DR-345-ai-external-task-export-readiness-gate.md`
 - `DR-336-ai-generator-route-map.md`
 
 ## Maintenance Rule
