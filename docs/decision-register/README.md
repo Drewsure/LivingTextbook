@@ -312,6 +312,7 @@
 - `DR-339-ai-generator-reviewer-runbook.md`
 - `DR-340-ai-generator-reviewer-runbook-storage-contract.md`
 - `DR-341-ai-generator-responsibility-matrix.md`
+- `DR-342-ai-generator-responsibility-matrix-storage-contract.md`
 - `DR-336-ai-generator-route-map.md`
 
 ## Maintenance Rule

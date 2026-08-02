@@ -163,6 +163,11 @@ export interface PersistenceWriteIntent {
   requiresGeneratorRunbookEvidence?: boolean;
   requiresGeneratorRunbookRequiredRecords?: boolean;
   blocksGeneratorRunbookShortcuts?: boolean;
+  preservesAiGeneratorResponsibilityMatrix?: boolean;
+  preservesGeneratorRoleOwnership?: boolean;
+  requiresGeneratorHandoffRecords?: boolean;
+  blocksExternalBuilderAuthority?: boolean;
+  blocksGeneratorResponsibilityShortcuts?: boolean;
   blocksGeneratorRequestSubmission?: boolean;
   blocksLiveModelCall?: boolean;
   blocksVerifierSubmission?: boolean;
@@ -1434,6 +1439,58 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "ai-generator-reviewer-runbook" && !intent.blocksStudentReadyMarker) {
       errors.push(`AI generator reviewer runbook write intent ${intent.intentId} must block student-ready markers.`);
+    }
+
+    if (intent.category === "ai-generator-responsibility-matrix" && !intent.preservesAiGeneratorResponsibilityMatrix) {
+      errors.push(`AI generator responsibility matrix write intent ${intent.intentId} must preserve responsibility matrices.`);
+    }
+
+    if (intent.category === "ai-generator-responsibility-matrix" && !intent.preservesGeneratorRoleOwnership) {
+      errors.push(`AI generator responsibility matrix write intent ${intent.intentId} must preserve role ownership.`);
+    }
+
+    if (intent.category === "ai-generator-responsibility-matrix" && !intent.requiresGeneratorHandoffRecords) {
+      errors.push(`AI generator responsibility matrix write intent ${intent.intentId} must require handoff records.`);
+    }
+
+    if (intent.category === "ai-generator-responsibility-matrix" && !intent.blocksExternalBuilderAuthority) {
+      errors.push(`AI generator responsibility matrix write intent ${intent.intentId} must block external builder authority.`);
+    }
+
+    if (intent.category === "ai-generator-responsibility-matrix" && !intent.blocksGeneratorResponsibilityShortcuts) {
+      errors.push(`AI generator responsibility matrix write intent ${intent.intentId} must block responsibility shortcut actions.`);
+    }
+
+    if (intent.category === "ai-generator-responsibility-matrix" && !intent.blocksLiveModelCall) {
+      errors.push(`AI generator responsibility matrix write intent ${intent.intentId} must block live model calls.`);
+    }
+
+    if (intent.category === "ai-generator-responsibility-matrix" && !intent.blocksAppPatchGeneration) {
+      errors.push(`AI generator responsibility matrix write intent ${intent.intentId} must block app patch generation.`);
+    }
+
+    if (intent.category === "ai-generator-responsibility-matrix" && !intent.blocksGeneratedPackageAssembly) {
+      errors.push(`AI generator responsibility matrix write intent ${intent.intentId} must block generated package assembly.`);
+    }
+
+    if (intent.category === "ai-generator-responsibility-matrix" && !intent.blocksGeneratedPackageRouteWrite) {
+      errors.push(`AI generator responsibility matrix write intent ${intent.intentId} must block route registry writes.`);
+    }
+
+    if (intent.category === "ai-generator-responsibility-matrix" && !intent.blocksGeneratedPackagePlaylistWrite) {
+      errors.push(`AI generator responsibility matrix write intent ${intent.intentId} must block media playlist writes.`);
+    }
+
+    if (intent.category === "ai-generator-responsibility-matrix" && !intent.blocksGeneratedPackageAssignment) {
+      errors.push(`AI generator responsibility matrix write intent ${intent.intentId} must block assignment writes.`);
+    }
+
+    if (intent.category === "ai-generator-responsibility-matrix" && !intent.blocksGeneratedPackageLocalBundleWrite) {
+      errors.push(`AI generator responsibility matrix write intent ${intent.intentId} must block local bundle writes.`);
+    }
+
+    if (intent.category === "ai-generator-responsibility-matrix" && !intent.blocksStudentReadyMarker) {
+      errors.push(`AI generator responsibility matrix write intent ${intent.intentId} must block student-ready markers.`);
     }
 
     if (intent.category === "teacher-assignment-rollout-gate" && !intent.preservesTeacherAssignmentRolloutGate) {

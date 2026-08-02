@@ -26,6 +26,7 @@ export type PersistenceRecordCategory =
   | "ai-generator-tenant-coverage-gate"
   | "ai-generator-review-summary"
   | "ai-generator-reviewer-runbook"
+  | "ai-generator-responsibility-matrix"
   | "teacher-assignment-rollout-gate"
   | "private-assignment-link"
   | "class-roster-plan"
@@ -244,6 +245,11 @@ export interface DurableRecordContract {
   requiresGeneratorRunbookEvidence?: boolean;
   requiresGeneratorRunbookRequiredRecords?: boolean;
   blocksGeneratorRunbookShortcuts?: boolean;
+  preservesAiGeneratorResponsibilityMatrix?: boolean;
+  preservesGeneratorRoleOwnership?: boolean;
+  requiresGeneratorHandoffRecords?: boolean;
+  blocksExternalBuilderAuthority?: boolean;
+  blocksGeneratorResponsibilityShortcuts?: boolean;
   blocksGeneratorRequestSubmission?: boolean;
   blocksLiveModelCall?: boolean;
   blocksVerifierSubmission?: boolean;
@@ -1480,6 +1486,58 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "ai-generator-reviewer-runbook" && !record.blocksStudentReadyMarker) {
       errors.push(`AI generator reviewer runbook record ${record.recordId} must block student-ready markers.`);
+    }
+
+    if (record.category === "ai-generator-responsibility-matrix" && !record.preservesAiGeneratorResponsibilityMatrix) {
+      errors.push(`AI generator responsibility matrix record ${record.recordId} must preserve responsibility matrices.`);
+    }
+
+    if (record.category === "ai-generator-responsibility-matrix" && !record.preservesGeneratorRoleOwnership) {
+      errors.push(`AI generator responsibility matrix record ${record.recordId} must preserve role ownership.`);
+    }
+
+    if (record.category === "ai-generator-responsibility-matrix" && !record.requiresGeneratorHandoffRecords) {
+      errors.push(`AI generator responsibility matrix record ${record.recordId} must require handoff records.`);
+    }
+
+    if (record.category === "ai-generator-responsibility-matrix" && !record.blocksExternalBuilderAuthority) {
+      errors.push(`AI generator responsibility matrix record ${record.recordId} must block external builder authority.`);
+    }
+
+    if (record.category === "ai-generator-responsibility-matrix" && !record.blocksGeneratorResponsibilityShortcuts) {
+      errors.push(`AI generator responsibility matrix record ${record.recordId} must block responsibility shortcut actions.`);
+    }
+
+    if (record.category === "ai-generator-responsibility-matrix" && !record.blocksLiveModelCall) {
+      errors.push(`AI generator responsibility matrix record ${record.recordId} must block live model calls.`);
+    }
+
+    if (record.category === "ai-generator-responsibility-matrix" && !record.blocksAppPatchGeneration) {
+      errors.push(`AI generator responsibility matrix record ${record.recordId} must block app patch generation.`);
+    }
+
+    if (record.category === "ai-generator-responsibility-matrix" && !record.blocksGeneratedPackageAssembly) {
+      errors.push(`AI generator responsibility matrix record ${record.recordId} must block generated package assembly.`);
+    }
+
+    if (record.category === "ai-generator-responsibility-matrix" && !record.blocksGeneratedPackageRouteWrite) {
+      errors.push(`AI generator responsibility matrix record ${record.recordId} must block route registry writes.`);
+    }
+
+    if (record.category === "ai-generator-responsibility-matrix" && !record.blocksGeneratedPackagePlaylistWrite) {
+      errors.push(`AI generator responsibility matrix record ${record.recordId} must block media playlist writes.`);
+    }
+
+    if (record.category === "ai-generator-responsibility-matrix" && !record.blocksGeneratedPackageAssignment) {
+      errors.push(`AI generator responsibility matrix record ${record.recordId} must block assignment writes.`);
+    }
+
+    if (record.category === "ai-generator-responsibility-matrix" && !record.blocksGeneratedPackageLocalBundleWrite) {
+      errors.push(`AI generator responsibility matrix record ${record.recordId} must block local bundle writes.`);
+    }
+
+    if (record.category === "ai-generator-responsibility-matrix" && !record.blocksStudentReadyMarker) {
+      errors.push(`AI generator responsibility matrix record ${record.recordId} must block student-ready markers.`);
     }
 
     if (record.category === "teacher-assignment-rollout-gate" && !record.preservesTeacherAssignmentRolloutGate) {

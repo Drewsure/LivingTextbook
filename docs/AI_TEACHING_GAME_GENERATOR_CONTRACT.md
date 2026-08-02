@@ -36,6 +36,8 @@ Teacher generator routes must show a review-only responsibility matrix before de
 
 Codex owns architecture, schema discipline, parent-engine integration, route safety, verification, and final app review. Outside AI builders may create isolated prototypes from strict briefs only; they cannot write app files, create routes, override scoring, write rewards, create playlists, assemble packages, or assign students. The verifier layer checks JSON, pedagogy, target-language audio, support-language boundaries, and activity compatibility. Platform admins own cost entitlement, storage, release-control, and child-safe premium boundaries.
 
+The backend-neutral storage contract for this role map is `ai_generator_responsibility_matrix` / `ai-generator-responsibility-matrix`. Hosted and local adapters must preserve role ownership, owner duties, handoff record ids, cannot-do rules, next gates, target-language trigger rules, and assist-language support rules while blocking live generation, app patch generation, external-builder app writes, external-builder scoring authority, package assembly, route registry writes, media playlist writes, assignment creation, local bundle writes, and student-ready markers.
+
 The MiniStar Level 1 greetings generator seed may include tenant-specific prompt package, cost gate, disabled request builder, audio coverage, gamification mapping, reward readiness, engine binding, Draft JSON preview, derived correction queue, blocked verifier submission packet, generated package manifest, and derived publish readiness records. That seed does not make MiniStar generator-ready until audio approval, media-rights, teacher approval, durable storage, and release-control records also exist and pass review.
 
 ## Required Output Rules

@@ -38,6 +38,7 @@ export type PersistenceBoundaryCategory =
   | "ai-generator-tenant-coverage-gate"
   | "ai-generator-review-summary"
   | "ai-generator-reviewer-runbook"
+  | "ai-generator-responsibility-matrix"
   | "teacher-assignment-rollout-gate"
   | "private-assignment-link"
   | "class-roster-plan"
@@ -781,6 +782,37 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
     note:
       "AI generator reviewer runbooks need durable human review order, evidence lanes, required records, and blocked shortcuts so teachers, Codex, and outside AI builders cannot skip review by following a visible checklist.",
+  },
+  {
+    recordId: "ai-generator-responsibility-matrix-record",
+    category: "ai-generator-responsibility-matrix",
+    label: "AI generator responsibility matrix record",
+    readiness: "durable-required",
+    sourceOfTruth:
+      "AiGeneratorResponsibilityMatrix, reviewer runbook, generator review summary, tenant coverage gate, prototype build brief, verifier submission packet, publish readiness gate, and platform cost entitlement gate",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: false,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesAiGeneratorResponsibilityMatrix: true,
+    preservesGeneratorRoleOwnership: true,
+    requiresGeneratorHandoffRecords: true,
+    blocksExternalBuilderAuthority: true,
+    blocksGeneratorResponsibilityShortcuts: true,
+    blocksLiveModelCall: true,
+    blocksAppPatchGeneration: true,
+    blocksGeneratedPackageAssembly: true,
+    blocksGeneratedPackageRouteWrite: true,
+    blocksGeneratedPackagePlaylistWrite: true,
+    blocksGeneratedPackageAssignment: true,
+    blocksGeneratedPackageLocalBundleWrite: true,
+    blocksStudentReadyMarker: true,
+    blocksDirectStudentAssignment: true,
+    recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
+    note:
+      "AI generator responsibility matrices need durable role ownership, handoff records, and blocked authority rules so teachers, Codex, outside AI builders, verifier checks, and platform admins cannot accidentally cross production boundaries.",
   },
   {
     recordId: "teacher-assignment-rollout-gate-record",
@@ -2133,6 +2165,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision:
       "Persist AI generator reviewer runbooks before enabling review task assignment, verifier handoff, app patch planning, package assembly, route creation, playlist creation, local bundle writes, or student assignment.",
+  },
+  {
+    boundaryId: "ai-generator-responsibility-matrix-boundary",
+    category: "ai-generator-responsibility-matrix",
+    label: "AI generator responsibility matrix records",
+    status: "needs-backend",
+    recordShape:
+      "Responsibility matrix id, tenant id, generation request id, matrix status, role ownership map, owner duties, required evidence, handoff record ids, cannot-do rules, next gates, target-language trigger rules, support-language support-only rules, and live generation/app patch/package/route/playlist/local bundle/assignment/student-ready blocks",
+    whyItMatters:
+      "The generator route needs durable responsibility ownership so teacher approval, Codex integration, external AI prototype work, verifier checks, and platform entitlement decisions cannot be confused with each other.",
+    visibleTo: ["Teacher", "Tenant admin", "Content reviewer", "Platform admin", "External prototype builder"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Persist AI generator responsibility matrices before enabling outside-builder task assignment, verifier handoff, app patch planning, package assembly, route creation, playlist creation, local bundle writes, or student assignment.",
   },
   {
     boundaryId: "teacher-assignment-rollout-gate-boundary",
