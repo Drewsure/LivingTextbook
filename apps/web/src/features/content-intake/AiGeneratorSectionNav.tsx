@@ -7,6 +7,13 @@ interface AiGeneratorSection {
   status: "review-only" | "blocked";
 }
 
+interface AiGeneratorSectionHeaderProps {
+  eyebrow: string;
+  title: string;
+  summary: string;
+  status: AiGeneratorSection["status"];
+}
+
 const sections: AiGeneratorSection[] = [
   {
     href: "#generator-request",
@@ -76,5 +83,25 @@ export function AiGeneratorSectionNav() {
         ))}
       </div>
     </Card>
+  );
+}
+
+export function AiGeneratorSectionHeader({
+  eyebrow,
+  title,
+  summary,
+  status,
+}: AiGeneratorSectionHeaderProps) {
+  return (
+    <div className="border-b border-[var(--tenant-border)] pb-3">
+      <div className="flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
+        <div>
+          <p className="text-sm font-semibold text-[var(--tenant-muted)]">{eyebrow}</p>
+          <h2 className="mt-1 text-xl font-bold text-[var(--tenant-text)]">{title}</h2>
+          <p className="mt-2 max-w-3xl text-sm text-[var(--tenant-muted)]">{summary}</p>
+        </div>
+        <StatusPill label={statusLabel[status]} tone={status === "blocked" ? "warning" : "neutral"} />
+      </div>
+    </div>
   );
 }

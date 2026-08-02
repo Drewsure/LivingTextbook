@@ -109,7 +109,7 @@ import { AiGeneratedPackageReleaseCandidatePanel } from "@/features/content-inta
 import { AiGeneratedPublishReadinessGatePanel } from "@/features/content-intake/AiGeneratedPublishReadinessGatePanel";
 import { AiEngineBindingPlanPanel } from "@/features/content-intake/AiEngineBindingPlanPanel";
 import { AiGeneratedGameBuildBriefPanel } from "@/features/content-intake/AiGeneratedGameBuildBriefPanel";
-import { AiGeneratorSectionNav } from "@/features/content-intake/AiGeneratorSectionNav";
+import { AiGeneratorSectionHeader, AiGeneratorSectionNav } from "@/features/content-intake/AiGeneratorSectionNav";
 import { AiPrototypeReturnReviewPanel } from "@/features/content-intake/AiPrototypeReturnReviewPanel";
 import { AiPrototypeIntegrationPlanPanel } from "@/features/content-intake/AiPrototypeIntegrationPlanPanel";
 import { AiPrototypeWrapperAdapterReviewPanel } from "@/features/content-intake/AiPrototypeWrapperAdapterReviewPanel";
@@ -151,6 +151,12 @@ export default async function TeacherAiGameGeneratorPage({
       <div className="grid gap-5">
         <AiGeneratorSectionNav />
         <section id="generator-request" className="grid scroll-mt-6 gap-5">
+          <AiGeneratorSectionHeader
+            eyebrow="Generator section"
+            title="Request setup"
+            summary="Review prompt, cost, request, audio, gamification, rewards, and engine binding before any live model call exists."
+            status="review-only"
+          />
         <AiGameGeneratorPlanPanel plan={sampleAiGameGeneratorPlan} tenantId={tenantId} />
         <AiGeneratorTenantCoveragePanel
           coverages={filterAiGeneratorTenantCoverageByTenant(sampleAiGeneratorTenantCoverage, tenantId)}
@@ -175,6 +181,12 @@ export default async function TeacherAiGameGeneratorPage({
         <AiEngineBindingPlanPanel plans={filterAiEngineBindingPlansByTenant(sampleAiEngineBindingPlans, tenantId)} />
         </section>
         <section id="prototype-review" className="grid scroll-mt-6 gap-5">
+          <AiGeneratorSectionHeader
+            eyebrow="Generator section"
+            title="Prototype review"
+            summary="Check outside prototype briefs and returned evidence for wrapper, fixture, event, audio, mobile, and scoring discipline."
+            status="review-only"
+          />
         <AiGeneratedGameBuildBriefPanel
           packets={filterAiGeneratedGameBuildBriefPacketsByTenant(sampleAiGeneratedGameBuildBriefPackets, tenantId)}
         />
@@ -207,6 +219,12 @@ export default async function TeacherAiGameGeneratorPage({
         />
         </section>
         <section id="integration-gates" className="grid scroll-mt-6 gap-5">
+          <AiGeneratorSectionHeader
+            eyebrow="Generator section"
+            title="Integration gates"
+            summary="Keep Codex decision, all-evidence readiness, and app patch proposal planning blocked until every review gate is satisfied."
+            status="blocked"
+          />
         <AiPrototypeCodexIntegrationDecisionPanel
           decisions={filterAiPrototypeCodexIntegrationDecisionsByTenant(
             sampleAiPrototypeCodexIntegrationDecisions,
@@ -224,6 +242,12 @@ export default async function TeacherAiGameGeneratorPage({
         />
         </section>
         <section id="package-review" className="grid scroll-mt-6 gap-5">
+          <AiGeneratorSectionHeader
+            eyebrow="Generator section"
+            title="Package review"
+            summary="Review verifier packets, curated modes, manifests, promotion, publish readiness, and release candidates before student routes."
+            status="blocked"
+          />
         <AiVerifierSubmissionPacketPanel
           packets={filterAiVerifierSubmissionPacketsByTenant(sampleAiVerifierSubmissionPackets, tenantId)}
         />
@@ -248,6 +272,12 @@ export default async function TeacherAiGameGeneratorPage({
         />
         </section>
         <section id="draft-repair" className="grid scroll-mt-6 gap-5">
+          <AiGeneratorSectionHeader
+            eyebrow="Generator section"
+            title="Draft repair"
+            summary="Use draft JSON preview and correction queues to repair schema, audio, and progress issues before review."
+            status="blocked"
+          />
         <AiGeneratedDraftPayloadPreviewPanel
           previews={filterAiGeneratedDraftPayloadPreviewsByTenant(sampleAiGeneratedDraftPayloadPreviews, tenantId)}
         />
