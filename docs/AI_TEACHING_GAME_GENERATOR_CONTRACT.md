@@ -251,6 +251,12 @@ The proposal preview blocks app file writes, generated route writes, student-fac
 
 The backend-neutral storage contract is `ai_prototype_app_patch_proposal` / `ai-prototype-app-patch-proposal`. Hosted and local adapters must preserve proposed file scope, required pre-patch gates, required test gates, rollback requirements, reviewer identity/signature requirement, release-control binding, and blocked patch actions while blocking app file writes, app patch generation, direct imports, route writes, student-facing routes, scoring mutations, Star Dust or reward writes, audio manifest mutation, package promotion, assignments, and support-language progress.
 
+## Prototype Patch Test Readiness Rule
+
+Prototype patch test readiness gates must remain review-only until a future patch test harness, route safety release gate, rollback drill record, storage contract verification, and Codex patch approval decision exist.
+
+The gate must name fixture replay, standard event replay, target-language audio, mobile accessibility, deterministic scoring, route safety, storage contract, and rollback checks. It cannot execute tests, write app files, mutate route aliases, change scoring or rewards, mutate audio manifests, promote packages, assign students, or allow support-language progress. MiniStar gates must also prove Foundation Japanese support stays hiragana-only and support-only.
+
 ## Mode Recommendation Rule
 
 Generator mode recommendations must reuse the reviewed activity compatibility matrix. The generator can recommend a tight pathway for a unit, but it must not produce a broad switch panel or unsupported conversions. Blocked conversions stay visible with their payload-fit and compatibility-rule reasons.

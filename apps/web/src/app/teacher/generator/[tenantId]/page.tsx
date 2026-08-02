@@ -109,6 +109,10 @@ import {
   sampleAiPrototypeAppPatchProposals,
 } from "@/data/sampleAiPrototypeAppPatchProposal";
 import {
+  filterAiPrototypePatchTestReadinessGatesByTenant,
+  sampleAiPrototypePatchTestReadinessGates,
+} from "@/data/sampleAiPrototypePatchTestReadinessGate";
+import {
   filterAiGamificationMappingPlansByTenant,
   sampleAiGamificationMappingPlans,
 } from "@/data/sampleAiGamificationMappingPlan";
@@ -143,6 +147,7 @@ import { AiPrototypeScoringReplayReportPanel } from "@/features/content-intake/A
 import { AiPrototypeCodexIntegrationDecisionPanel } from "@/features/content-intake/AiPrototypeCodexIntegrationDecisionPanel";
 import { AiPrototypeIntegrationReadinessGatePanel } from "@/features/content-intake/AiPrototypeIntegrationReadinessGatePanel";
 import { AiPrototypeAppPatchProposalPanel } from "@/features/content-intake/AiPrototypeAppPatchProposalPanel";
+import { AiPrototypePatchTestReadinessGatePanel } from "@/features/content-intake/AiPrototypePatchTestReadinessGatePanel";
 import { AiGamificationMappingPanel } from "@/features/content-intake/AiGamificationMappingPanel";
 import { AiGeneratorAudioCoveragePlanPanel } from "@/features/content-intake/AiGeneratorAudioCoveragePlanPanel";
 import { AiGameGeneratorPlanPanel } from "@/features/content-intake/AiGameGeneratorPlanPanel";
@@ -282,6 +287,12 @@ export default async function TeacherAiGameGeneratorPage({
         />
         <AiPrototypeAppPatchProposalPanel
           proposals={filterAiPrototypeAppPatchProposalsByTenant(sampleAiPrototypeAppPatchProposals, tenantId)}
+        />
+        <AiPrototypePatchTestReadinessGatePanel
+          gates={filterAiPrototypePatchTestReadinessGatesByTenant(
+            sampleAiPrototypePatchTestReadinessGates,
+            tenantId,
+          )}
         />
         </section>
         <section id="package-review" className="grid scroll-mt-6 gap-5">

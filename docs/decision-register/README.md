@@ -307,7 +307,7 @@
 - `DR-333-ai-prototype-codex-integration-decision-preview.md`
 - `DR-334-codex-integration-review-decision-storage-contract.md`
 - `DR-335-ai-prototype-app-patch-proposal-preview.md`
-- `DR-347-ai-prototype-app-patch-proposal-storage-contract.md`
+- `DR-336-ai-generator-route-map.md`
 - `DR-337-ai-generator-review-summary.md`
 - `DR-338-ai-generator-review-summary-storage-contract.md`
 - `DR-339-ai-generator-reviewer-runbook.md`
@@ -318,7 +318,8 @@
 - `DR-344-ai-external-prototype-task-packet-storage-contract.md`
 - `DR-345-ai-external-task-export-readiness-gate.md`
 - `DR-346-ai-external-task-export-readiness-storage-contract.md`
-- `DR-336-ai-generator-route-map.md`
+- `DR-347-ai-prototype-app-patch-proposal-storage-contract.md`
+- `DR-348-ai-prototype-patch-test-readiness-gate.md`
 
 ## Maintenance Rule
 

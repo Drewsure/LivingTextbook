@@ -35,6 +35,9 @@ const prototypeIntegrationReadinessGate = readSource(
   "../apps/web/src/data/sampleAiPrototypeIntegrationReadinessGate.ts",
 );
 const prototypeAppPatchProposal = readSource("../apps/web/src/data/sampleAiPrototypeAppPatchProposal.ts");
+const prototypePatchTestReadinessGate = readSource(
+  "../apps/web/src/data/sampleAiPrototypePatchTestReadinessGate.ts",
+);
 const verifierSubmissionPacket = readSource("../apps/web/src/data/sampleAiVerifierSubmissionPacket.ts");
 const generatedPackageManifest = readSource("../apps/web/src/data/sampleAiGeneratedPackageManifest.ts");
 const generatedPackagePromotionChecklist = readSource(
@@ -103,6 +106,9 @@ const prototypeIntegrationReadinessGatePanel = readSource(
 );
 const prototypeAppPatchProposalPanel = readSource(
   "../apps/web/src/features/content-intake/AiPrototypeAppPatchProposalPanel.tsx",
+);
+const prototypePatchTestReadinessGatePanel = readSource(
+  "../apps/web/src/features/content-intake/AiPrototypePatchTestReadinessGatePanel.tsx",
 );
 const verifierSubmissionPanel = readSource("../apps/web/src/features/content-intake/AiVerifierSubmissionPacketPanel.tsx");
 const generatedPackageManifestPanel = readSource("../apps/web/src/features/content-intake/AiGeneratedPackageManifestPanel.tsx");
@@ -1024,6 +1030,56 @@ requireText(
   "Required test gates",
   "AI prototype app patch proposal panel must expose required test gates.",
 );
+requireText(
+  prototypePatchTestReadinessGate,
+  "sampleAiPrototypePatchTestReadinessGates",
+  "AI prototype patch test readiness gate data must exist.",
+);
+requireText(
+  prototypePatchTestReadinessGate,
+  "Patch test harness plan",
+  "AI prototype patch test readiness gate must require a patch test harness plan.",
+);
+requireText(
+  prototypePatchTestReadinessGate,
+  "Route safety smoke test",
+  "AI prototype patch test readiness gate must include route safety testing.",
+);
+requireText(
+  prototypePatchTestReadinessGate,
+  "Storage contract test",
+  "AI prototype patch test readiness gate must include storage contract testing.",
+);
+requireText(
+  prototypePatchTestReadinessGate,
+  "Rollback drill",
+  "AI prototype patch test readiness gate must include rollback drills.",
+);
+requireText(
+  prototypePatchTestReadinessGate,
+  "No test execution from this panel",
+  "AI prototype patch test readiness gate must block test execution.",
+);
+requireText(
+  prototypePatchTestReadinessGate,
+  "No support-language progress trigger",
+  "AI prototype patch test readiness gate must block support-language progress triggers.",
+);
+requireText(
+  prototypePatchTestReadinessGatePanel,
+  "AI prototype patch test readiness gate",
+  "AI prototype patch test readiness gate panel must expose heading.",
+);
+requireText(
+  prototypePatchTestReadinessGatePanel,
+  "Patch tests before file work",
+  "AI prototype patch test readiness gate panel must expose file-work boundary.",
+);
+requireText(
+  prototypePatchTestReadinessGatePanel,
+  "Required test lanes",
+  "AI prototype patch test readiness gate panel must expose required test lanes.",
+);
 requireText(promptPackagePlan, "sampleAiPromptPackagePlans", "AI prompt package plan data must exist.");
 requireText(promptPackagePlan, "MiniStar generator prompt package", "AI prompt package plan must include MiniStar request seed.");
 requireText(promptPackagePlan, "ministar-l1-greetings-game-draft", "AI prompt package plan must bind to MiniStar greetings request.");
@@ -1639,6 +1695,12 @@ requireText(
   "AiPrototypeIntegrationReadinessGatePanel",
   "Generator route must render the prototype integration readiness gate panel.",
 );
+requireText(route, "AiPrototypeAppPatchProposalPanel", "Generator route must render the prototype app patch proposal panel.");
+requireText(
+  route,
+  "AiPrototypePatchTestReadinessGatePanel",
+  "Generator route must render the prototype patch test readiness gate panel.",
+);
 requireText(route, "AiPromptPackagePlanPanel", "Generator route must render the prompt package plan panel.");
 requireText(route, "AiGeneratorCostEntitlementGatePanel", "Generator route must render the cost entitlement gate panel.");
 requireText(route, "AiGenerationRequestBuilderPanel", "Generator route must render the request builder panel.");
@@ -1685,6 +1747,12 @@ requireText(
   route,
   "sampleAiPrototypeIntegrationReadinessGates",
   "Generator route must use prototype integration readiness gate data.",
+);
+requireText(route, "sampleAiPrototypeAppPatchProposals", "Generator route must use prototype app patch proposal data.");
+requireText(
+  route,
+  "sampleAiPrototypePatchTestReadinessGates",
+  "Generator route must use prototype patch test readiness gate data.",
 );
 requireText(route, "sampleAiPromptPackagePlans", "Generator route must use the sample prompt package plan data.");
 requireText(route, "sampleAiGeneratorCostEntitlementGates", "Generator route must use the sample cost entitlement gate data.");
