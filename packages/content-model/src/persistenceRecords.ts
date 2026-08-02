@@ -21,6 +21,7 @@ export type PersistenceRecordCategory =
   | "codex-integration-review-decision"
   | "ai-prototype-app-patch-proposal"
   | "ai-prototype-patch-test-readiness-gate"
+  | "ai-prototype-patch-test-harness-plan"
   | "ai-prototype-integration-readiness-gate"
   | "ai-generated-package-manifest"
   | "ai-generated-package-promotion-checklist"
@@ -149,10 +150,15 @@ export interface DurableRecordContract {
   preservesCodexIntegrationReviewDecision?: boolean;
   preservesAiPrototypeAppPatchProposal?: boolean;
   preservesAiPrototypePatchTestReadinessGate?: boolean;
+  preservesAiPrototypePatchTestHarnessPlan?: boolean;
   requiresProposedPatchFileScope?: boolean;
   requiresPrePatchGates?: boolean;
   requiresPatchTestGates?: boolean;
   requiresPatchTestHarnessPlan?: boolean;
+  requiresHarnessRuntimePolicy?: boolean;
+  requiresHarnessRequiredInputs?: boolean;
+  requiresHarnessSectionCoverage?: boolean;
+  requiresHarnessNonExecutionOutputs?: boolean;
   requiresRouteSafetyReleaseGate?: boolean;
   requiresRollbackDrillRecord?: boolean;
   requiresStorageContractVerification?: boolean;
@@ -160,6 +166,7 @@ export interface DurableRecordContract {
   requiresReviewerIdentitySignatureGate?: boolean;
   blocksAppFileWrite?: boolean;
   blocksTestExecution?: boolean;
+  blocksPlaywrightRun?: boolean;
   requiresManualCodexReview?: boolean;
   blocksAppPatchGeneration?: boolean;
   preservesAiPrototypeIntegrationReadinessGate?: boolean;
@@ -1011,6 +1018,81 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "ai-prototype-patch-test-readiness-gate" && !record.blocksSupportLanguageProgressTrigger) {
       errors.push(`AI prototype patch test readiness gate record ${record.recordId} must block support-language progress triggers.`);
+    }
+
+    if (
+      record.category === "ai-prototype-patch-test-harness-plan" &&
+      !record.preservesAiPrototypePatchTestHarnessPlan
+    ) {
+      errors.push(`AI prototype patch test harness plan record ${record.recordId} must preserve harness plan sections.`);
+    }
+
+    if (record.category === "ai-prototype-patch-test-harness-plan" && !record.requiresHarnessRuntimePolicy) {
+      errors.push(`AI prototype patch test harness plan record ${record.recordId} must require harness runtime policy.`);
+    }
+
+    if (record.category === "ai-prototype-patch-test-harness-plan" && !record.requiresHarnessRequiredInputs) {
+      errors.push(`AI prototype patch test harness plan record ${record.recordId} must require harness inputs.`);
+    }
+
+    if (record.category === "ai-prototype-patch-test-harness-plan" && !record.requiresHarnessSectionCoverage) {
+      errors.push(`AI prototype patch test harness plan record ${record.recordId} must require harness section coverage.`);
+    }
+
+    if (record.category === "ai-prototype-patch-test-harness-plan" && !record.requiresHarnessNonExecutionOutputs) {
+      errors.push(`AI prototype patch test harness plan record ${record.recordId} must require non-execution outputs.`);
+    }
+
+    if (record.category === "ai-prototype-patch-test-harness-plan" && !record.blocksTestExecution) {
+      errors.push(`AI prototype patch test harness plan record ${record.recordId} must block test execution.`);
+    }
+
+    if (record.category === "ai-prototype-patch-test-harness-plan" && !record.blocksPlaywrightRun) {
+      errors.push(`AI prototype patch test harness plan record ${record.recordId} must block Playwright runs.`);
+    }
+
+    if (record.category === "ai-prototype-patch-test-harness-plan" && !record.blocksAppFileWrite) {
+      errors.push(`AI prototype patch test harness plan record ${record.recordId} must block app file writes.`);
+    }
+
+    if (record.category === "ai-prototype-patch-test-harness-plan" && !record.blocksAppPatchGeneration) {
+      errors.push(`AI prototype patch test harness plan record ${record.recordId} must block app patch generation.`);
+    }
+
+    if (record.category === "ai-prototype-patch-test-harness-plan" && !record.blocksGeneratedGameRouteWrite) {
+      errors.push(`AI prototype patch test harness plan record ${record.recordId} must block route writes.`);
+    }
+
+    if (record.category === "ai-prototype-patch-test-harness-plan" && !record.blocksStudentFacingRoute) {
+      errors.push(`AI prototype patch test harness plan record ${record.recordId} must block student-facing routes.`);
+    }
+
+    if (record.category === "ai-prototype-patch-test-harness-plan" && !record.blocksScoringProfileOverride) {
+      errors.push(`AI prototype patch test harness plan record ${record.recordId} must block scoring mutations.`);
+    }
+
+    if (record.category === "ai-prototype-patch-test-harness-plan" && !record.blocksStarDustWrite) {
+      errors.push(`AI prototype patch test harness plan record ${record.recordId} must block Star Dust writes.`);
+    }
+
+    if (record.category === "ai-prototype-patch-test-harness-plan" && !record.blocksRewardInventoryWrite) {
+      errors.push(`AI prototype patch test harness plan record ${record.recordId} must block reward inventory writes.`);
+    }
+
+    if (record.category === "ai-prototype-patch-test-harness-plan" && !record.blocksAudioManifestMutation) {
+      errors.push(`AI prototype patch test harness plan record ${record.recordId} must block audio manifest mutations.`);
+    }
+
+    if (record.category === "ai-prototype-patch-test-harness-plan" && !record.blocksPackagePromotion) {
+      errors.push(`AI prototype patch test harness plan record ${record.recordId} must block package promotion.`);
+    }
+
+    if (record.category === "ai-prototype-patch-test-harness-plan" && !record.blocksDirectStudentAssignment) {
+      errors.push(`AI prototype patch test harness plan record ${record.recordId} must block student assignments.`);
+    }
+
+    if (record.category === "ai-prototype-patch-test-harness-plan" && !record.blocksSupportLanguageProgressTrigger) {
+      errors.push(`AI prototype patch test harness plan record ${record.recordId} must block support-language progress triggers.`);
     }
 
     if (

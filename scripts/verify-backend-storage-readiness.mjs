@@ -29,6 +29,7 @@ const requiredSchemaEntities = [
   "codex_integration_review_decision",
   "ai_prototype_app_patch_proposal",
   "ai_prototype_patch_test_readiness_gate",
+  "ai_prototype_patch_test_harness_plan",
   "ai_generated_package_manifest",
   "ai_generated_package_promotion_checklist",
   "ai_generated_package_release_candidate",
@@ -111,6 +112,7 @@ const requiredMigrationCandidates = [
   "m070-codex-integration-review-decision-records",
   "m076-ai-prototype-app-patch-proposal-records",
   "m077-ai-prototype-patch-test-readiness-gate-records",
+  "m078-ai-prototype-patch-test-harness-plan-records",
   "m054-ai-generated-package-manifest-records",
   "m058-ai-generated-package-promotion-checklist-records",
   "m059-ai-generated-package-release-candidate-records",
@@ -196,6 +198,7 @@ const requiredMigrationSpecs = [
   "spec-codex-integration-review-decision",
   "spec-ai-prototype-app-patch-proposal",
   "spec-ai-prototype-patch-test-readiness-gate",
+  "spec-ai-prototype-patch-test-harness-plan",
   "spec-ai-generated-package-manifest",
   "spec-ai-generated-package-promotion-checklist",
   "spec-ai-generated-package-release-candidate",
@@ -551,6 +554,16 @@ requireText(
   schemaDraft,
   "ai_prototype_patch_test_readiness_gate_id",
   "Backend schema must preserve AI prototype patch test readiness gate ids.",
+);
+requireText(
+  schemaDraft,
+  "ai_prototype_patch_test_harness_plan",
+  "Backend schema must include AI prototype patch test harness plans.",
+);
+requireText(
+  schemaDraft,
+  "ai_prototype_patch_test_harness_plan_id",
+  "Backend schema must preserve AI prototype patch test harness plan ids.",
 );
 requireText(schemaDraft, "proposed_file_scope", "Backend schema must preserve prototype app patch proposed file scope.");
 requireText(schemaDraft, "required_before_patch", "Backend schema must preserve prototype app patch pre-patch gates.");
@@ -1193,6 +1206,22 @@ requireText(
 requireText(migrationSpecs, "required_test_lanes", "Migration specs must preserve patch test lanes.");
 requireText(migrationSpecs, "blocked_test_actions", "Migration specs must preserve blocked patch test actions.");
 requireText(migrationSpecs, "test_execution_allowed", "Migration specs must block patch test execution.");
+requireText(
+  migrationSpecs,
+  "spec-ai-prototype-patch-test-harness-plan",
+  "Migration specs must include AI prototype patch test harness plans.",
+);
+requireText(
+  migrationSpecs,
+  "ai_prototype_patch_test_harness_plan_id",
+  "Migration specs must preserve AI prototype patch test harness plan ids.",
+);
+requireText(migrationSpecs, "runtime_policy", "Migration specs must preserve harness runtime policy.");
+requireText(migrationSpecs, "required_inputs", "Migration specs must preserve harness required inputs.");
+requireText(migrationSpecs, "harness_sections", "Migration specs must preserve harness sections.");
+requireText(migrationSpecs, "non_execution_outputs", "Migration specs must preserve non-execution outputs.");
+requireText(migrationSpecs, "blocked_harness_actions", "Migration specs must preserve blocked harness actions.");
+requireText(migrationSpecs, "playwright_run_allowed", "Migration specs must block Playwright runs.");
 requireText(migrationSpecs, "spec-ai-generated-package-manifest", "Migration specs must include AI generated package manifests.");
 requireText(migrationSpecs, "ai_generated_package_manifest_id", "Migration specs must preserve generated package manifest ids.");
 requireText(migrationSpecs, "prompt_package_id", "Migration specs must preserve generated package prompt package ids.");
@@ -2227,6 +2256,42 @@ requireText(
   "Persistence adapter must require Codex patch approval decisions.",
 );
 requireText(persistenceAdapter, "blocksTestExecution: true", "Persistence adapter must block patch test execution.");
+requireText(
+  persistenceAdapter,
+  "hosted-ai-prototype-patch-test-harness-plan-write",
+  "Persistence adapter must include hosted AI prototype patch test harness plan writes.",
+);
+requireText(
+  persistenceAdapter,
+  "local-ai-prototype-patch-test-harness-plan-write",
+  "Persistence adapter must include local AI prototype patch test harness plan writes.",
+);
+requireText(
+  persistenceAdapter,
+  "preservesAiPrototypePatchTestHarnessPlan: true",
+  "Persistence adapter must preserve AI prototype patch test harness plans.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresHarnessRuntimePolicy: true",
+  "Persistence adapter must require harness runtime policy.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresHarnessRequiredInputs: true",
+  "Persistence adapter must require harness required inputs.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresHarnessSectionCoverage: true",
+  "Persistence adapter must require harness section coverage.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresHarnessNonExecutionOutputs: true",
+  "Persistence adapter must require non-execution outputs.",
+);
+requireText(persistenceAdapter, "blocksPlaywrightRun: true", "Persistence adapter must block Playwright runs.");
 requireText(persistenceAdapter, "hosted-ai-generated-package-manifest-write", "Persistence adapter must include hosted AI generated package manifest writes.");
 requireText(persistenceAdapter, "local-ai-generated-package-manifest-write", "Persistence adapter must include local AI generated package manifest writes.");
 requireText(persistenceAdapter, "preservesAiGeneratedPackageManifest: true", "Persistence adapter must preserve AI generated package manifest links.");
@@ -3126,6 +3191,42 @@ requireText(
   "Durable record plan must require Codex patch approval decisions.",
 );
 requireText(durableRecords, "blocksTestExecution: true", "Durable record plan must block patch test execution.");
+requireText(
+  durableRecords,
+  "ai-prototype-patch-test-harness-plan-record",
+  "Durable record plan must include AI prototype patch test harness plan records.",
+);
+requireText(
+  durableRecords,
+  "AI prototype patch test harness plan record",
+  "Durable record plan must expose AI prototype patch test harness plan labels.",
+);
+requireText(
+  durableRecords,
+  "preservesAiPrototypePatchTestHarnessPlan: true",
+  "Durable record plan must preserve AI prototype patch test harness plans.",
+);
+requireText(
+  durableRecords,
+  "requiresHarnessRuntimePolicy: true",
+  "Durable record plan must require harness runtime policy.",
+);
+requireText(
+  durableRecords,
+  "requiresHarnessRequiredInputs: true",
+  "Durable record plan must require harness required inputs.",
+);
+requireText(
+  durableRecords,
+  "requiresHarnessSectionCoverage: true",
+  "Durable record plan must require harness section coverage.",
+);
+requireText(
+  durableRecords,
+  "requiresHarnessNonExecutionOutputs: true",
+  "Durable record plan must require non-execution outputs.",
+);
+requireText(durableRecords, "blocksPlaywrightRun: true", "Durable record plan must block Playwright runs.");
 requireText(durableRecords, "ai-generated-package-manifest-record", "Durable record plan must include AI generated package manifest records.");
 requireText(durableRecords, "AI generated package manifest record", "Durable record plan must expose AI generated package manifest record labels.");
 requireText(durableRecords, "preservesAiGeneratedPackageManifest: true", "Durable record plan must preserve AI generated package manifest links.");

@@ -63,10 +63,15 @@ export interface PersistenceWriteIntent {
   preservesCodexIntegrationReviewDecision?: boolean;
   preservesAiPrototypeAppPatchProposal?: boolean;
   preservesAiPrototypePatchTestReadinessGate?: boolean;
+  preservesAiPrototypePatchTestHarnessPlan?: boolean;
   requiresProposedPatchFileScope?: boolean;
   requiresPrePatchGates?: boolean;
   requiresPatchTestGates?: boolean;
   requiresPatchTestHarnessPlan?: boolean;
+  requiresHarnessRuntimePolicy?: boolean;
+  requiresHarnessRequiredInputs?: boolean;
+  requiresHarnessSectionCoverage?: boolean;
+  requiresHarnessNonExecutionOutputs?: boolean;
   requiresRouteSafetyReleaseGate?: boolean;
   requiresRollbackDrillRecord?: boolean;
   requiresStorageContractVerification?: boolean;
@@ -74,6 +79,7 @@ export interface PersistenceWriteIntent {
   requiresReviewerIdentitySignatureGate?: boolean;
   blocksAppFileWrite?: boolean;
   blocksTestExecution?: boolean;
+  blocksPlaywrightRun?: boolean;
   requiresManualCodexReview?: boolean;
   blocksAppPatchGeneration?: boolean;
   preservesAiPrototypeIntegrationReadinessGate?: boolean;
@@ -960,6 +966,81 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "ai-prototype-patch-test-readiness-gate" && !intent.blocksSupportLanguageProgressTrigger) {
       errors.push(`AI prototype patch test readiness gate write intent ${intent.intentId} must block support-language progress triggers.`);
+    }
+
+    if (
+      intent.category === "ai-prototype-patch-test-harness-plan" &&
+      !intent.preservesAiPrototypePatchTestHarnessPlan
+    ) {
+      errors.push(`AI prototype patch test harness plan write intent ${intent.intentId} must preserve harness plan sections.`);
+    }
+
+    if (intent.category === "ai-prototype-patch-test-harness-plan" && !intent.requiresHarnessRuntimePolicy) {
+      errors.push(`AI prototype patch test harness plan write intent ${intent.intentId} must require harness runtime policy.`);
+    }
+
+    if (intent.category === "ai-prototype-patch-test-harness-plan" && !intent.requiresHarnessRequiredInputs) {
+      errors.push(`AI prototype patch test harness plan write intent ${intent.intentId} must require harness inputs.`);
+    }
+
+    if (intent.category === "ai-prototype-patch-test-harness-plan" && !intent.requiresHarnessSectionCoverage) {
+      errors.push(`AI prototype patch test harness plan write intent ${intent.intentId} must require harness section coverage.`);
+    }
+
+    if (intent.category === "ai-prototype-patch-test-harness-plan" && !intent.requiresHarnessNonExecutionOutputs) {
+      errors.push(`AI prototype patch test harness plan write intent ${intent.intentId} must require non-execution outputs.`);
+    }
+
+    if (intent.category === "ai-prototype-patch-test-harness-plan" && !intent.blocksTestExecution) {
+      errors.push(`AI prototype patch test harness plan write intent ${intent.intentId} must block test execution.`);
+    }
+
+    if (intent.category === "ai-prototype-patch-test-harness-plan" && !intent.blocksPlaywrightRun) {
+      errors.push(`AI prototype patch test harness plan write intent ${intent.intentId} must block Playwright runs.`);
+    }
+
+    if (intent.category === "ai-prototype-patch-test-harness-plan" && !intent.blocksAppFileWrite) {
+      errors.push(`AI prototype patch test harness plan write intent ${intent.intentId} must block app file writes.`);
+    }
+
+    if (intent.category === "ai-prototype-patch-test-harness-plan" && !intent.blocksAppPatchGeneration) {
+      errors.push(`AI prototype patch test harness plan write intent ${intent.intentId} must block app patch generation.`);
+    }
+
+    if (intent.category === "ai-prototype-patch-test-harness-plan" && !intent.blocksGeneratedGameRouteWrite) {
+      errors.push(`AI prototype patch test harness plan write intent ${intent.intentId} must block route writes.`);
+    }
+
+    if (intent.category === "ai-prototype-patch-test-harness-plan" && !intent.blocksStudentFacingRoute) {
+      errors.push(`AI prototype patch test harness plan write intent ${intent.intentId} must block student-facing routes.`);
+    }
+
+    if (intent.category === "ai-prototype-patch-test-harness-plan" && !intent.blocksScoringProfileOverride) {
+      errors.push(`AI prototype patch test harness plan write intent ${intent.intentId} must block scoring mutations.`);
+    }
+
+    if (intent.category === "ai-prototype-patch-test-harness-plan" && !intent.blocksStarDustWrite) {
+      errors.push(`AI prototype patch test harness plan write intent ${intent.intentId} must block Star Dust writes.`);
+    }
+
+    if (intent.category === "ai-prototype-patch-test-harness-plan" && !intent.blocksRewardInventoryWrite) {
+      errors.push(`AI prototype patch test harness plan write intent ${intent.intentId} must block reward inventory writes.`);
+    }
+
+    if (intent.category === "ai-prototype-patch-test-harness-plan" && !intent.blocksAudioManifestMutation) {
+      errors.push(`AI prototype patch test harness plan write intent ${intent.intentId} must block audio manifest mutations.`);
+    }
+
+    if (intent.category === "ai-prototype-patch-test-harness-plan" && !intent.blocksPackagePromotion) {
+      errors.push(`AI prototype patch test harness plan write intent ${intent.intentId} must block package promotion.`);
+    }
+
+    if (intent.category === "ai-prototype-patch-test-harness-plan" && !intent.blocksDirectStudentAssignment) {
+      errors.push(`AI prototype patch test harness plan write intent ${intent.intentId} must block student assignments.`);
+    }
+
+    if (intent.category === "ai-prototype-patch-test-harness-plan" && !intent.blocksSupportLanguageProgressTrigger) {
+      errors.push(`AI prototype patch test harness plan write intent ${intent.intentId} must block support-language progress triggers.`);
     }
 
     if (
