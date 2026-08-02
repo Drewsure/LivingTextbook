@@ -39,6 +39,9 @@ const prototypePatchTestReadinessGate = readSource(
   "../apps/web/src/data/sampleAiPrototypePatchTestReadinessGate.ts",
 );
 const prototypePatchTestHarnessPlan = readSource("../apps/web/src/data/sampleAiPrototypePatchTestHarnessPlan.ts");
+const prototypePatchHarnessImplementationProposal = readSource(
+  "../apps/web/src/data/sampleAiPrototypePatchHarnessImplementationProposal.ts",
+);
 const verifierSubmissionPacket = readSource("../apps/web/src/data/sampleAiVerifierSubmissionPacket.ts");
 const generatedPackageManifest = readSource("../apps/web/src/data/sampleAiGeneratedPackageManifest.ts");
 const generatedPackagePromotionChecklist = readSource(
@@ -113,6 +116,9 @@ const prototypePatchTestReadinessGatePanel = readSource(
 );
 const prototypePatchTestHarnessPlanPanel = readSource(
   "../apps/web/src/features/content-intake/AiPrototypePatchTestHarnessPlanPanel.tsx",
+);
+const prototypePatchHarnessImplementationProposalPanel = readSource(
+  "../apps/web/src/features/content-intake/AiPrototypePatchHarnessImplementationProposalPanel.tsx",
 );
 const verifierSubmissionPanel = readSource("../apps/web/src/features/content-intake/AiVerifierSubmissionPacketPanel.tsx");
 const generatedPackageManifestPanel = readSource("../apps/web/src/features/content-intake/AiGeneratedPackageManifestPanel.tsx");
@@ -1139,6 +1145,46 @@ requireText(
   "No runnable harness",
   "AI prototype patch test harness plan panel must block runnable harness behavior.",
 );
+requireText(
+  prototypePatchHarnessImplementationProposal,
+  "sampleAiPrototypePatchHarnessImplementationProposals",
+  "AI prototype patch harness implementation proposal data must exist.",
+);
+requireText(
+  prototypePatchHarnessImplementationProposal,
+  "No harness implementation from this proposal",
+  "AI prototype patch harness implementation proposal must block implementation.",
+);
+requireText(
+  prototypePatchHarnessImplementationProposal,
+  "No Playwright run",
+  "AI prototype patch harness implementation proposal must block Playwright runs.",
+);
+requireText(
+  prototypePatchHarnessImplementationProposal,
+  "Harness implementation file-scope review",
+  "AI prototype patch harness implementation proposal must require file-scope review.",
+);
+requireText(
+  prototypePatchHarnessImplementationProposal,
+  "Hiragana support-language assertion names",
+  "AI prototype patch harness implementation proposal must preserve MiniStar support-language checks.",
+);
+requireText(
+  prototypePatchHarnessImplementationProposalPanel,
+  "AI prototype patch harness implementation proposal",
+  "AI prototype patch harness implementation proposal panel must expose heading.",
+);
+requireText(
+  prototypePatchHarnessImplementationProposalPanel,
+  "Implementation scope before code",
+  "AI prototype patch harness implementation proposal panel must expose code boundary.",
+);
+requireText(
+  prototypePatchHarnessImplementationProposalPanel,
+  "No code generation",
+  "AI prototype patch harness implementation proposal panel must block code generation.",
+);
 requireText(promptPackagePlan, "sampleAiPromptPackagePlans", "AI prompt package plan data must exist.");
 requireText(promptPackagePlan, "MiniStar generator prompt package", "AI prompt package plan must include MiniStar request seed.");
 requireText(promptPackagePlan, "ministar-l1-greetings-game-draft", "AI prompt package plan must bind to MiniStar greetings request.");
@@ -1765,6 +1811,11 @@ requireText(
   "AiPrototypePatchTestHarnessPlanPanel",
   "Generator route must render the prototype patch test harness plan panel.",
 );
+requireText(
+  route,
+  "AiPrototypePatchHarnessImplementationProposalPanel",
+  "Generator route must render the prototype patch harness implementation proposal panel.",
+);
 requireText(route, "AiPromptPackagePlanPanel", "Generator route must render the prompt package plan panel.");
 requireText(route, "AiGeneratorCostEntitlementGatePanel", "Generator route must render the cost entitlement gate panel.");
 requireText(route, "AiGenerationRequestBuilderPanel", "Generator route must render the request builder panel.");
@@ -1822,6 +1873,11 @@ requireText(
   route,
   "sampleAiPrototypePatchTestHarnessPlans",
   "Generator route must use prototype patch test harness plan data.",
+);
+requireText(
+  route,
+  "sampleAiPrototypePatchHarnessImplementationProposals",
+  "Generator route must use prototype patch harness implementation proposal data.",
 );
 requireText(route, "sampleAiPromptPackagePlans", "Generator route must use the sample prompt package plan data.");
 requireText(route, "sampleAiGeneratorCostEntitlementGates", "Generator route must use the sample cost entitlement gate data.");
