@@ -67,6 +67,12 @@ Teacher generator routes must show a tenant-aware review summary before detailed
 
 The review summary cannot call a live model, generate an app patch, assemble a package, create a route, create a playlist, create an assignment, write a local bundle, or mark content student-ready. MiniStar summaries must preserve English as the target-language trigger and keep Japanese hiragana support as support-only.
 
+## Generator Reviewer Runbook Rule
+
+Teacher generator routes must show a tenant-aware reviewer runbook before detailed panels. The runbook is guidance only: it gives reviewers a human review order, standing rules, evidence to review, required records, and blocked shortcuts.
+
+The runbook cannot call a live model, generate an app patch, assemble a package, create a route, create a playlist, create an assignment, write a local bundle, or mark content student-ready. MiniStar runbooks must preserve English as the target-language trigger and keep Japanese hiragana support as support-only.
+
 ## Generated Package Promotion Checklist Rule
 
 Teacher generator routes must show a review-only promotion checklist before any generated draft can become a real playable package. The checklist translates the manifest, lineage map, correction queue, audio coverage, verifier packet, reward gate, release-control binding, approval ledger, and assignment rollout gate into one visible draft-to-playable package pathway.

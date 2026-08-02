@@ -4,6 +4,7 @@ const plan = readSource("../apps/web/src/data/sampleAiGameGeneratorPlan.ts");
 const tenantCoverage = readSource("../apps/web/src/data/sampleAiGeneratorTenantCoverage.ts");
 const lineageMap = readSource("../apps/web/src/data/sampleAiGeneratorLineageMap.ts");
 const reviewSummary = readSource("../apps/web/src/data/sampleAiGeneratorReviewSummary.ts");
+const reviewerRunbook = readSource("../apps/web/src/data/sampleAiGeneratorReviewerRunbook.ts");
 const engineBindingPlan = readSource("../apps/web/src/data/sampleAiEngineBindingPlan.ts");
 const promptPackagePlan = readSource("../apps/web/src/data/sampleAiPromptPackagePlan.ts");
 const costEntitlementGate = readSource("../apps/web/src/data/sampleAiGeneratorCostEntitlementGate.ts");
@@ -44,6 +45,7 @@ const panel = readSource("../apps/web/src/features/content-intake/AiGameGenerato
 const tenantCoveragePanel = readSource("../apps/web/src/features/content-intake/AiGeneratorTenantCoveragePanel.tsx");
 const lineageMapPanel = readSource("../apps/web/src/features/content-intake/AiGeneratorLineageMapPanel.tsx");
 const reviewSummaryPanel = readSource("../apps/web/src/features/content-intake/AiGeneratorReviewSummaryPanel.tsx");
+const reviewerRunbookPanel = readSource("../apps/web/src/features/content-intake/AiGeneratorReviewerRunbookPanel.tsx");
 const engineBindingPanel = readSource("../apps/web/src/features/content-intake/AiEngineBindingPlanPanel.tsx");
 const promptPackagePanel = readSource("../apps/web/src/features/content-intake/AiPromptPackagePlanPanel.tsx");
 const costEntitlementGatePanel = readSource("../apps/web/src/features/content-intake/AiGeneratorCostEntitlementGatePanel.tsx");
@@ -273,6 +275,22 @@ requireText(
   "AI generator review summary storage contract",
   "AI generator checks must mention review summary storage contract.",
 );
+requireText(reviewerRunbook, "sampleAiGeneratorReviewerRunbooks", "AI generator reviewer runbook data must exist.");
+requireText(reviewerRunbook, "Human review order", "AI generator reviewer runbook must name human review order.");
+requireText(reviewerRunbook, "Reviewer runbook is guidance only", "AI generator reviewer runbook must remain guidance only.");
+requireText(reviewerRunbook, "Detailed source records remain authoritative", "AI generator reviewer runbook must keep source records authoritative.");
+requireText(reviewerRunbook, "No live model call", "AI generator reviewer runbook must block live model calls.");
+requireText(reviewerRunbook, "No app patch generation", "AI generator reviewer runbook must block app patch generation.");
+requireText(reviewerRunbook, "No package assembly", "AI generator reviewer runbook must block package assembly.");
+requireText(reviewerRunbook, "No route or playlist creation", "AI generator reviewer runbook must block route and playlist creation.");
+requireText(reviewerRunbook, "No student assignment", "AI generator reviewer runbook must block student assignment.");
+requireText(reviewerRunbook, "English is the target-language trigger", "MiniStar reviewer runbook must preserve English target-language trigger.");
+requireText(reviewerRunbook, "No Japanese support-language trigger", "MiniStar reviewer runbook must block support-language triggers.");
+requireText(reviewerRunbookPanel, "AI generator reviewer runbook", "AI generator reviewer runbook panel must expose heading.");
+requireText(reviewerRunbookPanel, "Human review order", "AI generator reviewer runbook panel must expose review order.");
+requireText(reviewerRunbookPanel, "Standing rules", "AI generator reviewer runbook panel must expose standing rules.");
+requireText(reviewerRunbookPanel, "Evidence to review", "AI generator reviewer runbook panel must show evidence.");
+requireText(reviewerRunbookPanel, "Blocked shortcuts", "AI generator reviewer runbook panel must show blocked shortcuts.");
 requireText(prototypeReturnReview, "sampleAiPrototypeReturnReviewPackets", "AI prototype return review data must exist.");
 requireText(prototypeReturnReview, "External prototype builder / Z.ai return packet", "AI prototype return review must identify external returns.");
 requireText(prototypeReturnReview, "Parent-engine wrapper review", "AI prototype return review must require parent-engine wrapper review.");
@@ -1434,6 +1452,7 @@ requireText(route, "AiGameGeneratorPlanPanel", "Generator route must render the 
 requireText(route, "AiGeneratorTenantCoveragePanel", "Generator route must render the tenant coverage panel.");
 requireText(route, "AiGeneratorLineageMapPanel", "Generator route must render the lineage map panel.");
 requireText(route, "AiGeneratorReviewSummaryPanel", "Generator route must render the review summary panel.");
+requireText(route, "AiGeneratorReviewerRunbookPanel", "Generator route must render the reviewer runbook panel.");
 requireText(route, "AiEngineBindingPlanPanel", "Generator route must render the engine binding panel.");
 requireText(route, "AiGeneratedGameBuildBriefPanel", "Generator route must render the generated game build brief panel.");
 requireText(route, "AiPrototypeReturnReviewPanel", "Generator route must render the prototype return review panel.");
@@ -1473,6 +1492,7 @@ requireText(route, "sampleAiGameGeneratorPlan", "Generator route must use the sa
 requireText(route, "sampleAiGeneratorTenantCoverage", "Generator route must use tenant coverage data.");
 requireText(route, "sampleAiGeneratorLineageMaps", "Generator route must use lineage map data.");
 requireText(route, "sampleAiGeneratorReviewSummaries", "Generator route must use review summary data.");
+requireText(route, "sampleAiGeneratorReviewerRunbooks", "Generator route must use reviewer runbook data.");
 requireText(route, "sampleAiEngineBindingPlans", "Generator route must use the sample engine binding plan data.");
 requireText(route, "sampleAiGeneratedGameBuildBriefPackets", "Generator route must use generated game build brief data.");
 requireText(route, "sampleAiPrototypeReturnReviewPackets", "Generator route must use prototype return review data.");
