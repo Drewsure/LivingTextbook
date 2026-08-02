@@ -52,6 +52,7 @@ const rewardReadinessGatePanel = readSource("../apps/web/src/features/content-in
 const generatedGameBuildBriefPanel = readSource(
   "../apps/web/src/features/content-intake/AiGeneratedGameBuildBriefPanel.tsx",
 );
+const generatorSectionNav = readSource("../apps/web/src/features/content-intake/AiGeneratorSectionNav.tsx");
 const prototypeReturnReviewPanel = readSource(
   "../apps/web/src/features/content-intake/AiPrototypeReturnReviewPanel.tsx",
 );
@@ -243,6 +244,12 @@ requireText(generatedGameBuildBriefPanel, "Event contract", "AI generated game b
 requireText(generatedGameBuildBriefPanel, "Audio contract", "AI generated game build brief panel must expose audio contract.");
 requireText(generatedGameBuildBriefPanel, "Scoring contract", "AI generated game build brief panel must expose scoring contract.");
 requireText(generatedGameBuildBriefPanel, "No standalone promotion", "AI generated game build brief panel must block standalone promotion.");
+requireText(generatorSectionNav, "Generator route map", "AI generator route map component must expose heading.");
+requireText(generatorSectionNav, "Request setup", "AI generator route map must expose request setup section.");
+requireText(generatorSectionNav, "Prototype review", "AI generator route map must expose prototype review section.");
+requireText(generatorSectionNav, "Integration gates", "AI generator route map must expose integration gates section.");
+requireText(generatorSectionNav, "Package review", "AI generator route map must expose package review section.");
+requireText(generatorSectionNav, "Draft repair", "AI generator route map must expose draft repair section.");
 requireText(prototypeReturnReview, "sampleAiPrototypeReturnReviewPackets", "AI prototype return review data must exist.");
 requireText(prototypeReturnReview, "External prototype builder / Z.ai return packet", "AI prototype return review must identify external returns.");
 requireText(prototypeReturnReview, "Parent-engine wrapper review", "AI prototype return review must require parent-engine wrapper review.");

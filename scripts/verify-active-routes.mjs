@@ -247,6 +247,12 @@ expectedTextByPath
 
 const aiGameGeneratorExpected = [
   "AI teaching game generator",
+  "Generator route map",
+  "Request setup",
+  "Prototype review",
+  "Integration gates",
+  "Package review",
+  "Draft repair",
   "AI generator tenant coverage",
   "AI generator lineage map",
   "White-label generator records by tenant",
@@ -601,6 +607,12 @@ const aiGameGeneratorExpected = [
 
 const ministarAiGameGeneratorExpected = [
   "AI teaching game generator",
+  "Generator route map",
+  "Request setup",
+  "Prototype review",
+  "Integration gates",
+  "Package review",
+  "Draft repair",
   "AI generator tenant coverage",
   "White-label generator records by tenant",
   "Tenant-specific records required",

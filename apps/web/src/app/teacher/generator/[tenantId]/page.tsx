@@ -109,6 +109,7 @@ import { AiGeneratedPackageReleaseCandidatePanel } from "@/features/content-inta
 import { AiGeneratedPublishReadinessGatePanel } from "@/features/content-intake/AiGeneratedPublishReadinessGatePanel";
 import { AiEngineBindingPlanPanel } from "@/features/content-intake/AiEngineBindingPlanPanel";
 import { AiGeneratedGameBuildBriefPanel } from "@/features/content-intake/AiGeneratedGameBuildBriefPanel";
+import { AiGeneratorSectionNav } from "@/features/content-intake/AiGeneratorSectionNav";
 import { AiPrototypeReturnReviewPanel } from "@/features/content-intake/AiPrototypeReturnReviewPanel";
 import { AiPrototypeIntegrationPlanPanel } from "@/features/content-intake/AiPrototypeIntegrationPlanPanel";
 import { AiPrototypeWrapperAdapterReviewPanel } from "@/features/content-intake/AiPrototypeWrapperAdapterReviewPanel";
@@ -148,6 +149,8 @@ export default async function TeacherAiGameGeneratorPage({
   return (
     <AppShell tenant={tenant}>
       <div className="grid gap-5">
+        <AiGeneratorSectionNav />
+        <section id="generator-request" className="grid scroll-mt-6 gap-5">
         <AiGameGeneratorPlanPanel plan={sampleAiGameGeneratorPlan} tenantId={tenantId} />
         <AiGeneratorTenantCoveragePanel
           coverages={filterAiGeneratorTenantCoverageByTenant(sampleAiGeneratorTenantCoverage, tenantId)}
@@ -170,6 +173,8 @@ export default async function TeacherAiGameGeneratorPage({
           gates={filterAiRewardReadinessGatesByTenant(sampleAiRewardReadinessGates, tenantId)}
         />
         <AiEngineBindingPlanPanel plans={filterAiEngineBindingPlansByTenant(sampleAiEngineBindingPlans, tenantId)} />
+        </section>
+        <section id="prototype-review" className="grid scroll-mt-6 gap-5">
         <AiGeneratedGameBuildBriefPanel
           packets={filterAiGeneratedGameBuildBriefPacketsByTenant(sampleAiGeneratedGameBuildBriefPackets, tenantId)}
         />
@@ -200,6 +205,8 @@ export default async function TeacherAiGameGeneratorPage({
         <AiPrototypeScoringReplayReportPanel
           reports={filterAiPrototypeScoringReplayReportsByTenant(sampleAiPrototypeScoringReplayReports, tenantId)}
         />
+        </section>
+        <section id="integration-gates" className="grid scroll-mt-6 gap-5">
         <AiPrototypeCodexIntegrationDecisionPanel
           decisions={filterAiPrototypeCodexIntegrationDecisionsByTenant(
             sampleAiPrototypeCodexIntegrationDecisions,
@@ -215,6 +222,8 @@ export default async function TeacherAiGameGeneratorPage({
         <AiPrototypeAppPatchProposalPanel
           proposals={filterAiPrototypeAppPatchProposalsByTenant(sampleAiPrototypeAppPatchProposals, tenantId)}
         />
+        </section>
+        <section id="package-review" className="grid scroll-mt-6 gap-5">
         <AiVerifierSubmissionPacketPanel
           packets={filterAiVerifierSubmissionPacketsByTenant(sampleAiVerifierSubmissionPackets, tenantId)}
         />
@@ -237,12 +246,15 @@ export default async function TeacherAiGameGeneratorPage({
             tenantId,
           )}
         />
+        </section>
+        <section id="draft-repair" className="grid scroll-mt-6 gap-5">
         <AiGeneratedDraftPayloadPreviewPanel
           previews={filterAiGeneratedDraftPayloadPreviewsByTenant(sampleAiGeneratedDraftPayloadPreviews, tenantId)}
         />
         <AiDraftCorrectionQueuePanel
           queues={filterAiDraftCorrectionQueuesByTenant(sampleAiDraftCorrectionQueues, tenantId)}
         />
+        </section>
       </div>
     </AppShell>
   );
