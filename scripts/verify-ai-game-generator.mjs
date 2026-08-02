@@ -27,6 +27,7 @@ const prototypeCodexIntegrationDecision = readSource(
 const prototypeIntegrationReadinessGate = readSource(
   "../apps/web/src/data/sampleAiPrototypeIntegrationReadinessGate.ts",
 );
+const prototypeAppPatchProposal = readSource("../apps/web/src/data/sampleAiPrototypeAppPatchProposal.ts");
 const verifierSubmissionPacket = readSource("../apps/web/src/data/sampleAiVerifierSubmissionPacket.ts");
 const generatedPackageManifest = readSource("../apps/web/src/data/sampleAiGeneratedPackageManifest.ts");
 const generatedPackagePromotionChecklist = readSource(
@@ -80,6 +81,9 @@ const prototypeCodexIntegrationDecisionPanel = readSource(
 );
 const prototypeIntegrationReadinessGatePanel = readSource(
   "../apps/web/src/features/content-intake/AiPrototypeIntegrationReadinessGatePanel.tsx",
+);
+const prototypeAppPatchProposalPanel = readSource(
+  "../apps/web/src/features/content-intake/AiPrototypeAppPatchProposalPanel.tsx",
 );
 const verifierSubmissionPanel = readSource("../apps/web/src/features/content-intake/AiVerifierSubmissionPacketPanel.tsx");
 const generatedPackageManifestPanel = readSource("../apps/web/src/features/content-intake/AiGeneratedPackageManifestPanel.tsx");
@@ -760,6 +764,56 @@ requireText(
   prototypeIntegrationReadinessGatePanel,
   "Codex decision missing",
   "AI prototype integration readiness gate panel must expose Codex decision blocker.",
+);
+requireText(
+  prototypeAppPatchProposal,
+  "sampleAiPrototypeAppPatchProposals",
+  "AI prototype app patch proposal data must exist.",
+);
+requireText(
+  prototypeAppPatchProposal,
+  "codex_integration_review_decision",
+  "AI prototype app patch proposal must depend on Codex integration decisions.",
+);
+requireText(
+  prototypeAppPatchProposal,
+  "No app file writes",
+  "AI prototype app patch proposal must block app file writes.",
+);
+requireText(
+  prototypeAppPatchProposal,
+  "No generated route write",
+  "AI prototype app patch proposal must block generated route writes.",
+);
+requireText(
+  prototypeAppPatchProposal,
+  "No scoring or reward mutation",
+  "AI prototype app patch proposal must block scoring and reward mutation.",
+);
+requireText(
+  prototypeAppPatchProposal,
+  "No Japanese support-language trigger",
+  "MiniStar prototype app patch proposal must block Japanese support-language triggers.",
+);
+requireText(
+  prototypeAppPatchProposalPanel,
+  "AI prototype app patch proposal",
+  "AI prototype app patch proposal panel must expose heading.",
+);
+requireText(
+  prototypeAppPatchProposalPanel,
+  "Patch proposal preview only",
+  "AI prototype app patch proposal panel must expose preview-only policy.",
+);
+requireText(
+  prototypeAppPatchProposalPanel,
+  "Required before patch",
+  "AI prototype app patch proposal panel must expose required-before-patch gates.",
+);
+requireText(
+  prototypeAppPatchProposalPanel,
+  "Required test gates",
+  "AI prototype app patch proposal panel must expose required test gates.",
 );
 requireText(promptPackagePlan, "sampleAiPromptPackagePlans", "AI prompt package plan data must exist.");
 requireText(promptPackagePlan, "MiniStar generator prompt package", "AI prompt package plan must include MiniStar request seed.");

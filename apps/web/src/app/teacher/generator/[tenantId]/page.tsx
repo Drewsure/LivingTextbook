@@ -85,6 +85,10 @@ import {
   sampleAiPrototypeCodexIntegrationDecisions,
 } from "@/data/sampleAiPrototypeCodexIntegrationDecision";
 import {
+  filterAiPrototypeAppPatchProposalsByTenant,
+  sampleAiPrototypeAppPatchProposals,
+} from "@/data/sampleAiPrototypeAppPatchProposal";
+import {
   filterAiGamificationMappingPlansByTenant,
   sampleAiGamificationMappingPlans,
 } from "@/data/sampleAiGamificationMappingPlan";
@@ -115,6 +119,7 @@ import { AiPrototypeMobileAccessibilityReportPanel } from "@/features/content-in
 import { AiPrototypeScoringReplayReportPanel } from "@/features/content-intake/AiPrototypeScoringReplayReportPanel";
 import { AiPrototypeCodexIntegrationDecisionPanel } from "@/features/content-intake/AiPrototypeCodexIntegrationDecisionPanel";
 import { AiPrototypeIntegrationReadinessGatePanel } from "@/features/content-intake/AiPrototypeIntegrationReadinessGatePanel";
+import { AiPrototypeAppPatchProposalPanel } from "@/features/content-intake/AiPrototypeAppPatchProposalPanel";
 import { AiGamificationMappingPanel } from "@/features/content-intake/AiGamificationMappingPanel";
 import { AiGeneratorAudioCoveragePlanPanel } from "@/features/content-intake/AiGeneratorAudioCoveragePlanPanel";
 import { AiGameGeneratorPlanPanel } from "@/features/content-intake/AiGameGeneratorPlanPanel";
@@ -206,6 +211,9 @@ export default async function TeacherAiGameGeneratorPage({
             sampleAiPrototypeIntegrationReadinessGates,
             tenantId,
           )}
+        />
+        <AiPrototypeAppPatchProposalPanel
+          proposals={filterAiPrototypeAppPatchProposalsByTenant(sampleAiPrototypeAppPatchProposals, tenantId)}
         />
         <AiVerifierSubmissionPacketPanel
           packets={filterAiVerifierSubmissionPacketsByTenant(sampleAiVerifierSubmissionPackets, tenantId)}

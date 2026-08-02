@@ -201,6 +201,12 @@ MiniStar readiness gates must keep Japanese support language hiragana-only for e
 
 The backend-neutral storage contract is `ai_prototype_integration_readiness_gate` / `ai-prototype-integration-readiness-gate`. Hosted and local adapters must preserve linked integration plan, wrapper adapter review, fixture replay report, event replay report, audio coverage report, mobile accessibility report, scoring replay report, Codex integration review decision, evidence readiness checks, all-evidence-reviewed state, and blocked actions while blocking app patches, direct imports, route writes, student-facing routes, scoring mutations, Star Dust or reward writes, audio manifest mutation, package promotion, and assignments.
 
+## Prototype App Patch Proposal Rule
+
+Prototype app patch proposals must remain review-only until an accepted Codex integration review decision, all-evidence readiness gate, reviewer identity/signature gate, and release-control binding exist. The proposal may show future file scope, wrapper boundaries, fixture-only data paths, route preview scope, verifier/test gates, and rollback requirements, but it cannot write files.
+
+The proposal preview blocks app file writes, generated route writes, student-facing routes, scoring or reward mutation, audio manifest mutation, package promotion, and assignment. MiniStar proposals also block Japanese support-language triggers; English remains the target-language trigger.
+
 ## Mode Recommendation Rule
 
 Generator mode recommendations must reuse the reviewed activity compatibility matrix. The generator can recommend a tight pathway for a unit, but it must not produce a broad switch panel or unsupported conversions. Blocked conversions stay visible with their payload-fit and compatibility-rule reasons.
