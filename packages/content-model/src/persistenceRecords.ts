@@ -15,6 +15,7 @@ export type PersistenceRecordCategory =
   | "ai-prototype-event-replay-report"
   | "ai-prototype-audio-coverage-report"
   | "ai-prototype-mobile-accessibility-report"
+  | "ai-prototype-scoring-replay-report"
   | "ai-generated-package-manifest"
   | "ai-generated-package-promotion-checklist"
   | "ai-generated-package-release-candidate"
@@ -122,6 +123,7 @@ export interface DurableRecordContract {
   preservesAiPrototypeEventReplayReport?: boolean;
   preservesAiPrototypeAudioCoverageReport?: boolean;
   preservesAiPrototypeMobileAccessibilityReport?: boolean;
+  preservesAiPrototypeScoringReplayReport?: boolean;
   requiresReviewedUnitJsonFixture?: boolean;
   requiresFixtureCoverage?: boolean;
   requiresFixtureReplayEvidence?: boolean;
@@ -140,6 +142,11 @@ export interface DurableRecordContract {
   blocksVoiceApiCost?: boolean;
   blocksMediaOnlyMastery?: boolean;
   blocksPackageAudioCompleteMarker?: boolean;
+  requiresDeterministicScoringReplay?: boolean;
+  requiresScoringProfileSnapshot?: boolean;
+  requiresMasteryThresholdReplay?: boolean;
+  requiresRewardBoundaryChecks?: boolean;
+  blocksStarDustWrite?: boolean;
   requiresMobileViewportEvidence?: boolean;
   requiresTouchTargetChecks?: boolean;
   requiresKeyboardFocusChecks?: boolean;
@@ -870,6 +877,73 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "ai-prototype-mobile-accessibility-report" && !record.blocksDirectStudentAssignment) {
       errors.push(`AI prototype mobile accessibility report record ${record.recordId} must block direct student assignments.`);
+    }
+
+    if (
+      record.category === "ai-prototype-scoring-replay-report" &&
+      !record.preservesAiPrototypeScoringReplayReport
+    ) {
+      errors.push(`AI prototype scoring replay report record ${record.recordId} must preserve scoring replay sections.`);
+    }
+
+    if (
+      record.category === "ai-prototype-scoring-replay-report" &&
+      !record.requiresDeterministicScoringReplay
+    ) {
+      errors.push(`AI prototype scoring replay report record ${record.recordId} must require deterministic scoring replay.`);
+    }
+
+    if (
+      record.category === "ai-prototype-scoring-replay-report" &&
+      !record.requiresScoringProfileSnapshot
+    ) {
+      errors.push(`AI prototype scoring replay report record ${record.recordId} must require scoring profile snapshots.`);
+    }
+
+    if (
+      record.category === "ai-prototype-scoring-replay-report" &&
+      !record.requiresMasteryThresholdReplay
+    ) {
+      errors.push(`AI prototype scoring replay report record ${record.recordId} must require mastery threshold replay.`);
+    }
+
+    if (
+      record.category === "ai-prototype-scoring-replay-report" &&
+      !record.requiresRewardBoundaryChecks
+    ) {
+      errors.push(`AI prototype scoring replay report record ${record.recordId} must require reward boundary checks.`);
+    }
+
+    if (record.category === "ai-prototype-scoring-replay-report" && !record.blocksScoreAuthority) {
+      errors.push(`AI prototype scoring replay report record ${record.recordId} must block direct score authority.`);
+    }
+
+    if (record.category === "ai-prototype-scoring-replay-report" && !record.blocksScoringProfileOverride) {
+      errors.push(`AI prototype scoring replay report record ${record.recordId} must block scoring profile overrides.`);
+    }
+
+    if (record.category === "ai-prototype-scoring-replay-report" && !record.blocksStarDustWrite) {
+      errors.push(`AI prototype scoring replay report record ${record.recordId} must block Star Dust writes.`);
+    }
+
+    if (record.category === "ai-prototype-scoring-replay-report" && !record.blocksRewardInventoryWrite) {
+      errors.push(`AI prototype scoring replay report record ${record.recordId} must block reward inventory writes.`);
+    }
+
+    if (record.category === "ai-prototype-scoring-replay-report" && !record.blocksGeneratedSurpriseRewards) {
+      errors.push(`AI prototype scoring replay report record ${record.recordId} must block generated surprise rewards.`);
+    }
+
+    if (record.category === "ai-prototype-scoring-replay-report" && !record.blocksMediaOnlyMastery) {
+      errors.push(`AI prototype scoring replay report record ${record.recordId} must block media-only mastery.`);
+    }
+
+    if (record.category === "ai-prototype-scoring-replay-report" && !record.blocksSupportLanguageProgressTrigger) {
+      errors.push(`AI prototype scoring replay report record ${record.recordId} must block support-language progress triggers.`);
+    }
+
+    if (record.category === "ai-prototype-scoring-replay-report" && !record.blocksDirectStudentAssignment) {
+      errors.push(`AI prototype scoring replay report record ${record.recordId} must block direct student assignments.`);
     }
 
     if (record.category === "ai-generated-package-manifest" && !record.preservesAiGeneratedPackageManifest) {

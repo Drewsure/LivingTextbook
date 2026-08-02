@@ -46,6 +46,7 @@ export interface PersistenceWriteIntent {
   preservesAiPrototypeEventReplayReport?: boolean;
   preservesAiPrototypeAudioCoverageReport?: boolean;
   preservesAiPrototypeMobileAccessibilityReport?: boolean;
+  preservesAiPrototypeScoringReplayReport?: boolean;
   requiresReviewedUnitJsonFixture?: boolean;
   requiresFixtureCoverage?: boolean;
   requiresFixtureReplayEvidence?: boolean;
@@ -64,6 +65,11 @@ export interface PersistenceWriteIntent {
   blocksVoiceApiCost?: boolean;
   blocksMediaOnlyMastery?: boolean;
   blocksPackageAudioCompleteMarker?: boolean;
+  requiresDeterministicScoringReplay?: boolean;
+  requiresScoringProfileSnapshot?: boolean;
+  requiresMasteryThresholdReplay?: boolean;
+  requiresRewardBoundaryChecks?: boolean;
+  blocksStarDustWrite?: boolean;
   requiresMobileViewportEvidence?: boolean;
   requiresTouchTargetChecks?: boolean;
   requiresKeyboardFocusChecks?: boolean;
@@ -829,6 +835,73 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "ai-prototype-mobile-accessibility-report" && !intent.blocksDirectStudentAssignment) {
       errors.push(`AI prototype mobile accessibility report write intent ${intent.intentId} must block direct student assignments.`);
+    }
+
+    if (
+      intent.category === "ai-prototype-scoring-replay-report" &&
+      !intent.preservesAiPrototypeScoringReplayReport
+    ) {
+      errors.push(`AI prototype scoring replay report write intent ${intent.intentId} must preserve scoring replay sections.`);
+    }
+
+    if (
+      intent.category === "ai-prototype-scoring-replay-report" &&
+      !intent.requiresDeterministicScoringReplay
+    ) {
+      errors.push(`AI prototype scoring replay report write intent ${intent.intentId} must require deterministic scoring replay.`);
+    }
+
+    if (
+      intent.category === "ai-prototype-scoring-replay-report" &&
+      !intent.requiresScoringProfileSnapshot
+    ) {
+      errors.push(`AI prototype scoring replay report write intent ${intent.intentId} must require scoring profile snapshots.`);
+    }
+
+    if (
+      intent.category === "ai-prototype-scoring-replay-report" &&
+      !intent.requiresMasteryThresholdReplay
+    ) {
+      errors.push(`AI prototype scoring replay report write intent ${intent.intentId} must require mastery threshold replay.`);
+    }
+
+    if (
+      intent.category === "ai-prototype-scoring-replay-report" &&
+      !intent.requiresRewardBoundaryChecks
+    ) {
+      errors.push(`AI prototype scoring replay report write intent ${intent.intentId} must require reward boundary checks.`);
+    }
+
+    if (intent.category === "ai-prototype-scoring-replay-report" && !intent.blocksScoreAuthority) {
+      errors.push(`AI prototype scoring replay report write intent ${intent.intentId} must block direct score authority.`);
+    }
+
+    if (intent.category === "ai-prototype-scoring-replay-report" && !intent.blocksScoringProfileOverride) {
+      errors.push(`AI prototype scoring replay report write intent ${intent.intentId} must block scoring profile overrides.`);
+    }
+
+    if (intent.category === "ai-prototype-scoring-replay-report" && !intent.blocksStarDustWrite) {
+      errors.push(`AI prototype scoring replay report write intent ${intent.intentId} must block Star Dust writes.`);
+    }
+
+    if (intent.category === "ai-prototype-scoring-replay-report" && !intent.blocksRewardInventoryWrite) {
+      errors.push(`AI prototype scoring replay report write intent ${intent.intentId} must block reward inventory writes.`);
+    }
+
+    if (intent.category === "ai-prototype-scoring-replay-report" && !intent.blocksGeneratedSurpriseRewards) {
+      errors.push(`AI prototype scoring replay report write intent ${intent.intentId} must block generated surprise rewards.`);
+    }
+
+    if (intent.category === "ai-prototype-scoring-replay-report" && !intent.blocksMediaOnlyMastery) {
+      errors.push(`AI prototype scoring replay report write intent ${intent.intentId} must block media-only mastery.`);
+    }
+
+    if (intent.category === "ai-prototype-scoring-replay-report" && !intent.blocksSupportLanguageProgressTrigger) {
+      errors.push(`AI prototype scoring replay report write intent ${intent.intentId} must block support-language progress triggers.`);
+    }
+
+    if (intent.category === "ai-prototype-scoring-replay-report" && !intent.blocksDirectStudentAssignment) {
+      errors.push(`AI prototype scoring replay report write intent ${intent.intentId} must block direct student assignments.`);
     }
 
     if (intent.category === "ai-generated-package-manifest" && !intent.preservesAiGeneratedPackageManifest) {

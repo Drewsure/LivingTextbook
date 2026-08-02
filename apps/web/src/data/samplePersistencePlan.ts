@@ -27,6 +27,7 @@ export type PersistenceBoundaryCategory =
   | "ai-prototype-event-replay-report"
   | "ai-prototype-audio-coverage-report"
   | "ai-prototype-mobile-accessibility-report"
+  | "ai-prototype-scoring-replay-report"
   | "ai-generated-package-manifest"
   | "ai-generated-package-promotion-checklist"
   | "ai-generated-package-release-candidate"
@@ -464,6 +465,38 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
     note:
       "AI prototype mobile accessibility reports need durable viewport, touch, focus, readable-text, and wrapper-control evidence before returned prototypes can claim mobile safety or move toward apps/web integration.",
+  },
+  {
+    recordId: "ai-prototype-scoring-replay-report-record",
+    category: "ai-prototype-scoring-replay-report",
+    label: "AI prototype scoring replay report record",
+    readiness: "durable-required",
+    sourceOfTruth:
+      "AiPrototypeScoringReplayReport, game scoring profile snapshot, progress event acceptance map, collection unlock binding, standard event contract, deterministic scoring replay, score replay checks, mastery replay checks, reward boundary checks, failure triggers, and blocked actions",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: false,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesAiPrototypeScoringReplayReport: true,
+    requiresDeterministicScoringReplay: true,
+    requiresScoringProfileSnapshot: true,
+    requiresMasteryThresholdReplay: true,
+    requiresRewardBoundaryChecks: true,
+    blocksScoreAuthority: true,
+    blocksScoringProfileOverride: true,
+    blocksStarDustWrite: true,
+    blocksRewardInventoryWrite: true,
+    blocksGeneratedSurpriseRewards: true,
+    blocksMediaOnlyMastery: true,
+    blocksSupportLanguageProgressTrigger: true,
+    blocksDirectStudentAssignment: true,
+    blocksDirectAppImport: true,
+    blocksGeneratedGameRouteWrite: true,
+    recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
+    note:
+      "AI prototype scoring replay reports need durable deterministic scoring, mastery, and reward-boundary evidence before returned prototypes can claim scoring safety or move toward parent-engine integration.",
   },
   {
     recordId: "ai-generated-package-promotion-checklist-record",
@@ -1830,6 +1863,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision:
       "Persist AI prototype mobile accessibility reports before enabling apps/web integration, student-facing previews, route writes, accessibility waivers, Phaser/canvas wrapper adoption, package promotion, or assignments.",
+  },
+  {
+    boundaryId: "ai-prototype-scoring-replay-report-boundary",
+    category: "ai-prototype-scoring-replay-report",
+    label: "AI prototype scoring replay report records",
+    status: "needs-backend",
+    recordShape:
+      "Scoring replay report id, tenant id, request id, integration plan id, game scoring profile snapshot id, progress event acceptance map id, collection unlock binding id, standard event contract id, deterministic scoring replay, score replay checks, mastery replay checks, reward boundary checks, failure triggers, blocked actions",
+    whyItMatters:
+      "A returned prototype must prove it reports answer evidence through parent scoring profiles without owning score, Star Dust, mastery, rewards, random rewards, media-only mastery, support-language mastery, package promotion, or assignments before it can move toward integration.",
+    visibleTo: ["Platform admin", "Tenant admin", "Content reviewer", "Prototype reviewer"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Persist AI prototype scoring replay reports before enabling parent-engine wrapper integration, scoring profile acceptance, Star Dust writes, reward inventory writes, package promotion, or assignments.",
   },
   {
     boundaryId: "ai-generated-package-promotion-checklist-boundary",
