@@ -259,6 +259,10 @@ The gate must name fixture replay, standard event replay, target-language audio,
 
 The backend-neutral storage contract is `ai_prototype_patch_test_readiness_gate` / `ai-prototype-patch-test-readiness-gate`. Hosted and local adapters must preserve required test lanes, rollback requirements, patch test harness plan, route safety release gate, rollback drill record, storage contract verification, Codex patch approval decision, and blocked actions while blocking test execution, app file writes, app patch generation, route writes, scoring mutations, Star Dust or reward writes, audio manifest mutation, package promotion, assignments, and support-language progress.
 
+## Prototype Patch Test Harness Plan Rule
+
+Patch test harness plans must remain design-only until a future implementation proposal, route safety release gate, rollback drill record, storage contract verification, and Codex patch approval decision exist. The plan may name fixture replay, standard event, target-language audio, mobile accessibility, deterministic scoring, route safety, storage contract, rollback, and support-language boundary checks, but it cannot run tests, invoke Playwright, write app files, generate patches, mutate routes, change scoring or rewards, mutate audio manifests, promote packages, assign students, or trigger support-language progress.
+
 ## Mode Recommendation Rule
 
 Generator mode recommendations must reuse the reviewed activity compatibility matrix. The generator can recommend a tight pathway for a unit, but it must not produce a broad switch panel or unsupported conversions. Blocked conversions stay visible with their payload-fit and compatibility-rule reasons.
