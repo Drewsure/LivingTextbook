@@ -269,6 +269,8 @@ The backend-neutral storage contract is `ai_prototype_patch_test_harness_plan` /
 
 Patch harness implementation proposals must remain review-only until Codex approves file scope, route safety, rollback, storage, reviewer identity, and patch approval records. The proposal may name future harness manifest adapters, assertion maps, mobile checklists, route smoke checklists, storage checklists, and rollback checklists, but it cannot implement a harness, run tests, invoke Playwright, write app files, generate patches, mutate routes, expose student-facing routes, change scoring or rewards, mutate audio manifests, promote packages, assign students, or trigger support-language progress.
 
+The backend-neutral storage contract is `ai_prototype_patch_harness_implementation_proposal` / `ai-prototype-patch-harness-implementation-proposal`. Hosted and local adapters must preserve proposed file scope, implementation boundaries, required review gates, dry-run-only checks, next required records, and blocked implementation actions while blocking harness implementation, test execution, Playwright runs, app file writes, app patch generation, route writes, student-facing routes, scoring mutations, Star Dust or reward writes, audio manifest mutation, package promotion, assignments, and support-language progress.
+
 ## Mode Recommendation Rule
 
 Generator mode recommendations must reuse the reviewed activity compatibility matrix. The generator can recommend a tight pathway for a unit, but it must not produce a broad switch panel or unsupported conversions. Blocked conversions stay visible with their payload-fit and compatibility-rule reasons.

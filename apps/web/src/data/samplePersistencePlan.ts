@@ -33,6 +33,9 @@ export type PersistenceBoundaryCategory =
   | "ai-prototype-integration-readiness-gate"
   | "codex-integration-review-decision"
   | "ai-prototype-app-patch-proposal"
+  | "ai-prototype-patch-test-readiness-gate"
+  | "ai-prototype-patch-test-harness-plan"
+  | "ai-prototype-patch-harness-implementation-proposal"
   | "ai-generated-package-manifest"
   | "ai-generated-package-promotion-checklist"
   | "ai-generated-package-release-candidate"
@@ -749,6 +752,41 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
     note:
       "AI prototype patch test harness plans need durable runtime policy, required inputs, harness sections, and non-execution outputs before any generated or returned prototype can execute tests, invoke Playwright, or move toward apps/web file changes.",
+  },
+  {
+    recordId: "ai-prototype-patch-harness-implementation-proposal-record",
+    category: "ai-prototype-patch-harness-implementation-proposal",
+    label: "AI prototype patch harness implementation proposal record",
+    readiness: "durable-required",
+    sourceOfTruth:
+      "AiPrototypePatchHarnessImplementationProposal, patch test harness plan, patch test readiness gate, app patch proposal, proposed file scope, implementation boundaries, required review gates, dry-run-only checks, next records, and blocked actions",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: false,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesAiPrototypePatchHarnessImplementationProposal: true,
+    requiresHarnessImplementationFileScopeReview: true,
+    requiresHarnessImplementationReviewGates: true,
+    requiresDryRunOnlyChecks: true,
+    blocksHarnessImplementation: true,
+    blocksTestExecution: true,
+    blocksPlaywrightRun: true,
+    blocksAppFileWrite: true,
+    blocksAppPatchGeneration: true,
+    blocksGeneratedGameRouteWrite: true,
+    blocksStudentFacingRoute: true,
+    blocksScoringProfileOverride: true,
+    blocksStarDustWrite: true,
+    blocksRewardInventoryWrite: true,
+    blocksAudioManifestMutation: true,
+    blocksPackagePromotion: true,
+    blocksDirectStudentAssignment: true,
+    blocksSupportLanguageProgressTrigger: true,
+    recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
+    note:
+      "AI prototype patch harness implementation proposals need durable file scope, review gates, dry-run-only checks, and blockers before any generated or returned prototype can implement harness code, execute tests, invoke Playwright, or move toward apps/web file changes.",
   },
   {
     recordId: "ai-generated-package-promotion-checklist-record",

@@ -22,6 +22,7 @@ export type PersistenceRecordCategory =
   | "ai-prototype-app-patch-proposal"
   | "ai-prototype-patch-test-readiness-gate"
   | "ai-prototype-patch-test-harness-plan"
+  | "ai-prototype-patch-harness-implementation-proposal"
   | "ai-prototype-integration-readiness-gate"
   | "ai-generated-package-manifest"
   | "ai-generated-package-promotion-checklist"
@@ -151,6 +152,7 @@ export interface DurableRecordContract {
   preservesAiPrototypeAppPatchProposal?: boolean;
   preservesAiPrototypePatchTestReadinessGate?: boolean;
   preservesAiPrototypePatchTestHarnessPlan?: boolean;
+  preservesAiPrototypePatchHarnessImplementationProposal?: boolean;
   requiresProposedPatchFileScope?: boolean;
   requiresPrePatchGates?: boolean;
   requiresPatchTestGates?: boolean;
@@ -159,6 +161,10 @@ export interface DurableRecordContract {
   requiresHarnessRequiredInputs?: boolean;
   requiresHarnessSectionCoverage?: boolean;
   requiresHarnessNonExecutionOutputs?: boolean;
+  requiresHarnessImplementationFileScopeReview?: boolean;
+  requiresHarnessImplementationReviewGates?: boolean;
+  requiresDryRunOnlyChecks?: boolean;
+  blocksHarnessImplementation?: boolean;
   requiresRouteSafetyReleaseGate?: boolean;
   requiresRollbackDrillRecord?: boolean;
   requiresStorageContractVerification?: boolean;
@@ -1093,6 +1099,95 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "ai-prototype-patch-test-harness-plan" && !record.blocksSupportLanguageProgressTrigger) {
       errors.push(`AI prototype patch test harness plan record ${record.recordId} must block support-language progress triggers.`);
+    }
+
+    if (
+      record.category === "ai-prototype-patch-harness-implementation-proposal" &&
+      !record.preservesAiPrototypePatchHarnessImplementationProposal
+    ) {
+      errors.push(
+        `AI prototype patch harness implementation proposal record ${record.recordId} must preserve implementation proposal sections.`,
+      );
+    }
+
+    if (
+      record.category === "ai-prototype-patch-harness-implementation-proposal" &&
+      !record.requiresHarnessImplementationFileScopeReview
+    ) {
+      errors.push(
+        `AI prototype patch harness implementation proposal record ${record.recordId} must require implementation file-scope review.`,
+      );
+    }
+
+    if (
+      record.category === "ai-prototype-patch-harness-implementation-proposal" &&
+      !record.requiresHarnessImplementationReviewGates
+    ) {
+      errors.push(
+        `AI prototype patch harness implementation proposal record ${record.recordId} must require implementation review gates.`,
+      );
+    }
+
+    if (record.category === "ai-prototype-patch-harness-implementation-proposal" && !record.requiresDryRunOnlyChecks) {
+      errors.push(`AI prototype patch harness implementation proposal record ${record.recordId} must require dry-run-only checks.`);
+    }
+
+    if (record.category === "ai-prototype-patch-harness-implementation-proposal" && !record.blocksHarnessImplementation) {
+      errors.push(`AI prototype patch harness implementation proposal record ${record.recordId} must block harness implementation.`);
+    }
+
+    if (record.category === "ai-prototype-patch-harness-implementation-proposal" && !record.blocksTestExecution) {
+      errors.push(`AI prototype patch harness implementation proposal record ${record.recordId} must block test execution.`);
+    }
+
+    if (record.category === "ai-prototype-patch-harness-implementation-proposal" && !record.blocksPlaywrightRun) {
+      errors.push(`AI prototype patch harness implementation proposal record ${record.recordId} must block Playwright runs.`);
+    }
+
+    if (record.category === "ai-prototype-patch-harness-implementation-proposal" && !record.blocksAppFileWrite) {
+      errors.push(`AI prototype patch harness implementation proposal record ${record.recordId} must block app file writes.`);
+    }
+
+    if (record.category === "ai-prototype-patch-harness-implementation-proposal" && !record.blocksAppPatchGeneration) {
+      errors.push(`AI prototype patch harness implementation proposal record ${record.recordId} must block app patch generation.`);
+    }
+
+    if (record.category === "ai-prototype-patch-harness-implementation-proposal" && !record.blocksGeneratedGameRouteWrite) {
+      errors.push(`AI prototype patch harness implementation proposal record ${record.recordId} must block route writes.`);
+    }
+
+    if (record.category === "ai-prototype-patch-harness-implementation-proposal" && !record.blocksStudentFacingRoute) {
+      errors.push(`AI prototype patch harness implementation proposal record ${record.recordId} must block student-facing routes.`);
+    }
+
+    if (record.category === "ai-prototype-patch-harness-implementation-proposal" && !record.blocksScoringProfileOverride) {
+      errors.push(`AI prototype patch harness implementation proposal record ${record.recordId} must block scoring mutations.`);
+    }
+
+    if (record.category === "ai-prototype-patch-harness-implementation-proposal" && !record.blocksStarDustWrite) {
+      errors.push(`AI prototype patch harness implementation proposal record ${record.recordId} must block Star Dust writes.`);
+    }
+
+    if (record.category === "ai-prototype-patch-harness-implementation-proposal" && !record.blocksRewardInventoryWrite) {
+      errors.push(`AI prototype patch harness implementation proposal record ${record.recordId} must block reward inventory writes.`);
+    }
+
+    if (record.category === "ai-prototype-patch-harness-implementation-proposal" && !record.blocksAudioManifestMutation) {
+      errors.push(`AI prototype patch harness implementation proposal record ${record.recordId} must block audio manifest mutations.`);
+    }
+
+    if (record.category === "ai-prototype-patch-harness-implementation-proposal" && !record.blocksPackagePromotion) {
+      errors.push(`AI prototype patch harness implementation proposal record ${record.recordId} must block package promotion.`);
+    }
+
+    if (record.category === "ai-prototype-patch-harness-implementation-proposal" && !record.blocksDirectStudentAssignment) {
+      errors.push(`AI prototype patch harness implementation proposal record ${record.recordId} must block student assignments.`);
+    }
+
+    if (record.category === "ai-prototype-patch-harness-implementation-proposal" && !record.blocksSupportLanguageProgressTrigger) {
+      errors.push(
+        `AI prototype patch harness implementation proposal record ${record.recordId} must block support-language progress triggers.`,
+      );
     }
 
     if (
