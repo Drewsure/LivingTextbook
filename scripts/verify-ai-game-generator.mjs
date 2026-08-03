@@ -51,6 +51,7 @@ const generatedPackageReleaseCandidate = readSource("../apps/web/src/data/sample
 const generatedPackageAssemblyReadiness = readSource(
   "../apps/web/src/data/sampleAiGeneratedPackageAssemblyReadiness.ts",
 );
+const generatedPackageAssemblyDryRun = readSource("../apps/web/src/data/sampleAiGeneratedPackageAssemblyDryRun.ts");
 const generatedPublishReadinessGate = readSource("../apps/web/src/data/sampleAiGeneratedPublishReadinessGate.ts");
 const draftPreviewData = readSource("../apps/web/src/data/sampleAiGeneratedDraftPayloadPreview.ts");
 const draftPayloadValidator = readSource("../packages/content-model/src/aiGeneratedDraftPayload.ts");
@@ -133,6 +134,9 @@ const generatedPackageReleaseCandidatePanel = readSource(
 );
 const generatedPackageAssemblyReadinessPanel = readSource(
   "../apps/web/src/features/content-intake/AiGeneratedPackageAssemblyReadinessPanel.tsx",
+);
+const generatedPackageAssemblyDryRunPanel = readSource(
+  "../apps/web/src/features/content-intake/AiGeneratedPackageAssemblyDryRunPanel.tsx",
 );
 const generatedPublishReadinessGatePanel = readSource(
   "../apps/web/src/features/content-intake/AiGeneratedPublishReadinessGatePanel.tsx",
@@ -1697,6 +1701,61 @@ requireText(
   "Blocked assembly actions",
   "AI generated package assembly readiness panel must expose blocked assembly actions.",
 );
+requireText(
+  generatedPackageAssemblyDryRun,
+  "sampleAiGeneratedPackageAssemblyDryRuns",
+  "AI generated package assembly dry run data must exist.",
+);
+requireText(
+  generatedPackageAssemblyDryRun,
+  "Artifact map before writes",
+  "AI generated package assembly dry run must expose artifact map state.",
+);
+requireText(
+  generatedPackageAssemblyDryRun,
+  "No package JSON write from dry run",
+  "AI generated package assembly dry run must block package JSON writes.",
+);
+requireText(
+  generatedPackageAssemblyDryRun,
+  "No route registry write from dry run",
+  "AI generated package assembly dry run must block route writes.",
+);
+requireText(
+  generatedPackageAssemblyDryRun,
+  "No media playlist write from dry run",
+  "AI generated package assembly dry run must block playlist writes.",
+);
+requireText(
+  generatedPackageAssemblyDryRun,
+  "No local bundle write from dry run",
+  "AI generated package assembly dry run must block local bundle writes.",
+);
+requireText(
+  generatedPackageAssemblyDryRun,
+  "No support-language-only assembly dry run",
+  "AI generated package assembly dry run must block support-language-only dry runs.",
+);
+requireText(
+  generatedPackageAssemblyDryRunPanel,
+  "AI generated package assembly dry run",
+  "AI generated package assembly dry run panel must expose heading.",
+);
+requireText(
+  generatedPackageAssemblyDryRunPanel,
+  "Artifact map before writes",
+  "AI generated package assembly dry run panel must expose dry run state.",
+);
+requireText(
+  generatedPackageAssemblyDryRunPanel,
+  "Dry-run artifact map",
+  "AI generated package assembly dry run panel must expose artifact map.",
+);
+requireText(
+  generatedPackageAssemblyDryRunPanel,
+  "Blocked dry-run actions",
+  "AI generated package assembly dry run panel must expose blocked dry-run actions.",
+);
 requireText(compatibilityMatrix, "This matrix defines which student games", "Generator mode recommendations must reuse the compatibility matrix.");
 requireText(modeRecommendationPanel, "AI mode recommendation preview", "Mode recommendation panel must expose heading.");
 requireText(modeRecommendationPanel, "Recommended generated pathway", "Mode recommendation panel must expose recommended pathway.");
@@ -1906,6 +1965,11 @@ requireText(
   "AiGeneratedPackageAssemblyReadinessPanel",
   "Generator route must render the generated package assembly readiness panel.",
 );
+requireText(
+  route,
+  "AiGeneratedPackageAssemblyDryRunPanel",
+  "Generator route must render the generated package assembly dry run panel.",
+);
 requireText(route, "AiGeneratedPublishReadinessGatePanel", "Generator route must render the generated publish readiness gate panel.");
 requireText(route, "AiGeneratedDraftPayloadPreviewPanel", "Generator route must render the draft payload preview panel.");
 requireText(route, "AiDraftCorrectionQueuePanel", "Generator route must render the draft correction queue panel.");
@@ -1972,6 +2036,11 @@ requireText(
   route,
   "sampleAiGeneratedPackageAssemblyReadiness",
   "Generator route must use the sample generated package assembly readiness data.",
+);
+requireText(
+  route,
+  "sampleAiGeneratedPackageAssemblyDryRuns",
+  "Generator route must use the sample generated package assembly dry run data.",
 );
 requireText(
   route,

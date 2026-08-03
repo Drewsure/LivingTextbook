@@ -109,6 +109,12 @@ MiniStar assembly readiness must keep English as the target-language assembly tr
 
 The backend-neutral storage contract is `ai_generated_package_assembly_readiness` / `ai-generated-package-assembly-readiness`. Hosted and local adapters must preserve manifest, promotion checklist, publish readiness, release candidate, teacher approval, media-rights, target-language audio, and support-language boundary lanes while blocking generated package assembly, route registry writes, media playlist writes, local bundle writes, assignment creation, student-ready markers, and support-language-only assembly.
 
+## Generated Package Assembly Dry Run Rule
+
+Teacher generator routes may show a review-only generated package assembly dry run after assembly readiness. The dry run previews the package JSON, route registry entry, media playlist binding, local companion artifact, assignment shell, and report-adjacent bindings that would be needed after every readiness lane clears.
+
+The dry run cannot write package JSON, route registry entries, media playlists, local companion bundles, assignment records, real learner data, student-ready markers, or support-language-only assembly state. It is an artifact map for human review, not a package builder.
+
 ## Draft Payload Validation Rule
 
 AI-generated draft payloads must pass the shared `validateAiGeneratedDraftPayload` / `validateAiGeneratedDraftPayloadPreview` contract before review, persistence, verifier submission, package assembly, route creation, playlist creation, or student assignment can be considered.
