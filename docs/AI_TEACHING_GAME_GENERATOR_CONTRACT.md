@@ -133,6 +133,12 @@ The rollback drill cannot execute a rollback, execute a package writer, restore 
 
 The backend-neutral storage contract is `ai_generated_package_writer_rollback_drill` / `ai-generated-package-writer-rollback-drill`. Hosted and local adapters must preserve writer preflight links, pre-write snapshots, post-write verification, rollback rehearsal steps, blocked rollback actions, and support-language boundaries while blocking rollback execution, package writer execution, package JSON rollback, route rollback, media playlist rollback, local bundle rollback, assignment mutation, production QR redirect mutation, student-ready markers, and support-language-only rollback evidence.
 
+## Generated Package Writer Implementation Readiness Rule
+
+Teacher generator routes may show a review-only generated package writer implementation readiness gate after rollback drill storage is visible. The gate names the future writer modules, required test gates, release controls, next records, and blocked implementation actions.
+
+The implementation readiness gate cannot implement package writers, write app files, execute writers, mutate route registries, create media playlists, package local bundles, activate assignments, execute rollbacks, mutate production QR redirects, mark student-ready state, or use support-language-only evidence as implementation proof. Codex must make a separate package-writer implementation decision before any code path can exist.
+
 ## Draft Payload Validation Rule
 
 AI-generated draft payloads must pass the shared `validateAiGeneratedDraftPayload` / `validateAiGeneratedDraftPayloadPreview` contract before review, persistence, verifier submission, package assembly, route creation, playlist creation, or student assignment can be considered.

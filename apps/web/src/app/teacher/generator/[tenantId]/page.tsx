@@ -34,6 +34,10 @@ import {
   sampleAiGeneratedPackageWriterRollbackDrills,
 } from "@/data/sampleAiGeneratedPackageWriterRollbackDrill";
 import {
+  filterAiGeneratedPackageWriterImplementationReadinessByTenant,
+  sampleAiGeneratedPackageWriterImplementationReadiness,
+} from "@/data/sampleAiGeneratedPackageWriterImplementationReadiness";
+import {
   filterAiGeneratedPublishReadinessGatesByTenant,
   sampleAiGeneratedPublishReadinessGates,
 } from "@/data/sampleAiGeneratedPublishReadinessGate";
@@ -158,6 +162,7 @@ import { AiGeneratedPackageAssemblyReadinessPanel } from "@/features/content-int
 import { AiGeneratedPackageAssemblyDryRunPanel } from "@/features/content-intake/AiGeneratedPackageAssemblyDryRunPanel";
 import { AiGeneratedPackageWriterPreflightPanel } from "@/features/content-intake/AiGeneratedPackageWriterPreflightPanel";
 import { AiGeneratedPackageWriterRollbackDrillPanel } from "@/features/content-intake/AiGeneratedPackageWriterRollbackDrillPanel";
+import { AiGeneratedPackageWriterImplementationReadinessPanel } from "@/features/content-intake/AiGeneratedPackageWriterImplementationReadinessPanel";
 import { AiGeneratedPublishReadinessGatePanel } from "@/features/content-intake/AiGeneratedPublishReadinessGatePanel";
 import { AiEngineBindingPlanPanel } from "@/features/content-intake/AiEngineBindingPlanPanel";
 import { AiExternalPrototypeTaskExportReadinessGatePanel } from "@/features/content-intake/AiExternalPrototypeTaskExportReadinessGatePanel";
@@ -381,6 +386,12 @@ export default async function TeacherAiGameGeneratorPage({
         <AiGeneratedPackageWriterRollbackDrillPanel
           drills={filterAiGeneratedPackageWriterRollbackDrillsByTenant(
             sampleAiGeneratedPackageWriterRollbackDrills,
+            tenantId,
+          )}
+        />
+        <AiGeneratedPackageWriterImplementationReadinessPanel
+          readiness={filterAiGeneratedPackageWriterImplementationReadinessByTenant(
+            sampleAiGeneratedPackageWriterImplementationReadiness,
             tenantId,
           )}
         />

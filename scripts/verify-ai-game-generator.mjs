@@ -56,6 +56,9 @@ const generatedPackageWriterPreflight = readSource("../apps/web/src/data/sampleA
 const generatedPackageWriterRollbackDrill = readSource(
   "../apps/web/src/data/sampleAiGeneratedPackageWriterRollbackDrill.ts",
 );
+const generatedPackageWriterImplementationReadiness = readSource(
+  "../apps/web/src/data/sampleAiGeneratedPackageWriterImplementationReadiness.ts",
+);
 const generatedPublishReadinessGate = readSource("../apps/web/src/data/sampleAiGeneratedPublishReadinessGate.ts");
 const draftPreviewData = readSource("../apps/web/src/data/sampleAiGeneratedDraftPayloadPreview.ts");
 const draftPayloadValidator = readSource("../packages/content-model/src/aiGeneratedDraftPayload.ts");
@@ -147,6 +150,9 @@ const generatedPackageWriterPreflightPanel = readSource(
 );
 const generatedPackageWriterRollbackDrillPanel = readSource(
   "../apps/web/src/features/content-intake/AiGeneratedPackageWriterRollbackDrillPanel.tsx",
+);
+const generatedPackageWriterImplementationReadinessPanel = readSource(
+  "../apps/web/src/features/content-intake/AiGeneratedPackageWriterImplementationReadinessPanel.tsx",
 );
 const generatedPublishReadinessGatePanel = readSource(
   "../apps/web/src/features/content-intake/AiGeneratedPublishReadinessGatePanel.tsx",
@@ -1901,6 +1907,61 @@ requireText(
   "AI generated package writer rollback drill storage contract",
   "AI generator checks must mention package writer rollback drill storage contract.",
 );
+requireText(
+  generatedPackageWriterImplementationReadiness,
+  "sampleAiGeneratedPackageWriterImplementationReadiness",
+  "AI generated package writer implementation readiness data must exist.",
+);
+requireText(
+  generatedPackageWriterImplementationReadiness,
+  "Implementation readiness blocked until Codex package-writer decision",
+  "AI generated package writer implementation readiness must stay blocked.",
+);
+requireText(
+  generatedPackageWriterImplementationReadiness,
+  "Content package writer module",
+  "AI generated package writer implementation readiness must include package writer module.",
+);
+requireText(
+  generatedPackageWriterImplementationReadiness,
+  "Storage contract verification",
+  "AI generated package writer implementation readiness must require storage contract verification.",
+);
+requireText(
+  generatedPackageWriterImplementationReadiness,
+  "Rollback drill replay",
+  "AI generated package writer implementation readiness must require rollback drill replay.",
+);
+requireText(
+  generatedPackageWriterImplementationReadiness,
+  "No package writer implementation",
+  "AI generated package writer implementation readiness must block package writer implementation.",
+);
+requireText(
+  generatedPackageWriterImplementationReadiness,
+  "No generated app file write",
+  "AI generated package writer implementation readiness must block generated app file writes.",
+);
+requireText(
+  generatedPackageWriterImplementationReadinessPanel,
+  "AI generated package writer implementation readiness",
+  "AI generated package writer implementation readiness panel must expose heading.",
+);
+requireText(
+  generatedPackageWriterImplementationReadinessPanel,
+  "Package writer module plan",
+  "AI generated package writer implementation readiness panel must expose module plan.",
+);
+requireText(
+  generatedPackageWriterImplementationReadinessPanel,
+  "Required test gates",
+  "AI generated package writer implementation readiness panel must expose required test gates.",
+);
+requireText(
+  generatedPackageWriterImplementationReadinessPanel,
+  "Blocked implementation actions",
+  "AI generated package writer implementation readiness panel must expose blocked implementation actions.",
+);
 requireText(compatibilityMatrix, "This matrix defines which student games", "Generator mode recommendations must reuse the compatibility matrix.");
 requireText(modeRecommendationPanel, "AI mode recommendation preview", "Mode recommendation panel must expose heading.");
 requireText(modeRecommendationPanel, "Recommended generated pathway", "Mode recommendation panel must expose recommended pathway.");
@@ -2125,6 +2186,11 @@ requireText(
   "AiGeneratedPackageWriterRollbackDrillPanel",
   "Generator route must render the generated package writer rollback drill panel.",
 );
+requireText(
+  route,
+  "AiGeneratedPackageWriterImplementationReadinessPanel",
+  "Generator route must render the generated package writer implementation readiness panel.",
+);
 requireText(route, "AiGeneratedPublishReadinessGatePanel", "Generator route must render the generated publish readiness gate panel.");
 requireText(route, "AiGeneratedDraftPayloadPreviewPanel", "Generator route must render the draft payload preview panel.");
 requireText(route, "AiDraftCorrectionQueuePanel", "Generator route must render the draft correction queue panel.");
@@ -2206,6 +2272,11 @@ requireText(
   route,
   "sampleAiGeneratedPackageWriterRollbackDrills",
   "Generator route must use the sample generated package writer rollback drill data.",
+);
+requireText(
+  route,
+  "sampleAiGeneratedPackageWriterImplementationReadiness",
+  "Generator route must use the sample generated package writer implementation readiness data.",
 );
 requireText(
   route,
