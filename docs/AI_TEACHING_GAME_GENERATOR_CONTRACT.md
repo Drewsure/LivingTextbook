@@ -125,6 +125,12 @@ The preflight cannot execute a writer, commit package JSON, mutate route registr
 
 The backend-neutral storage contract is `ai_generated_package_writer_preflight` / `ai-generated-package-writer-preflight`. Hosted and local adapters must preserve assembly dry-run links, assembly readiness links, package id previews, writer target maps, required evidence, and blocked writer actions while blocking writer execution, package JSON writes, route registry writes, media playlist writes, local bundle writes, assignment creation, student-ready markers, and support-language-only writers.
 
+## Generated Package Writer Rollback Drill Rule
+
+Teacher generator routes may show a review-only generated package writer rollback drill after writer preflight. The drill names pre-write snapshots, post-write verification, and rollback rehearsal steps for package JSON, route registry, media playlist, local companion, assignment shell, and release-control rollback scope.
+
+The rollback drill cannot execute a rollback, execute a package writer, restore package JSON, mutate route registries, mutate production QR redirects, roll back media playlists, roll back local bundles, mutate assignments, collect real learner data, or use support-language-only evidence as rollback proof. It is a rehearsal and evidence map for a future writer implementation.
+
 ## Draft Payload Validation Rule
 
 AI-generated draft payloads must pass the shared `validateAiGeneratedDraftPayload` / `validateAiGeneratedDraftPayloadPreview` contract before review, persistence, verifier submission, package assembly, route creation, playlist creation, or student assignment can be considered.

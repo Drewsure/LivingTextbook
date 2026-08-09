@@ -30,6 +30,10 @@ import {
   sampleAiGeneratedPackageWriterPreflights,
 } from "@/data/sampleAiGeneratedPackageWriterPreflight";
 import {
+  filterAiGeneratedPackageWriterRollbackDrillsByTenant,
+  sampleAiGeneratedPackageWriterRollbackDrills,
+} from "@/data/sampleAiGeneratedPackageWriterRollbackDrill";
+import {
   filterAiGeneratedPublishReadinessGatesByTenant,
   sampleAiGeneratedPublishReadinessGates,
 } from "@/data/sampleAiGeneratedPublishReadinessGate";
@@ -153,6 +157,7 @@ import { AiGeneratedPackageReleaseCandidatePanel } from "@/features/content-inta
 import { AiGeneratedPackageAssemblyReadinessPanel } from "@/features/content-intake/AiGeneratedPackageAssemblyReadinessPanel";
 import { AiGeneratedPackageAssemblyDryRunPanel } from "@/features/content-intake/AiGeneratedPackageAssemblyDryRunPanel";
 import { AiGeneratedPackageWriterPreflightPanel } from "@/features/content-intake/AiGeneratedPackageWriterPreflightPanel";
+import { AiGeneratedPackageWriterRollbackDrillPanel } from "@/features/content-intake/AiGeneratedPackageWriterRollbackDrillPanel";
 import { AiGeneratedPublishReadinessGatePanel } from "@/features/content-intake/AiGeneratedPublishReadinessGatePanel";
 import { AiEngineBindingPlanPanel } from "@/features/content-intake/AiEngineBindingPlanPanel";
 import { AiExternalPrototypeTaskExportReadinessGatePanel } from "@/features/content-intake/AiExternalPrototypeTaskExportReadinessGatePanel";
@@ -370,6 +375,12 @@ export default async function TeacherAiGameGeneratorPage({
         <AiGeneratedPackageWriterPreflightPanel
           preflights={filterAiGeneratedPackageWriterPreflightsByTenant(
             sampleAiGeneratedPackageWriterPreflights,
+            tenantId,
+          )}
+        />
+        <AiGeneratedPackageWriterRollbackDrillPanel
+          drills={filterAiGeneratedPackageWriterRollbackDrillsByTenant(
+            sampleAiGeneratedPackageWriterRollbackDrills,
             tenantId,
           )}
         />

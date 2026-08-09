@@ -331,6 +331,7 @@
 - `DR-357-ai-generated-package-assembly-dry-run-storage-contract.md`
 - `DR-358-ai-generated-package-writer-preflight.md`
 - `DR-359-ai-generated-package-writer-preflight-storage-contract.md`
+- `DR-360-ai-generated-package-writer-rollback-drill.md`
 
 ## Maintenance Rule
 

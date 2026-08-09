@@ -36,7 +36,7 @@ const sections: AiGeneratorSection[] = [
   {
     href: "#package-review",
     label: "Package review",
-    summary: "Verifier packet, mode pathway, manifest, promotion, publish readiness, and release candidate.",
+    summary: "Verifier, mode pathway, manifest, promotion, release, assembly, writer, and rollback preview.",
     status: "blocked",
   },
   {
