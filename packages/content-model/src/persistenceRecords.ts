@@ -31,6 +31,7 @@ export type PersistenceRecordCategory =
   | "ai-generated-package-assembly-dry-run"
   | "ai-generated-package-writer-preflight"
   | "ai-generated-package-writer-rollback-drill"
+  | "ai-generated-package-writer-implementation-readiness"
   | "ai-reward-readiness-gate"
   | "ai-generated-publish-readiness-gate"
   | "ai-generator-tenant-coverage-gate"
@@ -256,6 +257,7 @@ export interface DurableRecordContract {
   preservesAiGeneratedPackageAssemblyDryRun?: boolean;
   preservesAiGeneratedPackageWriterPreflight?: boolean;
   preservesAiGeneratedPackageWriterRollbackDrill?: boolean;
+  preservesAiGeneratedPackageWriterImplementationReadiness?: boolean;
   requiresLineageMap?: boolean;
   requiresTargetLanguageAudioApproval?: boolean;
   requiresPackageAssemblyReadinessLanes?: boolean;
@@ -263,6 +265,10 @@ export interface DurableRecordContract {
   requiresGeneratedPackageWriterTargets?: boolean;
   requiresGeneratedPackageRollbackSnapshots?: boolean;
   requiresGeneratedPackageRollbackVerification?: boolean;
+  requiresPackageWriterModulePlan?: boolean;
+  requiresPackageWriterTestGates?: boolean;
+  requiresPackageWriterReleaseControls?: boolean;
+  requiresCodexPackageWriterImplementationDecision?: boolean;
   requiresMediaRightsEvidence?: boolean;
   blocksGeneratedPackagePromotion?: boolean;
   requiresPrivateLibraryTarget?: boolean;
@@ -274,6 +280,7 @@ export interface DurableRecordContract {
   blocksSupportLanguageRelease?: boolean;
   blocksGeneratedPackageAssembly?: boolean;
   blocksGeneratedPackageWriterExecution?: boolean;
+  blocksGeneratedPackageWriterImplementation?: boolean;
   blocksGeneratedPackageRollbackExecution?: boolean;
   blocksGeneratedPackageJsonWrite?: boolean;
   blocksGeneratedPackageRouteWrite?: boolean;
@@ -2058,6 +2065,111 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "ai-generated-package-writer-rollback-drill" && !record.blocksSupportLanguageAssembly) {
       errors.push(`AI generated package writer rollback drill record ${record.recordId} must block support-language-only rollback evidence.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-writer-implementation-readiness" &&
+      !record.preservesAiGeneratedPackageWriterImplementationReadiness
+    ) {
+      errors.push(`AI generated package writer implementation readiness record ${record.recordId} must preserve implementation readiness gates.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-writer-implementation-readiness" &&
+      !record.preservesAiGeneratedPackageWriterRollbackDrill
+    ) {
+      errors.push(`AI generated package writer implementation readiness record ${record.recordId} must preserve rollback drill links.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-writer-implementation-readiness" &&
+      !record.requiresPackageWriterModulePlan
+    ) {
+      errors.push(`AI generated package writer implementation readiness record ${record.recordId} must require package writer module plans.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-writer-implementation-readiness" &&
+      !record.requiresPackageWriterTestGates
+    ) {
+      errors.push(`AI generated package writer implementation readiness record ${record.recordId} must require package writer test gates.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-writer-implementation-readiness" &&
+      !record.requiresPackageWriterReleaseControls
+    ) {
+      errors.push(`AI generated package writer implementation readiness record ${record.recordId} must require package writer release controls.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-writer-implementation-readiness" &&
+      !record.requiresCodexPackageWriterImplementationDecision
+    ) {
+      errors.push(`AI generated package writer implementation readiness record ${record.recordId} must require a Codex package writer implementation decision.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-writer-implementation-readiness" &&
+      !record.blocksGeneratedPackageWriterImplementation
+    ) {
+      errors.push(`AI generated package writer implementation readiness record ${record.recordId} must block package writer implementation.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-writer-implementation-readiness" &&
+      !record.blocksGeneratedPackageWriterExecution
+    ) {
+      errors.push(`AI generated package writer implementation readiness record ${record.recordId} must block package writer execution.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-writer-implementation-readiness" &&
+      !record.blocksGeneratedPackageJsonWrite
+    ) {
+      errors.push(`AI generated package writer implementation readiness record ${record.recordId} must block generated package JSON writes.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-writer-implementation-readiness" &&
+      !record.blocksGeneratedPackageRouteWrite
+    ) {
+      errors.push(`AI generated package writer implementation readiness record ${record.recordId} must block route registry writes.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-writer-implementation-readiness" &&
+      !record.blocksGeneratedPackagePlaylistWrite
+    ) {
+      errors.push(`AI generated package writer implementation readiness record ${record.recordId} must block media playlist writes.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-writer-implementation-readiness" &&
+      !record.blocksGeneratedPackageLocalBundleWrite
+    ) {
+      errors.push(`AI generated package writer implementation readiness record ${record.recordId} must block local bundle writes.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-writer-implementation-readiness" &&
+      !record.blocksGeneratedPackageAssignment
+    ) {
+      errors.push(`AI generated package writer implementation readiness record ${record.recordId} must block assignment writes.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-writer-implementation-readiness" &&
+      !record.blocksStudentReadyMarker
+    ) {
+      errors.push(`AI generated package writer implementation readiness record ${record.recordId} must block student-ready markers.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-writer-implementation-readiness" &&
+      !record.blocksSupportLanguageAssembly
+    ) {
+      errors.push(`AI generated package writer implementation readiness record ${record.recordId} must block support-language-only implementation evidence.`);
     }
 
     if (record.category === "ai-reward-readiness-gate" && !record.preservesAiRewardReadinessGate) {

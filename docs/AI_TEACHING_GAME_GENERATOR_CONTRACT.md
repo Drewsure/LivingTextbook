@@ -139,6 +139,8 @@ Teacher generator routes may show a review-only generated package writer impleme
 
 The implementation readiness gate cannot implement package writers, write app files, execute writers, mutate route registries, create media playlists, package local bundles, activate assignments, execute rollbacks, mutate production QR redirects, mark student-ready state, or use support-language-only evidence as implementation proof. Codex must make a separate package-writer implementation decision before any code path can exist.
 
+The backend-neutral storage contract is `ai_generated_package_writer_implementation_readiness` / `ai-generated-package-writer-implementation-readiness`. Hosted and local adapters must preserve rollback drill links, module plans, required test gates, release controls, next records, blocked implementation actions, and support-language boundaries while blocking package writer implementation, writer execution, generated app file writes, route registry mutation, media playlist creation, local bundle packaging, assignment activation, student-ready markers, production QR redirect mutation, and support-language-only implementation evidence.
+
 ## Draft Payload Validation Rule
 
 AI-generated draft payloads must pass the shared `validateAiGeneratedDraftPayload` / `validateAiGeneratedDraftPayloadPreview` contract before review, persistence, verifier submission, package assembly, route creation, playlist creation, or student assignment can be considered.

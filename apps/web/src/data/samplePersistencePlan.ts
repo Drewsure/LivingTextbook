@@ -43,6 +43,7 @@ export type PersistenceBoundaryCategory =
   | "ai-generated-package-assembly-dry-run"
   | "ai-generated-package-writer-preflight"
   | "ai-generated-package-writer-rollback-drill"
+  | "ai-generated-package-writer-implementation-readiness"
   | "ai-reward-readiness-gate"
   | "ai-generated-publish-readiness-gate"
   | "ai-generator-tenant-coverage-gate"
@@ -992,6 +993,43 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
     note:
       "AI generated package writer rollback drills need durable restore evidence before generated packages can execute writers, roll back package JSON, mutate routes, roll back playlists, roll back local bundles, mutate assignments, or alter production QR redirects.",
+  },
+  {
+    recordId: "ai-generated-package-writer-implementation-readiness-record",
+    category: "ai-generated-package-writer-implementation-readiness",
+    label: "AI generated package writer implementation readiness record",
+    readiness: "durable-required",
+    sourceOfTruth:
+      "AiGeneratedPackageWriterImplementationReadiness, writer rollback drill record, package writer module plan, required test gates, release controls, next required records, blocked implementation actions, and support-language boundary lanes",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesAiGeneratedPackageWriterImplementationReadiness: true,
+    preservesAiGeneratedPackageWriterRollbackDrill: true,
+    preservesAiGeneratedPackageWriterPreflight: true,
+    preservesAiGeneratedPackageAssemblyDryRun: true,
+    requiresPackageWriterModulePlan: true,
+    requiresPackageWriterTestGates: true,
+    requiresPackageWriterReleaseControls: true,
+    requiresCodexPackageWriterImplementationDecision: true,
+    requiresTargetLanguageAudioApproval: true,
+    requiresMediaRightsEvidence: true,
+    blocksGeneratedPackageWriterImplementation: true,
+    blocksGeneratedPackageWriterExecution: true,
+    blocksGeneratedPackageJsonWrite: true,
+    blocksGeneratedPackageRouteWrite: true,
+    blocksGeneratedPackagePlaylistWrite: true,
+    blocksGeneratedPackageLocalBundleWrite: true,
+    blocksGeneratedPackageAssignment: true,
+    blocksStudentReadyMarker: true,
+    blocksSupportLanguageAssembly: true,
+    blocksDirectStudentAssignment: true,
+    recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
+    note:
+      "AI generated package writer implementation readiness needs durable module, test, release-control, and blocked-action evidence before generated package writer code can exist or mutate app files, routes, playlists, local bundles, assignments, or student-ready state.",
   },
   {
     recordId: "ai-reward-readiness-gate-record",
@@ -2551,6 +2589,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision:
       "Persist AI generated package writer rollback drills before enabling writer execution, rollback execution, package JSON rollback, route rollback, playlist rollback, local bundle rollback, assignment rollback, production QR redirect mutation, or support-language-only rollback evidence.",
+  },
+  {
+    boundaryId: "ai-generated-package-writer-implementation-readiness-boundary",
+    category: "ai-generated-package-writer-implementation-readiness",
+    label: "AI generated package writer implementation readiness records",
+    status: "needs-backend",
+    recordShape:
+      "Implementation readiness id, tenant id, request id, rollback drill id, package id preview, module plan, required test gates, release controls, next required records, blocked implementation actions, and support-language boundary lanes",
+    whyItMatters:
+      "Generated package writer readiness needs durable implementation evidence so a readable generator plan cannot become app file writes, route mutations, playlist creation, local bundle packaging, assignment activation, or student-ready state from UI state alone.",
+    visibleTo: ["Teacher", "Tenant admin", "Content reviewer", "Platform admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Persist AI generated package writer implementation readiness before enabling package writer implementation, package writer execution, generated app file writes, route registry mutation, playlist creation, local bundle packaging, assignment activation, or support-language-only implementation evidence.",
   },
   {
     boundaryId: "ai-reward-readiness-gate-boundary",
