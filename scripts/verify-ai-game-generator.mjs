@@ -59,6 +59,9 @@ const generatedPackageWriterRollbackDrill = readSource(
 const generatedPackageWriterImplementationReadiness = readSource(
   "../apps/web/src/data/sampleAiGeneratedPackageWriterImplementationReadiness.ts",
 );
+const generatedPackageWriterModuleTestPlan = readSource(
+  "../apps/web/src/data/sampleAiGeneratedPackageWriterModuleTestPlan.ts",
+);
 const generatedPublishReadinessGate = readSource("../apps/web/src/data/sampleAiGeneratedPublishReadinessGate.ts");
 const draftPreviewData = readSource("../apps/web/src/data/sampleAiGeneratedDraftPayloadPreview.ts");
 const draftPayloadValidator = readSource("../packages/content-model/src/aiGeneratedDraftPayload.ts");
@@ -153,6 +156,9 @@ const generatedPackageWriterRollbackDrillPanel = readSource(
 );
 const generatedPackageWriterImplementationReadinessPanel = readSource(
   "../apps/web/src/features/content-intake/AiGeneratedPackageWriterImplementationReadinessPanel.tsx",
+);
+const generatedPackageWriterModuleTestPlanPanel = readSource(
+  "../apps/web/src/features/content-intake/AiGeneratedPackageWriterModuleTestPlanPanel.tsx",
 );
 const generatedPublishReadinessGatePanel = readSource(
   "../apps/web/src/features/content-intake/AiGeneratedPublishReadinessGatePanel.tsx",
@@ -1962,6 +1968,66 @@ requireText(
   "Blocked implementation actions",
   "AI generated package writer implementation readiness panel must expose blocked implementation actions.",
 );
+requireText(
+  generatedPackageWriterModuleTestPlan,
+  "sampleAiGeneratedPackageWriterModuleTestPlans",
+  "AI generated package writer module test plan data must exist.",
+);
+requireText(
+  generatedPackageWriterModuleTestPlan,
+  "Module test plan blocked until storage contract and Codex implementation decision",
+  "AI generated package writer module test plan must stay blocked.",
+);
+requireText(
+  generatedPackageWriterModuleTestPlan,
+  "Content package writer module tests",
+  "AI generated package writer module test plan must include content package writer tests.",
+);
+requireText(
+  generatedPackageWriterModuleTestPlan,
+  "Route registry writer module tests",
+  "AI generated package writer module test plan must include route registry writer tests.",
+);
+requireText(
+  generatedPackageWriterModuleTestPlan,
+  "Reviewed JSON fixture replay",
+  "AI generated package writer module test plan must require reviewed JSON fixture replay.",
+);
+requireText(
+  generatedPackageWriterModuleTestPlan,
+  "Tap-to-speak audio coverage report",
+  "AI generated package writer module test plan must require target-language audio evidence.",
+);
+requireText(
+  generatedPackageWriterModuleTestPlan,
+  "No app file patch",
+  "AI generated package writer module test plan must block app file patches.",
+);
+requireText(
+  generatedPackageWriterModuleTestPlan,
+  "No support-language-only test pass",
+  "AI generated package writer module test plan must block support-language-only test passes.",
+);
+requireText(
+  generatedPackageWriterModuleTestPlanPanel,
+  "AI generated package writer module test plan",
+  "AI generated package writer module test plan panel must expose heading.",
+);
+requireText(
+  generatedPackageWriterModuleTestPlanPanel,
+  "Package writer module test plan",
+  "AI generated package writer module test plan panel must expose title.",
+);
+requireText(
+  generatedPackageWriterModuleTestPlanPanel,
+  "Module test suites",
+  "AI generated package writer module test plan panel must expose module test suites.",
+);
+requireText(
+  generatedPackageWriterModuleTestPlanPanel,
+  "Blocked test actions",
+  "AI generated package writer module test plan panel must expose blocked test actions.",
+);
 requireText(compatibilityMatrix, "This matrix defines which student games", "Generator mode recommendations must reuse the compatibility matrix.");
 requireText(modeRecommendationPanel, "AI mode recommendation preview", "Mode recommendation panel must expose heading.");
 requireText(modeRecommendationPanel, "Recommended generated pathway", "Mode recommendation panel must expose recommended pathway.");
@@ -2191,6 +2257,11 @@ requireText(
   "AiGeneratedPackageWriterImplementationReadinessPanel",
   "Generator route must render the generated package writer implementation readiness panel.",
 );
+requireText(
+  route,
+  "AiGeneratedPackageWriterModuleTestPlanPanel",
+  "Generator route must render the generated package writer module test plan panel.",
+);
 requireText(route, "AiGeneratedPublishReadinessGatePanel", "Generator route must render the generated publish readiness gate panel.");
 requireText(route, "AiGeneratedDraftPayloadPreviewPanel", "Generator route must render the draft payload preview panel.");
 requireText(route, "AiDraftCorrectionQueuePanel", "Generator route must render the draft correction queue panel.");
@@ -2277,6 +2348,11 @@ requireText(
   route,
   "sampleAiGeneratedPackageWriterImplementationReadiness",
   "Generator route must use the sample generated package writer implementation readiness data.",
+);
+requireText(
+  route,
+  "sampleAiGeneratedPackageWriterModuleTestPlans",
+  "Generator route must use the sample generated package writer module test plan data.",
 );
 requireText(
   route,

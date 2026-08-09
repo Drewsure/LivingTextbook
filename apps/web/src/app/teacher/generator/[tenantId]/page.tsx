@@ -38,6 +38,10 @@ import {
   sampleAiGeneratedPackageWriterImplementationReadiness,
 } from "@/data/sampleAiGeneratedPackageWriterImplementationReadiness";
 import {
+  filterAiGeneratedPackageWriterModuleTestPlansByTenant,
+  sampleAiGeneratedPackageWriterModuleTestPlans,
+} from "@/data/sampleAiGeneratedPackageWriterModuleTestPlan";
+import {
   filterAiGeneratedPublishReadinessGatesByTenant,
   sampleAiGeneratedPublishReadinessGates,
 } from "@/data/sampleAiGeneratedPublishReadinessGate";
@@ -163,6 +167,7 @@ import { AiGeneratedPackageAssemblyDryRunPanel } from "@/features/content-intake
 import { AiGeneratedPackageWriterPreflightPanel } from "@/features/content-intake/AiGeneratedPackageWriterPreflightPanel";
 import { AiGeneratedPackageWriterRollbackDrillPanel } from "@/features/content-intake/AiGeneratedPackageWriterRollbackDrillPanel";
 import { AiGeneratedPackageWriterImplementationReadinessPanel } from "@/features/content-intake/AiGeneratedPackageWriterImplementationReadinessPanel";
+import { AiGeneratedPackageWriterModuleTestPlanPanel } from "@/features/content-intake/AiGeneratedPackageWriterModuleTestPlanPanel";
 import { AiGeneratedPublishReadinessGatePanel } from "@/features/content-intake/AiGeneratedPublishReadinessGatePanel";
 import { AiEngineBindingPlanPanel } from "@/features/content-intake/AiEngineBindingPlanPanel";
 import { AiExternalPrototypeTaskExportReadinessGatePanel } from "@/features/content-intake/AiExternalPrototypeTaskExportReadinessGatePanel";
@@ -392,6 +397,12 @@ export default async function TeacherAiGameGeneratorPage({
         <AiGeneratedPackageWriterImplementationReadinessPanel
           readiness={filterAiGeneratedPackageWriterImplementationReadinessByTenant(
             sampleAiGeneratedPackageWriterImplementationReadiness,
+            tenantId,
+          )}
+        />
+        <AiGeneratedPackageWriterModuleTestPlanPanel
+          plans={filterAiGeneratedPackageWriterModuleTestPlansByTenant(
+            sampleAiGeneratedPackageWriterModuleTestPlans,
             tenantId,
           )}
         />

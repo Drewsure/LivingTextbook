@@ -141,6 +141,12 @@ The implementation readiness gate cannot implement package writers, write app fi
 
 The backend-neutral storage contract is `ai_generated_package_writer_implementation_readiness` / `ai-generated-package-writer-implementation-readiness`. Hosted and local adapters must preserve rollback drill links, module plans, required test gates, release controls, next records, blocked implementation actions, and support-language boundaries while blocking package writer implementation, writer execution, generated app file writes, route registry mutation, media playlist creation, local bundle packaging, assignment activation, student-ready markers, production QR redirect mutation, and support-language-only implementation evidence.
 
+## Package Writer Module Test Plan Rule
+
+Teacher generator routes may show a review-only package writer module test plan after implementation readiness storage is visible. The plan names content package writer, route registry writer, media playlist writer, local companion writer, assignment shell writer, and release rollback guard test suites.
+
+The module test plan cannot execute automated writer tests, run writer mutation browser tests, patch app files, write generated package JSON, mutate route registries, create media playlists, package local bundles, activate assignments, mutate production QR redirects, or accept support-language-only test passes. It is a test evidence map for a future package writer implementation decision.
+
 ## Draft Payload Validation Rule
 
 AI-generated draft payloads must pass the shared `validateAiGeneratedDraftPayload` / `validateAiGeneratedDraftPayloadPreview` contract before review, persistence, verifier submission, package assembly, route creation, playlist creation, or student assignment can be considered.

@@ -335,6 +335,7 @@
 - `DR-361-ai-generated-package-writer-rollback-drill-storage-contract.md`
 - `DR-362-ai-generated-package-writer-implementation-readiness.md`
 - `DR-363-ai-generated-package-writer-implementation-readiness-storage-contract.md`
+- `DR-364-ai-generated-package-writer-module-test-plan.md`
 
 ## Maintenance Rule
 
