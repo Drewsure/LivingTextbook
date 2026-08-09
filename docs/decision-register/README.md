@@ -329,6 +329,7 @@
 - `DR-355-ai-generated-package-assembly-readiness-storage-contract.md`
 - `DR-356-ai-generated-package-assembly-dry-run.md`
 - `DR-357-ai-generated-package-assembly-dry-run-storage-contract.md`
+- `DR-358-ai-generated-package-writer-preflight.md`
 
 ## Maintenance Rule
 

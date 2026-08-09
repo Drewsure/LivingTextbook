@@ -117,6 +117,12 @@ The dry run cannot write package JSON, route registry entries, media playlists, 
 
 The backend-neutral storage contract is `ai_generated_package_assembly_dry_run` / `ai-generated-package-assembly-dry-run`. Hosted and local adapters must preserve assembly readiness links, generated package manifest links, package JSON previews, route registry previews, media playlist previews, local companion previews, assignment-shell previews, and source record ids while blocking package JSON writes, route registry writes, media playlist writes, local bundle writes, assignment creation, student-ready markers, and support-language-only assembly.
 
+## Generated Package Writer Preflight Rule
+
+Teacher generator routes may show a review-only generated package writer preflight after assembly dry runs. The preflight names the future writer targets for package JSON, route registry, media playlist, local companion, assignment shell, and rollback map work.
+
+The preflight cannot execute a writer, commit package JSON, mutate route registries, create media playlists, package local bundles, activate assignments, collect real learner data, mark generated packages student-ready, or use support-language-only evidence as a writer trigger. It is a review surface for future implementation planning, not a content-writing workflow.
+
 ## Draft Payload Validation Rule
 
 AI-generated draft payloads must pass the shared `validateAiGeneratedDraftPayload` / `validateAiGeneratedDraftPayloadPreview` contract before review, persistence, verifier submission, package assembly, route creation, playlist creation, or student assignment can be considered.

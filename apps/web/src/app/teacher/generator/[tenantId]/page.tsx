@@ -26,6 +26,10 @@ import {
   sampleAiGeneratedPackageAssemblyDryRuns,
 } from "@/data/sampleAiGeneratedPackageAssemblyDryRun";
 import {
+  filterAiGeneratedPackageWriterPreflightsByTenant,
+  sampleAiGeneratedPackageWriterPreflights,
+} from "@/data/sampleAiGeneratedPackageWriterPreflight";
+import {
   filterAiGeneratedPublishReadinessGatesByTenant,
   sampleAiGeneratedPublishReadinessGates,
 } from "@/data/sampleAiGeneratedPublishReadinessGate";
@@ -148,6 +152,7 @@ import { AiGeneratedPackagePromotionChecklistPanel } from "@/features/content-in
 import { AiGeneratedPackageReleaseCandidatePanel } from "@/features/content-intake/AiGeneratedPackageReleaseCandidatePanel";
 import { AiGeneratedPackageAssemblyReadinessPanel } from "@/features/content-intake/AiGeneratedPackageAssemblyReadinessPanel";
 import { AiGeneratedPackageAssemblyDryRunPanel } from "@/features/content-intake/AiGeneratedPackageAssemblyDryRunPanel";
+import { AiGeneratedPackageWriterPreflightPanel } from "@/features/content-intake/AiGeneratedPackageWriterPreflightPanel";
 import { AiGeneratedPublishReadinessGatePanel } from "@/features/content-intake/AiGeneratedPublishReadinessGatePanel";
 import { AiEngineBindingPlanPanel } from "@/features/content-intake/AiEngineBindingPlanPanel";
 import { AiExternalPrototypeTaskExportReadinessGatePanel } from "@/features/content-intake/AiExternalPrototypeTaskExportReadinessGatePanel";
@@ -361,6 +366,12 @@ export default async function TeacherAiGameGeneratorPage({
         />
         <AiGeneratedPackageAssemblyDryRunPanel
           dryRuns={filterAiGeneratedPackageAssemblyDryRunsByTenant(sampleAiGeneratedPackageAssemblyDryRuns, tenantId)}
+        />
+        <AiGeneratedPackageWriterPreflightPanel
+          preflights={filterAiGeneratedPackageWriterPreflightsByTenant(
+            sampleAiGeneratedPackageWriterPreflights,
+            tenantId,
+          )}
         />
         </section>
         <section id="draft-repair" className="grid scroll-mt-6 gap-5">

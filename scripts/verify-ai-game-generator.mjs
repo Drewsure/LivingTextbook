@@ -52,6 +52,7 @@ const generatedPackageAssemblyReadiness = readSource(
   "../apps/web/src/data/sampleAiGeneratedPackageAssemblyReadiness.ts",
 );
 const generatedPackageAssemblyDryRun = readSource("../apps/web/src/data/sampleAiGeneratedPackageAssemblyDryRun.ts");
+const generatedPackageWriterPreflight = readSource("../apps/web/src/data/sampleAiGeneratedPackageWriterPreflight.ts");
 const generatedPublishReadinessGate = readSource("../apps/web/src/data/sampleAiGeneratedPublishReadinessGate.ts");
 const draftPreviewData = readSource("../apps/web/src/data/sampleAiGeneratedDraftPayloadPreview.ts");
 const draftPayloadValidator = readSource("../packages/content-model/src/aiGeneratedDraftPayload.ts");
@@ -137,6 +138,9 @@ const generatedPackageAssemblyReadinessPanel = readSource(
 );
 const generatedPackageAssemblyDryRunPanel = readSource(
   "../apps/web/src/features/content-intake/AiGeneratedPackageAssemblyDryRunPanel.tsx",
+);
+const generatedPackageWriterPreflightPanel = readSource(
+  "../apps/web/src/features/content-intake/AiGeneratedPackageWriterPreflightPanel.tsx",
 );
 const generatedPublishReadinessGatePanel = readSource(
   "../apps/web/src/features/content-intake/AiGeneratedPublishReadinessGatePanel.tsx",
@@ -1761,6 +1765,66 @@ requireText(
   "AI generated package assembly dry-run storage contract",
   "AI generator checks must mention assembly dry-run storage contract.",
 );
+requireText(
+  generatedPackageWriterPreflight,
+  "sampleAiGeneratedPackageWriterPreflights",
+  "AI generated package writer preflight data must exist.",
+);
+requireText(
+  generatedPackageWriterPreflight,
+  "Writer blocked until release-control implementation",
+  "AI generated package writer preflight must keep writer execution blocked.",
+);
+requireText(
+  generatedPackageWriterPreflight,
+  "Package JSON writer",
+  "AI generated package writer preflight must include package JSON writer target.",
+);
+requireText(
+  generatedPackageWriterPreflight,
+  "Route registry writer",
+  "AI generated package writer preflight must include route registry writer target.",
+);
+requireText(
+  generatedPackageWriterPreflight,
+  "Media playlist writer",
+  "AI generated package writer preflight must include media playlist writer target.",
+);
+requireText(
+  generatedPackageWriterPreflight,
+  "Local companion writer",
+  "AI generated package writer preflight must include local companion writer target.",
+);
+requireText(
+  generatedPackageWriterPreflight,
+  "Assignment shell writer",
+  "AI generated package writer preflight must include assignment writer target.",
+);
+requireText(
+  generatedPackageWriterPreflight,
+  "No package writer execution",
+  "AI generated package writer preflight must block writer execution.",
+);
+requireText(
+  generatedPackageWriterPreflight,
+  "No support-language-only package writer",
+  "AI generated package writer preflight must block support-language-only writers.",
+);
+requireText(
+  generatedPackageWriterPreflightPanel,
+  "AI generated package writer preflight",
+  "AI generated package writer preflight panel must expose heading.",
+);
+requireText(
+  generatedPackageWriterPreflightPanel,
+  "Package writer target map",
+  "AI generated package writer preflight panel must expose writer target map.",
+);
+requireText(
+  generatedPackageWriterPreflightPanel,
+  "Blocked writer actions",
+  "AI generated package writer preflight panel must expose blocked writer actions.",
+);
 requireText(compatibilityMatrix, "This matrix defines which student games", "Generator mode recommendations must reuse the compatibility matrix.");
 requireText(modeRecommendationPanel, "AI mode recommendation preview", "Mode recommendation panel must expose heading.");
 requireText(modeRecommendationPanel, "Recommended generated pathway", "Mode recommendation panel must expose recommended pathway.");
@@ -1975,6 +2039,11 @@ requireText(
   "AiGeneratedPackageAssemblyDryRunPanel",
   "Generator route must render the generated package assembly dry run panel.",
 );
+requireText(
+  route,
+  "AiGeneratedPackageWriterPreflightPanel",
+  "Generator route must render the generated package writer preflight panel.",
+);
 requireText(route, "AiGeneratedPublishReadinessGatePanel", "Generator route must render the generated publish readiness gate panel.");
 requireText(route, "AiGeneratedDraftPayloadPreviewPanel", "Generator route must render the draft payload preview panel.");
 requireText(route, "AiDraftCorrectionQueuePanel", "Generator route must render the draft correction queue panel.");
@@ -2046,6 +2115,11 @@ requireText(
   route,
   "sampleAiGeneratedPackageAssemblyDryRuns",
   "Generator route must use the sample generated package assembly dry run data.",
+);
+requireText(
+  route,
+  "sampleAiGeneratedPackageWriterPreflights",
+  "Generator route must use the sample generated package writer preflight data.",
 );
 requireText(
   route,
