@@ -37,6 +37,7 @@ const requiredSchemaEntities = [
   "ai_generated_package_assembly_readiness",
   "ai_generated_package_assembly_dry_run",
   "ai_generated_package_writer_preflight",
+  "ai_generated_package_writer_rollback_drill",
   "ai_reward_readiness_gate",
   "ai_generated_publish_readiness_gate",
   "ai_generator_tenant_coverage_gate",
@@ -124,6 +125,7 @@ const requiredMigrationCandidates = [
   "m080-ai-generated-package-assembly-readiness-records",
   "m081-ai-generated-package-assembly-dry-run-records",
   "m082-ai-generated-package-writer-preflight-records",
+  "m083-ai-generated-package-writer-rollback-drill-records",
   "m055-ai-reward-readiness-gate-records",
   "m056-ai-generated-publish-readiness-gate-records",
   "m057-ai-generator-tenant-coverage-gate-records",
@@ -214,6 +216,7 @@ const requiredMigrationSpecs = [
   "spec-ai-generated-package-assembly-readiness",
   "spec-ai-generated-package-assembly-dry-run",
   "spec-ai-generated-package-writer-preflight",
+  "spec-ai-generated-package-writer-rollback-drill",
   "spec-ai-reward-readiness-gate",
   "spec-ai-generated-publish-readiness-gate",
   "spec-ai-generator-tenant-coverage-gate",
@@ -720,6 +723,27 @@ requireText(schemaDraft, "required_evidence", "Backend schema must preserve writ
 requireText(schemaDraft, "blocked_writer_actions", "Backend schema must preserve generated package writer action blocks.");
 requireText(schemaDraft, "writer_execution_allowed", "Backend schema must block writer execution.");
 requireText(schemaDraft, "support_language_writer_allowed", "Backend schema must block support-language-only writers.");
+requireText(
+  schemaDraft,
+  "ai_generated_package_writer_rollback_drill",
+  "Backend schema must include AI generated package writer rollback drills.",
+);
+requireText(
+  schemaDraft,
+  "ai_generated_package_writer_rollback_drill_id",
+  "Backend schema must preserve AI generated package writer rollback drill ids.",
+);
+requireText(schemaDraft, "pre_write_snapshots", "Backend schema must preserve generated package pre-write snapshots.");
+requireText(schemaDraft, "post_write_verification", "Backend schema must preserve generated package post-write verification.");
+requireText(schemaDraft, "rollback_steps", "Backend schema must preserve generated package rollback steps.");
+requireText(schemaDraft, "blocked_rollback_actions", "Backend schema must preserve generated package rollback action blocks.");
+requireText(schemaDraft, "rollback_execution_allowed", "Backend schema must block rollback execution.");
+requireText(schemaDraft, "production_qr_redirect_mutation_allowed", "Backend schema must block production QR redirect mutation.");
+requireText(
+  schemaDraft,
+  "support_language_rollback_evidence_allowed",
+  "Backend schema must block support-language-only rollback evidence.",
+);
 requireText(schemaDraft, "ai_reward_readiness_gate", "Backend schema must include AI reward readiness gates.");
 requireText(schemaDraft, "ai_reward_readiness_gate_id", "Backend schema must preserve AI reward readiness gate ids.");
 requireText(schemaDraft, "ai_draft_correction_queue_id", "Backend schema must preserve AI draft correction queue ids.");
@@ -1440,6 +1464,39 @@ requireText(migrationSpecs, "required_evidence", "Migration specs must preserve 
 requireText(migrationSpecs, "blocked_writer_actions", "Migration specs must preserve generated package writer action blocks.");
 requireText(migrationSpecs, "writer_execution_allowed", "Migration specs must block writer execution.");
 requireText(migrationSpecs, "support_language_writer_allowed", "Migration specs must block support-language-only writers.");
+requireText(
+  migrationSpecs,
+  "spec-ai-generated-package-writer-rollback-drill",
+  "Migration specs must include AI generated package writer rollback drills.",
+);
+requireText(
+  migrationSpecs,
+  "ai_generated_package_writer_rollback_drill_id",
+  "Migration specs must preserve generated package writer rollback drill ids.",
+);
+requireText(migrationSpecs, "pre_write_snapshots", "Migration specs must preserve generated package pre-write snapshots.");
+requireText(
+  migrationSpecs,
+  "post_write_verification",
+  "Migration specs must preserve generated package post-write verification.",
+);
+requireText(migrationSpecs, "rollback_steps", "Migration specs must preserve generated package rollback steps.");
+requireText(
+  migrationSpecs,
+  "blocked_rollback_actions",
+  "Migration specs must preserve generated package rollback action blocks.",
+);
+requireText(migrationSpecs, "rollback_execution_allowed", "Migration specs must block rollback execution.");
+requireText(
+  migrationSpecs,
+  "production_qr_redirect_mutation_allowed",
+  "Migration specs must block production QR redirect mutation.",
+);
+requireText(
+  migrationSpecs,
+  "support_language_rollback_evidence_allowed",
+  "Migration specs must block support-language-only rollback evidence.",
+);
 requireText(migrationSpecs, "spec-ai-reward-readiness-gate", "Migration specs must include AI reward readiness gates.");
 requireText(migrationSpecs, "ai_reward_readiness_gate_id", "Migration specs must preserve AI reward readiness gate ids.");
 requireText(migrationSpecs, "ai_draft_correction_queue_id", "Migration specs must preserve AI draft correction queue ids.");
@@ -2615,6 +2672,36 @@ requireText(
   "blocksGeneratedPackageWriterExecution: true",
   "Persistence adapter must block generated package writer execution.",
 );
+requireText(
+  persistenceAdapter,
+  "hosted-ai-generated-package-writer-rollback-drill-write",
+  "Persistence adapter must include hosted AI generated package writer rollback drill writes.",
+);
+requireText(
+  persistenceAdapter,
+  "local-ai-generated-package-writer-rollback-drill-write",
+  "Persistence adapter must include local AI generated package writer rollback drill writes.",
+);
+requireText(
+  persistenceAdapter,
+  "preservesAiGeneratedPackageWriterRollbackDrill: true",
+  "Persistence adapter must preserve AI generated package writer rollback drills.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresGeneratedPackageRollbackSnapshots: true",
+  "Persistence adapter must require generated package rollback snapshots.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresGeneratedPackageRollbackVerification: true",
+  "Persistence adapter must require generated package rollback verification.",
+);
+requireText(
+  persistenceAdapter,
+  "blocksGeneratedPackageRollbackExecution: true",
+  "Persistence adapter must block generated package rollback execution.",
+);
 requireText(persistenceAdapter, "hosted-ai-reward-readiness-gate-write", "Persistence adapter must include hosted AI reward readiness gate writes.");
 requireText(persistenceAdapter, "local-ai-reward-readiness-gate-write", "Persistence adapter must include local AI reward readiness gate writes.");
 requireText(persistenceAdapter, "preservesAiRewardReadinessGate: true", "Persistence adapter must preserve AI reward readiness checks.");
@@ -3637,6 +3724,36 @@ requireText(
   "blocksGeneratedPackageWriterExecution: true",
   "Durable record plan must block generated package writer execution.",
 );
+requireText(
+  durableRecords,
+  "ai-generated-package-writer-rollback-drill-record",
+  "Durable record plan must include AI generated package writer rollback drill records.",
+);
+requireText(
+  durableRecords,
+  "AI generated package writer rollback drill record",
+  "Durable record plan must expose AI generated package writer rollback drill labels.",
+);
+requireText(
+  durableRecords,
+  "preservesAiGeneratedPackageWriterRollbackDrill: true",
+  "Durable record plan must preserve AI generated package writer rollback drills.",
+);
+requireText(
+  durableRecords,
+  "requiresGeneratedPackageRollbackSnapshots: true",
+  "Durable record plan must require generated package rollback snapshots.",
+);
+requireText(
+  durableRecords,
+  "requiresGeneratedPackageRollbackVerification: true",
+  "Durable record plan must require generated package rollback verification.",
+);
+requireText(
+  durableRecords,
+  "blocksGeneratedPackageRollbackExecution: true",
+  "Durable record plan must block generated package rollback execution.",
+);
 requireText(durableRecords, "ai-reward-readiness-gate-record", "Durable record plan must include AI reward readiness gate records.");
 requireText(durableRecords, "AI reward readiness gate record", "Durable record plan must expose AI reward readiness gate labels.");
 requireText(durableRecords, "preservesAiRewardReadinessGate: true", "Durable record plan must preserve AI reward readiness checks.");
@@ -4108,6 +4225,16 @@ requireText(
   routeVerifier,
   "AI generated package writer preflight record",
   "Active route verifier must keep AI generated package writer preflight durable records visible on teacher intake.",
+);
+requireText(
+  routeVerifier,
+  "ai_generated_package_writer_rollback_drill",
+  "Active route verifier must keep AI generated package writer rollback drill storage visible on teacher intake.",
+);
+requireText(
+  routeVerifier,
+  "AI generated package writer rollback drill record",
+  "Active route verifier must keep AI generated package writer rollback drill durable records visible on teacher intake.",
 );
 requireText(routeVerifier, "ai_reward_readiness_gate", "Active route verifier must keep AI reward readiness storage visible on teacher intake.");
 requireText(routeVerifier, "AI reward readiness gate record", "Active route verifier must keep AI reward readiness durable records visible on teacher intake.");

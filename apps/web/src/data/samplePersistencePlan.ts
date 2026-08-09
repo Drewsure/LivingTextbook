@@ -42,6 +42,7 @@ export type PersistenceBoundaryCategory =
   | "ai-generated-package-assembly-readiness"
   | "ai-generated-package-assembly-dry-run"
   | "ai-generated-package-writer-preflight"
+  | "ai-generated-package-writer-rollback-drill"
   | "ai-reward-readiness-gate"
   | "ai-generated-publish-readiness-gate"
   | "ai-generator-tenant-coverage-gate"
@@ -954,6 +955,43 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
     note:
       "AI generated package writer preflights need durable writer-target evidence before generated packages can execute writers, write package JSON, routes, playlists, local bundles, assignments, or student-ready state.",
+  },
+  {
+    recordId: "ai-generated-package-writer-rollback-drill-record",
+    category: "ai-generated-package-writer-rollback-drill",
+    label: "AI generated package writer rollback drill record",
+    readiness: "durable-required",
+    sourceOfTruth:
+      "AiGeneratedPackageWriterRollbackDrill, writer preflight record, pre-write snapshots, post-write verification, rollback rehearsal steps, required records, blocked rollback actions, and support-language boundary lanes",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesAiGeneratedPackageWriterRollbackDrill: true,
+    preservesAiGeneratedPackageWriterPreflight: true,
+    preservesAiGeneratedPackageAssemblyDryRun: true,
+    preservesAiGeneratedPackageAssemblyReadiness: true,
+    requiresGeneratedPackageRollbackSnapshots: true,
+    requiresGeneratedPackageRollbackVerification: true,
+    requiresTargetLanguageAudioApproval: true,
+    requiresMediaRightsEvidence: true,
+    blocksGeneratedPackageRollbackExecution: true,
+    blocksGeneratedPackageWriterExecution: true,
+    blocksRollbackAction: true,
+    blocksProductionQrRedirectMutation: true,
+    blocksGeneratedPackageJsonWrite: true,
+    blocksGeneratedPackageRouteWrite: true,
+    blocksGeneratedPackagePlaylistWrite: true,
+    blocksGeneratedPackageLocalBundleWrite: true,
+    blocksStudentReadyMarker: true,
+    blocksGeneratedPackageAssignment: true,
+    blocksSupportLanguageAssembly: true,
+    blocksDirectStudentAssignment: true,
+    recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
+    note:
+      "AI generated package writer rollback drills need durable restore evidence before generated packages can execute writers, roll back package JSON, mutate routes, roll back playlists, roll back local bundles, mutate assignments, or alter production QR redirects.",
   },
   {
     recordId: "ai-reward-readiness-gate-record",
@@ -2499,6 +2537,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision:
       "Persist AI generated package writer preflights before enabling writer execution, package JSON writes, route writes, playlist writes, local bundle writes, assignment, student-ready markers, or support-language-only writers.",
+  },
+  {
+    boundaryId: "ai-generated-package-writer-rollback-drill-boundary",
+    category: "ai-generated-package-writer-rollback-drill",
+    label: "AI generated package writer rollback drill records",
+    status: "needs-backend",
+    recordShape:
+      "Rollback drill id, tenant id, request id, writer preflight id, package id preview, pre-write snapshots, post-write verification, rollback rehearsal steps, required records, blocked rollback actions, and support-language boundary lanes",
+    whyItMatters:
+      "Generated package writer rollback drills need durable restore evidence so future package writer work cannot become a one-way publish path based on UI state, sample data, or an unverified rollback map.",
+    visibleTo: ["Teacher", "Tenant admin", "Content reviewer", "Platform admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Persist AI generated package writer rollback drills before enabling writer execution, rollback execution, package JSON rollback, route rollback, playlist rollback, local bundle rollback, assignment rollback, production QR redirect mutation, or support-language-only rollback evidence.",
   },
   {
     boundaryId: "ai-reward-readiness-gate-boundary",

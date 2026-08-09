@@ -30,6 +30,7 @@ export type PersistenceRecordCategory =
   | "ai-generated-package-assembly-readiness"
   | "ai-generated-package-assembly-dry-run"
   | "ai-generated-package-writer-preflight"
+  | "ai-generated-package-writer-rollback-drill"
   | "ai-reward-readiness-gate"
   | "ai-generated-publish-readiness-gate"
   | "ai-generator-tenant-coverage-gate"
@@ -254,11 +255,14 @@ export interface DurableRecordContract {
   preservesAiGeneratedPackageAssemblyReadiness?: boolean;
   preservesAiGeneratedPackageAssemblyDryRun?: boolean;
   preservesAiGeneratedPackageWriterPreflight?: boolean;
+  preservesAiGeneratedPackageWriterRollbackDrill?: boolean;
   requiresLineageMap?: boolean;
   requiresTargetLanguageAudioApproval?: boolean;
   requiresPackageAssemblyReadinessLanes?: boolean;
   requiresGeneratedPackageArtifactMap?: boolean;
   requiresGeneratedPackageWriterTargets?: boolean;
+  requiresGeneratedPackageRollbackSnapshots?: boolean;
+  requiresGeneratedPackageRollbackVerification?: boolean;
   requiresMediaRightsEvidence?: boolean;
   blocksGeneratedPackagePromotion?: boolean;
   requiresPrivateLibraryTarget?: boolean;
@@ -270,6 +274,7 @@ export interface DurableRecordContract {
   blocksSupportLanguageRelease?: boolean;
   blocksGeneratedPackageAssembly?: boolean;
   blocksGeneratedPackageWriterExecution?: boolean;
+  blocksGeneratedPackageRollbackExecution?: boolean;
   blocksGeneratedPackageJsonWrite?: boolean;
   blocksGeneratedPackageRouteWrite?: boolean;
   blocksGeneratedPackagePlaylistWrite?: boolean;
@@ -1972,6 +1977,87 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "ai-generated-package-writer-preflight" && !record.blocksSupportLanguageAssembly) {
       errors.push(`AI generated package writer preflight record ${record.recordId} must block support-language-only writers.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-writer-rollback-drill" &&
+      !record.preservesAiGeneratedPackageWriterRollbackDrill
+    ) {
+      errors.push(`AI generated package writer rollback drill record ${record.recordId} must preserve rollback drill evidence.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-writer-rollback-drill" &&
+      !record.preservesAiGeneratedPackageWriterPreflight
+    ) {
+      errors.push(`AI generated package writer rollback drill record ${record.recordId} must preserve writer preflight links.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-writer-rollback-drill" &&
+      !record.requiresGeneratedPackageRollbackSnapshots
+    ) {
+      errors.push(`AI generated package writer rollback drill record ${record.recordId} must require rollback snapshots.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-writer-rollback-drill" &&
+      !record.requiresGeneratedPackageRollbackVerification
+    ) {
+      errors.push(`AI generated package writer rollback drill record ${record.recordId} must require rollback verification.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-writer-rollback-drill" &&
+      !record.blocksGeneratedPackageRollbackExecution
+    ) {
+      errors.push(`AI generated package writer rollback drill record ${record.recordId} must block rollback execution.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-writer-rollback-drill" &&
+      !record.blocksGeneratedPackageWriterExecution
+    ) {
+      errors.push(`AI generated package writer rollback drill record ${record.recordId} must block package writer execution.`);
+    }
+
+    if (record.category === "ai-generated-package-writer-rollback-drill" && !record.blocksRollbackAction) {
+      errors.push(`AI generated package writer rollback drill record ${record.recordId} must block rollback actions.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-writer-rollback-drill" &&
+      !record.blocksProductionQrRedirectMutation
+    ) {
+      errors.push(`AI generated package writer rollback drill record ${record.recordId} must block production QR redirects.`);
+    }
+
+    if (record.category === "ai-generated-package-writer-rollback-drill" && !record.blocksGeneratedPackageJsonWrite) {
+      errors.push(`AI generated package writer rollback drill record ${record.recordId} must block package JSON rollback writes.`);
+    }
+
+    if (record.category === "ai-generated-package-writer-rollback-drill" && !record.blocksGeneratedPackageRouteWrite) {
+      errors.push(`AI generated package writer rollback drill record ${record.recordId} must block route rollback writes.`);
+    }
+
+    if (record.category === "ai-generated-package-writer-rollback-drill" && !record.blocksGeneratedPackagePlaylistWrite) {
+      errors.push(`AI generated package writer rollback drill record ${record.recordId} must block playlist rollback writes.`);
+    }
+
+    if (record.category === "ai-generated-package-writer-rollback-drill" && !record.blocksGeneratedPackageLocalBundleWrite) {
+      errors.push(`AI generated package writer rollback drill record ${record.recordId} must block local bundle rollback writes.`);
+    }
+
+    if (record.category === "ai-generated-package-writer-rollback-drill" && !record.blocksGeneratedPackageAssignment) {
+      errors.push(`AI generated package writer rollback drill record ${record.recordId} must block assignment rollback writes.`);
+    }
+
+    if (record.category === "ai-generated-package-writer-rollback-drill" && !record.blocksStudentReadyMarker) {
+      errors.push(`AI generated package writer rollback drill record ${record.recordId} must block student-ready markers.`);
+    }
+
+    if (record.category === "ai-generated-package-writer-rollback-drill" && !record.blocksSupportLanguageAssembly) {
+      errors.push(`AI generated package writer rollback drill record ${record.recordId} must block support-language-only rollback evidence.`);
     }
 
     if (record.category === "ai-reward-readiness-gate" && !record.preservesAiRewardReadinessGate) {

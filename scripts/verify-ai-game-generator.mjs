@@ -1896,6 +1896,11 @@ requireText(
   "Blocked rollback actions",
   "AI generated package writer rollback drill panel must expose blocked rollback actions.",
 );
+requireText(
+  checks,
+  "AI generated package writer rollback drill storage contract",
+  "AI generator checks must mention package writer rollback drill storage contract.",
+);
 requireText(compatibilityMatrix, "This matrix defines which student games", "Generator mode recommendations must reuse the compatibility matrix.");
 requireText(modeRecommendationPanel, "AI mode recommendation preview", "Mode recommendation panel must expose heading.");
 requireText(modeRecommendationPanel, "Recommended generated pathway", "Mode recommendation panel must expose recommended pathway.");

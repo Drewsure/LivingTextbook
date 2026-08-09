@@ -163,11 +163,14 @@ export interface PersistenceWriteIntent {
   preservesAiGeneratedPackageAssemblyReadiness?: boolean;
   preservesAiGeneratedPackageAssemblyDryRun?: boolean;
   preservesAiGeneratedPackageWriterPreflight?: boolean;
+  preservesAiGeneratedPackageWriterRollbackDrill?: boolean;
   requiresLineageMap?: boolean;
   requiresTargetLanguageAudioApproval?: boolean;
   requiresPackageAssemblyReadinessLanes?: boolean;
   requiresGeneratedPackageArtifactMap?: boolean;
   requiresGeneratedPackageWriterTargets?: boolean;
+  requiresGeneratedPackageRollbackSnapshots?: boolean;
+  requiresGeneratedPackageRollbackVerification?: boolean;
   requiresMediaRightsEvidence?: boolean;
   blocksGeneratedPackagePromotion?: boolean;
   requiresPrivateLibraryTarget?: boolean;
@@ -179,6 +182,7 @@ export interface PersistenceWriteIntent {
   blocksSupportLanguageRelease?: boolean;
   blocksGeneratedPackageAssembly?: boolean;
   blocksGeneratedPackageWriterExecution?: boolean;
+  blocksGeneratedPackageRollbackExecution?: boolean;
   blocksGeneratedPackageJsonWrite?: boolean;
   blocksGeneratedPackageRouteWrite?: boolean;
   blocksGeneratedPackagePlaylistWrite?: boolean;
@@ -1916,6 +1920,87 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "ai-generated-package-writer-preflight" && !intent.blocksSupportLanguageAssembly) {
       errors.push(`AI generated package writer preflight write intent ${intent.intentId} must block support-language-only writers.`);
+    }
+
+    if (
+      intent.category === "ai-generated-package-writer-rollback-drill" &&
+      !intent.preservesAiGeneratedPackageWriterRollbackDrill
+    ) {
+      errors.push(`AI generated package writer rollback drill write intent ${intent.intentId} must preserve rollback drill evidence.`);
+    }
+
+    if (
+      intent.category === "ai-generated-package-writer-rollback-drill" &&
+      !intent.preservesAiGeneratedPackageWriterPreflight
+    ) {
+      errors.push(`AI generated package writer rollback drill write intent ${intent.intentId} must preserve writer preflight links.`);
+    }
+
+    if (
+      intent.category === "ai-generated-package-writer-rollback-drill" &&
+      !intent.requiresGeneratedPackageRollbackSnapshots
+    ) {
+      errors.push(`AI generated package writer rollback drill write intent ${intent.intentId} must require rollback snapshots.`);
+    }
+
+    if (
+      intent.category === "ai-generated-package-writer-rollback-drill" &&
+      !intent.requiresGeneratedPackageRollbackVerification
+    ) {
+      errors.push(`AI generated package writer rollback drill write intent ${intent.intentId} must require rollback verification.`);
+    }
+
+    if (
+      intent.category === "ai-generated-package-writer-rollback-drill" &&
+      !intent.blocksGeneratedPackageRollbackExecution
+    ) {
+      errors.push(`AI generated package writer rollback drill write intent ${intent.intentId} must block rollback execution.`);
+    }
+
+    if (
+      intent.category === "ai-generated-package-writer-rollback-drill" &&
+      !intent.blocksGeneratedPackageWriterExecution
+    ) {
+      errors.push(`AI generated package writer rollback drill write intent ${intent.intentId} must block package writer execution.`);
+    }
+
+    if (intent.category === "ai-generated-package-writer-rollback-drill" && !intent.blocksRollbackAction) {
+      errors.push(`AI generated package writer rollback drill write intent ${intent.intentId} must block rollback actions.`);
+    }
+
+    if (
+      intent.category === "ai-generated-package-writer-rollback-drill" &&
+      !intent.blocksProductionQrRedirectMutation
+    ) {
+      errors.push(`AI generated package writer rollback drill write intent ${intent.intentId} must block production QR redirects.`);
+    }
+
+    if (intent.category === "ai-generated-package-writer-rollback-drill" && !intent.blocksGeneratedPackageJsonWrite) {
+      errors.push(`AI generated package writer rollback drill write intent ${intent.intentId} must block package JSON rollback writes.`);
+    }
+
+    if (intent.category === "ai-generated-package-writer-rollback-drill" && !intent.blocksGeneratedPackageRouteWrite) {
+      errors.push(`AI generated package writer rollback drill write intent ${intent.intentId} must block route rollback writes.`);
+    }
+
+    if (intent.category === "ai-generated-package-writer-rollback-drill" && !intent.blocksGeneratedPackagePlaylistWrite) {
+      errors.push(`AI generated package writer rollback drill write intent ${intent.intentId} must block playlist rollback writes.`);
+    }
+
+    if (intent.category === "ai-generated-package-writer-rollback-drill" && !intent.blocksGeneratedPackageLocalBundleWrite) {
+      errors.push(`AI generated package writer rollback drill write intent ${intent.intentId} must block local bundle rollback writes.`);
+    }
+
+    if (intent.category === "ai-generated-package-writer-rollback-drill" && !intent.blocksGeneratedPackageAssignment) {
+      errors.push(`AI generated package writer rollback drill write intent ${intent.intentId} must block assignment rollback writes.`);
+    }
+
+    if (intent.category === "ai-generated-package-writer-rollback-drill" && !intent.blocksStudentReadyMarker) {
+      errors.push(`AI generated package writer rollback drill write intent ${intent.intentId} must block student-ready markers.`);
+    }
+
+    if (intent.category === "ai-generated-package-writer-rollback-drill" && !intent.blocksSupportLanguageAssembly) {
+      errors.push(`AI generated package writer rollback drill write intent ${intent.intentId} must block support-language-only rollback evidence.`);
     }
 
     if (intent.category === "ai-reward-readiness-gate" && !intent.preservesAiRewardReadinessGate) {

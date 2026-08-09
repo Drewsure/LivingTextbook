@@ -131,6 +131,8 @@ Teacher generator routes may show a review-only generated package writer rollbac
 
 The rollback drill cannot execute a rollback, execute a package writer, restore package JSON, mutate route registries, mutate production QR redirects, roll back media playlists, roll back local bundles, mutate assignments, collect real learner data, or use support-language-only evidence as rollback proof. It is a rehearsal and evidence map for a future writer implementation.
 
+The backend-neutral storage contract is `ai_generated_package_writer_rollback_drill` / `ai-generated-package-writer-rollback-drill`. Hosted and local adapters must preserve writer preflight links, pre-write snapshots, post-write verification, rollback rehearsal steps, blocked rollback actions, and support-language boundaries while blocking rollback execution, package writer execution, package JSON rollback, route rollback, media playlist rollback, local bundle rollback, assignment mutation, production QR redirect mutation, student-ready markers, and support-language-only rollback evidence.
+
 ## Draft Payload Validation Rule
 
 AI-generated draft payloads must pass the shared `validateAiGeneratedDraftPayload` / `validateAiGeneratedDraftPayloadPreview` contract before review, persistence, verifier submission, package assembly, route creation, playlist creation, or student assignment can be considered.

@@ -1496,6 +1496,148 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       ],
     },
     {
+      specId: "spec-ai-generated-package-writer-rollback-drill",
+      label: "AI generated package writer rollback drill",
+      candidateId: "m083-ai-generated-package-writer-rollback-drill-records",
+      storeKind: "admin-record",
+      status: "ready-for-review",
+      purpose:
+        "Stores generated package writer rollback drill evidence while keeping rollback execution, writer execution, package JSON rollback, route rollback, playlist rollback, local bundle rollback, assignment mutation, and production QR redirect mutation blocked.",
+      primaryKey: "ai_generated_package_writer_rollback_drill_id",
+      tenantScope:
+        "Scoped by tenant_id, generation_request_id, ai_generated_package_writer_preflight_id, ai_generated_package_assembly_dry_run_id, and rollback_drill_revision.",
+      fields: [
+        {
+          name: "ai_generated_package_writer_rollback_drill_id",
+          type: "string",
+          required: true,
+          note: "Stable id for one generated package writer rollback drill snapshot.",
+        },
+        {
+          name: "generation_request_id",
+          type: "string",
+          required: true,
+          note: "AI generation request this rollback drill belongs to.",
+        },
+        {
+          name: "ai_generated_package_writer_preflight_id",
+          type: "string",
+          required: true,
+          note: "Writer preflight being rehearsed.",
+        },
+        {
+          name: "ai_generated_package_assembly_dry_run_id",
+          type: "string",
+          required: true,
+          note: "Assembly dry-run artifact map linked through the writer preflight.",
+        },
+        {
+          name: "package_id_preview",
+          type: "string",
+          required: true,
+          note: "Generated package id preview under rollback review.",
+        },
+        {
+          name: "pre_write_snapshots",
+          type: "json",
+          required: true,
+          note: "Package, route, playlist, local, assignment, and release-control snapshots required before future writes.",
+        },
+        {
+          name: "post_write_verification",
+          type: "json",
+          required: true,
+          note: "Route, playlist, local, assignment, support-language, and rollback-map checks required after future writes.",
+        },
+        {
+          name: "rollback_steps",
+          type: "json",
+          required: true,
+          note: "Package JSON, route, playlist, local companion, and assignment rollback rehearsal steps.",
+        },
+        {
+          name: "blocked_rollback_actions",
+          type: "json",
+          required: true,
+          note: "Rollback, writer, route, playlist, local, assignment, QR, and support-language rollback blocks.",
+        },
+        {
+          name: "rollback_execution_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until a future package writer and release rollback workflow exist.",
+        },
+        {
+          name: "package_writer_execution_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until a future writer implementation and release gate exist.",
+        },
+        {
+          name: "package_json_rollback_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until a future rollback workflow exists.",
+        },
+        {
+          name: "route_registry_rollback_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until release-control and QR policy pass.",
+        },
+        {
+          name: "media_playlist_rollback_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until media rights and learning-audio priority pass.",
+        },
+        {
+          name: "local_bundle_rollback_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until local companion policy passes.",
+        },
+        {
+          name: "assignment_rollback_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until assignment rollout and school policy pass.",
+        },
+        {
+          name: "production_qr_redirect_mutation_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until production QR rollback policy exists.",
+        },
+        {
+          name: "support_language_rollback_evidence_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false for MiniStar and any assist-language-only rollback proof.",
+        },
+      ],
+      indexes: [
+        "tenant_id + ai_generated_package_writer_rollback_drill_id",
+        "ai_generated_package_writer_rollback_drill_id unique",
+        "tenant_id + generation_request_id",
+        "tenant_id + ai_generated_package_writer_preflight_id",
+        "rollback_execution_allowed",
+        "package_writer_execution_allowed",
+        "production_qr_redirect_mutation_allowed",
+      ],
+      retentionRule:
+        "Retain according to tenant authoring and release policy; blocked, returned, reviewed, cleared, and superseded generated writer rollback drill snapshots remain auditable.",
+      exportRule:
+        "Must export rollback drill snapshots, verification plans, and linked preflight, dry-run, release-control, media, local, assignment, school policy, and QR ids without exporting model internals or unrelated tenant packages.",
+      localFallback:
+        "Local classroom deployments store the same generated writer rollback drill JSON for backup/export without allowing offline rollback execution, writer execution, package JSON rollback, route rollback, playlist rollback, local bundle rollback, assignment mutation, or production QR redirect mutation.",
+      policyBlockers: [
+        "Generated writer rollback drills cannot execute rollbacks, execute writers, restore package JSON, mutate routes, roll back playlists, roll back local bundles, mutate assignments, alter production QR redirects, or mark student-ready state by themselves.",
+        "A separate package writer implementation, rollback workflow, release-control binding, media-rights evidence, local policy, assignment rollout, QR policy, and school policy must pass before future rollback execution.",
+        "Support-language-only rollback evidence remains blocked; MiniStar Japanese support cannot satisfy English package rollback verification.",
+      ],
+    },
+    {
       specId: "spec-ai-generated-game-build-brief",
       label: "AI generated game build brief",
       candidateId: "m060-ai-generated-game-build-brief-records",
