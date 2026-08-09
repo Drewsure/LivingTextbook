@@ -40,6 +40,7 @@ export type PersistenceBoundaryCategory =
   | "ai-generated-package-promotion-checklist"
   | "ai-generated-package-release-candidate"
   | "ai-generated-package-assembly-readiness"
+  | "ai-generated-package-assembly-dry-run"
   | "ai-reward-readiness-gate"
   | "ai-generated-publish-readiness-gate"
   | "ai-generator-tenant-coverage-gate"
@@ -889,6 +890,37 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
     note:
       "AI generated package assembly readiness needs durable lane evidence before generated packages can assemble packages, write routes, create playlists, write local bundles, assign students, mark student-ready state, or use support-language-only review as assembly evidence.",
+  },
+  {
+    recordId: "ai-generated-package-assembly-dry-run-record",
+    category: "ai-generated-package-assembly-dry-run",
+    label: "AI generated package assembly dry run record",
+    readiness: "durable-required",
+    sourceOfTruth:
+      "AiGeneratedPackageAssemblyDryRun, assembly readiness record, generated package manifest, artifact map, source record ids, media playlist preview, local companion preview, assignment-shell preview, and support-language boundary lanes",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesAiGeneratedPackageAssemblyDryRun: true,
+    preservesAiGeneratedPackageAssemblyReadiness: true,
+    preservesAiGeneratedPackageManifest: true,
+    requiresGeneratedPackageArtifactMap: true,
+    requiresTargetLanguageAudioApproval: true,
+    requiresMediaRightsEvidence: true,
+    blocksGeneratedPackageJsonWrite: true,
+    blocksGeneratedPackageRouteWrite: true,
+    blocksGeneratedPackagePlaylistWrite: true,
+    blocksGeneratedPackageLocalBundleWrite: true,
+    blocksStudentReadyMarker: true,
+    blocksGeneratedPackageAssignment: true,
+    blocksSupportLanguageAssembly: true,
+    blocksDirectStudentAssignment: true,
+    recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
+    note:
+      "AI generated package assembly dry runs need durable artifact-map evidence before generated packages can write package JSON, routes, playlists, local bundles, assignments, or student-ready state.",
   },
   {
     recordId: "ai-reward-readiness-gate-record",
@@ -2406,6 +2438,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision:
       "Persist AI generated package assembly readiness before enabling generated package assembly, route writes, playlist writes, local bundle writes, assignment, student-ready markers, or support-language-only assembly.",
+  },
+  {
+    boundaryId: "ai-generated-package-assembly-dry-run-boundary",
+    category: "ai-generated-package-assembly-dry-run",
+    label: "AI generated package assembly dry run records",
+    status: "needs-backend",
+    recordShape:
+      "Assembly dry-run id, tenant id, request id, assembly readiness id, generated manifest id, artifact map, source record ids, blocked dry-run actions, and package-json/route/playlist/local-bundle/assignment/student-ready/support-language blocks",
+    whyItMatters:
+      "Generated package assembly dry runs need a durable artifact map so future package writer decisions cannot be inferred from UI state, sample data, or a generic readiness preview.",
+    visibleTo: ["Teacher", "Tenant admin", "Content reviewer", "Platform admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Persist AI generated package assembly dry runs before enabling package JSON writes, route writes, playlist writes, local bundle writes, assignment, student-ready markers, or support-language-only assembly.",
   },
   {
     boundaryId: "ai-reward-readiness-gate-boundary",

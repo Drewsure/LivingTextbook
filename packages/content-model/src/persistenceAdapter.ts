@@ -161,9 +161,11 @@ export interface PersistenceWriteIntent {
   preservesAiGeneratedPackagePromotionChecklist?: boolean;
   preservesAiGeneratedPackageReleaseCandidate?: boolean;
   preservesAiGeneratedPackageAssemblyReadiness?: boolean;
+  preservesAiGeneratedPackageAssemblyDryRun?: boolean;
   requiresLineageMap?: boolean;
   requiresTargetLanguageAudioApproval?: boolean;
   requiresPackageAssemblyReadinessLanes?: boolean;
+  requiresGeneratedPackageArtifactMap?: boolean;
   requiresMediaRightsEvidence?: boolean;
   blocksGeneratedPackagePromotion?: boolean;
   requiresPrivateLibraryTarget?: boolean;
@@ -174,6 +176,7 @@ export interface PersistenceWriteIntent {
   blocksGeneratedLocalBundleRelease?: boolean;
   blocksSupportLanguageRelease?: boolean;
   blocksGeneratedPackageAssembly?: boolean;
+  blocksGeneratedPackageJsonWrite?: boolean;
   blocksGeneratedPackageRouteWrite?: boolean;
   blocksGeneratedPackagePlaylistWrite?: boolean;
   blocksGeneratedPackageAssignment?: boolean;
@@ -1801,6 +1804,62 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "ai-generated-package-assembly-readiness" && !intent.blocksSupportLanguageAssembly) {
       errors.push(`AI generated package assembly readiness write intent ${intent.intentId} must block support-language-only assembly.`);
+    }
+
+    if (
+      intent.category === "ai-generated-package-assembly-dry-run" &&
+      !intent.preservesAiGeneratedPackageAssemblyDryRun
+    ) {
+      errors.push(`AI generated package assembly dry run write intent ${intent.intentId} must preserve dry-run artifact maps.`);
+    }
+
+    if (
+      intent.category === "ai-generated-package-assembly-dry-run" &&
+      !intent.preservesAiGeneratedPackageAssemblyReadiness
+    ) {
+      errors.push(`AI generated package assembly dry run write intent ${intent.intentId} must preserve assembly readiness links.`);
+    }
+
+    if (
+      intent.category === "ai-generated-package-assembly-dry-run" &&
+      !intent.preservesAiGeneratedPackageManifest
+    ) {
+      errors.push(`AI generated package assembly dry run write intent ${intent.intentId} must preserve generated package manifest links.`);
+    }
+
+    if (
+      intent.category === "ai-generated-package-assembly-dry-run" &&
+      !intent.requiresGeneratedPackageArtifactMap
+    ) {
+      errors.push(`AI generated package assembly dry run write intent ${intent.intentId} must require generated package artifact maps.`);
+    }
+
+    if (intent.category === "ai-generated-package-assembly-dry-run" && !intent.blocksGeneratedPackageJsonWrite) {
+      errors.push(`AI generated package assembly dry run write intent ${intent.intentId} must block package JSON writes.`);
+    }
+
+    if (intent.category === "ai-generated-package-assembly-dry-run" && !intent.blocksGeneratedPackageRouteWrite) {
+      errors.push(`AI generated package assembly dry run write intent ${intent.intentId} must block route registry writes.`);
+    }
+
+    if (intent.category === "ai-generated-package-assembly-dry-run" && !intent.blocksGeneratedPackagePlaylistWrite) {
+      errors.push(`AI generated package assembly dry run write intent ${intent.intentId} must block media playlist writes.`);
+    }
+
+    if (intent.category === "ai-generated-package-assembly-dry-run" && !intent.blocksGeneratedPackageLocalBundleWrite) {
+      errors.push(`AI generated package assembly dry run write intent ${intent.intentId} must block local bundle writes.`);
+    }
+
+    if (intent.category === "ai-generated-package-assembly-dry-run" && !intent.blocksGeneratedPackageAssignment) {
+      errors.push(`AI generated package assembly dry run write intent ${intent.intentId} must block assignment writes.`);
+    }
+
+    if (intent.category === "ai-generated-package-assembly-dry-run" && !intent.blocksStudentReadyMarker) {
+      errors.push(`AI generated package assembly dry run write intent ${intent.intentId} must block student-ready markers.`);
+    }
+
+    if (intent.category === "ai-generated-package-assembly-dry-run" && !intent.blocksSupportLanguageAssembly) {
+      errors.push(`AI generated package assembly dry run write intent ${intent.intentId} must block support-language-only assembly.`);
     }
 
     if (intent.category === "ai-reward-readiness-gate" && !intent.preservesAiRewardReadinessGate) {

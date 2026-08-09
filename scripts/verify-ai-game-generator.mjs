@@ -1756,6 +1756,11 @@ requireText(
   "Blocked dry-run actions",
   "AI generated package assembly dry run panel must expose blocked dry-run actions.",
 );
+requireText(
+  checks,
+  "AI generated package assembly dry-run storage contract",
+  "AI generator checks must mention assembly dry-run storage contract.",
+);
 requireText(compatibilityMatrix, "This matrix defines which student games", "Generator mode recommendations must reuse the compatibility matrix.");
 requireText(modeRecommendationPanel, "AI mode recommendation preview", "Mode recommendation panel must expose heading.");
 requireText(modeRecommendationPanel, "Recommended generated pathway", "Mode recommendation panel must expose recommended pathway.");

@@ -1248,6 +1248,124 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       ],
     },
     {
+      specId: "spec-ai-generated-package-assembly-dry-run",
+      label: "AI generated package assembly dry run",
+      candidateId: "m081-ai-generated-package-assembly-dry-run-records",
+      storeKind: "admin-record",
+      status: "ready-for-review",
+      purpose:
+        "Stores generated package assembly dry-run artifact maps while keeping package JSON, route, playlist, local bundle, assignment, and student-ready writes blocked.",
+      primaryKey: "ai_generated_package_assembly_dry_run_id",
+      tenantScope:
+        "Scoped by tenant_id, generation_request_id, ai_generated_package_assembly_readiness_id, ai_generated_package_manifest_id, and dry_run_revision.",
+      fields: [
+        {
+          name: "ai_generated_package_assembly_dry_run_id",
+          type: "string",
+          required: true,
+          note: "Stable id for one generated package assembly dry-run snapshot.",
+        },
+        {
+          name: "generation_request_id",
+          type: "string",
+          required: true,
+          note: "AI generation request this dry run belongs to.",
+        },
+        {
+          name: "ai_generated_package_assembly_readiness_id",
+          type: "string",
+          required: true,
+          note: "Readiness record reviewed before this dry run can be considered.",
+        },
+        {
+          name: "ai_generated_package_manifest_id",
+          type: "string",
+          required: true,
+          note: "Generated package manifest being mapped into future artifacts.",
+        },
+        {
+          name: "artifact_map",
+          type: "json",
+          required: true,
+          note: "Package JSON, route registry, media playlist, local companion, and assignment-shell artifact previews.",
+        },
+        {
+          name: "source_record_ids",
+          type: "json",
+          required: true,
+          note: "Manifest, readiness, media, audio, and review records used for the dry run.",
+        },
+        {
+          name: "blocked_dry_run_actions",
+          type: "json",
+          required: true,
+          note: "Package JSON, route, playlist, local bundle, assignment, student-ready, and support-language-only blocks.",
+        },
+        {
+          name: "package_json_write_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until a future package writer and release gate exist.",
+        },
+        {
+          name: "route_registry_write_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until package release-control passes.",
+        },
+        {
+          name: "media_playlist_write_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until media rights and learning-audio priority pass.",
+        },
+        {
+          name: "local_bundle_write_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until local companion policy passes.",
+        },
+        {
+          name: "student_ready_marker_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until release and launch safety gates pass.",
+        },
+        {
+          name: "assignment_write_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until assignment rollout and school policy gates pass.",
+        },
+        {
+          name: "support_language_assembly_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false for MiniStar and any assist-language-only assembly dry-run path.",
+        },
+      ],
+      indexes: [
+        "tenant_id + ai_generated_package_assembly_dry_run_id",
+        "ai_generated_package_assembly_dry_run_id unique",
+        "tenant_id + generation_request_id",
+        "tenant_id + ai_generated_package_assembly_readiness_id",
+        "package_json_write_allowed",
+        "route_registry_write_allowed",
+        "assignment_write_allowed",
+      ],
+      retentionRule:
+        "Retain according to tenant authoring and release policy; blocked, returned, reviewed, cleared, and superseded generated assembly dry-run snapshots remain auditable.",
+      exportRule:
+        "Must export artifact maps and linked readiness, manifest, source record, media, audio, and review ids without exporting model internals or unrelated tenant packages.",
+      localFallback:
+        "Local classroom deployments store the same generated assembly dry-run JSON for backup/export without allowing offline package JSON, route writes, playlist writes, local bundle writes, assignments, or student-ready writes.",
+      policyBlockers: [
+        "Generated assembly dry runs cannot write package JSON, write routes, create playlists, assign students, write local bundles, or mark student-ready state by themselves.",
+        "A separate package writer, teacher approval, media-rights evidence, target-language audio approval, release-control binding, and school policy must pass before future assembly.",
+        "Support-language-only assembly dry runs remain blocked; MiniStar Japanese support cannot assemble English packages.",
+      ],
+    },
+    {
       specId: "spec-ai-generated-game-build-brief",
       label: "AI generated game build brief",
       candidateId: "m060-ai-generated-game-build-brief-records",

@@ -35,6 +35,7 @@ const requiredSchemaEntities = [
   "ai_generated_package_promotion_checklist",
   "ai_generated_package_release_candidate",
   "ai_generated_package_assembly_readiness",
+  "ai_generated_package_assembly_dry_run",
   "ai_reward_readiness_gate",
   "ai_generated_publish_readiness_gate",
   "ai_generator_tenant_coverage_gate",
@@ -120,6 +121,7 @@ const requiredMigrationCandidates = [
   "m058-ai-generated-package-promotion-checklist-records",
   "m059-ai-generated-package-release-candidate-records",
   "m080-ai-generated-package-assembly-readiness-records",
+  "m081-ai-generated-package-assembly-dry-run-records",
   "m055-ai-reward-readiness-gate-records",
   "m056-ai-generated-publish-readiness-gate-records",
   "m057-ai-generator-tenant-coverage-gate-records",
@@ -208,6 +210,7 @@ const requiredMigrationSpecs = [
   "spec-ai-generated-package-promotion-checklist",
   "spec-ai-generated-package-release-candidate",
   "spec-ai-generated-package-assembly-readiness",
+  "spec-ai-generated-package-assembly-dry-run",
   "spec-ai-reward-readiness-gate",
   "spec-ai-generated-publish-readiness-gate",
   "spec-ai-generator-tenant-coverage-gate",
@@ -685,6 +688,20 @@ requireText(schemaDraft, "blocked_assembly_actions", "Backend schema must preser
 requireText(schemaDraft, "media_rights_evidence_id", "Backend schema must require media rights evidence.");
 requireText(schemaDraft, "package_game_audio_coverage_id", "Backend schema must require target-language audio evidence.");
 requireText(schemaDraft, "support_language_assembly_allowed", "Backend schema must block support-language-only assembly.");
+requireText(
+  schemaDraft,
+  "ai_generated_package_assembly_dry_run",
+  "Backend schema must include AI generated package assembly dry runs.",
+);
+requireText(
+  schemaDraft,
+  "ai_generated_package_assembly_dry_run_id",
+  "Backend schema must preserve AI generated package assembly dry-run ids.",
+);
+requireText(schemaDraft, "artifact_map", "Backend schema must preserve generated package artifact maps.");
+requireText(schemaDraft, "source_record_ids", "Backend schema must preserve generated package dry-run source records.");
+requireText(schemaDraft, "blocked_dry_run_actions", "Backend schema must preserve generated package dry-run action blocks.");
+requireText(schemaDraft, "package_json_write_allowed", "Backend schema must block package JSON writes.");
 requireText(schemaDraft, "ai_reward_readiness_gate", "Backend schema must include AI reward readiness gates.");
 requireText(schemaDraft, "ai_reward_readiness_gate_id", "Backend schema must preserve AI reward readiness gate ids.");
 requireText(schemaDraft, "ai_draft_correction_queue_id", "Backend schema must preserve AI draft correction queue ids.");
@@ -1376,6 +1393,20 @@ requireText(migrationSpecs, "assembly_readiness_lanes", "Migration specs must pr
 requireText(migrationSpecs, "blocked_assembly_actions", "Migration specs must preserve package assembly action blocks.");
 requireText(migrationSpecs, "media_rights_evidence_id", "Migration specs must require media rights evidence.");
 requireText(migrationSpecs, "support_language_assembly_allowed", "Migration specs must block support-language assembly.");
+requireText(
+  migrationSpecs,
+  "spec-ai-generated-package-assembly-dry-run",
+  "Migration specs must include AI generated package assembly dry runs.",
+);
+requireText(
+  migrationSpecs,
+  "ai_generated_package_assembly_dry_run_id",
+  "Migration specs must preserve generated package assembly dry-run ids.",
+);
+requireText(migrationSpecs, "artifact_map", "Migration specs must preserve generated package artifact maps.");
+requireText(migrationSpecs, "source_record_ids", "Migration specs must preserve generated package dry-run source records.");
+requireText(migrationSpecs, "blocked_dry_run_actions", "Migration specs must preserve generated package dry-run action blocks.");
+requireText(migrationSpecs, "package_json_write_allowed", "Migration specs must block package JSON writes.");
 requireText(migrationSpecs, "spec-ai-reward-readiness-gate", "Migration specs must include AI reward readiness gates.");
 requireText(migrationSpecs, "ai_reward_readiness_gate_id", "Migration specs must preserve AI reward readiness gate ids.");
 requireText(migrationSpecs, "ai_draft_correction_queue_id", "Migration specs must preserve AI draft correction queue ids.");
@@ -2501,6 +2532,31 @@ requireText(
   "blocksSupportLanguageAssembly: true",
   "Persistence adapter must block support-language-only assembly.",
 );
+requireText(
+  persistenceAdapter,
+  "hosted-ai-generated-package-assembly-dry-run-write",
+  "Persistence adapter must include hosted AI generated package assembly dry-run writes.",
+);
+requireText(
+  persistenceAdapter,
+  "local-ai-generated-package-assembly-dry-run-write",
+  "Persistence adapter must include local AI generated package assembly dry-run writes.",
+);
+requireText(
+  persistenceAdapter,
+  "preservesAiGeneratedPackageAssemblyDryRun: true",
+  "Persistence adapter must preserve AI generated package assembly dry-run artifact maps.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresGeneratedPackageArtifactMap: true",
+  "Persistence adapter must require generated package artifact maps.",
+);
+requireText(
+  persistenceAdapter,
+  "blocksGeneratedPackageJsonWrite: true",
+  "Persistence adapter must block generated package JSON writes.",
+);
 requireText(persistenceAdapter, "hosted-ai-reward-readiness-gate-write", "Persistence adapter must include hosted AI reward readiness gate writes.");
 requireText(persistenceAdapter, "local-ai-reward-readiness-gate-write", "Persistence adapter must include local AI reward readiness gate writes.");
 requireText(persistenceAdapter, "preservesAiRewardReadinessGate: true", "Persistence adapter must preserve AI reward readiness checks.");
@@ -3473,6 +3529,31 @@ requireText(
   "blocksSupportLanguageAssembly: true",
   "Durable record plan must block support-language-only assembly.",
 );
+requireText(
+  durableRecords,
+  "ai-generated-package-assembly-dry-run-record",
+  "Durable record plan must include AI generated package assembly dry-run records.",
+);
+requireText(
+  durableRecords,
+  "AI generated package assembly dry run record",
+  "Durable record plan must expose AI generated package assembly dry-run labels.",
+);
+requireText(
+  durableRecords,
+  "preservesAiGeneratedPackageAssemblyDryRun: true",
+  "Durable record plan must preserve AI generated package assembly dry-run artifact maps.",
+);
+requireText(
+  durableRecords,
+  "requiresGeneratedPackageArtifactMap: true",
+  "Durable record plan must require generated package artifact maps.",
+);
+requireText(
+  durableRecords,
+  "blocksGeneratedPackageJsonWrite: true",
+  "Durable record plan must block generated package JSON writes.",
+);
 requireText(durableRecords, "ai-reward-readiness-gate-record", "Durable record plan must include AI reward readiness gate records.");
 requireText(durableRecords, "AI reward readiness gate record", "Durable record plan must expose AI reward readiness gate labels.");
 requireText(durableRecords, "preservesAiRewardReadinessGate: true", "Durable record plan must preserve AI reward readiness checks.");
@@ -3914,6 +3995,26 @@ requireText(
   routeVerifier,
   "AI generated package release candidate record",
   "Active route verifier must keep AI generated package release candidate durable records visible on teacher intake.",
+);
+requireText(
+  routeVerifier,
+  "ai_generated_package_assembly_readiness",
+  "Active route verifier must keep AI generated package assembly readiness storage visible on teacher intake.",
+);
+requireText(
+  routeVerifier,
+  "AI generated package assembly readiness record",
+  "Active route verifier must keep AI generated package assembly readiness durable records visible on teacher intake.",
+);
+requireText(
+  routeVerifier,
+  "ai_generated_package_assembly_dry_run",
+  "Active route verifier must keep AI generated package assembly dry-run storage visible on teacher intake.",
+);
+requireText(
+  routeVerifier,
+  "AI generated package assembly dry run record",
+  "Active route verifier must keep AI generated package assembly dry-run durable records visible on teacher intake.",
 );
 requireText(routeVerifier, "ai_reward_readiness_gate", "Active route verifier must keep AI reward readiness storage visible on teacher intake.");
 requireText(routeVerifier, "AI reward readiness gate record", "Active route verifier must keep AI reward readiness durable records visible on teacher intake.");

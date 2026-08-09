@@ -28,6 +28,7 @@ export type PersistenceRecordCategory =
   | "ai-generated-package-promotion-checklist"
   | "ai-generated-package-release-candidate"
   | "ai-generated-package-assembly-readiness"
+  | "ai-generated-package-assembly-dry-run"
   | "ai-reward-readiness-gate"
   | "ai-generated-publish-readiness-gate"
   | "ai-generator-tenant-coverage-gate"
@@ -250,9 +251,11 @@ export interface DurableRecordContract {
   preservesAiGeneratedPackagePromotionChecklist?: boolean;
   preservesAiGeneratedPackageReleaseCandidate?: boolean;
   preservesAiGeneratedPackageAssemblyReadiness?: boolean;
+  preservesAiGeneratedPackageAssemblyDryRun?: boolean;
   requiresLineageMap?: boolean;
   requiresTargetLanguageAudioApproval?: boolean;
   requiresPackageAssemblyReadinessLanes?: boolean;
+  requiresGeneratedPackageArtifactMap?: boolean;
   requiresMediaRightsEvidence?: boolean;
   blocksGeneratedPackagePromotion?: boolean;
   requiresPrivateLibraryTarget?: boolean;
@@ -263,6 +266,7 @@ export interface DurableRecordContract {
   blocksGeneratedLocalBundleRelease?: boolean;
   blocksSupportLanguageRelease?: boolean;
   blocksGeneratedPackageAssembly?: boolean;
+  blocksGeneratedPackageJsonWrite?: boolean;
   blocksGeneratedPackageRouteWrite?: boolean;
   blocksGeneratedPackagePlaylistWrite?: boolean;
   blocksGeneratedPackageAssignment?: boolean;
@@ -1855,6 +1859,62 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "ai-generated-package-assembly-readiness" && !record.blocksSupportLanguageAssembly) {
       errors.push(`AI generated package assembly readiness record ${record.recordId} must block support-language-only assembly.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-assembly-dry-run" &&
+      !record.preservesAiGeneratedPackageAssemblyDryRun
+    ) {
+      errors.push(`AI generated package assembly dry run record ${record.recordId} must preserve dry-run artifact maps.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-assembly-dry-run" &&
+      !record.preservesAiGeneratedPackageAssemblyReadiness
+    ) {
+      errors.push(`AI generated package assembly dry run record ${record.recordId} must preserve assembly readiness links.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-assembly-dry-run" &&
+      !record.preservesAiGeneratedPackageManifest
+    ) {
+      errors.push(`AI generated package assembly dry run record ${record.recordId} must preserve generated package manifest links.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-assembly-dry-run" &&
+      !record.requiresGeneratedPackageArtifactMap
+    ) {
+      errors.push(`AI generated package assembly dry run record ${record.recordId} must require generated package artifact maps.`);
+    }
+
+    if (record.category === "ai-generated-package-assembly-dry-run" && !record.blocksGeneratedPackageJsonWrite) {
+      errors.push(`AI generated package assembly dry run record ${record.recordId} must block package JSON writes.`);
+    }
+
+    if (record.category === "ai-generated-package-assembly-dry-run" && !record.blocksGeneratedPackageRouteWrite) {
+      errors.push(`AI generated package assembly dry run record ${record.recordId} must block route registry writes.`);
+    }
+
+    if (record.category === "ai-generated-package-assembly-dry-run" && !record.blocksGeneratedPackagePlaylistWrite) {
+      errors.push(`AI generated package assembly dry run record ${record.recordId} must block media playlist writes.`);
+    }
+
+    if (record.category === "ai-generated-package-assembly-dry-run" && !record.blocksGeneratedPackageLocalBundleWrite) {
+      errors.push(`AI generated package assembly dry run record ${record.recordId} must block local bundle writes.`);
+    }
+
+    if (record.category === "ai-generated-package-assembly-dry-run" && !record.blocksGeneratedPackageAssignment) {
+      errors.push(`AI generated package assembly dry run record ${record.recordId} must block assignment writes.`);
+    }
+
+    if (record.category === "ai-generated-package-assembly-dry-run" && !record.blocksStudentReadyMarker) {
+      errors.push(`AI generated package assembly dry run record ${record.recordId} must block student-ready markers.`);
+    }
+
+    if (record.category === "ai-generated-package-assembly-dry-run" && !record.blocksSupportLanguageAssembly) {
+      errors.push(`AI generated package assembly dry run record ${record.recordId} must block support-language-only assembly.`);
     }
 
     if (record.category === "ai-reward-readiness-gate" && !record.preservesAiRewardReadinessGate) {

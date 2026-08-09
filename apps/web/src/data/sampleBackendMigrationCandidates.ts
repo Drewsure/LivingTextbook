@@ -274,6 +274,42 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
       ],
     },
     {
+      migrationId: "m081-ai-generated-package-assembly-dry-run-records",
+      label: "AI generated package assembly dry run records",
+      track: "shared",
+      status: "ready-to-design",
+      risk: "medium",
+      targetEntities: ["ai_generated_package_assembly_dry_run"],
+      purpose:
+        "Persist review-only generated package assembly dry runs before AI drafts can produce package JSON, route registry entries, media playlist bindings, local companion artifacts, assignment shells, or student-ready state.",
+      prerequisites: [
+        "AI generated package assembly readiness accepted",
+        "AI generated package manifest accepted",
+        "Teacher approval, media-rights, and target-language audio evidence policy accepted",
+        "Package writer and release-control policy not yet enabled",
+      ],
+      implementationNotes: [
+        "Keep assembly dry runs tenant-scoped, generation-request-scoped, readiness-scoped, and manifest-scoped.",
+        "Preserve package JSON, route registry, media playlist, local companion, and assignment-shell artifact previews as review evidence.",
+        "Block package JSON writes, route registry writes, media playlist writes, local bundle writes, assignment writes, student-ready markers, and support-language-only assembly.",
+        "Do not let a dry-run artifact map create production packages, routes, playlists, assignments, or local bundles by itself.",
+      ],
+      rollbackOrExportNeeds: [
+        "Export generated package assembly dry-run JSON with linked readiness, manifest, source record, media, audio, and review ids",
+        "Retain blocked, reviewed, returned, superseded, and cleared dry-run snapshots for audit",
+        "Support local generated assembly dry-run backup and restore without enabling offline package JSON, route, playlist, local bundle, assignment, or student-ready writes",
+      ],
+      notAllowedYet: [
+        "Package JSON write",
+        "Route registry write",
+        "Media playlist write",
+        "Local bundle write",
+        "Student assignment",
+        "Student-ready marker",
+        "Support-language-only assembly",
+      ],
+    },
+    {
       migrationId: "m060-ai-generated-game-build-brief-records",
       label: "AI generated game build brief records",
       track: "shared",
