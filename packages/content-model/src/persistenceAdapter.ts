@@ -162,10 +162,12 @@ export interface PersistenceWriteIntent {
   preservesAiGeneratedPackageReleaseCandidate?: boolean;
   preservesAiGeneratedPackageAssemblyReadiness?: boolean;
   preservesAiGeneratedPackageAssemblyDryRun?: boolean;
+  preservesAiGeneratedPackageWriterPreflight?: boolean;
   requiresLineageMap?: boolean;
   requiresTargetLanguageAudioApproval?: boolean;
   requiresPackageAssemblyReadinessLanes?: boolean;
   requiresGeneratedPackageArtifactMap?: boolean;
+  requiresGeneratedPackageWriterTargets?: boolean;
   requiresMediaRightsEvidence?: boolean;
   blocksGeneratedPackagePromotion?: boolean;
   requiresPrivateLibraryTarget?: boolean;
@@ -176,6 +178,7 @@ export interface PersistenceWriteIntent {
   blocksGeneratedLocalBundleRelease?: boolean;
   blocksSupportLanguageRelease?: boolean;
   blocksGeneratedPackageAssembly?: boolean;
+  blocksGeneratedPackageWriterExecution?: boolean;
   blocksGeneratedPackageJsonWrite?: boolean;
   blocksGeneratedPackageRouteWrite?: boolean;
   blocksGeneratedPackagePlaylistWrite?: boolean;
@@ -1860,6 +1863,59 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "ai-generated-package-assembly-dry-run" && !intent.blocksSupportLanguageAssembly) {
       errors.push(`AI generated package assembly dry run write intent ${intent.intentId} must block support-language-only assembly.`);
+    }
+
+    if (
+      intent.category === "ai-generated-package-writer-preflight" &&
+      !intent.preservesAiGeneratedPackageWriterPreflight
+    ) {
+      errors.push(`AI generated package writer preflight write intent ${intent.intentId} must preserve writer target maps.`);
+    }
+
+    if (
+      intent.category === "ai-generated-package-writer-preflight" &&
+      !intent.preservesAiGeneratedPackageAssemblyDryRun
+    ) {
+      errors.push(`AI generated package writer preflight write intent ${intent.intentId} must preserve assembly dry-run links.`);
+    }
+
+    if (
+      intent.category === "ai-generated-package-writer-preflight" &&
+      !intent.requiresGeneratedPackageWriterTargets
+    ) {
+      errors.push(`AI generated package writer preflight write intent ${intent.intentId} must require generated package writer targets.`);
+    }
+
+    if (intent.category === "ai-generated-package-writer-preflight" && !intent.blocksGeneratedPackageWriterExecution) {
+      errors.push(`AI generated package writer preflight write intent ${intent.intentId} must block package writer execution.`);
+    }
+
+    if (intent.category === "ai-generated-package-writer-preflight" && !intent.blocksGeneratedPackageJsonWrite) {
+      errors.push(`AI generated package writer preflight write intent ${intent.intentId} must block package JSON writes.`);
+    }
+
+    if (intent.category === "ai-generated-package-writer-preflight" && !intent.blocksGeneratedPackageRouteWrite) {
+      errors.push(`AI generated package writer preflight write intent ${intent.intentId} must block route registry writes.`);
+    }
+
+    if (intent.category === "ai-generated-package-writer-preflight" && !intent.blocksGeneratedPackagePlaylistWrite) {
+      errors.push(`AI generated package writer preflight write intent ${intent.intentId} must block media playlist writes.`);
+    }
+
+    if (intent.category === "ai-generated-package-writer-preflight" && !intent.blocksGeneratedPackageLocalBundleWrite) {
+      errors.push(`AI generated package writer preflight write intent ${intent.intentId} must block local bundle writes.`);
+    }
+
+    if (intent.category === "ai-generated-package-writer-preflight" && !intent.blocksGeneratedPackageAssignment) {
+      errors.push(`AI generated package writer preflight write intent ${intent.intentId} must block assignment writes.`);
+    }
+
+    if (intent.category === "ai-generated-package-writer-preflight" && !intent.blocksStudentReadyMarker) {
+      errors.push(`AI generated package writer preflight write intent ${intent.intentId} must block student-ready markers.`);
+    }
+
+    if (intent.category === "ai-generated-package-writer-preflight" && !intent.blocksSupportLanguageAssembly) {
+      errors.push(`AI generated package writer preflight write intent ${intent.intentId} must block support-language-only writers.`);
     }
 
     if (intent.category === "ai-reward-readiness-gate" && !intent.preservesAiRewardReadinessGate) {

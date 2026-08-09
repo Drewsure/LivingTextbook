@@ -310,6 +310,43 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
       ],
     },
     {
+      migrationId: "m082-ai-generated-package-writer-preflight-records",
+      label: "AI generated package writer preflight records",
+      track: "shared",
+      status: "ready-to-design",
+      risk: "medium",
+      targetEntities: ["ai_generated_package_writer_preflight"],
+      purpose:
+        "Persist review-only generated package writer preflights before AI drafts can execute package writers, commit package JSON, mutate routes, create playlists, package local bundles, activate assignments, or mark student-ready state.",
+      prerequisites: [
+        "AI generated package assembly dry run accepted",
+        "AI generated package assembly readiness accepted",
+        "Package writer implementation policy not yet enabled",
+        "Release-control, approval, media, local, assignment, and rollback policies accepted",
+      ],
+      implementationNotes: [
+        "Keep writer preflights tenant-scoped, generation-request-scoped, dry-run-scoped, and readiness-scoped.",
+        "Preserve package JSON writer, route registry writer, media playlist writer, local companion writer, assignment shell writer, and rollback map writer targets.",
+        "Block writer execution, package JSON writes, route registry writes, media playlist writes, local bundle writes, assignment writes, student-ready markers, and support-language-only writers.",
+        "Do not let a writer preflight create production packages, routes, playlists, assignments, local bundles, rollback maps, or student-ready markers by itself.",
+      ],
+      rollbackOrExportNeeds: [
+        "Export generated package writer preflight JSON with linked dry-run, readiness, release-control, approval, media, local, assignment, and rollback ids",
+        "Retain blocked, reviewed, returned, superseded, and cleared writer preflight snapshots for audit",
+        "Support local generated writer preflight backup and restore without enabling offline writer execution, package JSON, route, playlist, local bundle, assignment, or student-ready writes",
+      ],
+      notAllowedYet: [
+        "Package writer execution",
+        "Package JSON write",
+        "Route registry write",
+        "Media playlist write",
+        "Local bundle write",
+        "Student assignment",
+        "Student-ready marker",
+        "Support-language-only writer",
+      ],
+    },
+    {
       migrationId: "m060-ai-generated-game-build-brief-records",
       label: "AI generated game build brief records",
       track: "shared",

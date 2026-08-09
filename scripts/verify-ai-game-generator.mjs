@@ -1825,6 +1825,11 @@ requireText(
   "Blocked writer actions",
   "AI generated package writer preflight panel must expose blocked writer actions.",
 );
+requireText(
+  checks,
+  "AI generated package writer preflight storage contract",
+  "AI generator checks must mention package writer preflight storage contract.",
+);
 requireText(compatibilityMatrix, "This matrix defines which student games", "Generator mode recommendations must reuse the compatibility matrix.");
 requireText(modeRecommendationPanel, "AI mode recommendation preview", "Mode recommendation panel must expose heading.");
 requireText(modeRecommendationPanel, "Recommended generated pathway", "Mode recommendation panel must expose recommended pathway.");

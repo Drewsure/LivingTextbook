@@ -1366,6 +1366,136 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       ],
     },
     {
+      specId: "spec-ai-generated-package-writer-preflight",
+      label: "AI generated package writer preflight",
+      candidateId: "m082-ai-generated-package-writer-preflight-records",
+      storeKind: "admin-record",
+      status: "ready-for-review",
+      purpose:
+        "Stores generated package writer target maps while keeping writer execution, package JSON, route, playlist, local bundle, assignment, and student-ready writes blocked.",
+      primaryKey: "ai_generated_package_writer_preflight_id",
+      tenantScope:
+        "Scoped by tenant_id, generation_request_id, ai_generated_package_assembly_dry_run_id, ai_generated_package_assembly_readiness_id, and writer_preflight_revision.",
+      fields: [
+        {
+          name: "ai_generated_package_writer_preflight_id",
+          type: "string",
+          required: true,
+          note: "Stable id for one generated package writer preflight snapshot.",
+        },
+        {
+          name: "generation_request_id",
+          type: "string",
+          required: true,
+          note: "AI generation request this writer preflight belongs to.",
+        },
+        {
+          name: "ai_generated_package_assembly_dry_run_id",
+          type: "string",
+          required: true,
+          note: "Dry-run artifact map being checked before writer design.",
+        },
+        {
+          name: "ai_generated_package_assembly_readiness_id",
+          type: "string",
+          required: true,
+          note: "Readiness snapshot linked through the dry run.",
+        },
+        {
+          name: "package_id_preview",
+          type: "string",
+          required: true,
+          note: "Generated package id preview under review.",
+        },
+        {
+          name: "writer_targets",
+          type: "json",
+          required: true,
+          note: "Package JSON, route registry, media playlist, local companion, assignment shell, and rollback map writer targets.",
+        },
+        {
+          name: "required_evidence",
+          type: "json",
+          required: true,
+          note: "Evidence records required before any writer implementation can be considered.",
+        },
+        {
+          name: "blocked_writer_actions",
+          type: "json",
+          required: true,
+          note: "Writer execution, package JSON, route, playlist, local bundle, assignment, student-ready, and support-language-only blocks.",
+        },
+        {
+          name: "writer_execution_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until a future writer implementation and release gate exist.",
+        },
+        {
+          name: "package_json_write_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until a future package writer and release gate exist.",
+        },
+        {
+          name: "route_registry_write_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until package release-control passes.",
+        },
+        {
+          name: "media_playlist_write_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until media rights and learning-audio priority pass.",
+        },
+        {
+          name: "local_bundle_write_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until local companion policy passes.",
+        },
+        {
+          name: "student_ready_marker_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until release and launch safety gates pass.",
+        },
+        {
+          name: "assignment_write_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until assignment rollout and school policy gates pass.",
+        },
+        {
+          name: "support_language_writer_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false for MiniStar and any assist-language-only writer path.",
+        },
+      ],
+      indexes: [
+        "tenant_id + ai_generated_package_writer_preflight_id",
+        "ai_generated_package_writer_preflight_id unique",
+        "tenant_id + generation_request_id",
+        "tenant_id + ai_generated_package_assembly_dry_run_id",
+        "writer_execution_allowed",
+        "package_json_write_allowed",
+        "assignment_write_allowed",
+      ],
+      retentionRule:
+        "Retain according to tenant authoring and release policy; blocked, returned, reviewed, cleared, and superseded generated writer preflight snapshots remain auditable.",
+      exportRule:
+        "Must export writer targets and linked dry-run, readiness, release-control, approval, media, local, assignment, and rollback ids without exporting model internals or unrelated tenant packages.",
+      localFallback:
+        "Local classroom deployments store the same generated writer preflight JSON for backup/export without allowing offline writer execution, package JSON, route writes, playlist writes, local bundle writes, assignments, or student-ready writes.",
+      policyBlockers: [
+        "Generated writer preflights cannot execute writers, write package JSON, write routes, create playlists, assign students, write local bundles, write rollback maps, or mark student-ready state by themselves.",
+        "A separate package writer implementation, teacher approval, media-rights evidence, target-language audio approval, release-control binding, local policy, assignment rollout, rollback policy, and school policy must pass before future writer execution.",
+        "Support-language-only package writers remain blocked; MiniStar Japanese support cannot write English packages.",
+      ],
+    },
+    {
       specId: "spec-ai-generated-game-build-brief",
       label: "AI generated game build brief",
       candidateId: "m060-ai-generated-game-build-brief-records",

@@ -29,6 +29,7 @@ export type PersistenceRecordCategory =
   | "ai-generated-package-release-candidate"
   | "ai-generated-package-assembly-readiness"
   | "ai-generated-package-assembly-dry-run"
+  | "ai-generated-package-writer-preflight"
   | "ai-reward-readiness-gate"
   | "ai-generated-publish-readiness-gate"
   | "ai-generator-tenant-coverage-gate"
@@ -252,10 +253,12 @@ export interface DurableRecordContract {
   preservesAiGeneratedPackageReleaseCandidate?: boolean;
   preservesAiGeneratedPackageAssemblyReadiness?: boolean;
   preservesAiGeneratedPackageAssemblyDryRun?: boolean;
+  preservesAiGeneratedPackageWriterPreflight?: boolean;
   requiresLineageMap?: boolean;
   requiresTargetLanguageAudioApproval?: boolean;
   requiresPackageAssemblyReadinessLanes?: boolean;
   requiresGeneratedPackageArtifactMap?: boolean;
+  requiresGeneratedPackageWriterTargets?: boolean;
   requiresMediaRightsEvidence?: boolean;
   blocksGeneratedPackagePromotion?: boolean;
   requiresPrivateLibraryTarget?: boolean;
@@ -266,6 +269,7 @@ export interface DurableRecordContract {
   blocksGeneratedLocalBundleRelease?: boolean;
   blocksSupportLanguageRelease?: boolean;
   blocksGeneratedPackageAssembly?: boolean;
+  blocksGeneratedPackageWriterExecution?: boolean;
   blocksGeneratedPackageJsonWrite?: boolean;
   blocksGeneratedPackageRouteWrite?: boolean;
   blocksGeneratedPackagePlaylistWrite?: boolean;
@@ -1915,6 +1919,59 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "ai-generated-package-assembly-dry-run" && !record.blocksSupportLanguageAssembly) {
       errors.push(`AI generated package assembly dry run record ${record.recordId} must block support-language-only assembly.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-writer-preflight" &&
+      !record.preservesAiGeneratedPackageWriterPreflight
+    ) {
+      errors.push(`AI generated package writer preflight record ${record.recordId} must preserve writer target maps.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-writer-preflight" &&
+      !record.preservesAiGeneratedPackageAssemblyDryRun
+    ) {
+      errors.push(`AI generated package writer preflight record ${record.recordId} must preserve assembly dry-run links.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-writer-preflight" &&
+      !record.requiresGeneratedPackageWriterTargets
+    ) {
+      errors.push(`AI generated package writer preflight record ${record.recordId} must require generated package writer targets.`);
+    }
+
+    if (record.category === "ai-generated-package-writer-preflight" && !record.blocksGeneratedPackageWriterExecution) {
+      errors.push(`AI generated package writer preflight record ${record.recordId} must block package writer execution.`);
+    }
+
+    if (record.category === "ai-generated-package-writer-preflight" && !record.blocksGeneratedPackageJsonWrite) {
+      errors.push(`AI generated package writer preflight record ${record.recordId} must block package JSON writes.`);
+    }
+
+    if (record.category === "ai-generated-package-writer-preflight" && !record.blocksGeneratedPackageRouteWrite) {
+      errors.push(`AI generated package writer preflight record ${record.recordId} must block route registry writes.`);
+    }
+
+    if (record.category === "ai-generated-package-writer-preflight" && !record.blocksGeneratedPackagePlaylistWrite) {
+      errors.push(`AI generated package writer preflight record ${record.recordId} must block media playlist writes.`);
+    }
+
+    if (record.category === "ai-generated-package-writer-preflight" && !record.blocksGeneratedPackageLocalBundleWrite) {
+      errors.push(`AI generated package writer preflight record ${record.recordId} must block local bundle writes.`);
+    }
+
+    if (record.category === "ai-generated-package-writer-preflight" && !record.blocksGeneratedPackageAssignment) {
+      errors.push(`AI generated package writer preflight record ${record.recordId} must block assignment writes.`);
+    }
+
+    if (record.category === "ai-generated-package-writer-preflight" && !record.blocksStudentReadyMarker) {
+      errors.push(`AI generated package writer preflight record ${record.recordId} must block student-ready markers.`);
+    }
+
+    if (record.category === "ai-generated-package-writer-preflight" && !record.blocksSupportLanguageAssembly) {
+      errors.push(`AI generated package writer preflight record ${record.recordId} must block support-language-only writers.`);
     }
 
     if (record.category === "ai-reward-readiness-gate" && !record.preservesAiRewardReadinessGate) {

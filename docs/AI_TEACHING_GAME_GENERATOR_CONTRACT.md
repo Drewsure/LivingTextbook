@@ -123,6 +123,8 @@ Teacher generator routes may show a review-only generated package writer preflig
 
 The preflight cannot execute a writer, commit package JSON, mutate route registries, create media playlists, package local bundles, activate assignments, collect real learner data, mark generated packages student-ready, or use support-language-only evidence as a writer trigger. It is a review surface for future implementation planning, not a content-writing workflow.
 
+The backend-neutral storage contract is `ai_generated_package_writer_preflight` / `ai-generated-package-writer-preflight`. Hosted and local adapters must preserve assembly dry-run links, assembly readiness links, package id previews, writer target maps, required evidence, and blocked writer actions while blocking writer execution, package JSON writes, route registry writes, media playlist writes, local bundle writes, assignment creation, student-ready markers, and support-language-only writers.
+
 ## Draft Payload Validation Rule
 
 AI-generated draft payloads must pass the shared `validateAiGeneratedDraftPayload` / `validateAiGeneratedDraftPayloadPreview` contract before review, persistence, verifier submission, package assembly, route creation, playlist creation, or student assignment can be considered.
