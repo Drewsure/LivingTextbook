@@ -171,6 +171,8 @@ Teacher generator routes may show a review-only package writer test harness impl
 
 The implementation proposal cannot implement a harness, run automated writer tests, run mutation browser checks, upload evidence, capture signed approval, patch app files, write generated package JSON, mutate route registries, create media playlists, package local bundles, activate assignments, mutate production QR redirects, or accept support-language-only harness passes. It is a scoping proposal for a future Codex implementation decision, not executable code.
 
+The backend-neutral storage contract is `ai_generated_package_writer_test_harness_implementation_proposal` / `ai-generated-package-writer-test-harness-implementation-proposal`. Hosted and local adapters must preserve test harness plan links, test evidence packet links, module test plan links, proposed module scope, implementation boundaries, required review gates, dry-run-only checks, next records, blocked actions, and support-language boundaries while blocking harness implementation, automated writer test execution, writer mutation browser runs, evidence upload, signed approval capture, app file patches, generated package JSON writes, route registry writes, media playlist writes, local bundle packaging, assignment activation, production QR redirect mutation, and support-language-only harness passes.
+
 ## Draft Payload Validation Rule
 
 AI-generated draft payloads must pass the shared `validateAiGeneratedDraftPayload` / `validateAiGeneratedDraftPayloadPreview` contract before review, persistence, verifier submission, package assembly, route creation, playlist creation, or student assignment can be considered.
