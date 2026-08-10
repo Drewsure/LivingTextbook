@@ -44,6 +44,7 @@ export type PersistenceBoundaryCategory =
   | "ai-generated-package-writer-preflight"
   | "ai-generated-package-writer-rollback-drill"
   | "ai-generated-package-writer-implementation-readiness"
+  | "ai-generated-package-writer-module-test-plan"
   | "ai-reward-readiness-gate"
   | "ai-generated-publish-readiness-gate"
   | "ai-generator-tenant-coverage-gate"
@@ -1030,6 +1031,40 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
     note:
       "AI generated package writer implementation readiness needs durable module, test, release-control, and blocked-action evidence before generated package writer code can exist or mutate app files, routes, playlists, local bundles, assignments, or student-ready state.",
+  },
+  {
+    recordId: "ai-generated-package-writer-module-test-plan-record",
+    category: "ai-generated-package-writer-module-test-plan",
+    label: "AI generated package writer module test plan record",
+    readiness: "durable-required",
+    sourceOfTruth:
+      "AiGeneratedPackageWriterModuleTestPlan, implementation readiness record, rollback drill record, module test suites, required fixtures, required assertions, required evidence, blocked test actions, and support-language boundary lanes",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesAiGeneratedPackageWriterModuleTestPlan: true,
+    preservesAiGeneratedPackageWriterImplementationReadiness: true,
+    preservesAiGeneratedPackageWriterRollbackDrill: true,
+    requiresPackageWriterModuleTestSuites: true,
+    requiresPackageWriterTestEvidence: true,
+    requiresTargetLanguageAudioApproval: true,
+    requiresMediaRightsEvidence: true,
+    blocksPackageWriterTestExecution: true,
+    blocksPlaywrightRun: true,
+    blocksAppFileWrite: true,
+    blocksGeneratedPackageJsonWrite: true,
+    blocksGeneratedPackageRouteWrite: true,
+    blocksGeneratedPackagePlaylistWrite: true,
+    blocksGeneratedPackageLocalBundleWrite: true,
+    blocksGeneratedPackageAssignment: true,
+    blocksSupportLanguageAssembly: true,
+    blocksDirectStudentAssignment: true,
+    recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
+    note:
+      "AI generated package writer module test plans need durable module-suite and evidence requirements before generated package writer tests, app file patches, route writes, playlist writes, local bundle packaging, assignment activation, or support-language-only test passes can exist.",
   },
   {
     recordId: "ai-reward-readiness-gate-record",
@@ -2603,6 +2638,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision:
       "Persist AI generated package writer implementation readiness before enabling package writer implementation, package writer execution, generated app file writes, route registry mutation, playlist creation, local bundle packaging, assignment activation, or support-language-only implementation evidence.",
+  },
+  {
+    boundaryId: "ai-generated-package-writer-module-test-plan-boundary",
+    category: "ai-generated-package-writer-module-test-plan",
+    label: "AI generated package writer module test plan records",
+    status: "needs-backend",
+    recordShape:
+      "Module test plan id, tenant id, request id, implementation readiness id, rollback drill id, package id preview, module test suites, required fixtures, required assertions, required evidence, blocked test actions, next required records, and support-language boundary lanes",
+    whyItMatters:
+      "Generated package writer module tests need durable evidence requirements so a readable test plan cannot become runnable mutation tests, app file patches, route writes, playlist writes, local bundle packaging, assignment activation, or support-language-only test passes from UI state alone.",
+    visibleTo: ["Teacher", "Tenant admin", "Content reviewer", "Platform admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Persist AI generated package writer module test plans before enabling automated writer test execution, writer mutation browser runs, app file patches, generated package JSON writes, route registry writes, playlist writes, local bundle packaging, assignment activation, or support-language-only test passes.",
   },
   {
     boundaryId: "ai-reward-readiness-gate-boundary",

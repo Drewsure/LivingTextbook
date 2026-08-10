@@ -32,6 +32,7 @@ export type PersistenceRecordCategory =
   | "ai-generated-package-writer-preflight"
   | "ai-generated-package-writer-rollback-drill"
   | "ai-generated-package-writer-implementation-readiness"
+  | "ai-generated-package-writer-module-test-plan"
   | "ai-reward-readiness-gate"
   | "ai-generated-publish-readiness-gate"
   | "ai-generator-tenant-coverage-gate"
@@ -258,6 +259,7 @@ export interface DurableRecordContract {
   preservesAiGeneratedPackageWriterPreflight?: boolean;
   preservesAiGeneratedPackageWriterRollbackDrill?: boolean;
   preservesAiGeneratedPackageWriterImplementationReadiness?: boolean;
+  preservesAiGeneratedPackageWriterModuleTestPlan?: boolean;
   requiresLineageMap?: boolean;
   requiresTargetLanguageAudioApproval?: boolean;
   requiresPackageAssemblyReadinessLanes?: boolean;
@@ -269,6 +271,8 @@ export interface DurableRecordContract {
   requiresPackageWriterTestGates?: boolean;
   requiresPackageWriterReleaseControls?: boolean;
   requiresCodexPackageWriterImplementationDecision?: boolean;
+  requiresPackageWriterModuleTestSuites?: boolean;
+  requiresPackageWriterTestEvidence?: boolean;
   requiresMediaRightsEvidence?: boolean;
   blocksGeneratedPackagePromotion?: boolean;
   requiresPrivateLibraryTarget?: boolean;
@@ -281,6 +285,7 @@ export interface DurableRecordContract {
   blocksGeneratedPackageAssembly?: boolean;
   blocksGeneratedPackageWriterExecution?: boolean;
   blocksGeneratedPackageWriterImplementation?: boolean;
+  blocksPackageWriterTestExecution?: boolean;
   blocksGeneratedPackageRollbackExecution?: boolean;
   blocksGeneratedPackageJsonWrite?: boolean;
   blocksGeneratedPackageRouteWrite?: boolean;
@@ -2170,6 +2175,91 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
       !record.blocksSupportLanguageAssembly
     ) {
       errors.push(`AI generated package writer implementation readiness record ${record.recordId} must block support-language-only implementation evidence.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-writer-module-test-plan" &&
+      !record.preservesAiGeneratedPackageWriterModuleTestPlan
+    ) {
+      errors.push(`AI generated package writer module test plan record ${record.recordId} must preserve module test plans.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-writer-module-test-plan" &&
+      !record.preservesAiGeneratedPackageWriterImplementationReadiness
+    ) {
+      errors.push(`AI generated package writer module test plan record ${record.recordId} must preserve implementation readiness links.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-writer-module-test-plan" &&
+      !record.requiresPackageWriterModuleTestSuites
+    ) {
+      errors.push(`AI generated package writer module test plan record ${record.recordId} must require module test suites.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-writer-module-test-plan" &&
+      !record.requiresPackageWriterTestEvidence
+    ) {
+      errors.push(`AI generated package writer module test plan record ${record.recordId} must require writer test evidence.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-writer-module-test-plan" &&
+      !record.blocksPackageWriterTestExecution
+    ) {
+      errors.push(`AI generated package writer module test plan record ${record.recordId} must block package writer test execution.`);
+    }
+
+    if (record.category === "ai-generated-package-writer-module-test-plan" && !record.blocksPlaywrightRun) {
+      errors.push(`AI generated package writer module test plan record ${record.recordId} must block writer mutation browser runs.`);
+    }
+
+    if (record.category === "ai-generated-package-writer-module-test-plan" && !record.blocksAppFileWrite) {
+      errors.push(`AI generated package writer module test plan record ${record.recordId} must block app file patches.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-writer-module-test-plan" &&
+      !record.blocksGeneratedPackageJsonWrite
+    ) {
+      errors.push(`AI generated package writer module test plan record ${record.recordId} must block generated package JSON writes.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-writer-module-test-plan" &&
+      !record.blocksGeneratedPackageRouteWrite
+    ) {
+      errors.push(`AI generated package writer module test plan record ${record.recordId} must block route registry writes.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-writer-module-test-plan" &&
+      !record.blocksGeneratedPackagePlaylistWrite
+    ) {
+      errors.push(`AI generated package writer module test plan record ${record.recordId} must block media playlist writes.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-writer-module-test-plan" &&
+      !record.blocksGeneratedPackageLocalBundleWrite
+    ) {
+      errors.push(`AI generated package writer module test plan record ${record.recordId} must block local bundle writes.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-writer-module-test-plan" &&
+      !record.blocksGeneratedPackageAssignment
+    ) {
+      errors.push(`AI generated package writer module test plan record ${record.recordId} must block assignment writes.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-writer-module-test-plan" &&
+      !record.blocksSupportLanguageAssembly
+    ) {
+      errors.push(`AI generated package writer module test plan record ${record.recordId} must block support-language-only test passes.`);
     }
 
     if (record.category === "ai-reward-readiness-gate" && !record.preservesAiRewardReadinessGate) {

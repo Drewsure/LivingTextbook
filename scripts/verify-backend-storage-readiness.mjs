@@ -39,6 +39,7 @@ const requiredSchemaEntities = [
   "ai_generated_package_writer_preflight",
   "ai_generated_package_writer_rollback_drill",
   "ai_generated_package_writer_implementation_readiness",
+  "ai_generated_package_writer_module_test_plan",
   "ai_reward_readiness_gate",
   "ai_generated_publish_readiness_gate",
   "ai_generator_tenant_coverage_gate",
@@ -128,6 +129,7 @@ const requiredMigrationCandidates = [
   "m082-ai-generated-package-writer-preflight-records",
   "m083-ai-generated-package-writer-rollback-drill-records",
   "m084-ai-generated-package-writer-implementation-readiness-records",
+  "m085-ai-generated-package-writer-module-test-plan-records",
   "m055-ai-reward-readiness-gate-records",
   "m056-ai-generated-publish-readiness-gate-records",
   "m057-ai-generator-tenant-coverage-gate-records",
@@ -220,6 +222,7 @@ const requiredMigrationSpecs = [
   "spec-ai-generated-package-writer-preflight",
   "spec-ai-generated-package-writer-rollback-drill",
   "spec-ai-generated-package-writer-implementation-readiness",
+  "spec-ai-generated-package-writer-module-test-plan",
   "spec-ai-reward-readiness-gate",
   "spec-ai-generated-publish-readiness-gate",
   "spec-ai-generator-tenant-coverage-gate",
@@ -764,6 +767,21 @@ requireText(schemaDraft, "blocked_implementation_actions", "Backend schema must 
 requireText(schemaDraft, "package_writer_implementation_allowed", "Backend schema must block package writer implementation.");
 requireText(schemaDraft, "generated_app_file_write_allowed", "Backend schema must block generated app file writes.");
 requireText(schemaDraft, "support_language_implementation_evidence_allowed", "Backend schema must block support-language-only implementation evidence.");
+requireText(schemaDraft, "ai_generated_package_writer_module_test_plan", "Backend schema must include AI generated package writer module test plans.");
+requireText(
+  schemaDraft,
+  "ai_generated_package_writer_module_test_plan_id",
+  "Backend schema must preserve AI generated package writer module test plan ids.",
+);
+requireText(schemaDraft, "module_test_suites", "Backend schema must preserve package writer module test suites.");
+requireText(schemaDraft, "required_fixtures", "Backend schema must preserve package writer required fixtures.");
+requireText(schemaDraft, "required_assertions", "Backend schema must preserve package writer required assertions.");
+requireText(schemaDraft, "required_evidence", "Backend schema must preserve package writer required evidence.");
+requireText(schemaDraft, "blocked_test_actions", "Backend schema must preserve package writer blocked test actions.");
+requireText(schemaDraft, "package_writer_test_execution_allowed", "Backend schema must block package writer test execution.");
+requireText(schemaDraft, "writer_mutation_browser_run_allowed", "Backend schema must block writer mutation browser runs.");
+requireText(schemaDraft, "app_file_patch_allowed", "Backend schema must block app file patches.");
+requireText(schemaDraft, "support_language_test_pass_allowed", "Backend schema must block support-language-only test passes.");
 requireText(schemaDraft, "ai_reward_readiness_gate", "Backend schema must include AI reward readiness gates.");
 requireText(schemaDraft, "ai_reward_readiness_gate_id", "Backend schema must preserve AI reward readiness gate ids.");
 requireText(schemaDraft, "ai_draft_correction_queue_id", "Backend schema must preserve AI draft correction queue ids.");
@@ -1538,6 +1556,25 @@ requireText(
   "support_language_implementation_evidence_allowed",
   "Migration specs must block support-language-only implementation evidence.",
 );
+requireText(
+  migrationSpecs,
+  "spec-ai-generated-package-writer-module-test-plan",
+  "Migration specs must include AI generated package writer module test plans.",
+);
+requireText(
+  migrationSpecs,
+  "ai_generated_package_writer_module_test_plan_id",
+  "Migration specs must preserve generated package writer module test plan ids.",
+);
+requireText(migrationSpecs, "module_test_suites", "Migration specs must preserve package writer module test suites.");
+requireText(migrationSpecs, "required_fixtures", "Migration specs must preserve package writer required fixtures.");
+requireText(migrationSpecs, "required_assertions", "Migration specs must preserve package writer required assertions.");
+requireText(migrationSpecs, "required_evidence", "Migration specs must preserve package writer required evidence.");
+requireText(migrationSpecs, "blocked_test_actions", "Migration specs must preserve package writer blocked test actions.");
+requireText(migrationSpecs, "package_writer_test_execution_allowed", "Migration specs must block package writer test execution.");
+requireText(migrationSpecs, "writer_mutation_browser_run_allowed", "Migration specs must block writer mutation browser runs.");
+requireText(migrationSpecs, "app_file_patch_allowed", "Migration specs must block app file patches.");
+requireText(migrationSpecs, "support_language_test_pass_allowed", "Migration specs must block support-language-only test passes.");
 requireText(migrationSpecs, "spec-ai-reward-readiness-gate", "Migration specs must include AI reward readiness gates.");
 requireText(migrationSpecs, "ai_reward_readiness_gate_id", "Migration specs must preserve AI reward readiness gate ids.");
 requireText(migrationSpecs, "ai_draft_correction_queue_id", "Migration specs must preserve AI draft correction queue ids.");
@@ -2783,6 +2820,38 @@ requireText(
   "blocksGeneratedPackageWriterImplementation: true",
   "Persistence adapter must block generated package writer implementation.",
 );
+requireText(
+  persistenceAdapter,
+  "hosted-ai-generated-package-writer-module-test-plan-write",
+  "Persistence adapter must include hosted AI generated package writer module test plan writes.",
+);
+requireText(
+  persistenceAdapter,
+  "local-ai-generated-package-writer-module-test-plan-write",
+  "Persistence adapter must include local AI generated package writer module test plan writes.",
+);
+requireText(
+  persistenceAdapter,
+  "preservesAiGeneratedPackageWriterModuleTestPlan: true",
+  "Persistence adapter must preserve AI generated package writer module test plans.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresPackageWriterModuleTestSuites: true",
+  "Persistence adapter must require package writer module test suites.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresPackageWriterTestEvidence: true",
+  "Persistence adapter must require package writer test evidence.",
+);
+requireText(
+  persistenceAdapter,
+  "blocksPackageWriterTestExecution: true",
+  "Persistence adapter must block package writer test execution.",
+);
+requireText(persistenceAdapter, "blocksPlaywrightRun: true", "Persistence adapter must block writer mutation browser runs.");
+requireText(persistenceAdapter, "blocksAppFileWrite: true", "Persistence adapter must block app file patches.");
 requireText(persistenceAdapter, "hosted-ai-reward-readiness-gate-write", "Persistence adapter must include hosted AI reward readiness gate writes.");
 requireText(persistenceAdapter, "local-ai-reward-readiness-gate-write", "Persistence adapter must include local AI reward readiness gate writes.");
 requireText(persistenceAdapter, "preservesAiRewardReadinessGate: true", "Persistence adapter must preserve AI reward readiness checks.");
@@ -3875,6 +3944,38 @@ requireText(
   "blocksGeneratedPackageWriterImplementation: true",
   "Durable record plan must block generated package writer implementation.",
 );
+requireText(
+  durableRecords,
+  "ai-generated-package-writer-module-test-plan-record",
+  "Durable record plan must include AI generated package writer module test plan records.",
+);
+requireText(
+  durableRecords,
+  "AI generated package writer module test plan record",
+  "Durable record plan must expose AI generated package writer module test plan labels.",
+);
+requireText(
+  durableRecords,
+  "preservesAiGeneratedPackageWriterModuleTestPlan: true",
+  "Durable record plan must preserve AI generated package writer module test plans.",
+);
+requireText(
+  durableRecords,
+  "requiresPackageWriterModuleTestSuites: true",
+  "Durable record plan must require package writer module test suites.",
+);
+requireText(
+  durableRecords,
+  "requiresPackageWriterTestEvidence: true",
+  "Durable record plan must require package writer test evidence.",
+);
+requireText(
+  durableRecords,
+  "blocksPackageWriterTestExecution: true",
+  "Durable record plan must block package writer test execution.",
+);
+requireText(durableRecords, "blocksPlaywrightRun: true", "Durable record plan must block writer mutation browser runs.");
+requireText(durableRecords, "blocksAppFileWrite: true", "Durable record plan must block app file patches.");
 requireText(durableRecords, "ai-reward-readiness-gate-record", "Durable record plan must include AI reward readiness gate records.");
 requireText(durableRecords, "AI reward readiness gate record", "Durable record plan must expose AI reward readiness gate labels.");
 requireText(durableRecords, "preservesAiRewardReadinessGate: true", "Durable record plan must preserve AI reward readiness checks.");
@@ -4366,6 +4467,16 @@ requireText(
   routeVerifier,
   "AI generated package writer implementation readiness record",
   "Active route verifier must keep AI generated package writer implementation readiness durable records visible on teacher intake.",
+);
+requireText(
+  routeVerifier,
+  "ai_generated_package_writer_module_test_plan",
+  "Active route verifier must keep AI generated package writer module test plan storage visible on teacher intake.",
+);
+requireText(
+  routeVerifier,
+  "AI generated package writer module test plan record",
+  "Active route verifier must keep AI generated package writer module test plan durable records visible on teacher intake.",
 );
 requireText(routeVerifier, "ai_reward_readiness_gate", "Active route verifier must keep AI reward readiness storage visible on teacher intake.");
 requireText(routeVerifier, "AI reward readiness gate record", "Active route verifier must keep AI reward readiness durable records visible on teacher intake.");

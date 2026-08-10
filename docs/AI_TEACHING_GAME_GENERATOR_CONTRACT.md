@@ -147,6 +147,8 @@ Teacher generator routes may show a review-only package writer module test plan 
 
 The module test plan cannot execute automated writer tests, run writer mutation browser tests, patch app files, write generated package JSON, mutate route registries, create media playlists, package local bundles, activate assignments, mutate production QR redirects, or accept support-language-only test passes. It is a test evidence map for a future package writer implementation decision.
 
+The backend-neutral storage contract is `ai_generated_package_writer_module_test_plan` / `ai-generated-package-writer-module-test-plan`. Hosted and local adapters must preserve implementation readiness links, rollback drill links, package id previews, module test suites, required fixtures, required assertions, required evidence, blocked test actions, and support-language boundaries while blocking automated writer test execution, writer mutation browser runs, app file patches, generated package JSON writes, route registry writes, media playlist writes, local bundle packaging, assignment activation, production QR redirect mutation, and support-language-only test passes.
+
 ## Draft Payload Validation Rule
 
 AI-generated draft payloads must pass the shared `validateAiGeneratedDraftPayload` / `validateAiGeneratedDraftPayloadPreview` contract before review, persistence, verifier submission, package assembly, route creation, playlist creation, or student assignment can be considered.
