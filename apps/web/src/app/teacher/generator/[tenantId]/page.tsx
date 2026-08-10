@@ -50,6 +50,10 @@ import {
   sampleAiGeneratedPackageWriterTestHarnessPlans,
 } from "@/data/sampleAiGeneratedPackageWriterTestHarnessPlan";
 import {
+  filterAiGeneratedPackageWriterTestHarnessImplementationProposalsByTenant,
+  sampleAiGeneratedPackageWriterTestHarnessImplementationProposals,
+} from "@/data/sampleAiGeneratedPackageWriterTestHarnessImplementationProposal";
+import {
   filterAiGeneratedPublishReadinessGatesByTenant,
   sampleAiGeneratedPublishReadinessGates,
 } from "@/data/sampleAiGeneratedPublishReadinessGate";
@@ -178,6 +182,7 @@ import { AiGeneratedPackageWriterImplementationReadinessPanel } from "@/features
 import { AiGeneratedPackageWriterModuleTestPlanPanel } from "@/features/content-intake/AiGeneratedPackageWriterModuleTestPlanPanel";
 import { AiGeneratedPackageWriterTestEvidencePacketPanel } from "@/features/content-intake/AiGeneratedPackageWriterTestEvidencePacketPanel";
 import { AiGeneratedPackageWriterTestHarnessPlanPanel } from "@/features/content-intake/AiGeneratedPackageWriterTestHarnessPlanPanel";
+import { AiGeneratedPackageWriterTestHarnessImplementationProposalPanel } from "@/features/content-intake/AiGeneratedPackageWriterTestHarnessImplementationProposalPanel";
 import { AiGeneratedPublishReadinessGatePanel } from "@/features/content-intake/AiGeneratedPublishReadinessGatePanel";
 import { AiEngineBindingPlanPanel } from "@/features/content-intake/AiEngineBindingPlanPanel";
 import { AiExternalPrototypeTaskExportReadinessGatePanel } from "@/features/content-intake/AiExternalPrototypeTaskExportReadinessGatePanel";
@@ -425,6 +430,12 @@ export default async function TeacherAiGameGeneratorPage({
         <AiGeneratedPackageWriterTestHarnessPlanPanel
           plans={filterAiGeneratedPackageWriterTestHarnessPlansByTenant(
             sampleAiGeneratedPackageWriterTestHarnessPlans,
+            tenantId,
+          )}
+        />
+        <AiGeneratedPackageWriterTestHarnessImplementationProposalPanel
+          proposals={filterAiGeneratedPackageWriterTestHarnessImplementationProposalsByTenant(
+            sampleAiGeneratedPackageWriterTestHarnessImplementationProposals,
             tenantId,
           )}
         />
