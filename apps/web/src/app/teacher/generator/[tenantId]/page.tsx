@@ -46,6 +46,10 @@ import {
   sampleAiGeneratedPackageWriterTestEvidencePackets,
 } from "@/data/sampleAiGeneratedPackageWriterTestEvidencePacket";
 import {
+  filterAiGeneratedPackageWriterTestHarnessPlansByTenant,
+  sampleAiGeneratedPackageWriterTestHarnessPlans,
+} from "@/data/sampleAiGeneratedPackageWriterTestHarnessPlan";
+import {
   filterAiGeneratedPublishReadinessGatesByTenant,
   sampleAiGeneratedPublishReadinessGates,
 } from "@/data/sampleAiGeneratedPublishReadinessGate";
@@ -173,6 +177,7 @@ import { AiGeneratedPackageWriterRollbackDrillPanel } from "@/features/content-i
 import { AiGeneratedPackageWriterImplementationReadinessPanel } from "@/features/content-intake/AiGeneratedPackageWriterImplementationReadinessPanel";
 import { AiGeneratedPackageWriterModuleTestPlanPanel } from "@/features/content-intake/AiGeneratedPackageWriterModuleTestPlanPanel";
 import { AiGeneratedPackageWriterTestEvidencePacketPanel } from "@/features/content-intake/AiGeneratedPackageWriterTestEvidencePacketPanel";
+import { AiGeneratedPackageWriterTestHarnessPlanPanel } from "@/features/content-intake/AiGeneratedPackageWriterTestHarnessPlanPanel";
 import { AiGeneratedPublishReadinessGatePanel } from "@/features/content-intake/AiGeneratedPublishReadinessGatePanel";
 import { AiEngineBindingPlanPanel } from "@/features/content-intake/AiEngineBindingPlanPanel";
 import { AiExternalPrototypeTaskExportReadinessGatePanel } from "@/features/content-intake/AiExternalPrototypeTaskExportReadinessGatePanel";
@@ -414,6 +419,12 @@ export default async function TeacherAiGameGeneratorPage({
         <AiGeneratedPackageWriterTestEvidencePacketPanel
           packets={filterAiGeneratedPackageWriterTestEvidencePacketsByTenant(
             sampleAiGeneratedPackageWriterTestEvidencePackets,
+            tenantId,
+          )}
+        />
+        <AiGeneratedPackageWriterTestHarnessPlanPanel
+          plans={filterAiGeneratedPackageWriterTestHarnessPlansByTenant(
+            sampleAiGeneratedPackageWriterTestHarnessPlans,
             tenantId,
           )}
         />
