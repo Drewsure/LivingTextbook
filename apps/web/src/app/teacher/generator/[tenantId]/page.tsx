@@ -42,6 +42,10 @@ import {
   sampleAiGeneratedPackageWriterModuleTestPlans,
 } from "@/data/sampleAiGeneratedPackageWriterModuleTestPlan";
 import {
+  filterAiGeneratedPackageWriterTestEvidencePacketsByTenant,
+  sampleAiGeneratedPackageWriterTestEvidencePackets,
+} from "@/data/sampleAiGeneratedPackageWriterTestEvidencePacket";
+import {
   filterAiGeneratedPublishReadinessGatesByTenant,
   sampleAiGeneratedPublishReadinessGates,
 } from "@/data/sampleAiGeneratedPublishReadinessGate";
@@ -168,6 +172,7 @@ import { AiGeneratedPackageWriterPreflightPanel } from "@/features/content-intak
 import { AiGeneratedPackageWriterRollbackDrillPanel } from "@/features/content-intake/AiGeneratedPackageWriterRollbackDrillPanel";
 import { AiGeneratedPackageWriterImplementationReadinessPanel } from "@/features/content-intake/AiGeneratedPackageWriterImplementationReadinessPanel";
 import { AiGeneratedPackageWriterModuleTestPlanPanel } from "@/features/content-intake/AiGeneratedPackageWriterModuleTestPlanPanel";
+import { AiGeneratedPackageWriterTestEvidencePacketPanel } from "@/features/content-intake/AiGeneratedPackageWriterTestEvidencePacketPanel";
 import { AiGeneratedPublishReadinessGatePanel } from "@/features/content-intake/AiGeneratedPublishReadinessGatePanel";
 import { AiEngineBindingPlanPanel } from "@/features/content-intake/AiEngineBindingPlanPanel";
 import { AiExternalPrototypeTaskExportReadinessGatePanel } from "@/features/content-intake/AiExternalPrototypeTaskExportReadinessGatePanel";
@@ -403,6 +408,12 @@ export default async function TeacherAiGameGeneratorPage({
         <AiGeneratedPackageWriterModuleTestPlanPanel
           plans={filterAiGeneratedPackageWriterModuleTestPlansByTenant(
             sampleAiGeneratedPackageWriterModuleTestPlans,
+            tenantId,
+          )}
+        />
+        <AiGeneratedPackageWriterTestEvidencePacketPanel
+          packets={filterAiGeneratedPackageWriterTestEvidencePacketsByTenant(
+            sampleAiGeneratedPackageWriterTestEvidencePackets,
             tenantId,
           )}
         />
