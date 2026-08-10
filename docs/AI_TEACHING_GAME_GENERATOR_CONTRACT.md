@@ -345,6 +345,14 @@ Patch harness implementation proposals must remain review-only until Codex appro
 
 The backend-neutral storage contract is `ai_prototype_patch_harness_implementation_proposal` / `ai-prototype-patch-harness-implementation-proposal`. Hosted and local adapters must preserve proposed file scope, implementation boundaries, required review gates, dry-run-only checks, next required records, and blocked implementation actions while blocking harness implementation, test execution, Playwright runs, app file writes, app patch generation, route writes, student-facing routes, scoring mutations, Star Dust or reward writes, audio manifest mutation, package promotion, assignments, and support-language progress.
 
+## Prototype Codex Patch Approval Decision Rule
+
+Codex patch approval decisions must remain review-only until patch file scope, patch test readiness, harness plan, harness implementation proposal, route safety, rollback, storage verification, and reviewer identity signature evidence are reviewed.
+
+The decision preview may show options such as keeping the patch blocked, approving patch planning only, returning for evidence repair, or rejecting the patch scope. A visible option is not an approval record. Until a future storage contract and signed approval workflow exist, no Codex patch approval is recorded.
+
+The preview cannot write app files, generate patches, execute tests, invoke Playwright, mutate routes, expose student-facing routes, change scoring or rewards, mutate audio manifests, promote packages, assign students, or trigger support-language progress. MiniStar patch approval decisions must keep Foundation Japanese support hiragana-only and support-only while English remains the progress trigger.
+
 ## Mode Recommendation Rule
 
 Generator mode recommendations must reuse the reviewed activity compatibility matrix. The generator can recommend a tight pathway for a unit, but it must not produce a broad switch panel or unsupported conversions. Blocked conversions stay visible with their payload-fit and compatibility-rule reasons.

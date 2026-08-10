@@ -42,6 +42,9 @@ const prototypePatchTestHarnessPlan = readSource("../apps/web/src/data/sampleAiP
 const prototypePatchHarnessImplementationProposal = readSource(
   "../apps/web/src/data/sampleAiPrototypePatchHarnessImplementationProposal.ts",
 );
+const prototypeCodexPatchApprovalDecision = readSource(
+  "../apps/web/src/data/sampleAiPrototypeCodexPatchApprovalDecision.ts",
+);
 const verifierSubmissionPacket = readSource("../apps/web/src/data/sampleAiVerifierSubmissionPacket.ts");
 const generatedPackageManifest = readSource("../apps/web/src/data/sampleAiGeneratedPackageManifest.ts");
 const generatedPackagePromotionChecklist = readSource(
@@ -142,6 +145,9 @@ const prototypePatchTestHarnessPlanPanel = readSource(
 );
 const prototypePatchHarnessImplementationProposalPanel = readSource(
   "../apps/web/src/features/content-intake/AiPrototypePatchHarnessImplementationProposalPanel.tsx",
+);
+const prototypeCodexPatchApprovalDecisionPanel = readSource(
+  "../apps/web/src/features/content-intake/AiPrototypeCodexPatchApprovalDecisionPanel.tsx",
 );
 const verifierSubmissionPanel = readSource("../apps/web/src/features/content-intake/AiVerifierSubmissionPacketPanel.tsx");
 const generatedPackageManifestPanel = readSource("../apps/web/src/features/content-intake/AiGeneratedPackageManifestPanel.tsx");
@@ -1234,6 +1240,51 @@ requireText(
   prototypePatchHarnessImplementationProposalPanel,
   "No code generation",
   "AI prototype patch harness implementation proposal panel must block code generation.",
+);
+requireText(
+  prototypeCodexPatchApprovalDecision,
+  "sampleAiPrototypeCodexPatchApprovalDecisions",
+  "AI prototype Codex patch approval decision data must exist.",
+);
+requireText(
+  prototypeCodexPatchApprovalDecision,
+  "No patch approval recorded",
+  "AI prototype Codex patch approval decision must keep approval unrecorded.",
+);
+requireText(
+  prototypeCodexPatchApprovalDecision,
+  "Keep patch blocked",
+  "AI prototype Codex patch approval decision must expose blocked decision option.",
+);
+requireText(
+  prototypeCodexPatchApprovalDecision,
+  "Approve patch planning only",
+  "AI prototype Codex patch approval decision must limit approval to planning.",
+);
+requireText(
+  prototypeCodexPatchApprovalDecision,
+  "No app file write",
+  "AI prototype Codex patch approval decision must block app file writes.",
+);
+requireText(
+  prototypeCodexPatchApprovalDecision,
+  "MiniStar hiragana support boundary",
+  "AI prototype Codex patch approval decision must preserve MiniStar support-language checks.",
+);
+requireText(
+  prototypeCodexPatchApprovalDecisionPanel,
+  "AI prototype Codex patch approval decision",
+  "AI prototype Codex patch approval decision panel must expose heading.",
+);
+requireText(
+  prototypeCodexPatchApprovalDecisionPanel,
+  "Codex approval before patch work",
+  "AI prototype Codex patch approval decision panel must expose approval-before-work boundary.",
+);
+requireText(
+  prototypeCodexPatchApprovalDecisionPanel,
+  "No patch approval recorded",
+  "AI prototype Codex patch approval decision panel must block approval recording.",
 );
 requireText(promptPackagePlan, "sampleAiPromptPackagePlans", "AI prompt package plan data must exist.");
 requireText(promptPackagePlan, "MiniStar generator prompt package", "AI prompt package plan must include MiniStar request seed.");
@@ -2401,6 +2452,11 @@ requireText(
   "AiPrototypePatchHarnessImplementationProposalPanel",
   "Generator route must render the prototype patch harness implementation proposal panel.",
 );
+requireText(
+  route,
+  "AiPrototypeCodexPatchApprovalDecisionPanel",
+  "Generator route must render the prototype Codex patch approval decision panel.",
+);
 requireText(route, "AiPromptPackagePlanPanel", "Generator route must render the prompt package plan panel.");
 requireText(route, "AiGeneratorCostEntitlementGatePanel", "Generator route must render the cost entitlement gate panel.");
 requireText(route, "AiGenerationRequestBuilderPanel", "Generator route must render the request builder panel.");
@@ -2508,6 +2564,11 @@ requireText(
   route,
   "sampleAiPrototypePatchHarnessImplementationProposals",
   "Generator route must use prototype patch harness implementation proposal data.",
+);
+requireText(
+  route,
+  "sampleAiPrototypeCodexPatchApprovalDecisions",
+  "Generator route must use prototype Codex patch approval decision data.",
 );
 requireText(route, "sampleAiPromptPackagePlans", "Generator route must use the sample prompt package plan data.");
 requireText(route, "sampleAiGeneratorCostEntitlementGates", "Generator route must use the sample cost entitlement gate data.");
