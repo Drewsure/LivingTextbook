@@ -344,6 +344,7 @@
 - `DR-370-ai-generated-package-writer-test-harness-implementation-proposal.md`
 - `DR-371-ai-generated-package-writer-test-harness-implementation-proposal-storage-contract.md`
 - `DR-372-ai-prototype-codex-patch-approval-decision.md`
+- `DR-373-codex-patch-approval-decision-storage-contract.md`
 
 ## Maintenance Rule
 

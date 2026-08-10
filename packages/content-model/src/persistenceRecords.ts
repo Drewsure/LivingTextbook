@@ -23,6 +23,7 @@ export type PersistenceRecordCategory =
   | "ai-prototype-patch-test-readiness-gate"
   | "ai-prototype-patch-test-harness-plan"
   | "ai-prototype-patch-harness-implementation-proposal"
+  | "codex-patch-approval-decision"
   | "ai-prototype-integration-readiness-gate"
   | "ai-generated-package-manifest"
   | "ai-generated-package-promotion-checklist"
@@ -162,6 +163,7 @@ export interface DurableRecordContract {
   preservesAiPrototypePatchTestReadinessGate?: boolean;
   preservesAiPrototypePatchTestHarnessPlan?: boolean;
   preservesAiPrototypePatchHarnessImplementationProposal?: boolean;
+  preservesCodexPatchApprovalDecision?: boolean;
   requiresProposedPatchFileScope?: boolean;
   requiresPrePatchGates?: boolean;
   requiresPatchTestGates?: boolean;
@@ -178,6 +180,8 @@ export interface DurableRecordContract {
   requiresRollbackDrillRecord?: boolean;
   requiresStorageContractVerification?: boolean;
   requiresCodexPatchApprovalDecision?: boolean;
+  requiresPatchApprovalEvidenceChecks?: boolean;
+  requiresPatchScopeReview?: boolean;
   requiresReviewerIdentitySignatureGate?: boolean;
   blocksAppFileWrite?: boolean;
   blocksTestExecution?: boolean;
@@ -2381,6 +2385,7 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     validateAiGeneratedPackageWriterTestHarnessPlanRecord(record, errors);
     validateAiGeneratedPackageWriterTestHarnessImplementationProposalRecord(record, errors);
+    validateCodexPatchApprovalDecisionRecord(record, errors);
 
     if (record.category === "ai-reward-readiness-gate" && !record.preservesAiRewardReadinessGate) {
       errors.push(`AI reward readiness gate record ${record.recordId} must preserve generated reward readiness checks.`);
@@ -3514,6 +3519,70 @@ function validateAiGeneratedPackageWriterTestHarnessImplementationProposalRecord
 
   if (!record.blocksSupportLanguageAssembly) {
     errors.push(`${prefix} must block support-language-only harness passes.`);
+  }
+}
+
+function validateCodexPatchApprovalDecisionRecord(record: DurableRecordContract, errors: string[]): void {
+  if (record.category !== "codex-patch-approval-decision") {
+    return;
+  }
+
+  const prefix = `Codex patch approval decision record ${record.recordId}`;
+
+  if (!record.preservesCodexPatchApprovalDecision) {
+    errors.push(`${prefix} must preserve patch approval decisions.`);
+  }
+
+  if (!record.requiresManualCodexReview) {
+    errors.push(`${prefix} must require manual Codex review.`);
+  }
+
+  if (!record.requiresPatchApprovalEvidenceChecks) {
+    errors.push(`${prefix} must require approval evidence checks.`);
+  }
+
+  if (!record.requiresPatchScopeReview) {
+    errors.push(`${prefix} must require patch scope review.`);
+  }
+
+  if (!record.requiresRouteSafetyReleaseGate) {
+    errors.push(`${prefix} must require route safety release gates.`);
+  }
+
+  if (!record.requiresRollbackDrillRecord) {
+    errors.push(`${prefix} must require rollback drill records.`);
+  }
+
+  if (!record.requiresStorageContractVerification) {
+    errors.push(`${prefix} must require storage contract verification.`);
+  }
+
+  if (!record.requiresReviewerIdentitySignatureGate) {
+    errors.push(`${prefix} must require reviewer identity signature gates.`);
+  }
+
+  if (!record.blocksAppFileWrite) {
+    errors.push(`${prefix} must block app file writes.`);
+  }
+
+  if (!record.blocksAppPatchGeneration) {
+    errors.push(`${prefix} must block app patch generation.`);
+  }
+
+  if (!record.blocksTestExecution) {
+    errors.push(`${prefix} must block test execution.`);
+  }
+
+  if (!record.blocksPlaywrightRun) {
+    errors.push(`${prefix} must block Playwright runs.`);
+  }
+
+  if (!record.blocksGeneratedGameRouteWrite) {
+    errors.push(`${prefix} must block route writes.`);
+  }
+
+  if (!record.blocksSupportLanguageProgressTrigger) {
+    errors.push(`${prefix} must block support-language progress triggers.`);
   }
 }
 

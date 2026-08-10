@@ -72,6 +72,7 @@ Each candidate must define:
 - Collection inventory must be deterministic, mastery-earned, exportable, and blocked from random pressure or purchase-like unlock paths.
 - Teacher draft package migrations must preserve owner, source lineage, visibility, review gates, audio plan state, and direct-assignment blocks.
 - AI generated package manifest migrations must preserve prompt, draft, audio, engine, gamification, verifier, review queue, media-rights, and release-lock lineage while blocking package assembly, route registry writes, media playlist writes, assignments, local bundle writes, and student-ready markers.
+- Codex patch approval decision migrations must preserve patch scope, evidence checks, decision options, route safety, rollback, storage, reviewer identity, and patch-action blockers before any app file work can exist.
 - Tenant library item migrations must preserve source lineage, block student-data copies, and block public community publishing.
 - Activity compatibility snapshot migrations must preserve payload shape, allowed activity modes, blocked conversions, target-language trigger policy, printable output policy, and student-facing pathway blocks.
 - Template rendering profile migrations must preserve source template identity, curated compatibility, row/media slot policy, layout constraints, and student-facing rendering blocks.

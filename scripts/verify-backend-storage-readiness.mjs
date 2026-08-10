@@ -31,6 +31,7 @@ const requiredSchemaEntities = [
   "ai_prototype_patch_test_readiness_gate",
   "ai_prototype_patch_test_harness_plan",
   "ai_prototype_patch_harness_implementation_proposal",
+  "codex_patch_approval_decision",
   "ai_generated_package_manifest",
   "ai_generated_package_promotion_checklist",
   "ai_generated_package_release_candidate",
@@ -124,6 +125,7 @@ const requiredMigrationCandidates = [
   "m077-ai-prototype-patch-test-readiness-gate-records",
   "m078-ai-prototype-patch-test-harness-plan-records",
   "m079-ai-prototype-patch-harness-implementation-proposal-records",
+  "m089-codex-patch-approval-decision-records",
   "m054-ai-generated-package-manifest-records",
   "m058-ai-generated-package-promotion-checklist-records",
   "m059-ai-generated-package-release-candidate-records",
@@ -220,6 +222,7 @@ const requiredMigrationSpecs = [
   "spec-ai-prototype-patch-test-readiness-gate",
   "spec-ai-prototype-patch-test-harness-plan",
   "spec-ai-prototype-patch-harness-implementation-proposal",
+  "spec-codex-patch-approval-decision",
   "spec-ai-generated-package-manifest",
   "spec-ai-generated-package-promotion-checklist",
   "spec-ai-generated-package-release-candidate",
@@ -610,6 +613,15 @@ requireText(schemaDraft, "required_review_gates", "Backend schema must preserve 
 requireText(schemaDraft, "dry_run_only_checks", "Backend schema must preserve dry-run-only harness checks.");
 requireText(schemaDraft, "blocked_implementation_actions", "Backend schema must preserve blocked harness implementation actions.");
 requireText(schemaDraft, "harness_implementation_allowed", "Backend schema must block harness implementation.");
+requireText(schemaDraft, "codex_patch_approval_decision", "Backend schema must include Codex patch approval decisions.");
+requireText(
+  schemaDraft,
+  "codex_patch_approval_decision_id",
+  "Backend schema must preserve Codex patch approval decision ids.",
+);
+requireText(schemaDraft, "patch_scope_reviewed", "Backend schema must preserve patch scope review state.");
+requireText(schemaDraft, "approval_evidence_checks", "Backend schema must preserve patch approval evidence checks.");
+requireText(schemaDraft, "blocked_patch_actions", "Backend schema must preserve blocked Codex patch approval actions.");
 requireText(schemaDraft, "proposed_file_scope", "Backend schema must preserve prototype app patch proposed file scope.");
 requireText(schemaDraft, "required_before_patch", "Backend schema must preserve prototype app patch pre-patch gates.");
 requireText(schemaDraft, "required_test_gates", "Backend schema must preserve prototype app patch test gates.");
@@ -1395,6 +1407,19 @@ requireText(migrationSpecs, "dry_run_only_checks", "Migration specs must preserv
 requireText(migrationSpecs, "next_required_records", "Migration specs must preserve harness implementation next records.");
 requireText(migrationSpecs, "blocked_implementation_actions", "Migration specs must preserve blocked harness implementation actions.");
 requireText(migrationSpecs, "harness_implementation_allowed", "Migration specs must block harness implementation.");
+requireText(
+  migrationSpecs,
+  "spec-codex-patch-approval-decision",
+  "Migration specs must include Codex patch approval decisions.",
+);
+requireText(
+  migrationSpecs,
+  "codex_patch_approval_decision_id",
+  "Migration specs must preserve Codex patch approval decision ids.",
+);
+requireText(migrationSpecs, "patch_scope_reviewed", "Migration specs must preserve patch scope review state.");
+requireText(migrationSpecs, "approval_evidence_checks", "Migration specs must preserve patch approval evidence checks.");
+requireText(migrationSpecs, "blocked_patch_actions", "Migration specs must preserve blocked Codex patch approval actions.");
 requireText(migrationSpecs, "spec-ai-generated-package-manifest", "Migration specs must include AI generated package manifests.");
 requireText(migrationSpecs, "ai_generated_package_manifest_id", "Migration specs must preserve generated package manifest ids.");
 requireText(migrationSpecs, "prompt_package_id", "Migration specs must preserve generated package prompt package ids.");
@@ -3913,6 +3938,53 @@ requireText(
 );
 requireText(durableRecords, "requiresDryRunOnlyChecks: true", "Durable record plan must require dry-run-only checks.");
 requireText(durableRecords, "blocksHarnessImplementation: true", "Durable record plan must block harness implementation.");
+requireText(
+  durableRecords,
+  "codex-patch-approval-decision-record",
+  "Durable record plan must include Codex patch approval decision records.",
+);
+requireText(
+  durableRecords,
+  "Codex patch approval decision record",
+  "Durable record plan must expose Codex patch approval decision labels.",
+);
+requireText(
+  durableRecords,
+  "preservesCodexPatchApprovalDecision: true",
+  "Durable record plan must preserve Codex patch approval decisions.",
+);
+requireText(
+  durableRecords,
+  "requiresPatchApprovalEvidenceChecks: true",
+  "Durable record plan must require patch approval evidence checks.",
+);
+requireText(durableRecords, "requiresPatchScopeReview: true", "Durable record plan must require patch scope review.");
+requireText(
+  durableRecords,
+  "codex-patch-approval-decision-boundary",
+  "Durable record plan must include Codex patch approval decision boundaries.",
+);
+requireText(
+  persistenceAdapter,
+  "hosted-codex-patch-approval-decision-write",
+  "Persistence adapter must include hosted Codex patch approval decision writes.",
+);
+requireText(
+  persistenceAdapter,
+  "local-codex-patch-approval-decision-write",
+  "Persistence adapter must include local Codex patch approval decision writes.",
+);
+requireText(
+  persistenceAdapter,
+  "preservesCodexPatchApprovalDecision: true",
+  "Persistence adapter must preserve Codex patch approval decisions.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresPatchApprovalEvidenceChecks: true",
+  "Persistence adapter must require patch approval evidence checks.",
+);
+requireText(persistenceAdapter, "requiresPatchScopeReview: true", "Persistence adapter must require patch scope review.");
 requireText(durableRecords, "ai-generated-package-manifest-record", "Durable record plan must include AI generated package manifest records.");
 requireText(durableRecords, "AI generated package manifest record", "Durable record plan must expose AI generated package manifest record labels.");
 requireText(durableRecords, "preservesAiGeneratedPackageManifest: true", "Durable record plan must preserve AI generated package manifest links.");

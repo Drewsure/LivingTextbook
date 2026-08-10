@@ -65,6 +65,7 @@ export interface PersistenceWriteIntent {
   preservesAiPrototypePatchTestReadinessGate?: boolean;
   preservesAiPrototypePatchTestHarnessPlan?: boolean;
   preservesAiPrototypePatchHarnessImplementationProposal?: boolean;
+  preservesCodexPatchApprovalDecision?: boolean;
   requiresProposedPatchFileScope?: boolean;
   requiresPrePatchGates?: boolean;
   requiresPatchTestGates?: boolean;
@@ -81,6 +82,8 @@ export interface PersistenceWriteIntent {
   requiresRollbackDrillRecord?: boolean;
   requiresStorageContractVerification?: boolean;
   requiresCodexPatchApprovalDecision?: boolean;
+  requiresPatchApprovalEvidenceChecks?: boolean;
+  requiresPatchScopeReview?: boolean;
   requiresReviewerIdentitySignatureGate?: boolean;
   blocksAppFileWrite?: boolean;
   blocksTestExecution?: boolean;
@@ -2319,6 +2322,7 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     validateAiGeneratedPackageWriterTestHarnessPlanIntent(intent, errors);
     validateAiGeneratedPackageWriterTestHarnessImplementationProposalIntent(intent, errors);
+    validateCodexPatchApprovalDecisionIntent(intent, errors);
 
     if (intent.category === "ai-reward-readiness-gate" && !intent.preservesAiRewardReadinessGate) {
       errors.push(`AI reward readiness gate write intent ${intent.intentId} must preserve generated reward readiness checks.`);
@@ -3463,6 +3467,70 @@ function validateAiGeneratedPackageWriterTestHarnessImplementationProposalIntent
 
   if (!intent.blocksSupportLanguageAssembly) {
     errors.push(`${prefix} must block support-language-only harness passes.`);
+  }
+}
+
+function validateCodexPatchApprovalDecisionIntent(intent: PersistenceWriteIntent, errors: string[]): void {
+  if (intent.category !== "codex-patch-approval-decision") {
+    return;
+  }
+
+  const prefix = `Codex patch approval decision write intent ${intent.intentId}`;
+
+  if (!intent.preservesCodexPatchApprovalDecision) {
+    errors.push(`${prefix} must preserve patch approval decisions.`);
+  }
+
+  if (!intent.requiresManualCodexReview) {
+    errors.push(`${prefix} must require manual Codex review.`);
+  }
+
+  if (!intent.requiresPatchApprovalEvidenceChecks) {
+    errors.push(`${prefix} must require approval evidence checks.`);
+  }
+
+  if (!intent.requiresPatchScopeReview) {
+    errors.push(`${prefix} must require patch scope review.`);
+  }
+
+  if (!intent.requiresRouteSafetyReleaseGate) {
+    errors.push(`${prefix} must require route safety release gates.`);
+  }
+
+  if (!intent.requiresRollbackDrillRecord) {
+    errors.push(`${prefix} must require rollback drill records.`);
+  }
+
+  if (!intent.requiresStorageContractVerification) {
+    errors.push(`${prefix} must require storage contract verification.`);
+  }
+
+  if (!intent.requiresReviewerIdentitySignatureGate) {
+    errors.push(`${prefix} must require reviewer identity signature gates.`);
+  }
+
+  if (!intent.blocksAppFileWrite) {
+    errors.push(`${prefix} must block app file writes.`);
+  }
+
+  if (!intent.blocksAppPatchGeneration) {
+    errors.push(`${prefix} must block app patch generation.`);
+  }
+
+  if (!intent.blocksTestExecution) {
+    errors.push(`${prefix} must block test execution.`);
+  }
+
+  if (!intent.blocksPlaywrightRun) {
+    errors.push(`${prefix} must block Playwright runs.`);
+  }
+
+  if (!intent.blocksGeneratedGameRouteWrite) {
+    errors.push(`${prefix} must block route writes.`);
+  }
+
+  if (!intent.blocksSupportLanguageProgressTrigger) {
+    errors.push(`${prefix} must block support-language progress triggers.`);
   }
 }
 

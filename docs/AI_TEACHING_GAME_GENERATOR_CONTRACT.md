@@ -353,6 +353,8 @@ The decision preview may show options such as keeping the patch blocked, approvi
 
 The preview cannot write app files, generate patches, execute tests, invoke Playwright, mutate routes, expose student-facing routes, change scoring or rewards, mutate audio manifests, promote packages, assign students, or trigger support-language progress. MiniStar patch approval decisions must keep Foundation Japanese support hiragana-only and support-only while English remains the progress trigger.
 
+The backend-neutral storage contract is `codex_patch_approval_decision` / `codex-patch-approval-decision`. Hosted and local adapters must preserve linked patch proposal, patch test readiness gate, harness plan, harness implementation proposal, route safety release gate, rollback drill record, storage verification, reviewer identity signature gate, selected decision, decision status, approval evidence checks, decision options, and blocked patch actions while blocking app file writes, patch generation, test execution, Playwright runs, route writes, student-facing routes, scoring mutations, Star Dust or reward writes, audio manifest mutation, package promotion, assignments, and support-language progress.
+
 ## Mode Recommendation Rule
 
 Generator mode recommendations must reuse the reviewed activity compatibility matrix. The generator can recommend a tight pathway for a unit, but it must not produce a broad switch panel or unsupported conversions. Blocked conversions stay visible with their payload-fit and compatibility-rule reasons.

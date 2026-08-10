@@ -36,6 +36,7 @@ export type PersistenceBoundaryCategory =
   | "ai-prototype-patch-test-readiness-gate"
   | "ai-prototype-patch-test-harness-plan"
   | "ai-prototype-patch-harness-implementation-proposal"
+  | "codex-patch-approval-decision"
   | "ai-generated-package-manifest"
   | "ai-generated-package-promotion-checklist"
   | "ai-generated-package-release-candidate"
@@ -796,6 +797,44 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
     note:
       "AI prototype patch harness implementation proposals need durable file scope, review gates, dry-run-only checks, and blockers before any generated or returned prototype can implement harness code, execute tests, invoke Playwright, or move toward apps/web file changes.",
+  },
+  {
+    recordId: "codex-patch-approval-decision-record",
+    category: "codex-patch-approval-decision",
+    label: "Codex patch approval decision record",
+    readiness: "durable-required",
+    sourceOfTruth:
+      "AiPrototypeCodexPatchApprovalDecision, patch proposal, patch test readiness gate, patch harness plan, patch harness implementation proposal, route safety release gate, rollback drill record, storage contract verification, reviewer identity signature gate, decision options, evidence checks, and blocked actions",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: false,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesCodexPatchApprovalDecision: true,
+    requiresManualCodexReview: true,
+    requiresPatchApprovalEvidenceChecks: true,
+    requiresPatchScopeReview: true,
+    requiresRouteSafetyReleaseGate: true,
+    requiresRollbackDrillRecord: true,
+    requiresStorageContractVerification: true,
+    requiresReviewerIdentitySignatureGate: true,
+    blocksAppFileWrite: true,
+    blocksAppPatchGeneration: true,
+    blocksTestExecution: true,
+    blocksPlaywrightRun: true,
+    blocksGeneratedGameRouteWrite: true,
+    blocksStudentFacingRoute: true,
+    blocksScoringProfileOverride: true,
+    blocksStarDustWrite: true,
+    blocksRewardInventoryWrite: true,
+    blocksAudioManifestMutation: true,
+    blocksPackagePromotion: true,
+    blocksDirectStudentAssignment: true,
+    blocksSupportLanguageProgressTrigger: true,
+    recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
+    note:
+      "Codex patch approval decisions need durable evidence checks, decision options, reviewer identity, and blockers before any returned prototype can move toward app file work, patch generation, test execution, Playwright runs, routes, scoring, rewards, audio manifests, package promotion, or assignments.",
   },
   {
     recordId: "ai-generated-package-promotion-checklist-record",
@@ -2662,6 +2701,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision:
       "Persist Codex integration review decisions before enabling apps/web patch generation, route writes, student-facing previews, scoring changes, reward writes, package promotion, or assignments.",
+  },
+  {
+    boundaryId: "codex-patch-approval-decision-boundary",
+    category: "codex-patch-approval-decision",
+    label: "Codex patch approval decision records",
+    status: "needs-backend",
+    recordShape:
+      "Codex patch approval decision id, tenant id, request id, app patch proposal id, patch test readiness gate id, patch harness plan id, patch harness implementation proposal id, route safety release gate id, rollback drill record id, storage contract verification id, reviewer identity signature gate id, selected decision, decision status, evidence checks, decision options, and blocked patch actions",
+    whyItMatters:
+      "A returned prototype needs a durable manual Codex patch decision before any app file work can be considered, and the decision itself must not execute tests, generate patches, mutate routes, scores, rewards, audio manifests, package releases, or assignments.",
+    visibleTo: ["Platform admin", "Tenant admin", "Content reviewer", "Prototype reviewer"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Persist Codex patch approval decisions before enabling app file work, patch generation, test execution, Playwright runs, route writes, student-facing previews, scoring changes, reward writes, package promotion, or assignments.",
   },
   {
     boundaryId: "ai-generated-package-promotion-checklist-boundary",
