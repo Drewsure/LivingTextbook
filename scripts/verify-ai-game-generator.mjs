@@ -48,6 +48,9 @@ const prototypeCodexPatchApprovalDecision = readSource(
 const prototypeSignedApprovalPreflight = readSource(
   "../apps/web/src/data/sampleAiPrototypeSignedApprovalPreflight.ts",
 );
+const prototypePatchAuthorizationReleaseLock = readSource(
+  "../apps/web/src/data/sampleAiPrototypePatchAuthorizationReleaseLock.ts",
+);
 const verifierSubmissionPacket = readSource("../apps/web/src/data/sampleAiVerifierSubmissionPacket.ts");
 const generatedPackageManifest = readSource("../apps/web/src/data/sampleAiGeneratedPackageManifest.ts");
 const generatedPackagePromotionChecklist = readSource(
@@ -154,6 +157,9 @@ const prototypeCodexPatchApprovalDecisionPanel = readSource(
 );
 const prototypeSignedApprovalPreflightPanel = readSource(
   "../apps/web/src/features/content-intake/AiPrototypeSignedApprovalPreflightPanel.tsx",
+);
+const prototypePatchAuthorizationReleaseLockPanel = readSource(
+  "../apps/web/src/features/content-intake/AiPrototypePatchAuthorizationReleaseLockPanel.tsx",
 );
 const verifierSubmissionPanel = readSource("../apps/web/src/features/content-intake/AiVerifierSubmissionPacketPanel.tsx");
 const generatedPackageManifestPanel = readSource("../apps/web/src/features/content-intake/AiGeneratedPackageManifestPanel.tsx");
@@ -1337,6 +1343,46 @@ requireText(
   "No signed approval capture",
   "AI prototype signed approval preflight panel must block signature capture.",
 );
+requireText(
+  prototypePatchAuthorizationReleaseLock,
+  "sampleAiPrototypePatchAuthorizationReleaseLocks",
+  "AI prototype patch authorization release lock data must exist.",
+);
+requireText(
+  prototypePatchAuthorizationReleaseLock,
+  "No patch authorization",
+  "AI prototype patch authorization release lock must block patch authorization.",
+);
+requireText(
+  prototypePatchAuthorizationReleaseLock,
+  "Release-control binding accepted",
+  "AI prototype patch authorization release lock must require release-control binding.",
+);
+requireText(
+  prototypePatchAuthorizationReleaseLock,
+  "Specific proposed file scope only",
+  "AI prototype patch authorization release lock must scope file work narrowly.",
+);
+requireText(
+  prototypePatchAuthorizationReleaseLock,
+  "Support-language evidence cannot authorize progress",
+  "AI prototype patch authorization release lock must preserve support-language boundaries.",
+);
+requireText(
+  prototypePatchAuthorizationReleaseLockPanel,
+  "AI prototype patch authorization release lock",
+  "AI prototype patch authorization release lock panel must expose heading.",
+);
+requireText(
+  prototypePatchAuthorizationReleaseLockPanel,
+  "Release-control lock before file work",
+  "AI prototype patch authorization release lock panel must expose release-control boundary.",
+);
+requireText(
+  prototypePatchAuthorizationReleaseLockPanel,
+  "No patch authorization",
+  "AI prototype patch authorization release lock panel must block patch authorization.",
+);
 requireText(promptPackagePlan, "sampleAiPromptPackagePlans", "AI prompt package plan data must exist.");
 requireText(promptPackagePlan, "MiniStar generator prompt package", "AI prompt package plan must include MiniStar request seed.");
 requireText(promptPackagePlan, "ministar-l1-greetings-game-draft", "AI prompt package plan must bind to MiniStar greetings request.");
@@ -2513,6 +2559,11 @@ requireText(
   "AiPrototypeSignedApprovalPreflightPanel",
   "Generator route must render the prototype signed approval preflight panel.",
 );
+requireText(
+  route,
+  "AiPrototypePatchAuthorizationReleaseLockPanel",
+  "Generator route must render the prototype patch authorization release lock panel.",
+);
 requireText(route, "AiPromptPackagePlanPanel", "Generator route must render the prompt package plan panel.");
 requireText(route, "AiGeneratorCostEntitlementGatePanel", "Generator route must render the cost entitlement gate panel.");
 requireText(route, "AiGenerationRequestBuilderPanel", "Generator route must render the request builder panel.");
@@ -2630,6 +2681,11 @@ requireText(
   route,
   "sampleAiPrototypeSignedApprovalPreflights",
   "Generator route must use prototype signed approval preflight data.",
+);
+requireText(
+  route,
+  "sampleAiPrototypePatchAuthorizationReleaseLocks",
+  "Generator route must use prototype patch authorization release lock data.",
 );
 requireText(route, "sampleAiPromptPackagePlans", "Generator route must use the sample prompt package plan data.");
 requireText(route, "sampleAiGeneratorCostEntitlementGates", "Generator route must use the sample cost entitlement gate data.");
