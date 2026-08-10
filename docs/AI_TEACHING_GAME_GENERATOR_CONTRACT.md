@@ -363,6 +363,8 @@ The preflight may name authenticated reviewer identity, tenant role binding, Cod
 
 MiniStar signed approval preflights must keep Foundation Japanese support hiragana-only and support-only while English remains the progress trigger.
 
+The backend-neutral storage contract is `ai_prototype_signed_approval_preflight` / `ai-prototype-signed-approval-preflight`. Hosted and local adapters must preserve linked Codex patch approval decision, reviewer identity signature gate, route safety release gate, rollback drill record, storage verification, required identity lanes, scope locks, approval record draft fields, evidence checklist, cannot-approve blockers, next required records, and blocked approval actions while blocking signed approval capture, approve buttons, patch authorization, app file writes, patch generation, test execution, Playwright runs, route writes, student-facing routes, scoring mutations, Star Dust or reward writes, audio manifest mutation, package promotion, assignments, and support-language progress.
+
 ## Mode Recommendation Rule
 
 Generator mode recommendations must reuse the reviewed activity compatibility matrix. The generator can recommend a tight pathway for a unit, but it must not produce a broad switch panel or unsupported conversions. Blocked conversions stay visible with their payload-fit and compatibility-rule reasons.

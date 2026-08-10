@@ -37,6 +37,7 @@ export type PersistenceBoundaryCategory =
   | "ai-prototype-patch-test-harness-plan"
   | "ai-prototype-patch-harness-implementation-proposal"
   | "codex-patch-approval-decision"
+  | "ai-prototype-signed-approval-preflight"
   | "ai-generated-package-manifest"
   | "ai-generated-package-promotion-checklist"
   | "ai-generated-package-release-candidate"
@@ -835,6 +836,46 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
     note:
       "Codex patch approval decisions need durable evidence checks, decision options, reviewer identity, and blockers before any returned prototype can move toward app file work, patch generation, test execution, Playwright runs, routes, scoring, rewards, audio manifests, package promotion, or assignments.",
+  },
+  {
+    recordId: "ai-prototype-signed-approval-preflight-record",
+    category: "ai-prototype-signed-approval-preflight",
+    label: "AI prototype signed approval preflight record",
+    readiness: "durable-required",
+    sourceOfTruth:
+      "AiPrototypeSignedApprovalPreflight, Codex patch approval decision, reviewer identity signature gate, approval scope locks, approval record draft fields, evidence checklist, cannot-approve-while blockers, next records, and blocked actions",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: false,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesAiPrototypeSignedApprovalPreflight: true,
+    requiresReviewerIdentitySignatureGate: true,
+    requiresSignedApprovalPreflightScopeLocks: true,
+    requiresApprovalRecordDraftFields: true,
+    requiresCannotApproveWhileChecks: true,
+    requiresSignedApprovalEvidenceChecklist: true,
+    requiresRouteSafetyReleaseGate: true,
+    requiresRollbackDrillRecord: true,
+    requiresStorageContractVerification: true,
+    blocksSignedApprovalCapture: true,
+    blocksAppFileWrite: true,
+    blocksAppPatchGeneration: true,
+    blocksTestExecution: true,
+    blocksPlaywrightRun: true,
+    blocksGeneratedGameRouteWrite: true,
+    blocksStudentFacingRoute: true,
+    blocksScoringProfileOverride: true,
+    blocksStarDustWrite: true,
+    blocksRewardInventoryWrite: true,
+    blocksAudioManifestMutation: true,
+    blocksPackagePromotion: true,
+    blocksDirectStudentAssignment: true,
+    blocksSupportLanguageProgressTrigger: true,
+    recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
+    note:
+      "AI prototype signed approval preflights need durable reviewer identity, approval scope, evidence checklist, cannot-approve blockers, and blocked actions before any future signature capture, approve button, patch authorization, app file work, route mutation, scoring changes, rewards, package promotion, or assignment can exist.",
   },
   {
     recordId: "ai-generated-package-promotion-checklist-record",
@@ -2715,6 +2756,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision:
       "Persist Codex patch approval decisions before enabling app file work, patch generation, test execution, Playwright runs, route writes, student-facing previews, scoring changes, reward writes, package promotion, or assignments.",
+  },
+  {
+    boundaryId: "ai-prototype-signed-approval-preflight-boundary",
+    category: "ai-prototype-signed-approval-preflight",
+    label: "AI prototype signed approval preflight records",
+    status: "needs-backend",
+    recordShape:
+      "Signed approval preflight id, tenant id, request id, Codex patch approval decision id, reviewer identity signature gate id, required identity lanes, scope locks, approval record draft fields, evidence checklist, cannot-approve-while blockers, next required records, and blocked approval actions",
+    whyItMatters:
+      "A returned prototype needs a durable signed-approval preflight before any patch authorization can be considered, and the preflight itself must not capture signatures, approve patches, write files, execute tests, mutate routes, change scores or rewards, promote packages, or assign students.",
+    visibleTo: ["Platform admin", "Tenant admin", "Content reviewer", "Prototype reviewer"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Persist signed approval preflights before enabling approval capture, approve buttons, patch authorization, app file work, route writes, student-facing previews, scoring changes, reward writes, package promotion, or assignments.",
   },
   {
     boundaryId: "ai-generated-package-promotion-checklist-boundary",

@@ -79,6 +79,7 @@ Before real backend migrations are written, the project must confirm:
 
 - `/teacher/intake` shows the migration specs beside schema and migration candidates.
 - Each spec names field shape, indexes, retention, export, local fallback, and policy blockers.
+- Signed approval preflight specs must block signature capture, approve buttons, patch authorization, app file writes, route mutation, scoring/reward mutation, package promotion, assignments, and support-language progress.
 - Specs do not imply that production storage is ready.
 - The progress event stream is visibly policy-blocked.
 - The earned collection inventory is visibly policy-blocked and rejects random pressure or purchase-like ownership.

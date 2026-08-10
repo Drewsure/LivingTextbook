@@ -24,6 +24,7 @@ export type PersistenceRecordCategory =
   | "ai-prototype-patch-test-harness-plan"
   | "ai-prototype-patch-harness-implementation-proposal"
   | "codex-patch-approval-decision"
+  | "ai-prototype-signed-approval-preflight"
   | "ai-prototype-integration-readiness-gate"
   | "ai-generated-package-manifest"
   | "ai-generated-package-promotion-checklist"
@@ -164,6 +165,7 @@ export interface DurableRecordContract {
   preservesAiPrototypePatchTestHarnessPlan?: boolean;
   preservesAiPrototypePatchHarnessImplementationProposal?: boolean;
   preservesCodexPatchApprovalDecision?: boolean;
+  preservesAiPrototypeSignedApprovalPreflight?: boolean;
   requiresProposedPatchFileScope?: boolean;
   requiresPrePatchGates?: boolean;
   requiresPatchTestGates?: boolean;
@@ -182,6 +184,10 @@ export interface DurableRecordContract {
   requiresCodexPatchApprovalDecision?: boolean;
   requiresPatchApprovalEvidenceChecks?: boolean;
   requiresPatchScopeReview?: boolean;
+  requiresSignedApprovalPreflightScopeLocks?: boolean;
+  requiresApprovalRecordDraftFields?: boolean;
+  requiresCannotApproveWhileChecks?: boolean;
+  requiresSignedApprovalEvidenceChecklist?: boolean;
   requiresReviewerIdentitySignatureGate?: boolean;
   blocksAppFileWrite?: boolean;
   blocksTestExecution?: boolean;
@@ -2386,6 +2392,7 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
     validateAiGeneratedPackageWriterTestHarnessPlanRecord(record, errors);
     validateAiGeneratedPackageWriterTestHarnessImplementationProposalRecord(record, errors);
     validateCodexPatchApprovalDecisionRecord(record, errors);
+    validateAiPrototypeSignedApprovalPreflightRecord(record, errors);
 
     if (record.category === "ai-reward-readiness-gate" && !record.preservesAiRewardReadinessGate) {
       errors.push(`AI reward readiness gate record ${record.recordId} must preserve generated reward readiness checks.`);
@@ -3559,6 +3566,78 @@ function validateCodexPatchApprovalDecisionRecord(record: DurableRecordContract,
 
   if (!record.requiresReviewerIdentitySignatureGate) {
     errors.push(`${prefix} must require reviewer identity signature gates.`);
+  }
+
+  if (!record.blocksAppFileWrite) {
+    errors.push(`${prefix} must block app file writes.`);
+  }
+
+  if (!record.blocksAppPatchGeneration) {
+    errors.push(`${prefix} must block app patch generation.`);
+  }
+
+  if (!record.blocksTestExecution) {
+    errors.push(`${prefix} must block test execution.`);
+  }
+
+  if (!record.blocksPlaywrightRun) {
+    errors.push(`${prefix} must block Playwright runs.`);
+  }
+
+  if (!record.blocksGeneratedGameRouteWrite) {
+    errors.push(`${prefix} must block route writes.`);
+  }
+
+  if (!record.blocksSupportLanguageProgressTrigger) {
+    errors.push(`${prefix} must block support-language progress triggers.`);
+  }
+}
+
+function validateAiPrototypeSignedApprovalPreflightRecord(record: DurableRecordContract, errors: string[]): void {
+  if (record.category !== "ai-prototype-signed-approval-preflight") {
+    return;
+  }
+
+  const prefix = `AI prototype signed approval preflight record ${record.recordId}`;
+
+  if (!record.preservesAiPrototypeSignedApprovalPreflight) {
+    errors.push(`${prefix} must preserve signed approval preflights.`);
+  }
+
+  if (!record.requiresReviewerIdentitySignatureGate) {
+    errors.push(`${prefix} must require reviewer identity signature gates.`);
+  }
+
+  if (!record.requiresSignedApprovalPreflightScopeLocks) {
+    errors.push(`${prefix} must require approval scope locks.`);
+  }
+
+  if (!record.requiresApprovalRecordDraftFields) {
+    errors.push(`${prefix} must require approval record draft fields.`);
+  }
+
+  if (!record.requiresCannotApproveWhileChecks) {
+    errors.push(`${prefix} must require cannot-approve-while checks.`);
+  }
+
+  if (!record.requiresSignedApprovalEvidenceChecklist) {
+    errors.push(`${prefix} must require approval evidence checklists.`);
+  }
+
+  if (!record.requiresRouteSafetyReleaseGate) {
+    errors.push(`${prefix} must require route safety release gates.`);
+  }
+
+  if (!record.requiresRollbackDrillRecord) {
+    errors.push(`${prefix} must require rollback drill records.`);
+  }
+
+  if (!record.requiresStorageContractVerification) {
+    errors.push(`${prefix} must require storage contract verification.`);
+  }
+
+  if (!record.blocksSignedApprovalCapture) {
+    errors.push(`${prefix} must block signed approval capture.`);
   }
 
   if (!record.blocksAppFileWrite) {

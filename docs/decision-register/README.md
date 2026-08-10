@@ -346,6 +346,7 @@
 - `DR-372-ai-prototype-codex-patch-approval-decision.md`
 - `DR-373-codex-patch-approval-decision-storage-contract.md`
 - `DR-374-ai-prototype-signed-approval-preflight.md`
+- `DR-375-ai-prototype-signed-approval-preflight-storage-contract.md`
 
 ## Maintenance Rule
 

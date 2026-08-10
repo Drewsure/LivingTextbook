@@ -32,6 +32,7 @@ const requiredSchemaEntities = [
   "ai_prototype_patch_test_harness_plan",
   "ai_prototype_patch_harness_implementation_proposal",
   "codex_patch_approval_decision",
+  "ai_prototype_signed_approval_preflight",
   "ai_generated_package_manifest",
   "ai_generated_package_promotion_checklist",
   "ai_generated_package_release_candidate",
@@ -126,6 +127,7 @@ const requiredMigrationCandidates = [
   "m078-ai-prototype-patch-test-harness-plan-records",
   "m079-ai-prototype-patch-harness-implementation-proposal-records",
   "m089-codex-patch-approval-decision-records",
+  "m090-ai-prototype-signed-approval-preflight-records",
   "m054-ai-generated-package-manifest-records",
   "m058-ai-generated-package-promotion-checklist-records",
   "m059-ai-generated-package-release-candidate-records",
@@ -223,6 +225,7 @@ const requiredMigrationSpecs = [
   "spec-ai-prototype-patch-test-harness-plan",
   "spec-ai-prototype-patch-harness-implementation-proposal",
   "spec-codex-patch-approval-decision",
+  "spec-ai-prototype-signed-approval-preflight",
   "spec-ai-generated-package-manifest",
   "spec-ai-generated-package-promotion-checklist",
   "spec-ai-generated-package-release-candidate",
@@ -622,6 +625,27 @@ requireText(
 requireText(schemaDraft, "patch_scope_reviewed", "Backend schema must preserve patch scope review state.");
 requireText(schemaDraft, "approval_evidence_checks", "Backend schema must preserve patch approval evidence checks.");
 requireText(schemaDraft, "blocked_patch_actions", "Backend schema must preserve blocked Codex patch approval actions.");
+requireText(
+  schemaDraft,
+  "ai_prototype_signed_approval_preflight",
+  "Backend schema must include AI prototype signed approval preflights.",
+);
+requireText(
+  schemaDraft,
+  "signed_approval_preflight_id",
+  "Backend schema must preserve signed approval preflight ids.",
+);
+requireText(schemaDraft, "required_identity_lanes", "Backend schema must preserve approval identity lanes.");
+requireText(schemaDraft, "scope_locks", "Backend schema must preserve signed approval scope locks.");
+requireText(
+  schemaDraft,
+  "approval_record_draft_fields",
+  "Backend schema must preserve approval record draft fields.",
+);
+requireText(schemaDraft, "cannot_approve_while", "Backend schema must preserve cannot-approve blockers.");
+requireText(schemaDraft, "blocked_approval_actions", "Backend schema must preserve blocked approval actions.");
+requireText(schemaDraft, "approve_button_allowed", "Backend schema must block approve buttons.");
+requireText(schemaDraft, "patch_authorization_allowed", "Backend schema must block patch authorization.");
 requireText(schemaDraft, "proposed_file_scope", "Backend schema must preserve prototype app patch proposed file scope.");
 requireText(schemaDraft, "required_before_patch", "Backend schema must preserve prototype app patch pre-patch gates.");
 requireText(schemaDraft, "required_test_gates", "Backend schema must preserve prototype app patch test gates.");
@@ -1420,6 +1444,27 @@ requireText(
 requireText(migrationSpecs, "patch_scope_reviewed", "Migration specs must preserve patch scope review state.");
 requireText(migrationSpecs, "approval_evidence_checks", "Migration specs must preserve patch approval evidence checks.");
 requireText(migrationSpecs, "blocked_patch_actions", "Migration specs must preserve blocked Codex patch approval actions.");
+requireText(
+  migrationSpecs,
+  "spec-ai-prototype-signed-approval-preflight",
+  "Migration specs must include AI prototype signed approval preflights.",
+);
+requireText(
+  migrationSpecs,
+  "signed_approval_preflight_id",
+  "Migration specs must preserve signed approval preflight ids.",
+);
+requireText(migrationSpecs, "required_identity_lanes", "Migration specs must preserve approval identity lanes.");
+requireText(migrationSpecs, "scope_locks", "Migration specs must preserve signed approval scope locks.");
+requireText(
+  migrationSpecs,
+  "approval_record_draft_fields",
+  "Migration specs must preserve approval record draft fields.",
+);
+requireText(migrationSpecs, "cannot_approve_while", "Migration specs must preserve cannot-approve blockers.");
+requireText(migrationSpecs, "blocked_approval_actions", "Migration specs must preserve blocked approval actions.");
+requireText(migrationSpecs, "approve_button_allowed", "Migration specs must block approve buttons.");
+requireText(migrationSpecs, "patch_authorization_allowed", "Migration specs must block patch authorization.");
 requireText(migrationSpecs, "spec-ai-generated-package-manifest", "Migration specs must include AI generated package manifests.");
 requireText(migrationSpecs, "ai_generated_package_manifest_id", "Migration specs must preserve generated package manifest ids.");
 requireText(migrationSpecs, "prompt_package_id", "Migration specs must preserve generated package prompt package ids.");
@@ -3965,6 +4010,46 @@ requireText(
   "Durable record plan must include Codex patch approval decision boundaries.",
 );
 requireText(
+  durableRecords,
+  "ai-prototype-signed-approval-preflight-record",
+  "Durable record plan must include AI prototype signed approval preflight records.",
+);
+requireText(
+  durableRecords,
+  "AI prototype signed approval preflight record",
+  "Durable record plan must expose AI prototype signed approval preflight labels.",
+);
+requireText(
+  durableRecords,
+  "preservesAiPrototypeSignedApprovalPreflight: true",
+  "Durable record plan must preserve AI prototype signed approval preflights.",
+);
+requireText(
+  durableRecords,
+  "requiresSignedApprovalPreflightScopeLocks: true",
+  "Durable record plan must require signed approval scope locks.",
+);
+requireText(
+  durableRecords,
+  "requiresApprovalRecordDraftFields: true",
+  "Durable record plan must require approval record draft fields.",
+);
+requireText(
+  durableRecords,
+  "requiresCannotApproveWhileChecks: true",
+  "Durable record plan must require cannot-approve-while checks.",
+);
+requireText(
+  durableRecords,
+  "requiresSignedApprovalEvidenceChecklist: true",
+  "Durable record plan must require signed approval evidence checklists.",
+);
+requireText(
+  durableRecords,
+  "ai-prototype-signed-approval-preflight-boundary",
+  "Durable record plan must include AI prototype signed approval preflight boundaries.",
+);
+requireText(
   persistenceAdapter,
   "hosted-codex-patch-approval-decision-write",
   "Persistence adapter must include hosted Codex patch approval decision writes.",
@@ -3985,6 +4070,41 @@ requireText(
   "Persistence adapter must require patch approval evidence checks.",
 );
 requireText(persistenceAdapter, "requiresPatchScopeReview: true", "Persistence adapter must require patch scope review.");
+requireText(
+  persistenceAdapter,
+  "hosted-ai-prototype-signed-approval-preflight-write",
+  "Persistence adapter must include hosted AI prototype signed approval preflight writes.",
+);
+requireText(
+  persistenceAdapter,
+  "local-ai-prototype-signed-approval-preflight-write",
+  "Persistence adapter must include local AI prototype signed approval preflight writes.",
+);
+requireText(
+  persistenceAdapter,
+  "preservesAiPrototypeSignedApprovalPreflight: true",
+  "Persistence adapter must preserve AI prototype signed approval preflights.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresSignedApprovalPreflightScopeLocks: true",
+  "Persistence adapter must require signed approval scope locks.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresApprovalRecordDraftFields: true",
+  "Persistence adapter must require approval record draft fields.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresCannotApproveWhileChecks: true",
+  "Persistence adapter must require cannot-approve-while checks.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresSignedApprovalEvidenceChecklist: true",
+  "Persistence adapter must require signed approval evidence checklists.",
+);
 requireText(durableRecords, "ai-generated-package-manifest-record", "Durable record plan must include AI generated package manifest records.");
 requireText(durableRecords, "AI generated package manifest record", "Durable record plan must expose AI generated package manifest record labels.");
 requireText(durableRecords, "preservesAiGeneratedPackageManifest: true", "Durable record plan must preserve AI generated package manifest links.");

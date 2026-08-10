@@ -66,6 +66,7 @@ export interface PersistenceWriteIntent {
   preservesAiPrototypePatchTestHarnessPlan?: boolean;
   preservesAiPrototypePatchHarnessImplementationProposal?: boolean;
   preservesCodexPatchApprovalDecision?: boolean;
+  preservesAiPrototypeSignedApprovalPreflight?: boolean;
   requiresProposedPatchFileScope?: boolean;
   requiresPrePatchGates?: boolean;
   requiresPatchTestGates?: boolean;
@@ -84,6 +85,10 @@ export interface PersistenceWriteIntent {
   requiresCodexPatchApprovalDecision?: boolean;
   requiresPatchApprovalEvidenceChecks?: boolean;
   requiresPatchScopeReview?: boolean;
+  requiresSignedApprovalPreflightScopeLocks?: boolean;
+  requiresApprovalRecordDraftFields?: boolean;
+  requiresCannotApproveWhileChecks?: boolean;
+  requiresSignedApprovalEvidenceChecklist?: boolean;
   requiresReviewerIdentitySignatureGate?: boolean;
   blocksAppFileWrite?: boolean;
   blocksTestExecution?: boolean;
@@ -2323,6 +2328,7 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
     validateAiGeneratedPackageWriterTestHarnessPlanIntent(intent, errors);
     validateAiGeneratedPackageWriterTestHarnessImplementationProposalIntent(intent, errors);
     validateCodexPatchApprovalDecisionIntent(intent, errors);
+    validateAiPrototypeSignedApprovalPreflightIntent(intent, errors);
 
     if (intent.category === "ai-reward-readiness-gate" && !intent.preservesAiRewardReadinessGate) {
       errors.push(`AI reward readiness gate write intent ${intent.intentId} must preserve generated reward readiness checks.`);
@@ -3507,6 +3513,78 @@ function validateCodexPatchApprovalDecisionIntent(intent: PersistenceWriteIntent
 
   if (!intent.requiresReviewerIdentitySignatureGate) {
     errors.push(`${prefix} must require reviewer identity signature gates.`);
+  }
+
+  if (!intent.blocksAppFileWrite) {
+    errors.push(`${prefix} must block app file writes.`);
+  }
+
+  if (!intent.blocksAppPatchGeneration) {
+    errors.push(`${prefix} must block app patch generation.`);
+  }
+
+  if (!intent.blocksTestExecution) {
+    errors.push(`${prefix} must block test execution.`);
+  }
+
+  if (!intent.blocksPlaywrightRun) {
+    errors.push(`${prefix} must block Playwright runs.`);
+  }
+
+  if (!intent.blocksGeneratedGameRouteWrite) {
+    errors.push(`${prefix} must block route writes.`);
+  }
+
+  if (!intent.blocksSupportLanguageProgressTrigger) {
+    errors.push(`${prefix} must block support-language progress triggers.`);
+  }
+}
+
+function validateAiPrototypeSignedApprovalPreflightIntent(intent: PersistenceWriteIntent, errors: string[]): void {
+  if (intent.category !== "ai-prototype-signed-approval-preflight") {
+    return;
+  }
+
+  const prefix = `AI prototype signed approval preflight write intent ${intent.intentId}`;
+
+  if (!intent.preservesAiPrototypeSignedApprovalPreflight) {
+    errors.push(`${prefix} must preserve signed approval preflights.`);
+  }
+
+  if (!intent.requiresReviewerIdentitySignatureGate) {
+    errors.push(`${prefix} must require reviewer identity signature gates.`);
+  }
+
+  if (!intent.requiresSignedApprovalPreflightScopeLocks) {
+    errors.push(`${prefix} must require approval scope locks.`);
+  }
+
+  if (!intent.requiresApprovalRecordDraftFields) {
+    errors.push(`${prefix} must require approval record draft fields.`);
+  }
+
+  if (!intent.requiresCannotApproveWhileChecks) {
+    errors.push(`${prefix} must require cannot-approve-while checks.`);
+  }
+
+  if (!intent.requiresSignedApprovalEvidenceChecklist) {
+    errors.push(`${prefix} must require approval evidence checklists.`);
+  }
+
+  if (!intent.requiresRouteSafetyReleaseGate) {
+    errors.push(`${prefix} must require route safety release gates.`);
+  }
+
+  if (!intent.requiresRollbackDrillRecord) {
+    errors.push(`${prefix} must require rollback drill records.`);
+  }
+
+  if (!intent.requiresStorageContractVerification) {
+    errors.push(`${prefix} must require storage contract verification.`);
+  }
+
+  if (!intent.blocksSignedApprovalCapture) {
+    errors.push(`${prefix} must block signed approval capture.`);
   }
 
   if (!intent.blocksAppFileWrite) {

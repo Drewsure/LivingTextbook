@@ -94,6 +94,7 @@ Each entity should name:
 - Teacher dry-run rehearsal records preserve route, game/audio, media/support-language, report, and local fallback checks while blocking real learner data, live progress, report export, and student launch.
 - School launch policy gate records preserve school, publisher, platform, and shared dry-run ownership while blocking policy acceptance workflows, live launch, real learner data, report export, local activation, launch-ready status, and support-language-only progression.
 - Support language never unlocks target-language progression.
+- Signed approval preflight records preserve reviewer identity, scope locks, approval draft fields, evidence checklists, cannot-approve blockers, and approval-action blockers before any signature capture or patch authorization exists.
 - AI Tutor and speech scoring stay premium-gated and disabled unless tenant policy accepts them.
 - Local and hosted implementations must preserve the same record vocabulary.
 
