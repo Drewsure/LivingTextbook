@@ -161,6 +161,10 @@ import {
   sampleAiPrototypeCodexPatchApprovalDecisions,
 } from "@/data/sampleAiPrototypeCodexPatchApprovalDecision";
 import {
+  filterAiPrototypeSignedApprovalPreflightsByTenant,
+  sampleAiPrototypeSignedApprovalPreflights,
+} from "@/data/sampleAiPrototypeSignedApprovalPreflight";
+import {
   filterAiGamificationMappingPlansByTenant,
   sampleAiGamificationMappingPlans,
 } from "@/data/sampleAiGamificationMappingPlan";
@@ -208,6 +212,7 @@ import { AiPrototypePatchTestReadinessGatePanel } from "@/features/content-intak
 import { AiPrototypePatchTestHarnessPlanPanel } from "@/features/content-intake/AiPrototypePatchTestHarnessPlanPanel";
 import { AiPrototypePatchHarnessImplementationProposalPanel } from "@/features/content-intake/AiPrototypePatchHarnessImplementationProposalPanel";
 import { AiPrototypeCodexPatchApprovalDecisionPanel } from "@/features/content-intake/AiPrototypeCodexPatchApprovalDecisionPanel";
+import { AiPrototypeSignedApprovalPreflightPanel } from "@/features/content-intake/AiPrototypeSignedApprovalPreflightPanel";
 import { AiGamificationMappingPanel } from "@/features/content-intake/AiGamificationMappingPanel";
 import { AiGeneratorAudioCoveragePlanPanel } from "@/features/content-intake/AiGeneratorAudioCoveragePlanPanel";
 import { AiGameGeneratorPlanPanel } from "@/features/content-intake/AiGameGeneratorPlanPanel";
@@ -366,6 +371,12 @@ export default async function TeacherAiGameGeneratorPage({
         <AiPrototypeCodexPatchApprovalDecisionPanel
           decisions={filterAiPrototypeCodexPatchApprovalDecisionsByTenant(
             sampleAiPrototypeCodexPatchApprovalDecisions,
+            tenantId,
+          )}
+        />
+        <AiPrototypeSignedApprovalPreflightPanel
+          preflights={filterAiPrototypeSignedApprovalPreflightsByTenant(
+            sampleAiPrototypeSignedApprovalPreflights,
             tenantId,
           )}
         />

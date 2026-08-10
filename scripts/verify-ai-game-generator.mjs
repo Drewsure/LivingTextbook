@@ -45,6 +45,9 @@ const prototypePatchHarnessImplementationProposal = readSource(
 const prototypeCodexPatchApprovalDecision = readSource(
   "../apps/web/src/data/sampleAiPrototypeCodexPatchApprovalDecision.ts",
 );
+const prototypeSignedApprovalPreflight = readSource(
+  "../apps/web/src/data/sampleAiPrototypeSignedApprovalPreflight.ts",
+);
 const verifierSubmissionPacket = readSource("../apps/web/src/data/sampleAiVerifierSubmissionPacket.ts");
 const generatedPackageManifest = readSource("../apps/web/src/data/sampleAiGeneratedPackageManifest.ts");
 const generatedPackagePromotionChecklist = readSource(
@@ -148,6 +151,9 @@ const prototypePatchHarnessImplementationProposalPanel = readSource(
 );
 const prototypeCodexPatchApprovalDecisionPanel = readSource(
   "../apps/web/src/features/content-intake/AiPrototypeCodexPatchApprovalDecisionPanel.tsx",
+);
+const prototypeSignedApprovalPreflightPanel = readSource(
+  "../apps/web/src/features/content-intake/AiPrototypeSignedApprovalPreflightPanel.tsx",
 );
 const verifierSubmissionPanel = readSource("../apps/web/src/features/content-intake/AiVerifierSubmissionPacketPanel.tsx");
 const generatedPackageManifestPanel = readSource("../apps/web/src/features/content-intake/AiGeneratedPackageManifestPanel.tsx");
@@ -1285,6 +1291,51 @@ requireText(
   prototypeCodexPatchApprovalDecisionPanel,
   "No patch approval recorded",
   "AI prototype Codex patch approval decision panel must block approval recording.",
+);
+requireText(
+  prototypeSignedApprovalPreflight,
+  "sampleAiPrototypeSignedApprovalPreflights",
+  "AI prototype signed approval preflight data must exist.",
+);
+requireText(
+  prototypeSignedApprovalPreflight,
+  "No signed approval capture",
+  "AI prototype signed approval preflight must block signature capture.",
+);
+requireText(
+  prototypeSignedApprovalPreflight,
+  "Patch scope must match Codex decision",
+  "AI prototype signed approval preflight must lock patch scope to Codex decisions.",
+);
+requireText(
+  prototypeSignedApprovalPreflight,
+  "Authenticated reviewer identity",
+  "AI prototype signed approval preflight must require reviewer identity.",
+);
+requireText(
+  prototypeSignedApprovalPreflight,
+  "Approval cannot bypass evidence",
+  "AI prototype signed approval preflight must keep evidence as a hard gate.",
+);
+requireText(
+  prototypeSignedApprovalPreflight,
+  "Support-language evidence is support-only",
+  "AI prototype signed approval preflight must preserve support-language boundaries.",
+);
+requireText(
+  prototypeSignedApprovalPreflightPanel,
+  "AI prototype signed approval preflight",
+  "AI prototype signed approval preflight panel must expose heading.",
+);
+requireText(
+  prototypeSignedApprovalPreflightPanel,
+  "Signed approval before patch authorization",
+  "AI prototype signed approval preflight panel must expose patch authorization boundary.",
+);
+requireText(
+  prototypeSignedApprovalPreflightPanel,
+  "No signed approval capture",
+  "AI prototype signed approval preflight panel must block signature capture.",
 );
 requireText(promptPackagePlan, "sampleAiPromptPackagePlans", "AI prompt package plan data must exist.");
 requireText(promptPackagePlan, "MiniStar generator prompt package", "AI prompt package plan must include MiniStar request seed.");
@@ -2457,6 +2508,11 @@ requireText(
   "AiPrototypeCodexPatchApprovalDecisionPanel",
   "Generator route must render the prototype Codex patch approval decision panel.",
 );
+requireText(
+  route,
+  "AiPrototypeSignedApprovalPreflightPanel",
+  "Generator route must render the prototype signed approval preflight panel.",
+);
 requireText(route, "AiPromptPackagePlanPanel", "Generator route must render the prompt package plan panel.");
 requireText(route, "AiGeneratorCostEntitlementGatePanel", "Generator route must render the cost entitlement gate panel.");
 requireText(route, "AiGenerationRequestBuilderPanel", "Generator route must render the request builder panel.");
@@ -2569,6 +2625,11 @@ requireText(
   route,
   "sampleAiPrototypeCodexPatchApprovalDecisions",
   "Generator route must use prototype Codex patch approval decision data.",
+);
+requireText(
+  route,
+  "sampleAiPrototypeSignedApprovalPreflights",
+  "Generator route must use prototype signed approval preflight data.",
 );
 requireText(route, "sampleAiPromptPackagePlans", "Generator route must use the sample prompt package plan data.");
 requireText(route, "sampleAiGeneratorCostEntitlementGates", "Generator route must use the sample cost entitlement gate data.");
