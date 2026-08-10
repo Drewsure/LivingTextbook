@@ -166,6 +166,7 @@ export interface PersistenceWriteIntent {
   preservesAiGeneratedPackageWriterRollbackDrill?: boolean;
   preservesAiGeneratedPackageWriterImplementationReadiness?: boolean;
   preservesAiGeneratedPackageWriterModuleTestPlan?: boolean;
+  preservesAiGeneratedPackageWriterTestEvidencePacket?: boolean;
   requiresLineageMap?: boolean;
   requiresTargetLanguageAudioApproval?: boolean;
   requiresPackageAssemblyReadinessLanes?: boolean;
@@ -179,6 +180,8 @@ export interface PersistenceWriteIntent {
   requiresCodexPackageWriterImplementationDecision?: boolean;
   requiresPackageWriterModuleTestSuites?: boolean;
   requiresPackageWriterTestEvidence?: boolean;
+  requiresPackageWriterEvidenceLanes?: boolean;
+  requiresPackageWriterAcceptanceChecks?: boolean;
   requiresMediaRightsEvidence?: boolean;
   blocksGeneratedPackagePromotion?: boolean;
   requiresPrivateLibraryTarget?: boolean;
@@ -2201,6 +2204,109 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
       !intent.blocksSupportLanguageAssembly
     ) {
       errors.push(`AI generated package writer module test plan write intent ${intent.intentId} must block support-language-only test passes.`);
+    }
+
+    if (
+      intent.category === "ai-generated-package-writer-test-evidence-packet" &&
+      !intent.preservesAiGeneratedPackageWriterTestEvidencePacket
+    ) {
+      errors.push(`AI generated package writer test evidence packet write intent ${intent.intentId} must preserve test evidence packets.`);
+    }
+
+    if (
+      intent.category === "ai-generated-package-writer-test-evidence-packet" &&
+      !intent.preservesAiGeneratedPackageWriterModuleTestPlan
+    ) {
+      errors.push(`AI generated package writer test evidence packet write intent ${intent.intentId} must preserve module test plan links.`);
+    }
+
+    if (
+      intent.category === "ai-generated-package-writer-test-evidence-packet" &&
+      !intent.requiresPackageWriterEvidenceLanes
+    ) {
+      errors.push(`AI generated package writer test evidence packet write intent ${intent.intentId} must require evidence lanes.`);
+    }
+
+    if (
+      intent.category === "ai-generated-package-writer-test-evidence-packet" &&
+      !intent.requiresPackageWriterAcceptanceChecks
+    ) {
+      errors.push(`AI generated package writer test evidence packet write intent ${intent.intentId} must require acceptance checks.`);
+    }
+
+    if (
+      intent.category === "ai-generated-package-writer-test-evidence-packet" &&
+      !intent.requiresPackageWriterTestEvidence
+    ) {
+      errors.push(`AI generated package writer test evidence packet write intent ${intent.intentId} must require writer test evidence.`);
+    }
+
+    if (
+      intent.category === "ai-generated-package-writer-test-evidence-packet" &&
+      !intent.blocksPackageWriterTestExecution
+    ) {
+      errors.push(`AI generated package writer test evidence packet write intent ${intent.intentId} must block package writer test execution.`);
+    }
+
+    if (intent.category === "ai-generated-package-writer-test-evidence-packet" && !intent.blocksPlaywrightRun) {
+      errors.push(`AI generated package writer test evidence packet write intent ${intent.intentId} must block writer mutation browser runs.`);
+    }
+
+    if (intent.category === "ai-generated-package-writer-test-evidence-packet" && !intent.blocksEvidenceUpload) {
+      errors.push(`AI generated package writer test evidence packet write intent ${intent.intentId} must block evidence upload.`);
+    }
+
+    if (
+      intent.category === "ai-generated-package-writer-test-evidence-packet" &&
+      !intent.blocksSignedApprovalCapture
+    ) {
+      errors.push(`AI generated package writer test evidence packet write intent ${intent.intentId} must block signed approval capture.`);
+    }
+
+    if (intent.category === "ai-generated-package-writer-test-evidence-packet" && !intent.blocksAppFileWrite) {
+      errors.push(`AI generated package writer test evidence packet write intent ${intent.intentId} must block app file patches.`);
+    }
+
+    if (
+      intent.category === "ai-generated-package-writer-test-evidence-packet" &&
+      !intent.blocksGeneratedPackageJsonWrite
+    ) {
+      errors.push(`AI generated package writer test evidence packet write intent ${intent.intentId} must block generated package JSON writes.`);
+    }
+
+    if (
+      intent.category === "ai-generated-package-writer-test-evidence-packet" &&
+      !intent.blocksGeneratedPackageRouteWrite
+    ) {
+      errors.push(`AI generated package writer test evidence packet write intent ${intent.intentId} must block route registry writes.`);
+    }
+
+    if (
+      intent.category === "ai-generated-package-writer-test-evidence-packet" &&
+      !intent.blocksGeneratedPackagePlaylistWrite
+    ) {
+      errors.push(`AI generated package writer test evidence packet write intent ${intent.intentId} must block media playlist writes.`);
+    }
+
+    if (
+      intent.category === "ai-generated-package-writer-test-evidence-packet" &&
+      !intent.blocksGeneratedPackageLocalBundleWrite
+    ) {
+      errors.push(`AI generated package writer test evidence packet write intent ${intent.intentId} must block local bundle writes.`);
+    }
+
+    if (
+      intent.category === "ai-generated-package-writer-test-evidence-packet" &&
+      !intent.blocksGeneratedPackageAssignment
+    ) {
+      errors.push(`AI generated package writer test evidence packet write intent ${intent.intentId} must block assignment writes.`);
+    }
+
+    if (
+      intent.category === "ai-generated-package-writer-test-evidence-packet" &&
+      !intent.blocksSupportLanguageAssembly
+    ) {
+      errors.push(`AI generated package writer test evidence packet write intent ${intent.intentId} must block support-language-only evidence passes.`);
     }
 
     if (intent.category === "ai-reward-readiness-gate" && !intent.preservesAiRewardReadinessGate) {

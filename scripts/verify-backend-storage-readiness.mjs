@@ -40,6 +40,7 @@ const requiredSchemaEntities = [
   "ai_generated_package_writer_rollback_drill",
   "ai_generated_package_writer_implementation_readiness",
   "ai_generated_package_writer_module_test_plan",
+  "ai_generated_package_writer_test_evidence_packet",
   "ai_reward_readiness_gate",
   "ai_generated_publish_readiness_gate",
   "ai_generator_tenant_coverage_gate",
@@ -130,6 +131,7 @@ const requiredMigrationCandidates = [
   "m083-ai-generated-package-writer-rollback-drill-records",
   "m084-ai-generated-package-writer-implementation-readiness-records",
   "m085-ai-generated-package-writer-module-test-plan-records",
+  "m086-ai-generated-package-writer-test-evidence-packet-records",
   "m055-ai-reward-readiness-gate-records",
   "m056-ai-generated-publish-readiness-gate-records",
   "m057-ai-generator-tenant-coverage-gate-records",
@@ -223,6 +225,7 @@ const requiredMigrationSpecs = [
   "spec-ai-generated-package-writer-rollback-drill",
   "spec-ai-generated-package-writer-implementation-readiness",
   "spec-ai-generated-package-writer-module-test-plan",
+  "spec-ai-generated-package-writer-test-evidence-packet",
   "spec-ai-reward-readiness-gate",
   "spec-ai-generated-publish-readiness-gate",
   "spec-ai-generator-tenant-coverage-gate",
@@ -782,6 +785,20 @@ requireText(schemaDraft, "package_writer_test_execution_allowed", "Backend schem
 requireText(schemaDraft, "writer_mutation_browser_run_allowed", "Backend schema must block writer mutation browser runs.");
 requireText(schemaDraft, "app_file_patch_allowed", "Backend schema must block app file patches.");
 requireText(schemaDraft, "support_language_test_pass_allowed", "Backend schema must block support-language-only test passes.");
+requireText(schemaDraft, "ai_generated_package_writer_test_evidence_packet", "Backend schema must include AI generated package writer test evidence packets.");
+requireText(
+  schemaDraft,
+  "ai_generated_package_writer_test_evidence_packet_id",
+  "Backend schema must preserve AI generated package writer test evidence packet ids.",
+);
+requireText(schemaDraft, "evidence_lanes", "Backend schema must preserve package writer evidence lanes.");
+requireText(schemaDraft, "source_records", "Backend schema must preserve package writer evidence source records.");
+requireText(schemaDraft, "acceptance_checks", "Backend schema must preserve package writer evidence acceptance checks.");
+requireText(schemaDraft, "missing_evidence", "Backend schema must preserve package writer missing evidence.");
+requireText(schemaDraft, "blocked_evidence_actions", "Backend schema must preserve package writer blocked evidence actions.");
+requireText(schemaDraft, "evidence_upload_allowed", "Backend schema must block evidence upload.");
+requireText(schemaDraft, "signed_approval_capture_allowed", "Backend schema must block signed approval capture.");
+requireText(schemaDraft, "support_language_evidence_pass_allowed", "Backend schema must block support-language-only evidence passes.");
 requireText(schemaDraft, "ai_reward_readiness_gate", "Backend schema must include AI reward readiness gates.");
 requireText(schemaDraft, "ai_reward_readiness_gate_id", "Backend schema must preserve AI reward readiness gate ids.");
 requireText(schemaDraft, "ai_draft_correction_queue_id", "Backend schema must preserve AI draft correction queue ids.");
@@ -1575,6 +1592,24 @@ requireText(migrationSpecs, "package_writer_test_execution_allowed", "Migration 
 requireText(migrationSpecs, "writer_mutation_browser_run_allowed", "Migration specs must block writer mutation browser runs.");
 requireText(migrationSpecs, "app_file_patch_allowed", "Migration specs must block app file patches.");
 requireText(migrationSpecs, "support_language_test_pass_allowed", "Migration specs must block support-language-only test passes.");
+requireText(
+  migrationSpecs,
+  "spec-ai-generated-package-writer-test-evidence-packet",
+  "Migration specs must include AI generated package writer test evidence packets.",
+);
+requireText(
+  migrationSpecs,
+  "ai_generated_package_writer_test_evidence_packet_id",
+  "Migration specs must preserve generated package writer test evidence packet ids.",
+);
+requireText(migrationSpecs, "evidence_lanes", "Migration specs must preserve package writer evidence lanes.");
+requireText(migrationSpecs, "source_records", "Migration specs must preserve package writer evidence source records.");
+requireText(migrationSpecs, "acceptance_checks", "Migration specs must preserve package writer evidence acceptance checks.");
+requireText(migrationSpecs, "missing_evidence", "Migration specs must preserve package writer missing evidence.");
+requireText(migrationSpecs, "blocked_evidence_actions", "Migration specs must preserve package writer blocked evidence actions.");
+requireText(migrationSpecs, "evidence_upload_allowed", "Migration specs must block evidence upload.");
+requireText(migrationSpecs, "signed_approval_capture_allowed", "Migration specs must block signed approval capture.");
+requireText(migrationSpecs, "support_language_evidence_pass_allowed", "Migration specs must block support-language-only evidence passes.");
 requireText(migrationSpecs, "spec-ai-reward-readiness-gate", "Migration specs must include AI reward readiness gates.");
 requireText(migrationSpecs, "ai_reward_readiness_gate_id", "Migration specs must preserve AI reward readiness gate ids.");
 requireText(migrationSpecs, "ai_draft_correction_queue_id", "Migration specs must preserve AI draft correction queue ids.");
@@ -2852,6 +2887,33 @@ requireText(
 );
 requireText(persistenceAdapter, "blocksPlaywrightRun: true", "Persistence adapter must block writer mutation browser runs.");
 requireText(persistenceAdapter, "blocksAppFileWrite: true", "Persistence adapter must block app file patches.");
+requireText(
+  persistenceAdapter,
+  "hosted-ai-generated-package-writer-test-evidence-packet-write",
+  "Persistence adapter must include hosted AI generated package writer test evidence packet writes.",
+);
+requireText(
+  persistenceAdapter,
+  "local-ai-generated-package-writer-test-evidence-packet-write",
+  "Persistence adapter must include local AI generated package writer test evidence packet writes.",
+);
+requireText(
+  persistenceAdapter,
+  "preservesAiGeneratedPackageWriterTestEvidencePacket: true",
+  "Persistence adapter must preserve AI generated package writer test evidence packets.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresPackageWriterEvidenceLanes: true",
+  "Persistence adapter must require package writer evidence lanes.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresPackageWriterAcceptanceChecks: true",
+  "Persistence adapter must require package writer acceptance checks.",
+);
+requireText(persistenceAdapter, "blocksEvidenceUpload: true", "Persistence adapter must block evidence upload.");
+requireText(persistenceAdapter, "blocksSignedApprovalCapture: true", "Persistence adapter must block signed approval capture.");
 requireText(persistenceAdapter, "hosted-ai-reward-readiness-gate-write", "Persistence adapter must include hosted AI reward readiness gate writes.");
 requireText(persistenceAdapter, "local-ai-reward-readiness-gate-write", "Persistence adapter must include local AI reward readiness gate writes.");
 requireText(persistenceAdapter, "preservesAiRewardReadinessGate: true", "Persistence adapter must preserve AI reward readiness checks.");
@@ -3976,6 +4038,33 @@ requireText(
 );
 requireText(durableRecords, "blocksPlaywrightRun: true", "Durable record plan must block writer mutation browser runs.");
 requireText(durableRecords, "blocksAppFileWrite: true", "Durable record plan must block app file patches.");
+requireText(
+  durableRecords,
+  "ai-generated-package-writer-test-evidence-packet-record",
+  "Durable record plan must include AI generated package writer test evidence packet records.",
+);
+requireText(
+  durableRecords,
+  "AI generated package writer test evidence packet record",
+  "Durable record plan must expose AI generated package writer test evidence packet labels.",
+);
+requireText(
+  durableRecords,
+  "preservesAiGeneratedPackageWriterTestEvidencePacket: true",
+  "Durable record plan must preserve AI generated package writer test evidence packets.",
+);
+requireText(
+  durableRecords,
+  "requiresPackageWriterEvidenceLanes: true",
+  "Durable record plan must require package writer evidence lanes.",
+);
+requireText(
+  durableRecords,
+  "requiresPackageWriterAcceptanceChecks: true",
+  "Durable record plan must require package writer acceptance checks.",
+);
+requireText(durableRecords, "blocksEvidenceUpload: true", "Durable record plan must block evidence upload.");
+requireText(durableRecords, "blocksSignedApprovalCapture: true", "Durable record plan must block signed approval capture.");
 requireText(durableRecords, "ai-reward-readiness-gate-record", "Durable record plan must include AI reward readiness gate records.");
 requireText(durableRecords, "AI reward readiness gate record", "Durable record plan must expose AI reward readiness gate labels.");
 requireText(durableRecords, "preservesAiRewardReadinessGate: true", "Durable record plan must preserve AI reward readiness checks.");
@@ -4477,6 +4566,16 @@ requireText(
   routeVerifier,
   "AI generated package writer module test plan record",
   "Active route verifier must keep AI generated package writer module test plan durable records visible on teacher intake.",
+);
+requireText(
+  routeVerifier,
+  "ai_generated_package_writer_test_evidence_packet",
+  "Active route verifier must keep AI generated package writer test evidence packet storage visible on teacher intake.",
+);
+requireText(
+  routeVerifier,
+  "AI generated package writer test evidence packet record",
+  "Active route verifier must keep AI generated package writer test evidence packet durable records visible on teacher intake.",
 );
 requireText(routeVerifier, "ai_reward_readiness_gate", "Active route verifier must keep AI reward readiness storage visible on teacher intake.");
 requireText(routeVerifier, "AI reward readiness gate record", "Active route verifier must keep AI reward readiness durable records visible on teacher intake.");

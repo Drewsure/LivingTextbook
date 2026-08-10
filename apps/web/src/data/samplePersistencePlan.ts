@@ -45,6 +45,7 @@ export type PersistenceBoundaryCategory =
   | "ai-generated-package-writer-rollback-drill"
   | "ai-generated-package-writer-implementation-readiness"
   | "ai-generated-package-writer-module-test-plan"
+  | "ai-generated-package-writer-test-evidence-packet"
   | "ai-reward-readiness-gate"
   | "ai-generated-publish-readiness-gate"
   | "ai-generator-tenant-coverage-gate"
@@ -1065,6 +1066,44 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
     note:
       "AI generated package writer module test plans need durable module-suite and evidence requirements before generated package writer tests, app file patches, route writes, playlist writes, local bundle packaging, assignment activation, or support-language-only test passes can exist.",
+  },
+  {
+    recordId: "ai-generated-package-writer-test-evidence-packet-record",
+    category: "ai-generated-package-writer-test-evidence-packet",
+    label: "AI generated package writer test evidence packet record",
+    readiness: "durable-required",
+    sourceOfTruth:
+      "AiGeneratedPackageWriterTestEvidencePacket, module test plan record, implementation readiness record, rollback drill record, evidence lanes, source records, required evidence, acceptance checks, missing evidence, blocked evidence actions, and support-language boundary lanes",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesAiGeneratedPackageWriterTestEvidencePacket: true,
+    preservesAiGeneratedPackageWriterModuleTestPlan: true,
+    preservesAiGeneratedPackageWriterImplementationReadiness: true,
+    preservesAiGeneratedPackageWriterRollbackDrill: true,
+    requiresPackageWriterEvidenceLanes: true,
+    requiresPackageWriterAcceptanceChecks: true,
+    requiresPackageWriterTestEvidence: true,
+    requiresTargetLanguageAudioApproval: true,
+    requiresMediaRightsEvidence: true,
+    blocksPackageWriterTestExecution: true,
+    blocksPlaywrightRun: true,
+    blocksEvidenceUpload: true,
+    blocksSignedApprovalCapture: true,
+    blocksAppFileWrite: true,
+    blocksGeneratedPackageJsonWrite: true,
+    blocksGeneratedPackageRouteWrite: true,
+    blocksGeneratedPackagePlaylistWrite: true,
+    blocksGeneratedPackageLocalBundleWrite: true,
+    blocksGeneratedPackageAssignment: true,
+    blocksSupportLanguageAssembly: true,
+    blocksDirectStudentAssignment: true,
+    recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
+    note:
+      "AI generated package writer test evidence packets need durable proof lanes before generated package writer tests, evidence upload, signed approval capture, app file patches, route writes, playlist writes, local bundle packaging, assignment activation, or support-language-only evidence passes can exist.",
   },
   {
     recordId: "ai-reward-readiness-gate-record",
@@ -2652,6 +2691,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision:
       "Persist AI generated package writer module test plans before enabling automated writer test execution, writer mutation browser runs, app file patches, generated package JSON writes, route registry writes, playlist writes, local bundle packaging, assignment activation, or support-language-only test passes.",
+  },
+  {
+    boundaryId: "ai-generated-package-writer-test-evidence-packet-boundary",
+    category: "ai-generated-package-writer-test-evidence-packet",
+    label: "AI generated package writer test evidence packet records",
+    status: "needs-backend",
+    recordShape:
+      "Evidence packet id, tenant id, request id, module test plan id, implementation readiness id, rollback drill id, package id preview, evidence lanes, source records, required evidence, acceptance checks, missing evidence, blocked evidence actions, next required records, and support-language boundary lanes",
+    whyItMatters:
+      "Generated package writer evidence needs durable proof lanes so a readable evidence packet cannot become runnable writer tests, evidence uploads, signed approvals, app file patches, route writes, playlist writes, local bundle packaging, assignment activation, or support-language-only evidence passes from UI state alone.",
+    visibleTo: ["Teacher", "Tenant admin", "Content reviewer", "Platform admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Persist AI generated package writer test evidence packets before enabling automated writer test execution, mutation browser runs, evidence upload, signed approval capture, app file patches, generated package JSON writes, route writes, playlist writes, local bundle packaging, assignment activation, or support-language-only evidence passes.",
   },
   {
     boundaryId: "ai-reward-readiness-gate-boundary",

@@ -155,6 +155,8 @@ Teacher generator routes may show a review-only package writer test evidence pac
 
 The test evidence packet cannot run automated writer tests, run writer mutation browser tests, upload evidence, capture signed approval, patch app files, write generated package JSON, mutate route registries, create media playlists, package local bundles, activate assignments, mutate production QR redirects, or accept support-language-only evidence passes. It is a proof checklist for a future Codex test harness decision, not a runnable test workflow.
 
+The backend-neutral storage contract is `ai_generated_package_writer_test_evidence_packet` / `ai-generated-package-writer-test-evidence-packet`. Hosted and local adapters must preserve module test plan links, implementation readiness links, rollback drill links, evidence lanes, source records, required evidence, acceptance checks, missing evidence, blocked evidence actions, and support-language boundaries while blocking automated writer test execution, writer mutation browser runs, evidence upload, signed approval capture, app file patches, generated package JSON writes, route registry writes, media playlist writes, local bundle packaging, assignment activation, production QR redirect mutation, and support-language-only evidence passes.
+
 ## Draft Payload Validation Rule
 
 AI-generated draft payloads must pass the shared `validateAiGeneratedDraftPayload` / `validateAiGeneratedDraftPayloadPreview` contract before review, persistence, verifier submission, package assembly, route creation, playlist creation, or student assignment can be considered.

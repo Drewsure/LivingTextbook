@@ -338,6 +338,7 @@
 - `DR-364-ai-generated-package-writer-module-test-plan.md`
 - `DR-365-ai-generated-package-writer-module-test-plan-storage-contract.md`
 - `DR-366-ai-generated-package-writer-test-evidence-packet.md`
+- `DR-367-ai-generated-package-writer-test-evidence-packet-storage-contract.md`
 
 ## Maintenance Rule
 

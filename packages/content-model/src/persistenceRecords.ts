@@ -33,6 +33,7 @@ export type PersistenceRecordCategory =
   | "ai-generated-package-writer-rollback-drill"
   | "ai-generated-package-writer-implementation-readiness"
   | "ai-generated-package-writer-module-test-plan"
+  | "ai-generated-package-writer-test-evidence-packet"
   | "ai-reward-readiness-gate"
   | "ai-generated-publish-readiness-gate"
   | "ai-generator-tenant-coverage-gate"
@@ -260,6 +261,7 @@ export interface DurableRecordContract {
   preservesAiGeneratedPackageWriterRollbackDrill?: boolean;
   preservesAiGeneratedPackageWriterImplementationReadiness?: boolean;
   preservesAiGeneratedPackageWriterModuleTestPlan?: boolean;
+  preservesAiGeneratedPackageWriterTestEvidencePacket?: boolean;
   requiresLineageMap?: boolean;
   requiresTargetLanguageAudioApproval?: boolean;
   requiresPackageAssemblyReadinessLanes?: boolean;
@@ -273,6 +275,8 @@ export interface DurableRecordContract {
   requiresCodexPackageWriterImplementationDecision?: boolean;
   requiresPackageWriterModuleTestSuites?: boolean;
   requiresPackageWriterTestEvidence?: boolean;
+  requiresPackageWriterEvidenceLanes?: boolean;
+  requiresPackageWriterAcceptanceChecks?: boolean;
   requiresMediaRightsEvidence?: boolean;
   blocksGeneratedPackagePromotion?: boolean;
   requiresPrivateLibraryTarget?: boolean;
@@ -2260,6 +2264,109 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
       !record.blocksSupportLanguageAssembly
     ) {
       errors.push(`AI generated package writer module test plan record ${record.recordId} must block support-language-only test passes.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-writer-test-evidence-packet" &&
+      !record.preservesAiGeneratedPackageWriterTestEvidencePacket
+    ) {
+      errors.push(`AI generated package writer test evidence packet record ${record.recordId} must preserve test evidence packets.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-writer-test-evidence-packet" &&
+      !record.preservesAiGeneratedPackageWriterModuleTestPlan
+    ) {
+      errors.push(`AI generated package writer test evidence packet record ${record.recordId} must preserve module test plan links.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-writer-test-evidence-packet" &&
+      !record.requiresPackageWriterEvidenceLanes
+    ) {
+      errors.push(`AI generated package writer test evidence packet record ${record.recordId} must require evidence lanes.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-writer-test-evidence-packet" &&
+      !record.requiresPackageWriterAcceptanceChecks
+    ) {
+      errors.push(`AI generated package writer test evidence packet record ${record.recordId} must require acceptance checks.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-writer-test-evidence-packet" &&
+      !record.requiresPackageWriterTestEvidence
+    ) {
+      errors.push(`AI generated package writer test evidence packet record ${record.recordId} must require writer test evidence.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-writer-test-evidence-packet" &&
+      !record.blocksPackageWriterTestExecution
+    ) {
+      errors.push(`AI generated package writer test evidence packet record ${record.recordId} must block package writer test execution.`);
+    }
+
+    if (record.category === "ai-generated-package-writer-test-evidence-packet" && !record.blocksPlaywrightRun) {
+      errors.push(`AI generated package writer test evidence packet record ${record.recordId} must block writer mutation browser runs.`);
+    }
+
+    if (record.category === "ai-generated-package-writer-test-evidence-packet" && !record.blocksEvidenceUpload) {
+      errors.push(`AI generated package writer test evidence packet record ${record.recordId} must block evidence upload.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-writer-test-evidence-packet" &&
+      !record.blocksSignedApprovalCapture
+    ) {
+      errors.push(`AI generated package writer test evidence packet record ${record.recordId} must block signed approval capture.`);
+    }
+
+    if (record.category === "ai-generated-package-writer-test-evidence-packet" && !record.blocksAppFileWrite) {
+      errors.push(`AI generated package writer test evidence packet record ${record.recordId} must block app file patches.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-writer-test-evidence-packet" &&
+      !record.blocksGeneratedPackageJsonWrite
+    ) {
+      errors.push(`AI generated package writer test evidence packet record ${record.recordId} must block generated package JSON writes.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-writer-test-evidence-packet" &&
+      !record.blocksGeneratedPackageRouteWrite
+    ) {
+      errors.push(`AI generated package writer test evidence packet record ${record.recordId} must block route registry writes.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-writer-test-evidence-packet" &&
+      !record.blocksGeneratedPackagePlaylistWrite
+    ) {
+      errors.push(`AI generated package writer test evidence packet record ${record.recordId} must block media playlist writes.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-writer-test-evidence-packet" &&
+      !record.blocksGeneratedPackageLocalBundleWrite
+    ) {
+      errors.push(`AI generated package writer test evidence packet record ${record.recordId} must block local bundle writes.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-writer-test-evidence-packet" &&
+      !record.blocksGeneratedPackageAssignment
+    ) {
+      errors.push(`AI generated package writer test evidence packet record ${record.recordId} must block assignment writes.`);
+    }
+
+    if (
+      record.category === "ai-generated-package-writer-test-evidence-packet" &&
+      !record.blocksSupportLanguageAssembly
+    ) {
+      errors.push(`AI generated package writer test evidence packet record ${record.recordId} must block support-language-only evidence passes.`);
     }
 
     if (record.category === "ai-reward-readiness-gate" && !record.preservesAiRewardReadinessGate) {
