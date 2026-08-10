@@ -340,6 +340,7 @@
 - `DR-366-ai-generated-package-writer-test-evidence-packet.md`
 - `DR-367-ai-generated-package-writer-test-evidence-packet-storage-contract.md`
 - `DR-368-ai-generated-package-writer-test-harness-plan.md`
+- `DR-369-ai-generated-package-writer-test-harness-plan-storage-contract.md`
 
 ## Maintenance Rule
 

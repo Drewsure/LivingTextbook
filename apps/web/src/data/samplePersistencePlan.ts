@@ -46,6 +46,7 @@ export type PersistenceBoundaryCategory =
   | "ai-generated-package-writer-implementation-readiness"
   | "ai-generated-package-writer-module-test-plan"
   | "ai-generated-package-writer-test-evidence-packet"
+  | "ai-generated-package-writer-test-harness-plan"
   | "ai-reward-readiness-gate"
   | "ai-generated-publish-readiness-gate"
   | "ai-generator-tenant-coverage-gate"
@@ -1104,6 +1105,46 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
     note:
       "AI generated package writer test evidence packets need durable proof lanes before generated package writer tests, evidence upload, signed approval capture, app file patches, route writes, playlist writes, local bundle packaging, assignment activation, or support-language-only evidence passes can exist.",
+  },
+  {
+    recordId: "ai-generated-package-writer-test-harness-plan-record",
+    category: "ai-generated-package-writer-test-harness-plan",
+    label: "AI generated package writer test harness plan record",
+    readiness: "durable-required",
+    sourceOfTruth:
+      "AiGeneratedPackageWriterTestHarnessPlan, test evidence packet record, module test plan record, implementation readiness record, rollback drill record, harness phases, environment adapters, prerequisites, blocked harness actions, and support-language boundary lanes",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesAiGeneratedPackageWriterTestHarnessPlan: true,
+    preservesAiGeneratedPackageWriterTestEvidencePacket: true,
+    preservesAiGeneratedPackageWriterModuleTestPlan: true,
+    preservesAiGeneratedPackageWriterImplementationReadiness: true,
+    preservesAiGeneratedPackageWriterRollbackDrill: true,
+    requiresPackageWriterHarnessPhases: true,
+    requiresPackageWriterHarnessAdapters: true,
+    requiresPackageWriterHarnessPrerequisites: true,
+    requiresPackageWriterTestEvidence: true,
+    requiresTargetLanguageAudioApproval: true,
+    requiresMediaRightsEvidence: true,
+    blocksPackageWriterTestExecution: true,
+    blocksPlaywrightRun: true,
+    blocksEvidenceUpload: true,
+    blocksSignedApprovalCapture: true,
+    blocksAppFileWrite: true,
+    blocksGeneratedPackageJsonWrite: true,
+    blocksGeneratedPackageRouteWrite: true,
+    blocksGeneratedPackagePlaylistWrite: true,
+    blocksGeneratedPackageLocalBundleWrite: true,
+    blocksGeneratedPackageAssignment: true,
+    blocksSupportLanguageAssembly: true,
+    blocksDirectStudentAssignment: true,
+    recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
+    note:
+      "AI generated package writer test harness plans need durable phase and adapter boundaries before generated package writer harness implementation, automated writer tests, mutation browser runs, evidence upload, app file patches, route writes, playlist writes, local bundle packaging, assignment activation, or support-language-only harness passes can exist.",
   },
   {
     recordId: "ai-reward-readiness-gate-record",
@@ -2705,6 +2746,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision:
       "Persist AI generated package writer test evidence packets before enabling automated writer test execution, mutation browser runs, evidence upload, signed approval capture, app file patches, generated package JSON writes, route writes, playlist writes, local bundle packaging, assignment activation, or support-language-only evidence passes.",
+  },
+  {
+    boundaryId: "ai-generated-package-writer-test-harness-plan-boundary",
+    category: "ai-generated-package-writer-test-harness-plan",
+    label: "AI generated package writer test harness plan records",
+    status: "needs-backend",
+    recordShape:
+      "Harness plan id, tenant id, request id, test evidence packet id, module test plan id, implementation readiness id, rollback drill id, package id preview, harness phases, environment adapters, required-before-harness checklist, blocked harness actions, next required records, and support-language boundary lanes",
+    whyItMatters:
+      "Generated package writer harness plans need durable phase and adapter evidence so a readable harness plan cannot become runnable writer tests, mutation browser checks, evidence uploads, signed approvals, app file patches, route writes, playlist writes, local bundle packaging, assignment activation, or support-language-only harness passes from UI state alone.",
+    visibleTo: ["Teacher", "Tenant admin", "Content reviewer", "Platform admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Persist AI generated package writer test harness plans before enabling harness implementation, automated writer test execution, mutation browser runs, evidence upload, signed approval capture, app file patches, generated package JSON writes, route writes, playlist writes, local bundle packaging, assignment activation, or support-language-only harness passes.",
   },
   {
     boundaryId: "ai-reward-readiness-gate-boundary",

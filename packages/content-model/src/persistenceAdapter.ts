@@ -167,6 +167,7 @@ export interface PersistenceWriteIntent {
   preservesAiGeneratedPackageWriterImplementationReadiness?: boolean;
   preservesAiGeneratedPackageWriterModuleTestPlan?: boolean;
   preservesAiGeneratedPackageWriterTestEvidencePacket?: boolean;
+  preservesAiGeneratedPackageWriterTestHarnessPlan?: boolean;
   requiresLineageMap?: boolean;
   requiresTargetLanguageAudioApproval?: boolean;
   requiresPackageAssemblyReadinessLanes?: boolean;
@@ -182,6 +183,9 @@ export interface PersistenceWriteIntent {
   requiresPackageWriterTestEvidence?: boolean;
   requiresPackageWriterEvidenceLanes?: boolean;
   requiresPackageWriterAcceptanceChecks?: boolean;
+  requiresPackageWriterHarnessPhases?: boolean;
+  requiresPackageWriterHarnessAdapters?: boolean;
+  requiresPackageWriterHarnessPrerequisites?: boolean;
   requiresMediaRightsEvidence?: boolean;
   blocksGeneratedPackagePromotion?: boolean;
   requiresPrivateLibraryTarget?: boolean;
@@ -2309,6 +2313,8 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
       errors.push(`AI generated package writer test evidence packet write intent ${intent.intentId} must block support-language-only evidence passes.`);
     }
 
+    validateAiGeneratedPackageWriterTestHarnessPlanIntent(intent, errors);
+
     if (intent.category === "ai-reward-readiness-gate" && !intent.preservesAiRewardReadinessGate) {
       errors.push(`AI reward readiness gate write intent ${intent.intentId} must preserve generated reward readiness checks.`);
     }
@@ -3295,6 +3301,85 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
   }
 
   return errors;
+}
+
+function validateAiGeneratedPackageWriterTestHarnessPlanIntent(
+  intent: PersistenceWriteIntent,
+  errors: string[],
+): void {
+  if (intent.category !== "ai-generated-package-writer-test-harness-plan") {
+    return;
+  }
+
+  const prefix = `AI generated package writer test harness plan write intent ${intent.intentId}`;
+
+  if (!intent.preservesAiGeneratedPackageWriterTestHarnessPlan) {
+    errors.push(`${prefix} must preserve test harness plans.`);
+  }
+
+  if (!intent.preservesAiGeneratedPackageWriterTestEvidencePacket) {
+    errors.push(`${prefix} must preserve test evidence packet links.`);
+  }
+
+  if (!intent.requiresPackageWriterHarnessPhases) {
+    errors.push(`${prefix} must require harness phases.`);
+  }
+
+  if (!intent.requiresPackageWriterHarnessAdapters) {
+    errors.push(`${prefix} must require harness adapters.`);
+  }
+
+  if (!intent.requiresPackageWriterHarnessPrerequisites) {
+    errors.push(`${prefix} must require harness prerequisites.`);
+  }
+
+  if (!intent.requiresPackageWriterTestEvidence) {
+    errors.push(`${prefix} must require writer test evidence.`);
+  }
+
+  if (!intent.blocksPackageWriterTestExecution) {
+    errors.push(`${prefix} must block package writer test execution.`);
+  }
+
+  if (!intent.blocksPlaywrightRun) {
+    errors.push(`${prefix} must block writer mutation browser runs.`);
+  }
+
+  if (!intent.blocksEvidenceUpload) {
+    errors.push(`${prefix} must block evidence upload.`);
+  }
+
+  if (!intent.blocksSignedApprovalCapture) {
+    errors.push(`${prefix} must block signed approval capture.`);
+  }
+
+  if (!intent.blocksAppFileWrite) {
+    errors.push(`${prefix} must block app file patches.`);
+  }
+
+  if (!intent.blocksGeneratedPackageJsonWrite) {
+    errors.push(`${prefix} must block generated package JSON writes.`);
+  }
+
+  if (!intent.blocksGeneratedPackageRouteWrite) {
+    errors.push(`${prefix} must block route registry writes.`);
+  }
+
+  if (!intent.blocksGeneratedPackagePlaylistWrite) {
+    errors.push(`${prefix} must block media playlist writes.`);
+  }
+
+  if (!intent.blocksGeneratedPackageLocalBundleWrite) {
+    errors.push(`${prefix} must block local bundle writes.`);
+  }
+
+  if (!intent.blocksGeneratedPackageAssignment) {
+    errors.push(`${prefix} must block assignment writes.`);
+  }
+
+  if (!intent.blocksSupportLanguageAssembly) {
+    errors.push(`${prefix} must block support-language-only harness passes.`);
+  }
 }
 
 export function getPersistenceAdapterWarnings(plan: PersistenceAdapterPlan): string[] {
