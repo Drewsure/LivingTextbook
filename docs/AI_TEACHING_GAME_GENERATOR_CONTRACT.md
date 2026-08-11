@@ -373,6 +373,8 @@ The lock may name required release locks, authorization scope, forbidden-until-u
 
 MiniStar patch authorization release locks must keep Foundation Japanese support hiragana-only and support-only while English remains the progress trigger.
 
+The backend-neutral storage contract is `ai_prototype_patch_authorization_release_lock` / `ai-prototype-patch-authorization-release-lock`. Hosted and local adapters must preserve linked signed approval preflight, Codex patch approval decision, release-control binding, route safety release gate, rollback drill record, storage verification, reviewer identity signature gate, required release locks, authorization scope, forbidden-until-unlocked blockers, release evidence, next required records, and blocked patch actions while blocking patch authorization, app file writes, patch generation, test execution, Playwright runs, route writes, student-facing routes, scoring mutations, Star Dust or reward writes, audio manifest mutation, package promotion, assignments, and support-language progress.
+
 ## Mode Recommendation Rule
 
 Generator mode recommendations must reuse the reviewed activity compatibility matrix. The generator can recommend a tight pathway for a unit, but it must not produce a broad switch panel or unsupported conversions. Blocked conversions stay visible with their payload-fit and compatibility-rule reasons.

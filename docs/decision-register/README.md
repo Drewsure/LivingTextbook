@@ -348,6 +348,7 @@
 - `DR-374-ai-prototype-signed-approval-preflight.md`
 - `DR-375-ai-prototype-signed-approval-preflight-storage-contract.md`
 - `DR-376-ai-prototype-patch-authorization-release-lock.md`
+- `DR-377-ai-prototype-patch-authorization-release-lock-storage-contract.md`
 
 ## Maintenance Rule
 

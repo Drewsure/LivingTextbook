@@ -38,6 +38,7 @@ export type PersistenceBoundaryCategory =
   | "ai-prototype-patch-harness-implementation-proposal"
   | "codex-patch-approval-decision"
   | "ai-prototype-signed-approval-preflight"
+  | "ai-prototype-patch-authorization-release-lock"
   | "ai-generated-package-manifest"
   | "ai-generated-package-promotion-checklist"
   | "ai-generated-package-release-candidate"
@@ -876,6 +877,45 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
     note:
       "AI prototype signed approval preflights need durable reviewer identity, approval scope, evidence checklist, cannot-approve blockers, and blocked actions before any future signature capture, approve button, patch authorization, app file work, route mutation, scoring changes, rewards, package promotion, or assignment can exist.",
+  },
+  {
+    recordId: "ai-prototype-patch-authorization-release-lock-record",
+    category: "ai-prototype-patch-authorization-release-lock",
+    label: "AI prototype patch authorization release lock record",
+    readiness: "durable-required",
+    sourceOfTruth:
+      "AiPrototypePatchAuthorizationReleaseLock, signed approval preflight, release-control binding, required release locks, authorization scope, forbidden-until-unlocked blockers, release evidence, next records, and blocked actions",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: false,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesAiPrototypePatchAuthorizationReleaseLock: true,
+    requiresPatchAuthorizationReleaseLocks: true,
+    requiresPatchAuthorizationScope: true,
+    requiresForbiddenUntilUnlockedChecks: true,
+    requiresReleaseEvidence: true,
+    requiresRouteSafetyReleaseGate: true,
+    requiresRollbackDrillRecord: true,
+    requiresStorageContractVerification: true,
+    requiresReviewerIdentitySignatureGate: true,
+    blocksAppFileWrite: true,
+    blocksAppPatchGeneration: true,
+    blocksTestExecution: true,
+    blocksPlaywrightRun: true,
+    blocksGeneratedGameRouteWrite: true,
+    blocksStudentFacingRoute: true,
+    blocksScoringProfileOverride: true,
+    blocksStarDustWrite: true,
+    blocksRewardInventoryWrite: true,
+    blocksAudioManifestMutation: true,
+    blocksPackagePromotion: true,
+    blocksDirectStudentAssignment: true,
+    blocksSupportLanguageProgressTrigger: true,
+    recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
+    note:
+      "AI prototype patch authorization release locks need durable release-control, narrow scope, forbidden-until-unlocked blockers, and release evidence before any future patch authorization, app file work, route mutation, scoring changes, rewards, package promotion, or assignment can exist.",
   },
   {
     recordId: "ai-generated-package-promotion-checklist-record",
@@ -2770,6 +2810,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision:
       "Persist signed approval preflights before enabling approval capture, approve buttons, patch authorization, app file work, route writes, student-facing previews, scoring changes, reward writes, package promotion, or assignments.",
+  },
+  {
+    boundaryId: "ai-prototype-patch-authorization-release-lock-boundary",
+    category: "ai-prototype-patch-authorization-release-lock",
+    label: "AI prototype patch authorization release lock records",
+    status: "needs-backend",
+    recordShape:
+      "Patch authorization release lock id, tenant id, request id, signed approval preflight id, required release locks, authorization scope, forbidden-until-unlocked blockers, release evidence, next required records, and blocked patch actions",
+    whyItMatters:
+      "A returned prototype needs a durable release-control lock before patch authorization can be considered, and the lock itself must not authorize patches, write files, execute tests, mutate routes, change scores or rewards, promote packages, or assign students.",
+    visibleTo: ["Platform admin", "Tenant admin", "Content reviewer", "Prototype reviewer"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Persist patch authorization release locks before enabling patch authorization, app file work, route writes, student-facing previews, scoring changes, reward writes, package promotion, or assignments.",
   },
   {
     boundaryId: "ai-generated-package-promotion-checklist-boundary",

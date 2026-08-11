@@ -67,6 +67,7 @@ export interface PersistenceWriteIntent {
   preservesAiPrototypePatchHarnessImplementationProposal?: boolean;
   preservesCodexPatchApprovalDecision?: boolean;
   preservesAiPrototypeSignedApprovalPreflight?: boolean;
+  preservesAiPrototypePatchAuthorizationReleaseLock?: boolean;
   requiresProposedPatchFileScope?: boolean;
   requiresPrePatchGates?: boolean;
   requiresPatchTestGates?: boolean;
@@ -89,6 +90,10 @@ export interface PersistenceWriteIntent {
   requiresApprovalRecordDraftFields?: boolean;
   requiresCannotApproveWhileChecks?: boolean;
   requiresSignedApprovalEvidenceChecklist?: boolean;
+  requiresPatchAuthorizationReleaseLocks?: boolean;
+  requiresPatchAuthorizationScope?: boolean;
+  requiresForbiddenUntilUnlockedChecks?: boolean;
+  requiresReleaseEvidence?: boolean;
   requiresReviewerIdentitySignatureGate?: boolean;
   blocksAppFileWrite?: boolean;
   blocksTestExecution?: boolean;
@@ -2329,6 +2334,7 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
     validateAiGeneratedPackageWriterTestHarnessImplementationProposalIntent(intent, errors);
     validateCodexPatchApprovalDecisionIntent(intent, errors);
     validateAiPrototypeSignedApprovalPreflightIntent(intent, errors);
+    validateAiPrototypePatchAuthorizationReleaseLockIntent(intent, errors);
 
     if (intent.category === "ai-reward-readiness-gate" && !intent.preservesAiRewardReadinessGate) {
       errors.push(`AI reward readiness gate write intent ${intent.intentId} must preserve generated reward readiness checks.`);
@@ -3585,6 +3591,77 @@ function validateAiPrototypeSignedApprovalPreflightIntent(intent: PersistenceWri
 
   if (!intent.blocksSignedApprovalCapture) {
     errors.push(`${prefix} must block signed approval capture.`);
+  }
+
+  if (!intent.blocksAppFileWrite) {
+    errors.push(`${prefix} must block app file writes.`);
+  }
+
+  if (!intent.blocksAppPatchGeneration) {
+    errors.push(`${prefix} must block app patch generation.`);
+  }
+
+  if (!intent.blocksTestExecution) {
+    errors.push(`${prefix} must block test execution.`);
+  }
+
+  if (!intent.blocksPlaywrightRun) {
+    errors.push(`${prefix} must block Playwright runs.`);
+  }
+
+  if (!intent.blocksGeneratedGameRouteWrite) {
+    errors.push(`${prefix} must block route writes.`);
+  }
+
+  if (!intent.blocksSupportLanguageProgressTrigger) {
+    errors.push(`${prefix} must block support-language progress triggers.`);
+  }
+}
+
+function validateAiPrototypePatchAuthorizationReleaseLockIntent(
+  intent: PersistenceWriteIntent,
+  errors: string[],
+): void {
+  if (intent.category !== "ai-prototype-patch-authorization-release-lock") {
+    return;
+  }
+
+  const prefix = `AI prototype patch authorization release lock write intent ${intent.intentId}`;
+
+  if (!intent.preservesAiPrototypePatchAuthorizationReleaseLock) {
+    errors.push(`${prefix} must preserve patch authorization release locks.`);
+  }
+
+  if (!intent.requiresPatchAuthorizationReleaseLocks) {
+    errors.push(`${prefix} must require release locks.`);
+  }
+
+  if (!intent.requiresPatchAuthorizationScope) {
+    errors.push(`${prefix} must require authorization scope.`);
+  }
+
+  if (!intent.requiresForbiddenUntilUnlockedChecks) {
+    errors.push(`${prefix} must require forbidden-until-unlocked checks.`);
+  }
+
+  if (!intent.requiresReleaseEvidence) {
+    errors.push(`${prefix} must require release evidence.`);
+  }
+
+  if (!intent.requiresRouteSafetyReleaseGate) {
+    errors.push(`${prefix} must require route safety release gates.`);
+  }
+
+  if (!intent.requiresRollbackDrillRecord) {
+    errors.push(`${prefix} must require rollback drill records.`);
+  }
+
+  if (!intent.requiresStorageContractVerification) {
+    errors.push(`${prefix} must require storage contract verification.`);
+  }
+
+  if (!intent.requiresReviewerIdentitySignatureGate) {
+    errors.push(`${prefix} must require reviewer identity signature gates.`);
   }
 
   if (!intent.blocksAppFileWrite) {

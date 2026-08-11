@@ -33,6 +33,7 @@ const requiredSchemaEntities = [
   "ai_prototype_patch_harness_implementation_proposal",
   "codex_patch_approval_decision",
   "ai_prototype_signed_approval_preflight",
+  "ai_prototype_patch_authorization_release_lock",
   "ai_generated_package_manifest",
   "ai_generated_package_promotion_checklist",
   "ai_generated_package_release_candidate",
@@ -128,6 +129,7 @@ const requiredMigrationCandidates = [
   "m079-ai-prototype-patch-harness-implementation-proposal-records",
   "m089-codex-patch-approval-decision-records",
   "m090-ai-prototype-signed-approval-preflight-records",
+  "m091-ai-prototype-patch-authorization-release-lock-records",
   "m054-ai-generated-package-manifest-records",
   "m058-ai-generated-package-promotion-checklist-records",
   "m059-ai-generated-package-release-candidate-records",
@@ -226,6 +228,7 @@ const requiredMigrationSpecs = [
   "spec-ai-prototype-patch-harness-implementation-proposal",
   "spec-codex-patch-approval-decision",
   "spec-ai-prototype-signed-approval-preflight",
+  "spec-ai-prototype-patch-authorization-release-lock",
   "spec-ai-generated-package-manifest",
   "spec-ai-generated-package-promotion-checklist",
   "spec-ai-generated-package-release-candidate",
@@ -646,6 +649,20 @@ requireText(schemaDraft, "cannot_approve_while", "Backend schema must preserve c
 requireText(schemaDraft, "blocked_approval_actions", "Backend schema must preserve blocked approval actions.");
 requireText(schemaDraft, "approve_button_allowed", "Backend schema must block approve buttons.");
 requireText(schemaDraft, "patch_authorization_allowed", "Backend schema must block patch authorization.");
+requireText(
+  schemaDraft,
+  "ai_prototype_patch_authorization_release_lock",
+  "Backend schema must include AI prototype patch authorization release locks.",
+);
+requireText(
+  schemaDraft,
+  "patch_authorization_release_lock_id",
+  "Backend schema must preserve patch authorization release lock ids.",
+);
+requireText(schemaDraft, "required_release_locks", "Backend schema must preserve patch authorization release locks.");
+requireText(schemaDraft, "authorization_scope", "Backend schema must preserve patch authorization scope.");
+requireText(schemaDraft, "forbidden_until_unlocked", "Backend schema must preserve forbidden-until-unlocked blockers.");
+requireText(schemaDraft, "release_evidence", "Backend schema must preserve patch release evidence.");
 requireText(schemaDraft, "proposed_file_scope", "Backend schema must preserve prototype app patch proposed file scope.");
 requireText(schemaDraft, "required_before_patch", "Backend schema must preserve prototype app patch pre-patch gates.");
 requireText(schemaDraft, "required_test_gates", "Backend schema must preserve prototype app patch test gates.");
@@ -1465,6 +1482,24 @@ requireText(migrationSpecs, "cannot_approve_while", "Migration specs must preser
 requireText(migrationSpecs, "blocked_approval_actions", "Migration specs must preserve blocked approval actions.");
 requireText(migrationSpecs, "approve_button_allowed", "Migration specs must block approve buttons.");
 requireText(migrationSpecs, "patch_authorization_allowed", "Migration specs must block patch authorization.");
+requireText(
+  migrationSpecs,
+  "spec-ai-prototype-patch-authorization-release-lock",
+  "Migration specs must include AI prototype patch authorization release locks.",
+);
+requireText(
+  migrationSpecs,
+  "patch_authorization_release_lock_id",
+  "Migration specs must preserve patch authorization release lock ids.",
+);
+requireText(migrationSpecs, "required_release_locks", "Migration specs must preserve required release locks.");
+requireText(migrationSpecs, "authorization_scope", "Migration specs must preserve patch authorization scope.");
+requireText(
+  migrationSpecs,
+  "forbidden_until_unlocked",
+  "Migration specs must preserve forbidden-until-unlocked blockers.",
+);
+requireText(migrationSpecs, "release_evidence", "Migration specs must preserve patch release evidence.");
 requireText(migrationSpecs, "spec-ai-generated-package-manifest", "Migration specs must include AI generated package manifests.");
 requireText(migrationSpecs, "ai_generated_package_manifest_id", "Migration specs must preserve generated package manifest ids.");
 requireText(migrationSpecs, "prompt_package_id", "Migration specs must preserve generated package prompt package ids.");
@@ -4050,6 +4085,42 @@ requireText(
   "Durable record plan must include AI prototype signed approval preflight boundaries.",
 );
 requireText(
+  durableRecords,
+  "ai-prototype-patch-authorization-release-lock-record",
+  "Durable record plan must include AI prototype patch authorization release lock records.",
+);
+requireText(
+  durableRecords,
+  "AI prototype patch authorization release lock record",
+  "Durable record plan must expose AI prototype patch authorization release lock labels.",
+);
+requireText(
+  durableRecords,
+  "preservesAiPrototypePatchAuthorizationReleaseLock: true",
+  "Durable record plan must preserve AI prototype patch authorization release locks.",
+);
+requireText(
+  durableRecords,
+  "requiresPatchAuthorizationReleaseLocks: true",
+  "Durable record plan must require patch authorization release locks.",
+);
+requireText(
+  durableRecords,
+  "requiresPatchAuthorizationScope: true",
+  "Durable record plan must require patch authorization scope.",
+);
+requireText(
+  durableRecords,
+  "requiresForbiddenUntilUnlockedChecks: true",
+  "Durable record plan must require forbidden-until-unlocked checks.",
+);
+requireText(durableRecords, "requiresReleaseEvidence: true", "Durable record plan must require release evidence.");
+requireText(
+  durableRecords,
+  "ai-prototype-patch-authorization-release-lock-boundary",
+  "Durable record plan must include AI prototype patch authorization release lock boundaries.",
+);
+requireText(
   persistenceAdapter,
   "hosted-codex-patch-approval-decision-write",
   "Persistence adapter must include hosted Codex patch approval decision writes.",
@@ -4105,6 +4176,37 @@ requireText(
   "requiresSignedApprovalEvidenceChecklist: true",
   "Persistence adapter must require signed approval evidence checklists.",
 );
+requireText(
+  persistenceAdapter,
+  "hosted-ai-prototype-patch-authorization-release-lock-write",
+  "Persistence adapter must include hosted AI prototype patch authorization release lock writes.",
+);
+requireText(
+  persistenceAdapter,
+  "local-ai-prototype-patch-authorization-release-lock-write",
+  "Persistence adapter must include local AI prototype patch authorization release lock writes.",
+);
+requireText(
+  persistenceAdapter,
+  "preservesAiPrototypePatchAuthorizationReleaseLock: true",
+  "Persistence adapter must preserve AI prototype patch authorization release locks.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresPatchAuthorizationReleaseLocks: true",
+  "Persistence adapter must require patch authorization release locks.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresPatchAuthorizationScope: true",
+  "Persistence adapter must require patch authorization scope.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresForbiddenUntilUnlockedChecks: true",
+  "Persistence adapter must require forbidden-until-unlocked checks.",
+);
+requireText(persistenceAdapter, "requiresReleaseEvidence: true", "Persistence adapter must require release evidence.");
 requireText(durableRecords, "ai-generated-package-manifest-record", "Durable record plan must include AI generated package manifest records.");
 requireText(durableRecords, "AI generated package manifest record", "Durable record plan must expose AI generated package manifest record labels.");
 requireText(durableRecords, "preservesAiGeneratedPackageManifest: true", "Durable record plan must preserve AI generated package manifest links.");

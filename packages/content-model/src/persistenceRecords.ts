@@ -25,6 +25,7 @@ export type PersistenceRecordCategory =
   | "ai-prototype-patch-harness-implementation-proposal"
   | "codex-patch-approval-decision"
   | "ai-prototype-signed-approval-preflight"
+  | "ai-prototype-patch-authorization-release-lock"
   | "ai-prototype-integration-readiness-gate"
   | "ai-generated-package-manifest"
   | "ai-generated-package-promotion-checklist"
@@ -166,6 +167,7 @@ export interface DurableRecordContract {
   preservesAiPrototypePatchHarnessImplementationProposal?: boolean;
   preservesCodexPatchApprovalDecision?: boolean;
   preservesAiPrototypeSignedApprovalPreflight?: boolean;
+  preservesAiPrototypePatchAuthorizationReleaseLock?: boolean;
   requiresProposedPatchFileScope?: boolean;
   requiresPrePatchGates?: boolean;
   requiresPatchTestGates?: boolean;
@@ -188,6 +190,10 @@ export interface DurableRecordContract {
   requiresApprovalRecordDraftFields?: boolean;
   requiresCannotApproveWhileChecks?: boolean;
   requiresSignedApprovalEvidenceChecklist?: boolean;
+  requiresPatchAuthorizationReleaseLocks?: boolean;
+  requiresPatchAuthorizationScope?: boolean;
+  requiresForbiddenUntilUnlockedChecks?: boolean;
+  requiresReleaseEvidence?: boolean;
   requiresReviewerIdentitySignatureGate?: boolean;
   blocksAppFileWrite?: boolean;
   blocksTestExecution?: boolean;
@@ -2393,6 +2399,7 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
     validateAiGeneratedPackageWriterTestHarnessImplementationProposalRecord(record, errors);
     validateCodexPatchApprovalDecisionRecord(record, errors);
     validateAiPrototypeSignedApprovalPreflightRecord(record, errors);
+    validateAiPrototypePatchAuthorizationReleaseLockRecord(record, errors);
 
     if (record.category === "ai-reward-readiness-gate" && !record.preservesAiRewardReadinessGate) {
       errors.push(`AI reward readiness gate record ${record.recordId} must preserve generated reward readiness checks.`);
@@ -3638,6 +3645,77 @@ function validateAiPrototypeSignedApprovalPreflightRecord(record: DurableRecordC
 
   if (!record.blocksSignedApprovalCapture) {
     errors.push(`${prefix} must block signed approval capture.`);
+  }
+
+  if (!record.blocksAppFileWrite) {
+    errors.push(`${prefix} must block app file writes.`);
+  }
+
+  if (!record.blocksAppPatchGeneration) {
+    errors.push(`${prefix} must block app patch generation.`);
+  }
+
+  if (!record.blocksTestExecution) {
+    errors.push(`${prefix} must block test execution.`);
+  }
+
+  if (!record.blocksPlaywrightRun) {
+    errors.push(`${prefix} must block Playwright runs.`);
+  }
+
+  if (!record.blocksGeneratedGameRouteWrite) {
+    errors.push(`${prefix} must block route writes.`);
+  }
+
+  if (!record.blocksSupportLanguageProgressTrigger) {
+    errors.push(`${prefix} must block support-language progress triggers.`);
+  }
+}
+
+function validateAiPrototypePatchAuthorizationReleaseLockRecord(
+  record: DurableRecordContract,
+  errors: string[],
+): void {
+  if (record.category !== "ai-prototype-patch-authorization-release-lock") {
+    return;
+  }
+
+  const prefix = `AI prototype patch authorization release lock record ${record.recordId}`;
+
+  if (!record.preservesAiPrototypePatchAuthorizationReleaseLock) {
+    errors.push(`${prefix} must preserve patch authorization release locks.`);
+  }
+
+  if (!record.requiresPatchAuthorizationReleaseLocks) {
+    errors.push(`${prefix} must require release locks.`);
+  }
+
+  if (!record.requiresPatchAuthorizationScope) {
+    errors.push(`${prefix} must require authorization scope.`);
+  }
+
+  if (!record.requiresForbiddenUntilUnlockedChecks) {
+    errors.push(`${prefix} must require forbidden-until-unlocked checks.`);
+  }
+
+  if (!record.requiresReleaseEvidence) {
+    errors.push(`${prefix} must require release evidence.`);
+  }
+
+  if (!record.requiresRouteSafetyReleaseGate) {
+    errors.push(`${prefix} must require route safety release gates.`);
+  }
+
+  if (!record.requiresRollbackDrillRecord) {
+    errors.push(`${prefix} must require rollback drill records.`);
+  }
+
+  if (!record.requiresStorageContractVerification) {
+    errors.push(`${prefix} must require storage contract verification.`);
+  }
+
+  if (!record.requiresReviewerIdentitySignatureGate) {
+    errors.push(`${prefix} must require reviewer identity signature gates.`);
   }
 
   if (!record.blocksAppFileWrite) {
