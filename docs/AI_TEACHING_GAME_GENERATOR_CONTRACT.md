@@ -403,6 +403,14 @@ Generator mode recommendations must reuse the reviewed activity compatibility ma
 
 Generated game requests must produce an `ai_audio_coverage_plan` before review. The plan must enumerate target-language term audio, sentence audio, instruction audio, feedback audio, and critical control audio; name the `audio_cue_manifest` and `package_game_audio_coverage` records; keep support-language audio support-only; and block background music or video sound from counting toward mastery. Live synthetic voice generation and voice API cost remain blocked until a tenant approves the premium package and storage/review controls exist.
 
+## Target-Language Audio Approval Packet Rule
+
+Teacher generator routes must show a review-only target-language audio approval packet before package teacher review can be treated as complete. The packet names the exact learner-facing term, sentence, instruction, feedback, control, support-language, and background-media policy cues that need review.
+
+The packet cannot capture audio approval, generate voice, bill a speech or voice API, mark package audio complete, create routes, create playlists, assign students, or count media-only listening as progress. Support-language audio remains support-only and cannot unlock progress, mastery, Star Dust, package approval, or student-ready state.
+
+MiniStar audio approval packets must preserve English as the target-language trigger. Foundation/Bronze/Plus Japanese support must remain hiragana-only and support-only.
+
 ## Gamification Mapping Rule
 
 Generated game requests must produce an `ai_gamification_mapping_plan` before review. The plan must name accepted game events, Star Dust allocation lanes, mastery thresholds, `game_scoring_profile_snapshot`, `progress_event_acceptance_map`, and `collection_unlock_binding` records. AI generation cannot create random rewards, generated gacha, purchase-like unlocks, support-language-only mastery, media-only Star Dust, or unreviewed score profiles.

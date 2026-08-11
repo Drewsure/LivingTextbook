@@ -190,6 +190,10 @@ import {
   filterAiVerifierSubmissionPacketsByTenant,
   sampleAiVerifierSubmissionPackets,
 } from "@/data/sampleAiVerifierSubmissionPacket";
+import {
+  filterAiTargetLanguageAudioApprovalPacketsByTenant,
+  sampleAiTargetLanguageAudioApprovalPackets,
+} from "@/data/sampleAiTargetLanguageAudioApprovalPacket";
 import { sampleActivityPathwayCompatibilityMatrix } from "@/data/sampleActivityPathwayCompatibility";
 import { AiDraftCorrectionQueuePanel } from "@/features/content-intake/AiDraftCorrectionQueuePanel";
 import { AiGenerationRequestBuilderPanel } from "@/features/content-intake/AiGenerationRequestBuilderPanel";
@@ -244,6 +248,7 @@ import { AiGeneratorTenantCoveragePanel } from "@/features/content-intake/AiGene
 import { AiModeRecommendationPanel } from "@/features/content-intake/AiModeRecommendationPanel";
 import { AiPromptPackagePlanPanel } from "@/features/content-intake/AiPromptPackagePlanPanel";
 import { AiRewardReadinessGatePanel } from "@/features/content-intake/AiRewardReadinessGatePanel";
+import { AiTargetLanguageAudioApprovalPacketPanel } from "@/features/content-intake/AiTargetLanguageAudioApprovalPacketPanel";
 import { AiVerifierSubmissionPacketPanel } from "@/features/content-intake/AiVerifierSubmissionPacketPanel";
 import { ministarTenant } from "@/features/tenant/ministarTenant";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
@@ -428,6 +433,12 @@ export default async function TeacherAiGameGeneratorPage({
           />
         <AiVerifierSubmissionPacketPanel
           packets={filterAiVerifierSubmissionPacketsByTenant(sampleAiVerifierSubmissionPackets, tenantId)}
+        />
+        <AiTargetLanguageAudioApprovalPacketPanel
+          packets={filterAiTargetLanguageAudioApprovalPacketsByTenant(
+            sampleAiTargetLanguageAudioApprovalPackets,
+            tenantId,
+          )}
         />
         <AiGeneratedPackageTeacherReviewPacketPanel
           packets={filterAiGeneratedPackageTeacherReviewPacketsByTenant(

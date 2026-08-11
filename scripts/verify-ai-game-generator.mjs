@@ -56,6 +56,9 @@ const prototypePatchImplementationWorkOrder = readSource(
 );
 const prototypePatchChangeSetPreview = readSource("../apps/web/src/data/sampleAiPrototypePatchChangeSetPreview.ts");
 const verifierSubmissionPacket = readSource("../apps/web/src/data/sampleAiVerifierSubmissionPacket.ts");
+const targetLanguageAudioApprovalPacket = readSource(
+  "../apps/web/src/data/sampleAiTargetLanguageAudioApprovalPacket.ts",
+);
 const generatedPackageTeacherReviewPacket = readSource(
   "../apps/web/src/data/sampleAiGeneratedPackageTeacherReviewPacket.ts",
 );
@@ -175,6 +178,9 @@ const prototypePatchChangeSetPreviewPanel = readSource(
   "../apps/web/src/features/content-intake/AiPrototypePatchChangeSetPreviewPanel.tsx",
 );
 const verifierSubmissionPanel = readSource("../apps/web/src/features/content-intake/AiVerifierSubmissionPacketPanel.tsx");
+const targetLanguageAudioApprovalPacketPanel = readSource(
+  "../apps/web/src/features/content-intake/AiTargetLanguageAudioApprovalPacketPanel.tsx",
+);
 const generatedPackageTeacherReviewPacketPanel = readSource(
   "../apps/web/src/features/content-intake/AiGeneratedPackageTeacherReviewPacketPanel.tsx",
 );
@@ -1631,6 +1637,86 @@ requireText(verifierSubmissionPanel, "Verifier checks", "AI verifier packet pane
 requireText(verifierSubmissionPanel, "Evidence", "AI verifier packet panel must show evidence.");
 requireText(verifierSubmissionPanel, "Rejection rule", "AI verifier packet panel must show rejection rules.");
 requireText(
+  targetLanguageAudioApprovalPacket,
+  "sampleAiTargetLanguageAudioApprovalPackets",
+  "Target-language audio approval packet data must exist.",
+);
+requireText(
+  targetLanguageAudioApprovalPacket,
+  "target_language_audio_approval",
+  "Target-language audio approval packet must name approval record.",
+);
+requireText(
+  targetLanguageAudioApprovalPacket,
+  "No audio approval capture",
+  "Target-language audio approval packet must block approval capture.",
+);
+requireText(
+  targetLanguageAudioApprovalPacket,
+  "No voice generation",
+  "Target-language audio approval packet must block voice generation.",
+);
+requireText(
+  targetLanguageAudioApprovalPacket,
+  "No speech API billing",
+  "Target-language audio approval packet must block speech API billing.",
+);
+requireText(
+  targetLanguageAudioApprovalPacket,
+  "No package audio-complete marker",
+  "Target-language audio approval packet must block package audio-complete markers.",
+);
+requireText(
+  targetLanguageAudioApprovalPacket,
+  "Media-only listening cannot count toward mastery",
+  "Target-language audio approval packet must block media-only mastery.",
+);
+requireText(
+  targetLanguageAudioApprovalPacket,
+  "MiniStar target-language audio approval packet",
+  "MiniStar target-language audio approval packet must exist.",
+);
+requireText(
+  targetLanguageAudioApprovalPacket,
+  "English is the target-language trigger",
+  "MiniStar audio approval packet must preserve English target-language trigger.",
+);
+requireText(
+  targetLanguageAudioApprovalPacket,
+  "Japanese support is teacher-enabled, hiragana-only for Foundation/Bronze/Plus",
+  "MiniStar audio approval packet must preserve hiragana-only Japanese support.",
+);
+requireText(
+  targetLanguageAudioApprovalPacket,
+  "Japanese support audio cannot unlock progress",
+  "MiniStar audio approval packet must block Japanese support-language progress.",
+);
+requireText(
+  targetLanguageAudioApprovalPacketPanel,
+  "Target-language audio approval packet",
+  "Target-language audio approval packet panel must expose heading.",
+);
+requireText(
+  targetLanguageAudioApprovalPacketPanel,
+  "Audio before package approval",
+  "Target-language audio approval packet panel must expose package approval boundary.",
+);
+requireText(
+  targetLanguageAudioApprovalPacketPanel,
+  "No audio approval capture",
+  "Target-language audio approval packet panel must block audio approval capture.",
+);
+requireText(
+  targetLanguageAudioApprovalPacketPanel,
+  "Blocked audio actions",
+  "Target-language audio approval packet panel must expose blocked actions.",
+);
+requireText(
+  targetLanguageAudioApprovalPacketPanel,
+  "Audio cues for review",
+  "Target-language audio approval packet panel must show review cues.",
+);
+requireText(
   generatedPackageTeacherReviewPacket,
   "sampleAiGeneratedPackageTeacherReviewPackets",
   "AI generated package teacher review packet data must exist.",
@@ -2742,6 +2828,11 @@ requireText(route, "AiGeneratorAudioCoveragePlanPanel", "Generator route must re
 requireText(route, "AiGamificationMappingPanel", "Generator route must render the gamification mapping panel.");
 requireText(route, "AiRewardReadinessGatePanel", "Generator route must render the reward readiness gate panel.");
 requireText(route, "AiVerifierSubmissionPacketPanel", "Generator route must render the verifier submission packet panel.");
+requireText(
+  route,
+  "AiTargetLanguageAudioApprovalPacketPanel",
+  "Generator route must render the target-language audio approval packet panel.",
+);
 requireText(route, "AiModeRecommendationPanel", "Generator route must render the mode recommendation panel.");
 requireText(
   route,
@@ -2880,6 +2971,11 @@ requireText(route, "sampleAiGeneratorAudioCoveragePlans", "Generator route must 
 requireText(route, "sampleAiGamificationMappingPlans", "Generator route must use the sample gamification mapping plan data.");
 requireText(route, "sampleAiRewardReadinessGates", "Generator route must use the sample reward readiness gate data.");
 requireText(route, "sampleAiVerifierSubmissionPackets", "Generator route must use the sample verifier submission packet data.");
+requireText(
+  route,
+  "sampleAiTargetLanguageAudioApprovalPackets",
+  "Generator route must use target-language audio approval packet data.",
+);
 requireText(
   route,
   "sampleAiGeneratedPackageTeacherReviewPackets",

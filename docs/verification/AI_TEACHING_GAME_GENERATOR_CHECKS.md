@@ -112,6 +112,9 @@ Confirm:
 - Audio coverage planner enumerates target-language term audio, sentence audio, instruction audio, feedback audio, and critical control audio.
 - Audio coverage planner keeps support-language audio support-only and blocks media-only listening from counting toward mastery.
 - Audio coverage planner blocks live synthetic voice generation and voice API cost until tenant approval.
+- Generator routes show a target-language audio approval packet with exact learner-facing term, sentence, instruction, feedback, control, support-language, and background-media policy cues before package teacher review can be considered complete.
+- Target-language audio approval packets block audio approval capture, voice generation, speech API billing, package audio-complete markers, route creation, playlist creation, student assignment, media-only progress, and support-language progress.
+- MiniStar target-language audio approval packets keep English as the progress trigger while Foundation Japanese support remains hiragana-only, support-only, and unable to unlock mastery, Star Dust, approval, or student-ready state.
 - Gamification mapping preview shows accepted events, Star Dust allocation, mastery thresholds, score-profile snapshot, event acceptance map, and collection unlock bindings.
 - Gamification mapping preview blocks random reward generation, generated gacha, media-only Star Dust, support-language-only mastery, purchase-like unlocks, and unreviewed score profiles.
 - AI reward readiness gate preserves the 1,000 Star Dust unit cap, 75% mastery thresholds, deterministic collection unlocks, accepted learning-event sources, and correction-queue clearance.

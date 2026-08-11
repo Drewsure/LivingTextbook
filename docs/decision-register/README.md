@@ -355,6 +355,7 @@
 - `DR-381-ai-prototype-patch-change-set-preview-storage-contract.md`
 - `DR-382-ai-generated-package-teacher-review-packet.md`
 - `DR-383-ai-generated-package-teacher-review-packet-storage-contract.md`
+- `DR-384-target-language-audio-approval-packet.md`
 
 ## Maintenance Rule
 
