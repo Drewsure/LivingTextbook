@@ -243,6 +243,14 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     note: "Deterministic mastery-earned collection preview.",
   },
   {
+    routeId: "ministar-flashcards",
+    group: "ministar",
+    label: "MiniStar flashcards",
+    path: "/flashcards/demo-unit-1",
+    status: "active-scaffold",
+    note: "Direct entry-practice route with target-language audio gating before recommended games unlock.",
+  },
+  {
     routeId: "ministar-training",
     group: "ministar",
     label: "MiniStar Training Academy",
@@ -361,6 +369,14 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     path: "/collection/partner-demo-unit-1",
     status: "active-scaffold",
     note: "White-label deterministic collection preview using the tenant reward name.",
+  },
+  {
+    routeId: "partner-flashcards",
+    group: "sample-publisher",
+    label: "Sample publisher flashcards",
+    path: "/flashcards/partner-demo-unit-1",
+    status: "active-scaffold",
+    note: "White-label direct entry-practice route with target-language audio gating before recommended games unlock.",
   },
   {
     routeId: "partner-training",

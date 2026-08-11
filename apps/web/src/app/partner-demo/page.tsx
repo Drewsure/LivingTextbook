@@ -15,6 +15,7 @@ import { GameSequence } from "@/features/game-shell/GameSequence";
 import { MultimediaPackagePanel } from "@/features/multimedia/MultimediaPackagePanel";
 import { ProgressionSummary } from "@/features/progression/ProgressionSummary";
 import {
+  getFlashcardsPath,
   getMemoryMatchPath,
   getQuizPath,
   getSentenceBuilderPath,
@@ -110,6 +111,7 @@ export default function PartnerDemoPage() {
               <RouteLink label="Student launch" href={getStudentLaunchPath(samplePartnerLaunchCode)} />
               <RouteLink label="Collection room" href={getCollectionPath(samplePartnerLaunchCode)} />
               <RouteLink label="Printable Worksheet" href={getPrintableWorksheetPath(samplePartnerLaunchCode)} />
+              <RouteLink label="Flashcards" href={getFlashcardsPath(samplePartnerLaunchCode)} />
               <RouteLink label="Memory Match" href={getMemoryMatchPath(samplePartnerLaunchCode)} />
               <RouteLink label="Quiz" href={getQuizPath(samplePartnerLaunchCode)} />
               <RouteLink label="Sentence Builder" href={getSentenceBuilderPath(samplePartnerLaunchCode)} />

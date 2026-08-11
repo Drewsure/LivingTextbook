@@ -364,6 +364,7 @@
 - `DR-390-tenant-scoped-review-queue-routes.md`
 - `DR-391-dedicated-memory-match-routes.md`
 - `DR-392-active-game-route-contract-coverage.md`
+- `DR-393-dedicated-flashcard-entry-routes.md`
 
 ## Maintenance Rule
 

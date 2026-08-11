@@ -3,6 +3,7 @@ import { getUnitKey } from "@living-textbook/content-model";
 import type { ContentPackage, LaunchSession, UnitPayload } from "@living-textbook/content-model";
 import {
   getCollectionPath,
+  getFlashcardsPath,
   getMemoryMatchPath,
   getMediaPlaylistPath,
   getPrintableWorksheetPath,
@@ -35,6 +36,11 @@ export function TeacherLaunchPanel({ unit, launchSession, contentPackage }: Teac
       label: "Student launch",
       href: launchPath,
       summary: "QR entry, flashcards, unlock flow, Memory Match, and local student summary.",
+    },
+    {
+      label: "Flashcards",
+      href: getFlashcardsPath(launchSession.launchCode),
+      summary: "Direct entry-practice route with target-language audio gating.",
     },
     {
       label: "Memory Match",

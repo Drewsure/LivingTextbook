@@ -14,6 +14,7 @@ import { findSampleTeacherAssignmentPlan } from "./sampleTeacherAssignmentPlans"
 import { sampleUnitPackageReadiness } from "./sampleUnitPackageReadiness";
 import type { UnitPackageReadinessSummary } from "./sampleUnitPackageReadiness";
 import {
+  getFlashcardsPath,
   getFrontDoorPath,
   getMemoryMatchPath,
   getMediaPlaylistPath,
@@ -116,6 +117,12 @@ function buildTeacherUnitReviewContext(args: {
         href: getStudentLaunchPath(args.launchSession.launchCode),
         status: "ready",
         note: "Flashcards, unlock flow, Memory Match, media shortcut, and student summary.",
+      },
+      {
+        label: "Flashcards",
+        href: getFlashcardsPath(args.launchSession.launchCode),
+        status: "ready",
+        note: "Direct entry-practice route with target-language listening required before progress unlock.",
       },
       {
         label: "Memory Match",

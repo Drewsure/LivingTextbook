@@ -42,6 +42,7 @@ This list names the routes that should be checked after foundation changes. It i
 - `http://127.0.0.1:3000/teacher/units/ministar%3Aministar-english%3AL1%3AU1`
 - `http://127.0.0.1:3000/assign/assignment-ministar-demo-whole-class`
 - `http://127.0.0.1:3000/collection/demo-unit-1`
+- `http://127.0.0.1:3000/flashcards/demo-unit-1`
 - `http://127.0.0.1:3000/training/demo-unit-1`
 - `http://127.0.0.1:3000/training/demo-unit-1?focus=sentence-review`
 - `http://127.0.0.1:3000/memory/demo-unit-1`
@@ -60,6 +61,7 @@ This list names the routes that should be checked after foundation changes. It i
 - `http://127.0.0.1:3000/teacher/units/sample-publisher%3Apartner-textbook-companion%3AL1%3AU1`
 - `http://127.0.0.1:3000/assign/assignment-sample-publisher-front-door`
 - `http://127.0.0.1:3000/collection/partner-demo-unit-1`
+- `http://127.0.0.1:3000/flashcards/partner-demo-unit-1`
 - `http://127.0.0.1:3000/training/partner-demo-unit-1`
 - `http://127.0.0.1:3000/training/partner-demo-unit-1?focus=sentence-review`
 - `http://127.0.0.1:3000/memory/partner-demo-unit-1`

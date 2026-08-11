@@ -234,6 +234,23 @@ export const appRouteContracts: AppRouteContract[] = [
     requiredState: ["TenantConfig", "UnitPayload", "LaunchSession", "StudentProgressionState", "GameProgressEvent[]"],
   },
   {
+    id: "flashcards",
+    pattern: "/flashcards/[code]",
+    audience: "student",
+    status: "active-scaffold",
+    purpose:
+      "Let a student complete direct entry flashcard practice with target-language audio as the progress trigger before recommended games unlock.",
+    requiredState: [
+      "TenantConfig",
+      "UnitPayload",
+      "LaunchSession",
+      "StudentProgressionState",
+      "AudioCue[]",
+      "UnitAssistLanguagePlan?",
+      "TeacherAssignmentPlan?",
+    ],
+  },
+  {
     id: "memory-match",
     pattern: "/memory/[code]",
     audience: "student",
@@ -329,6 +346,10 @@ export function getTrainingAcademyPath(launchCode: LaunchCode, focusType?: Train
   const basePath = `/training/${encodeURIComponent(launchCode)}`;
 
   return focusType ? `${basePath}?focus=${encodeURIComponent(focusType)}` : basePath;
+}
+
+export function getFlashcardsPath(launchCode: LaunchCode): string {
+  return `/flashcards/${encodeURIComponent(launchCode)}`;
 }
 
 export function getSentenceBuilderPath(launchCode: LaunchCode): string {
