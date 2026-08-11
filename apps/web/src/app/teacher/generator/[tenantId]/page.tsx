@@ -173,6 +173,10 @@ import {
   sampleAiPrototypePatchImplementationWorkOrders,
 } from "@/data/sampleAiPrototypePatchImplementationWorkOrder";
 import {
+  filterAiPrototypePatchChangeSetPreviewsByTenant,
+  sampleAiPrototypePatchChangeSetPreviews,
+} from "@/data/sampleAiPrototypePatchChangeSetPreview";
+import {
   filterAiGamificationMappingPlansByTenant,
   sampleAiGamificationMappingPlans,
 } from "@/data/sampleAiGamificationMappingPlan";
@@ -223,6 +227,7 @@ import { AiPrototypeCodexPatchApprovalDecisionPanel } from "@/features/content-i
 import { AiPrototypeSignedApprovalPreflightPanel } from "@/features/content-intake/AiPrototypeSignedApprovalPreflightPanel";
 import { AiPrototypePatchAuthorizationReleaseLockPanel } from "@/features/content-intake/AiPrototypePatchAuthorizationReleaseLockPanel";
 import { AiPrototypePatchImplementationWorkOrderPanel } from "@/features/content-intake/AiPrototypePatchImplementationWorkOrderPanel";
+import { AiPrototypePatchChangeSetPreviewPanel } from "@/features/content-intake/AiPrototypePatchChangeSetPreviewPanel";
 import { AiGamificationMappingPanel } from "@/features/content-intake/AiGamificationMappingPanel";
 import { AiGeneratorAudioCoveragePlanPanel } from "@/features/content-intake/AiGeneratorAudioCoveragePlanPanel";
 import { AiGameGeneratorPlanPanel } from "@/features/content-intake/AiGameGeneratorPlanPanel";
@@ -399,6 +404,12 @@ export default async function TeacherAiGameGeneratorPage({
         <AiPrototypePatchImplementationWorkOrderPanel
           workOrders={filterAiPrototypePatchImplementationWorkOrdersByTenant(
             sampleAiPrototypePatchImplementationWorkOrders,
+            tenantId,
+          )}
+        />
+        <AiPrototypePatchChangeSetPreviewPanel
+          previews={filterAiPrototypePatchChangeSetPreviewsByTenant(
+            sampleAiPrototypePatchChangeSetPreviews,
             tenantId,
           )}
         />

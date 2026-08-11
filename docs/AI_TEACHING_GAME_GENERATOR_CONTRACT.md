@@ -385,6 +385,14 @@ The work order may name required-before-work records, allowed future file groups
 
 MiniStar patch implementation work orders must keep Foundation Japanese support hiragana-only and support-only while English remains the progress trigger.
 
+## Prototype Patch Change Set Preview Rule
+
+Prototype patch change set previews must remain review-only until a stored work order, work-order execution authorization, patch fixture archive, rollback snapshot, and human reviewer sign-off exist.
+
+The preview may name planned file changes, wrapper boundaries, fixture mapping files, event/audio test files, invariant checks, review blockers, blocked actions, and next required records. It cannot apply a patch, write app files, generate files, run tests, invoke Playwright, create routes, mutate scoring or rewards, mutate audio manifests, promote packages, assign students, or trigger support-language progress.
+
+MiniStar patch change set previews must keep Foundation Japanese support hiragana-only and support-only while English remains the progress trigger.
+
 ## Mode Recommendation Rule
 
 Generator mode recommendations must reuse the reviewed activity compatibility matrix. The generator can recommend a tight pathway for a unit, but it must not produce a broad switch panel or unsupported conversions. Blocked conversions stay visible with their payload-fit and compatibility-rule reasons.

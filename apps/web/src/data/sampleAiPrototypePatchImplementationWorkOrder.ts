@@ -92,6 +92,7 @@ export const sampleAiPrototypePatchImplementationWorkOrders: AiPrototypePatchImp
       ],
       nextRequiredRecords: [
         "Patch implementation work order storage contract",
+        "Patch change set preview",
         "Signed approval acceptance record",
         "Release-control binding acceptance",
         "Accepted patch test evidence packet",
