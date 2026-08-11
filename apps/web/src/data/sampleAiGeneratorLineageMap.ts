@@ -1,25 +1,12 @@
-export type AiGeneratorLineageStepStatus = "covered" | "blocked" | "missing" | "review-only";
+import {
+  getAiGeneratorLineageMapCollectionWarnings,
+  validateAiGeneratorLineageMaps,
+  type AiGeneratorLineageMap,
+  type AiGeneratorLineageStep,
+  type AiGeneratorLineageStepStatus,
+} from "@living-textbook/content-model/src/aiGeneratorLineageMap";
 
-export interface AiGeneratorLineageStep {
-  stepId: string;
-  label: string;
-  recordType: string;
-  status: AiGeneratorLineageStepStatus;
-  evidence: string;
-  releaseBoundary: string;
-}
-
-export interface AiGeneratorLineageMap {
-  lineageId: string;
-  tenantId: string;
-  requestId: string;
-  label: string;
-  summary: string;
-  currentState: string;
-  steps: AiGeneratorLineageStep[];
-  blockedActions: string[];
-  nextRecords: string[];
-}
+export type { AiGeneratorLineageMap, AiGeneratorLineageStep, AiGeneratorLineageStepStatus };
 
 export const sampleAiGeneratorLineageMaps: AiGeneratorLineageMap[] = [
   {
@@ -102,7 +89,9 @@ export const sampleAiGeneratorLineageMaps: AiGeneratorLineageMap[] = [
       "No package assembly from lineage map",
       "No route creation from lineage map",
       "No playlist creation from lineage map",
+      "No local bundle write from lineage map",
       "No student assignment from lineage map",
+      "No student-ready marker from lineage map",
     ],
     nextRecords: [
       "durable_lineage_snapshot",
@@ -193,7 +182,9 @@ export const sampleAiGeneratorLineageMaps: AiGeneratorLineageMap[] = [
       "No package assembly from lineage map",
       "No route creation from lineage map",
       "No playlist creation from lineage map",
+      "No local bundle write from lineage map",
       "No student assignment from lineage map",
+      "No student-ready marker from lineage map",
       "No Japanese support-language unlock from lineage map",
     ],
     nextRecords: [
@@ -206,6 +197,11 @@ export const sampleAiGeneratorLineageMaps: AiGeneratorLineageMap[] = [
     ],
   },
 ];
+
+export const sampleAiGeneratorLineageMapErrors = validateAiGeneratorLineageMaps(sampleAiGeneratorLineageMaps);
+
+export const sampleAiGeneratorLineageMapWarnings =
+  getAiGeneratorLineageMapCollectionWarnings(sampleAiGeneratorLineageMaps);
 
 export function filterAiGeneratorLineageMapsByTenant(
   maps: AiGeneratorLineageMap[],

@@ -47,6 +47,9 @@ Confirm:
 - Shared draft validation rejects `ja-hiragana` support cues that are not marked `support-only`.
 - Shared draft validation rejects non-hiragana `ja-hiragana` support text before live model calls, package review, route creation, playlist creation, assignment, or student-ready marking can exist.
 - Generator routes show an AI generator lineage map with request-to-review chain, release boundaries, blocked lineage actions, and no live generation, verifier submission, package assembly, route creation, playlist creation, or student assignment.
+- Generator routes show `Lineage guard active`, `Lineage guard blocks`, and `Lineage guard warnings`.
+- `packages/content-model/src/aiGeneratorLineageMap.ts` exports `validateAiGeneratorLineageMap`.
+- AI generator lineage maps block local bundle writes and student-ready markers before request-to-review chains can inform future package review, promotion, or writer decisions.
 - Generator routes show a route map with Request setup, Prototype review, Integration gates, Package review, and Draft repair sections before the detailed panels.
 - Generator routes show an AI generator review summary with a section readiness rollup, primary blockers, next required records, source records, and blocked actions before the detailed panels.
 - Generator routes show `Review summary guard active`, `Review summary guard blocks`, and `Review summary guard warnings`.

@@ -388,6 +388,7 @@
 - `DR-414-ai-generator-review-summary-validator.md`
 - `DR-415-ai-generator-reviewer-runbook-validator.md`
 - `DR-416-ai-generator-responsibility-matrix-validator.md`
+- `DR-417-ai-generator-lineage-map-validator.md`
 
 ## Maintenance Rule
 

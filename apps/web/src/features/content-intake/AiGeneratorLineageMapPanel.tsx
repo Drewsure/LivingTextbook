@@ -1,4 +1,8 @@
 import { Card, StatusPill } from "@living-textbook/ui";
+import {
+  getAiGeneratorLineageMapCollectionWarnings,
+  validateAiGeneratorLineageMaps,
+} from "@living-textbook/content-model/src/aiGeneratorLineageMap";
 import type {
   AiGeneratorLineageMap,
   AiGeneratorLineageStep,
@@ -17,6 +21,8 @@ const stepTone: Record<AiGeneratorLineageStepStatus, "neutral" | "success" | "wa
 };
 
 export function AiGeneratorLineageMapPanel({ maps }: AiGeneratorLineageMapPanelProps) {
+  const guardBlocks = validateAiGeneratorLineageMaps(maps);
+  const guardWarnings = getAiGeneratorLineageMapCollectionWarnings(maps);
   const blockedStepCount = maps.reduce(
     (total, map) => total + map.steps.filter((step) => step.status === "blocked" || step.status === "missing").length,
     0,
@@ -34,9 +40,27 @@ export function AiGeneratorLineageMapPanel({ maps }: AiGeneratorLineageMapPanelP
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
+          <StatusPill label="Lineage guard active" tone="neutral" />
+          <StatusPill
+            label={`${guardBlocks.length} guard block(s)`}
+            tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+          />
           <StatusPill label="Lineage review only" tone="neutral" />
           <StatusPill label={`${blockedStepCount} blocked step(s)`} tone={blockedStepCount > 0 ? "warning" : "success"} />
         </div>
+      </div>
+
+      <div className="mt-5 grid gap-3 lg:grid-cols-2">
+        <LineageList
+          title="Lineage guard blocks"
+          items={guardBlocks.length > 0 ? guardBlocks : ["No shared lineage map guard blockers."]}
+          tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+        />
+        <LineageList
+          title="Lineage guard warnings"
+          items={guardWarnings.length > 0 ? guardWarnings : ["No shared lineage map guard warnings."]}
+          tone={guardWarnings.length > 0 ? "warning" : "neutral"}
+        />
       </div>
 
       <div className="mt-5 grid gap-4">

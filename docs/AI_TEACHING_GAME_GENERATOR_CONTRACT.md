@@ -81,6 +81,8 @@ The shared `validateAiGeneratedDraftPayload` contract must reject non-hiragana `
 
 Teacher generator routes must show an inspection-only lineage map before live generation exists. The map traces a generated request through prompt package, Draft JSON preview, correction queue, verifier packet, generated package manifest, publish readiness gate, and teacher review queue item.
 
+Lineage maps must pass the shared `validateAiGeneratorLineageMap` guard before request-to-review chains can inform future package review, promotion, or writer decisions. The guard requires request, prompt, Draft JSON preview, correction queue, verifier packet, generated manifest, publish readiness, and teacher review handoff records; requires the map to stay in `Lineage review only` state; and blocks live generation, verifier submission, package assembly, route creation, playlist creation, local bundle writes, student assignment, and student-ready markers.
+
 The lineage map cannot generate, submit verifier packets, assemble packages, create routes, create playlists, create assignments, unlock support-language progress, write local bundles, or mark student-ready state. MiniStar lineage must explicitly preserve English as the target-language trigger and Japanese as hiragana-only support.
 
 ## Generator Review Summary Rule
