@@ -375,6 +375,14 @@ MiniStar patch authorization release locks must keep Foundation Japanese support
 
 The backend-neutral storage contract is `ai_prototype_patch_authorization_release_lock` / `ai-prototype-patch-authorization-release-lock`. Hosted and local adapters must preserve linked signed approval preflight, Codex patch approval decision, release-control binding, route safety release gate, rollback drill record, storage verification, reviewer identity signature gate, required release locks, authorization scope, forbidden-until-unlocked blockers, release evidence, next required records, and blocked patch actions while blocking patch authorization, app file writes, patch generation, test execution, Playwright runs, route writes, student-facing routes, scoring mutations, Star Dust or reward writes, audio manifest mutation, package promotion, assignments, and support-language progress.
 
+## Prototype Patch Implementation Work Order Rule
+
+Patch implementation work orders must remain review-only until signed approval acceptance, patch authorization release lock acceptance, release-control binding, patch test evidence, route safety, rollback, storage verification, and reviewer identity evidence are accepted.
+
+The work order may name required-before-work records, allowed future file groups, dry-run verification order, rollback plan, blocked actions, and next required records. It cannot execute a work order, write app files, generate patches, execute tests, invoke Playwright, mutate routes, expose student-facing routes, change scoring or rewards, mutate audio manifests, promote packages, assign students, or trigger support-language progress.
+
+MiniStar patch implementation work orders must keep Foundation Japanese support hiragana-only and support-only while English remains the progress trigger.
+
 ## Mode Recommendation Rule
 
 Generator mode recommendations must reuse the reviewed activity compatibility matrix. The generator can recommend a tight pathway for a unit, but it must not produce a broad switch panel or unsupported conversions. Blocked conversions stay visible with their payload-fit and compatibility-rule reasons.

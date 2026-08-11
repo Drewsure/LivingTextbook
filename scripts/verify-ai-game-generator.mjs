@@ -51,6 +51,9 @@ const prototypeSignedApprovalPreflight = readSource(
 const prototypePatchAuthorizationReleaseLock = readSource(
   "../apps/web/src/data/sampleAiPrototypePatchAuthorizationReleaseLock.ts",
 );
+const prototypePatchImplementationWorkOrder = readSource(
+  "../apps/web/src/data/sampleAiPrototypePatchImplementationWorkOrder.ts",
+);
 const verifierSubmissionPacket = readSource("../apps/web/src/data/sampleAiVerifierSubmissionPacket.ts");
 const generatedPackageManifest = readSource("../apps/web/src/data/sampleAiGeneratedPackageManifest.ts");
 const generatedPackagePromotionChecklist = readSource(
@@ -160,6 +163,9 @@ const prototypeSignedApprovalPreflightPanel = readSource(
 );
 const prototypePatchAuthorizationReleaseLockPanel = readSource(
   "../apps/web/src/features/content-intake/AiPrototypePatchAuthorizationReleaseLockPanel.tsx",
+);
+const prototypePatchImplementationWorkOrderPanel = readSource(
+  "../apps/web/src/features/content-intake/AiPrototypePatchImplementationWorkOrderPanel.tsx",
 );
 const verifierSubmissionPanel = readSource("../apps/web/src/features/content-intake/AiVerifierSubmissionPacketPanel.tsx");
 const generatedPackageManifestPanel = readSource("../apps/web/src/features/content-intake/AiGeneratedPackageManifestPanel.tsx");
@@ -1383,6 +1389,46 @@ requireText(
   "No patch authorization",
   "AI prototype patch authorization release lock panel must block patch authorization.",
 );
+requireText(
+  prototypePatchImplementationWorkOrder,
+  "sampleAiPrototypePatchImplementationWorkOrders",
+  "AI prototype patch implementation work order data must exist.",
+);
+requireText(
+  prototypePatchImplementationWorkOrder,
+  "No work order execution",
+  "AI prototype patch implementation work order must block work execution.",
+);
+requireText(
+  prototypePatchImplementationWorkOrder,
+  "allowedFutureFileGroups",
+  "AI prototype patch implementation work order must name future file groups.",
+);
+requireText(
+  prototypePatchImplementationWorkOrder,
+  "Verify target-language audio coverage",
+  "AI prototype patch implementation work order must verify target-language audio.",
+);
+requireText(
+  prototypePatchImplementationWorkOrder,
+  "No support-language progress trigger",
+  "AI prototype patch implementation work order must preserve support-language boundaries.",
+);
+requireText(
+  prototypePatchImplementationWorkOrderPanel,
+  "AI prototype patch implementation work order",
+  "AI prototype patch implementation work order panel must expose heading.",
+);
+requireText(
+  prototypePatchImplementationWorkOrderPanel,
+  "Patch work order before code",
+  "AI prototype patch implementation work order panel must expose code boundary.",
+);
+requireText(
+  prototypePatchImplementationWorkOrderPanel,
+  "No work order execution",
+  "AI prototype patch implementation work order panel must block execution.",
+);
 requireText(promptPackagePlan, "sampleAiPromptPackagePlans", "AI prompt package plan data must exist.");
 requireText(promptPackagePlan, "MiniStar generator prompt package", "AI prompt package plan must include MiniStar request seed.");
 requireText(promptPackagePlan, "ministar-l1-greetings-game-draft", "AI prompt package plan must bind to MiniStar greetings request.");
@@ -2564,6 +2610,11 @@ requireText(
   "AiPrototypePatchAuthorizationReleaseLockPanel",
   "Generator route must render the prototype patch authorization release lock panel.",
 );
+requireText(
+  route,
+  "AiPrototypePatchImplementationWorkOrderPanel",
+  "Generator route must render the prototype patch implementation work order panel.",
+);
 requireText(route, "AiPromptPackagePlanPanel", "Generator route must render the prompt package plan panel.");
 requireText(route, "AiGeneratorCostEntitlementGatePanel", "Generator route must render the cost entitlement gate panel.");
 requireText(route, "AiGenerationRequestBuilderPanel", "Generator route must render the request builder panel.");
@@ -2686,6 +2737,11 @@ requireText(
   route,
   "sampleAiPrototypePatchAuthorizationReleaseLocks",
   "Generator route must use prototype patch authorization release lock data.",
+);
+requireText(
+  route,
+  "sampleAiPrototypePatchImplementationWorkOrders",
+  "Generator route must use prototype patch implementation work order data.",
 );
 requireText(route, "sampleAiPromptPackagePlans", "Generator route must use the sample prompt package plan data.");
 requireText(route, "sampleAiGeneratorCostEntitlementGates", "Generator route must use the sample cost entitlement gate data.");
