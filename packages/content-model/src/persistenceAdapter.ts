@@ -183,6 +183,9 @@ export interface PersistenceWriteIntent {
   blocksPhaserBypass?: boolean;
   blocksGeneratedGameRouteWrite?: boolean;
   blocksScoringProfileOverride?: boolean;
+  preservesTargetLanguageAudioApproval?: boolean;
+  requiresAudioApprovalCueReview?: boolean;
+  requiresAudioApprovalProgressBoundaries?: boolean;
   preservesAiGeneratedPackageTeacherReviewPacket?: boolean;
   requiresTeacherReviewDecisionLanes?: boolean;
   requiresTeacherReviewMissingEvidence?: boolean;
@@ -2353,6 +2356,7 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
     validateAiPrototypePatchAuthorizationReleaseLockIntent(intent, errors);
     validateAiPrototypePatchImplementationWorkOrderIntent(intent, errors);
     validateAiPrototypePatchChangeSetPreviewIntent(intent, errors);
+    validateTargetLanguageAudioApprovalIntent(intent, errors);
     validateAiGeneratedPackageTeacherReviewPacketIntent(intent, errors);
 
     if (intent.category === "ai-reward-readiness-gate" && !intent.preservesAiRewardReadinessGate) {
@@ -3931,6 +3935,78 @@ function validateAiGeneratedPackageTeacherReviewPacketIntent(
 
   if (!intent.blocksStudentReadyMarker) {
     errors.push(`${prefix} must block student-ready markers.`);
+  }
+
+  if (!intent.blocksSupportLanguageProgressTrigger) {
+    errors.push(`${prefix} must block support-language progress triggers.`);
+  }
+}
+
+function validateTargetLanguageAudioApprovalIntent(intent: PersistenceWriteIntent, errors: string[]): void {
+  if (intent.category !== "target-language-audio-approval") {
+    return;
+  }
+
+  const prefix = `Target-language audio approval write intent ${intent.intentId}`;
+
+  if (!intent.preservesTargetLanguageAudioApproval) {
+    errors.push(`${prefix} must preserve target-language audio approval packets.`);
+  }
+
+  if (!intent.requiresAudioApprovalCueReview) {
+    errors.push(`${prefix} must require cue-level audio review.`);
+  }
+
+  if (!intent.requiresAudioApprovalProgressBoundaries) {
+    errors.push(`${prefix} must require progress boundary checks.`);
+  }
+
+  if (!intent.requiresAudioCueManifest) {
+    errors.push(`${prefix} must require audio cue manifests.`);
+  }
+
+  if (!intent.requiresTargetLanguageAudioCoverage) {
+    errors.push(`${prefix} must require target-language audio coverage.`);
+  }
+
+  if (!intent.requiresControlAudioCoverage) {
+    errors.push(`${prefix} must require control audio coverage.`);
+  }
+
+  if (!intent.requiresSupportLanguageAudioRules) {
+    errors.push(`${prefix} must require support-language audio rules.`);
+  }
+
+  if (!intent.blocksApprovalCapture) {
+    errors.push(`${prefix} must block approval capture.`);
+  }
+
+  if (!intent.blocksGeneratedVoiceCall) {
+    errors.push(`${prefix} must block generated voice calls.`);
+  }
+
+  if (!intent.blocksVoiceApiCost) {
+    errors.push(`${prefix} must block voice API cost.`);
+  }
+
+  if (!intent.blocksPackageAudioCompleteMarker) {
+    errors.push(`${prefix} must block package audio-complete markers.`);
+  }
+
+  if (!intent.blocksGeneratedPackageRouteWrite) {
+    errors.push(`${prefix} must block route registry writes.`);
+  }
+
+  if (!intent.blocksGeneratedPackagePlaylistWrite) {
+    errors.push(`${prefix} must block media playlist writes.`);
+  }
+
+  if (!intent.blocksGeneratedPackageAssignment) {
+    errors.push(`${prefix} must block generated package assignments.`);
+  }
+
+  if (!intent.blocksMediaOnlyMastery) {
+    errors.push(`${prefix} must block media-only mastery.`);
   }
 
   if (!intent.blocksSupportLanguageProgressTrigger) {

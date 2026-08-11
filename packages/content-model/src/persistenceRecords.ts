@@ -29,6 +29,7 @@ export type PersistenceRecordCategory =
   | "ai-prototype-patch-implementation-work-order"
   | "ai-prototype-patch-change-set-preview"
   | "ai-prototype-integration-readiness-gate"
+  | "target-language-audio-approval"
   | "ai-generated-package-teacher-review-packet"
   | "ai-generated-package-manifest"
   | "ai-generated-package-promotion-checklist"
@@ -286,6 +287,9 @@ export interface DurableRecordContract {
   blocksPhaserBypass?: boolean;
   blocksGeneratedGameRouteWrite?: boolean;
   blocksScoringProfileOverride?: boolean;
+  preservesTargetLanguageAudioApproval?: boolean;
+  requiresAudioApprovalCueReview?: boolean;
+  requiresAudioApprovalProgressBoundaries?: boolean;
   preservesAiGeneratedPackageTeacherReviewPacket?: boolean;
   requiresTeacherReviewDecisionLanes?: boolean;
   requiresTeacherReviewMissingEvidence?: boolean;
@@ -2421,6 +2425,7 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
     validateAiPrototypePatchAuthorizationReleaseLockRecord(record, errors);
     validateAiPrototypePatchImplementationWorkOrderRecord(record, errors);
     validateAiPrototypePatchChangeSetPreviewRecord(record, errors);
+    validateTargetLanguageAudioApprovalRecord(record, errors);
     validateAiGeneratedPackageTeacherReviewPacketRecord(record, errors);
 
     if (record.category === "ai-reward-readiness-gate" && !record.preservesAiRewardReadinessGate) {
@@ -3985,6 +3990,78 @@ function validateAiGeneratedPackageTeacherReviewPacketRecord(record: DurableReco
 
   if (!record.blocksStudentReadyMarker) {
     errors.push(`${prefix} must block student-ready markers.`);
+  }
+
+  if (!record.blocksSupportLanguageProgressTrigger) {
+    errors.push(`${prefix} must block support-language progress triggers.`);
+  }
+}
+
+function validateTargetLanguageAudioApprovalRecord(record: DurableRecordContract, errors: string[]): void {
+  if (record.category !== "target-language-audio-approval") {
+    return;
+  }
+
+  const prefix = `Target-language audio approval record ${record.recordId}`;
+
+  if (!record.preservesTargetLanguageAudioApproval) {
+    errors.push(`${prefix} must preserve target-language audio approval packets.`);
+  }
+
+  if (!record.requiresAudioApprovalCueReview) {
+    errors.push(`${prefix} must require cue-level audio review.`);
+  }
+
+  if (!record.requiresAudioApprovalProgressBoundaries) {
+    errors.push(`${prefix} must require progress boundary checks.`);
+  }
+
+  if (!record.requiresAudioCueManifest) {
+    errors.push(`${prefix} must require audio cue manifests.`);
+  }
+
+  if (!record.requiresTargetLanguageAudioCoverage) {
+    errors.push(`${prefix} must require target-language audio coverage.`);
+  }
+
+  if (!record.requiresControlAudioCoverage) {
+    errors.push(`${prefix} must require control audio coverage.`);
+  }
+
+  if (!record.requiresSupportLanguageAudioRules) {
+    errors.push(`${prefix} must require support-language audio rules.`);
+  }
+
+  if (!record.blocksApprovalCapture) {
+    errors.push(`${prefix} must block approval capture.`);
+  }
+
+  if (!record.blocksGeneratedVoiceCall) {
+    errors.push(`${prefix} must block generated voice calls.`);
+  }
+
+  if (!record.blocksVoiceApiCost) {
+    errors.push(`${prefix} must block voice API cost.`);
+  }
+
+  if (!record.blocksPackageAudioCompleteMarker) {
+    errors.push(`${prefix} must block package audio-complete markers.`);
+  }
+
+  if (!record.blocksGeneratedPackageRouteWrite) {
+    errors.push(`${prefix} must block route registry writes.`);
+  }
+
+  if (!record.blocksGeneratedPackagePlaylistWrite) {
+    errors.push(`${prefix} must block media playlist writes.`);
+  }
+
+  if (!record.blocksGeneratedPackageAssignment) {
+    errors.push(`${prefix} must block generated package assignments.`);
+  }
+
+  if (!record.blocksMediaOnlyMastery) {
+    errors.push(`${prefix} must block media-only mastery.`);
   }
 
   if (!record.blocksSupportLanguageProgressTrigger) {

@@ -411,6 +411,8 @@ The packet cannot capture audio approval, generate voice, bill a speech or voice
 
 MiniStar audio approval packets must preserve English as the target-language trigger. Foundation/Bronze/Plus Japanese support must remain hiragana-only and support-only.
 
+The backend-neutral storage contract is `target_language_audio_approval` / `target-language-audio-approval`. Hosted and local adapters must preserve cue-level review items, progress boundaries, audio cue manifest links, package game audio coverage links, support-language audio rules, required coverage, approval checks, and blocked actions while blocking approval capture, voice generation, speech API billing, package audio-complete markers, route registry writes, media playlist writes, assignments, media-only progress, and support-language progress.
+
 ## Gamification Mapping Rule
 
 Generated game requests must produce an `ai_gamification_mapping_plan` before review. The plan must name accepted game events, Star Dust allocation lanes, mastery thresholds, `game_scoring_profile_snapshot`, `progress_event_acceptance_map`, and `collection_unlock_binding` records. AI generation cannot create random rewards, generated gacha, purchase-like unlocks, support-language-only mastery, media-only Star Dust, or unreviewed score profiles.

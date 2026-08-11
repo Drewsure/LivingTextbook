@@ -36,6 +36,7 @@ const requiredSchemaEntities = [
   "ai_prototype_patch_authorization_release_lock",
   "ai_prototype_patch_implementation_work_order",
   "ai_prototype_patch_change_set_preview",
+  "target_language_audio_approval",
   "ai_generated_package_teacher_review_packet",
   "ai_generated_package_manifest",
   "ai_generated_package_promotion_checklist",
@@ -136,6 +137,7 @@ const requiredMigrationCandidates = [
   "m092-ai-prototype-patch-implementation-work-order-records",
   "m093-ai-prototype-patch-change-set-preview-records",
   "m094-ai-generated-package-teacher-review-packet-records",
+  "m095-target-language-audio-approval-records",
   "m054-ai-generated-package-manifest-records",
   "m058-ai-generated-package-promotion-checklist-records",
   "m059-ai-generated-package-release-candidate-records",
@@ -238,6 +240,7 @@ const requiredMigrationSpecs = [
   "spec-ai-prototype-patch-implementation-work-order",
   "spec-ai-prototype-patch-change-set-preview",
   "spec-ai-generated-package-teacher-review-packet",
+  "spec-target-language-audio-approval",
   "spec-ai-generated-package-manifest",
   "spec-ai-generated-package-promotion-checklist",
   "spec-ai-generated-package-release-candidate",
@@ -707,6 +710,19 @@ requireText(schemaDraft, "blocked_patch_actions", "Backend schema must preserve 
 requireText(schemaDraft, "app_file_write_allowed", "Backend schema must block app file writes.");
 requireText(schemaDraft, "reviewer_identity_signature_gate_id", "Backend schema must link app patch proposals to reviewer identity gates.");
 requireText(schemaDraft, "package_publish_gate_id", "Backend schema must link app patch proposals to release-control gates.");
+requireText(schemaDraft, "target_language_audio_approval", "Backend schema must include target-language audio approvals.");
+requireText(
+  schemaDraft,
+  "target_language_audio_approval_id",
+  "Backend schema must preserve target-language audio approval ids.",
+);
+requireText(schemaDraft, "cue_review_items", "Backend schema must preserve target-language audio cue review items.");
+requireText(schemaDraft, "progress_boundaries", "Backend schema must preserve target-language audio progress boundaries.");
+requireText(schemaDraft, "audio_approval_capture_allowed", "Backend schema must block audio approval capture.");
+requireText(schemaDraft, "voice_generation_allowed", "Backend schema must block voice generation.");
+requireText(schemaDraft, "speech_api_billing_allowed", "Backend schema must block speech API billing.");
+requireText(schemaDraft, "package_audio_complete_allowed", "Backend schema must block package audio-complete markers.");
+requireText(schemaDraft, "media_only_progress_allowed", "Backend schema must block media-only progress.");
 requireText(
   schemaDraft,
   "ai_generated_package_teacher_review_packet",
@@ -1585,6 +1601,23 @@ requireText(migrationSpecs, "review_blockers", "Migration specs must preserve pa
 requireText(migrationSpecs, "blocked_change_set_actions", "Migration specs must preserve blocked patch change set actions.");
 requireText(migrationSpecs, "apply_patch_allowed", "Migration specs must block apply-patch actions.");
 requireText(migrationSpecs, "generated_file_write_allowed", "Migration specs must block generated file writes.");
+requireText(
+  migrationSpecs,
+  "spec-target-language-audio-approval",
+  "Migration specs must include target-language audio approvals.",
+);
+requireText(
+  migrationSpecs,
+  "target_language_audio_approval_id",
+  "Migration specs must preserve target-language audio approval ids.",
+);
+requireText(migrationSpecs, "cue_review_items", "Migration specs must preserve target-language audio cue review items.");
+requireText(migrationSpecs, "progress_boundaries", "Migration specs must preserve target-language audio progress boundaries.");
+requireText(migrationSpecs, "audio_approval_capture_allowed", "Migration specs must block audio approval capture.");
+requireText(migrationSpecs, "voice_generation_allowed", "Migration specs must block voice generation.");
+requireText(migrationSpecs, "speech_api_billing_allowed", "Migration specs must block speech API billing.");
+requireText(migrationSpecs, "package_audio_complete_allowed", "Migration specs must block package audio-complete markers.");
+requireText(migrationSpecs, "media_only_progress_allowed", "Migration specs must block media-only progress.");
 requireText(
   migrationSpecs,
   "spec-ai-generated-package-teacher-review-packet",
@@ -4472,6 +4505,61 @@ requireText(persistenceAdapter, "blocksApplyPatch: true", "Persistence adapter m
 requireText(persistenceAdapter, "blocksGeneratedFileWrite: true", "Persistence adapter must block generated file writes.");
 requireText(
   durableRecords,
+  "target-language-audio-approval-record",
+  "Durable record plan must include target-language audio approval records.",
+);
+requireText(
+  durableRecords,
+  "Target-language audio approval record",
+  "Durable record plan must expose target-language audio approval labels.",
+);
+requireText(
+  durableRecords,
+  "preservesTargetLanguageAudioApproval: true",
+  "Durable record plan must preserve target-language audio approval packets.",
+);
+requireText(
+  durableRecords,
+  "requiresAudioApprovalCueReview: true",
+  "Durable record plan must require target-language audio cue review.",
+);
+requireText(
+  durableRecords,
+  "requiresAudioApprovalProgressBoundaries: true",
+  "Durable record plan must require target-language audio progress boundaries.",
+);
+requireText(
+  durableRecords,
+  "target-language-audio-approval-boundary",
+  "Durable record plan must include target-language audio approval boundaries.",
+);
+requireText(
+  persistenceAdapter,
+  "hosted-target-language-audio-approval-write",
+  "Persistence adapter must include hosted target-language audio approval writes.",
+);
+requireText(
+  persistenceAdapter,
+  "local-target-language-audio-approval-write",
+  "Persistence adapter must include local target-language audio approval writes.",
+);
+requireText(
+  persistenceAdapter,
+  "preservesTargetLanguageAudioApproval: true",
+  "Persistence adapter must preserve target-language audio approval packets.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresAudioApprovalCueReview: true",
+  "Persistence adapter must require target-language audio cue review.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresAudioApprovalProgressBoundaries: true",
+  "Persistence adapter must require target-language audio progress boundaries.",
+);
+requireText(
+  durableRecords,
   "ai-generated-package-teacher-review-packet-record",
   "Durable record plan must include AI generated package teacher review packet records.",
 );
@@ -5273,6 +5361,16 @@ requireText(
   routeVerifier,
   "Codex integration review decision record",
   "Active route verifier must keep Codex integration review decision durable records visible on teacher intake.",
+);
+requireText(
+  routeVerifier,
+  "target_language_audio_approval",
+  "Active route verifier must keep target-language audio approval storage visible on teacher intake.",
+);
+requireText(
+  routeVerifier,
+  "Target-language audio approval record",
+  "Active route verifier must keep target-language audio approval durable records visible on teacher intake.",
 );
 requireText(
   routeVerifier,

@@ -35,19 +35,20 @@ Do not store real student progress until policy, retention, export, and access r
 3. Teacher draft package records.
 4. Upload intake, review, promotion, game asset, label anchor, activity compatibility, template rendering, and font accessibility records.
 5. Teacher draft review decision, evidence, audit, and verifier submission records.
-6. AI generated package manifest records.
-7. Tenant library item records.
-8. Stable QR and route alias registry.
-9. Media manifest and rights records.
-10. Publish gate and approval ledger records.
-11. Pilot evidence packet records.
-12. Teacher dry-run rehearsal records.
-13. Classroom launch gate records.
-14. School launch policy gate records.
-15. Teacher launch session and settings records.
-16. Progress and media event stream records.
-17. Earned collection inventory records.
-18. Local classroom export and restore records.
+6. Target-language audio approval records.
+7. AI generated package manifest records.
+8. Tenant library item records.
+9. Stable QR and route alias registry.
+10. Media manifest and rights records.
+11. Publish gate and approval ledger records.
+12. Pilot evidence packet records.
+13. Teacher dry-run rehearsal records.
+14. Classroom launch gate records.
+15. School launch policy gate records.
+16. Teacher launch session and settings records.
+17. Progress and media event stream records.
+18. Earned collection inventory records.
+19. Local classroom export and restore records.
 
 ## Required Per Candidate
 
@@ -72,6 +73,7 @@ Each candidate must define:
 - Collection inventory must be deterministic, mastery-earned, exportable, and blocked from random pressure or purchase-like unlock paths.
 - Teacher draft package migrations must preserve owner, source lineage, visibility, review gates, audio plan state, and direct-assignment blocks.
 - AI generated package teacher review packet migrations must preserve teacher decision lanes, ready signals, missing evidence, blocked actions, next records, target-language audio approval, media-rights evidence, teacher approval ledger, release-control binding, and assignment rollout gate needs while blocking approval capture, package assembly, route writes, playlist writes, assignments, local bundles, student-ready markers, and support-language progress.
+- Target-language audio approval migrations must preserve cue-level review items, progress boundaries, audio cue manifests, package audio coverage, support-language rules, and blocked voice/API/package actions while blocking audio approval capture, generated voice calls, speech API billing, package audio-complete markers, route creation, playlist creation, assignments, media-only progress, and support-language progress.
 - AI generated package manifest migrations must preserve prompt, draft, audio, engine, gamification, verifier, review queue, media-rights, and release-lock lineage while blocking package assembly, route registry writes, media playlist writes, assignments, local bundle writes, and student-ready markers.
 - Codex patch approval decision migrations must preserve patch scope, evidence checks, decision options, route safety, rollback, storage, reviewer identity, and patch-action blockers before any app file work can exist.
 - Signed approval preflight migrations must preserve reviewer identity, scope locks, approval draft fields, evidence checklists, cannot-approve blockers, and approval-action blockers before signature capture, approve buttons, or patch authorization can exist.

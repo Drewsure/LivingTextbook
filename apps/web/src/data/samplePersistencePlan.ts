@@ -41,6 +41,7 @@ export type PersistenceBoundaryCategory =
   | "ai-prototype-patch-authorization-release-lock"
   | "ai-prototype-patch-implementation-work-order"
   | "ai-prototype-patch-change-set-preview"
+  | "target-language-audio-approval"
   | "ai-generated-package-teacher-review-packet"
   | "ai-generated-package-manifest"
   | "ai-generated-package-promotion-checklist"
@@ -212,6 +213,40 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     blocksDirectStudentAssignment: true,
     recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
     note: "Verifier submission preflight records need durable schema, audio, support-language, route, evidence, and approval checks before any draft can enter a live verifier workflow.",
+  },
+  {
+    recordId: "target-language-audio-approval-record",
+    category: "target-language-audio-approval",
+    label: "Target-language audio approval record",
+    readiness: "durable-required",
+    sourceOfTruth:
+      "AiTargetLanguageAudioApprovalPacket, audio cue manifest, package audio coverage, cue review questions, progress boundaries, support-language audio rules, and blocked voice/API/package actions",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesTargetLanguageAudioApproval: true,
+    requiresAudioApprovalCueReview: true,
+    requiresAudioApprovalProgressBoundaries: true,
+    requiresAudioCueManifest: true,
+    requiresTargetLanguageAudioCoverage: true,
+    requiresControlAudioCoverage: true,
+    requiresSupportLanguageAudioRules: true,
+    blocksApprovalCapture: true,
+    blocksGeneratedVoiceCall: true,
+    blocksVoiceApiCost: true,
+    blocksPackageAudioCompleteMarker: true,
+    blocksGeneratedPackageRouteWrite: true,
+    blocksGeneratedPackagePlaylistWrite: true,
+    blocksGeneratedPackageAssignment: true,
+    blocksMediaOnlyMastery: true,
+    blocksSupportLanguageProgressTrigger: true,
+    blocksDirectStudentAssignment: true,
+    recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
+    note:
+      "Target-language audio approval records need durable cue-level review metadata before voice generation, speech API billing, package audio-complete markers, route writes, playlists, assignments, media-only progress, or support-language progress can exist.",
   },
   {
     recordId: "ai-generated-package-teacher-review-packet-record",
@@ -2691,6 +2726,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     visibleTo: ["Teacher", "Content reviewer", "Tenant admin", "Platform admin"],
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision: "Persist verifier submission preflights before enabling submit-to-verifier, verifier automation, or package workflow promotion.",
+  },
+  {
+    boundaryId: "target-language-audio-approval-boundary",
+    category: "target-language-audio-approval",
+    label: "Target-language audio approval records",
+    status: "needs-backend",
+    recordShape:
+      "Approval id, tenant id, request id, cue manifest id, package audio coverage id, cue review questions, progress boundaries, support-language audio rules, blocked voice/API/package actions",
+    whyItMatters:
+      "Learner-facing audio must be reviewed before voice generation, API cost, package audio-complete markers, routes, playlists, assignments, or support-language progress can exist.",
+    visibleTo: ["Teacher", "Tenant admin", "Content reviewer", "Platform admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Persist target-language audio approval packets before enabling approval capture, voice generation, speech scoring, playlist creation, or generated package assembly.",
   },
   {
     boundaryId: "ai-generated-package-teacher-review-packet-boundary",

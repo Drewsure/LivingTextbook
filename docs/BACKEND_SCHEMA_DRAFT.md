@@ -31,6 +31,7 @@ The current draft includes:
 - Teacher draft package
 - Teacher draft review handoff
 - Teacher draft verifier submission
+- Target-language audio approval
 - AI generated package manifest
 - Upload intake asset
 - Upload review decision
@@ -85,6 +86,7 @@ Each entity should name:
 - Teacher draft packages preserve owner, source lineage, visibility, draft payload, requested activity path, review gates, audio plan state, and direct-assignment blocks before becoming package releases.
 - AI generated package teacher review packets preserve teacher decision lanes, ready signals, missing evidence, blocked actions, next records, target-language audio approval needs, media-rights evidence needs, approval ledger needs, release-control binding needs, and assignment rollout needs before approval capture or package assembly can exist.
 - AI generated package teacher review packets block approval capture, package assembly, route registry writes, media playlist writes, assignment writes, local bundle writes, student-ready markers, and support-language progress triggers.
+- Target-language audio approval records preserve cue-level review items, progress boundaries, audio cue manifests, package audio coverage, support-language rules, and blocked voice/API/package actions before audio approval capture, generated voice calls, speech API billing, package audio-complete markers, route creation, playlist creation, assignments, media-only progress, or support-language progress can exist.
 - AI generated package manifests preserve prompt package, draft JSON, audio coverage, engine binding, gamification mapping, verifier packet, review queue, media-rights, and release-lock lineage before generated drafts can move toward package assembly.
 - AI generated package manifests block package assembly, route registry writes, media playlist writes, assignment writes, local bundle writes, and student-ready markers until review, approval ledger, and release-control gates pass.
 - Codex patch approval decisions preserve patch scope, test readiness, harness planning, route safety, rollback, storage verification, reviewer identity, evidence checks, decision options, and blocked patch actions before any app file work can exist.
