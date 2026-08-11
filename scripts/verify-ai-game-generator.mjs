@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 
 const plan = readSource("../apps/web/src/data/sampleAiGameGeneratorPlan.ts");
 const tenantCoverage = readSource("../apps/web/src/data/sampleAiGeneratorTenantCoverage.ts");
+const tenantCoverageValidator = readSource("../packages/content-model/src/aiGeneratorTenantCoverage.ts");
 const lineageMap = readSource("../apps/web/src/data/sampleAiGeneratorLineageMap.ts");
 const reviewSummary = readSource("../apps/web/src/data/sampleAiGeneratorReviewSummary.ts");
 const reviewerRunbook = readSource("../apps/web/src/data/sampleAiGeneratorReviewerRunbook.ts");
@@ -324,6 +325,10 @@ requireText(panel, "API cost package gate", "Generator panel must expose API cos
 requireText(panel, "Target-language audio rule", "Generator panel must expose target-language audio rule.");
 requireText(panel, "Assist language policy", "Generator panel must expose assist-language policy.");
 requireText(tenantCoverage, "sampleAiGeneratorTenantCoverage", "AI generator tenant coverage data must exist.");
+requireText(tenantCoverageValidator, "validateAiGeneratorTenantCoverage", "AI generator tenant coverage shared validator must exist.");
+requireText(tenantCoverageValidator, "AI_GENERATOR_TENANT_COVERAGE_REQUIRED_RECORD_TYPES", "AI generator tenant coverage validator must define required lanes.");
+requireText(tenantCoverage, "sampleAiGeneratorTenantCoverageErrors", "AI generator tenant coverage data must expose shared guard errors.");
+requireText(tenantCoverage, "sampleAiGeneratorTenantCoverageWarnings", "AI generator tenant coverage data must expose shared guard warnings.");
 requireText(tenantCoverage, "ai_game_generator_request", "AI generator tenant coverage must include the request record lane.");
 requireText(tenantCoverage, "ai_prompt_package", "AI generator tenant coverage must include prompt package coverage.");
 requireText(tenantCoverage, "ai_generation_request_packet", "AI generator tenant coverage must include request builder coverage.");
@@ -341,6 +346,9 @@ requireText(
   "White-label generator records by tenant",
   "AI generator tenant coverage panel must expose white-label heading.",
 );
+requireText(tenantCoveragePanel, "Tenant coverage guard active", "AI generator tenant coverage panel must expose shared guard status.");
+requireText(tenantCoveragePanel, "Tenant coverage guard blocks", "AI generator tenant coverage panel must expose shared guard blocks.");
+requireText(tenantCoveragePanel, "Tenant coverage guard warnings", "AI generator tenant coverage panel must expose shared guard warnings.");
 requireText(
   tenantCoveragePanel,
   "Tenant-specific records required",

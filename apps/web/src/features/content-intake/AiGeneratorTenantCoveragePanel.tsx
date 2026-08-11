@@ -1,4 +1,8 @@
 import { Card, StatusPill } from "@living-textbook/ui";
+import {
+  getAiGeneratorTenantCoverageCollectionWarnings,
+  validateAiGeneratorTenantCoverages,
+} from "@living-textbook/content-model/src/aiGeneratorTenantCoverage";
 import type {
   AiGeneratorTenantCoverage,
   AiGeneratorTenantCoverageLane,
@@ -18,9 +22,11 @@ const coverageTone: Record<AiGeneratorTenantCoverageStatus, "success" | "warning
 export function AiGeneratorTenantCoveragePanel({ coverages }: AiGeneratorTenantCoveragePanelProps) {
   const missingCount = coverages.reduce((total, coverage) => total + coverage.missingCount, 0);
   const partialCount = coverages.reduce((total, coverage) => total + coverage.partialCount, 0);
+  const guardBlocks = validateAiGeneratorTenantCoverages(coverages);
+  const guardWarnings = getAiGeneratorTenantCoverageCollectionWarnings(coverages);
 
   return (
-    <Card>
+    <Card className="space-y-5">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <p className="text-sm font-semibold text-[var(--tenant-muted)]">AI generator tenant coverage</p>
@@ -32,13 +38,31 @@ export function AiGeneratorTenantCoveragePanel({ coverages }: AiGeneratorTenantC
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
+          <StatusPill label="Tenant coverage guard active" tone="neutral" />
+          <StatusPill
+            label={`${guardBlocks.length} guard block(s)`}
+            tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+          />
           <StatusPill label="Tenant-specific records required" tone="warning" />
           <StatusPill label={`${missingCount} missing`} tone={missingCount > 0 ? "warning" : "success"} />
           <StatusPill label={`${partialCount} partial`} tone={partialCount > 0 ? "warning" : "success"} />
         </div>
       </div>
 
-      <div className="mt-5 grid gap-4">
+      <div className="grid gap-3 lg:grid-cols-2">
+        <CoverageList
+          title="Tenant coverage guard blocks"
+          items={guardBlocks.length > 0 ? guardBlocks : ["No shared tenant coverage guard blockers."]}
+          tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+        />
+        <CoverageList
+          title="Tenant coverage guard warnings"
+          items={guardWarnings.length > 0 ? guardWarnings : ["No shared tenant coverage guard warnings."]}
+          tone={guardWarnings.length > 0 ? "warning" : "neutral"}
+        />
+      </div>
+
+      <div className="grid gap-4">
         {coverages.map((coverage) => (
           <article key={coverage.coverageId} className="rounded-lg border border-[var(--tenant-border)] p-4">
             <div className="flex flex-wrap items-start justify-between gap-3">

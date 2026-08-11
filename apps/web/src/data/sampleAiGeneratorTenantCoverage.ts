@@ -11,35 +11,24 @@ import { sampleAiGeneratorCostEntitlementGates } from "@/data/sampleAiGeneratorC
 import { sampleAiPromptPackagePlans } from "@/data/sampleAiPromptPackagePlan";
 import { sampleAiRewardReadinessGates } from "@/data/sampleAiRewardReadinessGate";
 import { sampleAiVerifierSubmissionPackets } from "@/data/sampleAiVerifierSubmissionPacket";
+import {
+  getAiGeneratorTenantCoverageCollectionWarnings,
+  validateAiGeneratorTenantCoverages,
+  type AiGeneratorTenantCoverage,
+  type AiGeneratorTenantCoverageLane,
+  type AiGeneratorTenantCoverageStatus,
+} from "@living-textbook/content-model/src/aiGeneratorTenantCoverage";
 
-export type AiGeneratorTenantCoverageStatus = "covered" | "partial" | "missing";
-
-export interface AiGeneratorTenantCoverageLane {
-  laneId: string;
-  label: string;
-  recordType: string;
-  status: AiGeneratorTenantCoverageStatus;
-  evidence: string;
-  nextStep: string;
-}
-
-export interface AiGeneratorTenantCoverage {
-  coverageId: string;
-  tenantId: string;
-  requestId: string;
-  label: string;
-  summary: string;
-  status: AiGeneratorTenantCoverageStatus;
-  coveredCount: number;
-  partialCount: number;
-  missingCount: number;
-  lanes: AiGeneratorTenantCoverageLane[];
-  blockedActions: string[];
-  nextRequirements: string[];
-}
+export type { AiGeneratorTenantCoverage, AiGeneratorTenantCoverageLane, AiGeneratorTenantCoverageStatus };
 
 export const sampleAiGeneratorTenantCoverage: AiGeneratorTenantCoverage[] =
   sampleAiGameGeneratorPlan.requests.map(createAiGeneratorTenantCoverage);
+
+export const sampleAiGeneratorTenantCoverageErrors =
+  validateAiGeneratorTenantCoverages(sampleAiGeneratorTenantCoverage);
+
+export const sampleAiGeneratorTenantCoverageWarnings =
+  getAiGeneratorTenantCoverageCollectionWarnings(sampleAiGeneratorTenantCoverage);
 
 export function filterAiGeneratorTenantCoverageByTenant(
   coverage: AiGeneratorTenantCoverage[],

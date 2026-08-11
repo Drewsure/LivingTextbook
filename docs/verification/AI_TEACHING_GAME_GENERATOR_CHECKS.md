@@ -18,6 +18,8 @@ Confirm:
 - No premium upsell is shown to children.
 - Tenant generator coverage is required; a tenant route loading is not enough to call that tenant generator-ready.
 - Tenant coverage shows `ai_game_generator_request`, `ai_prompt_package`, `premium_ai_cost_gate`, `ai_generation_request_packet`, `ai_audio_coverage_plan`, `ai_gamification_mapping_plan`, `ai_reward_readiness_gate`, `ai_engine_binding_plan`, `ai_verifier_submission_packet`, `ai_generated_package_manifest`, `ai_generated_publish_readiness_gate`, `ai_generated_draft_payload_preview`, and `ai_draft_correction_queue` lanes.
+- Tenant coverage shows `Tenant coverage guard active`, `Tenant coverage guard blocks`, and `Tenant coverage guard warnings`.
+- `packages/content-model/src/aiGeneratorTenantCoverage.ts` exports `validateAiGeneratorTenantCoverage`.
 - Missing generator preview records remain visible and block generator request submission, live model calls, verifier submission, package assembly, route or playlist creation, and student assignment.
 - Tenant coverage storage contract appears in schema draft, migration candidates, migration specs, durable records, and hosted/local adapter plans before live generation is enabled.
 - MiniStar has tenant-specific prompt package, cost gate, request builder, audio coverage, gamification mapping, reward readiness, engine binding, Draft JSON preview, derived correction queue, blocked verifier submission packet, generated package manifest, and derived publish readiness seed records for the Level 1 greetings generator request.
