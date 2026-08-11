@@ -1,25 +1,12 @@
-export type AiGeneratorReviewSummaryStatus = "review-only" | "blocked" | "missing";
+import {
+  getAiGeneratorReviewSummaryCollectionWarnings,
+  validateAiGeneratorReviewSummaries,
+  type AiGeneratorReviewSummary,
+  type AiGeneratorReviewSummarySection,
+  type AiGeneratorReviewSummaryStatus,
+} from "@living-textbook/content-model/src/aiGeneratorReviewSummary";
 
-export interface AiGeneratorReviewSummarySection {
-  sectionId: "generator-request" | "prototype-review" | "integration-gates" | "package-review" | "draft-repair";
-  label: string;
-  status: AiGeneratorReviewSummaryStatus;
-  summary: string;
-  primaryBlocker: string;
-  nextRequiredRecord: string;
-  blockedActions: string[];
-  sourceRecords: string[];
-}
-
-export interface AiGeneratorReviewSummary {
-  summaryId: string;
-  tenantId: string;
-  requestId: string;
-  label: string;
-  status: AiGeneratorReviewSummaryStatus;
-  currentBoundary: string;
-  sections: AiGeneratorReviewSummarySection[];
-}
+export type { AiGeneratorReviewSummary, AiGeneratorReviewSummarySection, AiGeneratorReviewSummaryStatus };
 
 export const sampleAiGeneratorReviewSummaries: AiGeneratorReviewSummary[] = [
   {
@@ -218,6 +205,12 @@ export const sampleAiGeneratorReviewSummaries: AiGeneratorReviewSummary[] = [
     ],
   },
 ];
+
+export const sampleAiGeneratorReviewSummaryErrors =
+  validateAiGeneratorReviewSummaries(sampleAiGeneratorReviewSummaries);
+
+export const sampleAiGeneratorReviewSummaryWarnings =
+  getAiGeneratorReviewSummaryCollectionWarnings(sampleAiGeneratorReviewSummaries);
 
 export function filterAiGeneratorReviewSummariesByTenant(
   summaries: AiGeneratorReviewSummary[],

@@ -49,6 +49,8 @@ Confirm:
 - Generator routes show an AI generator lineage map with request-to-review chain, release boundaries, blocked lineage actions, and no live generation, verifier submission, package assembly, route creation, playlist creation, or student assignment.
 - Generator routes show a route map with Request setup, Prototype review, Integration gates, Package review, and Draft repair sections before the detailed panels.
 - Generator routes show an AI generator review summary with a section readiness rollup, primary blockers, next required records, source records, and blocked actions before the detailed panels.
+- Generator routes show `Review summary guard active`, `Review summary guard blocks`, and `Review summary guard warnings`.
+- `packages/content-model/src/aiGeneratorReviewSummary.ts` exports `validateAiGeneratorReviewSummary`.
 - AI generator review summaries surface package writer harness implementation decision blockers before teachers reach the long package-review section.
 - AI generator review summary storage contract appears in schema draft, migration candidates, migration specs, durable records, and hosted/local adapter plans before review rollups can inform live generation, app patching, package assembly, route creation, playlist creation, local bundle writes, or assignment.
 - Generator routes show an AI generator reviewer runbook with human review order, standing rules, evidence to review, required records, and blocked shortcuts before detailed panels.

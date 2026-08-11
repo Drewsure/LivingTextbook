@@ -385,6 +385,7 @@
 - `DR-411-ai-package-writer-harness-implementation-decision-validator.md`
 - `DR-412-ai-draft-correction-queue-validator.md`
 - `DR-413-ai-generator-tenant-coverage-validator.md`
+- `DR-414-ai-generator-review-summary-validator.md`
 
 ## Maintenance Rule
 

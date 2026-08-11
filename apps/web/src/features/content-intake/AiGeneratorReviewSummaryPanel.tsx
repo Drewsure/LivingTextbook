@@ -1,4 +1,8 @@
 import { Card, StatusPill } from "@living-textbook/ui";
+import {
+  getAiGeneratorReviewSummaryCollectionWarnings,
+  validateAiGeneratorReviewSummaries,
+} from "@living-textbook/content-model/src/aiGeneratorReviewSummary";
 
 import type {
   AiGeneratorReviewSummary,
@@ -23,6 +27,9 @@ const statusLabel: Record<AiGeneratorReviewSummaryStatus, string> = {
 };
 
 export function AiGeneratorReviewSummaryPanel({ summaries }: AiGeneratorReviewSummaryPanelProps) {
+  const guardBlocks = validateAiGeneratorReviewSummaries(summaries);
+  const guardWarnings = getAiGeneratorReviewSummaryCollectionWarnings(summaries);
+
   return (
     <Card className="space-y-4">
       <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
@@ -34,7 +41,27 @@ export function AiGeneratorReviewSummaryPanel({ summaries }: AiGeneratorReviewSu
             movement, and which record must exist before generated work can advance.
           </p>
         </div>
-        <StatusPill label="No live generation" tone="warning" />
+        <div className="flex flex-wrap gap-2">
+          <StatusPill label="Review summary guard active" tone="neutral" />
+          <StatusPill
+            label={`${guardBlocks.length} guard block(s)`}
+            tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+          />
+          <StatusPill label="No live generation" tone="warning" />
+        </div>
+      </div>
+
+      <div className="grid gap-3 lg:grid-cols-2">
+        <SummaryList
+          title="Review summary guard blocks"
+          items={guardBlocks.length > 0 ? guardBlocks : ["No shared review summary guard blockers."]}
+          tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+        />
+        <SummaryList
+          title="Review summary guard warnings"
+          items={guardWarnings.length > 0 ? guardWarnings : ["No shared review summary guard warnings."]}
+          tone={guardWarnings.length > 0 ? "warning" : "neutral"}
+        />
       </div>
 
       <div className="grid gap-4">

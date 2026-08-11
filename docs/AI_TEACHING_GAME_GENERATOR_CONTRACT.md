@@ -85,6 +85,8 @@ The lineage map cannot generate, submit verifier packets, assemble packages, cre
 
 Teacher generator routes must show a tenant-aware review summary before detailed panels. The summary is an admin rollup only: it shows section readiness, primary blockers, next required records, source records, and blocked actions.
 
+Review summaries must pass the shared `validateAiGeneratorReviewSummary` guard before review rollups can inform future live generation, app patches, package assembly, route creation, playlist creation, local bundle writes, assignment, or student-ready markers. The guard requires generator-request, prototype-review, integration-gates, package-review, and draft-repair sections, keeps the summary blocked while any section is blocked, requires a review-only boundary, requires blocker and next-record fields for every section, and preserves blocked action coverage for live model calls, app files, package assembly, routes, student assignment, harness implementation, AI draft auto-fix, and live AI regeneration.
+
 The review summary cannot call a live model, generate an app patch, assemble a package, create a route, create a playlist, create an assignment, write a local bundle, or mark content student-ready. MiniStar summaries must preserve English as the target-language trigger and keep Japanese hiragana support as support-only.
 
 ## Generator Reviewer Runbook Rule

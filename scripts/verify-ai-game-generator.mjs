@@ -5,6 +5,7 @@ const tenantCoverage = readSource("../apps/web/src/data/sampleAiGeneratorTenantC
 const tenantCoverageValidator = readSource("../packages/content-model/src/aiGeneratorTenantCoverage.ts");
 const lineageMap = readSource("../apps/web/src/data/sampleAiGeneratorLineageMap.ts");
 const reviewSummary = readSource("../apps/web/src/data/sampleAiGeneratorReviewSummary.ts");
+const reviewSummaryValidator = readSource("../packages/content-model/src/aiGeneratorReviewSummary.ts");
 const reviewerRunbook = readSource("../apps/web/src/data/sampleAiGeneratorReviewerRunbook.ts");
 const responsibilityMatrix = readSource("../apps/web/src/data/sampleAiGeneratorResponsibilityMatrix.ts");
 const engineBindingPlan = readSource("../apps/web/src/data/sampleAiEngineBindingPlan.ts");
@@ -547,6 +548,10 @@ requireText(generatorSectionNav, "Integration gates", "AI generator route map mu
 requireText(generatorSectionNav, "Package review", "AI generator route map must expose package review section.");
 requireText(generatorSectionNav, "Draft repair", "AI generator route map must expose draft repair section.");
 requireText(reviewSummary, "sampleAiGeneratorReviewSummaries", "AI generator review summary data must exist.");
+requireText(reviewSummaryValidator, "validateAiGeneratorReviewSummary", "AI generator review summary shared validator must exist.");
+requireText(reviewSummaryValidator, "AI_GENERATOR_REVIEW_SUMMARY_REQUIRED_SECTION_IDS", "AI generator review summary validator must define required sections.");
+requireText(reviewSummary, "sampleAiGeneratorReviewSummaryErrors", "AI generator review summary data must expose shared guard errors.");
+requireText(reviewSummary, "sampleAiGeneratorReviewSummaryWarnings", "AI generator review summary data must expose shared guard warnings.");
 requireText(reviewSummary, "sample-publisher-l1-routines-game-draft", "AI generator review summary must include sample publisher request.");
 requireText(reviewSummary, "ministar-l1-greetings-game-draft", "AI generator review summary must include MiniStar request.");
 requireText(reviewSummary, "codex_integration_review_decision", "AI generator review summary must require Codex decision records.");
@@ -567,6 +572,9 @@ requireText(reviewSummary, "No Japanese support-language trigger", "MiniStar rev
 requireText(reviewSummary, "English target-language actions", "MiniStar review summary must preserve English target-language trigger.");
 requireText(reviewSummaryPanel, "AI generator review summary", "AI generator review summary panel must expose heading.");
 requireText(reviewSummaryPanel, "Section readiness rollup", "AI generator review summary panel must expose rollup heading.");
+requireText(reviewSummaryPanel, "Review summary guard active", "AI generator review summary panel must expose shared guard status.");
+requireText(reviewSummaryPanel, "Review summary guard blocks", "AI generator review summary panel must expose shared guard blocks.");
+requireText(reviewSummaryPanel, "Review summary guard warnings", "AI generator review summary panel must expose shared guard warnings.");
 requireText(reviewSummaryPanel, "No live generation", "AI generator review summary panel must block live generation.");
 requireText(reviewSummaryPanel, "Primary blocker", "AI generator review summary panel must show blockers.");
 requireText(reviewSummaryPanel, "Next required record", "AI generator review summary panel must show next records.");
