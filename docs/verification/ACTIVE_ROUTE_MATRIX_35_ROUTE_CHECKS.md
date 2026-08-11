@@ -9,9 +9,10 @@ npm run verify:foundation
 Then verify:
 
 - `http://127.0.0.1:3000/teacher/intake` loads.
-- The active route matrix shows `49 checked routes` when the MiniStar source workspace is active.
+- The active route matrix shows `53 checked routes`.
 - The matrix includes the sample publisher and MiniStar source review workspace routes.
 - The matrix includes the teacher draft package preview route.
+- The matrix includes the global teacher draft review queue and tenant-scoped sample publisher and MiniStar draft review queue routes.
 - The matrix includes the teacher private library route.
 - The matrix includes the teacher upload workspace route.
 - The matrix includes the evidence packet review index route.

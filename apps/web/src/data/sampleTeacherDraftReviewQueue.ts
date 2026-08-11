@@ -637,3 +637,25 @@ export const sampleTeacherDraftReviewQueue: TeacherDraftReviewQueue = {
     "No direct AI publish from teacher drafts or review queue items.",
   ],
 };
+
+export function filterTeacherDraftReviewQueueByTenant(
+  queue: TeacherDraftReviewQueue,
+  tenantId: string,
+  tenantName: string,
+): TeacherDraftReviewQueue {
+  const items = queue.items.filter((item) => item.draft.tenantId === tenantId);
+
+  return {
+    ...queue,
+    queueId: `${queue.queueId}-${tenantId}`,
+    label: `${tenantName} tenant draft review queue`,
+    summary:
+      `Tenant-scoped review queue for ${tenantName}. It shows only ${tenantName} draft items while preserving the same verifier, evidence, release-control, package writer, and assignment blockers as the global preview.`,
+    items,
+    hardRules: [
+      `Tenant scope: only ${tenantName} draft items appear on this route.`,
+      "Cross-tenant review, approval, evidence upload, route creation, playlist creation, package writing, and assignment remain blocked.",
+      ...queue.hardRules,
+    ],
+  };
+}

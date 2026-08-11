@@ -99,6 +99,22 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     note: "Read-only review workbench preview for draft handoff packets; live approval and assignment remain blocked.",
   },
   {
+    routeId: "teacher-draft-review-queue-sample-publisher",
+    group: "sample-publisher",
+    label: "Sample publisher draft review queue",
+    path: "/teacher/review/sample-publisher",
+    status: "active-scaffold",
+    note: "Tenant-scoped draft review queue that only shows sample publisher draft items while keeping verifier, package writer, release-control, and assignment blockers visible.",
+  },
+  {
+    routeId: "teacher-draft-review-queue-ministar",
+    group: "ministar",
+    label: "MiniStar draft review queue",
+    path: "/teacher/review/ministar",
+    status: "active-scaffold",
+    note: "Tenant-scoped draft review queue that only shows MiniStar draft items while preserving English target-language and hiragana support-language boundaries.",
+  },
+  {
     routeId: "teacher-private-library",
     group: "core",
     label: "Teacher private library",

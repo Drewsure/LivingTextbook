@@ -93,6 +93,15 @@ export const appRouteContracts: AppRouteContract[] = [
     requiredState: ["TenantConfig", "TeacherDraftReviewQueue", "TeacherDraftReviewQueueItem[]"],
   },
   {
+    id: "tenant-teacher-draft-review-queue",
+    pattern: "/teacher/review/[tenantId]",
+    audience: "teacher",
+    status: "active-scaffold",
+    purpose:
+      "Preview a tenant-scoped teacher draft review queue while preserving the same verifier, evidence, package writer, release-control, and assignment blockers as the global review workbench.",
+    requiredState: ["TenantConfig", "TeacherDraftReviewQueue", "TeacherDraftReviewQueueItem[]"],
+  },
+  {
     id: "teacher-private-library",
     pattern: "/teacher/library/[tenantId]",
     audience: "teacher",
@@ -331,6 +340,10 @@ export function getTeacherDraftAuthoringPath(draftId: string): string {
 
 export function getTeacherDraftReviewQueuePath(): string {
   return "/teacher/review";
+}
+
+export function getTenantTeacherDraftReviewQueuePath(tenantId: TenantId): string {
+  return `/teacher/review/${encodeURIComponent(tenantId)}`;
 }
 
 export function getTeacherSourceReviewWorkspacePath(tenantId: TenantId): string {

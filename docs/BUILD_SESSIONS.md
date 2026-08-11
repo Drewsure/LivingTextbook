@@ -445,6 +445,7 @@ Next outputs:
 - Confirm `/teacher/authoring/draft-sample-publisher-l1-u1` keeps draft audio coverage visible before live authoring or audio generation work begins.
 - Confirm `/teacher/authoring/draft-sample-publisher-l1-u1` keeps draft review handoff packets read-only and blocked before live submit-for-review, verifier workflow, or package approval work begins.
 - Confirm `/teacher/review` keeps draft review queue items read-only and blocked before live verifier submission, package approval, direct AI publish, or student assignment work begins.
+- Confirm `/teacher/review/sample-publisher` and `/teacher/review/ministar` keep generated draft review tenant-scoped and fail verification if one tenant route leaks the other tenant's draft content.
 - Confirm `/teacher/review` keeps verifier submission preflights blocked before automatic verifier submission, live review workflows, or package-state promotion exists.
 - Confirm `/teacher/review` keeps reviewer decision previews disabled before reviewer identity, evidence storage, verifier workflow, package approval, and release-control policy exist.
 - Confirm `/teacher/review` carries package writer harness implementation decision blockers for AI-generated drafts before package writing, route creation, playlist creation, local bundles, assignment shells, or harness code can be considered.
@@ -588,6 +589,7 @@ Next outputs:
 - Confirm backend schema, migration candidates, migration specs, adapter plans, durable records, and persistence boundaries preserve `ai_generated_publish_readiness_gate` before generated packages can publish routes, playlists, assignments, local bundles, or student-ready markers.
 - Confirm backend schema, migration candidates, migration specs, adapter plans, durable records, and persistence boundaries preserve `ai_generator_tenant_coverage_gate` before generated package requests can submit, call models, submit verifier packets, assemble packages, create routes, create playlists, assign students, write local bundles, or mark content student-ready.
 - Confirm `/teacher/review` shows AI-generated draft packages as read-only queue items with source lineage, verifier packet requirements, target-language audio blockers, media-rights blockers, route/playlist/assignment blocks, and approval blocks before live AI review submission or generated package approval is implemented.
+- Confirm tenant-scoped AI draft review routes exist for sample publisher and MiniStar so white-label review can happen without cross-tenant queue leakage.
 - Confirm `/teacher/review` shows package writer harness implementation decision blockers on AI-generated draft queue items so review approval cannot bypass generated package writer gates.
 - Confirm `npm run verify:ai-generator` passes after changes to AI authoring, game generation, activity pathway generation, target-language audio requirements, premium AI Tutor generation requests, or generator routes.
 

@@ -2,7 +2,7 @@
 
 Document type: QA operating note  
 Status: active scaffold  
-Last updated: 2026-07-16
+Last updated: 2026-08-11
 
 ## Purpose
 
@@ -20,6 +20,8 @@ This list names the routes that should be checked after foundation changes. It i
 - `http://127.0.0.1:3000/teacher/policy-handoff/starter-english-level-1-unit-1-2026.1-pilot-candidate-classroom-launch-gate-school-policy-gate-handoff-packet`
 - `http://127.0.0.1:3000/teacher/authoring/draft-sample-publisher-l1-u1`
 - `http://127.0.0.1:3000/teacher/review`
+- `http://127.0.0.1:3000/teacher/review/sample-publisher`
+- `http://127.0.0.1:3000/teacher/review/ministar`
 - `http://127.0.0.1:3000/teacher/library/sample-publisher`
 - `http://127.0.0.1:3000/teacher/uploads/sample-publisher`
 - `http://127.0.0.1:3000/teacher/evidence/sample-publisher`

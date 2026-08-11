@@ -35,6 +35,7 @@ import {
   getTeacherSchoolPolicyHandoffPath,
   getTeacherSourceReviewWorkspacePath,
   getTeacherAiGameGeneratorPath,
+  getTenantTeacherDraftReviewQueuePath,
 } from "@/features/routes/routeContracts";
 import { getUnitKey } from "@living-textbook/content-model";
 import { sampleSchoolPolicyHandoffPacket } from "@/data/sampleSchoolPolicyHandoffPacket";
@@ -91,6 +92,7 @@ export default function PartnerDemoPage() {
               <RouteLink label="Teacher unit review" href={getTeacherUnitReviewPath(getUnitKey(samplePartnerUnitOne.unitMeta))} />
               <RouteLink label="Teacher source review workspace" href={getTeacherSourceReviewWorkspacePath("sample-publisher")} />
               <RouteLink label="AI teaching game generator" href={getTeacherAiGameGeneratorPath("sample-publisher")} />
+              <RouteLink label="Tenant draft review queue" href={getTenantTeacherDraftReviewQueuePath("sample-publisher")} />
               <RouteLink label="Teacher private library" href={getTeacherPrivateLibraryPath("sample-publisher")} />
               <RouteLink label="Teacher upload workspace" href={getTeacherUploadWorkspacePath("sample-publisher")} />
               <RouteLink label="Evidence packet review index" href={getTeacherEvidencePacketReviewPath("sample-publisher")} />

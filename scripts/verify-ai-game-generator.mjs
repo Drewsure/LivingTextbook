@@ -3155,9 +3155,14 @@ requireText(activeRouteMatrix, "/teacher/generator/sample-publisher", "Active ro
 requireText(activeRouteMatrix, "/teacher/generator/ministar", "Active route matrix must include the MiniStar generator route.");
 requireText(activeRouteList, "http://127.0.0.1:3000/teacher/generator/sample-publisher", "Active route list must include the sample publisher generator route.");
 requireText(activeRouteList, "http://127.0.0.1:3000/teacher/generator/ministar", "Active route list must include the MiniStar generator route.");
+requireText(activeRouteList, "http://127.0.0.1:3000/teacher/review/sample-publisher", "Active route list must include the sample publisher tenant draft review route.");
+requireText(activeRouteList, "http://127.0.0.1:3000/teacher/review/ministar", "Active route list must include the MiniStar tenant draft review route.");
 requireText(routeVerifier, "/teacher/generator/sample-publisher", "Active route verifier must check the generator route.");
 requireText(routeVerifier, "/teacher/generator/ministar", "Active route verifier must check the MiniStar generator route.");
-requireText(routeVerifier, "51 checked routes", "Active route verifier must expect the updated route count.");
+requireText(routeVerifier, "/teacher/review/sample-publisher", "Active route verifier must check the sample publisher tenant review route.");
+requireText(routeVerifier, "/teacher/review/ministar", "Active route verifier must check the MiniStar tenant review route.");
+requireText(routeVerifier, "forbiddenTextByPath", "Active route verifier must block cross-tenant review queue leakage.");
+requireText(routeVerifier, "53 checked routes", "Active route verifier must expect the updated route count.");
 requireText(principles, "AI teaching game generator creates draft package requests", "Principles must preserve generator-as-draft rule.");
 requireText(handoff, "The AI teaching game generator creates draft package requests", "AI handoff must include generator boundary.");
 requireText(packageJson, '"verify:ai-generator"', "package.json must expose verify:ai-generator.");

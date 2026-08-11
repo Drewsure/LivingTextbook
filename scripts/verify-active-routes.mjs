@@ -16,6 +16,8 @@ const expectedTextByPath = new Map([
   ["/teacher/policy-handoff/starter-english-level-1-unit-1-2026.1-pilot-candidate-classroom-launch-gate-school-policy-gate-handoff-packet", ["School policy handoff route workspace", "School meeting packet preview", "Discussion only", "No policy acceptance", "Handoff source routes", "Review the source evidence without approving launch", "Teacher intake source", "Classroom launch gate source", "Teacher dry-run source", "Evidence handoff source", "School policy handoff packet preview", "Handoff draft only", "Privacy, retention, and learner data", "Teacher-led QR and student progression rules", "Publisher media, music, video, and local package", "Teacher dry-run and evidence packet", "Platform storage, release, and rollback controls", "No AI Tutor activation", "No launch-ready status", "School launch policy gate preview", "School launch decision blocked", "No live classroom workflow can start from this preview.", "School policy acceptance preflight", "Acceptance blocked", "Authenticated school approver", "Policy text and scope", "Evidence packet and attachment readiness", "Release-control binding", "Child safety and progression boundaries", "Minimum acceptance record", "No accept button", "School policy text version pack", "Policy text blocked", "Versioned policy text only", "Microphone and AI Tutor optional features", "No policy acceptance from text pack", "Future school acceptance record preview", "Acceptance record blocked", "No accepted terms stored", "No accepted policy record", "School policy revocation and rollback preview", "Rollback policy blocked", "No rollback action", "No production QR redirect mutation", "School rollback impact matrix", "Impact matrix blocked", "No release-state mutation", "No learner-data deletion workflow", "No media replacement", "No AI Tutor entitlement change", "School rollback safe fallback plan", "Fallback messaging blocked", "Student pause notice", "Teacher contact handoff", "Local companion safe fallback", "No live notification", "No classroom shutdown workflow", "School rollback safe fallback preflight", "Fallback activation blocked", "Child-safe copy review", "Printed QR fallback policy", "No fallback activation", "No student reassignment"]],
   ["/teacher/authoring/draft-sample-publisher-l1-u1", ["Teacher draft package", "Draft only", "Local edit preview", "Draft content-entry workbench preview", "Activity title", "+ Instruction", "Generate With AI blocked", "Flip tiles preview", "Cross-game upload guide", "Approved learner font", "Tenant font pack", "Hiragana-safe font", "Font rendering gate", "Profile binding preview", "template_rendering_profile: template-profile-flip-tiles-cross-game-v1", "font_accessibility_profile: font-profile-young-learner-ja-safe-v1", "Student-facing rendering blocked", "Student-facing font blocked", "Single sided", "Double sided", "min 2 max 50", "Audio cue required", "Image upload blocked", "No live file picker", "No Done-to-student route", "No template switch without compatibility check", "Draft audio coverage preview", "Draft review handoff preview", "Review packet blocked", "Schema validation packet", "Source lineage packet", "Audio coverage packet", "Rights and version packet", "Route and activity packet", "Approval packet", "Draft persistence required", "No student assignment", "Term audio", "Sentence audio", "Instruction audio", "Save draft blocked", "Submit for review blocked", "Student assignment blocked", "Audio regeneration required", "Review before assignment", "Audio before students", "Private tenant library candidate", "No direct publish"]],
   ["/teacher/review", ["Teacher draft review queue", "Review workbench preview", "Review handoff packet", "Verifier submission blocked", "Package approval blocked", "Student assignment blocked", "Schema validation packet", "Audio coverage packet", "Rights and version packet", "Route and activity packet", "Approval packet", "No direct AI publish", "No live approval", "Durable handoff storage required", "Verifier submission preflight", "Verifier submission still blocked", "Schema packet ready", "Audio regeneration pending", "Support language support-only", "Route compatibility ready", "Review evidence pending", "No automatic verifier submit", "Reviewer decision preview", "Decision actions disabled", "Return for edits", "Needs audio", "Ready for approval", "Approval still blocked", "Approver identity required", "Review evidence packet preview", "Evidence upload blocked", "Reviewer identity evidence", "Evidence storage required", "No file upload in foundation preview", "Review audit trail preview", "Audit trail storage required", "Handoff packet created", "Reviewer decision drafted", "Evidence packet blocked", "Approval ledger blocked", "No live state transition"]],
+  ["/teacher/review/sample-publisher", ["Teacher draft review queue", "Review workbench preview", "Sample Publisher Lab tenant draft review queue", "Tenant scope: only Sample Publisher Lab draft items appear on this route.", "AI-generated daily routines draft preview", "Package writer harness implementation decision required", "AI package writer gate pending", "No live AI verifier workflow", "Cross-tenant review, approval, evidence upload, route creation, playlist creation, package writing, and assignment remain blocked."]],
+  ["/teacher/review/ministar", ["Teacher draft review queue", "Review workbench preview", "MiniStar English Lab tenant draft review queue", "Tenant scope: only MiniStar English Lab draft items appear on this route.", "AI-generated MiniStar greetings draft preview", "MiniStar package writer harness implementation decision required", "MiniStar AI package writer gate pending", "MiniStar AI support language ready", "Japanese support remains hiragana-only and support-only.", "Cross-tenant review, approval, evidence upload, route creation, playlist creation, package writing, and assignment remain blocked."]],
   ["/teacher/library/sample-publisher", ["Teacher private library", "Private-first", "Teacher private drafts", "Tenant-approved package library", "School shared library", "Public community library blocked for v1", "No student data copied", "Source lineage preserved"]],
   ["/teacher/uploads/sample-publisher", ["Teacher upload workspace", "Read-only upload command center", "No live file picker", "No uploaded file becomes student-facing", "No automatic PDF-to-game publish", "Upload intake control preview", "No file input element", "Select file blocked", "Create intake record blocked", "Upload channel readiness", "Upload file policy profiles", "upload_file_policy_profile", "File type and size policy", "Accepted MIME types", "scan_and_file_policy_packet", "No upload promotion without file policy acceptance", "Upload target mapping preview", "Source-to-target mapping", "target_mapping_packet", "No upload-to-assignment shortcut", "Upload review queue", "Upload promotion readiness", "Labelled Diagram asset readiness", "Multimedia asset readiness", "Evidence packet flow", "Upload evidence packet flow", "source_lineage_packet", "rights_proof_packet", "No live upload button", "No assignment route from uploaded file"]],
   ["/teacher/evidence/sample-publisher", ["Evidence packet review index", "Tenant evidence packet command center", "Review queue rollup", "Evidence sources before live upload controls", "Upload evidence source", "Labelled Diagram evidence source", "Media evidence source", "Storage handoff", "Records required before evidence becomes durable", "evidence_packet", "No live evidence upload", "No signed approval capture", "No approve or publish action", "No playlist creation from uploaded media", "No student-facing use from evidence packets alone", "Evidence packet assembly gate", "Assembly blocked", "Packet version not frozen", "Release readiness lanes", "Upload intake assembly lane", "Labelled Diagram assembly lane", "Media assembly lane", "Release-control assembly lane", "Required before packet version freeze", "No packet version freeze", "No approval capture", "No release state mutation", "No student assignment", "No export generation", "No QR promotion", "No route promotion", "No local bundle activation", "Reviewer identity and signature gate", "Reviewer identity blocked", "Signed approval capture blocked", "Approval intent preview only", "Authenticated reviewer identity lane", "Approval intent lane", "Signature policy lane", "Audit and retention lane", "Minimum approval record", "Signature policy rules", "No approve button", "No signature attachment upload", "No signed PDF packet", "No student assignment from approval"]],
@@ -51,6 +53,14 @@ const expectedTextByPath = new Map([
   ["/media/playlist-sample-publisher-l1-u1-routines", ["Media playlist route", "Demo media controls", "support-only events"]],
   ["/print/partner-demo-unit-1", ["Printable worksheet preview", "Browser-print preview", "Vocabulary listening sheet", "Sentence practice worksheet", "PDF export blocked", "Audio bridge", "Version snapshot"]],
   ["/q/tenant/sample-publisher/series/starter-english/book/level-1/unit/unit-1/activity/hello-friends/language/en/edition/2026/version/1.0.0", ["Edition QR resolver preview", "Printed QR id", "qr-sample-publisher-starter-l1-u1-hello", "The printed QR id stays constant", "Resolved target", "/enter/sample-publisher", "Guardrails", "Direct localhost target", "Direct media file target", "Unreviewed package swap", "Open resolved preview"]],
+]);
+
+const forbiddenTextByPath = new Map([
+  [
+    "/teacher/review/sample-publisher",
+    ["AI-generated MiniStar greetings draft preview", "MiniStar AI support language ready"],
+  ],
+  ["/teacher/review/ministar", ["AI-generated daily routines draft preview", "Sample Publisher Lab source review workspace"]],
 ]);
 
 expectedTextByPath.get("/teacher/review")?.push(
@@ -1237,14 +1247,14 @@ expectedTextByPath.set("/teacher/generator/ministar", ministarAiGameGeneratorExp
 expectedTextByPath.get("/teacher/intake")?.push(...aiGameGeneratorIntakeExpected);
 expectedTextByPath
   .get("/partner-demo")
-  ?.push("AI teaching game generator", "/teacher/generator/sample-publisher");
+  ?.push("AI teaching game generator", "/teacher/generator/sample-publisher", "Tenant draft review queue", "/teacher/review/sample-publisher");
 
 const teacherIntakeExpected = expectedTextByPath.get("/teacher/intake");
 if (teacherIntakeExpected) {
   const routeCountIndex = teacherIntakeExpected.indexOf("49 checked routes");
 
   if (routeCountIndex >= 0) {
-    teacherIntakeExpected[routeCountIndex] = "51 checked routes";
+    teacherIntakeExpected[routeCountIndex] = "53 checked routes";
   }
 }
 
@@ -1278,16 +1288,25 @@ const results = [];
 for (const url of urls) {
   try {
     const response = await fetch(url, { redirect: "manual" });
-    const expectedText = expectedTextByPath.get(new URL(url).pathname) ?? [];
-    const body = expectedText.length > 0 && response.ok ? await response.text() : "";
+    const path = new URL(url).pathname;
+    const expectedText = expectedTextByPath.get(path) ?? [];
+    const forbiddenText = forbiddenTextByPath.get(path) ?? [];
+    const body = (expectedText.length > 0 || forbiddenText.length > 0) && response.ok ? await response.text() : "";
     const missingExpectedText = expectedText.filter((text) => !body.includes(text));
+    const presentForbiddenText = forbiddenText.filter((text) => body.includes(text));
 
     results.push({
       url,
       status: response.status,
-      ok: response.status >= 200 && response.status < 400 && missingExpectedText.length === 0,
+      ok:
+        response.status >= 200 &&
+        response.status < 400 &&
+        missingExpectedText.length === 0 &&
+        presentForbiddenText.length === 0,
       expectedText,
+      forbiddenText,
       missingExpectedText,
+      presentForbiddenText,
     });
   } catch (error) {
     results.push({ url, status: "error", ok: false, error: error instanceof Error ? error.message : String(error) });
@@ -1299,6 +1318,8 @@ for (const result of results) {
   const textCheck =
     result.expectedText?.length > 0 && result.missingExpectedText?.length > 0
       ? ` missing expected text: ${result.missingExpectedText.join(", ")}`
+      : result.presentForbiddenText?.length > 0
+        ? ` contains forbidden text: ${result.presentForbiddenText.join(", ")}`
       : result.expectedText?.length > 0
         ? ` contains: ${result.expectedText.join(", ")}`
         : "";

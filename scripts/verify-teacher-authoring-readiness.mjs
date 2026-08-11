@@ -11,6 +11,8 @@ const reviewQueue = readSource("../apps/web/src/data/sampleTeacherDraftReviewQue
 const reviewQueuePanel = readSource("../apps/web/src/features/content-intake/TeacherDraftReviewQueuePanel.tsx");
 const draftData = readSource("../apps/web/src/data/sampleTeacherDraftPackage.ts");
 const routeVerifier = readSource("./verify-active-routes.mjs");
+const routeContracts = readSource("../apps/web/src/features/routes/routeContracts.ts");
+const activeRouteList = readSource("../docs/ACTIVE_ROUTE_VERIFICATION_LIST.md");
 const aiHandoff = readSource("../docs/AI_AUTHORING_VERIFIER_HANDOFF.md");
 const failures = [];
 
@@ -67,6 +69,13 @@ requireText(reviewHandoffPreview, "Approval packet", "Draft review handoff previ
 requireText(reviewHandoffPreview, "Draft persistence required", "Draft review handoff preview must preserve draft persistence blocker.");
 requireText(reviewHandoffPreview, "No student assignment", "Draft review handoff preview must preserve no-student-assignment blocker.");
 requireText(reviewQueue, "sampleTeacherDraftReviewQueue", "Teacher draft review queue sample data must exist.");
+requireText(reviewQueue, "filterTeacherDraftReviewQueueByTenant", "Teacher draft review queue must support tenant-scoped filtering.");
+requireText(reviewQueue, "Tenant-scoped review queue", "Teacher draft review queue must label tenant-scoped review routes.");
+requireText(
+  reviewQueue,
+  "Cross-tenant review, approval, evidence upload, route creation, playlist creation, package writing, and assignment remain blocked.",
+  "Teacher draft review queue must block cross-tenant review shortcuts.",
+);
 requireText(reviewQueue, "Verifier submission blocked", "Teacher draft review queue must block verifier submission.");
 requireText(reviewQueue, "Package approval blocked", "Teacher draft review queue must block package approval.");
 requireText(reviewQueue, "Student assignment blocked", "Teacher draft review queue must block student assignment.");
@@ -183,6 +192,9 @@ requireText(contentEntryWorkbenchPreview, "No Done-to-student route", "Content-e
 requireText(contentEntryWorkbenchPreview, "No template switch without compatibility check", "Content-entry workbench preview must block unchecked template switching.");
 requireText(routeVerifier, "Teacher authoring readiness", "Active route verifier must check teacher authoring panel.");
 requireText(routeVerifier, "/teacher/authoring/draft-sample-publisher-l1-u1", "Active route verifier must check teacher draft preview route.");
+requireText(routeVerifier, "/teacher/review/sample-publisher", "Active route verifier must check sample publisher tenant draft review route.");
+requireText(routeVerifier, "/teacher/review/ministar", "Active route verifier must check MiniStar tenant draft review route.");
+requireText(routeVerifier, "forbiddenTextByPath", "Active route verifier must block cross-tenant review queue leakage.");
 requireText(routeVerifier, "Direct AI publish", "Active route verifier must check direct AI publish block.");
 requireText(routeVerifier, "Draft content-entry workbench preview", "Active route verifier must check content-entry workbench preview.");
 requireText(routeVerifier, "Approved learner font", "Active route verifier must check draft font controls.");
@@ -193,6 +205,10 @@ requireText(
   "Package writer harness implementation decision required",
   "Active route verifier must check the package writer harness decision block on the review queue.",
 );
+requireText(routeContracts, "tenant-teacher-draft-review-queue", "Route contracts must include tenant-scoped draft review queue.");
+requireText(routeContracts, "getTenantTeacherDraftReviewQueuePath", "Route contracts must expose tenant-scoped draft review helper.");
+requireText(activeRouteList, "http://127.0.0.1:3000/teacher/review/sample-publisher", "Active route list must include sample publisher tenant draft review route.");
+requireText(activeRouteList, "http://127.0.0.1:3000/teacher/review/ministar", "Active route list must include MiniStar tenant draft review route.");
 requireText(aiHandoff, "AI can draft structure. It cannot publish student-facing content by itself.", "AI handoff docs must preserve no-direct-publish rule.");
 
 if (failures.length > 0) {

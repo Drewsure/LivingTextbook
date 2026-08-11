@@ -161,6 +161,7 @@ Confirm:
 - `/teacher/review` shows AI-generated draft packages as read-only queue items with source lineage, verifier packet requirements, target-language audio blockers, media-rights blockers, route/playlist/assignment blocks, and approval blocks before live AI review submission or generated package approval is implemented.
 - `/teacher/review` shows the MiniStar generated greetings draft as a read-only queue item with MiniStar source lineage, English audio blockers, hiragana-only Japanese support review, media-rights blockers, verifier blockers, approval blockers, and assignment blockers.
 - `/teacher/review` carries package writer harness implementation decision blockers for AI-generated drafts so review approval cannot be mistaken for permission to write generated routes, playlists, local bundles, assignment shells, or package writer harness code.
+- `/teacher/review/sample-publisher` and `/teacher/review/ministar` keep AI-generated draft review tenant-scoped. The route verifier must fail if either tenant route leaks the other tenant's generated draft content.
 - Mode recommendation preview reuses the activity compatibility matrix.
 - Mode recommendation preview shows a recommended generated pathway and blocked conversion guardrails.
 - Mode recommendation preview blocks a broad switch panel as the default product promise.

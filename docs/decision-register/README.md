@@ -361,6 +361,7 @@
 - `DR-387-ai-generated-package-writer-harness-implementation-decision-storage-contract.md`
 - `DR-388-ai-generator-summary-harness-decision-blocker.md`
 - `DR-389-review-queue-package-writer-harness-blocker.md`
+- `DR-390-tenant-scoped-review-queue-routes.md`
 
 ## Maintenance Rule
 

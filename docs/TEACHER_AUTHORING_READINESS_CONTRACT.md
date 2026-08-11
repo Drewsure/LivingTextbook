@@ -37,6 +37,8 @@ Route:
 - `/teacher/intake`
 - `/teacher/authoring/draft-sample-publisher-l1-u1`
 - `/teacher/review`
+- `/teacher/review/sample-publisher`
+- `/teacher/review/ministar`
 
 Verifier:
 
@@ -78,6 +80,8 @@ The backend-neutral storage contract includes `teacher_draft_review_handoff` rec
 The review queue route is a read-only workbench preview. It shows draft handoff queue items, packet sections, blockers, allowed actions, and next steps without enabling live verifier submission, package approval, direct AI publish, or student assignment.
 
 AI-generated draft packages must enter this same review queue as read-only items. They must show source lineage, verifier packet requirements, blocked route/playlist/assignment actions, target-language audio blockers, media-rights blockers, engine/gamification checks, and teacher approval blockers before any generated package can move toward approval.
+
+Tenant-scoped review queue routes must show only the selected tenant's draft items while preserving the same verifier, evidence, release-control, package writer, and assignment blockers. Cross-tenant review, approval, evidence upload, route creation, playlist creation, package writing, and assignment remain blocked.
 
 The review queue route includes a verifier submission preflight. It shows schema, audio, support-language, route, and evidence checks that a future verifier workflow must pass, while keeping automatic verifier submission blocked.
 
@@ -188,6 +192,18 @@ The review queue route must continue to show:
 - `Evidence packet blocked`
 - `Approval ledger blocked`
 - `No live state transition`
+
+Tenant-scoped review queue routes must continue to show:
+
+- `Sample Publisher Lab tenant draft review queue`
+- `MiniStar English Lab tenant draft review queue`
+- `Tenant scope: only Sample Publisher Lab draft items appear on this route.`
+- `Tenant scope: only MiniStar English Lab draft items appear on this route.`
+- `Cross-tenant review, approval, evidence upload, route creation, playlist creation, package writing, and assignment remain blocked.`
+- `AI-generated daily routines draft preview` on `/teacher/review/sample-publisher`
+- `AI-generated MiniStar greetings draft preview` on `/teacher/review/ministar`
+- No MiniStar draft content on `/teacher/review/sample-publisher`
+- No sample-publisher draft content on `/teacher/review/ministar`
 
 ## Student Assignment Rule
 

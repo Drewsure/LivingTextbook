@@ -46,6 +46,7 @@ export function TeacherDraftReviewQueuePanel({ queue }: TeacherDraftReviewQueueP
           <div>
             <p className="text-sm font-semibold text-[var(--tenant-muted)]">Teacher draft review queue</p>
             <h2 className="mt-1 text-2xl font-bold">Review workbench preview</h2>
+            <p className="mt-1 text-sm font-semibold text-[var(--tenant-text)]">{queue.label}</p>
             <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">{queue.summary}</p>
           </div>
           <div className="flex flex-wrap gap-2">
