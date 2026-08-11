@@ -201,6 +201,7 @@ export interface PersistenceWriteIntent {
   preservesAiGeneratedPackageWriterTestEvidencePacket?: boolean;
   preservesAiGeneratedPackageWriterTestHarnessPlan?: boolean;
   preservesAiGeneratedPackageWriterTestHarnessImplementationProposal?: boolean;
+  preservesAiGeneratedPackageWriterHarnessImplementationDecision?: boolean;
   requiresLineageMap?: boolean;
   requiresTargetLanguageAudioApproval?: boolean;
   requiresPackageAssemblyReadinessLanes?: boolean;
@@ -222,6 +223,10 @@ export interface PersistenceWriteIntent {
   requiresPackageWriterHarnessImplementationModuleScope?: boolean;
   requiresPackageWriterHarnessImplementationReviewGates?: boolean;
   requiresPackageWriterHarnessDryRunOnlyChecks?: boolean;
+  requiresPackageWriterHarnessDecisionEvidence?: boolean;
+  requiresPackageWriterHarnessDecisionFileScope?: boolean;
+  requiresPackageWriterHarnessDecisionOptions?: boolean;
+  blocksHarnessImplementationApproval?: boolean;
   requiresMediaRightsEvidence?: boolean;
   blocksGeneratedPackagePromotion?: boolean;
   requiresPrivateLibraryTarget?: boolean;
@@ -2351,6 +2356,7 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     validateAiGeneratedPackageWriterTestHarnessPlanIntent(intent, errors);
     validateAiGeneratedPackageWriterTestHarnessImplementationProposalIntent(intent, errors);
+    validateAiGeneratedPackageWriterHarnessImplementationDecisionIntent(intent, errors);
     validateCodexPatchApprovalDecisionIntent(intent, errors);
     validateAiPrototypeSignedApprovalPreflightIntent(intent, errors);
     validateAiPrototypePatchAuthorizationReleaseLockIntent(intent, errors);
@@ -3502,6 +3508,93 @@ function validateAiGeneratedPackageWriterTestHarnessImplementationProposalIntent
 
   if (!intent.blocksSupportLanguageAssembly) {
     errors.push(`${prefix} must block support-language-only harness passes.`);
+  }
+}
+
+function validateAiGeneratedPackageWriterHarnessImplementationDecisionIntent(
+  intent: PersistenceWriteIntent,
+  errors: string[],
+): void {
+  if (intent.category !== "ai-generated-package-writer-harness-implementation-decision") {
+    return;
+  }
+
+  const prefix = `AI generated package writer harness implementation decision write intent ${intent.intentId}`;
+
+  if (!intent.preservesAiGeneratedPackageWriterHarnessImplementationDecision) {
+    errors.push(`${prefix} must preserve harness implementation decisions.`);
+  }
+
+  if (!intent.preservesAiGeneratedPackageWriterTestHarnessImplementationProposal) {
+    errors.push(`${prefix} must preserve harness implementation proposal links.`);
+  }
+
+  if (!intent.requiresPackageWriterHarnessDecisionEvidence) {
+    errors.push(`${prefix} must require decision evidence.`);
+  }
+
+  if (!intent.requiresPackageWriterHarnessDecisionFileScope) {
+    errors.push(`${prefix} must require decision file scope.`);
+  }
+
+  if (!intent.requiresPackageWriterHarnessDecisionOptions) {
+    errors.push(`${prefix} must require decision options.`);
+  }
+
+  if (!intent.requiresReviewerIdentitySignatureGate) {
+    errors.push(`${prefix} must require reviewer identity signature gates.`);
+  }
+
+  if (!intent.blocksHarnessImplementationApproval) {
+    errors.push(`${prefix} must block harness implementation approval.`);
+  }
+
+  if (!intent.blocksHarnessImplementation) {
+    errors.push(`${prefix} must block harness implementation.`);
+  }
+
+  if (!intent.blocksPackageWriterTestExecution) {
+    errors.push(`${prefix} must block package writer test execution.`);
+  }
+
+  if (!intent.blocksPlaywrightRun) {
+    errors.push(`${prefix} must block writer mutation browser runs.`);
+  }
+
+  if (!intent.blocksEvidenceUpload) {
+    errors.push(`${prefix} must block evidence upload.`);
+  }
+
+  if (!intent.blocksSignedApprovalCapture) {
+    errors.push(`${prefix} must block signed approval capture.`);
+  }
+
+  if (!intent.blocksAppFileWrite) {
+    errors.push(`${prefix} must block app file patches.`);
+  }
+
+  if (!intent.blocksGeneratedPackageJsonWrite) {
+    errors.push(`${prefix} must block generated package JSON writes.`);
+  }
+
+  if (!intent.blocksGeneratedPackageRouteWrite) {
+    errors.push(`${prefix} must block route registry writes.`);
+  }
+
+  if (!intent.blocksGeneratedPackagePlaylistWrite) {
+    errors.push(`${prefix} must block media playlist writes.`);
+  }
+
+  if (!intent.blocksGeneratedPackageLocalBundleWrite) {
+    errors.push(`${prefix} must block local bundle writes.`);
+  }
+
+  if (!intent.blocksGeneratedPackageAssignment) {
+    errors.push(`${prefix} must block assignment writes.`);
+  }
+
+  if (!intent.blocksSupportLanguageAssembly) {
+    errors.push(`${prefix} must block support-language-only implementation decisions.`);
   }
 }
 

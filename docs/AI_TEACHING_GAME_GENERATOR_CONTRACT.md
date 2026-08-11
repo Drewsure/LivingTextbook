@@ -181,6 +181,8 @@ The decision preview cannot approve harness implementation, create package write
 
 MiniStar decision previews must keep English as the target-language assembly trigger and preserve hiragana-only Japanese support as support-only.
 
+The backend-neutral storage contract is `ai_generated_package_writer_harness_implementation_decision` / `ai-generated-package-writer-harness-implementation-decision`. Hosted and local adapters must preserve required evidence, file-scope rules, decision options, reviewer identity requirements, next records, linked implementation proposal, linked harness plan, linked evidence packet, and blocked actions while blocking harness approval, harness implementation, writer test execution, mutation browser runs, evidence upload, signed approval capture, app patches, generated package JSON writes, route registry writes, media playlist writes, local bundle packaging, assignment activation, production QR redirect mutation, and support-language-only implementation decisions.
+
 ## Draft Payload Validation Rule
 
 AI-generated draft payloads must pass the shared `validateAiGeneratedDraftPayload` / `validateAiGeneratedDraftPayloadPreview` contract before review, persistence, verifier submission, package assembly, route creation, playlist creation, or student assignment can be considered.

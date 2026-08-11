@@ -358,6 +358,7 @@
 - `DR-384-target-language-audio-approval-packet.md`
 - `DR-385-target-language-audio-approval-storage-contract.md`
 - `DR-386-ai-generated-package-writer-harness-implementation-decision.md`
+- `DR-387-ai-generated-package-writer-harness-implementation-decision-storage-contract.md`
 
 ## Maintenance Rule
 

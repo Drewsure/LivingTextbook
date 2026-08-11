@@ -43,6 +43,7 @@ export type PersistenceRecordCategory =
   | "ai-generated-package-writer-test-evidence-packet"
   | "ai-generated-package-writer-test-harness-plan"
   | "ai-generated-package-writer-test-harness-implementation-proposal"
+  | "ai-generated-package-writer-harness-implementation-decision"
   | "ai-reward-readiness-gate"
   | "ai-generated-publish-readiness-gate"
   | "ai-generator-tenant-coverage-gate"
@@ -305,6 +306,7 @@ export interface DurableRecordContract {
   preservesAiGeneratedPackageWriterTestEvidencePacket?: boolean;
   preservesAiGeneratedPackageWriterTestHarnessPlan?: boolean;
   preservesAiGeneratedPackageWriterTestHarnessImplementationProposal?: boolean;
+  preservesAiGeneratedPackageWriterHarnessImplementationDecision?: boolean;
   requiresLineageMap?: boolean;
   requiresTargetLanguageAudioApproval?: boolean;
   requiresPackageAssemblyReadinessLanes?: boolean;
@@ -326,6 +328,10 @@ export interface DurableRecordContract {
   requiresPackageWriterHarnessImplementationModuleScope?: boolean;
   requiresPackageWriterHarnessImplementationReviewGates?: boolean;
   requiresPackageWriterHarnessDryRunOnlyChecks?: boolean;
+  requiresPackageWriterHarnessDecisionEvidence?: boolean;
+  requiresPackageWriterHarnessDecisionFileScope?: boolean;
+  requiresPackageWriterHarnessDecisionOptions?: boolean;
+  blocksHarnessImplementationApproval?: boolean;
   requiresMediaRightsEvidence?: boolean;
   blocksGeneratedPackagePromotion?: boolean;
   requiresPrivateLibraryTarget?: boolean;
@@ -2420,6 +2426,7 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     validateAiGeneratedPackageWriterTestHarnessPlanRecord(record, errors);
     validateAiGeneratedPackageWriterTestHarnessImplementationProposalRecord(record, errors);
+    validateAiGeneratedPackageWriterHarnessImplementationDecisionRecord(record, errors);
     validateCodexPatchApprovalDecisionRecord(record, errors);
     validateAiPrototypeSignedApprovalPreflightRecord(record, errors);
     validateAiPrototypePatchAuthorizationReleaseLockRecord(record, errors);
@@ -3560,6 +3567,93 @@ function validateAiGeneratedPackageWriterTestHarnessImplementationProposalRecord
 
   if (!record.blocksSupportLanguageAssembly) {
     errors.push(`${prefix} must block support-language-only harness passes.`);
+  }
+}
+
+function validateAiGeneratedPackageWriterHarnessImplementationDecisionRecord(
+  record: DurableRecordContract,
+  errors: string[],
+): void {
+  if (record.category !== "ai-generated-package-writer-harness-implementation-decision") {
+    return;
+  }
+
+  const prefix = `AI generated package writer harness implementation decision record ${record.recordId}`;
+
+  if (!record.preservesAiGeneratedPackageWriterHarnessImplementationDecision) {
+    errors.push(`${prefix} must preserve harness implementation decisions.`);
+  }
+
+  if (!record.preservesAiGeneratedPackageWriterTestHarnessImplementationProposal) {
+    errors.push(`${prefix} must preserve harness implementation proposal links.`);
+  }
+
+  if (!record.requiresPackageWriterHarnessDecisionEvidence) {
+    errors.push(`${prefix} must require decision evidence.`);
+  }
+
+  if (!record.requiresPackageWriterHarnessDecisionFileScope) {
+    errors.push(`${prefix} must require decision file scope.`);
+  }
+
+  if (!record.requiresPackageWriterHarnessDecisionOptions) {
+    errors.push(`${prefix} must require decision options.`);
+  }
+
+  if (!record.requiresReviewerIdentitySignatureGate) {
+    errors.push(`${prefix} must require reviewer identity signature gates.`);
+  }
+
+  if (!record.blocksHarnessImplementationApproval) {
+    errors.push(`${prefix} must block harness implementation approval.`);
+  }
+
+  if (!record.blocksHarnessImplementation) {
+    errors.push(`${prefix} must block harness implementation.`);
+  }
+
+  if (!record.blocksPackageWriterTestExecution) {
+    errors.push(`${prefix} must block package writer test execution.`);
+  }
+
+  if (!record.blocksPlaywrightRun) {
+    errors.push(`${prefix} must block writer mutation browser runs.`);
+  }
+
+  if (!record.blocksEvidenceUpload) {
+    errors.push(`${prefix} must block evidence upload.`);
+  }
+
+  if (!record.blocksSignedApprovalCapture) {
+    errors.push(`${prefix} must block signed approval capture.`);
+  }
+
+  if (!record.blocksAppFileWrite) {
+    errors.push(`${prefix} must block app file patches.`);
+  }
+
+  if (!record.blocksGeneratedPackageJsonWrite) {
+    errors.push(`${prefix} must block generated package JSON writes.`);
+  }
+
+  if (!record.blocksGeneratedPackageRouteWrite) {
+    errors.push(`${prefix} must block route registry writes.`);
+  }
+
+  if (!record.blocksGeneratedPackagePlaylistWrite) {
+    errors.push(`${prefix} must block media playlist writes.`);
+  }
+
+  if (!record.blocksGeneratedPackageLocalBundleWrite) {
+    errors.push(`${prefix} must block local bundle writes.`);
+  }
+
+  if (!record.blocksGeneratedPackageAssignment) {
+    errors.push(`${prefix} must block assignment writes.`);
+  }
+
+  if (!record.blocksSupportLanguageAssembly) {
+    errors.push(`${prefix} must block support-language-only implementation decisions.`);
   }
 }
 

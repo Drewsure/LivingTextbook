@@ -50,6 +50,7 @@ const requiredSchemaEntities = [
   "ai_generated_package_writer_test_evidence_packet",
   "ai_generated_package_writer_test_harness_plan",
   "ai_generated_package_writer_test_harness_implementation_proposal",
+  "ai_generated_package_writer_harness_implementation_decision",
   "ai_reward_readiness_gate",
   "ai_generated_publish_readiness_gate",
   "ai_generator_tenant_coverage_gate",
@@ -150,6 +151,7 @@ const requiredMigrationCandidates = [
   "m086-ai-generated-package-writer-test-evidence-packet-records",
   "m087-ai-generated-package-writer-test-harness-plan-records",
   "m088-ai-generated-package-writer-test-harness-implementation-proposal-records",
+  "m089-ai-generated-package-writer-harness-implementation-decision-records",
   "m055-ai-reward-readiness-gate-records",
   "m056-ai-generated-publish-readiness-gate-records",
   "m057-ai-generator-tenant-coverage-gate-records",
@@ -253,6 +255,7 @@ const requiredMigrationSpecs = [
   "spec-ai-generated-package-writer-test-evidence-packet",
   "spec-ai-generated-package-writer-test-harness-plan",
   "spec-ai-generated-package-writer-test-harness-implementation-proposal",
+  "spec-ai-generated-package-writer-harness-implementation-decision",
   "spec-ai-reward-readiness-gate",
   "spec-ai-generated-publish-readiness-gate",
   "spec-ai-generator-tenant-coverage-gate",
@@ -1917,6 +1920,47 @@ requireText(migrationSpecs, "proposed_module_scope", "Migration specs must prese
 requireText(migrationSpecs, "implementation_boundaries", "Migration specs must preserve package writer harness implementation boundaries.");
 requireText(migrationSpecs, "required_review_gates", "Migration specs must preserve package writer harness implementation review gates.");
 requireText(migrationSpecs, "dry_run_only_checks", "Migration specs must preserve package writer harness dry-run-only checks.");
+requireText(
+  schemaDraft,
+  "ai_generated_package_writer_harness_implementation_decision",
+  "Backend schema must include AI generated package writer harness implementation decisions.",
+);
+requireText(
+  schemaDraft,
+  "ai_generated_package_writer_harness_implementation_decision_id",
+  "Backend schema must preserve AI generated package writer harness implementation decision ids.",
+);
+requireText(schemaDraft, "required_evidence", "Backend schema must preserve package writer harness decision evidence.");
+requireText(schemaDraft, "file_scope_rules", "Backend schema must preserve package writer harness decision file scope.");
+requireText(schemaDraft, "decision_options", "Backend schema must preserve package writer harness decision options.");
+requireText(
+  schemaDraft,
+  "harness_implementation_approval_allowed",
+  "Backend schema must block harness implementation approval.",
+);
+requireText(
+  schemaDraft,
+  "support_language_implementation_decision_allowed",
+  "Backend schema must block support-language-only implementation decisions.",
+);
+requireText(
+  migrationSpecs,
+  "spec-ai-generated-package-writer-harness-implementation-decision",
+  "Migration specs must include AI generated package writer harness implementation decisions.",
+);
+requireText(
+  migrationSpecs,
+  "ai_generated_package_writer_harness_implementation_decision_id",
+  "Migration specs must preserve generated package writer harness implementation decision ids.",
+);
+requireText(migrationSpecs, "required_evidence", "Migration specs must preserve package writer harness decision evidence.");
+requireText(migrationSpecs, "file_scope_rules", "Migration specs must preserve package writer harness decision file scope.");
+requireText(migrationSpecs, "decision_options", "Migration specs must preserve package writer harness decision options.");
+requireText(
+  migrationSpecs,
+  "harness_implementation_approval_allowed",
+  "Migration specs must block harness implementation approval.",
+);
 requireText(migrationSpecs, "spec-ai-reward-readiness-gate", "Migration specs must include AI reward readiness gates.");
 requireText(migrationSpecs, "ai_reward_readiness_gate_id", "Migration specs must preserve AI reward readiness gate ids.");
 requireText(migrationSpecs, "ai_draft_correction_queue_id", "Migration specs must preserve AI draft correction queue ids.");
@@ -3280,6 +3324,41 @@ requireText(
   persistenceAdapter,
   "requiresPackageWriterHarnessDryRunOnlyChecks: true",
   "Persistence adapter must require package writer harness dry-run-only checks.",
+);
+requireText(
+  persistenceAdapter,
+  "hosted-ai-generated-package-writer-harness-implementation-decision-write",
+  "Persistence adapter must include hosted AI generated package writer harness implementation decision writes.",
+);
+requireText(
+  persistenceAdapter,
+  "local-ai-generated-package-writer-harness-implementation-decision-write",
+  "Persistence adapter must include local AI generated package writer harness implementation decision writes.",
+);
+requireText(
+  persistenceAdapter,
+  "preservesAiGeneratedPackageWriterHarnessImplementationDecision: true",
+  "Persistence adapter must preserve AI generated package writer harness implementation decisions.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresPackageWriterHarnessDecisionEvidence: true",
+  "Persistence adapter must require package writer harness decision evidence.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresPackageWriterHarnessDecisionFileScope: true",
+  "Persistence adapter must require package writer harness decision file scope.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresPackageWriterHarnessDecisionOptions: true",
+  "Persistence adapter must require package writer harness decision options.",
+);
+requireText(
+  persistenceAdapter,
+  "blocksHarnessImplementationApproval: true",
+  "Persistence adapter must block harness implementation approval.",
 );
 requireText(persistenceAdapter, "hosted-ai-reward-readiness-gate-write", "Persistence adapter must include hosted AI reward readiness gate writes.");
 requireText(persistenceAdapter, "local-ai-reward-readiness-gate-write", "Persistence adapter must include local AI reward readiness gate writes.");
@@ -4942,6 +5021,41 @@ requireText(
   "requiresPackageWriterHarnessDryRunOnlyChecks: true",
   "Durable record plan must require package writer harness dry-run-only checks.",
 );
+requireText(
+  durableRecords,
+  "ai-generated-package-writer-harness-implementation-decision-record",
+  "Durable record plan must include AI generated package writer harness implementation decision records.",
+);
+requireText(
+  durableRecords,
+  "AI generated package writer harness implementation decision record",
+  "Durable record plan must expose AI generated package writer harness implementation decision labels.",
+);
+requireText(
+  durableRecords,
+  "preservesAiGeneratedPackageWriterHarnessImplementationDecision: true",
+  "Durable record plan must preserve AI generated package writer harness implementation decisions.",
+);
+requireText(
+  durableRecords,
+  "requiresPackageWriterHarnessDecisionEvidence: true",
+  "Durable record plan must require package writer harness decision evidence.",
+);
+requireText(
+  durableRecords,
+  "requiresPackageWriterHarnessDecisionFileScope: true",
+  "Durable record plan must require package writer harness decision file scope.",
+);
+requireText(
+  durableRecords,
+  "requiresPackageWriterHarnessDecisionOptions: true",
+  "Durable record plan must require package writer harness decision options.",
+);
+requireText(
+  durableRecords,
+  "blocksHarnessImplementationApproval: true",
+  "Durable record plan must block harness implementation approval.",
+);
 requireText(durableRecords, "ai-reward-readiness-gate-record", "Durable record plan must include AI reward readiness gate records.");
 requireText(durableRecords, "AI reward readiness gate record", "Durable record plan must expose AI reward readiness gate labels.");
 requireText(durableRecords, "preservesAiRewardReadinessGate: true", "Durable record plan must preserve AI reward readiness checks.");
@@ -5513,6 +5627,16 @@ requireText(
   routeVerifier,
   "AI generated package writer test harness implementation proposal record",
   "Active route verifier must keep AI generated package writer test harness implementation proposal durable records visible on teacher intake.",
+);
+requireText(
+  routeVerifier,
+  "ai_generated_package_writer_harness_implementation_decision",
+  "Active route verifier must keep AI generated package writer harness implementation decision storage visible on teacher intake.",
+);
+requireText(
+  routeVerifier,
+  "AI generated package writer harness implementation decision record",
+  "Active route verifier must keep AI generated package writer harness implementation decision durable records visible on teacher intake.",
 );
 requireText(routeVerifier, "ai_reward_readiness_gate", "Active route verifier must keep AI reward readiness storage visible on teacher intake.");
 requireText(routeVerifier, "AI reward readiness gate record", "Active route verifier must keep AI reward readiness durable records visible on teacher intake.");
