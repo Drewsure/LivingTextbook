@@ -4,6 +4,7 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import type { GameModeId, LaunchSession, StudentProgressionState } from "@living-textbook/content-model";
 import { AudioCueButton, AudioCueText } from "@/features/audio/AudioCueButton";
 import {
+  getMemoryMatchPath,
   getQuizPath,
   getSentenceBuilderPath,
   getSpeakItPath,
@@ -105,6 +106,10 @@ export function RecommendedGameRoutesCard({ launchSession, progression, onRouteG
 }
 
 function getModePath(mode: GameModeId, launchCode: string): string {
+  if (mode === "memory-match") {
+    return getMemoryMatchPath(launchCode);
+  }
+
   if (mode === "quiz") {
     return getQuizPath(launchCode);
   }
@@ -122,7 +127,7 @@ function getModePath(mode: GameModeId, launchCode: string): string {
 
 function getModeSummary(mode: GameModeId): string {
   if (mode === "memory-match") {
-    return "Play inside this launch page first. Match vocabulary cards with tap-to-hear support.";
+    return "Open the pairing route and match vocabulary cards with tap-to-hear support.";
   }
 
   if (mode === "quiz") {

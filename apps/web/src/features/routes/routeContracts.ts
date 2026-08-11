@@ -234,6 +234,14 @@ export const appRouteContracts: AppRouteContract[] = [
     requiredState: ["TenantConfig", "UnitPayload", "LaunchSession", "StudentProgressionState", "GameProgressEvent[]"],
   },
   {
+    id: "memory-match",
+    pattern: "/memory/[code]",
+    audience: "student",
+    status: "active-scaffold",
+    purpose: "Let a student reinforce reviewed vocabulary through the pairing parent engine with tap-to-speak card support and deterministic completion events.",
+    requiredState: ["TenantConfig", "UnitPayload", "LaunchSession", "StudentProgressionState", "AudioCue[]"],
+  },
+  {
     id: "sentence-builder",
     pattern: "/sentence/[code]",
     audience: "student",
@@ -320,6 +328,10 @@ export function getSentenceBuilderPath(launchCode: LaunchCode): string {
 
 export function getQuizPath(launchCode: LaunchCode): string {
   return `/quiz/${encodeURIComponent(launchCode)}`;
+}
+
+export function getMemoryMatchPath(launchCode: LaunchCode): string {
+  return `/memory/${encodeURIComponent(launchCode)}`;
 }
 
 export function getSpeakItPath(launchCode: LaunchCode): string {

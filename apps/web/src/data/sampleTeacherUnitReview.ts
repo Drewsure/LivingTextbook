@@ -15,6 +15,7 @@ import { sampleUnitPackageReadiness } from "./sampleUnitPackageReadiness";
 import type { UnitPackageReadinessSummary } from "./sampleUnitPackageReadiness";
 import {
   getFrontDoorPath,
+  getMemoryMatchPath,
   getMediaPlaylistPath,
   getPrintableWorksheetPath,
   getPrivateAssignmentPath,
@@ -115,6 +116,12 @@ function buildTeacherUnitReviewContext(args: {
         href: getStudentLaunchPath(args.launchSession.launchCode),
         status: "ready",
         note: "Flashcards, unlock flow, Memory Match, media shortcut, and student summary.",
+      },
+      {
+        label: "Memory Match",
+        href: getMemoryMatchPath(args.launchSession.launchCode),
+        status: "ready",
+        note: "Pairing-engine reinforcement route with tap-to-speak vocabulary cards and deterministic completion events.",
       },
       ...(playlist
         ? [

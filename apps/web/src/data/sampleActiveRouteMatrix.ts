@@ -259,6 +259,14 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     note: "Focused Training Academy route.",
   },
   {
+    routeId: "ministar-memory",
+    group: "ministar",
+    label: "MiniStar memory match",
+    path: "/memory/demo-unit-1",
+    status: "active-scaffold",
+    note: "Pairing-engine vocabulary reinforcement route with tap-to-speak card support.",
+  },
+  {
     routeId: "ministar-quiz",
     group: "ministar",
     label: "MiniStar quiz",
@@ -369,6 +377,14 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     path: "/training/partner-demo-unit-1?focus=sentence-review",
     status: "active-scaffold",
     note: "White-label focused Training Academy route.",
+  },
+  {
+    routeId: "partner-memory",
+    group: "sample-publisher",
+    label: "Sample publisher memory match",
+    path: "/memory/partner-demo-unit-1",
+    status: "active-scaffold",
+    note: "White-label pairing-engine vocabulary reinforcement route with tap-to-speak card support.",
   },
   {
     routeId: "partner-quiz",

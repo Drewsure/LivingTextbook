@@ -591,6 +591,7 @@ Next outputs:
 - Confirm `/teacher/review` shows AI-generated draft packages as read-only queue items with source lineage, verifier packet requirements, target-language audio blockers, media-rights blockers, route/playlist/assignment blocks, and approval blocks before live AI review submission or generated package approval is implemented.
 - Confirm tenant-scoped AI draft review routes exist for sample publisher and MiniStar so white-label review can happen without cross-tenant queue leakage.
 - Confirm `/teacher/review` shows package writer harness implementation decision blockers on AI-generated draft queue items so review approval cannot bypass generated package writer gates.
+- Confirm Memory Match has dedicated MiniStar and sample-publisher student routes at `/memory/demo-unit-1` and `/memory/partner-demo-unit-1`, reusing the pairing parent engine with tap-to-speak cards, deterministic scoring, route-matrix coverage, and no support-language progression unlock.
 - Confirm `npm run verify:ai-generator` passes after changes to AI authoring, game generation, activity pathway generation, target-language audio requirements, premium AI Tutor generation requests, or generator routes.
 
 ## Session 8: Premium Experience Layer
