@@ -320,3 +320,45 @@ Procedure:
 4. See `docs/operating-notes/2026-07-17-next-route-typegen-sequential-run.md` for the detailed note.
 
 Why this matters: Next route type generation writes into `.next/types`. Sequential verification avoids false failures and keeps the local build process calm.
+
+## OW-015: GitHub Push Can Block On Missing Windows Credentials
+
+Status: Active
+
+Observed behavior: Local commits can succeed, but `git push origin legacy-source-import` may hang until the tool window times out. A non-interactive retry can reveal that Windows/Git has no available GitHub credentials.
+
+Observed failure signature:
+
+- `fatal: unable to access 'https://github.com/Drewsure/LivingTextbook.git/': schannel: AcquireCredentialsHandle failed: SEC_E_NO_CREDENTIALS`
+
+Procedure:
+
+1. Confirm the local branch is clean and ahead of the remote:
+
+```powershell
+git status -sb
+git log --oneline --decorate -4
+```
+
+2. Try a non-interactive diagnostic push to avoid silent waiting:
+
+```powershell
+$env:GIT_TERMINAL_PROMPT='0'
+git push --porcelain origin legacy-source-import
+```
+
+3. If `SEC_E_NO_CREDENTIALS` appears, the human-side fix is to run:
+
+```powershell
+git push origin legacy-source-import
+```
+
+4. Complete the GitHub/Git Credential Manager sign-in prompt, then rerun:
+
+```powershell
+git rev-parse origin/legacy-source-import
+```
+
+5. If the remote commit still does not match local `HEAD`, retry the normal push after credentials are refreshed.
+
+Why this matters: It separates a real GitHub credential prompt from source-control or build failure. Work can continue locally, but the user must refresh credentials before the verified commit reaches GitHub.
