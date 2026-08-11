@@ -362,3 +362,32 @@ git rev-parse origin/legacy-source-import
 5. If the remote commit still does not match local `HEAD`, retry the normal push after credentials are refreshed.
 
 Why this matters: It separates a real GitHub credential prompt from source-control or build failure. Work can continue locally, but the user must refresh credentials before the verified commit reaches GitHub.
+
+## OW-016: Active Route Verification Can Hit Transient Local Fetch Failures
+
+Status: Active
+
+Observed behavior: `npm run verify:routes` can pass several routes and then report many `fetch failed` entries if the local Next server briefly stops responding during a long route sweep. A rerun can pass without source changes.
+
+Observed failure signature:
+
+- Many consecutive `FAIL error http://127.0.0.1:3000/... fetch failed` lines after earlier successful route checks.
+
+Procedure:
+
+1. Confirm the local server still responds:
+
+```powershell
+Invoke-WebRequest -UseBasicParsing http://127.0.0.1:3000/ -TimeoutSec 10
+```
+
+2. If it responds, rerun:
+
+```powershell
+npm run verify:routes
+```
+
+3. The verifier now retries each route fetch up to three times with a short backoff.
+4. Treat missing expected text or repeated fetch failure after retry as a real issue.
+
+Why this matters: The active route list is intentionally broad. Lightweight retry behavior reduces false negatives without hiding real route content failures.

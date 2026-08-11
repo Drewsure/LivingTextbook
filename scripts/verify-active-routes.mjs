@@ -1290,10 +1290,12 @@ if (urls.length === 0) {
 }
 
 const results = [];
+const routeFetchAttempts = 3;
+const routeFetchRetryDelayMs = 750;
 
 for (const url of urls) {
   try {
-    const response = await fetch(url, { redirect: "manual" });
+    const response = await fetchRouteWithRetry(url);
     const path = new URL(url).pathname;
     const expectedText = expectedTextByPath.get(path) ?? [];
     const forbiddenText = forbiddenTextByPath.get(path) ?? [];
@@ -1341,3 +1343,27 @@ if (failed.length > 0) {
 }
 
 console.log(`${results.length} active route check(s) passed.`);
+
+async function fetchRouteWithRetry(url) {
+  let lastError;
+
+  for (let attempt = 1; attempt <= routeFetchAttempts; attempt += 1) {
+    try {
+      return await fetch(url, { redirect: "manual" });
+    } catch (error) {
+      lastError = error;
+
+      if (attempt < routeFetchAttempts) {
+        await delay(routeFetchRetryDelayMs * attempt);
+      }
+    }
+  }
+
+  throw lastError;
+}
+
+function delay(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
