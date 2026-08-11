@@ -441,7 +441,7 @@ The shared `validateAiGamificationMappingPlan` contract must enforce the 1,000 S
 
 Generated game requests must pass an `ai_reward_readiness_gate` before any reward publishing, collection inventory write, Spin Wheel ticket issuance, avatar evolution write, or student assignment exists.
 
-The gate must preserve the 1,000 Star Dust unit cap, 75% mastery thresholds, deterministic collection unlocks, accepted learning-event sources, correction-queue clearance, `game_scoring_profile_snapshot`, `progress_event_acceptance_map`, `collection_unlock_binding`, and `earned_collection_inventory` records. Generated surprise rewards remain blocked.
+The gate must preserve the 1,000 Star Dust unit cap, 75% mastery thresholds, deterministic collection unlocks, accepted learning-event sources, shared gamification mapping guard clearance, correction-queue clearance, `game_scoring_profile_snapshot`, `progress_event_acceptance_map`, `collection_unlock_binding`, and `earned_collection_inventory` records. Generated surprise rewards remain blocked.
 
 The backend-neutral storage contract is `ai_reward_readiness_gate` / `ai-reward-readiness-gate`. Hosted and local adapters must preserve deterministic reward checks while blocking reward publishing, collection inventory writes, generated surprise rewards, Spin Wheel ticket issuance, avatar evolution writes, and student assignment.
 

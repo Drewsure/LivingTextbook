@@ -371,6 +371,7 @@
 - `DR-397-local-bundle-activity-hub-fallbacks.md`
 - `DR-398-ministar-hiragana-support-validator.md`
 - `DR-399-ai-gamification-mapping-validator.md`
+- `DR-400-ai-reward-readiness-uses-gamification-guard.md`
 
 ## Maintenance Rule
 

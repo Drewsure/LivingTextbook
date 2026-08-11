@@ -1,5 +1,6 @@
 import { sampleAiDraftCorrectionQueues } from "@/data/sampleAiDraftCorrectionQueue";
 import { sampleAiGamificationMappingPlans } from "@/data/sampleAiGamificationMappingPlan";
+import { validateAiGamificationMappingPlan } from "@living-textbook/content-model/src/aiGamificationMapping";
 
 export type AiRewardReadinessStatus = "blocked" | "ready-for-review";
 
@@ -30,6 +31,7 @@ export const sampleAiRewardReadinessGates: AiRewardReadinessGate[] = sampleAiGam
   const allRewardsDeterministic = plan.rewardBindings.every((binding) =>
     binding.deterministicRule.toLowerCase().includes("unlock"),
   );
+  const gamificationGuardBlocks = validateAiGamificationMappingPlan(plan);
   const correctionQueueClear = (correctionQueue?.validationBlockCount ?? 1) === 0;
 
   const checks: AiRewardReadinessCheck[] = [
@@ -60,6 +62,13 @@ export const sampleAiRewardReadinessGates: AiRewardReadinessGate[] = sampleAiGam
       status: plan.blockedActions.includes("Media-only Star Dust blocked") ? "ready-for-review" : "blocked",
       evidence: "Media-only and support-language-only mastery are blocked in the generated gamification map.",
       requiredBeforeStudentUse: "progress_event_acceptance_map",
+    },
+    {
+      checkId: "gamification-guard-clear",
+      label: "Gamification mapping guard clear",
+      status: gamificationGuardBlocks.length === 0 ? "ready-for-review" : "blocked",
+      evidence: `${gamificationGuardBlocks.length} gamification guard block(s) remain.`,
+      requiredBeforeStudentUse: "ai_gamification_mapping_plan",
     },
     {
       checkId: "correction-queue-clear",

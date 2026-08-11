@@ -622,6 +622,7 @@ const aiGameGeneratorExpected = [
   "75% mastery threshold",
   "Deterministic collection unlocks",
   "Accepted learning events only",
+  "Gamification mapping guard clear",
   "Correction queue clear before rewards",
   "Reward publish blocked",
   "Collection inventory write blocked",

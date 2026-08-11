@@ -1634,6 +1634,8 @@ requireText(rewardReadinessGate, "1,000 Star Dust unit cap", "AI reward gate mus
 requireText(rewardReadinessGate, "75% mastery threshold", "AI reward gate must preserve the mastery threshold.");
 requireText(rewardReadinessGate, "Deterministic collection unlocks", "AI reward gate must preserve deterministic collection unlocks.");
 requireText(rewardReadinessGate, "Accepted learning events only", "AI reward gate must restrict rewards to accepted events.");
+requireText(rewardReadinessGate, "Gamification mapping guard clear", "AI reward gate must depend on gamification validator clearance.");
+requireText(rewardReadinessGate, "validateAiGamificationMappingPlan", "AI reward gate must call the shared gamification validator.");
 requireText(rewardReadinessGate, "Correction queue clear before rewards", "AI reward gate must depend on correction queue state.");
 requireText(rewardReadinessGate, "Reward publish blocked", "AI reward gate must block reward publishing.");
 requireText(rewardReadinessGate, "Collection inventory write blocked", "AI reward gate must block inventory writes.");
