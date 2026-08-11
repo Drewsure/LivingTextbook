@@ -18,6 +18,9 @@ const packageWriterPreflightValidator = readSource("../packages/content-model/sr
 const packageWriterRollbackDrillValidator = readSource(
   "../packages/content-model/src/aiPackageWriterRollbackDrill.ts",
 );
+const packageWriterImplementationReadinessValidator = readSource(
+  "../packages/content-model/src/aiPackageWriterImplementationReadiness.ts",
+);
 const rewardReadinessGate = readSource("../apps/web/src/data/sampleAiRewardReadinessGate.ts");
 const generatedGameBuildBrief = readSource("../apps/web/src/data/sampleAiGeneratedGameBuildBrief.ts");
 const externalPrototypeTaskPacket = readSource("../apps/web/src/data/sampleAiExternalPrototypeTaskPacket.ts");
@@ -2500,6 +2503,26 @@ requireText(
   "AI generated package writer implementation readiness data must exist.",
 );
 requireText(
+  packageWriterImplementationReadinessValidator,
+  "validateAiGeneratedPackageWriterImplementationReadiness",
+  "AI generated package writer implementation readiness must have a shared validator.",
+);
+requireText(
+  packageWriterImplementationReadinessValidator,
+  "AI_PACKAGE_WRITER_IMPLEMENTATION_REQUIRED_BLOCKED_ACTIONS",
+  "AI generated package writer implementation readiness validator must enforce required blocked actions.",
+);
+requireText(
+  generatedPackageWriterImplementationReadiness,
+  "sampleAiGeneratedPackageWriterImplementationReadinessErrors",
+  "AI generated package writer implementation readiness data must expose shared guard errors.",
+);
+requireText(
+  generatedPackageWriterImplementationReadiness,
+  "sampleAiGeneratedPackageWriterImplementationReadinessWarnings",
+  "AI generated package writer implementation readiness data must expose shared guard warnings.",
+);
+requireText(
   generatedPackageWriterImplementationReadiness,
   "Implementation readiness blocked until Codex package-writer decision",
   "AI generated package writer implementation readiness must stay blocked.",
@@ -2533,6 +2556,21 @@ requireText(
   generatedPackageWriterImplementationReadinessPanel,
   "AI generated package writer implementation readiness",
   "AI generated package writer implementation readiness panel must expose heading.",
+);
+requireText(
+  generatedPackageWriterImplementationReadinessPanel,
+  "Implementation readiness guard active",
+  "AI generated package writer implementation readiness panel must expose shared guard status.",
+);
+requireText(
+  generatedPackageWriterImplementationReadinessPanel,
+  "Implementation readiness guard blocks",
+  "AI generated package writer implementation readiness panel must expose shared guard blocks.",
+);
+requireText(
+  generatedPackageWriterImplementationReadinessPanel,
+  "Implementation readiness guard warnings",
+  "AI generated package writer implementation readiness panel must expose shared guard warnings.",
 );
 requireText(
   generatedPackageWriterImplementationReadinessPanel,

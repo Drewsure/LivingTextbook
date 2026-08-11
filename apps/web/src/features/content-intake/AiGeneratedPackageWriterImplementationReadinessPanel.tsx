@@ -1,4 +1,8 @@
 import { Card, StatusPill } from "@living-textbook/ui";
+import {
+  getAiGeneratedPackageWriterImplementationReadinessCollectionWarnings,
+  validateAiGeneratedPackageWriterImplementationReadinessCollection,
+} from "@living-textbook/content-model/src/aiPackageWriterImplementationReadiness";
 import type {
   AiGeneratedPackageWriterImplementationReadiness,
   AiGeneratedPackageWriterImplementationReadinessStatus,
@@ -24,6 +28,8 @@ export function AiGeneratedPackageWriterImplementationReadinessPanel({
   readiness,
 }: AiGeneratedPackageWriterImplementationReadinessPanelProps) {
   const moduleCount = readiness.reduce((total, item) => total + item.modulePlan.length, 0);
+  const guardBlocks = validateAiGeneratedPackageWriterImplementationReadinessCollection(readiness);
+  const guardWarnings = getAiGeneratedPackageWriterImplementationReadinessCollectionWarnings(readiness);
 
   return (
     <Card>
@@ -40,9 +46,27 @@ export function AiGeneratedPackageWriterImplementationReadinessPanel({
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
+          <StatusPill label="Implementation readiness guard active" tone="neutral" />
+          <StatusPill
+            label={`${guardBlocks.length} guard block(s)`}
+            tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+          />
           <StatusPill label="Implementation blocked" tone="warning" />
           <StatusPill label={`${moduleCount} module plan(s)`} tone="neutral" />
         </div>
+      </div>
+
+      <div className="mt-5 grid gap-3 lg:grid-cols-2">
+        <ReadinessList
+          title="Implementation readiness guard blocks"
+          items={guardBlocks.length > 0 ? guardBlocks : ["No shared implementation readiness guard blockers."]}
+          tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+        />
+        <ReadinessList
+          title="Implementation readiness guard warnings"
+          items={guardWarnings.length > 0 ? guardWarnings : ["No shared implementation readiness guard warnings."]}
+          tone={guardWarnings.length > 0 ? "warning" : "neutral"}
+        />
       </div>
 
       <div className="mt-5 grid gap-4">

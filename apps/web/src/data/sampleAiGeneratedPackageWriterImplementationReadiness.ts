@@ -2,39 +2,34 @@ import {
   sampleAiGeneratedPackageWriterRollbackDrills,
   type AiGeneratedPackageWriterRollbackDrill,
 } from "@/data/sampleAiGeneratedPackageWriterRollbackDrill";
+import {
+  getAiGeneratedPackageWriterImplementationReadinessCollectionWarnings,
+  validateAiGeneratedPackageWriterImplementationReadinessCollection,
+  type AiGeneratedPackageWriterImplementationReadiness,
+  type AiGeneratedPackageWriterImplementationReadinessStatus,
+  type AiGeneratedPackageWriterModule,
+  type AiGeneratedPackageWriterModuleStatus,
+} from "@living-textbook/content-model/src/aiPackageWriterImplementationReadiness";
 
-export type AiGeneratedPackageWriterImplementationReadinessStatus = "blocked" | "review-only";
-export type AiGeneratedPackageWriterModuleStatus = "blocked" | "needs-design";
-
-export interface AiGeneratedPackageWriterModule {
-  moduleId: string;
-  label: string;
-  status: AiGeneratedPackageWriterModuleStatus;
-  implementationBoundary: string;
-  requiredInputs: string[];
-  blockedActions: string[];
-}
-
-export interface AiGeneratedPackageWriterImplementationReadiness {
-  readinessId: string;
-  tenantId: string;
-  requestId: string;
-  rollbackDrillId: string;
-  label: string;
-  summary: string;
-  status: AiGeneratedPackageWriterImplementationReadinessStatus;
-  readinessState: string;
-  packageIdPreview: string;
-  modulePlan: AiGeneratedPackageWriterModule[];
-  requiredTestGates: string[];
-  releaseControls: string[];
-  blockedImplementationActions: string[];
-  nextRequiredRecords: string[];
-  supportLanguageBoundary: string[];
-}
+export type {
+  AiGeneratedPackageWriterImplementationReadiness,
+  AiGeneratedPackageWriterImplementationReadinessStatus,
+  AiGeneratedPackageWriterModule,
+  AiGeneratedPackageWriterModuleStatus,
+};
 
 export const sampleAiGeneratedPackageWriterImplementationReadiness: AiGeneratedPackageWriterImplementationReadiness[] =
   sampleAiGeneratedPackageWriterRollbackDrills.map((drill) => createImplementationReadiness(drill));
+
+export const sampleAiGeneratedPackageWriterImplementationReadinessErrors =
+  validateAiGeneratedPackageWriterImplementationReadinessCollection(
+    sampleAiGeneratedPackageWriterImplementationReadiness,
+  );
+
+export const sampleAiGeneratedPackageWriterImplementationReadinessWarnings =
+  getAiGeneratedPackageWriterImplementationReadinessCollectionWarnings(
+    sampleAiGeneratedPackageWriterImplementationReadiness,
+  );
 
 export function filterAiGeneratedPackageWriterImplementationReadinessByTenant(
   readiness: AiGeneratedPackageWriterImplementationReadiness[],
