@@ -376,6 +376,7 @@
 - `DR-402-progress-event-envelope-gate.md`
 - `DR-403-ai-package-assembly-dry-run-validator.md`
 - `DR-404-ai-package-writer-preflight-validator.md`
+- `DR-405-ai-package-writer-rollback-drill-validator.md`
 
 ## Maintenance Rule
 

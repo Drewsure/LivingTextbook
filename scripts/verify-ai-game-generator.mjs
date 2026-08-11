@@ -15,6 +15,9 @@ const gamificationMappingPlan = readSource("../apps/web/src/data/sampleAiGamific
 const gamificationMappingValidator = readSource("../packages/content-model/src/aiGamificationMapping.ts");
 const packageAssemblyDryRunValidator = readSource("../packages/content-model/src/aiPackageAssemblyDryRun.ts");
 const packageWriterPreflightValidator = readSource("../packages/content-model/src/aiPackageWriterPreflight.ts");
+const packageWriterRollbackDrillValidator = readSource(
+  "../packages/content-model/src/aiPackageWriterRollbackDrill.ts",
+);
 const rewardReadinessGate = readSource("../apps/web/src/data/sampleAiRewardReadinessGate.ts");
 const generatedGameBuildBrief = readSource("../apps/web/src/data/sampleAiGeneratedGameBuildBrief.ts");
 const externalPrototypeTaskPacket = readSource("../apps/web/src/data/sampleAiExternalPrototypeTaskPacket.ts");
@@ -2397,6 +2400,26 @@ requireText(
   "AI generated package writer rollback drill data must exist.",
 );
 requireText(
+  packageWriterRollbackDrillValidator,
+  "validateAiGeneratedPackageWriterRollbackDrill",
+  "AI generated package writer rollback drill must have a shared validator.",
+);
+requireText(
+  packageWriterRollbackDrillValidator,
+  "AI_PACKAGE_WRITER_ROLLBACK_REQUIRED_BLOCKED_ACTIONS",
+  "AI generated package writer rollback drill validator must enforce required blocked actions.",
+);
+requireText(
+  generatedPackageWriterRollbackDrill,
+  "sampleAiGeneratedPackageWriterRollbackDrillErrors",
+  "AI generated package writer rollback drill data must expose shared guard errors.",
+);
+requireText(
+  generatedPackageWriterRollbackDrill,
+  "sampleAiGeneratedPackageWriterRollbackDrillWarnings",
+  "AI generated package writer rollback drill data must expose shared guard warnings.",
+);
+requireText(
   generatedPackageWriterRollbackDrill,
   "Rollback drill blocked until writer implementation exists",
   "AI generated package writer rollback drill must keep rollback blocked.",
@@ -2435,6 +2458,21 @@ requireText(
   generatedPackageWriterRollbackDrillPanel,
   "AI generated package writer rollback drill",
   "AI generated package writer rollback drill panel must expose heading.",
+);
+requireText(
+  generatedPackageWriterRollbackDrillPanel,
+  "Rollback drill guard active",
+  "AI generated package writer rollback drill panel must expose shared guard status.",
+);
+requireText(
+  generatedPackageWriterRollbackDrillPanel,
+  "Rollback drill guard blocks",
+  "AI generated package writer rollback drill panel must expose shared guard blocks.",
+);
+requireText(
+  generatedPackageWriterRollbackDrillPanel,
+  "Rollback drill guard warnings",
+  "AI generated package writer rollback drill panel must expose shared guard warnings.",
 );
 requireText(
   generatedPackageWriterRollbackDrillPanel,

@@ -1,4 +1,8 @@
 import { Card, StatusPill } from "@living-textbook/ui";
+import {
+  getAiGeneratedPackageWriterRollbackDrillCollectionWarnings,
+  validateAiGeneratedPackageWriterRollbackDrills,
+} from "@living-textbook/content-model/src/aiPackageWriterRollbackDrill";
 import type {
   AiGeneratedPackageWriterRollbackDrill,
   AiGeneratedPackageWriterRollbackDrillStatus,
@@ -24,6 +28,8 @@ export function AiGeneratedPackageWriterRollbackDrillPanel({
   drills,
 }: AiGeneratedPackageWriterRollbackDrillPanelProps) {
   const stepCount = drills.reduce((total, drill) => total + drill.rollbackSteps.length, 0);
+  const guardBlocks = validateAiGeneratedPackageWriterRollbackDrills(drills);
+  const guardWarnings = getAiGeneratedPackageWriterRollbackDrillCollectionWarnings(drills);
 
   return (
     <Card>
@@ -40,9 +46,27 @@ export function AiGeneratedPackageWriterRollbackDrillPanel({
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
+          <StatusPill label="Rollback drill guard active" tone="neutral" />
+          <StatusPill
+            label={`${guardBlocks.length} guard block(s)`}
+            tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+          />
           <StatusPill label="Rollback drill blocked" tone="warning" />
           <StatusPill label={`${stepCount} rollback step(s)`} tone="neutral" />
         </div>
+      </div>
+
+      <div className="mt-5 grid gap-3 lg:grid-cols-2">
+        <DrillList
+          title="Rollback drill guard blocks"
+          items={guardBlocks.length > 0 ? guardBlocks : ["No shared rollback drill guard blockers."]}
+          tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+        />
+        <DrillList
+          title="Rollback drill guard warnings"
+          items={guardWarnings.length > 0 ? guardWarnings : ["No shared rollback drill guard warnings."]}
+          tone={guardWarnings.length > 0 ? "warning" : "neutral"}
+        />
       </div>
 
       <div className="mt-5 grid gap-4">

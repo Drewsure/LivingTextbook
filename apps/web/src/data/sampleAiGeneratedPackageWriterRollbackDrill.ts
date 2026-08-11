@@ -2,41 +2,31 @@ import {
   sampleAiGeneratedPackageWriterPreflights,
   type AiGeneratedPackageWriterPreflight,
 } from "@/data/sampleAiGeneratedPackageWriterPreflight";
+import {
+  getAiGeneratedPackageWriterRollbackDrillCollectionWarnings,
+  validateAiGeneratedPackageWriterRollbackDrills,
+  type AiGeneratedPackageWriterRollbackDrill,
+  type AiGeneratedPackageWriterRollbackDrillStatus,
+  type AiGeneratedPackageWriterRollbackStep,
+  type AiGeneratedPackageWriterRollbackStepStatus,
+} from "@living-textbook/content-model/src/aiPackageWriterRollbackDrill";
 
-export type AiGeneratedPackageWriterRollbackDrillStatus = "blocked" | "review-only";
-export type AiGeneratedPackageWriterRollbackStepStatus = "blocked" | "needs-evidence";
-
-export interface AiGeneratedPackageWriterRollbackStep {
-  stepId: string;
-  label: string;
-  scope: string;
-  status: AiGeneratedPackageWriterRollbackStepStatus;
-  requiredSnapshot: string;
-  verificationCheck: string;
-  blockedActions: string[];
-}
-
-export interface AiGeneratedPackageWriterRollbackDrill {
-  drillId: string;
-  tenantId: string;
-  requestId: string;
-  preflightId: string;
-  label: string;
-  summary: string;
-  status: AiGeneratedPackageWriterRollbackDrillStatus;
-  drillState: string;
-  packageIdPreview: string;
-  preWriteSnapshots: string[];
-  postWriteVerification: string[];
-  rollbackSteps: AiGeneratedPackageWriterRollbackStep[];
-  allowedReviewActions: string[];
-  blockedRollbackActions: string[];
-  nextRequiredRecords: string[];
-  supportLanguageBoundary: string[];
-}
+export type {
+  AiGeneratedPackageWriterRollbackDrill,
+  AiGeneratedPackageWriterRollbackDrillStatus,
+  AiGeneratedPackageWriterRollbackStep,
+  AiGeneratedPackageWriterRollbackStepStatus,
+};
 
 export const sampleAiGeneratedPackageWriterRollbackDrills: AiGeneratedPackageWriterRollbackDrill[] =
   sampleAiGeneratedPackageWriterPreflights.map((preflight) => createRollbackDrill(preflight));
+
+export const sampleAiGeneratedPackageWriterRollbackDrillErrors = validateAiGeneratedPackageWriterRollbackDrills(
+  sampleAiGeneratedPackageWriterRollbackDrills,
+);
+
+export const sampleAiGeneratedPackageWriterRollbackDrillWarnings =
+  getAiGeneratedPackageWriterRollbackDrillCollectionWarnings(sampleAiGeneratedPackageWriterRollbackDrills);
 
 export function filterAiGeneratedPackageWriterRollbackDrillsByTenant(
   drills: AiGeneratedPackageWriterRollbackDrill[],
