@@ -379,6 +379,8 @@ The backend-neutral storage contract is `ai_prototype_patch_authorization_releas
 
 Patch implementation work orders must remain review-only until signed approval acceptance, patch authorization release lock acceptance, release-control binding, patch test evidence, route safety, rollback, storage verification, and reviewer identity evidence are accepted.
 
+The backend-neutral storage contract is `ai_prototype_patch_implementation_work_order` / `ai-prototype-patch-implementation-work-order`. Hosted and local adapters must preserve required-before-work records, allowed future file groups, dry-run verification order, rollback plan, route safety, rollback drill, storage verification, reviewer identity, release-lock binding, and blocked work-order actions while blocking work order execution, app file writes, generated patches, test execution, Playwright runs, generated route writes, student-facing routes, scoring or reward mutation, audio manifest mutation, package promotion, assignments, and support-language progress.
+
 The work order may name required-before-work records, allowed future file groups, dry-run verification order, rollback plan, blocked actions, and next required records. It cannot execute a work order, write app files, generate patches, execute tests, invoke Playwright, mutate routes, expose student-facing routes, change scoring or rewards, mutate audio manifests, promote packages, assign students, or trigger support-language progress.
 
 MiniStar patch implementation work orders must keep Foundation Japanese support hiragana-only and support-only while English remains the progress trigger.

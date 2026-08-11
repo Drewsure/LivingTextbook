@@ -34,6 +34,7 @@ const requiredSchemaEntities = [
   "codex_patch_approval_decision",
   "ai_prototype_signed_approval_preflight",
   "ai_prototype_patch_authorization_release_lock",
+  "ai_prototype_patch_implementation_work_order",
   "ai_generated_package_manifest",
   "ai_generated_package_promotion_checklist",
   "ai_generated_package_release_candidate",
@@ -130,6 +131,7 @@ const requiredMigrationCandidates = [
   "m089-codex-patch-approval-decision-records",
   "m090-ai-prototype-signed-approval-preflight-records",
   "m091-ai-prototype-patch-authorization-release-lock-records",
+  "m092-ai-prototype-patch-implementation-work-order-records",
   "m054-ai-generated-package-manifest-records",
   "m058-ai-generated-package-promotion-checklist-records",
   "m059-ai-generated-package-release-candidate-records",
@@ -229,6 +231,7 @@ const requiredMigrationSpecs = [
   "spec-codex-patch-approval-decision",
   "spec-ai-prototype-signed-approval-preflight",
   "spec-ai-prototype-patch-authorization-release-lock",
+  "spec-ai-prototype-patch-implementation-work-order",
   "spec-ai-generated-package-manifest",
   "spec-ai-generated-package-promotion-checklist",
   "spec-ai-generated-package-release-candidate",
@@ -663,6 +666,21 @@ requireText(schemaDraft, "required_release_locks", "Backend schema must preserve
 requireText(schemaDraft, "authorization_scope", "Backend schema must preserve patch authorization scope.");
 requireText(schemaDraft, "forbidden_until_unlocked", "Backend schema must preserve forbidden-until-unlocked blockers.");
 requireText(schemaDraft, "release_evidence", "Backend schema must preserve patch release evidence.");
+requireText(
+  schemaDraft,
+  "ai_prototype_patch_implementation_work_order",
+  "Backend schema must include AI prototype patch implementation work orders.",
+);
+requireText(
+  schemaDraft,
+  "patch_implementation_work_order_id",
+  "Backend schema must preserve patch implementation work order ids.",
+);
+requireText(schemaDraft, "required_before_work", "Backend schema must preserve patch implementation required-before-work records.");
+requireText(schemaDraft, "allowed_future_file_groups", "Backend schema must preserve patch implementation file groups.");
+requireText(schemaDraft, "dry_run_verification_order", "Backend schema must preserve patch implementation dry-run order.");
+requireText(schemaDraft, "rollback_plan", "Backend schema must preserve patch implementation rollback plans.");
+requireText(schemaDraft, "work_order_execution_allowed", "Backend schema must block work order execution.");
 requireText(schemaDraft, "proposed_file_scope", "Backend schema must preserve prototype app patch proposed file scope.");
 requireText(schemaDraft, "required_before_patch", "Backend schema must preserve prototype app patch pre-patch gates.");
 requireText(schemaDraft, "required_test_gates", "Backend schema must preserve prototype app patch test gates.");
@@ -1500,6 +1518,21 @@ requireText(
   "Migration specs must preserve forbidden-until-unlocked blockers.",
 );
 requireText(migrationSpecs, "release_evidence", "Migration specs must preserve patch release evidence.");
+requireText(
+  migrationSpecs,
+  "spec-ai-prototype-patch-implementation-work-order",
+  "Migration specs must include AI prototype patch implementation work orders.",
+);
+requireText(
+  migrationSpecs,
+  "patch_implementation_work_order_id",
+  "Migration specs must preserve patch implementation work order ids.",
+);
+requireText(migrationSpecs, "required_before_work", "Migration specs must preserve patch implementation required-before-work records.");
+requireText(migrationSpecs, "allowed_future_file_groups", "Migration specs must preserve patch implementation file groups.");
+requireText(migrationSpecs, "dry_run_verification_order", "Migration specs must preserve patch implementation dry-run order.");
+requireText(migrationSpecs, "rollback_plan", "Migration specs must preserve patch implementation rollback plans.");
+requireText(migrationSpecs, "work_order_execution_allowed", "Migration specs must block work order execution.");
 requireText(migrationSpecs, "spec-ai-generated-package-manifest", "Migration specs must include AI generated package manifests.");
 requireText(migrationSpecs, "ai_generated_package_manifest_id", "Migration specs must preserve generated package manifest ids.");
 requireText(migrationSpecs, "prompt_package_id", "Migration specs must preserve generated package prompt package ids.");
@@ -4121,6 +4154,47 @@ requireText(
   "Durable record plan must include AI prototype patch authorization release lock boundaries.",
 );
 requireText(
+  durableRecords,
+  "ai-prototype-patch-implementation-work-order-record",
+  "Durable record plan must include AI prototype patch implementation work order records.",
+);
+requireText(
+  durableRecords,
+  "AI prototype patch implementation work order record",
+  "Durable record plan must expose AI prototype patch implementation work order labels.",
+);
+requireText(
+  durableRecords,
+  "preservesAiPrototypePatchImplementationWorkOrder: true",
+  "Durable record plan must preserve AI prototype patch implementation work orders.",
+);
+requireText(
+  durableRecords,
+  "requiresPatchImplementationRequiredBeforeWork: true",
+  "Durable record plan must require patch implementation required-before-work records.",
+);
+requireText(
+  durableRecords,
+  "requiresPatchImplementationFileGroups: true",
+  "Durable record plan must require patch implementation file groups.",
+);
+requireText(
+  durableRecords,
+  "requiresPatchImplementationDryRunOrder: true",
+  "Durable record plan must require patch implementation dry-run order.",
+);
+requireText(
+  durableRecords,
+  "requiresPatchImplementationRollbackPlan: true",
+  "Durable record plan must require patch implementation rollback plans.",
+);
+requireText(durableRecords, "blocksWorkOrderExecution: true", "Durable record plan must block work order execution.");
+requireText(
+  durableRecords,
+  "ai-prototype-patch-implementation-work-order-boundary",
+  "Durable record plan must include AI prototype patch implementation work order boundaries.",
+);
+requireText(
   persistenceAdapter,
   "hosted-codex-patch-approval-decision-write",
   "Persistence adapter must include hosted Codex patch approval decision writes.",
@@ -4207,6 +4281,42 @@ requireText(
   "Persistence adapter must require forbidden-until-unlocked checks.",
 );
 requireText(persistenceAdapter, "requiresReleaseEvidence: true", "Persistence adapter must require release evidence.");
+requireText(
+  persistenceAdapter,
+  "hosted-ai-prototype-patch-implementation-work-order-write",
+  "Persistence adapter must include hosted AI prototype patch implementation work order writes.",
+);
+requireText(
+  persistenceAdapter,
+  "local-ai-prototype-patch-implementation-work-order-write",
+  "Persistence adapter must include local AI prototype patch implementation work order writes.",
+);
+requireText(
+  persistenceAdapter,
+  "preservesAiPrototypePatchImplementationWorkOrder: true",
+  "Persistence adapter must preserve AI prototype patch implementation work orders.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresPatchImplementationRequiredBeforeWork: true",
+  "Persistence adapter must require patch implementation required-before-work records.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresPatchImplementationFileGroups: true",
+  "Persistence adapter must require patch implementation file groups.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresPatchImplementationDryRunOrder: true",
+  "Persistence adapter must require patch implementation dry-run order.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresPatchImplementationRollbackPlan: true",
+  "Persistence adapter must require patch implementation rollback plans.",
+);
+requireText(persistenceAdapter, "blocksWorkOrderExecution: true", "Persistence adapter must block work order execution.");
 requireText(durableRecords, "ai-generated-package-manifest-record", "Durable record plan must include AI generated package manifest records.");
 requireText(durableRecords, "AI generated package manifest record", "Durable record plan must expose AI generated package manifest record labels.");
 requireText(durableRecords, "preservesAiGeneratedPackageManifest: true", "Durable record plan must preserve AI generated package manifest links.");
@@ -5002,6 +5112,16 @@ requireText(
   routeVerifier,
   "AI generated package assembly dry run record",
   "Active route verifier must keep AI generated package assembly dry-run durable records visible on teacher intake.",
+);
+requireText(
+  routeVerifier,
+  "ai_prototype_patch_implementation_work_order",
+  "Active route verifier must keep AI prototype patch implementation work order storage visible on teacher intake.",
+);
+requireText(
+  routeVerifier,
+  "AI prototype patch implementation work order record",
+  "Active route verifier must keep AI prototype patch implementation work order durable records visible on teacher intake.",
 );
 requireText(
   routeVerifier,

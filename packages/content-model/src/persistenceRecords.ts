@@ -26,6 +26,7 @@ export type PersistenceRecordCategory =
   | "codex-patch-approval-decision"
   | "ai-prototype-signed-approval-preflight"
   | "ai-prototype-patch-authorization-release-lock"
+  | "ai-prototype-patch-implementation-work-order"
   | "ai-prototype-integration-readiness-gate"
   | "ai-generated-package-manifest"
   | "ai-generated-package-promotion-checklist"
@@ -168,6 +169,7 @@ export interface DurableRecordContract {
   preservesCodexPatchApprovalDecision?: boolean;
   preservesAiPrototypeSignedApprovalPreflight?: boolean;
   preservesAiPrototypePatchAuthorizationReleaseLock?: boolean;
+  preservesAiPrototypePatchImplementationWorkOrder?: boolean;
   requiresProposedPatchFileScope?: boolean;
   requiresPrePatchGates?: boolean;
   requiresPatchTestGates?: boolean;
@@ -194,8 +196,13 @@ export interface DurableRecordContract {
   requiresPatchAuthorizationScope?: boolean;
   requiresForbiddenUntilUnlockedChecks?: boolean;
   requiresReleaseEvidence?: boolean;
+  requiresPatchImplementationRequiredBeforeWork?: boolean;
+  requiresPatchImplementationFileGroups?: boolean;
+  requiresPatchImplementationDryRunOrder?: boolean;
+  requiresPatchImplementationRollbackPlan?: boolean;
   requiresReviewerIdentitySignatureGate?: boolean;
   blocksAppFileWrite?: boolean;
+  blocksWorkOrderExecution?: boolean;
   blocksTestExecution?: boolean;
   blocksPlaywrightRun?: boolean;
   requiresManualCodexReview?: boolean;
@@ -2400,6 +2407,7 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
     validateCodexPatchApprovalDecisionRecord(record, errors);
     validateAiPrototypeSignedApprovalPreflightRecord(record, errors);
     validateAiPrototypePatchAuthorizationReleaseLockRecord(record, errors);
+    validateAiPrototypePatchImplementationWorkOrderRecord(record, errors);
 
     if (record.category === "ai-reward-readiness-gate" && !record.preservesAiRewardReadinessGate) {
       errors.push(`AI reward readiness gate record ${record.recordId} must preserve generated reward readiness checks.`);
@@ -3716,6 +3724,85 @@ function validateAiPrototypePatchAuthorizationReleaseLockRecord(
 
   if (!record.requiresReviewerIdentitySignatureGate) {
     errors.push(`${prefix} must require reviewer identity signature gates.`);
+  }
+
+  if (!record.blocksAppFileWrite) {
+    errors.push(`${prefix} must block app file writes.`);
+  }
+
+  if (!record.blocksAppPatchGeneration) {
+    errors.push(`${prefix} must block app patch generation.`);
+  }
+
+  if (!record.blocksTestExecution) {
+    errors.push(`${prefix} must block test execution.`);
+  }
+
+  if (!record.blocksPlaywrightRun) {
+    errors.push(`${prefix} must block Playwright runs.`);
+  }
+
+  if (!record.blocksGeneratedGameRouteWrite) {
+    errors.push(`${prefix} must block route writes.`);
+  }
+
+  if (!record.blocksSupportLanguageProgressTrigger) {
+    errors.push(`${prefix} must block support-language progress triggers.`);
+  }
+}
+
+function validateAiPrototypePatchImplementationWorkOrderRecord(
+  record: DurableRecordContract,
+  errors: string[],
+): void {
+  if (record.category !== "ai-prototype-patch-implementation-work-order") {
+    return;
+  }
+
+  const prefix = `AI prototype patch implementation work order record ${record.recordId}`;
+
+  if (!record.preservesAiPrototypePatchImplementationWorkOrder) {
+    errors.push(`${prefix} must preserve patch implementation work orders.`);
+  }
+
+  if (!record.preservesAiPrototypePatchAuthorizationReleaseLock) {
+    errors.push(`${prefix} must preserve patch authorization release lock links.`);
+  }
+
+  if (!record.requiresPatchImplementationRequiredBeforeWork) {
+    errors.push(`${prefix} must require required-before-work records.`);
+  }
+
+  if (!record.requiresPatchImplementationFileGroups) {
+    errors.push(`${prefix} must require allowed future file groups.`);
+  }
+
+  if (!record.requiresPatchImplementationDryRunOrder) {
+    errors.push(`${prefix} must require dry-run verification order.`);
+  }
+
+  if (!record.requiresPatchImplementationRollbackPlan) {
+    errors.push(`${prefix} must require rollback plans.`);
+  }
+
+  if (!record.requiresRouteSafetyReleaseGate) {
+    errors.push(`${prefix} must require route safety release gates.`);
+  }
+
+  if (!record.requiresRollbackDrillRecord) {
+    errors.push(`${prefix} must require rollback drill records.`);
+  }
+
+  if (!record.requiresStorageContractVerification) {
+    errors.push(`${prefix} must require storage contract verification.`);
+  }
+
+  if (!record.requiresReviewerIdentitySignatureGate) {
+    errors.push(`${prefix} must require reviewer identity signature gates.`);
+  }
+
+  if (!record.blocksWorkOrderExecution) {
+    errors.push(`${prefix} must block work order execution.`);
   }
 
   if (!record.blocksAppFileWrite) {

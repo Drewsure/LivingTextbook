@@ -39,6 +39,7 @@ export type PersistenceBoundaryCategory =
   | "codex-patch-approval-decision"
   | "ai-prototype-signed-approval-preflight"
   | "ai-prototype-patch-authorization-release-lock"
+  | "ai-prototype-patch-implementation-work-order"
   | "ai-generated-package-manifest"
   | "ai-generated-package-promotion-checklist"
   | "ai-generated-package-release-candidate"
@@ -916,6 +917,47 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
     note:
       "AI prototype patch authorization release locks need durable release-control, narrow scope, forbidden-until-unlocked blockers, and release evidence before any future patch authorization, app file work, route mutation, scoring changes, rewards, package promotion, or assignment can exist.",
+  },
+  {
+    recordId: "ai-prototype-patch-implementation-work-order-record",
+    category: "ai-prototype-patch-implementation-work-order",
+    label: "AI prototype patch implementation work order record",
+    readiness: "durable-required",
+    sourceOfTruth:
+      "AiPrototypePatchImplementationWorkOrder, patch authorization release lock, required-before-work records, allowed future file groups, dry-run verification order, rollback plan, next records, and blocked actions",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: false,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesAiPrototypePatchImplementationWorkOrder: true,
+    preservesAiPrototypePatchAuthorizationReleaseLock: true,
+    requiresPatchImplementationRequiredBeforeWork: true,
+    requiresPatchImplementationFileGroups: true,
+    requiresPatchImplementationDryRunOrder: true,
+    requiresPatchImplementationRollbackPlan: true,
+    requiresRouteSafetyReleaseGate: true,
+    requiresRollbackDrillRecord: true,
+    requiresStorageContractVerification: true,
+    requiresReviewerIdentitySignatureGate: true,
+    blocksWorkOrderExecution: true,
+    blocksAppFileWrite: true,
+    blocksAppPatchGeneration: true,
+    blocksTestExecution: true,
+    blocksPlaywrightRun: true,
+    blocksGeneratedGameRouteWrite: true,
+    blocksStudentFacingRoute: true,
+    blocksScoringProfileOverride: true,
+    blocksStarDustWrite: true,
+    blocksRewardInventoryWrite: true,
+    blocksAudioManifestMutation: true,
+    blocksPackagePromotion: true,
+    blocksDirectStudentAssignment: true,
+    blocksSupportLanguageProgressTrigger: true,
+    recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
+    note:
+      "AI prototype patch implementation work orders need durable required records, file groups, dry-run verification, rollback plans, and blocked actions before any future work order execution, app file work, route mutation, scoring changes, rewards, package promotion, or assignment can exist.",
   },
   {
     recordId: "ai-generated-package-promotion-checklist-record",
@@ -2824,6 +2866,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision:
       "Persist patch authorization release locks before enabling patch authorization, app file work, route writes, student-facing previews, scoring changes, reward writes, package promotion, or assignments.",
+  },
+  {
+    boundaryId: "ai-prototype-patch-implementation-work-order-boundary",
+    category: "ai-prototype-patch-implementation-work-order",
+    label: "AI prototype patch implementation work order records",
+    status: "needs-backend",
+    recordShape:
+      "Patch implementation work order id, tenant id, request id, patch authorization release lock id, required-before-work records, allowed future file groups, dry-run verification order, rollback plan, next required records, and blocked actions",
+    whyItMatters:
+      "A returned prototype needs a durable implementation work order before future Codex patch work can be considered, and the work order itself must not execute work, write files, run tests, mutate routes, change scores or rewards, promote packages, or assign students.",
+    visibleTo: ["Platform admin", "Tenant admin", "Content reviewer", "Prototype reviewer"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Persist patch implementation work orders before enabling work order execution, app file work, route writes, student-facing previews, scoring changes, reward writes, package promotion, or assignments.",
   },
   {
     boundaryId: "ai-generated-package-promotion-checklist-boundary",

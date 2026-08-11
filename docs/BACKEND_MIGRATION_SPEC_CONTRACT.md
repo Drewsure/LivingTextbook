@@ -31,6 +31,7 @@ This is a bridge between product architecture and implementation. It names the r
 - Teacher draft package specs must preserve owner, source lineage, visibility, review gates, audio plan state, and direct-assignment blocks before draft packages can become student-facing releases.
 - AI generated package manifest specs must preserve prompt, draft JSON, audio, engine, gamification, verifier, review queue, media-rights, and release-lock lineage while blocking package assembly, route registry writes, media playlist writes, assignments, local bundle writes, and student-ready markers.
 - Codex patch approval decision specs must preserve patch scope, evidence checks, decision options, route safety, rollback, storage verification, reviewer identity, and blocked-action flags before any future patch execution or app file work.
+- AI prototype patch implementation work order specs must preserve release-lock binding, signed approval acceptance, required-before-work records, allowed future file groups, dry-run verification order, rollback plan, storage verification, reviewer identity, and blocked-action flags before any work order execution, patch work, test execution, route mutation, scoring/reward mutation, audio manifest mutation, package promotion, assignment, or support-language progress.
 - Tenant library item specs must preserve source lineage, block student-data copies, and block public community publishing before copy/edit, school sharing, search, or public-community work begins.
 - Activity compatibility snapshot specs must preserve payload shape, allowed activity modes, blocked conversions, target-language trigger policy, printable output policy, and student-facing pathway blocks before extra conversions or teacher pathway changes go live.
 - Template rendering profile specs must preserve source templates, curated game-family compatibility, row/media slot policy, layout constraints, and student-facing rendering blocks before any cross-game upload pattern or printable rendering goes live.
@@ -81,6 +82,7 @@ Before real backend migrations are written, the project must confirm:
 - Each spec names field shape, indexes, retention, export, local fallback, and policy blockers.
 - Signed approval preflight specs must block signature capture, approve buttons, patch authorization, app file writes, route mutation, scoring/reward mutation, package promotion, assignments, and support-language progress.
 - Patch authorization release lock specs must block patch authorization, app file writes, route mutation, scoring/reward mutation, package promotion, assignments, and support-language progress.
+- Patch implementation work order specs must block work order execution, app file writes, test execution, route mutation, scoring/reward mutation, package promotion, assignments, and support-language progress.
 - Specs do not imply that production storage is ready.
 - The progress event stream is visibly policy-blocked.
 - The earned collection inventory is visibly policy-blocked and rejects random pressure or purchase-like ownership.

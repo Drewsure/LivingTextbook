@@ -86,6 +86,7 @@ Each entity should name:
 - AI generated package manifests preserve prompt package, draft JSON, audio coverage, engine binding, gamification mapping, verifier packet, review queue, media-rights, and release-lock lineage before generated drafts can move toward package assembly.
 - AI generated package manifests block package assembly, route registry writes, media playlist writes, assignment writes, local bundle writes, and student-ready markers until review, approval ledger, and release-control gates pass.
 - Codex patch approval decisions preserve patch scope, test readiness, harness planning, route safety, rollback, storage verification, reviewer identity, evidence checks, decision options, and blocked patch actions before any app file work can exist.
+- AI prototype patch implementation work orders preserve release-lock binding, signed approval acceptance, release-control binding, route safety, rollback, storage verification, reviewer identity, required-before-work records, allowed future file groups, dry-run verification order, rollback plan, and blocked actions before any work order execution or app file work can exist.
 - Tenant library items preserve source lineage, block student-data copies, and block public community publishing for v1.
 - Activity compatibility snapshots preserve payload shape, allowed activity modes, blocked conversions, target-language trigger policy, printable output policy, and student-facing pathway blocks before extra conversions or pathway changes go live.
 - Template rendering profiles preserve source templates, compatible game families, row/media slot policies, layout constraints, and student-facing rendering blocks before cross-game upload patterns or printables go live.
@@ -96,6 +97,7 @@ Each entity should name:
 - Support language never unlocks target-language progression.
 - Signed approval preflight records preserve reviewer identity, scope locks, approval draft fields, evidence checklists, cannot-approve blockers, and approval-action blockers before any signature capture or patch authorization exists.
 - Patch authorization release lock records preserve release-control locks, narrow authorization scope, forbidden-until-unlocked blockers, release evidence, and patch-action blockers before app file work can exist.
+- Patch implementation work order records preserve required-before-work records, allowed file groups, dry-run verification order, rollback plan, and work-order blockers before work execution, app file writes, tests, routes, scoring, rewards, audio manifests, packages, assignments, or support-language progress can exist.
 - AI Tutor and speech scoring stay premium-gated and disabled unless tenant policy accepts them.
 - Local and hosted implementations must preserve the same record vocabulary.
 

@@ -68,6 +68,7 @@ export interface PersistenceWriteIntent {
   preservesCodexPatchApprovalDecision?: boolean;
   preservesAiPrototypeSignedApprovalPreflight?: boolean;
   preservesAiPrototypePatchAuthorizationReleaseLock?: boolean;
+  preservesAiPrototypePatchImplementationWorkOrder?: boolean;
   requiresProposedPatchFileScope?: boolean;
   requiresPrePatchGates?: boolean;
   requiresPatchTestGates?: boolean;
@@ -94,8 +95,13 @@ export interface PersistenceWriteIntent {
   requiresPatchAuthorizationScope?: boolean;
   requiresForbiddenUntilUnlockedChecks?: boolean;
   requiresReleaseEvidence?: boolean;
+  requiresPatchImplementationRequiredBeforeWork?: boolean;
+  requiresPatchImplementationFileGroups?: boolean;
+  requiresPatchImplementationDryRunOrder?: boolean;
+  requiresPatchImplementationRollbackPlan?: boolean;
   requiresReviewerIdentitySignatureGate?: boolean;
   blocksAppFileWrite?: boolean;
+  blocksWorkOrderExecution?: boolean;
   blocksTestExecution?: boolean;
   blocksPlaywrightRun?: boolean;
   requiresManualCodexReview?: boolean;
@@ -2335,6 +2341,7 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
     validateCodexPatchApprovalDecisionIntent(intent, errors);
     validateAiPrototypeSignedApprovalPreflightIntent(intent, errors);
     validateAiPrototypePatchAuthorizationReleaseLockIntent(intent, errors);
+    validateAiPrototypePatchImplementationWorkOrderIntent(intent, errors);
 
     if (intent.category === "ai-reward-readiness-gate" && !intent.preservesAiRewardReadinessGate) {
       errors.push(`AI reward readiness gate write intent ${intent.intentId} must preserve generated reward readiness checks.`);
@@ -3662,6 +3669,85 @@ function validateAiPrototypePatchAuthorizationReleaseLockIntent(
 
   if (!intent.requiresReviewerIdentitySignatureGate) {
     errors.push(`${prefix} must require reviewer identity signature gates.`);
+  }
+
+  if (!intent.blocksAppFileWrite) {
+    errors.push(`${prefix} must block app file writes.`);
+  }
+
+  if (!intent.blocksAppPatchGeneration) {
+    errors.push(`${prefix} must block app patch generation.`);
+  }
+
+  if (!intent.blocksTestExecution) {
+    errors.push(`${prefix} must block test execution.`);
+  }
+
+  if (!intent.blocksPlaywrightRun) {
+    errors.push(`${prefix} must block Playwright runs.`);
+  }
+
+  if (!intent.blocksGeneratedGameRouteWrite) {
+    errors.push(`${prefix} must block route writes.`);
+  }
+
+  if (!intent.blocksSupportLanguageProgressTrigger) {
+    errors.push(`${prefix} must block support-language progress triggers.`);
+  }
+}
+
+function validateAiPrototypePatchImplementationWorkOrderIntent(
+  intent: PersistenceWriteIntent,
+  errors: string[],
+): void {
+  if (intent.category !== "ai-prototype-patch-implementation-work-order") {
+    return;
+  }
+
+  const prefix = `AI prototype patch implementation work order write intent ${intent.intentId}`;
+
+  if (!intent.preservesAiPrototypePatchImplementationWorkOrder) {
+    errors.push(`${prefix} must preserve patch implementation work orders.`);
+  }
+
+  if (!intent.preservesAiPrototypePatchAuthorizationReleaseLock) {
+    errors.push(`${prefix} must preserve patch authorization release lock links.`);
+  }
+
+  if (!intent.requiresPatchImplementationRequiredBeforeWork) {
+    errors.push(`${prefix} must require required-before-work records.`);
+  }
+
+  if (!intent.requiresPatchImplementationFileGroups) {
+    errors.push(`${prefix} must require allowed future file groups.`);
+  }
+
+  if (!intent.requiresPatchImplementationDryRunOrder) {
+    errors.push(`${prefix} must require dry-run verification order.`);
+  }
+
+  if (!intent.requiresPatchImplementationRollbackPlan) {
+    errors.push(`${prefix} must require rollback plans.`);
+  }
+
+  if (!intent.requiresRouteSafetyReleaseGate) {
+    errors.push(`${prefix} must require route safety release gates.`);
+  }
+
+  if (!intent.requiresRollbackDrillRecord) {
+    errors.push(`${prefix} must require rollback drill records.`);
+  }
+
+  if (!intent.requiresStorageContractVerification) {
+    errors.push(`${prefix} must require storage contract verification.`);
+  }
+
+  if (!intent.requiresReviewerIdentitySignatureGate) {
+    errors.push(`${prefix} must require reviewer identity signature gates.`);
+  }
+
+  if (!intent.blocksWorkOrderExecution) {
+    errors.push(`${prefix} must block work order execution.`);
   }
 
   if (!intent.blocksAppFileWrite) {
