@@ -734,3 +734,4 @@ export * from "./aiPackageAssemblyDryRun";
 export * from "./aiPackageWriterPreflight";
 export * from "./aiPackageWriterRollbackDrill";
 export * from "./aiPackageWriterImplementationReadiness";
+export * from "./aiPackageWriterModuleTestPlan";

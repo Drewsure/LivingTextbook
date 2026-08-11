@@ -1,4 +1,8 @@
 import { Card, StatusPill } from "@living-textbook/ui";
+import {
+  getAiGeneratedPackageWriterModuleTestPlanCollectionWarnings,
+  validateAiGeneratedPackageWriterModuleTestPlans,
+} from "@living-textbook/content-model/src/aiPackageWriterModuleTestPlan";
 import type {
   AiGeneratedPackageWriterModuleTestPlan,
   AiGeneratedPackageWriterModuleTestPlanStatus,
@@ -18,6 +22,8 @@ export function AiGeneratedPackageWriterModuleTestPlanPanel({
   plans,
 }: AiGeneratedPackageWriterModuleTestPlanPanelProps) {
   const suiteCount = plans.reduce((total, plan) => total + plan.moduleTestSuites.length, 0);
+  const guardBlocks = validateAiGeneratedPackageWriterModuleTestPlans(plans);
+  const guardWarnings = getAiGeneratedPackageWriterModuleTestPlanCollectionWarnings(plans);
 
   return (
     <Card>
@@ -33,9 +39,27 @@ export function AiGeneratedPackageWriterModuleTestPlanPanel({
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
+          <StatusPill label="Module test plan guard active" tone="neutral" />
+          <StatusPill
+            label={`${guardBlocks.length} guard block(s)`}
+            tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+          />
           <StatusPill label="Test execution blocked" tone="warning" />
           <StatusPill label={`${suiteCount} suite(s)`} tone="neutral" />
         </div>
+      </div>
+
+      <div className="mt-5 grid gap-3 lg:grid-cols-2">
+        <TestPlanList
+          title="Module test plan guard blocks"
+          items={guardBlocks.length > 0 ? guardBlocks : ["No shared module test plan guard blockers."]}
+          tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+        />
+        <TestPlanList
+          title="Module test plan guard warnings"
+          items={guardWarnings.length > 0 ? guardWarnings : ["No shared module test plan guard warnings."]}
+          tone={guardWarnings.length > 0 ? "warning" : "neutral"}
+        />
       </div>
 
       <div className="mt-5 grid gap-4">

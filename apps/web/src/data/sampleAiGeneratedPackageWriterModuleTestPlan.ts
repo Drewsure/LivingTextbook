@@ -2,38 +2,29 @@ import {
   sampleAiGeneratedPackageWriterImplementationReadiness,
   type AiGeneratedPackageWriterImplementationReadiness,
 } from "@/data/sampleAiGeneratedPackageWriterImplementationReadiness";
+import {
+  getAiGeneratedPackageWriterModuleTestPlanCollectionWarnings,
+  validateAiGeneratedPackageWriterModuleTestPlans,
+  type AiGeneratedPackageWriterModuleTestPlan,
+  type AiGeneratedPackageWriterModuleTestPlanStatus,
+  type AiGeneratedPackageWriterModuleTestSuite,
+} from "@living-textbook/content-model/src/aiPackageWriterModuleTestPlan";
 
-export type AiGeneratedPackageWriterModuleTestPlanStatus = "blocked" | "review-only";
-
-export interface AiGeneratedPackageWriterModuleTestSuite {
-  suiteId: string;
-  moduleId: string;
-  label: string;
-  requiredFixtures: string[];
-  requiredAssertions: string[];
-  blockedExecution: string[];
-}
-
-export interface AiGeneratedPackageWriterModuleTestPlan {
-  testPlanId: string;
-  tenantId: string;
-  requestId: string;
-  implementationReadinessId: string;
-  rollbackDrillId: string;
-  label: string;
-  summary: string;
-  status: AiGeneratedPackageWriterModuleTestPlanStatus;
-  testPlanState: string;
-  packageIdPreview: string;
-  moduleTestSuites: AiGeneratedPackageWriterModuleTestSuite[];
-  requiredEvidence: string[];
-  blockedTestActions: string[];
-  nextRequiredRecords: string[];
-  supportLanguageBoundary: string[];
-}
+export type {
+  AiGeneratedPackageWriterModuleTestPlan,
+  AiGeneratedPackageWriterModuleTestPlanStatus,
+  AiGeneratedPackageWriterModuleTestSuite,
+};
 
 export const sampleAiGeneratedPackageWriterModuleTestPlans: AiGeneratedPackageWriterModuleTestPlan[] =
   sampleAiGeneratedPackageWriterImplementationReadiness.map((readiness) => createModuleTestPlan(readiness));
+
+export const sampleAiGeneratedPackageWriterModuleTestPlanErrors = validateAiGeneratedPackageWriterModuleTestPlans(
+  sampleAiGeneratedPackageWriterModuleTestPlans,
+);
+
+export const sampleAiGeneratedPackageWriterModuleTestPlanWarnings =
+  getAiGeneratedPackageWriterModuleTestPlanCollectionWarnings(sampleAiGeneratedPackageWriterModuleTestPlans);
 
 export function filterAiGeneratedPackageWriterModuleTestPlansByTenant(
   plans: AiGeneratedPackageWriterModuleTestPlan[],

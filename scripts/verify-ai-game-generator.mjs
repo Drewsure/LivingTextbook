@@ -21,6 +21,9 @@ const packageWriterRollbackDrillValidator = readSource(
 const packageWriterImplementationReadinessValidator = readSource(
   "../packages/content-model/src/aiPackageWriterImplementationReadiness.ts",
 );
+const packageWriterModuleTestPlanValidator = readSource(
+  "../packages/content-model/src/aiPackageWriterModuleTestPlan.ts",
+);
 const rewardReadinessGate = readSource("../apps/web/src/data/sampleAiRewardReadinessGate.ts");
 const generatedGameBuildBrief = readSource("../apps/web/src/data/sampleAiGeneratedGameBuildBrief.ts");
 const externalPrototypeTaskPacket = readSource("../apps/web/src/data/sampleAiExternalPrototypeTaskPacket.ts");
@@ -2593,6 +2596,26 @@ requireText(
   "AI generated package writer module test plan data must exist.",
 );
 requireText(
+  packageWriterModuleTestPlanValidator,
+  "validateAiGeneratedPackageWriterModuleTestPlan",
+  "AI generated package writer module test plan must have a shared validator.",
+);
+requireText(
+  packageWriterModuleTestPlanValidator,
+  "AI_PACKAGE_WRITER_MODULE_TEST_REQUIRED_BLOCKED_ACTIONS",
+  "AI generated package writer module test plan validator must enforce required blocked actions.",
+);
+requireText(
+  generatedPackageWriterModuleTestPlan,
+  "sampleAiGeneratedPackageWriterModuleTestPlanErrors",
+  "AI generated package writer module test plan data must expose shared guard errors.",
+);
+requireText(
+  generatedPackageWriterModuleTestPlan,
+  "sampleAiGeneratedPackageWriterModuleTestPlanWarnings",
+  "AI generated package writer module test plan data must expose shared guard warnings.",
+);
+requireText(
   generatedPackageWriterModuleTestPlan,
   "Module test plan blocked until storage contract and Codex implementation decision",
   "AI generated package writer module test plan must stay blocked.",
@@ -2631,6 +2654,21 @@ requireText(
   generatedPackageWriterModuleTestPlanPanel,
   "AI generated package writer module test plan",
   "AI generated package writer module test plan panel must expose heading.",
+);
+requireText(
+  generatedPackageWriterModuleTestPlanPanel,
+  "Module test plan guard active",
+  "AI generated package writer module test plan panel must expose shared guard status.",
+);
+requireText(
+  generatedPackageWriterModuleTestPlanPanel,
+  "Module test plan guard blocks",
+  "AI generated package writer module test plan panel must expose shared guard blocks.",
+);
+requireText(
+  generatedPackageWriterModuleTestPlanPanel,
+  "Module test plan guard warnings",
+  "AI generated package writer module test plan panel must expose shared guard warnings.",
 );
 requireText(
   generatedPackageWriterModuleTestPlanPanel,

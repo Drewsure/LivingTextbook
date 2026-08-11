@@ -378,6 +378,7 @@
 - `DR-404-ai-package-writer-preflight-validator.md`
 - `DR-405-ai-package-writer-rollback-drill-validator.md`
 - `DR-406-ai-package-writer-implementation-readiness-validator.md`
+- `DR-407-ai-package-writer-module-test-plan-validator.md`
 
 ## Maintenance Rule
 
