@@ -1,4 +1,8 @@
 import { Card, StatusPill } from "@living-textbook/ui";
+import {
+  getAiGeneratedPackageWriterPreflightCollectionWarnings,
+  validateAiGeneratedPackageWriterPreflights,
+} from "@living-textbook/content-model/src/aiPackageWriterPreflight";
 import type {
   AiGeneratedPackageWriterPreflight,
   AiGeneratedPackageWriterPreflightStatus,
@@ -22,6 +26,8 @@ const targetStatusTone: Record<AiGeneratedPackageWriterTargetStatus, "neutral" |
 
 export function AiGeneratedPackageWriterPreflightPanel({ preflights }: AiGeneratedPackageWriterPreflightPanelProps) {
   const targetCount = preflights.reduce((total, preflight) => total + preflight.writerTargets.length, 0);
+  const guardBlocks = validateAiGeneratedPackageWriterPreflights(preflights);
+  const guardWarnings = getAiGeneratedPackageWriterPreflightCollectionWarnings(preflights);
 
   return (
     <Card>
@@ -36,9 +42,24 @@ export function AiGeneratedPackageWriterPreflightPanel({ preflights }: AiGenerat
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
+          <StatusPill label="Writer preflight guard active" tone="success" />
           <StatusPill label="Writer blocked" tone="warning" />
+          <StatusPill label={`${guardBlocks.length} guard block(s)`} tone={guardBlocks.length > 0 ? "warning" : "success"} />
           <StatusPill label={`${targetCount} writer target(s)`} tone="neutral" />
         </div>
+      </div>
+
+      <div className="mt-5 grid gap-3 lg:grid-cols-2">
+        <PreflightList
+          title="Writer preflight guard blocks"
+          items={guardBlocks.length > 0 ? guardBlocks : ["No shared writer preflight guard blockers."]}
+          tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+        />
+        <PreflightList
+          title="Writer preflight guard warnings"
+          items={guardWarnings.length > 0 ? guardWarnings : ["No shared writer preflight guard warnings."]}
+          tone={guardWarnings.length > 0 ? "warning" : "neutral"}
+        />
       </div>
 
       <div className="mt-5 grid gap-4">

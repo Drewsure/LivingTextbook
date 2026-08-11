@@ -2,39 +2,31 @@ import {
   sampleAiGeneratedPackageAssemblyDryRuns,
   type AiGeneratedPackageAssemblyDryRun,
 } from "@/data/sampleAiGeneratedPackageAssemblyDryRun";
+import {
+  getAiGeneratedPackageWriterPreflightCollectionWarnings,
+  validateAiGeneratedPackageWriterPreflights,
+  type AiGeneratedPackageWriterPreflight,
+  type AiGeneratedPackageWriterPreflightStatus,
+  type AiGeneratedPackageWriterTarget,
+  type AiGeneratedPackageWriterTargetStatus,
+} from "@living-textbook/content-model/src/aiPackageWriterPreflight";
 
-export type AiGeneratedPackageWriterPreflightStatus = "blocked" | "review-only";
-export type AiGeneratedPackageWriterTargetStatus = "blocked" | "needs-review";
-
-export interface AiGeneratedPackageWriterTarget {
-  targetId: string;
-  label: string;
-  writerType: string;
-  status: AiGeneratedPackageWriterTargetStatus;
-  sourceArtifact: string;
-  requiredEvidence: string[];
-  blockedWrites: string[];
-}
-
-export interface AiGeneratedPackageWriterPreflight {
-  preflightId: string;
-  tenantId: string;
-  requestId: string;
-  dryRunId: string;
-  label: string;
-  summary: string;
-  status: AiGeneratedPackageWriterPreflightStatus;
-  preflightState: string;
-  packageIdPreview: string;
-  writerTargets: AiGeneratedPackageWriterTarget[];
-  allowedReviewActions: string[];
-  blockedWriterActions: string[];
-  nextRequiredRecords: string[];
-  supportLanguageBoundary: string[];
-}
+export type {
+  AiGeneratedPackageWriterPreflight,
+  AiGeneratedPackageWriterPreflightStatus,
+  AiGeneratedPackageWriterTarget,
+  AiGeneratedPackageWriterTargetStatus,
+};
 
 export const sampleAiGeneratedPackageWriterPreflights: AiGeneratedPackageWriterPreflight[] =
   sampleAiGeneratedPackageAssemblyDryRuns.map((dryRun) => createPreflight(dryRun));
+
+export const sampleAiGeneratedPackageWriterPreflightErrors = validateAiGeneratedPackageWriterPreflights(
+  sampleAiGeneratedPackageWriterPreflights,
+);
+
+export const sampleAiGeneratedPackageWriterPreflightWarnings =
+  getAiGeneratedPackageWriterPreflightCollectionWarnings(sampleAiGeneratedPackageWriterPreflights);
 
 export function filterAiGeneratedPackageWriterPreflightsByTenant(
   preflights: AiGeneratedPackageWriterPreflight[],

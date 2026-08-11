@@ -14,6 +14,7 @@ const audioCoveragePlan = readSource("../apps/web/src/data/sampleAiGeneratorAudi
 const gamificationMappingPlan = readSource("../apps/web/src/data/sampleAiGamificationMappingPlan.ts");
 const gamificationMappingValidator = readSource("../packages/content-model/src/aiGamificationMapping.ts");
 const packageAssemblyDryRunValidator = readSource("../packages/content-model/src/aiPackageAssemblyDryRun.ts");
+const packageWriterPreflightValidator = readSource("../packages/content-model/src/aiPackageWriterPreflight.ts");
 const rewardReadinessGate = readSource("../apps/web/src/data/sampleAiRewardReadinessGate.ts");
 const generatedGameBuildBrief = readSource("../apps/web/src/data/sampleAiGeneratedGameBuildBrief.ts");
 const externalPrototypeTaskPacket = readSource("../apps/web/src/data/sampleAiExternalPrototypeTaskPacket.ts");
@@ -2296,6 +2297,26 @@ requireText(
   "AI generated package writer preflight data must exist.",
 );
 requireText(
+  packageWriterPreflightValidator,
+  "validateAiGeneratedPackageWriterPreflight",
+  "AI generated package writer preflight must have a shared validator.",
+);
+requireText(
+  packageWriterPreflightValidator,
+  "AI_PACKAGE_WRITER_PREFLIGHT_REQUIRED_BLOCKED_ACTIONS",
+  "AI generated package writer preflight validator must enforce required blocked actions.",
+);
+requireText(
+  generatedPackageWriterPreflight,
+  "sampleAiGeneratedPackageWriterPreflightErrors",
+  "AI generated package writer preflight data must expose shared guard errors.",
+);
+requireText(
+  generatedPackageWriterPreflight,
+  "sampleAiGeneratedPackageWriterPreflightWarnings",
+  "AI generated package writer preflight data must expose shared guard warnings.",
+);
+requireText(
   generatedPackageWriterPreflight,
   "Writer blocked until release-control implementation",
   "AI generated package writer preflight must keep writer execution blocked.",
@@ -2339,6 +2360,21 @@ requireText(
   generatedPackageWriterPreflightPanel,
   "AI generated package writer preflight",
   "AI generated package writer preflight panel must expose heading.",
+);
+requireText(
+  generatedPackageWriterPreflightPanel,
+  "Writer preflight guard active",
+  "AI generated package writer preflight panel must expose shared guard status.",
+);
+requireText(
+  generatedPackageWriterPreflightPanel,
+  "Writer preflight guard blocks",
+  "AI generated package writer preflight panel must expose shared guard blocks.",
+);
+requireText(
+  generatedPackageWriterPreflightPanel,
+  "Writer preflight guard warnings",
+  "AI generated package writer preflight panel must expose shared guard warnings.",
 );
 requireText(
   generatedPackageWriterPreflightPanel,

@@ -152,6 +152,8 @@ Confirm:
 - `packages/content-model/src/aiPackageAssemblyDryRun.ts` exports `validateAiGeneratedPackageAssemblyDryRun`.
 - AI generated package assembly dry-run storage contract appears in schema draft, migration candidates, migration specs, durable records, and hosted/local adapter plans before package JSON, route, playlist, local bundle, assignment, or student-ready writes can exist.
 - Generator routes show AI generated package writer preflights with package JSON writer, route registry writer, media playlist writer, local companion writer, assignment shell writer, and rollback map writer targets while writer execution, package commits, route mutation, playlist creation, local packaging, assignment activation, student-ready markers, and support-language-only writers remain blocked.
+- Generator routes show `Writer preflight guard active`, `Writer preflight guard blocks`, and `Writer preflight guard warnings`.
+- `packages/content-model/src/aiPackageWriterPreflight.ts` exports `validateAiGeneratedPackageWriterPreflight`.
 - AI generated package writer preflight storage contract appears in schema draft, migration candidates, migration specs, durable records, and hosted/local adapter plans before writer execution, package JSON, route, playlist, local bundle, assignment, or student-ready writes can exist.
 - Generator routes show AI generated package writer rollback drills with pre-write snapshots, post-write verification, rollback rehearsal steps, and blocked rollback actions before any writer implementation exists.
 - Generated package writer rollback drills block rollback execution, package writer execution, production QR redirect mutation, assignment mutation, learner-data mutation, and support-language-only rollback evidence.

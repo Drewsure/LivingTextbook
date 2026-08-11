@@ -375,6 +375,7 @@
 - `DR-401-progress-event-taxonomy-validator.md`
 - `DR-402-progress-event-envelope-gate.md`
 - `DR-403-ai-package-assembly-dry-run-validator.md`
+- `DR-404-ai-package-writer-preflight-validator.md`
 
 ## Maintenance Rule
 
