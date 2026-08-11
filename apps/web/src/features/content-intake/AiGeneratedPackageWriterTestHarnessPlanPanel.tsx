@@ -1,4 +1,8 @@
 import { Card, StatusPill } from "@living-textbook/ui";
+import {
+  getAiGeneratedPackageWriterTestHarnessPlanCollectionWarnings,
+  validateAiGeneratedPackageWriterTestHarnessPlans,
+} from "@living-textbook/content-model/src/aiPackageWriterTestHarnessPlan";
 import type {
   AiGeneratedPackageWriterTestHarnessAdapter,
   AiGeneratedPackageWriterTestHarnessPhase,
@@ -19,6 +23,8 @@ export function AiGeneratedPackageWriterTestHarnessPlanPanel({
   plans,
 }: AiGeneratedPackageWriterTestHarnessPlanPanelProps) {
   const phaseCount = plans.reduce((total, plan) => total + plan.harnessPhases.length, 0);
+  const guardBlocks = validateAiGeneratedPackageWriterTestHarnessPlans(plans);
+  const guardWarnings = getAiGeneratedPackageWriterTestHarnessPlanCollectionWarnings(plans);
 
   return (
     <Card>
@@ -34,10 +40,28 @@ export function AiGeneratedPackageWriterTestHarnessPlanPanel({
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
+          <StatusPill label="Test harness plan guard active" tone="neutral" />
+          <StatusPill
+            label={`${guardBlocks.length} guard block(s)`}
+            tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+          />
           <StatusPill label="Plan only" tone="neutral" />
           <StatusPill label="Harness implementation blocked" tone="warning" />
           <StatusPill label={`${phaseCount} phase(s)`} tone="neutral" />
         </div>
+      </div>
+
+      <div className="mt-5 grid gap-3 lg:grid-cols-2">
+        <HarnessList
+          title="Test harness plan guard blocks"
+          items={guardBlocks.length > 0 ? guardBlocks : ["No shared test harness plan guard blockers."]}
+          tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+        />
+        <HarnessList
+          title="Test harness plan guard warnings"
+          items={guardWarnings.length > 0 ? guardWarnings : ["No shared test harness plan guard warnings."]}
+          tone={guardWarnings.length > 0 ? "warning" : "neutral"}
+        />
       </div>
 
       <div className="mt-5 grid gap-4">

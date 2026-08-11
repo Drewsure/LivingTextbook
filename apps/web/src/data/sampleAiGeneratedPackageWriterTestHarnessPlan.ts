@@ -2,46 +2,30 @@ import {
   sampleAiGeneratedPackageWriterTestEvidencePackets,
   type AiGeneratedPackageWriterTestEvidencePacket,
 } from "@/data/sampleAiGeneratedPackageWriterTestEvidencePacket";
+import {
+  getAiGeneratedPackageWriterTestHarnessPlanCollectionWarnings,
+  validateAiGeneratedPackageWriterTestHarnessPlans,
+  type AiGeneratedPackageWriterTestHarnessAdapter,
+  type AiGeneratedPackageWriterTestHarnessPhase,
+  type AiGeneratedPackageWriterTestHarnessPlan,
+  type AiGeneratedPackageWriterTestHarnessPlanStatus,
+} from "@living-textbook/content-model/src/aiPackageWriterTestHarnessPlan";
 
-export type AiGeneratedPackageWriterTestHarnessPlanStatus = "blocked" | "review-only";
-
-export interface AiGeneratedPackageWriterTestHarnessPhase {
-  phaseId: string;
-  label: string;
-  purpose: string;
-  requiredInputs: string[];
-  plannedChecks: string[];
-  blockedExecution: string[];
-}
-
-export interface AiGeneratedPackageWriterTestHarnessAdapter {
-  adapterId: string;
-  label: string;
-  target: string;
-  commandScope: string[];
-  blockedAdapters: string[];
-}
-
-export interface AiGeneratedPackageWriterTestHarnessPlan {
-  harnessPlanId: string;
-  tenantId: string;
-  requestId: string;
-  evidencePacketId: string;
-  moduleTestPlanId: string;
-  label: string;
-  summary: string;
-  status: AiGeneratedPackageWriterTestHarnessPlanStatus;
-  harnessState: string;
-  packageIdPreview: string;
-  harnessPhases: AiGeneratedPackageWriterTestHarnessPhase[];
-  environmentAdapters: AiGeneratedPackageWriterTestHarnessAdapter[];
-  requiredBeforeHarness: string[];
-  blockedHarnessActions: string[];
-  supportLanguageBoundary: string[];
-}
+export type {
+  AiGeneratedPackageWriterTestHarnessAdapter,
+  AiGeneratedPackageWriterTestHarnessPhase,
+  AiGeneratedPackageWriterTestHarnessPlan,
+  AiGeneratedPackageWriterTestHarnessPlanStatus,
+};
 
 export const sampleAiGeneratedPackageWriterTestHarnessPlans: AiGeneratedPackageWriterTestHarnessPlan[] =
   sampleAiGeneratedPackageWriterTestEvidencePackets.map((packet) => createHarnessPlan(packet));
+
+export const sampleAiGeneratedPackageWriterTestHarnessPlanErrors =
+  validateAiGeneratedPackageWriterTestHarnessPlans(sampleAiGeneratedPackageWriterTestHarnessPlans);
+
+export const sampleAiGeneratedPackageWriterTestHarnessPlanWarnings =
+  getAiGeneratedPackageWriterTestHarnessPlanCollectionWarnings(sampleAiGeneratedPackageWriterTestHarnessPlans);
 
 export function filterAiGeneratedPackageWriterTestHarnessPlansByTenant(
   plans: AiGeneratedPackageWriterTestHarnessPlan[],

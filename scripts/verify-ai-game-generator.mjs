@@ -27,6 +27,9 @@ const packageWriterModuleTestPlanValidator = readSource(
 const packageWriterTestEvidencePacketValidator = readSource(
   "../packages/content-model/src/aiPackageWriterTestEvidencePacket.ts",
 );
+const packageWriterTestHarnessPlanValidator = readSource(
+  "../packages/content-model/src/aiPackageWriterTestHarnessPlan.ts",
+);
 const rewardReadinessGate = readSource("../apps/web/src/data/sampleAiRewardReadinessGate.ts");
 const generatedGameBuildBrief = readSource("../apps/web/src/data/sampleAiGeneratedGameBuildBrief.ts");
 const externalPrototypeTaskPacket = readSource("../apps/web/src/data/sampleAiExternalPrototypeTaskPacket.ts");
@@ -2789,6 +2792,26 @@ requireText(
   "AI generated package writer test harness plan data must exist.",
 );
 requireText(
+  packageWriterTestHarnessPlanValidator,
+  "validateAiGeneratedPackageWriterTestHarnessPlan",
+  "AI generated package writer test harness plan must have a shared validator.",
+);
+requireText(
+  packageWriterTestHarnessPlanValidator,
+  "AI_PACKAGE_WRITER_TEST_HARNESS_REQUIRED_BLOCKED_ACTIONS",
+  "AI generated package writer test harness plan validator must enforce required blocked actions.",
+);
+requireText(
+  generatedPackageWriterTestHarnessPlan,
+  "sampleAiGeneratedPackageWriterTestHarnessPlanErrors",
+  "AI generated package writer test harness plan data must expose shared guard errors.",
+);
+requireText(
+  generatedPackageWriterTestHarnessPlan,
+  "sampleAiGeneratedPackageWriterTestHarnessPlanWarnings",
+  "AI generated package writer test harness plan data must expose shared guard warnings.",
+);
+requireText(
   generatedPackageWriterTestHarnessPlan,
   "Harness plan blocked until Codex test harness implementation decision",
   "AI generated package writer test harness plan must stay blocked.",
@@ -2832,6 +2855,21 @@ requireText(
   generatedPackageWriterTestHarnessPlanPanel,
   "AI generated package writer test harness plan",
   "AI generated package writer test harness plan panel must expose heading.",
+);
+requireText(
+  generatedPackageWriterTestHarnessPlanPanel,
+  "Test harness plan guard active",
+  "AI generated package writer test harness plan panel must expose shared guard status.",
+);
+requireText(
+  generatedPackageWriterTestHarnessPlanPanel,
+  "Test harness plan guard blocks",
+  "AI generated package writer test harness plan panel must expose shared guard blocks.",
+);
+requireText(
+  generatedPackageWriterTestHarnessPlanPanel,
+  "Test harness plan guard warnings",
+  "AI generated package writer test harness plan panel must expose shared guard warnings.",
 );
 requireText(
   generatedPackageWriterTestHarnessPlanPanel,
