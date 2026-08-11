@@ -1,26 +1,12 @@
-export type AiGeneratorReviewerRunbookStatus = "review-only" | "blocked";
+import {
+  getAiGeneratorReviewerRunbookCollectionWarnings,
+  validateAiGeneratorReviewerRunbooks,
+  type AiGeneratorReviewerRunbook,
+  type AiGeneratorReviewerRunbookStatus,
+  type AiGeneratorReviewerRunbookStep,
+} from "@living-textbook/content-model/src/aiGeneratorReviewerRunbook";
 
-export interface AiGeneratorReviewerRunbookStep {
-  stepId: string;
-  order: number;
-  label: string;
-  sectionId: "generator-request" | "prototype-review" | "integration-gates" | "package-review" | "draft-repair";
-  objective: string;
-  evidenceToReview: string[];
-  requiredRecord: string;
-  blockedShortcuts: string[];
-}
-
-export interface AiGeneratorReviewerRunbook {
-  runbookId: string;
-  tenantId: string;
-  requestId: string;
-  label: string;
-  status: AiGeneratorReviewerRunbookStatus;
-  summary: string;
-  standingRules: string[];
-  steps: AiGeneratorReviewerRunbookStep[];
-}
+export type { AiGeneratorReviewerRunbook, AiGeneratorReviewerRunbookStatus, AiGeneratorReviewerRunbookStep };
 
 const sharedStandingRules = [
   "Reviewer runbook is guidance only",
@@ -213,6 +199,12 @@ export const sampleAiGeneratorReviewerRunbooks: AiGeneratorReviewerRunbook[] = [
     ],
   },
 ];
+
+export const sampleAiGeneratorReviewerRunbookErrors =
+  validateAiGeneratorReviewerRunbooks(sampleAiGeneratorReviewerRunbooks);
+
+export const sampleAiGeneratorReviewerRunbookWarnings =
+  getAiGeneratorReviewerRunbookCollectionWarnings(sampleAiGeneratorReviewerRunbooks);
 
 export function filterAiGeneratorReviewerRunbooksByTenant(
   runbooks: AiGeneratorReviewerRunbook[],

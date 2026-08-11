@@ -7,6 +7,7 @@ const lineageMap = readSource("../apps/web/src/data/sampleAiGeneratorLineageMap.
 const reviewSummary = readSource("../apps/web/src/data/sampleAiGeneratorReviewSummary.ts");
 const reviewSummaryValidator = readSource("../packages/content-model/src/aiGeneratorReviewSummary.ts");
 const reviewerRunbook = readSource("../apps/web/src/data/sampleAiGeneratorReviewerRunbook.ts");
+const reviewerRunbookValidator = readSource("../packages/content-model/src/aiGeneratorReviewerRunbook.ts");
 const responsibilityMatrix = readSource("../apps/web/src/data/sampleAiGeneratorResponsibilityMatrix.ts");
 const engineBindingPlan = readSource("../apps/web/src/data/sampleAiEngineBindingPlan.ts");
 const promptPackagePlan = readSource("../apps/web/src/data/sampleAiPromptPackagePlan.ts");
@@ -586,6 +587,10 @@ requireText(
   "AI generator checks must mention review summary storage contract.",
 );
 requireText(reviewerRunbook, "sampleAiGeneratorReviewerRunbooks", "AI generator reviewer runbook data must exist.");
+requireText(reviewerRunbookValidator, "validateAiGeneratorReviewerRunbook", "AI generator reviewer runbook shared validator must exist.");
+requireText(reviewerRunbookValidator, "AI_GENERATOR_REVIEWER_RUNBOOK_REQUIRED_STANDING_RULES", "AI generator reviewer runbook validator must define standing rules.");
+requireText(reviewerRunbook, "sampleAiGeneratorReviewerRunbookErrors", "AI generator reviewer runbook data must expose shared guard errors.");
+requireText(reviewerRunbook, "sampleAiGeneratorReviewerRunbookWarnings", "AI generator reviewer runbook data must expose shared guard warnings.");
 requireText(reviewerRunbook, "Human review order", "AI generator reviewer runbook must name human review order.");
 requireText(reviewerRunbook, "Reviewer runbook is guidance only", "AI generator reviewer runbook must remain guidance only.");
 requireText(reviewerRunbook, "Detailed source records remain authoritative", "AI generator reviewer runbook must keep source records authoritative.");
@@ -598,6 +603,9 @@ requireText(reviewerRunbook, "English is the target-language trigger", "MiniStar
 requireText(reviewerRunbook, "No Japanese support-language trigger", "MiniStar reviewer runbook must block support-language triggers.");
 requireText(reviewerRunbookPanel, "AI generator reviewer runbook", "AI generator reviewer runbook panel must expose heading.");
 requireText(reviewerRunbookPanel, "Human review order", "AI generator reviewer runbook panel must expose review order.");
+requireText(reviewerRunbookPanel, "Reviewer runbook guard active", "AI generator reviewer runbook panel must expose shared guard status.");
+requireText(reviewerRunbookPanel, "Reviewer runbook guard blocks", "AI generator reviewer runbook panel must expose shared guard blocks.");
+requireText(reviewerRunbookPanel, "Reviewer runbook guard warnings", "AI generator reviewer runbook panel must expose shared guard warnings.");
 requireText(reviewerRunbookPanel, "Standing rules", "AI generator reviewer runbook panel must expose standing rules.");
 requireText(reviewerRunbookPanel, "Evidence to review", "AI generator reviewer runbook panel must show evidence.");
 requireText(reviewerRunbookPanel, "Blocked shortcuts", "AI generator reviewer runbook panel must show blocked shortcuts.");

@@ -93,6 +93,8 @@ The review summary cannot call a live model, generate an app patch, assemble a p
 
 Teacher generator routes must show a tenant-aware reviewer runbook before detailed panels. The runbook is guidance only: it gives reviewers a human review order, standing rules, evidence to review, required records, and blocked shortcuts.
 
+Reviewer runbooks must pass the shared `validateAiGeneratorReviewerRunbook` guard before review order can inform future workflow decisions. The guard keeps runbooks review-only, requires generator-request, prototype-review, integration-gates, package-review, and draft-repair steps in contiguous order, requires evidence and blocked shortcuts for every step, rejects unknown review sections, and preserves standing rules that keep detailed source records authoritative while blocking live model calls, app patch generation, package assembly, route or playlist creation, and student assignment.
+
 The runbook cannot call a live model, generate an app patch, assemble a package, create a route, create a playlist, create an assignment, write a local bundle, or mark content student-ready. MiniStar runbooks must preserve English as the target-language trigger and keep Japanese hiragana support as support-only.
 
 ## Generated Package Promotion Checklist Rule

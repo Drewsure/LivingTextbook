@@ -1,4 +1,8 @@
 import { Card, StatusPill } from "@living-textbook/ui";
+import {
+  getAiGeneratorReviewerRunbookCollectionWarnings,
+  validateAiGeneratorReviewerRunbooks,
+} from "@living-textbook/content-model/src/aiGeneratorReviewerRunbook";
 
 import type {
   AiGeneratorReviewerRunbook,
@@ -10,6 +14,9 @@ interface AiGeneratorReviewerRunbookPanelProps {
 }
 
 export function AiGeneratorReviewerRunbookPanel({ runbooks }: AiGeneratorReviewerRunbookPanelProps) {
+  const guardBlocks = validateAiGeneratorReviewerRunbooks(runbooks);
+  const guardWarnings = getAiGeneratorReviewerRunbookCollectionWarnings(runbooks);
+
   return (
     <Card className="space-y-4">
       <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
@@ -21,7 +28,27 @@ export function AiGeneratorReviewerRunbookPanel({ runbooks }: AiGeneratorReviewe
             patches, packages, routes, playlists, or assignments.
           </p>
         </div>
-        <StatusPill label="Review only" tone="warning" />
+        <div className="flex flex-wrap gap-2">
+          <StatusPill label="Reviewer runbook guard active" tone="neutral" />
+          <StatusPill
+            label={`${guardBlocks.length} guard block(s)`}
+            tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+          />
+          <StatusPill label="Review only" tone="warning" />
+        </div>
+      </div>
+
+      <div className="grid gap-3 lg:grid-cols-2">
+        <RunbookList
+          title="Reviewer runbook guard blocks"
+          items={guardBlocks.length > 0 ? guardBlocks : ["No shared reviewer runbook guard blockers."]}
+          tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+        />
+        <RunbookList
+          title="Reviewer runbook guard warnings"
+          items={guardWarnings.length > 0 ? guardWarnings : ["No shared reviewer runbook guard warnings."]}
+          tone={guardWarnings.length > 0 ? "warning" : "neutral"}
+        />
       </div>
 
       <div className="grid gap-4">
