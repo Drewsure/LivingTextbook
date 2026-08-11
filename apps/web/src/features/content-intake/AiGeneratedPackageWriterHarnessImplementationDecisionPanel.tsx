@@ -1,4 +1,8 @@
 import { Card, StatusPill } from "@living-textbook/ui";
+import {
+  getAiGeneratedPackageWriterHarnessImplementationDecisionCollectionWarnings,
+  validateAiGeneratedPackageWriterHarnessImplementationDecisions,
+} from "@living-textbook/content-model/src/aiPackageWriterHarnessImplementationDecision";
 
 import type {
   AiGeneratedPackageWriterHarnessDecisionOption,
@@ -28,6 +32,9 @@ const statusLabel: Record<AiGeneratedPackageWriterHarnessImplementationDecisionS
 export function AiGeneratedPackageWriterHarnessImplementationDecisionPanel({
   decisions,
 }: AiGeneratedPackageWriterHarnessImplementationDecisionPanelProps) {
+  const guardBlocks = validateAiGeneratedPackageWriterHarnessImplementationDecisions(decisions);
+  const guardWarnings = getAiGeneratedPackageWriterHarnessImplementationDecisionCollectionWarnings(decisions);
+
   return (
     <Card className="space-y-4">
       <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
@@ -42,9 +49,27 @@ export function AiGeneratedPackageWriterHarnessImplementationDecisionPanel({
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
+          <StatusPill label="Harness decision guard active" tone="neutral" />
+          <StatusPill
+            label={`${guardBlocks.length} guard block(s)`}
+            tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+          />
           <StatusPill label="No decision recorded" tone="warning" />
           <StatusPill label="No harness code" tone="warning" />
         </div>
+      </div>
+
+      <div className="grid gap-3 lg:grid-cols-2">
+        <DecisionList
+          title="Harness decision guard blocks"
+          items={guardBlocks.length > 0 ? guardBlocks : ["No shared harness decision guard blockers."]}
+          tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+        />
+        <DecisionList
+          title="Harness decision guard warnings"
+          items={guardWarnings.length > 0 ? guardWarnings : ["No shared harness decision guard warnings."]}
+          tone={guardWarnings.length > 0 ? "warning" : "neutral"}
+        />
       </div>
 
       <div className="space-y-3">

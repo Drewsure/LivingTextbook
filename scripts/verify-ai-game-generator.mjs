@@ -33,6 +33,9 @@ const packageWriterTestHarnessPlanValidator = readSource(
 const packageWriterTestHarnessImplementationProposalValidator = readSource(
   "../packages/content-model/src/aiPackageWriterTestHarnessImplementationProposal.ts",
 );
+const packageWriterHarnessImplementationDecisionValidator = readSource(
+  "../packages/content-model/src/aiPackageWriterHarnessImplementationDecision.ts",
+);
 const rewardReadinessGate = readSource("../apps/web/src/data/sampleAiRewardReadinessGate.ts");
 const generatedGameBuildBrief = readSource("../apps/web/src/data/sampleAiGeneratedGameBuildBrief.ts");
 const externalPrototypeTaskPacket = readSource("../apps/web/src/data/sampleAiExternalPrototypeTaskPacket.ts");
@@ -2970,6 +2973,26 @@ requireText(
   "AI generated package writer harness implementation decision data must exist.",
 );
 requireText(
+  packageWriterHarnessImplementationDecisionValidator,
+  "validateAiGeneratedPackageWriterHarnessImplementationDecision",
+  "AI generated package writer harness implementation decision shared validator must exist.",
+);
+requireText(
+  packageWriterHarnessImplementationDecisionValidator,
+  "AI_PACKAGE_WRITER_HARNESS_DECISION_REQUIRED_BLOCKED_ACTIONS",
+  "AI generated package writer harness implementation decision validator must define blocked actions.",
+);
+requireText(
+  generatedPackageWriterHarnessImplementationDecision,
+  "sampleAiGeneratedPackageWriterHarnessImplementationDecisionErrors",
+  "AI generated package writer harness implementation decision data must expose shared guard errors.",
+);
+requireText(
+  generatedPackageWriterHarnessImplementationDecision,
+  "sampleAiGeneratedPackageWriterHarnessImplementationDecisionWarnings",
+  "AI generated package writer harness implementation decision data must expose shared guard warnings.",
+);
+requireText(
   generatedPackageWriterHarnessImplementationDecision,
   "No decision recorded",
   "AI generated package writer harness implementation decision must start with no decision.",
@@ -3008,6 +3031,21 @@ requireText(
   generatedPackageWriterHarnessImplementationDecisionPanel,
   "Codex decision before harness code",
   "AI generated package writer harness implementation decision panel must expose decision title.",
+);
+requireText(
+  generatedPackageWriterHarnessImplementationDecisionPanel,
+  "Harness decision guard active",
+  "AI generated package writer harness implementation decision panel must expose shared guard status.",
+);
+requireText(
+  generatedPackageWriterHarnessImplementationDecisionPanel,
+  "Harness decision guard blocks",
+  "AI generated package writer harness implementation decision panel must expose shared guard blocks.",
+);
+requireText(
+  generatedPackageWriterHarnessImplementationDecisionPanel,
+  "Harness decision guard warnings",
+  "AI generated package writer harness implementation decision panel must expose shared guard warnings.",
 );
 requireText(
   generatedPackageWriterHarnessImplementationDecisionPanel,

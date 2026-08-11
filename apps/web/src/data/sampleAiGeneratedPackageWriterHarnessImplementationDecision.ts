@@ -2,42 +2,34 @@ import {
   sampleAiGeneratedPackageWriterTestHarnessImplementationProposals,
   type AiGeneratedPackageWriterTestHarnessImplementationProposal,
 } from "@/data/sampleAiGeneratedPackageWriterTestHarnessImplementationProposal";
+import {
+  getAiGeneratedPackageWriterHarnessImplementationDecisionCollectionWarnings,
+  validateAiGeneratedPackageWriterHarnessImplementationDecisions,
+  type AiGeneratedPackageWriterHarnessDecisionOption,
+  type AiGeneratedPackageWriterHarnessImplementationDecision,
+  type AiGeneratedPackageWriterHarnessImplementationDecisionStatus,
+} from "@living-textbook/content-model/src/aiPackageWriterHarnessImplementationDecision";
 
-export type AiGeneratedPackageWriterHarnessImplementationDecisionStatus =
-  | "blocked"
-  | "review-only"
-  | "ready-for-codex-review";
-
-export interface AiGeneratedPackageWriterHarnessDecisionOption {
-  optionId: string;
-  label: string;
-  effect: string;
-  requiredBeforeSelection: string[];
-  blockedActions: string[];
-}
-
-export interface AiGeneratedPackageWriterHarnessImplementationDecision {
-  decisionId: string;
-  tenantId: string;
-  requestId: string;
-  proposalId: string;
-  harnessPlanId: string;
-  label: string;
-  status: AiGeneratedPackageWriterHarnessImplementationDecisionStatus;
-  summary: string;
-  decisionState: string;
-  requiredEvidence: string[];
-  fileScopeRules: string[];
-  decisionOptions: AiGeneratedPackageWriterHarnessDecisionOption[];
-  blockedActions: string[];
-  nextRequiredRecords: string[];
-  supportLanguageBoundary: string[];
-}
+export type {
+  AiGeneratedPackageWriterHarnessDecisionOption,
+  AiGeneratedPackageWriterHarnessImplementationDecision,
+  AiGeneratedPackageWriterHarnessImplementationDecisionStatus,
+};
 
 export const sampleAiGeneratedPackageWriterHarnessImplementationDecisions:
   AiGeneratedPackageWriterHarnessImplementationDecision[] =
   sampleAiGeneratedPackageWriterTestHarnessImplementationProposals.map((proposal) =>
     createHarnessImplementationDecision(proposal),
+  );
+
+export const sampleAiGeneratedPackageWriterHarnessImplementationDecisionErrors =
+  validateAiGeneratedPackageWriterHarnessImplementationDecisions(
+    sampleAiGeneratedPackageWriterHarnessImplementationDecisions,
+  );
+
+export const sampleAiGeneratedPackageWriterHarnessImplementationDecisionWarnings =
+  getAiGeneratedPackageWriterHarnessImplementationDecisionCollectionWarnings(
+    sampleAiGeneratedPackageWriterHarnessImplementationDecisions,
   );
 
 export function filterAiGeneratedPackageWriterHarnessImplementationDecisionsByTenant(
