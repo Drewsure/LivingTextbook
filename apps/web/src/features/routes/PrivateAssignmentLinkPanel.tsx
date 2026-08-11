@@ -45,12 +45,20 @@ export function PrivateAssignmentLinkPanel({ assignment }: PrivateAssignmentLink
             <p className="mt-1 text-sm leading-6 text-[var(--tenant-muted)]">{assignment.accessSummary}</p>
             <p className="mt-2 break-all font-mono text-xs font-semibold text-[var(--tenant-text)]">{assignment.studentTargetPath}</p>
           </div>
-          <a
-            href={assignment.studentTargetPath}
-            className="inline-flex min-h-11 items-center justify-center rounded-lg bg-[var(--tenant-primary)] px-4 py-2 text-sm font-bold text-[var(--tenant-primary-text)] transition hover:brightness-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--tenant-primary)]"
-          >
-            Start assignment
-          </a>
+          <div className="flex flex-wrap gap-2 lg:justify-end">
+            <a
+              href={assignment.studentTargetPath}
+              className="inline-flex min-h-11 items-center justify-center rounded-lg bg-[var(--tenant-primary)] px-4 py-2 text-sm font-bold text-[var(--tenant-primary-text)] transition hover:brightness-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--tenant-primary)]"
+            >
+              Start assignment
+            </a>
+            <a
+              href={assignment.activityHubPath}
+              className="inline-flex min-h-11 items-center justify-center rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] px-4 py-2 text-sm font-bold text-[var(--tenant-text)] transition hover:bg-[var(--tenant-primary-soft)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--tenant-primary)]"
+            >
+              Open activity hub
+            </a>
+          </div>
         </div>
       </Card>
 
@@ -76,6 +84,7 @@ export function PrivateAssignmentLinkPanel({ assignment }: PrivateAssignmentLink
 
         <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
           <p className="text-sm font-bold text-[var(--tenant-text)]">Curated activity pathway</p>
+          <p className="mt-2 break-all text-xs font-semibold text-[var(--tenant-muted)]">{assignment.activityHubPath}</p>
           <div className="mt-3 flex flex-wrap gap-2">
             {assignment.assignmentPlan.targetGameModes.map((mode) => (
               <span

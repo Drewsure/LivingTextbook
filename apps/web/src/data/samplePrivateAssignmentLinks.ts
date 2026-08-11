@@ -7,7 +7,11 @@ import { sampleLaunchSession } from "./sampleLaunchSession";
 import { sampleMultimediaContentPackage } from "./sampleMultimediaPackage";
 import { samplePartnerContentPackage, samplePartnerLaunchSession } from "./samplePartnerPackage";
 import { sampleTeacherAssignmentPlans } from "./sampleTeacherAssignmentPlans";
-import { getPrivateAssignmentPath, getTeacherSessionMonitorPath } from "@/features/routes/routeContracts";
+import {
+  getPrivateAssignmentPath,
+  getStudentActivityHubPath,
+  getTeacherSessionMonitorPath,
+} from "@/features/routes/routeContracts";
 
 export interface PrivateAssignmentLinkContext {
   assignmentId: string;
@@ -18,6 +22,7 @@ export interface PrivateAssignmentLinkContext {
   assignmentPlan: TeacherAssignmentPlan;
   assignmentPath: string;
   studentTargetPath: string;
+  activityHubPath: string;
   teacherReportPath: string;
   accessSummary: string;
   safetyBoundaries: string[];
@@ -62,6 +67,7 @@ function buildPrivateAssignmentLink(args: {
     assignmentPlan: args.assignmentPlan,
     assignmentPath: getPrivateAssignmentPath(args.assignmentPlan.assignmentId),
     studentTargetPath: args.assignmentPlan.access.routePath,
+    activityHubPath: getStudentActivityHubPath(args.launchSession.launchCode),
     teacherReportPath: getTeacherSessionMonitorPath(args.launchSession.launchCode),
     accessSummary: args.accessSummary,
     safetyBoundaries: [

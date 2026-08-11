@@ -4,6 +4,7 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import type { GameModeId, LaunchSession, StudentProgressionState } from "@living-textbook/content-model";
 import { AudioCueButton, AudioCueText } from "@/features/audio/AudioCueButton";
 import {
+  getStudentActivityHubPath,
   getMemoryMatchPath,
   getQuizPath,
   getSentenceBuilderPath,
@@ -33,6 +34,7 @@ export function RecommendedGameRoutesCard({ launchSession, progression, onRouteG
   }
 
   const unlockedCount = recommendedRoutes.filter((route) => route.unlocked).length;
+  const activityHubPath = getStudentActivityHubPath(launchSession.launchCode);
 
   return (
     <Card>
@@ -48,6 +50,26 @@ export function RecommendedGameRoutesCard({ launchSession, progression, onRouteG
           </p>
         </div>
         <StatusPill label={`${unlockedCount}/${recommendedRoutes.length} unlocked`} tone={unlockedCount > 0 ? "success" : "warning"} />
+      </div>
+
+      <div className="mt-4 grid gap-3 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4 sm:grid-cols-[1fr_auto] sm:items-center">
+        <div>
+          <p className="text-sm font-bold text-[var(--tenant-text)]">Reviewed activity hub</p>
+          <p className="mt-1 text-sm leading-6 text-[var(--tenant-muted)]">
+            <AudioCueText
+              text="Open the reviewed activity hub to see all teacher-approved practice routes for this unit."
+              label="Tap the activity hub route guidance to hear it"
+              className="text-sm"
+            />
+          </p>
+          <p className="mt-2 break-all text-xs font-semibold text-[var(--tenant-muted)]">{activityHubPath}</p>
+        </div>
+        <a
+          href={activityHubPath}
+          className="inline-flex min-h-10 items-center justify-center rounded-lg bg-[var(--tenant-primary)] px-3 py-2 text-sm font-semibold text-white transition hover:brightness-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--tenant-primary)]"
+        >
+          Open activity hub
+        </a>
       </div>
 
       <div className="mt-4 grid gap-3 sm:grid-cols-2">

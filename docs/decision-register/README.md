@@ -367,6 +367,7 @@
 - `DR-393-dedicated-flashcard-entry-routes.md`
 - `DR-394-shared-game-route-header.md`
 - `DR-395-student-curated-activity-hub.md`
+- `DR-396-assignment-and-launch-activity-hub-navigation.md`
 
 ## Maintenance Rule
 

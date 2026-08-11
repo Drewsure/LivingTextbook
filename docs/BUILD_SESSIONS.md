@@ -596,6 +596,7 @@ Next outputs:
 - Confirm active game routes have route contract ids, patterns, and helpers for Flashcards, Memory Match, Quiz, Sentence Builder, and Speak It before any new game surface is treated as foundation-ready.
 - Keep active game-route wrappers on shared structural components such as `GameRouteHeaderCard` before adding premium visual skins or micro-interactions.
 - Confirm student activity hubs at `/activities/demo-unit-1` and `/activities/partner-demo-unit-1` expose curated reviewed pathways without becoming switch-to-anything template panels.
+- Confirm student launch and private assignment routes link to the curated activity hub for the same launch code without unlocking progress or exposing teacher/admin controls.
 - Confirm `npm run verify:ai-generator` passes after changes to AI authoring, game generation, activity pathway generation, target-language audio requirements, premium AI Tutor generation requests, or generator routes.
 
 ## Session 8: Premium Experience Layer
