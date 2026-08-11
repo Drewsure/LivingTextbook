@@ -1,32 +1,12 @@
-export type AiGeneratorResponsibilityRoleId =
-  | "teacher-school"
-  | "codex-architecture"
-  | "external-ai-builder"
-  | "verifier-layer"
-  | "platform-admin";
+import {
+  getAiGeneratorResponsibilityMatrixCollectionWarnings,
+  validateAiGeneratorResponsibilityMatrices,
+  type AiGeneratorResponsibilityMatrix,
+  type AiGeneratorResponsibilityRole,
+  type AiGeneratorResponsibilityRoleId,
+} from "@living-textbook/content-model/src/aiGeneratorResponsibilityMatrix";
 
-export interface AiGeneratorResponsibilityRole {
-  roleId: AiGeneratorResponsibilityRoleId;
-  label: string;
-  owner: string;
-  summary: string;
-  owns: string[];
-  mustProvide: string[];
-  handoffRecords: string[];
-  cannotDo: string[];
-  nextGate: string;
-}
-
-export interface AiGeneratorResponsibilityMatrix {
-  matrixId: string;
-  tenantId: string;
-  requestId: string;
-  label: string;
-  status: "review-only";
-  summary: string;
-  standingRules: string[];
-  roles: AiGeneratorResponsibilityRole[];
-}
+export type { AiGeneratorResponsibilityMatrix, AiGeneratorResponsibilityRole, AiGeneratorResponsibilityRoleId };
 
 const sharedRoles: AiGeneratorResponsibilityRole[] = [
   {
@@ -229,6 +209,14 @@ export const sampleAiGeneratorResponsibilityMatrices: AiGeneratorResponsibilityM
     roles: sharedRoles,
   },
 ];
+
+export const sampleAiGeneratorResponsibilityMatrixErrors = validateAiGeneratorResponsibilityMatrices(
+  sampleAiGeneratorResponsibilityMatrices,
+);
+
+export const sampleAiGeneratorResponsibilityMatrixWarnings = getAiGeneratorResponsibilityMatrixCollectionWarnings(
+  sampleAiGeneratorResponsibilityMatrices,
+);
 
 export function filterAiGeneratorResponsibilityMatricesByTenant(
   matrices: AiGeneratorResponsibilityMatrix[],

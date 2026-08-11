@@ -730,6 +730,7 @@ export * from "./persistenceAdapter";
 export * from "./aiGeneratorTenantCoverage";
 export * from "./aiGeneratorReviewSummary";
 export * from "./aiGeneratorReviewerRunbook";
+export * from "./aiGeneratorResponsibilityMatrix";
 export * from "./aiGeneratedDraftPayload";
 export * from "./aiDraftCorrectionQueue";
 export * from "./aiGamificationMapping";

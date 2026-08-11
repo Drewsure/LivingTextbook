@@ -1,4 +1,8 @@
 import { Card, StatusPill } from "@living-textbook/ui";
+import {
+  getAiGeneratorResponsibilityMatrixCollectionWarnings,
+  validateAiGeneratorResponsibilityMatrices,
+} from "@living-textbook/content-model/src/aiGeneratorResponsibilityMatrix";
 
 import type {
   AiGeneratorResponsibilityMatrix,
@@ -10,6 +14,9 @@ interface AiGeneratorResponsibilityMatrixPanelProps {
 }
 
 export function AiGeneratorResponsibilityMatrixPanel({ matrices }: AiGeneratorResponsibilityMatrixPanelProps) {
+  const guardBlocks = validateAiGeneratorResponsibilityMatrices(matrices);
+  const guardWarnings = getAiGeneratorResponsibilityMatrixCollectionWarnings(matrices);
+
   return (
     <Card className="space-y-4">
       <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
@@ -21,7 +28,27 @@ export function AiGeneratorResponsibilityMatrixPanel({ matrices }: AiGeneratorRe
             platform entitlements separate before any live generation or student-facing workflow exists.
           </p>
         </div>
-        <StatusPill label="No live handoff" tone="warning" />
+        <div className="flex flex-wrap gap-2">
+          <StatusPill label="Responsibility guard active" tone="neutral" />
+          <StatusPill
+            label={`${guardBlocks.length} guard block(s)`}
+            tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+          />
+          <StatusPill label="No live handoff" tone="warning" />
+        </div>
+      </div>
+
+      <div className="grid gap-3 lg:grid-cols-2">
+        <ResponsibilityList
+          title="Responsibility guard blocks"
+          items={guardBlocks.length > 0 ? guardBlocks : ["No shared responsibility matrix guard blockers."]}
+          tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+        />
+        <ResponsibilityList
+          title="Responsibility guard warnings"
+          items={guardWarnings.length > 0 ? guardWarnings : ["No shared responsibility matrix guard warnings."]}
+          tone={guardWarnings.length > 0 ? "warning" : "neutral"}
+        />
       </div>
 
       <div className="grid gap-4">

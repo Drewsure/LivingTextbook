@@ -9,6 +9,7 @@ const reviewSummaryValidator = readSource("../packages/content-model/src/aiGener
 const reviewerRunbook = readSource("../apps/web/src/data/sampleAiGeneratorReviewerRunbook.ts");
 const reviewerRunbookValidator = readSource("../packages/content-model/src/aiGeneratorReviewerRunbook.ts");
 const responsibilityMatrix = readSource("../apps/web/src/data/sampleAiGeneratorResponsibilityMatrix.ts");
+const responsibilityMatrixValidator = readSource("../packages/content-model/src/aiGeneratorResponsibilityMatrix.ts");
 const engineBindingPlan = readSource("../apps/web/src/data/sampleAiEngineBindingPlan.ts");
 const promptPackagePlan = readSource("../apps/web/src/data/sampleAiPromptPackagePlan.ts");
 const costEntitlementGate = readSource("../apps/web/src/data/sampleAiGeneratorCostEntitlementGate.ts");
@@ -610,6 +611,10 @@ requireText(reviewerRunbookPanel, "Standing rules", "AI generator reviewer runbo
 requireText(reviewerRunbookPanel, "Evidence to review", "AI generator reviewer runbook panel must show evidence.");
 requireText(reviewerRunbookPanel, "Blocked shortcuts", "AI generator reviewer runbook panel must show blocked shortcuts.");
 requireText(responsibilityMatrix, "sampleAiGeneratorResponsibilityMatrices", "AI generator responsibility matrix data must exist.");
+requireText(responsibilityMatrixValidator, "validateAiGeneratorResponsibilityMatrix", "AI generator responsibility matrix shared validator must exist.");
+requireText(responsibilityMatrixValidator, "AI_GENERATOR_RESPONSIBILITY_REQUIRED_EXTERNAL_BUILDER_BLOCKS", "AI generator responsibility matrix validator must define external builder blocks.");
+requireText(responsibilityMatrix, "sampleAiGeneratorResponsibilityMatrixErrors", "AI generator responsibility matrix data must expose shared guard errors.");
+requireText(responsibilityMatrix, "sampleAiGeneratorResponsibilityMatrixWarnings", "AI generator responsibility matrix data must expose shared guard warnings.");
 requireText(responsibilityMatrix, "Codex owns architecture and integration", "AI generator responsibility matrix must name Codex architecture ownership.");
 requireText(responsibilityMatrix, "External AI builder / Z.ai", "AI generator responsibility matrix must name outside AI builder role.");
 requireText(responsibilityMatrix, "No app file writes", "AI generator responsibility matrix must block app file writes.");
@@ -620,6 +625,9 @@ requireText(responsibilityMatrix, "Support language cannot unlock progress", "AI
 requireText(responsibilityMatrix, "Japanese support cannot unlock progress", "MiniStar responsibility matrix must block Japanese support-language progress.");
 requireText(responsibilityMatrixPanel, "AI generator responsibility matrix", "AI generator responsibility matrix panel must expose heading.");
 requireText(responsibilityMatrixPanel, "Who owns each generator handoff", "AI generator responsibility matrix panel must expose ownership heading.");
+requireText(responsibilityMatrixPanel, "Responsibility guard active", "AI generator responsibility matrix panel must expose shared guard status.");
+requireText(responsibilityMatrixPanel, "Responsibility guard blocks", "AI generator responsibility matrix panel must expose shared guard blocks.");
+requireText(responsibilityMatrixPanel, "Responsibility guard warnings", "AI generator responsibility matrix panel must expose shared guard warnings.");
 requireText(responsibilityMatrixPanel, "Handoff records", "AI generator responsibility matrix panel must expose handoff records.");
 requireText(responsibilityMatrixPanel, "Cannot do", "AI generator responsibility matrix panel must expose blocked owner actions.");
 requireText(responsibilityMatrixPanel, "No live handoff", "AI generator responsibility matrix panel must block live handoff.");

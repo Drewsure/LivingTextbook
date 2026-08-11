@@ -387,6 +387,7 @@
 - `DR-413-ai-generator-tenant-coverage-validator.md`
 - `DR-414-ai-generator-review-summary-validator.md`
 - `DR-415-ai-generator-reviewer-runbook-validator.md`
+- `DR-416-ai-generator-responsibility-matrix-validator.md`
 
 ## Maintenance Rule
 
