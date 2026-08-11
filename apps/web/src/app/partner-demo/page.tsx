@@ -20,6 +20,7 @@ import {
   getQuizPath,
   getSentenceBuilderPath,
   getSpeakItPath,
+  getStudentActivityHubPath,
   getStudentLaunchPath,
   getTeacherSessionMonitorPath,
   getTeacherUnitReviewPath,
@@ -109,6 +110,7 @@ export default function PartnerDemoPage() {
               <RouteLink label="Private assignment link" href={getPrivateAssignmentPath("assignment-sample-publisher-front-door")} />
               <RouteLink label="Front door" href={samplePartnerFrontDoorPath} />
               <RouteLink label="Student launch" href={getStudentLaunchPath(samplePartnerLaunchCode)} />
+              <RouteLink label="Activity hub" href={getStudentActivityHubPath(samplePartnerLaunchCode)} />
               <RouteLink label="Collection room" href={getCollectionPath(samplePartnerLaunchCode)} />
               <RouteLink label="Printable Worksheet" href={getPrintableWorksheetPath(samplePartnerLaunchCode)} />
               <RouteLink label="Flashcards" href={getFlashcardsPath(samplePartnerLaunchCode)} />

@@ -18,6 +18,7 @@ const packageFiles = [
     activePaths: [
       "/enter/ministar",
       "/launch/demo-unit-1",
+      "/activities/demo-unit-1",
       "/flashcards/demo-unit-1",
       "/training/demo-unit-1",
       "/memory/demo-unit-1",
@@ -36,6 +37,7 @@ const packageFiles = [
     activePaths: [
       "/enter/sample-publisher",
       "/launch/partner-demo-unit-1",
+      "/activities/partner-demo-unit-1",
       "/flashcards/partner-demo-unit-1",
       "/training/partner-demo-unit-1",
       "/memory/partner-demo-unit-1",

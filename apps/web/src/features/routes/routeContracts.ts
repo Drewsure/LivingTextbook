@@ -194,6 +194,15 @@ export const appRouteContracts: AppRouteContract[] = [
     requiredState: ["TenantConfig", "ContentPackage", "UnitPayload", "LaunchSession"],
   },
   {
+    id: "student-activity-hub",
+    pattern: "/activities/[code]",
+    audience: "student",
+    status: "active-scaffold",
+    purpose:
+      "Show the reviewed activity pathway for one launch session without exposing a switch-to-anything template panel or teacher/admin controls.",
+    requiredState: ["TenantConfig", "UnitPayload", "LaunchSession", "StudentProgressionState", "ContentPackage"],
+  },
+  {
     id: "student-launch",
     pattern: "/launch/[code]",
     audience: "student",
@@ -340,6 +349,10 @@ export const appRouteContracts: AppRouteContract[] = [
 
 export function getStudentLaunchPath(launchCode: LaunchCode): string {
   return getLaunchPath(launchCode);
+}
+
+export function getStudentActivityHubPath(launchCode: LaunchCode): string {
+  return `/activities/${encodeURIComponent(launchCode)}`;
 }
 
 export function getTrainingAcademyPath(launchCode: LaunchCode, focusType?: TrainingFocusType): string {

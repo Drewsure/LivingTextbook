@@ -23,6 +23,7 @@ import {
   getQuizPath,
   getSentenceBuilderPath,
   getSpeakItPath,
+  getStudentActivityHubPath,
   getStudentLaunchPath,
   getTeacherSessionMonitorPath,
   getTrainingAcademyPath,
@@ -117,6 +118,12 @@ function buildTeacherUnitReviewContext(args: {
         href: getStudentLaunchPath(args.launchSession.launchCode),
         status: "ready",
         note: "Flashcards, unlock flow, Memory Match, media shortcut, and student summary.",
+      },
+      {
+        label: "Activity hub",
+        href: getStudentActivityHubPath(args.launchSession.launchCode),
+        status: "ready",
+        note: "Student-safe curated pathway route that shows reviewed activities without a switch-to-anything template panel.",
       },
       {
         label: "Flashcards",

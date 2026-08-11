@@ -10,6 +10,7 @@ import {
   getQuizPath,
   getSentenceBuilderPath,
   getSpeakItPath,
+  getStudentActivityHubPath,
   getStudentLaunchPath,
   getTeacherSessionMonitorPath,
   getTeacherUnitReviewPath,
@@ -36,6 +37,11 @@ export function TeacherLaunchPanel({ unit, launchSession, contentPackage }: Teac
       label: "Student launch",
       href: launchPath,
       summary: "QR entry, flashcards, unlock flow, Memory Match, and local student summary.",
+    },
+    {
+      label: "Activity hub",
+      href: getStudentActivityHubPath(launchSession.launchCode),
+      summary: "Curated reviewed activity routes without a switch-to-anything panel.",
     },
     {
       label: "Flashcards",
