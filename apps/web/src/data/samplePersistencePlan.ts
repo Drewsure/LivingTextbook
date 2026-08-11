@@ -40,6 +40,7 @@ export type PersistenceBoundaryCategory =
   | "ai-prototype-signed-approval-preflight"
   | "ai-prototype-patch-authorization-release-lock"
   | "ai-prototype-patch-implementation-work-order"
+  | "ai-prototype-patch-change-set-preview"
   | "ai-generated-package-manifest"
   | "ai-generated-package-promotion-checklist"
   | "ai-generated-package-release-candidate"
@@ -958,6 +959,48 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
     note:
       "AI prototype patch implementation work orders need durable required records, file groups, dry-run verification, rollback plans, and blocked actions before any future work order execution, app file work, route mutation, scoring changes, rewards, package promotion, or assignment can exist.",
+  },
+  {
+    recordId: "ai-prototype-patch-change-set-preview-record",
+    category: "ai-prototype-patch-change-set-preview",
+    label: "AI prototype patch change set preview record",
+    readiness: "durable-required",
+    sourceOfTruth:
+      "AiPrototypePatchChangeSetPreview, patch implementation work order, planned file changes, invariant checks, review blockers, next records, and blocked actions",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: false,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesAiPrototypePatchChangeSetPreview: true,
+    preservesAiPrototypePatchImplementationWorkOrder: true,
+    requiresPatchChangeSetPlannedFileChanges: true,
+    requiresPatchChangeSetInvariantChecks: true,
+    requiresPatchChangeSetReviewBlockers: true,
+    requiresPatchChangeSetNextRecords: true,
+    requiresRouteSafetyReleaseGate: true,
+    requiresRollbackDrillRecord: true,
+    requiresStorageContractVerification: true,
+    requiresReviewerIdentitySignatureGate: true,
+    blocksApplyPatch: true,
+    blocksAppFileWrite: true,
+    blocksAppPatchGeneration: true,
+    blocksGeneratedFileWrite: true,
+    blocksTestExecution: true,
+    blocksPlaywrightRun: true,
+    blocksGeneratedGameRouteWrite: true,
+    blocksStudentFacingRoute: true,
+    blocksScoringProfileOverride: true,
+    blocksStarDustWrite: true,
+    blocksRewardInventoryWrite: true,
+    blocksAudioManifestMutation: true,
+    blocksPackagePromotion: true,
+    blocksDirectStudentAssignment: true,
+    blocksSupportLanguageProgressTrigger: true,
+    recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
+    note:
+      "AI prototype patch change set previews need durable planned file changes, invariant checks, review blockers, and next records before any future apply-patch action, app file work, route mutation, scoring changes, rewards, package promotion, or assignment can exist.",
   },
   {
     recordId: "ai-generated-package-promotion-checklist-record",
@@ -2880,6 +2923,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision:
       "Persist patch implementation work orders before enabling work order execution, app file work, route writes, student-facing previews, scoring changes, reward writes, package promotion, or assignments.",
+  },
+  {
+    boundaryId: "ai-prototype-patch-change-set-preview-boundary",
+    category: "ai-prototype-patch-change-set-preview",
+    label: "AI prototype patch change set preview records",
+    status: "needs-backend",
+    recordShape:
+      "Patch change set preview id, tenant id, request id, patch implementation work order id, planned file changes, invariant checks, review blockers, next required records, and blocked actions",
+    whyItMatters:
+      "A returned prototype needs a durable change-set preview before any future patch can be considered, and the preview itself must not apply patches, write files, run tests, mutate routes, change scores or rewards, promote packages, or assign students.",
+    visibleTo: ["Platform admin", "Tenant admin", "Content reviewer", "Prototype reviewer"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Persist patch change set previews before enabling apply-patch actions, app file work, route writes, student-facing previews, scoring changes, reward writes, package promotion, or assignments.",
   },
   {
     boundaryId: "ai-generated-package-promotion-checklist-boundary",

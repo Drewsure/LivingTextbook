@@ -69,6 +69,7 @@ export interface PersistenceWriteIntent {
   preservesAiPrototypeSignedApprovalPreflight?: boolean;
   preservesAiPrototypePatchAuthorizationReleaseLock?: boolean;
   preservesAiPrototypePatchImplementationWorkOrder?: boolean;
+  preservesAiPrototypePatchChangeSetPreview?: boolean;
   requiresProposedPatchFileScope?: boolean;
   requiresPrePatchGates?: boolean;
   requiresPatchTestGates?: boolean;
@@ -99,9 +100,15 @@ export interface PersistenceWriteIntent {
   requiresPatchImplementationFileGroups?: boolean;
   requiresPatchImplementationDryRunOrder?: boolean;
   requiresPatchImplementationRollbackPlan?: boolean;
+  requiresPatchChangeSetPlannedFileChanges?: boolean;
+  requiresPatchChangeSetInvariantChecks?: boolean;
+  requiresPatchChangeSetReviewBlockers?: boolean;
+  requiresPatchChangeSetNextRecords?: boolean;
   requiresReviewerIdentitySignatureGate?: boolean;
   blocksAppFileWrite?: boolean;
   blocksWorkOrderExecution?: boolean;
+  blocksApplyPatch?: boolean;
+  blocksGeneratedFileWrite?: boolean;
   blocksTestExecution?: boolean;
   blocksPlaywrightRun?: boolean;
   requiresManualCodexReview?: boolean;
@@ -2342,6 +2349,7 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
     validateAiPrototypeSignedApprovalPreflightIntent(intent, errors);
     validateAiPrototypePatchAuthorizationReleaseLockIntent(intent, errors);
     validateAiPrototypePatchImplementationWorkOrderIntent(intent, errors);
+    validateAiPrototypePatchChangeSetPreviewIntent(intent, errors);
 
     if (intent.category === "ai-reward-readiness-gate" && !intent.preservesAiRewardReadinessGate) {
       errors.push(`AI reward readiness gate write intent ${intent.intentId} must preserve generated reward readiness checks.`);
@@ -3756,6 +3764,86 @@ function validateAiPrototypePatchImplementationWorkOrderIntent(
 
   if (!intent.blocksAppPatchGeneration) {
     errors.push(`${prefix} must block app patch generation.`);
+  }
+
+  if (!intent.blocksTestExecution) {
+    errors.push(`${prefix} must block test execution.`);
+  }
+
+  if (!intent.blocksPlaywrightRun) {
+    errors.push(`${prefix} must block Playwright runs.`);
+  }
+
+  if (!intent.blocksGeneratedGameRouteWrite) {
+    errors.push(`${prefix} must block route writes.`);
+  }
+
+  if (!intent.blocksSupportLanguageProgressTrigger) {
+    errors.push(`${prefix} must block support-language progress triggers.`);
+  }
+}
+
+function validateAiPrototypePatchChangeSetPreviewIntent(intent: PersistenceWriteIntent, errors: string[]): void {
+  if (intent.category !== "ai-prototype-patch-change-set-preview") {
+    return;
+  }
+
+  const prefix = `AI prototype patch change set preview write intent ${intent.intentId}`;
+
+  if (!intent.preservesAiPrototypePatchChangeSetPreview) {
+    errors.push(`${prefix} must preserve patch change set previews.`);
+  }
+
+  if (!intent.preservesAiPrototypePatchImplementationWorkOrder) {
+    errors.push(`${prefix} must preserve patch implementation work order links.`);
+  }
+
+  if (!intent.requiresPatchChangeSetPlannedFileChanges) {
+    errors.push(`${prefix} must require planned file changes.`);
+  }
+
+  if (!intent.requiresPatchChangeSetInvariantChecks) {
+    errors.push(`${prefix} must require invariant checks.`);
+  }
+
+  if (!intent.requiresPatchChangeSetReviewBlockers) {
+    errors.push(`${prefix} must require review blockers.`);
+  }
+
+  if (!intent.requiresPatchChangeSetNextRecords) {
+    errors.push(`${prefix} must require next records.`);
+  }
+
+  if (!intent.requiresRouteSafetyReleaseGate) {
+    errors.push(`${prefix} must require route safety release gates.`);
+  }
+
+  if (!intent.requiresRollbackDrillRecord) {
+    errors.push(`${prefix} must require rollback drill records.`);
+  }
+
+  if (!intent.requiresStorageContractVerification) {
+    errors.push(`${prefix} must require storage contract verification.`);
+  }
+
+  if (!intent.requiresReviewerIdentitySignatureGate) {
+    errors.push(`${prefix} must require reviewer identity signature gates.`);
+  }
+
+  if (!intent.blocksApplyPatch) {
+    errors.push(`${prefix} must block apply-patch actions.`);
+  }
+
+  if (!intent.blocksAppFileWrite) {
+    errors.push(`${prefix} must block app file writes.`);
+  }
+
+  if (!intent.blocksAppPatchGeneration) {
+    errors.push(`${prefix} must block app patch generation.`);
+  }
+
+  if (!intent.blocksGeneratedFileWrite) {
+    errors.push(`${prefix} must block generated file writes.`);
   }
 
   if (!intent.blocksTestExecution) {

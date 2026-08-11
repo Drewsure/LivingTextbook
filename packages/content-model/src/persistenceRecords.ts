@@ -27,6 +27,7 @@ export type PersistenceRecordCategory =
   | "ai-prototype-signed-approval-preflight"
   | "ai-prototype-patch-authorization-release-lock"
   | "ai-prototype-patch-implementation-work-order"
+  | "ai-prototype-patch-change-set-preview"
   | "ai-prototype-integration-readiness-gate"
   | "ai-generated-package-manifest"
   | "ai-generated-package-promotion-checklist"
@@ -170,6 +171,7 @@ export interface DurableRecordContract {
   preservesAiPrototypeSignedApprovalPreflight?: boolean;
   preservesAiPrototypePatchAuthorizationReleaseLock?: boolean;
   preservesAiPrototypePatchImplementationWorkOrder?: boolean;
+  preservesAiPrototypePatchChangeSetPreview?: boolean;
   requiresProposedPatchFileScope?: boolean;
   requiresPrePatchGates?: boolean;
   requiresPatchTestGates?: boolean;
@@ -200,9 +202,15 @@ export interface DurableRecordContract {
   requiresPatchImplementationFileGroups?: boolean;
   requiresPatchImplementationDryRunOrder?: boolean;
   requiresPatchImplementationRollbackPlan?: boolean;
+  requiresPatchChangeSetPlannedFileChanges?: boolean;
+  requiresPatchChangeSetInvariantChecks?: boolean;
+  requiresPatchChangeSetReviewBlockers?: boolean;
+  requiresPatchChangeSetNextRecords?: boolean;
   requiresReviewerIdentitySignatureGate?: boolean;
   blocksAppFileWrite?: boolean;
   blocksWorkOrderExecution?: boolean;
+  blocksApplyPatch?: boolean;
+  blocksGeneratedFileWrite?: boolean;
   blocksTestExecution?: boolean;
   blocksPlaywrightRun?: boolean;
   requiresManualCodexReview?: boolean;
@@ -2408,6 +2416,7 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
     validateAiPrototypeSignedApprovalPreflightRecord(record, errors);
     validateAiPrototypePatchAuthorizationReleaseLockRecord(record, errors);
     validateAiPrototypePatchImplementationWorkOrderRecord(record, errors);
+    validateAiPrototypePatchChangeSetPreviewRecord(record, errors);
 
     if (record.category === "ai-reward-readiness-gate" && !record.preservesAiRewardReadinessGate) {
       errors.push(`AI reward readiness gate record ${record.recordId} must preserve generated reward readiness checks.`);
@@ -3811,6 +3820,86 @@ function validateAiPrototypePatchImplementationWorkOrderRecord(
 
   if (!record.blocksAppPatchGeneration) {
     errors.push(`${prefix} must block app patch generation.`);
+  }
+
+  if (!record.blocksTestExecution) {
+    errors.push(`${prefix} must block test execution.`);
+  }
+
+  if (!record.blocksPlaywrightRun) {
+    errors.push(`${prefix} must block Playwright runs.`);
+  }
+
+  if (!record.blocksGeneratedGameRouteWrite) {
+    errors.push(`${prefix} must block route writes.`);
+  }
+
+  if (!record.blocksSupportLanguageProgressTrigger) {
+    errors.push(`${prefix} must block support-language progress triggers.`);
+  }
+}
+
+function validateAiPrototypePatchChangeSetPreviewRecord(record: DurableRecordContract, errors: string[]): void {
+  if (record.category !== "ai-prototype-patch-change-set-preview") {
+    return;
+  }
+
+  const prefix = `AI prototype patch change set preview record ${record.recordId}`;
+
+  if (!record.preservesAiPrototypePatchChangeSetPreview) {
+    errors.push(`${prefix} must preserve patch change set previews.`);
+  }
+
+  if (!record.preservesAiPrototypePatchImplementationWorkOrder) {
+    errors.push(`${prefix} must preserve patch implementation work order links.`);
+  }
+
+  if (!record.requiresPatchChangeSetPlannedFileChanges) {
+    errors.push(`${prefix} must require planned file changes.`);
+  }
+
+  if (!record.requiresPatchChangeSetInvariantChecks) {
+    errors.push(`${prefix} must require invariant checks.`);
+  }
+
+  if (!record.requiresPatchChangeSetReviewBlockers) {
+    errors.push(`${prefix} must require review blockers.`);
+  }
+
+  if (!record.requiresPatchChangeSetNextRecords) {
+    errors.push(`${prefix} must require next records.`);
+  }
+
+  if (!record.requiresRouteSafetyReleaseGate) {
+    errors.push(`${prefix} must require route safety release gates.`);
+  }
+
+  if (!record.requiresRollbackDrillRecord) {
+    errors.push(`${prefix} must require rollback drill records.`);
+  }
+
+  if (!record.requiresStorageContractVerification) {
+    errors.push(`${prefix} must require storage contract verification.`);
+  }
+
+  if (!record.requiresReviewerIdentitySignatureGate) {
+    errors.push(`${prefix} must require reviewer identity signature gates.`);
+  }
+
+  if (!record.blocksApplyPatch) {
+    errors.push(`${prefix} must block apply-patch actions.`);
+  }
+
+  if (!record.blocksAppFileWrite) {
+    errors.push(`${prefix} must block app file writes.`);
+  }
+
+  if (!record.blocksAppPatchGeneration) {
+    errors.push(`${prefix} must block app patch generation.`);
+  }
+
+  if (!record.blocksGeneratedFileWrite) {
+    errors.push(`${prefix} must block generated file writes.`);
   }
 
   if (!record.blocksTestExecution) {

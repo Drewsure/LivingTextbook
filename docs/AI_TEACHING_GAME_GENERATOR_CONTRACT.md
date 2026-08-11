@@ -393,6 +393,8 @@ The preview may name planned file changes, wrapper boundaries, fixture mapping f
 
 MiniStar patch change set previews must keep Foundation Japanese support hiragana-only and support-only while English remains the progress trigger.
 
+The backend-neutral storage contract is `ai_prototype_patch_change_set_preview` / `ai-prototype-patch-change-set-preview`. Hosted and local adapters must preserve linked implementation work order, planned file changes, invariant checks, review blockers, next required records, route safety, rollback drill, storage verification, reviewer identity, and blocked change-set actions while blocking apply-patch actions, app file writes, generated file writes, test execution, Playwright runs, generated route writes, student-facing routes, scoring or reward mutation, audio manifest mutation, package promotion, assignments, and support-language progress.
+
 ## Mode Recommendation Rule
 
 Generator mode recommendations must reuse the reviewed activity compatibility matrix. The generator can recommend a tight pathway for a unit, but it must not produce a broad switch panel or unsupported conversions. Blocked conversions stay visible with their payload-fit and compatibility-rule reasons.

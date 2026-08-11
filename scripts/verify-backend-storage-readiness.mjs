@@ -35,6 +35,7 @@ const requiredSchemaEntities = [
   "ai_prototype_signed_approval_preflight",
   "ai_prototype_patch_authorization_release_lock",
   "ai_prototype_patch_implementation_work_order",
+  "ai_prototype_patch_change_set_preview",
   "ai_generated_package_manifest",
   "ai_generated_package_promotion_checklist",
   "ai_generated_package_release_candidate",
@@ -132,6 +133,7 @@ const requiredMigrationCandidates = [
   "m090-ai-prototype-signed-approval-preflight-records",
   "m091-ai-prototype-patch-authorization-release-lock-records",
   "m092-ai-prototype-patch-implementation-work-order-records",
+  "m093-ai-prototype-patch-change-set-preview-records",
   "m054-ai-generated-package-manifest-records",
   "m058-ai-generated-package-promotion-checklist-records",
   "m059-ai-generated-package-release-candidate-records",
@@ -232,6 +234,7 @@ const requiredMigrationSpecs = [
   "spec-ai-prototype-signed-approval-preflight",
   "spec-ai-prototype-patch-authorization-release-lock",
   "spec-ai-prototype-patch-implementation-work-order",
+  "spec-ai-prototype-patch-change-set-preview",
   "spec-ai-generated-package-manifest",
   "spec-ai-generated-package-promotion-checklist",
   "spec-ai-generated-package-release-candidate",
@@ -681,6 +684,18 @@ requireText(schemaDraft, "allowed_future_file_groups", "Backend schema must pres
 requireText(schemaDraft, "dry_run_verification_order", "Backend schema must preserve patch implementation dry-run order.");
 requireText(schemaDraft, "rollback_plan", "Backend schema must preserve patch implementation rollback plans.");
 requireText(schemaDraft, "work_order_execution_allowed", "Backend schema must block work order execution.");
+requireText(
+  schemaDraft,
+  "ai_prototype_patch_change_set_preview",
+  "Backend schema must include AI prototype patch change set previews.",
+);
+requireText(schemaDraft, "patch_change_set_preview_id", "Backend schema must preserve patch change set preview ids.");
+requireText(schemaDraft, "planned_file_changes", "Backend schema must preserve patch change set planned file changes.");
+requireText(schemaDraft, "invariant_checks", "Backend schema must preserve patch change set invariant checks.");
+requireText(schemaDraft, "review_blockers", "Backend schema must preserve patch change set review blockers.");
+requireText(schemaDraft, "blocked_change_set_actions", "Backend schema must preserve blocked patch change set actions.");
+requireText(schemaDraft, "apply_patch_allowed", "Backend schema must block apply-patch actions.");
+requireText(schemaDraft, "generated_file_write_allowed", "Backend schema must block generated file writes.");
 requireText(schemaDraft, "proposed_file_scope", "Backend schema must preserve prototype app patch proposed file scope.");
 requireText(schemaDraft, "required_before_patch", "Backend schema must preserve prototype app patch pre-patch gates.");
 requireText(schemaDraft, "required_test_gates", "Backend schema must preserve prototype app patch test gates.");
@@ -1533,6 +1548,18 @@ requireText(migrationSpecs, "allowed_future_file_groups", "Migration specs must 
 requireText(migrationSpecs, "dry_run_verification_order", "Migration specs must preserve patch implementation dry-run order.");
 requireText(migrationSpecs, "rollback_plan", "Migration specs must preserve patch implementation rollback plans.");
 requireText(migrationSpecs, "work_order_execution_allowed", "Migration specs must block work order execution.");
+requireText(
+  migrationSpecs,
+  "spec-ai-prototype-patch-change-set-preview",
+  "Migration specs must include AI prototype patch change set previews.",
+);
+requireText(migrationSpecs, "patch_change_set_preview_id", "Migration specs must preserve patch change set preview ids.");
+requireText(migrationSpecs, "planned_file_changes", "Migration specs must preserve patch change set planned file changes.");
+requireText(migrationSpecs, "invariant_checks", "Migration specs must preserve patch change set invariant checks.");
+requireText(migrationSpecs, "review_blockers", "Migration specs must preserve patch change set review blockers.");
+requireText(migrationSpecs, "blocked_change_set_actions", "Migration specs must preserve blocked patch change set actions.");
+requireText(migrationSpecs, "apply_patch_allowed", "Migration specs must block apply-patch actions.");
+requireText(migrationSpecs, "generated_file_write_allowed", "Migration specs must block generated file writes.");
 requireText(migrationSpecs, "spec-ai-generated-package-manifest", "Migration specs must include AI generated package manifests.");
 requireText(migrationSpecs, "ai_generated_package_manifest_id", "Migration specs must preserve generated package manifest ids.");
 requireText(migrationSpecs, "prompt_package_id", "Migration specs must preserve generated package prompt package ids.");
@@ -4195,6 +4222,48 @@ requireText(
   "Durable record plan must include AI prototype patch implementation work order boundaries.",
 );
 requireText(
+  durableRecords,
+  "ai-prototype-patch-change-set-preview-record",
+  "Durable record plan must include AI prototype patch change set preview records.",
+);
+requireText(
+  durableRecords,
+  "AI prototype patch change set preview record",
+  "Durable record plan must expose AI prototype patch change set preview labels.",
+);
+requireText(
+  durableRecords,
+  "preservesAiPrototypePatchChangeSetPreview: true",
+  "Durable record plan must preserve AI prototype patch change set previews.",
+);
+requireText(
+  durableRecords,
+  "requiresPatchChangeSetPlannedFileChanges: true",
+  "Durable record plan must require patch change set planned file changes.",
+);
+requireText(
+  durableRecords,
+  "requiresPatchChangeSetInvariantChecks: true",
+  "Durable record plan must require patch change set invariant checks.",
+);
+requireText(
+  durableRecords,
+  "requiresPatchChangeSetReviewBlockers: true",
+  "Durable record plan must require patch change set review blockers.",
+);
+requireText(
+  durableRecords,
+  "requiresPatchChangeSetNextRecords: true",
+  "Durable record plan must require patch change set next records.",
+);
+requireText(durableRecords, "blocksApplyPatch: true", "Durable record plan must block apply-patch actions.");
+requireText(durableRecords, "blocksGeneratedFileWrite: true", "Durable record plan must block generated file writes.");
+requireText(
+  durableRecords,
+  "ai-prototype-patch-change-set-preview-boundary",
+  "Durable record plan must include AI prototype patch change set preview boundaries.",
+);
+requireText(
   persistenceAdapter,
   "hosted-codex-patch-approval-decision-write",
   "Persistence adapter must include hosted Codex patch approval decision writes.",
@@ -4317,6 +4386,43 @@ requireText(
   "Persistence adapter must require patch implementation rollback plans.",
 );
 requireText(persistenceAdapter, "blocksWorkOrderExecution: true", "Persistence adapter must block work order execution.");
+requireText(
+  persistenceAdapter,
+  "hosted-ai-prototype-patch-change-set-preview-write",
+  "Persistence adapter must include hosted AI prototype patch change set preview writes.",
+);
+requireText(
+  persistenceAdapter,
+  "local-ai-prototype-patch-change-set-preview-write",
+  "Persistence adapter must include local AI prototype patch change set preview writes.",
+);
+requireText(
+  persistenceAdapter,
+  "preservesAiPrototypePatchChangeSetPreview: true",
+  "Persistence adapter must preserve AI prototype patch change set previews.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresPatchChangeSetPlannedFileChanges: true",
+  "Persistence adapter must require patch change set planned file changes.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresPatchChangeSetInvariantChecks: true",
+  "Persistence adapter must require patch change set invariant checks.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresPatchChangeSetReviewBlockers: true",
+  "Persistence adapter must require patch change set review blockers.",
+);
+requireText(
+  persistenceAdapter,
+  "requiresPatchChangeSetNextRecords: true",
+  "Persistence adapter must require patch change set next records.",
+);
+requireText(persistenceAdapter, "blocksApplyPatch: true", "Persistence adapter must block apply-patch actions.");
+requireText(persistenceAdapter, "blocksGeneratedFileWrite: true", "Persistence adapter must block generated file writes.");
 requireText(durableRecords, "ai-generated-package-manifest-record", "Durable record plan must include AI generated package manifest records.");
 requireText(durableRecords, "AI generated package manifest record", "Durable record plan must expose AI generated package manifest record labels.");
 requireText(durableRecords, "preservesAiGeneratedPackageManifest: true", "Durable record plan must preserve AI generated package manifest links.");
@@ -5122,6 +5228,16 @@ requireText(
   routeVerifier,
   "AI prototype patch implementation work order record",
   "Active route verifier must keep AI prototype patch implementation work order durable records visible on teacher intake.",
+);
+requireText(
+  routeVerifier,
+  "ai_prototype_patch_change_set_preview",
+  "Active route verifier must keep AI prototype patch change set preview storage visible on teacher intake.",
+);
+requireText(
+  routeVerifier,
+  "AI prototype patch change set preview record",
+  "Active route verifier must keep AI prototype patch change set preview durable records visible on teacher intake.",
 );
 requireText(
   routeVerifier,

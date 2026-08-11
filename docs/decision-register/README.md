@@ -352,6 +352,7 @@
 - `DR-378-ai-prototype-patch-implementation-work-order.md`
 - `DR-379-ai-prototype-patch-implementation-work-order-storage-contract.md`
 - `DR-380-ai-prototype-patch-change-set-preview.md`
+- `DR-381-ai-prototype-patch-change-set-preview-storage-contract.md`
 
 ## Maintenance Rule
 
