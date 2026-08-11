@@ -41,6 +41,7 @@ export type PersistenceBoundaryCategory =
   | "ai-prototype-patch-authorization-release-lock"
   | "ai-prototype-patch-implementation-work-order"
   | "ai-prototype-patch-change-set-preview"
+  | "ai-generated-package-teacher-review-packet"
   | "ai-generated-package-manifest"
   | "ai-generated-package-promotion-checklist"
   | "ai-generated-package-release-candidate"
@@ -211,6 +212,39 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     blocksDirectStudentAssignment: true,
     recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
     note: "Verifier submission preflight records need durable schema, audio, support-language, route, evidence, and approval checks before any draft can enter a live verifier workflow.",
+  },
+  {
+    recordId: "ai-generated-package-teacher-review-packet-record",
+    category: "ai-generated-package-teacher-review-packet",
+    label: "AI generated package teacher review packet record",
+    readiness: "durable-required",
+    sourceOfTruth:
+      "AiGeneratedPackageTeacherReviewPacket, teacher decision lanes, ready signals, missing evidence, blocked actions, target-language audio approval, media-rights evidence, approval ledger, release-control binding, and assignment rollout gate",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesAiGeneratedPackageTeacherReviewPacket: true,
+    requiresTeacherReviewDecisionLanes: true,
+    requiresTeacherReviewMissingEvidence: true,
+    requiresTargetLanguageAudioApproval: true,
+    requiresMediaRightsEvidence: true,
+    requiresTeacherApprovalLedger: true,
+    requiresReleaseControlBinding: true,
+    blocksApprovalCapture: true,
+    blocksGeneratedPackageAssembly: true,
+    blocksGeneratedPackageRouteWrite: true,
+    blocksGeneratedPackagePlaylistWrite: true,
+    blocksGeneratedPackageAssignment: true,
+    blocksGeneratedPackageLocalBundleWrite: true,
+    blocksStudentReadyMarker: true,
+    blocksSupportLanguageProgressTrigger: true,
+    blocksDirectStudentAssignment: true,
+    recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
+    note:
+      "Generated package teacher review packets need durable teacher-facing approval prep before approval capture, package assembly, route writes, playlists, assignments, local bundles, student-ready markers, or support-language progress can exist.",
   },
   {
     recordId: "ai-generated-package-manifest-record",
@@ -2657,6 +2691,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     visibleTo: ["Teacher", "Content reviewer", "Tenant admin", "Platform admin"],
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision: "Persist verifier submission preflights before enabling submit-to-verifier, verifier automation, or package workflow promotion.",
+  },
+  {
+    boundaryId: "ai-generated-package-teacher-review-packet-boundary",
+    category: "ai-generated-package-teacher-review-packet",
+    label: "AI generated package teacher review packet records",
+    status: "needs-backend",
+    recordShape:
+      "Packet id, tenant id, request id, decision lanes, ready signals, missing evidence, blocked actions, next records, target-language audio approval, media-rights evidence, approval ledger, release-control binding",
+    whyItMatters:
+      "Teacher approval prep must be durable and reviewable before any generated package can move toward approval capture, package assembly, route writes, playlists, assignments, local bundles, or student-ready state.",
+    visibleTo: ["Teacher", "Tenant admin", "Content reviewer", "Platform admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Store teacher review packets beside verifier and manifest records before enabling approval capture or generated package assembly.",
   },
   {
     boundaryId: "ai-prototype-app-patch-proposal-boundary",

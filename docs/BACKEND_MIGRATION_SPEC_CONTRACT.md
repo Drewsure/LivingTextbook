@@ -29,6 +29,8 @@ This is a bridge between product architecture and implementation. It names the r
 - Progress events remain policy-blocked until student identity, retention, consent, and reporting policy are accepted.
 - Earned collection inventory remains policy-blocked until student identity, export, retention, and reward catalog rules are accepted.
 - Teacher draft package specs must preserve owner, source lineage, visibility, review gates, audio plan state, and direct-assignment blocks before draft packages can become student-facing releases.
+- AI generated package teacher review packet specs must preserve teacher decision lanes, ready signals, missing evidence, blocked actions, next records, target-language audio approval state, media-rights evidence links, teacher approval ledger links, release-control links, and assignment rollout links before approval capture or package assembly can exist.
+- AI generated package teacher review packet specs must block approval capture, package assembly, route registry writes, media playlist writes, assignments, local bundle writes, student-ready markers, and support-language progress.
 - AI generated package manifest specs must preserve prompt, draft JSON, audio, engine, gamification, verifier, review queue, media-rights, and release-lock lineage while blocking package assembly, route registry writes, media playlist writes, assignments, local bundle writes, and student-ready markers.
 - Codex patch approval decision specs must preserve patch scope, evidence checks, decision options, route safety, rollback, storage verification, reviewer identity, and blocked-action flags before any future patch execution or app file work.
 - AI prototype patch implementation work order specs must preserve release-lock binding, signed approval acceptance, required-before-work records, allowed future file groups, dry-run verification order, rollback plan, storage verification, reviewer identity, and blocked-action flags before any work order execution, patch work, test execution, route mutation, scoring/reward mutation, audio manifest mutation, package promotion, assignment, or support-language progress.
@@ -46,6 +48,7 @@ This is a bridge between product architecture and implementation. It names the r
 - Tenant entitlement store.
 - Package release store.
 - Teacher draft package store.
+- AI generated package teacher review packet store.
 - AI generated package manifest store.
 - Tenant library item store.
 - Activity compatibility snapshot store.
@@ -85,6 +88,7 @@ Before real backend migrations are written, the project must confirm:
 - Patch authorization release lock specs must block patch authorization, app file writes, route mutation, scoring/reward mutation, package promotion, assignments, and support-language progress.
 - Patch implementation work order specs must block work order execution, app file writes, test execution, route mutation, scoring/reward mutation, package promotion, assignments, and support-language progress.
 - Patch change set preview specs must block apply-patch actions, app file writes, generated file writes, test execution, route mutation, scoring/reward mutation, package promotion, assignments, and support-language progress.
+- AI generated package teacher review packet specs must block teacher approval capture, package assembly, route mutation, playlist creation, assignment activation, local bundle writes, student-ready markers, and support-language progress.
 - Specs do not imply that production storage is ready.
 - The progress event stream is visibly policy-blocked.
 - The earned collection inventory is visibly policy-blocked and rejects random pressure or purchase-like ownership.

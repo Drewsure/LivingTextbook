@@ -183,6 +183,9 @@ export interface PersistenceWriteIntent {
   blocksPhaserBypass?: boolean;
   blocksGeneratedGameRouteWrite?: boolean;
   blocksScoringProfileOverride?: boolean;
+  preservesAiGeneratedPackageTeacherReviewPacket?: boolean;
+  requiresTeacherReviewDecisionLanes?: boolean;
+  requiresTeacherReviewMissingEvidence?: boolean;
   preservesAiGeneratedPackageManifest?: boolean;
   preservesAiGeneratedPackagePromotionChecklist?: boolean;
   preservesAiGeneratedPackageReleaseCandidate?: boolean;
@@ -2350,6 +2353,7 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
     validateAiPrototypePatchAuthorizationReleaseLockIntent(intent, errors);
     validateAiPrototypePatchImplementationWorkOrderIntent(intent, errors);
     validateAiPrototypePatchChangeSetPreviewIntent(intent, errors);
+    validateAiGeneratedPackageTeacherReviewPacketIntent(intent, errors);
 
     if (intent.category === "ai-reward-readiness-gate" && !intent.preservesAiRewardReadinessGate) {
       errors.push(`AI reward readiness gate write intent ${intent.intentId} must preserve generated reward readiness checks.`);
@@ -3856,6 +3860,77 @@ function validateAiPrototypePatchChangeSetPreviewIntent(intent: PersistenceWrite
 
   if (!intent.blocksGeneratedGameRouteWrite) {
     errors.push(`${prefix} must block route writes.`);
+  }
+
+  if (!intent.blocksSupportLanguageProgressTrigger) {
+    errors.push(`${prefix} must block support-language progress triggers.`);
+  }
+}
+
+function validateAiGeneratedPackageTeacherReviewPacketIntent(
+  intent: PersistenceWriteIntent,
+  errors: string[],
+): void {
+  if (intent.category !== "ai-generated-package-teacher-review-packet") {
+    return;
+  }
+
+  const prefix = `AI generated package teacher review packet write intent ${intent.intentId}`;
+
+  if (!intent.preservesAiGeneratedPackageTeacherReviewPacket) {
+    errors.push(`${prefix} must preserve teacher review packets.`);
+  }
+
+  if (!intent.requiresTeacherReviewDecisionLanes) {
+    errors.push(`${prefix} must require teacher decision lanes.`);
+  }
+
+  if (!intent.requiresTeacherReviewMissingEvidence) {
+    errors.push(`${prefix} must require missing evidence lanes.`);
+  }
+
+  if (!intent.requiresTargetLanguageAudioApproval) {
+    errors.push(`${prefix} must require target-language audio approval.`);
+  }
+
+  if (!intent.requiresMediaRightsEvidence) {
+    errors.push(`${prefix} must require media rights evidence.`);
+  }
+
+  if (!intent.requiresTeacherApprovalLedger) {
+    errors.push(`${prefix} must require a teacher approval ledger.`);
+  }
+
+  if (!intent.requiresReleaseControlBinding) {
+    errors.push(`${prefix} must require release-control binding.`);
+  }
+
+  if (!intent.blocksApprovalCapture) {
+    errors.push(`${prefix} must block approval capture.`);
+  }
+
+  if (!intent.blocksGeneratedPackageAssembly) {
+    errors.push(`${prefix} must block package assembly.`);
+  }
+
+  if (!intent.blocksGeneratedPackageRouteWrite) {
+    errors.push(`${prefix} must block route registry writes.`);
+  }
+
+  if (!intent.blocksGeneratedPackagePlaylistWrite) {
+    errors.push(`${prefix} must block media playlist writes.`);
+  }
+
+  if (!intent.blocksGeneratedPackageAssignment) {
+    errors.push(`${prefix} must block generated package assignments.`);
+  }
+
+  if (!intent.blocksGeneratedPackageLocalBundleWrite) {
+    errors.push(`${prefix} must block local bundle writes.`);
+  }
+
+  if (!intent.blocksStudentReadyMarker) {
+    errors.push(`${prefix} must block student-ready markers.`);
   }
 
   if (!intent.blocksSupportLanguageProgressTrigger) {

@@ -29,6 +29,7 @@ export type PersistenceRecordCategory =
   | "ai-prototype-patch-implementation-work-order"
   | "ai-prototype-patch-change-set-preview"
   | "ai-prototype-integration-readiness-gate"
+  | "ai-generated-package-teacher-review-packet"
   | "ai-generated-package-manifest"
   | "ai-generated-package-promotion-checklist"
   | "ai-generated-package-release-candidate"
@@ -285,6 +286,9 @@ export interface DurableRecordContract {
   blocksPhaserBypass?: boolean;
   blocksGeneratedGameRouteWrite?: boolean;
   blocksScoringProfileOverride?: boolean;
+  preservesAiGeneratedPackageTeacherReviewPacket?: boolean;
+  requiresTeacherReviewDecisionLanes?: boolean;
+  requiresTeacherReviewMissingEvidence?: boolean;
   preservesAiGeneratedPackageManifest?: boolean;
   preservesAiGeneratedPackagePromotionChecklist?: boolean;
   preservesAiGeneratedPackageReleaseCandidate?: boolean;
@@ -2417,6 +2421,7 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
     validateAiPrototypePatchAuthorizationReleaseLockRecord(record, errors);
     validateAiPrototypePatchImplementationWorkOrderRecord(record, errors);
     validateAiPrototypePatchChangeSetPreviewRecord(record, errors);
+    validateAiGeneratedPackageTeacherReviewPacketRecord(record, errors);
 
     if (record.category === "ai-reward-readiness-gate" && !record.preservesAiRewardReadinessGate) {
       errors.push(`AI reward readiness gate record ${record.recordId} must preserve generated reward readiness checks.`);
@@ -3912,6 +3917,74 @@ function validateAiPrototypePatchChangeSetPreviewRecord(record: DurableRecordCon
 
   if (!record.blocksGeneratedGameRouteWrite) {
     errors.push(`${prefix} must block route writes.`);
+  }
+
+  if (!record.blocksSupportLanguageProgressTrigger) {
+    errors.push(`${prefix} must block support-language progress triggers.`);
+  }
+}
+
+function validateAiGeneratedPackageTeacherReviewPacketRecord(record: DurableRecordContract, errors: string[]): void {
+  if (record.category !== "ai-generated-package-teacher-review-packet") {
+    return;
+  }
+
+  const prefix = `AI generated package teacher review packet record ${record.recordId}`;
+
+  if (!record.preservesAiGeneratedPackageTeacherReviewPacket) {
+    errors.push(`${prefix} must preserve teacher review packets.`);
+  }
+
+  if (!record.requiresTeacherReviewDecisionLanes) {
+    errors.push(`${prefix} must require teacher decision lanes.`);
+  }
+
+  if (!record.requiresTeacherReviewMissingEvidence) {
+    errors.push(`${prefix} must require missing evidence lanes.`);
+  }
+
+  if (!record.requiresTargetLanguageAudioApproval) {
+    errors.push(`${prefix} must require target-language audio approval.`);
+  }
+
+  if (!record.requiresMediaRightsEvidence) {
+    errors.push(`${prefix} must require media rights evidence.`);
+  }
+
+  if (!record.requiresTeacherApprovalLedger) {
+    errors.push(`${prefix} must require a teacher approval ledger.`);
+  }
+
+  if (!record.requiresReleaseControlBinding) {
+    errors.push(`${prefix} must require release-control binding.`);
+  }
+
+  if (!record.blocksApprovalCapture) {
+    errors.push(`${prefix} must block approval capture.`);
+  }
+
+  if (!record.blocksGeneratedPackageAssembly) {
+    errors.push(`${prefix} must block package assembly.`);
+  }
+
+  if (!record.blocksGeneratedPackageRouteWrite) {
+    errors.push(`${prefix} must block route registry writes.`);
+  }
+
+  if (!record.blocksGeneratedPackagePlaylistWrite) {
+    errors.push(`${prefix} must block media playlist writes.`);
+  }
+
+  if (!record.blocksGeneratedPackageAssignment) {
+    errors.push(`${prefix} must block generated package assignments.`);
+  }
+
+  if (!record.blocksGeneratedPackageLocalBundleWrite) {
+    errors.push(`${prefix} must block local bundle writes.`);
+  }
+
+  if (!record.blocksStudentReadyMarker) {
+    errors.push(`${prefix} must block student-ready markers.`);
   }
 
   if (!record.blocksSupportLanguageProgressTrigger) {

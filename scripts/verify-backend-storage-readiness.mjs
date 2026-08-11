@@ -36,6 +36,7 @@ const requiredSchemaEntities = [
   "ai_prototype_patch_authorization_release_lock",
   "ai_prototype_patch_implementation_work_order",
   "ai_prototype_patch_change_set_preview",
+  "ai_generated_package_teacher_review_packet",
   "ai_generated_package_manifest",
   "ai_generated_package_promotion_checklist",
   "ai_generated_package_release_candidate",
@@ -134,6 +135,7 @@ const requiredMigrationCandidates = [
   "m091-ai-prototype-patch-authorization-release-lock-records",
   "m092-ai-prototype-patch-implementation-work-order-records",
   "m093-ai-prototype-patch-change-set-preview-records",
+  "m094-ai-generated-package-teacher-review-packet-records",
   "m054-ai-generated-package-manifest-records",
   "m058-ai-generated-package-promotion-checklist-records",
   "m059-ai-generated-package-release-candidate-records",
@@ -235,6 +237,7 @@ const requiredMigrationSpecs = [
   "spec-ai-prototype-patch-authorization-release-lock",
   "spec-ai-prototype-patch-implementation-work-order",
   "spec-ai-prototype-patch-change-set-preview",
+  "spec-ai-generated-package-teacher-review-packet",
   "spec-ai-generated-package-manifest",
   "spec-ai-generated-package-promotion-checklist",
   "spec-ai-generated-package-release-candidate",
@@ -704,6 +707,28 @@ requireText(schemaDraft, "blocked_patch_actions", "Backend schema must preserve 
 requireText(schemaDraft, "app_file_write_allowed", "Backend schema must block app file writes.");
 requireText(schemaDraft, "reviewer_identity_signature_gate_id", "Backend schema must link app patch proposals to reviewer identity gates.");
 requireText(schemaDraft, "package_publish_gate_id", "Backend schema must link app patch proposals to release-control gates.");
+requireText(
+  schemaDraft,
+  "ai_generated_package_teacher_review_packet",
+  "Backend schema must include AI generated package teacher review packets.",
+);
+requireText(
+  schemaDraft,
+  "ai_generated_package_teacher_review_packet_id",
+  "Backend schema must preserve generated package teacher review packet ids.",
+);
+requireText(schemaDraft, "decision_lanes", "Backend schema must preserve generated teacher review decision lanes.");
+requireText(schemaDraft, "missing_evidence", "Backend schema must preserve generated teacher review missing evidence.");
+requireText(
+  schemaDraft,
+  "approval_capture_allowed",
+  "Backend schema must preserve generated teacher review approval-capture blocks.",
+);
+requireText(
+  schemaDraft,
+  "support_language_progress_allowed",
+  "Backend schema must preserve generated teacher review support-language progress blocks.",
+);
 requireText(schemaDraft, "ai_generated_package_manifest", "Backend schema must include AI generated package manifests.");
 requireText(schemaDraft, "ai_generated_package_manifest_id", "Backend schema must preserve generated package manifest ids.");
 requireText(schemaDraft, "generation_request_id", "Backend schema must preserve AI generation request ids.");
@@ -1560,6 +1585,28 @@ requireText(migrationSpecs, "review_blockers", "Migration specs must preserve pa
 requireText(migrationSpecs, "blocked_change_set_actions", "Migration specs must preserve blocked patch change set actions.");
 requireText(migrationSpecs, "apply_patch_allowed", "Migration specs must block apply-patch actions.");
 requireText(migrationSpecs, "generated_file_write_allowed", "Migration specs must block generated file writes.");
+requireText(
+  migrationSpecs,
+  "spec-ai-generated-package-teacher-review-packet",
+  "Migration specs must include AI generated package teacher review packets.",
+);
+requireText(
+  migrationSpecs,
+  "ai_generated_package_teacher_review_packet_id",
+  "Migration specs must preserve generated package teacher review packet ids.",
+);
+requireText(migrationSpecs, "decision_lanes", "Migration specs must preserve generated teacher review decision lanes.");
+requireText(migrationSpecs, "missing_evidence", "Migration specs must preserve generated teacher review missing evidence.");
+requireText(
+  migrationSpecs,
+  "approval_capture_allowed",
+  "Migration specs must keep generated teacher review approval capture blocked.",
+);
+requireText(
+  migrationSpecs,
+  "support_language_progress_allowed",
+  "Migration specs must keep generated teacher review support-language progress blocked.",
+);
 requireText(migrationSpecs, "spec-ai-generated-package-manifest", "Migration specs must include AI generated package manifests.");
 requireText(migrationSpecs, "ai_generated_package_manifest_id", "Migration specs must preserve generated package manifest ids.");
 requireText(migrationSpecs, "prompt_package_id", "Migration specs must preserve generated package prompt package ids.");
@@ -4423,6 +4470,56 @@ requireText(
 );
 requireText(persistenceAdapter, "blocksApplyPatch: true", "Persistence adapter must block apply-patch actions.");
 requireText(persistenceAdapter, "blocksGeneratedFileWrite: true", "Persistence adapter must block generated file writes.");
+requireText(
+  durableRecords,
+  "ai-generated-package-teacher-review-packet-record",
+  "Durable record plan must include AI generated package teacher review packet records.",
+);
+requireText(
+  durableRecords,
+  "AI generated package teacher review packet record",
+  "Durable record plan must expose AI generated package teacher review packet labels.",
+);
+requireText(
+  durableRecords,
+  "preservesAiGeneratedPackageTeacherReviewPacket: true",
+  "Durable record plan must preserve AI generated package teacher review packets.",
+);
+requireText(
+  durableRecords,
+  "requiresTeacherReviewDecisionLanes: true",
+  "Durable record plan must require generated teacher review decision lanes.",
+);
+requireText(
+  durableRecords,
+  "requiresTeacherReviewMissingEvidence: true",
+  "Durable record plan must require generated teacher review missing evidence.",
+);
+requireText(
+  durableRecords,
+  "blocksApprovalCapture: true",
+  "Durable record plan must block generated teacher review approval capture.",
+);
+requireText(
+  durableRecords,
+  "ai-generated-package-teacher-review-packet-boundary",
+  "Durable record plan must include AI generated package teacher review packet boundaries.",
+);
+requireText(
+  persistenceAdapter,
+  "hosted-ai-generated-package-teacher-review-packet-write",
+  "Persistence adapter must include hosted AI generated package teacher review packet writes.",
+);
+requireText(
+  persistenceAdapter,
+  "local-ai-generated-package-teacher-review-packet-write",
+  "Persistence adapter must include local AI generated package teacher review packet writes.",
+);
+requireText(
+  persistenceAdapter,
+  "preservesAiGeneratedPackageTeacherReviewPacket: true",
+  "Persistence adapter must preserve AI generated package teacher review packets.",
+);
 requireText(durableRecords, "ai-generated-package-manifest-record", "Durable record plan must include AI generated package manifest records.");
 requireText(durableRecords, "AI generated package manifest record", "Durable record plan must expose AI generated package manifest record labels.");
 requireText(durableRecords, "preservesAiGeneratedPackageManifest: true", "Durable record plan must preserve AI generated package manifest links.");
@@ -5176,6 +5273,16 @@ requireText(
   routeVerifier,
   "Codex integration review decision record",
   "Active route verifier must keep Codex integration review decision durable records visible on teacher intake.",
+);
+requireText(
+  routeVerifier,
+  "ai_generated_package_teacher_review_packet",
+  "Active route verifier must keep AI generated package teacher review packet storage visible on teacher intake.",
+);
+requireText(
+  routeVerifier,
+  "AI generated package teacher review packet record",
+  "Active route verifier must keep AI generated package teacher review packet durable records visible on teacher intake.",
 );
 requireText(routeVerifier, "ai_generated_package_manifest", "Active route verifier must keep AI generated package manifest storage visible on teacher intake.");
 requireText(routeVerifier, "AI generated package manifest record", "Active route verifier must keep AI generated package manifest durable records visible on teacher intake.");

@@ -429,6 +429,8 @@ The packet cannot capture teacher approval, assemble packages, write route regis
 
 MiniStar teacher review packets must preserve English target-language audio as the approval trigger. Foundation Japanese support must remain hiragana-only and support-only; Japanese support-language text, audio, or taps cannot unlock progress, satisfy mastery, approve package assembly, create playlists, create routes, or mark the generated unit student-ready.
 
+The backend-neutral storage contract is `ai_generated_package_teacher_review_packet` / `ai-generated-package-teacher-review-packet`. Hosted and local adapters must preserve teacher decision lanes, ready signals, missing evidence, blocked actions, next required records, target-language audio approval needs, media-rights evidence needs, teacher approval ledger needs, release-control binding needs, and assignment rollout needs while blocking approval capture, generated package assembly, route registry writes, media playlist writes, assignments, local bundle writes, student-ready markers, and support-language progress.
+
 ## Review Queue Integration Rule
 
 Generated draft packages must enter the standard teacher draft review queue as read-only queue items. They must show source lineage, verifier packet requirements, target-language audio blockers, media-rights blockers, engine/gamification checks, blocked route and playlist creation, blocked assignment, and blocked approval. The queue must not give AI drafts a shortcut around the same review and approval gates used for teacher-created drafts.
