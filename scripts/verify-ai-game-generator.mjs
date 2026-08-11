@@ -2703,6 +2703,11 @@ requireText(draftPreviewData, "Thank you, friend.", "MiniStar generator draft pr
 requireText(draftPreviewData, "ja-hiragana", "MiniStar generator draft preview must preserve hiragana-only support language metadata.");
 requireText(
   draftPreviewData,
+  "ことばをおして、きいて、まねしましょう。",
+  "MiniStar generator draft preview must include reviewed hiragana-only Japanese support text.",
+);
+requireText(
+  draftPreviewData,
   "Use Japanese support to unlock progress blocked",
   "MiniStar generator draft preview must block support-language progression.",
 );
@@ -2752,6 +2757,21 @@ requireText(
   draftPayloadValidator,
   "target-language audio cues must be approved before student assignment",
   "Shared draft validator must block unapproved target-language audio.",
+);
+requireText(
+  draftPayloadValidator,
+  "MiniStar Foundation/Bronze/Plus Japanese support must use support_language: ja-hiragana.",
+  "Shared draft validator must enforce early Japanese support-language metadata.",
+);
+requireText(
+  draftPayloadValidator,
+  "AI generated draft payload ja-hiragana support cues must be marked support-only.",
+  "Shared draft validator must require ja-hiragana support cues to be support-only.",
+);
+requireText(
+  draftPayloadValidator,
+  "AI generated draft payload ja-hiragana support text must be hiragana-only",
+  "Shared draft validator must reject non-hiragana early Japanese support text.",
 );
 requireText(
   draftPayloadValidator,

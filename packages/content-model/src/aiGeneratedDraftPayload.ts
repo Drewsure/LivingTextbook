@@ -50,6 +50,7 @@ export function validateAiGeneratedDraftPayload(draftJson: unknown): string[] {
   const verifierSubmission = readRecord(draftJson, "verifier_submission", errors);
 
   const targetLanguage = readString(unitMeta, "target_language") ?? "en";
+  const supportLanguage = readString(unitMeta, "support_language");
   const level = readNumber(unitMeta, "level");
   const theme = readString(unitMeta, "theme");
   const gameMode = readString(unitMeta, "game_mode");
@@ -106,6 +107,14 @@ export function validateAiGeneratedDraftPayload(draftJson: unknown): string[] {
 
   if (readBoolean(progressPolicy, "media_only_progress_allowed") !== false) {
     errors.push("AI generated draft payload must keep media_only_progress_allowed: false.");
+  }
+
+  if (level !== undefined && level <= 3 && supportLanguage?.startsWith("ja") && supportLanguage !== "ja-hiragana") {
+    errors.push("MiniStar Foundation/Bronze/Plus Japanese support must use support_language: ja-hiragana.");
+  }
+
+  if (supportLanguage === "ja-hiragana") {
+    errors.push(...validateJaHiraganaSupportCues(draftJson));
   }
 
   if (readString(verifierSubmission, "teacher_draft_verifier_submission") !== "required") {
@@ -287,6 +296,40 @@ function validateTargetLanguageAudioCues(
   return errors;
 }
 
+function validateJaHiraganaSupportCues(draftJson: Record<string, unknown>): string[] {
+  const errors: string[] = [];
+  const audioCues = readArray(draftJson, "audio_cues");
+
+  for (const cue of audioCues) {
+    if (!isRecord(cue) || readString(cue, "language") !== "ja-hiragana") {
+      continue;
+    }
+
+    const cueKind = readString(cue, "kind");
+    const cueText = readString(cue, "text");
+    const cueStatus = readString(cue, "status");
+
+    if (cueKind !== "support") {
+      errors.push("AI generated draft payload ja-hiragana cues must use kind: support.");
+    }
+
+    if (cueStatus !== "support-only") {
+      errors.push("AI generated draft payload ja-hiragana support cues must be marked support-only.");
+    }
+
+    if (!cueText) {
+      errors.push("AI generated draft payload ja-hiragana support cues must include reviewed support text.");
+      continue;
+    }
+
+    if (!isHiraganaOnlySupportText(cueText)) {
+      errors.push(`AI generated draft payload ja-hiragana support text must be hiragana-only: ${cueText}`);
+    }
+  }
+
+  return errors;
+}
+
 function readRecord(source: Record<string, unknown>, key: string, errors: string[]): Record<string, unknown> {
   const value = source[key];
 
@@ -361,6 +404,10 @@ function normalizeText(value: string): string {
     .replace(/[^\p{L}\p{N}\s]/gu, "")
     .replace(/\s+/g, " ")
     .trim();
+}
+
+function isHiraganaOnlySupportText(value: string): boolean {
+  return /^[\u3040-\u309F\s。、！？!?・（）()「」『』［］\[\]：:；;，,．.]+$/u.test(value.trim());
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {

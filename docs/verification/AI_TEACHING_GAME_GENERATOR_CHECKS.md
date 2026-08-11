@@ -41,6 +41,9 @@ Confirm:
 - Draft JSON preview keeps `support_language_progress_allowed: false`.
 - Draft JSON preview blocks copy, verifier submission, publish, playlist creation, and assignment.
 - Draft JSON preview calls the shared `validateAiGeneratedDraftPayloadPreview` contract and exposes schema guard blocks and warnings.
+- Shared draft validation rejects early MiniStar Japanese support metadata unless it is `support_language: ja-hiragana`.
+- Shared draft validation rejects `ja-hiragana` support cues that are not marked `support-only`.
+- Shared draft validation rejects non-hiragana `ja-hiragana` support text before live model calls, package review, route creation, playlist creation, assignment, or student-ready marking can exist.
 - Generator routes show an AI generator lineage map with request-to-review chain, release boundaries, blocked lineage actions, and no live generation, verifier submission, package assembly, route creation, playlist creation, or student assignment.
 - Generator routes show a route map with Request setup, Prototype review, Integration gates, Package review, and Draft repair sections before the detailed panels.
 - Generator routes show an AI generator review summary with a section readiness rollup, primary blockers, next required records, source records, and blocked actions before the detailed panels.

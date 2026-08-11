@@ -369,6 +369,7 @@
 - `DR-395-student-curated-activity-hub.md`
 - `DR-396-assignment-and-launch-activity-hub-navigation.md`
 - `DR-397-local-bundle-activity-hub-fallbacks.md`
+- `DR-398-ministar-hiragana-support-validator.md`
 
 ## Maintenance Rule
 
