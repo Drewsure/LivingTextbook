@@ -10,6 +10,7 @@ Added curated activity hub route awareness to local companion package planning m
 - Added MiniStar and sample publisher launch, activity hub, and media playlist fallback routes.
 - Updated local flashcard and Memory Match paths to use dedicated game routes where available.
 - Strengthened local bundle readiness verification for activity hub fallback paths.
+- Strengthened active route verification for the rendered local companion preview.
 
 ## Boundaries
 
@@ -21,4 +22,4 @@ Added curated activity hub route awareness to local companion package planning m
 
 ## Verification Target
 
-Run local bundle readiness, typecheck, production build, and full foundation verification.
+Run local bundle readiness, typecheck, production build, active routes, and full foundation verification.

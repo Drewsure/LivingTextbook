@@ -18,6 +18,7 @@ Closed textbook companion packages need the same reviewed student route pathway 
 - MiniStar and sample publisher planning manifests include front-door, launch, activity hub, and media playlist fallback routes.
 - Dedicated flashcard and Memory Match local game paths now point to their dedicated routes.
 - Local bundle verification requires the activity hub fallback paths.
+- Active route verification asserts the rendered local companion preview exposes the activity hub and dedicated game paths.
 
 ## Constraints
 
@@ -31,3 +32,4 @@ Closed textbook companion packages need the same reviewed student route pathway 
 - `npm.cmd run verify:local-bundle`
 - `npm.cmd run typecheck --workspace @living-textbook/web`
 - `npm.cmd run build --workspace @living-textbook/web`
+- `npm.cmd run verify:routes`
