@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { Card, StatusPill } from "@living-textbook/ui";
 import type {
   AudioCue,
   GameProgressEvent,
@@ -15,6 +14,7 @@ import type { GameModeCompletionResult } from "@/features/progression/localProgr
 import { SessionEventLog } from "@/features/student/components/SessionEventLog";
 import { TeacherAssignmentSettingsCard } from "@/features/student/components/TeacherAssignmentSettingsCard";
 import type { TenantConfig } from "@/features/tenant/types";
+import { GameRouteHeaderCard } from "../components/GameRouteHeaderCard";
 import { PairingMemoryMatchGame } from "./PairingMemoryMatchGame";
 
 interface MemoryMatchDemoFlowProps {
@@ -59,23 +59,14 @@ export function MemoryMatchDemoFlow({
 
   return (
     <div className="mx-auto grid max-w-3xl gap-5">
-      <Card>
-        <div className="flex flex-wrap items-start justify-between gap-4">
-          <div>
-            <p className="text-sm font-semibold text-[var(--tenant-muted)]">Core pairing slice</p>
-            <h2 className="mt-1 text-2xl font-bold">Memory Match: {unit.unitMeta.theme}</h2>
-            <p className="mt-2 max-w-2xl text-sm leading-6 text-[var(--tenant-muted)]">
-              Match reviewed vocabulary pairs with tap-to-speak support on every card. This is the reusable pairing parent engine before skins like Match Up, Matching Pairs, or Whack-a-Mole.
-            </p>
-          </div>
-          <StatusPill label="Pairing" tone="success" />
-        </div>
-        {lastEarnedDust > 0 && (
-          <p className="mt-4 text-sm font-semibold text-[var(--tenant-text)]">
-            +{lastEarnedDust} {tenant.rewardName}
-          </p>
-        )}
-      </Card>
+      <GameRouteHeaderCard
+        eyebrow="Core pairing slice"
+        title={`Memory Match: ${unit.unitMeta.theme}`}
+        summary="Match reviewed vocabulary pairs with tap-to-speak support on every card. This is the reusable pairing parent engine before skins like Match Up, Matching Pairs, or Whack-a-Mole."
+        statusLabel="Pairing"
+        earnedStarDust={lastEarnedDust}
+        rewardName={tenant.rewardName}
+      />
 
       <TeacherAssignmentSettingsCard assignmentPlan={assignmentPlan} />
 

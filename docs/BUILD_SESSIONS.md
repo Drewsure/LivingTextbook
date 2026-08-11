@@ -594,6 +594,7 @@ Next outputs:
 - Confirm Memory Match has dedicated MiniStar and sample-publisher student routes at `/memory/demo-unit-1` and `/memory/partner-demo-unit-1`, reusing the pairing parent engine with tap-to-speak cards, deterministic scoring, route-matrix coverage, and no support-language progression unlock.
 - Confirm Flashcards has dedicated MiniStar and sample-publisher student routes at `/flashcards/demo-unit-1` and `/flashcards/partner-demo-unit-1`, while `/launch/[code]` remains the teacher QR doorway.
 - Confirm active game routes have route contract ids, patterns, and helpers for Flashcards, Memory Match, Quiz, Sentence Builder, and Speak It before any new game surface is treated as foundation-ready.
+- Keep active game-route wrappers on shared structural components such as `GameRouteHeaderCard` before adding premium visual skins or micro-interactions.
 - Confirm `npm run verify:ai-generator` passes after changes to AI authoring, game generation, activity pathway generation, target-language audio requirements, premium AI Tutor generation requests, or generator routes.
 
 ## Session 8: Premium Experience Layer

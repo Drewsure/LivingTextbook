@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { Card, StatusPill } from "@living-textbook/ui";
 import type {
   AudioCue,
   GameProgressEvent,
@@ -15,6 +14,7 @@ import { UnitSessionProgressSummary } from "@/features/progression/UnitSessionPr
 import { SessionEventLog } from "@/features/student/components/SessionEventLog";
 import { TeacherAssignmentSettingsCard } from "@/features/student/components/TeacherAssignmentSettingsCard";
 import type { TenantConfig } from "@/features/tenant/types";
+import { GameRouteHeaderCard } from "../components/GameRouteHeaderCard";
 import { QuizPracticeGame } from "./QuizPracticeGame";
 
 interface QuizDemoFlowProps {
@@ -57,23 +57,14 @@ export function QuizDemoFlow({
 
   return (
     <div className="mx-auto grid max-w-3xl gap-5">
-      <Card>
-        <div className="flex flex-wrap items-start justify-between gap-4">
-          <div>
-            <p className="text-sm font-semibold text-[var(--tenant-muted)]">Core selection slice</p>
-            <h2 className="mt-1 text-2xl font-bold">Quiz: {unit.unitMeta.theme}</h2>
-            <p className="mt-2 max-w-2xl text-sm leading-6 text-[var(--tenant-muted)]">
-              Answer reviewed vocabulary and sentence prompts with audio-supported choices. This is the plain selection parent engine before arcade skins like Balloon Pop or Whack-a-Mole.
-            </p>
-          </div>
-          <StatusPill label="Selection" tone="success" />
-        </div>
-        {lastEarnedDust > 0 && (
-          <p className="mt-4 text-sm font-semibold text-[var(--tenant-text)]">
-            +{lastEarnedDust} {tenant.rewardName}
-          </p>
-        )}
-      </Card>
+      <GameRouteHeaderCard
+        eyebrow="Core selection slice"
+        title={`Quiz: ${unit.unitMeta.theme}`}
+        summary="Answer reviewed vocabulary and sentence prompts with audio-supported choices. This is the plain selection parent engine before arcade skins like Balloon Pop or Whack-a-Mole."
+        statusLabel="Selection"
+        earnedStarDust={lastEarnedDust}
+        rewardName={tenant.rewardName}
+      />
 
       <TeacherAssignmentSettingsCard assignmentPlan={assignmentPlan} />
 

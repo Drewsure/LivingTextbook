@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Card, StatusPill } from "@living-textbook/ui";
 import type {
   AudioCue,
   GameProgressEvent,
@@ -19,6 +18,7 @@ import {
   parseStoredTeacherMicrophoneApproval,
 } from "@/features/tenant/microphonePracticeSettings";
 import type { TenantConfig } from "@/features/tenant/types";
+import { GameRouteHeaderCard } from "../components/GameRouteHeaderCard";
 import { SpeakItPracticeGame } from "./SpeakItPracticeGame";
 import type { GameModeCompletionResult } from "@/features/progression/localProgressionAdapter";
 
@@ -82,23 +82,15 @@ export function SpeakItDemoFlow({
 
   return (
     <div className="mx-auto grid max-w-3xl gap-5">
-      <Card>
-        <div className="flex flex-wrap items-start justify-between gap-4">
-          <div>
-            <p className="text-sm font-semibold text-[var(--tenant-muted)]">Core speaking slice</p>
-            <h2 className="mt-1 text-2xl font-bold">Speak It: {unit.unitMeta.theme}</h2>
-            <p className="mt-2 max-w-2xl text-sm leading-6 text-[var(--tenant-muted)]">
-              Audio-led speaking practice for classroom and local/offline use. Local record/replay follows the teacher microphone approval setting; AI speech scoring remains premium and off.
-            </p>
-          </div>
-          <StatusPill label={launchMicrophonePracticeSettings.localRecordReplayEnabled ? "Mic approved" : "Mic off"} tone={launchMicrophonePracticeSettings.localRecordReplayEnabled ? "success" : "warning"} />
-        </div>
-        {lastEarnedDust > 0 && (
-          <p className="mt-4 text-sm font-semibold text-[var(--tenant-text)]">
-            +{lastEarnedDust} {tenant.rewardName}
-          </p>
-        )}
-      </Card>
+      <GameRouteHeaderCard
+        eyebrow="Core speaking slice"
+        title={`Speak It: ${unit.unitMeta.theme}`}
+        summary="Audio-led speaking practice for classroom and local/offline use. Local record/replay follows the teacher microphone approval setting; AI speech scoring remains premium and off."
+        statusLabel={launchMicrophonePracticeSettings.localRecordReplayEnabled ? "Mic approved" : "Mic off"}
+        statusTone={launchMicrophonePracticeSettings.localRecordReplayEnabled ? "success" : "warning"}
+        earnedStarDust={lastEarnedDust}
+        rewardName={tenant.rewardName}
+      />
 
       <TeacherAssignmentSettingsCard assignmentPlan={assignmentPlan} />
 

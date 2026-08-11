@@ -13,7 +13,6 @@ import type {
   UnitPayload,
 } from "@living-textbook/content-model";
 import type { TeacherAssignmentPlan } from "@living-textbook/content-model/src/teacherAssignment";
-import { Card, StatusPill } from "@living-textbook/ui";
 import { UnitSessionProgressSummary } from "@/features/progression/UnitSessionProgressSummary";
 import {
   completeFlashcardEntryPractice,
@@ -34,6 +33,7 @@ import {
   parseStoredTeacherAssistLanguageApproval,
 } from "@/features/tenant/assistLanguageSettings";
 import type { TenantConfig } from "@/features/tenant/types";
+import { GameRouteHeaderCard } from "../components/GameRouteHeaderCard";
 
 interface FlashcardDemoFlowProps {
   tenant: TenantConfig;
@@ -138,18 +138,13 @@ export function FlashcardDemoFlow({
 
   return (
     <div className="mx-auto grid max-w-3xl gap-5">
-      <Card>
-        <div className="flex flex-wrap items-start justify-between gap-4">
-          <div>
-            <p className="text-sm font-semibold text-[var(--tenant-muted)]">Core entry slice</p>
-            <h2 className="mt-1 text-2xl font-bold">Flashcards: {unit.unitMeta.theme}</h2>
-            <p className="mt-2 max-w-2xl text-sm leading-6 text-[var(--tenant-muted)]">
-              Listen to every reviewed English term and target sentence before completion. Support language can help comprehension, but only target-language practice unlocks the next game.
-            </p>
-          </div>
-          <StatusPill label="Entry" tone={entryComplete ? "success" : "neutral"} />
-        </div>
-      </Card>
+      <GameRouteHeaderCard
+        eyebrow="Core entry slice"
+        title={`Flashcards: ${unit.unitMeta.theme}`}
+        summary="Listen to every reviewed English term and target sentence before completion. Support language can help comprehension, but only target-language practice unlocks the next game."
+        statusLabel="Entry"
+        statusTone={entryComplete ? "success" : "neutral"}
+      />
 
       <StudentProgressHeader
         tenant={tenant}

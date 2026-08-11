@@ -365,6 +365,7 @@
 - `DR-391-dedicated-memory-match-routes.md`
 - `DR-392-active-game-route-contract-coverage.md`
 - `DR-393-dedicated-flashcard-entry-routes.md`
+- `DR-394-shared-game-route-header.md`
 
 ## Maintenance Rule
 

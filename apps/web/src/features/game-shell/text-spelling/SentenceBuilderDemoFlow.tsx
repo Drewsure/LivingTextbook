@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { Card, StatusPill } from "@living-textbook/ui";
 import type {
   AudioCue,
   GameProgressEvent,
@@ -15,6 +14,7 @@ import { SessionEventLog } from "@/features/student/components/SessionEventLog";
 import { TeacherAssignmentSettingsCard } from "@/features/student/components/TeacherAssignmentSettingsCard";
 import type { TenantConfig } from "@/features/tenant/types";
 import type { GameModeCompletionResult } from "@/features/progression/localProgressionAdapter";
+import { GameRouteHeaderCard } from "../components/GameRouteHeaderCard";
 import { SentenceBuilderPracticeGame } from "./SentenceBuilderPracticeGame";
 
 interface SentenceBuilderDemoFlowProps {
@@ -57,23 +57,14 @@ export function SentenceBuilderDemoFlow({
 
   return (
     <div className="mx-auto grid max-w-3xl gap-5">
-      <Card>
-        <div className="flex flex-wrap items-start justify-between gap-4">
-          <div>
-            <p className="text-sm font-semibold text-[var(--tenant-muted)]">Core syntax slice</p>
-            <h2 className="mt-1 text-2xl font-bold">Sentence Builder: {unit.unitMeta.theme}</h2>
-            <p className="mt-2 max-w-2xl text-sm leading-6 text-[var(--tenant-muted)]">
-              Build the two reviewed target sentence structures from ordered word tiles. This is the first playable text-spelling engine slice: no AI generation, no random rewards, and no premium skin yet.
-            </p>
-          </div>
-          <StatusPill label="Text-spelling" tone="success" />
-        </div>
-        {lastEarnedDust > 0 && (
-          <p className="mt-4 text-sm font-semibold text-[var(--tenant-text)]">
-            +{lastEarnedDust} {tenant.rewardName}
-          </p>
-        )}
-      </Card>
+      <GameRouteHeaderCard
+        eyebrow="Core syntax slice"
+        title={`Sentence Builder: ${unit.unitMeta.theme}`}
+        summary="Build the two reviewed target sentence structures from ordered word tiles. This is the first playable text-spelling engine slice: no AI generation, no random rewards, and no premium skin yet."
+        statusLabel="Text-spelling"
+        earnedStarDust={lastEarnedDust}
+        rewardName={tenant.rewardName}
+      />
 
       <TeacherAssignmentSettingsCard assignmentPlan={assignmentPlan} />
 
