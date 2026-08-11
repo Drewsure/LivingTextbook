@@ -421,6 +421,14 @@ Generated game requests must produce an `ai_verifier_submission_packet` before t
 
 Verifier submission, generated package approval, route creation, playlist creation, assignment creation, and student-ready marking remain blocked until durable verifier storage, reviewer identity, media evidence attachments, audio cue approval, approval ledger binding, and release-control binding exist.
 
+## Generated Package Teacher Review Packet Rule
+
+Teacher generator routes may show an AI generated package teacher review packet after verifier packet planning and before generated package manifests. The packet is a teacher approval prep surface: it gathers generated content fit, target-language audio, curated activity pathway, deterministic rewards, media-rights evidence, support-language boundaries, verifier readiness, missing evidence, blocked actions, and next required records into one readable review packet.
+
+The packet cannot capture teacher approval, assemble packages, write route registry entries, create playlists, create assignments, write local bundles, mark packages student-ready, or treat support-language activity as progress evidence. It must keep `teacher_approval_ledger`, `media_rights_evidence_attachment`, `target_language_audio_approval`, `release_control_binding`, and `assignment_rollout_gate` visible as future records.
+
+MiniStar teacher review packets must preserve English target-language audio as the approval trigger. Foundation Japanese support must remain hiragana-only and support-only; Japanese support-language text, audio, or taps cannot unlock progress, satisfy mastery, approve package assembly, create playlists, create routes, or mark the generated unit student-ready.
+
 ## Review Queue Integration Rule
 
 Generated draft packages must enter the standard teacher draft review queue as read-only queue items. They must show source lineage, verifier packet requirements, target-language audio blockers, media-rights blockers, engine/gamification checks, blocked route and playlist creation, blocked assignment, and blocked approval. The queue must not give AI drafts a shortcut around the same review and approval gates used for teacher-created drafts.

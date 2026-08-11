@@ -10,6 +10,10 @@ import {
   sampleAiGeneratedPackageManifests,
 } from "@/data/sampleAiGeneratedPackageManifest";
 import {
+  filterAiGeneratedPackageTeacherReviewPacketsByTenant,
+  sampleAiGeneratedPackageTeacherReviewPackets,
+} from "@/data/sampleAiGeneratedPackageTeacherReviewPacket";
+import {
   filterAiGeneratedPackagePromotionChecklistsByTenant,
   sampleAiGeneratedPackagePromotionChecklists,
 } from "@/data/sampleAiGeneratedPackagePromotionChecklist";
@@ -192,6 +196,7 @@ import { AiGenerationRequestBuilderPanel } from "@/features/content-intake/AiGen
 import { AiGeneratorCostEntitlementGatePanel } from "@/features/content-intake/AiGeneratorCostEntitlementGatePanel";
 import { AiGeneratedDraftPayloadPreviewPanel } from "@/features/content-intake/AiGeneratedDraftPayloadPreviewPanel";
 import { AiGeneratedPackageManifestPanel } from "@/features/content-intake/AiGeneratedPackageManifestPanel";
+import { AiGeneratedPackageTeacherReviewPacketPanel } from "@/features/content-intake/AiGeneratedPackageTeacherReviewPacketPanel";
 import { AiGeneratedPackagePromotionChecklistPanel } from "@/features/content-intake/AiGeneratedPackagePromotionChecklistPanel";
 import { AiGeneratedPackageReleaseCandidatePanel } from "@/features/content-intake/AiGeneratedPackageReleaseCandidatePanel";
 import { AiGeneratedPackageAssemblyReadinessPanel } from "@/features/content-intake/AiGeneratedPackageAssemblyReadinessPanel";
@@ -423,6 +428,12 @@ export default async function TeacherAiGameGeneratorPage({
           />
         <AiVerifierSubmissionPacketPanel
           packets={filterAiVerifierSubmissionPacketsByTenant(sampleAiVerifierSubmissionPackets, tenantId)}
+        />
+        <AiGeneratedPackageTeacherReviewPacketPanel
+          packets={filterAiGeneratedPackageTeacherReviewPacketsByTenant(
+            sampleAiGeneratedPackageTeacherReviewPackets,
+            tenantId,
+          )}
         />
         <AiModeRecommendationPanel matrix={sampleActivityPathwayCompatibilityMatrix} />
         <AiGeneratedPackageManifestPanel

@@ -56,6 +56,9 @@ const prototypePatchImplementationWorkOrder = readSource(
 );
 const prototypePatchChangeSetPreview = readSource("../apps/web/src/data/sampleAiPrototypePatchChangeSetPreview.ts");
 const verifierSubmissionPacket = readSource("../apps/web/src/data/sampleAiVerifierSubmissionPacket.ts");
+const generatedPackageTeacherReviewPacket = readSource(
+  "../apps/web/src/data/sampleAiGeneratedPackageTeacherReviewPacket.ts",
+);
 const generatedPackageManifest = readSource("../apps/web/src/data/sampleAiGeneratedPackageManifest.ts");
 const generatedPackagePromotionChecklist = readSource(
   "../apps/web/src/data/sampleAiGeneratedPackagePromotionChecklist.ts",
@@ -172,6 +175,9 @@ const prototypePatchChangeSetPreviewPanel = readSource(
   "../apps/web/src/features/content-intake/AiPrototypePatchChangeSetPreviewPanel.tsx",
 );
 const verifierSubmissionPanel = readSource("../apps/web/src/features/content-intake/AiVerifierSubmissionPacketPanel.tsx");
+const generatedPackageTeacherReviewPacketPanel = readSource(
+  "../apps/web/src/features/content-intake/AiGeneratedPackageTeacherReviewPacketPanel.tsx",
+);
 const generatedPackageManifestPanel = readSource("../apps/web/src/features/content-intake/AiGeneratedPackageManifestPanel.tsx");
 const generatedPackagePromotionChecklistPanel = readSource(
   "../apps/web/src/features/content-intake/AiGeneratedPackagePromotionChecklistPanel.tsx",
@@ -1624,6 +1630,71 @@ requireText(verifierSubmissionPanel, "Required verifier packets", "AI verifier p
 requireText(verifierSubmissionPanel, "Verifier checks", "AI verifier packet panel must show verifier checks.");
 requireText(verifierSubmissionPanel, "Evidence", "AI verifier packet panel must show evidence.");
 requireText(verifierSubmissionPanel, "Rejection rule", "AI verifier packet panel must show rejection rules.");
+requireText(
+  generatedPackageTeacherReviewPacket,
+  "sampleAiGeneratedPackageTeacherReviewPackets",
+  "AI generated package teacher review packet data must exist.",
+);
+requireText(
+  generatedPackageTeacherReviewPacket,
+  "AI generated package teacher review packet",
+  "AI generated package teacher review packet must name the review surface.",
+);
+requireText(
+  generatedPackageTeacherReviewPacket,
+  "No teacher approval capture",
+  "AI generated package teacher review packet must block approval capture.",
+);
+requireText(
+  generatedPackageTeacherReviewPacket,
+  "target_language_audio_approval",
+  "AI generated package teacher review packet must require target-language audio approval.",
+);
+requireText(
+  generatedPackageTeacherReviewPacket,
+  "No support-language progress trigger",
+  "AI generated package teacher review packet must block support-language progress.",
+);
+requireText(
+  generatedPackageTeacherReviewPacket,
+  "MiniStar generated package teacher review packet",
+  "MiniStar teacher review packet must exist.",
+);
+requireText(
+  generatedPackageTeacherReviewPacket,
+  "English target-language audio is the approval trigger",
+  "MiniStar teacher review packet must preserve English audio as approval trigger.",
+);
+requireText(
+  generatedPackageTeacherReviewPacket,
+  "Japanese support remains hiragana-only",
+  "MiniStar teacher review packet must preserve hiragana-only Japanese support.",
+);
+requireText(
+  generatedPackageTeacherReviewPacket,
+  "No Japanese support-language progress trigger",
+  "MiniStar teacher review packet must block Japanese support-language progress.",
+);
+requireText(
+  generatedPackageTeacherReviewPacketPanel,
+  "AI generated package teacher review packet",
+  "AI generated package teacher review packet panel must expose heading.",
+);
+requireText(
+  generatedPackageTeacherReviewPacketPanel,
+  "Teacher approval prep",
+  "AI generated package teacher review packet panel must expose approval-prep label.",
+);
+requireText(
+  generatedPackageTeacherReviewPacketPanel,
+  "Teacher decision lanes",
+  "AI generated package teacher review packet panel must expose decision lanes.",
+);
+requireText(
+  generatedPackageTeacherReviewPacketPanel,
+  "No teacher approval capture",
+  "AI generated package teacher review packet panel must keep approval capture blocked.",
+);
 requireText(generatedPackageManifest, "sampleAiGeneratedPackageManifests", "AI generated package manifest data must exist.");
 requireText(generatedPackageManifest, "ai_generated_package_manifest", "AI generated package manifest must name manifest record.");
 requireText(generatedPackageManifest, "teacher_draft_package", "AI generated package manifest must name teacher draft package record.");
@@ -2672,6 +2743,11 @@ requireText(route, "AiGamificationMappingPanel", "Generator route must render th
 requireText(route, "AiRewardReadinessGatePanel", "Generator route must render the reward readiness gate panel.");
 requireText(route, "AiVerifierSubmissionPacketPanel", "Generator route must render the verifier submission packet panel.");
 requireText(route, "AiModeRecommendationPanel", "Generator route must render the mode recommendation panel.");
+requireText(
+  route,
+  "AiGeneratedPackageTeacherReviewPacketPanel",
+  "Generator route must render the generated package teacher review packet panel.",
+);
 requireText(route, "AiGeneratedPackageManifestPanel", "Generator route must render the generated package manifest panel.");
 requireText(
   route,
@@ -2804,6 +2880,11 @@ requireText(route, "sampleAiGeneratorAudioCoveragePlans", "Generator route must 
 requireText(route, "sampleAiGamificationMappingPlans", "Generator route must use the sample gamification mapping plan data.");
 requireText(route, "sampleAiRewardReadinessGates", "Generator route must use the sample reward readiness gate data.");
 requireText(route, "sampleAiVerifierSubmissionPackets", "Generator route must use the sample verifier submission packet data.");
+requireText(
+  route,
+  "sampleAiGeneratedPackageTeacherReviewPackets",
+  "Generator route must use the sample generated package teacher review packet data.",
+);
 requireText(route, "sampleAiGeneratedPackageManifests", "Generator route must use the sample generated package manifest data.");
 requireText(
   route,
