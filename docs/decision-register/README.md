@@ -381,6 +381,7 @@
 - `DR-407-ai-package-writer-module-test-plan-validator.md`
 - `DR-408-ai-package-writer-test-evidence-packet-validator.md`
 - `DR-409-ai-package-writer-test-harness-plan-validator.md`
+- `DR-410-ai-package-writer-test-harness-implementation-proposal-validator.md`
 
 ## Maintenance Rule
 

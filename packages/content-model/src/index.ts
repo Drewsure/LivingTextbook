@@ -737,3 +737,4 @@ export * from "./aiPackageWriterImplementationReadiness";
 export * from "./aiPackageWriterModuleTestPlan";
 export * from "./aiPackageWriterTestEvidencePacket";
 export * from "./aiPackageWriterTestHarnessPlan";
+export * from "./aiPackageWriterTestHarnessImplementationProposal";

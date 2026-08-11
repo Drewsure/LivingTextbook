@@ -2,34 +2,32 @@ import {
   sampleAiGeneratedPackageWriterTestHarnessPlans,
   type AiGeneratedPackageWriterTestHarnessPlan,
 } from "@/data/sampleAiGeneratedPackageWriterTestHarnessPlan";
+import {
+  getAiGeneratedPackageWriterTestHarnessImplementationProposalCollectionWarnings,
+  validateAiGeneratedPackageWriterTestHarnessImplementationProposals,
+  type AiGeneratedPackageWriterTestHarnessImplementationProposal,
+  type AiGeneratedPackageWriterTestHarnessImplementationProposalStatus,
+} from "@living-textbook/content-model/src/aiPackageWriterTestHarnessImplementationProposal";
 
-export type AiGeneratedPackageWriterTestHarnessImplementationProposalStatus =
-  | "blocked"
-  | "review-only"
-  | "ready-for-implementation-review";
-
-export interface AiGeneratedPackageWriterTestHarnessImplementationProposal {
-  proposalId: string;
-  tenantId: string;
-  requestId: string;
-  harnessPlanId: string;
-  evidencePacketId: string;
-  label: string;
-  status: AiGeneratedPackageWriterTestHarnessImplementationProposalStatus;
-  summary: string;
-  proposedModuleScope: string[];
-  implementationBoundaries: string[];
-  requiredReviewGates: string[];
-  dryRunOnlyChecks: string[];
-  blockedActions: string[];
-  nextRequiredRecords: string[];
-  supportLanguageBoundary: string[];
-}
+export type {
+  AiGeneratedPackageWriterTestHarnessImplementationProposal,
+  AiGeneratedPackageWriterTestHarnessImplementationProposalStatus,
+};
 
 export const sampleAiGeneratedPackageWriterTestHarnessImplementationProposals:
   AiGeneratedPackageWriterTestHarnessImplementationProposal[] = sampleAiGeneratedPackageWriterTestHarnessPlans.map(
   (plan) => createImplementationProposal(plan),
 );
+
+export const sampleAiGeneratedPackageWriterTestHarnessImplementationProposalErrors =
+  validateAiGeneratedPackageWriterTestHarnessImplementationProposals(
+    sampleAiGeneratedPackageWriterTestHarnessImplementationProposals,
+  );
+
+export const sampleAiGeneratedPackageWriterTestHarnessImplementationProposalWarnings =
+  getAiGeneratedPackageWriterTestHarnessImplementationProposalCollectionWarnings(
+    sampleAiGeneratedPackageWriterTestHarnessImplementationProposals,
+  );
 
 export function filterAiGeneratedPackageWriterTestHarnessImplementationProposalsByTenant(
   proposals: AiGeneratedPackageWriterTestHarnessImplementationProposal[],

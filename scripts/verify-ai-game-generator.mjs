@@ -30,6 +30,9 @@ const packageWriterTestEvidencePacketValidator = readSource(
 const packageWriterTestHarnessPlanValidator = readSource(
   "../packages/content-model/src/aiPackageWriterTestHarnessPlan.ts",
 );
+const packageWriterTestHarnessImplementationProposalValidator = readSource(
+  "../packages/content-model/src/aiPackageWriterTestHarnessImplementationProposal.ts",
+);
 const rewardReadinessGate = readSource("../apps/web/src/data/sampleAiRewardReadinessGate.ts");
 const generatedGameBuildBrief = readSource("../apps/web/src/data/sampleAiGeneratedGameBuildBrief.ts");
 const externalPrototypeTaskPacket = readSource("../apps/web/src/data/sampleAiExternalPrototypeTaskPacket.ts");
@@ -2892,6 +2895,26 @@ requireText(
   "AI generated package writer test harness implementation proposal data must exist.",
 );
 requireText(
+  packageWriterTestHarnessImplementationProposalValidator,
+  "validateAiGeneratedPackageWriterTestHarnessImplementationProposal",
+  "AI generated package writer test harness implementation proposal must have a shared validator.",
+);
+requireText(
+  packageWriterTestHarnessImplementationProposalValidator,
+  "AI_PACKAGE_WRITER_HARNESS_IMPLEMENTATION_REQUIRED_BLOCKED_ACTIONS",
+  "AI generated package writer test harness implementation proposal validator must enforce required blocked actions.",
+);
+requireText(
+  generatedPackageWriterTestHarnessImplementationProposal,
+  "sampleAiGeneratedPackageWriterTestHarnessImplementationProposalErrors",
+  "AI generated package writer test harness implementation proposal data must expose shared guard errors.",
+);
+requireText(
+  generatedPackageWriterTestHarnessImplementationProposal,
+  "sampleAiGeneratedPackageWriterTestHarnessImplementationProposalWarnings",
+  "AI generated package writer test harness implementation proposal data must expose shared guard warnings.",
+);
+requireText(
   generatedPackageWriterTestHarnessImplementationProposal,
   "No harness implementation from this proposal",
   "AI generated package writer test harness implementation proposal must block implementation.",
@@ -2915,6 +2938,21 @@ requireText(
   generatedPackageWriterTestHarnessImplementationProposalPanel,
   "AI generated package writer test harness implementation proposal",
   "AI generated package writer test harness implementation proposal panel must expose heading.",
+);
+requireText(
+  generatedPackageWriterTestHarnessImplementationProposalPanel,
+  "Harness implementation proposal guard active",
+  "AI generated package writer test harness implementation proposal panel must expose shared guard status.",
+);
+requireText(
+  generatedPackageWriterTestHarnessImplementationProposalPanel,
+  "Harness implementation proposal guard blocks",
+  "AI generated package writer test harness implementation proposal panel must expose shared guard blocks.",
+);
+requireText(
+  generatedPackageWriterTestHarnessImplementationProposalPanel,
+  "Harness implementation proposal guard warnings",
+  "AI generated package writer test harness implementation proposal panel must expose shared guard warnings.",
 );
 requireText(
   generatedPackageWriterTestHarnessImplementationProposalPanel,
