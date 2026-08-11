@@ -1,4 +1,8 @@
 import { Card, StatusPill } from "@living-textbook/ui";
+import {
+  getAiGeneratedPackageAssemblyDryRunCollectionWarnings,
+  validateAiGeneratedPackageAssemblyDryRuns,
+} from "@living-textbook/content-model/src/aiPackageAssemblyDryRun";
 import type {
   AiGeneratedPackageAssemblyArtifact,
   AiGeneratedPackageAssemblyArtifactStatus,
@@ -22,6 +26,8 @@ const artifactStatusTone: Record<AiGeneratedPackageAssemblyArtifactStatus, "neut
 
 export function AiGeneratedPackageAssemblyDryRunPanel({ dryRuns }: AiGeneratedPackageAssemblyDryRunPanelProps) {
   const artifactCount = dryRuns.reduce((total, dryRun) => total + dryRun.artifacts.length, 0);
+  const guardBlocks = validateAiGeneratedPackageAssemblyDryRuns(dryRuns);
+  const guardWarnings = getAiGeneratedPackageAssemblyDryRunCollectionWarnings(dryRuns);
 
   return (
     <Card>
@@ -36,9 +42,24 @@ export function AiGeneratedPackageAssemblyDryRunPanel({ dryRuns }: AiGeneratedPa
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
+          <StatusPill label="Dry-run guard active" tone="success" />
           <StatusPill label="Dry run only" tone="warning" />
+          <StatusPill label={`${guardBlocks.length} guard block(s)`} tone={guardBlocks.length > 0 ? "warning" : "success"} />
           <StatusPill label={`${artifactCount} artifact preview(s)`} tone="neutral" />
         </div>
+      </div>
+
+      <div className="mt-5 grid gap-3 lg:grid-cols-2">
+        <DryRunList
+          title="Dry-run guard blocks"
+          items={guardBlocks.length > 0 ? guardBlocks : ["No shared dry-run guard blockers."]}
+          tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+        />
+        <DryRunList
+          title="Dry-run guard warnings"
+          items={guardWarnings.length > 0 ? guardWarnings : ["No shared dry-run guard warnings."]}
+          tone={guardWarnings.length > 0 ? "warning" : "neutral"}
+        />
       </div>
 
       <div className="mt-5 grid gap-4">

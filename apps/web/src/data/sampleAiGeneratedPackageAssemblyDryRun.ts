@@ -2,41 +2,31 @@ import {
   sampleAiGeneratedPackageAssemblyReadiness,
   type AiGeneratedPackageAssemblyReadiness,
 } from "@/data/sampleAiGeneratedPackageAssemblyReadiness";
+import {
+  getAiGeneratedPackageAssemblyDryRunCollectionWarnings,
+  validateAiGeneratedPackageAssemblyDryRuns,
+  type AiGeneratedPackageAssemblyArtifact,
+  type AiGeneratedPackageAssemblyArtifactStatus,
+  type AiGeneratedPackageAssemblyDryRun,
+  type AiGeneratedPackageAssemblyDryRunStatus,
+} from "@living-textbook/content-model/src/aiPackageAssemblyDryRun";
 
-export type AiGeneratedPackageAssemblyDryRunStatus = "blocked" | "review-only";
-export type AiGeneratedPackageAssemblyArtifactStatus = "draft-preview" | "blocked";
-
-export interface AiGeneratedPackageAssemblyArtifact {
-  artifactId: string;
-  label: string;
-  artifactType: string;
-  status: AiGeneratedPackageAssemblyArtifactStatus;
-  proposedPath: string;
-  sourceRecords: string[];
-  previewContents: string[];
-  blockedWrites: string[];
-}
-
-export interface AiGeneratedPackageAssemblyDryRun {
-  dryRunId: string;
-  tenantId: string;
-  requestId: string;
-  readinessId: string;
-  label: string;
-  summary: string;
-  status: AiGeneratedPackageAssemblyDryRunStatus;
-  dryRunState: string;
-  packageIdPreview: string;
-  versionPreview: string;
-  artifacts: AiGeneratedPackageAssemblyArtifact[];
-  allowedReviewActions: string[];
-  blockedDryRunActions: string[];
-  nextRequiredRecords: string[];
-  supportLanguageBoundary: string[];
-}
+export type {
+  AiGeneratedPackageAssemblyArtifact,
+  AiGeneratedPackageAssemblyArtifactStatus,
+  AiGeneratedPackageAssemblyDryRun,
+  AiGeneratedPackageAssemblyDryRunStatus,
+};
 
 export const sampleAiGeneratedPackageAssemblyDryRuns: AiGeneratedPackageAssemblyDryRun[] =
   sampleAiGeneratedPackageAssemblyReadiness.map((readiness) => createDryRun(readiness));
+
+export const sampleAiGeneratedPackageAssemblyDryRunErrors = validateAiGeneratedPackageAssemblyDryRuns(
+  sampleAiGeneratedPackageAssemblyDryRuns,
+);
+
+export const sampleAiGeneratedPackageAssemblyDryRunWarnings =
+  getAiGeneratedPackageAssemblyDryRunCollectionWarnings(sampleAiGeneratedPackageAssemblyDryRuns);
 
 export function filterAiGeneratedPackageAssemblyDryRunsByTenant(
   dryRuns: AiGeneratedPackageAssemblyDryRun[],

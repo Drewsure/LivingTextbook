@@ -730,3 +730,4 @@ export * from "./persistenceAdapter";
 export * from "./aiGeneratedDraftPayload";
 export * from "./aiGamificationMapping";
 export * from "./progressEventTaxonomy";
+export * from "./aiPackageAssemblyDryRun";

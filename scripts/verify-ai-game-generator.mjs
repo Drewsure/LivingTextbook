@@ -13,6 +13,7 @@ const requestBuilderData = readSource("../apps/web/src/data/sampleAiGenerationRe
 const audioCoveragePlan = readSource("../apps/web/src/data/sampleAiGeneratorAudioCoveragePlan.ts");
 const gamificationMappingPlan = readSource("../apps/web/src/data/sampleAiGamificationMappingPlan.ts");
 const gamificationMappingValidator = readSource("../packages/content-model/src/aiGamificationMapping.ts");
+const packageAssemblyDryRunValidator = readSource("../packages/content-model/src/aiPackageAssemblyDryRun.ts");
 const rewardReadinessGate = readSource("../apps/web/src/data/sampleAiRewardReadinessGate.ts");
 const generatedGameBuildBrief = readSource("../apps/web/src/data/sampleAiGeneratedGameBuildBrief.ts");
 const externalPrototypeTaskPacket = readSource("../apps/web/src/data/sampleAiExternalPrototypeTaskPacket.ts");
@@ -2200,6 +2201,26 @@ requireText(
   "AI generated package assembly dry run data must exist.",
 );
 requireText(
+  packageAssemblyDryRunValidator,
+  "validateAiGeneratedPackageAssemblyDryRun",
+  "AI generated package assembly dry run must have a shared validator.",
+);
+requireText(
+  packageAssemblyDryRunValidator,
+  "AI_PACKAGE_ASSEMBLY_DRY_RUN_REQUIRED_BLOCKED_ACTIONS",
+  "AI generated package assembly dry run validator must enforce required blocked actions.",
+);
+requireText(
+  generatedPackageAssemblyDryRun,
+  "sampleAiGeneratedPackageAssemblyDryRunErrors",
+  "AI generated package assembly dry run data must expose shared guard errors.",
+);
+requireText(
+  generatedPackageAssemblyDryRun,
+  "sampleAiGeneratedPackageAssemblyDryRunWarnings",
+  "AI generated package assembly dry run data must expose shared guard warnings.",
+);
+requireText(
   generatedPackageAssemblyDryRun,
   "Artifact map before writes",
   "AI generated package assembly dry run must expose artifact map state.",
@@ -2233,6 +2254,21 @@ requireText(
   generatedPackageAssemblyDryRunPanel,
   "AI generated package assembly dry run",
   "AI generated package assembly dry run panel must expose heading.",
+);
+requireText(
+  generatedPackageAssemblyDryRunPanel,
+  "Dry-run guard active",
+  "AI generated package assembly dry run panel must expose shared guard status.",
+);
+requireText(
+  generatedPackageAssemblyDryRunPanel,
+  "Dry-run guard blocks",
+  "AI generated package assembly dry run panel must expose shared guard blocks.",
+);
+requireText(
+  generatedPackageAssemblyDryRunPanel,
+  "Dry-run guard warnings",
+  "AI generated package assembly dry run panel must expose shared guard warnings.",
 );
 requireText(
   generatedPackageAssemblyDryRunPanel,
