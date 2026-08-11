@@ -3,6 +3,7 @@ import type {
   GameProgressEvent,
   GameModeId,
   LaunchSession,
+  ProgressEventEnvelope,
   StudentProgressionState,
   TeacherReportExportPlan,
   TeacherSessionControlAction,
@@ -11,16 +12,22 @@ import type {
   UnitPayload,
 } from "@living-textbook/content-model";
 import {
+  PROGRESS_EVENT_ENVELOPE_REQUIRED_FIELDS,
+  STANDARD_PROGRESS_EVENT_CONTRACT_ID,
+  createProgressEventEnvelope,
   createTeacherReportExportPlan,
+  getProgressEventEnvelopeStreamWarnings,
   getTeacherReportExportWarnings,
   getTeacherSessionControlWarnings,
   getTeacherSessionPersistenceWarnings,
+  validateProgressEventEnvelopeStream,
   validateTeacherReportExportPlan,
   validateTeacherSessionControlActions,
   validateTeacherSessionSettings,
 } from "@living-textbook/content-model";
 import { sampleClassroomLaunchGate } from "./sampleClassroomLaunchGate";
 import { resolveSampleLaunchContext } from "./sampleLaunchResolver";
+import { sampleProgressEventTaxonomyRegistry } from "./sampleProgressEventTaxonomy";
 import { createSampleTeacherSessionSettings } from "./sampleTeacherSessionSettings";
 import type { TenantConfig } from "@/features/tenant/types";
 
@@ -61,6 +68,26 @@ export interface TeacherSessionEventAcceptanceGate {
   decision: string;
   summary: string;
   items: TeacherSessionEventAcceptanceItem[];
+}
+
+export type TeacherSessionProgressEventEnvelopeGateStatus = "blocked" | "demo-only" | "ready";
+
+export interface TeacherSessionProgressEventEnvelopeGate {
+  gateId: string;
+  label: string;
+  status: TeacherSessionProgressEventEnvelopeGateStatus;
+  standardEventContractId: string;
+  taxonomyVersion: string;
+  eventAcceptanceGateId: string;
+  decision: string;
+  summary: string;
+  envelopeCount: number;
+  blockedCount: number;
+  warningCount: number;
+  requiredFields: string[];
+  guardBlocks: string[];
+  guardWarnings: string[];
+  sampleEnvelope?: ProgressEventEnvelope;
 }
 
 export type TeacherSessionPilotReadinessStatus = "demo-safe" | "pilot-blocked" | "pilot-ready";
@@ -138,6 +165,7 @@ export interface TeacherSessionMonitorContext {
   launchGateBoundary: TeacherSessionLaunchGateBoundary;
   preflightChecks: TeacherSessionPreflightCheck[];
   eventAcceptanceGate: TeacherSessionEventAcceptanceGate;
+  eventEnvelopeGate: TeacherSessionProgressEventEnvelopeGate;
   pilotReadinessSnapshot: TeacherSessionPilotReadinessSnapshot;
   readinessNotes: string[];
 }
@@ -195,6 +223,11 @@ export function resolveSampleTeacherSessionMonitorContext(launchCode: string): T
     reportExportErrors,
     reportExportWarnings,
   });
+  const eventEnvelopeGate = createTeacherSessionProgressEventEnvelopeGate({
+    events,
+    eventAcceptanceGate,
+    launchCode: launchContext.launchSession.launchCode,
+  });
 
   return {
     tenant: launchContext.tenant,
@@ -226,6 +259,7 @@ export function resolveSampleTeacherSessionMonitorContext(launchCode: string): T
     launchGateBoundary,
     preflightChecks,
     eventAcceptanceGate,
+    eventEnvelopeGate,
     pilotReadinessSnapshot,
     readinessNotes: [
       "This route uses reviewed sample data and local event examples only.",
@@ -357,6 +391,47 @@ function createTeacherSessionEventAcceptanceGate(args: {
     summary:
       "Live event storage requires reviewed game/audio coverage, persisted session settings, event taxonomy preservation, reporting policy, coded student identity rules, and sensitive-data exclusions.",
     items,
+  };
+}
+
+function createTeacherSessionProgressEventEnvelopeGate(args: {
+  events: GameProgressEvent[];
+  eventAcceptanceGate: TeacherSessionEventAcceptanceGate;
+  launchCode: string;
+}): TeacherSessionProgressEventEnvelopeGate {
+  const envelopes = args.events.map((event, index) =>
+    createProgressEventEnvelope({
+      event,
+      eventAcceptanceGateId: args.eventAcceptanceGate.gateId,
+      eventId: `${args.launchCode}:event:${String(index + 1).padStart(3, "0")}:${event.type}`,
+      registry: sampleProgressEventTaxonomyRegistry,
+    }),
+  );
+  const guardBlocks = validateProgressEventEnvelopeStream(envelopes, sampleProgressEventTaxonomyRegistry);
+  const guardWarnings = getProgressEventEnvelopeStreamWarnings(envelopes, sampleProgressEventTaxonomyRegistry);
+  const status: TeacherSessionProgressEventEnvelopeGateStatus =
+    guardBlocks.length > 0 ? "blocked" : guardWarnings.length > 0 ? "demo-only" : "ready";
+
+  return {
+    gateId: `progress-event-envelope:${args.launchCode}`,
+    label: "Progress event envelope gate",
+    status,
+    standardEventContractId: STANDARD_PROGRESS_EVENT_CONTRACT_ID,
+    taxonomyVersion: sampleProgressEventTaxonomyRegistry.taxonomyVersion,
+    eventAcceptanceGateId: args.eventAcceptanceGate.gateId,
+    decision:
+      status === "ready"
+        ? "This sample event stream matches the shared progress-event envelope contract."
+        : "This sample event stream remains preview-only until envelope blockers and policy gates are clear.",
+    summary:
+      "Every future game, media, route-guidance, speech, AI Tutor, reward, assignment, and report event must be wrapped with taxonomy version, event effect, event acceptance gate, unit, mode, timestamp, and safe metadata before storage can be considered.",
+    envelopeCount: envelopes.length,
+    blockedCount: guardBlocks.length,
+    warningCount: guardWarnings.length,
+    requiredFields: [...PROGRESS_EVENT_ENVELOPE_REQUIRED_FIELDS],
+    guardBlocks,
+    guardWarnings,
+    sampleEnvelope: envelopes[0],
   };
 }
 

@@ -1,6 +1,8 @@
-import type { GameEventType } from "./index";
+import type { GameEventType, GameProgressEvent } from "./index";
 
 export type ProgressEventEffect = "progress-affecting" | "report-only" | "support-only";
+
+export const STANDARD_PROGRESS_EVENT_CONTRACT_ID = "standard-progress-event-envelope-v2026.08.foundation";
 
 export interface ProgressEventTaxonomyItem {
   eventType: GameEventType;
@@ -21,6 +23,27 @@ export interface ProgressEventTaxonomyRegistry {
   events: ProgressEventTaxonomyItem[];
 }
 
+export interface ProgressEventEnvelope {
+  event_id: string;
+  event_type: GameEventType;
+  event_effect: ProgressEventEffect;
+  taxonomy_version: string;
+  event_acceptance_gate_id: string;
+  unit_key: string;
+  game_mode: string;
+  occurred_at: string;
+  launch_code?: string;
+  student_session_id?: string;
+  metadata: Record<string, string | number | boolean>;
+}
+
+export interface CreateProgressEventEnvelopeArgs {
+  event: GameProgressEvent;
+  registry: ProgressEventTaxonomyRegistry;
+  eventId: string;
+  eventAcceptanceGateId: string;
+}
+
 export const PROGRESS_EVENT_REQUIRED_FIELDS = [
   "event_id",
   "event_type",
@@ -30,6 +53,8 @@ export const PROGRESS_EVENT_REQUIRED_FIELDS = [
   "metadata",
   "occurred_at",
 ] as const;
+
+export const PROGRESS_EVENT_ENVELOPE_REQUIRED_FIELDS = [...PROGRESS_EVENT_REQUIRED_FIELDS, "unit_key", "game_mode"] as const;
 
 const allowedEffects = new Set<ProgressEventEffect>(["progress-affecting", "report-only", "support-only"]);
 const supportOnlyEvents = new Set(["route_guidance_listened", "background_media_enabled", "background_media_disabled"]);
@@ -183,9 +208,146 @@ export function getProgressEventTaxonomyRegistryWarnings(registry: unknown): str
   return warnings;
 }
 
+export function createProgressEventEnvelope(args: CreateProgressEventEnvelopeArgs): ProgressEventEnvelope {
+  const taxonomyItem = args.registry.events.find((item) => item.eventType === args.event.type);
+
+  return {
+    event_id: args.eventId,
+    event_type: args.event.type,
+    event_effect: taxonomyItem?.effect ?? "report-only",
+    taxonomy_version: args.registry.taxonomyVersion,
+    event_acceptance_gate_id: args.eventAcceptanceGateId,
+    unit_key: args.event.unitKey,
+    game_mode: args.event.gameMode,
+    occurred_at: args.event.occurredAt,
+    launch_code: args.event.launchCode,
+    student_session_id: args.event.studentSessionId,
+    metadata: args.event.metadata ?? {},
+  };
+}
+
+export function validateProgressEventEnvelope(
+  envelope: unknown,
+  registry: ProgressEventTaxonomyRegistry,
+): string[] {
+  const errors: string[] = [];
+
+  if (!isRecord(envelope)) {
+    return ["Progress event envelope must be a JSON object."];
+  }
+
+  for (const field of PROGRESS_EVENT_ENVELOPE_REQUIRED_FIELDS) {
+    if (!readString(envelope, field)) {
+      errors.push(`Progress event envelope must include ${field}.`);
+    }
+  }
+
+  const eventType = readString(envelope, "event_type");
+  const eventEffect = readString(envelope, "event_effect");
+  const taxonomyVersion = readString(envelope, "taxonomy_version");
+  const occurredAt = readString(envelope, "occurred_at");
+  const metadata = envelope.metadata;
+  const taxonomyItem = registry.events.find((item) => item.eventType === eventType);
+
+  if (!taxonomyItem) {
+    errors.push(`Progress event envelope event_type ${eventType || "(missing)"} is not classified in the taxonomy.`);
+  }
+
+  if (taxonomyItem && taxonomyItem.effect !== eventEffect) {
+    errors.push(`Progress event envelope ${eventType} must use taxonomy effect ${taxonomyItem.effect}.`);
+  }
+
+  if (taxonomyVersion !== registry.taxonomyVersion) {
+    errors.push(`Progress event envelope ${eventType || "(missing)"} must use taxonomy_version ${registry.taxonomyVersion}.`);
+  }
+
+  if (occurredAt && Number.isNaN(Date.parse(occurredAt))) {
+    errors.push(`Progress event envelope ${eventType || "(missing)"} must include an ISO occurred_at timestamp.`);
+  }
+
+  if (!isRecord(metadata)) {
+    errors.push(`Progress event envelope ${eventType || "(missing)"} metadata must be an object.`);
+  }
+
+  if (eventEffect === "support-only" && isRecord(metadata)) {
+    if (readBoolean(metadata, "progressionUnlockAllowed") === true || readBoolean(metadata, "supportLanguageUnlockAllowed") === true) {
+      errors.push(`Progress event envelope ${eventType} support-only metadata must not allow progress unlocks.`);
+    }
+
+    if (readBoolean(metadata, "masteryCreditAllowed") === true) {
+      errors.push(`Progress event envelope ${eventType} support-only metadata must not allow mastery credit.`);
+    }
+
+    if (readNumber(metadata, "earnedStarDust") > 0 || readNumber(metadata, "starDustAwarded") > 0) {
+      errors.push(`Progress event envelope ${eventType} support-only metadata must not award Star Dust.`);
+    }
+  }
+
+  return errors;
+}
+
+export function validateProgressEventEnvelopeStream(
+  envelopes: unknown[],
+  registry: ProgressEventTaxonomyRegistry,
+): string[] {
+  const errors = envelopes.flatMap((envelope) => validateProgressEventEnvelope(envelope, registry));
+  const eventIds = envelopes
+    .filter(isRecord)
+    .map((envelope) => readString(envelope, "event_id"))
+    .filter(Boolean);
+  const duplicateIds = eventIds.filter((eventId, index) => eventIds.indexOf(eventId) !== index);
+
+  if (duplicateIds.length > 0) {
+    errors.push(`Progress event envelope stream contains duplicate event_id value(s): ${[...new Set(duplicateIds)].join(", ")}.`);
+  }
+
+  return errors;
+}
+
+export function getProgressEventEnvelopeStreamWarnings(
+  envelopes: unknown[],
+  registry: ProgressEventTaxonomyRegistry,
+): string[] {
+  const warnings: string[] = [];
+  const records = envelopes.filter(isRecord);
+  const effects = records.map((envelope) => readString(envelope, "event_effect"));
+  const eventTypes = records.map((envelope) => readString(envelope, "event_type"));
+
+  if (records.length === 0) {
+    warnings.push("Progress event envelope stream should include at least one event before report preview.");
+  }
+
+  if (!eventTypes.includes("launch_opened")) {
+    warnings.push("Progress event envelope stream should include launch_opened for session context.");
+  }
+
+  if (!effects.includes("progress-affecting")) {
+    warnings.push("Progress event envelope stream should include reviewed progress-affecting learning evidence.");
+  }
+
+  if (!effects.includes("support-only")) {
+    warnings.push("Progress event envelope stream should include support-only signals when media, assist language, route guidance, or background media is present.");
+  }
+
+  if (!effects.every((effect) => allowedEffects.has(effect as ProgressEventEffect))) {
+    warnings.push("Progress event envelope stream contains an unrecognized event effect.");
+  }
+
+  if (registry.status !== "active-scaffold" && registry.status !== "ready-for-policy-review") {
+    warnings.push("Progress event envelope stream is using a taxonomy registry with an unexpected status.");
+  }
+
+  return warnings;
+}
+
 function blocksProgressAndRewards(notAllowed: string[]): boolean {
   const joined = notAllowed.join(" ").toLowerCase();
   return joined.includes("progress") || joined.includes("mastery") || joined.includes("star dust") || joined.includes("scoring");
+}
+
+function readNumber(source: Record<string, unknown>, key: string): number {
+  const value = source[key];
+  return typeof value === "number" ? value : 0;
 }
 
 function readArray(source: Record<string, unknown>, key: string): unknown[] {

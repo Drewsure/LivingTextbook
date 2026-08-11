@@ -18,7 +18,10 @@ Then verify:
 - The page shows `taxonomy-v2026.07.foundation`.
 - The page shows `Required event fields`.
 - `packages/content-model/src/progressEventTaxonomy.ts` exports `validateProgressEventTaxonomyRegistry`.
+- `packages/content-model/src/progressEventTaxonomy.ts` exports `createProgressEventEnvelope`, `validateProgressEventEnvelope`, and `validateProgressEventEnvelopeStream`.
 - `npm run verify:taxonomy` confirms the sample taxonomy uses the shared guard.
+- `/teacher/sessions/demo-unit-1` and `/teacher/sessions/partner-demo-unit-1` show `Progress event envelope gate`.
+- The session routes show `Envelope guard active`, `Standard event contract`, `event_acceptance_gate_id`, and `taxonomy_version`.
 - `route_guidance_listened` is marked support-only.
 - Support-only events do not mention Star Dust, mastery, or unlock effects.
 - Progress-affecting events include entry practice, game unlock, answer result, mastery update, and game completion.

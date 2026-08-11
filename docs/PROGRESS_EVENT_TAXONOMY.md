@@ -60,6 +60,37 @@ The validator protects three fixed categories:
 
 The teacher intake page must show `Event taxonomy guard active`, `Event taxonomy guard blocks`, and `Event taxonomy guard warnings` so reviewers can see whether the current event contract is structurally clear before new games, media, speech, AI Tutor, rewards, uploads, reports, assignments, or storage adapters are added.
 
+## Progress Event Envelope
+
+The taxonomy classifies events. The envelope explains how a future stored event must be wrapped before it can feed reports, mastery, Star Dust, unlocks, local bundles, or hosted storage.
+
+The shared envelope contract is:
+
+- `standard-progress-event-envelope-v2026.08.foundation`
+
+Required envelope fields:
+
+- `event_id`
+- `event_type`
+- `event_effect`
+- `taxonomy_version`
+- `event_acceptance_gate_id`
+- `metadata`
+- `occurred_at`
+- `unit_key`
+- `game_mode`
+
+The teacher session routes now show a `Progress event envelope gate`. This gate is read-only and validates sample event streams against `createProgressEventEnvelope`, `validateProgressEventEnvelope`, and `validateProgressEventEnvelopeStream`. It proves shape and boundaries without enabling live storage.
+
+Envelope rules:
+
+- `event_effect` must match the active taxonomy classification.
+- `taxonomy_version` must match the active taxonomy version.
+- `event_acceptance_gate_id` must point back to the session's event acceptance gate.
+- Support-only envelopes cannot allow progress unlocks, mastery credit, support-language unlocks, or Star Dust awards.
+- Duplicate `event_id` values are blocked.
+- Missing launch context, learning evidence, or support-only signals produce review warnings.
+
 ## Hard Rules
 
 - Support-language taps are support-only.

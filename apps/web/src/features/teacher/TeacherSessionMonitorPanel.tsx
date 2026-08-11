@@ -15,6 +15,8 @@ import type {
   TeacherSessionMonitorContext,
   TeacherSessionPilotReadinessSnapshot,
   TeacherSessionPilotReadinessStatus,
+  TeacherSessionProgressEventEnvelopeGate,
+  TeacherSessionProgressEventEnvelopeGateStatus,
 } from "@/data/sampleTeacherSessionMonitor";
 import { FrontDoorTeacherReportPreview } from "@/features/access/FrontDoorTeacherReportPreview";
 import { formatMode } from "@/lib/formatLabels";
@@ -66,6 +68,12 @@ const eventAcceptanceItemTone: Record<TeacherSessionEventAcceptanceItemStatus, "
   blocked: "warning",
   pass: "success",
   warning: "warning",
+};
+
+const eventEnvelopeTone: Record<TeacherSessionProgressEventEnvelopeGateStatus, "neutral" | "success" | "warning"> = {
+  blocked: "warning",
+  "demo-only": "neutral",
+  ready: "success",
 };
 
 export function TeacherSessionMonitorPanel({ context }: TeacherSessionMonitorPanelProps) {
@@ -158,6 +166,8 @@ export function TeacherSessionMonitorPanel({ context }: TeacherSessionMonitorPan
       />
 
       <TeacherSessionEventAcceptanceGateCard gate={context.eventAcceptanceGate} />
+
+      <TeacherSessionProgressEventEnvelopeGateCard gate={context.eventEnvelopeGate} />
 
       <Card>
         <div className="flex flex-wrap items-start justify-between gap-4">
@@ -554,6 +564,71 @@ function TeacherSessionEventAcceptanceGateCard({ gate }: { gate: TeacherSessionE
           </section>
         ))}
       </div>
+    </Card>
+  );
+}
+
+function TeacherSessionProgressEventEnvelopeGateCard({ gate }: { gate: TeacherSessionProgressEventEnvelopeGate }) {
+  return (
+    <Card>
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <p className="text-sm font-semibold text-[var(--tenant-muted)]">Progress event envelope gate</p>
+          <h3 className="mt-1 text-lg font-bold">{gate.label}</h3>
+          <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">{gate.summary}</p>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <StatusPill label="Envelope guard active" tone="success" />
+          <StatusPill label={gate.status} tone={eventEnvelopeTone[gate.status]} />
+        </div>
+      </div>
+
+      <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
+        <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Current decision</p>
+        <p className="mt-2 text-sm font-semibold leading-6 text-[var(--tenant-text)]">{gate.decision}</p>
+      </section>
+
+      <dl className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <MediaFact label="Envelopes" value={String(gate.envelopeCount)} />
+        <MediaFact label="Blocks" value={String(gate.blockedCount)} />
+        <MediaFact label="Warnings" value={String(gate.warningCount)} />
+        <MediaFact label="Taxonomy" value={gate.taxonomyVersion} />
+      </dl>
+
+      <div className="mt-5 grid gap-3 lg:grid-cols-2">
+        <section className="rounded-lg border border-[var(--tenant-border)] p-4">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <h4 className="text-sm font-bold text-[var(--tenant-text)]">Standard event contract</h4>
+            <StatusPill label={gate.standardEventContractId} tone="neutral" />
+          </div>
+          <p className="mt-2 break-words text-sm leading-6 text-[var(--tenant-muted)]">
+            Event acceptance binding: {gate.eventAcceptanceGateId}
+          </p>
+          <p className="mt-3 text-xs font-semibold uppercase text-[var(--tenant-muted)]">Required envelope fields</p>
+          <p className="mt-2 break-words text-sm leading-6 text-[var(--tenant-muted)]">{gate.requiredFields.join(", ")}</p>
+        </section>
+
+        <section className="rounded-lg border border-[var(--tenant-border)] p-4">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <h4 className="text-sm font-bold text-[var(--tenant-text)]">Envelope guard findings</h4>
+            <StatusPill label={`${gate.blockedCount} block(s)`} tone={gate.blockedCount > 0 ? "warning" : "success"} />
+          </div>
+          <ul className="mt-3 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
+            {gate.guardBlocks.length === 0 ? <li>No envelope blockers in the sample stream.</li> : gate.guardBlocks.map((item) => <li key={item}>{item}</li>)}
+            {gate.guardWarnings.length === 0 ? <li>No envelope warnings in the sample stream.</li> : gate.guardWarnings.map((item) => <li key={item}>{item}</li>)}
+          </ul>
+        </section>
+      </div>
+
+      <section className="mt-5 rounded-lg border border-[var(--tenant-border)] p-4">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <h4 className="text-sm font-bold text-[var(--tenant-text)]">Sample event envelope</h4>
+          <StatusPill label="Preview only" tone="warning" />
+        </div>
+        <pre className="mt-3 max-h-80 overflow-auto rounded-lg bg-[var(--tenant-primary-soft)] p-3 text-xs leading-5 text-[var(--tenant-text)]">
+          {JSON.stringify(gate.sampleEnvelope ?? {}, null, 2)}
+        </pre>
+      </section>
     </Card>
   );
 }

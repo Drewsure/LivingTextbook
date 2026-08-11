@@ -8,6 +8,10 @@ Run after teacher session monitor, live event storage, launch-session settings, 
 
 - Confirm `/teacher/sessions/demo-unit-1` shows `Event acceptance gate`.
 - Confirm `/teacher/sessions/partner-demo-unit-1` shows `Event acceptance gate`.
+- Confirm both routes show `Progress event envelope gate`.
+- Confirm the envelope gate shows `Envelope guard active`.
+- Confirm the envelope gate shows `Standard event contract`.
+- Confirm the envelope preview includes `taxonomy_version` and `event_acceptance_gate_id`.
 - Confirm the gate blocks live student event storage when settings persistence is not ready.
 - Confirm the gate blocks live student event storage when reporting/retention policy is not accepted.
 - Confirm event taxonomy is shown as required before event writes.

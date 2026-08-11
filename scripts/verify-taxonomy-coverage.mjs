@@ -4,11 +4,15 @@ const contentModelPath = new URL("../packages/content-model/src/index.ts", impor
 const validatorPath = new URL("../packages/content-model/src/progressEventTaxonomy.ts", import.meta.url);
 const taxonomyPath = new URL("../apps/web/src/data/sampleProgressEventTaxonomy.ts", import.meta.url);
 const panelPath = new URL("../apps/web/src/features/progression/ProgressEventTaxonomyPanel.tsx", import.meta.url);
+const teacherSessionDataPath = new URL("../apps/web/src/data/sampleTeacherSessionMonitor.ts", import.meta.url);
+const teacherSessionPanelPath = new URL("../apps/web/src/features/teacher/TeacherSessionMonitorPanel.tsx", import.meta.url);
 
 const contentModel = readFileSync(contentModelPath, "utf8");
 const validator = readFileSync(validatorPath, "utf8");
 const taxonomy = readFileSync(taxonomyPath, "utf8");
 const panel = readFileSync(panelPath, "utf8");
+const teacherSessionData = readFileSync(teacherSessionDataPath, "utf8");
+const teacherSessionPanel = readFileSync(teacherSessionPanelPath, "utf8");
 
 const gameEventTypeMatch = contentModel.match(/export type GameEventType =([\s\S]*?);/);
 
@@ -67,6 +71,11 @@ for (const [label, source, requiredText] of [
     [
       "validateProgressEventTaxonomyRegistry",
       "PROGRESS_EVENT_REQUIRED_FIELDS",
+      "STANDARD_PROGRESS_EVENT_CONTRACT_ID",
+      "PROGRESS_EVENT_ENVELOPE_REQUIRED_FIELDS",
+      "createProgressEventEnvelope",
+      "validateProgressEventEnvelope",
+      "validateProgressEventEnvelopeStream",
       "must remain support-only",
       "must remain report-only",
       "must remain progress-affecting",
@@ -80,6 +89,26 @@ for (const [label, source, requiredText] of [
       "Event taxonomy guard active",
       "Event taxonomy guard blocks",
       "Event taxonomy guard warnings",
+    ],
+  ],
+  [
+    "teacher session envelope data",
+    teacherSessionData,
+    [
+      "createTeacherSessionProgressEventEnvelopeGate",
+      "eventEnvelopeGate",
+      "validateProgressEventEnvelopeStream",
+      "STANDARD_PROGRESS_EVENT_CONTRACT_ID",
+    ],
+  ],
+  [
+    "teacher session envelope panel",
+    teacherSessionPanel,
+    [
+      "Progress event envelope gate",
+      "Envelope guard active",
+      "Standard event contract",
+      "Sample event envelope",
     ],
   ],
 ]) {

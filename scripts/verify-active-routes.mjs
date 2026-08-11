@@ -1274,6 +1274,21 @@ if (teacherIntakeExpected) {
   );
 }
 
+const progressEventEnvelopeExpected = [
+  "Progress event envelope gate",
+  "Envelope guard active",
+  "Standard event contract",
+  "Event acceptance binding",
+  "Required envelope fields",
+  "Sample event envelope",
+  "standard-progress-event-envelope-v2026.08.foundation",
+  "taxonomy_version",
+  "event_acceptance_gate_id",
+];
+
+expectedTextByPath.get("/teacher/sessions/demo-unit-1")?.push(...progressEventEnvelopeExpected);
+expectedTextByPath.get("/teacher/sessions/partner-demo-unit-1")?.push(...progressEventEnvelopeExpected);
+
 const safeFallbackRestorationPreviewExpected = [
   "Future safe fallback restoration record preview",
   "Restoration record blocked",

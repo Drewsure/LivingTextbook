@@ -373,6 +373,7 @@
 - `DR-399-ai-gamification-mapping-validator.md`
 - `DR-400-ai-reward-readiness-uses-gamification-guard.md`
 - `DR-401-progress-event-taxonomy-validator.md`
+- `DR-402-progress-event-envelope-gate.md`
 
 ## Maintenance Rule
 
