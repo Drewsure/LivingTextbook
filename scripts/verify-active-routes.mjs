@@ -98,6 +98,16 @@ expectedTextByPath.get("/teacher/review")?.push(
   "MiniStar AI media rights pending",
   "AI teacher approval missing",
   "MiniStar AI teacher approval missing",
+  "AI package writer gate pending",
+  "MiniStar AI package writer gate pending",
+  "Package writer harness implementation decision required",
+  "MiniStar package writer harness implementation decision required",
+  "Package writer harness decision evidence",
+  "MiniStar package writer harness decision evidence",
+  "Approve package writer harness implementation",
+  "Approve MiniStar package writer harness implementation",
+  "Package writer harness decision required before route or playlist writes",
+  "MiniStar package writer harness decision required before route or playlist writes",
   "No live AI verifier workflow",
 );
 

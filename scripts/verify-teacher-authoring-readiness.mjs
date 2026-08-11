@@ -100,6 +100,31 @@ requireText(reviewQueue, "AI engine binding ready", "AI draft review queue item 
 requireText(reviewQueue, "AI gamification mapping ready", "AI draft review queue item must show AI gamification preflight.");
 requireText(reviewQueue, "AI media rights pending", "AI draft review queue item must show AI media-rights preflight blocking.");
 requireText(reviewQueue, "AI teacher approval missing", "AI draft review queue item must show AI teacher approval blocking.");
+requireText(
+  reviewQueue,
+  "AI package writer gate pending",
+  "AI draft review queue item must show package writer gate blocking.",
+);
+requireText(
+  reviewQueue,
+  "Package writer harness implementation decision required",
+  "AI draft review queue item must require package writer harness implementation decision records.",
+);
+requireText(
+  reviewQueue,
+  "Package writer harness decision evidence",
+  "AI draft review queue item must include package writer harness decision evidence.",
+);
+requireText(
+  reviewQueue,
+  "MiniStar AI package writer gate pending",
+  "MiniStar AI draft review queue item must show package writer gate blocking.",
+);
+requireText(
+  reviewQueue,
+  "MiniStar package writer harness implementation decision required",
+  "MiniStar AI draft review queue item must require package writer harness implementation decision records.",
+);
 requireText(reviewQueue, "No live AI verifier workflow", "AI draft review queue item must block live AI verifier workflow.");
 requireText(reviewQueuePanel, "Teacher draft review queue", "Teacher draft review queue panel must expose its heading.");
 requireText(reviewQueuePanel, "Review workbench preview", "Teacher draft review queue panel must expose its preview label.");
@@ -163,6 +188,11 @@ requireText(routeVerifier, "Draft content-entry workbench preview", "Active rout
 requireText(routeVerifier, "Approved learner font", "Active route verifier must check draft font controls.");
 requireText(routeVerifier, "Profile binding preview", "Active route verifier must check draft profile bindings.");
 requireText(routeVerifier, "Student-facing rendering blocked", "Active route verifier must check draft rendering block.");
+requireText(
+  routeVerifier,
+  "Package writer harness implementation decision required",
+  "Active route verifier must check the package writer harness decision block on the review queue.",
+);
 requireText(aiHandoff, "AI can draft structure. It cannot publish student-facing content by itself.", "AI handoff docs must preserve no-direct-publish rule.");
 
 if (failures.length > 0) {

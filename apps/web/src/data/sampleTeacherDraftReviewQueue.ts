@@ -240,6 +240,7 @@ export const sampleTeacherDraftReviewQueue: TeacherDraftReviewQueue = {
                   "Audio cue approval required",
                   "Media rights proof required",
                   "Approval ledger binding required",
+                  "Package writer harness implementation decision required",
                 ],
                 allowedActions: [
                   "Preview AI draft package",
@@ -254,6 +255,7 @@ export const sampleTeacherDraftReviewQueue: TeacherDraftReviewQueue = {
                   "Create playlist from AI draft",
                   "Assign generated draft to students",
                   "Mark generated package student-ready",
+                  "Approve package writer harness implementation",
                 ],
                 reviewerDecisionOptions: [
                   {
@@ -292,7 +294,12 @@ export const sampleTeacherDraftReviewQueue: TeacherDraftReviewQueue = {
                       "Engine binding pass",
                       "Gamification mapping pass",
                     ],
-                    blockedBy: ["Package approval ledger required", "Release-control policy required", "Approver identity required"],
+                    blockedBy: [
+                      "Package approval ledger required",
+                      "Release-control policy required",
+                      "Approver identity required",
+                      "Package writer harness implementation decision required",
+                    ],
                     outcome: "Future path only: creates an approval candidate, not a route, playlist, or student assignment.",
                   },
                 ],
@@ -303,6 +310,7 @@ export const sampleTeacherDraftReviewQueue: TeacherDraftReviewQueue = {
                   "Audio coverage evidence",
                   "Media rights manifest evidence",
                   "Teacher approval evidence",
+                  "Package writer harness decision evidence",
                 ],
                 evidenceUploadBlockedBy: [
                   "Evidence storage required",
@@ -387,6 +395,13 @@ export const sampleTeacherDraftReviewQueue: TeacherDraftReviewQueue = {
                     status: "blocked-preview" as const,
                     detail: "No reviewer identity, teacher approval packet, or release-control binding exists yet.",
                   },
+                  {
+                    checkId: "ai-package-writer-gate-pending",
+                    label: "AI package writer gate pending",
+                    status: "blocked-preview" as const,
+                    detail:
+                      "Package writer harness implementation decision records must exist before generated routes, playlists, local bundles, or assignment shells can be written.",
+                  },
                 ],
                 verifierSubmissionBlockedBy: [
                   "No live AI verifier workflow",
@@ -395,9 +410,10 @@ export const sampleTeacherDraftReviewQueue: TeacherDraftReviewQueue = {
                   "Evidence storage required",
                   "Audio cue approval required",
                   "Approval ledger policy required",
+                  "Package writer harness decision required before route or playlist writes",
                 ],
                 nextStep:
-                  "Persist AI draft queue items and verifier packets before allowing any generated package review submission, approval, route creation, playlist creation, or assignment.",
+                  "Persist AI draft queue items, verifier packets, and package writer harness implementation decision records before allowing any generated package review submission, approval, route creation, playlist creation, or assignment.",
               },
             ]
           : []),
@@ -426,6 +442,7 @@ export const sampleTeacherDraftReviewQueue: TeacherDraftReviewQueue = {
                   "English audio cue approval required",
                   "MiniStar media rights proof required",
                   "Approval ledger binding required",
+                  "MiniStar package writer harness implementation decision required",
                 ],
                 allowedActions: [
                   "Preview MiniStar AI draft package",
@@ -440,6 +457,7 @@ export const sampleTeacherDraftReviewQueue: TeacherDraftReviewQueue = {
                   "Create playlist from MiniStar AI draft",
                   "Assign MiniStar generated draft to students",
                   "Mark MiniStar generated package student-ready",
+                  "Approve MiniStar package writer harness implementation",
                 ],
                 reviewerDecisionOptions: [
                   {
@@ -478,7 +496,12 @@ export const sampleTeacherDraftReviewQueue: TeacherDraftReviewQueue = {
                       "Engine binding pass",
                       "Gamification mapping pass",
                     ],
-                    blockedBy: ["Package approval ledger required", "Release-control policy required", "Approver identity required"],
+                    blockedBy: [
+                      "Package approval ledger required",
+                      "Release-control policy required",
+                      "Approver identity required",
+                      "MiniStar package writer harness implementation decision required",
+                    ],
                     outcome: "Future path only: creates an approval candidate, not a route, playlist, or student assignment.",
                   },
                 ],
@@ -489,6 +512,7 @@ export const sampleTeacherDraftReviewQueue: TeacherDraftReviewQueue = {
                   "English audio coverage evidence",
                   "MiniStar media rights manifest evidence",
                   "MiniStar teacher approval evidence",
+                  "MiniStar package writer harness decision evidence",
                 ],
                 evidenceUploadBlockedBy: [
                   "Evidence storage required",
@@ -579,6 +603,13 @@ export const sampleTeacherDraftReviewQueue: TeacherDraftReviewQueue = {
                     status: "blocked-preview" as const,
                     detail: "No reviewer identity, teacher approval packet, or release-control binding exists yet.",
                   },
+                  {
+                    checkId: "ministar-ai-package-writer-gate-pending",
+                    label: "MiniStar AI package writer gate pending",
+                    status: "blocked-preview" as const,
+                    detail:
+                      "MiniStar package writer harness implementation decision records must exist before generated routes, playlists, local bundles, or assignment shells can be written. English remains the target-language trigger; Japanese support cannot approve the writer gate.",
+                  },
                 ],
                 verifierSubmissionBlockedBy: [
                   "No live AI verifier workflow",
@@ -587,9 +618,10 @@ export const sampleTeacherDraftReviewQueue: TeacherDraftReviewQueue = {
                   "Evidence storage required",
                   "English audio cue approval required",
                   "Approval ledger policy required",
+                  "MiniStar package writer harness decision required before route or playlist writes",
                 ],
                 nextStep:
-                  "Persist MiniStar AI draft queue items and verifier packets before allowing any generated package review submission, approval, route creation, playlist creation, or assignment.",
+                  "Persist MiniStar AI draft queue items, verifier packets, and package writer harness implementation decision records before allowing any generated package review submission, approval, route creation, playlist creation, or assignment.",
               },
             ]
           : []),
@@ -600,6 +632,7 @@ export const sampleTeacherDraftReviewQueue: TeacherDraftReviewQueue = {
     "Package approval blocked until evidence, approver identity, and release-control policy exist.",
     "Student assignment blocked until a reviewed package release is created.",
     "AI-generated drafts enter the same review queue as teacher drafts and stay read-only until verifier and approval records exist.",
+    "AI-generated package approval cannot bypass package writer harness implementation decision records.",
     "Review audit trail preview cannot change package state.",
     "No direct AI publish from teacher drafts or review queue items.",
   ],

@@ -2821,6 +2821,26 @@ requireText(
   "Assign MiniStar generated draft to students",
   "MiniStar AI generated draft review queue must block student assignment.",
 );
+requireText(
+  teacherDraftReviewQueue,
+  "AI package writer gate pending",
+  "AI generated draft review queue must expose the package writer gate blocker.",
+);
+requireText(
+  teacherDraftReviewQueue,
+  "Package writer harness implementation decision required",
+  "AI generated draft review queue must require package writer harness implementation decision records.",
+);
+requireText(
+  teacherDraftReviewQueue,
+  "MiniStar AI package writer gate pending",
+  "MiniStar AI generated draft review queue must expose the package writer gate blocker.",
+);
+requireText(
+  teacherDraftReviewQueue,
+  "MiniStar package writer harness implementation decision required",
+  "MiniStar AI generated draft review queue must require package writer harness implementation decision records.",
+);
 requireText(route, "AiGameGeneratorPlanPanel", "Generator route must render the generator panel.");
 requireText(route, "AiGeneratorTenantCoveragePanel", "Generator route must render the tenant coverage panel.");
 requireText(route, "AiGeneratorLineageMapPanel", "Generator route must render the lineage map panel.");
