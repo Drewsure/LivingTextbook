@@ -12,6 +12,7 @@ const costEntitlementGate = readSource("../apps/web/src/data/sampleAiGeneratorCo
 const requestBuilderData = readSource("../apps/web/src/data/sampleAiGenerationRequestBuilder.ts");
 const audioCoveragePlan = readSource("../apps/web/src/data/sampleAiGeneratorAudioCoveragePlan.ts");
 const gamificationMappingPlan = readSource("../apps/web/src/data/sampleAiGamificationMappingPlan.ts");
+const gamificationMappingValidator = readSource("../packages/content-model/src/aiGamificationMapping.ts");
 const rewardReadinessGate = readSource("../apps/web/src/data/sampleAiRewardReadinessGate.ts");
 const generatedGameBuildBrief = readSource("../apps/web/src/data/sampleAiGeneratedGameBuildBrief.ts");
 const externalPrototypeTaskPacket = readSource("../apps/web/src/data/sampleAiExternalPrototypeTaskPacket.ts");
@@ -1583,8 +1584,47 @@ requireText(gamificationMappingPlan, "Random reward generation blocked", "AI gam
 requireText(gamificationMappingPlan, "Generated gacha blocked", "AI gamification mapping must block generated gacha.");
 requireText(gamificationMappingPlan, "Media-only Star Dust blocked", "AI gamification mapping must block media-only Star Dust.");
 requireText(gamificationMappingPlan, "Support-language-only mastery blocked", "AI gamification mapping must block support-language mastery.");
+requireText(gamificationMappingPlan, "sampleAiGamificationMappingPlanErrors", "AI gamification mapping data must expose shared validator errors.");
+requireText(gamificationMappingPlan, "sampleAiGamificationMappingPlanWarnings", "AI gamification mapping data must expose shared validator warnings.");
+requireText(
+  gamificationMappingValidator,
+  "validateAiGamificationMappingPlan",
+  "Shared content model must validate AI gamification mapping plans.",
+);
+requireText(
+  gamificationMappingValidator,
+  "AI gamification mapping plan must keep unitMaxStarDust at 1000.",
+  "Shared gamification validator must enforce the 1,000 Star Dust cap.",
+);
+requireText(
+  gamificationMappingValidator,
+  "AI gamification mapping plan must keep unitMasteryThreshold at 750.",
+  "Shared gamification validator must enforce the unit mastery threshold.",
+);
+requireText(
+  gamificationMappingValidator,
+  "AI gamification mapping plan scoring lanes must total exactly 1000 Star Dust.",
+  "Shared gamification validator must enforce scoring lane totals.",
+);
+requireText(
+  gamificationMappingValidator,
+  "AI gamification reward binding",
+  "Shared gamification validator must validate reward binding boundaries.",
+);
+requireText(
+  gamificationMappingValidator,
+  "must trigger only from mastery_updated or game_completed",
+  "Shared gamification validator must restrict reward trigger events.",
+);
+requireText(
+  gamificationMappingValidator,
+  "must not use random, gacha, or purchase pressure",
+  "Shared gamification validator must reject random, gacha, and purchase pressure.",
+);
 requireText(gamificationMappingPanel, "AI gamification mapping preview", "AI gamification panel must expose heading.");
 requireText(gamificationMappingPanel, "Deterministic reward plan", "AI gamification panel must expose deterministic reward plan.");
+requireText(gamificationMappingPanel, "Gamification guard active", "AI gamification panel must expose shared guard status.");
+requireText(gamificationMappingPanel, "Gamification guard blocks", "AI gamification panel must show shared guard blocks.");
 requireText(gamificationMappingPanel, "Mastery unlocks only", "AI gamification panel must show mastery-only unlocks.");
 requireText(gamificationMappingPanel, "No random rewards", "AI gamification panel must reject random rewards.");
 requireText(gamificationMappingPanel, "Star Dust allocation", "AI gamification panel must show Star Dust allocation.");

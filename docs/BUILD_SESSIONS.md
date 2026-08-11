@@ -599,6 +599,7 @@ Next outputs:
 - Confirm student launch and private assignment routes link to the curated activity hub for the same launch code without unlocking progress or exposing teacher/admin controls.
 - Confirm local companion bundle manifests include curated activity hub fallback routes so hosted PWA and closed textbook package navigation stay aligned.
 - Confirm shared AI draft validation rejects early MiniStar Japanese support unless it is `ja-hiragana`, hiragana-only, and marked support-only before any live model call, package review, route creation, playlist creation, assignment, or student-ready marker can exist.
+- Confirm shared AI gamification validation enforces Star Dust caps, mastery thresholds, deterministic collection unlocks, accepted trigger events, required records, and blocked random/gacha/media/support-language shortcuts before reward readiness, package review, route creation, playlist creation, assignment, Spin Wheel tickets, avatar evolution, or collection inventory writes can exist.
 - Confirm `npm run verify:ai-generator` passes after changes to AI authoring, game generation, activity pathway generation, target-language audio requirements, premium AI Tutor generation requests, or generator routes.
 
 ## Session 8: Premium Experience Layer

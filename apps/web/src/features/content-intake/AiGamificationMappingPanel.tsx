@@ -1,4 +1,8 @@
 import { Card, StatusPill } from "@living-textbook/ui";
+import {
+  getAiGamificationMappingPlanWarnings,
+  validateAiGamificationMappingPlan,
+} from "@living-textbook/content-model/src/aiGamificationMapping";
 import type { AiGamificationMappingPlan, AiGamificationMappingStatus } from "@/data/sampleAiGamificationMappingPlan";
 
 interface AiGamificationMappingPanelProps {
@@ -12,7 +16,13 @@ const statusTone: Record<AiGamificationMappingStatus, "neutral" | "success" | "w
 };
 
 export function AiGamificationMappingPanel({ plans }: AiGamificationMappingPanelProps) {
+  const planValidation = plans.map((plan) => ({
+    plan,
+    errors: validateAiGamificationMappingPlan(plan),
+    warnings: getAiGamificationMappingPlanWarnings(plan),
+  }));
   const blockedActionCount = plans.reduce((total, plan) => total + plan.blockedActions.length, 0);
+  const validationBlockCount = planValidation.reduce((total, item) => total + item.errors.length, 0);
 
   return (
     <Card>
@@ -26,6 +36,11 @@ export function AiGamificationMappingPanel({ plans }: AiGamificationMappingPanel
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
+          <StatusPill label="Gamification guard active" tone="success" />
+          <StatusPill
+            label={`${validationBlockCount} guard block(s)`}
+            tone={validationBlockCount > 0 ? "warning" : "success"}
+          />
           <StatusPill label="Mastery unlocks only" tone="success" />
           <StatusPill label="No random rewards" tone="success" />
           <StatusPill label={`${blockedActionCount} blocked action(s)`} tone="warning" />
@@ -33,7 +48,7 @@ export function AiGamificationMappingPanel({ plans }: AiGamificationMappingPanel
       </div>
 
       <div className="mt-5 grid gap-4">
-        {plans.map((plan) => (
+        {planValidation.map(({ plan, errors, warnings }) => (
           <article key={plan.mappingId} className="rounded-lg border border-[var(--tenant-border)] p-4">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
@@ -71,6 +86,21 @@ export function AiGamificationMappingPanel({ plans }: AiGamificationMappingPanel
                 />
                 <GamificationList title="Required gamification records" items={plan.requiredRecords} />
                 <GamificationList title="Blocked gamification actions" items={plan.blockedActions} tone="warning" />
+              </div>
+
+              <div className="grid gap-3 lg:grid-cols-2">
+                <GamificationList
+                  title="Gamification guard blocks"
+                  items={errors}
+                  tone={errors.length > 0 ? "warning" : "neutral"}
+                  emptyLabel="Reward map has no structural blockers."
+                />
+                <GamificationList
+                  title="Gamification guard warnings"
+                  items={warnings}
+                  tone={warnings.length > 0 ? "warning" : "neutral"}
+                  emptyLabel="Reward map has no review warnings."
+                />
               </div>
             </div>
           </article>
@@ -122,10 +152,12 @@ function GamificationList({
   title,
   items,
   tone = "neutral",
+  emptyLabel = "No items.",
 }: {
   title: string;
   items: string[];
   tone?: "neutral" | "success" | "warning";
+  emptyLabel?: string;
 }) {
   return (
     <section className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-3">
@@ -134,9 +166,7 @@ function GamificationList({
         <StatusPill label={String(items.length)} tone={tone} />
       </div>
       <ul className="mt-2 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
-        {items.map((item) => (
-          <li key={item}>{item}</li>
-        ))}
+        {items.length === 0 ? <li>{emptyLabel}</li> : items.map((item) => <li key={item}>{item}</li>)}
       </ul>
     </section>
   );

@@ -1,38 +1,11 @@
-export type AiGamificationMappingStatus = "draft-only" | "blocked" | "ready-for-review";
+import {
+  getAiGamificationMappingPlanWarnings,
+  validateAiGamificationMappingPlan,
+  type AiGamificationMappingPlan,
+  type AiGamificationMappingStatus,
+} from "@living-textbook/content-model/src/aiGamificationMapping";
 
-export interface AiGamificationScoringLane {
-  laneId: string;
-  label: string;
-  maxStarDust: number;
-  acceptedEvents: string[];
-  progressTrigger: string;
-  status: AiGamificationMappingStatus;
-}
-
-export interface AiGamificationRewardBinding {
-  bindingId: string;
-  rewardId: string;
-  label: string;
-  requiredStarDust: number;
-  triggerEvent: string;
-  deterministicRule: string;
-}
-
-export interface AiGamificationMappingPlan {
-  mappingId: string;
-  requestId: string;
-  tenantId: string;
-  label: string;
-  summary: string;
-  rewardCurrency: string;
-  unitMaxStarDust: number;
-  unitMasteryThreshold: number;
-  moduleMasteryThreshold: number;
-  scoringLanes: AiGamificationScoringLane[];
-  rewardBindings: AiGamificationRewardBinding[];
-  requiredRecords: string[];
-  blockedActions: string[];
-}
+export type { AiGamificationMappingPlan, AiGamificationMappingStatus };
 
 export const sampleAiGamificationMappingPlans: AiGamificationMappingPlan[] = [
   {
@@ -203,3 +176,11 @@ export function filterAiGamificationMappingPlansByTenant(
 ): AiGamificationMappingPlan[] {
   return plans.filter((plan) => plan.tenantId === tenantId);
 }
+
+export const sampleAiGamificationMappingPlanErrors = sampleAiGamificationMappingPlans.flatMap(
+  validateAiGamificationMappingPlan,
+);
+
+export const sampleAiGamificationMappingPlanWarnings = sampleAiGamificationMappingPlans.flatMap(
+  getAiGamificationMappingPlanWarnings,
+);

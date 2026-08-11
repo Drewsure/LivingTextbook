@@ -435,6 +435,8 @@ The backend-neutral storage contract is `target_language_audio_approval` / `targ
 
 Generated game requests must produce an `ai_gamification_mapping_plan` before review. The plan must name accepted game events, Star Dust allocation lanes, mastery thresholds, `game_scoring_profile_snapshot`, `progress_event_acceptance_map`, and `collection_unlock_binding` records. AI generation cannot create random rewards, generated gacha, purchase-like unlocks, support-language-only mastery, media-only Star Dust, or unreviewed score profiles.
 
+The shared `validateAiGamificationMappingPlan` contract must enforce the 1,000 Star Dust unit cap, 750 Star Dust unit mastery threshold, 3,000 Star Dust module threshold, scoring lanes that total exactly 1,000 Star Dust, deterministic collection unlock bindings, accepted reward trigger events, required gamification records, and blocked reward actions. The generator route must show gamification guard blocks and warnings before any reward readiness, package approval, route creation, playlist creation, assignment, collection inventory write, Spin Wheel ticket issuance, or avatar evolution write can exist.
+
 ## Reward Readiness Gate Rule
 
 Generated game requests must pass an `ai_reward_readiness_gate` before any reward publishing, collection inventory write, Spin Wheel ticket issuance, avatar evolution write, or student assignment exists.
