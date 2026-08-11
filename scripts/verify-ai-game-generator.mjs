@@ -518,8 +518,18 @@ requireText(reviewSummary, "sample-publisher-l1-routines-game-draft", "AI genera
 requireText(reviewSummary, "ministar-l1-greetings-game-draft", "AI generator review summary must include MiniStar request.");
 requireText(reviewSummary, "codex_integration_review_decision", "AI generator review summary must require Codex decision records.");
 requireText(reviewSummary, "package_publish_gate", "AI generator review summary must require package publish gate.");
+requireText(
+  reviewSummary,
+  "ai_generated_package_writer_harness_implementation_decision",
+  "AI generator review summary must surface package writer harness implementation decisions.",
+);
 requireText(reviewSummary, "No app file writes", "AI generator review summary must block app file writes.");
 requireText(reviewSummary, "No student assignment", "AI generator review summary must block student assignment.");
+requireText(
+  reviewSummary,
+  "No harness implementation approval",
+  "AI generator review summary must block harness implementation approval.",
+);
 requireText(reviewSummary, "No Japanese support-language trigger", "MiniStar review summary must block support-language triggers.");
 requireText(reviewSummary, "English target-language actions", "MiniStar review summary must preserve English target-language trigger.");
 requireText(reviewSummaryPanel, "AI generator review summary", "AI generator review summary panel must expose heading.");
