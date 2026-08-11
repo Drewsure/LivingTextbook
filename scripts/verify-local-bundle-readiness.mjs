@@ -29,6 +29,22 @@ const snapshotFields = [
   "artifacts",
   "handoff",
 ];
+const requiredLocalFallbackPaths = [
+  "/enter/ministar",
+  "/launch/demo-unit-1",
+  "/activities/demo-unit-1",
+  "/media/playlist-ministar-l1-u1-greetings",
+  "/enter/sample-publisher",
+  "/launch/partner-demo-unit-1",
+  "/activities/partner-demo-unit-1",
+  "/media/playlist-sample-publisher-l1-u1-routines",
+];
+const requiredLocalGamePaths = [
+  "/flashcards/demo-unit-1",
+  "/memory/demo-unit-1",
+  "/flashcards/partner-demo-unit-1",
+  "/memory/partner-demo-unit-1",
+];
 
 for (const bundleId of expectedBundles) {
   requireText(bundlePlan, `bundleId: "${bundleId}"`, `Local bundle manifest missing: ${bundleId}`);
@@ -50,10 +66,19 @@ for (const field of snapshotFields) {
   requireText(localPreviewPanel, field, `Local manifest snapshot missing field: ${field}`);
 }
 
+for (const fallbackPath of requiredLocalFallbackPaths) {
+  requireText(bundlePlan, `localFallbackPath: "${fallbackPath}"`, `Local bundle missing route fallback path: ${fallbackPath}`);
+}
+
+for (const gamePath of requiredLocalGamePaths) {
+  requireText(bundlePlan, `localPath: "${gamePath}"`, `Local bundle missing local game path: ${gamePath}`);
+}
+
 requireText(activeRoutes, "http://127.0.0.1:3000/local/sample-publisher", "Active route list missing local companion preview route.");
 requireText(bundlePlan, "content-package.json", "Local bundle must keep a content package artifact path.");
 requireText(bundlePlan, "routes/qr-registry.json", "Local bundle must keep a QR registry artifact path.");
 requireText(bundlePlan, "games/game-routes.json", "Local bundle must keep a game route manifest artifact path.");
+requireText(bundlePlan, 'targetType: "activity-hub"', "Local bundle must include curated activity hub fallback routes.");
 requireText(bundlePlan, "policy/report-policy.json", "Local bundle must keep a report policy artifact path.");
 requireText(bundlePlan, "checksums.json", "Local bundle must keep checksum handoff requirements.");
 requireText(bundlePlan, "aiTutorEnabled: false", "Local bundle AI Tutor must default off.");

@@ -14,7 +14,7 @@ export interface LocalBundleAssetSummary {
 
 export interface LocalBundleRouteSummary {
   qrId: string;
-  targetType: "front-door" | "unit-launch" | "media-playlist" | "game-mode";
+  targetType: "front-door" | "unit-launch" | "activity-hub" | "media-playlist" | "game-mode";
   targetId: string;
   localFallbackPath: string;
 }
@@ -108,14 +108,32 @@ export const sampleLocalBundleManifests: LocalBundleManifestSummary[] = [
         targetId: "enter:ministar:greetings-demo",
         localFallbackPath: "/enter/ministar",
       },
+      {
+        qrId: "qr-ministar-l1-u1-launch",
+        targetType: "unit-launch",
+        targetId: "launch:demo-unit-1",
+        localFallbackPath: "/launch/demo-unit-1",
+      },
+      {
+        qrId: "qr-ministar-l1-u1-activity-hub",
+        targetType: "activity-hub",
+        targetId: "activities:demo-unit-1",
+        localFallbackPath: "/activities/demo-unit-1",
+      },
+      {
+        qrId: "qr-ministar-l1-u1-media-playlist",
+        targetType: "media-playlist",
+        targetId: "playlist-ministar-l1-u1-greetings",
+        localFallbackPath: "/media/playlist-ministar-l1-u1-greetings",
+      },
     ],
     games: [
       {
         gameId: "ministar-local-flashcards",
         label: "Entry flashcards",
         gameMode: "flashcards",
-        engineId: "selection",
-        localPath: "/launch/demo-unit-1",
+        engineId: "entry",
+        localPath: "/flashcards/demo-unit-1",
         status: "included",
         audioCovered: true,
         reportsProgress: true,
@@ -126,7 +144,7 @@ export const sampleLocalBundleManifests: LocalBundleManifestSummary[] = [
         label: "Memory Match",
         gameMode: "memory-match",
         engineId: "pairing",
-        localPath: "/launch/demo-unit-1",
+        localPath: "/memory/demo-unit-1",
         status: "planned",
         audioCovered: true,
         reportsProgress: true,
@@ -225,14 +243,32 @@ export const sampleLocalBundleManifests: LocalBundleManifestSummary[] = [
         targetId: "enter:sample-publisher:routines-demo",
         localFallbackPath: "/enter/sample-publisher",
       },
+      {
+        qrId: "qr-sample-publisher-u1-launch",
+        targetType: "unit-launch",
+        targetId: "launch:partner-demo-unit-1",
+        localFallbackPath: "/launch/partner-demo-unit-1",
+      },
+      {
+        qrId: "qr-sample-publisher-u1-activity-hub",
+        targetType: "activity-hub",
+        targetId: "activities:partner-demo-unit-1",
+        localFallbackPath: "/activities/partner-demo-unit-1",
+      },
+      {
+        qrId: "qr-sample-publisher-u1-media-playlist",
+        targetType: "media-playlist",
+        targetId: "playlist-sample-publisher-l1-u1-routines",
+        localFallbackPath: "/media/playlist-sample-publisher-l1-u1-routines",
+      },
     ],
     games: [
       {
         gameId: "partner-local-flashcards",
         label: "Entry flashcards",
         gameMode: "flashcards",
-        engineId: "selection",
-        localPath: "/launch/partner-demo-unit-1",
+        engineId: "entry",
+        localPath: "/flashcards/partner-demo-unit-1",
         status: "included",
         audioCovered: true,
         reportsProgress: true,
@@ -243,7 +279,7 @@ export const sampleLocalBundleManifests: LocalBundleManifestSummary[] = [
         label: "Memory Match",
         gameMode: "memory-match",
         engineId: "pairing",
-        localPath: "/launch/partner-demo-unit-1",
+        localPath: "/memory/partner-demo-unit-1",
         status: "included",
         audioCovered: true,
         reportsProgress: true,
