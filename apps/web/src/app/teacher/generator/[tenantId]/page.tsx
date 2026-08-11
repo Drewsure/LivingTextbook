@@ -58,6 +58,10 @@ import {
   sampleAiGeneratedPackageWriterTestHarnessImplementationProposals,
 } from "@/data/sampleAiGeneratedPackageWriterTestHarnessImplementationProposal";
 import {
+  filterAiGeneratedPackageWriterHarnessImplementationDecisionsByTenant,
+  sampleAiGeneratedPackageWriterHarnessImplementationDecisions,
+} from "@/data/sampleAiGeneratedPackageWriterHarnessImplementationDecision";
+import {
   filterAiGeneratedPublishReadinessGatesByTenant,
   sampleAiGeneratedPublishReadinessGates,
 } from "@/data/sampleAiGeneratedPublishReadinessGate";
@@ -212,6 +216,7 @@ import { AiGeneratedPackageWriterModuleTestPlanPanel } from "@/features/content-
 import { AiGeneratedPackageWriterTestEvidencePacketPanel } from "@/features/content-intake/AiGeneratedPackageWriterTestEvidencePacketPanel";
 import { AiGeneratedPackageWriterTestHarnessPlanPanel } from "@/features/content-intake/AiGeneratedPackageWriterTestHarnessPlanPanel";
 import { AiGeneratedPackageWriterTestHarnessImplementationProposalPanel } from "@/features/content-intake/AiGeneratedPackageWriterTestHarnessImplementationProposalPanel";
+import { AiGeneratedPackageWriterHarnessImplementationDecisionPanel } from "@/features/content-intake/AiGeneratedPackageWriterHarnessImplementationDecisionPanel";
 import { AiGeneratedPublishReadinessGatePanel } from "@/features/content-intake/AiGeneratedPublishReadinessGatePanel";
 import { AiEngineBindingPlanPanel } from "@/features/content-intake/AiEngineBindingPlanPanel";
 import { AiExternalPrototypeTaskExportReadinessGatePanel } from "@/features/content-intake/AiExternalPrototypeTaskExportReadinessGatePanel";
@@ -513,6 +518,12 @@ export default async function TeacherAiGameGeneratorPage({
         <AiGeneratedPackageWriterTestHarnessImplementationProposalPanel
           proposals={filterAiGeneratedPackageWriterTestHarnessImplementationProposalsByTenant(
             sampleAiGeneratedPackageWriterTestHarnessImplementationProposals,
+            tenantId,
+          )}
+        />
+        <AiGeneratedPackageWriterHarnessImplementationDecisionPanel
+          decisions={filterAiGeneratedPackageWriterHarnessImplementationDecisionsByTenant(
+            sampleAiGeneratedPackageWriterHarnessImplementationDecisions,
             tenantId,
           )}
         />
