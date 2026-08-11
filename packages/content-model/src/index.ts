@@ -729,3 +729,4 @@ export * from "./sessionSettings";
 export * from "./persistenceAdapter";
 export * from "./aiGeneratedDraftPayload";
 export * from "./aiGamificationMapping";
+export * from "./progressEventTaxonomy";

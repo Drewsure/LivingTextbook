@@ -12,8 +12,13 @@ Then verify:
 
 - `http://127.0.0.1:3000/teacher/intake` loads.
 - The page includes a `Progress event taxonomy` section.
+- The page shows `Event taxonomy guard active`.
+- The page shows `Event taxonomy guard blocks`.
+- The page shows `Event taxonomy guard warnings`.
 - The page shows `taxonomy-v2026.07.foundation`.
 - The page shows `Required event fields`.
+- `packages/content-model/src/progressEventTaxonomy.ts` exports `validateProgressEventTaxonomyRegistry`.
+- `npm run verify:taxonomy` confirms the sample taxonomy uses the shared guard.
 - `route_guidance_listened` is marked support-only.
 - Support-only events do not mention Star Dust, mastery, or unlock effects.
 - Progress-affecting events include entry practice, game unlock, answer result, mastery update, and game completion.

@@ -24,6 +24,10 @@ The source data lives in:
 
 - `apps/web/src/data/sampleProgressEventTaxonomy.ts`
 
+The shared validator lives in:
+
+- `packages/content-model/src/progressEventTaxonomy.ts`
+
 Backend planning references the same idea through:
 
 - `event_effect`
@@ -43,6 +47,18 @@ Required event fields for hosted or local storage:
 - `event_acceptance_gate_id`
 - `metadata`
 - `occurred_at`
+
+## Shared Validator
+
+`validateProgressEventTaxonomyRegistry` is the hard guard for this scaffold. It checks that the taxonomy includes the required storage fields, has a version and label, keeps every event teacher-visible and persistence-required, and preserves each event's effect boundary.
+
+The validator protects three fixed categories:
+
+- Support-only events must remain support-only and must explicitly block progress, mastery, Star Dust, or scoring effects.
+- Report-only events must remain report-only and must not become hidden mastery evidence.
+- Progress-affecting events must remain progress-affecting and must be backed by reviewed game evidence.
+
+The teacher intake page must show `Event taxonomy guard active`, `Event taxonomy guard blocks`, and `Event taxonomy guard warnings` so reviewers can see whether the current event contract is structurally clear before new games, media, speech, AI Tutor, rewards, uploads, reports, assignments, or storage adapters are added.
 
 ## Hard Rules
 

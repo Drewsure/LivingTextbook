@@ -1,25 +1,12 @@
-import type { GameEventType } from "@living-textbook/content-model";
+import {
+  getProgressEventTaxonomyRegistryWarnings,
+  validateProgressEventTaxonomyRegistry,
+  type ProgressEventEffect,
+  type ProgressEventTaxonomyItem,
+  type ProgressEventTaxonomyRegistry,
+} from "@living-textbook/content-model/src/progressEventTaxonomy";
 
-export type ProgressEventEffect = "progress-affecting" | "report-only" | "support-only";
-
-export interface ProgressEventTaxonomyItem {
-  eventType: GameEventType;
-  effect: ProgressEventEffect;
-  teacherVisible: boolean;
-  persistenceRequired: boolean;
-  summary: string;
-  notAllowed: string[];
-}
-
-export interface ProgressEventTaxonomyRegistry {
-  taxonomyVersion: string;
-  label: string;
-  status: "active-scaffold" | "ready-for-policy-review";
-  requiredEventFields: string[];
-  storageRule: string;
-  changeControl: string;
-  events: ProgressEventTaxonomyItem[];
-}
+export type { ProgressEventEffect, ProgressEventTaxonomyItem, ProgressEventTaxonomyRegistry };
 
 export const sampleProgressEventTaxonomy: ProgressEventTaxonomyItem[] = [
   {
@@ -187,3 +174,11 @@ export const sampleProgressEventTaxonomyRegistry: ProgressEventTaxonomyRegistry 
     "New game, media, route-guidance, speech, AI Tutor, or reward events must be classified here before a package can be called pilot-ready.",
   events: sampleProgressEventTaxonomy,
 };
+
+export const sampleProgressEventTaxonomyErrors = validateProgressEventTaxonomyRegistry(
+  sampleProgressEventTaxonomyRegistry,
+);
+
+export const sampleProgressEventTaxonomyWarnings = getProgressEventTaxonomyRegistryWarnings(
+  sampleProgressEventTaxonomyRegistry,
+);

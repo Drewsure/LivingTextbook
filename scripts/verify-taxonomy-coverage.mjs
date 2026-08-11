@@ -1,10 +1,14 @@
 import { readFileSync } from "node:fs";
 
 const contentModelPath = new URL("../packages/content-model/src/index.ts", import.meta.url);
+const validatorPath = new URL("../packages/content-model/src/progressEventTaxonomy.ts", import.meta.url);
 const taxonomyPath = new URL("../apps/web/src/data/sampleProgressEventTaxonomy.ts", import.meta.url);
+const panelPath = new URL("../apps/web/src/features/progression/ProgressEventTaxonomyPanel.tsx", import.meta.url);
 
 const contentModel = readFileSync(contentModelPath, "utf8");
+const validator = readFileSync(validatorPath, "utf8");
 const taxonomy = readFileSync(taxonomyPath, "utf8");
+const panel = readFileSync(panelPath, "utf8");
 
 const gameEventTypeMatch = contentModel.match(/export type GameEventType =([\s\S]*?);/);
 
@@ -45,6 +49,46 @@ if (extraInTaxonomy.length > 0) {
 if (missingRequiredFields.length > 0) {
   console.error(`FAIL Required taxonomy storage field(s) missing: ${missingRequiredFields.join(", ")}`);
   process.exit(1);
+}
+
+for (const [label, source, requiredText] of [
+  [
+    "shared taxonomy sample",
+    taxonomy,
+    [
+      "sampleProgressEventTaxonomyErrors",
+      "sampleProgressEventTaxonomyWarnings",
+      "validateProgressEventTaxonomyRegistry",
+    ],
+  ],
+  [
+    "shared taxonomy validator",
+    validator,
+    [
+      "validateProgressEventTaxonomyRegistry",
+      "PROGRESS_EVENT_REQUIRED_FIELDS",
+      "must remain support-only",
+      "must remain report-only",
+      "must remain progress-affecting",
+      "must block progress, mastery, Star Dust, or scoring effects",
+    ],
+  ],
+  [
+    "teacher taxonomy panel",
+    panel,
+    [
+      "Event taxonomy guard active",
+      "Event taxonomy guard blocks",
+      "Event taxonomy guard warnings",
+    ],
+  ],
+]) {
+  const missingText = requiredText.filter((text) => !source.includes(text));
+
+  if (missingText.length > 0) {
+    console.error(`FAIL ${label} missing required guard text: ${missingText.join(", ")}`);
+    process.exit(1);
+  }
 }
 
 console.log(`PASS ${taxonomyVersion} covers ${modelEvents.length} shared GameEventType event(s).`);

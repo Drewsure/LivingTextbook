@@ -372,6 +372,7 @@
 - `DR-398-ministar-hiragana-support-validator.md`
 - `DR-399-ai-gamification-mapping-validator.md`
 - `DR-400-ai-reward-readiness-uses-gamification-guard.md`
+- `DR-401-progress-event-taxonomy-validator.md`
 
 ## Maintenance Rule
 

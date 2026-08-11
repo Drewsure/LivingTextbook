@@ -1266,6 +1266,12 @@ if (teacherIntakeExpected) {
   if (routeCountIndex >= 0) {
     teacherIntakeExpected[routeCountIndex] = "59 checked routes";
   }
+
+  teacherIntakeExpected.push(
+    "Event taxonomy guard active",
+    "Event taxonomy guard blocks",
+    "Event taxonomy guard warnings",
+  );
 }
 
 const safeFallbackRestorationPreviewExpected = [
