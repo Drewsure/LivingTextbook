@@ -1,4 +1,8 @@
 import { Card, StatusPill } from "@living-textbook/ui";
+import {
+  getAiDraftCorrectionQueueCollectionWarnings,
+  validateAiDraftCorrectionQueues,
+} from "@living-textbook/content-model/src/aiDraftCorrectionQueue";
 import type {
   AiDraftCorrectionItemSeverity,
   AiDraftCorrectionQueue,
@@ -23,9 +27,11 @@ const severityTone: Record<AiDraftCorrectionItemSeverity, "neutral" | "warning">
 export function AiDraftCorrectionQueuePanel({ queues }: AiDraftCorrectionQueuePanelProps) {
   const blockCount = queues.reduce((total, queue) => total + queue.validationBlockCount, 0);
   const warningCount = queues.reduce((total, queue) => total + queue.warningCount, 0);
+  const guardBlocks = validateAiDraftCorrectionQueues(queues);
+  const guardWarnings = getAiDraftCorrectionQueueCollectionWarnings(queues);
 
   return (
-    <Card>
+    <Card className="space-y-5">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <p className="text-sm font-semibold text-[var(--tenant-muted)]">AI draft correction queue</p>
@@ -36,12 +42,30 @@ export function AiDraftCorrectionQueuePanel({ queues }: AiDraftCorrectionQueuePa
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
+          <StatusPill label="Correction queue guard active" tone="neutral" />
+          <StatusPill
+            label={`${guardBlocks.length} guard block(s)`}
+            tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+          />
           <StatusPill label={`${blockCount} validation block(s)`} tone={blockCount > 0 ? "warning" : "success"} />
           <StatusPill label={`${warningCount} review warning(s)`} tone={warningCount > 0 ? "warning" : "success"} />
         </div>
       </div>
 
-      <div className="mt-5 grid gap-4">
+      <div className="grid gap-3 lg:grid-cols-2">
+        <CorrectionList
+          title="Correction queue guard blocks"
+          items={guardBlocks.length > 0 ? guardBlocks : ["No shared correction queue guard blockers."]}
+          tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+        />
+        <CorrectionList
+          title="Correction queue guard warnings"
+          items={guardWarnings.length > 0 ? guardWarnings : ["No shared correction queue guard warnings."]}
+          tone={guardWarnings.length > 0 ? "warning" : "neutral"}
+        />
+      </div>
+
+      <div className="grid gap-4">
         {queues.map((queue) => (
           <article key={queue.queueId} className="rounded-lg border border-[var(--tenant-border)] p-4">
             <div className="flex flex-wrap items-start justify-between gap-3">

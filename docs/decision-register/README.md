@@ -383,6 +383,7 @@
 - `DR-409-ai-package-writer-test-harness-plan-validator.md`
 - `DR-410-ai-package-writer-test-harness-implementation-proposal-validator.md`
 - `DR-411-ai-package-writer-harness-implementation-decision-validator.md`
+- `DR-412-ai-draft-correction-queue-validator.md`
 
 ## Maintenance Rule
 

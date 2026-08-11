@@ -3,39 +3,32 @@ import {
   validateAiGeneratedDraftPayloadPreview,
 } from "@living-textbook/content-model/src/aiGeneratedDraftPayload";
 import {
+  getAiDraftCorrectionQueueCollectionWarnings,
+  validateAiDraftCorrectionQueues,
+  type AiDraftCorrectionItem,
+  type AiDraftCorrectionItemSeverity,
+  type AiDraftCorrectionQueue,
+  type AiDraftCorrectionQueueStatus,
+} from "@living-textbook/content-model/src/aiDraftCorrectionQueue";
+import {
   type AiGeneratedDraftPayloadPreview,
   sampleAiGeneratedDraftPayloadPreviews,
 } from "@/data/sampleAiGeneratedDraftPayloadPreview";
 
-export type AiDraftCorrectionQueueStatus = "blocked" | "needs-review" | "ready-for-review";
-export type AiDraftCorrectionItemSeverity = "validation block" | "review warning";
-
-export interface AiDraftCorrectionItem {
-  itemId: string;
-  severity: AiDraftCorrectionItemSeverity;
-  lane: string;
-  requiredOwner: string;
-  issue: string;
-  nextRecord: string;
-  studentUseEffect: string;
-}
-
-export interface AiDraftCorrectionQueue {
-  queueId: string;
-  tenantId: string;
-  requestId: string;
-  label: string;
-  summary: string;
-  status: AiDraftCorrectionQueueStatus;
-  validationBlockCount: number;
-  warningCount: number;
-  items: AiDraftCorrectionItem[];
-  blockedActions: string[];
-  nextRequirements: string[];
-}
+export type {
+  AiDraftCorrectionItem,
+  AiDraftCorrectionItemSeverity,
+  AiDraftCorrectionQueue,
+  AiDraftCorrectionQueueStatus,
+};
 
 export const sampleAiDraftCorrectionQueues: AiDraftCorrectionQueue[] =
   sampleAiGeneratedDraftPayloadPreviews.map(createAiDraftCorrectionQueue);
+
+export const sampleAiDraftCorrectionQueueErrors = validateAiDraftCorrectionQueues(sampleAiDraftCorrectionQueues);
+
+export const sampleAiDraftCorrectionQueueWarnings =
+  getAiDraftCorrectionQueueCollectionWarnings(sampleAiDraftCorrectionQueues);
 
 export function filterAiDraftCorrectionQueuesByTenant(
   queues: AiDraftCorrectionQueue[],

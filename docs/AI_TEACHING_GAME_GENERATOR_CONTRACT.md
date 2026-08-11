@@ -219,6 +219,8 @@ The validator must enforce the 8-12 vocabulary range, exactly 2 target sentences
 
 Schema guard output must be converted into a teacher/admin correction queue before generated drafts can enter real review. The queue must show schema/audio/progress repair lanes, required owners, next records, student-use effects, validation block counts, and review warning counts.
 
+Correction queues must pass the shared `validateAiDraftCorrectionQueue` guard before verifier submission, package assembly, route creation, playlist creation, or student assignment can be considered. The guard requires queue identifiers, status that matches validation output, block and warning counts that match queue items, owned repair items with next records and student-use block explanations, required next requirements, and explicit blocks against auto-fix, live AI regeneration, verifier submission, package assembly, route or playlist creation, and student assignment.
+
 The correction queue must not offer auto-fix, live AI regeneration, verifier submission, package assembly, route creation, playlist creation, or student assignment.
 
 ## Request Builder Rule

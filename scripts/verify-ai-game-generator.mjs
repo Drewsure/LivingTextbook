@@ -121,6 +121,7 @@ const generatedPublishReadinessGate = readSource("../apps/web/src/data/sampleAiG
 const draftPreviewData = readSource("../apps/web/src/data/sampleAiGeneratedDraftPayloadPreview.ts");
 const draftPayloadValidator = readSource("../packages/content-model/src/aiGeneratedDraftPayload.ts");
 const correctionQueueData = readSource("../apps/web/src/data/sampleAiDraftCorrectionQueue.ts");
+const correctionQueueValidator = readSource("../packages/content-model/src/aiDraftCorrectionQueue.ts");
 const compatibilityMatrix = readSource("../apps/web/src/data/sampleActivityPathwayCompatibility.ts");
 const panel = readSource("../apps/web/src/features/content-intake/AiGameGeneratorPlanPanel.tsx");
 const tenantCoveragePanel = readSource("../apps/web/src/features/content-intake/AiGeneratorTenantCoveragePanel.tsx");
@@ -3172,6 +3173,10 @@ requireText(draftPreviewPanel, "Schema guard warnings", "Generator draft payload
 requireText(correctionQueueData, "sampleAiDraftCorrectionQueues", "AI draft correction queue data must exist.");
 requireText(correctionQueueData, "validateAiGeneratedDraftPayloadPreview", "AI draft correction queue must use shared validator blocks.");
 requireText(correctionQueueData, "getAiGeneratedDraftPayloadPreviewWarnings", "AI draft correction queue must use shared validator warnings.");
+requireText(correctionQueueValidator, "validateAiDraftCorrectionQueue", "AI draft correction queue shared validator must exist.");
+requireText(correctionQueueValidator, "AI_DRAFT_CORRECTION_QUEUE_REQUIRED_BLOCKED_ACTIONS", "AI draft correction queue validator must define blocked actions.");
+requireText(correctionQueueData, "sampleAiDraftCorrectionQueueErrors", "AI draft correction queue data must expose shared guard errors.");
+requireText(correctionQueueData, "sampleAiDraftCorrectionQueueWarnings", "AI draft correction queue data must expose shared guard warnings.");
 requireText(correctionQueueData, "Audio coverage repair lane", "AI draft correction queue must route audio issues.");
 requireText(correctionQueueData, "Progress policy repair lane", "AI draft correction queue must route progress policy issues.");
 requireText(correctionQueueData, "Pedagogical payload repair lane", "AI draft correction queue must route payload issues.");
@@ -3180,6 +3185,9 @@ requireText(correctionQueueData, "No regenerate live AI", "AI draft correction q
 requireText(correctionQueueData, "No student assignment", "AI draft correction queue must block student assignment.");
 requireText(correctionQueuePanel, "AI draft correction queue", "AI draft correction queue panel must expose heading.");
 requireText(correctionQueuePanel, "Repair before review", "AI draft correction queue panel must expose repair-before-review label.");
+requireText(correctionQueuePanel, "Correction queue guard active", "AI draft correction queue panel must expose shared guard status.");
+requireText(correctionQueuePanel, "Correction queue guard blocks", "AI draft correction queue panel must expose shared guard blocks.");
+requireText(correctionQueuePanel, "Correction queue guard warnings", "AI draft correction queue panel must expose shared guard warnings.");
 requireText(correctionQueuePanel, "Schema/audio/progress repair lanes", "AI draft correction queue panel must expose repair lanes.");
 requireText(correctionQueuePanel, "Required owner", "AI draft correction queue panel must expose ownership.");
 requireText(correctionQueuePanel, "Next record", "AI draft correction queue panel must expose next records.");
