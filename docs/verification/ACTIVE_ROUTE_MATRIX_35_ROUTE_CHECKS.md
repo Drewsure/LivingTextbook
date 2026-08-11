@@ -26,4 +26,5 @@ Then verify:
 - The matrix includes MiniStar and sample-publisher printable worksheet preview routes.
 - The matrix includes MiniStar and sample-publisher report package preview routes.
 - The matrix includes memory, quiz, sentence, speak, media, teacher session, and Training Academy routes for both tenant samples.
+- `verify:game-modes` requires active Memory Match, Quiz, Sentence Builder, and Speak It routes to have route contract ids, patterns, and helper functions.
 - The matrix includes the active stable QR alias route.

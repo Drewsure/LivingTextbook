@@ -3,10 +3,12 @@ import { readFileSync } from "node:fs";
 const contentModelPath = new URL("../packages/content-model/src/index.ts", import.meta.url);
 const catalogPath = new URL("../apps/web/src/features/game-shell/gameModeCatalog.ts", import.meta.url);
 const scoringPath = new URL("../apps/web/src/features/game-shell/scoringProfiles.ts", import.meta.url);
+const routeContractsPath = new URL("../apps/web/src/features/routes/routeContracts.ts", import.meta.url);
 
 const contentModel = readFileSync(contentModelPath, "utf8");
 const catalog = readFileSync(catalogPath, "utf8");
 const scoring = readFileSync(scoringPath, "utf8");
+const routeContracts = readFileSync(routeContractsPath, "utf8");
 
 const gameModeMatch = contentModel.match(/export type GameModeId =([\s\S]*?);/);
 
@@ -33,6 +35,12 @@ const missingScoringProfile = gameModes.filter((mode) => {
   const item = getCatalogItemBody(catalog, mode);
   return !/scoringProfileId:\s*"[^"]+"/.test(item);
 });
+const requiredActiveGameRouteContracts = [
+  { id: "memory-match", pattern: "/memory/[code]", helper: "getMemoryMatchPath" },
+  { id: "quiz", pattern: "/quiz/[code]", helper: "getQuizPath" },
+  { id: "sentence-builder", pattern: "/sentence/[code]", helper: "getSentenceBuilderPath" },
+  { id: "speak-it", pattern: "/speak/[code]", helper: "getSpeakItPath" },
+];
 
 if (duplicateCatalogIds.length > 0) {
   console.error(`FAIL Duplicate game mode catalog id(s): ${[...new Set(duplicateCatalogIds)].join(", ")}`);
@@ -67,6 +75,23 @@ if (missingEngine.length > 0) {
 if (missingScoringProfile.length > 0) {
   console.error(`FAIL Game mode catalog scoring profile missing for: ${missingScoringProfile.join(", ")}`);
   process.exit(1);
+}
+
+for (const routeContract of requiredActiveGameRouteContracts) {
+  if (!routeContracts.includes(`id: "${routeContract.id}"`)) {
+    console.error(`FAIL Active game route contract missing id: ${routeContract.id}`);
+    process.exit(1);
+  }
+
+  if (!routeContracts.includes(`pattern: "${routeContract.pattern}"`)) {
+    console.error(`FAIL Active game route contract missing pattern: ${routeContract.pattern}`);
+    process.exit(1);
+  }
+
+  if (!routeContracts.includes(`function ${routeContract.helper}`)) {
+    console.error(`FAIL Active game route helper missing: ${routeContract.helper}`);
+    process.exit(1);
+  }
 }
 
 console.log(`PASS game mode catalog covers ${gameModes.length} shared GameModeId value(s).`);

@@ -363,6 +363,7 @@
 - `DR-389-review-queue-package-writer-harness-blocker.md`
 - `DR-390-tenant-scoped-review-queue-routes.md`
 - `DR-391-dedicated-memory-match-routes.md`
+- `DR-392-active-game-route-contract-coverage.md`
 
 ## Maintenance Rule
 

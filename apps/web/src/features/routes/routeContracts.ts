@@ -258,6 +258,15 @@ export const appRouteContracts: AppRouteContract[] = [
     requiredState: ["TenantConfig", "UnitPayload", "LaunchSession", "StudentProgressionState", "AudioCue[]"],
   },
   {
+    id: "speak-it",
+    pattern: "/speak/[code]",
+    audience: "student",
+    status: "active-scaffold",
+    purpose:
+      "Let a student complete audio-led speaking and listening practice with teacher-controlled microphone record/replay and premium AI speech scoring kept off by default.",
+    requiredState: ["TenantConfig", "UnitPayload", "LaunchSession", "StudentProgressionState", "AudioCue[]", "TeacherAssignmentPlan?"],
+  },
+  {
     id: "permanent-textbook-qr",
     pattern: "/q/tenant/[tenantId]/series/[seriesId]/book/[bookId]/unit/[unitId]/activity/[activityId]",
     audience: "student",
