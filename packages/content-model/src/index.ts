@@ -735,3 +735,4 @@ export * from "./aiPackageWriterPreflight";
 export * from "./aiPackageWriterRollbackDrill";
 export * from "./aiPackageWriterImplementationReadiness";
 export * from "./aiPackageWriterModuleTestPlan";
+export * from "./aiPackageWriterTestEvidencePacket";

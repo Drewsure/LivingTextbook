@@ -1,4 +1,8 @@
 import { Card, StatusPill } from "@living-textbook/ui";
+import {
+  getAiGeneratedPackageWriterTestEvidencePacketCollectionWarnings,
+  validateAiGeneratedPackageWriterTestEvidencePackets,
+} from "@living-textbook/content-model/src/aiPackageWriterTestEvidencePacket";
 import type {
   AiGeneratedPackageWriterTestEvidenceLane,
   AiGeneratedPackageWriterTestEvidencePacket,
@@ -18,6 +22,8 @@ export function AiGeneratedPackageWriterTestEvidencePacketPanel({
   packets,
 }: AiGeneratedPackageWriterTestEvidencePacketPanelProps) {
   const laneCount = packets.reduce((total, packet) => total + packet.evidenceLanes.length, 0);
+  const guardBlocks = validateAiGeneratedPackageWriterTestEvidencePackets(packets);
+  const guardWarnings = getAiGeneratedPackageWriterTestEvidencePacketCollectionWarnings(packets);
 
   return (
     <Card>
@@ -33,10 +39,28 @@ export function AiGeneratedPackageWriterTestEvidencePacketPanel({
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
+          <StatusPill label="Test evidence guard active" tone="neutral" />
+          <StatusPill
+            label={`${guardBlocks.length} guard block(s)`}
+            tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+          />
           <StatusPill label="Evidence only" tone="neutral" />
           <StatusPill label="Writer tests blocked" tone="warning" />
           <StatusPill label={`${laneCount} evidence lane(s)`} tone="neutral" />
         </div>
+      </div>
+
+      <div className="mt-5 grid gap-3 lg:grid-cols-2">
+        <EvidenceList
+          title="Test evidence guard blocks"
+          items={guardBlocks.length > 0 ? guardBlocks : ["No shared test evidence guard blockers."]}
+          tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+        />
+        <EvidenceList
+          title="Test evidence guard warnings"
+          items={guardWarnings.length > 0 ? guardWarnings : ["No shared test evidence guard warnings."]}
+          tone={guardWarnings.length > 0 ? "warning" : "neutral"}
+        />
       </div>
 
       <div className="mt-5 grid gap-4">

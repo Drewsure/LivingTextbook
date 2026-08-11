@@ -2,39 +2,28 @@ import {
   sampleAiGeneratedPackageWriterModuleTestPlans,
   type AiGeneratedPackageWriterModuleTestPlan,
 } from "@/data/sampleAiGeneratedPackageWriterModuleTestPlan";
+import {
+  getAiGeneratedPackageWriterTestEvidencePacketCollectionWarnings,
+  validateAiGeneratedPackageWriterTestEvidencePackets,
+  type AiGeneratedPackageWriterTestEvidenceLane,
+  type AiGeneratedPackageWriterTestEvidencePacket,
+  type AiGeneratedPackageWriterTestEvidencePacketStatus,
+} from "@living-textbook/content-model/src/aiPackageWriterTestEvidencePacket";
 
-export type AiGeneratedPackageWriterTestEvidencePacketStatus = "blocked" | "review-only";
-
-export interface AiGeneratedPackageWriterTestEvidenceLane {
-  laneId: string;
-  label: string;
-  sourceRecords: string[];
-  requiredEvidence: string[];
-  acceptanceChecks: string[];
-  blockedGaps: string[];
-}
-
-export interface AiGeneratedPackageWriterTestEvidencePacket {
-  evidencePacketId: string;
-  tenantId: string;
-  requestId: string;
-  moduleTestPlanId: string;
-  implementationReadinessId: string;
-  rollbackDrillId: string;
-  label: string;
-  summary: string;
-  status: AiGeneratedPackageWriterTestEvidencePacketStatus;
-  evidenceState: string;
-  packageIdPreview: string;
-  evidenceLanes: AiGeneratedPackageWriterTestEvidenceLane[];
-  missingEvidence: string[];
-  blockedEvidenceActions: string[];
-  nextRequiredRecords: string[];
-  supportLanguageBoundary: string[];
-}
+export type {
+  AiGeneratedPackageWriterTestEvidenceLane,
+  AiGeneratedPackageWriterTestEvidencePacket,
+  AiGeneratedPackageWriterTestEvidencePacketStatus,
+};
 
 export const sampleAiGeneratedPackageWriterTestEvidencePackets: AiGeneratedPackageWriterTestEvidencePacket[] =
   sampleAiGeneratedPackageWriterModuleTestPlans.map((plan) => createTestEvidencePacket(plan));
+
+export const sampleAiGeneratedPackageWriterTestEvidencePacketErrors =
+  validateAiGeneratedPackageWriterTestEvidencePackets(sampleAiGeneratedPackageWriterTestEvidencePackets);
+
+export const sampleAiGeneratedPackageWriterTestEvidencePacketWarnings =
+  getAiGeneratedPackageWriterTestEvidencePacketCollectionWarnings(sampleAiGeneratedPackageWriterTestEvidencePackets);
 
 export function filterAiGeneratedPackageWriterTestEvidencePacketsByTenant(
   packets: AiGeneratedPackageWriterTestEvidencePacket[],

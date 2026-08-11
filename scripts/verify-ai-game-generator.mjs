@@ -24,6 +24,9 @@ const packageWriterImplementationReadinessValidator = readSource(
 const packageWriterModuleTestPlanValidator = readSource(
   "../packages/content-model/src/aiPackageWriterModuleTestPlan.ts",
 );
+const packageWriterTestEvidencePacketValidator = readSource(
+  "../packages/content-model/src/aiPackageWriterTestEvidencePacket.ts",
+);
 const rewardReadinessGate = readSource("../apps/web/src/data/sampleAiRewardReadinessGate.ts");
 const generatedGameBuildBrief = readSource("../apps/web/src/data/sampleAiGeneratedGameBuildBrief.ts");
 const externalPrototypeTaskPacket = readSource("../apps/web/src/data/sampleAiExternalPrototypeTaskPacket.ts");
@@ -2691,6 +2694,26 @@ requireText(
   "AI generated package writer test evidence packet data must exist.",
 );
 requireText(
+  packageWriterTestEvidencePacketValidator,
+  "validateAiGeneratedPackageWriterTestEvidencePacket",
+  "AI generated package writer test evidence packet must have a shared validator.",
+);
+requireText(
+  packageWriterTestEvidencePacketValidator,
+  "AI_PACKAGE_WRITER_TEST_EVIDENCE_REQUIRED_BLOCKED_ACTIONS",
+  "AI generated package writer test evidence packet validator must enforce required blocked actions.",
+);
+requireText(
+  generatedPackageWriterTestEvidencePacket,
+  "sampleAiGeneratedPackageWriterTestEvidencePacketErrors",
+  "AI generated package writer test evidence packet data must expose shared guard errors.",
+);
+requireText(
+  generatedPackageWriterTestEvidencePacket,
+  "sampleAiGeneratedPackageWriterTestEvidencePacketWarnings",
+  "AI generated package writer test evidence packet data must expose shared guard warnings.",
+);
+requireText(
   generatedPackageWriterTestEvidencePacket,
   "Evidence packet blocked until storage contract and Codex test harness decision",
   "AI generated package writer test evidence packet must stay blocked.",
@@ -2729,6 +2752,21 @@ requireText(
   generatedPackageWriterTestEvidencePacketPanel,
   "AI generated package writer test evidence packet",
   "AI generated package writer test evidence packet panel must expose heading.",
+);
+requireText(
+  generatedPackageWriterTestEvidencePacketPanel,
+  "Test evidence guard active",
+  "AI generated package writer test evidence packet panel must expose shared guard status.",
+);
+requireText(
+  generatedPackageWriterTestEvidencePacketPanel,
+  "Test evidence guard blocks",
+  "AI generated package writer test evidence packet panel must expose shared guard blocks.",
+);
+requireText(
+  generatedPackageWriterTestEvidencePacketPanel,
+  "Test evidence guard warnings",
+  "AI generated package writer test evidence packet panel must expose shared guard warnings.",
 );
 requireText(
   generatedPackageWriterTestEvidencePacketPanel,
