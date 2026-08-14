@@ -156,6 +156,9 @@ const generatedPackageManifestValidator = readSource("../packages/content-model/
 const generatedPackagePromotionChecklist = readSource(
   "../apps/web/src/data/sampleAiGeneratedPackagePromotionChecklist.ts",
 );
+const generatedPackagePromotionChecklistValidator = readSource(
+  "../packages/content-model/src/aiGeneratedPackagePromotionChecklist.ts",
+);
 const generatedPackageReleaseCandidate = readSource("../apps/web/src/data/sampleAiGeneratedPackageReleaseCandidate.ts");
 const generatedPackageAssemblyReadiness = readSource(
   "../apps/web/src/data/sampleAiGeneratedPackageAssemblyReadiness.ts",
@@ -2967,6 +2970,36 @@ requireText(
   "AI generated package promotion checklist data must exist.",
 );
 requireText(
+  generatedPackagePromotionChecklistValidator,
+  "validateAiGeneratedPackagePromotionChecklist",
+  "AI generated package promotion checklist validator must exist.",
+);
+requireText(
+  generatedPackagePromotionChecklistValidator,
+  "AI_GENERATED_PACKAGE_PROMOTION_REQUIRED_STEP_IDS",
+  "AI generated package promotion checklist validator must define required steps.",
+);
+requireText(
+  generatedPackagePromotionChecklistValidator,
+  "No promote generated package button",
+  "AI generated package promotion checklist validator must block promote actions.",
+);
+requireText(
+  generatedPackagePromotionChecklistValidator,
+  "No support-language-only promotion",
+  "AI generated package promotion checklist validator must block support-language-only promotion.",
+);
+requireText(
+  generatedPackagePromotionChecklist,
+  "sampleAiGeneratedPackagePromotionChecklistErrors",
+  "AI generated package promotion checklist data must expose validation errors.",
+);
+requireText(
+  generatedPackagePromotionChecklist,
+  "sampleAiGeneratedPackagePromotionChecklistWarnings",
+  "AI generated package promotion checklist data must expose validation warnings.",
+);
+requireText(
   generatedPackagePromotionChecklist,
   "Draft-to-playable package pathway",
   "AI generated package promotion checklist must name the promotion pathway.",
@@ -2998,6 +3031,11 @@ requireText(
 );
 requireText(
   generatedPackagePromotionChecklist,
+  "No support-language-only promotion",
+  "AI generated package promotion checklist must block support-language-only promotion.",
+);
+requireText(
+  generatedPackagePromotionChecklist,
   "No Japanese support-language promotion",
   "MiniStar promotion checklist must block support-language promotion.",
 );
@@ -3020,6 +3058,21 @@ requireText(
   generatedPackagePromotionChecklistPanel,
   "Promotion review only",
   "AI generated package promotion panel must expose review-only status.",
+);
+requireText(
+  generatedPackagePromotionChecklistPanel,
+  "Promotion guard active",
+  "AI generated package promotion panel must expose active guard label.",
+);
+requireText(
+  generatedPackagePromotionChecklistPanel,
+  "Promotion guard blocks",
+  "AI generated package promotion panel must expose guard blocks.",
+);
+requireText(
+  generatedPackagePromotionChecklistPanel,
+  "Promotion guard warnings",
+  "AI generated package promotion panel must expose guard warnings.",
 );
 requireText(
   generatedPackagePromotionChecklistPanel,

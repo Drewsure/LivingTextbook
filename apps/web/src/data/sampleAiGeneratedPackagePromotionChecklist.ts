@@ -1,36 +1,12 @@
 import { sampleAiGeneratedPackageManifests } from "@/data/sampleAiGeneratedPackageManifest";
 import { sampleAiGeneratedPublishReadinessGates } from "@/data/sampleAiGeneratedPublishReadinessGate";
 import { sampleAiGeneratorLineageMaps } from "@/data/sampleAiGeneratorLineageMap";
-
-export type AiGeneratedPackagePromotionStatus = "blocked" | "ready-for-review";
-export type AiGeneratedPackagePromotionStepStatus = "ready-preview" | "blocked" | "missing";
-
-export interface AiGeneratedPackagePromotionStep {
-  stepId: string;
-  label: string;
-  status: AiGeneratedPackagePromotionStepStatus;
-  requiredRecord: string;
-  evidence: string;
-  releaseBoundary: string;
-}
-
-export interface AiGeneratedPackagePromotionChecklist {
-  checklistId: string;
-  tenantId: string;
-  requestId: string;
-  manifestId: string;
-  lineageId: string;
-  label: string;
-  pathwayLabel: string;
-  summary: string;
-  status: AiGeneratedPackagePromotionStatus;
-  currentPackageState: string;
-  futurePromotionTarget: string;
-  steps: AiGeneratedPackagePromotionStep[];
-  allowedNow: string[];
-  blockedActions: string[];
-  nextRecords: string[];
-}
+import {
+  getAiGeneratedPackagePromotionChecklistCollectionWarnings,
+  validateAiGeneratedPackagePromotionChecklists,
+  type AiGeneratedPackagePromotionChecklist,
+  type AiGeneratedPackagePromotionStep,
+} from "@living-textbook/content-model/src/aiGeneratedPackagePromotionChecklist";
 
 export const sampleAiGeneratedPackagePromotionChecklists: AiGeneratedPackagePromotionChecklist[] =
   sampleAiGeneratedPackageManifests.map((manifest) => {
@@ -163,6 +139,7 @@ export const sampleAiGeneratedPackagePromotionChecklists: AiGeneratedPackageProm
         "No generated assignment write",
         "No local companion bundle write",
         "No student-ready marker from promotion checklist",
+        "No support-language-only promotion",
         ...(isMiniStar ? ["No Japanese support-language promotion"] : []),
       ],
       nextRecords: [
@@ -184,3 +161,9 @@ export function filterAiGeneratedPackagePromotionChecklistsByTenant(
 ): AiGeneratedPackagePromotionChecklist[] {
   return checklists.filter((checklist) => checklist.tenantId === tenantId);
 }
+
+export const sampleAiGeneratedPackagePromotionChecklistErrors =
+  validateAiGeneratedPackagePromotionChecklists(sampleAiGeneratedPackagePromotionChecklists);
+
+export const sampleAiGeneratedPackagePromotionChecklistWarnings =
+  getAiGeneratedPackagePromotionChecklistCollectionWarnings(sampleAiGeneratedPackagePromotionChecklists);

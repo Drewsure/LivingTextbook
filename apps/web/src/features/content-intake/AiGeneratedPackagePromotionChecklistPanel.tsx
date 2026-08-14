@@ -1,10 +1,12 @@
 import { Card, StatusPill } from "@living-textbook/ui";
-import type {
-  AiGeneratedPackagePromotionChecklist,
-  AiGeneratedPackagePromotionStatus,
-  AiGeneratedPackagePromotionStep,
-  AiGeneratedPackagePromotionStepStatus,
-} from "@/data/sampleAiGeneratedPackagePromotionChecklist";
+import {
+  getAiGeneratedPackagePromotionChecklistCollectionWarnings,
+  validateAiGeneratedPackagePromotionChecklists,
+  type AiGeneratedPackagePromotionChecklist,
+  type AiGeneratedPackagePromotionStatus,
+  type AiGeneratedPackagePromotionStep,
+  type AiGeneratedPackagePromotionStepStatus,
+} from "@living-textbook/content-model/src/aiGeneratedPackagePromotionChecklist";
 
 interface AiGeneratedPackagePromotionChecklistPanelProps {
   checklists: AiGeneratedPackagePromotionChecklist[];
@@ -28,6 +30,8 @@ export function AiGeneratedPackagePromotionChecklistPanel({
     (total, checklist) => total + checklist.steps.filter((step) => step.status !== "ready-preview").length,
     0,
   );
+  const guardBlocks = validateAiGeneratedPackagePromotionChecklists(checklists);
+  const guardWarnings = getAiGeneratedPackagePromotionChecklistCollectionWarnings(checklists);
 
   return (
     <Card>
@@ -42,9 +46,24 @@ export function AiGeneratedPackagePromotionChecklistPanel({
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
+          <StatusPill label="Promotion guard active" tone="warning" />
+          <StatusPill label={`${guardBlocks.length} guard block(s)`} tone={guardBlocks.length > 0 ? "warning" : "success"} />
           <StatusPill label="Promotion review only" tone="neutral" />
           <StatusPill label={`${blockedStepCount} promotion blocker(s)`} tone={blockedStepCount > 0 ? "warning" : "success"} />
         </div>
+      </div>
+
+      <div className="mt-5 grid gap-3 lg:grid-cols-2">
+        <PromotionList
+          title="Promotion guard blocks"
+          items={guardBlocks.length > 0 ? guardBlocks : ["No promotion guard blocks"]}
+          tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+        />
+        <PromotionList
+          title="Promotion guard warnings"
+          items={guardWarnings.length > 0 ? guardWarnings : ["No promotion guard warnings"]}
+          tone={guardWarnings.length > 0 ? "warning" : "neutral"}
+        />
       </div>
 
       <div className="mt-5 grid gap-4">
