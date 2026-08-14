@@ -1,26 +1,13 @@
 import { sampleAiPrototypeCodexPatchApprovalDecisions } from "@/data/sampleAiPrototypeCodexPatchApprovalDecision";
+import {
+  getAiPrototypeSignedApprovalPreflightCollectionWarnings,
+  validateAiPrototypeSignedApprovalPreflights,
+  type AiPrototypeSignedApprovalPreflight as SharedAiPrototypeSignedApprovalPreflight,
+  type AiPrototypeSignedApprovalPreflightStatus,
+} from "@living-textbook/content-model/src/aiPrototypeSignedApprovalPreflight";
 
-export type AiPrototypeSignedApprovalPreflightStatus =
-  | "blocked"
-  | "review-only"
-  | "ready-for-signature-policy-review";
-
-export interface AiPrototypeSignedApprovalPreflight {
-  preflightId: string;
-  tenantId: string;
-  requestId: string;
-  decisionId: string;
-  label: string;
-  status: AiPrototypeSignedApprovalPreflightStatus;
-  summary: string;
-  requiredIdentityLanes: string[];
-  scopeLocks: string[];
-  approvalRecordDraftFields: string[];
-  evidenceChecklist: string[];
-  cannotApproveWhile: string[];
-  blockedActions: string[];
-  nextRequiredRecords: string[];
-}
+export type AiPrototypeSignedApprovalPreflight = SharedAiPrototypeSignedApprovalPreflight;
+export type { AiPrototypeSignedApprovalPreflightStatus };
 
 export const sampleAiPrototypeSignedApprovalPreflights: AiPrototypeSignedApprovalPreflight[] =
   sampleAiPrototypeCodexPatchApprovalDecisions.map((decision) => {
@@ -116,6 +103,12 @@ export const sampleAiPrototypeSignedApprovalPreflights: AiPrototypeSignedApprova
       ],
     };
   });
+
+export const sampleAiPrototypeSignedApprovalPreflightErrors =
+  validateAiPrototypeSignedApprovalPreflights(sampleAiPrototypeSignedApprovalPreflights);
+
+export const sampleAiPrototypeSignedApprovalPreflightWarnings =
+  getAiPrototypeSignedApprovalPreflightCollectionWarnings(sampleAiPrototypeSignedApprovalPreflights);
 
 export function filterAiPrototypeSignedApprovalPreflightsByTenant(
   preflights: AiPrototypeSignedApprovalPreflight[],

@@ -745,6 +745,7 @@ export * from "./aiPrototypePatchTestReadinessGate";
 export * from "./aiPrototypePatchTestHarnessPlan";
 export * from "./aiPrototypePatchHarnessImplementationProposal";
 export * from "./aiPrototypeCodexPatchApprovalDecision";
+export * from "./aiPrototypeSignedApprovalPreflight";
 export * from "./aiGeneratorTenantCoverage";
 export * from "./aiGeneratorLineageMap";
 export * from "./aiGeneratorReviewSummary";

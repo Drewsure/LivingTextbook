@@ -443,6 +443,8 @@ The backend-neutral storage contract is `codex_patch_approval_decision` / `codex
 
 Signed approval preflights must remain review-only until a future storage contract, reviewer identity signature gate, evidence attachment storage, route safety release gate, rollback drill record, and storage verification are accepted.
 
+Signed approval preflights must pass the shared `validateAiPrototypeSignedApprovalPreflight` guard before release locks, patch work orders, change set previews, route planning, package promotion, assignment, scoring profile mutation, Star Dust or reward writes, audio manifest mutation, app file work, patch generation, harness implementation, test execution, or Playwright runs can be considered. The guard requires reviewer identity lanes, scope locks, approval record draft fields, evidence checklist, cannot-approve blockers, next records, no signed approval capture, no approve button, and blocked support-language progress.
+
 The preflight may name authenticated reviewer identity, tenant role binding, Codex reviewer acknowledgement, approval scope, approval intent fields, evidence checklist, and scope locks. It cannot capture a signature, show an approve button, approve a patch, generate a patch, write app files, execute tests, invoke Playwright, mutate routes, expose student-facing routes, change scoring or rewards, mutate audio manifests, promote packages, assign students, or trigger support-language progress.
 
 MiniStar signed approval preflights must keep Foundation Japanese support hiragana-only and support-only while English remains the progress trigger.

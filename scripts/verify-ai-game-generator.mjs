@@ -119,6 +119,9 @@ const prototypeCodexPatchApprovalDecisionValidator = readSource(
 const prototypeSignedApprovalPreflight = readSource(
   "../apps/web/src/data/sampleAiPrototypeSignedApprovalPreflight.ts",
 );
+const prototypeSignedApprovalPreflightValidator = readSource(
+  "../packages/content-model/src/aiPrototypeSignedApprovalPreflight.ts",
+);
 const prototypePatchAuthorizationReleaseLock = readSource(
   "../apps/web/src/data/sampleAiPrototypePatchAuthorizationReleaseLock.ts",
 );
@@ -2058,9 +2061,44 @@ requireText(
   "AI prototype Codex patch approval decision panel must expose shared guard warnings.",
 );
 requireText(
+  prototypeSignedApprovalPreflightValidator,
+  "validateAiPrototypeSignedApprovalPreflight",
+  "AI prototype signed approval preflight validator must export the single-preflight guard.",
+);
+requireText(
+  prototypeSignedApprovalPreflightValidator,
+  "AI_PROTOTYPE_SIGNED_APPROVAL_PREFLIGHT_BLOCKED_ACTIONS",
+  "AI prototype signed approval preflight validator must lock blocked actions.",
+);
+requireText(
+  prototypeSignedApprovalPreflightValidator,
+  "No signed approval capture",
+  "AI prototype signed approval preflight validator must block approval capture.",
+);
+requireText(
+  prototypeSignedApprovalPreflightValidator,
+  "No approve button",
+  "AI prototype signed approval preflight validator must block approve buttons.",
+);
+requireText(
+  prototypeSignedApprovalPreflightValidator,
+  "hiragana-only",
+  "AI prototype signed approval preflight validator must preserve MiniStar hiragana support evidence.",
+);
+requireText(
   prototypeSignedApprovalPreflight,
   "sampleAiPrototypeSignedApprovalPreflights",
   "AI prototype signed approval preflight data must exist.",
+);
+requireText(
+  prototypeSignedApprovalPreflight,
+  "sampleAiPrototypeSignedApprovalPreflightErrors",
+  "AI prototype signed approval preflight data must expose shared guard errors.",
+);
+requireText(
+  prototypeSignedApprovalPreflight,
+  "sampleAiPrototypeSignedApprovalPreflightWarnings",
+  "AI prototype signed approval preflight data must expose shared guard warnings.",
 );
 requireText(
   prototypeSignedApprovalPreflight,
@@ -2101,6 +2139,21 @@ requireText(
   prototypeSignedApprovalPreflightPanel,
   "No signed approval capture",
   "AI prototype signed approval preflight panel must block signature capture.",
+);
+requireText(
+  prototypeSignedApprovalPreflightPanel,
+  "Signed approval preflight guard active",
+  "AI prototype signed approval preflight panel must expose shared guard state.",
+);
+requireText(
+  prototypeSignedApprovalPreflightPanel,
+  "Signed approval preflight guard blocks",
+  "AI prototype signed approval preflight panel must expose shared guard blocks.",
+);
+requireText(
+  prototypeSignedApprovalPreflightPanel,
+  "Signed approval preflight guard warnings",
+  "AI prototype signed approval preflight panel must expose shared guard warnings.",
 );
 requireText(
   prototypePatchAuthorizationReleaseLock,

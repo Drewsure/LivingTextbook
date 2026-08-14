@@ -1,4 +1,8 @@
 import { Card, StatusPill } from "@living-textbook/ui";
+import {
+  getAiPrototypeSignedApprovalPreflightCollectionWarnings,
+  validateAiPrototypeSignedApprovalPreflights,
+} from "@living-textbook/content-model/src/aiPrototypeSignedApprovalPreflight";
 
 import type {
   AiPrototypeSignedApprovalPreflight,
@@ -24,6 +28,9 @@ const statusLabel: Record<AiPrototypeSignedApprovalPreflightStatus, string> = {
 export function AiPrototypeSignedApprovalPreflightPanel({
   preflights,
 }: AiPrototypeSignedApprovalPreflightPanelProps) {
+  const guardBlocks = validateAiPrototypeSignedApprovalPreflights(preflights);
+  const guardWarnings = getAiPrototypeSignedApprovalPreflightCollectionWarnings(preflights);
+
   return (
     <Card className="space-y-4">
       <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
@@ -37,7 +44,27 @@ export function AiPrototypeSignedApprovalPreflightPanel({
             or changing files, routes, tests, packages, scoring, rewards, audio manifests, or assignments.
           </p>
         </div>
-        <StatusPill label="No signed approval capture" tone="warning" />
+        <div className="flex flex-wrap gap-2">
+          <StatusPill label="Signed approval preflight guard active" tone="neutral" />
+          <StatusPill
+            label={`${guardBlocks.length} guard block(s)`}
+            tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+          />
+          <StatusPill label="No signed approval capture" tone="warning" />
+        </div>
+      </div>
+
+      <div className="grid gap-3 lg:grid-cols-2">
+        <ListPanel
+          title="Signed approval preflight guard blocks"
+          items={guardBlocks.length > 0 ? guardBlocks : ["No shared signed approval preflight guard blockers."]}
+          tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+        />
+        <ListPanel
+          title="Signed approval preflight guard warnings"
+          items={guardWarnings.length > 0 ? guardWarnings : ["No shared signed approval preflight guard warnings."]}
+          tone={guardWarnings.length > 0 ? "warning" : "neutral"}
+        />
       </div>
 
       <div className="space-y-3">
