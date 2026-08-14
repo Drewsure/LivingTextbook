@@ -142,6 +142,9 @@ const verifierSubmissionPacket = readSource("../apps/web/src/data/sampleAiVerifi
 const targetLanguageAudioApprovalPacket = readSource(
   "../apps/web/src/data/sampleAiTargetLanguageAudioApprovalPacket.ts",
 );
+const targetLanguageAudioApprovalPacketValidator = readSource(
+  "../packages/content-model/src/aiTargetLanguageAudioApprovalPacket.ts",
+);
 const generatedPackageTeacherReviewPacket = readSource(
   "../apps/web/src/data/sampleAiGeneratedPackageTeacherReviewPacket.ts",
 );
@@ -2627,9 +2630,44 @@ requireText(verifierSubmissionPanel, "Verifier checks", "AI verifier packet pane
 requireText(verifierSubmissionPanel, "Evidence", "AI verifier packet panel must show evidence.");
 requireText(verifierSubmissionPanel, "Rejection rule", "AI verifier packet panel must show rejection rules.");
 requireText(
+  targetLanguageAudioApprovalPacketValidator,
+  "validateAiTargetLanguageAudioApprovalPacket",
+  "Target-language audio approval packet validator must export the single-packet guard.",
+);
+requireText(
+  targetLanguageAudioApprovalPacketValidator,
+  "AI_TARGET_LANGUAGE_AUDIO_BLOCKED_ACTIONS",
+  "Target-language audio approval packet validator must lock blocked audio actions.",
+);
+requireText(
+  targetLanguageAudioApprovalPacketValidator,
+  "No audio approval capture",
+  "Target-language audio approval packet validator must block approval capture.",
+);
+requireText(
+  targetLanguageAudioApprovalPacketValidator,
+  "No voice generation",
+  "Target-language audio approval packet validator must block generated voice.",
+);
+requireText(
+  targetLanguageAudioApprovalPacketValidator,
+  "hiragana-only",
+  "Target-language audio approval packet validator must preserve MiniStar hiragana support.",
+);
+requireText(
   targetLanguageAudioApprovalPacket,
   "sampleAiTargetLanguageAudioApprovalPackets",
   "Target-language audio approval packet data must exist.",
+);
+requireText(
+  targetLanguageAudioApprovalPacket,
+  "sampleAiTargetLanguageAudioApprovalPacketErrors",
+  "Target-language audio approval packet data must expose shared guard errors.",
+);
+requireText(
+  targetLanguageAudioApprovalPacket,
+  "sampleAiTargetLanguageAudioApprovalPacketWarnings",
+  "Target-language audio approval packet data must expose shared guard warnings.",
 );
 requireText(
   targetLanguageAudioApprovalPacket,
@@ -2695,6 +2733,21 @@ requireText(
   targetLanguageAudioApprovalPacketPanel,
   "No audio approval capture",
   "Target-language audio approval packet panel must block audio approval capture.",
+);
+requireText(
+  targetLanguageAudioApprovalPacketPanel,
+  "Target-language audio approval guard active",
+  "Target-language audio approval packet panel must expose shared guard state.",
+);
+requireText(
+  targetLanguageAudioApprovalPacketPanel,
+  "Target-language audio approval guard blocks",
+  "Target-language audio approval packet panel must expose shared guard blocks.",
+);
+requireText(
+  targetLanguageAudioApprovalPacketPanel,
+  "Target-language audio approval guard warnings",
+  "Target-language audio approval packet panel must expose shared guard warnings.",
 );
 requireText(
   targetLanguageAudioApprovalPacketPanel,

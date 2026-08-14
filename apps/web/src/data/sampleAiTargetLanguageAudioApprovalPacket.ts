@@ -1,54 +1,22 @@
+import {
+  getAiTargetLanguageAudioApprovalPacketCollectionWarnings,
+  validateAiTargetLanguageAudioApprovalPackets,
+  type AiTargetLanguageAudioApprovalCue as SharedAiTargetLanguageAudioApprovalCue,
+  type AiTargetLanguageAudioApprovalPacket as SharedAiTargetLanguageAudioApprovalPacket,
+} from "@living-textbook/content-model/src/aiTargetLanguageAudioApprovalPacket";
+
 export type AiTargetLanguageAudioApprovalPacketStatus =
-  | "blocked"
-  | "review-only"
-  | "ready-for-audio-review";
+  SharedAiTargetLanguageAudioApprovalPacket["status"];
 
 export type AiTargetLanguageAudioApprovalCueStatus =
-  | "missing-audio"
-  | "needs-review"
-  | "approved-preview"
-  | "support-only"
-  | "blocked";
+  SharedAiTargetLanguageAudioApprovalCue["status"];
 
 export type AiTargetLanguageAudioApprovalCueKind =
-  | "term"
-  | "sentence"
-  | "instruction"
-  | "feedback"
-  | "control"
-  | "support-language"
-  | "background-media";
+  SharedAiTargetLanguageAudioApprovalCue["kind"];
 
-export interface AiTargetLanguageAudioApprovalCue {
-  cueId: string;
-  kind: AiTargetLanguageAudioApprovalCueKind;
-  text: string;
-  language: string;
-  gameModes: string[];
-  status: AiTargetLanguageAudioApprovalCueStatus;
-  sourceRecord: string;
-  approvalQuestion: string;
-  progressBoundary: string;
-}
+export type AiTargetLanguageAudioApprovalCue = SharedAiTargetLanguageAudioApprovalCue;
 
-export interface AiTargetLanguageAudioApprovalPacket {
-  packetId: string;
-  tenantId: string;
-  requestId: string;
-  label: string;
-  status: AiTargetLanguageAudioApprovalPacketStatus;
-  summary: string;
-  targetLanguage: string;
-  assistLanguageBoundary: string;
-  approvalOwner: string;
-  cueManifestRecord: string;
-  targetLanguageApprovalRecord: string;
-  requiredCoverage: string[];
-  approvalChecks: string[];
-  cues: AiTargetLanguageAudioApprovalCue[];
-  blockedActions: string[];
-  nextRequiredRecords: string[];
-}
+export type AiTargetLanguageAudioApprovalPacket = SharedAiTargetLanguageAudioApprovalPacket;
 
 export const sampleAiTargetLanguageAudioApprovalPackets: AiTargetLanguageAudioApprovalPacket[] = [
   {
@@ -304,6 +272,12 @@ export const sampleAiTargetLanguageAudioApprovalPackets: AiTargetLanguageAudioAp
     ],
   },
 ];
+
+export const sampleAiTargetLanguageAudioApprovalPacketErrors =
+  validateAiTargetLanguageAudioApprovalPackets(sampleAiTargetLanguageAudioApprovalPackets);
+
+export const sampleAiTargetLanguageAudioApprovalPacketWarnings =
+  getAiTargetLanguageAudioApprovalPacketCollectionWarnings(sampleAiTargetLanguageAudioApprovalPackets);
 
 export function filterAiTargetLanguageAudioApprovalPacketsByTenant(
   packets: AiTargetLanguageAudioApprovalPacket[],

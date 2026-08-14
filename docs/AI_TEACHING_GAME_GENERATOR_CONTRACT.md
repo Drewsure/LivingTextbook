@@ -499,6 +499,8 @@ Generated game requests must produce an `ai_audio_coverage_plan` before review. 
 
 Teacher generator routes must show a review-only target-language audio approval packet before package teacher review can be treated as complete. The packet names the exact learner-facing term, sentence, instruction, feedback, control, support-language, and background-media policy cues that need review.
 
+Target-language audio approval packets must pass the shared `validateAiTargetLanguageAudioApprovalPacket` guard before package teacher review, package assembly, route planning, playlist creation, assignment, scoring profile mutation, Star Dust or reward writes, audio manifest mutation, generated voice calls, speech API billing, or student-ready markers can be considered. The guard requires audio cue manifest links, target-language approval records, coverage categories, cue review evidence, blocked voice/API actions, media-only progress blocking, and support-language-only boundaries.
+
 The packet cannot capture audio approval, generate voice, bill a speech or voice API, mark package audio complete, create routes, create playlists, assign students, or count media-only listening as progress. Support-language audio remains support-only and cannot unlock progress, mastery, Star Dust, package approval, or student-ready state.
 
 MiniStar audio approval packets must preserve English as the target-language trigger. Foundation/Bronze/Plus Japanese support must remain hiragana-only and support-only.

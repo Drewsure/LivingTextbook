@@ -411,6 +411,7 @@
 - `DR-437-ai-prototype-patch-authorization-release-lock-validator.md`
 - `DR-438-ai-prototype-patch-implementation-work-order-validator.md`
 - `DR-439-ai-prototype-patch-change-set-preview-validator.md`
+- `DR-440-ai-target-language-audio-approval-packet-validator.md`
 
 ## Maintenance Rule
 

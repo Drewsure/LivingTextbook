@@ -749,6 +749,7 @@ export * from "./aiPrototypeSignedApprovalPreflight";
 export * from "./aiPrototypePatchAuthorizationReleaseLock";
 export * from "./aiPrototypePatchImplementationWorkOrder";
 export * from "./aiPrototypePatchChangeSetPreview";
+export * from "./aiTargetLanguageAudioApprovalPacket";
 export * from "./aiGeneratorTenantCoverage";
 export * from "./aiGeneratorLineageMap";
 export * from "./aiGeneratorReviewSummary";

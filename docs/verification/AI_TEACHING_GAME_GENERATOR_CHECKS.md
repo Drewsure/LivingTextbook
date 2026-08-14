@@ -175,6 +175,8 @@ Confirm:
 - Audio coverage planner keeps support-language audio support-only and blocks media-only listening from counting toward mastery.
 - Audio coverage planner blocks live synthetic voice generation and voice API cost until tenant approval.
 - Generator routes show a target-language audio approval packet with exact learner-facing term, sentence, instruction, feedback, control, support-language, and background-media policy cues before package teacher review can be considered complete.
+- Generator routes show prototype `Target-language audio approval guard active`, `Target-language audio approval guard blocks`, and `Target-language audio approval guard warnings`.
+- `packages/content-model/src/aiTargetLanguageAudioApprovalPacket.ts` exports `validateAiTargetLanguageAudioApprovalPacket`.
 - Target-language audio approval packets block audio approval capture, voice generation, speech API billing, package audio-complete markers, route creation, playlist creation, student assignment, media-only progress, and support-language progress.
 - MiniStar target-language audio approval packets keep English as the progress trigger while Foundation Japanese support remains hiragana-only, support-only, and unable to unlock mastery, Star Dust, approval, or student-ready state.
 - Target-language audio approval storage contract appears in schema draft, migration candidates, migration specs, durable records, hosted/local adapter plans, and route verification before audio approval capture, generated voice calls, speech API billing, package audio-complete markers, route creation, playlist creation, assignment, media-only progress, or support-language progress can exist.

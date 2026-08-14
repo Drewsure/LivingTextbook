@@ -1,4 +1,8 @@
 import { Card, StatusPill } from "@living-textbook/ui";
+import {
+  getAiTargetLanguageAudioApprovalPacketCollectionWarnings,
+  validateAiTargetLanguageAudioApprovalPackets,
+} from "@living-textbook/content-model/src/aiTargetLanguageAudioApprovalPacket";
 
 import type {
   AiTargetLanguageAudioApprovalCueKind,
@@ -38,6 +42,8 @@ const cueKindOrder: AiTargetLanguageAudioApprovalCueKind[] = [
 export function AiTargetLanguageAudioApprovalPacketPanel({
   packets,
 }: AiTargetLanguageAudioApprovalPacketPanelProps) {
+  const guardBlocks = validateAiTargetLanguageAudioApprovalPackets(packets);
+  const guardWarnings = getAiTargetLanguageAudioApprovalPacketCollectionWarnings(packets);
   const reviewCueCount = packets.reduce(
     (total, packet) => total + packet.cues.filter((cue) => cue.status === "needs-review").length,
     0,
@@ -55,9 +61,27 @@ export function AiTargetLanguageAudioApprovalPacketPanel({
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
+          <StatusPill label="Target-language audio approval guard active" tone="neutral" />
+          <StatusPill
+            label={`${guardBlocks.length} guard block(s)`}
+            tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+          />
           <StatusPill label="No audio approval capture" tone="warning" />
           <StatusPill label={`${reviewCueCount} cue(s) need review`} tone="warning" />
         </div>
+      </div>
+
+      <div className="grid gap-3 lg:grid-cols-2">
+        <ListPanel
+          title="Target-language audio approval guard blocks"
+          items={guardBlocks.length > 0 ? guardBlocks : ["No shared target-language audio approval guard blockers."]}
+          tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+        />
+        <ListPanel
+          title="Target-language audio approval guard warnings"
+          items={guardWarnings.length > 0 ? guardWarnings : ["No shared target-language audio approval guard warnings."]}
+          tone={guardWarnings.length > 0 ? "warning" : "neutral"}
+        />
       </div>
 
       <div className="space-y-3">
