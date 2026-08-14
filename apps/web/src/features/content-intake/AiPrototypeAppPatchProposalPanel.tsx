@@ -1,4 +1,8 @@
 import { Card, StatusPill } from "@living-textbook/ui";
+import {
+  getAiPrototypeAppPatchProposalCollectionWarnings,
+  validateAiPrototypeAppPatchProposals,
+} from "@living-textbook/content-model/src/aiPrototypeAppPatchProposal";
 
 import type {
   AiPrototypeAppPatchProposal,
@@ -38,6 +42,9 @@ const gateLabel: Record<AiPrototypePatchGateStatus, string> = {
 };
 
 export function AiPrototypeAppPatchProposalPanel({ proposals }: AiPrototypeAppPatchProposalPanelProps) {
+  const guardBlocks = validateAiPrototypeAppPatchProposals(proposals);
+  const guardWarnings = getAiPrototypeAppPatchProposalCollectionWarnings(proposals);
+
   return (
     <Card className="space-y-4">
       <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
@@ -49,7 +56,27 @@ export function AiPrototypeAppPatchProposalPanel({ proposals }: AiPrototypeAppPa
             and blocked side effects before any app file can be changed.
           </p>
         </div>
-        <StatusPill label="No app file writes" tone="warning" />
+        <div className="flex flex-wrap gap-2">
+          <StatusPill label="Patch proposal guard active" tone="neutral" />
+          <StatusPill
+            label={`${guardBlocks.length} guard block(s)`}
+            tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+          />
+          <StatusPill label="No app file writes" tone="warning" />
+        </div>
+      </div>
+
+      <div className="grid gap-3 lg:grid-cols-2">
+        <PatchList
+          title="Patch proposal guard blocks"
+          items={guardBlocks.length > 0 ? guardBlocks : ["No shared patch proposal guard blockers."]}
+          tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+        />
+        <PatchList
+          title="Patch proposal guard warnings"
+          items={guardWarnings.length > 0 ? guardWarnings : ["No shared patch proposal guard warnings."]}
+          tone={guardWarnings.length > 0 ? "warning" : "neutral"}
+        />
       </div>
 
       <div className="space-y-3">
@@ -106,6 +133,30 @@ export function AiPrototypeAppPatchProposalPanel({ proposals }: AiPrototypeAppPa
         ))}
       </div>
     </Card>
+  );
+}
+
+function PatchList({
+  title,
+  items,
+  tone = "neutral",
+}: {
+  title: string;
+  items: string[];
+  tone?: "neutral" | "warning";
+}) {
+  return (
+    <section className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-3">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <h3 className="text-sm font-bold text-[var(--tenant-text)]">{title}</h3>
+        <StatusPill label={String(items.length)} tone={tone} />
+      </div>
+      <ul className="mt-2 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
+        {items.map((item) => (
+          <li key={item}>{item}</li>
+        ))}
+      </ul>
+    </section>
   );
 }
 

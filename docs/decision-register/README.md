@@ -402,6 +402,7 @@
 - `DR-428-ai-prototype-scoring-replay-report-validator.md`
 - `DR-429-ai-prototype-codex-integration-decision-validator.md`
 - `DR-430-ai-prototype-integration-readiness-gate-validator.md`
+- `DR-431-ai-prototype-app-patch-proposal-validator.md`
 
 ## Maintenance Rule
 

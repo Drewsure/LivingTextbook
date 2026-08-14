@@ -397,6 +397,8 @@ Prototype app patch proposals must remain review-only until an accepted Codex in
 
 The proposal preview blocks app file writes, generated route writes, student-facing routes, scoring or reward mutation, audio manifest mutation, package promotion, and assignment. MiniStar proposals also block Japanese support-language triggers; English remains the target-language trigger.
 
+AI prototype app patch proposals must pass the shared `validateAiPrototypeAppPatchProposal` guard before patch test readiness, patch harness planning, route planning, package promotion, assignment, scoring profile mutation, Star Dust or reward writes, audio manifest mutation, or app file work can be considered. The guard requires app patch proposal lineage, accepted-decision/readiness/signature/release-control gates, wrapper-only file scope, fixture-only data scope, route-preview scope, test-only verifier scope, and blocked app file writes.
+
 The backend-neutral storage contract is `ai_prototype_app_patch_proposal` / `ai-prototype-app-patch-proposal`. Hosted and local adapters must preserve proposed file scope, required pre-patch gates, required test gates, rollback requirements, reviewer identity/signature requirement, release-control binding, and blocked patch actions while blocking app file writes, app patch generation, direct imports, route writes, student-facing routes, scoring mutations, Star Dust or reward writes, audio manifest mutation, package promotion, assignments, and support-language progress.
 
 ## Prototype Patch Test Readiness Rule

@@ -740,6 +740,7 @@ export * from "./aiPrototypeMobileAccessibilityReport";
 export * from "./aiPrototypeScoringReplayReport";
 export * from "./aiPrototypeCodexIntegrationDecision";
 export * from "./aiPrototypeIntegrationReadinessGate";
+export * from "./aiPrototypeAppPatchProposal";
 export * from "./aiGeneratorTenantCoverage";
 export * from "./aiGeneratorLineageMap";
 export * from "./aiGeneratorReviewSummary";

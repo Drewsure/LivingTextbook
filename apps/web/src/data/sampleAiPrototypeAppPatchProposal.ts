@@ -1,34 +1,16 @@
 import { sampleAiPrototypeCodexIntegrationDecisions } from "@/data/sampleAiPrototypeCodexIntegrationDecision";
+import {
+  getAiPrototypeAppPatchProposalCollectionWarnings,
+  validateAiPrototypeAppPatchProposals,
+  type AiPrototypeAppPatchProposal as SharedAiPrototypeAppPatchProposal,
+  type AiPrototypeAppPatchProposalStatus,
+  type AiPrototypePatchGate as SharedAiPrototypePatchGate,
+  type AiPrototypePatchGateStatus,
+} from "@living-textbook/content-model/src/aiPrototypeAppPatchProposal";
 
-export type AiPrototypeAppPatchProposalStatus = "blocked" | "review-only" | "ready-for-planning";
-export type AiPrototypePatchGateStatus = "missing" | "blocked" | "pending-review" | "reviewed";
-
-export interface AiPrototypePatchFileScope {
-  path: string;
-  action: "wrapper-only" | "fixture-only" | "route-preview" | "test-only";
-  note: string;
-}
-
-export interface AiPrototypePatchGate {
-  label: string;
-  status: AiPrototypePatchGateStatus;
-  requiredRecord: string;
-  note: string;
-}
-
-export interface AiPrototypeAppPatchProposal {
-  proposalId: string;
-  tenantId: string;
-  requestId: string;
-  label: string;
-  status: AiPrototypeAppPatchProposalStatus;
-  summary: string;
-  sourceRecords: string[];
-  proposedScope: AiPrototypePatchFileScope[];
-  requiredBeforePatch: AiPrototypePatchGate[];
-  requiredTestGates: AiPrototypePatchGate[];
-  blockedActions: string[];
-}
+export type AiPrototypeAppPatchProposal = SharedAiPrototypeAppPatchProposal;
+export type AiPrototypePatchGate = SharedAiPrototypePatchGate;
+export type { AiPrototypeAppPatchProposalStatus, AiPrototypePatchGateStatus };
 
 export const sampleAiPrototypeAppPatchProposals: AiPrototypeAppPatchProposal[] =
   sampleAiPrototypeCodexIntegrationDecisions.map((decision) => {
@@ -46,6 +28,7 @@ export const sampleAiPrototypeAppPatchProposals: AiPrototypeAppPatchProposal[] =
         ? "MiniStar prototype patch planning remains blocked until Codex records an accepted decision, support-language boundaries are confirmed, and every integration test gate is named."
         : "Prototype patch planning remains blocked until Codex records an accepted decision and every integration test gate is named.",
       sourceRecords: [
+        "ai_prototype_app_patch_proposal",
         "codex_integration_review_decision",
         "ai_prototype_integration_readiness_gate",
         "ai_prototype_integration_plan",
@@ -148,6 +131,13 @@ export const sampleAiPrototypeAppPatchProposals: AiPrototypeAppPatchProposal[] =
       ],
     };
   });
+
+export const sampleAiPrototypeAppPatchProposalErrors = validateAiPrototypeAppPatchProposals(
+  sampleAiPrototypeAppPatchProposals,
+);
+
+export const sampleAiPrototypeAppPatchProposalWarnings =
+  getAiPrototypeAppPatchProposalCollectionWarnings(sampleAiPrototypeAppPatchProposals);
 
 export function filterAiPrototypeAppPatchProposalsByTenant(
   proposals: AiPrototypeAppPatchProposal[],

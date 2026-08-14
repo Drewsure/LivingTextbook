@@ -93,6 +93,7 @@ const prototypeIntegrationReadinessGateValidator = readSource(
   "../packages/content-model/src/aiPrototypeIntegrationReadinessGate.ts",
 );
 const prototypeAppPatchProposal = readSource("../apps/web/src/data/sampleAiPrototypeAppPatchProposal.ts");
+const prototypeAppPatchProposalValidator = readSource("../packages/content-model/src/aiPrototypeAppPatchProposal.ts");
 const prototypePatchTestReadinessGate = readSource(
   "../apps/web/src/data/sampleAiPrototypePatchTestReadinessGate.ts",
 );
@@ -1586,6 +1587,36 @@ requireText(
 );
 requireText(
   prototypeAppPatchProposal,
+  "validateAiPrototypeAppPatchProposals",
+  "AI prototype app patch proposal data must use the shared validator.",
+);
+requireText(
+  prototypeAppPatchProposal,
+  "sampleAiPrototypeAppPatchProposalErrors",
+  "AI prototype app patch proposal data must expose shared guard errors.",
+);
+requireText(
+  prototypeAppPatchProposal,
+  "sampleAiPrototypeAppPatchProposalWarnings",
+  "AI prototype app patch proposal data must expose shared guard warnings.",
+);
+requireText(
+  prototypeAppPatchProposalValidator,
+  "validateAiPrototypeAppPatchProposal",
+  "AI prototype app patch proposal shared validator must exist.",
+);
+requireText(
+  prototypeAppPatchProposalValidator,
+  "AI_PROTOTYPE_APP_PATCH_REQUIRED_SCOPE",
+  "AI prototype app patch proposal validator must define required patch scope.",
+);
+requireText(
+  prototypeAppPatchProposalValidator,
+  "No app file writes",
+  "AI prototype app patch proposal validator must block app file writes.",
+);
+requireText(
+  prototypeAppPatchProposal,
   "codex_integration_review_decision",
   "AI prototype app patch proposal must depend on Codex integration decisions.",
 );
@@ -1618,6 +1649,21 @@ requireText(
   prototypeAppPatchProposalPanel,
   "Patch proposal preview only",
   "AI prototype app patch proposal panel must expose preview-only policy.",
+);
+requireText(
+  prototypeAppPatchProposalPanel,
+  "Patch proposal guard active",
+  "AI prototype app patch proposal panel must expose the shared guard status.",
+);
+requireText(
+  prototypeAppPatchProposalPanel,
+  "Patch proposal guard blocks",
+  "AI prototype app patch proposal panel must expose shared guard blocks.",
+);
+requireText(
+  prototypeAppPatchProposalPanel,
+  "Patch proposal guard warnings",
+  "AI prototype app patch proposal panel must expose shared guard warnings.",
 );
 requireText(
   prototypeAppPatchProposalPanel,
