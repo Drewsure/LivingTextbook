@@ -1,9 +1,11 @@
 import { Card, StatusPill } from "@living-textbook/ui";
-import type {
-  AiGeneratedPackageManifest,
-  AiGeneratedPackageManifestRecordStatus,
-  AiGeneratedPackageManifestStatus,
-} from "@/data/sampleAiGeneratedPackageManifest";
+import {
+  getAiGeneratedPackageManifestCollectionWarnings,
+  validateAiGeneratedPackageManifests,
+  type AiGeneratedPackageManifest,
+  type AiGeneratedPackageManifestRecordStatus,
+  type AiGeneratedPackageManifestStatus,
+} from "@living-textbook/content-model/src/aiGeneratedPackageManifest";
 
 interface AiGeneratedPackageManifestPanelProps {
   manifests: AiGeneratedPackageManifest[];
@@ -22,6 +24,12 @@ const recordStatusTone: Record<AiGeneratedPackageManifestRecordStatus, "neutral"
 
 export function AiGeneratedPackageManifestPanel({ manifests }: AiGeneratedPackageManifestPanelProps) {
   const releaseLockCount = manifests.reduce((total, manifest) => total + manifest.releaseLocks.length, 0);
+  const missingRecordCount = manifests.reduce(
+    (total, manifest) => total + manifest.records.filter((record) => record.status === "missing").length,
+    0,
+  );
+  const guardBlocks = validateAiGeneratedPackageManifests(manifests);
+  const guardWarnings = getAiGeneratedPackageManifestCollectionWarnings(manifests);
 
   return (
     <Card>
@@ -35,9 +43,25 @@ export function AiGeneratedPackageManifestPanel({ manifests }: AiGeneratedPackag
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
+          <StatusPill label="Manifest guard active" tone="warning" />
+          <StatusPill label={`${guardBlocks.length} guard block(s)`} tone={guardBlocks.length > 0 ? "warning" : "success"} />
           <StatusPill label="Package assembly blocked" tone="warning" />
           <StatusPill label={`${releaseLockCount} release lock(s)`} tone="warning" />
+          <StatusPill label={`${missingRecordCount} missing record(s)`} tone="warning" />
         </div>
+      </div>
+
+      <div className="mt-5 grid gap-3 lg:grid-cols-2">
+        <ManifestList
+          title="Manifest guard blocks"
+          items={guardBlocks.length > 0 ? guardBlocks : ["No manifest guard blocks"]}
+          tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+        />
+        <ManifestList
+          title="Manifest guard warnings"
+          items={guardWarnings.length > 0 ? guardWarnings : ["No manifest guard warnings"]}
+          tone={guardWarnings.length > 0 ? "warning" : "neutral"}
+        />
       </div>
 
       <div className="mt-5 grid gap-4">

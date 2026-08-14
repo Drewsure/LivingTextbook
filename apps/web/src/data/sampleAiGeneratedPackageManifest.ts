@@ -1,35 +1,8 @@
-export type AiGeneratedPackageManifestStatus = "manifest-preview" | "blocked";
-export type AiGeneratedPackageManifestRecordStatus = "ready-preview" | "blocked-preview" | "missing";
-
-export interface AiGeneratedPackageManifestRecord {
-  recordType: string;
-  label: string;
-  status: AiGeneratedPackageManifestRecordStatus;
-  source: string;
-  blocker: string;
-}
-
-export interface AiGeneratedPackageManifestLink {
-  label: string;
-  recordId: string;
-  purpose: string;
-}
-
-export interface AiGeneratedPackageManifest {
-  manifestId: string;
-  tenantId: string;
-  requestId: string;
-  label: string;
-  summary: string;
-  status: AiGeneratedPackageManifestStatus;
-  assemblyState: string;
-  links: AiGeneratedPackageManifestLink[];
-  records: AiGeneratedPackageManifestRecord[];
-  assemblySteps: string[];
-  releaseLocks: string[];
-  blockedActions: string[];
-  nextRequirements: string[];
-}
+import {
+  getAiGeneratedPackageManifestCollectionWarnings,
+  validateAiGeneratedPackageManifests,
+  type AiGeneratedPackageManifest,
+} from "@living-textbook/content-model/src/aiGeneratedPackageManifest";
 
 export const sampleAiGeneratedPackageManifests: AiGeneratedPackageManifest[] = [
   {
@@ -158,6 +131,7 @@ export const sampleAiGeneratedPackageManifests: AiGeneratedPackageManifest[] = [
       "No assignment write",
       "No local bundle write",
       "No student-ready marker",
+      "No support-language-only package assembly",
     ],
     blockedActions: [
       "Assemble generated package blocked",
@@ -166,6 +140,7 @@ export const sampleAiGeneratedPackageManifests: AiGeneratedPackageManifest[] = [
       "Create media playlist from manifest blocked",
       "Create local package bundle from manifest blocked",
       "Assign generated package from manifest blocked",
+      "Assemble support-language-only package blocked",
     ],
     nextRequirements: [
       "Durable generated package manifest storage",
@@ -302,6 +277,7 @@ export const sampleAiGeneratedPackageManifests: AiGeneratedPackageManifest[] = [
       "No assignment write",
       "No local bundle write",
       "No student-ready marker",
+      "No support-language-only package assembly",
     ],
     blockedActions: [
       "Assemble generated package blocked",
@@ -310,6 +286,7 @@ export const sampleAiGeneratedPackageManifests: AiGeneratedPackageManifest[] = [
       "Create media playlist from manifest blocked",
       "Create local package bundle from manifest blocked",
       "Assign generated package from manifest blocked",
+      "Assemble support-language-only package blocked",
     ],
     nextRequirements: [
       "Durable generated package manifest storage",
@@ -328,3 +305,9 @@ export function filterAiGeneratedPackageManifestsByTenant(
 ): AiGeneratedPackageManifest[] {
   return manifests.filter((manifest) => manifest.tenantId === tenantId);
 }
+
+export const sampleAiGeneratedPackageManifestErrors =
+  validateAiGeneratedPackageManifests(sampleAiGeneratedPackageManifests);
+
+export const sampleAiGeneratedPackageManifestWarnings =
+  getAiGeneratedPackageManifestCollectionWarnings(sampleAiGeneratedPackageManifests);

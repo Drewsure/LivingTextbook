@@ -751,6 +751,7 @@ export * from "./aiPrototypePatchImplementationWorkOrder";
 export * from "./aiPrototypePatchChangeSetPreview";
 export * from "./aiTargetLanguageAudioApprovalPacket";
 export * from "./aiGeneratedPackageTeacherReviewPacket";
+export * from "./aiGeneratedPackageManifest";
 export * from "./aiGeneratorTenantCoverage";
 export * from "./aiGeneratorLineageMap";
 export * from "./aiGeneratorReviewSummary";

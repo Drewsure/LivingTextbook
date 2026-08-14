@@ -152,6 +152,7 @@ const generatedPackageTeacherReviewPacketValidator = readSource(
   "../packages/content-model/src/aiGeneratedPackageTeacherReviewPacket.ts",
 );
 const generatedPackageManifest = readSource("../apps/web/src/data/sampleAiGeneratedPackageManifest.ts");
+const generatedPackageManifestValidator = readSource("../packages/content-model/src/aiGeneratedPackageManifest.ts");
 const generatedPackagePromotionChecklist = readSource(
   "../apps/web/src/data/sampleAiGeneratedPackagePromotionChecklist.ts",
 );
@@ -2878,6 +2879,41 @@ requireText(
   "AI generated package teacher review packet panel must expose guard warnings.",
 );
 requireText(generatedPackageManifest, "sampleAiGeneratedPackageManifests", "AI generated package manifest data must exist.");
+requireText(
+  generatedPackageManifestValidator,
+  "validateAiGeneratedPackageManifest",
+  "AI generated package manifest validator must exist.",
+);
+requireText(
+  generatedPackageManifestValidator,
+  "AI_GENERATED_PACKAGE_MANIFEST_REQUIRED_RECORD_TYPES",
+  "AI generated package manifest validator must define required records.",
+);
+requireText(
+  generatedPackageManifestValidator,
+  "teacher_approval_packet",
+  "AI generated package manifest validator must require teacher approval packet records.",
+);
+requireText(
+  generatedPackageManifestValidator,
+  "No package assembly write",
+  "AI generated package manifest validator must block package assembly writes.",
+);
+requireText(
+  generatedPackageManifestValidator,
+  "No support-language-only package assembly",
+  "AI generated package manifest validator must block support-language-only package assembly.",
+);
+requireText(
+  generatedPackageManifest,
+  "sampleAiGeneratedPackageManifestErrors",
+  "AI generated package manifest data must expose validation errors.",
+);
+requireText(
+  generatedPackageManifest,
+  "sampleAiGeneratedPackageManifestWarnings",
+  "AI generated package manifest data must expose validation warnings.",
+);
 requireText(generatedPackageManifest, "ai_generated_package_manifest", "AI generated package manifest must name manifest record.");
 requireText(generatedPackageManifest, "teacher_draft_package", "AI generated package manifest must name teacher draft package record.");
 requireText(generatedPackageManifest, "teacher_draft_verifier_submission", "AI generated package manifest must name verifier submission record.");
@@ -2911,8 +2947,16 @@ requireText(
   "Assign generated package from manifest blocked",
   "AI generated package manifest must block assignment from manifest.",
 );
+requireText(
+  generatedPackageManifest,
+  "No support-language-only package assembly",
+  "AI generated package manifest must block support-language-only package assembly.",
+);
 requireText(generatedPackageManifestPanel, "AI generated package manifest", "AI generated package manifest panel must expose heading.");
 requireText(generatedPackageManifestPanel, "One bundle, many gates", "AI generated package manifest panel must expose bundle gate label.");
+requireText(generatedPackageManifestPanel, "Manifest guard active", "AI generated package manifest panel must expose active guard label.");
+requireText(generatedPackageManifestPanel, "Manifest guard blocks", "AI generated package manifest panel must expose guard blocks.");
+requireText(generatedPackageManifestPanel, "Manifest guard warnings", "AI generated package manifest panel must expose guard warnings.");
 requireText(generatedPackageManifestPanel, "Manifest links", "AI generated package manifest panel must show manifest links.");
 requireText(generatedPackageManifestPanel, "Package records", "AI generated package manifest panel must show package records.");
 requireText(generatedPackageManifestPanel, "Release locks", "AI generated package manifest panel must show release locks.");
