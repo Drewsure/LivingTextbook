@@ -67,6 +67,9 @@ const prototypeFixtureReplayReportValidator = readSource(
 const prototypeEventReplayReport = readSource("../apps/web/src/data/sampleAiPrototypeEventReplayReport.ts");
 const prototypeEventReplayReportValidator = readSource("../packages/content-model/src/aiPrototypeEventReplayReport.ts");
 const prototypeAudioCoverageReport = readSource("../apps/web/src/data/sampleAiPrototypeAudioCoverageReport.ts");
+const prototypeAudioCoverageReportValidator = readSource(
+  "../packages/content-model/src/aiPrototypeAudioCoverageReport.ts",
+);
 const prototypeMobileAccessibilityReport = readSource(
   "../apps/web/src/data/sampleAiPrototypeMobileAccessibilityReport.ts",
 );
@@ -1035,6 +1038,26 @@ requireText(
   "AI prototype event replay report panel must expose accepted progress effects.",
 );
 requireText(prototypeAudioCoverageReport, "sampleAiPrototypeAudioCoverageReports", "AI prototype audio coverage report data must exist.");
+requireText(
+  prototypeAudioCoverageReportValidator,
+  "validateAiPrototypeAudioCoverageReport",
+  "AI prototype audio coverage report validator must exist.",
+);
+requireText(
+  prototypeAudioCoverageReportValidator,
+  "AI_PROTOTYPE_AUDIO_REQUIRED_CUE_KINDS",
+  "AI prototype audio coverage report validator must define required cue kinds.",
+);
+requireText(
+  prototypeAudioCoverageReport,
+  "sampleAiPrototypeAudioCoverageReportErrors",
+  "AI prototype audio coverage report sample data must expose shared guard errors.",
+);
+requireText(
+  prototypeAudioCoverageReport,
+  "sampleAiPrototypeAudioCoverageReportWarnings",
+  "AI prototype audio coverage report sample data must expose shared guard warnings.",
+);
 requireText(prototypeAudioCoverageReport, "prototype_audio_coverage_report", "AI prototype audio coverage report must name its record.");
 requireText(prototypeAudioCoverageReport, "audio_cue_manifest", "AI prototype audio coverage report must require audio cue manifests.");
 requireText(
@@ -1073,6 +1096,21 @@ requireText(
   prototypeAudioCoverageReportPanel,
   "Mode audio coverage reports",
   "AI prototype audio coverage report panel must expose mode audio reports.",
+);
+requireText(
+  prototypeAudioCoverageReportPanel,
+  "Audio coverage guard active",
+  "AI prototype audio coverage report panel must expose the shared guard status.",
+);
+requireText(
+  prototypeAudioCoverageReportPanel,
+  "Audio coverage guard blocks",
+  "AI prototype audio coverage report panel must expose shared guard blocks.",
+);
+requireText(
+  prototypeAudioCoverageReportPanel,
+  "Audio coverage guard warnings",
+  "AI prototype audio coverage report panel must expose shared guard warnings.",
 );
 requireText(
   prototypeAudioCoverageReportPanel,

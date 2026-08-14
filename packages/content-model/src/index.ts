@@ -735,6 +735,7 @@ export * from "./aiPrototypeIntegrationPlan";
 export * from "./aiPrototypeWrapperAdapterReview";
 export * from "./aiPrototypeFixtureReplayReport";
 export * from "./aiPrototypeEventReplayReport";
+export * from "./aiPrototypeAudioCoverageReport";
 export * from "./aiGeneratorTenantCoverage";
 export * from "./aiGeneratorLineageMap";
 export * from "./aiGeneratorReviewSummary";

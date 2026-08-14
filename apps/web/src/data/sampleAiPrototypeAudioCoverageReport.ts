@@ -1,44 +1,22 @@
-import type { AiGeneratorAudioCueKind } from "@/data/sampleAiGeneratorAudioCoveragePlan";
 import { sampleAiGeneratorAudioCoveragePlans } from "@/data/sampleAiGeneratorAudioCoveragePlan";
 import {
   sampleAiPrototypeIntegrationPlans,
   type AiPrototypeModeIntegrationPlan,
 } from "@/data/sampleAiPrototypeIntegrationPlan";
+import {
+  getAiPrototypeAudioCoverageReportCollectionWarnings,
+  validateAiPrototypeAudioCoverageReports,
+  type AiPrototypeAudioCoverageReport as SharedAiPrototypeAudioCoverageReport,
+  type AiPrototypeAudioCoverageReportStatus,
+  type AiPrototypeAudioCueKind,
+  type AiPrototypeModeAudioCoverageReport as SharedAiPrototypeModeAudioCoverageReport,
+} from "@living-textbook/content-model/src/aiPrototypeAudioCoverageReport";
 
-export type AiPrototypeAudioCoverageReportStatus = "not-run" | "review-only" | "blocked";
+export type AiPrototypeModeAudioCoverageReport = SharedAiPrototypeModeAudioCoverageReport;
+export type AiPrototypeAudioCoverageReport = SharedAiPrototypeAudioCoverageReport;
+export type { AiPrototypeAudioCoverageReportStatus };
 
-export interface AiPrototypeModeAudioCoverageReport {
-  modeId: string;
-  parentEngine: string;
-  audioHarness: string;
-  requiredCueKinds: AiGeneratorAudioCueKind[];
-  targetLanguageAudioChecks: string[];
-  controlAudioChecks: string[];
-  supportLanguageRules: string[];
-  replayEvidence: string[];
-  failureTriggers: string[];
-}
-
-export interface AiPrototypeAudioCoverageReport {
-  reportId: string;
-  tenantId: string;
-  requestId: string;
-  integrationPlanId: string;
-  label: string;
-  status: AiPrototypeAudioCoverageReportStatus;
-  summary: string;
-  sourceRecords: string[];
-  targetLanguage: string;
-  assistLanguagePolicy: string;
-  learningAudioPriorityRule: string;
-  coveragePurpose: string[];
-  requiredCueFamilies: string[];
-  coverageChecks: string[];
-  blockedActions: string[];
-  modeReports: AiPrototypeModeAudioCoverageReport[];
-}
-
-const requiredCueKinds: AiGeneratorAudioCueKind[] = ["term", "sentence", "instruction", "feedback", "control"];
+const requiredCueKinds: AiPrototypeAudioCueKind[] = ["term", "sentence", "instruction", "feedback", "control"];
 
 export const sampleAiPrototypeAudioCoverageReports: AiPrototypeAudioCoverageReport[] =
   sampleAiPrototypeIntegrationPlans.map((plan) => {
@@ -107,6 +85,13 @@ export const sampleAiPrototypeAudioCoverageReports: AiPrototypeAudioCoverageRepo
       modeReports: plan.modePlans.map((modePlan) => createModeAudioCoverageReport(modePlan, isMiniStar)),
     };
   });
+
+export const sampleAiPrototypeAudioCoverageReportErrors = validateAiPrototypeAudioCoverageReports(
+  sampleAiPrototypeAudioCoverageReports,
+);
+
+export const sampleAiPrototypeAudioCoverageReportWarnings =
+  getAiPrototypeAudioCoverageReportCollectionWarnings(sampleAiPrototypeAudioCoverageReports);
 
 function createModeAudioCoverageReport(
   modePlan: AiPrototypeModeIntegrationPlan,
