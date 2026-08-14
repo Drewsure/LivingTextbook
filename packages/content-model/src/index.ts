@@ -755,6 +755,7 @@ export * from "./aiGeneratedPackageManifest";
 export * from "./aiGeneratedPackagePromotionChecklist";
 export * from "./aiGeneratedPublishReadinessGate";
 export * from "./aiGeneratedPackageReleaseCandidate";
+export * from "./aiGeneratedPackageAssemblyReadiness";
 export * from "./aiGeneratorTenantCoverage";
 export * from "./aiGeneratorLineageMap";
 export * from "./aiGeneratorReviewSummary";

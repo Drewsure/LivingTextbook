@@ -166,6 +166,9 @@ const generatedPackageReleaseCandidateValidator = readSource(
 const generatedPackageAssemblyReadiness = readSource(
   "../apps/web/src/data/sampleAiGeneratedPackageAssemblyReadiness.ts",
 );
+const generatedPackageAssemblyReadinessValidator = readSource(
+  "../packages/content-model/src/aiGeneratedPackageAssemblyReadiness.ts",
+);
 const generatedPackageAssemblyDryRun = readSource("../apps/web/src/data/sampleAiGeneratedPackageAssemblyDryRun.ts");
 const generatedPackageWriterPreflight = readSource("../apps/web/src/data/sampleAiGeneratedPackageWriterPreflight.ts");
 const generatedPublishReadinessGateValidator = readSource(
@@ -3366,6 +3369,31 @@ requireText(
   "AI generated package assembly readiness data must exist.",
 );
 requireText(
+  generatedPackageAssemblyReadinessValidator,
+  "validateAiGeneratedPackageAssemblyReadiness",
+  "AI generated package assembly readiness validator must exist.",
+);
+requireText(
+  generatedPackageAssemblyReadinessValidator,
+  "AI_GENERATED_PACKAGE_ASSEMBLY_READINESS_REQUIRED_LANE_IDS",
+  "AI generated package assembly readiness validator must define required lanes.",
+);
+requireText(
+  generatedPackageAssemblyReadinessValidator,
+  "No support-language-only assembly",
+  "AI generated package assembly readiness validator must block support-language-only assembly.",
+);
+requireText(
+  generatedPackageAssemblyReadiness,
+  "sampleAiGeneratedPackageAssemblyReadinessErrors",
+  "AI generated package assembly readiness data must expose validation errors.",
+);
+requireText(
+  generatedPackageAssemblyReadiness,
+  "sampleAiGeneratedPackageAssemblyReadinessWarnings",
+  "AI generated package assembly readiness data must expose validation warnings.",
+);
+requireText(
   generatedPackageAssemblyReadiness,
   "Package assembly blocked",
   "AI generated package assembly readiness must keep package assembly blocked.",
@@ -3414,6 +3442,21 @@ requireText(
   generatedPackageAssemblyReadinessPanel,
   "Assembly decision before package write",
   "AI generated package assembly readiness panel must expose decision heading.",
+);
+requireText(
+  generatedPackageAssemblyReadinessPanel,
+  "Assembly readiness guard active",
+  "AI generated package assembly readiness panel must expose active guard label.",
+);
+requireText(
+  generatedPackageAssemblyReadinessPanel,
+  "Assembly readiness guard blocks",
+  "AI generated package assembly readiness panel must expose guard blocks.",
+);
+requireText(
+  generatedPackageAssemblyReadinessPanel,
+  "Assembly readiness guard warnings",
+  "AI generated package assembly readiness panel must expose guard warnings.",
 );
 requireText(
   generatedPackageAssemblyReadinessPanel,

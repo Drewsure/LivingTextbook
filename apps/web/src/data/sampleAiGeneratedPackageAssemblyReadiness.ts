@@ -2,40 +2,12 @@ import { sampleAiGeneratedPackageManifests } from "@/data/sampleAiGeneratedPacka
 import { sampleAiGeneratedPackagePromotionChecklists } from "@/data/sampleAiGeneratedPackagePromotionChecklist";
 import { sampleAiGeneratedPackageReleaseCandidates } from "@/data/sampleAiGeneratedPackageReleaseCandidate";
 import { sampleAiGeneratedPublishReadinessGates } from "@/data/sampleAiGeneratedPublishReadinessGate";
-
-export type AiGeneratedPackageAssemblyReadinessStatus = "blocked" | "review-only";
-export type AiGeneratedPackageAssemblyLaneStatus = "ready-preview" | "blocked" | "missing";
-
-export interface AiGeneratedPackageAssemblyLane {
-  laneId: string;
-  label: string;
-  status: AiGeneratedPackageAssemblyLaneStatus;
-  requiredRecord: string;
-  evidence: string;
-  assemblyEffect: string;
-}
-
-export interface AiGeneratedPackageAssemblyReadiness {
-  readinessId: string;
-  tenantId: string;
-  requestId: string;
-  manifestId: string;
-  promotionChecklistId: string;
-  publishReadinessGateId: string;
-  releaseCandidateId: string;
-  label: string;
-  summary: string;
-  status: AiGeneratedPackageAssemblyReadinessStatus;
-  readinessState: string;
-  packageAssemblyTarget: string;
-  routeWriteTarget: string;
-  localBundleTarget: string;
-  lanes: AiGeneratedPackageAssemblyLane[];
-  allowedReviewActions: string[];
-  blockedAssemblyActions: string[];
-  nextRequiredRecords: string[];
-  supportLanguageBoundary: string[];
-}
+import {
+  getAiGeneratedPackageAssemblyReadinessCollectionWarnings,
+  validateAiGeneratedPackageAssemblyReadinessItems,
+  type AiGeneratedPackageAssemblyLane,
+  type AiGeneratedPackageAssemblyReadiness,
+} from "@living-textbook/content-model/src/aiGeneratedPackageAssemblyReadiness";
 
 export const sampleAiGeneratedPackageAssemblyReadiness: AiGeneratedPackageAssemblyReadiness[] =
   sampleAiGeneratedPackageManifests.map((manifest) => {
@@ -190,3 +162,9 @@ export function filterAiGeneratedPackageAssemblyReadinessByTenant(
 ): AiGeneratedPackageAssemblyReadiness[] {
   return readiness.filter((item) => item.tenantId === tenantId);
 }
+
+export const sampleAiGeneratedPackageAssemblyReadinessErrors =
+  validateAiGeneratedPackageAssemblyReadinessItems(sampleAiGeneratedPackageAssemblyReadiness);
+
+export const sampleAiGeneratedPackageAssemblyReadinessWarnings =
+  getAiGeneratedPackageAssemblyReadinessCollectionWarnings(sampleAiGeneratedPackageAssemblyReadiness);

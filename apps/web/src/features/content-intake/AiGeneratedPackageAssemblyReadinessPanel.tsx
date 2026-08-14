@@ -1,10 +1,12 @@
 import { Card, StatusPill } from "@living-textbook/ui";
-import type {
-  AiGeneratedPackageAssemblyLane,
-  AiGeneratedPackageAssemblyLaneStatus,
-  AiGeneratedPackageAssemblyReadiness,
-  AiGeneratedPackageAssemblyReadinessStatus,
-} from "@/data/sampleAiGeneratedPackageAssemblyReadiness";
+import {
+  getAiGeneratedPackageAssemblyReadinessCollectionWarnings,
+  validateAiGeneratedPackageAssemblyReadinessItems,
+  type AiGeneratedPackageAssemblyLane,
+  type AiGeneratedPackageAssemblyLaneStatus,
+  type AiGeneratedPackageAssemblyReadiness,
+  type AiGeneratedPackageAssemblyReadinessStatus,
+} from "@living-textbook/content-model/src/aiGeneratedPackageAssemblyReadiness";
 
 interface AiGeneratedPackageAssemblyReadinessPanelProps {
   readiness: AiGeneratedPackageAssemblyReadiness[];
@@ -28,6 +30,8 @@ export function AiGeneratedPackageAssemblyReadinessPanel({
     (total, item) => total + item.lanes.filter((lane) => lane.status !== "ready-preview").length,
     0,
   );
+  const guardBlocks = validateAiGeneratedPackageAssemblyReadinessItems(readiness);
+  const guardWarnings = getAiGeneratedPackageAssemblyReadinessCollectionWarnings(readiness);
 
   return (
     <Card>
@@ -42,9 +46,24 @@ export function AiGeneratedPackageAssemblyReadinessPanel({
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
+          <StatusPill label="Assembly readiness guard active" tone="warning" />
+          <StatusPill label={`${guardBlocks.length} guard block(s)`} tone={guardBlocks.length > 0 ? "warning" : "success"} />
           <StatusPill label="Package assembly blocked" tone="warning" />
           <StatusPill label={`${blockedLaneCount} blocked lane(s)`} tone="warning" />
         </div>
+      </div>
+
+      <div className="mt-5 grid gap-3 lg:grid-cols-2">
+        <AssemblyList
+          title="Assembly readiness guard blocks"
+          items={guardBlocks.length > 0 ? guardBlocks : ["No assembly readiness guard blocks"]}
+          tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+        />
+        <AssemblyList
+          title="Assembly readiness guard warnings"
+          items={guardWarnings.length > 0 ? guardWarnings : ["No assembly readiness guard warnings"]}
+          tone={guardWarnings.length > 0 ? "warning" : "neutral"}
+        />
       </div>
 
       <div className="mt-5 grid gap-4">

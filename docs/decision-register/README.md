@@ -417,6 +417,7 @@
 - `DR-443-ai-generated-package-promotion-checklist-validator.md`
 - `DR-444-ai-generated-publish-readiness-gate-validator.md`
 - `DR-445-ai-generated-package-release-candidate-validator.md`
+- `DR-446-ai-generated-package-assembly-readiness-validator.md`
 
 ## Maintenance Rule
 

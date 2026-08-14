@@ -1,7 +1,5 @@
-import {
-  sampleAiGeneratedPackageAssemblyReadiness,
-  type AiGeneratedPackageAssemblyReadiness,
-} from "@/data/sampleAiGeneratedPackageAssemblyReadiness";
+import { sampleAiGeneratedPackageAssemblyReadiness } from "@/data/sampleAiGeneratedPackageAssemblyReadiness";
+import type { AiGeneratedPackageAssemblyReadiness } from "@living-textbook/content-model/src/aiGeneratedPackageAssemblyReadiness";
 import {
   getAiGeneratedPackageAssemblyDryRunCollectionWarnings,
   validateAiGeneratedPackageAssemblyDryRuns,
