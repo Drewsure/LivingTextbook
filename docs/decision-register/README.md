@@ -396,6 +396,7 @@
 - `DR-422-ai-prototype-integration-plan-validator.md`
 - `DR-423-ai-prototype-wrapper-adapter-review-validator.md`
 - `DR-424-ai-prototype-fixture-replay-report-validator.md`
+- `DR-425-ai-prototype-event-replay-report-validator.md`
 
 ## Maintenance Rule
 

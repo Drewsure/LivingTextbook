@@ -65,6 +65,7 @@ const prototypeFixtureReplayReportValidator = readSource(
   "../packages/content-model/src/aiPrototypeFixtureReplayReport.ts",
 );
 const prototypeEventReplayReport = readSource("../apps/web/src/data/sampleAiPrototypeEventReplayReport.ts");
+const prototypeEventReplayReportValidator = readSource("../packages/content-model/src/aiPrototypeEventReplayReport.ts");
 const prototypeAudioCoverageReport = readSource("../apps/web/src/data/sampleAiPrototypeAudioCoverageReport.ts");
 const prototypeMobileAccessibilityReport = readSource(
   "../apps/web/src/data/sampleAiPrototypeMobileAccessibilityReport.ts",
@@ -958,6 +959,26 @@ requireText(prototypeFixtureReplayReportPanel, "Fixture coverage", "AI prototype
 requireText(prototypeFixtureReplayReportPanel, "Replay evidence", "AI prototype fixture replay report panel must expose replay evidence.");
 requireText(prototypeFixtureReplayReportPanel, "Failure triggers", "AI prototype fixture replay report panel must expose failure triggers.");
 requireText(prototypeEventReplayReport, "sampleAiPrototypeEventReplayReports", "AI prototype event replay report data must exist.");
+requireText(
+  prototypeEventReplayReportValidator,
+  "validateAiPrototypeEventReplayReport",
+  "AI prototype event replay report validator must exist.",
+);
+requireText(
+  prototypeEventReplayReportValidator,
+  "AI_PROTOTYPE_EVENT_REPLAY_REQUIRED_EVENTS",
+  "AI prototype event replay report validator must define required standard events.",
+);
+requireText(
+  prototypeEventReplayReport,
+  "sampleAiPrototypeEventReplayReportErrors",
+  "AI prototype event replay report sample data must expose shared guard errors.",
+);
+requireText(
+  prototypeEventReplayReport,
+  "sampleAiPrototypeEventReplayReportWarnings",
+  "AI prototype event replay report sample data must expose shared guard warnings.",
+);
 requireText(prototypeEventReplayReport, "prototype_event_replay_report", "AI prototype event replay report must name its record.");
 requireText(prototypeEventReplayReport, "standard_event_contract", "AI prototype event replay report must require standard event contracts.");
 requireText(prototypeEventReplayReport, "progress_event_acceptance_map", "AI prototype event replay report must require progress event acceptance.");
@@ -986,6 +1007,21 @@ requireText(
   prototypeEventReplayReportPanel,
   "Mode event replay reports",
   "AI prototype event replay report panel must expose mode replay reports.",
+);
+requireText(
+  prototypeEventReplayReportPanel,
+  "Event replay guard active",
+  "AI prototype event replay report panel must expose the shared guard status.",
+);
+requireText(
+  prototypeEventReplayReportPanel,
+  "Event replay guard blocks",
+  "AI prototype event replay report panel must expose shared guard blocks.",
+);
+requireText(
+  prototypeEventReplayReportPanel,
+  "Event replay guard warnings",
+  "AI prototype event replay report panel must expose shared guard warnings.",
 );
 requireText(prototypeEventReplayReportPanel, "Required order", "AI prototype event replay report panel must expose event order.");
 requireText(

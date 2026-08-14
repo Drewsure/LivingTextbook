@@ -2,34 +2,17 @@ import {
   sampleAiPrototypeIntegrationPlans,
   type AiPrototypeModeIntegrationPlan,
 } from "@/data/sampleAiPrototypeIntegrationPlan";
+import {
+  getAiPrototypeEventReplayReportCollectionWarnings,
+  validateAiPrototypeEventReplayReports,
+  type AiPrototypeEventReplayReport as SharedAiPrototypeEventReplayReport,
+  type AiPrototypeEventReplayReportStatus,
+  type AiPrototypeModeEventReplayReport as SharedAiPrototypeModeEventReplayReport,
+} from "@living-textbook/content-model/src/aiPrototypeEventReplayReport";
 
-export type AiPrototypeEventReplayReportStatus = "not-run" | "review-only" | "blocked";
-
-export interface AiPrototypeModeEventReplayReport {
-  modeId: string;
-  parentEngine: string;
-  replayHarness: string;
-  requiredEventOrder: string[];
-  allowedPayloadFields: string[];
-  acceptedProgressEffects: string[];
-  failureTriggers: string[];
-}
-
-export interface AiPrototypeEventReplayReport {
-  reportId: string;
-  tenantId: string;
-  requestId: string;
-  integrationPlanId: string;
-  label: string;
-  status: AiPrototypeEventReplayReportStatus;
-  summary: string;
-  sourceRecords: string[];
-  replayPurpose: string[];
-  standardEventCoverage: string[];
-  eventAcceptanceChecks: string[];
-  blockedActions: string[];
-  modeReports: AiPrototypeModeEventReplayReport[];
-}
+export type AiPrototypeModeEventReplayReport = SharedAiPrototypeModeEventReplayReport;
+export type AiPrototypeEventReplayReport = SharedAiPrototypeEventReplayReport;
+export type { AiPrototypeEventReplayReportStatus };
 
 export const sampleAiPrototypeEventReplayReports: AiPrototypeEventReplayReport[] =
   sampleAiPrototypeIntegrationPlans.map((plan) => {
@@ -84,11 +67,19 @@ export const sampleAiPrototypeEventReplayReports: AiPrototypeEventReplayReport[]
         "No route registry write",
         "No student assignment",
         "No report export",
+        "No support-language progress trigger",
         ...(isMiniStar ? ["No Japanese support-language event can unlock English progress"] : []),
       ],
       modeReports: plan.modePlans.map((modePlan) => createModeEventReplayReport(modePlan, isMiniStar)),
     };
   });
+
+export const sampleAiPrototypeEventReplayReportErrors = validateAiPrototypeEventReplayReports(
+  sampleAiPrototypeEventReplayReports,
+);
+
+export const sampleAiPrototypeEventReplayReportWarnings =
+  getAiPrototypeEventReplayReportCollectionWarnings(sampleAiPrototypeEventReplayReports);
 
 function createModeEventReplayReport(
   modePlan: AiPrototypeModeIntegrationPlan,

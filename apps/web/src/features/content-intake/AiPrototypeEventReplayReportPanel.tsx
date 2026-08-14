@@ -1,4 +1,8 @@
 import { Card, StatusPill } from "@living-textbook/ui";
+import {
+  getAiPrototypeEventReplayReportCollectionWarnings,
+  validateAiPrototypeEventReplayReports,
+} from "@living-textbook/content-model/src/aiPrototypeEventReplayReport";
 import type {
   AiPrototypeEventReplayReport,
   AiPrototypeEventReplayReportStatus,
@@ -22,6 +26,8 @@ const statusLabel: Record<AiPrototypeEventReplayReportStatus, string> = {
 };
 
 export function AiPrototypeEventReplayReportPanel({ reports }: AiPrototypeEventReplayReportPanelProps) {
+  const guardBlocks = validateAiPrototypeEventReplayReports(reports);
+  const guardWarnings = getAiPrototypeEventReplayReportCollectionWarnings(reports);
   const modeReportCount = reports.reduce((total, report) => total + report.modeReports.length, 0);
 
   return (
@@ -36,9 +42,27 @@ export function AiPrototypeEventReplayReportPanel({ reports }: AiPrototypeEventR
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
+          <StatusPill label="Event replay guard active" tone="neutral" />
+          <StatusPill
+            label={`${guardBlocks.length} guard block(s)`}
+            tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+          />
           <StatusPill label={`${modeReportCount} replay mode(s)`} tone="success" />
           <StatusPill label="No hidden progress stream" tone="warning" />
         </div>
+      </div>
+
+      <div className="mt-5 grid gap-3 lg:grid-cols-2">
+        <EventList
+          title="Event replay guard blocks"
+          items={guardBlocks.length > 0 ? guardBlocks : ["No shared event replay guard blockers."]}
+          tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+        />
+        <EventList
+          title="Event replay guard warnings"
+          items={guardWarnings.length > 0 ? guardWarnings : ["No shared event replay guard warnings."]}
+          tone={guardWarnings.length > 0 ? "warning" : "neutral"}
+        />
       </div>
 
       <div className="mt-5 grid gap-4">

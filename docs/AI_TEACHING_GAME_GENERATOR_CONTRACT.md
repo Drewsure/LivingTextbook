@@ -327,6 +327,8 @@ Prototype event replay reports must prove that returned prototypes emit the Livi
 
 The report must show standard event coverage, required event order, allowed payload fields, accepted progress effects, failure triggers, and blocked actions. Target-language events are the only learning progress candidates; support-language, media-only, and background-audio events must remain support-only.
 
+AI prototype event replay reports must pass the shared `validateAiPrototypeEventReplayReport` guard before audio coverage, scoring replay, mobile accessibility inspection, Codex integration decisions, app patch planning, route planning, package promotion, assignment, or report export can be considered. The guard requires standard event contract lineage, progress acceptance map lineage, deterministic event order, allowed payload fields, target-language progress effects, report/collection preview-only effects, support-only assist language, and blocked hidden progress, score, reward, route, report, playlist, local bundle, or assignment side effects.
+
 The backend-neutral storage contract is `ai_prototype_event_replay_report` / `ai-prototype-event-replay-report`. Hosted and local adapters must preserve standard event contract id, progress event acceptance map id, standard event coverage, required event order, allowed payload fields, accepted progress effects, failure triggers, and blocked actions while blocking hidden progress streams, score authority, reward inventory writes, route state ownership, report exports, playlist writes, local bundle writes, support-language progress triggers, direct app imports, package promotion, and assignments.
 
 ## Prototype Audio Coverage Report Rule
