@@ -1,4 +1,8 @@
 import { Card, StatusPill } from "@living-textbook/ui";
+import {
+  getAiPrototypeIntegrationReadinessGateCollectionWarnings,
+  validateAiPrototypeIntegrationReadinessGates,
+} from "@living-textbook/content-model/src/aiPrototypeIntegrationReadinessGate";
 import type {
   AiPrototypeIntegrationEvidenceCheck,
   AiPrototypeIntegrationEvidenceStatus,
@@ -39,6 +43,8 @@ const evidenceLabel: Record<AiPrototypeIntegrationEvidenceStatus, string> = {
 export function AiPrototypeIntegrationReadinessGatePanel({
   gates,
 }: AiPrototypeIntegrationReadinessGatePanelProps) {
+  const guardBlocks = validateAiPrototypeIntegrationReadinessGates(gates);
+  const guardWarnings = getAiPrototypeIntegrationReadinessGateCollectionWarnings(gates);
   const evidenceCount = gates.reduce((total, gate) => total + gate.evidenceChecks.length, 0);
 
   return (
@@ -54,9 +60,27 @@ export function AiPrototypeIntegrationReadinessGatePanel({
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
+          <StatusPill label="Integration readiness guard active" tone="neutral" />
+          <StatusPill
+            label={`${guardBlocks.length} guard block(s)`}
+            tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+          />
           <StatusPill label={`${evidenceCount} evidence check(s)`} tone="success" />
           <StatusPill label="No apps/web patch" tone="warning" />
         </div>
+      </div>
+
+      <div className="mt-5 grid gap-3 lg:grid-cols-2">
+        <GateList
+          title="Integration readiness guard blocks"
+          items={guardBlocks.length > 0 ? guardBlocks : ["No shared integration readiness guard blockers."]}
+          tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+        />
+        <GateList
+          title="Integration readiness guard warnings"
+          items={guardWarnings.length > 0 ? guardWarnings : ["No shared integration readiness guard warnings."]}
+          tone={guardWarnings.length > 0 ? "warning" : "neutral"}
+        />
       </div>
 
       <div className="mt-5 grid gap-4">

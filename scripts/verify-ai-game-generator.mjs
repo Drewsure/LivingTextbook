@@ -89,6 +89,9 @@ const prototypeCodexIntegrationDecisionValidator = readSource(
 const prototypeIntegrationReadinessGate = readSource(
   "../apps/web/src/data/sampleAiPrototypeIntegrationReadinessGate.ts",
 );
+const prototypeIntegrationReadinessGateValidator = readSource(
+  "../packages/content-model/src/aiPrototypeIntegrationReadinessGate.ts",
+);
 const prototypeAppPatchProposal = readSource("../apps/web/src/data/sampleAiPrototypeAppPatchProposal.ts");
 const prototypePatchTestReadinessGate = readSource(
   "../apps/web/src/data/sampleAiPrototypePatchTestReadinessGate.ts",
@@ -1473,6 +1476,36 @@ requireText(
 );
 requireText(
   prototypeIntegrationReadinessGate,
+  "validateAiPrototypeIntegrationReadinessGates",
+  "AI prototype integration readiness gate data must use the shared validator.",
+);
+requireText(
+  prototypeIntegrationReadinessGate,
+  "sampleAiPrototypeIntegrationReadinessGateErrors",
+  "AI prototype integration readiness gate data must expose shared guard errors.",
+);
+requireText(
+  prototypeIntegrationReadinessGate,
+  "sampleAiPrototypeIntegrationReadinessGateWarnings",
+  "AI prototype integration readiness gate data must expose shared guard warnings.",
+);
+requireText(
+  prototypeIntegrationReadinessGateValidator,
+  "validateAiPrototypeIntegrationReadinessGate",
+  "AI prototype integration readiness gate shared validator must exist.",
+);
+requireText(
+  prototypeIntegrationReadinessGateValidator,
+  "AI_PROTOTYPE_INTEGRATION_READINESS_REQUIRED_SOURCE_RECORDS",
+  "AI prototype integration readiness gate validator must define required source records.",
+);
+requireText(
+  prototypeIntegrationReadinessGateValidator,
+  "No student assignment",
+  "AI prototype integration readiness gate validator must block student assignment.",
+);
+requireText(
+  prototypeIntegrationReadinessGate,
   "ai_prototype_scoring_replay_report",
   "AI prototype integration readiness gate must require scoring replay records.",
 );
@@ -1520,6 +1553,21 @@ requireText(
   prototypeIntegrationReadinessGatePanel,
   "All prototype evidence before integration",
   "AI prototype integration readiness gate panel must expose all-evidence policy.",
+);
+requireText(
+  prototypeIntegrationReadinessGatePanel,
+  "Integration readiness guard active",
+  "AI prototype integration readiness gate panel must expose the shared guard status.",
+);
+requireText(
+  prototypeIntegrationReadinessGatePanel,
+  "Integration readiness guard blocks",
+  "AI prototype integration readiness gate panel must expose shared guard blocks.",
+);
+requireText(
+  prototypeIntegrationReadinessGatePanel,
+  "Integration readiness guard warnings",
+  "AI prototype integration readiness gate panel must expose shared guard warnings.",
 );
 requireText(
   prototypeIntegrationReadinessGatePanel,

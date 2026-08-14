@@ -1,31 +1,16 @@
 import { sampleAiPrototypeIntegrationPlans } from "@/data/sampleAiPrototypeIntegrationPlan";
+import {
+  getAiPrototypeIntegrationReadinessGateCollectionWarnings,
+  validateAiPrototypeIntegrationReadinessGates,
+  type AiPrototypeIntegrationEvidenceCheck as SharedAiPrototypeIntegrationEvidenceCheck,
+  type AiPrototypeIntegrationEvidenceStatus,
+  type AiPrototypeIntegrationReadinessGate as SharedAiPrototypeIntegrationReadinessGate,
+  type AiPrototypeIntegrationReadinessGateStatus,
+} from "@living-textbook/content-model/src/aiPrototypeIntegrationReadinessGate";
 
-export type AiPrototypeIntegrationReadinessGateStatus = "blocked" | "review-only" | "ready-for-codex-review";
-export type AiPrototypeIntegrationEvidenceStatus = "missing" | "pending-review" | "blocked" | "reviewed";
-
-export interface AiPrototypeIntegrationEvidenceCheck {
-  checkId: string;
-  label: string;
-  sourceRecord: string;
-  status: AiPrototypeIntegrationEvidenceStatus;
-  requiredBeforeIntegration: boolean;
-  blocker: string;
-}
-
-export interface AiPrototypeIntegrationReadinessGate {
-  gateId: string;
-  tenantId: string;
-  requestId: string;
-  integrationPlanId: string;
-  label: string;
-  status: AiPrototypeIntegrationReadinessGateStatus;
-  summary: string;
-  sourceRecords: string[];
-  evidenceChecks: AiPrototypeIntegrationEvidenceCheck[];
-  integrationPolicy: string[];
-  blockedActions: string[];
-  nextRequiredRecords: string[];
-}
+export type AiPrototypeIntegrationEvidenceCheck = SharedAiPrototypeIntegrationEvidenceCheck;
+export type AiPrototypeIntegrationReadinessGate = SharedAiPrototypeIntegrationReadinessGate;
+export type { AiPrototypeIntegrationEvidenceStatus, AiPrototypeIntegrationReadinessGateStatus };
 
 export const sampleAiPrototypeIntegrationReadinessGates: AiPrototypeIntegrationReadinessGate[] =
   sampleAiPrototypeIntegrationPlans.map((plan) => {
@@ -43,6 +28,7 @@ export const sampleAiPrototypeIntegrationReadinessGates: AiPrototypeIntegrationR
       summary:
         "Review-only rollup proving that every returned prototype has wrapper, fixture, event, audio, mobile, scoring, and Codex decision evidence before any apps/web integration patch can be proposed.",
       sourceRecords: [
+        "ai_prototype_integration_readiness_gate",
         "ai_prototype_integration_plan",
         "ai_prototype_wrapper_adapter_review",
         "ai_prototype_fixture_replay_report",
@@ -129,6 +115,13 @@ export const sampleAiPrototypeIntegrationReadinessGates: AiPrototypeIntegrationR
       ],
     };
   });
+
+export const sampleAiPrototypeIntegrationReadinessGateErrors = validateAiPrototypeIntegrationReadinessGates(
+  sampleAiPrototypeIntegrationReadinessGates,
+);
+
+export const sampleAiPrototypeIntegrationReadinessGateWarnings =
+  getAiPrototypeIntegrationReadinessGateCollectionWarnings(sampleAiPrototypeIntegrationReadinessGates);
 
 function createEvidenceCheck(
   checkId: string,
