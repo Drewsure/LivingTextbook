@@ -418,6 +418,7 @@
 - `DR-444-ai-generated-publish-readiness-gate-validator.md`
 - `DR-445-ai-generated-package-release-candidate-validator.md`
 - `DR-446-ai-generated-package-assembly-readiness-validator.md`
+- `DR-447-publisher-maintenance-plan-validator.md`
 
 ## Maintenance Rule
 

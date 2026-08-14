@@ -37,6 +37,9 @@ const schoolRollbackSafeFallbackRestorationPreview = readSource("../apps/web/src
 const schoolRollbackSafeFallbackRestorationPreviewPanel = readSource("../apps/web/src/features/pilot/SchoolRollbackSafeFallbackRestorationPreviewPanel.tsx");
 const schoolPolicyHandoffPacket = readSource("../apps/web/src/data/sampleSchoolPolicyHandoffPacket.ts");
 const schoolPolicyHandoffPacketPanel = readSource("../apps/web/src/features/pilot/SchoolPolicyHandoffPacketPanel.tsx");
+const publisherMaintenance = readSource("../apps/web/src/data/samplePublisherMaintenancePlan.ts");
+const publisherMaintenancePanel = readSource("../apps/web/src/features/publisher/PublisherMaintenancePlanPanel.tsx");
+const publisherMaintenanceValidator = readSource("../packages/content-model/src/publisherMaintenance.ts");
 const backendSchema = readSource("../apps/web/src/data/sampleBackendSchemaDraft.ts");
 const migrationSpecs = readSource("../apps/web/src/data/sampleBackendMigrationSpecs.ts");
 const routeVerifier = readSource("./verify-active-routes.mjs");
@@ -307,6 +310,30 @@ requireText(schoolRollbackSafeFallbackRestorationPreview, "No restoration activa
 requireText(schoolRollbackSafeFallbackRestorationPreview, "No restore normal route button", "School rollback safe fallback restoration preview must block restore buttons.");
 requireText(schoolRollbackSafeFallbackRestorationPreviewPanel, "Future safe fallback restoration record preview", "School rollback safe fallback restoration preview panel must be visible.");
 requireText(schoolRollbackSafeFallbackRestorationPreviewPanel, "No restoration activated", "School rollback safe fallback restoration preview panel must block restoration behavior.");
+requireText(publisherMaintenanceValidator, "validatePublisherMaintenancePlan", "Publisher maintenance must have a shared validation guard.");
+requireText(
+  publisherMaintenanceValidator,
+  "PUBLISHER_MAINTENANCE_REQUIRED_DOMAINS",
+  "Publisher maintenance guard must require core maintenance domains.",
+);
+requireText(
+  publisherMaintenanceValidator,
+  "Publisher maintenance route redirects must stay blocked",
+  "Publisher maintenance guard must keep redirect changes blocked until rollback and notice rules are reviewed.",
+);
+requireText(
+  publisherMaintenanceValidator,
+  "Publisher maintenance plan must preserve the learner-audio separation rule.",
+  "Publisher maintenance guard must preserve learner-audio separation.",
+);
+requireText(publisherMaintenance, "samplePublisherMaintenancePlanErrors", "Publisher maintenance sample data must expose guard errors.");
+requireText(publisherMaintenance, "samplePublisherMaintenancePlanWarnings", "Publisher maintenance sample data must expose guard warnings.");
+requireText(publisherMaintenance, "change-annual-audio-refresh", "Publisher maintenance queue must include media replacement.");
+requireText(publisherMaintenance, "change-add-sentence-builder", "Publisher maintenance queue must include game availability.");
+requireText(publisherMaintenance, "change-qr-edition-redirect", "Publisher maintenance queue must include QR alias updates.");
+requireText(publisherMaintenancePanel, "Maintenance guard active", "Publisher maintenance panel must expose guard status.");
+requireText(publisherMaintenancePanel, "Maintenance guard blocks", "Publisher maintenance panel must expose guard blocks.");
+requireText(publisherMaintenancePanel, "Maintenance guard warnings", "Publisher maintenance panel must expose guard warnings.");
 requireText(backendSchema, "package_release_candidate", "Backend schema must include package release candidate record.");
 requireText(backendSchema, "package_publish_gate", "Backend schema must include package publish gate record.");
 requireText(backendSchema, "package_approval_ledger", "Backend schema must include package approval ledger record.");
@@ -330,6 +357,9 @@ requireText(routeVerifier, "School rollback safe fallback preflight", "Active ro
 requireText(routeVerifier, "Future safe fallback activation record preview", "Active route verifier must keep school rollback safe fallback activation preview visible.");
 requireText(routeVerifier, "Future safe fallback restoration record preview", "Active route verifier must keep school rollback safe fallback restoration preview visible.");
 requireText(routeVerifier, "school_rollback_safe_fallback_plan", "Active route verifier must keep school rollback safe fallback plan storage visible.");
+requireText(routeVerifier, "Maintenance guard active", "Active route verifier must keep publisher maintenance guard visible.");
+requireText(routeVerifier, "Maintenance guard blocks", "Active route verifier must keep publisher maintenance guard blocks visible.");
+requireText(routeVerifier, "Maintenance guard warnings", "Active route verifier must keep publisher maintenance guard warnings visible.");
 
 if (failures.length > 0) {
   for (const failure of failures) {

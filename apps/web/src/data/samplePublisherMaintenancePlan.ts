@@ -1,56 +1,26 @@
-export type PublisherMaintenanceStatus = "ready" | "needs-owner" | "blocked";
-export type PublisherMaintenanceDomain = "content" | "media" | "games" | "routes" | "reports";
-export type PublisherMaintenanceChangeStatus = "draft" | "review-required" | "blocked" | "ready-for-release";
-export type PublisherMaintenanceRouteImpact = "none" | "alias-preserved" | "requires-redirect";
+import {
+  getPublisherMaintenancePlanWarnings,
+  validatePublisherMaintenancePlan,
+  type PublisherMaintenanceChangeRequest,
+  type PublisherMaintenanceChangeStatus,
+  type PublisherMaintenanceDomain,
+  type PublisherMaintenanceItem,
+  type PublisherMaintenancePlan,
+  type PublisherMaintenanceRouteImpact,
+  type PublisherMaintenanceStatus,
+  type PublisherReleaseWindow,
+} from "@living-textbook/content-model/src/publisherMaintenance";
 
-export interface PublisherMaintenanceItem {
-  itemId: string;
-  label: string;
-  domain: PublisherMaintenanceDomain;
-  owner: string;
-  cadence: string;
-  status: PublisherMaintenanceStatus;
-  whiteLabelRule: string;
-  evidence: string;
-  nextStep: string;
-  notAllowedYet: string[];
-}
-
-export interface PublisherReleaseWindow {
-  releaseId: string;
-  label: string;
-  timing: string;
-  purpose: string;
-  requiredProof: string[];
-}
-
-export interface PublisherMaintenanceChangeRequest {
-  requestId: string;
-  label: string;
-  domain: PublisherMaintenanceDomain;
-  requestedBy: string;
-  targetEdition: string;
-  changeType: string;
-  status: PublisherMaintenanceChangeStatus;
-  routeImpact: PublisherMaintenanceRouteImpact;
-  mediaImpact: string;
-  gameImpact: string;
-  reportImpact: string;
-  requiredApprovals: string[];
-  blockedBy: string[];
-  nextAction: string;
-}
-
-export interface PublisherMaintenancePlan {
-  planId: string;
-  label: string;
-  summary: string;
-  partnerPromise: string;
-  items: PublisherMaintenanceItem[];
-  releaseWindows: PublisherReleaseWindow[];
-  changeRequests: PublisherMaintenanceChangeRequest[];
-  standingRules: string[];
-}
+export type {
+  PublisherMaintenanceChangeRequest,
+  PublisherMaintenanceChangeStatus,
+  PublisherMaintenanceDomain,
+  PublisherMaintenanceItem,
+  PublisherMaintenancePlan,
+  PublisherMaintenanceRouteImpact,
+  PublisherMaintenanceStatus,
+  PublisherReleaseWindow,
+};
 
 export const samplePublisherMaintenancePlan: PublisherMaintenancePlan = {
   planId: "publisher-yearly-maintenance-plan",
@@ -212,3 +182,7 @@ export const samplePublisherMaintenancePlan: PublisherMaintenancePlan = {
     "Local bundles and hosted packages must share the same manifest vocabulary so the platform can support both paths.",
   ],
 };
+
+export const samplePublisherMaintenancePlanErrors = validatePublisherMaintenancePlan(samplePublisherMaintenancePlan);
+
+export const samplePublisherMaintenancePlanWarnings = getPublisherMaintenancePlanWarnings(samplePublisherMaintenancePlan);

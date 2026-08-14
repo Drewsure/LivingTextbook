@@ -1,4 +1,8 @@
 import { Card, StatusPill } from "@living-textbook/ui";
+import {
+  getPublisherMaintenancePlanWarnings,
+  validatePublisherMaintenancePlan,
+} from "@living-textbook/content-model/src/publisherMaintenance";
 import type {
   PublisherMaintenanceChangeRequest,
   PublisherMaintenanceChangeStatus,
@@ -52,6 +56,8 @@ export function PublisherMaintenancePlanPanel({ plan }: PublisherMaintenancePlan
   const ownerNeededCount = plan.items.filter((item) => item.status === "needs-owner").length;
   const guardrailCount = plan.items.reduce((total, item) => total + item.notAllowedYet.length, 0);
   const blockedChangeCount = plan.changeRequests.filter((change) => change.status === "blocked").length;
+  const guardBlocks = validatePublisherMaintenancePlan(plan);
+  const guardWarnings = getPublisherMaintenancePlanWarnings(plan);
 
   return (
     <Card>
@@ -61,13 +67,30 @@ export function PublisherMaintenancePlanPanel({ plan }: PublisherMaintenancePlan
           <h2 className="mt-1 text-lg font-bold">{plan.label}</h2>
           <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">{plan.summary}</p>
         </div>
-        <StatusPill label="White-label core" tone="success" />
+        <div className="flex flex-wrap gap-2">
+          <StatusPill label="White-label core" tone="success" />
+          <StatusPill label="Maintenance guard active" tone="success" />
+          <StatusPill label={`${guardBlocks.length} guard block(s)`} tone={guardBlocks.length > 0 ? "warning" : "success"} />
+        </div>
       </div>
 
       <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
         <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Partner promise</p>
         <p className="mt-2 text-sm leading-6 text-[var(--tenant-text)]">{plan.partnerPromise}</p>
       </section>
+
+      <div className="mt-5 grid gap-3 lg:grid-cols-2">
+        <MaintenanceGuardList
+          title="Maintenance guard blocks"
+          items={guardBlocks.length > 0 ? guardBlocks : ["No maintenance guard blocks."]}
+          tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+        />
+        <MaintenanceGuardList
+          title="Maintenance guard warnings"
+          items={guardWarnings.length > 0 ? guardWarnings : ["No maintenance guard warnings."]}
+          tone={guardWarnings.length > 0 ? "warning" : "neutral"}
+        />
+      </div>
 
       <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <MaintenanceMetric label="Ready domains" value={`${readyCount}/${plan.items.length}`} tone={readyCount === plan.items.length ? "success" : "warning"} />
@@ -134,6 +157,30 @@ export function PublisherMaintenancePlanPanel({ plan }: PublisherMaintenancePlan
         </div>
       </section>
     </Card>
+  );
+}
+
+function MaintenanceGuardList({
+  title,
+  items,
+  tone = "neutral",
+}: {
+  title: string;
+  items: string[];
+  tone?: "neutral" | "warning";
+}) {
+  return (
+    <section className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-3">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <h3 className="text-sm font-bold text-[var(--tenant-text)]">{title}</h3>
+        <StatusPill label={String(items.length)} tone={tone} />
+      </div>
+      <ul className="mt-2 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
+        {items.map((item) => (
+          <li key={item}>{item}</li>
+        ))}
+      </ul>
+    </section>
   );
 }
 

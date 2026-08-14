@@ -765,6 +765,7 @@ export * from "./aiGeneratedDraftPayload";
 export * from "./aiDraftCorrectionQueue";
 export * from "./aiGamificationMapping";
 export * from "./progressEventTaxonomy";
+export * from "./publisherMaintenance";
 export * from "./aiPackageAssemblyDryRun";
 export * from "./aiPackageWriterPreflight";
 export * from "./aiPackageWriterRollbackDrill";

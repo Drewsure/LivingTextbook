@@ -511,6 +511,7 @@ Next outputs:
 - Confirm package game/audio coverage is present in schema draft, write intents, migration candidates, and migration specs before vendor-specific backend work begins.
 - Confirm `/teacher/intake` shows the first pilot source strategy: manually reviewed units first, draft PDF import later, automatic PDF-to-student publishing blocked.
 - Confirm `/teacher/intake` shows a publisher maintenance change queue for year-on-year content, media, game, route, and report updates.
+- Confirm publisher maintenance uses the shared `validatePublisherMaintenancePlan` guard and shows `Maintenance guard active`, `Maintenance guard blocks`, and `Maintenance guard warnings` before partner self-maintenance, media replacement, game availability changes, QR alias updates, report policy changes, or yearly package release work can be treated as valid.
 - Confirm durable records, adapter plans, schema draft, and migration specs include publisher maintenance change requests before partner self-maintenance.
 - Confirm `/local/sample-publisher` shows the closed/local companion package preview without implying offline-ready installer status.
 - Confirm `/local/sample-publisher` shows a package artifact map before exporter or installer work begins.

@@ -50,8 +50,17 @@ Mid-year refresh:
 - Partner media cannot be copied into public demo folders without rights approval.
 - One-off partner games cannot bypass shared engine and progress-event contracts.
 
+## Shared Guard
+
+Publisher maintenance plans must pass the shared `validatePublisherMaintenancePlan` guard before partner self-maintenance, yearly edition updates, media replacement, game availability changes, QR alias updates, report policy changes, or local/hosted package release work can be treated as valid.
+
+The guard requires content, media, games, routes, and reports domains; pilot, annual, and mid-year release windows; media, game, and route change-request coverage; standing rules for first-class white-label maintenance, learner-audio separation, printed QR continuity, and hosted/local manifest compatibility; and blocked redirect changes until rollback and notice rules are reviewed.
+
+The `/teacher/intake` panel must show `Maintenance guard active`, `Maintenance guard blocks`, and `Maintenance guard warnings`.
+
 ## Current Implementation
 
 - Sample data: `apps/web/src/data/samplePublisherMaintenancePlan.ts`
 - Panel: `apps/web/src/features/publisher/PublisherMaintenancePlanPanel.tsx`
+- Shared guard: `packages/content-model/src/publisherMaintenance.ts`
 - Route: `/teacher/intake`
