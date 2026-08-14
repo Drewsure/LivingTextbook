@@ -391,6 +391,7 @@
 - `DR-417-ai-generator-lineage-map-validator.md`
 - `DR-418-ai-generated-game-build-brief-validator.md`
 - `DR-419-ai-external-prototype-task-packet-validator.md`
+- `DR-420-ai-external-task-export-readiness-validator.md`
 
 ## Maintenance Rule
 

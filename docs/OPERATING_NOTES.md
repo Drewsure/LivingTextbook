@@ -391,3 +391,23 @@ npm run verify:routes
 4. Treat missing expected text or repeated fetch failure after retry as a real issue.
 
 Why this matters: The active route list is intentionally broad. Lightweight retry behavior reduces false negatives without hiding real route content failures.
+
+## OW-017: Recursive Text Search In PowerShell
+
+Status: Active
+
+Observed behavior: Windows PowerShell can reject `Select-String -Recurse` with a parameter-binding error in this environment.
+
+Preferred procedure:
+
+```powershell
+rg "search text" path
+```
+
+Fallback procedure if `rg` is unavailable:
+
+```powershell
+Get-ChildItem -Recurse -File path | Select-String -Pattern "search text"
+```
+
+Why this matters: Search should stay fast and read-only. Do not use this workaround to build delete, move, or overwrite command strings.

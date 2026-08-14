@@ -49,6 +49,9 @@ const externalPrototypeTaskPacketValidator = readSource("../packages/content-mod
 const externalPrototypeTaskExportReadinessGate = readSource(
   "../apps/web/src/data/sampleAiExternalPrototypeTaskExportReadinessGate.ts",
 );
+const externalPrototypeTaskExportReadinessGateValidator = readSource(
+  "../packages/content-model/src/aiExternalPrototypeTaskExportReadinessGate.ts",
+);
 const prototypeReturnReview = readSource("../apps/web/src/data/sampleAiPrototypeReturnReview.ts");
 const prototypeIntegrationPlan = readSource("../apps/web/src/data/sampleAiPrototypeIntegrationPlan.ts");
 const prototypeWrapperAdapterReview = readSource("../apps/web/src/data/sampleAiPrototypeWrapperAdapterReview.ts");
@@ -481,6 +484,26 @@ requireText(
   "AI external task export readiness gate data must exist.",
 );
 requireText(
+  externalPrototypeTaskExportReadinessGateValidator,
+  "validateAiExternalPrototypeTaskExportReadinessGate",
+  "AI external task export readiness gate shared validator must exist.",
+);
+requireText(
+  externalPrototypeTaskExportReadinessGateValidator,
+  "AI_EXTERNAL_TASK_EXPORT_REQUIRED_BLOCKED_ACTIONS",
+  "AI external task export readiness gate validator must define blocked actions.",
+);
+requireText(
+  externalPrototypeTaskExportReadinessGate,
+  "sampleAiExternalPrototypeTaskExportReadinessGateErrors",
+  "AI external task export readiness gate data must expose shared guard errors.",
+);
+requireText(
+  externalPrototypeTaskExportReadinessGate,
+  "sampleAiExternalPrototypeTaskExportReadinessGateWarnings",
+  "AI external task export readiness gate data must expose shared guard warnings.",
+);
+requireText(
   externalPrototypeTaskExportReadinessGate,
   "AI external task export readiness gate",
   "AI external task export readiness gate must name the gate.",
@@ -549,6 +572,21 @@ requireText(
   externalPrototypeTaskExportReadinessGatePanel,
   "No task export",
   "AI external task export readiness gate panel must block task export.",
+);
+requireText(
+  externalPrototypeTaskExportReadinessGatePanel,
+  "Export readiness guard active",
+  "AI external task export readiness gate panel must expose shared guard status.",
+);
+requireText(
+  externalPrototypeTaskExportReadinessGatePanel,
+  "Export readiness guard blocks",
+  "AI external task export readiness gate panel must expose shared guard blocks.",
+);
+requireText(
+  externalPrototypeTaskExportReadinessGatePanel,
+  "Export readiness guard warnings",
+  "AI external task export readiness gate panel must expose shared guard warnings.",
 );
 requireText(
   externalPrototypeTaskExportReadinessGatePanel,

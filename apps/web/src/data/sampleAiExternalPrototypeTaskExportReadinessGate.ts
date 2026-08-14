@@ -2,42 +2,29 @@ import {
   sampleAiExternalPrototypeTaskPackets,
   type AiExternalPrototypeTaskPacket,
 } from "@/data/sampleAiExternalPrototypeTaskPacket";
+import {
+  getAiExternalPrototypeTaskExportReadinessGateCollectionWarnings,
+  validateAiExternalPrototypeTaskExportReadinessGates,
+  type AiExternalPrototypeTaskExportChannel as SharedAiExternalPrototypeTaskExportChannel,
+  type AiExternalPrototypeTaskExportCheck as SharedAiExternalPrototypeTaskExportCheck,
+  type AiExternalPrototypeTaskExportCheckStatus,
+  type AiExternalPrototypeTaskExportGateStatus,
+  type AiExternalPrototypeTaskExportReadinessGate as SharedAiExternalPrototypeTaskExportReadinessGate,
+} from "@living-textbook/content-model/src/aiExternalPrototypeTaskExportReadinessGate";
 
-export type AiExternalPrototypeTaskExportGateStatus = "blocked" | "review-only";
-export type AiExternalPrototypeTaskExportCheckStatus = "blocked" | "ready-preview";
-
-export interface AiExternalPrototypeTaskExportCheck {
-  checkId: string;
-  label: string;
-  status: AiExternalPrototypeTaskExportCheckStatus;
-  evidenceRequired: string[];
-  blocksUntil: string;
-}
-
-export interface AiExternalPrototypeTaskExportChannel {
-  channelId: string;
-  label: string;
-  status: "blocked";
-  purpose: string;
-  blockedReason: string;
-}
-
-export interface AiExternalPrototypeTaskExportReadinessGate {
-  gateId: string;
-  tenantId: string;
-  requestId: string;
-  taskPacketId: string;
-  label: string;
-  status: AiExternalPrototypeTaskExportGateStatus;
-  summary: string;
-  sourceRecords: string[];
-  exportChannels: AiExternalPrototypeTaskExportChannel[];
-  readinessChecks: AiExternalPrototypeTaskExportCheck[];
-  blockedActions: string[];
-}
+export type AiExternalPrototypeTaskExportCheck = SharedAiExternalPrototypeTaskExportCheck;
+export type AiExternalPrototypeTaskExportChannel = SharedAiExternalPrototypeTaskExportChannel;
+export type AiExternalPrototypeTaskExportReadinessGate = SharedAiExternalPrototypeTaskExportReadinessGate;
+export type { AiExternalPrototypeTaskExportCheckStatus, AiExternalPrototypeTaskExportGateStatus };
 
 export const sampleAiExternalPrototypeTaskExportReadinessGates: AiExternalPrototypeTaskExportReadinessGate[] =
   sampleAiExternalPrototypeTaskPackets.map((packet) => createExportGate(packet));
+
+export const sampleAiExternalPrototypeTaskExportReadinessGateErrors =
+  validateAiExternalPrototypeTaskExportReadinessGates(sampleAiExternalPrototypeTaskExportReadinessGates);
+
+export const sampleAiExternalPrototypeTaskExportReadinessGateWarnings =
+  getAiExternalPrototypeTaskExportReadinessGateCollectionWarnings(sampleAiExternalPrototypeTaskExportReadinessGates);
 
 function createExportGate(packet: AiExternalPrototypeTaskPacket): AiExternalPrototypeTaskExportReadinessGate {
   const isMiniStar = packet.tenantId === "ministar";

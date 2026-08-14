@@ -1,4 +1,8 @@
 import { Card, StatusPill } from "@living-textbook/ui";
+import {
+  getAiExternalPrototypeTaskExportReadinessGateCollectionWarnings,
+  validateAiExternalPrototypeTaskExportReadinessGates,
+} from "@living-textbook/content-model/src/aiExternalPrototypeTaskExportReadinessGate";
 import type {
   AiExternalPrototypeTaskExportCheck,
   AiExternalPrototypeTaskExportReadinessGate,
@@ -11,6 +15,8 @@ interface AiExternalPrototypeTaskExportReadinessGatePanelProps {
 export function AiExternalPrototypeTaskExportReadinessGatePanel({
   gates,
 }: AiExternalPrototypeTaskExportReadinessGatePanelProps) {
+  const guardBlocks = validateAiExternalPrototypeTaskExportReadinessGates(gates);
+  const guardWarnings = getAiExternalPrototypeTaskExportReadinessGateCollectionWarnings(gates);
   const blockedChannelCount = gates.reduce((total, gate) => total + gate.exportChannels.length, 0);
 
   return (
@@ -25,9 +31,27 @@ export function AiExternalPrototypeTaskExportReadinessGatePanel({
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
+          <StatusPill label="Export readiness guard active" tone="neutral" />
+          <StatusPill
+            label={`${guardBlocks.length} guard block(s)`}
+            tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+          />
           <StatusPill label={`${blockedChannelCount} blocked channel(s)`} tone="warning" />
           <StatusPill label="No task export" tone="warning" />
         </div>
+      </div>
+
+      <div className="mt-5 grid gap-3 lg:grid-cols-2">
+        <ExportList
+          title="Export readiness guard blocks"
+          items={guardBlocks.length > 0 ? guardBlocks : ["No shared export readiness guard blockers."]}
+          tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+        />
+        <ExportList
+          title="Export readiness guard warnings"
+          items={guardWarnings.length > 0 ? guardWarnings : ["No shared export readiness guard warnings."]}
+          tone={guardWarnings.length > 0 ? "warning" : "neutral"}
+        />
       </div>
 
       <div className="mt-5 grid gap-4">
