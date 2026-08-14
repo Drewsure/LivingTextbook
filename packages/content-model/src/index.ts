@@ -732,6 +732,7 @@ export * from "./aiExternalPrototypeTaskPacket";
 export * from "./aiExternalPrototypeTaskExportReadinessGate";
 export * from "./aiPrototypeReturnReview";
 export * from "./aiPrototypeIntegrationPlan";
+export * from "./aiPrototypeWrapperAdapterReview";
 export * from "./aiGeneratorTenantCoverage";
 export * from "./aiGeneratorLineageMap";
 export * from "./aiGeneratorReviewSummary";

@@ -57,6 +57,9 @@ const prototypeReturnReviewValidator = readSource("../packages/content-model/src
 const prototypeIntegrationPlan = readSource("../apps/web/src/data/sampleAiPrototypeIntegrationPlan.ts");
 const prototypeIntegrationPlanValidator = readSource("../packages/content-model/src/aiPrototypeIntegrationPlan.ts");
 const prototypeWrapperAdapterReview = readSource("../apps/web/src/data/sampleAiPrototypeWrapperAdapterReview.ts");
+const prototypeWrapperAdapterReviewValidator = readSource(
+  "../packages/content-model/src/aiPrototypeWrapperAdapterReview.ts",
+);
 const prototypeFixtureReplayReport = readSource("../apps/web/src/data/sampleAiPrototypeFixtureReplayReport.ts");
 const prototypeEventReplayReport = readSource("../apps/web/src/data/sampleAiPrototypeEventReplayReport.ts");
 const prototypeAudioCoverageReport = readSource("../apps/web/src/data/sampleAiPrototypeAudioCoverageReport.ts");
@@ -788,6 +791,26 @@ requireText(prototypeIntegrationPlanPanel, "Integration sequence", "AI prototype
 requireText(prototypeIntegrationPlanPanel, "Required tests", "AI prototype integration plan panel must expose required tests.");
 requireText(prototypeIntegrationPlanPanel, "Blocked shortcuts", "AI prototype integration plan panel must expose blocked shortcuts.");
 requireText(prototypeWrapperAdapterReview, "sampleAiPrototypeWrapperAdapterReviews", "AI prototype wrapper adapter review data must exist.");
+requireText(
+  prototypeWrapperAdapterReviewValidator,
+  "validateAiPrototypeWrapperAdapterReview",
+  "AI prototype wrapper adapter review shared validator must exist.",
+);
+requireText(
+  prototypeWrapperAdapterReviewValidator,
+  "AI_PROTOTYPE_WRAPPER_REQUIRED_BLOCKED_ACTIONS",
+  "AI prototype wrapper adapter review validator must define blocked actions.",
+);
+requireText(
+  prototypeWrapperAdapterReview,
+  "sampleAiPrototypeWrapperAdapterReviewErrors",
+  "AI prototype wrapper adapter review data must expose shared guard errors.",
+);
+requireText(
+  prototypeWrapperAdapterReview,
+  "sampleAiPrototypeWrapperAdapterReviewWarnings",
+  "AI prototype wrapper adapter review data must expose shared guard warnings.",
+);
 requireText(prototypeWrapperAdapterReview, "prototype_wrapper_adapter_review", "AI prototype wrapper adapter review must name its record.");
 requireText(
   prototypeWrapperAdapterReview,
@@ -825,6 +848,21 @@ requireText(
   prototypeWrapperAdapterReviewPanel,
   "Parent-engine adapter boundary",
   "AI prototype wrapper adapter review panel must expose parent-engine boundary.",
+);
+requireText(
+  prototypeWrapperAdapterReviewPanel,
+  "Wrapper guard active",
+  "AI prototype wrapper adapter review panel must expose shared guard status.",
+);
+requireText(
+  prototypeWrapperAdapterReviewPanel,
+  "Wrapper guard blocks",
+  "AI prototype wrapper adapter review panel must expose shared guard blocks.",
+);
+requireText(
+  prototypeWrapperAdapterReviewPanel,
+  "Wrapper guard warnings",
+  "AI prototype wrapper adapter review panel must expose shared guard warnings.",
 );
 requireText(
   prototypeWrapperAdapterReviewPanel,

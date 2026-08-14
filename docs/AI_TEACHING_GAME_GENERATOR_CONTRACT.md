@@ -307,6 +307,8 @@ Prototype wrapper adapter reviews must prove that a returned prototype can be a 
 
 The wrapper may own transient local interaction and animation state only. It cannot own route state, score authority, audio manifest authority, assignment or learner identity, reward inventory writes, tenant branding, or package promotion. Hard-coded vocabulary, sentences, tenant media, mascot, event bypass, support-language progress triggers, hidden control text, route or assignment side effects, or direct score and reward writes reject the wrapper.
 
+AI prototype wrapper adapter reviews must pass the shared `validateAiPrototypeWrapperAdapterReview` guard before fixture replay, event replay, audio coverage, scoring replay, app patch planning, route planning, package promotion, or assignment can be considered. The guard requires prototype integration lineage, event and audio contracts, scoring profile snapshot, parent-engine ownership boundaries, explicit fixture input fields, standard event output, wrapper evidence, rejection triggers, visible controls, injected tenant configuration, and blocked support-language progress shortcuts.
+
 The backend-neutral storage contract is `ai_prototype_wrapper_adapter_review` / `ai-prototype-wrapper-adapter-review`. Hosted and local adapters must preserve parent-engine adapter boundary, fixture input contract, standard event output contract, state ownership rules, wrapper evidence, rejection triggers, and blocked actions while blocking event contract bypass, tenant hard-coding, route state ownership, score authority, audio manifest authority, reward inventory writes, support-language progress triggers, direct app imports, package promotion, and assignments.
 
 ## Prototype Fixture Replay Report Rule

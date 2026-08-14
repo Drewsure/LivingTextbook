@@ -2,35 +2,17 @@ import {
   sampleAiPrototypeIntegrationPlans,
   type AiPrototypeModeIntegrationPlan,
 } from "@/data/sampleAiPrototypeIntegrationPlan";
+import {
+  getAiPrototypeWrapperAdapterReviewCollectionWarnings,
+  validateAiPrototypeWrapperAdapterReviews,
+  type AiPrototypeModeWrapperAdapterReview as SharedAiPrototypeModeWrapperAdapterReview,
+  type AiPrototypeWrapperAdapterReview as SharedAiPrototypeWrapperAdapterReview,
+  type AiPrototypeWrapperAdapterReviewStatus,
+} from "@living-textbook/content-model/src/aiPrototypeWrapperAdapterReview";
 
-export type AiPrototypeWrapperAdapterReviewStatus = "not-started" | "review-only" | "blocked";
-
-export interface AiPrototypeModeWrapperAdapterReview {
-  modeId: string;
-  parentEngine: string;
-  proposedSurface: string;
-  adapterEntryPoint: string;
-  fixtureInputContract: string[];
-  standardEventOutputContract: string[];
-  stateOwnershipRules: string[];
-  wrapperEvidence: string[];
-  rejectionTriggers: string[];
-}
-
-export interface AiPrototypeWrapperAdapterReview {
-  reviewId: string;
-  tenantId: string;
-  requestId: string;
-  integrationPlanId: string;
-  label: string;
-  status: AiPrototypeWrapperAdapterReviewStatus;
-  summary: string;
-  sourceRecords: string[];
-  parentEngineAdapterBoundary: string[];
-  wrapperAcceptanceChecks: string[];
-  blockedActions: string[];
-  modeReviews: AiPrototypeModeWrapperAdapterReview[];
-}
+export type AiPrototypeModeWrapperAdapterReview = SharedAiPrototypeModeWrapperAdapterReview;
+export type AiPrototypeWrapperAdapterReview = SharedAiPrototypeWrapperAdapterReview;
+export type { AiPrototypeWrapperAdapterReviewStatus };
 
 export const sampleAiPrototypeWrapperAdapterReviews: AiPrototypeWrapperAdapterReview[] =
   sampleAiPrototypeIntegrationPlans.map((plan) => {
@@ -78,11 +60,19 @@ export const sampleAiPrototypeWrapperAdapterReviews: AiPrototypeWrapperAdapterRe
         "No tenant hard-coding",
         "No package promotion",
         "No student assignment",
+        "No support-language progress trigger",
         ...(isMiniStar ? ["No Japanese support-language scoring or release"] : []),
       ],
       modeReviews: plan.modePlans.map((modePlan) => createModeWrapperReview(modePlan, isMiniStar)),
     };
   });
+
+export const sampleAiPrototypeWrapperAdapterReviewErrors = validateAiPrototypeWrapperAdapterReviews(
+  sampleAiPrototypeWrapperAdapterReviews,
+);
+
+export const sampleAiPrototypeWrapperAdapterReviewWarnings =
+  getAiPrototypeWrapperAdapterReviewCollectionWarnings(sampleAiPrototypeWrapperAdapterReviews);
 
 function createModeWrapperReview(
   modePlan: AiPrototypeModeIntegrationPlan,

@@ -1,4 +1,8 @@
 import { Card, StatusPill } from "@living-textbook/ui";
+import {
+  getAiPrototypeWrapperAdapterReviewCollectionWarnings,
+  validateAiPrototypeWrapperAdapterReviews,
+} from "@living-textbook/content-model/src/aiPrototypeWrapperAdapterReview";
 import type {
   AiPrototypeModeWrapperAdapterReview,
   AiPrototypeWrapperAdapterReview,
@@ -22,6 +26,8 @@ const statusLabel: Record<AiPrototypeWrapperAdapterReviewStatus, string> = {
 };
 
 export function AiPrototypeWrapperAdapterReviewPanel({ reviews }: AiPrototypeWrapperAdapterReviewPanelProps) {
+  const guardBlocks = validateAiPrototypeWrapperAdapterReviews(reviews);
+  const guardWarnings = getAiPrototypeWrapperAdapterReviewCollectionWarnings(reviews);
   const modeReviewCount = reviews.reduce((total, review) => total + review.modeReviews.length, 0);
 
   return (
@@ -37,9 +43,27 @@ export function AiPrototypeWrapperAdapterReviewPanel({ reviews }: AiPrototypeWra
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
+          <StatusPill label="Wrapper guard active" tone="neutral" />
+          <StatusPill
+            label={`${guardBlocks.length} guard block(s)`}
+            tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+          />
           <StatusPill label={`${modeReviewCount} mode adapter(s)`} tone="success" />
           <StatusPill label="No event contract bypass" tone="warning" />
         </div>
+      </div>
+
+      <div className="mt-5 grid gap-3 lg:grid-cols-2">
+        <AdapterList
+          title="Wrapper guard blocks"
+          items={guardBlocks.length > 0 ? guardBlocks : ["No shared wrapper adapter guard blockers."]}
+          tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+        />
+        <AdapterList
+          title="Wrapper guard warnings"
+          items={guardWarnings.length > 0 ? guardWarnings : ["No shared wrapper adapter guard warnings."]}
+          tone={guardWarnings.length > 0 ? "warning" : "neutral"}
+        />
       </div>
 
       <div className="mt-5 grid gap-4">
