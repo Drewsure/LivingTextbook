@@ -148,6 +148,9 @@ const targetLanguageAudioApprovalPacketValidator = readSource(
 const generatedPackageTeacherReviewPacket = readSource(
   "../apps/web/src/data/sampleAiGeneratedPackageTeacherReviewPacket.ts",
 );
+const generatedPackageTeacherReviewPacketValidator = readSource(
+  "../packages/content-model/src/aiGeneratedPackageTeacherReviewPacket.ts",
+);
 const generatedPackageManifest = readSource("../apps/web/src/data/sampleAiGeneratedPackageManifest.ts");
 const generatedPackagePromotionChecklist = readSource(
   "../apps/web/src/data/sampleAiGeneratedPackagePromotionChecklist.ts",
@@ -2760,9 +2763,44 @@ requireText(
   "Target-language audio approval packet panel must show review cues.",
 );
 requireText(
+  generatedPackageTeacherReviewPacketValidator,
+  "validateAiGeneratedPackageTeacherReviewPacket",
+  "AI generated package teacher review packet validator must exist.",
+);
+requireText(
+  generatedPackageTeacherReviewPacketValidator,
+  "AI_GENERATED_PACKAGE_TEACHER_REVIEW_BLOCKED_ACTIONS",
+  "AI generated package teacher review packet validator must define blocked actions.",
+);
+requireText(
+  generatedPackageTeacherReviewPacketValidator,
+  "target_language_audio_approval",
+  "AI generated package teacher review packet validator must require target-language audio approval.",
+);
+requireText(
+  generatedPackageTeacherReviewPacketValidator,
+  "No teacher approval capture",
+  "AI generated package teacher review packet validator must block teacher approval capture.",
+);
+requireText(
+  generatedPackageTeacherReviewPacketValidator,
+  "hiragana-only",
+  "AI generated package teacher review packet validator must preserve MiniStar hiragana-only support rules.",
+);
+requireText(
   generatedPackageTeacherReviewPacket,
   "sampleAiGeneratedPackageTeacherReviewPackets",
   "AI generated package teacher review packet data must exist.",
+);
+requireText(
+  generatedPackageTeacherReviewPacket,
+  "sampleAiGeneratedPackageTeacherReviewPacketErrors",
+  "AI generated package teacher review packet data must expose validation errors.",
+);
+requireText(
+  generatedPackageTeacherReviewPacket,
+  "sampleAiGeneratedPackageTeacherReviewPacketWarnings",
+  "AI generated package teacher review packet data must expose validation warnings.",
 );
 requireText(
   generatedPackageTeacherReviewPacket,
@@ -2823,6 +2861,21 @@ requireText(
   generatedPackageTeacherReviewPacketPanel,
   "No teacher approval capture",
   "AI generated package teacher review packet panel must keep approval capture blocked.",
+);
+requireText(
+  generatedPackageTeacherReviewPacketPanel,
+  "Teacher review packet guard active",
+  "AI generated package teacher review packet panel must expose active guard label.",
+);
+requireText(
+  generatedPackageTeacherReviewPacketPanel,
+  "Teacher review packet guard blocks",
+  "AI generated package teacher review packet panel must expose guard blocks.",
+);
+requireText(
+  generatedPackageTeacherReviewPacketPanel,
+  "Teacher review packet guard warnings",
+  "AI generated package teacher review packet panel must expose guard warnings.",
 );
 requireText(generatedPackageManifest, "sampleAiGeneratedPackageManifests", "AI generated package manifest data must exist.");
 requireText(generatedPackageManifest, "ai_generated_package_manifest", "AI generated package manifest must name manifest record.");

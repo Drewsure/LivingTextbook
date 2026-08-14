@@ -1,4 +1,8 @@
 import { Card, StatusPill } from "@living-textbook/ui";
+import {
+  getAiGeneratedPackageTeacherReviewPacketCollectionWarnings,
+  validateAiGeneratedPackageTeacherReviewPackets,
+} from "@living-textbook/content-model/src/aiGeneratedPackageTeacherReviewPacket";
 
 import type {
   AiGeneratedPackageTeacherReviewLaneStatus,
@@ -26,6 +30,8 @@ const laneStatusTone: Record<AiGeneratedPackageTeacherReviewLaneStatus, "neutral
 export function AiGeneratedPackageTeacherReviewPacketPanel({
   packets,
 }: AiGeneratedPackageTeacherReviewPacketPanelProps) {
+  const guardBlocks = validateAiGeneratedPackageTeacherReviewPackets(packets);
+  const guardWarnings = getAiGeneratedPackageTeacherReviewPacketCollectionWarnings(packets);
   const missingEvidenceCount = packets.reduce((total, packet) => total + packet.missingEvidence.length, 0);
 
   return (
@@ -43,9 +49,27 @@ export function AiGeneratedPackageTeacherReviewPacketPanel({
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
+          <StatusPill label="Teacher review packet guard active" tone="neutral" />
+          <StatusPill
+            label={`${guardBlocks.length} guard block(s)`}
+            tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+          />
           <StatusPill label="No teacher approval capture" tone="warning" />
           <StatusPill label={`${missingEvidenceCount} missing evidence item(s)`} tone="warning" />
         </div>
+      </div>
+
+      <div className="grid gap-3 lg:grid-cols-2">
+        <ListPanel
+          title="Teacher review packet guard blocks"
+          items={guardBlocks.length > 0 ? guardBlocks : ["No shared teacher review packet guard blockers."]}
+          tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+        />
+        <ListPanel
+          title="Teacher review packet guard warnings"
+          items={guardWarnings.length > 0 ? guardWarnings : ["No shared teacher review packet guard warnings."]}
+          tone={guardWarnings.length > 0 ? "warning" : "neutral"}
+        />
       </div>
 
       <div className="space-y-3">

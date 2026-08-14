@@ -1,36 +1,19 @@
+import {
+  getAiGeneratedPackageTeacherReviewPacketCollectionWarnings,
+  validateAiGeneratedPackageTeacherReviewPackets,
+  type AiGeneratedPackageTeacherReviewLane as SharedAiGeneratedPackageTeacherReviewLane,
+  type AiGeneratedPackageTeacherReviewPacket as SharedAiGeneratedPackageTeacherReviewPacket,
+} from "@living-textbook/content-model/src/aiGeneratedPackageTeacherReviewPacket";
+
 export type AiGeneratedPackageTeacherReviewPacketStatus =
-  | "blocked"
-  | "review-only"
-  | "ready-for-teacher-review";
+  SharedAiGeneratedPackageTeacherReviewPacket["status"];
 
 export type AiGeneratedPackageTeacherReviewLaneStatus =
-  | "blocked"
-  | "needs-evidence"
-  | "review-ready"
-  | "accepted-preview";
+  SharedAiGeneratedPackageTeacherReviewLane["status"];
 
-export interface AiGeneratedPackageTeacherReviewLane {
-  label: string;
-  status: AiGeneratedPackageTeacherReviewLaneStatus;
-  sourceRecord: string;
-  evidence: string;
-  teacherQuestion: string;
-  blocker: string;
-}
+export type AiGeneratedPackageTeacherReviewLane = SharedAiGeneratedPackageTeacherReviewLane;
 
-export interface AiGeneratedPackageTeacherReviewPacket {
-  packetId: string;
-  tenantId: string;
-  requestId: string;
-  label: string;
-  status: AiGeneratedPackageTeacherReviewPacketStatus;
-  summary: string;
-  decisionLanes: AiGeneratedPackageTeacherReviewLane[];
-  readySignals: string[];
-  missingEvidence: string[];
-  blockedActions: string[];
-  nextRequiredRecords: string[];
-}
+export type AiGeneratedPackageTeacherReviewPacket = SharedAiGeneratedPackageTeacherReviewPacket;
 
 export const sampleAiGeneratedPackageTeacherReviewPackets: AiGeneratedPackageTeacherReviewPacket[] = [
   {
@@ -213,6 +196,12 @@ export const sampleAiGeneratedPackageTeacherReviewPackets: AiGeneratedPackageTea
     ],
   },
 ];
+
+export const sampleAiGeneratedPackageTeacherReviewPacketErrors =
+  validateAiGeneratedPackageTeacherReviewPackets(sampleAiGeneratedPackageTeacherReviewPackets);
+
+export const sampleAiGeneratedPackageTeacherReviewPacketWarnings =
+  getAiGeneratedPackageTeacherReviewPacketCollectionWarnings(sampleAiGeneratedPackageTeacherReviewPackets);
 
 export function filterAiGeneratedPackageTeacherReviewPacketsByTenant(
   packets: AiGeneratedPackageTeacherReviewPacket[],
