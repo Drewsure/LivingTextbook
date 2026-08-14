@@ -2,7 +2,7 @@
 
 Document type: focused verification supplement  
 Status: active scaffold  
-Last updated: 2026-07-31
+Last updated: 2026-08-15
 
 ## Purpose
 
@@ -43,15 +43,17 @@ Verify at:
 25. Confirm core write intents reject raw learner audio.
 26. Confirm core write intents reject learner transcripts.
 27. Confirm export-capable intents are policy gated.
-28. Confirm local-classroom intents show offline support.
-29. Confirm local-classroom handoff steps mention backup/restore and release-control export or restore.
-30. Confirm hosted handoff steps mention migration/table mapping and release-gate validation before publish status changes.
-31. Confirm handoff steps are visible for each adapter plan.
-32. Confirm the shared contract exists at `packages/content-model/src/persistenceAdapter.ts`.
-33. Confirm the sample data exists at `apps/web/src/data/samplePersistenceAdapterPlan.ts`.
-34. Confirm the UI panel exists at `apps/web/src/features/persistence/PersistenceAdapterReadinessPanel.tsx`.
-35. Confirm typecheck passes after pulling latest.
-36. Confirm production build passes after pulling latest.
+28. Confirm readiness warnings include the adapter label so repeated write-intent labels from hosted and local plans remain distinguishable.
+29. Confirm warning and error list rendering does not use raw message text as the only React key.
+30. Confirm local-classroom intents show offline support.
+31. Confirm local-classroom handoff steps mention backup/restore and release-control export or restore.
+32. Confirm hosted handoff steps mention migration/table mapping and release-gate validation before publish status changes.
+33. Confirm handoff steps are visible for each adapter plan.
+34. Confirm the shared contract exists at `packages/content-model/src/persistenceAdapter.ts`.
+35. Confirm the sample data exists at `apps/web/src/data/samplePersistenceAdapterPlan.ts`.
+36. Confirm the UI panel exists at `apps/web/src/features/persistence/PersistenceAdapterReadinessPanel.tsx`.
+37. Confirm typecheck passes after pulling latest.
+38. Confirm production build passes after pulling latest.
 
 ## Expected Commands
 

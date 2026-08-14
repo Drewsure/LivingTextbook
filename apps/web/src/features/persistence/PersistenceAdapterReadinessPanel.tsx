@@ -57,8 +57,8 @@ export function PersistenceAdapterReadinessPanel({
             <p className="mt-2">All adapter plans reject raw learner audio and transcripts in core storage. Student-data writes require school or tenant policy.</p>
           ) : (
             <ul className="mt-2 grid gap-2">
-              {errors.map((error) => (
-                <li key={error}>{error}</li>
+              {errors.map((error, index) => (
+                <li key={`adapter-error-${index}-${error}`}>{error}</li>
               ))}
             </ul>
           )}
@@ -66,8 +66,8 @@ export function PersistenceAdapterReadinessPanel({
         <div className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3 text-sm leading-6 text-[var(--tenant-muted)]">
           <p className="font-semibold text-[var(--tenant-text)]">Readiness warnings</p>
           <ul className="mt-2 grid gap-2">
-            {warnings.map((warning) => (
-              <li key={warning}>{warning}</li>
+            {warnings.map((warning, index) => (
+              <li key={`adapter-warning-${index}-${warning}`}>{warning}</li>
             ))}
           </ul>
         </div>

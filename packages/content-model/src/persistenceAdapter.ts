@@ -4115,16 +4115,18 @@ export function getPersistenceAdapterWarnings(plan: PersistenceAdapterPlan): str
   }
 
   for (const intent of plan.writeIntents) {
+    const intentLabel = `${plan.label}: ${intent.label}`;
+
     if (intent.requiredBeforePilot && intent.readiness !== "pilot-ready") {
-      warnings.push(`${intent.label} must be resolved before pilot use. Current readiness: ${intent.readiness}.`);
+      warnings.push(`${intentLabel} must be resolved before pilot use. Current readiness: ${intent.readiness}.`);
     }
 
     if (intent.containsStudentData && intent.readiness !== "pilot-ready") {
-      warnings.push(`${intent.label} contains student data and needs policy plus persistence before live use.`);
+      warnings.push(`${intentLabel} contains student data and needs policy plus persistence before live use.`);
     }
 
     if (intent.allowsExport && !intent.requiresSchoolPolicy) {
-      warnings.push(`${intent.label} allows export and should require school or tenant policy.`);
+      warnings.push(`${intentLabel} allows export and should require school or tenant policy.`);
     }
   }
 
