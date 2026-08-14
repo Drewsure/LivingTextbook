@@ -1,4 +1,8 @@
 import { Card, StatusPill } from "@living-textbook/ui";
+import {
+  getAiPrototypeCodexPatchApprovalDecisionCollectionWarnings,
+  validateAiPrototypeCodexPatchApprovalDecisions,
+} from "@living-textbook/content-model/src/aiPrototypeCodexPatchApprovalDecision";
 
 import type {
   AiPrototypeCodexPatchApprovalDecision,
@@ -40,6 +44,9 @@ const checkLabel: Record<AiPrototypeCodexPatchApprovalDecisionCheckStatus, strin
 export function AiPrototypeCodexPatchApprovalDecisionPanel({
   decisions,
 }: AiPrototypeCodexPatchApprovalDecisionPanelProps) {
+  const guardBlocks = validateAiPrototypeCodexPatchApprovalDecisions(decisions);
+  const guardWarnings = getAiPrototypeCodexPatchApprovalDecisionCollectionWarnings(decisions);
+
   return (
     <Card className="space-y-4">
       <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
@@ -53,7 +60,27 @@ export function AiPrototypeCodexPatchApprovalDecisionPanel({
             files, and keeps routes, scoring, rewards, audio manifests, packages, and assignments unchanged.
           </p>
         </div>
-        <StatusPill label="No patch approval recorded" tone="warning" />
+        <div className="flex flex-wrap gap-2">
+          <StatusPill label="Codex patch approval decision guard active" tone="neutral" />
+          <StatusPill
+            label={`${guardBlocks.length} guard block(s)`}
+            tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+          />
+          <StatusPill label="No patch approval recorded" tone="warning" />
+        </div>
+      </div>
+
+      <div className="grid gap-3 lg:grid-cols-2">
+        <ListPanel
+          title="Codex patch approval decision guard blocks"
+          items={guardBlocks.length > 0 ? guardBlocks : ["No shared Codex patch approval decision guard blockers."]}
+          tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+        />
+        <ListPanel
+          title="Codex patch approval decision guard warnings"
+          items={guardWarnings.length > 0 ? guardWarnings : ["No shared Codex patch approval decision guard warnings."]}
+          tone={guardWarnings.length > 0 ? "warning" : "neutral"}
+        />
       </div>
 
       <div className="space-y-3">

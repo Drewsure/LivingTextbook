@@ -431,6 +431,8 @@ The backend-neutral storage contract is `ai_prototype_patch_harness_implementati
 
 Codex patch approval decisions must remain review-only until patch file scope, patch test readiness, harness plan, harness implementation proposal, route safety, rollback, storage verification, and reviewer identity signature evidence are reviewed.
 
+Codex patch approval decisions must pass the shared `validateAiPrototypeCodexPatchApprovalDecision` guard before signed approval preflights, release locks, patch work orders, change set previews, route planning, package promotion, assignment, scoring profile mutation, Star Dust or reward writes, audio manifest mutation, app file work, harness implementation, test execution, or Playwright runs can be considered. The guard requires source records, approval evidence checks, decision options, no recorded approval, required pre-decision gates, next records, and blocked support-language progress.
+
 The decision preview may show options such as keeping the patch blocked, approving patch planning only, returning for evidence repair, or rejecting the patch scope. A visible option is not an approval record. Until a future storage contract and signed approval workflow exist, no Codex patch approval is recorded.
 
 The preview cannot write app files, generate patches, execute tests, invoke Playwright, mutate routes, expose student-facing routes, change scoring or rewards, mutate audio manifests, promote packages, assign students, or trigger support-language progress. MiniStar patch approval decisions must keep Foundation Japanese support hiragana-only and support-only while English remains the progress trigger.

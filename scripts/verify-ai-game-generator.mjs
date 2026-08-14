@@ -113,6 +113,9 @@ const prototypePatchHarnessImplementationProposalValidator = readSource(
 const prototypeCodexPatchApprovalDecision = readSource(
   "../apps/web/src/data/sampleAiPrototypeCodexPatchApprovalDecision.ts",
 );
+const prototypeCodexPatchApprovalDecisionValidator = readSource(
+  "../packages/content-model/src/aiPrototypeCodexPatchApprovalDecision.ts",
+);
 const prototypeSignedApprovalPreflight = readSource(
   "../apps/web/src/data/sampleAiPrototypeSignedApprovalPreflight.ts",
 );
@@ -1965,9 +1968,39 @@ requireText(
   "AI prototype patch harness implementation proposal panel must expose shared guard warnings.",
 );
 requireText(
+  prototypeCodexPatchApprovalDecisionValidator,
+  "validateAiPrototypeCodexPatchApprovalDecision",
+  "AI prototype Codex patch approval decision validator must export the single-decision guard.",
+);
+requireText(
+  prototypeCodexPatchApprovalDecisionValidator,
+  "AI_PROTOTYPE_CODEX_PATCH_APPROVAL_DECISION_BLOCKED_ACTIONS",
+  "AI prototype Codex patch approval decision validator must lock blocked actions.",
+);
+requireText(
+  prototypeCodexPatchApprovalDecisionValidator,
+  "No patch approval recorded",
+  "AI prototype Codex patch approval decision validator must keep approval unrecorded.",
+);
+requireText(
+  prototypeCodexPatchApprovalDecisionValidator,
+  "hiragana-only",
+  "AI prototype Codex patch approval decision validator must preserve MiniStar hiragana support evidence.",
+);
+requireText(
   prototypeCodexPatchApprovalDecision,
   "sampleAiPrototypeCodexPatchApprovalDecisions",
   "AI prototype Codex patch approval decision data must exist.",
+);
+requireText(
+  prototypeCodexPatchApprovalDecision,
+  "sampleAiPrototypeCodexPatchApprovalDecisionErrors",
+  "AI prototype Codex patch approval decision data must expose shared guard errors.",
+);
+requireText(
+  prototypeCodexPatchApprovalDecision,
+  "sampleAiPrototypeCodexPatchApprovalDecisionWarnings",
+  "AI prototype Codex patch approval decision data must expose shared guard warnings.",
 );
 requireText(
   prototypeCodexPatchApprovalDecision,
@@ -2008,6 +2041,21 @@ requireText(
   prototypeCodexPatchApprovalDecisionPanel,
   "No patch approval recorded",
   "AI prototype Codex patch approval decision panel must block approval recording.",
+);
+requireText(
+  prototypeCodexPatchApprovalDecisionPanel,
+  "Codex patch approval decision guard active",
+  "AI prototype Codex patch approval decision panel must expose shared guard state.",
+);
+requireText(
+  prototypeCodexPatchApprovalDecisionPanel,
+  "Codex patch approval decision guard blocks",
+  "AI prototype Codex patch approval decision panel must expose shared guard blocks.",
+);
+requireText(
+  prototypeCodexPatchApprovalDecisionPanel,
+  "Codex patch approval decision guard warnings",
+  "AI prototype Codex patch approval decision panel must expose shared guard warnings.",
 );
 requireText(
   prototypeSignedApprovalPreflight,

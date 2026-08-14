@@ -1,35 +1,19 @@
 import { sampleAiPrototypePatchHarnessImplementationProposals } from "@/data/sampleAiPrototypePatchHarnessImplementationProposal";
+import {
+  getAiPrototypeCodexPatchApprovalDecisionCollectionWarnings,
+  validateAiPrototypeCodexPatchApprovalDecisions,
+  type AiPrototypeCodexPatchApprovalDecision as SharedAiPrototypeCodexPatchApprovalDecision,
+  type AiPrototypeCodexPatchApprovalDecisionCheck,
+  type AiPrototypeCodexPatchApprovalDecisionCheckStatus,
+  type AiPrototypeCodexPatchApprovalDecisionStatus,
+} from "@living-textbook/content-model/src/aiPrototypeCodexPatchApprovalDecision";
 
-export type AiPrototypeCodexPatchApprovalDecisionStatus =
-  | "blocked"
-  | "review-only"
-  | "ready-for-codex-approval-review";
-export type AiPrototypeCodexPatchApprovalDecisionCheckStatus = "missing" | "blocked" | "pending-review" | "reviewed";
-
-export interface AiPrototypeCodexPatchApprovalDecisionCheck {
-  label: string;
-  status: AiPrototypeCodexPatchApprovalDecisionCheckStatus;
-  requiredRecord: string;
-  evidenceNeeded: string;
-}
-
-export interface AiPrototypeCodexPatchApprovalDecision {
-  decisionId: string;
-  tenantId: string;
-  requestId: string;
-  proposalId: string;
-  harnessPlanId: string;
-  label: string;
-  status: AiPrototypeCodexPatchApprovalDecisionStatus;
-  selectedDecision: string;
-  summary: string;
-  sourceRecords: string[];
-  checks: AiPrototypeCodexPatchApprovalDecisionCheck[];
-  decisionOptions: string[];
-  requiredBeforeDecision: string[];
-  blockedActions: string[];
-  nextRequiredRecords: string[];
-}
+export type AiPrototypeCodexPatchApprovalDecision = SharedAiPrototypeCodexPatchApprovalDecision;
+export type {
+  AiPrototypeCodexPatchApprovalDecisionCheck,
+  AiPrototypeCodexPatchApprovalDecisionCheckStatus,
+  AiPrototypeCodexPatchApprovalDecisionStatus,
+};
 
 export const sampleAiPrototypeCodexPatchApprovalDecisions: AiPrototypeCodexPatchApprovalDecision[] =
   sampleAiPrototypePatchHarnessImplementationProposals.map((proposal) => {
@@ -159,6 +143,12 @@ export const sampleAiPrototypeCodexPatchApprovalDecisions: AiPrototypeCodexPatch
       ],
     };
   });
+
+export const sampleAiPrototypeCodexPatchApprovalDecisionErrors =
+  validateAiPrototypeCodexPatchApprovalDecisions(sampleAiPrototypeCodexPatchApprovalDecisions);
+
+export const sampleAiPrototypeCodexPatchApprovalDecisionWarnings =
+  getAiPrototypeCodexPatchApprovalDecisionCollectionWarnings(sampleAiPrototypeCodexPatchApprovalDecisions);
 
 export function filterAiPrototypeCodexPatchApprovalDecisionsByTenant(
   decisions: AiPrototypeCodexPatchApprovalDecision[],
