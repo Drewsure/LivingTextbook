@@ -415,6 +415,7 @@
 - `DR-441-ai-generated-package-teacher-review-packet-validator.md`
 - `DR-442-ai-generated-package-manifest-validator.md`
 - `DR-443-ai-generated-package-promotion-checklist-validator.md`
+- `DR-444-ai-generated-publish-readiness-gate-validator.md`
 
 ## Maintenance Rule
 

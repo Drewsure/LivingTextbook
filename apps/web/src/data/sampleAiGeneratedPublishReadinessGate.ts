@@ -2,34 +2,12 @@ import { sampleAiDraftCorrectionQueues } from "@/data/sampleAiDraftCorrectionQue
 import { sampleAiGeneratedPackageManifests } from "@/data/sampleAiGeneratedPackageManifest";
 import { sampleAiRewardReadinessGates } from "@/data/sampleAiRewardReadinessGate";
 import { sampleAiVerifierSubmissionPackets } from "@/data/sampleAiVerifierSubmissionPacket";
-
-export type AiGeneratedPublishReadinessStatus = "blocked" | "ready-for-review";
-export type AiGeneratedPublishReadinessCheckStatus = "ready-preview" | "blocked" | "missing";
-
-export interface AiGeneratedPublishReadinessCheck {
-  checkId: string;
-  label: string;
-  status: AiGeneratedPublishReadinessCheckStatus;
-  evidence: string;
-  requiredRecord: string;
-  studentUseEffect: string;
-}
-
-export interface AiGeneratedPublishReadinessGate {
-  gateId: string;
-  tenantId: string;
-  requestId: string;
-  manifestId: string;
-  label: string;
-  summary: string;
-  status: AiGeneratedPublishReadinessStatus;
-  publishState: string;
-  futureStudentRoute: string;
-  checks: AiGeneratedPublishReadinessCheck[];
-  allowedNow: string[];
-  blockedActions: string[];
-  nextRecords: string[];
-}
+import {
+  getAiGeneratedPublishReadinessGateCollectionWarnings,
+  validateAiGeneratedPublishReadinessGates,
+  type AiGeneratedPublishReadinessCheck,
+  type AiGeneratedPublishReadinessGate,
+} from "@living-textbook/content-model/src/aiGeneratedPublishReadinessGate";
 
 export const sampleAiGeneratedPublishReadinessGates: AiGeneratedPublishReadinessGate[] =
   sampleAiGeneratedPackageManifests.map((manifest) => {
@@ -117,6 +95,7 @@ export const sampleAiGeneratedPublishReadinessGates: AiGeneratedPublishReadiness
         "Create assignment from generated package blocked",
         "Write local bundle from generated package blocked",
         "Mark generated package student-ready blocked",
+        "Publish support-language-only generated package blocked",
       ],
       nextRecords: [
         "ai_generated_package_manifest",
@@ -136,3 +115,9 @@ export function filterAiGeneratedPublishReadinessGatesByTenant(
 ): AiGeneratedPublishReadinessGate[] {
   return gates.filter((gate) => gate.tenantId === tenantId);
 }
+
+export const sampleAiGeneratedPublishReadinessGateErrors =
+  validateAiGeneratedPublishReadinessGates(sampleAiGeneratedPublishReadinessGates);
+
+export const sampleAiGeneratedPublishReadinessGateWarnings =
+  getAiGeneratedPublishReadinessGateCollectionWarnings(sampleAiGeneratedPublishReadinessGates);

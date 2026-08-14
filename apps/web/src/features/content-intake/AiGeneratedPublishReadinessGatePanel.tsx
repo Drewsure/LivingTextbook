@@ -1,9 +1,11 @@
 import { Card, StatusPill } from "@living-textbook/ui";
-import type {
-  AiGeneratedPublishReadinessCheckStatus,
-  AiGeneratedPublishReadinessGate,
-  AiGeneratedPublishReadinessStatus,
-} from "@/data/sampleAiGeneratedPublishReadinessGate";
+import {
+  getAiGeneratedPublishReadinessGateCollectionWarnings,
+  validateAiGeneratedPublishReadinessGates,
+  type AiGeneratedPublishReadinessCheckStatus,
+  type AiGeneratedPublishReadinessGate,
+  type AiGeneratedPublishReadinessStatus,
+} from "@living-textbook/content-model/src/aiGeneratedPublishReadinessGate";
 
 interface AiGeneratedPublishReadinessGatePanelProps {
   gates: AiGeneratedPublishReadinessGate[];
@@ -25,6 +27,8 @@ export function AiGeneratedPublishReadinessGatePanel({ gates }: AiGeneratedPubli
     (total, gate) => total + gate.checks.filter((check) => check.status !== "ready-preview").length,
     0,
   );
+  const guardBlocks = validateAiGeneratedPublishReadinessGates(gates);
+  const guardWarnings = getAiGeneratedPublishReadinessGateCollectionWarnings(gates);
 
   return (
     <Card>
@@ -38,9 +42,24 @@ export function AiGeneratedPublishReadinessGatePanel({ gates }: AiGeneratedPubli
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
+          <StatusPill label="Publish guard active" tone="warning" />
+          <StatusPill label={`${guardBlocks.length} guard block(s)`} tone={guardBlocks.length > 0 ? "warning" : "success"} />
           <StatusPill label="Route creation blocked" tone="warning" />
           <StatusPill label={`${blockerCount} publish blocker(s)`} tone={blockerCount > 0 ? "warning" : "success"} />
         </div>
+      </div>
+
+      <div className="mt-5 grid gap-3 lg:grid-cols-2">
+        <PublishList
+          title="Publish guard blocks"
+          items={guardBlocks.length > 0 ? guardBlocks : ["No publish guard blocks"]}
+          tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+        />
+        <PublishList
+          title="Publish guard warnings"
+          items={guardWarnings.length > 0 ? guardWarnings : ["No publish guard warnings"]}
+          tone={guardWarnings.length > 0 ? "warning" : "neutral"}
+        />
       </div>
 
       <div className="mt-5 grid gap-4">

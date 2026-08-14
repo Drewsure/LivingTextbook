@@ -165,6 +165,9 @@ const generatedPackageAssemblyReadiness = readSource(
 );
 const generatedPackageAssemblyDryRun = readSource("../apps/web/src/data/sampleAiGeneratedPackageAssemblyDryRun.ts");
 const generatedPackageWriterPreflight = readSource("../apps/web/src/data/sampleAiGeneratedPackageWriterPreflight.ts");
+const generatedPublishReadinessGateValidator = readSource(
+  "../packages/content-model/src/aiGeneratedPublishReadinessGate.ts",
+);
 const generatedPackageWriterRollbackDrill = readSource(
   "../apps/web/src/data/sampleAiGeneratedPackageWriterRollbackDrill.ts",
 );
@@ -3095,6 +3098,31 @@ requireText(
   "AI generated publish readiness gate data must exist.",
 );
 requireText(
+  generatedPublishReadinessGateValidator,
+  "validateAiGeneratedPublishReadinessGate",
+  "AI generated publish readiness gate validator must exist.",
+);
+requireText(
+  generatedPublishReadinessGateValidator,
+  "AI_GENERATED_PUBLISH_READINESS_REQUIRED_CHECK_IDS",
+  "AI generated publish readiness gate validator must define required checks.",
+);
+requireText(
+  generatedPublishReadinessGateValidator,
+  "support-language-only generated package blocked",
+  "AI generated publish readiness gate validator must block support-language-only publishing.",
+);
+requireText(
+  generatedPublishReadinessGate,
+  "sampleAiGeneratedPublishReadinessGateErrors",
+  "AI generated publish readiness gate data must expose validation errors.",
+);
+requireText(
+  generatedPublishReadinessGate,
+  "sampleAiGeneratedPublishReadinessGateWarnings",
+  "AI generated publish readiness gate data must expose validation warnings.",
+);
+requireText(
   generatedPublishReadinessGate,
   "Student route publish blocked",
   "AI generated publish readiness gate must block student route publishing.",
@@ -3150,6 +3178,11 @@ requireText(
   "AI generated publish readiness gate must block student-ready markers.",
 );
 requireText(
+  generatedPublishReadinessGate,
+  "Publish support-language-only generated package blocked",
+  "AI generated publish readiness gate must block support-language-only publishing.",
+);
+requireText(
   generatedPublishReadinessGatePanel,
   "AI generated publish readiness gate",
   "AI generated publish readiness panel must expose heading.",
@@ -3163,6 +3196,21 @@ requireText(
   generatedPublishReadinessGatePanel,
   "Route creation blocked",
   "AI generated publish readiness panel must expose route creation block.",
+);
+requireText(
+  generatedPublishReadinessGatePanel,
+  "Publish guard active",
+  "AI generated publish readiness panel must expose active guard label.",
+);
+requireText(
+  generatedPublishReadinessGatePanel,
+  "Publish guard blocks",
+  "AI generated publish readiness panel must expose guard blocks.",
+);
+requireText(
+  generatedPublishReadinessGatePanel,
+  "Publish guard warnings",
+  "AI generated publish readiness panel must expose guard warnings.",
 );
 requireText(
   generatedPublishReadinessGatePanel,

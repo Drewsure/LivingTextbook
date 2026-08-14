@@ -561,6 +561,8 @@ Generated packages must show an `ai_generated_publish_readiness_gate` before any
 
 The gate must gather correction queue status, verifier packet approval, manifest completeness, reward readiness, release-control binding, and teacher approval ledger capture. It may allow review and correction work, but route registry writes, media playlist writes, assignment creation, local bundle writes, and student-ready markers remain blocked.
 
+AI generated publish readiness gates must pass the shared `validateAiGeneratedPublishReadinessGate` guard before route creation, route registry writes, media playlist writes, assignment creation, local bundle writes, student-ready markers, or support-language-only generated package publishing can be considered. The guard requires correction queue, verifier, manifest, reward, release-control, teacher approval, allowed review-only actions, blocked publish actions, next records, and blocked future route evidence.
+
 The backend-neutral storage contract is `ai_generated_publish_readiness_gate` / `ai-generated-publish-readiness-gate`. Hosted and local adapters must preserve correction queue clearance, verifier packet approval, manifest completeness, reward readiness, release-control binding, and teacher approval ledger capture while blocking route registry writes, media playlist writes, assignment creation, local bundle writes, and student-ready markers.
 
 ## Blocked Actions

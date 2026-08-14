@@ -753,6 +753,7 @@ export * from "./aiTargetLanguageAudioApprovalPacket";
 export * from "./aiGeneratedPackageTeacherReviewPacket";
 export * from "./aiGeneratedPackageManifest";
 export * from "./aiGeneratedPackagePromotionChecklist";
+export * from "./aiGeneratedPublishReadinessGate";
 export * from "./aiGeneratorTenantCoverage";
 export * from "./aiGeneratorLineageMap";
 export * from "./aiGeneratorReviewSummary";
