@@ -420,6 +420,7 @@
 - `DR-446-ai-generated-package-assembly-readiness-validator.md`
 - `DR-447-publisher-maintenance-plan-validator.md`
 - `DR-448-publisher-maintenance-route-workspace.md`
+- `DR-449-release-control-route-workspace.md`
 
 ## Maintenance Rule
 

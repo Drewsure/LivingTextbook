@@ -131,6 +131,14 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     note: "Focused partner maintenance route for yearly content, media, game, QR, local bundle, and report updates while live self-maintenance remains blocked.",
   },
   {
+    routeId: "teacher-release-control",
+    group: "sample-publisher",
+    label: "Release control",
+    path: "/teacher/release-control/sample-publisher",
+    status: "active-scaffold",
+    note: "Focused partner release-control route for candidate, publish gate, and approval ledger review while live publish and assignment actions remain blocked.",
+  },
+  {
     routeId: "teacher-upload-workspace",
     group: "core",
     label: "Teacher upload workspace",

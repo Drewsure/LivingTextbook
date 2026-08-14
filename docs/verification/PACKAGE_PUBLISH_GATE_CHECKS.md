@@ -5,10 +5,12 @@ Use after pulling the latest `legacy-source-import` branch and running local typ
 ## Route
 
 - `http://127.0.0.1:3000/teacher/intake`
+- `http://127.0.0.1:3000/teacher/release-control/sample-publisher`
 
 ## Checks
 
 1. The teacher intake page renders a `Package publish gate` panel after the pilot handoff package.
+1. The focused release-control route renders the same `Package publish gate` panel after the release-control summary.
 2. The panel shows the release candidate label and target pilot route.
 3. The top status says the package should not be published while release-blocking gates remain open.
 4. Ready, needs-review, and blocked counts match the sample gate data.
@@ -81,6 +83,7 @@ npm run dev --workspace @living-textbook/web -- --hostname 127.0.0.1 --port 3000
 Then open:
 
 - `http://127.0.0.1:3000/teacher/intake`
+- `http://127.0.0.1:3000/teacher/release-control/sample-publisher`
 
 ## Failure Conditions
 
@@ -99,3 +102,4 @@ Do not mark this verified if:
 - the school policy acceptance preflight exposes an accept button, captures approval, captures signatures, exports evidence, activates storage, marks launch-ready status, activates AI Tutor, permits support-language-only progression, creates production QR promises, mutates release state, or starts a classroom workflow,
 - the school policy text version pack can be mistaken for accepted terms, captures signatures, exports evidence, activates storage, marks launch-ready status, activates AI Tutor, creates production QR promises, mutates release state, or starts a classroom workflow,
 - the page fails typecheck/build after sync.
+- the focused release-control route exposes a publish button, release-state mutation, assignment activation, local bundle release, student-ready marker, or support-language-only release path.

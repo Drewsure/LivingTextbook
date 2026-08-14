@@ -5,10 +5,12 @@ Use after pulling the latest `legacy-source-import` branch and running local typ
 ## Route
 
 - `http://127.0.0.1:3000/teacher/intake`
+- `http://127.0.0.1:3000/teacher/release-control/sample-publisher`
 
 ## Checks
 
 1. The teacher intake page renders a `Package approval ledger` panel after the package publish gate.
+1. The focused release-control route renders the same `Package approval ledger` panel after the package publish gate.
 2. The panel shows the release candidate label and approval rule.
 3. The top status says approvals are open while required sign-offs remain unsigned.
 4. Signed, needs-signoff, and blocked counts match the sample ledger data.
@@ -37,6 +39,7 @@ npm run dev --workspace @living-textbook/web -- --hostname 127.0.0.1 --port 3000
 Then open:
 
 - `http://127.0.0.1:3000/teacher/intake`
+- `http://127.0.0.1:3000/teacher/release-control/sample-publisher`
 
 ## Failure Conditions
 
@@ -47,3 +50,4 @@ Do not mark this verified if:
 - tenant-specific approval fields fork the platform model,
 - media rights, policy, deployment, or platform release approval are hidden,
 - the page fails typecheck/build after sync.
+- the focused release-control route can capture signatures, approve a package, publish a release, activate assignment, release a local bundle, or mark a package student-ready.

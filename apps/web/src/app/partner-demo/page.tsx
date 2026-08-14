@@ -30,6 +30,7 @@ import {
   getTrainingAcademyPath,
   getTeacherPrivateLibraryPath,
   getTeacherPublisherMaintenancePath,
+  getTeacherReleaseControlPath,
   getTeacherMediaLibraryPath,
   getTeacherUploadWorkspacePath,
   getTeacherEvidencePacketHandoffPath,
@@ -99,6 +100,7 @@ export default function PartnerDemoPage() {
               <RouteLink label="Tenant draft review queue" href={getTenantTeacherDraftReviewQueuePath("sample-publisher")} />
               <RouteLink label="Teacher private library" href={getTeacherPrivateLibraryPath("sample-publisher")} />
               <RouteLink label="Publisher maintenance" href={getTeacherPublisherMaintenancePath("sample-publisher")} />
+              <RouteLink label="Release control" href={getTeacherReleaseControlPath("sample-publisher")} />
               <RouteLink label="Teacher upload workspace" href={getTeacherUploadWorkspacePath("sample-publisher")} />
               <RouteLink label="Evidence packet review index" href={getTeacherEvidencePacketReviewPath("sample-publisher")} />
               <RouteLink label="Evidence handoff preview" href={getTeacherEvidencePacketHandoffPath("sample-publisher")} />

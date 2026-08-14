@@ -119,6 +119,15 @@ export const appRouteContracts: AppRouteContract[] = [
     requiredState: ["TenantConfig", "PublisherMaintenancePlan", "PublisherMaintenanceChangeRequest[]"],
   },
   {
+    id: "teacher-release-control",
+    pattern: "/teacher/release-control/[tenantId]",
+    audience: "teacher",
+    status: "active-scaffold",
+    purpose:
+      "Show a tenant-scoped release-control route that joins the pilot release candidate, package publish gate, and approval ledger while live publish, assignment, local bundle, release-state, and student-ready actions remain blocked.",
+    requiredState: ["TenantConfig", "PackagePublishGate", "PackageApprovalLedger", "ReleaseCandidate"],
+  },
+  {
     id: "teacher-media-library",
     pattern: "/teacher/media/[tenantId]",
     audience: "teacher",
@@ -424,6 +433,10 @@ export function getTeacherPrivateLibraryPath(tenantId: TenantId): string {
 
 export function getTeacherPublisherMaintenancePath(tenantId: TenantId): string {
   return `/teacher/maintenance/${encodeURIComponent(tenantId)}`;
+}
+
+export function getTeacherReleaseControlPath(tenantId: TenantId): string {
+  return `/teacher/release-control/${encodeURIComponent(tenantId)}`;
 }
 
 export function getTeacherMediaLibraryPath(tenantId: TenantId): string {
