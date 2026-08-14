@@ -408,6 +408,7 @@
 - `DR-434-ai-prototype-patch-harness-implementation-proposal-validator.md`
 - `DR-435-ai-prototype-codex-patch-approval-decision-validator.md`
 - `DR-436-ai-prototype-signed-approval-preflight-validator.md`
+- `DR-437-ai-prototype-patch-authorization-release-lock-validator.md`
 
 ## Maintenance Rule
 

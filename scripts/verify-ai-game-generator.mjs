@@ -125,6 +125,9 @@ const prototypeSignedApprovalPreflightValidator = readSource(
 const prototypePatchAuthorizationReleaseLock = readSource(
   "../apps/web/src/data/sampleAiPrototypePatchAuthorizationReleaseLock.ts",
 );
+const prototypePatchAuthorizationReleaseLockValidator = readSource(
+  "../packages/content-model/src/aiPrototypePatchAuthorizationReleaseLock.ts",
+);
 const prototypePatchImplementationWorkOrder = readSource(
   "../apps/web/src/data/sampleAiPrototypePatchImplementationWorkOrder.ts",
 );
@@ -2156,9 +2159,44 @@ requireText(
   "AI prototype signed approval preflight panel must expose shared guard warnings.",
 );
 requireText(
+  prototypePatchAuthorizationReleaseLockValidator,
+  "validateAiPrototypePatchAuthorizationReleaseLock",
+  "AI prototype patch authorization release lock validator must export the single-lock guard.",
+);
+requireText(
+  prototypePatchAuthorizationReleaseLockValidator,
+  "AI_PROTOTYPE_PATCH_AUTHORIZATION_RELEASE_BLOCKED_ACTIONS",
+  "AI prototype patch authorization release lock validator must lock blocked actions.",
+);
+requireText(
+  prototypePatchAuthorizationReleaseLockValidator,
+  "No patch authorization",
+  "AI prototype patch authorization release lock validator must block patch authorization.",
+);
+requireText(
+  prototypePatchAuthorizationReleaseLockValidator,
+  "Specific proposed file scope only",
+  "AI prototype patch authorization release lock validator must scope file work narrowly.",
+);
+requireText(
+  prototypePatchAuthorizationReleaseLockValidator,
+  "hiragana",
+  "AI prototype patch authorization release lock validator must preserve MiniStar hiragana support evidence.",
+);
+requireText(
   prototypePatchAuthorizationReleaseLock,
   "sampleAiPrototypePatchAuthorizationReleaseLocks",
   "AI prototype patch authorization release lock data must exist.",
+);
+requireText(
+  prototypePatchAuthorizationReleaseLock,
+  "sampleAiPrototypePatchAuthorizationReleaseLockErrors",
+  "AI prototype patch authorization release lock data must expose shared guard errors.",
+);
+requireText(
+  prototypePatchAuthorizationReleaseLock,
+  "sampleAiPrototypePatchAuthorizationReleaseLockWarnings",
+  "AI prototype patch authorization release lock data must expose shared guard warnings.",
 );
 requireText(
   prototypePatchAuthorizationReleaseLock,
@@ -2194,6 +2232,21 @@ requireText(
   prototypePatchAuthorizationReleaseLockPanel,
   "No patch authorization",
   "AI prototype patch authorization release lock panel must block patch authorization.",
+);
+requireText(
+  prototypePatchAuthorizationReleaseLockPanel,
+  "Patch authorization release lock guard active",
+  "AI prototype patch authorization release lock panel must expose shared guard state.",
+);
+requireText(
+  prototypePatchAuthorizationReleaseLockPanel,
+  "Patch authorization release lock guard blocks",
+  "AI prototype patch authorization release lock panel must expose shared guard blocks.",
+);
+requireText(
+  prototypePatchAuthorizationReleaseLockPanel,
+  "Patch authorization release lock guard warnings",
+  "AI prototype patch authorization release lock panel must expose shared guard warnings.",
 );
 requireText(
   prototypePatchImplementationWorkOrder,

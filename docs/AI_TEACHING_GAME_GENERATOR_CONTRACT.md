@@ -455,6 +455,8 @@ The backend-neutral storage contract is `ai_prototype_signed_approval_preflight`
 
 Patch authorization release locks must remain review-only until signed approval acceptance, release-control binding, patch file scope, patch test evidence, route safety, rollback, storage verification, and reviewer identity evidence are accepted.
 
+Patch authorization release locks must pass the shared `validateAiPrototypePatchAuthorizationReleaseLock` guard before patch work orders, change set previews, route planning, package promotion, assignment, scoring profile mutation, Star Dust or reward writes, audio manifest mutation, app file work, patch generation, harness implementation, test execution, or Playwright runs can be considered. The guard requires release locks, specific authorization scope, forbidden-until-unlocked blockers, release evidence, next records, no patch authorization, and blocked support-language progress.
+
 The lock may name required release locks, authorization scope, forbidden-until-unlocked conditions, release evidence, blocked actions, and next required records. It cannot authorize patches, write app files, generate patches, execute tests, invoke Playwright, mutate routes, expose student-facing routes, change scoring or rewards, mutate audio manifests, promote packages, assign students, or trigger support-language progress.
 
 MiniStar patch authorization release locks must keep Foundation Japanese support hiragana-only and support-only while English remains the progress trigger.

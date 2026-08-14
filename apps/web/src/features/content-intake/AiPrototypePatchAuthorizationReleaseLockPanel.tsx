@@ -1,4 +1,8 @@
 import { Card, StatusPill } from "@living-textbook/ui";
+import {
+  getAiPrototypePatchAuthorizationReleaseLockCollectionWarnings,
+  validateAiPrototypePatchAuthorizationReleaseLocks,
+} from "@living-textbook/content-model/src/aiPrototypePatchAuthorizationReleaseLock";
 
 import type {
   AiPrototypePatchAuthorizationReleaseLock,
@@ -24,6 +28,9 @@ const statusLabel: Record<AiPrototypePatchAuthorizationReleaseLockStatus, string
 export function AiPrototypePatchAuthorizationReleaseLockPanel({
   locks,
 }: AiPrototypePatchAuthorizationReleaseLockPanelProps) {
+  const guardBlocks = validateAiPrototypePatchAuthorizationReleaseLocks(locks);
+  const guardWarnings = getAiPrototypePatchAuthorizationReleaseLockCollectionWarnings(locks);
+
   return (
     <Card className="space-y-4">
       <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
@@ -37,7 +44,27 @@ export function AiPrototypePatchAuthorizationReleaseLockPanel({
             work. It authorizes nothing, writes nothing, and keeps student-facing routes closed.
           </p>
         </div>
-        <StatusPill label="No patch authorization" tone="warning" />
+        <div className="flex flex-wrap gap-2">
+          <StatusPill label="Patch authorization release lock guard active" tone="neutral" />
+          <StatusPill
+            label={`${guardBlocks.length} guard block(s)`}
+            tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+          />
+          <StatusPill label="No patch authorization" tone="warning" />
+        </div>
+      </div>
+
+      <div className="grid gap-3 lg:grid-cols-2">
+        <ListPanel
+          title="Patch authorization release lock guard blocks"
+          items={guardBlocks.length > 0 ? guardBlocks : ["No shared patch authorization release lock guard blockers."]}
+          tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+        />
+        <ListPanel
+          title="Patch authorization release lock guard warnings"
+          items={guardWarnings.length > 0 ? guardWarnings : ["No shared patch authorization release lock guard warnings."]}
+          tone={guardWarnings.length > 0 ? "warning" : "neutral"}
+        />
       </div>
 
       <div className="space-y-3">

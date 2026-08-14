@@ -1,25 +1,13 @@
 import { sampleAiPrototypeSignedApprovalPreflights } from "@/data/sampleAiPrototypeSignedApprovalPreflight";
+import {
+  getAiPrototypePatchAuthorizationReleaseLockCollectionWarnings,
+  validateAiPrototypePatchAuthorizationReleaseLocks,
+  type AiPrototypePatchAuthorizationReleaseLock as SharedAiPrototypePatchAuthorizationReleaseLock,
+  type AiPrototypePatchAuthorizationReleaseLockStatus,
+} from "@living-textbook/content-model/src/aiPrototypePatchAuthorizationReleaseLock";
 
-export type AiPrototypePatchAuthorizationReleaseLockStatus =
-  | "locked"
-  | "review-only"
-  | "ready-for-release-control-review";
-
-export interface AiPrototypePatchAuthorizationReleaseLock {
-  lockId: string;
-  tenantId: string;
-  requestId: string;
-  preflightId: string;
-  label: string;
-  status: AiPrototypePatchAuthorizationReleaseLockStatus;
-  summary: string;
-  requiredReleaseLocks: string[];
-  authorizationScope: string[];
-  forbiddenUntilUnlocked: string[];
-  releaseEvidence: string[];
-  blockedActions: string[];
-  nextRequiredRecords: string[];
-}
+export type AiPrototypePatchAuthorizationReleaseLock = SharedAiPrototypePatchAuthorizationReleaseLock;
+export type { AiPrototypePatchAuthorizationReleaseLockStatus };
 
 export const sampleAiPrototypePatchAuthorizationReleaseLocks: AiPrototypePatchAuthorizationReleaseLock[] =
   sampleAiPrototypeSignedApprovalPreflights.map((preflight) => {
@@ -100,6 +88,12 @@ export const sampleAiPrototypePatchAuthorizationReleaseLocks: AiPrototypePatchAu
       ],
     };
   });
+
+export const sampleAiPrototypePatchAuthorizationReleaseLockErrors =
+  validateAiPrototypePatchAuthorizationReleaseLocks(sampleAiPrototypePatchAuthorizationReleaseLocks);
+
+export const sampleAiPrototypePatchAuthorizationReleaseLockWarnings =
+  getAiPrototypePatchAuthorizationReleaseLockCollectionWarnings(sampleAiPrototypePatchAuthorizationReleaseLocks);
 
 export function filterAiPrototypePatchAuthorizationReleaseLocksByTenant(
   locks: AiPrototypePatchAuthorizationReleaseLock[],
