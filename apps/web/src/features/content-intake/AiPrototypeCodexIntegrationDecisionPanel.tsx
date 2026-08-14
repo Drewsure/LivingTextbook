@@ -1,4 +1,8 @@
 import { Card, StatusPill } from "@living-textbook/ui";
+import {
+  getAiPrototypeCodexIntegrationDecisionCollectionWarnings,
+  validateAiPrototypeCodexIntegrationDecisions,
+} from "@living-textbook/content-model/src/aiPrototypeCodexIntegrationDecision";
 
 import type {
   AiPrototypeCodexIntegrationDecision,
@@ -40,6 +44,9 @@ const checkLabel: Record<AiPrototypeCodexIntegrationDecisionCheckStatus, string>
 export function AiPrototypeCodexIntegrationDecisionPanel({
   decisions,
 }: AiPrototypeCodexIntegrationDecisionPanelProps) {
+  const guardBlocks = validateAiPrototypeCodexIntegrationDecisions(decisions);
+  const guardWarnings = getAiPrototypeCodexIntegrationDecisionCollectionWarnings(decisions);
+
   return (
     <Card className="space-y-4">
       <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
@@ -51,7 +58,27 @@ export function AiPrototypeCodexIntegrationDecisionPanel({
             event, audio, mobile, scoring, and readiness-gate evidence is reviewed.
           </p>
         </div>
-        <StatusPill label="No decision recorded" tone="warning" />
+        <div className="flex flex-wrap gap-2">
+          <StatusPill label="Codex decision guard active" tone="neutral" />
+          <StatusPill
+            label={`${guardBlocks.length} guard block(s)`}
+            tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+          />
+          <StatusPill label="No decision recorded" tone="warning" />
+        </div>
+      </div>
+
+      <div className="grid gap-3 lg:grid-cols-2">
+        <DecisionList
+          title="Codex decision guard blocks"
+          items={guardBlocks.length > 0 ? guardBlocks : ["No shared Codex decision guard blockers."]}
+          tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+        />
+        <DecisionList
+          title="Codex decision guard warnings"
+          items={guardWarnings.length > 0 ? guardWarnings : ["No shared Codex decision guard warnings."]}
+          tone={guardWarnings.length > 0 ? "warning" : "neutral"}
+        />
       </div>
 
       <div className="space-y-3">
@@ -118,6 +145,30 @@ export function AiPrototypeCodexIntegrationDecisionPanel({
         ))}
       </div>
     </Card>
+  );
+}
+
+function DecisionList({
+  title,
+  items,
+  tone = "neutral",
+}: {
+  title: string;
+  items: string[];
+  tone?: "neutral" | "warning";
+}) {
+  return (
+    <section className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-3">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <h3 className="text-sm font-bold text-[var(--tenant-text)]">{title}</h3>
+        <StatusPill label={String(items.length)} tone={tone} />
+      </div>
+      <ul className="mt-2 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
+        {items.map((item) => (
+          <li key={item}>{item}</li>
+        ))}
+      </ul>
+    </section>
   );
 }
 

@@ -83,6 +83,9 @@ const prototypeScoringReplayReportValidator = readSource(
 const prototypeCodexIntegrationDecision = readSource(
   "../apps/web/src/data/sampleAiPrototypeCodexIntegrationDecision.ts",
 );
+const prototypeCodexIntegrationDecisionValidator = readSource(
+  "../packages/content-model/src/aiPrototypeCodexIntegrationDecision.ts",
+);
 const prototypeIntegrationReadinessGate = readSource(
   "../apps/web/src/data/sampleAiPrototypeIntegrationReadinessGate.ts",
 );
@@ -1375,6 +1378,36 @@ requireText(
 );
 requireText(
   prototypeCodexIntegrationDecision,
+  "validateAiPrototypeCodexIntegrationDecisions",
+  "AI prototype Codex integration decision data must use the shared validator.",
+);
+requireText(
+  prototypeCodexIntegrationDecision,
+  "sampleAiPrototypeCodexIntegrationDecisionErrors",
+  "AI prototype Codex integration decision data must expose shared guard errors.",
+);
+requireText(
+  prototypeCodexIntegrationDecision,
+  "sampleAiPrototypeCodexIntegrationDecisionWarnings",
+  "AI prototype Codex integration decision data must expose shared guard warnings.",
+);
+requireText(
+  prototypeCodexIntegrationDecisionValidator,
+  "validateAiPrototypeCodexIntegrationDecision",
+  "AI prototype Codex integration decision shared validator must exist.",
+);
+requireText(
+  prototypeCodexIntegrationDecisionValidator,
+  "AI_PROTOTYPE_CODEX_DECISION_REQUIRED_SOURCE_RECORDS",
+  "AI prototype Codex integration decision validator must define required source records.",
+);
+requireText(
+  prototypeCodexIntegrationDecisionValidator,
+  "No support-language progress trigger",
+  "AI prototype Codex integration decision validator must block support-language progress shortcuts.",
+);
+requireText(
+  prototypeCodexIntegrationDecision,
   "Codex integration review decision",
   "AI prototype Codex integration decision must expose manual decision records.",
 );
@@ -1407,6 +1440,21 @@ requireText(
   prototypeCodexIntegrationDecisionPanel,
   "Manual decision before app patch",
   "AI prototype Codex integration decision panel must expose manual decision policy.",
+);
+requireText(
+  prototypeCodexIntegrationDecisionPanel,
+  "Codex decision guard active",
+  "AI prototype Codex integration decision panel must expose the shared guard status.",
+);
+requireText(
+  prototypeCodexIntegrationDecisionPanel,
+  "Codex decision guard blocks",
+  "AI prototype Codex integration decision panel must expose shared guard blocks.",
+);
+requireText(
+  prototypeCodexIntegrationDecisionPanel,
+  "Codex decision guard warnings",
+  "AI prototype Codex integration decision panel must expose shared guard warnings.",
 );
 requireText(
   prototypeCodexIntegrationDecisionPanel,

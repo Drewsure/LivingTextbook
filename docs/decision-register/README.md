@@ -400,6 +400,7 @@
 - `DR-426-ai-prototype-audio-coverage-report-validator.md`
 - `DR-427-ai-prototype-mobile-accessibility-report-validator.md`
 - `DR-428-ai-prototype-scoring-replay-report-validator.md`
+- `DR-429-ai-prototype-codex-integration-decision-validator.md`
 
 ## Maintenance Rule
 

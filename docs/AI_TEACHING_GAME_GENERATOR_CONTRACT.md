@@ -375,6 +375,8 @@ The decision preview cannot generate `apps/web` patches, import returned code, w
 
 MiniStar Codex decisions must keep Japanese support language support-only and hiragana-safe for early levels while English remains the target-language trigger.
 
+AI prototype Codex integration decisions must pass the shared `validateAiPrototypeCodexIntegrationDecision` guard before integration readiness gates, app patch planning, route planning, package promotion, assignment, scoring profile mutation, Star Dust or reward writes, audio manifest mutation, or package promotion can be considered. The guard requires integration plan, wrapper adapter review, fixture replay report, event replay report, audio coverage report, mobile accessibility report, scoring replay report, integration readiness gate, and Codex decision source records while keeping no-decision-recorded state, manual review, target-language progress boundaries, and blocked app patch generation visible.
+
 The backend-neutral storage contract is `codex_integration_review_decision` / `codex-integration-review-decision`. Hosted and local adapters must preserve linked integration plan, linked readiness gate, selected decision, decision status, no-decision/decision-recorded state, manual Codex review requirement, all-evidence-reviewed state, reviewer identity requirement, decision options, decision evidence checks, and blocked actions while blocking app patch generation, direct imports, route writes, student-facing routes, scoring profile mutation, Star Dust or reward writes, audio manifest mutation, package promotion, and assignments.
 
 ## Prototype Integration Readiness Gate Rule

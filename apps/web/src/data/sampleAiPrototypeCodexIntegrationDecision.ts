@@ -1,29 +1,16 @@
 import { sampleAiPrototypeIntegrationPlans } from "@/data/sampleAiPrototypeIntegrationPlan";
+import {
+  getAiPrototypeCodexIntegrationDecisionCollectionWarnings,
+  validateAiPrototypeCodexIntegrationDecisions,
+  type AiPrototypeCodexIntegrationDecision as SharedAiPrototypeCodexIntegrationDecision,
+  type AiPrototypeCodexIntegrationDecisionCheck as SharedAiPrototypeCodexIntegrationDecisionCheck,
+  type AiPrototypeCodexIntegrationDecisionCheckStatus,
+  type AiPrototypeCodexIntegrationDecisionStatus,
+} from "@living-textbook/content-model/src/aiPrototypeCodexIntegrationDecision";
 
-export type AiPrototypeCodexIntegrationDecisionStatus = "blocked" | "review-only" | "ready-for-review";
-export type AiPrototypeCodexIntegrationDecisionCheckStatus = "missing" | "blocked" | "pending-review" | "reviewed";
-
-export interface AiPrototypeCodexIntegrationDecisionCheck {
-  label: string;
-  status: AiPrototypeCodexIntegrationDecisionCheckStatus;
-  evidence: string;
-  requiredRecord: string;
-}
-
-export interface AiPrototypeCodexIntegrationDecision {
-  decisionId: string;
-  tenantId: string;
-  requestId: string;
-  label: string;
-  status: AiPrototypeCodexIntegrationDecisionStatus;
-  summary: string;
-  selectedDecision: string;
-  sourceRecords: string[];
-  checks: AiPrototypeCodexIntegrationDecisionCheck[];
-  decisionOptions: string[];
-  requiredBeforeDecision: string[];
-  blockedActions: string[];
-}
+export type AiPrototypeCodexIntegrationDecision = SharedAiPrototypeCodexIntegrationDecision;
+export type AiPrototypeCodexIntegrationDecisionCheck = SharedAiPrototypeCodexIntegrationDecisionCheck;
+export type { AiPrototypeCodexIntegrationDecisionCheckStatus, AiPrototypeCodexIntegrationDecisionStatus };
 
 export const sampleAiPrototypeCodexIntegrationDecisions: AiPrototypeCodexIntegrationDecision[] =
   sampleAiPrototypeIntegrationPlans.map((plan) => {
@@ -134,6 +121,13 @@ export const sampleAiPrototypeCodexIntegrationDecisions: AiPrototypeCodexIntegra
       ],
     };
   });
+
+export const sampleAiPrototypeCodexIntegrationDecisionErrors = validateAiPrototypeCodexIntegrationDecisions(
+  sampleAiPrototypeCodexIntegrationDecisions,
+);
+
+export const sampleAiPrototypeCodexIntegrationDecisionWarnings =
+  getAiPrototypeCodexIntegrationDecisionCollectionWarnings(sampleAiPrototypeCodexIntegrationDecisions);
 
 export function filterAiPrototypeCodexIntegrationDecisionsByTenant(
   decisions: AiPrototypeCodexIntegrationDecision[],
