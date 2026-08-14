@@ -1,4 +1,8 @@
 import { Card, StatusPill } from "@living-textbook/ui";
+import {
+  getAiPrototypePatchImplementationWorkOrderCollectionWarnings,
+  validateAiPrototypePatchImplementationWorkOrders,
+} from "@living-textbook/content-model/src/aiPrototypePatchImplementationWorkOrder";
 
 import type {
   AiPrototypePatchImplementationWorkOrder,
@@ -24,6 +28,9 @@ const statusLabel: Record<AiPrototypePatchImplementationWorkOrderStatus, string>
 export function AiPrototypePatchImplementationWorkOrderPanel({
   workOrders,
 }: AiPrototypePatchImplementationWorkOrderPanelProps) {
+  const guardBlocks = validateAiPrototypePatchImplementationWorkOrders(workOrders);
+  const guardWarnings = getAiPrototypePatchImplementationWorkOrderCollectionWarnings(workOrders);
+
   return (
     <Card className="space-y-4">
       <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
@@ -37,7 +44,27 @@ export function AiPrototypePatchImplementationWorkOrderPanel({
             not executable and cannot authorize app file work.
           </p>
         </div>
-        <StatusPill label="No work order execution" tone="warning" />
+        <div className="flex flex-wrap gap-2">
+          <StatusPill label="Patch implementation work order guard active" tone="neutral" />
+          <StatusPill
+            label={`${guardBlocks.length} guard block(s)`}
+            tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+          />
+          <StatusPill label="No work order execution" tone="warning" />
+        </div>
+      </div>
+
+      <div className="grid gap-3 lg:grid-cols-2">
+        <ListPanel
+          title="Patch implementation work order guard blocks"
+          items={guardBlocks.length > 0 ? guardBlocks : ["No shared patch implementation work order guard blockers."]}
+          tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+        />
+        <ListPanel
+          title="Patch implementation work order guard warnings"
+          items={guardWarnings.length > 0 ? guardWarnings : ["No shared patch implementation work order guard warnings."]}
+          tone={guardWarnings.length > 0 ? "warning" : "neutral"}
+        />
       </div>
 
       <div className="space-y-3">

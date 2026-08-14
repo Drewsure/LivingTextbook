@@ -131,6 +131,9 @@ const prototypePatchAuthorizationReleaseLockValidator = readSource(
 const prototypePatchImplementationWorkOrder = readSource(
   "../apps/web/src/data/sampleAiPrototypePatchImplementationWorkOrder.ts",
 );
+const prototypePatchImplementationWorkOrderValidator = readSource(
+  "../packages/content-model/src/aiPrototypePatchImplementationWorkOrder.ts",
+);
 const prototypePatchChangeSetPreview = readSource("../apps/web/src/data/sampleAiPrototypePatchChangeSetPreview.ts");
 const verifierSubmissionPacket = readSource("../apps/web/src/data/sampleAiVerifierSubmissionPacket.ts");
 const targetLanguageAudioApprovalPacket = readSource(
@@ -2249,9 +2252,44 @@ requireText(
   "AI prototype patch authorization release lock panel must expose shared guard warnings.",
 );
 requireText(
+  prototypePatchImplementationWorkOrderValidator,
+  "validateAiPrototypePatchImplementationWorkOrder",
+  "AI prototype patch implementation work order validator must export the single-work-order guard.",
+);
+requireText(
+  prototypePatchImplementationWorkOrderValidator,
+  "AI_PROTOTYPE_PATCH_IMPLEMENTATION_WORK_ORDER_BLOCKED_ACTIONS",
+  "AI prototype patch implementation work order validator must lock blocked actions.",
+);
+requireText(
+  prototypePatchImplementationWorkOrderValidator,
+  "One removable wrapper adapter file",
+  "AI prototype patch implementation work order validator must preserve removable wrapper scope.",
+);
+requireText(
+  prototypePatchImplementationWorkOrderValidator,
+  "Verify target-language audio coverage",
+  "AI prototype patch implementation work order validator must require target-language audio checks.",
+);
+requireText(
+  prototypePatchImplementationWorkOrderValidator,
+  "hiragana support-only",
+  "AI prototype patch implementation work order validator must preserve MiniStar hiragana support evidence.",
+);
+requireText(
   prototypePatchImplementationWorkOrder,
   "sampleAiPrototypePatchImplementationWorkOrders",
   "AI prototype patch implementation work order data must exist.",
+);
+requireText(
+  prototypePatchImplementationWorkOrder,
+  "sampleAiPrototypePatchImplementationWorkOrderErrors",
+  "AI prototype patch implementation work order data must expose shared guard errors.",
+);
+requireText(
+  prototypePatchImplementationWorkOrder,
+  "sampleAiPrototypePatchImplementationWorkOrderWarnings",
+  "AI prototype patch implementation work order data must expose shared guard warnings.",
 );
 requireText(
   prototypePatchImplementationWorkOrder,
@@ -2287,6 +2325,21 @@ requireText(
   prototypePatchImplementationWorkOrderPanel,
   "No work order execution",
   "AI prototype patch implementation work order panel must block execution.",
+);
+requireText(
+  prototypePatchImplementationWorkOrderPanel,
+  "Patch implementation work order guard active",
+  "AI prototype patch implementation work order panel must expose shared guard state.",
+);
+requireText(
+  prototypePatchImplementationWorkOrderPanel,
+  "Patch implementation work order guard blocks",
+  "AI prototype patch implementation work order panel must expose shared guard blocks.",
+);
+requireText(
+  prototypePatchImplementationWorkOrderPanel,
+  "Patch implementation work order guard warnings",
+  "AI prototype patch implementation work order panel must expose shared guard warnings.",
 );
 requireText(
   prototypePatchChangeSetPreview,

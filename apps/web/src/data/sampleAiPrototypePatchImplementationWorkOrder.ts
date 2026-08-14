@@ -1,25 +1,13 @@
 import { sampleAiPrototypePatchAuthorizationReleaseLocks } from "@/data/sampleAiPrototypePatchAuthorizationReleaseLock";
+import {
+  getAiPrototypePatchImplementationWorkOrderCollectionWarnings,
+  validateAiPrototypePatchImplementationWorkOrders,
+  type AiPrototypePatchImplementationWorkOrder as SharedAiPrototypePatchImplementationWorkOrder,
+  type AiPrototypePatchImplementationWorkOrderStatus,
+} from "@living-textbook/content-model/src/aiPrototypePatchImplementationWorkOrder";
 
-export type AiPrototypePatchImplementationWorkOrderStatus =
-  | "blocked"
-  | "review-only"
-  | "ready-for-work-order-review";
-
-export interface AiPrototypePatchImplementationWorkOrder {
-  workOrderId: string;
-  tenantId: string;
-  requestId: string;
-  lockId: string;
-  label: string;
-  status: AiPrototypePatchImplementationWorkOrderStatus;
-  summary: string;
-  requiredBeforeWork: string[];
-  allowedFutureFileGroups: string[];
-  dryRunVerificationOrder: string[];
-  rollbackPlan: string[];
-  blockedActions: string[];
-  nextRequiredRecords: string[];
-}
+export type AiPrototypePatchImplementationWorkOrder = SharedAiPrototypePatchImplementationWorkOrder;
+export type { AiPrototypePatchImplementationWorkOrderStatus };
 
 export const sampleAiPrototypePatchImplementationWorkOrders: AiPrototypePatchImplementationWorkOrder[] =
   sampleAiPrototypePatchAuthorizationReleaseLocks.map((lock) => {
@@ -101,6 +89,12 @@ export const sampleAiPrototypePatchImplementationWorkOrders: AiPrototypePatchImp
       ],
     };
   });
+
+export const sampleAiPrototypePatchImplementationWorkOrderErrors =
+  validateAiPrototypePatchImplementationWorkOrders(sampleAiPrototypePatchImplementationWorkOrders);
+
+export const sampleAiPrototypePatchImplementationWorkOrderWarnings =
+  getAiPrototypePatchImplementationWorkOrderCollectionWarnings(sampleAiPrototypePatchImplementationWorkOrders);
 
 export function filterAiPrototypePatchImplementationWorkOrdersByTenant(
   workOrders: AiPrototypePatchImplementationWorkOrder[],
