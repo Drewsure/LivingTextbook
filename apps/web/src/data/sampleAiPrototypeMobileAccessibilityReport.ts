@@ -2,40 +2,17 @@ import {
   sampleAiPrototypeIntegrationPlans,
   type AiPrototypeModeIntegrationPlan,
 } from "@/data/sampleAiPrototypeIntegrationPlan";
+import {
+  getAiPrototypeMobileAccessibilityReportCollectionWarnings,
+  validateAiPrototypeMobileAccessibilityReports,
+  type AiPrototypeMobileAccessibilityReport as SharedAiPrototypeMobileAccessibilityReport,
+  type AiPrototypeMobileAccessibilityReportStatus,
+  type AiPrototypeModeMobileAccessibilityReport as SharedAiPrototypeModeMobileAccessibilityReport,
+} from "@living-textbook/content-model/src/aiPrototypeMobileAccessibilityReport";
 
-export type AiPrototypeMobileAccessibilityReportStatus = "not-run" | "review-only" | "blocked";
-
-export interface AiPrototypeModeMobileAccessibilityReport {
-  modeId: string;
-  parentEngine: string;
-  accessibilityHarness: string;
-  viewportEvidence: string[];
-  touchAndControlChecks: string[];
-  keyboardAndFocusChecks: string[];
-  readableTextChecks: string[];
-  failureTriggers: string[];
-}
-
-export interface AiPrototypeMobileAccessibilityReport {
-  reportId: string;
-  tenantId: string;
-  requestId: string;
-  integrationPlanId: string;
-  label: string;
-  status: AiPrototypeMobileAccessibilityReportStatus;
-  summary: string;
-  sourceRecords: string[];
-  viewportPolicy: string;
-  learnerControlPolicy: string;
-  readabilityPolicy: string;
-  accessibilityPurpose: string[];
-  viewportChecks: string[];
-  touchTargetChecks: string[];
-  keyboardFocusChecks: string[];
-  visualStabilityChecks: string[];
-  blockedActions: string[];
-  modeReports: AiPrototypeModeMobileAccessibilityReport[];
-}
+export type AiPrototypeModeMobileAccessibilityReport = SharedAiPrototypeModeMobileAccessibilityReport;
+export type AiPrototypeMobileAccessibilityReport = SharedAiPrototypeMobileAccessibilityReport;
+export type { AiPrototypeMobileAccessibilityReportStatus };
 
 export const sampleAiPrototypeMobileAccessibilityReports: AiPrototypeMobileAccessibilityReport[] =
   sampleAiPrototypeIntegrationPlans.map((plan) => {
@@ -113,6 +90,13 @@ export const sampleAiPrototypeMobileAccessibilityReports: AiPrototypeMobileAcces
       modeReports: plan.modePlans.map((modePlan) => createModeMobileAccessibilityReport(modePlan, isMiniStar)),
     };
   });
+
+export const sampleAiPrototypeMobileAccessibilityReportErrors = validateAiPrototypeMobileAccessibilityReports(
+  sampleAiPrototypeMobileAccessibilityReports,
+);
+
+export const sampleAiPrototypeMobileAccessibilityReportWarnings =
+  getAiPrototypeMobileAccessibilityReportCollectionWarnings(sampleAiPrototypeMobileAccessibilityReports);
 
 function createModeMobileAccessibilityReport(
   modePlan: AiPrototypeModeIntegrationPlan,

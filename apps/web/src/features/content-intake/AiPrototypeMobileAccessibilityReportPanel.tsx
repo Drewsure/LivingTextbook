@@ -1,4 +1,8 @@
 import { Card, StatusPill } from "@living-textbook/ui";
+import {
+  getAiPrototypeMobileAccessibilityReportCollectionWarnings,
+  validateAiPrototypeMobileAccessibilityReports,
+} from "@living-textbook/content-model/src/aiPrototypeMobileAccessibilityReport";
 import type {
   AiPrototypeMobileAccessibilityReport,
   AiPrototypeMobileAccessibilityReportStatus,
@@ -24,6 +28,8 @@ const statusLabel: Record<AiPrototypeMobileAccessibilityReportStatus, string> = 
 export function AiPrototypeMobileAccessibilityReportPanel({
   reports,
 }: AiPrototypeMobileAccessibilityReportPanelProps) {
+  const guardBlocks = validateAiPrototypeMobileAccessibilityReports(reports);
+  const guardWarnings = getAiPrototypeMobileAccessibilityReportCollectionWarnings(reports);
   const modeReportCount = reports.reduce((total, report) => total + report.modeReports.length, 0);
   const blockedActionCount = reports.reduce((total, report) => total + report.blockedActions.length, 0);
 
@@ -41,9 +47,27 @@ export function AiPrototypeMobileAccessibilityReportPanel({
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
+          <StatusPill label="Mobile accessibility guard active" tone="neutral" />
+          <StatusPill
+            label={`${guardBlocks.length} guard block(s)`}
+            tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+          />
           <StatusPill label={`${modeReportCount} mode inspection(s)`} tone="success" />
           <StatusPill label={`${blockedActionCount} blocked action(s)`} tone="warning" />
         </div>
+      </div>
+
+      <div className="mt-5 grid gap-3 lg:grid-cols-2">
+        <ReviewList
+          title="Mobile accessibility guard blocks"
+          items={guardBlocks.length > 0 ? guardBlocks : ["No shared mobile accessibility guard blockers."]}
+          tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+        />
+        <ReviewList
+          title="Mobile accessibility guard warnings"
+          items={guardWarnings.length > 0 ? guardWarnings : ["No shared mobile accessibility guard warnings."]}
+          tone={guardWarnings.length > 0 ? "warning" : "neutral"}
+        />
       </div>
 
       <div className="mt-5 grid gap-4">

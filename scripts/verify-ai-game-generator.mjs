@@ -73,6 +73,9 @@ const prototypeAudioCoverageReportValidator = readSource(
 const prototypeMobileAccessibilityReport = readSource(
   "../apps/web/src/data/sampleAiPrototypeMobileAccessibilityReport.ts",
 );
+const prototypeMobileAccessibilityReportValidator = readSource(
+  "../packages/content-model/src/aiPrototypeMobileAccessibilityReport.ts",
+);
 const prototypeScoringReplayReport = readSource("../apps/web/src/data/sampleAiPrototypeScoringReplayReport.ts");
 const prototypeCodexIntegrationDecision = readSource(
   "../apps/web/src/data/sampleAiPrototypeCodexIntegrationDecision.ts",
@@ -1133,6 +1136,26 @@ requireText(
   "AI prototype mobile accessibility report data must exist.",
 );
 requireText(
+  prototypeMobileAccessibilityReportValidator,
+  "validateAiPrototypeMobileAccessibilityReport",
+  "AI prototype mobile accessibility report validator must exist.",
+);
+requireText(
+  prototypeMobileAccessibilityReportValidator,
+  "AI_PROTOTYPE_MOBILE_REQUIRED_VISUAL_CHECKS",
+  "AI prototype mobile accessibility report validator must define required visual checks.",
+);
+requireText(
+  prototypeMobileAccessibilityReport,
+  "sampleAiPrototypeMobileAccessibilityReportErrors",
+  "AI prototype mobile accessibility report sample data must expose shared guard errors.",
+);
+requireText(
+  prototypeMobileAccessibilityReport,
+  "sampleAiPrototypeMobileAccessibilityReportWarnings",
+  "AI prototype mobile accessibility report sample data must expose shared guard warnings.",
+);
+requireText(
   prototypeMobileAccessibilityReport,
   "prototype_mobile_accessibility_report",
   "AI prototype mobile accessibility report must name its record.",
@@ -1196,6 +1219,21 @@ requireText(
   prototypeMobileAccessibilityReportPanel,
   "Mode mobile/accessibility reports",
   "AI prototype mobile accessibility report panel must expose mode reports.",
+);
+requireText(
+  prototypeMobileAccessibilityReportPanel,
+  "Mobile accessibility guard active",
+  "AI prototype mobile accessibility report panel must expose the shared guard status.",
+);
+requireText(
+  prototypeMobileAccessibilityReportPanel,
+  "Mobile accessibility guard blocks",
+  "AI prototype mobile accessibility report panel must expose shared guard blocks.",
+);
+requireText(
+  prototypeMobileAccessibilityReportPanel,
+  "Mobile accessibility guard warnings",
+  "AI prototype mobile accessibility report panel must expose shared guard warnings.",
 );
 requireText(
   prototypeMobileAccessibilityReportPanel,
