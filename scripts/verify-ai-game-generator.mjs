@@ -43,6 +43,7 @@ const packageWriterHarnessImplementationDecisionValidator = readSource(
 );
 const rewardReadinessGate = readSource("../apps/web/src/data/sampleAiRewardReadinessGate.ts");
 const generatedGameBuildBrief = readSource("../apps/web/src/data/sampleAiGeneratedGameBuildBrief.ts");
+const generatedGameBuildBriefValidator = readSource("../packages/content-model/src/aiGeneratedGameBuildBrief.ts");
 const externalPrototypeTaskPacket = readSource("../apps/web/src/data/sampleAiExternalPrototypeTaskPacket.ts");
 const externalPrototypeTaskExportReadinessGate = readSource(
   "../apps/web/src/data/sampleAiExternalPrototypeTaskExportReadinessGate.ts",
@@ -378,6 +379,10 @@ requireText(engineBindingPanel, "No generated game code", "AI engine binding pan
 requireText(engineBindingPanel, "Parent engine", "AI engine binding panel must show parent engine details.");
 requireText(engineBindingPanel, "Scoring profile", "AI engine binding panel must show scoring profile details.");
 requireText(generatedGameBuildBrief, "sampleAiGeneratedGameBuildBriefPackets", "AI generated game build brief data must exist.");
+requireText(generatedGameBuildBriefValidator, "validateAiGeneratedGameBuildBriefPacket", "AI generated game build brief shared validator must exist.");
+requireText(generatedGameBuildBriefValidator, "AI_GENERATED_GAME_BUILD_BRIEF_REQUIRED_EVENTS", "AI generated game build brief validator must define required events.");
+requireText(generatedGameBuildBrief, "sampleAiGeneratedGameBuildBriefPacketErrors", "AI generated game build brief data must expose shared guard errors.");
+requireText(generatedGameBuildBrief, "sampleAiGeneratedGameBuildBriefPacketWarnings", "AI generated game build brief data must expose shared guard warnings.");
 requireText(generatedGameBuildBrief, "Z.ai prototype brief", "AI generated game build brief must identify external prototype briefs.");
 requireText(generatedGameBuildBrief, "standard_event_contract", "AI generated game build brief must require the standard event contract.");
 requireText(generatedGameBuildBrief, "audio_cue_manifest", "AI generated game build brief must require audio cue manifests.");
@@ -400,6 +405,9 @@ requireText(
   "AI generated game build brief packet",
   "AI generated game build brief panel must expose heading.",
 );
+requireText(generatedGameBuildBriefPanel, "Build brief guard active", "AI generated game build brief panel must expose shared guard status.");
+requireText(generatedGameBuildBriefPanel, "Build brief guard blocks", "AI generated game build brief panel must expose shared guard blocks.");
+requireText(generatedGameBuildBriefPanel, "Build brief guard warnings", "AI generated game build brief panel must expose shared guard warnings.");
 requireText(
   generatedGameBuildBriefPanel,
   "External prototype instructions",

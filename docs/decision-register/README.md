@@ -389,6 +389,7 @@
 - `DR-415-ai-generator-reviewer-runbook-validator.md`
 - `DR-416-ai-generator-responsibility-matrix-validator.md`
 - `DR-417-ai-generator-lineage-map-validator.md`
+- `DR-418-ai-generated-game-build-brief-validator.md`
 
 ## Maintenance Rule
 

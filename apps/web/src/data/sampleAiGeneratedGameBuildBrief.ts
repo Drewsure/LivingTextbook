@@ -1,38 +1,20 @@
 import type { GameModeId } from "@living-textbook/content-model";
+import {
+  getAiGeneratedGameBuildBriefPacketCollectionWarnings,
+  validateAiGeneratedGameBuildBriefPackets,
+  type AiGeneratedGameBuildBriefPacket as SharedAiGeneratedGameBuildBriefPacket,
+  type AiGeneratedGameBuildBriefStatus,
+  type AiGeneratedGameModeBuildBrief as SharedAiGeneratedGameModeBuildBrief,
+} from "@living-textbook/content-model/src/aiGeneratedGameBuildBrief";
+
 import { sampleAiEngineBindingPlans } from "@/data/sampleAiEngineBindingPlan";
 import { sampleAiGameGeneratorPlan } from "@/data/sampleAiGameGeneratorPlan";
 import { sampleAiGeneratorAudioCoveragePlans } from "@/data/sampleAiGeneratorAudioCoveragePlan";
 import { sampleAiGamificationMappingPlans } from "@/data/sampleAiGamificationMappingPlan";
 
-export type AiGeneratedGameBuildBriefStatus = "review-only" | "blocked";
-
-export interface AiGeneratedGameModeBuildBrief {
-  modeId: GameModeId;
-  title: string;
-  parentEngine: string;
-  implementationTarget: string;
-  prototypeScope: string;
-  jsonFixture: string;
-  eventContract: string[];
-  audioContract: string[];
-  scoringContract: string[];
-  integrationNotes: string[];
-  deliverables: string[];
-}
-
-export interface AiGeneratedGameBuildBriefPacket {
-  packetId: string;
-  tenantId: string;
-  requestId: string;
-  label: string;
-  targetBuilder: string;
-  summary: string;
-  status: AiGeneratedGameBuildBriefStatus;
-  sourceRecords: string[];
-  modeBriefs: AiGeneratedGameModeBuildBrief[];
-  acceptanceChecks: string[];
-  blockedActions: string[];
-}
+export type AiGeneratedGameModeBuildBrief = SharedAiGeneratedGameModeBuildBrief<GameModeId>;
+export type AiGeneratedGameBuildBriefPacket = SharedAiGeneratedGameBuildBriefPacket<GameModeId>;
+export type { AiGeneratedGameBuildBriefStatus };
 
 const parentEngineByMode: Partial<Record<GameModeId, string>> = {
   flashcards: "pairing",
@@ -108,6 +90,13 @@ export const sampleAiGeneratedGameBuildBriefPackets: AiGeneratedGameBuildBriefPa
       ],
     };
   });
+
+export const sampleAiGeneratedGameBuildBriefPacketErrors = validateAiGeneratedGameBuildBriefPackets(
+  sampleAiGeneratedGameBuildBriefPackets,
+);
+
+export const sampleAiGeneratedGameBuildBriefPacketWarnings =
+  getAiGeneratedGameBuildBriefPacketCollectionWarnings(sampleAiGeneratedGameBuildBriefPackets);
 
 function createModeBuildBrief({
   modeId,

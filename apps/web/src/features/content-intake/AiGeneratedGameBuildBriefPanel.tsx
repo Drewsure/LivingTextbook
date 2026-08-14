@@ -1,4 +1,8 @@
 import { Card, StatusPill } from "@living-textbook/ui";
+import {
+  getAiGeneratedGameBuildBriefPacketCollectionWarnings,
+  validateAiGeneratedGameBuildBriefPackets,
+} from "@living-textbook/content-model/src/aiGeneratedGameBuildBrief";
 import type {
   AiGeneratedGameBuildBriefPacket,
   AiGeneratedGameBuildBriefStatus,
@@ -15,6 +19,8 @@ const statusTone: Record<AiGeneratedGameBuildBriefStatus, "neutral" | "warning">
 };
 
 export function AiGeneratedGameBuildBriefPanel({ packets }: AiGeneratedGameBuildBriefPanelProps) {
+  const guardBlocks = validateAiGeneratedGameBuildBriefPackets(packets);
+  const guardWarnings = getAiGeneratedGameBuildBriefPacketCollectionWarnings(packets);
   const modeBriefCount = packets.reduce((total, packet) => total + packet.modeBriefs.length, 0);
 
   return (
@@ -30,9 +36,27 @@ export function AiGeneratedGameBuildBriefPanel({ packets }: AiGeneratedGameBuild
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
+          <StatusPill label="Build brief guard active" tone="neutral" />
+          <StatusPill
+            label={`${guardBlocks.length} guard block(s)`}
+            tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+          />
           <StatusPill label="Z.ai prototype brief" tone="neutral" />
           <StatusPill label={`${modeBriefCount} mode brief(s)`} tone="success" />
         </div>
+      </div>
+
+      <div className="mt-5 grid gap-3 lg:grid-cols-2">
+        <BriefList
+          title="Build brief guard blocks"
+          items={guardBlocks.length > 0 ? guardBlocks : ["No shared build brief guard blockers."]}
+          tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+        />
+        <BriefList
+          title="Build brief guard warnings"
+          items={guardWarnings.length > 0 ? guardWarnings : ["No shared build brief guard warnings."]}
+          tone={guardWarnings.length > 0 ? "warning" : "neutral"}
+        />
       </div>
 
       <div className="mt-5 grid gap-4">

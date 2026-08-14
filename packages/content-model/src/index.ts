@@ -727,6 +727,7 @@ export function calculateStarDust(args: {
 
 export * from "./sessionSettings";
 export * from "./persistenceAdapter";
+export * from "./aiGeneratedGameBuildBrief";
 export * from "./aiGeneratorTenantCoverage";
 export * from "./aiGeneratorLineageMap";
 export * from "./aiGeneratorReviewSummary";
