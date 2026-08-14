@@ -1,4 +1,8 @@
 import { Card, StatusPill } from "@living-textbook/ui";
+import {
+  getAiExternalPrototypeTaskPacketCollectionWarnings,
+  validateAiExternalPrototypeTaskPackets,
+} from "@living-textbook/content-model/src/aiExternalPrototypeTaskPacket";
 import type {
   AiExternalPrototypeTask,
   AiExternalPrototypeTaskPacket,
@@ -43,6 +47,8 @@ const surfaceLabel: Record<AiExternalPrototypeTaskSurface, string> = {
 };
 
 export function AiExternalPrototypeTaskPacketPanel({ packets }: AiExternalPrototypeTaskPacketPanelProps) {
+  const guardBlocks = validateAiExternalPrototypeTaskPackets(packets);
+  const guardWarnings = getAiExternalPrototypeTaskPacketCollectionWarnings(packets);
   const taskCount = packets.reduce((total, packet) => total + packet.tasks.length, 0);
 
   return (
@@ -58,9 +64,27 @@ export function AiExternalPrototypeTaskPacketPanel({ packets }: AiExternalProtot
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
+          <StatusPill label="External task guard active" tone="neutral" />
+          <StatusPill
+            label={`${guardBlocks.length} guard block(s)`}
+            tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+          />
           <StatusPill label={`${taskCount} task(s)`} tone="success" />
           <StatusPill label="No live handoff" tone="warning" />
         </div>
+      </div>
+
+      <div className="mt-5 grid gap-3 lg:grid-cols-2">
+        <TaskList
+          title="External task guard blocks"
+          items={guardBlocks.length > 0 ? guardBlocks : ["No shared external task packet guard blockers."]}
+          tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+        />
+        <TaskList
+          title="External task guard warnings"
+          items={guardWarnings.length > 0 ? guardWarnings : ["No shared external task packet guard warnings."]}
+          tone={guardWarnings.length > 0 ? "warning" : "neutral"}
+        />
       </div>
 
       <div className="mt-5 grid gap-4">

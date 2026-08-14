@@ -1,5 +1,14 @@
 import type { GameModeId } from "@living-textbook/content-model";
 import {
+  getAiExternalPrototypeTaskPacketCollectionWarnings,
+  validateAiExternalPrototypeTaskPackets,
+  type AiExternalPrototypeTask as SharedAiExternalPrototypeTask,
+  type AiExternalPrototypeTaskPacket as SharedAiExternalPrototypeTaskPacket,
+  type AiExternalPrototypeTaskPacketStatus,
+  type AiExternalPrototypeTaskStatus,
+  type AiExternalPrototypeTaskSurface,
+} from "@living-textbook/content-model/src/aiExternalPrototypeTaskPacket";
+import {
   sampleAiGeneratedGameBuildBriefPackets,
   type AiGeneratedGameModeBuildBrief,
 } from "@/data/sampleAiGeneratedGameBuildBrief";
@@ -9,9 +18,9 @@ import {
   type PrototypeBuildSurface,
 } from "@/data/sampleGamePrototypeAssignmentPlan";
 
-export type AiExternalPrototypeTaskPacketStatus = "review-only" | "blocked";
-export type AiExternalPrototypeTaskStatus = "copy-ready-preview" | "needs-contract" | "deferred";
-export type AiExternalPrototypeTaskSurface = "dom-reference" | "phaser-wrapper" | "hybrid-wrapper" | "defer";
+export type AiExternalPrototypeTask = SharedAiExternalPrototypeTask<GameModeId>;
+export type AiExternalPrototypeTaskPacket = SharedAiExternalPrototypeTaskPacket<GameModeId>;
+export type { AiExternalPrototypeTaskPacketStatus, AiExternalPrototypeTaskStatus, AiExternalPrototypeTaskSurface };
 
 export const aiExternalPrototypeTaskSurfaceLabels: Record<AiExternalPrototypeTaskSurface, string> = {
   "dom-reference": "DOM reference required",
@@ -19,42 +28,6 @@ export const aiExternalPrototypeTaskSurfaceLabels: Record<AiExternalPrototypeTas
   "hybrid-wrapper": "Hybrid wrapper candidate",
   defer: "Deferred",
 };
-
-export interface AiExternalPrototypeTask {
-  taskId: string;
-  modeId: GameModeId;
-  title: string;
-  parentEngine: string;
-  recommendedSurface: AiExternalPrototypeTaskSurface;
-  status: AiExternalPrototypeTaskStatus;
-  repositoryScope: string;
-  outputFolderRule: string;
-  builderCommandSummary: string;
-  fixtureRequirements: string[];
-  eventRequirements: string[];
-  audioRequirements: string[];
-  scoringRequirements: string[];
-  deliverables: string[];
-  returnEvidence: string[];
-  blockedActions: string[];
-}
-
-export interface AiExternalPrototypeTaskPacket {
-  packetId: string;
-  tenantId: string;
-  requestId: string;
-  buildBriefPacketId: string;
-  label: string;
-  targetBuilder: string;
-  status: AiExternalPrototypeTaskPacketStatus;
-  handoffState: string;
-  summary: string;
-  sourceRecords: string[];
-  permittedHandoffContents: string[];
-  requiredBeforeHandoff: string[];
-  blockedHandoffActions: string[];
-  tasks: AiExternalPrototypeTask[];
-}
 
 const assignmentByMode = new Map(
   sampleGamePrototypeAssignmentPlan.assignments.map((assignment) => [assignment.gameMode, assignment]),
@@ -119,6 +92,13 @@ export const sampleAiExternalPrototypeTaskPackets: AiExternalPrototypeTaskPacket
       tasks: packet.modeBriefs.map((brief) => createExternalPrototypeTask(brief, isMiniStar)),
     };
   });
+
+export const sampleAiExternalPrototypeTaskPacketErrors = validateAiExternalPrototypeTaskPackets(
+  sampleAiExternalPrototypeTaskPackets,
+);
+
+export const sampleAiExternalPrototypeTaskPacketWarnings =
+  getAiExternalPrototypeTaskPacketCollectionWarnings(sampleAiExternalPrototypeTaskPackets);
 
 function createExternalPrototypeTask(
   brief: AiGeneratedGameModeBuildBrief,

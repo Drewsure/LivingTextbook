@@ -390,6 +390,7 @@
 - `DR-416-ai-generator-responsibility-matrix-validator.md`
 - `DR-417-ai-generator-lineage-map-validator.md`
 - `DR-418-ai-generated-game-build-brief-validator.md`
+- `DR-419-ai-external-prototype-task-packet-validator.md`
 
 ## Maintenance Rule
 

@@ -45,6 +45,7 @@ const rewardReadinessGate = readSource("../apps/web/src/data/sampleAiRewardReadi
 const generatedGameBuildBrief = readSource("../apps/web/src/data/sampleAiGeneratedGameBuildBrief.ts");
 const generatedGameBuildBriefValidator = readSource("../packages/content-model/src/aiGeneratedGameBuildBrief.ts");
 const externalPrototypeTaskPacket = readSource("../apps/web/src/data/sampleAiExternalPrototypeTaskPacket.ts");
+const externalPrototypeTaskPacketValidator = readSource("../packages/content-model/src/aiExternalPrototypeTaskPacket.ts");
 const externalPrototypeTaskExportReadinessGate = readSource(
   "../apps/web/src/data/sampleAiExternalPrototypeTaskExportReadinessGate.ts",
 );
@@ -420,6 +421,10 @@ requireText(generatedGameBuildBriefPanel, "Audio contract", "AI generated game b
 requireText(generatedGameBuildBriefPanel, "Scoring contract", "AI generated game build brief panel must expose scoring contract.");
 requireText(generatedGameBuildBriefPanel, "No standalone promotion", "AI generated game build brief panel must block standalone promotion.");
 requireText(externalPrototypeTaskPacket, "sampleAiExternalPrototypeTaskPackets", "AI external prototype task packet data must exist.");
+requireText(externalPrototypeTaskPacketValidator, "validateAiExternalPrototypeTaskPacket", "AI external prototype task packet shared validator must exist.");
+requireText(externalPrototypeTaskPacketValidator, "AI_EXTERNAL_PROTOTYPE_TASK_REQUIRED_BLOCKED_HANDOFF_ACTIONS", "AI external prototype task packet validator must define blocked handoff actions.");
+requireText(externalPrototypeTaskPacket, "sampleAiExternalPrototypeTaskPacketErrors", "AI external prototype task packet data must expose shared guard errors.");
+requireText(externalPrototypeTaskPacket, "sampleAiExternalPrototypeTaskPacketWarnings", "AI external prototype task packet data must expose shared guard warnings.");
 requireText(externalPrototypeTaskPacket, "External builder task handoff / Z.ai", "AI external task packet must identify external builder handoff.");
 requireText(externalPrototypeTaskPacket, "Copy-ready task brief preview", "AI external task packet must remain copy-ready preview only.");
 requireText(externalPrototypeTaskPacket, "Drewsure/ministar-lab only", "AI external task packet must scope output to ministar-lab.");
@@ -447,6 +452,9 @@ requireText(
   "Copy-ready task brief preview",
   "AI external prototype task packet panel must expose copy-ready preview title.",
 );
+requireText(externalPrototypeTaskPacketPanel, "External task guard active", "AI external prototype task packet panel must expose shared guard status.");
+requireText(externalPrototypeTaskPacketPanel, "External task guard blocks", "AI external prototype task packet panel must expose shared guard blocks.");
+requireText(externalPrototypeTaskPacketPanel, "External task guard warnings", "AI external prototype task packet panel must expose shared guard warnings.");
 requireText(
   externalPrototypeTaskPacketPanel,
   "External builder task handoff",
