@@ -411,3 +411,26 @@ Get-ChildItem -Recurse -File path | Select-String -Pattern "search text"
 ```
 
 Why this matters: Search should stay fast and read-only. Do not use this workaround to build delete, move, or overwrite command strings.
+
+## OW-018: PowerShell Needs Literal Paths For Bracketed Next Routes
+
+Status: Active
+
+Observed behavior: Next.js App Router folders such as `[tenantId]` are valid route folders, but PowerShell treats square brackets as wildcard pattern syntax when reading or staging files by path.
+
+Observed failure signature:
+
+- `Get-Content : specified path ... [tenantId] ... does not exist or was filtered by -Include or -Exclude.`
+
+Procedure:
+
+1. Use `-LiteralPath` when reading bracketed route files:
+
+```powershell
+Get-Content -LiteralPath "apps\web\src\app\teacher\maintenance\[tenantId]\page.tsx"
+```
+
+2. Quote bracketed route paths when staging or inspecting them through Git.
+3. Do not treat a failed normal `Get-Content -Path` call as evidence that the route file is missing.
+
+Why this matters: Dynamic route folders are now common in the build. Literal-path handling prevents false missing-file diagnosis.

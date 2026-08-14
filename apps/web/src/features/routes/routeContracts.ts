@@ -110,6 +110,15 @@ export const appRouteContracts: AppRouteContract[] = [
     requiredState: ["TenantConfig", "TenantLibraryPlan", "TeacherPrivateLibraryPreview", "TeacherDraftPackagePreview[]"],
   },
   {
+    id: "teacher-publisher-maintenance",
+    pattern: "/teacher/maintenance/[tenantId]",
+    audience: "teacher",
+    status: "active-scaffold",
+    purpose:
+      "Show a tenant-scoped publisher maintenance route for yearly content, media, game, QR, local bundle, and report updates while live maintenance actions remain blocked.",
+    requiredState: ["TenantConfig", "PublisherMaintenancePlan", "PublisherMaintenanceChangeRequest[]"],
+  },
+  {
     id: "teacher-media-library",
     pattern: "/teacher/media/[tenantId]",
     audience: "teacher",
@@ -411,6 +420,10 @@ export function getTeacherAiGameGeneratorPath(tenantId: TenantId): string {
 
 export function getTeacherPrivateLibraryPath(tenantId: TenantId): string {
   return `/teacher/library/${encodeURIComponent(tenantId)}`;
+}
+
+export function getTeacherPublisherMaintenancePath(tenantId: TenantId): string {
+  return `/teacher/maintenance/${encodeURIComponent(tenantId)}`;
 }
 
 export function getTeacherMediaLibraryPath(tenantId: TenantId): string {

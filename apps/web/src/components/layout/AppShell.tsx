@@ -46,6 +46,7 @@ export function AppShell({ children, tenant, compact = false }: AppShellProps) {
               <a href="/teacher/launch-gate/starter-english-level-1-unit-1-2026.1-pilot-candidate-classroom-launch-gate">Launch Gate</a>
               <a href="/teacher/review">Review Queue</a>
               <a href="/teacher/library/sample-publisher">Library</a>
+              <a href="/teacher/maintenance/sample-publisher">Maintenance</a>
               <a href="/teacher/uploads/sample-publisher">Uploads</a>
               <a href="/teacher/assets/labelled-diagram/sample-publisher-l1-u1-labelled-diagram">Assets</a>
               <a href="/teacher/assets/media/sample-publisher-l1-u1-routines-media">Media Asset</a>

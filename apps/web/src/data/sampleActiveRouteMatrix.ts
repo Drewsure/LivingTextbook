@@ -123,6 +123,14 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     note: "Tenant-scoped library route for private drafts, reviewed packages, planned school sharing, and blocked public community publishing.",
   },
   {
+    routeId: "teacher-publisher-maintenance",
+    group: "sample-publisher",
+    label: "Publisher maintenance",
+    path: "/teacher/maintenance/sample-publisher",
+    status: "active-scaffold",
+    note: "Focused partner maintenance route for yearly content, media, game, QR, local bundle, and report updates while live self-maintenance remains blocked.",
+  },
+  {
     routeId: "teacher-upload-workspace",
     group: "core",
     label: "Teacher upload workspace",

@@ -63,4 +63,4 @@ The `/teacher/intake` panel must show `Maintenance guard active`, `Maintenance g
 - Sample data: `apps/web/src/data/samplePublisherMaintenancePlan.ts`
 - Panel: `apps/web/src/features/publisher/PublisherMaintenancePlanPanel.tsx`
 - Shared guard: `packages/content-model/src/publisherMaintenance.ts`
-- Route: `/teacher/intake`
+- Routes: `/teacher/intake` and `/teacher/maintenance/sample-publisher`

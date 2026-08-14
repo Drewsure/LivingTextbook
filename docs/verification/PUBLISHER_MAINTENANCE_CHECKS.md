@@ -18,6 +18,7 @@ npm run dev --workspace @living-textbook/web -- --hostname 127.0.0.1 --port 3000
 Open:
 
 - `http://127.0.0.1:3000/teacher/intake`
+- `http://127.0.0.1:3000/teacher/maintenance/sample-publisher`
 
 ## Visual Checks
 
@@ -30,6 +31,7 @@ Confirm the page includes a `Publisher maintenance` panel with:
 - `Maintenance guard active`, `Maintenance guard blocks`, and `Maintenance guard warnings`,
 - standing rules for QR stability, media ownership, local/hosted manifests, and game contracts,
 - maintenance item cards for content, media, games, routes, and reports.
+- the focused route includes `Publisher maintenance route workspace`, `Yearly maintenance review`, `Blocked live actions`, and `No live maintenance workflow`.
 
 ## Product Checks
 
@@ -47,4 +49,4 @@ Confirm the panel makes these rules clear:
 
 ## Acceptance
 
-Do not mark this slice locally verified until typecheck/build pass and `/teacher/intake` renders the publisher maintenance section without console errors.
+Do not mark this slice locally verified until typecheck/build pass and `/teacher/intake` plus `/teacher/maintenance/sample-publisher` render the publisher maintenance sections without console errors.
