@@ -403,6 +403,7 @@
 - `DR-429-ai-prototype-codex-integration-decision-validator.md`
 - `DR-430-ai-prototype-integration-readiness-gate-validator.md`
 - `DR-431-ai-prototype-app-patch-proposal-validator.md`
+- `DR-432-ai-prototype-patch-test-readiness-gate-validator.md`
 
 ## Maintenance Rule
 

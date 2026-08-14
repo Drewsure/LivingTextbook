@@ -407,6 +407,8 @@ Prototype patch test readiness gates must remain review-only until a future patc
 
 The gate must name fixture replay, standard event replay, target-language audio, mobile accessibility, deterministic scoring, route safety, storage contract, and rollback checks. It cannot execute tests, write app files, mutate route aliases, change scoring or rewards, mutate audio manifests, promote packages, assign students, or allow support-language progress. MiniStar gates must also prove Foundation Japanese support stays hiragana-only and support-only.
 
+AI prototype patch test readiness gates must pass the shared `validateAiPrototypePatchTestReadinessGate` guard before patch harness plans, harness implementation proposals, route planning, package promotion, assignment, scoring profile mutation, Star Dust or reward writes, audio manifest mutation, app file work, or test execution can be considered. The guard requires patch test readiness lineage, fixture/event/audio/mobile/scoring/route/storage/rollback lanes, rollback requirements, next required records, and support-language progress blocking.
+
 The backend-neutral storage contract is `ai_prototype_patch_test_readiness_gate` / `ai-prototype-patch-test-readiness-gate`. Hosted and local adapters must preserve required test lanes, rollback requirements, patch test harness plan, route safety release gate, rollback drill record, storage contract verification, Codex patch approval decision, and blocked actions while blocking test execution, app file writes, app patch generation, route writes, scoring mutations, Star Dust or reward writes, audio manifest mutation, package promotion, assignments, and support-language progress.
 
 ## Prototype Patch Test Harness Plan Rule

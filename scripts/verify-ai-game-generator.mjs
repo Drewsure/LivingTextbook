@@ -97,6 +97,9 @@ const prototypeAppPatchProposalValidator = readSource("../packages/content-model
 const prototypePatchTestReadinessGate = readSource(
   "../apps/web/src/data/sampleAiPrototypePatchTestReadinessGate.ts",
 );
+const prototypePatchTestReadinessGateValidator = readSource(
+  "../packages/content-model/src/aiPrototypePatchTestReadinessGate.ts",
+);
 const prototypePatchTestHarnessPlan = readSource("../apps/web/src/data/sampleAiPrototypePatchTestHarnessPlan.ts");
 const prototypePatchHarnessImplementationProposal = readSource(
   "../apps/web/src/data/sampleAiPrototypePatchHarnessImplementationProposal.ts",
@@ -1682,6 +1685,36 @@ requireText(
 );
 requireText(
   prototypePatchTestReadinessGate,
+  "validateAiPrototypePatchTestReadinessGates",
+  "AI prototype patch test readiness gate data must use the shared validator.",
+);
+requireText(
+  prototypePatchTestReadinessGate,
+  "sampleAiPrototypePatchTestReadinessGateErrors",
+  "AI prototype patch test readiness gate data must expose shared guard errors.",
+);
+requireText(
+  prototypePatchTestReadinessGate,
+  "sampleAiPrototypePatchTestReadinessGateWarnings",
+  "AI prototype patch test readiness gate data must expose shared guard warnings.",
+);
+requireText(
+  prototypePatchTestReadinessGateValidator,
+  "validateAiPrototypePatchTestReadinessGate",
+  "AI prototype patch test readiness gate shared validator must exist.",
+);
+requireText(
+  prototypePatchTestReadinessGateValidator,
+  "AI_PROTOTYPE_PATCH_TEST_REQUIRED_LANES",
+  "AI prototype patch test readiness gate validator must define required test lanes.",
+);
+requireText(
+  prototypePatchTestReadinessGateValidator,
+  "No support-language progress trigger",
+  "AI prototype patch test readiness gate validator must block support-language progress.",
+);
+requireText(
+  prototypePatchTestReadinessGate,
   "Patch test harness plan",
   "AI prototype patch test readiness gate must require a patch test harness plan.",
 );
@@ -1719,6 +1752,21 @@ requireText(
   prototypePatchTestReadinessGatePanel,
   "Patch tests before file work",
   "AI prototype patch test readiness gate panel must expose file-work boundary.",
+);
+requireText(
+  prototypePatchTestReadinessGatePanel,
+  "Patch test readiness guard active",
+  "AI prototype patch test readiness gate panel must expose the shared guard status.",
+);
+requireText(
+  prototypePatchTestReadinessGatePanel,
+  "Patch test readiness guard blocks",
+  "AI prototype patch test readiness gate panel must expose shared guard blocks.",
+);
+requireText(
+  prototypePatchTestReadinessGatePanel,
+  "Patch test readiness guard warnings",
+  "AI prototype patch test readiness gate panel must expose shared guard warnings.",
 );
 requireText(
   prototypePatchTestReadinessGatePanel,

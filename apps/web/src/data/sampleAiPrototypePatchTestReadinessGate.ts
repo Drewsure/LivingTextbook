@@ -1,30 +1,16 @@
 import { sampleAiPrototypeAppPatchProposals } from "@/data/sampleAiPrototypeAppPatchProposal";
+import {
+  getAiPrototypePatchTestReadinessGateCollectionWarnings,
+  validateAiPrototypePatchTestReadinessGates,
+  type AiPrototypePatchTestLane as SharedAiPrototypePatchTestLane,
+  type AiPrototypePatchTestLaneStatus,
+  type AiPrototypePatchTestReadinessGate as SharedAiPrototypePatchTestReadinessGate,
+  type AiPrototypePatchTestReadinessGateStatus,
+} from "@living-textbook/content-model/src/aiPrototypePatchTestReadinessGate";
 
-export type AiPrototypePatchTestReadinessGateStatus = "blocked" | "review-only" | "ready-for-test-planning";
-export type AiPrototypePatchTestLaneStatus = "missing" | "blocked" | "pending-review" | "planned";
-
-export interface AiPrototypePatchTestLane {
-  laneId: string;
-  label: string;
-  status: AiPrototypePatchTestLaneStatus;
-  requiredRecord: string;
-  evidenceNeeded: string;
-}
-
-export interface AiPrototypePatchTestReadinessGate {
-  gateId: string;
-  tenantId: string;
-  requestId: string;
-  proposalId: string;
-  label: string;
-  status: AiPrototypePatchTestReadinessGateStatus;
-  summary: string;
-  sourceRecords: string[];
-  testLanes: AiPrototypePatchTestLane[];
-  rollbackRequirements: string[];
-  blockedActions: string[];
-  nextRequiredRecords: string[];
-}
+export type AiPrototypePatchTestLane = SharedAiPrototypePatchTestLane;
+export type AiPrototypePatchTestReadinessGate = SharedAiPrototypePatchTestReadinessGate;
+export type { AiPrototypePatchTestLaneStatus, AiPrototypePatchTestReadinessGateStatus };
 
 export const sampleAiPrototypePatchTestReadinessGates: AiPrototypePatchTestReadinessGate[] =
   sampleAiPrototypeAppPatchProposals.map((proposal) => {
@@ -43,6 +29,7 @@ export const sampleAiPrototypePatchTestReadinessGates: AiPrototypePatchTestReadi
         ? "MiniStar patch testing remains blocked until fixture, event, audio, mobile, scoring, route, storage, rollback, and hiragana support-only checks are named and reviewed."
         : "Patch testing remains blocked until fixture, event, audio, mobile, scoring, route, storage, and rollback checks are named and reviewed.",
       sourceRecords: [
+        "ai_prototype_patch_test_readiness_gate",
         "ai_prototype_app_patch_proposal",
         "codex_integration_review_decision",
         "ai_prototype_integration_readiness_gate",
@@ -146,6 +133,13 @@ export const sampleAiPrototypePatchTestReadinessGates: AiPrototypePatchTestReadi
       ],
     };
   });
+
+export const sampleAiPrototypePatchTestReadinessGateErrors = validateAiPrototypePatchTestReadinessGates(
+  sampleAiPrototypePatchTestReadinessGates,
+);
+
+export const sampleAiPrototypePatchTestReadinessGateWarnings =
+  getAiPrototypePatchTestReadinessGateCollectionWarnings(sampleAiPrototypePatchTestReadinessGates);
 
 export function filterAiPrototypePatchTestReadinessGatesByTenant(
   gates: AiPrototypePatchTestReadinessGate[],
