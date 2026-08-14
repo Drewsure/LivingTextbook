@@ -61,6 +61,9 @@ const prototypeWrapperAdapterReviewValidator = readSource(
   "../packages/content-model/src/aiPrototypeWrapperAdapterReview.ts",
 );
 const prototypeFixtureReplayReport = readSource("../apps/web/src/data/sampleAiPrototypeFixtureReplayReport.ts");
+const prototypeFixtureReplayReportValidator = readSource(
+  "../packages/content-model/src/aiPrototypeFixtureReplayReport.ts",
+);
 const prototypeEventReplayReport = readSource("../apps/web/src/data/sampleAiPrototypeEventReplayReport.ts");
 const prototypeAudioCoverageReport = readSource("../apps/web/src/data/sampleAiPrototypeAudioCoverageReport.ts");
 const prototypeMobileAccessibilityReport = readSource(
@@ -890,6 +893,26 @@ requireText(
   "AI prototype wrapper adapter review panel must expose rejection triggers.",
 );
 requireText(prototypeFixtureReplayReport, "sampleAiPrototypeFixtureReplayReports", "AI prototype fixture replay report data must exist.");
+requireText(
+  prototypeFixtureReplayReportValidator,
+  "validateAiPrototypeFixtureReplayReport",
+  "AI prototype fixture replay report validator must exist.",
+);
+requireText(
+  prototypeFixtureReplayReportValidator,
+  "AI_PROTOTYPE_FIXTURE_REPLAY_REQUIRED_COVERAGE",
+  "AI prototype fixture replay report validator must define required coverage.",
+);
+requireText(
+  prototypeFixtureReplayReport,
+  "sampleAiPrototypeFixtureReplayReportErrors",
+  "AI prototype fixture replay report sample data must expose shared guard errors.",
+);
+requireText(
+  prototypeFixtureReplayReport,
+  "sampleAiPrototypeFixtureReplayReportWarnings",
+  "AI prototype fixture replay report sample data must expose shared guard warnings.",
+);
 requireText(prototypeFixtureReplayReport, "prototype_fixture_replay_report", "AI prototype fixture replay report must name its record.");
 requireText(prototypeFixtureReplayReport, "reviewed_unit_json_fixture", "AI prototype fixture replay report must require reviewed JSON fixtures.");
 requireText(prototypeFixtureReplayReport, "No hard-coded unit text", "AI prototype fixture replay report must block hard-coded text.");
@@ -915,6 +938,21 @@ requireText(
   prototypeFixtureReplayReportPanel,
   "Mode fixture replay reports",
   "AI prototype fixture replay report panel must expose mode replay reports.",
+);
+requireText(
+  prototypeFixtureReplayReportPanel,
+  "Fixture replay guard active",
+  "AI prototype fixture replay report panel must expose the shared guard status.",
+);
+requireText(
+  prototypeFixtureReplayReportPanel,
+  "Fixture replay guard blocks",
+  "AI prototype fixture replay report panel must expose shared guard blocks.",
+);
+requireText(
+  prototypeFixtureReplayReportPanel,
+  "Fixture replay guard warnings",
+  "AI prototype fixture replay report panel must expose shared guard warnings.",
 );
 requireText(prototypeFixtureReplayReportPanel, "Fixture coverage", "AI prototype fixture replay report panel must expose fixture coverage.");
 requireText(prototypeFixtureReplayReportPanel, "Replay evidence", "AI prototype fixture replay report panel must expose replay evidence.");

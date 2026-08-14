@@ -2,35 +2,17 @@ import {
   sampleAiPrototypeIntegrationPlans,
   type AiPrototypeModeIntegrationPlan,
 } from "@/data/sampleAiPrototypeIntegrationPlan";
+import {
+  getAiPrototypeFixtureReplayReportCollectionWarnings,
+  validateAiPrototypeFixtureReplayReports,
+  type AiPrototypeFixtureReplayReport as SharedAiPrototypeFixtureReplayReport,
+  type AiPrototypeFixtureReplayReportStatus,
+  type AiPrototypeModeFixtureReplayReport as SharedAiPrototypeModeFixtureReplayReport,
+} from "@living-textbook/content-model/src/aiPrototypeFixtureReplayReport";
 
-export type AiPrototypeFixtureReplayReportStatus = "not-run" | "review-only" | "blocked";
-
-export interface AiPrototypeModeFixtureReplayReport {
-  modeId: string;
-  parentEngine: string;
-  fixtureName: string;
-  replaySurface: string;
-  inputAssertions: string[];
-  outputAssertions: string[];
-  replayEvidence: string[];
-  failureTriggers: string[];
-}
-
-export interface AiPrototypeFixtureReplayReport {
-  reportId: string;
-  tenantId: string;
-  requestId: string;
-  integrationPlanId: string;
-  label: string;
-  status: AiPrototypeFixtureReplayReportStatus;
-  summary: string;
-  sourceRecords: string[];
-  replayPurpose: string[];
-  fixtureCoverage: string[];
-  replayAcceptanceChecks: string[];
-  blockedActions: string[];
-  modeReports: AiPrototypeModeFixtureReplayReport[];
-}
+export type AiPrototypeModeFixtureReplayReport = SharedAiPrototypeModeFixtureReplayReport;
+export type AiPrototypeFixtureReplayReport = SharedAiPrototypeFixtureReplayReport;
+export type { AiPrototypeFixtureReplayReportStatus };
 
 export const sampleAiPrototypeFixtureReplayReports: AiPrototypeFixtureReplayReport[] =
   sampleAiPrototypeIntegrationPlans.map((plan) => {
@@ -86,11 +68,19 @@ export const sampleAiPrototypeFixtureReplayReports: AiPrototypeFixtureReplayRepo
         "No audio manifest mutation",
         "No reward inventory write",
         "No student assignment",
+        "No support-language progress trigger",
         ...(isMiniStar ? ["No Japanese support-language scoring or release"] : []),
       ],
       modeReports: plan.modePlans.map((modePlan) => createModeFixtureReplayReport(modePlan, isMiniStar)),
     };
   });
+
+export const sampleAiPrototypeFixtureReplayReportErrors = validateAiPrototypeFixtureReplayReports(
+  sampleAiPrototypeFixtureReplayReports,
+);
+
+export const sampleAiPrototypeFixtureReplayReportWarnings =
+  getAiPrototypeFixtureReplayReportCollectionWarnings(sampleAiPrototypeFixtureReplayReports);
 
 function createModeFixtureReplayReport(
   modePlan: AiPrototypeModeIntegrationPlan,

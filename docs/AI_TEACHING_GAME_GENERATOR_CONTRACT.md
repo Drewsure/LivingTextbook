@@ -317,6 +317,8 @@ Prototype fixture replay reports must prove that returned prototypes load review
 
 The report must show fixture coverage, input assertions, output assertions, replay evidence, failure triggers, and blocked actions. It must preserve 8-12 vocabulary terms, exactly 2 target sentences, target-language-only progress, support-only assist language, target-language audio cue references, tenant theme injection, and standard event output while blocking live model calls, direct app imports, route writes, scoring/audio mutation, reward writes, student assignment, and support-language scoring or release.
 
+AI prototype fixture replay reports must pass the shared `validateAiPrototypeFixtureReplayReport` guard before event replay, audio coverage, scoring replay, mobile accessibility inspection, Codex integration decisions, app patch planning, route planning, package promotion, or assignment can be considered. The guard requires prototype integration lineage, reviewed unit JSON fixtures, fixture coverage, replay purpose, target-language progress checks, support-only assist language, audio cue references, tenant theme injection evidence, failure triggers, and blocked support-language progress shortcuts.
+
 The backend-neutral storage contract is `ai_prototype_fixture_replay_report` / `ai-prototype-fixture-replay-report`. Hosted and local adapters must preserve reviewed unit JSON fixture id, fixture coverage, input/output assertions, replay evidence, failure triggers, and blocked actions while blocking hard-coded unit text, tenant hard-coding, support-language progress triggers, score authority, audio manifest authority, reward inventory writes, direct app imports, package promotion, and assignments.
 
 ## Prototype Event Replay Report Rule

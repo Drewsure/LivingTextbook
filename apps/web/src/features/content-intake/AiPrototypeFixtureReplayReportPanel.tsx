@@ -1,4 +1,8 @@
 import { Card, StatusPill } from "@living-textbook/ui";
+import {
+  getAiPrototypeFixtureReplayReportCollectionWarnings,
+  validateAiPrototypeFixtureReplayReports,
+} from "@living-textbook/content-model/src/aiPrototypeFixtureReplayReport";
 import type {
   AiPrototypeFixtureReplayReport,
   AiPrototypeFixtureReplayReportStatus,
@@ -22,6 +26,8 @@ const statusLabel: Record<AiPrototypeFixtureReplayReportStatus, string> = {
 };
 
 export function AiPrototypeFixtureReplayReportPanel({ reports }: AiPrototypeFixtureReplayReportPanelProps) {
+  const guardBlocks = validateAiPrototypeFixtureReplayReports(reports);
+  const guardWarnings = getAiPrototypeFixtureReplayReportCollectionWarnings(reports);
   const modeReportCount = reports.reduce((total, report) => total + report.modeReports.length, 0);
 
   return (
@@ -36,9 +42,27 @@ export function AiPrototypeFixtureReplayReportPanel({ reports }: AiPrototypeFixt
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
+          <StatusPill label="Fixture replay guard active" tone="neutral" />
+          <StatusPill
+            label={`${guardBlocks.length} guard block(s)`}
+            tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+          />
           <StatusPill label={`${modeReportCount} replay mode(s)`} tone="success" />
           <StatusPill label="No hard-coded unit text" tone="warning" />
         </div>
+      </div>
+
+      <div className="mt-5 grid gap-3 lg:grid-cols-2">
+        <ReplayList
+          title="Fixture replay guard blocks"
+          items={guardBlocks.length > 0 ? guardBlocks : ["No shared fixture replay guard blockers."]}
+          tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+        />
+        <ReplayList
+          title="Fixture replay guard warnings"
+          items={guardWarnings.length > 0 ? guardWarnings : ["No shared fixture replay guard warnings."]}
+          tone={guardWarnings.length > 0 ? "warning" : "neutral"}
+        />
       </div>
 
       <div className="mt-5 grid gap-4">
