@@ -1,25 +1,13 @@
 import { sampleAiPrototypePatchTestHarnessPlans } from "@/data/sampleAiPrototypePatchTestHarnessPlan";
+import {
+  getAiPrototypePatchHarnessImplementationProposalCollectionWarnings,
+  validateAiPrototypePatchHarnessImplementationProposals,
+  type AiPrototypePatchHarnessImplementationProposal as SharedAiPrototypePatchHarnessImplementationProposal,
+  type AiPrototypePatchHarnessImplementationProposalStatus,
+} from "@living-textbook/content-model/src/aiPrototypePatchHarnessImplementationProposal";
 
-export type AiPrototypePatchHarnessImplementationProposalStatus =
-  | "blocked"
-  | "review-only"
-  | "ready-for-implementation-review";
-
-export interface AiPrototypePatchHarnessImplementationProposal {
-  proposalId: string;
-  tenantId: string;
-  requestId: string;
-  harnessPlanId: string;
-  label: string;
-  status: AiPrototypePatchHarnessImplementationProposalStatus;
-  summary: string;
-  proposedFileScope: string[];
-  implementationBoundaries: string[];
-  requiredReviewGates: string[];
-  dryRunOnlyChecks: string[];
-  blockedActions: string[];
-  nextRequiredRecords: string[];
-}
+export type AiPrototypePatchHarnessImplementationProposal = SharedAiPrototypePatchHarnessImplementationProposal;
+export type { AiPrototypePatchHarnessImplementationProposalStatus };
 
 export const sampleAiPrototypePatchHarnessImplementationProposals: AiPrototypePatchHarnessImplementationProposal[] =
   sampleAiPrototypePatchTestHarnessPlans.map((plan) => {
@@ -98,6 +86,14 @@ export const sampleAiPrototypePatchHarnessImplementationProposals: AiPrototypePa
       ],
     };
   });
+
+export const sampleAiPrototypePatchHarnessImplementationProposalErrors =
+  validateAiPrototypePatchHarnessImplementationProposals(sampleAiPrototypePatchHarnessImplementationProposals);
+
+export const sampleAiPrototypePatchHarnessImplementationProposalWarnings =
+  getAiPrototypePatchHarnessImplementationProposalCollectionWarnings(
+    sampleAiPrototypePatchHarnessImplementationProposals,
+  );
 
 export function filterAiPrototypePatchHarnessImplementationProposalsByTenant(
   proposals: AiPrototypePatchHarnessImplementationProposal[],

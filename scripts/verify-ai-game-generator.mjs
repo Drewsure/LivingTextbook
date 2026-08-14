@@ -107,6 +107,9 @@ const prototypePatchTestHarnessPlanValidator = readSource(
 const prototypePatchHarnessImplementationProposal = readSource(
   "../apps/web/src/data/sampleAiPrototypePatchHarnessImplementationProposal.ts",
 );
+const prototypePatchHarnessImplementationProposalValidator = readSource(
+  "../packages/content-model/src/aiPrototypePatchHarnessImplementationProposal.ts",
+);
 const prototypeCodexPatchApprovalDecision = readSource(
   "../apps/web/src/data/sampleAiPrototypeCodexPatchApprovalDecision.ts",
 );
@@ -1883,6 +1886,36 @@ requireText(
 );
 requireText(
   prototypePatchHarnessImplementationProposal,
+  "validateAiPrototypePatchHarnessImplementationProposals",
+  "AI prototype patch harness implementation proposal data must use the shared validator.",
+);
+requireText(
+  prototypePatchHarnessImplementationProposal,
+  "sampleAiPrototypePatchHarnessImplementationProposalErrors",
+  "AI prototype patch harness implementation proposal data must expose shared guard errors.",
+);
+requireText(
+  prototypePatchHarnessImplementationProposal,
+  "sampleAiPrototypePatchHarnessImplementationProposalWarnings",
+  "AI prototype patch harness implementation proposal data must expose shared guard warnings.",
+);
+requireText(
+  prototypePatchHarnessImplementationProposalValidator,
+  "validateAiPrototypePatchHarnessImplementationProposal",
+  "AI prototype patch harness implementation proposal shared validator must exist.",
+);
+requireText(
+  prototypePatchHarnessImplementationProposalValidator,
+  "AI_PROTOTYPE_PATCH_HARNESS_IMPLEMENTATION_FILE_SCOPE",
+  "AI prototype patch harness implementation proposal validator must define file scope.",
+);
+requireText(
+  prototypePatchHarnessImplementationProposalValidator,
+  "No support-language progress trigger",
+  "AI prototype patch harness implementation proposal validator must block support-language progress.",
+);
+requireText(
+  prototypePatchHarnessImplementationProposal,
   "No harness implementation from this proposal",
   "AI prototype patch harness implementation proposal must block implementation.",
 );
@@ -1915,6 +1948,21 @@ requireText(
   prototypePatchHarnessImplementationProposalPanel,
   "No code generation",
   "AI prototype patch harness implementation proposal panel must block code generation.",
+);
+requireText(
+  prototypePatchHarnessImplementationProposalPanel,
+  "Harness implementation proposal guard active",
+  "AI prototype patch harness implementation proposal panel must expose the shared guard status.",
+);
+requireText(
+  prototypePatchHarnessImplementationProposalPanel,
+  "Harness implementation proposal guard blocks",
+  "AI prototype patch harness implementation proposal panel must expose shared guard blocks.",
+);
+requireText(
+  prototypePatchHarnessImplementationProposalPanel,
+  "Harness implementation proposal guard warnings",
+  "AI prototype patch harness implementation proposal panel must expose shared guard warnings.",
 );
 requireText(
   prototypeCodexPatchApprovalDecision,
