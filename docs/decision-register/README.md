@@ -393,6 +393,7 @@
 - `DR-419-ai-external-prototype-task-packet-validator.md`
 - `DR-420-ai-external-task-export-readiness-validator.md`
 - `DR-421-ai-prototype-return-review-validator.md`
+- `DR-422-ai-prototype-integration-plan-validator.md`
 
 ## Maintenance Rule
 

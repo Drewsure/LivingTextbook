@@ -297,6 +297,8 @@ Prototype integration plans must stay wrapper-first and review-only. A plan may 
 
 Prototype integration plans cannot import returned files into `apps/web`, write route registry entries, mutate game sequences, mutate scoring profiles, mutate audio manifests, promote packages, assign students, or treat prototype evidence as package-ready. Phaser and other premium surfaces must remain removable wrappers around the LivingTextbook parent-engine contract.
 
+AI prototype integration plans must pass the shared `validateAiPrototypeIntegrationPlan` guard before wrapper adapter work, app patch planning, route planning, scoring changes, audio manifest updates, package promotion, or assignment can be considered. The guard requires prototype return-review lineage, standard event contract, audio cue manifest, scoring profile snapshot, activity compatibility, package audio coverage, quarantine lanes, fixture/event/audio/scoring/mobile/tenant tests, wrapper-first mode plans, scoring replay records, Codex decision records, and blocked integration shortcuts.
+
 The backend-neutral storage contract is `ai_prototype_integration_plan` / `ai-prototype-integration-plan`. Hosted and local adapters must preserve wrapper adapter review, fixture replay report, event replay report, audio coverage report, scoring replay report, mobile accessibility review, integration lanes, test harness requirements, next review records, and mode integration plans while blocking direct app import, route writes, game sequence mutation, scoring mutation, audio manifest mutation, package promotion, and direct assignment.
 
 ## Prototype Wrapper Adapter Review Rule

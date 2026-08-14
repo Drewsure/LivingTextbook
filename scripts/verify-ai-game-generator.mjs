@@ -55,6 +55,7 @@ const externalPrototypeTaskExportReadinessGateValidator = readSource(
 const prototypeReturnReview = readSource("../apps/web/src/data/sampleAiPrototypeReturnReview.ts");
 const prototypeReturnReviewValidator = readSource("../packages/content-model/src/aiPrototypeReturnReview.ts");
 const prototypeIntegrationPlan = readSource("../apps/web/src/data/sampleAiPrototypeIntegrationPlan.ts");
+const prototypeIntegrationPlanValidator = readSource("../packages/content-model/src/aiPrototypeIntegrationPlan.ts");
 const prototypeWrapperAdapterReview = readSource("../apps/web/src/data/sampleAiPrototypeWrapperAdapterReview.ts");
 const prototypeFixtureReplayReport = readSource("../apps/web/src/data/sampleAiPrototypeFixtureReplayReport.ts");
 const prototypeEventReplayReport = readSource("../apps/web/src/data/sampleAiPrototypeEventReplayReport.ts");
@@ -735,11 +736,32 @@ requireText(prototypeReturnReviewPanel, "Audio evidence", "AI prototype return r
 requireText(prototypeReturnReviewPanel, "Scoring evidence", "AI prototype return review panel must expose scoring evidence.");
 requireText(prototypeReturnReviewPanel, "Accessibility evidence", "AI prototype return review panel must expose accessibility evidence.");
 requireText(prototypeIntegrationPlan, "sampleAiPrototypeIntegrationPlans", "AI prototype integration plan data must exist.");
+requireText(
+  prototypeIntegrationPlanValidator,
+  "validateAiPrototypeIntegrationPlan",
+  "AI prototype integration plan shared validator must exist.",
+);
+requireText(
+  prototypeIntegrationPlanValidator,
+  "AI_PROTOTYPE_INTEGRATION_REQUIRED_NEXT_RECORDS",
+  "AI prototype integration plan validator must define required next review records.",
+);
+requireText(
+  prototypeIntegrationPlan,
+  "sampleAiPrototypeIntegrationPlanErrors",
+  "AI prototype integration plan data must expose shared guard errors.",
+);
+requireText(
+  prototypeIntegrationPlan,
+  "sampleAiPrototypeIntegrationPlanWarnings",
+  "AI prototype integration plan data must expose shared guard warnings.",
+);
 requireText(prototypeIntegrationPlan, "ai_prototype_return_review", "AI prototype integration plan must depend on prototype return review records.");
 requireText(prototypeIntegrationPlan, "prototype_wrapper_adapter_review", "AI prototype integration plan must name wrapper adapter review.");
 requireText(prototypeIntegrationPlan, "prototype_fixture_replay_report", "AI prototype integration plan must name fixture replay report.");
 requireText(prototypeIntegrationPlan, "prototype_event_replay_report", "AI prototype integration plan must name event replay report.");
 requireText(prototypeIntegrationPlan, "prototype_audio_coverage_report", "AI prototype integration plan must name audio coverage report.");
+requireText(prototypeIntegrationPlan, "prototype_scoring_replay_report", "AI prototype integration plan must name scoring replay report.");
 requireText(
   prototypeIntegrationPlan,
   "prototype_mobile_accessibility_report",
@@ -756,6 +778,9 @@ requireText(prototypeIntegrationPlan, "No game sequence mutation", "AI prototype
 requireText(prototypeIntegrationPlan, "No package promotion", "AI prototype integration plan must block package promotion.");
 requireText(prototypeIntegrationPlanPanel, "AI prototype integration plan", "AI prototype integration plan panel must expose heading.");
 requireText(prototypeIntegrationPlanPanel, "Wrapper-first integration path", "AI prototype integration plan panel must expose wrapper-first path.");
+requireText(prototypeIntegrationPlanPanel, "Integration plan guard active", "AI prototype integration plan panel must expose shared guard status.");
+requireText(prototypeIntegrationPlanPanel, "Integration plan guard blocks", "AI prototype integration plan panel must expose shared guard blocks.");
+requireText(prototypeIntegrationPlanPanel, "Integration plan guard warnings", "AI prototype integration plan panel must expose shared guard warnings.");
 requireText(prototypeIntegrationPlanPanel, "No direct import", "AI prototype integration plan panel must block direct imports.");
 requireText(prototypeIntegrationPlanPanel, "Codex review required", "AI prototype integration plan panel must require Codex review.");
 requireText(prototypeIntegrationPlanPanel, "Mode integration plans", "AI prototype integration plan panel must expose mode plans.");

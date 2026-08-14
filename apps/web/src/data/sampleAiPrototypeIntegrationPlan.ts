@@ -2,35 +2,17 @@ import {
   sampleAiPrototypeReturnReviewPackets,
   type AiPrototypeModeReturnReview,
 } from "@/data/sampleAiPrototypeReturnReview";
+import {
+  getAiPrototypeIntegrationPlanCollectionWarnings,
+  validateAiPrototypeIntegrationPlans,
+  type AiPrototypeIntegrationPlan as SharedAiPrototypeIntegrationPlan,
+  type AiPrototypeIntegrationPlanStatus,
+  type AiPrototypeModeIntegrationPlan as SharedAiPrototypeModeIntegrationPlan,
+} from "@living-textbook/content-model/src/aiPrototypeIntegrationPlan";
 
-export type AiPrototypeIntegrationPlanStatus = "needs-return-review" | "wrapper-review-only" | "blocked";
-
-export interface AiPrototypeModeIntegrationPlan {
-  modeId: string;
-  parentEngine: string;
-  proposedSurface: string;
-  adapterBoundary: string;
-  integrationSequence: string[];
-  requiredTests: string[];
-  acceptanceEvidence: string[];
-  blockedShortcuts: string[];
-}
-
-export interface AiPrototypeIntegrationPlan {
-  planId: string;
-  tenantId: string;
-  requestId: string;
-  returnReviewId: string;
-  label: string;
-  status: AiPrototypeIntegrationPlanStatus;
-  summary: string;
-  sourceRecords: string[];
-  integrationLanes: string[];
-  testHarnessRequirements: string[];
-  blockedActions: string[];
-  nextReviewRecords: string[];
-  modePlans: AiPrototypeModeIntegrationPlan[];
-}
+export type AiPrototypeModeIntegrationPlan = SharedAiPrototypeModeIntegrationPlan;
+export type AiPrototypeIntegrationPlan = SharedAiPrototypeIntegrationPlan;
+export type { AiPrototypeIntegrationPlanStatus };
 
 export const sampleAiPrototypeIntegrationPlans: AiPrototypeIntegrationPlan[] =
   sampleAiPrototypeReturnReviewPackets.map((review) => {
@@ -88,11 +70,20 @@ export const sampleAiPrototypeIntegrationPlans: AiPrototypeIntegrationPlan[] =
         "prototype_event_replay_report",
         "prototype_audio_coverage_report",
         "prototype_mobile_accessibility_report",
+        "prototype_scoring_replay_report",
         "codex_integration_review_decision",
       ],
       modePlans: review.modeReviews.map((modeReview) => createModeIntegrationPlan(modeReview, isMiniStar)),
     };
   });
+
+export const sampleAiPrototypeIntegrationPlanErrors = validateAiPrototypeIntegrationPlans(
+  sampleAiPrototypeIntegrationPlans,
+);
+
+export const sampleAiPrototypeIntegrationPlanWarnings = getAiPrototypeIntegrationPlanCollectionWarnings(
+  sampleAiPrototypeIntegrationPlans,
+);
 
 function createModeIntegrationPlan(
   modeReview: AiPrototypeModeReturnReview,

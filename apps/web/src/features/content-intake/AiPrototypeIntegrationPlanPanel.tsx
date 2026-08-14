@@ -1,4 +1,8 @@
 import { Card, StatusPill } from "@living-textbook/ui";
+import {
+  getAiPrototypeIntegrationPlanCollectionWarnings,
+  validateAiPrototypeIntegrationPlans,
+} from "@living-textbook/content-model/src/aiPrototypeIntegrationPlan";
 import type {
   AiPrototypeIntegrationPlan,
   AiPrototypeIntegrationPlanStatus,
@@ -22,6 +26,8 @@ const statusLabel: Record<AiPrototypeIntegrationPlanStatus, string> = {
 };
 
 export function AiPrototypeIntegrationPlanPanel({ plans }: AiPrototypeIntegrationPlanPanelProps) {
+  const guardBlocks = validateAiPrototypeIntegrationPlans(plans);
+  const guardWarnings = getAiPrototypeIntegrationPlanCollectionWarnings(plans);
   const modePlanCount = plans.reduce((total, plan) => total + plan.modePlans.length, 0);
 
   return (
@@ -37,9 +43,27 @@ export function AiPrototypeIntegrationPlanPanel({ plans }: AiPrototypeIntegratio
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
+          <StatusPill label="Integration plan guard active" tone="neutral" />
+          <StatusPill
+            label={`${guardBlocks.length} guard block(s)`}
+            tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+          />
           <StatusPill label={`${modePlanCount} mode plan(s)`} tone="success" />
           <StatusPill label="No direct import" tone="warning" />
         </div>
+      </div>
+
+      <div className="mt-5 grid gap-3 lg:grid-cols-2">
+        <PlanList
+          title="Integration plan guard blocks"
+          items={guardBlocks.length > 0 ? guardBlocks : ["No shared integration plan guard blockers."]}
+          tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+        />
+        <PlanList
+          title="Integration plan guard warnings"
+          items={guardWarnings.length > 0 ? guardWarnings : ["No shared integration plan guard warnings."]}
+          tone={guardWarnings.length > 0 ? "warning" : "neutral"}
+        />
       </div>
 
       <div className="mt-5 grid gap-4">

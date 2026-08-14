@@ -731,6 +731,7 @@ export * from "./aiGeneratedGameBuildBrief";
 export * from "./aiExternalPrototypeTaskPacket";
 export * from "./aiExternalPrototypeTaskExportReadinessGate";
 export * from "./aiPrototypeReturnReview";
+export * from "./aiPrototypeIntegrationPlan";
 export * from "./aiGeneratorTenantCoverage";
 export * from "./aiGeneratorLineageMap";
 export * from "./aiGeneratorReviewSummary";
