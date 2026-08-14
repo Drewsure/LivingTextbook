@@ -1,32 +1,14 @@
 import { sampleAiPrototypePatchImplementationWorkOrders } from "@/data/sampleAiPrototypePatchImplementationWorkOrder";
+import {
+  getAiPrototypePatchChangeSetPreviewCollectionWarnings,
+  validateAiPrototypePatchChangeSetPreviews,
+  type AiPrototypePatchChangeSetPreview as SharedAiPrototypePatchChangeSetPreview,
+  type AiPrototypePatchChangeSetPreviewStatus,
+  type AiPrototypePatchFileChangePreview,
+} from "@living-textbook/content-model/src/aiPrototypePatchChangeSetPreview";
 
-export type AiPrototypePatchChangeSetPreviewStatus =
-  | "blocked"
-  | "review-only"
-  | "ready-for-change-set-review";
-
-export interface AiPrototypePatchFileChangePreview {
-  filePath: string;
-  action: string;
-  fileGroup: string;
-  purpose: string;
-  guardrail: string;
-}
-
-export interface AiPrototypePatchChangeSetPreview {
-  changeSetId: string;
-  tenantId: string;
-  requestId: string;
-  workOrderId: string;
-  label: string;
-  status: AiPrototypePatchChangeSetPreviewStatus;
-  summary: string;
-  plannedFileChanges: AiPrototypePatchFileChangePreview[];
-  invariantChecks: string[];
-  reviewBlockers: string[];
-  blockedActions: string[];
-  nextRequiredRecords: string[];
-}
+export type AiPrototypePatchChangeSetPreview = SharedAiPrototypePatchChangeSetPreview;
+export type { AiPrototypePatchChangeSetPreviewStatus, AiPrototypePatchFileChangePreview };
 
 export const sampleAiPrototypePatchChangeSetPreviews: AiPrototypePatchChangeSetPreview[] =
   sampleAiPrototypePatchImplementationWorkOrders.map((workOrder) => {
@@ -118,6 +100,12 @@ export const sampleAiPrototypePatchChangeSetPreviews: AiPrototypePatchChangeSetP
       ],
     };
   });
+
+export const sampleAiPrototypePatchChangeSetPreviewErrors =
+  validateAiPrototypePatchChangeSetPreviews(sampleAiPrototypePatchChangeSetPreviews);
+
+export const sampleAiPrototypePatchChangeSetPreviewWarnings =
+  getAiPrototypePatchChangeSetPreviewCollectionWarnings(sampleAiPrototypePatchChangeSetPreviews);
 
 export function filterAiPrototypePatchChangeSetPreviewsByTenant(
   previews: AiPrototypePatchChangeSetPreview[],

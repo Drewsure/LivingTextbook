@@ -479,6 +479,8 @@ MiniStar patch implementation work orders must keep Foundation Japanese support 
 
 Prototype patch change set previews must remain review-only until a stored work order, work-order execution authorization, patch fixture archive, rollback snapshot, and human reviewer sign-off exist.
 
+Prototype patch change set previews must pass the shared `validateAiPrototypePatchChangeSetPreview` guard before route planning, package promotion, assignment, scoring profile mutation, Star Dust or reward writes, audio manifest mutation, app file work, patch generation, harness implementation, test execution, or Playwright runs can be considered. The guard requires planned file groups, future-only actions, invariants, review blockers, next records, no apply-patch action, no app patch write, and blocked support-language progress.
+
 The preview may name planned file changes, wrapper boundaries, fixture mapping files, event/audio test files, invariant checks, review blockers, blocked actions, and next required records. It cannot apply a patch, write app files, generate files, run tests, invoke Playwright, create routes, mutate scoring or rewards, mutate audio manifests, promote packages, assign students, or trigger support-language progress.
 
 MiniStar patch change set previews must keep Foundation Japanese support hiragana-only and support-only while English remains the progress trigger.

@@ -1,4 +1,8 @@
 import { Card, StatusPill } from "@living-textbook/ui";
+import {
+  getAiPrototypePatchChangeSetPreviewCollectionWarnings,
+  validateAiPrototypePatchChangeSetPreviews,
+} from "@living-textbook/content-model/src/aiPrototypePatchChangeSetPreview";
 
 import type {
   AiPrototypePatchChangeSetPreview,
@@ -22,6 +26,9 @@ const statusLabel: Record<AiPrototypePatchChangeSetPreviewStatus, string> = {
 };
 
 export function AiPrototypePatchChangeSetPreviewPanel({ previews }: AiPrototypePatchChangeSetPreviewPanelProps) {
+  const guardBlocks = validateAiPrototypePatchChangeSetPreviews(previews);
+  const guardWarnings = getAiPrototypePatchChangeSetPreviewCollectionWarnings(previews);
+
   return (
     <Card className="space-y-4">
       <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
@@ -33,7 +40,27 @@ export function AiPrototypePatchChangeSetPreviewPanel({ previews }: AiPrototypeP
             prototype can become an app patch.
           </p>
         </div>
-        <StatusPill label="No app patch write" tone="warning" />
+        <div className="flex flex-wrap gap-2">
+          <StatusPill label="Patch change set preview guard active" tone="neutral" />
+          <StatusPill
+            label={`${guardBlocks.length} guard block(s)`}
+            tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+          />
+          <StatusPill label="No app patch write" tone="warning" />
+        </div>
+      </div>
+
+      <div className="grid gap-3 lg:grid-cols-2">
+        <ListPanel
+          title="Patch change set preview guard blocks"
+          items={guardBlocks.length > 0 ? guardBlocks : ["No shared patch change set preview guard blockers."]}
+          tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+        />
+        <ListPanel
+          title="Patch change set preview guard warnings"
+          items={guardWarnings.length > 0 ? guardWarnings : ["No shared patch change set preview guard warnings."]}
+          tone={guardWarnings.length > 0 ? "warning" : "neutral"}
+        />
       </div>
 
       <div className="space-y-3">

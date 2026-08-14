@@ -135,6 +135,9 @@ const prototypePatchImplementationWorkOrderValidator = readSource(
   "../packages/content-model/src/aiPrototypePatchImplementationWorkOrder.ts",
 );
 const prototypePatchChangeSetPreview = readSource("../apps/web/src/data/sampleAiPrototypePatchChangeSetPreview.ts");
+const prototypePatchChangeSetPreviewValidator = readSource(
+  "../packages/content-model/src/aiPrototypePatchChangeSetPreview.ts",
+);
 const verifierSubmissionPacket = readSource("../apps/web/src/data/sampleAiVerifierSubmissionPacket.ts");
 const targetLanguageAudioApprovalPacket = readSource(
   "../apps/web/src/data/sampleAiTargetLanguageAudioApprovalPacket.ts",
@@ -2342,9 +2345,44 @@ requireText(
   "AI prototype patch implementation work order panel must expose shared guard warnings.",
 );
 requireText(
+  prototypePatchChangeSetPreviewValidator,
+  "validateAiPrototypePatchChangeSetPreview",
+  "AI prototype patch change set preview validator must export the single-preview guard.",
+);
+requireText(
+  prototypePatchChangeSetPreviewValidator,
+  "AI_PROTOTYPE_PATCH_CHANGE_SET_BLOCKED_ACTIONS",
+  "AI prototype patch change set preview validator must lock blocked actions.",
+);
+requireText(
+  prototypePatchChangeSetPreviewValidator,
+  "No apply patch",
+  "AI prototype patch change set preview validator must block applying patches.",
+);
+requireText(
+  prototypePatchChangeSetPreviewValidator,
+  "Removable wrapper adapter",
+  "AI prototype patch change set preview validator must preserve removable wrapper scope.",
+);
+requireText(
+  prototypePatchChangeSetPreviewValidator,
+  "Foundation Japanese remains hiragana-only",
+  "AI prototype patch change set preview validator must preserve MiniStar hiragana support evidence.",
+);
+requireText(
   prototypePatchChangeSetPreview,
   "sampleAiPrototypePatchChangeSetPreviews",
   "AI prototype patch change set preview data must exist.",
+);
+requireText(
+  prototypePatchChangeSetPreview,
+  "sampleAiPrototypePatchChangeSetPreviewErrors",
+  "AI prototype patch change set preview data must expose shared guard errors.",
+);
+requireText(
+  prototypePatchChangeSetPreview,
+  "sampleAiPrototypePatchChangeSetPreviewWarnings",
+  "AI prototype patch change set preview data must expose shared guard warnings.",
 );
 requireText(
   prototypePatchChangeSetPreview,
@@ -2380,6 +2418,21 @@ requireText(
   prototypePatchChangeSetPreviewPanel,
   "No app patch write",
   "AI prototype patch change set preview panel must block app patch writes.",
+);
+requireText(
+  prototypePatchChangeSetPreviewPanel,
+  "Patch change set preview guard active",
+  "AI prototype patch change set preview panel must expose shared guard state.",
+);
+requireText(
+  prototypePatchChangeSetPreviewPanel,
+  "Patch change set preview guard blocks",
+  "AI prototype patch change set preview panel must expose shared guard blocks.",
+);
+requireText(
+  prototypePatchChangeSetPreviewPanel,
+  "Patch change set preview guard warnings",
+  "AI prototype patch change set preview panel must expose shared guard warnings.",
 );
 requireText(promptPackagePlan, "sampleAiPromptPackagePlans", "AI prompt package plan data must exist.");
 requireText(promptPackagePlan, "MiniStar generator prompt package", "AI prompt package plan must include MiniStar request seed.");
