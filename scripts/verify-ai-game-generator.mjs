@@ -53,6 +53,7 @@ const externalPrototypeTaskExportReadinessGateValidator = readSource(
   "../packages/content-model/src/aiExternalPrototypeTaskExportReadinessGate.ts",
 );
 const prototypeReturnReview = readSource("../apps/web/src/data/sampleAiPrototypeReturnReview.ts");
+const prototypeReturnReviewValidator = readSource("../packages/content-model/src/aiPrototypeReturnReview.ts");
 const prototypeIntegrationPlan = readSource("../apps/web/src/data/sampleAiPrototypeIntegrationPlan.ts");
 const prototypeWrapperAdapterReview = readSource("../apps/web/src/data/sampleAiPrototypeWrapperAdapterReview.ts");
 const prototypeFixtureReplayReport = readSource("../apps/web/src/data/sampleAiPrototypeFixtureReplayReport.ts");
@@ -687,6 +688,26 @@ requireText(responsibilityMatrixPanel, "Handoff records", "AI generator responsi
 requireText(responsibilityMatrixPanel, "Cannot do", "AI generator responsibility matrix panel must expose blocked owner actions.");
 requireText(responsibilityMatrixPanel, "No live handoff", "AI generator responsibility matrix panel must block live handoff.");
 requireText(prototypeReturnReview, "sampleAiPrototypeReturnReviewPackets", "AI prototype return review data must exist.");
+requireText(
+  prototypeReturnReviewValidator,
+  "validateAiPrototypeReturnReviewPacket",
+  "AI prototype return review shared validator must exist.",
+);
+requireText(
+  prototypeReturnReviewValidator,
+  "AI_PROTOTYPE_RETURN_REVIEW_REQUIRED_EVENTS",
+  "AI prototype return review validator must define required events.",
+);
+requireText(
+  prototypeReturnReview,
+  "sampleAiPrototypeReturnReviewPacketErrors",
+  "AI prototype return review data must expose shared guard errors.",
+);
+requireText(
+  prototypeReturnReview,
+  "sampleAiPrototypeReturnReviewPacketWarnings",
+  "AI prototype return review data must expose shared guard warnings.",
+);
 requireText(prototypeReturnReview, "External prototype builder / Z.ai return packet", "AI prototype return review must identify external returns.");
 requireText(prototypeReturnReview, "Parent-engine wrapper review", "AI prototype return review must require parent-engine wrapper review.");
 requireText(prototypeReturnReview, "Standard event replay review", "AI prototype return review must require event replay review.");
@@ -703,6 +724,9 @@ requireText(
 );
 requireText(prototypeReturnReviewPanel, "AI prototype return review", "AI prototype return review panel must expose heading.");
 requireText(prototypeReturnReviewPanel, "Returned prototype intake gate", "AI prototype return review panel must expose intake gate.");
+requireText(prototypeReturnReviewPanel, "Return review guard active", "AI prototype return review panel must expose shared guard status.");
+requireText(prototypeReturnReviewPanel, "Return review guard blocks", "AI prototype return review panel must expose shared guard blocks.");
+requireText(prototypeReturnReviewPanel, "Return review guard warnings", "AI prototype return review panel must expose shared guard warnings.");
 requireText(prototypeReturnReviewPanel, "No production merge", "AI prototype return review panel must block production merge.");
 requireText(prototypeReturnReviewPanel, "Mode return reviews", "AI prototype return review panel must expose mode reviews.");
 requireText(prototypeReturnReviewPanel, "Wrapper requirements", "AI prototype return review panel must expose wrapper requirements.");

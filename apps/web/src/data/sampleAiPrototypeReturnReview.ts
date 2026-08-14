@@ -1,40 +1,19 @@
 import type { GameModeId } from "@living-textbook/content-model";
 import {
+  getAiPrototypeReturnReviewPacketCollectionWarnings,
+  validateAiPrototypeReturnReviewPackets,
+  type AiPrototypeModeReturnReview as SharedAiPrototypeModeReturnReview,
+  type AiPrototypeReturnReviewPacket as SharedAiPrototypeReturnReviewPacket,
+  type AiPrototypeReturnReviewStatus,
+} from "@living-textbook/content-model/src/aiPrototypeReturnReview";
+import {
   sampleAiGeneratedGameBuildBriefPackets,
   type AiGeneratedGameModeBuildBrief,
 } from "@/data/sampleAiGeneratedGameBuildBrief";
 
-export type AiPrototypeReturnReviewStatus = "not-submitted" | "returned-review-only" | "blocked";
-
-export interface AiPrototypeModeReturnReview {
-  modeId: GameModeId;
-  title: string;
-  parentEngine: string;
-  prototypeSurface: string;
-  reviewFocus: string;
-  wrapperRequirements: string[];
-  eventEvidence: string[];
-  audioEvidence: string[];
-  scoringEvidence: string[];
-  accessibilityEvidence: string[];
-  blockers: string[];
-}
-
-export interface AiPrototypeReturnReviewPacket {
-  reviewId: string;
-  tenantId: string;
-  requestId: string;
-  buildBriefPacketId: string;
-  label: string;
-  submittedBy: string;
-  status: AiPrototypeReturnReviewStatus;
-  summary: string;
-  returnedArtifacts: string[];
-  requiredEvidence: string[];
-  integrationReviewGates: string[];
-  blockedActions: string[];
-  modeReviews: AiPrototypeModeReturnReview[];
-}
+export type AiPrototypeModeReturnReview = SharedAiPrototypeModeReturnReview<GameModeId>;
+export type AiPrototypeReturnReviewPacket = SharedAiPrototypeReturnReviewPacket<GameModeId>;
+export type { AiPrototypeReturnReviewStatus };
 
 export const sampleAiPrototypeReturnReviewPackets: AiPrototypeReturnReviewPacket[] =
   sampleAiGeneratedGameBuildBriefPackets.map((packet) => {
@@ -87,6 +66,14 @@ export const sampleAiPrototypeReturnReviewPackets: AiPrototypeReturnReviewPacket
       modeReviews: packet.modeBriefs.map((brief) => createModeReturnReview(brief, isMiniStar)),
     };
   });
+
+export const sampleAiPrototypeReturnReviewPacketErrors = validateAiPrototypeReturnReviewPackets(
+  sampleAiPrototypeReturnReviewPackets,
+);
+
+export const sampleAiPrototypeReturnReviewPacketWarnings = getAiPrototypeReturnReviewPacketCollectionWarnings(
+  sampleAiPrototypeReturnReviewPackets,
+);
 
 function createModeReturnReview(
   brief: AiGeneratedGameModeBuildBrief,

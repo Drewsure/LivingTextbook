@@ -287,6 +287,8 @@ Returned prototype work from Z.ai or any outside builder must enter an `ai_proto
 
 Returned prototypes cannot be merged into production, write route registry entries, mutate scoring profiles, mutate audio manifests, create assignments, or create student-facing previews from returned code. Phaser returns must still prove they can wrap the LivingTextbook parent-engine, JSON, audio, scoring, and event contracts.
 
+AI prototype return reviews must pass the shared `validateAiPrototypeReturnReviewPacket` guard before wrapper integration, route planning, scoring changes, audio manifest updates, package promotion, assignment, or student-facing preview can be considered. The guard requires returned artifact evidence, source build-brief lineage, reviewed JSON fixture use, standard event evidence, target-language audio evidence, deterministic scoring evidence, mobile/accessibility evidence, wrapper requirements, injected tenant configuration, and blocked prototype actions.
+
 The backend-neutral storage contract is `ai_prototype_return_review` / `ai-prototype-return-review`. Hosted and local adapters must preserve returned artifact evidence, parent-engine wrapper review, JSON fixture conformance, standard event replay, audio cue coverage review, deterministic scoring review, mobile accessibility review, and white-label fit while blocking production merge, route writes, scoring mutations, audio manifest mutations, direct assignment, and student-facing prototype previews.
 
 ## Prototype Integration Plan Rule

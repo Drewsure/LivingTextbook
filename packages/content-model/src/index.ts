@@ -730,6 +730,7 @@ export * from "./persistenceAdapter";
 export * from "./aiGeneratedGameBuildBrief";
 export * from "./aiExternalPrototypeTaskPacket";
 export * from "./aiExternalPrototypeTaskExportReadinessGate";
+export * from "./aiPrototypeReturnReview";
 export * from "./aiGeneratorTenantCoverage";
 export * from "./aiGeneratorLineageMap";
 export * from "./aiGeneratorReviewSummary";

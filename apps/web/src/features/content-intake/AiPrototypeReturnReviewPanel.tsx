@@ -1,4 +1,8 @@
 import { Card, StatusPill } from "@living-textbook/ui";
+import {
+  getAiPrototypeReturnReviewPacketCollectionWarnings,
+  validateAiPrototypeReturnReviewPackets,
+} from "@living-textbook/content-model/src/aiPrototypeReturnReview";
 import type {
   AiPrototypeModeReturnReview,
   AiPrototypeReturnReviewPacket,
@@ -22,6 +26,8 @@ const statusLabel: Record<AiPrototypeReturnReviewStatus, string> = {
 };
 
 export function AiPrototypeReturnReviewPanel({ packets }: AiPrototypeReturnReviewPanelProps) {
+  const guardBlocks = validateAiPrototypeReturnReviewPackets(packets);
+  const guardWarnings = getAiPrototypeReturnReviewPacketCollectionWarnings(packets);
   const modeReviewCount = packets.reduce((total, packet) => total + packet.modeReviews.length, 0);
 
   return (
@@ -37,9 +43,27 @@ export function AiPrototypeReturnReviewPanel({ packets }: AiPrototypeReturnRevie
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
+          <StatusPill label="Return review guard active" tone="neutral" />
+          <StatusPill
+            label={`${guardBlocks.length} guard block(s)`}
+            tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+          />
           <StatusPill label={`${modeReviewCount} mode review(s)`} tone="success" />
           <StatusPill label="No production merge" tone="warning" />
         </div>
+      </div>
+
+      <div className="mt-5 grid gap-3 lg:grid-cols-2">
+        <ReviewList
+          title="Return review guard blocks"
+          items={guardBlocks.length > 0 ? guardBlocks : ["No shared return review guard blockers."]}
+          tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+        />
+        <ReviewList
+          title="Return review guard warnings"
+          items={guardWarnings.length > 0 ? guardWarnings : ["No shared return review guard warnings."]}
+          tone={guardWarnings.length > 0 ? "warning" : "neutral"}
+        />
       </div>
 
       <div className="mt-5 grid gap-4">
