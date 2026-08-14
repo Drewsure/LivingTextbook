@@ -160,6 +160,9 @@ const generatedPackagePromotionChecklistValidator = readSource(
   "../packages/content-model/src/aiGeneratedPackagePromotionChecklist.ts",
 );
 const generatedPackageReleaseCandidate = readSource("../apps/web/src/data/sampleAiGeneratedPackageReleaseCandidate.ts");
+const generatedPackageReleaseCandidateValidator = readSource(
+  "../packages/content-model/src/aiGeneratedPackageReleaseCandidate.ts",
+);
 const generatedPackageAssemblyReadiness = readSource(
   "../apps/web/src/data/sampleAiGeneratedPackageAssemblyReadiness.ts",
 );
@@ -3238,6 +3241,31 @@ requireText(
   "AI generated package release candidate data must exist.",
 );
 requireText(
+  generatedPackageReleaseCandidateValidator,
+  "validateAiGeneratedPackageReleaseCandidate",
+  "AI generated package release candidate validator must exist.",
+);
+requireText(
+  generatedPackageReleaseCandidateValidator,
+  "AI_GENERATED_PACKAGE_RELEASE_CANDIDATE_REQUIRED_SIGNAL_IDS",
+  "AI generated package release candidate validator must define required signals.",
+);
+requireText(
+  generatedPackageReleaseCandidateValidator,
+  "No support-language-only release",
+  "AI generated package release candidate validator must block support-language-only release.",
+);
+requireText(
+  generatedPackageReleaseCandidate,
+  "sampleAiGeneratedPackageReleaseCandidateErrors",
+  "AI generated package release candidate data must expose validation errors.",
+);
+requireText(
+  generatedPackageReleaseCandidate,
+  "sampleAiGeneratedPackageReleaseCandidateWarnings",
+  "AI generated package release candidate data must expose validation warnings.",
+);
+requireText(
   generatedPackageReleaseCandidate,
   "Private tenant library handoff blocked",
   "AI generated release candidate must keep private library handoff blocked.",
@@ -3284,6 +3312,11 @@ requireText(
 );
 requireText(
   generatedPackageReleaseCandidate,
+  "No support-language-only release",
+  "AI generated release candidate must block support-language-only release.",
+);
+requireText(
+  generatedPackageReleaseCandidate,
   "No Japanese support-language release",
   "MiniStar generated release candidate must block Japanese support-language release.",
 );
@@ -3301,6 +3334,21 @@ requireText(
   generatedPackageReleaseCandidatePanel,
   "Review-only candidate",
   "AI generated release candidate panel must expose review-only state.",
+);
+requireText(
+  generatedPackageReleaseCandidatePanel,
+  "Release candidate guard active",
+  "AI generated release candidate panel must expose active guard label.",
+);
+requireText(
+  generatedPackageReleaseCandidatePanel,
+  "Release candidate guard blocks",
+  "AI generated release candidate panel must expose guard blocks.",
+);
+requireText(
+  generatedPackageReleaseCandidatePanel,
+  "Release candidate guard warnings",
+  "AI generated release candidate panel must expose guard warnings.",
 );
 requireText(
   generatedPackageReleaseCandidatePanel,

@@ -1,10 +1,12 @@
 import { Card, StatusPill } from "@living-textbook/ui";
-import type {
-  AiGeneratedPackageReleaseCandidate,
-  AiGeneratedPackageReleaseCandidateSignal,
-  AiGeneratedPackageReleaseCandidateSignalStatus,
-  AiGeneratedPackageReleaseCandidateStatus,
-} from "@/data/sampleAiGeneratedPackageReleaseCandidate";
+import {
+  getAiGeneratedPackageReleaseCandidateCollectionWarnings,
+  validateAiGeneratedPackageReleaseCandidates,
+  type AiGeneratedPackageReleaseCandidate,
+  type AiGeneratedPackageReleaseCandidateSignal,
+  type AiGeneratedPackageReleaseCandidateSignalStatus,
+  type AiGeneratedPackageReleaseCandidateStatus,
+} from "@living-textbook/content-model/src/aiGeneratedPackageReleaseCandidate";
 
 interface AiGeneratedPackageReleaseCandidatePanelProps {
   candidates: AiGeneratedPackageReleaseCandidate[];
@@ -28,6 +30,8 @@ export function AiGeneratedPackageReleaseCandidatePanel({
     (total, candidate) => total + candidate.signals.filter((signal) => signal.status !== "ready-preview").length,
     0,
   );
+  const guardBlocks = validateAiGeneratedPackageReleaseCandidates(candidates);
+  const guardWarnings = getAiGeneratedPackageReleaseCandidateCollectionWarnings(candidates);
 
   return (
     <Card>
@@ -42,9 +46,24 @@ export function AiGeneratedPackageReleaseCandidatePanel({
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
+          <StatusPill label="Release candidate guard active" tone="warning" />
+          <StatusPill label={`${guardBlocks.length} guard block(s)`} tone={guardBlocks.length > 0 ? "warning" : "success"} />
           <StatusPill label="Review-only candidate" tone="neutral" />
           <StatusPill label={`${blockerCount} release blocker(s)`} tone={blockerCount > 0 ? "warning" : "success"} />
         </div>
+      </div>
+
+      <div className="mt-5 grid gap-3 lg:grid-cols-2">
+        <CandidateList
+          title="Release candidate guard blocks"
+          items={guardBlocks.length > 0 ? guardBlocks : ["No release candidate guard blocks"]}
+          tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+        />
+        <CandidateList
+          title="Release candidate guard warnings"
+          items={guardWarnings.length > 0 ? guardWarnings : ["No release candidate guard warnings"]}
+          tone={guardWarnings.length > 0 ? "warning" : "neutral"}
+        />
       </div>
 
       <div className="mt-5 grid gap-4">

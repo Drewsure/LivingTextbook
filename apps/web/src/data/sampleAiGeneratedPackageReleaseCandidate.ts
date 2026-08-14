@@ -1,39 +1,12 @@
 import { sampleAiGeneratedPackageManifests } from "@/data/sampleAiGeneratedPackageManifest";
 import { sampleAiGeneratedPackagePromotionChecklists } from "@/data/sampleAiGeneratedPackagePromotionChecklist";
 import { sampleAiGeneratedPublishReadinessGates } from "@/data/sampleAiGeneratedPublishReadinessGate";
-
-export type AiGeneratedPackageReleaseCandidateStatus = "blocked" | "ready-for-review";
-export type AiGeneratedPackageReleaseCandidateSignalStatus = "ready-preview" | "blocked" | "missing";
-
-export interface AiGeneratedPackageReleaseCandidateSignal {
-  signalId: string;
-  label: string;
-  status: AiGeneratedPackageReleaseCandidateSignalStatus;
-  sourceRecord: string;
-  evidence: string;
-  releaseEffect: string;
-}
-
-export interface AiGeneratedPackageReleaseCandidate {
-  candidateId: string;
-  tenantId: string;
-  requestId: string;
-  manifestId: string;
-  promotionChecklistId: string;
-  publishReadinessGateId: string;
-  label: string;
-  summary: string;
-  status: AiGeneratedPackageReleaseCandidateStatus;
-  candidateState: string;
-  packageTarget: string;
-  privateLibraryTarget: string;
-  routePreview: string;
-  signals: AiGeneratedPackageReleaseCandidateSignal[];
-  candidateRecords: string[];
-  allowedNow: string[];
-  blockedActions: string[];
-  nextRecords: string[];
-}
+import {
+  getAiGeneratedPackageReleaseCandidateCollectionWarnings,
+  validateAiGeneratedPackageReleaseCandidates,
+  type AiGeneratedPackageReleaseCandidate,
+  type AiGeneratedPackageReleaseCandidateSignal,
+} from "@living-textbook/content-model/src/aiGeneratedPackageReleaseCandidate";
 
 export const sampleAiGeneratedPackageReleaseCandidates: AiGeneratedPackageReleaseCandidate[] =
   sampleAiGeneratedPackageManifests.map((manifest) => {
@@ -161,6 +134,7 @@ export const sampleAiGeneratedPackageReleaseCandidates: AiGeneratedPackageReleas
         "No student-facing release",
         "No generated assignment from release candidate",
         "No generated local bundle release",
+        "No support-language-only release",
         ...(isMiniStar ? ["No Japanese support-language release"] : []),
       ],
       nextRecords: [
@@ -181,3 +155,9 @@ export function filterAiGeneratedPackageReleaseCandidatesByTenant(
 ): AiGeneratedPackageReleaseCandidate[] {
   return candidates.filter((candidate) => candidate.tenantId === tenantId);
 }
+
+export const sampleAiGeneratedPackageReleaseCandidateErrors =
+  validateAiGeneratedPackageReleaseCandidates(sampleAiGeneratedPackageReleaseCandidates);
+
+export const sampleAiGeneratedPackageReleaseCandidateWarnings =
+  getAiGeneratedPackageReleaseCandidateCollectionWarnings(sampleAiGeneratedPackageReleaseCandidates);
