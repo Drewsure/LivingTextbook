@@ -101,6 +101,9 @@ const prototypePatchTestReadinessGateValidator = readSource(
   "../packages/content-model/src/aiPrototypePatchTestReadinessGate.ts",
 );
 const prototypePatchTestHarnessPlan = readSource("../apps/web/src/data/sampleAiPrototypePatchTestHarnessPlan.ts");
+const prototypePatchTestHarnessPlanValidator = readSource(
+  "../packages/content-model/src/aiPrototypePatchTestHarnessPlan.ts",
+);
 const prototypePatchHarnessImplementationProposal = readSource(
   "../apps/web/src/data/sampleAiPrototypePatchHarnessImplementationProposal.ts",
 );
@@ -1780,6 +1783,36 @@ requireText(
 );
 requireText(
   prototypePatchTestHarnessPlan,
+  "validateAiPrototypePatchTestHarnessPlans",
+  "AI prototype patch test harness plan data must use the shared validator.",
+);
+requireText(
+  prototypePatchTestHarnessPlan,
+  "sampleAiPrototypePatchTestHarnessPlanErrors",
+  "AI prototype patch test harness plan data must expose shared guard errors.",
+);
+requireText(
+  prototypePatchTestHarnessPlan,
+  "sampleAiPrototypePatchTestHarnessPlanWarnings",
+  "AI prototype patch test harness plan data must expose shared guard warnings.",
+);
+requireText(
+  prototypePatchTestHarnessPlanValidator,
+  "validateAiPrototypePatchTestHarnessPlan",
+  "AI prototype patch test harness plan shared validator must exist.",
+);
+requireText(
+  prototypePatchTestHarnessPlanValidator,
+  "AI_PROTOTYPE_PATCH_HARNESS_REQUIRED_SECTION_IDS",
+  "AI prototype patch test harness plan validator must define required harness sections.",
+);
+requireText(
+  prototypePatchTestHarnessPlanValidator,
+  "No Playwright run from this plan",
+  "AI prototype patch test harness plan validator must block Playwright execution.",
+);
+requireText(
+  prototypePatchTestHarnessPlan,
   "Review-only plan; no runnable harness is exposed here.",
   "AI prototype patch test harness plan must preserve its design-before-execution boundary.",
 );
@@ -1827,6 +1860,21 @@ requireText(
   prototypePatchTestHarnessPlanPanel,
   "No runnable harness",
   "AI prototype patch test harness plan panel must block runnable harness behavior.",
+);
+requireText(
+  prototypePatchTestHarnessPlanPanel,
+  "Test harness plan guard active",
+  "AI prototype patch test harness plan panel must expose the shared guard status.",
+);
+requireText(
+  prototypePatchTestHarnessPlanPanel,
+  "Test harness plan guard blocks",
+  "AI prototype patch test harness plan panel must expose shared guard blocks.",
+);
+requireText(
+  prototypePatchTestHarnessPlanPanel,
+  "Test harness plan guard warnings",
+  "AI prototype patch test harness plan panel must expose shared guard warnings.",
 );
 requireText(
   prototypePatchHarnessImplementationProposal,

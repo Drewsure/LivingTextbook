@@ -1,4 +1,8 @@
 import { Card, StatusPill } from "@living-textbook/ui";
+import {
+  getAiPrototypePatchTestHarnessPlanCollectionWarnings,
+  validateAiPrototypePatchTestHarnessPlans,
+} from "@living-textbook/content-model/src/aiPrototypePatchTestHarnessPlan";
 
 import type {
   AiPrototypePatchHarnessSection,
@@ -36,6 +40,9 @@ const sectionLabel: Record<AiPrototypePatchHarnessSectionStatus, string> = {
 };
 
 export function AiPrototypePatchTestHarnessPlanPanel({ plans }: AiPrototypePatchTestHarnessPlanPanelProps) {
+  const guardBlocks = validateAiPrototypePatchTestHarnessPlans(plans);
+  const guardWarnings = getAiPrototypePatchTestHarnessPlanCollectionWarnings(plans);
+
   return (
     <Card className="space-y-4">
       <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
@@ -47,7 +54,27 @@ export function AiPrototypePatchTestHarnessPlanPanel({ plans }: AiPrototypePatch
             without running tests, writing files, or changing routes.
           </p>
         </div>
-        <StatusPill label="No runnable harness" tone="warning" />
+        <div className="flex flex-wrap gap-2">
+          <StatusPill label="Test harness plan guard active" tone="neutral" />
+          <StatusPill
+            label={`${guardBlocks.length} guard block(s)`}
+            tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+          />
+          <StatusPill label="No runnable harness" tone="warning" />
+        </div>
+      </div>
+
+      <div className="grid gap-3 lg:grid-cols-2">
+        <ListPanel
+          title="Test harness plan guard blocks"
+          items={guardBlocks.length > 0 ? guardBlocks : ["No shared test harness plan guard blockers."]}
+          tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+        />
+        <ListPanel
+          title="Test harness plan guard warnings"
+          items={guardWarnings.length > 0 ? guardWarnings : ["No shared test harness plan guard warnings."]}
+          tone={guardWarnings.length > 0 ? "warning" : "neutral"}
+        />
       </div>
 
       <div className="space-y-3">

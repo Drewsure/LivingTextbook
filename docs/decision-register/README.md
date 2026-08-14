@@ -404,6 +404,7 @@
 - `DR-430-ai-prototype-integration-readiness-gate-validator.md`
 - `DR-431-ai-prototype-app-patch-proposal-validator.md`
 - `DR-432-ai-prototype-patch-test-readiness-gate-validator.md`
+- `DR-433-ai-prototype-patch-test-harness-plan-validator.md`
 
 ## Maintenance Rule
 

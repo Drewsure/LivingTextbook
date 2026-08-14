@@ -1,32 +1,16 @@
 import { sampleAiPrototypePatchTestReadinessGates } from "@/data/sampleAiPrototypePatchTestReadinessGate";
+import {
+  getAiPrototypePatchTestHarnessPlanCollectionWarnings,
+  validateAiPrototypePatchTestHarnessPlans,
+  type AiPrototypePatchHarnessSection as SharedAiPrototypePatchHarnessSection,
+  type AiPrototypePatchHarnessSectionStatus,
+  type AiPrototypePatchTestHarnessPlan as SharedAiPrototypePatchTestHarnessPlan,
+  type AiPrototypePatchTestHarnessPlanStatus,
+} from "@living-textbook/content-model/src/aiPrototypePatchTestHarnessPlan";
 
-export type AiPrototypePatchTestHarnessPlanStatus = "blocked" | "review-only" | "ready-for-harness-design";
-export type AiPrototypePatchHarnessSectionStatus = "blocked" | "needs-record" | "planned";
-
-export interface AiPrototypePatchHarnessSection {
-  sectionId: string;
-  label: string;
-  status: AiPrototypePatchHarnessSectionStatus;
-  requiredInput: string;
-  plannedChecks: string[];
-  blockedActions: string[];
-}
-
-export interface AiPrototypePatchTestHarnessPlan {
-  planId: string;
-  tenantId: string;
-  requestId: string;
-  readinessGateId: string;
-  label: string;
-  status: AiPrototypePatchTestHarnessPlanStatus;
-  summary: string;
-  runtimePolicy: string[];
-  requiredInputs: string[];
-  harnessSections: AiPrototypePatchHarnessSection[];
-  nonExecutionOutputs: string[];
-  blockedActions: string[];
-  nextRequiredRecords: string[];
-}
+export type AiPrototypePatchHarnessSection = SharedAiPrototypePatchHarnessSection;
+export type AiPrototypePatchTestHarnessPlan = SharedAiPrototypePatchTestHarnessPlan;
+export type { AiPrototypePatchHarnessSectionStatus, AiPrototypePatchTestHarnessPlanStatus };
 
 export const sampleAiPrototypePatchTestHarnessPlans: AiPrototypePatchTestHarnessPlan[] =
   sampleAiPrototypePatchTestReadinessGates.map((gate) => {
@@ -210,6 +194,13 @@ export const sampleAiPrototypePatchTestHarnessPlans: AiPrototypePatchTestHarness
       ],
     };
   });
+
+export const sampleAiPrototypePatchTestHarnessPlanErrors = validateAiPrototypePatchTestHarnessPlans(
+  sampleAiPrototypePatchTestHarnessPlans,
+);
+
+export const sampleAiPrototypePatchTestHarnessPlanWarnings =
+  getAiPrototypePatchTestHarnessPlanCollectionWarnings(sampleAiPrototypePatchTestHarnessPlans);
 
 export function filterAiPrototypePatchTestHarnessPlansByTenant(
   plans: AiPrototypePatchTestHarnessPlan[],
