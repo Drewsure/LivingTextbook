@@ -109,6 +109,8 @@ Confirm:
 - AI prototype mobile accessibility report storage contract appears in schema draft, migration candidates, migration specs, durable records, and hosted/local adapter plans before returned prototypes can claim mobile, wrapper, route, package, promotion, or assignment readiness.
 - MiniStar prototype mobile accessibility reports keep early Japanese support text hiragana-readable and unable to unlock English progress.
 - Generator routes show AI prototype scoring replay reports with deterministic scoring replay, game scoring profile snapshots, progress event acceptance maps, collection unlock boundaries, 1,000 Star Dust cap, no direct score authority, no reward inventory write, no random reward, no media-only Star Dust, and no support-language-only mastery.
+- Generator routes show `Scoring replay guard active`, `Scoring replay guard blocks`, and `Scoring replay guard warnings`.
+- `packages/content-model/src/aiPrototypeScoringReplayReport.ts` exports `validateAiPrototypeScoringReplayReport`.
 - AI prototype scoring replay report storage contract appears in schema draft, migration candidates, migration specs, durable records, and hosted/local adapter plans before returned prototypes can claim scoring, Star Dust, mastery, reward, package promotion, or assignment readiness.
 - MiniStar prototype scoring replay reports keep Japanese support-language scoring and release blocked while English remains the target-language trigger.
 - Generator routes show AI prototype Codex integration decision previews with no decision recorded, manual review requirements, blocked app patch generation, direct import, route writes, student-facing routes, scoring mutations, Star Dust or reward writes, audio manifest mutation, package promotion, and assignment.

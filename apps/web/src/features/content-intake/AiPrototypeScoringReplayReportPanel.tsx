@@ -1,4 +1,8 @@
 import { Card, StatusPill } from "@living-textbook/ui";
+import {
+  getAiPrototypeScoringReplayReportCollectionWarnings,
+  validateAiPrototypeScoringReplayReports,
+} from "@living-textbook/content-model/src/aiPrototypeScoringReplayReport";
 import type {
   AiPrototypeModeScoringReplayReport,
   AiPrototypeScoringReplayReport,
@@ -22,6 +26,8 @@ const statusLabel: Record<AiPrototypeScoringReplayReportStatus, string> = {
 };
 
 export function AiPrototypeScoringReplayReportPanel({ reports }: AiPrototypeScoringReplayReportPanelProps) {
+  const guardBlocks = validateAiPrototypeScoringReplayReports(reports);
+  const guardWarnings = getAiPrototypeScoringReplayReportCollectionWarnings(reports);
   const modeReportCount = reports.reduce((total, report) => total + report.modeReports.length, 0);
   const blockedActionCount = reports.reduce((total, report) => total + report.blockedActions.length, 0);
 
@@ -37,9 +43,27 @@ export function AiPrototypeScoringReplayReportPanel({ reports }: AiPrototypeScor
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
+          <StatusPill label="Scoring replay guard active" tone="neutral" />
+          <StatusPill
+            label={`${guardBlocks.length} guard block(s)`}
+            tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+          />
           <StatusPill label={`${modeReportCount} scoring mode(s)`} tone="success" />
           <StatusPill label={`${blockedActionCount} blocked action(s)`} tone="warning" />
         </div>
+      </div>
+
+      <div className="mt-5 grid gap-3 lg:grid-cols-2">
+        <ReplayList
+          title="Scoring replay guard blocks"
+          items={guardBlocks.length > 0 ? guardBlocks : ["No shared scoring replay guard blockers."]}
+          tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+        />
+        <ReplayList
+          title="Scoring replay guard warnings"
+          items={guardWarnings.length > 0 ? guardWarnings : ["No shared scoring replay guard warnings."]}
+          tone={guardWarnings.length > 0 ? "warning" : "neutral"}
+        />
       </div>
 
       <div className="mt-5 grid gap-4">

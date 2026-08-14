@@ -737,6 +737,7 @@ export * from "./aiPrototypeFixtureReplayReport";
 export * from "./aiPrototypeEventReplayReport";
 export * from "./aiPrototypeAudioCoverageReport";
 export * from "./aiPrototypeMobileAccessibilityReport";
+export * from "./aiPrototypeScoringReplayReport";
 export * from "./aiGeneratorTenantCoverage";
 export * from "./aiGeneratorLineageMap";
 export * from "./aiGeneratorReviewSummary";

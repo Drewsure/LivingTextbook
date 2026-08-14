@@ -77,6 +77,9 @@ const prototypeMobileAccessibilityReportValidator = readSource(
   "../packages/content-model/src/aiPrototypeMobileAccessibilityReport.ts",
 );
 const prototypeScoringReplayReport = readSource("../apps/web/src/data/sampleAiPrototypeScoringReplayReport.ts");
+const prototypeScoringReplayReportValidator = readSource(
+  "../packages/content-model/src/aiPrototypeScoringReplayReport.ts",
+);
 const prototypeCodexIntegrationDecision = readSource(
   "../apps/web/src/data/sampleAiPrototypeCodexIntegrationDecision.ts",
 );
@@ -1261,6 +1264,26 @@ requireText(
   "AI prototype scoring replay report data must exist.",
 );
 requireText(
+  prototypeScoringReplayReportValidator,
+  "validateAiPrototypeScoringReplayReport",
+  "AI prototype scoring replay report validator must exist.",
+);
+requireText(
+  prototypeScoringReplayReportValidator,
+  "AI_PROTOTYPE_SCORING_REQUIRED_SCORE_CHECKS",
+  "AI prototype scoring replay report validator must define required score checks.",
+);
+requireText(
+  prototypeScoringReplayReport,
+  "sampleAiPrototypeScoringReplayReportErrors",
+  "AI prototype scoring replay report sample data must expose shared guard errors.",
+);
+requireText(
+  prototypeScoringReplayReport,
+  "sampleAiPrototypeScoringReplayReportWarnings",
+  "AI prototype scoring replay report sample data must expose shared guard warnings.",
+);
+requireText(
   prototypeScoringReplayReport,
   "prototype_scoring_replay_report",
   "AI prototype scoring replay report must name its record.",
@@ -1314,6 +1337,21 @@ requireText(
   prototypeScoringReplayReportPanel,
   "Mode scoring replay reports",
   "AI prototype scoring replay report panel must expose mode reports.",
+);
+requireText(
+  prototypeScoringReplayReportPanel,
+  "Scoring replay guard active",
+  "AI prototype scoring replay report panel must expose the shared guard status.",
+);
+requireText(
+  prototypeScoringReplayReportPanel,
+  "Scoring replay guard blocks",
+  "AI prototype scoring replay report panel must expose shared guard blocks.",
+);
+requireText(
+  prototypeScoringReplayReportPanel,
+  "Scoring replay guard warnings",
+  "AI prototype scoring replay report panel must expose shared guard warnings.",
 );
 requireText(
   prototypeScoringReplayReportPanel,

@@ -2,39 +2,17 @@ import {
   sampleAiPrototypeIntegrationPlans,
   type AiPrototypeModeIntegrationPlan,
 } from "@/data/sampleAiPrototypeIntegrationPlan";
+import {
+  getAiPrototypeScoringReplayReportCollectionWarnings,
+  validateAiPrototypeScoringReplayReports,
+  type AiPrototypeModeScoringReplayReport as SharedAiPrototypeModeScoringReplayReport,
+  type AiPrototypeScoringReplayReport as SharedAiPrototypeScoringReplayReport,
+  type AiPrototypeScoringReplayReportStatus,
+} from "@living-textbook/content-model/src/aiPrototypeScoringReplayReport";
 
-export type AiPrototypeScoringReplayReportStatus = "not-run" | "review-only" | "blocked";
-
-export interface AiPrototypeModeScoringReplayReport {
-  modeId: string;
-  parentEngine: string;
-  scoringHarness: string;
-  scoreInputs: string[];
-  scoringSteps: string[];
-  masteryChecks: string[];
-  rewardBoundaryChecks: string[];
-  failureTriggers: string[];
-}
-
-export interface AiPrototypeScoringReplayReport {
-  reportId: string;
-  tenantId: string;
-  requestId: string;
-  integrationPlanId: string;
-  label: string;
-  status: AiPrototypeScoringReplayReportStatus;
-  summary: string;
-  sourceRecords: string[];
-  scoringProfilePolicy: string;
-  masteryPolicy: string;
-  rewardBoundaryPolicy: string;
-  scoringPurpose: string[];
-  scoreReplayChecks: string[];
-  masteryReplayChecks: string[];
-  rewardBoundaryChecks: string[];
-  blockedActions: string[];
-  modeReports: AiPrototypeModeScoringReplayReport[];
-}
+export type AiPrototypeModeScoringReplayReport = SharedAiPrototypeModeScoringReplayReport;
+export type AiPrototypeScoringReplayReport = SharedAiPrototypeScoringReplayReport;
+export type { AiPrototypeScoringReplayReportStatus };
 
 export const sampleAiPrototypeScoringReplayReports: AiPrototypeScoringReplayReport[] =
   sampleAiPrototypeIntegrationPlans.map((plan) => {
@@ -94,6 +72,7 @@ export const sampleAiPrototypeScoringReplayReports: AiPrototypeScoringReplayRepo
       blockedActions: [
         "No scoring profile mutation",
         "No direct score authority",
+        "No Star Dust write from prototype",
         "No reward inventory write",
         "No random reward generation",
         "No media-only Star Dust",
@@ -105,6 +84,13 @@ export const sampleAiPrototypeScoringReplayReports: AiPrototypeScoringReplayRepo
       modeReports: plan.modePlans.map((modePlan) => createModeScoringReplayReport(modePlan, isMiniStar)),
     };
   });
+
+export const sampleAiPrototypeScoringReplayReportErrors = validateAiPrototypeScoringReplayReports(
+  sampleAiPrototypeScoringReplayReports,
+);
+
+export const sampleAiPrototypeScoringReplayReportWarnings =
+  getAiPrototypeScoringReplayReportCollectionWarnings(sampleAiPrototypeScoringReplayReports);
 
 function createModeScoringReplayReport(
   modePlan: AiPrototypeModeIntegrationPlan,
