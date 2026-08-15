@@ -10,7 +10,7 @@ Require active core game routes to be represented in the route contract registry
 
 ## Rationale
 
-The product now has dedicated student routes for Memory Match, Quiz, Sentence Builder, and Speak It. A route can function in the browser but still drift from the architectural contract if the route registry and helpers are not checked.
+The product now has dedicated student routes for Memory Match, Balloon Pop, Quiz, Sentence Builder, and Speak It. A route can function in the browser but still drift from the architectural contract if the route registry and helpers are not checked.
 
 The game-mode verifier should therefore confirm that every active core game route has:
 
@@ -20,14 +20,14 @@ The game-mode verifier should therefore confirm that every active core game rout
 
 ## Impact
 
-The route contract now explicitly includes `/speak/[code]` alongside `/memory/[code]`, `/quiz/[code]`, and `/sentence/[code]`.
+The route contract now explicitly includes `/balloon/[code]` and `/speak/[code]` alongside `/memory/[code]`, `/quiz/[code]`, and `/sentence/[code]`.
 
 Future game-route additions must update the contract and helper layer before being treated as part of the foundation route set.
 
 ## Constraints
 
 - This does not make all planned game modes active routes.
-- Arcade skins such as Balloon Pop remain cataloged but not active route commitments.
+- Arcade skins can become active only through a parent-engine route contract. Balloon Pop is now active as a structural selection-engine skin, not as a Phaser-polished arcade product.
 - Flashcards remain the entry mode inside `/launch/[code]` until a dedicated flashcard route is intentionally created.
 - AI Tutor and premium speech scoring remain optional, premium-gated, and off by default.
 

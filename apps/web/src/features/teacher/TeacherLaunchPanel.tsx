@@ -2,6 +2,7 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import { getUnitKey } from "@living-textbook/content-model";
 import type { ContentPackage, LaunchSession, UnitPayload } from "@living-textbook/content-model";
 import {
+  getBalloonPopPath,
   getCollectionPath,
   getFlashcardsPath,
   getMemoryMatchPath,
@@ -76,6 +77,11 @@ export function TeacherLaunchPanel({ unit, launchSession, contentPackage }: Teac
       label: "Quiz",
       href: getQuizPath(launchSession.launchCode),
       summary: "Plain selection-engine baseline before arcade skins.",
+    },
+    {
+      label: "Balloon Pop",
+      href: getBalloonPopPath(launchSession.launchCode),
+      summary: "Arcade selection-engine skin with audio-supported vocabulary prompts.",
     },
     {
       label: "Sentence Builder",

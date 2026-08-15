@@ -299,6 +299,14 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     note: "Pairing-engine vocabulary reinforcement route with tap-to-speak card support.",
   },
   {
+    routeId: "ministar-balloon-pop",
+    group: "ministar",
+    label: "MiniStar balloon pop",
+    path: "/balloon/demo-unit-1",
+    status: "active-scaffold",
+    note: "Arcade selection-engine vocabulary reinforcement route with tap-to-speak prompts.",
+  },
+  {
     routeId: "ministar-quiz",
     group: "ministar",
     label: "MiniStar quiz",
@@ -433,6 +441,14 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     path: "/memory/partner-demo-unit-1",
     status: "active-scaffold",
     note: "White-label pairing-engine vocabulary reinforcement route with tap-to-speak card support.",
+  },
+  {
+    routeId: "partner-balloon-pop",
+    group: "sample-publisher",
+    label: "Sample publisher balloon pop",
+    path: "/balloon/partner-demo-unit-1",
+    status: "active-scaffold",
+    note: "White-label arcade selection-engine vocabulary reinforcement route with tap-to-speak prompts.",
   },
   {
     routeId: "partner-quiz",

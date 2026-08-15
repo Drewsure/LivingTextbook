@@ -302,6 +302,15 @@ export const appRouteContracts: AppRouteContract[] = [
     requiredState: ["TenantConfig", "UnitPayload", "LaunchSession", "StudentProgressionState", "AudioCue[]"],
   },
   {
+    id: "balloon-pop",
+    pattern: "/balloon/[code]",
+    audience: "student",
+    status: "active-scaffold",
+    purpose:
+      "Let a student pop reviewed vocabulary targets through an arcade-style selection parent-engine skin with tap-to-speak prompts and deterministic scoring.",
+    requiredState: ["TenantConfig", "UnitPayload", "LaunchSession", "StudentProgressionState", "AudioCue[]"],
+  },
+  {
     id: "speak-it",
     pattern: "/speak/[code]",
     audience: "student",
@@ -389,6 +398,10 @@ export function getSentenceBuilderPath(launchCode: LaunchCode): string {
 
 export function getQuizPath(launchCode: LaunchCode): string {
   return `/quiz/${encodeURIComponent(launchCode)}`;
+}
+
+export function getBalloonPopPath(launchCode: LaunchCode): string {
+  return `/balloon/${encodeURIComponent(launchCode)}`;
 }
 
 export function getMemoryMatchPath(launchCode: LaunchCode): string {

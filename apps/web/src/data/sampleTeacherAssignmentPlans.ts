@@ -18,8 +18,8 @@ export const sampleTeacherAssignmentPlans: TeacherAssignmentPlan[] = [
     label: "MiniStar Level 1 Unit 1 whole-class demo",
     audience: "whole-class",
     readiness: "requires-persistence",
-    targetGameModes: ["flashcards", "memory-match", "quiz", "sentence-builder", "speak-it"],
-    audioCoveredGameModes: ["flashcards", "memory-match", "quiz", "sentence-builder", "speak-it"],
+    targetGameModes: ["flashcards", "memory-match", "balloon-pop", "quiz", "sentence-builder", "speak-it"],
+    audioCoveredGameModes: ["flashcards", "memory-match", "balloon-pop", "quiz", "sentence-builder", "speak-it"],
     access: {
       accessMode: "teacher-qr",
       routePath: "/launch/demo-unit-1",
@@ -90,8 +90,8 @@ export const sampleTeacherAssignmentPlans: TeacherAssignmentPlan[] = [
     label: "Sample publisher front-door pilot draft",
     audience: "whole-class",
     readiness: "requires-policy",
-    targetGameModes: ["flashcards", "memory-match", "quiz", "sentence-builder", "speak-it"],
-    audioCoveredGameModes: ["flashcards", "memory-match", "quiz", "sentence-builder", "speak-it"],
+    targetGameModes: ["flashcards", "memory-match", "balloon-pop", "quiz", "sentence-builder", "speak-it"],
+    audioCoveredGameModes: ["flashcards", "memory-match", "balloon-pop", "quiz", "sentence-builder", "speak-it"],
     access: {
       accessMode: "front-door-code",
       routePath: "/enter/sample-publisher",

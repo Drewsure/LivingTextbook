@@ -4,6 +4,7 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import type { GameModeId, LaunchSession, StudentProgressionState } from "@living-textbook/content-model";
 import { AudioCueButton, AudioCueText } from "@/features/audio/AudioCueButton";
 import {
+  getBalloonPopPath,
   getStudentActivityHubPath,
   getMemoryMatchPath,
   getQuizPath,
@@ -140,6 +141,10 @@ function getModePath(mode: GameModeId, launchCode: string): string {
     return getSentenceBuilderPath(launchCode);
   }
 
+  if (mode === "balloon-pop") {
+    return getBalloonPopPath(launchCode);
+  }
+
   if (mode === "speak-it") {
     return getSpeakItPath(launchCode);
   }
@@ -158,6 +163,10 @@ function getModeSummary(mode: GameModeId): string {
 
   if (mode === "sentence-builder") {
     return "Open the text-spelling route and build reviewed target sentences.";
+  }
+
+  if (mode === "balloon-pop") {
+    return "Open the arcade selection route and pop matching vocabulary balloons.";
   }
 
   if (mode === "speak-it") {

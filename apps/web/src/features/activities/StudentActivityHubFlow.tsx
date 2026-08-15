@@ -12,6 +12,7 @@ import type {
 import { AudioCueText } from "@/features/audio/AudioCueButton";
 import { GameRouteHeaderCard } from "@/features/game-shell/components/GameRouteHeaderCard";
 import {
+  getBalloonPopPath,
   getFlashcardsPath,
   getMediaPlaylistPath,
   getMemoryMatchPath,
@@ -195,6 +196,15 @@ function buildActivityItems({
       role: "assessment",
       summary: "Answer reviewed vocabulary and sentence prompts with audio-supported choices.",
       status: getGameRouteStatus("quiz", progression),
+    },
+    {
+      id: "balloon-pop",
+      label: "Balloon Pop",
+      href: getBalloonPopPath(launchCode),
+      mode: "balloon-pop",
+      role: "reinforcement",
+      summary: "Pop the matching vocabulary balloon with audio-supported prompts.",
+      status: getGameRouteStatus("balloon-pop", progression),
     },
     {
       id: "sentence-builder",

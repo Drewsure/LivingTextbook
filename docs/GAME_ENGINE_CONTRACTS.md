@@ -70,10 +70,10 @@ Current catalog status:
 
 - `flashcards`: active entry-practice config.
 - `memory-match`: active playable pairing config.
-- `quiz`: planned selection assessment config only.
-- `sentence-builder`: planned text/syntax config only.
-- `speak-it`: planned speaking/listening config only.
-- `balloon-pop`: planned arcade reinforcement config only.
+- `quiz`: active playable selection assessment config.
+- `balloon-pop`: active structural arcade selection config.
+- `sentence-builder`: active playable text/syntax config.
+- `speak-it`: active playable speaking/listening config.
 
 Config-only modes are not playable implementations and must not be presented as finished games.
 

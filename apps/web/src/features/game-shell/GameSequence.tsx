@@ -16,6 +16,7 @@ interface SequenceItem {
 const flashcards = gameModeCatalog.flashcards;
 const memoryMatch = gameModeCatalog["memory-match"];
 const quiz = gameModeCatalog.quiz;
+const balloonPop = gameModeCatalog["balloon-pop"];
 const sentenceBuilder = gameModeCatalog["sentence-builder"];
 const speakIt = gameModeCatalog["speak-it"];
 
@@ -37,6 +38,12 @@ const firstSliceSequence: SequenceItem[] = [
     engineId: quiz?.engineId ?? "selection",
     role: quiz?.role ?? "assessment",
     summary: quiz?.summary ?? "Check vocabulary and target sentence understanding with audio-supported selected responses.",
+  },
+  {
+    label: balloonPop?.label ?? "Balloon Pop",
+    engineId: balloonPop?.engineId ?? "selection",
+    role: balloonPop?.role ?? "reinforcement",
+    summary: balloonPop?.summary ?? "Use short audio-supported vocabulary prompts in an arcade selection skin.",
   },
   {
     label: sentenceBuilder?.label ?? "Sentence Builder",

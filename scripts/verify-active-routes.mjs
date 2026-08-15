@@ -46,6 +46,8 @@ const expectedTextByPath = new Map([
   ["/training/partner-demo-unit-1", ["Training Academy", "Recovery practice for", "Daily Routines", "Teacher Recovery Summary", "Return path", "/launch/partner-demo-unit-1"]],
   ["/memory/demo-unit-1", ["Core pairing slice", "Memory Match:", "Greetings", "Pairing", "Memory Match Progress", "Find the matching greeting cards."]],
   ["/memory/partner-demo-unit-1", ["Core pairing slice", "Memory Match:", "Daily Routines", "Pairing", "Memory Match Progress", "Find the matching routine cards."]],
+  ["/balloon/demo-unit-1", ["Core arcade selection slice", "Balloon Pop:", "Greetings", "Arcade reinforcement", "Balloon Pop Progress", "Pop the matching greeting balloon."]],
+  ["/balloon/partner-demo-unit-1", ["Core arcade selection slice", "Balloon Pop:", "Daily Routines", "Arcade reinforcement", "Balloon Pop Progress", "Pop the matching routine balloon."]],
   ["/quiz/demo-unit-1", ["Core selection slice", "Quiz:", "Greetings", "Selection", "Quiz Progress", "Teacher Review Quiz"]],
   ["/quiz/partner-demo-unit-1", ["Core selection slice", "Quiz:", "Daily Routines", "Selection", "Quiz Progress", "Teacher Review Quiz"]],
   ["/sentence/demo-unit-1", ["Core syntax slice", "Sentence Builder:", "Greetings", "Text-spelling", "Sentence Builder Progress", "Sentence Builder"]],
@@ -1548,7 +1550,7 @@ if (teacherIntakeExpected) {
   const routeCountIndex = teacherIntakeExpected.indexOf("49 checked routes");
 
   if (routeCountIndex >= 0) {
-    teacherIntakeExpected[routeCountIndex] = "61 checked routes";
+    teacherIntakeExpected[routeCountIndex] = "63 checked routes";
   }
 
   teacherIntakeExpected.push(

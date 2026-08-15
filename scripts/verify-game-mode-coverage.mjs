@@ -39,6 +39,7 @@ const requiredActiveGameRouteContracts = [
   { id: "flashcards", pattern: "/flashcards/[code]", helper: "getFlashcardsPath" },
   { id: "memory-match", pattern: "/memory/[code]", helper: "getMemoryMatchPath" },
   { id: "quiz", pattern: "/quiz/[code]", helper: "getQuizPath" },
+  { id: "balloon-pop", pattern: "/balloon/[code]", helper: "getBalloonPopPath" },
   { id: "sentence-builder", pattern: "/sentence/[code]", helper: "getSentenceBuilderPath" },
   { id: "speak-it", pattern: "/speak/[code]", helper: "getSpeakItPath" },
 ];
