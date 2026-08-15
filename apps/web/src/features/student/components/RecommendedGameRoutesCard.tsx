@@ -5,6 +5,7 @@ import type { GameModeId, LaunchSession, StudentProgressionState } from "@living
 import { AudioCueButton, AudioCueText } from "@/features/audio/AudioCueButton";
 import {
   getBalloonPopPath,
+  getLabelItPath,
   getMatchUpPath,
   getStudentActivityHubPath,
   getMemoryMatchPath,
@@ -140,6 +141,10 @@ function getModePath(mode: GameModeId, launchCode: string): string {
     return getMatchUpPath(launchCode);
   }
 
+  if (mode === "label-it") {
+    return getLabelItPath(launchCode);
+  }
+
   if (mode === "quiz") {
     return getQuizPath(launchCode);
   }
@@ -174,6 +179,10 @@ function getModeSummary(mode: GameModeId): string {
 
   if (mode === "match-up") {
     return "Open the visible pairing route and match listening prompts to vocabulary word cards.";
+  }
+
+  if (mode === "label-it") {
+    return "Open the image-label route and place reviewed labels on picture points with target-language audio.";
   }
 
   if (mode === "quiz") {

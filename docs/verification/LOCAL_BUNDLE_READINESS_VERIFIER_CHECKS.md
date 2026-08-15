@@ -8,7 +8,7 @@ Run after local companion package, local bundle manifest, local deployment prefl
 
 - Confirm `npm run verify:local-bundle` passes.
 - Confirm MiniStar and sample publisher bundle manifests remain represented.
-- Confirm local game routes include flashcards, Match Up, Memory Match, Quiz, True or False, Type Answer, Sentence Builder, and Speak It.
+- Confirm local game routes include flashcards, Match Up, Label It, Memory Match, Quiz, True or False, Type Answer, Sentence Builder, and Speak It.
 - Confirm local package artifacts include content package, QR registry, game routes, report policy, release gate, installer, and checksum requirements.
 - Confirm unknown media rights or missing checksums prevent offline-ready status.
 - Confirm blocked deployment preflight checks prevent offline-ready status.

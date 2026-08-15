@@ -39,7 +39,7 @@ Open:
 - The teacher intake route confirms evidence storage adapter selection, including hosted managed first-pilot recommendation, closed local and hybrid alternatives, vendor-neutral requirements, and blocked bucket/folder/signed-url/upload/migration/retention actions.
 - The Labelled Diagram asset workspace confirms teacher-only image review, `game_asset_manifest`, `label_anchor_record`, `target_mapping_packet`, target-language audio coverage, support-language non-progress, and blocked live label/editor/student-game actions.
 - The media asset workspace confirms teacher-only media review, `media_manifest`, `media_playlist_binding`, `background_media_policy_binding`, `local_media_bundle_entry`, optional playback, learning-audio priority, media-only progress blocking, and blocked live upload/transcode/playlist actions.
-- Playable routes confirm activity shell text for Training Academy, Quiz, True or False, Type Answer, Sentence Builder, and Speak It, including tenant-specific themes where needed.
+- Playable routes confirm activity shell text for Training Academy, Label It, Quiz, True or False, Type Answer, Sentence Builder, and Speak It, including tenant-specific themes where needed.
 - Student routes preserve target-language progression gates.
 - Teacher/admin routes do not imply live production storage unless persistence is accepted.
 - Sample publisher routes remain white-label and do not depend on MiniStar-only branding.

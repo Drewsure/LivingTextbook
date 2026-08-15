@@ -68,7 +68,7 @@ export const samplePublisherMaintenancePlan: PublisherMaintenancePlan = {
       whiteLabelRule:
         "Partners choose which game modes are available per unit, but modes must still run through reusable parent engines and standard progress events.",
       evidence:
-        "The current slice has flashcards, Match Up, Memory Match, Balloon Pop, Speak It, Training Academy, and standard event/progress concepts.",
+        "The current slice has flashcards, Match Up, Label It, Memory Match, Balloon Pop, Speak It, Training Academy, and standard event/progress concepts.",
       nextStep: "Add a unit-to-game availability record that can say required, optional, hidden, premium, or teacher-only.",
       notAllowedYet: ["One-off games without progress events", "Partner games that bypass audio support", "Game modes promoted without mobile checks"],
     },

@@ -179,7 +179,7 @@ export const sampleAiGeneratedPackageManifests: AiGeneratedPackageManifest[] = [
       {
         label: "Engine binding plan",
         recordId: "ai-engine-binding-ministar-l1-greetings-v1",
-        purpose: "Binds Flashcards, Match Up, Memory Match, and Speak It to existing parent engines and scoring profiles.",
+        purpose: "Binds Flashcards, Match Up, Label It, Memory Match, and Speak It to existing parent engines and scoring profiles.",
       },
       {
         label: "Gamification mapping plan",

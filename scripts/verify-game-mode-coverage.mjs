@@ -37,6 +37,7 @@ const missingScoringProfile = gameModes.filter((mode) => {
 });
 const requiredActiveGameRouteContracts = [
   { id: "flashcards", pattern: "/flashcards/[code]", helper: "getFlashcardsPath" },
+  { id: "label-it", pattern: "/label-it/[code]", helper: "getLabelItPath" },
   { id: "match-up", pattern: "/match/[code]", helper: "getMatchUpPath" },
   { id: "memory-match", pattern: "/memory/[code]", helper: "getMemoryMatchPath" },
   { id: "quiz", pattern: "/quiz/[code]", helper: "getQuizPath" },

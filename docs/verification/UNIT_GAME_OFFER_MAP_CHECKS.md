@@ -25,7 +25,7 @@ Confirm the page includes a `Game offer map` panel with:
 
 - the unit-to-game decision rule,
 - metrics for required, premium, blocked, and teacher-control counts,
-- offers for Entry Flashcards, Match Up, Memory Match, Speak It Practice, Balloon Pop, and Teacher Review Quiz,
+- offers for Entry Flashcards, Match Up, Label It, Memory Match, Speak It Practice, Balloon Pop, Type Answer, True or False, and Teacher Review Quiz,
 - availability badges such as Required, Teacher only, Premium, and Hidden,
 - readiness badges such as Ready, Review, and Blocked,
 - audio, media, teacher-control, evidence, next-step, and not-allowed-yet sections.

@@ -14,6 +14,7 @@ import { GameRouteHeaderCard } from "@/features/game-shell/components/GameRouteH
 import {
   getBalloonPopPath,
   getFlashcardsPath,
+  getLabelItPath,
   getMatchUpPath,
   getMediaPlaylistPath,
   getMemoryMatchPath,
@@ -199,6 +200,15 @@ function buildActivityItems({
       role: "reinforcement",
       summary: "Match listening prompts to reviewed vocabulary word cards.",
       status: getGameRouteStatus("match-up", progression),
+    },
+    {
+      id: "label-it",
+      label: "Label It",
+      href: getLabelItPath(launchCode),
+      mode: "label-it",
+      role: "reinforcement",
+      summary: "Place reviewed labels on picture points. Uploaded images must stay reviewed before student use.",
+      status: getGameRouteStatus("label-it", progression),
     },
     {
       id: "quiz",

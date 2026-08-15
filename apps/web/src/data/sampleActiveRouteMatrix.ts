@@ -307,6 +307,14 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     note: "Visible pairing-engine vocabulary route matching listening prompts to word cards.",
   },
   {
+    routeId: "ministar-label-it",
+    group: "ministar",
+    label: "MiniStar label it",
+    path: "/label-it/demo-unit-1",
+    status: "active-scaffold",
+    note: "Image-label pairing route using reviewed placeholder anchors and target-language audio; live uploaded images remain blocked.",
+  },
+  {
     routeId: "ministar-balloon-pop",
     group: "ministar",
     label: "MiniStar balloon pop",
@@ -473,6 +481,14 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     path: "/match/partner-demo-unit-1",
     status: "active-scaffold",
     note: "White-label visible pairing-engine vocabulary route matching listening prompts to word cards.",
+  },
+  {
+    routeId: "partner-label-it",
+    group: "sample-publisher",
+    label: "Sample publisher label it",
+    path: "/label-it/partner-demo-unit-1",
+    status: "active-scaffold",
+    note: "White-label image-label pairing route using reviewed placeholder anchors before real uploaded assets are allowed.",
   },
   {
     routeId: "partner-balloon-pop",

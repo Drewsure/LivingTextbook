@@ -8,7 +8,7 @@ Run after content package, media package, route registry, game offer, teacher re
 
 - Confirm `npm run verify:package-readiness` passes.
 - Confirm MiniStar and the sample publisher remain included in package readiness summaries.
-- Confirm active package modes have explicit audio cue coverage for flashcards, Match Up, Memory Match, Balloon Pop, Quiz, True or False, Type Answer, Sentence Builder, and Speak It.
+- Confirm active package modes have explicit audio cue coverage for flashcards, Match Up, Label It, Memory Match, Balloon Pop, Quiz, True or False, Type Answer, Sentence Builder, and Speak It.
 - Confirm packages retain audio and video media assets, playlist structure, local bundle paths, and non-unknown rights status.
 - Confirm background media remains teacher-gated and default-off.
 - Confirm front-door access requires entry code, learner/user code, and teacher-report support.

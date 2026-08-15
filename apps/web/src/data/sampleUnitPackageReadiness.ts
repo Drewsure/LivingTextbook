@@ -120,7 +120,7 @@ function buildUnitPackageReadiness(contentPackage: ContentPackage): UnitPackageR
         status: release && release.gameModeCount > 0 ? "ready" : "blocked",
         blocksPilot: !release || release.gameModeCount === 0,
         evidence: release ? `${release.gameModeCount} mode(s) through ${release.stableRoutePath}` : "No release route record",
-        nextStep: "Keep front-door entry, flashcards, Match Up, Memory Match, Balloon Pop, and Speak It routes aligned to the package.",
+        nextStep: "Keep front-door entry, flashcards, Match Up, Label It, Memory Match, Balloon Pop, and Speak It routes aligned to the package.",
       },
       {
         gateId: "assist-language",

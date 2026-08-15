@@ -673,8 +673,8 @@ function createMonitorProgression(
   return {
     ...progression,
     currentStep: "completion-review",
-    unlockedGameModes: uniqueModes([...progression.unlockedGameModes, ...launchSession.recommendedNextModes, "quiz", "true-false", "type-answer", "sentence-builder", "speak-it"]),
-    completedGameModes: uniqueModes([...progression.completedGameModes, launchSession.entryMode, "memory-match", "quiz", "true-false", "type-answer", "sentence-builder"]),
+    unlockedGameModes: uniqueModes([...progression.unlockedGameModes, ...launchSession.recommendedNextModes, "label-it", "quiz", "true-false", "type-answer", "sentence-builder", "speak-it"]),
+    completedGameModes: uniqueModes([...progression.completedGameModes, launchSession.entryMode, "label-it", "memory-match", "quiz", "true-false", "type-answer", "sentence-builder"]),
     earnedStarDust: 1000,
     masteryStatus: "in-progress",
     lastEventAt: latestEvent?.occurredAt,
@@ -900,6 +900,19 @@ function createSampleMonitorEvents(launchSession: LaunchSession, isPartner: bool
       },
     },
     {
+      type: "game_unlocked",
+      unitKey,
+      gameMode: "label-it",
+      launchCode,
+      studentSessionId,
+      occurredAt: "2026-07-01T00:05:25.000Z",
+      metadata: {
+        unlockedBy: "target-language-entry-practice",
+        reviewedAssetOnly: true,
+        supportLanguageUnlockAllowed: false,
+      },
+    },
+    {
       type: "media_playlist_opened",
       unitKey,
       gameMode: "flashcards",
@@ -1046,6 +1059,35 @@ function createSampleMonitorEvents(launchSession: LaunchSession, isPartner: bool
       metadata: {
         earnedStarDust: 325,
         accuracyPercent: 88,
+      },
+    },
+    {
+      type: "game_started",
+      unitKey,
+      gameMode: "label-it",
+      launchCode,
+      studentSessionId,
+      occurredAt: "2026-07-01T00:12:10.000Z",
+      metadata: {
+        parentEngine: "pairing",
+        reviewedAssetOnly: true,
+        studentFacingUploadAllowed: false,
+      },
+    },
+    {
+      type: "mastery_updated",
+      unitKey,
+      gameMode: "label-it",
+      launchCode,
+      studentSessionId,
+      occurredAt: "2026-07-01T00:12:20.000Z",
+      metadata: {
+        completed: true,
+        earnedStarDust: 180,
+        completedAnchors: 4,
+        correctAnchors: 4,
+        supportLanguageUnlockAllowed: false,
+        uploadedImageProgressAllowed: false,
       },
     },
     {

@@ -44,6 +44,7 @@ Focused verification supplements:
 - `docs/verification/LOCAL_COMPANION_RELEASE_GATE_CHECKS.md`
 - `docs/verification/LOCAL_COMPANION_RELEASE_GATE_STORAGE_CHECKS.md`
 - `docs/verification/LAUNCH_SAFETY_BOUNDARY_CHECKS.md`
+- `docs/verification/LABEL_IT_PLAYABLE_CHECKS.md`
 - `docs/verification/MEDIA_TELEMETRY_CHECKS.md`
 - `docs/verification/MEDIA_RIGHTS_READINESS_CHECKS.md`
 - `docs/verification/MEDIA_SUPPORT_ONLY_EVENT_CHECKS.md`
@@ -151,6 +152,7 @@ Then verify:
 - `/teacher/sessions/partner-demo-unit-1`
 - `/launch/demo-unit-1`
 - `/quiz/demo-unit-1`
+- `/label-it/demo-unit-1`
 - `/type-answer/demo-unit-1`
 - `/sentence/demo-unit-1`
 - `/enter/ministar`
@@ -161,6 +163,7 @@ Then verify:
 - `/enter/sample-publisher`
 - `/launch/partner-demo-unit-1`
 - `/quiz/partner-demo-unit-1`
+- `/label-it/partner-demo-unit-1`
 - `/type-answer/partner-demo-unit-1`
 - `/sentence/partner-demo-unit-1`
 - `/speak/partner-demo-unit-1`

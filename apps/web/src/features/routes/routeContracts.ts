@@ -295,6 +295,15 @@ export const appRouteContracts: AppRouteContract[] = [
     requiredState: ["TenantConfig", "UnitPayload", "LaunchSession", "StudentProgressionState", "AudioCue[]"],
   },
   {
+    id: "label-it",
+    pattern: "/label-it/[code]",
+    audience: "student",
+    status: "active-scaffold",
+    purpose:
+      "Let a student place reviewed target-language labels onto reviewed diagram anchors through the pairing parent engine while uploaded images remain review-gated.",
+    requiredState: ["TenantConfig", "UnitPayload", "LaunchSession", "StudentProgressionState", "AudioCue[]", "game_asset_manifest?", "label_anchor_record?"],
+  },
+  {
     id: "sentence-builder",
     pattern: "/sentence/[code]",
     audience: "student",
@@ -444,6 +453,10 @@ export function getMemoryMatchPath(launchCode: LaunchCode): string {
 
 export function getMatchUpPath(launchCode: LaunchCode): string {
   return `/match/${encodeURIComponent(launchCode)}`;
+}
+
+export function getLabelItPath(launchCode: LaunchCode): string {
+  return `/label-it/${encodeURIComponent(launchCode)}`;
 }
 
 export function getSpeakItPath(launchCode: LaunchCode): string {

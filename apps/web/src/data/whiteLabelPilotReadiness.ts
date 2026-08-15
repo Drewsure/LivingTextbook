@@ -46,7 +46,7 @@ export const whiteLabelPilotReadiness: WhiteLabelPilotReadiness = {
       label: "Core games",
       status: "in-progress",
       timeframe: "2-5 weeks",
-      proof: "Flashcards, Match Up, Memory Match, Balloon Pop, Training Academy, and Speak It are active scaffolds.",
+      proof: "Flashcards, Match Up, Label It, Memory Match, Balloon Pop, Training Academy, and Speak It are active scaffolds.",
       nextStep: "Promote 2-4 reusable parent-engine modes to pilot quality.",
     },
     {

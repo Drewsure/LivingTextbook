@@ -50,6 +50,7 @@ This list names the routes that should be checked after foundation changes. It i
 - `http://127.0.0.1:3000/training/demo-unit-1?focus=sentence-review`
 - `http://127.0.0.1:3000/memory/demo-unit-1`
 - `http://127.0.0.1:3000/match/demo-unit-1`
+- `http://127.0.0.1:3000/label-it/demo-unit-1`
 - `http://127.0.0.1:3000/balloon/demo-unit-1`
 - `http://127.0.0.1:3000/quiz/demo-unit-1`
 - `http://127.0.0.1:3000/true-false/demo-unit-1`
@@ -74,6 +75,7 @@ This list names the routes that should be checked after foundation changes. It i
 - `http://127.0.0.1:3000/training/partner-demo-unit-1?focus=sentence-review`
 - `http://127.0.0.1:3000/memory/partner-demo-unit-1`
 - `http://127.0.0.1:3000/match/partner-demo-unit-1`
+- `http://127.0.0.1:3000/label-it/partner-demo-unit-1`
 - `http://127.0.0.1:3000/balloon/partner-demo-unit-1`
 - `http://127.0.0.1:3000/quiz/partner-demo-unit-1`
 - `http://127.0.0.1:3000/true-false/partner-demo-unit-1`

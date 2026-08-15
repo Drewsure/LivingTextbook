@@ -100,6 +100,7 @@ export const sampleLabelledDiagramAssetWorkspace: LabelledDiagramAssetWorkspace 
     { label: "Upload workspace", href: "/teacher/uploads/sample-publisher" },
     { label: "Review queue", href: "/teacher/review" },
     { label: "Teacher unit review", href: "/teacher/units/sample-publisher%3Apartner-textbook-companion%3AL1%3AU1" },
+    { label: "Student Label It preview", href: "/label-it/partner-demo-unit-1" },
   ],
 };
 

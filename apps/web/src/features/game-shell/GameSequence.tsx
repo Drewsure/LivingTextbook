@@ -15,6 +15,7 @@ interface SequenceItem {
 
 const flashcards = gameModeCatalog.flashcards;
 const matchUp = gameModeCatalog["match-up"];
+const labelIt = gameModeCatalog["label-it"];
 const memoryMatch = gameModeCatalog["memory-match"];
 const quiz = gameModeCatalog.quiz;
 const trueFalse = gameModeCatalog["true-false"];
@@ -35,6 +36,12 @@ const firstSliceSequence: SequenceItem[] = [
     engineId: matchUp?.engineId ?? "pairing",
     role: matchUp?.role ?? "reinforcement",
     summary: matchUp?.summary ?? "Match listening prompts to reviewed vocabulary word cards.",
+  },
+  {
+    label: labelIt?.label ?? "Label It",
+    engineId: labelIt?.engineId ?? "pairing",
+    role: labelIt?.role ?? "reinforcement",
+    summary: labelIt?.summary ?? "Place reviewed target-language labels onto reviewed image anchors.",
   },
   {
     label: memoryMatch?.label ?? "Memory Match",
