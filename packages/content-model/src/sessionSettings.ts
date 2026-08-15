@@ -13,6 +13,7 @@ export type TeacherReportExportScope =
   | "media-engagement"
   | "training-recovery"
   | "speech-practice-summary";
+export type TeacherSessionSettingsReviewStatus = "review-only" | "blocked" | "ready-for-pilot";
 
 export interface TeacherSessionSetting {
   settingId: string;
@@ -44,6 +45,22 @@ export interface TeacherReportExportPlan {
   excludesRawAudio: boolean;
   excludesTranscripts: boolean;
   note: string;
+}
+
+export interface TeacherSessionSettingsReviewPacket {
+  packetId: string;
+  launchCode: LaunchCode;
+  tenantId: TenantId;
+  status: TeacherSessionSettingsReviewStatus;
+  sourceOfTruth: string;
+  summary: string;
+  settingsSnapshot: TeacherSessionSettings;
+  safetySignals: string[];
+  persistenceWarnings: string[];
+  policyAndCostGates: string[];
+  blockedActions: string[];
+  requiredBeforePilot: string[];
+  updatedAt: string;
 }
 
 export interface TeacherSessionSettings {
@@ -209,6 +226,77 @@ export function getTeacherSessionPersistenceWarnings(settings: TeacherSessionSet
   return warnings;
 }
 
+export function validateTeacherSessionSettingsReviewPacket(packet: TeacherSessionSettingsReviewPacket): string[] {
+  const errors: string[] = [];
+  const settingsErrors = validateTeacherSessionSettings(packet.settingsSnapshot);
+
+  if (packet.packetId.trim().length === 0) {
+    errors.push("Teacher session settings review packet requires a packet id.");
+  }
+
+  if (packet.launchCode.trim().length === 0) {
+    errors.push("Teacher session settings review packet requires a launch code.");
+  }
+
+  if (packet.tenantId.trim().length === 0) {
+    errors.push("Teacher session settings review packet requires a tenant id.");
+  }
+
+  if (packet.settingsSnapshot.launchCode !== packet.launchCode) {
+    errors.push("Teacher session settings review packet launch code must match the settings snapshot.");
+  }
+
+  if (packet.settingsSnapshot.tenantId !== packet.tenantId) {
+    errors.push("Teacher session settings review packet tenant id must match the settings snapshot.");
+  }
+
+  if (settingsErrors.length > 0 && packet.status !== "blocked") {
+    errors.push("Teacher session settings review packet must be blocked when settings safety errors exist.");
+  }
+
+  if (packet.status === "ready-for-pilot" && packet.persistenceWarnings.length > 0) {
+    errors.push("Teacher session settings review packet cannot be pilot-ready with persistence warnings.");
+  }
+
+  if (packet.status === "ready-for-pilot" && packet.blockedActions.length > 0) {
+    errors.push("Teacher session settings review packet cannot be pilot-ready while blocked actions remain.");
+  }
+
+  requireListMarker(errors, packet.safetySignals, "Learner-facing audio remains required", "review packet must preserve learner-facing audio requirement.");
+  requireListMarker(errors, packet.safetySignals, "Target-language activity is the only progress trigger", "review packet must preserve target-language progress trigger.");
+  requireListMarker(errors, packet.blockedActions, "No live classroom launch", "review packet must block live classroom launch.");
+  requireListMarker(errors, packet.blockedActions, "No student event storage", "review packet must block student event storage.");
+  requireListMarker(errors, packet.blockedActions, "No report export", "review packet must block report export.");
+  requireListMarker(errors, packet.blockedActions, "No raw microphone audio upload", "review packet must block raw microphone audio upload.");
+  requireListMarker(errors, packet.blockedActions, "No AI Tutor activation", "review packet must block AI Tutor activation.");
+  requireListMarker(errors, packet.blockedActions, "No support-language progress", "review packet must block support-language progress.");
+  requireListMarker(errors, packet.requiredBeforePilot, "Persist teacher launch-session settings", "review packet must require persisted teacher launch-session settings before pilot.");
+  requireListMarker(errors, packet.requiredBeforePilot, "Accept school or tenant privacy and reporting policy", "review packet must require accepted privacy and reporting policy before pilot.");
+
+  return errors;
+}
+
+export function getTeacherSessionSettingsReviewPacketWarnings(packet: TeacherSessionSettingsReviewPacket): string[] {
+  const warnings = new Set<string>([
+    ...packet.persistenceWarnings,
+    ...getTeacherSessionPersistenceWarnings(packet.settingsSnapshot),
+  ]);
+
+  if (packet.settingsSnapshot.microphonePractice.enabled && !packet.settingsSnapshot.microphonePractice.approvalPersisted) {
+    warnings.add("Microphone practice remains teacher/school opt-in and cannot upload raw learner audio in the core package.");
+  }
+
+  if (!packet.settingsSnapshot.aiTutor.enabled && packet.settingsSnapshot.aiTutor.packageTier === "premium") {
+    warnings.add("AI Tutor remains an optional paid package and is disabled for this core session.");
+  }
+
+  if (packet.settingsSnapshot.backgroundMedia.allowed && packet.settingsSnapshot.backgroundMedia.defaultEnabled) {
+    warnings.add("Background media defaults should stay off until classroom audio behavior is verified.");
+  }
+
+  return Array.from(warnings);
+}
+
 export function validateTeacherSessionControlActions(actions: TeacherSessionControlAction[]): string[] {
   const errors: string[] = [];
   const ids = new Set<TeacherSessionControlActionId>();
@@ -238,6 +326,12 @@ export function validateTeacherSessionControlActions(actions: TeacherSessionCont
   }
 
   return errors;
+}
+
+function requireListMarker(errors: string[], list: string[], marker: string, message: string): void {
+  if (!list.some((item) => item.includes(marker))) {
+    errors.push(message);
+  }
 }
 
 export function getTeacherSessionControlWarnings(actions: TeacherSessionControlAction[]): string[] {

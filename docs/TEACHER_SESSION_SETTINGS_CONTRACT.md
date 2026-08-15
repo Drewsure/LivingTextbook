@@ -2,7 +2,7 @@
 
 Document type: foundation data contract  
 Status: active scaffold  
-Last updated: 2026-07-12
+Last updated: 2026-08-15
 
 ## Purpose
 
@@ -31,8 +31,12 @@ It currently defines:
 - `TeacherReportExportFormat`
 - `TeacherReportExportScope`
 - `SessionDataRetentionPolicy`
+- `TeacherSessionSettingsReviewPacket`
+- `TeacherSessionSettingsReviewStatus`
 - `validateTeacherSessionSettings`
 - `getTeacherSessionPersistenceWarnings`
+- `validateTeacherSessionSettingsReviewPacket`
+- `getTeacherSessionSettingsReviewPacketWarnings`
 - `validateTeacherSessionControlActions`
 - `getTeacherSessionControlWarnings`
 - `createTeacherReportExportPlan`
@@ -92,6 +96,25 @@ Core report export must exclude:
 - learner transcripts.
 
 A future premium transcript or speech-scoring package may add separate export policy, but that must not become part of the core teacher report by default.
+
+## Session Settings Review Packet
+
+The session settings review packet is the teacher/admin handoff view before any real setting save exists. It makes the future launch-session settings record concrete while keeping the current build review-only.
+
+Each packet must show:
+
+- learner-facing audio remains required,
+- target-language activity is the only progress trigger,
+- assist language is support-only,
+- MiniStar Foundation/Bronze/Plus Japanese support remains hiragana-only,
+- microphone practice is teacher/school opt-in,
+- raw microphone audio upload is blocked in the core package,
+- background media yields to tap-to-speak learning audio,
+- AI Tutor remains an optional paid package,
+- report export requires accepted school or tenant policy,
+- hosted and local deployments preserve the same settings snapshot.
+
+The review packet cannot save settings, activate a live classroom, store student events, export reports, upload microphone audio, activate AI Tutor, or allow support-language progress.
 
 ## Lifecycle Controls Covered
 

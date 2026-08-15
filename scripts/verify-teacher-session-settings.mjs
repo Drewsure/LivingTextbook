@@ -8,6 +8,8 @@ const backendSchema = readSource("../apps/web/src/data/sampleBackendSchemaDraft.
 const migrationSpecs = readSource("../apps/web/src/data/sampleBackendMigrationSpecs.ts");
 const persistenceAdapter = readSource("../apps/web/src/data/samplePersistenceAdapterPlan.ts");
 const sampleMonitor = readSource("../apps/web/src/data/sampleTeacherSessionMonitor.ts");
+const reviewPacket = readSource("../apps/web/src/data/sampleTeacherSessionSettingsReviewPacket.ts");
+const reviewPacketPanel = readSource("../apps/web/src/features/teacher/TeacherSessionSettingsReviewPacketPanel.tsx");
 const monitorPanel = readSource("../apps/web/src/features/teacher/TeacherSessionMonitorPanel.tsx");
 const routeVerifier = readSource("./verify-active-routes.mjs");
 const settingsDoc = readSource("../docs/TEACHER_SESSION_SETTINGS_CONTRACT.md");
@@ -70,8 +72,16 @@ requireText(migrationSpecs, "assist_language_teacher_enablement_persisted", "Bac
 requireText(persistenceAdapter, "assist-language teacher enablement", "Persistence adapter plan must preserve assist-language teacher enablement.");
 requireText(sampleMonitor, "createSampleTeacherSessionSettings", "Teacher session monitor must reuse the shared sample settings helper.");
 requireText(sampleMonitor, "Assist text can support comprehension, but the teacher's on/off choice must persist", "Sample settings copy must explain persisted assist-language choice.");
+requireText(reviewPacket, "Target-language activity is the only progress trigger", "Teacher session settings review packet must preserve target-language progress.");
+requireText(reviewPacket, "Foundation Japanese assist remains hiragana-only", "Teacher session settings review packet must preserve early MiniStar hiragana-only assist language.");
+requireText(reviewPacket, "No raw microphone audio upload", "Teacher session settings review packet must block raw microphone audio upload.");
+requireText(reviewPacket, "AI Tutor remains optional paid package", "Teacher session settings review packet must preserve AI Tutor cost boundary.");
+requireText(reviewPacket, "Persist teacher launch-session settings", "Teacher session settings review packet must require persisted settings before pilot.");
+requireText(reviewPacketPanel, "Session settings review packet", "Teacher intake must expose the session settings review packet panel.");
+requireText(reviewPacketPanel, "No setting save", "Teacher session settings review panel must block live setting saves.");
 requireText(monitorPanel, "teacher_enablement_persisted", "Teacher session settings snapshot must expose assist-language persistence state.");
 requireText(routeVerifier, "teacher_enablement_persisted", "Active route verifier must guard assist-language persistence snapshot text.");
+requireText(routeVerifier, "Session settings review packet", "Active route verifier must guard the teacher session settings review packet route text.");
 requireText(settingsDoc, "Both enabling and disabling support language must persist", "Teacher session settings contract must explain persisted assist-language on/off state.");
 requireText(assistDoc, "teacher-session settings contract now models the durable setting", "Assist-language standard must reference the durable session settings contract.");
 

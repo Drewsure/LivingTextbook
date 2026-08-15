@@ -2,7 +2,7 @@
 
 ## Scope
 
-Run after changes to teacher session settings, assist language, microphone practice, background media, Training Academy recovery, AI Tutor, reporting, teacher monitor snapshots, or route verification.
+Run after changes to teacher session settings, session settings review packets, assist language, microphone practice, background media, Training Academy recovery, AI Tutor, reporting, teacher monitor snapshots, or route verification.
 
 ## Automated Command
 
@@ -26,6 +26,7 @@ npm run verify:foundation
 - Background media cannot unlock progress or mastery.
 - AI Tutor speech scoring cannot run when AI Tutor is disabled.
 - Assist-language teacher enablement must appear in the settings snapshot.
+- Session settings review packets must preserve target-language progression, hiragana-only early MiniStar support, microphone upload blocks, optional paid AI Tutor boundaries, and pilot persistence requirements.
 - Direct launch contexts must carry teacher session settings.
 - Front-door QR/class-code contexts must carry teacher session settings.
 - Route verification must preserve the `teacher_enablement_persisted` snapshot field.
@@ -36,5 +37,6 @@ After the command passes, open:
 
 - `http://127.0.0.1:3000/teacher/sessions/demo-unit-1`
 - `http://127.0.0.1:3000/teacher/sessions/partner-demo-unit-1`
+- `http://127.0.0.1:3000/teacher/intake`
 
-Confirm the settings snapshot and persistence warnings read clearly for non-technical review.
+Confirm the settings snapshot, review packet, policy/cost gates, and persistence warnings read clearly for non-technical review.

@@ -78,6 +78,7 @@ import {
   sampleTeacherAssignmentPlans,
   sampleTeacherAssignmentWarnings,
 } from "@/data/sampleTeacherAssignmentPlans";
+import { sampleTeacherSessionSettingsReviewPackets } from "@/data/sampleTeacherSessionSettingsReviewPacket";
 import { sampleAssignmentRolloutPlans } from "@/data/sampleAssignmentRolloutPlan";
 import { sampleActivityPathwayCompatibilityMatrix } from "@/data/sampleActivityPathwayCompatibility";
 import { sampleUnitGameOfferMap } from "@/data/sampleUnitGameOfferMap";
@@ -159,6 +160,7 @@ import { TenantRouteRegistryPanel } from "@/features/routes/TenantRouteRegistryP
 import { ClassRosterReadinessPanel } from "@/features/teacher/ClassRosterReadinessPanel";
 import { TeacherAssignmentRolloutPanel } from "@/features/teacher/TeacherAssignmentRolloutPanel";
 import { TeacherAssignmentReadinessPanel } from "@/features/teacher/TeacherAssignmentReadinessPanel";
+import { TeacherSessionSettingsReviewPacketPanel } from "@/features/teacher/TeacherSessionSettingsReviewPacketPanel";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 
 export default function TeacherIntakePage() {
@@ -223,6 +225,7 @@ export default function TeacherIntakePage() {
           warnings={sampleTeacherAssignmentWarnings}
         />
         <TeacherAssignmentRolloutPanel plans={sampleAssignmentRolloutPlans} />
+        <TeacherSessionSettingsReviewPacketPanel packets={sampleTeacherSessionSettingsReviewPackets} />
         <ProgressEventTaxonomyPanel taxonomy={sampleProgressEventTaxonomyRegistry} />
         <ClassRosterReadinessPanel
           plans={sampleClassRosterPlans}
