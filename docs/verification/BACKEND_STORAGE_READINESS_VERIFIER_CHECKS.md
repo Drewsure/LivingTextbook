@@ -55,6 +55,7 @@ npm run verify:foundation
 - Core storage rejects raw learner audio and transcripts.
 - Progress events preserve event effect taxonomy and event acceptance gates.
 - Launch sessions preserve teacher session settings, settings review packets, and assist-language teacher enablement.
+- Launch-session validators and UI readiness markers expose `Settings review packet` before live setting saves are possible.
 - Hosted and local adapter plans both include launch-session writes.
 - Hosted and local adapter plans both include earned collection inventory writes.
 - Hosted and local adapter plans both include teacher draft package writes.

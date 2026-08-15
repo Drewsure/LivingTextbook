@@ -114,6 +114,24 @@ export function PersistenceAdapterReadinessPanel({
                       <dt className="font-semibold text-[var(--tenant-text)]">Export</dt>
                       <dd className="mt-1">{intent.allowsExport ? "Policy gated" : "No export"}</dd>
                     </div>
+                    {intent.category === "launch-session" && (
+                      <div>
+                        <dt className="font-semibold text-[var(--tenant-text)]">Settings snapshot</dt>
+                        <dd className="mt-1">{intent.preservesTeacherSessionSettingsSnapshot ? "Preserved" : "Needs review"}</dd>
+                      </div>
+                    )}
+                    {intent.category === "launch-session" && (
+                      <div>
+                        <dt className="font-semibold text-[var(--tenant-text)]">Settings review packet</dt>
+                        <dd className="mt-1">{intent.preservesTeacherSessionSettingsReviewPacket ? "Preserved" : "Needs review"}</dd>
+                      </div>
+                    )}
+                    {intent.category === "launch-session" && (
+                      <div>
+                        <dt className="font-semibold text-[var(--tenant-text)]">Event acceptance gate</dt>
+                        <dd className="mt-1">{intent.preservesTeacherSessionEventAcceptanceGate ? "Preserved" : "Needs review"}</dd>
+                      </div>
+                    )}
                     {intent.category === "progress-event-stream" && (
                       <div>
                         <dt className="font-semibold text-[var(--tenant-text)]">Event taxonomy</dt>

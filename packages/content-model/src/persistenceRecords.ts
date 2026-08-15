@@ -537,6 +537,10 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
       errors.push(`Teacher session settings must belong to a launch-session record, not ${record.category}.`);
     }
 
+    if (record.category === "launch-session" && !record.preservesTeacherSessionSettingsReviewPacket) {
+      errors.push(`Launch-session durable record ${record.recordId} must preserve teacher session settings review packets.`);
+    }
+
     if (record.category === "progress-event-stream" && !record.preservesEventEffectTaxonomy) {
       errors.push(`Progress event durable record ${record.recordId} must preserve event effect taxonomy.`);
     }

@@ -3346,6 +3346,10 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
       errors.push(`Launch session write intent ${intent.intentId} must preserve teacher session settings snapshots.`);
     }
 
+    if (intent.category === "launch-session" && !intent.preservesTeacherSessionSettingsReviewPacket) {
+      errors.push(`Launch session write intent ${intent.intentId} must preserve teacher session settings review packets.`);
+    }
+
     if (intent.category === "launch-session" && !intent.preservesTeacherSessionEventAcceptanceGate) {
       errors.push(`Launch session write intent ${intent.intentId} must preserve teacher session event acceptance gates.`);
     }
