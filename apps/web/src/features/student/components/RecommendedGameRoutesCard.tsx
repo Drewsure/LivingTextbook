@@ -5,6 +5,7 @@ import type { GameModeId, LaunchSession, StudentProgressionState } from "@living
 import { AudioCueButton, AudioCueText } from "@/features/audio/AudioCueButton";
 import {
   getBalloonPopPath,
+  getMatchUpPath,
   getStudentActivityHubPath,
   getMemoryMatchPath,
   getQuizPath,
@@ -133,6 +134,10 @@ function getModePath(mode: GameModeId, launchCode: string): string {
     return getMemoryMatchPath(launchCode);
   }
 
+  if (mode === "match-up") {
+    return getMatchUpPath(launchCode);
+  }
+
   if (mode === "quiz") {
     return getQuizPath(launchCode);
   }
@@ -155,6 +160,10 @@ function getModePath(mode: GameModeId, launchCode: string): string {
 function getModeSummary(mode: GameModeId): string {
   if (mode === "memory-match") {
     return "Open the pairing route and match vocabulary cards with tap-to-hear support.";
+  }
+
+  if (mode === "match-up") {
+    return "Open the visible pairing route and match listening prompts to vocabulary word cards.";
   }
 
   if (mode === "quiz") {

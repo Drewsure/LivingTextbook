@@ -178,7 +178,7 @@ export const sampleAiVerifierSubmissionPackets: AiVerifierSubmissionPacket[] = [
         checkId: "ministar-engine-binding",
         label: "Engine binding packet",
         status: "ready-for-review",
-        evidence: "Flashcards, Memory Match, and Speak It bind to existing entry, pairing, and speaking parent engines.",
+        evidence: "Flashcards, Match Up, Memory Match, and Speak It bind to existing entry, pairing, and speaking parent engines.",
         rejectionRule: "Reject one-off generated game code or parent-engine bypass.",
       },
       {

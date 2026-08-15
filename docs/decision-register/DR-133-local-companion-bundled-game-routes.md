@@ -13,5 +13,6 @@ A closed textbook companion must include games, not only media and QR fallback. 
 - `/local/sample-publisher` shows `Bundled game routes`.
 - Local manifests include game id, label, mode, engine id, route path, status, audio coverage, report-event support, and note.
 - Local game routes must preserve audio-first behavior and standard progress events.
+- Match Up is treated as the visible pairing bridge before hidden Memory Match recall in local companion manifests.
 - Speak/microphone routes remain teacher/school policy gated.
 - The generated manifest snapshot includes local game route metadata.

@@ -31,7 +31,7 @@ This matrix prevents foundation-stage blind spots. It does not mean Living Textb
 | :--- | :--- | :--- | :--- |
 | Fast activity creation | AI Authoring Studio plus human review should make unit/game package creation fast without bypassing validation. | Planned | Build reviewed package intake first; do not assign raw AI output to students. |
 | Many activity types | Use reusable parent engines, game families, and mode configs instead of isolated games. | Core | Continue game-mode catalog, scoring, audio, and route verification. |
-| Switch template | Use curated activity pathways and compatibility rules, not an unrestricted switch-anything panel. | Planned | Each unit should expose teacher-approved offers such as flashcards, Memory Match, quiz, sentence builder, Speak It, printables, or premium arcade modes. |
+| Switch template | Use curated activity pathways and compatibility rules, not an unrestricted switch-anything panel. | Planned | Each unit should expose teacher-approved offers such as flashcards, Match Up, Memory Match, quiz, sentence builder, Speak It, printables, or premium arcade modes. |
 | Printable worksheets | Required for schools, homework, textbook partners, and low-device classrooms. | Planned | Add printable/PDF activity output as a future foundation slice. |
 | Student assignments | Teacher QR/front-door launch, entry code, learner code, session monitor, and report package preview cover the same product need. | Core | Continue event taxonomy, teacher settings, roster, report export, and storage gates. |
 | Teacher-led classroom play | Teacher launch protocol and QR onboarding are core. | Core | Preserve teacher-led and student self-progression from day one. |

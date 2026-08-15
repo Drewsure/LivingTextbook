@@ -11,7 +11,7 @@ Run after shared game mode, catalog, scoring, route, game prototype, Z.ai delega
 - Confirm every shared `GameModeId` has deterministic scoring profile mapping.
 - Confirm every shared `GameModeId` declares required learner audio.
 - Confirm every shared `GameModeId` has a parent engine mapping.
-- Confirm every active playable mode has a route contract and helper, including `balloon-pop` at `/balloon/[code]`.
+- Confirm every active playable mode has a route contract and helper, including `match-up` at `/match/[code]` and `balloon-pop` at `/balloon/[code]`.
 - Confirm external prototypes do not become platform modes until this verifier passes.
 
 ## Verification Command

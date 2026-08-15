@@ -115,7 +115,7 @@ export const samplePilotHandoffPackage: PilotHandoffPackage = {
       label: "First game set",
       status: "needs-review",
       owner: "codex",
-      evidence: "Flashcards, Memory Match, Training Academy, and Speak It exist as foundation routes.",
+      evidence: "Flashcards, Match Up, Memory Match, Balloon Pop, Training Academy, and Speak It exist as foundation routes.",
       nextStep: "Promote two to four modes to pilot quality before a real classroom run.",
     },
     {

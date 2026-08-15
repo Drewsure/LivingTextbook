@@ -14,6 +14,7 @@ import { GameRouteHeaderCard } from "@/features/game-shell/components/GameRouteH
 import {
   getBalloonPopPath,
   getFlashcardsPath,
+  getMatchUpPath,
   getMediaPlaylistPath,
   getMemoryMatchPath,
   getPrintableWorksheetPath,
@@ -187,6 +188,15 @@ function buildActivityItems({
       role: "reinforcement",
       summary: "Match vocabulary cards with tap-to-speak support.",
       status: getGameRouteStatus("memory-match", progression),
+    },
+    {
+      id: "match-up",
+      label: "Match Up",
+      href: getMatchUpPath(launchCode),
+      mode: "match-up",
+      role: "reinforcement",
+      summary: "Match listening prompts to reviewed vocabulary word cards.",
+      status: getGameRouteStatus("match-up", progression),
     },
     {
       id: "quiz",

@@ -77,6 +77,7 @@ export const gameScoringProfiles: Record<ScoringProfileId, GameScoringProfile> =
 
 export const gameModeScoringProfiles: Partial<Record<GameModeId, ScoringProfileId>> = {
   flashcards: "entry-vocabulary-practice",
+  "match-up": "pairing-reinforcement-v1",
   "memory-match": "pairing-reinforcement-v1",
   quiz: "selection-assessment-v1",
   "sentence-builder": "syntax-construction-v1",

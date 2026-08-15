@@ -205,7 +205,7 @@ export function FrontDoorEntryFlow({
               <p className="text-sm font-semibold text-[var(--tenant-muted)]">Textbook front door</p>
               <h2 className="mt-1 text-2xl font-bold">{tenant.displayName}</h2>
               <p className="mt-2 max-w-2xl text-sm leading-6 text-[var(--tenant-muted)]">
-                Enter the sample class code to open the reviewed unit package with flashcards, Memory Match, playlist media, and reportable progress.
+                Enter the sample class code to open the reviewed unit package with flashcards, matching games, playlist media, and reportable progress.
               </p>
             </div>
             <StatusPill label={unitOpen ? "Unit open" : "Code required"} tone={unitOpen ? "success" : "neutral"} />

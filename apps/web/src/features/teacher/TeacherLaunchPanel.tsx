@@ -5,6 +5,7 @@ import {
   getBalloonPopPath,
   getCollectionPath,
   getFlashcardsPath,
+  getMatchUpPath,
   getMemoryMatchPath,
   getMediaPlaylistPath,
   getPrintableWorksheetPath,
@@ -53,6 +54,11 @@ export function TeacherLaunchPanel({ unit, launchSession, contentPackage }: Teac
       label: "Memory Match",
       href: getMemoryMatchPath(launchSession.launchCode),
       summary: "Pairing-engine reinforcement route with tap-to-speak vocabulary cards.",
+    },
+    {
+      label: "Match Up",
+      href: getMatchUpPath(launchSession.launchCode),
+      summary: "Visible pairing-engine route matching listening prompts to word cards.",
     },
     {
       label: "Collection room",

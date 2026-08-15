@@ -133,6 +133,18 @@ const samplePartnerInstructionAudioCues: AudioCue[] = [
     textbookReference: samplePartnerTextbookReference,
   },
   {
+    audioCueId: "cue-sample-publisher-l1-u1-instruction-match-up",
+    tenantId,
+    kind: "instruction",
+    text: "Tap a listening prompt. Match it to the routine word.",
+    language: "en",
+    source: "text-to-speech",
+    transcript: "Tap a listening prompt. Match it to the routine word.",
+    unitKey: samplePartnerUnitKey,
+    gameMode: "match-up",
+    textbookReference: samplePartnerTextbookReference,
+  },
+  {
     audioCueId: "cue-sample-publisher-l1-u1-instruction-speak-it",
     tenantId,
     kind: "instruction",
@@ -205,6 +217,18 @@ const samplePartnerFeedbackAudioCues: AudioCue[] = [
     transcript: "Listen again and choose a routine card.",
     unitKey: samplePartnerUnitKey,
     gameMode: "memory-match",
+    textbookReference: samplePartnerTextbookReference,
+  },
+  {
+    audioCueId: "cue-sample-publisher-l1-u1-feedback-match-up-try-again",
+    tenantId,
+    kind: "feedback",
+    text: "Try again. Listen and choose the routine word.",
+    language: "en",
+    source: "text-to-speech",
+    transcript: "Try again. Listen and choose the routine word.",
+    unitKey: samplePartnerUnitKey,
+    gameMode: "match-up",
     textbookReference: samplePartnerTextbookReference,
   },
   {
@@ -325,6 +349,11 @@ export const samplePartnerContentPackage: ContentPackage = {
           "cue-sample-publisher-l1-u1-instruction-memory-match",
           "cue-sample-publisher-l1-u1-feedback-try-again",
         ],
+        "match-up": [
+          ...samplePartnerVocabularyAudioCues.map((cue) => cue.audioCueId),
+          "cue-sample-publisher-l1-u1-instruction-match-up",
+          "cue-sample-publisher-l1-u1-feedback-match-up-try-again",
+        ],
         quiz: [
           ...samplePartnerVocabularyAudioCues.map((cue) => cue.audioCueId),
           ...samplePartnerSentenceAudioCues.map((cue) => cue.audioCueId),
@@ -370,7 +399,7 @@ export const samplePartnerContentPackage: ContentPackage = {
       unitKey: samplePartnerUnitKey,
       primaryPlaylistId: "playlist-sample-publisher-l1-u1-routines",
       backgroundMediaAssetId: "media-sample-publisher-l1-u1-routine-chant",
-      allowedBackgroundGameModes: ["memory-match", "balloon-pop", "speak-it"],
+      allowedBackgroundGameModes: ["match-up", "memory-match", "balloon-pop", "speak-it"],
       backgroundEnabledByDefault: false,
       defaultVolumePercent: 30,
       requiresTeacherEnablement: true,
@@ -426,7 +455,7 @@ export function getSamplePartnerLaunchSession(launchCode = samplePartnerLaunchCo
     curriculumId,
     unitKey: samplePartnerUnitKey,
     entryMode: "flashcards",
-    recommendedNextModes: ["memory-match", "balloon-pop", "quiz", "sentence-builder", "speak-it"],
+    recommendedNextModes: ["match-up", "memory-match", "balloon-pop", "quiz", "sentence-builder", "speak-it"],
     openedAt: "2026-07-01T00:00:00.000Z",
   });
 }
@@ -440,7 +469,7 @@ export function getSamplePartnerFrontDoorLaunchSession(
     curriculumId,
     unitKey: samplePartnerUnitKey,
     entryMode: "flashcards",
-    recommendedNextModes: ["memory-match", "balloon-pop", "quiz", "sentence-builder", "speak-it"],
+    recommendedNextModes: ["match-up", "memory-match", "balloon-pop", "quiz", "sentence-builder", "speak-it"],
     openedAt: "2026-07-01T00:00:00.000Z",
     accessMode: "front-door-code",
   });

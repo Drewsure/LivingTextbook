@@ -23,6 +23,7 @@ const controlTone: Record<TeacherAssignmentControlStatus, "neutral" | "success" 
 
 const modeLabels: Record<GameModeId, string> = {
   flashcards: "Entry Flashcards",
+  "match-up": "Match Up",
   "memory-match": "Memory Match",
   quiz: "Quiz",
   "sentence-builder": "Sentence Builder",

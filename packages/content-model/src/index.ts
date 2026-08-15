@@ -43,6 +43,7 @@ export type ParentEngine = "pairing" | "selection" | "text-spelling" | "narrativ
 
 export type GameModeId =
   | "flashcards"
+  | "match-up"
   | "memory-match"
   | "balloon-pop"
   | "speak-it"

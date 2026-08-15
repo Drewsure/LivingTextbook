@@ -69,6 +69,7 @@ Mode configs should live near `apps/web/src/features/game-shell/gameModeCatalog.
 Current catalog status:
 
 - `flashcards`: active entry-practice config.
+- `match-up`: active playable visible pairing config.
 - `memory-match`: active playable pairing config.
 - `quiz`: active playable selection assessment config.
 - `balloon-pop`: active structural arcade selection config.

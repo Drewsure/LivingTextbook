@@ -286,6 +286,15 @@ export const appRouteContracts: AppRouteContract[] = [
     requiredState: ["TenantConfig", "UnitPayload", "LaunchSession", "StudentProgressionState", "AudioCue[]"],
   },
   {
+    id: "match-up",
+    pattern: "/match/[code]",
+    audience: "student",
+    status: "active-scaffold",
+    purpose:
+      "Let a student match audio prompts to reviewed vocabulary word cards through the pairing parent engine with deterministic completion events.",
+    requiredState: ["TenantConfig", "UnitPayload", "LaunchSession", "StudentProgressionState", "AudioCue[]"],
+  },
+  {
     id: "sentence-builder",
     pattern: "/sentence/[code]",
     audience: "student",
@@ -406,6 +415,10 @@ export function getBalloonPopPath(launchCode: LaunchCode): string {
 
 export function getMemoryMatchPath(launchCode: LaunchCode): string {
   return `/memory/${encodeURIComponent(launchCode)}`;
+}
+
+export function getMatchUpPath(launchCode: LaunchCode): string {
+  return `/match/${encodeURIComponent(launchCode)}`;
 }
 
 export function getSpeakItPath(launchCode: LaunchCode): string {

@@ -14,6 +14,7 @@ interface SequenceItem {
 }
 
 const flashcards = gameModeCatalog.flashcards;
+const matchUp = gameModeCatalog["match-up"];
 const memoryMatch = gameModeCatalog["memory-match"];
 const quiz = gameModeCatalog.quiz;
 const balloonPop = gameModeCatalog["balloon-pop"];
@@ -26,6 +27,12 @@ const firstSliceSequence: SequenceItem[] = [
     engineId: flashcards?.engineId ?? "selection",
     role: flashcards?.role ?? "entry-practice",
     summary: flashcards?.summary ?? "Introduce the unit terms with low-friction recognition before any scored game pressure.",
+  },
+  {
+    label: matchUp?.label ?? "Match Up",
+    engineId: matchUp?.engineId ?? "pairing",
+    role: matchUp?.role ?? "reinforcement",
+    summary: matchUp?.summary ?? "Match listening prompts to reviewed vocabulary word cards.",
   },
   {
     label: memoryMatch?.label ?? "Memory Match",

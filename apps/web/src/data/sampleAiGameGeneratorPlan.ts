@@ -145,7 +145,7 @@ export const sampleAiGameGeneratorPlan: AiGameGeneratorPlan = {
         "No generated avatar art as tenant-standard artwork",
       ],
       costGate: "AI drafting can be enabled for MiniStar later, but speech scoring and AI Tutor remain premium-gated.",
-      pathwayRule: "Curated activity pathway: entry flashcards, Memory Match reinforcement, then Speak It with teacher microphone approval.",
+      pathwayRule: "Curated activity pathway: entry flashcards, Match Up, Memory Match, then Speak It with teacher microphone approval.",
       audioRule: "English is the target-language trigger; Japanese support audio is support-only.",
       status: "draft-only",
     },

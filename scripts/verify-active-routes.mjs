@@ -27,7 +27,7 @@ const expectedTextByPath = new Map([
   ["/teacher/assets/labelled-diagram/sample-publisher-l1-u1-labelled-diagram", ["Labelled Diagram asset workspace", "Teacher-only asset review", "Manifest and anchors preview", "game_asset_manifest", "label_anchor_record", "target_mapping_packet", "Image rights proof", "Alt text required", "Audio label coverage", "Support-language labels are support-only", "support_language_progress_allowed: false", "No live label editor", "No student-facing image game", "No assignment route from uploaded image", "Evidence packet flow", "Labelled Diagram evidence packet flow", "game_asset_manifest_packet", "label_anchor_record_packet", "audio_coverage_packet"]],
   ["/teacher/assets/media/sample-publisher-l1-u1-routines-media", ["Media asset workspace", "Teacher-only media review", "media_manifest", "media_playlist_binding", "background_media_policy_binding", "local_media_bundle_entry", "target_mapping_packet", "optional_playback_required: true", "Learning audio priority required", "No media-only progress", "No background music overriding learning audio", "No live media upload", "No playlist route from uploaded media", "Evidence packet flow", "Media evidence packet flow", "media_manifest_packet", "caption_transcript_packet", "background_media_policy_packet", "No playlist creation from uploaded media"]],
   ["/teacher/media/sample-publisher", ["Teacher media library", "Media maintenance preview", "Storage before live media tools", "media_manifest", "media_playlist_binding", "background_media_policy_binding", "local_media_bundle_entry", "Partner-owned assets", "Rights proof review", "Playlist binding review", "Background media policy review", "Local bundle media review", "Upload still blocked", "No live media upload", "No media-only progress", "Local folder activation blocked"]],
-  ["/local/sample-publisher", ["Local companion package preview", "Closed local companion", "Local release gate", "Package artifact map", "Package handoff checklist", "Generated manifest snapshot", "Bundled game routes", "Local deployment preflight", "activity-hub", "/activities/partner-demo-unit-1", "/flashcards/partner-demo-unit-1", "/memory/partner-demo-unit-1"]],
+  ["/local/sample-publisher", ["Local companion package preview", "Closed local companion", "Local release gate", "Package artifact map", "Package handoff checklist", "Generated manifest snapshot", "Bundled game routes", "Local deployment preflight", "activity-hub", "/activities/partner-demo-unit-1", "/flashcards/partner-demo-unit-1", "/match/partner-demo-unit-1", "/memory/partner-demo-unit-1"]],
   ["/enter/ministar", ["Launch context", "Controlled front-door practice", "No live classroom launch", "Target language unlocks progress", "No production student accounts"]],
   ["/launch/demo-unit-1", ["Unit media", "Launch context", "Controlled student practice", "No live classroom launch", "Target language unlocks progress", "No production student accounts", "Reviewed activity hub", "/activities/demo-unit-1"]],
   ["/enter/sample-publisher", ["Launch context", "Controlled front-door practice", "No live classroom launch", "Target language unlocks progress", "No production student accounts"]],
@@ -46,6 +46,8 @@ const expectedTextByPath = new Map([
   ["/training/partner-demo-unit-1", ["Training Academy", "Recovery practice for", "Daily Routines", "Teacher Recovery Summary", "Return path", "/launch/partner-demo-unit-1"]],
   ["/memory/demo-unit-1", ["Core pairing slice", "Memory Match:", "Greetings", "Pairing", "Memory Match Progress", "Find the matching greeting cards."]],
   ["/memory/partner-demo-unit-1", ["Core pairing slice", "Memory Match:", "Daily Routines", "Pairing", "Memory Match Progress", "Find the matching routine cards."]],
+  ["/match/demo-unit-1", ["Core visible pairing slice", "Match Up:", "Greetings", "Pairing", "Match Up Progress", "Match it to the greeting word."]],
+  ["/match/partner-demo-unit-1", ["Core visible pairing slice", "Match Up:", "Daily Routines", "Pairing", "Match Up Progress", "Match it to the routine word."]],
   ["/balloon/demo-unit-1", ["Core arcade selection slice", "Balloon Pop:", "Greetings", "Arcade reinforcement", "Balloon Pop Progress", "Pop the matching greeting balloon."]],
   ["/balloon/partner-demo-unit-1", ["Core arcade selection slice", "Balloon Pop:", "Daily Routines", "Arcade reinforcement", "Balloon Pop Progress", "Pop the matching routine balloon."]],
   ["/quiz/demo-unit-1", ["Core selection slice", "Quiz:", "Greetings", "Selection", "Quiz Progress", "Teacher Review Quiz"]],
@@ -1550,7 +1552,7 @@ if (teacherIntakeExpected) {
   const routeCountIndex = teacherIntakeExpected.indexOf("49 checked routes");
 
   if (routeCountIndex >= 0) {
-    teacherIntakeExpected[routeCountIndex] = "63 checked routes";
+    teacherIntakeExpected[routeCountIndex] = "65 checked routes";
   }
 
   teacherIntakeExpected.push(
@@ -1600,11 +1602,11 @@ if (urls.length === 0) {
   process.exit(1);
 }
 
-const results = [];
+const routeFetchConcurrency = 6;
 const routeFetchAttempts = 3;
 const routeFetchRetryDelayMs = 750;
 
-for (const url of urls) {
+const results = await mapWithConcurrency(urls, routeFetchConcurrency, async (url) => {
   try {
     const response = await fetchRouteWithRetry(url);
     const path = new URL(url).pathname;
@@ -1614,7 +1616,7 @@ for (const url of urls) {
     const missingExpectedText = expectedText.filter((text) => !body.includes(text));
     const presentForbiddenText = forbiddenText.filter((text) => body.includes(text));
 
-    results.push({
+    return {
       url,
       status: response.status,
       ok:
@@ -1626,11 +1628,11 @@ for (const url of urls) {
       forbiddenText,
       missingExpectedText,
       presentForbiddenText,
-    });
+    };
   } catch (error) {
-    results.push({ url, status: "error", ok: false, error: error instanceof Error ? error.message : String(error) });
+    return { url, status: "error", ok: false, error: error instanceof Error ? error.message : String(error) };
   }
-}
+});
 
 for (const result of results) {
   const marker = result.ok ? "PASS" : "FAIL";
@@ -1677,4 +1679,22 @@ function delay(ms) {
   return new Promise((resolve) => {
     setTimeout(resolve, ms);
   });
+}
+
+async function mapWithConcurrency(items, concurrency, mapper) {
+  const results = new Array(items.length);
+  let nextIndex = 0;
+
+  async function worker() {
+    while (nextIndex < items.length) {
+      const currentIndex = nextIndex;
+      nextIndex += 1;
+      results[currentIndex] = await mapper(items[currentIndex], currentIndex);
+    }
+  }
+
+  const workers = Array.from({ length: Math.min(concurrency, items.length) }, () => worker());
+  await Promise.all(workers);
+
+  return results;
 }

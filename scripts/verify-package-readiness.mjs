@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 
-const requiredGameModes = ["flashcards", "memory-match", "balloon-pop", "quiz", "sentence-builder", "speak-it"];
+const requiredGameModes = ["flashcards", "match-up", "memory-match", "balloon-pop", "quiz", "sentence-builder", "speak-it"];
 const requiredReadinessGates = [
   "content-review",
   "payload-validation",
@@ -22,6 +22,7 @@ const packageFiles = [
       "/flashcards/demo-unit-1",
       "/training/demo-unit-1",
       "/memory/demo-unit-1",
+      "/match/demo-unit-1",
       "/balloon/demo-unit-1",
       "/quiz/demo-unit-1",
       "/sentence/demo-unit-1",
@@ -42,6 +43,7 @@ const packageFiles = [
       "/flashcards/partner-demo-unit-1",
       "/training/partner-demo-unit-1",
       "/memory/partner-demo-unit-1",
+      "/match/partner-demo-unit-1",
       "/balloon/partner-demo-unit-1",
       "/quiz/partner-demo-unit-1",
       "/sentence/partner-demo-unit-1",

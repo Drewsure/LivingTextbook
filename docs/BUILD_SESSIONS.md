@@ -178,7 +178,7 @@ Current status: Implemented on `legacy-source-import`. Local typecheck/build/bro
 
 Implemented path:
 
-Teacher launch -> QR route -> flashcards -> tap-to-speak learner text -> completion event -> reward preview -> Memory Match/Quiz/Sentence Builder/Speak It unlock -> game_started -> playable Memory Match -> linked follow-on games -> game_completed -> Star Dust update -> reusable unit-session summary.
+Teacher launch -> QR route -> flashcards -> tap-to-speak learner text -> completion event -> reward preview -> Match Up/Memory Match/Balloon Pop/Quiz/Sentence Builder/Speak It unlock -> game_started -> playable pairing and selection games -> linked follow-on games -> game_completed -> Star Dust update -> reusable unit-session summary.
 
 Implemented front-door expansion:
 
@@ -668,7 +668,7 @@ Next outputs:
 - Confirm `/teacher/review` shows package writer harness implementation decision blockers on AI-generated draft queue items so review approval cannot bypass generated package writer gates.
 - Confirm Memory Match has dedicated MiniStar and sample-publisher student routes at `/memory/demo-unit-1` and `/memory/partner-demo-unit-1`, reusing the pairing parent engine with tap-to-speak cards, deterministic scoring, route-matrix coverage, and no support-language progression unlock.
 - Confirm Flashcards has dedicated MiniStar and sample-publisher student routes at `/flashcards/demo-unit-1` and `/flashcards/partner-demo-unit-1`, while `/launch/[code]` remains the teacher QR doorway.
-- Confirm active game routes have route contract ids, patterns, and helpers for Flashcards, Memory Match, Quiz, Sentence Builder, and Speak It before any new game surface is treated as foundation-ready.
+- Confirm active game routes have route contract ids, patterns, and helpers for Flashcards, Match Up, Memory Match, Balloon Pop, Quiz, Sentence Builder, and Speak It before any new game surface is treated as foundation-ready.
 - Keep active game-route wrappers on shared structural components such as `GameRouteHeaderCard` before adding premium visual skins or micro-interactions.
 - Confirm student activity hubs at `/activities/demo-unit-1` and `/activities/partner-demo-unit-1` expose curated reviewed pathways without becoming switch-to-anything template panels.
 - Confirm student launch and private assignment routes link to the curated activity hub for the same launch code without unlocking progress or exposing teacher/admin controls.

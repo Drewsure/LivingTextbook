@@ -434,3 +434,24 @@ Get-Content -LiteralPath "apps\web\src\app\teacher\maintenance\[tenantId]\page.t
 3. Do not treat a failed normal `Get-Content -Path` call as evidence that the route file is missing.
 
 Why this matters: Dynamic route folders are now common in the build. Literal-path handling prevents false missing-file diagnosis.
+
+## OW-019: Active Route Verification Uses Small-Batch Fetching
+
+Status: Active
+
+Observed behavior: As the active route matrix grew past 60 routes, `npm run verify:routes` could time out while checking large pages one-by-one, especially `/teacher/intake`.
+
+Procedure:
+
+1. Keep `scripts/verify-active-routes.mjs` on small-batch route fetching rather than a fully sequential route sweep.
+2. If `npm run verify:routes` times out, directly probe the newest route and `/teacher/intake` first:
+
+```powershell
+Invoke-WebRequest -UseBasicParsing http://127.0.0.1:3000/match/demo-unit-1
+Invoke-WebRequest -UseBasicParsing http://127.0.0.1:3000/teacher/intake
+```
+
+3. If those routes return `200`, rerun `npm run verify:routes` with a longer timeout before assuming a source failure.
+4. Treat missing expected text, failed route status, or repeated timeout after direct probes as a real issue.
+
+Why this matters: The verifier is now protecting a broad commercial foundation. Small-batch fetching keeps the check practical without weakening the expected-text gate.

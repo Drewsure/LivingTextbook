@@ -91,7 +91,7 @@ export const samplePackagePublishGate: PackagePublishGate = {
       status: "needs-review",
       owner: "shared",
       blocksRelease: true,
-      evidence: "Flashcards, Memory Match, Speak It, Training Academy, and prototype assignment contracts exist, but the final pilot game set must be approved per unit.",
+      evidence: "Flashcards, Match Up, Memory Match, Balloon Pop, Speak It, Training Academy, and prototype assignment contracts exist, but the final pilot game set must be approved per unit.",
       nextStep: "Choose the first two to four pilot-quality modes and confirm which are DOM reference, Phaser, or hybrid wrappers.",
       requiredBeforePilot: [
         "Each offered game emits standard progress events.",
