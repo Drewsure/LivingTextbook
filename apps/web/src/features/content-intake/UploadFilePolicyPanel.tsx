@@ -35,8 +35,8 @@ export function UploadFilePolicyPanel({ plan }: UploadFilePolicyPanelProps) {
             <StatusPill label={String(plan.hardRules.length)} tone="warning" />
           </div>
           <ul className="mt-3 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
-            {plan.hardRules.map((rule) => (
-              <li key={rule} className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-3">
+            {plan.hardRules.map((rule, index) => (
+              <li key={`upload-file-policy-hard-rule-${index}-${rule}`} className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-3">
                 {rule}
               </li>
             ))}
@@ -49,8 +49,8 @@ export function UploadFilePolicyPanel({ plan }: UploadFilePolicyPanelProps) {
             <StatusPill label={String(plan.requiredRecords.length)} tone="warning" />
           </div>
           <ul className="mt-3 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
-            {plan.requiredRecords.map((record) => (
-              <li key={record} className="rounded-lg border border-[var(--tenant-border)] p-3">
+            {plan.requiredRecords.map((record, index) => (
+              <li key={`upload-file-policy-required-record-${index}-${record}`} className="rounded-lg border border-[var(--tenant-border)] p-3">
                 {record}
               </li>
             ))}
@@ -108,8 +108,8 @@ function FilePolicyList({
         <StatusPill label={String(items.length)} tone={tone} />
       </div>
       <ul className="mt-2 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
-        {items.map((item) => (
-          <li key={item}>{item}</li>
+        {items.map((item, index) => (
+          <li key={`${title}-${index}-${item}`}>{item}</li>
         ))}
       </ul>
     </section>

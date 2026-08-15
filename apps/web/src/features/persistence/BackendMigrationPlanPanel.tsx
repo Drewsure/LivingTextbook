@@ -84,8 +84,8 @@ export function BackendMigrationPlanPanel({ plan }: BackendMigrationPlanPanelPro
           <StatusPill label="Required" tone="success" />
         </div>
         <ul className="mt-3 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
-          {plan.standingRules.map((rule) => (
-            <li key={rule} className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-3">
+          {plan.standingRules.map((rule, index) => (
+            <li key={`backend-migration-standing-rule-${index}-${rule}`} className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-3">
               {rule}
             </li>
           ))}
@@ -144,8 +144,8 @@ function MigrationCandidateCard({ candidate }: { candidate: BackendMigrationCand
           <StatusPill label={String(candidate.rollbackOrExportNeeds.length)} tone="neutral" />
         </div>
         <ul className="mt-2 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
-          {candidate.rollbackOrExportNeeds.map((item) => (
-            <li key={item}>{item}</li>
+          {candidate.rollbackOrExportNeeds.map((item, index) => (
+            <li key={`${candidate.migrationId}-rollback-export-${index}-${item}`}>{item}</li>
           ))}
         </ul>
       </section>
@@ -169,8 +169,8 @@ function MigrationList({
         <StatusPill label={String(items.length)} tone={tone} />
       </div>
       <ul className="mt-2 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
-        {items.map((item) => (
-          <li key={item}>{item}</li>
+        {items.map((item, index) => (
+          <li key={`${title}-${index}-${item}`}>{item}</li>
         ))}
       </ul>
     </section>

@@ -106,8 +106,8 @@ function UploadTargetsList({ targets }: { targets: UploadChannelTarget[] }) {
             <p className="text-sm font-bold text-[var(--tenant-text)]">{target.label}</p>
             <p className="mt-1 text-xs font-semibold uppercase text-[var(--tenant-muted)]">{target.targetType}</p>
             <ul className="mt-2 grid gap-1 text-sm leading-6 text-[var(--tenant-muted)]">
-              {target.requiredReview.map((item) => (
-                <li key={item}>{item}</li>
+              {target.requiredReview.map((item, index) => (
+                <li key={`${target.targetId}-required-review-${index}-${item}`}>{item}</li>
               ))}
             </ul>
           </article>
@@ -133,8 +133,8 @@ function UploadList({
         <StatusPill label={String(items.length)} tone={tone} />
       </div>
       <ul className="mt-3 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
-        {items.map((item) => (
-          <li key={item}>{item}</li>
+        {items.map((item, index) => (
+          <li key={`${title}-${index}-${item}`}>{item}</li>
         ))}
       </ul>
     </section>

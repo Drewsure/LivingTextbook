@@ -109,8 +109,8 @@ export function PersistenceBoundaryPanel({
               <p className="mt-2">No core record stores raw learner audio or transcripts. Student-data records require policy before pilot use, and progress/report records preserve event acceptance safeguards.</p>
             ) : (
               <ul className="mt-2 grid gap-2">
-                {durableRecordErrors.map((error) => (
-                  <li key={error}>{error}</li>
+                {durableRecordErrors.map((error, index) => (
+                  <li key={`durable-record-error-${index}-${error}`}>{error}</li>
                 ))}
               </ul>
             )}
@@ -118,8 +118,8 @@ export function PersistenceBoundaryPanel({
           <div className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-3 text-sm leading-6 text-[var(--tenant-muted)]">
             <p className="font-semibold text-[var(--tenant-text)]">Pilot warnings</p>
             <ul className="mt-2 grid gap-2">
-              {durableRecordWarnings.map((warning) => (
-                <li key={warning}>{warning}</li>
+              {durableRecordWarnings.map((warning, index) => (
+                <li key={`durable-record-warning-${index}-${warning}`}>{warning}</li>
               ))}
             </ul>
           </div>

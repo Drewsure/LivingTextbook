@@ -36,8 +36,8 @@ export function MultimediaAssetReadinessPanel({ plan }: MultimediaAssetReadiness
             <StatusPill label={String(plan.manifestShape.length)} tone="warning" />
           </div>
           <ul className="mt-3 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
-            {plan.manifestShape.map((item) => (
-              <li key={item} className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-3">
+            {plan.manifestShape.map((item, index) => (
+              <li key={`${plan.planId}-manifest-shape-${index}-${item}`} className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-3">
                 {item}
               </li>
             ))}
@@ -111,8 +111,8 @@ function MediaList({
         <StatusPill label={String(items.length)} tone={tone} />
       </div>
       <ul className="mt-2 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
-        {items.map((item) => (
-          <li key={item}>{item}</li>
+        {items.map((item, index) => (
+          <li key={`${title}-${index}-${item}`}>{item}</li>
         ))}
       </ul>
     </section>

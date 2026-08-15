@@ -140,8 +140,8 @@ function ListBlock({ title, items }: { title?: string; items: string[] }) {
     <section className="mt-3 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3">
       {title ? <h4 className="text-sm font-bold text-[var(--tenant-text)]">{title}</h4> : null}
       <ul className="mt-2 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
-        {items.map((item) => (
-          <li key={item} className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-2">
+        {items.map((item, index) => (
+          <li key={`${title ?? "assembly-list"}-${index}-${item}`} className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-2">
             {item}
           </li>
         ))}

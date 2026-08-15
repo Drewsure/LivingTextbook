@@ -455,3 +455,53 @@ Invoke-WebRequest -UseBasicParsing http://127.0.0.1:3000/teacher/intake
 4. Treat missing expected text, failed route status, or repeated timeout after direct probes as a real issue.
 
 Why this matters: The verifier is now protecting a broad commercial foundation. Small-batch fetching keeps the check practical without weakening the expected-text gate.
+
+## OW-020: Repeated Review Text Needs Contextual React Keys
+
+Status: Active
+
+Observed behavior: Large teacher/admin review pages often repeat blocker, warning, and evidence text across cards. Using only the visible text as a React key can produce duplicate-key console warnings when the same sentence appears twice.
+
+Procedure:
+
+1. For mapped review lists, include a stable owner/context id plus the row index in the key.
+2. Acceptable examples:
+
+```tsx
+items.map((item, index) => <li key={`${title}-${index}-${item}`}>{item}</li>)
+records.map((record, index) => <section key={`${tenantId}-record-${index}-${record}`}>{record}</section>)
+```
+
+3. Prefer real record ids when the data model has them, such as `packetId`, `uploadId`, `laneId`, or `workspaceId`.
+4. Do not use `Math.random()` or timestamp keys; they make React remount rows unnecessarily.
+
+Why this matters: These pages are evidence-heavy and intentionally repetitive. Contextual keys keep the console clean and prevent row identity drift as the review data grows.
+
+## OW-021: Next Type Generation And Build Must Run Sequentially
+
+Status: Active
+
+Observed behavior: `next typegen`, TypeScript checks, and `next build` all touch generated files under `.next/types`. Running typecheck and build in parallel can create false missing-file errors even when the source code is valid.
+
+Observed failure signature:
+
+- `TS6053: File '.next/types/app/.../page.ts' not found.`
+
+Procedure:
+
+1. Run typecheck first:
+
+```powershell
+npm run typecheck --workspace @living-textbook/web
+```
+
+2. After it finishes, run build:
+
+```powershell
+npm run build --workspace @living-textbook/web
+```
+
+3. Prefer `npm run verify:foundation` for the full local gate because it already runs checks in the correct order.
+4. Do not diagnose route type files as missing until the checks have been rerun sequentially.
+
+Why this matters: The foundation verifier must stay trustworthy. Avoiding parallel generated-file writes prevents noisy failures from hiding real build issues.

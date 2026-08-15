@@ -87,6 +87,7 @@ Required component habits:
 - Build mobile-first and QR-classroom friendly.
 - Keep student surfaces simple enough for young learners.
 - Use stable dimensions for game boards, cards, counters, controls, and rewards so animation or dynamic text does not shift the layout.
+- Use stable contextual React keys for repeated review lists; visible text alone is not enough when blockers, warnings, and checklist items can repeat.
 - Use accessible buttons, labels, focus states, and readable contrast.
 
 Preferred early learner UI inspiration:

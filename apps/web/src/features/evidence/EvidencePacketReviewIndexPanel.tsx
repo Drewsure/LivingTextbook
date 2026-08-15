@@ -131,8 +131,8 @@ function ListBlock({
         <StatusPill label={String(items.length)} tone={tone} />
       </div>
       <ul className="mt-3 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
-        {items.map((item) => (
-          <li key={item} className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-2">
+        {items.map((item, index) => (
+          <li key={`${title}-${index}-${item}`} className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-2">
             {item}
           </li>
         ))}

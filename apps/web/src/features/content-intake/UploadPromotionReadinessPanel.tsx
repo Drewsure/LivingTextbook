@@ -37,8 +37,8 @@ export function UploadPromotionReadinessPanel({ plan }: UploadPromotionReadiness
           <StatusPill label={String(plan.hardRules.length)} tone="warning" />
         </div>
         <ul className="mt-3 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
-          {plan.hardRules.map((rule) => (
-            <li key={rule} className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-3">
+          {plan.hardRules.map((rule, index) => (
+            <li key={`upload-promotion-hard-rule-${index}-${rule}`} className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-3">
               {rule}
             </li>
           ))}
@@ -82,8 +82,8 @@ function UploadPromotionLaneCard({ lane }: { lane: UploadPromotionLane }) {
             <StatusPill label={String(lane.storageRequiredBeforeLive.length)} tone="warning" />
           </div>
           <ul className="mt-2 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
-            {lane.storageRequiredBeforeLive.map((item) => (
-              <li key={item}>{item}</li>
+            {lane.storageRequiredBeforeLive.map((item, index) => (
+              <li key={`${lane.laneId}-storage-before-live-${index}-${item}`}>{item}</li>
             ))}
           </ul>
           <p className="mt-3 text-sm leading-6 text-[var(--tenant-text)]">{lane.nextStorageContract}</p>
@@ -109,8 +109,8 @@ function PromotionList({
         <StatusPill label={String(items.length)} tone={tone} />
       </div>
       <ul className="mt-2 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
-        {items.map((item) => (
-          <li key={item}>{item}</li>
+        {items.map((item, index) => (
+          <li key={`${title}-${index}-${item}`}>{item}</li>
         ))}
       </ul>
     </section>

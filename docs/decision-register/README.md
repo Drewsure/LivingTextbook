@@ -429,6 +429,7 @@
 - `DR-455-teacher-session-settings-review-packet.md`
 - `DR-456-teacher-session-settings-review-packet-storage-contract.md`
 - `DR-457-session-settings-review-visible-storage-guard.md`
+- `DR-458-review-list-key-stability.md`
 
 ## Maintenance Rule
 

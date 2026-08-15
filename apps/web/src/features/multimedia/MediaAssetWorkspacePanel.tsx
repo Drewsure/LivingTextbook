@@ -56,8 +56,8 @@ export function MediaAssetWorkspacePanel({ workspace, evidenceFlow }: MediaAsset
             <StatusPill label={String(workspace.manifestPreview.length)} tone="warning" />
           </div>
           <ul className="mt-4 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)] sm:grid-cols-2">
-            {workspace.manifestPreview.map((item) => (
-              <li key={item} className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-3">
+            {workspace.manifestPreview.map((item, index) => (
+              <li key={`${workspace.workspaceId}-manifest-preview-${index}-${item}`} className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-3">
                 {item}
               </li>
             ))}
@@ -147,8 +147,8 @@ function ListCard({ title, items, tone }: { title: string; items: string[]; tone
         <StatusPill label={String(items.length)} tone={tone} />
       </div>
       <ul className="mt-4 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
-        {items.map((item) => (
-          <li key={item} className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-3">
+        {items.map((item, index) => (
+          <li key={`${title}-${index}-${item}`} className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-3">
             {item}
           </li>
         ))}

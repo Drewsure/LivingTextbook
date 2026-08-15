@@ -83,8 +83,8 @@ export function BackendSchemaDraftPanel({ draft }: BackendSchemaDraftPanelProps)
           <StatusPill label="Required" tone="success" />
         </div>
         <ul className="mt-3 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
-          {draft.crossCuttingRules.map((rule) => (
-            <li key={rule} className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-3">
+          {draft.crossCuttingRules.map((rule, index) => (
+            <li key={`backend-schema-cross-rule-${index}-${rule}`} className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-3">
               {rule}
             </li>
           ))}
@@ -187,8 +187,8 @@ function SchemaList({
         <StatusPill label={String(items.length)} tone={tone} />
       </div>
       <ul className="mt-2 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
-        {items.map((item) => (
-          <li key={item}>{item}</li>
+        {items.map((item, index) => (
+          <li key={`${title}-${index}-${item}`}>{item}</li>
         ))}
       </ul>
     </section>

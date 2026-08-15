@@ -55,8 +55,8 @@ export function EvidencePacketFlowPanel({ flow }: EvidencePacketFlowPanelProps) 
           <StatusPill label={String(flow.blockedLiveActions.length)} tone="warning" />
         </div>
         <ul className="mt-3 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)] sm:grid-cols-2">
-          {flow.blockedLiveActions.map((action) => (
-            <li key={action} className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-3">
+          {flow.blockedLiveActions.map((action, index) => (
+            <li key={`${flow.flowId}-blocked-live-action-${index}-${action}`} className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-3">
               {action}
             </li>
           ))}
@@ -101,8 +101,8 @@ function DataList({
       <dt className="font-semibold text-[var(--tenant-text)]">{title}</dt>
       <dd className="mt-2">
         <ul className="grid gap-1 text-[var(--tenant-muted)]">
-          {items.map((item) => (
-            <li key={item} className={tone === "warning" ? "font-semibold text-[var(--tenant-text)]" : undefined}>
+          {items.map((item, index) => (
+            <li key={`${title}-${index}-${item}`} className={tone === "warning" ? "font-semibold text-[var(--tenant-text)]" : undefined}>
               {item}
             </li>
           ))}

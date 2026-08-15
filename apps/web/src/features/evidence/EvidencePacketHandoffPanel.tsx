@@ -140,8 +140,8 @@ function ListBlock({ title, items }: { title: string; items: string[] }) {
         <StatusPill label={String(items.length)} tone="warning" />
       </div>
       <ul className="mt-3 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
-        {items.map((item) => (
-          <li key={item} className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-2">
+        {items.map((item, index) => (
+          <li key={`${title}-${index}-${item}`} className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-2">
             {item}
           </li>
         ))}
