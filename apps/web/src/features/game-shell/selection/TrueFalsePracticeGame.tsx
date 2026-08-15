@@ -265,22 +265,28 @@ export function TrueFalsePracticeGame({
       </section>
 
       <section className="mt-5 grid gap-3 sm:grid-cols-2">
-        <button
-          type="button"
-          disabled={completed}
-          onClick={() => handleAnswer(true)}
-          className="min-h-14 rounded-lg border border-emerald-300 bg-emerald-100 px-4 py-3 text-center text-base font-bold text-emerald-950 transition hover:bg-emerald-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--tenant-primary)] disabled:opacity-60"
-        >
-          True
-        </button>
-        <button
-          type="button"
-          disabled={completed}
-          onClick={() => handleAnswer(false)}
-          className="min-h-14 rounded-lg border border-rose-300 bg-rose-100 px-4 py-3 text-center text-base font-bold text-rose-950 transition hover:bg-rose-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--tenant-primary)] disabled:opacity-60"
-        >
-          False
-        </button>
+        <div className="grid gap-2 rounded-lg border border-emerald-300 bg-emerald-50 p-3">
+          <AudioCueButton text="True" language="en" label="Listen to the True choice" />
+          <button
+            type="button"
+            disabled={completed}
+            onClick={() => handleAnswer(true)}
+            className="min-h-14 rounded-lg border border-emerald-300 bg-emerald-100 px-4 py-3 text-center text-base font-bold text-emerald-950 transition hover:bg-emerald-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--tenant-primary)] disabled:opacity-60"
+          >
+            True
+          </button>
+        </div>
+        <div className="grid gap-2 rounded-lg border border-rose-300 bg-rose-50 p-3">
+          <AudioCueButton text="False" language="en" label="Listen to the False choice" />
+          <button
+            type="button"
+            disabled={completed}
+            onClick={() => handleAnswer(false)}
+            className="min-h-14 rounded-lg border border-rose-300 bg-rose-100 px-4 py-3 text-center text-base font-bold text-rose-950 transition hover:bg-rose-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--tenant-primary)] disabled:opacity-60"
+          >
+            False
+          </button>
+        </div>
       </section>
 
       <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
