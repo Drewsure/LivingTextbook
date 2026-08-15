@@ -23,6 +23,7 @@ import {
   getSpeakItPath,
   getStudentLaunchPath,
   getTrainingAcademyPath,
+  getTypeAnswerPath,
   getTrueFalsePath,
 } from "@/features/routes/routeContracts";
 import type { TenantConfig } from "@/features/tenant/types";
@@ -216,6 +217,15 @@ function buildActivityItems({
       role: "assessment",
       summary: "Listen to a target-language word and decide whether the visible card matches.",
       status: getGameRouteStatus("true-false", progression),
+    },
+    {
+      id: "type-answer",
+      label: "Type Answer",
+      href: getTypeAnswerPath(launchCode),
+      mode: "type-answer",
+      role: "reinforcement",
+      summary: "Listen to a reviewed word and type the target-language answer.",
+      status: getGameRouteStatus("type-answer", progression),
     },
     {
       id: "balloon-pop",

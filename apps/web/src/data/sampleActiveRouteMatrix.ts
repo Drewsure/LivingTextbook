@@ -331,6 +331,14 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     note: "Selection-engine true/false vocabulary review route with target-language audio prompts.",
   },
   {
+    routeId: "ministar-type-answer",
+    group: "ministar",
+    label: "MiniStar type answer",
+    path: "/type-answer/demo-unit-1",
+    status: "active-scaffold",
+    note: "Text-spelling typing route with target-language audio prompts and deterministic scoring.",
+  },
+  {
     routeId: "ministar-sentence",
     group: "ministar",
     label: "MiniStar sentence builder",
@@ -489,6 +497,14 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     path: "/true-false/partner-demo-unit-1",
     status: "active-scaffold",
     note: "White-label selection-engine true/false vocabulary review route with target-language audio prompts.",
+  },
+  {
+    routeId: "partner-type-answer",
+    group: "sample-publisher",
+    label: "Sample publisher type answer",
+    path: "/type-answer/partner-demo-unit-1",
+    status: "active-scaffold",
+    note: "White-label text-spelling typing route with target-language audio prompts and deterministic scoring.",
   },
   {
     routeId: "partner-sentence",

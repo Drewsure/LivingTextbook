@@ -424,6 +424,7 @@
 - `DR-450-balloon-pop-active-route.md`
 - `DR-451-match-up-active-route.md`
 - `DR-452-true-false-active-route.md`
+- `DR-453-type-answer-active-route.md`
 
 ## Maintenance Rule
 

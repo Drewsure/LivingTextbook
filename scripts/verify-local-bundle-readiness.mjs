@@ -7,7 +7,7 @@ const activeRoutes = readSource("../docs/ACTIVE_ROUTE_VERIFICATION_LIST.md");
 
 const failures = [];
 const expectedBundles = ["ministar-level-1-unit-1-demo", "sample-publisher-unit-1-planning"];
-const requiredLocalGameModes = ["flashcards", "match-up", "memory-match", "quiz", "true-false", "sentence-builder", "speak-it"];
+const requiredLocalGameModes = ["flashcards", "match-up", "memory-match", "quiz", "true-false", "type-answer", "sentence-builder", "speak-it"];
 const requiredBlockedPreflightChecks = ["media-bundle", "installer-update", "local-reporting", "offline-access"];
 const requiredReleaseGateItems = [
   "media-rights-checksums",
@@ -46,6 +46,7 @@ const requiredLocalGamePaths = [
   "/flashcards/partner-demo-unit-1",
   "/match/partner-demo-unit-1",
   "/memory/partner-demo-unit-1",
+  "/type-answer/partner-demo-unit-1",
 ];
 
 for (const bundleId of expectedBundles) {

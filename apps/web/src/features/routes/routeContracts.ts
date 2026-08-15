@@ -303,6 +303,14 @@ export const appRouteContracts: AppRouteContract[] = [
     requiredState: ["TenantConfig", "UnitPayload", "LaunchSession", "StudentProgressionState", "AudioCue[]"],
   },
   {
+    id: "type-answer",
+    pattern: "/type-answer/[code]",
+    audience: "student",
+    status: "active-scaffold",
+    purpose: "Let a student type reviewed vocabulary answers after hearing target-language prompts through the text-spelling parent engine.",
+    requiredState: ["TenantConfig", "UnitPayload", "LaunchSession", "StudentProgressionState", "AudioCue[]"],
+  },
+  {
     id: "quiz",
     pattern: "/quiz/[code]",
     audience: "student",
@@ -412,6 +420,10 @@ export function getFlashcardsPath(launchCode: LaunchCode): string {
 
 export function getSentenceBuilderPath(launchCode: LaunchCode): string {
   return `/sentence/${encodeURIComponent(launchCode)}`;
+}
+
+export function getTypeAnswerPath(launchCode: LaunchCode): string {
+  return `/type-answer/${encodeURIComponent(launchCode)}`;
 }
 
 export function getQuizPath(launchCode: LaunchCode): string {

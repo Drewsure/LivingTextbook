@@ -188,8 +188,8 @@ export function PersistenceAdapterReadinessPanel({
             <div className="mt-4 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3">
               <h4 className="text-sm font-bold">Handoff steps</h4>
               <ol className="mt-2 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
-                {plan.handoffSteps.map((step) => (
-                  <li key={step}>{step}</li>
+                {plan.handoffSteps.map((step, index) => (
+                  <li key={`${plan.planId}-handoff-${index}-${step}`}>{step}</li>
                 ))}
               </ol>
             </div>

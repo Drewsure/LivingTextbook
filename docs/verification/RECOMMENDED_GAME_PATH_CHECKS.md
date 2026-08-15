@@ -11,7 +11,7 @@ Then verify:
 
 - `http://127.0.0.1:3000/launch/demo-unit-1` loads.
 - Before flashcard completion, the recommended game path is locked.
-- After completing flashcards, Match Up, Memory Match, Balloon Pop, Quiz, True or False, Sentence Builder, and Speak It appear as ready.
+- After completing flashcards, Match Up, Memory Match, Balloon Pop, Quiz, True or False, Type Answer, Sentence Builder, and Speak It appear as ready.
 - Memory Match starts inside the launch page.
 - Quiz links to `/quiz/demo-unit-1`.
 - Sentence Builder links to `/sentence/demo-unit-1`.

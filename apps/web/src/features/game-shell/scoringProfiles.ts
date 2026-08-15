@@ -5,6 +5,7 @@ export type ScoringProfileId =
   | "pairing-reinforcement-v1"
   | "selection-assessment-v1"
   | "syntax-construction-v1"
+  | "spelling-typing-v1"
   | "speaking-listening-practice-v1"
   | "arcade-reinforcement-v1";
 
@@ -55,6 +56,15 @@ export const gameScoringProfiles: Record<ScoringProfileId, GameScoringProfile> =
     completionDustCap: 500,
     summary: "Supports sentence building, ordering, and fill-in modes focused on target structures.",
   },
+  "spelling-typing-v1": {
+    id: "spelling-typing-v1",
+    label: "Spelling And Typing",
+    vocabularyDust: 200,
+    syntaxDust: 0,
+    bonusDust: 200,
+    completionDustCap: 400,
+    summary: "Supports typed vocabulary answers where audio prompts and reviewed spelling drive deterministic scoring.",
+  },
   "speaking-listening-practice-v1": {
     id: "speaking-listening-practice-v1",
     label: "Speaking And Listening Practice",
@@ -81,6 +91,7 @@ export const gameModeScoringProfiles: Partial<Record<GameModeId, ScoringProfileI
   "memory-match": "pairing-reinforcement-v1",
   quiz: "selection-assessment-v1",
   "true-false": "selection-assessment-v1",
+  "type-answer": "spelling-typing-v1",
   "sentence-builder": "syntax-construction-v1",
   "speak-it": "speaking-listening-practice-v1",
   "balloon-pop": "arcade-reinforcement-v1",

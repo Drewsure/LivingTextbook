@@ -161,6 +161,17 @@ export const sampleLocalBundleManifests: LocalBundleManifestSummary[] = [
         reportsProgress: true,
         note: "Unlocked after entry practice; local package must preserve the same event stream.",
       },
+      {
+        gameId: "ministar-local-type-answer",
+        label: "Type Answer",
+        gameMode: "type-answer",
+        engineId: "text-spelling",
+        localPath: "/type-answer/demo-unit-1",
+        status: "planned",
+        audioCovered: true,
+        reportsProgress: true,
+        note: "Typing route keeps target-language prompt audio as the progress trigger.",
+      },
     ],
     artifacts: [
       {
@@ -328,6 +339,17 @@ export const sampleLocalBundleManifests: LocalBundleManifestSummary[] = [
         audioCovered: true,
         reportsProgress: true,
         note: "Selection-engine true/false route uses reviewed vocabulary prompts and standard progress events.",
+      },
+      {
+        gameId: "partner-local-type-answer",
+        label: "Type Answer",
+        gameMode: "type-answer",
+        engineId: "text-spelling",
+        localPath: "/type-answer/partner-demo-unit-1",
+        status: "included",
+        audioCovered: true,
+        reportsProgress: true,
+        note: "Text-spelling typing route uses reviewed vocabulary prompts and deterministic scoring.",
       },
       {
         gameId: "partner-local-sentence",

@@ -112,6 +112,7 @@ Focused verification supplements:
 - `docs/verification/TEACHER_SESSION_SETTINGS_STORAGE_CHECKS.md`
 - `docs/verification/TEACHER_UNIT_REVIEW_ROUTE_CHECKS.md`
 - `docs/verification/TEXT_SPELLING_ENGINE_CHECKS.md`
+- `docs/verification/TYPE_ANSWER_PLAYABLE_CHECKS.md`
 - `docs/verification/TARGET_LANGUAGE_EXPANSION_CHECKS.md`
 - `docs/verification/UPLOAD_CHANNEL_READINESS_CHECKS.md`
 - `docs/verification/UNIT_GAME_OFFER_MAP_CHECKS.md`
@@ -150,6 +151,7 @@ Then verify:
 - `/teacher/sessions/partner-demo-unit-1`
 - `/launch/demo-unit-1`
 - `/quiz/demo-unit-1`
+- `/type-answer/demo-unit-1`
 - `/sentence/demo-unit-1`
 - `/enter/ministar`
 - `/speak/demo-unit-1`
@@ -159,6 +161,7 @@ Then verify:
 - `/enter/sample-publisher`
 - `/launch/partner-demo-unit-1`
 - `/quiz/partner-demo-unit-1`
+- `/type-answer/partner-demo-unit-1`
 - `/sentence/partner-demo-unit-1`
 - `/speak/partner-demo-unit-1`
 - `/print/partner-demo-unit-1`

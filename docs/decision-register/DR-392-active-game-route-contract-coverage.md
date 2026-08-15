@@ -10,7 +10,7 @@ Require active core game routes to be represented in the route contract registry
 
 ## Rationale
 
-The product now has dedicated student routes for Flashcards, Match Up, Memory Match, Balloon Pop, Quiz, True or False, Sentence Builder, and Speak It. A route can function in the browser but still drift from the architectural contract if the route registry and helpers are not checked.
+The product now has dedicated student routes for Flashcards, Match Up, Memory Match, Balloon Pop, Quiz, True or False, Type Answer, Sentence Builder, and Speak It. A route can function in the browser but still drift from the architectural contract if the route registry and helpers are not checked.
 
 The game-mode verifier should therefore confirm that every active core game route has:
 

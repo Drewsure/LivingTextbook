@@ -8,7 +8,7 @@ const pathwayDocs = readSource("../docs/ACTIVITY_PATHWAY_COMPATIBILITY_MATRIX.md
 const backendStorageVerifier = readSource("./verify-backend-storage-readiness.mjs");
 
 const failures = [];
-const requiredOfferedItems = ["entry-flashcards", "match-up", "memory-match", "teacher-review-quiz", "true-false", "sentence-builder"];
+const requiredOfferedItems = ["entry-flashcards", "match-up", "memory-match", "teacher-review-quiz", "true-false", "type-answer", "sentence-builder"];
 const requiredPlannedItems = ["printable-vocabulary-sheet", "printable-sentence-practice"];
 const requiredBlockedItems = ["word-search", "crossword"];
 const requiredPolicyText = [
