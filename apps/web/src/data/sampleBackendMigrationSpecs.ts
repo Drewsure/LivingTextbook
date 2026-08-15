@@ -9135,7 +9135,7 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       storeKind: "session-record",
       status: "blocked-by-policy",
       purpose:
-        "Stores teacher-created launch sessions, the accepted settings snapshot, and the event acceptance gate that must be satisfied before live classroom use.",
+        "Stores teacher-created launch sessions, the accepted settings snapshot, the settings review packet, and the event acceptance gate that must be satisfied before live classroom use.",
       primaryKey: "launch_session_id",
       tenantScope: "Scoped by tenant_id, launch_code, package_release_id, and settings_revision.",
       fields: [
@@ -9162,6 +9162,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
           type: "json",
           required: true,
           note: "Audio, assist-language, microphone, background-media, Training Academy, AI Tutor, and reporting settings.",
+        },
+        {
+          name: "settings_review_packet",
+          type: "json",
+          required: true,
+          note: "Review-only teacher/admin packet proving settings safety signals, policy/cost gates, blocked actions, and required-before-pilot records were visible before save or launch.",
         },
         {
           name: "assist_language_teacher_enablement_persisted",
@@ -9202,10 +9208,11 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       ],
       indexes: ["tenant_id + launch_code", "launch_session_id unique", "tenant_id + package_release_id", "settings_revision", "tenant_id + live_event_storage_allowed"],
       retentionRule: "Retain according to school reporting policy; demo snapshots are not production classroom records.",
-      exportRule: "Must export as JSON with settings snapshot, event acceptance gate, validation state, and package release reference when policy allows teacher reports.",
-      localFallback: "Local classroom deployments store the same launch-session settings and event acceptance snapshots before accepting student events.",
+      exportRule: "Must export as JSON with settings snapshot, settings review packet, event acceptance gate, validation state, and package release reference when policy allows teacher reports.",
+      localFallback: "Local classroom deployments store the same launch-session settings, settings review packet, and event acceptance snapshots before accepting student events.",
       policyBlockers: [
         "Teacher role, session access, retention, and reporting policy must be accepted before production writes.",
+        "Setting saves must keep the settings review packet visible and stored so blocked actions, policy/cost gates, and required-before-pilot records remain auditable.",
         "Settings snapshots must preserve assist-language teacher enablement and must not allow support language, background media, or route guidance to unlock progress or award mastery.",
         "Event acceptance gates must block live student event writes until settings persistence, report policy, event taxonomy, coded identity, and sensitive-data exclusions are ready.",
         "Raw microphone audio, transcripts, and ungated AI Tutor state must stay out of the core launch-session record.",

@@ -23,6 +23,7 @@ export interface PersistenceWriteIntent {
   preservesReportEventAcceptanceSummary?: boolean;
   preservesGameAudioCoverageSnapshot?: boolean;
   preservesTeacherSessionSettingsSnapshot?: boolean;
+  preservesTeacherSessionSettingsReviewPacket?: boolean;
   preservesTeacherSessionEventAcceptanceGate?: boolean;
   preservesEarnedCollectionRules?: boolean;
   rejectsRandomRewardPressure?: boolean;

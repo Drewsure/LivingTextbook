@@ -66,7 +66,7 @@ Every core adapter plan must:
 The hosted pilot path should support:
 
 - route registry entries,
-- teacher launch-session settings,
+- teacher launch-session settings and settings review packets,
 - teacher draft packages,
 - AI generated package manifests,
 - tenant library items,
@@ -93,6 +93,7 @@ The local/closed deployment path should support:
 - local tenant library items,
 - local package game/audio coverage snapshots,
 - local evidence packet records,
+- local launch-session settings and settings review packets,
 - local progress export packages,
 - local earned collection inventory,
 - local package publish gates,
@@ -131,6 +132,7 @@ It shows:
 - No local installer, sync, backup, or restore workflow exists yet.
 - No report or approval export is generated.
 - No raw audio or transcript storage is enabled.
+- No teacher setting save can become live until its settings review packet is preserved with the launch session.
 
 ## Future Work
 

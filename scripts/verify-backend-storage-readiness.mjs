@@ -3698,7 +3698,11 @@ requireText(persistenceAdapter, "local-collection-inventory-write", "Persistence
 requireText(persistenceAdapter, "preservesEarnedCollectionRules: true", "Persistence adapter must preserve earned collection rules.");
 requireText(persistenceAdapter, "rejectsRandomRewardPressure: true", "Persistence adapter must reject random reward pressure.");
 requireText(persistenceAdapter, "preservesTeacherSessionSettingsSnapshot: true", "Persistence adapter must preserve teacher session settings snapshots.");
+requireText(persistenceAdapter, "preservesTeacherSessionSettingsReviewPacket: true", "Persistence adapter must preserve teacher session settings review packets.");
 requireText(persistenceAdapter, "preservesTeacherSessionEventAcceptanceGate: true", "Persistence adapter must preserve teacher session event acceptance gates.");
+requireText(schemaDraft, "settings_review_packet", "Backend schema draft must preserve teacher session settings review packets.");
+requireText(migrationCandidates, "settings review packet", "Backend migration candidates must preserve teacher session settings review packets.");
+requireText(migrationSpecs, "settings_review_packet", "Backend migration specs must preserve teacher session settings review packets.");
 requireText(persistenceAdapter, "rejectsRawAudio: true", "Persistence adapter write intents must reject raw audio.");
 requireText(persistenceAdapter, "rejectsTranscripts: true", "Persistence adapter write intents must reject transcripts.");
 requireText(persistenceAdapter, "hosted-school-rollback-safe-fallback-restoration-preview-write", "Persistence adapter must include hosted school rollback safe fallback restoration preview writes.");
@@ -3706,6 +3710,7 @@ requireText(persistenceAdapter, "local-school-rollback-safe-fallback-restoration
 requireText(persistenceAdapter, "preservesSchoolRollbackSafeFallbackRestorationPreview: true", "Persistence adapter must preserve school rollback safe fallback restoration preview records.");
 requireText(persistenceAdapter, "blocksLocalBundleRestoration: true", "Persistence adapter must block local bundle restoration.");
 requireText(durableRecords, "ownsTeacherSessionSettings: true", "Durable record plan must assign teacher session settings to launch sessions.");
+requireText(durableRecords, "preservesTeacherSessionSettingsReviewPacket: true", "Durable record plan must preserve teacher session settings review packets.");
 requireText(durableRecords, "teacher-draft-package-record", "Durable record plan must include teacher draft packages.");
 requireText(durableRecords, "preservesDraftReviewGate: true", "Durable record plan must preserve teacher draft review gates.");
 requireText(durableRecords, "blocksDirectStudentAssignment: true", "Durable record plan must block direct draft assignment.");

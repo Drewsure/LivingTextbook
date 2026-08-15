@@ -126,6 +126,7 @@ export interface DurableRecordContract {
   storesRawAudio: boolean;
   storesTranscript: boolean;
   ownsTeacherSessionSettings?: boolean;
+  preservesTeacherSessionSettingsReviewPacket?: boolean;
   preservesEventEffectTaxonomy?: boolean;
   requiresEventAcceptanceGate?: boolean;
   preservesReportEventAcceptanceSummary?: boolean;

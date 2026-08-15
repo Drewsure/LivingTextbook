@@ -41,7 +41,7 @@ The scaffold currently tracks:
 - AI generated package manifest records.
 - Tenant library item records.
 - QR and route registry records.
-- Teacher launch session and settings records.
+- Teacher launch session, settings, and settings review packet records.
 - Progress and media event stream records.
 - Earned collection inventory records.
 - Media manifest and rights records.
@@ -100,7 +100,7 @@ They must block school policy acceptance workflows, live classroom launch, real 
 - Core persistence must not store raw learner audio.
 - Core persistence must not store learner transcripts.
 - Student-data records require privacy, retention, export, access-control, and school/parent policy before pilot use.
-- Teacher session settings belong with launch-session records.
+- Teacher session settings and teacher settings review packets belong with launch-session records.
 - Earned collection inventory must preserve deterministic mastery-earned unlock rules.
 - Earned collection inventory must reject random reward pressure, paid gacha-like ownership, and support-only unlocks.
 - Package approval ledgers require approver identity and policy rules before real sign-offs are stored.

@@ -427,6 +427,7 @@
 - `DR-453-type-answer-active-route.md`
 - `DR-454-label-it-active-route.md`
 - `DR-455-teacher-session-settings-review-packet.md`
+- `DR-456-teacher-session-settings-review-packet-storage-contract.md`
 
 ## Maintenance Rule
 
