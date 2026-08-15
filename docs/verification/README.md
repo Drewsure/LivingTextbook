@@ -75,6 +75,8 @@ Focused verification supplements:
 - `docs/verification/RELEASE_CANDIDATE_DURABLE_RECORD_CHECKS.md`
 - `docs/verification/RELEASE_CANDIDATE_MIGRATION_SPEC_CHECKS.md`
 - `docs/verification/RELEASE_CONTROL_READINESS_VERIFIER_CHECKS.md`
+- `docs/verification/REVIEW_LIST_KEY_STABILITY_CHECKS.md`
+- `npm run verify:review-keys`
 - `docs/verification/PWA_INSTALLABILITY_CHECKS.md`
 - `docs/verification/QR_PRINT_READINESS_CHECKS.md`
 - `docs/verification/RECOMMENDED_GAME_PATH_CHECKS.md`

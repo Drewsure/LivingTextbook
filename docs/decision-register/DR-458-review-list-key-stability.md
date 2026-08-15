@@ -12,8 +12,9 @@ The foundation UI intentionally repeats phrases such as blocked actions, require
 
 ## Consequences
 
-- Upload, evidence, Labelled Diagram asset, media asset, and teacher media review panels now use contextual keys for repeated string lists.
+- Upload, evidence, Labelled Diagram asset, media asset, persistence, and teacher media review panels now use contextual keys for repeated string lists.
 - Future review panels should use stable record ids first, then a context plus index for plain string lists.
+- `npm run verify:review-keys` now guards the active review surface set against reintroducing bare repeated-text keys.
 - Random, timestamp, or locale-derived keys remain disallowed.
 
 ## Non-Goals
