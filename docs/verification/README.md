@@ -79,6 +79,7 @@ Focused verification supplements:
 - `docs/verification/RECOMMENDED_GAME_PATH_CHECKS.md`
 - `docs/verification/QUIZ_REPORTING_CHECKS.md`
 - `docs/verification/QUIZ_SELECTION_PLAYABLE_CHECKS.md`
+- `docs/verification/TRUE_FALSE_SELECTION_PLAYABLE_CHECKS.md`
 - `docs/verification/SECOND_TENANT_PACKAGE_CHECKS.md`
 - `docs/verification/SELECTION_ENGINE_PREVIEW_CHECKS.md`
 - `docs/verification/SENTENCE_BUILDER_PLAYABLE_CHECKS.md`

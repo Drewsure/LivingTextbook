@@ -107,7 +107,7 @@ export const sampleAssignmentRolloutPlans: AssignmentRolloutPlan[] = [
         label: "Game audio coverage",
         status: "pass",
         owner: "platform",
-        note: "The front-door pilot draft has audio-covered assignment metadata for Flashcards, Match Up, Memory Match, Balloon Pop, Quiz, Sentence Builder, and Speak It.",
+        note: "The front-door pilot draft has audio-covered assignment metadata for Flashcards, Match Up, Memory Match, Balloon Pop, Quiz, True or False, Sentence Builder, and Speak It.",
       },
       {
         gateId: "learner-codes",

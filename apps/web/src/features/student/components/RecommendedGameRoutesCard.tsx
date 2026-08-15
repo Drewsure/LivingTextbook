@@ -12,6 +12,7 @@ import {
   getSentenceBuilderPath,
   getSpeakItPath,
   getStudentLaunchPath,
+  getTrueFalsePath,
 } from "@/features/routes/routeContracts";
 import { formatMode } from "../studentLabels";
 
@@ -142,6 +143,10 @@ function getModePath(mode: GameModeId, launchCode: string): string {
     return getQuizPath(launchCode);
   }
 
+  if (mode === "true-false") {
+    return getTrueFalsePath(launchCode);
+  }
+
   if (mode === "sentence-builder") {
     return getSentenceBuilderPath(launchCode);
   }
@@ -168,6 +173,10 @@ function getModeSummary(mode: GameModeId): string {
 
   if (mode === "quiz") {
     return "Open the selection-engine quiz with audio-supported prompts and answer choices.";
+  }
+
+  if (mode === "true-false") {
+    return "Open the selection-engine true or false route and decide if the listened word matches the card.";
   }
 
   if (mode === "sentence-builder") {

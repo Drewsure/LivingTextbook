@@ -80,6 +80,7 @@ export const gameModeScoringProfiles: Partial<Record<GameModeId, ScoringProfileI
   "match-up": "pairing-reinforcement-v1",
   "memory-match": "pairing-reinforcement-v1",
   quiz: "selection-assessment-v1",
+  "true-false": "selection-assessment-v1",
   "sentence-builder": "syntax-construction-v1",
   "speak-it": "speaking-listening-practice-v1",
   "balloon-pop": "arcade-reinforcement-v1",

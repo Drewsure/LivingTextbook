@@ -10,7 +10,7 @@ Use a shared `GameRouteHeaderCard` for active game-route wrappers instead of rep
 
 ## Rationale
 
-The active game routes now include Flashcards, Match Up, Memory Match, Balloon Pop, Quiz, Sentence Builder, and Speak It. These routes should feel consistent while the platform remains structurally clean and white-labelable.
+The active game routes now include Flashcards, Match Up, Memory Match, Balloon Pop, Quiz, True or False, Sentence Builder, and Speak It. These routes should feel consistent while the platform remains structurally clean and white-labelable.
 
 A shared header keeps the first screen pattern stable without changing the individual game engines, scoring, progress, microphone, assist-language, or event behavior.
 

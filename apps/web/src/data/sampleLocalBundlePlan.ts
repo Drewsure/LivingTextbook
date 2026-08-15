@@ -319,6 +319,17 @@ export const sampleLocalBundleManifests: LocalBundleManifestSummary[] = [
         note: "Selection-engine assessment route is part of the local companion route surface.",
       },
       {
+        gameId: "partner-local-true-false",
+        label: "True or False",
+        gameMode: "true-false",
+        engineId: "selection",
+        localPath: "/true-false/partner-demo-unit-1",
+        status: "included",
+        audioCovered: true,
+        reportsProgress: true,
+        note: "Selection-engine true/false route uses reviewed vocabulary prompts and standard progress events.",
+      },
+      {
         gameId: "partner-local-sentence",
         label: "Sentence Builder",
         gameMode: "sentence-builder",

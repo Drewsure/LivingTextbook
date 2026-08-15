@@ -169,6 +169,18 @@ const samplePartnerInstructionAudioCues: AudioCue[] = [
     textbookReference: samplePartnerTextbookReference,
   },
   {
+    audioCueId: "cue-sample-publisher-l1-u1-instruction-true-false",
+    tenantId,
+    kind: "instruction",
+    text: "Listen to the word. Tap true if the routine card matches.",
+    language: "en",
+    source: "text-to-speech",
+    transcript: "Listen to the word. Tap true if the routine card matches.",
+    unitKey: samplePartnerUnitKey,
+    gameMode: "true-false",
+    textbookReference: samplePartnerTextbookReference,
+  },
+  {
     audioCueId: "cue-sample-publisher-l1-u1-instruction-balloon-pop",
     tenantId,
     kind: "instruction",
@@ -241,6 +253,18 @@ const samplePartnerFeedbackAudioCues: AudioCue[] = [
     transcript: "Correct. Next question.",
     unitKey: samplePartnerUnitKey,
     gameMode: "quiz",
+    textbookReference: samplePartnerTextbookReference,
+  },
+  {
+    audioCueId: "cue-sample-publisher-l1-u1-feedback-true-false-next",
+    tenantId,
+    kind: "feedback",
+    text: "Correct. Next true or false card.",
+    language: "en",
+    source: "text-to-speech",
+    transcript: "Correct. Next true or false card.",
+    unitKey: samplePartnerUnitKey,
+    gameMode: "true-false",
     textbookReference: samplePartnerTextbookReference,
   },
   {
@@ -360,6 +384,11 @@ export const samplePartnerContentPackage: ContentPackage = {
           "cue-sample-publisher-l1-u1-instruction-quiz",
           "cue-sample-publisher-l1-u1-feedback-quiz-next",
         ],
+        "true-false": [
+          ...samplePartnerVocabularyAudioCues.map((cue) => cue.audioCueId),
+          "cue-sample-publisher-l1-u1-instruction-true-false",
+          "cue-sample-publisher-l1-u1-feedback-true-false-next",
+        ],
         "balloon-pop": [
           ...samplePartnerVocabularyAudioCues.map((cue) => cue.audioCueId),
           "cue-sample-publisher-l1-u1-instruction-balloon-pop",
@@ -455,7 +484,7 @@ export function getSamplePartnerLaunchSession(launchCode = samplePartnerLaunchCo
     curriculumId,
     unitKey: samplePartnerUnitKey,
     entryMode: "flashcards",
-    recommendedNextModes: ["match-up", "memory-match", "balloon-pop", "quiz", "sentence-builder", "speak-it"],
+    recommendedNextModes: ["match-up", "memory-match", "balloon-pop", "quiz", "true-false", "sentence-builder", "speak-it"],
     openedAt: "2026-07-01T00:00:00.000Z",
   });
 }
@@ -469,7 +498,7 @@ export function getSamplePartnerFrontDoorLaunchSession(
     curriculumId,
     unitKey: samplePartnerUnitKey,
     entryMode: "flashcards",
-    recommendedNextModes: ["match-up", "memory-match", "balloon-pop", "quiz", "sentence-builder", "speak-it"],
+    recommendedNextModes: ["match-up", "memory-match", "balloon-pop", "quiz", "true-false", "sentence-builder", "speak-it"],
     openedAt: "2026-07-01T00:00:00.000Z",
     accessMode: "front-door-code",
   });

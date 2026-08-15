@@ -18,8 +18,8 @@ export const sampleTeacherAssignmentPlans: TeacherAssignmentPlan[] = [
     label: "MiniStar Level 1 Unit 1 whole-class demo",
     audience: "whole-class",
     readiness: "requires-persistence",
-    targetGameModes: ["flashcards", "match-up", "memory-match", "balloon-pop", "quiz", "sentence-builder", "speak-it"],
-    audioCoveredGameModes: ["flashcards", "match-up", "memory-match", "balloon-pop", "quiz", "sentence-builder", "speak-it"],
+    targetGameModes: ["flashcards", "match-up", "memory-match", "balloon-pop", "quiz", "true-false", "sentence-builder", "speak-it"],
+    audioCoveredGameModes: ["flashcards", "match-up", "memory-match", "balloon-pop", "quiz", "true-false", "sentence-builder", "speak-it"],
     access: {
       accessMode: "teacher-qr",
       routePath: "/launch/demo-unit-1",
@@ -90,8 +90,8 @@ export const sampleTeacherAssignmentPlans: TeacherAssignmentPlan[] = [
     label: "Sample publisher front-door pilot draft",
     audience: "whole-class",
     readiness: "requires-policy",
-    targetGameModes: ["flashcards", "match-up", "memory-match", "balloon-pop", "quiz", "sentence-builder", "speak-it"],
-    audioCoveredGameModes: ["flashcards", "match-up", "memory-match", "balloon-pop", "quiz", "sentence-builder", "speak-it"],
+    targetGameModes: ["flashcards", "match-up", "memory-match", "balloon-pop", "quiz", "true-false", "sentence-builder", "speak-it"],
+    audioCoveredGameModes: ["flashcards", "match-up", "memory-match", "balloon-pop", "quiz", "true-false", "sentence-builder", "speak-it"],
     access: {
       accessMode: "front-door-code",
       routePath: "/enter/sample-publisher",
@@ -154,8 +154,8 @@ export const sampleTeacherAssignmentPlans: TeacherAssignmentPlan[] = [
     label: "Closed textbook companion draft",
     audience: "small-group",
     readiness: "requires-persistence",
-    targetGameModes: ["flashcards", "memory-match", "quiz", "sentence-builder", "speak-it"],
-    audioCoveredGameModes: ["flashcards", "memory-match", "quiz", "sentence-builder"],
+    targetGameModes: ["flashcards", "memory-match", "quiz", "true-false", "sentence-builder", "speak-it"],
+    audioCoveredGameModes: ["flashcards", "memory-match", "quiz", "true-false", "sentence-builder"],
     access: {
       accessMode: "permanent-qr",
       routePath: "/q/tenant/sample-publisher/series/sample-partner-series/book/starter-book/unit/unit-1/activity/daily-routines-entry",

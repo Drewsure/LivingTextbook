@@ -52,6 +52,8 @@ const expectedTextByPath = new Map([
   ["/balloon/partner-demo-unit-1", ["Core arcade selection slice", "Balloon Pop:", "Daily Routines", "Arcade reinforcement", "Balloon Pop Progress", "Pop the matching routine balloon."]],
   ["/quiz/demo-unit-1", ["Core selection slice", "Quiz:", "Greetings", "Selection", "Quiz Progress", "Teacher Review Quiz"]],
   ["/quiz/partner-demo-unit-1", ["Core selection slice", "Quiz:", "Daily Routines", "Selection", "Quiz Progress", "Teacher Review Quiz"]],
+  ["/true-false/demo-unit-1", ["Core true/false selection slice", "True or False:", "Greetings", "Selection", "True or False Progress", "Tap true if the greeting card matches."]],
+  ["/true-false/partner-demo-unit-1", ["Core true/false selection slice", "True or False:", "Daily Routines", "Selection", "True or False Progress", "Tap true if the routine card matches."]],
   ["/sentence/demo-unit-1", ["Core syntax slice", "Sentence Builder:", "Greetings", "Text-spelling", "Sentence Builder Progress", "Sentence Builder"]],
   ["/sentence/partner-demo-unit-1", ["Core syntax slice", "Sentence Builder:", "Daily Routines", "Text-spelling", "Sentence Builder Progress", "Sentence Builder"]],
   ["/speak/demo-unit-1", ["Core speaking slice", "Speak It:", "Greetings", "Audio-led speaking practice", "Speaking Progress", "AI speech scoring remains premium and off"]],
@@ -1552,7 +1554,7 @@ if (teacherIntakeExpected) {
   const routeCountIndex = teacherIntakeExpected.indexOf("49 checked routes");
 
   if (routeCountIndex >= 0) {
-    teacherIntakeExpected[routeCountIndex] = "65 checked routes";
+    teacherIntakeExpected[routeCountIndex] = "67 checked routes";
   }
 
   teacherIntakeExpected.push(

@@ -13,6 +13,6 @@ Then verify:
 - The shared game mode catalog coverage verifier passes.
 - `http://127.0.0.1:3000/` shows package audio support without validation errors.
 - `http://127.0.0.1:3000/partner-demo` shows partner package audio support without validation errors.
-- MiniStar audio support plan includes Flashcards, Match Up, Memory Match, Balloon Pop, Quiz, Sentence Builder, and Speak It.
-- Sample publisher audio support plan includes Flashcards, Match Up, Memory Match, Balloon Pop, Quiz, Sentence Builder, and Speak It.
+- MiniStar audio support plan includes Flashcards, Match Up, Memory Match, Balloon Pop, Quiz, True or False, Sentence Builder, and Speak It.
+- Sample publisher audio support plan includes Flashcards, Match Up, Memory Match, Balloon Pop, Quiz, True or False, Sentence Builder, and Speak It.
 - The cues remain text-to-speech placeholders unless reviewed production media is supplied.

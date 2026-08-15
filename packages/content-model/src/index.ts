@@ -46,6 +46,7 @@ export type GameModeId =
   | "match-up"
   | "memory-match"
   | "balloon-pop"
+  | "true-false"
   | "speak-it"
   | "quiz"
   | "sentence-builder";

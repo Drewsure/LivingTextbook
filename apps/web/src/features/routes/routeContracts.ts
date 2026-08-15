@@ -311,6 +311,15 @@ export const appRouteContracts: AppRouteContract[] = [
     requiredState: ["TenantConfig", "UnitPayload", "LaunchSession", "StudentProgressionState", "AudioCue[]"],
   },
   {
+    id: "true-false",
+    pattern: "/true-false/[code]",
+    audience: "student",
+    status: "active-scaffold",
+    purpose:
+      "Let a student decide whether a target-language audio prompt matches the visible vocabulary card through the selection parent engine.",
+    requiredState: ["TenantConfig", "UnitPayload", "LaunchSession", "StudentProgressionState", "AudioCue[]"],
+  },
+  {
     id: "balloon-pop",
     pattern: "/balloon/[code]",
     audience: "student",
@@ -407,6 +416,10 @@ export function getSentenceBuilderPath(launchCode: LaunchCode): string {
 
 export function getQuizPath(launchCode: LaunchCode): string {
   return `/quiz/${encodeURIComponent(launchCode)}`;
+}
+
+export function getTrueFalsePath(launchCode: LaunchCode): string {
+  return `/true-false/${encodeURIComponent(launchCode)}`;
 }
 
 export function getBalloonPopPath(launchCode: LaunchCode): string {

@@ -23,6 +23,7 @@ import {
   getSpeakItPath,
   getStudentLaunchPath,
   getTrainingAcademyPath,
+  getTrueFalsePath,
 } from "@/features/routes/routeContracts";
 import type { TenantConfig } from "@/features/tenant/types";
 
@@ -206,6 +207,15 @@ function buildActivityItems({
       role: "assessment",
       summary: "Answer reviewed vocabulary and sentence prompts with audio-supported choices.",
       status: getGameRouteStatus("quiz", progression),
+    },
+    {
+      id: "true-false",
+      label: "True or False",
+      href: getTrueFalsePath(launchCode),
+      mode: "true-false",
+      role: "assessment",
+      summary: "Listen to a target-language word and decide whether the visible card matches.",
+      status: getGameRouteStatus("true-false", progression),
     },
     {
       id: "balloon-pop",

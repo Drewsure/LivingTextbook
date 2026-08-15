@@ -14,6 +14,6 @@ Teacher session monitors now show the game path assigned to a launch session bef
 ## Acceptance Standard
 
 - Teacher session routes load for MiniStar and sample publisher launch codes.
-- The monitor shows Flashcards, Match Up, Memory Match, Balloon Pop, Quiz, Sentence Builder, and Speak It.
+- The monitor shows Flashcards, Match Up, Memory Match, Balloon Pop, Quiz, True or False, Sentence Builder, and Speak It.
 - The panel does not imply saved teacher customization yet.
 - Event completion and assigned scope are visually separate.

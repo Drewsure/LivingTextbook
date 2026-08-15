@@ -17,6 +17,7 @@ const flashcards = gameModeCatalog.flashcards;
 const matchUp = gameModeCatalog["match-up"];
 const memoryMatch = gameModeCatalog["memory-match"];
 const quiz = gameModeCatalog.quiz;
+const trueFalse = gameModeCatalog["true-false"];
 const balloonPop = gameModeCatalog["balloon-pop"];
 const sentenceBuilder = gameModeCatalog["sentence-builder"];
 const speakIt = gameModeCatalog["speak-it"];
@@ -45,6 +46,12 @@ const firstSliceSequence: SequenceItem[] = [
     engineId: quiz?.engineId ?? "selection",
     role: quiz?.role ?? "assessment",
     summary: quiz?.summary ?? "Check vocabulary and target sentence understanding with audio-supported selected responses.",
+  },
+  {
+    label: trueFalse?.label ?? "True or False",
+    engineId: trueFalse?.engineId ?? "selection",
+    role: trueFalse?.role ?? "assessment",
+    summary: trueFalse?.summary ?? "Check whether a listened target-language word matches the visible card.",
   },
   {
     label: balloonPop?.label ?? "Balloon Pop",

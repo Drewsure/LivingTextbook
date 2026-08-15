@@ -178,7 +178,7 @@ Current status: Implemented on `legacy-source-import`. Local typecheck/build/bro
 
 Implemented path:
 
-Teacher launch -> QR route -> flashcards -> tap-to-speak learner text -> completion event -> reward preview -> Match Up/Memory Match/Balloon Pop/Quiz/Sentence Builder/Speak It unlock -> game_started -> playable pairing and selection games -> linked follow-on games -> game_completed -> Star Dust update -> reusable unit-session summary.
+Teacher launch -> QR route -> flashcards -> tap-to-speak learner text -> completion event -> reward preview -> Match Up/Memory Match/Balloon Pop/Quiz/True or False/Sentence Builder/Speak It unlock -> game_started -> playable pairing and selection games -> linked follow-on games -> game_completed -> Star Dust update -> reusable unit-session summary.
 
 Implemented front-door expansion:
 
@@ -194,7 +194,7 @@ Remaining gate:
 
 Purpose: Turn Memory Match into the first reusable `pairing` parent engine implementation and use it as the pattern for future game modes.
 
-Current status: Initial playable pairing implementation exists and has been locally browser-verified in the first slice. Memory Match uses pairing adapter/state helpers, emits start/completion events, emits item-level `round_shown`, `answer_submitted`, `answer_result`, and `mastery_updated` events, supports card tap-to-hear audio, uses a shared scoring profile, and updates local progression. Quiz adds the first playable selection route at `/quiz/[code]` and now appears in teacher monitor sample events. Balloon Pop adds the first structural arcade-selection route at `/balloon/[code]` with audio-supported vocabulary prompts, deterministic `arcade-reinforcement-v1` scoring, standard progress events, and no Phaser/premium polish yet. Selection and text-spelling previews now show parent-engine contracts. Sentence Builder adds the first playable text-spelling route at `/sentence/[code]`, is visible in route contracts, the game sequence, and the unit game offer map, and now appears in teacher monitor sample events. Speak It now adds the first core speech-practice shell with optional local microphone record/replay, no upload, no transcript, and no AI Tutor dependency.
+Current status: Initial playable pairing implementation exists and has been locally browser-verified in the first slice. Memory Match uses pairing adapter/state helpers, emits start/completion events, emits item-level `round_shown`, `answer_submitted`, `answer_result`, and `mastery_updated` events, supports card tap-to-hear audio, uses a shared scoring profile, and updates local progression. Quiz adds the first playable selection route at `/quiz/[code]` and now appears in teacher monitor sample events. True or False adds a second low-cost selection route at `/true-false/[code]` with deterministic reviewed term match/mismatch rounds, explicit audio cues, and standard event reporting. Balloon Pop adds the first structural arcade-selection route at `/balloon/[code]` with audio-supported vocabulary prompts, deterministic `arcade-reinforcement-v1` scoring, standard progress events, and no Phaser/premium polish yet. Selection and text-spelling previews now show parent-engine contracts. Sentence Builder adds the first playable text-spelling route at `/sentence/[code]`, is visible in route contracts, the game sequence, and the unit game offer map, and now appears in teacher monitor sample events. Speak It now adds the first core speech-practice shell with optional local microphone record/replay, no upload, no transcript, and no AI Tutor dependency.
 
 Required gate:
 
@@ -207,10 +207,11 @@ Next outputs:
 - Stronger event metadata if teacher reports need item-level detail.
 - Additional scoring profiles for the next selected parent engine or mode.
 - Browser-verify Quiz at `/quiz/demo-unit-1` and `/quiz/partner-demo-unit-1`.
+- Browser-verify True or False at `/true-false/demo-unit-1` and `/true-false/partner-demo-unit-1`.
 - Browser-verify Balloon Pop at `/balloon/demo-unit-1` and `/balloon/partner-demo-unit-1`.
 - Browser-verify Sentence Builder at `/sentence/demo-unit-1` and `/sentence/partner-demo-unit-1`.
 - Confirm Training Academy uses the shared white-label launch resolver before changing recovery routes.
-- Confirm active route verification content-checks Training Academy, Quiz, Sentence Builder, and Speak It routes for both sample tenants.
+- Confirm active route verification content-checks Training Academy, Quiz, True or False, Sentence Builder, and Speak It routes for both sample tenants.
 - Browser-verify the package-linked media playlist at `/media/playlist-ministar-l1-u1-greetings`.
 - Browser-verify teacher demo route shortcuts at `/teacher`.
 - Mobile verification.
@@ -668,7 +669,7 @@ Next outputs:
 - Confirm `/teacher/review` shows package writer harness implementation decision blockers on AI-generated draft queue items so review approval cannot bypass generated package writer gates.
 - Confirm Memory Match has dedicated MiniStar and sample-publisher student routes at `/memory/demo-unit-1` and `/memory/partner-demo-unit-1`, reusing the pairing parent engine with tap-to-speak cards, deterministic scoring, route-matrix coverage, and no support-language progression unlock.
 - Confirm Flashcards has dedicated MiniStar and sample-publisher student routes at `/flashcards/demo-unit-1` and `/flashcards/partner-demo-unit-1`, while `/launch/[code]` remains the teacher QR doorway.
-- Confirm active game routes have route contract ids, patterns, and helpers for Flashcards, Match Up, Memory Match, Balloon Pop, Quiz, Sentence Builder, and Speak It before any new game surface is treated as foundation-ready.
+- Confirm active game routes have route contract ids, patterns, and helpers for Flashcards, Match Up, Memory Match, Balloon Pop, Quiz, True or False, Sentence Builder, and Speak It before any new game surface is treated as foundation-ready.
 - Keep active game-route wrappers on shared structural components such as `GameRouteHeaderCard` before adding premium visual skins or micro-interactions.
 - Confirm student activity hubs at `/activities/demo-unit-1` and `/activities/partner-demo-unit-1` expose curated reviewed pathways without becoming switch-to-anything template panels.
 - Confirm student launch and private assignment routes link to the curated activity hub for the same launch code without unlocking progress or exposing teacher/admin controls.

@@ -323,6 +323,14 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     note: "Selection-engine assessment slice.",
   },
   {
+    routeId: "ministar-true-false",
+    group: "ministar",
+    label: "MiniStar true or false",
+    path: "/true-false/demo-unit-1",
+    status: "active-scaffold",
+    note: "Selection-engine true/false vocabulary review route with target-language audio prompts.",
+  },
+  {
     routeId: "ministar-sentence",
     group: "ministar",
     label: "MiniStar sentence builder",
@@ -473,6 +481,14 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     path: "/quiz/partner-demo-unit-1",
     status: "active-scaffold",
     note: "Selection-engine assessment slice for the sample publisher package.",
+  },
+  {
+    routeId: "partner-true-false",
+    group: "sample-publisher",
+    label: "Sample publisher true or false",
+    path: "/true-false/partner-demo-unit-1",
+    status: "active-scaffold",
+    note: "White-label selection-engine true/false vocabulary review route with target-language audio prompts.",
   },
   {
     routeId: "partner-sentence",

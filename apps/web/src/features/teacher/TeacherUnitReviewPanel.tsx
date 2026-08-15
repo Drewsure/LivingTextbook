@@ -26,6 +26,7 @@ const modeLabels: Record<GameModeId, string> = {
   "match-up": "Match Up",
   "memory-match": "Memory Match",
   quiz: "Quiz",
+  "true-false": "True or False",
   "sentence-builder": "Sentence Builder",
   "speak-it": "Speak It",
   "balloon-pop": "Balloon Pop",
