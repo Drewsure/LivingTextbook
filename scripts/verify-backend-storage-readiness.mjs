@@ -5418,6 +5418,7 @@ requireText(durableRecords, "earned-collection-inventory-record", "Durable recor
 requireText(durableRecords, "preservesEarnedCollectionRules: true", "Durable record plan must preserve earned collection rules.");
 requireText(durableRecords, "rejectsRandomRewardPressure: true", "Durable record plan must reject random reward pressure.");
 requireText(routeVerifier, "Backend selection gate", "Active route verifier must keep backend selection gate visible on teacher intake.");
+requireText(routeVerifier, "settings_context_summary", "Active route verifier must keep report settings context storage visible on teacher intake.");
 requireText(routeVerifier, "evidence_packet", "Active route verifier must keep generic evidence packet storage visible on teacher intake.");
 requireText(routeVerifier, "Evidence packet record", "Active route verifier must keep evidence packet durable records visible on teacher intake.");
 requireText(routeVerifier, "evidence_attachment", "Active route verifier must keep evidence attachment storage visible on teacher intake.");

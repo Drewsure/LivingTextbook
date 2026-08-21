@@ -17,5 +17,6 @@ Then verify:
 - Report package write intents preserve event acceptance summaries.
 - Report package write intents and durable records preserve settings context summaries.
 - Backend schema and migration specs include `event_acceptance_summary` and `settings_context_summary`.
+- Active route verification keeps `settings_context_summary` visible on `/teacher/intake`.
 - Report package storage rejects raw learner audio and transcripts.
 - Support-only event semantics remain preserved for hosted and local exports.
