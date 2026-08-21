@@ -434,6 +434,7 @@
 - `DR-460-shared-game-completion-next-path.md`
 - `DR-461-game-mode-settings-profile.md`
 - `DR-462-game-mode-settings-storage-readiness.md`
+- `DR-463-game-mode-settings-backend-contract.md`
 
 ## Maintenance Rule
 

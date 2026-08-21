@@ -81,6 +81,9 @@ const requiredSchemaEntities = [
   "media_manifest",
   "media_playlist_binding",
   "background_media_policy_binding",
+  "game_mode_settings_profile",
+  "teacher_game_mode_settings_snapshot",
+  "game_mode_settings_change_request",
   "local_media_bundle_entry",
   "launch_session",
   "progress_event",
@@ -206,6 +209,7 @@ const requiredMigrationCandidates = [
   "m046-school-rollback-safe-fallback-preflight-records",
   "m047-school-rollback-safe-fallback-activation-preview-records",
   "m048-school-rollback-safe-fallback-restoration-preview-records",
+  "m096-game-mode-settings-storage-records",
 ];
 
 const requiredMigrationSpecs = [
@@ -304,6 +308,7 @@ const requiredMigrationSpecs = [
   "spec-school-rollback-safe-fallback-preflight",
   "spec-school-rollback-safe-fallback-activation-preview",
   "spec-school-rollback-safe-fallback-restoration-preview",
+  "spec-game-mode-settings-storage",
 ];
 
 for (const entityId of requiredSchemaEntities) {
@@ -3709,6 +3714,28 @@ requireText(persistenceAdapter, "hosted-school-rollback-safe-fallback-restoratio
 requireText(persistenceAdapter, "local-school-rollback-safe-fallback-restoration-preview-write", "Persistence adapter must include local school rollback safe fallback restoration preview writes.");
 requireText(persistenceAdapter, "preservesSchoolRollbackSafeFallbackRestorationPreview: true", "Persistence adapter must preserve school rollback safe fallback restoration preview records.");
 requireText(persistenceAdapter, "blocksLocalBundleRestoration: true", "Persistence adapter must block local bundle restoration.");
+requireText(schemaDraft, "game_mode_settings_profile", "Backend schema must include game mode settings profiles.");
+requireText(schemaDraft, "teacher_game_mode_settings_snapshot", "Backend schema must include teacher game mode settings snapshots.");
+requireText(schemaDraft, "game_mode_settings_change_request", "Backend schema must include game mode settings change requests.");
+requireText(schemaDraft, "learning_audio_priority", "Backend schema must preserve game mode settings learning-audio priority.");
+requireText(schemaDraft, "support_language_progress_allowed", "Backend schema must block support-language progress in game settings.");
+requireText(schemaDraft, "scoring_profile_id", "Backend schema must preserve game settings scoring profile authority.");
+requireText(migrationCandidates, "m096-game-mode-settings-storage-records", "Backend migration candidates must include game mode settings storage records.");
+requireText(migrationCandidates, "Game mode settings records must preserve learning-audio priority", "Backend migration candidates must include game mode settings standing rule.");
+requireText(migrationSpecs, "spec-game-mode-settings-storage", "Backend migration specs must include game mode settings storage.");
+requireText(migrationSpecs, "Support-language progress must remain false.", "Backend migration specs must keep support-language progress false for game settings.");
+requireText(persistenceAdapter, "hosted-game-mode-settings-profile-write", "Persistence adapter must include hosted game mode settings profile writes.");
+requireText(persistenceAdapter, "hosted-teacher-game-mode-settings-snapshot-write", "Persistence adapter must include hosted teacher game mode settings snapshot writes.");
+requireText(persistenceAdapter, "hosted-game-mode-settings-change-request-write", "Persistence adapter must include hosted game mode settings change request writes.");
+requireText(persistenceAdapter, "local-game-mode-settings-profile-write", "Persistence adapter must include local game mode settings profile writes.");
+requireText(persistenceAdapter, "local-teacher-game-mode-settings-snapshot-write", "Persistence adapter must include local teacher game mode settings snapshot writes.");
+requireText(persistenceAdapter, "local-game-mode-settings-change-request-write", "Persistence adapter must include local game mode settings change request writes.");
+requireText(persistenceAdapter, "preservesGameModeSettingsProfile: true", "Persistence adapter must preserve game mode settings profiles.");
+requireText(persistenceAdapter, "preservesTeacherGameModeSettingsSnapshot: true", "Persistence adapter must preserve teacher game mode settings snapshots.");
+requireText(persistenceAdapter, "preservesGameModeSettingsChangeRequest: true", "Persistence adapter must preserve game mode settings change requests.");
+requireText(persistenceAdapter, "blocksSupportLanguageProgress: true", "Persistence adapter must block support-language progress from game settings.");
+requireText(persistenceAdapter, "blocksScoringProfileOverride: true", "Persistence adapter must block scoring profile overrides from game settings.");
+requireText(persistenceAdapter, "blocksLiveTeacherSettingSave: true", "Persistence adapter must block live teacher setting saves.");
 requireText(durableRecords, "ownsTeacherSessionSettings: true", "Durable record plan must assign teacher session settings to launch sessions.");
 requireText(durableRecords, "preservesTeacherSessionSettingsReviewPacket: true", "Durable record plan must preserve teacher session settings review packets.");
 requireText(durableRecords, "teacher-draft-package-record", "Durable record plan must include teacher draft packages.");

@@ -11378,5 +11378,56 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
         "Media playlist restoration remains blocked until rights proof, caption/transcript review, and learning-audio priority are accepted.",
       ],
     },
+    {
+      specId: "spec-game-mode-settings-storage",
+      label: "Game mode settings storage",
+      candidateId: "m096-game-mode-settings-storage-records",
+      storeKind: "session-record",
+      status: "blocked-by-policy",
+      purpose:
+        "Stores reviewed mode settings profiles, future launch-session settings snapshots, and settings change requests without enabling live teacher saves or scoring changes.",
+      primaryKey: "game_mode_settings_profile_id",
+      tenantScope:
+        "Scoped by tenant_id, package_id, launch_session_id when a snapshot exists, assignment_id when assigned, game_mode, settings_revision, and release_control_binding_id.",
+      fields: [
+        { name: "game_mode_settings_profile_id", type: "string", required: true, note: "Stable id for one reviewed game mode settings profile." },
+        { name: "teacher_game_mode_settings_snapshot_id", type: "string", required: false, note: "Launch-session snapshot id when future persisted teacher settings exist." },
+        { name: "game_mode_settings_change_request_id", type: "string", required: false, note: "Change request id when a tenant or teacher requests revised settings." },
+        { name: "tenant_id", type: "string", required: true, note: "Tenant boundary for white-label settings." },
+        { name: "package_id", type: "string", required: true, note: "Package or release candidate the settings apply to." },
+        { name: "launch_session_id", type: "string", required: false, note: "Required only for launch-session snapshots." },
+        { name: "assignment_id", type: "string", required: false, note: "Required only when a future assignment binds teacher settings." },
+        { name: "game_mode", type: "string", required: true, note: "Active game mode id." },
+        { name: "timer_policy", type: "string", required: true, note: "Timer policy; cannot create progress by time alone." },
+        { name: "difficulty_policy", type: "string", required: true, note: "Difficulty policy; cannot override scoring profile." },
+        { name: "motion_intensity", type: "string", required: true, note: "Motion policy requiring accessibility review." },
+        { name: "background_media_policy", type: "string", required: true, note: "Background media policy preserving learning-audio priority." },
+        { name: "learning_audio_priority", type: "string", required: true, note: "Learning audio has priority over background media, music, effects, and celebrations." },
+        { name: "target_language_progress_trigger", type: "string", required: true, note: "Only target-language activity can trigger mastery or next-step progress." },
+        { name: "support_language_progress_allowed", type: "boolean", required: true, note: "Always false." },
+        { name: "scoring_profile_id", type: "string", required: true, note: "Reviewed scoring profile owned by the platform parent engine." },
+        { name: "release_control_binding_id", type: "string", required: true, note: "Release-control evidence required before settings can become active." },
+      ],
+      indexes: [
+        "tenant_id + package_id + game_mode",
+        "game_mode_settings_profile_id unique",
+        "teacher_game_mode_settings_snapshot_id",
+        "game_mode_settings_change_request_id",
+        "release_control_binding_id",
+        "support_language_progress_allowed",
+      ],
+      retentionRule:
+        "Retain current and superseded settings profiles and launch snapshots with package release, session, assignment, and release-control history.",
+      exportRule:
+        "Must export as JSON only after school policy, report policy, and evidence export rules are accepted; until then, it is metadata for review surfaces only.",
+      localFallback:
+        "Local classroom bundles store the same settings metadata beside launch-session and release-control records after local package policy allows it.",
+      policyBlockers: [
+        "Game mode settings storage cannot save live teacher settings, mutate active routes, change scoring profiles, increase arcade speed, enable motion-heavy skins, promote background music, or unlock progress from support-language/media-only activity by itself.",
+        "Support-language progress must remain false.",
+        "Learning audio priority must be accepted before background media or celebration sounds become configurable.",
+        "Scoring profile ownership remains with the parent engine and reviewed package.",
+      ],
+    },
   ],
 };

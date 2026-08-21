@@ -184,6 +184,16 @@ export interface PersistenceWriteIntent {
   blocksPhaserBypass?: boolean;
   blocksGeneratedGameRouteWrite?: boolean;
   blocksScoringProfileOverride?: boolean;
+  preservesGameModeSettingsProfile?: boolean;
+  preservesTeacherGameModeSettingsSnapshot?: boolean;
+  preservesGameModeSettingsChangeRequest?: boolean;
+  blocksLiveTeacherSettingSave?: boolean;
+  requiresSchoolPolicyAcceptance?: boolean;
+  requiresAccessibilityReview?: boolean;
+  blocksDirectSafeDefaultMutation?: boolean;
+  blocksArcadeSpeedMutation?: boolean;
+  blocksGameSkinMutation?: boolean;
+  blocksBackgroundMusicPromotion?: boolean;
   preservesTargetLanguageAudioApproval?: boolean;
   requiresAudioApprovalCueReview?: boolean;
   requiresAudioApprovalProgressBoundaries?: boolean;

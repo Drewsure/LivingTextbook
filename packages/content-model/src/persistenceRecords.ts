@@ -65,6 +65,9 @@ export type PersistenceRecordCategory =
   | "activity-compatibility-snapshot"
   | "template-rendering-profile"
   | "font-accessibility-profile"
+  | "game-mode-settings-profile"
+  | "teacher-game-mode-settings-snapshot"
+  | "game-mode-settings-change-request"
   | "tenant-library-item"
   | "route-registry"
   | "launch-session"
@@ -289,6 +292,16 @@ export interface DurableRecordContract {
   blocksPhaserBypass?: boolean;
   blocksGeneratedGameRouteWrite?: boolean;
   blocksScoringProfileOverride?: boolean;
+  preservesGameModeSettingsProfile?: boolean;
+  preservesTeacherGameModeSettingsSnapshot?: boolean;
+  preservesGameModeSettingsChangeRequest?: boolean;
+  blocksLiveTeacherSettingSave?: boolean;
+  requiresSchoolPolicyAcceptance?: boolean;
+  requiresAccessibilityReview?: boolean;
+  blocksDirectSafeDefaultMutation?: boolean;
+  blocksArcadeSpeedMutation?: boolean;
+  blocksGameSkinMutation?: boolean;
+  blocksBackgroundMusicPromotion?: boolean;
   preservesTargetLanguageAudioApproval?: boolean;
   requiresAudioApprovalCueReview?: boolean;
   requiresAudioApprovalProgressBoundaries?: boolean;
