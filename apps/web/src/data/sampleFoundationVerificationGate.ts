@@ -169,6 +169,18 @@ export const sampleFoundationVerificationGate: FoundationVerificationGate = {
       nextStep: "Run this before changing publish gates, approval ledgers, release candidate status, or pilot handoff claims.",
     },
     {
+      checkId: "package-entitlement-readiness",
+      label: "Package entitlement readiness",
+      command: "npm run verify:package-entitlements",
+      status: "pass",
+      protects:
+        "Optional paid AI generation, Voice Tutor, microphone scoring, speech APIs, hosted storage, report export, and local companion mode stay teacher/admin-controlled before billing or activation.",
+      evidence:
+        "The verifier checks the white-label package catalog, entitlement route, AI cost gates, Voice Tutor panel, tenant configs, route contracts, route verifier, ADR, decision record, and route checklist.",
+      nextStep:
+        "Run this before changing package tiers, premium feature copy, AI generation entitlements, Voice Tutor, microphone scoring, report export, hosted storage, or local companion activation.",
+    },
+    {
       checkId: "web-typecheck-build",
       label: "Web typecheck and build",
       command: "npm run typecheck --workspace @living-textbook/web && npm run build --workspace @living-textbook/web",

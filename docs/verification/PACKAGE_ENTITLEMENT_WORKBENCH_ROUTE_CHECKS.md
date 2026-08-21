@@ -34,6 +34,7 @@ Run after changes to AI generation, AI Tutor, Voice Tutor, microphone scoring, s
 Run:
 
 ```powershell
+npm run verify:package-entitlements
 npm run verify:routes
 ```
 

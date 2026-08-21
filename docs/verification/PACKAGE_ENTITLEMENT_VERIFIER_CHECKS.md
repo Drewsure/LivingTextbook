@@ -1,0 +1,24 @@
+# Package Entitlement Verifier Checks
+
+## Scope
+
+Use this checklist after changes to white-label package tiers, AI generation entitlement copy, AI Tutor, Voice Tutor, microphone scoring, speech API policy, hosted storage, report export, local companion mode, or the `/teacher/entitlements` route.
+
+## Command
+
+```powershell
+npm run verify:package-entitlements
+```
+
+## Required Checks
+
+- The verifier checks the package catalog has `core-classroom-pwa`, `premium-ai-authoring`, `premium-voice-tutor`, and `enterprise-storage-and-local`.
+- The verifier checks the route renders `PackageTierCatalogPanel`, `AiGeneratorCostEntitlementGatePanel`, and `VoiceTutorPackagePanel`.
+- The verifier checks the active route verifier expects the package catalog and package boundary text.
+- The verifier checks MiniStar and sample publisher keep AI Tutor and AI speech scoring disabled by default.
+- The verifier checks no live upload input, microphone request, or live fetch call is introduced on the entitlement route.
+- The verifier checks the ADR, decision-register record, route checklist, active route list, and route contract remain present.
+
+## Foundation Rule
+
+`npm run verify:foundation` must include `npm run verify:package-entitlements` before the generic review-key and route checks.
