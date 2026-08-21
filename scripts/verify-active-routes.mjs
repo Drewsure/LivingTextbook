@@ -1728,14 +1728,34 @@ if (urls.length === 0) {
   process.exit(1);
 }
 
-const routeFetchConcurrency = 6;
-const routeFetchAttempts = 3;
-const routeFetchRetryDelayMs = 750;
-const routeFetchTimeoutMs = 45_000;
+const routeFetchConcurrency = 4;
+const routeFetchAttempts = 2;
+const routeFetchRetryDelayMs = 500;
+const routeFetchTimeoutMs = 20_000;
+const warmupFetchTimeoutMs = 60_000;
+const warmupPaths = ["/", "/teacher", "/teacher/intake", "/teacher/game-readiness"];
 
-const results = await mapWithConcurrency(urls, routeFetchConcurrency, async (url) => {
+console.log(`Checking ${urls.length} active route(s) with ${routeFetchConcurrency} worker(s)...`);
+const warmupUrls = getWarmupUrls();
+const remainingUrls = urls.filter((url) => !warmupUrls.includes(url));
+
+if (warmupUrls.length > 0) {
+  console.log(`Sequentially checking ${warmupUrls.length} shell route(s) before the concurrent sweep...`);
+}
+
+const warmupResults = [];
+for (const url of warmupUrls) {
+  warmupResults.push(await checkRoute(url, { timeoutMs: warmupFetchTimeoutMs, label: "WARM" }));
+}
+
+const results = [
+  ...warmupResults,
+  ...(await mapWithConcurrency(remainingUrls, routeFetchConcurrency, async (url) => checkRoute(url))),
+];
+
+async function checkRoute(url, options = {}) {
   try {
-    const response = await fetchRouteWithRetry(url);
+    const response = await fetchRouteWithRetry(url, options);
     const path = new URL(url).pathname;
     const expectedText = expectedTextByPath.get(path) ?? [];
     const forbiddenText = forbiddenTextByPath.get(path) ?? [];
@@ -1743,7 +1763,7 @@ const results = await mapWithConcurrency(urls, routeFetchConcurrency, async (url
     const missingExpectedText = expectedText.filter((text) => !body.includes(text));
     const presentForbiddenText = forbiddenText.filter((text) => body.includes(text));
 
-    return {
+    const result = {
       url,
       status: response.status,
       ok:
@@ -1756,23 +1776,14 @@ const results = await mapWithConcurrency(urls, routeFetchConcurrency, async (url
       missingExpectedText,
       presentForbiddenText,
     };
-  } catch (error) {
-    return { url, status: "error", ok: false, error: error instanceof Error ? error.message : String(error) };
-  }
-});
 
-for (const result of results) {
-  const marker = result.ok ? "PASS" : "FAIL";
-  const textCheck =
-    result.expectedText?.length > 0 && result.missingExpectedText?.length > 0
-      ? ` missing expected text: ${result.missingExpectedText.join(", ")}`
-      : result.presentForbiddenText?.length > 0
-        ? ` contains forbidden text: ${result.presentForbiddenText.join(", ")}`
-      : result.expectedText?.length > 0
-        ? ` contains: ${result.expectedText.join(", ")}`
-        : "";
-  const detail = result.error ? ` ${result.error}` : textCheck;
-  console.log(`${marker} ${result.status} ${result.url}${detail}`);
+    logRouteResult(result, options.label);
+    return result;
+  } catch (error) {
+    const result = { url, status: "error", ok: false, error: error instanceof Error ? error.message : String(error) };
+    logRouteResult(result, options.label);
+    return result;
+  }
 }
 
 const failed = results.filter((result) => !result.ok);
@@ -1784,16 +1795,34 @@ if (failed.length > 0) {
 
 console.log(`${results.length} active route check(s) passed.`);
 
-async function fetchRouteWithRetry(url) {
-  let lastError;
+function logRouteResult(result, label = "") {
+  const marker = result.ok ? "PASS" : "FAIL";
+  const prefix = label ? `${label} ` : "";
+  const path = new URL(result.url).pathname;
+  const textCheck =
+    result.expectedText?.length > 0 && result.missingExpectedText?.length > 0
+      ? ` missing expected text: ${result.missingExpectedText.join(", ")}`
+      : result.presentForbiddenText?.length > 0
+        ? ` contains forbidden text: ${result.presentForbiddenText.join(", ")}`
+        : result.expectedText?.length > 0
+          ? ` checked ${result.expectedText.length} expected text(s)`
+          : "";
+  const detail = result.error ? ` ${result.error}` : textCheck;
+  console.log(`${prefix}${marker} ${result.status} ${path}${detail}`);
+}
 
-  for (let attempt = 1; attempt <= routeFetchAttempts; attempt += 1) {
+async function fetchRouteWithRetry(url, options = {}) {
+  let lastError;
+  const attempts = options.attempts ?? routeFetchAttempts;
+  const timeoutMs = options.timeoutMs ?? routeFetchTimeoutMs;
+
+  for (let attempt = 1; attempt <= attempts; attempt += 1) {
     try {
-      return await fetchRouteWithTimeout(url);
+      return await fetchRouteWithTimeout(url, timeoutMs);
     } catch (error) {
       lastError = error;
 
-      if (attempt < routeFetchAttempts) {
+      if (attempt < attempts) {
         await delay(routeFetchRetryDelayMs * attempt);
       }
     }
@@ -1802,17 +1831,23 @@ async function fetchRouteWithRetry(url) {
   throw lastError;
 }
 
-async function fetchRouteWithTimeout(url) {
+function getWarmupUrls() {
+  return warmupPaths
+    .map((path) => `http://127.0.0.1:3000${path}`)
+    .filter((url) => urls.includes(url));
+}
+
+async function fetchRouteWithTimeout(url, timeoutMs = routeFetchTimeoutMs) {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => {
     controller.abort();
-  }, routeFetchTimeoutMs);
+  }, timeoutMs);
 
   try {
     return await fetch(url, { redirect: "manual", signal: controller.signal });
   } catch (error) {
     if (error instanceof Error && error.name === "AbortError") {
-      throw new Error(`Route fetch timed out after ${routeFetchTimeoutMs}ms.`);
+      throw new Error(`Route fetch timed out after ${timeoutMs}ms.`);
     }
 
     throw error;

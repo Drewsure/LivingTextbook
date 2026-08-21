@@ -387,7 +387,7 @@ Invoke-WebRequest -UseBasicParsing http://127.0.0.1:3000/ -TimeoutSec 10
 npm run verify:routes
 ```
 
-3. The verifier retries each route fetch up to three times with a short backoff and a 45-second per-attempt timeout.
+3. The verifier retries each route fetch twice with a short backoff and a 20-second per-attempt timeout.
 4. Treat missing expected text, repeated fetch failure after retry, or repeated route fetch timeout as a real issue.
 
 Why this matters: The active route list is intentionally broad. Lightweight retry behavior reduces false negatives without hiding real route content failures.
@@ -439,21 +439,23 @@ Why this matters: Dynamic route folders are now common in the build. Literal-pat
 
 Status: Active
 
-Observed behavior: As the active route matrix grew past 60 routes, `npm run verify:routes` could time out while checking large pages one-by-one, especially `/teacher/intake`.
+Observed behavior: As the active route matrix grew past 60 routes, `npm run verify:routes` could time out or appear frozen while checking large pages, especially `/teacher/intake`, if the verifier waited until the end to print route results.
 
 Procedure:
 
 1. Keep `scripts/verify-active-routes.mjs` on small-batch route fetching rather than a fully sequential route sweep.
 2. Keep the per-route fetch timeout finite so a stalled local server produces a clear route failure instead of a silent hang.
-3. If `npm run verify:routes` times out, directly probe the newest route and `/teacher/intake` first:
+3. Keep the heavy shell routes fully checked sequentially before the concurrent sweep and exclude them from the worker pool: `/`, `/teacher`, `/teacher/intake`, and `/teacher/game-readiness`.
+4. Keep route output streaming and concise: passing routes should report the route path and expected-text count, while failures should report missing text, forbidden text, or timeout details.
+5. If `npm run verify:routes` times out, directly probe the newest route and `/teacher/intake` first:
 
 ```powershell
 Invoke-WebRequest -UseBasicParsing http://127.0.0.1:3000/match/demo-unit-1
 Invoke-WebRequest -UseBasicParsing http://127.0.0.1:3000/teacher/intake
 ```
 
-4. If those routes return `200`, rerun `npm run verify:routes` with a longer command timeout before assuming a source failure.
-5. Treat missing expected text, failed route status, or repeated timeout after direct probes as a real issue.
+6. If those routes return `200`, rerun `npm run verify:routes` with a longer command timeout before assuming a source failure.
+7. Treat missing expected text, failed route status, or repeated timeout after direct probes as a real issue.
 
 Why this matters: The verifier is now protecting a broad commercial foundation. Small-batch fetching keeps the check practical without weakening the expected-text gate.
 

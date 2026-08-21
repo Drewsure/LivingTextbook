@@ -454,6 +454,7 @@
 - `DR-480-teacher-game-readiness-workbench-route.md`
 - `DR-481-tenant-prototype-review-workbench-routes.md`
 - `DR-482-generator-prototype-review-cross-links.md`
+- `DR-483-active-route-verifier-progress-output.md`
 
 ## Maintenance Rule
 

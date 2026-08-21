@@ -702,6 +702,7 @@ Next outputs:
 - Confirm AI reward readiness gates depend on shared gamification mapping guard clearance before reward publish, collection inventory, Spin Wheel tickets, avatar evolution, generated package approval, route creation, playlist creation, assignment, or student-ready markers can exist.
 - Confirm `npm run verify:ai-generator` passes after changes to AI authoring, game generation, activity pathway generation, target-language audio requirements, premium AI Tutor generation requests, or generator routes.
 - Confirm `npm run verify:review-keys` passes after changing upload, evidence, media, persistence, or other teacher/admin review panels that render repeated checklist text.
+- Keep active route verification streaming and concise as the route matrix grows; route failures must identify the path and reason without weakening expected-text coverage.
 
 ## Session 8: Premium Experience Layer
 
