@@ -51,6 +51,7 @@ export type GameModeId =
   | "speak-it"
   | "quiz"
   | "type-answer"
+  | "spelling-practice"
   | "sentence-builder";
 
 export type LaunchAccessMode = "teacher-qr" | "permanent-qr" | "front-door-code" | "teacher-preview" | "student-return";

@@ -430,6 +430,7 @@
 - `DR-456-teacher-session-settings-review-packet-storage-contract.md`
 - `DR-457-session-settings-review-visible-storage-guard.md`
 - `DR-458-review-list-key-stability.md`
+- `DR-459-spelling-practice-active-route.md`
 
 ## Maintenance Rule
 

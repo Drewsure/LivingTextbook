@@ -205,6 +205,18 @@ const samplePartnerInstructionAudioCues: AudioCue[] = [
     textbookReference: samplePartnerTextbookReference,
   },
   {
+    audioCueId: "cue-sample-publisher-l1-u1-instruction-spelling-practice",
+    tenantId,
+    kind: "instruction",
+    text: "Listen to the word. Tap the routine letters in order.",
+    language: "en",
+    source: "text-to-speech",
+    transcript: "Listen to the word. Tap the routine letters in order.",
+    unitKey: samplePartnerUnitKey,
+    gameMode: "spelling-practice",
+    textbookReference: samplePartnerTextbookReference,
+  },
+  {
     audioCueId: "cue-sample-publisher-l1-u1-instruction-balloon-pop",
     tenantId,
     kind: "instruction",
@@ -313,6 +325,18 @@ const samplePartnerFeedbackAudioCues: AudioCue[] = [
     transcript: "Correct. Next typing card.",
     unitKey: samplePartnerUnitKey,
     gameMode: "type-answer",
+    textbookReference: samplePartnerTextbookReference,
+  },
+  {
+    audioCueId: "cue-sample-publisher-l1-u1-feedback-spelling-correct",
+    tenantId,
+    kind: "feedback",
+    text: "Correct spelling. Next word.",
+    language: "en",
+    source: "text-to-speech",
+    transcript: "Correct spelling. Next word.",
+    unitKey: samplePartnerUnitKey,
+    gameMode: "spelling-practice",
     textbookReference: samplePartnerTextbookReference,
   },
   {
@@ -447,6 +471,11 @@ export const samplePartnerContentPackage: ContentPackage = {
           "cue-sample-publisher-l1-u1-instruction-type-answer",
           "cue-sample-publisher-l1-u1-feedback-type-answer-correct",
         ],
+        "spelling-practice": [
+          ...samplePartnerVocabularyAudioCues.map((cue) => cue.audioCueId),
+          "cue-sample-publisher-l1-u1-instruction-spelling-practice",
+          "cue-sample-publisher-l1-u1-feedback-spelling-correct",
+        ],
         "balloon-pop": [
           ...samplePartnerVocabularyAudioCues.map((cue) => cue.audioCueId),
           "cue-sample-publisher-l1-u1-instruction-balloon-pop",
@@ -542,7 +571,7 @@ export function getSamplePartnerLaunchSession(launchCode = samplePartnerLaunchCo
     curriculumId,
     unitKey: samplePartnerUnitKey,
     entryMode: "flashcards",
-    recommendedNextModes: ["match-up", "label-it", "memory-match", "balloon-pop", "quiz", "true-false", "type-answer", "sentence-builder", "speak-it"],
+    recommendedNextModes: ["match-up", "label-it", "memory-match", "balloon-pop", "quiz", "true-false", "type-answer", "spelling-practice", "sentence-builder", "speak-it"],
     openedAt: "2026-07-01T00:00:00.000Z",
   });
 }
@@ -556,7 +585,7 @@ export function getSamplePartnerFrontDoorLaunchSession(
     curriculumId,
     unitKey: samplePartnerUnitKey,
     entryMode: "flashcards",
-    recommendedNextModes: ["match-up", "label-it", "memory-match", "balloon-pop", "quiz", "true-false", "type-answer", "sentence-builder", "speak-it"],
+    recommendedNextModes: ["match-up", "label-it", "memory-match", "balloon-pop", "quiz", "true-false", "type-answer", "spelling-practice", "sentence-builder", "speak-it"],
     openedAt: "2026-07-01T00:00:00.000Z",
     accessMode: "front-door-code",
   });

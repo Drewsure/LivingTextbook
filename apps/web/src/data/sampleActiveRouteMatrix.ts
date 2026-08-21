@@ -347,6 +347,14 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     note: "Text-spelling typing route with target-language audio prompts and deterministic scoring.",
   },
   {
+    routeId: "ministar-spelling-practice",
+    group: "ministar",
+    label: "MiniStar spelling practice",
+    path: "/spelling/demo-unit-1",
+    status: "active-scaffold",
+    note: "Text-spelling letter-tile spelling route with target-language audio prompts and deterministic scoring.",
+  },
+  {
     routeId: "ministar-sentence",
     group: "ministar",
     label: "MiniStar sentence builder",
@@ -521,6 +529,14 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     path: "/type-answer/partner-demo-unit-1",
     status: "active-scaffold",
     note: "White-label text-spelling typing route with target-language audio prompts and deterministic scoring.",
+  },
+  {
+    routeId: "partner-spelling-practice",
+    group: "sample-publisher",
+    label: "Sample publisher spelling practice",
+    path: "/spelling/partner-demo-unit-1",
+    status: "active-scaffold",
+    note: "White-label text-spelling letter-tile spelling route with target-language audio prompts and deterministic scoring.",
   },
   {
     routeId: "partner-sentence",

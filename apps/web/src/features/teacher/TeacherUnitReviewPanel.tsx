@@ -29,6 +29,7 @@ const modeLabels: Record<GameModeId, string> = {
   quiz: "Quiz",
   "true-false": "True or False",
   "type-answer": "Type Answer",
+  "spelling-practice": "Spelling Practice",
   "sentence-builder": "Sentence Builder",
   "speak-it": "Speak It",
   "balloon-pop": "Balloon Pop",

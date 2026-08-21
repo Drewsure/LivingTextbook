@@ -183,6 +183,17 @@ export const sampleLocalBundleManifests: LocalBundleManifestSummary[] = [
         reportsProgress: true,
         note: "Typing route keeps target-language prompt audio as the progress trigger.",
       },
+      {
+        gameId: "ministar-local-spelling-practice",
+        label: "Spelling Practice",
+        gameMode: "spelling-practice",
+        engineId: "text-spelling",
+        localPath: "/spelling/demo-unit-1",
+        status: "planned",
+        audioCovered: true,
+        reportsProgress: true,
+        note: "Letter-tile spelling route keeps target-language prompt audio as the progress trigger.",
+      },
     ],
     artifacts: [
       {
@@ -372,6 +383,17 @@ export const sampleLocalBundleManifests: LocalBundleManifestSummary[] = [
         audioCovered: true,
         reportsProgress: true,
         note: "Text-spelling typing route uses reviewed vocabulary prompts and deterministic scoring.",
+      },
+      {
+        gameId: "partner-local-spelling-practice",
+        label: "Spelling Practice",
+        gameMode: "spelling-practice",
+        engineId: "text-spelling",
+        localPath: "/spelling/partner-demo-unit-1",
+        status: "included",
+        audioCovered: true,
+        reportsProgress: true,
+        note: "Text-spelling letter-tile route uses reviewed vocabulary prompts and deterministic scoring.",
       },
       {
         gameId: "partner-local-sentence",

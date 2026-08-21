@@ -22,6 +22,7 @@ import {
   getQuizPath,
   getSentenceBuilderPath,
   getSpeakItPath,
+  getSpellingPracticePath,
   getStudentLaunchPath,
   getTrainingAcademyPath,
   getTypeAnswerPath,
@@ -236,6 +237,15 @@ function buildActivityItems({
       role: "reinforcement",
       summary: "Listen to a reviewed word and type the target-language answer.",
       status: getGameRouteStatus("type-answer", progression),
+    },
+    {
+      id: "spelling-practice",
+      label: "Spelling Practice",
+      href: getSpellingPracticePath(launchCode),
+      mode: "spelling-practice",
+      role: "reinforcement",
+      summary: "Listen to a reviewed word and tap deterministic letter tiles in target-language spelling order.",
+      status: getGameRouteStatus("spelling-practice", progression),
     },
     {
       id: "balloon-pop",

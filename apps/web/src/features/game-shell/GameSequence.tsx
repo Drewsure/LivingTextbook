@@ -20,6 +20,7 @@ const memoryMatch = gameModeCatalog["memory-match"];
 const quiz = gameModeCatalog.quiz;
 const trueFalse = gameModeCatalog["true-false"];
 const typeAnswer = gameModeCatalog["type-answer"];
+const spellingPractice = gameModeCatalog["spelling-practice"];
 const balloonPop = gameModeCatalog["balloon-pop"];
 const sentenceBuilder = gameModeCatalog["sentence-builder"];
 const speakIt = gameModeCatalog["speak-it"];
@@ -66,6 +67,12 @@ const firstSliceSequence: SequenceItem[] = [
     engineId: typeAnswer?.engineId ?? "text-spelling",
     role: typeAnswer?.role ?? "reinforcement",
     summary: typeAnswer?.summary ?? "Type the reviewed word after hearing the target-language prompt.",
+  },
+  {
+    label: spellingPractice?.label ?? "Spelling Practice",
+    engineId: spellingPractice?.engineId ?? "text-spelling",
+    role: spellingPractice?.role ?? "reinforcement",
+    summary: spellingPractice?.summary ?? "Build reviewed words from target-language letter tiles.",
   },
   {
     label: balloonPop?.label ?? "Balloon Pop",

@@ -12,6 +12,7 @@ import {
   getQuizPath,
   getSentenceBuilderPath,
   getSpeakItPath,
+  getSpellingPracticePath,
   getStudentLaunchPath,
   getTypeAnswerPath,
   getTrueFalsePath,
@@ -157,6 +158,10 @@ function getModePath(mode: GameModeId, launchCode: string): string {
     return getTypeAnswerPath(launchCode);
   }
 
+  if (mode === "spelling-practice") {
+    return getSpellingPracticePath(launchCode);
+  }
+
   if (mode === "sentence-builder") {
     return getSentenceBuilderPath(launchCode);
   }
@@ -195,6 +200,10 @@ function getModeSummary(mode: GameModeId): string {
 
   if (mode === "type-answer") {
     return "Open the text-spelling typing route and type the word after hearing the target-language prompt.";
+  }
+
+  if (mode === "spelling-practice") {
+    return "Open the text-spelling spelling route and build the word from target-language letter tiles.";
   }
 
   if (mode === "sentence-builder") {
