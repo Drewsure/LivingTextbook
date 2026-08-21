@@ -35,6 +35,7 @@ import { sampleGameModeSettingsProfilePlan } from "@/data/sampleGameModeSettings
 import { sampleGameModeSettingsStorageReadinessPlan } from "@/data/sampleGameModeSettingsStorageReadiness";
 import { sampleGamePrototypeAssignmentPlan } from "@/data/sampleGamePrototypeAssignmentPlan";
 import { sampleFoundationVerificationGate } from "@/data/sampleFoundationVerificationGate";
+import { sampleBuildStageMap } from "@/data/sampleBuildStageMap";
 import { sampleCompetitiveFeatureCoverageMatrix } from "@/data/sampleCompetitiveFeatureCoverage";
 import { sampleLocalBundleManifests } from "@/data/sampleLocalBundlePlan";
 import { sampleLocalDeploymentPreflightPlan } from "@/data/sampleLocalDeploymentPreflight";
@@ -121,6 +122,7 @@ import { UnitGameOfferMapPanel } from "@/features/game-offers/UnitGameOfferMapPa
 import { TargetLanguageExpansionPanel } from "@/features/language/TargetLanguageExpansionPanel";
 import { GameBackgroundMediaPolicyPanel } from "@/features/multimedia/GameBackgroundMediaPolicyPanel";
 import { CompetitiveFeatureCoveragePanel } from "@/features/policy/CompetitiveFeatureCoveragePanel";
+import { BuildStageMapPanel } from "@/features/policy/BuildStageMapPanel";
 import { FoundationVerificationGatePanel } from "@/features/policy/FoundationVerificationGatePanel";
 import { MediaRightsReadinessPanel } from "@/features/multimedia/MediaRightsReadinessPanel";
 import { PilotPolicyReadinessPanel } from "@/features/policy/PilotPolicyReadinessPanel";
@@ -186,6 +188,7 @@ export default function TeacherIntakePage() {
           </div>
         </Card>
         <FoundationVerificationGatePanel gate={sampleFoundationVerificationGate} />
+        <BuildStageMapPanel map={sampleBuildStageMap} />
         <CompetitiveFeatureCoveragePanel matrix={sampleCompetitiveFeatureCoverageMatrix} />
         <PilotReadinessGatePanel
           readiness={whiteLabelPilotReadiness}

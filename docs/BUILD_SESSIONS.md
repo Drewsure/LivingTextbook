@@ -24,6 +24,7 @@ Outputs:
 - Any major architecture choice is entered in the decision register.
 - Any public-repository or public-asset candidate has license/provenance review before adoption.
 - `/teacher/intake` exposes the current foundation verification gate so partner/admin review can see the canonical command and what it protects.
+- `/teacher/intake` exposes a build stage map so foundation structure, active game route shell readiness, backend review-only status, live pilot blockers, game design timing, and Z.ai intake gating are visible before deeper implementation decisions.
 - `/teacher/intake` exposes competitive feature coverage so teacher time-saving, curated activity pathways, private libraries, printables, and target-language expansion are visible during admin review.
 - `/teacher/intake` exposes activity pathway compatibility so offered, planned, premium, teacher-review, and blocked outputs are visible before authoring or printables are built.
 - `/teacher/intake` exposes printable output readiness so worksheet/PDF expectations are planned without pretending export is ready.

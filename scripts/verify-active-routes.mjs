@@ -1584,6 +1584,14 @@ if (teacherIntakeExpected) {
   }
 
   teacherIntakeExpected.push(
+    "Build stage map",
+    "Foundation structure and playable route shell",
+    "Frontend structure ready",
+    "Active playable route shell ready",
+    "Backend contract review-only",
+    "Live classroom pilot blocked",
+    "Game design stage next but controlled",
+    "Z.ai intake waits for Codex integration gate",
     "Event taxonomy guard active",
     "Event taxonomy guard blocks",
     "Event taxonomy guard warnings",
