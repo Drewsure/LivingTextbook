@@ -1666,6 +1666,9 @@ if (teacherIntakeExpected) {
   }
 
   teacherIntakeExpected.push(
+    "Prototype review readiness",
+    "verify:prototype-review",
+    "Z.ai, Phaser, and outside prototype work stays in tenant-scoped review workbenches",
     "Build stage map",
     "Foundation structure and playable route shell",
     "Frontend structure ready",

@@ -13,6 +13,8 @@ Focused verification supplements:
 - `docs/verification/AUDIO_COVERED_MODE_READINESS_CHECKS.md`
 - `docs/verification/AI_AUTHORING_VERIFIER_CHECKS.md`
 - `npm run verify:ai-generator`
+- `docs/verification/PROTOTYPE_REVIEW_READINESS_CHECKS.md`
+- `npm run verify:prototype-review`
 - `docs/verification/BACKEND_DECISION_MATRIX_CHECKS.md`
 - `docs/verification/BACKEND_MIGRATION_CANDIDATES_CHECKS.md`
 - `docs/verification/BACKEND_MIGRATION_SPEC_CHECKS.md`

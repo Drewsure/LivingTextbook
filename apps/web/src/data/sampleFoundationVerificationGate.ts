@@ -23,7 +23,7 @@ export const sampleFoundationVerificationGate: FoundationVerificationGate = {
   gateId: "foundation-verification-2026-07",
   label: "Foundation verification gate",
   summary:
-    "This gate is the current no-shortcuts check before connector-side changes are treated as locally verified. It protects schema discipline, reusable game modes, package readiness, launch safety, upload governance, local companion honesty, teacher-session safety, production build health, and active route availability.",
+    "This gate is the current no-shortcuts check before connector-side changes are treated as locally verified. It protects schema discipline, reusable game modes, package readiness, launch safety, upload governance, local companion honesty, prototype review boundaries, teacher-session safety, production build health, and active route availability.",
   canonicalCommand: "npm run verify:foundation",
   lastKnownStatus: "pass",
   checks: [
@@ -83,6 +83,18 @@ export const sampleFoundationVerificationGate: FoundationVerificationGate = {
       protects: "Wordwall-style expectations stay curated: activity pathways, printables, private libraries, and teacher authoring remain reviewed before release.",
       evidence: "The focused verifiers check conversion boundaries, printable blockers, private-tenant-library-first rules, and teacher authoring gates.",
       nextStep: "Keep public community sharing and direct AI publish blocked until governance exists.",
+    },
+    {
+      checkId: "prototype-review-readiness",
+      label: "Prototype review readiness",
+      command: "npm run verify:prototype-review",
+      status: "pass",
+      protects:
+        "Z.ai, Phaser, and outside prototype work stays in tenant-scoped review workbenches until Codex approves integration evidence.",
+      evidence:
+        "The verifier checks prototype review routes, generator cross-links, game-readiness links, blocked app-write markers, no scoring mutation, and no route creation boundaries.",
+      nextStep:
+        "Run this before creating outside prototype tasks, reviewing returned Phaser work, or considering any prototype patch proposal.",
     },
     {
       checkId: "language-share-readiness",
@@ -171,7 +183,7 @@ export const sampleFoundationVerificationGate: FoundationVerificationGate = {
       command: "npm run verify:routes",
       status: "pass",
       protects: "Teacher, student, game, media, report, local companion, and QR routes stay reachable.",
-      evidence: "The verifier checks 75 active routes and required page text.",
+      evidence: "The verifier checks 78 active routes and required page text.",
       nextStep: "Add new active routes to the route matrix before treating them as part of a pilot.",
     },
   ],

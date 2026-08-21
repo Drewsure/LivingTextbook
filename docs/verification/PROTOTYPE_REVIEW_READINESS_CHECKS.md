@@ -1,0 +1,21 @@
+# Prototype Review Readiness Checks
+
+Use this focused check before any Z.ai, Phaser, or outside game prototype is treated as a candidate for Living Textbook integration.
+
+Command:
+
+```powershell
+npm run verify:prototype-review
+```
+
+The check confirms:
+
+- Tenant prototype review routes are active for MiniStar and sample publisher.
+- Teacher generator routes link to their focused prototype review workbenches.
+- The game readiness workbench links to both prototype review workbenches.
+- Prototype review pages keep no-write, no-scoring-mutation, no-route-creation, no-audio-manifest-mutation, no-package-promotion, and no-student-assignment boundaries visible.
+- The active route verifier protects the same markers.
+- The visible foundation gate includes `Prototype review readiness`.
+
+This check does not import code, approve Phaser wrappers, create routes, write storage, mutate scoring, publish packages, or assign student work.
+

@@ -701,6 +701,7 @@ Next outputs:
 - Confirm shared AI gamification validation enforces Star Dust caps, mastery thresholds, deterministic collection unlocks, accepted trigger events, required records, and blocked random/gacha/media/support-language shortcuts before reward readiness, package review, route creation, playlist creation, assignment, Spin Wheel tickets, avatar evolution, or collection inventory writes can exist.
 - Confirm AI reward readiness gates depend on shared gamification mapping guard clearance before reward publish, collection inventory, Spin Wheel tickets, avatar evolution, generated package approval, route creation, playlist creation, assignment, or student-ready markers can exist.
 - Confirm `npm run verify:ai-generator` passes after changes to AI authoring, game generation, activity pathway generation, target-language audio requirements, premium AI Tutor generation requests, or generator routes.
+- Confirm `npm run verify:prototype-review` passes after changing prototype review routes, generator prototype links, game readiness prototype links, or Z.ai/Phaser/outside prototype handoff gates.
 - Confirm `npm run verify:review-keys` passes after changing upload, evidence, media, persistence, or other teacher/admin review panels that render repeated checklist text.
 - Keep active route verification streaming and concise as the route matrix grows; route failures must identify the path and reason without weakening expected-text coverage.
 

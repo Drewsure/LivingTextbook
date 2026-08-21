@@ -455,6 +455,7 @@
 - `DR-481-tenant-prototype-review-workbench-routes.md`
 - `DR-482-generator-prototype-review-cross-links.md`
 - `DR-483-active-route-verifier-progress-output.md`
+- `DR-484-prototype-review-readiness-verifier.md`
 
 ## Maintenance Rule
 
