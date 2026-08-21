@@ -1,30 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import type {
-  AudioCue,
-  LaunchSession,
-  StudentProgressionState,
-  UnitPayload,
-} from "@living-textbook/content-model";
-import type { TeacherAssignmentPlan } from "@living-textbook/content-model/src/teacherAssignment";
 import {
   getMicrophonePracticeSettings,
   getTeacherMicrophoneApprovalStorageKey,
   parseStoredTeacherMicrophoneApproval,
 } from "@/features/tenant/microphonePracticeSettings";
-import type { TenantConfig } from "@/features/tenant/types";
-import { PlayableGameRouteShell } from "../components/PlayableGameRouteShell";
+import { PlayableGameRouteShell, type PlayableGameDemoFlowProps } from "../components/PlayableGameRouteShell";
 import { SpeakItPracticeGame } from "./SpeakItPracticeGame";
-
-interface SpeakItDemoFlowProps {
-  tenant: TenantConfig;
-  unit: UnitPayload;
-  launchSession: LaunchSession;
-  progression: StudentProgressionState;
-  audioCues?: AudioCue[];
-  assignmentPlan?: TeacherAssignmentPlan;
-}
 
 const gameMode = "speak-it" as const;
 
@@ -35,7 +18,7 @@ export function SpeakItDemoFlow({
   progression,
   audioCues = [],
   assignmentPlan,
-}: SpeakItDemoFlowProps) {
+}: PlayableGameDemoFlowProps) {
   const microphonePracticeSettings = getMicrophonePracticeSettings(tenant);
   const microphoneApprovalStorageKey = getTeacherMicrophoneApprovalStorageKey(tenant.id);
   const [teacherMicApproved, setTeacherMicApproved] = useState(microphonePracticeSettings.localRecordReplayEnabled);

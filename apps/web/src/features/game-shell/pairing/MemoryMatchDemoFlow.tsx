@@ -1,24 +1,7 @@
 "use client";
 
-import type {
-  AudioCue,
-  LaunchSession,
-  StudentProgressionState,
-  UnitPayload,
-} from "@living-textbook/content-model";
-import type { TeacherAssignmentPlan } from "@living-textbook/content-model/src/teacherAssignment";
-import type { TenantConfig } from "@/features/tenant/types";
-import { PlayableGameRouteShell } from "../components/PlayableGameRouteShell";
+import { PlayableGameRouteShell, type PlayableGameDemoFlowProps } from "../components/PlayableGameRouteShell";
 import { PairingMemoryMatchGame } from "./PairingMemoryMatchGame";
-
-interface MemoryMatchDemoFlowProps {
-  tenant: TenantConfig;
-  unit: UnitPayload;
-  launchSession: LaunchSession;
-  progression: StudentProgressionState;
-  audioCues?: AudioCue[];
-  assignmentPlan?: TeacherAssignmentPlan;
-}
 
 const gameMode = "memory-match" as const;
 
@@ -29,7 +12,7 @@ export function MemoryMatchDemoFlow({
   progression,
   audioCues = [],
   assignmentPlan,
-}: MemoryMatchDemoFlowProps) {
+}: PlayableGameDemoFlowProps) {
   return (
     <PlayableGameRouteShell
       tenant={tenant}

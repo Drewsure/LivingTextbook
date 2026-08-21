@@ -1,24 +1,7 @@
 "use client";
 
-import type {
-  AudioCue,
-  LaunchSession,
-  StudentProgressionState,
-  UnitPayload,
-} from "@living-textbook/content-model";
-import type { TeacherAssignmentPlan } from "@living-textbook/content-model/src/teacherAssignment";
-import type { TenantConfig } from "@/features/tenant/types";
-import { PlayableGameRouteShell } from "../components/PlayableGameRouteShell";
+import { PlayableGameRouteShell, type PlayableGameDemoFlowProps } from "../components/PlayableGameRouteShell";
 import { SentenceBuilderPracticeGame } from "./SentenceBuilderPracticeGame";
-
-interface SentenceBuilderDemoFlowProps {
-  tenant: TenantConfig;
-  unit: UnitPayload;
-  launchSession: LaunchSession;
-  progression: StudentProgressionState;
-  audioCues?: AudioCue[];
-  assignmentPlan?: TeacherAssignmentPlan;
-}
 
 const gameMode = "sentence-builder" as const;
 
@@ -29,7 +12,7 @@ export function SentenceBuilderDemoFlow({
   progression,
   audioCues = [],
   assignmentPlan,
-}: SentenceBuilderDemoFlowProps) {
+}: PlayableGameDemoFlowProps) {
   return (
     <PlayableGameRouteShell
       tenant={tenant}

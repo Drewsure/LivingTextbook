@@ -3,10 +3,12 @@
 import { useState } from "react";
 import type { ReactNode } from "react";
 import type {
+  AudioCue,
   GameModeId,
   GameProgressEvent,
   LaunchSession,
   StudentProgressionState,
+  UnitPayload,
 } from "@living-textbook/content-model";
 import type { TeacherAssignmentPlan } from "@living-textbook/content-model/src/teacherAssignment";
 import type { GameModeCompletionResult } from "@/features/progression/localProgressionAdapter";
@@ -16,6 +18,15 @@ import { TeacherAssignmentSettingsCard } from "@/features/student/components/Tea
 import type { TenantConfig } from "@/features/tenant/types";
 import { GameCompletionNextCard } from "./GameCompletionNextCard";
 import { GameRouteHeaderCard } from "./GameRouteHeaderCard";
+
+export interface PlayableGameDemoFlowProps {
+  tenant: TenantConfig;
+  unit: UnitPayload;
+  launchSession: LaunchSession;
+  progression: StudentProgressionState;
+  audioCues?: AudioCue[];
+  assignmentPlan?: TeacherAssignmentPlan;
+}
 
 interface PlayableGameRouteShellProps {
   tenant: TenantConfig;
