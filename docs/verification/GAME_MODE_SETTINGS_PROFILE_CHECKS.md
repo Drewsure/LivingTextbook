@@ -17,6 +17,7 @@ Acceptance criteria:
 - Learning audio has priority over background media, music, sound effects, and celebrations.
 - Timer, difficulty, motion, attempts, and background media rules cannot override scoring profiles.
 - Future storage readiness shows backend-neutral records, hosted write intents, and local write intents.
+- Teacher intake shows a compact backend contract map linking schema entities, migration candidates, migration specs, persistence categories, hosted write intents, and local write intents.
 
 Blocked until later:
 

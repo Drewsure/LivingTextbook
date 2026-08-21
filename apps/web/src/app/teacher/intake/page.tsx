@@ -30,6 +30,7 @@ import { sampleEvidenceAttachmentStorageReadinessPlan } from "@/data/sampleEvide
 import { sampleEvidenceExportReadinessPlan } from "@/data/sampleEvidenceExportReadiness";
 import { sampleEvidenceStorageAdapterSelectionGate } from "@/data/sampleEvidenceStorageAdapterSelectionGate";
 import { sampleGameBackgroundMediaPolicy } from "@/data/sampleGameBackgroundMediaPolicy";
+import { sampleGameModeSettingsBackendContractPlan } from "@/data/sampleGameModeSettingsBackendContract";
 import { sampleGameModeSettingsProfilePlan } from "@/data/sampleGameModeSettingsProfiles";
 import { sampleGameModeSettingsStorageReadinessPlan } from "@/data/sampleGameModeSettingsStorageReadiness";
 import { sampleGamePrototypeAssignmentPlan } from "@/data/sampleGamePrototypeAssignmentPlan";
@@ -112,6 +113,7 @@ import { DeploymentProfilePanel } from "@/features/deployment/DeploymentProfileP
 import { LocalDeploymentPreflightPanel } from "@/features/deployment/LocalDeploymentPreflightPanel";
 import { LocalBundleManifestPanel } from "@/features/deployment/LocalBundleManifestPanel";
 import { ActivityPathwayCompatibilityPanel } from "@/features/game-offers/ActivityPathwayCompatibilityPanel";
+import { GameModeSettingsBackendContractPanel } from "@/features/game-offers/GameModeSettingsBackendContractPanel";
 import { GameModeSettingsProfilePanel } from "@/features/game-offers/GameModeSettingsProfilePanel";
 import { GameModeSettingsStorageReadinessPanel } from "@/features/game-offers/GameModeSettingsStorageReadinessPanel";
 import { GamePrototypeAssignmentPanel } from "@/features/game-offers/GamePrototypeAssignmentPanel";
@@ -223,6 +225,7 @@ export default function TeacherIntakePage() {
         <UnitGameOfferMapPanel map={sampleUnitGameOfferMap} />
         <GameModeSettingsProfilePanel plan={sampleGameModeSettingsProfilePlan} />
         <GameModeSettingsStorageReadinessPanel plan={sampleGameModeSettingsStorageReadinessPlan} />
+        <GameModeSettingsBackendContractPanel plan={sampleGameModeSettingsBackendContractPlan} />
         <GamePrototypeAssignmentPanel plan={sampleGamePrototypeAssignmentPlan} />
         <UnitPackageReadinessPanel packages={sampleUnitPackageReadiness} />
         <TeacherAssignmentReadinessPanel
