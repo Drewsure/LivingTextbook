@@ -683,6 +683,7 @@ Next outputs:
 - Confirm teacher/admin intake exposes a compact game settings backend map before live settings controls exist, so reviewers can see the schema, migration, adapter, and blocked-mutation path without scanning the full backend inventory.
 - Confirm AI-generated game drafts name settings profile references and backend settings gates before package review, so generated content cannot bypass timer, difficulty, motion, background media, skin, arcade speed, scoring, support-language, media-only progress, or learning-audio rules.
 - Keep active game-route wrappers on shared structural components such as `GameRouteHeaderCard` before adding premium visual skins or micro-interactions.
+- Keep playable game routes on shared structural shells such as `PlayableGameRouteShell` before adding premium visual skins, Phaser wrappers, or outside prototype intake.
 - Confirm student activity hubs at `/activities/demo-unit-1` and `/activities/partner-demo-unit-1` expose curated reviewed pathways without becoming switch-to-anything template panels.
 - Confirm student launch and private assignment routes link to the curated activity hub for the same launch code without unlocking progress or exposing teacher/admin controls.
 - Confirm local companion bundle manifests include curated activity hub fallback routes so hosted PWA and closed textbook package navigation stay aligned.

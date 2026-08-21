@@ -443,6 +443,7 @@
 - `DR-469-active-route-fetch-timeout.md`
 - `DR-470-report-settings-context-active-route-marker.md`
 - `DR-471-fill-in-the-blank-active-route.md`
+- `DR-472-playable-game-route-shell.md`
 
 ## Maintenance Rule
 
