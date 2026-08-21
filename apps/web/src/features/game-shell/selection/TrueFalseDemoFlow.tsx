@@ -1,21 +1,14 @@
 "use client";
 
-import { useState } from "react";
 import type {
   AudioCue,
-  GameProgressEvent,
   LaunchSession,
   StudentProgressionState,
   UnitPayload,
 } from "@living-textbook/content-model";
 import type { TeacherAssignmentPlan } from "@living-textbook/content-model/src/teacherAssignment";
-import type { GameModeCompletionResult } from "@/features/progression/localProgressionAdapter";
-import { UnitSessionProgressSummary } from "@/features/progression/UnitSessionProgressSummary";
-import { SessionEventLog } from "@/features/student/components/SessionEventLog";
-import { TeacherAssignmentSettingsCard } from "@/features/student/components/TeacherAssignmentSettingsCard";
 import type { TenantConfig } from "@/features/tenant/types";
-import { GameCompletionNextCard } from "../components/GameCompletionNextCard";
-import { GameRouteHeaderCard } from "../components/GameRouteHeaderCard";
+import { PlayableGameRouteShell } from "../components/PlayableGameRouteShell";
 import { TrueFalsePracticeGame } from "./TrueFalsePracticeGame";
 
 interface TrueFalseDemoFlowProps {
@@ -37,66 +30,32 @@ export function TrueFalseDemoFlow({
   audioCues = [],
   assignmentPlan,
 }: TrueFalseDemoFlowProps) {
-  const [currentProgression, setCurrentProgression] = useState<StudentProgressionState>({
-    ...progression,
-    currentStep: "recommended-game",
-    unlockedGameModes: Array.from(new Set([...progression.unlockedGameModes, gameMode])),
-  });
-  const [sessionEvents, setSessionEvents] = useState<GameProgressEvent[]>([]);
-  const [lastEarnedDust, setLastEarnedDust] = useState(0);
-
-  function handleEvent(event: GameProgressEvent) {
-    setSessionEvents((events) => [...events, event]);
-  }
-
-  function handleComplete(result: GameModeCompletionResult) {
-    setCurrentProgression(result.progression);
-    setLastEarnedDust(result.earnedStarDust);
-
-    if (result.event) {
-      setSessionEvents((events) => [...events, result.event as GameProgressEvent]);
-    }
-  }
-
   return (
-    <div className="mx-auto grid max-w-3xl gap-5">
-      <GameRouteHeaderCard
-        eyebrow="Core true/false selection slice"
-        title={`True or False: ${unit.unitMeta.theme}`}
-        summary="Decide whether the listened target-language word matches the visible card. This is a simple selection-engine review mode, not a broad template switch."
-        statusLabel="Selection"
-        earnedStarDust={lastEarnedDust}
-        rewardName={tenant.rewardName}
-      />
-
-      <TeacherAssignmentSettingsCard assignmentPlan={assignmentPlan} />
-
-      <UnitSessionProgressSummary
-        title="True or False Progress"
-        launchSession={launchSession}
-        progression={currentProgression}
-        events={sessionEvents}
-        rewardName={tenant.rewardName}
-      />
-
-      <TrueFalsePracticeGame
-        unit={unit}
-        launchSession={launchSession}
-        progression={currentProgression}
-        audioCues={audioCues}
-        onEvent={handleEvent}
-        onComplete={handleComplete}
-      />
-
-      <GameCompletionNextCard
-        launchSession={launchSession}
-        progression={currentProgression}
-        currentGameMode={gameMode}
-        earnedStarDust={lastEarnedDust}
-        rewardName={tenant.rewardName}
-      />
-
-      <SessionEventLog events={sessionEvents} />
-    </div>
+    <PlayableGameRouteShell
+      tenant={tenant}
+      launchSession={launchSession}
+      progression={progression}
+      assignmentPlan={assignmentPlan}
+      gameMode={gameMode}
+      header={{
+        eyebrow: "Core true/false selection slice",
+        title: `True or False: ${unit.unitMeta.theme}`,
+        summary:
+          "Decide whether the listened target-language word matches the visible card. This is a simple selection-engine review mode, not a broad template switch.",
+        statusLabel: "Selection",
+      }}
+      progressTitle="True or False Progress"
+    >
+      {({ progression: currentProgression, onEvent, onComplete }) => (
+        <TrueFalsePracticeGame
+          unit={unit}
+          launchSession={launchSession}
+          progression={currentProgression}
+          audioCues={audioCues}
+          onEvent={onEvent}
+          onComplete={onComplete}
+        />
+      )}
+    </PlayableGameRouteShell>
   );
 }

@@ -28,6 +28,7 @@ interface PlayableGameRouteShellProps {
     title: string;
     summary: string;
     statusLabel: string;
+    statusTone?: "neutral" | "success" | "warning";
   };
   progressTitle: string;
   children: (props: {
@@ -75,6 +76,7 @@ export function PlayableGameRouteShell({
         title={header.title}
         summary={header.summary}
         statusLabel={header.statusLabel}
+        statusTone={header.statusTone}
         earnedStarDust={lastEarnedDust}
         rewardName={tenant.rewardName}
       />

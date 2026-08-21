@@ -444,6 +444,7 @@
 - `DR-470-report-settings-context-active-route-marker.md`
 - `DR-471-fill-in-the-blank-active-route.md`
 - `DR-472-playable-game-route-shell.md`
+- `DR-473-active-playable-route-shell-consolidation.md`
 
 ## Maintenance Rule
 
