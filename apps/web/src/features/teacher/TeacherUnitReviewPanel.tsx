@@ -30,6 +30,7 @@ const modeLabels: Record<GameModeId, string> = {
   "true-false": "True or False",
   "type-answer": "Type Answer",
   "spelling-practice": "Spelling Practice",
+  "fill-in-the-blank": "Fill in the Blank",
   "sentence-builder": "Sentence Builder",
   "speak-it": "Speak It",
   "balloon-pop": "Balloon Pop",

@@ -5,6 +5,7 @@ import type { GameModeId, LaunchSession, StudentProgressionState } from "@living
 import { AudioCueButton, AudioCueText } from "@/features/audio/AudioCueButton";
 import {
   getBalloonPopPath,
+  getFillInTheBlankPath,
   getLabelItPath,
   getMatchUpPath,
   getStudentActivityHubPath,
@@ -162,6 +163,10 @@ function getModePath(mode: GameModeId, launchCode: string): string {
     return getSpellingPracticePath(launchCode);
   }
 
+  if (mode === "fill-in-the-blank") {
+    return getFillInTheBlankPath(launchCode);
+  }
+
   if (mode === "sentence-builder") {
     return getSentenceBuilderPath(launchCode);
   }
@@ -204,6 +209,10 @@ function getModeSummary(mode: GameModeId): string {
 
   if (mode === "spelling-practice") {
     return "Open the text-spelling spelling route and build the word from target-language letter tiles.";
+  }
+
+  if (mode === "fill-in-the-blank") {
+    return "Open the text-spelling syntax route and choose the missing word in reviewed target sentences.";
   }
 
   if (mode === "sentence-builder") {

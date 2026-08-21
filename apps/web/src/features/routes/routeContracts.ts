@@ -328,6 +328,14 @@ export const appRouteContracts: AppRouteContract[] = [
     requiredState: ["TenantConfig", "UnitPayload", "LaunchSession", "StudentProgressionState", "AudioCue[]"],
   },
   {
+    id: "fill-in-the-blank",
+    pattern: "/fill/[code]",
+    audience: "student",
+    status: "active-scaffold",
+    purpose: "Let a student choose the missing reviewed target-language word or phrase inside approved sentence structures through the text-spelling parent engine.",
+    requiredState: ["TenantConfig", "UnitPayload", "LaunchSession", "StudentProgressionState", "AudioCue[]"],
+  },
+  {
     id: "quiz",
     pattern: "/quiz/[code]",
     audience: "student",
@@ -445,6 +453,10 @@ export function getTypeAnswerPath(launchCode: LaunchCode): string {
 
 export function getSpellingPracticePath(launchCode: LaunchCode): string {
   return `/spelling/${encodeURIComponent(launchCode)}`;
+}
+
+export function getFillInTheBlankPath(launchCode: LaunchCode): string {
+  return `/fill/${encodeURIComponent(launchCode)}`;
 }
 
 export function getQuizPath(launchCode: LaunchCode): string {

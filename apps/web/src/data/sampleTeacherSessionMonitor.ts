@@ -714,8 +714,8 @@ function createMonitorProgression(
   return {
     ...progression,
     currentStep: "completion-review",
-    unlockedGameModes: uniqueModes([...progression.unlockedGameModes, ...launchSession.recommendedNextModes, "label-it", "quiz", "true-false", "type-answer", "sentence-builder", "speak-it"]),
-    completedGameModes: uniqueModes([...progression.completedGameModes, launchSession.entryMode, "label-it", "memory-match", "quiz", "true-false", "type-answer", "sentence-builder"]),
+    unlockedGameModes: uniqueModes([...progression.unlockedGameModes, ...launchSession.recommendedNextModes, "label-it", "quiz", "true-false", "type-answer", "fill-in-the-blank", "sentence-builder", "speak-it"]),
+    completedGameModes: uniqueModes([...progression.completedGameModes, launchSession.entryMode, "label-it", "memory-match", "quiz", "true-false", "type-answer", "fill-in-the-blank", "sentence-builder"]),
     earnedStarDust: 1000,
     masteryStatus: "in-progress",
     lastEventAt: latestEvent?.occurredAt,

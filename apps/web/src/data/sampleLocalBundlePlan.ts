@@ -194,6 +194,17 @@ export const sampleLocalBundleManifests: LocalBundleManifestSummary[] = [
         reportsProgress: true,
         note: "Letter-tile spelling route keeps target-language prompt audio as the progress trigger.",
       },
+      {
+        gameId: "ministar-local-fill-in-the-blank",
+        label: "Fill in the Blank",
+        gameMode: "fill-in-the-blank",
+        engineId: "text-spelling",
+        localPath: "/fill/demo-unit-1",
+        status: "planned",
+        audioCovered: true,
+        reportsProgress: true,
+        note: "Syntax fill-in route keeps target-language sentence audio as the progress trigger.",
+      },
     ],
     artifacts: [
       {
@@ -394,6 +405,17 @@ export const sampleLocalBundleManifests: LocalBundleManifestSummary[] = [
         audioCovered: true,
         reportsProgress: true,
         note: "Text-spelling letter-tile route uses reviewed vocabulary prompts and deterministic scoring.",
+      },
+      {
+        gameId: "partner-local-fill-in-the-blank",
+        label: "Fill in the Blank",
+        gameMode: "fill-in-the-blank",
+        engineId: "text-spelling",
+        localPath: "/fill/partner-demo-unit-1",
+        status: "included",
+        audioCovered: true,
+        reportsProgress: true,
+        note: "Text-spelling syntax route uses reviewed target sentences and deterministic scoring.",
       },
       {
         gameId: "partner-local-sentence",

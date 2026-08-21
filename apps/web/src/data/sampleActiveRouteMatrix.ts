@@ -355,6 +355,14 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     note: "Text-spelling letter-tile spelling route with target-language audio prompts and deterministic scoring.",
   },
   {
+    routeId: "ministar-fill-in-the-blank",
+    group: "ministar",
+    label: "MiniStar fill in the blank",
+    path: "/fill/demo-unit-1",
+    status: "active-scaffold",
+    note: "Text-spelling syntax fill-in route with target-language sentence prompts and deterministic scoring.",
+  },
+  {
     routeId: "ministar-sentence",
     group: "ministar",
     label: "MiniStar sentence builder",
@@ -537,6 +545,14 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     path: "/spelling/partner-demo-unit-1",
     status: "active-scaffold",
     note: "White-label text-spelling letter-tile spelling route with target-language audio prompts and deterministic scoring.",
+  },
+  {
+    routeId: "partner-fill-in-the-blank",
+    group: "sample-publisher",
+    label: "Sample publisher fill in the blank",
+    path: "/fill/partner-demo-unit-1",
+    status: "active-scaffold",
+    note: "White-label text-spelling syntax fill-in route with target-language sentence prompts and deterministic scoring.",
   },
   {
     routeId: "partner-sentence",

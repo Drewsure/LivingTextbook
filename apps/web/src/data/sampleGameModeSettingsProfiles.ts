@@ -57,6 +57,7 @@ export const sampleGameModeSettingsProfilePlan: GameModeSettingsProfilePlan = {
     createProfile("true-false", "True or False", "selection", "safe-default", "teacher-adjustable", "none", "Attempts count target-language decisions; mismatch rounds stay deterministic."),
     createProfile("type-answer", "Type Answer", "text-spelling", "teacher-review", "untimed", "none", "Attempts count submitted typed answers and reviewed spelling variants only."),
     createProfile("spelling-practice", "Spelling Practice", "text-spelling", "safe-default", "untimed", "none", "Attempts count submitted letter-tile spelling answers."),
+    createProfile("fill-in-the-blank", "Fill in the Blank", "text-spelling", "safe-default", "untimed", "none", "Attempts count submitted target-language sentence completions only."),
     createProfile("sentence-builder", "Sentence Builder", "text-spelling", "teacher-review", "untimed", "none", "Attempts count submitted sentence builds using reviewed segmentation."),
     createProfile("speak-it", "Speak It", "selection", "teacher-review", "untimed", "none", "Attempts count local practice rounds; microphone and AI scoring stay optional and gated."),
   ],

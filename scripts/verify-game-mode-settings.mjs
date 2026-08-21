@@ -21,6 +21,7 @@ const requiredModes = [
   "true-false",
   "type-answer",
   "spelling-practice",
+  "fill-in-the-blank",
   "sentence-builder",
   "speak-it",
 ];

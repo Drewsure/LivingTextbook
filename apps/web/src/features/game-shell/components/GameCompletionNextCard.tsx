@@ -5,6 +5,7 @@ import type { GameModeId, LaunchSession, StudentProgressionState } from "@living
 import { AudioCueText } from "@/features/audio/AudioCueButton";
 import {
   getBalloonPopPath,
+  getFillInTheBlankPath,
   getFlashcardsPath,
   getLabelItPath,
   getMatchUpPath,
@@ -132,6 +133,8 @@ function getGamePath(gameMode: GameModeId, launchCode: string): string {
       return getTypeAnswerPath(launchCode);
     case "spelling-practice":
       return getSpellingPracticePath(launchCode);
+    case "fill-in-the-blank":
+      return getFillInTheBlankPath(launchCode);
     case "sentence-builder":
       return getSentenceBuilderPath(launchCode);
     case "speak-it":

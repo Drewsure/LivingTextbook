@@ -160,6 +160,7 @@ Then verify:
 - `/label-it/demo-unit-1`
 - `/type-answer/demo-unit-1`
 - `/spelling/demo-unit-1`
+- `/fill/demo-unit-1`
 - `/sentence/demo-unit-1`
 - `/enter/ministar`
 - `/speak/demo-unit-1`
@@ -172,6 +173,7 @@ Then verify:
 - `/label-it/partner-demo-unit-1`
 - `/type-answer/partner-demo-unit-1`
 - `/spelling/partner-demo-unit-1`
+- `/fill/partner-demo-unit-1`
 - `/sentence/partner-demo-unit-1`
 - `/speak/partner-demo-unit-1`
 - `/print/partner-demo-unit-1`

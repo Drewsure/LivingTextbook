@@ -44,6 +44,7 @@ const requiredActiveGameRouteContracts = [
   { id: "true-false", pattern: "/true-false/[code]", helper: "getTrueFalsePath" },
   { id: "type-answer", pattern: "/type-answer/[code]", helper: "getTypeAnswerPath" },
   { id: "spelling-practice", pattern: "/spelling/[code]", helper: "getSpellingPracticePath" },
+  { id: "fill-in-the-blank", pattern: "/fill/[code]", helper: "getFillInTheBlankPath" },
   { id: "balloon-pop", pattern: "/balloon/[code]", helper: "getBalloonPopPath" },
   { id: "sentence-builder", pattern: "/sentence/[code]", helper: "getSentenceBuilderPath" },
   { id: "speak-it", pattern: "/speak/[code]", helper: "getSpeakItPath" },

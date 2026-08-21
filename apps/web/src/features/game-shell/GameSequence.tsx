@@ -21,6 +21,7 @@ const quiz = gameModeCatalog.quiz;
 const trueFalse = gameModeCatalog["true-false"];
 const typeAnswer = gameModeCatalog["type-answer"];
 const spellingPractice = gameModeCatalog["spelling-practice"];
+const fillInTheBlank = gameModeCatalog["fill-in-the-blank"];
 const balloonPop = gameModeCatalog["balloon-pop"];
 const sentenceBuilder = gameModeCatalog["sentence-builder"];
 const speakIt = gameModeCatalog["speak-it"];
@@ -73,6 +74,12 @@ const firstSliceSequence: SequenceItem[] = [
     engineId: spellingPractice?.engineId ?? "text-spelling",
     role: spellingPractice?.role ?? "reinforcement",
     summary: spellingPractice?.summary ?? "Build reviewed words from target-language letter tiles.",
+  },
+  {
+    label: fillInTheBlank?.label ?? "Fill in the Blank",
+    engineId: fillInTheBlank?.engineId ?? "text-spelling",
+    role: fillInTheBlank?.role ?? "reinforcement",
+    summary: fillInTheBlank?.summary ?? "Choose missing words inside reviewed target sentence structures.",
   },
   {
     label: balloonPop?.label ?? "Balloon Pop",

@@ -68,7 +68,7 @@ export const sampleGameModeSettingsStorageReadinessPlan: GameModeSettingsStorage
         "scoring_profile_id",
         "release_gate_ids",
       ],
-      sourceProfiles: ["settings-flashcards", "settings-memory-match", "settings-balloon-pop", "settings-sentence-builder", "settings-speak-it"],
+      sourceProfiles: ["settings-flashcards", "settings-memory-match", "settings-balloon-pop", "settings-fill-in-the-blank", "settings-sentence-builder", "settings-speak-it"],
       blockedWrites: [
         storageBlocked,
         "No persisted timer choice from this profile.",

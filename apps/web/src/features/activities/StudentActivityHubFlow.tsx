@@ -13,6 +13,7 @@ import { AudioCueText } from "@/features/audio/AudioCueButton";
 import { GameRouteHeaderCard } from "@/features/game-shell/components/GameRouteHeaderCard";
 import {
   getBalloonPopPath,
+  getFillInTheBlankPath,
   getFlashcardsPath,
   getLabelItPath,
   getMatchUpPath,
@@ -246,6 +247,15 @@ function buildActivityItems({
       role: "reinforcement",
       summary: "Listen to a reviewed word and tap deterministic letter tiles in target-language spelling order.",
       status: getGameRouteStatus("spelling-practice", progression),
+    },
+    {
+      id: "fill-in-the-blank",
+      label: "Fill in the Blank",
+      href: getFillInTheBlankPath(launchCode),
+      mode: "fill-in-the-blank",
+      role: "reinforcement",
+      summary: "Listen to a reviewed sentence and choose the missing target-language word or phrase.",
+      status: getGameRouteStatus("fill-in-the-blank", progression),
     },
     {
       id: "balloon-pop",
