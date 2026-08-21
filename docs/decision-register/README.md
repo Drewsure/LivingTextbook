@@ -450,6 +450,7 @@
 - `DR-476-parent-engine-readiness-panel.md`
 - `DR-477-parent-engine-readiness-verifier.md`
 - `DR-478-active-game-replay-checklist.md`
+- `DR-479-active-game-replay-route-links.md`
 
 ## Maintenance Rule
 

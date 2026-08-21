@@ -80,9 +80,11 @@ function ReplayRecordCard({ record }: { record: ActiveGameReplayRecord }) {
             {record.gameMode} / {record.engineId}
           </p>
           <h3 className="mt-1 text-base font-bold text-[var(--tenant-text)]">{record.label}</h3>
-          <p className="mt-1 break-words text-xs font-semibold text-[var(--tenant-muted)]">
-            {record.routePaths.join(" / ")}
-          </p>
+          <div className="mt-2 flex flex-wrap gap-2">
+            {record.routePaths.map((path) => (
+              <ReplayRouteLink key={path} href={path} />
+            ))}
+          </div>
         </div>
         <StatusPill label={record.status} tone={statusTone[record.status]} />
       </div>
@@ -115,5 +117,16 @@ function ReplayFact({ title, value }: { title: string; value: string }) {
       <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">{title}</p>
       <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">{value}</p>
     </section>
+  );
+}
+
+function ReplayRouteLink({ href }: { href: string }) {
+  return (
+    <a
+      className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] px-3 py-2 text-xs font-semibold text-[var(--tenant-text)] underline-offset-4 hover:underline"
+      href={href}
+    >
+      {`Open ${href}`}
+    </a>
   );
 }

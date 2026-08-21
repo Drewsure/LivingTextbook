@@ -86,6 +86,8 @@ expectedTextByPath.get("/teacher/intake")?.push(
   "Audio coverage",
   "Scoring replay",
   "Mobile/accessibility",
+  "Open /flashcards/demo-unit-1",
+  "Open /speak/partner-demo-unit-1",
   "No hard-coded unit text",
   "Do not build 48 isolated games",
   "Pairing parent engine",
