@@ -29,6 +29,15 @@ export default function TeacherPage() {
         </a>
         <a
           className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] p-4 text-sm font-bold text-[var(--tenant-text)] underline-offset-4 hover:underline"
+          href="/teacher/reporting"
+        >
+          Open teacher reporting readiness workbench
+          <span className="mt-1 block text-xs font-semibold text-[var(--tenant-muted)]">
+            Coded learner slots, report package boundaries, export blockers, and sensitive-data exclusions.
+          </span>
+        </a>
+        <a
+          className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] p-4 text-sm font-bold text-[var(--tenant-text)] underline-offset-4 hover:underline"
           href="/teacher/persistence"
         >
           Open persistence readiness workbench

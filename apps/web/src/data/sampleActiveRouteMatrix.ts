@@ -52,6 +52,15 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
       "Focused review route for teacher launch-session choices, support-language limits, microphone approval, background media, AI Tutor package gates, and report safety before live setting saves.",
   },
   {
+    routeId: "teacher-reporting-readiness",
+    group: "core",
+    label: "Teacher reporting readiness workbench",
+    path: "/teacher/reporting",
+    status: "active-scaffold",
+    note:
+      "Focused reporting route for coded learner slots, report package boundaries, event acceptance, export policy, and sensitive-data exclusions before live report export.",
+  },
+  {
     routeId: "teacher-game-readiness",
     group: "core",
     label: "Teacher game readiness workbench",

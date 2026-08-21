@@ -87,6 +87,22 @@ export const appRouteContracts: AppRouteContract[] = [
     ],
   },
   {
+    id: "teacher-reporting-readiness",
+    pattern: "/teacher/reporting",
+    audience: "teacher",
+    status: "active-scaffold",
+    purpose:
+      "Show coded learner identity, report package boundaries, event acceptance, export blockers, support-only signals, and sensitive-data exclusions before live teacher report export.",
+    requiredState: [
+      "TenantConfig",
+      "ClassRosterPlan[]",
+      "TeacherSessionMonitorContext[]",
+      "TeacherReportExportPlan",
+      "TeacherReportPackageBoundary",
+      "TeacherSessionEventAcceptanceGate",
+    ],
+  },
+  {
     id: "teacher-source-review-workspace",
     pattern: "/teacher/sources/[tenantId]",
     audience: "teacher",
@@ -544,6 +560,10 @@ export function getTeacherPersistenceReadinessPath(): string {
 
 export function getTeacherSessionSettingsWorkbenchPath(): string {
   return "/teacher/session-settings";
+}
+
+export function getTeacherReportingReadinessPath(): string {
+  return "/teacher/reporting";
 }
 
 export function getTenantTeacherDraftReviewQueuePath(tenantId: TenantId): string {

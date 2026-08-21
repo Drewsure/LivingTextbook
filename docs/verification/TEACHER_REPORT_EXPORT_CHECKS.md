@@ -4,12 +4,15 @@ Scope: teacher session monitor export readiness scaffold.
 
 Routes to verify after pulling and rebuilding:
 
+- `http://127.0.0.1:3000/teacher/reporting`
 - `http://127.0.0.1:3000/teacher/sessions/demo-unit-1`
 - `http://127.0.0.1:3000/teacher/sessions/partner-demo-unit-1`
 
 Checks:
 
-1. The page includes a `Report export readiness` section.
+1. The session monitor pages include a `Report export readiness` section.
+1. The reporting readiness route shows `Teacher reporting readiness workbench`.
+1. The reporting readiness route shows `No report export`, `No real learner data`, and `No raw learner audio`.
 2. Export readiness is not shown as production-ready in the scaffold.
 3. The allowed formats include `csv-summary` and `json-event-stream`.
 4. The included scopes show teacher summary, student progress, event stream, media engagement, Training Academy recovery, and speech-practice summary.

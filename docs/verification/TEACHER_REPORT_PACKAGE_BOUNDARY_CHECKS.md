@@ -8,8 +8,10 @@ npm run verify:foundation
 
 Then verify:
 
+- `http://127.0.0.1:3000/teacher/reporting` loads.
 - `http://127.0.0.1:3000/teacher/sessions/demo-unit-1` loads.
 - `http://127.0.0.1:3000/teacher/sessions/partner-demo-unit-1` loads.
+- The reporting workbench shows `Report package boundary`, `Event acceptance gate`, `Support-only signals`, and `Excluded sensitive fields`.
 - Both pages show `Report package boundary`.
 - Learning evidence events are counted separately from support-only events.
 - Support-only signals include media, background audio, support language, and route guidance without implying progression credit.
