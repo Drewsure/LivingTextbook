@@ -448,6 +448,7 @@
 - `DR-474-build-stage-map-panel.md`
 - `DR-475-playable-demo-flow-prop-contract.md`
 - `DR-476-parent-engine-readiness-panel.md`
+- `DR-477-parent-engine-readiness-verifier.md`
 
 ## Maintenance Rule
 
