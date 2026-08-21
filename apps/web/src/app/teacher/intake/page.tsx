@@ -85,6 +85,7 @@ import {
 import { sampleTeacherSessionSettingsReviewPackets } from "@/data/sampleTeacherSessionSettingsReviewPacket";
 import { sampleAssignmentRolloutPlans } from "@/data/sampleAssignmentRolloutPlan";
 import { sampleActivityPathwayCompatibilityMatrix } from "@/data/sampleActivityPathwayCompatibility";
+import { sampleParentEngineReadinessPlan } from "@/data/sampleParentEngineReadiness";
 import { sampleUnitGameOfferMap } from "@/data/sampleUnitGameOfferMap";
 import { sampleUnitPackageReadiness } from "@/data/sampleUnitPackageReadiness";
 import { whiteLabelPilotReadiness } from "@/data/whiteLabelPilotReadiness";
@@ -118,6 +119,7 @@ import { GameModeSettingsBackendContractPanel } from "@/features/game-offers/Gam
 import { GameModeSettingsProfilePanel } from "@/features/game-offers/GameModeSettingsProfilePanel";
 import { GameModeSettingsStorageReadinessPanel } from "@/features/game-offers/GameModeSettingsStorageReadinessPanel";
 import { GamePrototypeAssignmentPanel } from "@/features/game-offers/GamePrototypeAssignmentPanel";
+import { ParentEngineReadinessPanel } from "@/features/game-offers/ParentEngineReadinessPanel";
 import { UnitGameOfferMapPanel } from "@/features/game-offers/UnitGameOfferMapPanel";
 import { TargetLanguageExpansionPanel } from "@/features/language/TargetLanguageExpansionPanel";
 import { GameBackgroundMediaPolicyPanel } from "@/features/multimedia/GameBackgroundMediaPolicyPanel";
@@ -225,6 +227,7 @@ export default function TeacherIntakePage() {
         <TargetLanguageExpansionPanel plan={sampleTargetLanguageExpansionPlan} />
         <ActivityPathwayCompatibilityPanel matrix={sampleActivityPathwayCompatibilityMatrix} />
         <PrintableOutputReadinessPanel plan={samplePrintableOutputPlan} />
+        <ParentEngineReadinessPanel plan={sampleParentEngineReadinessPlan} />
         <UnitGameOfferMapPanel map={sampleUnitGameOfferMap} />
         <GameModeSettingsProfilePanel plan={sampleGameModeSettingsProfilePlan} />
         <GameModeSettingsStorageReadinessPanel plan={sampleGameModeSettingsStorageReadinessPlan} />

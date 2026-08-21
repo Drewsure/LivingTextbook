@@ -447,6 +447,7 @@
 - `DR-473-active-playable-route-shell-consolidation.md`
 - `DR-474-build-stage-map-panel.md`
 - `DR-475-playable-demo-flow-prop-contract.md`
+- `DR-476-parent-engine-readiness-panel.md`
 
 ## Maintenance Rule
 

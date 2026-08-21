@@ -686,6 +686,7 @@ Next outputs:
 - Keep active game-route wrappers on shared structural components such as `GameRouteHeaderCard` before adding premium visual skins or micro-interactions.
 - Keep playable game routes on shared structural shells such as `PlayableGameRouteShell` before adding premium visual skins, Phaser wrappers, or outside prototype intake.
 - Keep active non-entry demo flows on `PlayableGameDemoFlowProps` unless a documented entry, policy, or route-specific exception exists.
+- Confirm `/teacher/intake` exposes parent engine readiness before adding more game modes, Phaser wrappers, Z.ai prototype intake, or narrative/AI Tutor routes; Pairing, Selection, and Text-spelling may continue through reviewed active routes, while Narrative remains blocked until state, privacy, persistence, and cost gates exist.
 - Confirm student activity hubs at `/activities/demo-unit-1` and `/activities/partner-demo-unit-1` expose curated reviewed pathways without becoming switch-to-anything template panels.
 - Confirm student launch and private assignment routes link to the curated activity hub for the same launch code without unlocking progress or exposing teacher/admin controls.
 - Confirm local companion bundle manifests include curated activity hub fallback routes so hosted PWA and closed textbook package navigation stay aligned.

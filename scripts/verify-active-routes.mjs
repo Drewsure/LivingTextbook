@@ -78,6 +78,17 @@ const expectedTextByPath = new Map([
 ]);
 
 expectedTextByPath.get("/teacher/intake")?.push("settings_context_summary");
+expectedTextByPath.get("/teacher/intake")?.push(
+  "Parent engine readiness",
+  "Do not build 48 isolated games",
+  "Pairing parent engine",
+  "Selection parent engine",
+  "Text-spelling parent engine",
+  "Narrative parent engine",
+  "Phaser wrapper only after review",
+  "No support-language-only progress",
+  "Z.ai prototype intake waits for the Codex integration gate",
+);
 
 const forbiddenTextByPath = new Map([
   [
