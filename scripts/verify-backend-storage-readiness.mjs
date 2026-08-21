@@ -5,6 +5,8 @@ const migrationCandidates = readSource("../apps/web/src/data/sampleBackendMigrat
 const migrationSpecs = readSource("../apps/web/src/data/sampleBackendMigrationSpecs.ts");
 const persistenceAdapter = readSource("../apps/web/src/data/samplePersistenceAdapterPlan.ts");
 const durableRecords = readSource("../apps/web/src/data/samplePersistencePlan.ts");
+const persistenceAdapterValidator = readSource("../packages/content-model/src/persistenceAdapter.ts");
+const durableRecordValidator = readSource("../packages/content-model/src/persistenceRecords.ts");
 const routeVerifier = readSource("./verify-active-routes.mjs");
 const failures = [];
 
@@ -2132,6 +2134,13 @@ requireText(migrationSpecs, "settings_context", "Migration specs must require se
 requireText(migrationCandidates, "Preserve settings_context", "Migration candidates must preserve progress event settings context.");
 requireText(persistenceAdapter, "preservesSettingsContext", "Persistence adapter plans must preserve progress event settings context.");
 requireText(durableRecords, "preservesSettingsContext", "Durable record plans must preserve progress event settings context.");
+requireText(schemaDraft, "settings_context_summary", "Backend schema must preserve report package settings context summaries.");
+requireText(migrationSpecs, "settings_context_summary", "Migration specs must preserve report package settings context summaries.");
+requireText(migrationCandidates, "settings context summary", "Migration candidates must preserve report package settings context summaries.");
+requireText(persistenceAdapterValidator, "Teacher report package write intent", "Persistence adapter validator must cover teacher report package write intents.");
+requireText(persistenceAdapterValidator, "settings context summaries", "Persistence adapter validator must require teacher report package settings context summaries.");
+requireText(durableRecordValidator, "Teacher report package durable record", "Durable record validator must cover teacher report package records.");
+requireText(durableRecordValidator, "settings context summaries", "Durable record validator must require teacher report package settings context summaries.");
 requireText(migrationSpecs, "spec-earned-collection-inventory", "Migration specs must include earned collection inventory.");
 requireText(migrationSpecs, "unlock_source_event_id", "Migration specs must preserve collection unlock source events.");
 requireText(migrationSpecs, "support-only events", "Migration specs must preserve support-only event boundaries.");

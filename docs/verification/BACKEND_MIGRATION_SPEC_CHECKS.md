@@ -23,7 +23,7 @@ Confirm:
 - AI generated package manifest includes `prompt_package_id`, `draft_preview_id`, `audio_coverage_plan_id`, `engine_binding_plan_id`, `gamification_mapping_id`, `verifier_submission_packet_id`, `review_queue_item_id`, `release_locks`, and blocked write booleans.
 - Progress event stream is marked policy-blocked.
 - Progress event stream includes `event_effect`, `taxonomy_version`, and `event_acceptance_gate_id`.
-- Teacher report package boundary includes `event_acceptance_summary`.
+- Teacher report package boundary includes `event_acceptance_summary` and `settings_context_summary`.
 - Each spec names fields, indexes, retention, export, local fallback, and policy blockers.
 - Package release candidate status is derived from gate and ledger state and cannot be manually overridden.
 

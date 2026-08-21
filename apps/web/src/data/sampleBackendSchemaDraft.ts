@@ -3859,6 +3859,7 @@ export const sampleBackendSchemaDraft: BackendSchemaDraft = {
         { name: "tenant_id", type: "foreign key/string", required: true, note: "Tenant boundary for report access." },
         { name: "session_id", type: "foreign key/string", required: true, note: "Teacher launch session being summarized." },
         { name: "event_acceptance_summary", type: "json/object", required: true, note: "Gate status, blocked/warning counts, and decision used when the report package was generated." },
+        { name: "settings_context_summary", type: "json/object", required: true, note: "Report-only game mode settings profile and teacher settings snapshot summary used to interpret event rows without changing scoring authority." },
         { name: "included_evidence", type: "json/string array", required: true, note: "Reviewed learning evidence included in the report." },
         { name: "support_only_signals", type: "json/string array", required: true, note: "Support-language, media, background audio, and guidance signals with no mastery effect." },
         { name: "excluded_sensitive_fields", type: "json/string array", required: true, note: "Raw audio, transcripts, AI Tutor chat, private identifiers, and unreviewed notes stay outside core export." },
@@ -3868,7 +3869,7 @@ export const sampleBackendSchemaDraft: BackendSchemaDraft = {
       indexes: ["session_id unique", "tenant_id + session_id", "tenant_id + event_acceptance_summary", "tenant_id + export_blockers"],
       forbiddenFields: ["Raw learner audio", "Learner transcripts", "Open-ended AI Tutor chat", "Support-only events used as mastery"],
       migrationNote:
-        "Report packages are export boundaries, not raw data dumps. Hosted and local implementations must preserve event acceptance status, support-only event semantics, and exclusion rules.",
+        "Report packages are export boundaries, not raw data dumps. Hosted and local implementations must preserve event acceptance status, settings context summaries, support-only event semantics, and exclusion rules.",
     },
     {
       entityId: "package_release_candidate",

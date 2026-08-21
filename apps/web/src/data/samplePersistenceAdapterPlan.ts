@@ -2042,7 +2042,8 @@ export const samplePersistenceAdapterPlans: PersistenceAdapterPlan[] = [
         rejectsTranscripts: true,
         preservesEventEffectTaxonomy: true,
         preservesReportEventAcceptanceSummary: true,
-        note: "Hosted pilots need a durable report package boundary so export packages preserve learning evidence, support-only signals, event acceptance summaries, excluded sensitive fields, and policy blockers.",
+        preservesSettingsContext: true,
+        note: "Hosted pilots need a durable report package boundary so export packages preserve learning evidence, support-only signals, event acceptance summaries, settings context summaries, excluded sensitive fields, and policy blockers.",
       },
       {
         intentId: "hosted-package-release-candidate-write",
@@ -4678,7 +4679,8 @@ export const samplePersistenceAdapterPlans: PersistenceAdapterPlan[] = [
         rejectsTranscripts: true,
         preservesEventEffectTaxonomy: true,
         preservesReportEventAcceptanceSummary: true,
-        note: "Closed deployments need the same report package boundary so local exports do not leak raw audio/transcripts, lose event acceptance status, or convert support-only activity into mastery.",
+        preservesSettingsContext: true,
+        note: "Closed deployments need the same report package boundary so local exports do not leak raw audio/transcripts, lose event acceptance status, drop settings context, or convert support-only activity into mastery.",
       },
       {
         intentId: "local-package-release-candidate-write",

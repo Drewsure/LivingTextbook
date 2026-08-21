@@ -23,12 +23,12 @@ Use after pulling the latest `legacy-source-import` branch and running local typ
 13. Progress event records include `event_effect`, `taxonomy_version`, `event_acceptance_gate_id`, and `settings_context`.
 14. Progress event records forbid raw learner audio and transcripts.
 15. Progress event rules block support-only events from mastery/scoring interpretation.
-16. Teacher report package records include `event_acceptance_summary`.
+16. Teacher report package records include `event_acceptance_summary` and `settings_context_summary`.
 17. Package publish gate records forbid pilot-publishable status while blockers are open.
 18. Package approval ledger records do not imply fake signed approvals.
 19. Reviewer identity and signature gate records preserve reviewer identity requirements, approval intent requirements, signature policy requirements, audit retention requirements, approval capture blocks, signature attachment upload blocks, and approval-driven assignment blocks.
 20. School launch policy gate records preserve ownership lanes, required-before-live-launch requirements, school policy acceptance blocks, live classroom launch blocks, real learner data blocks, report export blocks, and support-language-only mastery trigger blocks.
-21. Cross-cutting rules preserve tenant boundaries, audio/transcript exclusions, media manifest separation, teacher draft review handoff packet sections, package game/audio coverage as metadata only, progress event effect taxonomy, event acceptance gate requirements, report event acceptance summaries, support-language limits, AI Tutor gating, and hosted/local vocabulary compatibility.
+21. Cross-cutting rules preserve tenant boundaries, audio/transcript exclusions, media manifest separation, teacher draft review handoff packet sections, package game/audio coverage as metadata only, progress event effect taxonomy, event acceptance gate requirements, report event acceptance summaries, report settings context summaries, support-language limits, AI Tutor gating, and hosted/local vocabulary compatibility.
 22. The panel uses existing tenant styling and does not introduce premium polish.
 
 ## Build Verification

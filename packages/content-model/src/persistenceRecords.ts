@@ -571,6 +571,10 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
       errors.push(`Teacher report package durable record ${record.recordId} must preserve event acceptance summaries.`);
     }
 
+    if (record.category === "teacher-report-package" && !record.preservesSettingsContext) {
+      errors.push(`Teacher report package durable record ${record.recordId} must preserve settings context summaries.`);
+    }
+
     if (record.category === "collection-inventory" && !record.preservesEarnedCollectionRules) {
       errors.push(`Collection inventory durable record ${record.recordId} must preserve earned collection rules.`);
     }

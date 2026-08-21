@@ -2438,11 +2438,12 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
       implementationNotes: [
         "Build report package summaries from launch session and progress event records.",
         "Preserve the launch-session event acceptance summary in every report package snapshot.",
+        "Preserve the report-only settings context summary in every report package snapshot without creating scoring authority.",
         "Preserve support-only event semantics in every export format.",
         "Store excluded sensitive-field rules with the report package snapshot.",
         "Keep raw learner audio, transcripts, and open-ended AI Tutor chat out of core report packages.",
       ],
-      rollbackOrExportNeeds: ["Export report package boundary as JSON", "Regenerate from normalized events when policy allows", "Support local report package export"],
+      rollbackOrExportNeeds: ["Export report package boundary as JSON with settings context summary", "Regenerate from normalized events when policy allows", "Support local report package export"],
       notAllowedYet: ["Ungated teacher report export", "Raw audio in report package", "Learner transcript in core report", "Support-only events counted as mastery"],
     },
     {

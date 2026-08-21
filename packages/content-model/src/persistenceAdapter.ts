@@ -494,6 +494,10 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
       errors.push(`Teacher report package write intent ${intent.intentId} must preserve event acceptance summaries.`);
     }
 
+    if (intent.category === "teacher-report-package" && !intent.preservesSettingsContext) {
+      errors.push(`Teacher report package write intent ${intent.intentId} must preserve settings context summaries.`);
+    }
+
     if (intent.category === "collection-inventory" && !intent.preservesEarnedCollectionRules) {
       errors.push(`Collection inventory write intent ${intent.intentId} must preserve earned collection rules.`);
     }
