@@ -18,6 +18,15 @@ export default function TeacherPage() {
         />
         <TeacherAssistLanguagePanel tenant={ministarTenant} />
         <TeacherMicrophonePracticePanel tenant={ministarTenant} />
+        <a
+          className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] p-4 text-sm font-bold text-[var(--tenant-text)] underline-offset-4 hover:underline"
+          href="/teacher/game-readiness"
+        >
+          Open teacher game readiness workbench
+          <span className="mt-1 block text-xs font-semibold text-[var(--tenant-muted)]">
+            Parent engines, active route replay, game offers, and Z.ai intake gates.
+          </span>
+        </a>
       </div>
     </AppShell>
   );

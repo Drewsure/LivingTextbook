@@ -35,6 +35,14 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     note: "Admin review surface for package, route, policy, and backend planning.",
   },
   {
+    routeId: "teacher-game-readiness",
+    group: "core",
+    label: "Teacher game readiness workbench",
+    path: "/teacher/game-readiness",
+    status: "active-scaffold",
+    note: "Focused game architecture route for parent-engine readiness, active replay expectations, game offers, settings, and outside prototype gates.",
+  },
+  {
     routeId: "teacher-source-review-workspace",
     group: "core",
     label: "Teacher source review workspace",

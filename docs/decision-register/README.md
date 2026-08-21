@@ -451,6 +451,7 @@
 - `DR-477-parent-engine-readiness-verifier.md`
 - `DR-478-active-game-replay-checklist.md`
 - `DR-479-active-game-replay-route-links.md`
+- `DR-480-teacher-game-readiness-workbench-route.md`
 
 ## Maintenance Rule
 

@@ -98,6 +98,26 @@ expectedTextByPath.get("/teacher/intake")?.push(
   "No support-language-only progress",
   "Z.ai prototype intake waits for the Codex integration gate",
 );
+expectedTextByPath.get("/teacher")?.push("Open teacher game readiness workbench");
+expectedTextByPath.set("/teacher/game-readiness", [
+  "Teacher game readiness workbench",
+  "Game architecture, replay evidence, and outside prototype gates",
+  "Review-only",
+  "No live handoff",
+  "Foundation intake",
+  "Parent engine readiness",
+  "Active game replay checklist",
+  "Fixture replay for active routes",
+  "Game offer map",
+  "Timer and difficulty profile",
+  "Settings storage contract",
+  "Backend contract map",
+  "Prototype assignments",
+  "Z.ai prototype intake waits for the Codex integration gate",
+  "No live settings persistence",
+  "Phaser wrapper only after review",
+  "Do not build 48 isolated games",
+]);
 
 const forbiddenTextByPath = new Map([
   [
@@ -1600,7 +1620,7 @@ if (teacherIntakeExpected) {
   const routeCountIndex = teacherIntakeExpected.indexOf("49 checked routes");
 
   if (routeCountIndex >= 0) {
-    teacherIntakeExpected[routeCountIndex] = "75 checked routes";
+    teacherIntakeExpected[routeCountIndex] = "76 checked routes";
   }
 
   teacherIntakeExpected.push(
