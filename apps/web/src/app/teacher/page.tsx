@@ -20,6 +20,15 @@ export default function TeacherPage() {
         <TeacherMicrophonePracticePanel tenant={ministarTenant} />
         <a
           className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] p-4 text-sm font-bold text-[var(--tenant-text)] underline-offset-4 hover:underline"
+          href="/teacher/persistence"
+        >
+          Open persistence readiness workbench
+          <span className="mt-1 block text-xs font-semibold text-[var(--tenant-muted)]">
+            Backend, local companion, storage boundaries, and white-label cost controls.
+          </span>
+        </a>
+        <a
+          className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] p-4 text-sm font-bold text-[var(--tenant-text)] underline-offset-4 hover:underline"
           href="/teacher/game-readiness"
         >
           Open teacher game readiness workbench

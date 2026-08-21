@@ -35,6 +35,14 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     note: "Admin review surface for package, route, policy, and backend planning.",
   },
   {
+    routeId: "teacher-persistence-readiness",
+    group: "core",
+    label: "Teacher persistence readiness",
+    path: "/teacher/persistence",
+    status: "active-scaffold",
+    note: "Focused backend, local companion, schema, migration, boundary, and adapter-readiness route before live storage or vendor selection.",
+  },
+  {
     routeId: "teacher-game-readiness",
     group: "core",
     label: "Teacher game readiness workbench",

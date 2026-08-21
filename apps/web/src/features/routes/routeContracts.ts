@@ -52,6 +52,24 @@ export const appRouteContracts: AppRouteContract[] = [
     ],
   },
   {
+    id: "teacher-persistence-readiness",
+    pattern: "/teacher/persistence",
+    audience: "teacher",
+    status: "active-scaffold",
+    purpose:
+      "Show backend decision, schema, migration, persistence boundary, and adapter readiness in one focused review-only route before vendor selection or live storage writes.",
+    requiredState: [
+      "TenantConfig",
+      "BackendDecisionMatrix",
+      "PilotBackendSelectionGate",
+      "BackendSchemaDraft",
+      "BackendMigrationPlan",
+      "BackendMigrationSpecPlan",
+      "PersistenceBoundary[]",
+      "PersistenceAdapterPlan[]",
+    ],
+  },
+  {
     id: "teacher-source-review-workspace",
     pattern: "/teacher/sources/[tenantId]",
     audience: "teacher",
@@ -501,6 +519,10 @@ export function getTeacherDraftAuthoringPath(draftId: string): string {
 
 export function getTeacherDraftReviewQueuePath(): string {
   return "/teacher/review";
+}
+
+export function getTeacherPersistenceReadinessPath(): string {
+  return "/teacher/persistence";
 }
 
 export function getTenantTeacherDraftReviewQueuePath(tenantId: TenantId): string {
