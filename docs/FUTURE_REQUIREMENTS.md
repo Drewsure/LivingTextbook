@@ -373,3 +373,51 @@ References:
 - `docs/SHARE_EMBED_READINESS_CONTRACT.md`
 - `docs/PRIVATE_TENANT_LIBRARY_CONTRACT.md`
 - `docs/COMPETITIVE_FEATURE_COVERAGE_MATRIX.md`
+
+## FR-009: Controlled Z.ai Game Intake Timing
+
+Status: Future checkpoint; not open for direct integration yet.
+
+Requirement: Preserve the value of ongoing Z.ai game work without letting external prototypes bypass the LivingTextbook foundation.
+
+Accepted direction:
+
+- The user may continue directing Z.ai work in `Drewsure/ministar-lab`.
+- Codex will explicitly alert the user when the LivingTextbook foundation is ready for controlled Z.ai game intake.
+- Until that alert, Z.ai output remains external prototype inventory, not source material for direct promotion into `apps/web`, `apps/ai-service`, routes, scoring, rewards, assignments, playlists, or package assembly.
+- Intake must start with inventory and classification, not copy/paste integration.
+
+Required intake gates:
+
+- Parent-engine fit review.
+- JSON fixture conformance.
+- Standard event replay.
+- Target-language tap-to-speak audio coverage.
+- Support-language progress blocking.
+- Deterministic scoring replay.
+- Mobile/accessibility review.
+- White-label tenant configuration review.
+- Codex integration decision before any app patch.
+
+Future capabilities:
+
+- Z.ai prototype inventory table.
+- Returned prototype evidence packet.
+- Phaser wrapper adapter review.
+- Fixture, event, audio, scoring, and mobile replay reports.
+- Codex promotion decision record.
+
+Revisit when:
+
+- Foundation route verification remains stable.
+- The shared game contracts are stable enough to judge returned prototypes.
+- At least one parent-engine wrapper path is ready for controlled prototype review.
+- The user asks whether it is time to draw in Z.ai work.
+
+References:
+
+- `docs/BUILD_SESSIONS.md`
+- `docs/PRINCIPLES_AND_STANDARDS.md`
+- `docs/AI_TEACHING_GAME_GENERATOR_CONTRACT.md`
+- `docs/GAME_PROTOTYPE_SURFACE_STANDARD.md`
+- `docs/agent-briefs/ZAI_GAME_PROTOTYPE_DIRECTIVES.md`
