@@ -11,6 +11,8 @@ export interface AiGameGeneratorRequest {
   requestedModes: string[];
   generatorInputs: string[];
   outputDraftRecords: string[];
+  settingsProfileRefs: string[];
+  settingsBackendGates: string[];
   verifierChecks: string[];
   blockedActions: string[];
   costGate: string;
@@ -25,8 +27,10 @@ export interface AiGameGeneratorPlan {
   summary: string;
   releaseRule: string;
   modelUseRule: string;
+  settingsContractRule: string;
   acceptedInputs: string[];
   requiredOutputRules: string[];
+  settingsBackendRecords: string[];
   blockedActions: string[];
   requests: AiGameGeneratorRequest[];
 }
@@ -40,6 +44,8 @@ export const sampleAiGameGeneratorPlan: AiGameGeneratorPlan = {
     "Generated content remains Draft only until source lineage, schema, pedagogy, target-language audio, assist-language, rights, pathway compatibility, teacher approval, package publish, and launch-safety gates pass.",
   modelUseRule:
     "No live model call is made in the foundation preview. Schools and tenants must opt into AI generation, speech scoring, or tutor features as a premium package with API cost controls.",
+  settingsContractRule:
+    "AI-generated game drafts must name reviewed game mode settings profiles, settings backend records, and blocked mutation rules before package review; generated drafts cannot save timer, difficulty, motion, attempts, background media, skin, arcade speed, scoring, or audio-priority changes.",
   acceptedInputs: [
     "Reviewed source queue item",
     "Teacher-entered text or table",
@@ -58,6 +64,14 @@ export const sampleAiGameGeneratorPlan: AiGameGeneratorPlan = {
     "Support language cannot unlock progress",
     "Teacher Launch Protocol required",
     "Verifier packet required before package review",
+    "Game mode settings backend map required before package review",
+  ],
+  settingsBackendRecords: [
+    "game_mode_settings_profile",
+    "teacher_game_mode_settings_snapshot",
+    "game_mode_settings_change_request",
+    "m096-game-mode-settings-storage-records",
+    "spec-game-mode-settings-storage",
   ],
   blockedActions: [
     "No direct AI publish",
@@ -91,6 +105,14 @@ export const sampleAiGameGeneratorPlan: AiGameGeneratorPlan = {
         "activity_compatibility_snapshot",
         "package_game_audio_coverage",
         "media_playlist_binding",
+      ],
+      settingsProfileRefs: ["settings-flashcards", "settings-memory-match", "settings-sentence-builder"],
+      settingsBackendGates: [
+        "game_mode_settings_profile",
+        "teacher_game_mode_settings_snapshot",
+        "game_mode_settings_change_request",
+        "No live settings persistence",
+        "No scoring profile override",
       ],
       verifierChecks: [
         "Schema and pedagogy check",
@@ -132,6 +154,14 @@ export const sampleAiGameGeneratorPlan: AiGameGeneratorPlan = {
         "activity_compatibility_snapshot",
         "package_game_audio_coverage",
       ],
+      settingsProfileRefs: ["settings-flashcards", "settings-memory-match", "settings-speak-it"],
+      settingsBackendGates: [
+        "game_mode_settings_profile",
+        "teacher_game_mode_settings_snapshot",
+        "game_mode_settings_change_request",
+        "No live settings persistence",
+        "No support-language-only progress",
+      ],
       verifierChecks: [
         "MiniStar tenant visual rule check",
         "Hiragana-only assist-language check",
@@ -170,6 +200,14 @@ export const sampleAiGameGeneratorPlan: AiGameGeneratorPlan = {
         "teacher_draft_verifier_submission",
         "ai_tutor_entitlement_packet",
         "package_game_audio_coverage",
+      ],
+      settingsProfileRefs: ["settings-speak-it", "settings-mystery-detective", "settings-ai-tutor-role-play"],
+      settingsBackendGates: [
+        "game_mode_settings_profile",
+        "teacher_game_mode_settings_snapshot",
+        "game_mode_settings_change_request",
+        "No live settings persistence",
+        "No microphone or transcript storage",
       ],
       verifierChecks: [
         "Teacher/school AI approval check",

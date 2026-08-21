@@ -436,6 +436,7 @@
 - `DR-462-game-mode-settings-storage-readiness.md`
 - `DR-463-game-mode-settings-backend-contract.md`
 - `DR-464-game-mode-settings-backend-map-panel.md`
+- `DR-465-ai-generator-settings-contract-gate.md`
 
 ## Maintenance Rule
 

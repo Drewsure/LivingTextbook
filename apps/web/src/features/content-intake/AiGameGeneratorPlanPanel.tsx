@@ -49,6 +49,19 @@ export function AiGameGeneratorPlanPanel({ plan, tenantId }: AiGameGeneratorPlan
         <p className="mt-3 text-sm leading-6 text-[var(--tenant-muted)]">{plan.modelUseRule}</p>
       </section>
 
+      <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-white/80 p-4">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Game settings contract</p>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-text)]">{plan.settingsContractRule}</p>
+          </div>
+          <StatusPill label="Backend map required" tone="warning" />
+        </div>
+        <div className="mt-3">
+          <GeneratorList title="Settings backend records" items={plan.settingsBackendRecords} tone="neutral" />
+        </div>
+      </section>
+
       <div className="mt-5 grid gap-3 lg:grid-cols-3">
         <GeneratorList title="Accepted inputs" items={plan.acceptedInputs} tone="neutral" />
         <GeneratorList title="Required output rules" items={plan.requiredOutputRules} tone="success" />
@@ -87,6 +100,11 @@ function GeneratorRequestCard({ request }: { request: AiGameGeneratorRequest }) 
         <GeneratorList title="Requested modes" items={request.requestedModes} tone="success" />
         <GeneratorList title="Generator inputs" items={request.generatorInputs} tone="neutral" />
         <GeneratorList title="Output draft records" items={request.outputDraftRecords} tone="neutral" />
+      </div>
+
+      <div className="mt-3 grid gap-3 lg:grid-cols-2">
+        <GeneratorList title="Settings profile refs" items={request.settingsProfileRefs} tone="neutral" />
+        <GeneratorList title="Settings backend gates" items={request.settingsBackendGates} tone="warning" />
       </div>
 
       <div className="mt-3 grid gap-3 lg:grid-cols-2">

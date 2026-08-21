@@ -31,6 +31,8 @@ Confirm:
 - Curated activity pathway is required instead of switch-to-anything.
 - Every target-language text needs audio.
 - Support language cannot unlock progress.
+- Game mode settings backend map required before package review.
+- Generated drafts name `game_mode_settings_profile`, `teacher_game_mode_settings_snapshot`, and `game_mode_settings_change_request` so timer, difficulty, motion, attempts, background media, skin, arcade speed, scoring, and audio-priority changes cannot bypass review.
 - Verifier packet required before package review.
 - Prompt package preview shows a reviewed template version, input slots, output schema locks, tenant rules, model-use state, usage budget, and cost controls.
 - Prompt package preview blocks raw student data, student prompt editing, live model use, voice generation, tenant billing, and student assignment.

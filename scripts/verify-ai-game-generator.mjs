@@ -357,6 +357,7 @@ const requiredRules = [
   "Every target-language text needs audio",
   "Support language cannot unlock progress",
   "Verifier packet required before package review",
+  "Game mode settings backend map required before package review",
 ];
 
 const blockedActions = [
@@ -373,6 +374,9 @@ const requiredRecords = [
   "teacher_draft_verifier_submission",
   "activity_compatibility_snapshot",
   "package_game_audio_coverage",
+  "game_mode_settings_profile",
+  "teacher_game_mode_settings_snapshot",
+  "game_mode_settings_change_request",
 ];
 
 for (const rule of requiredRules) {
@@ -398,6 +402,10 @@ requireText(plan, "API cost package gate: premium AI Tutor is optional", "Genera
 requireText(plan, "No premium upsell shown to children", "Generator plan must block child-facing premium upsell.");
 requireText(panel, "AI teaching game generator", "Generator panel must expose heading.");
 requireText(panel, "Generator request preview", "Generator panel must expose request previews.");
+requireText(panel, "Game settings contract", "Generator panel must expose game settings contract.");
+requireText(panel, "Settings backend records", "Generator panel must expose settings backend records.");
+requireText(panel, "Settings profile refs", "Generator panel must expose settings profile references.");
+requireText(panel, "Settings backend gates", "Generator panel must expose settings backend gates.");
 requireText(panel, "API cost package gate", "Generator panel must expose API cost gate.");
 requireText(panel, "Target-language audio rule", "Generator panel must expose target-language audio rule.");
 requireText(panel, "Assist language policy", "Generator panel must expose assist-language policy.");
