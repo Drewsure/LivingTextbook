@@ -387,8 +387,8 @@ Invoke-WebRequest -UseBasicParsing http://127.0.0.1:3000/ -TimeoutSec 10
 npm run verify:routes
 ```
 
-3. The verifier now retries each route fetch up to three times with a short backoff.
-4. Treat missing expected text or repeated fetch failure after retry as a real issue.
+3. The verifier retries each route fetch up to three times with a short backoff and a 45-second per-attempt timeout.
+4. Treat missing expected text, repeated fetch failure after retry, or repeated route fetch timeout as a real issue.
 
 Why this matters: The active route list is intentionally broad. Lightweight retry behavior reduces false negatives without hiding real route content failures.
 
@@ -444,15 +444,16 @@ Observed behavior: As the active route matrix grew past 60 routes, `npm run veri
 Procedure:
 
 1. Keep `scripts/verify-active-routes.mjs` on small-batch route fetching rather than a fully sequential route sweep.
-2. If `npm run verify:routes` times out, directly probe the newest route and `/teacher/intake` first:
+2. Keep the per-route fetch timeout finite so a stalled local server produces a clear route failure instead of a silent hang.
+3. If `npm run verify:routes` times out, directly probe the newest route and `/teacher/intake` first:
 
 ```powershell
 Invoke-WebRequest -UseBasicParsing http://127.0.0.1:3000/match/demo-unit-1
 Invoke-WebRequest -UseBasicParsing http://127.0.0.1:3000/teacher/intake
 ```
 
-3. If those routes return `200`, rerun `npm run verify:routes` with a longer timeout before assuming a source failure.
-4. Treat missing expected text, failed route status, or repeated timeout after direct probes as a real issue.
+4. If those routes return `200`, rerun `npm run verify:routes` with a longer command timeout before assuming a source failure.
+5. Treat missing expected text, failed route status, or repeated timeout after direct probes as a real issue.
 
 Why this matters: The verifier is now protecting a broad commercial foundation. Small-batch fetching keeps the check practical without weakening the expected-text gate.
 

@@ -1637,6 +1637,7 @@ if (urls.length === 0) {
 const routeFetchConcurrency = 6;
 const routeFetchAttempts = 3;
 const routeFetchRetryDelayMs = 750;
+const routeFetchTimeoutMs = 45_000;
 
 const results = await mapWithConcurrency(urls, routeFetchConcurrency, async (url) => {
   try {
@@ -1694,7 +1695,7 @@ async function fetchRouteWithRetry(url) {
 
   for (let attempt = 1; attempt <= routeFetchAttempts; attempt += 1) {
     try {
-      return await fetch(url, { redirect: "manual" });
+      return await fetchRouteWithTimeout(url);
     } catch (error) {
       lastError = error;
 
@@ -1705,6 +1706,25 @@ async function fetchRouteWithRetry(url) {
   }
 
   throw lastError;
+}
+
+async function fetchRouteWithTimeout(url) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => {
+    controller.abort();
+  }, routeFetchTimeoutMs);
+
+  try {
+    return await fetch(url, { redirect: "manual", signal: controller.signal });
+  } catch (error) {
+    if (error instanceof Error && error.name === "AbortError") {
+      throw new Error(`Route fetch timed out after ${routeFetchTimeoutMs}ms.`);
+    }
+
+    throw error;
+  } finally {
+    clearTimeout(timeoutId);
+  }
 }
 
 function delay(ms) {
