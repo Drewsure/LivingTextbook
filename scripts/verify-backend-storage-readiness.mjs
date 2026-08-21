@@ -1144,6 +1144,7 @@ requireText(schemaDraft, "local_media_bundle_entry", "Backend schema must includ
 requireText(schemaDraft, "local_activation_allowed", "Backend schema must block local media activation.");
 requireText(schemaDraft, "event_effect", "Backend schema must preserve event effect taxonomy.");
 requireText(schemaDraft, "event_acceptance_gate", "Backend schema must preserve event acceptance gates.");
+requireText(schemaDraft, "settings_context", "Backend schema must preserve progress event settings context.");
 requireText(schemaDraft, "collection_inventory", "Backend schema must include collection inventory.");
 requireText(schemaDraft, "unlock_source_event_id", "Backend schema must preserve collection unlock source events.");
 requireText(schemaDraft, "Random reward seed", "Backend schema must forbid random reward seeds for collection ownership.");
@@ -2127,6 +2128,10 @@ requireText(migrationSpecs, "learning_audio_priority", "Migration specs must pre
 requireText(migrationSpecs, "spec-local-media-bundle-entry", "Migration specs must include local media bundle entries.");
 requireText(migrationSpecs, "local_activation_allowed", "Migration specs must block local media activation.");
 requireText(migrationSpecs, "event_acceptance_gate_id", "Migration specs must require event acceptance gate ids for events.");
+requireText(migrationSpecs, "settings_context", "Migration specs must require settings context for events.");
+requireText(migrationCandidates, "Preserve settings_context", "Migration candidates must preserve progress event settings context.");
+requireText(persistenceAdapter, "preservesSettingsContext", "Persistence adapter plans must preserve progress event settings context.");
+requireText(durableRecords, "preservesSettingsContext", "Durable record plans must preserve progress event settings context.");
 requireText(migrationSpecs, "spec-earned-collection-inventory", "Migration specs must include earned collection inventory.");
 requireText(migrationSpecs, "unlock_source_event_id", "Migration specs must preserve collection unlock source events.");
 requireText(migrationSpecs, "support-only events", "Migration specs must preserve support-only event boundaries.");

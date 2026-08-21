@@ -2385,9 +2385,10 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
         "Require the launch-session event acceptance gate to pass before accepting student event writes.",
         "Index by session, learner code, event type, event effect, and time.",
         "Preserve the reviewed event taxonomy effect so support-only guidance never becomes scoring evidence.",
+        "Preserve settings_context so teacher reports can show the active game mode settings profile and teacher settings snapshot without changing scoring authority.",
         "Keep raw audio and transcripts out of metadata.",
       ],
-      rollbackOrExportNeeds: ["Export teacher report data", "Delete/archive by retention policy", "Support school-owned export package"],
+      rollbackOrExportNeeds: ["Export teacher report data with settings context", "Delete/archive by retention policy", "Support school-owned export package"],
       notAllowedYet: ["Raw learner audio", "Speech transcript", "Open-ended personal notes", "Ungated report exports", "Support-only events used for mastery or unlocks"],
     },
     {

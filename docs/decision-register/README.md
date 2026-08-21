@@ -437,6 +437,7 @@
 - `DR-463-game-mode-settings-backend-contract.md`
 - `DR-464-game-mode-settings-backend-map-panel.md`
 - `DR-465-ai-generator-settings-contract-gate.md`
+- `DR-466-progress-event-settings-context.md`
 
 ## Maintenance Rule
 

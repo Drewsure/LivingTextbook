@@ -9359,6 +9359,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
           note: "Launch-session event acceptance gate snapshot used to allow this event write.",
         },
         {
+          name: "settings_context",
+          type: "json",
+          required: true,
+          note: "Reviewed game mode settings profile, teacher settings snapshot, settings contract id, target-language-only trigger policy, and blocked support-language/media/scoring override flags.",
+        },
+        {
           name: "event_payload",
           type: "json",
           required: true,
@@ -9371,13 +9377,14 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
           note: "Client event time with server received time added by implementation.",
         },
       ],
-      indexes: ["tenant_id + launch_session_id + occurred_at", "event_type", "event_effect", "event_acceptance_gate_id", "anonymous_or_roster_student_id"],
+      indexes: ["tenant_id + launch_session_id + occurred_at", "event_type", "event_effect", "event_acceptance_gate_id", "settings_context.game_mode_settings_profile_id", "anonymous_or_roster_student_id"],
       retentionRule: "Retention depends on school reporting policy and parent/school agreement.",
       exportRule: "Must export teacher-readable CSV/JSON summaries and raw normalized events when policy allows.",
       localFallback: "Local app queues events in an exportable local store and syncs only if the school enables hosted reporting.",
       policyBlockers: [
         "Student identity model, retention length, guardian consent, and speech-report policy must be accepted before production writes.",
         "Progress event writes must be blocked until the related launch session has a passed event acceptance gate.",
+        "Progress event writes must preserve settings_context without allowing settings to grant mastery, Star Dust, or unlocks.",
         "Report aggregation must ignore support-only events for mastery, Star Dust, and unlock calculations.",
       ],
     },

@@ -4,6 +4,7 @@ import type {
   GameModeId,
   LaunchSession,
   ProgressEventEnvelope,
+  ProgressEventSettingsContext,
   StudentProgressionState,
   TeacherReportExportPlan,
   TeacherSessionControlAction,
@@ -87,6 +88,7 @@ export interface TeacherSessionProgressEventEnvelopeGate {
   requiredFields: string[];
   guardBlocks: string[];
   guardWarnings: string[];
+  settingsContexts: ProgressEventSettingsContext[];
   sampleEnvelope?: ProgressEventEnvelope;
 }
 
@@ -399,12 +401,14 @@ function createTeacherSessionProgressEventEnvelopeGate(args: {
   eventAcceptanceGate: TeacherSessionEventAcceptanceGate;
   launchCode: string;
 }): TeacherSessionProgressEventEnvelopeGate {
+  const settingsContexts = args.events.map((event) => createProgressEventSettingsContext(event, args.launchCode));
   const envelopes = args.events.map((event, index) =>
     createProgressEventEnvelope({
       event,
       eventAcceptanceGateId: args.eventAcceptanceGate.gateId,
       eventId: `${args.launchCode}:event:${String(index + 1).padStart(3, "0")}:${event.type}`,
       registry: sampleProgressEventTaxonomyRegistry,
+      settingsContext: settingsContexts[index],
     }),
   );
   const guardBlocks = validateProgressEventEnvelopeStream(envelopes, sampleProgressEventTaxonomyRegistry);
@@ -424,15 +428,52 @@ function createTeacherSessionProgressEventEnvelopeGate(args: {
         ? "This sample event stream matches the shared progress-event envelope contract."
         : "This sample event stream remains preview-only until envelope blockers and policy gates are clear.",
     summary:
-      "Every future game, media, route-guidance, speech, AI Tutor, reward, assignment, and report event must be wrapped with taxonomy version, event effect, event acceptance gate, unit, mode, timestamp, and safe metadata before storage can be considered.",
+      "Every future game, media, route-guidance, speech, AI Tutor, reward, assignment, and report event must be wrapped with taxonomy version, event effect, event acceptance gate, settings context, unit, mode, timestamp, and safe metadata before storage can be considered.",
     envelopeCount: envelopes.length,
     blockedCount: guardBlocks.length,
     warningCount: guardWarnings.length,
     requiredFields: [...PROGRESS_EVENT_ENVELOPE_REQUIRED_FIELDS],
     guardBlocks,
     guardWarnings,
+    settingsContexts: uniqueProgressEventSettingsContexts(settingsContexts),
     sampleEnvelope: envelopes[0],
   };
+}
+
+function createProgressEventSettingsContext(
+  event: GameProgressEvent,
+  launchCode: string,
+): ProgressEventSettingsContext {
+  return {
+    game_mode_settings_profile_id: resolveGameModeSettingsProfileId(event.gameMode),
+    teacher_game_mode_settings_snapshot_id: `teacher-session-settings:${launchCode}:preview-snapshot`,
+    settings_contract_id: "game-mode-settings-backend-contract-map-v1",
+    progress_trigger_policy: "target-language-only",
+    support_language_progress_allowed: false,
+    media_only_progress_allowed: false,
+    scoring_profile_override_allowed: false,
+  };
+}
+
+function resolveGameModeSettingsProfileId(gameMode: GameModeId): string {
+  return `settings-${gameMode}`;
+}
+
+function uniqueProgressEventSettingsContexts(
+  settingsContexts: ProgressEventSettingsContext[],
+): ProgressEventSettingsContext[] {
+  const seen = new Set<string>();
+
+  return settingsContexts.filter((settingsContext) => {
+    const key = settingsContext.game_mode_settings_profile_id;
+
+    if (seen.has(key)) {
+      return false;
+    }
+
+    seen.add(key);
+    return true;
+  });
 }
 
 function createTeacherReportPackageBoundary(args: {

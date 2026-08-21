@@ -2004,8 +2004,9 @@ export const samplePersistenceAdapterPlans: PersistenceAdapterPlan[] = [
         rejectsRawAudio: true,
         rejectsTranscripts: true,
         preservesEventEffectTaxonomy: true,
+        preservesSettingsContext: true,
         requiresEventAcceptanceGate: true,
-        note: "Event storage powers reports and recovery, but writes require a passed event acceptance gate and policy must define retention, access, export, and parent/school visibility.",
+        note: "Event storage powers reports and recovery, but writes require a passed event acceptance gate, preserved settings context, and policy-defined retention, access, export, and parent/school visibility.",
       },
       {
         intentId: "hosted-collection-inventory-write",
@@ -4639,8 +4640,9 @@ export const samplePersistenceAdapterPlans: PersistenceAdapterPlan[] = [
         rejectsRawAudio: true,
         rejectsTranscripts: true,
         preservesEventEffectTaxonomy: true,
+        preservesSettingsContext: true,
         requiresEventAcceptanceGate: true,
-        note: "Local deployments need a passed event acceptance gate plus backup/export and retention rules before school-owned devices store learner progress.",
+        note: "Local deployments need a passed event acceptance gate, preserved settings context, plus backup/export and retention rules before school-owned devices store learner progress.",
       },
       {
         intentId: "local-collection-inventory-write",

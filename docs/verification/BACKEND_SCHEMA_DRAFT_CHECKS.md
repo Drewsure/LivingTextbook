@@ -20,7 +20,7 @@ Use after pulling the latest `legacy-source-import` branch and running local typ
 10. Route alias records prohibit localhost and direct media-file QR targets.
 11. Media manifest records include rights status and local/hosted delivery paths.
 12. Launch session records include settings for audio, assist language, microphone, AI Tutor, background media, retention, and report export.
-13. Progress event records include `event_effect`, `taxonomy_version`, and `event_acceptance_gate_id`.
+13. Progress event records include `event_effect`, `taxonomy_version`, `event_acceptance_gate_id`, and `settings_context`.
 14. Progress event records forbid raw learner audio and transcripts.
 15. Progress event rules block support-only events from mastery/scoring interpretation.
 16. Teacher report package records include `event_acceptance_summary`.

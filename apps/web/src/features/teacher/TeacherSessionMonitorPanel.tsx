@@ -610,12 +610,33 @@ function TeacherSessionProgressEventEnvelopeGateCard({ gate }: { gate: TeacherSe
 
         <section className="rounded-lg border border-[var(--tenant-border)] p-4">
           <div className="flex flex-wrap items-center justify-between gap-2">
+            <h4 className="text-sm font-bold text-[var(--tenant-text)]">Settings context</h4>
+            <StatusPill label={`${gate.settingsContexts.length} profile(s)`} tone="neutral" />
+          </div>
+          <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">
+            The settings_context is report context only. Parent engines keep scoring authority; scoring profile override blocked.
+          </p>
+          <ul className="mt-3 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
+            {gate.settingsContexts.map((settingsContext) => (
+              <li key={settingsContext.game_mode_settings_profile_id} className="rounded-md bg-[var(--tenant-primary-soft)] p-2">
+                <span className="font-semibold text-[var(--tenant-text)]">{settingsContext.game_mode_settings_profile_id}</span>
+                <span className="block break-words">Snapshot: {settingsContext.teacher_game_mode_settings_snapshot_id}</span>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-3 break-words text-xs leading-5 text-[var(--tenant-muted)]">
+            progress_trigger_policy: target-language-only; support_language_progress_allowed: false; media_only_progress_allowed: false; scoring_profile_override_allowed: false.
+          </p>
+        </section>
+
+        <section className="rounded-lg border border-[var(--tenant-border)] p-4">
+          <div className="flex flex-wrap items-center justify-between gap-2">
             <h4 className="text-sm font-bold text-[var(--tenant-text)]">Envelope guard findings</h4>
             <StatusPill label={`${gate.blockedCount} block(s)`} tone={gate.blockedCount > 0 ? "warning" : "success"} />
           </div>
           <ul className="mt-3 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
-            {gate.guardBlocks.length === 0 ? <li>No envelope blockers in the sample stream.</li> : gate.guardBlocks.map((item) => <li key={item}>{item}</li>)}
-            {gate.guardWarnings.length === 0 ? <li>No envelope warnings in the sample stream.</li> : gate.guardWarnings.map((item) => <li key={item}>{item}</li>)}
+            {gate.guardBlocks.length === 0 ? <li>No envelope blockers in the sample stream.</li> : gate.guardBlocks.map((item, index) => <li key={`block-${index}-${item}`}>{item}</li>)}
+            {gate.guardWarnings.length === 0 ? <li>No envelope warnings in the sample stream.</li> : gate.guardWarnings.map((item, index) => <li key={`warning-${index}-${item}`}>{item}</li>)}
           </ul>
         </section>
       </div>

@@ -11,7 +11,8 @@ Run after teacher session monitor, live event storage, launch-session settings, 
 - Confirm both routes show `Progress event envelope gate`.
 - Confirm the envelope gate shows `Envelope guard active`.
 - Confirm the envelope gate shows `Standard event contract`.
-- Confirm the envelope preview includes `taxonomy_version` and `event_acceptance_gate_id`.
+- Confirm the envelope preview includes `taxonomy_version`, `event_acceptance_gate_id`, and `settings_context`.
+- Confirm settings context remains report-only and blocks support-language progress, media-only progress, and scoring profile overrides.
 - Confirm the gate blocks live student event storage when settings persistence is not ready.
 - Confirm the gate blocks live student event storage when reporting/retention policy is not accepted.
 - Confirm event taxonomy is shown as required before event writes.

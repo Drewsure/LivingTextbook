@@ -29,6 +29,7 @@ export interface ProgressEventEnvelope {
   event_effect: ProgressEventEffect;
   taxonomy_version: string;
   event_acceptance_gate_id: string;
+  settings_context: ProgressEventSettingsContext;
   unit_key: string;
   game_mode: string;
   occurred_at: string;
@@ -37,11 +38,22 @@ export interface ProgressEventEnvelope {
   metadata: Record<string, string | number | boolean>;
 }
 
+export interface ProgressEventSettingsContext {
+  game_mode_settings_profile_id: string;
+  teacher_game_mode_settings_snapshot_id: string;
+  settings_contract_id: string;
+  progress_trigger_policy: "target-language-only";
+  support_language_progress_allowed: boolean;
+  media_only_progress_allowed: boolean;
+  scoring_profile_override_allowed: boolean;
+}
+
 export interface CreateProgressEventEnvelopeArgs {
   event: GameProgressEvent;
   registry: ProgressEventTaxonomyRegistry;
   eventId: string;
   eventAcceptanceGateId: string;
+  settingsContext: ProgressEventSettingsContext;
 }
 
 export const PROGRESS_EVENT_REQUIRED_FIELDS = [
@@ -50,6 +62,7 @@ export const PROGRESS_EVENT_REQUIRED_FIELDS = [
   "event_effect",
   "taxonomy_version",
   "event_acceptance_gate_id",
+  "settings_context",
   "metadata",
   "occurred_at",
 ] as const;
@@ -217,6 +230,7 @@ export function createProgressEventEnvelope(args: CreateProgressEventEnvelopeArg
     event_effect: taxonomyItem?.effect ?? "report-only",
     taxonomy_version: args.registry.taxonomyVersion,
     event_acceptance_gate_id: args.eventAcceptanceGateId,
+    settings_context: args.settingsContext,
     unit_key: args.event.unitKey,
     game_mode: args.event.gameMode,
     occurred_at: args.event.occurredAt,
@@ -247,6 +261,7 @@ export function validateProgressEventEnvelope(
   const taxonomyVersion = readString(envelope, "taxonomy_version");
   const occurredAt = readString(envelope, "occurred_at");
   const metadata = envelope.metadata;
+  const settingsContext = envelope.settings_context;
   const taxonomyItem = registry.events.find((item) => item.eventType === eventType);
 
   if (!taxonomyItem) {
@@ -267,6 +282,37 @@ export function validateProgressEventEnvelope(
 
   if (!isRecord(metadata)) {
     errors.push(`Progress event envelope ${eventType || "(missing)"} metadata must be an object.`);
+  }
+
+  if (!isRecord(settingsContext)) {
+    errors.push(`Progress event envelope ${eventType || "(missing)"} settings_context must be an object.`);
+  } else {
+    const settingsProfileId = readString(settingsContext, "game_mode_settings_profile_id");
+    const settingsSnapshotId = readString(settingsContext, "teacher_game_mode_settings_snapshot_id");
+    const settingsContractId = readString(settingsContext, "settings_contract_id");
+    const progressTriggerPolicy = readString(settingsContext, "progress_trigger_policy");
+
+    if (!settingsProfileId || !settingsSnapshotId || !settingsContractId) {
+      errors.push(
+        `Progress event envelope ${eventType || "(missing)"} settings_context must include game_mode_settings_profile_id, teacher_game_mode_settings_snapshot_id, and settings_contract_id.`,
+      );
+    }
+
+    if (progressTriggerPolicy !== "target-language-only") {
+      errors.push(`Progress event envelope ${eventType || "(missing)"} settings_context must preserve target-language-only progress.`);
+    }
+
+    if (readBoolean(settingsContext, "support_language_progress_allowed") !== false) {
+      errors.push(`Progress event envelope ${eventType || "(missing)"} settings_context must block support-language progress.`);
+    }
+
+    if (readBoolean(settingsContext, "media_only_progress_allowed") !== false) {
+      errors.push(`Progress event envelope ${eventType || "(missing)"} settings_context must block media-only progress.`);
+    }
+
+    if (readBoolean(settingsContext, "scoring_profile_override_allowed") !== false) {
+      errors.push(`Progress event envelope ${eventType || "(missing)"} settings_context must block scoring profile overrides.`);
+    }
   }
 
   if (eventEffect === "support-only" && isRecord(metadata)) {
@@ -327,6 +373,10 @@ export function getProgressEventEnvelopeStreamWarnings(
 
   if (!effects.includes("support-only")) {
     warnings.push("Progress event envelope stream should include support-only signals when media, assist language, route guidance, or background media is present.");
+  }
+
+  if (!records.every((envelope) => isRecord(envelope.settings_context))) {
+    warnings.push("Progress event envelope stream should preserve settings_context for report-only settings visibility.");
   }
 
   if (!effects.every((effect) => allowedEffects.has(effect as ProgressEventEffect))) {

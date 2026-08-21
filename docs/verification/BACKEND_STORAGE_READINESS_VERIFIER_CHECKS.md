@@ -55,7 +55,7 @@ npm run verify:foundation
 - Tenant library items preserve source lineage, block student-data copies, and block public community publishing.
 - Teacher dry-run rehearsal records preserve route, game/audio, media/support-language, report, and local fallback checks while blocking student launch, real learner data collection, live progress, and report export.
 - Core storage rejects raw learner audio and transcripts.
-- Progress events preserve event effect taxonomy and event acceptance gates.
+- Progress events preserve event effect taxonomy, event acceptance gates, and settings context.
 - Launch sessions preserve teacher session settings, settings review packets, and assist-language teacher enablement.
 - Launch-session validators and UI readiness markers expose `Settings review packet` before live setting saves are possible.
 - Hosted and local adapter plans both include launch-session writes.

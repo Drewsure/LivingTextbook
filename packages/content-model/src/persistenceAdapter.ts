@@ -19,6 +19,7 @@ export interface PersistenceWriteIntent {
   rejectsRawAudio: boolean;
   rejectsTranscripts: boolean;
   preservesEventEffectTaxonomy?: boolean;
+  preservesSettingsContext?: boolean;
   requiresEventAcceptanceGate?: boolean;
   preservesReportEventAcceptanceSummary?: boolean;
   preservesGameAudioCoverageSnapshot?: boolean;
@@ -479,6 +480,10 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "progress-event-stream" && !intent.preservesEventEffectTaxonomy) {
       errors.push(`Progress event write intent ${intent.intentId} must preserve event effect taxonomy.`);
+    }
+
+    if (intent.category === "progress-event-stream" && !intent.preservesSettingsContext) {
+      errors.push(`Progress event write intent ${intent.intentId} must preserve settings context.`);
     }
 
     if (intent.category === "progress-event-stream" && intent.containsStudentData && !intent.requiresEventAcceptanceGate) {

@@ -27,7 +27,16 @@ const duplicateTaxonomyEvents = taxonomyEvents.filter((event, index) => taxonomy
 const missingFromTaxonomy = modelEvents.filter((event) => !taxonomyEvents.includes(event));
 const extraInTaxonomy = taxonomyEvents.filter((event) => !modelEvents.includes(event));
 const taxonomyVersion = taxonomy.match(/taxonomyVersion:\s*"([^"]+)"/)?.[1] ?? "";
-const requiredFields = ["event_id", "event_type", "event_effect", "taxonomy_version", "event_acceptance_gate_id", "metadata", "occurred_at"];
+const requiredFields = [
+  "event_id",
+  "event_type",
+  "event_effect",
+  "taxonomy_version",
+  "event_acceptance_gate_id",
+  "settings_context",
+  "metadata",
+  "occurred_at",
+];
 const missingRequiredFields = requiredFields.filter((field) => !taxonomy.includes(`"${field}"`));
 
 if (taxonomyVersion.trim().length === 0) {
@@ -76,6 +85,11 @@ for (const [label, source, requiredText] of [
       "createProgressEventEnvelope",
       "validateProgressEventEnvelope",
       "validateProgressEventEnvelopeStream",
+      "ProgressEventSettingsContext",
+      "settings_context must preserve target-language-only progress",
+      "settings_context must block support-language progress",
+      "settings_context must block media-only progress",
+      "settings_context must block scoring profile overrides",
       "must remain support-only",
       "must remain report-only",
       "must remain progress-affecting",
@@ -96,9 +110,11 @@ for (const [label, source, requiredText] of [
     teacherSessionData,
     [
       "createTeacherSessionProgressEventEnvelopeGate",
+      "createProgressEventSettingsContext",
       "eventEnvelopeGate",
       "validateProgressEventEnvelopeStream",
       "STANDARD_PROGRESS_EVENT_CONTRACT_ID",
+      "game-mode-settings-backend-contract-map-v1",
     ],
   ],
   [
@@ -108,6 +124,8 @@ for (const [label, source, requiredText] of [
       "Progress event envelope gate",
       "Envelope guard active",
       "Standard event contract",
+      "Settings context",
+      "scoring profile override blocked",
       "Sample event envelope",
     ],
   ],
