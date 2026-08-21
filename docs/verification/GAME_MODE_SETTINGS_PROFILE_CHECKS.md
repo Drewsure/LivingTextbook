@@ -16,11 +16,13 @@ Acceptance criteria:
 - Assist-language text, audio, hints, and UI labels remain support-only.
 - Learning audio has priority over background media, music, sound effects, and celebrations.
 - Timer, difficulty, motion, attempts, and background media rules cannot override scoring profiles.
+- Future storage readiness shows backend-neutral records, hosted write intents, and local write intents.
 
 Blocked until later:
 
 - Live teacher setting saves.
 - Persisted timer or difficulty choices.
+- Persisted settings snapshots.
 - Motion-heavy skins without accessibility review.
 - Background media that masks learning audio.
 - Any support-language-only progress path.

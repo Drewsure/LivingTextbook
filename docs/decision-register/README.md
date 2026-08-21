@@ -433,6 +433,7 @@
 - `DR-459-spelling-practice-active-route.md`
 - `DR-460-shared-game-completion-next-path.md`
 - `DR-461-game-mode-settings-profile.md`
+- `DR-462-game-mode-settings-storage-readiness.md`
 
 ## Maintenance Rule
 

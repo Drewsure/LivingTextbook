@@ -51,9 +51,9 @@ export const sampleFoundationVerificationGate: FoundationVerificationGate = {
       command: "npm run verify:game-settings",
       status: "pass",
       protects:
-        "Timer, difficulty, motion, background media, attempts, and audio settings stay review-only and cannot change scoring or support-language progression.",
+        "Timer, difficulty, motion, background media, attempts, audio settings, and future storage write intents stay review-only and cannot change scoring or support-language progression.",
       evidence:
-        "The verifier checks active mode setting profiles, no-save boundaries, target-language-only progress, assist-language support-only rules, and learning-audio priority.",
+        "The verifier checks active mode setting profiles, storage readiness records, no-save boundaries, target-language-only progress, assist-language support-only rules, and learning-audio priority.",
       nextStep:
         "Run this before adding teacher-adjustable timers, difficulty, motion settings, game skins, background music, or persisted game settings.",
     },

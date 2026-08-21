@@ -31,6 +31,7 @@ import { sampleEvidenceExportReadinessPlan } from "@/data/sampleEvidenceExportRe
 import { sampleEvidenceStorageAdapterSelectionGate } from "@/data/sampleEvidenceStorageAdapterSelectionGate";
 import { sampleGameBackgroundMediaPolicy } from "@/data/sampleGameBackgroundMediaPolicy";
 import { sampleGameModeSettingsProfilePlan } from "@/data/sampleGameModeSettingsProfiles";
+import { sampleGameModeSettingsStorageReadinessPlan } from "@/data/sampleGameModeSettingsStorageReadiness";
 import { sampleGamePrototypeAssignmentPlan } from "@/data/sampleGamePrototypeAssignmentPlan";
 import { sampleFoundationVerificationGate } from "@/data/sampleFoundationVerificationGate";
 import { sampleCompetitiveFeatureCoverageMatrix } from "@/data/sampleCompetitiveFeatureCoverage";
@@ -112,6 +113,7 @@ import { LocalDeploymentPreflightPanel } from "@/features/deployment/LocalDeploy
 import { LocalBundleManifestPanel } from "@/features/deployment/LocalBundleManifestPanel";
 import { ActivityPathwayCompatibilityPanel } from "@/features/game-offers/ActivityPathwayCompatibilityPanel";
 import { GameModeSettingsProfilePanel } from "@/features/game-offers/GameModeSettingsProfilePanel";
+import { GameModeSettingsStorageReadinessPanel } from "@/features/game-offers/GameModeSettingsStorageReadinessPanel";
 import { GamePrototypeAssignmentPanel } from "@/features/game-offers/GamePrototypeAssignmentPanel";
 import { UnitGameOfferMapPanel } from "@/features/game-offers/UnitGameOfferMapPanel";
 import { TargetLanguageExpansionPanel } from "@/features/language/TargetLanguageExpansionPanel";
@@ -220,6 +222,7 @@ export default function TeacherIntakePage() {
         <PrintableOutputReadinessPanel plan={samplePrintableOutputPlan} />
         <UnitGameOfferMapPanel map={sampleUnitGameOfferMap} />
         <GameModeSettingsProfilePanel plan={sampleGameModeSettingsProfilePlan} />
+        <GameModeSettingsStorageReadinessPanel plan={sampleGameModeSettingsStorageReadinessPlan} />
         <GamePrototypeAssignmentPanel plan={sampleGamePrototypeAssignmentPlan} />
         <UnitPackageReadinessPanel packages={sampleUnitPackageReadiness} />
         <TeacherAssignmentReadinessPanel
