@@ -103,6 +103,22 @@ export const appRouteContracts: AppRouteContract[] = [
     ],
   },
   {
+    id: "teacher-package-entitlements",
+    pattern: "/teacher/entitlements",
+    audience: "teacher",
+    status: "active-scaffold",
+    purpose:
+      "Show optional paid package boundaries for AI generation, Voice Tutor, microphone scoring, speech APIs, hosted storage, report export, and local companion mode before any billing, microphone prompt, or package activation exists.",
+    requiredState: [
+      "TenantConfig",
+      "AiGeneratorCostEntitlementGate[]",
+      "AiTutorAvailability[]",
+      "UnitAiTutorPlan[]",
+      "TenantFeatureEntitlements",
+      "PackageCostBoundary[]",
+    ],
+  },
+  {
     id: "teacher-source-review-workspace",
     pattern: "/teacher/sources/[tenantId]",
     audience: "teacher",
@@ -564,6 +580,10 @@ export function getTeacherSessionSettingsWorkbenchPath(): string {
 
 export function getTeacherReportingReadinessPath(): string {
   return "/teacher/reporting";
+}
+
+export function getTeacherPackageEntitlementsPath(): string {
+  return "/teacher/entitlements";
 }
 
 export function getTenantTeacherDraftReviewQueuePath(tenantId: TenantId): string {

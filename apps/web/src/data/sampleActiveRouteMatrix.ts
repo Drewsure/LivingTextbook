@@ -61,6 +61,15 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
       "Focused reporting route for coded learner slots, report package boundaries, event acceptance, export policy, and sensitive-data exclusions before live report export.",
   },
   {
+    routeId: "teacher-package-entitlements",
+    group: "core",
+    label: "Teacher package entitlement workbench",
+    path: "/teacher/entitlements",
+    status: "active-scaffold",
+    note:
+      "Focused package-decision route for optional paid AI generation, Voice Tutor, microphone scoring, speech APIs, storage/export, and local companion boundaries before billing or package activation.",
+  },
+  {
     routeId: "teacher-game-readiness",
     group: "core",
     label: "Teacher game readiness workbench",

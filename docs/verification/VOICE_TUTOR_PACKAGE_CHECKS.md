@@ -12,6 +12,16 @@ On `/`:
 4. Confirm capability cards show replaceable processing preferences such as browser, local-first, hybrid, or server-verified.
 5. Confirm no student route is blocked by Voice Tutor being disabled.
 
+## Package Entitlement Workbench Checks
+
+On `/teacher/entitlements`:
+
+1. Confirm the route shows `Voice Tutor and speech scoring` as an optional paid package.
+2. Confirm the `Voice Tutor` panel appears without requesting microphone permission.
+3. Confirm `No speech API billing` is visible.
+4. Confirm `No raw audio storage` and `No transcript storage` are visible.
+5. Confirm the route keeps Voice Tutor tied to tenant/school approval instead of a student-facing upgrade prompt.
+
 ## Student Flow Checks
 
 On `/launch/demo-unit-1`:

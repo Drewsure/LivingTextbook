@@ -37,6 +37,18 @@ On `/`:
 5. Confirm the package still validates as `Package valid`.
 6. Confirm no active tutor chat, model call, or student AI route appears in the foundation slice.
 
+## Package Entitlement Workbench Checks
+
+On `/teacher/entitlements`:
+
+1. Confirm the route is labeled `Package entitlement workbench`.
+2. Confirm AI Tutor appears as an optional paid package, not a core student requirement.
+3. Confirm the route shows `No live model billing`.
+4. Confirm the route shows `No child-facing upsell`.
+5. Confirm the route shows `No package activation`.
+6. Confirm MiniStar and sample publisher tenant packages show AI Tutor disabled by default.
+7. Confirm no microphone prompt, speech API billing, raw-audio storage, or transcript storage is enabled from this route.
+
 ## Student Flow Checks
 
 On `/launch/demo-unit-1` and `/enter/ministar`:

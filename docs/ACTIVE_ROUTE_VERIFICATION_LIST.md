@@ -2,7 +2,7 @@
 
 Document type: QA operating note  
 Status: active scaffold  
-Last updated: 2026-08-21
+Last updated: 2026-08-22
 
 ## Purpose
 
@@ -16,6 +16,7 @@ This list names the routes that should be checked after foundation changes. It i
 - `http://127.0.0.1:3000/teacher/persistence`
 - `http://127.0.0.1:3000/teacher/session-settings`
 - `http://127.0.0.1:3000/teacher/reporting`
+- `http://127.0.0.1:3000/teacher/entitlements`
 - `http://127.0.0.1:3000/teacher/game-readiness`
 - `http://127.0.0.1:3000/teacher/prototypes/sample-publisher`
 - `http://127.0.0.1:3000/teacher/sources/sample-publisher`

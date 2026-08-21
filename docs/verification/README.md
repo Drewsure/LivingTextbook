@@ -6,6 +6,7 @@ Focused verification supplements:
 
 - `docs/verification/ACTIVITY_PATHWAY_COMPATIBILITY_CHECKS.md`
 - `docs/verification/AI_TUTOR_ENTITLEMENT_CHECKS.md`
+- `docs/verification/PACKAGE_ENTITLEMENT_WORKBENCH_ROUTE_CHECKS.md`
 - `docs/verification/AI_TEACHING_GAME_GENERATOR_CHECKS.md`
 - `docs/verification/ACTIVE_ROUTE_MATRIX_35_ROUTE_CHECKS.md`
 - `docs/verification/ACTIVE_ROUTE_MATRIX_PANEL_CHECKS.md`

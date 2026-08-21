@@ -38,6 +38,16 @@ export default function TeacherPage() {
         </a>
         <a
           className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] p-4 text-sm font-bold text-[var(--tenant-text)] underline-offset-4 hover:underline"
+          href="/teacher/entitlements"
+        >
+          Open package entitlement workbench
+          <span className="mt-1 block text-xs font-semibold text-[var(--tenant-muted)]">
+            Optional paid features, AI generation, Voice Tutor, microphone scoring, storage/export, and local companion
+            package boundaries.
+          </span>
+        </a>
+        <a
+          className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] p-4 text-sm font-bold text-[var(--tenant-text)] underline-offset-4 hover:underline"
           href="/teacher/persistence"
         >
           Open persistence readiness workbench

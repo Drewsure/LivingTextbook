@@ -31,4 +31,4 @@ Run:
 npm run verify:routes
 ```
 
-The active route verifier must expect 81 active routes.
+The active route verifier must expect 82 active routes.
