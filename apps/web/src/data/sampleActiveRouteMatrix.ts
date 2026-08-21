@@ -43,6 +43,14 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     note: "Focused game architecture route for parent-engine readiness, active replay expectations, game offers, settings, and outside prototype gates.",
   },
   {
+    routeId: "teacher-prototype-review-sample-publisher",
+    group: "sample-publisher",
+    label: "Sample publisher prototype review",
+    path: "/teacher/prototypes/sample-publisher",
+    status: "active-scaffold",
+    note: "Tenant-scoped external prototype handoff and return-evidence review before any Z.ai, Phaser, or app patch integration is considered.",
+  },
+  {
     routeId: "teacher-source-review-workspace",
     group: "core",
     label: "Teacher source review workspace",
@@ -65,6 +73,14 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     path: "/teacher/generator/ministar",
     status: "active-scaffold",
     note: "MiniStar tenant generator coverage route that shows request-specific missing records before live generation, publishing, route creation, or student assignment.",
+  },
+  {
+    routeId: "teacher-prototype-review-ministar",
+    group: "ministar",
+    label: "MiniStar prototype review",
+    path: "/teacher/prototypes/ministar",
+    status: "active-scaffold",
+    note: "MiniStar-scoped external prototype handoff and return-evidence review that preserves English target-language and hiragana support-language boundaries.",
   },
   {
     routeId: "teacher-dry-run-rehearsal",

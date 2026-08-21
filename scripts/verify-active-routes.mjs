@@ -117,6 +117,44 @@ expectedTextByPath.set("/teacher/game-readiness", [
   "No live settings persistence",
   "Phaser wrapper only after review",
   "Do not build 48 isolated games",
+  "/teacher/prototypes/ministar",
+  "/teacher/prototypes/sample-publisher",
+]);
+const prototypeReviewRouteExpected = [
+  "Prototype handoff review workbench",
+  "Z.ai and outside prototype evidence before integration",
+  "Review-only",
+  "No app file writes",
+  "No live handoff",
+  "External handoff packets",
+  "Returned prototype evidence",
+  "Integration and patch gates",
+  "External builder task handoff / Z.ai",
+  "Reviewed JSON fixture replay",
+  "Standard event replay",
+  "Target-language audio coverage",
+  "Deterministic scoring replay",
+  "AI prototype return review",
+  "AI prototype integration plan",
+  "AI prototype wrapper adapter review",
+  "AI prototype fixture replay report",
+  "AI prototype event replay report",
+  "AI prototype audio coverage report",
+  "AI prototype mobile accessibility report",
+  "AI prototype scoring replay report",
+  "AI prototype integration readiness gate",
+  "AI prototype app patch proposal",
+  "AI prototype patch change set preview",
+  "No route creation",
+  "No scoring mutation",
+  "Z.ai prototype intake waits for the Codex integration gate",
+];
+expectedTextByPath.set("/teacher/prototypes/sample-publisher", prototypeReviewRouteExpected);
+expectedTextByPath.set("/teacher/prototypes/ministar", [
+  ...prototypeReviewRouteExpected,
+  "MiniStar external prototype task packet",
+  "Foundation Japanese support must remain hiragana-only.",
+  "No Japanese support-language progress",
 ]);
 
 const forbiddenTextByPath = new Map([
@@ -1620,7 +1658,7 @@ if (teacherIntakeExpected) {
   const routeCountIndex = teacherIntakeExpected.indexOf("49 checked routes");
 
   if (routeCountIndex >= 0) {
-    teacherIntakeExpected[routeCountIndex] = "76 checked routes";
+    teacherIntakeExpected[routeCountIndex] = "78 checked routes";
   }
 
   teacherIntakeExpected.push(

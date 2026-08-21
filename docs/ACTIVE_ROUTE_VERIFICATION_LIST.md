@@ -14,6 +14,7 @@ This list names the routes that should be checked after foundation changes. It i
 - `http://127.0.0.1:3000/teacher`
 - `http://127.0.0.1:3000/teacher/intake`
 - `http://127.0.0.1:3000/teacher/game-readiness`
+- `http://127.0.0.1:3000/teacher/prototypes/sample-publisher`
 - `http://127.0.0.1:3000/teacher/sources/sample-publisher`
 - `http://127.0.0.1:3000/teacher/generator/sample-publisher`
 - `http://127.0.0.1:3000/teacher/dry-run/sample-publisher-first-handoff-teacher-dry-run`
@@ -41,6 +42,7 @@ This list names the routes that should be checked after foundation changes. It i
 - `http://127.0.0.1:3000/enter/ministar`
 - `http://127.0.0.1:3000/teacher/sources/ministar`
 - `http://127.0.0.1:3000/teacher/generator/ministar`
+- `http://127.0.0.1:3000/teacher/prototypes/ministar`
 - `http://127.0.0.1:3000/launch/demo-unit-1`
 - `http://127.0.0.1:3000/teacher/units/ministar%3Aministar-english%3AL1%3AU1`
 - `http://127.0.0.1:3000/assign/assignment-ministar-demo-whole-class`

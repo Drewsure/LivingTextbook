@@ -17,9 +17,11 @@ import { UnitGameOfferMapPanel } from "@/features/game-offers/UnitGameOfferMapPa
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 
 const sourceLinks = [
-  { href: "/teacher/intake", label: "Return to foundation intake" },
+  { href: "/teacher/intake", label: "Foundation intake" },
   { href: "/activities/demo-unit-1", label: "Open MiniStar activity hub" },
   { href: "/activities/partner-demo-unit-1", label: "Open partner activity hub" },
+  { href: "/teacher/prototypes/ministar", label: "Open MiniStar prototype review" },
+  { href: "/teacher/prototypes/sample-publisher", label: "Open partner prototype review" },
 ];
 
 export default function TeacherGameReadinessPage() {
@@ -42,10 +44,10 @@ export default function TeacherGameReadinessPage() {
             </div>
           </div>
 
-          <div className="mt-5 grid gap-3 sm:grid-cols-3">
-            <ReadinessLink href="/teacher/intake" label="Foundation intake" />
-            <ReadinessLink href="/activities/demo-unit-1" label="MiniStar activity hub" />
-            <ReadinessLink href="/activities/partner-demo-unit-1" label="Partner activity hub" />
+          <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+            {sourceLinks.map((link) => (
+              <ReadinessLink key={link.href} href={link.href} label={link.label} />
+            ))}
           </div>
 
           <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">

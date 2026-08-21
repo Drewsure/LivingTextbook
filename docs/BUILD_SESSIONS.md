@@ -692,6 +692,7 @@ Next outputs:
 - Confirm `verify:game-modes` passes after active replay checklist changes, because the verifier now checks every `GameModeId` has one replay record under the catalog parent engine.
 - Keep replay checklist route paths clickable on `/teacher/intake` so manual QA can jump from evidence expectations to the current active student routes.
 - Use `/teacher/game-readiness` as the focused game architecture workbench before Phaser wrappers, premium polish, outside prototype intake, or Z.ai integration review. The route must remain review-only and cannot import prototypes, save settings, launch students, assign work, publish games, or write storage.
+- Use `/teacher/prototypes/sample-publisher` and `/teacher/prototypes/ministar` as the focused prototype handoff review workbenches before any outside prototype, Phaser wrapper, Z.ai output, app patch proposal, scoring change, audio manifest change, route creation, package promotion, or student assignment is considered.
 - Confirm student activity hubs at `/activities/demo-unit-1` and `/activities/partner-demo-unit-1` expose curated reviewed pathways without becoming switch-to-anything template panels.
 - Confirm student launch and private assignment routes link to the curated activity hub for the same launch code without unlocking progress or exposing teacher/admin controls.
 - Confirm local companion bundle manifests include curated activity hub fallback routes so hosted PWA and closed textbook package navigation stay aligned.
