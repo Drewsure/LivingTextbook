@@ -8,7 +8,7 @@ The platform needs optional premium capabilities such as AI generation, AI Tutor
 
 ## Decision
 
-Add `/teacher/entitlements` as a review-only package entitlement workbench. The route gathers AI generation cost gates, Voice Tutor package readiness, tenant AI Tutor availability, microphone/speech boundaries, storage/export blockers, and local companion package boundaries.
+Add `/teacher/entitlements` as a review-only package entitlement workbench. The route gathers the white-label package catalog, AI generation cost gates, Voice Tutor package readiness, tenant AI Tutor availability, microphone/speech boundaries, storage/export blockers, and local companion package boundaries.
 
 ## Consequences
 

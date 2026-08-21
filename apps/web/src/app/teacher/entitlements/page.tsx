@@ -5,7 +5,9 @@ import { AppShell } from "@/components/layout/AppShell";
 import { sampleAiGeneratorCostEntitlementGates } from "@/data/sampleAiGeneratorCostEntitlementGate";
 import { sampleMultimediaContentPackage } from "@/data/sampleMultimediaPackage";
 import { samplePartnerContentPackage } from "@/data/samplePartnerPackage";
+import { sampleWhiteLabelPackageCatalog } from "@/data/sampleWhiteLabelPackageCatalog";
 import { AiGeneratorCostEntitlementGatePanel } from "@/features/content-intake/AiGeneratorCostEntitlementGatePanel";
+import { PackageTierCatalogPanel } from "@/features/entitlements/PackageTierCatalogPanel";
 import { VoiceTutorPackagePanel } from "@/features/ai-tutor/VoiceTutorPackagePanel";
 import { ministarTenant } from "@/features/tenant/ministarTenant";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
@@ -162,6 +164,8 @@ export default function TeacherEntitlementsPage() {
             ))}
           </div>
         </Card>
+
+        <PackageTierCatalogPanel packages={sampleWhiteLabelPackageCatalog} />
 
         <AiGeneratorCostEntitlementGatePanel gates={sampleAiGeneratorCostEntitlementGates} />
 

@@ -19,6 +19,10 @@ Run after changes to AI generation, AI Tutor, Voice Tutor, microphone scoring, s
 - The route separates `Core classroom package`, `Premium AI generation`, `Voice Tutor and speech scoring`, and `Hosted storage and local companion`.
 - The route shows `No premium upsell shown to children`.
 - The route shows `No speech API billing`.
+- The route shows `White-label package catalog`.
+- The route shows `Base platform first, optional packages second`.
+- The route separates `Core classroom PWA`, `Premium AI authoring`, `Premium Voice Tutor`, and `Enterprise storage and local companion`.
+- The route shows `Included capabilities`, `Adoption requirements`, `Cost controls`, and `Child safety rules`.
 - The route shows `No microphone permission prompt`.
 - The route shows `No raw audio storage` and `No transcript storage`.
 - The route shows `No report export from this route`, `No object storage write`, `No local folder write`, and `No release-state mutation`.

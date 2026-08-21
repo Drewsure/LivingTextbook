@@ -4,7 +4,7 @@ Date: 2026-08-22
 
 ## Change
 
-Added `/teacher/entitlements` as a focused teacher/admin workbench for optional paid feature boundaries.
+Added `/teacher/entitlements` as a focused teacher/admin workbench for optional paid feature boundaries and the white-label package catalog.
 
 ## Why
 
