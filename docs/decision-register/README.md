@@ -453,6 +453,7 @@
 - `DR-479-active-game-replay-route-links.md`
 - `DR-480-teacher-game-readiness-workbench-route.md`
 - `DR-481-tenant-prototype-review-workbench-routes.md`
+- `DR-482-generator-prototype-review-cross-links.md`
 
 ## Maintenance Rule
 

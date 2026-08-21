@@ -271,6 +271,8 @@ export default async function TeacherAiGameGeneratorPage({
     notFound();
   }
 
+  const prototypeRoute = `/teacher/prototypes/${tenantId}`;
+
   return (
     <AppShell tenant={tenant}>
       <div className="grid gap-5">
@@ -321,6 +323,15 @@ export default async function TeacherAiGameGeneratorPage({
             summary="Check outside prototype briefs and returned evidence for wrapper, fixture, event, audio, mobile, and scoring discipline."
             status="review-only"
           />
+        <a
+          className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] p-4 text-sm font-bold text-[var(--tenant-text)] underline-offset-4 hover:underline"
+          href={prototypeRoute}
+        >
+          Open focused prototype review
+          <span className="mt-1 block break-words text-xs font-semibold text-[var(--tenant-muted)]">
+            {prototypeRoute}
+          </span>
+        </a>
         <AiGeneratedGameBuildBriefPanel
           packets={filterAiGeneratedGameBuildBriefPacketsByTenant(sampleAiGeneratedGameBuildBriefPackets, tenantId)}
         />

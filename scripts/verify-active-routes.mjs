@@ -1646,6 +1646,10 @@ const aiGameGeneratorIntakeExpected = [
 
 expectedTextByPath.set("/teacher/generator/sample-publisher", aiGameGeneratorExpected);
 expectedTextByPath.set("/teacher/generator/ministar", ministarAiGameGeneratorExpected);
+expectedTextByPath
+  .get("/teacher/generator/sample-publisher")
+  ?.push("Open focused prototype review", "/teacher/prototypes/sample-publisher");
+expectedTextByPath.get("/teacher/generator/ministar")?.push("Open focused prototype review", "/teacher/prototypes/ministar");
 expectedTextByPath.get("/teacher/intake")?.push(...aiGameGeneratorIntakeExpected);
 expectedTextByPath
   .get("/partner-demo")
