@@ -43,6 +43,15 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     note: "Focused backend, local companion, schema, migration, boundary, and adapter-readiness route before live storage or vendor selection.",
   },
   {
+    routeId: "teacher-session-settings-workbench",
+    group: "core",
+    label: "Teacher session settings workbench",
+    path: "/teacher/session-settings",
+    status: "active-scaffold",
+    note:
+      "Focused review route for teacher launch-session choices, support-language limits, microphone approval, background media, AI Tutor package gates, and report safety before live setting saves.",
+  },
+  {
     routeId: "teacher-game-readiness",
     group: "core",
     label: "Teacher game readiness workbench",

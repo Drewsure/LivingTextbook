@@ -70,6 +70,23 @@ export const appRouteContracts: AppRouteContract[] = [
     ],
   },
   {
+    id: "teacher-session-settings-workbench",
+    pattern: "/teacher/session-settings",
+    audience: "teacher",
+    status: "active-scaffold",
+    purpose:
+      "Show teacher launch-session settings, support-language limits, microphone approval, background-media priority, optional paid AI Tutor gates, and report safety before live setting saves or classroom launch.",
+    requiredState: [
+      "TenantConfig",
+      "LaunchSession",
+      "TeacherSessionSettings",
+      "TeacherSessionSetting[]",
+      "TeacherSessionSettingsReviewPacket[]",
+      "sessionSettingErrors[]",
+      "sessionSettingWarnings[]",
+    ],
+  },
+  {
     id: "teacher-source-review-workspace",
     pattern: "/teacher/sources/[tenantId]",
     audience: "teacher",
@@ -523,6 +540,10 @@ export function getTeacherDraftReviewQueuePath(): string {
 
 export function getTeacherPersistenceReadinessPath(): string {
   return "/teacher/persistence";
+}
+
+export function getTeacherSessionSettingsWorkbenchPath(): string {
+  return "/teacher/session-settings";
 }
 
 export function getTenantTeacherDraftReviewQueuePath(tenantId: TenantId): string {

@@ -445,7 +445,7 @@ Procedure:
 
 1. Keep `scripts/verify-active-routes.mjs` on small-batch route fetching rather than a fully sequential route sweep.
 2. Keep the per-route fetch timeout finite so a stalled local server produces a clear route failure instead of a silent hang.
-3. Keep the heavy shell routes fully checked sequentially before the concurrent sweep and exclude them from the worker pool: `/`, `/teacher`, `/teacher/intake`, `/teacher/persistence`, and `/teacher/game-readiness`.
+3. Keep the heavy shell routes fully checked sequentially before the concurrent sweep and exclude them from the worker pool: `/`, `/teacher`, `/teacher/intake`, `/teacher/persistence`, `/teacher/session-settings`, and `/teacher/game-readiness`.
 4. Keep route output streaming and concise: passing routes should report the route path and expected-text count, while failures should report missing text, forbidden text, or timeout details.
 5. If `npm run verify:routes` times out, directly probe the newest route and `/teacher/intake` first:
 

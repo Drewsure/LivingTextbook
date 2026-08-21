@@ -35,6 +35,7 @@ npm run verify:foundation
 
 After the command passes, open:
 
+- `http://127.0.0.1:3000/teacher/session-settings`
 - `http://127.0.0.1:3000/teacher/sessions/demo-unit-1`
 - `http://127.0.0.1:3000/teacher/sessions/partner-demo-unit-1`
 - `http://127.0.0.1:3000/teacher/intake`
