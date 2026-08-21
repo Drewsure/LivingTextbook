@@ -33,6 +33,7 @@ Focused verification supplements:
 - `docs/verification/GAME_COMPLETION_NEXT_PATH_CHECKS.md`
 - `docs/verification/GAME_MODE_AUDIO_COVERAGE_CHECKS.md`
 - `docs/verification/GAME_MODE_COVERAGE_VERIFIER_CHECKS.md`
+- `docs/verification/GAME_MODE_SETTINGS_PROFILE_CHECKS.md`
 - `docs/verification/LOCAL_DEPLOYMENT_PREFLIGHT_CHECKS.md`
 - `docs/verification/LOCAL_COMPANION_PACKAGE_PREVIEW_CHECKS.md`
 - `docs/verification/LOCAL_BUNDLE_READINESS_VERIFIER_CHECKS.md`

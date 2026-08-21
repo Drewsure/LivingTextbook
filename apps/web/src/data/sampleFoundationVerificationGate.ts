@@ -46,12 +46,24 @@ export const sampleFoundationVerificationGate: FoundationVerificationGate = {
       nextStep: "Keep Z.ai and external prototypes outside platform mode status until this check passes.",
     },
     {
+      checkId: "game-mode-settings",
+      label: "Game mode settings safety",
+      command: "npm run verify:game-settings",
+      status: "pass",
+      protects:
+        "Timer, difficulty, motion, background media, attempts, and audio settings stay review-only and cannot change scoring or support-language progression.",
+      evidence:
+        "The verifier checks active mode setting profiles, no-save boundaries, target-language-only progress, assist-language support-only rules, and learning-audio priority.",
+      nextStep:
+        "Run this before adding teacher-adjustable timers, difficulty, motion settings, game skins, background music, or persisted game settings.",
+    },
+    {
       checkId: "package-readiness",
       label: "Package readiness",
       command: "npm run verify:package-readiness",
       status: "pass",
       protects: "MiniStar and sample publisher packages keep active game/audio, media, front-door, support-language, and AI Tutor policy aligned.",
-      evidence: "The verifier checks two sample packages, five active modes, and seven readiness gates.",
+      evidence: "The verifier checks two sample packages, eleven active modes, and seven readiness gates.",
       nextStep: "Move from sample source files to durable package manifests after persistence is selected.",
     },
     {
@@ -159,7 +171,7 @@ export const sampleFoundationVerificationGate: FoundationVerificationGate = {
       command: "npm run verify:routes",
       status: "pass",
       protects: "Teacher, student, game, media, report, local companion, and QR routes stay reachable.",
-      evidence: "The verifier checks 44 active routes and required page text.",
+      evidence: "The verifier checks 73 active routes and required page text.",
       nextStep: "Add new active routes to the route matrix before treating them as part of a pilot.",
     },
   ],
