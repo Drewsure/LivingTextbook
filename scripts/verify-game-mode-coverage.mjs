@@ -5,12 +5,14 @@ const catalogPath = new URL("../apps/web/src/features/game-shell/gameModeCatalog
 const scoringPath = new URL("../apps/web/src/features/game-shell/scoringProfiles.ts", import.meta.url);
 const routeContractsPath = new URL("../apps/web/src/features/routes/routeContracts.ts", import.meta.url);
 const parentEngineReadinessPath = new URL("../apps/web/src/data/sampleParentEngineReadiness.ts", import.meta.url);
+const activeGameReplayChecklistPath = new URL("../apps/web/src/data/sampleActiveGameReplayChecklist.ts", import.meta.url);
 
 const contentModel = readFileSync(contentModelPath, "utf8");
 const catalog = readFileSync(catalogPath, "utf8");
 const scoring = readFileSync(scoringPath, "utf8");
 const routeContracts = readFileSync(routeContractsPath, "utf8");
 const parentEngineReadiness = readFileSync(parentEngineReadinessPath, "utf8");
+const activeGameReplayChecklist = readFileSync(activeGameReplayChecklistPath, "utf8");
 
 const gameModeMatch = contentModel.match(/export type GameModeId =([\s\S]*?);/);
 const parentEngineMatch = contentModel.match(/export type ParentEngine =([\s\S]*?);/);
@@ -41,6 +43,18 @@ const readinessActiveModes = Array.from(
   parentEngineReadiness.matchAll(/activeModes:\s*\[([\s\S]*?)\]/g),
   (match) => Array.from(match[1].matchAll(/"([^"]+)"/g), (modeMatch) => modeMatch[1]),
 ).flat();
+const replayGameModes = Array.from(activeGameReplayChecklist.matchAll(/gameMode:\s*"([^"]+)"/g), (match) => match[1]).sort();
+const duplicateReplayGameModes = replayGameModes.filter((mode, index) => replayGameModes.indexOf(mode) !== index);
+const missingReplayGameModes = gameModes.filter((mode) => !replayGameModes.includes(mode));
+const extraReplayGameModes = replayGameModes.filter((mode) => !gameModes.includes(mode));
+const mismatchedReplayEngineModes = gameModes.filter((mode) => {
+  const catalogItem = getCatalogItemBody(catalog, mode);
+  const engineMatch = catalogItem.match(/engineId:\s*"([^"]+)"/);
+  const engineId = engineMatch?.[1];
+  const replayItem = getReplayRecordBody(activeGameReplayChecklist, mode);
+
+  return !engineId || !replayItem.includes(`engineId: "${engineId}"`);
+});
 const duplicateReadinessActiveModes = readinessActiveModes.filter(
   (mode, index) => readinessActiveModes.indexOf(mode) !== index,
 );
@@ -132,6 +146,26 @@ if (mismatchedReadinessEngineModes.length > 0) {
   process.exit(1);
 }
 
+if (duplicateReplayGameModes.length > 0) {
+  console.error(`FAIL Duplicate active game replay checklist mode(s): ${[...new Set(duplicateReplayGameModes)].join(", ")}`);
+  process.exit(1);
+}
+
+if (missingReplayGameModes.length > 0) {
+  console.error(`FAIL GameModeId value(s) missing from active game replay checklist: ${missingReplayGameModes.join(", ")}`);
+  process.exit(1);
+}
+
+if (extraReplayGameModes.length > 0) {
+  console.error(`FAIL Active game replay checklist mode(s) not present in GameModeId: ${extraReplayGameModes.join(", ")}`);
+  process.exit(1);
+}
+
+if (mismatchedReplayEngineModes.length > 0) {
+  console.error(`FAIL Active game replay checklist mode(s) do not match catalog engine: ${mismatchedReplayEngineModes.join(", ")}`);
+  process.exit(1);
+}
+
 for (const requiredPhrase of [
   "Do not build 48 isolated games",
   "No support-language-only progress",
@@ -141,6 +175,22 @@ for (const requiredPhrase of [
 ]) {
   if (!parentEngineReadiness.includes(requiredPhrase)) {
     console.error(`FAIL Parent engine readiness missing required guardrail phrase: ${requiredPhrase}`);
+    process.exit(1);
+  }
+}
+
+for (const requiredPhrase of [
+  "Fixture replay",
+  "Event replay",
+  "Audio coverage",
+  "Scoring replay",
+  "Mobile/accessibility",
+  "No hard-coded unit text",
+  "No support-language-only progress",
+  "No direct route or storage mutation",
+]) {
+  if (!activeGameReplayChecklist.includes(requiredPhrase)) {
+    console.error(`FAIL Active game replay checklist missing required guardrail phrase: ${requiredPhrase}`);
     process.exit(1);
   }
 }
@@ -183,7 +233,7 @@ for (const routeContract of requiredActiveGameRouteContracts) {
 }
 
 console.log(
-  `PASS game mode catalog covers ${gameModes.length} shared GameModeId value(s) and ${parentEngines.length} parent engine readiness record(s).`,
+  `PASS game mode catalog covers ${gameModes.length} shared GameModeId value(s), ${parentEngines.length} parent engine readiness record(s), and ${replayGameModes.length} active game replay checklist record(s).`,
 );
 
 function hasObjectKey(source, key) {
@@ -203,4 +253,11 @@ function getReadinessActiveModes(source, engineId) {
   const match = source.match(new RegExp(`engineId:\\s*"${escaped}"[\\s\\S]*?activeModes:\\s*\\[([\\s\\S]*?)\\]`, "m"));
 
   return match ? Array.from(match[1].matchAll(/"([^"]+)"/g), (modeMatch) => modeMatch[1]) : [];
+}
+
+function getReplayRecordBody(source, mode) {
+  const escaped = mode.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const match = source.match(new RegExp(`gameMode:\\s*"${escaped}"([\\s\\S]*?)\\n\\s*},`, "m"));
+
+  return match?.[1] ?? "";
 }

@@ -80,6 +80,13 @@ const expectedTextByPath = new Map([
 expectedTextByPath.get("/teacher/intake")?.push("settings_context_summary");
 expectedTextByPath.get("/teacher/intake")?.push(
   "Parent engine readiness",
+  "Active game replay checklist",
+  "Fixture replay for active routes",
+  "Event replay",
+  "Audio coverage",
+  "Scoring replay",
+  "Mobile/accessibility",
+  "No hard-coded unit text",
   "Do not build 48 isolated games",
   "Pairing parent engine",
   "Selection parent engine",

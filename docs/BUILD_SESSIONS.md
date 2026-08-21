@@ -688,6 +688,8 @@ Next outputs:
 - Keep active non-entry demo flows on `PlayableGameDemoFlowProps` unless a documented entry, policy, or route-specific exception exists.
 - Confirm `/teacher/intake` exposes parent engine readiness before adding more game modes, Phaser wrappers, Z.ai prototype intake, or narrative/AI Tutor routes; Pairing, Selection, and Text-spelling may continue through reviewed active routes, while Narrative remains blocked until state, privacy, persistence, and cost gates exist.
 - Confirm `verify:game-modes` passes after parent-engine readiness, game mode catalog, route contract, or active playable route changes, because the verifier now checks parent engine coverage and mode-to-engine alignment.
+- Confirm `/teacher/intake` exposes active game replay expectations before using any current route as a reference for Z.ai, Phaser, AI-generated packages, template conversion, or premium polish.
+- Confirm `verify:game-modes` passes after active replay checklist changes, because the verifier now checks every `GameModeId` has one replay record under the catalog parent engine.
 - Confirm student activity hubs at `/activities/demo-unit-1` and `/activities/partner-demo-unit-1` expose curated reviewed pathways without becoming switch-to-anything template panels.
 - Confirm student launch and private assignment routes link to the curated activity hub for the same launch code without unlocking progress or exposing teacher/admin controls.
 - Confirm local companion bundle manifests include curated activity hub fallback routes so hosted PWA and closed textbook package navigation stay aligned.

@@ -85,6 +85,7 @@ import {
 import { sampleTeacherSessionSettingsReviewPackets } from "@/data/sampleTeacherSessionSettingsReviewPacket";
 import { sampleAssignmentRolloutPlans } from "@/data/sampleAssignmentRolloutPlan";
 import { sampleActivityPathwayCompatibilityMatrix } from "@/data/sampleActivityPathwayCompatibility";
+import { sampleActiveGameReplayChecklist } from "@/data/sampleActiveGameReplayChecklist";
 import { sampleParentEngineReadinessPlan } from "@/data/sampleParentEngineReadiness";
 import { sampleUnitGameOfferMap } from "@/data/sampleUnitGameOfferMap";
 import { sampleUnitPackageReadiness } from "@/data/sampleUnitPackageReadiness";
@@ -115,6 +116,7 @@ import { DeploymentProfilePanel } from "@/features/deployment/DeploymentProfileP
 import { LocalDeploymentPreflightPanel } from "@/features/deployment/LocalDeploymentPreflightPanel";
 import { LocalBundleManifestPanel } from "@/features/deployment/LocalBundleManifestPanel";
 import { ActivityPathwayCompatibilityPanel } from "@/features/game-offers/ActivityPathwayCompatibilityPanel";
+import { ActiveGameReplayChecklistPanel } from "@/features/game-offers/ActiveGameReplayChecklistPanel";
 import { GameModeSettingsBackendContractPanel } from "@/features/game-offers/GameModeSettingsBackendContractPanel";
 import { GameModeSettingsProfilePanel } from "@/features/game-offers/GameModeSettingsProfilePanel";
 import { GameModeSettingsStorageReadinessPanel } from "@/features/game-offers/GameModeSettingsStorageReadinessPanel";
@@ -228,6 +230,7 @@ export default function TeacherIntakePage() {
         <ActivityPathwayCompatibilityPanel matrix={sampleActivityPathwayCompatibilityMatrix} />
         <PrintableOutputReadinessPanel plan={samplePrintableOutputPlan} />
         <ParentEngineReadinessPanel plan={sampleParentEngineReadinessPlan} />
+        <ActiveGameReplayChecklistPanel checklist={sampleActiveGameReplayChecklist} />
         <UnitGameOfferMapPanel map={sampleUnitGameOfferMap} />
         <GameModeSettingsProfilePanel plan={sampleGameModeSettingsProfilePlan} />
         <GameModeSettingsStorageReadinessPanel plan={sampleGameModeSettingsStorageReadinessPlan} />

@@ -449,6 +449,7 @@
 - `DR-475-playable-demo-flow-prop-contract.md`
 - `DR-476-parent-engine-readiness-panel.md`
 - `DR-477-parent-engine-readiness-verifier.md`
+- `DR-478-active-game-replay-checklist.md`
 
 ## Maintenance Rule
 
