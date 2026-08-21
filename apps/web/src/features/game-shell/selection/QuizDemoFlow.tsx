@@ -14,6 +14,7 @@ import { UnitSessionProgressSummary } from "@/features/progression/UnitSessionPr
 import { SessionEventLog } from "@/features/student/components/SessionEventLog";
 import { TeacherAssignmentSettingsCard } from "@/features/student/components/TeacherAssignmentSettingsCard";
 import type { TenantConfig } from "@/features/tenant/types";
+import { GameCompletionNextCard } from "../components/GameCompletionNextCard";
 import { GameRouteHeaderCard } from "../components/GameRouteHeaderCard";
 import { QuizPracticeGame } from "./QuizPracticeGame";
 
@@ -26,6 +27,8 @@ interface QuizDemoFlowProps {
   assignmentPlan?: TeacherAssignmentPlan;
 }
 
+const gameMode = "quiz" as const;
+
 export function QuizDemoFlow({
   tenant,
   unit,
@@ -37,7 +40,7 @@ export function QuizDemoFlow({
   const [currentProgression, setCurrentProgression] = useState<StudentProgressionState>({
     ...progression,
     currentStep: "recommended-game",
-    unlockedGameModes: Array.from(new Set([...progression.unlockedGameModes, "quiz"])),
+    unlockedGameModes: Array.from(new Set([...progression.unlockedGameModes, gameMode])),
   });
   const [sessionEvents, setSessionEvents] = useState<GameProgressEvent[]>([]);
   const [lastEarnedDust, setLastEarnedDust] = useState(0);
@@ -83,6 +86,14 @@ export function QuizDemoFlow({
         audioCues={audioCues}
         onEvent={handleEvent}
         onComplete={handleComplete}
+      />
+
+      <GameCompletionNextCard
+        launchSession={launchSession}
+        progression={currentProgression}
+        currentGameMode={gameMode}
+        earnedStarDust={lastEarnedDust}
+        rewardName={tenant.rewardName}
       />
 
       <SessionEventLog events={sessionEvents} />

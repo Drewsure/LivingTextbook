@@ -431,6 +431,7 @@
 - `DR-457-session-settings-review-visible-storage-guard.md`
 - `DR-458-review-list-key-stability.md`
 - `DR-459-spelling-practice-active-route.md`
+- `DR-460-shared-game-completion-next-path.md`
 
 ## Maintenance Rule
 

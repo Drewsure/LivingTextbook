@@ -30,6 +30,7 @@ Focused verification supplements:
 - `docs/verification/EDITION_QR_ALIAS_CHECKS.md`
 - `docs/verification/FOUNDATION_VERIFICATION_GATE_PANEL_CHECKS.md`
 - `docs/verification/GAME_PROTOTYPE_ASSIGNMENT_CHECKS.md`
+- `docs/verification/GAME_COMPLETION_NEXT_PATH_CHECKS.md`
 - `docs/verification/GAME_MODE_AUDIO_COVERAGE_CHECKS.md`
 - `docs/verification/GAME_MODE_COVERAGE_VERIFIER_CHECKS.md`
 - `docs/verification/LOCAL_DEPLOYMENT_PREFLIGHT_CHECKS.md`

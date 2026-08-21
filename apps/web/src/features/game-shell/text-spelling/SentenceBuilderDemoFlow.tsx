@@ -14,6 +14,7 @@ import { SessionEventLog } from "@/features/student/components/SessionEventLog";
 import { TeacherAssignmentSettingsCard } from "@/features/student/components/TeacherAssignmentSettingsCard";
 import type { TenantConfig } from "@/features/tenant/types";
 import type { GameModeCompletionResult } from "@/features/progression/localProgressionAdapter";
+import { GameCompletionNextCard } from "../components/GameCompletionNextCard";
 import { GameRouteHeaderCard } from "../components/GameRouteHeaderCard";
 import { SentenceBuilderPracticeGame } from "./SentenceBuilderPracticeGame";
 
@@ -26,6 +27,8 @@ interface SentenceBuilderDemoFlowProps {
   assignmentPlan?: TeacherAssignmentPlan;
 }
 
+const gameMode = "sentence-builder" as const;
+
 export function SentenceBuilderDemoFlow({
   tenant,
   unit,
@@ -37,7 +40,7 @@ export function SentenceBuilderDemoFlow({
   const [currentProgression, setCurrentProgression] = useState<StudentProgressionState>({
     ...progression,
     currentStep: "recommended-game",
-    unlockedGameModes: Array.from(new Set([...progression.unlockedGameModes, "sentence-builder"])),
+    unlockedGameModes: Array.from(new Set([...progression.unlockedGameModes, gameMode])),
   });
   const [sessionEvents, setSessionEvents] = useState<GameProgressEvent[]>([]);
   const [lastEarnedDust, setLastEarnedDust] = useState(0);
@@ -83,6 +86,14 @@ export function SentenceBuilderDemoFlow({
         audioCues={audioCues}
         onEvent={handleEvent}
         onComplete={handleComplete}
+      />
+
+      <GameCompletionNextCard
+        launchSession={launchSession}
+        progression={currentProgression}
+        currentGameMode={gameMode}
+        earnedStarDust={lastEarnedDust}
+        rewardName={tenant.rewardName}
       />
 
       <SessionEventLog events={sessionEvents} />

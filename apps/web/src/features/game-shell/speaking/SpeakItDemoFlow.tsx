@@ -18,6 +18,7 @@ import {
   parseStoredTeacherMicrophoneApproval,
 } from "@/features/tenant/microphonePracticeSettings";
 import type { TenantConfig } from "@/features/tenant/types";
+import { GameCompletionNextCard } from "../components/GameCompletionNextCard";
 import { GameRouteHeaderCard } from "../components/GameRouteHeaderCard";
 import { SpeakItPracticeGame } from "./SpeakItPracticeGame";
 import type { GameModeCompletionResult } from "@/features/progression/localProgressionAdapter";
@@ -30,6 +31,8 @@ interface SpeakItDemoFlowProps {
   audioCues?: AudioCue[];
   assignmentPlan?: TeacherAssignmentPlan;
 }
+
+const gameMode = "speak-it" as const;
 
 export function SpeakItDemoFlow({
   tenant,
@@ -45,7 +48,7 @@ export function SpeakItDemoFlow({
   const [currentProgression, setCurrentProgression] = useState<StudentProgressionState>({
     ...progression,
     currentStep: "recommended-game",
-    unlockedGameModes: Array.from(new Set([...progression.unlockedGameModes, "speak-it"])),
+    unlockedGameModes: Array.from(new Set([...progression.unlockedGameModes, gameMode])),
   });
   const [sessionEvents, setSessionEvents] = useState<GameProgressEvent[]>([]);
   const [lastEarnedDust, setLastEarnedDust] = useState(0);
@@ -104,13 +107,21 @@ export function SpeakItDemoFlow({
 
       <SpeakItPracticeGame
         unit={unit}
-        gameMode="speak-it"
+        gameMode={gameMode}
         launchSession={launchSession}
         progression={currentProgression}
         audioCues={audioCues}
         microphonePractice={launchMicrophonePracticeSettings}
         onEvent={handleEvent}
         onComplete={handleComplete}
+      />
+
+      <GameCompletionNextCard
+        launchSession={launchSession}
+        progression={currentProgression}
+        currentGameMode={gameMode}
+        earnedStarDust={lastEarnedDust}
+        rewardName={tenant.rewardName}
       />
 
       <SessionEventLog events={sessionEvents} />

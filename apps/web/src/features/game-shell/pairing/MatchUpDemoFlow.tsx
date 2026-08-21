@@ -14,6 +14,7 @@ import type { GameModeCompletionResult } from "@/features/progression/localProgr
 import { SessionEventLog } from "@/features/student/components/SessionEventLog";
 import { TeacherAssignmentSettingsCard } from "@/features/student/components/TeacherAssignmentSettingsCard";
 import type { TenantConfig } from "@/features/tenant/types";
+import { GameCompletionNextCard } from "../components/GameCompletionNextCard";
 import { GameRouteHeaderCard } from "../components/GameRouteHeaderCard";
 import { PairingMatchUpGame } from "./PairingMatchUpGame";
 
@@ -85,6 +86,14 @@ export function MatchUpDemoFlow({
         audioCues={audioCues}
         onEvent={handleEvent}
         onComplete={handleComplete}
+      />
+
+      <GameCompletionNextCard
+        launchSession={launchSession}
+        progression={currentProgression}
+        currentGameMode={gameMode}
+        earnedStarDust={lastEarnedDust}
+        rewardName={tenant.rewardName}
       />
 
       <SessionEventLog events={sessionEvents} />
