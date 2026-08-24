@@ -177,6 +177,11 @@ Confirm:
 - AI draft correction queue shows `Correction queue guard active`, `Correction queue guard blocks`, and `Correction queue guard warnings`.
 - `packages/content-model/src/aiDraftCorrectionQueue.ts` exports `validateAiDraftCorrectionQueue`.
 - AI draft correction queue blocks auto-fix, live AI regeneration, verifier submission, package assembly, route creation, playlist creation, and student assignment.
+- AI draft repair evidence packets link draft previews and correction queues to schema validation, target-language audio, media-rights, and verifier-submission evidence before verifier submission.
+- AI draft repair evidence packets keep `target_language_progress_trigger: target-language-only`, `support_language_progress_allowed: false`, `auto_fix_allowed: false`, `live_ai_regeneration_allowed: false`, and `verifier_submission_allowed: false`.
+- AI draft repair evidence packets block auto-fix, live AI regeneration, verifier submission, package assembly, route writes, playlist writes, student assignment, student-ready markers, and support-language progress.
+- Generator routes show `Repair evidence guard active`, `Repair evidence guard blocks`, and `Repair evidence guard warnings`.
+- `packages/content-model/src/aiDraftRepairEvidencePacket.ts` exports `validateAiDraftRepairEvidencePacket` and `isAiDraftRepairEvidencePacketLiveBlocked`.
 - Disabled request builder shows source evidence packet, target level, unit theme, target language, support-language policy, curated mode pathway, audio coverage requirement, and AI package state.
 - Disabled request builder blocks generation, API cost estimation, request submission, live prompt dispatch, model billing, route creation, and student assignment.
 - AI generation request storage guard shows required request, cost, audio, compatibility, media-rights, draft, and verifier records before any live generation request can exist.

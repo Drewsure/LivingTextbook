@@ -209,6 +209,8 @@ const draftPreviewData = readSource("../apps/web/src/data/sampleAiGeneratedDraft
 const draftPayloadValidator = readSource("../packages/content-model/src/aiGeneratedDraftPayload.ts");
 const correctionQueueData = readSource("../apps/web/src/data/sampleAiDraftCorrectionQueue.ts");
 const correctionQueueValidator = readSource("../packages/content-model/src/aiDraftCorrectionQueue.ts");
+const repairEvidencePacketData = readSource("../apps/web/src/data/sampleAiDraftRepairEvidencePacket.ts");
+const repairEvidencePacketValidator = readSource("../packages/content-model/src/aiDraftRepairEvidencePacket.ts");
 const compatibilityMatrix = readSource("../apps/web/src/data/sampleActivityPathwayCompatibility.ts");
 const panel = readSource("../apps/web/src/features/content-intake/AiGameGeneratorPlanPanel.tsx");
 const tenantCoveragePanel = readSource("../apps/web/src/features/content-intake/AiGeneratorTenantCoveragePanel.tsx");
@@ -348,6 +350,9 @@ const generatedPublishReadinessGatePanel = readSource(
 );
 const draftPreviewPanel = readSource("../apps/web/src/features/content-intake/AiGeneratedDraftPayloadPreviewPanel.tsx");
 const correctionQueuePanel = readSource("../apps/web/src/features/content-intake/AiDraftCorrectionQueuePanel.tsx");
+const repairEvidencePacketPanel = readSource(
+  "../apps/web/src/features/content-intake/AiDraftRepairEvidencePacketPanel.tsx",
+);
 const modeRecommendationPanel = readSource("../apps/web/src/features/content-intake/AiModeRecommendationPanel.tsx");
 const teacherDraftPackages = readSource("../apps/web/src/data/sampleTeacherDraftPackage.ts");
 const teacherDraftReviewQueue = readSource("../apps/web/src/data/sampleTeacherDraftReviewQueue.ts");
@@ -4614,6 +4619,128 @@ requireText(correctionQueuePanel, "Required owner", "AI draft correction queue p
 requireText(correctionQueuePanel, "Next record", "AI draft correction queue panel must expose next records.");
 requireText(correctionQueuePanel, "Student-use effect", "AI draft correction queue panel must expose student-use effect.");
 requireText(correctionQueuePanel, "Blocked correction actions", "AI draft correction queue panel must expose blocked actions.");
+requireText(repairEvidencePacketData, "sampleAiDraftRepairEvidencePackets", "AI draft repair evidence packet data must exist.");
+requireText(
+  repairEvidencePacketData,
+  "sampleAiDraftRepairEvidencePacketErrors",
+  "AI draft repair evidence packet data must expose shared guard errors.",
+);
+requireText(
+  repairEvidencePacketData,
+  "sampleAiDraftRepairEvidencePacketWarnings",
+  "AI draft repair evidence packet data must expose shared guard warnings.",
+);
+requireText(
+  repairEvidencePacketData,
+  "ai_generated_draft_payload_preview",
+  "AI draft repair evidence packet must reference the draft preview record.",
+);
+requireText(
+  repairEvidencePacketData,
+  "ai_draft_correction_queue",
+  "AI draft repair evidence packet must reference the correction queue record.",
+);
+requireText(
+  repairEvidencePacketData,
+  "schema_validation_packet",
+  "AI draft repair evidence packet must require schema validation evidence.",
+);
+requireText(
+  repairEvidencePacketData,
+  "package_game_audio_coverage",
+  "AI draft repair evidence packet must require target-language audio evidence.",
+);
+requireText(
+  repairEvidencePacketData,
+  "media_rights_manifest",
+  "AI draft repair evidence packet must require media-rights evidence.",
+);
+requireText(
+  repairEvidencePacketData,
+  "teacher_draft_verifier_submission",
+  "AI draft repair evidence packet must require verifier submission evidence.",
+);
+requireText(
+  repairEvidencePacketData,
+  "targetLanguageProgressTrigger",
+  "AI draft repair evidence packet must preserve target-language trigger field.",
+);
+requireText(
+  repairEvidencePacketData,
+  "supportLanguageProgressAllowed: false",
+  "AI draft repair evidence packet must block support-language progress.",
+);
+requireText(repairEvidencePacketData, "autoFixAllowed: false", "AI draft repair evidence packet must block auto-fix.");
+requireText(
+  repairEvidencePacketData,
+  "liveAiRegenerationAllowed: false",
+  "AI draft repair evidence packet must block live AI regeneration.",
+);
+requireText(
+  repairEvidencePacketData,
+  "No auto-fix from repair evidence",
+  "AI draft repair evidence packet must block auto-fix actions.",
+);
+requireText(
+  repairEvidencePacketData,
+  "No live AI regeneration from repair evidence",
+  "AI draft repair evidence packet must block live regeneration actions.",
+);
+requireText(
+  repairEvidencePacketData,
+  "No support-language progress from repair evidence",
+  "AI draft repair evidence packet must block support-language progress actions.",
+);
+requireText(
+  repairEvidencePacketValidator,
+  "validateAiDraftRepairEvidencePacket",
+  "Shared content model must validate AI draft repair evidence packets.",
+);
+requireText(
+  repairEvidencePacketValidator,
+  "AI_DRAFT_REPAIR_EVIDENCE_REQUIRED_RECORDS",
+  "Shared repair evidence validator must require evidence records.",
+);
+requireText(
+  repairEvidencePacketValidator,
+  "AI_DRAFT_REPAIR_EVIDENCE_REQUIRED_BLOCKED_ACTIONS",
+  "Shared repair evidence validator must require blocked actions.",
+);
+requireText(
+  repairEvidencePacketValidator,
+  "isAiDraftRepairEvidencePacketLiveBlocked",
+  "Shared repair evidence validator must expose live-block helper.",
+);
+requireText(
+  repairEvidencePacketPanel,
+  "AI draft repair evidence packet",
+  "AI draft repair evidence packet panel must expose heading.",
+);
+requireText(
+  repairEvidencePacketPanel,
+  "Evidence before verifier submission",
+  "AI draft repair evidence packet panel must expose evidence boundary.",
+);
+requireText(
+  repairEvidencePacketPanel,
+  "Repair evidence guard active",
+  "AI draft repair evidence packet panel must expose shared guard status.",
+);
+requireText(
+  repairEvidencePacketPanel,
+  "auto_fix_allowed",
+  "AI draft repair evidence packet panel must expose auto-fix block.",
+);
+requireText(
+  repairEvidencePacketPanel,
+  "live_ai_regeneration_allowed",
+  "AI draft repair evidence packet panel must expose live regeneration block.",
+);
+requireText(
+  repairEvidencePacketPanel,
+  "verifier_submission_allowed",
+  "AI draft repair evidence packet panel must expose verifier submission block.",
+);
 requireText(lineageMap, "sampleAiGeneratorLineageMaps", "AI generator lineage map data must exist.");
 requireText(lineageMapValidator, "validateAiGeneratorLineageMap", "AI generator lineage map shared validator must exist.");
 requireText(lineageMapValidator, "AI_GENERATOR_LINEAGE_REQUIRED_BLOCKED_ACTIONS", "AI generator lineage map validator must define blocked actions.");
@@ -4834,6 +4961,7 @@ requireText(
 requireText(route, "AiGeneratedPublishReadinessGatePanel", "Generator route must render the generated publish readiness gate panel.");
 requireText(route, "AiGeneratedDraftPayloadPreviewPanel", "Generator route must render the draft payload preview panel.");
 requireText(route, "AiDraftCorrectionQueuePanel", "Generator route must render the draft correction queue panel.");
+requireText(route, "AiDraftRepairEvidencePacketPanel", "Generator route must render the draft repair evidence packet panel.");
 requireText(route, "sampleAiGameGeneratorPlan", "Generator route must use the sample generator plan.");
 requireText(route, "sampleAiGeneratorTenantCoverage", "Generator route must use tenant coverage data.");
 requireText(route, "sampleAiGeneratorLineageMaps", "Generator route must use lineage map data.");

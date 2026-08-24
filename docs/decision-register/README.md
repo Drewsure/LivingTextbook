@@ -479,6 +479,7 @@
 - `DR-505-ai-generation-request-packet-storage-contract.md`
 - `DR-506-ai-generation-request-packet-preview.md`
 - `DR-507-ai-request-to-draft-handoff-preview.md`
+- `DR-508-ai-draft-repair-evidence-packet.md`
 
 ## Maintenance Rule
 

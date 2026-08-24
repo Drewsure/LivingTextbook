@@ -1318,6 +1318,12 @@ const aiGameGeneratorExpected = [
   "Student-use effect",
   "No auto-fix from AI draft",
   "No regenerate live AI",
+  "AI draft repair evidence packet",
+  "Evidence before verifier submission",
+  "Repair evidence guard active",
+  "auto_fix_allowed: false",
+  "live_ai_regeneration_allowed: false",
+  "verifier_submission_allowed: false",
 ];
 
 const ministarAiGameGeneratorExpected = [
@@ -1719,6 +1725,12 @@ const ministarAiGameGeneratorExpected = [
   "Correction queue guard blocks",
   "Correction queue guard warnings",
   "Audio coverage repair lane",
+  "AI draft repair evidence packet",
+  "Evidence before verifier submission",
+  "Repair evidence guard active",
+  "auto_fix_allowed: false",
+  "live_ai_regeneration_allowed: false",
+  "No Japanese support-language unlock",
   "ai_game_generator_request",
   "ai_prompt_package",
   "ai_generation_request_packet",

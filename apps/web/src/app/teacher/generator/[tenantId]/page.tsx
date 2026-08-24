@@ -2,6 +2,10 @@ import { notFound } from "next/navigation";
 import { AppShell } from "@/components/layout/AppShell";
 import { filterAiDraftCorrectionQueuesByTenant, sampleAiDraftCorrectionQueues } from "@/data/sampleAiDraftCorrectionQueue";
 import {
+  filterAiDraftRepairEvidencePacketsByTenant,
+  sampleAiDraftRepairEvidencePackets,
+} from "@/data/sampleAiDraftRepairEvidencePacket";
+import {
   filterAiGeneratedDraftPayloadPreviewsByTenant,
   sampleAiGeneratedDraftPayloadPreviews,
 } from "@/data/sampleAiGeneratedDraftPayloadPreview";
@@ -212,6 +216,7 @@ import {
 } from "@/data/sampleAiTargetLanguageAudioApprovalPacket";
 import { sampleActivityPathwayCompatibilityMatrix } from "@/data/sampleActivityPathwayCompatibility";
 import { AiDraftCorrectionQueuePanel } from "@/features/content-intake/AiDraftCorrectionQueuePanel";
+import { AiDraftRepairEvidencePacketPanel } from "@/features/content-intake/AiDraftRepairEvidencePacketPanel";
 import { AiGenerationRequestBuilderPanel } from "@/features/content-intake/AiGenerationRequestBuilderPanel";
 import { AiGenerationRequestPacketPreviewPanel } from "@/features/content-intake/AiGenerationRequestPacketPreviewPanel";
 import { AiGenerationRequestToDraftHandoffPanel } from "@/features/content-intake/AiGenerationRequestToDraftHandoffPanel";
@@ -578,6 +583,9 @@ export default async function TeacherAiGameGeneratorPage({
         />
         <AiDraftCorrectionQueuePanel
           queues={filterAiDraftCorrectionQueuesByTenant(sampleAiDraftCorrectionQueues, tenantId)}
+        />
+        <AiDraftRepairEvidencePacketPanel
+          packets={filterAiDraftRepairEvidencePacketsByTenant(sampleAiDraftRepairEvidencePackets, tenantId)}
         />
         </section>
       </div>

@@ -251,6 +251,12 @@ Correction queues must pass the shared `validateAiDraftCorrectionQueue` guard be
 
 The correction queue must not offer auto-fix, live AI regeneration, verifier submission, package assembly, route creation, playlist creation, or student assignment.
 
+## Draft Repair Evidence Rule
+
+Correction queues must produce an evidence-only repair packet before verifier submission can be considered. The packet must link the draft preview and correction queue, name schema validation, target-language audio, media-rights, and verifier-submission evidence, and preserve `target_language_progress_trigger: target-language-only`, `support_language_progress_allowed: false`, `auto_fix_allowed: false`, `live_ai_regeneration_allowed: false`, and `verifier_submission_allowed: false`.
+
+Draft repair evidence cannot auto-fix content, regenerate with live AI, submit to a verifier, assemble a package, write routes, create playlists, assign students, mark content student-ready, or treat support-language or media-only activity as progress evidence. MiniStar repair evidence must keep Foundation Japanese support hiragana-only and support-only while English remains the progress trigger.
+
 ## Request Builder Rule
 
 The teacher generator route may show a disabled request-builder form for source evidence packet, target level, unit theme, target language, assist-language policy, curated mode pathway, audio coverage requirement, and AI package state. The form must keep generation, API cost estimation, request submission, live prompt dispatch, model billing, route creation, and student assignment blocked until the premium AI package, persistence, verifier, and approval workflows exist.
