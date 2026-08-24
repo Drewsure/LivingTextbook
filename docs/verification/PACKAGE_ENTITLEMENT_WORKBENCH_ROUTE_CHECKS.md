@@ -23,6 +23,10 @@ Run after changes to AI generation, AI Tutor, Voice Tutor, microphone scoring, s
 - The route shows `Base platform first, optional packages second`.
 - The route separates `Core classroom PWA`, `Premium AI authoring`, `Premium Voice Tutor`, and `Enterprise storage and local companion`.
 - The route shows `Included capabilities`, `Adoption requirements`, `Cost controls`, and `Child safety rules`.
+- The route shows `Package adoption readiness`.
+- The route shows `School and tenant approval before premium activation`.
+- The route shows `Required approvals`, `Required records`, `Cost review`, `Policy review`, and `Blocked actions`.
+- The route shows `School AI usage policy approval`, `Microphone policy acceptance`, and `School privacy and retention approval`.
 - The route shows `No microphone permission prompt`.
 - The route shows `No raw audio storage` and `No transcript storage`.
 - The route shows `No report export from this route`, `No object storage write`, `No local folder write`, and `No release-state mutation`.

@@ -1,6 +1,8 @@
 import { readFileSync } from "node:fs";
 
 const catalog = readSource("../apps/web/src/data/sampleWhiteLabelPackageCatalog.ts");
+const adoptionReadiness = readSource("../apps/web/src/data/samplePackageAdoptionReadiness.ts");
+const adoptionPanel = readSource("../apps/web/src/features/entitlements/PackageAdoptionReadinessPanel.tsx");
 const catalogPanel = readSource("../apps/web/src/features/entitlements/PackageTierCatalogPanel.tsx");
 const entitlementPage = readSource("../apps/web/src/app/teacher/entitlements/page.tsx");
 const aiCostGate = readSource("../apps/web/src/data/sampleAiGeneratorCostEntitlementGate.ts");
@@ -13,8 +15,11 @@ const routeVerifier = readSource("./verify-active-routes.mjs");
 const activeRouteList = readSource("../docs/ACTIVE_ROUTE_VERIFICATION_LIST.md");
 const buildSessions = readSource("../docs/BUILD_SESSIONS.md");
 const decisionRegister = readSource("../docs/decision-register/DR-488-package-entitlement-workbench-route.md");
+const adoptionDecisionRegister = readSource("../docs/decision-register/DR-489-package-adoption-readiness-flow.md");
 const adr = readSource("../docs/adr/0417-package-entitlement-workbench-route.md");
+const adoptionAdr = readSource("../docs/adr/0418-package-adoption-readiness-flow.md");
 const routeChecks = readSource("../docs/verification/PACKAGE_ENTITLEMENT_WORKBENCH_ROUTE_CHECKS.md");
+const verifierChecks = readSource("../docs/verification/PACKAGE_ENTITLEMENT_VERIFIER_CHECKS.md");
 const failures = [];
 
 const packageIds = [
@@ -54,8 +59,39 @@ const requiredBoundaryText = [
   "No release-state mutation",
 ];
 
+const adoptionIds = [
+  "adoption-ministar-core-classroom-pwa",
+  "adoption-sample-publisher-premium-ai-authoring",
+  "adoption-ministar-premium-voice-tutor",
+  "adoption-sample-publisher-enterprise-storage-local",
+];
+
+const requiredAdoptionText = [
+  "Package adoption readiness",
+  "School and tenant approval before premium activation",
+  "adoption review packet, not a purchase flow",
+  "Required approvals",
+  "Required records",
+  "Cost review",
+  "Policy review",
+  "Blocked actions",
+  "School AI usage policy approval",
+  "Microphone policy acceptance",
+  "Speech API cost acceptance",
+  "Persistence vendor selection",
+  "School privacy and retention approval",
+  "No live model call",
+  "No microphone permission prompt",
+  "No object storage write",
+  "No local package activation",
+];
+
 for (const packageId of packageIds) {
   requireText(catalog, `packageId: "${packageId}"`, `Package catalog missing package id: ${packageId}.`);
+}
+
+for (const adoptionId of adoptionIds) {
+  requireText(adoptionReadiness, `adoptionId: "${adoptionId}"`, `Package adoption readiness missing item: ${adoptionId}.`);
 }
 
 for (const text of requiredCatalogText) {
@@ -68,6 +104,11 @@ for (const text of requiredBoundaryText) {
   requireText(routeVerifier, text, `Active route verifier must check entitlement boundary text: ${text}.`);
 }
 
+for (const text of requiredAdoptionText) {
+  requireText(adoptionReadiness + adoptionPanel + entitlementPage, text, `Package adoption readiness missing required text: ${text}.`);
+  requireText(routeVerifier, text, `Active route verifier must check adoption readiness text: ${text}.`);
+}
+
 requireText(catalogPanel, "White-label package catalog", "Catalog panel must expose its heading.");
 requireText(catalogPanel, "Base platform first, optional packages second", "Catalog panel must preserve base-first package rule.");
 requireText(catalogPanel, "Included capabilities", "Catalog panel must show included capabilities.");
@@ -75,6 +116,7 @@ requireText(catalogPanel, "Adoption requirements", "Catalog panel must show adop
 requireText(catalogPanel, "Cost controls", "Catalog panel must show cost controls.");
 requireText(catalogPanel, "Child safety rules", "Catalog panel must show child safety rules.");
 requireText(entitlementPage, "PackageTierCatalogPanel", "Entitlement route must render the package catalog panel.");
+requireText(entitlementPage, "PackageAdoptionReadinessPanel", "Entitlement route must render package adoption readiness.");
 requireText(entitlementPage, "AiGeneratorCostEntitlementGatePanel", "Entitlement route must render AI cost gates.");
 requireText(entitlementPage, "VoiceTutorPackagePanel", "Entitlement route must render Voice Tutor package readiness.");
 requireText(aiCostGate, "Show premium upsell to children blocked", "AI cost gate must block child-facing upsell.");
@@ -91,8 +133,11 @@ requireText(routeContracts, "teacher-package-entitlements", "Route contracts mus
 requireText(activeRouteList, "http://127.0.0.1:3000/teacher/entitlements", "Active route list must include entitlement route.");
 requireText(buildSessions, "/teacher/entitlements", "Build sessions must name the entitlement route.");
 requireText(decisionRegister, "DR-488", "Decision register record must exist.");
+requireText(adoptionDecisionRegister, "DR-489", "Package adoption decision register record must exist.");
 requireText(adr, "ADR 0417", "ADR must exist.");
+requireText(adoptionAdr, "ADR 0418", "Package adoption ADR must exist.");
 requireText(routeChecks, "Package Entitlement Workbench Route Checks", "Route checklist must exist.");
+requireText(verifierChecks, "Package Entitlement Verifier Checks", "Verifier checklist must exist.");
 requireText(routeChecks, "The active route verifier must expect 82 active routes.", "Route checklist must preserve active route count.");
 
 forbidText(entitlementPage, "input type=\"file\"", "Entitlement route must not introduce live upload inputs.");
@@ -107,7 +152,9 @@ if (failures.length > 0) {
   process.exit(1);
 }
 
-console.log(`PASS package entitlements protect ${packageIds.length} package option(s) and ${requiredBoundaryText.length} cost boundary rule(s).`);
+console.log(
+  `PASS package entitlements protect ${packageIds.length} package option(s), ${adoptionIds.length} adoption review(s), and ${requiredBoundaryText.length} cost boundary rule(s).`,
+);
 
 function readSource(relativePath) {
   return readFileSync(new URL(relativePath, import.meta.url), "utf8");

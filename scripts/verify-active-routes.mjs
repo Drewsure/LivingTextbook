@@ -111,6 +111,23 @@ expectedTextByPath.get("/teacher")?.push(
   "/teacher/entitlements",
   "Open teacher game readiness workbench",
 );
+expectedTextByPath.get("/teacher/entitlements")?.push(
+  "Package adoption readiness",
+  "School and tenant approval before premium activation",
+  "adoption review packet, not a purchase flow",
+  "Required approvals",
+  "Required records",
+  "Cost review",
+  "Policy review",
+  "Blocked actions",
+  "School AI usage policy approval",
+  "Microphone policy acceptance",
+  "Speech API cost acceptance",
+  "Persistence vendor selection",
+  "School privacy and retention approval",
+  "No live model call",
+  "No local package activation",
+);
 expectedTextByPath.set("/teacher/game-readiness", [
   "Teacher game readiness workbench",
   "Game architecture, replay evidence, and outside prototype gates",

@@ -14,6 +14,8 @@ npm run verify:package-entitlements
 
 - The verifier checks the package catalog has `core-classroom-pwa`, `premium-ai-authoring`, `premium-voice-tutor`, and `enterprise-storage-and-local`.
 - The verifier checks the route renders `PackageTierCatalogPanel`, `AiGeneratorCostEntitlementGatePanel`, and `VoiceTutorPackagePanel`.
+- The verifier checks the route renders `PackageAdoptionReadinessPanel`.
+- The verifier checks four adoption reviews for core classroom, premium AI authoring, premium Voice Tutor, and enterprise storage/local companion.
 - The verifier checks the active route verifier expects the package catalog and package boundary text.
 - The verifier checks MiniStar and sample publisher keep AI Tutor and AI speech scoring disabled by default.
 - The verifier checks no live upload input, microphone request, or live fetch call is introduced on the entitlement route.

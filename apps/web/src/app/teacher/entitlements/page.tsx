@@ -4,9 +4,11 @@ import type { TenantConfig } from "@/features/tenant/types";
 import { AppShell } from "@/components/layout/AppShell";
 import { sampleAiGeneratorCostEntitlementGates } from "@/data/sampleAiGeneratorCostEntitlementGate";
 import { sampleMultimediaContentPackage } from "@/data/sampleMultimediaPackage";
+import { samplePackageAdoptionReadinessItems } from "@/data/samplePackageAdoptionReadiness";
 import { samplePartnerContentPackage } from "@/data/samplePartnerPackage";
 import { sampleWhiteLabelPackageCatalog } from "@/data/sampleWhiteLabelPackageCatalog";
 import { AiGeneratorCostEntitlementGatePanel } from "@/features/content-intake/AiGeneratorCostEntitlementGatePanel";
+import { PackageAdoptionReadinessPanel } from "@/features/entitlements/PackageAdoptionReadinessPanel";
 import { PackageTierCatalogPanel } from "@/features/entitlements/PackageTierCatalogPanel";
 import { VoiceTutorPackagePanel } from "@/features/ai-tutor/VoiceTutorPackagePanel";
 import { ministarTenant } from "@/features/tenant/ministarTenant";
@@ -166,6 +168,8 @@ export default function TeacherEntitlementsPage() {
         </Card>
 
         <PackageTierCatalogPanel packages={sampleWhiteLabelPackageCatalog} />
+
+        <PackageAdoptionReadinessPanel items={samplePackageAdoptionReadinessItems} />
 
         <AiGeneratorCostEntitlementGatePanel gates={sampleAiGeneratorCostEntitlementGates} />
 
