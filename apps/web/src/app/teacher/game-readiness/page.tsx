@@ -8,6 +8,7 @@ import { sampleGamePrototypeAssignmentPlan } from "@/data/sampleGamePrototypeAss
 import { sampleParentEngineReadinessPlan } from "@/data/sampleParentEngineReadiness";
 import { samplePrototypeIntakeAlert } from "@/data/samplePrototypeIntakeAlert";
 import { samplePrototypeIntakeQueue } from "@/data/samplePrototypeIntakeQueue";
+import { samplePrototypeIntakeStorageGuards } from "@/data/samplePrototypeIntakeStorageGuard";
 import { sampleUnitGameOfferMap } from "@/data/sampleUnitGameOfferMap";
 import { ActiveGameReplayChecklistPanel } from "@/features/game-offers/ActiveGameReplayChecklistPanel";
 import { GameModeSettingsBackendContractPanel } from "@/features/game-offers/GameModeSettingsBackendContractPanel";
@@ -17,6 +18,7 @@ import { GamePrototypeAssignmentPanel } from "@/features/game-offers/GamePrototy
 import { ParentEngineReadinessPanel } from "@/features/game-offers/ParentEngineReadinessPanel";
 import { PrototypeIntakeAlertPanel } from "@/features/game-offers/PrototypeIntakeAlertPanel";
 import { PrototypeIntakeQueuePanel } from "@/features/game-offers/PrototypeIntakeQueuePanel";
+import { PrototypeIntakeStorageGuardPanel } from "@/features/game-offers/PrototypeIntakeStorageGuardPanel";
 import { UnitGameOfferMapPanel } from "@/features/game-offers/UnitGameOfferMapPanel";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 
@@ -65,6 +67,7 @@ export default function TeacherGameReadinessPage() {
 
         <PrototypeIntakeAlertPanel alert={samplePrototypeIntakeAlert} />
         <PrototypeIntakeQueuePanel items={samplePrototypeIntakeQueue} />
+        <PrototypeIntakeStorageGuardPanel guards={samplePrototypeIntakeStorageGuards} />
 
         <ParentEngineReadinessPanel plan={sampleParentEngineReadinessPlan} />
         <ActiveGameReplayChecklistPanel checklist={sampleActiveGameReplayChecklist} />

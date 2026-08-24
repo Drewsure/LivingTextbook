@@ -11,6 +11,8 @@ const files = {
   prototypeIntakeAlertPanel: "apps/web/src/features/game-offers/PrototypeIntakeAlertPanel.tsx",
   prototypeIntakeQueue: "apps/web/src/data/samplePrototypeIntakeQueue.ts",
   prototypeIntakeQueuePanel: "apps/web/src/features/game-offers/PrototypeIntakeQueuePanel.tsx",
+  prototypeIntakeStorageGuard: "apps/web/src/data/samplePrototypeIntakeStorageGuard.ts",
+  prototypeIntakeStorageGuardPanel: "apps/web/src/features/game-offers/PrototypeIntakeStorageGuardPanel.tsx",
   backendSchemaDraft: "apps/web/src/data/sampleBackendSchemaDraft.ts",
   backendMigrationCandidates: "apps/web/src/data/sampleBackendMigrationCandidates.ts",
   backendMigrationSpecs: "apps/web/src/data/sampleBackendMigrationSpecs.ts",
@@ -56,6 +58,8 @@ const routeVerifierMarkers = [
   "Codex alert required",
   "Prototype intake queue",
   "Outside game inventory before Codex review",
+  "Prototype intake storage guard",
+  "Storage contract before outside game intake",
 ];
 const prototypeIntakeAlertMarkers = [
   "Z.ai prototype intake alert",
@@ -102,6 +106,21 @@ const prototypeIntakeQueueStorageMarkers = [
   "preservesPrototypeIntakeQueueItem: true",
   "blocksPrototypeIntakeDirectImport: true",
   "blocksPrototypeIntakeRouteReplacement: true",
+];
+const prototypeIntakeStorageGuardMarkers = [
+  "Prototype intake storage guard",
+  "Storage contract before outside game intake",
+  "prototype-intake-queue-storage-contract",
+  "prototype-intake-queue-item-record",
+  "prototype-intake-queue-item-boundary",
+  "hosted-prototype-intake-queue-item-write",
+  "local-prototype-intake-queue-item-write",
+  "m098-prototype-intake-queue-storage",
+  "spec-prototype-intake-queue-item",
+  "No direct prototype import",
+  "No active route replacement",
+  "No scoring profile mutation",
+  "No support-language progress trigger",
 ];
 
 const failures = [];
@@ -154,6 +173,17 @@ for (const marker of prototypeIntakeQueueStorageMarkers) {
       sources.persistenceAdapterPlan,
     marker,
     `Prototype intake queue storage must keep marker: ${marker}`,
+  );
+}
+
+for (const marker of prototypeIntakeStorageGuardMarkers) {
+  requireText(
+    sources.prototypeIntakeStorageGuard +
+      sources.prototypeIntakeStorageGuardPanel +
+      sources.gameReadinessPage +
+      sources.prototypePage,
+    marker,
+    `Prototype intake storage guard must keep marker: ${marker}`,
   );
 }
 

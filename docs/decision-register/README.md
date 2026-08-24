@@ -468,6 +468,7 @@
 - `DR-494-zai-prototype-intake-alert.md`
 - `DR-495-prototype-intake-queue.md`
 - `DR-496-prototype-intake-queue-storage-contract.md`
+- `DR-497-prototype-intake-storage-guard-panel.md`
 
 ## Maintenance Rule
 
