@@ -27,6 +27,10 @@ Run after changes to AI generation, AI Tutor, Voice Tutor, microphone scoring, s
 - The route shows `School and tenant approval before premium activation`.
 - The route shows `Required approvals`, `Required records`, `Cost review`, `Policy review`, and `Blocked actions`.
 - The route shows `School AI usage policy approval`, `Microphone policy acceptance`, and `School privacy and retention approval`.
+- The route shows `Future package adoption record preview`.
+- The route shows `Minimum accepted-record fields before premium enablement`.
+- The route shows `Minimum fields`, `Required evidence`, `Acceptance scopes`, `Blocked writes`, and `Rollback hooks`.
+- The route shows `No accepted premium AI adoption record`, `No accepted Voice Tutor adoption record`, and `No accepted enterprise adoption record`.
 - The route shows `No microphone permission prompt`.
 - The route shows `No raw audio storage` and `No transcript storage`.
 - The route shows `No report export from this route`, `No object storage write`, `No local folder write`, and `No release-state mutation`.

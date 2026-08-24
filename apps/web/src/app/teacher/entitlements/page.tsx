@@ -4,10 +4,12 @@ import type { TenantConfig } from "@/features/tenant/types";
 import { AppShell } from "@/components/layout/AppShell";
 import { sampleAiGeneratorCostEntitlementGates } from "@/data/sampleAiGeneratorCostEntitlementGate";
 import { sampleMultimediaContentPackage } from "@/data/sampleMultimediaPackage";
+import { samplePackageAdoptionRecordPreviews } from "@/data/samplePackageAdoptionRecordPreview";
 import { samplePackageAdoptionReadinessItems } from "@/data/samplePackageAdoptionReadiness";
 import { samplePartnerContentPackage } from "@/data/samplePartnerPackage";
 import { sampleWhiteLabelPackageCatalog } from "@/data/sampleWhiteLabelPackageCatalog";
 import { AiGeneratorCostEntitlementGatePanel } from "@/features/content-intake/AiGeneratorCostEntitlementGatePanel";
+import { PackageAdoptionRecordPreviewPanel } from "@/features/entitlements/PackageAdoptionRecordPreviewPanel";
 import { PackageAdoptionReadinessPanel } from "@/features/entitlements/PackageAdoptionReadinessPanel";
 import { PackageTierCatalogPanel } from "@/features/entitlements/PackageTierCatalogPanel";
 import { VoiceTutorPackagePanel } from "@/features/ai-tutor/VoiceTutorPackagePanel";
@@ -170,6 +172,8 @@ export default function TeacherEntitlementsPage() {
         <PackageTierCatalogPanel packages={sampleWhiteLabelPackageCatalog} />
 
         <PackageAdoptionReadinessPanel items={samplePackageAdoptionReadinessItems} />
+
+        <PackageAdoptionRecordPreviewPanel records={samplePackageAdoptionRecordPreviews} />
 
         <AiGeneratorCostEntitlementGatePanel gates={sampleAiGeneratorCostEntitlementGates} />
 

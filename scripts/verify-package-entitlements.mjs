@@ -1,6 +1,8 @@
 import { readFileSync } from "node:fs";
 
 const catalog = readSource("../apps/web/src/data/sampleWhiteLabelPackageCatalog.ts");
+const adoptionRecordPreview = readSource("../apps/web/src/data/samplePackageAdoptionRecordPreview.ts");
+const adoptionRecordPanel = readSource("../apps/web/src/features/entitlements/PackageAdoptionRecordPreviewPanel.tsx");
 const adoptionReadiness = readSource("../apps/web/src/data/samplePackageAdoptionReadiness.ts");
 const adoptionPanel = readSource("../apps/web/src/features/entitlements/PackageAdoptionReadinessPanel.tsx");
 const catalogPanel = readSource("../apps/web/src/features/entitlements/PackageTierCatalogPanel.tsx");
@@ -66,6 +68,12 @@ const adoptionIds = [
   "adoption-sample-publisher-enterprise-storage-local",
 ];
 
+const adoptionRecordIds = [
+  "record-preview-premium-ai-authoring-sample-publisher",
+  "record-preview-premium-voice-tutor-ministar",
+  "record-preview-enterprise-storage-local-sample-publisher",
+];
+
 const requiredAdoptionText = [
   "Package adoption readiness",
   "School and tenant approval before premium activation",
@@ -86,12 +94,43 @@ const requiredAdoptionText = [
   "No local package activation",
 ];
 
+const requiredAdoptionRecordText = [
+  "Future package adoption record preview",
+  "Minimum accepted-record fields before premium enablement",
+  "No accepted records",
+  "Minimum fields",
+  "Required evidence",
+  "Acceptance scopes",
+  "Blocked writes",
+  "Rollback hooks",
+  "school_policy_acceptance_id",
+  "usage_budget_ceiling_id",
+  "microphone_policy_acceptance_id",
+  "transcript_retention_policy_id",
+  "backend_selection_gate_id",
+  "report_export_plan_id",
+  "No accepted premium AI adoption record",
+  "No accepted Voice Tutor adoption record",
+  "No accepted enterprise adoption record",
+  "No model-call enablement write",
+  "No microphone scoring enablement write",
+  "No local bundle activation write",
+];
+
 for (const packageId of packageIds) {
   requireText(catalog, `packageId: "${packageId}"`, `Package catalog missing package id: ${packageId}.`);
 }
 
 for (const adoptionId of adoptionIds) {
   requireText(adoptionReadiness, `adoptionId: "${adoptionId}"`, `Package adoption readiness missing item: ${adoptionId}.`);
+}
+
+for (const recordId of adoptionRecordIds) {
+  requireText(
+    adoptionRecordPreview,
+    `previewId: "${recordId}"`,
+    `Package adoption record preview missing item: ${recordId}.`,
+  );
 }
 
 for (const text of requiredCatalogText) {
@@ -109,6 +148,15 @@ for (const text of requiredAdoptionText) {
   requireText(routeVerifier, text, `Active route verifier must check adoption readiness text: ${text}.`);
 }
 
+for (const text of requiredAdoptionRecordText) {
+  requireText(
+    adoptionRecordPreview + adoptionRecordPanel + entitlementPage,
+    text,
+    `Package adoption record preview missing required text: ${text}.`,
+  );
+  requireText(routeVerifier, text, `Active route verifier must check adoption record preview text: ${text}.`);
+}
+
 requireText(catalogPanel, "White-label package catalog", "Catalog panel must expose its heading.");
 requireText(catalogPanel, "Base platform first, optional packages second", "Catalog panel must preserve base-first package rule.");
 requireText(catalogPanel, "Included capabilities", "Catalog panel must show included capabilities.");
@@ -117,6 +165,7 @@ requireText(catalogPanel, "Cost controls", "Catalog panel must show cost control
 requireText(catalogPanel, "Child safety rules", "Catalog panel must show child safety rules.");
 requireText(entitlementPage, "PackageTierCatalogPanel", "Entitlement route must render the package catalog panel.");
 requireText(entitlementPage, "PackageAdoptionReadinessPanel", "Entitlement route must render package adoption readiness.");
+requireText(entitlementPage, "PackageAdoptionRecordPreviewPanel", "Entitlement route must render package adoption record previews.");
 requireText(entitlementPage, "AiGeneratorCostEntitlementGatePanel", "Entitlement route must render AI cost gates.");
 requireText(entitlementPage, "VoiceTutorPackagePanel", "Entitlement route must render Voice Tutor package readiness.");
 requireText(aiCostGate, "Show premium upsell to children blocked", "AI cost gate must block child-facing upsell.");
@@ -153,7 +202,7 @@ if (failures.length > 0) {
 }
 
 console.log(
-  `PASS package entitlements protect ${packageIds.length} package option(s), ${adoptionIds.length} adoption review(s), and ${requiredBoundaryText.length} cost boundary rule(s).`,
+  `PASS package entitlements protect ${packageIds.length} package option(s), ${adoptionIds.length} adoption review(s), ${adoptionRecordIds.length} adoption record preview(s), and ${requiredBoundaryText.length} cost boundary rule(s).`,
 );
 
 function readSource(relativePath) {

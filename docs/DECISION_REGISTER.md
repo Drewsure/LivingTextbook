@@ -47,6 +47,7 @@ Before accepting a new direction, answer these questions in the task, PR, or imp
 | DR-016 | Premium voice tutor speech layer | Accepted | Preserve Vocal Image-style speech coaching as an optional, tenant-gated, replaceable premium capability without active model or microphone dependency in the foundation slice. |
 | DR-488 | Package entitlement workbench route | Accepted | Keep optional paid AI generation, Voice Tutor, microphone scoring, storage/export, and local companion packages teacher/admin-controlled before billing or activation. |
 | DR-489 | Package adoption readiness flow | Accepted | Premium package adoption must show adult approvals, records, cost review, policy review, blocked actions, and next steps before activation. |
+| DR-490 | Package adoption record preview | Accepted | Premium package activation needs minimum accepted-record fields, evidence, scopes, blocked writes, and rollback hooks before implementation. |
 | DR-021 | Second sample tenant package | Accepted | Add a second sample tenant and partner-style content package to prove the white-label path in code. |
 | DR-022 | Multi-tenant front-door resolver | Accepted | Resolve `/enter/[tenantId]` from tenant route registry data rather than hard-coded MiniStar-only routing. |
 | DR-023 | Reviewed content intake scaffold | Accepted | Show PDF/DOCX/source intake as a reviewed gate before any package becomes student-facing. |
