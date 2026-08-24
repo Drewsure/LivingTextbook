@@ -3,6 +3,8 @@ import { readFileSync } from "node:fs";
 const catalog = readSource("../apps/web/src/data/sampleWhiteLabelPackageCatalog.ts");
 const adoptionRecordPreview = readSource("../apps/web/src/data/samplePackageAdoptionRecordPreview.ts");
 const adoptionRecordPanel = readSource("../apps/web/src/features/entitlements/PackageAdoptionRecordPreviewPanel.tsx");
+const adoptionStorageGuard = readSource("../apps/web/src/data/samplePackageAdoptionStorageGuard.ts");
+const adoptionStorageGuardPanel = readSource("../apps/web/src/features/entitlements/PackageAdoptionStorageGuardPanel.tsx");
 const adoptionReadiness = readSource("../apps/web/src/data/samplePackageAdoptionReadiness.ts");
 const adoptionPanel = readSource("../apps/web/src/features/entitlements/PackageAdoptionReadinessPanel.tsx");
 const catalogPanel = readSource("../apps/web/src/features/entitlements/PackageTierCatalogPanel.tsx");
@@ -19,8 +21,16 @@ const activeRouteList = readSource("../docs/ACTIVE_ROUTE_VERIFICATION_LIST.md");
 const buildSessions = readSource("../docs/BUILD_SESSIONS.md");
 const decisionRegister = readSource("../docs/decision-register/DR-488-package-entitlement-workbench-route.md");
 const adoptionDecisionRegister = readSource("../docs/decision-register/DR-489-package-adoption-readiness-flow.md");
+const adoptionStorageDecisionRegister = readSource(
+  "../docs/decision-register/DR-491-package-adoption-record-preview-storage-contract.md",
+);
+const adoptionStorageGuardDecisionRegister = readSource(
+  "../docs/decision-register/DR-492-package-adoption-storage-guard-panel.md",
+);
 const adr = readSource("../docs/adr/0417-package-entitlement-workbench-route.md");
 const adoptionAdr = readSource("../docs/adr/0418-package-adoption-readiness-flow.md");
+const adoptionStorageAdr = readSource("../docs/adr/0420-package-adoption-record-preview-storage-contract.md");
+const adoptionStorageGuardAdr = readSource("../docs/adr/0421-package-adoption-storage-guard-panel.md");
 const routeChecks = readSource("../docs/verification/PACKAGE_ENTITLEMENT_WORKBENCH_ROUTE_CHECKS.md");
 const verifierChecks = readSource("../docs/verification/PACKAGE_ENTITLEMENT_VERIFIER_CHECKS.md");
 const failures = [];
@@ -119,9 +129,24 @@ const requiredAdoptionRecordText = [
 ];
 
 const requiredAdoptionStorageText = [
+  "Package adoption storage guard",
+  "Storage contract before premium activation",
+  "No activation writes",
+  "Storage contracts",
+  "Visible storage fields",
+  "Required before activation",
+  "Blocked activations",
   "package_adoption_record_preview",
   "package-adoption-record-preview",
+  "package-adoption-storage-contract-core",
   "package_adoption_record_preview_id",
+  "school_policy_acceptance_id",
+  "tenant_package_selection_id",
+  "usage_budget_ceiling_id",
+  "model_rate_card_snapshot_id",
+  "microphone_policy_acceptance_id",
+  "transcript_retention_policy_id",
+  "report_export_plan_id",
   "billing_entitlement_write_allowed",
   "premium_feature_activation_allowed",
   "model_call_enablement_allowed",
@@ -179,7 +204,11 @@ for (const text of requiredAdoptionRecordText) {
 }
 
 for (const text of requiredAdoptionStorageText) {
-  requireText(backendStorageVerifier, text, `Backend storage verifier must protect package adoption storage text: ${text}.`);
+  requireText(
+    backendStorageVerifier + adoptionStorageGuard + adoptionStorageGuardPanel,
+    text,
+    `Package adoption storage guard must protect package adoption storage text: ${text}.`,
+  );
   requireText(routeVerifier, text, `Active route verifier must check package adoption storage text: ${text}.`);
 }
 
@@ -196,6 +225,7 @@ requireText(catalogPanel, "Child safety rules", "Catalog panel must show child s
 requireText(entitlementPage, "PackageTierCatalogPanel", "Entitlement route must render the package catalog panel.");
 requireText(entitlementPage, "PackageAdoptionReadinessPanel", "Entitlement route must render package adoption readiness.");
 requireText(entitlementPage, "PackageAdoptionRecordPreviewPanel", "Entitlement route must render package adoption record previews.");
+requireText(entitlementPage, "PackageAdoptionStorageGuardPanel", "Entitlement route must render package adoption storage guards.");
 requireText(entitlementPage, "AiGeneratorCostEntitlementGatePanel", "Entitlement route must render AI cost gates.");
 requireText(entitlementPage, "VoiceTutorPackagePanel", "Entitlement route must render Voice Tutor package readiness.");
 requireText(aiCostGate, "Show premium upsell to children blocked", "AI cost gate must block child-facing upsell.");
@@ -213,8 +243,12 @@ requireText(activeRouteList, "http://127.0.0.1:3000/teacher/entitlements", "Acti
 requireText(buildSessions, "/teacher/entitlements", "Build sessions must name the entitlement route.");
 requireText(decisionRegister, "DR-488", "Decision register record must exist.");
 requireText(adoptionDecisionRegister, "DR-489", "Package adoption decision register record must exist.");
+requireText(adoptionStorageDecisionRegister, "DR-491", "Package adoption storage decision register record must exist.");
+requireText(adoptionStorageGuardDecisionRegister, "DR-492", "Package adoption storage guard decision register record must exist.");
 requireText(adr, "ADR 0417", "ADR must exist.");
 requireText(adoptionAdr, "ADR 0418", "Package adoption ADR must exist.");
+requireText(adoptionStorageAdr, "ADR 0420", "Package adoption storage ADR must exist.");
+requireText(adoptionStorageGuardAdr, "ADR 0421", "Package adoption storage guard ADR must exist.");
 requireText(routeChecks, "Package Entitlement Workbench Route Checks", "Route checklist must exist.");
 requireText(verifierChecks, "Package Entitlement Verifier Checks", "Verifier checklist must exist.");
 requireText(routeChecks, "The active route verifier must expect 82 active routes.", "Route checklist must preserve active route count.");

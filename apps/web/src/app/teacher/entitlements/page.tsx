@@ -6,11 +6,13 @@ import { sampleAiGeneratorCostEntitlementGates } from "@/data/sampleAiGeneratorC
 import { sampleMultimediaContentPackage } from "@/data/sampleMultimediaPackage";
 import { samplePackageAdoptionRecordPreviews } from "@/data/samplePackageAdoptionRecordPreview";
 import { samplePackageAdoptionReadinessItems } from "@/data/samplePackageAdoptionReadiness";
+import { samplePackageAdoptionStorageGuards } from "@/data/samplePackageAdoptionStorageGuard";
 import { samplePartnerContentPackage } from "@/data/samplePartnerPackage";
 import { sampleWhiteLabelPackageCatalog } from "@/data/sampleWhiteLabelPackageCatalog";
 import { AiGeneratorCostEntitlementGatePanel } from "@/features/content-intake/AiGeneratorCostEntitlementGatePanel";
 import { PackageAdoptionRecordPreviewPanel } from "@/features/entitlements/PackageAdoptionRecordPreviewPanel";
 import { PackageAdoptionReadinessPanel } from "@/features/entitlements/PackageAdoptionReadinessPanel";
+import { PackageAdoptionStorageGuardPanel } from "@/features/entitlements/PackageAdoptionStorageGuardPanel";
 import { PackageTierCatalogPanel } from "@/features/entitlements/PackageTierCatalogPanel";
 import { VoiceTutorPackagePanel } from "@/features/ai-tutor/VoiceTutorPackagePanel";
 import { ministarTenant } from "@/features/tenant/ministarTenant";
@@ -174,6 +176,8 @@ export default function TeacherEntitlementsPage() {
         <PackageAdoptionReadinessPanel items={samplePackageAdoptionReadinessItems} />
 
         <PackageAdoptionRecordPreviewPanel records={samplePackageAdoptionRecordPreviews} />
+
+        <PackageAdoptionStorageGuardPanel guards={samplePackageAdoptionStorageGuards} />
 
         <AiGeneratorCostEntitlementGatePanel gates={sampleAiGeneratorCostEntitlementGates} />
 

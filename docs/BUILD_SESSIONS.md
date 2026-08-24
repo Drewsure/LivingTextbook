@@ -762,3 +762,5 @@ Do not add premium polish yet.
 The hard gate is to keep typecheck/build passing after every route or package addition. The next safest task is local verification of `/teacher/intake`, `/teacher/generator/sample-publisher`, `/teacher/sessions/demo-unit-1`, and `/teacher/sessions/partner-demo-unit-1`; after that, continue with backend-agnostic migration candidates, teacher session settings, package release-control refinement, and persistence-adapter work before choosing a real storage vendor.
 
 Package adoption record previews must stay preserved as backend-neutral storage contracts before accepted adoption records, billing entitlement writes, model calls, microphone scoring, report export enablement, hosted storage activation, or local companion activation can exist.
+
+The entitlement workbench must keep package adoption storage guards visible so admins can review storage contracts, visible fields, required pre-activation decisions, and blocked premium activations before any package adoption workflow is designed.

@@ -463,6 +463,7 @@
 - `DR-489-package-adoption-readiness-flow.md`
 - `DR-490-package-adoption-record-preview.md`
 - `DR-491-package-adoption-record-preview-storage-contract.md`
+- `DR-492-package-adoption-storage-guard-panel.md`
 
 ## Maintenance Rule
 
