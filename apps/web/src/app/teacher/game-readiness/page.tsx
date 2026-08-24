@@ -1,6 +1,7 @@
 import { Card, StatusPill } from "@living-textbook/ui";
 import { AppShell } from "@/components/layout/AppShell";
 import { sampleActiveGameReplayChecklist } from "@/data/sampleActiveGameReplayChecklist";
+import { samplePrototypeIntakeEvidencePacketFlow } from "@/data/sampleEvidencePacketFlows";
 import { sampleGameModeSettingsBackendContractPlan } from "@/data/sampleGameModeSettingsBackendContract";
 import { sampleGameModeSettingsProfilePlan } from "@/data/sampleGameModeSettingsProfiles";
 import { sampleGameModeSettingsStorageReadinessPlan } from "@/data/sampleGameModeSettingsStorageReadiness";
@@ -21,6 +22,7 @@ import { PrototypeIntakeQueuePanel } from "@/features/game-offers/PrototypeIntak
 import { PrototypeIntakeStorageGuardPanel } from "@/features/game-offers/PrototypeIntakeStorageGuardPanel";
 import { UnitGameOfferMapPanel } from "@/features/game-offers/UnitGameOfferMapPanel";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
+import { EvidencePacketFlowPanel } from "@/features/evidence/EvidencePacketFlowPanel";
 
 const sourceLinks = [
   { href: "/teacher/intake", label: "Foundation intake" },
@@ -68,6 +70,7 @@ export default function TeacherGameReadinessPage() {
         <PrototypeIntakeAlertPanel alert={samplePrototypeIntakeAlert} />
         <PrototypeIntakeQueuePanel items={samplePrototypeIntakeQueue} />
         <PrototypeIntakeStorageGuardPanel guards={samplePrototypeIntakeStorageGuards} />
+        <EvidencePacketFlowPanel flow={samplePrototypeIntakeEvidencePacketFlow} />
 
         <ParentEngineReadinessPanel plan={sampleParentEngineReadinessPlan} />
         <ActiveGameReplayChecklistPanel checklist={sampleActiveGameReplayChecklist} />

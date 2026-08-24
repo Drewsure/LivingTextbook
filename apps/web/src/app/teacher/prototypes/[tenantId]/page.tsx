@@ -13,6 +13,7 @@ import {
   filterAiGeneratedGameBuildBriefPacketsByTenant,
   sampleAiGeneratedGameBuildBriefPackets,
 } from "@/data/sampleAiGeneratedGameBuildBrief";
+import { samplePrototypeIntakeEvidencePacketFlow } from "@/data/sampleEvidencePacketFlows";
 import {
   filterAiPrototypeAppPatchProposalsByTenant,
   sampleAiPrototypeAppPatchProposals,
@@ -117,6 +118,7 @@ import { AiPrototypeReturnReviewPanel } from "@/features/content-intake/AiProtot
 import { AiPrototypeScoringReplayReportPanel } from "@/features/content-intake/AiPrototypeScoringReplayReportPanel";
 import { AiPrototypeSignedApprovalPreflightPanel } from "@/features/content-intake/AiPrototypeSignedApprovalPreflightPanel";
 import { AiPrototypeWrapperAdapterReviewPanel } from "@/features/content-intake/AiPrototypeWrapperAdapterReviewPanel";
+import { EvidencePacketFlowPanel } from "@/features/evidence/EvidencePacketFlowPanel";
 import { PrototypeIntakeQueuePanel } from "@/features/game-offers/PrototypeIntakeQueuePanel";
 import { PrototypeIntakeStorageGuardPanel } from "@/features/game-offers/PrototypeIntakeStorageGuardPanel";
 import { ministarTenant } from "@/features/tenant/ministarTenant";
@@ -178,6 +180,7 @@ export default async function TeacherPrototypeReviewPage({
 
         <PrototypeIntakeQueuePanel items={filterPrototypeIntakeQueueByTenant(samplePrototypeIntakeQueue, tenantId)} />
         <PrototypeIntakeStorageGuardPanel guards={samplePrototypeIntakeStorageGuards} />
+        <EvidencePacketFlowPanel flow={samplePrototypeIntakeEvidencePacketFlow} />
 
         <section id="handoff-packets" className="grid scroll-mt-6 gap-5">
           <AiGeneratorSectionHeader

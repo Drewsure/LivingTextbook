@@ -13,6 +13,8 @@ const files = {
   prototypeIntakeQueuePanel: "apps/web/src/features/game-offers/PrototypeIntakeQueuePanel.tsx",
   prototypeIntakeStorageGuard: "apps/web/src/data/samplePrototypeIntakeStorageGuard.ts",
   prototypeIntakeStorageGuardPanel: "apps/web/src/features/game-offers/PrototypeIntakeStorageGuardPanel.tsx",
+  evidencePacketFlows: "apps/web/src/data/sampleEvidencePacketFlows.ts",
+  evidencePacketFlowPanel: "apps/web/src/features/evidence/EvidencePacketFlowPanel.tsx",
   backendSchemaDraft: "apps/web/src/data/sampleBackendSchemaDraft.ts",
   backendMigrationCandidates: "apps/web/src/data/sampleBackendMigrationCandidates.ts",
   backendMigrationSpecs: "apps/web/src/data/sampleBackendMigrationSpecs.ts",
@@ -60,6 +62,8 @@ const routeVerifierMarkers = [
   "Outside game inventory before Codex review",
   "Prototype intake storage guard",
   "Storage contract before outside game intake",
+  "Prototype intake evidence packet flow",
+  "No prototype upload or import",
 ];
 const prototypeIntakeAlertMarkers = [
   "Z.ai prototype intake alert",
@@ -121,6 +125,21 @@ const prototypeIntakeStorageGuardMarkers = [
   "No active route replacement",
   "No scoring profile mutation",
   "No support-language progress trigger",
+];
+const prototypeIntakeEvidenceFlowMarkers = [
+  "samplePrototypeIntakeEvidencePacketFlow",
+  "Prototype intake evidence packet flow",
+  "prototype-intake-evidence-packet-flow",
+  "Source snapshot packet",
+  "Fixture replay packet",
+  "Event and scoring packet",
+  "Target-language audio packet",
+  "Mobile accessibility packet",
+  "Wrapper boundary packet",
+  "No prototype upload or import",
+  "No active route replacement",
+  "No support-language progress trigger",
+  "EvidencePacketFlowPanel",
 ];
 
 const failures = [];
@@ -184,6 +203,14 @@ for (const marker of prototypeIntakeStorageGuardMarkers) {
       sources.prototypePage,
     marker,
     `Prototype intake storage guard must keep marker: ${marker}`,
+  );
+}
+
+for (const marker of prototypeIntakeEvidenceFlowMarkers) {
+  requireText(
+    sources.evidencePacketFlows + sources.evidencePacketFlowPanel + sources.gameReadinessPage + sources.prototypePage,
+    marker,
+    `Prototype intake evidence flow must keep marker: ${marker}`,
   );
 }
 
