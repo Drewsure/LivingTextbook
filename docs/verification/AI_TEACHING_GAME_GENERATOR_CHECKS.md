@@ -174,6 +174,8 @@ Confirm:
 - AI draft correction queue blocks auto-fix, live AI regeneration, verifier submission, package assembly, route creation, playlist creation, and student assignment.
 - Disabled request builder shows source evidence packet, target level, unit theme, target language, support-language policy, curated mode pathway, audio coverage requirement, and AI package state.
 - Disabled request builder blocks generation, API cost estimation, request submission, live prompt dispatch, model billing, route creation, and student assignment.
+- AI generation request storage guard shows required request, cost, audio, compatibility, media-rights, draft, and verifier records before any live generation request can exist.
+- AI generation request storage guard blocks live model dispatch, model billing, generator request submission, draft generation, verifier submission, package assembly, route creation, playlist creation, student assignment, and support-language progress triggers.
 - Audio coverage planner shows `ai_audio_coverage_plan`, `audio_cue_manifest`, and `package_game_audio_coverage` before generated packages can be reviewed.
 - Audio coverage planner enumerates target-language term audio, sentence audio, instruction audio, feedback audio, and critical control audio.
 - Audio coverage planner keeps support-language audio support-only and blocks media-only listening from counting toward mastery.

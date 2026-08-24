@@ -788,3 +788,5 @@ Returned prototype package checklist storage contracts must remain backend-neutr
 Prototype return package checklist storage guards must remain visible on game-readiness and tenant prototype review workbenches alongside intake guards before returned Z.ai, Phaser, DOM reference, or outside-game evidence can move toward Codex review.
 
 Prototype return readiness summaries must remain visible on game-readiness and tenant prototype review workbenches. They must keep Codex return review closed until returned package checklist, return storage guard, source archive manifest, fixture replay, target-language audio, mobile accessibility, deterministic scoring, and wrapper-boundary evidence are complete.
+
+AI generation request storage guards must remain visible on tenant generator routes beside disabled request builders. They must require durable request packet, cost gate, audio coverage, activity compatibility, media rights, draft package, and verifier submission records before live model dispatch, model billing, draft generation, verifier submission, routes, playlists, packages, assignments, or support-language progress can exist.

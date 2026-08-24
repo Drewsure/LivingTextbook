@@ -15,6 +15,7 @@ const engineBindingPlan = readSource("../apps/web/src/data/sampleAiEngineBinding
 const promptPackagePlan = readSource("../apps/web/src/data/sampleAiPromptPackagePlan.ts");
 const costEntitlementGate = readSource("../apps/web/src/data/sampleAiGeneratorCostEntitlementGate.ts");
 const requestBuilderData = readSource("../apps/web/src/data/sampleAiGenerationRequestBuilder.ts");
+const requestStorageGuardData = readSource("../apps/web/src/data/sampleAiGenerationRequestStorageGuard.ts");
 const audioCoveragePlan = readSource("../apps/web/src/data/sampleAiGeneratorAudioCoveragePlan.ts");
 const gamificationMappingPlan = readSource("../apps/web/src/data/sampleAiGamificationMappingPlan.ts");
 const gamificationMappingValidator = readSource("../packages/content-model/src/aiGamificationMapping.ts");
@@ -213,6 +214,7 @@ const engineBindingPanel = readSource("../apps/web/src/features/content-intake/A
 const promptPackagePanel = readSource("../apps/web/src/features/content-intake/AiPromptPackagePlanPanel.tsx");
 const costEntitlementGatePanel = readSource("../apps/web/src/features/content-intake/AiGeneratorCostEntitlementGatePanel.tsx");
 const requestBuilderPanel = readSource("../apps/web/src/features/content-intake/AiGenerationRequestBuilderPanel.tsx");
+const requestStorageGuardPanel = readSource("../apps/web/src/features/content-intake/AiGenerationRequestStorageGuardPanel.tsx");
 const audioCoveragePanel = readSource("../apps/web/src/features/content-intake/AiGeneratorAudioCoveragePlanPanel.tsx");
 const gamificationMappingPanel = readSource("../apps/web/src/features/content-intake/AiGamificationMappingPanel.tsx");
 const rewardReadinessGatePanel = readSource("../apps/web/src/features/content-intake/AiRewardReadinessGatePanel.tsx");
@@ -2517,6 +2519,20 @@ requireText(requestBuilderData, "No live prompt dispatch", "AI request builder m
 requireText(requestBuilderData, "No model billing", "AI request builder must block model billing.");
 requireText(requestBuilderPanel, "AI generation request builder", "AI request builder panel must expose heading.");
 requireText(requestBuilderPanel, "Disabled generator setup form", "AI request builder panel must expose disabled form label.");
+requireText(requestStorageGuardData, "sampleAiGenerationRequestStorageGuards", "AI request storage guard data must exist.");
+requireText(requestStorageGuardData, "request-storage-guard-ministar-l1-greetings-v1", "AI request storage guard must include MiniStar seed.");
+requireText(requestStorageGuardData, "ai_generation_request_packet_id", "AI request storage guard must preserve request packet ids.");
+requireText(requestStorageGuardData, "premium_ai_cost_gate", "AI request storage guard must require premium AI cost gate.");
+requireText(requestStorageGuardData, "package_game_audio_coverage", "AI request storage guard must require audio coverage record.");
+requireText(requestStorageGuardData, "activity_compatibility_snapshot", "AI request storage guard must require compatibility snapshot.");
+requireText(requestStorageGuardData, "media_rights_manifest", "AI request storage guard must require media rights manifest.");
+requireText(requestStorageGuardData, "teacher_draft_verifier_submission", "AI request storage guard must require verifier submission record.");
+requireText(requestStorageGuardData, "live_model_dispatch_allowed", "AI request storage guard must show live dispatch field.");
+requireText(requestStorageGuardData, "No generator request submission", "AI request storage guard must block request submission.");
+requireText(requestStorageGuardData, "No support-language progress trigger", "AI request storage guard must block support-language progress.");
+requireText(requestStorageGuardPanel, "AI generation request storage guard", "AI request storage guard panel must expose heading.");
+requireText(requestStorageGuardPanel, "Durable records before live generation", "AI request storage guard panel must expose storage headline.");
+requireText(requestStorageGuardPanel, "Required before live request", "AI request storage guard panel must expose live-request preconditions.");
 requireText(audioCoveragePlan, "sampleAiGeneratorAudioCoveragePlans", "AI generator audio coverage plan data must exist.");
 requireText(audioCoveragePlan, "MiniStar AI audio coverage plan", "AI generator audio plan must include MiniStar request seed.");
 requireText(audioCoveragePlan, "ja-hiragana", "AI generator audio plan must preserve hiragana-only support audio for early MiniStar levels.");
@@ -4590,6 +4606,7 @@ requireText(
 requireText(route, "AiPromptPackagePlanPanel", "Generator route must render the prompt package plan panel.");
 requireText(route, "AiGeneratorCostEntitlementGatePanel", "Generator route must render the cost entitlement gate panel.");
 requireText(route, "AiGenerationRequestBuilderPanel", "Generator route must render the request builder panel.");
+requireText(route, "AiGenerationRequestStorageGuardPanel", "Generator route must render the request storage guard panel.");
 requireText(route, "AiGeneratorAudioCoveragePlanPanel", "Generator route must render the audio coverage plan panel.");
 requireText(route, "AiGamificationMappingPanel", "Generator route must render the gamification mapping panel.");
 requireText(route, "AiRewardReadinessGatePanel", "Generator route must render the reward readiness gate panel.");
@@ -4814,6 +4831,7 @@ requireText(
   "Generator route must use the sample generated publish readiness gate data.",
 );
 requireText(route, "sampleAiGenerationRequestBuilders", "Generator route must use request builder data.");
+requireText(route, "sampleAiGenerationRequestStorageGuards", "Generator route must use request storage guard data.");
 requireText(route, "sampleAiGeneratedDraftPayloadPreviews", "Generator route must use the sample draft payload preview data.");
 requireText(route, "sampleAiDraftCorrectionQueues", "Generator route must use the sample draft correction queue data.");
 requireText(route, "samplePublisherTenant", "Generator route must support sample publisher tenant.");

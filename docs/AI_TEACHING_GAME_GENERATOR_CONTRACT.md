@@ -32,6 +32,12 @@ The backend-neutral storage contract for the route rollup is `ai_generator_revie
 
 The backend-neutral storage contract for the human review order is `ai_generator_reviewer_runbook` / `ai-generator-reviewer-runbook`. Hosted and local adapters must preserve review order, standing rules, evidence lanes, required record ids, target-language trigger rules, assist-language support rules, and blocked shortcuts while blocking live generation, app patch generation, package assembly, route registry writes, media playlist writes, assignment creation, local bundle writes, and student-ready markers.
 
+## AI Generation Request Storage Guard
+
+Teacher generator routes must show a request storage guard next to the disabled request builder. The guard must make durable request packet, cost gate, audio coverage, activity compatibility, media rights, draft package, and verifier submission records visible before live AI generation can be considered.
+
+The guard blocks live model dispatch, model billing, generator request submission, draft generation, verifier submission, package assembly, route creation, playlist creation, student assignment, and support-language progress triggers.
+
 ## Generator Responsibility Matrix
 
 Teacher generator routes must show a review-only responsibility matrix before detailed generator panels. The matrix separates teacher/school review, Codex architecture and integration, outside AI builder/Z.ai prototype work, verifier checks, and platform admin entitlement/storage/release duties.

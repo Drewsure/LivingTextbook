@@ -61,6 +61,7 @@ Before accepting a new direction, answer these questions in the task, PR, or imp
 | DR-501 | Prototype return package checklist storage contract | Accepted | Returned prototype package checklists must have backend-neutral hosted/local storage contracts before returned evidence can become return-review, wrapper-review, route, scoring, reward, playlist, package, or assignment work. |
 | DR-502 | Prototype return storage guard visibility | Accepted | Game-readiness and tenant prototype review workbenches must show prototype return package checklist storage guards alongside intake guards before outside work can move toward Codex review. |
 | DR-503 | Prototype return readiness summary | Accepted | Game-readiness and tenant prototype review workbenches must summarize returned prototype readiness before Codex return review can open. |
+| DR-504 | AI generation request storage guard | Accepted | Teacher generator routes must show request storage guards before live AI generation requests, model billing, draft generation, verifier submission, routes, playlists, packages, or assignments can exist. |
 | DR-021 | Second sample tenant package | Accepted | Add a second sample tenant and partner-style content package to prove the white-label path in code. |
 | DR-022 | Multi-tenant front-door resolver | Accepted | Resolve `/enter/[tenantId]` from tenant route registry data rather than hard-coded MiniStar-only routing. |
 | DR-023 | Reviewed content intake scaffold | Accepted | Show PDF/DOCX/source intake as a reviewed gate before any package becomes student-facing. |
