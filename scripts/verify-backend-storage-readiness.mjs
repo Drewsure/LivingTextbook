@@ -19,6 +19,7 @@ const requiredSchemaEntities = [
   "ai_generated_game_build_brief",
   "ai_external_prototype_task_packet",
   "prototype_intake_queue_item",
+  "prototype_return_package_checklist",
   "ai_external_task_export_readiness_gate",
   "ai_prototype_return_review",
   "ai_prototype_integration_plan",
@@ -125,6 +126,7 @@ const requiredMigrationCandidates = [
   "m060-ai-generated-game-build-brief-records",
   "m074-ai-external-prototype-task-packet-records",
   "m098-prototype-intake-queue-storage",
+  "m099-prototype-return-package-checklist-storage",
   "m075-ai-external-task-export-readiness-gate-records",
   "m061-ai-prototype-return-review-records",
   "m062-ai-prototype-integration-plan-records",
@@ -232,6 +234,7 @@ const requiredMigrationSpecs = [
   "spec-ai-generated-game-build-brief",
   "spec-ai-external-prototype-task-packet",
   "spec-prototype-intake-queue-item",
+  "spec-prototype-return-package-checklist",
   "spec-ai-external-task-export-readiness-gate",
   "spec-ai-prototype-return-review",
   "spec-ai-prototype-integration-plan",
@@ -5554,6 +5557,42 @@ requireText(routeVerifier, "school_rollback_safe_fallback_restoration_preview", 
 requireText(routeVerifier, "teacher_assignment_rollout_gate", "Active route verifier must keep teacher assignment rollout gate storage visible on teacher intake.");
 requireText(routeVerifier, "prototype_intake_queue_item", "Active route verifier must keep prototype intake queue item storage visible on teacher intake.");
 requireText(routeVerifier, "Prototype intake queue item record", "Active route verifier must keep prototype intake queue item durable records visible on teacher intake.");
+requireText(routeVerifier, "prototype_return_package_checklist", "Active route verifier must keep prototype return package checklist storage visible on teacher intake.");
+requireText(
+  routeVerifier,
+  "Prototype return package checklist record",
+  "Active route verifier must keep prototype return package checklist durable records visible on teacher intake.",
+);
+for (const text of [
+  "prototype_return_package_checklist_id",
+  "m099-prototype-return-package-checklist-storage",
+  "spec-prototype-return-package-checklist",
+  "archive_import_allowed",
+  "direct_app_file_copy_allowed",
+]) {
+  requireText(schemaDraft + migrationCandidates + migrationSpecs, text, `Backend schema/migration must preserve prototype return package checklist text: ${text}.`);
+}
+for (const text of [
+  "prototype-return-package-checklist-record",
+  "prototype-return-package-checklist-boundary",
+  "hosted-prototype-return-package-checklist-write",
+  "local-prototype-return-package-checklist-write",
+  "preservesPrototypeReturnPackageChecklist: true",
+  "requiresPrototypeReturnSourceManifest: true",
+  "requiresPrototypeReturnFixtureFolder: true",
+  "blocksPrototypeReturnArchiveImport: true",
+]) {
+  requireText(durableRecords + persistenceAdapter, text, `Persistence plan/adapter must preserve prototype return package checklist text: ${text}.`);
+}
+for (const text of [
+  "preservesPrototypeReturnPackageChecklist",
+  "requiresPrototypeReturnSourceManifest",
+  "requiresPrototypeReturnFixtureFolder",
+  "blocksPrototypeReturnArchiveImport",
+]) {
+  requireText(durableRecordValidator, text, `Durable record validator must enforce prototype return package checklist flag: ${text}.`);
+  requireText(persistenceAdapterValidator, text, `Persistence adapter validator must enforce prototype return package checklist flag: ${text}.`);
+}
 requireText(routeVerifier, "ai_prototype_return_review", "Active route verifier must keep AI prototype return review storage visible on teacher intake.");
 requireText(routeVerifier, "AI prototype return review record", "Active route verifier must keep AI prototype return review durable records visible on teacher intake.");
 requireText(routeVerifier, "ai_prototype_integration_plan", "Active route verifier must keep AI prototype integration plan storage visible on teacher intake.");

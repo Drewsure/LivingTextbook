@@ -22,6 +22,7 @@ export type PersistenceBoundaryCategory =
   | "ai-generated-game-build-brief"
   | "ai-external-prototype-task-packet"
   | "prototype-intake-queue-item"
+  | "prototype-return-package-checklist"
   | "ai-external-task-export-readiness-gate"
   | "ai-prototype-return-review"
   | "ai-prototype-integration-plan"
@@ -409,6 +410,40 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
     note:
       "Prototype intake queue items need durable inventory before outside game work can be reviewed in order. They preserve tenant scope, repository scope, game mode, engine target, priority, status, review route, required evidence, missing evidence, and blocked actions while blocking direct import, app file writes, route replacement, scoring changes, rewards, playlists, package promotion, assignments, and support-language progress.",
+  },
+  {
+    recordId: "prototype-return-package-checklist-record",
+    category: "prototype-return-package-checklist",
+    label: "Prototype return package checklist record",
+    readiness: "durable-required",
+    sourceOfTruth:
+      "PrototypeReturnPackageChecklist, prototype intake queue item, prototype evidence packet flow, prototype review workbench route, and Codex review ownership",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: false,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesPrototypeReturnPackageChecklist: true,
+    requiresPrototypeReturnSourceManifest: true,
+    requiresPrototypeReturnFixtureFolder: true,
+    requiresStandardEventReplay: true,
+    requiresDeterministicScoringReplay: true,
+    requiresTargetLanguageAudioCoverage: true,
+    requiresMobileAccessibilityReview: true,
+    requiresWrapperEvidence: true,
+    blocksPrototypeReturnArchiveImport: true,
+    blocksAppFileWrite: true,
+    blocksGeneratedGameRouteWrite: true,
+    blocksScoringProfileOverride: true,
+    blocksRewardInventoryWrite: true,
+    blocksGeneratedPackagePlaylistWrite: true,
+    blocksGeneratedPackageAssembly: true,
+    blocksDirectStudentAssignment: true,
+    blocksSupportLanguageProgressTrigger: true,
+    recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
+    note:
+      "Prototype return package checklist records preserve returned evidence requirements before outside game work can become a formal return review. They keep source archive manifest, reviewed fixture folder, event and scoring replay, audio coverage, mobile evidence, and wrapper notes durable while blocking archive import, app writes, route replacement, scoring changes, rewards, playlists, package promotion, assignments, and support-language progress.",
   },
   {
     recordId: "ai-external-task-export-readiness-gate-record",
@@ -2935,6 +2970,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision:
       "Persist prototype intake queue items before enabling return-review candidacy, wrapper review, route planning, scoring replay, package promotion review, or assignment planning.",
+  },
+  {
+    boundaryId: "prototype-return-package-checklist-boundary",
+    category: "prototype-return-package-checklist",
+    label: "Prototype return package checklist records",
+    status: "needs-backend",
+    recordShape:
+      "Checklist id, tenant id, queue item id, source repository, target mode, parent engine, target surface, source archive manifest requirements, reviewed fixture folder requirements, event/scoring replay requirements, target-language audio map requirements, mobile evidence requirements, wrapper boundary notes, required-before-Codex-review conditions, and blocked actions",
+    whyItMatters:
+      "Returned work from Z.ai, Phaser prototypes, DOM reference prototypes, or any outside builder needs a durable evidence-package checklist before it can become return review, wrapper review, route planning, scoring replay, reward review, package promotion review, or assignment planning.",
+    visibleTo: ["Tenant admin", "Content reviewer", "Platform admin", "External prototype builder"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Persist prototype return package checklists before accepting returned archives, source manifests, replay reports, wrapper notes, or Codex return-review decisions.",
   },
   {
     boundaryId: "ai-external-task-export-readiness-gate-boundary",

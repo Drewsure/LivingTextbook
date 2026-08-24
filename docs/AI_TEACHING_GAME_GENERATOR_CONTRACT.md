@@ -293,6 +293,8 @@ Teacher game-readiness and tenant prototype review workbenches may show a review
 
 The checklist does not create an upload button, import archive, copy files into `apps/web`, create routes, mutate scoring, write rewards, create playlists, promote packages, or assign students. It only makes the return package requirements visible before Codex decides whether a formal prototype return review can begin.
 
+The backend-neutral storage contract is `prototype_return_package_checklist` / `prototype-return-package-checklist`. Hosted and local adapters must preserve source archive manifest requirements, reviewed fixture folder requirements, event/scoring replay requirements, target-language audio coverage map requirements, mobile accessibility capture requirements, wrapper boundary notes, required-before-Codex-review conditions, and blocked actions while blocking archive import, direct app file copy, active route replacement, scoring mutation, reward inventory writes, playlist creation, package promotion, student assignment, and support-language progress.
+
 ## Prototype Return Review Rule
 
 Returned prototype work from Z.ai or any outside builder must enter an `ai_prototype_return_review` preview before integration. The review must name the source build brief, returned artifacts, required evidence, parent-engine wrapper review, JSON fixture conformance, standard event replay, audio cue coverage, deterministic scoring, mobile accessibility, white-label fit, and blocked actions.

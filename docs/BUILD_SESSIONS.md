@@ -782,3 +782,5 @@ Prototype intake evidence packet flows must remain visible before Z.ai or outsid
 Prototype intake readiness summaries must remain visible and must say when Codex has not issued a green-light alert for controlled Z.ai/outside prototype intake.
 
 Returned prototype package checklists must remain visible before any Z.ai, Phaser, DOM reference, or outside game prototype can be treated as returned evidence. They must require source archive manifest, reviewed fixture, event/scoring replay, target-language audio coverage, mobile accessibility capture, and wrapper boundary notes while blocking archive import, direct app file copies, route replacement, scoring mutation, rewards, playlists, promotion, and assignment.
+
+Returned prototype package checklist storage contracts must remain backend-neutral across schema drafts, migration candidates, migration specs, durable records, hosted write intents, and local write intents before any returned prototype evidence can become durable return-review, wrapper-review, route, scoring, reward, playlist, package, or assignment workflow.

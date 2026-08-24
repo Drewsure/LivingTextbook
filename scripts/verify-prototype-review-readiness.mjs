@@ -119,6 +119,20 @@ const prototypeIntakeQueueStorageMarkers = [
   "blocksPrototypeIntakeDirectImport: true",
   "blocksPrototypeIntakeRouteReplacement: true",
 ];
+const prototypeReturnPackageChecklistStorageMarkers = [
+  "prototype_return_package_checklist",
+  "prototype_return_package_checklist_id",
+  "m099-prototype-return-package-checklist-storage",
+  "spec-prototype-return-package-checklist",
+  "prototype-return-package-checklist-record",
+  "prototype-return-package-checklist-boundary",
+  "hosted-prototype-return-package-checklist-write",
+  "local-prototype-return-package-checklist-write",
+  "preservesPrototypeReturnPackageChecklist: true",
+  "requiresPrototypeReturnSourceManifest: true",
+  "requiresPrototypeReturnFixtureFolder: true",
+  "blocksPrototypeReturnArchiveImport: true",
+];
 const prototypeIntakeReadinessSummaryMarkers = [
   "Prototype intake readiness summary",
   "prototype-intake-readiness-summary-foundation",
@@ -231,6 +245,18 @@ for (const marker of prototypeIntakeQueueStorageMarkers) {
       sources.persistenceAdapterPlan,
     marker,
     `Prototype intake queue storage must keep marker: ${marker}`,
+  );
+}
+
+for (const marker of prototypeReturnPackageChecklistStorageMarkers) {
+  requireText(
+    sources.backendSchemaDraft +
+      sources.backendMigrationCandidates +
+      sources.backendMigrationSpecs +
+      sources.persistencePlan +
+      sources.persistenceAdapterPlan,
+    marker,
+    `Prototype return package checklist storage must keep marker: ${marker}`,
   );
 }
 

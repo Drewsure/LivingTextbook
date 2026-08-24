@@ -10,6 +10,7 @@ export type PersistenceRecordCategory =
   | "ai-generated-game-build-brief"
   | "ai-external-prototype-task-packet"
   | "prototype-intake-queue-item"
+  | "prototype-return-package-checklist"
   | "ai-external-task-export-readiness-gate"
   | "ai-prototype-return-review"
   | "ai-prototype-integration-plan"
@@ -163,6 +164,10 @@ export interface DurableRecordContract {
   requiresPrototypeIntakeMissingEvidence?: boolean;
   blocksPrototypeIntakeDirectImport?: boolean;
   blocksPrototypeIntakeRouteReplacement?: boolean;
+  preservesPrototypeReturnPackageChecklist?: boolean;
+  requiresPrototypeReturnSourceManifest?: boolean;
+  requiresPrototypeReturnFixtureFolder?: boolean;
+  blocksPrototypeReturnArchiveImport?: boolean;
   preservesAiExternalTaskExportReadinessGate?: boolean;
   requiresExternalTaskExportChannels?: boolean;
   requiresExternalTaskExportReadinessChecks?: boolean;
@@ -529,6 +534,38 @@ export interface DurableRecordContract {
   note: string;
 }
 
+function validatePrototypeReturnPackageChecklistRecord(record: DurableRecordContract, errors: string[]): void {
+  if (record.category !== "prototype-return-package-checklist") {
+    return;
+  }
+
+  const requiredChecks: Array<[boolean | undefined, string]> = [
+    [record.preservesPrototypeReturnPackageChecklist, "preserve return package checklist sections"],
+    [record.requiresPrototypeReturnSourceManifest, "require source archive manifest evidence"],
+    [record.requiresPrototypeReturnFixtureFolder, "require reviewed fixture folder evidence"],
+    [record.requiresStandardEventReplay, "require standard event replay evidence"],
+    [record.requiresDeterministicScoringReplay, "require deterministic scoring replay evidence"],
+    [record.requiresTargetLanguageAudioCoverage, "require target-language audio coverage"],
+    [record.requiresMobileAccessibilityReview, "require mobile accessibility review evidence"],
+    [record.requiresWrapperEvidence, "require wrapper boundary evidence"],
+    [record.blocksPrototypeReturnArchiveImport, "block archive imports"],
+    [record.blocksAppFileWrite, "block app file writes"],
+    [record.blocksGeneratedGameRouteWrite, "block game route writes"],
+    [record.blocksScoringProfileOverride, "block scoring profile overrides"],
+    [record.blocksRewardInventoryWrite, "block reward inventory writes"],
+    [record.blocksGeneratedPackagePlaylistWrite, "block playlist writes"],
+    [record.blocksGeneratedPackageAssembly, "block package promotion or assembly"],
+    [record.blocksDirectStudentAssignment, "block student assignment"],
+    [record.blocksSupportLanguageProgressTrigger, "block support-language progress triggers"]
+  ];
+
+  for (const [passes, requirement] of requiredChecks) {
+    if (!passes) {
+      errors.push(`Prototype return package checklist record ${record.recordId} must ${requirement}.`);
+    }
+  }
+}
+
 export function validateDurableRecordContracts(records: DurableRecordContract[]): string[] {
   const errors: string[] = [];
   const ids = new Set<string>();
@@ -775,6 +812,8 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
     if (record.category === "prototype-intake-queue-item" && !record.blocksPrototypeIntakeRouteReplacement) {
       errors.push(`Prototype intake queue item record ${record.recordId} must block active route replacement.`);
     }
+
+    validatePrototypeReturnPackageChecklistRecord(record, errors);
 
     if (record.category === "ai-external-prototype-task-packet" && !record.blocksScoringProfileOverride) {
       errors.push(`AI external prototype task packet record ${record.recordId} must block scoring profile overrides.`);

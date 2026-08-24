@@ -53,6 +53,10 @@ export interface PersistenceWriteIntent {
   requiresPrototypeIntakeMissingEvidence?: boolean;
   blocksPrototypeIntakeDirectImport?: boolean;
   blocksPrototypeIntakeRouteReplacement?: boolean;
+  preservesPrototypeReturnPackageChecklist?: boolean;
+  requiresPrototypeReturnSourceManifest?: boolean;
+  requiresPrototypeReturnFixtureFolder?: boolean;
+  blocksPrototypeReturnArchiveImport?: boolean;
   preservesAiExternalTaskExportReadinessGate?: boolean;
   requiresExternalTaskExportChannels?: boolean;
   requiresExternalTaskExportReadinessChecks?: boolean;
@@ -430,6 +434,38 @@ export interface PersistenceAdapterPlan {
   note: string;
 }
 
+function validatePrototypeReturnPackageChecklistWriteIntent(intent: PersistenceWriteIntent, errors: string[]): void {
+  if (intent.category !== "prototype-return-package-checklist") {
+    return;
+  }
+
+  const requiredChecks: Array<[boolean | undefined, string]> = [
+    [intent.preservesPrototypeReturnPackageChecklist, "preserve return package checklist sections"],
+    [intent.requiresPrototypeReturnSourceManifest, "require source archive manifest evidence"],
+    [intent.requiresPrototypeReturnFixtureFolder, "require reviewed fixture folder evidence"],
+    [intent.requiresStandardEventReplay, "require standard event replay evidence"],
+    [intent.requiresDeterministicScoringReplay, "require deterministic scoring replay evidence"],
+    [intent.requiresTargetLanguageAudioCoverage, "require target-language audio coverage"],
+    [intent.requiresMobileAccessibilityReview, "require mobile accessibility review evidence"],
+    [intent.requiresWrapperEvidence, "require wrapper boundary evidence"],
+    [intent.blocksPrototypeReturnArchiveImport, "block archive imports"],
+    [intent.blocksAppFileWrite, "block app file writes"],
+    [intent.blocksGeneratedGameRouteWrite, "block game route writes"],
+    [intent.blocksScoringProfileOverride, "block scoring profile overrides"],
+    [intent.blocksRewardInventoryWrite, "block reward inventory writes"],
+    [intent.blocksGeneratedPackagePlaylistWrite, "block playlist writes"],
+    [intent.blocksGeneratedPackageAssembly, "block package promotion or assembly"],
+    [intent.blocksDirectStudentAssignment, "block student assignment"],
+    [intent.blocksSupportLanguageProgressTrigger, "block support-language progress triggers"]
+  ];
+
+  for (const [passes, requirement] of requiredChecks) {
+    if (!passes) {
+      errors.push(`Prototype return package checklist write intent ${intent.intentId} must ${requirement}.`);
+    }
+  }
+}
+
 export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): string[] {
   const errors: string[] = [];
   const intentIds = new Set<string>();
@@ -696,6 +732,8 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
     if (intent.category === "prototype-intake-queue-item" && !intent.blocksPrototypeIntakeRouteReplacement) {
       errors.push(`Prototype intake queue item write intent ${intent.intentId} must block active route replacement.`);
     }
+
+    validatePrototypeReturnPackageChecklistWriteIntent(intent, errors);
 
     if (intent.category === "ai-external-prototype-task-packet" && !intent.blocksScoringProfileOverride) {
       errors.push(`AI external prototype task packet write intent ${intent.intentId} must block scoring profile overrides.`);
