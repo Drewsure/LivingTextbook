@@ -6,6 +6,7 @@ import { sampleGameModeSettingsProfilePlan } from "@/data/sampleGameModeSettings
 import { sampleGameModeSettingsStorageReadinessPlan } from "@/data/sampleGameModeSettingsStorageReadiness";
 import { sampleGamePrototypeAssignmentPlan } from "@/data/sampleGamePrototypeAssignmentPlan";
 import { sampleParentEngineReadinessPlan } from "@/data/sampleParentEngineReadiness";
+import { samplePrototypeIntakeAlert } from "@/data/samplePrototypeIntakeAlert";
 import { sampleUnitGameOfferMap } from "@/data/sampleUnitGameOfferMap";
 import { ActiveGameReplayChecklistPanel } from "@/features/game-offers/ActiveGameReplayChecklistPanel";
 import { GameModeSettingsBackendContractPanel } from "@/features/game-offers/GameModeSettingsBackendContractPanel";
@@ -13,6 +14,7 @@ import { GameModeSettingsProfilePanel } from "@/features/game-offers/GameModeSet
 import { GameModeSettingsStorageReadinessPanel } from "@/features/game-offers/GameModeSettingsStorageReadinessPanel";
 import { GamePrototypeAssignmentPanel } from "@/features/game-offers/GamePrototypeAssignmentPanel";
 import { ParentEngineReadinessPanel } from "@/features/game-offers/ParentEngineReadinessPanel";
+import { PrototypeIntakeAlertPanel } from "@/features/game-offers/PrototypeIntakeAlertPanel";
 import { UnitGameOfferMapPanel } from "@/features/game-offers/UnitGameOfferMapPanel";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 
@@ -58,6 +60,8 @@ export default function TeacherGameReadinessPage() {
             </p>
           </section>
         </Card>
+
+        <PrototypeIntakeAlertPanel alert={samplePrototypeIntakeAlert} />
 
         <ParentEngineReadinessPanel plan={sampleParentEngineReadinessPlan} />
         <ActiveGameReplayChecklistPanel checklist={sampleActiveGameReplayChecklist} />

@@ -7,6 +7,8 @@ const files = {
   prototypePage: "apps/web/src/app/teacher/prototypes/[tenantId]/page.tsx",
   generatorPage: "apps/web/src/app/teacher/generator/[tenantId]/page.tsx",
   gameReadinessPage: "apps/web/src/app/teacher/game-readiness/page.tsx",
+  prototypeIntakeAlert: "apps/web/src/data/samplePrototypeIntakeAlert.ts",
+  prototypeIntakeAlertPanel: "apps/web/src/features/game-offers/PrototypeIntakeAlertPanel.tsx",
   foundationGate: "apps/web/src/data/sampleFoundationVerificationGate.ts",
   verificationIndex: "docs/verification/README.md",
   buildSessions: "docs/BUILD_SESSIONS.md",
@@ -43,6 +45,23 @@ const routeVerifierMarkers = [
   "No app file writes",
   "No scoring mutation",
   "No route creation",
+  "Z.ai prototype intake alert",
+  "Codex alert required",
+];
+const prototypeIntakeAlertMarkers = [
+  "Z.ai prototype intake alert",
+  "Codex will explicitly alert the user",
+  "Parent engine readiness is accepted for the target game family",
+  "JSON fixture replay",
+  "Standard event replay",
+  "Target-language audio coverage",
+  "Deterministic scoring replay",
+  "Phaser wrapper review when Phaser is used",
+  "No direct app file writes",
+  "No route creation",
+  "No reward inventory mutation",
+  "No package promotion",
+  "Codex owns architecture",
 ];
 const packageMarkers = ['"verify:prototype-review"', "npm run verify:prototype-review"];
 const foundationGateMarkers = ["npm run verify:prototype-review", "Prototype review readiness"];
@@ -70,6 +89,14 @@ for (const marker of generatorLinkMarkers) {
 
 for (const marker of routeVerifierMarkers) {
   requireText(sources.activeRouteVerifier, marker, `Route verifier must keep prototype marker: ${marker}`);
+}
+
+for (const marker of prototypeIntakeAlertMarkers) {
+  requireText(
+    sources.prototypeIntakeAlert + sources.prototypeIntakeAlertPanel + sources.gameReadinessPage,
+    marker,
+    `Prototype intake alert must keep marker: ${marker}`,
+  );
 }
 
 for (const marker of packageMarkers) {
