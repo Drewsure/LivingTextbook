@@ -786,3 +786,5 @@ Returned prototype package checklists must remain visible before any Z.ai, Phase
 Returned prototype package checklist storage contracts must remain backend-neutral across schema drafts, migration candidates, migration specs, durable records, hosted write intents, and local write intents before any returned prototype evidence can become durable return-review, wrapper-review, route, scoring, reward, playlist, package, or assignment workflow.
 
 Prototype return package checklist storage guards must remain visible on game-readiness and tenant prototype review workbenches alongside intake guards before returned Z.ai, Phaser, DOM reference, or outside-game evidence can move toward Codex review.
+
+Prototype return readiness summaries must remain visible on game-readiness and tenant prototype review workbenches. They must keep Codex return review closed until returned package checklist, return storage guard, source archive manifest, fixture replay, target-language audio, mobile accessibility, deterministic scoring, and wrapper-boundary evidence are complete.

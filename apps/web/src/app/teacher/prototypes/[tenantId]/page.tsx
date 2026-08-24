@@ -96,6 +96,7 @@ import {
 } from "@/data/samplePrototypeIntakeQueue";
 import { samplePrototypeIntakeReadinessSummary } from "@/data/samplePrototypeIntakeReadinessSummary";
 import { samplePrototypeIntakeStorageGuards } from "@/data/samplePrototypeIntakeStorageGuard";
+import { samplePrototypeReturnReadinessSummary } from "@/data/samplePrototypeReturnReadinessSummary";
 import {
   filterPrototypeReturnPackageChecklistsByTenant,
   samplePrototypeReturnPackageChecklists,
@@ -127,6 +128,7 @@ import { EvidencePacketFlowPanel } from "@/features/evidence/EvidencePacketFlowP
 import { PrototypeIntakeQueuePanel } from "@/features/game-offers/PrototypeIntakeQueuePanel";
 import { PrototypeIntakeReadinessSummaryPanel } from "@/features/game-offers/PrototypeIntakeReadinessSummaryPanel";
 import { PrototypeIntakeStorageGuardPanel } from "@/features/game-offers/PrototypeIntakeStorageGuardPanel";
+import { PrototypeReturnReadinessSummaryPanel } from "@/features/game-offers/PrototypeReturnReadinessSummaryPanel";
 import { PrototypeReturnPackageChecklistPanel } from "@/features/game-offers/PrototypeReturnPackageChecklistPanel";
 import { ministarTenant } from "@/features/tenant/ministarTenant";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
@@ -192,6 +194,7 @@ export default async function TeacherPrototypeReviewPage({
         <PrototypeReturnPackageChecklistPanel
           checklists={filterPrototypeReturnPackageChecklistsByTenant(samplePrototypeReturnPackageChecklists, tenantId)}
         />
+        <PrototypeReturnReadinessSummaryPanel summary={samplePrototypeReturnReadinessSummary} />
 
         <section id="handoff-packets" className="grid scroll-mt-6 gap-5">
           <AiGeneratorSectionHeader

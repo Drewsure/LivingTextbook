@@ -22,6 +22,7 @@ The check confirms:
 - The game readiness and tenant prototype review workbenches show the returned prototype package checklist, including source archive manifest, reviewed fixture folder, event and scoring replay, target-language audio map, mobile accessibility capture, wrapper notes, and no-archive-import blockers.
 - Prototype return package checklists have backend-neutral schema, migration, durable record, hosted write-intent, and local write-intent markers before any returned package evidence can become a durable workflow.
 - Prototype return package checklist storage guard markers stay visible before returned outside-game evidence can move toward Codex review.
+- The game readiness and tenant prototype review workbenches show the prototype return readiness summary, including return checklist visibility, return storage guard visibility, missing source archive manifest, missing fixture replay, missing audio/mobile/scoring proof, and closed Codex return review state.
 - Prototype review pages keep no-write, no-scoring-mutation, no-route-creation, no-audio-manifest-mutation, no-package-promotion, and no-student-assignment boundaries visible.
 - The active route verifier protects the same markers.
 - The visible foundation gate includes `Prototype review readiness`.

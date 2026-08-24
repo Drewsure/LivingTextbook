@@ -15,6 +15,8 @@ const files = {
   prototypeIntakeReadinessSummaryPanel: "apps/web/src/features/game-offers/PrototypeIntakeReadinessSummaryPanel.tsx",
   prototypeIntakeStorageGuard: "apps/web/src/data/samplePrototypeIntakeStorageGuard.ts",
   prototypeIntakeStorageGuardPanel: "apps/web/src/features/game-offers/PrototypeIntakeStorageGuardPanel.tsx",
+  prototypeReturnReadinessSummary: "apps/web/src/data/samplePrototypeReturnReadinessSummary.ts",
+  prototypeReturnReadinessSummaryPanel: "apps/web/src/features/game-offers/PrototypeReturnReadinessSummaryPanel.tsx",
   prototypeReturnPackageChecklist: "apps/web/src/data/samplePrototypeReturnPackageChecklist.ts",
   prototypeReturnPackageChecklistPanel: "apps/web/src/features/game-offers/PrototypeReturnPackageChecklistPanel.tsx",
   evidencePacketFlows: "apps/web/src/data/sampleEvidencePacketFlows.ts",
@@ -202,6 +204,24 @@ const prototypeReturnPackageChecklistMarkers = [
   "filterPrototypeReturnPackageChecklistsByTenant",
   "PrototypeReturnPackageChecklistPanel",
 ];
+const prototypeReturnReadinessSummaryMarkers = [
+  "Prototype return readiness",
+  "Prototype return readiness summary",
+  "prototype-return-readiness-summary-foundation",
+  "Codex return review not opened",
+  "Return checklist visible",
+  "Return storage guard visible",
+  "Source archive manifest",
+  "Reviewed fixture replay",
+  "Audio, mobile, and scoring proof",
+  "Codex return review",
+  "No Codex return review yet",
+  "No returned archive import",
+  "No direct file copy into apps/web",
+  "No active route replacement",
+  "No support-language progress trigger",
+  "PrototypeReturnReadinessSummaryPanel",
+];
 
 const failures = [];
 
@@ -306,6 +326,17 @@ for (const marker of prototypeReturnPackageChecklistMarkers) {
       sources.prototypePage,
     marker,
     `Prototype return package checklist must keep marker: ${marker}`,
+  );
+}
+
+for (const marker of prototypeReturnReadinessSummaryMarkers) {
+  requireText(
+    sources.prototypeReturnReadinessSummary +
+      sources.prototypeReturnReadinessSummaryPanel +
+      sources.gameReadinessPage +
+      sources.prototypePage,
+    marker,
+    `Prototype return readiness summary must keep marker: ${marker}`,
   );
 }
 

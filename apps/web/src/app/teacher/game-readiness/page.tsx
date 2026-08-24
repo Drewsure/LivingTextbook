@@ -11,6 +11,7 @@ import { samplePrototypeIntakeAlert } from "@/data/samplePrototypeIntakeAlert";
 import { samplePrototypeIntakeQueue } from "@/data/samplePrototypeIntakeQueue";
 import { samplePrototypeIntakeReadinessSummary } from "@/data/samplePrototypeIntakeReadinessSummary";
 import { samplePrototypeIntakeStorageGuards } from "@/data/samplePrototypeIntakeStorageGuard";
+import { samplePrototypeReturnReadinessSummary } from "@/data/samplePrototypeReturnReadinessSummary";
 import { samplePrototypeReturnPackageChecklists } from "@/data/samplePrototypeReturnPackageChecklist";
 import { sampleUnitGameOfferMap } from "@/data/sampleUnitGameOfferMap";
 import { ActiveGameReplayChecklistPanel } from "@/features/game-offers/ActiveGameReplayChecklistPanel";
@@ -23,6 +24,7 @@ import { PrototypeIntakeAlertPanel } from "@/features/game-offers/PrototypeIntak
 import { PrototypeIntakeQueuePanel } from "@/features/game-offers/PrototypeIntakeQueuePanel";
 import { PrototypeIntakeReadinessSummaryPanel } from "@/features/game-offers/PrototypeIntakeReadinessSummaryPanel";
 import { PrototypeIntakeStorageGuardPanel } from "@/features/game-offers/PrototypeIntakeStorageGuardPanel";
+import { PrototypeReturnReadinessSummaryPanel } from "@/features/game-offers/PrototypeReturnReadinessSummaryPanel";
 import { PrototypeReturnPackageChecklistPanel } from "@/features/game-offers/PrototypeReturnPackageChecklistPanel";
 import { UnitGameOfferMapPanel } from "@/features/game-offers/UnitGameOfferMapPanel";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
@@ -77,6 +79,7 @@ export default function TeacherGameReadinessPage() {
         <PrototypeIntakeStorageGuardPanel guards={samplePrototypeIntakeStorageGuards} />
         <EvidencePacketFlowPanel flow={samplePrototypeIntakeEvidencePacketFlow} />
         <PrototypeReturnPackageChecklistPanel checklists={samplePrototypeReturnPackageChecklists} />
+        <PrototypeReturnReadinessSummaryPanel summary={samplePrototypeReturnReadinessSummary} />
 
         <ParentEngineReadinessPanel plan={sampleParentEngineReadinessPlan} />
         <ActiveGameReplayChecklistPanel checklist={sampleActiveGameReplayChecklist} />

@@ -297,6 +297,8 @@ The backend-neutral storage contract is `prototype_return_package_checklist` / `
 
 The return checklist storage guard must be visible on game-readiness and tenant prototype review workbenches next to the intake storage guard. Visibility is required before returned Z.ai, Phaser, DOM reference, or outside-game evidence can move toward Codex review.
 
+The prototype return readiness summary must show `Codex return review not opened` until return checklist, return storage guard, source archive manifest, reviewed fixture replay, target-language audio, mobile accessibility, deterministic scoring, and wrapper-boundary evidence are complete.
+
 ## Prototype Return Review Rule
 
 Returned prototype work from Z.ai or any outside builder must enter an `ai_prototype_return_review` preview before integration. The review must name the source build brief, returned artifacts, required evidence, parent-engine wrapper review, JSON fixture conformance, standard event replay, audio cue coverage, deterministic scoring, mobile accessibility, white-label fit, and blocked actions.
