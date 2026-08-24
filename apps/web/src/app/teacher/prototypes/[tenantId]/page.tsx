@@ -94,6 +94,7 @@ import {
   filterPrototypeIntakeQueueByTenant,
   samplePrototypeIntakeQueue,
 } from "@/data/samplePrototypeIntakeQueue";
+import { samplePrototypeIntakeReadinessSummary } from "@/data/samplePrototypeIntakeReadinessSummary";
 import { samplePrototypeIntakeStorageGuards } from "@/data/samplePrototypeIntakeStorageGuard";
 import { AiExternalPrototypeTaskExportReadinessGatePanel } from "@/features/content-intake/AiExternalPrototypeTaskExportReadinessGatePanel";
 import { AiExternalPrototypeTaskPacketPanel } from "@/features/content-intake/AiExternalPrototypeTaskPacketPanel";
@@ -120,6 +121,7 @@ import { AiPrototypeSignedApprovalPreflightPanel } from "@/features/content-inta
 import { AiPrototypeWrapperAdapterReviewPanel } from "@/features/content-intake/AiPrototypeWrapperAdapterReviewPanel";
 import { EvidencePacketFlowPanel } from "@/features/evidence/EvidencePacketFlowPanel";
 import { PrototypeIntakeQueuePanel } from "@/features/game-offers/PrototypeIntakeQueuePanel";
+import { PrototypeIntakeReadinessSummaryPanel } from "@/features/game-offers/PrototypeIntakeReadinessSummaryPanel";
 import { PrototypeIntakeStorageGuardPanel } from "@/features/game-offers/PrototypeIntakeStorageGuardPanel";
 import { ministarTenant } from "@/features/tenant/ministarTenant";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
@@ -178,6 +180,7 @@ export default async function TeacherPrototypeReviewPage({
           </section>
         </Card>
 
+        <PrototypeIntakeReadinessSummaryPanel summary={samplePrototypeIntakeReadinessSummary} />
         <PrototypeIntakeQueuePanel items={filterPrototypeIntakeQueueByTenant(samplePrototypeIntakeQueue, tenantId)} />
         <PrototypeIntakeStorageGuardPanel guards={samplePrototypeIntakeStorageGuards} />
         <EvidencePacketFlowPanel flow={samplePrototypeIntakeEvidencePacketFlow} />

@@ -11,6 +11,8 @@ const files = {
   prototypeIntakeAlertPanel: "apps/web/src/features/game-offers/PrototypeIntakeAlertPanel.tsx",
   prototypeIntakeQueue: "apps/web/src/data/samplePrototypeIntakeQueue.ts",
   prototypeIntakeQueuePanel: "apps/web/src/features/game-offers/PrototypeIntakeQueuePanel.tsx",
+  prototypeIntakeReadinessSummary: "apps/web/src/data/samplePrototypeIntakeReadinessSummary.ts",
+  prototypeIntakeReadinessSummaryPanel: "apps/web/src/features/game-offers/PrototypeIntakeReadinessSummaryPanel.tsx",
   prototypeIntakeStorageGuard: "apps/web/src/data/samplePrototypeIntakeStorageGuard.ts",
   prototypeIntakeStorageGuardPanel: "apps/web/src/features/game-offers/PrototypeIntakeStorageGuardPanel.tsx",
   evidencePacketFlows: "apps/web/src/data/sampleEvidencePacketFlows.ts",
@@ -60,6 +62,8 @@ const routeVerifierMarkers = [
   "Codex alert required",
   "Prototype intake queue",
   "Outside game inventory before Codex review",
+  "Prototype intake readiness",
+  "Codex alert not issued",
   "Prototype intake storage guard",
   "Storage contract before outside game intake",
   "Prototype intake evidence packet flow",
@@ -110,6 +114,19 @@ const prototypeIntakeQueueStorageMarkers = [
   "preservesPrototypeIntakeQueueItem: true",
   "blocksPrototypeIntakeDirectImport: true",
   "blocksPrototypeIntakeRouteReplacement: true",
+];
+const prototypeIntakeReadinessSummaryMarkers = [
+  "Prototype intake readiness summary",
+  "prototype-intake-readiness-summary-foundation",
+  "Codex alert not issued",
+  "No Codex green-light alert yet",
+  "Returned prototype package",
+  "Replay reports",
+  "Codex wrapper decision",
+  "No app file import",
+  "No active route replacement",
+  "No student assignment",
+  "PrototypeIntakeReadinessSummaryPanel",
 ];
 const prototypeIntakeStorageGuardMarkers = [
   "Prototype intake storage guard",
@@ -192,6 +209,17 @@ for (const marker of prototypeIntakeQueueStorageMarkers) {
       sources.persistenceAdapterPlan,
     marker,
     `Prototype intake queue storage must keep marker: ${marker}`,
+  );
+}
+
+for (const marker of prototypeIntakeReadinessSummaryMarkers) {
+  requireText(
+    sources.prototypeIntakeReadinessSummary +
+      sources.prototypeIntakeReadinessSummaryPanel +
+      sources.gameReadinessPage +
+      sources.prototypePage,
+    marker,
+    `Prototype intake readiness summary must keep marker: ${marker}`,
   );
 }
 

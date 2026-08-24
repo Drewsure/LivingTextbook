@@ -16,6 +16,7 @@ The check confirms:
 - The game readiness workbench shows the Z.ai prototype intake alert, including the Codex alert requirement, ready-when conditions, required evidence, and blocked actions.
 - The game readiness and tenant prototype review workbenches show the prototype intake queue, including source repository scope, target surface, required evidence, missing evidence, blocked actions, and tenant filtering.
 - Prototype intake queue items have backend-neutral schema, migration, durable record, hosted write-intent, and local write-intent markers before any controlled outside-prototype intake workflow can exist.
+- The game readiness and tenant prototype review workbenches show the prototype intake readiness summary, including the not-ready state, Codex alert state, ready lanes, missing lanes, and blocked next actions.
 - The game readiness and tenant prototype review workbenches show the prototype intake storage guard, including storage contract ids, visible storage fields, required evidence, and blocked intake actions.
 - The game readiness and tenant prototype review workbenches show the prototype intake evidence packet flow, including source snapshot, fixture replay, event/scoring, target-language audio, mobile/accessibility, and wrapper-boundary packets.
 - Prototype review pages keep no-write, no-scoring-mutation, no-route-creation, no-audio-manifest-mutation, no-package-promotion, and no-student-assignment boundaries visible.
