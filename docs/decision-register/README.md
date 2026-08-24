@@ -466,6 +466,7 @@
 - `DR-492-package-adoption-storage-guard-panel.md`
 - `DR-493-release-control-entitlement-source-gate.md`
 - `DR-494-zai-prototype-intake-alert.md`
+- `DR-495-prototype-intake-queue.md`
 
 ## Maintenance Rule
 

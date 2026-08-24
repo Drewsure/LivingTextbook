@@ -89,6 +89,10 @@ import {
   filterAiPrototypeWrapperAdapterReviewsByTenant,
   sampleAiPrototypeWrapperAdapterReviews,
 } from "@/data/sampleAiPrototypeWrapperAdapterReview";
+import {
+  filterPrototypeIntakeQueueByTenant,
+  samplePrototypeIntakeQueue,
+} from "@/data/samplePrototypeIntakeQueue";
 import { AiExternalPrototypeTaskExportReadinessGatePanel } from "@/features/content-intake/AiExternalPrototypeTaskExportReadinessGatePanel";
 import { AiExternalPrototypeTaskPacketPanel } from "@/features/content-intake/AiExternalPrototypeTaskPacketPanel";
 import { AiGeneratedGameBuildBriefPanel } from "@/features/content-intake/AiGeneratedGameBuildBriefPanel";
@@ -112,6 +116,7 @@ import { AiPrototypeReturnReviewPanel } from "@/features/content-intake/AiProtot
 import { AiPrototypeScoringReplayReportPanel } from "@/features/content-intake/AiPrototypeScoringReplayReportPanel";
 import { AiPrototypeSignedApprovalPreflightPanel } from "@/features/content-intake/AiPrototypeSignedApprovalPreflightPanel";
 import { AiPrototypeWrapperAdapterReviewPanel } from "@/features/content-intake/AiPrototypeWrapperAdapterReviewPanel";
+import { PrototypeIntakeQueuePanel } from "@/features/game-offers/PrototypeIntakeQueuePanel";
 import { ministarTenant } from "@/features/tenant/ministarTenant";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 
@@ -168,6 +173,8 @@ export default async function TeacherPrototypeReviewPage({
             </p>
           </section>
         </Card>
+
+        <PrototypeIntakeQueuePanel items={filterPrototypeIntakeQueueByTenant(samplePrototypeIntakeQueue, tenantId)} />
 
         <section id="handoff-packets" className="grid scroll-mt-6 gap-5">
           <AiGeneratorSectionHeader

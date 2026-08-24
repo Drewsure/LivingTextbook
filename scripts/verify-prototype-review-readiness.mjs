@@ -9,6 +9,8 @@ const files = {
   gameReadinessPage: "apps/web/src/app/teacher/game-readiness/page.tsx",
   prototypeIntakeAlert: "apps/web/src/data/samplePrototypeIntakeAlert.ts",
   prototypeIntakeAlertPanel: "apps/web/src/features/game-offers/PrototypeIntakeAlertPanel.tsx",
+  prototypeIntakeQueue: "apps/web/src/data/samplePrototypeIntakeQueue.ts",
+  prototypeIntakeQueuePanel: "apps/web/src/features/game-offers/PrototypeIntakeQueuePanel.tsx",
   foundationGate: "apps/web/src/data/sampleFoundationVerificationGate.ts",
   verificationIndex: "docs/verification/README.md",
   buildSessions: "docs/BUILD_SESSIONS.md",
@@ -47,6 +49,8 @@ const routeVerifierMarkers = [
   "No route creation",
   "Z.ai prototype intake alert",
   "Codex alert required",
+  "Prototype intake queue",
+  "Outside game inventory before Codex review",
 ];
 const prototypeIntakeAlertMarkers = [
   "Z.ai prototype intake alert",
@@ -56,7 +60,7 @@ const prototypeIntakeAlertMarkers = [
   "Standard event replay",
   "Target-language audio coverage",
   "Deterministic scoring replay",
-  "Phaser wrapper review when Phaser is used",
+  "Phaser wrapper review",
   "No direct app file writes",
   "No route creation",
   "No reward inventory mutation",
@@ -65,6 +69,22 @@ const prototypeIntakeAlertMarkers = [
 ];
 const packageMarkers = ['"verify:prototype-review"', "npm run verify:prototype-review"];
 const foundationGateMarkers = ["npm run verify:prototype-review", "Prototype review readiness"];
+const prototypeIntakeQueueMarkers = [
+  "Prototype intake queue",
+  "Outside game inventory before Codex review",
+  "intake-ministar-sentence-builder-dom",
+  "intake-ministar-balloon-pop-phaser",
+  "intake-ministar-whack-a-mole-phaser",
+  "intake-sample-publisher-fill-blank-dom",
+  "Drewsure/ministar-lab",
+  "sentence-builder",
+  "balloon-pop",
+  "whack-a-mole",
+  "fill-in-the-blank",
+  "Phaser wrapper review",
+  "No active route replacement",
+  "filterPrototypeIntakeQueueByTenant",
+];
 
 const failures = [];
 
@@ -96,6 +116,14 @@ for (const marker of prototypeIntakeAlertMarkers) {
     sources.prototypeIntakeAlert + sources.prototypeIntakeAlertPanel + sources.gameReadinessPage,
     marker,
     `Prototype intake alert must keep marker: ${marker}`,
+  );
+}
+
+for (const marker of prototypeIntakeQueueMarkers) {
+  requireText(
+    sources.prototypeIntakeQueue + sources.prototypeIntakeQueuePanel + sources.gameReadinessPage + sources.prototypePage,
+    marker,
+    `Prototype intake queue must keep marker: ${marker}`,
   );
 }
 
