@@ -23,6 +23,7 @@ npm run verify:foundation
 - Controlled demo visibility stays separate from pilot-publishable status.
 - Release candidate readiness is derived from open gates and open approvals.
 - Package publish gate and approval ledger panels show blocked/open states.
+- Release-control route verification includes the entitlement workbench source link plus blocked package adoption, billing entitlement, microphone scoring, and report export enablement markers.
 - Backend schema and migration specs preserve release candidate, publish gate, and approval ledger records.
 
 ## Human Follow-Up

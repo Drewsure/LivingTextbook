@@ -357,6 +357,12 @@ requireText(routeVerifier, "School rollback safe fallback preflight", "Active ro
 requireText(routeVerifier, "Future safe fallback activation record preview", "Active route verifier must keep school rollback safe fallback activation preview visible.");
 requireText(routeVerifier, "Future safe fallback restoration record preview", "Active route verifier must keep school rollback safe fallback restoration preview visible.");
 requireText(routeVerifier, "school_rollback_safe_fallback_plan", "Active route verifier must keep school rollback safe fallback plan storage visible.");
+requireText(routeVerifier, "Package entitlement source", "Active route verifier must keep package entitlement source visible.");
+requireText(routeVerifier, "/teacher/entitlements", "Active route verifier must keep entitlement workbench release source link visible.");
+requireText(routeVerifier, "No premium package adoption activation", "Active route verifier must keep package adoption activation blocked.");
+requireText(routeVerifier, "No billing entitlement write", "Active route verifier must keep billing entitlement writes blocked.");
+requireText(routeVerifier, "No microphone scoring enablement", "Active route verifier must keep microphone scoring blocked.");
+requireText(routeVerifier, "No report export enablement", "Active route verifier must keep report export enablement blocked.");
 requireText(routeVerifier, "Maintenance guard active", "Active route verifier must keep publisher maintenance guard visible.");
 requireText(routeVerifier, "Maintenance guard blocks", "Active route verifier must keep publisher maintenance guard blocks visible.");
 requireText(routeVerifier, "Maintenance guard warnings", "Active route verifier must keep publisher maintenance guard warnings visible.");

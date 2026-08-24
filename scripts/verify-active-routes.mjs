@@ -194,6 +194,15 @@ expectedTextByPath.get("/teacher/entitlements")?.push(
   "No hosted storage activation",
   "No local companion activation",
 );
+expectedTextByPath.get("/teacher/release-control/sample-publisher")?.push(
+  "Package entitlement source",
+  "/teacher/entitlements",
+  "Review-only package adoption, storage guard, AI, speech, report export, and local companion blockers.",
+  "No premium package adoption activation",
+  "No billing entitlement write",
+  "No microphone scoring enablement",
+  "No report export enablement",
+);
 expectedTextByPath.set("/teacher/game-readiness", [
   "Teacher game readiness workbench",
   "Game architecture, replay evidence, and outside prototype gates",

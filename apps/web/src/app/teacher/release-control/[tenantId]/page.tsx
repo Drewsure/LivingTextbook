@@ -39,6 +39,11 @@ const releaseSourceRoutes = [
     note: "Final go/no-go review surface; launch remains blocked.",
   },
   {
+    label: "Package entitlement source",
+    path: "/teacher/entitlements",
+    note: "Review-only package adoption, storage guard, AI, speech, report export, and local companion blockers.",
+  },
+  {
     label: "Publisher maintenance source",
     path: "/teacher/maintenance/sample-publisher",
     note: "Yearly content, media, game, QR, local package, and report maintenance review.",
@@ -126,6 +131,10 @@ export default async function TeacherReleaseControlPage({ params }: TeacherRelea
               "No local bundle release",
               "No student-ready marker",
               "No support-language-only release",
+              "No premium package adoption activation",
+              "No billing entitlement write",
+              "No microphone scoring enablement",
+              "No report export enablement",
             ].map((rule) => (
               <li key={rule} className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3">
                 {rule}

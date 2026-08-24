@@ -764,3 +764,5 @@ The hard gate is to keep typecheck/build passing after every route or package ad
 Package adoption record previews must stay preserved as backend-neutral storage contracts before accepted adoption records, billing entitlement writes, model calls, microphone scoring, report export enablement, hosted storage activation, or local companion activation can exist.
 
 The entitlement workbench must keep package adoption storage guards visible so admins can review storage contracts, visible fields, required pre-activation decisions, and blocked premium activations before any package adoption workflow is designed.
+
+Release-control workspaces must link back to the entitlement workbench and keep premium package adoption, billing entitlement writes, microphone scoring, and report export enablement blocked until policy, storage, and release gates close.

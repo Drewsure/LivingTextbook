@@ -50,6 +50,7 @@ Before accepting a new direction, answer these questions in the task, PR, or imp
 | DR-490 | Package adoption record preview | Accepted | Premium package activation needs minimum accepted-record fields, evidence, scopes, blocked writes, and rollback hooks before implementation. |
 | DR-491 | Package adoption record preview storage contract | Accepted | Premium package adoption previews must become backend-neutral hosted/local storage contracts before accepted adoption records, billing writes, model calls, microphone scoring, report exports, hosted storage, or local companion activation can exist. |
 | DR-492 | Package adoption storage guard panel | Accepted | The entitlement workbench must show storage contracts, visible fields, required evidence, and blocked premium activations before any package adoption can be made real. |
+| DR-493 | Release-control entitlement source gate | Accepted | Release-control workspaces must link to the entitlement workbench and keep premium package adoption, billing, microphone scoring, report export, and local companion activation blocked. |
 | DR-021 | Second sample tenant package | Accepted | Add a second sample tenant and partner-style content package to prove the white-label path in code. |
 | DR-022 | Multi-tenant front-door resolver | Accepted | Resolve `/enter/[tenantId]` from tenant route registry data rather than hard-coded MiniStar-only routing. |
 | DR-023 | Reviewed content intake scaffold | Accepted | Show PDF/DOCX/source intake as a reviewed gate before any package becomes student-facing. |

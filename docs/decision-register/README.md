@@ -464,6 +464,7 @@
 - `DR-490-package-adoption-record-preview.md`
 - `DR-491-package-adoption-record-preview-storage-contract.md`
 - `DR-492-package-adoption-storage-guard-panel.md`
+- `DR-493-release-control-entitlement-source-gate.md`
 
 ## Maintenance Rule
 
