@@ -19,17 +19,17 @@ export function PrototypeIntakeStorageGuardPanel({ guards }: PrototypeIntakeStor
     <Card>
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <p className="text-sm font-semibold text-[var(--tenant-muted)]">Prototype intake storage guard</p>
-          <h2 className="mt-1 text-lg font-bold">Storage contract before outside game intake</h2>
+          <p className="text-sm font-semibold text-[var(--tenant-muted)]">Prototype intake and return storage guard</p>
+          <h2 className="mt-1 text-lg font-bold">Storage contracts before outside game intake or returned package review</h2>
           <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
-            These guards connect Z.ai/outside prototype inventory to backend-neutral queue records. They make useful
-            external game work reviewable without importing code, replacing routes, changing scoring, writing rewards,
-            creating playlists, promoting packages, or assigning students.
+            These guards connect Z.ai/outside prototype inventory and returned package evidence to backend-neutral records.
+            They make useful external game work reviewable without importing code, replacing routes, changing scoring,
+            writing rewards, creating playlists, promoting packages, or assigning students.
           </p>
         </div>
         <div className="flex flex-wrap justify-end gap-2">
           <StatusPill label={`${guards.length} guard(s)`} tone="warning" />
-          <StatusPill label="No intake writes" tone="warning" />
+          <StatusPill label="No storage writes" tone="warning" />
         </div>
       </div>
 

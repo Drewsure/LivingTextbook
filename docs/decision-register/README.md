@@ -473,6 +473,7 @@
 - `DR-499-prototype-intake-readiness-summary.md`
 - `DR-500-prototype-return-package-checklist.md`
 - `DR-501-prototype-return-package-checklist-storage-contract.md`
+- `DR-502-prototype-return-storage-guard-visibility.md`
 
 ## Maintenance Rule
 

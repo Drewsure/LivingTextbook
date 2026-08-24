@@ -66,8 +66,8 @@ const routeVerifierMarkers = [
   "Outside game inventory before Codex review",
   "Prototype intake readiness",
   "Codex alert not issued",
-  "Prototype intake storage guard",
-  "Storage contract before outside game intake",
+  "Prototype intake and return storage guard",
+  "Storage contracts before outside game intake or returned package review",
   "Prototype intake evidence packet flow",
   "No prototype upload or import",
   "Returned prototype package checklist",
@@ -147,8 +147,8 @@ const prototypeIntakeReadinessSummaryMarkers = [
   "PrototypeIntakeReadinessSummaryPanel",
 ];
 const prototypeIntakeStorageGuardMarkers = [
-  "Prototype intake storage guard",
-  "Storage contract before outside game intake",
+  "Prototype intake and return storage guard",
+  "Storage contracts before outside game intake or returned package review",
   "prototype-intake-queue-storage-contract",
   "prototype-intake-queue-item-record",
   "prototype-intake-queue-item-boundary",
@@ -156,6 +156,14 @@ const prototypeIntakeStorageGuardMarkers = [
   "local-prototype-intake-queue-item-write",
   "m098-prototype-intake-queue-storage",
   "spec-prototype-intake-queue-item",
+  "prototype-return-package-checklist-storage-contract",
+  "prototype-return-package-checklist-record",
+  "prototype-return-package-checklist-boundary",
+  "hosted-prototype-return-package-checklist-write",
+  "local-prototype-return-package-checklist-write",
+  "m099-prototype-return-package-checklist-storage",
+  "spec-prototype-return-package-checklist",
+  "prototype_return_package_checklist_id",
   "No direct prototype import",
   "No active route replacement",
   "No scoring profile mutation",
@@ -278,7 +286,7 @@ for (const marker of prototypeIntakeStorageGuardMarkers) {
       sources.gameReadinessPage +
       sources.prototypePage,
     marker,
-    `Prototype intake storage guard must keep marker: ${marker}`,
+    `Prototype intake and return storage guard must keep marker: ${marker}`,
   );
 }
 
