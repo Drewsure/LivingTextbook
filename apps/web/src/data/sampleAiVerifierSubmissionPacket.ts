@@ -1,26 +1,12 @@
-export type AiVerifierCheckStatus = "ready-for-review" | "blocked" | "draft-only";
+import {
+  getAiVerifierSubmissionPacketCollectionWarnings,
+  validateAiVerifierSubmissionPackets,
+  type AiVerifierCheckStatus,
+  type AiVerifierSubmissionCheck,
+  type AiVerifierSubmissionPacket,
+} from "@living-textbook/content-model/src/aiVerifierSubmissionPacket";
 
-export interface AiVerifierSubmissionCheck {
-  checkId: string;
-  label: string;
-  status: AiVerifierCheckStatus;
-  evidence: string;
-  rejectionRule: string;
-}
-
-export interface AiVerifierSubmissionPacket {
-  packetId: string;
-  tenantId: string;
-  requestId: string;
-  label: string;
-  summary: string;
-  verifierVersion: string;
-  submissionState: string;
-  requiredPackets: string[];
-  checks: AiVerifierSubmissionCheck[];
-  blockedActions: string[];
-  nextRequirements: string[];
-}
+export type { AiVerifierCheckStatus, AiVerifierSubmissionCheck, AiVerifierSubmissionPacket };
 
 export const sampleAiVerifierSubmissionPackets: AiVerifierSubmissionPacket[] = [
   {
@@ -34,6 +20,7 @@ export const sampleAiVerifierSubmissionPackets: AiVerifierSubmissionPacket[] = [
     submissionState: "Submit verifier packet blocked",
     requiredPackets: [
       "ai_verifier_submission_packet",
+      "ai_draft_repair_evidence_packet",
       "schema_validation_packet",
       "pedagogical_lock_packet",
       "audio_coverage_packet",
@@ -64,6 +51,14 @@ export const sampleAiVerifierSubmissionPackets: AiVerifierSubmissionPacket[] = [
         status: "ready-for-review",
         evidence: "target_language_progress_trigger remains target-language-only.",
         rejectionRule: "Reject support-language-only progression, media-only progress, or route-guidance unlocks.",
+      },
+      {
+        checkId: "draft-repair-evidence",
+        label: "Draft repair evidence packet",
+        status: "blocked",
+        evidence:
+          "Repair evidence packet exists but schema, audio, rights, and verifier handoff evidence remain incomplete.",
+        rejectionRule: "Reject if correction queue items lack repair evidence before verifier submission.",
       },
       {
         checkId: "audio-coverage",
@@ -114,6 +109,7 @@ export const sampleAiVerifierSubmissionPackets: AiVerifierSubmissionPacket[] = [
       "Reviewer identity and signature policy",
       "Media rights evidence attachments",
       "Audio cue approval workflow",
+      "Draft repair evidence packet accepted",
       "Package approval ledger binding",
       "Release-control binding",
     ],
@@ -129,6 +125,7 @@ export const sampleAiVerifierSubmissionPackets: AiVerifierSubmissionPacket[] = [
     submissionState: "Submit verifier packet blocked",
     requiredPackets: [
       "ai_verifier_submission_packet",
+      "ai_draft_repair_evidence_packet",
       "schema_validation_packet",
       "pedagogical_lock_packet",
       "audio_coverage_packet",
@@ -166,6 +163,14 @@ export const sampleAiVerifierSubmissionPackets: AiVerifierSubmissionPacket[] = [
         status: "ready-for-review",
         evidence: "Japanese support metadata is ja-hiragana and support_language_progress_allowed: false.",
         rejectionRule: "Reject Foundation/Bronze/Plus support text with kanji or katakana, or any support-language unlock.",
+      },
+      {
+        checkId: "ministar-draft-repair-evidence",
+        label: "MiniStar draft repair evidence packet",
+        status: "blocked",
+        evidence:
+          "MiniStar repair evidence packet exists and preserves English target-language trigger plus hiragana-only Japanese support review.",
+        rejectionRule: "Reject if English audio, hiragana support, rights, or schema repair evidence is incomplete.",
       },
       {
         checkId: "ministar-audio-coverage",
@@ -216,6 +221,7 @@ export const sampleAiVerifierSubmissionPackets: AiVerifierSubmissionPacket[] = [
       "Reviewer identity and signature policy",
       "MiniStar media rights evidence attachments",
       "Target-language audio approval workflow",
+      "MiniStar draft repair evidence packet accepted",
       "Package approval ledger binding",
       "Release-control binding",
     ],
@@ -228,3 +234,9 @@ export function filterAiVerifierSubmissionPacketsByTenant(
 ): AiVerifierSubmissionPacket[] {
   return packets.filter((packet) => packet.tenantId === tenantId);
 }
+
+export const sampleAiVerifierSubmissionPacketErrors =
+  validateAiVerifierSubmissionPackets(sampleAiVerifierSubmissionPackets);
+
+export const sampleAiVerifierSubmissionPacketWarnings =
+  getAiVerifierSubmissionPacketCollectionWarnings(sampleAiVerifierSubmissionPackets);

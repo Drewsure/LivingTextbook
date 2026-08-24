@@ -519,3 +519,20 @@ Constraints:
 - No real student identity, transcript, raw audio, or cloud speech scoring is stored or implied.
 - Support-language activity cannot satisfy unlock or mastery requirements.
 - This decision is recorded in `docs/adr/0025-teacher-session-monitor-scaffold.md` and `docs/decision-register/DR-026-teacher-session-monitor-scaffold.md`.
+
+## DR-509: AI Verifier Submission Packet Validator
+
+Status: Accepted
+
+Decision: AI verifier submission packets must pass a shared content-model validator and visibly require draft repair evidence before verifier submission can be considered.
+
+White-label impact: Positive. Tenants can vary curriculum and media rules while the platform keeps one consistent verifier gate.
+
+Cost impact: Positive. Live verifier calls, package assembly, route writes, playlists, and assignments stay blocked until evidence and storage readiness are explicit.
+
+Constraints:
+
+- Verifier packets must include `ai_draft_repair_evidence_packet`.
+- The teacher generator route must show verifier guard blocks and warnings.
+- MiniStar packets must preserve English as the progress trigger and hiragana-only Japanese support boundaries.
+- This decision is recorded in `docs/adr/0438-ai-verifier-submission-packet-validator.md` and `docs/decision-register/DR-509-ai-verifier-submission-packet-validator.md`.

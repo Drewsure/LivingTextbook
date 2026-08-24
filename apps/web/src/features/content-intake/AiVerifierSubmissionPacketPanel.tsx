@@ -1,4 +1,8 @@
 import { Card, StatusPill } from "@living-textbook/ui";
+import {
+  getAiVerifierSubmissionPacketCollectionWarnings,
+  validateAiVerifierSubmissionPackets,
+} from "@living-textbook/content-model/src/aiVerifierSubmissionPacket";
 import type { AiVerifierCheckStatus, AiVerifierSubmissionPacket } from "@/data/sampleAiVerifierSubmissionPacket";
 
 interface AiVerifierSubmissionPacketPanelProps {
@@ -12,6 +16,8 @@ const checkTone: Record<AiVerifierCheckStatus, "neutral" | "success" | "warning"
 };
 
 export function AiVerifierSubmissionPacketPanel({ packets }: AiVerifierSubmissionPacketPanelProps) {
+  const guardBlocks = validateAiVerifierSubmissionPackets(packets);
+  const guardWarnings = getAiVerifierSubmissionPacketCollectionWarnings(packets);
   const blockedCheckCount = packets.reduce(
     (total, packet) => total + packet.checks.filter((check) => check.status === "blocked").length,
     0,
@@ -29,9 +35,23 @@ export function AiVerifierSubmissionPacketPanel({ packets }: AiVerifierSubmissio
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
+          <StatusPill label="AI verifier packet guard active" tone="warning" />
+          <StatusPill label={`${guardBlocks.length} guard block(s)`} tone="warning" />
           <StatusPill label="Submit verifier packet blocked" tone="warning" />
           <StatusPill label={`${blockedCheckCount} blocked check(s)`} tone="warning" />
         </div>
+      </div>
+
+      <div className="mt-5 grid gap-3 lg:grid-cols-2">
+        <VerifierList
+          title="AI verifier packet guard blocks"
+          items={guardBlocks.length > 0 ? guardBlocks : ["No shared verifier packet guard blocks detected."]}
+          tone={guardBlocks.length > 0 ? "warning" : "neutral"}
+        />
+        <VerifierList
+          title="AI verifier packet guard warnings"
+          items={guardWarnings.length > 0 ? guardWarnings : ["No shared verifier packet guard warnings detected."]}
+        />
       </div>
 
       <div className="mt-5 grid gap-4">
@@ -126,8 +146,8 @@ function VerifierList({
         <StatusPill label={String(items.length)} tone={tone} />
       </div>
       <ul className="mt-2 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
-        {items.map((item) => (
-          <li key={item}>{item}</li>
+        {items.map((item, index) => (
+          <li key={`${title}-${index}-${item}`}>{item}</li>
         ))}
       </ul>
     </section>

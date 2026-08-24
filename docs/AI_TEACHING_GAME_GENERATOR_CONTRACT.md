@@ -559,7 +559,9 @@ The backend-neutral storage contract is `ai_reward_readiness_gate` / `ai-reward-
 
 ## Verifier Submission Packet Rule
 
-Generated game requests must produce an `ai_verifier_submission_packet` before teacher approval. The packet must include schema validation, pedagogical lock, target-language progression, audio coverage, engine binding, gamification mapping, activity compatibility, media-rights, and teacher-approval checks.
+Generated game requests must produce an `ai_verifier_submission_packet` before teacher approval. The packet must include schema validation, pedagogical lock, target-language progression, AI draft repair evidence, audio coverage, engine binding, gamification mapping, activity compatibility, media-rights, and teacher-approval checks.
+
+Verifier packets must pass the shared `validateAiVerifierSubmissionPacket` guard before any verifier submission workflow can be considered. The guard requires `ai_draft_repair_evidence_packet` alongside schema, pedagogy, audio, engine, gamification, compatibility, rights, and teacher-approval records. Teacher generator routes must show verifier guard blocks and warnings while submission remains review-only.
 
 Verifier submission, generated package approval, route creation, playlist creation, assignment creation, and student-ready marking remain blocked until durable verifier storage, reviewer identity, media evidence attachments, audio cue approval, approval ledger binding, and release-control binding exist.
 

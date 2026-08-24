@@ -148,6 +148,7 @@ const prototypePatchChangeSetPreviewValidator = readSource(
   "../packages/content-model/src/aiPrototypePatchChangeSetPreview.ts",
 );
 const verifierSubmissionPacket = readSource("../apps/web/src/data/sampleAiVerifierSubmissionPacket.ts");
+const verifierSubmissionPacketValidator = readSource("../packages/content-model/src/aiVerifierSubmissionPacket.ts");
 const targetLanguageAudioApprovalPacket = readSource(
   "../apps/web/src/data/sampleAiTargetLanguageAudioApprovalPacket.ts",
 );
@@ -2779,7 +2780,22 @@ requireText(rewardReadinessGatePanel, "No generated surprise rewards", "AI rewar
 requireText(rewardReadinessGatePanel, "Reward readiness checks", "AI reward gate panel must expose readiness checks.");
 requireText(rewardReadinessGatePanel, "Required before student use", "AI reward gate panel must expose required records.");
 requireText(verifierSubmissionPacket, "sampleAiVerifierSubmissionPackets", "AI verifier submission packet data must exist.");
+requireText(
+  verifierSubmissionPacket,
+  "sampleAiVerifierSubmissionPacketErrors",
+  "AI verifier packet data must expose shared validation errors.",
+);
+requireText(
+  verifierSubmissionPacket,
+  "sampleAiVerifierSubmissionPacketWarnings",
+  "AI verifier packet data must expose shared validation warnings.",
+);
 requireText(verifierSubmissionPacket, "ai_verifier_submission_packet", "AI verifier packet must name verifier submission packet.");
+requireText(
+  verifierSubmissionPacket,
+  "ai_draft_repair_evidence_packet",
+  "AI verifier packet must name draft repair evidence packet.",
+);
 requireText(verifierSubmissionPacket, "schema_validation_packet", "AI verifier packet must name schema validation packet.");
 requireText(verifierSubmissionPacket, "pedagogical_lock_packet", "AI verifier packet must name pedagogical lock packet.");
 requireText(verifierSubmissionPacket, "audio_coverage_packet", "AI verifier packet must name audio coverage packet.");
@@ -2815,8 +2831,48 @@ requireText(
   "Create student assignment from verifier packet blocked",
   "AI verifier packet must block student assignment creation.",
 );
+requireText(
+  verifierSubmissionPacket,
+  "Draft repair evidence packet",
+  "AI verifier packet must expose a draft repair evidence check.",
+);
+requireText(
+  verifierSubmissionPacketValidator,
+  "validateAiVerifierSubmissionPacket",
+  "AI verifier packet validator must export the single-packet guard.",
+);
+requireText(
+  verifierSubmissionPacketValidator,
+  "AI_VERIFIER_SUBMISSION_REQUIRED_PACKETS",
+  "AI verifier packet validator must lock required packet names.",
+);
+requireText(
+  verifierSubmissionPacketValidator,
+  "AI_VERIFIER_SUBMISSION_REQUIRED_BLOCKED_ACTIONS",
+  "AI verifier packet validator must lock blocked actions.",
+);
+requireText(
+  verifierSubmissionPacketValidator,
+  "ai_draft_repair_evidence_packet",
+  "AI verifier packet validator must require repair evidence packets.",
+);
 requireText(verifierSubmissionPanel, "AI verifier submission packet", "AI verifier packet panel must expose heading.");
 requireText(verifierSubmissionPanel, "Vision/reasoning preflight", "AI verifier packet panel must expose preflight label.");
+requireText(
+  verifierSubmissionPanel,
+  "AI verifier packet guard active",
+  "AI verifier packet panel must expose shared guard state.",
+);
+requireText(
+  verifierSubmissionPanel,
+  "AI verifier packet guard blocks",
+  "AI verifier packet panel must expose guard blocks.",
+);
+requireText(
+  verifierSubmissionPanel,
+  "AI verifier packet guard warnings",
+  "AI verifier packet panel must expose guard warnings.",
+);
 requireText(verifierSubmissionPanel, "Required verifier packets", "AI verifier packet panel must show required packets.");
 requireText(verifierSubmissionPanel, "Verifier checks", "AI verifier packet panel must show verifier checks.");
 requireText(verifierSubmissionPanel, "Evidence", "AI verifier packet panel must show evidence.");
