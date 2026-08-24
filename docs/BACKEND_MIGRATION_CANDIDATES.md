@@ -2,7 +2,7 @@
 
 Document type: foundation implementation contract  
 Status: active scaffold  
-Last updated: 2026-07-31
+Last updated: 2026-08-25
 
 ## Purpose
 
@@ -72,6 +72,7 @@ Each candidate must define:
 - Hosted and local implementations must use the same record vocabulary.
 - Collection inventory must be deterministic, mastery-earned, exportable, and blocked from random pressure or purchase-like unlock paths.
 - Teacher draft package migrations must preserve owner, source lineage, visibility, review gates, audio plan state, and direct-assignment blocks.
+- AI generation request packet migrations must preserve request-builder review, source evidence, premium AI cost gate, target-language audio coverage, activity compatibility, media-rights manifest, draft, and verifier links while blocking live model dispatch, model billing, draft generation, verifier submission, package assembly, route writes, playlist writes, assignments, student-ready markers, and support-language progress.
 - AI generated package teacher review packet migrations must preserve teacher decision lanes, ready signals, missing evidence, blocked actions, next records, target-language audio approval, media-rights evidence, teacher approval ledger, release-control binding, and assignment rollout gate needs while blocking approval capture, package assembly, route writes, playlist writes, assignments, local bundles, student-ready markers, and support-language progress.
 - Target-language audio approval migrations must preserve cue-level review items, progress boundaries, audio cue manifests, package audio coverage, support-language rules, and blocked voice/API/package actions while blocking audio approval capture, generated voice calls, speech API billing, package audio-complete markers, route creation, playlist creation, assignments, media-only progress, and support-language progress.
 - AI generated package writer harness implementation decision migrations must preserve required evidence, file-scope rules, decision options, reviewer identity requirements, next records, and blocked actions while blocking harness approval, harness code, writer test execution, evidence upload, signed approval capture, app patches, route writes, playlists, local bundles, assignments, production QR mutation, and support-language-only implementation decisions.

@@ -2,7 +2,7 @@
 
 Document type: implementation contract  
 Status: active scaffold  
-Last updated: 2026-07-31
+Last updated: 2026-08-25
 
 ## Purpose
 
@@ -37,6 +37,8 @@ The backend-neutral storage contract for the human review order is `ai_generator
 Teacher generator routes must show a request storage guard next to the disabled request builder. The guard must make durable request packet, cost gate, audio coverage, activity compatibility, media rights, draft package, and verifier submission records visible before live AI generation can be considered.
 
 The guard blocks live model dispatch, model billing, generator request submission, draft generation, verifier submission, package assembly, route creation, playlist creation, student assignment, and support-language progress triggers.
+
+The backend-neutral storage contract for the request itself is `ai_generation_request_packet` / `ai-generation-request-packet`. Hosted and local adapters must preserve request-builder review, source evidence, premium AI cost gate, target-language audio coverage, activity compatibility, media-rights manifest, teacher draft, and verifier submission links while blocking live model dispatch, model billing, draft generation, verifier submission, package assembly, route writes, playlist writes, assignments, student-ready markers, and support-language progress triggers.
 
 ## Generator Responsibility Matrix
 

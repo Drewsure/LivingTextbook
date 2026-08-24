@@ -176,6 +176,7 @@ Confirm:
 - Disabled request builder blocks generation, API cost estimation, request submission, live prompt dispatch, model billing, route creation, and student assignment.
 - AI generation request storage guard shows required request, cost, audio, compatibility, media-rights, draft, and verifier records before any live generation request can exist.
 - AI generation request storage guard blocks live model dispatch, model billing, generator request submission, draft generation, verifier submission, package assembly, route creation, playlist creation, student assignment, and support-language progress triggers.
+- AI generation request packet storage contract appears in schema draft, migration candidates, migration specs, durable records, hosted/local adapter plans, validator checks, and route verification before live model dispatch, model billing, draft generation, verifier submission, package assembly, routes, playlists, assignments, student-ready markers, or support-language progress can exist.
 - Audio coverage planner shows `ai_audio_coverage_plan`, `audio_cue_manifest`, and `package_game_audio_coverage` before generated packages can be reviewed.
 - Audio coverage planner enumerates target-language term audio, sentence audio, instruction audio, feedback audio, and critical control audio.
 - Audio coverage planner keeps support-language audio support-only and blocks media-only listening from counting toward mastery.

@@ -7,6 +7,7 @@ export type PersistenceRecordCategory =
   | "teacher-draft-review-evidence"
   | "teacher-draft-review-audit"
   | "teacher-draft-verifier-submission"
+  | "ai-generation-request-packet"
   | "ai-generated-game-build-brief"
   | "ai-external-prototype-task-packet"
   | "prototype-intake-queue-item"
@@ -394,6 +395,12 @@ export interface DurableRecordContract {
   requiresManifestCompleteness?: boolean;
   requiresReleaseControlBinding?: boolean;
   requiresTeacherApprovalLedger?: boolean;
+  preservesAiGenerationRequestPacket?: boolean;
+  requiresRequestBuilderReviewPacket?: boolean;
+  requiresPremiumAiCostGate?: boolean;
+  requiresAiGenerationSourceEvidence?: boolean;
+  requiresAiGenerationAudioCoverage?: boolean;
+  requiresAiGenerationCompatibilitySnapshot?: boolean;
   preservesAiGeneratorTenantCoverageGate?: boolean;
   requiresTenantSpecificGeneratorRecords?: boolean;
   preservesAiGeneratorReviewSummary?: boolean;
@@ -532,6 +539,37 @@ export interface DurableRecordContract {
   blocksStudentReassignment?: boolean;
   recommendedFirstPilotStore: PersistenceStorageTier[];
   note: string;
+}
+
+function validateAiGenerationRequestPacketRecord(record: DurableRecordContract, errors: string[]): void {
+  if (record.category !== "ai-generation-request-packet") {
+    return;
+  }
+
+  const requiredChecks: Array<[boolean | undefined, string]> = [
+    [record.preservesAiGenerationRequestPacket, "preserve the AI generation request packet"],
+    [record.requiresRequestBuilderReviewPacket, "require the request-builder review packet"],
+    [record.requiresPremiumAiCostGate, "require the premium AI cost gate"],
+    [record.requiresAiGenerationSourceEvidence, "require source evidence"],
+    [record.requiresAiGenerationAudioCoverage, "require target-language audio coverage"],
+    [record.requiresAiGenerationCompatibilitySnapshot, "require activity compatibility evidence"],
+    [record.requiresMediaRightsEvidence, "require media-rights evidence"],
+    [record.blocksGeneratorRequestSubmission, "block generator request submission"],
+    [record.blocksLiveModelCall, "block live model calls"],
+    [record.blocksVerifierSubmission, "block verifier submission"],
+    [record.blocksGeneratedPackageAssembly, "block generated package assembly"],
+    [record.blocksGeneratedPackageRouteWrite, "block route writes"],
+    [record.blocksGeneratedPackagePlaylistWrite, "block playlist writes"],
+    [record.blocksGeneratedPackageAssignment, "block generated package assignment"],
+    [record.blocksStudentReadyMarker, "block student-ready markers"],
+    [record.blocksSupportLanguageProgressTrigger, "block support-language progress triggers"]
+  ];
+
+  for (const [passes, requirement] of requiredChecks) {
+    if (!passes) {
+      errors.push(`AI generation request packet record ${record.recordId} must ${requirement}.`);
+    }
+  }
 }
 
 function validatePrototypeReturnPackageChecklistRecord(record: DurableRecordContract, errors: string[]): void {
@@ -692,6 +730,8 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
     if (record.category === "teacher-draft-verifier-submission" && !record.blocksAutomaticVerifierSubmit) {
       errors.push(`Teacher draft verifier submission record ${record.recordId} must block automatic verifier submission.`);
     }
+
+    validateAiGenerationRequestPacketRecord(record, errors);
 
     if (record.category === "ai-generated-game-build-brief" && !record.preservesAiGeneratedGameBuildBrief) {
       errors.push(`AI generated game build brief record ${record.recordId} must preserve build brief sections.`);

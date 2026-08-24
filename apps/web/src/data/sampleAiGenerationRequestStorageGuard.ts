@@ -14,6 +14,8 @@ export interface AiGenerationRequestStorageGuard {
 }
 
 const sharedVisibleFields = [
+  "AI generation request packet records",
+  "ai-generation-request-packet",
   "ai_generation_request_packet_id",
   "tenant_id",
   "request_id",
@@ -33,6 +35,7 @@ const sharedVisibleFields = [
 ];
 
 const sharedRequiredRecords = [
+  "AI generation request packet record",
   "ai_generation_request_packet",
   "request_builder_review_packet",
   "premium_ai_cost_gate",

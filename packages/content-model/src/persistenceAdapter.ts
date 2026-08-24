@@ -283,6 +283,12 @@ export interface PersistenceWriteIntent {
   requiresManifestCompleteness?: boolean;
   requiresReleaseControlBinding?: boolean;
   requiresTeacherApprovalLedger?: boolean;
+  preservesAiGenerationRequestPacket?: boolean;
+  requiresRequestBuilderReviewPacket?: boolean;
+  requiresPremiumAiCostGate?: boolean;
+  requiresAiGenerationSourceEvidence?: boolean;
+  requiresAiGenerationAudioCoverage?: boolean;
+  requiresAiGenerationCompatibilitySnapshot?: boolean;
   preservesAiGeneratorTenantCoverageGate?: boolean;
   requiresTenantSpecificGeneratorRecords?: boolean;
   preservesAiGeneratorReviewSummary?: boolean;
@@ -432,6 +438,37 @@ export interface PersistenceAdapterPlan {
   writeIntents: PersistenceWriteIntent[];
   handoffSteps: string[];
   note: string;
+}
+
+function validateAiGenerationRequestPacketWriteIntent(intent: PersistenceWriteIntent, errors: string[]): void {
+  if (intent.category !== "ai-generation-request-packet") {
+    return;
+  }
+
+  const requiredChecks: Array<[boolean | undefined, string]> = [
+    [intent.preservesAiGenerationRequestPacket, "preserve the AI generation request packet"],
+    [intent.requiresRequestBuilderReviewPacket, "require the request-builder review packet"],
+    [intent.requiresPremiumAiCostGate, "require the premium AI cost gate"],
+    [intent.requiresAiGenerationSourceEvidence, "require source evidence"],
+    [intent.requiresAiGenerationAudioCoverage, "require target-language audio coverage"],
+    [intent.requiresAiGenerationCompatibilitySnapshot, "require activity compatibility evidence"],
+    [intent.requiresMediaRightsEvidence, "require media-rights evidence"],
+    [intent.blocksGeneratorRequestSubmission, "block generator request submission"],
+    [intent.blocksLiveModelCall, "block live model calls"],
+    [intent.blocksVerifierSubmission, "block verifier submission"],
+    [intent.blocksGeneratedPackageAssembly, "block generated package assembly"],
+    [intent.blocksGeneratedPackageRouteWrite, "block route writes"],
+    [intent.blocksGeneratedPackagePlaylistWrite, "block playlist writes"],
+    [intent.blocksGeneratedPackageAssignment, "block generated package assignment"],
+    [intent.blocksStudentReadyMarker, "block student-ready markers"],
+    [intent.blocksSupportLanguageProgressTrigger, "block support-language progress triggers"]
+  ];
+
+  for (const [passes, requirement] of requiredChecks) {
+    if (!passes) {
+      errors.push(`AI generation request packet write intent ${intent.intentId} must ${requirement}.`);
+    }
+  }
 }
 
 function validatePrototypeReturnPackageChecklistWriteIntent(intent: PersistenceWriteIntent, errors: string[]): void {
@@ -612,6 +649,8 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
     if (intent.category === "teacher-draft-verifier-submission" && !intent.blocksAutomaticVerifierSubmit) {
       errors.push(`Teacher draft verifier submission write intent ${intent.intentId} must block automatic verifier submission.`);
     }
+
+    validateAiGenerationRequestPacketWriteIntent(intent, errors);
 
     if (intent.category === "ai-generated-game-build-brief" && !intent.preservesAiGeneratedGameBuildBrief) {
       errors.push(`AI generated game build brief write intent ${intent.intentId} must preserve build brief sections.`);

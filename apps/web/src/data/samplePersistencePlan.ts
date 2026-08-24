@@ -19,6 +19,7 @@ export type PersistenceBoundaryCategory =
   | "teacher-draft-review-evidence"
   | "teacher-draft-review-audit"
   | "teacher-draft-verifier-submission"
+  | "ai-generation-request-packet"
   | "ai-generated-game-build-brief"
   | "ai-external-prototype-task-packet"
   | "prototype-intake-queue-item"
@@ -217,6 +218,39 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     blocksDirectStudentAssignment: true,
     recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
     note: "Verifier submission preflight records need durable schema, audio, support-language, route, evidence, and approval checks before any draft can enter a live verifier workflow.",
+  },
+  {
+    recordId: "ai-generation-request-packet-record",
+    category: "ai-generation-request-packet",
+    label: "AI generation request packet record",
+    readiness: "durable-required",
+    sourceOfTruth:
+      "AiGenerationRequestBuilder, request builder review packet, source evidence packet, premium AI cost gate, activity compatibility snapshot, target-language audio plan, media-rights manifest, teacher draft verifier submission, and tenant generator route",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesAiGenerationRequestPacket: true,
+    requiresRequestBuilderReviewPacket: true,
+    requiresPremiumAiCostGate: true,
+    requiresAiGenerationSourceEvidence: true,
+    requiresAiGenerationAudioCoverage: true,
+    requiresAiGenerationCompatibilitySnapshot: true,
+    requiresMediaRightsEvidence: true,
+    blocksGeneratorRequestSubmission: true,
+    blocksLiveModelCall: true,
+    blocksVerifierSubmission: true,
+    blocksGeneratedPackageAssembly: true,
+    blocksGeneratedPackageRouteWrite: true,
+    blocksGeneratedPackagePlaylistWrite: true,
+    blocksGeneratedPackageAssignment: true,
+    blocksStudentReadyMarker: true,
+    blocksSupportLanguageProgressTrigger: true,
+    recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
+    note:
+      "AI generation request packets need durable review, source, cost, audio, compatibility, rights, draft, and verifier links before live model dispatch, model billing, draft generation, verifier submission, routes, playlists, packages, assignments, or support-language progress can exist.",
   },
   {
     recordId: "target-language-audio-approval-record",
@@ -2872,6 +2906,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     visibleTo: ["Teacher", "Content reviewer", "Tenant admin", "Platform admin"],
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision: "Persist verifier submission preflights before enabling submit-to-verifier, verifier automation, or package workflow promotion.",
+  },
+  {
+    boundaryId: "ai-generation-request-packet-boundary",
+    category: "ai-generation-request-packet",
+    label: "AI generation request packet records",
+    status: "needs-backend",
+    recordShape:
+      "Request packet id, tenant id, generation request id, request builder review packet id, source evidence packet id, target level, unit theme, target language, support-language policy, curated mode pathway, audio coverage requirement, premium AI cost gate id, activity compatibility snapshot id, media-rights manifest id, teacher draft package id, verifier submission id, live model dispatch block, model billing block, route/playlist/package/assignment blocks, and support-language progress block",
+    whyItMatters:
+      "Teacher generator requests need a durable root packet before any AI model dispatch, cost estimate, draft creation, verifier handoff, package assembly, route, playlist, assignment, or support-language progress workflow can exist.",
+    visibleTo: ["Teacher", "Tenant admin", "Content reviewer", "Platform admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Persist AI generation request packets before enabling live AI request submission, model billing, draft generation, verifier submission, generated package assembly, route writes, playlist writes, or assignments.",
   },
   {
     boundaryId: "target-language-audio-approval-boundary",

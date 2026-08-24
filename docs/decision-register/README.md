@@ -476,6 +476,7 @@
 - `DR-502-prototype-return-storage-guard-visibility.md`
 - `DR-503-prototype-return-readiness-summary.md`
 - `DR-504-ai-generation-request-storage-guard.md`
+- `DR-505-ai-generation-request-packet-storage-contract.md`
 
 ## Maintenance Rule
 

@@ -16,6 +16,7 @@ const requiredSchemaEntities = [
   "teacher_draft_package",
   "teacher_draft_review_handoff",
   "teacher_draft_verifier_submission",
+  "ai_generation_request_packet",
   "ai_generated_game_build_brief",
   "ai_external_prototype_task_packet",
   "prototype_intake_queue_item",
@@ -123,6 +124,7 @@ const requiredMigrationCandidates = [
   "m014-teacher-draft-package-records",
   "m016-teacher-draft-review-handoff-records",
   "m020-teacher-draft-verifier-submission-records",
+  "m100-ai-generation-request-packet-storage",
   "m060-ai-generated-game-build-brief-records",
   "m074-ai-external-prototype-task-packet-records",
   "m098-prototype-intake-queue-storage",
@@ -231,6 +233,7 @@ const requiredMigrationSpecs = [
   "spec-teacher-draft-package",
   "spec-teacher-draft-review-handoff",
   "spec-teacher-draft-verifier-submission",
+  "spec-ai-generation-request-packet",
   "spec-ai-generated-game-build-brief",
   "spec-ai-external-prototype-task-packet",
   "spec-prototype-intake-queue-item",
@@ -408,6 +411,18 @@ for (const text of [
   requireText(persistenceAdapterValidator, text, `Persistence adapter validator must enforce package adoption flag: ${text}.`);
 }
 
+for (const text of [
+  "preservesAiGenerationRequestPacket",
+  "requiresRequestBuilderReviewPacket",
+  "requiresPremiumAiCostGate",
+  "requiresAiGenerationSourceEvidence",
+  "requiresAiGenerationAudioCoverage",
+  "requiresAiGenerationCompatibilitySnapshot",
+]) {
+  requireText(durableRecordValidator, text, `Durable record validator must enforce AI generation request packet flag: ${text}.`);
+  requireText(persistenceAdapterValidator, text, `Persistence adapter validator must enforce AI generation request packet flag: ${text}.`);
+}
+
 requireText(schemaDraft, "Raw learner audio", "Backend schema must explicitly forbid raw learner audio.");
 requireText(schemaDraft, "Learner transcript", "Backend schema must explicitly forbid learner transcripts.");
 requireText(schemaDraft, "teacher_draft_package", "Backend schema must include teacher draft packages.");
@@ -420,6 +435,17 @@ requireText(schemaDraft, "live_review_submission_allowed", "Backend schema must 
 requireText(schemaDraft, "teacher_draft_verifier_submission", "Backend schema must include teacher draft verifier submission preflights.");
 requireText(schemaDraft, "schema_preflight", "Backend schema must preserve verifier schema preflight checks.");
 requireText(schemaDraft, "automatic_submit_allowed", "Backend schema must preserve automatic verifier submission blocks.");
+requireText(schemaDraft, "ai_generation_request_packet", "Backend schema must include AI generation request packets.");
+requireText(schemaDraft, "ai_generation_request_packet_id", "Backend schema must preserve AI generation request packet ids.");
+requireText(schemaDraft, "request_builder_review_packet_id", "Backend schema must preserve request-builder review packet ids.");
+requireText(schemaDraft, "source_evidence_packet_id", "Backend schema must preserve source evidence packet ids.");
+requireText(schemaDraft, "premium_ai_cost_gate_id", "Backend schema must preserve premium AI cost gate ids.");
+requireText(schemaDraft, "activity_compatibility_snapshot_id", "Backend schema must preserve activity compatibility snapshot ids.");
+requireText(schemaDraft, "audio_coverage_requirement_id", "Backend schema must preserve AI request audio coverage requirements.");
+requireText(schemaDraft, "media_rights_manifest_id", "Backend schema must preserve media-rights manifest ids.");
+requireText(schemaDraft, "live_model_dispatch_allowed", "Backend schema must block live model dispatch.");
+requireText(schemaDraft, "model_billing_allowed", "Backend schema must block model billing.");
+requireText(schemaDraft, "draft_generation_allowed", "Backend schema must block draft generation.");
 requireText(schemaDraft, "ai_generated_game_build_brief", "Backend schema must include AI generated game build briefs.");
 requireText(schemaDraft, "ai_generated_game_build_brief_id", "Backend schema must preserve AI generated game build brief ids.");
 requireText(schemaDraft, "target_builder", "Backend schema must preserve generated game target builders.");
@@ -1276,6 +1302,17 @@ requireText(migrationSpecs, "live_review_submission_allowed", "Migration specs m
 requireText(migrationSpecs, "spec-teacher-draft-verifier-submission", "Migration specs must include teacher draft verifier submission preflights.");
 requireText(migrationSpecs, "language_preflight", "Migration specs must preserve verifier support-language boundary checks.");
 requireText(migrationSpecs, "automatic_submit_allowed", "Migration specs must preserve automatic verifier submission blocks.");
+requireText(migrationCandidates, "m100-ai-generation-request-packet-storage", "Migration candidates must include AI generation request packet storage.");
+requireText(migrationSpecs, "spec-ai-generation-request-packet", "Migration specs must include AI generation request packets.");
+requireText(migrationSpecs, "ai_generation_request_packet_id", "Migration specs must preserve AI generation request packet ids.");
+requireText(migrationSpecs, "request_builder_review_packet_id", "Migration specs must preserve request-builder review packet ids.");
+requireText(migrationSpecs, "source_evidence_packet_id", "Migration specs must preserve source evidence packet ids.");
+requireText(migrationSpecs, "premium_ai_cost_gate_id", "Migration specs must preserve premium AI cost gate ids.");
+requireText(migrationSpecs, "activity_compatibility_snapshot_id", "Migration specs must preserve activity compatibility snapshot ids.");
+requireText(migrationSpecs, "audio_coverage_requirement_id", "Migration specs must preserve AI request audio coverage requirements.");
+requireText(migrationSpecs, "media_rights_manifest_id", "Migration specs must preserve media-rights manifest ids.");
+requireText(migrationSpecs, "live_model_dispatch_allowed", "Migration specs must block live model dispatch.");
+requireText(migrationSpecs, "model_billing_allowed", "Migration specs must block model billing.");
 requireText(migrationSpecs, "spec-ai-generated-game-build-brief", "Migration specs must include AI generated game build briefs.");
 requireText(migrationSpecs, "ai_generated_game_build_brief_id", "Migration specs must preserve generated game build brief ids.");
 requireText(migrationSpecs, "target_builder", "Migration specs must preserve generated game target builders.");
@@ -2496,6 +2533,14 @@ requireText(persistenceAdapter, "hosted-teacher-draft-verifier-submission-write"
 requireText(persistenceAdapter, "local-teacher-draft-verifier-submission-write", "Persistence adapter must include local teacher draft verifier submission writes.");
 requireText(persistenceAdapter, "preservesVerifierPreflightChecks: true", "Persistence adapter must preserve verifier preflight checks.");
 requireText(persistenceAdapter, "blocksAutomaticVerifierSubmit: true", "Persistence adapter must block automatic verifier submission.");
+requireText(persistenceAdapter, "hosted-ai-generation-request-packet-write", "Persistence adapter must include hosted AI generation request packet writes.");
+requireText(persistenceAdapter, "local-ai-generation-request-packet-write", "Persistence adapter must include local AI generation request packet writes.");
+requireText(persistenceAdapter, "preservesAiGenerationRequestPacket: true", "Persistence adapter must preserve AI generation request packets.");
+requireText(persistenceAdapter, "requiresRequestBuilderReviewPacket: true", "Persistence adapter must require request-builder review packets.");
+requireText(persistenceAdapter, "requiresPremiumAiCostGate: true", "Persistence adapter must require premium AI cost gates.");
+requireText(persistenceAdapter, "requiresAiGenerationSourceEvidence: true", "Persistence adapter must require AI generation source evidence.");
+requireText(persistenceAdapter, "requiresAiGenerationAudioCoverage: true", "Persistence adapter must require AI generation audio coverage.");
+requireText(persistenceAdapter, "requiresAiGenerationCompatibilitySnapshot: true", "Persistence adapter must require AI generation compatibility snapshots.");
 requireText(
   persistenceAdapter,
   "hosted-ai-generated-game-build-brief-write",
@@ -3877,6 +3922,15 @@ requireText(durableRecords, "blocksLiveReviewSubmission: true", "Durable record 
 requireText(durableRecords, "teacher-draft-verifier-submission-record", "Durable record plan must include teacher draft verifier submission preflights.");
 requireText(durableRecords, "preservesVerifierPreflightChecks: true", "Durable record plan must preserve verifier preflight checks.");
 requireText(durableRecords, "blocksAutomaticVerifierSubmit: true", "Durable record plan must block automatic verifier submission.");
+requireText(durableRecords, "ai-generation-request-packet-record", "Durable record plan must include AI generation request packet records.");
+requireText(durableRecords, "ai-generation-request-packet-boundary", "Durable record plan must include AI generation request packet boundaries.");
+requireText(durableRecords, "AI generation request packet record", "Durable record plan must expose AI generation request packet labels.");
+requireText(durableRecords, "preservesAiGenerationRequestPacket: true", "Durable record plan must preserve AI generation request packets.");
+requireText(durableRecords, "requiresRequestBuilderReviewPacket: true", "Durable record plan must require request-builder review packets.");
+requireText(durableRecords, "requiresPremiumAiCostGate: true", "Durable record plan must require premium AI cost gates.");
+requireText(durableRecords, "requiresAiGenerationSourceEvidence: true", "Durable record plan must require AI generation source evidence.");
+requireText(durableRecords, "requiresAiGenerationAudioCoverage: true", "Durable record plan must require AI generation audio coverage.");
+requireText(durableRecords, "requiresAiGenerationCompatibilitySnapshot: true", "Durable record plan must require AI generation compatibility snapshots.");
 requireText(durableRecords, "ai-generated-game-build-brief-record", "Durable record plan must include AI generated game build brief records.");
 requireText(durableRecords, "AI generated game build brief record", "Durable record plan must expose AI generated game build brief labels.");
 requireText(
@@ -5681,6 +5735,21 @@ requireText(
   routeVerifier,
   "target_language_audio_approval",
   "Active route verifier must keep target-language audio approval storage visible on teacher intake.",
+);
+requireText(
+  routeVerifier,
+  "ai_generation_request_packet",
+  "Active route verifier must keep AI generation request packet storage visible on teacher intake.",
+);
+requireText(
+  routeVerifier,
+  "AI generation request packet record",
+  "Active route verifier must keep AI generation request packet durable records visible on teacher intake.",
+);
+requireText(
+  routeVerifier,
+  "ai-generation-request-packet",
+  "Active route verifier must keep AI generation request packet boundaries visible on teacher intake.",
 );
 requireText(
   routeVerifier,
