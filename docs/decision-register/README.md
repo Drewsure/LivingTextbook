@@ -471,6 +471,7 @@
 - `DR-497-prototype-intake-storage-guard-panel.md`
 - `DR-498-prototype-intake-evidence-packet-flow.md`
 - `DR-499-prototype-intake-readiness-summary.md`
+- `DR-500-prototype-return-package-checklist.md`
 
 ## Maintenance Rule
 

@@ -15,6 +15,8 @@ const files = {
   prototypeIntakeReadinessSummaryPanel: "apps/web/src/features/game-offers/PrototypeIntakeReadinessSummaryPanel.tsx",
   prototypeIntakeStorageGuard: "apps/web/src/data/samplePrototypeIntakeStorageGuard.ts",
   prototypeIntakeStorageGuardPanel: "apps/web/src/features/game-offers/PrototypeIntakeStorageGuardPanel.tsx",
+  prototypeReturnPackageChecklist: "apps/web/src/data/samplePrototypeReturnPackageChecklist.ts",
+  prototypeReturnPackageChecklistPanel: "apps/web/src/features/game-offers/PrototypeReturnPackageChecklistPanel.tsx",
   evidencePacketFlows: "apps/web/src/data/sampleEvidencePacketFlows.ts",
   evidencePacketFlowPanel: "apps/web/src/features/evidence/EvidencePacketFlowPanel.tsx",
   backendSchemaDraft: "apps/web/src/data/sampleBackendSchemaDraft.ts",
@@ -68,6 +70,8 @@ const routeVerifierMarkers = [
   "Storage contract before outside game intake",
   "Prototype intake evidence packet flow",
   "No prototype upload or import",
+  "Returned prototype package checklist",
+  "No archive import",
 ];
 const prototypeIntakeAlertMarkers = [
   "Z.ai prototype intake alert",
@@ -158,6 +162,24 @@ const prototypeIntakeEvidenceFlowMarkers = [
   "No support-language progress trigger",
   "EvidencePacketFlowPanel",
 ];
+const prototypeReturnPackageChecklistMarkers = [
+  "Returned prototype package checklist",
+  "prototype-return-package-ministar-sentence-builder",
+  "prototype-return-package-ministar-balloon-pop",
+  "prototype-return-package-sample-publisher-fill-blank",
+  "Source archive manifest",
+  "Reviewed fixture folder",
+  "Event and scoring replay",
+  "Target-language audio coverage map",
+  "Mobile accessibility capture",
+  "Wrapper boundary notes",
+  "No archive import",
+  "No direct file copy into apps/web",
+  "No active route replacement",
+  "No student assignment",
+  "filterPrototypeReturnPackageChecklistsByTenant",
+  "PrototypeReturnPackageChecklistPanel",
+];
 
 const failures = [];
 
@@ -239,6 +261,17 @@ for (const marker of prototypeIntakeEvidenceFlowMarkers) {
     sources.evidencePacketFlows + sources.evidencePacketFlowPanel + sources.gameReadinessPage + sources.prototypePage,
     marker,
     `Prototype intake evidence flow must keep marker: ${marker}`,
+  );
+}
+
+for (const marker of prototypeReturnPackageChecklistMarkers) {
+  requireText(
+    sources.prototypeReturnPackageChecklist +
+      sources.prototypeReturnPackageChecklistPanel +
+      sources.gameReadinessPage +
+      sources.prototypePage,
+    marker,
+    `Prototype return package checklist must keep marker: ${marker}`,
   );
 }
 

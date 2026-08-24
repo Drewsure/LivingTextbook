@@ -287,6 +287,12 @@ External prototype task export readiness gates must pass the shared `validateAiE
 
 The backend-neutral storage contract is `ai_external_task_export_readiness_gate` / `ai-external-task-export-readiness-gate`. Hosted and local adapters must preserve export channels, readiness checks, blocked export actions, reviewer identity requirement, evidence storage requirement, external repository policy requirement, return-review intake requirement, and Codex owner confirmation requirement while blocking task export, prompt copy, repository issue creation, archive download, live handoff, app writes, route creation, scoring authority, student-facing pathways, and support-language progress.
 
+## Prototype Return Package Checklist Rule
+
+Teacher game-readiness and tenant prototype review workbenches may show a review-only returned prototype package checklist before return review. The checklist defines the minimum evidence an outside builder must supply: source archive manifest, reviewed fixture folder, event and scoring replay, target-language audio coverage map, mobile accessibility capture, and wrapper boundary notes.
+
+The checklist does not create an upload button, import archive, copy files into `apps/web`, create routes, mutate scoring, write rewards, create playlists, promote packages, or assign students. It only makes the return package requirements visible before Codex decides whether a formal prototype return review can begin.
+
 ## Prototype Return Review Rule
 
 Returned prototype work from Z.ai or any outside builder must enter an `ai_prototype_return_review` preview before integration. The review must name the source build brief, returned artifacts, required evidence, parent-engine wrapper review, JSON fixture conformance, standard event replay, audio cue coverage, deterministic scoring, mobile accessibility, white-label fit, and blocked actions.

@@ -19,6 +19,7 @@ The check confirms:
 - The game readiness and tenant prototype review workbenches show the prototype intake readiness summary, including the not-ready state, Codex alert state, ready lanes, missing lanes, and blocked next actions.
 - The game readiness and tenant prototype review workbenches show the prototype intake storage guard, including storage contract ids, visible storage fields, required evidence, and blocked intake actions.
 - The game readiness and tenant prototype review workbenches show the prototype intake evidence packet flow, including source snapshot, fixture replay, event/scoring, target-language audio, mobile/accessibility, and wrapper-boundary packets.
+- The game readiness and tenant prototype review workbenches show the returned prototype package checklist, including source archive manifest, reviewed fixture folder, event and scoring replay, target-language audio map, mobile accessibility capture, wrapper notes, and no-archive-import blockers.
 - Prototype review pages keep no-write, no-scoring-mutation, no-route-creation, no-audio-manifest-mutation, no-package-promotion, and no-student-assignment boundaries visible.
 - The active route verifier protects the same markers.
 - The visible foundation gate includes `Prototype review readiness`.
