@@ -457,6 +457,12 @@
 - `DR-483-active-route-verifier-progress-output.md`
 - `DR-484-prototype-review-readiness-verifier.md`
 - `DR-485-teacher-persistence-readiness-workbench-route.md`
+- `DR-486-teacher-session-settings-workbench-route.md`
+- `DR-487-teacher-reporting-readiness-workbench-route.md`
+- `DR-488-package-entitlement-workbench-route.md`
+- `DR-489-package-adoption-readiness-flow.md`
+- `DR-490-package-adoption-record-preview.md`
+- `DR-491-package-adoption-record-preview-storage-contract.md`
 
 ## Maintenance Rule
 

@@ -377,6 +377,15 @@ export interface PersistenceWriteIntent {
   blocksPolicyTextEvidenceExport?: boolean;
   blocksPolicyTextStorageActivation?: boolean;
   blocksPolicyTextLaunchReadyStatus?: boolean;
+  preservesPackageAdoptionRecordPreview?: boolean;
+  requiresPackageCostReview?: boolean;
+  requiresTenantPackageSelection?: boolean;
+  blocksAcceptedAdoptionRecordStorage?: boolean;
+  blocksBillingEntitlementWrite?: boolean;
+  blocksPremiumFeatureActivation?: boolean;
+  blocksMicrophoneScoringEnablement?: boolean;
+  blocksReportExportEnablement?: boolean;
+  blocksLocalCompanionActivation?: boolean;
   preservesSchoolPolicyAcceptanceRecordPreview?: boolean;
   blocksAcceptedTermsStorage?: boolean;
   blocksAcceptanceSignatureCapture?: boolean;
@@ -3092,6 +3101,8 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
       errors.push(`School policy text pack write intent ${intent.intentId} must block live classroom launch.`);
     }
 
+    validatePackageAdoptionRecordPreviewWriteIntent(intent, errors);
+
     if (
       intent.category === "school-policy-acceptance-record-preview" &&
       !intent.preservesSchoolPolicyAcceptanceRecordPreview
@@ -4128,6 +4139,70 @@ function validateTargetLanguageAudioApprovalIntent(intent: PersistenceWriteInten
 
   if (!intent.blocksSupportLanguageProgressTrigger) {
     errors.push(`${prefix} must block support-language progress triggers.`);
+  }
+}
+
+function validatePackageAdoptionRecordPreviewWriteIntent(intent: PersistenceWriteIntent, errors: string[]) {
+  if (intent.category !== "package-adoption-record-preview") {
+    return;
+  }
+
+  const prefix = `Package adoption record preview write intent ${intent.intentId}`;
+
+  if (!intent.preservesPackageAdoptionRecordPreview) {
+    errors.push(`${prefix} must preserve minimum fields, evidence, acceptance scopes, blocked writes, and rollback hooks.`);
+  }
+
+  if (!intent.requiresSchoolPolicyAcceptance) {
+    errors.push(`${prefix} must require school policy acceptance.`);
+  }
+
+  if (!intent.requiresPackageCostReview) {
+    errors.push(`${prefix} must require package cost review.`);
+  }
+
+  if (!intent.requiresTenantPackageSelection) {
+    errors.push(`${prefix} must require tenant package selection.`);
+  }
+
+  if (!intent.requiresReleaseControlBinding) {
+    errors.push(`${prefix} must require release-control binding.`);
+  }
+
+  if (!intent.blocksAcceptedAdoptionRecordStorage) {
+    errors.push(`${prefix} must block accepted adoption record storage.`);
+  }
+
+  if (!intent.blocksBillingEntitlementWrite) {
+    errors.push(`${prefix} must block billing entitlement writes.`);
+  }
+
+  if (!intent.blocksPremiumFeatureActivation) {
+    errors.push(`${prefix} must block premium feature activation.`);
+  }
+
+  if (!intent.blocksLiveModelCall) {
+    errors.push(`${prefix} must block live model calls.`);
+  }
+
+  if (!intent.blocksVoiceApiCost) {
+    errors.push(`${prefix} must block voice API cost.`);
+  }
+
+  if (!intent.blocksMicrophoneScoringEnablement) {
+    errors.push(`${prefix} must block microphone scoring enablement.`);
+  }
+
+  if (!intent.blocksReportExportEnablement) {
+    errors.push(`${prefix} must block report export enablement.`);
+  }
+
+  if (!intent.blocksStorageWrite) {
+    errors.push(`${prefix} must block storage writes.`);
+  }
+
+  if (!intent.blocksLocalCompanionActivation) {
+    errors.push(`${prefix} must block local companion activation.`);
   }
 }
 

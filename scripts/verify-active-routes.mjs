@@ -83,6 +83,29 @@ const expectedTextByPath = new Map([
 
 expectedTextByPath.get("/teacher/intake")?.push("settings_context_summary");
 expectedTextByPath.get("/teacher/intake")?.push(
+  "package_adoption_record_preview",
+  "Package adoption record preview",
+  "m097-package-adoption-record-preview-storage",
+  "spec-package-adoption-record-preview",
+  "hosted-package-adoption-record-preview-write",
+  "local-package-adoption-record-preview-write",
+  "package_adoption_record_preview_id",
+  "tenant_package_selection_id",
+  "usage_budget_ceiling_id",
+  "model_rate_card_snapshot_id",
+  "microphone_policy_acceptance_id",
+  "transcript_retention_policy_id",
+  "backend_selection_gate_id",
+  "report_export_plan_id",
+  "accepted_adoption_record_storage_allowed",
+  "billing_entitlement_write_allowed",
+  "premium_feature_activation_allowed",
+  "model_call_enablement_allowed",
+  "microphone_scoring_enablement_allowed",
+  "report_export_enablement_allowed",
+  "local_companion_activation_allowed",
+);
+expectedTextByPath.get("/teacher/intake")?.push(
   "Parent engine readiness",
   "Active game replay checklist",
   "Fixture replay for active routes",

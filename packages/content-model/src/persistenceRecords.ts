@@ -86,6 +86,7 @@ export type PersistenceRecordCategory =
   | "package-release-candidate"
   | "package-publish-gate"
   | "package-approval-ledger"
+  | "package-adoption-record-preview"
   | "pilot-evidence-packet"
   | "reviewer-identity-signature-gate"
   | "teacher-dry-run-rehearsal"
@@ -485,6 +486,15 @@ export interface DurableRecordContract {
   blocksPolicyTextEvidenceExport?: boolean;
   blocksPolicyTextStorageActivation?: boolean;
   blocksPolicyTextLaunchReadyStatus?: boolean;
+  preservesPackageAdoptionRecordPreview?: boolean;
+  requiresPackageCostReview?: boolean;
+  requiresTenantPackageSelection?: boolean;
+  blocksAcceptedAdoptionRecordStorage?: boolean;
+  blocksBillingEntitlementWrite?: boolean;
+  blocksPremiumFeatureActivation?: boolean;
+  blocksMicrophoneScoringEnablement?: boolean;
+  blocksReportExportEnablement?: boolean;
+  blocksLocalCompanionActivation?: boolean;
   preservesSchoolPolicyAcceptanceRecordPreview?: boolean;
   blocksAcceptedTermsStorage?: boolean;
   blocksAcceptanceSignatureCapture?: boolean;
@@ -3169,6 +3179,8 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
       errors.push(`School policy text pack record ${record.recordId} must block live classroom launch.`);
     }
 
+    validatePackageAdoptionRecordPreview(record, errors);
+
     if (
       record.category === "school-policy-acceptance-record-preview" &&
       !record.preservesSchoolPolicyAcceptanceRecordPreview
@@ -4187,6 +4199,70 @@ function validateTargetLanguageAudioApprovalRecord(record: DurableRecordContract
 
   if (!record.blocksSupportLanguageProgressTrigger) {
     errors.push(`${prefix} must block support-language progress triggers.`);
+  }
+}
+
+function validatePackageAdoptionRecordPreview(record: DurableRecordContract, errors: string[]) {
+  if (record.category !== "package-adoption-record-preview") {
+    return;
+  }
+
+  const prefix = `Package adoption record preview ${record.recordId}`;
+
+  if (!record.preservesPackageAdoptionRecordPreview) {
+    errors.push(`${prefix} must preserve minimum fields, evidence, acceptance scopes, blocked writes, and rollback hooks.`);
+  }
+
+  if (!record.requiresSchoolPolicyAcceptance) {
+    errors.push(`${prefix} must require school policy acceptance.`);
+  }
+
+  if (!record.requiresPackageCostReview) {
+    errors.push(`${prefix} must require package cost review.`);
+  }
+
+  if (!record.requiresTenantPackageSelection) {
+    errors.push(`${prefix} must require tenant package selection.`);
+  }
+
+  if (!record.requiresReleaseControlBinding) {
+    errors.push(`${prefix} must require release-control binding.`);
+  }
+
+  if (!record.blocksAcceptedAdoptionRecordStorage) {
+    errors.push(`${prefix} must block accepted adoption record storage.`);
+  }
+
+  if (!record.blocksBillingEntitlementWrite) {
+    errors.push(`${prefix} must block billing entitlement writes.`);
+  }
+
+  if (!record.blocksPremiumFeatureActivation) {
+    errors.push(`${prefix} must block premium feature activation.`);
+  }
+
+  if (!record.blocksLiveModelCall) {
+    errors.push(`${prefix} must block live model calls.`);
+  }
+
+  if (!record.blocksVoiceApiCost) {
+    errors.push(`${prefix} must block voice API cost.`);
+  }
+
+  if (!record.blocksMicrophoneScoringEnablement) {
+    errors.push(`${prefix} must block microphone scoring enablement.`);
+  }
+
+  if (!record.blocksReportExportEnablement) {
+    errors.push(`${prefix} must block report export enablement.`);
+  }
+
+  if (!record.blocksStorageWrite) {
+    errors.push(`${prefix} must block storage writes.`);
+  }
+
+  if (!record.blocksLocalCompanionActivation) {
+    errors.push(`${prefix} must block local companion activation.`);
   }
 }
 

@@ -2351,6 +2351,43 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
       notAllowedYet: ["Manual pilot-ready override", "Fake signed approvals", "Pilot-publishable status with open blockers", "Policy override without evidence"],
     },
     {
+      migrationId: "m097-package-adoption-record-preview-storage",
+      label: "Package adoption record preview storage",
+      track: "shared",
+      status: "needs-policy",
+      risk: "medium",
+      targetEntities: ["package_adoption_record_preview"],
+      purpose:
+        "Persist future premium package adoption requirements before accepted adoption records, billing entitlement writes, model-call enablement, microphone scoring, report export enablement, hosted storage, or local companion activation can exist.",
+      prerequisites: [
+        "School policy acceptance flow accepted",
+        "Tenant package selection policy accepted",
+        "Budget ceiling and rate-card review policy accepted",
+        "Microphone, transcript, report export, storage, and local companion policies drafted",
+        "Release-control rollback hooks accepted",
+      ],
+      implementationNotes: [
+        "Keep adoption previews tenant-scoped and package-scoped.",
+        "Preserve minimum fields, required evidence, acceptance scopes, blocked writes, and rollback hooks.",
+        "Block accepted adoption record storage, billing entitlement writes, premium feature activation, model calls, speech scoring, report export, storage writes, and local companion activation.",
+        "Do not let package adoption previews replace school policy acceptance, package approval ledgers, release-control gates, or billing policy.",
+      ],
+      rollbackOrExportNeeds: [
+        "Export adoption preview metadata with release-control records only after policy permits it",
+        "Retain superseded package adoption previews for audit",
+        "Support local package adoption preview export when closed/local policy allows it",
+      ],
+      notAllowedYet: [
+        "Accepted package adoption record",
+        "Billing entitlement write",
+        "Model-call enablement",
+        "Microphone scoring enablement",
+        "Report export enablement",
+        "Hosted storage activation",
+        "Local companion activation",
+      ],
+    },
+    {
       migrationId: "m006-launch-session-settings",
       label: "Teacher launch session and settings records",
       track: "hosted-pilot",

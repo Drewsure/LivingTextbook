@@ -14,6 +14,7 @@ const ministarTenant = readSource("../apps/web/src/features/tenant/ministarTenan
 const sampleTenant = readSource("../apps/web/src/features/tenant/samplePublisherTenant.ts");
 const routeContracts = readSource("../apps/web/src/features/routes/routeContracts.ts");
 const routeVerifier = readSource("./verify-active-routes.mjs");
+const backendStorageVerifier = readSource("./verify-backend-storage-readiness.mjs");
 const activeRouteList = readSource("../docs/ACTIVE_ROUTE_VERIFICATION_LIST.md");
 const buildSessions = readSource("../docs/BUILD_SESSIONS.md");
 const decisionRegister = readSource("../docs/decision-register/DR-488-package-entitlement-workbench-route.md");
@@ -117,6 +118,26 @@ const requiredAdoptionRecordText = [
   "No local bundle activation write",
 ];
 
+const requiredAdoptionStorageText = [
+  "package_adoption_record_preview",
+  "package-adoption-record-preview",
+  "package_adoption_record_preview_id",
+  "billing_entitlement_write_allowed",
+  "premium_feature_activation_allowed",
+  "model_call_enablement_allowed",
+  "microphone_scoring_enablement_allowed",
+  "report_export_enablement_allowed",
+  "local_companion_activation_allowed",
+  "hosted-package-adoption-record-preview-write",
+  "local-package-adoption-record-preview-write",
+];
+
+const requiredAdoptionStorageContractFlags = [
+  "blocksBillingEntitlementWrite",
+  "blocksPremiumFeatureActivation",
+  "blocksLocalCompanionActivation",
+];
+
 for (const packageId of packageIds) {
   requireText(catalog, `packageId: "${packageId}"`, `Package catalog missing package id: ${packageId}.`);
 }
@@ -155,6 +176,15 @@ for (const text of requiredAdoptionRecordText) {
     `Package adoption record preview missing required text: ${text}.`,
   );
   requireText(routeVerifier, text, `Active route verifier must check adoption record preview text: ${text}.`);
+}
+
+for (const text of requiredAdoptionStorageText) {
+  requireText(backendStorageVerifier, text, `Backend storage verifier must protect package adoption storage text: ${text}.`);
+  requireText(routeVerifier, text, `Active route verifier must check package adoption storage text: ${text}.`);
+}
+
+for (const text of requiredAdoptionStorageContractFlags) {
+  requireText(backendStorageVerifier, text, `Backend storage verifier must protect package adoption contract flag: ${text}.`);
 }
 
 requireText(catalogPanel, "White-label package catalog", "Catalog panel must expose its heading.");

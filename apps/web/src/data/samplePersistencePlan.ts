@@ -94,6 +94,7 @@ export type PersistenceBoundaryCategory =
   | "package-release-candidate"
   | "package-publish-gate"
   | "package-approval-ledger"
+  | "package-adoption-record-preview"
   | "pilot-evidence-packet"
   | "reviewer-identity-signature-gate"
   | "teacher-dry-run-rehearsal"
@@ -2325,6 +2326,37 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     note: "The ledger needs policy and identity rules before real signatures, but its record shape should be fixed before backend selection.",
   },
   {
+    recordId: "package-adoption-record-preview-record",
+    category: "package-adoption-record-preview",
+    label: "Package adoption record preview",
+    readiness: "policy-required",
+    sourceOfTruth:
+      "PackageAdoptionRecordPreview, PackageAdoptionReadiness, school policy acceptance, tenant package selection, cost review, rollback hooks, and blocked write flags",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesPackageAdoptionRecordPreview: true,
+    requiresSchoolPolicyAcceptance: true,
+    requiresPackageCostReview: true,
+    requiresTenantPackageSelection: true,
+    requiresReleaseControlBinding: true,
+    blocksAcceptedAdoptionRecordStorage: true,
+    blocksBillingEntitlementWrite: true,
+    blocksPremiumFeatureActivation: true,
+    blocksLiveModelCall: true,
+    blocksVoiceApiCost: true,
+    blocksMicrophoneScoringEnablement: true,
+    blocksReportExportEnablement: true,
+    blocksStorageWrite: true,
+    blocksLocalCompanionActivation: true,
+    recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store", "school-policy"],
+    note:
+      "Package adoption previews must be durable before optional paid package activation is designed. They preserve school policy, tenant package selection, budget/rate-card, microphone/transcript, storage/report, acceptance scope, blocked write, and rollback requirements while blocking accepted adoption records, billing entitlement writes, model calls, speech scoring, report export enablement, hosted storage, and local companion activation.",
+  },
+  {
     recordId: "pilot-evidence-packet-record",
     category: "pilot-evidence-packet",
     label: "Pilot evidence packet record",
@@ -3745,6 +3777,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     visibleTo: ["Platform admin", "Tenant admin", "School admin"],
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision: "Define approver identity, timestamp, evidence, and rollback fields before real approval storage is enabled.",
+  },
+  {
+    boundaryId: "package-adoption-record-preview-boundary",
+    category: "package-adoption-record-preview",
+    label: "Package adoption record previews",
+    status: "needs-policy",
+    recordShape:
+      "Package adoption preview id, tenant, package tier, school policy acceptance, cost review, minimum fields, acceptance scopes, blocked writes, and rollback hooks",
+    whyItMatters:
+      "Optional paid features such as AI authoring, Voice Tutor, hosted storage, report export, and local companion delivery need auditable adoption requirements before any activation or billing state exists.",
+    visibleTo: ["Platform admin", "Tenant admin", "School admin", "Publisher admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Store adoption preview metadata before accepted adoption records, billing entitlement writes, model-call enablement, microphone scoring, report export enablement, hosted storage, or local companion activation.",
   },
   {
     boundaryId: "pilot-evidence-packet-boundary",

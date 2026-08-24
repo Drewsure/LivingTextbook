@@ -97,6 +97,7 @@ const requiredSchemaEntities = [
   "local_companion_release_gate",
   "package_publish_gate",
   "package_approval_ledger",
+  "package_adoption_record_preview",
   "pilot_evidence_packet",
   "reviewer_identity_signature_gate",
   "teacher_dry_run_rehearsal",
@@ -188,6 +189,7 @@ const requiredMigrationCandidates = [
   "m027-background-media-policy-bindings",
   "m028-local-media-bundle-entries",
   "m005-publish-gate-and-approval-ledger",
+  "m097-package-adoption-record-preview-storage",
   "m006-launch-session-settings",
   "m007-progress-event-stream",
   "m013-earned-collection-inventory",
@@ -292,6 +294,7 @@ const requiredMigrationSpecs = [
   "spec-progress-event",
   "spec-earned-collection-inventory",
   "spec-teacher-report-package",
+  "spec-package-adoption-record-preview",
   "spec-publisher-maintenance-change",
   "spec-local-companion-handoff",
   "spec-local-companion-release-gate",
@@ -323,6 +326,80 @@ for (const migrationId of requiredMigrationCandidates) {
 
 for (const specId of requiredMigrationSpecs) {
   requireText(migrationSpecs, `specId: "${specId}"`, `Backend migration specs missing: ${specId}.`);
+}
+
+const requiredPackageAdoptionSchemaText = [
+  "package_adoption_record_preview",
+  "package_adoption_record_preview_id",
+  "tenant_package_selection_id",
+  "usage_budget_ceiling_id",
+  "model_rate_card_snapshot_id",
+  "microphone_policy_acceptance_id",
+  "transcript_retention_policy_id",
+  "backend_selection_gate_id",
+  "report_export_plan_id",
+  "accepted_adoption_record_storage_allowed",
+  "billing_entitlement_write_allowed",
+  "premium_feature_activation_allowed",
+  "model_call_enablement_allowed",
+  "microphone_scoring_enablement_allowed",
+  "report_export_enablement_allowed",
+  "local_companion_activation_allowed",
+];
+
+for (const text of requiredPackageAdoptionSchemaText) {
+  requireText(schemaDraft, text, `Backend schema must preserve package adoption storage text: ${text}.`);
+  requireText(migrationSpecs, text, `Migration specs must preserve package adoption storage text: ${text}.`);
+  requireText(routeVerifier, text, `Active route verifier must keep package adoption storage visible on teacher intake: ${text}.`);
+}
+
+const requiredPackageAdoptionSharedContractText = [
+  "package-adoption-record-preview",
+  "preservesPackageAdoptionRecordPreview: true",
+  "requiresPackageCostReview: true",
+  "requiresTenantPackageSelection: true",
+  "blocksAcceptedAdoptionRecordStorage: true",
+  "blocksBillingEntitlementWrite: true",
+  "blocksPremiumFeatureActivation: true",
+  "blocksMicrophoneScoringEnablement: true",
+  "blocksReportExportEnablement: true",
+  "blocksLocalCompanionActivation: true",
+];
+
+for (const text of requiredPackageAdoptionSharedContractText) {
+  requireText(durableRecords, text, `Durable record plan must preserve package adoption contract text: ${text}.`);
+  requireText(persistenceAdapter, text, `Persistence adapter must preserve package adoption contract text: ${text}.`);
+}
+
+requireText(
+  durableRecords,
+  "package-adoption-record-preview-record",
+  "Durable record plan must preserve the package adoption preview record id.",
+);
+requireText(
+  persistenceAdapter,
+  "hosted-package-adoption-record-preview-write",
+  "Persistence adapter must preserve the hosted package adoption preview write intent.",
+);
+requireText(
+  persistenceAdapter,
+  "local-package-adoption-record-preview-write",
+  "Persistence adapter must preserve the local package adoption preview write intent.",
+);
+
+for (const text of [
+  "preservesPackageAdoptionRecordPreview",
+  "requiresPackageCostReview",
+  "requiresTenantPackageSelection",
+  "blocksAcceptedAdoptionRecordStorage",
+  "blocksBillingEntitlementWrite",
+  "blocksPremiumFeatureActivation",
+  "blocksMicrophoneScoringEnablement",
+  "blocksReportExportEnablement",
+  "blocksLocalCompanionActivation",
+]) {
+  requireText(durableRecordValidator, text, `Durable record validator must enforce package adoption flag: ${text}.`);
+  requireText(persistenceAdapterValidator, text, `Persistence adapter validator must enforce package adoption flag: ${text}.`);
 }
 
 requireText(schemaDraft, "Raw learner audio", "Backend schema must explicitly forbid raw learner audio.");
