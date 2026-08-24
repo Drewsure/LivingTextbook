@@ -52,6 +52,11 @@ Confirm:
 - Generator routes show `Lineage guard active`, `Lineage guard blocks`, and `Lineage guard warnings`.
 - `packages/content-model/src/aiGeneratorLineageMap.ts` exports `validateAiGeneratorLineageMap`.
 - AI generator lineage maps block local bundle writes and student-ready markers before request-to-review chains can inform future package review, promotion, or writer decisions.
+- Generator routes show an AI request-to-draft handoff preview between request-packet review and storage/audio/package gates.
+- Request-to-draft handoffs link `ai_generation_request_packet`, `ai_prompt_package`, `premium_ai_cost_gate`, `audio_coverage_requirement`, `activity_compatibility_snapshot`, `media_rights_manifest`, and `ai_generated_draft_payload_preview` lanes.
+- Request-to-draft handoffs keep `handoff_mode: review-only-preflight`, `target_language_progress_trigger: target-language-only`, `support_language_progress_allowed: false`, `draft_creation_allowed: false`, and `draft_json_write_allowed: false`.
+- Request-to-draft handoffs block live model dispatch, model billing, draft generation, draft JSON writes, verifier submission, package assembly, route writes, playlist writes, student assignment, and support-language progress.
+- `packages/content-model/src/aiGenerationRequestToDraftHandoff.ts` exports `validateAiGenerationRequestToDraftHandoff` and `isAiGenerationRequestToDraftHandoffLiveBlocked`.
 - Generator routes show a route map with Request setup, Prototype review, Integration gates, Package review, and Draft repair sections before the detailed panels.
 - Generator routes show an AI generator review summary with a section readiness rollup, primary blockers, next required records, source records, and blocked actions before the detailed panels.
 - Generator routes show `Review summary guard active`, `Review summary guard blocks`, and `Review summary guard warnings`.

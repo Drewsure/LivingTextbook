@@ -19,6 +19,10 @@ const requestPacketPreviewData = readSource("../apps/web/src/data/sampleAiGenera
 const requestPacketPreviewValidator = readSource(
   "../packages/content-model/src/aiGenerationRequestPacketPreview.ts",
 );
+const requestToDraftHandoffData = readSource("../apps/web/src/data/sampleAiGenerationRequestToDraftHandoff.ts");
+const requestToDraftHandoffValidator = readSource(
+  "../packages/content-model/src/aiGenerationRequestToDraftHandoff.ts",
+);
 const requestStorageGuardData = readSource("../apps/web/src/data/sampleAiGenerationRequestStorageGuard.ts");
 const audioCoveragePlan = readSource("../apps/web/src/data/sampleAiGeneratorAudioCoveragePlan.ts");
 const gamificationMappingPlan = readSource("../apps/web/src/data/sampleAiGamificationMappingPlan.ts");
@@ -220,6 +224,9 @@ const costEntitlementGatePanel = readSource("../apps/web/src/features/content-in
 const requestBuilderPanel = readSource("../apps/web/src/features/content-intake/AiGenerationRequestBuilderPanel.tsx");
 const requestPacketPreviewPanel = readSource(
   "../apps/web/src/features/content-intake/AiGenerationRequestPacketPreviewPanel.tsx",
+);
+const requestToDraftHandoffPanel = readSource(
+  "../apps/web/src/features/content-intake/AiGenerationRequestToDraftHandoffPanel.tsx",
 );
 const requestStorageGuardPanel = readSource("../apps/web/src/features/content-intake/AiGenerationRequestStorageGuardPanel.tsx");
 const audioCoveragePanel = readSource("../apps/web/src/features/content-intake/AiGeneratorAudioCoveragePlanPanel.tsx");
@@ -2552,6 +2559,113 @@ requireText(requestPacketPreviewPanel, "Review packet before model calls", "AI r
 requireText(requestPacketPreviewPanel, "Request packet guard active", "AI request packet preview panel must expose shared guard status.");
 requireText(requestPacketPreviewPanel, "target_language_progress_trigger", "AI request packet preview panel must expose target-language trigger.");
 requireText(requestPacketPreviewPanel, "support_language_progress_allowed", "AI request packet preview panel must expose support-language progress block.");
+requireText(requestToDraftHandoffData, "sampleAiGenerationRequestToDraftHandoffs", "AI request-to-draft handoff data must exist.");
+requireText(
+  requestToDraftHandoffData,
+  "sampleAiGenerationRequestToDraftHandoffErrors",
+  "AI request-to-draft handoff data must expose shared guard errors.",
+);
+requireText(
+  requestToDraftHandoffData,
+  "sampleAiGenerationRequestToDraftHandoffWarnings",
+  "AI request-to-draft handoff data must expose shared guard warnings.",
+);
+requireText(
+  requestToDraftHandoffData,
+  "ai_generation_request_packet",
+  "AI request-to-draft handoff must link the reviewed request packet.",
+);
+requireText(
+  requestToDraftHandoffData,
+  "ai_generated_draft_payload_preview",
+  "AI request-to-draft handoff must link the target draft preview.",
+);
+requireText(requestToDraftHandoffData, "premium_ai_cost_gate", "AI request-to-draft handoff must preserve the cost gate.");
+requireText(
+  requestToDraftHandoffData,
+  "audio_coverage_requirement",
+  "AI request-to-draft handoff must preserve target-language audio requirements.",
+);
+requireText(
+  requestToDraftHandoffData,
+  "media_rights_manifest",
+  "AI request-to-draft handoff must preserve media rights requirements.",
+);
+requireText(
+  requestToDraftHandoffData,
+  "targetLanguageProgressTrigger",
+  "AI request-to-draft handoff must preserve target-language trigger field.",
+);
+requireText(
+  requestToDraftHandoffData,
+  "supportLanguageProgressAllowed: false",
+  "AI request-to-draft handoff must block support-language progress.",
+);
+requireText(
+  requestToDraftHandoffData,
+  "draftCreationAllowed: false",
+  "AI request-to-draft handoff must block draft creation.",
+);
+requireText(
+  requestToDraftHandoffData,
+  "draftJsonWriteAllowed: false",
+  "AI request-to-draft handoff must block draft JSON writes.",
+);
+requireText(
+  requestToDraftHandoffData,
+  "No live model dispatch from handoff",
+  "AI request-to-draft handoff must block live model dispatch.",
+);
+requireText(
+  requestToDraftHandoffData,
+  "No support-language progress from handoff",
+  "AI request-to-draft handoff must block support-language progress from handoff.",
+);
+requireText(
+  requestToDraftHandoffValidator,
+  "validateAiGenerationRequestToDraftHandoff",
+  "Shared content model must validate AI request-to-draft handoffs.",
+);
+requireText(
+  requestToDraftHandoffValidator,
+  "AI_REQUEST_TO_DRAFT_HANDOFF_REQUIRED_LANE_RECORD_TYPES",
+  "Shared request-to-draft handoff validator must require lane record types.",
+);
+requireText(
+  requestToDraftHandoffValidator,
+  "AI_REQUEST_TO_DRAFT_HANDOFF_REQUIRED_BLOCKED_ACTIONS",
+  "Shared request-to-draft handoff validator must require blocked actions.",
+);
+requireText(
+  requestToDraftHandoffValidator,
+  "isAiGenerationRequestToDraftHandoffLiveBlocked",
+  "Shared request-to-draft handoff validator must expose live-block helper.",
+);
+requireText(
+  requestToDraftHandoffPanel,
+  "AI request-to-draft handoff",
+  "AI request-to-draft handoff panel must expose heading.",
+);
+requireText(
+  requestToDraftHandoffPanel,
+  "Review handoff before draft generation",
+  "AI request-to-draft handoff panel must expose review boundary.",
+);
+requireText(
+  requestToDraftHandoffPanel,
+  "Handoff guard active",
+  "AI request-to-draft handoff panel must expose shared guard status.",
+);
+requireText(
+  requestToDraftHandoffPanel,
+  "draft_creation_allowed",
+  "AI request-to-draft handoff panel must expose draft creation block.",
+);
+requireText(
+  requestToDraftHandoffPanel,
+  "draft_json_write_allowed",
+  "AI request-to-draft handoff panel must expose draft write block.",
+);
 requireText(requestStorageGuardData, "sampleAiGenerationRequestStorageGuards", "AI request storage guard data must exist.");
 requireText(requestStorageGuardData, "request-storage-guard-ministar-l1-greetings-v1", "AI request storage guard must include MiniStar seed.");
 requireText(requestStorageGuardData, "ai_generation_request_packet_id", "AI request storage guard must preserve request packet ids.");
@@ -4639,6 +4753,12 @@ requireText(
 requireText(route, "AiPromptPackagePlanPanel", "Generator route must render the prompt package plan panel.");
 requireText(route, "AiGeneratorCostEntitlementGatePanel", "Generator route must render the cost entitlement gate panel.");
 requireText(route, "AiGenerationRequestBuilderPanel", "Generator route must render the request builder panel.");
+requireText(route, "AiGenerationRequestPacketPreviewPanel", "Generator route must render the request packet preview panel.");
+requireText(
+  route,
+  "AiGenerationRequestToDraftHandoffPanel",
+  "Generator route must render the request-to-draft handoff panel.",
+);
 requireText(route, "AiGenerationRequestStorageGuardPanel", "Generator route must render the request storage guard panel.");
 requireText(route, "AiGeneratorAudioCoveragePlanPanel", "Generator route must render the audio coverage plan panel.");
 requireText(route, "AiGamificationMappingPanel", "Generator route must render the gamification mapping panel.");

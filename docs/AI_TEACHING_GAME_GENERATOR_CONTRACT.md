@@ -42,6 +42,8 @@ The backend-neutral storage contract for the request itself is `ai_generation_re
 
 Teacher generator routes must also show an AI generation request packet preview. The preview mirrors the future stored packet for nontechnical review: evidence links, target-language-only progress trigger, support-language support-only rule, required-before-live items, reviewer notes, and blocked actions. It is not a prompt dispatch surface and cannot call models, bill usage, generate drafts, submit to a verifier, create packages, write routes, create playlists, assign students, or mark content student-ready.
 
+Teacher generator routes must show a request-to-draft handoff preview before any draft generation or provider integration exists. The handoff bridges the reviewed `ai_generation_request_packet` to the target `ai_generated_draft_payload_preview`, names cost, prompt, audio, compatibility, and media-rights lanes, and keeps `handoff_mode: review-only-preflight`, `target_language_progress_trigger: target-language-only`, `support_language_progress_allowed: false`, `draft_creation_allowed: false`, and `draft_json_write_allowed: false`. It cannot dispatch a model, bill usage, generate or write a draft, submit to a verifier, assemble a package, write routes, create playlists, assign students, mark content student-ready, or use support language as progress evidence.
+
 ## Generator Responsibility Matrix
 
 Teacher generator routes must show a review-only responsibility matrix before detailed generator panels. The matrix separates teacher/school review, Codex architecture and integration, outside AI builder/Z.ai prototype work, verifier checks, and platform admin entitlement/storage/release duties.

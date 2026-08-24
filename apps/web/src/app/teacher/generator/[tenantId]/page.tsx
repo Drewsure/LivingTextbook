@@ -75,6 +75,10 @@ import {
   sampleAiGenerationRequestPacketPreviews,
 } from "@/data/sampleAiGenerationRequestPacketPreview";
 import {
+  filterAiGenerationRequestToDraftHandoffsByTenant,
+  sampleAiGenerationRequestToDraftHandoffs,
+} from "@/data/sampleAiGenerationRequestToDraftHandoff";
+import {
   filterAiGenerationRequestStorageGuardsByTenant,
   sampleAiGenerationRequestStorageGuards,
 } from "@/data/sampleAiGenerationRequestStorageGuard";
@@ -210,6 +214,7 @@ import { sampleActivityPathwayCompatibilityMatrix } from "@/data/sampleActivityP
 import { AiDraftCorrectionQueuePanel } from "@/features/content-intake/AiDraftCorrectionQueuePanel";
 import { AiGenerationRequestBuilderPanel } from "@/features/content-intake/AiGenerationRequestBuilderPanel";
 import { AiGenerationRequestPacketPreviewPanel } from "@/features/content-intake/AiGenerationRequestPacketPreviewPanel";
+import { AiGenerationRequestToDraftHandoffPanel } from "@/features/content-intake/AiGenerationRequestToDraftHandoffPanel";
 import { AiGenerationRequestStorageGuardPanel } from "@/features/content-intake/AiGenerationRequestStorageGuardPanel";
 import { AiGeneratorCostEntitlementGatePanel } from "@/features/content-intake/AiGeneratorCostEntitlementGatePanel";
 import { AiGeneratedDraftPayloadPreviewPanel } from "@/features/content-intake/AiGeneratedDraftPayloadPreviewPanel";
@@ -317,6 +322,12 @@ export default async function TeacherAiGameGeneratorPage({
         />
         <AiGenerationRequestPacketPreviewPanel
           packets={filterAiGenerationRequestPacketPreviewsByTenant(sampleAiGenerationRequestPacketPreviews, tenantId)}
+        />
+        <AiGenerationRequestToDraftHandoffPanel
+          handoffs={filterAiGenerationRequestToDraftHandoffsByTenant(
+            sampleAiGenerationRequestToDraftHandoffs,
+            tenantId,
+          )}
         />
         <AiGenerationRequestStorageGuardPanel
           guards={filterAiGenerationRequestStorageGuardsByTenant(sampleAiGenerationRequestStorageGuards, tenantId)}

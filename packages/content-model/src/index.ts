@@ -768,6 +768,7 @@ export * from "./aiGeneratorReviewSummary";
 export * from "./aiGeneratorReviewerRunbook";
 export * from "./aiGeneratorResponsibilityMatrix";
 export * from "./aiGeneratedDraftPayload";
+export * from "./aiGenerationRequestToDraftHandoff";
 export * from "./aiDraftCorrectionQueue";
 export * from "./aiGamificationMapping";
 export * from "./progressEventTaxonomy";
