@@ -15,6 +15,7 @@ The check confirms:
 - The game readiness workbench links to both prototype review workbenches.
 - The game readiness workbench shows the Z.ai prototype intake alert, including the Codex alert requirement, ready-when conditions, required evidence, and blocked actions.
 - The game readiness and tenant prototype review workbenches show the prototype intake queue, including source repository scope, target surface, required evidence, missing evidence, blocked actions, and tenant filtering.
+- Prototype intake queue items have backend-neutral schema, migration, durable record, hosted write-intent, and local write-intent markers before any controlled outside-prototype intake workflow can exist.
 - Prototype review pages keep no-write, no-scoring-mutation, no-route-creation, no-audio-manifest-mutation, no-package-promotion, and no-student-assignment boundaries visible.
 - The active route verifier protects the same markers.
 - The visible foundation gate includes `Prototype review readiness`.

@@ -47,6 +47,12 @@ export interface PersistenceWriteIntent {
   requiresExternalPrototypeReturnEvidence?: boolean;
   blocksExternalPrototypeLiveHandoff?: boolean;
   blocksExternalPrototypeTaskShortcuts?: boolean;
+  preservesPrototypeIntakeQueueItem?: boolean;
+  requiresPrototypeIntakeRepositoryScope?: boolean;
+  requiresPrototypeIntakeReviewRoute?: boolean;
+  requiresPrototypeIntakeMissingEvidence?: boolean;
+  blocksPrototypeIntakeDirectImport?: boolean;
+  blocksPrototypeIntakeRouteReplacement?: boolean;
   preservesAiExternalTaskExportReadinessGate?: boolean;
   requiresExternalTaskExportChannels?: boolean;
   requiresExternalTaskExportReadinessChecks?: boolean;
@@ -665,6 +671,30 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "ai-external-prototype-task-packet" && !intent.blocksGeneratedGameRouteWrite) {
       errors.push(`AI external prototype task packet write intent ${intent.intentId} must block route writes.`);
+    }
+
+    if (intent.category === "prototype-intake-queue-item" && !intent.preservesPrototypeIntakeQueueItem) {
+      errors.push(`Prototype intake queue item write intent ${intent.intentId} must preserve queue item scope, evidence, and blocked actions.`);
+    }
+
+    if (intent.category === "prototype-intake-queue-item" && !intent.requiresPrototypeIntakeRepositoryScope) {
+      errors.push(`Prototype intake queue item write intent ${intent.intentId} must require source repository scope.`);
+    }
+
+    if (intent.category === "prototype-intake-queue-item" && !intent.requiresPrototypeIntakeReviewRoute) {
+      errors.push(`Prototype intake queue item write intent ${intent.intentId} must require a prototype review route.`);
+    }
+
+    if (intent.category === "prototype-intake-queue-item" && !intent.requiresPrototypeIntakeMissingEvidence) {
+      errors.push(`Prototype intake queue item write intent ${intent.intentId} must preserve missing evidence.`);
+    }
+
+    if (intent.category === "prototype-intake-queue-item" && !intent.blocksPrototypeIntakeDirectImport) {
+      errors.push(`Prototype intake queue item write intent ${intent.intentId} must block direct prototype import.`);
+    }
+
+    if (intent.category === "prototype-intake-queue-item" && !intent.blocksPrototypeIntakeRouteReplacement) {
+      errors.push(`Prototype intake queue item write intent ${intent.intentId} must block active route replacement.`);
     }
 
     if (intent.category === "ai-external-prototype-task-packet" && !intent.blocksScoringProfileOverride) {

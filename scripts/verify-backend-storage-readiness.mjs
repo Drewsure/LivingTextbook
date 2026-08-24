@@ -18,6 +18,7 @@ const requiredSchemaEntities = [
   "teacher_draft_verifier_submission",
   "ai_generated_game_build_brief",
   "ai_external_prototype_task_packet",
+  "prototype_intake_queue_item",
   "ai_external_task_export_readiness_gate",
   "ai_prototype_return_review",
   "ai_prototype_integration_plan",
@@ -123,6 +124,7 @@ const requiredMigrationCandidates = [
   "m020-teacher-draft-verifier-submission-records",
   "m060-ai-generated-game-build-brief-records",
   "m074-ai-external-prototype-task-packet-records",
+  "m098-prototype-intake-queue-storage",
   "m075-ai-external-task-export-readiness-gate-records",
   "m061-ai-prototype-return-review-records",
   "m062-ai-prototype-integration-plan-records",
@@ -229,6 +231,7 @@ const requiredMigrationSpecs = [
   "spec-teacher-draft-verifier-submission",
   "spec-ai-generated-game-build-brief",
   "spec-ai-external-prototype-task-packet",
+  "spec-prototype-intake-queue-item",
   "spec-ai-external-task-export-readiness-gate",
   "spec-ai-prototype-return-review",
   "spec-ai-prototype-integration-plan",
@@ -444,6 +447,39 @@ requireText(schemaDraft, "playlist_creation_allowed", "Backend schema must block
 requireText(schemaDraft, "package_assembly_allowed", "Backend schema must block external package assembly.");
 requireText(schemaDraft, "student_assignment_allowed", "Backend schema must block external student assignment.");
 requireText(schemaDraft, "support_language_progress_allowed", "Backend schema must block support-language progress from external tasks.");
+requireText(schemaDraft, "prototype_intake_queue_item", "Backend schema must include prototype intake queue items.");
+requireText(schemaDraft, "prototype_intake_queue_item_id", "Backend schema must preserve prototype intake queue item ids.");
+requireText(schemaDraft, "source_repository", "Backend schema must preserve prototype intake source repositories.");
+requireText(schemaDraft, "source_branch_or_snapshot", "Backend schema must preserve prototype intake source snapshots.");
+requireText(schemaDraft, "parent_engine_id", "Backend schema must preserve prototype intake parent engine ids.");
+requireText(schemaDraft, "target_surface", "Backend schema must preserve prototype intake target surfaces.");
+requireText(schemaDraft, "intake_status", "Backend schema must preserve prototype intake status.");
+requireText(schemaDraft, "review_route", "Backend schema must preserve prototype intake review routes.");
+requireText(schemaDraft, "missing_evidence", "Backend schema must preserve missing prototype intake evidence.");
+requireText(schemaDraft, "codex_review_owner", "Backend schema must preserve Codex prototype review ownership.");
+requireText(schemaDraft, "direct_import_allowed", "Backend schema must block direct prototype imports.");
+requireText(schemaDraft, "active_route_replacement_allowed", "Backend schema must block active route replacement from prototypes.");
+requireText(schemaDraft, "scoring_profile_mutation_allowed", "Backend schema must block prototype scoring mutations.");
+requireText(schemaDraft, "playlist_write_allowed", "Backend schema must block prototype playlist writes.");
+requireText(durableRecords, "prototype-intake-queue-item-record", "Durable record plan must include prototype intake queue item records.");
+requireText(durableRecords, "Prototype intake queue item record", "Durable record plan must expose prototype intake queue item labels.");
+requireText(durableRecords, "preservesPrototypeIntakeQueueItem: true", "Durable record plan must preserve prototype intake queue items.");
+requireText(durableRecords, "requiresPrototypeIntakeRepositoryScope: true", "Durable record plan must require prototype intake repository scope.");
+requireText(durableRecords, "requiresPrototypeIntakeReviewRoute: true", "Durable record plan must require prototype intake review routes.");
+requireText(durableRecords, "requiresPrototypeIntakeMissingEvidence: true", "Durable record plan must preserve missing prototype evidence.");
+requireText(durableRecords, "blocksPrototypeIntakeDirectImport: true", "Durable record plan must block direct prototype imports.");
+requireText(durableRecords, "blocksPrototypeIntakeRouteReplacement: true", "Durable record plan must block active route replacement.");
+requireText(durableRecords, "prototype-intake-queue-item-boundary", "Persistence boundary plan must include prototype intake queue item boundaries.");
+requireText(persistenceAdapter, "hosted-prototype-intake-queue-item-write", "Persistence adapter must include hosted prototype intake queue item writes.");
+requireText(persistenceAdapter, "local-prototype-intake-queue-item-write", "Persistence adapter must include local prototype intake queue item writes.");
+requireText(persistenceAdapter, "preservesPrototypeIntakeQueueItem: true", "Persistence adapter must preserve prototype intake queue items.");
+requireText(persistenceAdapter, "requiresPrototypeIntakeRepositoryScope: true", "Persistence adapter must require prototype intake repository scope.");
+requireText(persistenceAdapter, "requiresPrototypeIntakeReviewRoute: true", "Persistence adapter must require prototype intake review routes.");
+requireText(persistenceAdapter, "requiresPrototypeIntakeMissingEvidence: true", "Persistence adapter must preserve missing prototype evidence.");
+requireText(persistenceAdapter, "blocksPrototypeIntakeDirectImport: true", "Persistence adapter must block direct prototype imports.");
+requireText(persistenceAdapter, "blocksPrototypeIntakeRouteReplacement: true", "Persistence adapter must block active route replacement.");
+requireText(durableRecordValidator, "preservesPrototypeIntakeQueueItem", "Durable record validator must protect prototype intake queue items.");
+requireText(persistenceAdapterValidator, "preservesPrototypeIntakeQueueItem", "Persistence adapter validator must protect prototype intake queue items.");
 requireText(schemaDraft, "ai_external_task_export_readiness_gate", "Backend schema must include AI external task export readiness gates.");
 requireText(schemaDraft, "ai_external_task_export_readiness_gate_id", "Backend schema must preserve AI external task export readiness gate ids.");
 requireText(schemaDraft, "export_channels", "Backend schema must preserve external task export channels.");
@@ -5516,6 +5552,8 @@ requireText(routeVerifier, "school_rollback_safe_fallback_preflight", "Active ro
 requireText(routeVerifier, "school_rollback_safe_fallback_activation_preview", "Active route verifier must keep school rollback safe fallback activation preview storage visible on teacher intake.");
 requireText(routeVerifier, "school_rollback_safe_fallback_restoration_preview", "Active route verifier must keep school rollback safe fallback restoration preview storage visible on teacher intake.");
 requireText(routeVerifier, "teacher_assignment_rollout_gate", "Active route verifier must keep teacher assignment rollout gate storage visible on teacher intake.");
+requireText(routeVerifier, "prototype_intake_queue_item", "Active route verifier must keep prototype intake queue item storage visible on teacher intake.");
+requireText(routeVerifier, "Prototype intake queue item record", "Active route verifier must keep prototype intake queue item durable records visible on teacher intake.");
 requireText(routeVerifier, "ai_prototype_return_review", "Active route verifier must keep AI prototype return review storage visible on teacher intake.");
 requireText(routeVerifier, "AI prototype return review record", "Active route verifier must keep AI prototype return review durable records visible on teacher intake.");
 requireText(routeVerifier, "ai_prototype_integration_plan", "Active route verifier must keep AI prototype integration plan storage visible on teacher intake.");

@@ -11,6 +11,11 @@ const files = {
   prototypeIntakeAlertPanel: "apps/web/src/features/game-offers/PrototypeIntakeAlertPanel.tsx",
   prototypeIntakeQueue: "apps/web/src/data/samplePrototypeIntakeQueue.ts",
   prototypeIntakeQueuePanel: "apps/web/src/features/game-offers/PrototypeIntakeQueuePanel.tsx",
+  backendSchemaDraft: "apps/web/src/data/sampleBackendSchemaDraft.ts",
+  backendMigrationCandidates: "apps/web/src/data/sampleBackendMigrationCandidates.ts",
+  backendMigrationSpecs: "apps/web/src/data/sampleBackendMigrationSpecs.ts",
+  persistencePlan: "apps/web/src/data/samplePersistencePlan.ts",
+  persistenceAdapterPlan: "apps/web/src/data/samplePersistenceAdapterPlan.ts",
   foundationGate: "apps/web/src/data/sampleFoundationVerificationGate.ts",
   verificationIndex: "docs/verification/README.md",
   buildSessions: "docs/BUILD_SESSIONS.md",
@@ -85,6 +90,19 @@ const prototypeIntakeQueueMarkers = [
   "No active route replacement",
   "filterPrototypeIntakeQueueByTenant",
 ];
+const prototypeIntakeQueueStorageMarkers = [
+  "prototype_intake_queue_item",
+  "prototype_intake_queue_item_id",
+  "m098-prototype-intake-queue-storage",
+  "spec-prototype-intake-queue-item",
+  "prototype-intake-queue-item-record",
+  "prototype-intake-queue-item-boundary",
+  "hosted-prototype-intake-queue-item-write",
+  "local-prototype-intake-queue-item-write",
+  "preservesPrototypeIntakeQueueItem: true",
+  "blocksPrototypeIntakeDirectImport: true",
+  "blocksPrototypeIntakeRouteReplacement: true",
+];
 
 const failures = [];
 
@@ -124,6 +142,18 @@ for (const marker of prototypeIntakeQueueMarkers) {
     sources.prototypeIntakeQueue + sources.prototypeIntakeQueuePanel + sources.gameReadinessPage + sources.prototypePage,
     marker,
     `Prototype intake queue must keep marker: ${marker}`,
+  );
+}
+
+for (const marker of prototypeIntakeQueueStorageMarkers) {
+  requireText(
+    sources.backendSchemaDraft +
+      sources.backendMigrationCandidates +
+      sources.backendMigrationSpecs +
+      sources.persistencePlan +
+      sources.persistenceAdapterPlan,
+    marker,
+    `Prototype intake queue storage must keep marker: ${marker}`,
   );
 }
 

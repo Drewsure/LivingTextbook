@@ -53,6 +53,7 @@ Before accepting a new direction, answer these questions in the task, PR, or imp
 | DR-493 | Release-control entitlement source gate | Accepted | Release-control workspaces must link to the entitlement workbench and keep premium package adoption, billing, microphone scoring, report export, and local companion activation blocked. |
 | DR-494 | Z.ai prototype intake alert | Accepted | The game-readiness workbench must visibly say when Z.ai/outside prototype intake is not ready, what evidence will make it ready, and that Codex owns the alert and integration decision. |
 | DR-495 | Prototype intake queue | Accepted | Game-readiness and prototype review workbenches must show ordered Z.ai/outside prototype inventory, missing evidence, tenant scope, and blocked actions before integration review. |
+| DR-496 | Prototype intake queue storage contract | Accepted | Prototype intake queue items must have backend-neutral hosted/local storage contracts before outside game inventory can become return-review, wrapper-review, route, scoring, reward, playlist, package, or assignment work. |
 | DR-021 | Second sample tenant package | Accepted | Add a second sample tenant and partner-style content package to prove the white-label path in code. |
 | DR-022 | Multi-tenant front-door resolver | Accepted | Resolve `/enter/[tenantId]` from tenant route registry data rather than hard-coded MiniStar-only routing. |
 | DR-023 | Reviewed content intake scaffold | Accepted | Show PDF/DOCX/source intake as a reviewed gate before any package becomes student-facing. |

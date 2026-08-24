@@ -21,6 +21,7 @@ export type PersistenceBoundaryCategory =
   | "teacher-draft-verifier-submission"
   | "ai-generated-game-build-brief"
   | "ai-external-prototype-task-packet"
+  | "prototype-intake-queue-item"
   | "ai-external-task-export-readiness-gate"
   | "ai-prototype-return-review"
   | "ai-prototype-integration-plan"
@@ -375,6 +376,39 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
     note:
       "AI external prototype task packets need durable handoff boundaries before outside builder task instructions, exports, or return reviews can be treated as official workflow evidence.",
+  },
+  {
+    recordId: "prototype-intake-queue-item-record",
+    category: "prototype-intake-queue-item",
+    label: "Prototype intake queue item record",
+    readiness: "durable-required",
+    sourceOfTruth:
+      "PrototypeIntakeQueueItem, prototype intake alert, prototype review workbench route, source repository policy, evidence checklist, and Codex review ownership",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: false,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesPrototypeIntakeQueueItem: true,
+    requiresPrototypeIntakeRepositoryScope: true,
+    requiresPrototypeIntakeReviewRoute: true,
+    requiresPrototypeIntakeMissingEvidence: true,
+    blocksPrototypeIntakeDirectImport: true,
+    blocksPrototypeIntakeRouteReplacement: true,
+    blocksAppFileWrite: true,
+    blocksGeneratedGameRouteWrite: true,
+    blocksScoringProfileOverride: true,
+    blocksRewardInventoryWrite: true,
+    blocksGeneratedPackagePlaylistWrite: true,
+    blocksGeneratedPackageAssembly: true,
+    blocksGeneratedPackageAssignment: true,
+    blocksStudentFacingPrototypePreview: true,
+    blocksSupportLanguageProgressTrigger: true,
+    blocksDirectStudentAssignment: true,
+    recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
+    note:
+      "Prototype intake queue items need durable inventory before outside game work can be reviewed in order. They preserve tenant scope, repository scope, game mode, engine target, priority, status, review route, required evidence, missing evidence, and blocked actions while blocking direct import, app file writes, route replacement, scoring changes, rewards, playlists, package promotion, assignments, and support-language progress.",
   },
   {
     recordId: "ai-external-task-export-readiness-gate-record",
@@ -2887,6 +2921,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision:
       "Persist AI external prototype task packets before enabling outside-builder task export, return review intake, app patch planning, route integration, scoring profile changes, playlists, rewards, package assembly, or assignments.",
+  },
+  {
+    boundaryId: "prototype-intake-queue-item-boundary",
+    category: "prototype-intake-queue-item",
+    label: "Prototype intake queue item records",
+    status: "needs-backend",
+    recordShape:
+      "Queue item id, tenant id, source repository, source branch or snapshot, game mode, parent engine, target surface, priority, intake status, review route, required evidence, missing evidence, blocked actions, and Codex review owner",
+    whyItMatters:
+      "Outside game work from Z.ai or another builder needs a durable, ordered inventory so useful prototypes can be reviewed without becoming direct imports, app writes, route replacements, scoring mutations, reward writes, package promotions, or assignments.",
+    visibleTo: ["Tenant admin", "Content reviewer", "Platform admin", "External prototype builder"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Persist prototype intake queue items before enabling return-review candidacy, wrapper review, route planning, scoring replay, package promotion review, or assignment planning.",
   },
   {
     boundaryId: "ai-external-task-export-readiness-gate-boundary",

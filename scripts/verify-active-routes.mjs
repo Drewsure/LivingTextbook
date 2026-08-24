@@ -83,6 +83,27 @@ const expectedTextByPath = new Map([
 
 expectedTextByPath.get("/teacher/intake")?.push("settings_context_summary");
 expectedTextByPath.get("/teacher/intake")?.push(
+  "prototype_intake_queue_item",
+  "Prototype intake queue item record",
+  "m098-prototype-intake-queue-storage",
+  "spec-prototype-intake-queue-item",
+  "hosted-prototype-intake-queue-item-write",
+  "local-prototype-intake-queue-item-write",
+  "prototype_intake_queue_item_id",
+  "source_repository",
+  "source_branch_or_snapshot",
+  "parent_engine_id",
+  "target_surface",
+  "intake_status",
+  "review_route",
+  "missing_evidence",
+  "codex_review_owner",
+  "direct_import_allowed",
+  "active_route_replacement_allowed",
+  "scoring_profile_mutation_allowed",
+  "playlist_write_allowed",
+);
+expectedTextByPath.get("/teacher/intake")?.push(
   "package_adoption_record_preview",
   "Package adoption record preview",
   "m097-package-adoption-record-preview-storage",

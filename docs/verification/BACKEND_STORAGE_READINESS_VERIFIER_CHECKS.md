@@ -54,6 +54,7 @@ npm run verify:foundation
 - Teacher draft review audit trails preserve event sequence and block audit-driven package state changes.
 - Tenant library items preserve source lineage, block student-data copies, and block public community publishing.
 - Teacher dry-run rehearsal records preserve route, game/audio, media/support-language, report, and local fallback checks while blocking student launch, real learner data collection, live progress, and report export.
+- Prototype intake queue item storage preserves `prototype_intake_queue_item`, `m098-prototype-intake-queue-storage`, `spec-prototype-intake-queue-item`, hosted/local write intents, repository scope, review route, missing evidence, Codex review ownership, and blocked direct import/route replacement/scoring/reward/playlist/package/assignment flags.
 - Package adoption record preview storage preserves `package_adoption_record_preview`, `m097-package-adoption-record-preview-storage`, `spec-package-adoption-record-preview`, hosted/local write intents, school policy acceptance, tenant package selection, budget/rate-card, microphone/transcript policy, report/export policy, rollback hooks, and blocked premium activation flags.
 - Core storage rejects raw learner audio and transcripts.
 - Progress events preserve event effect taxonomy, event acceptance gates, and settings context.

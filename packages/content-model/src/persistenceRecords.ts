@@ -9,6 +9,7 @@ export type PersistenceRecordCategory =
   | "teacher-draft-verifier-submission"
   | "ai-generated-game-build-brief"
   | "ai-external-prototype-task-packet"
+  | "prototype-intake-queue-item"
   | "ai-external-task-export-readiness-gate"
   | "ai-prototype-return-review"
   | "ai-prototype-integration-plan"
@@ -156,6 +157,12 @@ export interface DurableRecordContract {
   requiresExternalPrototypeReturnEvidence?: boolean;
   blocksExternalPrototypeLiveHandoff?: boolean;
   blocksExternalPrototypeTaskShortcuts?: boolean;
+  preservesPrototypeIntakeQueueItem?: boolean;
+  requiresPrototypeIntakeRepositoryScope?: boolean;
+  requiresPrototypeIntakeReviewRoute?: boolean;
+  requiresPrototypeIntakeMissingEvidence?: boolean;
+  blocksPrototypeIntakeDirectImport?: boolean;
+  blocksPrototypeIntakeRouteReplacement?: boolean;
   preservesAiExternalTaskExportReadinessGate?: boolean;
   requiresExternalTaskExportChannels?: boolean;
   requiresExternalTaskExportReadinessChecks?: boolean;
@@ -743,6 +750,30 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "ai-external-prototype-task-packet" && !record.blocksGeneratedGameRouteWrite) {
       errors.push(`AI external prototype task packet record ${record.recordId} must block route writes.`);
+    }
+
+    if (record.category === "prototype-intake-queue-item" && !record.preservesPrototypeIntakeQueueItem) {
+      errors.push(`Prototype intake queue item record ${record.recordId} must preserve queue item scope, evidence, and blocked actions.`);
+    }
+
+    if (record.category === "prototype-intake-queue-item" && !record.requiresPrototypeIntakeRepositoryScope) {
+      errors.push(`Prototype intake queue item record ${record.recordId} must require source repository scope.`);
+    }
+
+    if (record.category === "prototype-intake-queue-item" && !record.requiresPrototypeIntakeReviewRoute) {
+      errors.push(`Prototype intake queue item record ${record.recordId} must require a prototype review route.`);
+    }
+
+    if (record.category === "prototype-intake-queue-item" && !record.requiresPrototypeIntakeMissingEvidence) {
+      errors.push(`Prototype intake queue item record ${record.recordId} must preserve missing evidence.`);
+    }
+
+    if (record.category === "prototype-intake-queue-item" && !record.blocksPrototypeIntakeDirectImport) {
+      errors.push(`Prototype intake queue item record ${record.recordId} must block direct prototype import.`);
+    }
+
+    if (record.category === "prototype-intake-queue-item" && !record.blocksPrototypeIntakeRouteReplacement) {
+      errors.push(`Prototype intake queue item record ${record.recordId} must block active route replacement.`);
     }
 
     if (record.category === "ai-external-prototype-task-packet" && !record.blocksScoringProfileOverride) {
