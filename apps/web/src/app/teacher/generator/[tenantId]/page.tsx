@@ -71,6 +71,10 @@ import {
   sampleAiGenerationRequestBuilders,
 } from "@/data/sampleAiGenerationRequestBuilder";
 import {
+  filterAiGenerationRequestPacketPreviewsByTenant,
+  sampleAiGenerationRequestPacketPreviews,
+} from "@/data/sampleAiGenerationRequestPacketPreview";
+import {
   filterAiGenerationRequestStorageGuardsByTenant,
   sampleAiGenerationRequestStorageGuards,
 } from "@/data/sampleAiGenerationRequestStorageGuard";
@@ -205,6 +209,7 @@ import {
 import { sampleActivityPathwayCompatibilityMatrix } from "@/data/sampleActivityPathwayCompatibility";
 import { AiDraftCorrectionQueuePanel } from "@/features/content-intake/AiDraftCorrectionQueuePanel";
 import { AiGenerationRequestBuilderPanel } from "@/features/content-intake/AiGenerationRequestBuilderPanel";
+import { AiGenerationRequestPacketPreviewPanel } from "@/features/content-intake/AiGenerationRequestPacketPreviewPanel";
 import { AiGenerationRequestStorageGuardPanel } from "@/features/content-intake/AiGenerationRequestStorageGuardPanel";
 import { AiGeneratorCostEntitlementGatePanel } from "@/features/content-intake/AiGeneratorCostEntitlementGatePanel";
 import { AiGeneratedDraftPayloadPreviewPanel } from "@/features/content-intake/AiGeneratedDraftPayloadPreviewPanel";
@@ -309,6 +314,9 @@ export default async function TeacherAiGameGeneratorPage({
         />
         <AiGenerationRequestBuilderPanel
           builders={filterAiGenerationRequestBuildersByTenant(sampleAiGenerationRequestBuilders, tenantId)}
+        />
+        <AiGenerationRequestPacketPreviewPanel
+          packets={filterAiGenerationRequestPacketPreviewsByTenant(sampleAiGenerationRequestPacketPreviews, tenantId)}
         />
         <AiGenerationRequestStorageGuardPanel
           guards={filterAiGenerationRequestStorageGuardsByTenant(sampleAiGenerationRequestStorageGuards, tenantId)}

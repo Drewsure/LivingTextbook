@@ -1,0 +1,242 @@
+import {
+  getAiGenerationRequestPacketPreviewWarnings,
+  validateAiGenerationRequestPacketPreviews,
+  type AiGenerationRequestPacketPreview,
+  type AiGenerationRequestPacketStatus,
+} from "@living-textbook/content-model/src/aiGenerationRequestPacketPreview";
+
+export type { AiGenerationRequestPacketPreview, AiGenerationRequestPacketStatus };
+
+const sharedBlockedActions = [
+  "No live model dispatch",
+  "No model billing",
+  "No draft generation",
+  "No verifier submission",
+  "No package assembly",
+  "No route write",
+  "No playlist write",
+  "No student assignment",
+  "No support-language progress trigger",
+];
+
+export const sampleAiGenerationRequestPacketPreviews: AiGenerationRequestPacketPreview[] = [
+  {
+    packetId: "ai-generation-request-packet-sample-publisher-l1-routines-v1",
+    storageRecordType: "ai_generation_request_packet",
+    tenantId: "sample-publisher",
+    requestId: "sample-publisher-l1-routines-game-draft",
+    label: "Sample publisher request packet preview",
+    status: "review-only",
+    summary:
+      "This is the review packet a teacher/admin would inspect before a sample publisher request can ever call a model, estimate real cost, create a draft, or reach a verifier.",
+    targetLanguage: "en",
+    supportLanguagePolicy: "No support-language progress. Support copy is teacher-reviewable only.",
+    targetLanguageProgressTrigger: "target-language-only",
+    supportLanguageProgressAllowed: false,
+    mediaOnlyProgressAllowed: false,
+    liveModelDispatchAllowed: false,
+    modelBillingAllowed: false,
+    draftGenerationAllowed: false,
+    verifierSubmissionAllowed: false,
+    packageAssemblyAllowed: false,
+    routeWriteAllowed: false,
+    playlistWriteAllowed: false,
+    assignmentWriteAllowed: false,
+    studentReadyMarkerAllowed: false,
+    evidenceLinks: [
+      {
+        linkId: "sample-publisher-request-builder-review",
+        label: "Request builder review",
+        recordType: "request_builder_review_packet",
+        recordId: "request_builder_review_packet:sample-publisher-l1-routines-v1",
+        status: "present",
+        note: "Disabled request builder fields are visible for review.",
+      },
+      {
+        linkId: "sample-publisher-source-evidence",
+        label: "Source evidence",
+        recordType: "source_evidence_packet",
+        recordId: "source_evidence_packet:sample-publisher-l1-routines-v1",
+        status: "required",
+        note: "Publisher PDF/source extraction evidence must be accepted before live generation.",
+      },
+      {
+        linkId: "sample-publisher-premium-cost",
+        label: "Premium AI cost gate",
+        recordType: "premium_ai_cost_gate",
+        recordId: "premium_ai_cost_gate:sample-publisher-l1-routines-v1",
+        status: "required",
+        note: "Cost estimate remains preview-only until school or tenant approval.",
+      },
+      {
+        linkId: "sample-publisher-audio-requirement",
+        label: "Target-language audio coverage",
+        recordType: "audio_coverage_requirement",
+        recordId: "audio_coverage_requirement:sample-publisher-l1-routines-v1",
+        status: "required",
+        note: "Every learner-facing target-language text needs reviewed audio.",
+      },
+      {
+        linkId: "sample-publisher-compatibility",
+        label: "Activity compatibility",
+        recordType: "activity_compatibility_snapshot",
+        recordId: "activity_compatibility_snapshot:sample-publisher-l1-routines-v1",
+        status: "present",
+        note: "Curated pathway review remains visible.",
+      },
+      {
+        linkId: "sample-publisher-media-rights",
+        label: "Media rights manifest",
+        recordType: "media_rights_manifest",
+        recordId: "media_rights_manifest:sample-publisher-l1-routines-v1",
+        status: "required",
+        note: "Images, audio, video, and uploaded source rights need review.",
+      },
+      {
+        linkId: "sample-publisher-draft-package",
+        label: "Teacher draft package",
+        recordType: "teacher_draft_package",
+        recordId: "teacher_draft_package:future-sample-publisher-l1-routines-v1",
+        status: "blocked",
+        note: "Draft creation is blocked until upstream gates pass.",
+      },
+      {
+        linkId: "sample-publisher-verifier-submission",
+        label: "Verifier submission preflight",
+        recordType: "teacher_draft_verifier_submission",
+        recordId: "teacher_draft_verifier_submission:future-sample-publisher-l1-routines-v1",
+        status: "blocked",
+        note: "Verifier submission is blocked until draft and evidence records exist.",
+      },
+    ],
+    requiredBeforeLiveRequest: [
+      "Reviewed source evidence packet accepted",
+      "Premium AI cost gate accepted by tenant or school",
+      "Target-language audio coverage requirement accepted",
+      "Activity compatibility snapshot accepted",
+      "Media rights manifest accepted",
+      "Teacher draft and verifier preflight storage available",
+    ],
+    blockedActions: sharedBlockedActions,
+    reviewerNotes: [
+      "Keep the request packet review-only until storage and school cost policy are accepted.",
+      "Do not let media or support-language activity satisfy progress or mastery.",
+    ],
+  },
+  {
+    packetId: "ai-generation-request-packet-ministar-l1-greetings-v1",
+    storageRecordType: "ai_generation_request_packet",
+    tenantId: "ministar",
+    requestId: "ministar-l1-greetings-game-draft",
+    label: "MiniStar request packet preview",
+    status: "review-only",
+    summary:
+      "This is the MiniStar review packet for Level 1 greetings. English remains the progress trigger, and Japanese support remains hiragana-only and support-only.",
+    targetLanguage: "en",
+    supportLanguagePolicy: "ja-hiragana support-only. Japanese support cannot unlock progress.",
+    targetLanguageProgressTrigger: "target-language-only",
+    supportLanguageProgressAllowed: false,
+    mediaOnlyProgressAllowed: false,
+    liveModelDispatchAllowed: false,
+    modelBillingAllowed: false,
+    draftGenerationAllowed: false,
+    verifierSubmissionAllowed: false,
+    packageAssemblyAllowed: false,
+    routeWriteAllowed: false,
+    playlistWriteAllowed: false,
+    assignmentWriteAllowed: false,
+    studentReadyMarkerAllowed: false,
+    evidenceLinks: [
+      {
+        linkId: "ministar-request-builder-review",
+        label: "Request builder review",
+        recordType: "request_builder_review_packet",
+        recordId: "request_builder_review_packet:ministar-l1-greetings-v1",
+        status: "present",
+        note: "MiniStar request fields are visible for review.",
+      },
+      {
+        linkId: "ministar-source-evidence",
+        label: "Source evidence",
+        recordType: "source_evidence_packet",
+        recordId: "source_evidence_packet:ministar-l1-greetings-v1",
+        status: "required",
+        note: "MiniStar source extraction evidence must be accepted before live generation.",
+      },
+      {
+        linkId: "ministar-premium-cost",
+        label: "Premium AI cost gate",
+        recordType: "premium_ai_cost_gate",
+        recordId: "premium_ai_cost_gate:ministar-l1-greetings-v1",
+        status: "required",
+        note: "Text generation, voice, speech scoring, and AI Tutor remain separate premium approvals.",
+      },
+      {
+        linkId: "ministar-audio-requirement",
+        label: "English target-language audio coverage",
+        recordType: "audio_coverage_requirement",
+        recordId: "audio_coverage_requirement:ministar-l1-greetings-v1",
+        status: "required",
+        note: "English term, sentence, instruction, feedback, and control audio need review.",
+      },
+      {
+        linkId: "ministar-compatibility",
+        label: "Activity compatibility",
+        recordType: "activity_compatibility_snapshot",
+        recordId: "activity_compatibility_snapshot:ministar-l1-greetings-v1",
+        status: "present",
+        note: "Flashcards, memory, sentence, and speaking pathway stays curated.",
+      },
+      {
+        linkId: "ministar-media-rights",
+        label: "MiniStar media rights manifest",
+        recordType: "media_rights_manifest",
+        recordId: "media_rights_manifest:ministar-l1-greetings-v1",
+        status: "required",
+        note: "Mascot, avatar, audio, and media rights remain review-gated.",
+      },
+      {
+        linkId: "ministar-draft-package",
+        label: "Teacher draft package",
+        recordType: "teacher_draft_package",
+        recordId: "teacher_draft_package:future-ministar-l1-greetings-v1",
+        status: "blocked",
+        note: "Draft creation is blocked until request storage and review gates pass.",
+      },
+      {
+        linkId: "ministar-verifier-submission",
+        label: "Verifier submission preflight",
+        recordType: "teacher_draft_verifier_submission",
+        recordId: "teacher_draft_verifier_submission:future-ministar-l1-greetings-v1",
+        status: "blocked",
+        note: "Verifier submission is blocked until draft, English audio, and media rights are ready.",
+      },
+    ],
+    requiredBeforeLiveRequest: [
+      "MiniStar source evidence accepted",
+      "Premium AI cost gate accepted by school or tenant",
+      "English target-language audio coverage accepted",
+      "Japanese support confirmed hiragana-only and support-only",
+      "MiniStar media rights manifest accepted",
+      "Teacher draft and verifier preflight storage available",
+    ],
+    blockedActions: [...sharedBlockedActions, "No Japanese support-language unlock"],
+    reviewerNotes: [
+      "English is the only progress trigger in this request packet.",
+      "Japanese support can help comprehension but cannot satisfy a game step, Star Dust, mastery, approval, or release.",
+    ],
+  },
+];
+
+export const sampleAiGenerationRequestPacketPreviewErrors =
+  validateAiGenerationRequestPacketPreviews(sampleAiGenerationRequestPacketPreviews);
+
+export const sampleAiGenerationRequestPacketPreviewWarnings =
+  sampleAiGenerationRequestPacketPreviews.flatMap((packet) => getAiGenerationRequestPacketPreviewWarnings(packet));
+
+export function filterAiGenerationRequestPacketPreviewsByTenant(
+  packets: AiGenerationRequestPacketPreview[],
+  tenantId: string,
+): AiGenerationRequestPacketPreview[] {
+  return packets.filter((packet) => packet.tenantId === tenantId);
+}

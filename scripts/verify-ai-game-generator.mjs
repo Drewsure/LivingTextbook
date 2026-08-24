@@ -15,6 +15,10 @@ const engineBindingPlan = readSource("../apps/web/src/data/sampleAiEngineBinding
 const promptPackagePlan = readSource("../apps/web/src/data/sampleAiPromptPackagePlan.ts");
 const costEntitlementGate = readSource("../apps/web/src/data/sampleAiGeneratorCostEntitlementGate.ts");
 const requestBuilderData = readSource("../apps/web/src/data/sampleAiGenerationRequestBuilder.ts");
+const requestPacketPreviewData = readSource("../apps/web/src/data/sampleAiGenerationRequestPacketPreview.ts");
+const requestPacketPreviewValidator = readSource(
+  "../packages/content-model/src/aiGenerationRequestPacketPreview.ts",
+);
 const requestStorageGuardData = readSource("../apps/web/src/data/sampleAiGenerationRequestStorageGuard.ts");
 const audioCoveragePlan = readSource("../apps/web/src/data/sampleAiGeneratorAudioCoveragePlan.ts");
 const gamificationMappingPlan = readSource("../apps/web/src/data/sampleAiGamificationMappingPlan.ts");
@@ -214,6 +218,9 @@ const engineBindingPanel = readSource("../apps/web/src/features/content-intake/A
 const promptPackagePanel = readSource("../apps/web/src/features/content-intake/AiPromptPackagePlanPanel.tsx");
 const costEntitlementGatePanel = readSource("../apps/web/src/features/content-intake/AiGeneratorCostEntitlementGatePanel.tsx");
 const requestBuilderPanel = readSource("../apps/web/src/features/content-intake/AiGenerationRequestBuilderPanel.tsx");
+const requestPacketPreviewPanel = readSource(
+  "../apps/web/src/features/content-intake/AiGenerationRequestPacketPreviewPanel.tsx",
+);
 const requestStorageGuardPanel = readSource("../apps/web/src/features/content-intake/AiGenerationRequestStorageGuardPanel.tsx");
 const audioCoveragePanel = readSource("../apps/web/src/features/content-intake/AiGeneratorAudioCoveragePlanPanel.tsx");
 const gamificationMappingPanel = readSource("../apps/web/src/features/content-intake/AiGamificationMappingPanel.tsx");
@@ -2519,6 +2526,32 @@ requireText(requestBuilderData, "No live prompt dispatch", "AI request builder m
 requireText(requestBuilderData, "No model billing", "AI request builder must block model billing.");
 requireText(requestBuilderPanel, "AI generation request builder", "AI request builder panel must expose heading.");
 requireText(requestBuilderPanel, "Disabled generator setup form", "AI request builder panel must expose disabled form label.");
+requireText(requestPacketPreviewData, "sampleAiGenerationRequestPacketPreviews", "AI request packet preview data must exist.");
+requireText(requestPacketPreviewData, "sampleAiGenerationRequestPacketPreviewErrors", "AI request packet preview data must expose shared guard errors.");
+requireText(requestPacketPreviewData, "sampleAiGenerationRequestPacketPreviewWarnings", "AI request packet preview data must expose shared guard warnings.");
+requireText(requestPacketPreviewData, "ai_generation_request_packet", "AI request packet preview must name generation request packet ids.");
+requireText(requestPacketPreviewData, "request_builder_review_packet", "AI request packet preview must link request builder review packets.");
+requireText(requestPacketPreviewData, "source_evidence_packet", "AI request packet preview must link source evidence packets.");
+requireText(requestPacketPreviewData, "premium_ai_cost_gate", "AI request packet preview must link premium AI cost gates.");
+requireText(requestPacketPreviewData, "audio_coverage_requirement", "AI request packet preview must link audio coverage requirements.");
+requireText(requestPacketPreviewData, "activity_compatibility_snapshot", "AI request packet preview must link activity compatibility snapshots.");
+requireText(requestPacketPreviewData, "media_rights_manifest", "AI request packet preview must link media rights manifests.");
+requireText(requestPacketPreviewData, "targetLanguageProgressTrigger", "AI request packet preview must preserve target-language trigger field.");
+requireText(requestPacketPreviewData, "supportLanguageProgressAllowed: false", "AI request packet preview must block support-language progress.");
+requireText(requestPacketPreviewData, "liveModelDispatchAllowed: false", "AI request packet preview must block live model dispatch.");
+requireText(requestPacketPreviewData, "modelBillingAllowed: false", "AI request packet preview must block model billing.");
+requireText(requestPacketPreviewData, "No route write", "AI request packet preview must block route writes.");
+requireText(requestPacketPreviewData, "No playlist write", "AI request packet preview must block playlist writes.");
+requireText(requestPacketPreviewData, "No student assignment", "AI request packet preview must block student assignment.");
+requireText(requestPacketPreviewValidator, "validateAiGenerationRequestPacketPreview", "Shared content model must validate AI request packet previews.");
+requireText(requestPacketPreviewValidator, "AI_GENERATION_REQUEST_PACKET_REQUIRED_RECORD_TYPES", "Shared request packet validator must require evidence record types.");
+requireText(requestPacketPreviewValidator, "AI_GENERATION_REQUEST_PACKET_REQUIRED_BLOCKED_ACTIONS", "Shared request packet validator must require blocked actions.");
+requireText(requestPacketPreviewValidator, "isAiGenerationRequestPacketLiveBlocked", "Shared request packet validator must expose live-block helper.");
+requireText(requestPacketPreviewPanel, "AI generation request packet preview", "AI request packet preview panel must expose heading.");
+requireText(requestPacketPreviewPanel, "Review packet before model calls", "AI request packet preview panel must expose review boundary.");
+requireText(requestPacketPreviewPanel, "Request packet guard active", "AI request packet preview panel must expose shared guard status.");
+requireText(requestPacketPreviewPanel, "target_language_progress_trigger", "AI request packet preview panel must expose target-language trigger.");
+requireText(requestPacketPreviewPanel, "support_language_progress_allowed", "AI request packet preview panel must expose support-language progress block.");
 requireText(requestStorageGuardData, "sampleAiGenerationRequestStorageGuards", "AI request storage guard data must exist.");
 requireText(requestStorageGuardData, "request-storage-guard-ministar-l1-greetings-v1", "AI request storage guard must include MiniStar seed.");
 requireText(requestStorageGuardData, "ai_generation_request_packet_id", "AI request storage guard must preserve request packet ids.");

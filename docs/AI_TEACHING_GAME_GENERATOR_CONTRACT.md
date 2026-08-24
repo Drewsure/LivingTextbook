@@ -40,6 +40,8 @@ The guard blocks live model dispatch, model billing, generator request submissio
 
 The backend-neutral storage contract for the request itself is `ai_generation_request_packet` / `ai-generation-request-packet`. Hosted and local adapters must preserve request-builder review, source evidence, premium AI cost gate, target-language audio coverage, activity compatibility, media-rights manifest, teacher draft, and verifier submission links while blocking live model dispatch, model billing, draft generation, verifier submission, package assembly, route writes, playlist writes, assignments, student-ready markers, and support-language progress triggers.
 
+Teacher generator routes must also show an AI generation request packet preview. The preview mirrors the future stored packet for nontechnical review: evidence links, target-language-only progress trigger, support-language support-only rule, required-before-live items, reviewer notes, and blocked actions. It is not a prompt dispatch surface and cannot call models, bill usage, generate drafts, submit to a verifier, create packages, write routes, create playlists, assign students, or mark content student-ready.
+
 ## Generator Responsibility Matrix
 
 Teacher generator routes must show a review-only responsibility matrix before detailed generator panels. The matrix separates teacher/school review, Codex architecture and integration, outside AI builder/Z.ai prototype work, verifier checks, and platform admin entitlement/storage/release duties.
