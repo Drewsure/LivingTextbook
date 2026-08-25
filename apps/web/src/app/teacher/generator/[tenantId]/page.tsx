@@ -211,6 +211,10 @@ import {
   sampleAiVerifierSubmissionPackets,
 } from "@/data/sampleAiVerifierSubmissionPacket";
 import {
+  filterAiVerifierSubmissionStorageGuardsByTenant,
+  sampleAiVerifierSubmissionStorageGuards,
+} from "@/data/sampleAiVerifierSubmissionStorageGuard";
+import {
   filterAiTargetLanguageAudioApprovalPacketsByTenant,
   sampleAiTargetLanguageAudioApprovalPackets,
 } from "@/data/sampleAiTargetLanguageAudioApprovalPacket";
@@ -275,6 +279,7 @@ import { AiPromptPackagePlanPanel } from "@/features/content-intake/AiPromptPack
 import { AiRewardReadinessGatePanel } from "@/features/content-intake/AiRewardReadinessGatePanel";
 import { AiTargetLanguageAudioApprovalPacketPanel } from "@/features/content-intake/AiTargetLanguageAudioApprovalPacketPanel";
 import { AiVerifierSubmissionPacketPanel } from "@/features/content-intake/AiVerifierSubmissionPacketPanel";
+import { AiVerifierSubmissionStorageGuardPanel } from "@/features/content-intake/AiVerifierSubmissionStorageGuardPanel";
 import { ministarTenant } from "@/features/tenant/ministarTenant";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 
@@ -481,6 +486,9 @@ export default async function TeacherAiGameGeneratorPage({
           />
         <AiVerifierSubmissionPacketPanel
           packets={filterAiVerifierSubmissionPacketsByTenant(sampleAiVerifierSubmissionPackets, tenantId)}
+        />
+        <AiVerifierSubmissionStorageGuardPanel
+          guards={filterAiVerifierSubmissionStorageGuardsByTenant(sampleAiVerifierSubmissionStorageGuards, tenantId)}
         />
         <AiTargetLanguageAudioApprovalPacketPanel
           packets={filterAiTargetLanguageAudioApprovalPacketsByTenant(

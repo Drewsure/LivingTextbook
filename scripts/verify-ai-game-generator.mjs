@@ -149,6 +149,12 @@ const prototypePatchChangeSetPreviewValidator = readSource(
 );
 const verifierSubmissionPacket = readSource("../apps/web/src/data/sampleAiVerifierSubmissionPacket.ts");
 const verifierSubmissionPacketValidator = readSource("../packages/content-model/src/aiVerifierSubmissionPacket.ts");
+const verifierSubmissionStorageGuardData = readSource(
+  "../apps/web/src/data/sampleAiVerifierSubmissionStorageGuard.ts",
+);
+const verifierSubmissionStorageGuardValidator = readSource(
+  "../packages/content-model/src/aiVerifierSubmissionStorageGuard.ts",
+);
 const targetLanguageAudioApprovalPacket = readSource(
   "../apps/web/src/data/sampleAiTargetLanguageAudioApprovalPacket.ts",
 );
@@ -303,6 +309,9 @@ const prototypePatchChangeSetPreviewPanel = readSource(
   "../apps/web/src/features/content-intake/AiPrototypePatchChangeSetPreviewPanel.tsx",
 );
 const verifierSubmissionPanel = readSource("../apps/web/src/features/content-intake/AiVerifierSubmissionPacketPanel.tsx");
+const verifierSubmissionStorageGuardPanel = readSource(
+  "../apps/web/src/features/content-intake/AiVerifierSubmissionStorageGuardPanel.tsx",
+);
 const targetLanguageAudioApprovalPacketPanel = readSource(
   "../apps/web/src/features/content-intake/AiTargetLanguageAudioApprovalPacketPanel.tsx",
 );
@@ -2878,6 +2887,116 @@ requireText(verifierSubmissionPanel, "Verifier checks", "AI verifier packet pane
 requireText(verifierSubmissionPanel, "Evidence", "AI verifier packet panel must show evidence.");
 requireText(verifierSubmissionPanel, "Rejection rule", "AI verifier packet panel must show rejection rules.");
 requireText(
+  verifierSubmissionStorageGuardData,
+  "sampleAiVerifierSubmissionStorageGuards",
+  "AI verifier storage guard data must exist.",
+);
+requireText(
+  verifierSubmissionStorageGuardData,
+  "teacher_draft_verifier_submission",
+  "AI verifier storage guard must name the verifier submission storage record.",
+);
+requireText(
+  verifierSubmissionStorageGuardData,
+  "ai_draft_repair_evidence_packet",
+  "AI verifier storage guard must require repair evidence.",
+);
+requireText(
+  verifierSubmissionStorageGuardData,
+  "reviewer_identity",
+  "AI verifier storage guard must require reviewer identity.",
+);
+requireText(
+  verifierSubmissionStorageGuardData,
+  "media_rights_evidence_attachment",
+  "AI verifier storage guard must require media rights evidence.",
+);
+requireText(
+  verifierSubmissionStorageGuardData,
+  "target_language_audio_approval",
+  "AI verifier storage guard must require target-language audio approval.",
+);
+requireText(
+  verifierSubmissionStorageGuardData,
+  "release_control_binding",
+  "AI verifier storage guard must require release-control binding.",
+);
+requireText(
+  verifierSubmissionStorageGuardData,
+  "No live verifier submission",
+  "AI verifier storage guard must block live verifier submission.",
+);
+requireText(
+  verifierSubmissionStorageGuardData,
+  "No package approval from verifier storage",
+  "AI verifier storage guard must block package approval.",
+);
+requireText(
+  verifierSubmissionStorageGuardData,
+  "No student assignment from verifier storage",
+  "AI verifier storage guard must block assignment.",
+);
+requireText(
+  verifierSubmissionStorageGuardData,
+  "supportLanguageProgressAllowed: false",
+  "AI verifier storage guard must keep support language from progress.",
+);
+requireText(
+  verifierSubmissionStorageGuardData,
+  "local-companion",
+  "AI verifier storage guard must include local companion adapter requirements.",
+);
+requireText(
+  verifierSubmissionStorageGuardData,
+  "hosted",
+  "AI verifier storage guard must include hosted adapter requirements.",
+);
+requireText(
+  verifierSubmissionStorageGuardData,
+  "MiniStar verifier storage guard",
+  "AI verifier storage guard must include MiniStar seed.",
+);
+requireText(
+  verifierSubmissionStorageGuardData,
+  "hiragana-only",
+  "MiniStar verifier storage guard must preserve hiragana support.",
+);
+requireText(
+  verifierSubmissionStorageGuardValidator,
+  "validateAiVerifierSubmissionStorageGuard",
+  "AI verifier storage guard validator must export the single-guard check.",
+);
+requireText(
+  verifierSubmissionStorageGuardValidator,
+  "AI_VERIFIER_STORAGE_REQUIRED_RECORDS",
+  "AI verifier storage guard validator must lock required records.",
+);
+requireText(
+  verifierSubmissionStorageGuardValidator,
+  "AI_VERIFIER_STORAGE_REQUIRED_BLOCKED_ACTIONS",
+  "AI verifier storage guard validator must lock blocked actions.",
+);
+requireText(
+  verifierSubmissionStorageGuardPanel,
+  "AI verifier submission storage guard",
+  "AI verifier storage guard panel must expose heading.",
+);
+requireText(
+  verifierSubmissionStorageGuardPanel,
+  "Durable verifier records before live verification",
+  "AI verifier storage guard panel must expose durable storage headline.",
+);
+requireText(
+  verifierSubmissionStorageGuardPanel,
+  "Verifier storage guard active",
+  "AI verifier storage guard panel must expose guard state.",
+);
+requireText(
+  verifierSubmissionStorageGuardPanel,
+  "Hosted and local adapter requirements",
+  "AI verifier storage guard panel must expose hosted/local adapters.",
+);
+requireText(
   targetLanguageAudioApprovalPacketValidator,
   "validateAiTargetLanguageAudioApprovalPacket",
   "Target-language audio approval packet validator must export the single-packet guard.",
@@ -5018,6 +5137,11 @@ requireText(route, "AiGeneratedPublishReadinessGatePanel", "Generator route must
 requireText(route, "AiGeneratedDraftPayloadPreviewPanel", "Generator route must render the draft payload preview panel.");
 requireText(route, "AiDraftCorrectionQueuePanel", "Generator route must render the draft correction queue panel.");
 requireText(route, "AiDraftRepairEvidencePacketPanel", "Generator route must render the draft repair evidence packet panel.");
+requireText(
+  route,
+  "AiVerifierSubmissionStorageGuardPanel",
+  "Generator route must render the verifier submission storage guard panel.",
+);
 requireText(route, "sampleAiGameGeneratorPlan", "Generator route must use the sample generator plan.");
 requireText(route, "sampleAiGeneratorTenantCoverage", "Generator route must use tenant coverage data.");
 requireText(route, "sampleAiGeneratorLineageMaps", "Generator route must use lineage map data.");
@@ -5096,6 +5220,11 @@ requireText(route, "sampleAiGeneratorAudioCoveragePlans", "Generator route must 
 requireText(route, "sampleAiGamificationMappingPlans", "Generator route must use the sample gamification mapping plan data.");
 requireText(route, "sampleAiRewardReadinessGates", "Generator route must use the sample reward readiness gate data.");
 requireText(route, "sampleAiVerifierSubmissionPackets", "Generator route must use the sample verifier submission packet data.");
+requireText(
+  route,
+  "sampleAiVerifierSubmissionStorageGuards",
+  "Generator route must use verifier submission storage guard data.",
+);
 requireText(
   route,
   "sampleAiTargetLanguageAudioApprovalPackets",

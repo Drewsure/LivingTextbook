@@ -565,6 +565,10 @@ Verifier packets must pass the shared `validateAiVerifierSubmissionPacket` guard
 
 Verifier submission, generated package approval, route creation, playlist creation, assignment creation, and student-ready marking remain blocked until durable verifier storage, reviewer identity, media evidence attachments, audio cue approval, approval ledger binding, and release-control binding exist.
 
+The `ai_verifier_submission_packet` must be followed by an `AI verifier submission storage guard` before any live verifier workflow, package approval, route write, playlist write, assignment, or student-ready marker can exist. This guard uses the backend-neutral `teacher_draft_verifier_submission` record and must preserve hosted and local companion adapter requirements, evidence attachments, reviewer identity, retention policy, audit trail, target-language audio approval, media-rights evidence, approval ledger, release-control binding, and support-language progress blocking.
+
+The shared `validateAiVerifierSubmissionStorageGuard` contract must keep `verifierSubmissionAllowed`, `packageApprovalAllowed`, `routeWriteAllowed`, `playlistWriteAllowed`, `assignmentWriteAllowed`, `studentReadyMarkerAllowed`, and `supportLanguageProgressAllowed` set to `false`. MiniStar storage guards must preserve English as the target-language trigger and keep Foundation/Bronze/Plus Japanese support hiragana-only and support-only.
+
 ## Generated Package Teacher Review Packet Rule
 
 Teacher generator routes may show an AI generated package teacher review packet after verifier packet planning and before generated package manifests. The packet is a teacher approval prep surface: it gathers generated content fit, target-language audio, curated activity pathway, deterministic rewards, media-rights evidence, support-language boundaries, verifier readiness, missing evidence, blocked actions, and next required records into one readable review packet.

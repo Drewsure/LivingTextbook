@@ -481,6 +481,7 @@
 - `DR-507-ai-request-to-draft-handoff-preview.md`
 - `DR-508-ai-draft-repair-evidence-packet.md`
 - `DR-509-ai-verifier-submission-packet-validator.md`
+- `DR-510-ai-verifier-submission-storage-guard.md`
 
 ## Maintenance Rule
 

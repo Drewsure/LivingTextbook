@@ -536,3 +536,20 @@ Constraints:
 - The teacher generator route must show verifier guard blocks and warnings.
 - MiniStar packets must preserve English as the progress trigger and hiragana-only Japanese support boundaries.
 - This decision is recorded in `docs/adr/0438-ai-verifier-submission-packet-validator.md` and `docs/decision-register/DR-509-ai-verifier-submission-packet-validator.md`.
+
+## DR-510: AI Verifier Submission Storage Guard
+
+Status: Accepted
+
+Decision: Add a visible, review-only storage guard after AI verifier submission packets and before downstream package review.
+
+White-label impact: Positive. The verifier storage guard preserves hosted and local companion parity for each tenant before any backend vendor or local bundle behavior is chosen.
+
+Cost impact: Positive. Live verifier submission, approval, route writes, playlist writes, assignments, and student-ready markers stay blocked until storage, evidence, retention, and audit obligations are explicit.
+
+Constraints:
+
+- The storage record type is `teacher_draft_verifier_submission`.
+- Hosted and local companion adapter requirements must both be visible.
+- Verifier submission, package approval, route writes, playlist writes, assignments, student-ready markers, and support-language progress remain blocked.
+- This decision is recorded in `docs/adr/0439-ai-verifier-submission-storage-guard.md` and `docs/decision-register/DR-510-ai-verifier-submission-storage-guard.md`.

@@ -772,6 +772,7 @@ export * from "./aiGenerationRequestToDraftHandoff";
 export * from "./aiDraftCorrectionQueue";
 export * from "./aiDraftRepairEvidencePacket";
 export * from "./aiVerifierSubmissionPacket";
+export * from "./aiVerifierSubmissionStorageGuard";
 export * from "./aiGamificationMapping";
 export * from "./progressEventTaxonomy";
 export * from "./publisherMaintenance";
