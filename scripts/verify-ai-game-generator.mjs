@@ -3478,6 +3478,11 @@ requireText(
 );
 requireText(
   generatedPackagePromotionChecklistValidator,
+  "ai_verifier_result_evidence_packet",
+  "AI generated package promotion checklist validator must require verifier result evidence.",
+);
+requireText(
+  generatedPackagePromotionChecklistValidator,
   "No promote generated package button",
   "AI generated package promotion checklist validator must block promote actions.",
 );
@@ -3500,6 +3505,21 @@ requireText(
   generatedPackagePromotionChecklist,
   "Draft-to-playable package pathway",
   "AI generated package promotion checklist must name the promotion pathway.",
+);
+requireText(
+  generatedPackagePromotionChecklist,
+  "Verifier result evidence accepted",
+  "AI generated package promotion checklist must gate promotion on verifier result evidence.",
+);
+requireText(
+  generatedPackagePromotionChecklist,
+  "ai_verifier_result_evidence_packet",
+  "AI generated package promotion checklist must include verifier result evidence in next records.",
+);
+requireText(
+  generatedPackagePromotionChecklist,
+  "verifier-result-not-submitted",
+  "AI generated package promotion checklist must keep verifier result submission blocked.",
 );
 requireText(
   generatedPackagePromotionChecklist,

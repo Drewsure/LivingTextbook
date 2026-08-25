@@ -587,3 +587,21 @@ Constraints:
 - Teacher approval from verifier result remains blocked.
 - MiniStar teacher review must preserve English target-language progress and hiragana-only Japanese support.
 - This decision is recorded in `docs/adr/0441-teacher-review-verifier-result-dependency.md` and `docs/decision-register/DR-512-teacher-review-verifier-result-dependency.md`.
+
+## DR-513: Promotion Checklist Verifier Result Dependency
+
+Status: Accepted
+
+Decision: AI generated package promotion checklists must depend on `ai_verifier_result_evidence_packet`, not only verifier submission packet visibility.
+
+White-label impact: Positive. Every tenant promotion pathway now waits for reviewed verifier-result evidence while still allowing tenant-specific media, language, and curriculum rules.
+
+Cost impact: Positive. The platform avoids package promotion work, route writes, playlist writes, and assignment rollout until verifier outcomes are explicit.
+
+Constraints:
+
+- Promotion checklists must show verifier result evidence as a blocked step while result status is `verifier-result-not-submitted`.
+- `ai_verifier_result_evidence_packet` must remain visible in next required records before promotion.
+- Package promotion, route registry writes, playlists, assignments, local bundles, and student-ready markers remain blocked.
+- MiniStar promotion must preserve English target-language progress and hiragana-only Japanese support.
+- This decision is recorded in `docs/adr/0442-promotion-checklist-verifier-result-dependency.md` and `docs/decision-register/DR-513-promotion-checklist-verifier-result-dependency.md`.

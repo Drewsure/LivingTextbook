@@ -49,13 +49,13 @@ export const sampleAiGeneratedPackagePromotionChecklists: AiGeneratedPackageProm
       },
       {
         stepId: "verifier-accepted",
-        label: "Verifier accepted",
-        status: publishGate?.checks.find((check) => check.checkId === "verifier-packet-approved")?.status ?? "missing",
-        requiredRecord: "ai_verifier_submission_packet",
+        label: "Verifier result evidence accepted",
+        status: "blocked",
+        requiredRecord: "ai_verifier_result_evidence_packet",
         evidence:
-          publishGate?.checks.find((check) => check.checkId === "verifier-packet-approved")?.evidence ??
-          "Verifier submission packet is missing.",
-        releaseBoundary: "Vision/reasoning verification must pass before package approval can be considered.",
+          "Verifier result evidence remains verifier-result-not-submitted, so package promotion cannot rely on verifier output.",
+        releaseBoundary:
+          "Vision/reasoning result evidence must be reviewed before package approval or promotion can be considered.",
       },
       {
         stepId: "manifest-complete",
@@ -145,6 +145,7 @@ export const sampleAiGeneratedPackagePromotionChecklists: AiGeneratedPackageProm
       nextRecords: [
         "package_game_audio_coverage",
         "media_rights_manifest",
+        "ai_verifier_result_evidence_packet",
         "ai_verifier_submission_packet",
         "package_publish_gate",
         "package_approval_ledger",

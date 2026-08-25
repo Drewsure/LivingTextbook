@@ -42,6 +42,7 @@ export const AI_GENERATED_PACKAGE_PROMOTION_REQUIRED_STEP_IDS = [
 export const AI_GENERATED_PACKAGE_PROMOTION_REQUIRED_NEXT_RECORDS = [
   "package_game_audio_coverage",
   "media_rights_manifest",
+  "ai_verifier_result_evidence_packet",
   "ai_verifier_submission_packet",
   "package_publish_gate",
   "package_approval_ledger",
@@ -141,6 +142,10 @@ export function validateAiGeneratedPackagePromotionChecklist(checklist: unknown)
     if (!nextRecords.includes(record)) {
       errors.push(`AI generated package promotion checklist must include next record: ${record}.`);
     }
+  }
+
+  if (!steps.some((step) => step.requiredRecord === "ai_verifier_result_evidence_packet")) {
+    errors.push("AI generated package promotion checklist must depend on verifier result evidence.");
   }
 
   if (tenantId === "ministar") {

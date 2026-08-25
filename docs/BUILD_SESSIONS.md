@@ -806,3 +806,5 @@ AI verifier submission storage guards must remain visible after verifier packets
 AI verifier result evidence packets must remain visible after verifier storage guards and before teacher approval prep. They must remain offline review previews with `verifier-result-not-submitted`, preserve source-record checks and required repairs, and block live verifier calls, pass/fail finalization, teacher approval, package approval, route writes, playlist writes, assignments, student-ready markers, and support-language progress.
 
 AI generated package teacher review packets must depend on `ai_verifier_result_evidence_packet`, not only verifier submission packet visibility. Teacher approval capture remains blocked when verifier result evidence is not submitted, unresolved, or missing.
+
+AI generated package promotion checklists must depend on `ai_verifier_result_evidence_packet`, not only verifier submission packet visibility. Promotion remains blocked while verifier result evidence is `verifier-result-not-submitted`, unresolved, or missing.
