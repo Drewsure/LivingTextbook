@@ -42,6 +42,7 @@ export const AI_GENERATED_PACKAGE_TEACHER_REVIEW_REQUIRED_LANE_TOPICS = [
 ] as const;
 
 export const AI_GENERATED_PACKAGE_TEACHER_REVIEW_REQUIRED_RECORDS = [
+  "ai_verifier_result_evidence_packet",
   "teacher_approval_ledger",
   "media_rights_evidence_attachment",
   "target_language_audio_approval",
@@ -51,6 +52,7 @@ export const AI_GENERATED_PACKAGE_TEACHER_REVIEW_REQUIRED_RECORDS = [
 
 export const AI_GENERATED_PACKAGE_TEACHER_REVIEW_MISSING_EVIDENCE_TOPICS = [
   "teacher approval",
+  "verifier result evidence",
   "target-language audio approval",
   "media",
   "release-control binding",
@@ -59,6 +61,7 @@ export const AI_GENERATED_PACKAGE_TEACHER_REVIEW_MISSING_EVIDENCE_TOPICS = [
 
 export const AI_GENERATED_PACKAGE_TEACHER_REVIEW_BLOCKED_ACTIONS = [
   "No teacher approval capture",
+  "No teacher approval from verifier result",
   "No package assembly from teacher packet",
   "No route creation from teacher packet",
   "No playlist creation from teacher packet",
@@ -112,6 +115,10 @@ export function validateAiGeneratedPackageTeacherReviewPacket(packet: unknown): 
     if (!lane.sourceRecord || !lane.evidence || !lane.teacherQuestion || !lane.blocker) {
       errors.push(`AI generated package teacher review lane must include full review evidence: ${lane.label}.`);
     }
+  }
+
+  if (!decisionLanes.some((lane) => lane.sourceRecord.includes("ai_verifier_result_evidence_packet"))) {
+    errors.push("AI generated package teacher review packet must depend on verifier result evidence.");
   }
 
   if (!textListIncludes(readySignals, "JSON-first") && !textListIncludes(readySignals, "reviewable")) {

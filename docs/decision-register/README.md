@@ -483,6 +483,7 @@
 - `DR-509-ai-verifier-submission-packet-validator.md`
 - `DR-510-ai-verifier-submission-storage-guard.md`
 - `DR-511-ai-verifier-result-evidence-packet.md`
+- `DR-512-teacher-review-verifier-result-dependency.md`
 
 ## Maintenance Rule
 

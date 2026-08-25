@@ -570,3 +570,20 @@ Constraints:
 - Teacher approval, package approval, route writes, playlist writes, assignments, student-ready markers, and support-language progress remain blocked.
 - MiniStar evidence must preserve English as target-language trigger and hiragana-only Japanese support.
 - This decision is recorded in `docs/adr/0440-ai-verifier-result-evidence-packet.md` and `docs/decision-register/DR-511-ai-verifier-result-evidence-packet.md`.
+
+## DR-512: Teacher Review Verifier Result Dependency
+
+Status: Accepted
+
+Decision: AI generated package teacher review packets must depend on `ai_verifier_result_evidence_packet`, not only verifier submission packet visibility.
+
+White-label impact: Positive. Every tenant gets the same approval discipline while using its own curriculum, media, and language rules.
+
+Cost impact: Positive. Human review cannot trigger downstream package work from an unsubmitted or unresolved verifier result.
+
+Constraints:
+
+- Teacher review packets must keep verifier-result evidence visible as missing evidence and a next required record.
+- Teacher approval from verifier result remains blocked.
+- MiniStar teacher review must preserve English target-language progress and hiragana-only Japanese support.
+- This decision is recorded in `docs/adr/0441-teacher-review-verifier-result-dependency.md` and `docs/decision-register/DR-512-teacher-review-verifier-result-dependency.md`.

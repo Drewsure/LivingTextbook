@@ -3255,8 +3255,18 @@ requireText(
 );
 requireText(
   generatedPackageTeacherReviewPacketValidator,
+  "ai_verifier_result_evidence_packet",
+  "AI generated package teacher review packet validator must require verifier result evidence.",
+);
+requireText(
+  generatedPackageTeacherReviewPacketValidator,
   "No teacher approval capture",
   "AI generated package teacher review packet validator must block teacher approval capture.",
+);
+requireText(
+  generatedPackageTeacherReviewPacketValidator,
+  "No teacher approval from verifier result",
+  "AI generated package teacher review packet validator must block approval from verifier result.",
 );
 requireText(
   generatedPackageTeacherReviewPacketValidator,
@@ -3295,8 +3305,23 @@ requireText(
 );
 requireText(
   generatedPackageTeacherReviewPacket,
+  "ai_verifier_result_evidence_packet",
+  "AI generated package teacher review packet must require verifier result evidence.",
+);
+requireText(
+  generatedPackageTeacherReviewPacket,
+  "verifier-result-not-submitted",
+  "AI generated package teacher review packet must preserve verifier result blocker.",
+);
+requireText(
+  generatedPackageTeacherReviewPacket,
   "No support-language progress trigger",
   "AI generated package teacher review packet must block support-language progress.",
+);
+requireText(
+  generatedPackageTeacherReviewPacket,
+  "No teacher approval from verifier result",
+  "AI generated package teacher review packet must block teacher approval from verifier result.",
 );
 requireText(
   generatedPackageTeacherReviewPacket,

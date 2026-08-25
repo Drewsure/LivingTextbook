@@ -68,10 +68,11 @@ export const sampleAiGeneratedPackageTeacherReviewPackets: AiGeneratedPackageTea
       {
         label: "Verifier and release control",
         status: "blocked",
-        sourceRecord: "ai-verifier-submission-sample-publisher-game-draft-v1",
-        evidence: "Verifier checks are listed, but no live verifier workflow or release-control binding exists.",
+        sourceRecord: "ai_verifier_result_evidence_packet",
+        evidence:
+          "Verifier result evidence is defined, but result state remains verifier-result-not-submitted and teacher approval is blocked.",
         teacherQuestion: "What evidence must be fixed before this can become a package candidate?",
-        blocker: "Verifier submission, signed approval, and release-control binding are missing.",
+        blocker: "Verifier result finalization, signed approval, and release-control binding are missing.",
       },
     ],
     readySignals: [
@@ -83,6 +84,7 @@ export const sampleAiGeneratedPackageTeacherReviewPackets: AiGeneratedPackageTea
     ],
     missingEvidence: [
       "Teacher approval ledger",
+      "Verifier result evidence packet",
       "Target-language audio approval",
       "Media-rights attachment",
       "Release-control binding",
@@ -90,6 +92,7 @@ export const sampleAiGeneratedPackageTeacherReviewPackets: AiGeneratedPackageTea
     ],
     blockedActions: [
       "No teacher approval capture",
+      "No teacher approval from verifier result",
       "No package assembly from teacher packet",
       "No route creation from teacher packet",
       "No playlist creation from teacher packet",
@@ -99,6 +102,7 @@ export const sampleAiGeneratedPackageTeacherReviewPackets: AiGeneratedPackageTea
     ],
     nextRequiredRecords: [
       "teacher_approval_ledger",
+      "ai_verifier_result_evidence_packet",
       "media_rights_evidence_attachment",
       "target_language_audio_approval",
       "release_control_binding",
@@ -157,10 +161,11 @@ export const sampleAiGeneratedPackageTeacherReviewPackets: AiGeneratedPackageTea
       {
         label: "Verifier, media, and approval",
         status: "blocked",
-        sourceRecord: "ai-verifier-submission-ministar-l1-greetings-v1",
-        evidence: "Verifier checks, media rights needs, and teacher approval blockers are visible.",
+        sourceRecord: "ai_verifier_result_evidence_packet",
+        evidence:
+          "MiniStar verifier result evidence is defined, but verifier-result-not-submitted, media rights, and teacher approval blockers remain visible.",
         teacherQuestion: "What must be fixed before this can enter a private tenant package library?",
-        blocker: "Verifier submission, MiniStar media rights evidence attachments, and approval ledger are missing.",
+        blocker: "Verifier result finalization, MiniStar media rights evidence attachments, and approval ledger are missing.",
       },
     ],
     readySignals: [
@@ -173,6 +178,7 @@ export const sampleAiGeneratedPackageTeacherReviewPackets: AiGeneratedPackageTea
     ],
     missingEvidence: [
       "MiniStar teacher approval ledger",
+      "MiniStar verifier result evidence packet",
       "English target-language audio approval",
       "MiniStar media rights evidence attachments",
       "Release-control binding",
@@ -180,6 +186,7 @@ export const sampleAiGeneratedPackageTeacherReviewPackets: AiGeneratedPackageTea
     ],
     blockedActions: [
       "No teacher approval capture",
+      "No teacher approval from verifier result",
       "No package assembly from teacher packet",
       "No route creation from teacher packet",
       "No playlist creation from teacher packet",
@@ -189,6 +196,7 @@ export const sampleAiGeneratedPackageTeacherReviewPackets: AiGeneratedPackageTea
     ],
     nextRequiredRecords: [
       "teacher_approval_ledger",
+      "ai_verifier_result_evidence_packet",
       "media_rights_evidence_attachment",
       "target_language_audio_approval",
       "release_control_binding",
