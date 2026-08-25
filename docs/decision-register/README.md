@@ -482,6 +482,7 @@
 - `DR-508-ai-draft-repair-evidence-packet.md`
 - `DR-509-ai-verifier-submission-packet-validator.md`
 - `DR-510-ai-verifier-submission-storage-guard.md`
+- `DR-511-ai-verifier-result-evidence-packet.md`
 
 ## Maintenance Rule
 

@@ -155,6 +155,10 @@ const verifierSubmissionStorageGuardData = readSource(
 const verifierSubmissionStorageGuardValidator = readSource(
   "../packages/content-model/src/aiVerifierSubmissionStorageGuard.ts",
 );
+const verifierResultEvidencePacket = readSource("../apps/web/src/data/sampleAiVerifierResultEvidencePacket.ts");
+const verifierResultEvidencePacketValidator = readSource(
+  "../packages/content-model/src/aiVerifierResultEvidencePacket.ts",
+);
 const targetLanguageAudioApprovalPacket = readSource(
   "../apps/web/src/data/sampleAiTargetLanguageAudioApprovalPacket.ts",
 );
@@ -311,6 +315,9 @@ const prototypePatchChangeSetPreviewPanel = readSource(
 const verifierSubmissionPanel = readSource("../apps/web/src/features/content-intake/AiVerifierSubmissionPacketPanel.tsx");
 const verifierSubmissionStorageGuardPanel = readSource(
   "../apps/web/src/features/content-intake/AiVerifierSubmissionStorageGuardPanel.tsx",
+);
+const verifierResultEvidencePacketPanel = readSource(
+  "../apps/web/src/features/content-intake/AiVerifierResultEvidencePacketPanel.tsx",
 );
 const targetLanguageAudioApprovalPacketPanel = readSource(
   "../apps/web/src/features/content-intake/AiTargetLanguageAudioApprovalPacketPanel.tsx",
@@ -2997,6 +3004,111 @@ requireText(
   "AI verifier storage guard panel must expose hosted/local adapters.",
 );
 requireText(
+  verifierResultEvidencePacket,
+  "sampleAiVerifierResultEvidencePackets",
+  "AI verifier result evidence packet data must exist.",
+);
+requireText(
+  verifierResultEvidencePacket,
+  "offline-review-preview",
+  "AI verifier result evidence must remain an offline review preview.",
+);
+requireText(
+  verifierResultEvidencePacket,
+  "verifier-result-not-submitted",
+  "AI verifier result evidence must block final verifier result state.",
+);
+requireText(
+  verifierResultEvidencePacket,
+  "ai_verifier_submission_packet",
+  "AI verifier result evidence must link verifier submission packet.",
+);
+requireText(
+  verifierResultEvidencePacket,
+  "teacher_draft_verifier_submission",
+  "AI verifier result evidence must link verifier submission storage guard.",
+);
+requireText(
+  verifierResultEvidencePacket,
+  "ai_draft_repair_evidence_packet",
+  "AI verifier result evidence must require repair evidence.",
+);
+requireText(
+  verifierResultEvidencePacket,
+  "target_language_audio_approval",
+  "AI verifier result evidence must require target-language audio approval.",
+);
+requireText(
+  verifierResultEvidencePacket,
+  "media_rights_evidence_attachment",
+  "AI verifier result evidence must require media rights evidence.",
+);
+requireText(
+  verifierResultEvidencePacket,
+  "No live verifier call",
+  "AI verifier result evidence must block live verifier calls.",
+);
+requireText(
+  verifierResultEvidencePacket,
+  "No teacher approval from verifier result",
+  "AI verifier result evidence must block teacher approval.",
+);
+requireText(
+  verifierResultEvidencePacket,
+  "No route write from verifier result",
+  "AI verifier result evidence must block route writes.",
+);
+requireText(
+  verifierResultEvidencePacket,
+  "No student assignment from verifier result",
+  "AI verifier result evidence must block assignment.",
+);
+requireText(
+  verifierResultEvidencePacket,
+  "MiniStar verifier result evidence packet",
+  "AI verifier result evidence must include MiniStar seed.",
+);
+requireText(
+  verifierResultEvidencePacket,
+  "hiragana-only",
+  "MiniStar verifier result evidence must preserve hiragana support.",
+);
+requireText(
+  verifierResultEvidencePacketValidator,
+  "validateAiVerifierResultEvidencePacket",
+  "AI verifier result evidence validator must export the single-packet guard.",
+);
+requireText(
+  verifierResultEvidencePacketValidator,
+  "AI_VERIFIER_RESULT_REQUIRED_SOURCE_RECORDS",
+  "AI verifier result evidence validator must lock required source records.",
+);
+requireText(
+  verifierResultEvidencePacketValidator,
+  "AI_VERIFIER_RESULT_REQUIRED_BLOCKED_ACTIONS",
+  "AI verifier result evidence validator must lock blocked actions.",
+);
+requireText(
+  verifierResultEvidencePacketPanel,
+  "AI verifier result evidence packet",
+  "AI verifier result evidence panel must expose heading.",
+);
+requireText(
+  verifierResultEvidencePacketPanel,
+  "Verifier result before teacher approval",
+  "AI verifier result evidence panel must expose teacher approval headline.",
+);
+requireText(
+  verifierResultEvidencePacketPanel,
+  "Verifier result guard active",
+  "AI verifier result evidence panel must expose guard state.",
+);
+requireText(
+  verifierResultEvidencePacketPanel,
+  "Blocks teacher approval",
+  "AI verifier result evidence panel must expose teacher approval blockers.",
+);
+requireText(
   targetLanguageAudioApprovalPacketValidator,
   "validateAiTargetLanguageAudioApprovalPacket",
   "Target-language audio approval packet validator must export the single-packet guard.",
@@ -5142,6 +5254,11 @@ requireText(
   "AiVerifierSubmissionStorageGuardPanel",
   "Generator route must render the verifier submission storage guard panel.",
 );
+requireText(
+  route,
+  "AiVerifierResultEvidencePacketPanel",
+  "Generator route must render the verifier result evidence packet panel.",
+);
 requireText(route, "sampleAiGameGeneratorPlan", "Generator route must use the sample generator plan.");
 requireText(route, "sampleAiGeneratorTenantCoverage", "Generator route must use tenant coverage data.");
 requireText(route, "sampleAiGeneratorLineageMaps", "Generator route must use lineage map data.");
@@ -5224,6 +5341,11 @@ requireText(
   route,
   "sampleAiVerifierSubmissionStorageGuards",
   "Generator route must use verifier submission storage guard data.",
+);
+requireText(
+  route,
+  "sampleAiVerifierResultEvidencePackets",
+  "Generator route must use verifier result evidence packet data.",
 );
 requireText(
   route,

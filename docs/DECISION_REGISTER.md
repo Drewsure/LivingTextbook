@@ -553,3 +553,20 @@ Constraints:
 - Hosted and local companion adapter requirements must both be visible.
 - Verifier submission, package approval, route writes, playlist writes, assignments, student-ready markers, and support-language progress remain blocked.
 - This decision is recorded in `docs/adr/0439-ai-verifier-submission-storage-guard.md` and `docs/decision-register/DR-510-ai-verifier-submission-storage-guard.md`.
+
+## DR-511: AI Verifier Result Evidence Packet
+
+Status: Accepted
+
+Decision: Add an offline, review-only verifier result evidence packet after verifier storage and before teacher approval prep.
+
+White-label impact: Positive. Tenants get a consistent verifier outcome shape without forcing one AI provider, one backend, or one curriculum model.
+
+Cost impact: Positive. Live verifier calls, retry loops, and downstream package work remain blocked until evidence, ownership, and release-control requirements are accepted.
+
+Constraints:
+
+- Verifier result evidence must use `offline-review-preview` and keep `verifier-result-not-submitted`.
+- Teacher approval, package approval, route writes, playlist writes, assignments, student-ready markers, and support-language progress remain blocked.
+- MiniStar evidence must preserve English as target-language trigger and hiragana-only Japanese support.
+- This decision is recorded in `docs/adr/0440-ai-verifier-result-evidence-packet.md` and `docs/decision-register/DR-511-ai-verifier-result-evidence-packet.md`.

@@ -569,6 +569,10 @@ The `ai_verifier_submission_packet` must be followed by an `AI verifier submissi
 
 The shared `validateAiVerifierSubmissionStorageGuard` contract must keep `verifierSubmissionAllowed`, `packageApprovalAllowed`, `routeWriteAllowed`, `playlistWriteAllowed`, `assignmentWriteAllowed`, `studentReadyMarkerAllowed`, and `supportLanguageProgressAllowed` set to `false`. MiniStar storage guards must preserve English as the target-language trigger and keep Foundation/Bronze/Plus Japanese support hiragana-only and support-only.
 
+Verifier storage must be followed by an `AI verifier result evidence packet` before teacher approval prep can rely on verifier outcomes. This packet is an offline review preview: it must use `offline-review-preview`, keep `verifier-result-not-submitted`, link the verifier packet, storage guard, repair evidence, schema validation, pedagogical lock, target-language audio approval, media-rights evidence, activity compatibility, and gamification records, and block live verifier calls, pass/fail finalization, teacher approval, package approval, routes, playlists, assignments, student-ready markers, and support-language progress.
+
+The shared `validateAiVerifierResultEvidencePacket` contract must keep unresolved evidence visible until live verifier ownership, storage, cost, and release-control rules exist. MiniStar verifier result evidence must preserve English as the target-language trigger and keep Foundation/Bronze/Plus Japanese support hiragana-only and support-only.
+
 ## Generated Package Teacher Review Packet Rule
 
 Teacher generator routes may show an AI generated package teacher review packet after verifier packet planning and before generated package manifests. The packet is a teacher approval prep surface: it gathers generated content fit, target-language audio, curated activity pathway, deterministic rewards, media-rights evidence, support-language boundaries, verifier readiness, missing evidence, blocked actions, and next required records into one readable review packet.
