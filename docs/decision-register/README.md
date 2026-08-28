@@ -486,6 +486,7 @@
 - `DR-512-teacher-review-verifier-result-dependency.md`
 - `DR-513-promotion-checklist-verifier-result-dependency.md`
 - `DR-514-package-writer-route-playlist-write-guard.md`
+- `DR-515-package-writer-local-companion-package-guard.md`
 
 ## Maintenance Rule
 

@@ -53,6 +53,9 @@ const packageWriterHarnessImplementationDecisionValidator = readSource(
 const packageWriterRoutePlaylistWriteGuardValidator = readSource(
   "../packages/content-model/src/aiPackageWriterRoutePlaylistWriteGuard.ts",
 );
+const packageWriterLocalCompanionPackageGuardValidator = readSource(
+  "../packages/content-model/src/aiPackageWriterLocalCompanionPackageGuard.ts",
+);
 const rewardReadinessGate = readSource("../apps/web/src/data/sampleAiRewardReadinessGate.ts");
 const generatedGameBuildBrief = readSource("../apps/web/src/data/sampleAiGeneratedGameBuildBrief.ts");
 const generatedGameBuildBriefValidator = readSource("../packages/content-model/src/aiGeneratedGameBuildBrief.ts");
@@ -221,6 +224,9 @@ const generatedPackageWriterHarnessImplementationDecision = readSource(
 const generatedPackageWriterRoutePlaylistWriteGuard = readSource(
   "../apps/web/src/data/sampleAiGeneratedPackageWriterRoutePlaylistWriteGuard.ts",
 );
+const generatedPackageWriterLocalCompanionPackageGuard = readSource(
+  "../apps/web/src/data/sampleAiGeneratedPackageWriterLocalCompanionPackageGuard.ts",
+);
 const generatedPublishReadinessGate = readSource("../apps/web/src/data/sampleAiGeneratedPublishReadinessGate.ts");
 const draftPreviewData = readSource("../apps/web/src/data/sampleAiGeneratedDraftPayloadPreview.ts");
 const draftPayloadValidator = readSource("../packages/content-model/src/aiGeneratedDraftPayload.ts");
@@ -370,6 +376,9 @@ const generatedPackageWriterHarnessImplementationDecisionPanel = readSource(
 );
 const generatedPackageWriterRoutePlaylistWriteGuardPanel = readSource(
   "../apps/web/src/features/content-intake/AiGeneratedPackageWriterRoutePlaylistWriteGuardPanel.tsx",
+);
+const generatedPackageWriterLocalCompanionPackageGuardPanel = readSource(
+  "../apps/web/src/features/content-intake/AiGeneratedPackageWriterLocalCompanionPackageGuardPanel.tsx",
 );
 const generatedPublishReadinessGatePanel = readSource(
   "../apps/web/src/features/content-intake/AiGeneratedPublishReadinessGatePanel.tsx",
@@ -4895,6 +4904,81 @@ requireText(
   "Protected route and playlist surfaces",
   "AI generated package writer route and playlist write guard panel must expose protected surfaces.",
 );
+requireText(
+  generatedPackageWriterLocalCompanionPackageGuard,
+  "sampleAiGeneratedPackageWriterLocalCompanionPackageGuards",
+  "AI generated package writer local companion package guard data must exist.",
+);
+requireText(
+  packageWriterLocalCompanionPackageGuardValidator,
+  "validateAiGeneratedPackageWriterLocalCompanionPackageGuard",
+  "AI generated package writer local companion package guard shared validator must exist.",
+);
+requireText(
+  packageWriterLocalCompanionPackageGuardValidator,
+  "AI_PACKAGE_WRITER_LOCAL_COMPANION_REQUIRED_BLOCKED_ACTIONS",
+  "AI generated package writer local companion package guard validator must define blocked actions.",
+);
+requireText(
+  generatedPackageWriterLocalCompanionPackageGuard,
+  "sampleAiGeneratedPackageWriterLocalCompanionPackageGuardErrors",
+  "AI generated package writer local companion package guard data must expose shared guard errors.",
+);
+requireText(
+  generatedPackageWriterLocalCompanionPackageGuard,
+  "Local companion blocked pending review",
+  "AI generated package writer local companion package guard must keep local companion work blocked.",
+);
+requireText(
+  generatedPackageWriterLocalCompanionPackageGuard,
+  "Closed local manifest review",
+  "AI generated package writer local companion package guard must require local manifest review.",
+);
+requireText(
+  generatedPackageWriterLocalCompanionPackageGuard,
+  "Student data exclusion check",
+  "AI generated package writer local companion package guard must exclude student data from local packages.",
+);
+requireText(
+  generatedPackageWriterLocalCompanionPackageGuard,
+  "No local bundle packaging",
+  "AI generated package writer local companion package guard must block local bundle packaging.",
+);
+requireText(
+  generatedPackageWriterLocalCompanionPackageGuard,
+  "No offline route activation",
+  "AI generated package writer local companion package guard must block offline route activation.",
+);
+requireText(
+  generatedPackageWriterLocalCompanionPackageGuard,
+  "No support-language-only local package approval",
+  "AI generated package writer local companion package guard must block support-language-only local package approval.",
+);
+requireText(
+  generatedPackageWriterLocalCompanionPackageGuard,
+  "English local companion trigger protected",
+  "AI generated package writer local companion package guard must preserve MiniStar English local trigger.",
+);
+requireText(
+  generatedPackageWriterLocalCompanionPackageGuardPanel,
+  "AI generated package writer local companion package guard",
+  "AI generated package writer local companion package guard panel must expose heading.",
+);
+requireText(
+  generatedPackageWriterLocalCompanionPackageGuardPanel,
+  "Closed local package stays locked",
+  "AI generated package writer local companion package guard panel must expose lock title.",
+);
+requireText(
+  generatedPackageWriterLocalCompanionPackageGuardPanel,
+  "Local companion guard active",
+  "AI generated package writer local companion package guard panel must expose guard status.",
+);
+requireText(
+  generatedPackageWriterLocalCompanionPackageGuardPanel,
+  "Protected local companion artifacts",
+  "AI generated package writer local companion package guard panel must expose protected artifacts.",
+);
 requireText(compatibilityMatrix, "This matrix defines which student games", "Generator mode recommendations must reuse the compatibility matrix.");
 requireText(modeRecommendationPanel, "AI mode recommendation preview", "Mode recommendation panel must expose heading.");
 requireText(modeRecommendationPanel, "Recommended generated pathway", "Mode recommendation panel must expose recommended pathway.");
@@ -5374,6 +5458,11 @@ requireText(
   "AiGeneratedPackageWriterRoutePlaylistWriteGuardPanel",
   "Generator route must render the generated package writer route and playlist write guard panel.",
 );
+requireText(
+  route,
+  "AiGeneratedPackageWriterLocalCompanionPackageGuardPanel",
+  "Generator route must render the generated package writer local companion package guard panel.",
+);
 requireText(route, "AiGeneratedPublishReadinessGatePanel", "Generator route must render the generated publish readiness gate panel.");
 requireText(route, "AiGeneratedDraftPayloadPreviewPanel", "Generator route must render the draft payload preview panel.");
 requireText(route, "AiDraftCorrectionQueuePanel", "Generator route must render the draft correction queue panel.");
@@ -5546,6 +5635,11 @@ requireText(
   route,
   "sampleAiGeneratedPackageWriterRoutePlaylistWriteGuards",
   "Generator route must use the sample generated package writer route and playlist write guard data.",
+);
+requireText(
+  route,
+  "sampleAiGeneratedPackageWriterLocalCompanionPackageGuards",
+  "Generator route must use the sample generated package writer local companion package guard data.",
 );
 requireText(
   route,

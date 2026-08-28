@@ -619,6 +619,16 @@ AI generated publish readiness gates must pass the shared `validateAiGeneratedPu
 
 The backend-neutral storage contract is `ai_generated_publish_readiness_gate` / `ai-generated-publish-readiness-gate`. Hosted and local adapters must preserve correction queue clearance, verifier packet approval, manifest completeness, reward readiness, release-control binding, and teacher approval ledger capture while blocking route registry writes, media playlist writes, assignment creation, local bundle writes, and student-ready markers.
 
+## Generated Package Writer Local Companion Package Guard Rule
+
+Generated package writer planning must show an `AI generated package writer local companion package guard` after route and playlist guard review and before any closed/local textbook companion package work exists.
+
+The guard must keep closed local packages locked while it reviews the local manifest, media bundle inventory, offline route map, printed QR fallback sheet, export archive, and restore checkpoint. It must require closed local manifest review, media rights and file inventory review, offline route map smoke check, printed QR fallback review, rollback restore checkpoint review, and student data exclusion checks.
+
+The shared `validateAiGeneratedPackageWriterLocalCompanionPackageGuard` contract must keep local bundle packaging, local folder activation, offline route activation, media file copy, export archive creation, local companion release, assignment activation from local companion, support-language-only local package approval, and writer execution blocked.
+
+MiniStar local companion guards must preserve English as the target-language trigger and keep Foundation/Bronze/Plus Japanese support hiragana-only and support-only. Japanese support text, taps, or audio cannot approve local packages, create offline routes, release local bundles, or activate assignments.
+
 ## Blocked Actions
 
 - No direct AI publish.
@@ -629,6 +639,7 @@ The backend-neutral storage contract is `ai_generated_publish_readiness_gate` / 
 - No generated media prompt as production artwork.
 - No API cost without tenant approval.
 - No premium upsell shown to children.
+- No local companion package export or activation from generated package previews.
 
 ## White-Label Position
 

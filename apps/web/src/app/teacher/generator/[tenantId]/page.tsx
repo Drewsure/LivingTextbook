@@ -70,6 +70,10 @@ import {
   sampleAiGeneratedPackageWriterRoutePlaylistWriteGuards,
 } from "@/data/sampleAiGeneratedPackageWriterRoutePlaylistWriteGuard";
 import {
+  filterAiGeneratedPackageWriterLocalCompanionPackageGuardsByTenant,
+  sampleAiGeneratedPackageWriterLocalCompanionPackageGuards,
+} from "@/data/sampleAiGeneratedPackageWriterLocalCompanionPackageGuard";
+import {
   filterAiGeneratedPublishReadinessGatesByTenant,
   sampleAiGeneratedPublishReadinessGates,
 } from "@/data/sampleAiGeneratedPublishReadinessGate";
@@ -250,6 +254,7 @@ import { AiGeneratedPackageWriterTestHarnessPlanPanel } from "@/features/content
 import { AiGeneratedPackageWriterTestHarnessImplementationProposalPanel } from "@/features/content-intake/AiGeneratedPackageWriterTestHarnessImplementationProposalPanel";
 import { AiGeneratedPackageWriterHarnessImplementationDecisionPanel } from "@/features/content-intake/AiGeneratedPackageWriterHarnessImplementationDecisionPanel";
 import { AiGeneratedPackageWriterRoutePlaylistWriteGuardPanel } from "@/features/content-intake/AiGeneratedPackageWriterRoutePlaylistWriteGuardPanel";
+import { AiGeneratedPackageWriterLocalCompanionPackageGuardPanel } from "@/features/content-intake/AiGeneratedPackageWriterLocalCompanionPackageGuardPanel";
 import { AiGeneratedPublishReadinessGatePanel } from "@/features/content-intake/AiGeneratedPublishReadinessGatePanel";
 import { AiEngineBindingPlanPanel } from "@/features/content-intake/AiEngineBindingPlanPanel";
 import { AiExternalPrototypeTaskExportReadinessGatePanel } from "@/features/content-intake/AiExternalPrototypeTaskExportReadinessGatePanel";
@@ -594,6 +599,12 @@ export default async function TeacherAiGameGeneratorPage({
         <AiGeneratedPackageWriterRoutePlaylistWriteGuardPanel
           guards={filterAiGeneratedPackageWriterRoutePlaylistWriteGuardsByTenant(
             sampleAiGeneratedPackageWriterRoutePlaylistWriteGuards,
+            tenantId,
+          )}
+        />
+        <AiGeneratedPackageWriterLocalCompanionPackageGuardPanel
+          guards={filterAiGeneratedPackageWriterLocalCompanionPackageGuardsByTenant(
+            sampleAiGeneratedPackageWriterLocalCompanionPackageGuards,
             tenantId,
           )}
         />
