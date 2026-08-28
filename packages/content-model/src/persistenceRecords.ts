@@ -47,6 +47,8 @@ export type PersistenceRecordCategory =
   | "ai-generated-package-writer-test-harness-plan"
   | "ai-generated-package-writer-test-harness-implementation-proposal"
   | "ai-generated-package-writer-harness-implementation-decision"
+  | "ai-generated-package-writer-route-playlist-write-guard"
+  | "ai-generated-package-writer-local-companion-package-guard"
   | "ai-reward-readiness-gate"
   | "ai-generated-publish-readiness-gate"
   | "ai-generator-tenant-coverage-gate"
@@ -336,6 +338,8 @@ export interface DurableRecordContract {
   preservesAiGeneratedPackageWriterTestHarnessPlan?: boolean;
   preservesAiGeneratedPackageWriterTestHarnessImplementationProposal?: boolean;
   preservesAiGeneratedPackageWriterHarnessImplementationDecision?: boolean;
+  preservesAiGeneratedPackageWriterRoutePlaylistWriteGuard?: boolean;
+  preservesAiGeneratedPackageWriterLocalCompanionPackageGuard?: boolean;
   requiresLineageMap?: boolean;
   requiresTargetLanguageAudioApproval?: boolean;
   requiresPackageAssemblyReadinessLanes?: boolean;
@@ -360,6 +364,10 @@ export interface DurableRecordContract {
   requiresPackageWriterHarnessDecisionEvidence?: boolean;
   requiresPackageWriterHarnessDecisionFileScope?: boolean;
   requiresPackageWriterHarnessDecisionOptions?: boolean;
+  requiresRoutePlaylistProtectedSurfaces?: boolean;
+  requiresLocalCompanionProtectedArtifacts?: boolean;
+  requiresOfflineRouteMapReview?: boolean;
+  requiresStudentDataExclusion?: boolean;
   blocksHarnessImplementationApproval?: boolean;
   requiresMediaRightsEvidence?: boolean;
   blocksGeneratedPackagePromotion?: boolean;

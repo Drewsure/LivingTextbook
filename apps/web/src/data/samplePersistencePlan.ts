@@ -59,6 +59,8 @@ export type PersistenceBoundaryCategory =
   | "ai-generated-package-writer-test-harness-plan"
   | "ai-generated-package-writer-test-harness-implementation-proposal"
   | "ai-generated-package-writer-harness-implementation-decision"
+  | "ai-generated-package-writer-route-playlist-write-guard"
+  | "ai-generated-package-writer-local-companion-package-guard"
   | "ai-reward-readiness-gate"
   | "ai-generated-publish-readiness-gate"
   | "ai-generator-tenant-coverage-gate"
@@ -1607,6 +1609,71 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
     note:
       "AI generated package writer harness implementation decisions need durable evidence, file-scope, decision-option, and reviewer identity boundaries before generated harness code, automated writer tests, mutation browser runs, evidence upload, app file patches, route writes, playlist writes, local bundle packaging, assignment activation, or support-language-only implementation decisions can exist.",
+  },
+  {
+    recordId: "ai-generated-package-writer-route-playlist-write-guard-record",
+    category: "ai-generated-package-writer-route-playlist-write-guard",
+    label: "AI generated package writer route and playlist write guard record",
+    readiness: "durable-required",
+    sourceOfTruth:
+      "AiGeneratedPackageWriterRoutePlaylistWriteGuard, harness implementation decision, package id preview, protected route surfaces, protected playlist surfaces, QR deep-link checks, route safety checks, playlist safety checks, blocked write actions, next records, and support-language boundary lanes",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesAiGeneratedPackageWriterRoutePlaylistWriteGuard: true,
+    preservesAiGeneratedPackageWriterHarnessImplementationDecision: true,
+    requiresRoutePlaylistProtectedSurfaces: true,
+    requiresRouteSafetyReleaseGate: true,
+    requiresTargetLanguageAudioApproval: true,
+    requiresMediaRightsEvidence: true,
+    blocksGeneratedPackageWriterExecution: true,
+    blocksGeneratedPackageRouteWrite: true,
+    blocksGeneratedPackagePlaylistWrite: true,
+    blocksProductionQrRedirectMutation: true,
+    blocksStudentFacingRoute: true,
+    blocksGeneratedPackageAssignment: true,
+    blocksSupportLanguageAssembly: true,
+    blocksDirectStudentAssignment: true,
+    recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
+    note:
+      "AI generated package writer route and playlist write guards need durable protected-surface, route, playlist, QR, release-control, and support-language boundaries before generated package writers can write routes, playlists, QR redirects, student-facing routes, assignments, or support-language-only route approvals.",
+  },
+  {
+    recordId: "ai-generated-package-writer-local-companion-package-guard-record",
+    category: "ai-generated-package-writer-local-companion-package-guard",
+    label: "AI generated package writer local companion package guard record",
+    readiness: "durable-required",
+    sourceOfTruth:
+      "AiGeneratedPackageWriterLocalCompanionPackageGuard, route and playlist write guard, package id preview, protected local artifacts, local safety checks, offline fallback checks, blocked package actions, next records, school policy acceptance, rollback checkpoints, and support-language boundary lanes",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesAiGeneratedPackageWriterLocalCompanionPackageGuard: true,
+    preservesAiGeneratedPackageWriterRoutePlaylistWriteGuard: true,
+    requiresLocalCompanionProtectedArtifacts: true,
+    requiresOfflineRouteMapReview: true,
+    requiresStudentDataExclusion: true,
+    requiresSchoolPolicyAcceptance: true,
+    requiresMediaRightsEvidence: true,
+    blocksGeneratedPackageWriterExecution: true,
+    blocksGeneratedPackageLocalBundleWrite: true,
+    blocksLocalFolderActivation: true,
+    blocksGeneratedPackageRouteWrite: true,
+    blocksGeneratedPackagePlaylistWrite: true,
+    blocksProductionQrRedirectMutation: true,
+    blocksGeneratedPackageAssignment: true,
+    blocksStudentDataCopy: true,
+    blocksSupportLanguageAssembly: true,
+    blocksDirectStudentAssignment: true,
+    recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
+    note:
+      "AI generated package writer local companion package guards need durable protected-artifact, media inventory, offline route map, printed QR fallback, restore checkpoint, school-policy, and student-data exclusion boundaries before generated package writers can package local bundles, activate local folders, copy media, create export archives, release local companions, activate assignments, or approve support-language-only local packages.",
   },
   {
     recordId: "ai-reward-readiness-gate-record",
@@ -3424,6 +3491,34 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision:
       "Persist AI generated package writer harness implementation decisions before enabling decision capture, harness implementation, automated writer test execution, mutation browser runs, evidence upload, signed approval capture, app file patches, generated package JSON writes, route writes, playlist writes, local bundle packaging, assignment activation, or support-language-only implementation decisions.",
+  },
+  {
+    boundaryId: "ai-generated-package-writer-route-playlist-write-guard-boundary",
+    category: "ai-generated-package-writer-route-playlist-write-guard",
+    label: "AI generated package writer route and playlist write guard records",
+    status: "needs-backend",
+    recordShape:
+      "Guard id, tenant id, request id, harness implementation decision id, package id preview, protected student route, protected teacher route, protected media playlist binding, QR deep-link guard, route smoke check, route safety checks, playlist safety checks, blocked write actions, next records, and support-language boundary lanes",
+    whyItMatters:
+      "Generated package writer route and playlist guards need durable protected-surface evidence so a readable guard cannot become route writes, playlist writes, QR redirect mutation, student-facing route activation, assignment activation, or support-language-only route approval from UI state alone.",
+    visibleTo: ["Teacher", "Tenant admin", "Content reviewer", "Platform admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Persist AI generated package writer route and playlist write guards before enabling route registry writes, media playlist writes, production QR redirect mutation, student-facing route activation, generated package writer execution, or support-language-only route and playlist approval.",
+  },
+  {
+    boundaryId: "ai-generated-package-writer-local-companion-package-guard-boundary",
+    category: "ai-generated-package-writer-local-companion-package-guard",
+    label: "AI generated package writer local companion package guard records",
+    status: "needs-backend",
+    recordShape:
+      "Guard id, tenant id, request id, route playlist guard id, package id preview, protected local manifest, media bundle inventory, offline route map, QR fallback sheet, export archive preview, restore checkpoint, local safety checks, offline fallback checks, blocked package actions, next records, and support-language boundary lanes",
+    whyItMatters:
+      "Generated package writer local companion guards need durable protected-artifact evidence so a readable guard cannot become local bundle packaging, local folder activation, offline route activation, media file copy, export archive creation, local companion release, assignment activation, or support-language-only local package approval from UI state alone.",
+    visibleTo: ["Teacher", "Tenant admin", "Content reviewer", "Platform admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Persist AI generated package writer local companion package guards before enabling local bundle packaging, local folder activation, offline route activation, media file copy, export archive creation, local companion release, assignment activation from local companion, generated package writer execution, or support-language-only local package approval.",
   },
   {
     boundaryId: "ai-reward-readiness-gate-boundary",

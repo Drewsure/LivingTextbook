@@ -56,6 +56,8 @@ const requiredSchemaEntities = [
   "ai_generated_package_writer_test_harness_plan",
   "ai_generated_package_writer_test_harness_implementation_proposal",
   "ai_generated_package_writer_harness_implementation_decision",
+  "ai_generated_package_writer_route_playlist_write_guard",
+  "ai_generated_package_writer_local_companion_package_guard",
   "ai_reward_readiness_gate",
   "ai_generated_publish_readiness_gate",
   "ai_generator_tenant_coverage_gate",
@@ -164,6 +166,8 @@ const requiredMigrationCandidates = [
   "m087-ai-generated-package-writer-test-harness-plan-records",
   "m088-ai-generated-package-writer-test-harness-implementation-proposal-records",
   "m089-ai-generated-package-writer-harness-implementation-decision-records",
+  "m101-ai-generated-package-writer-route-playlist-write-guard-records",
+  "m102-ai-generated-package-writer-local-companion-package-guard-records",
   "m055-ai-reward-readiness-gate-records",
   "m056-ai-generated-publish-readiness-gate-records",
   "m057-ai-generator-tenant-coverage-gate-records",
@@ -273,6 +277,8 @@ const requiredMigrationSpecs = [
   "spec-ai-generated-package-writer-test-harness-plan",
   "spec-ai-generated-package-writer-test-harness-implementation-proposal",
   "spec-ai-generated-package-writer-harness-implementation-decision",
+  "spec-ai-generated-package-writer-route-playlist-write-guard",
+  "spec-ai-generated-package-writer-local-companion-package-guard",
   "spec-ai-reward-readiness-gate",
   "spec-ai-generated-publish-readiness-gate",
   "spec-ai-generator-tenant-coverage-gate",
@@ -5908,6 +5914,96 @@ requireText(
   "AI generated package writer harness implementation decision record",
   "Active route verifier must keep AI generated package writer harness implementation decision durable records visible on teacher intake.",
 );
+requireText(
+  routeVerifier,
+  "ai_generated_package_writer_route_playlist_write_guard",
+  "Active route verifier must keep AI generated package writer route and playlist write guard storage visible on teacher intake.",
+);
+requireText(
+  routeVerifier,
+  "AI generated package writer route and playlist write guard record",
+  "Active route verifier must keep AI generated package writer route and playlist write guard durable records visible on teacher intake.",
+);
+requireText(
+  routeVerifier,
+  "ai-generated-package-writer-route-playlist-write-guard-record",
+  "Active route verifier must keep AI generated package writer route and playlist write guard record ids visible on teacher intake.",
+);
+requireText(
+  routeVerifier,
+  "ai_generated_package_writer_local_companion_package_guard",
+  "Active route verifier must keep AI generated package writer local companion package guard storage visible on teacher intake.",
+);
+requireText(
+  routeVerifier,
+  "AI generated package writer local companion package guard record",
+  "Active route verifier must keep AI generated package writer local companion package guard durable records visible on teacher intake.",
+);
+requireText(
+  routeVerifier,
+  "ai-generated-package-writer-local-companion-package-guard-record",
+  "Active route verifier must keep AI generated package writer local companion package guard record ids visible on teacher intake.",
+);
+for (const text of [
+  "ai_generated_package_writer_route_playlist_write_guard_id",
+  "protected_surfaces",
+  "route_safety_checks",
+  "playlist_safety_checks",
+  "production_qr_redirect_mutation_allowed",
+  "support_language_route_playlist_approval_allowed",
+  "m101-ai-generated-package-writer-route-playlist-write-guard-records",
+  "spec-ai-generated-package-writer-route-playlist-write-guard",
+]) {
+  requireText(
+    schemaDraft + migrationCandidates + migrationSpecs,
+    text,
+    `Backend schema/migration must preserve route and playlist write guard storage text: ${text}.`,
+  );
+}
+for (const text of [
+  "ai_generated_package_writer_local_companion_package_guard_id",
+  "protected_artifacts",
+  "local_safety_checks",
+  "offline_fallback_checks",
+  "media_file_copy_allowed",
+  "student_data_copy_allowed",
+  "support_language_local_package_approval_allowed",
+  "m102-ai-generated-package-writer-local-companion-package-guard-records",
+  "spec-ai-generated-package-writer-local-companion-package-guard",
+]) {
+  requireText(
+    schemaDraft + migrationCandidates + migrationSpecs,
+    text,
+    `Backend schema/migration must preserve local companion package guard storage text: ${text}.`,
+  );
+}
+for (const text of [
+  "ai-generated-package-writer-route-playlist-write-guard-record",
+  "ai-generated-package-writer-route-playlist-write-guard-boundary",
+  "preservesAiGeneratedPackageWriterRoutePlaylistWriteGuard: true",
+  "requiresRoutePlaylistProtectedSurfaces: true",
+]) {
+  requireText(durableRecords, text, `Durable record plan must preserve route and playlist write guard text: ${text}.`);
+}
+for (const text of [
+  "ai-generated-package-writer-local-companion-package-guard-record",
+  "ai-generated-package-writer-local-companion-package-guard-boundary",
+  "preservesAiGeneratedPackageWriterLocalCompanionPackageGuard: true",
+  "requiresLocalCompanionProtectedArtifacts: true",
+  "requiresStudentDataExclusion: true",
+]) {
+  requireText(durableRecords, text, `Durable record plan must preserve local companion package guard text: ${text}.`);
+}
+for (const text of [
+  "preservesAiGeneratedPackageWriterRoutePlaylistWriteGuard",
+  "preservesAiGeneratedPackageWriterLocalCompanionPackageGuard",
+  "requiresRoutePlaylistProtectedSurfaces",
+  "requiresLocalCompanionProtectedArtifacts",
+  "requiresOfflineRouteMapReview",
+  "requiresStudentDataExclusion",
+]) {
+  requireText(durableRecordValidator, text, `Durable record validator must expose generated package guard flag: ${text}.`);
+}
 requireText(routeVerifier, "ai_reward_readiness_gate", "Active route verifier must keep AI reward readiness storage visible on teacher intake.");
 requireText(routeVerifier, "AI reward readiness gate record", "Active route verifier must keep AI reward readiness durable records visible on teacher intake.");
 requireText(routeVerifier, "ai_generated_publish_readiness_gate", "Active route verifier must keep AI generated publish readiness storage visible on teacher intake.");

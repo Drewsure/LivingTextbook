@@ -629,6 +629,8 @@ The shared `validateAiGeneratedPackageWriterLocalCompanionPackageGuard` contract
 
 MiniStar local companion guards must preserve English as the target-language trigger and keep Foundation/Bronze/Plus Japanese support hiragana-only and support-only. Japanese support text, taps, or audio cannot approve local packages, create offline routes, release local bundles, or activate assignments.
 
+The backend-neutral storage contract is `ai_generated_package_writer_local_companion_package_guard` / `ai-generated-package-writer-local-companion-package-guard`. Hosted and local adapters must preserve the linked route and playlist guard, package id preview, protected local artifacts, local safety checks, offline fallback checks, blocked package actions, next required records, school policy requirements, rollback checkpoint needs, and support-language boundaries while blocking local bundle packaging, local folder activation, offline route activation, media file copy, export archive creation, local companion release, assignment activation, writer execution, student data copy, and support-language-only local package approval.
+
 ## Blocked Actions
 
 - No direct AI publish.

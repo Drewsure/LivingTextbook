@@ -2781,6 +2781,222 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       ],
     },
     {
+      specId: "spec-ai-generated-package-writer-route-playlist-write-guard",
+      label: "AI generated package writer route and playlist write guard",
+      candidateId: "m101-ai-generated-package-writer-route-playlist-write-guard-records",
+      storeKind: "admin-record",
+      status: "ready-for-review",
+      purpose:
+        "Stores generated package writer route and playlist write guard evidence while keeping route registry writes, media playlist writes, production QR redirect mutation, student-facing route activation, writer execution, assignment activation, and support-language-only route or playlist approval blocked.",
+      primaryKey: "ai_generated_package_writer_route_playlist_write_guard_id",
+      tenantScope:
+        "Scoped by tenant_id, generation_request_id, ai_generated_package_writer_harness_implementation_decision_id, package_id_preview, and guard_revision.",
+      fields: [
+        {
+          name: "ai_generated_package_writer_route_playlist_write_guard_id",
+          type: "string",
+          required: true,
+          note: "Stable id for one generated route and playlist write guard snapshot.",
+        },
+        {
+          name: "generation_request_id",
+          type: "string",
+          required: true,
+          note: "AI generation request this guard belongs to.",
+        },
+        {
+          name: "ai_generated_package_writer_harness_implementation_decision_id",
+          type: "string",
+          required: true,
+          note: "Harness implementation decision this guard follows.",
+        },
+        {
+          name: "package_id_preview",
+          type: "string",
+          required: true,
+          note: "Generated package id preview under route and playlist review.",
+        },
+        {
+          name: "protected_surfaces",
+          type: "json",
+          required: true,
+          note: "Student routes, teacher routes, media playlists, QR deep links, and route smoke checks.",
+        },
+        {
+          name: "route_safety_checks",
+          type: "json",
+          required: true,
+          note: "Stable QR, target-language launch, and teacher route isolation checks.",
+        },
+        {
+          name: "playlist_safety_checks",
+          type: "json",
+          required: true,
+          note: "Media-rights, target-language-audio-first, and background media opt-in checks.",
+        },
+        {
+          name: "blocked_write_actions",
+          type: "json",
+          required: true,
+          note: "Route, playlist, QR, route activation, writer, assignment, and support-language approval blocks.",
+        },
+        {
+          name: "route_registry_write_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until route alias policy and release controls pass.",
+        },
+        {
+          name: "media_playlist_write_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until media rights and learning-audio priority pass.",
+        },
+        {
+          name: "production_qr_redirect_mutation_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until stable QR policy and rollback controls pass.",
+        },
+        {
+          name: "support_language_route_playlist_approval_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false for MiniStar and assist-language-only route or playlist approval.",
+        },
+      ],
+      indexes: [
+        "tenant_id + ai_generated_package_writer_route_playlist_write_guard_id",
+        "ai_generated_package_writer_route_playlist_write_guard_id unique",
+        "tenant_id + generation_request_id",
+        "tenant_id + ai_generated_package_writer_harness_implementation_decision_id",
+        "route_registry_write_allowed",
+        "media_playlist_write_allowed",
+      ],
+      retentionRule:
+        "Retain according to tenant authoring and release policy; blocked, superseded, and cleared route/playlist guard snapshots remain auditable.",
+      exportRule:
+        "Must export protected surfaces, route checks, playlist checks, blocked write actions, next records, QR ids, release-control ids, and support-language boundaries without exporting learner data or unrelated tenant packages.",
+      localFallback:
+        "Local classroom deployments store the same route and playlist write guard JSON for backup/export without allowing offline route writes, playlist writes, QR redirects, assignment activation, or support-language-only route approval.",
+      policyBlockers: [
+        "Generated route and playlist write guards cannot write route registries, write media playlists, mutate production QR redirects, activate student-facing routes, execute writers, activate assignments, or mark student-ready state by themselves.",
+        "Route alias policy, media rights evidence, target-language audio approval, release-control binding, local companion policy, assignment rollout, QR policy, and school policy must pass before future route or playlist writes.",
+        "Support-language-only route or playlist approval remains blocked; MiniStar Japanese support cannot satisfy English route or playlist write evidence.",
+      ],
+    },
+    {
+      specId: "spec-ai-generated-package-writer-local-companion-package-guard",
+      label: "AI generated package writer local companion package guard",
+      candidateId: "m102-ai-generated-package-writer-local-companion-package-guard-records",
+      storeKind: "admin-record",
+      status: "ready-for-review",
+      purpose:
+        "Stores generated package writer local companion package guard evidence while keeping local bundle packaging, local folder activation, offline route activation, media file copy, export archive creation, local companion release, assignment activation, writer execution, and support-language-only local package approval blocked.",
+      primaryKey: "ai_generated_package_writer_local_companion_package_guard_id",
+      tenantScope:
+        "Scoped by tenant_id, generation_request_id, ai_generated_package_writer_route_playlist_write_guard_id, package_id_preview, and guard_revision.",
+      fields: [
+        {
+          name: "ai_generated_package_writer_local_companion_package_guard_id",
+          type: "string",
+          required: true,
+          note: "Stable id for one generated local companion package guard snapshot.",
+        },
+        {
+          name: "generation_request_id",
+          type: "string",
+          required: true,
+          note: "AI generation request this local companion guard belongs to.",
+        },
+        {
+          name: "ai_generated_package_writer_route_playlist_write_guard_id",
+          type: "string",
+          required: true,
+          note: "Route and playlist write guard this local companion guard follows.",
+        },
+        {
+          name: "package_id_preview",
+          type: "string",
+          required: true,
+          note: "Generated package id preview under local companion review.",
+        },
+        {
+          name: "protected_artifacts",
+          type: "json",
+          required: true,
+          note: "Local manifest, media bundle inventory, offline route map, QR fallback sheet, export archive, and restore checkpoint.",
+        },
+        {
+          name: "local_safety_checks",
+          type: "json",
+          required: true,
+          note: "Closed local manifest, media inventory, and restore checkpoint checks.",
+        },
+        {
+          name: "offline_fallback_checks",
+          type: "json",
+          required: true,
+          note: "Offline route map, printed QR fallback, and student data exclusion checks.",
+        },
+        {
+          name: "blocked_package_actions",
+          type: "json",
+          required: true,
+          note: "Local bundle, folder, offline route, media copy, export archive, release, assignment, writer, and support-language approval blocks.",
+        },
+        {
+          name: "local_bundle_packaging_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until local companion release policy passes.",
+        },
+        {
+          name: "offline_route_activation_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until offline route map smoke checks pass.",
+        },
+        {
+          name: "media_file_copy_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until media rights and file inventory pass.",
+        },
+        {
+          name: "student_data_copy_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false; local companion packages exclude learner data.",
+        },
+        {
+          name: "support_language_local_package_approval_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false for MiniStar and assist-language-only local package approval.",
+        },
+      ],
+      indexes: [
+        "tenant_id + ai_generated_package_writer_local_companion_package_guard_id",
+        "ai_generated_package_writer_local_companion_package_guard_id unique",
+        "tenant_id + generation_request_id",
+        "tenant_id + ai_generated_package_writer_route_playlist_write_guard_id",
+        "local_bundle_packaging_allowed",
+        "offline_route_activation_allowed",
+      ],
+      retentionRule:
+        "Retain according to tenant authoring, media-rights, local deployment, and release policy; blocked, superseded, and cleared local companion guard snapshots remain auditable.",
+      exportRule:
+        "Must export protected artifacts, local safety checks, offline fallback checks, blocked package actions, next records, school policy ids, restore checkpoint ids, and support-language boundaries without exporting learner data or unrelated tenant packages.",
+      localFallback:
+        "Local classroom deployments store the same local companion guard JSON for backup/export without allowing local folder activation, offline route activation, media copy, export archive creation, assignment activation, or learner-data copy.",
+      policyBlockers: [
+        "Generated local companion package guards cannot package local bundles, activate folders, activate offline routes, copy media files, create export archives, release local companions, activate assignments, execute writers, or mark student-ready state by themselves.",
+        "Local manifest review, media rights evidence, offline route checks, printed QR fallback review, restore checkpoint review, school policy, assignment rollout, and release-control binding must pass before future local companion packaging.",
+        "Support-language-only local package approval remains blocked; MiniStar Japanese support cannot satisfy English local companion package evidence.",
+      ],
+    },
+    {
       specId: "spec-ai-generated-game-build-brief",
       label: "AI generated game build brief",
       candidateId: "m060-ai-generated-game-build-brief-records",
