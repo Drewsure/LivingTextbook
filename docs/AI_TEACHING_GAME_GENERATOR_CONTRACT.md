@@ -631,6 +631,16 @@ MiniStar local companion guards must preserve English as the target-language tri
 
 The backend-neutral storage contract is `ai_generated_package_writer_local_companion_package_guard` / `ai-generated-package-writer-local-companion-package-guard`. Hosted and local adapters must preserve the linked route and playlist guard, package id preview, protected local artifacts, local safety checks, offline fallback checks, blocked package actions, next required records, school policy requirements, rollback checkpoint needs, and support-language boundaries while blocking local bundle packaging, local folder activation, offline route activation, media file copy, export archive creation, local companion release, assignment activation, writer execution, student data copy, and support-language-only local package approval.
 
+## Generated Package Writer Assignment Shell Guard Rule
+
+Generated package writer planning must show an `AI generated package writer assignment shell guard` after local companion package guard review and before any generated assignment shell, private assignment link, class roster binding, progress stream, teacher report, or classroom launch gate binding can exist.
+
+The guard must keep classroom assignment work locked while it reviews teacher QR/front-door assignment setup, target-language assignment triggers, no-real-learner-data collection, school policy acceptance, teacher report privacy, progress event taxonomy, and raw microphone audio/transcript exclusion.
+
+The shared `validateAiGeneratedPackageWriterAssignmentShellGuard` contract must keep assignment shell writes, private assignment link activation, class roster binding, progress event stream activation, teacher report export, live classroom launch, assignment activation from generated package, support-language-only assignment approval, and writer execution blocked.
+
+MiniStar assignment shell guards must preserve English as the target-language trigger and keep Foundation/Bronze/Plus Japanese support hiragana-only and support-only. Japanese support text, taps, or audio cannot approve assignment shells, activate progress events, unlock class reports, or launch a classroom workflow.
+
 ## Blocked Actions
 
 - No direct AI publish.
@@ -642,6 +652,7 @@ The backend-neutral storage contract is `ai_generated_package_writer_local_compa
 - No API cost without tenant approval.
 - No premium upsell shown to children.
 - No local companion package export or activation from generated package previews.
+- No assignment shell, class roster, progress stream, or teacher report activation from generated package previews.
 
 ## White-Label Position
 

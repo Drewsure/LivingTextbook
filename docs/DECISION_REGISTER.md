@@ -657,3 +657,20 @@ Constraints:
 - `ai_generated_package_writer_local_companion_package_guard` must preserve protected local artifacts, local safety checks, offline fallback checks, student data exclusion, school policy requirements, rollback checkpoints, and support-language local approval blocks.
 - Storage contracts must remain backend-neutral and must not enable route writes, playlist writes, media copy, local bundle export, assignment activation, student-ready markers, or support-language-only approval.
 - This decision is recorded in `docs/adr/0445-package-writer-guard-storage-contracts.md` and `docs/decision-register/DR-516-package-writer-guard-storage-contracts.md`.
+
+## DR-517: Package Writer Assignment Shell Guard
+
+Status: Accepted
+
+Decision: Add a review-only assignment shell guard after the local companion package guard.
+
+White-label impact: Positive. Generated packages now have a governed bridge toward future teacher QR/front-door assignments, private assignment links, class roster scope, progress events, teacher report previews, and launch gate bindings without assuming one school workflow.
+
+Cost impact: Positive. Blocking generated assignment activation until policy, reporting, roster, event, and launch-gate evidence exists prevents expensive privacy, reporting, and support failures.
+
+Constraints:
+
+- Assignment shell writes, private assignment link activation, class roster binding, progress event stream activation, teacher report export, live classroom launch, assignment activation from generated packages, support-language-only assignment approval, and writer execution remain blocked.
+- The guard must require teacher QR/front-door assignment review, target-language trigger checks, no-real-learner-data checks, school policy acceptance, teacher report privacy, progress event taxonomy, and raw microphone audio/transcript exclusion.
+- MiniStar assignment shell guards must preserve English target-language progress and hiragana-only Japanese support.
+- This decision is recorded in `docs/adr/0446-package-writer-assignment-shell-guard.md` and `docs/decision-register/DR-517-package-writer-assignment-shell-guard.md`.

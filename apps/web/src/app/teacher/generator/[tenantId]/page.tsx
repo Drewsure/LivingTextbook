@@ -74,6 +74,10 @@ import {
   sampleAiGeneratedPackageWriterLocalCompanionPackageGuards,
 } from "@/data/sampleAiGeneratedPackageWriterLocalCompanionPackageGuard";
 import {
+  filterAiGeneratedPackageWriterAssignmentShellGuardsByTenant,
+  sampleAiGeneratedPackageWriterAssignmentShellGuards,
+} from "@/data/sampleAiGeneratedPackageWriterAssignmentShellGuard";
+import {
   filterAiGeneratedPublishReadinessGatesByTenant,
   sampleAiGeneratedPublishReadinessGates,
 } from "@/data/sampleAiGeneratedPublishReadinessGate";
@@ -255,6 +259,7 @@ import { AiGeneratedPackageWriterTestHarnessImplementationProposalPanel } from "
 import { AiGeneratedPackageWriterHarnessImplementationDecisionPanel } from "@/features/content-intake/AiGeneratedPackageWriterHarnessImplementationDecisionPanel";
 import { AiGeneratedPackageWriterRoutePlaylistWriteGuardPanel } from "@/features/content-intake/AiGeneratedPackageWriterRoutePlaylistWriteGuardPanel";
 import { AiGeneratedPackageWriterLocalCompanionPackageGuardPanel } from "@/features/content-intake/AiGeneratedPackageWriterLocalCompanionPackageGuardPanel";
+import { AiGeneratedPackageWriterAssignmentShellGuardPanel } from "@/features/content-intake/AiGeneratedPackageWriterAssignmentShellGuardPanel";
 import { AiGeneratedPublishReadinessGatePanel } from "@/features/content-intake/AiGeneratedPublishReadinessGatePanel";
 import { AiEngineBindingPlanPanel } from "@/features/content-intake/AiEngineBindingPlanPanel";
 import { AiExternalPrototypeTaskExportReadinessGatePanel } from "@/features/content-intake/AiExternalPrototypeTaskExportReadinessGatePanel";
@@ -605,6 +610,12 @@ export default async function TeacherAiGameGeneratorPage({
         <AiGeneratedPackageWriterLocalCompanionPackageGuardPanel
           guards={filterAiGeneratedPackageWriterLocalCompanionPackageGuardsByTenant(
             sampleAiGeneratedPackageWriterLocalCompanionPackageGuards,
+            tenantId,
+          )}
+        />
+        <AiGeneratedPackageWriterAssignmentShellGuardPanel
+          guards={filterAiGeneratedPackageWriterAssignmentShellGuardsByTenant(
+            sampleAiGeneratedPackageWriterAssignmentShellGuards,
             tenantId,
           )}
         />

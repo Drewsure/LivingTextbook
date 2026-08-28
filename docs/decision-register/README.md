@@ -488,6 +488,7 @@
 - `DR-514-package-writer-route-playlist-write-guard.md`
 - `DR-515-package-writer-local-companion-package-guard.md`
 - `DR-516-package-writer-guard-storage-contracts.md`
+- `DR-517-package-writer-assignment-shell-guard.md`
 
 ## Maintenance Rule
 
