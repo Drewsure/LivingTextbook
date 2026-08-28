@@ -489,6 +489,7 @@
 - `DR-515-package-writer-local-companion-package-guard.md`
 - `DR-516-package-writer-guard-storage-contracts.md`
 - `DR-517-package-writer-assignment-shell-guard.md`
+- `DR-518-package-writer-assignment-shell-guard-storage-contract.md`
 
 ## Maintenance Rule
 

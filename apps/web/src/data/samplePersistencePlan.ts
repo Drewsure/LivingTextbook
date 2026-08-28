@@ -61,6 +61,7 @@ export type PersistenceBoundaryCategory =
   | "ai-generated-package-writer-harness-implementation-decision"
   | "ai-generated-package-writer-route-playlist-write-guard"
   | "ai-generated-package-writer-local-companion-package-guard"
+  | "ai-generated-package-writer-assignment-shell-guard"
   | "ai-reward-readiness-gate"
   | "ai-generated-publish-readiness-gate"
   | "ai-generator-tenant-coverage-gate"
@@ -1674,6 +1675,40 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
     note:
       "AI generated package writer local companion package guards need durable protected-artifact, media inventory, offline route map, printed QR fallback, restore checkpoint, school-policy, and student-data exclusion boundaries before generated package writers can package local bundles, activate local folders, copy media, create export archives, release local companions, activate assignments, or approve support-language-only local packages.",
+  },
+  {
+    recordId: "ai-generated-package-writer-assignment-shell-guard-record",
+    category: "ai-generated-package-writer-assignment-shell-guard",
+    label: "AI generated package writer assignment shell guard record",
+    readiness: "durable-required",
+    sourceOfTruth:
+      "AiGeneratedPackageWriterAssignmentShellGuard, local companion package guard, package id preview, protected assignment surfaces, assignment safety checks, reporting safety checks, blocked assignment actions, next records, launch gate requirements, class roster boundary, progress event taxonomy, and support-language boundary lanes",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: false,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesAiGeneratedPackageWriterAssignmentShellGuard: true,
+    preservesAiGeneratedPackageWriterLocalCompanionPackageGuard: true,
+    requiresAssignmentShellProtectedSurfaces: true,
+    requiresTargetLanguageProgressTrigger: true,
+    requiresNoRealLearnerDataCheck: true,
+    requiresSchoolPolicyAcceptance: true,
+    requiresEventAcceptanceGate: true,
+    blocksGeneratedPackageWriterExecution: true,
+    blocksGeneratedPackageAssignment: true,
+    blocksDirectStudentAssignment: true,
+    blocksLiveClassroomLaunch: true,
+    blocksRealLearnerDataCollection: true,
+    blocksLiveReportExport: true,
+    blocksRawAudioStorage: true,
+    blocksTranscriptStorage: true,
+    blocksSupportLanguageProgressTrigger: true,
+    blocksSupportLanguageAssembly: true,
+    recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
+    note:
+      "AI generated package writer assignment shell guards need durable protected-surface, class roster, progress event, reporting, launch-gate, school-policy, and no-real-learner-data boundaries before generated package writers can create assignment shells, activate private links, bind rosters, activate progress streams, export reports, launch classrooms, or approve support-language-only assignments.",
   },
   {
     recordId: "ai-reward-readiness-gate-record",
@@ -3519,6 +3554,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision:
       "Persist AI generated package writer local companion package guards before enabling local bundle packaging, local folder activation, offline route activation, media file copy, export archive creation, local companion release, assignment activation from local companion, generated package writer execution, or support-language-only local package approval.",
+  },
+  {
+    boundaryId: "ai-generated-package-writer-assignment-shell-guard-boundary",
+    category: "ai-generated-package-writer-assignment-shell-guard",
+    label: "AI generated package writer assignment shell guard records",
+    status: "needs-backend",
+    recordShape:
+      "Guard id, tenant id, request id, local companion guard id, package id preview, protected assignment shell, private assignment link, class roster scope, progress event contract, teacher report preview, launch gate binding, assignment safety checks, reporting safety checks, blocked assignment actions, next records, and support-language boundary lanes",
+    whyItMatters:
+      "Generated package writer assignment shell guards need durable protected-surface evidence so a readable guard cannot become assignment shell writes, private assignment links, class roster binding, progress event streams, teacher report export, live classroom launch, or support-language-only assignment approval from UI state alone.",
+    visibleTo: ["Teacher", "Tenant admin", "Content reviewer", "Platform admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Persist AI generated package writer assignment shell guards before enabling assignment shell writes, private assignment link activation, class roster binding, progress event stream activation, teacher report export, live classroom launch, generated package writer execution, or support-language-only assignment approval.",
   },
   {
     boundaryId: "ai-reward-readiness-gate-boundary",

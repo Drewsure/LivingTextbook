@@ -2997,6 +2997,123 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       ],
     },
     {
+      specId: "spec-ai-generated-package-writer-assignment-shell-guard",
+      label: "AI generated package writer assignment shell guard",
+      candidateId: "m103-ai-generated-package-writer-assignment-shell-guard-records",
+      storeKind: "admin-record",
+      status: "ready-for-review",
+      purpose:
+        "Stores generated package writer assignment shell guard evidence while keeping assignment shell writes, private assignment link activation, class roster binding, progress event stream activation, teacher report export, live classroom launch, writer execution, and support-language-only assignment approval blocked.",
+      primaryKey: "ai_generated_package_writer_assignment_shell_guard_id",
+      tenantScope:
+        "Scoped by tenant_id, generation_request_id, ai_generated_package_writer_local_companion_package_guard_id, package_id_preview, and guard_revision.",
+      fields: [
+        {
+          name: "ai_generated_package_writer_assignment_shell_guard_id",
+          type: "string",
+          required: true,
+          note: "Stable id for one generated assignment shell guard snapshot.",
+        },
+        {
+          name: "generation_request_id",
+          type: "string",
+          required: true,
+          note: "AI generation request this assignment shell guard belongs to.",
+        },
+        {
+          name: "ai_generated_package_writer_local_companion_package_guard_id",
+          type: "string",
+          required: true,
+          note: "Local companion package guard this assignment shell guard follows.",
+        },
+        {
+          name: "package_id_preview",
+          type: "string",
+          required: true,
+          note: "Generated package id preview under assignment shell review.",
+        },
+        {
+          name: "protected_assignment_surfaces",
+          type: "json",
+          required: true,
+          note: "Assignment shell, private link, roster scope, progress events, teacher reports, and launch gate binding.",
+        },
+        {
+          name: "assignment_safety_checks",
+          type: "json",
+          required: true,
+          note: "Teacher QR/front-door, target-language trigger, no-real-learner-data, and school policy checks.",
+        },
+        {
+          name: "reporting_safety_checks",
+          type: "json",
+          required: true,
+          note: "Teacher report privacy, progress event taxonomy, and raw audio/transcript exclusion checks.",
+        },
+        {
+          name: "blocked_assignment_actions",
+          type: "json",
+          required: true,
+          note: "Assignment shell, private link, roster, progress stream, report, launch, writer, and support-language approval blocks.",
+        },
+        {
+          name: "assignment_shell_write_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until assignment rollout and school policy pass.",
+        },
+        {
+          name: "private_assignment_link_activation_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until private assignment policy and launch gate pass.",
+        },
+        {
+          name: "class_roster_binding_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until roster identity and school policy pass.",
+        },
+        {
+          name: "progress_event_stream_activation_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until progress taxonomy and report policy pass.",
+        },
+        {
+          name: "teacher_report_export_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until reporting export policy passes.",
+        },
+        {
+          name: "support_language_assignment_approval_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false for MiniStar and assist-language-only assignment approval.",
+        },
+      ],
+      indexes: [
+        "tenant_id + ai_generated_package_writer_assignment_shell_guard_id",
+        "ai_generated_package_writer_assignment_shell_guard_id unique",
+        "tenant_id + generation_request_id",
+        "tenant_id + ai_generated_package_writer_local_companion_package_guard_id",
+        "assignment_shell_write_allowed",
+        "private_assignment_link_activation_allowed",
+      ],
+      retentionRule:
+        "Retain according to tenant authoring, assignment, reporting, class roster, and school policy; blocked, superseded, and cleared assignment shell guard snapshots remain auditable.",
+      exportRule:
+        "Must export protected assignment surfaces, assignment checks, reporting checks, blocked assignment actions, next records, launch gate ids, school policy ids, and support-language boundaries without exporting learner names, raw audio, transcripts, or unrelated tenant packages.",
+      localFallback:
+        "Local classroom deployments store the same assignment shell guard JSON for backup/export without allowing private link activation, class roster binding, progress event streams, report export, launch activation, or learner-data collection.",
+      policyBlockers: [
+        "Generated assignment shell guards cannot write assignments, activate links, bind rosters, activate progress streams, export reports, launch classrooms, execute writers, or mark student-ready state by themselves.",
+        "Teacher assignment rollout, private link policy, class roster policy, progress event acceptance, report export policy, classroom launch gate, and school policy must pass before future assignment activation.",
+        "Support-language-only assignment approval remains blocked; MiniStar Japanese support cannot satisfy English assignment shell evidence.",
+      ],
+    },
+    {
       specId: "spec-ai-generated-game-build-brief",
       label: "AI generated game build brief",
       candidateId: "m060-ai-generated-game-build-brief-records",

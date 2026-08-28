@@ -641,6 +641,8 @@ The shared `validateAiGeneratedPackageWriterAssignmentShellGuard` contract must 
 
 MiniStar assignment shell guards must preserve English as the target-language trigger and keep Foundation/Bronze/Plus Japanese support hiragana-only and support-only. Japanese support text, taps, or audio cannot approve assignment shells, activate progress events, unlock class reports, or launch a classroom workflow.
 
+The backend-neutral storage contract is `ai_generated_package_writer_assignment_shell_guard` / `ai-generated-package-writer-assignment-shell-guard`. Hosted and local adapters must preserve the linked local companion guard, package id preview, protected assignment surfaces, assignment safety checks, reporting safety checks, blocked assignment actions, next required records, class roster boundary, progress event taxonomy, reporting privacy, school policy requirements, and support-language boundaries while blocking assignment shell writes, private assignment link activation, class roster binding, progress event stream activation, teacher report export, live classroom launch, assignment activation, writer execution, raw learner audio/transcript storage, and support-language-only assignment approval.
+
 ## Blocked Actions
 
 - No direct AI publish.

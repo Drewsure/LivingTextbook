@@ -743,6 +743,43 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
       ],
     },
     {
+      migrationId: "m103-ai-generated-package-writer-assignment-shell-guard-records",
+      label: "AI generated package writer assignment shell guard records",
+      track: "shared",
+      status: "ready-to-design",
+      risk: "medium",
+      targetEntities: ["ai_generated_package_writer_assignment_shell_guard"],
+      purpose:
+        "Persist review-only generated package writer assignment shell guards before AI drafts can write assignment shells, activate private assignment links, bind class rosters, activate progress streams, export teacher reports, launch classrooms, or approve support-language-only assignments.",
+      prerequisites: [
+        "AI generated package writer local companion package guard accepted",
+        "AI generated package writer local companion package guard storage contract accepted",
+        "Teacher assignment rollout gate planned",
+        "Class roster, progress event taxonomy, reporting privacy, launch gate, school policy, and support-language boundaries accepted",
+      ],
+      implementationNotes: [
+        "Keep assignment shell guards tenant-scoped, generation-request-scoped, local-companion-guard-scoped, and package-preview-scoped.",
+        "Preserve protected assignment surfaces, assignment safety checks, reporting safety checks, blocked assignment actions, next records, and support-language boundaries.",
+        "Block assignment shell writes, private assignment link activation, class roster binding, progress event stream activation, teacher report export, live classroom launch, generated package assignment activation, writer execution, and support-language-only assignment approval.",
+        "Do not let an assignment shell guard preview create links, rosters, progress events, reports, launches, assignments, or student-ready state by itself.",
+      ],
+      rollbackOrExportNeeds: [
+        "Export assignment shell guard JSON with protected assignment surfaces, class roster scope, progress event taxonomy, reporting checks, launch gate ids, school policy ids, and support-language boundaries",
+        "Retain blocked, superseded, and cleared assignment shell guard snapshots for audit",
+        "Support local backup and restore without enabling assignment activation, roster binding, progress event streams, teacher report export, or learner-data collection",
+      ],
+      notAllowedYet: [
+        "Assignment shell write",
+        "Private assignment link activation",
+        "Class roster binding",
+        "Progress event stream activation",
+        "Teacher report export",
+        "Live classroom launch",
+        "Assignment activation from generated package",
+        "Support-language-only assignment approval",
+      ],
+    },
+    {
       migrationId: "m060-ai-generated-game-build-brief-records",
       label: "AI generated game build brief records",
       track: "shared",

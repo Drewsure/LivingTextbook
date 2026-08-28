@@ -58,6 +58,7 @@ const requiredSchemaEntities = [
   "ai_generated_package_writer_harness_implementation_decision",
   "ai_generated_package_writer_route_playlist_write_guard",
   "ai_generated_package_writer_local_companion_package_guard",
+  "ai_generated_package_writer_assignment_shell_guard",
   "ai_reward_readiness_gate",
   "ai_generated_publish_readiness_gate",
   "ai_generator_tenant_coverage_gate",
@@ -168,6 +169,7 @@ const requiredMigrationCandidates = [
   "m089-ai-generated-package-writer-harness-implementation-decision-records",
   "m101-ai-generated-package-writer-route-playlist-write-guard-records",
   "m102-ai-generated-package-writer-local-companion-package-guard-records",
+  "m103-ai-generated-package-writer-assignment-shell-guard-records",
   "m055-ai-reward-readiness-gate-records",
   "m056-ai-generated-publish-readiness-gate-records",
   "m057-ai-generator-tenant-coverage-gate-records",
@@ -279,6 +281,7 @@ const requiredMigrationSpecs = [
   "spec-ai-generated-package-writer-harness-implementation-decision",
   "spec-ai-generated-package-writer-route-playlist-write-guard",
   "spec-ai-generated-package-writer-local-companion-package-guard",
+  "spec-ai-generated-package-writer-assignment-shell-guard",
   "spec-ai-reward-readiness-gate",
   "spec-ai-generated-publish-readiness-gate",
   "spec-ai-generator-tenant-coverage-gate",
@@ -5944,6 +5947,21 @@ requireText(
   "ai-generated-package-writer-local-companion-package-guard-record",
   "Active route verifier must keep AI generated package writer local companion package guard record ids visible on teacher intake.",
 );
+requireText(
+  routeVerifier,
+  "ai_generated_package_writer_assignment_shell_guard",
+  "Active route verifier must keep AI generated package writer assignment shell guard storage visible on teacher intake.",
+);
+requireText(
+  routeVerifier,
+  "AI generated package writer assignment shell guard record",
+  "Active route verifier must keep AI generated package writer assignment shell guard durable records visible on teacher intake.",
+);
+requireText(
+  routeVerifier,
+  "ai-generated-package-writer-assignment-shell-guard-record",
+  "Active route verifier must keep AI generated package writer assignment shell guard record ids visible on teacher intake.",
+);
 for (const text of [
   "ai_generated_package_writer_route_playlist_write_guard_id",
   "protected_surfaces",
@@ -5995,12 +6013,42 @@ for (const text of [
   requireText(durableRecords, text, `Durable record plan must preserve local companion package guard text: ${text}.`);
 }
 for (const text of [
+  "ai_generated_package_writer_assignment_shell_guard_id",
+  "protected_assignment_surfaces",
+  "assignment_safety_checks",
+  "reporting_safety_checks",
+  "private_assignment_link_activation_allowed",
+  "class_roster_binding_allowed",
+  "progress_event_stream_activation_allowed",
+  "support_language_assignment_approval_allowed",
+  "m103-ai-generated-package-writer-assignment-shell-guard-records",
+  "spec-ai-generated-package-writer-assignment-shell-guard",
+]) {
+  requireText(
+    schemaDraft + migrationCandidates + migrationSpecs,
+    text,
+    `Backend schema/migration must preserve assignment shell guard storage text: ${text}.`,
+  );
+}
+for (const text of [
+  "ai-generated-package-writer-assignment-shell-guard-record",
+  "ai-generated-package-writer-assignment-shell-guard-boundary",
+  "preservesAiGeneratedPackageWriterAssignmentShellGuard: true",
+  "requiresAssignmentShellProtectedSurfaces: true",
+  "requiresNoRealLearnerDataCheck: true",
+]) {
+  requireText(durableRecords, text, `Durable record plan must preserve assignment shell guard text: ${text}.`);
+}
+for (const text of [
   "preservesAiGeneratedPackageWriterRoutePlaylistWriteGuard",
   "preservesAiGeneratedPackageWriterLocalCompanionPackageGuard",
+  "preservesAiGeneratedPackageWriterAssignmentShellGuard",
   "requiresRoutePlaylistProtectedSurfaces",
   "requiresLocalCompanionProtectedArtifacts",
+  "requiresAssignmentShellProtectedSurfaces",
   "requiresOfflineRouteMapReview",
   "requiresStudentDataExclusion",
+  "requiresNoRealLearnerDataCheck",
 ]) {
   requireText(durableRecordValidator, text, `Durable record validator must expose generated package guard flag: ${text}.`);
 }
