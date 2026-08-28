@@ -690,3 +690,20 @@ Constraints:
 - `ai_generated_package_writer_assignment_shell_guard` must preserve protected assignment surfaces, assignment safety checks, reporting safety checks, class roster boundaries, progress event taxonomy, launch-gate requirements, school policy requirements, and support-language assignment approval blocks.
 - Storage contracts must remain backend-neutral and must not enable assignment writes, private assignment links, roster binding, progress streams, teacher report export, live classroom launch, raw audio/transcript storage, or support-language-only approval.
 - This decision is recorded in `docs/adr/0447-package-writer-assignment-shell-guard-storage-contract.md` and `docs/decision-register/DR-518-package-writer-assignment-shell-guard-storage-contract.md`.
+
+## DR-519: Package Writer Assignment Handoff Evidence Packet
+
+Status: Accepted
+
+Decision: Add a review-only assignment handoff evidence packet after the assignment shell guard.
+
+White-label impact: Positive. Teacher QR/front-door assignment review, private link policy, roster privacy, progress event taxonomy, report export policy, launch gate review, rollback evidence, and support-language boundaries become visible tenant-governed requirements before generated package assignment workflows exist.
+
+Cost impact: Positive. The packet reduces future implementation and support cost by preventing premature assignment activation, learner-data collection, raw audio/transcript storage, report export, or school-policy mistakes.
+
+Constraints:
+
+- Assignment shell writes, private assignment link activation, class roster binding, progress event stream activation, teacher report export, live classroom launch, assignment activation from generated packages, raw learner audio/transcript storage, and support-language-only assignment handoff remain blocked.
+- The packet must require assignment shell guard storage, teacher QR/front-door review, target-language trigger proof, private-link policy proof, no-real-learner-data proof, teacher report privacy proof, progress event taxonomy proof, classroom launch gate review, rollback evidence, and support-language boundary proof.
+- MiniStar assignment handoff evidence packets must preserve English target-language progress and hiragana-only Japanese support.
+- This decision is recorded in `docs/adr/0448-package-writer-assignment-handoff-evidence-packet.md` and `docs/decision-register/DR-519-package-writer-assignment-handoff-evidence-packet.md`.

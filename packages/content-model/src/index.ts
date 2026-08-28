@@ -789,3 +789,4 @@ export * from "./aiPackageWriterHarnessImplementationDecision";
 export * from "./aiPackageWriterRoutePlaylistWriteGuard";
 export * from "./aiPackageWriterLocalCompanionPackageGuard";
 export * from "./aiPackageWriterAssignmentShellGuard";
+export * from "./aiPackageWriterAssignmentHandoffEvidencePacket";

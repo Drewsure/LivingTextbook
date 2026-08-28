@@ -78,6 +78,10 @@ import {
   sampleAiGeneratedPackageWriterAssignmentShellGuards,
 } from "@/data/sampleAiGeneratedPackageWriterAssignmentShellGuard";
 import {
+  filterAiGeneratedPackageWriterAssignmentHandoffEvidencePacketsByTenant,
+  sampleAiGeneratedPackageWriterAssignmentHandoffEvidencePackets,
+} from "@/data/sampleAiGeneratedPackageWriterAssignmentHandoffEvidencePacket";
+import {
   filterAiGeneratedPublishReadinessGatesByTenant,
   sampleAiGeneratedPublishReadinessGates,
 } from "@/data/sampleAiGeneratedPublishReadinessGate";
@@ -260,6 +264,7 @@ import { AiGeneratedPackageWriterHarnessImplementationDecisionPanel } from "@/fe
 import { AiGeneratedPackageWriterRoutePlaylistWriteGuardPanel } from "@/features/content-intake/AiGeneratedPackageWriterRoutePlaylistWriteGuardPanel";
 import { AiGeneratedPackageWriterLocalCompanionPackageGuardPanel } from "@/features/content-intake/AiGeneratedPackageWriterLocalCompanionPackageGuardPanel";
 import { AiGeneratedPackageWriterAssignmentShellGuardPanel } from "@/features/content-intake/AiGeneratedPackageWriterAssignmentShellGuardPanel";
+import { AiGeneratedPackageWriterAssignmentHandoffEvidencePacketPanel } from "@/features/content-intake/AiGeneratedPackageWriterAssignmentHandoffEvidencePacketPanel";
 import { AiGeneratedPublishReadinessGatePanel } from "@/features/content-intake/AiGeneratedPublishReadinessGatePanel";
 import { AiEngineBindingPlanPanel } from "@/features/content-intake/AiEngineBindingPlanPanel";
 import { AiExternalPrototypeTaskExportReadinessGatePanel } from "@/features/content-intake/AiExternalPrototypeTaskExportReadinessGatePanel";
@@ -616,6 +621,12 @@ export default async function TeacherAiGameGeneratorPage({
         <AiGeneratedPackageWriterAssignmentShellGuardPanel
           guards={filterAiGeneratedPackageWriterAssignmentShellGuardsByTenant(
             sampleAiGeneratedPackageWriterAssignmentShellGuards,
+            tenantId,
+          )}
+        />
+        <AiGeneratedPackageWriterAssignmentHandoffEvidencePacketPanel
+          packets={filterAiGeneratedPackageWriterAssignmentHandoffEvidencePacketsByTenant(
+            sampleAiGeneratedPackageWriterAssignmentHandoffEvidencePackets,
             tenantId,
           )}
         />

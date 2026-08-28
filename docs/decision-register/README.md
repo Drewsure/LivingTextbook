@@ -490,6 +490,7 @@
 - `DR-516-package-writer-guard-storage-contracts.md`
 - `DR-517-package-writer-assignment-shell-guard.md`
 - `DR-518-package-writer-assignment-shell-guard-storage-contract.md`
+- `DR-519-package-writer-assignment-handoff-evidence-packet.md`
 
 ## Maintenance Rule
 

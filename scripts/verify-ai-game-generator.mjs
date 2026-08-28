@@ -59,6 +59,9 @@ const packageWriterLocalCompanionPackageGuardValidator = readSource(
 const packageWriterAssignmentShellGuardValidator = readSource(
   "../packages/content-model/src/aiPackageWriterAssignmentShellGuard.ts",
 );
+const packageWriterAssignmentHandoffEvidencePacketValidator = readSource(
+  "../packages/content-model/src/aiPackageWriterAssignmentHandoffEvidencePacket.ts",
+);
 const rewardReadinessGate = readSource("../apps/web/src/data/sampleAiRewardReadinessGate.ts");
 const generatedGameBuildBrief = readSource("../apps/web/src/data/sampleAiGeneratedGameBuildBrief.ts");
 const generatedGameBuildBriefValidator = readSource("../packages/content-model/src/aiGeneratedGameBuildBrief.ts");
@@ -233,6 +236,9 @@ const generatedPackageWriterLocalCompanionPackageGuard = readSource(
 const generatedPackageWriterAssignmentShellGuard = readSource(
   "../apps/web/src/data/sampleAiGeneratedPackageWriterAssignmentShellGuard.ts",
 );
+const generatedPackageWriterAssignmentHandoffEvidencePacket = readSource(
+  "../apps/web/src/data/sampleAiGeneratedPackageWriterAssignmentHandoffEvidencePacket.ts",
+);
 const generatedPublishReadinessGate = readSource("../apps/web/src/data/sampleAiGeneratedPublishReadinessGate.ts");
 const draftPreviewData = readSource("../apps/web/src/data/sampleAiGeneratedDraftPayloadPreview.ts");
 const draftPayloadValidator = readSource("../packages/content-model/src/aiGeneratedDraftPayload.ts");
@@ -388,6 +394,9 @@ const generatedPackageWriterLocalCompanionPackageGuardPanel = readSource(
 );
 const generatedPackageWriterAssignmentShellGuardPanel = readSource(
   "../apps/web/src/features/content-intake/AiGeneratedPackageWriterAssignmentShellGuardPanel.tsx",
+);
+const generatedPackageWriterAssignmentHandoffEvidencePacketPanel = readSource(
+  "../apps/web/src/features/content-intake/AiGeneratedPackageWriterAssignmentHandoffEvidencePacketPanel.tsx",
 );
 const generatedPublishReadinessGatePanel = readSource(
   "../apps/web/src/features/content-intake/AiGeneratedPublishReadinessGatePanel.tsx",
@@ -5063,6 +5072,81 @@ requireText(
   "Protected assignment shell surfaces",
   "AI generated package writer assignment shell guard panel must expose protected surfaces.",
 );
+requireText(
+  generatedPackageWriterAssignmentHandoffEvidencePacket,
+  "sampleAiGeneratedPackageWriterAssignmentHandoffEvidencePackets",
+  "AI generated package writer assignment handoff evidence packet data must exist.",
+);
+requireText(
+  packageWriterAssignmentHandoffEvidencePacketValidator,
+  "validateAiGeneratedPackageWriterAssignmentHandoffEvidencePacket",
+  "AI generated package writer assignment handoff evidence packet shared validator must exist.",
+);
+requireText(
+  packageWriterAssignmentHandoffEvidencePacketValidator,
+  "AI_PACKAGE_WRITER_ASSIGNMENT_HANDOFF_REQUIRED_BLOCKED_ACTIONS",
+  "AI generated package writer assignment handoff evidence packet validator must define blocked handoff actions.",
+);
+requireText(
+  generatedPackageWriterAssignmentHandoffEvidencePacket,
+  "sampleAiGeneratedPackageWriterAssignmentHandoffEvidencePacketErrors",
+  "AI generated package writer assignment handoff evidence packet data must expose shared guard errors.",
+);
+requireText(
+  generatedPackageWriterAssignmentHandoffEvidencePacket,
+  "Assignment handoff blocked pending signed evidence and rollout gate",
+  "AI generated package writer assignment handoff evidence packet must keep assignment handoff blocked.",
+);
+requireText(
+  generatedPackageWriterAssignmentHandoffEvidencePacket,
+  "Teacher assignment rollout gate",
+  "AI generated package writer assignment handoff evidence packet must require rollout gate review.",
+);
+requireText(
+  generatedPackageWriterAssignmentHandoffEvidencePacket,
+  "Target-language trigger assignment check",
+  "AI generated package writer assignment handoff evidence packet must require target-language assignment checks.",
+);
+requireText(
+  generatedPackageWriterAssignmentHandoffEvidencePacket,
+  "No real learner data collection proof",
+  "AI generated package writer assignment handoff evidence packet must block real learner data collection.",
+);
+requireText(
+  generatedPackageWriterAssignmentHandoffEvidencePacket,
+  "No raw learner audio or transcript storage",
+  "AI generated package writer assignment handoff evidence packet must block raw learner audio or transcript storage.",
+);
+requireText(
+  generatedPackageWriterAssignmentHandoffEvidencePacket,
+  "No support-language-only assignment handoff",
+  "AI generated package writer assignment handoff evidence packet must block support-language-only handoff.",
+);
+requireText(
+  generatedPackageWriterAssignmentHandoffEvidencePacket,
+  "English actions are the only assignment progress trigger",
+  "AI generated package writer assignment handoff evidence packet must preserve MiniStar English assignment trigger.",
+);
+requireText(
+  generatedPackageWriterAssignmentHandoffEvidencePacketPanel,
+  "AI generated package writer assignment handoff evidence packet",
+  "AI generated package writer assignment handoff evidence packet panel must expose heading.",
+);
+requireText(
+  generatedPackageWriterAssignmentHandoffEvidencePacketPanel,
+  "Assignment handoff proof stays review-only",
+  "AI generated package writer assignment handoff evidence packet panel must expose review-only title.",
+);
+requireText(
+  generatedPackageWriterAssignmentHandoffEvidencePacketPanel,
+  "Handoff evidence active",
+  "AI generated package writer assignment handoff evidence packet panel must expose active status.",
+);
+requireText(
+  generatedPackageWriterAssignmentHandoffEvidencePacketPanel,
+  "Required handoff evidence lanes",
+  "AI generated package writer assignment handoff evidence packet panel must expose evidence lanes.",
+);
 requireText(compatibilityMatrix, "This matrix defines which student games", "Generator mode recommendations must reuse the compatibility matrix.");
 requireText(modeRecommendationPanel, "AI mode recommendation preview", "Mode recommendation panel must expose heading.");
 requireText(modeRecommendationPanel, "Recommended generated pathway", "Mode recommendation panel must expose recommended pathway.");
@@ -5552,6 +5636,11 @@ requireText(
   "AiGeneratedPackageWriterAssignmentShellGuardPanel",
   "Generator route must render the generated package writer assignment shell guard panel.",
 );
+requireText(
+  route,
+  "AiGeneratedPackageWriterAssignmentHandoffEvidencePacketPanel",
+  "Generator route must render the generated package writer assignment handoff evidence packet panel.",
+);
 requireText(route, "AiGeneratedPublishReadinessGatePanel", "Generator route must render the generated publish readiness gate panel.");
 requireText(route, "AiGeneratedDraftPayloadPreviewPanel", "Generator route must render the draft payload preview panel.");
 requireText(route, "AiDraftCorrectionQueuePanel", "Generator route must render the draft correction queue panel.");
@@ -5734,6 +5823,11 @@ requireText(
   route,
   "sampleAiGeneratedPackageWriterAssignmentShellGuards",
   "Generator route must use the sample generated package writer assignment shell guard data.",
+);
+requireText(
+  route,
+  "sampleAiGeneratedPackageWriterAssignmentHandoffEvidencePackets",
+  "Generator route must use the sample generated package writer assignment handoff evidence packet data.",
 );
 requireText(
   route,

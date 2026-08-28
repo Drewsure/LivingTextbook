@@ -10,6 +10,7 @@ const reviewSurfaceFiles = [
   "apps/web/src/features/content-intake/AiGeneratedPackageWriterRoutePlaylistWriteGuardPanel.tsx",
   "apps/web/src/features/content-intake/AiGeneratedPackageWriterLocalCompanionPackageGuardPanel.tsx",
   "apps/web/src/features/content-intake/AiGeneratedPackageWriterAssignmentShellGuardPanel.tsx",
+  "apps/web/src/features/content-intake/AiGeneratedPackageWriterAssignmentHandoffEvidencePacketPanel.tsx",
   "apps/web/src/features/evidence/EvidenceAttachmentStorageReadinessPanel.tsx",
   "apps/web/src/features/evidence/EvidenceExportReadinessPanel.tsx",
   "apps/web/src/features/evidence/EvidencePacketAssemblyGatePanel.tsx",

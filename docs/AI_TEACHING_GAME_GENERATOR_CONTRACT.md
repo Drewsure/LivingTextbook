@@ -643,6 +643,16 @@ MiniStar assignment shell guards must preserve English as the target-language tr
 
 The backend-neutral storage contract is `ai_generated_package_writer_assignment_shell_guard` / `ai-generated-package-writer-assignment-shell-guard`. Hosted and local adapters must preserve the linked local companion guard, package id preview, protected assignment surfaces, assignment safety checks, reporting safety checks, blocked assignment actions, next required records, class roster boundary, progress event taxonomy, reporting privacy, school policy requirements, and support-language boundaries while blocking assignment shell writes, private assignment link activation, class roster binding, progress event stream activation, teacher report export, live classroom launch, assignment activation, writer execution, raw learner audio/transcript storage, and support-language-only assignment approval.
 
+## Generated Package Writer Assignment Handoff Evidence Packet Rule
+
+Generated package writer planning must show an `AI generated package writer assignment handoff evidence packet` after the assignment shell guard and before any rollout gate, private assignment link, roster binding, progress stream, report export, or classroom launch workflow can be considered.
+
+The packet must gather assignment shell guard storage, teacher QR/front-door assignment review, target-language trigger proof, private-link policy proof, no-real-learner-data proof, teacher report privacy proof, progress event taxonomy proof, classroom launch gate review, rollback evidence, and support-language boundary proof.
+
+The shared `validateAiGeneratedPackageWriterAssignmentHandoffEvidencePacket` contract must keep assignment shell writes, private assignment link activation, class roster binding, progress event stream activation, teacher report export, live classroom launch, assignment activation from generated package, raw learner audio/transcript storage, and support-language-only assignment handoff blocked.
+
+MiniStar assignment handoff evidence packets must preserve English as the target-language trigger and keep Foundation/Bronze/Plus Japanese support hiragana-only and support-only. Japanese support text, taps, or audio cannot approve the assignment handoff, activate progress events, unlock class reports, or launch a classroom workflow.
+
 ## Blocked Actions
 
 - No direct AI publish.
@@ -655,6 +665,7 @@ The backend-neutral storage contract is `ai_generated_package_writer_assignment_
 - No premium upsell shown to children.
 - No local companion package export or activation from generated package previews.
 - No assignment shell, class roster, progress stream, or teacher report activation from generated package previews.
+- No assignment handoff, rollout gate, private link, roster binding, progress stream, report export, classroom launch, raw learner audio/transcript storage, or support-language-only assignment handoff from generated package previews.
 
 ## White-Label Position
 
