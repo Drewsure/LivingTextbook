@@ -62,6 +62,7 @@ export type PersistenceBoundaryCategory =
   | "ai-generated-package-writer-route-playlist-write-guard"
   | "ai-generated-package-writer-local-companion-package-guard"
   | "ai-generated-package-writer-assignment-shell-guard"
+  | "ai-generated-package-writer-assignment-handoff-evidence-packet"
   | "ai-reward-readiness-gate"
   | "ai-generated-publish-readiness-gate"
   | "ai-generator-tenant-coverage-gate"
@@ -1709,6 +1710,41 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
     note:
       "AI generated package writer assignment shell guards need durable protected-surface, class roster, progress event, reporting, launch-gate, school-policy, and no-real-learner-data boundaries before generated package writers can create assignment shells, activate private links, bind rosters, activate progress streams, export reports, launch classrooms, or approve support-language-only assignments.",
+  },
+  {
+    recordId: "ai-generated-package-writer-assignment-handoff-evidence-packet-record",
+    category: "ai-generated-package-writer-assignment-handoff-evidence-packet",
+    label: "AI generated package writer assignment handoff evidence packet record",
+    readiness: "durable-required",
+    sourceOfTruth:
+      "AiGeneratedPackageWriterAssignmentHandoffEvidencePacket, assignment shell guard, package id preview, assignment preview id, evidence lanes, missing evidence, blocked handoff actions, next records, rollout gate requirements, privacy policy, rollback evidence, and support-language boundary lanes",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: false,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesAiGeneratedPackageWriterAssignmentHandoffEvidencePacket: true,
+    preservesAiGeneratedPackageWriterAssignmentShellGuard: true,
+    requiresAssignmentHandoffEvidenceLanes: true,
+    requiresAssignmentHandoffRolloutGate: true,
+    requiresTargetLanguageProgressTrigger: true,
+    requiresNoRealLearnerDataCheck: true,
+    requiresSchoolPolicyAcceptance: true,
+    requiresEventAcceptanceGate: true,
+    blocksGeneratedPackageWriterExecution: true,
+    blocksGeneratedPackageAssignment: true,
+    blocksDirectStudentAssignment: true,
+    blocksLiveClassroomLaunch: true,
+    blocksRealLearnerDataCollection: true,
+    blocksLiveReportExport: true,
+    blocksRawAudioStorage: true,
+    blocksTranscriptStorage: true,
+    blocksSupportLanguageProgressTrigger: true,
+    blocksSupportLanguageAssembly: true,
+    recommendedFirstPilotStore: ["hosted-database", "local-classroom-store", "school-policy"],
+    note:
+      "AI generated package writer assignment handoff evidence packets need durable evidence-lane, rollout, private-link, roster, reporting, launch-gate, rollback, school-policy, and support-language boundaries before generated package writers can hand off assignments, activate private links, bind rosters, activate progress streams, export reports, launch classrooms, store raw learner audio/transcripts, or approve support-language-only assignment handoffs.",
   },
   {
     recordId: "ai-reward-readiness-gate-record",
@@ -3568,6 +3604,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision:
       "Persist AI generated package writer assignment shell guards before enabling assignment shell writes, private assignment link activation, class roster binding, progress event stream activation, teacher report export, live classroom launch, generated package writer execution, or support-language-only assignment approval.",
+  },
+  {
+    boundaryId: "ai-generated-package-writer-assignment-handoff-evidence-packet-boundary",
+    category: "ai-generated-package-writer-assignment-handoff-evidence-packet",
+    label: "AI generated package writer assignment handoff evidence packet records",
+    status: "needs-backend",
+    recordShape:
+      "Evidence packet id, tenant id, request id, assignment shell guard id, package id preview, assignment preview id, assignment shell evidence lane, private link evidence lane, roster and privacy evidence lane, progress and reporting evidence lane, launch and rollback evidence lane, missing evidence, blocked handoff actions, next records, and support-language boundary lanes",
+    whyItMatters:
+      "Generated package writer assignment handoff evidence packets need durable proof-lane evidence so a readable packet cannot become assignment handoff, private link activation, roster binding, progress streams, report export, live classroom launch, raw learner audio/transcript storage, or support-language-only assignment handoff from UI state alone.",
+    visibleTo: ["Teacher", "Tenant admin", "Content reviewer", "Platform admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Persist AI generated package writer assignment handoff evidence packets before enabling assignment rollout gates, private assignment link activation, class roster binding, progress event stream activation, teacher report export, live classroom launch, generated package writer execution, raw learner audio/transcript storage, or support-language-only assignment handoff.",
   },
   {
     boundaryId: "ai-reward-readiness-gate-boundary",

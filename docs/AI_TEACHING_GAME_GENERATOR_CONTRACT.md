@@ -653,6 +653,8 @@ The shared `validateAiGeneratedPackageWriterAssignmentHandoffEvidencePacket` con
 
 MiniStar assignment handoff evidence packets must preserve English as the target-language trigger and keep Foundation/Bronze/Plus Japanese support hiragana-only and support-only. Japanese support text, taps, or audio cannot approve the assignment handoff, activate progress events, unlock class reports, or launch a classroom workflow.
 
+The backend-neutral storage contract is `ai_generated_package_writer_assignment_handoff_evidence_packet` / `ai-generated-package-writer-assignment-handoff-evidence-packet`. Hosted and local adapters must preserve the linked assignment shell guard, package id preview, assignment preview id, assignment shell evidence lane, private link evidence lane, roster and privacy evidence lane, progress and reporting evidence lane, launch and rollback evidence lane, missing evidence, blocked handoff actions, next required records, rollout gate requirements, report policy requirements, rollback evidence, and support-language boundaries while blocking assignment handoff, private assignment link activation, class roster binding, progress event stream activation, teacher report export, live classroom launch, raw learner audio/transcript storage, writer execution, and support-language-only assignment handoff.
+
 ## Blocked Actions
 
 - No direct AI publish.

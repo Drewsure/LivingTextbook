@@ -50,6 +50,7 @@ export type PersistenceRecordCategory =
   | "ai-generated-package-writer-route-playlist-write-guard"
   | "ai-generated-package-writer-local-companion-package-guard"
   | "ai-generated-package-writer-assignment-shell-guard"
+  | "ai-generated-package-writer-assignment-handoff-evidence-packet"
   | "ai-reward-readiness-gate"
   | "ai-generated-publish-readiness-gate"
   | "ai-generator-tenant-coverage-gate"
@@ -342,6 +343,7 @@ export interface DurableRecordContract {
   preservesAiGeneratedPackageWriterRoutePlaylistWriteGuard?: boolean;
   preservesAiGeneratedPackageWriterLocalCompanionPackageGuard?: boolean;
   preservesAiGeneratedPackageWriterAssignmentShellGuard?: boolean;
+  preservesAiGeneratedPackageWriterAssignmentHandoffEvidencePacket?: boolean;
   requiresLineageMap?: boolean;
   requiresTargetLanguageAudioApproval?: boolean;
   requiresPackageAssemblyReadinessLanes?: boolean;
@@ -369,6 +371,8 @@ export interface DurableRecordContract {
   requiresRoutePlaylistProtectedSurfaces?: boolean;
   requiresLocalCompanionProtectedArtifacts?: boolean;
   requiresAssignmentShellProtectedSurfaces?: boolean;
+  requiresAssignmentHandoffEvidenceLanes?: boolean;
+  requiresAssignmentHandoffRolloutGate?: boolean;
   requiresOfflineRouteMapReview?: boolean;
   requiresStudentDataExclusion?: boolean;
   requiresNoRealLearnerDataCheck?: boolean;

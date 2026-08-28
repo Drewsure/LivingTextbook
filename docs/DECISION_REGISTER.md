@@ -707,3 +707,20 @@ Constraints:
 - The packet must require assignment shell guard storage, teacher QR/front-door review, target-language trigger proof, private-link policy proof, no-real-learner-data proof, teacher report privacy proof, progress event taxonomy proof, classroom launch gate review, rollback evidence, and support-language boundary proof.
 - MiniStar assignment handoff evidence packets must preserve English target-language progress and hiragana-only Japanese support.
 - This decision is recorded in `docs/adr/0448-package-writer-assignment-handoff-evidence-packet.md` and `docs/decision-register/DR-519-package-writer-assignment-handoff-evidence-packet.md`.
+
+## DR-520: Package Writer Assignment Handoff Evidence Packet Storage Contract
+
+Status: Accepted
+
+Decision: Add a backend-neutral storage contract for assignment handoff evidence packets.
+
+White-label impact: Positive. Assignment handoff evidence can be persisted consistently across hosted, installed PWA, desktop, and local-classroom deployments while preserving tenant-specific assignment, roster, reporting, launch, rollback, and support-language policy.
+
+Cost impact: Positive. Persisting assignment handoff evidence as a review record avoids expensive privacy, reporting, raw-audio, transcript, and school-policy mistakes before live assignment workflow work begins.
+
+Constraints:
+
+- `ai_generated_package_writer_assignment_handoff_evidence_packet` must preserve the linked assignment shell guard, package id preview, assignment preview id, evidence lanes, missing evidence, blocked handoff actions, rollout requirements, report policy requirements, rollback evidence, and support-language boundaries.
+- Storage contracts must remain backend-neutral and must not enable assignment handoff, private assignment links, roster binding, progress streams, teacher report export, live classroom launch, raw learner audio/transcript storage, generated assignment activation, writer execution, or support-language-only handoff.
+- MiniStar assignment handoff evidence packet storage must preserve English target-language progress and hiragana-only Japanese support.
+- This decision is recorded in `docs/adr/0449-package-writer-assignment-handoff-evidence-packet-storage-contract.md` and `docs/decision-register/DR-520-package-writer-assignment-handoff-evidence-packet-storage-contract.md`.

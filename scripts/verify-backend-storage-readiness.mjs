@@ -59,6 +59,7 @@ const requiredSchemaEntities = [
   "ai_generated_package_writer_route_playlist_write_guard",
   "ai_generated_package_writer_local_companion_package_guard",
   "ai_generated_package_writer_assignment_shell_guard",
+  "ai_generated_package_writer_assignment_handoff_evidence_packet",
   "ai_reward_readiness_gate",
   "ai_generated_publish_readiness_gate",
   "ai_generator_tenant_coverage_gate",
@@ -5962,6 +5963,21 @@ requireText(
   "ai-generated-package-writer-assignment-shell-guard-record",
   "Active route verifier must keep AI generated package writer assignment shell guard record ids visible on teacher intake.",
 );
+requireText(
+  routeVerifier,
+  "ai_generated_package_writer_assignment_handoff_evidence_packet",
+  "Active route verifier must keep AI generated package writer assignment handoff evidence packet storage visible on teacher intake.",
+);
+requireText(
+  routeVerifier,
+  "AI generated package writer assignment handoff evidence packet record",
+  "Active route verifier must keep AI generated package writer assignment handoff evidence packet durable records visible on teacher intake.",
+);
+requireText(
+  routeVerifier,
+  "ai-generated-package-writer-assignment-handoff-evidence-packet-record",
+  "Active route verifier must keep AI generated package writer assignment handoff evidence packet record ids visible on teacher intake.",
+);
 for (const text of [
   "ai_generated_package_writer_route_playlist_write_guard_id",
   "protected_surfaces",
@@ -6040,12 +6056,47 @@ for (const text of [
   requireText(durableRecords, text, `Durable record plan must preserve assignment shell guard text: ${text}.`);
 }
 for (const text of [
+  "ai_generated_package_writer_assignment_handoff_evidence_packet_id",
+  "assignment_preview_id",
+  "evidence_lanes",
+  "missing_evidence",
+  "blocked_handoff_actions",
+  "assignment_handoff_allowed",
+  "raw_learner_audio_storage_allowed",
+  "learner_transcript_storage_allowed",
+  "support_language_assignment_handoff_allowed",
+  "m104-ai-generated-package-writer-assignment-handoff-evidence-packet-records",
+  "spec-ai-generated-package-writer-assignment-handoff-evidence-packet",
+]) {
+  requireText(
+    schemaDraft + migrationCandidates + migrationSpecs,
+    text,
+    `Backend schema/migration must preserve assignment handoff evidence packet storage text: ${text}.`,
+  );
+}
+for (const text of [
+  "ai-generated-package-writer-assignment-handoff-evidence-packet-record",
+  "ai-generated-package-writer-assignment-handoff-evidence-packet-boundary",
+  "preservesAiGeneratedPackageWriterAssignmentHandoffEvidencePacket: true",
+  "requiresAssignmentHandoffEvidenceLanes: true",
+  "requiresAssignmentHandoffRolloutGate: true",
+]) {
+  requireText(
+    durableRecords,
+    text,
+    `Durable record plan must preserve assignment handoff evidence packet text: ${text}.`,
+  );
+}
+for (const text of [
   "preservesAiGeneratedPackageWriterRoutePlaylistWriteGuard",
   "preservesAiGeneratedPackageWriterLocalCompanionPackageGuard",
   "preservesAiGeneratedPackageWriterAssignmentShellGuard",
+  "preservesAiGeneratedPackageWriterAssignmentHandoffEvidencePacket",
   "requiresRoutePlaylistProtectedSurfaces",
   "requiresLocalCompanionProtectedArtifacts",
   "requiresAssignmentShellProtectedSurfaces",
+  "requiresAssignmentHandoffEvidenceLanes",
+  "requiresAssignmentHandoffRolloutGate",
   "requiresOfflineRouteMapReview",
   "requiresStudentDataExclusion",
   "requiresNoRealLearnerDataCheck",

@@ -3114,6 +3114,135 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       ],
     },
     {
+      specId: "spec-ai-generated-package-writer-assignment-handoff-evidence-packet",
+      label: "AI generated package writer assignment handoff evidence packet",
+      candidateId: "m104-ai-generated-package-writer-assignment-handoff-evidence-packet-records",
+      storeKind: "admin-record",
+      status: "ready-for-review",
+      purpose:
+        "Stores generated package writer assignment handoff evidence while keeping assignment handoff, private assignment link activation, class roster binding, progress event stream activation, teacher report export, live classroom launch, raw learner audio/transcript storage, writer execution, and support-language-only assignment handoff blocked.",
+      primaryKey: "ai_generated_package_writer_assignment_handoff_evidence_packet_id",
+      tenantScope:
+        "Scoped by tenant_id, generation_request_id, ai_generated_package_writer_assignment_shell_guard_id, package_id_preview, assignment_preview_id, and packet_revision.",
+      fields: [
+        {
+          name: "ai_generated_package_writer_assignment_handoff_evidence_packet_id",
+          type: "string",
+          required: true,
+          note: "Stable id for one generated assignment handoff evidence packet snapshot.",
+        },
+        {
+          name: "generation_request_id",
+          type: "string",
+          required: true,
+          note: "AI generation request this assignment handoff evidence packet belongs to.",
+        },
+        {
+          name: "ai_generated_package_writer_assignment_shell_guard_id",
+          type: "string",
+          required: true,
+          note: "Assignment shell guard this handoff evidence packet follows.",
+        },
+        {
+          name: "package_id_preview",
+          type: "string",
+          required: true,
+          note: "Generated package id preview under assignment handoff review.",
+        },
+        {
+          name: "assignment_preview_id",
+          type: "string",
+          required: true,
+          note: "Blocked generated assignment preview id.",
+        },
+        {
+          name: "evidence_lanes",
+          type: "json",
+          required: true,
+          note: "Assignment shell, private link, roster/privacy, progress/reporting, and launch/rollback evidence lanes.",
+        },
+        {
+          name: "missing_evidence",
+          type: "json",
+          required: true,
+          note: "Storage, rollout gate, signed policy, reporting, privacy, and rollback evidence still missing.",
+        },
+        {
+          name: "blocked_handoff_actions",
+          type: "json",
+          required: true,
+          note: "Assignment, private link, roster, progress stream, report, launch, raw learner audio/transcript, writer, and support-language handoff blocks.",
+        },
+        {
+          name: "assignment_handoff_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until rollout, school policy, and launch gates pass.",
+        },
+        {
+          name: "private_assignment_link_activation_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until private assignment policy and launch gate pass.",
+        },
+        {
+          name: "class_roster_binding_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until roster identity and school policy pass.",
+        },
+        {
+          name: "progress_event_stream_activation_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until progress taxonomy and report policy pass.",
+        },
+        {
+          name: "teacher_report_export_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until reporting export policy passes.",
+        },
+        {
+          name: "raw_learner_audio_storage_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false in the foundation and core report path.",
+        },
+        {
+          name: "learner_transcript_storage_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false in the foundation and core report path.",
+        },
+        {
+          name: "support_language_assignment_handoff_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false for MiniStar and assist-language-only assignment handoff.",
+        },
+      ],
+      indexes: [
+        "tenant_id + ai_generated_package_writer_assignment_handoff_evidence_packet_id",
+        "ai_generated_package_writer_assignment_handoff_evidence_packet_id unique",
+        "tenant_id + generation_request_id",
+        "tenant_id + ai_generated_package_writer_assignment_shell_guard_id",
+        "assignment_handoff_allowed",
+        "private_assignment_link_activation_allowed",
+      ],
+      retentionRule:
+        "Retain according to tenant authoring, assignment, reporting, class roster, school policy, and rollback policy; blocked, superseded, and cleared assignment handoff evidence packet snapshots remain auditable.",
+      exportRule:
+        "Must export evidence lanes, missing evidence, blocked handoff actions, next records, launch gate ids, rollback ids, school policy ids, and support-language boundaries without exporting learner names, raw audio, transcripts, or unrelated tenant packages.",
+      localFallback:
+        "Local classroom deployments store the same assignment handoff evidence packet JSON for backup/export without allowing assignment handoff, private link activation, class roster binding, progress event streams, report export, launch activation, raw learner audio storage, transcript storage, or learner-data collection.",
+      policyBlockers: [
+        "Generated assignment handoff evidence packets cannot hand off assignments, activate links, bind rosters, activate progress streams, export reports, launch classrooms, execute writers, store raw learner audio/transcripts, or mark student-ready state by themselves.",
+        "Teacher assignment rollout, private link policy, class roster privacy, progress event acceptance, report export policy, classroom launch gate, rollback policy, and school policy must pass before future assignment handoff.",
+        "Support-language-only assignment handoff remains blocked; MiniStar Japanese support cannot satisfy English assignment handoff evidence.",
+      ],
+    },
+    {
       specId: "spec-ai-generated-game-build-brief",
       label: "AI generated game build brief",
       candidateId: "m060-ai-generated-game-build-brief-records",
