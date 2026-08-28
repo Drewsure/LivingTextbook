@@ -20,6 +20,7 @@ Confirm:
 - Sample publisher rollout is blocked.
 - Local companion rollout is blocked.
 - Gate cards show pass, warning, and blocked statuses.
+- Generated-package evidence counts are visible in the rollout summary metrics.
 - Media rights, report policy, progress persistence, local bundle, and local storage blockers are visible.
 - Game audio coverage is visible before scheduling, with local companion coverage still under review.
 - Generated-package handoff evidence is visible as review-only evidence under rollout.

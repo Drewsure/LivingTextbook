@@ -741,3 +741,19 @@ Constraints:
 - Assignment rollout plans must show source evidence packet ids and a generated-package policy note before any generated assignment rollout work is designed.
 - MiniStar generated-package handoff evidence remains English-triggered, hiragana-support-only, and review-only.
 - This decision is recorded in `docs/adr/0450-assignment-rollout-generated-handoff-evidence-link.md` and `docs/decision-register/DR-521-assignment-rollout-generated-handoff-evidence-link.md`.
+
+## DR-522: Assignment Rollout Generated Evidence Summary
+
+Status: Accepted
+
+Decision: Add a generated-package evidence count to the assignment rollout summary metrics.
+
+White-label impact: Positive. Teachers and tenant admins can quickly see whether generated-package evidence is present before reading each rollout plan.
+
+Cost impact: Positive. A simple summary metric reduces review confusion without introducing workflow state, storage writes, or scheduling behavior.
+
+Constraints:
+
+- The metric is informational only and cannot schedule classes, activate assignments, or approve evidence.
+- Detailed source evidence packet ids remain visible inside each rollout plan.
+- This decision is recorded in `docs/adr/0451-assignment-rollout-generated-evidence-summary.md` and `docs/decision-register/DR-522-assignment-rollout-generated-evidence-summary.md`.

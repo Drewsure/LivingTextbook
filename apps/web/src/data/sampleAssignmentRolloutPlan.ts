@@ -208,6 +208,10 @@ export function countAssignmentRolloutGates(
   return plan.gates.filter((gate) => gate.status === status).length;
 }
 
+export function countAssignmentRolloutEvidencePackets(plans: AssignmentRolloutPlan[]): number {
+  return plans.reduce((total, plan) => total + plan.sourceEvidencePacketIds.length, 0);
+}
+
 function findGeneratedAssignmentEvidence(tenantId: string): AiGeneratedPackageWriterAssignmentHandoffEvidencePacket {
   const packet = sampleAiGeneratedPackageWriterAssignmentHandoffEvidencePackets.find(
     (evidencePacket) => evidencePacket.tenantId === tenantId,

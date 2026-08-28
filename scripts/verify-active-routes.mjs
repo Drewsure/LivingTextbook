@@ -541,6 +541,7 @@ const assignmentRolloutExpected = [
   "Closed local companion rollout",
   "Game audio coverage",
   "Generated package handoff evidence",
+  "Generated evidence",
   "Generated handoff evidence",
   "ai-generated-package-writer-assignment-handoff-evidence-packet",
   "cannot schedule a live class",

@@ -4,7 +4,10 @@ import type {
   AssignmentRolloutPlan,
   AssignmentRolloutStatus,
 } from "@/data/sampleAssignmentRolloutPlan";
-import { countAssignmentRolloutGates } from "@/data/sampleAssignmentRolloutPlan";
+import {
+  countAssignmentRolloutEvidencePackets,
+  countAssignmentRolloutGates,
+} from "@/data/sampleAssignmentRolloutPlan";
 
 interface TeacherAssignmentRolloutPanelProps {
   plans: AssignmentRolloutPlan[];
@@ -26,6 +29,7 @@ const gateTone: Record<AssignmentRolloutGateStatus, "neutral" | "success" | "war
 export function TeacherAssignmentRolloutPanel({ plans }: TeacherAssignmentRolloutPanelProps) {
   const blockedPlans = plans.filter((plan) => plan.status === "blocked").length;
   const demoPlans = plans.filter((plan) => plan.status === "demo-preview").length;
+  const generatedEvidencePackets = countAssignmentRolloutEvidencePackets(plans);
 
   return (
     <Card>
@@ -40,10 +44,11 @@ export function TeacherAssignmentRolloutPanel({ plans }: TeacherAssignmentRollou
         <StatusPill label={`${blockedPlans} blocked`} tone={blockedPlans > 0 ? "warning" : "success"} />
       </div>
 
-      <div className="mt-5 grid gap-3 sm:grid-cols-3">
+      <div className="mt-5 grid gap-3 sm:grid-cols-4">
         <RolloutMetric label="Rollouts" value={String(plans.length)} tone="neutral" />
         <RolloutMetric label="Demo preview" value={String(demoPlans)} tone="neutral" />
         <RolloutMetric label="Blocked" value={String(blockedPlans)} tone={blockedPlans > 0 ? "warning" : "success"} />
+        <RolloutMetric label="Generated evidence" value={`${generatedEvidencePackets} packets`} tone="warning" />
       </div>
 
       <div className="mt-5 grid gap-4">

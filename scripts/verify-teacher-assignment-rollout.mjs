@@ -29,6 +29,7 @@ const requiredPlanMarkers = [
   "reviewed offline audio coverage for every assigned game mode",
   "sourceEvidencePacketIds",
   "generatedPackagePolicyNote",
+  "countAssignmentRolloutEvidencePackets",
   "Generated handoff evidence",
   "samplePublisherGeneratedAssignmentEvidence.evidencePacketId",
   "ministarGeneratedAssignmentEvidence.evidencePacketId",
@@ -58,6 +59,8 @@ requireText(rolloutPanel, "countAssignmentRolloutGates", "Assignment rollout pan
 requireText(rolloutPanel, "Passing gates", "Assignment rollout panel must show passing gate counts.");
 requireText(rolloutPanel, "Warnings", "Assignment rollout panel must show warning gate counts.");
 requireText(rolloutPanel, "Blocked", "Assignment rollout panel must show blocked gate counts.");
+requireText(rolloutPanel, "Generated evidence", "Assignment rollout panel must summarize generated evidence packets.");
+requireText(rolloutPanel, "countAssignmentRolloutEvidencePackets", "Assignment rollout panel must use the generated evidence counter.");
 requireText(rolloutPanel, "Generated package handoff evidence", "Assignment rollout panel must show generated handoff evidence.");
 requireText(rolloutPanel, "sourceEvidencePacketIds", "Assignment rollout panel must render source evidence packet ids.");
 
@@ -75,6 +78,7 @@ for (const marker of [
   "Report policy",
   "Local storage",
   "Generated package handoff evidence",
+  "Generated evidence",
   "Generated handoff evidence",
   "ai-generated-package-writer-assignment-handoff-evidence-packet",
   "cannot schedule a live class",

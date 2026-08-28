@@ -469,6 +469,7 @@ Next outputs:
 - Confirm teacher assignment readiness shows audio-covered game modes against assigned game modes.
 - Confirm assignment rollout surfaces game audio coverage before scheduling.
 - Confirm assignment rollout surfaces generated-package handoff evidence as review-only before scheduling.
+- Confirm assignment rollout summarizes generated-package handoff evidence counts before detailed plan review.
 - Confirm assignment rollout storage preserves `teacher_assignment_rollout_gate` while blocking scheduling, student launch, live classroom launch, real learner data collection, and report export.
 - Confirm `npm run verify:assignment-rollout` passes before assignment rollout, private assignment, package readiness, or school pilot scheduling copy changes.
 - Confirm `npm run verify:class-roster` passes after learner identity, roster slots, front-door codes, teacher reports, microphone practice, AI Tutor speech records, backend schema, local deployment, or report export changes.
