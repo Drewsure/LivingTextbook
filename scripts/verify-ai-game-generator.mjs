@@ -50,6 +50,9 @@ const packageWriterTestHarnessImplementationProposalValidator = readSource(
 const packageWriterHarnessImplementationDecisionValidator = readSource(
   "../packages/content-model/src/aiPackageWriterHarnessImplementationDecision.ts",
 );
+const packageWriterRoutePlaylistWriteGuardValidator = readSource(
+  "../packages/content-model/src/aiPackageWriterRoutePlaylistWriteGuard.ts",
+);
 const rewardReadinessGate = readSource("../apps/web/src/data/sampleAiRewardReadinessGate.ts");
 const generatedGameBuildBrief = readSource("../apps/web/src/data/sampleAiGeneratedGameBuildBrief.ts");
 const generatedGameBuildBriefValidator = readSource("../packages/content-model/src/aiGeneratedGameBuildBrief.ts");
@@ -215,6 +218,9 @@ const generatedPackageWriterTestHarnessImplementationProposal = readSource(
 const generatedPackageWriterHarnessImplementationDecision = readSource(
   "../apps/web/src/data/sampleAiGeneratedPackageWriterHarnessImplementationDecision.ts",
 );
+const generatedPackageWriterRoutePlaylistWriteGuard = readSource(
+  "../apps/web/src/data/sampleAiGeneratedPackageWriterRoutePlaylistWriteGuard.ts",
+);
 const generatedPublishReadinessGate = readSource("../apps/web/src/data/sampleAiGeneratedPublishReadinessGate.ts");
 const draftPreviewData = readSource("../apps/web/src/data/sampleAiGeneratedDraftPayloadPreview.ts");
 const draftPayloadValidator = readSource("../packages/content-model/src/aiGeneratedDraftPayload.ts");
@@ -361,6 +367,9 @@ const generatedPackageWriterTestHarnessImplementationProposalPanel = readSource(
 );
 const generatedPackageWriterHarnessImplementationDecisionPanel = readSource(
   "../apps/web/src/features/content-intake/AiGeneratedPackageWriterHarnessImplementationDecisionPanel.tsx",
+);
+const generatedPackageWriterRoutePlaylistWriteGuardPanel = readSource(
+  "../apps/web/src/features/content-intake/AiGeneratedPackageWriterRoutePlaylistWriteGuardPanel.tsx",
 );
 const generatedPublishReadinessGatePanel = readSource(
   "../apps/web/src/features/content-intake/AiGeneratedPublishReadinessGatePanel.tsx",
@@ -4816,6 +4825,76 @@ requireText(
   "No harness code",
   "AI generated package writer harness implementation decision panel must block harness code.",
 );
+requireText(
+  generatedPackageWriterRoutePlaylistWriteGuard,
+  "sampleAiGeneratedPackageWriterRoutePlaylistWriteGuards",
+  "AI generated package writer route and playlist write guard data must exist.",
+);
+requireText(
+  packageWriterRoutePlaylistWriteGuardValidator,
+  "validateAiGeneratedPackageWriterRoutePlaylistWriteGuard",
+  "AI generated package writer route and playlist write guard shared validator must exist.",
+);
+requireText(
+  packageWriterRoutePlaylistWriteGuardValidator,
+  "AI_PACKAGE_WRITER_ROUTE_PLAYLIST_REQUIRED_BLOCKED_ACTIONS",
+  "AI generated package writer route and playlist write guard validator must define blocked actions.",
+);
+requireText(
+  generatedPackageWriterRoutePlaylistWriteGuard,
+  "sampleAiGeneratedPackageWriterRoutePlaylistWriteGuardErrors",
+  "AI generated package writer route and playlist write guard data must expose shared guard errors.",
+);
+requireText(
+  generatedPackageWriterRoutePlaylistWriteGuard,
+  "Route and playlist write blocked pending review",
+  "AI generated package writer route and playlist write guard must keep writes blocked.",
+);
+requireText(
+  generatedPackageWriterRoutePlaylistWriteGuard,
+  "Stable QR deep link smoke check",
+  "AI generated package writer route and playlist write guard must require QR safety checks.",
+);
+requireText(
+  generatedPackageWriterRoutePlaylistWriteGuard,
+  "Target-language audio first check",
+  "AI generated package writer route and playlist write guard must require audio-first playlist checks.",
+);
+requireText(
+  generatedPackageWriterRoutePlaylistWriteGuard,
+  "No production QR redirect mutation",
+  "AI generated package writer route and playlist write guard must block QR redirect mutation.",
+);
+requireText(
+  generatedPackageWriterRoutePlaylistWriteGuard,
+  "No support-language-only route or playlist approval",
+  "AI generated package writer route and playlist write guard must block support-language-only approval.",
+);
+requireText(
+  generatedPackageWriterRoutePlaylistWriteGuard,
+  "English route trigger protected",
+  "AI generated package writer route and playlist write guard must preserve MiniStar English route trigger.",
+);
+requireText(
+  generatedPackageWriterRoutePlaylistWriteGuardPanel,
+  "AI generated package writer route and playlist write guard",
+  "AI generated package writer route and playlist write guard panel must expose heading.",
+);
+requireText(
+  generatedPackageWriterRoutePlaylistWriteGuardPanel,
+  "Route and playlist writes stay locked",
+  "AI generated package writer route and playlist write guard panel must expose write lock title.",
+);
+requireText(
+  generatedPackageWriterRoutePlaylistWriteGuardPanel,
+  "Route and playlist guard active",
+  "AI generated package writer route and playlist write guard panel must expose guard status.",
+);
+requireText(
+  generatedPackageWriterRoutePlaylistWriteGuardPanel,
+  "Protected route and playlist surfaces",
+  "AI generated package writer route and playlist write guard panel must expose protected surfaces.",
+);
 requireText(compatibilityMatrix, "This matrix defines which student games", "Generator mode recommendations must reuse the compatibility matrix.");
 requireText(modeRecommendationPanel, "AI mode recommendation preview", "Mode recommendation panel must expose heading.");
 requireText(modeRecommendationPanel, "Recommended generated pathway", "Mode recommendation panel must expose recommended pathway.");
@@ -5290,6 +5369,11 @@ requireText(
   "AiGeneratedPackageWriterHarnessImplementationDecisionPanel",
   "Generator route must render the generated package writer harness implementation decision panel.",
 );
+requireText(
+  route,
+  "AiGeneratedPackageWriterRoutePlaylistWriteGuardPanel",
+  "Generator route must render the generated package writer route and playlist write guard panel.",
+);
 requireText(route, "AiGeneratedPublishReadinessGatePanel", "Generator route must render the generated publish readiness gate panel.");
 requireText(route, "AiGeneratedDraftPayloadPreviewPanel", "Generator route must render the draft payload preview panel.");
 requireText(route, "AiDraftCorrectionQueuePanel", "Generator route must render the draft correction queue panel.");
@@ -5457,6 +5541,11 @@ requireText(
   route,
   "sampleAiGeneratedPackageWriterHarnessImplementationDecisions",
   "Generator route must use the sample generated package writer harness implementation decision data.",
+);
+requireText(
+  route,
+  "sampleAiGeneratedPackageWriterRoutePlaylistWriteGuards",
+  "Generator route must use the sample generated package writer route and playlist write guard data.",
 );
 requireText(
   route,

@@ -485,6 +485,7 @@
 - `DR-511-ai-verifier-result-evidence-packet.md`
 - `DR-512-teacher-review-verifier-result-dependency.md`
 - `DR-513-promotion-checklist-verifier-result-dependency.md`
+- `DR-514-package-writer-route-playlist-write-guard.md`
 
 ## Maintenance Rule
 

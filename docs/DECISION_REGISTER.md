@@ -605,3 +605,21 @@ Constraints:
 - Package promotion, route registry writes, playlists, assignments, local bundles, and student-ready markers remain blocked.
 - MiniStar promotion must preserve English target-language progress and hiragana-only Japanese support.
 - This decision is recorded in `docs/adr/0442-promotion-checklist-verifier-result-dependency.md` and `docs/decision-register/DR-513-promotion-checklist-verifier-result-dependency.md`.
+
+## DR-514: Package Writer Route And Playlist Write Guard
+
+Status: Accepted
+
+Decision: Add a review-only route and playlist write guard after the package writer harness implementation decision.
+
+White-label impact: Positive. Stable QR links, route registries, media playlists, teacher routes, and tenant-specific support-language rules are protected before any generated package writer can touch them.
+
+Cost impact: Positive. The platform avoids expensive route, playlist, QR, and media rollout repair work by requiring guard evidence before writes exist.
+
+Constraints:
+
+- Route registry writes, media playlist writes, production QR redirect mutation, and student-facing route activation remain blocked.
+- The guard must require stable QR deep-link smoke checks, target-language route checks, teacher route isolation, media-rights checks, target-language-audio-first playlist checks, and background media opt-in checks.
+- Support-language-only route or playlist approval remains blocked.
+- MiniStar route and playlist guards must preserve English target-language progress and hiragana-only Japanese support.
+- This decision is recorded in `docs/adr/0443-package-writer-route-playlist-write-guard.md` and `docs/decision-register/DR-514-package-writer-route-playlist-write-guard.md`.

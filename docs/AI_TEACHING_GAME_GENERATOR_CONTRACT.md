@@ -237,6 +237,16 @@ MiniStar decision previews must keep English as the target-language assembly tri
 
 The backend-neutral storage contract is `ai_generated_package_writer_harness_implementation_decision` / `ai-generated-package-writer-harness-implementation-decision`. Hosted and local adapters must preserve required evidence, file-scope rules, decision options, reviewer identity requirements, next records, linked implementation proposal, linked harness plan, linked evidence packet, and blocked actions while blocking harness approval, harness implementation, writer test execution, mutation browser runs, evidence upload, signed approval capture, app patches, generated package JSON writes, route registry writes, media playlist writes, local bundle packaging, assignment activation, production QR redirect mutation, and support-language-only implementation decisions.
 
+## Package Writer Route And Playlist Write Guard Rule
+
+Teacher generator routes may show a review-only route and playlist write guard after the package writer harness implementation decision. The guard protects student route registry entries, teacher route registry entries, media playlist bindings, QR deep links, and route smoke checks before any generated package writer can touch route or playlist surfaces.
+
+Route and playlist write guards must pass the shared `validateAiGeneratedPackageWriterRoutePlaylistWriteGuard` guard before any future writer, harness, or release workflow can consider route registry or media playlist mutation. The guard keeps writes blocked, requires stable QR deep-link smoke checks, target-language launch route checks, teacher route isolation checks, media-rights manifest checks, target-language-audio-first playlist checks, background media opt-in checks, and explicit protected surfaces for route registry, media playlist, QR, and smoke-check work.
+
+The route and playlist write guard cannot write routes, write playlists, mutate production QR redirects, activate student-facing routes, rewrite generated package routes, rewrite generated package playlists, execute package writers, or approve support-language-only route or playlist evidence. MiniStar route and playlist guards must preserve English as the target-language trigger and keep hiragana Japanese support support-only.
+
+The backend-neutral storage contract is `ai_generated_package_writer_route_playlist_write_guard` / `ai-generated-package-writer-route-playlist-write-guard`. Hosted and local adapters must preserve linked harness implementation decision, package id preview, protected route and playlist surfaces, route safety checks, playlist safety checks, blocked write actions, next required records, and support-language boundaries while blocking route registry writes, media playlist writes, QR redirect mutation, student-facing route activation, writer execution, and support-language-only route or playlist approval.
+
 ## Draft Payload Validation Rule
 
 AI-generated draft payloads must pass the shared `validateAiGeneratedDraftPayload` / `validateAiGeneratedDraftPayloadPreview` contract before review, persistence, verifier submission, package assembly, route creation, playlist creation, or student assignment can be considered.

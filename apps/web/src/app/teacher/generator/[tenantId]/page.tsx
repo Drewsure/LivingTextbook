@@ -66,6 +66,10 @@ import {
   sampleAiGeneratedPackageWriterHarnessImplementationDecisions,
 } from "@/data/sampleAiGeneratedPackageWriterHarnessImplementationDecision";
 import {
+  filterAiGeneratedPackageWriterRoutePlaylistWriteGuardsByTenant,
+  sampleAiGeneratedPackageWriterRoutePlaylistWriteGuards,
+} from "@/data/sampleAiGeneratedPackageWriterRoutePlaylistWriteGuard";
+import {
   filterAiGeneratedPublishReadinessGatesByTenant,
   sampleAiGeneratedPublishReadinessGates,
 } from "@/data/sampleAiGeneratedPublishReadinessGate";
@@ -245,6 +249,7 @@ import { AiGeneratedPackageWriterTestEvidencePacketPanel } from "@/features/cont
 import { AiGeneratedPackageWriterTestHarnessPlanPanel } from "@/features/content-intake/AiGeneratedPackageWriterTestHarnessPlanPanel";
 import { AiGeneratedPackageWriterTestHarnessImplementationProposalPanel } from "@/features/content-intake/AiGeneratedPackageWriterTestHarnessImplementationProposalPanel";
 import { AiGeneratedPackageWriterHarnessImplementationDecisionPanel } from "@/features/content-intake/AiGeneratedPackageWriterHarnessImplementationDecisionPanel";
+import { AiGeneratedPackageWriterRoutePlaylistWriteGuardPanel } from "@/features/content-intake/AiGeneratedPackageWriterRoutePlaylistWriteGuardPanel";
 import { AiGeneratedPublishReadinessGatePanel } from "@/features/content-intake/AiGeneratedPublishReadinessGatePanel";
 import { AiEngineBindingPlanPanel } from "@/features/content-intake/AiEngineBindingPlanPanel";
 import { AiExternalPrototypeTaskExportReadinessGatePanel } from "@/features/content-intake/AiExternalPrototypeTaskExportReadinessGatePanel";
@@ -583,6 +588,12 @@ export default async function TeacherAiGameGeneratorPage({
         <AiGeneratedPackageWriterHarnessImplementationDecisionPanel
           decisions={filterAiGeneratedPackageWriterHarnessImplementationDecisionsByTenant(
             sampleAiGeneratedPackageWriterHarnessImplementationDecisions,
+            tenantId,
+          )}
+        />
+        <AiGeneratedPackageWriterRoutePlaylistWriteGuardPanel
+          guards={filterAiGeneratedPackageWriterRoutePlaylistWriteGuardsByTenant(
+            sampleAiGeneratedPackageWriterRoutePlaylistWriteGuards,
             tenantId,
           )}
         />

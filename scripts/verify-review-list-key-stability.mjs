@@ -7,6 +7,7 @@ const reviewSurfaceFiles = [
   "apps/web/src/features/content-intake/UploadFilePolicyPanel.tsx",
   "apps/web/src/features/content-intake/UploadPromotionReadinessPanel.tsx",
   "apps/web/src/features/content-intake/UploadReviewQueuePanel.tsx",
+  "apps/web/src/features/content-intake/AiGeneratedPackageWriterRoutePlaylistWriteGuardPanel.tsx",
   "apps/web/src/features/evidence/EvidenceAttachmentStorageReadinessPanel.tsx",
   "apps/web/src/features/evidence/EvidenceExportReadinessPanel.tsx",
   "apps/web/src/features/evidence/EvidencePacketAssemblyGatePanel.tsx",
