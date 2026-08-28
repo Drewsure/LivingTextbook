@@ -757,3 +757,20 @@ Constraints:
 - The metric is informational only and cannot schedule classes, activate assignments, or approve evidence.
 - Detailed source evidence packet ids remain visible inside each rollout plan.
 - This decision is recorded in `docs/adr/0451-assignment-rollout-generated-evidence-summary.md` and `docs/decision-register/DR-522-assignment-rollout-generated-evidence-summary.md`.
+
+## DR-523: Assignment Rollout Generated Evidence Storage Revision
+
+Status: Accepted
+
+Decision: Revise teacher assignment rollout gate storage to preserve generated-package handoff source evidence packet ids, generated package policy notes, and a blocked generated-package handoff field.
+
+White-label impact: Positive. Generated packages, publisher packages, and ordinary teacher-reviewed packages can share one assignment rollout gate without losing source evidence or creating a separate assignment path.
+
+Cost impact: Positive. Preserving the generated evidence fields in the existing rollout gate avoids a parallel workflow, reduces review confusion, and keeps future backend implementations simple.
+
+Constraints:
+
+- `teacher_assignment_rollout_gate` records must preserve `source_evidence_packet_ids`, `generated_package_policy_note`, and `generated_package_handoff_allowed`.
+- `generated_package_handoff_allowed` remains false until assignment rollout, classroom launch, school policy, roster, reporting, rollback, and privacy gates pass.
+- Generated-package evidence source ids cannot schedule classes, activate private links, bind rosters, start progress streams, export reports, launch classrooms, store raw learner audio/transcripts, or bypass support-language boundaries.
+- This decision is recorded in `docs/adr/0452-assignment-rollout-generated-evidence-storage-revision.md` and `docs/decision-register/DR-523-assignment-rollout-generated-evidence-storage-revision.md`.

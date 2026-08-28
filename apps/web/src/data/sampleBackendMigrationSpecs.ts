@@ -8407,6 +8407,18 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
           note: "Per-gate evidence, owner, status, blockers, and next decision.",
         },
         {
+          name: "source_evidence_packet_ids",
+          type: "json",
+          required: true,
+          note: "Generated-package assignment handoff evidence packet ids, or an empty array for non-generated rollout gates.",
+        },
+        {
+          name: "generated_package_policy_note",
+          type: "string",
+          required: true,
+          note: "Teacher-visible note explaining generated-package evidence state without authorizing handoff.",
+        },
+        {
           name: "blocked_by",
           type: "json",
           required: true,
@@ -8417,6 +8429,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
           type: "json",
           required: true,
           note: "Teacher-facing copy that separates demo preview from scheduled classroom pilot.",
+        },
+        {
+          name: "generated_package_handoff_allowed",
+          type: "boolean",
+          required: true,
+          note: "Must remain false until generated handoff evidence, rollout, launch, school policy, roster, report, and rollback gates pass.",
         },
         {
           name: "scheduling_allowed",
@@ -8453,7 +8471,9 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
         "tenant_id + assignment_id",
         "rollout_gate_id unique",
         "tenant_id + package_id",
+        "source_evidence_packet_ids contains",
         "tenant_id + rollout_status",
+        "generated_package_handoff_allowed",
         "scheduling_allowed",
         "student_launch_allowed",
         "live_classroom_launch_allowed",
@@ -8466,6 +8486,7 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       localFallback:
         "Local classroom bundles store the same rollout gate metadata beside package and launch-gate records, but local presence never implies scheduled pilot readiness.",
       policyBlockers: [
+        "Generated-package handoff evidence in rollout gates cannot activate generated assignments or bypass ordinary rollout gates.",
         "Teacher assignment rollout gates cannot schedule classes, launch students, collect real learner data, or export reports by themselves.",
         "Demo-preview status must not be upgraded to scheduled pilot without route, persistence, media, report, launch, and school policy acceptance.",
         "Blocked local companion rollout must remain blocked until local bundle, storage, QR fallback, offline audio coverage, and school policy are accepted.",

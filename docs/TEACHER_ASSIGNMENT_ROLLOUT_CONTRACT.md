@@ -48,9 +48,9 @@ This protects the product from treating demo routes or package drafts as classro
 
 ## Storage Contract
 
-The backend-neutral record is `teacher_assignment_rollout_gate` / `teacher-assignment-rollout-gate`. Hosted and local implementations must preserve rollout status, gate summary, gate evidence, blockers, and teacher-visible scheduling rules.
+The backend-neutral record is `teacher_assignment_rollout_gate` / `teacher-assignment-rollout-gate`. Hosted and local implementations must preserve rollout status, gate summary, gate evidence, generated-package handoff source evidence packet ids, generated package policy note, blockers, and teacher-visible scheduling rules.
 
-This record must not schedule a class, launch students, collect real learner data, or export teacher reports by itself. Those actions remain blocked until classroom launch, school policy, persistence, reporting, route, media, and privacy gates are separately accepted.
+This record must not schedule a class, launch students, collect real learner data, export teacher reports, or activate generated-package assignment handoff by itself. Those actions remain blocked until classroom launch, school policy, persistence, reporting, route, media, roster, rollback, and privacy gates are separately accepted.
 
 ## Acceptance Criteria
 
@@ -61,3 +61,4 @@ This record must not schedule a class, launch students, collect real learner dat
 - `/teacher/intake` shows `teacher_assignment_rollout_gate`, `Teacher assignment rollout gate record`, and `teacher-assignment-rollout-gate-record` in the backend storage readiness inventory.
 - `/teacher/intake` shows generated-package handoff evidence as review-only under assignment rollout.
 - `/teacher/intake` summarizes generated-package evidence counts at the top of assignment rollout.
+- Backend schema drafts and migration specs preserve `source_evidence_packet_ids`, `generated_package_policy_note`, and `generated_package_handoff_allowed` for rollout gates.

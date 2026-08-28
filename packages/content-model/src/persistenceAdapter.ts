@@ -309,6 +309,7 @@ export interface PersistenceWriteIntent {
   blocksLiveModelCall?: boolean;
   blocksVerifierSubmission?: boolean;
   preservesTeacherAssignmentRolloutGate?: boolean;
+  preservesGeneratedPackageHandoffEvidence?: boolean;
   preservesPrivateAssignmentLink?: boolean;
   blocksPublicSharing?: boolean;
   blocksIframeEmbed?: boolean;
@@ -2782,6 +2783,10 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "teacher-assignment-rollout-gate" && !intent.preservesTeacherAssignmentRolloutGate) {
       errors.push(`Teacher assignment rollout gate write intent ${intent.intentId} must preserve rollout status, gate evidence, blockers, and scheduling rules.`);
+    }
+
+    if (intent.category === "teacher-assignment-rollout-gate" && !intent.preservesGeneratedPackageHandoffEvidence) {
+      errors.push(`Teacher assignment rollout gate write intent ${intent.intentId} must preserve generated-package handoff evidence source ids and policy notes.`);
     }
 
     if (intent.category === "teacher-assignment-rollout-gate" && !intent.blocksStudentLaunchAction) {

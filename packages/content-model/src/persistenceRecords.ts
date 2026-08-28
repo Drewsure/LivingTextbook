@@ -437,6 +437,7 @@ export interface DurableRecordContract {
   blocksLiveModelCall?: boolean;
   blocksVerifierSubmission?: boolean;
   preservesTeacherAssignmentRolloutGate?: boolean;
+  preservesGeneratedPackageHandoffEvidence?: boolean;
   preservesPrivateAssignmentLink?: boolean;
   blocksPublicSharing?: boolean;
   blocksIframeEmbed?: boolean;
@@ -2879,6 +2880,10 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "teacher-assignment-rollout-gate" && !record.preservesTeacherAssignmentRolloutGate) {
       errors.push(`Teacher assignment rollout gate ${record.recordId} must preserve rollout status, gate evidence, blockers, and scheduling rules.`);
+    }
+
+    if (record.category === "teacher-assignment-rollout-gate" && !record.preservesGeneratedPackageHandoffEvidence) {
+      errors.push(`Teacher assignment rollout gate ${record.recordId} must preserve generated-package handoff evidence source ids and policy notes.`);
     }
 
     if (record.category === "teacher-assignment-rollout-gate" && !record.blocksStudentLaunchAction) {

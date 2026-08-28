@@ -1699,13 +1699,14 @@ export const samplePersistenceAdapterPlans: PersistenceAdapterPlan[] = [
         rejectsRawAudio: true,
         rejectsTranscripts: true,
         preservesTeacherAssignmentRolloutGate: true,
+        preservesGeneratedPackageHandoffEvidence: true,
         blocksStudentLaunchAction: true,
         blocksLiveClassroomLaunch: true,
         blocksRealLearnerDataCollection: true,
         blocksLiveReportExport: true,
         blocksLaunchWithoutSchoolPolicy: true,
         note:
-          "Hosted pilots need durable rollout status, gate evidence, blockers, and scheduling copy before reviewed assignments can move toward scheduled classroom pilots. This write intent must not launch students, collect real learner data, or export reports.",
+          "Hosted pilots need durable rollout status, gate evidence, generated-package handoff source ids, generated package policy notes, blockers, and scheduling copy before reviewed assignments can move toward scheduled classroom pilots. This write intent must not launch students, collect real learner data, or export reports.",
       },
       {
         intentId: "hosted-private-assignment-link-write",
@@ -4467,13 +4468,14 @@ export const samplePersistenceAdapterPlans: PersistenceAdapterPlan[] = [
         rejectsRawAudio: true,
         rejectsTranscripts: true,
         preservesTeacherAssignmentRolloutGate: true,
+        preservesGeneratedPackageHandoffEvidence: true,
         blocksStudentLaunchAction: true,
         blocksLiveClassroomLaunch: true,
         blocksRealLearnerDataCollection: true,
         blocksLiveReportExport: true,
         blocksLaunchWithoutSchoolPolicy: true,
         note:
-          "Closed deployments need local rollout gates for backup/export without allowing local package presence, QR fallback, or offline bundle state to become a scheduled pilot or live student launch.",
+          "Closed deployments need local rollout gates with generated-package handoff source ids and policy notes for backup/export without allowing local package presence, QR fallback, or offline bundle state to become a scheduled pilot or live student launch.",
       },
       {
         intentId: "local-private-assignment-link-write",

@@ -2117,21 +2117,23 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
       prerequisites: [
         "Teacher assignment readiness accepted",
         "Package publish gate and approval ledger accepted",
+        "Generated-package assignment handoff evidence packet reviewed when sourceEvidencePacketIds are present",
         "Route permanence and private assignment link policy accepted",
         "Media rights, game audio coverage, progress persistence, and report policy accepted",
       ],
       implementationNotes: [
         "Keep rollout gates tenant-scoped, assignment-scoped, and package-scoped.",
-        "Preserve rollout status, gate summary, per-gate evidence, blockers, and teacher-visible scheduling copy.",
-        "Block scheduling, student launch, live classroom launch, real learner data collection, and report export until later launch and school policy gates pass.",
+        "Preserve rollout status, gate summary, per-gate evidence, generated-package handoff source ids, generated package policy notes, blockers, and teacher-visible scheduling copy.",
+        "Block generated package handoff, scheduling, student launch, live classroom launch, real learner data collection, and report export until later launch and school policy gates pass.",
         "Do not let a demo-preview rollout or blocked rollout become a scheduled pilot by URL access, local bundle presence, or package draft status.",
       ],
       rollbackOrExportNeeds: [
-        "Export assignment rollout gate JSON with package and launch-gate records",
+        "Export assignment rollout gate JSON with package, generated handoff evidence ids, policy notes, and launch-gate records",
         "Retain superseded rollout gate snapshots for audit",
         "Support local rollout gate backup and restore without enabling offline classroom launch",
       ],
       notAllowedYet: [
+        "Generated package handoff activation",
         "Schedule class button",
         "Student launch action",
         "Live classroom launch",

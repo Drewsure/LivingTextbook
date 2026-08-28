@@ -1186,6 +1186,9 @@ requireText(schemaDraft, "teacher_assignment_rollout_gate", "Backend schema must
 requireText(schemaDraft, "rollout_gate_id", "Backend schema must preserve teacher assignment rollout gate ids.");
 requireText(schemaDraft, "rollout_status", "Backend schema must preserve teacher assignment rollout status.");
 requireText(schemaDraft, "gate_evidence", "Backend schema must preserve teacher assignment rollout gate evidence.");
+requireText(schemaDraft, "source_evidence_packet_ids", "Backend schema must preserve generated-package rollout source evidence packet ids.");
+requireText(schemaDraft, "generated_package_policy_note", "Backend schema must preserve generated-package rollout policy notes.");
+requireText(schemaDraft, "generated_package_handoff_allowed", "Backend schema must block generated package assignment handoff from rollout gates.");
 requireText(schemaDraft, "scheduling_allowed", "Backend schema must block teacher assignment scheduling.");
 requireText(schemaDraft, "student_launch_allowed", "Backend schema must block student launch from assignment rollout gates.");
 requireText(schemaDraft, "real_learner_data_collection_allowed", "Backend schema must block real learner data collection from assignment rollout gates.");
@@ -2499,6 +2502,9 @@ requireText(migrationSpecs, "spec-teacher-assignment-rollout-gate", "Migration s
 requireText(migrationSpecs, "rollout_gate_id", "Migration specs must preserve teacher assignment rollout gate ids.");
 requireText(migrationSpecs, "rollout_gate_revision", "Migration specs must preserve teacher assignment rollout gate revisions.");
 requireText(migrationSpecs, "gate_evidence", "Migration specs must preserve teacher assignment rollout gate evidence.");
+requireText(migrationSpecs, "source_evidence_packet_ids", "Migration specs must preserve generated-package rollout source evidence packet ids.");
+requireText(migrationSpecs, "generated_package_policy_note", "Migration specs must preserve generated-package rollout policy notes.");
+requireText(migrationSpecs, "generated_package_handoff_allowed", "Migration specs must block generated package handoff from rollout gates.");
 requireText(migrationSpecs, "scheduling_allowed", "Migration specs must block teacher assignment scheduling.");
 requireText(migrationSpecs, "real_learner_data_collection_allowed", "Migration specs must block real learner data collection.");
 requireText(migrationSpecs, "spec-private-assignment-link", "Migration specs must include private assignment links.");
@@ -3714,6 +3720,7 @@ requireText(
 requireText(persistenceAdapter, "hosted-teacher-assignment-rollout-gate-write", "Persistence adapter must include hosted teacher assignment rollout gate writes.");
 requireText(persistenceAdapter, "local-teacher-assignment-rollout-gate-write", "Persistence adapter must include local teacher assignment rollout gate writes.");
 requireText(persistenceAdapter, "preservesTeacherAssignmentRolloutGate: true", "Persistence adapter must preserve teacher assignment rollout gates.");
+requireText(persistenceAdapter, "preservesGeneratedPackageHandoffEvidence: true", "Persistence adapter must preserve generated-package rollout source evidence.");
 requireText(persistenceAdapter, "blocksStudentLaunchAction: true", "Persistence adapter must block student launch actions.");
 requireText(persistenceAdapter, "blocksLiveClassroomLaunch: true", "Persistence adapter must block live classroom launch.");
 requireText(persistenceAdapter, "blocksRealLearnerDataCollection: true", "Persistence adapter must block real learner data collection.");
@@ -5441,6 +5448,7 @@ requireText(
 );
 requireText(durableRecords, "teacher-assignment-rollout-gate-record", "Durable record plan must include teacher assignment rollout gate records.");
 requireText(durableRecords, "preservesTeacherAssignmentRolloutGate: true", "Durable record plan must preserve teacher assignment rollout gates.");
+requireText(durableRecords, "preservesGeneratedPackageHandoffEvidence: true", "Durable record plan must preserve generated-package rollout source evidence.");
 requireText(durableRecords, "blocksStudentLaunchAction: true", "Durable record plan must block student launch actions.");
 requireText(durableRecords, "blocksRealLearnerDataCollection: true", "Durable record plan must block real learner data collection.");
 requireText(durableRecords, "private-assignment-link-record", "Durable record plan must include private assignment link records.");

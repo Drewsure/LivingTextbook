@@ -1931,7 +1931,7 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     label: "Teacher assignment rollout gate record",
     readiness: "durable-required",
     sourceOfTruth:
-      "AssignmentRolloutPlan, rollout status, gate summary, gate evidence, blockers, and teacher-visible scheduling rules",
+      "AssignmentRolloutPlan, rollout status, gate summary, gate evidence, generated-package handoff source evidence packet ids, generated package policy note, blockers, and teacher-visible scheduling rules",
     requiredBeforePilot: true,
     containsStudentData: false,
     containsMediaRights: true,
@@ -1939,6 +1939,7 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     storesRawAudio: false,
     storesTranscript: false,
     preservesTeacherAssignmentRolloutGate: true,
+    preservesGeneratedPackageHandoffEvidence: true,
     blocksStudentLaunchAction: true,
     blocksLiveClassroomLaunch: true,
     blocksRealLearnerDataCollection: true,
@@ -1946,7 +1947,7 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     blocksLaunchWithoutSchoolPolicy: true,
     recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
     note:
-      "Assignment rollout gates need durable status, evidence, blockers, and teacher-visible scheduling rules before a reviewed assignment can move toward a scheduled classroom pilot. Demo and blocked rollouts must not launch students, collect real learner data, or export reports.",
+      "Assignment rollout gates need durable status, evidence, generated-package handoff source ids, policy notes, blockers, and teacher-visible scheduling rules before a reviewed assignment can move toward a scheduled classroom pilot. Demo, generated, and blocked rollouts must not launch students, collect real learner data, or export reports.",
   },
   {
     recordId: "private-assignment-link-record",
