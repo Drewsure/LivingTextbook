@@ -22,6 +22,7 @@ Confirm:
 - Gate cards show pass, warning, and blocked statuses.
 - Media rights, report policy, progress persistence, local bundle, and local storage blockers are visible.
 - Game audio coverage is visible before scheduling, with local companion coverage still under review.
+- Generated-package handoff evidence is visible as review-only evidence under rollout.
 
 ## Product Checks
 
@@ -29,3 +30,5 @@ Confirm:
 - The panel keeps local/closed deployment visible without prioritizing it over the hosted pilot.
 - The panel preserves white-label tenant separation.
 - The panel does not allow scheduling around missing assigned-game audio coverage.
+- The panel shows generated-package handoff evidence as review-only.
+- The panel does not allow assignment handoff evidence to schedule a class, activate links, bind rosters, start progress streams, export reports, launch classrooms, or store raw learner audio/transcripts.

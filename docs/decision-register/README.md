@@ -492,6 +492,7 @@
 - `DR-518-package-writer-assignment-shell-guard-storage-contract.md`
 - `DR-519-package-writer-assignment-handoff-evidence-packet.md`
 - `DR-520-package-writer-assignment-handoff-evidence-packet-storage-contract.md`
+- `DR-521-assignment-rollout-generated-handoff-evidence-link.md`
 
 ## Maintenance Rule
 

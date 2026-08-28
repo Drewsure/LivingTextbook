@@ -34,6 +34,7 @@ This protects the product from treating demo routes or package drafts as classro
 - Local bundle.
 - Local storage.
 - QR fallback.
+- Generated handoff evidence.
 
 ## Required Rules
 
@@ -41,6 +42,8 @@ This protects the product from treating demo routes or package drafts as classro
 - Real pilot scheduling requires media rights, persistence, route permanence, teacher approval, and report policy as appropriate.
 - Local/closed companion rollout stays visible but does not become the first pilot cost center.
 - Cost-bearing premium features remain disabled unless tenant/school policy adopts them.
+- AI-generated packages can enter rollout planning only through review-only assignment handoff evidence packets.
+- Assignment handoff evidence does not schedule classes, activate private links, bind rosters, start progress streams, export reports, launch classrooms, or store raw learner audio/transcripts.
 
 ## Storage Contract
 
@@ -55,3 +58,4 @@ This record must not schedule a class, launch students, collect real learner dat
 - Sample publisher rollout is blocked by media rights and route/reporting gaps.
 - Local companion rollout is blocked by local bundle/storage policy.
 - `/teacher/intake` shows `teacher_assignment_rollout_gate`, `Teacher assignment rollout gate record`, and `teacher-assignment-rollout-gate-record` in the backend storage readiness inventory.
+- `/teacher/intake` shows generated-package handoff evidence as review-only under assignment rollout.

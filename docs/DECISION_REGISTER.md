@@ -724,3 +724,20 @@ Constraints:
 - Storage contracts must remain backend-neutral and must not enable assignment handoff, private assignment links, roster binding, progress streams, teacher report export, live classroom launch, raw learner audio/transcript storage, generated assignment activation, writer execution, or support-language-only handoff.
 - MiniStar assignment handoff evidence packet storage must preserve English target-language progress and hiragana-only Japanese support.
 - This decision is recorded in `docs/adr/0449-package-writer-assignment-handoff-evidence-packet-storage-contract.md` and `docs/decision-register/DR-520-package-writer-assignment-handoff-evidence-packet-storage-contract.md`.
+
+## DR-521: Assignment Rollout Generated Handoff Evidence Link
+
+Status: Accepted
+
+Decision: Connect generated-package assignment handoff evidence packets into the existing teacher assignment rollout preview as review-only source evidence.
+
+White-label impact: Positive. AI-generated package assignment evidence now enters the same tenant rollout lane as ordinary reviewed assignments instead of creating a parallel assignment system.
+
+Cost impact: Positive. Reusing the existing rollout gate lowers future build and support cost while preserving a strict boundary between evidence packets and live assignment scheduling.
+
+Constraints:
+
+- Generated-package handoff evidence cannot schedule a class, activate private links, bind rosters, start progress streams, export reports, launch classrooms, store raw learner audio/transcripts, or approve support-language-only handoff.
+- Assignment rollout plans must show source evidence packet ids and a generated-package policy note before any generated assignment rollout work is designed.
+- MiniStar generated-package handoff evidence remains English-triggered, hiragana-support-only, and review-only.
+- This decision is recorded in `docs/adr/0450-assignment-rollout-generated-handoff-evidence-link.md` and `docs/decision-register/DR-521-assignment-rollout-generated-handoff-evidence-link.md`.

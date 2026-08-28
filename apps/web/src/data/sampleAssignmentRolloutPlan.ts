@@ -1,3 +1,8 @@
+import {
+  sampleAiGeneratedPackageWriterAssignmentHandoffEvidencePackets,
+  type AiGeneratedPackageWriterAssignmentHandoffEvidencePacket,
+} from "@/data/sampleAiGeneratedPackageWriterAssignmentHandoffEvidencePacket";
+
 export type AssignmentRolloutStatus = "demo-preview" | "blocked" | "ready-to-schedule" | "pilot-ready";
 export type AssignmentRolloutGateStatus = "pass" | "warning" | "blocked";
 
@@ -18,8 +23,13 @@ export interface AssignmentRolloutPlan {
   status: AssignmentRolloutStatus;
   targetAudience: string;
   schedulingNote: string;
+  sourceEvidencePacketIds: string[];
+  generatedPackagePolicyNote: string;
   gates: AssignmentRolloutGate[];
 }
+
+const ministarGeneratedAssignmentEvidence = findGeneratedAssignmentEvidence("ministar");
+const samplePublisherGeneratedAssignmentEvidence = findGeneratedAssignmentEvidence("sample-publisher");
 
 export const sampleAssignmentRolloutPlans: AssignmentRolloutPlan[] = [
   {
@@ -32,6 +42,9 @@ export const sampleAssignmentRolloutPlans: AssignmentRolloutPlan[] = [
     targetAudience: "Teacher-led class preview with anonymous student practice.",
     schedulingNote:
       "Good for guided demonstration. Not yet a production report because progress persistence and report export policy are not accepted.",
+    sourceEvidencePacketIds: [ministarGeneratedAssignmentEvidence.evidencePacketId],
+    generatedPackagePolicyNote:
+      "MiniStar demo rollout can be viewed now, but generated-package assignment handoff evidence remains review-only and cannot schedule a live class.",
     gates: [
       {
         gateId: "package-reviewed",
@@ -62,6 +75,13 @@ export const sampleAssignmentRolloutPlans: AssignmentRolloutPlan[] = [
         note: "Events are local/sample data. Real classroom reports require durable event storage.",
       },
       {
+        gateId: "generated-handoff-evidence",
+        label: "Generated handoff evidence",
+        status: "warning",
+        owner: "platform",
+        note: `${ministarGeneratedAssignmentEvidence.evidencePacketId} is visible, but it is evidence-only and cannot approve a classroom rollout.`,
+      },
+      {
         gateId: "report-policy",
         label: "Report policy",
         status: "blocked",
@@ -80,6 +100,9 @@ export const sampleAssignmentRolloutPlans: AssignmentRolloutPlan[] = [
     targetAudience: "Whole-class partner pilot with entry code and learner code.",
     schedulingNote:
       "Do not schedule as a real partner pilot until media rights, stable QR registry, teacher approval, and reporting policy are accepted.",
+    sourceEvidencePacketIds: [samplePublisherGeneratedAssignmentEvidence.evidencePacketId],
+    generatedPackagePolicyNote:
+      "Generated package assignment handoff evidence must clear storage, rollout, private-link, roster, report, launch, rollback, and school policy review before this rollout can schedule.",
     gates: [
       {
         gateId: "package-reviewed",
@@ -110,6 +133,13 @@ export const sampleAssignmentRolloutPlans: AssignmentRolloutPlan[] = [
         note: "The front-door pilot draft has audio-covered assignment metadata for Flashcards, Match Up, Label It, Memory Match, Balloon Pop, Quiz, True or False, Type Answer, Sentence Builder, and Speak It.",
       },
       {
+        gateId: "generated-handoff-evidence",
+        label: "Generated handoff evidence",
+        status: "blocked",
+        owner: "platform",
+        note: `${samplePublisherGeneratedAssignmentEvidence.evidencePacketId} is blocked until assignment handoff evidence storage, teacher rollout gate, privacy, reporting, launch, and rollback evidence are accepted.`,
+      },
+      {
         gateId: "learner-codes",
         label: "Learner codes",
         status: "warning",
@@ -128,6 +158,9 @@ export const sampleAssignmentRolloutPlans: AssignmentRolloutPlan[] = [
     targetAudience: "Closed local textbook companion install.",
     schedulingNote:
       "Keep this visible as a product requirement, but do not prioritize over the hosted pilot until local bundle/update/export policy is designed.",
+    sourceEvidencePacketIds: [samplePublisherGeneratedAssignmentEvidence.evidencePacketId],
+    generatedPackagePolicyNote:
+      "Local companion assignment rollout can use generated-package evidence later, but local packaging and assignment handoff stay blocked until storage and school policy are accepted.",
     gates: [
       {
         gateId: "local-bundle",
@@ -157,6 +190,13 @@ export const sampleAssignmentRolloutPlans: AssignmentRolloutPlan[] = [
         owner: "platform",
         note: "Local companion scheduling needs reviewed offline audio coverage for every assigned game mode before pilot use.",
       },
+      {
+        gateId: "generated-handoff-evidence",
+        label: "Generated handoff evidence",
+        status: "blocked",
+        owner: "platform",
+        note: `${samplePublisherGeneratedAssignmentEvidence.evidencePacketId} cannot activate local assignments, private links, rosters, progress streams, or report exports.`,
+      },
     ],
   },
 ];
@@ -166,4 +206,16 @@ export function countAssignmentRolloutGates(
   status: AssignmentRolloutGateStatus,
 ): number {
   return plan.gates.filter((gate) => gate.status === status).length;
+}
+
+function findGeneratedAssignmentEvidence(tenantId: string): AiGeneratedPackageWriterAssignmentHandoffEvidencePacket {
+  const packet = sampleAiGeneratedPackageWriterAssignmentHandoffEvidencePackets.find(
+    (evidencePacket) => evidencePacket.tenantId === tenantId,
+  );
+
+  if (!packet) {
+    throw new Error(`Missing generated assignment handoff evidence packet for tenant: ${tenantId}`);
+  }
+
+  return packet;
 }

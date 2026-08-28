@@ -68,6 +68,19 @@ export function TeacherAssignmentRolloutPanel({ plans }: TeacherAssignmentRollou
               {plan.schedulingNote}
             </p>
 
+            <section className="mt-3 rounded-lg border border-[var(--tenant-border)] bg-white/80 p-3">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <h4 className="text-sm font-bold text-[var(--tenant-text)]">Generated package handoff evidence</h4>
+                <StatusPill label={`${plan.sourceEvidencePacketIds.length} packet(s)`} tone="warning" />
+              </div>
+              <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">{plan.generatedPackagePolicyNote}</p>
+              <ul className="mt-2 grid gap-2 text-xs font-semibold text-[var(--tenant-muted)]">
+                {plan.sourceEvidencePacketIds.map((packetId, index) => (
+                  <li key={`${plan.rolloutId}-generated-evidence-${index}-${packetId}`}>{packetId}</li>
+                ))}
+              </ul>
+            </section>
+
             <div className="mt-4 grid gap-3 md:grid-cols-2">
               {plan.gates.map((gate) => (
                 <section key={gate.gateId} className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-3">
