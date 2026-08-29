@@ -94,6 +94,7 @@ Envelope rules:
 ## Hard Rules
 
 - Support-language taps are support-only.
+- Tap-to-speak learning audio requests are support-only.
 - Route guidance listens are support-only.
 - Background media is support-only.
 - Media playback is report-only unless a later reviewed game mode explicitly turns a prompt into answer evidence.

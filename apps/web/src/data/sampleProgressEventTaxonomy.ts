@@ -42,6 +42,14 @@ export const sampleProgressEventTaxonomy: ProgressEventTaxonomyItem[] = [
     notAllowed: ["Do not unlock progress.", "Do not award Star Dust.", "Do not count as mastery."],
   },
   {
+    eventType: "audio_requested",
+    effect: "support-only",
+    teacherVisible: true,
+    persistenceRequired: true,
+    summary: "Records that learner-facing text, instructions, feedback, or controls were tapped for learning audio.",
+    notAllowed: ["Do not unlock progress.", "Do not award Star Dust.", "Do not count as mastery or scoring evidence."],
+  },
+  {
     eventType: "game_started",
     effect: "report-only",
     teacherVisible: true,

@@ -70,7 +70,12 @@ export const PROGRESS_EVENT_REQUIRED_FIELDS = [
 export const PROGRESS_EVENT_ENVELOPE_REQUIRED_FIELDS = [...PROGRESS_EVENT_REQUIRED_FIELDS, "unit_key", "game_mode"] as const;
 
 const allowedEffects = new Set<ProgressEventEffect>(["progress-affecting", "report-only", "support-only"]);
-const supportOnlyEvents = new Set(["route_guidance_listened", "background_media_enabled", "background_media_disabled"]);
+const supportOnlyEvents = new Set([
+  "audio_requested",
+  "route_guidance_listened",
+  "background_media_enabled",
+  "background_media_disabled",
+]);
 const reportOnlyEvents = new Set([
   "teacher_launch_created",
   "launch_opened",

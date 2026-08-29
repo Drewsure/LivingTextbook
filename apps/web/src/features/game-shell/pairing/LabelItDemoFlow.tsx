@@ -16,8 +16,10 @@ export function LabelItDemoFlow({
   return (
     <PlayableGameRouteShell
       tenant={tenant}
+      unit={unit}
       launchSession={launchSession}
       progression={progression}
+      audioCues={audioCues}
       assignmentPlan={assignmentPlan}
       gameMode={gameMode}
       header={{

@@ -33,6 +33,7 @@ import {
   parseStoredTeacherAssistLanguageApproval,
 } from "@/features/tenant/assistLanguageSettings";
 import type { TenantConfig } from "@/features/tenant/types";
+import { GameLearningAudioContractCard } from "../components/GameLearningAudioContractCard";
 import { GameRouteHeaderCard } from "../components/GameRouteHeaderCard";
 
 interface FlashcardDemoFlowProps {
@@ -165,6 +166,15 @@ export function FlashcardDemoFlow({
         progression={currentProgression}
         events={sessionEvents}
         rewardName={tenant.rewardName}
+      />
+      <GameLearningAudioContractCard
+        tenant={tenant}
+        unit={unit}
+        launchSession={launchSession}
+        progression={currentProgression}
+        gameMode={launchSession.entryMode}
+        audioCues={audioCues}
+        onAudioRequested={(event) => appendSessionEvents([event])}
       />
       <FlashcardPracticeCard
         tenant={tenant}

@@ -3,6 +3,7 @@ import {
   completeEntryPractice,
 } from "@living-textbook/content-model";
 import type {
+  AudioCueKind,
   GameModeId,
   GameProgressEvent,
   LaunchSession,
@@ -154,6 +155,36 @@ export function createGameInteractionEvent(args: {
   }
 
   return event;
+}
+
+export function createAudioRequestedEvent(args: {
+  progression: StudentProgressionState;
+  launchSession: LaunchSession;
+  gameMode: GameModeId;
+  occurredAt: string;
+  cueKind: AudioCueKind;
+  cueText: string;
+  language: string;
+  source?: string;
+}): GameProgressEvent {
+  return {
+    type: "audio_requested",
+    unitKey: args.launchSession.unitKey,
+    gameMode: args.gameMode,
+    launchCode: args.launchSession.launchCode,
+    studentSessionId: args.progression.studentSessionId,
+    occurredAt: args.occurredAt,
+    metadata: {
+      cueKind: args.cueKind,
+      cueText: args.cueText,
+      language: args.language,
+      source: args.source ?? "game-audio-contract",
+      progressionUnlockAllowed: false,
+      masteryCreditAllowed: false,
+      starDustAwarded: 0,
+      supportLanguageUnlockAllowed: false,
+    },
+  };
 }
 
 export function createRouteGuidanceListenedEvent(args: {

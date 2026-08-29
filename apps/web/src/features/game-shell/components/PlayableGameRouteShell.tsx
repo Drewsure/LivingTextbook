@@ -17,6 +17,7 @@ import { SessionEventLog } from "@/features/student/components/SessionEventLog";
 import { TeacherAssignmentSettingsCard } from "@/features/student/components/TeacherAssignmentSettingsCard";
 import type { TenantConfig } from "@/features/tenant/types";
 import { GameCompletionNextCard } from "./GameCompletionNextCard";
+import { GameLearningAudioContractCard } from "./GameLearningAudioContractCard";
 import { GameRouteHeaderCard } from "./GameRouteHeaderCard";
 
 export interface PlayableGameDemoFlowProps {
@@ -30,8 +31,10 @@ export interface PlayableGameDemoFlowProps {
 
 interface PlayableGameRouteShellProps {
   tenant: TenantConfig;
+  unit: UnitPayload;
   launchSession: LaunchSession;
   progression: StudentProgressionState;
+  audioCues?: AudioCue[];
   assignmentPlan?: TeacherAssignmentPlan;
   gameMode: GameModeId;
   header: {
@@ -51,8 +54,10 @@ interface PlayableGameRouteShellProps {
 
 export function PlayableGameRouteShell({
   tenant,
+  unit,
   launchSession,
   progression,
+  audioCues = [],
   assignmentPlan,
   gameMode,
   header,
@@ -100,6 +105,16 @@ export function PlayableGameRouteShell({
         progression={currentProgression}
         events={sessionEvents}
         rewardName={tenant.rewardName}
+      />
+
+      <GameLearningAudioContractCard
+        tenant={tenant}
+        unit={unit}
+        launchSession={launchSession}
+        progression={currentProgression}
+        gameMode={gameMode}
+        audioCues={audioCues}
+        onAudioRequested={handleEvent}
       />
 
       {children({

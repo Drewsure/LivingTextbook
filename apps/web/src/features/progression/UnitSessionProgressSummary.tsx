@@ -30,6 +30,7 @@ export function UnitSessionProgressSummary({
   const mediaStarted = countEvents(events, "media_started");
   const mediaPaused = countEvents(events, "media_paused");
   const mediaCompleted = countEvents(events, "media_completed");
+  const audioRequested = countEvents(events, "audio_requested");
   const routeGuidanceListened = countEvents(events, "route_guidance_listened");
   const targetLanguageEngagedItems = sumMetadataNumber(events, "targetLanguageEngagedItems");
   const requiredTargetLanguageItems = maxMetadataNumber(events, "requiredTargetLanguageItems");
@@ -91,6 +92,7 @@ export function UnitSessionProgressSummary({
         <SummaryFact label={rewardName} value={String(progression.earnedStarDust)} />
         <SummaryFact label="Completed modes" value={String(progression.completedGameModes.length)} />
         <SummaryFact label="Events" value={String(events.length)} />
+        <SummaryFact label="Audio requests" value={String(audioRequested)} />
         <SummaryFact label="Route listens" value={String(routeGuidanceListened)} />
         <SummaryFact
           label="English listened"

@@ -495,6 +495,7 @@
 - `DR-521-assignment-rollout-generated-handoff-evidence-link.md`
 - `DR-522-assignment-rollout-generated-evidence-summary.md`
 - `DR-523-assignment-rollout-generated-evidence-storage-revision.md`
+- `DR-524-shared-game-learning-audio-contract-card.md`
 
 ## Maintenance Rule
 

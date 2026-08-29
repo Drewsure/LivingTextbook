@@ -81,6 +81,44 @@ const expectedTextByPath = new Map([
   ["/q/tenant/sample-publisher/series/starter-english/book/level-1/unit/unit-1/activity/hello-friends/language/en/edition/2026/version/1.0.0", ["Edition QR resolver preview", "Printed QR id", "qr-sample-publisher-starter-l1-u1-hello", "The printed QR id stays constant", "Resolved target", "/enter/sample-publisher", "Guardrails", "Direct localhost target", "Direct media file target", "Unreviewed package swap", "Open resolved preview"]],
 ]);
 
+const activeGameLearningAudioContractExpected = [
+  "Learning audio contract",
+  "Audio required",
+  "Target language only",
+  "Tap-to-speak is support evidence, not score authority.",
+  "Support language cannot unlock games, mastery, or rewards.",
+  "Background media must pause or duck for learning audio.",
+];
+
+for (const path of [
+  "/flashcards/demo-unit-1",
+  "/flashcards/partner-demo-unit-1",
+  "/memory/demo-unit-1",
+  "/memory/partner-demo-unit-1",
+  "/match/demo-unit-1",
+  "/match/partner-demo-unit-1",
+  "/label-it/demo-unit-1",
+  "/label-it/partner-demo-unit-1",
+  "/balloon/demo-unit-1",
+  "/balloon/partner-demo-unit-1",
+  "/quiz/demo-unit-1",
+  "/quiz/partner-demo-unit-1",
+  "/true-false/demo-unit-1",
+  "/true-false/partner-demo-unit-1",
+  "/type-answer/demo-unit-1",
+  "/type-answer/partner-demo-unit-1",
+  "/spelling/demo-unit-1",
+  "/spelling/partner-demo-unit-1",
+  "/fill/demo-unit-1",
+  "/fill/partner-demo-unit-1",
+  "/sentence/demo-unit-1",
+  "/sentence/partner-demo-unit-1",
+  "/speak/demo-unit-1",
+  "/speak/partner-demo-unit-1",
+]) {
+  expectedTextByPath.get(path)?.push(...activeGameLearningAudioContractExpected);
+}
+
 expectedTextByPath.get("/teacher/intake")?.push("settings_context_summary");
 expectedTextByPath.get("/teacher/intake")?.push(
   "prototype_intake_queue_item",
