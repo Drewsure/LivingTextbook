@@ -1,6 +1,7 @@
 import { Card, StatusPill } from "@living-textbook/ui";
 import { AppShell } from "@/components/layout/AppShell";
 import { sampleActiveGameReplayChecklist } from "@/data/sampleActiveGameReplayChecklist";
+import { sampleActivityPathwayCompatibilityMatrix } from "@/data/sampleActivityPathwayCompatibility";
 import { samplePrototypeIntakeEvidencePacketFlow } from "@/data/sampleEvidencePacketFlows";
 import { sampleGameModeSettingsBackendContractPlan } from "@/data/sampleGameModeSettingsBackendContract";
 import { sampleGameModeSettingsProfilePlan } from "@/data/sampleGameModeSettingsProfiles";
@@ -15,6 +16,7 @@ import { samplePrototypeReturnReadinessSummary } from "@/data/samplePrototypeRet
 import { samplePrototypeReturnPackageChecklists } from "@/data/samplePrototypeReturnPackageChecklist";
 import { sampleUnitGameOfferMap } from "@/data/sampleUnitGameOfferMap";
 import { ActiveGameReplayChecklistPanel } from "@/features/game-offers/ActiveGameReplayChecklistPanel";
+import { ActivityPathwayCompatibilityPanel } from "@/features/game-offers/ActivityPathwayCompatibilityPanel";
 import { GameModeSettingsBackendContractPanel } from "@/features/game-offers/GameModeSettingsBackendContractPanel";
 import { GameModeSettingsProfilePanel } from "@/features/game-offers/GameModeSettingsProfilePanel";
 import { GameModeSettingsStorageReadinessPanel } from "@/features/game-offers/GameModeSettingsStorageReadinessPanel";
@@ -84,6 +86,7 @@ export default function TeacherGameReadinessPage() {
         <ParentEngineReadinessPanel plan={sampleParentEngineReadinessPlan} />
         <ActiveGameReplayChecklistPanel checklist={sampleActiveGameReplayChecklist} />
         <UnitGameOfferMapPanel map={sampleUnitGameOfferMap} />
+        <ActivityPathwayCompatibilityPanel matrix={sampleActivityPathwayCompatibilityMatrix} />
         <GameModeSettingsProfilePanel plan={sampleGameModeSettingsProfilePlan} />
         <GameModeSettingsStorageReadinessPanel plan={sampleGameModeSettingsStorageReadinessPlan} />
         <GameModeSettingsBackendContractPanel plan={sampleGameModeSettingsBackendContractPlan} />

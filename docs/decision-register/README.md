@@ -497,6 +497,7 @@
 - `DR-523-assignment-rollout-generated-evidence-storage-revision.md`
 - `DR-524-shared-game-learning-audio-contract-card.md`
 - `DR-525-teacher-audio-request-evidence-lane.md`
+- `DR-526-game-readiness-activity-compatibility-gate.md`
 
 ## Maintenance Rule
 
