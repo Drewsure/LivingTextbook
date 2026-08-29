@@ -491,6 +491,7 @@ function createTeacherReportPackageBoundary(args: {
     "training_recommended",
   ];
   const mediaEventTypes: GameProgressEvent["type"][] = [
+    "audio_requested",
     "media_playlist_opened",
     "media_started",
     "media_paused",
@@ -550,10 +551,12 @@ function createTeacherReportPackageBoundary(args: {
       "Target-language entry practice completion and target-language listening counts.",
       "Game starts, answer results, game completion, deterministic score, and mastery updates.",
       "Training Academy recovery recommendations and completion summaries.",
+      "Tap-to-speak learning-audio requests marked support-only.",
       "Media engagement summaries marked support-only.",
       "Speech practice availability and completion summary without raw audio or transcripts.",
     ],
     supportOnlySignals: [
+      "Learning audio requests may be reported for teacher awareness, but cannot unlock games or award mastery.",
       "Support-language taps may be reported for teacher awareness, but cannot unlock games.",
       "Playlist opens, media playback, and background media may be reported, but cannot award mastery.",
       "Route guidance listen taps may help explain student navigation, but cannot award Star Dust.",
@@ -885,6 +888,7 @@ function createMonitorReportExportPlan(sessionSettings: TeacherSessionSettings):
       "teacher-summary",
       "student-progress",
       "event-stream",
+      "learning-audio-support",
       "media-engagement",
       "training-recovery",
       "speech-practice-summary",
@@ -938,6 +942,24 @@ function createSampleMonitorEvents(launchSession: LaunchSession, isPartner: bool
       occurredAt: "2026-07-01T00:05:20.000Z",
       metadata: {
         unlockedBy: "target-language-entry-practice",
+      },
+    },
+    {
+      type: "audio_requested",
+      unitKey,
+      gameMode: "flashcards",
+      launchCode,
+      studentSessionId,
+      occurredAt: "2026-07-01T00:05:05.000Z",
+      metadata: {
+        cueKind: "term",
+        cueText: isPartner ? "wake up" : "hello",
+        language: "en",
+        source: "tap-to-speak-card",
+        progressionUnlockAllowed: false,
+        masteryCreditAllowed: false,
+        starDustAwarded: 0,
+        supportLanguageUnlockAllowed: false,
       },
     },
     {
@@ -1141,6 +1163,24 @@ function createSampleMonitorEvents(launchSession: LaunchSession, isPartner: bool
       metadata: {
         parentEngine: "text-spelling",
         scoringProfileId: "syntax-construction-v1",
+      },
+    },
+    {
+      type: "audio_requested",
+      unitKey,
+      gameMode: "memory-match",
+      launchCode,
+      studentSessionId,
+      occurredAt: "2026-07-01T00:07:10.000Z",
+      metadata: {
+        cueKind: "instruction",
+        cueText: isPartner ? "Find the matching routine cards." : "Find the matching greeting cards.",
+        language: "en",
+        source: "game-learning-audio-contract",
+        progressionUnlockAllowed: false,
+        masteryCreditAllowed: false,
+        starDustAwarded: 0,
+        supportLanguageUnlockAllowed: false,
       },
     },
     {

@@ -90,6 +90,7 @@ export function TeacherSessionMonitorPanel({ context }: TeacherSessionMonitorPan
     event.type === "background_media_enabled" ||
     event.type === "background_media_disabled",
   );
+  const audioRequestEvents = context.events.filter((event) => event.type === "audio_requested");
   const settingsSnapshot = createTeacherSessionSettingsSnapshot(context);
 
   return (
@@ -124,6 +125,41 @@ export function TeacherSessionMonitorPanel({ context }: TeacherSessionMonitorPan
             </div>
           ))}
         </dl>
+      </Card>
+
+      <Card>
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <p className="text-sm font-semibold text-[var(--tenant-muted)]">Learning audio evidence</p>
+            <h3 className="mt-1 text-lg font-bold">Tap-to-speak requests</h3>
+            <p className="mt-1 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
+              Target-language audio requests are teacher-visible support evidence. They help explain engagement, but they do not unlock progress, award mastery, change scoring, or replace answer events.
+            </p>
+          </div>
+          <StatusPill label={`${audioRequestEvents.length} audio_requested`} tone={audioRequestEvents.length > 0 ? "success" : "neutral"} />
+        </div>
+
+        <div className="mt-5 grid gap-3 lg:grid-cols-2">
+          {audioRequestEvents.map((event) => (
+            <section key={`${event.type}-${event.occurredAt}-${event.gameMode}`} className="rounded-lg border border-[var(--tenant-border)] p-3">
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div>
+                  <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">{event.gameMode}</p>
+                  <h4 className="mt-1 text-sm font-bold text-[var(--tenant-text)]">{String(event.metadata?.cueText ?? "Learning audio")}</h4>
+                </div>
+                <StatusPill label="Support-only learning audio" tone="warning" />
+              </div>
+              <dl className="mt-3 grid gap-2 text-xs text-[var(--tenant-muted)] sm:grid-cols-3">
+                <MediaFact label="Language" value={String(event.metadata?.language ?? "en")} />
+                <MediaFact label="Cue kind" value={String(event.metadata?.cueKind ?? "unknown")} />
+                <MediaFact label="Score" value="0" />
+              </dl>
+              <p className="mt-3 text-xs leading-5 text-[var(--tenant-muted)]">
+                Progression unlock allowed: false; mastery credit allowed: false; Star Dust awarded: 0.
+              </p>
+            </section>
+          ))}
+        </div>
       </Card>
 
       <Card>

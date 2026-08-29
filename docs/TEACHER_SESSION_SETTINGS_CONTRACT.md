@@ -2,7 +2,7 @@
 
 Document type: foundation data contract  
 Status: active scaffold  
-Last updated: 2026-08-15
+Last updated: 2026-08-29
 
 ## Purpose
 
@@ -89,6 +89,8 @@ Progress reporting requires privacy, retention, export, access-control, and scho
 ### Report Export
 
 Report export is a policy-bound package, not a raw database dump. The scaffolded export contract can describe allowed formats and scopes, but export remains blocked until persistence and school or tenant policy are accepted.
+
+The `learning-audio-support` export scope is allowed only as support-only event evidence. It may show `audio_requested` rows and cue summaries for teacher awareness, but score values must stay zero and no audio request may unlock progress, award mastery, or replace target-language answer events.
 
 Core report export must exclude:
 

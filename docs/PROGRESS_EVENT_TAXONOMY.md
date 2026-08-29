@@ -102,4 +102,5 @@ Envelope rules:
 - Answer results and mastery updates are the main item-level evidence events.
 - Random rewards must not be introduced through event taxonomy changes.
 - Backend report queries must ignore `support-only` events for mastery, Star Dust, and unlock calculations.
+- Teacher reports may show `audio_requested` as learning-audio support evidence, but score values must remain zero.
 - New game, media, route-guidance, speech, AI Tutor, or reward events must be classified in the taxonomy before pilot release.

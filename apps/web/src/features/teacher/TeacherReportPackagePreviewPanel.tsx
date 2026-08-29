@@ -197,6 +197,7 @@ function createReportPackageRows(events: GameProgressEvent[]): ReportPackageRow[
 
 function getReportEventEffect(event: GameProgressEvent): ReportEventEffect {
   const supportOnlyEventTypes: GameProgressEvent["type"][] = [
+    "audio_requested",
     "media_playlist_opened",
     "media_started",
     "media_paused",
@@ -244,6 +245,10 @@ function summarizeReportEvent(event: GameProgressEvent): string {
 
   if (event.type.startsWith("media_") || event.type.startsWith("background_media")) {
     return "Media engagement recorded as support-only.";
+  }
+
+  if (event.type === "audio_requested") {
+    return `Learning audio request recorded as support-only: ${event.metadata?.cueText ?? "audio cue"}.`;
   }
 
   if (event.type === "training_recommended") {

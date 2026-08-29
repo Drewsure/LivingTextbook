@@ -10,6 +10,7 @@ export type TeacherReportExportScope =
   | "teacher-summary"
   | "student-progress"
   | "event-stream"
+  | "learning-audio-support"
   | "media-engagement"
   | "training-recovery"
   | "speech-practice-summary";
