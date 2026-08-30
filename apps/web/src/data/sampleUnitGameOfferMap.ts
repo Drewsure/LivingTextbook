@@ -350,3 +350,7 @@ export const sampleUnitGameOfferMaps: UnitGameOfferMap[] = [
 ];
 
 export const sampleUnitGameOfferMap = samplePartnerUnitGameOfferMap;
+
+export function findSampleUnitGameOfferMap(contentPackageId: string): UnitGameOfferMap | undefined {
+  return sampleUnitGameOfferMaps.find((map) => map.contentPackageId === contentPackageId);
+}

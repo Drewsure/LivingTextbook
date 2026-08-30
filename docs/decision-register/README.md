@@ -502,6 +502,7 @@
 - `DR-528-activity-pathway-verifier-audio-reporting-coverage.md`
 - `DR-529-multi-tenant-unit-game-offer-maps.md`
 - `DR-530-unit-game-offer-reporting-requirements.md`
+- `DR-531-student-activity-hub-offer-map-source.md`
 
 ## Maintenance Rule
 

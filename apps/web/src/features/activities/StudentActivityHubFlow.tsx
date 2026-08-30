@@ -9,6 +9,7 @@ import type {
   StudentProgressionState,
   UnitPayload,
 } from "@living-textbook/content-model";
+import type { UnitGameOffer, UnitGameOfferMap } from "@/data/sampleUnitGameOfferMap";
 import { AudioCueText } from "@/features/audio/AudioCueButton";
 import { GameRouteHeaderCard } from "@/features/game-shell/components/GameRouteHeaderCard";
 import {
@@ -37,6 +38,7 @@ interface StudentActivityHubFlowProps {
   launchSession: LaunchSession;
   progression: StudentProgressionState;
   contentPackage: ContentPackage;
+  offerMap?: UnitGameOfferMap;
 }
 
 interface ActivityHubItem {
@@ -47,6 +49,9 @@ interface ActivityHubItem {
   role: "entry" | "reinforcement" | "assessment" | "recovery" | "support";
   summary: string;
   status: "ready" | "locked" | "complete" | "support";
+  sourceLabel?: string;
+  audioRequirement?: string;
+  reportingRequirement?: string;
 }
 
 export function StudentActivityHubFlow({
@@ -55,6 +60,7 @@ export function StudentActivityHubFlow({
   launchSession,
   progression,
   contentPackage,
+  offerMap,
 }: StudentActivityHubFlowProps) {
   const unitKey = getUnitKey(unit.unitMeta);
   const playlist = contentPackage.playlists?.find((candidate) => candidate.unitKey === unitKey);
@@ -63,6 +69,7 @@ export function StudentActivityHubFlow({
     launchSession,
     progression,
     playlistId: playlist?.playlistId,
+    offerMap,
   });
   const readyCount = activities.filter((activity) => activity.status === "ready" || activity.status === "complete").length;
 
@@ -90,6 +97,18 @@ export function StudentActivityHubFlow({
           </div>
           <StatusPill label={tenant.displayName} />
         </div>
+
+        {offerMap ? (
+          <section className="mt-4 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3">
+            <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Offer map source</p>
+            <p className="mt-1 break-words text-sm font-bold text-[var(--tenant-text)]">
+              {offerMap.label} / {offerMap.contentPackageId}
+            </p>
+            <p className="mt-1 text-xs font-semibold text-[var(--tenant-muted)]">
+              Student routes are drawn from reviewed game offers, while Training Academy, print, and media remain support paths.
+            </p>
+          </section>
+        ) : null}
 
         <div className="mt-5 grid gap-3 sm:grid-cols-2">
           {activities.map((activity) => (
@@ -129,6 +148,15 @@ function ActivityRouteCard({ activity }: { activity: ActivityHubItem }) {
           className="text-sm"
         />
       </p>
+      {activity.sourceLabel || activity.audioRequirement || activity.reportingRequirement ? (
+        <div className="mt-3 grid gap-2">
+          {activity.sourceLabel ? <RouteRequirement label="Source" value={activity.sourceLabel} /> : null}
+          {activity.audioRequirement ? <RouteRequirement label="Audio rule" value={activity.audioRequirement} /> : null}
+          {activity.reportingRequirement ? (
+            <RouteRequirement label="Reporting rule" value={activity.reportingRequirement} />
+          ) : null}
+        </div>
+      ) : null}
       {blocked ? (
         <p className="mt-3 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3 text-sm font-semibold text-[var(--tenant-muted)]">
           Complete flashcards first.
@@ -146,6 +174,15 @@ function ActivityRouteCard({ activity }: { activity: ActivityHubItem }) {
   );
 }
 
+function RouteRequirement({ label, value }: { label: string; value: string }) {
+  return (
+    <section className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3">
+      <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">{label}</p>
+      <p className="mt-1 text-xs leading-5 text-[var(--tenant-muted)]">{value}</p>
+    </section>
+  );
+}
+
 function RuleCard({ label, value }: { label: string; value: string }) {
   return (
     <section className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3">
@@ -159,14 +196,15 @@ function buildActivityItems({
   launchSession,
   progression,
   playlistId,
+  offerMap,
 }: {
   launchSession: LaunchSession;
   progression: StudentProgressionState;
   playlistId?: string;
+  offerMap?: UnitGameOfferMap;
 }): ActivityHubItem[] {
   const launchCode = launchSession.launchCode;
-  const entryComplete = progression.completedGameModes.includes(launchSession.entryMode);
-  const entryStatus = entryComplete ? "complete" : "ready";
+  const gameItems = offerMap ? buildReviewedOfferItems({ offerMap, launchCode, progression }) : buildFallbackGameItems({ launchCode, launchSession, progression });
   const modeItems: ActivityHubItem[] = [
     {
       id: "student-launch",
@@ -176,6 +214,79 @@ function buildActivityItems({
       summary: "Open the classroom QR doorway with flashcards, unlock flow, media shortcut, and progress summary.",
       status: "ready",
     },
+    ...gameItems,
+    {
+      id: "training",
+      label: "Training Academy",
+      href: getTrainingAcademyPath(launchCode),
+      role: "recovery",
+      summary: "Review missed vocabulary or sentence practice without random rewards or AI Tutor dependency.",
+      status: "support",
+    },
+    {
+      id: "print",
+      label: "Printable Worksheet",
+      href: getPrintableWorksheetPath(launchCode),
+      role: "support",
+      summary: "Open the browser-print worksheet preview. Print and media support practice but do not unlock mastery.",
+      status: "support",
+    },
+  ];
+
+  if (playlistId) {
+    modeItems.push({
+      id: "media",
+      label: "Unit media",
+      href: getMediaPlaylistPath(playlistId),
+      role: "support",
+      summary: "Open reviewed unit audio and video. Media is support-only and cannot complete target-language practice.",
+      status: "support",
+    });
+  }
+
+  return modeItems;
+}
+
+function buildReviewedOfferItems({
+  offerMap,
+  launchCode,
+  progression,
+}: {
+  offerMap: UnitGameOfferMap;
+  launchCode: string;
+  progression: StudentProgressionState;
+}): ActivityHubItem[] {
+  return offerMap.offers
+    .filter((offer) => offer.availability !== "hidden" && offer.availability !== "blocked")
+    .slice()
+    .sort((first, second) => (first.recommendedOrder ?? 99) - (second.recommendedOrder ?? 99))
+    .map((offer) => ({
+      id: offer.offerId,
+      label: offer.label,
+      href: offer.launchRoute ?? getGameModePath(offer.gameMode, launchCode),
+      mode: offer.gameMode,
+      role: getOfferRole(offer),
+      summary: `${offer.label} is reviewed for this unit through the ${offer.engineId} engine.`,
+      status: getOfferRouteStatus(offer, progression),
+      sourceLabel: `${offerMap.label} / ${formatAvailability(offer.availability)}`,
+      audioRequirement: offer.audioRequirement,
+      reportingRequirement: offer.reportingRequirement,
+    }));
+}
+
+function buildFallbackGameItems({
+  launchCode,
+  launchSession,
+  progression,
+}: {
+  launchCode: string;
+  launchSession: LaunchSession;
+  progression: StudentProgressionState;
+}): ActivityHubItem[] {
+  const entryComplete = progression.completedGameModes.includes(launchSession.entryMode);
+  const entryStatus = entryComplete ? "complete" : "ready";
+
+  return [
     {
       id: "flashcards",
       label: "Flashcards",
@@ -284,36 +395,58 @@ function buildActivityItems({
       summary: "Practice listening and speaking with teacher-controlled microphone options.",
       status: getGameRouteStatus("speak-it", progression),
     },
-    {
-      id: "training",
-      label: "Training Academy",
-      href: getTrainingAcademyPath(launchCode),
-      role: "recovery",
-      summary: "Review missed vocabulary or sentence practice without random rewards or AI Tutor dependency.",
-      status: "support",
-    },
-    {
-      id: "print",
-      label: "Printable Worksheet",
-      href: getPrintableWorksheetPath(launchCode),
-      role: "support",
-      summary: "Open the browser-print worksheet preview. Print and media support practice but do not unlock mastery.",
-      status: "support",
-    },
   ];
+}
 
-  if (playlistId) {
-    modeItems.push({
-      id: "media",
-      label: "Unit media",
-      href: getMediaPlaylistPath(playlistId),
-      role: "support",
-      summary: "Open reviewed unit audio and video. Media is support-only and cannot complete target-language practice.",
-      status: "support",
-    });
+function getOfferRole(offer: UnitGameOffer): ActivityHubItem["role"] {
+  if (offer.gameMode === "flashcards") {
+    return "entry";
   }
 
-  return modeItems;
+  if (offer.availability === "teacher-only") {
+    return "support";
+  }
+
+  return offer.family === "core-quiz" ? "assessment" : "reinforcement";
+}
+
+function getOfferRouteStatus(offer: UnitGameOffer, progression: StudentProgressionState): ActivityHubItem["status"] {
+  if (offer.readiness !== "ready") {
+    return "locked";
+  }
+
+  if (offer.availability === "teacher-only" || offer.availability === "premium") {
+    return "locked";
+  }
+
+  return getGameRouteStatus(offer.gameMode, progression);
+}
+
+function getGameModePath(mode: GameModeId, launchCode: string): string {
+  const paths: Partial<Record<GameModeId, string>> = {
+    flashcards: getFlashcardsPath(launchCode),
+    "memory-match": getMemoryMatchPath(launchCode),
+    "match-up": getMatchUpPath(launchCode),
+    "label-it": getLabelItPath(launchCode),
+    quiz: getQuizPath(launchCode),
+    "true-false": getTrueFalsePath(launchCode),
+    "balloon-pop": getBalloonPopPath(launchCode),
+    "type-answer": getTypeAnswerPath(launchCode),
+    "spelling-practice": getSpellingPracticePath(launchCode),
+    "fill-in-the-blank": getFillInTheBlankPath(launchCode),
+    "sentence-builder": getSentenceBuilderPath(launchCode),
+    "speak-it": getSpeakItPath(launchCode),
+  };
+
+  return paths[mode] ?? getStudentLaunchPath(launchCode);
+}
+
+function formatAvailability(availability: UnitGameOffer["availability"]): string {
+  if (availability === "teacher-only") {
+    return "Teacher only";
+  }
+
+  return availability.charAt(0).toUpperCase() + availability.slice(1);
 }
 
 function getGameRouteStatus(mode: GameModeId, progression: StudentProgressionState): ActivityHubItem["status"] {
