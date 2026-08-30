@@ -4,6 +4,8 @@ The unit game offer map defines which games are available for a reviewed textboo
 
 This contract exists because white-label publishers need to maintain yearly game offerings without creating one-off pages or breaking progress reporting.
 
+The sample implementation must always show both the MiniStar flagship map and at least one non-MiniStar partner map. This guards against accidental tenant lock-in while still letting MiniStar remain the reference curriculum.
+
 ## Purpose
 
 A unit game offer map answers:
@@ -64,6 +66,7 @@ Every offer should identify:
 ## Standing Rules
 
 - Do not build 48 separate games.
+- Do not let the offer-map surface collapse to one tenant only.
 - Do not offer unrestricted switch-template behavior as the core promise.
 - Use curated, teacher-approved activity pathways for each reviewed unit package.
 - Every offered game maps to a reusable parent engine.
@@ -84,6 +87,8 @@ Every offer should identify:
 - Panel: `apps/web/src/features/game-offers/UnitGameOfferMapPanel.tsx`
 - Compatibility panel: `apps/web/src/features/game-offers/ActivityPathwayCompatibilityPanel.tsx`
 - Route: `/teacher/intake`
+- Focused route: `/teacher/game-readiness`
+- Current sample maps: MiniStar Level 1 Unit 1 and Sample Publisher Starter English Unit 1.
 
 ## Follow-Up
 

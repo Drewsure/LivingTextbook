@@ -87,7 +87,7 @@ import { sampleAssignmentRolloutPlans } from "@/data/sampleAssignmentRolloutPlan
 import { sampleActivityPathwayCompatibilityMatrix } from "@/data/sampleActivityPathwayCompatibility";
 import { sampleActiveGameReplayChecklist } from "@/data/sampleActiveGameReplayChecklist";
 import { sampleParentEngineReadinessPlan } from "@/data/sampleParentEngineReadiness";
-import { sampleUnitGameOfferMap } from "@/data/sampleUnitGameOfferMap";
+import { sampleUnitGameOfferMaps } from "@/data/sampleUnitGameOfferMap";
 import { sampleUnitPackageReadiness } from "@/data/sampleUnitPackageReadiness";
 import { whiteLabelPilotReadiness } from "@/data/whiteLabelPilotReadiness";
 import {
@@ -231,7 +231,9 @@ export default function TeacherIntakePage() {
         <PrintableOutputReadinessPanel plan={samplePrintableOutputPlan} />
         <ParentEngineReadinessPanel plan={sampleParentEngineReadinessPlan} />
         <ActiveGameReplayChecklistPanel checklist={sampleActiveGameReplayChecklist} />
-        <UnitGameOfferMapPanel map={sampleUnitGameOfferMap} />
+        {sampleUnitGameOfferMaps.map((map) => (
+          <UnitGameOfferMapPanel key={map.mapId} map={map} />
+        ))}
         <GameModeSettingsProfilePanel plan={sampleGameModeSettingsProfilePlan} />
         <GameModeSettingsStorageReadinessPanel plan={sampleGameModeSettingsStorageReadinessPlan} />
         <GameModeSettingsBackendContractPanel plan={sampleGameModeSettingsBackendContractPlan} />

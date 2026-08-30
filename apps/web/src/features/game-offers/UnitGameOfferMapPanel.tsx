@@ -52,6 +52,9 @@ export function UnitGameOfferMapPanel({ map }: UnitGameOfferMapPanelProps) {
         <div>
           <p className="text-sm font-semibold text-[var(--tenant-muted)]">Game offer map</p>
           <h2 className="mt-1 text-lg font-bold">{map.label}</h2>
+          <p className="mt-1 break-words text-xs font-semibold text-[var(--tenant-muted)]">
+            {map.tenantId} / {map.contentPackageId}
+          </p>
           <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">{map.summary}</p>
         </div>
         <StatusPill label={`${map.offers.length} offers`} tone="success" />
@@ -153,8 +156,8 @@ function OfferBlock({
         <StatusPill label={String(items.length)} tone={tone} />
       </div>
       <ul className="mt-2 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
-        {items.map((item) => (
-          <li key={item}>{item}</li>
+        {items.map((item, index) => (
+          <li key={`${title}-${index}-${item}`}>{item}</li>
         ))}
       </ul>
     </section>

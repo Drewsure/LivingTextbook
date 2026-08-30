@@ -860,3 +860,22 @@ Constraints:
 - Compatibility must remain curated, teacher-reviewed, target-language triggered, and support-language safe.
 - `/teacher/game-readiness` remains a review-only route.
 - This decision is recorded in `docs/adr/0457-activity-pathway-verifier-audio-reporting-coverage.md` and `docs/decision-register/DR-528-activity-pathway-verifier-audio-reporting-coverage.md`.
+
+## DR-529: Multi-Tenant Unit Game Offer Maps
+
+Status: Accepted
+
+Decision: The unit game offer map surface must show both the MiniStar flagship map and at least one non-MiniStar partner map through the same component and shared export.
+
+Rationale:
+
+- White-label confidence depends on proving that MiniStar is the first tenant, not the platform's only shape.
+- Teacher/admin review needs to compare package-specific game offers without route or panel special casing.
+- Cost stays lower when additional tenants extend the same offer-map contract instead of creating custom game dashboards.
+
+Guardrails:
+
+- `sampleUnitGameOfferMaps` must include MiniStar and sample publisher maps.
+- Each map must name its tenant id, package id, route expectations, audio requirements, teacher controls, and blocked actions.
+- Game-readiness and teacher-intake workbenches remain review-only.
+- This decision is recorded in `docs/adr/0458-multi-tenant-unit-game-offer-maps.md` and `docs/decision-register/DR-529-multi-tenant-unit-game-offer-maps.md`.

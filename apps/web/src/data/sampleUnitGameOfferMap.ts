@@ -34,11 +34,11 @@ export interface UnitGameOfferMap {
   offers: UnitGameOffer[];
 }
 
-export const sampleUnitGameOfferMap: UnitGameOfferMap = {
+export const samplePartnerUnitGameOfferMap: UnitGameOfferMap = {
   mapId: "sample-publisher-unit-game-offers",
   tenantId: "sample-publisher",
-  contentPackageId: "sample-publisher-l1-u1-package",
-  label: "Unit-to-game offer map",
+  contentPackageId: "sample-publisher-l1-u1-routines-package",
+  label: "Sample Publisher Unit 1 game offer map",
   summary:
     "Each textbook unit needs a reviewed game availability map so partners can maintain yearly game offers without one-off game pages or broken progress reporting.",
   decisionRule:
@@ -56,7 +56,7 @@ export const sampleUnitGameOfferMap: UnitGameOfferMap = {
       readiness: "ready",
       recommendedOrder: 1,
       packageTier: "core",
-      launchRoute: "/launch/partner-demo-unit-1",
+      launchRoute: "/flashcards/partner-demo-unit-1",
       audioRequirement: "All vocabulary, target sentences, instructions, and completion controls need tap-to-hear audio.",
       mediaRequirement: "Can reference the unit playlist, but background music is not required for completion.",
       teacherControls: ["Teacher launch", "Entry-code optional", "Support language does not unlock progress"],
@@ -96,7 +96,7 @@ export const sampleUnitGameOfferMap: UnitGameOfferMap = {
       readiness: "ready",
       recommendedOrder: 4,
       packageTier: "games",
-      launchRoute: "/launch/partner-demo-unit-1",
+      launchRoute: "/memory/partner-demo-unit-1",
       audioRequirement: "Cards remain tap-to-hear and answer feedback must stay audio-supported.",
       mediaRequirement: "Optional quiet background audio may be enabled only when teacher-controlled.",
       teacherControls: ["Unlock after entry practice", "Training Academy recommendation on repeated misses", "Progress event summary"],
@@ -286,3 +286,54 @@ export const sampleUnitGameOfferMap: UnitGameOfferMap = {
     },
   ],
 };
+
+const ministarLaunchRoutesByMode: Partial<Record<GameModeId, string>> = {
+  flashcards: "/flashcards/demo-unit-1",
+  "match-up": "/match/demo-unit-1",
+  "memory-match": "/memory/demo-unit-1",
+  "label-it": "/label-it/demo-unit-1",
+  "speak-it": "/speak/demo-unit-1",
+  "sentence-builder": "/sentence/demo-unit-1",
+  "balloon-pop": "/balloon/demo-unit-1",
+  quiz: "/quiz/demo-unit-1",
+  "true-false": "/true-false/demo-unit-1",
+  "type-answer": "/type-answer/demo-unit-1",
+  "spelling-practice": "/spelling/demo-unit-1",
+  "fill-in-the-blank": "/fill/demo-unit-1",
+};
+
+export const sampleMinistarUnitGameOfferMap: UnitGameOfferMap = {
+  mapId: "ministar-unit-game-offers",
+  tenantId: "ministar",
+  contentPackageId: "ministar-l1-u1-greetings-package",
+  label: "MiniStar Unit 1 game offer map",
+  summary:
+    "MiniStar uses the same reviewed game availability map as partner tenants, while allowing its early-learner UI style and curriculum sequence to remain tenant-specific.",
+  decisionRule:
+    "MiniStar game offers must still name their parent engine, audio requirement, teacher controls, route expectation, support-language guardrails, and pilot blockers before release.",
+  offers: samplePartnerUnitGameOfferMap.offers.map((offer) => ({
+    ...offer,
+    offerId: offer.offerId.replace("partner-l1-u1", "ministar-l1-u1"),
+    unitKey: "ministar:ministar-english:L1:U1",
+    unitLabel: "MiniStar English Level 1 Unit 1: Greetings",
+    launchRoute: ministarLaunchRoutesByMode[offer.gameMode],
+    teacherControls: offer.teacherControls.map((control) =>
+      control === "Entry-code optional" ? "Entry code required for pilot reporting" : control,
+    ),
+    evidence: offer.evidence
+      .replace("future publisher units", "MiniStar and partner units")
+      .replace("publisher units", "tenant units")
+      .replace("partner units", "tenant units"),
+    nextStep: offer.nextStep
+      .replace("future publisher units", "MiniStar and partner units")
+      .replace("publisher units", "tenant units")
+      .replace("partner units", "tenant units"),
+  })),
+};
+
+export const sampleUnitGameOfferMaps: UnitGameOfferMap[] = [
+  sampleMinistarUnitGameOfferMap,
+  samplePartnerUnitGameOfferMap,
+];
+
+export const sampleUnitGameOfferMap = samplePartnerUnitGameOfferMap;

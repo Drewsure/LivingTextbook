@@ -14,7 +14,7 @@ import { samplePrototypeIntakeReadinessSummary } from "@/data/samplePrototypeInt
 import { samplePrototypeIntakeStorageGuards } from "@/data/samplePrototypeIntakeStorageGuard";
 import { samplePrototypeReturnReadinessSummary } from "@/data/samplePrototypeReturnReadinessSummary";
 import { samplePrototypeReturnPackageChecklists } from "@/data/samplePrototypeReturnPackageChecklist";
-import { sampleUnitGameOfferMap } from "@/data/sampleUnitGameOfferMap";
+import { sampleUnitGameOfferMaps } from "@/data/sampleUnitGameOfferMap";
 import { ActiveGameReplayChecklistPanel } from "@/features/game-offers/ActiveGameReplayChecklistPanel";
 import { ActivityPathwayCompatibilityPanel } from "@/features/game-offers/ActivityPathwayCompatibilityPanel";
 import { GameModeSettingsBackendContractPanel } from "@/features/game-offers/GameModeSettingsBackendContractPanel";
@@ -85,7 +85,9 @@ export default function TeacherGameReadinessPage() {
 
         <ParentEngineReadinessPanel plan={sampleParentEngineReadinessPlan} />
         <ActiveGameReplayChecklistPanel checklist={sampleActiveGameReplayChecklist} />
-        <UnitGameOfferMapPanel map={sampleUnitGameOfferMap} />
+        {sampleUnitGameOfferMaps.map((map) => (
+          <UnitGameOfferMapPanel key={map.mapId} map={map} />
+        ))}
         <ActivityPathwayCompatibilityPanel matrix={sampleActivityPathwayCompatibilityMatrix} />
         <GameModeSettingsProfilePanel plan={sampleGameModeSettingsProfilePlan} />
         <GameModeSettingsStorageReadinessPanel plan={sampleGameModeSettingsStorageReadinessPlan} />
