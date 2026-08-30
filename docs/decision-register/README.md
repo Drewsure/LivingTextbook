@@ -503,6 +503,7 @@
 - `DR-529-multi-tenant-unit-game-offer-maps.md`
 - `DR-530-unit-game-offer-reporting-requirements.md`
 - `DR-531-student-activity-hub-offer-map-source.md`
+- `DR-532-game-completion-offer-map-next-path.md`
 
 ## Maintenance Rule
 

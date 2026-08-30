@@ -119,6 +119,38 @@ for (const path of [
   expectedTextByPath.get(path)?.push(...activeGameLearningAudioContractExpected);
 }
 
+const activeGameOfferMapCompletionExpected = [
+  "Next source",
+  "Reviewed offer map",
+];
+
+for (const path of [
+  "/memory/demo-unit-1",
+  "/memory/partner-demo-unit-1",
+  "/match/demo-unit-1",
+  "/match/partner-demo-unit-1",
+  "/label-it/demo-unit-1",
+  "/label-it/partner-demo-unit-1",
+  "/balloon/demo-unit-1",
+  "/balloon/partner-demo-unit-1",
+  "/quiz/demo-unit-1",
+  "/quiz/partner-demo-unit-1",
+  "/true-false/demo-unit-1",
+  "/true-false/partner-demo-unit-1",
+  "/type-answer/demo-unit-1",
+  "/type-answer/partner-demo-unit-1",
+  "/spelling/demo-unit-1",
+  "/spelling/partner-demo-unit-1",
+  "/fill/demo-unit-1",
+  "/fill/partner-demo-unit-1",
+  "/sentence/demo-unit-1",
+  "/sentence/partner-demo-unit-1",
+  "/speak/demo-unit-1",
+  "/speak/partner-demo-unit-1",
+]) {
+  expectedTextByPath.get(path)?.push(...activeGameOfferMapCompletionExpected);
+}
+
 expectedTextByPath.get("/teacher/intake")?.push("settings_context_summary");
 expectedTextByPath.get("/teacher/intake")?.push(
   "prototype_intake_queue_item",

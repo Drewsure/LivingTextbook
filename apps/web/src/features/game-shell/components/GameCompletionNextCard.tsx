@@ -2,6 +2,7 @@
 
 import { Card, StatusPill } from "@living-textbook/ui";
 import type { GameModeId, LaunchSession, StudentProgressionState } from "@living-textbook/content-model";
+import type { UnitGameOffer, UnitGameOfferMap } from "@/data/sampleUnitGameOfferMap";
 import { AudioCueText } from "@/features/audio/AudioCueButton";
 import {
   getBalloonPopPath,
@@ -27,6 +28,7 @@ interface GameCompletionNextCardProps {
   currentGameMode: GameModeId;
   earnedStarDust: number;
   rewardName: string;
+  offerMap?: UnitGameOfferMap;
 }
 
 export function GameCompletionNextCard({
@@ -35,11 +37,14 @@ export function GameCompletionNextCard({
   currentGameMode,
   earnedStarDust,
   rewardName,
+  offerMap,
 }: GameCompletionNextCardProps) {
   const currentComplete = progression.completedGameModes.includes(currentGameMode);
-  const nextMode = findNextRecommendedMode(launchSession, progression, currentGameMode);
-  const nextPath = nextMode ? getGamePath(nextMode, launchSession.launchCode) : getStudentActivityHubPath(launchSession.launchCode);
-  const nextLabel = nextMode ? formatMode(nextMode) : "Activity hub";
+  const nextOffer = findNextReviewedOffer(offerMap, progression, currentGameMode);
+  const nextMode = nextOffer?.gameMode ?? findNextRecommendedMode(launchSession, progression, currentGameMode);
+  const nextPath = nextOffer?.launchRoute ?? (nextMode ? getGamePath(nextMode, launchSession.launchCode) : getStudentActivityHubPath(launchSession.launchCode));
+  const nextLabel = nextOffer?.label ?? (nextMode ? formatMode(nextMode) : "Activity hub");
+  const nextSource = nextOffer ? "Reviewed offer map" : "Launch session";
   const statusLabel = currentComplete ? "Ready for next" : "Finish game";
   const summaryText = currentComplete
     ? `${formatMode(currentGameMode)} is complete. Open ${nextLabel} or return to the activity hub.`
@@ -58,10 +63,11 @@ export function GameCompletionNextCard({
         <StatusPill label={statusLabel} tone={currentComplete ? "success" : "warning"} />
       </div>
 
-      <div className="mt-5 grid gap-3 sm:grid-cols-3">
+      <div className="mt-5 grid gap-3 sm:grid-cols-4">
         <CompletionFact label="Completed mode" value={formatMode(currentGameMode)} />
         <CompletionFact label={rewardName} value={currentComplete ? `+${earnedStarDust}` : "Pending"} />
         <CompletionFact label="Suggested next" value={nextLabel} />
+        <CompletionFact label="Next source" value={nextSource} />
       </div>
 
       <div className="mt-5 grid gap-3 sm:grid-cols-3">
@@ -113,6 +119,30 @@ function findNextRecommendedMode(
   const candidates = [...afterCurrent, ...beforeCurrent];
 
   return candidates.find((mode) => !progression.completedGameModes.includes(mode));
+}
+
+function findNextReviewedOffer(
+  offerMap: UnitGameOfferMap | undefined,
+  progression: StudentProgressionState,
+  currentGameMode: GameModeId,
+): UnitGameOffer | undefined {
+  if (!offerMap) {
+    return undefined;
+  }
+
+  const reviewedOffers = offerMap.offers
+    .filter((offer) => offer.readiness === "ready")
+    .filter((offer) => offer.availability !== "hidden" && offer.availability !== "blocked")
+    .filter((offer) => offer.availability !== "teacher-only" && offer.availability !== "premium")
+    .slice()
+    .sort((first, second) => (first.recommendedOrder ?? 99) - (second.recommendedOrder ?? 99));
+  const currentIndex = reviewedOffers.findIndex((offer) => offer.gameMode === currentGameMode);
+  const searchStart = currentIndex >= 0 ? currentIndex + 1 : 0;
+  const afterCurrent = reviewedOffers.slice(searchStart);
+  const beforeCurrent = reviewedOffers.slice(0, Math.max(currentIndex, 0));
+  const candidates = [...afterCurrent, ...beforeCurrent];
+
+  return candidates.find((offer) => !progression.completedGameModes.includes(offer.gameMode));
 }
 
 function getGamePath(gameMode: GameModeId, launchCode: string): string {

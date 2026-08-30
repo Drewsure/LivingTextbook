@@ -11,6 +11,7 @@ import type {
   UnitPayload,
 } from "@living-textbook/content-model";
 import type { TeacherAssignmentPlan } from "@living-textbook/content-model/src/teacherAssignment";
+import { findSampleUnitGameOfferMap } from "@/data/sampleUnitGameOfferMap";
 import type { GameModeCompletionResult } from "@/features/progression/localProgressionAdapter";
 import { UnitSessionProgressSummary } from "@/features/progression/UnitSessionProgressSummary";
 import { SessionEventLog } from "@/features/student/components/SessionEventLog";
@@ -71,6 +72,7 @@ export function PlayableGameRouteShell({
   });
   const [sessionEvents, setSessionEvents] = useState<GameProgressEvent[]>([]);
   const [lastEarnedDust, setLastEarnedDust] = useState(0);
+  const offerMap = unit.unitMeta.contentPackageId ? findSampleUnitGameOfferMap(unit.unitMeta.contentPackageId) : undefined;
 
   function handleEvent(event: GameProgressEvent) {
     setSessionEvents((events) => [...events, event]);
@@ -129,6 +131,7 @@ export function PlayableGameRouteShell({
         currentGameMode={gameMode}
         earnedStarDust={lastEarnedDust}
         rewardName={tenant.rewardName}
+        offerMap={offerMap}
       />
 
       <SessionEventLog events={sessionEvents} />

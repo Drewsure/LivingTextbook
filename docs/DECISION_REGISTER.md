@@ -919,3 +919,22 @@ Guardrails:
 - Student cards may show audio and reporting rules, but they do not create scoring authority.
 - Missing offer maps may use a fallback list until review data exists.
 - This decision is recorded in `docs/adr/0460-student-activity-hub-offer-map-source.md` and `docs/decision-register/DR-531-student-activity-hub-offer-map-source.md`.
+
+## DR-532: Game Completion Offer-Map Next Path
+
+Status: Accepted
+
+Decision: The shared game completion card should prefer reviewed unit game offer maps for next-activity suggestions and fall back to launch-session recommendations only when no offer map exists.
+
+Rationale:
+
+- The offer map carries game readiness, availability, route, audio, reporting, and guardrail context.
+- Completion cards are part of student progression, so they should not drift from teacher-reviewed pathways.
+- Launch-session recommendations remain useful as a fallback for incomplete or legacy packages.
+
+Guardrails:
+
+- Hidden, blocked, premium, teacher-only, or not-ready offers are not suggested as the next student activity.
+- Completion cards can show the source of the next suggestion.
+- Completion cards cannot write routes, publish games, change scoring, or unlock teacher-only/premium offers.
+- This decision is recorded in `docs/adr/0461-game-completion-offer-map-next-path.md` and `docs/decision-register/DR-532-game-completion-offer-map-next-path.md`.
