@@ -499,6 +499,7 @@
 - `DR-525-teacher-audio-request-evidence-lane.md`
 - `DR-526-game-readiness-activity-compatibility-gate.md`
 - `DR-527-activity-compatibility-audio-reporting-lanes.md`
+- `DR-528-activity-pathway-verifier-audio-reporting-coverage.md`
 
 ## Maintenance Rule
 

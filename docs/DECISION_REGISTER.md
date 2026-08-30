@@ -843,3 +843,20 @@ Constraints:
 - Target-language audio coverage and standard reporting must be visible before a pathway can inform games, printables, AI generation, or prototype review.
 - Support-language taps and media-only engagement remain support-only evidence, not progress authority.
 - This decision is recorded in `docs/adr/0456-activity-compatibility-audio-reporting-lanes.md` and `docs/decision-register/DR-527-activity-compatibility-audio-reporting-lanes.md`.
+
+## DR-528: Activity Pathway Verifier Audio Reporting Coverage
+
+Status: Accepted
+
+Decision: Update the activity pathway verifier to require audio/reporting lanes and focused game-readiness route coverage.
+
+White-label impact: Positive. Tenants get consistent compatibility review expectations before a unit pathway can drive games, printables, AI generation, or external prototype tasks.
+
+Cost impact: Positive. The verifier catches missing audio/reporting evidence early, when it is cheap to repair.
+
+Constraints:
+
+- The verifier must not enable live template switching or route publishing.
+- Compatibility must remain curated, teacher-reviewed, target-language triggered, and support-language safe.
+- `/teacher/game-readiness` remains a review-only route.
+- This decision is recorded in `docs/adr/0457-activity-pathway-verifier-audio-reporting-coverage.md` and `docs/decision-register/DR-528-activity-pathway-verifier-audio-reporting-coverage.md`.

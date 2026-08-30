@@ -481,6 +481,7 @@ Next outputs:
 - Confirm the publish gate blocks release while assigned game modes are missing reviewed audio coverage or approved fallback.
 - Confirm `/teacher/intake` shows the competitive feature coverage panel before teacher authoring, printables, private library, sharing, or embed work begins.
 - Confirm `/teacher/intake` shows the activity pathway compatibility panel before template conversion, printable, or text-puzzle work begins.
+- Confirm `npm run verify:activity-pathways` checks audio requirement lanes, reporting requirement lanes, and `/teacher/game-readiness` compatibility visibility before game-design, printable, AI-generator, Phaser wrapper, or Z.ai prototype work changes pathway rules.
 - Confirm `/teacher/intake` shows the printable output readiness panel before worksheet/PDF implementation begins.
 - Confirm `/print/demo-unit-1` and `/print/partner-demo-unit-1` load before expanding printable output, QR placement, or PDF generation.
 - Confirm `/teacher/intake` shows the private tenant library plan before teacher authoring, copy/edit, sharing, or public-community work begins.
@@ -839,3 +840,5 @@ Teacher session monitor and report package previews must show `audio_requested` 
 The focused game-readiness workbench must show activity pathway compatibility next to parent-engine readiness, active replay checks, game offers, and prototype intake gates. This keeps game design and Z.ai/prototype planning governed by curated pathway rules rather than broad template-switch promises.
 
 Activity compatibility review must display audio and reporting lanes for every pathway. A payload may fit a mode, but it is not integration-ready until learner-facing target-language audio and teacher-visible standard reporting are explicit.
+
+The dedicated activity-pathway verifier must protect the audio/reporting lanes and focused game-readiness visibility so the rule survives future UI, generator, printable, and prototype-review changes.

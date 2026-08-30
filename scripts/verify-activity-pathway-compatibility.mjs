@@ -37,11 +37,18 @@ for (const text of requiredPolicyText) {
 
 requireText(panel, "Activity pathway compatibility", "Activity pathway panel must expose its review heading.");
 requireText(panel, "Target-language trigger", "Activity pathway panel must show target-language trigger rules.");
+requireText(panel, "Audio requirement", "Activity pathway panel must show audio requirement lanes.");
+requireText(panel, "Reporting requirement", "Activity pathway panel must show reporting requirement lanes.");
 requireText(routeVerifier, "Activity pathway compatibility", "Active route verifier must check teacher intake pathway panel.");
+requireText(routeVerifier, "/teacher/game-readiness", "Active route verifier must check the focused game readiness route.");
 requireText(routeVerifier, "Printable vocabulary sheet", "Active route verifier must check printable pathway visibility.");
 requireText(routeVerifier, "Target-language trigger", "Active route verifier must check target-language trigger visibility.");
+requireText(routeVerifier, "Audio requirement", "Active route verifier must check activity pathway audio requirement visibility.");
+requireText(routeVerifier, "Reporting requirement", "Active route verifier must check activity pathway reporting requirement visibility.");
 requireText(docs, "curated teacher-approved pathways", "Competitive matrix docs must preserve curated pathway stance.");
 requireText(docs, "Add printable/PDF activity output", "Competitive matrix docs must preserve printable planning.");
+requireText(pathwayDocs, "/teacher/game-readiness", "Activity pathway docs must identify the game readiness route.");
+requireText(pathwayDocs, "audio requirements and reporting requirements", "Activity pathway docs must require audio and reporting lanes.");
 requireText(pathwayDocs, "activity_compatibility_snapshot", "Activity pathway docs must preserve compatibility snapshot storage contract.");
 requireText(pathwayDocs, "student-facing pathway blocks", "Activity pathway docs must preserve student-facing pathway blocks.");
 requireText(backendStorageVerifier, "activity_compatibility_snapshot", "Backend storage verifier must require activity compatibility snapshots.");
