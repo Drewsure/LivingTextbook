@@ -498,6 +498,7 @@
 - `DR-524-shared-game-learning-audio-contract-card.md`
 - `DR-525-teacher-audio-request-evidence-lane.md`
 - `DR-526-game-readiness-activity-compatibility-gate.md`
+- `DR-527-activity-compatibility-audio-reporting-lanes.md`
 
 ## Maintenance Rule
 

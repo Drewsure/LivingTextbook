@@ -36,6 +36,7 @@ Current panel:
 Current route:
 
 - `/teacher/intake`
+- `/teacher/game-readiness`
 
 Current verifier:
 
@@ -102,6 +103,7 @@ Blocked conversions:
 ## Standing Rules
 
 - Curated pathways are the default teacher-facing experience.
+- Compatibility review surfaces must show audio requirements and reporting requirements for each offered, planned, teacher-review, premium, or blocked output.
 - Support language cannot unlock progress.
 - Target-language practice remains the progression trigger.
 - Printable outputs must come from reviewed package data.

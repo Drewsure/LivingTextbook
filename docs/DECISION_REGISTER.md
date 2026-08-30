@@ -826,3 +826,20 @@ Constraints:
 - Compatibility decisions must preserve target-language progression, learner audio coverage, standard reporting, and support-language boundaries.
 - Z.ai, Phaser, and outside prototype work must follow the compatibility matrix before Codex considers integration review.
 - This decision is recorded in `docs/adr/0455-game-readiness-activity-compatibility-gate.md` and `docs/decision-register/DR-526-game-readiness-activity-compatibility-gate.md`.
+
+## DR-527: Activity Compatibility Audio And Reporting Lanes
+
+Status: Accepted
+
+Decision: Display audio requirement and reporting requirement lanes inside the activity pathway compatibility panel.
+
+White-label impact: Positive. Each tenant can review whether an activity fits its language, classroom, media, privacy, and reporting rules before it becomes a student option or outside prototype target.
+
+Cost impact: Positive. Surfacing audio and reporting requirements early prevents expensive rebuilds where a game looks playable but cannot produce valid learning evidence or support young learners.
+
+Constraints:
+
+- Compatibility is not accepted from payload fit alone.
+- Target-language audio coverage and standard reporting must be visible before a pathway can inform games, printables, AI generation, or prototype review.
+- Support-language taps and media-only engagement remain support-only evidence, not progress authority.
+- This decision is recorded in `docs/adr/0456-activity-compatibility-audio-reporting-lanes.md` and `docs/decision-register/DR-527-activity-compatibility-audio-reporting-lanes.md`.

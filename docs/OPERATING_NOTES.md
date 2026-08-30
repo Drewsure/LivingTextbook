@@ -508,3 +508,35 @@ npm run build --workspace @living-textbook/web
 4. Do not diagnose route type files as missing until the checks have been rerun sequentially.
 
 Why this matters: The foundation verifier must stay trustworthy. Avoiding parallel generated-file writes prevents noisy failures from hiding real build issues.
+
+## OW-022: Next Dev Cold Route Warmup Can Produce A Transient 500
+
+Status: Active
+
+Observed behavior: On a cold Windows Next dev server, a broad active-route sweep can hit a transient route `500` during first compilation even when the same route returns `200` immediately afterward. In the observed case, `/assign/assignment-ministar-demo-whole-class` and `/teacher/units/ministar%3Aministar-english%3AL1%3AU1` briefly showed `SyntaxError: Unexpected end of JSON input`, then both returned `200` on direct repeat requests and the full route verifier passed without source changes.
+
+Observed failure signatures:
+
+- A small number of route `500` failures during the first `npm run verify:routes` sweep after starting `next dev`.
+- Next dev log shows `SyntaxError: Unexpected end of JSON input` without a useful source stack.
+- Direct `Invoke-WebRequest` calls to the same route return `200`.
+
+Procedure:
+
+1. Directly probe the failed route or routes:
+
+```powershell
+Invoke-WebRequest -UseBasicParsing "http://127.0.0.1:3000/assign/assignment-ministar-demo-whole-class"
+Invoke-WebRequest -UseBasicParsing "http://127.0.0.1:3000/teacher/units/ministar%3Aministar-english%3AL1%3AU1"
+```
+
+2. If the direct probes return `200`, rerun:
+
+```powershell
+npm run verify:routes
+```
+
+3. Treat the failure as real if the same route returns `500` repeatedly, if direct probes fail, or if expected text remains missing after the route has warmed.
+4. Do not weaken expected-text coverage to hide a transient cold compile issue.
+
+Why this matters: Route verification should remain strict, but broad cold-start sweeps can expose dev-server timing noise. Warming and rerunning protects quality without misdiagnosing stable source code as broken.

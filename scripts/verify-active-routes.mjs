@@ -278,6 +278,8 @@ expectedTextByPath.set("/teacher/game-readiness", [
   "Planned printables",
   "Blocked conversions",
   "Target-language trigger",
+  "Audio requirement",
+  "Reporting requirement",
   "Printable vocabulary sheet",
   "Speak It Practice",
   "Balloon Pop",

@@ -69,6 +69,10 @@ export function ActivityPathwayCompatibilityPanel({ matrix }: ActivityPathwayCom
             <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">
               <span className="font-semibold text-[var(--tenant-text)]">Target-language trigger:</span> {item.targetLanguageTrigger}
             </p>
+            <div className="mt-3 grid gap-3 md:grid-cols-2">
+              <PathwayInfoBlock title="Audio requirement" body={item.audioRequirement} />
+              <PathwayInfoBlock title="Reporting requirement" body={item.reportingRequirement} />
+            </div>
             <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">
               <span className="font-semibold text-[var(--tenant-text)]">Compatibility rule:</span> {item.compatibilityRule}
             </p>
@@ -79,6 +83,15 @@ export function ActivityPathwayCompatibilityPanel({ matrix }: ActivityPathwayCom
         ))}
       </div>
     </Card>
+  );
+}
+
+function PathwayInfoBlock({ title, body }: { title: string; body: string }) {
+  return (
+    <section className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3">
+      <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">{title}</p>
+      <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">{body}</p>
+    </section>
   );
 }
 
