@@ -501,6 +501,7 @@
 - `DR-527-activity-compatibility-audio-reporting-lanes.md`
 - `DR-528-activity-pathway-verifier-audio-reporting-coverage.md`
 - `DR-529-multi-tenant-unit-game-offer-maps.md`
+- `DR-530-unit-game-offer-reporting-requirements.md`
 
 ## Maintenance Rule
 

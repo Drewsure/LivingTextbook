@@ -18,6 +18,7 @@ export interface UnitGameOffer {
   launchRoute?: string;
   audioRequirement: string;
   mediaRequirement: string;
+  reportingRequirement: string;
   teacherControls: string[];
   evidence: string;
   nextStep: string;
@@ -59,6 +60,7 @@ export const samplePartnerUnitGameOfferMap: UnitGameOfferMap = {
       launchRoute: "/flashcards/partner-demo-unit-1",
       audioRequirement: "All vocabulary, target sentences, instructions, and completion controls need tap-to-hear audio.",
       mediaRequirement: "Can reference the unit playlist, but background music is not required for completion.",
+      reportingRequirement: "Report target-language practice completion, terms heard, and entry gate completion; support-language listens remain report-only.",
       teacherControls: ["Teacher launch", "Entry-code optional", "Support language does not unlock progress"],
       evidence: "The current student launch flow already uses flashcards as the entry practice gate.",
       nextStep: "Promote this from sample data into the package manifest once persistence is selected.",
@@ -79,6 +81,7 @@ export const samplePartnerUnitGameOfferMap: UnitGameOfferMap = {
       launchRoute: "/match/partner-demo-unit-1",
       audioRequirement: "Listening prompts, word cards, instructions, and feedback must stay tap-to-hear.",
       mediaRequirement: "Optional quiet background audio may be enabled only when teacher-controlled.",
+      reportingRequirement: "Report prompted term, selected card, answer result, score, and unlock readiness through standard progress events.",
       teacherControls: ["Unlock after entry practice", "Visible cards before hidden memory recall", "Progress event summary"],
       evidence: "Match Up uses the pairing parent engine as a visible listening-prompt-to-word-card route before Memory Match.",
       nextStep: "Use this as the default early-learner pairing offer before more difficult hidden-card modes.",
@@ -99,6 +102,7 @@ export const samplePartnerUnitGameOfferMap: UnitGameOfferMap = {
       launchRoute: "/memory/partner-demo-unit-1",
       audioRequirement: "Cards remain tap-to-hear and answer feedback must stay audio-supported.",
       mediaRequirement: "Optional quiet background audio may be enabled only when teacher-controlled.",
+      reportingRequirement: "Report round attempts, matched pairs, misses, completion, and Training Academy recommendation status.",
       teacherControls: ["Unlock after entry practice", "Training Academy recommendation on repeated misses", "Progress event summary"],
       evidence: "Memory Match already emits standard game and answer events in the foundation slice.",
       nextStep: "Use this as the first reusable pairing-engine offer template for future publisher units.",
@@ -119,6 +123,7 @@ export const samplePartnerUnitGameOfferMap: UnitGameOfferMap = {
       launchRoute: "/label-it/partner-demo-unit-1",
       audioRequirement: "Label bank, instructions, and feedback must stay tap-to-hear before any diagram label game is assigned.",
       mediaRequirement: "Image assets must come from reviewed game_asset_manifest and label_anchor_record data; no direct upload-to-game route.",
+      reportingRequirement: "Report reviewed label anchors, selected labels, placement results, and blocked uploaded-asset status.",
       teacherControls: ["Teacher launch", "Reviewed image anchors only", "Standard progress events"],
       evidence: "The Label It route uses reviewed vocabulary as label anchors through the pairing parent engine while live uploads stay blocked.",
       nextStep: "Connect real reviewed image manifests only after rights, alt text, anchor, audio, and release gates are persisted.",
@@ -139,6 +144,7 @@ export const samplePartnerUnitGameOfferMap: UnitGameOfferMap = {
       launchRoute: "/speak/partner-demo-unit-1",
       audioRequirement: "Model sentences must be listenable before any recording or repeat activity.",
       mediaRequirement: "No background media required; pronunciation practice should be quiet and focused.",
+      reportingRequirement: "Report listen, local record/replay, and teacher-only microphone approval state without storing raw audio or transcripts.",
       teacherControls: ["Teacher microphone approval", "No upload", "No transcript storage", "Local record/replay only"],
       evidence: "The Speak It route already supports optional local microphone record/replay without AI dependency.",
       nextStep: "Add tenant-level microphone approval to persisted launch settings before real classrooms.",
@@ -159,6 +165,7 @@ export const samplePartnerUnitGameOfferMap: UnitGameOfferMap = {
       launchRoute: "/sentence/partner-demo-unit-1",
       audioRequirement: "Target sentences, instructions, feedback, and word tiles must be tap-to-hear.",
       mediaRequirement: "No media requirement; syntax construction should stay focused and quiet.",
+      reportingRequirement: "Report sentence shown, ordered tile submission, answer result, attempts, and deterministic score.",
       teacherControls: ["Teacher launch", "Deterministic scoring", "Reviewed target sentences only"],
       evidence: "The Sentence Builder route now provides a playable text-spelling scaffold for reviewed target sentences.",
       nextStep: "Use this as the first text-spelling offer template before adding premium skins or Phaser overlays.",
@@ -179,6 +186,7 @@ export const samplePartnerUnitGameOfferMap: UnitGameOfferMap = {
       launchRoute: "/balloon/partner-demo-unit-1",
       audioRequirement: "Prompt terms, wrong-answer feedback, and success feedback must be listenable.",
       mediaRequirement: "Can use unit music as optional background only after game audio remains clear.",
+      reportingRequirement: "Report target prompt, selected target, correct/incorrect result, accessibility setting, and score cap.",
       teacherControls: ["Teacher enablement", "Motion/accessibility setting", "Separate media volume"],
       evidence: "The structural Balloon Pop route now uses the selection parent-engine scaffold with audio-supported vocabulary prompts and deterministic scoring.",
       nextStep: "Keep this as the structural baseline before Z.ai or Phaser work adds motion and premium polish.",
@@ -199,6 +207,7 @@ export const samplePartnerUnitGameOfferMap: UnitGameOfferMap = {
       launchRoute: "/quiz/partner-demo-unit-1",
       audioRequirement: "Questions and answer options must have audio cues before student use.",
       mediaRequirement: "No media requirement.",
+      reportingRequirement: "Report question shown, selected answer, correctness, completion, and teacher review score summary.",
       teacherControls: ["Teacher launch", "Reviewed payload", "Standard progress events"],
       evidence: "The Quiz route now uses the selection parent-engine scaffold with audio-supported prompts and deterministic scoring.",
       nextStep: "Use this as the plain selection-engine template before arcade selection skins are assigned to Z.ai.",
@@ -219,6 +228,7 @@ export const samplePartnerUnitGameOfferMap: UnitGameOfferMap = {
       launchRoute: "/true-false/partner-demo-unit-1",
       audioRequirement: "The listened prompt, visible card, instructions, and feedback must stay tap-to-hear.",
       mediaRequirement: "No media requirement; this mode should stay quiet and audio-clear.",
+      reportingRequirement: "Report prompt/card pair, true-false choice, correctness, attempts, and support-language exclusion.",
       teacherControls: ["Teacher launch", "Reviewed vocabulary only", "Standard progress events"],
       evidence: "The True or False route uses deterministic reviewed term match/mismatch rounds through the selection parent engine.",
       nextStep: "Use this as a low-cost assessment variant before adding more complex conversion rules.",
@@ -239,6 +249,7 @@ export const samplePartnerUnitGameOfferMap: UnitGameOfferMap = {
       launchRoute: "/type-answer/partner-demo-unit-1",
       audioRequirement: "The word prompt, input instruction, feedback, and submit control must stay tap-to-hear.",
       mediaRequirement: "No media requirement; typed response should stay quiet and audio-clear.",
+      reportingRequirement: "Report prompt word, typed response, normalized result, attempts, and reviewed accepted answer id.",
       teacherControls: ["Teacher launch", "Reviewed vocabulary only", "Standard progress events"],
       evidence: "The Type Answer route uses deterministic reviewed vocabulary rounds through the text-spelling parent engine.",
       nextStep: "Use this as the first typing-mode offer before spelling variants, dictation, or Japanese target-language segmentation.",
@@ -259,6 +270,7 @@ export const samplePartnerUnitGameOfferMap: UnitGameOfferMap = {
       launchRoute: "/spelling/partner-demo-unit-1",
       audioRequirement: "The word prompt, letter tiles, feedback, and submit control must stay tap-to-hear.",
       mediaRequirement: "No media requirement; spelling response should stay quiet and audio-clear.",
+      reportingRequirement: "Report target word, tile sequence, spelling result, attempts, and deterministic score.",
       teacherControls: ["Teacher launch", "Reviewed vocabulary only", "Standard progress events"],
       evidence: "The Spelling Practice route uses deterministic reviewed vocabulary letter-tile rounds through the text-spelling parent engine.",
       nextStep: "Use this as the spelling-mode offer before dictation, typing race, or Japanese target-language segmentation.",
@@ -279,6 +291,7 @@ export const samplePartnerUnitGameOfferMap: UnitGameOfferMap = {
       launchRoute: "/fill/partner-demo-unit-1",
       audioRequirement: "The full target sentence, blank sentence prompt, answer choices, feedback, and submit control must stay tap-to-hear.",
       mediaRequirement: "No media requirement; sentence completion should stay quiet and audio-clear.",
+      reportingRequirement: "Report target sentence, blank selection, answer result, attempts, and syntax mastery signal.",
       teacherControls: ["Teacher launch", "Reviewed target sentences only", "Standard progress events"],
       evidence: "The Fill in the Blank route uses deterministic reviewed sentence rounds through the text-spelling parent engine.",
       nextStep: "Use this as the simpler syntax offer before Sentence Builder, ordering, or premium animated skins.",

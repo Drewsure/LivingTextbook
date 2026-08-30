@@ -120,9 +120,10 @@ function GameOfferCard({ offer }: { offer: UnitGameOffer }) {
         </div>
       </div>
 
-      <div className="mt-4 grid gap-3 lg:grid-cols-3">
+      <div className="mt-4 grid gap-3 lg:grid-cols-4">
         <OfferBlock title="Audio" items={[offer.audioRequirement]} tone="success" />
         <OfferBlock title="Media" items={[offer.mediaRequirement]} tone="neutral" />
+        <OfferBlock title="Reporting" items={[offer.reportingRequirement]} tone="success" />
         <OfferBlock title="Teacher controls" items={offer.teacherControls} tone="warning" />
       </div>
 

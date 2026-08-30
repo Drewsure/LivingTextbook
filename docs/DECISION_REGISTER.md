@@ -879,3 +879,23 @@ Guardrails:
 - Each map must name its tenant id, package id, route expectations, audio requirements, teacher controls, and blocked actions.
 - Game-readiness and teacher-intake workbenches remain review-only.
 - This decision is recorded in `docs/adr/0458-multi-tenant-unit-game-offer-maps.md` and `docs/decision-register/DR-529-multi-tenant-unit-game-offer-maps.md`.
+
+## DR-530: Unit Game Offer Reporting Requirements
+
+Status: Accepted
+
+Decision: Every unit game offer must declare a `reportingRequirement` and the teacher-facing offer-map panel must display it before game availability is treated as reviewed.
+
+Rationale:
+
+- Teacher reporting is part of the core product promise, not a later cosmetic add-on.
+- White-label tenants need to know what every activity contributes to reports before they offer it year after year.
+- Speech and media-heavy games need explicit privacy limits before they become student-facing.
+
+Guardrails:
+
+- Target-language game events may contribute to mastery and progress.
+- Support-language text/audio/listens remain report-only.
+- Media-only and background-media-only events never trigger mastery.
+- Speak It and future Voice Tutor offers must block raw audio and transcript storage unless an adult-approved premium policy explicitly allows a reviewed alternative.
+- This decision is recorded in `docs/adr/0459-unit-game-offer-reporting-requirements.md` and `docs/decision-register/DR-530-unit-game-offer-reporting-requirements.md`.

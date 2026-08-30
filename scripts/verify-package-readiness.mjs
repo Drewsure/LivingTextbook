@@ -88,6 +88,17 @@ for (const mode of requiredGameModes) {
 requireText(offerMap, "sampleMinistarUnitGameOfferMap", "Unit game offer map must include the MiniStar flagship tenant map.");
 requireText(offerMap, "samplePartnerUnitGameOfferMap", "Unit game offer map must include the sample publisher tenant map.");
 requireText(offerMap, "sampleUnitGameOfferMaps", "Unit game offer maps must be exported as a multi-tenant list.");
+requireText(offerMap, "reportingRequirement", "Unit game offer map entries must declare reporting requirements.");
+requireText(
+  offerMap,
+  "support-language listens remain report-only",
+  "Unit game offer map reporting must preserve support-language report-only status.",
+);
+requireText(
+  offerMap,
+  "without storing raw audio or transcripts",
+  "Speak It reporting must block raw audio and transcript storage in the offer map.",
+);
 requireText(
   offerMap,
   "ministar-l1-u1-greetings-package",

@@ -58,6 +58,7 @@ Every offer should identify:
 - launch route when available,
 - audio requirement,
 - media requirement,
+- reporting requirement,
 - teacher controls,
 - evidence,
 - next step,
@@ -71,11 +72,13 @@ Every offer should identify:
 - Use curated, teacher-approved activity pathways for each reviewed unit package.
 - Every offered game maps to a reusable parent engine.
 - Every offered game has learner-facing audio requirements.
+- Every offered game has teacher-reporting requirements.
 - Background music/video is optional and separate from comprehension audio.
 - Premium game availability is tenant/package configuration, not child-facing pressure.
 - Teacher-only microphone games cannot start microphones automatically.
 - Hidden or blocked modes cannot appear in normal student progression.
 - Student-facing game offers must emit standard progress events.
+- Support-language audio/listens may appear in reports, but remain report-only and cannot trigger mastery.
 - Printable activities must be generated from reviewed package data and should preserve audio/QR support where needed.
 - Text puzzle conversions require text normalization, layout validation, and reviewed clue rules where applicable.
 - Non-space-delimited target languages require reviewed segmentation rules before sentence or puzzle conversion.
