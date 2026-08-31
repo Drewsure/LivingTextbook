@@ -12,23 +12,12 @@ import type {
 import type { UnitGameOffer, UnitGameOfferMap } from "@/data/sampleUnitGameOfferMap";
 import { AudioCueText } from "@/features/audio/AudioCueButton";
 import { GameRouteHeaderCard } from "@/features/game-shell/components/GameRouteHeaderCard";
+import { getGameModeRoutePath } from "@/features/routes/gameModeRoutePaths";
 import {
-  getBalloonPopPath,
-  getFillInTheBlankPath,
-  getFlashcardsPath,
-  getLabelItPath,
-  getMatchUpPath,
   getMediaPlaylistPath,
-  getMemoryMatchPath,
   getPrintableWorksheetPath,
-  getQuizPath,
-  getSentenceBuilderPath,
-  getSpeakItPath,
-  getSpellingPracticePath,
   getStudentLaunchPath,
   getTrainingAcademyPath,
-  getTypeAnswerPath,
-  getTrueFalsePath,
 } from "@/features/routes/routeContracts";
 import type { TenantConfig } from "@/features/tenant/types";
 
@@ -263,7 +252,7 @@ function buildReviewedOfferItems({
     .map((offer) => ({
       id: offer.offerId,
       label: offer.label,
-      href: offer.launchRoute ?? getGameModePath(offer.gameMode, launchCode),
+      href: offer.launchRoute ?? getGameModeRoutePath(offer.gameMode, launchCode),
       mode: offer.gameMode,
       role: getOfferRole(offer),
       summary: `${offer.label} is reviewed for this unit through the ${offer.engineId} engine.`,
@@ -290,7 +279,7 @@ function buildFallbackGameItems({
     {
       id: "flashcards",
       label: "Flashcards",
-      href: getFlashcardsPath(launchCode),
+      href: getGameModeRoutePath("flashcards", launchCode),
       mode: "flashcards",
       role: "entry",
       summary: "Listen to every reviewed target-language term and sentence before completing entry practice.",
@@ -299,7 +288,7 @@ function buildFallbackGameItems({
     {
       id: "memory-match",
       label: "Memory Match",
-      href: getMemoryMatchPath(launchCode),
+      href: getGameModeRoutePath("memory-match", launchCode),
       mode: "memory-match",
       role: "reinforcement",
       summary: "Match vocabulary cards with tap-to-speak support.",
@@ -308,7 +297,7 @@ function buildFallbackGameItems({
     {
       id: "match-up",
       label: "Match Up",
-      href: getMatchUpPath(launchCode),
+      href: getGameModeRoutePath("match-up", launchCode),
       mode: "match-up",
       role: "reinforcement",
       summary: "Match listening prompts to reviewed vocabulary word cards.",
@@ -317,7 +306,7 @@ function buildFallbackGameItems({
     {
       id: "label-it",
       label: "Label It",
-      href: getLabelItPath(launchCode),
+      href: getGameModeRoutePath("label-it", launchCode),
       mode: "label-it",
       role: "reinforcement",
       summary: "Place reviewed labels on picture points. Uploaded images must stay reviewed before student use.",
@@ -326,7 +315,7 @@ function buildFallbackGameItems({
     {
       id: "quiz",
       label: "Quiz",
-      href: getQuizPath(launchCode),
+      href: getGameModeRoutePath("quiz", launchCode),
       mode: "quiz",
       role: "assessment",
       summary: "Answer reviewed vocabulary and sentence prompts with audio-supported choices.",
@@ -335,7 +324,7 @@ function buildFallbackGameItems({
     {
       id: "true-false",
       label: "True or False",
-      href: getTrueFalsePath(launchCode),
+      href: getGameModeRoutePath("true-false", launchCode),
       mode: "true-false",
       role: "assessment",
       summary: "Listen to a target-language word and decide whether the visible card matches.",
@@ -344,7 +333,7 @@ function buildFallbackGameItems({
     {
       id: "type-answer",
       label: "Type Answer",
-      href: getTypeAnswerPath(launchCode),
+      href: getGameModeRoutePath("type-answer", launchCode),
       mode: "type-answer",
       role: "reinforcement",
       summary: "Listen to a reviewed word and type the target-language answer.",
@@ -353,7 +342,7 @@ function buildFallbackGameItems({
     {
       id: "spelling-practice",
       label: "Spelling Practice",
-      href: getSpellingPracticePath(launchCode),
+      href: getGameModeRoutePath("spelling-practice", launchCode),
       mode: "spelling-practice",
       role: "reinforcement",
       summary: "Listen to a reviewed word and tap deterministic letter tiles in target-language spelling order.",
@@ -362,7 +351,7 @@ function buildFallbackGameItems({
     {
       id: "fill-in-the-blank",
       label: "Fill in the Blank",
-      href: getFillInTheBlankPath(launchCode),
+      href: getGameModeRoutePath("fill-in-the-blank", launchCode),
       mode: "fill-in-the-blank",
       role: "reinforcement",
       summary: "Listen to a reviewed sentence and choose the missing target-language word or phrase.",
@@ -371,7 +360,7 @@ function buildFallbackGameItems({
     {
       id: "balloon-pop",
       label: "Balloon Pop",
-      href: getBalloonPopPath(launchCode),
+      href: getGameModeRoutePath("balloon-pop", launchCode),
       mode: "balloon-pop",
       role: "reinforcement",
       summary: "Pop the matching vocabulary balloon with audio-supported prompts.",
@@ -380,7 +369,7 @@ function buildFallbackGameItems({
     {
       id: "sentence-builder",
       label: "Sentence Builder",
-      href: getSentenceBuilderPath(launchCode),
+      href: getGameModeRoutePath("sentence-builder", launchCode),
       mode: "sentence-builder",
       role: "reinforcement",
       summary: "Build reviewed target sentences from ordered word tiles.",
@@ -389,7 +378,7 @@ function buildFallbackGameItems({
     {
       id: "speak-it",
       label: "Speak It",
-      href: getSpeakItPath(launchCode),
+      href: getGameModeRoutePath("speak-it", launchCode),
       mode: "speak-it",
       role: "reinforcement",
       summary: "Practice listening and speaking with teacher-controlled microphone options.",
@@ -420,25 +409,6 @@ function getOfferRouteStatus(offer: UnitGameOffer, progression: StudentProgressi
   }
 
   return getGameRouteStatus(offer.gameMode, progression);
-}
-
-function getGameModePath(mode: GameModeId, launchCode: string): string {
-  const paths: Partial<Record<GameModeId, string>> = {
-    flashcards: getFlashcardsPath(launchCode),
-    "memory-match": getMemoryMatchPath(launchCode),
-    "match-up": getMatchUpPath(launchCode),
-    "label-it": getLabelItPath(launchCode),
-    quiz: getQuizPath(launchCode),
-    "true-false": getTrueFalsePath(launchCode),
-    "balloon-pop": getBalloonPopPath(launchCode),
-    "type-answer": getTypeAnswerPath(launchCode),
-    "spelling-practice": getSpellingPracticePath(launchCode),
-    "fill-in-the-blank": getFillInTheBlankPath(launchCode),
-    "sentence-builder": getSentenceBuilderPath(launchCode),
-    "speak-it": getSpeakItPath(launchCode),
-  };
-
-  return paths[mode] ?? getStudentLaunchPath(launchCode);
 }
 
 function formatAvailability(availability: UnitGameOffer["availability"]): string {

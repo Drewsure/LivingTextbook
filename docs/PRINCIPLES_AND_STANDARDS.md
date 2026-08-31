@@ -108,6 +108,8 @@ The platform should use:
 
 Every game mode must consume a standardized payload and report standardized progress events.
 
+Game-mode routes must be resolved through the shared route helper before they appear in launch, activity hub, recommendation, completion, teacher shortcut, or partner demo surfaces. Do not add private switch statements or one-off route branches when adding a mode.
+
 Every game mode must also support learner audio. Vocabulary, sentence prompts, instructions, feedback, and critical game controls should be listenable and replayable. This is required because the core audience includes young children and English learners who cannot be assumed to read independently.
 
 Minimum game event requirements:

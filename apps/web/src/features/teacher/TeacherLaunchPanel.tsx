@@ -1,17 +1,11 @@
 import { Card, StatusPill } from "@living-textbook/ui";
 import { getUnitKey } from "@living-textbook/content-model";
 import type { ContentPackage, LaunchSession, UnitPayload } from "@living-textbook/content-model";
+import { getGameModeRoutePath } from "@/features/routes/gameModeRoutePaths";
 import {
-  getBalloonPopPath,
   getCollectionPath,
-  getFlashcardsPath,
-  getMatchUpPath,
-  getMemoryMatchPath,
   getMediaPlaylistPath,
   getPrintableWorksheetPath,
-  getQuizPath,
-  getSentenceBuilderPath,
-  getSpeakItPath,
   getStudentActivityHubPath,
   getStudentLaunchPath,
   getTeacherSessionMonitorPath,
@@ -47,17 +41,17 @@ export function TeacherLaunchPanel({ unit, launchSession, contentPackage }: Teac
     },
     {
       label: "Flashcards",
-      href: getFlashcardsPath(launchSession.launchCode),
+      href: getGameModeRoutePath("flashcards", launchSession.launchCode),
       summary: "Direct entry-practice route with target-language audio gating.",
     },
     {
       label: "Memory Match",
-      href: getMemoryMatchPath(launchSession.launchCode),
+      href: getGameModeRoutePath("memory-match", launchSession.launchCode),
       summary: "Pairing-engine reinforcement route with tap-to-speak vocabulary cards.",
     },
     {
       label: "Match Up",
-      href: getMatchUpPath(launchSession.launchCode),
+      href: getGameModeRoutePath("match-up", launchSession.launchCode),
       summary: "Visible pairing-engine route matching listening prompts to word cards.",
     },
     {
@@ -81,22 +75,22 @@ export function TeacherLaunchPanel({ unit, launchSession, contentPackage }: Teac
     },
     {
       label: "Quiz",
-      href: getQuizPath(launchSession.launchCode),
+      href: getGameModeRoutePath("quiz", launchSession.launchCode),
       summary: "Plain selection-engine baseline before arcade skins.",
     },
     {
       label: "Balloon Pop",
-      href: getBalloonPopPath(launchSession.launchCode),
+      href: getGameModeRoutePath("balloon-pop", launchSession.launchCode),
       summary: "Arcade selection-engine skin with audio-supported vocabulary prompts.",
     },
     {
       label: "Sentence Builder",
-      href: getSentenceBuilderPath(launchSession.launchCode),
+      href: getGameModeRoutePath("sentence-builder", launchSession.launchCode),
       summary: "Text-spelling route for reviewed target sentence construction.",
     },
     {
       label: "Speak It",
-      href: getSpeakItPath(launchSession.launchCode),
+      href: getGameModeRoutePath("speak-it", launchSession.launchCode),
       summary: "Teacher-controlled listening and local record/replay practice.",
     },
     {

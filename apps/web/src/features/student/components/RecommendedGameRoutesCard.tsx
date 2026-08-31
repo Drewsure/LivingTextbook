@@ -5,21 +5,8 @@ import type { GameModeId, LaunchSession, StudentProgressionState } from "@living
 import { findSampleUnitGameOfferMap } from "@/data/sampleUnitGameOfferMap";
 import type { UnitGameOffer, UnitGameOfferMap } from "@/data/sampleUnitGameOfferMap";
 import { AudioCueButton, AudioCueText } from "@/features/audio/AudioCueButton";
-import {
-  getBalloonPopPath,
-  getFillInTheBlankPath,
-  getLabelItPath,
-  getMatchUpPath,
-  getStudentActivityHubPath,
-  getMemoryMatchPath,
-  getQuizPath,
-  getSentenceBuilderPath,
-  getSpeakItPath,
-  getSpellingPracticePath,
-  getStudentLaunchPath,
-  getTypeAnswerPath,
-  getTrueFalsePath,
-} from "@/features/routes/routeContracts";
+import { getGameModeRoutePath } from "@/features/routes/gameModeRoutePaths";
+import { getStudentActivityHubPath } from "@/features/routes/routeContracts";
 import { formatMode } from "../studentLabels";
 
 interface RecommendedGameRoutesCardProps {
@@ -164,7 +151,7 @@ function buildRecommendedRoutes({
     mode,
     order: index + 1,
     label: formatMode(mode),
-    href: getModePath(mode, launchSession.launchCode),
+    href: getGameModeRoutePath(mode, launchSession.launchCode),
     unlocked: progression.unlockedGameModes.includes(mode),
     completed: progression.completedGameModes.includes(mode),
     summary: getModeSummary(mode),
@@ -186,59 +173,11 @@ function toRecommendedRoute({
     mode: offer.gameMode,
     order: index + 1,
     label: offer.label,
-    href: offer.launchRoute ?? getModePath(offer.gameMode, launchSession.launchCode),
+    href: offer.launchRoute ?? getGameModeRoutePath(offer.gameMode, launchSession.launchCode),
     unlocked: progression.unlockedGameModes.includes(offer.gameMode),
     completed: progression.completedGameModes.includes(offer.gameMode),
     summary: `${offer.audioRequirement} ${offer.reportingRequirement}`,
   };
-}
-
-function getModePath(mode: GameModeId, launchCode: string): string {
-  if (mode === "memory-match") {
-    return getMemoryMatchPath(launchCode);
-  }
-
-  if (mode === "match-up") {
-    return getMatchUpPath(launchCode);
-  }
-
-  if (mode === "label-it") {
-    return getLabelItPath(launchCode);
-  }
-
-  if (mode === "quiz") {
-    return getQuizPath(launchCode);
-  }
-
-  if (mode === "true-false") {
-    return getTrueFalsePath(launchCode);
-  }
-
-  if (mode === "type-answer") {
-    return getTypeAnswerPath(launchCode);
-  }
-
-  if (mode === "spelling-practice") {
-    return getSpellingPracticePath(launchCode);
-  }
-
-  if (mode === "fill-in-the-blank") {
-    return getFillInTheBlankPath(launchCode);
-  }
-
-  if (mode === "sentence-builder") {
-    return getSentenceBuilderPath(launchCode);
-  }
-
-  if (mode === "balloon-pop") {
-    return getBalloonPopPath(launchCode);
-  }
-
-  if (mode === "speak-it") {
-    return getSpeakItPath(launchCode);
-  }
-
-  return getStudentLaunchPath(launchCode);
 }
 
 function getModeSummary(mode: GameModeId): string {

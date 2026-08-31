@@ -14,12 +14,8 @@ import {
 import { GameSequence } from "@/features/game-shell/GameSequence";
 import { MultimediaPackagePanel } from "@/features/multimedia/MultimediaPackagePanel";
 import { ProgressionSummary } from "@/features/progression/ProgressionSummary";
+import { getGameModeRoutePath } from "@/features/routes/gameModeRoutePaths";
 import {
-  getFlashcardsPath,
-  getMemoryMatchPath,
-  getQuizPath,
-  getSentenceBuilderPath,
-  getSpeakItPath,
   getStudentActivityHubPath,
   getStudentLaunchPath,
   getTeacherSessionMonitorPath,
@@ -117,11 +113,11 @@ export default function PartnerDemoPage() {
               <RouteLink label="Activity hub" href={getStudentActivityHubPath(samplePartnerLaunchCode)} />
               <RouteLink label="Collection room" href={getCollectionPath(samplePartnerLaunchCode)} />
               <RouteLink label="Printable Worksheet" href={getPrintableWorksheetPath(samplePartnerLaunchCode)} />
-              <RouteLink label="Flashcards" href={getFlashcardsPath(samplePartnerLaunchCode)} />
-              <RouteLink label="Memory Match" href={getMemoryMatchPath(samplePartnerLaunchCode)} />
-              <RouteLink label="Quiz" href={getQuizPath(samplePartnerLaunchCode)} />
-              <RouteLink label="Sentence Builder" href={getSentenceBuilderPath(samplePartnerLaunchCode)} />
-              <RouteLink label="Speak It" href={getSpeakItPath(samplePartnerLaunchCode)} />
+              <RouteLink label="Flashcards" href={getGameModeRoutePath("flashcards", samplePartnerLaunchCode)} />
+              <RouteLink label="Memory Match" href={getGameModeRoutePath("memory-match", samplePartnerLaunchCode)} />
+              <RouteLink label="Quiz" href={getGameModeRoutePath("quiz", samplePartnerLaunchCode)} />
+              <RouteLink label="Sentence Builder" href={getGameModeRoutePath("sentence-builder", samplePartnerLaunchCode)} />
+              <RouteLink label="Speak It" href={getGameModeRoutePath("speak-it", samplePartnerLaunchCode)} />
               <RouteLink label="Training Academy" href={getTrainingAcademyPath(samplePartnerLaunchCode)} />
               <RouteLink label="Teacher monitor" href={getTeacherSessionMonitorPath(samplePartnerLaunchCode)} />
             </dl>

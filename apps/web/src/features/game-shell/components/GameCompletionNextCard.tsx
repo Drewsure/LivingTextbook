@@ -4,22 +4,8 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import type { GameModeId, LaunchSession, StudentProgressionState } from "@living-textbook/content-model";
 import type { UnitGameOffer, UnitGameOfferMap } from "@/data/sampleUnitGameOfferMap";
 import { AudioCueText } from "@/features/audio/AudioCueButton";
-import {
-  getBalloonPopPath,
-  getFillInTheBlankPath,
-  getFlashcardsPath,
-  getLabelItPath,
-  getMatchUpPath,
-  getMemoryMatchPath,
-  getQuizPath,
-  getSentenceBuilderPath,
-  getSpeakItPath,
-  getSpellingPracticePath,
-  getStudentActivityHubPath,
-  getTrainingAcademyPath,
-  getTypeAnswerPath,
-  getTrueFalsePath,
-} from "@/features/routes/routeContracts";
+import { getGameModeRoutePath } from "@/features/routes/gameModeRoutePaths";
+import { getStudentActivityHubPath, getTrainingAcademyPath } from "@/features/routes/routeContracts";
 import { formatMode } from "@/lib/formatLabels";
 
 interface GameCompletionNextCardProps {
@@ -42,7 +28,7 @@ export function GameCompletionNextCard({
   const currentComplete = progression.completedGameModes.includes(currentGameMode);
   const nextOffer = findNextReviewedOffer(offerMap, progression, currentGameMode);
   const nextMode = nextOffer?.gameMode ?? findNextRecommendedMode(launchSession, progression, currentGameMode);
-  const nextPath = nextOffer?.launchRoute ?? (nextMode ? getGamePath(nextMode, launchSession.launchCode) : getStudentActivityHubPath(launchSession.launchCode));
+  const nextPath = nextOffer?.launchRoute ?? (nextMode ? getGameModeRoutePath(nextMode, launchSession.launchCode) : getStudentActivityHubPath(launchSession.launchCode));
   const nextLabel = nextOffer?.label ?? (nextMode ? formatMode(nextMode) : "Activity hub");
   const nextSource = nextOffer ? "Reviewed offer map" : "Launch session";
   const statusLabel = currentComplete ? "Ready for next" : "Finish game";
@@ -143,33 +129,4 @@ function findNextReviewedOffer(
   const candidates = [...afterCurrent, ...beforeCurrent];
 
   return candidates.find((offer) => !progression.completedGameModes.includes(offer.gameMode));
-}
-
-function getGamePath(gameMode: GameModeId, launchCode: string): string {
-  switch (gameMode) {
-    case "flashcards":
-      return getFlashcardsPath(launchCode);
-    case "memory-match":
-      return getMemoryMatchPath(launchCode);
-    case "match-up":
-      return getMatchUpPath(launchCode);
-    case "label-it":
-      return getLabelItPath(launchCode);
-    case "quiz":
-      return getQuizPath(launchCode);
-    case "true-false":
-      return getTrueFalsePath(launchCode);
-    case "type-answer":
-      return getTypeAnswerPath(launchCode);
-    case "spelling-practice":
-      return getSpellingPracticePath(launchCode);
-    case "fill-in-the-blank":
-      return getFillInTheBlankPath(launchCode);
-    case "sentence-builder":
-      return getSentenceBuilderPath(launchCode);
-    case "speak-it":
-      return getSpeakItPath(launchCode);
-    case "balloon-pop":
-      return getBalloonPopPath(launchCode);
-  }
 }

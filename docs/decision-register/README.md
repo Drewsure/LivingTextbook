@@ -505,6 +505,7 @@
 - `DR-531-student-activity-hub-offer-map-source.md`
 - `DR-532-game-completion-offer-map-next-path.md`
 - `DR-533-recommended-path-offer-map-source.md`
+- `DR-534-shared-game-mode-route-path-helper.md`
 
 ## Maintenance Rule
 

@@ -957,3 +957,23 @@ Guardrails:
 - Recommended path cards may show the reviewed map that sourced the route list.
 - The card cannot publish routes, unlock premium features, save settings, write scores, or treat support-language actions as progress.
 - This decision is recorded in `docs/adr/0462-recommended-path-offer-map-source.md` and `docs/decision-register/DR-533-recommended-path-offer-map-source.md`.
+
+## DR-534: Shared Game-Mode Route Path Helper
+
+Status: Accepted
+
+Decision: Student, teacher, and partner demo surfaces should resolve playable game links through the shared `getGameModeRoutePath` helper.
+
+Rationale:
+
+- Repeated mode-to-route branches create drift as the game catalog expands.
+- White-label tenants need predictable game route behavior while still allowing reviewed offer maps to override tenant/package-specific launch routes.
+- Centralizing game route resolution lowers the cost of adding future modes and reviewing outside prototypes.
+
+Guardrails:
+
+- Use the shared helper for playable game-mode routes in launch, activity hub, recommendation, completion, teacher shortcut, and partner demo surfaces.
+- Keep printable, media, training, collection, teacher, assignment, and review routes explicit unless they become true game-mode routes.
+- Offer-map launch routes may override the helper when reviewed package data requires a specific path.
+- The helper cannot publish routes, unlock hidden/premium/teacher-only offers, write scores, or treat support-language actions as progress.
+- This decision is recorded in `docs/adr/0463-shared-game-mode-route-path-helper.md` and `docs/decision-register/DR-534-shared-game-mode-route-path-helper.md`.
