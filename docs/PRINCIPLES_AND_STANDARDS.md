@@ -293,9 +293,12 @@ Required abstractions:
 - Multimedia catalog
 - Audio cue catalog
 - Local/closed deployment profile
+- Backend/storage adapter selection gate
 - Target language, script policy, segmentation policy, and assist-language options
 
 The platform must not assume English is always the target language. MiniStar English uses English as the progression trigger, but a white-label Japanese-learning tenant could configure Japanese as the target learning language. That future path requires kana, kanji, optional furigana/ruby text, Japanese audio, Japanese segmentation, and level-aware script policy.
+
+Storage decisions must remain backend-neutral until the relevant school or tenant policies are accepted. The first pilot should prefer the cheapest practical hosted managed storage path unless a partner explicitly requires a closed local install. Closed local and hybrid storage must remain supported product directions, but they require installer, backup, restore, encryption, update, retention, and export procedures before activation.
 
 ## 11. Teacher And Student Experience Standards
 

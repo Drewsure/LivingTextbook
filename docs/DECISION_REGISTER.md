@@ -1038,3 +1038,23 @@ Guardrails:
 - Both routes must use reviewed sample manifests and the shared local companion package preview panel.
 - Neither route can export packages, install a local app, claim offline-ready status, store student data, or mutate QR redirects.
 - This decision is recorded in `docs/adr/0466-two-tenant-local-companion-preview-routes.md` and `docs/decision-register/DR-537-two-tenant-local-companion-preview-routes.md`.
+
+## DR-538: Persistence Storage Selection Gate Visibility
+
+Status: Accepted
+
+Decision: The focused persistence workbench must show the shared evidence storage adapter selection gate.
+
+Rationale:
+
+- Backend decisions should be visible where storage, schema, migration, boundaries, and adapter readiness are reviewed.
+- Hosted managed evidence storage remains the recommended first pilot path for cost control and faster validation.
+- Closed local storage remains important for white-label textbook companions, but it carries installer, backup, restore, encryption, and update obligations.
+
+Guardrails:
+
+- The panel is review-only and cannot select a backend vendor.
+- No uploads, object buckets, signed URLs, local folders, evidence downloads, report exports, local companion activations, or release-state mutations become live.
+- Persistence route verification must check the storage adapter selection text.
+- Repeated review-list text uses contextual keys.
+- This decision is recorded in `docs/adr/0467-persistence-storage-selection-gate-visibility.md` and `docs/decision-register/DR-538-persistence-storage-selection-gate-visibility.md`.

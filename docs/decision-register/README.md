@@ -509,6 +509,7 @@
 - `DR-535-active-game-route-catalog-workbench.md`
 - `DR-536-local-companion-active-game-coverage.md`
 - `DR-537-two-tenant-local-companion-preview-routes.md`
+- `DR-538-persistence-storage-selection-gate-visibility.md`
 
 ## Maintenance Rule
 

@@ -5,6 +5,9 @@ const migrationCandidates = readSource("../apps/web/src/data/sampleBackendMigrat
 const migrationSpecs = readSource("../apps/web/src/data/sampleBackendMigrationSpecs.ts");
 const persistenceAdapter = readSource("../apps/web/src/data/samplePersistenceAdapterPlan.ts");
 const durableRecords = readSource("../apps/web/src/data/samplePersistencePlan.ts");
+const evidenceStorageAdapterSelectionGate = readSource("../apps/web/src/data/sampleEvidenceStorageAdapterSelectionGate.ts");
+const evidenceStorageAdapterSelectionGatePanel = readSource("../apps/web/src/features/evidence/EvidenceStorageAdapterSelectionGatePanel.tsx");
+const teacherPersistencePage = readSource("../apps/web/src/app/teacher/persistence/page.tsx");
 const persistenceAdapterValidator = readSource("../packages/content-model/src/persistenceAdapter.ts");
 const durableRecordValidator = readSource("../packages/content-model/src/persistenceRecords.ts");
 const routeVerifier = readSource("./verify-active-routes.mjs");
@@ -6130,6 +6133,37 @@ requireText(routeVerifier, "source_extraction_review_packet", "Active route veri
 requireText(routeVerifier, "Source extraction review packet record", "Active route verifier must keep source extraction durable records visible on teacher intake.");
 requireText(routeVerifier, "upload_file_policy_profile", "Active route verifier must keep upload file policy storage visible on teacher intake.");
 requireText(routeVerifier, "Upload file policy profile record", "Active route verifier must keep upload file policy durable records visible on teacher intake.");
+
+for (const text of [
+  "Evidence storage adapter selection gate",
+  "Storage adapter selection blocked",
+  "Hosted managed evidence storage candidate",
+  "Closed local evidence store candidate",
+  "Hybrid archive evidence store candidate",
+  "No storage adapter selected",
+  "No object bucket creation",
+  "No signed URL generation",
+  "No attachment migration",
+]) {
+  requireText(evidenceStorageAdapterSelectionGate, text, `Evidence storage adapter gate data must preserve backend selection text: ${text}.`);
+  requireText(routeVerifier, text, `Active route verifier must check the persistence storage selection text: ${text}.`);
+}
+
+requireText(
+  evidenceStorageAdapterSelectionGatePanel,
+  "key={`${title}-${index}-${item}`}",
+  "Evidence storage adapter selection lists must use contextual keys for repeated review text.",
+);
+requireText(
+  teacherPersistencePage,
+  "EvidenceStorageAdapterSelectionGatePanel",
+  "Persistence route must render the evidence storage adapter selection gate.",
+);
+requireText(
+  teacherPersistencePage,
+  "sampleEvidenceStorageAdapterSelectionGate",
+  "Persistence route must pass the evidence storage adapter selection gate data.",
+);
 
 if (failures.length > 0) {
   for (const failure of failures) {

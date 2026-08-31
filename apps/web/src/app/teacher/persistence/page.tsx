@@ -4,6 +4,7 @@ import { sampleBackendDecisionMatrix } from "@/data/sampleBackendDecisionMatrix"
 import { sampleBackendMigrationPlan } from "@/data/sampleBackendMigrationCandidates";
 import { sampleBackendMigrationSpecPlan } from "@/data/sampleBackendMigrationSpecs";
 import { sampleBackendSchemaDraft } from "@/data/sampleBackendSchemaDraft";
+import { sampleEvidenceStorageAdapterSelectionGate } from "@/data/sampleEvidenceStorageAdapterSelectionGate";
 import {
   samplePersistenceAdapterErrors,
   samplePersistenceAdapterPlans,
@@ -21,6 +22,7 @@ import { BackendDecisionMatrixPanel } from "@/features/persistence/BackendDecisi
 import { BackendMigrationPlanPanel } from "@/features/persistence/BackendMigrationPlanPanel";
 import { BackendMigrationSpecPanel } from "@/features/persistence/BackendMigrationSpecPanel";
 import { BackendSchemaDraftPanel } from "@/features/persistence/BackendSchemaDraftPanel";
+import { EvidenceStorageAdapterSelectionGatePanel } from "@/features/evidence/EvidenceStorageAdapterSelectionGatePanel";
 import { PersistenceAdapterReadinessPanel } from "@/features/persistence/PersistenceAdapterReadinessPanel";
 import { PersistenceBoundaryPanel } from "@/features/persistence/PersistenceBoundaryPanel";
 import { PilotBackendSelectionGatePanel } from "@/features/persistence/PilotBackendSelectionGatePanel";
@@ -74,6 +76,7 @@ export default function TeacherPersistencePage() {
 
         <BackendDecisionMatrixPanel matrix={sampleBackendDecisionMatrix} />
         <PilotBackendSelectionGatePanel gate={samplePilotBackendSelectionGate} />
+        <EvidenceStorageAdapterSelectionGatePanel gate={sampleEvidenceStorageAdapterSelectionGate} />
         <BackendSchemaDraftPanel draft={sampleBackendSchemaDraft} />
         <BackendMigrationPlanPanel plan={sampleBackendMigrationPlan} />
         <BackendMigrationSpecPanel plan={sampleBackendMigrationSpecPlan} />
