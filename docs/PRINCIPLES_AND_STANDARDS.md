@@ -489,6 +489,7 @@ Required standing rules:
 - Audio and video assets belong to a multimedia catalog with rights, owner, duration, unit links, activity links, and local/offline availability metadata.
 - A music/video platform is implemented as reusable media playback and playlist infrastructure, not as one-off music or video pages.
 - Unit games may optionally use unit music, chants, or video as background/support media, but this must be teacher/tenant configurable and disable-able.
+- Teacher media library previews must be tenant-aware and must not show another tenant's brand, ownership language, rights records, playlists, or local bundle state.
 - Local/closed companion manifests must name every active playable game mode as included, planned, or blocked, using shared `GameModeId`, shared parent-engine ids, target-language audio coverage, progress-reporting status, and local route paths.
 - Printed QR codes resolve stable identifiers, not local files, temporary localhost ports, or version-specific asset paths.
 - The default QR strategy is hybrid: stable registry, optional tiny hosted redirect, and local app/content-package fallback.
@@ -518,6 +519,7 @@ Required standing rules:
 - Text-to-speech is acceptable as a cost-efficient fallback, but tenant/product configuration must allow replacement with recorded or partner-owned audio.
 - Audio cue support is separate from optional background music. Background music can be disabled; comprehension audio cannot be silently omitted from student-facing learning flows.
 - Audio behavior must remain tenant-configurable for voice, accent, language, pronunciation rules, playback speed, autoplay defaults, and offline/local bundle availability.
+- Media playback, video watching, background music, and support-language listening are useful engagement signals, but they cannot unlock progress, mastery, scoring, rewards, routes, or release state.
 - Teacher reports may eventually track audio engagement, but lack of tracking must not block the presence of listen/replay support.
 - A game or unit is not student-ready until its learner-facing text has an audio support plan.
 

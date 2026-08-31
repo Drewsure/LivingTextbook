@@ -15,6 +15,8 @@ This repository gathers the work from these source projects and materials into o
 
 This repository has been seeded as the master consolidation target. The first phase is preservation-first: keep each existing project understandable, document what each one contributes, then merge systems intentionally instead of flattening everything into one unstable app.
 
+The active foundation scaffold now includes tenant-aware teacher/admin routes, student practice routes, media playlist previews, teacher media library previews for MiniStar and the sample publisher tenant, local companion previews, AI generator review gates, and verification scripts that protect the current route map before live storage, uploads, publishing, or classroom launch are enabled.
+
 ## Intended Direction
 
 The likely architecture is a monorepo with:

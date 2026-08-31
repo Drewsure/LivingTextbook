@@ -255,6 +255,15 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     note: "Read-only media maintenance preview for partner-owned audio, music, video, posters, playlists, and local media bundles.",
   },
   {
+    routeId: "ministar-teacher-media-library",
+    group: "ministar",
+    label: "MiniStar teacher media library",
+    path: "/teacher/media/ministar",
+    status: "active-scaffold",
+    note:
+      "MiniStar-focused media maintenance preview for Level 1 audio, support-language, playlist, background media, and local bundle readiness.",
+  },
+  {
     routeId: "partner-demo",
     group: "core",
     label: "Partner demo",

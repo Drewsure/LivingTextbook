@@ -2,6 +2,7 @@ import { AppShell } from "@/components/layout/AppShell";
 import { levelOneUnitOne } from "@/data/levelOneUnitOne";
 import { sampleLaunchSession } from "@/data/sampleLaunchSession";
 import { sampleMultimediaContentPackage } from "@/data/sampleMultimediaPackage";
+import { getTeacherMediaLibraryPath } from "@/features/routes/routeContracts";
 import { TeacherAssistLanguagePanel } from "@/features/teacher/TeacherAssistLanguagePanel";
 import { TeacherLaunchPanel } from "@/features/teacher/TeacherLaunchPanel";
 import { TeacherMicrophonePracticePanel } from "@/features/teacher/TeacherMicrophonePracticePanel";
@@ -71,6 +72,15 @@ export default function TeacherPage() {
           Open teacher game readiness workbench
           <span className="mt-1 block text-xs font-semibold text-[var(--tenant-muted)]">
             Parent engines, active route replay, game offers, and Z.ai intake gates.
+          </span>
+        </a>
+        <a
+          className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] p-4 text-sm font-bold text-[var(--tenant-text)] underline-offset-4 hover:underline"
+          href={getTeacherMediaLibraryPath(ministarTenant.id)}
+        >
+          Open MiniStar media library
+          <span className="mt-1 block text-xs font-semibold text-[var(--tenant-muted)]">
+            Review audio-first Level 1 media, playlist bindings, support-language limits, and local bundle readiness.
           </span>
         </a>
       </div>

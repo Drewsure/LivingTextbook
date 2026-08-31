@@ -1,4 +1,5 @@
 import type { CSSProperties, ReactNode } from "react";
+import { getTeacherMediaLibraryPath } from "@/features/routes/routeContracts";
 import type { TenantConfig } from "@/features/tenant/types";
 
 interface AppShellProps {
@@ -24,6 +25,8 @@ function getTenantStyle(tenant: TenantConfig): CSSProperties {
 }
 
 export function AppShell({ children, tenant, compact = false }: AppShellProps) {
+  const tenantMediaLibraryPath = getTeacherMediaLibraryPath(tenant.id);
+
   return (
     <main
       style={getTenantStyle(tenant)}
@@ -58,7 +61,7 @@ export function AppShell({ children, tenant, compact = false }: AppShellProps) {
               <a href="/teacher/uploads/sample-publisher">Uploads</a>
               <a href="/teacher/assets/labelled-diagram/sample-publisher-l1-u1-labelled-diagram">Assets</a>
               <a href="/teacher/assets/media/sample-publisher-l1-u1-routines-media">Media Asset</a>
-              <a href="/teacher/media/sample-publisher">Media</a>
+              <a href={tenantMediaLibraryPath}>Media</a>
               <a href="/teacher/sessions/demo-unit-1">Session Monitor</a>
               <a href="/partner-demo">Partner Demo</a>
               <a href="/local/sample-publisher">Local Preview</a>

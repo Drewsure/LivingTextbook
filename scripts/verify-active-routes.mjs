@@ -482,6 +482,31 @@ expectedTextByPath.set("/teacher/prototypes/ministar", [
   "Foundation Japanese support must remain hiragana-only.",
   "No Japanese support-language progress",
 ]);
+expectedTextByPath.get("/teacher")?.push("Open MiniStar media library", "/teacher/media/ministar");
+expectedTextByPath.set("/teacher/media/ministar", [
+  "MiniStar teacher media library",
+  "Media maintenance preview",
+  "Storage before live media tools",
+  "media_manifest",
+  "media_playlist_binding",
+  "background_media_policy_binding",
+  "local_media_bundle_entry",
+  "MiniStar-owned assets",
+  "MiniStar Greetings Chant",
+  "MiniStar Hello Friends Video",
+  "Rights proof review",
+  "Learning audio priority review",
+  "Hiragana support review",
+  "Playlist binding review",
+  "Background media policy review",
+  "Local bundle media review",
+  "Upload still blocked",
+  "No live media upload",
+  "No media-only progress",
+  "No background music overriding learning audio",
+  "No Japanese support-language unlock",
+  "Local folder activation blocked",
+]);
 
 const forbiddenTextByPath = new Map([
   [
@@ -2206,7 +2231,7 @@ if (teacherIntakeExpected) {
   const routeCountIndex = teacherIntakeExpected.indexOf("49 checked routes");
 
   if (routeCountIndex >= 0) {
-    teacherIntakeExpected[routeCountIndex] = "84 checked routes";
+    teacherIntakeExpected[routeCountIndex] = "85 checked routes";
   }
 
   teacherIntakeExpected.push(

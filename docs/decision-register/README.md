@@ -511,6 +511,7 @@
 - `DR-537-two-tenant-local-companion-preview-routes.md`
 - `DR-538-persistence-storage-selection-gate-visibility.md`
 - `DR-539-focused-assignment-rollout-workbench.md`
+- `DR-540-tenant-aware-media-library-preview.md`
 
 ## Maintenance Rule
 

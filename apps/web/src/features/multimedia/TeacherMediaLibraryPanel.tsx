@@ -59,7 +59,7 @@ export function TeacherMediaLibraryPanel({ preview, rightsRecords }: TeacherMedi
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <p className="text-sm font-semibold text-[var(--tenant-muted)]">Media rights</p>
-            <h3 className="mt-1 text-lg font-bold">Partner-owned assets</h3>
+            <h3 className="mt-1 text-lg font-bold">{preview.assetOwnershipLabel}</h3>
           </div>
           <StatusPill label={String(rightsRecords.length)} tone="neutral" />
         </div>

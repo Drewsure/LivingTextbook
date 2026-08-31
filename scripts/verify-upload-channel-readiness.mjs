@@ -9,6 +9,10 @@ const labelledDiagramAssetReadiness = readSource("../apps/web/src/data/sampleLab
 const labelledDiagramAssetWorkspace = readSource("../apps/web/src/data/sampleLabelledDiagramAssetWorkspace.ts");
 const multimediaAssetReadiness = readSource("../apps/web/src/data/sampleMultimediaAssetReadiness.ts");
 const mediaAssetWorkspace = readSource("../apps/web/src/data/sampleMediaAssetWorkspace.ts");
+const mediaRightsPlan = readSource("../apps/web/src/data/sampleMediaRightsPlan.ts");
+const teacherMediaLibraryData = readSource("../apps/web/src/data/sampleTeacherMediaLibrary.ts");
+const teacherMediaLibraryPanel = readSource("../apps/web/src/features/multimedia/TeacherMediaLibraryPanel.tsx");
+const teacherMediaLibraryRoute = readSource("../apps/web/src/app/teacher/media/[tenantId]/page.tsx");
 const evidencePacketFlows = readSource("../apps/web/src/data/sampleEvidencePacketFlows.ts");
 const evidencePacketReviewIndex = readSource("../apps/web/src/data/sampleEvidencePacketReviewIndex.ts");
 const evidencePacketAssemblyGate = readSource("../apps/web/src/data/sampleEvidencePacketAssemblyGate.ts");
@@ -276,6 +280,39 @@ const requiredMediaWorkspaceTexts = [
 for (const text of requiredMediaWorkspaceTexts) {
   requireText(mediaAssetWorkspace, text, `Media asset workspace missing required text: ${text}.`);
 }
+
+const requiredTeacherMediaLibraryTexts = [
+  "MiniStar teacher media library",
+  "Teacher media library",
+  "Media maintenance preview",
+  "assetOwnershipLabel",
+  "MiniStar-owned assets",
+  "Partner-owned assets",
+  "media_manifest",
+  "media_playlist_binding",
+  "background_media_policy_binding",
+  "local_media_bundle_entry",
+  "Learning audio priority review",
+  "Hiragana support review",
+  "English remains the progress trigger",
+  "No live media upload",
+  "No media-only progress",
+  "No background music overriding learning audio",
+  "No Japanese support-language unlock",
+  "Local folder activation blocked",
+];
+
+for (const text of requiredTeacherMediaLibraryTexts) {
+  requireText(teacherMediaLibraryData, text, `Teacher media library data missing required text: ${text}.`);
+}
+
+requireText(teacherMediaLibraryPanel, "preview.assetOwnershipLabel", "Teacher media library panel must render tenant-specific asset ownership label.");
+requireText(teacherMediaLibraryPanel, "Storage before live media tools", "Teacher media library panel must expose storage-before-live-media heading.");
+requireText(mediaRightsPlan, "MiniStar Greetings Chant", "Media rights plan must include the MiniStar chant rights record.");
+requireText(mediaRightsPlan, "MiniStar Hello Friends Video", "Media rights plan must include the MiniStar video rights record.");
+requireText(teacherMediaLibraryRoute, "findTenantConfig", "Teacher media library route must resolve tenant config before rendering.");
+requireText(teacherMediaLibraryRoute, "ministarTenant", "Teacher media library route must support MiniStar tenant branding.");
+requireText(teacherMediaLibraryRoute, "samplePublisherTenant", "Teacher media library route must support sample publisher branding.");
 
 const requiredEvidencePacketTexts = [
   "Evidence packet flow",
