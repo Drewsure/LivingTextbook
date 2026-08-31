@@ -39,6 +39,8 @@ const sourceLinks = [
   { href: "/teacher/intake", label: "Foundation intake" },
   { href: "/activities/demo-unit-1", label: "Open MiniStar activity hub" },
   { href: "/activities/partner-demo-unit-1", label: "Open partner activity hub" },
+  { href: "/local/ministar", label: "Open MiniStar local preview" },
+  { href: "/local/sample-publisher", label: "Open partner local preview" },
   { href: "/teacher/prototypes/ministar", label: "Open MiniStar prototype review" },
   { href: "/teacher/prototypes/sample-publisher", label: "Open partner prototype review" },
 ];
@@ -63,7 +65,7 @@ export default function TeacherGameReadinessPage() {
             </div>
           </div>
 
-          <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+          <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {sourceLinks.map((link) => (
               <ReadinessLink key={link.href} href={link.href} label={link.label} />
             ))}

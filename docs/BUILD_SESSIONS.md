@@ -853,3 +853,5 @@ Playable game-mode routes must use the shared exhaustive game-mode route helper 
 The game-readiness workbench must keep an active game route catalog visible, sourced from the shared route helper, before broader Phaser/Z.ai prototype review begins. It is a review-only map of active route surfaces, not a route publisher or prototype import tool.
 
 Local companion manifests must name every active playable game mode as included, planned, or blocked using shared `GameModeId`, shared parent-engine ids, target-language audio coverage, progress-reporting status, and local paths before any closed textbook package export, installer, offline-ready status, or retained report storage can be designed.
+
+Local companion previews must stay visible for both the flagship MiniStar tenant and at least one white-label sample publisher tenant. The shared preview panel is review-only and cannot export packages, install local apps, claim offline-ready status, store student data, or mutate QR redirects.

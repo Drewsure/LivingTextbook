@@ -2,7 +2,7 @@
 
 Document type: QA operating note  
 Status: active scaffold  
-Last updated: 2026-08-22
+Last updated: 2026-08-31
 
 ## Purpose
 
@@ -38,6 +38,7 @@ This list names the routes that should be checked after foundation changes. It i
 - `http://127.0.0.1:3000/teacher/assets/media/sample-publisher-l1-u1-routines-media`
 - `http://127.0.0.1:3000/teacher/media/sample-publisher`
 - `http://127.0.0.1:3000/partner-demo`
+- `http://127.0.0.1:3000/local/ministar`
 - `http://127.0.0.1:3000/local/sample-publisher`
 - `http://127.0.0.1:3000/manifest.webmanifest`
 

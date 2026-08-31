@@ -508,6 +508,7 @@
 - `DR-534-shared-game-mode-route-path-helper.md`
 - `DR-535-active-game-route-catalog-workbench.md`
 - `DR-536-local-companion-active-game-coverage.md`
+- `DR-537-two-tenant-local-companion-preview-routes.md`
 
 ## Maintenance Rule
 

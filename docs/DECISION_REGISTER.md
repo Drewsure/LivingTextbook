@@ -1019,3 +1019,22 @@ Guardrails:
 - Every local game entry must name target-language audio coverage, progress-reporting status, and a local path.
 - Planned local routes remain review-only and cannot export packages, copy media, store student data, or activate offline mode.
 - This decision is recorded in `docs/adr/0465-local-companion-active-game-coverage.md` and `docs/decision-register/DR-536-local-companion-active-game-coverage.md`.
+
+## DR-537: Two-Tenant Local Companion Preview Routes
+
+Status: Accepted
+
+Decision: Keep review-only local companion preview routes for both MiniStar and the sample publisher tenant.
+
+Rationale:
+
+- The flagship MiniStar school product and the white-label publisher product both need local companion visibility.
+- Sharing the same preview panel keeps the local package model white-label rather than tenant-specific.
+- Browser verification can now confirm both local manifest shapes stay route-visible.
+
+Guardrails:
+
+- `/local/ministar` and `/local/sample-publisher` are preview-only.
+- Both routes must use reviewed sample manifests and the shared local companion package preview panel.
+- Neither route can export packages, install a local app, claim offline-ready status, store student data, or mutate QR redirects.
+- This decision is recorded in `docs/adr/0466-two-tenant-local-companion-preview-routes.md` and `docs/decision-register/DR-537-two-tenant-local-companion-preview-routes.md`.

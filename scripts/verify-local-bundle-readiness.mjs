@@ -94,7 +94,8 @@ for (const gamePath of requiredLocalGamePaths) {
   requireText(bundlePlan, `localPath: "${gamePath}"`, `Local bundle missing local game path: ${gamePath}`);
 }
 
-requireText(activeRoutes, "http://127.0.0.1:3000/local/sample-publisher", "Active route list missing local companion preview route.");
+requireText(activeRoutes, "http://127.0.0.1:3000/local/ministar", "Active route list missing MiniStar local companion preview route.");
+requireText(activeRoutes, "http://127.0.0.1:3000/local/sample-publisher", "Active route list missing sample publisher local companion preview route.");
 requireText(bundlePlan, "content-package.json", "Local bundle must keep a content package artifact path.");
 requireText(bundlePlan, "routes/qr-registry.json", "Local bundle must keep a QR registry artifact path.");
 requireText(bundlePlan, "games/game-routes.json", "Local bundle must keep a game route manifest artifact path.");
