@@ -262,6 +262,14 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
     note: "Closed/local companion package preview for publisher handoff planning.",
   },
   {
+    routeId: "local-ministar",
+    group: "ministar",
+    label: "MiniStar local companion",
+    path: "/local/ministar",
+    status: "active-scaffold",
+    note: "Closed/local companion package preview for the flagship MiniStar school product.",
+  },
+  {
     routeId: "manifest",
     group: "core",
     label: "PWA manifest",

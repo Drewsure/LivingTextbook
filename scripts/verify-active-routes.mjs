@@ -2205,7 +2205,7 @@ if (teacherIntakeExpected) {
   const routeCountIndex = teacherIntakeExpected.indexOf("49 checked routes");
 
   if (routeCountIndex >= 0) {
-    teacherIntakeExpected[routeCountIndex] = "82 checked routes";
+    teacherIntakeExpected[routeCountIndex] = "83 checked routes";
   }
 
   teacherIntakeExpected.push(
