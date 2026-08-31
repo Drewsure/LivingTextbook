@@ -999,3 +999,23 @@ Guardrails:
 - Unit offer maps may still override student launch routes after package review.
 - The game-mode coverage verifier must protect shared route helper mappings.
 - This decision is recorded in `docs/adr/0464-active-game-route-catalog-workbench.md` and `docs/decision-register/DR-535-active-game-route-catalog-workbench.md`.
+
+## DR-536: Local Companion Active Game Coverage
+
+Status: Accepted
+
+Decision: Local companion manifests must name every active playable game mode as included, planned, or blocked using shared mode and parent-engine ids.
+
+Rationale:
+
+- A closed textbook package must not quietly omit active game routes that exist in the hosted PWA.
+- White-label partners need a clear manifest of which games are included, planned, or policy-gated for local handoff.
+- Shared ids keep local packages compatible with route replay, reporting, audio coverage, settings, and future prototype review.
+
+Guardrails:
+
+- Every active `GameModeId` must appear in local companion game coverage.
+- Local game entries must use shared `ParentEngine` ids, not local-only aliases or game-family ids.
+- Every local game entry must name target-language audio coverage, progress-reporting status, and a local path.
+- Planned local routes remain review-only and cannot export packages, copy media, store student data, or activate offline mode.
+- This decision is recorded in `docs/adr/0465-local-companion-active-game-coverage.md` and `docs/decision-register/DR-536-local-companion-active-game-coverage.md`.

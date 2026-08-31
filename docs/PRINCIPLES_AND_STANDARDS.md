@@ -484,6 +484,7 @@ Required standing rules:
 - Audio and video assets belong to a multimedia catalog with rights, owner, duration, unit links, activity links, and local/offline availability metadata.
 - A music/video platform is implemented as reusable media playback and playlist infrastructure, not as one-off music or video pages.
 - Unit games may optionally use unit music, chants, or video as background/support media, but this must be teacher/tenant configurable and disable-able.
+- Local/closed companion manifests must name every active playable game mode as included, planned, or blocked, using shared `GameModeId`, shared parent-engine ids, target-language audio coverage, progress-reporting status, and local route paths.
 - Printed QR codes resolve stable identifiers, not local files, temporary localhost ports, or version-specific asset paths.
 - The default QR strategy is hybrid: stable registry, optional tiny hosted redirect, and local app/content-package fallback.
 - Local/closed deployment must document whether it uses an installed app, installed PWA, local classroom server, custom deep link, hosted redirect, or hybrid approach.

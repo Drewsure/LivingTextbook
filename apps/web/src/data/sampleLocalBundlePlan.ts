@@ -1,3 +1,5 @@
+import type { GameModeId, ParentEngine } from "@living-textbook/content-model";
+
 export type LocalBundleReadiness = "planning" | "media-missing" | "offline-ready";
 export type LocalCompanionHandoffStatus = "provided" | "needed" | "blocked";
 export type LocalCompanionGameStatus = "included" | "planned" | "blocked";
@@ -22,8 +24,8 @@ export interface LocalBundleRouteSummary {
 export interface LocalCompanionGameSummary {
   gameId: string;
   label: string;
-  gameMode: string;
-  engineId: string;
+  gameMode: GameModeId;
+  engineId: ParentEngine;
   localPath: string;
   status: LocalCompanionGameStatus;
   audioCovered: boolean;
@@ -132,7 +134,7 @@ export const sampleLocalBundleManifests: LocalBundleManifestSummary[] = [
         gameId: "ministar-local-flashcards",
         label: "Entry flashcards",
         gameMode: "flashcards",
-        engineId: "entry",
+        engineId: "selection",
         localPath: "/flashcards/demo-unit-1",
         status: "included",
         audioCovered: true,
@@ -173,6 +175,39 @@ export const sampleLocalBundleManifests: LocalBundleManifestSummary[] = [
         note: "Unlocked after entry practice; local package must preserve the same event stream.",
       },
       {
+        gameId: "ministar-local-quiz",
+        label: "Quiz",
+        gameMode: "quiz",
+        engineId: "selection",
+        localPath: "/quiz/demo-unit-1",
+        status: "planned",
+        audioCovered: true,
+        reportsProgress: true,
+        note: "Assessment route can be packaged after teacher report and assignment policies are confirmed.",
+      },
+      {
+        gameId: "ministar-local-true-false",
+        label: "True or False",
+        gameMode: "true-false",
+        engineId: "selection",
+        localPath: "/true-false/demo-unit-1",
+        status: "planned",
+        audioCovered: true,
+        reportsProgress: true,
+        note: "Selection route must preserve target-language answer events and cannot use support-language taps as progress.",
+      },
+      {
+        gameId: "ministar-local-balloon-pop",
+        label: "Balloon Pop",
+        gameMode: "balloon-pop",
+        engineId: "selection",
+        localPath: "/balloon/demo-unit-1",
+        status: "planned",
+        audioCovered: true,
+        reportsProgress: true,
+        note: "Arcade route is planned for local packages only after motion, difficulty, and learning-audio priority checks pass.",
+      },
+      {
         gameId: "ministar-local-type-answer",
         label: "Type Answer",
         gameMode: "type-answer",
@@ -204,6 +239,28 @@ export const sampleLocalBundleManifests: LocalBundleManifestSummary[] = [
         audioCovered: true,
         reportsProgress: true,
         note: "Syntax fill-in route keeps target-language sentence audio as the progress trigger.",
+      },
+      {
+        gameId: "ministar-local-sentence",
+        label: "Sentence Builder",
+        gameMode: "sentence-builder",
+        engineId: "text-spelling",
+        localPath: "/sentence/demo-unit-1",
+        status: "planned",
+        audioCovered: true,
+        reportsProgress: true,
+        note: "Sentence construction route must use the reviewed two target sentence structures and deterministic scoring.",
+      },
+      {
+        gameId: "ministar-local-speak",
+        label: "Speak It",
+        gameMode: "speak-it",
+        engineId: "selection",
+        localPath: "/speak/demo-unit-1",
+        status: "planned",
+        audioCovered: true,
+        reportsProgress: true,
+        note: "Local record/replay can be previewed, but speech scoring and raw audio storage remain teacher and school policy gated.",
       },
     ],
     artifacts: [
@@ -322,7 +379,7 @@ export const sampleLocalBundleManifests: LocalBundleManifestSummary[] = [
         gameId: "partner-local-flashcards",
         label: "Entry flashcards",
         gameMode: "flashcards",
-        engineId: "entry",
+        engineId: "selection",
         localPath: "/flashcards/partner-demo-unit-1",
         status: "included",
         audioCovered: true,
@@ -385,6 +442,17 @@ export const sampleLocalBundleManifests: LocalBundleManifestSummary[] = [
         note: "Selection-engine true/false route uses reviewed vocabulary prompts and standard progress events.",
       },
       {
+        gameId: "partner-local-balloon-pop",
+        label: "Balloon Pop",
+        gameMode: "balloon-pop",
+        engineId: "selection",
+        localPath: "/balloon/partner-demo-unit-1",
+        status: "planned",
+        audioCovered: true,
+        reportsProgress: true,
+        note: "Arcade selection route is planned for local package export only after motion, difficulty, and audio-priority checks pass.",
+      },
+      {
         gameId: "partner-local-type-answer",
         label: "Type Answer",
         gameMode: "type-answer",
@@ -432,7 +500,7 @@ export const sampleLocalBundleManifests: LocalBundleManifestSummary[] = [
         gameId: "partner-local-speak",
         label: "Speak It",
         gameMode: "speak-it",
-        engineId: "speaking-listening",
+        engineId: "selection",
         localPath: "/speak/partner-demo-unit-1",
         status: "planned",
         audioCovered: true,

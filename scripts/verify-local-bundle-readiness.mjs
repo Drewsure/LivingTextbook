@@ -7,7 +7,7 @@ const activeRoutes = readSource("../docs/ACTIVE_ROUTE_VERIFICATION_LIST.md");
 
 const failures = [];
 const expectedBundles = ["ministar-level-1-unit-1-demo", "sample-publisher-unit-1-planning"];
-const requiredLocalGameModes = ["flashcards", "match-up", "label-it", "memory-match", "quiz", "true-false", "type-answer", "spelling-practice", "fill-in-the-blank", "sentence-builder", "speak-it"];
+const requiredLocalGameModes = ["flashcards", "match-up", "label-it", "memory-match", "quiz", "true-false", "balloon-pop", "type-answer", "spelling-practice", "fill-in-the-blank", "sentence-builder", "speak-it"];
 const requiredBlockedPreflightChecks = ["media-bundle", "installer-update", "local-reporting", "offline-access"];
 const requiredReleaseGateItems = [
   "media-rights-checksums",
@@ -44,13 +44,26 @@ const requiredLocalGamePaths = [
   "/match/demo-unit-1",
   "/label-it/demo-unit-1",
   "/memory/demo-unit-1",
+  "/quiz/demo-unit-1",
+  "/true-false/demo-unit-1",
+  "/balloon/demo-unit-1",
+  "/type-answer/demo-unit-1",
+  "/spelling/demo-unit-1",
+  "/fill/demo-unit-1",
+  "/sentence/demo-unit-1",
+  "/speak/demo-unit-1",
   "/flashcards/partner-demo-unit-1",
   "/match/partner-demo-unit-1",
   "/label-it/partner-demo-unit-1",
   "/memory/partner-demo-unit-1",
+  "/quiz/partner-demo-unit-1",
+  "/true-false/partner-demo-unit-1",
+  "/balloon/partner-demo-unit-1",
   "/type-answer/partner-demo-unit-1",
   "/spelling/partner-demo-unit-1",
   "/fill/partner-demo-unit-1",
+  "/sentence/partner-demo-unit-1",
+  "/speak/partner-demo-unit-1",
 ];
 
 for (const bundleId of expectedBundles) {
@@ -97,6 +110,10 @@ if (bundlePlan.includes("offlineReady: true") && (bundlePlan.includes('rightsSta
 
 if (bundlePlan.includes('readiness: "offline-ready"') && deploymentPreflight.includes('status: "blocked"')) {
   failures.push("Local bundle cannot be marked offline-ready while deployment preflight has blocked checks.");
+}
+
+if (bundlePlan.includes('engineId: "entry"') || bundlePlan.includes('engineId: "speaking-listening"')) {
+  failures.push("Local bundle games must use shared ParentEngine ids, not local-only aliases or game family ids.");
 }
 
 if (failures.length > 0) {

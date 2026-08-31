@@ -851,3 +851,5 @@ The dedicated activity-pathway verifier must protect the audio/reporting lanes a
 Playable game-mode routes must use the shared exhaustive game-mode route helper before appearing in launch, activity hub, recommendation, completion, teacher shortcut, or partner demo surfaces. This keeps future game additions and outside prototype reviews from creating route drift and should make missing route mappings fail during typecheck.
 
 The game-readiness workbench must keep an active game route catalog visible, sourced from the shared route helper, before broader Phaser/Z.ai prototype review begins. It is a review-only map of active route surfaces, not a route publisher or prototype import tool.
+
+Local companion manifests must name every active playable game mode as included, planned, or blocked using shared `GameModeId`, shared parent-engine ids, target-language audio coverage, progress-reporting status, and local paths before any closed textbook package export, installer, offline-ready status, or retained report storage can be designed.
