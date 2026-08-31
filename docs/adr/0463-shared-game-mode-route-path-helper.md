@@ -10,12 +10,13 @@ Launch, activity hub, recommendation, completion, teacher shortcut, and partner 
 
 ## Decision
 
-Game-mode route paths should be resolved through a shared helper, `getGameModeRoutePath`, before student, teacher, or partner demo surfaces link to playable game routes.
+Game-mode route paths should be resolved through a shared exhaustive helper, `getGameModeRoutePath`, before student, teacher, or partner demo surfaces link to playable game routes.
 
 ## Consequences
 
 - New game route additions have one primary route mapping to update.
-- Student activity hubs, recommended paths, completion cards, teacher shortcuts, and partner demo shortcuts now share the same fallback route behavior.
+- Typecheck should fail when a new `GameModeId` is added without a corresponding playable route mapping.
+- Student activity hubs, recommended paths, completion cards, teacher shortcuts, and partner demo shortcuts now share the same game-mode route behavior.
 - Unit offer maps may still provide explicit reviewed launch routes when a tenant needs package-specific routing.
 - Printable, media, training, collection, teacher, and assignment routes remain explicit because they are not game-mode routes.
 

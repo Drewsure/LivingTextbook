@@ -5,6 +5,7 @@ Date: 2026-08-31
 ## What Changed
 
 - Added `getGameModeRoutePath` as the shared route resolver for playable game modes.
+- Made the resolver exhaustive so typecheck fails when a new game mode lacks a route.
 - Refactored the student activity hub, game completion next card, recommended game path card, teacher launch shortcuts, and partner demo shortcuts to use the shared helper.
 - Left non-game routes explicit, including printable, media, training, collection, teacher, assignment, and review routes.
 

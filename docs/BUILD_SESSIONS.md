@@ -848,4 +848,4 @@ Activity compatibility review must display audio and reporting lanes for every p
 
 The dedicated activity-pathway verifier must protect the audio/reporting lanes and focused game-readiness visibility so the rule survives future UI, generator, printable, and prototype-review changes.
 
-Playable game-mode routes must use the shared game-mode route helper before appearing in launch, activity hub, recommendation, completion, teacher shortcut, or partner demo surfaces. This keeps future game additions and outside prototype reviews from creating route drift.
+Playable game-mode routes must use the shared exhaustive game-mode route helper before appearing in launch, activity hub, recommendation, completion, teacher shortcut, or partner demo surfaces. This keeps future game additions and outside prototype reviews from creating route drift and should make missing route mappings fail during typecheck.

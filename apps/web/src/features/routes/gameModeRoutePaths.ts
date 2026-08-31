@@ -10,14 +10,13 @@ import {
   getSentenceBuilderPath,
   getSpeakItPath,
   getSpellingPracticePath,
-  getStudentLaunchPath,
   getTypeAnswerPath,
   getTrueFalsePath,
 } from "./routeContracts";
 
 type GameModePathBuilder = (launchCode: LaunchCode) => string;
 
-const gameModePathBuilders: Partial<Record<GameModeId, GameModePathBuilder>> = {
+const gameModePathBuilders: Record<GameModeId, GameModePathBuilder> = {
   flashcards: getFlashcardsPath,
   "memory-match": getMemoryMatchPath,
   "match-up": getMatchUpPath,
@@ -33,5 +32,5 @@ const gameModePathBuilders: Partial<Record<GameModeId, GameModePathBuilder>> = {
 };
 
 export function getGameModeRoutePath(gameMode: GameModeId, launchCode: LaunchCode): string {
-  return gameModePathBuilders[gameMode]?.(launchCode) ?? getStudentLaunchPath(launchCode);
+  return gameModePathBuilders[gameMode](launchCode);
 }
