@@ -15,7 +15,10 @@ import { samplePrototypeIntakeStorageGuards } from "@/data/samplePrototypeIntake
 import { samplePrototypeReturnReadinessSummary } from "@/data/samplePrototypeReturnReadinessSummary";
 import { samplePrototypeReturnPackageChecklists } from "@/data/samplePrototypeReturnPackageChecklist";
 import { sampleUnitGameOfferMaps } from "@/data/sampleUnitGameOfferMap";
+import { sampleLaunchSession } from "@/data/sampleLaunchSession";
+import { samplePartnerLaunchCode } from "@/data/samplePartnerPackage";
 import { ActiveGameReplayChecklistPanel } from "@/features/game-offers/ActiveGameReplayChecklistPanel";
+import { ActiveGameRouteCatalogPanel } from "@/features/game-offers/ActiveGameRouteCatalogPanel";
 import { ActivityPathwayCompatibilityPanel } from "@/features/game-offers/ActivityPathwayCompatibilityPanel";
 import { GameModeSettingsBackendContractPanel } from "@/features/game-offers/GameModeSettingsBackendContractPanel";
 import { GameModeSettingsProfilePanel } from "@/features/game-offers/GameModeSettingsProfilePanel";
@@ -84,6 +87,12 @@ export default function TeacherGameReadinessPage() {
         <PrototypeReturnReadinessSummaryPanel summary={samplePrototypeReturnReadinessSummary} />
 
         <ParentEngineReadinessPanel plan={sampleParentEngineReadinessPlan} />
+        <ActiveGameRouteCatalogPanel
+          launchTargets={[
+            { label: "MiniStar demo", launchCode: sampleLaunchSession.launchCode },
+            { label: "Sample publisher demo", launchCode: samplePartnerLaunchCode },
+          ]}
+        />
         <ActiveGameReplayChecklistPanel checklist={sampleActiveGameReplayChecklist} />
         {sampleUnitGameOfferMaps.map((map) => (
           <UnitGameOfferMapPanel key={map.mapId} map={map} />

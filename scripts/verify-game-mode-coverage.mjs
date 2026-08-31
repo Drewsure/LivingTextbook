@@ -4,6 +4,7 @@ const contentModelPath = new URL("../packages/content-model/src/index.ts", impor
 const catalogPath = new URL("../apps/web/src/features/game-shell/gameModeCatalog.ts", import.meta.url);
 const scoringPath = new URL("../apps/web/src/features/game-shell/scoringProfiles.ts", import.meta.url);
 const routeContractsPath = new URL("../apps/web/src/features/routes/routeContracts.ts", import.meta.url);
+const routeHelperPath = new URL("../apps/web/src/features/routes/gameModeRoutePaths.ts", import.meta.url);
 const parentEngineReadinessPath = new URL("../apps/web/src/data/sampleParentEngineReadiness.ts", import.meta.url);
 const activeGameReplayChecklistPath = new URL("../apps/web/src/data/sampleActiveGameReplayChecklist.ts", import.meta.url);
 
@@ -11,6 +12,7 @@ const contentModel = readFileSync(contentModelPath, "utf8");
 const catalog = readFileSync(catalogPath, "utf8");
 const scoring = readFileSync(scoringPath, "utf8");
 const routeContracts = readFileSync(routeContractsPath, "utf8");
+const routeHelper = readFileSync(routeHelperPath, "utf8");
 const parentEngineReadiness = readFileSync(parentEngineReadinessPath, "utf8");
 const activeGameReplayChecklist = readFileSync(activeGameReplayChecklistPath, "utf8");
 
@@ -81,6 +83,7 @@ const missingScoringProfile = gameModes.filter((mode) => {
   const item = getCatalogItemBody(catalog, mode);
   return !/scoringProfileId:\s*"[^"]+"/.test(item);
 });
+const missingSharedRouteHelperModes = [];
 const requiredActiveGameRouteContracts = [
   { id: "flashcards", pattern: "/flashcards/[code]", helper: "getFlashcardsPath" },
   { id: "label-it", pattern: "/label-it/[code]", helper: "getLabelItPath" },
@@ -230,15 +233,39 @@ for (const routeContract of requiredActiveGameRouteContracts) {
     console.error(`FAIL Active game route helper missing: ${routeContract.helper}`);
     process.exit(1);
   }
+
+  if (!hasSharedRouteHelperMapping(routeHelper, routeContract.id, routeContract.helper)) {
+    missingSharedRouteHelperModes.push(routeContract.id);
+  }
+}
+
+if (!routeHelper.includes("Record<GameModeId, GameModePathBuilder>")) {
+  console.error("FAIL Shared game mode route helper must use an exhaustive Record<GameModeId, GameModePathBuilder>.");
+  process.exit(1);
+}
+
+if (routeHelper.includes("Partial<Record<GameModeId")) {
+  console.error("FAIL Shared game mode route helper must not use a partial game-mode mapping.");
+  process.exit(1);
+}
+
+if (missingSharedRouteHelperModes.length > 0) {
+  console.error(`FAIL Shared game mode route helper missing mapping(s): ${missingSharedRouteHelperModes.join(", ")}`);
+  process.exit(1);
 }
 
 console.log(
-  `PASS game mode catalog covers ${gameModes.length} shared GameModeId value(s), ${parentEngines.length} parent engine readiness record(s), and ${replayGameModes.length} active game replay checklist record(s).`,
+  `PASS game mode catalog covers ${gameModes.length} shared GameModeId value(s), ${parentEngines.length} parent engine readiness record(s), ${replayGameModes.length} active game replay checklist record(s), and shared route helper mappings.`,
 );
 
 function hasObjectKey(source, key) {
   const escaped = key.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   return new RegExp(`(?:^|\\n)\\s*(?:"${escaped}"|${escaped}):\\s*"`, "m").test(source);
+}
+
+function hasSharedRouteHelperMapping(source, mode, helper) {
+  const key = mode.includes("-") ? `"${mode}"` : mode;
+  return source.includes(`${key}: ${helper}`);
 }
 
 function getCatalogItemBody(source, mode) {

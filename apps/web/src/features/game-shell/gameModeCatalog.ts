@@ -23,7 +23,7 @@ export interface GameModeCatalogItem {
   summary: string;
 }
 
-export const gameModeCatalog: Partial<Record<GameModeId, GameModeCatalogItem>> = {
+export const gameModeCatalog: Record<GameModeId, GameModeCatalogItem> = {
   flashcards: {
     id: "flashcards",
     label: "Flashcard Practice",

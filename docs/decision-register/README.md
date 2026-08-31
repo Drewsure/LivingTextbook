@@ -506,6 +506,7 @@
 - `DR-532-game-completion-offer-map-next-path.md`
 - `DR-533-recommended-path-offer-map-source.md`
 - `DR-534-shared-game-mode-route-path-helper.md`
+- `DR-535-active-game-route-catalog-workbench.md`
 
 ## Maintenance Rule
 
