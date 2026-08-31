@@ -283,6 +283,7 @@ export function StudentLaunchFlow({
       <RecommendedGameRoutesCard
         launchSession={launchSession}
         progression={currentProgression}
+        contentPackageId={contentPackage.meta.packageId}
         onRouteGuidanceListened={handleRouteGuidanceListened}
       />
       {activeGameMode === "memory-match" && (

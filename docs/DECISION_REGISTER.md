@@ -938,3 +938,22 @@ Guardrails:
 - Completion cards can show the source of the next suggestion.
 - Completion cards cannot write routes, publish games, change scoring, or unlock teacher-only/premium offers.
 - This decision is recorded in `docs/adr/0461-game-completion-offer-map-next-path.md` and `docs/decision-register/DR-532-game-completion-offer-map-next-path.md`.
+
+## DR-533: Recommended Path Offer-Map Source
+
+Status: Accepted
+
+Decision: Recommended game path cards should prefer reviewed unit game offer maps when a content package id is available.
+
+Rationale:
+
+- Recommended paths are student-facing progression surfaces, so they should not drift from teacher-reviewed game availability.
+- Unit game offer maps already hold the richer route, audio, reporting, readiness, and availability rules.
+- Launch-session recommendations remain useful as a fallback while package review data matures.
+
+Guardrails:
+
+- Hidden, blocked, teacher-only, premium, and not-ready offers must not appear as normal recommended student games.
+- Recommended path cards may show the reviewed map that sourced the route list.
+- The card cannot publish routes, unlock premium features, save settings, write scores, or treat support-language actions as progress.
+- This decision is recorded in `docs/adr/0462-recommended-path-offer-map-source.md` and `docs/decision-register/DR-533-recommended-path-offer-map-source.md`.

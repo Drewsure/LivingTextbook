@@ -2,6 +2,8 @@
 
 import { Card, StatusPill } from "@living-textbook/ui";
 import type { GameModeId, LaunchSession, StudentProgressionState } from "@living-textbook/content-model";
+import { findSampleUnitGameOfferMap } from "@/data/sampleUnitGameOfferMap";
+import type { UnitGameOffer, UnitGameOfferMap } from "@/data/sampleUnitGameOfferMap";
 import { AudioCueButton, AudioCueText } from "@/features/audio/AudioCueButton";
 import {
   getBalloonPopPath,
@@ -23,18 +25,18 @@ import { formatMode } from "../studentLabels";
 interface RecommendedGameRoutesCardProps {
   launchSession: LaunchSession;
   progression: StudentProgressionState;
+  contentPackageId?: string;
   onRouteGuidanceListened?: (mode: GameModeId, routeStatus: "locked" | "unlocked" | "complete", routeHref: string) => void;
 }
 
-export function RecommendedGameRoutesCard({ launchSession, progression, onRouteGuidanceListened }: RecommendedGameRoutesCardProps) {
-  const recommendedRoutes = launchSession.recommendedNextModes.map((mode, index) => ({
-    mode,
-    order: index + 1,
-    href: getModePath(mode, launchSession.launchCode),
-    unlocked: progression.unlockedGameModes.includes(mode),
-    completed: progression.completedGameModes.includes(mode),
-    summary: getModeSummary(mode),
-  }));
+export function RecommendedGameRoutesCard({
+  launchSession,
+  progression,
+  contentPackageId,
+  onRouteGuidanceListened,
+}: RecommendedGameRoutesCardProps) {
+  const offerMap = contentPackageId ? findSampleUnitGameOfferMap(contentPackageId) : undefined;
+  const recommendedRoutes = buildRecommendedRoutes({ launchSession, progression, offerMap });
 
   if (recommendedRoutes.length === 0) {
     return null;
@@ -70,6 +72,9 @@ export function RecommendedGameRoutesCard({ launchSession, progression, onRouteG
             />
           </p>
           <p className="mt-2 break-all text-xs font-semibold text-[var(--tenant-muted)]">{activityHubPath}</p>
+          <p className="mt-2 text-xs font-semibold text-[var(--tenant-muted)]">
+            Recommended path source: {offerMap ? `Reviewed offer map / ${offerMap.label}` : "Launch session fallback"}
+          </p>
         </div>
         <a
           href={activityHubPath}
@@ -81,7 +86,7 @@ export function RecommendedGameRoutesCard({ launchSession, progression, onRouteG
 
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
         {recommendedRoutes.map((route) => {
-          const listenText = `${formatMode(route.mode)}. ${route.summary}`;
+          const listenText = `${route.label}. ${route.summary}`;
 
           return (
             <div
@@ -94,7 +99,7 @@ export function RecommendedGameRoutesCard({ launchSession, progression, onRouteG
             >
               <span className="flex flex-wrap items-center justify-between gap-2">
                 <span className="font-bold text-[var(--tenant-text)]">
-                  {route.order}. {formatMode(route.mode)}
+                  {route.order}. {route.label}
                 </span>
                 <StatusPill label={route.completed ? "Complete" : route.unlocked ? "Ready" : "Locked"} tone={route.unlocked ? "success" : "warning"} />
               </span>
@@ -102,7 +107,7 @@ export function RecommendedGameRoutesCard({ launchSession, progression, onRouteG
               <span className="mt-3 flex flex-wrap items-center gap-2">
                 <AudioCueButton
                   text={listenText}
-                  label={`Listen to ${formatMode(route.mode)} route`}
+                  label={`Listen to ${route.label} route`}
                   compact
                   onPlay={() =>
                     onRouteGuidanceListened?.(
@@ -132,6 +137,60 @@ export function RecommendedGameRoutesCard({ launchSession, progression, onRouteG
       </div>
     </Card>
   );
+}
+
+function buildRecommendedRoutes({
+  launchSession,
+  progression,
+  offerMap,
+}: {
+  launchSession: LaunchSession;
+  progression: StudentProgressionState;
+  offerMap?: UnitGameOfferMap;
+}) {
+  const offers = offerMap?.offers
+    .filter((offer) => offer.gameMode !== launchSession.entryMode)
+    .filter((offer) => offer.readiness === "ready")
+    .filter((offer) => offer.availability !== "hidden" && offer.availability !== "blocked")
+    .filter((offer) => offer.availability !== "teacher-only" && offer.availability !== "premium")
+    .slice()
+    .sort((first, second) => (first.recommendedOrder ?? 99) - (second.recommendedOrder ?? 99));
+
+  if (offers && offers.length > 0) {
+    return offers.map((offer, index) => toRecommendedRoute({ offer, index, launchSession, progression }));
+  }
+
+  return launchSession.recommendedNextModes.map((mode, index) => ({
+    mode,
+    order: index + 1,
+    label: formatMode(mode),
+    href: getModePath(mode, launchSession.launchCode),
+    unlocked: progression.unlockedGameModes.includes(mode),
+    completed: progression.completedGameModes.includes(mode),
+    summary: getModeSummary(mode),
+  }));
+}
+
+function toRecommendedRoute({
+  offer,
+  index,
+  launchSession,
+  progression,
+}: {
+  offer: UnitGameOffer;
+  index: number;
+  launchSession: LaunchSession;
+  progression: StudentProgressionState;
+}) {
+  return {
+    mode: offer.gameMode,
+    order: index + 1,
+    label: offer.label,
+    href: offer.launchRoute ?? getModePath(offer.gameMode, launchSession.launchCode),
+    unlocked: progression.unlockedGameModes.includes(offer.gameMode),
+    completed: progression.completedGameModes.includes(offer.gameMode),
+    summary: `${offer.audioRequirement} ${offer.reportingRequirement}`,
+  };
 }
 
 function getModePath(mode: GameModeId, launchCode: string): string {
