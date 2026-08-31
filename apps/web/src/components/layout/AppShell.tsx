@@ -43,6 +43,7 @@ export function AppShell({ children, tenant, compact = false }: AppShellProps) {
               <a href="/teacher">Teacher Launch</a>
               <a href="/teacher/intake">Content Intake</a>
               <a href="/teacher/session-settings">Session Settings</a>
+              <a href="/teacher/assignments">Assignments</a>
               <a href="/teacher/persistence">Persistence</a>
               <a href="/teacher/reporting">Reporting</a>
               <a href="/teacher/entitlements">Entitlements</a>

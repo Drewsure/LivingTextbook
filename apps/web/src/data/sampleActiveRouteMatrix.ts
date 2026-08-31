@@ -61,6 +61,15 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
       "Focused reporting route for coded learner slots, report package boundaries, event acceptance, export policy, and sensitive-data exclusions before live report export.",
   },
   {
+    routeId: "teacher-assignment-rollout-workbench",
+    group: "core",
+    label: "Teacher assignment rollout workbench",
+    path: "/teacher/assignments",
+    status: "active-scaffold",
+    note:
+      "Focused assignment route for private links, QR/front-door entry, rollout gates, roster scope, target-language progress, report blockers, and no-live-scheduling policy.",
+  },
+  {
     routeId: "teacher-package-entitlements",
     group: "core",
     label: "Teacher package entitlement workbench",

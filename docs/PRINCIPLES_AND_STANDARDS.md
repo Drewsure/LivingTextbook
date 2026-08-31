@@ -308,6 +308,7 @@ Teacher-led requirements:
 
 - Teacher can select or approve a unit.
 - Teacher can launch by QR code.
+- Teacher can review assignment readiness and rollout gates before scheduling a classroom pilot.
 - Teacher can see the Teacher Launch Protocol.
 - Teacher can monitor completion and mastery.
 - Teacher can monitor media engagement separately from language-game mastery.
@@ -319,6 +320,7 @@ Student self-progression requirements:
 
 - Student can enter through a QR route.
 - Student can enter through a front-door login flow where a tenant requires entry code and user code.
+- Student can enter through a private assignment link only when the link is tenant-scoped, student-safe, and not a public sharing or teacher/admin route.
 - Student can complete an entry practice flow, usually flashcards.
 - Student can tap or click learner-facing text to hear vocabulary terms, target sentences, instructions, feedback, and critical controls without needing independent reading ability.
 - Student can unlock the next recommended game mode.

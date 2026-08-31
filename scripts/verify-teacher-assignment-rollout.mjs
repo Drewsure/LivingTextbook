@@ -5,7 +5,10 @@ const generatedAssignmentHandoffEvidencePackets = readSource(
   "../apps/web/src/data/sampleAiGeneratedPackageWriterAssignmentHandoffEvidencePacket.ts",
 );
 const rolloutPanel = readSource("../apps/web/src/features/teacher/TeacherAssignmentRolloutPanel.tsx");
+const assignmentWorkbenchPage = readSource("../apps/web/src/app/teacher/assignments/page.tsx");
 const teacherIntakePage = readSource("../apps/web/src/app/teacher/intake/page.tsx");
+const activeRouteList = readSource("../docs/ACTIVE_ROUTE_VERIFICATION_LIST.md");
+const routeContracts = readSource("../apps/web/src/features/routes/routeContracts.ts");
 const activeRouteVerifier = readSource("./verify-active-routes.mjs");
 const buildSessions = readSource("../docs/BUILD_SESSIONS.md");
 const rolloutChecks = readSource("../docs/verification/TEACHER_ASSIGNMENT_ROLLOUT_CHECKS.md");
@@ -66,8 +69,19 @@ requireText(rolloutPanel, "sourceEvidencePacketIds", "Assignment rollout panel m
 
 requireText(teacherIntakePage, "TeacherAssignmentRolloutPanel", "Teacher intake must render assignment rollout.");
 requireText(teacherIntakePage, "sampleAssignmentRolloutPlans", "Teacher intake must use sample assignment rollout plans.");
+requireText(assignmentWorkbenchPage, "Assignment rollout workbench", "Teacher assignment workbench must expose its heading.");
+requireText(assignmentWorkbenchPage, "TeacherAssignmentReadinessPanel", "Teacher assignment workbench must render assignment readiness.");
+requireText(assignmentWorkbenchPage, "TeacherAssignmentRolloutPanel", "Teacher assignment workbench must render assignment rollout.");
+requireText(assignmentWorkbenchPage, "ClassRosterReadinessPanel", "Teacher assignment workbench must render roster readiness.");
+requireText(assignmentWorkbenchPage, "No live scheduling", "Teacher assignment workbench must block live scheduling.");
+requireText(assignmentWorkbenchPage, "No real learner data", "Teacher assignment workbench must block real learner data.");
+requireText(assignmentWorkbenchPage, "generated-package assignment handoff stay blocked", "Teacher assignment workbench must block generated-package assignment handoff.");
+requireText(routeContracts, "getTeacherAssignmentRolloutWorkbenchPath", "Route contracts must expose assignment rollout workbench helper.");
+requireText(activeRouteList, "http://127.0.0.1:3000/teacher/assignments", "Active route list must include assignment rollout workbench.");
 
 for (const marker of [
+  "Assignment rollout workbench",
+  "Private links, QR entry, roster scope, and pilot scheduling gates",
   "Assignment rollout",
   "From reviewed assignment to scheduled pilot",
   "demo-preview",
@@ -82,6 +96,7 @@ for (const marker of [
   "Generated handoff evidence",
   "ai-generated-package-writer-assignment-handoff-evidence-packet",
   "cannot schedule a live class",
+  "/teacher/assignments",
 ]) {
   requireText(activeRouteVerifier, marker, `Active route verifier must check assignment rollout text: ${marker}`);
 }

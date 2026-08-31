@@ -120,8 +120,8 @@ export function TeacherAssignmentReadinessPanel({ plans, errors, warnings }: Tea
               <div className="mt-4 rounded-lg border border-[var(--tenant-border)] bg-white/80 p-3">
                 <p className="text-sm font-bold text-[var(--tenant-text)]">Required before pilot</p>
                 <ul className="mt-2 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
-                  {plan.requiredBeforePilot.map((requirement) => (
-                    <li key={requirement}>{requirement}</li>
+                  {plan.requiredBeforePilot.map((requirement, index) => (
+                    <li key={`${plan.assignmentId}-required-${index}-${requirement}`}>{requirement}</li>
                   ))}
                 </ul>
               </div>
@@ -142,8 +142,8 @@ function AssignmentNotice({ title, items, emptyLabel }: { title: string; items: 
       </div>
       {items.length > 0 ? (
         <ul className="mt-2 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
-          {items.map((item) => (
-            <li key={item}>{item}</li>
+          {items.map((item, index) => (
+            <li key={`${title}-${index}-${item}`}>{item}</li>
           ))}
         </ul>
       ) : (

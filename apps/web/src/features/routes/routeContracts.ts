@@ -582,6 +582,10 @@ export function getTeacherReportingReadinessPath(): string {
   return "/teacher/reporting";
 }
 
+export function getTeacherAssignmentRolloutWorkbenchPath(): string {
+  return "/teacher/assignments";
+}
+
 export function getTeacherPackageEntitlementsPath(): string {
   return "/teacher/entitlements";
 }

@@ -28,6 +28,7 @@ This document defines the clean route and state contracts for the first Living T
 | `/media/[playlistId]` | Student / teacher | Future contract | Unit-linked playlist or media activity route resolved from a launch session, permanent QR, or teacher preview. |
 | `/teacher/units/[unitKey]` | Teacher | Active scaffold | Unit-specific approval, content review, launch settings, audio support review, media review, route readiness, and class assignment blockers. |
 | `/teacher/sessions/[launchCode]` | Teacher | Future | Live classroom monitoring, audio cue engagement, media engagement, completion, Training Academy recommendations. |
+| `/teacher/assignments` | Teacher / admin | Active scaffold | Focused assignment rollout workbench for private links, QR/front-door entry, roster scope, rollout gates, report blockers, and no-live-scheduling policy. |
 | `/student/progress` | Student | Future | Lightweight return route for unlocked games, media, rewards, and mastery status. |
 | `/training/[code]` | Student | Future | Remedial or adaptive Training Academy route for targeted review. |
 

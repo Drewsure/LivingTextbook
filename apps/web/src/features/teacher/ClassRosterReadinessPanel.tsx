@@ -112,8 +112,8 @@ export function ClassRosterReadinessPanel({ plans, errors, warnings }: ClassRost
                 <p className="text-sm font-bold text-[var(--tenant-text)]">Required before pilot</p>
                 {plan.requiredBeforePilot.length > 0 ? (
                   <ul className="mt-3 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
-                    {plan.requiredBeforePilot.map((requirement) => (
-                      <li key={requirement}>{requirement}</li>
+                    {plan.requiredBeforePilot.map((requirement, index) => (
+                      <li key={`${plan.rosterId}-required-${index}-${requirement}`}>{requirement}</li>
                     ))}
                   </ul>
                 ) : (
@@ -137,8 +137,8 @@ function RosterNotice({ title, items, emptyLabel }: { title: string; items: stri
       </div>
       {items.length > 0 ? (
         <ul className="mt-2 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
-          {items.map((item) => (
-            <li key={item}>{item}</li>
+          {items.map((item, index) => (
+            <li key={`${title}-${index}-${item}`}>{item}</li>
           ))}
         </ul>
       ) : (
