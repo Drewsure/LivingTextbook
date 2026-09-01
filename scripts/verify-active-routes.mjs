@@ -2318,6 +2318,24 @@ expectedTextByPath.get("/teacher/intake")?.push(
   "No live learner data",
   "No direct media file target",
 );
+expectedTextByPath.get("/teacher/intake")?.push(
+  "Foundation workstream index",
+  "Visible build map",
+  "Current build focus",
+  "Route and QR safety",
+  "Content intake and uploads",
+  "Game engine readiness",
+  "Audio, media, and language",
+  "Teacher operations and reporting",
+  "Pilot, policy, and evidence",
+  "Backend, persistence, and local companion",
+  "Future Z.ai intake alert",
+  "No live feature activation",
+  "No student data collection",
+  "No public community library",
+  "No unmanaged asset adoption",
+  "No Z.ai import before the intake alert",
+);
 
 const teacherIntakeExpected = expectedTextByPath.get("/teacher/intake");
 if (teacherIntakeExpected) {

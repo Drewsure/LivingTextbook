@@ -604,3 +604,17 @@ Required standing rules:
 - The route graduation gate must remain visible on `/teacher/intake` while the platform is in foundation and pilot-readiness stages.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-543 and `docs/adr/0472-route-graduation-gate.md`.
+
+## 23. Foundation Workstream Visibility Standard
+
+The foundation dashboard must remain readable as the build expands.
+
+Required standing rules:
+
+- `/teacher/intake` must show a visible workstream index before the detailed review panels.
+- The index must name the current build focus and the major build lanes: routes/QR, content intake/uploads, game engines, audio/media/language, teacher operations/reporting, pilot/policy/evidence, backend/persistence/local companion, and future Z.ai intake.
+- The index must preserve the future Z.ai intake alert until Codex explicitly signals that outside prototypes should be inventoried, reviewed, and wrapped.
+- The index cannot activate live features, student data collection, public community libraries, unmanaged asset adoption, direct AI publish, or Z.ai imports.
+- The visible build map must stay aligned with the build sessions document, principles and standards document, decision register, ADRs, and route verification checks.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-544 and `docs/adr/0473-foundation-workstream-index.md`.

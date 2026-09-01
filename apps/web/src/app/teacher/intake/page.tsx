@@ -36,6 +36,7 @@ import { sampleGameModeSettingsProfilePlan } from "@/data/sampleGameModeSettings
 import { sampleGameModeSettingsStorageReadinessPlan } from "@/data/sampleGameModeSettingsStorageReadiness";
 import { sampleGamePrototypeAssignmentPlan } from "@/data/sampleGamePrototypeAssignmentPlan";
 import { sampleFoundationVerificationGate } from "@/data/sampleFoundationVerificationGate";
+import { sampleFoundationWorkstreamIndex } from "@/data/sampleFoundationWorkstreamIndex";
 import { sampleBuildStageMap } from "@/data/sampleBuildStageMap";
 import { sampleCompetitiveFeatureCoverageMatrix } from "@/data/sampleCompetitiveFeatureCoverage";
 import { sampleLocalBundleManifests } from "@/data/sampleLocalBundlePlan";
@@ -130,6 +131,7 @@ import { GameBackgroundMediaPolicyPanel } from "@/features/multimedia/GameBackgr
 import { CompetitiveFeatureCoveragePanel } from "@/features/policy/CompetitiveFeatureCoveragePanel";
 import { BuildStageMapPanel } from "@/features/policy/BuildStageMapPanel";
 import { FoundationVerificationGatePanel } from "@/features/policy/FoundationVerificationGatePanel";
+import { FoundationWorkstreamIndexPanel } from "@/features/policy/FoundationWorkstreamIndexPanel";
 import { MediaRightsReadinessPanel } from "@/features/multimedia/MediaRightsReadinessPanel";
 import { PilotPolicyReadinessPanel } from "@/features/policy/PilotPolicyReadinessPanel";
 import { PackageApprovalLedgerPanel } from "@/features/pilot/PackageApprovalLedgerPanel";
@@ -195,6 +197,7 @@ export default function TeacherIntakePage() {
             <StatusPill label="Foundation scaffold" tone="success" />
           </div>
         </Card>
+        <FoundationWorkstreamIndexPanel index={sampleFoundationWorkstreamIndex} />
         <FoundationVerificationGatePanel gate={sampleFoundationVerificationGate} />
         <BuildStageMapPanel map={sampleBuildStageMap} />
         <CompetitiveFeatureCoveragePanel matrix={sampleCompetitiveFeatureCoverageMatrix} />

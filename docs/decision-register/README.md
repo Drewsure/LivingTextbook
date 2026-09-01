@@ -515,6 +515,7 @@
 - `DR-541-tenant-aware-app-shell-navigation.md`
 - `DR-542-tenant-navigation-boundary-panel.md`
 - `DR-543-route-graduation-gate.md`
+- `DR-544-foundation-workstream-index.md`
 
 ## Maintenance Rule
 

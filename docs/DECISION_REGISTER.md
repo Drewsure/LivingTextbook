@@ -1159,3 +1159,22 @@ Guardrails:
 - No production QR mutation, classroom launch, live learner data collection, report export, direct media-file target, or support-language-only progress can be enabled from this gate.
 - Active route verification must protect the graduation text on `/teacher/intake`.
 - This decision is recorded in `docs/adr/0472-route-graduation-gate.md` and `docs/decision-register/DR-543-route-graduation-gate.md`.
+
+## DR-544: Foundation Workstream Index
+
+Status: Accepted
+
+Decision: Add a visible foundation workstream index near the top of `/teacher/intake`.
+
+Rationale:
+
+- The foundation dashboard now contains many route, upload, game, media, policy, evidence, backend, and local companion gates.
+- Teachers, partners, and future agents need a readable map of the current build lanes before they enter the deeper review panels.
+- The index reinforces the current build focus and the future Z.ai intake alert without enabling any live product behavior.
+
+Guardrails:
+
+- The index is informational and cannot activate live features, student data collection, public community libraries, unmanaged asset adoption, direct AI publish, or Z.ai imports.
+- The workstream map must remain aligned with `docs/BUILD_SESSIONS.md`, `docs/PRINCIPLES_AND_STANDARDS.md`, and the decision register.
+- Active route verification must protect the index text on `/teacher/intake`.
+- This decision is recorded in `docs/adr/0473-foundation-workstream-index.md` and `docs/decision-register/DR-544-foundation-workstream-index.md`.
