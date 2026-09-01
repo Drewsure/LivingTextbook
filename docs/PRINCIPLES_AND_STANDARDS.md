@@ -618,3 +618,17 @@ Required standing rules:
 - The visible build map must stay aligned with the build sessions document, principles and standards document, decision register, ADRs, and route verification checks.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-544 and `docs/adr/0473-foundation-workstream-index.md`.
+
+## 24. Teacher-Facing Build Status Standard
+
+Teacher-facing entry surfaces should communicate the current build state in plain language.
+
+Required standing rules:
+
+- `/teacher` must show a compact foundation status snapshot while the platform is in foundation and pilot-readiness stages.
+- The snapshot must state that structure comes before premium polish.
+- The snapshot must expose route health, tenant-boundary status, and the current Z.ai/prototype timing.
+- The snapshot must link to `/teacher/intake` for the full foundation control room.
+- The snapshot cannot activate live features, classroom launch, real learner data collection, report export, or Z.ai imports.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-545 and `docs/adr/0474-teacher-page-foundation-status-snapshot.md`.

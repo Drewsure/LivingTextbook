@@ -1178,3 +1178,22 @@ Guardrails:
 - The workstream map must remain aligned with `docs/BUILD_SESSIONS.md`, `docs/PRINCIPLES_AND_STANDARDS.md`, and the decision register.
 - Active route verification must protect the index text on `/teacher/intake`.
 - This decision is recorded in `docs/adr/0473-foundation-workstream-index.md` and `docs/decision-register/DR-544-foundation-workstream-index.md`.
+
+## DR-545: Teacher Page Foundation Status Snapshot
+
+Status: Accepted
+
+Decision: Add a compact foundation status snapshot to the MiniStar teacher page.
+
+Rationale:
+
+- The main teacher page should communicate the current build stage before users enter launch routes or the larger intake control room.
+- The snapshot gives a non-technical status view: structure first, 85 active routes checked, tenant boundary visible, and Z.ai intake not yet.
+- This helps the human side of the project understand when to intervene and when to keep build focus on foundation integrity.
+
+Guardrails:
+
+- The snapshot is informational and cannot activate live features, classroom launch, real learner data collection, report export, or Z.ai imports.
+- The status must link to the foundation control room without replacing the detailed gates on `/teacher/intake`.
+- Active route verification must protect the snapshot text on `/teacher`.
+- This decision is recorded in `docs/adr/0474-teacher-page-foundation-status-snapshot.md` and `docs/decision-register/DR-545-teacher-page-foundation-status-snapshot.md`.

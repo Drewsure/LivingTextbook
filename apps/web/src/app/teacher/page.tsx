@@ -1,7 +1,9 @@
 import { AppShell } from "@/components/layout/AppShell";
 import { levelOneUnitOne } from "@/data/levelOneUnitOne";
+import { sampleFoundationStatusSnapshot } from "@/data/sampleFoundationStatusSnapshot";
 import { sampleLaunchSession } from "@/data/sampleLaunchSession";
 import { sampleMultimediaContentPackage } from "@/data/sampleMultimediaPackage";
+import { FoundationStatusSnapshotPanel } from "@/features/policy/FoundationStatusSnapshotPanel";
 import { getTeacherMediaLibraryPath } from "@/features/routes/routeContracts";
 import { TeacherAssistLanguagePanel } from "@/features/teacher/TeacherAssistLanguagePanel";
 import { TeacherLaunchPanel } from "@/features/teacher/TeacherLaunchPanel";
@@ -12,6 +14,7 @@ export default function TeacherPage() {
   return (
     <AppShell tenant={ministarTenant}>
       <div className="grid gap-5">
+        <FoundationStatusSnapshotPanel snapshot={sampleFoundationStatusSnapshot} />
         <TeacherLaunchPanel
           unit={levelOneUnitOne}
           launchSession={sampleLaunchSession}

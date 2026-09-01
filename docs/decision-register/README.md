@@ -516,6 +516,7 @@
 - `DR-542-tenant-navigation-boundary-panel.md`
 - `DR-543-route-graduation-gate.md`
 - `DR-544-foundation-workstream-index.md`
+- `DR-545-teacher-page-foundation-status-snapshot.md`
 
 ## Maintenance Rule
 

@@ -106,6 +106,7 @@ Focused verification supplements:
 - `docs/verification/TEACHER_AUTHORING_READINESS_CHECKS.md`
 - `docs/verification/TEACHER_ASSIGNMENT_ROLLOUT_CHECKS.md`
 - `docs/verification/TEACHER_DEMO_ROUTE_SHORTCUT_CHECKS.md`
+- `docs/verification/TEACHER_FOUNDATION_STATUS_SNAPSHOT_CHECKS.md`
 - `docs/verification/TEACHER_MICROPHONE_APPROVAL_CHECKS.md`
 - `docs/verification/TEACHER_REPORT_EXPORT_CHECKS.md`
 - `docs/verification/TEACHER_REPORT_EVENT_ACCEPTANCE_SUMMARY_CHECKS.md`
