@@ -572,3 +572,19 @@ Required standing rules:
 - Teacher reporting should distinguish premium tutor summaries from baseline game/media progress.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-011 and DR-012, `docs/adr/0007-bounded-ai-tutor-upper-levels.md`, `docs/adr/0008-ai-tutor-premium-entitlement.md`, `docs/AI_TUTOR_STRATEGY.md`, and `docs/future-requirements/FR-006-bounded-ai-tutor-upper-levels.md`.
+
+## 21. Tenant Navigation Boundary Standard
+
+White-label navigation is part of product separation, not decoration.
+
+Required standing rules:
+
+- Shared platform routes may appear across tenants when they preserve tenant branding, review-only status, and common guardrails.
+- Tenant-scoped review routes must resolve from tenant-aware route helpers or route data.
+- Sample-publisher-only operational routes must not appear on MiniStar-branded pages until equivalent MiniStar data, records, and verification exist.
+- MiniStar-only media state, ownership labels, support-language rules, and local package state must not appear on sample-publisher pages.
+- Teacher/admin route examples may be visible inside boundary review panels, but they must not become live workflow actions.
+- Navigation cannot activate uploads, storage writes, evidence exports, release-state mutation, local package export, assignment activation, scoring, rewards, or classroom launch.
+- The tenant navigation boundary panel must remain visible on `/teacher/intake` before more tenant workbenches are created.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-541 and DR-542, `docs/adr/0470-tenant-aware-app-shell-navigation.md`, and `docs/adr/0471-tenant-navigation-boundary-panel.md`.

@@ -513,6 +513,7 @@
 - `DR-539-focused-assignment-rollout-workbench.md`
 - `DR-540-tenant-aware-media-library-preview.md`
 - `DR-541-tenant-aware-app-shell-navigation.md`
+- `DR-542-tenant-navigation-boundary-panel.md`
 
 ## Maintenance Rule
 

@@ -124,6 +124,7 @@ Focused verification supplements:
 - `docs/verification/TEACHER_SESSION_SETTINGS_CONTRACT_VERIFIER_CHECKS.md`
 - `docs/verification/TEACHER_SESSION_SETTINGS_STORAGE_CHECKS.md`
 - `docs/verification/TEACHER_UNIT_REVIEW_ROUTE_CHECKS.md`
+- `docs/verification/TENANT_NAVIGATION_BOUNDARY_CHECKS.md`
 - `docs/verification/TEXT_SPELLING_ENGINE_CHECKS.md`
 - `docs/verification/TYPE_ANSWER_PLAYABLE_CHECKS.md`
 - `docs/verification/TARGET_LANGUAGE_EXPANSION_CHECKS.md`

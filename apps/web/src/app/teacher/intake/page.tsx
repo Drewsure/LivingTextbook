@@ -18,6 +18,7 @@ import { sampleUploadChannelReadinessPlan } from "@/data/sampleUploadChannelRead
 import { sampleUploadPromotionReadinessPlan } from "@/data/sampleUploadPromotionReadiness";
 import { sampleUploadReviewQueue } from "@/data/sampleUploadReviewQueue";
 import { sampleTargetLanguageExpansionPlan } from "@/data/sampleTargetLanguageExpansionPlan";
+import { sampleTenantNavigationBoundaryPlan } from "@/data/sampleTenantNavigationBoundary";
 import {
   sampleClassRosterErrors,
   sampleClassRosterPlans,
@@ -168,6 +169,7 @@ import { EditionQrAliasPanel } from "@/features/routes/EditionQrAliasPanel";
 import { ActiveRouteMatrixPanel } from "@/features/routes/ActiveRouteMatrixPanel";
 import { QrPrintReadinessPanel } from "@/features/routes/QrPrintReadinessPanel";
 import { ShareEmbedReadinessPanel } from "@/features/routes/ShareEmbedReadinessPanel";
+import { TenantNavigationBoundaryPanel } from "@/features/routes/TenantNavigationBoundaryPanel";
 import { TenantRouteRegistryPanel } from "@/features/routes/TenantRouteRegistryPanel";
 import { ClassRosterReadinessPanel } from "@/features/teacher/ClassRosterReadinessPanel";
 import { TeacherAssignmentRolloutPanel } from "@/features/teacher/TeacherAssignmentRolloutPanel";
@@ -264,6 +266,7 @@ export default function TeacherIntakePage() {
         <TeacherAuthoringReadinessPanel plan={sampleTeacherAuthoringReadinessPlan} />
         <AuthoringVerifierPlanPanel plan={sampleAuthoringVerifierPlan} />
         <ContentIntakeReviewPanel runs={sampleContentIntakeRuns} releases={samplePackageReleases} />
+        <TenantNavigationBoundaryPanel plan={sampleTenantNavigationBoundaryPlan} />
         <ActiveRouteMatrixPanel routes={sampleActiveRouteMatrix} />
         <TenantRouteRegistryPanel routes={sampleFrontDoorRouteRegistry} />
         <EditionQrAliasPanel plan={sampleEditionQrAliasPlan} />

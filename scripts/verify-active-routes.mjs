@@ -2269,6 +2269,30 @@ expectedTextByPath
   ?.push("AI teaching game generator", "/teacher/generator/sample-publisher", "Tenant draft review queue", "/teacher/review/sample-publisher");
 expectedTextByPath.get("/partner-demo")?.push("Publisher maintenance", "/teacher/maintenance/sample-publisher");
 expectedTextByPath.get("/partner-demo")?.push("Release control", "/teacher/release-control/sample-publisher");
+expectedTextByPath.get("/teacher/intake")?.push(
+  "Tenant navigation boundary",
+  "White-label navigation boundary",
+  "Shared platform routes",
+  "Tenant-scoped review routes",
+  "Sample-publisher-only operational routes",
+  "MiniStar not created yet",
+  "Review shortcut only",
+  "No cross-tenant navigation bleed",
+  "Route helpers required",
+  "Tenant shell branding required",
+  "No sample-publisher-only links on MiniStar pages",
+  "No MiniStar-only media state on sample publisher pages",
+  "No upload activation",
+  "No release-state mutation",
+  "No local package export",
+  "No assignment activation",
+  "No live workflow from navigation",
+  "No storage write from route shortcuts",
+  "/teacher/media/ministar",
+  "/teacher/media/sample-publisher",
+  "/teacher/uploads/sample-publisher",
+  "/teacher/uploads/ministar",
+);
 
 const teacherIntakeExpected = expectedTextByPath.get("/teacher/intake");
 if (teacherIntakeExpected) {

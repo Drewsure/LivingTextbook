@@ -1119,3 +1119,24 @@ Guardrails:
 - Navigation links remain review shortcuts only and cannot activate uploads, storage, release, local export, scoring, rewards, assignments, or classroom launch.
 - Active route verification must protect representative positive and forbidden tenant navigation markers.
 - This decision is recorded in `docs/adr/0470-tenant-aware-app-shell-navigation.md` and `docs/decision-register/DR-541-tenant-aware-app-shell-navigation.md`.
+
+## DR-542: Tenant Navigation Boundary Panel
+
+Status: Accepted
+
+Decision: Add a review-only tenant navigation boundary panel to `/teacher/intake` before adding more tenant workbenches.
+
+Rationale:
+
+- White-label navigation needs to be visible as a product boundary, not only hidden inside the app shell.
+- Teachers and future agents need to see which routes are shared platform routes, tenant-scoped review routes, sample-publisher-only operational routes, and MiniStar routes that are intentionally not created yet.
+- This reduces cross-tenant leakage risk before upload, evidence, media, release-control, local companion, and assignment routes expand.
+
+Guardrails:
+
+- The panel is review-only and cannot activate uploads, evidence export, release state, local package export, storage writes, assignments, or live workflow.
+- Tenant-scoped routes must use route helpers or tenant-aware route data before becoming shell links.
+- Sample-publisher-only operational routes must not appear in MiniStar navigation until MiniStar-specific data and review records exist.
+- MiniStar-only media state must not appear on sample-publisher branded pages.
+- Active route verification must protect the boundary text on `/teacher/intake`.
+- This decision is recorded in `docs/adr/0471-tenant-navigation-boundary-panel.md` and `docs/decision-register/DR-542-tenant-navigation-boundary-panel.md`.
