@@ -482,7 +482,18 @@ expectedTextByPath.set("/teacher/prototypes/ministar", [
   "Foundation Japanese support must remain hiragana-only.",
   "No Japanese support-language progress",
 ]);
-expectedTextByPath.get("/teacher")?.push("Open MiniStar media library", "/teacher/media/ministar");
+expectedTextByPath.get("/teacher")?.push(
+  "Open MiniStar media library",
+  "/teacher/media/ministar",
+  "Sources",
+  "/teacher/sources/ministar",
+  "AI Generator",
+  "/teacher/generator/ministar",
+  "Prototypes",
+  "/teacher/prototypes/ministar",
+  "Local Preview",
+  "/local/ministar",
+);
 expectedTextByPath.set("/teacher/media/ministar", [
   "MiniStar teacher media library",
   "Media maintenance preview",
@@ -506,9 +517,42 @@ expectedTextByPath.set("/teacher/media/ministar", [
   "No background music overriding learning audio",
   "No Japanese support-language unlock",
   "Local folder activation blocked",
+  "/teacher/sources/ministar",
+  "/teacher/generator/ministar",
+  "/teacher/prototypes/ministar",
+  "/teacher/review/ministar",
+  "/teacher/media/ministar",
+  "/local/ministar",
+  "/teacher/sessions/demo-unit-1",
 ]);
+expectedTextByPath.get("/teacher/media/sample-publisher")?.push(
+  "/teacher/sources/sample-publisher",
+  "/teacher/generator/sample-publisher",
+  "/teacher/prototypes/sample-publisher",
+  "/teacher/review/sample-publisher",
+  "/teacher/media/sample-publisher",
+  "/local/sample-publisher",
+  "/teacher/sessions/partner-demo-unit-1",
+);
 
 const forbiddenTextByPath = new Map([
+  [
+    "/teacher/media/ministar",
+    [
+      "Partner-owned assets",
+      "/teacher/sources/sample-publisher",
+      "/teacher/generator/sample-publisher",
+      "/teacher/prototypes/sample-publisher",
+      "/teacher/uploads/sample-publisher",
+      "/teacher/media/sample-publisher",
+      "/local/sample-publisher",
+      "/teacher/sessions/partner-demo-unit-1",
+    ],
+  ],
+  [
+    "/teacher/media/sample-publisher",
+    ["MiniStar-owned assets", "/teacher/media/ministar", "/local/ministar", "/teacher/sessions/demo-unit-1"],
+  ],
   [
     "/teacher/review/sample-publisher",
     ["AI-generated MiniStar greetings draft preview", "MiniStar AI support language ready"],

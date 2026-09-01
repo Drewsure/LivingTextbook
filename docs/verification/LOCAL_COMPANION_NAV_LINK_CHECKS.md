@@ -9,5 +9,6 @@ npm run verify:foundation
 Then verify:
 
 - Shared app navigation includes `Local Preview`.
-- The link opens `http://127.0.0.1:3000/local/sample-publisher`.
+- On MiniStar-branded pages, the link opens `http://127.0.0.1:3000/local/ministar`.
+- On sample-publisher-branded pages, the link opens `http://127.0.0.1:3000/local/sample-publisher`.
 - The route still presents a planning preview, not an offline-ready installer.

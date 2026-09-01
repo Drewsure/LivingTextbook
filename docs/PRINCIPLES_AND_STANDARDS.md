@@ -83,6 +83,7 @@ Required component habits:
 - Keep media playback separate from game scoring while allowing controlled game/media coordination.
 - Keep learner text separate from audio playback, but make student-facing text itself able to receive audio cue ids and act as the default listen/replay control.
 - Keep tenant branding separate from hard-coded MiniStar assumptions.
+- Shared navigation must be tenant-aware. Tenant-scoped links should resolve from the active tenant and route helpers, not from hard-coded sample or flagship tenant paths.
 - Keep tenant feature entitlements separate from individual game or media screens.
 - Build mobile-first and QR-classroom friendly.
 - Keep student surfaces simple enough for young learners.

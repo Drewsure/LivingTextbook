@@ -590,6 +590,10 @@ export function getTeacherPackageEntitlementsPath(): string {
   return "/teacher/entitlements";
 }
 
+export function getTeacherPrototypeReviewPath(tenantId: TenantId): string {
+  return `/teacher/prototypes/${encodeURIComponent(tenantId)}`;
+}
+
 export function getTenantTeacherDraftReviewQueuePath(tenantId: TenantId): string {
   return `/teacher/review/${encodeURIComponent(tenantId)}`;
 }
@@ -664,4 +668,8 @@ export function getMediaPlaylistPath(playlistId: string): string {
 
 export function getPrintableWorksheetPath(launchCode: LaunchCode): string {
   return `/print/${encodeURIComponent(launchCode)}`;
+}
+
+export function getLocalCompanionPreviewPath(tenantId: TenantId): string {
+  return `/local/${encodeURIComponent(tenantId)}`;
 }

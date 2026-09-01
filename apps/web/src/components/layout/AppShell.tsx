@@ -1,5 +1,23 @@
 import type { CSSProperties, ReactNode } from "react";
-import { getTeacherMediaLibraryPath } from "@/features/routes/routeContracts";
+import {
+  getLocalCompanionPreviewPath,
+  getTeacherAiGameGeneratorPath,
+  getTeacherDraftReviewQueuePath,
+  getTeacherEvidencePacketHandoffPath,
+  getTeacherEvidencePacketReviewPath,
+  getTeacherLabelledDiagramAssetWorkspacePath,
+  getTeacherMediaAssetWorkspacePath,
+  getTeacherMediaLibraryPath,
+  getTeacherPrivateLibraryPath,
+  getTeacherPrototypeReviewPath,
+  getTeacherPublisherMaintenancePath,
+  getTeacherReleaseControlPath,
+  getTeacherSchoolPolicyHandoffPath,
+  getTeacherSessionMonitorPath,
+  getTeacherSourceReviewWorkspacePath,
+  getTeacherUploadWorkspacePath,
+  getTenantTeacherDraftReviewQueuePath,
+} from "@/features/routes/routeContracts";
 import type { TenantConfig } from "@/features/tenant/types";
 
 interface AppShellProps {
@@ -7,6 +25,18 @@ interface AppShellProps {
   tenant: TenantConfig;
   compact?: boolean;
 }
+
+interface AppShellNavItem {
+  label: string;
+  href: string;
+}
+
+const samplePublisherLabelledDiagramAssetId = "sample-publisher-l1-u1-labelled-diagram";
+const samplePublisherMediaAssetId = "sample-publisher-l1-u1-routines-media";
+const samplePublisherTeacherDryRunId = "sample-publisher-first-handoff-teacher-dry-run";
+const samplePublisherLaunchGateId = "starter-english-level-1-unit-1-2026.1-pilot-candidate-classroom-launch-gate";
+const samplePublisherSchoolPolicyPacketId =
+  "starter-english-level-1-unit-1-2026.1-pilot-candidate-classroom-launch-gate-school-policy-gate-handoff-packet";
 
 function getTenantStyle(tenant: TenantConfig): CSSProperties {
   return {
@@ -24,8 +54,65 @@ function getTenantStyle(tenant: TenantConfig): CSSProperties {
   } as CSSProperties;
 }
 
+function getAppShellNavItems(tenant: TenantConfig): AppShellNavItem[] {
+  const coreLinks: AppShellNavItem[] = [
+    { label: "Overview", href: "/" },
+    { label: "Teacher Launch", href: "/teacher" },
+    { label: "Content Intake", href: "/teacher/intake" },
+    { label: "Session Settings", href: "/teacher/session-settings" },
+    { label: "Assignments", href: "/teacher/assignments" },
+    { label: "Persistence", href: "/teacher/persistence" },
+    { label: "Reporting", href: "/teacher/reporting" },
+    { label: "Entitlements", href: "/teacher/entitlements" },
+    { label: "Game Readiness", href: "/teacher/game-readiness" },
+  ];
+
+  const tenantReviewLinks: AppShellNavItem[] = [
+    { label: "Sources", href: getTeacherSourceReviewWorkspacePath(tenant.id) },
+    { label: "AI Generator", href: getTeacherAiGameGeneratorPath(tenant.id) },
+    { label: "Prototypes", href: getTeacherPrototypeReviewPath(tenant.id) },
+    { label: "Review Queue", href: getTenantTeacherDraftReviewQueuePath(tenant.id) },
+    { label: "Media", href: getTeacherMediaLibraryPath(tenant.id) },
+    { label: "Local Preview", href: getLocalCompanionPreviewPath(tenant.id) },
+  ];
+
+  if (tenant.id === "ministar") {
+    return [
+      ...coreLinks,
+      ...tenantReviewLinks,
+      { label: "Session Monitor", href: getTeacherSessionMonitorPath("demo-unit-1") },
+    ];
+  }
+
+  if (tenant.id === "sample-publisher") {
+    return [
+      ...coreLinks,
+      ...tenantReviewLinks,
+      { label: "Dry Run", href: `/teacher/dry-run/${samplePublisherTeacherDryRunId}` },
+      { label: "Launch Gate", href: `/teacher/launch-gate/${samplePublisherLaunchGateId}` },
+      { label: "Global Review", href: getTeacherDraftReviewQueuePath() },
+      { label: "Library", href: getTeacherPrivateLibraryPath(tenant.id) },
+      { label: "Maintenance", href: getTeacherPublisherMaintenancePath(tenant.id) },
+      { label: "Release", href: getTeacherReleaseControlPath(tenant.id) },
+      { label: "Uploads", href: getTeacherUploadWorkspacePath(tenant.id) },
+      { label: "Evidence", href: getTeacherEvidencePacketReviewPath(tenant.id) },
+      { label: "Handoff", href: getTeacherEvidencePacketHandoffPath(tenant.id) },
+      { label: "Policy", href: getTeacherSchoolPolicyHandoffPath(samplePublisherSchoolPolicyPacketId) },
+      { label: "Assets", href: getTeacherLabelledDiagramAssetWorkspacePath(samplePublisherLabelledDiagramAssetId) },
+      { label: "Media Asset", href: getTeacherMediaAssetWorkspacePath(samplePublisherMediaAssetId) },
+      { label: "Session Monitor", href: getTeacherSessionMonitorPath("partner-demo-unit-1") },
+      { label: "Partner Demo", href: "/partner-demo" },
+    ];
+  }
+
+  return [
+    ...coreLinks,
+    { label: "Review Queue", href: getTeacherDraftReviewQueuePath() },
+  ];
+}
+
 export function AppShell({ children, tenant, compact = false }: AppShellProps) {
-  const tenantMediaLibraryPath = getTeacherMediaLibraryPath(tenant.id);
+  const navItems = getAppShellNavItems(tenant);
 
   return (
     <main
@@ -42,29 +129,11 @@ export function AppShell({ children, tenant, compact = false }: AppShellProps) {
           </div>
           {!compact && (
             <nav className="flex flex-wrap justify-end gap-3 text-sm font-semibold text-[var(--tenant-text)]" aria-label="Primary">
-              <a href="/">Overview</a>
-              <a href="/teacher">Teacher Launch</a>
-              <a href="/teacher/intake">Content Intake</a>
-              <a href="/teacher/session-settings">Session Settings</a>
-              <a href="/teacher/assignments">Assignments</a>
-              <a href="/teacher/persistence">Persistence</a>
-              <a href="/teacher/reporting">Reporting</a>
-              <a href="/teacher/entitlements">Entitlements</a>
-              <a href="/teacher/game-readiness">Game Readiness</a>
-              <a href="/teacher/prototypes/sample-publisher">Prototypes</a>
-              <a href="/teacher/dry-run/sample-publisher-first-handoff-teacher-dry-run">Dry Run</a>
-              <a href="/teacher/launch-gate/starter-english-level-1-unit-1-2026.1-pilot-candidate-classroom-launch-gate">Launch Gate</a>
-              <a href="/teacher/review">Review Queue</a>
-              <a href="/teacher/library/sample-publisher">Library</a>
-              <a href="/teacher/maintenance/sample-publisher">Maintenance</a>
-              <a href="/teacher/release-control/sample-publisher">Release</a>
-              <a href="/teacher/uploads/sample-publisher">Uploads</a>
-              <a href="/teacher/assets/labelled-diagram/sample-publisher-l1-u1-labelled-diagram">Assets</a>
-              <a href="/teacher/assets/media/sample-publisher-l1-u1-routines-media">Media Asset</a>
-              <a href={tenantMediaLibraryPath}>Media</a>
-              <a href="/teacher/sessions/demo-unit-1">Session Monitor</a>
-              <a href="/partner-demo">Partner Demo</a>
-              <a href="/local/sample-publisher">Local Preview</a>
+              {navItems.map((item) => (
+                <a key={`${tenant.id}-${item.label}-${item.href}`} href={item.href}>
+                  {item.label}
+                </a>
+              ))}
             </nav>
           )}
         </div>

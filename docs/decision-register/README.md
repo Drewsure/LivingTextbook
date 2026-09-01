@@ -512,6 +512,7 @@
 - `DR-538-persistence-storage-selection-gate-visibility.md`
 - `DR-539-focused-assignment-rollout-workbench.md`
 - `DR-540-tenant-aware-media-library-preview.md`
+- `DR-541-tenant-aware-app-shell-navigation.md`
 
 ## Maintenance Rule
 
