@@ -588,3 +588,19 @@ Required standing rules:
 - The tenant navigation boundary panel must remain visible on `/teacher/intake` before more tenant workbenches are created.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-541 and DR-542, `docs/adr/0470-tenant-aware-app-shell-navigation.md`, and `docs/adr/0471-tenant-navigation-boundary-panel.md`.
+
+## 22. Route Graduation Standard
+
+An active local route is not a production promise.
+
+Required standing rules:
+
+- Scaffold routes prove rendering, data shape, and review-only boundaries only.
+- Student-ready routes require reviewed content, target-language audio coverage, standard progress events, teacher controls, and private assignment rules.
+- Pilot-ready routes require school policy acceptance, backend storage selection, roster identity boundaries, report/export policy, and rollback evidence.
+- Production QR routes require stable QR aliases, versioned package manifests, rights proof, rollback plans, and local companion fallback strategy where applicable.
+- No route may graduate because it is visible, linked, generated, or locally previewable.
+- Route graduation cannot activate upload controls, storage writes, production QR mutation, classroom launch, real learner data collection, report export, direct media-file targets, or support-language-only progress.
+- The route graduation gate must remain visible on `/teacher/intake` while the platform is in foundation and pilot-readiness stages.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-543 and `docs/adr/0472-route-graduation-gate.md`.

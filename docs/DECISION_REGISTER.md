@@ -1140,3 +1140,22 @@ Guardrails:
 - MiniStar-only media state must not appear on sample-publisher branded pages.
 - Active route verification must protect the boundary text on `/teacher/intake`.
 - This decision is recorded in `docs/adr/0471-tenant-navigation-boundary-panel.md` and `docs/decision-register/DR-542-tenant-navigation-boundary-panel.md`.
+
+## DR-543: Route Graduation Gate
+
+Status: Accepted
+
+Decision: Add a review-only route graduation gate to `/teacher/intake`.
+
+Rationale:
+
+- Active local routes prove page rendering and data shape, but they do not prove a route is ready for real students, pilots, printed QR codes, or local companion packaging.
+- Future builders need a shared definition of scaffold route, student-ready route, pilot-ready route, and production QR route.
+- Route graduation must require tenant boundaries, target-language audio, standard progress events, teacher reports, private assignment rules, school policy, backend storage, QR aliases, rollback, and local fallback evidence.
+
+Guardrails:
+
+- A visible route, generated package, local preview, or navigation link cannot graduate itself.
+- No production QR mutation, classroom launch, live learner data collection, report export, direct media-file target, or support-language-only progress can be enabled from this gate.
+- Active route verification must protect the graduation text on `/teacher/intake`.
+- This decision is recorded in `docs/adr/0472-route-graduation-gate.md` and `docs/decision-register/DR-543-route-graduation-gate.md`.

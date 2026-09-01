@@ -514,6 +514,7 @@
 - `DR-540-tenant-aware-media-library-preview.md`
 - `DR-541-tenant-aware-app-shell-navigation.md`
 - `DR-542-tenant-navigation-boundary-panel.md`
+- `DR-543-route-graduation-gate.md`
 
 ## Maintenance Rule
 

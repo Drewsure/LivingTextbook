@@ -2293,6 +2293,31 @@ expectedTextByPath.get("/teacher/intake")?.push(
   "/teacher/uploads/sample-publisher",
   "/teacher/uploads/ministar",
 );
+expectedTextByPath.get("/teacher/intake")?.push(
+  "Route graduation gate",
+  "Route release control",
+  "Scaffold is not production",
+  "no scaffold route becomes pilot-ready from a link",
+  "Scaffold route",
+  "Student-ready route",
+  "Pilot-ready route",
+  "Production QR route",
+  "Route helper contract",
+  "Tenant navigation boundary",
+  "Target-language audio coverage",
+  "Standard progress events",
+  "Teacher report boundary",
+  "Private assignment gate",
+  "School policy acceptance",
+  "Backend storage selection",
+  "QR alias and rollback plan",
+  "Local companion fallback",
+  "No route graduation action",
+  "No production QR mutation",
+  "No live classroom launch",
+  "No live learner data",
+  "No direct media file target",
+);
 
 const teacherIntakeExpected = expectedTextByPath.get("/teacher/intake");
 if (teacherIntakeExpected) {
