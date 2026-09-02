@@ -647,3 +647,19 @@ Required standing rules:
 - Codex owns the final integration review and merge decision.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-546 and `docs/adr/0475-zai-human-handoff-signal.md`.
+
+## 26. PWA And Offline Honesty Standard
+
+Installability is not the same as offline readiness.
+
+Required standing rules:
+
+- The platform may expose an installable hosted PWA shell while the foundation build is still review-only.
+- No page, package, route, teacher panel, or partner handoff may claim offline-ready status until service worker, cache policy, media rights, checksums, package manifests, QR fallback, rollback, learner-data, and school policy gates are complete.
+- Service worker registration, cache mutation, media precache, background sync, local installer export, local package activation, and student data offline storage stay blocked during foundation.
+- Offline media bundles require rights proof, versioned manifests, checksums, package size review, and tenant approval for offline distribution.
+- Learning audio priority must be preserved before any background music, video, media cache, or offline bundle behavior is allowed.
+- Printed QR codes must resolve through stable alias/front-door behavior and may only fall back to local companion routes after edition compatibility and rollback rules are verified.
+- A closed local textbook companion is a product strategy, not a shortcut around hosted PWA, storage, evidence, report, or privacy gates.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-547 and `docs/adr/0476-pwa-offline-readiness-gate.md`.

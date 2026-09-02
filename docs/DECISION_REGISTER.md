@@ -1216,3 +1216,23 @@ Guardrails:
 - No Z.ai source handoff, Phaser import, archive upload, pull request, app patch, route replacement, scoring mutation, audio manifest mutation, reward write, playlist write, package promotion, or student assignment is requested.
 - Prototype-readiness verification and active route verification must protect the timing language.
 - This decision is recorded in `docs/adr/0475-zai-human-handoff-signal.md` and `docs/decision-register/DR-546-zai-human-handoff-signal.md`.
+
+## DR-547: PWA And Offline Readiness Gate
+
+Status: Accepted
+
+Decision: Add a review-only PWA and offline readiness gate to `/teacher/intake`.
+
+Rationale:
+
+- The white-label product needs to support both hosted PWA pilots and future closed local textbook companion deployments.
+- An installable manifest helps teacher demos, but it can be mistaken for offline readiness if service worker, cache, media, QR, storage, and policy blockers are not visible.
+- The platform needs a clear promise boundary before partner media, yearly textbook packages, or local classroom fallbacks are discussed as saleable delivery modes.
+
+Guardrails:
+
+- No offline-ready claim, service worker registration, cache mutation, media precache, local installer export, student data offline storage, background sync, production QR mutation, or local package activation is allowed from this gate.
+- Offline media requires rights proof, checksums, versioned manifests, tenant approval, and learning-audio priority preservation.
+- Closed local companion behavior must stay tied to QR alias compatibility, edition fallback, rollback, persistence, reporting, and school policy gates.
+- Local bundle readiness verification and active route verification must protect the PWA/offline gate markers.
+- This decision is recorded in `docs/adr/0476-pwa-offline-readiness-gate.md` and `docs/decision-register/DR-547-pwa-offline-readiness-gate.md`.

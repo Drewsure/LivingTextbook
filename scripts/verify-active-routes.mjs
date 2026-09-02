@@ -2342,6 +2342,28 @@ expectedTextByPath.get("/teacher/intake")?.push(
   "No direct media file target",
 );
 expectedTextByPath.get("/teacher/intake")?.push(
+  "PWA and offline readiness",
+  "Hosted and closed companion boundary",
+  "Hosted PWA first, offline claim later",
+  "Offline honesty rule",
+  "Installable shell",
+  "Manifest available",
+  "Service worker not enabled yet",
+  "Cache strategy not approved yet",
+  "Offline media bundle not approved yet",
+  "Rights and versioned manifest required",
+  "Learning audio priority preserved",
+  "Local companion fallback required",
+  "QR alias compatibility required",
+  "No offline-ready claim",
+  "No service worker registration",
+  "No cache mutation",
+  "No media pre-cache",
+  "No local installer export",
+  "No student data offline storage",
+  "No background sync",
+);
+expectedTextByPath.get("/teacher/intake")?.push(
   "Foundation workstream index",
   "Visible build map",
   "Current build focus",

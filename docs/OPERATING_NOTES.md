@@ -540,3 +540,19 @@ npm run verify:routes
 4. Do not weaken expected-text coverage to hide a transient cold compile issue.
 
 Why this matters: Route verification should remain strict, but broad cold-start sweeps can expose dev-server timing noise. Warming and rerunning protects quality without misdiagnosing stable source code as broken.
+
+## OW-023: PWA Manifest Does Not Mean Offline Ready
+
+Status: Active
+
+Observed behavior: A web app can expose a valid manifest and still have no approved offline lesson, media, QR fallback, report, cache, or local data behavior. This is especially easy to confuse when discussing closed textbook companions.
+
+Procedure:
+
+1. Treat the manifest as installable-shell evidence only.
+2. Keep offline readiness blocked until service worker registration, cache policy, media rights, checksums, versioned manifests, QR fallback, rollback, learner-data exclusions, report/export policy, and school policy are complete.
+3. Do not add service worker registration, cache writes, media precache, local installer export, local package activation, background sync, or student data offline storage from a review panel.
+4. Preserve learning audio priority before allowing background music, video, or offline media behavior.
+5. Run `npm run verify:local-bundle` and `npm run verify:routes` after any local companion, PWA, media bundle, manifest, or QR fallback change.
+
+Why this matters: The white-label product can sell hosted PWA and future closed companion options only if each delivery promise is explicit, reliable, and policy-backed.

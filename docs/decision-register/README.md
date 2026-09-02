@@ -518,6 +518,7 @@
 - `DR-544-foundation-workstream-index.md`
 - `DR-545-teacher-page-foundation-status-snapshot.md`
 - `DR-546-zai-human-handoff-signal.md`
+- `DR-547-pwa-offline-readiness-gate.md`
 
 ## Maintenance Rule
 

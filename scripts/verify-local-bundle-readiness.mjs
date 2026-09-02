@@ -2,6 +2,8 @@ import { readFileSync } from "node:fs";
 
 const bundlePlan = readSource("../apps/web/src/data/sampleLocalBundlePlan.ts");
 const deploymentPreflight = readSource("../apps/web/src/data/sampleLocalDeploymentPreflight.ts");
+const pwaOfflineReadiness = readSource("../apps/web/src/data/samplePwaOfflineReadiness.ts");
+const pwaOfflinePanel = readSource("../apps/web/src/features/deployment/PwaOfflineReadinessPanel.tsx");
 const localPreviewPanel = readSource("../apps/web/src/features/deployment/LocalCompanionPackagePreviewPanel.tsx");
 const activeRoutes = readSource("../docs/ACTIVE_ROUTE_VERIFICATION_LIST.md");
 
@@ -9,6 +11,31 @@ const failures = [];
 const expectedBundles = ["ministar-level-1-unit-1-demo", "sample-publisher-unit-1-planning"];
 const requiredLocalGameModes = ["flashcards", "match-up", "label-it", "memory-match", "quiz", "true-false", "balloon-pop", "type-answer", "spelling-practice", "fill-in-the-blank", "sentence-builder", "speak-it"];
 const requiredBlockedPreflightChecks = ["media-bundle", "installer-update", "local-reporting", "offline-access"];
+const requiredPwaOfflineLanes = [
+  "installable-shell",
+  "service-worker-cache",
+  "offline-media-bundle",
+  "offline-learner-data",
+  "qr-local-fallback",
+];
+const requiredPwaOfflineMarkers = [
+  "PWA and offline readiness",
+  "Manifest available",
+  "Service worker not enabled yet",
+  "Cache strategy not approved yet",
+  "Offline media bundle not approved yet",
+  "Rights and versioned manifest required",
+  "Learning audio priority preserved",
+  "Local companion fallback required",
+  "QR alias compatibility required",
+  "No offline-ready claim",
+  "No service worker registration",
+  "No cache mutation",
+  "No media pre-cache",
+  "No local installer export",
+  "No student data offline storage",
+  "No background sync",
+];
 const requiredReleaseGateItems = [
   "media-rights-checksums",
   "installer-update-path",
@@ -78,6 +105,33 @@ for (const checkId of requiredBlockedPreflightChecks) {
   requireText(deploymentPreflight, `checkId: "${checkId}"`, `Local deployment preflight missing check: ${checkId}`);
 }
 
+for (const laneId of requiredPwaOfflineLanes) {
+  requireText(pwaOfflineReadiness, `laneId: "${laneId}"`, `PWA offline readiness missing lane: ${laneId}`);
+}
+
+for (const marker of requiredPwaOfflineMarkers) {
+  requireText(pwaOfflineReadiness, marker, `PWA offline readiness missing marker: ${marker}`);
+}
+
+requireText(pwaOfflinePanel, "No offline-ready claim", "PWA offline panel must render offline claim blocker.");
+requireText(pwaOfflinePanel, "Globally blocked actions", "PWA offline panel must render global blocked actions.");
+requireText(pwaOfflinePanel, "Required before live", "PWA offline panel must render live requirements.");
+requirePattern(
+  pwaOfflineReadiness,
+  /laneId: "service-worker-cache"[\s\S]*?status: "blocked"[\s\S]*?Cache strategy not approved yet/,
+  "PWA service worker and cache policy lane must remain blocked until cache strategy is approved.",
+);
+requirePattern(
+  pwaOfflineReadiness,
+  /laneId: "offline-media-bundle"[\s\S]*?status: "blocked"[\s\S]*?Rights and versioned manifest required/,
+  "PWA offline media bundle lane must remain blocked until rights and versioned manifest evidence exists.",
+);
+requirePattern(
+  pwaOfflineReadiness,
+  /laneId: "offline-learner-data"[\s\S]*?status: "blocked"[\s\S]*?No raw learner audio or transcript storage/,
+  "PWA offline learner data lane must remain blocked until privacy and storage evidence exists.",
+);
+
 for (const gateId of requiredReleaseGateItems) {
   requireText(deploymentPreflight, `gateId: "${gateId}"`, `Local release gate missing item: ${gateId}`);
 }
@@ -113,6 +167,10 @@ if (bundlePlan.includes('readiness: "offline-ready"') && deploymentPreflight.inc
   failures.push("Local bundle cannot be marked offline-ready while deployment preflight has blocked checks.");
 }
 
+if (pwaOfflineReadiness.includes("serviceWorkerRegistered: true") || pwaOfflineReadiness.includes("offlineReady: true")) {
+  failures.push("PWA offline readiness may not register service workers or claim offline-ready status in the foundation gate.");
+}
+
 if (bundlePlan.includes('engineId: "entry"') || bundlePlan.includes('engineId: "speaking-listening"')) {
   failures.push("Local bundle games must use shared ParentEngine ids, not local-only aliases or game family ids.");
 }
@@ -126,7 +184,7 @@ if (failures.length > 0) {
 }
 
 console.log(
-  `PASS local bundle readiness covers ${expectedBundles.length} bundle manifest(s), ${requiredLocalGameModes.length} local game mode(s), and ${requiredReleaseGateItems.length} release gate item(s).`,
+  `PASS local bundle readiness covers ${expectedBundles.length} bundle manifest(s), ${requiredLocalGameModes.length} local game mode(s), ${requiredReleaseGateItems.length} release gate item(s), and ${requiredPwaOfflineLanes.length} PWA/offline lane(s).`,
 );
 
 function readSource(relativePath) {
@@ -135,6 +193,12 @@ function readSource(relativePath) {
 
 function requireText(source, text, message) {
   if (!source.includes(text)) {
+    failures.push(message);
+  }
+}
+
+function requirePattern(source, pattern, message) {
+  if (!pattern.test(source)) {
     failures.push(message);
   }
 }

@@ -71,8 +71,10 @@ export const sampleFoundationVerificationGate: FoundationVerificationGate = {
       label: "Local bundle readiness",
       command: "npm run verify:local-bundle",
       status: "pass",
-      protects: "Closed local companion packages stay preview-only until rights, checksums, installer/update, reporting, QR, and school policy gates are closed.",
-      evidence: "The verifier checks two bundle manifests, five local game modes, and six release gate items.",
+      protects:
+        "Closed local companion packages and installable PWA shells stay preview-only until rights, checksums, installer/update, reporting, QR, cache, offline media, and school policy gates are closed.",
+      evidence:
+        "The verifier checks two bundle manifests, twelve local game modes, six release gate items, and five PWA/offline readiness lanes.",
       nextStep: "Use generated signed manifests when a real local exporter exists.",
     },
     {

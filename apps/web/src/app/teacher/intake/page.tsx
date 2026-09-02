@@ -63,6 +63,7 @@ import { sampleSchoolRollbackSafeFallbackPlan } from "@/data/sampleSchoolRollbac
 import { sampleSchoolRollbackSafeFallbackRestorationPreview } from "@/data/sampleSchoolRollbackSafeFallbackRestorationPreview";
 import { sampleTeacherDryRunRehearsal } from "@/data/sampleTeacherDryRunRehearsal";
 import { sampleProgressEventTaxonomyRegistry } from "@/data/sampleProgressEventTaxonomy";
+import { samplePwaOfflineReadinessGate } from "@/data/samplePwaOfflineReadiness";
 import {
   samplePersistenceAdapterErrors,
   samplePersistenceAdapterPlans,
@@ -118,6 +119,7 @@ import { UnitPackageReadinessPanel } from "@/features/content-intake/UnitPackage
 import { DeploymentProfilePanel } from "@/features/deployment/DeploymentProfilePanel";
 import { LocalDeploymentPreflightPanel } from "@/features/deployment/LocalDeploymentPreflightPanel";
 import { LocalBundleManifestPanel } from "@/features/deployment/LocalBundleManifestPanel";
+import { PwaOfflineReadinessPanel } from "@/features/deployment/PwaOfflineReadinessPanel";
 import { ActivityPathwayCompatibilityPanel } from "@/features/game-offers/ActivityPathwayCompatibilityPanel";
 import { ActiveGameReplayChecklistPanel } from "@/features/game-offers/ActiveGameReplayChecklistPanel";
 import { GameModeSettingsBackendContractPanel } from "@/features/game-offers/GameModeSettingsBackendContractPanel";
@@ -281,6 +283,7 @@ export default function TeacherIntakePage() {
         <MediaRightsReadinessPanel plan={sampleMediaRightsPlan} />
         <DeploymentProfilePanel profiles={sampleDeploymentProfiles} />
         <LocalDeploymentPreflightPanel plan={sampleLocalDeploymentPreflightPlan} />
+        <PwaOfflineReadinessPanel gate={samplePwaOfflineReadinessGate} />
         <LocalBundleManifestPanel manifests={sampleLocalBundleManifests} />
         <BackendDecisionMatrixPanel matrix={sampleBackendDecisionMatrix} />
         <PilotBackendSelectionGatePanel gate={samplePilotBackendSelectionGate} />

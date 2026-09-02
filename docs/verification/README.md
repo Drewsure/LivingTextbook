@@ -136,6 +136,7 @@ Focused verification supplements:
 - `docs/verification/UNIT_PACKAGE_READINESS_CHECKS.md`
 - `docs/verification/VOICE_TUTOR_PACKAGE_CHECKS.md`
 - `docs/verification/ZAI_HUMAN_HANDOFF_SIGNAL_CHECKS.md`
+- `docs/verification/PWA_OFFLINE_READINESS_GATE_CHECKS.md`
 
 ## Current Hard Gate
 
