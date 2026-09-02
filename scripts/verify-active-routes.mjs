@@ -2384,6 +2384,28 @@ const pwaOfflineLocalPreviewExpected = [
 
 expectedTextByPath.get("/local/ministar")?.push(...pwaOfflineLocalPreviewExpected);
 expectedTextByPath.get("/local/sample-publisher")?.push(...pwaOfflineLocalPreviewExpected);
+const mediaBundleIntegrityExpected = [
+  "Media bundle integrity readiness",
+  "Media package engineering gate",
+  "Bundle size budget",
+  "Checksum manifest",
+  "Duplicate media detection",
+  "Streaming/local fallback",
+  "Yearly edition replacement",
+  "Learning audio priority preserved",
+  "Asset rights proof first",
+  "No package-size approval",
+  "No checksum-free bundle",
+  "No direct folder activation",
+  "No uncompressed video handoff",
+  "No media-only progress",
+  "No background music overriding learning audio",
+  "No local installer export",
+];
+
+expectedTextByPath.get("/teacher/intake")?.push(...mediaBundleIntegrityExpected);
+expectedTextByPath.get("/local/ministar")?.push(...mediaBundleIntegrityExpected);
+expectedTextByPath.get("/local/sample-publisher")?.push(...mediaBundleIntegrityExpected);
 expectedTextByPath.get("/teacher/intake")?.push(
   "Foundation workstream index",
   "Visible build map",

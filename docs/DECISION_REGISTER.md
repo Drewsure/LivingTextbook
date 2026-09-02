@@ -1254,3 +1254,22 @@ Guardrails:
 - The local preview routes cannot register service workers, mutate caches, precache media, export installers, activate local packages, store learner data, run background sync, mutate production QR aliases, or export reports.
 - Active route verification must protect the PWA/offline markers on `/local/ministar` and `/local/sample-publisher`.
 - This decision is recorded in `docs/adr/0477-local-preview-offline-readiness-parity.md` and `docs/decision-register/DR-548-local-preview-offline-readiness-parity.md`.
+
+## DR-549: Media Bundle Integrity Gate
+
+Status: Accepted
+
+Decision: Add a review-only media bundle integrity gate to `/teacher/intake`, `/local/ministar`, and `/local/sample-publisher`.
+
+Rationale:
+
+- White-label textbook partners may need to maintain music, videos, posters, images, and game assets year by year.
+- Closed packages can become expensive and unreliable if media is duplicated, uncompressed, checksum-free, or not bound to edition/version rules.
+- The platform needs a practical engineering gate before any upload, local bundle, installer, or offline package workflow is allowed.
+
+Guardrails:
+
+- No package-size approval, checksum-free bundle, direct folder activation, uncompressed video handoff, media-only progress, background music override, offline-ready claim, or local installer export can happen from this gate.
+- Bundle size budgets, checksums, rights proof, streaming/local fallback, deduplication, yearly replacement, and learning-audio priority must be visible before closed-package handoff.
+- Local bundle readiness verification and active route verification must protect the integrity markers.
+- This decision is recorded in `docs/adr/0478-media-bundle-integrity-gate.md` and `docs/decision-register/DR-549-media-bundle-integrity-gate.md`.

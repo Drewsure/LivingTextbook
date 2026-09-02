@@ -95,9 +95,9 @@ export const sampleFoundationWorkstreamIndex: FoundationWorkstreamIndex = {
       label: "Backend, persistence, and local companion",
       status: "blocked",
       owner: "Storage architecture",
-      currentFocus: "Keep hosted, local, and hybrid persistence options visible without selecting a vendor too early.",
-      visibleEvidence: ["Backend decision matrix", "Persistence boundary", "Local bundle manifests"],
-      nextGate: "No storage write, local package export, or local companion activation before backend selection and policy acceptance.",
+      currentFocus: "Keep hosted, local, hybrid, PWA/offline, and media-bundle persistence options visible without selecting a vendor too early.",
+      visibleEvidence: ["Backend decision matrix", "Persistence boundary", "PWA/offline readiness", "Media bundle integrity", "Local bundle manifests"],
+      nextGate: "No storage write, cache mutation, media pre-cache, local package export, or local companion activation before backend selection and policy acceptance.",
     },
     {
       workstreamId: "future-zai-intake-alert",

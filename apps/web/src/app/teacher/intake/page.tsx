@@ -41,6 +41,7 @@ import { sampleBuildStageMap } from "@/data/sampleBuildStageMap";
 import { sampleCompetitiveFeatureCoverageMatrix } from "@/data/sampleCompetitiveFeatureCoverage";
 import { sampleLocalBundleManifests } from "@/data/sampleLocalBundlePlan";
 import { sampleLocalDeploymentPreflightPlan } from "@/data/sampleLocalDeploymentPreflight";
+import { sampleMediaBundleIntegrityPlan } from "@/data/sampleMediaBundleIntegrity";
 import { sampleMediaRightsPlan } from "@/data/sampleMediaRightsPlan";
 import { samplePackageApprovalLedger } from "@/data/samplePackageApprovalLedger";
 import { samplePackagePublishGate } from "@/data/samplePackagePublishGate";
@@ -119,6 +120,7 @@ import { UnitPackageReadinessPanel } from "@/features/content-intake/UnitPackage
 import { DeploymentProfilePanel } from "@/features/deployment/DeploymentProfilePanel";
 import { LocalDeploymentPreflightPanel } from "@/features/deployment/LocalDeploymentPreflightPanel";
 import { LocalBundleManifestPanel } from "@/features/deployment/LocalBundleManifestPanel";
+import { MediaBundleIntegrityPanel } from "@/features/deployment/MediaBundleIntegrityPanel";
 import { PwaOfflineReadinessPanel } from "@/features/deployment/PwaOfflineReadinessPanel";
 import { ActivityPathwayCompatibilityPanel } from "@/features/game-offers/ActivityPathwayCompatibilityPanel";
 import { ActiveGameReplayChecklistPanel } from "@/features/game-offers/ActiveGameReplayChecklistPanel";
@@ -284,6 +286,7 @@ export default function TeacherIntakePage() {
         <DeploymentProfilePanel profiles={sampleDeploymentProfiles} />
         <LocalDeploymentPreflightPanel plan={sampleLocalDeploymentPreflightPlan} />
         <PwaOfflineReadinessPanel gate={samplePwaOfflineReadinessGate} />
+        <MediaBundleIntegrityPanel plan={sampleMediaBundleIntegrityPlan} />
         <LocalBundleManifestPanel manifests={sampleLocalBundleManifests} />
         <BackendDecisionMatrixPanel matrix={sampleBackendDecisionMatrix} />
         <PilotBackendSelectionGatePanel gate={samplePilotBackendSelectionGate} />

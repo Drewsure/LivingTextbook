@@ -664,3 +664,19 @@ Required standing rules:
 - Local companion preview routes must show the same PWA/offline honesty gate as `/teacher/intake` before any package can be discussed as a partner-facing handoff.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-547 and DR-548, `docs/adr/0476-pwa-offline-readiness-gate.md`, and `docs/adr/0477-local-preview-offline-readiness-parity.md`.
+
+## 27. Media Bundle Integrity Standard
+
+Closed textbook companions need package engineering, not just file upload.
+
+Required standing rules:
+
+- Audio, music, video, poster, image, and future game asset bundles must pass size, checksum, rights, duplicate, fallback, replacement, and learning-audio priority checks before closed-package or offline handoff.
+- Bundle size budgets must exist at unit and edition level before video or large media can be included in an offline/local package.
+- Every distributed media file requires a checksum manifest, relative path map, versioned manifest id, and restore verification step.
+- Shared songs, chants, posters, videos, and game assets should be referenced through tenant media libraries when possible to avoid duplicated package weight.
+- Publisher yearly replacement must preserve edition versioning, QR alias rollback, legacy package retention, and rights proof.
+- Learning audio must remain audible and target-language governed when music, video, or background media exists.
+- No package-size approval, checksum-free bundle, direct folder activation, uncompressed video handoff, media-only progress, background music override, offline-ready claim, or local installer export is allowed from review-only surfaces.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-549 and `docs/adr/0478-media-bundle-integrity-gate.md`.

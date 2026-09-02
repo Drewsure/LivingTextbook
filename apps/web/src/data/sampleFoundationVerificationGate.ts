@@ -74,7 +74,7 @@ export const sampleFoundationVerificationGate: FoundationVerificationGate = {
       protects:
         "Closed local companion packages and installable PWA shells stay preview-only until rights, checksums, installer/update, reporting, QR, cache, offline media, and school policy gates are closed.",
       evidence:
-        "The verifier checks two bundle manifests, twelve local game modes, six release gate items, and five PWA/offline readiness lanes.",
+        "The verifier checks two bundle manifests, twelve local game modes, six release gate items, five PWA/offline readiness lanes, and five media bundle integrity lanes.",
       nextStep: "Use generated signed manifests when a real local exporter exists.",
     },
     {

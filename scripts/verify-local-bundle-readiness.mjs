@@ -2,6 +2,8 @@ import { readFileSync } from "node:fs";
 
 const bundlePlan = readSource("../apps/web/src/data/sampleLocalBundlePlan.ts");
 const deploymentPreflight = readSource("../apps/web/src/data/sampleLocalDeploymentPreflight.ts");
+const mediaBundleIntegrity = readSource("../apps/web/src/data/sampleMediaBundleIntegrity.ts");
+const mediaBundleIntegrityPanel = readSource("../apps/web/src/features/deployment/MediaBundleIntegrityPanel.tsx");
 const pwaOfflineReadiness = readSource("../apps/web/src/data/samplePwaOfflineReadiness.ts");
 const pwaOfflinePanel = readSource("../apps/web/src/features/deployment/PwaOfflineReadinessPanel.tsx");
 const localPreviewPanel = readSource("../apps/web/src/features/deployment/LocalCompanionPackagePreviewPanel.tsx");
@@ -35,6 +37,32 @@ const requiredPwaOfflineMarkers = [
   "No local installer export",
   "No student data offline storage",
   "No background sync",
+];
+const requiredMediaBundleIntegrityLanes = [
+  "bundle-size-budget",
+  "checksum-manifest",
+  "media-deduplication",
+  "yearly-edition-replacement",
+  "learning-audio-priority",
+];
+const requiredMediaBundleIntegrityMarkers = [
+  "Media bundle integrity readiness",
+  "Media package engineering gate",
+  "Bundle size budget",
+  "Checksum manifest",
+  "Duplicate media detection",
+  "Streaming/local fallback",
+  "Yearly edition replacement",
+  "Learning audio priority preserved",
+  "Asset rights proof first",
+  "No package-size approval",
+  "No checksum-free bundle",
+  "No direct folder activation",
+  "No uncompressed video handoff",
+  "No media-only progress",
+  "No background music overriding learning audio",
+  "No offline-ready claim",
+  "No local installer export",
 ];
 const requiredReleaseGateItems = [
   "media-rights-checksums",
@@ -116,6 +144,9 @@ for (const marker of requiredPwaOfflineMarkers) {
 requireText(pwaOfflinePanel, "No offline-ready claim", "PWA offline panel must render offline claim blocker.");
 requireText(pwaOfflinePanel, "Globally blocked actions", "PWA offline panel must render global blocked actions.");
 requireText(pwaOfflinePanel, "Required before live", "PWA offline panel must render live requirements.");
+requireText(mediaBundleIntegrityPanel, "Media package engineering gate", "Media bundle integrity panel must render its gate label.");
+requireText(mediaBundleIntegrityPanel, "Required before bundle", "Media bundle integrity panel must render required-before-bundle checks.");
+requireText(mediaBundleIntegrityPanel, "Globally blocked actions", "Media bundle integrity panel must render global blockers.");
 requirePattern(
   pwaOfflineReadiness,
   /laneId: "service-worker-cache"[\s\S]*?status: "blocked"[\s\S]*?Cache strategy not approved yet/,
@@ -130,6 +161,30 @@ requirePattern(
   pwaOfflineReadiness,
   /laneId: "offline-learner-data"[\s\S]*?status: "blocked"[\s\S]*?No raw learner audio or transcript storage/,
   "PWA offline learner data lane must remain blocked until privacy and storage evidence exists.",
+);
+
+for (const laneId of requiredMediaBundleIntegrityLanes) {
+  requireText(mediaBundleIntegrity, `laneId: "${laneId}"`, `Media bundle integrity missing lane: ${laneId}`);
+}
+
+for (const marker of requiredMediaBundleIntegrityMarkers) {
+  requireText(mediaBundleIntegrity, marker, `Media bundle integrity missing marker: ${marker}`);
+}
+
+requirePattern(
+  mediaBundleIntegrity,
+  /laneId: "bundle-size-budget"[\s\S]*?status: "blocked"[\s\S]*?No package-size approval/,
+  "Media bundle size budget must remain blocked until package-size approval exists.",
+);
+requirePattern(
+  mediaBundleIntegrity,
+  /laneId: "checksum-manifest"[\s\S]*?status: "blocked"[\s\S]*?No checksum-free bundle/,
+  "Media bundle checksum manifest must remain blocked until checksums exist.",
+);
+requirePattern(
+  mediaBundleIntegrity,
+  /laneId: "learning-audio-priority"[\s\S]*?status: "ready"[\s\S]*?No media-only progress/,
+  "Media bundle integrity must keep learning audio priority ready and media-only progress blocked.",
 );
 
 for (const gateId of requiredReleaseGateItems) {
@@ -171,6 +226,10 @@ if (pwaOfflineReadiness.includes("serviceWorkerRegistered: true") || pwaOfflineR
   failures.push("PWA offline readiness may not register service workers or claim offline-ready status in the foundation gate.");
 }
 
+if (mediaBundleIntegrity.includes("bundleWriteAllowed: true") || mediaBundleIntegrity.includes("mediaPrecacheAllowed: true")) {
+  failures.push("Media bundle integrity may not enable bundle writes or media precache in the foundation gate.");
+}
+
 if (bundlePlan.includes('engineId: "entry"') || bundlePlan.includes('engineId: "speaking-listening"')) {
   failures.push("Local bundle games must use shared ParentEngine ids, not local-only aliases or game family ids.");
 }
@@ -184,7 +243,7 @@ if (failures.length > 0) {
 }
 
 console.log(
-  `PASS local bundle readiness covers ${expectedBundles.length} bundle manifest(s), ${requiredLocalGameModes.length} local game mode(s), ${requiredReleaseGateItems.length} release gate item(s), and ${requiredPwaOfflineLanes.length} PWA/offline lane(s).`,
+  `PASS local bundle readiness covers ${expectedBundles.length} bundle manifest(s), ${requiredLocalGameModes.length} local game mode(s), ${requiredReleaseGateItems.length} release gate item(s), ${requiredPwaOfflineLanes.length} PWA/offline lane(s), and ${requiredMediaBundleIntegrityLanes.length} media integrity lane(s).`,
 );
 
 function readSource(relativePath) {

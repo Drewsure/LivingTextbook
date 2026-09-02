@@ -33,7 +33,7 @@ export const sampleBuildStageMap: BuildStageMap = {
       status: "ready",
       summary:
         "The PWA shell, tenant theming, teacher/admin review pages, student front doors, activity hubs, media routes, print previews, and game route wrappers are active in local preview.",
-      evidence: "75 active route checks pass, including MiniStar and sample publisher student, teacher, media, print, assignment, report, and QR resolver routes.",
+      evidence: "85 active route checks pass, including MiniStar and sample publisher student, teacher, media, print, assignment, report, local companion, and QR resolver routes.",
       nextStep: "Keep reducing one-off UI before adding premium skins or micro-interactions.",
     },
     {
@@ -52,7 +52,7 @@ export const sampleBuildStageMap: BuildStageMap = {
       status: "review-only",
       summary:
         "The storage model, migration candidates, local/hosted write intents, school policy gates, report boundaries, and upload evidence records are defined but not implemented as live writes.",
-      evidence: "Backend storage readiness passes while object storage, local evidence folders, setting saves, report export, signed approvals, and learner data writes remain blocked.",
+      evidence: "Backend storage and local bundle readiness pass while object storage, local evidence folders, setting saves, report export, signed approvals, cache writes, media pre-cache, and learner data writes remain blocked.",
       nextStep: "Select the first hosted/local persistence adapter only after policy and release-control gates stay aligned.",
     },
     {

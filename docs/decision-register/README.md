@@ -520,6 +520,7 @@
 - `DR-546-zai-human-handoff-signal.md`
 - `DR-547-pwa-offline-readiness-gate.md`
 - `DR-548-local-preview-offline-readiness-parity.md`
+- `DR-549-media-bundle-integrity-gate.md`
 
 ## Maintenance Rule
 

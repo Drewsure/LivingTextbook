@@ -1,8 +1,10 @@
 import { AppShell } from "@/components/layout/AppShell";
 import { sampleLocalBundleManifests } from "@/data/sampleLocalBundlePlan";
 import { sampleLocalCompanionReleaseGate, sampleLocalDeploymentPreflightPlan } from "@/data/sampleLocalDeploymentPreflight";
+import { sampleMediaBundleIntegrityPlan } from "@/data/sampleMediaBundleIntegrity";
 import { samplePwaOfflineReadinessGate } from "@/data/samplePwaOfflineReadiness";
 import { LocalCompanionPackagePreviewPanel } from "@/features/deployment/LocalCompanionPackagePreviewPanel";
+import { MediaBundleIntegrityPanel } from "@/features/deployment/MediaBundleIntegrityPanel";
 import { PwaOfflineReadinessPanel } from "@/features/deployment/PwaOfflineReadinessPanel";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 
@@ -17,6 +19,7 @@ export default function SamplePublisherLocalCompanionPage() {
     <AppShell tenant={samplePublisherTenant}>
       <div className="grid gap-5">
         <PwaOfflineReadinessPanel gate={samplePwaOfflineReadinessGate} />
+        <MediaBundleIntegrityPanel plan={sampleMediaBundleIntegrityPlan} />
         <LocalCompanionPackagePreviewPanel
           manifest={manifest}
           preflight={sampleLocalDeploymentPreflightPlan}
