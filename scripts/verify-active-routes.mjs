@@ -2363,6 +2363,27 @@ expectedTextByPath.get("/teacher/intake")?.push(
   "No student data offline storage",
   "No background sync",
 );
+const pwaOfflineLocalPreviewExpected = [
+  "PWA and offline readiness",
+  "Hosted and closed companion boundary",
+  "Hosted PWA first, offline claim later",
+  "Offline honesty rule",
+  "Installable shell",
+  "Manifest available",
+  "Service worker not enabled yet",
+  "Offline media bundle not approved yet",
+  "Local companion fallback required",
+  "No offline-ready claim",
+  "No service worker registration",
+  "No cache mutation",
+  "No media pre-cache",
+  "No local installer export",
+  "No student data offline storage",
+  "No background sync",
+];
+
+expectedTextByPath.get("/local/ministar")?.push(...pwaOfflineLocalPreviewExpected);
+expectedTextByPath.get("/local/sample-publisher")?.push(...pwaOfflineLocalPreviewExpected);
 expectedTextByPath.get("/teacher/intake")?.push(
   "Foundation workstream index",
   "Visible build map",

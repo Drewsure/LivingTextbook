@@ -1,7 +1,9 @@
 import { AppShell } from "@/components/layout/AppShell";
 import { sampleLocalBundleManifests } from "@/data/sampleLocalBundlePlan";
 import { sampleLocalCompanionReleaseGate, sampleLocalDeploymentPreflightPlan } from "@/data/sampleLocalDeploymentPreflight";
+import { samplePwaOfflineReadinessGate } from "@/data/samplePwaOfflineReadiness";
 import { LocalCompanionPackagePreviewPanel } from "@/features/deployment/LocalCompanionPackagePreviewPanel";
+import { PwaOfflineReadinessPanel } from "@/features/deployment/PwaOfflineReadinessPanel";
 import { ministarTenant } from "@/features/tenant/ministarTenant";
 
 export default function MinistarLocalCompanionPage() {
@@ -13,11 +15,14 @@ export default function MinistarLocalCompanionPage() {
 
   return (
     <AppShell tenant={ministarTenant}>
-      <LocalCompanionPackagePreviewPanel
-        manifest={manifest}
-        preflight={sampleLocalDeploymentPreflightPlan}
-        releaseGate={sampleLocalCompanionReleaseGate}
-      />
+      <div className="grid gap-5">
+        <PwaOfflineReadinessPanel gate={samplePwaOfflineReadinessGate} />
+        <LocalCompanionPackagePreviewPanel
+          manifest={manifest}
+          preflight={sampleLocalDeploymentPreflightPlan}
+          releaseGate={sampleLocalCompanionReleaseGate}
+        />
+      </div>
     </AppShell>
   );
 }

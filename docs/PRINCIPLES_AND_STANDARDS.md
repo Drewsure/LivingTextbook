@@ -661,5 +661,6 @@ Required standing rules:
 - Learning audio priority must be preserved before any background music, video, media cache, or offline bundle behavior is allowed.
 - Printed QR codes must resolve through stable alias/front-door behavior and may only fall back to local companion routes after edition compatibility and rollback rules are verified.
 - A closed local textbook companion is a product strategy, not a shortcut around hosted PWA, storage, evidence, report, or privacy gates.
+- Local companion preview routes must show the same PWA/offline honesty gate as `/teacher/intake` before any package can be discussed as a partner-facing handoff.
 
-This standard is recorded in `docs/DECISION_REGISTER.md` DR-547 and `docs/adr/0476-pwa-offline-readiness-gate.md`.
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-547 and DR-548, `docs/adr/0476-pwa-offline-readiness-gate.md`, and `docs/adr/0477-local-preview-offline-readiness-parity.md`.

@@ -8,7 +8,7 @@ Keep the hosted PWA, installable shell, offline cache, local companion, and clos
 
 ## Required Surface
 
-`/teacher/intake` must show:
+`/teacher/intake`, `/local/ministar`, and `/local/sample-publisher` must show:
 
 - PWA and offline readiness
 - Hosted PWA first, offline claim later

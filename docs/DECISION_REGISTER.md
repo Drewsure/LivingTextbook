@@ -1236,3 +1236,21 @@ Guardrails:
 - Closed local companion behavior must stay tied to QR alias compatibility, edition fallback, rollback, persistence, reporting, and school policy gates.
 - Local bundle readiness verification and active route verification must protect the PWA/offline gate markers.
 - This decision is recorded in `docs/adr/0476-pwa-offline-readiness-gate.md` and `docs/decision-register/DR-547-pwa-offline-readiness-gate.md`.
+
+## DR-548: Local Preview Offline Readiness Parity
+
+Status: Accepted
+
+Decision: Render the PWA/offline readiness gate on both local companion preview routes.
+
+Rationale:
+
+- `/local/ministar` and `/local/sample-publisher` are the surfaces most likely to be used when discussing closed textbook companion delivery.
+- They must carry the same promise boundary as `/teacher/intake`: installable shell is allowed, but offline readiness is blocked.
+- This protects partner demos from implying that local packages, bundled media, QR fallback, reports, or offline learner storage are production-ready.
+
+Guardrails:
+
+- The local preview routes cannot register service workers, mutate caches, precache media, export installers, activate local packages, store learner data, run background sync, mutate production QR aliases, or export reports.
+- Active route verification must protect the PWA/offline markers on `/local/ministar` and `/local/sample-publisher`.
+- This decision is recorded in `docs/adr/0477-local-preview-offline-readiness-parity.md` and `docs/decision-register/DR-548-local-preview-offline-readiness-parity.md`.
