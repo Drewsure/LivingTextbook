@@ -35,6 +35,25 @@ export function PrototypeIntakeAlertPanel({ alert }: PrototypeIntakeAlertPanelPr
         <IntakeList title="Blocked until ready" items={alert.blockedUntilReady} ownerId={alert.alertId} tone="warning" />
       </div>
 
+      <div className="mt-4 grid gap-3 lg:grid-cols-2">
+        <section className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
+          <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Human handoff signal</p>
+          <p className="mt-2 text-sm leading-6 text-[var(--tenant-text)]">{alert.humanSignalRule}</p>
+          <p className="mt-3 text-sm leading-6 text-[var(--tenant-muted)]">{alert.currentHumanAction}</p>
+        </section>
+
+        <section className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
+          <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Not needed yet</p>
+          <ul className="mt-2 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
+            {alert.notNeededYet.map((item, index) => (
+              <li key={`${alert.alertId}-not-needed-${index}`} className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-3">
+                {item}
+              </li>
+            ))}
+          </ul>
+        </section>
+      </div>
+
       <section className="mt-4 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
         <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Owner rule</p>
         <p className="mt-2 text-sm leading-6 text-[var(--tenant-text)]">{alert.ownerRule}</p>

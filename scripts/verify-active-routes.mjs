@@ -474,6 +474,14 @@ const prototypeReviewRouteExpected = [
   "No route creation",
   "No scoring mutation",
   "Z.ai prototype intake waits for the Codex integration gate",
+  "Human handoff signal",
+  "Current human action",
+  "Not needed yet",
+  "No Z.ai source handoff requested yet",
+  "No Phaser import requested yet",
+  "No archive upload requested yet",
+  "No pull request requested yet",
+  "No app patch requested yet",
 ];
 expectedTextByPath.set("/teacher/prototypes/sample-publisher", prototypeReviewRouteExpected);
 expectedTextByPath.set("/teacher/prototypes/ministar", [

@@ -632,3 +632,18 @@ Required standing rules:
 - The snapshot cannot activate live features, classroom launch, real learner data collection, report export, or Z.ai imports.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-545 and `docs/adr/0474-teacher-page-foundation-status-snapshot.md`.
+
+## 25. Z.ai Human Handoff Signal Standard
+
+Outside game builds can be valuable, but they must enter the platform through a controlled signal.
+
+Required standing rules:
+
+- Codex will explicitly tell the user when Z.ai or outside prototype intake is ready.
+- Until that signal is given, Z.ai work stays isolated in `Drewsure/ministar-lab` or another explicitly approved prototype repository.
+- The user may keep preserving prompts, fixture JSON, screenshots, notes, and demo observations for later review.
+- No Z.ai source handoff, Phaser import, archive upload, pull request, app patch, route replacement, scoring mutation, audio manifest mutation, reward write, playlist write, package promotion, or student assignment is requested before the alert.
+- The alert may move to ready-for-review only after target parent-engine readiness, fixture replay, event replay, target-language audio coverage, deterministic scoring replay, mobile/accessibility evidence, and wrapper-boundary evidence exist for a specific candidate.
+- Codex owns the final integration review and merge decision.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-546 and `docs/adr/0475-zai-human-handoff-signal.md`.

@@ -14,6 +14,7 @@ import {
   sampleAiGeneratedGameBuildBriefPackets,
 } from "@/data/sampleAiGeneratedGameBuildBrief";
 import { samplePrototypeIntakeEvidencePacketFlow } from "@/data/sampleEvidencePacketFlows";
+import { samplePrototypeIntakeAlert } from "@/data/samplePrototypeIntakeAlert";
 import {
   filterAiPrototypeAppPatchProposalsByTenant,
   sampleAiPrototypeAppPatchProposals,
@@ -125,6 +126,7 @@ import { AiPrototypeScoringReplayReportPanel } from "@/features/content-intake/A
 import { AiPrototypeSignedApprovalPreflightPanel } from "@/features/content-intake/AiPrototypeSignedApprovalPreflightPanel";
 import { AiPrototypeWrapperAdapterReviewPanel } from "@/features/content-intake/AiPrototypeWrapperAdapterReviewPanel";
 import { EvidencePacketFlowPanel } from "@/features/evidence/EvidencePacketFlowPanel";
+import { PrototypeIntakeAlertPanel } from "@/features/game-offers/PrototypeIntakeAlertPanel";
 import { PrototypeIntakeQueuePanel } from "@/features/game-offers/PrototypeIntakeQueuePanel";
 import { PrototypeIntakeReadinessSummaryPanel } from "@/features/game-offers/PrototypeIntakeReadinessSummaryPanel";
 import { PrototypeIntakeStorageGuardPanel } from "@/features/game-offers/PrototypeIntakeStorageGuardPanel";
@@ -187,6 +189,7 @@ export default async function TeacherPrototypeReviewPage({
           </section>
         </Card>
 
+        <PrototypeIntakeAlertPanel alert={samplePrototypeIntakeAlert} />
         <PrototypeIntakeReadinessSummaryPanel summary={samplePrototypeIntakeReadinessSummary} />
         <PrototypeIntakeQueuePanel items={filterPrototypeIntakeQueueByTenant(samplePrototypeIntakeQueue, tenantId)} />
         <PrototypeIntakeStorageGuardPanel guards={samplePrototypeIntakeStorageGuards} />

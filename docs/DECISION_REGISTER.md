@@ -1197,3 +1197,22 @@ Guardrails:
 - The status must link to the foundation control room without replacing the detailed gates on `/teacher/intake`.
 - Active route verification must protect the snapshot text on `/teacher`.
 - This decision is recorded in `docs/adr/0474-teacher-page-foundation-status-snapshot.md` and `docs/decision-register/DR-545-teacher-page-foundation-status-snapshot.md`.
+
+## DR-546: Z.ai Human Handoff Signal
+
+Status: Accepted
+
+Decision: Extend the Z.ai prototype intake alert with explicit human handoff timing.
+
+Rationale:
+
+- The user is actively building with Z.ai and needs to know when that work should be handed to Codex for review.
+- The platform should encourage continued isolated prototyping while blocking premature source handoff, Phaser imports, archive uploads, pull requests, and app patches.
+- Codex should explicitly ask for specific Z.ai branches, archives, demo links, or fixture folders only when the intake alert becomes ready-for-review.
+
+Guardrails:
+
+- Until Codex issues the intake alert, Z.ai work remains external prototype inventory.
+- No Z.ai source handoff, Phaser import, archive upload, pull request, app patch, route replacement, scoring mutation, audio manifest mutation, reward write, playlist write, package promotion, or student assignment is requested.
+- Prototype-readiness verification and active route verification must protect the timing language.
+- This decision is recorded in `docs/adr/0475-zai-human-handoff-signal.md` and `docs/decision-register/DR-546-zai-human-handoff-signal.md`.

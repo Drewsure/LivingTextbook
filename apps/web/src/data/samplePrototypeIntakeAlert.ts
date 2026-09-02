@@ -5,6 +5,9 @@ export interface PrototypeIntakeAlert {
   label: string;
   status: PrototypeIntakeAlertStatus;
   summary: string;
+  humanSignalRule: string;
+  currentHumanAction: string;
+  notNeededYet: string[];
   readyWhen: string[];
   requiredEvidence: string[];
   blockedUntilReady: string[];
@@ -17,6 +20,17 @@ export const samplePrototypeIntakeAlert: PrototypeIntakeAlert = {
   status: "not-ready",
   summary:
     "Codex will explicitly alert the user when the LivingTextbook foundation is ready for controlled Z.ai game intake. Until then, Z.ai work remains external prototype inventory, not a source for direct app integration.",
+  humanSignalRule:
+    "Human handoff signal: Codex will ask for specific Z.ai branches, archives, demo links, or fixture folders only after the intake alert changes from not-ready to ready-for-review.",
+  currentHumanAction:
+    "Current human action: keep Z.ai builds isolated in Drewsure/ministar-lab and preserve their prompts, fixture JSON, screenshots, and notes for later review.",
+  notNeededYet: [
+    "No Z.ai source handoff requested yet",
+    "No Phaser import requested yet",
+    "No archive upload requested yet",
+    "No pull request requested yet",
+    "No app patch requested yet",
+  ],
   readyWhen: [
     "Parent engine readiness is accepted for the target game family",
     "Active route replay checks pass for the matching game mode",

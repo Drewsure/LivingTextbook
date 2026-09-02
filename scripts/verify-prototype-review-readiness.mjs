@@ -89,6 +89,13 @@ const prototypeIntakeAlertMarkers = [
   "No reward inventory mutation",
   "No package promotion",
   "Codex owns architecture",
+  "Human handoff signal",
+  "Current human action",
+  "No Z.ai source handoff requested yet",
+  "No Phaser import requested yet",
+  "No archive upload requested yet",
+  "No pull request requested yet",
+  "No app patch requested yet",
 ];
 const packageMarkers = ['"verify:prototype-review"', "npm run verify:prototype-review"];
 const foundationGateMarkers = ["npm run verify:prototype-review", "Prototype review readiness"];

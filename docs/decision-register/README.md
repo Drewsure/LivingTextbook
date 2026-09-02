@@ -517,6 +517,7 @@
 - `DR-543-route-graduation-gate.md`
 - `DR-544-foundation-workstream-index.md`
 - `DR-545-teacher-page-foundation-status-snapshot.md`
+- `DR-546-zai-human-handoff-signal.md`
 
 ## Maintenance Rule
 
