@@ -79,6 +79,15 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
       "Focused package-decision route for optional paid AI generation, Voice Tutor, microphone scoring, speech APIs, storage/export, and local companion boundaries before billing or package activation.",
   },
   {
+    routeId: "teacher-deployment-workbench",
+    group: "core",
+    label: "Teacher deployment decision workbench",
+    path: "/teacher/deployment",
+    status: "active-scaffold",
+    note:
+      "Focused deployment route for hosted PWA, local classroom server, packaged companion, PWA/offline, media bundle, local preflight, and package tier gates before export or installer work.",
+  },
+  {
     routeId: "teacher-game-readiness",
     group: "core",
     label: "Teacher game readiness workbench",

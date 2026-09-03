@@ -556,3 +556,19 @@ Procedure:
 5. Run `npm run verify:local-bundle` and `npm run verify:routes` after any local companion, PWA, media bundle, manifest, or QR fallback change.
 
 Why this matters: The white-label product can sell hosted PWA and future closed companion options only if each delivery promise is explicit, reliable, and policy-backed.
+
+## OW-024: Deployment Workbench Is A Decision Surface, Not Activation
+
+Status: Active
+
+Observed behavior: Hosted PWA, local classroom server, and packaged textbook companion discussions can easily blur into implementation promises if they are not shown with cost, policy, media, storage, QR, report, and rollback blockers beside them.
+
+Procedure:
+
+1. Use `/teacher/deployment` for deployment conversations with schools or publishers.
+2. Treat hosted PWA as the default first pilot recommendation unless a school requirement forces local operation.
+3. Keep local classroom server and packaged companion options visible as paid or policy-gated product paths.
+4. Do not activate local packages, export installers, claim offline readiness, mutate production QR redirects, export reports, collect real learner data, or enable premium AI Tutor features from the deployment workbench.
+5. Run `npm run verify:deployment` and `npm run verify:routes` after any hosted/local/package deployment wording, route, offline, media bundle, or package tier change.
+
+Why this matters: The platform can be sold confidently only when deployment choices are clear, cost-aware, and honest about what is ready versus what still needs evidence.

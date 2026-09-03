@@ -183,6 +183,18 @@ export const sampleFoundationVerificationGate: FoundationVerificationGate = {
         "Run this before changing package tiers, premium feature copy, AI generation entitlements, Voice Tutor, microphone scoring, report export, hosted storage, or local companion activation.",
     },
     {
+      checkId: "deployment-decision-readiness",
+      label: "Deployment decision workbench",
+      command: "npm run verify:deployment",
+      status: "pass",
+      protects:
+        "Hosted PWA, local classroom server, packaged companion, PWA/offline, media bundle, local preflight, and package tier choices stay review-only before export, installer, or offline delivery workflows.",
+      evidence:
+        "The verifier checks the deployment decision guide, route, navigation, active route matrix, active route verifier, standards, ADR, decision record, and route checklist.",
+      nextStep:
+        "Run this before changing hosted/local/package deployment language, offline claims, media bundle handoff, installer strategy, or white-label package delivery copy.",
+    },
+    {
       checkId: "web-typecheck-build",
       label: "Web typecheck and build",
       command: "npm run typecheck --workspace @living-textbook/web && npm run build --workspace @living-textbook/web",
@@ -197,7 +209,7 @@ export const sampleFoundationVerificationGate: FoundationVerificationGate = {
       command: "npm run verify:routes",
       status: "pass",
       protects: "Teacher, student, game, media, report, local companion, and QR routes stay reachable.",
-      evidence: "The verifier checks 85 active routes and required page text.",
+      evidence: "The verifier checks 86 active routes and required page text.",
       nextStep: "Add new active routes to the route matrix before treating them as part of a pilot.",
     },
   ],

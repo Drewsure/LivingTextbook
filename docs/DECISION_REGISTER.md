@@ -1188,7 +1188,7 @@ Decision: Add a compact foundation status snapshot to the MiniStar teacher page.
 Rationale:
 
 - The main teacher page should communicate the current build stage before users enter launch routes or the larger intake control room.
-- The snapshot gives a non-technical status view: structure first, 85 active routes checked, tenant boundary visible, and Z.ai intake not yet.
+- The snapshot gives a non-technical status view: structure first, 86 active routes checked, tenant boundary visible, and Z.ai intake not yet.
 - This helps the human side of the project understand when to intervene and when to keep build focus on foundation integrity.
 
 Guardrails:
@@ -1273,3 +1273,22 @@ Guardrails:
 - Bundle size budgets, checksums, rights proof, streaming/local fallback, deduplication, yearly replacement, and learning-audio priority must be visible before closed-package handoff.
 - Local bundle readiness verification and active route verification must protect the integrity markers.
 - This decision is recorded in `docs/adr/0478-media-bundle-integrity-gate.md` and `docs/decision-register/DR-549-media-bundle-integrity-gate.md`.
+
+## DR-550: Deployment Decision Workbench
+
+Status: Accepted
+
+Decision: Add a focused `/teacher/deployment` workbench for hosted PWA, local classroom server, and packaged textbook companion decisions.
+
+Rationale:
+
+- The foundation needs a readable product decision surface for school and publisher conversations without expanding the already-large `/teacher/intake` control room.
+- Hosted PWA should remain the recommended first pilot path for cost efficiency, faster feedback, and lower support burden.
+- Local classroom server and packaged companion delivery are important white-label opportunities, but they require media, storage, QR, report, school policy, and rollback evidence before they can be sold as ready.
+
+Guardrails:
+
+- No offline-ready claim, local package activation, installer export, report export, real learner data collection, production QR redirect mutation, student-facing paid prompt, media-only progress, support-language-only progression, or premium AI Tutor activation can happen from this workbench.
+- The route must reuse deployment profile, PWA/offline, media bundle integrity, local preflight, local bundle manifest, and package tier panels rather than inventing a parallel decision system.
+- `npm run verify:deployment`, foundation verification, and active route verification must protect the route, data, navigation, route contract, route matrix, standards, ADR, and checklist.
+- This decision is recorded in `docs/adr/0479-deployment-decision-workbench.md` and `docs/decision-register/DR-550-deployment-decision-workbench.md`.

@@ -10,7 +10,7 @@ Use this checklist when the `legacy-source-import` branch is locally accessible.
 4. Run `npm run verify:foundation` from the repository root.
 5. Start the local dev server.
 
-`npm run verify:foundation` runs taxonomy coverage, game-mode coverage, package readiness coverage, local bundle readiness coverage, activity-pathway checks, printable checks, tenant-library checks, teacher-authoring checks, AI teaching game generator checks, prototype review readiness checks, target-language checks, share/embed checks, private-assignment checks, earned-collection checks, class-roster checks, teacher-session settings checks, backend-storage checks, release-control checks, web typecheck, production build, and active route checks.
+`npm run verify:foundation` runs taxonomy coverage, game-mode coverage, package readiness coverage, local bundle readiness coverage, activity-pathway checks, printable checks, tenant-library checks, teacher-authoring checks, AI teaching game generator checks, prototype review readiness checks, target-language checks, share/embed checks, private-assignment checks, earned-collection checks, class-roster checks, teacher-session settings checks, backend-storage checks, release-control checks, package entitlement checks, deployment decision checks, web typecheck, production build, and active route checks.
 
 ## Route Smoke Checks
 
@@ -25,6 +25,7 @@ Visit these routes:
 - `/training/demo-unit-1`
 - `/enter/ministar`
 - `/teacher/generator/sample-publisher`
+- `/teacher/deployment`
 
 Expected results:
 
@@ -37,6 +38,7 @@ Expected results:
 - `/training/demo-unit-1` shows the deterministic Training Academy recovery lane.
 - `/enter/ministar` shows the front-door entry form and teacher-visible report preview.
 - `/teacher/generator/sample-publisher` shows the draft-only AI teaching game generator with no live model call, no direct publish, no student assignment, target-language audio requirements, curated activity pathways, and API cost package gates.
+- `/teacher/deployment` shows hosted PWA, local classroom server, packaged companion, PWA/offline, media bundle, local preflight, and package tier decisions while export, installer, offline-ready, report, real learner data, and package activation actions remain blocked.
 
 ## Dashboard Multimedia Package Checks
 

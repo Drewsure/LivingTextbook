@@ -680,3 +680,19 @@ Required standing rules:
 - No package-size approval, checksum-free bundle, direct folder activation, uncompressed video handoff, media-only progress, background music override, offline-ready claim, or local installer export is allowed from review-only surfaces.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-549 and `docs/adr/0478-media-bundle-integrity-gate.md`.
+
+## 28. Deployment Decision Workbench Standard
+
+Deployment choices must be understandable before they become live product operations.
+
+Required standing rules:
+
+- Hosted PWA is the default first pilot recommendation because it is fastest to review, lowest cost to support, and avoids installer/offline media complexity while the foundation is still stabilizing.
+- Local classroom server and packaged textbook companion delivery remain valid white-label opportunities, but they are paid or policy-gated paths, not foundation defaults.
+- Deployment discussions must show cost profile, commercial fit, required evidence, and blocked actions for hosted PWA, local classroom server, and packaged companion options.
+- No deployment page may activate local packages, export installers, claim offline readiness, mutate production QR redirects, store learner data offline, export reports, or enable premium AI Tutor features.
+- Closed local or packaged delivery requires media rights, checksums, package-size budget, versioned bundle manifests, QR fallback proof, storage policy, report/export policy, rollback evidence, and school acceptance.
+- Deployment decisions must preserve target-language progress triggers, learning audio priority, private assignment/front-door rules, tenant package entitlements, and child-safe cost controls.
+- The focused `/teacher/deployment` workbench must stay aligned with `/teacher/intake`, `/teacher/persistence`, `/teacher/entitlements`, `/local/ministar`, and `/local/sample-publisher`.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-550 and `docs/adr/0479-deployment-decision-workbench.md`.

@@ -64,6 +64,7 @@ function getAppShellNavItems(tenant: TenantConfig): AppShellNavItem[] {
     { label: "Persistence", href: "/teacher/persistence" },
     { label: "Reporting", href: "/teacher/reporting" },
     { label: "Entitlements", href: "/teacher/entitlements" },
+    { label: "Deployment", href: "/teacher/deployment" },
     { label: "Game Readiness", href: "/teacher/game-readiness" },
   ];
 

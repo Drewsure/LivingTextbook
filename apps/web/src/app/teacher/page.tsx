@@ -4,7 +4,7 @@ import { sampleFoundationStatusSnapshot } from "@/data/sampleFoundationStatusSna
 import { sampleLaunchSession } from "@/data/sampleLaunchSession";
 import { sampleMultimediaContentPackage } from "@/data/sampleMultimediaPackage";
 import { FoundationStatusSnapshotPanel } from "@/features/policy/FoundationStatusSnapshotPanel";
-import { getTeacherMediaLibraryPath } from "@/features/routes/routeContracts";
+import { getTeacherDeploymentWorkbenchPath, getTeacherMediaLibraryPath } from "@/features/routes/routeContracts";
 import { TeacherAssistLanguagePanel } from "@/features/teacher/TeacherAssistLanguagePanel";
 import { TeacherLaunchPanel } from "@/features/teacher/TeacherLaunchPanel";
 import { TeacherMicrophonePracticePanel } from "@/features/teacher/TeacherMicrophonePracticePanel";
@@ -57,6 +57,15 @@ export default function TeacherPage() {
           <span className="mt-1 block text-xs font-semibold text-[var(--tenant-muted)]">
             Optional paid features, AI generation, Voice Tutor, microphone scoring, storage/export, and local companion
             package boundaries.
+          </span>
+        </a>
+        <a
+          className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] p-4 text-sm font-bold text-[var(--tenant-text)] underline-offset-4 hover:underline"
+          href={getTeacherDeploymentWorkbenchPath()}
+        >
+          Open deployment decision workbench
+          <span className="mt-1 block text-xs font-semibold text-[var(--tenant-muted)]">
+            Hosted PWA, local classroom server, packaged companion, offline honesty, media bundle, and package tier gates.
           </span>
         </a>
         <a

@@ -33,7 +33,7 @@ export const sampleBuildStageMap: BuildStageMap = {
       status: "ready",
       summary:
         "The PWA shell, tenant theming, teacher/admin review pages, student front doors, activity hubs, media routes, print previews, and game route wrappers are active in local preview.",
-      evidence: "85 active route checks pass, including MiniStar and sample publisher student, teacher, media, print, assignment, report, local companion, and QR resolver routes.",
+      evidence: "86 active route checks pass, including MiniStar and sample publisher student, teacher, media, print, assignment, report, deployment, local companion, and QR resolver routes.",
       nextStep: "Keep reducing one-off UI before adding premium skins or micro-interactions.",
     },
     {

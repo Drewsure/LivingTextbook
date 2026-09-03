@@ -119,6 +119,24 @@ export const appRouteContracts: AppRouteContract[] = [
     ],
   },
   {
+    id: "teacher-deployment-workbench",
+    pattern: "/teacher/deployment",
+    audience: "teacher",
+    status: "active-scaffold",
+    purpose:
+      "Show hosted PWA, local classroom server, packaged companion, PWA/offline, media bundle, local preflight, and package tier decisions in one review-only workbench before deployment, export, or installer workflows exist.",
+    requiredState: [
+      "TenantConfig",
+      "DeploymentDecisionGuide",
+      "TenantDeploymentProfile[]",
+      "PwaOfflineReadinessGate",
+      "MediaBundleIntegrityPlan",
+      "LocalDeploymentPreflightPlan",
+      "LocalBundleManifestSummary[]",
+      "WhiteLabelPackageCatalogItem[]",
+    ],
+  },
+  {
     id: "teacher-source-review-workspace",
     pattern: "/teacher/sources/[tenantId]",
     audience: "teacher",
@@ -588,6 +606,10 @@ export function getTeacherAssignmentRolloutWorkbenchPath(): string {
 
 export function getTeacherPackageEntitlementsPath(): string {
   return "/teacher/entitlements";
+}
+
+export function getTeacherDeploymentWorkbenchPath(): string {
+  return "/teacher/deployment";
 }
 
 export function getTeacherPrototypeReviewPath(tenantId: TenantId): string {

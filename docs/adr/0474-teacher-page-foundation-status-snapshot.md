@@ -17,7 +17,7 @@ Add a `FoundationStatusSnapshotPanel` to `/teacher`.
 The snapshot shows:
 
 - Structure first
-- 85 active routes checked
+- 86 active routes checked
 - Tenant boundary visible
 - Z.ai intake not yet
 - Link to `/teacher/intake`

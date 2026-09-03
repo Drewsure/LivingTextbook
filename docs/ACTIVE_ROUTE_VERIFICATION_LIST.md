@@ -18,6 +18,7 @@ This list names the routes that should be checked after foundation changes. It i
 - `http://127.0.0.1:3000/teacher/reporting`
 - `http://127.0.0.1:3000/teacher/assignments`
 - `http://127.0.0.1:3000/teacher/entitlements`
+- `http://127.0.0.1:3000/teacher/deployment`
 - `http://127.0.0.1:3000/teacher/game-readiness`
 - `http://127.0.0.1:3000/teacher/prototypes/sample-publisher`
 - `http://127.0.0.1:3000/teacher/sources/sample-publisher`

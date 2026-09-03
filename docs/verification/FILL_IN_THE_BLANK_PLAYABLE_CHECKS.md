@@ -12,7 +12,7 @@ Checks:
 - Support-language text or audio cannot complete a round, unlock a game, or award Star Dust.
 - The completion card offers the reviewed next activity path and the activity hub.
 - Both sample packages include `fill-in-the-blank` audio cue coverage.
-- The active route matrix shows 85 checked routes.
+- The active route matrix shows 86 checked routes.
 
 Verification command:
 

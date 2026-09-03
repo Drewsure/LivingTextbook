@@ -21,7 +21,7 @@ The main teacher page needs a quick, non-technical view of where the build stand
 ## Guardrails Preserved
 
 - Structure first
-- 85 active routes checked
+- Active route count shown for the build state at the time of that slice.
 - Tenant boundary visible
 - Z.ai intake not yet
 - No live feature activation

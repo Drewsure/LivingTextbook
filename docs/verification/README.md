@@ -30,6 +30,7 @@ Focused verification supplements:
 - `docs/verification/COLLECTION_ROOM_ROUTE_CHECKS.md`
 - `docs/verification/COMPETITIVE_FEATURE_COVERAGE_CHECKS.md`
 - `docs/verification/CONTENT_INTAKE_CHECKS.md`
+- `docs/verification/DEPLOYMENT_DECISION_WORKBENCH_CHECKS.md`
 - `docs/verification/DEPLOYMENT_PROFILE_CHECKS.md`
 - `docs/verification/EDITION_QR_ALIAS_CHECKS.md`
 - `docs/verification/FOUNDATION_VERIFICATION_GATE_PANEL_CHECKS.md`
