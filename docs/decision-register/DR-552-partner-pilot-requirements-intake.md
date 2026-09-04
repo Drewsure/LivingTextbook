@@ -14,6 +14,7 @@ Guardrails:
 
 - No upload button, file picker write, policy acceptance, live storage write, report export, classroom launch, local package activation, premium AI Tutor activation, microphone request, or Z.ai source handoff request can happen here.
 - Hosted PWA remains the default first pilot path unless closed local operation is required.
+- Evidence traceability is handled by DR-553 and must point each requirement to its proof route, current signal, blocked-until condition, and pilot dependency.
 - `npm run verify:pilot-requirements` and active route verification protect the route.
 
 ADR: `docs/adr/0481-partner-pilot-requirements-intake.md`

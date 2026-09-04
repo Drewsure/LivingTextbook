@@ -524,6 +524,7 @@
 - `DR-550-deployment-decision-workbench.md`
 - `DR-551-pilot-readiness-dashboard.md`
 - `DR-552-partner-pilot-requirements-intake.md`
+- `DR-553-partner-pilot-evidence-traceability.md`
 
 ## Maintenance Rule
 

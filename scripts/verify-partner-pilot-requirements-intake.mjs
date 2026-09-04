@@ -17,7 +17,9 @@ const operatingNotes = readSource("../docs/OPERATING_NOTES.md");
 const decisionRegister = readSource("../docs/DECISION_REGISTER.md");
 const decisionRegisterReadme = readSource("../docs/decision-register/README.md");
 const decisionRecord = readSource("../docs/decision-register/DR-552-partner-pilot-requirements-intake.md");
+const evidenceTraceDecisionRecord = readSource("../docs/decision-register/DR-553-partner-pilot-evidence-traceability.md");
 const adr = readSource("../docs/adr/0481-partner-pilot-requirements-intake.md");
+const evidenceTraceAdr = readSource("../docs/adr/0482-partner-pilot-evidence-traceability.md");
 const routeChecks = readSource("../docs/verification/PARTNER_PILOT_REQUIREMENTS_INTAKE_CHECKS.md");
 const verificationReadme = readSource("../docs/verification/README.md");
 const buildSessionNote = readSource("../docs/build-session-notes/2026-09-05-partner-pilot-requirements-intake.md");
@@ -47,6 +49,19 @@ const requiredDataMarkers = [
   "No local package activation",
   "No premium AI Tutor activation",
   "No Z.ai source handoff request",
+  "evidenceTrace",
+  "Source extraction evidence",
+  "Media rights and playlist evidence",
+  "Curated activity pathway evidence",
+  "QR and front-door entry evidence",
+  "Learner data policy evidence",
+  "Teacher report and export evidence",
+  "Deployment decision evidence",
+  "Premium AI Tutor and speech evidence",
+  "Z.ai and outside prototype evidence",
+  "publisher-input-needed",
+  "school-policy-needed",
+  "school-decision-needed",
   "/teacher/sources/sample-publisher",
   "/teacher/media/sample-publisher",
   "/activities/partner-demo-unit-1",
@@ -76,6 +91,14 @@ const requiredPanelMarkers = [
   "Current foundation evidence",
   "Next action",
   "Required before classroom pilot",
+  "Evidence traceability map",
+  "Pilot requirement to evidence route",
+  "Review-only evidence map",
+  "Requirement link",
+  "Current signal",
+  "Blocked until",
+  "Pilot dependency",
+  "Evidence route",
   "No live capture",
   "Review-only",
 ];
@@ -98,6 +121,17 @@ const requiredRouteVerifierMarkers = [
   "No policy acceptance",
   "No live storage write",
   "No premium AI Tutor activation",
+  "Evidence traceability map",
+  "Pilot requirement to evidence route",
+  "Source extraction evidence",
+  "Media rights and playlist evidence",
+  "Curated activity pathway evidence",
+  "QR and front-door entry evidence",
+  "Learner data policy evidence",
+  "Teacher report and export evidence",
+  "Deployment decision evidence",
+  "Premium AI Tutor and speech evidence",
+  "Z.ai and outside prototype evidence",
 ];
 
 const requiredIntegrationMarkers = [
@@ -138,12 +172,18 @@ for (const marker of requiredIntegrationMarkers) {
 }
 
 requireText(principles, "Partner Pilot Requirements Intake Standard", "Principles document must include the requirements standard.");
+requireText(principles, "evidence traceability map", "Principles document must include the evidence traceability map rule.");
 requireText(buildSessions, "/teacher/pilot/requirements/sample-publisher", "Build sessions must record the requirements route.");
 requireText(operatingNotes, "OW-026", "Operating notes must record the requirements procedure.");
+requireText(operatingNotes, "OW-027", "Operating notes must record the evidence traceability procedure.");
 requireText(decisionRegister, "DR-552", "Decision register must include DR-552.");
+requireText(decisionRegister, "DR-553", "Decision register must include DR-553.");
 requireText(decisionRegisterReadme, "DR-552-partner-pilot-requirements-intake.md", "Decision register README must list DR-552.");
+requireText(decisionRegisterReadme, "DR-553-partner-pilot-evidence-traceability.md", "Decision register README must list DR-553.");
 requireText(decisionRecord, "DR-552", "Decision record file must exist.");
+requireText(evidenceTraceDecisionRecord, "DR-553", "Evidence traceability decision record file must exist.");
 requireText(adr, "ADR 0481", "ADR file must exist.");
+requireText(evidenceTraceAdr, "ADR 0482", "Evidence traceability ADR file must exist.");
 requireText(routeChecks, "Partner Pilot Requirements Intake Checks", "Verification checklist must exist.");
 requireText(verificationReadme, "PARTNER_PILOT_REQUIREMENTS_INTAKE_CHECKS.md", "Verification README must list requirements checks.");
 requireText(buildSessionNote, "Partner pilot requirements intake", "Build-session note must exist.");

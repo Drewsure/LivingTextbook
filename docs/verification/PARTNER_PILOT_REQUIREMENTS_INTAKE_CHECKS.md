@@ -8,6 +8,8 @@ Status: active scaffold
 - The page states demo-ready, not classroom-ready.
 - The route shows source PDF/text files, audio, music, video, posters, images, game pathway scope, QR/front-door entry, learner data, reports, deployment, package tier, optional AI Tutor/speech scoring, and outside prototype timing.
 - The route links to source review, media library, activity hub, front door, policy handoff, reporting, deployment, entitlements, and game readiness evidence.
+- The route shows an evidence traceability map from each partner requirement to current signal, blocked-until condition, pilot dependency, and evidence route.
+- The trace map includes source extraction evidence, media rights and playlist evidence, curated activity pathway evidence, QR and front-door entry evidence, learner data policy evidence, teacher report and export evidence, deployment decision evidence, premium AI Tutor and speech evidence, and Z.ai/outside prototype evidence.
 - The active route verifier must expect 88 active routes.
 
 ## Forbidden Behavior

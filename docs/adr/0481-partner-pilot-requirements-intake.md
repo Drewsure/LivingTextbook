@@ -12,6 +12,8 @@ Create `/teacher/pilot/requirements/[tenantId]` as a tenant-scoped requirements 
 
 The intake shows publisher supplies, school decisions, platform evidence, and blocked actions for source PDF/text files, audio, music, video, images, game pathway scope, QR/front-door entry, learner data, reports, deployment, package tier, optional AI Tutor/speech scoring, and outside prototype timing.
 
+The evidence traceability map is specified separately in ADR 0482 and DR-553. It links each requirement to proof routes, current signals, blocked-until conditions, and pilot dependencies.
+
 ## Consequences
 
 - Partner conversations can ask for the right evidence without enabling live upload workflows.

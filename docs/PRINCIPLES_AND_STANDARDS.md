@@ -721,10 +721,11 @@ Required standing rules:
 
 - `/teacher/pilot/requirements/[tenantId]` must show what the publisher must supply, what the school must decide, and what the platform must still build or enable before a real classroom pilot.
 - The route must cover source PDF/text files, audio, music, video, posters, images, game pathway scope, QR/front-door entry, learner data, teacher reports, deployment, package tier, optional AI Tutor/speech scoring, and outside prototype timing.
+- The route must include an evidence traceability map that links each requirement to the review route holding its proof or blocker, including current signal, blocked-until condition, and pilot dependency.
 - The route must state demo-ready, not classroom-ready, until source evidence, media rights, school policy, persistence, report/export, deployment, launch-gate, and package publish gates close.
 - The first recommended pilot path remains hosted PWA for cost control unless a partner requires closed local operation and accepts the extra support, media, storage, QR, rollback, and policy burden.
 - The route may guide a meeting, but it cannot upload files, save partner answers, accept policy, select storage, export reports, bill premium services, request microphone access, import Z.ai work, or launch student sessions.
 - Z.ai and outside prototype requirements remain visible but blocked until Codex explicitly changes the handoff signal to ready-for-review.
 - `npm run verify:pilot-requirements` and active route verification must protect the route, route contract, tenant navigation, dashboard link, standards, ADR, decision record, checklist, and no-live-capture blockers.
 
-This standard is recorded in `docs/DECISION_REGISTER.md` DR-552 and `docs/adr/0481-partner-pilot-requirements-intake.md`.
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-552 and DR-553, `docs/adr/0481-partner-pilot-requirements-intake.md`, and `docs/adr/0482-partner-pilot-evidence-traceability.md`.

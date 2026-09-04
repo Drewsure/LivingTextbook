@@ -1,5 +1,7 @@
 import { Card, StatusPill } from "@living-textbook/ui";
 import type {
+  PartnerPilotEvidenceTraceItem,
+  PartnerPilotEvidenceTraceStatus,
   PartnerPilotRequirement,
   PartnerPilotRequirementStatus,
   PartnerPilotRequirementsIntake,
@@ -26,6 +28,24 @@ const statusLabel: Record<PartnerPilotRequirementStatus, string> = {
   "needs-decision": "Needs decision",
   "policy-required": "Policy required",
   "premium-optional": "Premium optional",
+};
+
+const evidenceTone: Record<PartnerPilotEvidenceTraceStatus, "neutral" | "success" | "warning"> = {
+  blocked: "warning",
+  "demo-evidence-visible": "success",
+  "premium-decision": "neutral",
+  "publisher-input-needed": "warning",
+  "school-decision-needed": "neutral",
+  "school-policy-needed": "warning",
+};
+
+const evidenceLabel: Record<PartnerPilotEvidenceTraceStatus, string> = {
+  blocked: "Blocked",
+  "demo-evidence-visible": "Demo evidence visible",
+  "premium-decision": "Premium decision",
+  "publisher-input-needed": "Publisher input needed",
+  "school-decision-needed": "School decision needed",
+  "school-policy-needed": "School policy needed",
 };
 
 export function PartnerPilotRequirementsIntakePanel({ intake }: PartnerPilotRequirementsIntakePanelProps) {
@@ -71,6 +91,26 @@ export function PartnerPilotRequirementsIntakePanel({ intake }: PartnerPilotRequ
         ))}
       </div>
 
+      <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] p-4">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Evidence traceability map</p>
+            <h3 className="mt-1 text-base font-bold text-[var(--tenant-text)]">Pilot requirement to evidence route</h3>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
+              Each requirement points to the current review route that holds its proof or blocker. This is evidence
+              mapping only; it does not capture partner answers or promote any route to classroom-ready status.
+            </p>
+          </div>
+          <StatusPill label="Review-only evidence map" tone="warning" />
+        </div>
+
+        <div className="mt-4 grid gap-3">
+          {intake.evidenceTrace.map((trace) => (
+            <EvidenceTraceCard key={trace.traceId} trace={trace} />
+          ))}
+        </div>
+      </section>
+
       <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
@@ -91,6 +131,38 @@ export function PartnerPilotRequirementsIntakePanel({ intake }: PartnerPilotRequ
         </ul>
       </section>
     </Card>
+  );
+}
+
+function EvidenceTraceCard({ trace }: { trace: PartnerPilotEvidenceTraceItem }) {
+  return (
+    <article className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">
+            Requirement link: {trace.requirementId}
+          </p>
+          <h4 className="mt-1 text-sm font-bold text-[var(--tenant-text)]">{trace.label}</h4>
+        </div>
+        <StatusPill label={evidenceLabel[trace.status]} tone={evidenceTone[trace.status]} />
+      </div>
+
+      <div className="mt-3 grid gap-3 lg:grid-cols-3">
+        <RequirementText title="Current signal" value={trace.currentSignal} />
+        <RequirementText title="Blocked until" value={trace.blockedUntil} />
+        <RequirementText title="Pilot dependency" value={trace.pilotDependency} />
+      </div>
+
+      <div className="mt-3 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] p-3">
+        <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Evidence route</p>
+        <a
+          href={trace.evidenceRoute}
+          className="mt-1 block break-words text-sm font-bold text-[var(--tenant-text)] underline decoration-[var(--tenant-border)] underline-offset-4"
+        >
+          {trace.evidenceRoute}
+        </a>
+      </div>
+    </article>
   );
 }
 

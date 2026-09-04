@@ -1331,3 +1331,23 @@ Guardrails:
 - The route must reuse tenant, source review, media, policy, reporting, deployment, entitlement, and game-readiness evidence links.
 - `npm run verify:pilot-requirements`, foundation verification, and active route verification must protect the route and standards.
 - This decision is recorded in `docs/adr/0481-partner-pilot-requirements-intake.md` and `docs/decision-register/DR-552-partner-pilot-requirements-intake.md`.
+
+## DR-553: Partner Pilot Evidence Traceability Map
+
+Status: Accepted
+
+Decision: Add an evidence traceability map inside the partner pilot requirements intake so each pilot requirement links to the current review route, proof signal, blocked-until condition, and pilot dependency.
+
+Rationale:
+
+- A partner conversation should show what evidence already exists, where it lives, and what remains blocked before a real classroom pilot.
+- Traceability protects the white-label sales path because publisher supplies, school decisions, platform readiness, and optional premium features stay visibly separate.
+- The map reduces future support cost by preventing repeated one-off meeting notes that drift away from source review, media rights, policy, reporting, deployment, entitlement, and game-readiness routes.
+
+Guardrails:
+
+- Evidence traceability is review-only; it cannot capture partner answers, write storage, approve policy, upload files, export reports, mutate routes, activate packages, or launch classes.
+- The map must keep source PDF/text, media rights, curated activity pathway, QR/front-door, learner data policy, report/export, deployment, premium AI Tutor, and outside prototype evidence visible.
+- Blocked-until statements must remain explicit so demo-ready evidence is not confused with classroom-ready approval.
+- `npm run verify:pilot-requirements`, active route verification, and foundation verification must protect the trace map and no-live-capture boundaries.
+- This decision is recorded in `docs/adr/0482-partner-pilot-evidence-traceability.md` and `docs/decision-register/DR-553-partner-pilot-evidence-traceability.md`.

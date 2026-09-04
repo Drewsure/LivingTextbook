@@ -605,3 +605,19 @@ Procedure:
 6. Run `npm run verify:pilot-requirements` and `npm run verify:routes` after any partner intake, source/media requirement, school decision, deployment, package tier, or Z.ai timing change.
 
 Why this matters: Good commercial onboarding starts by reducing ambiguity, not by accepting files into an unfinished workflow.
+
+## OW-027: Partner Pilot Evidence Traceability
+
+Status: Active
+
+Observed behavior: Requirements meetings can drift into loose promises unless every ask points back to a review route and a blocked-until condition.
+
+Procedure:
+
+1. Keep the evidence traceability map visible inside `/teacher/pilot/requirements/sample-publisher`.
+2. Link source extraction, media rights, curated activity pathway, QR/front-door, learner data policy, teacher report/export, deployment, premium AI Tutor, and Z.ai/outside prototype items to their evidence routes.
+3. Preserve current signal, blocked-until condition, and pilot dependency text for each trace item.
+4. Do not use the trace map to capture partner answers, upload files, accept policy, write storage, export reports, mutate routes, activate packages, enable premium AI, request outside source handoff, or launch classes.
+5. Run `npm run verify:pilot-requirements`, `npm run verify:routes`, and `npm run verify:foundation` after traceability changes.
+
+Why this matters: Traceability lets a partner see exactly how close the pilot is without confusing demo evidence for classroom approval.

@@ -6,6 +6,14 @@ export type PartnerPilotRequirementStatus =
   | "premium-optional"
   | "blocked";
 
+export type PartnerPilotEvidenceTraceStatus =
+  | "demo-evidence-visible"
+  | "publisher-input-needed"
+  | "school-policy-needed"
+  | "school-decision-needed"
+  | "premium-decision"
+  | "blocked";
+
 export type PartnerPilotRequirementCategory =
   | "source"
   | "media"
@@ -31,6 +39,17 @@ export interface PartnerPilotRequirement {
   sourceRoute: string;
 }
 
+export interface PartnerPilotEvidenceTraceItem {
+  traceId: string;
+  requirementId: string;
+  label: string;
+  status: PartnerPilotEvidenceTraceStatus;
+  evidenceRoute: string;
+  currentSignal: string;
+  blockedUntil: string;
+  pilotDependency: string;
+}
+
 export interface PartnerPilotRequirementsIntake {
   intakeId: string;
   tenantId: string;
@@ -40,6 +59,7 @@ export interface PartnerPilotRequirementsIntake {
   pilotPosition: string;
   recommendedFirstPilotPath: string;
   requirements: PartnerPilotRequirement[];
+  evidenceTrace: PartnerPilotEvidenceTraceItem[];
   blockedActions: string[];
   noLiveCaptureStatement: string;
 }
@@ -197,6 +217,99 @@ export const samplePartnerPilotRequirementsIntakes: PartnerPilotRequirementsInta
           "Prototype review workbenches exist, but Codex has not requested outside source handoff yet.",
         nextAction: "Keep Z.ai work isolated until the intake alert changes to ready-for-review.",
         sourceRoute: "/teacher/game-readiness",
+      },
+    ],
+    evidenceTrace: [
+      {
+        traceId: "source-extraction-evidence-trace",
+        requirementId: "publisher-source-pdf-units",
+        label: "Source extraction evidence",
+        status: "publisher-input-needed",
+        evidenceRoute: "/teacher/sources/sample-publisher",
+        currentSignal: "Review workspace exists; real source files and extraction packet are not present.",
+        blockedUntil: "Publisher supplies the pilot PDF/text unit, page boundaries, edition label, and extraction permission.",
+        pilotDependency: "Required before AI authoring, route promotion, printable output, or classroom assignment.",
+      },
+      {
+        traceId: "media-rights-playlist-evidence-trace",
+        requirementId: "publisher-media-rights",
+        label: "Media rights and playlist evidence",
+        status: "publisher-input-needed",
+        evidenceRoute: "/teacher/media/sample-publisher",
+        currentSignal: "Media catalog, playlist, background policy, and bundle checks are visible as review-only scaffolds.",
+        blockedUntil: "Publisher provides owned or licensed audio, music, video, poster, image, replacement, and local-bundle rights.",
+        pilotDependency: "Required before uploaded media, playlist writes, background music, local packages, or student media playback.",
+      },
+      {
+        traceId: "curated-activity-pathway-evidence-trace",
+        requirementId: "game-pathway-scope",
+        label: "Curated activity pathway evidence",
+        status: "demo-evidence-visible",
+        evidenceRoute: "/activities/partner-demo-unit-1",
+        currentSignal: "Flashcards, memory, matching, Label It, quiz, spelling, sentence, fill, type, speak, and media routes exist.",
+        blockedUntil: "Teacher approves the first pilot pathway and compatibility gates stay green.",
+        pilotDependency: "Required before a teacher-facing assignment pathway can be considered pilot-ready.",
+      },
+      {
+        traceId: "qr-front-door-evidence-trace",
+        requirementId: "teacher-entry-mode",
+        label: "QR and front-door entry evidence",
+        status: "school-decision-needed",
+        evidenceRoute: "/enter/sample-publisher",
+        currentSignal: "Front-door route shows controlled entry practice and target-language progression boundaries.",
+        blockedUntil: "School chooses printed QR, entry code, learner code, classroom display flow, and fallback link policy.",
+        pilotDependency: "Required before permanent QR aliases or private assignment links are printed or distributed.",
+      },
+      {
+        traceId: "learner-data-policy-evidence-trace",
+        requirementId: "school-learner-data-policy",
+        label: "Learner data policy evidence",
+        status: "school-policy-needed",
+        evidenceRoute:
+          "/teacher/policy-handoff/starter-english-level-1-unit-1-2026.1-pilot-candidate-classroom-launch-gate-school-policy-gate-handoff-packet",
+        currentSignal: "School policy handoff packet exists; coded learner data and retention rules are not accepted.",
+        blockedUntil: "School accepts roster identity, retention, deletion, export, and no-real-learner-data boundaries.",
+        pilotDependency: "Required before progress persistence, roster binding, teacher reports, or classroom launch.",
+      },
+      {
+        traceId: "report-export-evidence-trace",
+        requirementId: "teacher-report-policy",
+        label: "Teacher report and export evidence",
+        status: "school-policy-needed",
+        evidenceRoute: "/teacher/reporting",
+        currentSignal: "Teacher report surfaces show structure and support-only audio lanes; export remains blocked.",
+        blockedUntil: "School confirms visible fields, recipient roles, export permissions, and family-summary policy.",
+        pilotDependency: "Required before durable reports, exports, or partner-facing progress handoff packages.",
+      },
+      {
+        traceId: "deployment-choice-evidence-trace",
+        requirementId: "deployment-channel-choice",
+        label: "Deployment decision evidence",
+        status: "school-decision-needed",
+        evidenceRoute: "/teacher/deployment",
+        currentSignal: "Hosted PWA is recommended for first pilot; local and packaged paths remain visible but gated.",
+        blockedUntil: "Partner chooses hosted PWA, local classroom server, or packaged companion with support and rollback terms.",
+        pilotDependency: "Required before school rollout, local package promises, offline claims, or QR fallback commitments.",
+      },
+      {
+        traceId: "premium-ai-tutor-evidence-trace",
+        requirementId: "ai-tutor-speech-policy",
+        label: "Premium AI Tutor and speech evidence",
+        status: "premium-decision",
+        evidenceRoute: "/teacher/entitlements",
+        currentSignal: "AI Tutor and speech scoring are visible as disabled adult-controlled package options.",
+        blockedUntil: "Teacher or school adopts the premium package, budget ceiling, privacy rule, and microphone approval policy.",
+        pilotDependency: "Optional for first pilot; cannot be child-triggered or hidden inside the core classroom package.",
+      },
+      {
+        traceId: "outside-prototype-evidence-trace",
+        requirementId: "zai-prototype-intake",
+        label: "Z.ai and outside prototype evidence",
+        status: "blocked",
+        evidenceRoute: "/teacher/game-readiness",
+        currentSignal: "Prototype workbenches exist; Codex has not opened the handoff signal for outside source review.",
+        blockedUntil: "Fixture replay, event replay, scoring replay, audio coverage, mobile evidence, and wrapper notes exist.",
+        pilotDependency: "Not required for first pilot; required before any outside Phaser or DOM prototype can enter app review.",
       },
     ],
     blockedActions: [
