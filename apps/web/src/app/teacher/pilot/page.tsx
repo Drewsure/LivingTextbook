@@ -31,10 +31,12 @@ import { TeacherDryRunRehearsalPanel } from "@/features/pilot/TeacherDryRunRehea
 import { WhiteLabelPilotReadinessPanel } from "@/features/pilot/WhiteLabelPilotReadinessPanel";
 import { samplePackagePublishGate } from "@/data/samplePackagePublishGate";
 import { sampleClassroomLaunchGate } from "@/data/sampleClassroomLaunchGate";
+import { getTeacherPilotRequirementsIntakePath } from "@/features/routes/routeContracts";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 
 const pilotLinks = [
   { href: "/partner-demo", label: "Partner demo" },
+  { href: getTeacherPilotRequirementsIntakePath(samplePublisherTenant.id), label: "Partner requirements intake" },
   { href: "/teacher/deployment", label: "Deployment decisions" },
   { href: "/teacher/intake", label: "Foundation control room" },
   { href: "/teacher/sessions/partner-demo-unit-1", label: "Partner session monitor" },

@@ -1188,7 +1188,7 @@ Decision: Add a compact foundation status snapshot to the MiniStar teacher page.
 Rationale:
 
 - The main teacher page should communicate the current build stage before users enter launch routes or the larger intake control room.
-- The snapshot gives a non-technical status view: structure first, 87 active routes checked, tenant boundary visible, and Z.ai intake not yet.
+- The snapshot gives a non-technical status view: structure first, 88 active routes checked, tenant boundary visible, and Z.ai intake not yet.
 - This helps the human side of the project understand when to intervene and when to keep build focus on foundation integrity.
 
 Guardrails:
@@ -1311,3 +1311,23 @@ Guardrails:
 - The dashboard must link to evidence routes and reuse existing readiness panels rather than creating a separate approval system.
 - `npm run verify:pilot`, foundation verification, and active route verification must protect the route, route contract, navigation, dashboard data, standards, ADR, and checklist.
 - This decision is recorded in `docs/adr/0480-pilot-readiness-dashboard.md` and `docs/decision-register/DR-551-pilot-readiness-dashboard.md`.
+
+## DR-552: Partner Pilot Requirements Intake
+
+Status: Accepted
+
+Decision: Add a tenant-scoped `/teacher/pilot/requirements/[tenantId]` requirements intake for partner pilot conversations before live uploads, policy acceptance, storage writes, report export, premium AI activation, or classroom launch.
+
+Rationale:
+
+- A textbook publisher or school needs to know exactly what they must supply or decide before a real Living Textbook pilot.
+- The platform should collect meeting evidence and requirements first, then introduce live upload and persistence workflows only after policy and storage gates are ready.
+- The route reinforces the saleable white-label strategy by separating publisher-owned content/media obligations from platform-owned architecture and school-owned policy decisions.
+
+Guardrails:
+
+- No upload button, file picker write, policy acceptance, live storage write, report export, classroom launch, local package activation, premium AI Tutor activation, microphone request, or Z.ai source handoff request can happen from this intake.
+- The first pilot recommendation remains hosted PWA for cost control unless closed local operation is explicitly required.
+- The route must reuse tenant, source review, media, policy, reporting, deployment, entitlement, and game-readiness evidence links.
+- `npm run verify:pilot-requirements`, foundation verification, and active route verification must protect the route and standards.
+- This decision is recorded in `docs/adr/0481-partner-pilot-requirements-intake.md` and `docs/decision-register/DR-552-partner-pilot-requirements-intake.md`.

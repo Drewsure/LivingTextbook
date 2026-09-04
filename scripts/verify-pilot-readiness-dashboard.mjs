@@ -70,6 +70,8 @@ const requiredPageMarkers = [
   "Warnings that must stay visible before pilot launch",
   "Policy warnings",
   "Persistence warnings",
+  "Partner requirements intake",
+  "getTeacherPilotRequirementsIntakePath",
   "/partner-demo",
   "/teacher/deployment",
   "/teacher/intake",
@@ -109,8 +111,8 @@ const requiredIntegrationMarkers = [
   "Teacher pilot readiness dashboard",
   "Open pilot readiness dashboard",
   "Pilot",
-  "87 active routes checked",
-  "87 checked routes",
+  "88 active routes checked",
+  "88 checked routes",
   "verify:pilot",
 ];
 

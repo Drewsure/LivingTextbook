@@ -94,8 +94,8 @@ const requiredIntegrationMarkers = [
   "Teacher deployment decision workbench",
   "Open deployment decision workbench",
   "Deployment",
-  "87 active routes checked",
-  "87 checked routes",
+  "88 active routes checked",
+  "88 checked routes",
 ];
 
 for (const marker of requiredGuideMarkers) {

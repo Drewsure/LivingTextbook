@@ -140,6 +140,7 @@ Focused verification supplements:
 - `docs/verification/PWA_OFFLINE_READINESS_GATE_CHECKS.md`
 - `docs/verification/MEDIA_BUNDLE_INTEGRITY_CHECKS.md`
 - `docs/verification/PILOT_READINESS_DASHBOARD_CHECKS.md`
+- `docs/verification/PARTNER_PILOT_REQUIREMENTS_INTAKE_CHECKS.md`
 
 ## Current Hard Gate
 
@@ -170,6 +171,7 @@ Then verify:
 - `/teacher`
 - `/teacher/intake`
 - `/teacher/pilot`
+- `/teacher/pilot/requirements/sample-publisher`
 - `/teacher/sessions/demo-unit-1`
 - `/teacher/sessions/partner-demo-unit-1`
 - `/launch/demo-unit-1`

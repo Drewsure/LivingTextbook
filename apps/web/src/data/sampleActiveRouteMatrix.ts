@@ -97,6 +97,15 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
       "Focused pilot command route that separates controlled demo evidence from classroom launch blockers, school policy, persistence, reports, media evidence, and deployment decisions.",
   },
   {
+    routeId: "teacher-partner-pilot-requirements-intake",
+    group: "sample-publisher",
+    label: "Partner pilot requirements intake",
+    path: "/teacher/pilot/requirements/sample-publisher",
+    status: "active-scaffold",
+    note:
+      "Tenant-scoped requirements checklist for publisher supplies and school decisions before live uploads, learner data, report export, local package activation, premium AI Tutor, or classroom launch.",
+  },
+  {
     routeId: "teacher-game-readiness",
     group: "core",
     label: "Teacher game readiness workbench",

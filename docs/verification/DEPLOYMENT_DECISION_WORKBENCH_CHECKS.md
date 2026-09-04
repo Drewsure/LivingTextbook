@@ -17,7 +17,7 @@ Protect the focused `/teacher/deployment` route as a review-only commercial depl
 - Local classroom server and packaged companion options remain gated.
 - The route renders deployment profiles, PWA/offline readiness, media bundle integrity, local deployment preflight, local bundle manifests, and white-label package catalog panels.
 - The route links to `/teacher/intake`, `/teacher/persistence`, `/teacher/entitlements`, `/local/sample-publisher`, and `/local/ministar`.
-- The active route verifier expects 87 active routes.
+- The active route verifier expects 88 active routes.
 
 ## Must Stay Blocked
 

@@ -523,6 +523,7 @@
 - `DR-549-media-bundle-integrity-gate.md`
 - `DR-550-deployment-decision-workbench.md`
 - `DR-551-pilot-readiness-dashboard.md`
+- `DR-552-partner-pilot-requirements-intake.md`
 
 ## Maintenance Rule
 

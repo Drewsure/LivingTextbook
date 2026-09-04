@@ -261,12 +261,55 @@ expectedTextByPath.set("/teacher/pilot", [
   "Warnings that must stay visible before pilot launch",
   "Policy warnings",
   "Persistence warnings",
+  "Partner requirements intake",
+  "/teacher/pilot/requirements/sample-publisher",
   "/partner-demo",
   "/teacher/deployment",
   "/teacher/intake",
   "/teacher/sessions/partner-demo-unit-1",
   "/teacher/dry-run/sample-publisher-first-handoff-teacher-dry-run",
   "/teacher/launch-gate/starter-english-level-1-unit-1-2026.1-pilot-candidate-classroom-launch-gate",
+]);
+expectedTextByPath.set("/teacher/pilot/requirements/sample-publisher", [
+  "Partner pilot requirements intake",
+  "What we need before a real classroom pilot",
+  "Demo-ready, not classroom-ready",
+  "requirements conversation guide",
+  "publisher supplies",
+  "school decisions",
+  "deployment choices",
+  "optional premium AI Tutor",
+  "Back to pilot dashboard",
+  "Pilot position",
+  "Recommended first path",
+  "Source PDF or text units",
+  "Audio, music, video, poster, and image rights",
+  "Pilot activity pathway scope",
+  "QR, entry code, and learner code rules",
+  "Learner data and roster policy",
+  "Teacher report and export expectations",
+  "Deployment channel",
+  "Package tier and support boundary",
+  "AI Tutor and speech scoring option",
+  "Z.ai or outside prototype intake",
+  "No live capture",
+  "No upload button",
+  "No file picker writes",
+  "No policy acceptance",
+  "No live storage write",
+  "No report export",
+  "No classroom launch",
+  "No local package activation",
+  "No premium AI Tutor activation",
+  "No Z.ai source handoff request",
+  "/teacher/sources/sample-publisher",
+  "/teacher/media/sample-publisher",
+  "/activities/partner-demo-unit-1",
+  "/enter/sample-publisher",
+  "/teacher/reporting",
+  "/teacher/deployment",
+  "/teacher/entitlements",
+  "/teacher/game-readiness",
 ]);
 expectedTextByPath.get("/teacher/entitlements")?.push(
   "Package adoption readiness",
@@ -547,7 +590,7 @@ expectedTextByPath.get("/teacher")?.push(
   "Foundation status snapshot",
   "Build stage",
   "Structure first",
-  "87 active routes checked",
+  "88 active routes checked",
   "Tenant boundary visible",
   "Z.ai intake not yet",
   "Open foundation control room",
@@ -2471,7 +2514,7 @@ if (teacherIntakeExpected) {
   const routeCountIndex = teacherIntakeExpected.indexOf("49 checked routes");
 
   if (routeCountIndex >= 0) {
-    teacherIntakeExpected[routeCountIndex] = "87 checked routes";
+    teacherIntakeExpected[routeCountIndex] = "88 checked routes";
   }
 
   teacherIntakeExpected.push(
@@ -2502,6 +2545,9 @@ if (teacherIntakeExpected) {
   "Hosted PWA, local classroom server, packaged companion",
   "Pilot readiness dashboard",
   "verify:pilot",
+  "Partner pilot requirements intake",
+  "verify:pilot-requirements",
+  "What we need before a real classroom pilot",
   "Demo-ready, not classroom-ready",
 );
 }
@@ -2569,6 +2615,7 @@ const warmupPaths = [
   "/teacher/entitlements",
   "/teacher/deployment",
   "/teacher/pilot",
+  "/teacher/pilot/requirements/sample-publisher",
   "/teacher/game-readiness",
   "/teacher/generator/sample-publisher",
   "/teacher/generator/ministar",

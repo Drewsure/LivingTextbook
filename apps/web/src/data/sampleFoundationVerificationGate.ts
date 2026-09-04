@@ -207,6 +207,18 @@ export const sampleFoundationVerificationGate: FoundationVerificationGate = {
         "Run this before changing pilot-readiness wording, evidence routes, school-policy links, persistence/report blockers, deployment stance, or partner-facing pilot claims.",
     },
     {
+      checkId: "partner-pilot-requirements-intake",
+      label: "Partner pilot requirements intake",
+      command: "npm run verify:pilot-requirements",
+      status: "pass",
+      protects:
+        "Publisher supplies, school decisions, deployment choices, report expectations, optional AI Tutor adoption, and outside prototype timing stay visible before live uploads or classroom pilots.",
+      evidence:
+        "The verifier checks the tenant-scoped What we need before a real classroom pilot route, no-live-capture language, no upload button, no policy acceptance, no live storage write, and Demo-ready, not classroom-ready boundaries.",
+      nextStep:
+        "Run this before changing partner intake wording, source/media requirement categories, QR/entry expectations, report policy, deployment choices, premium AI options, or Z.ai timing.",
+    },
+    {
       checkId: "web-typecheck-build",
       label: "Web typecheck and build",
       command: "npm run typecheck --workspace @living-textbook/web && npm run build --workspace @living-textbook/web",
@@ -221,7 +233,7 @@ export const sampleFoundationVerificationGate: FoundationVerificationGate = {
       command: "npm run verify:routes",
       status: "pass",
       protects: "Teacher, student, game, media, report, local companion, and QR routes stay reachable.",
-      evidence: "The verifier checks 87 active routes and required page text.",
+      evidence: "The verifier checks 88 active routes and required page text.",
       nextStep: "Add new active routes to the route matrix before treating them as part of a pilot.",
     },
   ],

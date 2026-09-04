@@ -13,7 +13,7 @@ Keep the main MiniStar teacher page clear about the current build stage.
 - Foundation status snapshot
 - Build stage
 - Structure first
-- 87 active routes checked
+- 88 active routes checked
 - Tenant boundary visible
 - Z.ai intake not yet
 - Open foundation control room

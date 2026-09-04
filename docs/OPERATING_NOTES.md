@@ -588,3 +588,20 @@ Procedure:
 5. Run `npm run verify:pilot`, `npm run verify:deployment`, and `npm run verify:routes` after any pilot-readiness wording, evidence-link, deployment, policy, persistence, report, or package-gate change.
 
 Why this matters: The first partner conversation should build confidence without creating promises the platform has not yet earned.
+
+## OW-026: Partner Pilot Intake Is Requirements First
+
+Status: Active
+
+Observed behavior: Once a partner asks for uploads, QR codes, reports, videos, games, or a closed local package, it is tempting to create live forms too early.
+
+Procedure:
+
+1. Use `/teacher/pilot/requirements/sample-publisher` to guide the first partner requirements conversation.
+2. Record what the partner must supply and what the school must decide before building live upload, storage, policy, report, or local package workflows.
+3. Keep source files, media rights, game pathway scope, QR/front-door entry, learner data, reports, deployment, package tier, optional AI Tutor, and Z.ai timing visible.
+4. Keep hosted PWA as the default first pilot recommendation unless a closed local operation is explicitly required.
+5. Do not add upload buttons, file picker writes, policy acceptance, live storage writes, report exports, classroom launch, local package activation, premium AI Tutor activation, microphone prompts, or Z.ai source handoff requests from this route.
+6. Run `npm run verify:pilot-requirements` and `npm run verify:routes` after any partner intake, source/media requirement, school decision, deployment, package tier, or Z.ai timing change.
+
+Why this matters: Good commercial onboarding starts by reducing ambiguity, not by accepting files into an unfinished workflow.

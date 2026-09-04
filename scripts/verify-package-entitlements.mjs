@@ -251,7 +251,7 @@ requireText(adoptionStorageAdr, "ADR 0420", "Package adoption storage ADR must e
 requireText(adoptionStorageGuardAdr, "ADR 0421", "Package adoption storage guard ADR must exist.");
 requireText(routeChecks, "Package Entitlement Workbench Route Checks", "Route checklist must exist.");
 requireText(verifierChecks, "Package Entitlement Verifier Checks", "Verifier checklist must exist.");
-requireText(routeChecks, "The active route verifier must expect 87 active routes.", "Route checklist must preserve active route count.");
+requireText(routeChecks, "The active route verifier must expect 88 active routes.", "Route checklist must preserve active route count.");
 
 forbidText(entitlementPage, "input type=\"file\"", "Entitlement route must not introduce live upload inputs.");
 forbidText(entitlementPage, "navigator.mediaDevices.getUserMedia", "Entitlement route must not request microphone access.");

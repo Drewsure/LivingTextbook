@@ -155,6 +155,24 @@ export const appRouteContracts: AppRouteContract[] = [
     ],
   },
   {
+    id: "teacher-partner-pilot-requirements-intake",
+    pattern: "/teacher/pilot/requirements/[tenantId]",
+    audience: "teacher",
+    status: "active-scaffold",
+    purpose:
+      "Show tenant-scoped partner pilot source, media, game, QR, learner-data, report, deployment, package, AI Tutor, and outside-prototype requirements before live upload, storage, policy acceptance, or classroom launch.",
+    requiredState: [
+      "TenantConfig",
+      "PartnerPilotRequirementsIntake",
+      "PartnerPilotRequirement[]",
+      "SourceReviewQueue",
+      "MediaRightsPlan",
+      "SchoolLaunchPolicyGate",
+      "DeploymentDecisionGuide",
+      "PackageCostBoundary[]",
+    ],
+  },
+  {
     id: "teacher-source-review-workspace",
     pattern: "/teacher/sources/[tenantId]",
     audience: "teacher",
@@ -632,6 +650,10 @@ export function getTeacherDeploymentWorkbenchPath(): string {
 
 export function getTeacherPilotReadinessDashboardPath(): string {
   return "/teacher/pilot";
+}
+
+export function getTeacherPilotRequirementsIntakePath(tenantId: TenantId): string {
+  return `/teacher/pilot/requirements/${encodeURIComponent(tenantId)}`;
 }
 
 export function getTeacherPrototypeReviewPath(tenantId: TenantId): string {
