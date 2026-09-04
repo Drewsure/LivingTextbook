@@ -88,6 +88,15 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
       "Focused deployment route for hosted PWA, local classroom server, packaged companion, PWA/offline, media bundle, local preflight, and package tier gates before export or installer work.",
   },
   {
+    routeId: "teacher-pilot-readiness-dashboard",
+    group: "core",
+    label: "Teacher pilot readiness dashboard",
+    path: "/teacher/pilot",
+    status: "active-scaffold",
+    note:
+      "Focused pilot command route that separates controlled demo evidence from classroom launch blockers, school policy, persistence, reports, media evidence, and deployment decisions.",
+  },
+  {
     routeId: "teacher-game-readiness",
     group: "core",
     label: "Teacher game readiness workbench",

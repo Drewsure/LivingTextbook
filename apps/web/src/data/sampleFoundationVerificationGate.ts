@@ -195,6 +195,18 @@ export const sampleFoundationVerificationGate: FoundationVerificationGate = {
         "Run this before changing hosted/local/package deployment language, offline claims, media bundle handoff, installer strategy, or white-label package delivery copy.",
     },
     {
+      checkId: "pilot-readiness-dashboard",
+      label: "Pilot readiness dashboard",
+      command: "npm run verify:pilot",
+      status: "pass",
+      protects:
+        "First partner and school pilot conversations keep demo-ready evidence separate from classroom-ready launch, policy, persistence, report, media, deployment, and package approval requirements.",
+      evidence:
+        "The verifier checks the /teacher/pilot command view, route contract, route matrix, navigation, hard blockers, and Demo-ready, not classroom-ready language.",
+      nextStep:
+        "Run this before changing pilot-readiness wording, evidence routes, school-policy links, persistence/report blockers, deployment stance, or partner-facing pilot claims.",
+    },
+    {
       checkId: "web-typecheck-build",
       label: "Web typecheck and build",
       command: "npm run typecheck --workspace @living-textbook/web && npm run build --workspace @living-textbook/web",
@@ -209,7 +221,7 @@ export const sampleFoundationVerificationGate: FoundationVerificationGate = {
       command: "npm run verify:routes",
       status: "pass",
       protects: "Teacher, student, game, media, report, local companion, and QR routes stay reachable.",
-      evidence: "The verifier checks 86 active routes and required page text.",
+      evidence: "The verifier checks 87 active routes and required page text.",
       nextStep: "Add new active routes to the route matrix before treating them as part of a pilot.",
     },
   ],

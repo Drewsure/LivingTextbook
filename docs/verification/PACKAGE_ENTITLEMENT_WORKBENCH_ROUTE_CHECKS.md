@@ -46,4 +46,4 @@ npm run verify:package-entitlements
 npm run verify:routes
 ```
 
-The active route verifier must expect 86 active routes.
+The active route verifier must expect 87 active routes.

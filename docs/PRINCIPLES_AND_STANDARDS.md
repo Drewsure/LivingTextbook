@@ -696,3 +696,19 @@ Required standing rules:
 - The focused `/teacher/deployment` workbench must stay aligned with `/teacher/intake`, `/teacher/persistence`, `/teacher/entitlements`, `/local/ministar`, and `/local/sample-publisher`.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-550 and `docs/adr/0479-deployment-decision-workbench.md`.
+
+## 29. Pilot Readiness Dashboard Standard
+
+Pilot conversations need one plain go/no-go view before any school or publisher sees live workflow promises.
+
+Required standing rules:
+
+- `/teacher/pilot` must separate controlled demo evidence from classroom-ready evidence.
+- The dashboard must show demo-ready status, classroom blockers, source/media evidence, school policy, persistence, teacher reports, deployment, launch gates, and package publish gates in one review-only surface.
+- The first partner conversation may use the controlled demo routes, but it must not imply live learner data, report export, school policy acceptance, local package activation, offline readiness, premium AI Tutor activation, or Z.ai prototype intake.
+- The route must link back to the source evidence routes instead of duplicating or bypassing them.
+- The page may summarize policy and storage warnings, but it cannot accept policy, select a storage adapter, upload evidence, launch a class, export reports, mutate QR aliases, or activate paid features.
+- The dashboard must preserve hosted PWA as the recommended first pilot stance unless a partner requires closed local operation and accepts the extra policy, media, support, and cost burden.
+- Active route verification and `npm run verify:pilot` must protect the route, route contract, navigation, dashboard data, standards, ADR, decision register entry, and no-live-action blockers.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-551 and `docs/adr/0480-pilot-readiness-dashboard.md`.

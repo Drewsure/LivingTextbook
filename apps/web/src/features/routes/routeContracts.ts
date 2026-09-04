@@ -137,6 +137,24 @@ export const appRouteContracts: AppRouteContract[] = [
     ],
   },
   {
+    id: "teacher-pilot-readiness-dashboard",
+    pattern: "/teacher/pilot",
+    audience: "teacher",
+    status: "active-scaffold",
+    purpose:
+      "Show demo-ready versus classroom-ready pilot status, deployment, school policy, persistence, media/source evidence, launch gate, and report blockers in one review-only dashboard before real learner data or classroom launch.",
+    requiredState: [
+      "TenantConfig",
+      "PilotReadinessDashboard",
+      "WhiteLabelPilotReadiness",
+      "PilotReadinessSummary",
+      "PilotLaunchChecklist",
+      "SchoolLaunchPolicyGate",
+      "ClassroomLaunchGate",
+      "PackagePublishGate",
+    ],
+  },
+  {
     id: "teacher-source-review-workspace",
     pattern: "/teacher/sources/[tenantId]",
     audience: "teacher",
@@ -610,6 +628,10 @@ export function getTeacherPackageEntitlementsPath(): string {
 
 export function getTeacherDeploymentWorkbenchPath(): string {
   return "/teacher/deployment";
+}
+
+export function getTeacherPilotReadinessDashboardPath(): string {
+  return "/teacher/pilot";
 }
 
 export function getTeacherPrototypeReviewPath(tenantId: TenantId): string {

@@ -226,8 +226,48 @@ expectedTextByPath.get("/teacher")?.push(
   "/teacher/reporting",
   "Open package entitlement workbench",
   "/teacher/entitlements",
+  "Open pilot readiness dashboard",
+  "/teacher/pilot",
   "Open teacher game readiness workbench",
 );
+expectedTextByPath.set("/teacher/pilot", [
+  "Pilot readiness command view",
+  "Demo-ready, not classroom-ready",
+  "8-12 week pilot target",
+  "No classroom launch",
+  "No real learner data",
+  "No report export",
+  "Standing pilot gate",
+  "Pilot readiness dashboard",
+  "First conversation position",
+  "Controlled partner demo routes",
+  "Publisher source and media evidence",
+  "School policy and learner data",
+  "Persistence and teacher reports",
+  "Deployment choice",
+  "Hard blocks",
+  "No launch button",
+  "White-label pilot readiness",
+  "Can this become a real partner pilot?",
+  "Deployment decision guide",
+  "Publisher/admin readiness view",
+  "Pilot launch checklist preview",
+  "Teacher dry-run rehearsal preview",
+  "Classroom launch gate preview",
+  "School launch policy gate preview",
+  "Pilot evidence packet preview",
+  "Pilot handoff package",
+  "Package publish gate",
+  "Warnings that must stay visible before pilot launch",
+  "Policy warnings",
+  "Persistence warnings",
+  "/partner-demo",
+  "/teacher/deployment",
+  "/teacher/intake",
+  "/teacher/sessions/partner-demo-unit-1",
+  "/teacher/dry-run/sample-publisher-first-handoff-teacher-dry-run",
+  "/teacher/launch-gate/starter-english-level-1-unit-1-2026.1-pilot-candidate-classroom-launch-gate",
+]);
 expectedTextByPath.get("/teacher/entitlements")?.push(
   "Package adoption readiness",
   "School and tenant approval before premium activation",
@@ -507,7 +547,7 @@ expectedTextByPath.get("/teacher")?.push(
   "Foundation status snapshot",
   "Build stage",
   "Structure first",
-  "86 active routes checked",
+  "87 active routes checked",
   "Tenant boundary visible",
   "Z.ai intake not yet",
   "Open foundation control room",
@@ -2431,7 +2471,7 @@ if (teacherIntakeExpected) {
   const routeCountIndex = teacherIntakeExpected.indexOf("49 checked routes");
 
   if (routeCountIndex >= 0) {
-    teacherIntakeExpected[routeCountIndex] = "86 checked routes";
+    teacherIntakeExpected[routeCountIndex] = "87 checked routes";
   }
 
   teacherIntakeExpected.push(
@@ -2460,6 +2500,9 @@ if (teacherIntakeExpected) {
   "Deployment decision workbench",
   "verify:deployment",
   "Hosted PWA, local classroom server, packaged companion",
+  "Pilot readiness dashboard",
+  "verify:pilot",
+  "Demo-ready, not classroom-ready",
 );
 }
 
@@ -2525,6 +2568,7 @@ const warmupPaths = [
   "/teacher/reporting",
   "/teacher/entitlements",
   "/teacher/deployment",
+  "/teacher/pilot",
   "/teacher/game-readiness",
   "/teacher/generator/sample-publisher",
   "/teacher/generator/ministar",

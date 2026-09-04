@@ -1188,7 +1188,7 @@ Decision: Add a compact foundation status snapshot to the MiniStar teacher page.
 Rationale:
 
 - The main teacher page should communicate the current build stage before users enter launch routes or the larger intake control room.
-- The snapshot gives a non-technical status view: structure first, 86 active routes checked, tenant boundary visible, and Z.ai intake not yet.
+- The snapshot gives a non-technical status view: structure first, 87 active routes checked, tenant boundary visible, and Z.ai intake not yet.
 - This helps the human side of the project understand when to intervene and when to keep build focus on foundation integrity.
 
 Guardrails:
@@ -1292,3 +1292,22 @@ Guardrails:
 - The route must reuse deployment profile, PWA/offline, media bundle integrity, local preflight, local bundle manifest, and package tier panels rather than inventing a parallel decision system.
 - `npm run verify:deployment`, foundation verification, and active route verification must protect the route, data, navigation, route contract, route matrix, standards, ADR, and checklist.
 - This decision is recorded in `docs/adr/0479-deployment-decision-workbench.md` and `docs/decision-register/DR-550-deployment-decision-workbench.md`.
+
+## DR-551: Pilot Readiness Dashboard
+
+Status: Accepted
+
+Decision: Add a focused `/teacher/pilot` dashboard that combines controlled demo evidence with the blockers required before a real partner or school classroom pilot.
+
+Rationale:
+
+- The white-label product needs a readable command view for the first colleague or school conversation.
+- The build already has many review-only surfaces; a pilot dashboard helps explain them without turning the large `/teacher/intake` page into the only sales/readiness surface.
+- “Demo-ready” and “classroom-ready” must stay visibly different until source evidence, policy, persistence, reports, deployment, launch gates, and package approval are complete.
+
+Guardrails:
+
+- No classroom launch, real learner data collection, report export, policy acceptance, local package activation, offline-ready claim, premium AI Tutor activation, or Z.ai prototype intake request can happen from this dashboard.
+- The dashboard must link to evidence routes and reuse existing readiness panels rather than creating a separate approval system.
+- `npm run verify:pilot`, foundation verification, and active route verification must protect the route, route contract, navigation, dashboard data, standards, ADR, and checklist.
+- This decision is recorded in `docs/adr/0480-pilot-readiness-dashboard.md` and `docs/decision-register/DR-551-pilot-readiness-dashboard.md`.

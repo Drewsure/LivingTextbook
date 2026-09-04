@@ -139,6 +139,7 @@ Focused verification supplements:
 - `docs/verification/ZAI_HUMAN_HANDOFF_SIGNAL_CHECKS.md`
 - `docs/verification/PWA_OFFLINE_READINESS_GATE_CHECKS.md`
 - `docs/verification/MEDIA_BUNDLE_INTEGRITY_CHECKS.md`
+- `docs/verification/PILOT_READINESS_DASHBOARD_CHECKS.md`
 
 ## Current Hard Gate
 
@@ -168,6 +169,7 @@ Then verify:
 - `/`
 - `/teacher`
 - `/teacher/intake`
+- `/teacher/pilot`
 - `/teacher/sessions/demo-unit-1`
 - `/teacher/sessions/partner-demo-unit-1`
 - `/launch/demo-unit-1`

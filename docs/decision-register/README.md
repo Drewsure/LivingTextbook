@@ -522,6 +522,7 @@
 - `DR-548-local-preview-offline-readiness-parity.md`
 - `DR-549-media-bundle-integrity-gate.md`
 - `DR-550-deployment-decision-workbench.md`
+- `DR-551-pilot-readiness-dashboard.md`
 
 ## Maintenance Rule
 

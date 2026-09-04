@@ -572,3 +572,19 @@ Procedure:
 5. Run `npm run verify:deployment` and `npm run verify:routes` after any hosted/local/package deployment wording, route, offline, media bundle, or package tier change.
 
 Why this matters: The platform can be sold confidently only when deployment choices are clear, cost-aware, and honest about what is ready versus what still needs evidence.
+
+## OW-025: Pilot Dashboard Is A Go/No-Go Conversation Surface
+
+Status: Active
+
+Observed behavior: A strong controlled demo can sound like a live pilot if the evidence and blocker routes are not shown together.
+
+Procedure:
+
+1. Use `/teacher/pilot` for first colleague, publisher, or school pilot-readiness conversations.
+2. State the current position as demo-ready, not classroom-ready.
+3. Keep source/media evidence, school policy, persistence, reports, deployment, launch gates, and package publish gates visible from the dashboard.
+4. Do not launch classrooms, collect real learner data, export reports, accept school policy, activate local packages, claim offline readiness, enable premium AI Tutor, or request Z.ai prototype intake from this route.
+5. Run `npm run verify:pilot`, `npm run verify:deployment`, and `npm run verify:routes` after any pilot-readiness wording, evidence-link, deployment, policy, persistence, report, or package-gate change.
+
+Why this matters: The first partner conversation should build confidence without creating promises the platform has not yet earned.

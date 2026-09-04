@@ -8,6 +8,7 @@ import {
   getTeacherLabelledDiagramAssetWorkspacePath,
   getTeacherMediaAssetWorkspacePath,
   getTeacherMediaLibraryPath,
+  getTeacherPilotReadinessDashboardPath,
   getTeacherPrivateLibraryPath,
   getTeacherPrototypeReviewPath,
   getTeacherPublisherMaintenancePath,
@@ -65,6 +66,7 @@ function getAppShellNavItems(tenant: TenantConfig): AppShellNavItem[] {
     { label: "Reporting", href: "/teacher/reporting" },
     { label: "Entitlements", href: "/teacher/entitlements" },
     { label: "Deployment", href: "/teacher/deployment" },
+    { label: "Pilot", href: getTeacherPilotReadinessDashboardPath() },
     { label: "Game Readiness", href: "/teacher/game-readiness" },
   ];
 
