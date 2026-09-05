@@ -528,6 +528,7 @@
 - `DR-554-partner-pilot-meeting-agenda.md`
 - `DR-555-partner-pilot-follow-up-packet-preview.md`
 - `DR-556-content-package-tenant-reference-isolation.md`
+- `DR-557-assist-language-script-policy.md`
 
 ## Maintenance Rule
 

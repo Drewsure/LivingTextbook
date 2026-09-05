@@ -81,6 +81,10 @@ requireText(contentModel, "content package tenant", "Content model must reject c
 requireText(contentModel, "missing media asset", "Content model must reject orphan media references.");
 requireText(contentModel, "from another unit", "Content model must reject cross-unit playlist media references.");
 requireText(contentModel, "same unit", "Content model must keep multimedia bindings within the same unit.");
+requireText(contentModel, "AssistLanguageScriptPolicy", "Content model must expose assist-language script policy.");
+requireText(contentModel, "levelBand", "Content model must expose assist-language level-band policy.");
+requireText(contentModel, "hiragana-only", "Content model must enforce early-level hiragana-only support.");
+requireText(contentModel, "reviewed-mixed-script", "Content model must gate later mixed-script support behind review.");
 requireText(
   readiness,
   "Support language remains optional comprehension support and never unlocks target-language progression.",

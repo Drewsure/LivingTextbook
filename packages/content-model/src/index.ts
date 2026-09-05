@@ -87,6 +87,8 @@ export type AudioCueKind = "term" | "sentence" | "instruction" | "feedback" | "u
 export type AudioCueSource = "recorded" | "text-to-speech" | "teacher-recorded" | "partner-provided" | "placeholder";
 export type AssistLanguageSource = "human-reviewed" | "teacher-provided" | "publisher-provided" | "ai-draft";
 export type AssistLanguageVisibility = "teacher-only" | "student-toggle" | "student-default";
+export type AssistLanguageScriptPolicy = "hiragana-only" | "reviewed-mixed-script" | "tenant-defined";
+export type AssistLanguageLevelBand = "foundation" | "bronze" | "plus" | "silver-or-later";
 export type QrTargetType =
   | "front-door"
   | "unit-launch"
@@ -136,6 +138,8 @@ export interface UnitAssistLanguagePlan {
   unitKey: string;
   targetLanguage: LocaleCode;
   assistLanguage: LocaleCode;
+  scriptPolicy?: AssistLanguageScriptPolicy;
+  levelBand?: AssistLanguageLevelBand;
   source: AssistLanguageSource;
   reviewStatus: ContentReviewStatus;
   studentVisibility: AssistLanguageVisibility;
@@ -573,6 +577,51 @@ export function validateUnitPayload(payload: UnitPayload): string[] {
   return errors;
 }
 
+export function validateAssistLanguageScriptPolicy(plan: UnitAssistLanguagePlan): string[] {
+  const errors: string[] = [];
+
+  if (plan.studentVisibility === "teacher-only") {
+    return errors;
+  }
+
+  const assistLanguage = plan.assistLanguage.toLowerCase();
+  const isJapanese = assistLanguage === "ja" || assistLanguage.startsWith("ja-");
+  const glosses = [
+    ...Object.values(plan.vocabularyGlosses),
+    ...plan.sentenceGlosses,
+    ...Object.values(plan.instructionGlosses ?? {}),
+  ];
+  const hasKatakana = glosses.some((gloss) => /[\u30a0-\u30ff\u31f0-\u31ff\uff66-\uff9f]/u.test(gloss));
+  const hasKanji = glosses.some((gloss) => /[\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff]/u.test(gloss));
+  const hasMixedJapaneseScript = hasKatakana || hasKanji;
+
+  if (isJapanese && !plan.scriptPolicy) {
+    errors.push(`Student-visible Japanese assist language plan for ${plan.unitKey} must declare a script policy.`);
+  }
+
+  if (isJapanese && plan.levelBand && ["foundation", "bronze", "plus"].includes(plan.levelBand) && plan.scriptPolicy !== "hiragana-only") {
+    errors.push(`Japanese assist language plan for ${plan.unitKey} must use hiragana-only policy for ${plan.levelBand} level bands.`);
+  }
+
+  if (plan.scriptPolicy === "hiragana-only" && hasMixedJapaneseScript) {
+    errors.push(`Hiragana-only assist language plan for ${plan.unitKey} must not include katakana or kanji.`);
+  }
+
+  if (plan.scriptPolicy === "hiragana-only" && !isJapanese) {
+    errors.push(`Hiragana-only script policy for ${plan.unitKey} is only valid for Japanese assist language.`);
+  }
+
+  if (plan.scriptPolicy === "reviewed-mixed-script" && (plan.reviewStatus === "draft" || plan.reviewStatus === "rejected")) {
+    errors.push(`Mixed-script assist language plan for ${plan.unitKey} must be reviewed before student use.`);
+  }
+
+  if (plan.levelBand === "silver-or-later" && hasMixedJapaneseScript && plan.scriptPolicy !== "reviewed-mixed-script" && plan.scriptPolicy !== "tenant-defined") {
+    errors.push(`Silver-or-later Japanese assist language plan for ${plan.unitKey} must declare reviewed-mixed-script or tenant-defined policy when using katakana or kanji.`);
+  }
+
+  return errors;
+}
+
 export function validateContentPackage(contentPackage: ContentPackage): string[] {
   const errors: string[] = [];
   const audioCueIds = new Set((contentPackage.audioCues ?? []).map((cue) => cue.audioCueId));
@@ -811,6 +860,8 @@ export function validateContentPackage(contentPackage: ContentPackage): string[]
     if (plan.sentenceGlosses.length !== unit.pedagogicalPayload.targetSentences.length) {
       errors.push(`Assist language plan for ${plan.unitKey} must include exactly two sentence glosses.`);
     }
+
+    errors.push(...validateAssistLanguageScriptPolicy(plan));
   }
 
   return errors;

@@ -299,6 +299,8 @@ Required abstractions:
 
 Every tenant content package must pass a pure isolation check before it can be treated as reviewed. Package metadata, units, media, audio, playlists, multimedia bindings, and assist-language plans must use the package tenant and valid unit references; duplicate units, orphan assets, cross-tenant references, and cross-unit playlist or multimedia bindings are rejected.
 
+Student-visible Japanese assist is also package-validated: plans declare a script policy, Foundation/Bronze/Plus bands use hiragana-only content, and later mixed-script support requires a reviewed policy. This protects the language standard across generated, imported, and future uploaded packages without making Japanese a universal platform requirement.
+
 The platform must not assume English is always the target language. MiniStar English uses English as the progression trigger, but a white-label Japanese-learning tenant could configure Japanese as the target learning language. That future path requires kana, kanji, optional furigana/ruby text, Japanese audio, Japanese segmentation, and level-aware script policy.
 
 Storage decisions must remain backend-neutral until the relevant school or tenant policies are accepted. The first pilot should prefer the cheapest practical hosted managed storage path unless a partner explicitly requires a closed local install. Closed local and hybrid storage must remain supported product directions, but they require installer, backup, restore, encryption, update, retention, and export procedures before activation.

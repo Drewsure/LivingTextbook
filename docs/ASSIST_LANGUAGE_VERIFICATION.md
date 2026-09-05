@@ -56,6 +56,9 @@ On `/launch/demo-unit-1` and `/enter/ministar` after opening the unit:
 19. Confirm no live AI translation, AI Tutor, model call, or external translation service is required.
 20. Open `http://127.0.0.1:3000/teacher/sessions/demo-unit-1` and confirm the settings snapshot includes `teacher_enablement_persisted` for assist language.
 21. Confirm the teacher session warnings state that assist-language visibility still needs persisted teacher enablement before classroom use.
+22. Confirm the content-package validator requires a declared Japanese script policy for student-visible plans.
+23. Confirm Foundation, Bronze, and Plus plans reject katakana/kanji unless the package is explicitly reclassified and reviewed for a later band.
+24. Confirm Silver-or-later mixed-script plans declare `reviewed-mixed-script` or an approved tenant-defined policy.
 
 ## White-Label Checks
 
@@ -63,6 +66,7 @@ On `/launch/demo-unit-1` and `/enter/ministar` after opening the unit:
 - Japanese appears only in MiniStar sample data.
 - `TenantLanguageSettings` allows other tenants to choose different assist languages or none.
 - Student-visible assist plans require reviewed, verified, or approved status.
+- Student-visible Japanese assist plans declare `scriptPolicy` and, where applicable, `levelBand` in the content package.
 - Assist language remains support-only and cannot replace the target learning language progression trigger.
 - Foundation, Bronze, and Plus Japanese assist packages use hiragana-only student-facing text.
 - Silver and later Japanese assist packages may introduce kanji and katakana only after review.

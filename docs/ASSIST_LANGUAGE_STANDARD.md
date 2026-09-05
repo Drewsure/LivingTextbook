@@ -28,6 +28,8 @@ This document governs assist language. It does not mean Japanese is only an assi
 - Assist language is separate from AI Tutor.
 - Live AI translation is not a default student pathway.
 - Live AI fallback must be explicit, tenant-controlled, and disabled by default for the core young-learner package.
+- Student-visible Japanese plans must declare a script policy and curriculum level band where the tenant uses named bands.
+- Foundation, Bronze, and Plus plans are validated as `hiragana-only`; Silver-or-later mixed script requires a declared reviewed policy.
 - AI may later draft assist language for teacher/admin review, but reviewed package content is the source of truth for students.
 - Assist text shown to students should be tappable/listenable where it appears in learning flows.
 - Recorded, partner-provided, teacher-recorded, or text-to-speech assist audio may be used depending on tenant package and rights.
@@ -96,5 +98,5 @@ MiniStar Level 1 Unit 1 includes a reviewed Japanese assist plan for greetings. 
 - Assist-language audio cue catalog with recorded files.
 - Teacher/admin workflow for approving AI-drafted translations.
 - Per-student language preference persistence.
-- Explicit content-model fields for assist progression role and script policy.
+- Durable content-model fields for assist progression role, script policy, and named level band are now present. The shared validator rejects undeclared student-visible Japanese script policy, early-band non-hiragana policy, hiragana-only katakana/kanji, and unreviewed mixed-script plans.
 - Durable content-model fields for target-language expansion roles, Japanese script policy, furigana, and segmentation policy.

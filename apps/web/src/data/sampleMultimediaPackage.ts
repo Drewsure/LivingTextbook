@@ -354,6 +354,8 @@ export const sampleJapaneseAssistPlan: UnitAssistLanguagePlan = {
   unitKey: sampleUnitKey,
   targetLanguage: "en",
   assistLanguage: "ja",
+  scriptPolicy: "hiragana-only",
+  levelBand: "foundation",
   source: "human-reviewed",
   reviewStatus: "reviewed",
   studentVisibility: "student-toggle",
