@@ -14,6 +14,7 @@ import {
 } from "@/data/samplePilotPolicyPlan";
 import { samplePilotReadinessDashboard } from "@/data/samplePilotReadinessDashboard";
 import { samplePilotReadinessSummary } from "@/data/samplePilotReadinessSummary";
+import { getPartnerPilotRequirementsIntake } from "@/data/samplePartnerPilotRequirementsIntake";
 import { sampleSchoolLaunchPolicyGate } from "@/data/sampleSchoolLaunchPolicyGate";
 import { sampleTeacherDryRunRehearsal } from "@/data/sampleTeacherDryRunRehearsal";
 import { whiteLabelPilotReadiness } from "@/data/whiteLabelPilotReadiness";
@@ -49,6 +50,8 @@ const pilotLinks = [
 ];
 
 export default function TeacherPilotPage() {
+  const partnerPilotRequirements = getPartnerPilotRequirementsIntake(samplePublisherTenant.id);
+
   return (
     <AppShell tenant={samplePublisherTenant}>
       <div className="grid gap-5">
@@ -76,6 +79,8 @@ export default function TeacherPilotPage() {
               <PilotLink key={link.href} href={link.href} label={link.label} />
             ))}
           </div>
+
+          {partnerPilotRequirements ? <PilotFollowUpSummary intake={partnerPilotRequirements} /> : null}
 
           <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
             <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Standing pilot gate</p>
@@ -119,6 +124,49 @@ export default function TeacherPilotPage() {
         </Card>
       </div>
     </AppShell>
+  );
+}
+
+function PilotFollowUpSummary({
+  intake,
+}: {
+  intake: NonNullable<ReturnType<typeof getPartnerPilotRequirementsIntake>>;
+}) {
+  return (
+    <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Partner follow-up packet status</p>
+          <h3 className="mt-1 text-base font-bold text-[var(--tenant-text)]">Follow-up packet ready for adult review</h3>
+          <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
+            The packet organizes requested evidence, school decisions, demo links, and blockers after the first meeting.
+            It is a review summary only and cannot export, email, store attachments, accept policy, or launch a class.
+          </p>
+        </div>
+        <StatusPill label="No packet export" tone="warning" />
+      </div>
+      <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <PilotFollowUpMetric label="Evidence requests" value={String(intake.followUpPacket.requestedEvidence.length)} />
+        <PilotFollowUpMetric label="School decisions" value={String(intake.followUpPacket.schoolDecisions.length)} />
+        <PilotFollowUpMetric label="Demo links" value={String(intake.followUpPacket.demoLinks.length)} />
+        <PilotFollowUpMetric label="Open blockers" value={String(intake.followUpPacket.blockers.length)} />
+      </div>
+      <a
+        href={getTeacherPilotRequirementsIntakePath(intake.tenantId)}
+        className="mt-4 inline-block text-sm font-bold text-[var(--tenant-text)] underline decoration-[var(--tenant-border)] underline-offset-4"
+      >
+        Open the full follow-up packet preview
+      </a>
+    </section>
+  );
+}
+
+function PilotFollowUpMetric({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] p-3">
+      <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">{label}</p>
+      <p className="mt-1 text-lg font-bold text-[var(--tenant-text)]">{value}</p>
+    </div>
   );
 }
 

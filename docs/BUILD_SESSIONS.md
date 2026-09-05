@@ -882,7 +882,7 @@ Media bundle integrity must remain visible on `/teacher/intake`, `/local/minista
 
 The focused deployment decision workbench must remain visible at `/teacher/deployment`. It should recommend hosted PWA as the first pilot path for cost control while keeping local classroom server and packaged textbook companion options visible but gated by media, storage, QR, report, school policy, rollback, and package entitlement evidence.
 
-The focused pilot readiness dashboard must remain visible at `/teacher/pilot`. It is the first partner conversation command view: demo-ready routes may be shown, but classroom launch, real learner data, report export, policy acceptance, local package activation, offline-ready claims, premium AI Tutor activation, and Z.ai prototype intake remain blocked until the underlying evidence routes close.
+The focused pilot readiness dashboard must remain visible at `/teacher/pilot`. It is the first partner conversation command view: demo-ready routes may be shown, but classroom launch, real learner data, report export, policy acceptance, local package activation, offline-ready claims, premium AI Tutor activation, and Z.ai prototype intake remain blocked until the underlying evidence routes close. The dashboard must also surface the partner follow-up packet status and link to its review-only preview.
 
 The partner pilot requirements intake must remain visible at `/teacher/pilot/requirements/sample-publisher`. It is a requirements conversation guide for publisher supplies and school decisions, not a live upload form, storage selector, policy acceptance flow, premium AI adoption flow, Z.ai handoff request, or classroom launch action.
 
