@@ -50,6 +50,25 @@ export interface PartnerPilotEvidenceTraceItem {
   pilotDependency: string;
 }
 
+export interface PartnerPilotMeetingAgendaSection {
+  sectionId: string;
+  label: string;
+  owner: "publisher" | "school" | "platform" | "shared";
+  routeToReview: string;
+  questionsToAsk: string[];
+  evidenceToRequest: string[];
+  decisionsNotMadeHere: string[];
+}
+
+export interface PartnerPilotMeetingAgenda {
+  agendaId: string;
+  label: string;
+  purpose: string;
+  meetingOutcome: string;
+  sections: PartnerPilotMeetingAgendaSection[];
+  blockedMeetingActions: string[];
+}
+
 export interface PartnerPilotRequirementsIntake {
   intakeId: string;
   tenantId: string;
@@ -60,6 +79,7 @@ export interface PartnerPilotRequirementsIntake {
   recommendedFirstPilotPath: string;
   requirements: PartnerPilotRequirement[];
   evidenceTrace: PartnerPilotEvidenceTraceItem[];
+  meetingAgenda: PartnerPilotMeetingAgenda;
   blockedActions: string[];
   noLiveCaptureStatement: string;
 }
@@ -312,6 +332,153 @@ export const samplePartnerPilotRequirementsIntakes: PartnerPilotRequirementsInta
         pilotDependency: "Not required for first pilot; required before any outside Phaser or DOM prototype can enter app review.",
       },
     ],
+    meetingAgenda: {
+      agendaId: "sample-publisher-first-pilot-meeting-agenda-v2026-09-05",
+      label: "First partner pilot meeting agenda",
+      purpose:
+        "Give a publisher or school a clear, confidence-building first meeting path without creating live upload, policy, storage, report, premium AI, prototype, or launch workflows.",
+      meetingOutcome:
+        "By the end of the meeting, adults should know the first hosted PWA demo path, the evidence they must supply, the school decisions still required, and why classroom launch remains blocked.",
+      sections: [
+        {
+          sectionId: "meeting-source-package",
+          label: "Confirm the first source package",
+          owner: "publisher",
+          routeToReview: "/teacher/sources/sample-publisher",
+          questionsToAsk: [
+            "Which exact PDF or text unit should become the first pilot unit?",
+            "What edition, year, page range, and unit boundary should be treated as canonical?",
+            "Who can approve extracted vocabulary, sentence structures, teacher notes, and printable outputs?",
+          ],
+          evidenceToRequest: [
+            "Pilot PDF or text file",
+            "Edition and version note",
+            "Extraction permission and review owner",
+          ],
+          decisionsNotMadeHere: [
+            "No automatic PDF-to-game publishing",
+            "No unreviewed OCR assignment",
+            "No route creation from source files",
+          ],
+        },
+        {
+          sectionId: "meeting-media-rights",
+          label: "Confirm multimedia and rights",
+          owner: "publisher",
+          routeToReview: "/teacher/media/sample-publisher",
+          questionsToAsk: [
+            "Which audio, music, video, poster, and image files belong to the first pilot unit?",
+            "Can any music play behind games, and must learning audio always pause or override it?",
+            "Are local-package copies allowed, or must media remain streamed from hosted storage?",
+          ],
+          evidenceToRequest: [
+            "Media inventory",
+            "Rights proof",
+            "Background media permission",
+            "Replacement and yearly update rules",
+          ],
+          decisionsNotMadeHere: [
+            "No live media upload",
+            "No playlist write",
+            "No background music override of learning audio",
+          ],
+        },
+        {
+          sectionId: "meeting-activity-pathway",
+          label: "Choose the curated activity pathway",
+          owner: "shared",
+          routeToReview: "/activities/partner-demo-unit-1",
+          questionsToAsk: [
+            "Should the first pilot start with flashcards, then memory, matching, Label It, quiz, sentence, fill, type, and speak?",
+            "Which games are teacher-led, student self-play, or Training Academy recovery only?",
+            "Which activity choices should be hidden from younger learners to preserve a calm progression path?",
+          ],
+          evidenceToRequest: [
+            "Teacher-approved first pathway",
+            "Mode suitability notes",
+            "Target-language audio coverage notes",
+          ],
+          decisionsNotMadeHere: [
+            "No switch-to-anything panel promise",
+            "No game unlock without target-language progress",
+            "No Z.ai prototype integration",
+          ],
+        },
+        {
+          sectionId: "meeting-entry-policy",
+          label: "Set QR, entry, and learner-code expectations",
+          owner: "school",
+          routeToReview: "/enter/sample-publisher",
+          questionsToAsk: [
+            "Will students enter by printed QR, teacher front-door code, learner code, or a hybrid path?",
+            "Should the pilot avoid named accounts and use coded learner slots only?",
+            "What fallback link should be used if a printed QR target needs to move?",
+          ],
+          evidenceToRequest: [
+            "Classroom entry plan",
+            "Learner-code rule",
+            "QR fallback and expiry policy",
+          ],
+          decisionsNotMadeHere: [
+            "No production student accounts",
+            "No permanent QR alias mutation",
+            "No real learner data collection",
+          ],
+        },
+        {
+          sectionId: "meeting-policy-reporting-deployment",
+          label: "Review policy, reporting, and deployment gates",
+          owner: "school",
+          routeToReview: "/teacher/deployment",
+          questionsToAsk: [
+            "Who can see progress reports, and are exports allowed?",
+            "Is hosted PWA acceptable for the first pilot, or is a closed local classroom option required?",
+            "What retention, deletion, rollback, and support expectations must be accepted before launch?",
+          ],
+          evidenceToRequest: [
+            "School policy owner",
+            "Report/export rule",
+            "Deployment preference",
+            "Rollback contact",
+          ],
+          decisionsNotMadeHere: [
+            "No policy acceptance",
+            "No report export",
+            "No offline-ready or local package promise",
+          ],
+        },
+        {
+          sectionId: "meeting-premium-ai-and-prototypes",
+          label: "Separate optional premium and outside prototype paths",
+          owner: "platform",
+          routeToReview: "/teacher/entitlements",
+          questionsToAsk: [
+            "Should AI Tutor or microphone speech scoring be excluded from the first core pilot?",
+            "Is there an adult-approved budget and privacy policy for any premium AI package later?",
+            "Should Z.ai prototype work remain isolated until Codex opens the review signal?",
+          ],
+          evidenceToRequest: [
+            "Premium package interest only",
+            "Adult budget owner",
+            "Prototype source inventory kept outside the app",
+          ],
+          decisionsNotMadeHere: [
+            "No model billing",
+            "No microphone prompt",
+            "No source handoff request",
+          ],
+        },
+      ],
+      blockedMeetingActions: [
+        "No file collection during the meeting route",
+        "No signed policy acceptance from meeting notes",
+        "No storage vendor selection from verbal agreement",
+        "No report export promise before school policy",
+        "No local app promise before media bundle integrity",
+        "No premium AI Tutor adoption without adult package approval",
+        "No Z.ai source review until the Codex handoff signal changes",
+      ],
+    },
     blockedActions: [
       "No upload button",
       "No file picker writes",

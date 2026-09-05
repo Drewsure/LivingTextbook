@@ -621,3 +621,20 @@ Procedure:
 5. Run `npm run verify:pilot-requirements`, `npm run verify:routes`, and `npm run verify:foundation` after traceability changes.
 
 Why this matters: Traceability lets a partner see exactly how close the pilot is without confusing demo evidence for classroom approval.
+
+## OW-028: First Partner Pilot Meeting Agenda
+
+Status: Active
+
+Observed behavior: A promising partner conversation can accidentally become a promise to upload files, launch a class, or provide local software before the foundation gates are ready.
+
+Procedure:
+
+1. Use the meeting agenda inside `/teacher/pilot/requirements/sample-publisher` for first publisher or school discovery calls.
+2. Ask through source package, multimedia rights, curated activity pathway, QR/front-door, learner data policy, reporting, deployment, premium AI, and outside prototype topics in that order.
+3. Request evidence only as future required materials; do not collect files through the route.
+4. Keep decisions not made here visible beside each agenda section.
+5. Do not treat meeting notes as policy acceptance, storage selection, report export approval, local app approval, premium AI adoption, Z.ai handoff approval, or classroom launch approval.
+6. Run `npm run verify:pilot-requirements`, `npm run verify:routes`, and `npm run verify:foundation` after agenda changes.
+
+Why this matters: The first meeting should make the product feel organized and saleable while protecting the build from premature live workflow promises.

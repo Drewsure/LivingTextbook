@@ -18,8 +18,10 @@ const decisionRegister = readSource("../docs/DECISION_REGISTER.md");
 const decisionRegisterReadme = readSource("../docs/decision-register/README.md");
 const decisionRecord = readSource("../docs/decision-register/DR-552-partner-pilot-requirements-intake.md");
 const evidenceTraceDecisionRecord = readSource("../docs/decision-register/DR-553-partner-pilot-evidence-traceability.md");
+const meetingAgendaDecisionRecord = readSource("../docs/decision-register/DR-554-partner-pilot-meeting-agenda.md");
 const adr = readSource("../docs/adr/0481-partner-pilot-requirements-intake.md");
 const evidenceTraceAdr = readSource("../docs/adr/0482-partner-pilot-evidence-traceability.md");
+const meetingAgendaAdr = readSource("../docs/adr/0483-partner-pilot-meeting-agenda.md");
 const routeChecks = readSource("../docs/verification/PARTNER_PILOT_REQUIREMENTS_INTAKE_CHECKS.md");
 const verificationReadme = readSource("../docs/verification/README.md");
 const buildSessionNote = readSource("../docs/build-session-notes/2026-09-05-partner-pilot-requirements-intake.md");
@@ -62,6 +64,18 @@ const requiredDataMarkers = [
   "publisher-input-needed",
   "school-policy-needed",
   "school-decision-needed",
+  "meetingAgenda",
+  "First partner pilot meeting agenda",
+  "Confirm the first source package",
+  "Confirm multimedia and rights",
+  "Choose the curated activity pathway",
+  "Set QR, entry, and learner-code expectations",
+  "Review policy, reporting, and deployment gates",
+  "Separate optional premium and outside prototype paths",
+  "No file collection during the meeting route",
+  "No signed policy acceptance from meeting notes",
+  "No storage vendor selection from verbal agreement",
+  "No local app promise before media bundle integrity",
   "/teacher/sources/sample-publisher",
   "/teacher/media/sample-publisher",
   "/activities/partner-demo-unit-1",
@@ -99,6 +113,14 @@ const requiredPanelMarkers = [
   "Blocked until",
   "Pilot dependency",
   "Evidence route",
+  "Pilot meeting agenda",
+  "Meeting guide only",
+  "Target meeting outcome",
+  "Questions to ask",
+  "Evidence to request",
+  "Decisions not made here",
+  "Meeting actions still blocked",
+  "No live workflow",
   "No live capture",
   "Review-only",
 ];
@@ -132,6 +154,15 @@ const requiredRouteVerifierMarkers = [
   "Deployment decision evidence",
   "Premium AI Tutor and speech evidence",
   "Z.ai and outside prototype evidence",
+  "Pilot meeting agenda",
+  "First partner pilot meeting agenda",
+  "Confirm the first source package",
+  "Confirm multimedia and rights",
+  "Choose the curated activity pathway",
+  "Set QR, entry, and learner-code expectations",
+  "Review policy, reporting, and deployment gates",
+  "Separate optional premium and outside prototype paths",
+  "Meeting actions still blocked",
 ];
 
 const requiredIntegrationMarkers = [
@@ -173,17 +204,23 @@ for (const marker of requiredIntegrationMarkers) {
 
 requireText(principles, "Partner Pilot Requirements Intake Standard", "Principles document must include the requirements standard.");
 requireText(principles, "evidence traceability map", "Principles document must include the evidence traceability map rule.");
+requireText(principles, "first partner pilot meeting agenda", "Principles document must include the meeting agenda rule.");
 requireText(buildSessions, "/teacher/pilot/requirements/sample-publisher", "Build sessions must record the requirements route.");
 requireText(operatingNotes, "OW-026", "Operating notes must record the requirements procedure.");
 requireText(operatingNotes, "OW-027", "Operating notes must record the evidence traceability procedure.");
+requireText(operatingNotes, "OW-028", "Operating notes must record the meeting agenda procedure.");
 requireText(decisionRegister, "DR-552", "Decision register must include DR-552.");
 requireText(decisionRegister, "DR-553", "Decision register must include DR-553.");
+requireText(decisionRegister, "DR-554", "Decision register must include DR-554.");
 requireText(decisionRegisterReadme, "DR-552-partner-pilot-requirements-intake.md", "Decision register README must list DR-552.");
 requireText(decisionRegisterReadme, "DR-553-partner-pilot-evidence-traceability.md", "Decision register README must list DR-553.");
+requireText(decisionRegisterReadme, "DR-554-partner-pilot-meeting-agenda.md", "Decision register README must list DR-554.");
 requireText(decisionRecord, "DR-552", "Decision record file must exist.");
 requireText(evidenceTraceDecisionRecord, "DR-553", "Evidence traceability decision record file must exist.");
+requireText(meetingAgendaDecisionRecord, "DR-554", "Meeting agenda decision record file must exist.");
 requireText(adr, "ADR 0481", "ADR file must exist.");
 requireText(evidenceTraceAdr, "ADR 0482", "Evidence traceability ADR file must exist.");
+requireText(meetingAgendaAdr, "ADR 0483", "Meeting agenda ADR file must exist.");
 requireText(routeChecks, "Partner Pilot Requirements Intake Checks", "Verification checklist must exist.");
 requireText(verificationReadme, "PARTNER_PILOT_REQUIREMENTS_INTAKE_CHECKS.md", "Verification README must list requirements checks.");
 requireText(buildSessionNote, "Partner pilot requirements intake", "Build-session note must exist.");

@@ -1351,3 +1351,23 @@ Guardrails:
 - Blocked-until statements must remain explicit so demo-ready evidence is not confused with classroom-ready approval.
 - `npm run verify:pilot-requirements`, active route verification, and foundation verification must protect the trace map and no-live-capture boundaries.
 - This decision is recorded in `docs/adr/0482-partner-pilot-evidence-traceability.md` and `docs/decision-register/DR-553-partner-pilot-evidence-traceability.md`.
+
+## DR-554: Partner Pilot Meeting Agenda
+
+Status: Accepted
+
+Decision: Add a first partner pilot meeting agenda inside the partner pilot requirements intake so the first school or publisher conversation has a structured sequence of questions, evidence requests, decisions not made, and blocked live actions.
+
+Rationale:
+
+- The platform needs a repeatable commercial onboarding conversation for white-label partners before it has live uploads, policy acceptance, persistence, reports, local packaging, premium AI, or outside prototype intake.
+- A structured agenda keeps confidence high while making clear that demo routes are not classroom launch approval.
+- The agenda lowers implementation cost by capturing the first-pilot discovery pattern in reusable typed data instead of scattered notes.
+
+Guardrails:
+
+- The agenda is a meeting guide only; it cannot collect files, save answers, accept policy, select storage, export reports, promise local apps, activate premium AI Tutor, request microphone access, request Z.ai source handoff, or launch students.
+- It must cover source package, multimedia rights, curated activity pathway, QR/front-door expectations, learner data policy, reporting, deployment, premium AI, and outside prototype timing.
+- Decisions not made here must stay visible beside questions and evidence requests.
+- `npm run verify:pilot-requirements`, active route verification, and foundation verification must protect the agenda and no-live-workflow boundaries.
+- This decision is recorded in `docs/adr/0483-partner-pilot-meeting-agenda.md` and `docs/decision-register/DR-554-partner-pilot-meeting-agenda.md`.

@@ -10,6 +10,8 @@ Status: active scaffold
 - The route links to source review, media library, activity hub, front door, policy handoff, reporting, deployment, entitlements, and game readiness evidence.
 - The route shows an evidence traceability map from each partner requirement to current signal, blocked-until condition, pilot dependency, and evidence route.
 - The trace map includes source extraction evidence, media rights and playlist evidence, curated activity pathway evidence, QR and front-door entry evidence, learner data policy evidence, teacher report and export evidence, deployment decision evidence, premium AI Tutor and speech evidence, and Z.ai/outside prototype evidence.
+- The route shows a first partner pilot meeting agenda with source package, multimedia rights, activity pathway, QR/front-door, learner data policy, reporting, deployment, premium AI, and outside prototype discussion sections.
+- The agenda shows questions to ask, evidence to request, decisions not made here, and meeting actions still blocked.
 - The active route verifier must expect 88 active routes.
 
 ## Forbidden Behavior
@@ -24,6 +26,10 @@ Status: active scaffold
 - No premium AI Tutor activation.
 - No microphone request.
 - No Z.ai source handoff request.
+- No file collection during the meeting route.
+- No signed policy acceptance from meeting notes.
+- No storage vendor selection from verbal agreement.
+- No local app promise before media bundle integrity.
 
 ## Commands
 

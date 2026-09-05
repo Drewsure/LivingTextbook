@@ -2,6 +2,8 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import type {
   PartnerPilotEvidenceTraceItem,
   PartnerPilotEvidenceTraceStatus,
+  PartnerPilotMeetingAgenda,
+  PartnerPilotMeetingAgendaSection,
   PartnerPilotRequirement,
   PartnerPilotRequirementStatus,
   PartnerPilotRequirementsIntake,
@@ -111,6 +113,8 @@ export function PartnerPilotRequirementsIntakePanel({ intake }: PartnerPilotRequ
         </div>
       </section>
 
+      <MeetingAgendaPanel agenda={intake.meetingAgenda} />
+
       <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
@@ -131,6 +135,91 @@ export function PartnerPilotRequirementsIntakePanel({ intake }: PartnerPilotRequ
         </ul>
       </section>
     </Card>
+  );
+}
+
+function MeetingAgendaPanel({ agenda }: { agenda: PartnerPilotMeetingAgenda }) {
+  return (
+    <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] p-4">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Pilot meeting agenda</p>
+          <h3 className="mt-1 text-base font-bold text-[var(--tenant-text)]">{agenda.label}</h3>
+          <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">{agenda.purpose}</p>
+        </div>
+        <StatusPill label="Meeting guide only" tone="warning" />
+      </div>
+
+      <section className="mt-4 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
+        <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Target meeting outcome</p>
+        <p className="mt-2 text-sm leading-6 text-[var(--tenant-text)]">{agenda.meetingOutcome}</p>
+      </section>
+
+      <div className="mt-4 grid gap-3">
+        {agenda.sections.map((section) => (
+          <MeetingAgendaSectionCard key={section.sectionId} section={section} />
+        ))}
+      </div>
+
+      <section className="mt-4 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Meeting actions still blocked</p>
+          <StatusPill label="No live workflow" tone="warning" />
+        </div>
+        <ul className="mt-3 grid gap-2 text-sm leading-5 text-[var(--tenant-muted)] sm:grid-cols-2 lg:grid-cols-3">
+          {agenda.blockedMeetingActions.map((action, index) => (
+            <li
+              key={`${agenda.agendaId}-blocked-meeting-action-${index}`}
+              className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] p-3"
+            >
+              {action}
+            </li>
+          ))}
+        </ul>
+      </section>
+    </section>
+  );
+}
+
+function MeetingAgendaSectionCard({ section }: { section: PartnerPilotMeetingAgendaSection }) {
+  return (
+    <article className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Meeting owner: {section.owner}</p>
+          <h4 className="mt-1 text-sm font-bold text-[var(--tenant-text)]">{section.label}</h4>
+        </div>
+        <a
+          href={section.routeToReview}
+          className="break-words text-sm font-bold text-[var(--tenant-text)] underline decoration-[var(--tenant-border)] underline-offset-4"
+        >
+          {section.routeToReview}
+        </a>
+      </div>
+
+      <div className="mt-3 grid gap-3 lg:grid-cols-3">
+        <AgendaList title="Questions to ask" items={section.questionsToAsk} id={`${section.sectionId}-questions`} />
+        <AgendaList title="Evidence to request" items={section.evidenceToRequest} id={`${section.sectionId}-evidence`} />
+        <AgendaList
+          title="Decisions not made here"
+          items={section.decisionsNotMadeHere}
+          id={`${section.sectionId}-blocked-decisions`}
+        />
+      </div>
+    </article>
+  );
+}
+
+function AgendaList({ title, items, id }: { title: string; items: string[]; id: string }) {
+  return (
+    <section className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] p-3">
+      <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">{title}</p>
+      <ul className="mt-2 grid gap-2 text-sm leading-5 text-[var(--tenant-text)]">
+        {items.map((item, index) => (
+          <li key={`${id}-${index}`}>{item}</li>
+        ))}
+      </ul>
+    </section>
   );
 }
 
