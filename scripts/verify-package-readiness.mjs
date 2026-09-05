@@ -67,6 +67,7 @@ const packageFiles = [
 
 const readiness = readSource("../apps/web/src/data/sampleUnitPackageReadiness.ts");
 const offerMap = readSource("../apps/web/src/data/sampleUnitGameOfferMap.ts");
+const contentModel = readSource("../packages/content-model/src/index.ts");
 const activeRoutes = readSource("../docs/ACTIVE_ROUTE_VERIFICATION_LIST.md");
 const failures = [];
 
@@ -75,6 +76,11 @@ for (const gateId of requiredReadinessGates) {
 }
 
 requireText(readiness, "audioCoveredGameModes", "Package readiness summary must expose audio-covered game modes.");
+requireText(contentModel, "duplicate unit", "Content model must reject duplicate units inside a content package.");
+requireText(contentModel, "content package tenant", "Content model must reject cross-tenant package references.");
+requireText(contentModel, "missing media asset", "Content model must reject orphan media references.");
+requireText(contentModel, "from another unit", "Content model must reject cross-unit playlist media references.");
+requireText(contentModel, "same unit", "Content model must keep multimedia bindings within the same unit.");
 requireText(
   readiness,
   "Support language remains optional comprehension support and never unlocks target-language progression.",

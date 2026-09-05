@@ -11,6 +11,7 @@ Open:
 ## Checks
 
 - The page shows a `Unit package readiness` panel below the pilot readiness gate.
+- The content-model validator rejects duplicate units, cross-tenant identifiers, orphan media/audio references, cross-unit playlist media, and multimedia bindings from another unit.
 - The panel lists both the MiniStar sample package and the sample publisher package.
 - Each package shows unit count, term/sentence count, game mode count, audio cue count, media count, assist-language count, and validation issue count.
 - The package gates include reviewed source package, validated unit payload, audio-first learner support, media assets and rights, route and game coverage, assist-language review, and teacher release approval.

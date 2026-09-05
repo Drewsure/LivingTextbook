@@ -1392,3 +1392,23 @@ Guardrails:
 - Premium AI Tutor, microphone approval, and Z.ai prototype intake remain adult decision points or blocked review items, not enabled packet actions.
 - `npm run verify:pilot-requirements`, active route verification, and foundation verification must protect the packet preview and no-live-workflow boundaries.
 - This decision is recorded in `docs/adr/0484-partner-pilot-follow-up-packet-preview.md` and `docs/decision-register/DR-555-partner-pilot-follow-up-packet-preview.md`.
+
+## DR-556: Content Package Tenant and Reference Isolation
+
+Status: Accepted
+
+Decision: Strengthen `validateContentPackage` so every reviewed white-label package rejects duplicate units and identifiers, cross-tenant records, orphan media/audio references, cross-unit playlist media, and multimedia bindings from another unit.
+
+Rationale:
+
+- White-label packages must not accidentally display or route another tenant's content, media, or audio.
+- A package can look structurally complete while still containing invalid references that only fail after publishing or classroom launch.
+- Early deterministic validation is cheaper and safer than repairing cross-tenant contamination in storage or reports.
+
+Guardrails:
+
+- Validation remains pure and review-time only; it does not write storage, upload files, publish packages, mutate routes, or launch learners.
+- Package metadata, units, media assets, audio cues, audio plans, playlists, multimedia plans, and assist-language plans must remain tenant- and unit-consistent.
+- Both MiniStar and sample-publisher fixtures must remain valid under the stricter validator.
+- `npm run verify:package-readiness`, typecheck, production build, and foundation verification protect this boundary.
+- This decision is recorded in `docs/adr/0485-content-package-tenant-reference-isolation.md` and `docs/decision-register/DR-556-content-package-tenant-reference-isolation.md`.

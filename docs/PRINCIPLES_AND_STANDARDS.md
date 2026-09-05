@@ -297,6 +297,8 @@ Required abstractions:
 - Backend/storage adapter selection gate
 - Target language, script policy, segmentation policy, and assist-language options
 
+Every tenant content package must pass a pure isolation check before it can be treated as reviewed. Package metadata, units, media, audio, playlists, multimedia bindings, and assist-language plans must use the package tenant and valid unit references; duplicate units, orphan assets, cross-tenant references, and cross-unit playlist or multimedia bindings are rejected.
+
 The platform must not assume English is always the target language. MiniStar English uses English as the progression trigger, but a white-label Japanese-learning tenant could configure Japanese as the target learning language. That future path requires kana, kanji, optional furigana/ruby text, Japanese audio, Japanese segmentation, and level-aware script policy.
 
 Storage decisions must remain backend-neutral until the relevant school or tenant policies are accepted. The first pilot should prefer the cheapest practical hosted managed storage path unless a partner explicitly requires a closed local install. Closed local and hybrid storage must remain supported product directions, but they require installer, backup, restore, encryption, update, retention, and export procedures before activation.
