@@ -149,6 +149,10 @@ for (const packageFile of packageFiles) {
   requireText(source, 'targetType: "front-door"', `${packageFile.label} permanent QR must target the front door.`);
   requireText(source, "fallbackPath:", `${packageFile.label} permanent QR must include a fallback path.`);
   requireText(source, "audioSupportPlans:", `${packageFile.label} must include an audio support plan.`);
+  if (packageFile.label === "MiniStar sample package") {
+    requireText(source, 'scriptPolicy: "hiragana-only"', "MiniStar Japanese assist must declare hiragana-only script policy.");
+    requireText(source, 'levelBand: "foundation"', "MiniStar Japanese assist must declare its early curriculum level band.");
+  }
   requireText(source, "required: true", `${packageFile.label} audio support plan must be required.`);
   requireText(source, "aiTutorPlans:", `${packageFile.label} must explicitly declare AI Tutor policy.`);
   requireText(source, "enabled: false", `${packageFile.label} AI Tutor must default off.`);

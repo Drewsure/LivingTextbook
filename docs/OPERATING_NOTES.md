@@ -655,3 +655,19 @@ Procedure:
 6. Run `npm run verify:pilot-requirements`, `npm run verify:routes`, and `npm run verify:foundation` after packet-preview or partner handoff changes.
 
 Why this matters: A clear follow-up packet makes the white-label sales conversation actionable while preserving the boundary between a review summary and a live operational workflow.
+
+## OW-030: Windows GitHub Credential Handoff
+
+Status: Active
+
+Observed behavior: Local verification and commits can succeed while `git push origin legacy-source-import` fails with `SEC_E_NO_CREDENTIALS` from Windows Schannel credential acquisition.
+
+Procedure:
+
+1. Preserve the local commit; do not reset, amend, or discard it just because the push failed.
+2. Confirm the local branch and commit with `git status --short` and `git log -1 --oneline`.
+3. Have the human operator re-authenticate GitHub in the approved connector or Windows Git credential flow, then rerun `git push origin legacy-source-import` from `D:\LIVING TEXTBOOOK PROJECT\LivingTextbook`.
+4. Confirm the remote advances to the local commit with `git rev-parse origin/legacy-source-import` after the push.
+5. Keep the local dev server on `http://127.0.0.1:3000` separate from Git authentication; a working browser does not prove that the push credential is available.
+
+Why this matters: A credential failure is an external handoff problem, not a reason to undo verified local work. Recording the exact recovery steps prevents repeated rework and makes the human intervention small and safe.
