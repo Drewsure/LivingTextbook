@@ -181,6 +181,8 @@ function AssistLanguagePlanSummary({ plans }: { plans: UnitAssistLanguagePlan[] 
               {glossaryPreview.map(([term, gloss]) => (
                 <RouteRow key={term} label={term} value={gloss} />
               ))}
+              <RouteRow label="Script policy" value={plan.scriptPolicy ?? "Not declared"} />
+              <RouteRow label="Curriculum band" value={plan.levelBand ?? "Tenant-defined"} />
               <RouteRow label="Live AI fallback" value={plan.allowLiveAiFallback ? "Allowed" : "Off"} />
             </dl>
           </article>

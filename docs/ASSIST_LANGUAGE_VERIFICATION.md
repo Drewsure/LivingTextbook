@@ -59,6 +59,7 @@ On `/launch/demo-unit-1` and `/enter/ministar` after opening the unit:
 22. Confirm the content-package validator requires a declared Japanese script policy for student-visible plans.
 23. Confirm Foundation, Bronze, and Plus plans reject katakana/kanji unless the package is explicitly reclassified and reviewed for a later band.
 24. Confirm Silver-or-later mixed-script plans declare `reviewed-mixed-script` or an approved tenant-defined policy.
+25. Confirm the reviewed-package panel displays script policy and curriculum band instead of hiding language-policy state.
 
 ## White-Label Checks
 
