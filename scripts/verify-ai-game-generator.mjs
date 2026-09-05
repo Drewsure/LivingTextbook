@@ -472,6 +472,10 @@ for (const record of requiredRecords) {
 requireText(plan, "Sample publisher daily routines game draft", "Generator plan must include sample publisher request.");
 requireText(plan, "MiniStar greetings entry-sequence draft", "Generator plan must include MiniStar request.");
 requireText(plan, "Upper-level AI tutor role-play draft", "Generator plan must include upper-level premium AI Tutor request.");
+requireText(plan, "assistLanguageScriptPolicy", "Generator requests must carry the assist-language script policy field.");
+requireText(plan, "assistLanguageLevelBand", "Generator requests must carry the assist-language level-band field.");
+requireText(plan, 'assistLanguageScriptPolicy: "hiragana-only"', "MiniStar generator request must preserve hiragana-only policy.");
+requireText(plan, 'assistLanguageLevelBand: "foundation"', "MiniStar generator request must preserve its foundation band.");
 requireText(plan, "API cost package gate: premium AI Tutor is optional", "Generator plan must preserve optional premium AI Tutor cost gate.");
 requireText(plan, "No premium upsell shown to children", "Generator plan must block child-facing premium upsell.");
 requireText(panel, "AI teaching game generator", "Generator panel must expose heading.");
@@ -483,6 +487,8 @@ requireText(panel, "Settings backend gates", "Generator panel must expose settin
 requireText(panel, "API cost package gate", "Generator panel must expose API cost gate.");
 requireText(panel, "Target-language audio rule", "Generator panel must expose target-language audio rule.");
 requireText(panel, "Assist language policy", "Generator panel must expose assist-language policy.");
+requireText(panel, "Assist script", "Generator panel must expose assist-language script policy.");
+requireText(panel, "Assist band", "Generator panel must expose assist-language level band.");
 requireText(tenantCoverage, "sampleAiGeneratorTenantCoverage", "AI generator tenant coverage data must exist.");
 requireText(tenantCoverageValidator, "validateAiGeneratorTenantCoverage", "AI generator tenant coverage shared validator must exist.");
 requireText(tenantCoverageValidator, "AI_GENERATOR_TENANT_COVERAGE_REQUIRED_RECORD_TYPES", "AI generator tenant coverage validator must define required lanes.");

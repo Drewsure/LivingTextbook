@@ -89,11 +89,13 @@ function GeneratorRequestCard({ request }: { request: AiGameGeneratorRequest }) 
         <StatusPill label={request.status} tone={statusTone[request.status]} />
       </div>
 
-      <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-6">
         <GeneratorMetric label="Tenant" value={request.tenantId} />
         <GeneratorMetric label="Level" value={`Level ${request.targetLevel}`} />
         <GeneratorMetric label="Theme" value={request.unitTheme} />
         <GeneratorMetric label="Target language" value={request.targetLanguage} />
+        <GeneratorMetric label="Assist script" value={request.assistLanguageScriptPolicy ?? "Not declared"} />
+        <GeneratorMetric label="Assist band" value={request.assistLanguageLevelBand ?? "Tenant-defined"} />
       </div>
 
       <div className="mt-4 grid gap-3 lg:grid-cols-3">

@@ -895,3 +895,5 @@ The first partner pilot follow-up packet preview must remain visible inside `/te
 The shared content-model validator must enforce package isolation before tenant content can be treated as reviewed. It rejects duplicate units, cross-tenant package references, orphan media/audio records, cross-unit playlist media, and multimedia bindings from another unit; this protects white-label tenant boundaries without selecting a storage vendor or enabling live publishing.
 
 The same validator now enforces the durable Japanese assist script contract. Student-visible Japanese plans must declare a script policy; Foundation, Bronze, and Plus level bands require hiragana-only content; and Silver-or-later mixed-script content requires a reviewed mixed-script or tenant-defined policy. This is package validation, not a UI-only convention, and it remains separate from Japanese-as-target-language readiness.
+
+AI generator request previews must carry the same assist-language script policy and level-band fields into draft generation evidence. The generator may propose content, but it cannot drop the package policy between request, draft, verifier, or teacher review stages.

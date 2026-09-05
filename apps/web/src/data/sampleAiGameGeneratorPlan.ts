@@ -1,3 +1,5 @@
+import type { AssistLanguageLevelBand, AssistLanguageScriptPolicy } from "@living-textbook/content-model";
+
 export type AiGameGeneratorStatus = "draft-only" | "blocked" | "premium-gated";
 
 export interface AiGameGeneratorRequest {
@@ -8,6 +10,8 @@ export interface AiGameGeneratorRequest {
   unitTheme: string;
   targetLanguage: string;
   assistLanguagePolicy: string;
+  assistLanguageScriptPolicy?: AssistLanguageScriptPolicy;
+  assistLanguageLevelBand?: AssistLanguageLevelBand;
   requestedModes: string[];
   generatorInputs: string[];
   outputDraftRecords: string[];
@@ -141,6 +145,8 @@ export const sampleAiGameGeneratorPlan: AiGameGeneratorPlan = {
       targetLanguage: "English",
       assistLanguagePolicy:
         "Japanese support is teacher-enabled only. Foundation, Bronze, and Plus support text must be hiragana-only and cannot trigger progress.",
+      assistLanguageScriptPolicy: "hiragana-only",
+      assistLanguageLevelBand: "foundation",
       requestedModes: ["Flashcards", "Memory Match", "Speak It"],
       generatorInputs: [
         "MiniStar master curriculum DOCX extraction packet",
