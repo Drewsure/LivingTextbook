@@ -37,6 +37,7 @@ import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 const pilotLinks = [
   { href: "/partner-demo", label: "Partner demo" },
   { href: getTeacherPilotRequirementsIntakePath(samplePublisherTenant.id), label: "Partner requirements intake" },
+  { href: getTeacherPilotRequirementsIntakePath(samplePublisherTenant.id), label: "Partner follow-up packet preview" },
   { href: "/teacher/deployment", label: "Deployment decisions" },
   { href: "/teacher/intake", label: "Foundation control room" },
   { href: "/teacher/sessions/partner-demo-unit-1", label: "Partner session monitor" },

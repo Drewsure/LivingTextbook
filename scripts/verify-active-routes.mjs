@@ -262,6 +262,7 @@ expectedTextByPath.set("/teacher/pilot", [
   "Policy warnings",
   "Persistence warnings",
   "Partner requirements intake",
+  "Partner follow-up packet preview",
   "/teacher/pilot/requirements/sample-publisher",
   "/partner-demo",
   "/teacher/deployment",
