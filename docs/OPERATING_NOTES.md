@@ -638,3 +638,20 @@ Procedure:
 6. Run `npm run verify:pilot-requirements`, `npm run verify:routes`, and `npm run verify:foundation` after agenda changes.
 
 Why this matters: The first meeting should make the product feel organized and saleable while protecting the build from premature live workflow promises.
+
+## OW-029: Partner Pilot Follow-Up Packet Preview
+
+Status: Active
+
+Observed behavior: After a strong first meeting, partners need a concise next-step summary, but a packet preview can easily become an accidental email, export, attachment, or approval workflow.
+
+Procedure:
+
+1. Use the follow-up packet preview inside `/teacher/pilot/requirements/sample-publisher` to show requested evidence, school decisions, demo links, blockers, and the next evidence gate.
+2. Keep packet contents explicit and tenant-scoped; each item must name its owner, review route, and reason.
+3. Treat the preview as an adult review aid only. It must not send email, download a file, create an attachment, save meeting answers, accept school policy, or mutate release state.
+4. Keep the first packet centered on source files, media rights, curated pathway approval, entry rules, policy, deployment, and dry-run evidence.
+5. Do not put premium AI Tutor adoption, microphone approval, or Z.ai source handoff into the core packet as an enabled action.
+6. Run `npm run verify:pilot-requirements`, `npm run verify:routes`, and `npm run verify:foundation` after packet-preview or partner handoff changes.
+
+Why this matters: A clear follow-up packet makes the white-label sales conversation actionable while preserving the boundary between a review summary and a live operational workflow.

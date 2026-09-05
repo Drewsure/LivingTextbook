@@ -2,6 +2,8 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import type {
   PartnerPilotEvidenceTraceItem,
   PartnerPilotEvidenceTraceStatus,
+  PartnerPilotFollowUpPacket,
+  PartnerPilotFollowUpPacketItem,
   PartnerPilotMeetingAgenda,
   PartnerPilotMeetingAgendaSection,
   PartnerPilotRequirement,
@@ -115,6 +117,8 @@ export function PartnerPilotRequirementsIntakePanel({ intake }: PartnerPilotRequ
 
       <MeetingAgendaPanel agenda={intake.meetingAgenda} />
 
+      <FollowUpPacketPanel packet={intake.followUpPacket} />
+
       <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
@@ -135,6 +139,75 @@ export function PartnerPilotRequirementsIntakePanel({ intake }: PartnerPilotRequ
         </ul>
       </section>
     </Card>
+  );
+}
+
+function FollowUpPacketPanel({ packet }: { packet: PartnerPilotFollowUpPacket }) {
+  return (
+    <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] p-4">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Pilot follow-up packet preview</p>
+          <h3 className="mt-1 text-base font-bold text-[var(--tenant-text)]">{packet.label}</h3>
+          <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">{packet.purpose}</p>
+        </div>
+        <StatusPill label="Draft only" tone="warning" />
+      </div>
+
+      <section className="mt-4 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
+        <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Packet timing</p>
+        <p className="mt-2 text-sm leading-6 text-[var(--tenant-text)]">{packet.sendWhen}</p>
+      </section>
+
+      <div className="mt-4 grid gap-3 lg:grid-cols-3">
+        <FollowUpPacketList title="Requested evidence" items={packet.requestedEvidence} />
+        <FollowUpPacketList title="School decisions" items={packet.schoolDecisions} />
+        <FollowUpPacketList title="Demo links" items={packet.demoLinks} />
+      </div>
+
+      <div className="mt-4 grid gap-3 lg:grid-cols-[1fr_1.2fr]">
+        <section className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Packet blockers</p>
+            <StatusPill label="No export" tone="warning" />
+          </div>
+          <ul className="mt-3 grid gap-2 text-sm leading-5 text-[var(--tenant-text)]">
+            {packet.blockers.map((blocker, index) => (
+              <li key={`${packet.packetId}-blocker-${index}`}>{blocker}</li>
+            ))}
+          </ul>
+        </section>
+        <section className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
+          <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Next evidence gate</p>
+          <p className="mt-2 text-sm leading-6 text-[var(--tenant-text)]">{packet.nextGate}</p>
+        </section>
+      </div>
+    </section>
+  );
+}
+
+function FollowUpPacketList({ title, items }: { title: string; items: PartnerPilotFollowUpPacketItem[] }) {
+  return (
+    <section className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3">
+      <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">{title}</p>
+      <div className="mt-3 grid gap-3">
+        {items.map((item) => (
+          <article key={item.itemId} className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] p-3">
+            <div className="flex flex-wrap items-start justify-between gap-2">
+              <p className="text-sm font-bold text-[var(--tenant-text)]">{item.label}</p>
+              <span className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">{item.owner}</span>
+            </div>
+            <p className="mt-2 text-sm leading-5 text-[var(--tenant-muted)]">{item.reason}</p>
+            <a
+              href={item.routeToReview}
+              className="mt-2 block break-words text-sm font-bold text-[var(--tenant-text)] underline decoration-[var(--tenant-border)] underline-offset-4"
+            >
+              {item.routeToReview}
+            </a>
+          </article>
+        ))}
+      </div>
+    </section>
   );
 }
 

@@ -526,6 +526,7 @@
 - `DR-552-partner-pilot-requirements-intake.md`
 - `DR-553-partner-pilot-evidence-traceability.md`
 - `DR-554-partner-pilot-meeting-agenda.md`
+- `DR-555-partner-pilot-follow-up-packet-preview.md`
 
 ## Maintenance Rule
 

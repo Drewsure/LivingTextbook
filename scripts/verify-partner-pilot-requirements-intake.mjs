@@ -19,9 +19,11 @@ const decisionRegisterReadme = readSource("../docs/decision-register/README.md")
 const decisionRecord = readSource("../docs/decision-register/DR-552-partner-pilot-requirements-intake.md");
 const evidenceTraceDecisionRecord = readSource("../docs/decision-register/DR-553-partner-pilot-evidence-traceability.md");
 const meetingAgendaDecisionRecord = readSource("../docs/decision-register/DR-554-partner-pilot-meeting-agenda.md");
+const followUpPacketDecisionRecord = readSource("../docs/decision-register/DR-555-partner-pilot-follow-up-packet-preview.md");
 const adr = readSource("../docs/adr/0481-partner-pilot-requirements-intake.md");
 const evidenceTraceAdr = readSource("../docs/adr/0482-partner-pilot-evidence-traceability.md");
 const meetingAgendaAdr = readSource("../docs/adr/0483-partner-pilot-meeting-agenda.md");
+const followUpPacketAdr = readSource("../docs/adr/0484-partner-pilot-follow-up-packet-preview.md");
 const routeChecks = readSource("../docs/verification/PARTNER_PILOT_REQUIREMENTS_INTAKE_CHECKS.md");
 const verificationReadme = readSource("../docs/verification/README.md");
 const buildSessionNote = readSource("../docs/build-session-notes/2026-09-05-partner-pilot-requirements-intake.md");
@@ -76,6 +78,21 @@ const requiredDataMarkers = [
   "No signed policy acceptance from meeting notes",
   "No storage vendor selection from verbal agreement",
   "No local app promise before media bundle integrity",
+  "followUpPacket",
+  "First partner pilot follow-up packet preview",
+  "Pilot source PDF or text unit",
+  "Audio, music, video, poster, and image inventory",
+  "Teacher-approved activity pathway notes",
+  "Teacher dry-run evidence summary",
+  "QR, front-door, and learner-code entry choice",
+  "Learner data, retention, deletion, and report policy",
+  "Hosted PWA versus closed local companion decision",
+  "Front-door and student progression demo",
+  "Curated games and audio demo",
+  "Teacher review and report boundary demo",
+  "No follow-up email or downloadable packet",
+  "No file upload or attachment storage",
+  "Open the source and media review workspaces only after the partner supplies the evidence packet",
   "/teacher/sources/sample-publisher",
   "/teacher/media/sample-publisher",
   "/activities/partner-demo-unit-1",
@@ -121,6 +138,15 @@ const requiredPanelMarkers = [
   "Decisions not made here",
   "Meeting actions still blocked",
   "No live workflow",
+  "Pilot follow-up packet preview",
+  "Draft only",
+  "Packet timing",
+  "Requested evidence",
+  "School decisions",
+  "Demo links",
+  "Packet blockers",
+  "No export",
+  "Next evidence gate",
   "No live capture",
   "Review-only",
 ];
@@ -163,6 +189,13 @@ const requiredRouteVerifierMarkers = [
   "Review policy, reporting, and deployment gates",
   "Separate optional premium and outside prototype paths",
   "Meeting actions still blocked",
+  "Pilot follow-up packet preview",
+  "First partner pilot follow-up packet preview",
+  "Requested evidence",
+  "School decisions",
+  "Demo links",
+  "Packet blockers",
+  "Next evidence gate",
 ];
 
 const requiredIntegrationMarkers = [
@@ -209,18 +242,23 @@ requireText(buildSessions, "/teacher/pilot/requirements/sample-publisher", "Buil
 requireText(operatingNotes, "OW-026", "Operating notes must record the requirements procedure.");
 requireText(operatingNotes, "OW-027", "Operating notes must record the evidence traceability procedure.");
 requireText(operatingNotes, "OW-028", "Operating notes must record the meeting agenda procedure.");
+requireText(operatingNotes, "OW-029", "Operating notes must record the follow-up packet procedure.");
 requireText(decisionRegister, "DR-552", "Decision register must include DR-552.");
 requireText(decisionRegister, "DR-553", "Decision register must include DR-553.");
 requireText(decisionRegister, "DR-554", "Decision register must include DR-554.");
+requireText(decisionRegister, "DR-555", "Decision register must include DR-555.");
 requireText(decisionRegisterReadme, "DR-552-partner-pilot-requirements-intake.md", "Decision register README must list DR-552.");
 requireText(decisionRegisterReadme, "DR-553-partner-pilot-evidence-traceability.md", "Decision register README must list DR-553.");
 requireText(decisionRegisterReadme, "DR-554-partner-pilot-meeting-agenda.md", "Decision register README must list DR-554.");
+requireText(decisionRegisterReadme, "DR-555-partner-pilot-follow-up-packet-preview.md", "Decision register README must list DR-555.");
 requireText(decisionRecord, "DR-552", "Decision record file must exist.");
 requireText(evidenceTraceDecisionRecord, "DR-553", "Evidence traceability decision record file must exist.");
 requireText(meetingAgendaDecisionRecord, "DR-554", "Meeting agenda decision record file must exist.");
+requireText(followUpPacketDecisionRecord, "DR-555", "Follow-up packet decision record file must exist.");
 requireText(adr, "ADR 0481", "ADR file must exist.");
 requireText(evidenceTraceAdr, "ADR 0482", "Evidence traceability ADR file must exist.");
 requireText(meetingAgendaAdr, "ADR 0483", "Meeting agenda ADR file must exist.");
+requireText(followUpPacketAdr, "ADR 0484", "Follow-up packet ADR file must exist.");
 requireText(routeChecks, "Partner Pilot Requirements Intake Checks", "Verification checklist must exist.");
 requireText(verificationReadme, "PARTNER_PILOT_REQUIREMENTS_INTAKE_CHECKS.md", "Verification README must list requirements checks.");
 requireText(buildSessionNote, "Partner pilot requirements intake", "Build-session note must exist.");

@@ -1371,3 +1371,24 @@ Guardrails:
 - Decisions not made here must stay visible beside questions and evidence requests.
 - `npm run verify:pilot-requirements`, active route verification, and foundation verification must protect the agenda and no-live-workflow boundaries.
 - This decision is recorded in `docs/adr/0483-partner-pilot-meeting-agenda.md` and `docs/decision-register/DR-554-partner-pilot-meeting-agenda.md`.
+
+## DR-555: Partner Pilot Follow-Up Packet Preview
+
+Status: Accepted
+
+Decision: Add a review-only follow-up packet preview to the partner pilot requirements intake. The preview organizes requested evidence, school decisions, demo links, blockers, and the next evidence gate after a first partner meeting.
+
+Rationale:
+
+- Partners need a concise, saleable next-step summary after the first requirements conversation.
+- A typed packet preview keeps publisher obligations, school decisions, platform demos, and blockers separate without introducing premature email, export, storage, or approval workflows.
+- Reusable packet data lowers support cost and gives future export/storage work a clear contract to implement later.
+
+Guardrails:
+
+- The packet is draft-only and review-only; it cannot send email, download, create attachments, save answers, accept policy, write storage, export reports, mutate release state, or launch students.
+- Each packet item must retain an owner, review route, and reason so the follow-up remains tenant-aware and evidence-linked.
+- Core packet contents cover source files, media rights, curated pathway approval, entry rules, school policy, deployment, and dry-run evidence.
+- Premium AI Tutor, microphone approval, and Z.ai prototype intake remain adult decision points or blocked review items, not enabled packet actions.
+- `npm run verify:pilot-requirements`, active route verification, and foundation verification must protect the packet preview and no-live-workflow boundaries.
+- This decision is recorded in `docs/adr/0484-partner-pilot-follow-up-packet-preview.md` and `docs/decision-register/DR-555-partner-pilot-follow-up-packet-preview.md`.

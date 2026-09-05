@@ -69,6 +69,26 @@ export interface PartnerPilotMeetingAgenda {
   blockedMeetingActions: string[];
 }
 
+export interface PartnerPilotFollowUpPacketItem {
+  itemId: string;
+  label: string;
+  owner: "publisher" | "school" | "platform" | "shared";
+  routeToReview: string;
+  reason: string;
+}
+
+export interface PartnerPilotFollowUpPacket {
+  packetId: string;
+  label: string;
+  purpose: string;
+  sendWhen: string;
+  requestedEvidence: PartnerPilotFollowUpPacketItem[];
+  schoolDecisions: PartnerPilotFollowUpPacketItem[];
+  demoLinks: PartnerPilotFollowUpPacketItem[];
+  blockers: string[];
+  nextGate: string;
+}
+
 export interface PartnerPilotRequirementsIntake {
   intakeId: string;
   tenantId: string;
@@ -80,6 +100,7 @@ export interface PartnerPilotRequirementsIntake {
   requirements: PartnerPilotRequirement[];
   evidenceTrace: PartnerPilotEvidenceTraceItem[];
   meetingAgenda: PartnerPilotMeetingAgenda;
+  followUpPacket: PartnerPilotFollowUpPacket;
   blockedActions: string[];
   noLiveCaptureStatement: string;
 }
@@ -478,6 +499,101 @@ export const samplePartnerPilotRequirementsIntakes: PartnerPilotRequirementsInta
         "No premium AI Tutor adoption without adult package approval",
         "No Z.ai source review until the Codex handoff signal changes",
       ],
+    },
+    followUpPacket: {
+      packetId: "sample-publisher-first-pilot-follow-up-v2026-09-05",
+      label: "First partner pilot follow-up packet preview",
+      purpose:
+        "Show the concise packet that an adult partner would review after the first meeting: requested evidence, school decisions, demo links, blockers, and the next gate.",
+      sendWhen:
+        "Only after an adult reviews the meeting notes; this preview does not send, export, store, or accept anything.",
+      requestedEvidence: [
+        {
+          itemId: "follow-up-source-package",
+          label: "Pilot source PDF or text unit",
+          owner: "publisher",
+          routeToReview: "/teacher/sources/sample-publisher",
+          reason: "Needed to create a reviewed unit payload with stable edition, page, and unit boundaries.",
+        },
+        {
+          itemId: "follow-up-media-inventory",
+          label: "Audio, music, video, poster, and image inventory",
+          owner: "publisher",
+          routeToReview: "/teacher/media/sample-publisher",
+          reason: "Needed to verify rights, learning-audio priority, playlist bindings, and any local package claim.",
+        },
+        {
+          itemId: "follow-up-pathway-notes",
+          label: "Teacher-approved activity pathway notes",
+          owner: "shared",
+          routeToReview: "/activities/partner-demo-unit-1",
+          reason: "Needed to confirm the curated sequence and target-language audio coverage for the first pilot unit.",
+        },
+        {
+          itemId: "follow-up-dry-run-evidence",
+          label: "Teacher dry-run evidence summary",
+          owner: "school",
+          routeToReview: "/teacher/dry-run/sample-publisher-first-handoff-teacher-dry-run",
+          reason: "Needed to show that entry, games, audio, media, support language, and reporting boundaries were rehearsed.",
+        },
+      ],
+      schoolDecisions: [
+        {
+          itemId: "follow-up-entry-decision",
+          label: "QR, front-door, and learner-code entry choice",
+          owner: "school",
+          routeToReview: "/enter/sample-publisher",
+          reason: "Determines the classroom access path without creating production student accounts.",
+        },
+        {
+          itemId: "follow-up-data-decision",
+          label: "Learner data, retention, deletion, and report policy",
+          owner: "school",
+          routeToReview:
+            "/teacher/policy-handoff/starter-english-level-1-unit-1-2026.1-pilot-candidate-classroom-launch-gate-school-policy-gate-handoff-packet",
+          reason: "Required before persistent progress, roster binding, report export, or classroom launch.",
+        },
+        {
+          itemId: "follow-up-deployment-decision",
+          label: "Hosted PWA versus closed local companion decision",
+          owner: "shared",
+          routeToReview: "/teacher/deployment",
+          reason: "Sets support, update, rollback, media delivery, and QR fallback expectations.",
+        },
+      ],
+      demoLinks: [
+        {
+          itemId: "follow-up-entry-demo",
+          label: "Front-door and student progression demo",
+          owner: "platform",
+          routeToReview: "/enter/sample-publisher",
+          reason: "Shows teacher-directed entry followed by target-language progression.",
+        },
+        {
+          itemId: "follow-up-games-demo",
+          label: "Curated games and audio demo",
+          owner: "platform",
+          routeToReview: "/activities/partner-demo-unit-1",
+          reason: "Shows the reviewed activity path without exposing arbitrary template switching.",
+        },
+        {
+          itemId: "follow-up-teacher-demo",
+          label: "Teacher review and report boundary demo",
+          owner: "platform",
+          routeToReview: "/teacher/sessions/partner-demo-unit-1",
+          reason: "Shows teacher-facing evidence while real learner data and report export remain blocked.",
+        },
+      ],
+      blockers: [
+        "No follow-up email or downloadable packet",
+        "No file upload or attachment storage",
+        "No signed school policy acceptance",
+        "No classroom launch or persistent learner roster",
+        "No premium AI Tutor activation",
+        "No Z.ai source handoff request",
+      ],
+      nextGate:
+        "Open the source and media review workspaces only after the partner supplies the evidence packet and the school names its policy owner.",
     },
     blockedActions: [
       "No upload button",
