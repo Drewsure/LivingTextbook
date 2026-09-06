@@ -1498,3 +1498,23 @@ Guardrails:
 - `npm run verify:package-readiness`, typecheck, production build, and active route verification protect the handoff lineage.
 
 This decision is recorded in `docs/adr/0489-evidence-handoff-package-lineage.md` and `docs/decision-register/DR-560-evidence-handoff-package-lineage.md`.
+
+## DR-561: AI Service Boundary Foundation
+
+Status: Accepted
+
+Decision: Promote `apps/ai-service` from a placeholder into a provider-neutral, review-only contract boundary for structured AI generation requests.
+
+Rationale:
+
+- The white-label platform needs a real backend boundary before live model calls or generated package writes can be considered.
+- Keeping the contract independent of providers, storage, routes, and game views protects cost control and future hosted/local deployment choices.
+- Deterministic validation makes the canonical 8-12 vocabulary rule, exactly two sentence structures, target-language audio, media rights, and review state testable outside the web UI.
+
+Guardrails:
+
+- The service does not call a model, accept uploads, bill a provider, write packages, submit verifiers, write routes/playlists, activate assignments, or permit support-language progress.
+- Teacher approval and premium cost policy remain explicit evidence lanes.
+- All future providers and deployment adapters must consume the same request/result contract.
+
+This decision is recorded in `docs/adr/0490-ai-service-boundary-foundation.md` and `docs/decision-register/DR-561-ai-service-boundary-foundation.md`.

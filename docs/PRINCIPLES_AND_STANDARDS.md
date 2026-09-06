@@ -753,3 +753,18 @@ Required standing rules:
 - `npm run verify:package-readiness`, active route verification, typecheck, and production build must protect this lineage.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-560 and `docs/adr/0489-evidence-handoff-package-lineage.md`.
+
+## 32. AI Service Boundary Standard
+
+The AI service is a backend boundary, not a hidden provider shortcut. It must become reliable before live AI calls, premium billing, or generated package writes are considered.
+
+Required standing rules:
+
+- The service must validate tenant, source review status, target language, game mode, parent engine, vocabulary range, exactly two sentence structures, target-language audio, and media rights before any provider decision.
+- The default service result is review-only and must have no side effects: no model call, provider billing, source write, package write, verifier submission, route write, playlist write, assignment activation, or support-language progression.
+- Provider SDKs, storage vendors, web routes, student progression state, and Phaser/game view code must not become dependencies of the contract boundary.
+- Premium AI cost policy and teacher approval are explicit evidence lanes, not implicit environment flags.
+- Future hosted and local adapters must consume the same request/result contract and remain replaceable for white-label deployments.
+- `npm run typecheck --workspace @living-textbook/ai-service` and `node scripts/verify-ai-service-boundary.mjs` must remain green before service implementation advances.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-561 and `docs/adr/0490-ai-service-boundary-foundation.md`.

@@ -532,6 +532,7 @@
 - `DR-558-ai-generator-assist-policy-handoff.md`
 - `DR-559-assist-policy-readiness-coverage.md`
 - `DR-560-evidence-handoff-package-lineage.md`
+- `DR-561-ai-service-boundary-foundation.md`
 
 ## Maintenance Rule
 

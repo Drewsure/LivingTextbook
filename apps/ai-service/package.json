@@ -1,0 +1,17 @@
+{
+  "name": "@living-textbook/ai-service",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@living-textbook/content-model": "0.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5"
+  }
+}
