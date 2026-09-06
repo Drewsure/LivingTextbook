@@ -32,7 +32,8 @@ export function UnitPackageReadinessPanel({ packages }: UnitPackageReadinessPane
 
       <div className="mt-5 grid gap-4">
         {packages.map((packageSummary) => {
-          const assistGateStatus = packageSummary.gates.find((gate) => gate.gateId === "assist-language")?.status ?? "review";
+          const assistGate = packageSummary.gates.find((gate) => gate.gateId === "assist-language");
+          const assistGateStatus = assistGate?.status ?? "review";
 
           return (
           <article key={packageSummary.packageId} className="rounded-lg border border-[var(--tenant-border)] p-4">
@@ -96,7 +97,7 @@ export function UnitPackageReadinessPanel({ packages }: UnitPackageReadinessPane
                       Script policy travels with the package and remains separate from the target-language progression trigger.
                     </p>
                   </div>
-                  <StatusPill label={`${packageSummary.assistLanguagePolicies.length} plan(s)`} tone="success" />
+                  <StatusPill label={`${packageSummary.assistLanguagePolicies.length} plan(s) / ${assistGateStatus}`} tone={gateTone[assistGateStatus]} />
                 </div>
                 <div className="mt-3 grid gap-2 text-sm md:grid-cols-2">
                   {packageSummary.assistLanguagePolicies.map((policy) => (
