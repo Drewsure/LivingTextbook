@@ -768,3 +768,18 @@ Required standing rules:
 - `npm run typecheck --workspace @living-textbook/ai-service` and `node scripts/verify-ai-service-boundary.mjs` must remain green before service implementation advances.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-561 and `docs/adr/0490-ai-service-boundary-foundation.md`.
+
+## 33. Persistence Runtime Boundary Standard
+
+Persistence plans and record schemas are not sufficient on their own. Every future hosted, local, or hybrid adapter must pass one shared runtime boundary before it can write or export anything.
+
+Required standing rules:
+
+- Every request is tenant-scoped and names an explicit record id, record category, operation, privacy flags, policy state, release state, and optional payload hash.
+- Student-data records require school or tenant policy. Raw learner audio and transcripts are excluded from core persistence.
+- Writes, deletes, and exports require release approval; the review-only adapter must produce no side effects.
+- Hosted managed storage, local classroom storage, and hybrid sync are interchangeable implementation choices behind the same contract.
+- Adapter selection, storage writes, report export, local sync, release mutation, and learner-data collection remain blocked until the corresponding policy and release gates close.
+- `node scripts/verify-persistence-runtime.mjs`, typecheck, production build, and foundation verification must protect the runtime boundary.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-562 and `docs/adr/0491-persistence-runtime-boundary.md`.

@@ -533,6 +533,7 @@
 - `DR-559-assist-policy-readiness-coverage.md`
 - `DR-560-evidence-handoff-package-lineage.md`
 - `DR-561-ai-service-boundary-foundation.md`
+- `DR-562-persistence-runtime-boundary.md`
 
 ## Maintenance Rule
 

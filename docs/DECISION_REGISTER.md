@@ -1518,3 +1518,24 @@ Guardrails:
 - All future providers and deployment adapters must consume the same request/result contract.
 
 This decision is recorded in `docs/adr/0490-ai-service-boundary-foundation.md` and `docs/decision-register/DR-561-ai-service-boundary-foundation.md`.
+
+## DR-562: Persistence Runtime Boundary
+
+Status: Accepted
+
+Decision: Add a provider-neutral persistence runtime contract and review-only adapter to sit between typed record plans and any future hosted, local, or hybrid storage implementation.
+
+Rationale:
+
+- Existing schemas and adapter plans describe storage, but a shared runtime decision point is needed to prevent bypasses when real adapters are introduced.
+- White-label deployments need replaceable storage choices without changing tenant, privacy, policy, release, or reporting rules.
+- A no-side-effect review adapter lets the platform test request shape and rejection behavior before live writes exist.
+
+Guardrails:
+
+- Every request is tenant-scoped and names its record category and operation.
+- Student data requires policy; raw learner audio and transcripts remain excluded from core storage.
+- Mutation and export require release approval.
+- The review-only adapter blocks hosted, local, hybrid, export, and release side effects.
+
+This decision is recorded in `docs/adr/0491-persistence-runtime-boundary.md` and `docs/decision-register/DR-562-persistence-runtime-boundary.md`.
