@@ -813,3 +813,18 @@ Required standing rules:
 - Hosted, local, and hybrid asset providers must consume this contract rather than bypassing it through teacher UI routes.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-564 and `docs/adr/0493-asset-media-runtime-boundary.md`.
+
+## 36. Content Package Runtime Boundary Standard
+
+Content validation and readiness evidence do not authorize a package for student use. Every future package publisher, assignment service, QR activator, or local companion writer must pass one shared content-package runtime boundary first.
+
+Required standing rules:
+
+- Runtime requests must match one tenant, one package, and one declared target language.
+- The package validator must pass before a package can be considered; every learner-facing vocabulary, sentence, instruction, feedback, and active-game cue must remain covered by target-language audio.
+- Curated activity pathway review, storage policy, persistence readiness, teacher or tenant release approval, and approved content review are separate gates.
+- Assist-language plans remain optional support. When student-visible, their script and review policy must pass; they can never unlock progression, mastery, rewards, or QR activation.
+- Student-facing use and QR activation require approved content review, storage/persistence evidence, curated pathways, and release approval.
+- Review-only execution returns `sideEffect: "none"`; it cannot write packages, activate assignments/routes/QRs/playlists, or mark content student-ready.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-565 and `docs/adr/0494-content-package-runtime-boundary.md`.

@@ -1580,3 +1580,24 @@ Guardrails:
 - The review-only adapter blocks upload, transcode, copy, promotion, binding, export, and manifest/QR/playlist mutation.
 
 This decision is recorded in `docs/adr/0493-asset-media-runtime-boundary.md` and `docs/decision-register/DR-564-asset-media-runtime-boundary.md`.
+
+## DR-565: Content Package Runtime Boundary
+
+Status: Accepted
+
+Decision: Add a provider-neutral content-package runtime contract and review-only adapter between package validation/readiness evidence and any future student-facing publisher, assignment, QR, or local companion provider.
+
+Rationale:
+
+- Package validators and readiness panels prove individual conditions but do not yet provide one runtime decision point for release and student use.
+- The white-label platform needs one package boundary that keeps tenant scope, content quality, target-language audio, assist-language policy, curated pathways, persistence, storage, and release decisions together.
+- A review-only result protects the platform from turning a locally valid package into a student-ready package through accidental route or UI behavior.
+
+Guardrails:
+
+- Target-language audio remains required for every learner-facing cue and active game mode.
+- Assist language is optional support and never a progression, mastery, reward, or QR trigger.
+- Student-facing use and QR activation require approved review, curated pathway review, storage/persistence evidence, and teacher or tenant release approval.
+- The review-only adapter blocks package writes, student-ready markers, assignment/route/playlist/QR activation, and live mutation.
+
+This decision is recorded in `docs/adr/0494-content-package-runtime-boundary.md` and `docs/decision-register/DR-565-content-package-runtime-boundary.md`.
