@@ -1539,3 +1539,24 @@ Guardrails:
 - The review-only adapter blocks hosted, local, hybrid, export, and release side effects.
 
 This decision is recorded in `docs/adr/0491-persistence-runtime-boundary.md` and `docs/decision-register/DR-562-persistence-runtime-boundary.md`.
+
+## DR-563: Teacher Report Runtime Boundary
+
+Status: Accepted
+
+Decision: Add a provider-neutral teacher report runtime contract and review-only adapter between teacher report plans/event evidence and any future export or retained reporting provider.
+
+Rationale:
+
+- A report plan can be valid while an export is still unsafe or unauthorized.
+- The platform needs one shared enforcement point for tenant scope, event taxonomy, pseudonymous learners, privacy exclusions, policy, persistence, approval, and release gates.
+- A review-only result lets the foundation prove the decision path without creating a hidden export side effect.
+
+Guardrails:
+
+- Core reports use pseudonymous learner slots only and exclude raw learner audio and transcripts.
+- Target-language progress and support-only event classifications remain validated through the shared event taxonomy.
+- Teacher role, school or tenant policy, persistence, explicit export approval, and release approval are independent gates.
+- Hosted, local, and hybrid reporting remain blocked until an approved adapter consumes the runtime contract.
+
+This decision is recorded in `docs/adr/0492-teacher-report-runtime-boundary.md` and `docs/decision-register/DR-563-teacher-report-runtime-boundary.md`.

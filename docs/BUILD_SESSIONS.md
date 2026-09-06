@@ -905,3 +905,5 @@ The evidence handoff preview now carries a dedicated unit-package readiness sect
 The AI service foundation is now explicit in `apps/ai-service`. Its provider-neutral review-only contract validates tenant/source state, the 8-12 vocabulary rule, exactly two sentence structures, target-language audio, media rights, teacher approval, and premium cost policy while keeping model calls, billing, uploads, package writes, verifier submission, route/playlist writes, assignments, and support-language progression blocked.
 
 The persistence runtime boundary now sits between typed record plans and future storage adapters. A review-only adapter evaluates tenant scope, policy, privacy, release, and payload evidence and produces no side effects; hosted, local, and hybrid writes remain unavailable until their own release gates close.
+
+The teacher report runtime boundary now sits between report plans/event evidence and future report providers. It validates the shared event taxonomy, pseudonymous learner slots, raw-audio/transcript exclusion, teacher/policy/persistence/export/release gates, and review-only no-side-effect behavior before reporting can become live.

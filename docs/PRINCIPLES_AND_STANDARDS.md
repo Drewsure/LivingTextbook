@@ -783,3 +783,18 @@ Required standing rules:
 - `node scripts/verify-persistence-runtime.mjs`, typecheck, production build, and foundation verification must protect the runtime boundary.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-562 and `docs/adr/0491-persistence-runtime-boundary.md`.
+
+## 34. Teacher Report Runtime Boundary Standard
+
+Teacher report plans describe what a report could contain; they do not authorize a report export. Every future report provider must pass a shared runtime boundary before a teacher-facing file, event stream, or retained report can be produced.
+
+Required standing rules:
+
+- Runtime requests must match one tenant, one launch session, one approved format, and explicitly named report scopes.
+- The event stream must validate against the shared progress-event taxonomy, including target-language-only progression and support-only media/audio effects.
+- Core reports use pseudonymous learner slots only. Raw learner audio and transcripts are excluded from the core report contract.
+- Teacher role verification, accepted school or tenant policy, persistence readiness, explicit export approval, and release approval are separate required gates.
+- Review-only execution returns `sideEffect: "none"`; it cannot export, persist, mutate progression, or award rewards.
+- Hosted managed, local classroom, and hybrid reporting providers must consume this contract rather than bypassing it through a route or UI component.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-563 and `docs/adr/0492-teacher-report-runtime-boundary.md`.
