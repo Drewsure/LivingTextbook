@@ -1,5 +1,5 @@
 import type { ContentPackage } from "@living-textbook/content-model";
-import { getUnitKey, validateContentPackage } from "@living-textbook/content-model";
+import { getUnitKey, validateAssistLanguageScriptPolicy, validateContentPackage } from "@living-textbook/content-model";
 import { samplePackageReleases } from "./sampleContentIntakePlan";
 import { sampleMultimediaContentPackage } from "./sampleMultimediaPackage";
 import { samplePartnerContentPackage } from "./samplePartnerPackage";
@@ -33,6 +33,13 @@ export interface UnitPackageReadinessSummary {
   audioCoveredGameModeCount: number;
   audioCoveredGameModes: string[];
   assistLanguageCount: number;
+  assistLanguagePolicies: Array<{
+    unitKey: string;
+    assistLanguage: string;
+    scriptPolicy: string;
+    levelBand: string;
+    reviewStatus: string;
+  }>;
   validationErrorCount: number;
   gates: UnitPackageReadinessGate[];
 }
@@ -55,6 +62,14 @@ function buildUnitPackageReadiness(contentPackage: ContentPackage): UnitPackageR
     new Set(audioSupportPlans.flatMap((plan) => Object.keys(plan.gameModeAudioCueIds ?? {}))),
   ).sort();
   const assistLanguagePlans = contentPackage.assistLanguagePlans ?? [];
+  const assistLanguagePolicies = assistLanguagePlans.map((plan) => ({
+    unitKey: plan.unitKey,
+    assistLanguage: plan.assistLanguage,
+    scriptPolicy: plan.scriptPolicy ?? "Not declared",
+    levelBand: plan.levelBand ?? "Tenant-defined",
+    reviewStatus: plan.reviewStatus,
+  }));
+  const assistLanguageScriptErrors = assistLanguagePlans.flatMap((plan) => validateAssistLanguageScriptPolicy(plan));
   const termCount = contentPackage.units.reduce((total, unit) => total + unit.pedagogicalPayload.vocabularyTerms.length, 0);
   const sentenceCount = contentPackage.units.reduce((total, unit) => total + unit.pedagogicalPayload.targetSentences.length, 0);
   const unitKeys = contentPackage.units.map((unit) => getUnitKey(unit.unitMeta));
@@ -80,6 +95,7 @@ function buildUnitPackageReadiness(contentPackage: ContentPackage): UnitPackageR
     audioCoveredGameModeCount: audioCoveredGameModes.length,
     audioCoveredGameModes,
     assistLanguageCount: assistLanguagePlans.length,
+    assistLanguagePolicies,
     validationErrorCount: validationErrors.length,
     gates: [
       {
@@ -125,10 +141,22 @@ function buildUnitPackageReadiness(contentPackage: ContentPackage): UnitPackageR
       {
         gateId: "assist-language",
         label: "Assist-language review",
-        status: assistLanguagePlans.every((plan) => reviewedStatuses.has(plan.reviewStatus)) ? "ready" : "review",
+        status:
+          assistLanguagePlans.length === 0
+            ? "review"
+            : assistLanguageScriptErrors.length > 0
+              ? "blocked"
+              : assistLanguagePlans.every((plan) => reviewedStatuses.has(plan.reviewStatus))
+                ? "ready"
+                : "review",
         blocksPilot: false,
-        evidence: `${assistLanguagePlans.length} assist-language plan(s)`,
-        nextStep: "Support language remains optional comprehension support and never unlocks target-language progression.",
+        evidence:
+          assistLanguagePlans.length === 0
+            ? "No optional assist-language plan configured"
+            : `${assistLanguagePlans.length} assist-language plan(s); ${assistLanguageScriptErrors.length} script-policy issue(s)`,
+        nextStep:
+          assistLanguageScriptErrors[0] ??
+          "Support language remains optional comprehension support and never unlocks target-language progression.",
       },
       {
         gateId: "teacher-release",

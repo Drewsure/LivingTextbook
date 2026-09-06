@@ -31,7 +31,10 @@ export function UnitPackageReadinessPanel({ packages }: UnitPackageReadinessPane
       </div>
 
       <div className="mt-5 grid gap-4">
-        {packages.map((packageSummary) => (
+        {packages.map((packageSummary) => {
+          const assistGateStatus = packageSummary.gates.find((gate) => gate.gateId === "assist-language")?.status ?? "review";
+
+          return (
           <article key={packageSummary.packageId} className="rounded-lg border border-[var(--tenant-border)] p-4">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
@@ -52,6 +55,10 @@ export function UnitPackageReadinessPanel({ packages }: UnitPackageReadinessPane
               <ReadinessMetric label="Audio-covered modes" value={String(packageSummary.audioCoveredGameModeCount)} />
               <ReadinessMetric label="Audio / video" value={`${packageSummary.audioAssetCount} / ${packageSummary.videoAssetCount}`} />
               <ReadinessMetric label="Assist plans" value={String(packageSummary.assistLanguageCount)} />
+              <ReadinessMetric
+                label="Assist policy"
+                value={packageSummary.assistLanguageCount > 0 ? assistGateStatus : "Optional / none"}
+              />
               <ReadinessMetric label="Media assets" value={String(packageSummary.mediaAssetCount)} />
               <ReadinessMetric label="Validation issues" value={String(packageSummary.validationErrorCount)} />
             </dl>
@@ -80,6 +87,30 @@ export function UnitPackageReadinessPanel({ packages }: UnitPackageReadinessPane
               </section>
             )}
 
+            {packageSummary.assistLanguagePolicies.length > 0 && (
+              <section className="mt-4 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3">
+                <div className="flex flex-wrap items-start justify-between gap-2">
+                  <div>
+                    <h4 className="text-sm font-bold text-[var(--tenant-text)]">Assist-language policy coverage</h4>
+                    <p className="mt-1 text-sm leading-6 text-[var(--tenant-muted)]">
+                      Script policy travels with the package and remains separate from the target-language progression trigger.
+                    </p>
+                  </div>
+                  <StatusPill label={`${packageSummary.assistLanguagePolicies.length} plan(s)`} tone="success" />
+                </div>
+                <div className="mt-3 grid gap-2 text-sm md:grid-cols-2">
+                  {packageSummary.assistLanguagePolicies.map((policy) => (
+                    <div key={`${policy.unitKey}-${policy.assistLanguage}`} className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] p-3">
+                      <p className="font-semibold text-[var(--tenant-text)]">{policy.assistLanguage} / {policy.unitKey}</p>
+                      <p className="mt-1 text-[var(--tenant-muted)]">Script: {policy.scriptPolicy}</p>
+                      <p className="text-[var(--tenant-muted)]">Band: {policy.levelBand}</p>
+                      <p className="text-[var(--tenant-muted)]">Review: {policy.reviewStatus}</p>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
+
             <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
               {packageSummary.gates.map((gate) => (
                 <section key={gate.gateId} className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3">
@@ -96,7 +127,8 @@ export function UnitPackageReadinessPanel({ packages }: UnitPackageReadinessPane
               ))}
             </div>
           </article>
-        ))}
+          );
+        })}
       </div>
     </Card>
   );

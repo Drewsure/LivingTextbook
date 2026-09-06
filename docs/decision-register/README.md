@@ -530,6 +530,7 @@
 - `DR-556-content-package-tenant-reference-isolation.md`
 - `DR-557-assist-language-script-policy.md`
 - `DR-558-ai-generator-assist-policy-handoff.md`
+- `DR-559-assist-policy-readiness-coverage.md`
 
 ## Maintenance Rule
 

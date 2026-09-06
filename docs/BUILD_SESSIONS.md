@@ -897,3 +897,5 @@ The shared content-model validator must enforce package isolation before tenant 
 The same validator now enforces the durable Japanese assist script contract. Student-visible Japanese plans must declare a script policy; Foundation, Bronze, and Plus level bands require hiragana-only content; and Silver-or-later mixed-script content requires a reviewed mixed-script or tenant-defined policy. This is package validation, not a UI-only convention, and it remains separate from Japanese-as-target-language readiness.
 
 AI generator request previews must carry the same assist-language script policy and level-band fields into draft generation evidence. The generator may propose content, but it cannot drop the package policy between request, draft, verifier, or teacher review stages.
+
+Package readiness now exposes assist-language policy records and a separate coverage section. A reviewed assist translation does not appear fully ready when its student-visible Japanese script policy is invalid or undeclared; support remains optional and non-blocking at pilot level, while package validation still blocks invalid student-facing content.

@@ -66,6 +66,7 @@ const packageFiles = [
 ];
 
 const readiness = readSource("../apps/web/src/data/sampleUnitPackageReadiness.ts");
+const readinessPanel = readSource("../apps/web/src/features/content-intake/UnitPackageReadinessPanel.tsx");
 const offerMap = readSource("../apps/web/src/data/sampleUnitGameOfferMap.ts");
 const contentModel = readSource("../packages/content-model/src/index.ts");
 const activeRoutes = readSource("../docs/ACTIVE_ROUTE_VERIFICATION_LIST.md");
@@ -76,6 +77,11 @@ for (const gateId of requiredReadinessGates) {
 }
 
 requireText(readiness, "audioCoveredGameModes", "Package readiness summary must expose audio-covered game modes.");
+requireText(readiness, "assistLanguagePolicies", "Package readiness summary must expose assist-language policy records.");
+requireText(readiness, "validateAssistLanguageScriptPolicy", "Package readiness summary must evaluate assist-language script policy.");
+requireText(readinessPanel, "Assist-language policy coverage", "Package readiness panel must expose assist-language policy coverage.");
+requireText(readinessPanel, "Script:", "Package readiness panel must show assist-language script policy.");
+requireText(readinessPanel, "Assist policy", "Package readiness panel must show assist policy status.");
 requireText(contentModel, "duplicate unit", "Content model must reject duplicate units inside a content package.");
 requireText(contentModel, "content package tenant", "Content model must reject cross-tenant package references.");
 requireText(contentModel, "missing media asset", "Content model must reject orphan media references.");
