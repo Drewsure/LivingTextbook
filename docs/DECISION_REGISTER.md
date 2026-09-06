@@ -1681,3 +1681,22 @@ Guardrails:
 - The review-only adapter blocks release-state mutation, QR mutation, student-ready markers, assignments, and classroom launch.
 
 This decision is recorded in `docs/adr/0498-release-runtime-boundary.md` and `docs/decision-register/DR-569-release-runtime-boundary.md`.
+
+## DR-570: Foundation Verification Composition
+
+Status: Accepted
+
+Decision: Make the canonical foundation command explicitly include the AI service and persistence runtime verifiers, all provider-neutral runtime verifiers, AI service typecheck, web typecheck, production build, and active route verification. Add a composition verifier that detects omissions.
+
+Rationale:
+
+- Backend contracts can exist and pass independently while remaining absent from the main release gate.
+- White-label hosted, local, and hybrid options depend on the same shared contracts being checked together.
+- A composition check is a low-cost guard against future script drift and incomplete build sessions.
+
+Guardrails:
+
+- The composition verifier inspects the canonical script only; it does not replace focused verification.
+- No provider dispatch, persistence write, release mutation, route activation, or student-facing workflow is enabled by this change.
+
+This decision is recorded in `docs/adr/0499-foundation-verification-composition.md` and `docs/decision-register/DR-570-foundation-verification-composition.md`.

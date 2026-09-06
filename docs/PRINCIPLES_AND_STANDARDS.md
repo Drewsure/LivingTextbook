@@ -887,3 +887,17 @@ Required standing rules:
 - Review-only execution returns `sideEffect: "none"`; it cannot mutate release state, QR redirects, student-ready markers, assignments, or classroom launch.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-569 and `docs/adr/0498-release-runtime-boundary.md`.
+
+## 41. Foundation Verification Composition Standard
+
+The canonical foundation command must verify the whole provider-neutral boundary chain, not only the web application. A green web build is necessary but insufficient if the AI service, persistence runtime, or another backend contract has drifted out of verification.
+
+Required standing rules:
+
+- `verify:foundation` must include every focused runtime verifier for AI service, persistence, reports, assets/media, content packages, classroom launch, assignments, source intake, and release control.
+- `verify:foundation` must typecheck the AI service and web workspace, run the production webpack build, and run active route verification.
+- A composition verifier must fail when a required focused check or workspace check is removed from the canonical command.
+- Focused verifiers remain independently runnable so a future agent can diagnose one boundary without weakening the complete gate.
+- This composition check protects cost efficiency and white-label replaceability by detecting missing backend contract coverage before provider integration.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-570 and `docs/adr/0499-foundation-verification-composition.md`.
