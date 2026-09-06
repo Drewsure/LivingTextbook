@@ -921,6 +921,7 @@ export * from "./assetRuntime";
 export * from "./contentPackageRuntime";
 export * from "./launchRuntime";
 export * from "./assignmentRuntime";
+export * from "./sourceRuntime";
 export * from "./aiGeneratedGameBuildBrief";
 export * from "./aiExternalPrototypeTaskPacket";
 export * from "./aiExternalPrototypeTaskExportReadinessGate";

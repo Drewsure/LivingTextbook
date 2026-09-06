@@ -857,3 +857,18 @@ Required standing rules:
 - Review-only execution returns `sideEffect: "none"`; it cannot write assignments, activate private links, bind rosters, activate progress streams, export reports, or launch classrooms.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-567 and `docs/adr/0496-assignment-runtime-boundary.md`.
+
+## 39. Source Intake Runtime Boundary Standard
+
+Source files are evidence for reviewed content, not student payloads. Every future PDF, DOCX, spreadsheet, manual, media, OCR, parser, or AI-assisted extraction provider must pass a shared source-intake runtime boundary.
+
+Required standing rules:
+
+- Every source is tenant-scoped, package-scoped, checksum-bound, and linked to an explicit extraction method.
+- File policy, scan, source lineage, rights, OCR confidence, segmentation, schema, and target mapping are separate review gates.
+- Raw PDFs and other source files cannot become student payloads. Unreviewed OCR, parser output, or AI extraction cannot become a teacher draft, route, game, playlist, or assignment.
+- Teacher draft creation requires accepted extraction review, reviewed segmentation, schema review, and target mapping.
+- Student-facing use additionally requires content-package runtime approval and teacher or tenant release approval.
+- Review-only execution returns `sideEffect: "none"`; it cannot write/replace source files, promote extraction, create drafts, assign AI output, or activate student content.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-568 and `docs/adr/0497-source-intake-runtime-boundary.md`.

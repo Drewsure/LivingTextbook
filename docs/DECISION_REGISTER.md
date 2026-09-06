@@ -1641,3 +1641,23 @@ Guardrails:
 - The review-only adapter blocks assignment writes, private links, roster binding, progress streams, reports, and classroom launch.
 
 This decision is recorded in `docs/adr/0496-assignment-runtime-boundary.md` and `docs/decision-register/DR-567-assignment-runtime-boundary.md`.
+
+## DR-568: Source Intake Runtime Boundary
+
+Status: Accepted
+
+Decision: Add a provider-neutral source-intake runtime contract and review-only adapter between uploaded/source evidence and any OCR, parser, AI extraction, teacher draft, package, or student-facing provider.
+
+Rationale:
+
+- Source-review and persistence records describe required safeguards but need one runtime decision point before real extraction providers are introduced.
+- PDF/DOCX/spreadsheet/media intake must preserve lineage, rights, checksum, scan state, OCR confidence, segmentation, and schema review across white-label tenants.
+- A review-only adapter prevents raw sources or unreviewed extraction from silently becoming drafts, games, or assignments.
+
+Guardrails:
+
+- File policy, scan, lineage, rights, extraction, OCR, segmentation, schema, mapping, package, and release gates remain explicit.
+- Raw source, unreviewed OCR/parser output, and direct AI extraction assignment remain blocked.
+- The review-only adapter blocks source writes, extraction promotion, draft creation, AI direct assignment, and student activation.
+
+This decision is recorded in `docs/adr/0497-source-intake-runtime-boundary.md` and `docs/decision-register/DR-568-source-intake-runtime-boundary.md`.
