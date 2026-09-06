@@ -872,3 +872,18 @@ Required standing rules:
 - Review-only execution returns `sideEffect: "none"`; it cannot write/replace source files, promote extraction, create drafts, assign AI output, or activate student content.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-568 and `docs/adr/0497-source-intake-runtime-boundary.md`.
+
+## 40. Release Runtime Boundary Standard
+
+Review status is not release status. Every future hosted, local, or hybrid release provider must pass one shared release runtime boundary before package state, QR targets, assignments, or student-facing activation can change.
+
+Required standing rules:
+
+- Every release request is tenant-scoped, package-scoped, release-scoped, and explicit about current and requested state.
+- Source extraction, asset rights, target-language audio, curated pathways, content-package runtime, and verifier evidence are required before approval.
+- Approved or active state additionally requires teacher or tenant approval, school policy, persistence, and rollback readiness.
+- Production QR mutation and student-facing activation require an explicit active-release request; neither may be inferred from a local route or preview.
+- Rollback is a first-class reviewed state and cannot execute without rollback evidence.
+- Review-only execution returns `sideEffect: "none"`; it cannot mutate release state, QR redirects, student-ready markers, assignments, or classroom launch.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-569 and `docs/adr/0498-release-runtime-boundary.md`.

@@ -1661,3 +1661,23 @@ Guardrails:
 - The review-only adapter blocks source writes, extraction promotion, draft creation, AI direct assignment, and student activation.
 
 This decision is recorded in `docs/adr/0497-source-intake-runtime-boundary.md` and `docs/decision-register/DR-568-source-intake-runtime-boundary.md`.
+
+## DR-569: Release Runtime Boundary
+
+Status: Accepted
+
+Decision: Add a provider-neutral release runtime contract and review-only adapter between release-control evidence and any future package, QR, assignment, or classroom activation provider.
+
+Rationale:
+
+- Release-control records describe gates, but a shared runtime decision point is still needed to prevent state or QR mutation through future adapters.
+- White-label tenants need the same promotion discipline for hosted, local, and hybrid releases.
+- Explicit active and rollback requests make production activation and recovery testable without treating a preview route as a release.
+
+Guardrails:
+
+- Source extraction, rights, audio, curated pathways, package runtime, verifier, teacher approval, school policy, persistence, and rollback evidence remain separate gates.
+- QR mutation and student-facing activation require an explicit active-release request.
+- The review-only adapter blocks release-state mutation, QR mutation, student-ready markers, assignments, and classroom launch.
+
+This decision is recorded in `docs/adr/0498-release-runtime-boundary.md` and `docs/decision-register/DR-569-release-runtime-boundary.md`.
