@@ -1477,3 +1477,24 @@ Guardrails:
 - The readiness surface stays review-only and does not enable uploads, publishing, assignment, or live storage.
 
 This decision is recorded in `docs/adr/0488-assist-policy-readiness-coverage.md` and `docs/decision-register/DR-559-assist-policy-readiness-coverage.md`.
+
+## DR-560: Evidence Handoff Package Lineage
+
+Status: Accepted
+
+Decision: Add a dedicated unit-package readiness section to the review-only evidence handoff packet so content validation, target-language audio coverage, assist-language script policy, and curated activity pathway evidence travel together with their source route.
+
+Rationale:
+
+- A handoff packet should preserve the evidence chain that made a unit reviewable without becoming a live export or publishing workflow.
+- Teachers and publisher reviewers need to see the language and activity constraints alongside source, media, and rights evidence.
+- Explicit lineage reduces the risk that a future export implementation drops audio, assist-language, or curated-pathway safeguards.
+
+Guardrails:
+
+- The packet remains preview-only and cannot export, sign, store attachments, publish, create routes, create playlists, or activate assignments.
+- Target-language audio remains the learning requirement; assist-language evidence remains support-only.
+- Package snapshots, reviewer identity, teacher release, retention, and storage remain missing-before-export evidence until their gates are implemented.
+- `npm run verify:package-readiness`, typecheck, production build, and active route verification protect the handoff lineage.
+
+This decision is recorded in `docs/adr/0489-evidence-handoff-package-lineage.md` and `docs/decision-register/DR-560-evidence-handoff-package-lineage.md`.

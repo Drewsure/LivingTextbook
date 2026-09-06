@@ -41,6 +41,25 @@ export const samplePublisherEvidencePacketHandoffPackage: EvidencePacketHandoffP
   storageRecord: "evidence_packet",
   sections: [
     {
+      sectionId: "unit-package-readiness-handoff",
+      label: "Unit package readiness evidence",
+      status: "preview-ready",
+      sourceRoute: "/teacher/intake",
+      includedRecords: [
+        "unit_package_readiness_packet",
+        "payload_validation_packet",
+        "target_language_audio_coverage_packet",
+        "assist_language_script_policy_packet",
+        "curated_activity_pathway_packet",
+      ],
+      missingBeforeExport: [
+        "authenticated reviewer identity",
+        "versioned package snapshot",
+        "signed teacher release decision",
+        "retention and export policy",
+      ],
+    },
+    {
       sectionId: "upload-intake-handoff",
       label: "Upload intake evidence",
       status: "preview-ready",

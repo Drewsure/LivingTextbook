@@ -738,3 +738,18 @@ Required standing rules:
 - `npm run verify:pilot-requirements` and active route verification must protect the route, route contract, tenant navigation, dashboard link, standards, ADR, decision record, checklist, and no-live-capture blockers.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-552, DR-553, and DR-554, `docs/adr/0481-partner-pilot-requirements-intake.md`, `docs/adr/0482-partner-pilot-evidence-traceability.md`, and `docs/adr/0483-partner-pilot-meeting-agenda.md`.
+
+## 31. Evidence Handoff Lineage Standard
+
+Evidence packets must preserve the path from reviewed content to an eventual teacher or publisher handoff without creating a live export workflow prematurely.
+
+Required standing rules:
+
+- The evidence handoff preview must carry unit-package readiness, payload validation, target-language audio coverage, assist-language script policy, and curated activity pathway evidence.
+- Every handoff section must link back to a source review route and name what remains missing before export or signing.
+- Assist-language evidence remains support-only and must never be interpreted as a progression, mastery, score, reward, or unlock authority.
+- Package snapshots, authenticated reviewer identity, signed teacher release, retention policy, storage, export, publishing, and assignment activation remain blocked until their own gates close.
+- The handoff packet is evidence, not a package writer, upload endpoint, release mutation, or Z.ai import channel.
+- `npm run verify:package-readiness`, active route verification, typecheck, and production build must protect this lineage.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-560 and `docs/adr/0489-evidence-handoff-package-lineage.md`.

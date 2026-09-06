@@ -67,6 +67,7 @@ const packageFiles = [
 
 const readiness = readSource("../apps/web/src/data/sampleUnitPackageReadiness.ts");
 const readinessPanel = readSource("../apps/web/src/features/content-intake/UnitPackageReadinessPanel.tsx");
+const evidenceHandoff = readSource("../apps/web/src/data/sampleEvidencePacketHandoffPackage.ts");
 const offerMap = readSource("../apps/web/src/data/sampleUnitGameOfferMap.ts");
 const contentModel = readSource("../packages/content-model/src/index.ts");
 const activeRoutes = readSource("../docs/ACTIVE_ROUTE_VERIFICATION_LIST.md");
@@ -82,6 +83,10 @@ requireText(readiness, "validateAssistLanguageScriptPolicy", "Package readiness 
 requireText(readinessPanel, "Assist-language policy coverage", "Package readiness panel must expose assist-language policy coverage.");
 requireText(readinessPanel, "Script:", "Package readiness panel must show assist-language script policy.");
 requireText(readinessPanel, "Assist policy", "Package readiness panel must show assist policy status.");
+requireText(evidenceHandoff, 'sectionId: "unit-package-readiness-handoff"', "Evidence handoff must carry unit-package readiness evidence.");
+requireText(evidenceHandoff, "target_language_audio_coverage_packet", "Evidence handoff must carry target-language audio coverage evidence.");
+requireText(evidenceHandoff, "assist_language_script_policy_packet", "Evidence handoff must carry assist-language script policy evidence.");
+requireText(evidenceHandoff, 'sourceRoute: "/teacher/intake"', "Evidence handoff must link back to the package readiness source route.");
 requireText(contentModel, "duplicate unit", "Content model must reject duplicate units inside a content package.");
 requireText(contentModel, "content package tenant", "Content model must reject cross-tenant package references.");
 requireText(contentModel, "missing media asset", "Content model must reject orphan media references.");

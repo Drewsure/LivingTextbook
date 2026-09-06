@@ -899,3 +899,5 @@ The same validator now enforces the durable Japanese assist script contract. Stu
 AI generator request previews must carry the same assist-language script policy and level-band fields into draft generation evidence. The generator may propose content, but it cannot drop the package policy between request, draft, verifier, or teacher review stages.
 
 Package readiness now exposes assist-language policy records and a separate coverage section. A reviewed assist translation does not appear fully ready when its student-visible Japanese script policy is invalid or undeclared; support remains optional and non-blocking at pilot level, while package validation still blocks invalid student-facing content.
+
+The evidence handoff preview now carries a dedicated unit-package readiness section. It identifies payload validation, target-language audio coverage, assist-language script policy, and curated activity pathway records as handoff evidence while keeping package snapshots, signed release decisions, retention policy, export, storage, publishing, and assignment activation blocked.
