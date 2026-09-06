@@ -798,3 +798,18 @@ Required standing rules:
 - Hosted managed, local classroom, and hybrid reporting providers must consume this contract rather than bypassing it through a route or UI component.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-563 and `docs/adr/0492-teacher-report-runtime-boundary.md`.
+
+## 35. Asset And Media Runtime Boundary Standard
+
+Upload readiness records and media manifests are not permission to move a file into a student-facing package. Every future asset, media, font, or source-document provider must pass a shared runtime boundary before intake, promotion, binding, export, or storage can occur.
+
+Required standing rules:
+
+- Every asset is tenant-scoped and carries an asset id, explicit kind, MIME type, positive size, checksum, and source lineage.
+- Scan status, size-budget review, rights status, and source review are mandatory; unknown rights and rejected or unreviewed source records remain blocked.
+- Unit/game mapping must be reviewed before promotion, binding, or export. Student-facing use requires approved source review and release approval.
+- Learner-recorded media and learner uploads are excluded from the core asset runtime. They require a separate explicitly approved privacy and cost product boundary.
+- Review-only execution returns `sideEffect: "none"`; it cannot upload, transcode, copy, activate, mutate QR/playlist/game manifests, or promote a file.
+- Hosted, local, and hybrid asset providers must consume this contract rather than bypassing it through teacher UI routes.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-564 and `docs/adr/0493-asset-media-runtime-boundary.md`.

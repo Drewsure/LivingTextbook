@@ -907,3 +907,5 @@ The AI service foundation is now explicit in `apps/ai-service`. Its provider-neu
 The persistence runtime boundary now sits between typed record plans and future storage adapters. A review-only adapter evaluates tenant scope, policy, privacy, release, and payload evidence and produces no side effects; hosted, local, and hybrid writes remain unavailable until their own release gates close.
 
 The teacher report runtime boundary now sits between report plans/event evidence and future report providers. It validates the shared event taxonomy, pseudonymous learner slots, raw-audio/transcript exclusion, teacher/policy/persistence/export/release gates, and review-only no-side-effect behavior before reporting can become live.
+
+The asset/media runtime boundary now sits between upload/media readiness evidence and future file providers. It validates tenant scope, MIME/type, size, checksum, scan, rights, source review, unit/game mapping, learner-media exclusion, storage policy, and release gates while returning no-side-effect review results.

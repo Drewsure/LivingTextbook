@@ -1560,3 +1560,23 @@ Guardrails:
 - Hosted, local, and hybrid reporting remain blocked until an approved adapter consumes the runtime contract.
 
 This decision is recorded in `docs/adr/0492-teacher-report-runtime-boundary.md` and `docs/decision-register/DR-563-teacher-report-runtime-boundary.md`.
+
+## DR-564: Asset And Media Runtime Boundary
+
+Status: Accepted
+
+Decision: Add a provider-neutral asset/media runtime contract and review-only adapter between upload/media readiness evidence and any future file storage, promotion, binding, or export provider.
+
+Rationale:
+
+- Upload panels, media manifests, and persistence records describe requirements but do not yet provide one runtime enforcement point.
+- Images, audio, video, fonts, and source documents need the same tenant, scan, rights, checksum, mapping, and release discipline across white-label deployments.
+- Learner-recorded media and learner uploads need a separate privacy and cost decision rather than accidental inclusion in the core asset path.
+
+Guardrails:
+
+- Unknown rights, unchecked scans, missing checksums, unreviewed sources, oversize or unbudgeted files, and missing mappings remain blocked.
+- Student-facing use requires approved source review and release approval.
+- The review-only adapter blocks upload, transcode, copy, promotion, binding, export, and manifest/QR/playlist mutation.
+
+This decision is recorded in `docs/adr/0493-asset-media-runtime-boundary.md` and `docs/decision-register/DR-564-asset-media-runtime-boundary.md`.

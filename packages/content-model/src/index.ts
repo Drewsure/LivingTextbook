@@ -917,6 +917,7 @@ export * from "./sessionSettings";
 export * from "./persistenceAdapter";
 export * from "./persistenceRuntime";
 export * from "./reportRuntime";
+export * from "./assetRuntime";
 export * from "./aiGeneratedGameBuildBrief";
 export * from "./aiExternalPrototypeTaskPacket";
 export * from "./aiExternalPrototypeTaskExportReadinessGate";
