@@ -843,3 +843,17 @@ Required standing rules:
 - Review-only execution returns `sideEffect: "none"`; it cannot activate classrooms, collect learner data, mutate QR redirects, bind rosters, activate reports, progression, or rewards.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-566 and `docs/adr/0495-classroom-launch-runtime-boundary.md`.
+
+## 38. Assignment Runtime Boundary Standard
+
+An assignment plan or private URL is not permission to bind a roster or collect student progress. Every future assignment provider must pass a shared runtime boundary before assignment writes, private-link activation, or report-stream activation can occur.
+
+Required standing rules:
+
+- Runtime requests must match one tenant and one reviewed assignment plan.
+- Teacher role, package runtime, classroom launch runtime, private-link policy, roster policy, persistence, reporting policy, and target-language audio are separate gates.
+- Student-facing assignment use requires `ready-for-pilot` assignment readiness. Entry-code, user-code, stable-QR, and local-fallback rules must remain explicit.
+- Support-language and media-only progress remain disabled; target-language engagement is the only learning trigger.
+- Review-only execution returns `sideEffect: "none"`; it cannot write assignments, activate private links, bind rosters, activate progress streams, export reports, or launch classrooms.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-567 and `docs/adr/0496-assignment-runtime-boundary.md`.

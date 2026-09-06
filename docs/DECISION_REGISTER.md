@@ -1621,3 +1621,23 @@ Guardrails:
 - The review-only adapter blocks classroom activation, learner data collection, QR mutation, roster binding, report streams, progression, and rewards.
 
 This decision is recorded in `docs/adr/0495-classroom-launch-runtime-boundary.md` and `docs/decision-register/DR-566-classroom-launch-runtime-boundary.md`.
+
+## DR-567: Assignment Runtime Boundary
+
+Status: Accepted
+
+Decision: Add a provider-neutral assignment runtime contract and review-only adapter between assignment plans/access evidence and any future private-link, roster, progress-stream, report, or classroom provider.
+
+Rationale:
+
+- Assignment plans and private links can be structurally valid while package, launch, roster, persistence, reporting, and audio gates remain open.
+- The white-label platform needs one activation boundary that works for teacher QR, front-door codes, home practice, and future local companions.
+- Review-only evaluation keeps assignment planning useful without accidentally writing links, binding learners, or collecting progress.
+
+Guardrails:
+
+- Student-facing assignment use requires `ready-for-pilot` readiness and accepted package, launch, private-link, roster, persistence, reporting, and audio gates.
+- Support-language and media-only progress remain blocked.
+- The review-only adapter blocks assignment writes, private links, roster binding, progress streams, reports, and classroom launch.
+
+This decision is recorded in `docs/adr/0496-assignment-runtime-boundary.md` and `docs/decision-register/DR-567-assignment-runtime-boundary.md`.
