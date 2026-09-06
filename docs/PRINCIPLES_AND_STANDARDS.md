@@ -828,3 +828,18 @@ Required standing rules:
 - Review-only execution returns `sideEffect: "none"`; it cannot write packages, activate assignments/routes/QRs/playlists, or mark content student-ready.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-565 and `docs/adr/0494-content-package-runtime-boundary.md`.
+
+## 37. Classroom Launch Runtime Boundary Standard
+
+QR routes, front-door pages, and assignment plans are not permission to open a live classroom session. Every future hosted, local, or hybrid launch provider must pass one shared launch runtime boundary first.
+
+Required standing rules:
+
+- Runtime requests must match one tenant, one package, one reviewed launch session, and one declared access mode.
+- Teacher role, package runtime, assignment runtime, QR/front-door review, school policy, roster policy, persistence, reporting policy, and target-language audio are separate gates.
+- Student launch requires an open session. Permanent QR launch additionally requires local fallback readiness; teacher QR and front-door access remain bound to their reviewed access policies.
+- Support-language progress and media-only progress must remain disabled. Target-language engagement is the only progression authority.
+- Real learner data cannot be collected until persistence and roster/identity policy are accepted.
+- Review-only execution returns `sideEffect: "none"`; it cannot activate classrooms, collect learner data, mutate QR redirects, bind rosters, activate reports, progression, or rewards.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-566 and `docs/adr/0495-classroom-launch-runtime-boundary.md`.

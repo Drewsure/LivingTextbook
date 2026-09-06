@@ -1601,3 +1601,23 @@ Guardrails:
 - The review-only adapter blocks package writes, student-ready markers, assignment/route/playlist/QR activation, and live mutation.
 
 This decision is recorded in `docs/adr/0494-content-package-runtime-boundary.md` and `docs/decision-register/DR-565-content-package-runtime-boundary.md`.
+
+## DR-566: Classroom Launch Runtime Boundary
+
+Status: Accepted
+
+Decision: Add a provider-neutral classroom launch runtime contract and review-only adapter between QR/front-door/assignment evidence and any future hosted, local, or hybrid classroom activation provider.
+
+Rationale:
+
+- Launch routes and assignment plans can be structurally valid while policy, persistence, roster, reporting, audio, or package gates remain open.
+- A single launch boundary keeps teacher-led QR entry and student progression aligned across white-label tenants and deployment channels.
+- Review-only evaluation provides a safe foundation for testing launch decisions without collecting learner data or mutating QR/session state.
+
+Guardrails:
+
+- Teacher role, package and assignment runtime approval, access review, school/roster/reporting policy, persistence, and target-language audio are independent gates.
+- Support language and media cannot trigger progress; real learner data requires accepted persistence and roster policy.
+- The review-only adapter blocks classroom activation, learner data collection, QR mutation, roster binding, report streams, progression, and rewards.
+
+This decision is recorded in `docs/adr/0495-classroom-launch-runtime-boundary.md` and `docs/decision-register/DR-566-classroom-launch-runtime-boundary.md`.
