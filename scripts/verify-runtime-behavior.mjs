@@ -8,6 +8,7 @@ import { fileURLToPath } from "node:url";
 const require = createRequire(import.meta.url);
 const root = dirname(fileURLToPath(new URL("../package.json", import.meta.url)));
 const output = mkdtempSync(join(tmpdir(), "living-textbook-runtime-"));
+const aiOutput = join(output, "ai");
 
 try {
   writeFileSync(join(output, "package.json"), '{"type":"commonjs"}\n', "utf8");
@@ -41,6 +42,30 @@ try {
     process.exit(1);
   }
 
+  const aiTsconfig = join(output, "ai-tsconfig.json");
+  writeFileSync(aiTsconfig, JSON.stringify({
+    compilerOptions: {
+      module: "commonjs",
+      target: "ES2022",
+      moduleResolution: "node",
+      skipLibCheck: true,
+      rootDir: root,
+      outDir: aiOutput,
+      baseUrl: root,
+      paths: { "@living-textbook/content-model": ["packages/content-model/src/index.ts"] },
+    },
+    files: [
+      join(root, "apps", "ai-service", "src", "index.ts"),
+      join(root, "packages", "content-model", "src", "index.ts"),
+    ],
+  }, null, 2), "utf8");
+  const aiCompile = spawnSync(process.execPath, [tsc, "-p", aiTsconfig], { cwd: root, encoding: "utf8" });
+  if (aiCompile.status !== 0) {
+    process.stdout.write(aiCompile.stdout);
+    process.stderr.write(aiCompile.stderr);
+    process.exit(1);
+  }
+
   const progression = require(join(output, "progressionRuntime.js"));
   const recovery = require(join(output, "recoveryRuntime.js"));
   const reward = require(join(output, "rewardRuntime.js"));
@@ -53,6 +78,7 @@ try {
   const assignment = require(join(output, "assignmentRuntime.js"));
   const persistence = require(join(output, "persistenceRuntime.js"));
   const report = require(join(output, "reportRuntime.js"));
+  const aiService = require(join(aiOutput, "apps", "ai-service", "src", "index.js"));
 
   const registry = {
     taxonomyVersion: "test",
@@ -261,7 +287,24 @@ try {
   assertIncludes(reportErrors, "raw learner audio is excluded from core teacher reports");
   assertEqual(report.createReviewOnlyTeacherReportRuntimeAdapter().execute(reportRequest).sideEffect, "none");
 
-  console.log("PASS runtime behavior harness exercises package, launch, assignment, persistence, report, progression, recovery, reward, entitlement, asset, source, and release boundaries.");
+  const aiRequest = {
+    requestId: "request-1", tenantId: "tenant-1", contentPackageId: "package-1",
+    sourceReviewStatus: "draft", targetLanguage: "en", assistLanguage: "ja", level: 1,
+    theme: "Greetings", gameMode: "flashcards", engineId: "pairing",
+    vocabularyTerms: ["hello", "goodbye", "teacher", "friend", "morning", "afternoon", "please"],
+    targetSentences: ["Hello, teacher."], targetLanguageAudioReady: false, mediaRightsReady: false,
+    teacherApprovalReady: false, premiumCostPolicyReady: false,
+  };
+  const aiErrors = aiService.validateAiGenerationServiceRequest(aiRequest);
+  assertIncludes(aiErrors, "vocabularyTerms must contain between 8 and 12 terms");
+  assertIncludes(aiErrors, "targetSentences must contain exactly 2 structures");
+  assertIncludes(aiErrors, "target-language audio coverage is required");
+  const aiResult = aiService.prepareReviewOnlyAiGenerationRequest(aiRequest);
+  assertEqual(aiResult.status, "review-only");
+  assertEqual(aiResult.providerDispatchAllowed, false);
+  assertIncludes(aiResult.blockedActions, "No provider model call");
+
+  console.log("PASS runtime behavior harness exercises AI authoring, package, launch, assignment, persistence, report, progression, recovery, reward, entitlement, asset, source, and release boundaries.");
 } finally {
   rmSync(output, { recursive: true, force: true });
 }

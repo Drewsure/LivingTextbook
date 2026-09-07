@@ -1017,3 +1017,17 @@ Required standing rules:
 - Hosted, local, and hybrid providers must consume the same privacy boundary without introducing provider-specific exceptions.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-578 and `docs/adr/0507-persistence-report-behavior-verification.md`.
+
+## 50. AI Authoring Behavior Verification Standard
+
+The AI authoring service is a content-drafting boundary, not a direct publishing or game-generation shortcut. Its pedagogical locks and provider controls must be executable before any future model provider or outside prototype is considered for integration.
+
+Required standing rules:
+
+- The compiled behavior harness must reject vocabulary payloads outside the 8–12 range and sentence payloads other than exactly two target structures.
+- Generation review must reject requests without target-language audio evidence and media-rights evidence.
+- AI authoring remains review-only: provider dispatch, provider billing, source writes, package writes, verifier submission, route/playlist writes, assignment activation, and support-language progression remain blocked.
+- Assist language is optional support and cannot repair a failed target-language or pedagogical gate.
+- The AI service contract must remain provider-neutral so hosted, local, tenant-selected, or future premium providers cannot bypass the same locks.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-579 and `docs/adr/0508-ai-authoring-behavior-verification.md`.

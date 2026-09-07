@@ -1861,3 +1861,24 @@ Guardrails:
 - Review-only persistence and report adapters return `sideEffect: "none"`.
 
 This decision is recorded in `docs/adr/0507-persistence-report-behavior-verification.md` and `docs/decision-register/DR-578-persistence-report-behavior-verification.md`.
+
+## DR-579: AI Authoring Behavior Verification
+
+Status: Accepted
+
+Decision: Extend the compiled-contract behavior harness to execute the AI authoring service's pedagogical and provider-dispatch safeguards.
+
+Rationale:
+
+- The AI service contract already defines the canonical 8–12 vocabulary rule, exactly two sentence structures, target-language audio, and media-rights gates.
+- Static marker checks do not prove that an invalid request is rejected or that a prepared result remains review-only.
+- Executable behavior evidence is required before any model provider or Z.ai prototype can enter integration review.
+
+Guardrails:
+
+- Invalid vocabulary and sentence counts remain blocked.
+- Missing target-language audio and media-rights evidence remain blocked.
+- `providerDispatchAllowed` remains false and the result remains `review-only`.
+- The harness performs no provider call, billing, source write, package write, route write, assignment activation, or support-language progression.
+
+This decision is recorded in `docs/adr/0508-ai-authoring-behavior-verification.md` and `docs/decision-register/DR-579-ai-authoring-behavior-verification.md`.
