@@ -916,3 +916,18 @@ Required standing rules:
 - Hosted managed, local classroom, and hybrid continuity providers must consume this contract rather than bypassing it through a deployment or teacher route.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-571 and `docs/adr/0500-recovery-continuity-runtime-boundary.md`.
+
+## 43. Progression Event Runtime Boundary Standard
+
+The event taxonomy classifies learning evidence, but classification alone is not permission to change mastery or rewards. Every future progression, scoring, reward, or unlock provider must pass one shared runtime boundary around the reviewed progress-event envelope.
+
+Required standing rules:
+
+- Progression requests are tenant-scoped, package-scoped, session-scoped, and bound to the active taxonomy registry.
+- Progress-affecting events require target-language evidence, accepted progression policy, persistence readiness, report-runtime readiness, and deterministic reward policy readiness.
+- Support-only events, including assist-language audio, tap-to-speak, route guidance, and background media, cannot enter the progression authority.
+- Report-only events cannot mutate mastery, scores, rewards, unlocks, or learner progress.
+- Review-only execution returns `sideEffect: "none"`; it cannot mutate mastery, scores, Star Dust, rewards, unlocks, or persistence.
+- Hosted, local, and hybrid progression providers must use the same event envelope and runtime contract.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-572 and `docs/adr/0501-progression-event-runtime-boundary.md`.

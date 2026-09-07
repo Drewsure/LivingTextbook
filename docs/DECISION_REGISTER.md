@@ -1720,3 +1720,23 @@ Guardrails:
 - Non-hosted recovery requires reviewed local fallback evidence; restore and rollback require rollback readiness.
 
 This decision is recorded in `docs/adr/0500-recovery-continuity-runtime-boundary.md` and `docs/decision-register/DR-571-recovery-continuity-runtime-boundary.md`.
+
+## DR-572: Progression Event Runtime Boundary
+
+Status: Accepted
+
+Decision: Add a provider-neutral progression runtime contract and review-only adapter around the shared progress-event envelope and taxonomy.
+
+Rationale:
+
+- Taxonomy classification protects data shape, but a separate runtime decision point is needed before events can influence mastery, scoring, rewards, or unlocks.
+- The target-language-only rule must survive hosted, local, hybrid, game, media, and future Phaser adapters.
+- A shared boundary makes support-language, tap-to-speak, route-guidance, and background-media signals safe and reportable without making them progression authority.
+
+Guardrails:
+
+- Progress-affecting events require target-language evidence, persistence, reporting, policy, and deterministic reward readiness.
+- Support-only and report-only events are rejected by the progression authority.
+- Review-only execution returns no side effects and cannot mutate progress, rewards, unlocks, or persistence.
+
+This decision is recorded in `docs/adr/0501-progression-event-runtime-boundary.md` and `docs/decision-register/DR-572-progression-event-runtime-boundary.md`.
