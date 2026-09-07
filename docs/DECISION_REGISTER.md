@@ -1819,3 +1819,24 @@ Guardrails:
 - The harness does not upload files, call providers, mutate storage, activate releases, or collect learner data.
 
 This decision is recorded in `docs/adr/0505-ingestion-asset-release-behavior-verification.md` and `docs/decision-register/DR-576-ingestion-asset-release-behavior-verification.md`.
+
+## DR-577: Classroom Doorway Behavior Verification
+
+Status: Accepted
+
+Decision: Extend the compiled-contract behavior harness to cover content package, QR launch, and teacher assignment runtime boundaries.
+
+Rationale:
+
+- Teacher QR/front-door onboarding is the bridge between reviewed textbook content and student self-progression.
+- Tenant mismatch, support-language progression, and assignment shortcuts must be rejected at the shared contract layer rather than relying on route components.
+- Hosted, local, and hybrid deployment paths need one provider-neutral classroom boundary.
+
+Guardrails:
+
+- Package tenant mismatch remains blocked.
+- Support-language and media-only progress remain blocked in launch and assignment requests.
+- Review-only package, launch, and assignment adapters return `sideEffect: "none"`.
+- The harness performs no classroom activation, roster binding, QR mutation, report stream creation, assignment write, or learner-data collection.
+
+This decision is recorded in `docs/adr/0506-classroom-doorway-behavior-verification.md` and `docs/decision-register/DR-577-classroom-doorway-behavior-verification.md`.

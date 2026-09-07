@@ -28,6 +28,9 @@ try {
     "packages/content-model/src/assetRuntime.ts",
     "packages/content-model/src/sourceRuntime.ts",
     "packages/content-model/src/releaseRuntime.ts",
+    "packages/content-model/src/contentPackageRuntime.ts",
+    "packages/content-model/src/launchRuntime.ts",
+    "packages/content-model/src/assignmentRuntime.ts",
   ], { cwd: root, encoding: "utf8" });
 
   if (compile.status !== 0) {
@@ -43,6 +46,9 @@ try {
   const asset = require(join(output, "assetRuntime.js"));
   const source = require(join(output, "sourceRuntime.js"));
   const release = require(join(output, "releaseRuntime.js"));
+  const contentPackage = require(join(output, "contentPackageRuntime.js"));
+  const launch = require(join(output, "launchRuntime.js"));
+  const assignment = require(join(output, "assignmentRuntime.js"));
 
   const registry = {
     taxonomyVersion: "test",
@@ -167,7 +173,63 @@ try {
     qrMutationRequested: true, studentFacingActivationRequested: true,
   }).sideEffect, "none");
 
-  console.log("PASS runtime behavior harness exercises progression, recovery, reward, entitlement, asset, source, and release boundaries.");
+  const packageRequest = {
+    tenantId: "tenant-1", packageId: "package-1", targetLanguage: "en",
+    contentPackage: {
+      meta: {
+        packageId: "package-other", tenantId: "tenant-other", curriculumId: "curriculum-1",
+        sourceType: "manual", reviewStatus: "draft", createdAt: "2026-01-01T00:00:00.000Z",
+      },
+      units: [],
+    },
+    curatedPathwayReviewed: false, storagePolicyAccepted: false, persistenceReady: false,
+    teacherReleaseApproved: false, studentFacingUseRequested: true, qrActivationRequested: true,
+  };
+  const packageErrors = contentPackage.validateContentPackageRuntimeRequest(packageRequest);
+  assertIncludes(packageErrors, "content package tenant must match runtime tenantId");
+  assertEqual(contentPackage.createReviewOnlyContentPackageRuntimeAdapter().execute(packageRequest).sideEffect, "none");
+
+  const launchRequest = {
+    tenantId: "tenant-1", packageId: "package-1",
+    launchSession: {
+      launchCode: "launch-1", tenantId: "tenant-1", curriculumId: "curriculum-1", unitKey: "unit-1",
+      status: "open", accessMode: "teacher-qr", entryMode: "flashcards", recommendedNextModes: [],
+      openedAt: "2026-01-01T00:00:00.000Z",
+    },
+    accessMode: "teacher-qr", teacherRoleVerified: true, packageRuntimeApproved: true,
+    assignmentRuntimeApproved: true, teacherQrOrFrontDoorReviewed: true, stableQrReady: true,
+    localFallbackReady: false, schoolPolicyAccepted: true, rosterPolicyAccepted: true,
+    persistenceReady: true, reportingPolicyAccepted: true, targetLanguageAudioReady: true,
+    supportLanguageProgressAllowed: true, mediaOnlyProgressAllowed: false, realLearnerDataRequested: false,
+    studentLaunchRequested: true,
+  };
+  const launchErrors = launch.validateLaunchRuntimeRequest(launchRequest);
+  assertIncludes(launchErrors, "support language progress must remain disabled");
+  assertEqual(launch.createReviewOnlyLaunchRuntimeAdapter().execute(launchRequest).sideEffect, "none");
+
+  const assignmentRequest = {
+    tenantId: "tenant-1",
+    assignmentPlan: {
+      assignmentId: "assignment-1", tenantId: "tenant-1", packageId: "package-1", launchCode: "launch-1",
+      label: "Assignment", audience: "whole-class", readiness: "requires-persistence",
+      targetGameModes: ["flashcards"], audioCoveredGameModes: ["flashcards"],
+      access: {
+        accessMode: "teacher-qr", routePath: "/launch/launch-1", entryCodeRequired: false,
+        userCodeRequired: false, anonymousPracticeAllowed: true, stableQrReady: true, localFallbackReady: false,
+      },
+      controls: [], requiredBeforePilot: [], note: "Test assignment",
+    },
+    teacherRoleVerified: true, packageRuntimeApproved: true, launchRuntimeApproved: true,
+    privateLinkPolicyAccepted: true, rosterPolicyAccepted: true, persistenceReady: true,
+    reportingPolicyAccepted: true, targetLanguageAudioReady: true, supportLanguageProgressAllowed: true,
+    mediaOnlyProgressAllowed: false, studentFacingUseRequested: false, privateLinkActivationRequested: false,
+    assignmentWriteRequested: false,
+  };
+  const assignmentErrors = assignment.validateAssignmentRuntimeRequest(assignmentRequest);
+  assertIncludes(assignmentErrors, "support language progress must remain disabled");
+  assertEqual(assignment.createReviewOnlyAssignmentRuntimeAdapter().execute(assignmentRequest).sideEffect, "none");
+
+  console.log("PASS runtime behavior harness exercises package, launch, assignment, progression, recovery, reward, entitlement, asset, source, and release boundaries.");
 } finally {
   rmSync(output, { recursive: true, force: true });
 }

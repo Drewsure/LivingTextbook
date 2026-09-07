@@ -989,3 +989,17 @@ Required standing rules:
 - No upload button, storage provider, PDF extraction path, media promotion path, or release writer may be treated as production-ready until both static readiness and compiled behavior verification remain green.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-576 and `docs/adr/0505-ingestion-asset-release-behavior-verification.md`.
+
+## 48. Classroom Doorway Behavior Verification Standard
+
+The teacher QR/front-door journey is the platform's most important cross-boundary path: it connects reviewed content packages to assignments, sessions, student identity, audio, progression, and teacher reporting. The foundation must prove that these contracts preserve tenant isolation and learning authority before any live classroom provider exists.
+
+Required standing rules:
+
+- The behavior harness must reject package tenant mismatch and keep package review-only execution side-effect free.
+- QR launch validation must reject any request that allows support language or media-only evidence to count as progress.
+- Assignment validation must enforce the same target-language authority boundary; private-link or assignment readiness cannot grant support-language progression.
+- Launch and assignment review-only adapters must return `sideEffect: "none"`; they cannot activate sessions, bind rosters, write assignments, mutate QR routes, start report streams, or award progress.
+- The teacher QR/front-door contract remains compatible with hosted, local, and hybrid deployment options without selecting a provider.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-577 and `docs/adr/0506-classroom-doorway-behavior-verification.md`.
