@@ -1003,3 +1003,17 @@ Required standing rules:
 - The teacher QR/front-door contract remains compatible with hosted, local, and hybrid deployment options without selecting a provider.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-577 and `docs/adr/0506-classroom-doorway-behavior-verification.md`.
+
+## 49. Persistence And Teacher Report Behavior Verification Standard
+
+Persistence and reporting are separate product boundaries. A route can display a report preview without proving that a future provider will protect student data, exclude raw microphone material, or prevent an unapproved export.
+
+Required standing rules:
+
+- The behavior harness must reject raw learner audio from core persistence and teacher reports.
+- Teacher report behavior must reject real or mixed learner identifiers when the core contract is pseudonymous-slot-only.
+- Persistence mutations and report exports require their own policy, release, persistence, and approval evidence; a preview route cannot satisfy those gates.
+- Review-only persistence and report adapters must return `sideEffect: "none"`; they cannot write, export, promote identities, store raw audio, store transcripts, or mutate progression.
+- Hosted, local, and hybrid providers must consume the same privacy boundary without introducing provider-specific exceptions.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-578 and `docs/adr/0507-persistence-report-behavior-verification.md`.

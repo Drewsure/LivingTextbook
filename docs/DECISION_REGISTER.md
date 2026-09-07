@@ -1840,3 +1840,24 @@ Guardrails:
 - The harness performs no classroom activation, roster binding, QR mutation, report stream creation, assignment write, or learner-data collection.
 
 This decision is recorded in `docs/adr/0506-classroom-doorway-behavior-verification.md` and `docs/decision-register/DR-577-classroom-doorway-behavior-verification.md`.
+
+## DR-578: Persistence And Teacher Report Behavior Verification
+
+Status: Accepted
+
+Decision: Extend the compiled-contract behavior harness to cover persistence privacy and teacher-report export boundaries.
+
+Rationale:
+
+- Reports are useful to teachers, but their preview UI must not be mistaken for permission to store or export learner data.
+- Raw microphone audio and learner transcripts are explicitly outside the core persistence/report product boundary.
+- Pseudonymous learner slots preserve the white-label platform's privacy posture while leaving future school-specific identity policies configurable.
+
+Guardrails:
+
+- Raw learner audio and transcripts remain blocked from core persistence and reports.
+- Core reports remain pseudonymous-slot-only.
+- Mutation and export require separate policy, release, persistence, and approval evidence.
+- Review-only persistence and report adapters return `sideEffect: "none"`.
+
+This decision is recorded in `docs/adr/0507-persistence-report-behavior-verification.md` and `docs/decision-register/DR-578-persistence-report-behavior-verification.md`.

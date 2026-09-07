@@ -31,6 +31,8 @@ try {
     "packages/content-model/src/contentPackageRuntime.ts",
     "packages/content-model/src/launchRuntime.ts",
     "packages/content-model/src/assignmentRuntime.ts",
+    "packages/content-model/src/persistenceRuntime.ts",
+    "packages/content-model/src/reportRuntime.ts",
   ], { cwd: root, encoding: "utf8" });
 
   if (compile.status !== 0) {
@@ -49,6 +51,8 @@ try {
   const contentPackage = require(join(output, "contentPackageRuntime.js"));
   const launch = require(join(output, "launchRuntime.js"));
   const assignment = require(join(output, "assignmentRuntime.js"));
+  const persistence = require(join(output, "persistenceRuntime.js"));
+  const report = require(join(output, "reportRuntime.js"));
 
   const registry = {
     taxonomyVersion: "test",
@@ -229,7 +233,35 @@ try {
   assertIncludes(assignmentErrors, "support language progress must remain disabled");
   assertEqual(assignment.createReviewOnlyAssignmentRuntimeAdapter().execute(assignmentRequest).sideEffect, "none");
 
-  console.log("PASS runtime behavior harness exercises package, launch, assignment, progression, recovery, reward, entitlement, asset, source, and release boundaries.");
+  const persistenceRequest = {
+    operation: "write", tenantId: "tenant-1", recordId: "record-1", category: "student-progress",
+    containsStudentData: true, containsRawAudio: true, containsTranscript: false,
+    requiresSchoolPolicy: true, schoolPolicyAccepted: false, releaseApproved: false,
+  };
+  const persistenceErrors = persistence.validatePersistenceRuntimeRequest(persistenceRequest);
+  assertIncludes(persistenceErrors, "raw learner audio is not a core persistence field");
+  assertIncludes(persistenceErrors, "release approval is required before mutation or export");
+  assertEqual(persistence.createReviewOnlyPersistenceAdapter().execute(persistenceRequest).sideEffect, "none");
+
+  const reportRequest = {
+    tenantId: "tenant-1", launchCode: "launch-1", format: "csv-summary", scopes: ["teacher-summary"],
+    reportPlan: {
+      launchCode: "launch-1", tenantId: "tenant-1", readiness: "demo-preview",
+      allowedFormats: ["csv-summary"], includedScopes: ["teacher-summary"], requiresTeacherRole: true,
+      requiresAcceptedPolicy: true, policyAccepted: false, persistenceReady: false,
+      retentionPolicy: "demo-only", excludesRawAudio: true, excludesTranscripts: true, note: "Test report",
+    },
+    taxonomy: { taxonomyVersion: "test", label: "Test", status: "active-scaffold", requiredEventFields: [], storageRule: "test", changeControl: "test", events: [] },
+    eventEnvelopes: [], learnerIdentityMode: "real-identifiers", teacherRoleVerified: true,
+    policyAccepted: false, persistenceReady: false, exportApproved: false, releaseApproved: false,
+    includesRawAudio: true, includesTranscripts: false,
+  };
+  const reportErrors = report.validateTeacherReportRuntimeRequest(reportRequest);
+  assertIncludes(reportErrors, "core teacher reports must use pseudonymous learner slots only");
+  assertIncludes(reportErrors, "raw learner audio is excluded from core teacher reports");
+  assertEqual(report.createReviewOnlyTeacherReportRuntimeAdapter().execute(reportRequest).sideEffect, "none");
+
+  console.log("PASS runtime behavior harness exercises package, launch, assignment, persistence, report, progression, recovery, reward, entitlement, asset, source, and release boundaries.");
 } finally {
   rmSync(output, { recursive: true, force: true });
 }
