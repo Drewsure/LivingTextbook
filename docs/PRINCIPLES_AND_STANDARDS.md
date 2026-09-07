@@ -901,3 +901,18 @@ Required standing rules:
 - This composition check protects cost efficiency and white-label replaceability by detecting missing backend contract coverage before provider integration.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-570 and `docs/adr/0499-foundation-verification-composition.md`.
+
+## 42. Recovery And Continuity Runtime Boundary Standard
+
+Backup, restore, export, and rollback plans are not permission to move or recover learner data. Every hosted, local, or hybrid continuity provider must pass one shared recovery runtime boundary before it can create an archive, restore a package, copy media, recover learner records, or execute rollback.
+
+Required standing rules:
+
+- Every recovery request is tenant-scoped, package-scoped, and explicit about operation, mode, and requested state.
+- Persistence, backup manifest, checksum, encryption, access control, retention, school policy, report integrity, rollback, and release evidence are separate gates.
+- Raw learner audio and transcripts remain excluded from the core recovery contract unless a separate privacy and cost product boundary is approved.
+- Non-hosted recovery requires reviewed local fallback evidence; restore and rollback require rollback readiness.
+- Review-only execution returns `sideEffect: "none"`; it cannot create backups, restore records, export archives, copy packages/media, mutate QR/routes, or recover learner data.
+- Hosted managed, local classroom, and hybrid continuity providers must consume this contract rather than bypassing it through a deployment or teacher route.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-571 and `docs/adr/0500-recovery-continuity-runtime-boundary.md`.

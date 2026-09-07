@@ -1700,3 +1700,23 @@ Guardrails:
 - No provider dispatch, persistence write, release mutation, route activation, or student-facing workflow is enabled by this change.
 
 This decision is recorded in `docs/adr/0499-foundation-verification-composition.md` and `docs/decision-register/DR-570-foundation-verification-composition.md`.
+
+## DR-571: Recovery And Continuity Runtime Boundary
+
+Status: Accepted
+
+Decision: Add a provider-neutral recovery runtime contract and review-only adapter for hosted, local, and hybrid backup, restore, export, and rollback planning.
+
+Rationale:
+
+- The white-label product must support closed textbook companions and yearly media/game packages without making backup or restore an informal deployment promise.
+- Recovery is a separate risk from persistence and release; it needs its own privacy, checksum, retention, access, report-integrity, and rollback evidence.
+- A shared no-side-effect contract keeps hosted-first cost control compatible with future local and hybrid products.
+
+Guardrails:
+
+- Backup, restore, export, package/media copy, learner-data recovery, QR/route mutation, and rollback execution remain blocked by the review-only adapter.
+- Raw learner audio and transcripts are excluded from the core recovery contract.
+- Non-hosted recovery requires reviewed local fallback evidence; restore and rollback require rollback readiness.
+
+This decision is recorded in `docs/adr/0500-recovery-continuity-runtime-boundary.md` and `docs/decision-register/DR-571-recovery-continuity-runtime-boundary.md`.

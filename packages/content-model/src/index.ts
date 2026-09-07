@@ -923,6 +923,7 @@ export * from "./launchRuntime";
 export * from "./assignmentRuntime";
 export * from "./sourceRuntime";
 export * from "./releaseRuntime";
+export * from "./recoveryRuntime";
 export * from "./aiGeneratedGameBuildBrief";
 export * from "./aiExternalPrototypeTaskPacket";
 export * from "./aiExternalPrototypeTaskExportReadinessGate";
