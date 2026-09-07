@@ -1740,3 +1740,22 @@ Guardrails:
 - Review-only execution returns no side effects and cannot mutate progress, rewards, unlocks, or persistence.
 
 This decision is recorded in `docs/adr/0501-progression-event-runtime-boundary.md` and `docs/decision-register/DR-572-progression-event-runtime-boundary.md`.
+
+## DR-573: Reward And Collection Runtime Boundary
+
+Status: Accepted
+
+Decision: Add a provider-neutral reward runtime contract and review-only adapter between accepted progression evidence and future collection inventory, avatar, cosmetic, pet-evolution, or Spin Wheel providers.
+
+Rationale:
+
+- Strong progression and collection are core engagement opportunities, but reward issuance must remain earned, deterministic, child-safe, and white-label configurable.
+- Existing reward and collection policy records need one runtime decision point before hosted, local, hybrid, or game-engine adapters can write ownership.
+- Spin Wheel tickets require separate policy review so overflow incentives do not become an unreviewed random-pressure loop.
+
+Guardrails:
+
+- Rewards require pseudonymous learner scope, source event, mastery evidence, deterministic rule, provenance, policy, persistence, and release approval.
+- Random rewards, gacha, purchase-required unlocks, direct inventory writes, ticket issuance, and progression bypasses remain blocked in review-only mode.
+
+This decision is recorded in `docs/adr/0502-reward-collection-runtime-boundary.md` and `docs/decision-register/DR-573-reward-collection-runtime-boundary.md`.

@@ -931,3 +931,18 @@ Required standing rules:
 - Hosted, local, and hybrid progression providers must use the same event envelope and runtime contract.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-572 and `docs/adr/0501-progression-event-runtime-boundary.md`.
+
+## 44. Reward And Collection Runtime Boundary Standard
+
+Reward catalogs and collection previews do not authorize inventory writes or reward issuance. Every future reward, collection, avatar, cosmetic, pet-evolution, or Spin Wheel provider must pass one shared runtime boundary after progression evidence is accepted.
+
+Required standing rules:
+
+- Rewards are tenant-scoped, package-scoped, pseudonymous-learner-scoped, and linked to a source event and deterministic rule.
+- Ownership provenance, earned mastery evidence, reward policy, persistence, and release approval are separate gates.
+- Random rewards, generated gacha, purchase-required unlocks, and reward-driven progression bypasses remain blocked.
+- Spin Wheel ticket issuance remains separately policy-gated and cannot be inferred from a generic reward request.
+- Review-only execution returns `sideEffect: "none"`; it cannot write collection inventory, mutate ownership, issue tickets, or bypass mastery.
+- Hosted, local, and hybrid reward providers must use the same contract and must not let a game view write the collection directly.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-573 and `docs/adr/0502-reward-collection-runtime-boundary.md`.
