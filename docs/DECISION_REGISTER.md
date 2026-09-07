@@ -1798,3 +1798,24 @@ Guardrails:
 - The harness compiles the shared TypeScript contracts so the tested behavior is the actual shared contract.
 
 This decision is recorded in `docs/adr/0504-runtime-behavior-verification.md` and `docs/decision-register/DR-575-runtime-behavior-verification.md`.
+
+## DR-576: Ingestion, Asset, And Release Behavior Verification
+
+Status: Accepted
+
+Decision: Extend the compiled-contract behavior harness to cover multimedia asset safety, textbook source ingestion safety, and release-control behavior.
+
+Rationale:
+
+- The platform's promised white-label workflow depends on PDF/text intake and image, audio, video, and font assets, so these boundaries need executable proof before live upload or promotion work begins.
+- Static readiness verifiers can confirm that policy language exists without proving that learner media, raw source payloads, or release mutations are rejected at runtime.
+- A satisfied release evidence case is useful as a contract test only when the review-only adapter still proves that no provider side effect occurs.
+
+Guardrails:
+
+- Learner-recorded media remains excluded from the core asset runtime.
+- Raw source files cannot become student payloads, even when extraction evidence is otherwise complete.
+- Asset, source, and release review-only adapters remain provider-neutral and return `sideEffect: "none"`.
+- The harness does not upload files, call providers, mutate storage, activate releases, or collect learner data.
+
+This decision is recorded in `docs/adr/0505-ingestion-asset-release-behavior-verification.md` and `docs/decision-register/DR-576-ingestion-asset-release-behavior-verification.md`.

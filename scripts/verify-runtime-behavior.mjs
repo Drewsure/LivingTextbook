@@ -25,6 +25,9 @@ try {
     "packages/content-model/src/recoveryRuntime.ts",
     "packages/content-model/src/rewardRuntime.ts",
     "packages/content-model/src/entitlementRuntime.ts",
+    "packages/content-model/src/assetRuntime.ts",
+    "packages/content-model/src/sourceRuntime.ts",
+    "packages/content-model/src/releaseRuntime.ts",
   ], { cwd: root, encoding: "utf8" });
 
   if (compile.status !== 0) {
@@ -37,6 +40,9 @@ try {
   const recovery = require(join(output, "recoveryRuntime.js"));
   const reward = require(join(output, "rewardRuntime.js"));
   const entitlement = require(join(output, "entitlementRuntime.js"));
+  const asset = require(join(output, "assetRuntime.js"));
+  const source = require(join(output, "sourceRuntime.js"));
+  const release = require(join(output, "releaseRuntime.js"));
 
   const registry = {
     taxonomyVersion: "test",
@@ -106,7 +112,62 @@ try {
   });
   assertIncludes(entitlementErrors, "AI Tutor requires premium or enterprise entitlement");
 
-  console.log("PASS runtime behavior harness rejects support-only progression, random rewards, unsafe recovery, and core-tier AI Tutor activation.");
+  const assetErrors = asset.validateAssetRuntimeRequest({
+    tenantId: "tenant-1", assetId: "asset-1", unitKey: "unit-1", operation: "promote",
+    kind: "audio", mimeType: "audio/mpeg", sizeBytes: 1000, checksum: "checksum-1",
+    scanStatus: "passed", rightsStatus: "owned", sourceReviewStatus: "approved",
+    targetMappingReviewed: true, storagePolicyAccepted: true, releaseApproved: true,
+    sizeBudgetAccepted: true, containsLearnerMedia: true, learnerUpload: false,
+    studentFacingUseRequested: true,
+  });
+  assertIncludes(assetErrors, "learner-recorded media is excluded from the core asset runtime");
+  assertEqual(asset.createReviewOnlyAssetRuntimeAdapter().execute({
+    tenantId: "tenant-1", assetId: "asset-1", operation: "intake", kind: "image",
+    mimeType: "image/png", sizeBytes: 1000, checksum: "checksum-1", scanStatus: "pending",
+    rightsStatus: "unknown", sourceReviewStatus: "unreviewed", targetMappingReviewed: false,
+    storagePolicyAccepted: false, releaseApproved: false, sizeBudgetAccepted: false,
+    containsLearnerMedia: false, learnerUpload: false, studentFacingUseRequested: false,
+  }).sideEffect, "none");
+
+  const sourceErrors = source.validateSourceRuntimeRequest({
+    tenantId: "tenant-1", sourceId: "source-1", targetPackageId: "package-1", sourceType: "pdf",
+    sourceChecksum: "checksum-1", extractionMethod: "pdf-text", contentReviewStatus: "draft",
+    filePolicyAccepted: true, scanPassed: true, sourceLineageReviewed: true, rightsReviewAccepted: true,
+    extractionReviewStatus: "accepted", ocrUsed: false, ocrConfidenceReviewed: true,
+    segmentationReviewed: true, schemaReviewPassed: true, targetMappingReviewed: true,
+    packageRuntimeApproved: true, teacherReleaseApproved: true, rawSourceAsStudentPayloadRequested: true,
+    draftCreationRequested: true, aiExtractionRequested: false, studentFacingUseRequested: true,
+  });
+  assertIncludes(sourceErrors, "raw source files cannot become student payloads");
+  assertEqual(source.createReviewOnlySourceRuntimeAdapter().execute({
+    tenantId: "tenant-1", sourceId: "source-1", targetPackageId: "package-1", sourceType: "pdf",
+    sourceChecksum: "checksum-1", extractionMethod: "pdf-text", contentReviewStatus: "draft",
+    filePolicyAccepted: false, scanPassed: false, sourceLineageReviewed: false, rightsReviewAccepted: false,
+    extractionReviewStatus: "not-started", ocrUsed: false, ocrConfidenceReviewed: false,
+    segmentationReviewed: false, schemaReviewPassed: false, targetMappingReviewed: false,
+    packageRuntimeApproved: false, teacherReleaseApproved: false, rawSourceAsStudentPayloadRequested: false,
+    draftCreationRequested: false, aiExtractionRequested: false, studentFacingUseRequested: false,
+  }).sideEffect, "none");
+
+  const releaseErrors = release.validateReleaseRuntimeRequest({
+    tenantId: "tenant-1", packageId: "package-1", releaseId: "release-1", requestedState: "active",
+    currentState: "release-candidate", contentReviewStatus: "approved", verifierEvidenceStatus: "passed",
+    sourceExtractionAccepted: true, assetRightsAccepted: true, targetLanguageAudioReady: true,
+    curatedPathwayReviewed: true, packageRuntimeApproved: true, teacherApprovalAccepted: true,
+    schoolPolicyAccepted: true, persistenceReady: true, rollbackReady: true,
+    qrMutationRequested: true, studentFacingActivationRequested: true,
+  });
+  assertEqual(releaseErrors.length, 0);
+  assertEqual(release.createReviewOnlyReleaseRuntimeAdapter().execute({
+    tenantId: "tenant-1", packageId: "package-1", releaseId: "release-1", requestedState: "active",
+    currentState: "release-candidate", contentReviewStatus: "approved", verifierEvidenceStatus: "passed",
+    sourceExtractionAccepted: true, assetRightsAccepted: true, targetLanguageAudioReady: true,
+    curatedPathwayReviewed: true, packageRuntimeApproved: true, teacherApprovalAccepted: true,
+    schoolPolicyAccepted: true, persistenceReady: true, rollbackReady: true,
+    qrMutationRequested: true, studentFacingActivationRequested: true,
+  }).sideEffect, "none");
+
+  console.log("PASS runtime behavior harness exercises progression, recovery, reward, entitlement, asset, source, and release boundaries.");
 } finally {
   rmSync(output, { recursive: true, force: true });
 }

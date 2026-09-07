@@ -975,3 +975,17 @@ Required standing rules:
 - A green web build without runtime behavior verification is not a complete foundation result.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-575 and `docs/adr/0504-runtime-behavior-verification.md`.
+
+## 47. Ingestion, Asset, And Release Behavior Verification Standard
+
+The multimedia and textbook-ingestion foundation is a high-risk boundary because source files, images, audio, video, fonts, and release metadata can eventually become student-facing content. Static readiness markers are not enough to prove that these boundaries reject unsafe promotion.
+
+Required standing rules:
+
+- The behavior harness must exercise learner-media exclusion at the asset boundary, raw-source-as-student-payload rejection at the source boundary, and a fully satisfied release candidate path at the release boundary.
+- Asset, source, and release review-only adapters must return `sideEffect: "none"`; they cannot upload, promote, publish, mutate QR routes, create playlists, activate assignments, or mark content student-ready.
+- A successful release decision in the harness proves only that the typed evidence is complete; it does not activate a live provider or bypass the review-only adapter.
+- The harness must compile the actual shared contracts and remain deterministic, local, provider-neutral, and safe for CI and partner review.
+- No upload button, storage provider, PDF extraction path, media promotion path, or release writer may be treated as production-ready until both static readiness and compiled behavior verification remain green.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-576 and `docs/adr/0505-ingestion-asset-release-behavior-verification.md`.
