@@ -961,3 +961,17 @@ Required standing rules:
 - Hosted, local, and hybrid entitlement providers must use the same contract and remain replaceable for white-label tenants.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-574 and `docs/adr/0503-feature-entitlement-runtime-boundary.md`.
+
+## 46. Runtime Behavior Verification Standard
+
+Source markers and focused contract checks are useful coverage, but they are not enough to prove that safety decisions behave correctly. The foundation must execute representative negative cases against the compiled shared runtime contracts.
+
+Required standing rules:
+
+- The behavior harness must exercise support-only progression rejection, random/gacha reward rejection, unsafe recovery rejection, and invalid premium entitlement rejection.
+- The harness must verify review-only results return `sideEffect: "none"`.
+- The harness must compile the shared TypeScript contracts rather than duplicating their logic in JavaScript.
+- Behavior verification remains deterministic, local, provider-neutral, and safe to run in CI or a partner review environment.
+- A green web build without runtime behavior verification is not a complete foundation result.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-575 and `docs/adr/0504-runtime-behavior-verification.md`.

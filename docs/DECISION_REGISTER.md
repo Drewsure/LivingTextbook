@@ -1779,3 +1779,22 @@ Guardrails:
 - Review-only execution blocks activation, billing, recording, AI dispatch, student unlocks, persistence, and release mutation.
 
 This decision is recorded in `docs/adr/0503-feature-entitlement-runtime-boundary.md` and `docs/decision-register/DR-574-feature-entitlement-runtime-boundary.md`.
+
+## DR-575: Runtime Behavior Verification
+
+Status: Accepted
+
+Decision: Add a deterministic compiled-contract behavior harness to the canonical foundation verification command.
+
+Rationale:
+
+- Focused source-marker verifiers can confirm that safeguards are documented without proving the decision functions return the intended blocks.
+- Representative negative behavior is especially important for target-language authority, child-safe rewards, recovery privacy, and premium feature cost controls.
+- A local Node-based harness keeps the foundation check low-cost and provider-neutral.
+
+Guardrails:
+
+- The harness exercises rejection cases and no-side-effect behavior only; it does not call providers, write storage, activate features, or collect learner data.
+- The harness compiles the shared TypeScript contracts so the tested behavior is the actual shared contract.
+
+This decision is recorded in `docs/adr/0504-runtime-behavior-verification.md` and `docs/decision-register/DR-575-runtime-behavior-verification.md`.

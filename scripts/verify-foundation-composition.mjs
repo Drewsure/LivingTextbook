@@ -17,6 +17,7 @@ const requiredCommands = [
   "npm run verify:progression-runtime",
   "npm run verify:reward-runtime",
   "npm run verify:entitlement-runtime",
+  "npm run verify:runtime-behavior",
   "npm run typecheck:ai-service",
   "npm run typecheck --workspace @living-textbook/web",
   "npm run build --workspace @living-textbook/web",
