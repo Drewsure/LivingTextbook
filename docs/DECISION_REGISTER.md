@@ -1882,3 +1882,24 @@ Guardrails:
 - The harness performs no provider call, billing, source write, package write, route write, assignment activation, or support-language progression.
 
 This decision is recorded in `docs/adr/0508-ai-authoring-behavior-verification.md` and `docs/decision-register/DR-579-ai-authoring-behavior-verification.md`.
+
+## DR-580: Assist-Language Script Behavior Verification
+
+Status: Accepted
+
+Decision: Execute the shared Japanese assist-language script validator in the compiled foundation behavior harness.
+
+Rationale:
+
+- Young Foundation, Bronze, and Plus learners need hiragana-only support when Japanese assist is enabled.
+- Silver-or-later mixed script is useful, but only after an explicit reviewed policy.
+- Generated or tenant-provided glosses must not bypass these constraints through the UI.
+
+Guardrails:
+
+- Early-level student-visible Japanese mixed script is rejected.
+- Hiragana-only plans containing katakana or kanji are rejected.
+- Later-level mixed script requires reviewed policy.
+- Assist language remains support-only and cannot enter progression authority.
+
+This decision is recorded in `docs/adr/0509-assist-language-script-behavior-verification.md` and `docs/decision-register/DR-580-assist-language-script-behavior-verification.md`.

@@ -1031,3 +1031,17 @@ Required standing rules:
 - The AI service contract must remain provider-neutral so hosted, local, tenant-selected, or future premium providers cannot bypass the same locks.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-579 and `docs/adr/0508-ai-authoring-behavior-verification.md`.
+
+## 51. Assist-Language Script Behavior Verification Standard
+
+Assist language must remain genuinely supportive and level-appropriate. Japanese is the first reviewed assist-language package, so its script rules must be enforced in the shared content model rather than left to teacher UI or generated text.
+
+Required standing rules:
+
+- Foundation, Bronze, and Plus Japanese assist plans must use `hiragana-only` when student-visible.
+- Hiragana-only plans must reject katakana and kanji in vocabulary, sentence, and instruction glosses.
+- Silver-or-later Japanese plans may use mixed script only with `reviewed-mixed-script` or `tenant-defined` policy and the required review status.
+- Student-visible Japanese plans must declare a script policy; teacher-only plans remain exempt from student rendering rules.
+- Assist-language validation never grants progression, mastery, rewards, or unlocks; target-language evidence remains authoritative.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-580 and `docs/adr/0509-assist-language-script-behavior-verification.md`.

@@ -78,6 +78,7 @@ try {
   const assignment = require(join(output, "assignmentRuntime.js"));
   const persistence = require(join(output, "persistenceRuntime.js"));
   const report = require(join(output, "reportRuntime.js"));
+  const contentModel = require(join(output, "index.js"));
   const aiService = require(join(aiOutput, "apps", "ai-service", "src", "index.js"));
 
   const registry = {
@@ -304,7 +305,33 @@ try {
   assertEqual(aiResult.providerDispatchAllowed, false);
   assertIncludes(aiResult.blockedActions, "No provider model call");
 
-  console.log("PASS runtime behavior harness exercises AI authoring, package, launch, assignment, persistence, report, progression, recovery, reward, entitlement, asset, source, and release boundaries.");
+  const earlyJapanesePlan = {
+    unitKey: "tenant-1:curriculum-1:L1:U1", targetLanguage: "en", assistLanguage: "ja",
+    scriptPolicy: "reviewed-mixed-script", levelBand: "foundation", source: "human-reviewed",
+    reviewStatus: "reviewed", studentVisibility: "student-toggle", vocabularyGlosses: { hello: "先生" },
+    sentenceGlosses: ["こんにちは。", "ありがとう。"],
+  };
+  const earlyJapaneseErrors = contentModel.validateAssistLanguageScriptPolicy(earlyJapanesePlan);
+  assertIncludes(earlyJapaneseErrors, "Japanese assist language plan for tenant-1:curriculum-1:L1:U1 must use hiragana-only policy for foundation level bands.");
+
+  const hiraganaOnlyPlan = {
+    unitKey: "tenant-1:curriculum-1:L1:U1", targetLanguage: "en", assistLanguage: "ja",
+    scriptPolicy: "hiragana-only", levelBand: "foundation", source: "human-reviewed",
+    reviewStatus: "reviewed", studentVisibility: "student-toggle", vocabularyGlosses: { hello: "先生" },
+    sentenceGlosses: ["こんにちは。", "ありがとう。"],
+  };
+  const hiraganaOnlyErrors = contentModel.validateAssistLanguageScriptPolicy(hiraganaOnlyPlan);
+  assertIncludes(hiraganaOnlyErrors, "Hiragana-only assist language plan for tenant-1:curriculum-1:L1:U1 must not include katakana or kanji.");
+
+  const laterJapanesePlan = {
+    unitKey: "tenant-1:curriculum-1:L4:U1", targetLanguage: "en", assistLanguage: "ja",
+    scriptPolicy: "reviewed-mixed-script", levelBand: "silver-or-later", source: "human-reviewed",
+    reviewStatus: "reviewed", studentVisibility: "student-toggle", vocabularyGlosses: { hello: "先生" },
+    sentenceGlosses: ["こんにちは。", "ありがとう。"],
+  };
+  assertEqual(contentModel.validateAssistLanguageScriptPolicy(laterJapanesePlan).length, 0);
+
+  console.log("PASS runtime behavior harness exercises AI authoring, language policy, package, launch, assignment, persistence, report, progression, recovery, reward, entitlement, asset, source, and release boundaries.");
 } finally {
   rmSync(output, { recursive: true, force: true });
 }
