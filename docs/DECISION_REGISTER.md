@@ -1759,3 +1759,23 @@ Guardrails:
 - Random rewards, gacha, purchase-required unlocks, direct inventory writes, ticket issuance, and progression bypasses remain blocked in review-only mode.
 
 This decision is recorded in `docs/adr/0502-reward-collection-runtime-boundary.md` and `docs/decision-register/DR-573-reward-collection-runtime-boundary.md`.
+
+## DR-574: Feature Entitlement Runtime Boundary
+
+Status: Accepted
+
+Decision: Add a provider-neutral feature entitlement runtime contract and review-only adapter for optional, premium, privacy-sensitive, and cost-bearing tenant capabilities.
+
+Rationale:
+
+- White-label tenants need to adopt AI Tutor, microphone practice, local companion, reports, assignments, media, or assist-language packages independently.
+- Package catalog visibility or a teacher UI toggle must not become an implicit billing, recording, AI dispatch, or student-unlock path.
+- A shared runtime keeps hosted-first cost control compatible with local and hybrid deployments.
+
+Guardrails:
+
+- AI Tutor requires premium or enterprise entitlement and remains optional.
+- Microphone practice requires teacher/school, privacy, and cost approval.
+- Review-only execution blocks activation, billing, recording, AI dispatch, student unlocks, persistence, and release mutation.
+
+This decision is recorded in `docs/adr/0503-feature-entitlement-runtime-boundary.md` and `docs/decision-register/DR-574-feature-entitlement-runtime-boundary.md`.

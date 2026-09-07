@@ -946,3 +946,18 @@ Required standing rules:
 - Hosted, local, and hybrid reward providers must use the same contract and must not let a game view write the collection directly.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-573 and `docs/adr/0502-reward-collection-runtime-boundary.md`.
+
+## 45. Feature Entitlement Runtime Boundary Standard
+
+Tenant feature configuration and package catalogs do not authorize a premium, privacy-sensitive, or cost-bearing capability. Every future entitlement provider must pass one shared runtime boundary before AI Tutor, microphone practice, assist-language packages, background media, local companion, reports, or assignments can become student-facing.
+
+Required standing rules:
+
+- Entitlement requests are tenant-scoped, package-scoped, feature-scoped, and explicit about the requested state.
+- Teacher approval, school policy, privacy policy, cost policy, persistence, release approval, allowed levels, usage limits, and target-language audio are separate gates.
+- AI Tutor requires a premium or enterprise entitlement and remains optional; core student progression cannot depend on it.
+- Microphone practice requires explicit teacher/school approval and privacy/cost controls; it cannot activate from a student route alone.
+- Review-only execution returns `sideEffect: "none"`; it cannot activate entitlements, bill providers, activate recording, dispatch AI Tutor, unlock student features, or mutate persistence/release state.
+- Hosted, local, and hybrid entitlement providers must use the same contract and remain replaceable for white-label tenants.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-574 and `docs/adr/0503-feature-entitlement-runtime-boundary.md`.

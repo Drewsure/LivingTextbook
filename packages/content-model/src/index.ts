@@ -926,6 +926,7 @@ export * from "./releaseRuntime";
 export * from "./recoveryRuntime";
 export * from "./progressionRuntime";
 export * from "./rewardRuntime";
+export * from "./entitlementRuntime";
 export * from "./aiGeneratedGameBuildBrief";
 export * from "./aiExternalPrototypeTaskPacket";
 export * from "./aiExternalPrototypeTaskExportReadinessGate";
