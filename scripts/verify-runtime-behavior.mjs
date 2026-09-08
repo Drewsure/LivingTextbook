@@ -331,6 +331,27 @@ try {
   };
   assertEqual(contentModel.validateAssistLanguageScriptPolicy(laterJapanesePlan).length, 0);
 
+  const microphoneRequest = {
+    tenantId: "tenant-1", packageId: "package-1", entitlementId: "entitlement-mic-1",
+    feature: "microphone-practice", requestedState: "enabled", mode: "review-only", packageTier: "premium",
+    teacherApprovalAccepted: true, schoolPolicyAccepted: true, privacyPolicyAccepted: true,
+    costPolicyAccepted: true, persistenceReady: true, releaseApprovalAccepted: true,
+    allowedLevelsDeclared: true, usageLimitDeclared: true, targetLanguageAudioReady: true,
+  };
+  const microphoneErrors = entitlement.validateEntitlementRuntimeRequest(microphoneRequest);
+  assertIncludes(microphoneErrors, "microphone practice remains disabled in review-only mode");
+  assertEqual(entitlement.createReviewOnlyEntitlementRuntimeAdapter().execute(microphoneRequest).sideEffect, "none");
+
+  const premiumTutorRequest = {
+    tenantId: "tenant-1", packageId: "package-1", entitlementId: "entitlement-ai-1",
+    feature: "ai-tutor", requestedState: "enabled", mode: "hosted-managed", packageTier: "premium",
+    teacherApprovalAccepted: true, schoolPolicyAccepted: true, privacyPolicyAccepted: true,
+    costPolicyAccepted: true, persistenceReady: true, releaseApprovalAccepted: true,
+    allowedLevelsDeclared: true, usageLimitDeclared: true, targetLanguageAudioReady: true,
+  };
+  assertEqual(entitlement.validateEntitlementRuntimeRequest(premiumTutorRequest).length, 0);
+  assertEqual(entitlement.createReviewOnlyEntitlementRuntimeAdapter().execute(premiumTutorRequest).sideEffect, "none");
+
   console.log("PASS runtime behavior harness exercises AI authoring, language policy, package, launch, assignment, persistence, report, progression, recovery, reward, entitlement, asset, source, and release boundaries.");
 } finally {
   rmSync(output, { recursive: true, force: true });

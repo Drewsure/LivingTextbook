@@ -1045,3 +1045,17 @@ Required standing rules:
 - Assist-language validation never grants progression, mastery, rewards, or unlocks; target-language evidence remains authoritative.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-580 and `docs/adr/0509-assist-language-script-behavior-verification.md`.
+
+## 52. Premium And Microphone Entitlement Behavior Verification Standard
+
+Premium AI Tutor and microphone practice are optional commercial capabilities, not foundation assumptions. Their entitlement records must prove cost, privacy, policy, usage, and teacher controls before any provider can be activated.
+
+Required standing rules:
+
+- Core-tier AI Tutor activation remains rejected; premium or enterprise tier is required.
+- Microphone practice remains disabled in the review-only foundation mode, even when a premium package is selected.
+- Enabled premium requests require teacher approval, school policy, privacy policy, cost policy, persistence, release approval, declared levels, usage limits, and target-language audio readiness.
+- A validated premium request is evidence that the contract is complete, not permission for a student route to dispatch a provider.
+- Review-only entitlement execution returns `sideEffect: "none"`; it cannot bill, record, dispatch AI Tutor, unlock a student feature, or mutate persistence/release state.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-581 and `docs/adr/0510-premium-microphone-entitlement-behavior-verification.md`.

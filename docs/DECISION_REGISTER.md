@@ -1903,3 +1903,24 @@ Guardrails:
 - Assist language remains support-only and cannot enter progression authority.
 
 This decision is recorded in `docs/adr/0509-assist-language-script-behavior-verification.md` and `docs/decision-register/DR-580-assist-language-script-behavior-verification.md`.
+
+## DR-581: Premium And Microphone Entitlement Behavior Verification
+
+Status: Accepted
+
+Decision: Execute microphone and premium AI Tutor entitlement behavior in the compiled foundation harness.
+
+Rationale:
+
+- Microphone access can create privacy and cost obligations even when recording is local.
+- AI Tutor is an optional paid package and must not become a hidden dependency of core student progression.
+- Contract validation must distinguish a complete premium request from actual provider activation.
+
+Guardrails:
+
+- Core-tier AI Tutor is rejected.
+- Review-only microphone practice is rejected.
+- Premium validation requires teacher, school, privacy, cost, persistence, release, usage, level, and target-audio gates.
+- Review-only execution returns `sideEffect: "none"`.
+
+This decision is recorded in `docs/adr/0510-premium-microphone-entitlement-behavior-verification.md` and `docs/decision-register/DR-581-premium-microphone-entitlement-behavior-verification.md`.
