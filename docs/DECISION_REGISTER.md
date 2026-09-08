@@ -1945,3 +1945,24 @@ Guardrails:
 - Review-only recovery execution returns `sideEffect: "none"`.
 
 This decision is recorded in `docs/adr/0511-continuity-deployment-behavior-verification.md` and `docs/decision-register/DR-582-continuity-deployment-behavior-verification.md`.
+
+## DR-583: Deterministic Progression And Star Dust Behavior Verification
+
+Status: Accepted
+
+Decision: Execute student entry progression and Star Dust calculation behavior in the compiled foundation harness.
+
+Rationale:
+
+- The product promise depends on a clear teacher-led entry practice followed by student self-progression.
+- Unlocks and scoring must be reproducible for teacher reports, retries, and future game engines.
+- Deterministic scoring provides engagement without gambling-like pressure or hidden randomness.
+
+Guardrails:
+
+- Entry practice is the only initial unlock path.
+- Only reviewed recommended modes are unlocked after completion.
+- Star Dust is bounded to 1,000 per unit.
+- Support-only evidence cannot unlock or score.
+
+This decision is recorded in `docs/adr/0512-deterministic-progression-stardust-behavior-verification.md` and `docs/decision-register/DR-583-deterministic-progression-stardust-behavior-verification.md`.

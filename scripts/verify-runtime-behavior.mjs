@@ -352,6 +352,30 @@ try {
   };
   assertEqual(contentModel.validateAssistLanguageScriptPolicy(laterJapanesePlan).length, 0);
 
+  const progressionSession = contentModel.createLaunchSession({
+    launchCode: "launch-deterministic-1", tenantId: "tenant-1", curriculumId: "curriculum-1",
+    unitKey: "tenant-1:curriculum-1:L1:U1", entryMode: "flashcards",
+    recommendedNextModes: ["match-up", "memory-match"], openedAt: "2026-01-01T00:00:00.000Z",
+  });
+  const initialProgression = contentModel.getInitialStudentProgression({
+    studentSessionId: "launch-deterministic-1:student-1", launchSession: progressionSession,
+  });
+  assertEqual(initialProgression.currentStep, "entry-practice");
+  assertEqual(initialProgression.unlockedGameModes.length, 1);
+  const unlockedProgression = contentModel.completeEntryPractice({
+    progression: initialProgression, launchSession: progressionSession, occurredAt: "2026-01-01T00:05:00.000Z",
+  });
+  assertEqual(unlockedProgression.currentStep, "recommended-game");
+  assertEqual(unlockedProgression.completedGameModes.includes("flashcards"), true);
+  assertEqual(unlockedProgression.unlockedGameModes.includes("memory-match"), true);
+
+  const dustInput = { masteredTerms: 12, totalTerms: 12, masteredSyntaxChecks: 2, totalSyntaxChecks: 2, bonusRatio: 1 };
+  const dustFirst = contentModel.calculateStarDust(dustInput);
+  const dustSecond = contentModel.calculateStarDust(dustInput);
+  assertEqual(JSON.stringify(dustFirst), JSON.stringify(dustSecond));
+  assertEqual(dustFirst.total, 1000);
+  assertEqual(contentModel.calculateStarDust({ ...dustInput, masteredTerms: 20, masteredSyntaxChecks: 20, bonusRatio: 3 }).total, 1000);
+
   const microphoneRequest = {
     tenantId: "tenant-1", packageId: "package-1", entitlementId: "entitlement-mic-1",
     feature: "microphone-practice", requestedState: "enabled", mode: "review-only", packageTier: "premium",

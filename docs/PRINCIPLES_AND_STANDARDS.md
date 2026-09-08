@@ -1073,3 +1073,17 @@ Required standing rules:
 - Deployment mode is a policy and evidence choice, not a provider shortcut; white-label tenants can adopt hosted, local, or hybrid later without changing the shared contract.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-582 and `docs/adr/0511-continuity-deployment-behavior-verification.md`.
+
+## 54. Deterministic Progression And Star Dust Behavior Verification Standard
+
+Progression is the core engagement loop, so its first behavior contract must be predictable, mastery-linked, and independent of random reward generation.
+
+Required standing rules:
+
+- A new student session starts at `entry-practice` with only the entry game mode unlocked.
+- Completing entry practice moves the student to `recommended-game`, records the entry mode as completed, and unlocks only the reviewed recommended modes for that launch session.
+- Support-language audio, route guidance, background media, and other support-only events cannot complete entry practice or unlock a game.
+- Star Dust calculations must be deterministic for identical inputs, bounded to the defined vocabulary, syntax, and bonus capacities, and capped at 1,000 per unit.
+- Progression and scoring behavior must not call a random source, provider, storage adapter, or reward inventory writer.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-583 and `docs/adr/0512-deterministic-progression-stardust-behavior-verification.md`.
