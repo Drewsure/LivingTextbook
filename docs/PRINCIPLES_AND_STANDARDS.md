@@ -1059,3 +1059,17 @@ Required standing rules:
 - Review-only entitlement execution returns `sideEffect: "none"`; it cannot bill, record, dispatch AI Tutor, unlock a student feature, or mutate persistence/release state.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-581 and `docs/adr/0510-premium-microphone-entitlement-behavior-verification.md`.
+
+## 53. Continuity And Deployment Behavior Verification Standard
+
+Hosted, local-classroom, and hybrid deployment options must share one continuity contract. A local or hybrid promise is not complete until fallback, recovery, privacy, checksum, rollback, and retention evidence is reviewed.
+
+Required standing rules:
+
+- Non-hosted recovery requests require explicit local fallback review.
+- Hosted-managed recovery may validate without local fallback evidence, but it still requires persistence, backup, checksum, encryption, access, retention, school policy, report integrity, rollback, release, and learner-media exclusion gates.
+- Restore execution requires rollback readiness; rollback execution requires an explicit executing recovery request.
+- Review-only recovery execution returns `sideEffect: "none"`; it cannot create backups, restore data, export archives, copy packages/media, mutate QR/routes, recover learner data, or execute rollback.
+- Deployment mode is a policy and evidence choice, not a provider shortcut; white-label tenants can adopt hosted, local, or hybrid later without changing the shared contract.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-582 and `docs/adr/0511-continuity-deployment-behavior-verification.md`.

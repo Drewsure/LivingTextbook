@@ -140,6 +140,27 @@ try {
   });
   assertIncludes(recoveryErrors, "raw learner audio exclusion is required");
 
+  const localRecoveryRequest = {
+    tenantId: "tenant-1", packageId: "package-1", recoveryId: "recovery-local-1", operation: "restore",
+    requestedState: "executing", mode: "local-classroom", persistenceReady: true, backupManifestReady: true,
+    checksumVerified: true, encryptionReady: true, accessControlReady: true, retentionPolicyAccepted: true,
+    schoolPolicyAccepted: true, reportIntegrityReady: true, rollbackReady: true, releaseApprovalAccepted: true,
+    rawLearnerAudioExcluded: true, rawLearnerTranscriptsExcluded: true, localFallbackReviewed: false,
+  };
+  const localRecoveryErrors = recovery.validateRecoveryRuntimeRequest(localRecoveryRequest);
+  assertIncludes(localRecoveryErrors, "local fallback review is required for non-hosted recovery");
+  assertEqual(recovery.createReviewOnlyRecoveryRuntimeAdapter().execute(localRecoveryRequest).sideEffect, "none");
+
+  const hostedRecoveryRequest = {
+    tenantId: "tenant-1", packageId: "package-1", recoveryId: "recovery-hosted-1", operation: "backup",
+    requestedState: "ready", mode: "hosted-managed", persistenceReady: true, backupManifestReady: true,
+    checksumVerified: true, encryptionReady: true, accessControlReady: true, retentionPolicyAccepted: true,
+    schoolPolicyAccepted: true, reportIntegrityReady: true, rollbackReady: true, releaseApprovalAccepted: true,
+    rawLearnerAudioExcluded: true, rawLearnerTranscriptsExcluded: true, localFallbackReviewed: false,
+  };
+  assertEqual(recovery.validateRecoveryRuntimeRequest(hostedRecoveryRequest).length, 0);
+  assertEqual(recovery.createReviewOnlyRecoveryRuntimeAdapter().execute(hostedRecoveryRequest).sideEffect, "none");
+
   const entitlementErrors = entitlement.validateEntitlementRuntimeRequest({
     tenantId: "tenant-1", packageId: "package-1", entitlementId: "entitlement-1", feature: "ai-tutor",
     requestedState: "enabled", mode: "hosted-managed", packageTier: "core", teacherApprovalAccepted: true,

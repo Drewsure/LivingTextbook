@@ -1924,3 +1924,24 @@ Guardrails:
 - Review-only execution returns `sideEffect: "none"`.
 
 This decision is recorded in `docs/adr/0510-premium-microphone-entitlement-behavior-verification.md` and `docs/decision-register/DR-581-premium-microphone-entitlement-behavior-verification.md`.
+
+## DR-582: Continuity And Deployment Behavior Verification
+
+Status: Accepted
+
+Decision: Execute hosted-managed and non-hosted recovery behavior in the compiled foundation harness.
+
+Rationale:
+
+- The white-label product must support a hosted-first path while preserving future local-classroom and hybrid options.
+- Local fallback evidence is a distinct requirement and must not be silently inferred from hosted readiness.
+- Recovery and rollback are safety-critical operations that must remain blocked until their specific state and evidence gates close.
+
+Guardrails:
+
+- Local and hybrid requests require reviewed fallback evidence.
+- Hosted requests still require all privacy, integrity, policy, and release gates.
+- Restore and rollback state rules remain explicit.
+- Review-only recovery execution returns `sideEffect: "none"`.
+
+This decision is recorded in `docs/adr/0511-continuity-deployment-behavior-verification.md` and `docs/decision-register/DR-582-continuity-deployment-behavior-verification.md`.
