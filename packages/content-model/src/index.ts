@@ -845,6 +845,14 @@ export function validateContentPackage(contentPackage: ContentPackage): string[]
       errors.push(`Approved content packages cannot include media asset ${mediaAsset.mediaAssetId} with unknown rights.`);
     }
 
+    if (contentPackage.meta.reviewStatus === "approved" && !mediaAsset.ownerName?.trim()) {
+      errors.push(`Approved content packages must identify the owner of media asset ${mediaAsset.mediaAssetId}.`);
+    }
+
+    if (contentPackage.meta.reviewStatus === "approved" && !mediaAsset.sourceUri?.trim() && !mediaAsset.localBundlePath?.trim()) {
+      errors.push(`Approved content packages must provide a hosted or local locator for media asset ${mediaAsset.mediaAssetId}.`);
+    }
+
     if (mediaAsset.durationSeconds !== undefined && (!Number.isFinite(mediaAsset.durationSeconds) || mediaAsset.durationSeconds < 0)) {
       errors.push(`Media asset ${mediaAsset.mediaAssetId} must use a non-negative finite duration.`);
     }

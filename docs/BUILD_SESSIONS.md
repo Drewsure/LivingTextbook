@@ -950,3 +950,6 @@ The approved-package rights and placeholder safety slice now rejects unknown med
 
 The playlist and multimedia relation integrity slice now rejects empty or unnamed playlists, repeated media assets within a playlist, duplicate multimedia plans for one unit, and default-enabled background media without a background asset. The runtime harness covers each rejection before package release or game integration.
 This decision is recorded in `docs/adr/0521-playlist-multimedia-relation-integrity.md` and `docs/decision-register/DR-592-playlist-multimedia-relation-integrity.md`.
+
+The approved media provenance slice now requires owner identity and at least one hosted or local locator for every approved media asset. This preserves hosted-only, local-only, and hybrid white-label deployment options while preventing approval records that cannot be traced or delivered.
+This decision is recorded in `docs/adr/0522-approved-media-provenance-and-locators.md` and `docs/decision-register/DR-593-approved-media-provenance-and-locators.md`.

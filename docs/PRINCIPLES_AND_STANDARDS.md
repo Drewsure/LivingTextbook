@@ -1213,3 +1213,17 @@ Required standing rules:
 - Storage, upload, playback, release, QR, offline, and student-use gates remain separate.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-592 and `docs/adr/0521-playlist-multimedia-relation-integrity.md`.
+
+## 64. Approved Media Provenance And Locator Standard
+
+An approved media record must be usable by a permitted delivery mode and traceable to its owner. The content model remains provider-neutral: a hosted source, a local bundle path, or both may satisfy the locator requirement.
+
+Required standing rules:
+
+- Approved media assets must identify an owner.
+- Approved media assets must provide at least one non-empty hosted or local locator.
+- Unknown rights remain blocked from approved packages.
+- Hosted, local, and hybrid deployment decisions remain separate from package validation.
+- Upload, storage, checksum, scan, release, QR, and student-use gates remain separate.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-593 and `docs/adr/0522-approved-media-provenance-and-locators.md`.

@@ -2149,3 +2149,24 @@ Guardrails:
 - Storage, upload, playback, release, QR, and student use remain behind their separate gates.
 
 This decision is recorded in `docs/adr/0521-playlist-multimedia-relation-integrity.md` and `docs/decision-register/DR-592-playlist-multimedia-relation-integrity.md`.
+
+## DR-593: Approved Media Provenance And Locators
+
+Status: Accepted
+
+Decision: Require approved media assets to identify an owner and provide at least one hosted or local delivery locator.
+
+Rationale:
+
+- Rights approval without ownership provenance is not durable enough for a white-label release record.
+- A media asset with no hosted or local locator cannot support the permitted delivery modes represented by the package.
+- Tenants may still choose hosted-only, local-only, or hybrid deployment later through separate runtime gates.
+
+Guardrails:
+
+- Approved media assets require a non-empty owner name.
+- Approved media assets require a non-empty `sourceUri` or `localBundlePath`.
+- Unknown rights and placeholder learner audio remain blocked for approved packages.
+- Upload, storage, checksum, scan, release, QR, and student-use behavior remain gated separately.
+
+This decision is recorded in `docs/adr/0522-approved-media-provenance-and-locators.md` and `docs/decision-register/DR-593-approved-media-provenance-and-locators.md`.

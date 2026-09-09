@@ -338,6 +338,16 @@ try {
     }],
   });
   assertIncludes(approvedRightsErrors, "Approved content packages cannot include media asset media-unknown-rights with unknown rights.");
+  const approvedMediaProvenanceErrors = contentModel.validateContentPackage({
+    ...audioPackage,
+    meta: { ...audioPackage.meta, reviewStatus: "approved" },
+    mediaAssets: [{
+      mediaAssetId: "media-no-provenance", tenantId: "tenant-1", title: "Unlocated media",
+      type: "other-audio", kind: "audio", rightsStatus: "owned", unitKey: audioUnitKey,
+    }],
+  });
+  assertIncludes(approvedMediaProvenanceErrors, "Approved content packages must identify the owner of media asset media-no-provenance.");
+  assertIncludes(approvedMediaProvenanceErrors, "Approved content packages must provide a hosted or local locator for media asset media-no-provenance.");
   const approvedPlaceholderAudioErrors = contentModel.validateContentPackage({
     ...audioPackage,
     meta: { ...audioPackage.meta, reviewStatus: "approved" },
