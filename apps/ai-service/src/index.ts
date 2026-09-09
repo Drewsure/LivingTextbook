@@ -1,3 +1,4 @@
+import { validatePedagogicalTextFields } from "@living-textbook/content-model";
 import type { GameModeId, ParentEngine } from "@living-textbook/content-model";
 
 export type AiGenerationServiceStatus = "review-only" | "provider-dispatch-ready";
@@ -55,6 +56,10 @@ export function validateAiGenerationServiceRequest(request: AiGenerationServiceR
     errors.push("vocabularyTerms must contain between 8 and 12 terms");
   }
   if (request.targetSentences.length !== 2) errors.push("targetSentences must contain exactly 2 structures");
+  errors.push(...validatePedagogicalTextFields({
+    vocabularyTerms: request.vocabularyTerms,
+    targetSentences: request.targetSentences,
+  }));
   if (request.sourceReviewStatus === "rejected") errors.push("rejected source content cannot enter generation review");
   if (request.sourceReviewStatus === "draft") errors.push("source content must be reviewed before generation review");
   if (!request.targetLanguageAudioReady) errors.push("target-language audio coverage is required");

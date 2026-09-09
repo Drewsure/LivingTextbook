@@ -2008,3 +2008,23 @@ Guardrails:
 - Review-only validation remains side-effect free.
 
 This decision is recorded in `docs/adr/0514-audio-cue-semantic-coverage.md` and `docs/decision-register/DR-585-audio-cue-semantic-coverage.md`.
+
+## DR-586: Pedagogical Text Integrity
+
+Status: Accepted
+
+Decision: Reject blank vocabulary terms, duplicate vocabulary terms, and blank target sentence structures at both shared package and AI authoring boundaries.
+
+Rationale:
+
+- Count-only validation can admit unusable content into audio, game, and teacher-review pathways.
+- The same rules must protect imported textbook content, tenant-authored content, and AI-generated drafts.
+
+Guardrails:
+
+- Terms are trimmed and compared case-insensitively for uniqueness.
+- Blank terms and blank target sentences are rejected.
+- The canonical 8-12 term and exactly-two-sentence rules remain unchanged.
+- No provider, route, package, or student state is mutated by validation.
+
+This decision is recorded in `docs/adr/0515-pedagogical-text-integrity.md` and `docs/decision-register/DR-586-pedagogical-text-integrity.md`.

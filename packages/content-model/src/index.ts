@@ -203,6 +203,26 @@ export interface UnitPayload {
   teacherLaunchProtocol: TeacherLaunchProtocol;
 }
 
+export function validatePedagogicalTextFields(payload: PedagogicalPayload): string[] {
+  const errors: string[] = [];
+  const normalizedTerms = payload.vocabularyTerms.map((term) => term.trim().toLocaleLowerCase());
+  const nonEmptyTerms = normalizedTerms.filter(Boolean);
+
+  if (nonEmptyTerms.length !== normalizedTerms.length) {
+    errors.push("Vocabulary terms must not be empty.");
+  }
+
+  if (new Set(nonEmptyTerms).size !== nonEmptyTerms.length) {
+    errors.push("Vocabulary terms must be unique.");
+  }
+
+  if (payload.targetSentences.some((sentence) => sentence.trim().length === 0)) {
+    errors.push("Target sentence structures must not be empty.");
+  }
+
+  return errors;
+}
+
 export interface ContentPackageMeta {
   packageId: ContentPackageId;
   tenantId: TenantId;
@@ -568,6 +588,8 @@ export function validateUnitAiTutorPlan(plan: UnitAiTutorPlan): string[] {
 export function validateUnitPayload(payload: UnitPayload): string[] {
   const errors: string[] = [];
   const termCount = payload.pedagogicalPayload.vocabularyTerms.length;
+
+  errors.push(...validatePedagogicalTextFields(payload.pedagogicalPayload));
 
   if (termCount < 8 || termCount > 12) {
     errors.push("Vocabulary term count must be between 8 and 12.");

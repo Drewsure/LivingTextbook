@@ -935,3 +935,5 @@ The runtime behavior harness now compiles and exercises the AI authoring, assist
 The audio-first package behavior slice now makes `UnitAudioSupportPlan.targetLanguage` explicit. The shared package validator rejects missing plans, missing referenced cues, incomplete vocabulary/sentence coverage, and learner-facing cues in the wrong language. The runtime validator also rejects a plan/runtime target-language mismatch. The compiled behavior harness covers missing plans, wrong cue language, and runtime mismatch while preserving review-only no-side-effect behavior.
 
 The audio cue semantic coverage slice now rejects sentence cues placed in vocabulary coverage arrays and non-sentence cues placed in sentence coverage arrays. This keeps term and syntax evidence meaningful for every parent engine before release or student assignment.
+
+The pedagogical text integrity slice now rejects blank vocabulary terms, case-insensitive duplicate terms, and blank target sentence structures in both shared unit validation and AI authoring request validation. Count rules remain 8-12 terms and exactly 2 sentence structures.

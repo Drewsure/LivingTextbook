@@ -1,5 +1,5 @@
 import { createRequire } from "node:module";
-import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { spawnSync } from "node:child_process";
@@ -65,6 +65,13 @@ try {
     process.stderr.write(aiCompile.stderr);
     process.exit(1);
   }
+
+  const contentModelAlias = join(aiOutput, "node_modules", "@living-textbook", "content-model");
+  mkdirSync(contentModelAlias, { recursive: true });
+  writeFileSync(join(contentModelAlias, "package.json"), JSON.stringify({
+    name: "@living-textbook/content-model",
+    main: "../../../packages/content-model/src/index.js",
+  }), "utf8");
 
   const progression = require(join(output, "progressionRuntime.js"));
   const recovery = require(join(output, "recoveryRuntime.js"));
@@ -378,6 +385,14 @@ try {
   assertIncludes(aiErrors, "vocabularyTerms must contain between 8 and 12 terms");
   assertIncludes(aiErrors, "targetSentences must contain exactly 2 structures");
   assertIncludes(aiErrors, "target-language audio coverage is required");
+  const invalidTextErrors = aiService.validateAiGenerationServiceRequest({
+    ...aiRequest,
+    vocabularyTerms: ["hello", "hello", "teacher", "friend", "morning", "afternoon", "please", ""],
+    targetSentences: ["", "Thank you, friend."],
+  });
+  assertIncludes(invalidTextErrors, "Vocabulary terms must not be empty.");
+  assertIncludes(invalidTextErrors, "Vocabulary terms must be unique.");
+  assertIncludes(invalidTextErrors, "Target sentence structures must not be empty.");
   const aiResult = aiService.prepareReviewOnlyAiGenerationRequest(aiRequest);
   assertEqual(aiResult.status, "review-only");
   assertEqual(aiResult.providerDispatchAllowed, false);

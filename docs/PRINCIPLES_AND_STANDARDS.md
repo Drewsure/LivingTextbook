@@ -1117,3 +1117,17 @@ Required standing rules:
 - The semantic check remains tenant-neutral, target-language-aware, and side-effect free.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-585 and `docs/adr/0514-audio-cue-semantic-coverage.md`.
+
+## 57. Pedagogical Text Integrity Standard
+
+Vocabulary and target sentence counts are necessary but not sufficient. A unit with blank or duplicated terms can pass a superficial schema check and still produce unusable cards, audio mappings, game rounds, or teacher reports.
+
+Required standing rules:
+
+- Vocabulary terms must be non-empty after trimming.
+- Vocabulary terms must be unique case-insensitively after trimming.
+- Both target sentence structures must be non-empty after trimming.
+- The shared content model and the AI authoring request boundary must apply the same text-integrity rules before review or generation evidence is accepted.
+- These checks do not change the canonical 8-12 term range or exactly-two-sentence rule.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-586 and `docs/adr/0515-pedagogical-text-integrity.md`.
