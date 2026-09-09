@@ -319,6 +319,16 @@ try {
     audioCues: [...audioPackage.audioCues, { ...audioPackage.audioCues[0] }],
   });
   assertIncludes(duplicateAudioCueErrors, "Content package must not contain duplicate audio cue audio-term-1.");
+  const invalidMediaAssetErrors = contentModel.validateContentPackage({
+    ...audioPackage,
+    mediaAssets: [{
+      mediaAssetId: "", tenantId: "tenant-1", title: "", type: "other-audio", kind: "audio",
+      rightsStatus: "owned", durationSeconds: -1, unitKey: audioUnitKey,
+    }],
+  });
+  assertIncludes(invalidMediaAssetErrors, "Media assets must include a non-empty asset identifier.");
+  assertIncludes(invalidMediaAssetErrors, "Media asset (unnamed) must include a title.");
+  assertIncludes(invalidMediaAssetErrors, "Media asset  must use a non-negative finite duration.");
 
   const launchRequest = {
     tenantId: "tenant-1", packageId: "package-1",

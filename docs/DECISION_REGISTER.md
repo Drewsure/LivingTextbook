@@ -2086,3 +2086,23 @@ Guardrails:
 - Validation remains side-effect free.
 
 This decision is recorded in `docs/adr/0518-audio-cue-identity-integrity.md` and `docs/decision-register/DR-589-audio-cue-identity-integrity.md`.
+
+## DR-590: Media Asset Metadata Integrity
+
+Status: Accepted
+
+Decision: Require reliable identity, title, type/kind compatibility, and safe optional duration metadata for package media assets.
+
+Rationale:
+
+- Future image, audio, video, labelled-diagram, playlist, and game-background workflows need stable asset records before provider integration.
+- A malformed metadata record can pass a review surface while breaking rights, mapping, reporting, or local-bundle evidence.
+
+Guardrails:
+
+- Asset ID and title are required.
+- Audio/video type compatibility remains enforced.
+- Duration is finite and non-negative when present.
+- Upload, storage, transcode, release, and student use remain blocked by their separate gates.
+
+This decision is recorded in `docs/adr/0519-media-asset-metadata-integrity.md` and `docs/decision-register/DR-590-media-asset-metadata-integrity.md`.

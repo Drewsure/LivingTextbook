@@ -810,6 +810,14 @@ export function validateContentPackage(contentPackage: ContentPackage): string[]
   }
 
   for (const mediaAsset of contentPackage.mediaAssets ?? []) {
+    if (mediaAsset.mediaAssetId.trim().length === 0) {
+      errors.push("Media assets must include a non-empty asset identifier.");
+    }
+
+    if (mediaAsset.title.trim().length === 0) {
+      errors.push(`Media asset ${mediaAsset.mediaAssetId || "(unnamed)"} must include a title.`);
+    }
+
     if (mediaAssetIds.has(mediaAsset.mediaAssetId)) {
       errors.push(`Content package must not contain duplicate media asset ${mediaAsset.mediaAssetId}.`);
     }
@@ -830,6 +838,10 @@ export function validateContentPackage(contentPackage: ContentPackage): string[]
 
     if (mediaAsset.kind === "audio" && isVideoAsset(mediaAsset.type)) {
       errors.push(`Audio media asset ${mediaAsset.mediaAssetId} must not use a video asset type.`);
+    }
+
+    if (mediaAsset.durationSeconds !== undefined && (!Number.isFinite(mediaAsset.durationSeconds) || mediaAsset.durationSeconds < 0)) {
+      errors.push(`Media asset ${mediaAsset.mediaAssetId} must use a non-negative finite duration.`);
     }
   }
 

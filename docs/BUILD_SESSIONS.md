@@ -943,3 +943,5 @@ The unit metadata and teacher launch integrity slice now rejects invalid level/m
 The content-package metadata integrity slice now rejects malformed creation timestamps and update timestamps that are invalid or precede creation. Package lineage remains review-only and provider-neutral.
 
 The audio cue identity integrity slice now rejects duplicate cue IDs inside a package before plan resolution. This prevents ambiguous target-language audio selection across games, controls, and teacher previews.
+
+The media asset metadata integrity slice now rejects empty asset IDs/titles and invalid negative or non-finite durations while preserving separate tenant, rights, scan, checksum, storage, and release gates for future uploads.

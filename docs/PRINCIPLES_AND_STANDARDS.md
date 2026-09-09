@@ -1171,3 +1171,17 @@ Required standing rules:
 - Validation remains provider-neutral and side-effect free.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-589 and `docs/adr/0518-audio-cue-identity-integrity.md`.
+
+## 61. Media Asset Metadata Integrity Standard
+
+Images, audio, video, posters, transcripts, and background media are all package assets. Before real upload providers exist, their metadata must still be reliable enough for tenant review, rights review, playlists, labelled diagrams, game mapping, and future local bundles.
+
+Required standing rules:
+
+- Every media asset must have a non-empty identifier and title.
+- Media asset kind and type must remain compatible.
+- Optional duration must be finite and non-negative.
+- Tenant, unit, rights, source, scan, checksum, and release gates remain separate and must still be satisfied before live use.
+- Metadata validation does not upload, transcode, store, publish, assign, or expose a learner asset.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-590 and `docs/adr/0519-media-asset-metadata-integrity.md`.
