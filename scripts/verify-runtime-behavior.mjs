@@ -241,6 +241,55 @@ try {
   assertIncludes(packageErrors, "content package tenant must match runtime tenantId");
   assertEqual(contentPackage.createReviewOnlyContentPackageRuntimeAdapter().execute(packageRequest).sideEffect, "none");
 
+  const audioUnit = {
+    unitMeta: {
+      tenantId: "tenant-1", curriculumId: "curriculum-1", level: 1, module: 1, unit: 1,
+      theme: "Greetings", gameMode: "flashcards", gameFamily: "vocabulary-matching", engineId: "selection",
+    },
+    pedagogicalPayload: {
+      vocabularyTerms: ["hello", "goodbye", "teacher", "friend", "morning", "afternoon", "please", "thank you"],
+      targetSentences: ["Hello, teacher.", "Thank you, friend."],
+    },
+    visualRules: { avatarFamily: "tenant", characterFocus: "student", blacklistCheck: { passed: true, notes: "test" } },
+    teacherLaunchProtocol: { hook: "hook", activity: "activity", review: "review" },
+  };
+  const audioUnitKey = contentModel.getUnitKey(audioUnit.unitMeta);
+  const audioCues = [
+    ...audioUnit.pedagogicalPayload.vocabularyTerms.map((text, index) => ({
+      audioCueId: `audio-term-${index + 1}`, tenantId: "tenant-1", kind: "term", text, language: "en",
+      source: "text-to-speech", unitKey: audioUnitKey,
+    })),
+    ...audioUnit.pedagogicalPayload.targetSentences.map((text, index) => ({
+      audioCueId: `audio-sentence-${index + 1}`, tenantId: "tenant-1", kind: "sentence", text, language: "en",
+      source: "text-to-speech", unitKey: audioUnitKey,
+    })),
+  ];
+  const audioPlan = {
+    unitKey: audioUnitKey, targetLanguage: "en", required: true,
+    vocabularyAudioCueIds: audioCues.slice(0, 8).map((cue) => cue.audioCueId),
+    sentenceAudioCueIds: audioCues.slice(8).map((cue) => cue.audioCueId),
+  };
+  const audioPackage = {
+    meta: {
+      packageId: "audio-package-1", tenantId: "tenant-1", curriculumId: "curriculum-1",
+      sourceType: "manual", reviewStatus: "draft", createdAt: "2026-01-01T00:00:00.000Z",
+    },
+    units: [audioUnit], audioCues, audioSupportPlans: [audioPlan],
+  };
+  const missingAudioPlanErrors = contentModel.validateContentPackage({ ...audioPackage, audioSupportPlans: [] });
+  assertIncludes(missingAudioPlanErrors, `Unit ${audioUnitKey} must include an audio support plan for learner-facing text.`);
+  const wrongCueLanguageErrors = contentModel.validateContentPackage({
+    ...audioPackage,
+    audioCues: audioCues.map((cue) => ({ ...cue, language: "ja" })),
+  });
+  assertIncludes(wrongCueLanguageErrors, `Audio support plan for ${audioUnitKey} must keep every learner-facing cue in the target language en.`);
+  const wrongPlanLanguageErrors = contentPackage.validateContentPackageRuntimeRequest({
+    tenantId: "tenant-1", packageId: "audio-package-1", targetLanguage: "ja", contentPackage: audioPackage,
+    curatedPathwayReviewed: true, storagePolicyAccepted: false, persistenceReady: false,
+    teacherReleaseApproved: false, studentFacingUseRequested: false, qrActivationRequested: false,
+  });
+  assertIncludes(wrongPlanLanguageErrors, `Unit ${audioUnitKey} audio support plan must match the runtime target language ja.`);
+
   const launchRequest = {
     tenantId: "tenant-1", packageId: "package-1",
     launchSession: {

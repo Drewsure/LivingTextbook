@@ -91,6 +91,10 @@ export function validateContentPackageRuntimeRequest(request: ContentPackageRunt
       .filter((cue): cue is NonNullable<typeof cue> => Boolean(cue));
     const missingTargetLanguageCues = targetCues.filter((cue) => !languageMatches(cue.language, targetLanguage));
 
+    if (!languageMatches(audioPlan.targetLanguage, targetLanguage)) {
+      errors.push(`Unit ${unitKey} audio support plan must match the runtime target language ${request.targetLanguage}.`);
+    }
+
     if (missingTargetLanguageCues.length > 0) {
       errors.push(`Unit ${unitKey} audio support must keep every learner-facing cue in the target language ${request.targetLanguage}.`);
     }

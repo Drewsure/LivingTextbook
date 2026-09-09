@@ -1087,3 +1087,19 @@ Required standing rules:
 - Progression and scoring behavior must not call a random source, provider, storage adapter, or reward inventory writer.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-583 and `docs/adr/0512-deterministic-progression-stardust-behavior-verification.md`.
+
+## 55. Audio-First Package Behavior Verification Standard
+
+Audio is part of the learner-facing content contract, not a later game enhancement. Every unit package must declare how its target-language vocabulary, sentence, instruction, feedback, and game-mode cues are supported before the package can be treated as ready for student use.
+
+Required standing rules:
+
+- Every learner-facing unit must include an audio support plan with a declared target language.
+- Required plans must cover every vocabulary term and every target sentence; referenced instruction, feedback, and game-mode cues must also resolve to existing audio cues.
+- Package validation must reject any referenced cue whose language does not match the plan target language.
+- Runtime validation must reject any plan whose declared language does not match the package runtime target language.
+- Support-language audio may assist comprehension, but it cannot satisfy target-language audio readiness, progression, mastery, scoring, unlock, or release authority.
+- Audio validation remains provider-neutral: it may describe recorded, teacher-recorded, partner-provided, or text-to-speech assets without dispatching a provider, writing storage, recording a learner, or mutating a route.
+- Review-only package validation and runtime adapters remain side-effect free.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-584 and `docs/adr/0513-audio-first-package-behavior-verification.md`.

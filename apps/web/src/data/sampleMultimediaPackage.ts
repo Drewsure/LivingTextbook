@@ -447,6 +447,7 @@ export const sampleMultimediaContentPackage: ContentPackage = {
   audioSupportPlans: [
     {
       unitKey: sampleUnitKey,
+      targetLanguage: "en",
       required: true,
       vocabularyAudioCueIds: sampleVocabularyAudioCues.map((cue) => cue.audioCueId),
       sentenceAudioCueIds: sampleSentenceAudioCues.map((cue) => cue.audioCueId),

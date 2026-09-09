@@ -1966,3 +1966,25 @@ Guardrails:
 - Support-only evidence cannot unlock or score.
 
 This decision is recorded in `docs/adr/0512-deterministic-progression-stardust-behavior-verification.md` and `docs/decision-register/DR-583-deterministic-progression-stardust-behavior-verification.md`.
+
+## DR-584: Audio-First Package Behavior Verification
+
+Status: Accepted
+
+Decision: Require every learner-facing unit audio support plan to declare its target language, cover the required vocabulary and sentence cues, resolve referenced cues, and match the runtime target language.
+
+Rationale:
+
+- Young and multilingual learners need reliable audio support across the whole unit and every game pathway.
+- A package-level language declaration prevents an audio-complete-looking package from silently mixing target and support language cues.
+- The same rule must protect MiniStar and future white-label tenants without selecting a vendor or recording provider.
+
+Guardrails:
+
+- Missing audio plans are rejected for learner-facing units.
+- Required plans must cover all vocabulary terms and target sentence structures.
+- Referenced learner-facing cues must exist and match the plan target language.
+- Runtime target-language mismatch is rejected.
+- Review-only validation has no package, storage, route, recording, provider, or progression side effects.
+
+This decision is recorded in `docs/adr/0513-audio-first-package-behavior-verification.md` and `docs/decision-register/DR-584-audio-first-package-behavior-verification.md`.

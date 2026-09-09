@@ -252,6 +252,7 @@ export interface AudioCue {
 
 export interface UnitAudioSupportPlan {
   unitKey: string;
+  targetLanguage: LocaleCode;
   required: boolean;
   vocabularyAudioCueIds: AudioCueId[];
   sentenceAudioCueIds: AudioCueId[];
@@ -393,6 +394,12 @@ function encodePathPart(value: string): string {
 
 function isVideoAsset(type: MediaAssetType): boolean {
   return type === "lesson-video" || type === "music-video" || type === "karaoke-video" || type === "animation" || type === "other-video";
+}
+
+function languageMatches(value: string, targetLanguage: string): boolean {
+  const language = value.trim().toLowerCase();
+  const target = targetLanguage.trim().toLowerCase();
+  return Boolean(target) && (language === target || language.startsWith(`${target}-`) || target.startsWith(`${language}-`));
 }
 
 function collectAudioCueIds(plan: UnitAudioSupportPlan): AudioCueId[] {
@@ -673,6 +680,10 @@ export function validateContentPackage(contentPackage: ContentPackage): string[]
       continue;
     }
 
+    if (!audioPlan.targetLanguage.trim()) {
+      errors.push(`Audio support plan for ${unitKey} must declare a target language.`);
+    }
+
     if (audioPlan.required) {
       if (audioPlan.vocabularyAudioCueIds.length < unit.pedagogicalPayload.vocabularyTerms.length) {
         errors.push(`Audio support plan for ${unitKey} must include a cue for every vocabulary term.`);
@@ -684,8 +695,12 @@ export function validateContentPackage(contentPackage: ContentPackage): string[]
     }
 
     for (const audioCueId of collectAudioCueIds(audioPlan)) {
+      const audioCue = contentPackage.audioCues?.find((cue) => cue.audioCueId === audioCueId);
+
       if (!audioCueIds.has(audioCueId)) {
         errors.push(`Audio support plan for ${unitKey} references missing audio cue ${audioCueId}.`);
+      } else if (audioCue && !languageMatches(audioCue.language, audioPlan.targetLanguage)) {
+        errors.push(`Audio support plan for ${unitKey} must keep every learner-facing cue in the target language ${audioPlan.targetLanguage}.`);
       }
     }
   }

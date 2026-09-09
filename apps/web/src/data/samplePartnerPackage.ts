@@ -452,6 +452,7 @@ export const samplePartnerContentPackage: ContentPackage = {
   audioSupportPlans: [
     {
       unitKey: samplePartnerUnitKey,
+      targetLanguage: "en",
       required: true,
       vocabularyAudioCueIds: samplePartnerVocabularyAudioCues.map((cue) => cue.audioCueId),
       sentenceAudioCueIds: samplePartnerSentenceAudioCues.map((cue) => cue.audioCueId),
