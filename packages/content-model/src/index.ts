@@ -909,6 +909,13 @@ export function validateContentPackage(contentPackage: ContentPackage): string[]
       errors.push(`Audio cue ${audioCue.audioCueId} must include a language code.`);
     }
 
+    if (["recorded", "teacher-recorded", "partner-provided"].includes(audioCue.source)
+      && !audioCue.mediaAssetId
+      && !audioCue.sourceUri?.trim()
+      && !audioCue.localBundlePath?.trim()) {
+      errors.push(`Audio cue ${audioCue.audioCueId} with source ${audioCue.source} must include a media asset or delivery locator.`);
+    }
+
     if (contentPackage.meta.reviewStatus === "approved" && audioCue.source === "placeholder") {
       errors.push(`Approved content packages cannot include placeholder audio cue ${audioCue.audioCueId}.`);
     }

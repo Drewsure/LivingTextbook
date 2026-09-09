@@ -387,6 +387,13 @@ try {
       : cue),
   });
   assertIncludes(videoAudioCueErrors, "Audio cue audio-term-1 must reference an audio media asset.");
+  const missingRecordedAudioLocatorErrors = contentModel.validateContentPackage({
+    ...audioPackage,
+    audioCues: audioPackage.audioCues.map((cue, index) => index === 0
+      ? { ...cue, source: "recorded", mediaAssetId: undefined, sourceUri: undefined, localBundlePath: undefined }
+      : cue),
+  });
+  assertIncludes(missingRecordedAudioLocatorErrors, "Audio cue audio-term-1 with source recorded must include a media asset or delivery locator.");
   const approvedPlaceholderAudioErrors = contentModel.validateContentPackage({
     ...audioPackage,
     meta: { ...audioPackage.meta, reviewStatus: "approved" },

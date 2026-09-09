@@ -1255,3 +1255,17 @@ Required standing rules:
 - Text-to-speech and fallback-voice plans may remain provider-neutral and do not require a media asset ID.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-595 and `docs/adr/0524-audio-cue-media-binding-integrity.md`.
+
+## 67. Recorded Audio Delivery Locator Standard
+
+Audio coverage is only meaningful when a non-generated recording has a concrete route to delivery. Recorded, teacher-recorded, and partner-provided cues must therefore identify either a package media asset or a direct hosted/local locator. Text-to-speech and reviewed fallback-voice cues remain provider-neutral.
+
+Required standing rules:
+
+- Recorded, teacher-recorded, and partner-provided cues require a media asset ID, hosted source URI, or local bundle path.
+- Placeholder cues remain repair evidence only and are blocked from approved packages.
+- Text-to-speech cues may use the unit fallback voice without a media asset ID.
+- Learner-critical audio remains separate from optional music and video.
+- Upload, storage, provider billing, release, and student-use gates remain separate.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-596 and `docs/adr/0525-recorded-audio-delivery-locators.md`.

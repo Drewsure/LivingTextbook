@@ -959,3 +959,6 @@ This decision is recorded in `docs/adr/0523-approved-video-accessibility-evidenc
 
 The audio cue media binding slice now validates optional cue-to-media references for package existence, audio kind, tenant, and unit boundaries. Text-to-speech and fallback voice cues remain valid without a media asset reference.
 This decision is recorded in `docs/adr/0524-audio-cue-media-binding-integrity.md` and `docs/decision-register/DR-595-audio-cue-media-binding-integrity.md`.
+
+The recorded audio delivery locator slice now requires recorded, teacher-recorded, and partner-provided cues to name a media asset or hosted/local locator. Text-to-speech and fallback voice cues remain provider-neutral.
+This decision is recorded in `docs/adr/0525-recorded-audio-delivery-locators.md` and `docs/decision-register/DR-596-recorded-audio-delivery-locators.md`.

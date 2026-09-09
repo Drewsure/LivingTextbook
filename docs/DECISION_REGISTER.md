@@ -2213,3 +2213,24 @@ Guardrails:
 - Provider selection, storage, upload, playback, release, and student use remain separate.
 
 This decision is recorded in `docs/adr/0524-audio-cue-media-binding-integrity.md` and `docs/decision-register/DR-595-audio-cue-media-binding-integrity.md`.
+
+## DR-596: Recorded Audio Delivery Locators
+
+Status: Accepted
+
+Decision: Require recorded, teacher-recorded, and partner-provided audio cues to identify a media asset or direct hosted/local delivery locator.
+
+Rationale:
+
+- Audio coverage must describe something that can actually be delivered to the learner.
+- A recorded cue with only text metadata can create a false sense of readiness and fail silently in games.
+- Text-to-speech and fallback voice cues need to remain provider-neutral and should not be forced into a file-based workflow.
+
+Guardrails:
+
+- Recorded, teacher-recorded, and partner-provided cues require a media asset ID, `sourceUri`, or `localBundlePath`.
+- Media asset references still pass the package, kind, tenant, and unit binding checks.
+- Placeholder cues remain repair evidence only and cannot enter approved packages.
+- Upload, storage, provider billing, release, and student use remain separately gated.
+
+This decision is recorded in `docs/adr/0525-recorded-audio-delivery-locators.md` and `docs/decision-register/DR-596-recorded-audio-delivery-locators.md`.
