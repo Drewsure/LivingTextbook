@@ -359,6 +359,34 @@ try {
   });
   assertIncludes(approvedVideoAccessibilityErrors, "Approved video media asset media-video-no-accessibility must include a poster reference.");
   assertIncludes(approvedVideoAccessibilityErrors, "Approved video media asset media-video-no-accessibility must include a transcript or caption reference.");
+  const missingAudioCueMediaErrors = contentModel.validateContentPackage({
+    ...audioPackage,
+    audioCues: audioPackage.audioCues.map((cue, index) => index === 0 ? { ...cue, mediaAssetId: "missing-audio-media" } : cue),
+  });
+  assertIncludes(missingAudioCueMediaErrors, "Audio cue audio-term-1 references missing media asset missing-audio-media.");
+  const invalidAudioCueMediaBindingErrors = contentModel.validateContentPackage({
+    ...audioPackage,
+    mediaAssets: [{
+      mediaAssetId: "media-wrong-audio-binding", tenantId: "tenant-2", title: "Wrong unit media",
+      type: "other-audio", kind: "audio", rightsStatus: "owned", unitKey: "other-unit",
+    }],
+    audioCues: audioPackage.audioCues.map((cue, index) => index === 0
+      ? { ...cue, mediaAssetId: "media-wrong-audio-binding" }
+      : cue),
+  });
+  assertIncludes(invalidAudioCueMediaBindingErrors, "Audio cue audio-term-1 must not reference media asset media-wrong-audio-binding from another tenant.");
+  assertIncludes(invalidAudioCueMediaBindingErrors, "Audio cue audio-term-1 must not reference media asset media-wrong-audio-binding from another unit.");
+  const videoAudioCueErrors = contentModel.validateContentPackage({
+    ...audioPackage,
+    mediaAssets: [{
+      mediaAssetId: "media-video-binding", tenantId: "tenant-1", title: "Video media",
+      type: "lesson-video", kind: "video", rightsStatus: "owned", unitKey: audioUnitKey,
+    }],
+    audioCues: audioPackage.audioCues.map((cue, index) => index === 0
+      ? { ...cue, mediaAssetId: "media-video-binding" }
+      : cue),
+  });
+  assertIncludes(videoAudioCueErrors, "Audio cue audio-term-1 must reference an audio media asset.");
   const approvedPlaceholderAudioErrors = contentModel.validateContentPackage({
     ...audioPackage,
     meta: { ...audioPackage.meta, reviewStatus: "approved" },

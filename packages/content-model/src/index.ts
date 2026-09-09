@@ -881,6 +881,26 @@ export function validateContentPackage(contentPackage: ContentPackage): string[]
       errors.push(`Audio cue ${audioCue.audioCueId} references missing unit ${audioCue.unitKey}.`);
     }
 
+    if (audioCue.mediaAssetId) {
+      const mediaAsset = contentPackage.mediaAssets?.find((asset) => asset.mediaAssetId === audioCue.mediaAssetId);
+
+      if (!mediaAsset) {
+        errors.push(`Audio cue ${audioCue.audioCueId} references missing media asset ${audioCue.mediaAssetId}.`);
+      } else {
+        if (mediaAsset.tenantId !== contentPackage.meta.tenantId) {
+          errors.push(`Audio cue ${audioCue.audioCueId} must not reference media asset ${audioCue.mediaAssetId} from another tenant.`);
+        }
+
+        if (mediaAsset.kind !== "audio") {
+          errors.push(`Audio cue ${audioCue.audioCueId} must reference an audio media asset.`);
+        }
+
+        if (audioCue.unitKey && mediaAsset.unitKey && audioCue.unitKey !== mediaAsset.unitKey) {
+          errors.push(`Audio cue ${audioCue.audioCueId} must not reference media asset ${audioCue.mediaAssetId} from another unit.`);
+        }
+      }
+    }
+
     if (audioCue.text.trim().length === 0) {
       errors.push(`Audio cue ${audioCue.audioCueId} must include the learner-facing text it supports.`);
     }

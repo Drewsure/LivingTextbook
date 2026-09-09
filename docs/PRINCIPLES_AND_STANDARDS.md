@@ -1241,3 +1241,17 @@ Required standing rules:
 - Upload, storage, scan, rights, release, and student-use gates remain separate.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-594 and `docs/adr/0523-approved-video-accessibility-evidence.md`.
+
+## 66. Audio Cue Media Binding Standard
+
+An audio cue may use a concrete media asset, a reviewed voice source, or a permitted fallback. When it declares a media-asset reference, that reference must be real, audio-compatible, and within the same tenant and unit boundary.
+
+Required standing rules:
+
+- Referenced audio media assets must exist in the same content package.
+- An audio cue must reference an audio asset, never a video asset.
+- Cue and asset tenant boundaries must match.
+- Cue and asset unit boundaries must match when both are unit-scoped.
+- Text-to-speech and fallback-voice plans may remain provider-neutral and do not require a media asset ID.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-595 and `docs/adr/0524-audio-cue-media-binding-integrity.md`.

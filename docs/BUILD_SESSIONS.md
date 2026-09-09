@@ -956,3 +956,6 @@ This decision is recorded in `docs/adr/0522-approved-media-provenance-and-locato
 
 The approved video accessibility slice now requires a poster reference and transcript/caption reference for every approved video. Draft and reviewed videos remain repairable, while optional video stays separate from learner-critical target-language audio.
 This decision is recorded in `docs/adr/0523-approved-video-accessibility-evidence.md` and `docs/decision-register/DR-594-approved-video-accessibility-evidence.md`.
+
+The audio cue media binding slice now validates optional cue-to-media references for package existence, audio kind, tenant, and unit boundaries. Text-to-speech and fallback voice cues remain valid without a media asset reference.
+This decision is recorded in `docs/adr/0524-audio-cue-media-binding-integrity.md` and `docs/decision-register/DR-595-audio-cue-media-binding-integrity.md`.
