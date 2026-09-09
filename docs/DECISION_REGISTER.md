@@ -2126,3 +2126,26 @@ Guardrails:
 - Separate release, storage, upload, QR, assignment, and policy gates remain mandatory.
 
 This decision is recorded in `docs/adr/0520-approved-package-rights-placeholder-safety.md` and `docs/decision-register/DR-591-approved-package-rights-placeholder-safety.md`.
+
+## DR-592: Playlist And Multimedia Relation Integrity
+
+Status: Accepted
+
+Decision: Require every playlist and multimedia plan to describe one unambiguous, structurally usable media pathway.
+
+Rationale:
+
+- An empty or unnamed playlist cannot support teacher review, student playback, local fallback, or later release evidence.
+- Repeated media IDs create duplicate playback and ambiguous analytics inside a playlist.
+- Multiple multimedia plans for one unit create competing background and playlist policy.
+- Default-enabled background media without an asset falsely signals a playable configuration.
+
+Guardrails:
+
+- Playlist identifiers, titles, and at least one media asset are required.
+- A playlist cannot repeat a media asset ID.
+- A content package has at most one multimedia plan per unit.
+- Background media cannot be enabled by default without a declared background asset.
+- Storage, upload, playback, release, QR, and student use remain behind their separate gates.
+
+This decision is recorded in `docs/adr/0521-playlist-multimedia-relation-integrity.md` and `docs/decision-register/DR-592-playlist-multimedia-relation-integrity.md`.

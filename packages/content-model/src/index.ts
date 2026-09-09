@@ -693,6 +693,7 @@ export function validateContentPackage(contentPackage: ContentPackage): string[]
   const playlistIds = new Set<string>();
   const audioPlanUnitKeys = new Set<string>();
   const assistPlanUnitKeys = new Set<string>();
+  const multimediaPlanUnitKeys = new Set<string>();
 
   if (contentPackage.meta.packageId.trim().length === 0 || contentPackage.meta.tenantId.trim().length === 0) {
     errors.push("Content package metadata must include package and tenant identifiers.");
@@ -878,11 +879,25 @@ export function validateContentPackage(contentPackage: ContentPackage): string[]
   }
 
   for (const playlist of contentPackage.playlists ?? []) {
+    if (playlist.playlistId.trim().length === 0) {
+      errors.push("Playlists must include a non-empty playlist identifier.");
+    }
+
+    if (playlist.title.trim().length === 0) {
+      errors.push(`Playlist ${playlist.playlistId || "(unnamed)"} must include a title.`);
+    }
+
     if (playlistIds.has(playlist.playlistId)) {
       errors.push(`Content package must not contain duplicate playlist ${playlist.playlistId}.`);
     }
 
     playlistIds.add(playlist.playlistId);
+
+    if (playlist.mediaAssetIds.length === 0) {
+      errors.push(`Playlist ${playlist.playlistId || "(unnamed)"} must include at least one media asset.`);
+    }
+
+    const playlistMediaAssetIds = new Set<string>();
 
     if (playlist.tenantId !== contentPackage.meta.tenantId) {
       errors.push(`Playlist ${playlist.playlistId} must use the content package tenant ${contentPackage.meta.tenantId}.`);
@@ -893,6 +908,12 @@ export function validateContentPackage(contentPackage: ContentPackage): string[]
     }
 
     for (const mediaAssetId of playlist.mediaAssetIds) {
+      if (playlistMediaAssetIds.has(mediaAssetId)) {
+        errors.push(`Playlist ${playlist.playlistId} must not repeat media asset ${mediaAssetId}.`);
+      }
+
+      playlistMediaAssetIds.add(mediaAssetId);
+
       const mediaAsset = contentPackage.mediaAssets?.find((asset) => asset.mediaAssetId === mediaAssetId);
 
       if (!mediaAsset) {
@@ -911,8 +932,18 @@ export function validateContentPackage(contentPackage: ContentPackage): string[]
   }
 
   for (const plan of contentPackage.multimediaPlans ?? []) {
+    if (multimediaPlanUnitKeys.has(plan.unitKey)) {
+      errors.push(`Content package must not contain duplicate multimedia plan for ${plan.unitKey}.`);
+    }
+
+    multimediaPlanUnitKeys.add(plan.unitKey);
+
     if (!unitKeys.has(plan.unitKey)) {
       errors.push(`Multimedia plan references missing unit ${plan.unitKey}.`);
+    }
+
+    if (plan.backgroundEnabledByDefault && !plan.backgroundMediaAssetId) {
+      errors.push(`Multimedia plan for ${plan.unitKey} cannot enable background media by default without a background asset.`);
     }
 
     if (plan.primaryPlaylistId) {

@@ -1198,3 +1198,18 @@ Required standing rules:
 - Release, storage, upload, provider, QR, and assignment gates remain separate and continue to apply.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-591 and `docs/adr/0520-approved-package-rights-placeholder-safety.md`.
+
+## 63. Playlist And Multimedia Relation Integrity Standard
+
+Playlists and optional game-background plans are package structure, not decorative metadata. They must describe a usable and unambiguous media pathway before a package can be treated as release evidence.
+
+Required standing rules:
+
+- Playlist identifiers and titles must be present.
+- Every playlist must contain at least one media asset.
+- A playlist must not repeat a media asset ID.
+- A content package may contain at most one multimedia plan for a unit.
+- Background media cannot be enabled by default without a declared background asset.
+- Storage, upload, playback, release, QR, offline, and student-use gates remain separate.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-592 and `docs/adr/0521-playlist-multimedia-relation-integrity.md`.

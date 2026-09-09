@@ -344,6 +344,37 @@ try {
     audioCues: audioPackage.audioCues.map((cue, index) => index === 0 ? { ...cue, source: "placeholder" } : cue),
   });
   assertIncludes(approvedPlaceholderAudioErrors, "Approved content packages cannot include placeholder audio cue audio-term-1.");
+  const invalidPlaylistErrors = contentModel.validateContentPackage({
+    ...audioPackage,
+    playlists: [{
+      playlistId: "", tenantId: "tenant-1", title: "", unitKey: audioUnitKey,
+      mediaAssetIds: [],
+    }],
+  });
+  assertIncludes(invalidPlaylistErrors, "Playlists must include a non-empty playlist identifier.");
+  assertIncludes(invalidPlaylistErrors, "Playlist (unnamed) must include a title.");
+  assertIncludes(invalidPlaylistErrors, "Playlist (unnamed) must include at least one media asset.");
+  const repeatedPlaylistMediaErrors = contentModel.validateContentPackage({
+    ...audioPackage,
+    playlists: [{
+      playlistId: "playlist-1", tenantId: "tenant-1", title: "Greetings", unitKey: audioUnitKey,
+      mediaAssetIds: ["media-1", "media-1"],
+    }],
+    mediaAssets: [{
+      mediaAssetId: "media-1", tenantId: "tenant-1", title: "Greeting audio", type: "other-audio",
+      kind: "audio", rightsStatus: "owned", unitKey: audioUnitKey,
+    }],
+  });
+  assertIncludes(repeatedPlaylistMediaErrors, "Playlist playlist-1 must not repeat media asset media-1.");
+  const duplicateMultimediaPlanErrors = contentModel.validateContentPackage({
+    ...audioPackage,
+    multimediaPlans: [
+      { unitKey: audioUnitKey, backgroundEnabledByDefault: true },
+      { unitKey: audioUnitKey },
+    ],
+  });
+  assertIncludes(duplicateMultimediaPlanErrors, `Content package must not contain duplicate multimedia plan for ${audioUnitKey}.`);
+  assertIncludes(duplicateMultimediaPlanErrors, `Multimedia plan for ${audioUnitKey} cannot enable background media by default without a background asset.`);
 
   const launchRequest = {
     tenantId: "tenant-1", packageId: "package-1",

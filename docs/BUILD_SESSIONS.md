@@ -947,3 +947,6 @@ The audio cue identity integrity slice now rejects duplicate cue IDs inside a pa
 The media asset metadata integrity slice now rejects empty asset IDs/titles and invalid negative or non-finite durations while preserving separate tenant, rights, scan, checksum, storage, and release gates for future uploads.
 
 The approved-package rights and placeholder safety slice now rejects unknown media rights and placeholder learner audio when a package claims approved status. Draft/reviewed repair states remain visible but non-student-ready.
+
+The playlist and multimedia relation integrity slice now rejects empty or unnamed playlists, repeated media assets within a playlist, duplicate multimedia plans for one unit, and default-enabled background media without a background asset. The runtime harness covers each rejection before package release or game integration.
+This decision is recorded in `docs/adr/0521-playlist-multimedia-relation-integrity.md` and `docs/decision-register/DR-592-playlist-multimedia-relation-integrity.md`.
