@@ -941,3 +941,5 @@ The pedagogical text integrity slice now rejects blank vocabulary terms, case-in
 The unit metadata and teacher launch integrity slice now rejects invalid level/module/unit identity, blank theme or engine identifiers, incomplete visual rules, and incomplete teacher hook/activity/review copy before imported or generated units can enter review.
 
 The content-package metadata integrity slice now rejects malformed creation timestamps and update timestamps that are invalid or precede creation. Package lineage remains review-only and provider-neutral.
+
+The audio cue identity integrity slice now rejects duplicate cue IDs inside a package before plan resolution. This prevents ambiguous target-language audio selection across games, controls, and teacher previews.

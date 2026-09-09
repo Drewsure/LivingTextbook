@@ -1158,3 +1158,16 @@ Required standing rules:
 - Timestamp validation is provider-neutral and does not activate storage, release, or route behavior.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-588 and `docs/adr/0517-content-package-metadata-integrity.md`.
+
+## 60. Audio Cue Identity Integrity Standard
+
+Audio cue IDs are package references used by flashcards, games, teacher previews, reports, and future provider adapters. Duplicate IDs create ambiguous resolution and can silently attach the wrong audio to a learner-facing control.
+
+Required standing rules:
+
+- Every audio cue ID must be unique within a content package.
+- Duplicate IDs must be rejected before audio plans, review, release, routing, or student use can resolve them.
+- Tenant, unit, language, text, and source checks remain independent of the identity check.
+- Validation remains provider-neutral and side-effect free.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-589 and `docs/adr/0518-audio-cue-identity-integrity.md`.

@@ -687,6 +687,7 @@ export function validateAssistLanguageScriptPolicy(plan: UnitAssistLanguagePlan)
 export function validateContentPackage(contentPackage: ContentPackage): string[] {
   const errors: string[] = [];
   const audioCueIds = new Set((contentPackage.audioCues ?? []).map((cue) => cue.audioCueId));
+  const seenAudioCueIds = new Set<string>();
   const unitKeys = new Set<string>();
   const mediaAssetIds = new Set<string>();
   const playlistIds = new Set<string>();
@@ -833,6 +834,12 @@ export function validateContentPackage(contentPackage: ContentPackage): string[]
   }
 
   for (const audioCue of contentPackage.audioCues ?? []) {
+    if (seenAudioCueIds.has(audioCue.audioCueId)) {
+      errors.push(`Content package must not contain duplicate audio cue ${audioCue.audioCueId}.`);
+    }
+
+    seenAudioCueIds.add(audioCue.audioCueId);
+
     if (audioCue.tenantId !== contentPackage.meta.tenantId) {
       errors.push(`Audio cue ${audioCue.audioCueId} must use the content package tenant ${contentPackage.meta.tenantId}.`);
     }

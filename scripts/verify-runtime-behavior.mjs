@@ -314,6 +314,11 @@ try {
     meta: { ...audioPackage.meta, createdAt: "2026-01-02T00:00:00.000Z", updatedAt: "2026-01-01T00:00:00.000Z" },
   });
   assertIncludes(reversedPackageTimestampErrors, "Content package metadata updated timestamp must not precede creation.");
+  const duplicateAudioCueErrors = contentModel.validateContentPackage({
+    ...audioPackage,
+    audioCues: [...audioPackage.audioCues, { ...audioPackage.audioCues[0] }],
+  });
+  assertIncludes(duplicateAudioCueErrors, "Content package must not contain duplicate audio cue audio-term-1.");
 
   const launchRequest = {
     tenantId: "tenant-1", packageId: "package-1",

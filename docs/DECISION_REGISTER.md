@@ -2067,3 +2067,22 @@ Guardrails:
 - Validation remains provider-neutral and side-effect free.
 
 This decision is recorded in `docs/adr/0517-content-package-metadata-integrity.md` and `docs/decision-register/DR-588-content-package-metadata-integrity.md`.
+
+## DR-589: Audio Cue Identity Integrity
+
+Status: Accepted
+
+Decision: Reject duplicate audio cue IDs within a content package.
+
+Rationale:
+
+- Audio plans resolve by cue ID, so duplicate IDs create ambiguous learner-facing behavior.
+- Silent set collapsing can hide a content-package authoring or import error.
+
+Guardrails:
+
+- Duplicate cue IDs are rejected before plan resolution and release.
+- Existing tenant, unit, language, and text validation remains active.
+- Validation remains side-effect free.
+
+This decision is recorded in `docs/adr/0518-audio-cue-identity-integrity.md` and `docs/decision-register/DR-589-audio-cue-identity-integrity.md`.
