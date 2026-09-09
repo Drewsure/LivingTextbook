@@ -2234,3 +2234,24 @@ Guardrails:
 - Upload, storage, provider billing, release, and student use remain separately gated.
 
 This decision is recorded in `docs/adr/0525-recorded-audio-delivery-locators.md` and `docs/decision-register/DR-596-recorded-audio-delivery-locators.md`.
+
+## DR-597: Audio Coverage Uniqueness
+
+Status: Accepted
+
+Decision: Reject repeated cue IDs within one audio coverage group while allowing deliberate reuse across separate coverage groups.
+
+Rationale:
+
+- Repeated IDs can inflate vocabulary, sentence, instruction, feedback, or game-mode coverage counts.
+- General unit coverage and per-game coverage may legitimately reuse the same learner audio.
+- A stable distinction between duplicate package cues and intentional coverage reuse keeps the schema useful for all parent engines.
+
+Guardrails:
+
+- Vocabulary, sentence, instruction, feedback, and each game-mode array must be internally unique.
+- Cross-group reuse remains allowed.
+- Duplicate package cue IDs remain rejected separately.
+- No provider, storage, playback, release, or student-state side effect is introduced.
+
+This decision is recorded in `docs/adr/0526-audio-coverage-uniqueness.md` and `docs/decision-register/DR-597-audio-coverage-uniqueness.md`.

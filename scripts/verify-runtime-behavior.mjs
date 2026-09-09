@@ -298,6 +298,16 @@ try {
     }],
   });
   assertIncludes(wrongCueKindErrors, `Audio support plan for ${audioUnitKey} must use term cues for vocabulary coverage.`);
+  const duplicateAudioCoverageErrors = contentModel.validateContentPackage({
+    ...audioPackage,
+    audioSupportPlans: [{
+      ...audioPlan,
+      vocabularyAudioCueIds: ["audio-term-1", "audio-term-1", ...audioPlan.vocabularyAudioCueIds.slice(2)],
+      gameModeAudioCueIds: { "memory-match": ["audio-term-1", "audio-term-1"] },
+    }],
+  });
+  assertIncludes(duplicateAudioCoverageErrors, `Audio support plan for ${audioUnitKey} must not repeat cue audio-term-1 within vocabulary coverage.`);
+  assertIncludes(duplicateAudioCoverageErrors, `Audio support plan for ${audioUnitKey} must not repeat cue audio-term-1 within game mode memory-match coverage.`);
   const wrongPlanLanguageErrors = contentPackage.validateContentPackageRuntimeRequest({
     tenantId: "tenant-1", packageId: "audio-package-1", targetLanguage: "ja", contentPackage: audioPackage,
     curatedPathwayReviewed: true, storagePolicyAccepted: false, persistenceReady: false,

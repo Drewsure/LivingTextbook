@@ -749,6 +749,26 @@ export function validateContentPackage(contentPackage: ContentPackage): string[]
       continue;
     }
 
+    const audioCoverageGroups: Array<[string, AudioCueId[]]> = [
+      ["vocabulary", audioPlan.vocabularyAudioCueIds],
+      ["sentence", audioPlan.sentenceAudioCueIds],
+      ["instruction", audioPlan.instructionAudioCueIds ?? []],
+      ["feedback", audioPlan.feedbackAudioCueIds ?? []],
+      ...Object.entries(audioPlan.gameModeAudioCueIds ?? {}).map(([gameMode, cueIds]) => [`game mode ${gameMode}`, cueIds ?? []] as [string, AudioCueId[]]),
+    ];
+
+    for (const [coverageLabel, cueIds] of audioCoverageGroups) {
+      const seenCoverageCueIds = new Set<AudioCueId>();
+
+      for (const audioCueId of cueIds) {
+        if (seenCoverageCueIds.has(audioCueId)) {
+          errors.push(`Audio support plan for ${unitKey} must not repeat cue ${audioCueId} within ${coverageLabel} coverage.`);
+        }
+
+        seenCoverageCueIds.add(audioCueId);
+      }
+    }
+
     if (!audioPlan.targetLanguage.trim()) {
       errors.push(`Audio support plan for ${unitKey} must declare a target language.`);
     }

@@ -962,3 +962,6 @@ This decision is recorded in `docs/adr/0524-audio-cue-media-binding-integrity.md
 
 The recorded audio delivery locator slice now requires recorded, teacher-recorded, and partner-provided cues to name a media asset or hosted/local locator. Text-to-speech and fallback voice cues remain provider-neutral.
 This decision is recorded in `docs/adr/0525-recorded-audio-delivery-locators.md` and `docs/decision-register/DR-596-recorded-audio-delivery-locators.md`.
+
+The audio coverage uniqueness slice now rejects repeated cue IDs inside vocabulary, sentence, instruction, feedback, or individual game-mode arrays while allowing deliberate reuse across separate coverage groups.
+This decision is recorded in `docs/adr/0526-audio-coverage-uniqueness.md` and `docs/decision-register/DR-597-audio-coverage-uniqueness.md`.

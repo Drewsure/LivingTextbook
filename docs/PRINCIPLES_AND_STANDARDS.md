@@ -1269,3 +1269,17 @@ Required standing rules:
 - Upload, storage, provider billing, release, and student-use gates remain separate.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-596 and `docs/adr/0525-recorded-audio-delivery-locators.md`.
+
+## 68. Audio Coverage Uniqueness Standard
+
+Audio support plans must represent real coverage, not inflated counts. The same cue may be intentionally reused across a unit’s general coverage and a game mode, but it must not appear twice inside one coverage group.
+
+Required standing rules:
+
+- Vocabulary, sentence, instruction, and feedback coverage arrays must not repeat a cue ID.
+- Each game-mode coverage array must not repeat a cue ID.
+- Reuse of a cue across separate coverage groups is allowed when it is pedagogically intentional.
+- Duplicate package cue IDs remain invalid independently of plan coverage.
+- Coverage validation remains side-effect free and does not select audio providers.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-597 and `docs/adr/0526-audio-coverage-uniqueness.md`.
