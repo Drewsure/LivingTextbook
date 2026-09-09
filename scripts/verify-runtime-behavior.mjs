@@ -283,6 +283,14 @@ try {
     audioCues: audioCues.map((cue) => ({ ...cue, language: "ja" })),
   });
   assertIncludes(wrongCueLanguageErrors, `Audio support plan for ${audioUnitKey} must keep every learner-facing cue in the target language en.`);
+  const wrongCueKindErrors = contentModel.validateContentPackage({
+    ...audioPackage,
+    audioSupportPlans: [{
+      ...audioPlan,
+      vocabularyAudioCueIds: ["audio-sentence-1", ...audioPlan.vocabularyAudioCueIds.slice(1)],
+    }],
+  });
+  assertIncludes(wrongCueKindErrors, `Audio support plan for ${audioUnitKey} must use term cues for vocabulary coverage.`);
   const wrongPlanLanguageErrors = contentPackage.validateContentPackageRuntimeRequest({
     tenantId: "tenant-1", packageId: "audio-package-1", targetLanguage: "ja", contentPackage: audioPackage,
     curatedPathwayReviewed: true, storagePolicyAccepted: false, persistenceReady: false,

@@ -1988,3 +1988,23 @@ Guardrails:
 - Review-only validation has no package, storage, route, recording, provider, or progression side effects.
 
 This decision is recorded in `docs/adr/0513-audio-first-package-behavior-verification.md` and `docs/decision-register/DR-584-audio-first-package-behavior-verification.md`.
+
+## DR-585: Audio Cue Semantic Coverage
+
+Status: Accepted
+
+Decision: Validate the semantic kind of cues assigned to vocabulary and sentence coverage arrays.
+
+Rationale:
+
+- A count-complete audio package can still attach the wrong learner-facing cue to a required learning target.
+- Parent engines and future AI/game adapters need stable term-versus-sentence evidence at the package boundary.
+
+Guardrails:
+
+- Vocabulary arrays accept only `term` cues.
+- Sentence arrays accept only `sentence` cues.
+- Wrong cue kinds are rejected before release or student-facing use.
+- Review-only validation remains side-effect free.
+
+This decision is recorded in `docs/adr/0514-audio-cue-semantic-coverage.md` and `docs/decision-register/DR-585-audio-cue-semantic-coverage.md`.

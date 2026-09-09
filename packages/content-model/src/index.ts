@@ -692,6 +692,22 @@ export function validateContentPackage(contentPackage: ContentPackage): string[]
       if (audioPlan.sentenceAudioCueIds.length < unit.pedagogicalPayload.targetSentences.length) {
         errors.push(`Audio support plan for ${unitKey} must include a cue for every target sentence.`);
       }
+
+      for (const audioCueId of audioPlan.vocabularyAudioCueIds) {
+        const audioCue = contentPackage.audioCues?.find((cue) => cue.audioCueId === audioCueId);
+
+        if (audioCue && audioCue.kind !== "term") {
+          errors.push(`Audio support plan for ${unitKey} must use term cues for vocabulary coverage.`);
+        }
+      }
+
+      for (const audioCueId of audioPlan.sentenceAudioCueIds) {
+        const audioCue = contentPackage.audioCues?.find((cue) => cue.audioCueId === audioCueId);
+
+        if (audioCue && audioCue.kind !== "sentence") {
+          errors.push(`Audio support plan for ${unitKey} must use sentence cues for sentence coverage.`);
+        }
+      }
     }
 
     for (const audioCueId of collectAudioCueIds(audioPlan)) {

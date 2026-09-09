@@ -1103,3 +1103,17 @@ Required standing rules:
 - Review-only package validation and runtime adapters remain side-effect free.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-584 and `docs/adr/0513-audio-first-package-behavior-verification.md`.
+
+## 56. Audio Cue Semantic Coverage Standard
+
+Audio readiness is semantic coverage, not merely a file count. A unit's vocabulary and sentence arrays must reference cues of the correct kind so every game engine receives the intended learner-facing evidence.
+
+Required standing rules:
+
+- Vocabulary coverage arrays must reference `term` cues.
+- Sentence coverage arrays must reference `sentence` cues.
+- Instruction, feedback, and game-mode arrays may reference their appropriate support cues but cannot substitute for required vocabulary or sentence coverage.
+- Wrong cue kinds must fail package validation before review, release, assignment, or student use.
+- The semantic check remains tenant-neutral, target-language-aware, and side-effect free.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-585 and `docs/adr/0514-audio-cue-semantic-coverage.md`.
