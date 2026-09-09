@@ -1227,3 +1227,17 @@ Required standing rules:
 - Upload, storage, checksum, scan, release, QR, and student-use gates remain separate.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-593 and `docs/adr/0522-approved-media-provenance-and-locators.md`.
+
+## 65. Approved Video Accessibility Evidence Standard
+
+Video is optional enrichment, but an approved video still needs a safe learner-facing presentation path. A poster gives the player a stable visual fallback, while a transcript or caption reference supports access when sound is unavailable or reading support is needed.
+
+Required standing rules:
+
+- Approved video assets must include a poster reference.
+- Approved video assets must include a transcript or caption reference.
+- Draft and reviewed videos may remain incomplete as visible repair blockers.
+- Video playback remains optional and cannot replace learner-critical target-language audio.
+- Upload, storage, scan, rights, release, and student-use gates remain separate.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-594 and `docs/adr/0523-approved-video-accessibility-evidence.md`.

@@ -348,6 +348,17 @@ try {
   });
   assertIncludes(approvedMediaProvenanceErrors, "Approved content packages must identify the owner of media asset media-no-provenance.");
   assertIncludes(approvedMediaProvenanceErrors, "Approved content packages must provide a hosted or local locator for media asset media-no-provenance.");
+  const approvedVideoAccessibilityErrors = contentModel.validateContentPackage({
+    ...audioPackage,
+    meta: { ...audioPackage.meta, reviewStatus: "approved" },
+    mediaAssets: [{
+      mediaAssetId: "media-video-no-accessibility", tenantId: "tenant-1", title: "Uncaptioned lesson",
+      type: "lesson-video", kind: "video", rightsStatus: "owned", sourceUri: "/media/lesson.mp4",
+      ownerName: "Tenant media team", unitKey: audioUnitKey,
+    }],
+  });
+  assertIncludes(approvedVideoAccessibilityErrors, "Approved video media asset media-video-no-accessibility must include a poster reference.");
+  assertIncludes(approvedVideoAccessibilityErrors, "Approved video media asset media-video-no-accessibility must include a transcript or caption reference.");
   const approvedPlaceholderAudioErrors = contentModel.validateContentPackage({
     ...audioPackage,
     meta: { ...audioPackage.meta, reviewStatus: "approved" },

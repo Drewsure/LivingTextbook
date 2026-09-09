@@ -953,3 +953,6 @@ This decision is recorded in `docs/adr/0521-playlist-multimedia-relation-integri
 
 The approved media provenance slice now requires owner identity and at least one hosted or local locator for every approved media asset. This preserves hosted-only, local-only, and hybrid white-label deployment options while preventing approval records that cannot be traced or delivered.
 This decision is recorded in `docs/adr/0522-approved-media-provenance-and-locators.md` and `docs/decision-register/DR-593-approved-media-provenance-and-locators.md`.
+
+The approved video accessibility slice now requires a poster reference and transcript/caption reference for every approved video. Draft and reviewed videos remain repairable, while optional video stays separate from learner-critical target-language audio.
+This decision is recorded in `docs/adr/0523-approved-video-accessibility-evidence.md` and `docs/decision-register/DR-594-approved-video-accessibility-evidence.md`.

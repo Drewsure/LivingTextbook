@@ -2170,3 +2170,24 @@ Guardrails:
 - Upload, storage, checksum, scan, release, QR, and student-use behavior remain gated separately.
 
 This decision is recorded in `docs/adr/0522-approved-media-provenance-and-locators.md` and `docs/decision-register/DR-593-approved-media-provenance-and-locators.md`.
+
+## DR-594: Approved Video Accessibility Evidence
+
+Status: Accepted
+
+Decision: Require approved video media assets to provide poster and transcript/caption references.
+
+Rationale:
+
+- Video should have a stable visual fallback before it is treated as release evidence.
+- Transcript or caption references support access when audio cannot be heard and provide a reviewable accessibility record.
+- Video remains optional enrichment and must not replace target-language learning audio.
+
+Guardrails:
+
+- Approved videos require a non-empty poster reference.
+- Approved videos require a non-empty transcript or caption reference.
+- Draft/reviewed repair states remain allowed but cannot activate release.
+- Upload, storage, rights, release, QR, and student-use gates remain separate.
+
+This decision is recorded in `docs/adr/0523-approved-video-accessibility-evidence.md` and `docs/decision-register/DR-594-approved-video-accessibility-evidence.md`.

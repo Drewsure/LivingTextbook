@@ -853,6 +853,14 @@ export function validateContentPackage(contentPackage: ContentPackage): string[]
       errors.push(`Approved content packages must provide a hosted or local locator for media asset ${mediaAsset.mediaAssetId}.`);
     }
 
+    if (contentPackage.meta.reviewStatus === "approved" && mediaAsset.kind === "video" && !mediaAsset.posterImageUri?.trim()) {
+      errors.push(`Approved video media asset ${mediaAsset.mediaAssetId} must include a poster reference.`);
+    }
+
+    if (contentPackage.meta.reviewStatus === "approved" && mediaAsset.kind === "video" && !mediaAsset.transcriptUri?.trim()) {
+      errors.push(`Approved video media asset ${mediaAsset.mediaAssetId} must include a transcript or caption reference.`);
+    }
+
     if (mediaAsset.durationSeconds !== undefined && (!Number.isFinite(mediaAsset.durationSeconds) || mediaAsset.durationSeconds < 0)) {
       errors.push(`Media asset ${mediaAsset.mediaAssetId} must use a non-negative finite duration.`);
     }
