@@ -2048,3 +2048,22 @@ Guardrails:
 - Validation has no route, package, provider, or student-state side effects.
 
 This decision is recorded in `docs/adr/0516-unit-metadata-teacher-launch-integrity.md` and `docs/decision-register/DR-587-unit-metadata-teacher-launch-integrity.md`.
+
+## DR-588: Content Package Metadata Integrity
+
+Status: Accepted
+
+Decision: Require valid package creation timestamps and chronologically valid optional update timestamps before a content package can enter review or runtime readiness.
+
+Rationale:
+
+- Package metadata is reused by audit, release, persistence, recovery, reporting, and tenant isolation workflows.
+- Invalid or reversed timestamps undermine lineage and make future provider behavior difficult to audit.
+
+Guardrails:
+
+- Creation timestamp is required and parseable.
+- Update timestamp is optional, parseable when present, and cannot precede creation.
+- Validation remains provider-neutral and side-effect free.
+
+This decision is recorded in `docs/adr/0517-content-package-metadata-integrity.md` and `docs/decision-register/DR-588-content-package-metadata-integrity.md`.

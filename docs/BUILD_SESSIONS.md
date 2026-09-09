@@ -939,3 +939,5 @@ The audio cue semantic coverage slice now rejects sentence cues placed in vocabu
 The pedagogical text integrity slice now rejects blank vocabulary terms, case-insensitive duplicate terms, and blank target sentence structures in both shared unit validation and AI authoring request validation. Count rules remain 8-12 terms and exactly 2 sentence structures.
 
 The unit metadata and teacher launch integrity slice now rejects invalid level/module/unit identity, blank theme or engine identifiers, incomplete visual rules, and incomplete teacher hook/activity/review copy before imported or generated units can enter review.
+
+The content-package metadata integrity slice now rejects malformed creation timestamps and update timestamps that are invalid or precede creation. Package lineage remains review-only and provider-neutral.

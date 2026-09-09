@@ -304,6 +304,16 @@ try {
     teacherReleaseApproved: false, studentFacingUseRequested: false, qrActivationRequested: false,
   });
   assertIncludes(wrongPlanLanguageErrors, `Unit ${audioUnitKey} audio support plan must match the runtime target language ja.`);
+  const invalidPackageTimestampErrors = contentModel.validateContentPackage({
+    ...audioPackage,
+    meta: { ...audioPackage.meta, createdAt: "not-a-timestamp", updatedAt: "2025-01-01T00:00:00.000Z" },
+  });
+  assertIncludes(invalidPackageTimestampErrors, "Content package metadata must include a valid created timestamp.");
+  const reversedPackageTimestampErrors = contentModel.validateContentPackage({
+    ...audioPackage,
+    meta: { ...audioPackage.meta, createdAt: "2026-01-02T00:00:00.000Z", updatedAt: "2026-01-01T00:00:00.000Z" },
+  });
+  assertIncludes(reversedPackageTimestampErrors, "Content package metadata updated timestamp must not precede creation.");
 
   const launchRequest = {
     tenantId: "tenant-1", packageId: "package-1",

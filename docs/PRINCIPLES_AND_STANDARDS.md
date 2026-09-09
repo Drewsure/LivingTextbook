@@ -1145,3 +1145,16 @@ Required standing rules:
 - These checks are structural and provider-neutral; they do not choose a game implementation, provider, visual theme, or tenant mascot.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-587 and `docs/adr/0516-unit-metadata-teacher-launch-integrity.md`.
+
+## 59. Content Package Metadata Integrity Standard
+
+Package metadata is evidence used by review, release, persistence, backup, report, and tenant workflows. A malformed timestamp makes that evidence unreliable even when the unit payload is otherwise valid.
+
+Required standing rules:
+
+- Every content package must carry a valid creation timestamp.
+- An optional update timestamp must be valid and must not precede creation.
+- Metadata validation runs before package review, release, QR activation, persistence, backup, report export, or student-facing use.
+- Timestamp validation is provider-neutral and does not activate storage, release, or route behavior.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-588 and `docs/adr/0517-content-package-metadata-integrity.md`.

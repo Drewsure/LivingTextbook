@@ -422,6 +422,10 @@ function languageMatches(value: string, targetLanguage: string): boolean {
   return Boolean(target) && (language === target || language.startsWith(`${target}-`) || target.startsWith(`${language}-`));
 }
 
+function isValidTimestamp(value: string | undefined): value is string {
+  return Boolean(value && !Number.isNaN(Date.parse(value)));
+}
+
 function collectAudioCueIds(plan: UnitAudioSupportPlan): AudioCueId[] {
   return [
     ...plan.vocabularyAudioCueIds,
@@ -695,6 +699,18 @@ export function validateContentPackage(contentPackage: ContentPackage): string[]
 
   if (contentPackage.meta.curriculumId.trim().length === 0) {
     errors.push("Content package metadata must include a curriculum identifier.");
+  }
+
+  if (!isValidTimestamp(contentPackage.meta.createdAt)) {
+    errors.push("Content package metadata must include a valid created timestamp.");
+  }
+
+  if (contentPackage.meta.updatedAt !== undefined) {
+    if (!isValidTimestamp(contentPackage.meta.updatedAt)) {
+      errors.push("Content package metadata updated timestamp must be valid.");
+    } else if (isValidTimestamp(contentPackage.meta.createdAt) && Date.parse(contentPackage.meta.updatedAt) < Date.parse(contentPackage.meta.createdAt)) {
+      errors.push("Content package metadata updated timestamp must not precede creation.");
+    }
   }
 
   if (contentPackage.units.length === 0) {
