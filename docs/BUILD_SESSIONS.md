@@ -937,3 +937,5 @@ The audio-first package behavior slice now makes `UnitAudioSupportPlan.targetLan
 The audio cue semantic coverage slice now rejects sentence cues placed in vocabulary coverage arrays and non-sentence cues placed in sentence coverage arrays. This keeps term and syntax evidence meaningful for every parent engine before release or student assignment.
 
 The pedagogical text integrity slice now rejects blank vocabulary terms, case-insensitive duplicate terms, and blank target sentence structures in both shared unit validation and AI authoring request validation. Count rules remain 8-12 terms and exactly 2 sentence structures.
+
+The unit metadata and teacher launch integrity slice now rejects invalid level/module/unit identity, blank theme or engine identifiers, incomplete visual rules, and incomplete teacher hook/activity/review copy before imported or generated units can enter review.

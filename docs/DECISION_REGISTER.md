@@ -2028,3 +2028,23 @@ Guardrails:
 - No provider, route, package, or student state is mutated by validation.
 
 This decision is recorded in `docs/adr/0515-pedagogical-text-integrity.md` and `docs/decision-register/DR-586-pedagogical-text-integrity.md`.
+
+## DR-587: Unit Metadata And Teacher Launch Integrity
+
+Status: Accepted
+
+Decision: Reject units with invalid level/module/unit identity, missing theme or engine identifiers, incomplete visual rules, or incomplete teacher launch protocol copy.
+
+Rationale:
+
+- Unit metadata feeds routing, game selection, audio mapping, reports, QR paths, and tenant review.
+- Teacher-led onboarding cannot be reliable if the launch protocol is blank or structurally incomplete.
+
+Guardrails:
+
+- Level 1-8 and positive module/unit numbering are enforced.
+- Theme, mode, family, parent engine, avatar family, character focus, hook, activity, and review are required.
+- Blacklist validation remains separate and mandatory.
+- Validation has no route, package, provider, or student-state side effects.
+
+This decision is recorded in `docs/adr/0516-unit-metadata-teacher-launch-integrity.md` and `docs/decision-register/DR-587-unit-metadata-teacher-launch-integrity.md`.

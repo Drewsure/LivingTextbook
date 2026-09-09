@@ -599,8 +599,37 @@ export function validateUnitPayload(payload: UnitPayload): string[] {
     errors.push("Exactly 2 target sentence structures are required.");
   }
 
+  if (!Number.isInteger(payload.unitMeta.level) || payload.unitMeta.level < 1 || payload.unitMeta.level > 8) {
+    errors.push("Unit level must be an integer between 1 and 8.");
+  }
+
+  if (!Number.isInteger(payload.unitMeta.module) || payload.unitMeta.module < 1) {
+    errors.push("Unit module must be a positive integer.");
+  }
+
+  if (!Number.isInteger(payload.unitMeta.unit) || payload.unitMeta.unit < 1) {
+    errors.push("Unit number must be a positive integer.");
+  }
+
+  if (payload.unitMeta.theme.trim().length === 0) {
+    errors.push("Unit theme is required.");
+  }
+
+  if (payload.unitMeta.gameMode.trim().length === 0 || payload.unitMeta.gameFamily.trim().length === 0 || payload.unitMeta.engineId.trim().length === 0) {
+    errors.push("Unit game mode, game family, and parent engine identifiers are required.");
+  }
+
+  if (payload.visualRules.avatarFamily.trim().length === 0 || payload.visualRules.characterFocus.trim().length === 0) {
+    errors.push("Unit visual rules must include an avatar family and character focus.");
+  }
+
   if (!payload.visualRules.blacklistCheck.passed) {
     errors.push("Visual blacklist check must pass before student assignment.");
+  }
+
+  if ([payload.teacherLaunchProtocol.hook, payload.teacherLaunchProtocol.activity, payload.teacherLaunchProtocol.review]
+    .some((value) => value.trim().length === 0)) {
+    errors.push("Teacher launch protocol must include hook, activity, and review copy.");
   }
 
   return errors;

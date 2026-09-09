@@ -1131,3 +1131,17 @@ Required standing rules:
 - These checks do not change the canonical 8-12 term range or exactly-two-sentence rule.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-586 and `docs/adr/0515-pedagogical-text-integrity.md`.
+
+## 58. Unit Metadata And Teacher Launch Integrity Standard
+
+The unit payload is the contract shared by imported textbooks, tenant authoring, AI drafts, game engines, audio packages, and teacher launch surfaces. Valid vocabulary cannot compensate for an unusable unit identity or missing teacher guidance.
+
+Required standing rules:
+
+- Unit level must be an integer from 1 through 8; module and unit numbers must be positive integers.
+- Theme, game mode, game family, and parent engine identifiers must be present before a unit can enter review.
+- Visual rules must identify an avatar family and character focus, with the existing blacklist gate still required.
+- Teacher launch protocol must include non-empty hook, activity, and review copy.
+- These checks are structural and provider-neutral; they do not choose a game implementation, provider, visual theme, or tenant mascot.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-587 and `docs/adr/0516-unit-metadata-teacher-launch-integrity.md`.

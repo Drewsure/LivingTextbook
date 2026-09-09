@@ -393,6 +393,18 @@ try {
   assertIncludes(invalidTextErrors, "Vocabulary terms must not be empty.");
   assertIncludes(invalidTextErrors, "Vocabulary terms must be unique.");
   assertIncludes(invalidTextErrors, "Target sentence structures must not be empty.");
+  const invalidUnitStructureErrors = contentModel.validateUnitPayload({
+    ...audioUnit,
+    unitMeta: { ...audioUnit.unitMeta, level: 0, module: 0, unit: 0, theme: "", gameMode: "", gameFamily: "", engineId: "" },
+    visualRules: { ...audioUnit.visualRules, avatarFamily: "", characterFocus: "" },
+    teacherLaunchProtocol: { hook: "", activity: "", review: "" },
+  });
+  assertIncludes(invalidUnitStructureErrors, "Unit level must be an integer between 1 and 8.");
+  assertIncludes(invalidUnitStructureErrors, "Unit module must be a positive integer.");
+  assertIncludes(invalidUnitStructureErrors, "Unit theme is required.");
+  assertIncludes(invalidUnitStructureErrors, "Unit game mode, game family, and parent engine identifiers are required.");
+  assertIncludes(invalidUnitStructureErrors, "Unit visual rules must include an avatar family and character focus.");
+  assertIncludes(invalidUnitStructureErrors, "Teacher launch protocol must include hook, activity, and review copy.");
   const aiResult = aiService.prepareReviewOnlyAiGenerationRequest(aiRequest);
   assertEqual(aiResult.status, "review-only");
   assertEqual(aiResult.providerDispatchAllowed, false);
