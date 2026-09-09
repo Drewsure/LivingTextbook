@@ -1185,3 +1185,16 @@ Required standing rules:
 - Metadata validation does not upload, transcode, store, publish, assign, or expose a learner asset.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-590 and `docs/adr/0519-media-asset-metadata-integrity.md`.
+
+## 62. Approved Package Rights And Placeholder Safety Standard
+
+Draft and reviewed packages may display incomplete rights or placeholder media as repair evidence. An approved package is different: it represents a candidate for student-facing release and must not hide unresolved media rights or placeholder learner audio.
+
+Required standing rules:
+
+- Approved packages must not contain media assets with unknown rights.
+- Approved packages must not contain placeholder audio cues.
+- Draft and reviewed packages may retain these records only as visible review blockers; they cannot be treated as student-ready.
+- Release, storage, upload, provider, QR, and assignment gates remain separate and continue to apply.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-591 and `docs/adr/0520-approved-package-rights-placeholder-safety.md`.

@@ -329,6 +329,21 @@ try {
   assertIncludes(invalidMediaAssetErrors, "Media assets must include a non-empty asset identifier.");
   assertIncludes(invalidMediaAssetErrors, "Media asset (unnamed) must include a title.");
   assertIncludes(invalidMediaAssetErrors, "Media asset  must use a non-negative finite duration.");
+  const approvedRightsErrors = contentModel.validateContentPackage({
+    ...audioPackage,
+    meta: { ...audioPackage.meta, reviewStatus: "approved" },
+    mediaAssets: [{
+      mediaAssetId: "media-unknown-rights", tenantId: "tenant-1", title: "Unreviewed media",
+      type: "other-audio", kind: "audio", rightsStatus: "unknown", unitKey: audioUnitKey,
+    }],
+  });
+  assertIncludes(approvedRightsErrors, "Approved content packages cannot include media asset media-unknown-rights with unknown rights.");
+  const approvedPlaceholderAudioErrors = contentModel.validateContentPackage({
+    ...audioPackage,
+    meta: { ...audioPackage.meta, reviewStatus: "approved" },
+    audioCues: audioPackage.audioCues.map((cue, index) => index === 0 ? { ...cue, source: "placeholder" } : cue),
+  });
+  assertIncludes(approvedPlaceholderAudioErrors, "Approved content packages cannot include placeholder audio cue audio-term-1.");
 
   const launchRequest = {
     tenantId: "tenant-1", packageId: "package-1",

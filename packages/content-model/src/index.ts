@@ -840,6 +840,10 @@ export function validateContentPackage(contentPackage: ContentPackage): string[]
       errors.push(`Audio media asset ${mediaAsset.mediaAssetId} must not use a video asset type.`);
     }
 
+    if (contentPackage.meta.reviewStatus === "approved" && mediaAsset.rightsStatus === "unknown") {
+      errors.push(`Approved content packages cannot include media asset ${mediaAsset.mediaAssetId} with unknown rights.`);
+    }
+
     if (mediaAsset.durationSeconds !== undefined && (!Number.isFinite(mediaAsset.durationSeconds) || mediaAsset.durationSeconds < 0)) {
       errors.push(`Media asset ${mediaAsset.mediaAssetId} must use a non-negative finite duration.`);
     }
@@ -866,6 +870,10 @@ export function validateContentPackage(contentPackage: ContentPackage): string[]
 
     if (audioCue.language.trim().length === 0) {
       errors.push(`Audio cue ${audioCue.audioCueId} must include a language code.`);
+    }
+
+    if (contentPackage.meta.reviewStatus === "approved" && audioCue.source === "placeholder") {
+      errors.push(`Approved content packages cannot include placeholder audio cue ${audioCue.audioCueId}.`);
     }
   }
 

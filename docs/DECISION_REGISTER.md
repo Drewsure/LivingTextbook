@@ -2106,3 +2106,23 @@ Guardrails:
 - Upload, storage, transcode, release, and student use remain blocked by their separate gates.
 
 This decision is recorded in `docs/adr/0519-media-asset-metadata-integrity.md` and `docs/decision-register/DR-590-media-asset-metadata-integrity.md`.
+
+## DR-591: Approved Package Rights And Placeholder Safety
+
+Status: Accepted
+
+Decision: Reject unknown media rights and placeholder learner audio when a content package claims approved review status.
+
+Rationale:
+
+- Approval is a release evidence claim, not merely a display label.
+- Unknown rights and placeholder audio are acceptable repair states only when visibly blocked from student use.
+
+Guardrails:
+
+- Approved packages require known media rights.
+- Approved packages cannot contain placeholder audio cues.
+- Draft/reviewed repair evidence remains allowed but cannot activate release.
+- Separate release, storage, upload, QR, assignment, and policy gates remain mandatory.
+
+This decision is recorded in `docs/adr/0520-approved-package-rights-placeholder-safety.md` and `docs/decision-register/DR-591-approved-package-rights-placeholder-safety.md`.
