@@ -1542,4 +1542,17 @@ Required standing rules:
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-617 and `docs/adr/0545-progress-event-unit-identity.md`.
 
+## 88. Progress Event Mode-Level Compatibility Standard
+
+Event identity is not complete if the named mode is impossible for the unit level. Event envelopes must agree with the same curated mode contract that validates unit payloads and activity pathways.
+
+Required standing rules:
+
+- The level is read from the canonical unit key and compared with the shared mode contract.
+- A supported mode at another level blocks review for that event envelope.
+- Mode-level validation reuses the shared content-model catalog rather than a telemetry-specific matrix.
+- This guard is verification-only and does not enable gameplay, scoring, persistence, or provider writes.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-618 and `docs/adr/0546-progress-event-mode-level-compatibility.md`.
+
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-615 and `docs/adr/0543-progress-event-timestamps.md`.

@@ -1016,3 +1016,6 @@ This decision is recorded in `docs/adr/0544-progress-event-mode-identity.md` and
 
 The progress-event unit identity slice now requires every envelope to use the canonical tenant/curriculum/level/unit key shape. Runtime behavior rejects generic unit labels before any future reporting, persistence, progression, or provider integration.
 This decision is recorded in `docs/adr/0545-progress-event-unit-identity.md` and `docs/decision-register/DR-617-progress-event-unit-identity.md`.
+
+The progress-event mode-level compatibility slice now compares the mode with the level encoded in the canonical unit key. Runtime behavior rejects valid-but-unavailable combinations before any future reporting, persistence, progression, or provider integration.
+This decision is recorded in `docs/adr/0546-progress-event-mode-level-compatibility.md` and `docs/decision-register/DR-618-progress-event-mode-level-compatibility.md`.

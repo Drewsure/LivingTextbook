@@ -2660,3 +2660,23 @@ Guardrails:
 - Unit identity validation remains review-only and does not enable gameplay, scoring, persistence, or provider writes.
 
 This decision is recorded in `docs/adr/0545-progress-event-unit-identity.md` and `docs/decision-register/DR-617-progress-event-unit-identity.md`.
+
+## DR-618: Progress Event Mode-Level Compatibility
+
+Status: Accepted
+
+Decision: Require progress-event envelopes to use a mode supported at the level encoded in their canonical unit key.
+
+Rationale:
+
+- A valid mode and valid unit can still describe an impossible curriculum pathway when their level contracts disagree.
+- Event evidence must align with the same curated mode contract used by unit validation and activity pathways.
+- Reusing the shared catalog prevents a telemetry-only compatibility matrix from drifting.
+
+Guardrails:
+
+- The level is read from the canonical unit key.
+- Valid-but-unavailable mode-level combinations block envelope validation.
+- Compatibility validation remains review-only and does not enable gameplay, scoring, persistence, or provider writes.
+
+This decision is recorded in `docs/adr/0546-progress-event-mode-level-compatibility.md` and `docs/decision-register/DR-618-progress-event-mode-level-compatibility.md`.

@@ -143,6 +143,11 @@ try {
     envelope: { ...supportEnvelope, unit_key: "unit-1" },
   });
   assertIncludes(malformedUnitKeyErrors, "Progress event envelope audio_requested must use a canonical unit_key.");
+  const incompatibleModeLevelErrors = progression.validateProgressionRuntimeRequest({
+    ...progressionRequest,
+    envelope: { ...supportEnvelope, game_mode: "sentence-builder" },
+  });
+  assertIncludes(incompatibleModeLevelErrors, "Progress event envelope audio_requested must use game_mode sentence-builder at a supported unit level.");
 
   const rewardErrors = reward.validateRewardRuntimeRequest({
     tenantId: "tenant-1", packageId: "package-1", learnerSlotId: "slot-1", rewardId: "reward-1",

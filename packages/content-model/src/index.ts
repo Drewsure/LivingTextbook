@@ -455,6 +455,10 @@ export function isSupportedGameModeId(value: string): value is GameModeId {
   return supportedGameModeIds.includes(value as GameModeId);
 }
 
+export function isGameModeSupportedAtLevel(value: string, level: number): value is GameModeId {
+  return isSupportedGameModeId(value) && supportedGameModeContracts[value].supportedLevels.includes(level);
+}
+
 const supportedMediaAssetTypes: MediaAssetType[] = [
   "song", "chant", "listening-track", "voiceover", "sound-effect", "lesson-video", "music-video",
   "karaoke-video", "animation", "other-audio", "other-video",
@@ -488,10 +492,15 @@ export function getUnitKey(meta: Pick<UnitMeta, "tenantId" | "curriculumId" | "l
   return `${meta.tenantId}:${meta.curriculumId}:L${meta.level}:U${meta.unit}`;
 }
 
-const canonicalUnitKeyPattern = /^[^:\s]+:[^:\s]+:L(?:[1-8]):U(?:[1-9]\d*)$/;
+const canonicalUnitKeyPattern = /^[^:\s]+:[^:\s]+:L([1-8]):U([1-9]\d*)$/;
 
 export function isCanonicalUnitKey(value: string): boolean {
   return canonicalUnitKeyPattern.test(value.trim());
+}
+
+export function getCanonicalUnitKeyLevel(value: string): number | undefined {
+  const match = canonicalUnitKeyPattern.exec(value.trim());
+  return match ? Number(match[1]) : undefined;
 }
 
 export function getLaunchPath(launchCode: LaunchCode): string {

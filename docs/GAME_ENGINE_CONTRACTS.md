@@ -130,6 +130,7 @@ Every event should include:
 - `gameMode`
 - `unitKey` must use the canonical tenant, curriculum, level, and unit format when the event is enveloped for reports or persistence.
 - `launchCode` when launched from a session
+- `gameMode` must be supported at the level encoded by `unitKey`.
 - `studentSessionId` when available
 - `occurredAt`
 - useful metadata such as attempts, correct count, term id, earned reward amount, media asset id, or parent engine id

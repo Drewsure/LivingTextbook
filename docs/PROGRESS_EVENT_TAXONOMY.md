@@ -92,6 +92,7 @@ Envelope rules:
 - `occurred_at` must be a parseable ISO/RFC3339 timestamp with an explicit timezone.
 - `game_mode` must be one of the curated shared `GameModeId` values.
 - `unit_key` must use the canonical tenant, curriculum, level, and unit format.
+- The envelope's mode must be offered at the level encoded in its canonical `unit_key`.
 - Missing launch context, learning evidence, or support-only signals produce review warnings.
 
 ## Hard Rules
@@ -133,3 +134,16 @@ Required standing rules:
 - Canonical unit-key validation remains verification-only; it does not enable gameplay, scoring, persistence, or provider writes.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-617 and `docs/adr/0545-progress-event-unit-identity.md`.
+
+## 88. Progress Event Mode-Level Compatibility Standard
+
+Event identity is not complete if the named mode is impossible for the unit level. The envelope must agree with the same curated mode contract that validates unit payloads and activity pathways.
+
+Required standing rules:
+
+- The level is read from the canonical unit key and compared with the shared mode contract.
+- A supported mode at another level remains a review blocker for that event envelope.
+- Mode-level validation must reuse the shared content-model catalog rather than a telemetry-specific matrix.
+- Compatibility validation remains verification-only; it does not enable gameplay, scoring, persistence, or provider writes.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-618 and `docs/adr/0546-progress-event-mode-level-compatibility.md`.
