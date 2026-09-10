@@ -488,6 +488,12 @@ export function getUnitKey(meta: Pick<UnitMeta, "tenantId" | "curriculumId" | "l
   return `${meta.tenantId}:${meta.curriculumId}:L${meta.level}:U${meta.unit}`;
 }
 
+const canonicalUnitKeyPattern = /^[^:\s]+:[^:\s]+:L(?:[1-8]):U(?:[1-9]\d*)$/;
+
+export function isCanonicalUnitKey(value: string): boolean {
+  return canonicalUnitKeyPattern.test(value.trim());
+}
+
 export function getLaunchPath(launchCode: LaunchCode): string {
   return `/launch/${encodeURIComponent(launchCode)}`;
 }

@@ -91,6 +91,7 @@ Envelope rules:
 - Duplicate `event_id` values are blocked.
 - `occurred_at` must be a parseable ISO/RFC3339 timestamp with an explicit timezone.
 - `game_mode` must be one of the curated shared `GameModeId` values.
+- `unit_key` must use the canonical tenant, curriculum, level, and unit format.
 - Missing launch context, learning evidence, or support-only signals produce review warnings.
 
 ## Hard Rules
@@ -119,3 +120,16 @@ Required standing rules:
 - Mode identity validation remains verification-only; it does not enable gameplay, scoring, persistence, or provider writes.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-616 and `docs/adr/0544-progress-event-mode-identity.md`.
+
+## 87. Progress Event Unit Identity Standard
+
+Progress evidence must remain traceable to one canonical white-label content unit. A generic or locally invented unit label is not sufficient for teacher reports, replay, migration, or hosted/local reconciliation.
+
+Required standing rules:
+
+- Every progress-event envelope must use `tenantId:curriculumId:L[level]:U[unit]` through the shared canonical unit-key contract.
+- Level values must remain within the platform's supported levels 1 through 8, and unit values must be positive integers.
+- Tenant and curriculum key segments must be non-empty and must not contain the structural separator or whitespace.
+- Canonical unit-key validation remains verification-only; it does not enable gameplay, scoring, persistence, or provider writes.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-617 and `docs/adr/0545-progress-event-unit-identity.md`.

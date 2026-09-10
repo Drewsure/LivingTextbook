@@ -1,5 +1,5 @@
-import { isSupportedGameModeId } from "./index";
-import type { GameEventType, GameProgressEvent } from "./index";
+import { isCanonicalUnitKey, isSupportedGameModeId } from "./index";
+import type { GameEventType, GameModeId, GameProgressEvent } from "./index";
 
 export type ProgressEventEffect = "progress-affecting" | "report-only" | "support-only";
 
@@ -32,7 +32,7 @@ export interface ProgressEventEnvelope {
   event_acceptance_gate_id: string;
   settings_context: ProgressEventSettingsContext;
   unit_key: string;
-  game_mode: string;
+  game_mode: GameModeId;
   occurred_at: string;
   launch_code?: string;
   student_session_id?: string;
@@ -266,6 +266,7 @@ export function validateProgressEventEnvelope(
   const eventType = readString(envelope, "event_type");
   const eventEffect = readString(envelope, "event_effect");
   const taxonomyVersion = readString(envelope, "taxonomy_version");
+  const unitKey = readString(envelope, "unit_key");
   const gameMode = readString(envelope, "game_mode");
   const occurredAt = readString(envelope, "occurred_at");
   const metadata = envelope.metadata;
@@ -286,6 +287,10 @@ export function validateProgressEventEnvelope(
 
   if (gameMode && !isSupportedGameModeId(gameMode)) {
     errors.push(`Progress event envelope ${eventType || "(missing)"} must use a supported game_mode.`);
+  }
+
+  if (unitKey && !isCanonicalUnitKey(unitKey)) {
+    errors.push(`Progress event envelope ${eventType || "(missing)"} must use a canonical unit_key.`);
   }
 
   if (occurredAt && (Number.isNaN(Date.parse(occurredAt)) || !isoTimestampPattern.test(occurredAt))) {

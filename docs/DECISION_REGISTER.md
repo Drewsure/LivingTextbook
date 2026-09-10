@@ -2640,3 +2640,23 @@ Guardrails:
 - Mode identity validation remains review-only and does not enable gameplay, scoring, persistence, or provider writes.
 
 This decision is recorded in `docs/adr/0544-progress-event-mode-identity.md` and `docs/decision-register/DR-616-progress-event-mode-identity.md`.
+
+## DR-617: Progress Event Unit Identity
+
+Status: Accepted
+
+Decision: Require progress-event envelopes to use the canonical tenant, curriculum, level, and unit key format.
+
+Rationale:
+
+- Reports, replay, migration, and hosted/local reconciliation need one stable content-unit identity.
+- A non-empty generic unit label could disconnect evidence from the reviewed curriculum package.
+- Reusing the shared canonical key contract preserves white-label tenant and curriculum boundaries.
+
+Guardrails:
+
+- Levels must remain 1 through 8 and unit numbers must be positive integers.
+- Tenant and curriculum segments must be non-empty and free of structural separators and whitespace.
+- Unit identity validation remains review-only and does not enable gameplay, scoring, persistence, or provider writes.
+
+This decision is recorded in `docs/adr/0545-progress-event-unit-identity.md` and `docs/decision-register/DR-617-progress-event-unit-identity.md`.

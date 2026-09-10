@@ -1013,3 +1013,6 @@ This decision is recorded in `docs/adr/0543-progress-event-timestamps.md` and `d
 
 The progress-event mode identity slice now requires every envelope to use a curated shared `GameModeId`. The validator reuses the content-model catalog and rejects unknown mode labels before any future reporting, persistence, progression, or provider integration.
 This decision is recorded in `docs/adr/0544-progress-event-mode-identity.md` and `docs/decision-register/DR-616-progress-event-mode-identity.md`.
+
+The progress-event unit identity slice now requires every envelope to use the canonical tenant/curriculum/level/unit key shape. Runtime behavior rejects generic unit labels before any future reporting, persistence, progression, or provider integration.
+This decision is recorded in `docs/adr/0545-progress-event-unit-identity.md` and `docs/decision-register/DR-617-progress-event-unit-identity.md`.

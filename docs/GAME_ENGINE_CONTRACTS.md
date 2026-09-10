@@ -128,6 +128,7 @@ Every event should include:
 
 - `unitKey`
 - `gameMode`
+- `unitKey` must use the canonical tenant, curriculum, level, and unit format when the event is enveloped for reports or persistence.
 - `launchCode` when launched from a session
 - `studentSessionId` when available
 - `occurredAt`

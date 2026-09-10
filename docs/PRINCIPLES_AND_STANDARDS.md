@@ -1529,4 +1529,17 @@ Required standing rules:
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-616 and `docs/adr/0544-progress-event-mode-identity.md`.
 
+## 87. Progress Event Unit Identity Standard
+
+Progress evidence must remain traceable to one canonical white-label content unit so teacher reports, replay, migration, and hosted/local reconciliation cannot drift.
+
+Required standing rules:
+
+- Every event envelope uses the shared `tenantId:curriculumId:L[level]:U[unit]` key format.
+- Levels remain within 1 through 8 and unit numbers remain positive integers.
+- Tenant and curriculum segments are non-empty and cannot contain the structural separator or whitespace.
+- This guard is verification-only and does not enable gameplay, scoring, persistence, or provider writes.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-617 and `docs/adr/0545-progress-event-unit-identity.md`.
+
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-615 and `docs/adr/0543-progress-event-timestamps.md`.

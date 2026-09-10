@@ -98,7 +98,7 @@ try {
     event_effect: "support-only",
     taxonomy_version: "test",
     event_acceptance_gate_id: "gate-1",
-    unit_key: "unit-1",
+    unit_key: "tenant-1:curriculum-1:L1:U1",
     game_mode: "flashcards",
     occurred_at: new Date().toISOString(),
     metadata: {},
@@ -138,6 +138,11 @@ try {
     envelope: { ...supportEnvelope, game_mode: "unknown-mode" },
   });
   assertIncludes(unknownGameModeErrors, "Progress event envelope audio_requested must use a supported game_mode.");
+  const malformedUnitKeyErrors = progression.validateProgressionRuntimeRequest({
+    ...progressionRequest,
+    envelope: { ...supportEnvelope, unit_key: "unit-1" },
+  });
+  assertIncludes(malformedUnitKeyErrors, "Progress event envelope audio_requested must use a canonical unit_key.");
 
   const rewardErrors = reward.validateRewardRuntimeRequest({
     tenantId: "tenant-1", packageId: "package-1", learnerSlotId: "slot-1", rewardId: "reward-1",
