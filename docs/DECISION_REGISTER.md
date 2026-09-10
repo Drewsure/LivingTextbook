@@ -2367,3 +2367,24 @@ Guardrails:
 - No playback, volume, progress, persistence, or release side effect is introduced.
 
 This decision is recorded in `docs/adr/0531-playlist-role-playback-context.md` and `docs/decision-register/DR-603-playlist-role-playback-context.md`.
+
+## DR-604: Media And Audio Enum Integrity
+
+Status: Accepted
+
+Decision: Validate runtime media, audio, and playlist enum values against the supported content-model catalog.
+
+Rationale:
+
+- PDF extraction, AI generation, and tenant imports arrive as runtime data and bypass TypeScript's compile-time protection.
+- An unknown media type, cue source, or playlist context can pass structural checks and confuse future adapters.
+- Explicit value validation gives teachers a deterministic repair message before release review.
+
+Guardrails:
+
+- Media asset type, kind, and rights status are checked.
+- Audio cue kind and source are checked.
+- Playlist usage role and playback context are checked.
+- No provider, storage, playback, release, assignment, or student-state side effect is introduced.
+
+This decision is recorded in `docs/adr/0532-media-audio-enum-integrity.md` and `docs/decision-register/DR-604-media-audio-enum-integrity.md`.

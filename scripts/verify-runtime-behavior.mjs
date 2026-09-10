@@ -500,6 +500,27 @@ try {
     }],
   });
   assertIncludes(invalidPlaylistRoleErrors, "Playlist playlist-background-role must use the background role for game-background playback.");
+  const invalidMediaEnumErrors = contentModel.validateContentPackage({
+    ...audioPackage,
+    mediaAssets: [{
+      mediaAssetId: "media-invalid-enums", tenantId: "tenant-1", title: "Invalid media", type: "not-a-media-type",
+      kind: "not-a-media-kind", rightsStatus: "not-a-rights-status", unitKey: audioUnitKey,
+    }],
+    audioCues: [{
+      ...audioCues[0], audioCueId: "audio-invalid-enums", kind: "not-a-cue-kind", source: "not-a-cue-source",
+    }],
+    playlists: [{
+      playlistId: "playlist-invalid-enums", tenantId: "tenant-1", title: "Invalid playlist", unitKey: audioUnitKey,
+      mediaAssetIds: ["media-invalid-enums"], usageRole: "not-a-usage-role", playbackContext: "not-a-playback-context",
+    }],
+  });
+  assertIncludes(invalidMediaEnumErrors, "Media asset media-invalid-enums uses an unsupported media type not-a-media-type.");
+  assertIncludes(invalidMediaEnumErrors, "Media asset media-invalid-enums uses an unsupported media kind not-a-media-kind.");
+  assertIncludes(invalidMediaEnumErrors, "Media asset media-invalid-enums uses an unsupported rights status not-a-rights-status.");
+  assertIncludes(invalidMediaEnumErrors, "Audio cue audio-invalid-enums uses an unsupported cue kind not-a-cue-kind.");
+  assertIncludes(invalidMediaEnumErrors, "Audio cue audio-invalid-enums uses an unsupported cue source not-a-cue-source.");
+  assertIncludes(invalidMediaEnumErrors, "Playlist playlist-invalid-enums uses an unsupported usage role not-a-usage-role.");
+  assertIncludes(invalidMediaEnumErrors, "Playlist playlist-invalid-enums uses an unsupported playback context not-a-playback-context.");
   const repeatedPlaylistMediaErrors = contentModel.validateContentPackage({
     ...audioPackage,
     playlists: [{

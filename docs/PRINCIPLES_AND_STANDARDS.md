@@ -1353,3 +1353,16 @@ Required standing rules:
 - Context validation does not start playback, change volume, or create progress events.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-603 and `docs/adr/0531-playlist-role-playback-context.md`.
+
+## 74. Media And Audio Enum Integrity Standard
+
+Imported packages are runtime data. Media and audio fields therefore need explicit value checks before tenant review can treat them as meaningful.
+
+Required standing rules:
+
+- Media asset types, kinds, and rights statuses must use the supported catalog values.
+- Audio cue kinds and sources must use the supported catalog values.
+- Playlist usage roles and playback contexts must use the supported catalog values.
+- Invalid values remain review blockers and cannot be interpreted by game, media, local-bundle, or reporting adapters.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-604 and `docs/adr/0532-media-audio-enum-integrity.md`.

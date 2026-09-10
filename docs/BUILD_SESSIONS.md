@@ -8,6 +8,8 @@ The structure follows the standing rule: foundation first, interaction second, p
 
 The playlist role/context slice now rejects a playlist marked for game-background playback unless its usage role is background. This keeps media review, game adapters, and local package manifests aligned.
 
+The media/audio enum integrity slice now rejects unsupported media types, kinds, rights statuses, audio cue kinds/sources, and playlist roles/contexts before runtime adapters can interpret imported package data.
+
 ## Session 0: Standards And Decisions Gate
 
 Purpose: Ensure the project still follows the white-label saleable platform direction before work begins.

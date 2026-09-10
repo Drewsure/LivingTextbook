@@ -431,6 +431,16 @@ const supportedGameModeIds: GameModeId[] = [
   "flashcards", "label-it", "match-up", "memory-match", "balloon-pop", "true-false",
   "speak-it", "quiz", "type-answer", "spelling-practice", "fill-in-the-blank", "sentence-builder",
 ];
+const supportedMediaAssetTypes: MediaAssetType[] = [
+  "song", "chant", "listening-track", "voiceover", "sound-effect", "lesson-video", "music-video",
+  "karaoke-video", "animation", "other-audio", "other-video",
+];
+const supportedMediaKinds: MediaKind[] = ["audio", "video"];
+const supportedMediaRightsStatuses: MediaRightsStatus[] = ["owned", "licensed", "partner-provided", "unknown"];
+const supportedAudioCueKinds: AudioCueKind[] = ["term", "sentence", "instruction", "feedback", "ui-label", "story-line"];
+const supportedAudioCueSources: AudioCueSource[] = ["recorded", "text-to-speech", "teacher-recorded", "partner-provided", "placeholder"];
+const supportedMediaUsageRoles: MediaUsageRole[] = ["primary", "background", "prompt", "review", "celebration", "teacher-reference"];
+const supportedMediaPlaybackContexts: MediaPlaybackContext[] = ["unit-home", "game-background", "teacher-preview", "student-practice", "completion-review"];
 
 function isValidTimestamp(value: string | undefined): value is string {
   return Boolean(value && !Number.isNaN(Date.parse(value)));
@@ -921,6 +931,18 @@ export function validateContentPackage(contentPackage: ContentPackage): string[]
 
     mediaAssetIds.add(mediaAsset.mediaAssetId);
 
+    if (!supportedMediaAssetTypes.includes(mediaAsset.type)) {
+      errors.push(`Media asset ${mediaAsset.mediaAssetId} uses an unsupported media type ${mediaAsset.type}.`);
+    }
+
+    if (!supportedMediaKinds.includes(mediaAsset.kind)) {
+      errors.push(`Media asset ${mediaAsset.mediaAssetId} uses an unsupported media kind ${mediaAsset.kind}.`);
+    }
+
+    if (!supportedMediaRightsStatuses.includes(mediaAsset.rightsStatus)) {
+      errors.push(`Media asset ${mediaAsset.mediaAssetId} uses an unsupported rights status ${mediaAsset.rightsStatus}.`);
+    }
+
     if (mediaAsset.tenantId !== contentPackage.meta.tenantId) {
       errors.push(`Media asset ${mediaAsset.mediaAssetId} must use the content package tenant ${contentPackage.meta.tenantId}.`);
     }
@@ -968,6 +990,14 @@ export function validateContentPackage(contentPackage: ContentPackage): string[]
     }
 
     seenAudioCueIds.add(audioCue.audioCueId);
+
+    if (!supportedAudioCueKinds.includes(audioCue.kind)) {
+      errors.push(`Audio cue ${audioCue.audioCueId} uses an unsupported cue kind ${audioCue.kind}.`);
+    }
+
+    if (!supportedAudioCueSources.includes(audioCue.source)) {
+      errors.push(`Audio cue ${audioCue.audioCueId} uses an unsupported cue source ${audioCue.source}.`);
+    }
 
     if (audioCue.tenantId !== contentPackage.meta.tenantId) {
       errors.push(`Audio cue ${audioCue.audioCueId} must use the content package tenant ${contentPackage.meta.tenantId}.`);
@@ -1024,6 +1054,14 @@ export function validateContentPackage(contentPackage: ContentPackage): string[]
 
     if (playlist.title.trim().length === 0) {
       errors.push(`Playlist ${playlist.playlistId || "(unnamed)"} must include a title.`);
+    }
+
+    if (playlist.usageRole && !supportedMediaUsageRoles.includes(playlist.usageRole)) {
+      errors.push(`Playlist ${playlist.playlistId || "(unnamed)"} uses an unsupported usage role ${playlist.usageRole}.`);
+    }
+
+    if (playlist.playbackContext && !supportedMediaPlaybackContexts.includes(playlist.playbackContext)) {
+      errors.push(`Playlist ${playlist.playlistId || "(unnamed)"} uses an unsupported playback context ${playlist.playbackContext}.`);
     }
 
     if (playlist.playbackContext === "game-background" && playlist.usageRole !== "background") {
