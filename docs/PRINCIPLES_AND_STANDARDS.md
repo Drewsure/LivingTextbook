@@ -1421,3 +1421,17 @@ Required standing rules:
 - Mode-specific ranges may be narrower than the canonical unit range when the activity needs fewer active items, but the exception must remain explicit in the catalog.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-608 and `docs/adr/0536-game-catalog-pedagogical-contract.md`.
+
+## 79. Background Media Mode Capability Standard
+
+Background media permission is a mode capability, not merely a teacher preference. A multimedia plan may name only modes whose curated contract explicitly allows optional ambient media.
+
+Required standing rules:
+
+- The shared game-mode contract records whether each mode allows background media.
+- Multimedia plans must reject background media for modes without that capability.
+- The web catalog and content model must agree on the capability flag.
+- Learning audio, instruction, feedback, scoring, and progression remain higher priority even when a mode allows background media.
+- Capability validation does not enable playback, autoplay, volume changes, persistence, or progress credit.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-609 and `docs/adr/0537-background-media-mode-capability.md`.

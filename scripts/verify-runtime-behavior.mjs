@@ -551,6 +551,11 @@ try {
   });
   assertIncludes(invalidBackgroundGameModeErrors, `Multimedia plan for ${audioUnitKey} must not repeat allowed background game mode memory-match.`);
   assertIncludes(invalidBackgroundGameModeErrors, `Multimedia plan for ${audioUnitKey} references unsupported background game mode not-a-game-mode.`);
+  const disallowedBackgroundGameModeErrors = contentModel.validateContentPackage({
+    ...audioPackage,
+    multimediaPlans: [{ unitKey: audioUnitKey, allowedBackgroundGameModes: ["flashcards"] }],
+  });
+  assertIncludes(disallowedBackgroundGameModeErrors, `Multimedia plan for ${audioUnitKey} cannot use background media in game mode flashcards.`);
 
   const launchRequest = {
     tenantId: "tenant-1", packageId: "package-1",

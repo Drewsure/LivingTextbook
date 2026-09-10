@@ -105,8 +105,13 @@ const compatibilityDrift = gameModes.filter((mode) => {
   const catalogEngine = catalogItem.match(/engineId:\s*"([^"]+)"/)?.[1];
   const contentLevels = contentContract.match(/supportedLevels:\s*\[([^\]]*)\]/)?.[1]?.trim();
   const catalogLevels = catalogItem.match(/supportedLevels:\s*\[([^\]]*)\]/)?.[1]?.trim();
+  const contentBackground = contentContract.match(/allowsBackgroundMedia:\s*(true|false)/)?.[1];
+  const catalogBackground = catalogItem.match(/allowsBackgroundMedia:\s*(true|false)/)?.[1];
 
-  return contentFamily !== catalogFamily || contentEngine !== catalogEngine || contentLevels !== catalogLevels;
+  return contentFamily !== catalogFamily
+    || contentEngine !== catalogEngine
+    || contentLevels !== catalogLevels
+    || contentBackground !== catalogBackground;
 });
 const malformedCatalogItems = gameModes.filter((mode) => {
   const item = getCatalogItemBody(catalog, mode);

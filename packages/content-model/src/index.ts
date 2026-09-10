@@ -436,19 +436,19 @@ const supportedGameFamilies: GameFamily[] = [
   "syntax-construction", "word-puzzles", "arcade-action", "speaking-listening",
 ];
 const supportedParentEngines: ParentEngine[] = ["pairing", "selection", "text-spelling", "narrative"];
-const supportedGameModeContracts: Record<GameModeId, { family: GameFamily; engineId: ParentEngine; supportedLevels: number[] }> = {
-  flashcards: { family: "vocabulary-matching", engineId: "selection", supportedLevels: [1, 2, 3, 4, 5, 6, 7, 8] },
-  "memory-match": { family: "memory-sorting", engineId: "pairing", supportedLevels: [1, 2, 3, 4] },
-  "match-up": { family: "vocabulary-matching", engineId: "pairing", supportedLevels: [1, 2, 3, 4] },
-  "label-it": { family: "vocabulary-matching", engineId: "pairing", supportedLevels: [1, 2, 3, 4, 5, 6] },
-  quiz: { family: "core-quiz", engineId: "selection", supportedLevels: [1, 2, 3, 4, 5, 6, 7, 8] },
-  "true-false": { family: "core-quiz", engineId: "selection", supportedLevels: [1, 2, 3, 4, 5, 6, 7, 8] },
-  "sentence-builder": { family: "syntax-construction", engineId: "text-spelling", supportedLevels: [2, 3, 4, 5, 6, 7, 8] },
-  "type-answer": { family: "spelling-typing", engineId: "text-spelling", supportedLevels: [1, 2, 3, 4, 5, 6, 7, 8] },
-  "spelling-practice": { family: "spelling-typing", engineId: "text-spelling", supportedLevels: [1, 2, 3, 4, 5, 6, 7, 8] },
-  "fill-in-the-blank": { family: "syntax-construction", engineId: "text-spelling", supportedLevels: [1, 2, 3, 4, 5, 6, 7, 8] },
-  "speak-it": { family: "speaking-listening", engineId: "selection", supportedLevels: [1, 2, 3, 4, 5, 6, 7, 8] },
-  "balloon-pop": { family: "arcade-action", engineId: "selection", supportedLevels: [1, 2, 3] },
+const supportedGameModeContracts: Record<GameModeId, { family: GameFamily; engineId: ParentEngine; supportedLevels: number[]; allowsBackgroundMedia: boolean }> = {
+  flashcards: { family: "vocabulary-matching", engineId: "selection", supportedLevels: [1, 2, 3, 4, 5, 6, 7, 8], allowsBackgroundMedia: false },
+  "memory-match": { family: "memory-sorting", engineId: "pairing", supportedLevels: [1, 2, 3, 4], allowsBackgroundMedia: true },
+  "match-up": { family: "vocabulary-matching", engineId: "pairing", supportedLevels: [1, 2, 3, 4], allowsBackgroundMedia: true },
+  "label-it": { family: "vocabulary-matching", engineId: "pairing", supportedLevels: [1, 2, 3, 4, 5, 6], allowsBackgroundMedia: false },
+  quiz: { family: "core-quiz", engineId: "selection", supportedLevels: [1, 2, 3, 4, 5, 6, 7, 8], allowsBackgroundMedia: false },
+  "true-false": { family: "core-quiz", engineId: "selection", supportedLevels: [1, 2, 3, 4, 5, 6, 7, 8], allowsBackgroundMedia: false },
+  "sentence-builder": { family: "syntax-construction", engineId: "text-spelling", supportedLevels: [2, 3, 4, 5, 6, 7, 8], allowsBackgroundMedia: false },
+  "type-answer": { family: "spelling-typing", engineId: "text-spelling", supportedLevels: [1, 2, 3, 4, 5, 6, 7, 8], allowsBackgroundMedia: false },
+  "spelling-practice": { family: "spelling-typing", engineId: "text-spelling", supportedLevels: [1, 2, 3, 4, 5, 6, 7, 8], allowsBackgroundMedia: false },
+  "fill-in-the-blank": { family: "syntax-construction", engineId: "text-spelling", supportedLevels: [1, 2, 3, 4, 5, 6, 7, 8], allowsBackgroundMedia: false },
+  "speak-it": { family: "speaking-listening", engineId: "selection", supportedLevels: [1, 2, 3, 4, 5, 6, 7, 8], allowsBackgroundMedia: false },
+  "balloon-pop": { family: "arcade-action", engineId: "selection", supportedLevels: [1, 2, 3], allowsBackgroundMedia: true },
 };
 const supportedMediaAssetTypes: MediaAssetType[] = [
   "song", "chant", "listening-track", "voiceover", "sound-effect", "lesson-video", "music-video",
@@ -1184,6 +1184,8 @@ export function validateContentPackage(contentPackage: ContentPackage): string[]
 
       if (!supportedGameModeIds.includes(gameMode)) {
         errors.push(`Multimedia plan for ${plan.unitKey} references unsupported background game mode ${gameMode}.`);
+      } else if (!supportedGameModeContracts[gameMode].allowsBackgroundMedia) {
+        errors.push(`Multimedia plan for ${plan.unitKey} cannot use background media in game mode ${gameMode}.`);
       }
     }
 

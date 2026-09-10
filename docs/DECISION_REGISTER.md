@@ -2473,3 +2473,24 @@ Guardrails:
 - No provider, storage, playback, release, assignment, or student-state side effect is introduced.
 
 This decision is recorded in `docs/adr/0536-game-catalog-pedagogical-contract.md` and `docs/decision-register/DR-608-game-catalog-pedagogical-contract.md`.
+
+## DR-609: Background Media Mode Capability
+
+Status: Accepted
+
+Decision: Make background-media capability part of the shared mode contract and reject multimedia plans that name a mode without that capability.
+
+Rationale:
+
+- Background media is suitable for light recall or arcade contexts but can interfere with precision listening, speaking, spelling, or syntax work.
+- A supported mode ID alone does not prove that ambient media is appropriate.
+- The web catalog and package validator must agree before teacher settings can interpret the plan.
+
+Guardrails:
+
+- Capability is explicit per curated mode.
+- Disallowed modes remain package review blockers.
+- Learning audio remains higher priority and ambient media cannot create progress.
+- No playback, autoplay, persistence, or student-state side effect is introduced.
+
+This decision is recorded in `docs/adr/0537-background-media-mode-capability.md` and `docs/decision-register/DR-609-background-media-mode-capability.md`.
