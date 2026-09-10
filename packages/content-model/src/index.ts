@@ -426,6 +426,12 @@ function normalizeAudioText(value: string): string {
   return value.trim().replace(/\s+/g, " ").toLocaleLowerCase();
 }
 
+const learnerFacingAudioCueKinds: AudioCueKind[] = ["term", "sentence", "instruction", "feedback"];
+const supportedGameModeIds: GameModeId[] = [
+  "flashcards", "label-it", "match-up", "memory-match", "balloon-pop", "true-false",
+  "speak-it", "quiz", "type-answer", "spelling-practice", "fill-in-the-blank", "sentence-builder",
+];
+
 function isValidTimestamp(value: string | undefined): value is string {
   return Boolean(value && !Number.isNaN(Date.parse(value)));
 }
@@ -845,6 +851,28 @@ export function validateContentPackage(contentPackage: ContentPackage): string[]
         errors.push(`Audio support plan for ${unitKey} must keep every learner-facing cue in the target language ${audioPlan.targetLanguage}.`);
       } else if (audioCue && audioCue.unitKey !== unitKey) {
         errors.push(`Audio support plan for ${unitKey} must keep every learner-facing cue bound to the same unit.`);
+      }
+    }
+
+    for (const [gameMode, cueIds] of Object.entries(audioPlan.gameModeAudioCueIds ?? {})) {
+      if (!supportedGameModeIds.includes(gameMode as GameModeId)) {
+        errors.push(`Audio support plan for ${unitKey} references unsupported game mode ${gameMode}.`);
+      }
+
+      for (const audioCueId of cueIds ?? []) {
+        const audioCue = contentPackage.audioCues?.find((cue) => cue.audioCueId === audioCueId);
+
+        if (!audioCue) {
+          continue;
+        }
+
+        if (!learnerFacingAudioCueKinds.includes(audioCue.kind)) {
+          errors.push(`Audio support plan for ${unitKey} must use learner-facing cue kinds for game mode coverage.`);
+        }
+
+        if (audioCue.gameMode && audioCue.gameMode !== gameMode) {
+          errors.push(`Audio cue ${audioCue.audioCueId} declares game mode ${audioCue.gameMode} but is used for ${gameMode} coverage.`);
+        }
       }
     }
   }

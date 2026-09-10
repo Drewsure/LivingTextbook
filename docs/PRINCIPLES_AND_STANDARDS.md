@@ -1311,3 +1311,17 @@ Required standing rules:
 - Mismatch evidence remains a review blocker and does not trigger provider lookup, storage, or student progression.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-599 and `docs/adr/0528-audio-cue-canonical-text-and-unit-binding.md`.
+
+## 71. Game-Mode Audio Coverage Standard
+
+Game-mode audio arrays are the bridge between content packages and parent engines. They may reuse a unit's learner-facing cues across curated activities, but they must not accept arbitrary UI or story cues as gameplay evidence, or silently disagree with a cue's declared mode.
+
+Required standing rules:
+
+- Game-mode coverage keys must use one of the supported curated game modes.
+- Game-mode arrays may use term, sentence, instruction, and feedback cues.
+- UI-label and story-line cues remain outside gameplay coverage and must not satisfy a game audio lane.
+- When a cue declares a game mode, that declaration must match the coverage lane using it.
+- Cross-mode reuse remains allowed when the cue has no conflicting mode declaration.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-600 and `docs/adr/0529-game-mode-audio-coverage.md`.

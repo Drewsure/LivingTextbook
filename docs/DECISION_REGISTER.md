@@ -2299,3 +2299,26 @@ Guardrails:
 - No provider, storage, playback, release, assignment, or student-state side effect is introduced.
 
 This decision is recorded in `docs/adr/0528-audio-cue-canonical-text-and-unit-binding.md` and `docs/decision-register/DR-599-audio-cue-canonical-text-and-unit-binding.md`.
+
+## DR-600: Game-Mode Audio Coverage
+
+Status: Accepted
+
+Decision: Restrict game-mode audio coverage to supported curated modes and learner-facing cue kinds, while rejecting conflicting cue-level game-mode metadata.
+
+Rationale:
+
+- Imported JSON can carry a syntactically valid cue that is semantically a UI label or story line rather than gameplay support.
+- A cue that declares one mode but is placed in another creates misleading review evidence and future engine behavior.
+- Curated mode validation protects the white-label pathway catalog without removing intentional cross-mode reuse.
+
+Guardrails:
+
+- Coverage keys must be supported game modes.
+- Term, sentence, instruction, and feedback cues are allowed in game-mode coverage.
+- UI-label and story-line cues cannot satisfy game-mode coverage.
+- Declared cue mode must match the coverage lane when present.
+- A cue with no mode declaration may be reused across curated modes.
+- No provider, storage, playback, release, assignment, or student-state side effect is introduced.
+
+This decision is recorded in `docs/adr/0529-game-mode-audio-coverage.md` and `docs/decision-register/DR-600-game-mode-audio-coverage.md`.

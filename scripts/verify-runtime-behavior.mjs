@@ -314,6 +314,26 @@ try {
     audioCues: audioCues.map((cue, index) => index === 8 ? { ...cue, text: "Not a target sentence." } : cue),
   });
   assertIncludes(wrongSentenceTextErrors, `Audio support plan for ${audioUnitKey} must match every sentence cue to a canonical target sentence.`);
+  const invalidGameModeAudioErrors = contentModel.validateContentPackage({
+    ...audioPackage,
+    audioSupportPlans: [{
+      ...audioPlan,
+      gameModeAudioCueIds: { "not-a-game-mode": ["audio-term-1"] },
+    }],
+  });
+  assertIncludes(invalidGameModeAudioErrors, `Audio support plan for ${audioUnitKey} references unsupported game mode not-a-game-mode.`);
+  const invalidGameCueKindErrors = contentModel.validateContentPackage({
+    ...audioPackage,
+    audioCues: audioCues.map((cue, index) => index === 0 ? { ...cue, kind: "ui-label" } : cue),
+    audioSupportPlans: [{ ...audioPlan, gameModeAudioCueIds: { flashcards: ["audio-term-1"] } }],
+  });
+  assertIncludes(invalidGameCueKindErrors, `Audio support plan for ${audioUnitKey} must use learner-facing cue kinds for game mode coverage.`);
+  const mismatchedGameModeCueErrors = contentModel.validateContentPackage({
+    ...audioPackage,
+    audioCues: audioCues.map((cue, index) => index === 0 ? { ...cue, gameMode: "memory-match" } : cue),
+    audioSupportPlans: [{ ...audioPlan, gameModeAudioCueIds: { flashcards: ["audio-term-1"] } }],
+  });
+  assertIncludes(mismatchedGameModeCueErrors, "Audio cue audio-term-1 declares game mode memory-match but is used for flashcards coverage.");
   const wrongInstructionFeedbackCueErrors = contentModel.validateContentPackage({
     ...audioPackage,
     audioSupportPlans: [{
