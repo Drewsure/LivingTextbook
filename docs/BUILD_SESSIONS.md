@@ -1,5 +1,7 @@
 # Living Textbook Planned Build Sessions
 
+Latest hardening: DR-602 replaces audio count-based completeness with per-text coverage checks. Regression coverage includes distinct IDs repeating one word or sentence, complete coverage, alternate recordings, normalization, and reordered references. This improves package validation; it does not establish production backend readiness.
+
 This document gives the project an explicit build-session structure. It should be reviewed when choosing the next work block and updated as the platform matures.
 
 The structure follows the standing rule: foundation first, interaction second, premium polish third.

@@ -1272,6 +1272,8 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-596 and `docs/adr/05
 
 ## 68. Audio Coverage Uniqueness Standard
 
+Coverage must be checked against every canonical vocabulary term and target sentence, not inferred from cue counts. Alternate recordings with distinct IDs are permitted, but cannot substitute for missing text. A covering cue must match the lane kind, tenant, unit, and target language. See DR-602.
+
 Audio support plans must represent real coverage, not inflated counts. The same cue may be intentionally reused across a unit’s general coverage and a game mode, but it must not appear twice inside one coverage group.
 
 Required standing rules:

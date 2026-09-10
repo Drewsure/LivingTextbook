@@ -284,6 +284,28 @@ try {
     units: [audioUnit], audioCues, audioSupportPlans: [audioPlan],
   };
   const missingAudioPlanErrors = contentModel.validateContentPackage({ ...audioPackage, audioSupportPlans: [] });
+  assertEqual(contentModel.validateContentPackage(audioPackage).length, 0);
+  for (const kind of ["term", "sentence"]) {
+    const firstCue = audioCues.find((cue) => cue.kind === kind);
+    const repeatedTextPackage = {
+      ...audioPackage,
+      audioCues: audioCues.map((cue) => cue.kind === kind ? { ...cue, text: firstCue.text } : cue),
+    };
+    const coverageLabel = kind === "term" ? "vocabulary term" : "target sentence";
+    assertIncludes(contentModel.validateContentPackage(repeatedTextPackage),
+      `Audio support plan for ${audioUnitKey} must include a cue for every ${coverageLabel}.`);
+  }
+  const alternateCue = { ...audioCues[0], audioCueId: "alternate-hello" };
+  assertEqual(contentModel.validateContentPackage({
+    ...audioPackage,
+    audioCues: [...audioCues, alternateCue],
+    audioSupportPlans: [{ ...audioPlan, vocabularyAudioCueIds: [...audioPlan.vocabularyAudioCueIds, alternateCue.audioCueId] }],
+  }).length, 0);
+  assertEqual(contentModel.validateContentPackage({
+    ...audioPackage,
+    audioCues: audioCues.map((cue) => ({ ...cue, text: `  ${cue.text.toUpperCase()}  ` })),
+    audioSupportPlans: [{ ...audioPlan, vocabularyAudioCueIds: [...audioPlan.vocabularyAudioCueIds].reverse() }],
+  }).length, 0);
   assertIncludes(missingAudioPlanErrors, `Unit ${audioUnitKey} must include an audio support plan for learner-facing text.`);
   const wrongCueLanguageErrors = contentModel.validateContentPackage({
     ...audioPackage,

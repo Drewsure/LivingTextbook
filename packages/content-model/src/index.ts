@@ -784,11 +784,20 @@ export function validateContentPackage(contentPackage: ContentPackage): string[]
     }
 
     if (audioPlan.required) {
-      if (audioPlan.vocabularyAudioCueIds.length < unit.pedagogicalPayload.vocabularyTerms.length) {
+      const hasAudioForText = (text: string, cueIds: AudioCueId[], kind: AudioCueKind): boolean =>
+        (contentPackage.audioCues ?? []).some((cue) =>
+          cueIds.includes(cue.audioCueId)
+          && cue.kind === kind
+          && cue.unitKey === unitKey
+          && cue.tenantId === contentPackage.meta.tenantId
+          && languageMatches(cue.language, audioPlan.targetLanguage)
+          && normalizeAudioText(cue.text) === normalizeAudioText(text));
+
+      if (unit.pedagogicalPayload.vocabularyTerms.some((term) => !hasAudioForText(term, audioPlan.vocabularyAudioCueIds, "term"))) {
         errors.push(`Audio support plan for ${unitKey} must include a cue for every vocabulary term.`);
       }
 
-      if (audioPlan.sentenceAudioCueIds.length < unit.pedagogicalPayload.targetSentences.length) {
+      if (unit.pedagogicalPayload.targetSentences.some((sentence) => !hasAudioForText(sentence, audioPlan.sentenceAudioCueIds, "sentence"))) {
         errors.push(`Audio support plan for ${unitKey} must include a cue for every target sentence.`);
       }
 

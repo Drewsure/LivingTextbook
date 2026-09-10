@@ -1,5 +1,9 @@
 # Living Textbook Decision Register
 
+## DR-602: Complete Canonical Audio Coverage
+
+Require matching audio for each canonical term and sentence. Distinct cue IDs repeating one text cannot satisfy coverage for other text. Alternate recordings and reordered cue lists remain valid. See `docs/decision-register/DR-602-complete-canonical-audio-coverage.md`.
+
 This register is a standing gate for platform decisions. It exists to keep the Living Textbook build saleable, maintainable, and tenant-ready while still moving fast enough to remain cost efficient.
 
 The repo is the source of truth. Every major technical, product, AI-agent, game-engine, styling, infrastructure, or data decision should be checked here before implementation.
