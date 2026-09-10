@@ -1297,3 +1297,17 @@ Required standing rules:
 - Game-mode arrays may combine relevant cue kinds, but all referenced cues must exist and match the target language.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-598 and `docs/adr/0527-audio-cue-semantic-coverage.md`.
+
+## 70. Audio Cue Canonical Text And Unit Binding Standard
+
+Audio coverage must point to the actual language content of the unit, not merely to a cue with a plausible kind. This prevents a playable recording from silently teaching a different word or sentence, and prevents one unit from borrowing another unit's learner-facing cue.
+
+Required standing rules:
+
+- Vocabulary cue text must match a canonical vocabulary term after whitespace and case normalization.
+- Sentence cue text must match a canonical target sentence after whitespace and case normalization.
+- Every cue referenced by a unit audio plan must be explicitly bound to that same unit.
+- Instruction and feedback cues remain semantically typed and unit-bound, even when their exact copy is authored outside the canonical vocabulary/sentence arrays.
+- Mismatch evidence remains a review blocker and does not trigger provider lookup, storage, or student progression.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-599 and `docs/adr/0528-audio-cue-canonical-text-and-unit-binding.md`.

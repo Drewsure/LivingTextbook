@@ -968,3 +968,6 @@ This decision is recorded in `docs/adr/0526-audio-coverage-uniqueness.md` and `d
 
 The audio cue semantic coverage slice now requires term, sentence, instruction, and feedback arrays to reference matching cue kinds, while preserving flexible mixed-kind game-mode arrays.
 This decision is recorded in `docs/adr/0527-audio-cue-semantic-coverage.md` and `docs/decision-register/DR-598-audio-cue-semantic-coverage.md`.
+
+The audio cue canonical text and unit binding slice now requires vocabulary and sentence cues to match canonical unit text and requires every cue referenced by a unit plan to be bound to that same unit. Instruction and feedback cues remain kind-checked and unit-bound without inventing canonical copy requirements.
+This decision is recorded in `docs/adr/0528-audio-cue-canonical-text-and-unit-binding.md` and `docs/decision-register/DR-599-audio-cue-canonical-text-and-unit-binding.md`.

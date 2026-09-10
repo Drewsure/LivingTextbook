@@ -422,6 +422,10 @@ function languageMatches(value: string, targetLanguage: string): boolean {
   return Boolean(target) && (language === target || language.startsWith(`${target}-`) || target.startsWith(`${language}-`));
 }
 
+function normalizeAudioText(value: string): string {
+  return value.trim().replace(/\s+/g, " ").toLocaleLowerCase();
+}
+
 function isValidTimestamp(value: string | undefined): value is string {
   return Boolean(value && !Number.isNaN(Date.parse(value)));
 }
@@ -785,16 +789,36 @@ export function validateContentPackage(contentPackage: ContentPackage): string[]
       for (const audioCueId of audioPlan.vocabularyAudioCueIds) {
         const audioCue = contentPackage.audioCues?.find((cue) => cue.audioCueId === audioCueId);
 
-        if (audioCue && audioCue.kind !== "term") {
-          errors.push(`Audio support plan for ${unitKey} must use term cues for vocabulary coverage.`);
+        if (audioCue) {
+          if (audioCue.kind !== "term") {
+            errors.push(`Audio support plan for ${unitKey} must use term cues for vocabulary coverage.`);
+          }
+
+          if (audioCue.unitKey !== unitKey) {
+            errors.push(`Audio support plan for ${unitKey} must use unit-bound cues for vocabulary coverage.`);
+          }
+
+          if (!unit.pedagogicalPayload.vocabularyTerms.some((term) => normalizeAudioText(term) === normalizeAudioText(audioCue.text))) {
+            errors.push(`Audio support plan for ${unitKey} must match every vocabulary cue to a canonical vocabulary term.`);
+          }
         }
       }
 
       for (const audioCueId of audioPlan.sentenceAudioCueIds) {
         const audioCue = contentPackage.audioCues?.find((cue) => cue.audioCueId === audioCueId);
 
-        if (audioCue && audioCue.kind !== "sentence") {
-          errors.push(`Audio support plan for ${unitKey} must use sentence cues for sentence coverage.`);
+        if (audioCue) {
+          if (audioCue.kind !== "sentence") {
+            errors.push(`Audio support plan for ${unitKey} must use sentence cues for sentence coverage.`);
+          }
+
+          if (audioCue.unitKey !== unitKey) {
+            errors.push(`Audio support plan for ${unitKey} must use unit-bound cues for sentence coverage.`);
+          }
+
+          if (!unit.pedagogicalPayload.targetSentences.some((sentence) => normalizeAudioText(sentence) === normalizeAudioText(audioCue.text))) {
+            errors.push(`Audio support plan for ${unitKey} must match every sentence cue to a canonical target sentence.`);
+          }
         }
       }
 
@@ -819,6 +843,8 @@ export function validateContentPackage(contentPackage: ContentPackage): string[]
         errors.push(`Audio support plan for ${unitKey} references missing audio cue ${audioCueId}.`);
       } else if (audioCue && !languageMatches(audioCue.language, audioPlan.targetLanguage)) {
         errors.push(`Audio support plan for ${unitKey} must keep every learner-facing cue in the target language ${audioPlan.targetLanguage}.`);
+      } else if (audioCue && audioCue.unitKey !== unitKey) {
+        errors.push(`Audio support plan for ${unitKey} must keep every learner-facing cue bound to the same unit.`);
       }
     }
   }

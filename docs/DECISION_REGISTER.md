@@ -2277,3 +2277,25 @@ Guardrails:
 - Missing, wrong-language, duplicate, and cross-tenant cue errors remain separate checks.
 
 This decision is recorded in `docs/adr/0527-audio-cue-semantic-coverage.md` and `docs/decision-register/DR-598-audio-cue-semantic-coverage.md`.
+
+## DR-599: Audio Cue Canonical Text And Unit Binding
+
+Status: Accepted
+
+Decision: Require vocabulary and sentence audio cues to match canonical unit text, and require every cue referenced by a unit audio plan to be explicitly bound to that unit.
+
+Rationale:
+
+- A cue can have the correct language and semantic kind while still teaching the wrong word or sentence.
+- Unbound or cross-unit cues can make imported packages appear complete while delivering the wrong learner experience.
+- Exact canonical matching keeps teacher review, game rendering, and future provider delivery aligned without forcing a storage implementation.
+
+Guardrails:
+
+- Vocabulary cue text matches a canonical vocabulary term after whitespace and case normalization.
+- Sentence cue text matches a canonical target sentence after whitespace and case normalization.
+- All referenced learner-facing cues must use the same unit key as the audio support plan.
+- Instruction and feedback cues remain type-checked and unit-bound without requiring canonical sentence matching.
+- No provider, storage, playback, release, assignment, or student-state side effect is introduced.
+
+This decision is recorded in `docs/adr/0528-audio-cue-canonical-text-and-unit-binding.md` and `docs/decision-register/DR-599-audio-cue-canonical-text-and-unit-binding.md`.

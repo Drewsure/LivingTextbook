@@ -298,6 +298,22 @@ try {
     }],
   });
   assertIncludes(wrongCueKindErrors, `Audio support plan for ${audioUnitKey} must use term cues for vocabulary coverage.`);
+  const wrongCueTextErrors = contentModel.validateContentPackage({
+    ...audioPackage,
+    audioCues: audioCues.map((cue, index) => index === 0 ? { ...cue, text: "not hello" } : cue),
+  });
+  assertIncludes(wrongCueTextErrors, `Audio support plan for ${audioUnitKey} must match every vocabulary cue to a canonical vocabulary term.`);
+  const wrongCueUnitErrors = contentModel.validateContentPackage({
+    ...audioPackage,
+    audioCues: audioCues.map((cue, index) => index === 0 ? { ...cue, unitKey: "other-unit" } : cue),
+  });
+  assertIncludes(wrongCueUnitErrors, `Audio support plan for ${audioUnitKey} must use unit-bound cues for vocabulary coverage.`);
+  assertIncludes(wrongCueUnitErrors, `Audio support plan for ${audioUnitKey} must keep every learner-facing cue bound to the same unit.`);
+  const wrongSentenceTextErrors = contentModel.validateContentPackage({
+    ...audioPackage,
+    audioCues: audioCues.map((cue, index) => index === 8 ? { ...cue, text: "Not a target sentence." } : cue),
+  });
+  assertIncludes(wrongSentenceTextErrors, `Audio support plan for ${audioUnitKey} must match every sentence cue to a canonical target sentence.`);
   const wrongInstructionFeedbackCueErrors = contentModel.validateContentPackage({
     ...audioPackage,
     audioSupportPlans: [{
