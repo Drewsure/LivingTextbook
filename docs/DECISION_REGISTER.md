@@ -2322,3 +2322,24 @@ Guardrails:
 - No provider, storage, playback, release, assignment, or student-state side effect is introduced.
 
 This decision is recorded in `docs/adr/0529-game-mode-audio-coverage.md` and `docs/decision-register/DR-600-game-mode-audio-coverage.md`.
+
+## DR-601: Background Media Mode Policy
+
+Status: Accepted
+
+Decision: Require multimedia plans to use unique, supported curated game-mode IDs when declaring allowed background media modes.
+
+Rationale:
+
+- Background media needs an explicit mode policy before it can be attached to a parent engine.
+- Duplicate or unknown mode IDs create ambiguous review evidence and make future teacher settings unsafe to interpret.
+- The policy must remain subordinate to target-language audio and learning events.
+
+Guardrails:
+
+- Allowed background mode IDs must be supported curated game modes.
+- Duplicate allowed mode IDs are rejected.
+- Review validation does not enable autoplay, volume changes, storage writes, or student progression.
+- Audio priority, teacher controls, rights, and release gates remain separate.
+
+This decision is recorded in `docs/adr/0530-background-media-mode-policy.md` and `docs/decision-register/DR-601-background-media-mode-policy.md`.

@@ -487,6 +487,15 @@ try {
   });
   assertIncludes(duplicateMultimediaPlanErrors, `Content package must not contain duplicate multimedia plan for ${audioUnitKey}.`);
   assertIncludes(duplicateMultimediaPlanErrors, `Multimedia plan for ${audioUnitKey} cannot enable background media by default without a background asset.`);
+  const invalidBackgroundGameModeErrors = contentModel.validateContentPackage({
+    ...audioPackage,
+    multimediaPlans: [{
+      unitKey: audioUnitKey,
+      allowedBackgroundGameModes: ["memory-match", "memory-match", "not-a-game-mode"],
+    }],
+  });
+  assertIncludes(invalidBackgroundGameModeErrors, `Multimedia plan for ${audioUnitKey} must not repeat allowed background game mode memory-match.`);
+  assertIncludes(invalidBackgroundGameModeErrors, `Multimedia plan for ${audioUnitKey} references unsupported background game mode not-a-game-mode.`);
 
   const launchRequest = {
     tenantId: "tenant-1", packageId: "package-1",

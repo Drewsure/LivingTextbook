@@ -1325,3 +1325,17 @@ Required standing rules:
 - Cross-mode reuse remains allowed when the cue has no conflicting mode declaration.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-600 and `docs/adr/0529-game-mode-audio-coverage.md`.
+
+## 72. Background Media Mode Policy Standard
+
+Background music and video are optional support layers, not progression systems. Their allowed-mode policy must therefore resolve to the same curated game-mode catalog used by the platform and must not contain ambiguous duplicate entries.
+
+Required standing rules:
+
+- Allowed background game modes must use supported curated mode IDs.
+- Each allowed background game mode may appear only once per multimedia plan.
+- Missing or invalid background mode policy remains a review blocker, not an automatic playback decision.
+- Background media remains subordinate to learning audio, instructions, feedback, and scoring.
+- Mode policy validation does not enable autoplay, change volume, or persist teacher settings.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-601 and `docs/adr/0530-background-media-mode-policy.md`.

@@ -974,3 +974,6 @@ This decision is recorded in `docs/adr/0528-audio-cue-canonical-text-and-unit-bi
 
 The game-mode audio coverage slice now rejects unsupported coverage keys, UI-label/story-line cues in gameplay arrays, and cue-level mode declarations that conflict with the coverage lane. Cross-mode reuse remains allowed when no conflicting declaration is present.
 This decision is recorded in `docs/adr/0529-game-mode-audio-coverage.md` and `docs/decision-register/DR-600-game-mode-audio-coverage.md`.
+
+The background media mode policy slice now rejects duplicate and unsupported allowed game-mode IDs in multimedia plans while keeping autoplay, volume, persistence, and progression behavior blocked.
+This decision is recorded in `docs/adr/0530-background-media-mode-policy.md` and `docs/decision-register/DR-601-background-media-mode-policy.md`.

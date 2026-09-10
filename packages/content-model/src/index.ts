@@ -1076,6 +1076,20 @@ export function validateContentPackage(contentPackage: ContentPackage): string[]
       errors.push(`Multimedia plan for ${plan.unitKey} cannot enable background media by default without a background asset.`);
     }
 
+    const seenBackgroundGameModes = new Set<string>();
+
+    for (const gameMode of plan.allowedBackgroundGameModes ?? []) {
+      if (seenBackgroundGameModes.has(gameMode)) {
+        errors.push(`Multimedia plan for ${plan.unitKey} must not repeat allowed background game mode ${gameMode}.`);
+      }
+
+      seenBackgroundGameModes.add(gameMode);
+
+      if (!supportedGameModeIds.includes(gameMode)) {
+        errors.push(`Multimedia plan for ${plan.unitKey} references unsupported background game mode ${gameMode}.`);
+      }
+    }
+
     if (plan.primaryPlaylistId) {
       const playlist = contentPackage.playlists?.find((candidate) => candidate.playlistId === plan.primaryPlaylistId);
 
