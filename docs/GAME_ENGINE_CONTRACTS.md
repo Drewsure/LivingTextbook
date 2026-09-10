@@ -172,6 +172,8 @@ Current profiles:
 Rules:
 
 - Mode configs reference `scoringProfileId`.
+- Profiles explicitly declare the parent engines, learner roles, and skill focuses they can score.
+- The game-mode verification gate must confirm that every mode's catalog engine, role, and skill focus are accepted by its referenced profile.
 - Components may request a scoring profile and call shared scoring helpers.
 - Scoring events should include `scoringProfileId` metadata when possible.
 - Tenant reward names may change, but scoring profile behavior must remain explainable to teachers and parents.

@@ -1449,3 +1449,17 @@ Required standing rules:
 - Metadata validation remains separate from visual branding and does not enable gameplay or progression.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-610 and `docs/adr/0538-game-catalog-learner-metadata.md`.
+
+## 81. Scoring Profile Compatibility Standard
+
+Scoring profiles are behavioral contracts, not interchangeable reward labels. Every curated mode must use a profile whose declared engine, learner role, and skill focus match the mode catalog.
+
+Required standing rules:
+
+- Every scoring profile must explicitly declare its supported parent engine set.
+- Every scoring profile must explicitly declare its supported learner-role set and skill-focus set.
+- Every catalog mode must reference an existing profile whose compatibility declarations include the mode's engine, role, and skill focus.
+- Changing a mode's engine, role, skill focus, or scoring profile requires scoring replay and catalog verification.
+- Profile compatibility validation does not award dust, unlock progression, write inventory, or enable a game provider.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-611 and `docs/adr/0539-scoring-profile-compatibility.md`.

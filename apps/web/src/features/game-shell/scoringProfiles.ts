@@ -1,4 +1,6 @@
 import type { GameModeId } from "@living-textbook/content-model";
+import type { GameModeRole, GameModeSkillFocus } from "./gameModeCatalog";
+import type { ParentEngine } from "@living-textbook/content-model";
 
 export type ScoringProfileId =
   | "entry-vocabulary-practice"
@@ -12,6 +14,9 @@ export type ScoringProfileId =
 export interface GameScoringProfile {
   id: ScoringProfileId;
   label: string;
+  supportedEngines: ParentEngine[];
+  supportedRoles: GameModeRole[];
+  supportedSkillFocuses: GameModeSkillFocus[];
   vocabularyDust: number;
   syntaxDust: number;
   bonusDust: number;
@@ -23,6 +28,9 @@ export const gameScoringProfiles: Record<ScoringProfileId, GameScoringProfile> =
   "entry-vocabulary-practice": {
     id: "entry-vocabulary-practice",
     label: "Entry Vocabulary Practice",
+    supportedEngines: ["selection"],
+    supportedRoles: ["entry-practice"],
+    supportedSkillFocuses: ["vocabulary"],
     vocabularyDust: 300,
     syntaxDust: 0,
     bonusDust: 0,
@@ -32,6 +40,9 @@ export const gameScoringProfiles: Record<ScoringProfileId, GameScoringProfile> =
   "pairing-reinforcement-v1": {
     id: "pairing-reinforcement-v1",
     label: "Pairing Reinforcement",
+    supportedEngines: ["pairing"],
+    supportedRoles: ["reinforcement"],
+    supportedSkillFocuses: ["vocabulary"],
     vocabularyDust: 0,
     syntaxDust: 0,
     bonusDust: 200,
@@ -41,6 +52,9 @@ export const gameScoringProfiles: Record<ScoringProfileId, GameScoringProfile> =
   "selection-assessment-v1": {
     id: "selection-assessment-v1",
     label: "Selection Assessment",
+    supportedEngines: ["selection"],
+    supportedRoles: ["assessment"],
+    supportedSkillFocuses: ["vocabulary", "mixed"],
     vocabularyDust: 150,
     syntaxDust: 150,
     bonusDust: 200,
@@ -50,6 +64,9 @@ export const gameScoringProfiles: Record<ScoringProfileId, GameScoringProfile> =
   "syntax-construction-v1": {
     id: "syntax-construction-v1",
     label: "Syntax Construction",
+    supportedEngines: ["text-spelling"],
+    supportedRoles: ["reinforcement"],
+    supportedSkillFocuses: ["syntax"],
     vocabularyDust: 0,
     syntaxDust: 300,
     bonusDust: 200,
@@ -59,6 +76,9 @@ export const gameScoringProfiles: Record<ScoringProfileId, GameScoringProfile> =
   "spelling-typing-v1": {
     id: "spelling-typing-v1",
     label: "Spelling And Typing",
+    supportedEngines: ["text-spelling"],
+    supportedRoles: ["reinforcement"],
+    supportedSkillFocuses: ["vocabulary"],
     vocabularyDust: 200,
     syntaxDust: 0,
     bonusDust: 200,
@@ -68,6 +88,9 @@ export const gameScoringProfiles: Record<ScoringProfileId, GameScoringProfile> =
   "speaking-listening-practice-v1": {
     id: "speaking-listening-practice-v1",
     label: "Speaking And Listening Practice",
+    supportedEngines: ["selection"],
+    supportedRoles: ["reinforcement"],
+    supportedSkillFocuses: ["speaking"],
     vocabularyDust: 150,
     syntaxDust: 150,
     bonusDust: 100,
@@ -77,6 +100,9 @@ export const gameScoringProfiles: Record<ScoringProfileId, GameScoringProfile> =
   "arcade-reinforcement-v1": {
     id: "arcade-reinforcement-v1",
     label: "Arcade Reinforcement",
+    supportedEngines: ["selection"],
+    supportedRoles: ["reinforcement"],
+    supportedSkillFocuses: ["vocabulary"],
     vocabularyDust: 100,
     syntaxDust: 0,
     bonusDust: 300,

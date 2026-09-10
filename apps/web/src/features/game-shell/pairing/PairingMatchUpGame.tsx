@@ -165,6 +165,9 @@ export function PairingMatchUpGame({
         profile: scoringProfile ?? {
           id: "pairing-reinforcement-v1",
           label: "Pairing Reinforcement",
+          supportedEngines: ["pairing"],
+          supportedRoles: ["reinforcement"],
+          supportedSkillFocuses: ["vocabulary"],
           vocabularyDust: 0,
           syntaxDust: 0,
           bonusDust: 200,

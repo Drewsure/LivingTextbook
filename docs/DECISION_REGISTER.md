@@ -2516,3 +2516,24 @@ Guardrails:
 - No provider, storage, playback, release, assignment, or student-state side effect is introduced.
 
 This decision is recorded in `docs/adr/0538-game-catalog-learner-metadata.md` and `docs/decision-register/DR-610-game-catalog-learner-metadata.md`.
+
+## DR-611: Scoring Profile Compatibility
+
+Status: Accepted
+
+Decision: Require each scoring profile to declare supported parent engines, learner roles, and skill focuses, and verify that every catalog mode's selected profile accepts those three dimensions.
+
+Rationale:
+
+- A profile ID can exist while still being semantically wrong for a mode.
+- Engine, role, and skill metadata are already part of the curated catalog and provide the minimum compatibility boundary for deterministic scoring.
+- A static verification gate is cheaper and safer than discovering scoring drift during game integration or learner testing.
+
+Guardrails:
+
+- Every profile must declare supported engines, roles, and skill focuses.
+- Every mode must reference a profile whose declarations include the mode's catalog values.
+- Drift fails the game-mode verification gate before build or release review.
+- No dust award, progression unlock, inventory write, or provider activation occurs during verification.
+
+This decision is recorded in `docs/adr/0539-scoring-profile-compatibility.md` and `docs/decision-register/DR-611-scoring-profile-compatibility.md`.

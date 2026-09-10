@@ -19,6 +19,7 @@ const activeGameReplayChecklist = readFileSync(activeGameReplayChecklistPath, "u
 const gameModeMatch = contentModel.match(/export type GameModeId =([\s\S]*?);/);
 const parentEngineMatch = contentModel.match(/export type ParentEngine =([\s\S]*?);/);
 const compatibilityMatch = contentModel.match(/const supportedGameModeContracts:[\s\S]*?= \{([\s\S]*?)\n\};/);
+const scoringProfilesMatch = scoring.match(/export const gameScoringProfiles:[\s\S]*?= \{([\s\S]*?)\n\};/);
 
 if (!gameModeMatch) {
   console.error("FAIL Could not find GameModeId union in packages/content-model/src/index.ts.");
@@ -32,6 +33,11 @@ if (!parentEngineMatch) {
 
 if (!compatibilityMatch) {
   console.error("FAIL Could not find supportedGameModeContracts in packages/content-model/src/index.ts.");
+  process.exit(1);
+}
+
+if (!scoringProfilesMatch) {
+  console.error("FAIL Could not find gameScoringProfiles in apps/web/src/features/game-shell/scoringProfiles.ts.");
   process.exit(1);
 }
 
@@ -95,6 +101,26 @@ const missingEngine = gameModes.filter((mode) => {
 const missingScoringProfile = gameModes.filter((mode) => {
   const item = getCatalogItemBody(catalog, mode);
   return !/scoringProfileId:\s*"[^"]+"/.test(item);
+});
+const scoringProfileCompatibilityDrift = gameModes.filter((mode) => {
+  const catalogItem = getCatalogItemBody(catalog, mode);
+  const scoringProfileId = catalogItem.match(/scoringProfileId:\s*"([^"]+)"/)?.[1];
+  const profile = scoringProfileId ? getScoringProfileBody(scoringProfilesMatch[1], scoringProfileId) : "";
+  const engineId = catalogItem.match(/engineId:\s*"([^"]+)"/)?.[1];
+  const role = catalogItem.match(/role:\s*"([^"]+)"/)?.[1];
+  const skillFocus = catalogItem.match(/skillFocus:\s*"([^"]+)"/)?.[1];
+  const supportedEngines = profile.match(/supportedEngines:\s*\[([^\]]*)\]/)?.[1] ?? "";
+  const supportedRoles = profile.match(/supportedRoles:\s*\[([^\]]*)\]/)?.[1] ?? "";
+  const supportedSkillFocuses = profile.match(/supportedSkillFocuses:\s*\[([^\]]*)\]/)?.[1] ?? "";
+
+  return !scoringProfileId
+    || !profile
+    || !engineId
+    || !role
+    || !skillFocus
+    || !supportedEngines.includes(`"${engineId}"`)
+    || !supportedRoles.includes(`"${role}"`)
+    || !supportedSkillFocuses.includes(`"${skillFocus}"`);
 });
 const compatibilityDrift = gameModes.filter((mode) => {
   const contentContract = getCompatibilityItemBody(compatibilityMatch[1], mode);
@@ -312,6 +338,11 @@ if (missingScoringProfile.length > 0) {
   process.exit(1);
 }
 
+if (scoringProfileCompatibilityDrift.length > 0) {
+  console.error(`FAIL Game mode scoring profile compatibility drift for: ${scoringProfileCompatibilityDrift.join(", ")}`);
+  process.exit(1);
+}
+
 for (const routeContract of requiredActiveGameRouteContracts) {
   if (!routeContracts.includes(`id: "${routeContract.id}"`)) {
     console.error(`FAIL Active game route contract missing id: ${routeContract.id}`);
@@ -365,6 +396,13 @@ function hasSharedRouteHelperMapping(source, mode, helper) {
 function getCatalogItemBody(source, mode) {
   const escaped = mode.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   const match = source.match(new RegExp(`(?:^|\\n)\\s*(?:"${escaped}"|${escaped}):\\s*{([\\s\\S]*?)\\n\\s*},`, "m"));
+
+  return match?.[1] ?? "";
+}
+
+function getScoringProfileBody(source, profileId) {
+  const escaped = profileId.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const match = source.match(new RegExp(`(?:^|\\n)\\s*"${escaped}":\\s*\\{([\\s\\S]*?)\\n\\s*},`, "m"));
 
   return match?.[1] ?? "";
 }

@@ -995,3 +995,6 @@ This decision is recorded in `docs/adr/0529-game-mode-audio-coverage.md` and `do
 
 The background media mode policy slice now rejects duplicate and unsupported allowed game-mode IDs in multimedia plans while keeping autoplay, volume, persistence, and progression behavior blocked.
 This decision is recorded in `docs/adr/0530-background-media-mode-policy.md` and `docs/decision-register/DR-601-background-media-mode-policy.md`.
+
+The scoring profile compatibility slice now requires every scoring profile to declare supported parent engines, learner roles, and skill focuses. The game-mode verification gate compares those declarations with each catalog mode so reward semantics cannot drift away from the engine or pedagogical purpose. This remains verification-only and does not award dust or mutate progression.
+This decision is recorded in `docs/adr/0539-scoring-profile-compatibility.md` and `docs/decision-register/DR-611-scoring-profile-compatibility.md`.
