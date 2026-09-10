@@ -797,6 +797,19 @@ export function validateContentPackage(contentPackage: ContentPackage): string[]
           errors.push(`Audio support plan for ${unitKey} must use sentence cues for sentence coverage.`);
         }
       }
+
+      for (const [coverageLabel, cueIds] of [
+        ["instruction", audioPlan.instructionAudioCueIds ?? []],
+        ["feedback", audioPlan.feedbackAudioCueIds ?? []],
+      ] as const) {
+        for (const audioCueId of cueIds) {
+          const audioCue = contentPackage.audioCues?.find((cue) => cue.audioCueId === audioCueId);
+
+          if (audioCue && audioCue.kind !== coverageLabel) {
+            errors.push(`Audio support plan for ${unitKey} must use ${coverageLabel} cues for ${coverageLabel} coverage.`);
+          }
+        }
+      }
     }
 
     for (const audioCueId of collectAudioCueIds(audioPlan)) {

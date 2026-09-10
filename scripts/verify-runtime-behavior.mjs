@@ -298,6 +298,16 @@ try {
     }],
   });
   assertIncludes(wrongCueKindErrors, `Audio support plan for ${audioUnitKey} must use term cues for vocabulary coverage.`);
+  const wrongInstructionFeedbackCueErrors = contentModel.validateContentPackage({
+    ...audioPackage,
+    audioSupportPlans: [{
+      ...audioPlan,
+      instructionAudioCueIds: ["audio-term-1"],
+      feedbackAudioCueIds: ["audio-sentence-1"],
+    }],
+  });
+  assertIncludes(wrongInstructionFeedbackCueErrors, `Audio support plan for ${audioUnitKey} must use instruction cues for instruction coverage.`);
+  assertIncludes(wrongInstructionFeedbackCueErrors, `Audio support plan for ${audioUnitKey} must use feedback cues for feedback coverage.`);
   const duplicateAudioCoverageErrors = contentModel.validateContentPackage({
     ...audioPackage,
     audioSupportPlans: [{

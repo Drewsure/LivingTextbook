@@ -2255,3 +2255,25 @@ Guardrails:
 - No provider, storage, playback, release, or student-state side effect is introduced.
 
 This decision is recorded in `docs/adr/0526-audio-coverage-uniqueness.md` and `docs/decision-register/DR-597-audio-coverage-uniqueness.md`.
+
+## DR-598: Audio Cue Semantic Coverage
+
+Status: Accepted
+
+Decision: Enforce semantic cue kinds for vocabulary, sentence, instruction, and feedback coverage lanes.
+
+Rationale:
+
+- Correct language and file resolution do not guarantee that a cue is appropriate for the engine role that references it.
+- A sentence or vocabulary cue cannot reliably replace an instruction or feedback cue in a young-learner game flow.
+- Game-mode arrays can remain flexible because they intentionally combine terms, sentences, instructions, and feedback.
+
+Guardrails:
+
+- Vocabulary arrays require term cues.
+- Sentence arrays require sentence cues.
+- Instruction arrays require instruction cues.
+- Feedback arrays require feedback cues.
+- Missing, wrong-language, duplicate, and cross-tenant cue errors remain separate checks.
+
+This decision is recorded in `docs/adr/0527-audio-cue-semantic-coverage.md` and `docs/decision-register/DR-598-audio-cue-semantic-coverage.md`.

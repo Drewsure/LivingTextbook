@@ -1283,3 +1283,17 @@ Required standing rules:
 - Coverage validation remains side-effect free and does not select audio providers.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-597 and `docs/adr/0526-audio-coverage-uniqueness.md`.
+
+## 69. Audio Cue Semantic Coverage Standard
+
+Audio support plans describe more than a list of playable files. Each coverage lane carries meaning for the game engine and teacher review, so instruction and feedback lanes must use cues with the corresponding semantic kind.
+
+Required standing rules:
+
+- Vocabulary coverage uses `term` cues.
+- Sentence coverage uses `sentence` cues.
+- Instruction coverage uses `instruction` cues.
+- Feedback coverage uses `feedback` cues.
+- Game-mode arrays may combine relevant cue kinds, but all referenced cues must exist and match the target language.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-598 and `docs/adr/0527-audio-cue-semantic-coverage.md`.

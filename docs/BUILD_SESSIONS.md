@@ -965,3 +965,6 @@ This decision is recorded in `docs/adr/0525-recorded-audio-delivery-locators.md`
 
 The audio coverage uniqueness slice now rejects repeated cue IDs inside vocabulary, sentence, instruction, feedback, or individual game-mode arrays while allowing deliberate reuse across separate coverage groups.
 This decision is recorded in `docs/adr/0526-audio-coverage-uniqueness.md` and `docs/decision-register/DR-597-audio-coverage-uniqueness.md`.
+
+The audio cue semantic coverage slice now requires term, sentence, instruction, and feedback arrays to reference matching cue kinds, while preserving flexible mixed-kind game-mode arrays.
+This decision is recorded in `docs/adr/0527-audio-cue-semantic-coverage.md` and `docs/decision-register/DR-598-audio-cue-semantic-coverage.md`.
