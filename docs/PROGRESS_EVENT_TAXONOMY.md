@@ -93,6 +93,7 @@ Envelope rules:
 - `game_mode` must be one of the curated shared `GameModeId` values.
 - `unit_key` must use the canonical tenant, curriculum, level, and unit format.
 - The envelope's mode must be offered at the level encoded in its canonical `unit_key`.
+- `event_type` must belong to one of the shared support-only, report-only, or progress-affecting event categories.
 - Missing launch context, learning evidence, or support-only signals produce review warnings.
 
 ## Hard Rules
@@ -147,3 +148,16 @@ Required standing rules:
 - Compatibility validation remains verification-only; it does not enable gameplay, scoring, persistence, or provider writes.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-618 and `docs/adr/0546-progress-event-mode-level-compatibility.md`.
+
+## 89. Progress Event Type Identity Standard
+
+Runtime JSON must not be able to invent a new evidence event by supplying an arbitrary `event_type`. Every event must belong to the established taxonomy categories before it can be reviewed or enveloped.
+
+Required standing rules:
+
+- Support-only, report-only, and progress-affecting event sets remain the runtime event identity source.
+- Unknown event types are review blockers even when a registry entry supplies an effect label.
+- Adding an event requires the shared event type, taxonomy classification, teacher visibility, persistence rule, and runtime verification to move together.
+- Event-type validation remains verification-only; it does not enable gameplay, scoring, persistence, or provider writes.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-619 and `docs/adr/0547-progress-event-type-identity.md`.

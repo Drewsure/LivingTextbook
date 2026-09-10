@@ -1555,4 +1555,17 @@ Required standing rules:
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-618 and `docs/adr/0546-progress-event-mode-level-compatibility.md`.
 
+## 89. Progress Event Type Identity Standard
+
+Runtime JSON must not invent a new evidence event by supplying an arbitrary event type. Every event must belong to the reviewed taxonomy before it can be enveloped or reported.
+
+Required standing rules:
+
+- Support-only, report-only, and progress-affecting event sets are the runtime event identity source.
+- Unknown event types block review even when a registry entry supplies an effect label.
+- Adding an event requires coordinated type, taxonomy, teacher-visibility, persistence, and runtime verification updates.
+- This guard is verification-only and does not enable gameplay, scoring, persistence, or provider writes.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-619 and `docs/adr/0547-progress-event-type-identity.md`.
+
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-615 and `docs/adr/0543-progress-event-timestamps.md`.

@@ -1019,3 +1019,6 @@ This decision is recorded in `docs/adr/0545-progress-event-unit-identity.md` and
 
 The progress-event mode-level compatibility slice now compares the mode with the level encoded in the canonical unit key. Runtime behavior rejects valid-but-unavailable combinations before any future reporting, persistence, progression, or provider integration.
 This decision is recorded in `docs/adr/0546-progress-event-mode-level-compatibility.md` and `docs/decision-register/DR-618-progress-event-mode-level-compatibility.md`.
+
+The progress-event type identity slice now rejects arbitrary runtime event names, even when a registry supplies an effect label. The existing support-only, report-only, and progress-affecting categories remain the event identity source.
+This decision is recorded in `docs/adr/0547-progress-event-type-identity.md` and `docs/decision-register/DR-619-progress-event-type-identity.md`.

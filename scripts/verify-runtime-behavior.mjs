@@ -148,6 +148,11 @@ try {
     envelope: { ...supportEnvelope, game_mode: "sentence-builder" },
   });
   assertIncludes(incompatibleModeLevelErrors, "Progress event envelope audio_requested must use game_mode sentence-builder at a supported unit level.");
+  const unknownEventTypeErrors = progression.validateProgressionRuntimeRequest({
+    ...progressionRequest,
+    envelope: { ...supportEnvelope, event_type: "unknown-event" },
+  });
+  assertIncludes(unknownEventTypeErrors, "Progress event envelope unknown-event must use a supported event_type.");
 
   const rewardErrors = reward.validateRewardRuntimeRequest({
     tenantId: "tenant-1", packageId: "package-1", learnerSlotId: "slot-1", rewardId: "reward-1",

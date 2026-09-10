@@ -98,6 +98,11 @@ const progressAffectingEvents = new Set([
   "game_completed",
   "mastery_updated",
 ]);
+const supportedProgressEventTypes = new Set([
+  ...supportOnlyEvents,
+  ...reportOnlyEvents,
+  ...progressAffectingEvents,
+]);
 
 export function validateProgressEventTaxonomyRegistry(registry: unknown): string[] {
   const errors: string[] = [];
@@ -158,6 +163,10 @@ export function validateProgressEventTaxonomyRegistry(registry: unknown): string
     if (!eventType) {
       errors.push("Progress event taxonomy entries must include eventType.");
       continue;
+    }
+
+    if (!supportedProgressEventTypes.has(eventType)) {
+      errors.push(`Progress event taxonomy event ${eventType} is not a supported GameEventType.`);
     }
 
     if (seenEvents.has(eventType)) {
@@ -275,6 +284,10 @@ export function validateProgressEventEnvelope(
 
   if (!taxonomyItem) {
     errors.push(`Progress event envelope event_type ${eventType || "(missing)"} is not classified in the taxonomy.`);
+  }
+
+  if (eventType && !supportedProgressEventTypes.has(eventType)) {
+    errors.push(`Progress event envelope ${eventType} must use a supported event_type.`);
   }
 
   if (taxonomyItem && taxonomyItem.effect !== eventEffect) {

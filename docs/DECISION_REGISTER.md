@@ -2680,3 +2680,23 @@ Guardrails:
 - Compatibility validation remains review-only and does not enable gameplay, scoring, persistence, or provider writes.
 
 This decision is recorded in `docs/adr/0546-progress-event-mode-level-compatibility.md` and `docs/decision-register/DR-618-progress-event-mode-level-compatibility.md`.
+
+## DR-619: Progress Event Type Identity
+
+Status: Accepted
+
+Decision: Require progress-event envelopes and taxonomy registries to use the reviewed shared event taxonomy categories.
+
+Rationale:
+
+- Runtime JSON must not invent a new evidence event through an arbitrary event name.
+- An effect label alone is insufficient without a known event contract and teacher-facing interpretation.
+- Reusing the existing support-only, report-only, and progress-affecting sets avoids a second event vocabulary.
+
+Guardrails:
+
+- Unknown event types block registry and envelope validation.
+- New events require coordinated type, taxonomy, visibility, persistence, and runtime verification updates.
+- Event identity validation remains review-only and does not enable gameplay, scoring, persistence, or provider writes.
+
+This decision is recorded in `docs/adr/0547-progress-event-type-identity.md` and `docs/decision-register/DR-619-progress-event-type-identity.md`.
