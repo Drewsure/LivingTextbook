@@ -1,3 +1,4 @@
+import { isSupportedGameModeId } from "./index";
 import type { GameEventType, GameProgressEvent } from "./index";
 
 export type ProgressEventEffect = "progress-affecting" | "report-only" | "support-only";
@@ -265,6 +266,7 @@ export function validateProgressEventEnvelope(
   const eventType = readString(envelope, "event_type");
   const eventEffect = readString(envelope, "event_effect");
   const taxonomyVersion = readString(envelope, "taxonomy_version");
+  const gameMode = readString(envelope, "game_mode");
   const occurredAt = readString(envelope, "occurred_at");
   const metadata = envelope.metadata;
   const settingsContext = envelope.settings_context;
@@ -280,6 +282,10 @@ export function validateProgressEventEnvelope(
 
   if (taxonomyVersion !== registry.taxonomyVersion) {
     errors.push(`Progress event envelope ${eventType || "(missing)"} must use taxonomy_version ${registry.taxonomyVersion}.`);
+  }
+
+  if (gameMode && !isSupportedGameModeId(gameMode)) {
+    errors.push(`Progress event envelope ${eventType || "(missing)"} must use a supported game_mode.`);
   }
 
   if (occurredAt && (Number.isNaN(Date.parse(occurredAt)) || !isoTimestampPattern.test(occurredAt))) {

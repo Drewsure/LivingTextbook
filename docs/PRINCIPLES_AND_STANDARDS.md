@@ -1516,4 +1516,17 @@ Required standing rules:
 - Date-only strings, locale-formatted strings, and invalid dates remain review blockers.
 - Timestamp validation is evidence validation only; it does not accept events for progression or enable storage.
 
+## 86. Progress Event Mode Identity Standard
+
+Progress evidence must identify a real curated game mode so catalog, engine, scoring, audio, and reporting contracts remain aligned.
+
+Required standing rules:
+
+- Every event envelope uses a supported shared `GameModeId`.
+- Telemetry reuses the content-model catalog helper; it does not maintain a second allowlist.
+- Unknown or retired mode IDs block review until the catalog and dependent contracts are updated together.
+- This guard is verification-only and does not enable gameplay, scoring, persistence, or provider writes.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-616 and `docs/adr/0544-progress-event-mode-identity.md`.
+
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-615 and `docs/adr/0543-progress-event-timestamps.md`.

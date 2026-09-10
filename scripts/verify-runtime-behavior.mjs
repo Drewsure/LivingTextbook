@@ -133,6 +133,11 @@ try {
     envelope: { ...supportEnvelope, occurred_at: "2026-01-01" },
   });
   assertIncludes(malformedTimestampErrors, "Progress event envelope audio_requested must include an ISO occurred_at timestamp.");
+  const unknownGameModeErrors = progression.validateProgressionRuntimeRequest({
+    ...progressionRequest,
+    envelope: { ...supportEnvelope, game_mode: "unknown-mode" },
+  });
+  assertIncludes(unknownGameModeErrors, "Progress event envelope audio_requested must use a supported game_mode.");
 
   const rewardErrors = reward.validateRewardRuntimeRequest({
     tenantId: "tenant-1", packageId: "package-1", learnerSlotId: "slot-1", rewardId: "reward-1",

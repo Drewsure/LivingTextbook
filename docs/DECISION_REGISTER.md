@@ -2620,3 +2620,23 @@ Guardrails:
 - Timestamp validation does not authorize progression, persistence, reporting, or storage writes.
 
 This decision is recorded in `docs/adr/0543-progress-event-timestamps.md` and `docs/decision-register/DR-615-progress-event-timestamps.md`.
+
+## DR-616: Progress Event Mode Identity
+
+Status: Accepted
+
+Decision: Require progress-event envelopes to use a supported shared `GameModeId` from the content-model catalog.
+
+Rationale:
+
+- Event telemetry must remain aligned with curated catalog, engine, scoring, audio, and reporting contracts.
+- A non-empty but unknown mode string could create an unreviewed evidence lane.
+- Reusing the shared catalog helper avoids a second, drifting telemetry allowlist.
+
+Guardrails:
+
+- Unknown and retired mode IDs block envelope validation.
+- Catalog changes require dependent contract and runtime verification updates.
+- Mode identity validation remains review-only and does not enable gameplay, scoring, persistence, or provider writes.
+
+This decision is recorded in `docs/adr/0544-progress-event-mode-identity.md` and `docs/decision-register/DR-616-progress-event-mode-identity.md`.

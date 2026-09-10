@@ -450,6 +450,11 @@ const supportedGameModeContracts: Record<GameModeId, { family: GameFamily; engin
   "speak-it": { family: "speaking-listening", engineId: "selection", supportedLevels: [1, 2, 3, 4, 5, 6, 7, 8], allowsBackgroundMedia: false },
   "balloon-pop": { family: "arcade-action", engineId: "selection", supportedLevels: [1, 2, 3], allowsBackgroundMedia: true },
 };
+
+export function isSupportedGameModeId(value: string): value is GameModeId {
+  return supportedGameModeIds.includes(value as GameModeId);
+}
+
 const supportedMediaAssetTypes: MediaAssetType[] = [
   "song", "chant", "listening-track", "voiceover", "sound-effect", "lesson-video", "music-video",
   "karaoke-video", "animation", "other-audio", "other-video",

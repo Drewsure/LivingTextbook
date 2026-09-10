@@ -133,6 +133,7 @@ Every event should include:
 - `occurredAt`
 - useful metadata such as attempts, correct count, term id, earned reward amount, media asset id, or parent engine id
 - `occurredAt` must be a parseable ISO/RFC3339 timestamp with an explicit timezone when the event is enveloped for reports or persistence.
+- `gameMode`/`game_mode` must resolve to a supported shared `GameModeId`; telemetry must not invent a parallel mode vocabulary.
 
 ## Scoring Contract
 

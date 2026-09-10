@@ -1010,3 +1010,6 @@ This decision is recorded in `docs/adr/0542-reserved-completion-metadata.md` and
 
 The progress-event timestamp slice now requires parseable ISO/RFC3339 timestamps with an explicit timezone in every envelope. Runtime behavior covers rejection of date-only values while preserving review-only progression behavior.
 This decision is recorded in `docs/adr/0543-progress-event-timestamps.md` and `docs/decision-register/DR-615-progress-event-timestamps.md`.
+
+The progress-event mode identity slice now requires every envelope to use a curated shared `GameModeId`. The validator reuses the content-model catalog and rejects unknown mode labels before any future reporting, persistence, progression, or provider integration.
+This decision is recorded in `docs/adr/0544-progress-event-mode-identity.md` and `docs/decision-register/DR-616-progress-event-mode-identity.md`.

@@ -90,6 +90,7 @@ Envelope rules:
 - Support-only envelopes cannot allow progress unlocks, mastery credit, support-language unlocks, or Star Dust awards.
 - Duplicate `event_id` values are blocked.
 - `occurred_at` must be a parseable ISO/RFC3339 timestamp with an explicit timezone.
+- `game_mode` must be one of the curated shared `GameModeId` values.
 - Missing launch context, learning evidence, or support-only signals produce review warnings.
 
 ## Hard Rules
@@ -105,3 +106,16 @@ Envelope rules:
 - Backend report queries must ignore `support-only` events for mastery, Star Dust, and unlock calculations.
 - Teacher reports may show `audio_requested` as learning-audio support evidence, but score values must remain zero.
 - New game, media, route-guidance, speech, AI Tutor, or reward events must be classified in the taxonomy before pilot release.
+
+## 86. Progress Event Mode Identity Standard
+
+Progress evidence must identify a real curated game mode. A non-empty mode label is not enough because an unknown value could bypass catalog, engine, scoring, audio, or reporting assumptions.
+
+Required standing rules:
+
+- Every progress-event envelope must use a `game_mode` accepted by the shared content-model catalog.
+- Mode identity validation must reuse the shared catalog helper rather than maintaining a second telemetry-only allowlist.
+- Unknown or retired mode IDs are review blockers until the catalog and its contracts are updated together.
+- Mode identity validation remains verification-only; it does not enable gameplay, scoring, persistence, or provider writes.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-616 and `docs/adr/0544-progress-event-mode-identity.md`.
