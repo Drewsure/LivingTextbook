@@ -2600,3 +2600,23 @@ Guardrails:
 - No persistence, inventory, reporting, or unlock side effect is introduced.
 
 This decision is recorded in `docs/adr/0542-reserved-completion-metadata.md` and `docs/decision-register/DR-614-reserved-completion-metadata.md`.
+
+## DR-615: Progress Event Timestamps
+
+Status: Accepted
+
+Decision: Require progress-event envelopes to use parseable ISO/RFC3339 timestamps with an explicit timezone.
+
+Rationale:
+
+- Reports and replay need unambiguous cross-device and cross-region event times.
+- Date-only and locale-formatted strings can parse differently across runtimes.
+- A strict envelope check is inexpensive before persistence or hosted adapters exist.
+
+Guardrails:
+
+- UTC `Z` or a numeric timezone offset is required.
+- Invalid and date-only values block envelope validation.
+- Timestamp validation does not authorize progression, persistence, reporting, or storage writes.
+
+This decision is recorded in `docs/adr/0543-progress-event-timestamps.md` and `docs/decision-register/DR-615-progress-event-timestamps.md`.

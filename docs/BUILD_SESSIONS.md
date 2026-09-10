@@ -1007,3 +1007,6 @@ This decision is recorded in `docs/adr/0541-progression-award-normalization.md` 
 
 The reserved completion metadata slice now prevents optional game metadata from overwriting the normalized `earnedStarDust` value. Completion-event metadata and local progression state therefore remain aligned even when a mode supplies extra scoring context.
 This decision is recorded in `docs/adr/0542-reserved-completion-metadata.md` and `docs/decision-register/DR-614-reserved-completion-metadata.md`.
+
+The progress-event timestamp slice now requires parseable ISO/RFC3339 timestamps with an explicit timezone in every envelope. Runtime behavior covers rejection of date-only values while preserving review-only progression behavior.
+This decision is recorded in `docs/adr/0543-progress-event-timestamps.md` and `docs/decision-register/DR-615-progress-event-timestamps.md`.

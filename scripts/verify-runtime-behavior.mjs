@@ -128,6 +128,11 @@ try {
   const progressionErrors = progression.validateProgressionRuntimeRequest(progressionRequest);
   assertIncludes(progressionErrors, "support-only events cannot enter the progression authority");
   assertEqual(progression.createReviewOnlyProgressionRuntimeAdapter().execute(progressionRequest).sideEffect, "none");
+  const malformedTimestampErrors = progression.validateProgressionRuntimeRequest({
+    ...progressionRequest,
+    envelope: { ...supportEnvelope, occurred_at: "2026-01-01" },
+  });
+  assertIncludes(malformedTimestampErrors, "Progress event envelope audio_requested must include an ISO occurred_at timestamp.");
 
   const rewardErrors = reward.validateRewardRuntimeRequest({
     tenantId: "tenant-1", packageId: "package-1", learnerSlotId: "slot-1", rewardId: "reward-1",

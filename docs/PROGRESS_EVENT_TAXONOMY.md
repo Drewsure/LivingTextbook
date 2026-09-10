@@ -89,6 +89,7 @@ Envelope rules:
 - `event_acceptance_gate_id` must point back to the session's event acceptance gate.
 - Support-only envelopes cannot allow progress unlocks, mastery credit, support-language unlocks, or Star Dust awards.
 - Duplicate `event_id` values are blocked.
+- `occurred_at` must be a parseable ISO/RFC3339 timestamp with an explicit timezone.
 - Missing launch context, learning evidence, or support-only signals produce review warnings.
 
 ## Hard Rules

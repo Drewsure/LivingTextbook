@@ -1504,3 +1504,16 @@ Required standing rules:
 - Reserved-field protection does not create persistence, reporting, inventory, or unlock side effects.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-614 and `docs/adr/0542-reserved-completion-metadata.md`.
+
+## 85. Progress Event Timestamp Standard
+
+Progress events are the future evidence stream for reports, replay, mastery, and persistence. Their timestamps must therefore be unambiguous across hosted, local, and hybrid deployments.
+
+Required standing rules:
+
+- Every progress-event envelope must use a parseable ISO/RFC3339 `occurred_at` value.
+- Every timestamp must include an explicit UTC marker or numeric timezone offset.
+- Date-only strings, locale-formatted strings, and invalid dates remain review blockers.
+- Timestamp validation is evidence validation only; it does not accept events for progression or enable storage.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-615 and `docs/adr/0543-progress-event-timestamps.md`.

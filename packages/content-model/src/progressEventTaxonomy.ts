@@ -89,6 +89,7 @@ const reportOnlyEvents = new Set([
   "media_completed",
   "powerup_used",
 ]);
+const isoTimestampPattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,9})?(?:Z|[+-]\d{2}:\d{2})$/;
 const progressAffectingEvents = new Set([
   "entry_practice_completed",
   "game_unlocked",
@@ -281,7 +282,7 @@ export function validateProgressEventEnvelope(
     errors.push(`Progress event envelope ${eventType || "(missing)"} must use taxonomy_version ${registry.taxonomyVersion}.`);
   }
 
-  if (occurredAt && Number.isNaN(Date.parse(occurredAt))) {
+  if (occurredAt && (Number.isNaN(Date.parse(occurredAt)) || !isoTimestampPattern.test(occurredAt))) {
     errors.push(`Progress event envelope ${eventType || "(missing)"} must include an ISO occurred_at timestamp.`);
   }
 
