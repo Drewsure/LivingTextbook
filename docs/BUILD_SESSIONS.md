@@ -14,6 +14,8 @@ The unit metadata catalog slice now rejects unsupported game modes, game familie
 
 The unit mode compatibility slice now rejects valid-but-incompatible mode metadata when family, parent engine, or curriculum level does not match the curated pathway contract.
 
+The cross-catalog game contract slice now checks that the content-model mode contract and web game catalog agree on family, parent engine, and supported levels before game-mode verification can pass.
+
 ## Session 0: Standards And Decisions Gate
 
 Purpose: Ensure the project still follows the white-label saleable platform direction before work begins.

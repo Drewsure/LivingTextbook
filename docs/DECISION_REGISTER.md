@@ -2430,3 +2430,24 @@ Guardrails:
 - No provider, storage, playback, release, assignment, or student-state side effect is introduced.
 
 This decision is recorded in `docs/adr/0534-unit-mode-compatibility.md` and `docs/decision-register/DR-606-unit-mode-compatibility.md`.
+
+## DR-607: Cross-Catalog Game Contract
+
+Status: Accepted
+
+Decision: Extend the existing game-mode verification gate to compare the shared content-model compatibility contract with the web game catalog for every mode.
+
+Rationale:
+
+- The runtime validator and web UI catalog carry related contract data in separate layers.
+- A change in one layer can otherwise leave review, routing, or student-facing metadata inconsistent.
+- One existing verification gate is cheaper and easier to maintain than parallel drift checks.
+
+Guardrails:
+
+- Every `GameModeId` must have one content-model compatibility entry and one web catalog entry.
+- Family, parent engine, and supported-level ranges must match exactly.
+- Missing, extra, and duplicate entries fail the game-mode verification gate.
+- New modes still require route, scoring, audio, replay, and compatibility evidence.
+
+This decision is recorded in `docs/adr/0535-cross-catalog-game-contract.md` and `docs/decision-register/DR-607-cross-catalog-game-contract.md`.

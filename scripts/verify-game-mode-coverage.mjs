@@ -18,6 +18,7 @@ const activeGameReplayChecklist = readFileSync(activeGameReplayChecklistPath, "u
 
 const gameModeMatch = contentModel.match(/export type GameModeId =([\s\S]*?);/);
 const parentEngineMatch = contentModel.match(/export type ParentEngine =([\s\S]*?);/);
+const compatibilityMatch = contentModel.match(/const supportedGameModeContracts:[\s\S]*?= \{([\s\S]*?)\n\};/);
 
 if (!gameModeMatch) {
   console.error("FAIL Could not find GameModeId union in packages/content-model/src/index.ts.");
@@ -29,12 +30,24 @@ if (!parentEngineMatch) {
   process.exit(1);
 }
 
+if (!compatibilityMatch) {
+  console.error("FAIL Could not find supportedGameModeContracts in packages/content-model/src/index.ts.");
+  process.exit(1);
+}
+
 const gameModes = Array.from(gameModeMatch[1].matchAll(/\|\s*"([^"]+)"/g), (match) => match[1]).sort();
 const parentEngines = Array.from(parentEngineMatch[1].matchAll(/"([^"]+)"/g), (match) => match[1]).sort();
 const catalogIds = Array.from(catalog.matchAll(/id:\s*"([^"]+)"/g), (match) => match[1]).sort();
+const compatibilityIds = Array.from(
+  compatibilityMatch[1].matchAll(/(?:^|\n)\s*(?:"([^"]+)"|([a-z-]+)):\s*\{/g),
+  (match) => match[1] ?? match[2],
+).sort();
 const duplicateCatalogIds = catalogIds.filter((mode, index) => catalogIds.indexOf(mode) !== index);
 const missingCatalogIds = gameModes.filter((mode) => !catalogIds.includes(mode));
 const extraCatalogIds = catalogIds.filter((mode) => !gameModes.includes(mode));
+const duplicateCompatibilityIds = compatibilityIds.filter((mode, index) => compatibilityIds.indexOf(mode) !== index);
+const missingCompatibilityIds = gameModes.filter((mode) => !compatibilityIds.includes(mode));
+const extraCompatibilityIds = compatibilityIds.filter((mode) => !gameModes.includes(mode));
 const parentReadinessEngineIds = Array.from(parentEngineReadiness.matchAll(/engineId:\s*"([^"]+)"/g), (match) => match[1]).sort();
 const duplicateParentReadinessIds = parentReadinessEngineIds.filter(
   (engine, index) => parentReadinessEngineIds.indexOf(engine) !== index,
@@ -83,6 +96,18 @@ const missingScoringProfile = gameModes.filter((mode) => {
   const item = getCatalogItemBody(catalog, mode);
   return !/scoringProfileId:\s*"[^"]+"/.test(item);
 });
+const compatibilityDrift = gameModes.filter((mode) => {
+  const contentContract = getCompatibilityItemBody(compatibilityMatch[1], mode);
+  const catalogItem = getCatalogItemBody(catalog, mode);
+  const contentFamily = contentContract.match(/family:\s*"([^"]+)"/)?.[1];
+  const catalogFamily = catalogItem.match(/family:\s*"([^"]+)"/)?.[1];
+  const contentEngine = contentContract.match(/engineId:\s*"([^"]+)"/)?.[1];
+  const catalogEngine = catalogItem.match(/engineId:\s*"([^"]+)"/)?.[1];
+  const contentLevels = contentContract.match(/supportedLevels:\s*\[([^\]]*)\]/)?.[1]?.trim();
+  const catalogLevels = catalogItem.match(/supportedLevels:\s*\[([^\]]*)\]/)?.[1]?.trim();
+
+  return contentFamily !== catalogFamily || contentEngine !== catalogEngine || contentLevels !== catalogLevels;
+});
 const missingSharedRouteHelperModes = [];
 const requiredActiveGameRouteContracts = [
   { id: "flashcards", pattern: "/flashcards/[code]", helper: "getFlashcardsPath" },
@@ -111,6 +136,26 @@ if (missingCatalogIds.length > 0) {
 
 if (extraCatalogIds.length > 0) {
   console.error(`FAIL Game catalog id(s) not present in GameModeId: ${extraCatalogIds.join(", ")}`);
+  process.exit(1);
+}
+
+if (duplicateCompatibilityIds.length > 0) {
+  console.error(`FAIL Duplicate content-model compatibility id(s): ${[...new Set(duplicateCompatibilityIds)].join(", ")}`);
+  process.exit(1);
+}
+
+if (missingCompatibilityIds.length > 0) {
+  console.error(`FAIL GameModeId value(s) missing from content-model compatibility contract: ${missingCompatibilityIds.join(", ")}`);
+  process.exit(1);
+}
+
+if (extraCompatibilityIds.length > 0) {
+  console.error(`FAIL Content-model compatibility id(s) not present in GameModeId: ${extraCompatibilityIds.join(", ")}`);
+  process.exit(1);
+}
+
+if (compatibilityDrift.length > 0) {
+  console.error(`FAIL Content-model and web game catalog compatibility drift for: ${compatibilityDrift.join(", ")}`);
   process.exit(1);
 }
 
@@ -271,6 +316,13 @@ function hasSharedRouteHelperMapping(source, mode, helper) {
 function getCatalogItemBody(source, mode) {
   const escaped = mode.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   const match = source.match(new RegExp(`(?:^|\\n)\\s*(?:"${escaped}"|${escaped}):\\s*{([\\s\\S]*?)\\n\\s*},`, "m"));
+
+  return match?.[1] ?? "";
+}
+
+function getCompatibilityItemBody(source, mode) {
+  const escaped = mode.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const match = source.match(new RegExp(`(?:^|\\n)\\s*(?:"${escaped}"|${escaped}):\\s*\\{([^}]*)\\}`));
 
   return match?.[1] ?? "";
 }

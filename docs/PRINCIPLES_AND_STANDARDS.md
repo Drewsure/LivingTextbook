@@ -1394,3 +1394,16 @@ Required standing rules:
 - Changing a mode's family, engine, or level range requires compatibility, route, audio, scoring, and regression review.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-606 and `docs/adr/0534-unit-mode-compatibility.md`.
+
+## 77. Cross-Catalog Game Contract Standard
+
+The shared content model and web catalog must describe the same curated game contract. A mode is not foundation-ready if one layer advertises a different family, parent engine, or supported level range.
+
+Required standing rules:
+
+- The game-mode verification gate compares content-model and web-catalog entries for every supported mode.
+- Missing, extra, or duplicate compatibility entries fail verification.
+- Family, parent engine, and supported-level drift fails verification before build or release review.
+- A new mode must update the shared contract and web catalog together, with route, scoring, audio, and replay evidence.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-607 and `docs/adr/0535-cross-catalog-game-contract.md`.
