@@ -436,6 +436,20 @@ const supportedGameFamilies: GameFamily[] = [
   "syntax-construction", "word-puzzles", "arcade-action", "speaking-listening",
 ];
 const supportedParentEngines: ParentEngine[] = ["pairing", "selection", "text-spelling", "narrative"];
+const supportedGameModeContracts: Record<GameModeId, { family: GameFamily; engineId: ParentEngine; supportedLevels: number[] }> = {
+  flashcards: { family: "vocabulary-matching", engineId: "selection", supportedLevels: [1, 2, 3, 4, 5, 6, 7, 8] },
+  "memory-match": { family: "memory-sorting", engineId: "pairing", supportedLevels: [1, 2, 3, 4] },
+  "match-up": { family: "vocabulary-matching", engineId: "pairing", supportedLevels: [1, 2, 3, 4] },
+  "label-it": { family: "vocabulary-matching", engineId: "pairing", supportedLevels: [1, 2, 3, 4, 5, 6] },
+  quiz: { family: "core-quiz", engineId: "selection", supportedLevels: [1, 2, 3, 4, 5, 6, 7, 8] },
+  "true-false": { family: "core-quiz", engineId: "selection", supportedLevels: [1, 2, 3, 4, 5, 6, 7, 8] },
+  "sentence-builder": { family: "syntax-construction", engineId: "text-spelling", supportedLevels: [2, 3, 4, 5, 6, 7, 8] },
+  "type-answer": { family: "spelling-typing", engineId: "text-spelling", supportedLevels: [1, 2, 3, 4, 5, 6, 7, 8] },
+  "spelling-practice": { family: "spelling-typing", engineId: "text-spelling", supportedLevels: [1, 2, 3, 4, 5, 6, 7, 8] },
+  "fill-in-the-blank": { family: "syntax-construction", engineId: "text-spelling", supportedLevels: [1, 2, 3, 4, 5, 6, 7, 8] },
+  "speak-it": { family: "speaking-listening", engineId: "selection", supportedLevels: [1, 2, 3, 4, 5, 6, 7, 8] },
+  "balloon-pop": { family: "arcade-action", engineId: "selection", supportedLevels: [1, 2, 3] },
+};
 const supportedMediaAssetTypes: MediaAssetType[] = [
   "song", "chant", "listening-track", "voiceover", "sound-effect", "lesson-video", "music-video",
   "karaoke-video", "animation", "other-audio", "other-video",
@@ -658,6 +672,21 @@ export function validateUnitPayload(payload: UnitPayload): string[] {
 
   if (!supportedParentEngines.includes(payload.unitMeta.engineId as ParentEngine)) {
     errors.push(`Unit parent engine ${payload.unitMeta.engineId} is not supported by the engine catalog.`);
+  }
+
+  const gameModeContract = supportedGameModeContracts[payload.unitMeta.gameMode as GameModeId];
+  if (gameModeContract) {
+    if (payload.unitMeta.gameFamily !== gameModeContract.family) {
+      errors.push(`Unit game mode ${payload.unitMeta.gameMode} must use game family ${gameModeContract.family}.`);
+    }
+
+    if (payload.unitMeta.engineId !== gameModeContract.engineId) {
+      errors.push(`Unit game mode ${payload.unitMeta.gameMode} must use parent engine ${gameModeContract.engineId}.`);
+    }
+
+    if (!gameModeContract.supportedLevels.includes(payload.unitMeta.level)) {
+      errors.push(`Unit game mode ${payload.unitMeta.gameMode} is not available for level ${payload.unitMeta.level}.`);
+    }
   }
 
   if (payload.visualRules.avatarFamily.trim().length === 0 || payload.visualRules.characterFocus.trim().length === 0) {

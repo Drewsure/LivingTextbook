@@ -12,6 +12,8 @@ The media/audio enum integrity slice now rejects unsupported media types, kinds,
 
 The unit metadata catalog slice now rejects unsupported game modes, game families, and parent engine identifiers before routes, pathways, reports, or future adapters can interpret imported units.
 
+The unit mode compatibility slice now rejects valid-but-incompatible mode metadata when family, parent engine, or curriculum level does not match the curated pathway contract.
+
 ## Session 0: Standards And Decisions Gate
 
 Purpose: Ensure the project still follows the white-label saleable platform direction before work begins.

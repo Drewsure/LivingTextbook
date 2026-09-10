@@ -1380,3 +1380,17 @@ Required standing rules:
 - Adding a new mode, family, or engine requires an explicit catalog update, compatibility review, and regression coverage.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-605 and `docs/adr/0533-unit-metadata-enum-integrity.md`.
+
+## 76. Unit Mode Compatibility Standard
+
+Supported identifiers are necessary but not sufficient. A unit's selected mode must remain aligned with its game family, parent engine, and curriculum level before the pathway can be considered review-ready.
+
+Required standing rules:
+
+- Each curated game mode has one declared game family and one parent engine.
+- Each curated game mode has an explicit supported-level range.
+- A unit with a mismatched family, parent engine, or level remains blocked from review and release.
+- Compatibility is validated from the shared content-model contract; consumers must not silently infer or repair mismatches.
+- Changing a mode's family, engine, or level range requires compatibility, route, audio, scoring, and regression review.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-606 and `docs/adr/0534-unit-mode-compatibility.md`.

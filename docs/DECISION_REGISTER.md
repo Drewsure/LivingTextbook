@@ -2409,3 +2409,24 @@ Guardrails:
 - No provider, storage, playback, release, assignment, or student-state side effect is introduced.
 
 This decision is recorded in `docs/adr/0533-unit-metadata-enum-integrity.md` and `docs/decision-register/DR-605-unit-metadata-enum-integrity.md`.
+
+## DR-606: Unit Mode Compatibility
+
+Status: Accepted
+
+Decision: Validate each unit's game mode against its declared game family, parent engine, and supported curriculum levels using a shared content-model compatibility contract.
+
+Rationale:
+
+- Valid enum values can still describe an impossible routing combination.
+- A mode's engine, pedagogy, audio expectations, scoring profile, and level range are one compatibility boundary.
+- Silent inference would allow imported or AI-authored packages to drift from the curated pathway catalog.
+
+Guardrails:
+
+- Every supported mode has one family, one parent engine, and an explicit supported-level list.
+- Family, engine, and level mismatches remain review blockers.
+- Changes require compatibility, route, audio, scoring, and regression review.
+- No provider, storage, playback, release, assignment, or student-state side effect is introduced.
+
+This decision is recorded in `docs/adr/0534-unit-mode-compatibility.md` and `docs/decision-register/DR-606-unit-mode-compatibility.md`.
