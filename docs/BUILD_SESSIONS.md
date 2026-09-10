@@ -1001,3 +1001,6 @@ This decision is recorded in `docs/adr/0539-scoring-profile-compatibility.md` an
 
 The deterministic scoring math slice now validates profile metadata, non-negative integer award components, exact component-to-cap totals, and the canonical 1,000-dust ceiling. The shared accuracy helper also clamps caller-supplied minimum awards to the profile cap. This prevents reward inflation or ambiguous scoring before progression providers are enabled.
 This decision is recorded in `docs/adr/0540-deterministic-scoring-math.md` and `docs/decision-register/DR-612-deterministic-scoring-math.md`.
+
+The progression award normalization slice now sanitizes negative, fractional, and non-finite Star Dust inputs in the shared calculator and local completion adapter. Runtime assertions cover malformed mastery values, while completion-event metadata and local progression use one normalized award value. No persistence or inventory side effect is introduced.
+This decision is recorded in `docs/adr/0541-progression-award-normalization.md` and `docs/decision-register/DR-613-progression-award-normalization.md`.

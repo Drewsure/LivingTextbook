@@ -180,6 +180,7 @@ Rules:
 - Future profile changes should be versioned rather than silently changing historical meaning.
 - Profile component awards must be non-negative integers, sum exactly to `completionDustCap`, and remain within the 1,000-dust unit ceiling.
 - Shared accuracy helpers must clamp their result to `completionDustCap`, including caller-supplied minimum awards.
+- Progression adapters must normalize negative, fractional, and non-finite awards before writing completion-event metadata or local state.
 - Planned profiles do not make a mode playable; they only reserve the scoring contract.
 
 ## Audio Contract

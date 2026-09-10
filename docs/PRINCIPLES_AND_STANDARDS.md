@@ -1477,3 +1477,17 @@ Required standing rules:
 - Verification and scoring helpers do not persist dust, unlock progression, or write inventory.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-612 and `docs/adr/0540-deterministic-scoring-math.md`.
+
+## 83. Progression Award Normalization Standard
+
+Scoring math must remain bounded at the event and progression boundary, not only inside individual game profiles. Every adapter must normalize malformed award inputs before they reach a completion event or learner state.
+
+Required standing rules:
+
+- Negative, fractional, and non-finite mastery inputs normalize to safe deterministic values before Star Dust calculation.
+- Star Dust calculation remains bounded to the vocabulary, syntax, and bonus lanes and therefore to 1,000 per unit.
+- Local completion adapters must accept only non-negative integer awards up to 1,000 per completed mode event.
+- Completion-event metadata and progression state must use the same normalized award value.
+- Normalization does not authorize persistence, reporting, inventory, unlock, or provider writes.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-613 and `docs/adr/0541-progression-award-normalization.md`.

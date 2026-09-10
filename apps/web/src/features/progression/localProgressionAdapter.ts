@@ -228,10 +228,12 @@ export function completeGameMode(args: {
     };
   }
 
+  const earnedStarDust = normalizeStarDustAward(args.earnedStarDust);
+
   const progression: StudentProgressionState = {
     ...args.progression,
     completedGameModes: Array.from(new Set([...args.progression.completedGameModes, args.gameMode])),
-    earnedStarDust: args.progression.earnedStarDust + args.earnedStarDust,
+    earnedStarDust: args.progression.earnedStarDust + earnedStarDust,
     masteryStatus: "in-progress",
     lastEventAt: args.occurredAt,
   };
@@ -244,7 +246,7 @@ export function completeGameMode(args: {
     studentSessionId: args.progression.studentSessionId,
     occurredAt: args.occurredAt,
     metadata: {
-      earnedStarDust: args.earnedStarDust,
+      earnedStarDust,
       ...args.metadata,
     },
   };
@@ -252,7 +254,7 @@ export function completeGameMode(args: {
   return {
     progression,
     event,
-    earnedStarDust: args.earnedStarDust,
+    earnedStarDust,
   };
 }
 
@@ -303,6 +305,12 @@ export function createMediaProgressEvent(args: {
       starDustAwarded: 0,
     },
   };
+}
+
+function normalizeStarDustAward(value: number): number {
+  if (!Number.isFinite(value)) return 0;
+
+  return Math.min(Math.max(Math.trunc(value), 0), 1000);
 }
 
 export function createMediaPlaylistOpenedEvent(args: {

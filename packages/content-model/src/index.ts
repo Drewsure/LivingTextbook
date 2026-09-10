@@ -1298,11 +1298,12 @@ export function calculateStarDust(args: {
   totalSyntaxChecks: number;
   bonusRatio: number;
 }): StarDustBreakdown {
-  const safeTermTotal = Math.max(args.totalTerms, 1);
-  const safeSyntaxTotal = Math.max(args.totalSyntaxChecks, 1);
-  const vocabulary = Math.round((Math.min(args.masteredTerms, safeTermTotal) / safeTermTotal) * 300);
-  const syntax = Math.round((Math.min(args.masteredSyntaxChecks, safeSyntaxTotal) / safeSyntaxTotal) * 300);
-  const bonus = Math.round(Math.max(0, Math.min(args.bonusRatio, 1)) * 400);
+  const safeTermTotal = Math.max(toSafeNonNegativeInteger(args.totalTerms), 1);
+  const safeSyntaxTotal = Math.max(toSafeNonNegativeInteger(args.totalSyntaxChecks), 1);
+  const vocabulary = Math.round((Math.min(toSafeNonNegativeInteger(args.masteredTerms), safeTermTotal) / safeTermTotal) * 300);
+  const syntax = Math.round((Math.min(toSafeNonNegativeInteger(args.masteredSyntaxChecks), safeSyntaxTotal) / safeSyntaxTotal) * 300);
+  const safeBonusRatio = Number.isFinite(args.bonusRatio) ? Math.max(0, Math.min(args.bonusRatio, 1)) : 0;
+  const bonus = Math.round(safeBonusRatio * 400);
 
   return {
     vocabulary,
@@ -1310,6 +1311,10 @@ export function calculateStarDust(args: {
     bonus,
     total: vocabulary + syntax + bonus,
   };
+}
+
+function toSafeNonNegativeInteger(value: number): number {
+  return Number.isFinite(value) ? Math.max(Math.trunc(value), 0) : 0;
 }
 
 export * from "./sessionSettings";

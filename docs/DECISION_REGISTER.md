@@ -2559,3 +2559,24 @@ Guardrails:
 - Verification and helpers remain side-effect free.
 
 This decision is recorded in `docs/adr/0540-deterministic-scoring-math.md` and `docs/decision-register/DR-612-deterministic-scoring-math.md`.
+
+## DR-613: Progression Award Normalization
+
+Status: Accepted
+
+Decision: Normalize malformed Star Dust inputs at the shared calculator and local completion-adapter boundaries before calculation or completion-event emission.
+
+Rationale:
+
+- A safe profile can still receive malformed counts or award values from a future adapter.
+- Event metadata and learner state must not disagree about the award that was applied.
+- Normalization keeps local proof-of-concept progression deterministic while hosted persistence remains blocked.
+
+Guardrails:
+
+- Negative, fractional, and non-finite calculation inputs are normalized safely.
+- Local completion awards are non-negative integers capped at 1,000.
+- Completion metadata and local state use the same normalized value.
+- Normalization does not write persistence, inventory, reports, or unlock providers.
+
+This decision is recorded in `docs/adr/0541-progression-award-normalization.md` and `docs/decision-register/DR-613-progression-award-normalization.md`.

@@ -736,6 +736,8 @@ try {
   assertEqual(JSON.stringify(dustFirst), JSON.stringify(dustSecond));
   assertEqual(dustFirst.total, 1000);
   assertEqual(contentModel.calculateStarDust({ ...dustInput, masteredTerms: 20, masteredSyntaxChecks: 20, bonusRatio: 3 }).total, 1000);
+  assertEqual(contentModel.calculateStarDust({ masteredTerms: -2, totalTerms: 12, masteredSyntaxChecks: -1, totalSyntaxChecks: 2, bonusRatio: -1 }).total, 0);
+  assertEqual(contentModel.calculateStarDust({ masteredTerms: Number.POSITIVE_INFINITY, totalTerms: 12, masteredSyntaxChecks: 2, totalSyntaxChecks: 2, bonusRatio: Number.NaN }).total, 300);
 
   const microphoneRequest = {
     tenantId: "tenant-1", packageId: "package-1", entitlementId: "entitlement-mic-1",
