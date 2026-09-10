@@ -20,6 +20,8 @@ The game catalog pedagogical contract slice now checks mode identity, exactly tw
 
 The background media capability slice now rejects multimedia plans that name a supported game mode without explicit catalog permission for optional ambient media, while preserving learning-audio priority.
 
+The game catalog learner-metadata slice now checks role, skill focus, summary, and explicit media capability fields before game-mode verification can pass.
+
 ## Session 0: Standards And Decisions Gate
 
 Purpose: Ensure the project still follows the white-label saleable platform direction before work begins.

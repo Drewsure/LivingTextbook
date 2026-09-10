@@ -1435,3 +1435,17 @@ Required standing rules:
 - Capability validation does not enable playback, autoplay, volume changes, persistence, or progress credit.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-609 and `docs/adr/0537-background-media-mode-capability.md`.
+
+## 80. Game Catalog Learner-Facing Metadata Standard
+
+Catalog metadata is part of the learner and teacher experience. A route can be technically available yet still be unusable if its role, skill focus, or explanation is missing or invalid.
+
+Required standing rules:
+
+- Every mode must declare one supported learner role: entry practice, reinforcement, assessment, or review.
+- Every mode must declare one supported skill focus.
+- Every mode must carry a non-empty summary suitable for teacher and student pathway review.
+- Background-media capability must be explicit rather than inferred from a missing field.
+- Metadata validation remains separate from visual branding and does not enable gameplay or progression.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-610 and `docs/adr/0538-game-catalog-learner-metadata.md`.

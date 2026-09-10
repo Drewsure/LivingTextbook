@@ -2494,3 +2494,25 @@ Guardrails:
 - No playback, autoplay, persistence, or student-state side effect is introduced.
 
 This decision is recorded in `docs/adr/0537-background-media-mode-capability.md` and `docs/decision-register/DR-609-background-media-mode-capability.md`.
+
+## DR-610: Game Catalog Learner-Facing Metadata
+
+Status: Accepted
+
+Decision: Extend the game-mode verification gate to validate each catalog item's learner role, skill focus, summary, and explicit background-media capability.
+
+Rationale:
+
+- Teacher pathway review depends on more than routing and scoring identifiers.
+- Missing or invalid learner-facing metadata can make a technically available mode misleading or unusable.
+- Explicit validation is cheaper than discovering catalog omissions during game integration.
+
+Guardrails:
+
+- Roles are limited to entry practice, reinforcement, assessment, or review.
+- Skill focus is limited to the shared catalog vocabulary.
+- Summaries must be non-empty.
+- Background-media capability must be explicitly true or false.
+- No provider, storage, playback, release, assignment, or student-state side effect is introduced.
+
+This decision is recorded in `docs/adr/0538-game-catalog-learner-metadata.md` and `docs/decision-register/DR-610-game-catalog-learner-metadata.md`.

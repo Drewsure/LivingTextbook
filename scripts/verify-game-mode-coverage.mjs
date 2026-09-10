@@ -133,6 +133,20 @@ const malformedCatalogItems = gameModes.filter((mode) => {
 
   return declaredId !== mode || requiredSentenceCount !== 2 || !termRangeIsValid || !levelsAreValid;
 });
+const malformedCatalogPresentationItems = gameModes.filter((mode) => {
+  const item = getCatalogItemBody(catalog, mode);
+  const role = item.match(/role:\s*"([^"]+)"/)?.[1];
+  const skillFocus = item.match(/skillFocus:\s*"([^"]+)"/)?.[1];
+  const summary = item.match(/summary:\s*"([^"]*)"/)?.[1]?.trim();
+  const backgroundCapability = item.match(/allowsBackgroundMedia:\s*(true|false)/)?.[1];
+  const supportedRoles = new Set(["entry-practice", "reinforcement", "assessment", "review"]);
+  const supportedSkillFocuses = new Set(["vocabulary", "syntax", "listening", "speaking", "review", "mixed"]);
+
+  return !role || !supportedRoles.has(role)
+    || !skillFocus || !supportedSkillFocuses.has(skillFocus)
+    || !summary
+    || !backgroundCapability;
+});
 const missingSharedRouteHelperModes = [];
 const requiredActiveGameRouteContracts = [
   { id: "flashcards", pattern: "/flashcards/[code]", helper: "getFlashcardsPath" },
@@ -186,6 +200,11 @@ if (compatibilityDrift.length > 0) {
 
 if (malformedCatalogItems.length > 0) {
   console.error(`FAIL Game catalog pedagogical contract is malformed for: ${malformedCatalogItems.join(", ")}`);
+  process.exit(1);
+}
+
+if (malformedCatalogPresentationItems.length > 0) {
+  console.error(`FAIL Game catalog learner-facing metadata is malformed for: ${malformedCatalogPresentationItems.join(", ")}`);
   process.exit(1);
 }
 
