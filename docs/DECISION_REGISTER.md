@@ -2451,3 +2451,25 @@ Guardrails:
 - New modes still require route, scoring, audio, replay, and compatibility evidence.
 
 This decision is recorded in `docs/adr/0535-cross-catalog-game-contract.md` and `docs/decision-register/DR-607-cross-catalog-game-contract.md`.
+
+## DR-608: Game Catalog Pedagogical Contract
+
+Status: Accepted
+
+Decision: Extend the existing game-mode verification gate to validate each catalog item's identity, two-sentence requirement, term-range bounds, and supported-level list.
+
+Rationale:
+
+- Catalog fields are runtime-facing pathway metadata, not decorative labels.
+- A malformed level list or term range can make a reviewed unit appear available when the activity cannot safely support it.
+- The canonical unit contract requires two target sentence structures, while individual modes may use a narrower active-term range for presentation.
+
+Guardrails:
+
+- Catalog IDs must match their keys.
+- `requiredSentenceCount` must be exactly 2.
+- Recommended term ranges must be ordered and within 1–12.
+- Supported levels must be non-empty, unique, ascending, and within 1–8.
+- No provider, storage, playback, release, assignment, or student-state side effect is introduced.
+
+This decision is recorded in `docs/adr/0536-game-catalog-pedagogical-contract.md` and `docs/decision-register/DR-608-game-catalog-pedagogical-contract.md`.

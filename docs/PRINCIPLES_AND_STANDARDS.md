@@ -1407,3 +1407,17 @@ Required standing rules:
 - A new mode must update the shared contract and web catalog together, with route, scoring, audio, and replay evidence.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-607 and `docs/adr/0535-cross-catalog-game-contract.md`.
+
+## 78. Game Catalog Pedagogical Contract Standard
+
+Every curated game mode must carry usable pedagogical bounds, not just a name and route. The catalog is the contract that lets the same unit payload serve multiple reviewed pathways safely.
+
+Required standing rules:
+
+- Each mode must identify itself with the same ID as its catalog key.
+- Each mode requires exactly two target sentence structures.
+- Each mode's recommended term range must be ordered and remain within the canonical 1–12 structural bound.
+- Each mode must expose a non-empty, unique, ascending supported-level list within Levels 1–8.
+- Mode-specific ranges may be narrower than the canonical unit range when the activity needs fewer active items, but the exception must remain explicit in the catalog.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-608 and `docs/adr/0536-game-catalog-pedagogical-contract.md`.

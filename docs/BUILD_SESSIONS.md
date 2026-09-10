@@ -16,6 +16,8 @@ The unit mode compatibility slice now rejects valid-but-incompatible mode metada
 
 The cross-catalog game contract slice now checks that the content-model mode contract and web game catalog agree on family, parent engine, and supported levels before game-mode verification can pass.
 
+The game catalog pedagogical contract slice now checks mode identity, exactly two target sentences, bounded term ranges, and unique ascending supported levels before game-mode verification can pass.
+
 ## Session 0: Standards And Decisions Gate
 
 Purpose: Ensure the project still follows the white-label saleable platform direction before work begins.

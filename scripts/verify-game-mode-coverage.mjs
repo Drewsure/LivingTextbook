@@ -108,6 +108,26 @@ const compatibilityDrift = gameModes.filter((mode) => {
 
   return contentFamily !== catalogFamily || contentEngine !== catalogEngine || contentLevels !== catalogLevels;
 });
+const malformedCatalogItems = gameModes.filter((mode) => {
+  const item = getCatalogItemBody(catalog, mode);
+  const declaredId = item.match(/id:\s*"([^"]+)"/)?.[1];
+  const requiredSentenceCount = Number(item.match(/requiredSentenceCount:\s*(\d+)/)?.[1]);
+  const termRange = item.match(/recommendedTermRange:\s*\{\s*min:\s*(\d+),\s*max:\s*(\d+)\s*\}/);
+  const supportedLevels = Array.from(item.matchAll(/supportedLevels:\s*\[([^\]]*)\]/g), (match) =>
+    match[1].split(",").map((value) => Number(value.trim())).filter((value) => Number.isInteger(value)),
+  )[0] ?? [];
+  const levelSet = new Set(supportedLevels);
+  const levelsAreValid = supportedLevels.length > 0
+    && supportedLevels.every((level) => level >= 1 && level <= 8)
+    && levelSet.size === supportedLevels.length
+    && supportedLevels.every((level, index) => index === 0 || supportedLevels[index - 1] < level);
+  const termRangeIsValid = Boolean(termRange)
+    && Number(termRange?.[1]) >= 1
+    && Number(termRange?.[2]) <= 12
+    && Number(termRange?.[1]) <= Number(termRange?.[2]);
+
+  return declaredId !== mode || requiredSentenceCount !== 2 || !termRangeIsValid || !levelsAreValid;
+});
 const missingSharedRouteHelperModes = [];
 const requiredActiveGameRouteContracts = [
   { id: "flashcards", pattern: "/flashcards/[code]", helper: "getFlashcardsPath" },
@@ -156,6 +176,11 @@ if (extraCompatibilityIds.length > 0) {
 
 if (compatibilityDrift.length > 0) {
   console.error(`FAIL Content-model and web game catalog compatibility drift for: ${compatibilityDrift.join(", ")}`);
+  process.exit(1);
+}
+
+if (malformedCatalogItems.length > 0) {
+  console.error(`FAIL Game catalog pedagogical contract is malformed for: ${malformedCatalogItems.join(", ")}`);
   process.exit(1);
 }
 
