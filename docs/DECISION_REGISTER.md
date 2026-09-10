@@ -2580,3 +2580,23 @@ Guardrails:
 - Normalization does not write persistence, inventory, reports, or unlock providers.
 
 This decision is recorded in `docs/adr/0541-progression-award-normalization.md` and `docs/decision-register/DR-613-progression-award-normalization.md`.
+
+## DR-614: Reserved Completion Metadata
+
+Status: Accepted
+
+Decision: Treat normalized `earnedStarDust` as platform-owned completion metadata and write it after optional game metadata.
+
+Rationale:
+
+- Game-specific metadata is useful for explanation but must not become score authority.
+- Merge order can otherwise allow a caller to disagree with local progression state.
+- A reserved-field rule is inexpensive and keeps future adapters deterministic.
+
+Guardrails:
+
+- Optional metadata is merged first.
+- The normalized award is written last and must match progression state.
+- No persistence, inventory, reporting, or unlock side effect is introduced.
+
+This decision is recorded in `docs/adr/0542-reserved-completion-metadata.md` and `docs/decision-register/DR-614-reserved-completion-metadata.md`.

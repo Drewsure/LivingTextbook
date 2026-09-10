@@ -1491,3 +1491,16 @@ Required standing rules:
 - Normalization does not authorize persistence, reporting, inventory, unlock, or provider writes.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-613 and `docs/adr/0541-progression-award-normalization.md`.
+
+## 84. Reserved Completion Metadata Standard
+
+Completion-event metadata may be extended by a game adapter, but core scoring fields remain platform-owned. Optional metadata must never overwrite the normalized award that the progression adapter applies to learner state.
+
+Required standing rules:
+
+- Completion adapters merge optional metadata before writing reserved `earnedStarDust` metadata.
+- The `earnedStarDust` event value must equal the normalized value returned to progression state.
+- Game-specific metadata may explain scoring but cannot redefine the authoritative award.
+- Reserved-field protection does not create persistence, reporting, inventory, or unlock side effects.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-614 and `docs/adr/0542-reserved-completion-metadata.md`.

@@ -246,8 +246,8 @@ export function completeGameMode(args: {
     studentSessionId: args.progression.studentSessionId,
     occurredAt: args.occurredAt,
     metadata: {
-      earnedStarDust,
       ...args.metadata,
+      earnedStarDust,
     },
   };
 

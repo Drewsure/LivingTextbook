@@ -1004,3 +1004,6 @@ This decision is recorded in `docs/adr/0540-deterministic-scoring-math.md` and `
 
 The progression award normalization slice now sanitizes negative, fractional, and non-finite Star Dust inputs in the shared calculator and local completion adapter. Runtime assertions cover malformed mastery values, while completion-event metadata and local progression use one normalized award value. No persistence or inventory side effect is introduced.
 This decision is recorded in `docs/adr/0541-progression-award-normalization.md` and `docs/decision-register/DR-613-progression-award-normalization.md`.
+
+The reserved completion metadata slice now prevents optional game metadata from overwriting the normalized `earnedStarDust` value. Completion-event metadata and local progression state therefore remain aligned even when a mode supplies extra scoring context.
+This decision is recorded in `docs/adr/0542-reserved-completion-metadata.md` and `docs/decision-register/DR-614-reserved-completion-metadata.md`.
