@@ -998,3 +998,6 @@ This decision is recorded in `docs/adr/0530-background-media-mode-policy.md` and
 
 The scoring profile compatibility slice now requires every scoring profile to declare supported parent engines, learner roles, and skill focuses. The game-mode verification gate compares those declarations with each catalog mode so reward semantics cannot drift away from the engine or pedagogical purpose. This remains verification-only and does not award dust or mutate progression.
 This decision is recorded in `docs/adr/0539-scoring-profile-compatibility.md` and `docs/decision-register/DR-611-scoring-profile-compatibility.md`.
+
+The deterministic scoring math slice now validates profile metadata, non-negative integer award components, exact component-to-cap totals, and the canonical 1,000-dust ceiling. The shared accuracy helper also clamps caller-supplied minimum awards to the profile cap. This prevents reward inflation or ambiguous scoring before progression providers are enabled.
+This decision is recorded in `docs/adr/0540-deterministic-scoring-math.md` and `docs/decision-register/DR-612-deterministic-scoring-math.md`.

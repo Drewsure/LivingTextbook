@@ -178,6 +178,8 @@ Rules:
 - Scoring events should include `scoringProfileId` metadata when possible.
 - Tenant reward names may change, but scoring profile behavior must remain explainable to teachers and parents.
 - Future profile changes should be versioned rather than silently changing historical meaning.
+- Profile component awards must be non-negative integers, sum exactly to `completionDustCap`, and remain within the 1,000-dust unit ceiling.
+- Shared accuracy helpers must clamp their result to `completionDustCap`, including caller-supplied minimum awards.
 - Planned profiles do not make a mode playable; they only reserve the scoring contract.
 
 ## Audio Contract

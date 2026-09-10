@@ -1463,3 +1463,17 @@ Required standing rules:
 - Profile compatibility validation does not award dust, unlock progression, write inventory, or enable a game provider.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-611 and `docs/adr/0539-scoring-profile-compatibility.md`.
+
+## 82. Deterministic Scoring Math Standard
+
+Scoring profiles must be mathematically bounded before they can guide a game or a future progression adapter. A compatible profile is still unsafe if its component awards, cap, or accuracy helper can produce unexplained values.
+
+Required standing rules:
+
+- Vocabulary, syntax, bonus, and completion-cap values must be non-negative integers.
+- A profile completion cap must equal the sum of its vocabulary, syntax, and bonus components.
+- A profile completion cap must not exceed the canonical 1,000 Star Dust unit ceiling.
+- Accuracy-derived awards must be clamped to the selected profile's completion cap, including when a caller supplies a minimum award.
+- Verification and scoring helpers do not persist dust, unlock progression, or write inventory.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-612 and `docs/adr/0540-deterministic-scoring-math.md`.

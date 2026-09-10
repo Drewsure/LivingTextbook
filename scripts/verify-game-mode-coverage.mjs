@@ -43,6 +43,10 @@ if (!scoringProfilesMatch) {
 
 const gameModes = Array.from(gameModeMatch[1].matchAll(/\|\s*"([^"]+)"/g), (match) => match[1]).sort();
 const parentEngines = Array.from(parentEngineMatch[1].matchAll(/"([^"]+)"/g), (match) => match[1]).sort();
+const scoringProfileIds = Array.from(
+  scoringProfilesMatch[1].matchAll(/(?:^|\n)\s*"([^"]+)":\s*\{/g),
+  (match) => match[1],
+).sort();
 const catalogIds = Array.from(catalog.matchAll(/id:\s*"([^"]+)"/g), (match) => match[1]).sort();
 const compatibilityIds = Array.from(
   compatibilityMatch[1].matchAll(/(?:^|\n)\s*(?:"([^"]+)"|([a-z-]+)):\s*\{/g),
@@ -121,6 +125,42 @@ const scoringProfileCompatibilityDrift = gameModes.filter((mode) => {
     || !supportedEngines.includes(`"${engineId}"`)
     || !supportedRoles.includes(`"${role}"`)
     || !supportedSkillFocuses.includes(`"${skillFocus}"`);
+});
+const malformedScoringProfiles = scoringProfileIds.filter((profileId) => {
+  const profile = getScoringProfileBody(scoringProfilesMatch[1], profileId);
+  const declaredId = profile.match(/id:\s*"([^"]+)"/)?.[1];
+  const label = profile.match(/label:\s*"([^"]*)"/)?.[1]?.trim();
+  const summary = profile.match(/summary:\s*"([^"]*)"/)?.[1]?.trim();
+  const supportedEngines = getQuotedArray(profile, "supportedEngines");
+  const supportedRoles = getQuotedArray(profile, "supportedRoles");
+  const supportedSkillFocuses = getQuotedArray(profile, "supportedSkillFocuses");
+  const vocabularyDust = Number(profile.match(/vocabularyDust:\s*(-?\d+)/)?.[1]);
+  const syntaxDust = Number(profile.match(/syntaxDust:\s*(-?\d+)/)?.[1]);
+  const bonusDust = Number(profile.match(/bonusDust:\s*(-?\d+)/)?.[1]);
+  const completionDustCap = Number(profile.match(/completionDustCap:\s*(-?\d+)/)?.[1]);
+  const supportedRolesAreValid = supportedRoles.length > 0
+    && new Set(supportedRoles).size === supportedRoles.length
+    && supportedRoles.every((role) => ["entry-practice", "reinforcement", "assessment", "review"].includes(role));
+  const supportedSkillFocusesAreValid = supportedSkillFocuses.length > 0
+    && new Set(supportedSkillFocuses).size === supportedSkillFocuses.length
+    && supportedSkillFocuses.every((skillFocus) => ["vocabulary", "syntax", "listening", "speaking", "review", "mixed"].includes(skillFocus));
+  const supportedEnginesAreValid = supportedEngines.length > 0
+    && new Set(supportedEngines).size === supportedEngines.length
+    && supportedEngines.every((engine) => parentEngines.includes(engine));
+  const dustValuesAreValid = [vocabularyDust, syntaxDust, bonusDust, completionDustCap].every(
+    (value) => Number.isInteger(value) && value >= 0,
+  );
+  const capMatchesComponents = vocabularyDust + syntaxDust + bonusDust === completionDustCap;
+
+  return declaredId !== profileId
+    || !label
+    || !summary
+    || !supportedEnginesAreValid
+    || !supportedRolesAreValid
+    || !supportedSkillFocusesAreValid
+    || !dustValuesAreValid
+    || completionDustCap > 1000
+    || !capMatchesComponents;
 });
 const compatibilityDrift = gameModes.filter((mode) => {
   const contentContract = getCompatibilityItemBody(compatibilityMatch[1], mode);
@@ -343,6 +383,11 @@ if (scoringProfileCompatibilityDrift.length > 0) {
   process.exit(1);
 }
 
+if (malformedScoringProfiles.length > 0) {
+  console.error(`FAIL Scoring profile math or metadata is malformed for: ${malformedScoringProfiles.join(", ")}`);
+  process.exit(1);
+}
+
 for (const routeContract of requiredActiveGameRouteContracts) {
   if (!routeContracts.includes(`id: "${routeContract.id}"`)) {
     console.error(`FAIL Active game route contract missing id: ${routeContract.id}`);
@@ -405,6 +450,12 @@ function getScoringProfileBody(source, profileId) {
   const match = source.match(new RegExp(`(?:^|\\n)\\s*"${escaped}":\\s*\\{([\\s\\S]*?)\\n\\s*},`, "m"));
 
   return match?.[1] ?? "";
+}
+
+function getQuotedArray(source, field) {
+  const match = source.match(new RegExp(`${field}:\\s*\\[([^\\]]*)\\]`));
+
+  return match ? Array.from(match[1].matchAll(/"([^"]+)"/g), (item) => item[1]) : [];
 }
 
 function getCompatibilityItemBody(source, mode) {

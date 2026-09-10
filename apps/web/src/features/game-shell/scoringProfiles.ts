@@ -142,6 +142,7 @@ export function calculateAccuracyBonusDust(args: {
   const safeTargetAttempts = Math.max(args.targetAttempts, 1);
   const accuracyRatio = Math.min(safeTargetAttempts / safeAttempts, 1);
   const calculatedDust = Math.round(accuracyRatio * args.profile.completionDustCap);
+  const minimumDust = Math.max(args.minimumDust ?? 0, 0);
 
-  return Math.max(args.minimumDust ?? 0, calculatedDust);
+  return Math.min(args.profile.completionDustCap, Math.max(minimumDust, calculatedDust));
 }

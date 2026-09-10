@@ -2537,3 +2537,25 @@ Guardrails:
 - No dust award, progression unlock, inventory write, or provider activation occurs during verification.
 
 This decision is recorded in `docs/adr/0539-scoring-profile-compatibility.md` and `docs/decision-register/DR-611-scoring-profile-compatibility.md`.
+
+## DR-612: Deterministic Scoring Math
+
+Status: Accepted
+
+Decision: Validate scoring profile arithmetic and clamp accuracy-derived awards to each profile's declared completion cap.
+
+Rationale:
+
+- Semantic compatibility does not guarantee safe reward math.
+- Exact component totals make teacher-visible scoring explainable and auditable.
+- Clamping prevents a future caller's minimum award from exceeding the profile contract.
+
+Guardrails:
+
+- Award components and caps are non-negative integers.
+- Component totals must equal the completion cap.
+- Completion caps cannot exceed 1,000 Star Dust per unit.
+- Accuracy helpers cannot return more than the selected profile cap.
+- Verification and helpers remain side-effect free.
+
+This decision is recorded in `docs/adr/0540-deterministic-scoring-math.md` and `docs/decision-register/DR-612-deterministic-scoring-math.md`.
