@@ -2388,3 +2388,24 @@ Guardrails:
 - No provider, storage, playback, release, assignment, or student-state side effect is introduced.
 
 This decision is recorded in `docs/adr/0532-media-audio-enum-integrity.md` and `docs/decision-register/DR-604-media-audio-enum-integrity.md`.
+
+## DR-605: Unit Metadata Catalog Integrity
+
+Status: Accepted
+
+Decision: Validate unit game mode, game family, and parent engine identifiers against the shared curated catalogs before runtime consumers interpret a unit.
+
+Rationale:
+
+- Imported PDF extraction, AI drafts, and tenant JSON arrive at runtime and bypass TypeScript's compile-time unions.
+- Unknown identifiers can appear structurally valid while routing content to an undefined or incompatible engine.
+- Silent fallback would make review evidence and future white-label integrations difficult to audit.
+
+Guardrails:
+
+- Supported game modes, families, and parent engines are checked explicitly.
+- Unknown values remain review blockers and are not automatically remapped.
+- New catalog values require a deliberate catalog, compatibility, and regression update.
+- No provider, storage, playback, release, assignment, or student-state side effect is introduced.
+
+This decision is recorded in `docs/adr/0533-unit-metadata-enum-integrity.md` and `docs/decision-register/DR-605-unit-metadata-enum-integrity.md`.

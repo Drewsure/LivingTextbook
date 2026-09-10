@@ -431,6 +431,11 @@ const supportedGameModeIds: GameModeId[] = [
   "flashcards", "label-it", "match-up", "memory-match", "balloon-pop", "true-false",
   "speak-it", "quiz", "type-answer", "spelling-practice", "fill-in-the-blank", "sentence-builder",
 ];
+const supportedGameFamilies: GameFamily[] = [
+  "core-quiz", "vocabulary-matching", "memory-sorting", "spelling-typing",
+  "syntax-construction", "word-puzzles", "arcade-action", "speaking-listening",
+];
+const supportedParentEngines: ParentEngine[] = ["pairing", "selection", "text-spelling", "narrative"];
 const supportedMediaAssetTypes: MediaAssetType[] = [
   "song", "chant", "listening-track", "voiceover", "sound-effect", "lesson-video", "music-video",
   "karaoke-video", "animation", "other-audio", "other-video",
@@ -641,6 +646,18 @@ export function validateUnitPayload(payload: UnitPayload): string[] {
 
   if (payload.unitMeta.gameMode.trim().length === 0 || payload.unitMeta.gameFamily.trim().length === 0 || payload.unitMeta.engineId.trim().length === 0) {
     errors.push("Unit game mode, game family, and parent engine identifiers are required.");
+  }
+
+  if (!supportedGameModeIds.includes(payload.unitMeta.gameMode as GameModeId)) {
+    errors.push(`Unit game mode ${payload.unitMeta.gameMode} is not supported by the curated game catalog.`);
+  }
+
+  if (!supportedGameFamilies.includes(payload.unitMeta.gameFamily as GameFamily)) {
+    errors.push(`Unit game family ${payload.unitMeta.gameFamily} is not supported by the curated game catalog.`);
+  }
+
+  if (!supportedParentEngines.includes(payload.unitMeta.engineId as ParentEngine)) {
+    errors.push(`Unit parent engine ${payload.unitMeta.engineId} is not supported by the engine catalog.`);
   }
 
   if (payload.visualRules.avatarFamily.trim().length === 0 || payload.visualRules.characterFocus.trim().length === 0) {

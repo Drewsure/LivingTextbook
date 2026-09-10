@@ -10,6 +10,8 @@ The playlist role/context slice now rejects a playlist marked for game-backgroun
 
 The media/audio enum integrity slice now rejects unsupported media types, kinds, rights statuses, audio cue kinds/sources, and playlist roles/contexts before runtime adapters can interpret imported package data.
 
+The unit metadata catalog slice now rejects unsupported game modes, game families, and parent engine identifiers before routes, pathways, reports, or future adapters can interpret imported units.
+
 ## Session 0: Standards And Decisions Gate
 
 Purpose: Ensure the project still follows the white-label saleable platform direction before work begins.

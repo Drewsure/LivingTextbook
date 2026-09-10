@@ -650,6 +650,18 @@ try {
   assertIncludes(invalidUnitStructureErrors, "Unit module must be a positive integer.");
   assertIncludes(invalidUnitStructureErrors, "Unit theme is required.");
   assertIncludes(invalidUnitStructureErrors, "Unit game mode, game family, and parent engine identifiers are required.");
+  const invalidUnitCatalogErrors = contentModel.validateUnitPayload({
+    ...audioUnit,
+    unitMeta: {
+      ...audioUnit.unitMeta,
+      gameMode: "unsupported-mode",
+      gameFamily: "unsupported-family",
+      engineId: "unsupported-engine",
+    },
+  });
+  assertIncludes(invalidUnitCatalogErrors, "Unit game mode unsupported-mode is not supported by the curated game catalog.");
+  assertIncludes(invalidUnitCatalogErrors, "Unit game family unsupported-family is not supported by the curated game catalog.");
+  assertIncludes(invalidUnitCatalogErrors, "Unit parent engine unsupported-engine is not supported by the engine catalog.");
   assertIncludes(invalidUnitStructureErrors, "Unit visual rules must include an avatar family and character focus.");
   assertIncludes(invalidUnitStructureErrors, "Teacher launch protocol must include hook, activity, and review copy.");
   const aiResult = aiService.prepareReviewOnlyAiGenerationRequest(aiRequest);

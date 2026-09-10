@@ -1366,3 +1366,17 @@ Required standing rules:
 - Invalid values remain review blockers and cannot be interpreted by game, media, local-bundle, or reporting adapters.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-604 and `docs/adr/0532-media-audio-enum-integrity.md`.
+
+## 75. Unit Metadata Catalog Integrity Standard
+
+Unit metadata is the routing contract between reviewed content and a parent game engine. Runtime imports must therefore use identifiers from the shared curated catalog before a unit can be interpreted by pathways, reports, or future adapters.
+
+Required standing rules:
+
+- Unit game modes must be supported curated `GameModeId` values.
+- Unit game families must be supported `GameFamily` values.
+- Unit parent engines must be supported `ParentEngine` values.
+- Unknown identifiers remain review blockers and must not be silently mapped to a nearest mode or engine.
+- Adding a new mode, family, or engine requires an explicit catalog update, compatibility review, and regression coverage.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-605 and `docs/adr/0533-unit-metadata-enum-integrity.md`.
