@@ -488,6 +488,18 @@ try {
   assertIncludes(invalidPlaylistErrors, "Playlists must include a non-empty playlist identifier.");
   assertIncludes(invalidPlaylistErrors, "Playlist (unnamed) must include a title.");
   assertIncludes(invalidPlaylistErrors, "Playlist (unnamed) must include at least one media asset.");
+  const invalidPlaylistRoleErrors = contentModel.validateContentPackage({
+    ...audioPackage,
+    playlists: [{
+      playlistId: "playlist-background-role", tenantId: "tenant-1", title: "Background media",
+      unitKey: audioUnitKey, mediaAssetIds: ["media-background"], playbackContext: "game-background", usageRole: "primary",
+    }],
+    mediaAssets: [{
+      mediaAssetId: "media-background", tenantId: "tenant-1", title: "Background audio", type: "other-audio",
+      kind: "audio", rightsStatus: "owned", unitKey: audioUnitKey,
+    }],
+  });
+  assertIncludes(invalidPlaylistRoleErrors, "Playlist playlist-background-role must use the background role for game-background playback.");
   const repeatedPlaylistMediaErrors = contentModel.validateContentPackage({
     ...audioPackage,
     playlists: [{

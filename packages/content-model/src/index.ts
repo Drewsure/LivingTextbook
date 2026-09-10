@@ -1026,6 +1026,10 @@ export function validateContentPackage(contentPackage: ContentPackage): string[]
       errors.push(`Playlist ${playlist.playlistId || "(unnamed)"} must include a title.`);
     }
 
+    if (playlist.playbackContext === "game-background" && playlist.usageRole !== "background") {
+      errors.push(`Playlist ${playlist.playlistId || "(unnamed)"} must use the background role for game-background playback.`);
+    }
+
     if (playlistIds.has(playlist.playlistId)) {
       errors.push(`Content package must not contain duplicate playlist ${playlist.playlistId}.`);
     }

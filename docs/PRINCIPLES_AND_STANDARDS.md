@@ -1341,3 +1341,15 @@ Required standing rules:
 - Mode policy validation does not enable autoplay, change volume, or persist teacher settings.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-601 and `docs/adr/0530-background-media-mode-policy.md`.
+
+## 73. Playlist Role And Playback Context Standard
+
+Playlist metadata determines where media can appear. A playlist assigned to game-background playback must identify itself as background media so teacher review, future engine adapters, and local bundles cannot interpret primary learning media as ambient support.
+
+Required standing rules:
+
+- A playlist with `game-background` playback context must use the `background` usage role.
+- Playlist role and context remain separate from media rights, teacher enablement, and audio-priority checks.
+- Context validation does not start playback, change volume, or create progress events.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-603 and `docs/adr/0531-playlist-role-playback-context.md`.

@@ -2347,3 +2347,23 @@ Guardrails:
 - Audio priority, teacher controls, rights, and release gates remain separate.
 
 This decision is recorded in `docs/adr/0530-background-media-mode-policy.md` and `docs/decision-register/DR-601-background-media-mode-policy.md`.
+
+## DR-603: Playlist Role And Playback Context
+
+Status: Accepted
+
+Require playlists declared for `game-background` playback to use the `background` usage role.
+
+Rationale:
+
+- Playlist metadata is consumed by teacher review, game adapters, and local package manifests.
+- A contradictory role can make primary learning media appear to be optional ambient media.
+- The check keeps learning audio priority understandable without implementing playback.
+
+Guardrails:
+
+- `game-background` context requires `background` role.
+- Rights, tenant, unit, teacher enablement, and audio-priority checks remain separate.
+- No playback, volume, progress, persistence, or release side effect is introduced.
+
+This decision is recorded in `docs/adr/0531-playlist-role-playback-context.md` and `docs/decision-register/DR-603-playlist-role-playback-context.md`.

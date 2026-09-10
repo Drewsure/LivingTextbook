@@ -6,6 +6,8 @@ This document gives the project an explicit build-session structure. It should b
 
 The structure follows the standing rule: foundation first, interaction second, premium polish third.
 
+The playlist role/context slice now rejects a playlist marked for game-background playback unless its usage role is background. This keeps media review, game adapters, and local package manifests aligned.
+
 ## Session 0: Standards And Decisions Gate
 
 Purpose: Ensure the project still follows the white-label saleable platform direction before work begins.
