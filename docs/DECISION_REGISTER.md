@@ -3289,3 +3289,28 @@ Guardrails:
   mutation, playlist changes, package promotion, or assignment.
 
 This decision is recorded in `docs/adr/0571-integration-evidence-provenance.md`.
+
+## DR-644: Derived Codex Decision
+
+Status: Accepted
+
+Decision: Derive the Codex integration-decision status from its review checks.
+Missing or blocked checks produce `blocked`, pending checks produce
+`review-only`, and an all-reviewed check set produces `ready-for-review`.
+
+Rationale:
+
+- The decision record should reflect the evidence it asks Codex to inspect.
+- A manually maintained status can incorrectly imply that review is complete
+  or hide a check that has actually advanced.
+- Ready-for-review must remain separate from a selected approval decision.
+
+Guardrails:
+
+- `selectedDecision` remains `No decision recorded` in preview data.
+- No status records an integration approval or writes app files, routes,
+  scoring, rewards, audio manifests, packages, or assignments.
+- MiniStar Japanese support remains support-only and hiragana-safe for early
+  levels.
+
+This decision is recorded in `docs/adr/0572-derived-codex-decision.md`.

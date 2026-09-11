@@ -263,3 +263,7 @@ No gate status authorizes an app patch or live integration.
 Integration evidence provenance is covered by web typecheck, production build,
 runtime checks, and active routes. The gate must derive check states from
 upstream records; a blanket status is not sufficient evidence.
+
+Codex decision status derivation is covered by runtime checks, web typecheck,
+production build, and active routes. The ready-for-review state never writes a
+selected decision or authorizes integration.

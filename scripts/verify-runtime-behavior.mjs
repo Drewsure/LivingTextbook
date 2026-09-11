@@ -41,6 +41,7 @@ try {
     "packages/content-model/src/aiPrototypeReturnedPackageManifest.ts",
     "packages/content-model/src/aiPrototypeReturnedPackageAlignment.ts",
     "packages/content-model/src/aiPrototypeIntegrationReadinessGate.ts",
+    "packages/content-model/src/aiPrototypeCodexIntegrationDecision.ts",
     "packages/content-model/src/prototypeIntakeAlert.ts",
     "packages/content-model/src/prototypeReturnReadiness.ts",
   ], { cwd: root, encoding: "utf8" });
@@ -101,6 +102,7 @@ try {
   const returnedPackageManifest = require(join(output, "aiPrototypeReturnedPackageManifest.js"));
   const returnedPackageAlignment = require(join(output, "aiPrototypeReturnedPackageAlignment.js"));
   const integrationReadiness = require(join(output, "aiPrototypeIntegrationReadinessGate.js"));
+  const codexDecision = require(join(output, "aiPrototypeCodexIntegrationDecision.js"));
   const prototypeIntakeAlert = require(join(output, "prototypeIntakeAlert.js"));
   const prototypeReturnReadiness = require(join(output, "prototypeReturnReadiness.js"));
   const contentModel = require(join(output, "index.js"));
@@ -1227,6 +1229,24 @@ try {
       status: "ready-for-codex-review",
     }),
     "AI prototype integration readiness gate status must match its evidence checks: expected blocked, received ready-for-codex-review.",
+  );
+  assertEqual(
+    codexDecision.deriveAiPrototypeCodexIntegrationDecisionStatus([]),
+    "blocked",
+  );
+  assertEqual(
+    codexDecision.deriveAiPrototypeCodexIntegrationDecisionStatus([
+      { status: "reviewed" },
+      { status: "pending-review" },
+    ]),
+    "review-only",
+  );
+  assertEqual(
+    codexDecision.deriveAiPrototypeCodexIntegrationDecisionStatus([
+      { status: "reviewed" },
+      { status: "reviewed" },
+    ]),
+    "ready-for-review",
   );
 
   const earlyJapanesePlan = {

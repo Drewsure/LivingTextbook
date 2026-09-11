@@ -1224,6 +1224,7 @@ const aiGameGeneratorExpected = [
   "No support-language-only mastery",
   "Codex integration review decision",
   "Manual decision before app patch",
+  "Decision status is derived from review checks; readiness never records approval automatically.",
   "Codex decision guard active",
   "Codex decision guard blocks",
   "Codex decision guard warnings",

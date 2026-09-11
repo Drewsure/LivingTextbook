@@ -1155,3 +1155,10 @@ record. Unknown or unfinished records remain blocked, and the readiness-gate
 self-check cannot bootstrap its own review.
 This decision is recorded in `docs/adr/0571-integration-evidence-provenance.md`
 and `docs/decision-register/DR-643-integration-evidence-provenance.md`.
+
+The Codex integration-decision slice now derives decision status from its
+review checks. Blocked or missing checks keep it blocked, pending checks keep
+it review-only, and all-reviewed checks make it ready for Codex review without
+recording approval or enabling integration.
+This decision is recorded in `docs/adr/0572-derived-codex-decision.md` and
+`docs/decision-register/DR-644-derived-codex-decision.md`.

@@ -57,6 +57,9 @@ export function AiPrototypeCodexIntegrationDecisionPanel({
             Returned prototypes cannot become app code until Codex records a manual decision after wrapper, fixture,
             event, audio, mobile, scoring, and readiness-gate evidence is reviewed.
           </p>
+          <p className="mt-2 text-xs font-semibold text-[var(--tenant-muted)]">
+            Decision status is derived from review checks; readiness never records approval automatically.
+          </p>
         </div>
         <div className="flex flex-wrap gap-2">
           <StatusPill label="Codex decision guard active" tone="neutral" />

@@ -1,6 +1,7 @@
 import { sampleAiPrototypeIntegrationPlans } from "@/data/sampleAiPrototypeIntegrationPlan";
 import {
   getAiPrototypeCodexIntegrationDecisionCollectionWarnings,
+  deriveAiPrototypeCodexIntegrationDecisionStatus,
   validateAiPrototypeCodexIntegrationDecisions,
   type AiPrototypeCodexIntegrationDecision as SharedAiPrototypeCodexIntegrationDecision,
   type AiPrototypeCodexIntegrationDecisionCheck as SharedAiPrototypeCodexIntegrationDecisionCheck,
@@ -16,7 +17,7 @@ export const sampleAiPrototypeCodexIntegrationDecisions: AiPrototypeCodexIntegra
   sampleAiPrototypeIntegrationPlans.map((plan) => {
     const isMiniStar = plan.tenantId === "ministar";
 
-    return {
+    const decision: AiPrototypeCodexIntegrationDecision = {
       decisionId: `codex-integration-review-decision-${plan.requestId}`,
       tenantId: plan.tenantId,
       requestId: plan.requestId,
@@ -119,6 +120,11 @@ export const sampleAiPrototypeCodexIntegrationDecisions: AiPrototypeCodexIntegra
         "No package promotion",
         "No assignment",
       ],
+    };
+
+    return {
+      ...decision,
+      status: deriveAiPrototypeCodexIntegrationDecisionStatus(decision.checks),
     };
   });
 

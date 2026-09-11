@@ -1788,4 +1788,13 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-642 and `docs/adr/05
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-643 and `docs/adr/0571-integration-evidence-provenance.md`.
 
+## 114. Derived Codex Decision Standard
+
+- The Codex integration-decision status must be derived from its review checks.
+- Missing or blocked checks keep the decision blocked; pending checks keep it review-only; all-reviewed checks make it ready for Codex review.
+- Ready for Codex review is not an approval and must not populate the selected decision or authorize integration.
+- The decision record must continue to preserve tenant boundaries, support-language restrictions, and all blocked actions.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-644 and `docs/adr/0572-derived-codex-decision.md`.
+
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-615 and `docs/adr/0543-progress-event-timestamps.md`.

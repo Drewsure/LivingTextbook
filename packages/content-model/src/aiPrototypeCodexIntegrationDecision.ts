@@ -23,6 +23,21 @@ export interface AiPrototypeCodexIntegrationDecision {
   blockedActions: string[];
 }
 
+export function deriveAiPrototypeCodexIntegrationDecisionStatus(
+  checks: Array<{ status: string }>,
+): AiPrototypeCodexIntegrationDecisionStatus {
+  if (checks.length === 0 || checks.some((check) => check.status === "missing" || check.status === "blocked")) {
+    return "blocked";
+  }
+  if (checks.some((check) => check.status === "pending-review")) {
+    return "review-only";
+  }
+  if (checks.every((check) => check.status === "reviewed")) {
+    return "ready-for-review";
+  }
+  return "blocked";
+}
+
 export const AI_PROTOTYPE_CODEX_DECISION_REQUIRED_SOURCE_RECORDS = [
   "ai_prototype_integration_plan",
   "ai_prototype_wrapper_adapter_review",
@@ -126,6 +141,13 @@ export function validateAiPrototypeCodexIntegrationDecision(decision: unknown): 
     errors.push("AI prototype Codex integration decision must use a supported review-only status.");
   }
 
+  const derivedStatus = deriveAiPrototypeCodexIntegrationDecisionStatus(checks);
+  if (status && status !== derivedStatus) {
+    errors.push(
+      `AI prototype Codex integration decision status must match its checks: expected ${derivedStatus}, received ${status}.`,
+    );
+  }
+
   if (!summary.includes("Manual Codex review remains blocked")) {
     errors.push("AI prototype Codex integration decision summary must keep manual Codex review blocked.");
   }
@@ -173,8 +195,16 @@ export function validateAiPrototypeCodexIntegrationDecision(decision: unknown): 
     }
   }
 
-  if (!checks.some((check) => check.status === "blocked")) {
-    errors.push("AI prototype Codex integration decision must keep at least one evidence check blocked.");
+  if (status === "blocked" && !checks.some((check) => check.status === "blocked" || check.status === "missing")) {
+    errors.push("A blocked AI prototype Codex integration decision must keep at least one check blocked or missing.");
+  }
+
+  if (status === "review-only" && !checks.some((check) => check.status === "pending-review")) {
+    errors.push("A review-only AI prototype Codex integration decision must keep at least one check pending review.");
+  }
+
+  if (status === "ready-for-review" && !checks.every((check) => check.status === "reviewed")) {
+    errors.push("A ready-for-review AI prototype Codex integration decision must have every check reviewed.");
   }
 
   if (tenantId === "ministar") {
