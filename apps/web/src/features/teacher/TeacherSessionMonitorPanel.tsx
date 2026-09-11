@@ -546,8 +546,8 @@ function TeacherReportPackageBoundaryCard({ boundary, href }: { boundary: Teache
           <StatusPill label={String(boundary.requiredBeforeExport.length)} tone="warning" />
         </div>
         <ul className="mt-3 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)] sm:grid-cols-2">
-          {boundary.requiredBeforeExport.map((item) => (
-            <li key={item}>{item}</li>
+          {boundary.requiredBeforeExport.map((item, index) => (
+            <li key={`${item}-${index}`}>{item}</li>
           ))}
         </ul>
       </section>
@@ -706,8 +706,8 @@ function SessionReadinessList({
         <StatusPill label={String(items.length)} tone={tone} />
       </div>
       <ul className="mt-3 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
-        {items.map((item) => (
-          <li key={item}>{item}</li>
+        {items.map((item, index) => (
+          <li key={`${item}-${index}`}>{item}</li>
         ))}
       </ul>
     </section>

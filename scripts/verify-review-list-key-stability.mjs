@@ -26,6 +26,10 @@ const reviewSurfaceFiles = [
   "apps/web/src/features/persistence/BackendSchemaDraftPanel.tsx",
   "apps/web/src/features/persistence/PersistenceAdapterReadinessPanel.tsx",
   "apps/web/src/features/persistence/PersistenceBoundaryPanel.tsx",
+  "apps/web/src/features/policy/PilotPolicyReadinessPanel.tsx",
+  "apps/web/src/features/publisher/TeacherPrivateLibraryPanel.tsx",
+  "apps/web/src/features/content-intake/TeacherDraftLocalEditPreview.tsx",
+  "apps/web/src/features/teacher/TeacherSessionMonitorPanel.tsx",
 ];
 
 const bareKeyPattern = /key=\{(?:item|warning|record|action|rule|error|step)\}/g;

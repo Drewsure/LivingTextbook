@@ -130,8 +130,8 @@ function LibraryList({ title, items }: { title: string; items: string[] }) {
     <section className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
       <h4 className="text-sm font-bold text-[var(--tenant-text)]">{title}</h4>
       <ul className="mt-3 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
-        {items.map((item) => (
-          <li key={item}>{item}</li>
+        {items.map((item, index) => (
+          <li key={`${item}-${index}`}>{item}</li>
         ))}
       </ul>
     </section>

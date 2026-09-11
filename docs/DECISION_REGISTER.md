@@ -3456,3 +3456,7 @@ Guardrails:
 - The change does not hide, merge, or suppress repeated evidence.
 
 This decision is recorded in `docs/adr/0578-deterministic-review-list-keys.md`.
+
+The deterministic review-list key implementation is now covered by the
+standing verifier across persistence, policy, private-library, draft-edit, and
+teacher-session review surfaces.

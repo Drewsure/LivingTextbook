@@ -747,6 +747,7 @@ Next outputs:
 - Confirm `npm run verify:ai-generator` passes after changes to AI authoring, game generation, activity pathway generation, target-language audio requirements, premium AI Tutor generation requests, or generator routes.
 - Confirm `npm run verify:prototype-review` passes after changing prototype review routes, generator prototype links, game readiness prototype links, or Z.ai/Phaser/outside prototype handoff gates.
 - Confirm `npm run verify:review-keys` passes after changing upload, evidence, media, persistence, or other teacher/admin review panels that render repeated checklist text.
+- The review-key verifier now includes policy, private-library, draft-edit, and teacher-session review surfaces so repeated warning/error output cannot regress to message-only keys outside the persistence panel.
 - Keep active route verification streaming and concise as the route matrix grows; route failures must identify the path and reason without weakening expected-text coverage.
 
 ## Session 8: Premium Experience Layer
