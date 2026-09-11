@@ -1,4 +1,10 @@
 import { sampleAiPrototypeIntegrationPlans } from "@/data/sampleAiPrototypeIntegrationPlan";
+import { sampleAiPrototypeAudioCoverageReports } from "@/data/sampleAiPrototypeAudioCoverageReport";
+import { sampleAiPrototypeEventReplayReports } from "@/data/sampleAiPrototypeEventReplayReport";
+import { sampleAiPrototypeFixtureReplayReports } from "@/data/sampleAiPrototypeFixtureReplayReport";
+import { sampleAiPrototypeMobileAccessibilityReports } from "@/data/sampleAiPrototypeMobileAccessibilityReport";
+import { sampleAiPrototypeScoringReplayReports } from "@/data/sampleAiPrototypeScoringReplayReport";
+import { sampleAiPrototypeWrapperAdapterReviews } from "@/data/sampleAiPrototypeWrapperAdapterReview";
 import {
   getAiPrototypeCodexIntegrationDecisionCollectionWarnings,
   deriveAiPrototypeCodexIntegrationDecisionStatus,
@@ -16,6 +22,27 @@ export type { AiPrototypeCodexIntegrationDecisionCheckStatus, AiPrototypeCodexIn
 export const sampleAiPrototypeCodexIntegrationDecisions: AiPrototypeCodexIntegrationDecision[] =
   sampleAiPrototypeIntegrationPlans.map((plan) => {
     const isMiniStar = plan.tenantId === "ministar";
+    const evidenceStatuses = {
+      wrapper: toDecisionCheckStatus(
+        sampleAiPrototypeWrapperAdapterReviews.find((review) => review.requestId === plan.requestId)?.status,
+      ),
+      fixture: toDecisionCheckStatus(
+        sampleAiPrototypeFixtureReplayReports.find((report) => report.requestId === plan.requestId)?.status,
+      ),
+      event: toDecisionCheckStatus(
+        sampleAiPrototypeEventReplayReports.find((report) => report.requestId === plan.requestId)?.status,
+      ),
+      audio: toDecisionCheckStatus(
+        sampleAiPrototypeAudioCoverageReports.find((report) => report.requestId === plan.requestId)?.status,
+      ),
+      mobile: toDecisionCheckStatus(
+        sampleAiPrototypeMobileAccessibilityReports.find((report) => report.requestId === plan.requestId)?.status,
+      ),
+      scoring: toDecisionCheckStatus(
+        sampleAiPrototypeScoringReplayReports.find((report) => report.requestId === plan.requestId)?.status,
+      ),
+    };
+    const allUpstreamEvidenceReviewed = Object.values(evidenceStatuses).every((status) => status === "reviewed");
 
     const decision: AiPrototypeCodexIntegrationDecision = {
       decisionId: `codex-integration-review-decision-${plan.requestId}`,
@@ -43,43 +70,43 @@ export const sampleAiPrototypeCodexIntegrationDecisions: AiPrototypeCodexIntegra
       checks: [
         {
           label: "Wrapper adapter evidence",
-          status: "pending-review",
+          status: evidenceStatuses.wrapper,
           evidence: "Returned code must run as a removable parent-engine wrapper.",
           requiredRecord: "ai_prototype_wrapper_adapter_review",
         },
         {
           label: "Fixture replay evidence",
-          status: "pending-review",
+          status: evidenceStatuses.fixture,
           evidence: "Reviewed JSON fixture must drive all learner-facing content.",
           requiredRecord: "ai_prototype_fixture_replay_report",
         },
         {
           label: "Standard event evidence",
-          status: "pending-review",
+          status: evidenceStatuses.event,
           evidence: "Prototype must emit standard LivingTextbook events in order.",
           requiredRecord: "ai_prototype_event_replay_report",
         },
         {
           label: "Target-language audio evidence",
-          status: "pending-review",
+          status: evidenceStatuses.audio,
           evidence: "Tap-to-speak and replay controls must cover target-language terms, sentences, instructions, feedback, and controls.",
           requiredRecord: "ai_prototype_audio_coverage_report",
         },
         {
           label: "Mobile accessibility evidence",
-          status: "pending-review",
+          status: evidenceStatuses.mobile,
           evidence: "Phone-first viewport, visible controls, focus order, readable text, and accessible wrapper controls must pass.",
           requiredRecord: "ai_prototype_mobile_accessibility_report",
         },
         {
           label: "Deterministic scoring evidence",
-          status: "pending-review",
+          status: evidenceStatuses.scoring,
           evidence: "Parent scoring profile must own score, mastery, Star Dust, and reward boundaries.",
           requiredRecord: "ai_prototype_scoring_replay_report",
         },
         {
           label: "Readiness gate evidence",
-          status: "blocked",
+          status: allUpstreamEvidenceReviewed ? "reviewed" : "blocked",
           evidence: "All evidence checks must be reviewed before a Codex decision can be recorded.",
           requiredRecord: "ai_prototype_integration_readiness_gate",
         },
@@ -140,4 +167,14 @@ export function filterAiPrototypeCodexIntegrationDecisionsByTenant(
   tenantId: string,
 ): AiPrototypeCodexIntegrationDecision[] {
   return decisions.filter((decision) => decision.tenantId === tenantId);
+}
+
+function toDecisionCheckStatus(status: string | undefined): AiPrototypeCodexIntegrationDecisionCheckStatus {
+  if (status === "reviewed" || status === "passed") {
+    return "reviewed";
+  }
+  if (status === "pending-review" || status === "review-required") {
+    return "pending-review";
+  }
+  return "blocked";
 }

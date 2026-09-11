@@ -3314,3 +3314,30 @@ Guardrails:
   levels.
 
 This decision is recorded in `docs/adr/0572-derived-codex-decision.md`.
+
+## DR-645: Codex Decision Evidence Provenance
+
+Status: Accepted
+
+Decision: Populate Codex-decision checks from the corresponding upstream
+wrapper, fixture, event, audio, mobile, and scoring records. Unknown or
+unfinished records remain blocked. The readiness-gate check can become reviewed
+only after every upstream check is reviewed.
+
+Rationale:
+
+- The Codex decision is the final review boundary before integration, so its
+  checks must preserve the evidence lineage rather than restate a generic
+  pending status.
+- A self-referential readiness check must not bootstrap its own completion.
+- The distinction between blocked and pending tells reviewers whether work is
+  absent or actively awaiting review.
+
+Guardrails:
+
+- No check status records a selected decision or integration approval.
+- MiniStar support-language policy remains separately protected.
+- App writes, route changes, scoring/reward changes, playlist changes,
+  package promotion, and assignment remain blocked.
+
+This decision is recorded in `docs/adr/0573-codex-decision-evidence-provenance.md`.

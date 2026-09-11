@@ -1162,3 +1162,10 @@ it review-only, and all-reviewed checks make it ready for Codex review without
 recording approval or enabling integration.
 This decision is recorded in `docs/adr/0572-derived-codex-decision.md` and
 `docs/decision-register/DR-644-derived-codex-decision.md`.
+
+The Codex decision evidence slice now maps each review check to its upstream
+wrapper, fixture, event, audio, mobile, or scoring record. Not-started,
+not-run, missing, blocked, or unknown records remain blocked; readiness-gate
+evidence cannot self-approve.
+This decision is recorded in `docs/adr/0573-codex-decision-evidence-provenance.md`
+and `docs/decision-register/DR-645-codex-decision-evidence-provenance.md`.

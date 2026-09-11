@@ -1797,4 +1797,13 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-643 and `docs/adr/05
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-644 and `docs/adr/0572-derived-codex-decision.md`.
 
+## 115. Codex Decision Evidence Provenance Standard
+
+- Codex-decision checks must be populated from the corresponding upstream wrapper, fixture, event, audio, mobile, and scoring records.
+- Not-started, not-run, missing, blocked, or unknown upstream records remain blocked checks; only explicit reviewed records become reviewed checks.
+- The readiness-gate check may become reviewed only after every upstream check is reviewed and cannot bootstrap its own state.
+- A MiniStar support-language boundary remains an independent protected check and cannot be satisfied by English-game evidence alone.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-645 and `docs/adr/0573-codex-decision-evidence-provenance.md`.
+
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-615 and `docs/adr/0543-progress-event-timestamps.md`.
