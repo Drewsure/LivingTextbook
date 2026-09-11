@@ -1193,6 +1193,41 @@ try {
     ]),
     "ready-for-codex-review",
   );
+  const integrationEvidenceChecks = integrationReadiness.AI_PROTOTYPE_INTEGRATION_READINESS_REQUIRED_EVIDENCE_RECORDS.map(
+    (sourceRecord) => ({
+      checkId: sourceRecord,
+      label: sourceRecord,
+      sourceRecord,
+      status: "blocked",
+      requiredBeforeIntegration: true,
+      blocker: "Evidence remains blocked until review.",
+    }),
+  );
+  const integrationGateFixture = {
+    gateId: "integration-gate-1",
+    tenantId: "tenant-1",
+    requestId: "request-1",
+    integrationPlanId: "plan-1",
+    label: "AI prototype integration readiness gate",
+    status: "blocked",
+    summary: "Review-only rollup proving that every returned prototype has wrapper, fixture, event, audio, mobile, scoring, and Codex decision evidence before any apps/web integration patch can be proposed.",
+    sourceRecords: [...integrationReadiness.AI_PROTOTYPE_INTEGRATION_READINESS_REQUIRED_SOURCE_RECORDS],
+    evidenceChecks: integrationEvidenceChecks,
+    integrationPolicy: [...integrationReadiness.AI_PROTOTYPE_INTEGRATION_READINESS_REQUIRED_POLICY],
+    blockedActions: [...integrationReadiness.AI_PROTOTYPE_INTEGRATION_READINESS_BLOCKED_ACTIONS],
+    nextRequiredRecords: [...integrationReadiness.AI_PROTOTYPE_INTEGRATION_READINESS_NEXT_RECORDS],
+  };
+  assertEqual(
+    integrationReadiness.validateAiPrototypeIntegrationReadinessGate(integrationGateFixture).length,
+    0,
+  );
+  assertIncludes(
+    integrationReadiness.validateAiPrototypeIntegrationReadinessGate({
+      ...integrationGateFixture,
+      status: "ready-for-codex-review",
+    }),
+    "AI prototype integration readiness gate status must match its evidence checks: expected blocked, received ready-for-codex-review.",
+  );
 
   const earlyJapanesePlan = {
     unitKey: "tenant-1:curriculum-1:L1:U1", targetLanguage: "en", assistLanguage: "ja",

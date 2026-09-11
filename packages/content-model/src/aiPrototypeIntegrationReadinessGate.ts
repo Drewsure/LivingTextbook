@@ -126,6 +126,13 @@ export function validateAiPrototypeIntegrationReadinessGate(gate: unknown): stri
     errors.push("AI prototype integration readiness gate must use a supported review-only status.");
   }
 
+  const derivedStatus = deriveAiPrototypeIntegrationReadinessGateStatus(evidenceChecks);
+  if (status && status !== derivedStatus) {
+    errors.push(
+      `AI prototype integration readiness gate status must match its evidence checks: expected ${derivedStatus}, received ${status}.`,
+    );
+  }
+
   if (!summary.includes("Review-only rollup") || !summary.includes("apps/web integration patch")) {
     errors.push("AI prototype integration readiness gate summary must keep the gate review-only before apps/web patches.");
   }
@@ -171,8 +178,16 @@ export function validateAiPrototypeIntegrationReadinessGate(gate: unknown): stri
     }
   }
 
-  if (!evidenceChecks.some((check) => check.status === "blocked")) {
-    errors.push("AI prototype integration readiness gate must keep evidence checks blocked until review completes.");
+  if (status === "blocked" && !evidenceChecks.some((check) => check.status === "blocked" || check.status === "missing")) {
+    errors.push("A blocked AI prototype integration readiness gate must keep at least one evidence check blocked or missing.");
+  }
+
+  if (status === "review-only" && !evidenceChecks.some((check) => check.status === "pending-review")) {
+    errors.push("A review-only AI prototype integration readiness gate must keep at least one evidence check pending review.");
+  }
+
+  if (status === "ready-for-codex-review" && !evidenceChecks.every((check) => check.status === "reviewed")) {
+    errors.push("A ready-for-codex-review AI prototype integration readiness gate must have every evidence check reviewed.");
   }
 
   if (tenantId === "ministar") {
