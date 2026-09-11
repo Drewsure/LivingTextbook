@@ -249,3 +249,8 @@ The derived readiness-summary status and Codex-alert label are covered by
 `npm run verify:runtime-behavior`, `npm run verify:prototype-review`, and the
 active route checks. Lane evidence is authoritative; hand-maintained summary
 labels are not permitted.
+
+The returned-package readiness status and Codex return-review label are covered
+by the same runtime, prototype-review, and active-route checks. Missing return
+evidence keeps review unopened; a blocked lane is only an evidence-review
+state when missing evidence is no longer present.

@@ -31,6 +31,9 @@ export function PrototypeReturnReadinessSummaryPanel({ summary }: PrototypeRetur
           <p className="text-sm font-semibold text-[var(--tenant-muted)]">Prototype return readiness</p>
           <h2 className="mt-1 text-lg font-bold">{summary.label}</h2>
           <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">{summary.summary}</p>
+          <p className="mt-2 text-xs font-semibold text-[var(--tenant-muted)]">
+            Return review state is derived from evidence lanes; missing proof keeps review unopened.
+          </p>
         </div>
         <div className="flex flex-wrap justify-end gap-2">
           <StatusPill label={statusLabel[summary.status]} tone="warning" />

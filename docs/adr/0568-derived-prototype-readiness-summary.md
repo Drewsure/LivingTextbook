@@ -9,8 +9,8 @@ the summary's readiness lanes through the shared content model.
 
 The state rules are:
 
-- any blocked lane produces `evidence-review-needed`;
 - any missing lane keeps the summary `not-ready`;
+- when no evidence is missing, a blocked lane produces `evidence-review-needed`;
 - only an all-ready lane set produces `ready-for-codex-alert`;
 - the visible alert label is derived from the same alert decision used by the
   handoff signal.
@@ -28,8 +28,9 @@ same source of truth.
   state machine.
 - A structurally valid preview remains not-ready while a real returned package
   and replay evidence are missing.
-- Structural problems become evidence-review-needed instead of being softened
-  into an ordinary missing-work message.
+- Structural problems become evidence-review-needed once missing evidence has
+  been resolved, instead of being softened into an ordinary missing-work
+  message.
 - No import, route, scoring, reward, media, package, assignment, or storage
   side effect is enabled by this derivation.
 

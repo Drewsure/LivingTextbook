@@ -1133,3 +1133,11 @@ keeps the state not-ready, blocked evidence requires review, and only an
 all-ready lane set can produce the ready-for-alert state.
 This decision is recorded in `docs/adr/0568-derived-prototype-readiness-summary.md`
 and `docs/decision-register/DR-640-derived-prototype-readiness-summary.md`.
+
+The returned-package readiness slice now derives its status and Codex
+return-review label from the evidence lanes. Missing source, fixture, audio,
+mobile, or scoring proof keeps review unopened; structural blocking without
+missing evidence requires evidence review; only an all-ready set can open
+return review.
+This decision is recorded in `docs/adr/0569-derived-prototype-return-review.md`
+and `docs/decision-register/DR-641-derived-prototype-return-review.md`.

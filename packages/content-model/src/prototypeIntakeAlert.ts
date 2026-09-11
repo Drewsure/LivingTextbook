@@ -20,6 +20,9 @@ const structuralBlockingLaneIds = new Set([
 export function derivePrototypeIntakeReadinessStatus(
   lanes: Array<{ status: string }>,
 ): PrototypeIntakeReadinessStatus {
+  if (lanes.some((lane) => lane.status === "missing")) {
+    return "not-ready";
+  }
   if (lanes.some((lane) => lane.status === "blocked")) {
     return "evidence-review-needed";
   }

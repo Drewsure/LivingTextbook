@@ -41,6 +41,7 @@ try {
     "packages/content-model/src/aiPrototypeReturnedPackageManifest.ts",
     "packages/content-model/src/aiPrototypeReturnedPackageAlignment.ts",
     "packages/content-model/src/prototypeIntakeAlert.ts",
+    "packages/content-model/src/prototypeReturnReadiness.ts",
   ], { cwd: root, encoding: "utf8" });
 
   if (compile.status !== 0) {
@@ -99,6 +100,7 @@ try {
   const returnedPackageManifest = require(join(output, "aiPrototypeReturnedPackageManifest.js"));
   const returnedPackageAlignment = require(join(output, "aiPrototypeReturnedPackageAlignment.js"));
   const prototypeIntakeAlert = require(join(output, "prototypeIntakeAlert.js"));
+  const prototypeReturnReadiness = require(join(output, "prototypeReturnReadiness.js"));
   const contentModel = require(join(output, "index.js"));
   const aiService = require(join(aiOutput, "apps", "ai-service", "src", "index.js"));
 
@@ -1136,6 +1138,40 @@ try {
   assertEqual(
     prototypeIntakeAlert.derivePrototypeIntakeCodexAlertState("ready-for-review"),
     "Codex alert ready",
+  );
+  assertEqual(
+    prototypeReturnReadiness.derivePrototypeReturnReadinessStatus([
+      { status: "ready" },
+      { status: "missing" },
+      { status: "blocked" },
+    ]),
+    "not-ready",
+  );
+  assertEqual(
+    prototypeReturnReadiness.derivePrototypeReturnReadinessStatus([
+      { status: "ready" },
+      { status: "blocked" },
+    ]),
+    "evidence-review-needed",
+  );
+  assertEqual(
+    prototypeReturnReadiness.derivePrototypeReturnReadinessStatus([
+      { status: "ready" },
+      { status: "ready" },
+    ]),
+    "ready-for-codex-return-review",
+  );
+  assertEqual(
+    prototypeReturnReadiness.derivePrototypeReturnReviewState("not-ready"),
+    "Codex return review not opened",
+  );
+  assertEqual(
+    prototypeReturnReadiness.derivePrototypeReturnReviewState("evidence-review-needed"),
+    "Codex return review blocked by evidence",
+  );
+  assertEqual(
+    prototypeReturnReadiness.derivePrototypeReturnReviewState("ready-for-codex-return-review"),
+    "Codex return review ready",
   );
 
   const earlyJapanesePlan = {

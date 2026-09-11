@@ -35,6 +35,7 @@ const files = {
   evidenceAlignmentPanel: "apps/web/src/features/content-intake/AiPrototypeEvidenceAlignmentPanel.tsx",
   returnedPackageManifestModel: "packages/content-model/src/aiPrototypeReturnedPackageManifest.ts",
   returnedPackageAlignmentModel: "packages/content-model/src/aiPrototypeReturnedPackageAlignment.ts",
+  prototypeReturnReadinessModel: "packages/content-model/src/prototypeReturnReadiness.ts",
   returnedPackageManifestSample: "apps/web/src/data/sampleAiPrototypeReturnedPackageManifest.ts",
   returnedPackageManifestPanel: "apps/web/src/features/content-intake/AiPrototypeReturnedPackageManifestPanel.tsx",
 };
@@ -236,6 +237,9 @@ const prototypeReturnReadinessSummaryMarkers = [
   "Prototype return readiness",
   "Prototype return readiness summary",
   "prototype-return-readiness-summary-foundation",
+  "derivePrototypeReturnReadinessStatus",
+  "derivePrototypeReturnReviewState",
+  "evidence-review-needed",
   "Codex return review not opened",
   "Return checklist visible",
   "Return storage guard visible",
@@ -396,6 +400,7 @@ for (const marker of prototypeReturnReadinessSummaryMarkers) {
   requireText(
     sources.prototypeReturnReadinessSummary +
       sources.prototypeReturnReadinessSummaryPanel +
+      sources.prototypeReturnReadinessModel +
       sources.gameReadinessPage +
       sources.prototypePage,
     marker,

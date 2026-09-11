@@ -1755,10 +1755,19 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-639 and `docs/adr/05
 ## 110. Derived Prototype Readiness Summary Standard
 
 - The prototype intake summary status must be derived from its readiness lanes, not hand-maintained.
-- Any blocked lane produces `evidence-review-needed`; missing work keeps the summary `not-ready`; only an all-ready lane set may produce `ready-for-codex-alert`.
+- Missing work keeps the summary `not-ready`; when no evidence is missing, a blocked lane produces `evidence-review-needed`; only an all-ready lane set may produce `ready-for-codex-alert`.
 - The visible Codex-alert label must be derived from the same alert decision as the handoff signal.
 - Shared content-model status types are the contract for both the review workbench and verification harness.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-640 and `docs/adr/0568-derived-prototype-readiness-summary.md`.
+
+## 111. Derived Prototype Return Review Standard
+
+- The returned-package readiness summary must derive its status and Codex return-review label from its evidence lanes.
+- Missing source, fixture, audio, mobile, or scoring evidence keeps return review unopened.
+- A blocked lane with no missing evidence requires evidence review; only an all-ready lane set can open Codex return review.
+- A return-review summary remains a review signal and cannot authorize archive import, app writes, route replacement, scoring changes, package promotion, or assignment.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-641 and `docs/adr/0569-derived-prototype-return-review.md`.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-615 and `docs/adr/0543-progress-event-timestamps.md`.

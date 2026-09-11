@@ -3206,3 +3206,31 @@ Guardrails:
 - Structural blockers remain visible and cannot be hidden by a summary label.
 
 This decision is recorded in `docs/adr/0568-derived-prototype-readiness-summary.md`.
+
+## DR-641: Derived Prototype Return Review
+
+Status: Accepted
+
+Decision: Derive the returned-package readiness status and Codex return-review
+label from the evidence lanes through the shared content model. Missing
+evidence keeps review unopened, a blocked lane without missing evidence
+requires evidence review, and only an all-ready lane set can open return
+review.
+
+Rationale:
+
+- The return summary previously stored its state and review label separately
+  from the evidence it summarized.
+- Missing evidence and structural review blockers have different operational
+  meanings and must not be collapsed into one misleading label.
+- The same derived contract keeps the teacher workbench, runtime harness, and
+  future handoff review aligned.
+
+Guardrails:
+
+- The summary cannot import archives, write app files, replace routes, mutate
+  scoring or rewards, write playlists, promote packages, or assign students.
+- A preview or checklist alone cannot open Codex return review.
+- Support-language progress remains outside the return-review signal.
+
+This decision is recorded in `docs/adr/0569-derived-prototype-return-review.md`.
