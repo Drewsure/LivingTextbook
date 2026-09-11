@@ -3694,3 +3694,26 @@ Guardrails:
 
 This decision is recorded in
 `docs/adr/0588-tenant-scoped-prototype-return-readiness.md`.
+
+## DR-661: Tenant Return Summary Route Proof
+
+Status: Accepted
+
+Decision: Require active route assertions for tenant-specific returned
+prototype summary labels and derived text on both tenant workbenches.
+
+Rationale:
+
+- A shared HTTP status or source marker cannot prove that tenant composition
+  preserved white-label isolation.
+- Rendered route evidence should verify the identity that a teacher actually
+  sees.
+
+Guardrails:
+
+- Route checks remain observational and review-only.
+- Archive import, route replacement, package promotion, and assignment remain
+  blocked.
+
+This decision is recorded in
+`docs/adr/0589-tenant-return-summary-route-proof.md`.

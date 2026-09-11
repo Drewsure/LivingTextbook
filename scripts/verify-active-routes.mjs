@@ -634,9 +634,15 @@ const prototypeReviewRouteExpected = [
   "Manifest identity matches its original intake queue item",
   "dom-reference",
 ];
-expectedTextByPath.set("/teacher/prototypes/sample-publisher", prototypeReviewRouteExpected);
+expectedTextByPath.set("/teacher/prototypes/sample-publisher", [...prototypeReviewRouteExpected]);
+expectedTextByPath.get("/teacher/prototypes/sample-publisher")?.push(
+  "Prototype return readiness summary (sample-publisher)",
+  "The sample-publisher workbench derives returned-prototype readiness",
+);
 expectedTextByPath.set("/teacher/prototypes/ministar", [
   ...prototypeReviewRouteExpected,
+  "Prototype return readiness summary (ministar)",
+  "The ministar workbench derives returned-prototype readiness",
   "phaser",
   "MiniStar external prototype task packet",
   "Foundation Japanese support must remain hiragana-only.",

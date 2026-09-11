@@ -1275,3 +1275,10 @@ platform summary on every workbench. Missing tenant records remain missing and
 cannot inherit another tenant's review state. The decision is recorded in
 `docs/adr/0588-tenant-scoped-prototype-return-readiness.md` and
 `docs/decision-register/DR-660-tenant-scoped-prototype-return-readiness.md`.
+
+The tenant return-summary route-proof slice now asserts that both prototype
+workbench routes render their own tenant-specific summary labels and derived
+text. HTTP success alone is no longer accepted as evidence of white-label
+isolation. The decision is recorded in
+`docs/adr/0589-tenant-return-summary-route-proof.md` and
+`docs/decision-register/DR-661-tenant-return-summary-route-proof.md`.
