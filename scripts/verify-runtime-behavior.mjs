@@ -1218,6 +1218,69 @@ try {
     ]),
     "evidence-packet durable record evidence-packet-without-scope: Review surface scope must be platform or tenant.",
   );
+  const evidenceScopeRecord = {
+    recordId: "evidence-scope-record",
+    category: "evidence-packet",
+    label: "Evidence packet",
+    readiness: "durable-required",
+    sourceOfTruth: "test",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    recommendedFirstPilotStore: ["local-classroom-store"],
+    storesRawAudio: false,
+    storesTranscript: false,
+    scopeKind: "platform",
+  };
+  const evidenceScopeIntent = {
+    intentId: "evidence-scope-intent",
+    category: "evidence-packet",
+    label: "Write evidence packets",
+    readiness: "requires-backend",
+    targetStore: ["local-classroom-store"],
+    deploymentChannels: ["local-classroom-server"],
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    requiresSchoolPolicy: false,
+    canRunOffline: true,
+    allowsExport: true,
+    rejectsRawAudio: true,
+    rejectsTranscripts: true,
+    note: "Test evidence scope mismatch.",
+  };
+  assertIncludes(
+    persistenceAdapter.validatePersistenceAdapterPlan({
+      planId: "evidence-scope-plan",
+      label: "Evidence scope plan",
+      mode: "local-classroom",
+      recommendedForFirstPilot: false,
+      costPosture: "lowest",
+      deploymentChannels: ["local-classroom-server"],
+      writeIntents: [evidenceScopeIntent],
+      handoffSteps: ["Review"],
+      note: "Test evidence scope",
+    }),
+    "evidence-packet write intent evidence-scope-intent: Review surface scope must be platform or tenant.",
+  );
+  assertIncludes(
+    persistenceConsistency.validatePersistenceContractAlignment({
+      durableRecords: [evidenceScopeRecord],
+      requiredCategories: ["evidence-packet"],
+      adapterPlans: [{
+        planId: "evidence-scope-alignment-plan",
+        label: "Evidence scope alignment plan",
+        mode: "local-classroom",
+        recommendedForFirstPilot: false,
+        costPosture: "lowest",
+        deploymentChannels: ["local-classroom-server"],
+        writeIntents: [{ ...evidenceScopeIntent, scopeKind: "tenant" }],
+        handoffSteps: ["Review"],
+        note: "Test evidence scope alignment",
+      }],
+    }),
+    "Persistence alignment requires evidence-packet adapter intent evidence-scope-intent to preserve durable-record scope_kind platform.",
+  );
   assertEqual(
     prototypeIntakeAlert.validatePrototypeIntakeAlertTenantScope(prototypeIntakeAlertFixture, "platform").length,
     0,

@@ -76,6 +76,15 @@ export function validatePersistenceContractAlignment({
           `Persistence alignment requires ${category} adapter intent ${intent.intentId} to use a durable-record tenant boundary key.`,
         );
       }
+
+      if (category === "evidence-packet" || category === "evidence-attachment") {
+        if (records.some((record) => record.scopeKind !== intent.scopeKind)) {
+          const expectedScope = records.find((record) => record.scopeKind)?.scopeKind ?? "(missing)";
+          errors.push(
+            `Persistence alignment requires ${category} adapter intent ${intent.intentId} to preserve durable-record scope_kind ${expectedScope}.`,
+          );
+        }
+      }
     }
   }
 

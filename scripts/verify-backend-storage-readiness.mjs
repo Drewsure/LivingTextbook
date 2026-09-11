@@ -358,6 +358,11 @@ for (const specId of requiredMigrationSpecs) {
 for (const source of [schemaDraft, migrationSpecs]) {
   requireText(source, "scope_kind", "Evidence storage contracts must preserve explicit platform or tenant scope_kind.");
 }
+requireText(
+  persistenceAdapterValidator,
+  "validateEvidenceWriteIntentScope",
+  "Persistence adapter evidence intents must validate explicit scope_kind.",
+);
 
 const requiredPackageAdoptionSchemaText = [
   "package_adoption_record_preview",

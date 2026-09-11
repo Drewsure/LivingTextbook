@@ -1,4 +1,5 @@
 import type { DeploymentChannel } from "./index";
+import { validateReviewSurfaceScope, type ReviewSurfaceScopeKind } from "./reviewSurfaceScope";
 import {
   TENANT_BOUND_PERSISTENCE_RECORD_CATEGORIES,
 } from "./persistenceRecords";
@@ -21,6 +22,7 @@ export interface PersistenceWriteIntent {
   allowsExport: boolean;
   rejectsRawAudio: boolean;
   rejectsTranscripts: boolean;
+  scopeKind?: ReviewSurfaceScopeKind;
   preservesEventEffectTaxonomy?: boolean;
   preservesTenantBoundary?: boolean;
   tenantBoundaryKey?: string;
@@ -509,6 +511,16 @@ function validatePrototypeReturnPackageChecklistWriteIntent(intent: PersistenceW
   }
 }
 
+function validateEvidenceWriteIntentScope(intent: PersistenceWriteIntent, errors: string[]): void {
+  if (intent.category !== "evidence-packet" && intent.category !== "evidence-attachment") {
+    return;
+  }
+
+  for (const scopeError of validateReviewSurfaceScope(intent.scopeKind)) {
+    errors.push(`${intent.category} write intent ${intent.intentId}: ${scopeError}`);
+  }
+}
+
 export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): string[] {
   const errors: string[] = [];
   const intentIds = new Set<string>();
@@ -589,6 +601,8 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
     ) {
       errors.push(`${intent.category} write intent ${intent.intentId} must name its tenant boundary key.`);
     }
+
+    validateEvidenceWriteIntentScope(intent, errors);
 
     if (intent.category === "progress-event-stream" && !intent.preservesSettingsContext) {
       errors.push(`Progress event write intent ${intent.intentId} must preserve settings context.`);

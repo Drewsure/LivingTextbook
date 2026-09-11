@@ -1309,3 +1309,10 @@ those durable records blocked, while upload, storage, approval, promotion, and
 student-facing use remain disabled. The decision is recorded in
 `docs/adr/0593-durable-evidence-scope-boundary.md` and
 `docs/decision-register/DR-665-durable-evidence-scope-boundary.md`.
+
+The adapter evidence scope slice now carries `scope_kind` through hosted and
+local evidence write intents and rejects missing or mismatched scope during
+adapter validation and cross-layer alignment. No live write or promotion
+behavior was enabled. The decision is recorded in
+`docs/adr/0594-adapter-evidence-scope-boundary.md` and
+`docs/decision-register/DR-666-adapter-evidence-scope-boundary.md`.

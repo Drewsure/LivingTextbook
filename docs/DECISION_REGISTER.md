@@ -3807,3 +3807,30 @@ Guardrails:
 
 This decision is recorded in
 `docs/adr/0593-durable-evidence-scope-boundary.md`.
+
+## DR-666: Adapter Evidence Scope Boundary
+
+Status: Accepted
+
+Decision: Hosted and local evidence-packet and evidence-attachment write
+intents must preserve the durable record's explicit `scope_kind` and must
+fail validation when the value is missing or does not align.
+
+Rationale:
+
+- A correct schema can still be weakened by an adapter plan that drops
+  ownership scope.
+- Hosted and closed/local deployments must carry the same boundary.
+- Cross-layer alignment is cheaper to prove before a vendor or storage API is
+  selected.
+
+Guardrails:
+
+- Scope alignment does not enable live writes.
+- Upload, approval, promotion, download, and student-facing use remain
+  separately blocked.
+- A future tenant-specific adapter must declare its scope intentionally rather
+  than inheriting platform defaults.
+
+This decision is recorded in
+`docs/adr/0594-adapter-evidence-scope-boundary.md`.

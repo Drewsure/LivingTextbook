@@ -554,6 +554,7 @@
 - `DR-663-explicit-review-surface-scope.md`
 - `DR-664-review-surface-scope-validation.md`
 - `DR-665-durable-evidence-scope-boundary.md`
+- `DR-666-adapter-evidence-scope-boundary.md`
 
 ## Maintenance Rule
 
