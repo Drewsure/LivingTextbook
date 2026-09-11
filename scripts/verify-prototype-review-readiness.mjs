@@ -32,6 +32,9 @@ const files = {
   evidenceAlignmentModel: "packages/content-model/src/aiPrototypeEvidenceAlignment.ts",
   evidenceAlignmentSample: "apps/web/src/data/sampleAiPrototypeEvidenceAlignment.ts",
   evidenceAlignmentPanel: "apps/web/src/features/content-intake/AiPrototypeEvidenceAlignmentPanel.tsx",
+  returnedPackageManifestModel: "packages/content-model/src/aiPrototypeReturnedPackageManifest.ts",
+  returnedPackageManifestSample: "apps/web/src/data/sampleAiPrototypeReturnedPackageManifest.ts",
+  returnedPackageManifestPanel: "apps/web/src/features/content-intake/AiPrototypeReturnedPackageManifestPanel.tsx",
 };
 
 const sources = Object.fromEntries(
@@ -246,6 +249,17 @@ const prototypeEvidenceAlignmentMarkers = [
   "scoring mutation",
   "student assignment",
 ];
+const prototypeReturnedPackageManifestMarkers = [
+  "Returned package manifest contract",
+  "Exact source snapshot before Z.ai review",
+  "AI_PROTOTYPE_RETURNED_PACKAGE_REPOSITORY",
+  "sourceSnapshotId",
+  "No direct file copy into apps/web",
+  "No direct file copy into apps/ai-service",
+  "No import",
+  "validateAiPrototypeReturnedPackageManifest",
+  "AiPrototypeReturnedPackageManifestPanel",
+];
 
 const failures = [];
 
@@ -373,6 +387,17 @@ for (const marker of prototypeEvidenceAlignmentMarkers) {
       sources.prototypePage,
     marker,
     `Prototype evidence alignment must keep marker: ${marker}`,
+  );
+}
+
+for (const marker of prototypeReturnedPackageManifestMarkers) {
+  requireText(
+    sources.returnedPackageManifestModel +
+      sources.returnedPackageManifestSample +
+      sources.returnedPackageManifestPanel +
+      sources.prototypePage,
+    marker,
+    `Returned prototype package manifest must keep marker: ${marker}`,
   );
 }
 

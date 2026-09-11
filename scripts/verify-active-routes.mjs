@@ -615,6 +615,10 @@ const prototypeReviewRouteExpected = [
   "No archive upload requested yet",
   "No pull request requested yet",
   "No app patch requested yet",
+  "Returned package manifest contract",
+  "Exact source snapshot before Z.ai review",
+  "No direct file copy into apps/ai-service",
+  "No import",
 ];
 expectedTextByPath.set("/teacher/prototypes/sample-publisher", prototypeReviewRouteExpected);
 expectedTextByPath.set("/teacher/prototypes/ministar", [

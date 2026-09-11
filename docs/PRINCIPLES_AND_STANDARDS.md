@@ -1692,4 +1692,14 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-631 and `docs/adr/05
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-632 and `docs/adr/0560-derived-prototype-intake-readiness.md`.
 
+## 103. Returned Prototype Manifest Standard
+
+- Every external prototype return must identify the approved source repository, immutable source snapshot, repository-relative prototype folder, target mode, parent engine, and artifact manifest.
+- The first approved external prototype repository is `Drewsure/ministar-lab`; returned source cannot point into `apps/web` or `apps/ai-service`.
+- Source archives, fixtures, README/setup notes, event replay, audio coverage, scoring replay, mobile evidence, and wrapper notes are separate review artifacts.
+- Missing or unreviewed artifacts keep the package out of Codex integration review.
+- The manifest is evidence only; it cannot import files, replace routes, mutate scoring, promote packages, or assign students.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-633 and `docs/adr/0561-returned-prototype-manifest.md`.
+
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-615 and `docs/adr/0543-progress-event-timestamps.md`.

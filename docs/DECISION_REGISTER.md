@@ -2988,3 +2988,31 @@ Guardrails:
   all required evidence exist.
 
 This decision is recorded in `docs/adr/0560-derived-prototype-intake-readiness.md`.
+
+## DR-633: Returned Prototype Manifest
+
+Status: Accepted
+
+Decision: Require every external prototype return to arrive as a typed,
+review-only manifest bound to the approved repository, immutable source
+snapshot, queue item, target mode, parent engine, and separate evidence
+artifacts.
+
+Rationale:
+
+- A checklist describes desired evidence but does not constrain an actual
+  returned source snapshot or path.
+- Exact provenance is necessary before reviewing Phaser or DOM code for a
+  wrapper boundary.
+- Separate artifacts keep fixtures, audio, scoring, accessibility, and event
+  evidence auditable and prevent direct app copying.
+
+Guardrails:
+
+- The initial approved repository is `Drewsure/ministar-lab` only.
+- `latest`, `main`, unsafe relative paths, and app-directory paths are rejected.
+- Missing evidence blocks review-only package advancement.
+- The manifest never authorizes import, route replacement, scoring mutation,
+  package promotion, or student assignment.
+
+This decision is recorded in `docs/adr/0561-returned-prototype-manifest.md`.

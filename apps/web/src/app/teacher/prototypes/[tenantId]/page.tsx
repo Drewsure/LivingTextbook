@@ -98,6 +98,9 @@ import {
 import { samplePrototypeIntakeReadinessSummary } from "@/data/samplePrototypeIntakeReadinessSummary";
 import { samplePrototypeIntakeStorageGuards } from "@/data/samplePrototypeIntakeStorageGuard";
 import { samplePrototypeReturnReadinessSummary } from "@/data/samplePrototypeReturnReadinessSummary";
+import {
+  sampleAiPrototypeReturnedPackageManifests,
+} from "@/data/sampleAiPrototypeReturnedPackageManifest";
 import { sampleAiPrototypeEvidenceAlignmentBundles } from "@/data/sampleAiPrototypeEvidenceAlignment";
 import {
   filterPrototypeReturnPackageChecklistsByTenant,
@@ -113,6 +116,7 @@ import { AiPrototypeCodexIntegrationDecisionPanel } from "@/features/content-int
 import { AiPrototypeCodexPatchApprovalDecisionPanel } from "@/features/content-intake/AiPrototypeCodexPatchApprovalDecisionPanel";
 import { AiPrototypeEventReplayReportPanel } from "@/features/content-intake/AiPrototypeEventReplayReportPanel";
 import { AiPrototypeEvidenceAlignmentPanel } from "@/features/content-intake/AiPrototypeEvidenceAlignmentPanel";
+import { AiPrototypeReturnedPackageManifestPanel } from "@/features/content-intake/AiPrototypeReturnedPackageManifestPanel";
 import { AiPrototypeFixtureReplayReportPanel } from "@/features/content-intake/AiPrototypeFixtureReplayReportPanel";
 import { AiPrototypeIntegrationPlanPanel } from "@/features/content-intake/AiPrototypeIntegrationPlanPanel";
 import { AiPrototypeIntegrationReadinessGatePanel } from "@/features/content-intake/AiPrototypeIntegrationReadinessGatePanel";
@@ -196,8 +200,11 @@ export default async function TeacherPrototypeReviewPage({
         <PrototypeIntakeQueuePanel items={filterPrototypeIntakeQueueByTenant(samplePrototypeIntakeQueue, tenantId)} />
         <PrototypeIntakeStorageGuardPanel guards={samplePrototypeIntakeStorageGuards} />
         <EvidencePacketFlowPanel flow={samplePrototypeIntakeEvidencePacketFlow} />
-        <PrototypeReturnPackageChecklistPanel
+          <PrototypeReturnPackageChecklistPanel
           checklists={filterPrototypeReturnPackageChecklistsByTenant(samplePrototypeReturnPackageChecklists, tenantId)}
+        />
+        <AiPrototypeReturnedPackageManifestPanel
+          manifests={sampleAiPrototypeReturnedPackageManifests.filter((manifest) => manifest.tenantId === tenantId)}
         />
         <PrototypeReturnReadinessSummaryPanel summary={samplePrototypeReturnReadinessSummary} />
 

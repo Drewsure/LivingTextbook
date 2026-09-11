@@ -38,6 +38,7 @@ try {
     "packages/content-model/src/persistenceConsistency.ts",
     "packages/content-model/src/reportRuntime.ts",
     "packages/content-model/src/aiPrototypeEvidenceAlignment.ts",
+    "packages/content-model/src/aiPrototypeReturnedPackageManifest.ts",
   ], { cwd: root, encoding: "utf8" });
 
   if (compile.status !== 0) {
@@ -93,6 +94,7 @@ try {
   const persistenceConsistency = require(join(output, "persistenceConsistency.js"));
   const report = require(join(output, "reportRuntime.js"));
   const prototypeAlignment = require(join(output, "aiPrototypeEvidenceAlignment.js"));
+  const returnedPackageManifest = require(join(output, "aiPrototypeReturnedPackageManifest.js"));
   const contentModel = require(join(output, "index.js"));
   const aiService = require(join(aiOutput, "apps", "ai-service", "src", "index.js"));
 
@@ -946,6 +948,47 @@ try {
       },
     }),
     "scoring replay report changes the parent engine for mode flashcards.",
+  );
+
+  const returnedPackagePreview = {
+    manifestId: "returned-package-preview-1",
+    tenantId: "tenant-1",
+    requestId: "request-1",
+    queueItemId: "queue-1",
+    status: "not-returned",
+    sourceRepository: "Drewsure/ministar-lab",
+    sourceSnapshotId: "not-returned",
+    prototypeFolder: "not-returned",
+    targetMode: "flashcards",
+    parentEngine: "pairing",
+    artifacts: [],
+    blockedActions: [
+      "No archive import",
+      "No direct file copy into apps/web",
+      "No direct file copy into apps/ai-service",
+      "No active route replacement",
+      "No scoring mutation",
+      "No audio manifest mutation",
+      "No package promotion",
+      "No student assignment",
+    ],
+  };
+  assertEqual(returnedPackageManifest.validateAiPrototypeReturnedPackageManifest(returnedPackagePreview).length, 0);
+  assertIncludes(
+    returnedPackageManifest.validateAiPrototypeReturnedPackageManifest({
+      ...returnedPackagePreview,
+      sourceRepository: "Drewsure/LivingTextbook",
+    }),
+    "AI prototype returned package manifest must use approved repository Drewsure/ministar-lab.",
+  );
+  assertIncludes(
+    returnedPackageManifest.validateAiPrototypeReturnedPackageManifest({
+      ...returnedPackagePreview,
+      status: "review-only",
+      sourceSnapshotId: "main",
+      artifacts: [],
+    }),
+    "Returned prototype package sourceSnapshotId must be immutable and cannot use latest or main.",
   );
 
   const earlyJapanesePlan = {

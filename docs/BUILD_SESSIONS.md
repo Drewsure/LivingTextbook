@@ -1080,3 +1080,11 @@ the missing returned package, replay evidence, and Codex wrapper decision, so a
 green sample alignment cannot imply Z.ai intake approval.
 This decision is recorded in `docs/adr/0560-derived-prototype-intake-readiness.md`
 and `docs/decision-register/DR-632-derived-prototype-intake-readiness.md`.
+
+The returned prototype manifest slice now gives the future Z.ai intake boundary
+an exact source repository, immutable snapshot, safe prototype folder, target
+mode, parent engine, and separate source/fixture/event/audio/scoring/mobile/
+wrapper artifacts. Review-only previews remain blocked from import, route
+replacement, scoring mutation, package promotion, and student assignment.
+This decision is recorded in `docs/adr/0561-returned-prototype-manifest.md`
+and `docs/decision-register/DR-633-returned-prototype-manifest.md`.

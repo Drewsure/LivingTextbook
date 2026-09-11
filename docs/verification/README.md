@@ -213,3 +213,9 @@ shared validator while keeping actual returned-package and Codex decision
 lanes blocked.
 This decision is recorded in `docs/adr/0560-derived-prototype-intake-readiness.md`
 and `docs/decision-register/DR-632-derived-prototype-intake-readiness.md`.
+
+The returned prototype manifest contract now protects exact repository
+snapshots, safe source paths, and separate evidence artifacts before Z.ai or
+Phaser wrapper review.
+This decision is recorded in `docs/adr/0561-returned-prototype-manifest.md`
+and `docs/decision-register/DR-633-returned-prototype-manifest.md`.
