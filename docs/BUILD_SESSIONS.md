@@ -1031,4 +1031,6 @@ The progress-event acceptance-gate consistency slice now rejects streams that mi
 The progress-event contract revision slice now rejects streams that mix taxonomy versions or settings contract IDs. Per-mode settings profiles and teacher snapshots remain allowed to vary inside one shared contract.
 
 The teacher-report launch binding slice now rejects report evidence with a missing or mismatched `launch_code`. Reusable pre-launch stream review remains less strict, but a report request must bind every event to its requested launch.
+
+The teacher-report tenant binding slice now rejects canonical unit keys from another tenant, protecting white-label isolation at the report evidence boundary.
 This decision is recorded in `docs/adr/0549-progress-event-acceptance-gate-consistency.md` and `docs/decision-register/DR-621-progress-event-acceptance-gate-consistency.md`.

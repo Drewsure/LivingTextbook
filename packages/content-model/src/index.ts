@@ -503,6 +503,15 @@ export function getCanonicalUnitKeyLevel(value: string): number | undefined {
   return match ? Number(match[1]) : undefined;
 }
 
+export function getCanonicalUnitKeyTenant(value: string): string | undefined {
+  const trimmedValue = value.trim();
+  if (!canonicalUnitKeyPattern.test(trimmedValue)) {
+    return undefined;
+  }
+
+  return trimmedValue.split(":")[0];
+}
+
 export function getLaunchPath(launchCode: LaunchCode): string {
   return `/launch/${encodeURIComponent(launchCode)}`;
 }

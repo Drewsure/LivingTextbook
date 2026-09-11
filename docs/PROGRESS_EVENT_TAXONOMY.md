@@ -214,3 +214,15 @@ Required standing rules:
 - Launch binding remains verification-only; it does not enable export, persistence, gameplay, scoring, or provider writes.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-623 and `docs/adr/0551-teacher-report-event-launch-binding.md`.
+
+## 94. Teacher Report Tenant Binding Standard
+
+A teacher report must not combine evidence from another white-label tenant, even when the event launch code is otherwise valid.
+
+Required standing rules:
+
+- Every canonical `unit_key` in a teacher report must resolve to the runtime `tenantId`.
+- Cross-tenant event evidence blocks report review.
+- Tenant binding remains verification-only; it does not enable export, persistence, gameplay, scoring, or provider writes.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-624 and `docs/adr/0552-teacher-report-tenant-binding.md`.

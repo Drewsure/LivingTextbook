@@ -1609,4 +1609,12 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-622 and `docs/adr/05
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-623 and `docs/adr/0551-teacher-report-event-launch-binding.md`.
 
+## 94. Teacher Report Tenant Binding Standard
+
+- Teacher report evidence must resolve to the requested white-label tenant through its canonical unit key.
+- Cross-tenant evidence blocks report review even if launch and event fields are otherwise valid.
+- The tenant check is a no-side-effect verification gate.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-624 and `docs/adr/0552-teacher-report-tenant-binding.md`.
+
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-615 and `docs/adr/0543-progress-event-timestamps.md`.

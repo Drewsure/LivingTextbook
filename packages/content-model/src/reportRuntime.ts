@@ -3,6 +3,7 @@ import type {
   TeacherReportExportPlan,
   TeacherReportExportScope,
 } from "./sessionSettings";
+import { getCanonicalUnitKeyTenant } from "./index";
 import {
   validateTeacherReportExportPlan,
   type TeacherReportExportReadiness,
@@ -87,6 +88,10 @@ export function validateTeacherReportRuntimeRequest(request: TeacherReportRuntim
     .filter(isRecord)
     .map((envelope) => readString(envelope, "launch_code"))
     .filter((launchCode) => launchCode && launchCode !== request.launchCode))];
+  const mismatchedTenantIds = [...new Set(request.eventEnvelopes
+    .filter(isRecord)
+    .map((envelope) => getCanonicalUnitKeyTenant(readString(envelope, "unit_key")))
+    .filter((tenantId): tenantId is string => Boolean(tenantId) && tenantId !== request.tenantId))];
 
   if (missingLaunchCode) {
     errors.push("teacher report event envelopes must include launch_code matching runtime launchCode");
@@ -94,6 +99,10 @@ export function validateTeacherReportRuntimeRequest(request: TeacherReportRuntim
 
   if (mismatchedLaunchCodes.length > 0) {
     errors.push(`teacher report event envelopes must use runtime launchCode ${request.launchCode}; found: ${mismatchedLaunchCodes.join(", ")}.`);
+  }
+
+  if (mismatchedTenantIds.length > 0) {
+    errors.push(`teacher report event envelopes must use runtime tenantId ${request.tenantId}; found: ${mismatchedTenantIds.join(", ")}.`);
   }
 
   if (request.reportPlan.tenantId !== request.tenantId) {

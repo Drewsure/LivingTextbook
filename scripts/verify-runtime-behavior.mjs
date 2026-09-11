@@ -698,6 +698,16 @@ try {
     eventEnvelopes: [supportEnvelope],
   });
   assertIncludes(missingReportLaunchErrors, "teacher report event envelopes must include launch_code matching runtime launchCode");
+  const mismatchedReportTenantErrors = report.validateTeacherReportRuntimeRequest({
+    ...reportRequest,
+    taxonomy: registry,
+    eventEnvelopes: [{
+      ...supportEnvelope,
+      launch_code: "launch-1",
+      unit_key: "tenant-2:curriculum-1:L1:U1",
+    }],
+  });
+  assertIncludes(mismatchedReportTenantErrors, "teacher report event envelopes must use runtime tenantId tenant-1; found: tenant-2.");
 
   const aiRequest = {
     requestId: "request-1", tenantId: "tenant-1", contentPackageId: "package-1",

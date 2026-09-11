@@ -2779,3 +2779,23 @@ Guardrails:
 - The guard remains review-only and does not enable export, persistence, gameplay, scoring, or provider writes.
 
 This decision is recorded in `docs/adr/0551-teacher-report-event-launch-binding.md` and `docs/decision-register/DR-623-teacher-report-event-launch-binding.md`.
+
+## DR-624: Teacher Report Tenant Binding
+
+Status: Accepted
+
+Decision: Require every canonical unit key in a teacher report event stream to resolve to the runtime `tenantId`.
+
+Rationale:
+
+- White-label tenant isolation must remain intact in teacher reports and future persistence adapters.
+- A valid launch code does not prove that an event belongs to the requesting tenant.
+- The shared canonical unit-key parser provides one tenant identity source.
+
+Guardrails:
+
+- Cross-tenant canonical unit keys block teacher-report validation.
+- Invalid unit keys remain blocked by the shared envelope validator.
+- The guard remains review-only and does not enable export, persistence, gameplay, scoring, or provider writes.
+
+This decision is recorded in `docs/adr/0552-teacher-report-tenant-binding.md` and `docs/decision-register/DR-624-teacher-report-tenant-binding.md`.

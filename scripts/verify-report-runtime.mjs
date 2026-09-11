@@ -15,6 +15,7 @@ for (const marker of [
   "explicit report export approval is required",
   "teacher report event envelopes must include launch_code matching runtime launchCode",
   "teacher report event envelopes must use runtime launchCode",
+  "teacher report event envelopes must use runtime tenantId",
   "No teacher report export",
   'mode: "review-only"',
   'sideEffect: "none"',
