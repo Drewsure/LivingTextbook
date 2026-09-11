@@ -138,6 +138,12 @@ export function PersistenceAdapterReadinessPanel({
                         <dd className="mt-1">{intent.preservesEventEffectTaxonomy ? "Preserved" : "Needs review"}</dd>
                       </div>
                     )}
+                    {(["progress-event-stream", "teacher-report-package"] as string[]).includes(intent.category) && (
+                      <div>
+                        <dt className="font-semibold text-[var(--tenant-text)]">Tenant boundary</dt>
+                        <dd className="mt-1">{intent.preservesTenantBoundary ? "Preserved" : "Needs review"}</dd>
+                      </div>
+                    )}
                     {intent.category === "progress-event-stream" && (
                       <div>
                         <dt className="font-semibold text-[var(--tenant-text)]">Event acceptance</dt>

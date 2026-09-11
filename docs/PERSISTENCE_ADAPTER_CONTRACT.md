@@ -58,6 +58,7 @@ Every core adapter plan must:
 - block direct student assignment from unreviewed teacher drafts,
 - preserve AI generated package manifest lineage and block generated package assembly, route registry writes, media playlist writes, assignment writes, local bundle writes, and student-ready markers until review and release-control gates pass,
 - preserve tenant library source lineage,
+- preserve tenant boundaries on progress-event and teacher-report writes,
 - block student data copies in library records,
 - block public community publishing for v1.
 

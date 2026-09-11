@@ -55,6 +55,8 @@ The scaffold currently tracks:
 - Classroom launch gate records.
 - School launch policy gate records.
 
+Progress-event stream and teacher-report package records must preserve tenant boundaries alongside event taxonomy, settings context, and acceptance-gate/report summaries. A valid event shape from another white-label tenant must remain outside the record contract.
+
 ## Package Release Records
 
 Package publish gates and approval ledgers are now first-class durable records.

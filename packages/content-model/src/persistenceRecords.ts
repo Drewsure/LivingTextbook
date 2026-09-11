@@ -139,6 +139,7 @@ export interface DurableRecordContract {
   ownsTeacherSessionSettings?: boolean;
   preservesTeacherSessionSettingsReviewPacket?: boolean;
   preservesEventEffectTaxonomy?: boolean;
+  preservesTenantBoundary?: boolean;
   preservesSettingsContext?: boolean;
   requiresEventAcceptanceGate?: boolean;
   preservesReportEventAcceptanceSummary?: boolean;
@@ -666,6 +667,10 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.category === "progress-event-stream" && !record.preservesEventEffectTaxonomy) {
       errors.push(`Progress event durable record ${record.recordId} must preserve event effect taxonomy.`);
+    }
+
+    if (["progress-event-stream", "teacher-report-package"].includes(record.category) && !record.preservesTenantBoundary) {
+      errors.push(`${record.category} durable record ${record.recordId} must preserve tenant boundary.`);
     }
 
     if (record.category === "progress-event-stream" && !record.preservesSettingsContext) {

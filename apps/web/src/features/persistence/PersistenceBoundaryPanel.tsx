@@ -147,14 +147,14 @@ export function PersistenceBoundaryPanel({
                   <div>
                     <dt className="font-semibold text-[var(--tenant-text)]">Event safety</dt>
                     <dd className="mt-1">
-                      {record.preservesEventEffectTaxonomy ? "Taxonomy preserved" : "Taxonomy review"}; {record.requiresEventAcceptanceGate ? "gate required" : "gate review"}
+                      {record.preservesEventEffectTaxonomy ? "Taxonomy preserved" : "Taxonomy review"}; {record.requiresEventAcceptanceGate ? "gate required" : "gate review"}; {record.preservesTenantBoundary ? "tenant bound" : "tenant review"}
                     </dd>
                   </div>
                 )}
                 {record.category === "teacher-report-package" && (
                   <div>
                     <dt className="font-semibold text-[var(--tenant-text)]">Report event acceptance</dt>
-                    <dd className="mt-1">{record.preservesReportEventAcceptanceSummary ? "Summary preserved" : "Needs review"}</dd>
+                    <dd className="mt-1">{record.preservesReportEventAcceptanceSummary ? "Summary preserved" : "Needs review"}; {record.preservesTenantBoundary ? "tenant bound" : "tenant review"}</dd>
                   </div>
                 )}
               </dl>

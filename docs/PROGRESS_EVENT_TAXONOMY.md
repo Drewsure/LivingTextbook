@@ -226,3 +226,16 @@ Required standing rules:
 - Tenant binding remains verification-only; it does not enable export, persistence, gameplay, scoring, or provider writes.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-624 and `docs/adr/0552-teacher-report-tenant-binding.md`.
+
+## 95. Persistence Tenant-Boundary Preservation Standard
+
+Tenant isolation must survive the transition from reviewed event/report evidence into a future hosted or local storage adapter.
+
+Required standing rules:
+
+- Durable `progress-event-stream` records must preserve tenant-boundary evidence.
+- Durable `teacher-report-package` records must preserve tenant-boundary evidence.
+- Hosted and local write intents for both categories must declare the same preservation guarantee.
+- This is a storage-contract verification gate; it does not enable writes or provider selection.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-625 and `docs/adr/0553-persistence-tenant-boundary-preservation.md`.

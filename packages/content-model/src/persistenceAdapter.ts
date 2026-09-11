@@ -19,6 +19,7 @@ export interface PersistenceWriteIntent {
   rejectsRawAudio: boolean;
   rejectsTranscripts: boolean;
   preservesEventEffectTaxonomy?: boolean;
+  preservesTenantBoundary?: boolean;
   preservesSettingsContext?: boolean;
   requiresEventAcceptanceGate?: boolean;
   preservesReportEventAcceptanceSummary?: boolean;
@@ -569,6 +570,10 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
 
     if (intent.category === "progress-event-stream" && !intent.preservesEventEffectTaxonomy) {
       errors.push(`Progress event write intent ${intent.intentId} must preserve event effect taxonomy.`);
+    }
+
+    if (["progress-event-stream", "teacher-report-package"].includes(intent.category) && !intent.preservesTenantBoundary) {
+      errors.push(`${intent.category} write intent ${intent.intentId} must preserve tenant boundary.`);
     }
 
     if (intent.category === "progress-event-stream" && !intent.preservesSettingsContext) {

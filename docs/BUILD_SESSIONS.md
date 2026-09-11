@@ -1033,4 +1033,6 @@ The progress-event contract revision slice now rejects streams that mix taxonomy
 The teacher-report launch binding slice now rejects report evidence with a missing or mismatched `launch_code`. Reusable pre-launch stream review remains less strict, but a report request must bind every event to its requested launch.
 
 The teacher-report tenant binding slice now rejects canonical unit keys from another tenant, protecting white-label isolation at the report evidence boundary.
+
+The persistence tenant-boundary slice now requires durable progress-event and teacher-report records, plus hosted/local write intents, to preserve tenant-boundary evidence beyond the UI/runtime review layer.
 This decision is recorded in `docs/adr/0549-progress-event-acceptance-gate-consistency.md` and `docs/decision-register/DR-621-progress-event-acceptance-gate-consistency.md`.

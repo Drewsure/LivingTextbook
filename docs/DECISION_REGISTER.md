@@ -2799,3 +2799,23 @@ Guardrails:
 - The guard remains review-only and does not enable export, persistence, gameplay, scoring, or provider writes.
 
 This decision is recorded in `docs/adr/0552-teacher-report-tenant-binding.md` and `docs/decision-register/DR-624-teacher-report-tenant-binding.md`.
+
+## DR-625: Persistence Tenant-Boundary Preservation
+
+Status: Accepted
+
+Decision: Require progress-event and teacher-report durable records and write intents to preserve tenant-boundary evidence.
+
+Rationale:
+
+- White-label isolation must survive storage, backup, local export, and hosted/local adapter selection.
+- Runtime validation alone is insufficient if a future provider drops the tenant binding from its record shape.
+- One explicit contract flag is cheaper and safer than provider-specific assumptions.
+
+Guardrails:
+
+- Progress-event and teacher-report record contracts fail without tenant-boundary preservation.
+- Hosted and local write intents fail without the same guarantee.
+- This is review-only contract verification and does not enable storage writes or provider selection.
+
+This decision is recorded in `docs/adr/0553-persistence-tenant-boundary-preservation.md` and `docs/decision-register/DR-625-persistence-tenant-boundary-preservation.md`.

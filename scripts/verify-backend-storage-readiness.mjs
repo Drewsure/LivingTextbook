@@ -5605,6 +5605,8 @@ requireText(durableRecords, "local-media-bundle-entry-record", "Durable record p
 requireText(durableRecords, "preservesLocalMediaBundleEntry: true", "Durable record plan must preserve local media bundle entries.");
 requireText(durableRecords, "blocksLocalFolderActivation: true", "Durable record plan must block local folder activation.");
 requireText(durableRecords, "requiresEventAcceptanceGate: true", "Durable record plan must require event acceptance gates for student event storage.");
+requireText(durableRecords, "preservesTenantBoundary: true", "Durable record plan must preserve tenant boundaries for event and report records.");
+requireText(persistenceAdapter, "preservesTenantBoundary: true", "Persistence adapter plan must preserve tenant boundaries for event and report writes.");
 requireText(durableRecords, "earned-collection-inventory-record", "Durable record plan must include earned collection inventory.");
 requireText(durableRecords, "preservesEarnedCollectionRules: true", "Durable record plan must preserve earned collection rules.");
 requireText(durableRecords, "rejectsRandomRewardPressure: true", "Durable record plan must reject random reward pressure.");

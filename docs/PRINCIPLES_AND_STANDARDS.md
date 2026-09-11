@@ -1617,4 +1617,12 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-623 and `docs/adr/05
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-624 and `docs/adr/0552-teacher-report-tenant-binding.md`.
 
+## 95. Persistence Tenant-Boundary Preservation Standard
+
+- Progress-event and teacher-report storage contracts must explicitly preserve tenant-boundary evidence.
+- Hosted and local adapter plans must carry the same guarantee.
+- Storage contracts cannot weaken the white-label isolation already enforced at report review.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-625 and `docs/adr/0553-persistence-tenant-boundary-preservation.md`.
+
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-615 and `docs/adr/0543-progress-event-timestamps.md`.
