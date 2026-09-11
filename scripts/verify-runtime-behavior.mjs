@@ -992,6 +992,37 @@ try {
     }),
     "Returned prototype package sourceSnapshotId must be immutable and cannot use latest or main.",
   );
+  assertIncludes(
+    returnedPackageManifest.validateAiPrototypeReturnedPackageManifest({
+      ...returnedPackagePreview,
+      targetMode: "",
+    }),
+    "AI prototype returned package manifest must include targetMode and parentEngine.",
+  );
+  assertIncludes(
+    returnedPackageManifest.validateAiPrototypeReturnedPackageManifest({
+      ...returnedPackagePreview,
+      artifacts: [{ artifactId: "bad-artifact", kind: "unknown", relativePath: "x", checksum: "", status: "present" }],
+    }),
+    "Returned prototype package artifact kind unknown is not supported.",
+  );
+  const reviewOnlyArtifacts = returnedPackageManifest.AI_PROTOTYPE_RETURNED_REQUIRED_ARTIFACT_KINDS.map((kind) => ({
+    artifactId: `artifact-${kind}`,
+    kind,
+    relativePath: `evidence/${kind}.json`,
+    checksum: "sha256:fixture",
+    status: "reviewed",
+  }));
+  assertIncludes(
+    returnedPackageManifest.validateAiPrototypeReturnedPackageManifest({
+      ...returnedPackagePreview,
+      status: "review-only",
+      sourceSnapshotId: "abc123",
+      prototypeFolder: "prototypes/flashcards",
+      artifacts: reviewOnlyArtifacts.map((artifact) => ({ ...artifact, status: "present" })),
+    }),
+    "Returned prototype package review-only evidence for source-archive must be marked reviewed.",
+  );
   const returnedPackageChecklist = {
     checklistId: "checklist-1",
     tenantId: "tenant-1",

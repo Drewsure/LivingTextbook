@@ -3045,3 +3045,30 @@ Guardrails:
   promote packages, or assign students.
 
 This decision is recorded in `docs/adr/0562-returned-package-checklist-alignment.md`.
+
+## DR-635: Returned Artifact Shape
+
+Status: Accepted
+
+Decision: Make returned package artifact structure explicit and fail closed.
+Returned manifests must name target mode and parent engine, and every artifact
+must use a supported kind, identity, safe path, checksum/status shape, and
+review state appropriate to the manifest status.
+
+Rationale:
+
+- Silently dropping an unknown artifact kind makes incomplete evidence look
+  like a valid empty preview.
+- A package marked review-only needs reviewed evidence, not merely files that
+  exist.
+- Mode and parent-engine identity are required to preserve the parent-engine
+  integration boundary.
+
+Guardrails:
+
+- Unsupported or malformed artifact entries produce validation errors.
+- Review-only packages require every required artifact to be marked reviewed.
+- This remains a no-side-effect gate and cannot authorize import, route
+  replacement, scoring mutation, package promotion, or student assignment.
+
+This decision is recorded in `docs/adr/0563-returned-artifact-shape.md`.

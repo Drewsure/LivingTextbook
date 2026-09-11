@@ -1095,3 +1095,9 @@ parent engine, and review status. Structural manifest validity and checklist
 alignment remain separate no-side-effect gates.
 This decision is recorded in `docs/adr/0562-returned-package-checklist-alignment.md`
 and `docs/decision-register/DR-634-returned-package-checklist-alignment.md`.
+
+The returned artifact-shape hardening slice now rejects malformed artifact
+entries, missing target mode or parent engine identity, unsupported statuses,
+and review-only packages whose required evidence is only marked present.
+This decision is recorded in `docs/adr/0563-returned-artifact-shape.md` and
+`docs/decision-register/DR-635-returned-artifact-shape.md`.

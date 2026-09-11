@@ -1710,4 +1710,13 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-633 and `docs/adr/05
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-634 and `docs/adr/0562-returned-package-checklist-alignment.md`.
 
+## 105. Returned Artifact Shape Standard
+
+- Returned manifests must carry a non-empty target mode and parent engine.
+- Artifact entries must use a supported kind, non-empty artifact ID, safe path, and supported status.
+- A `review-only` package must mark every required evidence artifact as reviewed, not merely present.
+- Malformed artifact entries cannot be silently discarded as if no evidence had been supplied.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-635 and `docs/adr/0563-returned-artifact-shape.md`.
+
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-615 and `docs/adr/0543-progress-event-timestamps.md`.

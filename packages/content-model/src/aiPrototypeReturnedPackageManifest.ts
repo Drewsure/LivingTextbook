@@ -74,11 +74,16 @@ export function validateAiPrototypeReturnedPackageManifest(manifest: unknown): s
   const sourceRepository = readString(manifest, "sourceRepository");
   const sourceSnapshotId = readString(manifest, "sourceSnapshotId");
   const prototypeFolder = readString(manifest, "prototypeFolder");
-  const artifacts = readArtifacts(manifest);
+  const targetMode = readString(manifest, "targetMode");
+  const parentEngine = readString(manifest, "parentEngine");
+  const artifacts = readArtifacts(manifest, errors);
   const blockedActions = readStringArray(manifest, "blockedActions");
 
   if (!manifestId || !tenantId || !requestId || !queueItemId) {
     errors.push("AI prototype returned package manifest must include manifestId, tenantId, requestId, and queueItemId.");
+  }
+  if (!targetMode || !parentEngine) {
+    errors.push("AI prototype returned package manifest must include targetMode and parentEngine.");
   }
   if (!["not-returned", "review-only", "blocked"].includes(status)) {
     errors.push("AI prototype returned package manifest must use a supported review-only status.");
@@ -130,6 +135,8 @@ export function validateAiPrototypeReturnedPackageManifest(manifest: unknown): s
       const artifact = artifacts.find((candidate) => candidate.kind === kind);
       if (!artifact || artifact.status === "missing") {
         errors.push("Returned prototype package must include reviewed evidence for " + kind + ".");
+      } else if (status === "review-only" && artifact.status !== "reviewed") {
+        errors.push("Returned prototype package review-only evidence for " + kind + " must be marked reviewed.");
       }
     }
   }
@@ -155,26 +162,39 @@ function readStringArray(record: Record<string, unknown>, key: string): string[]
   return Array.isArray(record[key]) ? record[key].filter((value): value is string => typeof value === "string") : [];
 }
 
-function readArtifacts(record: Record<string, unknown>): AiPrototypeReturnedArtifact[] {
+function readArtifacts(record: Record<string, unknown>, errors: string[]): AiPrototypeReturnedArtifact[] {
   if (!Array.isArray(record.artifacts)) {
+    if (record.artifacts !== undefined) {
+      errors.push("AI prototype returned package manifest artifacts must be an array.");
+    }
     return [];
   }
 
   return record.artifacts.flatMap((value) => {
     if (!isRecord(value)) {
+      errors.push("Returned prototype package artifact entries must be JSON objects.");
       return [];
     }
     const kind = readString(value, "kind");
     if (!AI_PROTOTYPE_RETURNED_REQUIRED_ARTIFACT_KINDS.includes(kind as AiPrototypeReturnedArtifactKind)) {
+      errors.push("Returned prototype package artifact kind " + (kind || "(missing)") + " is not supported.");
       return [];
+    }
+    const artifactId = readString(value, "artifactId");
+    const status = readString(value, "status") as AiPrototypeReturnedArtifactStatus;
+    if (!artifactId) {
+      errors.push("Returned prototype package artifacts must include artifactId.");
+    }
+    if (!["missing", "present", "reviewed"].includes(status)) {
+      errors.push("Returned prototype package artifact " + (artifactId || kind) + " must use a supported status.");
     }
     return [
       {
-        artifactId: readString(value, "artifactId"),
+        artifactId,
         kind: kind as AiPrototypeReturnedArtifactKind,
         relativePath: readString(value, "relativePath"),
         checksum: readString(value, "checksum"),
-        status: readString(value, "status") as AiPrototypeReturnedArtifactStatus,
+        status,
       },
     ];
   });
