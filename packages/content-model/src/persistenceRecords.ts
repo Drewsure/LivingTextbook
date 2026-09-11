@@ -1,3 +1,5 @@
+import { ReviewSurfaceScopeKind, validateReviewSurfaceScope } from "./reviewSurfaceScope";
+
 export type PersistenceRecordCategory =
   | "tenant-config"
   | "content-package"
@@ -169,6 +171,7 @@ export interface DurableRecordContract {
   supportsLocalDeployment: boolean;
   storesRawAudio: boolean;
   storesTranscript: boolean;
+  scopeKind?: ReviewSurfaceScopeKind;
   ownsTeacherSessionSettings?: boolean;
   preservesTeacherSessionSettingsReviewPacket?: boolean;
   preservesEventEffectTaxonomy?: boolean;
@@ -685,6 +688,12 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
 
     if (record.storesTranscript) {
       errors.push(`Durable record ${record.recordId} must not store learner transcripts in the core persistence scaffold.`);
+    }
+
+    if (record.category === "evidence-packet" || record.category === "evidence-attachment") {
+      for (const scopeError of validateReviewSurfaceScope(record.scopeKind)) {
+        errors.push(`${record.category} durable record ${record.recordId}: ${scopeError}`);
+      }
     }
 
     if (record.containsStudentData && record.readiness === "static-demo") {

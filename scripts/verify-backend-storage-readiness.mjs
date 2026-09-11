@@ -355,6 +355,10 @@ for (const specId of requiredMigrationSpecs) {
   requireText(migrationSpecs, `specId: "${specId}"`, `Backend migration specs missing: ${specId}.`);
 }
 
+for (const source of [schemaDraft, migrationSpecs]) {
+  requireText(source, "scope_kind", "Evidence storage contracts must preserve explicit platform or tenant scope_kind.");
+}
+
 const requiredPackageAdoptionSchemaText = [
   "package_adoption_record_preview",
   "package_adoption_record_preview_id",

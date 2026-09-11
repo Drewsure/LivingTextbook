@@ -3776,6 +3776,7 @@ export const sampleBackendSchemaDraft: BackendSchemaDraft = {
       fields: [
         { name: "evidence_packet_id", type: "stable id", required: true, note: "One preserved evidence packet in a review flow." },
         { name: "tenant_id", type: "foreign key/string", required: true, note: "Tenant boundary for evidence visibility and export." },
+        { name: "scope_kind", type: "enum/string", required: true, note: "Platform for shared review contracts or tenant for tenant-owned evidence; must be preserved independently from the human-readable scope label." },
         { name: "flow_id", type: "string", required: true, note: "Upload, Labelled Diagram, media, or future review evidence packet flow id." },
         { name: "scope", type: "enum/string", required: true, note: "Teacher upload workspace, image asset review, media asset review, pilot evidence, or future review scope." },
         { name: "source_record_kind", type: "enum/string", required: true, note: "Upload intake, upload review, promotion gate, game asset manifest, media manifest, local bundle, or pilot package." },
@@ -3819,6 +3820,7 @@ export const sampleBackendSchemaDraft: BackendSchemaDraft = {
         { name: "attachment_id", type: "stable id", required: true, note: "One metadata record for a future evidence attachment." },
         { name: "evidence_packet_id", type: "foreign key/string", required: true, note: "Evidence packet this attachment would support." },
         { name: "tenant_id", type: "foreign key/string", required: true, note: "Tenant boundary for attachment metadata and storage policy." },
+        { name: "scope_kind", type: "enum/string", required: true, note: "Platform for shared evidence infrastructure or tenant for tenant-owned attachments; must remain explicit at the storage boundary." },
         { name: "source_packet_key", type: "enum/string", required: true, note: "Packet key the attachment supports, such as rights proof, scan policy, or release-control evidence." },
         { name: "storage_candidate", type: "enum/string", required: true, note: "Hosted object storage candidate, closed local evidence folder candidate, or hybrid export archive candidate." },
         { name: "quarantine_path", type: "string", required: true, note: "Quarantine path planned before a file can be trusted or promoted." },
@@ -5328,6 +5330,7 @@ export const sampleBackendSchemaDraft: BackendSchemaDraft = {
   ],
   crossCuttingRules: [
     "Every record belongs to a tenant or to a tenant-owned package release.",
+    "Evidence packet and evidence attachment records must preserve explicit scope_kind (platform or tenant); a human-readable scope label cannot replace the storage boundary.",
     "Teacher drafts must preserve owner, source lineage, review gates, and direct-assignment blocks before they can become package releases.",
     "Teacher draft review handoff records must preserve schema, lineage, audio, rights/version, route/activity, and approval packets while blocking live submission and student assignment.",
     "Teacher draft reviewer decisions must preserve evidence requirements and block state changes until reviewer identity, evidence storage, verifier workflow, and approval ledger policy exist.",

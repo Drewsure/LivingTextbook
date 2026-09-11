@@ -3781,3 +3781,29 @@ Guardrails:
 
 This decision is recorded in
 `docs/adr/0592-review-surface-scope-validation.md`.
+
+## DR-665: Durable Evidence Scope Boundary
+
+Status: Accepted
+
+Decision: Evidence packet and evidence attachment records must preserve an
+explicit `scope_kind` value of `platform` or `tenant` at the schema,
+migration, and persistence-contract boundaries.
+
+Rationale:
+
+- Human-readable scope labels are not sufficient for storage queries or export
+  isolation.
+- Shared review infrastructure and tenant-owned evidence need different
+  ownership semantics even when they use the same packet shape.
+- The same scope vocabulary can be reused by hosted and local deployments.
+
+Guardrails:
+
+- The scope field describes ownership and visibility; it does not authorize
+  upload, storage writes, approval, promotion, or student-facing use.
+- Invalid or missing scope values keep the evidence contract blocked.
+- Tenant filtering and release-control policy remain required independently.
+
+This decision is recorded in
+`docs/adr/0593-durable-evidence-scope-boundary.md`.

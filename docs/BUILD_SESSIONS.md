@@ -1301,3 +1301,11 @@ or `tenant` values in the shared content model, data previews, panels, and
 runtime harness. The decision is recorded in
 `docs/adr/0592-review-surface-scope-validation.md` and
 `docs/decision-register/DR-664-review-surface-scope-validation.md`.
+
+The durable evidence scope slice now carries the same explicit `scope_kind`
+boundary into evidence packet and evidence attachment schema drafts, migration
+specifications, and persistence contracts. Missing or invalid scope keeps
+those durable records blocked, while upload, storage, approval, promotion, and
+student-facing use remain disabled. The decision is recorded in
+`docs/adr/0593-durable-evidence-scope-boundary.md` and
+`docs/decision-register/DR-665-durable-evidence-scope-boundary.md`.

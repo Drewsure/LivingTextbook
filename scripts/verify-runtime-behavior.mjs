@@ -1199,6 +1199,25 @@ try {
     reviewSurfaceScope.validateReviewSurfaceScope("mixed"),
     "Review surface scope must be platform or tenant.",
   );
+  assertIncludes(
+    persistenceRecords.validateDurableRecordContracts([
+      {
+        recordId: "evidence-packet-without-scope",
+        category: "evidence-packet",
+        label: "Evidence packet",
+        readiness: "durable-required",
+        sourceOfTruth: "test",
+        requiredBeforePilot: false,
+        containsStudentData: false,
+        containsMediaRights: true,
+        supportsLocalDeployment: true,
+        recommendedFirstPilotStore: ["local-classroom-store"],
+        storesRawAudio: false,
+        storesTranscript: false,
+      },
+    ]),
+    "evidence-packet durable record evidence-packet-without-scope: Review surface scope must be platform or tenant.",
+  );
   assertEqual(
     prototypeIntakeAlert.validatePrototypeIntakeAlertTenantScope(prototypeIntakeAlertFixture, "platform").length,
     0,

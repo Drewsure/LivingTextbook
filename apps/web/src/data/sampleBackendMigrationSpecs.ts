@@ -9225,13 +9225,19 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       purpose:
         "Stores reusable evidence packet flow records before live upload, evidence upload, signed approval, asset editor, media transcode, playlist creation, local activation, publish, or assignment actions exist.",
       primaryKey: "evidence_packet_id",
-      tenantScope: "Scoped by tenant_id, flow_id, source_record_kind, source_record_id, packet_key, packet_status, and evidence_revision.",
+      tenantScope: "Scoped by scope_kind, tenant_id, flow_id, source_record_kind, source_record_id, packet_key, packet_status, and evidence_revision.",
       fields: [
         {
           name: "evidence_packet_id",
           type: "string",
           required: true,
           note: "Stable id for one evidence packet snapshot.",
+        },
+        {
+          name: "scope_kind",
+          type: "string enum",
+          required: true,
+          note: "Platform for shared review contracts or tenant for tenant-owned evidence; never infer this from a display label.",
         },
         {
           name: "flow_id",
@@ -9349,13 +9355,19 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       purpose:
         "Stores evidence attachment metadata before any file upload, object storage write, local folder write, attachment download, signed approval attachment, release-state mutation, or student-facing attachment exists.",
       primaryKey: "attachment_id",
-      tenantScope: "Scoped by tenant_id, evidence_packet_id, source_packet_key, storage_candidate, malware_scan_status, and attachment_revision.",
+      tenantScope: "Scoped by scope_kind, tenant_id, evidence_packet_id, source_packet_key, storage_candidate, malware_scan_status, and attachment_revision.",
       fields: [
         {
           name: "attachment_id",
           type: "string",
           required: true,
           note: "Stable id for one future evidence attachment metadata record.",
+        },
+        {
+          name: "scope_kind",
+          type: "string enum",
+          required: true,
+          note: "Platform for shared evidence infrastructure or tenant for tenant-owned attachments; storage queries must preserve this boundary.",
         },
         {
           name: "evidence_packet_id",

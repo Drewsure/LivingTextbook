@@ -553,6 +553,7 @@
 - `DR-662-return-evidence-lane-completeness.md`
 - `DR-663-explicit-review-surface-scope.md`
 - `DR-664-review-surface-scope-validation.md`
+- `DR-665-durable-evidence-scope-boundary.md`
 
 ## Maintenance Rule
 
