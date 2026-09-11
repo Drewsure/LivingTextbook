@@ -1735,4 +1735,12 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-636 and `docs/adr/05
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-637 and `docs/adr/0565-returned-prototype-surface.md`.
 
+## 108. Returned Package Readiness Separation Standard
+
+- Readiness must show manifest/provenance contract validity separately from actual returned-package availability.
+- Structurally valid preview records must never count as a returned Z.ai package.
+- A green contract lane cannot issue the Codex or Z.ai integration alert while the real return, evidence, and wrapper lanes remain incomplete.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-638 and `docs/adr/0566-returned-package-readiness-separation.md`.
+
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-615 and `docs/adr/0543-progress-event-timestamps.md`.

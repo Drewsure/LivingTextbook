@@ -1113,3 +1113,10 @@ boundary from intake through checklist and manifest, preventing future wrapper
 review from using the wrong rendering assumptions.
 This decision is recorded in `docs/adr/0565-returned-prototype-surface.md` and
 `docs/decision-register/DR-637-returned-prototype-surface.md`.
+
+The readiness-summary separation slice now derives returned-package contract
+status from manifest, checklist, intake, and target-surface validators while
+keeping actual returned-package availability independently missing until a real
+package arrives.
+This decision is recorded in `docs/adr/0566-returned-package-readiness-separation.md`
+and `docs/decision-register/DR-638-returned-package-readiness-separation.md`.

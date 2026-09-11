@@ -3126,3 +3126,29 @@ Guardrails:
   blocked.
 
 This decision is recorded in `docs/adr/0565-returned-prototype-surface.md`.
+
+## DR-638: Returned Package Readiness Separation
+
+Status: Accepted
+
+Decision: Derive the prototype intake readiness summary from returned-package
+manifest and provenance validators while keeping contract validity separate
+from actual package availability.
+
+Rationale:
+
+- A review UI can show a valid preview even when no external package has been
+  supplied.
+- Treating preview records as returns would create a false Z.ai integration
+  signal.
+- Separate lanes make the eventual alert auditable and preserve the manual
+  Codex gate.
+
+Guardrails:
+
+- Manifest, checklist, intake, and surface errors block the contract lane.
+- A zero-error preview does not satisfy the real-return lane.
+- No alert, import, route replacement, scoring mutation, package promotion, or
+  student assignment is enabled by this summary.
+
+This decision is recorded in `docs/adr/0566-returned-package-readiness-separation.md`.

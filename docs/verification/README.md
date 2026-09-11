@@ -237,3 +237,7 @@ return review can advance.
 Returned prototype surface alignment is covered by the same prototype review,
 runtime, and active-route checks. Valid values are `dom-reference`, `phaser`,
 and `hybrid`.
+
+Readiness-summary separation is covered by `npm run verify:prototype-review` and
+the active route checks. A structurally valid preview must not be reported as a
+real returned prototype.

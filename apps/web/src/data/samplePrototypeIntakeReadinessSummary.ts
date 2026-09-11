@@ -1,4 +1,10 @@
 import { sampleAiPrototypeEvidenceAlignmentErrors } from "@/data/sampleAiPrototypeEvidenceAlignment";
+import {
+  sampleAiPrototypeReturnedPackageAlignmentErrors,
+  sampleAiPrototypeReturnedPackageIntakeAlignmentErrors,
+  sampleAiPrototypeReturnedPackageManifestErrors,
+  sampleAiPrototypeReturnedPackageManifests,
+} from "@/data/sampleAiPrototypeReturnedPackageManifest";
 
 export type PrototypeIntakeReadinessStatus = "not-ready" | "evidence-review-needed" | "ready-for-codex-alert";
 
@@ -18,6 +24,15 @@ export interface PrototypeIntakeReadinessSummary {
   lanes: PrototypeIntakeReadinessLane[];
   blockedNextActions: string[];
 }
+
+const returnedPackageContractErrors = [
+  ...sampleAiPrototypeReturnedPackageManifestErrors,
+  ...sampleAiPrototypeReturnedPackageAlignmentErrors,
+  ...sampleAiPrototypeReturnedPackageIntakeAlignmentErrors,
+];
+const hasReturnedPrototypePackage = sampleAiPrototypeReturnedPackageManifests.some(
+  (manifest) => manifest.status !== "not-returned",
+);
 
 export const samplePrototypeIntakeReadinessSummary: PrototypeIntakeReadinessSummary = {
   summaryId: "prototype-intake-readiness-summary-foundation",
@@ -55,10 +70,21 @@ export const samplePrototypeIntakeReadinessSummary: PrototypeIntakeReadinessSumm
           : `${sampleAiPrototypeEvidenceAlignmentErrors.length} cross-artifact alignment error(s) must be resolved before Codex review can rely on the packet.`,
     },
     {
-      laneId: "returned-package-missing",
+      laneId: "returned-package-manifest-contract",
+      label: "Returned package manifest",
+      status: returnedPackageContractErrors.length === 0 ? "ready" : "blocked",
+      summary:
+        returnedPackageContractErrors.length === 0
+          ? "Sample manifest identity, artifact shape, checklist alignment, intake provenance, and target surface are structurally valid; no package has been returned."
+          : `${returnedPackageContractErrors.length} returned-package manifest or provenance error(s) must be resolved before Codex review can rely on the return record.`,
+    },
+    {
+      laneId: "returned-package-availability",
       label: "Returned prototype package",
-      status: "missing",
-      summary: "No specific returned prototype package has been accepted into review.",
+      status: hasReturnedPrototypePackage ? "ready" : "missing",
+      summary: hasReturnedPrototypePackage
+        ? "A returned package record exists for a specific candidate and remains subject to artifact and evidence review."
+        : "No specific returned prototype package has been supplied; the structurally valid previews do not count as a return.",
     },
     {
       laneId: "replay-reports-missing",
