@@ -95,6 +95,7 @@ Envelope rules:
 - The envelope's mode must be offered at the level encoded in its canonical `unit_key`.
 - `event_type` must belong to one of the shared support-only, report-only, or progress-affecting event categories.
 - A stored or reported event stream must not mix unit or launch identities; classroom report streams may include multiple learner sessions.
+- A stored or reported event stream must use one event-acceptance gate identity.
 - Missing launch context, learning evidence, or support-only signals produce review warnings.
 
 ## Hard Rules
@@ -175,3 +176,15 @@ Required standing rules:
 - Stream-context validation remains verification-only; it does not enable gameplay, scoring, persistence, or provider writes.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-620 and `docs/adr/0548-progress-event-stream-context.md`.
+
+## 91. Progress Event Acceptance Gate Consistency Standard
+
+An event-acceptance gate binds evidence to the reviewed session and policy boundary. A stream that mixes gate IDs cannot be safely treated as one report or persistence batch, even when its unit and launch match.
+
+Required standing rules:
+
+- All envelopes in one stream must use one `event_acceptance_gate_id`.
+- Multiple learner sessions and game modes remain allowed when they belong to the same unit, launch, and acceptance gate.
+- Gate consistency validation remains verification-only; it does not enable gameplay, scoring, persistence, or provider writes.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-621 and `docs/adr/0549-progress-event-acceptance-gate-consistency.md`.

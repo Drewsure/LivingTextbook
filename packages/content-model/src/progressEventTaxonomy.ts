@@ -377,6 +377,7 @@ export function validateProgressEventEnvelopeStream(
   const duplicateIds = eventIds.filter((eventId, index) => eventIds.indexOf(eventId) !== index);
   const unitKeys = [...new Set(records.map((envelope) => readString(envelope, "unit_key")).filter(Boolean))];
   const launchCodes = [...new Set(records.map((envelope) => readString(envelope, "launch_code")).filter(Boolean))];
+  const acceptanceGateIds = [...new Set(records.map((envelope) => readString(envelope, "event_acceptance_gate_id")).filter(Boolean))];
 
   if (duplicateIds.length > 0) {
     errors.push(`Progress event envelope stream contains duplicate event_id value(s): ${[...new Set(duplicateIds)].join(", ")}.`);
@@ -388,6 +389,10 @@ export function validateProgressEventEnvelopeStream(
 
   if (launchCodes.length > 1) {
     errors.push(`Progress event envelope stream must target one launch_code value, found: ${launchCodes.join(", ")}.`);
+  }
+
+  if (acceptanceGateIds.length > 1) {
+    errors.push(`Progress event envelope stream must use one event_acceptance_gate_id value, found: ${acceptanceGateIds.join(", ")}.`);
   }
 
   return errors;

@@ -166,6 +166,17 @@ try {
   assertIncludes(mixedStreamContextErrors, "Progress event envelope stream must target one unit_key value, found: tenant-1:curriculum-1:L1:U1, tenant-1:curriculum-1:L1:U2.");
   assertIncludes(mixedStreamContextErrors, "Progress event envelope stream must target one launch_code value, found: launch-1, launch-2.");
   assertEqual(mixedStreamContextErrors.includes("Progress event envelope stream must target one student_session_id value, found: session-1, session-2."), false);
+  const mixedAcceptanceGateErrors = contentModel.validateProgressEventEnvelopeStream([
+    { ...supportEnvelope, launch_code: "launch-1", event_acceptance_gate_id: "gate-1" },
+    {
+      ...supportEnvelope,
+      event_id: "event-2",
+      launch_code: "launch-1",
+      student_session_id: "session-2",
+      event_acceptance_gate_id: "gate-2",
+    },
+  ], registry);
+  assertIncludes(mixedAcceptanceGateErrors, "Progress event envelope stream must use one event_acceptance_gate_id value, found: gate-1, gate-2.");
 
   const rewardErrors = reward.validateRewardRuntimeRequest({
     tenantId: "tenant-1", packageId: "package-1", learnerSlotId: "slot-1", rewardId: "reward-1",

@@ -1581,4 +1581,16 @@ Required standing rules:
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-620 and `docs/adr/0548-progress-event-stream-context.md`.
 
+## 91. Progress Event Acceptance Gate Consistency Standard
+
+An event-acceptance gate binds evidence to the reviewed session and policy boundary. A stream that mixes gate IDs cannot safely be treated as one report or persistence batch, even when its unit and launch match.
+
+Required standing rules:
+
+- All envelopes in one stream use one `event_acceptance_gate_id`.
+- Multiple learner sessions and game modes remain allowed when they belong to the same unit, launch, and acceptance gate.
+- This guard is verification-only and does not enable gameplay, scoring, persistence, or provider writes.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-621 and `docs/adr/0549-progress-event-acceptance-gate-consistency.md`.
+
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-615 and `docs/adr/0543-progress-event-timestamps.md`.

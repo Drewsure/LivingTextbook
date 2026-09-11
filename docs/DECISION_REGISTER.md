@@ -2721,3 +2721,22 @@ Guardrails:
 - Stream-context validation remains review-only and does not enable gameplay, scoring, persistence, or provider writes.
 
 This decision is recorded in `docs/adr/0548-progress-event-stream-context.md` and `docs/decision-register/DR-620-progress-event-stream-context.md`.
+
+## DR-621: Progress Event Acceptance Gate Consistency
+
+Status: Accepted
+
+Decision: Require progress-event streams to use one `event_acceptance_gate_id` value.
+
+Rationale:
+
+- The acceptance gate binds event evidence to a reviewed session and policy boundary.
+- Matching unit and launch identities are not enough if the evidence comes from different gate decisions.
+- Multiple modes and learner sessions remain valid inside one classroom launch and gate.
+
+Guardrails:
+
+- Mixed acceptance-gate IDs block stream validation.
+- Gate consistency validation remains review-only and does not enable gameplay, scoring, persistence, or provider writes.
+
+This decision is recorded in `docs/adr/0549-progress-event-acceptance-gate-consistency.md` and `docs/decision-register/DR-621-progress-event-acceptance-gate-consistency.md`.
