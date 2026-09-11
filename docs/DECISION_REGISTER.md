@@ -3623,3 +3623,26 @@ Guardrails:
 
 This decision is recorded in
 `docs/adr/0585-prototype-alert-signal-scope-consistency.md`.
+
+## DR-658: Prototype Readiness Summary Contract
+
+Status: Accepted
+
+Decision: Validate prototype-intake readiness summaries for tenant identity,
+lane identity, derived status, Codex-alert consistency, and blocked next actions
+before relying on them in review panels.
+
+Rationale:
+
+- A manually changed summary status must not override its lane collection.
+- Readiness evidence needs an auditable contract before it can support a future
+  Z.ai handoff signal.
+
+Guardrails:
+
+- Duplicate or malformed lanes are rejected.
+- A valid summary remains review-only and cannot authorize Z.ai import, package
+  promotion, route creation, or assignment.
+
+This decision is recorded in
+`docs/adr/0586-prototype-readiness-summary-contract.md`.

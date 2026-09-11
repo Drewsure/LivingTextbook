@@ -4,6 +4,7 @@ import {
 } from "@/data/sampleAiPrototypeEvidenceAlignment";
 import { samplePrototypeIntakeQueue } from "@/data/samplePrototypeIntakeQueue";
 import { validateAiPrototypeEvidenceAlignmentBundles } from "@living-textbook/content-model/src/aiPrototypeEvidenceAlignment";
+import { validatePrototypeIntakeReadinessSummary } from "@living-textbook/content-model/src/prototypeIntakeReadinessSummary";
 import {
   derivePrototypeIntakeAlertDecision,
   derivePrototypeIntakeCodexAlertState,
@@ -135,6 +136,10 @@ export const samplePrototypeIntakeReadinessSummary: PrototypeIntakeReadinessSumm
     "No student assignment",
   ],
 };
+
+export const samplePrototypeIntakeReadinessSummaryErrors = validatePrototypeIntakeReadinessSummary(
+  samplePrototypeIntakeReadinessSummary,
+);
 
 export function createPrototypeIntakeReadinessSummary(
   tenantId: string,

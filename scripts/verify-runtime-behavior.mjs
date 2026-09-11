@@ -43,6 +43,7 @@ try {
     "packages/content-model/src/aiPrototypeIntegrationReadinessGate.ts",
     "packages/content-model/src/aiPrototypeCodexIntegrationDecision.ts",
     "packages/content-model/src/prototypeIntakeAlert.ts",
+    "packages/content-model/src/prototypeIntakeReadinessSummary.ts",
     "packages/content-model/src/prototypeReturnReadiness.ts",
   ], { cwd: root, encoding: "utf8" });
 
@@ -104,6 +105,7 @@ try {
   const integrationReadiness = require(join(output, "aiPrototypeIntegrationReadinessGate.js"));
   const codexDecision = require(join(output, "aiPrototypeCodexIntegrationDecision.js"));
   const prototypeIntakeAlert = require(join(output, "prototypeIntakeAlert.js"));
+  const prototypeIntakeReadinessSummary = require(join(output, "prototypeIntakeReadinessSummary.js"));
   const prototypeReturnReadiness = require(join(output, "prototypeReturnReadiness.js"));
   const contentModel = require(join(output, "index.js"));
   const aiService = require(join(aiOutput, "apps", "ai-service", "src", "index.js"));
@@ -1126,6 +1128,37 @@ try {
     ownerRule: "Codex owns architecture, schema discipline, wrapper/integration review, final merge decisions, and the user alert.",
   };
   assertEqual(prototypeIntakeAlert.validatePrototypeIntakeAlert(prototypeIntakeAlertFixture).length, 0);
+  const prototypeIntakeReadinessSummaryFixture = {
+    summaryId: "summary-1",
+    label: "Prototype intake readiness summary",
+    tenantId: "platform",
+    status: "not-ready",
+    codexAlertState: "Codex alert not issued",
+    summary: "Review-only readiness summary.",
+    lanes: [{ laneId: "returned-package-availability", label: "Returned prototype package", status: "missing", summary: "No package." }],
+    blockedNextActions: ["No import"],
+  };
+  assertEqual(
+    prototypeIntakeReadinessSummary.validatePrototypeIntakeReadinessSummary(prototypeIntakeReadinessSummaryFixture).length,
+    0,
+  );
+  assertIncludes(
+    prototypeIntakeReadinessSummary.validatePrototypeIntakeReadinessSummary({
+      ...prototypeIntakeReadinessSummaryFixture,
+      status: "ready-for-codex-alert",
+    }),
+    "Prototype intake readiness summary status must match its lanes: not-ready.",
+  );
+  assertIncludes(
+    prototypeIntakeReadinessSummary.validatePrototypeIntakeReadinessSummary({
+      ...prototypeIntakeReadinessSummaryFixture,
+      lanes: [
+        ...prototypeIntakeReadinessSummaryFixture.lanes,
+        { ...prototypeIntakeReadinessSummaryFixture.lanes[0] },
+      ],
+    }),
+    "Prototype intake readiness lane ID must be unique: returned-package-availability.",
+  );
   assertEqual(
     prototypeIntakeAlert.validatePrototypeIntakeAlertTenantScope(prototypeIntakeAlertFixture, "platform").length,
     0,

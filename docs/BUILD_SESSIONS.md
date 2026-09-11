@@ -1254,3 +1254,10 @@ summary identity therefore form one chain before any future handoff decision.
 The decision is recorded in
 `docs/adr/0585-prototype-alert-signal-scope-consistency.md` and
 `docs/decision-register/DR-657-prototype-alert-signal-scope-consistency.md`.
+
+The prototype readiness-summary contract slice now validates tenant identity,
+unique lane IDs, supported lane status values, derived overall status, Codex
+alert-state consistency, and blocked next actions before review panels rely on
+the summary. The decision is recorded in
+`docs/adr/0586-prototype-readiness-summary-contract.md` and
+`docs/decision-register/DR-658-prototype-readiness-summary-contract.md`.

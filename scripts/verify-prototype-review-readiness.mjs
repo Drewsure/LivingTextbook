@@ -167,6 +167,8 @@ const prototypeIntakeReadinessSummaryMarkers = [
   "sample evidence packets are structurally",
   "prototype-intake-readiness-summary-foundation",
   "createPrototypeIntakeReadinessSummary",
+  "validatePrototypeIntakeReadinessSummary",
+  "samplePrototypeIntakeReadinessSummaryErrors",
   "sampleAiPrototypeEvidenceAlignmentBundles",
   "validateAiPrototypeEvidenceAlignmentBundles",
   "tenantQueueItems",
@@ -189,6 +191,7 @@ const prototypeIntakeReadinessSummaryMarkers = [
   "No active route replacement",
   "No student assignment",
   "PrototypeIntakeReadinessSummaryPanel",
+  "Summary contract valid",
 ];
 const prototypeIntakeStorageGuardMarkers = [
   "Prototype intake and return storage guard",

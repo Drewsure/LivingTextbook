@@ -1,4 +1,5 @@
 import { Card, StatusPill } from "@living-textbook/ui";
+import { validatePrototypeIntakeReadinessSummary } from "@living-textbook/content-model/src/prototypeIntakeReadinessSummary";
 import type {
   PrototypeIntakeReadinessLane,
   PrototypeIntakeReadinessStatus,
@@ -23,6 +24,7 @@ const laneTone: Record<PrototypeIntakeReadinessLane["status"], "success" | "warn
 
 export function PrototypeIntakeReadinessSummaryPanel({ summary }: PrototypeIntakeReadinessSummaryPanelProps) {
   const readyCount = summary.lanes.filter((lane) => lane.status === "ready").length;
+  const summaryContractErrors = validatePrototypeIntakeReadinessSummary(summary);
 
   return (
     <Card>
@@ -36,6 +38,10 @@ export function PrototypeIntakeReadinessSummaryPanel({ summary }: PrototypeIntak
           <StatusPill label={statusLabel[summary.status]} tone="warning" />
           <StatusPill label={`${readyCount}/${summary.lanes.length} ready`} tone={readyCount === summary.lanes.length ? "success" : "warning"} />
           <StatusPill label={summary.codexAlertState} tone="warning" />
+          <StatusPill
+            label={summaryContractErrors.length === 0 ? "Summary contract valid" : "Summary contract review"}
+            tone={summaryContractErrors.length === 0 ? "success" : "warning"}
+          />
         </div>
       </div>
 
