@@ -100,6 +100,13 @@ export function validateBackendContractAlignment({
       );
     }
 
+    const primaryKeyField = spec.fields.find((field) => field.name === spec.primaryKey);
+    if (primaryKeyField && primaryKeyField.required !== true) {
+      errors.push(
+        `Backend migration spec ${spec.specId} must mark its primary key ${spec.primaryKey} as required.`,
+      );
+    }
+
     if (candidate) {
       for (const entityId of candidate.targetEntities) {
         for (const requiredField of REQUIRED_MIGRATION_FIELDS_BY_ENTITY[entityId] ?? []) {

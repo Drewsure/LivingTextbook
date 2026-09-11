@@ -557,6 +557,7 @@
 - `DR-666-adapter-evidence-scope-boundary.md`
 - `DR-667-evidence-migration-field-parity.md`
 - `DR-668-migration-spec-identity-field-contract.md`
+- `DR-669-required-migration-identity-field.md`
 
 ## Maintenance Rule
 

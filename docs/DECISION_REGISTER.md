@@ -3867,3 +3867,9 @@ types. A regression test proves that removing media_id is rejected before
 backend implementation. The decision is recorded in
 `docs/adr/0596-migration-spec-identity-field-contract.md` and
 `docs/decision-register/DR-668-migration-spec-identity-field-contract.md`.
+
+The required migration identity slice now requires every migration spec to
+mark its declared primary key field as required. A regression test proves that
+an optional media_id is rejected before backend implementation. The decision
+is recorded in `docs/adr/0597-required-migration-identity-field.md` and
+`docs/decision-register/DR-669-required-migration-identity-field.md`.

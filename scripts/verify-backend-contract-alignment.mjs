@@ -72,6 +72,28 @@ try {
     throw new Error("Backend contract alignment did not reject a migration spec missing its primary key field.");
   }
 
+  const optionalPrimaryKeyPlan = {
+    ...migrationSpecPlan,
+    specs: migrationSpecPlan.specs.map((spec) =>
+      spec.specId === "spec-media-manifest"
+        ? {
+            ...spec,
+            fields: spec.fields.map((field) =>
+              field.name === spec.primaryKey ? { ...field, required: false } : field,
+            ),
+          }
+        : spec,
+    ),
+  };
+  const optionalPrimaryKeyErrors = alignment.validateBackendContractAlignment({
+    schema,
+    migrationPlan,
+    migrationSpecPlan: optionalPrimaryKeyPlan,
+  });
+  if (!optionalPrimaryKeyErrors.includes("Backend migration spec spec-media-manifest must mark its primary key media_id as required.")) {
+    throw new Error("Backend contract alignment did not reject an optional primary key field.");
+  }
+
   console.log("PASS backend contract alignment resolves all sample schema entities, migration candidates, and migration specs.");
 } finally {
   rmSync(output, { recursive: true, force: true });
