@@ -281,6 +281,7 @@ import { AiPrototypeMobileAccessibilityReportPanel } from "@/features/content-in
 import { AiPrototypeScoringReplayReportPanel } from "@/features/content-intake/AiPrototypeScoringReplayReportPanel";
 import { AiPrototypeCodexIntegrationDecisionPanel } from "@/features/content-intake/AiPrototypeCodexIntegrationDecisionPanel";
 import { AiPrototypeIntegrationReadinessGatePanel } from "@/features/content-intake/AiPrototypeIntegrationReadinessGatePanel";
+import { AiPrototypeEvidenceAlignmentPanel } from "@/features/content-intake/AiPrototypeEvidenceAlignmentPanel";
 import { AiPrototypeAppPatchProposalPanel } from "@/features/content-intake/AiPrototypeAppPatchProposalPanel";
 import { AiPrototypePatchTestReadinessGatePanel } from "@/features/content-intake/AiPrototypePatchTestReadinessGatePanel";
 import { AiPrototypePatchTestHarnessPlanPanel } from "@/features/content-intake/AiPrototypePatchTestHarnessPlanPanel";
@@ -307,6 +308,7 @@ import { AiVerifierSubmissionStorageGuardPanel } from "@/features/content-intake
 import { AiVerifierResultEvidencePacketPanel } from "@/features/content-intake/AiVerifierResultEvidencePacketPanel";
 import { ministarTenant } from "@/features/tenant/ministarTenant";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
+import { sampleAiPrototypeEvidenceAlignmentBundles } from "@/data/sampleAiPrototypeEvidenceAlignment";
 
 export default async function TeacherAiGameGeneratorPage({
   params,
@@ -452,6 +454,9 @@ export default async function TeacherAiGameGeneratorPage({
             sampleAiPrototypeIntegrationReadinessGates,
             tenantId,
           )}
+        />
+        <AiPrototypeEvidenceAlignmentPanel
+          bundles={sampleAiPrototypeEvidenceAlignmentBundles.filter((bundle) => bundle.returnReview.tenantId === tenantId)}
         />
         <AiPrototypeAppPatchProposalPanel
           proposals={filterAiPrototypeAppPatchProposalsByTenant(sampleAiPrototypeAppPatchProposals, tenantId)}

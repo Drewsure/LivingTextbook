@@ -201,3 +201,9 @@ Then verify:
 - `/icons/living-textbook-icon.svg`
 
 Do not mark connector-side changes as locally verified until this is complete.
+
+The external prototype evidence alignment slice now checks that all returned
+prototype evidence shares one tenant, request, integration plan, mode set, and
+parent-engine identity before future Z.ai or Phaser integration review.
+This decision is recorded in `docs/adr/0559-external-prototype-evidence-alignment.md`
+and `docs/decision-register/DR-631-external-prototype-evidence-alignment.md`.

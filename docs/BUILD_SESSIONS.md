@@ -1064,3 +1064,12 @@ This decision is recorded in `docs/adr/0555-explicit-tenant-boundary-key.md` and
 
 The complete external-prototype tenant-scope slice now applies the same boundary and key requirement to the full Z.ai/Phaser evidence chain, from intake and return records through replay reports, wrapper review, patch approval, release locks, work orders, and change-set previews. Hosted and local plans reuse one shared category list.
 This decision is recorded in `docs/adr/0556-complete-external-prototype-tenant-scope.md` and `docs/decision-register/DR-628-complete-external-prototype-tenant-scope.md`.
+
+The external prototype evidence alignment slice now checks the return review,
+integration plan, wrapper review, fixture/event/audio/mobile/scoring reports,
+Codex decision, and readiness gate as one shared packet. Tenant, request, plan,
+mode, and parent-engine drift is rejected before any future Z.ai or Phaser
+integration review. The check is read-only and does not authorize import,
+route replacement, scoring mutation, package promotion, or student assignment.
+This decision is recorded in `docs/adr/0559-external-prototype-evidence-alignment.md`
+and `docs/decision-register/DR-631-external-prototype-evidence-alignment.md`.

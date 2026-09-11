@@ -29,6 +29,9 @@ const files = {
   foundationGate: "apps/web/src/data/sampleFoundationVerificationGate.ts",
   verificationIndex: "docs/verification/README.md",
   buildSessions: "docs/BUILD_SESSIONS.md",
+  evidenceAlignmentModel: "packages/content-model/src/aiPrototypeEvidenceAlignment.ts",
+  evidenceAlignmentSample: "apps/web/src/data/sampleAiPrototypeEvidenceAlignment.ts",
+  evidenceAlignmentPanel: "apps/web/src/features/content-intake/AiPrototypeEvidenceAlignmentPanel.tsx",
 };
 
 const sources = Object.fromEntries(
@@ -229,6 +232,18 @@ const prototypeReturnReadinessSummaryMarkers = [
   "No support-language progress trigger",
   "PrototypeReturnReadinessSummaryPanel",
 ];
+const prototypeEvidenceAlignmentMarkers = [
+  "validateAiPrototypeEvidenceAlignment",
+  "One request, one tenant, one evidence packet",
+  "same candidate",
+  "returnReviewId",
+  "integrationPlanId",
+  "parent engine",
+  "does not authorize prototype import",
+  "route replacement",
+  "scoring mutation",
+  "student assignment",
+];
 
 const failures = [];
 
@@ -344,6 +359,17 @@ for (const marker of prototypeReturnReadinessSummaryMarkers) {
       sources.prototypePage,
     marker,
     `Prototype return readiness summary must keep marker: ${marker}`,
+  );
+}
+
+for (const marker of prototypeEvidenceAlignmentMarkers) {
+  requireText(
+    sources.evidenceAlignmentModel +
+      sources.evidenceAlignmentSample +
+      sources.evidenceAlignmentPanel +
+      sources.generatorPage,
+    marker,
+    `Prototype evidence alignment must keep marker: ${marker}`,
   );
 }
 

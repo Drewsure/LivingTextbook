@@ -2932,3 +2932,33 @@ Guardrails:
   Z.ai prototype import.
 
 This decision is recorded in `docs/adr/0558-backend-contract-alignment.md`.
+
+## DR-631: External Prototype Evidence Alignment
+
+Status: Accepted
+
+Decision: Treat the complete external prototype evidence packet as one aligned
+review surface. Shared tenant and request identity, review-to-plan references,
+plan references on all replay reports, and identical mode/parent-engine coverage
+must pass before a returned Z.ai or Phaser prototype can advance to manual Codex
+integration review.
+
+Rationale:
+
+- Independent evidence validators can all pass while describing different
+  requests, tenants, plans, or game modes.
+- Cross-tenant or cross-request evidence would weaken white-label isolation and
+  make a future integration decision unreliable.
+- A read-only alignment gate is cheaper and safer than discovering packet drift
+  during an app patch or student-route rehearsal.
+
+Guardrails:
+
+- Missing or mismatched IDs, missing modes, duplicate modes, and changed parent
+  engines block alignment.
+- The gate does not import source, replace routes, mutate scoring, promote a
+  package, or assign students.
+- Z.ai intake remains blocked until the separate Codex integration decision and
+  the remaining evidence gates are accepted.
+
+This decision is recorded in `docs/adr/0559-external-prototype-evidence-alignment.md`.

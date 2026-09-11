@@ -1673,4 +1673,14 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-629 and `docs/adr/05
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-630 and `docs/adr/0558-backend-contract-alignment.md`.
 
+## 101. External Prototype Evidence Alignment Standard
+
+- A valid return review, integration plan, wrapper review, fixture replay, event replay, audio report, mobile report, scoring report, Codex decision, and readiness gate must describe the same tenant and request.
+- The integration plan must point to the return review, and every report plus readiness gate must point to that integration plan.
+- Every evidence record must cover the same mode IDs and preserve each mode's parent-engine identity.
+- Alignment is a cross-artifact review gate. It does not authorize prototype import, route replacement, scoring mutation, package promotion, or student assignment.
+- Z.ai or other external prototype evidence remains quarantined until this packet is aligned and separately accepted by the Codex integration decision.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-631 and `docs/adr/0559-external-prototype-evidence-alignment.md`.
+
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-615 and `docs/adr/0543-progress-event-timestamps.md`.
