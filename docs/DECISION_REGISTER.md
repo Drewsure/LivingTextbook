@@ -3717,3 +3717,24 @@ Guardrails:
 
 This decision is recorded in
 `docs/adr/0589-tenant-return-summary-route-proof.md`.
+
+## DR-662: Return Evidence Lane Completeness
+
+Status: Accepted
+
+Decision: Require audio, mobile/accessibility, and event/scoring evidence
+together before the prototype-return proof lane can become ready.
+
+Rationale:
+
+- Audio coverage alone does not prove mobile usability or parent-engine scoring
+  ownership.
+- A returned package must be reviewed as a complete evidence packet.
+
+Guardrails:
+
+- Missing any required category keeps Codex return review blocked.
+- Import, route replacement, package promotion, and assignment remain blocked.
+
+This decision is recorded in
+`docs/adr/0590-return-evidence-lane-completeness.md`.

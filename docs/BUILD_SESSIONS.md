@@ -1282,3 +1282,9 @@ text. HTTP success alone is no longer accepted as evidence of white-label
 isolation. The decision is recorded in
 `docs/adr/0589-tenant-return-summary-route-proof.md` and
 `docs/decision-register/DR-661-tenant-return-summary-route-proof.md`.
+
+The return-evidence completeness slice now requires audio, mobile/accessibility,
+and event/scoring evidence together before the combined proof lane can become
+ready. Audio-only evidence cannot open Codex return review. The decision is
+recorded in `docs/adr/0590-return-evidence-lane-completeness.md` and
+`docs/decision-register/DR-662-return-evidence-lane-completeness.md`.

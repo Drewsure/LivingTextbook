@@ -107,8 +107,13 @@ export function createPrototypeReturnReadinessSummary(
     (checklist) => checklist.tenantId === tenantId,
   );
   const hasTenantChecklists = tenantChecklists.length > 0;
-  const hasReadyPreview = (predicate: (checklist: PrototypeReturnPackageChecklist) => boolean) =>
-    hasTenantChecklists && tenantChecklists.every(predicate);
+  const hasReadyPreview = (...patterns: string[]) =>
+    hasTenantChecklists &&
+    tenantChecklists.every((checklist) =>
+      patterns.every((pattern) =>
+        checklist.packageItems.some((item) => item.itemId.includes(pattern) && item.status === "ready-preview"),
+      ),
+    );
   const tenantLanes: PrototypeReturnReadinessLane[] = lanes.map((lane) => {
     if (lane.laneId === "return-checklist-visible") {
       return {
@@ -122,7 +127,7 @@ export function createPrototypeReturnReadinessSummary(
     if (lane.laneId === "source-manifest-missing") {
       return {
         ...lane,
-        status: hasReadyPreview((checklist) => checklist.packageItems.some((item) => item.itemId.includes("manifest") && item.status === "ready-preview"))
+        status: hasReadyPreview("manifest")
           ? "ready"
           : "missing",
         summary: hasTenantChecklists
@@ -133,7 +138,7 @@ export function createPrototypeReturnReadinessSummary(
     if (lane.laneId === "fixture-replay-missing") {
       return {
         ...lane,
-        status: hasReadyPreview((checklist) => checklist.packageItems.some((item) => item.itemId.includes("fixture") && item.status === "ready-preview"))
+        status: hasReadyPreview("fixture")
           ? "ready"
           : "missing",
         summary: hasTenantChecklists
@@ -144,7 +149,7 @@ export function createPrototypeReturnReadinessSummary(
     if (lane.laneId === "audio-mobile-scoring-missing") {
       return {
         ...lane,
-        status: hasReadyPreview((checklist) => checklist.packageItems.some((item) => item.itemId.includes("audio") && item.status === "ready-preview"))
+        status: hasReadyPreview("audio", "mobile", "event")
           ? "ready"
           : "missing",
         summary: hasTenantChecklists

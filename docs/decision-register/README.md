@@ -550,6 +550,7 @@
 - `DR-659-prototype-return-readiness-summary-contract.md`
 - `DR-660-tenant-scoped-prototype-return-readiness.md`
 - `DR-661-tenant-return-summary-route-proof.md`
+- `DR-662-return-evidence-lane-completeness.md`
 
 ## Maintenance Rule
 
