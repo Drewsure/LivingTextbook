@@ -207,3 +207,9 @@ prototype evidence shares one tenant, request, integration plan, mode set, and
 parent-engine identity before future Z.ai or Phaser integration review.
 This decision is recorded in `docs/adr/0559-external-prototype-evidence-alignment.md`
 and `docs/decision-register/DR-631-external-prototype-evidence-alignment.md`.
+
+The prototype intake summary derives its evidence-alignment status from the
+shared validator while keeping actual returned-package and Codex decision
+lanes blocked.
+This decision is recorded in `docs/adr/0560-derived-prototype-intake-readiness.md`
+and `docs/decision-register/DR-632-derived-prototype-intake-readiness.md`.

@@ -147,6 +147,8 @@ const prototypeReturnPackageChecklistStorageMarkers = [
 ];
 const prototypeIntakeReadinessSummaryMarkers = [
   "Prototype intake readiness summary",
+  "Evidence packet alignment",
+  "sample evidence packets are structurally",
   "prototype-intake-readiness-summary-foundation",
   "Codex alert not issued",
   "No Codex green-light alert yet",

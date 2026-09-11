@@ -1683,4 +1683,13 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-630 and `docs/adr/05
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-631 and `docs/adr/0559-external-prototype-evidence-alignment.md`.
 
+## 102. Derived Prototype Intake Readiness Standard
+
+- Prototype intake readiness summaries must derive their evidence-alignment lane from the shared cross-artifact validator.
+- A green structural alignment lane means only that the review records agree with one another; it is not a returned-package acceptance or a Z.ai integration approval.
+- Missing returned source packages, replay evidence, wrapper decisions, and Codex approvals must remain independently visible.
+- Any mismatch must become a visible blocked lane before future intake or integration review.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-632 and `docs/adr/0560-derived-prototype-intake-readiness.md`.
+
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-615 and `docs/adr/0543-progress-event-timestamps.md`.

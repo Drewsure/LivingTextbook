@@ -2962,3 +2962,29 @@ Guardrails:
   the remaining evidence gates are accepted.
 
 This decision is recorded in `docs/adr/0559-external-prototype-evidence-alignment.md`.
+
+## DR-632: Derived Prototype Intake Readiness
+
+Status: Accepted
+
+Decision: Derive the prototype-intake summary's evidence-alignment lane from
+the shared cross-artifact validator while keeping real returned-package,
+replay, wrapper, and Codex decision lanes independent.
+
+Rationale:
+
+- A manually maintained summary can drift from the evidence packet it claims
+  to describe.
+- Structural agreement is useful evidence, but it is not proof that a real
+  external package has been returned or accepted.
+- Separate lanes keep the eventual Z.ai alert honest and auditable.
+
+Guardrails:
+
+- Alignment errors become a blocked visible lane.
+- A green alignment lane never authorizes import, route replacement, scoring,
+  package promotion, or student assignment.
+- The Codex alert remains not-ready until a specific returned prototype and
+  all required evidence exist.
+
+This decision is recorded in `docs/adr/0560-derived-prototype-intake-readiness.md`.

@@ -1073,3 +1073,10 @@ integration review. The check is read-only and does not authorize import,
 route replacement, scoring mutation, package promotion, or student assignment.
 This decision is recorded in `docs/adr/0559-external-prototype-evidence-alignment.md`
 and `docs/decision-register/DR-631-external-prototype-evidence-alignment.md`.
+
+The prototype intake readiness summary now derives its evidence-alignment lane
+from the shared validator. Structural alignment remains visibly separate from
+the missing returned package, replay evidence, and Codex wrapper decision, so a
+green sample alignment cannot imply Z.ai intake approval.
+This decision is recorded in `docs/adr/0560-derived-prototype-intake-readiness.md`
+and `docs/decision-register/DR-632-derived-prototype-intake-readiness.md`.

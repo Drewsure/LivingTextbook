@@ -1,3 +1,5 @@
+import { sampleAiPrototypeEvidenceAlignmentErrors } from "@/data/sampleAiPrototypeEvidenceAlignment";
+
 export type PrototypeIntakeReadinessStatus = "not-ready" | "evidence-review-needed" | "ready-for-codex-alert";
 
 export interface PrototypeIntakeReadinessLane {
@@ -23,7 +25,7 @@ export const samplePrototypeIntakeReadinessSummary: PrototypeIntakeReadinessSumm
   status: "not-ready",
   codexAlertState: "Codex alert not issued",
   summary:
-    "The foundation can inventory and review outside game work, but controlled Z.ai intake is still blocked until evidence packets and wrapper-review records exist for a specific candidate.",
+    `The foundation can inventory and review outside game work, and the current sample evidence packets are structurally ${sampleAiPrototypeEvidenceAlignmentErrors.length === 0 ? "aligned" : "misaligned"}. Controlled Z.ai intake is still blocked until a real returned package and wrapper-review records exist for a specific candidate.`,
   lanes: [
     {
       laneId: "queue-visible",
@@ -42,6 +44,15 @@ export const samplePrototypeIntakeReadinessSummary: PrototypeIntakeReadinessSumm
       label: "Evidence flow visible",
       status: "ready",
       summary: "The prototype evidence packet flow defines source, fixture, event/scoring, audio, mobile, and wrapper lanes.",
+    },
+    {
+      laneId: "evidence-alignment",
+      label: "Evidence packet alignment",
+      status: sampleAiPrototypeEvidenceAlignmentErrors.length === 0 ? "ready" : "blocked",
+      summary:
+        sampleAiPrototypeEvidenceAlignmentErrors.length === 0
+          ? "The review-only sample packet shares one tenant, request, integration plan, mode set, and parent-engine identity across every evidence lane."
+          : `${sampleAiPrototypeEvidenceAlignmentErrors.length} cross-artifact alignment error(s) must be resolved before Codex review can rely on the packet.`,
     },
     {
       laneId: "returned-package-missing",
