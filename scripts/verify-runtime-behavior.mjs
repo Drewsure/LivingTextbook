@@ -177,6 +177,19 @@ try {
     },
   ], registry);
   assertIncludes(mixedAcceptanceGateErrors, "Progress event envelope stream must use one event_acceptance_gate_id value, found: gate-1, gate-2.");
+  const mixedStreamContractErrors = contentModel.validateProgressEventEnvelopeStream([
+    { ...supportEnvelope, launch_code: "launch-1", taxonomy_version: "taxonomy-1" },
+    {
+      ...supportEnvelope,
+      event_id: "event-2",
+      launch_code: "launch-1",
+      student_session_id: "session-2",
+      taxonomy_version: "taxonomy-2",
+      settings_context: { ...supportEnvelope.settings_context, settings_contract_id: "settings-2" },
+    },
+  ], registry);
+  assertIncludes(mixedStreamContractErrors, "Progress event envelope stream must use one taxonomy_version value, found: taxonomy-1, taxonomy-2.");
+  assertIncludes(mixedStreamContractErrors, "Progress event envelope stream must use one settings_contract_id value, found: settings-1, settings-2.");
 
   const rewardErrors = reward.validateRewardRuntimeRequest({
     tenantId: "tenant-1", packageId: "package-1", learnerSlotId: "slot-1", rewardId: "reward-1",

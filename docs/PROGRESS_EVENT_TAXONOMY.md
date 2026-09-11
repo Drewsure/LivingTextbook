@@ -188,3 +188,16 @@ Required standing rules:
 - Gate consistency validation remains verification-only; it does not enable gameplay, scoring, persistence, or provider writes.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-621 and `docs/adr/0549-progress-event-acceptance-gate-consistency.md`.
+
+## 92. Progress Event Contract Revision Consistency Standard
+
+An event stream must represent one reviewed contract revision. Unit, launch, and acceptance-gate identity are not sufficient if events were produced under different taxonomy or settings contract revisions.
+
+Required standing rules:
+
+- All envelopes in one stream must use one `taxonomy_version`.
+- All envelopes in one stream must use one `settings_contract_id`.
+- Per-mode settings profiles and teacher snapshots may still vary inside the stream because curated game modes can have distinct settings.
+- Revision consistency validation remains verification-only; it does not enable gameplay, scoring, persistence, or provider writes.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-622 and `docs/adr/0550-progress-event-contract-revision-consistency.md`.

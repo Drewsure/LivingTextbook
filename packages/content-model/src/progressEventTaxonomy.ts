@@ -378,6 +378,10 @@ export function validateProgressEventEnvelopeStream(
   const unitKeys = [...new Set(records.map((envelope) => readString(envelope, "unit_key")).filter(Boolean))];
   const launchCodes = [...new Set(records.map((envelope) => readString(envelope, "launch_code")).filter(Boolean))];
   const acceptanceGateIds = [...new Set(records.map((envelope) => readString(envelope, "event_acceptance_gate_id")).filter(Boolean))];
+  const taxonomyVersions = [...new Set(records.map((envelope) => readString(envelope, "taxonomy_version")).filter(Boolean))];
+  const settingsContractIds = [...new Set(records
+    .map((envelope) => isRecord(envelope.settings_context) ? readString(envelope.settings_context, "settings_contract_id") : "")
+    .filter(Boolean))];
 
   if (duplicateIds.length > 0) {
     errors.push(`Progress event envelope stream contains duplicate event_id value(s): ${[...new Set(duplicateIds)].join(", ")}.`);
@@ -393,6 +397,14 @@ export function validateProgressEventEnvelopeStream(
 
   if (acceptanceGateIds.length > 1) {
     errors.push(`Progress event envelope stream must use one event_acceptance_gate_id value, found: ${acceptanceGateIds.join(", ")}.`);
+  }
+
+  if (taxonomyVersions.length > 1) {
+    errors.push(`Progress event envelope stream must use one taxonomy_version value, found: ${taxonomyVersions.join(", ")}.`);
+  }
+
+  if (settingsContractIds.length > 1) {
+    errors.push(`Progress event envelope stream must use one settings_contract_id value, found: ${settingsContractIds.join(", ")}.`);
   }
 
   return errors;

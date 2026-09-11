@@ -1027,4 +1027,6 @@ The progress-event stream context slice now rejects batches that mix unit or lau
 This decision is recorded in `docs/adr/0548-progress-event-stream-context.md` and `docs/decision-register/DR-620-progress-event-stream-context.md`.
 
 The progress-event acceptance-gate consistency slice now rejects streams that mix event-acceptance gate IDs. Multiple modes and learner sessions remain allowed when they share the same unit, launch, and reviewed gate.
+
+The progress-event contract revision slice now rejects streams that mix taxonomy versions or settings contract IDs. Per-mode settings profiles and teacher snapshots remain allowed to vary inside one shared contract.
 This decision is recorded in `docs/adr/0549-progress-event-acceptance-gate-consistency.md` and `docs/decision-register/DR-621-progress-event-acceptance-gate-consistency.md`.

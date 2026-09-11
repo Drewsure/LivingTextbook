@@ -1593,4 +1593,12 @@ Required standing rules:
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-621 and `docs/adr/0549-progress-event-acceptance-gate-consistency.md`.
 
+## 92. Progress Event Contract Revision Consistency Standard
+
+- One progress-event stream uses one taxonomy revision and one settings contract revision.
+- Curated game modes may retain different settings profiles and teacher snapshots within that shared contract.
+- Mixed taxonomy or settings contract revisions block review; this remains a no-side-effect verification gate.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-622 and `docs/adr/0550-progress-event-contract-revision-consistency.md`.
+
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-615 and `docs/adr/0543-progress-event-timestamps.md`.

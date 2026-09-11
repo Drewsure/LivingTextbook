@@ -2740,3 +2740,22 @@ Guardrails:
 - Gate consistency validation remains review-only and does not enable gameplay, scoring, persistence, or provider writes.
 
 This decision is recorded in `docs/adr/0549-progress-event-acceptance-gate-consistency.md` and `docs/decision-register/DR-621-progress-event-acceptance-gate-consistency.md`.
+
+## DR-622: Progress Event Contract Revision Consistency
+
+Status: Accepted
+
+Decision: Require one `taxonomy_version` and one `settings_contract_id` across each progress-event stream.
+
+Rationale:
+
+- A stream must be interpreted under one reviewed taxonomy and settings contract revision.
+- Unit, launch, and acceptance-gate identity do not prove that event semantics were produced under the same contract revision.
+- Per-mode settings profiles and teacher snapshots may vary because curated modes can have distinct settings.
+
+Guardrails:
+
+- Mixed taxonomy versions or settings contract IDs block stream validation.
+- The guard remains review-only and does not enable gameplay, scoring, persistence, or provider writes.
+
+This decision is recorded in `docs/adr/0550-progress-event-contract-revision-consistency.md` and `docs/decision-register/DR-622-progress-event-contract-revision-consistency.md`.
