@@ -1288,3 +1288,10 @@ and event/scoring evidence together before the combined proof lane can become
 ready. Audio-only evidence cannot open Codex return review. The decision is
 recorded in `docs/adr/0590-return-evidence-lane-completeness.md` and
 `docs/decision-register/DR-662-return-evidence-lane-completeness.md`.
+
+The explicit review-surface scope slice now labels evidence packet flows and
+prototype storage guards as platform contracts or tenant records. The teacher
+review UI shows that distinction so generic policy cannot be mistaken for
+tenant-owned evidence. The decision is recorded in
+`docs/adr/0591-explicit-review-surface-scope.md` and
+`docs/decision-register/DR-663-explicit-review-surface-scope.md`.

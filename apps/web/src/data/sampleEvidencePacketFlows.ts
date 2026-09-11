@@ -14,6 +14,7 @@ export interface EvidencePacket {
 export interface EvidencePacketFlow {
   flowId: string;
   label: string;
+  scopeKind: "platform" | "tenant";
   scope: string;
   summary: string;
   handoffRule: string;
@@ -24,6 +25,7 @@ export interface EvidencePacketFlow {
 export const sampleUploadEvidencePacketFlow: EvidencePacketFlow = {
   flowId: "upload-evidence-packet-flow",
   label: "Upload evidence packet flow",
+  scopeKind: "platform",
   scope: "Teacher upload workspace",
   summary:
     "Evidence packet flow for file intake, source review, target mapping, upload review, and promotion gates before any real upload button or object/local storage write exists.",
@@ -104,6 +106,7 @@ export const sampleUploadEvidencePacketFlow: EvidencePacketFlow = {
 export const samplePrototypeIntakeEvidencePacketFlow: EvidencePacketFlow = {
   flowId: "prototype-intake-evidence-packet-flow",
   label: "Prototype intake evidence packet flow",
+  scopeKind: "platform",
   scope: "Z.ai and outside prototype review",
   summary:
     "Evidence packet flow for outside game inventory before returned prototypes, Phaser wrappers, DOM references, route plans, scoring review, reward review, playlist review, package promotion, or assignment work can exist.",
@@ -187,6 +190,7 @@ export const samplePrototypeIntakeEvidencePacketFlow: EvidencePacketFlow = {
 export const sampleLabelledDiagramEvidencePacketFlow: EvidencePacketFlow = {
   flowId: "labelled-diagram-evidence-packet-flow",
   label: "Labelled Diagram evidence packet flow",
+  scopeKind: "platform",
   scope: "Teacher-only image asset review",
   summary:
     "Evidence packet flow for a reviewed image candidate before live label editing, coordinate editing, asset promotion, or student-facing Labelled Diagram gameplay exists.",
@@ -267,6 +271,7 @@ export const sampleLabelledDiagramEvidencePacketFlow: EvidencePacketFlow = {
 export const sampleMediaEvidencePacketFlow: EvidencePacketFlow = {
   flowId: "media-evidence-packet-flow",
   label: "Media evidence packet flow",
+  scopeKind: "platform",
   scope: "Teacher-only media asset review",
   summary:
     "Evidence packet flow for audio, music, video, playlist, background-media, and local-bundle candidates before live media upload, transcoding, playlist creation, or media-only progress exists.",

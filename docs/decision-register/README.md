@@ -551,6 +551,7 @@
 - `DR-660-tenant-scoped-prototype-return-readiness.md`
 - `DR-661-tenant-return-summary-route-proof.md`
 - `DR-662-return-evidence-lane-completeness.md`
+- `DR-663-explicit-review-surface-scope.md`
 
 ## Maintenance Rule
 

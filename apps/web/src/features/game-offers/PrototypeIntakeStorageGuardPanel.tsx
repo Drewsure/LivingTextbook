@@ -30,6 +30,7 @@ export function PrototypeIntakeStorageGuardPanel({ guards }: PrototypeIntakeStor
         <div className="flex flex-wrap justify-end gap-2">
           <StatusPill label={`${guards.length} guard(s)`} tone="warning" />
           <StatusPill label="No storage writes" tone="warning" />
+          <StatusPill label={guards.every((guard) => guard.scopeKind === "platform") ? "Platform contracts" : "Mixed scope"} tone="neutral" />
         </div>
       </div>
 
@@ -42,6 +43,7 @@ export function PrototypeIntakeStorageGuardPanel({ guards }: PrototypeIntakeStor
                 <h3 className="mt-1 text-base font-bold text-[var(--tenant-text)]">{guard.label}</h3>
               </div>
               <StatusPill label={statusLabels[guard.status]} tone="warning" />
+              <StatusPill label={guard.scopeKind === "platform" ? "Platform" : "Tenant"} tone="neutral" />
             </div>
             <p className="mt-3 text-sm leading-6 text-[var(--tenant-muted)]">{guard.summary}</p>
 

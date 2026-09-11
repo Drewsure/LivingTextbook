@@ -3738,3 +3738,25 @@ Guardrails:
 
 This decision is recorded in
 `docs/adr/0590-return-evidence-lane-completeness.md`.
+
+## DR-663: Explicit Review-Surface Scope
+
+Status: Accepted
+
+Decision: Require evidence packet flows and prototype storage guards to declare
+platform or tenant scope and render that scope visibly.
+
+Rationale:
+
+- A white-label workbench must distinguish shared policy from tenant-owned
+  evidence.
+- Explicit scope prevents future storage and import decisions from relying on
+  ambiguous records.
+
+Guardrails:
+
+- Scope labels are review metadata only.
+- Live storage, import, package promotion, and assignment remain blocked.
+
+This decision is recorded in
+`docs/adr/0591-explicit-review-surface-scope.md`.

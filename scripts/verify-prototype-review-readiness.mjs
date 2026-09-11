@@ -194,6 +194,8 @@ const prototypeIntakeReadinessSummaryMarkers = [
   "Summary contract valid",
 ];
 const prototypeIntakeStorageGuardMarkers = [
+  "scopeKind",
+  "Platform contracts",
   "Prototype intake and return storage guard",
   "Storage contracts before outside game intake or returned package review",
   "prototype-intake-queue-storage-contract",
@@ -217,6 +219,8 @@ const prototypeIntakeStorageGuardMarkers = [
   "No support-language progress trigger",
 ];
 const prototypeIntakeEvidenceFlowMarkers = [
+  "scopeKind",
+  "Platform contract",
   "samplePrototypeIntakeEvidencePacketFlow",
   "Prototype intake evidence packet flow",
   "prototype-intake-evidence-packet-flow",

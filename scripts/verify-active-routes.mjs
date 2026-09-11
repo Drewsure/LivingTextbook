@@ -530,6 +530,8 @@ expectedTextByPath.set("/teacher/game-readiness", [
   "hosted-prototype-intake-queue-item-write",
   "local-prototype-intake-queue-item-write",
   "Prototype intake evidence packet flow",
+  "Platform contract",
+  "Platform contracts",
   "prototype-intake-evidence-packet-flow",
   "No prototype upload or import",
   "Source snapshot packet",

@@ -3,6 +3,7 @@ export type PrototypeIntakeStorageGuardStatus = "contracted-preview" | "evidence
 export interface PrototypeIntakeStorageGuard {
   guardId: string;
   label: string;
+  scopeKind: "platform" | "tenant";
   status: PrototypeIntakeStorageGuardStatus;
   summary: string;
   storageContractIds: string[];
@@ -15,6 +16,7 @@ export const samplePrototypeIntakeStorageGuards: PrototypeIntakeStorageGuard[] =
   {
     guardId: "prototype-intake-queue-storage-contract",
     label: "Prototype intake queue storage contract",
+    scopeKind: "platform",
     status: "contracted-preview",
     summary:
       "Future Z.ai or outside game inventory must be represented as reviewable hosted/local queue records before it can become return-review, wrapper-review, route, scoring, reward, playlist, package, or assignment work.",
@@ -69,6 +71,7 @@ export const samplePrototypeIntakeStorageGuards: PrototypeIntakeStorageGuard[] =
   {
     guardId: "prototype-return-package-checklist-storage-contract",
     label: "Prototype return package checklist storage contract",
+    scopeKind: "platform",
     status: "evidence-required",
     summary:
       "Returned outside game work must become a durable evidence-package checklist before Codex can review wrapper, fixture, event, scoring, audio, mobile, route, reward, playlist, package, or assignment implications.",

@@ -26,6 +26,7 @@ export function EvidencePacketFlowPanel({ flow }: EvidencePacketFlowPanelProps) 
         <div className="flex flex-wrap gap-2">
           <StatusPill label={`${readyCount} preview-ready`} tone="success" />
           <StatusPill label={`${blockedCount} blocked/missing`} tone="warning" />
+          <StatusPill label={flow.scopeKind === "platform" ? "Platform contract" : "Tenant contract"} tone="neutral" />
         </div>
       </div>
 
