@@ -1212,3 +1212,9 @@ and blocked live actions. A valid alert remains a review-only contract and does
 not imply that a returned prototype package exists. This decision is recorded in
 `docs/adr/0579-prototype-intake-alert-contract.md` and
 `docs/decision-register/DR-651-prototype-intake-alert-contract.md`.
+
+The follow-up intake alignment slice now verifies that the displayed Z.ai alert
+status matches the authoritative readiness lanes. A valid alert payload cannot
+override missing returned packages or blocked evidence. This decision is
+recorded in `docs/adr/0580-prototype-intake-alert-readiness-alignment.md` and
+`docs/decision-register/DR-652-prototype-intake-alert-readiness-alignment.md`.

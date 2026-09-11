@@ -89,6 +89,24 @@ export function validatePrototypeIntakeAlert(alert: unknown): string[] {
   return errors;
 }
 
+export function validatePrototypeIntakeAlertAlignment(
+  alert: unknown,
+  signal: PrototypeIntakeReadinessSignal,
+): string[] {
+  const errors = validatePrototypeIntakeAlert(alert);
+  if (!isRecord(alert)) {
+    return errors;
+  }
+
+  const expectedStatus = mapPrototypeIntakeAlertDecisionToStatus(derivePrototypeIntakeAlertDecision(signal));
+  const actualStatus = readString(alert, "status");
+  if (actualStatus !== expectedStatus) {
+    errors.push(`Prototype intake alert status must match the readiness decision: ${expectedStatus}.`);
+  }
+
+  return errors;
+}
+
 const structuralBlockingLaneIds = new Set([
   "evidence-alignment",
   "returned-package-manifest-contract",
@@ -129,6 +147,18 @@ export function derivePrototypeIntakeAlertDecision(
   }
   if (signal.status === "ready-for-codex-alert" && signal.lanes.every((lane) => lane.status === "ready")) {
     return "ready-for-review";
+  }
+  return "not-ready";
+}
+
+function mapPrototypeIntakeAlertDecisionToStatus(
+  decision: PrototypeIntakeAlertDecision,
+): "not-ready" | "ready-for-review" | "blocked" {
+  if (decision === "ready-for-review") {
+    return "ready-for-review";
+  }
+  if (decision === "blocked") {
+    return "blocked";
   }
   return "not-ready";
 }

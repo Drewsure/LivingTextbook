@@ -3484,3 +3484,26 @@ Guardrails:
 
 This decision is recorded in
 `docs/adr/0579-prototype-intake-alert-contract.md`.
+
+## DR-652: Prototype Intake Alert Readiness Alignment
+
+Status: Accepted
+
+Decision: Validate the Z.ai prototype intake alert status against the derived
+readiness lanes before treating the alert contract as valid.
+
+Rationale:
+
+- A ready-looking payload must not override missing returned packages or blocked
+  evidence in the readiness workbench.
+- The human handoff signal must remain a consequence of verified readiness, not
+  a manually editable status.
+
+Guardrails:
+
+- A valid alert remains review-only and does not imply a returned package.
+- Import, route creation, scoring/reward mutation, package promotion, and
+  assignment remain blocked.
+
+This decision is recorded in
+`docs/adr/0580-prototype-intake-alert-readiness-alignment.md`.

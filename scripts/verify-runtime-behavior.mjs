@@ -1125,6 +1125,20 @@ try {
     ownerRule: "Codex owns architecture, schema discipline, wrapper/integration review, final merge decisions, and the user alert.",
   };
   assertEqual(prototypeIntakeAlert.validatePrototypeIntakeAlert(prototypeIntakeAlertFixture).length, 0);
+  assertEqual(
+    prototypeIntakeAlert.validatePrototypeIntakeAlertAlignment(prototypeIntakeAlertFixture, {
+      status: "not-ready",
+      lanes: [{ laneId: "returned-package-availability", status: "missing" }],
+    }).length,
+    0,
+  );
+  assertIncludes(
+    prototypeIntakeAlert.validatePrototypeIntakeAlertAlignment(
+      { ...prototypeIntakeAlertFixture, status: "ready-for-review" },
+      { status: "not-ready", lanes: [{ laneId: "returned-package-availability", status: "missing" }] },
+    ),
+    "Prototype intake alert status must match the readiness decision: not-ready.",
+  );
   assertIncludes(
     prototypeIntakeAlert.validatePrototypeIntakeAlert({
       ...prototypeIntakeAlertFixture,

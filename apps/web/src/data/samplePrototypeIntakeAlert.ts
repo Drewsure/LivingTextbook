@@ -1,5 +1,6 @@
 import {
   derivePrototypeIntakeAlertDecision,
+  validatePrototypeIntakeAlertAlignment,
   validatePrototypeIntakeAlert,
 } from "@living-textbook/content-model/src/prototypeIntakeAlert";
 import { samplePrototypeIntakeReadinessSummary } from "@/data/samplePrototypeIntakeReadinessSummary";
@@ -66,4 +67,7 @@ export const samplePrototypeIntakeAlert: PrototypeIntakeAlert = {
     "Codex owns architecture, schema discipline, wrapper/integration review, final merge decisions, and the user alert that controlled Z.ai intake can begin.",
 };
 
-export const samplePrototypeIntakeAlertErrors = validatePrototypeIntakeAlert(samplePrototypeIntakeAlert);
+export const samplePrototypeIntakeAlertErrors = [
+  ...validatePrototypeIntakeAlert(samplePrototypeIntakeAlert),
+  ...validatePrototypeIntakeAlertAlignment(samplePrototypeIntakeAlert, samplePrototypeIntakeReadinessSummary),
+];

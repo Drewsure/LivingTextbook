@@ -107,6 +107,7 @@ const prototypeIntakeAlertMarkers = [
   "No app patch requested yet",
   "derivePrototypeIntakeAlertDecision",
   "validatePrototypeIntakeAlert",
+  "validatePrototypeIntakeAlertAlignment",
   "samplePrototypeIntakeAlertErrors",
   "Alert contract valid",
   "Alert state is derived from prototype intake readiness lanes",

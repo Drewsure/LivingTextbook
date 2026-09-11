@@ -540,6 +540,7 @@
 - `DR-649-evidence-alignment-panel-visibility.md`
 - `DR-650-deterministic-review-list-keys.md`
 - `DR-651-prototype-intake-alert-contract.md`
+- `DR-652-prototype-intake-alert-readiness-alignment.md`
 
 ## Maintenance Rule
 
