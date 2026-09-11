@@ -95,7 +95,7 @@ import {
   filterPrototypeIntakeQueueByTenant,
   samplePrototypeIntakeQueue,
 } from "@/data/samplePrototypeIntakeQueue";
-import { samplePrototypeIntakeReadinessSummary } from "@/data/samplePrototypeIntakeReadinessSummary";
+import { createPrototypeIntakeReadinessSummary } from "@/data/samplePrototypeIntakeReadinessSummary";
 import { samplePrototypeIntakeStorageGuards } from "@/data/samplePrototypeIntakeStorageGuard";
 import { samplePrototypeReturnReadinessSummary } from "@/data/samplePrototypeReturnReadinessSummary";
 import {
@@ -158,6 +158,7 @@ export default async function TeacherPrototypeReviewPage({
 
   const generatorRoute = `/teacher/generator/${tenantId}#prototype-review`;
   const gameReadinessRoute = "/teacher/game-readiness";
+  const tenantReadinessSummary = createPrototypeIntakeReadinessSummary(tenantId);
 
   return (
     <AppShell tenant={tenant}>
@@ -198,11 +199,11 @@ export default async function TeacherPrototypeReviewPage({
         </Card>
 
         <PrototypeIntakeAlertPanel
-          alert={createPrototypeIntakeAlert(tenantId)}
+          alert={createPrototypeIntakeAlert(tenantId, tenantReadinessSummary)}
           expectedTenantId={tenantId}
-          readinessSignal={samplePrototypeIntakeReadinessSummary}
+          readinessSignal={tenantReadinessSummary}
         />
-        <PrototypeIntakeReadinessSummaryPanel summary={samplePrototypeIntakeReadinessSummary} />
+        <PrototypeIntakeReadinessSummaryPanel summary={tenantReadinessSummary} />
         <PrototypeIntakeQueuePanel items={filterPrototypeIntakeQueueByTenant(samplePrototypeIntakeQueue, tenantId)} />
         <PrototypeIntakeStorageGuardPanel guards={samplePrototypeIntakeStorageGuards} />
         <EvidencePacketFlowPanel flow={samplePrototypeIntakeEvidencePacketFlow} />

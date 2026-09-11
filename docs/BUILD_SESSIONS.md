@@ -1233,3 +1233,10 @@ preserves white-label isolation without enabling import or integration. The
 decision is recorded in
 `docs/adr/0582-prototype-intake-alert-tenant-scope.md` and
 `docs/decision-register/DR-654-prototype-intake-alert-tenant-scope.md`.
+
+The follow-up readiness-summary scope slice now gives summaries explicit tenant
+identity and passes the same tenant-scoped summary to the tenant alert and
+summary panels. The platform route keeps the explicit `platform` summary. The
+decision is recorded in
+`docs/adr/0583-prototype-intake-readiness-summary-tenant-scope.md` and
+`docs/decision-register/DR-655-prototype-intake-readiness-summary-tenant-scope.md`.

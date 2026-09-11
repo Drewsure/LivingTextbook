@@ -543,6 +543,7 @@
 - `DR-652-prototype-intake-alert-readiness-alignment.md`
 - `DR-653-prototype-alert-panel-instance-validation.md`
 - `DR-654-prototype-intake-alert-tenant-scope.md`
+- `DR-655-prototype-intake-readiness-summary-tenant-scope.md`
 
 ## Maintenance Rule
 

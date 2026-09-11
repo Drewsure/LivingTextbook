@@ -27,6 +27,7 @@ export interface PrototypeIntakeReadinessLane {
 export interface PrototypeIntakeReadinessSummary {
   summaryId: string;
   label: string;
+  tenantId: string;
   status: PrototypeIntakeReadinessStatus;
   codexAlertState: PrototypeIntakeCodexAlertState;
   summary: string;
@@ -111,6 +112,7 @@ const alertDecision = derivePrototypeIntakeAlertDecision({
 export const samplePrototypeIntakeReadinessSummary: PrototypeIntakeReadinessSummary = {
   summaryId: "prototype-intake-readiness-summary-foundation",
   label: "Prototype intake readiness summary",
+  tenantId: "platform",
   status: readinessStatus,
   codexAlertState: derivePrototypeIntakeCodexAlertState(alertDecision),
   summary:
@@ -128,3 +130,16 @@ export const samplePrototypeIntakeReadinessSummary: PrototypeIntakeReadinessSumm
     "No student assignment",
   ],
 };
+
+export function createPrototypeIntakeReadinessSummary(
+  tenantId: string,
+): PrototypeIntakeReadinessSummary {
+  return {
+    ...samplePrototypeIntakeReadinessSummary,
+    summaryId: `${samplePrototypeIntakeReadinessSummary.summaryId}-${tenantId}`,
+    label: `${samplePrototypeIntakeReadinessSummary.label} (${tenantId})`,
+    tenantId,
+    lanes: samplePrototypeIntakeReadinessSummary.lanes.map((lane) => ({ ...lane })),
+    blockedNextActions: [...samplePrototypeIntakeReadinessSummary.blockedNextActions],
+  };
+}

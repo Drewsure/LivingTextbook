@@ -166,6 +166,8 @@ const prototypeIntakeReadinessSummaryMarkers = [
   "Evidence packet alignment",
   "sample evidence packets are structurally",
   "prototype-intake-readiness-summary-foundation",
+  "createPrototypeIntakeReadinessSummary",
+  "tenantId",
   "Codex alert not issued",
   "No Codex green-light alert yet",
   "Returned prototype package",
