@@ -1268,3 +1268,10 @@ Codex return-review consistency, and blocked next actions before the returned
 package panel relies on the summary. The decision is recorded in
 `docs/adr/0587-prototype-return-readiness-summary-contract.md` and
 `docs/decision-register/DR-659-prototype-return-readiness-summary-contract.md`.
+
+The tenant-scoped return-readiness slice now derives each tenant's return
+summary from its own returned-package checklist records instead of reusing one
+platform summary on every workbench. Missing tenant records remain missing and
+cannot inherit another tenant's review state. The decision is recorded in
+`docs/adr/0588-tenant-scoped-prototype-return-readiness.md` and
+`docs/decision-register/DR-660-tenant-scoped-prototype-return-readiness.md`.

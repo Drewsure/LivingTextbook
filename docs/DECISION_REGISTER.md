@@ -3671,3 +3671,26 @@ Guardrails:
 
 This decision is recorded in
 `docs/adr/0587-prototype-return-readiness-summary-contract.md`.
+
+## DR-660: Tenant-Scoped Prototype Return Readiness
+
+Status: Accepted
+
+Decision: Derive prototype-return readiness from tenant-filtered returned
+package checklists on each tenant workbench.
+
+Rationale:
+
+- A platform-wide return summary can leak another tenant's package or review
+  state into a white-label workspace.
+- Intake and return readiness must share the same tenant-isolation rule.
+
+Guardrails:
+
+- Every return summary carries an explicit tenant ID.
+- Missing tenant checklists remain missing.
+- Archive import, route replacement, package promotion, and assignment remain
+  blocked.
+
+This decision is recorded in
+`docs/adr/0588-tenant-scoped-prototype-return-readiness.md`.

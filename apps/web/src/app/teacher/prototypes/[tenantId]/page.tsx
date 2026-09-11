@@ -97,7 +97,7 @@ import {
 } from "@/data/samplePrototypeIntakeQueue";
 import { createPrototypeIntakeReadinessSummary } from "@/data/samplePrototypeIntakeReadinessSummary";
 import { samplePrototypeIntakeStorageGuards } from "@/data/samplePrototypeIntakeStorageGuard";
-import { samplePrototypeReturnReadinessSummary } from "@/data/samplePrototypeReturnReadinessSummary";
+import { createPrototypeReturnReadinessSummary } from "@/data/samplePrototypeReturnReadinessSummary";
 import {
   sampleAiPrototypeReturnedPackageAlignmentErrors,
   sampleAiPrototypeReturnedPackageIntakeAlignmentErrors,
@@ -159,6 +159,7 @@ export default async function TeacherPrototypeReviewPage({
   const generatorRoute = `/teacher/generator/${tenantId}#prototype-review`;
   const gameReadinessRoute = "/teacher/game-readiness";
   const tenantReadinessSummary = createPrototypeIntakeReadinessSummary(tenantId);
+  const tenantReturnReadinessSummary = createPrototypeReturnReadinessSummary(tenantId);
 
   return (
     <AppShell tenant={tenant}>
@@ -215,7 +216,7 @@ export default async function TeacherPrototypeReviewPage({
           alignmentErrors={sampleAiPrototypeReturnedPackageAlignmentErrors.filter((error) => error.includes(`${tenantId}:`) || error.includes(`-${tenantId}-`))}
           intakeAlignmentErrors={sampleAiPrototypeReturnedPackageIntakeAlignmentErrors.filter((error) => error.includes(`${tenantId}:`) || error.includes(`-${tenantId}-`))}
         />
-        <PrototypeReturnReadinessSummaryPanel summary={samplePrototypeReturnReadinessSummary} />
+        <PrototypeReturnReadinessSummaryPanel summary={tenantReturnReadinessSummary} />
 
         <section id="handoff-packets" className="grid scroll-mt-6 gap-5">
           <AiGeneratorSectionHeader

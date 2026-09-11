@@ -1164,6 +1164,7 @@ try {
   const prototypeReturnReadinessSummaryFixture = {
     summaryId: "return-summary-1",
     label: "Prototype return readiness summary",
+    tenantId: "platform",
     status: "not-ready",
     codexReviewState: "Codex return review not opened",
     summary: "Review-only return summary.",

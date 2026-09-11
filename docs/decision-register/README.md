@@ -548,6 +548,7 @@
 - `DR-657-prototype-alert-signal-scope-consistency.md`
 - `DR-658-prototype-readiness-summary-contract.md`
 - `DR-659-prototype-return-readiness-summary-contract.md`
+- `DR-660-tenant-scoped-prototype-return-readiness.md`
 
 ## Maintenance Rule
 

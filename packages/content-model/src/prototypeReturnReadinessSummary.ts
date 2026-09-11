@@ -14,13 +14,14 @@ export function validatePrototypeReturnReadinessSummary(summary: unknown): strin
 
   const summaryId = readString(summary, "summaryId");
   const label = readString(summary, "label");
+  const tenantId = readString(summary, "tenantId");
   const summaryText = readString(summary, "summary");
   const status = readString(summary, "status");
   const codexReviewState = readString(summary, "codexReviewState") as PrototypeReturnReviewState;
   const lanes = summary.lanes;
 
-  if (!summaryId || !label || !summaryText) {
-    errors.push("Prototype return readiness summary must include summaryId, label, and summary text.");
+  if (!summaryId || !label || !tenantId || !summaryText) {
+    errors.push("Prototype return readiness summary must include summaryId, label, tenantId, and summary text.");
   }
   if (!Array.isArray(lanes) || lanes.length === 0) {
     errors.push("Prototype return readiness summary must include at least one readiness lane.");

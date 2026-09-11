@@ -3,6 +3,10 @@ import {
   derivePrototypeReturnReviewState,
 } from "@living-textbook/content-model/src/prototypeReturnReadiness";
 import { validatePrototypeReturnReadinessSummary } from "@living-textbook/content-model/src/prototypeReturnReadinessSummary";
+import {
+  samplePrototypeReturnPackageChecklists,
+  type PrototypeReturnPackageChecklist,
+} from "@/data/samplePrototypeReturnPackageChecklist";
 import type {
   PrototypeReturnReadinessStatus as ContentModelPrototypeReturnReadinessStatus,
   PrototypeReturnReviewState,
@@ -20,6 +24,7 @@ export interface PrototypeReturnReadinessLane {
 export interface PrototypeReturnReadinessSummary {
   summaryId: string;
   label: string;
+  tenantId: string;
   status: PrototypeReturnReadinessStatus;
   codexReviewState: PrototypeReturnReviewState;
   summary: string;
@@ -71,6 +76,7 @@ const readinessStatus = derivePrototypeReturnReadinessStatus(lanes);
 export const samplePrototypeReturnReadinessSummary: PrototypeReturnReadinessSummary = {
   summaryId: "prototype-return-readiness-summary-foundation",
   label: "Prototype return readiness summary",
+  tenantId: "platform",
   status: readinessStatus,
   codexReviewState: derivePrototypeReturnReviewState(readinessStatus),
   summary:
@@ -93,3 +99,72 @@ export const samplePrototypeReturnReadinessSummary: PrototypeReturnReadinessSumm
 export const samplePrototypeReturnReadinessSummaryErrors = validatePrototypeReturnReadinessSummary(
   samplePrototypeReturnReadinessSummary,
 );
+
+export function createPrototypeReturnReadinessSummary(
+  tenantId: string,
+): PrototypeReturnReadinessSummary {
+  const tenantChecklists = samplePrototypeReturnPackageChecklists.filter(
+    (checklist) => checklist.tenantId === tenantId,
+  );
+  const hasTenantChecklists = tenantChecklists.length > 0;
+  const hasReadyPreview = (predicate: (checklist: PrototypeReturnPackageChecklist) => boolean) =>
+    hasTenantChecklists && tenantChecklists.every(predicate);
+  const tenantLanes: PrototypeReturnReadinessLane[] = lanes.map((lane) => {
+    if (lane.laneId === "return-checklist-visible") {
+      return {
+        ...lane,
+        status: hasTenantChecklists ? "ready" : "missing",
+        summary: hasTenantChecklists
+          ? `The ${tenantId} returned-package checklist is visible on its tenant review workbench.`
+          : `No returned-package checklist exists for ${tenantId}.`,
+      };
+    }
+    if (lane.laneId === "source-manifest-missing") {
+      return {
+        ...lane,
+        status: hasReadyPreview((checklist) => checklist.packageItems.some((item) => item.itemId.includes("manifest") && item.status === "ready-preview"))
+          ? "ready"
+          : "missing",
+        summary: hasTenantChecklists
+          ? `The ${tenantId} source archive manifest remains unreturned and requires review.`
+          : `No source archive manifest record exists for ${tenantId}.`,
+      };
+    }
+    if (lane.laneId === "fixture-replay-missing") {
+      return {
+        ...lane,
+        status: hasReadyPreview((checklist) => checklist.packageItems.some((item) => item.itemId.includes("fixture") && item.status === "ready-preview"))
+          ? "ready"
+          : "missing",
+        summary: hasTenantChecklists
+          ? `The ${tenantId} fixture replay remains unreturned and requires review.`
+          : `No reviewed fixture replay record exists for ${tenantId}.`,
+      };
+    }
+    if (lane.laneId === "audio-mobile-scoring-missing") {
+      return {
+        ...lane,
+        status: hasReadyPreview((checklist) => checklist.packageItems.some((item) => item.itemId.includes("audio") && item.status === "ready-preview"))
+          ? "ready"
+          : "missing",
+        summary: hasTenantChecklists
+          ? `The ${tenantId} audio, mobile, and scoring proof remains unreturned and requires review.`
+          : `No audio, mobile, or scoring proof record exists for ${tenantId}.`,
+      };
+    }
+    return { ...lane };
+  });
+  const tenantStatus = derivePrototypeReturnReadinessStatus(tenantLanes);
+
+  return {
+    ...samplePrototypeReturnReadinessSummary,
+    summaryId: `${samplePrototypeReturnReadinessSummary.summaryId}-${tenantId}`,
+    label: `${samplePrototypeReturnReadinessSummary.label} (${tenantId})`,
+    tenantId,
+    status: tenantStatus,
+    codexReviewState: derivePrototypeReturnReviewState(tenantStatus),
+    summary: `The ${tenantId} workbench derives returned-prototype readiness from tenant-scoped checklist records. Archive import and Codex return review remain blocked until the required package evidence is complete.`,
+    lanes: tenantLanes,
+    blockedNextActions: [...samplePrototypeReturnReadinessSummary.blockedNextActions],
+  };
+}

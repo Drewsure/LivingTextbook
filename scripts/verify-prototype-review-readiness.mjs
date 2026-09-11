@@ -252,6 +252,9 @@ const prototypeReturnPackageChecklistMarkers = [
 const prototypeReturnReadinessSummaryMarkers = [
   "Prototype return readiness",
   "Prototype return readiness summary",
+  "createPrototypeReturnReadinessSummary",
+  "tenantChecklists",
+  "tenantId",
   "prototype-return-readiness-summary-foundation",
   "derivePrototypeReturnReadinessStatus",
   "derivePrototypeReturnReviewState",
