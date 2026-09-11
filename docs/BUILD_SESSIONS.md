@@ -1225,3 +1225,11 @@ array. This preserves white-label tenant isolation while keeping the panel
 review-only. The decision is recorded in
 `docs/adr/0581-prototype-alert-panel-instance-validation.md` and
 `docs/decision-register/DR-653-prototype-alert-panel-instance-validation.md`.
+
+The prototype intake alert tenant-scope slice now requires an explicit tenant
+identity. The platform readiness route uses `platform`, while tenant prototype
+routes construct tenant-scoped alert records and validate the route match. This
+preserves white-label isolation without enabling import or integration. The
+decision is recorded in
+`docs/adr/0582-prototype-intake-alert-tenant-scope.md` and
+`docs/decision-register/DR-654-prototype-intake-alert-tenant-scope.md`.

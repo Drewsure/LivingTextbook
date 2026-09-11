@@ -3530,3 +3530,27 @@ Guardrails:
 
 This decision is recorded in
 `docs/adr/0581-prototype-alert-panel-instance-validation.md`.
+
+## DR-654: Prototype Intake Alert Tenant Scope
+
+Status: Accepted
+
+Decision: Require explicit tenant identity on prototype-intake alerts and
+reject route displays whose expected tenant differs from the alert tenant.
+
+Rationale:
+
+- White-label review routes must not display MiniStar or platform evidence as if
+  it belonged to another tenant.
+- Alert identity must be as explicit as the evidence and integration records it
+  summarizes.
+
+Guardrails:
+
+- The platform route uses `platform`; tenant routes construct tenant-scoped
+  alert records.
+- Tenant scope does not authorize import, integration approval, route creation,
+  package promotion, or student assignment.
+
+This decision is recorded in
+`docs/adr/0582-prototype-intake-alert-tenant-scope.md`.

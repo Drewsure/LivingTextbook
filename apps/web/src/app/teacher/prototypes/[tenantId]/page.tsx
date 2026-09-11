@@ -14,7 +14,7 @@ import {
   sampleAiGeneratedGameBuildBriefPackets,
 } from "@/data/sampleAiGeneratedGameBuildBrief";
 import { samplePrototypeIntakeEvidencePacketFlow } from "@/data/sampleEvidencePacketFlows";
-import { samplePrototypeIntakeAlert } from "@/data/samplePrototypeIntakeAlert";
+import { createPrototypeIntakeAlert } from "@/data/samplePrototypeIntakeAlert";
 import {
   filterAiPrototypeAppPatchProposalsByTenant,
   sampleAiPrototypeAppPatchProposals,
@@ -197,7 +197,11 @@ export default async function TeacherPrototypeReviewPage({
           </section>
         </Card>
 
-        <PrototypeIntakeAlertPanel alert={samplePrototypeIntakeAlert} readinessSignal={samplePrototypeIntakeReadinessSummary} />
+        <PrototypeIntakeAlertPanel
+          alert={createPrototypeIntakeAlert(tenantId)}
+          expectedTenantId={tenantId}
+          readinessSignal={samplePrototypeIntakeReadinessSummary}
+        />
         <PrototypeIntakeReadinessSummaryPanel summary={samplePrototypeIntakeReadinessSummary} />
         <PrototypeIntakeQueuePanel items={filterPrototypeIntakeQueueByTenant(samplePrototypeIntakeQueue, tenantId)} />
         <PrototypeIntakeStorageGuardPanel guards={samplePrototypeIntakeStorageGuards} />

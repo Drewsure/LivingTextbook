@@ -1114,6 +1114,7 @@ try {
   const prototypeIntakeAlertFixture = {
     alertId: "zai-alert-1",
     label: "Z.ai prototype intake alert",
+    tenantId: "platform",
     status: "not-ready",
     summary: "Codex will explicitly alert the user when the LivingTextbook foundation is ready for controlled Z.ai game intake.",
     humanSignalRule: "Human handoff signal: ask for specific Z.ai branches only after the intake alert changes from not-ready to ready-for-review.",
@@ -1125,6 +1126,14 @@ try {
     ownerRule: "Codex owns architecture, schema discipline, wrapper/integration review, final merge decisions, and the user alert.",
   };
   assertEqual(prototypeIntakeAlert.validatePrototypeIntakeAlert(prototypeIntakeAlertFixture).length, 0);
+  assertEqual(
+    prototypeIntakeAlert.validatePrototypeIntakeAlertTenantScope(prototypeIntakeAlertFixture, "platform").length,
+    0,
+  );
+  assertIncludes(
+    prototypeIntakeAlert.validatePrototypeIntakeAlertTenantScope(prototypeIntakeAlertFixture, "sample-publisher"),
+    "Prototype intake alert tenantId must match the route tenant: sample-publisher.",
+  );
   assertEqual(
     prototypeIntakeAlert.validatePrototypeIntakeAlertAlignment(prototypeIntakeAlertFixture, {
       status: "not-ready",

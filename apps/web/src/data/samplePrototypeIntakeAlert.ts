@@ -10,6 +10,7 @@ export type PrototypeIntakeAlertStatus = "not-ready" | "ready-for-review" | "blo
 export interface PrototypeIntakeAlert {
   alertId: string;
   label: string;
+  tenantId: string;
   status: PrototypeIntakeAlertStatus;
   summary: string;
   humanSignalRule: string;
@@ -24,6 +25,7 @@ export interface PrototypeIntakeAlert {
 export const samplePrototypeIntakeAlert: PrototypeIntakeAlert = {
   alertId: "zai-prototype-intake-alert-foundation",
   label: "Z.ai prototype intake alert",
+  tenantId: "platform",
   status: derivePrototypeIntakeAlertDecision(samplePrototypeIntakeReadinessSummary),
   summary:
     "Codex will explicitly alert the user when the LivingTextbook foundation is ready for controlled Z.ai game intake. Until then, Z.ai work remains external prototype inventory, not a source for direct app integration.",
@@ -66,6 +68,18 @@ export const samplePrototypeIntakeAlert: PrototypeIntakeAlert = {
   ownerRule:
     "Codex owns architecture, schema discipline, wrapper/integration review, final merge decisions, and the user alert that controlled Z.ai intake can begin.",
 };
+
+export function createPrototypeIntakeAlert(
+  tenantId: string,
+  readinessSummary = samplePrototypeIntakeReadinessSummary,
+): PrototypeIntakeAlert {
+  return {
+    ...samplePrototypeIntakeAlert,
+    alertId: `${samplePrototypeIntakeAlert.alertId}-${tenantId}`,
+    tenantId,
+    status: derivePrototypeIntakeAlertDecision(readinessSummary),
+  };
+}
 
 export const samplePrototypeIntakeAlertErrors = [
   ...validatePrototypeIntakeAlert(samplePrototypeIntakeAlert),

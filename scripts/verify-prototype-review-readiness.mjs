@@ -108,6 +108,8 @@ const prototypeIntakeAlertMarkers = [
   "derivePrototypeIntakeAlertDecision",
   "validatePrototypeIntakeAlert",
   "validatePrototypeIntakeAlertAlignment",
+  "validatePrototypeIntakeAlertTenantScope",
+  "createPrototypeIntakeAlert",
   "readinessSignal",
   "samplePrototypeIntakeAlertErrors",
   "Alert contract valid",

@@ -6,11 +6,13 @@ import type {
 import {
   validatePrototypeIntakeAlert,
   validatePrototypeIntakeAlertAlignment,
+  validatePrototypeIntakeAlertTenantScope,
 } from "@living-textbook/content-model/src/prototypeIntakeAlert";
 import type { PrototypeIntakeReadinessSignal } from "@living-textbook/content-model/src/prototypeIntakeAlert";
 
 interface PrototypeIntakeAlertPanelProps {
   alert: PrototypeIntakeAlert;
+  expectedTenantId: string;
   readinessSignal?: PrototypeIntakeReadinessSignal;
 }
 
@@ -20,10 +22,11 @@ const statusLabels: Record<PrototypeIntakeAlertStatus, string> = {
   blocked: "Blocked",
 };
 
-export function PrototypeIntakeAlertPanel({ alert, readinessSignal }: PrototypeIntakeAlertPanelProps) {
-  const alertContractErrors = readinessSignal
-    ? validatePrototypeIntakeAlertAlignment(alert, readinessSignal)
-    : validatePrototypeIntakeAlert(alert);
+export function PrototypeIntakeAlertPanel({ alert, expectedTenantId, readinessSignal }: PrototypeIntakeAlertPanelProps) {
+  const alertContractErrors = [
+    ...validatePrototypeIntakeAlertTenantScope(alert, expectedTenantId),
+    ...(readinessSignal ? validatePrototypeIntakeAlertAlignment(alert, readinessSignal) : validatePrototypeIntakeAlert(alert)),
+  ];
 
   return (
     <Card>

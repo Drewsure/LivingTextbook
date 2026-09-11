@@ -40,6 +40,7 @@ export function validatePrototypeIntakeAlert(alert: unknown): string[] {
   }
 
   const alertId = readString(alert, "alertId");
+  const tenantId = readString(alert, "tenantId");
   const label = readString(alert, "label");
   const status = readString(alert, "status");
   const summary = readString(alert, "summary");
@@ -51,8 +52,8 @@ export function validatePrototypeIntakeAlert(alert: unknown): string[] {
   const blockedUntilReady = readStringArray(alert, "blockedUntilReady");
   const ownerRule = readString(alert, "ownerRule");
 
-  if (!alertId || !label) {
-    errors.push("Prototype intake alert must include alertId and label.");
+  if (!alertId || !tenantId || !label) {
+    errors.push("Prototype intake alert must include alertId, tenantId, and label.");
   }
   if (!label.includes("Z.ai prototype intake alert")) {
     errors.push("Prototype intake alert label must identify the Z.ai prototype intake alert.");
@@ -84,6 +85,23 @@ export function validatePrototypeIntakeAlert(alert: unknown): string[] {
   }
   if (!ownerRule.includes("Codex owns architecture")) {
     errors.push("Prototype intake alert owner rule must preserve Codex architecture ownership.");
+  }
+
+  return errors;
+}
+
+export function validatePrototypeIntakeAlertTenantScope(alert: unknown, expectedTenantId: string): string[] {
+  const errors = validatePrototypeIntakeAlert(alert);
+  if (!isRecord(alert)) {
+    return errors;
+  }
+
+  const actualTenantId = readString(alert, "tenantId");
+  const normalizedExpectedTenantId = expectedTenantId.trim();
+  if (!normalizedExpectedTenantId) {
+    errors.push("Prototype intake alert tenant scope must include an expected tenantId.");
+  } else if (actualTenantId !== normalizedExpectedTenantId) {
+    errors.push(`Prototype intake alert tenantId must match the route tenant: ${normalizedExpectedTenantId}.`);
   }
 
   return errors;
