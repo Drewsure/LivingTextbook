@@ -572,7 +572,12 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
       errors.push(`Progress event write intent ${intent.intentId} must preserve event effect taxonomy.`);
     }
 
-    if (["progress-event-stream", "teacher-report-package"].includes(intent.category) && !intent.preservesTenantBoundary) {
+    if (
+      ["progress-event-stream", "teacher-report-package", "ai-prototype-integration-readiness-gate"].includes(
+        intent.category,
+      ) &&
+      !intent.preservesTenantBoundary
+    ) {
       errors.push(`${intent.category} write intent ${intent.intentId} must preserve tenant boundary.`);
     }
 

@@ -669,7 +669,12 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
       errors.push(`Progress event durable record ${record.recordId} must preserve event effect taxonomy.`);
     }
 
-    if (["progress-event-stream", "teacher-report-package"].includes(record.category) && !record.preservesTenantBoundary) {
+    if (
+      ["progress-event-stream", "teacher-report-package", "ai-prototype-integration-readiness-gate"].includes(
+        record.category,
+      ) &&
+      !record.preservesTenantBoundary
+    ) {
       errors.push(`${record.category} durable record ${record.recordId} must preserve tenant boundary.`);
     }
 

@@ -2819,3 +2819,23 @@ Guardrails:
 - This is review-only contract verification and does not enable storage writes or provider selection.
 
 This decision is recorded in `docs/adr/0553-persistence-tenant-boundary-preservation.md` and `docs/decision-register/DR-625-persistence-tenant-boundary-preservation.md`.
+
+## DR-626: Prototype Integration Readiness Tenant Boundary
+
+Status: Accepted
+
+Decision: Require AI prototype integration-readiness gate durable records and hosted/local write intents to preserve tenant-boundary evidence.
+
+Rationale:
+
+- External Z.ai, Phaser, and other builder evidence is publisher-scoped review material.
+- A readiness gate can look complete while still belonging to a different white-label tenant.
+- The storage contract must preserve the same tenant isolation already enforced by report and progress review.
+
+Guardrails:
+
+- Integration readiness gate records fail validation without tenant-boundary preservation.
+- Hosted and local readiness-gate write intents carry the same requirement.
+- This remains a no-side-effect foundation check and does not authorize prototype import or app integration.
+
+This decision is recorded in `docs/adr/0554-prototype-integration-readiness-tenant-boundary.md`.

@@ -33,6 +33,8 @@ try {
     "packages/content-model/src/launchRuntime.ts",
     "packages/content-model/src/assignmentRuntime.ts",
     "packages/content-model/src/persistenceRuntime.ts",
+    "packages/content-model/src/persistenceRecords.ts",
+    "packages/content-model/src/persistenceAdapter.ts",
     "packages/content-model/src/reportRuntime.ts",
   ], { cwd: root, encoding: "utf8" });
 
@@ -84,6 +86,8 @@ try {
   const launch = require(join(output, "launchRuntime.js"));
   const assignment = require(join(output, "assignmentRuntime.js"));
   const persistence = require(join(output, "persistenceRuntime.js"));
+  const persistenceRecords = require(join(output, "persistenceRecords.js"));
+  const persistenceAdapter = require(join(output, "persistenceAdapter.js"));
   const report = require(join(output, "reportRuntime.js"));
   const contentModel = require(join(output, "index.js"));
   const aiService = require(join(aiOutput, "apps", "ai-service", "src", "index.js"));
@@ -668,6 +672,51 @@ try {
   assertIncludes(persistenceErrors, "raw learner audio is not a core persistence field");
   assertIncludes(persistenceErrors, "release approval is required before mutation or export");
   assertEqual(persistence.createReviewOnlyPersistenceAdapter().execute(persistenceRequest).sideEffect, "none");
+
+  const prototypeGateRecord = {
+    recordId: "prototype-gate-record",
+    category: "ai-prototype-integration-readiness-gate",
+    label: "AI prototype integration readiness gate record",
+    readiness: "durable-required",
+    sourceOfTruth: "prototype integration readiness evidence",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: false,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
+  };
+  assertIncludes(
+    persistenceRecords.validateDurableRecordContracts([prototypeGateRecord]),
+    "ai-prototype-integration-readiness-gate durable record prototype-gate-record must preserve tenant boundary.",
+  );
+
+  const prototypeGateIntent = {
+    intentId: "prototype-gate-intent",
+    category: "ai-prototype-integration-readiness-gate",
+    label: "Write prototype integration readiness gates",
+    readiness: "requires-backend",
+    targetStore: ["hosted-database"],
+    deploymentChannels: ["hosted-web"],
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    requiresSchoolPolicy: false,
+    canRunOffline: false,
+    allowsExport: true,
+    rejectsRawAudio: true,
+    rejectsTranscripts: true,
+    note: "Prototype readiness gate remains review-only.",
+  };
+  assertIncludes(
+    persistenceAdapter.validatePersistenceAdapterPlan({
+      planId: "prototype-gate-plan",
+      label: "Prototype gate plan",
+      writeIntents: [prototypeGateIntent],
+      handoffSteps: ["Review"],
+    }),
+    "ai-prototype-integration-readiness-gate write intent prototype-gate-intent must preserve tenant boundary.",
+  );
 
   const reportRequest = {
     tenantId: "tenant-1", launchCode: "launch-1", format: "csv-summary", scopes: ["teacher-summary"],

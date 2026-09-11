@@ -106,6 +106,8 @@ The local/closed deployment path should support:
 
 Local approval records need backup, restore, export, approver identity, timestamp, and policy rules before a closed deployment captures real sign-offs.
 
+Hosted and local AI prototype integration-readiness gate write intents must preserve tenant boundaries. The readiness gate is review metadata, but it still carries publisher scope and must remain isolated across white-label deployments.
+
 ## Current UI Surface
 
 The current scaffold renders at:

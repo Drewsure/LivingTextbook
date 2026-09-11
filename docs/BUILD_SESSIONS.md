@@ -1036,3 +1036,6 @@ The teacher-report tenant binding slice now rejects canonical unit keys from ano
 
 The persistence tenant-boundary slice now requires durable progress-event and teacher-report records, plus hosted/local write intents, to preserve tenant-boundary evidence beyond the UI/runtime review layer.
 This decision is recorded in `docs/adr/0549-progress-event-acceptance-gate-consistency.md` and `docs/decision-register/DR-621-progress-event-acceptance-gate-consistency.md`.
+
+The prototype integration gate tenant-boundary slice now requires AI prototype integration-readiness gate records and hosted/local write intents to preserve publisher scope. External Z.ai/Phaser evidence cannot be reused across white-label tenants, even while it remains review-only and blocked from import.
+This decision is recorded in `docs/adr/0554-prototype-integration-readiness-tenant-boundary.md` and `docs/decision-register/DR-626-prototype-integration-readiness-tenant-boundary.md`.

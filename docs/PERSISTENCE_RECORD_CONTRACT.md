@@ -57,6 +57,8 @@ The scaffold currently tracks:
 
 Progress-event stream and teacher-report package records must preserve tenant boundaries alongside event taxonomy, settings context, and acceptance-gate/report summaries. A valid event shape from another white-label tenant must remain outside the record contract.
 
+AI prototype integration-readiness gate records must also preserve tenant boundaries. Returned Z.ai, Phaser, or other outside-builder evidence is tenant-scoped review material; a gate from one publisher must never be reusable as another publisher's integration evidence.
+
 ## Package Release Records
 
 Package publish gates and approval ledgers are now first-class durable records.

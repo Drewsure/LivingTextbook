@@ -1625,4 +1625,13 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-624 and `docs/adr/05
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-625 and `docs/adr/0553-persistence-tenant-boundary-preservation.md`.
 
+## 96. Prototype Integration Gate Tenant Boundary Standard
+
+- AI prototype integration-readiness gate records must preserve the tenant boundary.
+- Hosted and local readiness-gate write intents must preserve the same boundary.
+- Z.ai, Phaser, and other external prototype evidence remains publisher-scoped review material; it cannot be reused across tenants.
+- This is a storage-contract safeguard only. It does not authorize prototype import, app patching, route creation, scoring changes, package promotion, or student assignment.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-626 and `docs/adr/0554-prototype-integration-readiness-tenant-boundary.md`.
+
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-615 and `docs/adr/0543-progress-event-timestamps.md`.

@@ -2999,6 +2999,11 @@ requireText(
 );
 requireText(
   persistenceAdapter,
+  "preservesTenantBoundary: true",
+  "Persistence adapter must preserve tenant boundaries for integration readiness gates.",
+);
+requireText(
+  persistenceAdapter,
   "requiresAllPrototypeEvidenceReviewed: true",
   "Persistence adapter must require all prototype evidence reviewed.",
 );
@@ -4307,6 +4312,11 @@ requireText(
   durableRecords,
   "preservesAiPrototypeIntegrationReadinessGate: true",
   "Durable record plan must preserve AI prototype integration readiness gate sections.",
+);
+requireText(
+  durableRecords,
+  "preservesTenantBoundary: true",
+  "Durable record plan must preserve tenant boundaries for integration readiness gates.",
 );
 requireText(
   durableRecords,
