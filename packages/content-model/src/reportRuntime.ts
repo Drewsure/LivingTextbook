@@ -82,6 +82,20 @@ export function validateTeacherReportRuntimeRequest(request: TeacherReportRuntim
   errors.push(...validateTeacherReportExportPlan(request.reportPlan));
   errors.push(...validateProgressEventEnvelopeStream(request.eventEnvelopes, request.taxonomy));
 
+  const missingLaunchCode = request.eventEnvelopes.some((envelope) => isRecord(envelope) && !readString(envelope, "launch_code"));
+  const mismatchedLaunchCodes = [...new Set(request.eventEnvelopes
+    .filter(isRecord)
+    .map((envelope) => readString(envelope, "launch_code"))
+    .filter((launchCode) => launchCode && launchCode !== request.launchCode))];
+
+  if (missingLaunchCode) {
+    errors.push("teacher report event envelopes must include launch_code matching runtime launchCode");
+  }
+
+  if (mismatchedLaunchCodes.length > 0) {
+    errors.push(`teacher report event envelopes must use runtime launchCode ${request.launchCode}; found: ${mismatchedLaunchCodes.join(", ")}.`);
+  }
+
   if (request.reportPlan.tenantId !== request.tenantId) {
     errors.push("report plan tenantId must match runtime tenantId");
   }
@@ -101,6 +115,15 @@ export function validateTeacherReportRuntimeRequest(request: TeacherReportRuntim
   }
 
   return [...new Set(errors)];
+}
+
+function readString(source: Record<string, unknown>, key: string): string {
+  const value = source[key];
+  return typeof value === "string" ? value.trim() : "";
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
 export function createReviewOnlyTeacherReportRuntimeAdapter(): TeacherReportRuntimeAdapter {

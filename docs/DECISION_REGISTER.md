@@ -2759,3 +2759,23 @@ Guardrails:
 - The guard remains review-only and does not enable gameplay, scoring, persistence, or provider writes.
 
 This decision is recorded in `docs/adr/0550-progress-event-contract-revision-consistency.md` and `docs/decision-register/DR-622-progress-event-contract-revision-consistency.md`.
+
+## DR-623: Teacher Report Event Launch Binding
+
+Status: Accepted
+
+Decision: Require every event envelope in a teacher report request to include a `launch_code` matching the runtime `launchCode`.
+
+Rationale:
+
+- The report request is scoped to one classroom launch.
+- A stream can be internally consistent and still be unrelated to the requested report if its launch binding is missing or different.
+- Generic stream validation remains reusable for pre-launch review contexts, while the report boundary requires stronger identity.
+
+Guardrails:
+
+- Missing launch codes block teacher-report validation.
+- Mismatched launch codes block teacher-report validation.
+- The guard remains review-only and does not enable export, persistence, gameplay, scoring, or provider writes.
+
+This decision is recorded in `docs/adr/0551-teacher-report-event-launch-binding.md` and `docs/decision-register/DR-623-teacher-report-event-launch-binding.md`.

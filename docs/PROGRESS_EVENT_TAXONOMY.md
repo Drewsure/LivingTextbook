@@ -201,3 +201,16 @@ Required standing rules:
 - Revision consistency validation remains verification-only; it does not enable gameplay, scoring, persistence, or provider writes.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-622 and `docs/adr/0550-progress-event-contract-revision-consistency.md`.
+
+## 93. Teacher Report Launch Binding Standard
+
+A teacher report request is scoped to one launch. Its event evidence must explicitly identify that launch before report review can continue.
+
+Required standing rules:
+
+- Every event envelope in a teacher report request must include `launch_code`.
+- Every envelope `launch_code` must match the report runtime `launchCode`.
+- Generic stream validation remains reusable for pre-launch review contexts; this stricter binding applies at the teacher-report boundary.
+- Launch binding remains verification-only; it does not enable export, persistence, gameplay, scoring, or provider writes.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-623 and `docs/adr/0551-teacher-report-event-launch-binding.md`.

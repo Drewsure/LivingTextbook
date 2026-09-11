@@ -686,6 +686,18 @@ try {
   assertIncludes(reportErrors, "core teacher reports must use pseudonymous learner slots only");
   assertIncludes(reportErrors, "raw learner audio is excluded from core teacher reports");
   assertEqual(report.createReviewOnlyTeacherReportRuntimeAdapter().execute(reportRequest).sideEffect, "none");
+  const mismatchedReportLaunchErrors = report.validateTeacherReportRuntimeRequest({
+    ...reportRequest,
+    taxonomy: registry,
+    eventEnvelopes: [{ ...supportEnvelope, launch_code: "launch-2" }],
+  });
+  assertIncludes(mismatchedReportLaunchErrors, "teacher report event envelopes must use runtime launchCode launch-1; found: launch-2.");
+  const missingReportLaunchErrors = report.validateTeacherReportRuntimeRequest({
+    ...reportRequest,
+    taxonomy: registry,
+    eventEnvelopes: [supportEnvelope],
+  });
+  assertIncludes(missingReportLaunchErrors, "teacher report event envelopes must include launch_code matching runtime launchCode");
 
   const aiRequest = {
     requestId: "request-1", tenantId: "tenant-1", contentPackageId: "package-1",

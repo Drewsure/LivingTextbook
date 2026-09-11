@@ -1601,4 +1601,12 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-621 and `docs/adr/05
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-622 and `docs/adr/0550-progress-event-contract-revision-consistency.md`.
 
+## 93. Teacher Report Launch Binding Standard
+
+- Teacher report evidence must include a launch code on every event envelope.
+- Every event launch code must match the report request launch code.
+- The report boundary may be stricter than reusable pre-launch stream review, and remains a no-side-effect verification gate.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-623 and `docs/adr/0551-teacher-report-event-launch-binding.md`.
+
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-615 and `docs/adr/0543-progress-event-timestamps.md`.

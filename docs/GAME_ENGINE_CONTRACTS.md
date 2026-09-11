@@ -135,6 +135,7 @@ Every event should include:
 - An event stream may contain multiple modes and learner sessions for one classroom launch, but must not mix unit or launch identities.
 - An event stream must also use one `eventAcceptanceGateId`/`event_acceptance_gate_id`.
 - An event stream must use one `taxonomyVersion`/`taxonomy_version` and one `settingsContractId`/`settings_contract_id`; mode-specific profiles and snapshots may vary.
+- A teacher report request must bind every event envelope to its requested `launchCode`/`launch_code`; report streams cannot contain unbound or cross-launch evidence.
 - `studentSessionId` when available
 - `occurredAt`
 - useful metadata such as attempts, correct count, term id, earned reward amount, media asset id, or parent engine id

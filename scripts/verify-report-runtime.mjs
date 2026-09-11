@@ -13,6 +13,8 @@ for (const marker of [
   "learner transcripts are excluded from core teacher reports",
   "accepted school or tenant policy is required",
   "explicit report export approval is required",
+  "teacher report event envelopes must include launch_code matching runtime launchCode",
+  "teacher report event envelopes must use runtime launchCode",
   "No teacher report export",
   'mode: "review-only"',
   'sideEffect: "none"',
