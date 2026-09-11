@@ -1169,3 +1169,10 @@ not-run, missing, blocked, or unknown records remain blocked; readiness-gate
 evidence cannot self-approve.
 This decision is recorded in `docs/adr/0573-codex-decision-evidence-provenance.md`
 and `docs/decision-register/DR-645-codex-decision-evidence-provenance.md`.
+
+The Codex decision check identity slice now rejects duplicate evidence-check
+labels and required records, plus missing check evidence and unsupported check
+statuses. This keeps the final external-prototype review packet one-to-one and
+auditable without opening integration or enabling provider-specific imports.
+This decision is recorded in `docs/adr/0574-codex-decision-check-identity.md`
+and `docs/decision-register/DR-646-codex-decision-check-identity.md`.

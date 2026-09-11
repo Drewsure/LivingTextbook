@@ -129,6 +129,32 @@ export function validateAiPrototypeCodexIntegrationDecision(decision: unknown): 
   const requiredBeforeDecision = readStringArray(decision, "requiredBeforeDecision");
   const blockedActions = readStringArray(decision, "blockedActions");
 
+  const checkLabels = checks.map((check) => check.label).filter(Boolean);
+  const checkRecords = checks.map((check) => check.requiredRecord).filter(Boolean);
+
+  if (new Set(checkLabels).size !== checkLabels.length) {
+    errors.push("AI prototype Codex integration decision checks must not repeat labels.");
+  }
+
+  if (new Set(checkRecords).size !== checkRecords.length) {
+    errors.push("AI prototype Codex integration decision checks must not repeat required records.");
+  }
+
+  for (const check of checks) {
+    if (!check.label || !check.evidence || !check.requiredRecord) {
+      errors.push("AI prototype Codex integration decision checks must include label, evidence, and required record.");
+    }
+
+    if (
+      check.status !== "missing" &&
+      check.status !== "blocked" &&
+      check.status !== "pending-review" &&
+      check.status !== "reviewed"
+    ) {
+      errors.push(`AI prototype Codex integration decision check ${check.label || "(unnamed)"} uses an unsupported status.`);
+    }
+  }
+
   if (!decisionId || !tenantId || !requestId) {
     errors.push("AI prototype Codex integration decision must include decisionId, tenantId, and requestId.");
   }

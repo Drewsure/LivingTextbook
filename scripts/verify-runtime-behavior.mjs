@@ -1249,6 +1249,46 @@ try {
     "ready-for-review",
   );
 
+  const codexDecisionFixture = {
+    decisionId: "decision-1",
+    tenantId: "tenant-1",
+    requestId: "request-1",
+    label: "Codex integration review decision",
+    status: "blocked",
+    summary: "Manual Codex review remains blocked until the evidence packet is complete.",
+    selectedDecision: "No decision recorded",
+    sourceRecords: [...codexDecision.AI_PROTOTYPE_CODEX_DECISION_REQUIRED_SOURCE_RECORDS],
+    checks: codexDecision.AI_PROTOTYPE_CODEX_DECISION_REQUIRED_CHECKS.map((check, index) => ({
+      label: check.label,
+      status: index === 0 ? "blocked" : "pending-review",
+      evidence: "Evidence remains blocked until review.",
+      requiredRecord: check.requiredRecord,
+    })),
+    decisionOptions: [...codexDecision.AI_PROTOTYPE_CODEX_DECISION_OPTIONS],
+    requiredBeforeDecision: [...codexDecision.AI_PROTOTYPE_CODEX_DECISION_REQUIRED_BEFORE_DECISION],
+    blockedActions: [...codexDecision.AI_PROTOTYPE_CODEX_DECISION_BLOCKED_ACTIONS],
+  };
+  assertEqual(codexDecision.validateAiPrototypeCodexIntegrationDecision(codexDecisionFixture).length, 0);
+  assertIncludes(
+    codexDecision.validateAiPrototypeCodexIntegrationDecision({
+      ...codexDecisionFixture,
+      checks: [
+        ...codexDecisionFixture.checks,
+        { ...codexDecisionFixture.checks[0] },
+      ],
+    }),
+    "AI prototype Codex integration decision checks must not repeat labels.",
+  );
+  assertIncludes(
+    codexDecision.validateAiPrototypeCodexIntegrationDecision({
+      ...codexDecisionFixture,
+      checks: codexDecisionFixture.checks.map((check, index) =>
+        index === 1 ? { ...check, requiredRecord: codexDecisionFixture.checks[0].requiredRecord } : check,
+      ),
+    }),
+    "AI prototype Codex integration decision checks must not repeat required records.",
+  );
+
   const earlyJapanesePlan = {
     unitKey: "tenant-1:curriculum-1:L1:U1", targetLanguage: "en", assistLanguage: "ja",
     scriptPolicy: "reviewed-mixed-script", levelBand: "foundation", source: "human-reviewed",

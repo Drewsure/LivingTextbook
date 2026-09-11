@@ -3341,3 +3341,29 @@ Guardrails:
   package promotion, and assignment remain blocked.
 
 This decision is recorded in `docs/adr/0573-codex-decision-evidence-provenance.md`.
+
+## DR-646: Codex Decision Check Identity
+
+Status: Accepted
+
+Decision: Require unique labels and required records for every Codex
+integration-decision evidence check, with non-empty evidence and supported
+review statuses.
+
+Rationale:
+
+- Duplicate evidence identities could make a review packet appear complete
+  while leaving one upstream lane ambiguous.
+- One-to-one check provenance keeps future Z.ai and Phaser review auditable.
+- Explicit shape validation is cheaper and safer than diagnosing an ambiguous
+  packet after integration work begins.
+
+Guardrails:
+
+- Duplicate labels and duplicate required records are rejected.
+- Missing label, evidence, or required-record fields are rejected.
+- Unsupported check statuses are rejected.
+- No integration approval, app write, route change, scoring/reward change,
+  playlist write, package promotion, or assignment is enabled.
+
+This decision is recorded in `docs/adr/0574-codex-decision-check-identity.md`.

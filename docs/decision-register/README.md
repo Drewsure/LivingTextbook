@@ -534,6 +534,7 @@
 - `DR-560-evidence-handoff-package-lineage.md`
 - `DR-561-ai-service-boundary-foundation.md`
 - `DR-562-persistence-runtime-boundary.md`
+- `DR-646-codex-decision-check-identity.md`
 
 ## Maintenance Rule
 
