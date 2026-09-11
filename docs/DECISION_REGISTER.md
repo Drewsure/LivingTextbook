@@ -2824,7 +2824,7 @@ This decision is recorded in `docs/adr/0553-persistence-tenant-boundary-preserva
 
 Status: Accepted
 
-Decision: Require AI prototype integration-readiness gate durable records and hosted/local write intents to preserve tenant-boundary evidence.
+Decision: Require AI prototype integration-readiness gate and Codex integration-review decision durable records, plus hosted/local write intents, to preserve tenant-boundary evidence.
 
 Rationale:
 
@@ -2834,8 +2834,8 @@ Rationale:
 
 Guardrails:
 
-- Integration readiness gate records fail validation without tenant-boundary preservation.
-- Hosted and local readiness-gate write intents carry the same requirement.
+- Integration readiness gate and Codex decision records fail validation without tenant-boundary preservation.
+- Hosted and local readiness-gate and Codex-decision write intents carry the same requirement.
 - This remains a no-side-effect foundation check and does not authorize prototype import or app integration.
 
 This decision is recorded in `docs/adr/0554-prototype-integration-readiness-tenant-boundary.md`.

@@ -718,6 +718,24 @@ try {
     "ai-prototype-integration-readiness-gate write intent prototype-gate-intent must preserve tenant boundary.",
   );
 
+  assertIncludes(
+    persistenceRecords.validateDurableRecordContracts([
+      { ...prototypeGateRecord, recordId: "codex-decision-record", category: "codex-integration-review-decision" },
+    ]),
+    "codex-integration-review-decision durable record codex-decision-record must preserve tenant boundary.",
+  );
+  assertIncludes(
+    persistenceAdapter.validatePersistenceAdapterPlan({
+      planId: "codex-decision-plan",
+      label: "Codex decision plan",
+      writeIntents: [
+        { ...prototypeGateIntent, intentId: "codex-decision-intent", category: "codex-integration-review-decision" },
+      ],
+      handoffSteps: ["Review"],
+    }),
+    "codex-integration-review-decision write intent codex-decision-intent must preserve tenant boundary.",
+  );
+
   const reportRequest = {
     tenantId: "tenant-1", launchCode: "launch-1", format: "csv-summary", scopes: ["teacher-summary"],
     reportPlan: {

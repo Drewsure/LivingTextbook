@@ -1627,8 +1627,8 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-625 and `docs/adr/05
 
 ## 96. Prototype Integration Gate Tenant Boundary Standard
 
-- AI prototype integration-readiness gate records must preserve the tenant boundary.
-- Hosted and local readiness-gate write intents must preserve the same boundary.
+- AI prototype integration-readiness gate and Codex integration-review decision records must preserve the tenant boundary.
+- Hosted and local readiness-gate and Codex-decision write intents must preserve the same boundary.
 - Z.ai, Phaser, and other external prototype evidence remains publisher-scoped review material; it cannot be reused across tenants.
 - This is a storage-contract safeguard only. It does not authorize prototype import, app patching, route creation, scoring changes, package promotion, or student assignment.
 

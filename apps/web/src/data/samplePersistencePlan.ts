@@ -822,6 +822,7 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
     supportsLocalDeployment: true,
     storesRawAudio: false,
     storesTranscript: false,
+    preservesTenantBoundary: true,
     preservesCodexIntegrationReviewDecision: true,
     requiresManualCodexReview: true,
     requiresAllPrototypeEvidenceReviewed: true,

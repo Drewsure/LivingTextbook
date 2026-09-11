@@ -10,11 +10,11 @@ The gate is also white-label metadata. Without an explicit tenant-boundary requi
 
 ## Decision
 
-Require `preservesTenantBoundary: true` on every `ai-prototype-integration-readiness-gate` durable record and hosted/local persistence write intent.
+Require `preservesTenantBoundary: true` on every `ai-prototype-integration-readiness-gate` and `codex-integration-review-decision` durable record and hosted/local persistence write intent.
 
 ## Consequences
 
-- External prototype evidence remains scoped to the tenant that requested review.
+- External prototype evidence and its Codex decision remain scoped to the tenant that requested review.
 - Hosted and local deployments share the same isolation rule.
 - The rule is inexpensive to verify before a backend exists.
 - No import, route write, app patch, scoring change, package promotion, or student assignment is enabled.

@@ -573,9 +573,12 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
     }
 
     if (
-      ["progress-event-stream", "teacher-report-package", "ai-prototype-integration-readiness-gate"].includes(
-        intent.category,
-      ) &&
+      [
+        "progress-event-stream",
+        "teacher-report-package",
+        "ai-prototype-integration-readiness-gate",
+        "codex-integration-review-decision",
+      ].includes(intent.category) &&
       !intent.preservesTenantBoundary
     ) {
       errors.push(`${intent.category} write intent ${intent.intentId} must preserve tenant boundary.`);
