@@ -82,10 +82,22 @@ export function validateBackendContractAlignment({
 
     const fieldNames = new Set<string>();
     for (const field of spec.fields) {
+      if (field.name.trim().length === 0) {
+        errors.push(`Backend migration spec ${spec.specId} contains a field with an empty name.`);
+      }
+      if (field.type.trim().length === 0) {
+        errors.push(`Backend migration spec ${spec.specId} field ${field.name || "<unnamed>"} must name its type.`);
+      }
       if (fieldNames.has(field.name)) {
         errors.push(`Backend migration spec ${spec.specId} contains duplicate field ${field.name}.`);
       }
       fieldNames.add(field.name);
+    }
+
+    if (spec.primaryKey.trim().length > 0 && !fieldNames.has(spec.primaryKey)) {
+      errors.push(
+        `Backend migration spec ${spec.specId} must declare its primary key ${spec.primaryKey} in its fields.`,
+      );
     }
 
     if (candidate) {

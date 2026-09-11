@@ -1324,3 +1324,10 @@ that removing tenant_id is rejected before backend implementation. The
 decision is recorded in
 `docs/adr/0595-evidence-migration-field-parity.md` and
 `docs/decision-register/DR-667-evidence-migration-field-parity.md`.
+
+The migration-spec identity-field slice now requires each migration spec to
+declare its primary key in fields and every field to declare a usable name and
+type. A regression test proves that removing media_id is rejected before
+backend implementation. The decision is recorded in
+`docs/adr/0596-migration-spec-identity-field-contract.md` and
+`docs/decision-register/DR-668-migration-spec-identity-field-contract.md`.
