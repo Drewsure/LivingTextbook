@@ -153,6 +153,19 @@ try {
     envelope: { ...supportEnvelope, event_type: "unknown-event" },
   });
   assertIncludes(unknownEventTypeErrors, "Progress event envelope unknown-event must use a supported event_type.");
+  const mixedStreamContextErrors = contentModel.validateProgressEventEnvelopeStream([
+    { ...supportEnvelope, launch_code: "launch-1", student_session_id: "session-1" },
+    {
+      ...supportEnvelope,
+      event_id: "event-2",
+      unit_key: "tenant-1:curriculum-1:L1:U2",
+      launch_code: "launch-2",
+      student_session_id: "session-2",
+    },
+  ], registry);
+  assertIncludes(mixedStreamContextErrors, "Progress event envelope stream must target one unit_key value, found: tenant-1:curriculum-1:L1:U1, tenant-1:curriculum-1:L1:U2.");
+  assertIncludes(mixedStreamContextErrors, "Progress event envelope stream must target one launch_code value, found: launch-1, launch-2.");
+  assertIncludes(mixedStreamContextErrors, "Progress event envelope stream must target one student_session_id value, found: session-1, session-2.");
 
   const rewardErrors = reward.validateRewardRuntimeRequest({
     tenantId: "tenant-1", packageId: "package-1", learnerSlotId: "slot-1", rewardId: "reward-1",

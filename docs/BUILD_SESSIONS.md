@@ -1022,3 +1022,6 @@ This decision is recorded in `docs/adr/0546-progress-event-mode-level-compatibil
 
 The progress-event type identity slice now rejects arbitrary runtime event names, even when a registry supplies an effect label. The existing support-only, report-only, and progress-affecting categories remain the event identity source.
 This decision is recorded in `docs/adr/0547-progress-event-type-identity.md` and `docs/decision-register/DR-619-progress-event-type-identity.md`.
+
+The progress-event stream context slice now rejects batches that mix unit, launch, or student-session identities while allowing multiple curated modes within one unit. This protects future report and persistence boundaries from cross-context evidence contamination.
+This decision is recorded in `docs/adr/0548-progress-event-stream-context.md` and `docs/decision-register/DR-620-progress-event-stream-context.md`.

@@ -2700,3 +2700,23 @@ Guardrails:
 - Event identity validation remains review-only and does not enable gameplay, scoring, persistence, or provider writes.
 
 This decision is recorded in `docs/adr/0547-progress-event-type-identity.md` and `docs/decision-register/DR-619-progress-event-type-identity.md`.
+
+## DR-620: Progress Event Stream Context
+
+Status: Accepted
+
+Decision: Require progress-event streams to remain within one unit, launch, and student-session identity whenever those fields are present.
+
+Rationale:
+
+- Individual valid events can still produce a contaminated report or persistence batch when contexts are mixed.
+- A unit may legitimately contain multiple curated game modes, so mode diversity must remain allowed.
+- Context checks are inexpensive before hosted, local, or hybrid report/persistence adapters exist.
+
+Guardrails:
+
+- Multiple modes remain allowed within one canonical unit.
+- Multiple unit keys, launch codes, or student session IDs block stream validation.
+- Stream-context validation remains review-only and does not enable gameplay, scoring, persistence, or provider writes.
+
+This decision is recorded in `docs/adr/0548-progress-event-stream-context.md` and `docs/decision-register/DR-620-progress-event-stream-context.md`.

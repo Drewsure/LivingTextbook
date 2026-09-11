@@ -1568,4 +1568,17 @@ Required standing rules:
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-619 and `docs/adr/0547-progress-event-type-identity.md`.
 
+## 90. Progress Event Stream Context Standard
+
+Individual event validity does not guarantee stream validity. Reports and persistence batches must remain within one content unit and classroom session context while allowing multiple curated modes inside that unit.
+
+Required standing rules:
+
+- A stream may contain multiple modes for one unit, but cannot mix unit keys.
+- Present launch codes must refer to one launch session.
+- Present student session IDs must refer to one student session.
+- This guard is verification-only and does not enable gameplay, scoring, persistence, or provider writes.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-620 and `docs/adr/0548-progress-event-stream-context.md`.
+
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-615 and `docs/adr/0543-progress-event-timestamps.md`.
