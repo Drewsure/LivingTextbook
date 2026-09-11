@@ -959,6 +959,31 @@ try {
     }),
     "scoring replay report changes the parent engine for mode flashcards.",
   );
+  assertIncludes(
+    prototypeAlignment.validateAiPrototypeEvidenceAlignmentBundles([
+      alignmentBundle,
+      { ...alignmentBundle, integrationPlan: { ...alignmentBundle.integrationPlan, planId: "plan-2" } },
+    ]),
+    "AI prototype evidence alignment collection must not repeat tenant and request pairs.",
+  );
+  assertIncludes(
+    prototypeAlignment.validateAiPrototypeEvidenceAlignmentBundles([
+      alignmentBundle,
+      { ...alignmentBundle, returnReview: { ...alignmentBundle.returnReview, reviewId: "review-2", requestId: "request-2" } },
+    ]),
+    "AI prototype evidence alignment collection must not repeat integration plan IDs.",
+  );
+  assertIncludes(
+    prototypeAlignment.validateAiPrototypeEvidenceAlignmentBundles([
+      alignmentBundle,
+      {
+        ...alignmentBundle,
+        returnReview: { ...alignmentBundle.returnReview, reviewId: "review-1", requestId: "request-2" },
+        integrationPlan: { ...alignmentBundle.integrationPlan, planId: "plan-2", requestId: "request-2", returnReviewId: "review-1" },
+      },
+    ]),
+    "AI prototype evidence alignment collection must not repeat return review IDs.",
+  );
 
   const returnedPackagePreview = {
     manifestId: "returned-package-preview-1",

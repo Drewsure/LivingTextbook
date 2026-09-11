@@ -256,6 +256,7 @@ const prototypeReturnReadinessSummaryMarkers = [
 ];
 const prototypeEvidenceAlignmentMarkers = [
   "validateAiPrototypeEvidenceAlignment",
+  "validateAiPrototypeEvidenceAlignmentBundles",
   "One request, one tenant, one evidence packet",
   "same candidate",
   "returnReviewId",

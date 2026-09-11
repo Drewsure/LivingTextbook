@@ -3390,3 +3390,26 @@ Guardrails:
   package promotion, playlist write, or assignment is enabled.
 
 This decision is recorded in `docs/adr/0575-codex-decision-collection-identity.md`.
+
+## DR-648: Evidence Alignment Collection Identity
+
+Status: Accepted
+
+Decision: Reject evidence-alignment collections containing duplicate return
+review IDs, integration plan IDs, or tenant/request pairs.
+
+Rationale:
+
+- Individual packet alignment does not protect the review queue from duplicate
+  packets.
+- Collection identity must be deterministic before readiness summaries can
+  rely on external prototype evidence.
+
+Guardrails:
+
+- Alignment remains a review-only evidence check.
+- Duplicate packet identities are rejected before readiness summaries rely on
+  the collection.
+- No provider-specific import or app integration is enabled.
+
+This decision is recorded in `docs/adr/0576-evidence-alignment-collection-identity.md`.

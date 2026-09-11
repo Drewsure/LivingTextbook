@@ -84,6 +84,33 @@ export function validateAiPrototypeEvidenceAlignment(
   return errors;
 }
 
+export function validateAiPrototypeEvidenceAlignmentBundles(
+  bundles: AiPrototypeEvidenceAlignmentBundle[],
+): string[] {
+  const errors = bundles.flatMap((bundle) =>
+    validateAiPrototypeEvidenceAlignment(bundle).map((error) => `${bundle.returnReview.requestId}: ${error}`),
+  );
+  const reviewIds = bundles.map((bundle) => bundle.returnReview.reviewId).filter(Boolean);
+  const planIds = bundles.map((bundle) => bundle.integrationPlan.planId).filter(Boolean);
+  const tenantRequestPairs = bundles
+    .map((bundle) => `${bundle.returnReview.tenantId}:${bundle.returnReview.requestId}`)
+    .filter((pair) => pair !== ":");
+
+  if (new Set(reviewIds).size !== reviewIds.length) {
+    errors.push("AI prototype evidence alignment collection must not repeat return review IDs.");
+  }
+
+  if (new Set(planIds).size !== planIds.length) {
+    errors.push("AI prototype evidence alignment collection must not repeat integration plan IDs.");
+  }
+
+  if (new Set(tenantRequestPairs).size !== tenantRequestPairs.length) {
+    errors.push("AI prototype evidence alignment collection must not repeat tenant and request pairs.");
+  }
+
+  return errors;
+}
+
 function toModeMap(label: string, records: ModeRecord[], errors: string[]): Map<string, string> {
   const map = new Map<string, string>();
   for (const record of records) {

@@ -1,5 +1,6 @@
 import {
   validateAiPrototypeEvidenceAlignment,
+  validateAiPrototypeEvidenceAlignmentBundles,
   type AiPrototypeEvidenceAlignmentBundle,
 } from "@living-textbook/content-model/src/aiPrototypeEvidenceAlignment";
 import { sampleAiPrototypeAudioCoverageReports } from "@/data/sampleAiPrototypeAudioCoverageReport";
@@ -57,6 +58,6 @@ export const sampleAiPrototypeEvidenceAlignmentBundles: AiPrototypeEvidenceAlign
     ];
   });
 
-export const sampleAiPrototypeEvidenceAlignmentErrors = sampleAiPrototypeEvidenceAlignmentBundles.flatMap(
-  (bundle) => validateAiPrototypeEvidenceAlignment(bundle).map((error) => `${bundle.returnReview.requestId}: ${error}`),
+export const sampleAiPrototypeEvidenceAlignmentErrors = validateAiPrototypeEvidenceAlignmentBundles(
+  sampleAiPrototypeEvidenceAlignmentBundles,
 );

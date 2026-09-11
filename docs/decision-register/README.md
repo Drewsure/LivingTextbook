@@ -536,6 +536,7 @@
 - `DR-562-persistence-runtime-boundary.md`
 - `DR-646-codex-decision-check-identity.md`
 - `DR-647-codex-decision-collection-identity.md`
+- `DR-648-evidence-alignment-collection-identity.md`
 
 ## Maintenance Rule
 

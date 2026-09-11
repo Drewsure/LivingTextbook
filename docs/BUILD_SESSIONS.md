@@ -1183,3 +1183,10 @@ This prevents one prototype request from being silently replaced while keeping
 the queue review-only and provider-neutral.
 This decision is recorded in `docs/adr/0575-codex-decision-collection-identity.md`
 and `docs/decision-register/DR-647-codex-decision-collection-identity.md`.
+
+The evidence-alignment collection identity slice now rejects duplicate return
+review IDs, integration plan IDs, and tenant/request pairs across the external
+prototype review queue. Individual packet alignment remains separate from
+collection identity, and both stay read-only before controlled Z.ai intake.
+This decision is recorded in `docs/adr/0576-evidence-alignment-collection-identity.md`
+and `docs/decision-register/DR-648-evidence-alignment-collection-identity.md`.
