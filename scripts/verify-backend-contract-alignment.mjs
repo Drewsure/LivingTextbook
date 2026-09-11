@@ -34,8 +34,28 @@ try {
     throw new Error(sample.sampleBackendContractAlignmentErrors.join("\n"));
   }
 
+  const alignment = require(join(output, "data", "backendContractAlignment.js"));
+  const schema = require(join(output, "data", "sampleBackendSchemaDraft.js")).sampleBackendSchemaDraft;
+  const migrationPlan = require(join(output, "data", "sampleBackendMigrationCandidates.js")).sampleBackendMigrationPlan;
+  const migrationSpecPlan = require(join(output, "data", "sampleBackendMigrationSpecs.js")).sampleBackendMigrationSpecPlan;
+  const missingTenantFieldPlan = {
+    ...migrationSpecPlan,
+    specs: migrationSpecPlan.specs.map((spec) =>
+      spec.specId === "spec-evidence-packet"
+        ? { ...spec, fields: spec.fields.filter((field) => field.name !== "tenant_id") }
+        : spec,
+    ),
+  };
+  const missingTenantFieldErrors = alignment.validateBackendContractAlignment({
+    schema,
+    migrationPlan,
+    migrationSpecPlan: missingTenantFieldPlan,
+  });
+  if (!missingTenantFieldErrors.includes("Backend migration spec spec-evidence-packet must preserve required field tenant_id for schema entity evidence_packet.")) {
+    throw new Error("Backend contract alignment did not reject an evidence spec missing tenant_id.");
+  }
+
   console.log("PASS backend contract alignment resolves all sample schema entities, migration candidates, and migration specs.");
 } finally {
   rmSync(output, { recursive: true, force: true });
 }
-

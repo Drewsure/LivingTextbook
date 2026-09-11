@@ -3834,3 +3834,29 @@ Guardrails:
 
 This decision is recorded in
 `docs/adr/0594-adapter-evidence-scope-boundary.md`.
+
+## DR-667: Evidence Migration Field Parity
+
+Status: Accepted
+
+Decision: Evidence packet and evidence attachment migration specifications
+must declare the required identity, scope_kind, and tenant_id fields that the
+vendor-neutral schema requires.
+
+Rationale:
+
+- Tenant scope written only in prose or an index description is not enough for
+  an implementable migration.
+- Schema-to-migration drift should fail before a backend vendor is selected.
+- Hosted and local implementations need the same explicit record shape.
+
+Guardrails:
+
+- Migration parity does not enable live persistence.
+- Evidence upload, approval, promotion, download, and student-facing use
+  remain blocked by their separate gates.
+- The required-field map is intentionally narrow until broader migration
+  implementation begins.
+
+This decision is recorded in
+`docs/adr/0595-evidence-migration-field-parity.md`.

@@ -555,6 +555,7 @@
 - `DR-664-review-surface-scope-validation.md`
 - `DR-665-durable-evidence-scope-boundary.md`
 - `DR-666-adapter-evidence-scope-boundary.md`
+- `DR-667-evidence-migration-field-parity.md`
 
 ## Maintenance Rule
 

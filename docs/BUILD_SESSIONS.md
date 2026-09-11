@@ -1316,3 +1316,11 @@ adapter validation and cross-layer alignment. No live write or promotion
 behavior was enabled. The decision is recorded in
 `docs/adr/0594-adapter-evidence-scope-boundary.md` and
 `docs/decision-register/DR-666-adapter-evidence-scope-boundary.md`.
+
+The evidence migration field-parity slice now requires evidence packet and
+attachment migration specifications to declare identity, scope_kind, and
+tenant_id fields matching the vendor-neutral schema. A regression test proves
+that removing tenant_id is rejected before backend implementation. The
+decision is recorded in
+`docs/adr/0595-evidence-migration-field-parity.md` and
+`docs/decision-register/DR-667-evidence-migration-field-parity.md`.

@@ -9240,6 +9240,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
           note: "Platform for shared review contracts or tenant for tenant-owned evidence; never infer this from a display label.",
         },
         {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "Tenant boundary for tenant-owned evidence and export isolation; platform records still preserve the field for consistent storage shape.",
+        },
+        {
           name: "flow_id",
           type: "string",
           required: true,
@@ -9368,6 +9374,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
           type: "string enum",
           required: true,
           note: "Platform for shared evidence infrastructure or tenant for tenant-owned attachments; storage queries must preserve this boundary.",
+        },
+        {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "Tenant boundary for tenant-owned attachment metadata and export isolation; platform records still preserve the field for consistent storage shape.",
         },
         {
           name: "evidence_packet_id",

@@ -8,6 +8,11 @@ export interface BackendContractAlignmentInput {
   migrationSpecPlan: BackendMigrationSpecPlan;
 }
 
+const REQUIRED_MIGRATION_FIELDS_BY_ENTITY: Record<string, string[]> = {
+  evidence_packet: ["evidence_packet_id", "scope_kind", "tenant_id"],
+  evidence_attachment: ["attachment_id", "scope_kind", "tenant_id"],
+};
+
 /**
  * Checks the relationships between the vendor-neutral schema, migration
  * candidates, and migration specifications before any vendor implementation.
@@ -82,8 +87,19 @@ export function validateBackendContractAlignment({
       }
       fieldNames.add(field.name);
     }
+
+    if (candidate) {
+      for (const entityId of candidate.targetEntities) {
+        for (const requiredField of REQUIRED_MIGRATION_FIELDS_BY_ENTITY[entityId] ?? []) {
+          if (!fieldNames.has(requiredField)) {
+            errors.push(
+              `Backend migration spec ${spec.specId} must preserve required field ${requiredField} for schema entity ${entityId}.`,
+            );
+          }
+        }
+      }
+    }
   }
 
   return errors;
 }
-
