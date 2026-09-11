@@ -3413,3 +3413,25 @@ Guardrails:
 - No provider-specific import or app integration is enabled.
 
 This decision is recorded in `docs/adr/0576-evidence-alignment-collection-identity.md`.
+
+## DR-649: Evidence Alignment Panel Visibility
+
+Status: Accepted
+
+Decision: Teacher prototype review panels must use the shared collection-level
+evidence-alignment validator and show duplicate packet identity as a blocked
+review condition.
+
+Rationale:
+
+- A summary-only guard can drift from the evidence shown to a reviewer.
+- Per-packet and collection-level identity must be visible in the same
+  read-only workbench.
+
+Guardrails:
+
+- The panel remains read-only.
+- No prototype import, route replacement, scoring mutation, package promotion,
+  playlist write, or assignment is enabled.
+
+This decision is recorded in `docs/adr/0577-evidence-alignment-panel-visibility.md`.

@@ -258,6 +258,7 @@ const prototypeEvidenceAlignmentMarkers = [
   "validateAiPrototypeEvidenceAlignment",
   "validateAiPrototypeEvidenceAlignmentBundles",
   "One request, one tenant, one evidence packet",
+  "duplicate packet identities",
   "same candidate",
   "returnReviewId",
   "integrationPlanId",

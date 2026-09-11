@@ -1190,3 +1190,10 @@ prototype review queue. Individual packet alignment remains separate from
 collection identity, and both stay read-only before controlled Z.ai intake.
 This decision is recorded in `docs/adr/0576-evidence-alignment-collection-identity.md`
 and `docs/decision-register/DR-648-evidence-alignment-collection-identity.md`.
+
+The evidence-alignment panel visibility slice now uses the shared collection
+validator instead of recomputing only individual packets. Teacher review
+surfaces therefore show duplicate packet identities alongside per-packet
+alignment errors, while remaining read-only before controlled Z.ai intake.
+This decision is recorded in `docs/adr/0577-evidence-alignment-panel-visibility.md`
+and `docs/decision-register/DR-649-evidence-alignment-panel-visibility.md`.

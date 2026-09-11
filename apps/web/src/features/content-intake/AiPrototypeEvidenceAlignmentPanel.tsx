@@ -1,14 +1,15 @@
 import { Card, StatusPill } from "@living-textbook/ui";
-import { validateAiPrototypeEvidenceAlignment, type AiPrototypeEvidenceAlignmentBundle } from "@living-textbook/content-model/src/aiPrototypeEvidenceAlignment";
+import {
+  validateAiPrototypeEvidenceAlignmentBundles,
+  type AiPrototypeEvidenceAlignmentBundle,
+} from "@living-textbook/content-model/src/aiPrototypeEvidenceAlignment";
 
 interface AiPrototypeEvidenceAlignmentPanelProps {
   bundles: AiPrototypeEvidenceAlignmentBundle[];
 }
 
 export function AiPrototypeEvidenceAlignmentPanel({ bundles }: AiPrototypeEvidenceAlignmentPanelProps) {
-  const errors = bundles.flatMap((bundle) =>
-    validateAiPrototypeEvidenceAlignment(bundle).map((error) => `${bundle.returnReview.requestId}: ${error}`),
-  );
+  const errors = validateAiPrototypeEvidenceAlignmentBundles(bundles);
 
   return (
     <Card>
@@ -19,6 +20,7 @@ export function AiPrototypeEvidenceAlignmentPanel({ bundles }: AiPrototypeEviden
           <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
             This read-only gate checks that the return review, integration plan, wrapper notes, replay reports,
             audio, accessibility, scoring, Codex decision, and readiness gate all describe the same candidate.
+            It also rejects duplicate packet identities across the review collection.
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -37,7 +39,8 @@ export function AiPrototypeEvidenceAlignmentPanel({ bundles }: AiPrototypeEviden
           ))
         ) : (
           <p className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3 text-sm text-[var(--tenant-muted)]">
-            All current sample evidence packets align by tenant, request, integration plan, mode, and parent engine.
+            All current sample evidence packets align by tenant, request, integration plan, mode, parent engine,
+            and collection identity.
             This does not authorize prototype import, route replacement, scoring mutation, or student assignment.
           </p>
         )}

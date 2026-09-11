@@ -537,6 +537,7 @@
 - `DR-646-codex-decision-check-identity.md`
 - `DR-647-codex-decision-collection-identity.md`
 - `DR-648-evidence-alignment-collection-identity.md`
+- `DR-649-evidence-alignment-panel-visibility.md`
 
 ## Maintenance Rule
 
