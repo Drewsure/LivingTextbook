@@ -219,3 +219,8 @@ snapshots, safe source paths, and separate evidence artifacts before Z.ai or
 Phaser wrapper review.
 This decision is recorded in `docs/adr/0561-returned-prototype-manifest.md`
 and `docs/decision-register/DR-633-returned-prototype-manifest.md`.
+
+Returned package checklist alignment is verified by `npm run verify:prototype-review`
+and `npm run verify:runtime-behavior`. It must remain review-only until the
+manifest and checklist agree on tenant, queue item, repository, mode, parent
+engine, and review status.

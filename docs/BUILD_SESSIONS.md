@@ -1088,3 +1088,10 @@ wrapper artifacts. Review-only previews remain blocked from import, route
 replacement, scoring mutation, package promotion, and student assignment.
 This decision is recorded in `docs/adr/0561-returned-prototype-manifest.md`
 and `docs/decision-register/DR-633-returned-prototype-manifest.md`.
+
+The returned package checklist alignment slice now compares each future
+manifest with its tenant-scoped checklist for queue identity, repository, mode,
+parent engine, and review status. Structural manifest validity and checklist
+alignment remain separate no-side-effect gates.
+This decision is recorded in `docs/adr/0562-returned-package-checklist-alignment.md`
+and `docs/decision-register/DR-634-returned-package-checklist-alignment.md`.

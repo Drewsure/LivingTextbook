@@ -3016,3 +3016,32 @@ Guardrails:
   package promotion, or student assignment.
 
 This decision is recorded in `docs/adr/0561-returned-prototype-manifest.md`.
+
+## DR-634: Returned Package Checklist Alignment
+
+Status: Accepted
+
+Decision: Treat the returned package manifest and its return checklist as one
+identity boundary. Tenant, queue item, source repository, target mode, and
+parent engine must match before a future returned package can advance to
+Codex review. A review-only manifest also requires a checklist marked
+`ready-for-return-review`.
+
+Rationale:
+
+- A manifest can be structurally valid while describing a different queue item
+  or game mode than the checklist shown to the teacher.
+- Cross-record drift would weaken white-label isolation and make Z.ai/Phaser
+  review evidence unreliable.
+- A small read-only alignment gate is cheaper than discovering drift during
+  wrapper planning or an app patch.
+
+Guardrails:
+
+- Missing or mismatched tenant, queue item, repository, mode, or parent engine
+  blocks alignment.
+- Review-only status cannot bypass an unfinished checklist.
+- The alignment gate does not import source, replace routes, mutate scoring,
+  promote packages, or assign students.
+
+This decision is recorded in `docs/adr/0562-returned-package-checklist-alignment.md`.

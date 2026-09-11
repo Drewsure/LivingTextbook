@@ -99,6 +99,7 @@ import { samplePrototypeIntakeReadinessSummary } from "@/data/samplePrototypeInt
 import { samplePrototypeIntakeStorageGuards } from "@/data/samplePrototypeIntakeStorageGuard";
 import { samplePrototypeReturnReadinessSummary } from "@/data/samplePrototypeReturnReadinessSummary";
 import {
+  sampleAiPrototypeReturnedPackageAlignmentErrors,
   sampleAiPrototypeReturnedPackageManifests,
 } from "@/data/sampleAiPrototypeReturnedPackageManifest";
 import { sampleAiPrototypeEvidenceAlignmentBundles } from "@/data/sampleAiPrototypeEvidenceAlignment";
@@ -205,6 +206,7 @@ export default async function TeacherPrototypeReviewPage({
         />
         <AiPrototypeReturnedPackageManifestPanel
           manifests={sampleAiPrototypeReturnedPackageManifests.filter((manifest) => manifest.tenantId === tenantId)}
+          alignmentErrors={sampleAiPrototypeReturnedPackageAlignmentErrors.filter((error) => error.includes(`${tenantId}:`) || error.includes(`-${tenantId}-`))}
         />
         <PrototypeReturnReadinessSummaryPanel summary={samplePrototypeReturnReadinessSummary} />
 

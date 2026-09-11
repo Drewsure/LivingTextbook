@@ -1702,4 +1702,12 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-632 and `docs/adr/05
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-633 and `docs/adr/0561-returned-prototype-manifest.md`.
 
+## 104. Returned Package Checklist Alignment Standard
+
+- A returned package manifest must agree with its tenant-scoped return checklist on tenant, queue item, source repository, target mode, and parent engine.
+- A manifest cannot claim `review-only` while its checklist remains below `ready-for-return-review`.
+- Alignment is a review-only consistency gate; it does not authorize source import, route replacement, scoring mutation, package promotion, or student assignment.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-634 and `docs/adr/0562-returned-package-checklist-alignment.md`.
+
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-615 and `docs/adr/0543-progress-event-timestamps.md`.

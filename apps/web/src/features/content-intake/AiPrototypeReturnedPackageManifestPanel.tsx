@@ -6,10 +6,12 @@ import {
 
 interface AiPrototypeReturnedPackageManifestPanelProps {
   manifests: AiPrototypeReturnedPackageManifest[];
+  alignmentErrors: string[];
 }
 
 export function AiPrototypeReturnedPackageManifestPanel({
   manifests,
+  alignmentErrors,
 }: AiPrototypeReturnedPackageManifestPanelProps) {
   const errors = manifests.flatMap((manifest) =>
     validateAiPrototypeReturnedPackageManifest(manifest).map(
@@ -34,6 +36,7 @@ export function AiPrototypeReturnedPackageManifestPanel({
         <div className="flex flex-wrap gap-2">
           <StatusPill label={manifests.length + " manifest(s)"} tone="neutral" />
           <StatusPill label={errors.length + " contract error(s)"} tone={errors.length > 0 ? "warning" : "success"} />
+          <StatusPill label={alignmentErrors.length + " checklist alignment error(s)"} tone={alignmentErrors.length > 0 ? "warning" : "success"} />
           <StatusPill label="No import" tone="warning" />
         </div>
       </div>
@@ -70,6 +73,19 @@ export function AiPrototypeReturnedPackageManifestPanel({
           ))}
         </div>
       )}
+
+      <div className="mt-4 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3 text-sm text-[var(--tenant-muted)]">
+        <p className="font-semibold text-[var(--tenant-text)]">Return checklist alignment</p>
+        {alignmentErrors.length > 0 ? (
+          <ul className="mt-2 grid gap-2">
+            {alignmentErrors.map((error, index) => (
+              <li key={`${error}-${index}`}>{error}</li>
+            ))}
+          </ul>
+        ) : (
+          <p className="mt-1">Manifest identity matches its tenant-scoped return checklist. This remains review-only.</p>
+        )}
+      </div>
     </Card>
   );
 }

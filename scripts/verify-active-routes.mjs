@@ -619,6 +619,9 @@ const prototypeReviewRouteExpected = [
   "Exact source snapshot before Z.ai review",
   "No direct file copy into apps/ai-service",
   "No import",
+  "Return checklist alignment",
+  "checklist alignment error(s)",
+  "Manifest identity matches its tenant-scoped return checklist",
 ];
 expectedTextByPath.set("/teacher/prototypes/sample-publisher", prototypeReviewRouteExpected);
 expectedTextByPath.set("/teacher/prototypes/ministar", [

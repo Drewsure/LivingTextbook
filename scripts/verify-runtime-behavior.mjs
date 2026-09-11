@@ -39,6 +39,7 @@ try {
     "packages/content-model/src/reportRuntime.ts",
     "packages/content-model/src/aiPrototypeEvidenceAlignment.ts",
     "packages/content-model/src/aiPrototypeReturnedPackageManifest.ts",
+    "packages/content-model/src/aiPrototypeReturnedPackageAlignment.ts",
   ], { cwd: root, encoding: "utf8" });
 
   if (compile.status !== 0) {
@@ -95,6 +96,7 @@ try {
   const report = require(join(output, "reportRuntime.js"));
   const prototypeAlignment = require(join(output, "aiPrototypeEvidenceAlignment.js"));
   const returnedPackageManifest = require(join(output, "aiPrototypeReturnedPackageManifest.js"));
+  const returnedPackageAlignment = require(join(output, "aiPrototypeReturnedPackageAlignment.js"));
   const contentModel = require(join(output, "index.js"));
   const aiService = require(join(aiOutput, "apps", "ai-service", "src", "index.js"));
 
@@ -989,6 +991,33 @@ try {
       artifacts: [],
     }),
     "Returned prototype package sourceSnapshotId must be immutable and cannot use latest or main.",
+  );
+  const returnedPackageChecklist = {
+    checklistId: "checklist-1",
+    tenantId: "tenant-1",
+    queueItemId: "queue-1",
+    status: "not-returned",
+    sourceRepository: "Drewsure/ministar-lab",
+    targetMode: "flashcards",
+    parentEngine: "pairing",
+  };
+  assertEqual(
+    returnedPackageAlignment.validateAiPrototypeReturnedPackageAlignment(returnedPackagePreview, returnedPackageChecklist).length,
+    0,
+  );
+  assertIncludes(
+    returnedPackageAlignment.validateAiPrototypeReturnedPackageAlignment(
+      { ...returnedPackagePreview, targetMode: "sentence-builder" },
+      returnedPackageChecklist,
+    ),
+    "Returned package manifest targetMode does not match the return checklist.",
+  );
+  assertIncludes(
+    returnedPackageAlignment.validateAiPrototypeReturnedPackageAlignment(
+      { ...returnedPackagePreview, status: "review-only", sourceSnapshotId: "abc123" },
+      returnedPackageChecklist,
+    ),
+    "A review-only returned package requires a return checklist ready-for-return-review status.",
   );
 
   const earlyJapanesePlan = {

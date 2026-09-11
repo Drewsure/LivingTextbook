@@ -33,6 +33,7 @@ const files = {
   evidenceAlignmentSample: "apps/web/src/data/sampleAiPrototypeEvidenceAlignment.ts",
   evidenceAlignmentPanel: "apps/web/src/features/content-intake/AiPrototypeEvidenceAlignmentPanel.tsx",
   returnedPackageManifestModel: "packages/content-model/src/aiPrototypeReturnedPackageManifest.ts",
+  returnedPackageAlignmentModel: "packages/content-model/src/aiPrototypeReturnedPackageAlignment.ts",
   returnedPackageManifestSample: "apps/web/src/data/sampleAiPrototypeReturnedPackageManifest.ts",
   returnedPackageManifestPanel: "apps/web/src/features/content-intake/AiPrototypeReturnedPackageManifestPanel.tsx",
 };
@@ -258,6 +259,10 @@ const prototypeReturnedPackageManifestMarkers = [
   "No direct file copy into apps/ai-service",
   "No import",
   "validateAiPrototypeReturnedPackageManifest",
+  "validateAiPrototypeReturnedPackageAlignment",
+  "Return checklist alignment",
+  "checklist alignment error(s)",
+  "Manifest identity matches its tenant-scoped return checklist",
   "AiPrototypeReturnedPackageManifestPanel",
 ];
 
@@ -393,6 +398,7 @@ for (const marker of prototypeEvidenceAlignmentMarkers) {
 for (const marker of prototypeReturnedPackageManifestMarkers) {
   requireText(
     sources.returnedPackageManifestModel +
+      sources.returnedPackageAlignmentModel +
       sources.returnedPackageManifestSample +
       sources.returnedPackageManifestPanel +
       sources.prototypePage,

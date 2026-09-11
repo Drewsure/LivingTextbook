@@ -1,4 +1,8 @@
 import {
+  validateAiPrototypeReturnedPackageAlignment,
+  type AiPrototypeReturnChecklistReference,
+} from "@living-textbook/content-model/src/aiPrototypeReturnedPackageAlignment";
+import {
   AI_PROTOTYPE_RETURNED_BLOCKED_ACTIONS,
   validateAiPrototypeReturnedPackageManifest,
   type AiPrototypeReturnedPackageManifest,
@@ -27,3 +31,27 @@ export const sampleAiPrototypeReturnedPackageManifestErrors =
       (error) => manifest.manifestId + ": " + error,
     ),
   );
+
+const checklistReferences: AiPrototypeReturnChecklistReference[] = samplePrototypeReturnPackageChecklists.map(
+  (checklist) => ({
+    checklistId: checklist.checklistId,
+    tenantId: checklist.tenantId,
+    queueItemId: checklist.queueItemId,
+    status: checklist.status,
+    sourceRepository: checklist.sourceRepo,
+    targetMode: checklist.targetMode,
+    parentEngine: checklist.parentEngine,
+  }),
+);
+
+export const sampleAiPrototypeReturnedPackageAlignmentErrors = sampleAiPrototypeReturnedPackageManifests.flatMap(
+  (manifest) => {
+    const checklist = checklistReferences.find((candidate) => candidate.queueItemId === manifest.queueItemId);
+    if (!checklist) {
+      return [`${manifest.manifestId}: no return checklist reference exists.`];
+    }
+    return validateAiPrototypeReturnedPackageAlignment(manifest, checklist).map(
+      (error) => `${manifest.manifestId}: ${error}`,
+    );
+  },
+);
