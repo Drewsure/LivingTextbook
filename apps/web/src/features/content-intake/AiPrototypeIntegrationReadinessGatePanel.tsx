@@ -94,9 +94,28 @@ export function AiPrototypeIntegrationReadinessGatePanel({
               </div>
               <div className="flex flex-wrap gap-2">
                 <StatusPill label={gateLabel[gate.status]} tone={gateTone[gate.status]} />
-                <StatusPill label="Codex decision missing" tone="warning" />
+                <StatusPill
+                  label={
+                    gate.evidenceChecks.some(
+                      (check) => check.checkId === "codex-integration-review-decision" && check.status === "reviewed",
+                    )
+                      ? "Codex decision reviewed"
+                      : "Codex decision missing"
+                  }
+                  tone={
+                    gate.evidenceChecks.some(
+                      (check) => check.checkId === "codex-integration-review-decision" && check.status === "reviewed",
+                    )
+                      ? "success"
+                      : "warning"
+                  }
+                />
               </div>
             </div>
+
+            <p className="mt-2 text-xs font-semibold text-[var(--tenant-muted)]">
+              Gate status is derived from evidence checks; review readiness never authorizes an app patch.
+            </p>
 
             <div className="mt-4 grid gap-3 lg:grid-cols-4">
               <GateList title="Source records" items={gate.sourceRecords} />

@@ -254,3 +254,8 @@ The returned-package readiness status and Codex return-review label are covered
 by the same runtime, prototype-review, and active-route checks. Missing return
 evidence keeps review unopened; a blocked lane is only an evidence-review
 state when missing evidence is no longer present.
+
+The integration-readiness gate status is covered by the runtime and active-route
+checks. Its evidence checks are authoritative: missing/blocked means blocked,
+pending means review-only, and all reviewed means ready for Codex review only.
+No gate status authorizes an app patch or live integration.

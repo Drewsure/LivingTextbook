@@ -1770,4 +1770,13 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-640 and `docs/adr/05
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-641 and `docs/adr/0569-derived-prototype-return-review.md`.
 
+## 112. Derived Prototype Integration Gate Standard
+
+- Prototype integration-gate status must be derived from wrapper, fixture, event, audio, mobile, scoring, and Codex-decision evidence checks.
+- Missing or blocked evidence keeps the gate `blocked`; pending evidence remains `review-only`; only all-reviewed evidence may become `ready-for-codex-review`.
+- `ready-for-codex-review` means the evidence packet is ready for Codex review, never that an app patch, route write, scoring change, package promotion, or assignment is authorized.
+- The UI must expose this distinction clearly and preserve the blocked actions in the gate record.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-642 and `docs/adr/0570-derived-prototype-integration-gate.md`.
+
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-615 and `docs/adr/0543-progress-event-timestamps.md`.

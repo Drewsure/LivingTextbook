@@ -3234,3 +3234,31 @@ Guardrails:
 - Support-language progress remains outside the return-review signal.
 
 This decision is recorded in `docs/adr/0569-derived-prototype-return-review.md`.
+
+## DR-642: Derived Prototype Integration Gate
+
+Status: Accepted
+
+Decision: Derive the AI prototype integration-readiness gate status from its
+evidence-check statuses. Missing or blocked evidence produces `blocked`,
+pending evidence produces `review-only`, and an all-reviewed evidence set
+produces `ready-for-codex-review`.
+
+Rationale:
+
+- The integration gate already stores the evidence checks that determine its
+  readiness, so a separate hard-coded status could drift.
+- Codex needs a reliable signal that a packet is ready to inspect without
+  confusing review readiness with permission to patch the platform.
+- Evidence-driven state is easier to test and safer for future Z.ai and Phaser
+  intake.
+
+Guardrails:
+
+- No status can authorize app writes, route registry writes, scoring or reward
+  mutation, playlist mutation, package promotion, or student assignment.
+- The Codex integration decision remains an evidence check, not an automatic
+  approval action.
+- MiniStar support-language and Japanese release restrictions remain intact.
+
+This decision is recorded in `docs/adr/0570-derived-prototype-integration-gate.md`.

@@ -1,6 +1,7 @@
 import { sampleAiPrototypeIntegrationPlans } from "@/data/sampleAiPrototypeIntegrationPlan";
 import {
   getAiPrototypeIntegrationReadinessGateCollectionWarnings,
+  deriveAiPrototypeIntegrationReadinessGateStatus,
   validateAiPrototypeIntegrationReadinessGates,
   type AiPrototypeIntegrationEvidenceCheck as SharedAiPrototypeIntegrationEvidenceCheck,
   type AiPrototypeIntegrationEvidenceStatus,
@@ -16,7 +17,7 @@ export const sampleAiPrototypeIntegrationReadinessGates: AiPrototypeIntegrationR
   sampleAiPrototypeIntegrationPlans.map((plan) => {
     const isMiniStar = plan.tenantId === "ministar";
 
-    return {
+    const gate: AiPrototypeIntegrationReadinessGate = {
       gateId: `prototype-integration-readiness-gate-${plan.requestId}`,
       tenantId: plan.tenantId,
       requestId: plan.requestId,
@@ -113,6 +114,11 @@ export const sampleAiPrototypeIntegrationReadinessGates: AiPrototypeIntegrationR
         "Accepted scoring replay report",
         "Codex integration decision",
       ],
+    };
+
+    return {
+      ...gate,
+      status: deriveAiPrototypeIntegrationReadinessGateStatus(gate.evidenceChecks),
     };
   });
 

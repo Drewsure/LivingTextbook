@@ -1141,3 +1141,10 @@ missing evidence requires evidence review; only an all-ready set can open
 return review.
 This decision is recorded in `docs/adr/0569-derived-prototype-return-review.md`
 and `docs/decision-register/DR-641-derived-prototype-return-review.md`.
+
+The integration-readiness gate now derives its status from the wrapper,
+fixture, event, audio, mobile, scoring, and Codex-decision checks. Missing or
+blocked evidence keeps it blocked; pending evidence is review-only; all
+reviewed evidence is ready for Codex review without authorizing an app patch.
+This decision is recorded in `docs/adr/0570-derived-prototype-integration-gate.md`
+and `docs/decision-register/DR-642-derived-prototype-integration-gate.md`.

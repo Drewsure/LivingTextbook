@@ -25,6 +25,21 @@ export interface AiPrototypeIntegrationReadinessGate {
   nextRequiredRecords: string[];
 }
 
+export function deriveAiPrototypeIntegrationReadinessGateStatus(
+  evidenceChecks: Array<{ status: string }>,
+): AiPrototypeIntegrationReadinessGateStatus {
+  if (evidenceChecks.length === 0 || evidenceChecks.some((check) => check.status === "missing" || check.status === "blocked")) {
+    return "blocked";
+  }
+  if (evidenceChecks.some((check) => check.status === "pending-review")) {
+    return "review-only";
+  }
+  if (evidenceChecks.every((check) => check.status === "reviewed")) {
+    return "ready-for-codex-review";
+  }
+  return "blocked";
+}
+
 export const AI_PROTOTYPE_INTEGRATION_READINESS_REQUIRED_SOURCE_RECORDS = [
   "ai_prototype_integration_readiness_gate",
   "ai_prototype_integration_plan",

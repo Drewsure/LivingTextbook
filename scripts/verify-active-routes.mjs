@@ -1236,6 +1236,7 @@ const aiGameGeneratorExpected = [
   "Integration readiness guard blocks",
   "Integration readiness guard warnings",
   "Evidence readiness checks",
+  "Gate status is derived from evidence checks; review readiness never authorizes an app patch.",
   "codex_integration_review_decision",
   "Codex decision missing",
   "No apps/web patch",
