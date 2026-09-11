@@ -1176,3 +1176,10 @@ statuses. This keeps the final external-prototype review packet one-to-one and
 auditable without opening integration or enabling provider-specific imports.
 This decision is recorded in `docs/adr/0574-codex-decision-check-identity.md`
 and `docs/decision-register/DR-646-codex-decision-check-identity.md`.
+
+The Codex decision collection identity slice now rejects duplicate decision
+IDs and duplicate tenant/request pairs across the multi-tenant review queue.
+This prevents one prototype request from being silently replaced while keeping
+the queue review-only and provider-neutral.
+This decision is recorded in `docs/adr/0575-codex-decision-collection-identity.md`
+and `docs/decision-register/DR-647-codex-decision-collection-identity.md`.

@@ -273,7 +273,22 @@ export function getAiPrototypeCodexIntegrationDecisionWarnings(decision: unknown
 }
 
 export function validateAiPrototypeCodexIntegrationDecisions(decisions: unknown[]): string[] {
-  return decisions.flatMap((decision) => validateAiPrototypeCodexIntegrationDecision(decision));
+  const errors = decisions.flatMap((decision) => validateAiPrototypeCodexIntegrationDecision(decision));
+  const decisionIds = decisions.map(readDecisionIdentity).map((identity) => identity.decisionId).filter(Boolean);
+  const tenantRequestPairs = decisions
+    .map(readDecisionIdentity)
+    .map((identity) => `${identity.tenantId}:${identity.requestId}`)
+    .filter((pair) => pair !== ":");
+
+  if (new Set(decisionIds).size !== decisionIds.length) {
+    errors.push("AI prototype Codex integration decision collection must not repeat decision IDs.");
+  }
+
+  if (new Set(tenantRequestPairs).size !== tenantRequestPairs.length) {
+    errors.push("AI prototype Codex integration decision collection must not repeat tenant and request pairs.");
+  }
+
+  return errors;
 }
 
 export function getAiPrototypeCodexIntegrationDecisionCollectionWarnings(decisions: unknown[]): string[] {
@@ -293,6 +308,18 @@ function readDecisionChecks(source: Record<string, unknown>): AiPrototypeCodexIn
     evidence: readString(check, "evidence"),
     requiredRecord: readString(check, "requiredRecord"),
   }));
+}
+
+function readDecisionIdentity(value: unknown): { decisionId: string; tenantId: string; requestId: string } {
+  if (!isRecord(value)) {
+    return { decisionId: "", tenantId: "", requestId: "" };
+  }
+
+  return {
+    decisionId: readString(value, "decisionId"),
+    tenantId: readString(value, "tenantId"),
+    requestId: readString(value, "requestId"),
+  };
 }
 
 function readString(source: Record<string, unknown>, key: string): string {

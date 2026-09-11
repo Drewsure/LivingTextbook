@@ -535,6 +535,7 @@
 - `DR-561-ai-service-boundary-foundation.md`
 - `DR-562-persistence-runtime-boundary.md`
 - `DR-646-codex-decision-check-identity.md`
+- `DR-647-codex-decision-collection-identity.md`
 
 ## Maintenance Rule
 

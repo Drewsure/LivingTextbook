@@ -3367,3 +3367,26 @@ Guardrails:
   playlist write, package promotion, or assignment is enabled.
 
 This decision is recorded in `docs/adr/0574-codex-decision-check-identity.md`.
+
+## DR-647: Codex Decision Collection Identity
+
+Status: Accepted
+
+Decision: Reject Codex integration-decision collections containing duplicate
+decision IDs or duplicate tenant/request pairs.
+
+Rationale:
+
+- Multi-tenant review queues need collection-level identity, not only valid
+  individual packet shape.
+- Duplicate packet identity could silently replace the decision for a
+  prototype request.
+
+Guardrails:
+
+- Decision IDs must be unique across the review collection.
+- Each tenant and prototype request may have only one decision packet.
+- No integration approval, import, route write, scoring/reward change,
+  package promotion, playlist write, or assignment is enabled.
+
+This decision is recorded in `docs/adr/0575-codex-decision-collection-identity.md`.

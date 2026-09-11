@@ -1288,6 +1288,20 @@ try {
     }),
     "AI prototype Codex integration decision checks must not repeat required records.",
   );
+  assertIncludes(
+    codexDecision.validateAiPrototypeCodexIntegrationDecisions([
+      codexDecisionFixture,
+      { ...codexDecisionFixture, decisionId: "decision-2" },
+    ]),
+    "AI prototype Codex integration decision collection must not repeat tenant and request pairs.",
+  );
+  assertIncludes(
+    codexDecision.validateAiPrototypeCodexIntegrationDecisions([
+      codexDecisionFixture,
+      { ...codexDecisionFixture, tenantId: "tenant-2", requestId: "request-2" },
+    ]),
+    "AI prototype Codex integration decision collection must not repeat decision IDs.",
+  );
 
   const earlyJapanesePlan = {
     unitKey: "tenant-1:curriculum-1:L1:U1", targetLanguage: "en", assistLanguage: "ja",
