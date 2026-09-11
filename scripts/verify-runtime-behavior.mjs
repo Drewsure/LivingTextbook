@@ -45,6 +45,7 @@ try {
     "packages/content-model/src/prototypeIntakeAlert.ts",
     "packages/content-model/src/prototypeIntakeReadinessSummary.ts",
     "packages/content-model/src/prototypeReturnReadiness.ts",
+    "packages/content-model/src/prototypeReturnReadinessSummary.ts",
   ], { cwd: root, encoding: "utf8" });
 
   if (compile.status !== 0) {
@@ -107,6 +108,7 @@ try {
   const prototypeIntakeAlert = require(join(output, "prototypeIntakeAlert.js"));
   const prototypeIntakeReadinessSummary = require(join(output, "prototypeIntakeReadinessSummary.js"));
   const prototypeReturnReadiness = require(join(output, "prototypeReturnReadiness.js"));
+  const prototypeReturnReadinessSummary = require(join(output, "prototypeReturnReadinessSummary.js"));
   const contentModel = require(join(output, "index.js"));
   const aiService = require(join(aiOutput, "apps", "ai-service", "src", "index.js"));
 
@@ -1158,6 +1160,36 @@ try {
       ],
     }),
     "Prototype intake readiness lane ID must be unique: returned-package-availability.",
+  );
+  const prototypeReturnReadinessSummaryFixture = {
+    summaryId: "return-summary-1",
+    label: "Prototype return readiness summary",
+    status: "not-ready",
+    codexReviewState: "Codex return review not opened",
+    summary: "Review-only return summary.",
+    lanes: [{ laneId: "source-manifest-missing", label: "Source archive manifest", status: "missing", summary: "No manifest." }],
+    blockedNextActions: ["No archive import"],
+  };
+  assertEqual(
+    prototypeReturnReadinessSummary.validatePrototypeReturnReadinessSummary(prototypeReturnReadinessSummaryFixture).length,
+    0,
+  );
+  assertIncludes(
+    prototypeReturnReadinessSummary.validatePrototypeReturnReadinessSummary({
+      ...prototypeReturnReadinessSummaryFixture,
+      status: "ready-for-codex-return-review",
+    }),
+    "Prototype return readiness summary status must match its lanes: not-ready.",
+  );
+  assertIncludes(
+    prototypeReturnReadinessSummary.validatePrototypeReturnReadinessSummary({
+      ...prototypeReturnReadinessSummaryFixture,
+      lanes: [
+        ...prototypeReturnReadinessSummaryFixture.lanes,
+        { ...prototypeReturnReadinessSummaryFixture.lanes[0] },
+      ],
+    }),
+    "Prototype return readiness lane ID must be unique: source-manifest-missing.",
   );
   assertEqual(
     prototypeIntakeAlert.validatePrototypeIntakeAlertTenantScope(prototypeIntakeAlertFixture, "platform").length,

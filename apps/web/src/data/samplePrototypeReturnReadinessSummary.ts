@@ -2,6 +2,7 @@ import {
   derivePrototypeReturnReadinessStatus,
   derivePrototypeReturnReviewState,
 } from "@living-textbook/content-model/src/prototypeReturnReadiness";
+import { validatePrototypeReturnReadinessSummary } from "@living-textbook/content-model/src/prototypeReturnReadinessSummary";
 import type {
   PrototypeReturnReadinessStatus as ContentModelPrototypeReturnReadinessStatus,
   PrototypeReturnReviewState,
@@ -88,3 +89,7 @@ export const samplePrototypeReturnReadinessSummary: PrototypeReturnReadinessSumm
     "No support-language progress trigger",
   ],
 };
+
+export const samplePrototypeReturnReadinessSummaryErrors = validatePrototypeReturnReadinessSummary(
+  samplePrototypeReturnReadinessSummary,
+);

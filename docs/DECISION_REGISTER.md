@@ -3646,3 +3646,28 @@ Guardrails:
 
 This decision is recorded in
 `docs/adr/0586-prototype-readiness-summary-contract.md`.
+
+## DR-659: Prototype Return Readiness Summary Contract
+
+Status: Accepted
+
+Decision: Require prototype-return readiness summaries to validate summary
+identity, unique lane IDs, supported lane statuses, derived status, Codex
+return-review state, and blocked next actions before the return panel relies on
+them.
+
+Rationale:
+
+- Return review is the final gate before an integration decision, so stale or
+  duplicated lanes must not look authoritative.
+- Intake and return summaries need matching contract discipline for an
+  auditable handoff process.
+
+Guardrails:
+
+- A valid summary remains review-only.
+- Archive import, app file copy, route replacement, package promotion, and
+  assignment remain blocked.
+
+This decision is recorded in
+`docs/adr/0587-prototype-return-readiness-summary-contract.md`.

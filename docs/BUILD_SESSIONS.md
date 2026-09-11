@@ -1261,3 +1261,10 @@ alert-state consistency, and blocked next actions before review panels rely on
 the summary. The decision is recorded in
 `docs/adr/0586-prototype-readiness-summary-contract.md` and
 `docs/decision-register/DR-658-prototype-readiness-summary-contract.md`.
+
+The parallel prototype-return readiness slice now validates summary identity,
+unique return lane IDs, supported lane status values, derived overall status,
+Codex return-review consistency, and blocked next actions before the returned
+package panel relies on the summary. The decision is recorded in
+`docs/adr/0587-prototype-return-readiness-summary-contract.md` and
+`docs/decision-register/DR-659-prototype-return-readiness-summary-contract.md`.

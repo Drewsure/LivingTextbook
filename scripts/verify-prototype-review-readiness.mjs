@@ -269,6 +269,9 @@ const prototypeReturnReadinessSummaryMarkers = [
   "No active route replacement",
   "No support-language progress trigger",
   "PrototypeReturnReadinessSummaryPanel",
+  "validatePrototypeReturnReadinessSummary",
+  "samplePrototypeReturnReadinessSummaryErrors",
+  "Return summary contract valid",
 ];
 const prototypeEvidenceAlignmentMarkers = [
   "validateAiPrototypeEvidenceAlignment",

@@ -1,4 +1,5 @@
 import { Card, StatusPill } from "@living-textbook/ui";
+import { validatePrototypeReturnReadinessSummary } from "@living-textbook/content-model/src/prototypeReturnReadinessSummary";
 import type {
   PrototypeReturnReadinessLane,
   PrototypeReturnReadinessStatus,
@@ -23,6 +24,7 @@ const laneTone: Record<PrototypeReturnReadinessLane["status"], "success" | "warn
 
 export function PrototypeReturnReadinessSummaryPanel({ summary }: PrototypeReturnReadinessSummaryPanelProps) {
   const readyCount = summary.lanes.filter((lane) => lane.status === "ready").length;
+  const summaryContractErrors = validatePrototypeReturnReadinessSummary(summary);
 
   return (
     <Card>
@@ -39,6 +41,10 @@ export function PrototypeReturnReadinessSummaryPanel({ summary }: PrototypeRetur
           <StatusPill label={statusLabel[summary.status]} tone="warning" />
           <StatusPill label={`${readyCount}/${summary.lanes.length} ready`} tone={readyCount === summary.lanes.length ? "success" : "warning"} />
           <StatusPill label={summary.codexReviewState} tone="warning" />
+          <StatusPill
+            label={summaryContractErrors.length === 0 ? "Return summary contract valid" : "Return summary contract review"}
+            tone={summaryContractErrors.length === 0 ? "success" : "warning"}
+          />
         </div>
       </div>
 
