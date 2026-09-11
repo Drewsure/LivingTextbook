@@ -1,4 +1,9 @@
-import { sampleAiPrototypeEvidenceAlignmentErrors } from "@/data/sampleAiPrototypeEvidenceAlignment";
+import {
+  sampleAiPrototypeEvidenceAlignmentBundles,
+  sampleAiPrototypeEvidenceAlignmentErrors,
+} from "@/data/sampleAiPrototypeEvidenceAlignment";
+import { samplePrototypeIntakeQueue } from "@/data/samplePrototypeIntakeQueue";
+import { validateAiPrototypeEvidenceAlignmentBundles } from "@living-textbook/content-model/src/aiPrototypeEvidenceAlignment";
 import {
   derivePrototypeIntakeAlertDecision,
   derivePrototypeIntakeCodexAlertState,
@@ -134,12 +139,82 @@ export const samplePrototypeIntakeReadinessSummary: PrototypeIntakeReadinessSumm
 export function createPrototypeIntakeReadinessSummary(
   tenantId: string,
 ): PrototypeIntakeReadinessSummary {
+  const tenantBundles = sampleAiPrototypeEvidenceAlignmentBundles.filter(
+    (bundle) => bundle.returnReview.tenantId === tenantId,
+  );
+  const tenantAlignmentErrors = validateAiPrototypeEvidenceAlignmentBundles(tenantBundles);
+  const tenantManifests = sampleAiPrototypeReturnedPackageManifests.filter(
+    (manifest) => manifest.tenantId === tenantId,
+  );
+  const tenantManifestIds = new Set(tenantManifests.map((manifest) => manifest.manifestId));
+  const tenantManifestErrors = [
+    ...sampleAiPrototypeReturnedPackageManifestErrors,
+    ...sampleAiPrototypeReturnedPackageAlignmentErrors,
+    ...sampleAiPrototypeReturnedPackageIntakeAlignmentErrors,
+  ].filter((error) => [...tenantManifestIds].some((manifestId) => error.startsWith(`${manifestId}:`)));
+  const tenantQueueItems = samplePrototypeIntakeQueue.filter((item) => item.tenantId === tenantId);
+  const tenantLanes = samplePrototypeIntakeReadinessSummary.lanes.map((lane): PrototypeIntakeReadinessLane => {
+    if (lane.laneId === "queue-visible") {
+      return {
+        ...lane,
+        status: tenantQueueItems.length > 0 ? "ready" : "missing",
+        summary:
+          tenantQueueItems.length > 0
+            ? `The ${tenantId} prototype intake queue is visible on its tenant review workbench.`
+            : `No prototype intake queue item exists for ${tenantId}.`,
+      };
+    }
+    if (lane.laneId === "evidence-alignment") {
+      return {
+        ...lane,
+        status: tenantBundles.length === 0 ? "missing" : tenantAlignmentErrors.length === 0 ? "ready" : "blocked",
+        summary:
+          tenantBundles.length === 0
+            ? `No aligned evidence packet exists for ${tenantId}.`
+            : tenantAlignmentErrors.length === 0
+              ? `The ${tenantId} review packet is structurally aligned across its evidence lanes.`
+              : `${tenantAlignmentErrors.length} ${tenantId} evidence alignment error(s) must be resolved before Codex review.`,
+      };
+    }
+    if (lane.laneId === "returned-package-manifest-contract") {
+      return {
+        ...lane,
+        status: tenantManifests.length === 0 ? "missing" : tenantManifestErrors.length === 0 ? "ready" : "blocked",
+        summary:
+          tenantManifests.length === 0
+            ? `No returned-package manifest exists for ${tenantId}.`
+            : tenantManifestErrors.length === 0
+              ? `The ${tenantId} returned-package manifest previews are structurally valid; no package has been returned.`
+              : `${tenantManifestErrors.length} ${tenantId} returned-package manifest or provenance error(s) require review.`,
+      };
+    }
+    if (lane.laneId === "returned-package-availability") {
+      const hasTenantPackage = tenantManifests.some((manifest) => manifest.status !== "not-returned");
+      return {
+        ...lane,
+        status: hasTenantPackage ? "ready" : "missing",
+        summary: hasTenantPackage
+          ? `A returned package record exists for ${tenantId} and remains subject to evidence review.`
+          : `No returned prototype package has been supplied for ${tenantId}.`,
+      };
+    }
+    return { ...lane };
+  });
+  const tenantReadinessStatus = derivePrototypeIntakeReadinessStatus(tenantLanes);
+  const tenantAlertDecision = derivePrototypeIntakeAlertDecision({
+    status: tenantReadinessStatus,
+    lanes: tenantLanes,
+  });
+
   return {
     ...samplePrototypeIntakeReadinessSummary,
     summaryId: `${samplePrototypeIntakeReadinessSummary.summaryId}-${tenantId}`,
     label: `${samplePrototypeIntakeReadinessSummary.label} (${tenantId})`,
     tenantId,
-    lanes: samplePrototypeIntakeReadinessSummary.lanes.map((lane) => ({ ...lane })),
+    status: tenantReadinessStatus,
+    codexAlertState: derivePrototypeIntakeCodexAlertState(tenantAlertDecision),
+    summary: `The ${tenantId} workbench derives prototype intake readiness from tenant-scoped queue, evidence, and returned-package records. Controlled Z.ai intake remains blocked until a real returned package and wrapper-review records exist. Structurally valid previews do not count as a return.`,
+    lanes: tenantLanes,
     blockedNextActions: [...samplePrototypeIntakeReadinessSummary.blockedNextActions],
   };
 }

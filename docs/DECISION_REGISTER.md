@@ -3578,3 +3578,26 @@ Guardrails:
 
 This decision is recorded in
 `docs/adr/0583-prototype-intake-readiness-summary-tenant-scope.md`.
+
+## DR-656: Derived Tenant Prototype Readiness
+
+Status: Accepted
+
+Decision: Derive tenant prototype readiness lanes from tenant-filtered queue,
+evidence, returned-manifest, and package-availability records.
+
+Rationale:
+
+- Tenant identity alone is insufficient if the readiness lanes still reuse
+  platform-wide records.
+- Missing tenant evidence must be visible as missing rather than appearing
+  ready through a shared sample.
+
+Guardrails:
+
+- Platform-wide previews cannot make a tenant route appear ready.
+- The derived summary remains review-only and cannot authorize Z.ai import,
+  package promotion, route creation, or assignment.
+
+This decision is recorded in
+`docs/adr/0584-derived-tenant-prototype-readiness.md`.

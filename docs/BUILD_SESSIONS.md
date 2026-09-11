@@ -1240,3 +1240,10 @@ summary panels. The platform route keeps the explicit `platform` summary. The
 decision is recorded in
 `docs/adr/0583-prototype-intake-readiness-summary-tenant-scope.md` and
 `docs/decision-register/DR-655-prototype-intake-readiness-summary-tenant-scope.md`.
+
+The derived tenant readiness slice now calculates queue, evidence-alignment,
+returned-manifest, and package-availability lanes from tenant-filtered records.
+Missing tenant records remain missing rather than inheriting platform status.
+The decision is recorded in
+`docs/adr/0584-derived-tenant-prototype-readiness.md` and
+`docs/decision-register/DR-656-derived-tenant-prototype-readiness.md`.
