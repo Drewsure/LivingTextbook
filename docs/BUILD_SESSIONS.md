@@ -1039,3 +1039,6 @@ This decision is recorded in `docs/adr/0549-progress-event-acceptance-gate-consi
 
 The prototype integration gate tenant-boundary slice now requires AI prototype integration-readiness gate and Codex integration-review decision records, plus hosted/local write intents, to preserve publisher scope. External Z.ai/Phaser evidence cannot be reused across white-label tenants, even while it remains review-only and blocked from import.
 This decision is recorded in `docs/adr/0554-prototype-integration-readiness-tenant-boundary.md` and `docs/decision-register/DR-626-prototype-integration-readiness-tenant-boundary.md`.
+
+The explicit tenant-boundary-key slice now requires those records and adapter intents to name the concrete mapping used by storage. Prototype readiness and Codex decision records use `tenant_id`; progress and report records use `canonical_unit_key.tenant_id`. This keeps the white-label boundary implementable rather than merely descriptive.
+This decision is recorded in `docs/adr/0555-explicit-tenant-boundary-key.md` and `docs/decision-register/DR-627-explicit-tenant-boundary-key.md`.

@@ -2839,3 +2839,23 @@ Guardrails:
 - This remains a no-side-effect foundation check and does not authorize prototype import or app integration.
 
 This decision is recorded in `docs/adr/0554-prototype-integration-readiness-tenant-boundary.md`.
+
+## DR-627: Explicit Tenant Boundary Key
+
+Status: Accepted
+
+Decision: Require tenant-scoped durable records and persistence write intents to name the concrete `tenantBoundaryKey` mapping used by storage.
+
+Rationale:
+
+- A boolean preservation flag does not tell a future hosted or local adapter which field to bind.
+- Progress/report evidence and prototype review evidence use different source shapes.
+- Explicit mappings reduce provider-specific interpretation and preserve white-label isolation during migration.
+
+Guardrails:
+
+- Progress and teacher-report records use `canonical_unit_key.tenant_id`.
+- Prototype readiness and Codex decision records use `tenant_id`.
+- Missing mappings fail shared contract validation and do not enable any live writes.
+
+This decision is recorded in `docs/adr/0555-explicit-tenant-boundary-key.md`.

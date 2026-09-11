@@ -20,6 +20,7 @@ export interface PersistenceWriteIntent {
   rejectsTranscripts: boolean;
   preservesEventEffectTaxonomy?: boolean;
   preservesTenantBoundary?: boolean;
+  tenantBoundaryKey?: string;
   preservesSettingsContext?: boolean;
   requiresEventAcceptanceGate?: boolean;
   preservesReportEventAcceptanceSummary?: boolean;
@@ -582,6 +583,18 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
       !intent.preservesTenantBoundary
     ) {
       errors.push(`${intent.category} write intent ${intent.intentId} must preserve tenant boundary.`);
+    }
+
+    if (
+      [
+        "progress-event-stream",
+        "teacher-report-package",
+        "ai-prototype-integration-readiness-gate",
+        "codex-integration-review-decision",
+      ].includes(intent.category) &&
+      !intent.tenantBoundaryKey?.trim()
+    ) {
+      errors.push(`${intent.category} write intent ${intent.intentId} must name its tenant boundary key.`);
     }
 
     if (intent.category === "progress-event-stream" && !intent.preservesSettingsContext) {

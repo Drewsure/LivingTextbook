@@ -3004,6 +3004,11 @@ requireText(
 );
 requireText(
   persistenceAdapter,
+  "tenantBoundaryKey: \"tenant_id\"",
+  "Persistence adapter must name tenant boundary keys for integration writes.",
+);
+requireText(
+  persistenceAdapter,
   "requiresAllPrototypeEvidenceReviewed: true",
   "Persistence adapter must require all prototype evidence reviewed.",
 );
@@ -4317,6 +4322,11 @@ requireText(
   durableRecords,
   "preservesTenantBoundary: true",
   "Durable record plan must preserve tenant boundaries for integration readiness gates.",
+);
+requireText(
+  durableRecords,
+  "tenantBoundaryKey: \"tenant_id\"",
+  "Durable record plan must name tenant boundary keys for integration records.",
 );
 requireText(
   durableRecords,

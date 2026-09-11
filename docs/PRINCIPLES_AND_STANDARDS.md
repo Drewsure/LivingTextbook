@@ -1629,9 +1629,19 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-625 and `docs/adr/05
 
 - AI prototype integration-readiness gate and Codex integration-review decision records must preserve the tenant boundary.
 - Hosted and local readiness-gate and Codex-decision write intents must preserve the same boundary.
+- Every tenant-scoped persistence contract must name the concrete `tenantBoundaryKey` mapping used by its backend adapter.
 - Z.ai, Phaser, and other external prototype evidence remains publisher-scoped review material; it cannot be reused across tenants.
 - This is a storage-contract safeguard only. It does not authorize prototype import, app patching, route creation, scoring changes, package promotion, or student assignment.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-626 and `docs/adr/0554-prototype-integration-readiness-tenant-boundary.md`.
+
+## 97. Explicit Tenant Boundary Key Standard
+
+- Boolean tenant-boundary preservation is insufficient by itself for backend implementation.
+- Progress and teacher-report contracts use the canonical unit-key tenant mapping.
+- Prototype readiness and Codex decision contracts use the explicit `tenant_id` mapping.
+- Hosted and local adapters must carry the same named mapping before vendor or storage implementation begins.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-627 and `docs/adr/0555-explicit-tenant-boundary-key.md`.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-615 and `docs/adr/0543-progress-event-timestamps.md`.
