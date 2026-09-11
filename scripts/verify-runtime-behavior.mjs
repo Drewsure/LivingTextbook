@@ -37,6 +37,7 @@ try {
     "packages/content-model/src/persistenceAdapter.ts",
     "packages/content-model/src/persistenceConsistency.ts",
     "packages/content-model/src/reportRuntime.ts",
+    "packages/content-model/src/aiPrototypeEvidenceAlignment.ts",
   ], { cwd: root, encoding: "utf8" });
 
   if (compile.status !== 0) {
@@ -91,6 +92,7 @@ try {
   const persistenceAdapter = require(join(output, "persistenceAdapter.js"));
   const persistenceConsistency = require(join(output, "persistenceConsistency.js"));
   const report = require(join(output, "reportRuntime.js"));
+  const prototypeAlignment = require(join(output, "aiPrototypeEvidenceAlignment.js"));
   const contentModel = require(join(output, "index.js"));
   const aiService = require(join(aiOutput, "apps", "ai-service", "src", "index.js"));
 
@@ -913,6 +915,38 @@ try {
   assertEqual(aiResult.status, "review-only");
   assertEqual(aiResult.providerDispatchAllowed, false);
   assertIncludes(aiResult.blockedActions, "No provider model call");
+
+  const alignmentMode = [{ modeId: "flashcards", parentEngine: "pairing" }];
+  const alignmentBundle = {
+    returnReview: { reviewId: "review-1", tenantId: "tenant-1", requestId: "request-1", modeReviews: alignmentMode },
+    integrationPlan: { planId: "plan-1", tenantId: "tenant-1", requestId: "request-1", returnReviewId: "review-1", modePlans: alignmentMode },
+    wrapperAdapterReview: { tenantId: "tenant-1", requestId: "request-1", integrationPlanId: "plan-1", modeReviews: alignmentMode },
+    fixtureReplayReport: { tenantId: "tenant-1", requestId: "request-1", integrationPlanId: "plan-1", modeReports: alignmentMode },
+    eventReplayReport: { tenantId: "tenant-1", requestId: "request-1", integrationPlanId: "plan-1", modeReports: alignmentMode },
+    audioCoverageReport: { tenantId: "tenant-1", requestId: "request-1", integrationPlanId: "plan-1", modeReports: alignmentMode },
+    mobileAccessibilityReport: { tenantId: "tenant-1", requestId: "request-1", integrationPlanId: "plan-1", modeReports: alignmentMode },
+    scoringReplayReport: { tenantId: "tenant-1", requestId: "request-1", integrationPlanId: "plan-1", modeReports: alignmentMode },
+    codexIntegrationDecision: { tenantId: "tenant-1", requestId: "request-1" },
+    integrationReadinessGate: { tenantId: "tenant-1", requestId: "request-1", integrationPlanId: "plan-1" },
+  };
+  assertEqual(prototypeAlignment.validateAiPrototypeEvidenceAlignment(alignmentBundle).length, 0);
+  assertIncludes(
+    prototypeAlignment.validateAiPrototypeEvidenceAlignment({
+      ...alignmentBundle,
+      eventReplayReport: { ...alignmentBundle.eventReplayReport, requestId: "request-2" },
+    }),
+    "event replay report requestId does not match the return review request.",
+  );
+  assertIncludes(
+    prototypeAlignment.validateAiPrototypeEvidenceAlignment({
+      ...alignmentBundle,
+      scoringReplayReport: {
+        ...alignmentBundle.scoringReplayReport,
+        modeReports: [{ modeId: "flashcards", parentEngine: "selection" }],
+      },
+    }),
+    "scoring replay report changes the parent engine for mode flashcards.",
+  );
 
   const earlyJapanesePlan = {
     unitKey: "tenant-1:curriculum-1:L1:U1", targetLanguage: "en", assistLanguage: "ja",

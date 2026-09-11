@@ -98,6 +98,7 @@ import {
 import { samplePrototypeIntakeReadinessSummary } from "@/data/samplePrototypeIntakeReadinessSummary";
 import { samplePrototypeIntakeStorageGuards } from "@/data/samplePrototypeIntakeStorageGuard";
 import { samplePrototypeReturnReadinessSummary } from "@/data/samplePrototypeReturnReadinessSummary";
+import { sampleAiPrototypeEvidenceAlignmentBundles } from "@/data/sampleAiPrototypeEvidenceAlignment";
 import {
   filterPrototypeReturnPackageChecklistsByTenant,
   samplePrototypeReturnPackageChecklists,
@@ -111,6 +112,7 @@ import { AiPrototypeAudioCoverageReportPanel } from "@/features/content-intake/A
 import { AiPrototypeCodexIntegrationDecisionPanel } from "@/features/content-intake/AiPrototypeCodexIntegrationDecisionPanel";
 import { AiPrototypeCodexPatchApprovalDecisionPanel } from "@/features/content-intake/AiPrototypeCodexPatchApprovalDecisionPanel";
 import { AiPrototypeEventReplayReportPanel } from "@/features/content-intake/AiPrototypeEventReplayReportPanel";
+import { AiPrototypeEvidenceAlignmentPanel } from "@/features/content-intake/AiPrototypeEvidenceAlignmentPanel";
 import { AiPrototypeFixtureReplayReportPanel } from "@/features/content-intake/AiPrototypeFixtureReplayReportPanel";
 import { AiPrototypeIntegrationPlanPanel } from "@/features/content-intake/AiPrototypeIntegrationPlanPanel";
 import { AiPrototypeIntegrationReadinessGatePanel } from "@/features/content-intake/AiPrototypeIntegrationReadinessGatePanel";
@@ -253,6 +255,11 @@ export default async function TeacherPrototypeReviewPage({
           />
           <AiPrototypeScoringReplayReportPanel
             reports={filterAiPrototypeScoringReplayReportsByTenant(sampleAiPrototypeScoringReplayReports, tenantId)}
+          />
+          <AiPrototypeEvidenceAlignmentPanel
+            bundles={sampleAiPrototypeEvidenceAlignmentBundles.filter(
+              (bundle) => bundle.returnReview.tenantId === tenantId,
+            )}
           />
         </section>
 

@@ -364,10 +364,11 @@ for (const marker of prototypeReturnReadinessSummaryMarkers) {
 
 for (const marker of prototypeEvidenceAlignmentMarkers) {
   requireText(
-    sources.evidenceAlignmentModel +
+      sources.evidenceAlignmentModel +
       sources.evidenceAlignmentSample +
       sources.evidenceAlignmentPanel +
-      sources.generatorPage,
+      sources.generatorPage +
+      sources.prototypePage,
     marker,
     `Prototype evidence alignment must keep marker: ${marker}`,
   );
