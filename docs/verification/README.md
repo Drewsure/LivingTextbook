@@ -244,3 +244,8 @@ real returned prototype.
 
 The derived alert decision is covered by `npm run verify:runtime-behavior`,
 `npm run verify:prototype-review`, and the active route checks.
+
+The derived readiness-summary status and Codex-alert label are covered by
+`npm run verify:runtime-behavior`, `npm run verify:prototype-review`, and the
+active route checks. Lane evidence is authoritative; hand-maintained summary
+labels are not permitted.

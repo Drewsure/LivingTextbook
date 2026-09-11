@@ -1104,6 +1104,39 @@ try {
     }),
     "ready-for-review",
   );
+  assertEqual(
+    prototypeIntakeAlert.derivePrototypeIntakeReadinessStatus([
+      { status: "ready" },
+      { status: "missing" },
+    ]),
+    "not-ready",
+  );
+  assertEqual(
+    prototypeIntakeAlert.derivePrototypeIntakeReadinessStatus([
+      { status: "ready" },
+      { status: "blocked" },
+    ]),
+    "evidence-review-needed",
+  );
+  assertEqual(
+    prototypeIntakeAlert.derivePrototypeIntakeReadinessStatus([
+      { status: "ready" },
+      { status: "ready" },
+    ]),
+    "ready-for-codex-alert",
+  );
+  assertEqual(
+    prototypeIntakeAlert.derivePrototypeIntakeCodexAlertState("not-ready"),
+    "Codex alert not issued",
+  );
+  assertEqual(
+    prototypeIntakeAlert.derivePrototypeIntakeCodexAlertState("blocked"),
+    "Codex alert blocked by structural evidence",
+  );
+  assertEqual(
+    prototypeIntakeAlert.derivePrototypeIntakeCodexAlertState("ready-for-review"),
+    "Codex alert ready",
+  );
 
   const earlyJapanesePlan = {
     unitKey: "tenant-1:curriculum-1:L1:U1", targetLanguage: "en", assistLanguage: "ja",

@@ -1752,4 +1752,13 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-638 and `docs/adr/05
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-639 and `docs/adr/0567-derived-prototype-alert.md`.
 
+## 110. Derived Prototype Readiness Summary Standard
+
+- The prototype intake summary status must be derived from its readiness lanes, not hand-maintained.
+- Any blocked lane produces `evidence-review-needed`; missing work keeps the summary `not-ready`; only an all-ready lane set may produce `ready-for-codex-alert`.
+- The visible Codex-alert label must be derived from the same alert decision as the handoff signal.
+- Shared content-model status types are the contract for both the review workbench and verification harness.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-640 and `docs/adr/0568-derived-prototype-readiness-summary.md`.
+
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-615 and `docs/adr/0543-progress-event-timestamps.md`.

@@ -1126,3 +1126,10 @@ from readiness lanes through a shared content-model function. The UI cannot
 silently claim readiness from a stale hand-maintained flag.
 This decision is recorded in `docs/adr/0567-derived-prototype-alert.md` and
 `docs/decision-register/DR-639-derived-prototype-alert.md`.
+
+The derived readiness-summary slice now computes the overall summary status
+and Codex-alert label from the same readiness lanes. Missing package evidence
+keeps the state not-ready, blocked evidence requires review, and only an
+all-ready lane set can produce the ready-for-alert state.
+This decision is recorded in `docs/adr/0568-derived-prototype-readiness-summary.md`
+and `docs/decision-register/DR-640-derived-prototype-readiness-summary.md`.

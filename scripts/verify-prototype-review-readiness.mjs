@@ -164,6 +164,9 @@ const prototypeIntakeReadinessSummaryMarkers = [
   "Returned package manifest",
   "returnedPackageContractErrors",
   "hasReturnedPrototypePackage",
+  "derivePrototypeIntakeReadinessStatus",
+  "derivePrototypeIntakeCodexAlertState",
+  "evidence-review-needed",
   "structurally valid; no package has been returned",
   "do not count as a return",
   "Replay reports",
@@ -351,6 +354,7 @@ for (const marker of prototypeIntakeReadinessSummaryMarkers) {
   requireText(
     sources.prototypeIntakeReadinessSummary +
       sources.prototypeIntakeReadinessSummaryPanel +
+      sources.prototypeIntakeAlertModel +
       sources.gameReadinessPage +
       sources.prototypePage,
     marker,

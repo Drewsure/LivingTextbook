@@ -3178,3 +3178,31 @@ Guardrails:
   remain blocked.
 
 This decision is recorded in `docs/adr/0567-derived-prototype-alert.md`.
+
+## DR-640: Derived Prototype Readiness Summary
+
+Status: Accepted
+
+Decision: Derive the prototype intake summary status and visible Codex-alert
+label from the summary's readiness lanes through the shared content model.
+Blocked lanes produce `evidence-review-needed`, missing lanes produce
+`not-ready`, and an all-ready lane set is the only path to
+`ready-for-codex-alert`.
+
+Rationale:
+
+- A hand-maintained summary status can disagree with the lane evidence it is
+  supposed to summarize.
+- The review workbench and the Z.ai/Codex alert must share one state machine.
+- Centralized status types prevent UI and verification code from silently
+  drifting apart.
+
+Guardrails:
+
+- This is a derived review signal only; it does not enable imports, writes,
+  routes, scoring, rewards, media, package promotion, or assignment.
+- A missing returned package remains `not-ready` even when all preview
+  contracts are structurally valid.
+- Structural blockers remain visible and cannot be hidden by a summary label.
+
+This decision is recorded in `docs/adr/0568-derived-prototype-readiness-summary.md`.
