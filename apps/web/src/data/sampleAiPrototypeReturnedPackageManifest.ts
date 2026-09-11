@@ -1,5 +1,7 @@
 import {
   validateAiPrototypeReturnedPackageAlignment,
+  validateAiPrototypeReturnedPackageIntakeAlignment,
+  type AiPrototypeIntakeQueueReference,
   type AiPrototypeReturnChecklistReference,
 } from "@living-textbook/content-model/src/aiPrototypeReturnedPackageAlignment";
 import {
@@ -8,6 +10,7 @@ import {
   type AiPrototypeReturnedPackageManifest,
 } from "@living-textbook/content-model/src/aiPrototypeReturnedPackageManifest";
 import { samplePrototypeReturnPackageChecklists } from "@/data/samplePrototypeReturnPackageChecklist";
+import { samplePrototypeIntakeQueue } from "@/data/samplePrototypeIntakeQueue";
 
 export const sampleAiPrototypeReturnedPackageManifests: AiPrototypeReturnedPackageManifest[] =
   samplePrototypeReturnPackageChecklists.map((checklist) => ({
@@ -51,6 +54,26 @@ export const sampleAiPrototypeReturnedPackageAlignmentErrors = sampleAiPrototype
       return [`${manifest.manifestId}: no return checklist reference exists.`];
     }
     return validateAiPrototypeReturnedPackageAlignment(manifest, checklist).map(
+      (error) => `${manifest.manifestId}: ${error}`,
+    );
+  },
+);
+
+const intakeReferences: AiPrototypeIntakeQueueReference[] = samplePrototypeIntakeQueue.map((item) => ({
+  itemId: item.itemId,
+  tenantId: item.tenantId,
+  sourceRepository: item.sourceRepo,
+  targetMode: item.gameMode,
+  parentEngine: item.parentEngine,
+}));
+
+export const sampleAiPrototypeReturnedPackageIntakeAlignmentErrors = sampleAiPrototypeReturnedPackageManifests.flatMap(
+  (manifest) => {
+    const intake = intakeReferences.find((candidate) => candidate.itemId === manifest.queueItemId);
+    if (!intake) {
+      return [`${manifest.manifestId}: no intake queue reference exists.`];
+    }
+    return validateAiPrototypeReturnedPackageIntakeAlignment(manifest, intake).map(
       (error) => `${manifest.manifestId}: ${error}`,
     );
   },

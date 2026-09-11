@@ -622,6 +622,9 @@ const prototypeReviewRouteExpected = [
   "Return checklist alignment",
   "checklist alignment error(s)",
   "Manifest identity matches its tenant-scoped return checklist",
+  "Intake queue alignment",
+  "intake alignment error(s)",
+  "Manifest identity matches its original intake queue item",
 ];
 expectedTextByPath.set("/teacher/prototypes/sample-publisher", prototypeReviewRouteExpected);
 expectedTextByPath.set("/teacher/prototypes/ministar", [

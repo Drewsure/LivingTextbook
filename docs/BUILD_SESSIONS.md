@@ -1101,3 +1101,9 @@ entries, missing target mode or parent engine identity, unsupported statuses,
 and review-only packages whose required evidence is only marked present.
 This decision is recorded in `docs/adr/0563-returned-artifact-shape.md` and
 `docs/decision-register/DR-635-returned-artifact-shape.md`.
+
+The returned package intake-provenance slice now cross-checks the manifest
+against the original tenant-scoped intake queue item, completing the identity
+chain before any future Z.ai or Phaser integration review.
+This decision is recorded in `docs/adr/0564-returned-package-intake-provenance.md`
+and `docs/decision-register/DR-636-returned-package-intake-provenance.md`.

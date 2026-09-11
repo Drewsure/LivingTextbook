@@ -263,6 +263,10 @@ const prototypeReturnedPackageManifestMarkers = [
   "Return checklist alignment",
   "checklist alignment error(s)",
   "Manifest identity matches its tenant-scoped return checklist",
+  "validateAiPrototypeReturnedPackageIntakeAlignment",
+  "Intake queue alignment",
+  "intake alignment error(s)",
+  "Manifest identity matches its original intake queue item",
   "AiPrototypeReturnedPackageManifestPanel",
 ];
 

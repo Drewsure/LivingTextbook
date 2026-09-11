@@ -1050,6 +1050,24 @@ try {
     ),
     "A review-only returned package requires a return checklist ready-for-return-review status.",
   );
+  const returnedPackageIntake = {
+    itemId: "queue-1",
+    tenantId: "tenant-1",
+    sourceRepository: "Drewsure/ministar-lab",
+    targetMode: "flashcards",
+    parentEngine: "pairing",
+  };
+  assertEqual(
+    returnedPackageAlignment.validateAiPrototypeReturnedPackageIntakeAlignment(returnedPackagePreview, returnedPackageIntake).length,
+    0,
+  );
+  assertIncludes(
+    returnedPackageAlignment.validateAiPrototypeReturnedPackageIntakeAlignment(
+      { ...returnedPackagePreview, parentEngine: "selection" },
+      returnedPackageIntake,
+    ),
+    "Returned package manifest parentEngine does not match the intake queue.",
+  );
 
   const earlyJapanesePlan = {
     unitKey: "tenant-1:curriculum-1:L1:U1", targetLanguage: "en", assistLanguage: "ja",

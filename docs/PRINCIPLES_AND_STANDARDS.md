@@ -1719,4 +1719,12 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-634 and `docs/adr/05
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-635 and `docs/adr/0563-returned-artifact-shape.md`.
 
+## 106. Returned Package Intake Provenance Standard
+
+- A returned package manifest must agree with the original intake queue item on tenant, queue ID, source repository, target mode, and parent engine.
+- Checklist alignment and intake alignment are separate gates so neither record can hide drift in the other.
+- A green provenance check remains evidence only and never authorizes import, route replacement, scoring mutation, package promotion, or assignment.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-636 and `docs/adr/0564-returned-package-intake-provenance.md`.
+
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-615 and `docs/adr/0543-progress-event-timestamps.md`.

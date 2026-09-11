@@ -3072,3 +3072,30 @@ Guardrails:
   replacement, scoring mutation, package promotion, or student assignment.
 
 This decision is recorded in `docs/adr/0563-returned-artifact-shape.md`.
+
+## DR-636: Returned Package Intake Provenance
+
+Status: Accepted
+
+Decision: Align every returned package manifest with the original prototype
+intake queue item as well as the return checklist. The manifest must preserve
+tenant, queue ID, approved repository, target mode, and parent engine across
+the full provenance chain.
+
+Rationale:
+
+- Checklist alignment alone cannot prove that the checklist belongs to the
+  original intake request.
+- Queue identity is the earliest stable record of why a prototype was
+  considered and which parent engine was selected.
+- Explicit provenance protects white-label isolation and makes later Z.ai or
+  Phaser review auditable.
+
+Guardrails:
+
+- Missing or mismatched intake identity blocks provenance alignment.
+- The check remains separate from artifact completeness and Codex decision.
+- No source import, route replacement, scoring mutation, package promotion, or
+  student assignment is enabled.
+
+This decision is recorded in `docs/adr/0564-returned-package-intake-provenance.md`.

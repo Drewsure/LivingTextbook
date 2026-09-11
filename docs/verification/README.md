@@ -228,3 +228,8 @@ engine, and review status.
 The returned artifact-shape guard also runs through `npm run verify:runtime-behavior`.
 It rejects malformed artifact entries and prevents a `review-only` package from
 passing with unreviewed evidence.
+
+Returned package intake provenance is also covered by
+`npm run verify:prototype-review`, `npm run verify:runtime-behavior`, and the
+active route checks. It must match the original intake queue before any future
+return review can advance.
