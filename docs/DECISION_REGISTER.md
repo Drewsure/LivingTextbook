@@ -3262,3 +3262,30 @@ Guardrails:
 - MiniStar support-language and Japanese release restrictions remain intact.
 
 This decision is recorded in `docs/adr/0570-derived-prototype-integration-gate.md`.
+
+## DR-643: Integration Evidence Provenance
+
+Status: Accepted
+
+Decision: Build integration-gate evidence checks from the statuses of their
+corresponding upstream prototype records. Unknown or unfinished records map
+to blocked evidence; only explicit reviewed records map to reviewed evidence.
+The readiness-gate self-check can become reviewed only after every upstream
+check is reviewed.
+
+Rationale:
+
+- A gate that labels every check blocked can hide whether the underlying
+  record has moved forward or whether the gate itself is stale.
+- Provenance is required before Codex can assess a future Z.ai or Phaser return
+  package efficiently.
+- Self-referential readiness must not bootstrap an integration approval.
+
+Guardrails:
+
+- The derived evidence map remains review-only and provider-neutral.
+- Unknown, missing, or not-run records remain blocked.
+- No evidence status authorizes app writes, route changes, scoring or reward
+  mutation, playlist changes, package promotion, or assignment.
+
+This decision is recorded in `docs/adr/0571-integration-evidence-provenance.md`.

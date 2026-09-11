@@ -1148,3 +1148,10 @@ blocked evidence keeps it blocked; pending evidence is review-only; all
 reviewed evidence is ready for Codex review without authorizing an app patch.
 This decision is recorded in `docs/adr/0570-derived-prototype-integration-gate.md`
 and `docs/decision-register/DR-642-derived-prototype-integration-gate.md`.
+
+The integration evidence provenance slice now maps each gate check to its
+existing wrapper, fixture, event, audio, mobile, scoring, and Codex-decision
+record. Unknown or unfinished records remain blocked, and the readiness-gate
+self-check cannot bootstrap its own review.
+This decision is recorded in `docs/adr/0571-integration-evidence-provenance.md`
+and `docs/decision-register/DR-643-integration-evidence-provenance.md`.

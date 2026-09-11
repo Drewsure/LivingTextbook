@@ -1779,4 +1779,13 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-641 and `docs/adr/05
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-642 and `docs/adr/0570-derived-prototype-integration-gate.md`.
 
+## 113. Integration Evidence Provenance Standard
+
+- Integration-gate evidence-check statuses must be derived from the corresponding wrapper, fixture, event, audio, mobile, scoring, and Codex-decision records.
+- An integration gate may summarize those records, but it may not replace their statuses with a blanket blocked or reviewed value.
+- The readiness-gate self-check is reviewed only after every upstream evidence record is reviewed; it cannot bootstrap its own approval.
+- Missing or unknown upstream records remain blocked and preserve the existing no-import, no-patch boundary.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-643 and `docs/adr/0571-integration-evidence-provenance.md`.
+
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-615 and `docs/adr/0543-progress-event-timestamps.md`.

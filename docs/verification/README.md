@@ -259,3 +259,7 @@ The integration-readiness gate status is covered by the runtime and active-route
 checks. Its evidence checks are authoritative: missing/blocked means blocked,
 pending means review-only, and all reviewed means ready for Codex review only.
 No gate status authorizes an app patch or live integration.
+
+Integration evidence provenance is covered by web typecheck, production build,
+runtime checks, and active routes. The gate must derive check states from
+upstream records; a blanket status is not sufficient evidence.
