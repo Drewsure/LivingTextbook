@@ -1337,3 +1337,9 @@ mark its declared primary key field as required. A regression test proves that
 an optional media_id is rejected before backend implementation. The decision
 is recorded in `docs/adr/0597-required-migration-identity-field.md` and
 `docs/decision-register/DR-669-required-migration-identity-field.md`.
+
+The migration candidate coverage slice now requires every non-deferred
+candidate to have at least one migration specification, while deferred
+candidates must not carry implementation specs. The decision is recorded in
+`docs/adr/0598-migration-candidate-spec-coverage.md` and
+`docs/decision-register/DR-670-migration-candidate-spec-coverage.md`.

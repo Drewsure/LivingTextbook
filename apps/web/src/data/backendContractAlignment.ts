@@ -120,5 +120,23 @@ export function validateBackendContractAlignment({
     }
   }
 
+  const specsByCandidate = new Map<string, number>();
+  for (const spec of migrationSpecPlan.specs) {
+    specsByCandidate.set(spec.candidateId, (specsByCandidate.get(spec.candidateId) ?? 0) + 1);
+  }
+  for (const candidate of migrationPlan.candidates) {
+    const specCount = specsByCandidate.get(candidate.migrationId) ?? 0;
+    if (candidate.status === "defer" && specCount > 0) {
+      errors.push(
+        `Backend migration candidate ${candidate.migrationId} is deferred and must not have implementation specs yet.`,
+      );
+    }
+    if (candidate.status !== "defer" && specCount === 0) {
+      errors.push(
+        `Backend migration candidate ${candidate.migrationId} must have at least one migration spec before it is actionable.`,
+      );
+    }
+  }
+
   return errors;
 }

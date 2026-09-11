@@ -94,6 +94,23 @@ try {
     throw new Error("Backend contract alignment did not reject an optional primary key field.");
   }
 
+  const actionableWithoutSpecPlan = {
+    ...migrationPlan,
+    candidates: migrationPlan.candidates.map((candidate) =>
+      candidate.migrationId === "m008-local-classroom-export-store"
+        ? { ...candidate, status: "ready-to-design" }
+        : candidate,
+    ),
+  };
+  const actionableWithoutSpecErrors = alignment.validateBackendContractAlignment({
+    schema,
+    migrationPlan: actionableWithoutSpecPlan,
+    migrationSpecPlan,
+  });
+  if (!actionableWithoutSpecErrors.includes("Backend migration candidate m008-local-classroom-export-store must have at least one migration spec before it is actionable.")) {
+    throw new Error("Backend contract alignment did not reject an actionable candidate without a migration spec.");
+  }
+
   console.log("PASS backend contract alignment resolves all sample schema entities, migration candidates, and migration specs.");
 } finally {
   rmSync(output, { recursive: true, force: true });
