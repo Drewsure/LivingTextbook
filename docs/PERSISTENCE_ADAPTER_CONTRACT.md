@@ -25,6 +25,13 @@ It defines:
 - `validatePersistenceAdapterPlan`
 - `getPersistenceAdapterWarnings`
 
+The adapter plan is checked against durable record contracts by
+`validatePersistenceContractAlignment` in
+`packages/content-model/src/persistenceConsistency.ts`. This prevents a
+hosted/local plan from silently dropping tenant scope from progress, reports,
+or any external-prototype evidence record. It also rejects an adapter that
+claims to reject raw audio for a durable record that explicitly stores it.
+
 ## Adapter Modes
 
 ### Static Demo Adapter
@@ -109,6 +116,11 @@ Local approval records need backup, restore, export, approver identity, timestam
 Hosted and local AI prototype integration-readiness gate and Codex integration-review decision write intents must preserve tenant boundaries and name the adapter mapping in `tenantBoundaryKey`. These records are review metadata, but they still carry publisher scope and must remain isolated across white-label deployments.
 
 Hosted and local intents for every external-prototype evidence and patch-review category reuse the same shared tenant-bound category list, preventing one adapter from quietly weakening the boundary.
+
+The sample teacher persistence surfaces display alignment failures together
+with adapter validation failures. A clean adapter plan is therefore not enough
+by itself: the durable-record and adapter layers must agree before a backend
+selection or prototype integration decision can advance.
 
 ## Current UI Surface
 

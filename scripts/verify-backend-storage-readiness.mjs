@@ -10,6 +10,8 @@ const evidenceStorageAdapterSelectionGatePanel = readSource("../apps/web/src/fea
 const teacherPersistencePage = readSource("../apps/web/src/app/teacher/persistence/page.tsx");
 const persistenceAdapterValidator = readSource("../packages/content-model/src/persistenceAdapter.ts");
 const durableRecordValidator = readSource("../packages/content-model/src/persistenceRecords.ts");
+const persistenceConsistencyValidator = readSource("../packages/content-model/src/persistenceConsistency.ts");
+const persistenceContractAlignment = readSource("../apps/web/src/data/samplePersistenceContractAlignment.ts");
 const routeVerifier = readSource("./verify-active-routes.mjs");
 const failures = [];
 
@@ -402,6 +404,26 @@ requireText(
   persistenceAdapter,
   "hosted-package-adoption-record-preview-write",
   "Persistence adapter must preserve the hosted package adoption preview write intent.",
+);
+
+for (const text of [
+  "TENANT_BOUND_PERSISTENCE_RECORD_CATEGORIES",
+  "validatePersistenceContractAlignment",
+  "named tenant boundary",
+  "adapter write intent",
+  "stores raw audio",
+]) {
+  requireText(
+    persistenceConsistencyValidator,
+    text,
+    `Persistence consistency validator must preserve cross-layer contract text: ${text}.`,
+  );
+}
+
+requireText(
+  persistenceContractAlignment,
+  "samplePersistenceContractAlignmentErrors",
+  "Sample persistence plan must expose cross-layer alignment errors.",
 );
 requireText(
   persistenceAdapter,

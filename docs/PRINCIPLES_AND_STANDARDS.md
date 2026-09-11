@@ -1652,4 +1652,15 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-627 and `docs/adr/05
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-628 and `docs/adr/0556-complete-external-prototype-tenant-scope.md`.
 
+## 99. Persistence Contract Alignment Standard
+
+- Durable-record validation and adapter-plan validation are necessary but not sufficient in isolation.
+- Tenant-bound progress, teacher-report, and external-prototype categories must be present in both layers.
+- Hosted and local intents must use the same concrete `tenantBoundaryKey` as their durable record contract.
+- A storage intent must not reject raw audio when its durable record explicitly stores raw audio.
+- Review-only records may remain unpaired until a later storage decision; this exception must not weaken the shared tenant-bound category list.
+- Alignment remains a verification-only gate. It does not select a vendor, activate storage, import Z.ai work, or authorize student assignment.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-629 and `docs/adr/0557-persistence-contract-alignment.md`.
+
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-615 and `docs/adr/0543-progress-event-timestamps.md`.

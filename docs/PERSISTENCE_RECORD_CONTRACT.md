@@ -31,6 +31,16 @@ It defines:
 - `validateDurableRecordContracts`
 - `getDurableRecordReadinessWarnings`
 
+The shared persistence consistency validator also checks the cross-layer contract:
+
+- `validatePersistenceContractAlignment`
+
+Tenant-bound progress, teacher-report, and external-prototype records must have
+matching hosted/local adapter intents. The adapter intent must use the same
+named `tenantBoundaryKey` as the durable record contract. This is intentionally
+limited to records that need adapter coverage; review-only records may remain
+schema and evidence work until a later storage decision.
+
 ## Record Families
 
 The scaffold currently tracks:

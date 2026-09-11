@@ -10,6 +10,7 @@ import {
   samplePersistenceAdapterPlans,
   samplePersistenceAdapterWarnings,
 } from "@/data/samplePersistenceAdapterPlan";
+import { samplePersistenceContractAlignmentErrors } from "@/data/samplePersistenceContractAlignment";
 import {
   sampleDurableRecordContracts,
   sampleDurableRecordErrors,
@@ -89,7 +90,7 @@ export default function TeacherPersistencePage() {
         />
         <PersistenceAdapterReadinessPanel
           plans={samplePersistenceAdapterPlans}
-          errors={samplePersistenceAdapterErrors}
+          errors={[...samplePersistenceAdapterErrors, ...samplePersistenceContractAlignmentErrors]}
           warnings={samplePersistenceAdapterWarnings}
         />
       </div>

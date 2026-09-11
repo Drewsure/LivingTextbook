@@ -35,6 +35,7 @@ try {
     "packages/content-model/src/persistenceRuntime.ts",
     "packages/content-model/src/persistenceRecords.ts",
     "packages/content-model/src/persistenceAdapter.ts",
+    "packages/content-model/src/persistenceConsistency.ts",
     "packages/content-model/src/reportRuntime.ts",
   ], { cwd: root, encoding: "utf8" });
 
@@ -88,6 +89,7 @@ try {
   const persistence = require(join(output, "persistenceRuntime.js"));
   const persistenceRecords = require(join(output, "persistenceRecords.js"));
   const persistenceAdapter = require(join(output, "persistenceAdapter.js"));
+  const persistenceConsistency = require(join(output, "persistenceConsistency.js"));
   const report = require(join(output, "reportRuntime.js"));
   const contentModel = require(join(output, "index.js"));
   const aiService = require(join(aiOutput, "apps", "ai-service", "src", "index.js"));
@@ -761,6 +763,53 @@ try {
       },
     ]),
     "ai-prototype-audio-coverage-report durable record prototype-audio-report-record must preserve tenant boundary.",
+  );
+
+  const alignedPrototypeRecord = {
+    ...prototypeGateRecord,
+    preservesTenantBoundary: true,
+    tenantBoundaryKey: "tenant_id",
+  };
+  const alignedPrototypeIntent = {
+    ...prototypeGateIntent,
+    preservesTenantBoundary: true,
+    tenantBoundaryKey: "tenant_id",
+  };
+  assertEqual(
+    persistenceConsistency.validatePersistenceContractAlignment({
+      durableRecords: [alignedPrototypeRecord],
+      requiredCategories: ["ai-prototype-integration-readiness-gate"],
+      adapterPlans: [{
+        planId: "aligned-prototype-plan",
+        label: "Aligned prototype plan",
+        mode: "hosted-managed",
+        recommendedForFirstPilot: false,
+        costPosture: "controlled",
+        deploymentChannels: ["hosted-web"],
+        writeIntents: [alignedPrototypeIntent],
+        handoffSteps: ["Review"],
+        note: "Test alignment",
+      }],
+    }).length,
+    0,
+  );
+  assertIncludes(
+    persistenceConsistency.validatePersistenceContractAlignment({
+      durableRecords: [alignedPrototypeRecord],
+      requiredCategories: ["ai-prototype-integration-readiness-gate"],
+      adapterPlans: [{
+        planId: "mismatched-prototype-plan",
+        label: "Mismatched prototype plan",
+        mode: "hosted-managed",
+        recommendedForFirstPilot: false,
+        costPosture: "controlled",
+        deploymentChannels: ["hosted-web"],
+        writeIntents: [{ ...alignedPrototypeIntent, tenantBoundaryKey: "canonical_unit_key.tenant_id" }],
+        handoffSteps: ["Review"],
+        note: "Test alignment mismatch",
+      }],
+    }),
+    "Persistence alignment requires ai-prototype-integration-readiness-gate adapter intent prototype-gate-intent to use a durable-record tenant boundary key.",
   );
 
   const reportRequest = {

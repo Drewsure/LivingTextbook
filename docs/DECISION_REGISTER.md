@@ -2878,3 +2878,31 @@ Guardrails:
 - No direct import, app patch, route mutation, scoring mutation, package promotion, or assignment is enabled.
 
 This decision is recorded in `docs/adr/0556-complete-external-prototype-tenant-scope.md`.
+
+## DR-629: Persistence Contract Alignment
+
+Status: Accepted
+
+Decision: Validate the durable-record contract and hosted/local adapter plans
+together for the tenant-bound persistence surface.
+
+Rationale:
+
+- Independent validators can both pass while the two layers drift apart.
+- Progress, teacher reports, and the full external-prototype evidence chain
+  must preserve white-label tenant isolation through storage and export.
+- Review-only records should not be forced into a live adapter before their
+  storage requirements are understood.
+
+Guardrails:
+
+- Every shared tenant-bound category must have a durable record and at least
+  one adapter intent.
+- Adapter intents must reuse the durable record's explicit
+  `tenantBoundaryKey`.
+- A raw-audio storage declaration cannot be paired with an adapter that
+  rejects raw audio.
+- This is verification-only and does not select a backend or authorize Z.ai
+  prototype import.
+
+This decision is recorded in `docs/adr/0557-persistence-contract-alignment.md`.
