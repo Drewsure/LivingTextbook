@@ -1007,6 +1007,14 @@ failures alongside adapter failures.
 This decision is recorded in `docs/adr/0557-persistence-contract-alignment.md`
 and `docs/decision-register/DR-629-persistence-contract-alignment.md`.
 
+The backend contract alignment slice now checks the vendor-neutral schema,
+migration candidates, and migration specifications together. Missing schema
+targets, orphan migration specs, empty primary keys, empty tenant scopes, and
+duplicate fields are rejected before provider-specific migration design.
+
+This decision is recorded in `docs/adr/0558-backend-contract-alignment.md`
+and `docs/decision-register/DR-630-backend-contract-alignment.md`.
+
 The scoring profile compatibility slice now requires every scoring profile to declare supported parent engines, learner roles, and skill focuses. The game-mode verification gate compares those declarations with each catalog mode so reward semantics cannot drift away from the engine or pedagogical purpose. This remains verification-only and does not award dust or mutate progression.
 This decision is recorded in `docs/adr/0539-scoring-profile-compatibility.md` and `docs/decision-register/DR-611-scoring-profile-compatibility.md`.
 

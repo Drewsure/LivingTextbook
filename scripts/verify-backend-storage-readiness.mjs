@@ -12,6 +12,9 @@ const persistenceAdapterValidator = readSource("../packages/content-model/src/pe
 const durableRecordValidator = readSource("../packages/content-model/src/persistenceRecords.ts");
 const persistenceConsistencyValidator = readSource("../packages/content-model/src/persistenceConsistency.ts");
 const persistenceContractAlignment = readSource("../apps/web/src/data/samplePersistenceContractAlignment.ts");
+const backendContractAlignment = readSource("../apps/web/src/data/backendContractAlignment.ts");
+const sampleBackendContractAlignment = readSource("../apps/web/src/data/sampleBackendContractAlignment.ts");
+const backendContractAlignmentPanel = readSource("../apps/web/src/features/persistence/BackendContractAlignmentPanel.tsx");
 const routeVerifier = readSource("./verify-active-routes.mjs");
 const failures = [];
 
@@ -424,6 +427,31 @@ requireText(
   persistenceContractAlignment,
   "samplePersistenceContractAlignmentErrors",
   "Sample persistence plan must expose cross-layer alignment errors.",
+);
+
+for (const text of [
+  "validateBackendContractAlignment",
+  "missing schema entity",
+  "missing candidate",
+  "primary key",
+  "tenant scope",
+]) {
+  requireText(
+    backendContractAlignment,
+    text,
+    `Backend contract alignment must preserve cross-layer text: ${text}.`,
+  );
+}
+
+requireText(
+  sampleBackendContractAlignment,
+  "sampleBackendContractAlignmentErrors",
+  "Sample backend contracts must expose alignment errors.",
+);
+requireText(
+  backendContractAlignmentPanel,
+  "Alignment clean",
+  "Teacher persistence surfaces must show backend contract alignment.",
 );
 requireText(
   persistenceAdapter,
@@ -6218,6 +6246,8 @@ requireText(
   "sampleEvidenceStorageAdapterSelectionGate",
   "Persistence route must pass the evidence storage adapter selection gate data.",
 );
+
+await import("./verify-backend-contract-alignment.mjs");
 
 if (failures.length > 0) {
   for (const failure of failures) {

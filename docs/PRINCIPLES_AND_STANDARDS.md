@@ -1663,4 +1663,14 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-628 and `docs/adr/05
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-629 and `docs/adr/0557-persistence-contract-alignment.md`.
 
+## 100. Backend Contract Alignment Standard
+
+- The vendor-neutral schema, migration candidates, and migration specifications are one contract surface.
+- Every migration target must resolve to a schema entity.
+- Every migration specification must resolve to a real migration candidate.
+- Specifications must name a primary key, tenant scope, and unique field names.
+- The alignment gate remains read-only and vendor-neutral; it does not authorize migrations, live writes, or provider selection.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-630 and `docs/adr/0558-backend-contract-alignment.md`.
+
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-615 and `docs/adr/0543-progress-event-timestamps.md`.

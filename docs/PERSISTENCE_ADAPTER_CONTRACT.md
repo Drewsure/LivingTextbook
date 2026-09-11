@@ -138,6 +138,10 @@ It shows:
 - safety validation,
 - handoff steps.
 
+The adjacent backend contract alignment gate also checks that the vendor-neutral
+schema, migration candidates, and migration specifications agree before any
+provider-specific migration is designed.
+
 ## Current Non-Goals
 
 - No production backend is selected.

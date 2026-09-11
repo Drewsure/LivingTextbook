@@ -71,6 +71,11 @@ AI prototype integration-readiness gate and Codex integration-review decision re
 
 The same boundary applies to the complete external-prototype chain: intake queue, return package, integration plan, wrapper review, fixture/event/audio/mobile/scoring reports, patch proposals, approval preflights, release locks, work orders, and change-set previews.
 
+The schema draft, migration candidates, and migration specifications are also
+checked together. Every migration target must resolve to a schema entity, and
+every migration specification must resolve to a candidate with a primary key,
+tenant scope, and unique field names.
+
 ## Package Release Records
 
 Package publish gates and approval ledgers are now first-class durable records.

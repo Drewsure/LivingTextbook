@@ -2906,3 +2906,29 @@ Guardrails:
   prototype import.
 
 This decision is recorded in `docs/adr/0557-persistence-contract-alignment.md`.
+
+## DR-630: Backend Contract Alignment
+
+Status: Accepted
+
+Decision: Treat the vendor-neutral schema draft, migration candidate plan, and
+migration specification plan as one cross-checked backend contract.
+
+Rationale:
+
+- A schema entity can exist without a migration target, or a migration spec can
+  point to a candidate that no longer exists.
+- Provider selection should be based on a complete, internally consistent
+  storage surface rather than isolated planning documents.
+- Early alignment is cheaper than discovering drift during hosted/local
+  migration work.
+
+Guardrails:
+
+- Missing schema targets, orphan migration specs, empty primary keys, empty
+  tenant scopes, and duplicate fields block the gate.
+- The check is read-only and vendor-neutral.
+- It does not enable live backend writes, migrations, provider selection, or
+  Z.ai prototype import.
+
+This decision is recorded in `docs/adr/0558-backend-contract-alignment.md`.

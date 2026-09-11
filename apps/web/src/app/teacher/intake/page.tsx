@@ -166,6 +166,8 @@ import { EvidenceStorageAdapterSelectionGatePanel } from "@/features/evidence/Ev
 import { BackendDecisionMatrixPanel } from "@/features/persistence/BackendDecisionMatrixPanel";
 import { BackendMigrationPlanPanel } from "@/features/persistence/BackendMigrationPlanPanel";
 import { BackendMigrationSpecPanel } from "@/features/persistence/BackendMigrationSpecPanel";
+import { BackendContractAlignmentPanel } from "@/features/persistence/BackendContractAlignmentPanel";
+import { sampleBackendContractAlignmentErrors } from "@/data/sampleBackendContractAlignment";
 import { BackendSchemaDraftPanel } from "@/features/persistence/BackendSchemaDraftPanel";
 import { PilotBackendSelectionGatePanel } from "@/features/persistence/PilotBackendSelectionGatePanel";
 import { PersistenceAdapterReadinessPanel } from "@/features/persistence/PersistenceAdapterReadinessPanel";
@@ -294,6 +296,12 @@ export default function TeacherIntakePage() {
         <BackendSchemaDraftPanel draft={sampleBackendSchemaDraft} />
         <BackendMigrationPlanPanel plan={sampleBackendMigrationPlan} />
         <BackendMigrationSpecPanel plan={sampleBackendMigrationSpecPlan} />
+        <BackendContractAlignmentPanel
+          schema={sampleBackendSchemaDraft}
+          migrationPlan={sampleBackendMigrationPlan}
+          migrationSpecPlan={sampleBackendMigrationSpecPlan}
+          errors={sampleBackendContractAlignmentErrors}
+        />
         <PersistenceBoundaryPanel
           boundaries={samplePersistenceBoundaries}
           strategyOptions={samplePersistenceStrategyOptions}
