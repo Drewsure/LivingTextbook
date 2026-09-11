@@ -1743,4 +1743,13 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-637 and `docs/adr/05
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-638 and `docs/adr/0566-returned-package-readiness-separation.md`.
 
+## 109. Derived Prototype Alert Standard
+
+- The Z.ai/Codex intake alert decision must be derived from readiness status and named structural lanes.
+- A blocked evidence-alignment or returned-package-manifest lane blocks the alert.
+- A structurally valid preview with no real returned package remains `not-ready`.
+- The alert decision function cannot import source, create routes, mutate scoring, promote packages, or assign students.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-639 and `docs/adr/0567-derived-prototype-alert.md`.
+
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-615 and `docs/adr/0543-progress-event-timestamps.md`.

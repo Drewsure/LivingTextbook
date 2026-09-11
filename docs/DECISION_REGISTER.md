@@ -3152,3 +3152,29 @@ Guardrails:
   student assignment is enabled by this summary.
 
 This decision is recorded in `docs/adr/0566-returned-package-readiness-separation.md`.
+
+## DR-639: Derived Prototype Alert
+
+Status: Accepted
+
+Decision: Derive the prototype intake alert status from the readiness summary
+using one shared content-model decision function. The alert may become
+`ready-for-review` only when the summary is ready and every readiness lane is
+ready; structural evidence blockers produce `blocked`.
+
+Rationale:
+
+- A separately maintained alert status could drift from readiness evidence.
+- Structural blockers need stronger treatment than ordinary future-work
+  lanes.
+- A shared function makes alert behavior testable without enabling any side
+  effect.
+
+Guardrails:
+
+- Preview records alone cannot produce a ready alert.
+- The alert remains a human handoff signal, not an automated integration action.
+- Import, routes, scoring, rewards, media, package promotion, and assignment
+  remain blocked.
+
+This decision is recorded in `docs/adr/0567-derived-prototype-alert.md`.

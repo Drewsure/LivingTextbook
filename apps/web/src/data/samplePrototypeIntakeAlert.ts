@@ -1,3 +1,6 @@
+import { derivePrototypeIntakeAlertDecision } from "@living-textbook/content-model/src/prototypeIntakeAlert";
+import { samplePrototypeIntakeReadinessSummary } from "@/data/samplePrototypeIntakeReadinessSummary";
+
 export type PrototypeIntakeAlertStatus = "not-ready" | "ready-for-review" | "blocked";
 
 export interface PrototypeIntakeAlert {
@@ -17,7 +20,7 @@ export interface PrototypeIntakeAlert {
 export const samplePrototypeIntakeAlert: PrototypeIntakeAlert = {
   alertId: "zai-prototype-intake-alert-foundation",
   label: "Z.ai prototype intake alert",
-  status: "not-ready",
+  status: derivePrototypeIntakeAlertDecision(samplePrototypeIntakeReadinessSummary),
   summary:
     "Codex will explicitly alert the user when the LivingTextbook foundation is ready for controlled Z.ai game intake. Until then, Z.ai work remains external prototype inventory, not a source for direct app integration.",
   humanSignalRule:

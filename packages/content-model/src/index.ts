@@ -1377,6 +1377,7 @@ export * from "./aiPrototypeIntegrationReadinessGate";
 export * from "./aiPrototypeEvidenceAlignment";
 export * from "./aiPrototypeReturnedPackageManifest";
 export * from "./aiPrototypeReturnedPackageAlignment";
+export * from "./prototypeIntakeAlert";
 export * from "./aiPrototypeAppPatchProposal";
 export * from "./aiPrototypePatchTestReadinessGate";
 export * from "./aiPrototypePatchTestHarnessPlan";

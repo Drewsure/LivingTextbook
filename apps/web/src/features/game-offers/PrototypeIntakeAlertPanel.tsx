@@ -22,6 +22,9 @@ export function PrototypeIntakeAlertPanel({ alert }: PrototypeIntakeAlertPanelPr
           <p className="text-sm font-semibold text-[var(--tenant-muted)]">{alert.label}</p>
           <h2 className="mt-1 text-lg font-bold">Controlled outside prototype intake timing</h2>
           <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">{alert.summary}</p>
+          <p className="mt-2 text-sm font-semibold text-[var(--tenant-muted)]">
+            Alert state is derived from prototype intake readiness lanes; preview records never issue the handoff signal.
+          </p>
         </div>
         <div className="flex flex-wrap justify-end gap-2">
           <StatusPill label={statusLabels[alert.status]} tone="warning" />

@@ -40,6 +40,7 @@ try {
     "packages/content-model/src/aiPrototypeEvidenceAlignment.ts",
     "packages/content-model/src/aiPrototypeReturnedPackageManifest.ts",
     "packages/content-model/src/aiPrototypeReturnedPackageAlignment.ts",
+    "packages/content-model/src/prototypeIntakeAlert.ts",
   ], { cwd: root, encoding: "utf8" });
 
   if (compile.status !== 0) {
@@ -97,6 +98,7 @@ try {
   const prototypeAlignment = require(join(output, "aiPrototypeEvidenceAlignment.js"));
   const returnedPackageManifest = require(join(output, "aiPrototypeReturnedPackageManifest.js"));
   const returnedPackageAlignment = require(join(output, "aiPrototypeReturnedPackageAlignment.js"));
+  const prototypeIntakeAlert = require(join(output, "prototypeIntakeAlert.js"));
   const contentModel = require(join(output, "index.js"));
   const aiService = require(join(aiOutput, "apps", "ai-service", "src", "index.js"));
 
@@ -1077,6 +1079,30 @@ try {
       returnedPackageIntake,
     ),
     "Returned package manifest parentEngine does not match the intake queue.",
+  );
+  assertEqual(
+    prototypeIntakeAlert.derivePrototypeIntakeAlertDecision({
+      status: "not-ready",
+      lanes: [
+        { laneId: "returned-package-manifest-contract", status: "ready" },
+        { laneId: "returned-package-availability", status: "missing" },
+      ],
+    }),
+    "not-ready",
+  );
+  assertEqual(
+    prototypeIntakeAlert.derivePrototypeIntakeAlertDecision({
+      status: "not-ready",
+      lanes: [{ laneId: "returned-package-manifest-contract", status: "blocked" }],
+    }),
+    "blocked",
+  );
+  assertEqual(
+    prototypeIntakeAlert.derivePrototypeIntakeAlertDecision({
+      status: "ready-for-codex-alert",
+      lanes: [{ laneId: "returned-package-manifest-contract", status: "ready" }],
+    }),
+    "ready-for-review",
   );
 
   const earlyJapanesePlan = {

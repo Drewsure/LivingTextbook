@@ -241,3 +241,6 @@ and `hybrid`.
 Readiness-summary separation is covered by `npm run verify:prototype-review` and
 the active route checks. A structurally valid preview must not be reported as a
 real returned prototype.
+
+The derived alert decision is covered by `npm run verify:runtime-behavior`,
+`npm run verify:prototype-review`, and the active route checks.

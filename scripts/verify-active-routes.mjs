@@ -619,6 +619,8 @@ const prototypeReviewRouteExpected = [
   "Returned package manifest",
   "structurally valid; no package has been returned",
   "do not count as a return",
+  "Alert state is derived from prototype intake readiness lanes",
+  "preview records never issue the handoff signal",
   "Exact source snapshot before Z.ai review",
   "No direct file copy into apps/ai-service",
   "No import",

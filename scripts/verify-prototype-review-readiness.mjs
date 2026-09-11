@@ -8,6 +8,7 @@ const files = {
   generatorPage: "apps/web/src/app/teacher/generator/[tenantId]/page.tsx",
   gameReadinessPage: "apps/web/src/app/teacher/game-readiness/page.tsx",
   prototypeIntakeAlert: "apps/web/src/data/samplePrototypeIntakeAlert.ts",
+  prototypeIntakeAlertModel: "packages/content-model/src/prototypeIntakeAlert.ts",
   prototypeIntakeAlertPanel: "apps/web/src/features/game-offers/PrototypeIntakeAlertPanel.tsx",
   prototypeIntakeQueue: "apps/web/src/data/samplePrototypeIntakeQueue.ts",
   prototypeIntakeQueuePanel: "apps/web/src/features/game-offers/PrototypeIntakeQueuePanel.tsx",
@@ -103,6 +104,9 @@ const prototypeIntakeAlertMarkers = [
   "No archive upload requested yet",
   "No pull request requested yet",
   "No app patch requested yet",
+  "derivePrototypeIntakeAlertDecision",
+  "Alert state is derived from prototype intake readiness lanes",
+  "preview records never issue the handoff signal",
 ];
 const packageMarkers = ['"verify:prototype-review"', "npm run verify:prototype-review"];
 const foundationGateMarkers = ["npm run verify:prototype-review", "Prototype review readiness"];
@@ -305,7 +309,7 @@ for (const marker of routeVerifierMarkers) {
 
 for (const marker of prototypeIntakeAlertMarkers) {
   requireText(
-    sources.prototypeIntakeAlert + sources.prototypeIntakeAlertPanel + sources.gameReadinessPage,
+    sources.prototypeIntakeAlert + sources.prototypeIntakeAlertPanel + sources.prototypeIntakeAlertModel + sources.gameReadinessPage,
     marker,
     `Prototype intake alert must keep marker: ${marker}`,
   );

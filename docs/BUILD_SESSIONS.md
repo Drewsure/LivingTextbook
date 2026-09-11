@@ -1120,3 +1120,9 @@ keeping actual returned-package availability independently missing until a real
 package arrives.
 This decision is recorded in `docs/adr/0566-returned-package-readiness-separation.md`
 and `docs/decision-register/DR-638-returned-package-readiness-separation.md`.
+
+The derived prototype alert slice now computes the Z.ai/Codex handoff state
+from readiness lanes through a shared content-model function. The UI cannot
+silently claim readiness from a stale hand-maintained flag.
+This decision is recorded in `docs/adr/0567-derived-prototype-alert.md` and
+`docs/decision-register/DR-639-derived-prototype-alert.md`.
