@@ -233,3 +233,7 @@ Returned package intake provenance is also covered by
 `npm run verify:prototype-review`, `npm run verify:runtime-behavior`, and the
 active route checks. It must match the original intake queue before any future
 return review can advance.
+
+Returned prototype surface alignment is covered by the same prototype review,
+runtime, and active-route checks. Valid values are `dom-reference`, `phaser`,
+and `hybrid`.

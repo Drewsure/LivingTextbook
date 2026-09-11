@@ -54,7 +54,7 @@ export function AiPrototypeReturnedPackageManifestPanel({
                 </p>
                 <h3 className="mt-1 text-base font-bold text-[var(--tenant-text)]">{manifest.targetMode}</h3>
                 <p className="mt-1 text-sm text-[var(--tenant-muted)]">
-                  {manifest.sourceRepository} / {manifest.sourceSnapshotId} / {manifest.parentEngine}
+                  {manifest.sourceRepository} / {manifest.sourceSnapshotId} / {manifest.parentEngine} / {manifest.targetSurface}
                 </p>
               </div>
               <StatusPill label="Not returned" tone="warning" />

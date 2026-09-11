@@ -267,6 +267,9 @@ const prototypeReturnedPackageManifestMarkers = [
   "Intake queue alignment",
   "intake alignment error(s)",
   "Manifest identity matches its original intake queue item",
+  "targetSurface",
+  "dom-reference",
+  "phaser",
   "AiPrototypeReturnedPackageManifestPanel",
 ];
 

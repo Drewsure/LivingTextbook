@@ -1,4 +1,5 @@
 export type AiPrototypeReturnedPackageStatus = "not-returned" | "review-only" | "blocked";
+export type AiPrototypeReturnedTargetSurface = "dom-reference" | "phaser" | "hybrid";
 
 export type AiPrototypeReturnedArtifactKind =
   | "source-archive"
@@ -31,6 +32,7 @@ export interface AiPrototypeReturnedPackageManifest {
   prototypeFolder: string;
   targetMode: string;
   parentEngine: string;
+  targetSurface: AiPrototypeReturnedTargetSurface;
   artifacts: AiPrototypeReturnedArtifact[];
   blockedActions: string[];
 }
@@ -76,14 +78,18 @@ export function validateAiPrototypeReturnedPackageManifest(manifest: unknown): s
   const prototypeFolder = readString(manifest, "prototypeFolder");
   const targetMode = readString(manifest, "targetMode");
   const parentEngine = readString(manifest, "parentEngine");
+  const targetSurface = readString(manifest, "targetSurface");
   const artifacts = readArtifacts(manifest, errors);
   const blockedActions = readStringArray(manifest, "blockedActions");
 
   if (!manifestId || !tenantId || !requestId || !queueItemId) {
     errors.push("AI prototype returned package manifest must include manifestId, tenantId, requestId, and queueItemId.");
   }
-  if (!targetMode || !parentEngine) {
-    errors.push("AI prototype returned package manifest must include targetMode and parentEngine.");
+  if (!targetMode || !parentEngine || !targetSurface) {
+    errors.push("AI prototype returned package manifest must include targetMode, parentEngine, and targetSurface.");
+  }
+  if (!("dom-reference" === targetSurface || "phaser" === targetSurface || "hybrid" === targetSurface)) {
+    errors.push("AI prototype returned package manifest targetSurface must be dom-reference, phaser, or hybrid.");
   }
   if (!["not-returned", "review-only", "blocked"].includes(status)) {
     errors.push("AI prototype returned package manifest must use a supported review-only status.");

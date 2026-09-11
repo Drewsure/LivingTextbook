@@ -24,6 +24,7 @@ export const sampleAiPrototypeReturnedPackageManifests: AiPrototypeReturnedPacka
     prototypeFolder: "not-returned",
     targetMode: checklist.targetMode,
     parentEngine: checklist.parentEngine,
+    targetSurface: checklist.targetSurface === "Phaser wrapper candidate" ? "phaser" : "dom-reference",
     artifacts: [],
     blockedActions: [...AI_PROTOTYPE_RETURNED_BLOCKED_ACTIONS],
   }));
@@ -44,6 +45,7 @@ const checklistReferences: AiPrototypeReturnChecklistReference[] = samplePrototy
     sourceRepository: checklist.sourceRepo,
     targetMode: checklist.targetMode,
     parentEngine: checklist.parentEngine,
+    targetSurface: checklist.targetSurface === "Phaser wrapper candidate" ? "phaser" : "dom-reference",
   }),
 );
 
@@ -65,6 +67,7 @@ const intakeReferences: AiPrototypeIntakeQueueReference[] = samplePrototypeIntak
   sourceRepository: item.sourceRepo,
   targetMode: item.gameMode,
   parentEngine: item.parentEngine,
+  targetSurface: item.targetSurface,
 }));
 
 export const sampleAiPrototypeReturnedPackageIntakeAlignmentErrors = sampleAiPrototypeReturnedPackageManifests.flatMap(

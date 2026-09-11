@@ -1107,3 +1107,9 @@ against the original tenant-scoped intake queue item, completing the identity
 chain before any future Z.ai or Phaser integration review.
 This decision is recorded in `docs/adr/0564-returned-package-intake-provenance.md`
 and `docs/decision-register/DR-636-returned-package-intake-provenance.md`.
+
+The returned prototype surface slice now preserves the DOM, Phaser, or hybrid
+boundary from intake through checklist and manifest, preventing future wrapper
+review from using the wrong rendering assumptions.
+This decision is recorded in `docs/adr/0565-returned-prototype-surface.md` and
+`docs/decision-register/DR-637-returned-prototype-surface.md`.

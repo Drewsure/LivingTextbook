@@ -625,10 +625,12 @@ const prototypeReviewRouteExpected = [
   "Intake queue alignment",
   "intake alignment error(s)",
   "Manifest identity matches its original intake queue item",
+  "dom-reference",
 ];
 expectedTextByPath.set("/teacher/prototypes/sample-publisher", prototypeReviewRouteExpected);
 expectedTextByPath.set("/teacher/prototypes/ministar", [
   ...prototypeReviewRouteExpected,
+  "phaser",
   "MiniStar external prototype task packet",
   "Foundation Japanese support must remain hiragana-only.",
   "No Japanese support-language progress",

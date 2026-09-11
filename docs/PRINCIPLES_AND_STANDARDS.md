@@ -1727,4 +1727,12 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-635 and `docs/adr/05
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-636 and `docs/adr/0564-returned-package-intake-provenance.md`.
 
+## 107. Returned Prototype Surface Standard
+
+- Every returned package must declare whether it is a `dom-reference`, `phaser`, or `hybrid` prototype.
+- The declared surface must match both the intake queue and the return checklist.
+- Surface identity is an integration boundary, not a permission to import or expose a direct game route.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-637 and `docs/adr/0565-returned-prototype-surface.md`.
+
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-615 and `docs/adr/0543-progress-event-timestamps.md`.

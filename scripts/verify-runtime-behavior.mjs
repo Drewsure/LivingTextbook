@@ -963,6 +963,7 @@ try {
     prototypeFolder: "not-returned",
     targetMode: "flashcards",
     parentEngine: "pairing",
+    targetSurface: "dom-reference",
     artifacts: [],
     blockedActions: [
       "No archive import",
@@ -997,7 +998,14 @@ try {
       ...returnedPackagePreview,
       targetMode: "",
     }),
-    "AI prototype returned package manifest must include targetMode and parentEngine.",
+    "AI prototype returned package manifest must include targetMode, parentEngine, and targetSurface.",
+  );
+  assertIncludes(
+    returnedPackageManifest.validateAiPrototypeReturnedPackageManifest({
+      ...returnedPackagePreview,
+      targetSurface: "canvas-only",
+    }),
+    "AI prototype returned package manifest targetSurface must be dom-reference, phaser, or hybrid.",
   );
   assertIncludes(
     returnedPackageManifest.validateAiPrototypeReturnedPackageManifest({
@@ -1031,6 +1039,7 @@ try {
     sourceRepository: "Drewsure/ministar-lab",
     targetMode: "flashcards",
     parentEngine: "pairing",
+    targetSurface: "dom-reference",
   };
   assertEqual(
     returnedPackageAlignment.validateAiPrototypeReturnedPackageAlignment(returnedPackagePreview, returnedPackageChecklist).length,
@@ -1056,6 +1065,7 @@ try {
     sourceRepository: "Drewsure/ministar-lab",
     targetMode: "flashcards",
     parentEngine: "pairing",
+    targetSurface: "dom-reference",
   };
   assertEqual(
     returnedPackageAlignment.validateAiPrototypeReturnedPackageIntakeAlignment(returnedPackagePreview, returnedPackageIntake).length,

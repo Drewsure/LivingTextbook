@@ -3099,3 +3099,30 @@ Guardrails:
   student assignment is enabled.
 
 This decision is recorded in `docs/adr/0564-returned-package-intake-provenance.md`.
+
+## DR-637: Returned Prototype Surface
+
+Status: Accepted
+
+Decision: Require every returned package manifest to declare its target surface
+as `dom-reference`, `phaser`, or `hybrid`, and align that declaration with the
+intake queue and return checklist.
+
+Rationale:
+
+- DOM and Phaser prototypes require different wrapper, accessibility, event,
+  and performance review evidence.
+- Without an explicit surface, a canvas prototype could be treated as a DOM
+  reference or vice versa.
+- A small typed field keeps future integration planning honest and white-label
+  safe.
+
+Guardrails:
+
+- Unsupported surface values block the manifest.
+- Surface alignment remains review-only and does not create routes or import
+  source.
+- Scoring, reward, package, audio, and student assignment mutations remain
+  blocked.
+
+This decision is recorded in `docs/adr/0565-returned-prototype-surface.md`.
