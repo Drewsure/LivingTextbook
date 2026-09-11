@@ -2859,3 +2859,22 @@ Guardrails:
 - Missing mappings fail shared contract validation and do not enable any live writes.
 
 This decision is recorded in `docs/adr/0555-explicit-tenant-boundary-key.md`.
+
+## DR-628: Complete External Prototype Tenant Scope
+
+Status: Accepted
+
+Decision: Apply tenant-boundary preservation and explicit key mapping to the complete external-prototype evidence and patch-review chain, using one shared category list for hosted and local adapters.
+
+Rationale:
+
+- Protecting only the final readiness gate leaves earlier evidence records open to cross-tenant mixing.
+- Z.ai and Phaser work can carry fixtures, audio, scoring, and patch artifacts that are as sensitive to tenant scope as the final decision.
+- One shared list reduces drift and keeps the white-label boundary maintainable.
+
+Guardrails:
+
+- Missing boundary or key blocks every covered prototype-chain record.
+- No direct import, app patch, route mutation, scoring mutation, package promotion, or assignment is enabled.
+
+This decision is recorded in `docs/adr/0556-complete-external-prototype-tenant-scope.md`.

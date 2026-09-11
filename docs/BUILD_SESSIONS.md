@@ -1042,3 +1042,6 @@ This decision is recorded in `docs/adr/0554-prototype-integration-readiness-tena
 
 The explicit tenant-boundary-key slice now requires those records and adapter intents to name the concrete mapping used by storage. Prototype readiness and Codex decision records use `tenant_id`; progress and report records use `canonical_unit_key.tenant_id`. This keeps the white-label boundary implementable rather than merely descriptive.
 This decision is recorded in `docs/adr/0555-explicit-tenant-boundary-key.md` and `docs/decision-register/DR-627-explicit-tenant-boundary-key.md`.
+
+The complete external-prototype tenant-scope slice now applies the same boundary and key requirement to the full Z.ai/Phaser evidence chain, from intake and return records through replay reports, wrapper review, patch approval, release locks, work orders, and change-set previews. Hosted and local plans reuse one shared category list.
+This decision is recorded in `docs/adr/0556-complete-external-prototype-tenant-scope.md` and `docs/decision-register/DR-628-complete-external-prototype-tenant-scope.md`.

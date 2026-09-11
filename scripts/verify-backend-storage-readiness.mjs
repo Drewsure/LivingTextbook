@@ -3008,6 +3008,11 @@ requireText(
   "Persistence adapter must name tenant boundary keys for integration writes.",
 );
 requireText(
+  persistenceAdapterValidator,
+  "TENANT_BOUND_PERSISTENCE_RECORD_CATEGORIES",
+  "Persistence adapter validator must reuse the tenant-bound prototype category list.",
+);
+requireText(
   persistenceAdapter,
   "requiresAllPrototypeEvidenceReviewed: true",
   "Persistence adapter must require all prototype evidence reviewed.",
@@ -4327,6 +4332,11 @@ requireText(
   durableRecords,
   "tenantBoundaryKey: \"tenant_id\"",
   "Durable record plan must name tenant boundary keys for integration records.",
+);
+requireText(
+  durableRecordValidator,
+  "TENANT_BOUND_PROTOTYPE_RECORD_CATEGORIES",
+  "Durable record validator must enumerate tenant-bound prototype records.",
 );
 requireText(
   durableRecords,

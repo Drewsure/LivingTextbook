@@ -108,6 +108,8 @@ Local approval records need backup, restore, export, approver identity, timestam
 
 Hosted and local AI prototype integration-readiness gate and Codex integration-review decision write intents must preserve tenant boundaries and name the adapter mapping in `tenantBoundaryKey`. These records are review metadata, but they still carry publisher scope and must remain isolated across white-label deployments.
 
+Hosted and local intents for every external-prototype evidence and patch-review category reuse the same shared tenant-bound category list, preventing one adapter from quietly weakening the boundary.
+
 ## Current UI Surface
 
 The current scaffold renders at:

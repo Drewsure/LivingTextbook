@@ -4,6 +4,7 @@ import type {
   PersistenceRecordReadiness,
 } from "@living-textbook/content-model/src/persistenceRecords";
 import {
+  TENANT_BOUND_PERSISTENCE_RECORD_CATEGORIES,
   getDurableRecordReadinessWarnings,
   validateDurableRecordContracts,
 } from "@living-textbook/content-model/src/persistenceRecords";
@@ -139,7 +140,7 @@ export interface PersistenceStrategyOption {
   caution: string;
 }
 
-export const sampleDurableRecordContracts: DurableRecordContract[] = [
+const sampleDurableRecordContractsRaw: DurableRecordContract[] = [
   {
     recordId: "tenant-config-record",
     category: "tenant-config",
@@ -2981,6 +2982,16 @@ export const sampleDurableRecordContracts: DurableRecordContract[] = [
       "The school rollback safe fallback restoration preview must become durable before any restoration workflow is designed. It preserves future restoration field shape and non-restored markers while blocking release mutation, production QR redirects, live notifications, classroom restart, report export, media restoration, local bundle restoration, and student reassignment.",
   },
 ];
+
+export const sampleDurableRecordContracts: DurableRecordContract[] = sampleDurableRecordContractsRaw.map((record) =>
+  TENANT_BOUND_PERSISTENCE_RECORD_CATEGORIES.includes(record.category)
+    ? {
+        ...record,
+        preservesTenantBoundary: record.preservesTenantBoundary ?? true,
+        tenantBoundaryKey: record.tenantBoundaryKey ?? "tenant_id",
+      }
+    : record,
+);
 
 export const sampleDurableRecordErrors = validateDurableRecordContracts(sampleDurableRecordContracts);
 export const sampleDurableRecordWarnings = getDurableRecordReadinessWarnings(sampleDurableRecordContracts);

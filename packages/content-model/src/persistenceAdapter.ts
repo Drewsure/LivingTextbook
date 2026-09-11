@@ -1,4 +1,7 @@
 import type { DeploymentChannel } from "./index";
+import {
+  TENANT_BOUND_PERSISTENCE_RECORD_CATEGORIES,
+} from "./persistenceRecords";
 import type { PersistenceRecordCategory, PersistenceStorageTier } from "./persistenceRecords";
 
 export type PersistenceAdapterMode = "static-demo" | "hosted-managed" | "local-classroom";
@@ -574,24 +577,14 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
     }
 
     if (
-      [
-        "progress-event-stream",
-        "teacher-report-package",
-        "ai-prototype-integration-readiness-gate",
-        "codex-integration-review-decision",
-      ].includes(intent.category) &&
+      TENANT_BOUND_PERSISTENCE_RECORD_CATEGORIES.includes(intent.category) &&
       !intent.preservesTenantBoundary
     ) {
       errors.push(`${intent.category} write intent ${intent.intentId} must preserve tenant boundary.`);
     }
 
     if (
-      [
-        "progress-event-stream",
-        "teacher-report-package",
-        "ai-prototype-integration-readiness-gate",
-        "codex-integration-review-decision",
-      ].includes(intent.category) &&
+      TENANT_BOUND_PERSISTENCE_RECORD_CATEGORIES.includes(intent.category) &&
       !intent.tenantBoundaryKey?.trim()
     ) {
       errors.push(`${intent.category} write intent ${intent.intentId} must name its tenant boundary key.`);

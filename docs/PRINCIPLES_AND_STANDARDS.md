@@ -1644,4 +1644,12 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-626 and `docs/adr/05
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-627 and `docs/adr/0555-explicit-tenant-boundary-key.md`.
 
+## 98. Complete External Prototype Tenant Scope Standard
+
+- Every external-prototype intake, return, evidence, integration, patch-review, approval, release-lock, work-order, and change-set record is tenant-scoped.
+- Hosted and local adapters must reuse one shared category list rather than maintaining divergent protection lists.
+- A missing tenant boundary or concrete key blocks the record before Codex review can treat it as evidence.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-628 and `docs/adr/0556-complete-external-prototype-tenant-scope.md`.
+
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-615 and `docs/adr/0543-progress-event-timestamps.md`.

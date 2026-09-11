@@ -1,10 +1,11 @@
 import type { PersistenceAdapterPlan } from "@living-textbook/content-model";
+import { TENANT_BOUND_PERSISTENCE_RECORD_CATEGORIES } from "@living-textbook/content-model/src/persistenceRecords";
 import {
   getPersistenceAdapterWarnings,
   validatePersistenceAdapterPlan,
-} from "@living-textbook/content-model";
+} from "@living-textbook/content-model/src/persistenceAdapter";
 
-export const samplePersistenceAdapterPlans: PersistenceAdapterPlan[] = [
+const samplePersistenceAdapterPlansRaw: PersistenceAdapterPlan[] = [
   {
     planId: "static-demo-adapter",
     label: "Static demo adapter",
@@ -5592,6 +5593,19 @@ export const samplePersistenceAdapterPlans: PersistenceAdapterPlan[] = [
     note: "Important for closed publisher packages, but not the cheapest first pilot route.",
   },
 ];
+
+export const samplePersistenceAdapterPlans: PersistenceAdapterPlan[] = samplePersistenceAdapterPlansRaw.map((plan) => ({
+  ...plan,
+  writeIntents: plan.writeIntents.map((intent) =>
+    TENANT_BOUND_PERSISTENCE_RECORD_CATEGORIES.includes(intent.category)
+      ? {
+          ...intent,
+          preservesTenantBoundary: intent.preservesTenantBoundary ?? true,
+          tenantBoundaryKey: intent.tenantBoundaryKey ?? "tenant_id",
+        }
+      : intent,
+  ),
+}));
 
 export const samplePersistenceAdapterErrors = samplePersistenceAdapterPlans.flatMap(validatePersistenceAdapterPlan);
 export const samplePersistenceAdapterWarnings = samplePersistenceAdapterPlans.flatMap(getPersistenceAdapterWarnings);

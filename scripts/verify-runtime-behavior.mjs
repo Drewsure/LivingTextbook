@@ -752,6 +752,17 @@ try {
     "ai-prototype-integration-readiness-gate write intent prototype-gate-intent must name its tenant boundary key.",
   );
 
+  assertIncludes(
+    persistenceRecords.validateDurableRecordContracts([
+      {
+        ...prototypeGateRecord,
+        recordId: "prototype-audio-report-record",
+        category: "ai-prototype-audio-coverage-report",
+      },
+    ]),
+    "ai-prototype-audio-coverage-report durable record prototype-audio-report-record must preserve tenant boundary.",
+  );
+
   const reportRequest = {
     tenantId: "tenant-1", launchCode: "launch-1", format: "csv-summary", scopes: ["teacher-summary"],
     reportPlan: {

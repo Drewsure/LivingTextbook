@@ -124,6 +124,39 @@ export type PersistenceStorageTier =
   | "local-classroom-store"
   | "school-policy";
 
+export const TENANT_BOUND_PROTOTYPE_RECORD_CATEGORIES: PersistenceRecordCategory[] = [
+  "ai-generated-game-build-brief",
+  "ai-external-prototype-task-packet",
+  "prototype-intake-queue-item",
+  "prototype-return-package-checklist",
+  "ai-external-task-export-readiness-gate",
+  "ai-prototype-return-review",
+  "ai-prototype-integration-plan",
+  "ai-prototype-wrapper-adapter-review",
+  "ai-prototype-fixture-replay-report",
+  "ai-prototype-event-replay-report",
+  "ai-prototype-audio-coverage-report",
+  "ai-prototype-mobile-accessibility-report",
+  "ai-prototype-scoring-replay-report",
+  "ai-prototype-integration-readiness-gate",
+  "codex-integration-review-decision",
+  "ai-prototype-app-patch-proposal",
+  "ai-prototype-patch-test-readiness-gate",
+  "ai-prototype-patch-test-harness-plan",
+  "ai-prototype-patch-harness-implementation-proposal",
+  "codex-patch-approval-decision",
+  "ai-prototype-signed-approval-preflight",
+  "ai-prototype-patch-authorization-release-lock",
+  "ai-prototype-patch-implementation-work-order",
+  "ai-prototype-patch-change-set-preview",
+];
+
+export const TENANT_BOUND_PERSISTENCE_RECORD_CATEGORIES: PersistenceRecordCategory[] = [
+  "progress-event-stream",
+  "teacher-report-package",
+  ...TENANT_BOUND_PROTOTYPE_RECORD_CATEGORIES,
+];
+
 export interface DurableRecordContract {
   recordId: string;
   category: PersistenceRecordCategory;
@@ -671,24 +704,14 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
     }
 
     if (
-      [
-        "progress-event-stream",
-        "teacher-report-package",
-        "ai-prototype-integration-readiness-gate",
-        "codex-integration-review-decision",
-      ].includes(record.category) &&
+      TENANT_BOUND_PERSISTENCE_RECORD_CATEGORIES.includes(record.category) &&
       !record.preservesTenantBoundary
     ) {
       errors.push(`${record.category} durable record ${record.recordId} must preserve tenant boundary.`);
     }
 
     if (
-      [
-        "progress-event-stream",
-        "teacher-report-package",
-        "ai-prototype-integration-readiness-gate",
-        "codex-integration-review-decision",
-      ].includes(record.category) &&
+      TENANT_BOUND_PERSISTENCE_RECORD_CATEGORIES.includes(record.category) &&
       !record.tenantBoundaryKey?.trim()
     ) {
       errors.push(`${record.category} durable record ${record.recordId} must name its tenant boundary key.`);
