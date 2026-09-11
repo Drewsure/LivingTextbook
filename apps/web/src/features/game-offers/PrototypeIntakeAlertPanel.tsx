@@ -3,6 +3,7 @@ import type {
   PrototypeIntakeAlert,
   PrototypeIntakeAlertStatus,
 } from "@/data/samplePrototypeIntakeAlert";
+import { samplePrototypeIntakeAlertErrors } from "@/data/samplePrototypeIntakeAlert";
 
 interface PrototypeIntakeAlertPanelProps {
   alert: PrototypeIntakeAlert;
@@ -29,6 +30,10 @@ export function PrototypeIntakeAlertPanel({ alert }: PrototypeIntakeAlertPanelPr
         <div className="flex flex-wrap justify-end gap-2">
           <StatusPill label={statusLabels[alert.status]} tone="warning" />
           <StatusPill label="Codex alert required" tone="warning" />
+          <StatusPill
+            label={samplePrototypeIntakeAlertErrors.length === 0 ? "Alert contract valid" : "Alert contract review"}
+            tone={samplePrototypeIntakeAlertErrors.length === 0 ? "success" : "warning"}
+          />
         </div>
       </div>
 

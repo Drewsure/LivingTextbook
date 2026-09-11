@@ -1205,3 +1205,10 @@ underlying evidence remains visible and unsuppressed; only rendering identity
 is hardened.
 This decision is recorded in `docs/adr/0578-deterministic-review-list-keys.md`
 and `docs/decision-register/DR-650-deterministic-review-list-keys.md`.
+
+The prototype intake alert contract slice now validates the user-facing Z.ai
+handoff signal, required evidence, isolated repository scope, Codex ownership,
+and blocked live actions. A valid alert remains a review-only contract and does
+not imply that a returned prototype package exists. This decision is recorded in
+`docs/adr/0579-prototype-intake-alert-contract.md` and
+`docs/decision-register/DR-651-prototype-intake-alert-contract.md`.

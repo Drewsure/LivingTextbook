@@ -3460,3 +3460,27 @@ This decision is recorded in `docs/adr/0578-deterministic-review-list-keys.md`.
 The deterministic review-list key implementation is now covered by the
 standing verifier across persistence, policy, private-library, draft-edit, and
 teacher-session review surfaces.
+
+## DR-651: Prototype Intake Alert Contract
+
+Status: Accepted
+
+Decision: Validate the Z.ai prototype intake alert as a review-only contract
+with explicit handoff timing, evidence requirements, isolated repository scope,
+Codex ownership, and blocked actions.
+
+Rationale:
+
+- Status derivation alone cannot prevent the user-facing alert payload from
+  losing a required safeguard.
+- The handoff signal must remain separate from actual returned-package
+  availability.
+
+Guardrails:
+
+- The alert must not request source handoff while it is not ready.
+- Direct app writes, route creation, scoring/reward mutation, playlist writes,
+  package promotion, and assignment remain blocked.
+
+This decision is recorded in
+`docs/adr/0579-prototype-intake-alert-contract.md`.

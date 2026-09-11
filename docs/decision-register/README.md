@@ -539,6 +539,7 @@
 - `DR-648-evidence-alignment-collection-identity.md`
 - `DR-649-evidence-alignment-panel-visibility.md`
 - `DR-650-deterministic-review-list-keys.md`
+- `DR-651-prototype-intake-alert-contract.md`
 
 ## Maintenance Rule
 

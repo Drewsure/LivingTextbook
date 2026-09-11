@@ -106,6 +106,9 @@ const prototypeIntakeAlertMarkers = [
   "No pull request requested yet",
   "No app patch requested yet",
   "derivePrototypeIntakeAlertDecision",
+  "validatePrototypeIntakeAlert",
+  "samplePrototypeIntakeAlertErrors",
+  "Alert contract valid",
   "Alert state is derived from prototype intake readiness lanes",
   "preview records never issue the handoff signal",
 ];

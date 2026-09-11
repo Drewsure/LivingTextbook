@@ -1,4 +1,7 @@
-import { derivePrototypeIntakeAlertDecision } from "@living-textbook/content-model/src/prototypeIntakeAlert";
+import {
+  derivePrototypeIntakeAlertDecision,
+  validatePrototypeIntakeAlert,
+} from "@living-textbook/content-model/src/prototypeIntakeAlert";
 import { samplePrototypeIntakeReadinessSummary } from "@/data/samplePrototypeIntakeReadinessSummary";
 
 export type PrototypeIntakeAlertStatus = "not-ready" | "ready-for-review" | "blocked";
@@ -62,3 +65,5 @@ export const samplePrototypeIntakeAlert: PrototypeIntakeAlert = {
   ownerRule:
     "Codex owns architecture, schema discipline, wrapper/integration review, final merge decisions, and the user alert that controlled Z.ai intake can begin.",
 };
+
+export const samplePrototypeIntakeAlertErrors = validatePrototypeIntakeAlert(samplePrototypeIntakeAlert);

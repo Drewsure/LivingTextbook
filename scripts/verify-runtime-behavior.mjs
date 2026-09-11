@@ -1111,6 +1111,27 @@ try {
     ),
     "Returned package manifest parentEngine does not match the intake queue.",
   );
+  const prototypeIntakeAlertFixture = {
+    alertId: "zai-alert-1",
+    label: "Z.ai prototype intake alert",
+    status: "not-ready",
+    summary: "Codex will explicitly alert the user when the LivingTextbook foundation is ready for controlled Z.ai game intake.",
+    humanSignalRule: "Human handoff signal: ask for specific Z.ai branches only after the intake alert changes from not-ready to ready-for-review.",
+    currentHumanAction: "Current human action: keep Z.ai builds isolated in Drewsure/ministar-lab.",
+    notNeededYet: ["No handoff yet"],
+    readyWhen: ["Parent engine readiness"],
+    requiredEvidence: [...prototypeIntakeAlert.PROTOTYPE_INTAKE_ALERT_REQUIRED_EVIDENCE],
+    blockedUntilReady: [...prototypeIntakeAlert.PROTOTYPE_INTAKE_ALERT_REQUIRED_BLOCKED_ACTIONS],
+    ownerRule: "Codex owns architecture, schema discipline, wrapper/integration review, final merge decisions, and the user alert.",
+  };
+  assertEqual(prototypeIntakeAlert.validatePrototypeIntakeAlert(prototypeIntakeAlertFixture).length, 0);
+  assertIncludes(
+    prototypeIntakeAlert.validatePrototypeIntakeAlert({
+      ...prototypeIntakeAlertFixture,
+      blockedUntilReady: [],
+    }),
+    "Prototype intake alert must block action: No direct app file writes.",
+  );
   assertEqual(
     prototypeIntakeAlert.derivePrototypeIntakeAlertDecision({
       status: "not-ready",
