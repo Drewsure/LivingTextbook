@@ -39,7 +39,7 @@ export function PrototypeIntakeAlertPanel({ alert, readinessSignal }: PrototypeI
         <div className="flex flex-wrap justify-end gap-2">
           <StatusPill label={statusLabels[alert.status]} tone="warning" />
           <StatusPill label="Codex alert required" tone="warning" />
-            <StatusPill
+          <StatusPill
             label={alertContractErrors.length === 0 ? "Alert contract valid" : "Alert contract review"}
             tone={alertContractErrors.length === 0 ? "success" : "warning"}
           />

@@ -108,6 +108,7 @@ const prototypeIntakeAlertMarkers = [
   "derivePrototypeIntakeAlertDecision",
   "validatePrototypeIntakeAlert",
   "validatePrototypeIntakeAlertAlignment",
+  "readinessSignal",
   "samplePrototypeIntakeAlertErrors",
   "Alert contract valid",
   "Alert state is derived from prototype intake readiness lanes",
