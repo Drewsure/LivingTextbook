@@ -71,8 +71,8 @@ export function TeacherPrivateLibraryPanel({ library }: TeacherPrivateLibraryPan
           <StatusPill label={`${library.governanceWarnings.length} rules`} tone="neutral" />
         </div>
         <ul className="mt-4 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
-          {library.governanceWarnings.map((warning) => (
-            <li key={warning}>{warning}</li>
+          {library.governanceWarnings.map((warning, index) => (
+            <li key={`${warning}-${index}`}>{warning}</li>
           ))}
         </ul>
       </Card>

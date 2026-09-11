@@ -256,8 +256,8 @@ export function TeacherSessionMonitorPanel({ context }: TeacherSessionMonitorPan
               <div>
                 <p className="font-semibold text-[var(--tenant-text)]">Settings needing safety review</p>
                 <ul className="mt-2 grid gap-2">
-                  {context.sessionSettingErrors.map((error) => (
-                    <li key={error}>{error}</li>
+                  {context.sessionSettingErrors.map((error, index) => (
+                    <li key={`${error}-${index}`}>{error}</li>
                   ))}
                 </ul>
               </div>
@@ -266,8 +266,8 @@ export function TeacherSessionMonitorPanel({ context }: TeacherSessionMonitorPan
           <div className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3 text-sm leading-6 text-[var(--tenant-muted)]">
             <p className="font-semibold text-[var(--tenant-text)]">Persistence warnings</p>
             <ul className="mt-2 grid gap-2">
-              {context.sessionSettingWarnings.map((warning) => (
-                <li key={warning}>{warning}</li>
+              {context.sessionSettingWarnings.map((warning, index) => (
+                <li key={`${warning}-${index}`}>{warning}</li>
               ))}
             </ul>
           </div>
@@ -321,8 +321,8 @@ export function TeacherSessionMonitorPanel({ context }: TeacherSessionMonitorPan
               <p className="mt-2">All scaffolded lifecycle actions require a teacher role. Report export also requires accepted policy.</p>
             ) : (
               <ul className="mt-2 grid gap-2">
-                {context.sessionControlErrors.map((error) => (
-                  <li key={error}>{error}</li>
+                {context.sessionControlErrors.map((error, index) => (
+                  <li key={`${error}-${index}`}>{error}</li>
                 ))}
               </ul>
             )}
@@ -330,8 +330,8 @@ export function TeacherSessionMonitorPanel({ context }: TeacherSessionMonitorPan
           <div className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3 text-sm leading-6 text-[var(--tenant-muted)]">
             <p className="font-semibold text-[var(--tenant-text)]">Control warnings</p>
             <ul className="mt-2 grid gap-2">
-              {context.sessionControlWarnings.map((warning) => (
-                <li key={warning}>{warning}</li>
+              {context.sessionControlWarnings.map((warning, index) => (
+                <li key={`${warning}-${index}`}>{warning}</li>
               ))}
             </ul>
           </div>
@@ -395,8 +395,8 @@ export function TeacherSessionMonitorPanel({ context }: TeacherSessionMonitorPan
               <p className="mt-2">The scaffolded export plan passes the shared safety contract.</p>
             ) : (
               <ul className="mt-2 grid gap-2">
-                {context.reportExportErrors.map((error) => (
-                  <li key={error}>{error}</li>
+                {context.reportExportErrors.map((error, index) => (
+                  <li key={`${error}-${index}`}>{error}</li>
                 ))}
               </ul>
             )}
@@ -404,8 +404,8 @@ export function TeacherSessionMonitorPanel({ context }: TeacherSessionMonitorPan
           <div className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3 text-sm leading-6 text-[var(--tenant-muted)]">
             <p className="font-semibold text-[var(--tenant-text)]">Export blockers</p>
             <ul className="mt-2 grid gap-2">
-              {context.reportExportWarnings.map((warning) => (
-                <li key={warning}>{warning}</li>
+            {context.reportExportWarnings.map((warning, index) => (
+              <li key={`${warning}-${index}`}>{warning}</li>
               ))}
             </ul>
           </div>

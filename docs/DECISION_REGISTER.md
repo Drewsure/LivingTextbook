@@ -3435,3 +3435,24 @@ Guardrails:
   playlist write, or assignment is enabled.
 
 This decision is recorded in `docs/adr/0577-evidence-alignment-panel-visibility.md`.
+
+## DR-650: Deterministic Review List Keys
+
+Status: Accepted
+
+Decision: Warning and error lists in teacher review surfaces must use unique
+deterministic keys even when messages repeat.
+
+Rationale:
+
+- Message text alone is not a sufficient React key for repeated validator
+  output.
+- Duplicate-key warnings can make evidence appear duplicated or disappear
+  during updates.
+
+Guardrails:
+
+- Stable domain IDs remain preferred for record-backed lists.
+- The change does not hide, merge, or suppress repeated evidence.
+
+This decision is recorded in `docs/adr/0578-deterministic-review-list-keys.md`.

@@ -93,8 +93,8 @@ export function TeacherDraftLocalEditPreview({ draft }: TeacherDraftLocalEditPre
               <StatusPill label="Default 8-12 terms" tone={validation.vocabularyTerms.length >= 8 && validation.vocabularyTerms.length <= 12 ? "success" : "warning"} />
             </div>
             <ul className="mt-3 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
-              {validation.warnings.map((warning) => (
-                <li key={warning}>{warning}</li>
+              {validation.warnings.map((warning, index) => (
+                <li key={`${warning}-${index}`}>{warning}</li>
               ))}
             </ul>
           </section>

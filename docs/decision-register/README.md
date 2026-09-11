@@ -538,6 +538,7 @@
 - `DR-647-codex-decision-collection-identity.md`
 - `DR-648-evidence-alignment-collection-identity.md`
 - `DR-649-evidence-alignment-panel-visibility.md`
+- `DR-650-deterministic-review-list-keys.md`
 
 ## Maintenance Rule
 

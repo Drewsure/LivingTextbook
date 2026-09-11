@@ -1197,3 +1197,10 @@ surfaces therefore show duplicate packet identities alongside per-packet
 alignment errors, while remaining read-only before controlled Z.ai intake.
 This decision is recorded in `docs/adr/0577-evidence-alignment-panel-visibility.md`
 and `docs/decision-register/DR-649-evidence-alignment-panel-visibility.md`.
+
+The deterministic review-list key slice now protects teacher-facing warning
+and error lists from duplicate React keys when validator messages repeat. The
+underlying evidence remains visible and unsuppressed; only rendering identity
+is hardened.
+This decision is recorded in `docs/adr/0578-deterministic-review-list-keys.md`
+and `docs/decision-register/DR-650-deterministic-review-list-keys.md`.
