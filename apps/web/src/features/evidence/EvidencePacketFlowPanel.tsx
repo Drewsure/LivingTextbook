@@ -1,5 +1,6 @@
 import { Card, StatusPill } from "@living-textbook/ui";
 import type { EvidencePacket, EvidencePacketFlow, EvidencePacketStatus } from "@/data/sampleEvidencePacketFlows";
+import { validateReviewSurfaceScope } from "@living-textbook/content-model/src/reviewSurfaceScope";
 
 interface EvidencePacketFlowPanelProps {
   flow: EvidencePacketFlow;
@@ -14,6 +15,7 @@ const statusTone: Record<EvidencePacketStatus, "success" | "warning"> = {
 export function EvidencePacketFlowPanel({ flow }: EvidencePacketFlowPanelProps) {
   const readyCount = flow.packets.filter((packet) => packet.status === "preview-ready").length;
   const blockedCount = flow.packets.length - readyCount;
+  const scopeErrors = validateReviewSurfaceScope(flow.scopeKind);
 
   return (
     <Card>
@@ -27,6 +29,7 @@ export function EvidencePacketFlowPanel({ flow }: EvidencePacketFlowPanelProps) 
           <StatusPill label={`${readyCount} preview-ready`} tone="success" />
           <StatusPill label={`${blockedCount} blocked/missing`} tone="warning" />
           <StatusPill label={flow.scopeKind === "platform" ? "Platform contract" : "Tenant contract"} tone="neutral" />
+          <StatusPill label={scopeErrors.length === 0 ? "Scope contract valid" : "Scope contract review"} tone={scopeErrors.length === 0 ? "success" : "warning"} />
         </div>
       </div>
 

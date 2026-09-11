@@ -3,6 +3,7 @@ import type {
   PrototypeIntakeStorageGuard,
   PrototypeIntakeStorageGuardStatus,
 } from "@/data/samplePrototypeIntakeStorageGuard";
+import { validateReviewSurfaceScope } from "@living-textbook/content-model/src/reviewSurfaceScope";
 
 interface PrototypeIntakeStorageGuardPanelProps {
   guards: PrototypeIntakeStorageGuard[];
@@ -15,6 +16,7 @@ const statusLabels: Record<PrototypeIntakeStorageGuardStatus, string> = {
 };
 
 export function PrototypeIntakeStorageGuardPanel({ guards }: PrototypeIntakeStorageGuardPanelProps) {
+  const scopeErrors = guards.flatMap((guard) => validateReviewSurfaceScope(guard.scopeKind));
   return (
     <Card>
       <div className="flex flex-wrap items-start justify-between gap-4">
@@ -31,6 +33,7 @@ export function PrototypeIntakeStorageGuardPanel({ guards }: PrototypeIntakeStor
           <StatusPill label={`${guards.length} guard(s)`} tone="warning" />
           <StatusPill label="No storage writes" tone="warning" />
           <StatusPill label={guards.every((guard) => guard.scopeKind === "platform") ? "Platform contracts" : "Mixed scope"} tone="neutral" />
+          <StatusPill label={scopeErrors.length === 0 ? "Scope contracts valid" : "Scope contracts review"} tone={scopeErrors.length === 0 ? "success" : "warning"} />
         </div>
       </div>
 

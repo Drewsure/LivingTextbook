@@ -46,6 +46,7 @@ try {
     "packages/content-model/src/prototypeIntakeReadinessSummary.ts",
     "packages/content-model/src/prototypeReturnReadiness.ts",
     "packages/content-model/src/prototypeReturnReadinessSummary.ts",
+    "packages/content-model/src/reviewSurfaceScope.ts",
   ], { cwd: root, encoding: "utf8" });
 
   if (compile.status !== 0) {
@@ -109,6 +110,7 @@ try {
   const prototypeIntakeReadinessSummary = require(join(output, "prototypeIntakeReadinessSummary.js"));
   const prototypeReturnReadiness = require(join(output, "prototypeReturnReadiness.js"));
   const prototypeReturnReadinessSummary = require(join(output, "prototypeReturnReadinessSummary.js"));
+  const reviewSurfaceScope = require(join(output, "reviewSurfaceScope.js"));
   const contentModel = require(join(output, "index.js"));
   const aiService = require(join(aiOutput, "apps", "ai-service", "src", "index.js"));
 
@@ -1191,6 +1193,11 @@ try {
       ],
     }),
     "Prototype return readiness lane ID must be unique: source-manifest-missing.",
+  );
+  assertEqual(reviewSurfaceScope.validateReviewSurfaceScope("platform").length, 0);
+  assertIncludes(
+    reviewSurfaceScope.validateReviewSurfaceScope("mixed"),
+    "Review surface scope must be platform or tenant.",
   );
   assertEqual(
     prototypeIntakeAlert.validatePrototypeIntakeAlertTenantScope(prototypeIntakeAlertFixture, "platform").length,

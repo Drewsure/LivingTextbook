@@ -196,6 +196,8 @@ const prototypeIntakeReadinessSummaryMarkers = [
 const prototypeIntakeStorageGuardMarkers = [
   "scopeKind",
   "Platform contracts",
+  "samplePrototypeIntakeStorageGuardScopeErrors",
+  "validateReviewSurfaceScope",
   "Prototype intake and return storage guard",
   "Storage contracts before outside game intake or returned package review",
   "prototype-intake-queue-storage-contract",
@@ -221,6 +223,8 @@ const prototypeIntakeStorageGuardMarkers = [
 const prototypeIntakeEvidenceFlowMarkers = [
   "scopeKind",
   "Platform contract",
+  "sampleEvidencePacketFlowScopeErrors",
+  "validateReviewSurfaceScope",
   "samplePrototypeIntakeEvidencePacketFlow",
   "Prototype intake evidence packet flow",
   "prototype-intake-evidence-packet-flow",

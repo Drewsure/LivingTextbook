@@ -532,6 +532,8 @@ expectedTextByPath.set("/teacher/game-readiness", [
   "Prototype intake evidence packet flow",
   "Platform contract",
   "Platform contracts",
+  "Scope contract valid",
+  "Scope contracts valid",
   "prototype-intake-evidence-packet-flow",
   "No prototype upload or import",
   "Source snapshot packet",

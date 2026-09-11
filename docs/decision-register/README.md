@@ -552,6 +552,7 @@
 - `DR-661-tenant-return-summary-route-proof.md`
 - `DR-662-return-evidence-lane-completeness.md`
 - `DR-663-explicit-review-surface-scope.md`
+- `DR-664-review-surface-scope-validation.md`
 
 ## Maintenance Rule
 

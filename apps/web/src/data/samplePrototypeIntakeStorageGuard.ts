@@ -1,9 +1,14 @@
+import {
+  validateReviewSurfaceScope,
+  type ReviewSurfaceScopeKind,
+} from "@living-textbook/content-model/src/reviewSurfaceScope";
+
 export type PrototypeIntakeStorageGuardStatus = "contracted-preview" | "evidence-required" | "blocked";
 
 export interface PrototypeIntakeStorageGuard {
   guardId: string;
   label: string;
-  scopeKind: "platform" | "tenant";
+  scopeKind: ReviewSurfaceScopeKind;
   status: PrototypeIntakeStorageGuardStatus;
   summary: string;
   storageContractIds: string[];
@@ -125,3 +130,7 @@ export const samplePrototypeIntakeStorageGuards: PrototypeIntakeStorageGuard[] =
     ],
   },
 ];
+
+export const samplePrototypeIntakeStorageGuardScopeErrors = samplePrototypeIntakeStorageGuards.flatMap((guard) =>
+  validateReviewSurfaceScope(guard.scopeKind).map((error) => `${guard.guardId}: ${error}`),
+);

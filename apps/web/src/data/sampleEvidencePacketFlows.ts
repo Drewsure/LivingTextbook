@@ -1,3 +1,8 @@
+import {
+  validateReviewSurfaceScope,
+  type ReviewSurfaceScopeKind,
+} from "@living-textbook/content-model/src/reviewSurfaceScope";
+
 export type EvidencePacketStatus = "preview-ready" | "missing-evidence" | "blocked";
 
 export interface EvidencePacket {
@@ -14,7 +19,7 @@ export interface EvidencePacket {
 export interface EvidencePacketFlow {
   flowId: string;
   label: string;
-  scopeKind: "platform" | "tenant";
+  scopeKind: ReviewSurfaceScopeKind;
   scope: string;
   summary: string;
   handoffRule: string;
@@ -358,3 +363,10 @@ export const sampleMediaEvidencePacketFlow: EvidencePacketFlow = {
     "No local folder activation",
   ],
 };
+
+export const sampleEvidencePacketFlowScopeErrors = [
+  sampleUploadEvidencePacketFlow,
+  samplePrototypeIntakeEvidencePacketFlow,
+  sampleLabelledDiagramEvidencePacketFlow,
+  sampleMediaEvidencePacketFlow,
+].flatMap((flow) => validateReviewSurfaceScope(flow.scopeKind).map((error) => `${flow.flowId}: ${error}`));

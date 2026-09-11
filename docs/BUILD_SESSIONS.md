@@ -1295,3 +1295,9 @@ review UI shows that distinction so generic policy cannot be mistaken for
 tenant-owned evidence. The decision is recorded in
 `docs/adr/0591-explicit-review-surface-scope.md` and
 `docs/decision-register/DR-663-explicit-review-surface-scope.md`.
+
+The review-surface scope validation slice now enforces the allowed `platform`
+or `tenant` values in the shared content model, data previews, panels, and
+runtime harness. The decision is recorded in
+`docs/adr/0592-review-surface-scope-validation.md` and
+`docs/decision-register/DR-664-review-surface-scope-validation.md`.

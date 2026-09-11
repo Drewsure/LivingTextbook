@@ -3760,3 +3760,24 @@ Guardrails:
 
 This decision is recorded in
 `docs/adr/0591-explicit-review-surface-scope.md`.
+
+## DR-664: Review-Surface Scope Validation
+
+Status: Accepted
+
+Decision: Enforce `platform` or `tenant` scope values with a shared
+content-model validator for evidence flows and prototype storage guards.
+
+Rationale:
+
+- Scope is a white-label safety boundary, so presentation labels alone are
+  insufficient.
+- Invalid or ad-hoc scope values must fail before review data is trusted.
+
+Guardrails:
+
+- Scope validation remains review-only.
+- Storage, import, package promotion, and assignment remain blocked.
+
+This decision is recorded in
+`docs/adr/0592-review-surface-scope-validation.md`.
