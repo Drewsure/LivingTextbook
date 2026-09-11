@@ -2705,7 +2705,7 @@ This decision is recorded in `docs/adr/0547-progress-event-type-identity.md` and
 
 Status: Accepted
 
-Decision: Require progress-event streams to remain within one unit, launch, and student-session identity whenever those fields are present.
+Decision: Require progress-event streams to remain within one unit and launch identity whenever those fields are present, while allowing multiple learner sessions in a class-scoped report.
 
 Rationale:
 
@@ -2716,7 +2716,8 @@ Rationale:
 Guardrails:
 
 - Multiple modes remain allowed within one canonical unit.
-- Multiple unit keys, launch codes, or student session IDs block stream validation.
+- Multiple unit keys or launch codes block stream validation.
+- Multiple student session IDs remain allowed within one launch-scoped teacher report.
 - Stream-context validation remains review-only and does not enable gameplay, scoring, persistence, or provider writes.
 
 This decision is recorded in `docs/adr/0548-progress-event-stream-context.md` and `docs/decision-register/DR-620-progress-event-stream-context.md`.

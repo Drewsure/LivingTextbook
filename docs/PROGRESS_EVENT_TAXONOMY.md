@@ -94,7 +94,7 @@ Envelope rules:
 - `unit_key` must use the canonical tenant, curriculum, level, and unit format.
 - The envelope's mode must be offered at the level encoded in its canonical `unit_key`.
 - `event_type` must belong to one of the shared support-only, report-only, or progress-affecting event categories.
-- A stored or reported event stream must not mix unit, launch, or student-session identities.
+- A stored or reported event stream must not mix unit or launch identities; classroom report streams may include multiple learner sessions.
 - Missing launch context, learning evidence, or support-only signals produce review warnings.
 
 ## Hard Rules
@@ -165,13 +165,13 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-619 and `docs/adr/05
 
 ## 90. Progress Event Stream Context Standard
 
-Individual event validity does not guarantee stream validity. A report or persistence batch must remain within one content unit and one classroom session context, while still allowing multiple curated game modes inside that unit.
+Individual event validity does not guarantee stream validity. A report or persistence batch must remain within one content unit and launch context, while still allowing multiple curated game modes and learner sessions inside that classroom launch.
 
 Required standing rules:
 
 - A stream may contain multiple modes for one unit, but must not mix `unit_key` values.
 - When `launch_code` values are present, a stream must not mix launch sessions.
-- When `student_session_id` values are present, a stream must not mix student sessions.
+- `student_session_id` values may vary within a launch-scoped teacher report because one class report can contain multiple learners.
 - Stream-context validation remains verification-only; it does not enable gameplay, scoring, persistence, or provider writes.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-620 and `docs/adr/0548-progress-event-stream-context.md`.

@@ -132,7 +132,7 @@ Every event should include:
 - `launchCode` when launched from a session
 - `gameMode` must be supported at the level encoded by `unitKey`.
 - `eventType`/`event_type` must belong to the reviewed shared event taxonomy.
-- An event stream may contain multiple modes for one unit, but must not mix unit, launch, or student-session identities.
+- An event stream may contain multiple modes and learner sessions for one classroom launch, but must not mix unit or launch identities.
 - `studentSessionId` when available
 - `occurredAt`
 - useful metadata such as attempts, correct count, term id, earned reward amount, media asset id, or parent engine id

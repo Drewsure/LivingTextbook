@@ -377,7 +377,6 @@ export function validateProgressEventEnvelopeStream(
   const duplicateIds = eventIds.filter((eventId, index) => eventIds.indexOf(eventId) !== index);
   const unitKeys = [...new Set(records.map((envelope) => readString(envelope, "unit_key")).filter(Boolean))];
   const launchCodes = [...new Set(records.map((envelope) => readString(envelope, "launch_code")).filter(Boolean))];
-  const studentSessionIds = [...new Set(records.map((envelope) => readString(envelope, "student_session_id")).filter(Boolean))];
 
   if (duplicateIds.length > 0) {
     errors.push(`Progress event envelope stream contains duplicate event_id value(s): ${[...new Set(duplicateIds)].join(", ")}.`);
@@ -389,10 +388,6 @@ export function validateProgressEventEnvelopeStream(
 
   if (launchCodes.length > 1) {
     errors.push(`Progress event envelope stream must target one launch_code value, found: ${launchCodes.join(", ")}.`);
-  }
-
-  if (studentSessionIds.length > 1) {
-    errors.push(`Progress event envelope stream must target one student_session_id value, found: ${studentSessionIds.join(", ")}.`);
   }
 
   return errors;

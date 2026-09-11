@@ -165,7 +165,7 @@ try {
   ], registry);
   assertIncludes(mixedStreamContextErrors, "Progress event envelope stream must target one unit_key value, found: tenant-1:curriculum-1:L1:U1, tenant-1:curriculum-1:L1:U2.");
   assertIncludes(mixedStreamContextErrors, "Progress event envelope stream must target one launch_code value, found: launch-1, launch-2.");
-  assertIncludes(mixedStreamContextErrors, "Progress event envelope stream must target one student_session_id value, found: session-1, session-2.");
+  assertEqual(mixedStreamContextErrors.includes("Progress event envelope stream must target one student_session_id value, found: session-1, session-2."), false);
 
   const rewardErrors = reward.validateRewardRuntimeRequest({
     tenantId: "tenant-1", packageId: "package-1", learnerSlotId: "slot-1", rewardId: "reward-1",
