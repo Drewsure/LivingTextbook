@@ -3601,3 +3601,25 @@ Guardrails:
 
 This decision is recorded in
 `docs/adr/0584-derived-tenant-prototype-readiness.md`.
+
+## DR-657: Prototype Alert and Signal Scope Consistency
+
+Status: Accepted
+
+Decision: Require the prototype-intake alert tenant and readiness-signal tenant
+to match during alignment validation.
+
+Rationale:
+
+- Validating alert and readiness records independently does not prevent a caller
+  from pairing two different tenants.
+- Route, alert, and readiness summary identity must form one auditable chain.
+
+Guardrails:
+
+- A valid alignment check remains review-only.
+- Import, package promotion, route creation, scoring/reward mutation, and
+  assignment remain blocked.
+
+This decision is recorded in
+`docs/adr/0585-prototype-alert-signal-scope-consistency.md`.

@@ -9,6 +9,7 @@ export type PrototypeIntakeCodexAlertState =
 
 export interface PrototypeIntakeReadinessSignal {
   status: string;
+  tenantId?: string;
   lanes: Array<{ laneId: string; status: string }>;
 }
 
@@ -120,6 +121,12 @@ export function validatePrototypeIntakeAlertAlignment(
   const actualStatus = readString(alert, "status");
   if (actualStatus !== expectedStatus) {
     errors.push(`Prototype intake alert status must match the readiness decision: ${expectedStatus}.`);
+  }
+
+  const alertTenantId = readString(alert, "tenantId");
+  const signalTenantId = typeof signal.tenantId === "string" ? signal.tenantId.trim() : "";
+  if (signalTenantId && alertTenantId !== signalTenantId) {
+    errors.push(`Prototype intake alert tenantId must match the readiness signal tenant: ${signalTenantId}.`);
   }
 
   return errors;

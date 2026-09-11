@@ -545,6 +545,7 @@
 - `DR-654-prototype-intake-alert-tenant-scope.md`
 - `DR-655-prototype-intake-readiness-summary-tenant-scope.md`
 - `DR-656-derived-tenant-prototype-readiness.md`
+- `DR-657-prototype-alert-signal-scope-consistency.md`
 
 ## Maintenance Rule
 

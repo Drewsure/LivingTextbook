@@ -1247,3 +1247,10 @@ Missing tenant records remain missing rather than inheriting platform status.
 The decision is recorded in
 `docs/adr/0584-derived-tenant-prototype-readiness.md` and
 `docs/decision-register/DR-656-derived-tenant-prototype-readiness.md`.
+
+The prototype alert/signal consistency slice now requires the alert tenant and
+readiness-signal tenant to match during alignment validation. Route, alert, and
+summary identity therefore form one chain before any future handoff decision.
+The decision is recorded in
+`docs/adr/0585-prototype-alert-signal-scope-consistency.md` and
+`docs/decision-register/DR-657-prototype-alert-signal-scope-consistency.md`.

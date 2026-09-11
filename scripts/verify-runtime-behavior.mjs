@@ -1137,6 +1137,7 @@ try {
   assertEqual(
     prototypeIntakeAlert.validatePrototypeIntakeAlertAlignment(prototypeIntakeAlertFixture, {
       status: "not-ready",
+      tenantId: "platform",
       lanes: [{ laneId: "returned-package-availability", status: "missing" }],
     }).length,
     0,
@@ -1144,9 +1145,17 @@ try {
   assertIncludes(
     prototypeIntakeAlert.validatePrototypeIntakeAlertAlignment(
       { ...prototypeIntakeAlertFixture, status: "ready-for-review" },
-      { status: "not-ready", lanes: [{ laneId: "returned-package-availability", status: "missing" }] },
+      { status: "not-ready", tenantId: "platform", lanes: [{ laneId: "returned-package-availability", status: "missing" }] },
     ),
     "Prototype intake alert status must match the readiness decision: not-ready.",
+  );
+  assertIncludes(
+    prototypeIntakeAlert.validatePrototypeIntakeAlertAlignment(prototypeIntakeAlertFixture, {
+      status: "not-ready",
+      tenantId: "sample-publisher",
+      lanes: [{ laneId: "returned-package-availability", status: "missing" }],
+    }),
+    "Prototype intake alert tenantId must match the readiness signal tenant: sample-publisher.",
   );
   assertIncludes(
     prototypeIntakeAlert.validatePrototypeIntakeAlert({
