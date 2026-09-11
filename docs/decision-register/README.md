@@ -541,6 +541,7 @@
 - `DR-650-deterministic-review-list-keys.md`
 - `DR-651-prototype-intake-alert-contract.md`
 - `DR-652-prototype-intake-alert-readiness-alignment.md`
+- `DR-653-prototype-alert-panel-instance-validation.md`
 
 ## Maintenance Rule
 

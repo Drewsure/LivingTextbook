@@ -3,10 +3,15 @@ import type {
   PrototypeIntakeAlert,
   PrototypeIntakeAlertStatus,
 } from "@/data/samplePrototypeIntakeAlert";
-import { samplePrototypeIntakeAlertErrors } from "@/data/samplePrototypeIntakeAlert";
+import {
+  validatePrototypeIntakeAlert,
+  validatePrototypeIntakeAlertAlignment,
+} from "@living-textbook/content-model/src/prototypeIntakeAlert";
+import type { PrototypeIntakeReadinessSignal } from "@living-textbook/content-model/src/prototypeIntakeAlert";
 
 interface PrototypeIntakeAlertPanelProps {
   alert: PrototypeIntakeAlert;
+  readinessSignal?: PrototypeIntakeReadinessSignal;
 }
 
 const statusLabels: Record<PrototypeIntakeAlertStatus, string> = {
@@ -15,7 +20,11 @@ const statusLabels: Record<PrototypeIntakeAlertStatus, string> = {
   blocked: "Blocked",
 };
 
-export function PrototypeIntakeAlertPanel({ alert }: PrototypeIntakeAlertPanelProps) {
+export function PrototypeIntakeAlertPanel({ alert, readinessSignal }: PrototypeIntakeAlertPanelProps) {
+  const alertContractErrors = readinessSignal
+    ? validatePrototypeIntakeAlertAlignment(alert, readinessSignal)
+    : validatePrototypeIntakeAlert(alert);
+
   return (
     <Card>
       <div className="flex flex-wrap items-start justify-between gap-4">
@@ -30,9 +39,9 @@ export function PrototypeIntakeAlertPanel({ alert }: PrototypeIntakeAlertPanelPr
         <div className="flex flex-wrap justify-end gap-2">
           <StatusPill label={statusLabels[alert.status]} tone="warning" />
           <StatusPill label="Codex alert required" tone="warning" />
-          <StatusPill
-            label={samplePrototypeIntakeAlertErrors.length === 0 ? "Alert contract valid" : "Alert contract review"}
-            tone={samplePrototypeIntakeAlertErrors.length === 0 ? "success" : "warning"}
+            <StatusPill
+            label={alertContractErrors.length === 0 ? "Alert contract valid" : "Alert contract review"}
+            tone={alertContractErrors.length === 0 ? "success" : "warning"}
           />
         </div>
       </div>

@@ -197,7 +197,7 @@ export default async function TeacherPrototypeReviewPage({
           </section>
         </Card>
 
-        <PrototypeIntakeAlertPanel alert={samplePrototypeIntakeAlert} />
+        <PrototypeIntakeAlertPanel alert={samplePrototypeIntakeAlert} readinessSignal={samplePrototypeIntakeReadinessSummary} />
         <PrototypeIntakeReadinessSummaryPanel summary={samplePrototypeIntakeReadinessSummary} />
         <PrototypeIntakeQueuePanel items={filterPrototypeIntakeQueueByTenant(samplePrototypeIntakeQueue, tenantId)} />
         <PrototypeIntakeStorageGuardPanel guards={samplePrototypeIntakeStorageGuards} />

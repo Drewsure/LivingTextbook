@@ -3507,3 +3507,26 @@ Guardrails:
 
 This decision is recorded in
 `docs/adr/0580-prototype-intake-alert-readiness-alignment.md`.
+
+## DR-653: Prototype Alert Panel Instance Validation
+
+Status: Accepted
+
+Decision: Validate each prototype-intake alert panel instance against its own
+alert payload and, when supplied, its own readiness signal.
+
+Rationale:
+
+- Shared UI cannot use MiniStar sample validation as tenant-wide truth.
+- White-label tenant routes must display the state of the package they actually
+  received.
+
+Guardrails:
+
+- Tenant-specific readiness must remain aligned with the readiness signal passed
+  to that route.
+- Validation remains review-only and does not authorize import or student-facing
+  use.
+
+This decision is recorded in
+`docs/adr/0581-prototype-alert-panel-instance-validation.md`.

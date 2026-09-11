@@ -1218,3 +1218,10 @@ status matches the authoritative readiness lanes. A valid alert payload cannot
 override missing returned packages or blocked evidence. This decision is
 recorded in `docs/adr/0580-prototype-intake-alert-readiness-alignment.md` and
 `docs/decision-register/DR-652-prototype-intake-alert-readiness-alignment.md`.
+
+The prototype alert panel now validates the alert instance and readiness signal
+passed by each route instead of consulting a MiniStar-specific global error
+array. This preserves white-label tenant isolation while keeping the panel
+review-only. The decision is recorded in
+`docs/adr/0581-prototype-alert-panel-instance-validation.md` and
+`docs/decision-register/DR-653-prototype-alert-panel-instance-validation.md`.

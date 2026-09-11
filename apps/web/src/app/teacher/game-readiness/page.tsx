@@ -80,7 +80,7 @@ export default function TeacherGameReadinessPage() {
           </section>
         </Card>
 
-        <PrototypeIntakeAlertPanel alert={samplePrototypeIntakeAlert} />
+        <PrototypeIntakeAlertPanel alert={samplePrototypeIntakeAlert} readinessSignal={samplePrototypeIntakeReadinessSummary} />
         <PrototypeIntakeReadinessSummaryPanel summary={samplePrototypeIntakeReadinessSummary} />
         <PrototypeIntakeQueuePanel items={samplePrototypeIntakeQueue} />
         <PrototypeIntakeStorageGuardPanel guards={samplePrototypeIntakeStorageGuards} />
