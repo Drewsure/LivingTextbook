@@ -324,7 +324,7 @@ Current first playable example:
 - Scoring profile: `pairing-reinforcement-v1`
 - Component: `PairingMemoryMatchGame.tsx`
 - Input: `UnitPayload`, `LaunchSession`, `StudentProgressionState`, optional `AudioCue[]`
-- Events: `game_started` from the route; `round_shown`, `answer_submitted`, `answer_result`, and `mastery_updated` from the game; `game_completed` from the completion helper
+- Events: `game_started` from the Memory Match controlled slice; `round_shown`, `answer_submitted`, `answer_result`, and `mastery_updated` from the game; `game_completed` from the completion helper; term taps emit support-only `audio_requested`
 - Current known gap: events are local-state only and are not persisted to a backend yet.
 
 This example is acceptable as the first structural playable slice. Future production-ready games can add richer item identifiers, analytics metadata, and persistence without changing the parent-engine contract.

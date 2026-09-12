@@ -73,10 +73,10 @@ The scene may report interaction facts and render feedback. It must not directly
 
 ## Next controlled work
 
-1. Build a review-only adapter contract and fixture for Memory Match.
-2. Map its scene facts to the canonical event taxonomy without importing the scene into `apps/web`.
-3. Run deterministic replay and mobile/touch checks against the fixture.
+1. Keep the canonical DOM Memory Match slice as the reference adapter contract.
+2. Map the frozen Phaser scene facts to that contract without importing the scene into `apps/web`.
+3. Run deterministic replay and mobile/touch checks against the reference contract.
 4. Re-review Balloon Pop using the same adapter boundary.
-5. Issue an integration recommendation only after both candidate packets pass review.
+5. Issue a Phaser integration recommendation only after both candidate packets pass review.
 
 Until those checks pass, the frozen snapshot remains preserved and the direct source import into `apps/web` or `apps/ai-service` remains blocked.

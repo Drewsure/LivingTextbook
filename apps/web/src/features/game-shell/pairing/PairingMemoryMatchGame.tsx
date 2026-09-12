@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Card, StatusPill } from "@living-textbook/ui";
 import type {
   AudioCue,
@@ -13,7 +13,9 @@ import type {
 import { AudioCueText, playAudioCueText } from "@/features/audio/AudioCueButton";
 import {
   completeGameMode,
+  createAudioRequestedEvent,
   createGameInteractionEvent,
+  startUnlockedGameMode,
   type GameModeCompletionResult,
 } from "@/features/progression/localProgressionAdapter";
 import { formatMode } from "@/lib/formatLabels";
@@ -52,12 +54,31 @@ export function PairingMemoryMatchGame({
   const [lastResult, setLastResult] = useState<PairingSelectionResult | undefined>();
   const [mismatchCardIds, setMismatchCardIds] = useState<string[]>([]);
   const [completionSent, setCompletionSent] = useState(false);
+  const startSentRef = useRef(false);
   const mode = getGameModeCatalogItem(gameMode);
   const scoringProfile = getGameScoringProfileForMode(gameMode);
   const progress = getPairingProgressSummary(engineState);
   const completedAlready = progression.completedGameModes.includes(gameMode);
   const instructionCue = findAudioCueForGame(audioCues, "instruction", gameMode);
   const feedbackCue = findAudioCueForGame(audioCues, "feedback", gameMode);
+
+  useEffect(() => {
+    if (startSentRef.current) {
+      return;
+    }
+
+    const event = startUnlockedGameMode({
+      progression,
+      launchSession,
+      gameMode,
+      occurredAt: new Date().toISOString(),
+    });
+
+    if (event) {
+      startSentRef.current = true;
+      onEvent?.(event);
+    }
+  }, [launchSession, onEvent, progression]);
 
   function emitInteractionEvent(
     type: "round_shown" | "answer_submitted" | "answer_result" | "mastery_updated",
@@ -77,6 +98,18 @@ export function PairingMemoryMatchGame({
 
   function handleCardSelect(card: PairingCard) {
     const audioCue = findAudioCue(audioCues, card.label);
+    onEvent?.(
+      createAudioRequestedEvent({
+        progression,
+        launchSession,
+        gameMode,
+        occurredAt: new Date().toISOString(),
+        cueKind: "term",
+        cueText: audioCue?.text ?? card.label,
+        language: audioCue?.language ?? "en",
+        source: "memory-match-card",
+      }),
+    );
     playAudioCueText({ text: audioCue?.text ?? card.label, language: audioCue?.language ?? "en" });
 
     if (card.status === "matched" || engineState.completed) {
@@ -91,14 +124,16 @@ export function PairingMemoryMatchGame({
       return;
     }
 
-    emitInteractionEvent("round_shown", {
-      cardId: card.id,
-      pairId: card.pairId,
-      cardKind: card.kind,
-      label: card.label,
-      result: outcome.result,
-      attempts: outcome.state.attempts,
-    });
+    if (selectedBefore.length === 0) {
+      emitInteractionEvent("round_shown", {
+        cardId: card.id,
+        pairId: card.pairId,
+        cardKind: card.kind,
+        label: card.label,
+        roundIndex: outcome.state.attempts + 1,
+        totalPairs: progress.totalPairs,
+      });
+    }
 
     if (outcome.result === "matched" || outcome.result === "mismatched") {
       const correct = outcome.result === "matched";
