@@ -1418,6 +1418,13 @@ no live persistence or vendor selection was enabled. The decision is recorded
 in `docs/adr/0609-backend-enum-boundary-contract.md` and
 `docs/decision-register/DR-681-backend-enum-boundary-contract.md`.
 
+The backend track compatibility slice now rejects migration candidates whose
+hosted/local track conflicts with a targeted schema entity's deployment fit.
+The regression and backend storage checks pass, with no adapter selection or
+live storage behavior enabled. The decision is recorded in
+`docs/adr/0610-backend-track-deployment-compatibility.md` and
+`docs/decision-register/DR-682-backend-track-deployment-compatibility.md`.
+
 The migration candidate coverage slice now requires every non-deferred
 candidate to have at least one migration specification, while deferred
 candidates must not carry implementation specs. The decision is recorded in

@@ -39,6 +39,7 @@ export function validateBackendContractAlignment({
   const errors: string[] = [];
   const schemaEntityIds = new Set<string>();
   const schemaFieldsByEntity = new Map<string, Set<string>>();
+  const schemaDeploymentFitByEntity = new Map<string, string>();
   const migrationIds = new Set<string>();
   const specIds = new Set<string>();
 
@@ -66,6 +67,7 @@ export function validateBackendContractAlignment({
       errors.push(`Backend schema contains duplicate entity ${entity.entityId}.`);
     }
     schemaEntityIds.add(entity.entityId);
+    schemaDeploymentFitByEntity.set(entity.entityId, entity.deploymentFit);
 
     if (entity.entityId.trim().length === 0 || entity.label.trim().length === 0 || entity.purpose.trim().length === 0 || entity.migrationNote.trim().length === 0) {
       errors.push(`Backend schema entity ${entity.entityId || "<unnamed>"} must declare identity, label, purpose, and migration note.`);
@@ -193,6 +195,17 @@ export function validateBackendContractAlignment({
     for (const entityId of candidate.targetEntities) {
       if (!schemaEntityIds.has(entityId)) {
         errors.push(`Backend migration ${candidate.migrationId} targets missing schema entity ${entityId}.`);
+      }
+    }
+
+    if (candidate.targetEntities.every((entityId) => schemaDeploymentFitByEntity.has(entityId))) {
+      const incompatibleEntity = candidate.targetEntities.find((entityId) =>
+        !isMigrationTrackCompatible(candidate.track, schemaDeploymentFitByEntity.get(entityId) ?? ""),
+      );
+      if (incompatibleEntity) {
+        errors.push(
+          `Backend migration ${candidate.migrationId} track ${candidate.track} is incompatible with schema entity ${incompatibleEntity} deployment fit ${schemaDeploymentFitByEntity.get(incompatibleEntity)}.`,
+        );
       }
     }
   }
@@ -345,4 +358,17 @@ export function validateBackendContractAlignment({
   }
 
   return errors;
+}
+
+function isMigrationTrackCompatible(track: string, deploymentFit: string): boolean {
+  if (track === "shared") {
+    return true;
+  }
+  if (track === "hosted-pilot") {
+    return deploymentFit === "hosted" || deploymentFit === "hybrid";
+  }
+  if (track === "local-classroom") {
+    return deploymentFit === "local" || deploymentFit === "hybrid";
+  }
+  return false;
 }

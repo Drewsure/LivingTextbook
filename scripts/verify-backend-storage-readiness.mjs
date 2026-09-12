@@ -3983,6 +3983,8 @@ requireText(backendContractAlignment, "migration field extensions", "Backend ali
 requireText(backendContractAlignment, "unsupported deployment fit", "Backend alignment must reject unsupported schema deployment fits.");
 requireText(backendContractAlignment, "unsupported track", "Backend alignment must reject unsupported migration tracks.");
 requireText(backendContractAlignment, "unsupported store kind", "Backend alignment must reject unsupported migration store kinds.");
+requireText(backendContractAlignment, "track", "Backend alignment must check migration track compatibility with schema deployment fit.");
+requireText(backendContractAlignment, "isMigrationTrackCompatible", "Backend alignment must expose migration track compatibility logic.");
 requireText(backendSchemaDraftPanel, "Migration-only fields", "Backend schema panel must show migration-only fields.");
 requireText(migrationCandidates, "settings review packet", "Backend migration candidates must preserve teacher session settings review packets.");
 requireText(migrationSpecs, "settings_review_packet", "Backend migration specs must preserve teacher session settings review packets.");

@@ -570,6 +570,7 @@
 - `DR-679-prototype-integration-gate-readiness-lane.md`
 - `DR-680-backend-migration-field-extension-contract.md`
 - `DR-681-backend-enum-boundary-contract.md`
+- `DR-682-backend-track-deployment-compatibility.md`
 
 The prototype integration gate slice now feeds detailed wrapper, fixture,
 event, audio, mobile, scoring, and Codex-decision readiness records into the
@@ -591,6 +592,12 @@ fits, migration tracks/statuses/risks, and migration specification
 statuses/store kinds at the JSON contract boundary. The decision is recorded
 in `docs/adr/0609-backend-enum-boundary-contract.md` and
 `docs/decision-register/DR-681-backend-enum-boundary-contract.md`.
+
+The backend track compatibility slice now checks each migration candidate
+against the deployment fit of its target schema entities, protecting hosted,
+local, and hybrid white-label planning. The decision is recorded in
+`docs/adr/0610-backend-track-deployment-compatibility.md` and
+`docs/decision-register/DR-682-backend-track-deployment-compatibility.md`.
 
 ## Maintenance Rule
 

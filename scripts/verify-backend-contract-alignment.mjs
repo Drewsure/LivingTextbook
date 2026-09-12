@@ -214,6 +214,23 @@ try {
     throw new Error("Backend contract alignment did not reject an unsupported migration spec store kind.");
   }
 
+  const incompatibleTrackPlan = {
+    ...migrationPlan,
+    candidates: migrationPlan.candidates.map((candidate) =>
+      candidate.migrationId === "m028-local-media-bundle-entries"
+        ? { ...candidate, track: "hosted-pilot" }
+        : candidate,
+    ),
+  };
+  const incompatibleTrackErrors = alignment.validateBackendContractAlignment({
+    schema,
+    migrationPlan: incompatibleTrackPlan,
+    migrationSpecPlan,
+  });
+  if (!incompatibleTrackErrors.includes("Backend migration m028-local-media-bundle-entries track hosted-pilot is incompatible with schema entity local_media_bundle_entry deployment fit local.")) {
+    throw new Error("Backend contract alignment did not reject a migration track incompatible with its schema deployment fit.");
+  }
+
   const missingSchemaTenantIndex = {
     ...schema,
     entities: schema.entities.map((entity) =>
