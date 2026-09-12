@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import type { ReactNode } from "react";
 import type {
   AudioCue,
@@ -10,6 +10,7 @@ import type {
   StudentProgressionState,
   UnitPayload,
 } from "@living-textbook/content-model";
+import { validateCanonicalGameEventSequence } from "@living-textbook/content-model";
 import type { TeacherAssignmentPlan } from "@living-textbook/content-model/src/teacherAssignment";
 import { findSampleUnitGameOfferMap } from "@/data/sampleUnitGameOfferMap";
 import type { GameModeCompletionResult } from "@/features/progression/localProgressionAdapter";
@@ -71,18 +72,27 @@ export function PlayableGameRouteShell({
     unlockedGameModes: Array.from(new Set([...progression.unlockedGameModes, gameMode])),
   });
   const [sessionEvents, setSessionEvents] = useState<GameProgressEvent[]>([]);
+  const sessionEventsRef = useRef<GameProgressEvent[]>([]);
   const [lastEarnedDust, setLastEarnedDust] = useState(0);
+  const [eventContractErrors, setEventContractErrors] = useState<string[]>([]);
   const offerMap = unit.unitMeta.contentPackageId ? findSampleUnitGameOfferMap(unit.unitMeta.contentPackageId) : undefined;
 
   function handleEvent(event: GameProgressEvent) {
+    sessionEventsRef.current = [...sessionEventsRef.current, event];
     setSessionEvents((events) => [...events, event]);
   }
 
   function handleComplete(result: GameModeCompletionResult) {
+    if (result.event) {
+      const replay = validateCanonicalGameEventSequence([...sessionEventsRef.current, result.event], gameMode);
+      setEventContractErrors(replay.errors);
+    }
+
     setCurrentProgression(result.progression);
     setLastEarnedDust(result.earnedStarDust);
 
     if (result.event) {
+      sessionEventsRef.current = [...sessionEventsRef.current, result.event];
       setSessionEvents((events) => [...events, result.event as GameProgressEvent]);
     }
   }
@@ -135,6 +145,17 @@ export function PlayableGameRouteShell({
       />
 
       <SessionEventLog events={sessionEvents} />
+
+      {eventContractErrors.length > 0 ? (
+        <aside className="rounded-lg border border-rose-300 bg-rose-50 p-4 text-sm text-rose-950" aria-live="polite">
+          <p className="font-bold">Canonical game contract needs review</p>
+          <ul className="mt-2 grid gap-1">
+            {eventContractErrors.map((error, index) => (
+              <li key={`${error}-${index}`}>{error}</li>
+            ))}
+          </ul>
+        </aside>
+      ) : null}
     </div>
   );
 }

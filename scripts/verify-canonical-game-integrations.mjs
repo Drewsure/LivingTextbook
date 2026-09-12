@@ -39,6 +39,8 @@ const integrations = [
 ];
 
 const progressionAdapter = readText("apps/web/src/features/progression/localProgressionAdapter.ts");
+const contentModelContract = readText("packages/content-model/src/canonicalGameIntegration.ts");
+const routeShell = readText("apps/web/src/features/game-shell/components/PlayableGameRouteShell.tsx");
 
 const standardEventTypes = [
   "game_started",
@@ -76,6 +78,17 @@ const contractSources = [progressionAdapter, ...integrations.map((integration) =
 for (const eventType of standardEventTypes) {
   if (!contractSources.some((source) => source.includes(eventType))) {
     failures.push(`canonical game contract: missing standard event reference: ${eventType}`);
+  }
+}
+
+for (const fragment of [
+  "validateCanonicalGameEventSequence",
+  "CANONICAL_GAME_REQUIRED_EVENT_ORDER",
+  "Canonical game event sequence must pair answer_submitted and answer_result events",
+  "Canonical game contract needs review",
+]) {
+  if (![contentModelContract, routeShell].some((source) => source.includes(fragment))) {
+    failures.push(`canonical game event boundary: missing shared contract fragment: ${fragment}`);
   }
 }
 
