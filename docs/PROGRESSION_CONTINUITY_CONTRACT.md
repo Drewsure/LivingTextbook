@@ -50,6 +50,24 @@ hybrid adapter may be considered only after the backend choice, learner
 identity model, school/tenant policy, persistence, reporting, retention,
 recovery, and release gates are approved together.
 
+## Persistence Boundary
+
+The provider-neutral persistence map names a separate
+`progression-continuity` record. It is deliberately not folded into the
+append-only progress event stream: the event stream records accepted learning
+evidence, while the continuity record describes a validated route handoff
+between curated activities.
+
+The record must preserve the envelope, continuity snapshot, and route handoff
+cursor. It must remain tenant- and package-scoped, reject stale or reordered
+handoffs, and exclude raw audio, transcripts, URL state, client-authoritative
+unlocks, Star Dust writes, and collection writes. Hosted and local adapters may
+map the same shape, but both remain policy-gated until a backend and school or
+tenant policy are accepted.
+
+The schema, migration candidate, migration specification, durable record plan,
+and adapter intents must all remain aligned before implementation work begins.
+
 ## Verification
 
 Run:

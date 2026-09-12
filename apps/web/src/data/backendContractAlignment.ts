@@ -24,6 +24,7 @@ const SUPPORTED_MIGRATION_STORE_KINDS = new Set([
   "release-record",
   "session-record",
   "event-record",
+  "continuity-record",
   "collection-record",
 ]);
 const SUPPORTED_BACKEND_FIELD_TYPES = new Set([

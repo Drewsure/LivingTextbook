@@ -24,6 +24,10 @@ export interface PersistenceWriteIntent {
   rejectsTranscripts: boolean;
   scopeKind?: ReviewSurfaceScopeKind;
   preservesEventEffectTaxonomy?: boolean;
+  preservesProgressionContinuityEnvelope?: boolean;
+  requiresContinuitySnapshot?: boolean;
+  requiresRouteHandoffCursor?: boolean;
+  blocksContinuitySideEffect?: boolean;
   preservesTenantBoundary?: boolean;
   tenantBoundaryKey?: string;
   preservesSettingsContext?: boolean;
@@ -524,6 +528,7 @@ function validateEvidenceWriteIntentScope(intent: PersistenceWriteIntent, errors
 export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): string[] {
   const errors: string[] = [];
   const intentIds = new Set<string>();
+  validateProgressionContinuityWriteIntents(plan.writeIntents, errors);
 
   if (plan.planId.trim().length === 0) {
     errors.push("Persistence adapter plan must include a plan id.");
@@ -3531,6 +3536,25 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
   }
 
   return errors;
+}
+
+function validateProgressionContinuityWriteIntents(intents: PersistenceWriteIntent[], errors: string[]): void {
+  for (const intent of intents) {
+    if (intent.category !== "progression-continuity") continue;
+
+    const requiredChecks: Array<[boolean | undefined, string]> = [
+      [intent.preservesProgressionContinuityEnvelope, "preserve the continuity envelope"],
+      [intent.requiresContinuitySnapshot, "require a continuity snapshot"],
+      [intent.requiresRouteHandoffCursor, "require a route handoff cursor"],
+      [intent.blocksContinuitySideEffect, "block continuity side effects"],
+    ];
+
+    for (const [passes, requirement] of requiredChecks) {
+      if (!passes) {
+        errors.push(`Progression continuity write intent ${intent.intentId} must ${requirement}.`);
+      }
+    }
+  }
 }
 
 function validateAiGeneratedPackageWriterTestHarnessPlanIntent(

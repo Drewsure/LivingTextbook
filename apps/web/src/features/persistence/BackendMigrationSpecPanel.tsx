@@ -28,6 +28,7 @@ const storeKindLabel: Record<BackendMigrationSpecStoreKind, string> = {
   "release-record": "Release",
   "session-record": "Session",
   "event-record": "Event",
+  "continuity-record": "Continuity",
   "collection-record": "Collection",
 };
 

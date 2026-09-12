@@ -105,6 +105,7 @@ const requiredSchemaEntities = [
   "local_media_bundle_entry",
   "launch_session",
   "progress_event",
+  "progression_continuity",
   "collection_inventory",
   "teacher_report_package",
   "package_release_candidate",
@@ -236,6 +237,7 @@ const requiredMigrationCandidates = [
   "m047-school-rollback-safe-fallback-activation-preview-records",
   "m048-school-rollback-safe-fallback-restoration-preview-records",
   "m096-game-mode-settings-storage-records",
+  "m105-progression-continuity-envelope-records",
 ];
 
 const requiredMigrationSpecs = [
@@ -320,6 +322,7 @@ const requiredMigrationSpecs = [
   "spec-launch-session-settings",
   "spec-qr-alias",
   "spec-progress-event",
+  "spec-progression-continuity-envelope",
   "spec-earned-collection-inventory",
   "spec-teacher-report-package",
   "spec-package-adoption-record-preview",
@@ -3970,6 +3973,12 @@ requireText(persistenceAdapter, "preservesLocalMediaBundleEntry: true", "Persist
 requireText(persistenceAdapter, "blocksLocalFolderActivation: true", "Persistence adapter must block local folder activation.");
 requireText(persistenceAdapter, "hosted-collection-inventory-write", "Persistence adapter must include hosted collection inventory writes.");
 requireText(persistenceAdapter, "local-collection-inventory-write", "Persistence adapter must include local collection inventory writes.");
+requireText(persistenceAdapter, "hosted-progression-continuity-write", "Persistence adapter must include hosted progression continuity writes.");
+requireText(persistenceAdapter, "local-progression-continuity-write", "Persistence adapter must include local progression continuity writes.");
+requireText(persistenceAdapter, "preservesProgressionContinuityEnvelope: true", "Persistence adapter must preserve progression continuity envelopes.");
+requireText(persistenceAdapter, "requiresContinuitySnapshot: true", "Persistence adapter must require continuity snapshots.");
+requireText(persistenceAdapter, "requiresRouteHandoffCursor: true", "Persistence adapter must require route handoff cursors.");
+requireText(persistenceAdapter, "blocksContinuitySideEffect: true", "Persistence adapter must block continuity side effects.");
 requireText(persistenceAdapter, "preservesEarnedCollectionRules: true", "Persistence adapter must preserve earned collection rules.");
 requireText(persistenceAdapter, "rejectsRandomRewardPressure: true", "Persistence adapter must reject random reward pressure.");
 requireText(persistenceAdapter, "preservesTeacherSessionSettingsSnapshot: true", "Persistence adapter must preserve teacher session settings snapshots.");
@@ -5715,6 +5724,11 @@ requireText(durableRecords, "requiresEventAcceptanceGate: true", "Durable record
 requireText(durableRecords, "preservesTenantBoundary: true", "Durable record plan must preserve tenant boundaries for event and report records.");
 requireText(persistenceAdapter, "preservesTenantBoundary: true", "Persistence adapter plan must preserve tenant boundaries for event and report writes.");
 requireText(durableRecords, "earned-collection-inventory-record", "Durable record plan must include earned collection inventory.");
+requireText(durableRecords, "progression-continuity-record", "Durable record plan must include progression continuity handoffs.");
+requireText(durableRecords, "preservesProgressionContinuityEnvelope: true", "Durable record plan must preserve progression continuity envelopes.");
+requireText(durableRecords, "requiresContinuitySnapshot: true", "Durable record plan must require continuity snapshots.");
+requireText(durableRecords, "requiresRouteHandoffCursor: true", "Durable record plan must require route handoff cursors.");
+requireText(durableRecords, "blocksContinuitySideEffect: true", "Durable record plan must block continuity side effects.");
 requireText(durableRecords, "preservesEarnedCollectionRules: true", "Durable record plan must preserve earned collection rules.");
 requireText(durableRecords, "rejectsRandomRewardPressure: true", "Durable record plan must reject random reward pressure.");
 requireText(routeVerifier, "Backend selection gate", "Active route verifier must keep backend selection gate visible on teacher intake.");

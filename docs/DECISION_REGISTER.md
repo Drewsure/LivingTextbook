@@ -4067,4 +4067,11 @@ with no side effect until persistence and policy gates are approved. See ADR
 
 Standalone `audio_requested` evidence remains support-only in teacher reports
 and does not create an incomplete game attempt. This keeps tap-to-speak audio
-separate from mastery, Star Dust, and completion evidence. See ADR 0676.
+ separate from mastery, Star Dust, and completion evidence. See ADR 0676.
+
+The provider-neutral persistence map now names a separate
+`progression-continuity` record for validated activity handoffs. Hosted and
+local adapter intents, schema, migration candidate, and migration
+specification preserve the same tenant/package/cursor/snapshot boundary while
+blocking raw audio, transcripts, URL-authoritative state, and live side
+effects. See ADR 0677 and DR-749.

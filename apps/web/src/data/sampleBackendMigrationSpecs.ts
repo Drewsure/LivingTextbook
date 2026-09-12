@@ -5,6 +5,7 @@ export type BackendMigrationSpecStoreKind =
   | "release-record"
   | "session-record"
   | "event-record"
+  | "continuity-record"
   | "collection-record";
 
 export interface BackendMigrationSpecField {
@@ -11077,6 +11078,39 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
         "Progress event writes must be blocked until the related launch session has a passed event acceptance gate.",
         "Progress event writes must preserve settings_context without allowing settings to grant mastery, Star Dust, or unlocks.",
         "Report aggregation must ignore support-only events for mastery, Star Dust, and unlock calculations.",
+      ],
+    },
+    {
+      specId: "spec-progression-continuity-envelope",
+      label: "Progression continuity handoff",
+      candidateId: "m105-progression-continuity-envelope-records",
+      storeKind: "continuity-record",
+      status: "blocked-by-policy",
+      purpose: "Defines the provider-neutral persistence shape for validated source-to-destination activity handoffs while keeping runtime decisions review-only and side-effect-free.",
+      primaryKey: "continuity_id",
+      tenantScope: "Scoped by tenant_id, package_id, launch_code, student_code, source_route, destination_route, and event_cursor.",
+      fields: [
+        { name: "continuity_id", type: "string", required: true, note: "Stable idempotency key for one versioned continuity handoff." },
+        { name: "tenant_id", type: "string", required: true, note: "White-label tenant boundary; never inferred from a client route alone." },
+        { name: "package_id", type: "string", required: true, note: "Reviewed package bound to the handoff." },
+        { name: "launch_code", type: "string", required: true, note: "Teacher-created classroom context." },
+        { name: "student_code", type: "coded string", required: true, note: "Identity-light learner code." },
+        { name: "source_route", type: "route/string", required: true, note: "Approved app-relative source activity route." },
+        { name: "destination_route", type: "route/string", required: true, note: "Approved app-relative destination activity route." },
+        { name: "event_cursor", type: "integer", required: true, note: "Non-negative monotonic cursor used to reject stale or reordered handoffs." },
+        { name: "continuity_snapshot", type: "json", required: true, note: "Validated completion, unlock, mastery, Star Dust, and status snapshot." },
+        { name: "runtime_decision", type: "json", required: true, note: "Review-only decision with no live unlock, score, reward, or route mutation." },
+        { name: "created_at", type: "datetime", required: true, note: "Versioned creation time." },
+      ],
+      indexes: ["tenant_id + launch_code + student_code", "continuity_id unique", "tenant_id + event_cursor", "package_id + source_route + destination_route"],
+      retentionRule: "Retain only as long as required for teacher recovery, report continuity, and policy-defined audit; expire stale handoffs without changing progression.",
+      exportRule: "Export a sanitized continuity packet for recovery review only; never export raw audio, transcripts, or client URL state as authority.",
+      localFallback: "Local classroom deployments may carry the same envelope in an exportable local store after policy acceptance; no live storage activation is implied by this draft.",
+      policyBlockers: [
+        "Backend and tenant/school policy must be accepted before production continuity writes.",
+        "Envelope validation must pass for tenant, package, route, cursor, snapshot identity, and privacy exclusions.",
+        "Review-only runtime decisions must remain blocked from live unlocks, scoring, Star Dust, collection, or route mutation.",
+        "Cross-tenant, cross-package, stale, reordered, URL-authoritative, raw-audio, and transcript-bearing handoffs are rejected.",
       ],
     },
     {

@@ -81,6 +81,7 @@ export type PersistenceRecordCategory =
   | "route-registry"
   | "launch-session"
   | "progress-event-stream"
+  | "progression-continuity"
   | "collection-inventory"
   | "media-manifest"
   | "media-playlist-binding"
@@ -155,6 +156,7 @@ export const TENANT_BOUND_PROTOTYPE_RECORD_CATEGORIES: PersistenceRecordCategory
 
 export const TENANT_BOUND_PERSISTENCE_RECORD_CATEGORIES: PersistenceRecordCategory[] = [
   "progress-event-stream",
+  "progression-continuity",
   "teacher-report-package",
   ...TENANT_BOUND_PROTOTYPE_RECORD_CATEGORIES,
 ];
@@ -175,6 +177,10 @@ export interface DurableRecordContract {
   ownsTeacherSessionSettings?: boolean;
   preservesTeacherSessionSettingsReviewPacket?: boolean;
   preservesEventEffectTaxonomy?: boolean;
+  preservesProgressionContinuityEnvelope?: boolean;
+  requiresContinuitySnapshot?: boolean;
+  requiresRouteHandoffCursor?: boolean;
+  blocksContinuitySideEffect?: boolean;
   preservesTenantBoundary?: boolean;
   tenantBoundaryKey?: string;
   preservesSettingsContext?: boolean;
@@ -662,6 +668,7 @@ function validatePrototypeReturnPackageChecklistRecord(record: DurableRecordCont
 export function validateDurableRecordContracts(records: DurableRecordContract[]): string[] {
   const errors: string[] = [];
   const ids = new Set<string>();
+  validateProgressionContinuityRecords(records, errors);
 
   for (const record of records) {
     if (record.recordId.trim().length === 0) {
@@ -3638,6 +3645,25 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
   }
 
   return errors;
+}
+
+function validateProgressionContinuityRecords(records: DurableRecordContract[], errors: string[]): void {
+  for (const record of records) {
+    if (record.category !== "progression-continuity") continue;
+
+    const requiredChecks: Array<[boolean | undefined, string]> = [
+      [record.preservesProgressionContinuityEnvelope, "preserve the continuity envelope"],
+      [record.requiresContinuitySnapshot, "require a continuity snapshot"],
+      [record.requiresRouteHandoffCursor, "require a route handoff cursor"],
+      [record.blocksContinuitySideEffect, "block continuity side effects"],
+    ];
+
+    for (const [passes, requirement] of requiredChecks) {
+      if (!passes) {
+        errors.push(`Progression continuity durable record ${record.recordId} must ${requirement}.`);
+      }
+    }
+  }
 }
 
 function validateAiGeneratedPackageWriterTestHarnessPlanRecord(
