@@ -18,6 +18,8 @@ export interface EntryPracticeCompletionResult {
   progression: StudentProgressionState;
   dust: StarDustBreakdown;
   events: GameProgressEvent[];
+  completed: boolean;
+  blockedReason?: "target-language-gate";
 }
 
 export interface GameModeCompletionResult {
@@ -38,8 +40,8 @@ export function completeFlashcardEntryPractice(args: {
   launchSession: LaunchSession;
   unit: UnitPayload;
   occurredAt: string;
-  targetLanguageEngagedItems?: number;
-  requiredTargetLanguageItems?: number;
+  targetLanguageEngagedItems: number;
+  requiredTargetLanguageItems: number;
 }): EntryPracticeCompletionResult {
   const alreadyCompleted = args.progression.completedGameModes.includes(args.launchSession.entryMode);
 
@@ -48,6 +50,23 @@ export function completeFlashcardEntryPractice(args: {
       progression: args.progression,
       dust: zeroDust,
       events: [],
+      completed: true,
+    };
+  }
+
+  const targetLanguageGateSatisfied =
+    Number.isSafeInteger(args.targetLanguageEngagedItems) &&
+    Number.isSafeInteger(args.requiredTargetLanguageItems) &&
+    args.requiredTargetLanguageItems > 0 &&
+    args.targetLanguageEngagedItems >= args.requiredTargetLanguageItems;
+
+  if (!targetLanguageGateSatisfied) {
+    return {
+      progression: args.progression,
+      dust: zeroDust,
+      events: [],
+      completed: false,
+      blockedReason: "target-language-gate",
     };
   }
 
@@ -106,6 +125,7 @@ export function completeFlashcardEntryPractice(args: {
     progression,
     dust,
     events: [completionEvent, ...unlockEvents],
+    completed: true,
   };
 }
 

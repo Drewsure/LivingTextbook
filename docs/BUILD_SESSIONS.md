@@ -1707,3 +1707,12 @@ activation was added. The decision is recorded in ADR 0678 and DR-750.
 The report runtime now keeps standalone `audio_requested` evidence in the
 support-only lane. Audio engagement cannot become an incomplete game attempt,
 mastery result, Star Dust award, or completion report. See ADR 0676 and DR-748.
+
+The student launch pathway now mounts the canonical Match Up game for the
+first reviewed next step, with Memory Match remaining available as the second
+supported pairing path. The parent no longer emits a duplicate `game_started`;
+the mounted game owns that event, and launch-path completion is revalidated by
+the shared canonical game sequence gate before progression changes. The entry
+completion adapter also rejects insufficient target-language evidence even if
+called outside the button's disabled-state guard. See ADR 0679, DR-751, and
+the target-language entry gate standard.

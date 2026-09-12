@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type {
   AudioCue,
   ContentPackage,
@@ -14,12 +14,13 @@ import type {
 } from "@living-textbook/content-model";
 import type { TeacherAssignmentPlan } from "@living-textbook/content-model/src/teacherAssignment";
 import { PairingMemoryMatchGame } from "@/features/game-shell/pairing/PairingMemoryMatchGame";
+import { PairingMatchUpGame } from "@/features/game-shell/pairing/PairingMatchUpGame";
 import { PairingEnginePreview } from "@/features/game-shell/pairing/PairingEnginePreview";
+import { validateCanonicalGameEventSequence } from "@living-textbook/content-model";
 import {
   completeFlashcardEntryPractice,
   createMediaPlaylistOpenedEvent,
   createRouteGuidanceListenedEvent,
-  startUnlockedGameMode,
   type GameModeCompletionResult,
 } from "@/features/progression/localProgressionAdapter";
 import { UnitSessionProgressSummary } from "@/features/progression/UnitSessionProgressSummary";
@@ -74,7 +75,9 @@ export function StudentLaunchFlow({
   const [sessionEvents, setSessionEvents] = useState<GameProgressEvent[]>([]);
   const [lastEarnedDust, setLastEarnedDust] = useState(0);
   const [activeGameMode, setActiveGameMode] = useState<GameModeId | undefined>();
+  const [eventContractErrors, setEventContractErrors] = useState<string[]>([]);
   const [targetPracticeEngagedItemIds, setTargetPracticeEngagedItemIds] = useState<string[]>([]);
+  const sessionEventsRef = useRef<GameProgressEvent[]>([]);
   const [assistLanguageEnabled, setAssistLanguageEnabled] = useState(
     sessionSettings?.assistLanguage.enabled ?? getDefaultAssistLanguageEnabled(tenant),
   );
@@ -128,19 +131,20 @@ export function StudentLaunchFlow({
         launchSession,
       });
 
-      if (!recommendation || hasRecordedTrainingRecoveryRecommendation(updatedEvents, recommendation)) {
-        return updatedEvents;
-      }
-
-      return [
-        ...updatedEvents,
-        createTrainingRecoveryRecommendationEvent({
-          recommendation,
-          launchSession,
-          progression: progressionForRecommendation,
-          occurredAt: new Date().toISOString(),
-        }),
-      ];
+      const nextSessionEvents =
+        !recommendation || hasRecordedTrainingRecoveryRecommendation(updatedEvents, recommendation)
+          ? updatedEvents
+          : [
+              ...updatedEvents,
+              createTrainingRecoveryRecommendationEvent({
+                recommendation,
+                launchSession,
+                progression: progressionForRecommendation,
+                occurredAt: new Date().toISOString(),
+              }),
+            ];
+      sessionEventsRef.current = nextSessionEvents;
+      return nextSessionEvents;
     });
   }
 
@@ -172,19 +176,11 @@ export function StudentLaunchFlow({
       return;
     }
 
-    const event = startUnlockedGameMode({
-      progression: currentProgression,
-      launchSession,
-      gameMode: nextMode,
-      occurredAt: new Date().toISOString(),
-    });
-
-    if (!event) {
+    if (!nextModeUnlocked) {
       return;
     }
 
     setActiveGameMode(nextMode);
-    appendSessionEvents([event]);
   }
 
   function handleGameEvent(event: GameProgressEvent) {
@@ -217,12 +213,32 @@ export function StudentLaunchFlow({
   }
 
   function handleGameComplete(result: GameModeCompletionResult) {
+    const completedMode = activeGameMode;
+    if (!completedMode || !result.event) {
+      setEventContractErrors(["Canonical game completion did not include a playable mode and completion event."]);
+      return;
+    }
+
+    const replay = validateCanonicalGameEventSequence(
+      [...sessionEventsRef.current.filter((event) => event.gameMode === completedMode), result.event],
+      completedMode,
+      tenant.id,
+      result.earnedStarDust,
+      {
+        unitKey: launchSession.unitKey,
+        launchCode: launchSession.launchCode,
+        studentSessionId: currentProgression.studentSessionId,
+      },
+    );
+    setEventContractErrors(replay.errors);
+
+    if (!replay.valid) {
+      return;
+    }
+
     setCurrentProgression(result.progression);
     setLastEarnedDust(result.earnedStarDust);
-
-    if (result.event) {
-      appendSessionEvents([result.event], result.progression);
-    }
+    appendSessionEvents([result.event], result.progression);
   }
 
   return (
@@ -297,11 +313,34 @@ export function StudentLaunchFlow({
           onComplete={handleGameComplete}
         />
       )}
-      {activeGameMode && activeGameMode !== "memory-match" && <PairingEnginePreview unit={unit} gameMode={activeGameMode} />}
+      {activeGameMode === "match-up" && (
+        <PairingMatchUpGame
+          unit={unit}
+          launchSession={launchSession}
+          progression={currentProgression}
+          audioCues={audioCues}
+          onEvent={handleGameEvent}
+          onComplete={handleGameComplete}
+        />
+      )}
+      {activeGameMode && activeGameMode !== "memory-match" && activeGameMode !== "match-up" && (
+        <PairingEnginePreview unit={unit} gameMode={activeGameMode} />
+      )}
       {recoveryRecommendation && (
         <TrainingRecoveryRecommendationCard recommendation={recoveryRecommendation} rewardName={tenant.rewardName} />
       )}
       <SessionEventLog events={sessionEvents} />
+      {eventContractErrors.length > 0 ? (
+        <aside className="rounded-lg border border-rose-300 bg-rose-50 p-4 text-sm text-rose-950" aria-live="polite">
+          <p className="font-bold">Canonical game contract needs review</p>
+          <p className="mt-1">Completion is paused until the event evidence is valid.</p>
+          <ul className="mt-2 grid gap-1">
+            {eventContractErrors.map((error, index) => (
+              <li key={`${error}-${index}`}>{error}</li>
+            ))}
+          </ul>
+        </aside>
+      ) : null}
     </div>
   );
 }

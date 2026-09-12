@@ -144,21 +144,22 @@ On `/launch/demo-unit-1`:
 14. Confirm the progress event log shows `entry_practice_completed`.
 15. Confirm the progress event log shows `game_unlocked`.
 16. Confirm Memory Match changes from locked to unlocked.
-17. Click the listen control beside `Start Memory Match` and confirm it speaks without starting the game.
-18. Click `Start Memory Match`.
+17. Click the listen control beside `Start Match Up` and confirm it speaks without starting the game.
+18. Click `Start Match Up`.
 19. Confirm the progress event log shows `game_started`.
-20. Confirm the unit-session summary updates Memory Match to playing.
-21. Confirm the playable Memory Match board appears.
-22. Tap the Memory Match instruction text and confirm it speaks.
-23. Tap hidden cards and confirm selected card labels are spoken.
-24. Confirm the progress event log shows `round_shown` after card reveals.
+20. Confirm the unit-session summary updates Match Up to playing.
+21. Confirm the playable Match Up board appears, not only a static preview.
+22. Tap the Match Up instruction text and confirm it speaks.
+23. Tap cards and confirm selected card labels or listening prompts are spoken.
+24. Confirm the progress event log shows `round_shown` after a card selection.
 25. Match or mismatch a pair and confirm the event log shows `answer_submitted` and `answer_result`.
 26. Match all pairs.
 27. Confirm the progress event log shows `mastery_updated` and `game_completed`.
-28. Confirm Memory Match completion event metadata includes `scoringProfileId` set to `pairing-reinforcement-v1`.
-29. Confirm the unit-session summary updates Memory Match to complete and Star Dust.
-30. Confirm Star Dust increases after Memory Match completion.
-31. Confirm matched cards can still be tapped to replay their audio.
+28. Confirm Match Up completion event metadata includes `scoringProfileId`.
+29. Confirm the unit-session summary updates Match Up to complete and Star Dust.
+30. Confirm Star Dust increases after Match Up completion.
+31. Open the recommended Memory Match route and confirm its own route gate and
+    canonical pairing flow remain available after the launch-path slice.
 
 ## Game Catalog And Scoring Checks
 

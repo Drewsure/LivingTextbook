@@ -671,3 +671,31 @@ Procedure:
 5. Keep the local dev server on `http://127.0.0.1:3000` separate from Git authentication; a working browser does not prove that the push credential is available.
 
 Why this matters: A credential failure is an external handoff problem, not a reason to undo verified local work. Recording the exact recovery steps prevents repeated rework and makes the human intervention small and safe.
+
+## OW-031: Canonical Student Launch Handoff
+
+Status: Active
+
+Observed behavior: The QR launch screen can own transient pathway state while a
+canonical game component owns its learning events. If both layers emit a start
+event, teacher reports see duplicate attempts; if the parent accepts completion
+without replay validation, the launch route can drift from standalone game
+routes.
+
+Procedure:
+
+1. Let the mounted canonical game emit `game_started`; the launch screen only
+   selects the unlocked activity.
+2. Buffer events in a ref as well as visible state so completion validation sees
+   same-click events before React rendering completes.
+3. Filter the buffered events to the active game mode, append the completion
+   event, and run `validateCanonicalGameEventSequence` before changing
+   progression or Star Dust.
+4. Keep unsupported modes as explicit previews until their canonical component
+   is integrated; never treat a preview as a completed game.
+5. Run `npm run verify:canonical-games` and the student launch checklist after
+   changing this pathway.
+
+Why this matters: The launch route remains a clean classroom doorway while
+canonical game engines retain one event owner and one completion acceptance
+boundary.

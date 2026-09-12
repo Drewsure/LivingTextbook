@@ -30,6 +30,7 @@ The gate applies to both:
 - Assist-language glosses do not pass the callback.
 - `FlashcardPracticeCard` displays the target-language count as `English listened: X/Y` in the MiniStar sample.
 - The completion action stays disabled until the target-language count reaches the required count.
+- `completeFlashcardEntryPractice` independently re-checks the supplied target-language evidence and returns unchanged progression with zero dust when the gate is not satisfied. UI state is therefore a convenience, not the authority.
 - Completion events record target-language engagement metadata and explicitly mark `supportLanguageUnlockAllowed: false`.
 
 ## Consequences

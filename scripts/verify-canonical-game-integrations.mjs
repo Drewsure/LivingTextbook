@@ -214,6 +214,7 @@ const reportContract = readText("packages/content-model/src/canonicalGameReport.
 const reportPreview = readText("apps/web/src/features/teacher/TeacherCanonicalGameEvidenceCard.tsx");
 const reportPanel = readText("apps/web/src/features/teacher/TeacherReportPackagePreviewPanel.tsx");
 const sessionMonitor = readText("apps/web/src/features/teacher/TeacherSessionMonitorPanel.tsx");
+const studentLaunchFlow = readText("apps/web/src/features/student/StudentLaunchFlow.tsx");
 
 const standardEventTypes = [
   "game_started",
@@ -245,6 +246,22 @@ for (const integration of integrations) {
       failures.push(`${integration.id}: component owns forbidden platform state: ${forbiddenFragment}`);
     }
   }
+}
+
+for (const fragment of [
+  "PairingMatchUpGame",
+  "validateCanonicalGameEventSequence",
+  "sessionEventsRef",
+  "eventContractErrors",
+  "Completion is paused until the event evidence is valid.",
+]) {
+  if (!studentLaunchFlow.includes(fragment)) {
+    failures.push(`student launch canonical handoff: missing ${fragment}`);
+  }
+}
+
+if (studentLaunchFlow.includes("startUnlockedGameMode")) {
+  failures.push("student launch canonical handoff: launch flow must let the mounted game emit its single game_started event");
 }
 
 const contractSources = [progressionAdapter, ...integrations.map((integration) => readText(integration.component))];
