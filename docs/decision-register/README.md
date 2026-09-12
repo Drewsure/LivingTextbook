@@ -563,6 +563,7 @@
 - `DR-672-schema-field-shape-contract.md`
 - `DR-673-tenant-scope-field-contract.md`
 - `DR-674-tenant-index-contract.md`
+- `DR-675-backend-definition-integrity-contract.md`
 
 ## Maintenance Rule
 

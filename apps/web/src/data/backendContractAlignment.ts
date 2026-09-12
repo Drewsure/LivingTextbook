@@ -53,6 +53,16 @@ export function validateBackendContractAlignment({
       }
       fieldNames.add(field.name);
     }
+    const indexNames = new Set<string>();
+    for (const index of entity.indexes) {
+      if (index.trim().length === 0) {
+        errors.push(`Backend schema entity ${entity.entityId} contains an empty index.`);
+      }
+      if (indexNames.has(index)) {
+        errors.push(`Backend schema entity ${entity.entityId} contains duplicate index ${index}.`);
+      }
+      indexNames.add(index);
+    }
     if (entity.fields.some((field) => field.name === "tenant_id") && !entity.indexes.some((index) => index.includes("tenant_id"))) {
       errors.push(`Backend schema entity ${entity.entityId} must declare a tenant-aware index when it has tenant_id.`);
     }
@@ -66,6 +76,10 @@ export function validateBackendContractAlignment({
 
     if (candidate.targetEntities.length === 0) {
       errors.push(`Backend migration ${candidate.migrationId} must target at least one schema entity.`);
+    }
+
+    if (new Set(candidate.targetEntities).size !== candidate.targetEntities.length) {
+      errors.push(`Backend migration ${candidate.migrationId} must not repeat a schema entity target.`);
     }
 
     for (const entityId of candidate.targetEntities) {
@@ -104,10 +118,24 @@ export function validateBackendContractAlignment({
       if (field.type.trim().length === 0) {
         errors.push(`Backend migration spec ${spec.specId} field ${field.name || "<unnamed>"} must name its type.`);
       }
+      if (typeof field.required !== "boolean") {
+        errors.push(`Backend migration spec ${spec.specId} field ${field.name || "<unnamed>"} must declare required as a boolean.`);
+      }
       if (fieldNames.has(field.name)) {
         errors.push(`Backend migration spec ${spec.specId} contains duplicate field ${field.name}.`);
       }
       fieldNames.add(field.name);
+    }
+
+    const indexNames = new Set<string>();
+    for (const index of spec.indexes) {
+      if (index.trim().length === 0) {
+        errors.push(`Backend migration spec ${spec.specId} contains an empty index.`);
+      }
+      if (indexNames.has(index)) {
+        errors.push(`Backend migration spec ${spec.specId} contains duplicate index ${index}.`);
+      }
+      indexNames.add(index);
     }
 
     if (spec.primaryKey.trim().length > 0 && !fieldNames.has(spec.primaryKey)) {

@@ -1370,6 +1370,12 @@ index. Regression coverage rejects missing indexes at both layers. The
 decision is recorded in `docs/adr/0602-tenant-index-contract.md` and
 `docs/decision-register/DR-674-tenant-index-contract.md`.
 
+The backend definition integrity slice now rejects blank or duplicate schema
+and migration indexes, repeated migration entity targets, and migration fields
+whose required flag is not boolean. The decision is recorded in
+`docs/adr/0603-backend-definition-integrity-contract.md` and
+`docs/decision-register/DR-675-backend-definition-integrity-contract.md`.
+
 The migration candidate coverage slice now requires every non-deferred
 candidate to have at least one migration specification, while deferred
 candidates must not carry implementation specs. The decision is recorded in

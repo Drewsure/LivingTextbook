@@ -201,6 +201,62 @@ try {
     throw new Error("Backend contract alignment did not reject a migration spec without a tenant-aware index.");
   }
 
+  const duplicateSchemaIndex = {
+    ...schema,
+    entities: schema.entities.map((entity) =>
+      entity.entityId === "media_manifest"
+        ? { ...entity, indexes: [...entity.indexes, entity.indexes[0]] }
+        : entity,
+    ),
+  };
+  const duplicateSchemaIndexErrors = alignment.validateBackendContractAlignment({
+    schema: duplicateSchemaIndex,
+    migrationPlan,
+    migrationSpecPlan,
+  });
+  if (!duplicateSchemaIndexErrors.includes("Backend schema entity media_manifest contains duplicate index tenant_id + media_id.")) {
+    throw new Error("Backend contract alignment did not reject a duplicate schema index.");
+  }
+
+  const duplicateTargetPlan = {
+    ...migrationPlan,
+    candidates: migrationPlan.candidates.map((candidate) =>
+      candidate.migrationId === "m004-media-manifest-rights"
+        ? { ...candidate, targetEntities: [...candidate.targetEntities, candidate.targetEntities[0]] }
+        : candidate,
+    ),
+  };
+  const duplicateTargetErrors = alignment.validateBackendContractAlignment({
+    schema,
+    migrationPlan: duplicateTargetPlan,
+    migrationSpecPlan,
+  });
+  if (!duplicateTargetErrors.includes("Backend migration m004-media-manifest-rights must not repeat a schema entity target.")) {
+    throw new Error("Backend contract alignment did not reject a duplicate migration target.");
+  }
+
+  const malformedMigrationFieldPlan = {
+    ...migrationSpecPlan,
+    specs: migrationSpecPlan.specs.map((spec) =>
+      spec.specId === "spec-media-manifest"
+        ? {
+            ...spec,
+            fields: spec.fields.map((field) =>
+              field.name === "media_id" ? { ...field, required: "yes" } : field,
+            ),
+          }
+        : spec,
+    ),
+  };
+  const malformedMigrationFieldErrors = alignment.validateBackendContractAlignment({
+    schema,
+    migrationPlan,
+    migrationSpecPlan: malformedMigrationFieldPlan,
+  });
+  if (!malformedMigrationFieldErrors.includes("Backend migration spec spec-media-manifest field media_id must declare required as a boolean.")) {
+    throw new Error("Backend contract alignment did not reject a migration field with a non-boolean required flag.");
+  }
+
   console.log("PASS backend contract alignment resolves all sample schema entities, migration candidates, and migration specs.");
 } finally {
   rmSync(output, { recursive: true, force: true });
