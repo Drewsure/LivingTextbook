@@ -1343,3 +1343,16 @@ candidate to have at least one migration specification, while deferred
 candidates must not carry implementation specs. The decision is recorded in
 `docs/adr/0598-migration-candidate-spec-coverage.md` and
 `docs/decision-register/DR-670-migration-candidate-spec-coverage.md`.
+
+The migration policy status slice now requires specs for needs-policy
+candidates to remain blocked-by-policy. The release-candidate sample is no
+longer presented as ready for review while its approval policy is unresolved.
+The decision is recorded in
+`docs/adr/0599-migration-policy-status-alignment.md` and
+`docs/decision-register/DR-671-migration-policy-status-alignment.md`.
+
+The migration candidate coverage slice now requires every non-deferred
+candidate to have at least one migration specification, while deferred
+candidates must not carry implementation specs. The decision is recorded in
+`docs/adr/0598-migration-candidate-spec-coverage.md` and
+`docs/decision-register/DR-670-migration-candidate-spec-coverage.md`.

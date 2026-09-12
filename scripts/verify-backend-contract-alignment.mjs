@@ -111,6 +111,23 @@ try {
     throw new Error("Backend contract alignment did not reject an actionable candidate without a migration spec.");
   }
 
+  const policyReadySpecPlan = {
+    ...migrationSpecPlan,
+    specs: migrationSpecPlan.specs.map((spec) =>
+      spec.specId === "spec-package-release-candidate"
+        ? { ...spec, status: "ready-for-review" }
+        : spec,
+    ),
+  };
+  const policyReadySpecErrors = alignment.validateBackendContractAlignment({
+    schema,
+    migrationPlan,
+    migrationSpecPlan: policyReadySpecPlan,
+  });
+  if (!policyReadySpecErrors.includes("Backend migration spec spec-package-release-candidate must be blocked-by-policy while candidate m005-publish-gate-and-approval-ledger needs policy.")) {
+    throw new Error("Backend contract alignment did not reject a ready spec for a policy-blocked candidate.");
+  }
+
   console.log("PASS backend contract alignment resolves all sample schema entities, migration candidates, and migration specs.");
 } finally {
   rmSync(output, { recursive: true, force: true });

@@ -108,6 +108,11 @@ export function validateBackendContractAlignment({
     }
 
     if (candidate) {
+      if (candidate.status === "needs-policy" && spec.status !== "blocked-by-policy") {
+        errors.push(
+          `Backend migration spec ${spec.specId} must be blocked-by-policy while candidate ${candidate.migrationId} needs policy.`,
+        );
+      }
       for (const entityId of candidate.targetEntities) {
         for (const requiredField of REQUIRED_MIGRATION_FIELDS_BY_ENTITY[entityId] ?? []) {
           if (!fieldNames.has(requiredField)) {

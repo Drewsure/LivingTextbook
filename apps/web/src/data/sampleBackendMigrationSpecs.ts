@@ -10265,7 +10265,7 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       label: "Package release candidate status",
       candidateId: "m005-publish-gate-and-approval-ledger",
       storeKind: "release-record",
-      status: "ready-for-review",
+      status: "blocked-by-policy",
       purpose:
         "Stores the computed release-candidate status that joins package publish gate blockers and approval ledger blockers before a package can be called pilot-ready.",
       primaryKey: "release_candidate_id",

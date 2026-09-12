@@ -559,6 +559,8 @@
 - `DR-668-migration-spec-identity-field-contract.md`
 - `DR-669-required-migration-identity-field.md`
 - `DR-670-migration-candidate-spec-coverage.md`
+- `DR-671-migration-policy-status-alignment.md`
+- `DR-670-migration-candidate-spec-coverage.md`
 
 ## Maintenance Rule
 
