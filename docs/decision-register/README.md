@@ -571,6 +571,7 @@
 - `DR-680-backend-migration-field-extension-contract.md`
 - `DR-681-backend-enum-boundary-contract.md`
 - `DR-682-backend-track-deployment-compatibility.md`
+- `DR-683-backend-field-type-vocabulary.md`
 
 The prototype integration gate slice now feeds detailed wrapper, fixture,
 event, audio, mobile, scoring, and Codex-decision readiness records into the
@@ -598,6 +599,13 @@ against the deployment fit of its target schema entities, protecting hosted,
 local, and hybrid white-label planning. The decision is recorded in
 `docs/adr/0610-backend-track-deployment-compatibility.md` and
 `docs/decision-register/DR-682-backend-track-deployment-compatibility.md`.
+
+The backend field-type vocabulary slice now rejects unsupported provider or
+free-text field types across schema fields, migration-only extensions, and
+migration specifications. This keeps hosted, local, and hybrid adapters
+aligned without selecting a vendor or enabling writes. The decision is
+recorded in `docs/adr/0611-backend-field-type-vocabulary.md` and
+`docs/decision-register/DR-683-backend-field-type-vocabulary.md`.
 
 ## Maintenance Rule
 

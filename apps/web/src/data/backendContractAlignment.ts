@@ -26,6 +26,35 @@ const SUPPORTED_MIGRATION_STORE_KINDS = new Set([
   "event-record",
   "collection-record",
 ]);
+const SUPPORTED_BACKEND_FIELD_TYPES = new Set([
+  "boolean",
+  "coded string",
+  "datetime",
+  "enum",
+  "enum/string",
+  "foreign key/string",
+  "integer",
+  "json",
+  "json[]",
+  "json/child records",
+  "json/object",
+  "json/object array",
+  "json/string array",
+  "number",
+  "role/id",
+  "role/id or label",
+  "role/string",
+  "route/string",
+  "semver/string",
+  "stable id",
+  "string",
+  "string array/json",
+  "string enum",
+  "string[]",
+  "string/json",
+  "string/null",
+  "timestamp",
+]);
 
 /**
  * Checks the relationships between the vendor-neutral schema, migration
@@ -93,6 +122,8 @@ export function validateBackendContractAlignment({
       }
       if (field.type.trim().length === 0) {
         errors.push(`Backend schema entity ${entity.entityId} field ${field.name || "<unnamed>"} must name its type.`);
+      } else if (!SUPPORTED_BACKEND_FIELD_TYPES.has(field.type)) {
+        errors.push(`Backend schema entity ${entity.entityId} field ${field.name || "<unnamed>"} has an unsupported field type ${field.type}.`);
       }
       if (typeof field.required !== "boolean") {
         errors.push(`Backend schema entity ${entity.entityId} field ${field.name || "<unnamed>"} must declare required as a boolean.`);
@@ -140,6 +171,8 @@ export function validateBackendContractAlignment({
       }
       if (field.type.trim().length === 0) {
         errors.push(`Backend schema migration field extension ${entityId}.${field.name || "<unnamed>"} must name its type.`);
+      } else if (!SUPPORTED_BACKEND_FIELD_TYPES.has(field.type)) {
+        errors.push(`Backend schema migration field extension ${entityId}.${field.name || "<unnamed>"} has an unsupported field type ${field.type}.`);
       }
       if (typeof field.required !== "boolean") {
         errors.push(`Backend schema migration field extension ${entityId}.${field.name || "<unnamed>"} must declare required as a boolean.`);
@@ -260,6 +293,8 @@ export function validateBackendContractAlignment({
       }
       if (field.type.trim().length === 0) {
         errors.push(`Backend migration spec ${spec.specId} field ${field.name || "<unnamed>"} must name its type.`);
+      } else if (!SUPPORTED_BACKEND_FIELD_TYPES.has(field.type)) {
+        errors.push(`Backend migration spec ${spec.specId} field ${field.name || "<unnamed>"} has an unsupported field type ${field.type}.`);
       }
       if (typeof field.required !== "boolean") {
         errors.push(`Backend migration spec ${spec.specId} field ${field.name || "<unnamed>"} must declare required as a boolean.`);

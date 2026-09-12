@@ -1425,6 +1425,13 @@ live storage behavior enabled. The decision is recorded in
 `docs/adr/0610-backend-track-deployment-compatibility.md` and
 `docs/decision-register/DR-682-backend-track-deployment-compatibility.md`.
 
+The backend field-type vocabulary slice now rejects unsupported provider or
+free-text types across schema, migration-only extension, and migration spec
+fields. This keeps future hosted, local, and hybrid adapters interoperable
+without selecting a vendor or enabling storage writes. The decision is
+recorded in `docs/adr/0611-backend-field-type-vocabulary.md` and
+`docs/decision-register/DR-683-backend-field-type-vocabulary.md`.
+
 The migration candidate coverage slice now requires every non-deferred
 candidate to have at least one migration specification, while deferred
 candidates must not carry implementation specs. The decision is recorded in

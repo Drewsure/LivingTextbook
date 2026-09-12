@@ -457,6 +457,50 @@ try {
     throw new Error("Backend contract alignment did not reject a migration field absent from its target schema entity.");
   }
 
+  const unsupportedSchemaFieldType = {
+    ...schema,
+    entities: schema.entities.map((entity) =>
+      entity.entityId === "tenant"
+        ? {
+            ...entity,
+            fields: entity.fields.map((field) =>
+              field.name === "tenant_id" ? { ...field, type: "unsupported-provider-type" } : field,
+            ),
+          }
+        : entity,
+    ),
+  };
+  const unsupportedSchemaFieldTypeErrors = alignment.validateBackendContractAlignment({
+    schema: unsupportedSchemaFieldType,
+    migrationPlan,
+    migrationSpecPlan,
+  });
+  if (!unsupportedSchemaFieldTypeErrors.includes("Backend schema entity tenant field tenant_id has an unsupported field type unsupported-provider-type.")) {
+    throw new Error("Backend contract alignment did not reject an unsupported schema field type.");
+  }
+
+  const unsupportedMigrationFieldType = {
+    ...migrationSpecPlan,
+    specs: migrationSpecPlan.specs.map((spec) =>
+      spec.specId === "spec-tenant-entitlement"
+        ? {
+            ...spec,
+            fields: spec.fields.map((field) =>
+              field.name === "tenant_id" ? { ...field, type: "unsupported-provider-type" } : field,
+            ),
+          }
+        : spec,
+    ),
+  };
+  const unsupportedMigrationFieldTypeErrors = alignment.validateBackendContractAlignment({
+    schema,
+    migrationPlan,
+    migrationSpecPlan: unsupportedMigrationFieldType,
+  });
+  if (!unsupportedMigrationFieldTypeErrors.includes("Backend migration spec spec-tenant-entitlement field tenant_id has an unsupported field type unsupported-provider-type.")) {
+    throw new Error("Backend contract alignment did not reject an unsupported migration field type.");
+  }
+
   console.log("PASS backend contract alignment resolves all sample schema entities, migration candidates, and migration specs.");
 } finally {
   rmSync(output, { recursive: true, force: true });
