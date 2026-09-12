@@ -3953,6 +3953,7 @@ mastery and rewards. See `docs/adr/0657-target-language-feedback-audio.md`.
 
 External game candidate reviews now require an exact source commit SHA in
 addition to repository and snapshot identity. The frozen MiniStar candidate
-packets record commit `eb79ddf5940ab47cc3c45c119c67ee1b6b958e55`. This is
-provenance evidence only and does not authorize source import or promotion.
+packets record commit `eb79ddf5940ab47cc3c45c119c67ee1b6b958e55` and hashed
+reviewed-file manifests. This is provenance evidence only and does not
+authorize source import or promotion.
 See `docs/adr/0658-phaser-source-identity-record.md`.

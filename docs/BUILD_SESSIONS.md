@@ -1598,3 +1598,7 @@ Balloon Pop packets record commit
 `eb79ddf5940ab47cc3c45c119c67ee1b6b958e55`; this improves reproducibility but
 does not approve external source promotion. The decision is recorded in ADR
 0658 and DR-730.
+
+The same candidate packets now include a repository-relative SHA-256 manifest
+of the reviewed scene, engine, type, and audio files. This identifies review
+evidence without importing the frozen source.

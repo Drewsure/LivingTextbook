@@ -10,6 +10,11 @@ export interface PhaserCandidateContractFinding {
   evidenceReference: string;
 }
 
+export interface PhaserCandidateSourceFileEvidence {
+  path: string;
+  sha256: string;
+}
+
 export interface PhaserCandidateContractReview {
   reviewId: string;
   tenantId: string;
@@ -17,6 +22,7 @@ export interface PhaserCandidateContractReview {
   sourceRepository: string;
   sourceSnapshotId: string;
   sourceCommitSha: string;
+  sourceFiles: PhaserCandidateSourceFileEvidence[];
   gameMode: string;
   parentEngine: string;
   status: PhaserCandidateReviewStatus;
@@ -55,6 +61,22 @@ export function validatePhaserCandidateContractReview(
 
   if (review.sourceCommitSha && !/^[0-9a-f]{40}$/i.test(review.sourceCommitSha)) {
     errors.push(`Phaser candidate contract review ${review.reviewId || "(unnamed)"} requires a 40-character source commit SHA.`);
+  }
+
+  if (!review.sourceFiles || review.sourceFiles.length === 0) {
+    errors.push(`Phaser candidate contract review ${review.reviewId || "(unnamed)"} requires hashed source-file evidence.`);
+  }
+
+  const sourcePaths = new Set<string>();
+  for (const sourceFile of review.sourceFiles ?? []) {
+    if (!sourceFile.path || sourcePaths.has(sourceFile.path) || sourceFile.path.includes("..")) {
+      errors.push(`Phaser candidate contract review ${review.reviewId || "(unnamed)"} must use unique repository-relative source paths.`);
+    }
+    sourcePaths.add(sourceFile.path);
+
+    if (!/^[0-9a-f]{64}$/i.test(sourceFile.sha256)) {
+      errors.push(`Phaser candidate source file ${sourceFile.path || "(unnamed)"} requires a 64-character SHA-256 hash.`);
+    }
   }
 
   if (!review.gameMode || !review.parentEngine || !review.summary) {

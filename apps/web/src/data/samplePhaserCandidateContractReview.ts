@@ -5,6 +5,28 @@ import {
 
 const sourceSnapshotId = "ministar-lab-frozen-2026-09-12-eb79ddf";
 const sourceCommitSha = "eb79ddf5940ab47cc3c45c119c67ee1b6b958e55";
+const sourceFiles = {
+  memoryMatchScene: {
+    path: "src/game/scenes/MemoryMatchScene.ts",
+    sha256: "d1c60fa17bf4bee63627e485ae0b096894832705fdcf173576bf3b28b8656888",
+  },
+  balloonPopScene: {
+    path: "src/game/scenes/BalloonPopScene.ts",
+    sha256: "72904e8ad3a7760dda7779b93216975cd192a5c959b0b71d68c74efb926440e0",
+  },
+  baseEngine: {
+    path: "src/game/BaseEngine.ts",
+    sha256: "d1ef0d207dcb225363fc15a8720838d228596f568696ad61285d2b50fb9a37b5",
+  },
+  types: {
+    path: "src/lib/types.ts",
+    sha256: "3c2218c70a7dc7d5b34f601707f4f1e4dd61709ea00f93141dea4ae401b0a904",
+  },
+  audio: {
+    path: "src/lib/audio.ts",
+    sha256: "8e63a2054c8235fe8de8e69257c74620f1c2279366e2ec0d7281122c2c8344f3",
+  },
+} as const;
 
 export const samplePhaserCandidateContractReviews: PhaserCandidateContractReview[] = [
   {
@@ -14,6 +36,7 @@ export const samplePhaserCandidateContractReviews: PhaserCandidateContractReview
     sourceRepository: "Drewsure/ministar-lab",
     sourceSnapshotId,
     sourceCommitSha,
+    sourceFiles: [sourceFiles.memoryMatchScene, sourceFiles.baseEngine, sourceFiles.types, sourceFiles.audio],
     gameMode: "memory-match",
     parentEngine: "pairing",
     status: "mapped-review-only",
@@ -78,7 +101,6 @@ export const samplePhaserCandidateContractReviews: PhaserCandidateContractReview
       },
     ],
     missingEvidence: [
-      "Returned source manifest tied to the frozen snapshot",
       "Pairing payload adapter review",
       "Canonical event replay report",
       "Target-language audio coverage report",
@@ -101,6 +123,7 @@ export const samplePhaserCandidateContractReviews: PhaserCandidateContractReview
     sourceRepository: "Drewsure/ministar-lab",
     sourceSnapshotId,
     sourceCommitSha,
+    sourceFiles: [sourceFiles.balloonPopScene, sourceFiles.baseEngine, sourceFiles.types, sourceFiles.audio],
     gameMode: "balloon-pop",
     parentEngine: "selection",
     status: "mapped-review-only",
@@ -165,7 +188,6 @@ export const samplePhaserCandidateContractReviews: PhaserCandidateContractReview
       },
     ],
     missingEvidence: [
-      "Returned source manifest tied to the frozen snapshot",
       "Selection payload adapter review",
       "Canonical correct/wrong/missed event replay",
       "Target-language audio priority report",

@@ -37,11 +37,23 @@ export function PhaserCandidateContractReviewPanel({ reviews }: PhaserCandidateC
                 <h3 className="mt-1 text-base font-bold text-[var(--tenant-text)]">{review.gameMode}</h3>
                 <p className="mt-1 break-words text-xs text-[var(--tenant-muted)]">Snapshot: {review.sourceSnapshotId}</p>
                 <p className="mt-1 break-all text-xs text-[var(--tenant-muted)]">Frozen commit: {review.sourceCommitSha}</p>
+                <p className="mt-1 text-xs text-[var(--tenant-muted)]">Reviewed files: {review.sourceFiles.length}</p>
               </div>
               <StatusPill label="Mapped, review-only" tone="warning" />
             </div>
 
             <p className="mt-3 text-sm leading-6 text-[var(--tenant-muted)]">{review.summary}</p>
+
+            <details className="mt-4 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] p-3">
+              <summary className="cursor-pointer text-sm font-bold text-[var(--tenant-text)]">Source evidence manifest</summary>
+              <ul className="mt-3 grid gap-2 text-xs leading-5 text-[var(--tenant-muted)]">
+                {review.sourceFiles.map((sourceFile) => (
+                  <li key={`${review.reviewId}-${sourceFile.path}`} className="break-all">
+                    {sourceFile.path} / SHA-256 {sourceFile.sha256}
+                  </li>
+                ))}
+              </ul>
+            </details>
 
             <div className="mt-4 grid gap-3">
               {review.findings.map((finding) => (
