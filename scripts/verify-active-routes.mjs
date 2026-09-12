@@ -155,6 +155,7 @@ for (const path of [
 }
 
 expectedTextByPath.get("/teacher/intake")?.push("settings_context_summary");
+expectedTextByPath.get("/teacher/intake")?.push("Progression continuity", "Envelope valid", "Review-only", "No side effect");
 expectedTextByPath.get("/teacher/intake")?.push(
   "prototype_intake_queue_item",
   "Prototype intake queue item record",

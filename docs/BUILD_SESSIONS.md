@@ -1690,6 +1690,10 @@ privacy exclusions. Its adapter remains review-only with no side effect, so it
 does not create fake learner persistence or put progression into QR URLs. See
 ADR 0675, DR-747, and `docs/PROGRESSION_CONTINUITY_CONTRACT.md`.
 
+The continuity review surface is now visible in teacher intake, showing the
+validated sample handoff, identity bindings, unlock snapshot, and explicit
+review-only/no-side-effect status before backend selection.
+
 The report runtime now keeps standalone `audio_requested` evidence in the
 support-only lane. Audio engagement cannot become an incomplete game attempt,
 mastery result, Star Dust award, or completion report. See ADR 0676 and DR-748.

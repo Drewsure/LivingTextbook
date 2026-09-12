@@ -173,6 +173,8 @@ import { PilotBackendSelectionGatePanel } from "@/features/persistence/PilotBack
 import { PersistenceAdapterReadinessPanel } from "@/features/persistence/PersistenceAdapterReadinessPanel";
 import { PersistenceBoundaryPanel } from "@/features/persistence/PersistenceBoundaryPanel";
 import { ProgressEventTaxonomyPanel } from "@/features/progression/ProgressEventTaxonomyPanel";
+import { ProgressionContinuityReadinessPanel } from "@/features/progression/ProgressionContinuityReadinessPanel";
+import { sampleProgressionContinuityEnvelope } from "@/data/sampleProgressionContinuity";
 import { PublisherMaintenancePlanPanel } from "@/features/publisher/PublisherMaintenancePlanPanel";
 import { TenantLibraryPlanPanel } from "@/features/publisher/TenantLibraryPlanPanel";
 import { EditionQrAliasPanel } from "@/features/routes/EditionQrAliasPanel";
@@ -261,6 +263,13 @@ export default function TeacherIntakePage() {
         <TeacherAssignmentRolloutPanel plans={sampleAssignmentRolloutPlans} />
         <TeacherSessionSettingsReviewPacketPanel packets={sampleTeacherSessionSettingsReviewPackets} />
         <ProgressEventTaxonomyPanel taxonomy={sampleProgressEventTaxonomyRegistry} />
+        <ProgressionContinuityReadinessPanel
+          envelope={sampleProgressionContinuityEnvelope}
+          expectedTenantId="ministar"
+          expectedPackageId="ministar-l1-u1-greetings-package"
+          expectedLaunchCode="demo-unit-1"
+          expectedStudentSessionId="demo-unit-1:demo-student"
+        />
         <ClassRosterReadinessPanel
           plans={sampleClassRosterPlans}
           errors={sampleClassRosterErrors}
