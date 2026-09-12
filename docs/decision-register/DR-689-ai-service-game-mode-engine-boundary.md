@@ -18,6 +18,8 @@ parent-engine, and level compatibility before provider review preparation.
 - The request carries source, compatibility, audio, media-rights, and premium
   cost evidence identifiers, and rejects support-language policies that allow
   progression.
+- Audio coverage is rejected when its declared language does not match the
+  target learning language.
 - No provider call, billing, package write, route write, or Z.ai integration is
   enabled by this boundary.
 

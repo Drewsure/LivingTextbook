@@ -884,6 +884,7 @@ try {
     mediaRightsManifestId: "media-rights-1",
     premiumAiCostGateId: "premium-cost-gate-1",
     supportLanguagePolicy: { progressionAllowed: false, scriptPolicy: "hiragana-only", levelBand: "foundation" },
+    audioCoverageTargetLanguage: "en",
     teacherApprovalReady: false, premiumCostPolicyReady: false,
   };
   const aiErrors = aiService.validateAiGenerationServiceRequest(aiRequest);
@@ -898,6 +899,11 @@ try {
   });
   assertIncludes(missingEvidenceErrors, "sourceEvidencePacketId is required");
   assertIncludes(missingEvidenceErrors, "mediaRightsManifestId is required");
+  const wrongAudioLanguageErrors = aiService.validateAiGenerationServiceRequest({
+    ...aiRequest,
+    audioCoverageTargetLanguage: "ja",
+  });
+  assertIncludes(wrongAudioLanguageErrors, "audioCoverageTargetLanguage ja must match targetLanguage en");
   const unsafeSupportPolicyErrors = aiService.validateAiGenerationServiceRequest({
     ...aiRequest,
     supportLanguagePolicy: { progressionAllowed: true },

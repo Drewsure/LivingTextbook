@@ -25,6 +25,8 @@ for (const marker of [
   "audioCoverageRequirementId",
   "mediaRightsManifestId",
   "premiumAiCostGateId",
+  "audioCoverageTargetLanguage",
+  "must match targetLanguage",
   "supportLanguagePolicy.progressionAllowed must be false",
   "No provider model call",
   "No generated package write",

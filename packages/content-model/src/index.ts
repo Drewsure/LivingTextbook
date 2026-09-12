@@ -416,7 +416,7 @@ function isVideoAsset(type: MediaAssetType): boolean {
   return type === "lesson-video" || type === "music-video" || type === "karaoke-video" || type === "animation" || type === "other-video";
 }
 
-function languageMatches(value: string, targetLanguage: string): boolean {
+export function languageMatches(value: string, targetLanguage: string): boolean {
   const language = value.trim().toLowerCase();
   const target = targetLanguage.trim().toLowerCase();
   return Boolean(target) && (language === target || language.startsWith(`${target}-`) || target.startsWith(`${language}-`));

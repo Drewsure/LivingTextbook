@@ -1,6 +1,7 @@
 import { validatePedagogicalTextFields } from "@living-textbook/content-model";
 import {
   getGameModeContract,
+  languageMatches,
   isSupportedGameModeId,
   isSupportedParentEngine,
 } from "@living-textbook/content-model";
@@ -39,6 +40,7 @@ export interface AiGenerationServiceRequest {
   mediaRightsManifestId: string;
   premiumAiCostGateId: string;
   supportLanguagePolicy: AiGenerationServiceSupportLanguagePolicy;
+  audioCoverageTargetLanguage: string;
   targetLanguageAudioReady: boolean;
   mediaRightsReady: boolean;
   teacherApprovalReady: boolean;
@@ -92,8 +94,12 @@ export function validateAiGenerationServiceRequest(request: AiGenerationServiceR
     ["audioCoverageRequirementId", request.audioCoverageRequirementId],
     ["mediaRightsManifestId", request.mediaRightsManifestId],
     ["premiumAiCostGateId", request.premiumAiCostGateId],
+    ["audioCoverageTargetLanguage", request.audioCoverageTargetLanguage],
   ] as const) {
     if (!value.trim()) errors.push(`${label} is required`);
+  }
+  if (request.audioCoverageTargetLanguage.trim() && request.targetLanguage.trim() && !languageMatches(request.audioCoverageTargetLanguage, request.targetLanguage)) {
+    errors.push(`audioCoverageTargetLanguage ${request.audioCoverageTargetLanguage} must match targetLanguage ${request.targetLanguage}`);
   }
   if (request.supportLanguagePolicy.progressionAllowed !== false) {
     errors.push("supportLanguagePolicy.progressionAllowed must be false");

@@ -1482,6 +1482,8 @@ language and emits an explicit support-only warning. Runtime behavior checks
 cover the mode/engine mismatch, level restriction, and assist-language guard.
 The request now also carries source, compatibility, audio, media-rights, and
 premium-cost evidence identifiers so readiness booleans cannot lose provenance.
+Audio readiness now also carries its declared language and must match the
+target learning language before provider review preparation can pass.
 
 The migration candidate coverage slice now requires every non-deferred
 candidate to have at least one migration specification, while deferred

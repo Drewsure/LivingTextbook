@@ -18,6 +18,7 @@ generation request can enter review preparation.
 - Readiness booleans must remain linked to explicit tenant-scoped evidence
   identifiers for source review, activity compatibility, target-language audio,
   media rights, and premium AI cost policy.
+- Audio readiness must identify a language matching the request target language.
 - Support-language policy must explicitly declare `progressionAllowed: false`.
 - The AI service must reuse the shared catalog rather than maintaining a
   provider-specific compatibility table.
