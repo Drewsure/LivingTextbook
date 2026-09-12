@@ -1515,6 +1515,15 @@ premium-cost evidence identifiers so readiness booleans cannot lose provenance.
 Audio readiness now also carries its declared language and must match the
 target learning language before provider review preparation can pass.
 
+The foundation-to-Z.ai intake gate is now open: the full foundation
+verification is green, so isolated prototypes may be requested from
+`Drewsure/ministar-lab`. This opens controlled evidence intake only; direct
+copies into `apps/web` or `apps/ai-service`, route replacement, scoring or
+reward changes, package promotion, and student assignment remain blocked until
+a real candidate return package passes the existing evidence and Codex
+wrapper-review gates. The phase boundary is recorded in
+`docs/FOUNDATION_TO_ZAI_INTAKE_GATE.md`.
+
 The migration candidate coverage slice now requires every non-deferred
 candidate to have at least one migration specification, while deferred
 candidates must not carry implementation specs. The decision is recorded in

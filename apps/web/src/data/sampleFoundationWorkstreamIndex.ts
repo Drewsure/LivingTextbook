@@ -101,12 +101,12 @@ export const sampleFoundationWorkstreamIndex: FoundationWorkstreamIndex = {
     },
     {
       workstreamId: "future-zai-intake-alert",
-      label: "Future Z.ai intake alert",
-      status: "future-alert",
+      label: "Controlled Z.ai intake",
+      status: "active",
       owner: "Codex review",
-      currentFocus: "Hold Z.ai and outside game prototype integration until the foundation route and storage gates are stable.",
+      currentFocus: "Controlled Z.ai intake is now open for isolated prototypes; hold direct app integration until return evidence is reviewed.",
       visibleEvidence: ["Prototype intake queue", "Prototype return checklist", "Game readiness workbench"],
-      nextGate: "Codex will explicitly signal when outside prototypes should be inventoried, reviewed, and wrapped.",
+      nextGate: "Request one isolated prototype package from Drewsure/ministar-lab, then require source, fixture, event, audio, scoring, mobile, and wrapper evidence before Codex review.",
     },
   ],
   blockedShortcuts: [
@@ -115,6 +115,6 @@ export const sampleFoundationWorkstreamIndex: FoundationWorkstreamIndex = {
     "No public community library",
     "No unmanaged asset adoption",
     "No direct AI publish",
-    "No Z.ai import before the intake alert",
+    "No Z.ai import before returned-package review",
   ],
 };

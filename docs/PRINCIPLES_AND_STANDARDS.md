@@ -383,6 +383,13 @@ Every outside-agent task must include:
 - Source/license requirements if public repositories, libraries, or assets are referenced
 - Forbidden architectural changes
 
+Once the foundation gate is green, Z.ai may be asked for isolated prototype
+packages in an explicitly approved prototype repository. This is an
+intake-phase opening, not permission to copy, merge, route, publish, or assign
+the prototype. Every returned package must pass the source, schema, event,
+audio, scoring, mobile, accessibility, rights, and wrapper review gates before
+integration is proposed.
+
 ## 12. Legacy Code Promotion Standard
 
 Legacy code is preserved for reference and extraction. It is not automatically production code.

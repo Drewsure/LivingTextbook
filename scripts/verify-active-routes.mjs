@@ -2581,12 +2581,12 @@ expectedTextByPath.get("/teacher/intake")?.push(
   "Teacher operations and reporting",
   "Pilot, policy, and evidence",
   "Backend, persistence, and local companion",
-  "Future Z.ai intake alert",
+  "Controlled Z.ai intake",
   "No live feature activation",
   "No student data collection",
   "No public community library",
   "No unmanaged asset adoption",
-  "No Z.ai import before the intake alert",
+  "No Z.ai import before returned-package review",
 );
 
 const teacherIntakeExpected = expectedTextByPath.get("/teacher/intake");
