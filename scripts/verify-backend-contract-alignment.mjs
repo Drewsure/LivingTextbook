@@ -55,6 +55,23 @@ try {
     throw new Error("Backend contract alignment did not reject an evidence spec missing tenant_id.");
   }
 
+  const missingScopedTenantFieldPlan = {
+    ...migrationSpecPlan,
+    specs: migrationSpecPlan.specs.map((spec) =>
+      spec.specId === "spec-media-manifest"
+        ? { ...spec, fields: spec.fields.filter((field) => field.name !== "tenant_id") }
+        : spec,
+    ),
+  };
+  const missingScopedTenantFieldErrors = alignment.validateBackendContractAlignment({
+    schema,
+    migrationPlan,
+    migrationSpecPlan: missingScopedTenantFieldPlan,
+  });
+  if (!missingScopedTenantFieldErrors.includes("Backend migration spec spec-media-manifest must declare tenant_id in its fields when tenantScope requires tenant_id.")) {
+    throw new Error("Backend contract alignment did not reject a tenant-scoped spec missing tenant_id.");
+  }
+
   const missingPrimaryKeyPlan = {
     ...migrationSpecPlan,
     specs: migrationSpecPlan.specs.map((spec) =>

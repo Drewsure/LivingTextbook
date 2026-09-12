@@ -113,6 +113,12 @@ export function validateBackendContractAlignment({
       );
     }
 
+    if (spec.tenantScope.includes("tenant_id") && !fieldNames.has("tenant_id")) {
+      errors.push(
+        `Backend migration spec ${spec.specId} must declare tenant_id in its fields when tenantScope requires tenant_id.`,
+      );
+    }
+
     const primaryKeyField = spec.fields.find((field) => field.name === spec.primaryKey);
     if (primaryKeyField && primaryKeyField.required !== true) {
       errors.push(

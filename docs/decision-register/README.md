@@ -561,7 +561,7 @@
 - `DR-670-migration-candidate-spec-coverage.md`
 - `DR-671-migration-policy-status-alignment.md`
 - `DR-672-schema-field-shape-contract.md`
-- `DR-670-migration-candidate-spec-coverage.md`
+- `DR-673-tenant-scope-field-contract.md`
 
 ## Maintenance Rule
 

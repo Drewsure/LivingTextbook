@@ -1357,6 +1357,13 @@ regression test proves that a tenant field with an empty type is rejected. The
 decision is recorded in `docs/adr/0600-schema-field-shape-contract.md` and
 `docs/decision-register/DR-672-schema-field-shape-contract.md`.
 
+The tenant-scope field slice now requires every migration spec whose
+tenantScope names tenant_id to declare a required tenant_id field. The sample
+plan now carries that field across all 96 previously incomplete tenant-scoped
+specs. The decision is recorded in
+`docs/adr/0601-tenant-scope-field-contract.md` and
+`docs/decision-register/DR-673-tenant-scope-field-contract.md`.
+
 The migration candidate coverage slice now requires every non-deferred
 candidate to have at least one migration specification, while deferred
 candidates must not carry implementation specs. The decision is recorded in

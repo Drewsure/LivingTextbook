@@ -143,6 +143,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope: "Scoped by tenant_id, package_release_id, package_id, and release_version.",
       fields: [
         {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
+        {
           name: "coverage_snapshot_id",
           type: "string",
           required: true,
@@ -189,6 +195,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       primaryKey: "media_id",
       tenantScope: "Scoped by tenant_id, media_id, media_kind, rights_status, and media_revision.",
       fields: [
+        {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
         {
           name: "media_id",
           type: "string",
@@ -252,6 +264,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope: "Scoped by tenant_id, unit_key, playlist_id, and binding_revision.",
       fields: [
         {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
+        {
           name: "binding_id",
           type: "string",
           required: true,
@@ -307,6 +325,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       primaryKey: "binding_id",
       tenantScope: "Scoped by tenant_id, unit_key, game_mode, media_id, and binding_revision.",
       fields: [
+        {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
         {
           name: "binding_id",
           type: "string",
@@ -364,6 +388,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope: "Scoped by tenant_id, package_id, media_id, checksum, and entry_revision.",
       fields: [
         {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
+        {
           name: "entry_id",
           type: "string",
           required: true,
@@ -420,6 +450,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       primaryKey: "draft_id",
       tenantScope: "Scoped by tenant_id, owner_teacher_id, source_package_id, and draft_revision.",
       fields: [
+        {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
         {
           name: "draft_id",
           type: "string",
@@ -490,6 +526,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       primaryKey: "handoff_id",
       tenantScope: "Scoped by tenant_id, draft_id, owner_teacher_id, and handoff_revision.",
       fields: [
+        {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
         {
           name: "handoff_id",
           type: "string",
@@ -578,6 +620,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       primaryKey: "submission_id",
       tenantScope: "Scoped by tenant_id, handoff_id, draft_id, owner_teacher_id, and preflight_revision.",
       fields: [
+        {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
         {
           name: "submission_id",
           type: "string",
@@ -827,6 +875,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope: "Scoped by tenant_id, generation_request_id, prompt_package_id, draft_preview_id, and manifest_revision.",
       fields: [
         {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
+        {
           name: "ai_generated_package_manifest_id",
           type: "string",
           required: true,
@@ -969,6 +1023,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope:
         "Scoped by tenant_id, generation_request_id, ai_generated_package_manifest_id, ai_generator_lineage_map_id, and checklist_revision.",
       fields: [
+        {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
         {
           name: "ai_generated_package_promotion_checklist_id",
           type: "string",
@@ -1124,6 +1184,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
         "Scoped by tenant_id, generation_request_id, ai_generated_package_manifest_id, ai_generated_package_promotion_checklist_id, ai_generated_publish_readiness_gate_id, and candidate_revision.",
       fields: [
         {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
+        {
           name: "ai_generated_package_release_candidate_id",
           type: "string",
           required: true,
@@ -1278,6 +1344,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
         "Scoped by tenant_id, generation_request_id, ai_generated_package_manifest_id, ai_generated_package_promotion_checklist_id, ai_generated_publish_readiness_gate_id, ai_generated_package_release_candidate_id, and readiness_revision.",
       fields: [
         {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
+        {
           name: "ai_generated_package_assembly_readiness_id",
           type: "string",
           required: true,
@@ -1420,6 +1492,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
         "Scoped by tenant_id, generation_request_id, ai_generated_package_assembly_readiness_id, ai_generated_package_manifest_id, and dry_run_revision.",
       fields: [
         {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
+        {
           name: "ai_generated_package_assembly_dry_run_id",
           type: "string",
           required: true,
@@ -1537,6 +1615,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope:
         "Scoped by tenant_id, generation_request_id, ai_generated_package_assembly_dry_run_id, ai_generated_package_assembly_readiness_id, and writer_preflight_revision.",
       fields: [
+        {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
         {
           name: "ai_generated_package_writer_preflight_id",
           type: "string",
@@ -1667,6 +1751,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope:
         "Scoped by tenant_id, generation_request_id, ai_generated_package_writer_preflight_id, ai_generated_package_assembly_dry_run_id, and rollback_drill_revision.",
       fields: [
+        {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
         {
           name: "ai_generated_package_writer_rollback_drill_id",
           type: "string",
@@ -1809,6 +1899,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope:
         "Scoped by tenant_id, generation_request_id, ai_generated_package_writer_rollback_drill_id, ai_generated_package_writer_preflight_id, and readiness_revision.",
       fields: [
+        {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
         {
           name: "ai_generated_package_writer_implementation_readiness_id",
           type: "string",
@@ -1959,6 +2055,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
         "Scoped by tenant_id, generation_request_id, ai_generated_package_writer_implementation_readiness_id, ai_generated_package_writer_rollback_drill_id, and test_plan_revision.",
       fields: [
         {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
+        {
           name: "ai_generated_package_writer_module_test_plan_id",
           type: "string",
           required: true,
@@ -2107,6 +2209,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope:
         "Scoped by tenant_id, generation_request_id, ai_generated_package_writer_module_test_plan_id, ai_generated_package_writer_implementation_readiness_id, ai_generated_package_writer_rollback_drill_id, and evidence_packet_revision.",
       fields: [
+        {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
         {
           name: "ai_generated_package_writer_test_evidence_packet_id",
           type: "string",
@@ -2282,6 +2390,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
         "Scoped by tenant_id, generation_request_id, ai_generated_package_writer_test_evidence_packet_id, ai_generated_package_writer_module_test_plan_id, ai_generated_package_writer_implementation_readiness_id, ai_generated_package_writer_rollback_drill_id, and harness_plan_revision.",
       fields: [
         {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
+        {
           name: "ai_generated_package_writer_test_harness_plan_id",
           type: "string",
           required: true,
@@ -2456,6 +2570,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope:
         "Scoped by tenant_id, generation_request_id, ai_generated_package_writer_test_harness_plan_id, ai_generated_package_writer_test_evidence_packet_id, ai_generated_package_writer_module_test_plan_id, ai_generated_package_writer_implementation_readiness_id, ai_generated_package_writer_rollback_drill_id, and implementation_proposal_revision.",
       fields: [
+        {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
         {
           name: "ai_generated_package_writer_test_harness_implementation_proposal_id",
           type: "string",
@@ -2644,6 +2764,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
         "Scoped by tenant_id, generation_request_id, ai_generated_package_writer_test_harness_implementation_proposal_id, ai_generated_package_writer_test_harness_plan_id, ai_generated_package_writer_test_evidence_packet_id, and decision_revision.",
       fields: [
         {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
+        {
           name: "ai_generated_package_writer_harness_implementation_decision_id",
           type: "string",
           required: true,
@@ -2793,6 +2919,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
         "Scoped by tenant_id, generation_request_id, ai_generated_package_writer_harness_implementation_decision_id, package_id_preview, and guard_revision.",
       fields: [
         {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
+        {
           name: "ai_generated_package_writer_route_playlist_write_guard_id",
           type: "string",
           required: true,
@@ -2897,6 +3029,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope:
         "Scoped by tenant_id, generation_request_id, ai_generated_package_writer_route_playlist_write_guard_id, package_id_preview, and guard_revision.",
       fields: [
+        {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
         {
           name: "ai_generated_package_writer_local_companion_package_guard_id",
           type: "string",
@@ -3008,6 +3146,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope:
         "Scoped by tenant_id, generation_request_id, ai_generated_package_writer_local_companion_package_guard_id, package_id_preview, and guard_revision.",
       fields: [
+        {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
         {
           name: "ai_generated_package_writer_assignment_shell_guard_id",
           type: "string",
@@ -3125,6 +3269,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope:
         "Scoped by tenant_id, generation_request_id, ai_generated_package_writer_assignment_shell_guard_id, package_id_preview, assignment_preview_id, and packet_revision.",
       fields: [
+        {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
         {
           name: "ai_generated_package_writer_assignment_handoff_evidence_packet_id",
           type: "string",
@@ -3255,6 +3405,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
         "Scoped by tenant_id, generation_request_id, parent_engine_binding_id, target_builder, and brief_revision.",
       fields: [
         {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
+        {
           name: "ai_generated_game_build_brief_id",
           type: "string",
           required: true,
@@ -3383,6 +3539,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope:
         "Scoped by tenant_id, generation_request_id, ai_generated_game_build_brief_id, target_builder, and task_packet_revision.",
       fields: [
+        {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
         {
           name: "ai_external_prototype_task_packet_id",
           type: "string",
@@ -3896,6 +4058,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
         "Scoped by tenant_id, generation_request_id, ai_external_prototype_task_packet_id, and export_gate_revision.",
       fields: [
         {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
+        {
           name: "ai_external_task_export_readiness_gate_id",
           type: "string",
           required: true,
@@ -4007,6 +4175,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope:
         "Scoped by tenant_id, generation_request_id, ai_generated_game_build_brief_id, submitted_by, and review_revision.",
       fields: [
+        {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
         {
           name: "ai_prototype_return_review_id",
           type: "string",
@@ -4161,6 +4335,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
         "Scoped by tenant_id, generation_request_id, ai_prototype_return_review_id, and integration_plan_revision.",
       fields: [
         {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
+        {
           name: "ai_prototype_integration_plan_id",
           type: "string",
           required: true,
@@ -4283,6 +4463,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope:
         "Scoped by tenant_id, generation_request_id, ai_prototype_integration_plan_id, and wrapper_adapter_review_revision.",
       fields: [
+        {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
         {
           name: "ai_prototype_wrapper_adapter_review_id",
           type: "string",
@@ -4419,6 +4605,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
         "Scoped by tenant_id, generation_request_id, ai_prototype_integration_plan_id, reviewed_unit_json_fixture_id, and fixture_replay_revision.",
       fields: [
         {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
+        {
           name: "ai_prototype_fixture_replay_report_id",
           type: "string",
           required: true,
@@ -4554,6 +4746,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope:
         "Scoped by tenant_id, generation_request_id, ai_prototype_integration_plan_id, standard_event_contract_id, progress_event_acceptance_map_id, and event_replay_revision.",
       fields: [
+        {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
         {
           name: "ai_prototype_event_replay_report_id",
           type: "string",
@@ -4702,6 +4900,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope:
         "Scoped by tenant_id, generation_request_id, ai_prototype_integration_plan_id, audio_cue_manifest_id, package_game_audio_coverage_id, background_media_policy_binding_id, and audio_coverage_revision.",
       fields: [
+        {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
         {
           name: "ai_prototype_audio_coverage_report_id",
           type: "string",
@@ -4864,6 +5068,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
         "Scoped by tenant_id, generation_request_id, ai_prototype_integration_plan_id, activity_compatibility_snapshot_id, template_rendering_profile_id, font_accessibility_profile_id, standard_event_contract_id, and mobile_accessibility_revision.",
       fields: [
         {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
+        {
           name: "ai_prototype_mobile_accessibility_report_id",
           type: "string",
           required: true,
@@ -5011,6 +5221,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope:
         "Scoped by tenant_id, generation_request_id, ai_prototype_integration_plan_id, game_scoring_profile_snapshot_id, progress_event_acceptance_map_id, collection_unlock_binding_id, standard_event_contract_id, and scoring_replay_revision.",
       fields: [
+        {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
         {
           name: "ai_prototype_scoring_replay_report_id",
           type: "string",
@@ -5166,6 +5382,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope:
         "Scoped by tenant_id, generation_request_id, ai_prototype_integration_plan_id, evidence report ids, codex_integration_review_decision_id, and readiness_gate_revision.",
       fields: [
+        {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
         {
           name: "ai_prototype_integration_readiness_gate_id",
           type: "string",
@@ -5327,6 +5549,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope:
         "Scoped by tenant_id, generation_request_id, ai_prototype_integration_plan_id, ai_prototype_integration_readiness_gate_id, and codex_review_revision.",
       fields: [
+        {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
         {
           name: "codex_integration_review_decision_id",
           type: "string",
@@ -5495,6 +5723,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope:
         "Scoped by tenant_id, generation_request_id, codex_integration_review_decision_id, ai_prototype_integration_readiness_gate_id, reviewer_identity_signature_gate_id, package_publish_gate_id, and proposal_revision.",
       fields: [
+        {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
         {
           name: "ai_prototype_app_patch_proposal_id",
           type: "string",
@@ -5670,6 +5904,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
         "Scoped by tenant_id, generation_request_id, ai_prototype_app_patch_proposal_id, patch_test_harness_plan_id, route_safety_release_gate_id, rollback_drill_record_id, storage_contract_verification_id, codex_patch_approval_decision_id, and gate_revision.",
       fields: [
         {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
+        {
           name: "ai_prototype_patch_test_readiness_gate_id",
           type: "string",
           required: true,
@@ -5844,6 +6084,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
         "Scoped by tenant_id, generation_request_id, ai_prototype_patch_test_readiness_gate_id, ai_prototype_app_patch_proposal_id, and harness_plan_revision.",
       fields: [
         {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
+        {
           name: "ai_prototype_patch_test_harness_plan_id",
           type: "string",
           required: true,
@@ -6011,6 +6257,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope:
         "Scoped by tenant_id, generation_request_id, ai_prototype_patch_test_harness_plan_id, ai_prototype_patch_test_readiness_gate_id, ai_prototype_app_patch_proposal_id, and implementation_proposal_revision.",
       fields: [
+        {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
         {
           name: "ai_prototype_patch_harness_implementation_proposal_id",
           type: "string",
@@ -6199,6 +6451,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope:
         "Scoped by tenant_id, generation_request_id, ai_prototype_app_patch_proposal_id, ai_prototype_patch_test_readiness_gate_id, ai_prototype_patch_test_harness_plan_id, ai_prototype_patch_harness_implementation_proposal_id, and decision_revision.",
       fields: [
+        {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
         {
           name: "codex_patch_approval_decision_id",
           type: "string",
@@ -6418,6 +6676,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
         "Scoped by tenant_id, generation_request_id, codex_patch_approval_decision_id, reviewer_identity_signature_gate_id, and preflight_revision.",
       fields: [
         {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
+        {
           name: "signed_approval_preflight_id",
           type: "string",
           required: true,
@@ -6628,6 +6892,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
         "Scoped by tenant_id, generation_request_id, signed_approval_preflight_id, codex_patch_approval_decision_id, release_control_binding_id, and lock_revision.",
       fields: [
         {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
+        {
           name: "patch_authorization_release_lock_id",
           type: "string",
           required: true,
@@ -6832,6 +7102,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
         "Scoped by tenant_id, generation_request_id, patch_authorization_release_lock_id, release_control_binding_id, and work_order_revision.",
       fields: [
         {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
+        {
           name: "patch_implementation_work_order_id",
           type: "string",
           required: true,
@@ -6999,6 +7275,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
         "Scoped by tenant_id, generation_request_id, patch_implementation_work_order_id, and change_set_revision.",
       fields: [
         {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
+        {
           name: "patch_change_set_preview_id",
           type: "string",
           required: true,
@@ -7152,6 +7434,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope: "Scoped by tenant_id, generation_request_id, verifier_submission_packet_id, and packet revision.",
       fields: [
         {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
+        {
           name: "ai_generated_package_teacher_review_packet_id",
           type: "string",
           required: true,
@@ -7298,6 +7586,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       primaryKey: "target_language_audio_approval_id",
       tenantScope: "Scoped by tenant_id, generation_request_id, audio_cue_manifest_id, and approval packet revision.",
       fields: [
+        {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
         {
           name: "target_language_audio_approval_id",
           type: "string",
@@ -7459,6 +7753,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
         "Scoped by tenant_id, generation_request_id, gamification_mapping_id, ai_draft_correction_queue_id, and gate_revision.",
       fields: [
         {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
+        {
           name: "ai_reward_readiness_gate_id",
           type: "string",
           required: true,
@@ -7581,6 +7881,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope:
         "Scoped by tenant_id, generation_request_id, ai_generated_package_manifest_id, ai_verifier_submission_packet_id, ai_reward_readiness_gate_id, and gate_revision.",
       fields: [
+        {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
         {
           name: "ai_generated_publish_readiness_gate_id",
           type: "string",
@@ -7718,6 +8024,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope:
         "Scoped by tenant_id, generation_request_id, ai_game_generator_request_id, coverage_status, missing_record_count, and coverage_revision.",
       fields: [
+        {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
         {
           name: "ai_generator_tenant_coverage_gate_id",
           type: "string",
@@ -7934,6 +8246,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
         "Scoped by tenant_id, generation_request_id, review_summary_status, summary_revision, and blocked_action_count.",
       fields: [
         {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
+        {
           name: "ai_generator_review_summary_id",
           type: "string",
           required: true,
@@ -8069,6 +8387,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope:
         "Scoped by tenant_id, generation_request_id, reviewer_runbook_status, runbook_revision, and blocked_shortcut_count.",
       fields: [
+        {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
         {
           name: "ai_generator_reviewer_runbook_id",
           type: "string",
@@ -8211,6 +8535,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope:
         "Scoped by tenant_id, generation_request_id, responsibility_matrix_status, matrix_revision, and blocked_authority_count.",
       fields: [
+        {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
         {
           name: "ai_generator_responsibility_matrix_id",
           type: "string",
@@ -8365,6 +8695,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope: "Scoped by tenant_id, assignment_id, package_id, rollout_status, and rollout_gate_revision.",
       fields: [
         {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
+        {
           name: "rollout_gate_id",
           type: "string",
           required: true,
@@ -8504,6 +8840,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       primaryKey: "private_assignment_link_id",
       tenantScope: "Scoped by tenant_id, assignment_id, package_id, launch_session_id, link_visibility, and assignment_link_revision.",
       fields: [
+        {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
         {
           name: "private_assignment_link_id",
           type: "string",
@@ -8647,6 +8989,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope: "Scoped by tenant_id, package_id, launch_code, roster_readiness, identity_mode, and roster_plan_revision.",
       fields: [
         {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
+        {
           name: "class_roster_plan_id",
           type: "string",
           required: true,
@@ -8764,6 +9112,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope: "Scoped by tenant_id, upload_id, extraction_revision, review_status, and student_facing_payload_allowed.",
       fields: [
         {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
+        {
           name: "source_extraction_review_packet_id",
           type: "string",
           required: true,
@@ -8857,6 +9211,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       primaryKey: "upload_file_policy_profile_id",
       tenantScope: "Scoped by tenant_id, package_id, upload_channel, policy_revision, and student_facing_upload_allowed.",
       fields: [
+        {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
         {
           name: "upload_file_policy_profile_id",
           type: "string",
@@ -8958,6 +9318,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope: "Scoped by tenant_id, uploader_id, source_kind, file_kind, target_mapping, and upload_revision.",
       fields: [
         {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
+        {
           name: "upload_id",
           type: "string",
           required: true,
@@ -9045,6 +9411,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       primaryKey: "upload_review_id",
       tenantScope: "Scoped by tenant_id, upload_id, reviewer_id, decision_status, target mapping, and review_revision.",
       fields: [
+        {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
         {
           name: "upload_review_id",
           type: "string",
@@ -9139,6 +9511,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       primaryKey: "promotion_id",
       tenantScope: "Scoped by tenant_id, upload_review_id, upload_id, target_kind, target_record_id, and promotion_revision.",
       fields: [
+        {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
         {
           name: "promotion_id",
           type: "string",
@@ -9483,6 +9861,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope: "Scoped by tenant_id, source_upload_id, upload_review_id, promotion_id, asset_kind, and asset_revision.",
       fields: [
         {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
+        {
           name: "asset_id",
           type: "string",
           required: true,
@@ -9577,6 +9961,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope: "Scoped by tenant_id, asset_id, anchor_id, label_review_status, and anchor_revision.",
       fields: [
         {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
+        {
           name: "anchor_id",
           type: "string",
           required: true,
@@ -9653,6 +10043,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope: "Scoped by tenant_id, package_release_candidate_id, unit_key, payload_shape_hash, and compatibility_revision.",
       fields: [
         {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
+        {
           name: "compatibility_snapshot_id",
           type: "string",
           required: true,
@@ -9722,6 +10118,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope: "Scoped by tenant_id, template_profile_id, source_template, compatible game family, and rendering_revision.",
       fields: [
         {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
+        {
           name: "template_profile_id",
           type: "string",
           required: true,
@@ -9779,6 +10181,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope: "Scoped by tenant_id, font_profile_id, font_pack_revision, language, and review status.",
       fields: [
         {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
+        {
           name: "font_profile_id",
           type: "string",
           required: true,
@@ -9835,6 +10243,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       primaryKey: "decision_id",
       tenantScope: "Scoped by tenant_id, handoff_id, draft_id, reviewer_id, and decision_revision.",
       fields: [
+        {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
         {
           name: "decision_id",
           type: "string",
@@ -9918,6 +10332,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope: "Scoped by tenant_id, decision_id, handoff_id, draft_id, reviewer_id, and evidence_revision.",
       fields: [
         {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
+        {
           name: "evidence_packet_id",
           type: "string",
           required: true,
@@ -9987,6 +10407,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       primaryKey: "audit_event_id",
       tenantScope: "Scoped by tenant_id, handoff_id, actor_id, event_status, and audit_revision.",
       fields: [
+        {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
         {
           name: "audit_event_id",
           type: "string",
@@ -10064,6 +10490,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope: "Scoped by tenant_id, owner_id, visibility, source_package_id, and library_revision.",
       fields: [
         {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
+        {
           name: "library_item_id",
           type: "string",
           required: true,
@@ -10139,6 +10571,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       primaryKey: "launch_session_id",
       tenantScope: "Scoped by tenant_id, launch_code, package_release_id, and settings_revision.",
       fields: [
+        {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
         {
           name: "launch_session_id",
           type: "string",
@@ -10230,6 +10668,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope: "Scoped by tenant_id and public_alias.",
       fields: [
         {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
+        {
           name: "alias_id",
           type: "string",
           required: true,
@@ -10271,6 +10715,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       primaryKey: "release_candidate_id",
       tenantScope: "Scoped by tenant_id, package_release_id, package_id, and release_version.",
       fields: [
+        {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
         {
           name: "release_candidate_id",
           type: "string",
@@ -10507,6 +10957,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope: "Scoped by tenant_id, launch_session_id, and anonymous/student roster id depending on school policy.",
       fields: [
         {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
+        {
           name: "event_id",
           type: "string",
           required: true,
@@ -10578,6 +11034,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope: "Scoped by tenant_id, launch_session_id, learner_code, reward_id, and reward_catalog_revision.",
       fields: [
         {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
+        {
           name: "collection_item_id",
           type: "string",
           required: true,
@@ -10647,6 +11109,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       primaryKey: "report_package_id",
       tenantScope: "Scoped by tenant_id, launch_session_id, package_release_id, and report_policy_revision.",
       fields: [
+        {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
         {
           name: "report_package_id",
           type: "string",
@@ -10725,6 +11193,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope: "Scoped by tenant_id, package_release_id, package_id, target_edition, and change_request_id.",
       fields: [
         {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
+        {
           name: "change_request_id",
           type: "string",
           required: true,
@@ -10794,6 +11268,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope: "Scoped by tenant_id, package_release_id, bundle_id, and handoff_revision.",
       fields: [
         {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
+        {
           name: "handoff_id",
           type: "string",
           required: true,
@@ -10850,6 +11330,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       primaryKey: "release_gate_id",
       tenantScope: "Scoped by tenant_id, package_release_id, bundle_id, and gate_revision.",
       fields: [
+        {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
         {
           name: "release_gate_id",
           type: "string",
@@ -10914,6 +11400,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope: "Scoped by tenant_id, package_release_id, release_candidate_id, and evidence_packet_revision.",
       fields: [
         {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
+        {
           name: "evidence_packet_id",
           type: "string",
           required: true,
@@ -10977,6 +11469,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       primaryKey: "identity_signature_gate_id",
       tenantScope: "Scoped by tenant_id, package_release_id, release_candidate_id, evidence_packet_version_id, and gate_revision.",
       fields: [
+        {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
         {
           name: "identity_signature_gate_id",
           type: "string",
@@ -11071,6 +11569,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope: "Scoped by tenant_id, package_release_id, release_candidate_id, and dry_run_revision.",
       fields: [
         {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
+        {
           name: "dry_run_id",
           type: "string",
           required: true,
@@ -11147,6 +11651,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope: "Scoped by tenant_id, package_release_id, release_candidate_id, and gate_revision.",
       fields: [
         {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
+        {
           name: "classroom_launch_gate_id",
           type: "string",
           required: true,
@@ -11222,6 +11732,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       primaryKey: "school_launch_policy_gate_id",
       tenantScope: "Scoped by tenant_id, package_release_id, release_candidate_id, and gate_revision.",
       fields: [
+        {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
         {
           name: "school_launch_policy_gate_id",
           type: "string",
@@ -11310,6 +11826,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       primaryKey: "school_policy_handoff_packet_id",
       tenantScope: "Scoped by tenant_id, package_release_id, release_candidate_id, school_launch_policy_gate_id, and packet_revision.",
       fields: [
+        {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
         {
           name: "school_policy_handoff_packet_id",
           type: "string",
@@ -11400,6 +11922,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope:
         "Scoped by tenant_id, package_release_id, release_candidate_id, school_policy_handoff_packet_id, reviewer_identity_signature_gate_id, and preflight_revision.",
       fields: [
+        {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
         {
           name: "school_policy_acceptance_preflight_id",
           type: "string",
@@ -11520,6 +12048,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope:
         "Scoped by tenant_id, package_release_id, release_candidate_id, school_policy_acceptance_preflight_id, policy_text_version, and policy_text_revision.",
       fields: [
+        {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
         {
           name: "school_policy_text_pack_id",
           type: "string",
@@ -11647,6 +12181,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
         "Scoped by tenant_id, package_release_id, release_candidate_id, school_policy_text_pack_id, school_policy_acceptance_preflight_id, and acceptance_preview_revision.",
       fields: [
         {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
+        {
           name: "school_policy_acceptance_record_preview_id",
           type: "string",
           required: true,
@@ -11772,6 +12312,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope:
         "Scoped by tenant_id, package_release_id, release_candidate_id, school_policy_acceptance_record_preview_id, school_policy_text_pack_id, and rollback_preview_revision.",
       fields: [
+        {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
         {
           name: "school_policy_revocation_rollback_preview_id",
           type: "string",
@@ -11912,6 +12458,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
         "Scoped by tenant_id, package_release_id, release_candidate_id, school_policy_revocation_rollback_preview_id, and impact_matrix_revision.",
       fields: [
         {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
+        {
           name: "school_policy_rollback_impact_matrix_id",
           type: "string",
           required: true,
@@ -12043,6 +12595,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
         "Scoped by tenant_id, package_release_id, release_candidate_id, school_policy_rollback_impact_matrix_id, and safe_fallback_revision.",
       fields: [
         {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
+        {
           name: "school_rollback_safe_fallback_plan_id",
           type: "string",
           required: true,
@@ -12167,6 +12725,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope:
         "Scoped by tenant_id, package_release_id, release_candidate_id, school_rollback_safe_fallback_plan_id, and safe_fallback_preflight_revision.",
       fields: [
+        {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
         {
           name: "school_rollback_safe_fallback_preflight_id",
           type: "string",
@@ -12307,6 +12871,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
         "Scoped by tenant_id, package_release_id, release_candidate_id, school_rollback_safe_fallback_preflight_id, and safe_fallback_activation_preview_revision.",
       fields: [
         {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
+        {
           name: "school_rollback_safe_fallback_activation_preview_id",
           type: "string",
           required: true,
@@ -12444,6 +13014,12 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       tenantScope:
         "Scoped by tenant_id, package_release_id, release_candidate_id, school_rollback_safe_fallback_activation_preview_id, and safe_fallback_restoration_preview_revision.",
       fields: [
+        {
+          name: "tenant_id",
+          type: "string",
+          required: true,
+          note: "White-label tenant boundary for hosted and closed/local deployments.",
+        },
         {
           name: "school_rollback_safe_fallback_restoration_preview_id",
           type: "string",
