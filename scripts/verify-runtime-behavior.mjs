@@ -182,6 +182,35 @@ try {
   const mismatchedReportEvidence = canonicalGameReport.validateCanonicalGameReportEvidence(canonicalEvents, "tenant-2", "launch-1");
   assertIncludes(mismatchedReportEvidence.errors, "flashcards: Canonical game event sequence must preserve tenant tenant-2; game_started has tenant tenant-1.");
 
+  const curatedOfferMapFixture = {
+    mapId: "runtime-offer-map-1",
+    tenantId: "tenant-1",
+    contentPackageId: "tenant-1-package-1",
+    label: "Runtime curated offer map",
+    decisionRule: "Reviewed offers only.",
+    offers: [{
+      offerId: "runtime-flashcards-1",
+      unitKey: "tenant-1:curriculum-1:L1:U1",
+      gameMode: "flashcards",
+      family: "vocabulary-matching",
+      engineId: "selection",
+      readiness: "ready",
+      launchRoute: "/flashcards/launch-1",
+      audioRequirement: "All learner-facing text has audio.",
+      reportingRequirement: "Report the entry completion event.",
+      nextStep: "Review the next curated activity.",
+    }],
+  };
+  assertEqual(contentModel.validateCuratedGameOfferMap(curatedOfferMapFixture).length, 0);
+  const invalidCuratedOfferMapErrors = contentModel.validateCuratedGameOfferMap({
+    ...curatedOfferMapFixture,
+    offers: [{ ...curatedOfferMapFixture.offers[0], engineId: "pairing" }],
+  });
+  assertIncludes(
+    invalidCuratedOfferMapErrors,
+    "Unit game offer runtime-flashcards-1 must use engine selection; found pairing.",
+  );
+
   const phaserReviewFixture = {
     reviewId: "runtime-phaser-review-1",
     tenantId: "tenant-1",

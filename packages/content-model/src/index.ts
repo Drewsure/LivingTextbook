@@ -443,6 +443,28 @@ export interface GameModeContract {
   allowsBackgroundMedia: boolean;
 }
 
+export interface CuratedGameOfferContractInput {
+  offerId: string;
+  unitKey: string;
+  gameMode: string;
+  family: string;
+  engineId: string;
+  readiness: string;
+  launchRoute?: string;
+  audioRequirement: string;
+  reportingRequirement: string;
+  nextStep: string;
+}
+
+export interface CuratedGameOfferMapContractInput {
+  mapId: string;
+  tenantId: string;
+  contentPackageId: string;
+  label: string;
+  decisionRule: string;
+  offers: CuratedGameOfferContractInput[];
+}
+
 const supportedGameModeContracts: Record<GameModeId, GameModeContract> = {
   flashcards: { family: "vocabulary-matching", engineId: "selection", supportedLevels: [1, 2, 3, 4, 5, 6, 7, 8], allowsBackgroundMedia: false },
   "memory-match": { family: "memory-sorting", engineId: "pairing", supportedLevels: [1, 2, 3, 4], allowsBackgroundMedia: true },
@@ -473,6 +495,56 @@ export function getGameModeContract(value: string): GameModeContract | undefined
 export function isGameModeSupportedAtLevel(value: string, level: number): value is GameModeId {
   const contract = getGameModeContract(value);
   return Boolean(contract?.supportedLevels.includes(level));
+}
+
+export function validateCuratedGameOfferMap(map: CuratedGameOfferMapContractInput): string[] {
+  const errors: string[] = [];
+  const offerIds = new Set<string>();
+  const gameModes = new Set<string>();
+
+  if (!map.mapId || !map.tenantId || !map.contentPackageId || !map.label || !map.decisionRule) {
+    errors.push("Unit game offer maps require map, tenant, package, label, and decision-rule metadata.");
+  }
+
+  if (map.offers.length === 0) {
+    errors.push(`Unit game offer map ${map.mapId || "(unnamed)"} must include at least one offer.`);
+  }
+
+  for (const offer of map.offers) {
+    if (!offer.offerId || offerIds.has(offer.offerId)) {
+      errors.push(`Unit game offer map ${map.mapId || "(unnamed)"} must use unique offer ids.`);
+    }
+    offerIds.add(offer.offerId);
+
+    if (gameModes.has(offer.gameMode)) {
+      errors.push(`Unit game offer map ${map.mapId || "(unnamed)"} must not repeat game mode ${offer.gameMode}.`);
+    }
+    gameModes.add(offer.gameMode);
+
+    const contract = getGameModeContract(offer.gameMode);
+    if (!contract) {
+      errors.push(`Unit game offer ${offer.offerId || "(unnamed)"} uses an unsupported game mode.`);
+      continue;
+    }
+
+    if (offer.family !== contract.family) {
+      errors.push(`Unit game offer ${offer.offerId} must use family ${contract.family}; found ${offer.family}.`);
+    }
+    if (offer.engineId !== contract.engineId) {
+      errors.push(`Unit game offer ${offer.offerId} must use engine ${contract.engineId}; found ${offer.engineId}.`);
+    }
+    if (!offer.unitKey || !offer.unitKey.startsWith(`${map.tenantId}:`)) {
+      errors.push(`Unit game offer ${offer.offerId} must remain scoped to tenant ${map.tenantId}.`);
+    }
+    if (offer.readiness === "ready" && !offer.launchRoute) {
+      errors.push(`Ready unit game offer ${offer.offerId} must include a launch route.`);
+    }
+    if (!offer.audioRequirement.trim() || !offer.reportingRequirement.trim() || !offer.nextStep.trim()) {
+      errors.push(`Unit game offer ${offer.offerId} must declare audio, reporting, and next-step requirements.`);
+    }
+  }
+
+  return errors;
 }
 
 const supportedMediaAssetTypes: MediaAssetType[] = [
