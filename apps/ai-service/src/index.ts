@@ -4,10 +4,21 @@ import {
   isSupportedGameModeId,
   isSupportedParentEngine,
 } from "@living-textbook/content-model";
-import type { GameModeId, ParentEngine } from "@living-textbook/content-model";
+import type {
+  AssistLanguageLevelBand,
+  AssistLanguageScriptPolicy,
+  GameModeId,
+  ParentEngine,
+} from "@living-textbook/content-model";
 
 export type AiGenerationServiceStatus = "review-only" | "provider-dispatch-ready";
 export type AiGenerationServiceReviewStatus = "draft" | "reviewed" | "verified" | "approved" | "rejected";
+
+export interface AiGenerationServiceSupportLanguagePolicy {
+  progressionAllowed: false;
+  scriptPolicy?: AssistLanguageScriptPolicy;
+  levelBand?: AssistLanguageLevelBand;
+}
 
 export interface AiGenerationServiceRequest {
   requestId: string;
@@ -22,6 +33,12 @@ export interface AiGenerationServiceRequest {
   engineId: ParentEngine;
   vocabularyTerms: string[];
   targetSentences: [string, string];
+  sourceEvidencePacketId: string;
+  activityCompatibilitySnapshotId: string;
+  audioCoverageRequirementId: string;
+  mediaRightsManifestId: string;
+  premiumAiCostGateId: string;
+  supportLanguagePolicy: AiGenerationServiceSupportLanguagePolicy;
   targetLanguageAudioReady: boolean;
   mediaRightsReady: boolean;
   teacherApprovalReady: boolean;
@@ -68,6 +85,18 @@ export function validateAiGenerationServiceRequest(request: AiGenerationServiceR
   }
   if (gameModeContract && !gameModeContract.supportedLevels.includes(request.level)) {
     errors.push(`gameMode ${request.gameMode} is not available for level ${request.level}`);
+  }
+  for (const [label, value] of [
+    ["sourceEvidencePacketId", request.sourceEvidencePacketId],
+    ["activityCompatibilitySnapshotId", request.activityCompatibilitySnapshotId],
+    ["audioCoverageRequirementId", request.audioCoverageRequirementId],
+    ["mediaRightsManifestId", request.mediaRightsManifestId],
+    ["premiumAiCostGateId", request.premiumAiCostGateId],
+  ] as const) {
+    if (!value.trim()) errors.push(`${label} is required`);
+  }
+  if (request.supportLanguagePolicy.progressionAllowed !== false) {
+    errors.push("supportLanguagePolicy.progressionAllowed must be false");
   }
   if (request.vocabularyTerms.length < 8 || request.vocabularyTerms.length > 12) {
     errors.push("vocabularyTerms must contain between 8 and 12 terms");

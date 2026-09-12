@@ -15,6 +15,10 @@ generation request can enter review preparation.
 - A game mode must be available for the requested curriculum level.
 - If configured, assist language must differ from the target language and is
   never a scoring, mastery, or progression authority.
+- Readiness booleans must remain linked to explicit tenant-scoped evidence
+  identifiers for source review, activity compatibility, target-language audio,
+  media rights, and premium AI cost policy.
+- Support-language policy must explicitly declare `progressionAllowed: false`.
 - The AI service must reuse the shared catalog rather than maintaining a
   provider-specific compatibility table.
 

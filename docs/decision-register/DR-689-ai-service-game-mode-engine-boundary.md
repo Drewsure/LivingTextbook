@@ -15,6 +15,9 @@ parent-engine, and level compatibility before provider review preparation.
   mode/engine pairs, and unavailable level/mode combinations.
 - The AI service rejects an assist language that duplicates the target
   language and reports assist language as comprehension support only.
+- The request carries source, compatibility, audio, media-rights, and premium
+  cost evidence identifiers, and rejects support-language policies that allow
+  progression.
 - No provider call, billing, package write, route write, or Z.ai integration is
   enabled by this boundary.
 

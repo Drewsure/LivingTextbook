@@ -1480,6 +1480,8 @@ write, or Z.ai integration was enabled. The decision is recorded in
 The same AI boundary now rejects an assist language that duplicates the target
 language and emits an explicit support-only warning. Runtime behavior checks
 cover the mode/engine mismatch, level restriction, and assist-language guard.
+The request now also carries source, compatibility, audio, media-rights, and
+premium-cost evidence identifiers so readiness booleans cannot lose provenance.
 
 The migration candidate coverage slice now requires every non-deferred
 candidate to have at least one migration specification, while deferred

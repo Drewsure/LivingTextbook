@@ -763,6 +763,8 @@ Required standing rules:
 - The service must validate tenant, source review status, target language, game mode, parent engine, vocabulary range, exactly two sentence structures, target-language audio, and media rights before any provider decision.
 - The service must resolve game-mode, parent-engine, and level compatibility through the shared content-model catalog; provider-specific compatibility tables are not allowed.
 - If an assist language is configured for an AI request, it must differ from the target language and remain comprehension support only; it cannot satisfy scoring, mastery, or progression.
+- AI request readiness booleans must be accompanied by tenant-scoped evidence identifiers for source review, activity compatibility, target-language audio, media rights, and premium AI cost policy.
+- Support-language policy must be explicit and permanently set `progressionAllowed: false` at this boundary.
 - The default service result is review-only and must have no side effects: no model call, provider billing, source write, package write, verifier submission, route write, playlist write, assignment activation, or support-language progression.
 - Provider SDKs, storage vendors, web routes, student progression state, and Phaser/game view code must not become dependencies of the contract boundary.
 - Premium AI cost policy and teacher approval are explicit evidence lanes, not implicit environment flags.

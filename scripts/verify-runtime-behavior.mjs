@@ -878,6 +878,12 @@ try {
     theme: "Greetings", gameMode: "flashcards", engineId: "pairing",
     vocabularyTerms: ["hello", "goodbye", "teacher", "friend", "morning", "afternoon", "please"],
     targetSentences: ["Hello, teacher."], targetLanguageAudioReady: false, mediaRightsReady: false,
+    sourceEvidencePacketId: "source-evidence-1",
+    activityCompatibilitySnapshotId: "activity-compatibility-1",
+    audioCoverageRequirementId: "audio-coverage-1",
+    mediaRightsManifestId: "media-rights-1",
+    premiumAiCostGateId: "premium-cost-gate-1",
+    supportLanguagePolicy: { progressionAllowed: false, scriptPolicy: "hiragana-only", levelBand: "foundation" },
     teacherApprovalReady: false, premiumCostPolicyReady: false,
   };
   const aiErrors = aiService.validateAiGenerationServiceRequest(aiRequest);
@@ -885,6 +891,18 @@ try {
   assertIncludes(aiErrors, "targetSentences must contain exactly 2 structures");
   assertIncludes(aiErrors, "target-language audio coverage is required");
   assertIncludes(aiErrors, "gameMode flashcards is not compatible with engineId pairing; expected selection");
+  const missingEvidenceErrors = aiService.validateAiGenerationServiceRequest({
+    ...aiRequest,
+    sourceEvidencePacketId: "",
+    mediaRightsManifestId: "",
+  });
+  assertIncludes(missingEvidenceErrors, "sourceEvidencePacketId is required");
+  assertIncludes(missingEvidenceErrors, "mediaRightsManifestId is required");
+  const unsafeSupportPolicyErrors = aiService.validateAiGenerationServiceRequest({
+    ...aiRequest,
+    supportLanguagePolicy: { progressionAllowed: true },
+  });
+  assertIncludes(unsafeSupportPolicyErrors, "supportLanguagePolicy.progressionAllowed must be false");
   const invalidAiLevelErrors = aiService.validateAiGenerationServiceRequest({
     ...aiRequest,
     level: 1,
