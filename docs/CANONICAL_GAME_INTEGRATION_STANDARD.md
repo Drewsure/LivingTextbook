@@ -61,6 +61,11 @@ runtime acceptance.
 The runtime behavior harness exercises both a valid canonical sequence and a
 rejected sequence with missing replay evidence.
 
+Every external candidate also carries an explicit wrapper approval decision.
+Candidates are blocked by default; `approved-for-wrapper` means only that a
+platform-owned wrapper may be reviewed. It never authorizes direct source
+import, route replacement, scene-owned scoring, or persistence ownership.
+
 ## Review Gate
 
 Run `node scripts/verify-canonical-game-integrations.mjs`, the focused route

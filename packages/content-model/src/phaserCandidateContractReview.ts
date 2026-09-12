@@ -1,5 +1,6 @@
 export type PhaserCandidateReviewStatus = "mapped-review-only" | "blocked";
 export type PhaserCandidateFindingStatus = "observed" | "gap" | "blocked";
+export type PhaserCandidateWrapperApprovalStatus = "blocked" | "approved-for-wrapper";
 
 export interface PhaserCandidateContractFinding {
   findingId: string;
@@ -15,6 +16,13 @@ export interface PhaserCandidateSourceFileEvidence {
   sha256: string;
 }
 
+export interface PhaserCandidateWrapperApproval {
+  decisionId: string;
+  status: PhaserCandidateWrapperApprovalStatus;
+  decidedAt: string;
+  blockers: string[];
+}
+
 export interface PhaserCandidateContractReview {
   reviewId: string;
   tenantId: string;
@@ -26,6 +34,7 @@ export interface PhaserCandidateContractReview {
   gameMode: string;
   parentEngine: string;
   status: PhaserCandidateReviewStatus;
+  approval: PhaserCandidateWrapperApproval;
   summary: string;
   findings: PhaserCandidateContractFinding[];
   missingEvidence: string[];
@@ -81,6 +90,26 @@ export function validatePhaserCandidateContractReview(
 
   if (!review.gameMode || !review.parentEngine || !review.summary) {
     errors.push("Phaser candidate contract reviews require game mode, parent engine, and summary fields.");
+  }
+
+  if (!review.approval?.decisionId || !review.approval?.decidedAt) {
+    errors.push(`Phaser candidate contract review ${review.reviewId || "(unnamed)"} requires a wrapper approval decision record.`);
+  }
+
+  if (review.approval && !["blocked", "approved-for-wrapper"].includes(review.approval.status)) {
+    errors.push(`Phaser candidate contract review ${review.reviewId || "(unnamed)"} has an invalid wrapper approval status.`);
+  }
+
+  if (review.approval?.decidedAt && Number.isNaN(Date.parse(review.approval.decidedAt))) {
+    errors.push(`Phaser candidate contract review ${review.reviewId || "(unnamed)"} requires an ISO wrapper approval timestamp.`);
+  }
+
+  if (review.approval?.status === "blocked" && review.approval.blockers.length === 0) {
+    errors.push(`Phaser candidate contract review ${review.reviewId || "(unnamed)"} cannot be wrapper-blocked without blockers.`);
+  }
+
+  if (review.approval?.status === "approved-for-wrapper" && (review.approval.blockers.length > 0 || review.missingEvidence.length > 0)) {
+    errors.push(`Phaser candidate contract review ${review.reviewId || "(unnamed)"} cannot approve a wrapper with blockers or missing evidence.`);
   }
 
   if (review.status !== "mapped-review-only" && review.status !== "blocked") {

@@ -39,7 +39,10 @@ export function PhaserCandidateContractReviewPanel({ reviews }: PhaserCandidateC
                 <p className="mt-1 break-all text-xs text-[var(--tenant-muted)]">Frozen commit: {review.sourceCommitSha}</p>
                 <p className="mt-1 text-xs text-[var(--tenant-muted)]">Reviewed files: {review.sourceFiles.length}</p>
               </div>
-              <StatusPill label="Mapped, review-only" tone="warning" />
+              <div className="flex flex-wrap gap-2">
+                <StatusPill label="Mapped, review-only" tone="warning" />
+                <StatusPill label={`Wrapper: ${review.approval.status}`} tone="warning" />
+              </div>
             </div>
 
             <p className="mt-3 text-sm leading-6 text-[var(--tenant-muted)]">{review.summary}</p>

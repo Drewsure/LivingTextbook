@@ -40,6 +40,18 @@ export const samplePhaserCandidateContractReviews: PhaserCandidateContractReview
     gameMode: "memory-match",
     parentEngine: "pairing",
     status: "mapped-review-only",
+    approval: {
+      decisionId: "phaser-wrapper-decision-ministar-memory-match",
+      status: "blocked",
+      decidedAt: "2026-09-13T00:00:00.000Z",
+      blockers: [
+        "Pairing payload adapter review",
+        "Canonical event replay report",
+        "Target-language audio coverage report",
+        "Deterministic ordering/replay report",
+        "Keyboard and touch accessibility evidence",
+      ],
+    },
     summary:
       "The frozen Memory Match scene has a bounded pair loop and useful motion polish, but BaseEngine owns score, local persistence, fixed audio, and non-replayable random ordering.",
     findings: [
@@ -127,6 +139,18 @@ export const samplePhaserCandidateContractReviews: PhaserCandidateContractReview
     gameMode: "balloon-pop",
     parentEngine: "selection",
     status: "mapped-review-only",
+    approval: {
+      decisionId: "phaser-wrapper-decision-ministar-balloon-pop",
+      status: "blocked",
+      decidedAt: "2026-09-13T00:00:00.000Z",
+      blockers: [
+        "Selection payload adapter review",
+        "Canonical correct/wrong/missed event replay",
+        "Target-language audio priority report",
+        "Deterministic timing/scoring replay report",
+        "Touch, keyboard, slow-mode, and reduced-motion evidence",
+      ],
+    },
     summary:
       "The frozen Balloon Pop scene provides valuable motion and timing ideas, but random spawn behavior, direct audio, scene-owned scoring, and escape semantics must be defined by the platform first.",
     findings: [

@@ -3966,6 +3966,13 @@ source manifest. This keeps evidence tied to the exact reviewed snapshot and
 does not authorize source promotion. See
 `docs/adr/0659-phaser-evidence-reference-integrity.md`.
 
+# DR-734: Phaser Wrapper Approval Decision
+
+External candidates now require an explicit wrapper approval record and remain
+blocked by default until all evidence blockers are cleared. Wrapper approval
+does not authorize source import or route, scoring, persistence, package, or
+assignment changes. See `docs/adr/0662-phaser-wrapper-approval-decision.md`.
+
 # DR-732: Runtime Replay Evidence Gate
 
 The shared canonical event validator now requires `replay-v1:` evidence on
