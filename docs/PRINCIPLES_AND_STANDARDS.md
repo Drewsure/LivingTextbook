@@ -776,6 +776,7 @@ Required standing rules:
 - Persistence privacy, school-policy, and release flags must be strict booleans before hosted, local, or hybrid adapters interpret record requests.
 - Teacher-report role, policy, persistence, export, release, and raw-media exclusion flags must be strict booleans before any report adapter interprets learner evidence.
 - Assignment teacher, package, launch, link-policy, roster, persistence, reporting, audio, support-language, student-use, private-link, and write flags must be strict booleans before classroom adapters interpret assignment requests.
+- Launch teacher, package, assignment, QR, fallback, school, roster, persistence, reporting, audio, support-language, learner-data, and student-launch flags must be strict booleans before QR or front-door adapters interpret launch requests.
 - `npm run typecheck --workspace @living-textbook/ai-service` and `node scripts/verify-ai-service-boundary.mjs` must remain green before service implementation advances.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-561 and `docs/adr/0490-ai-service-boundary-foundation.md`.

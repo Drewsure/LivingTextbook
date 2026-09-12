@@ -674,6 +674,27 @@ try {
   const launchErrors = launch.validateLaunchRuntimeRequest(launchRequest);
   assertIncludes(launchErrors, "support language progress must remain disabled");
   assertEqual(launch.createReviewOnlyLaunchRuntimeAdapter().execute(launchRequest).sideEffect, "none");
+  const malformedLaunchFlagErrors = launch.validateLaunchRuntimeRequest({
+    ...launchRequest,
+    teacherRoleVerified: "true",
+    packageRuntimeApproved: "true",
+    assignmentRuntimeApproved: "true",
+    teacherQrOrFrontDoorReviewed: "true",
+    stableQrReady: "true",
+    localFallbackReady: "false",
+    schoolPolicyAccepted: "true",
+    rosterPolicyAccepted: "true",
+    persistenceReady: "true",
+    reportingPolicyAccepted: "true",
+    targetLanguageAudioReady: "true",
+    supportLanguageProgressAllowed: "false",
+    mediaOnlyProgressAllowed: "false",
+    realLearnerDataRequested: "false",
+    studentLaunchRequested: "false",
+  });
+  assertIncludes(malformedLaunchFlagErrors, "teacherRoleVerified must be a boolean");
+  assertIncludes(malformedLaunchFlagErrors, "stableQrReady must be a boolean");
+  assertIncludes(malformedLaunchFlagErrors, "studentLaunchRequested must be a boolean");
 
   const assignmentRequest = {
     tenantId: "tenant-1",
