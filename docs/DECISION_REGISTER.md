@@ -4054,3 +4054,17 @@ a complete retry. The first remains blocked while the retry can pass sequence,
 identity, replay, timestamp, and completion checks, proving both report paths
 without enabling export or persistence. See
 `docs/adr/0671-ready-and-blocked-report-fixture.md`.
+
+# DR-747: Provider-Neutral Progression Continuity Envelope
+
+Progression handoff between entry practice and curated game routes now has a
+validated provider-neutral envelope. It preserves identity and progression
+invariants without URL-encoded state, while the adapter remains review-only
+with no side effect until persistence and policy gates are approved. See ADR
+0675 and `docs/PROGRESSION_CONTINUITY_CONTRACT.md`.
+
+# DR-748: Standalone Report Audio Boundary
+
+Standalone `audio_requested` evidence remains support-only in teacher reports
+and does not create an incomplete game attempt. This keeps tap-to-speak audio
+separate from mastery, Star Dust, and completion evidence. See ADR 0676.

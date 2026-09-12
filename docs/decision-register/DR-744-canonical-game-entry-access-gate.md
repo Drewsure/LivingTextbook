@@ -9,3 +9,6 @@ curated student progression contract while persistence is still under review.
 The access gate applies equally to future Phaser wrappers. It prevents a
 standalone scene or direct route visit from producing valid game completion,
 mastery, Star Dust, reward, or teacher-report evidence. See ADR 0672.
+
+Active route checks now assert the locked gate and return to Flashcards instead
+of expecting interactive child-game copy on unopened direct routes.

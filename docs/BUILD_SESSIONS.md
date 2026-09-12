@@ -1681,3 +1681,15 @@ assignment work. See ADR 0673 and DR-745.
 The progression adapter now independently returns zero award and unchanged
 progression when completion is requested for a locked mode. This keeps a
 future wrapper from bypassing the route gate at the scoring boundary.
+
+The progression continuity slice now defines a provider-neutral envelope for
+carrying the reviewed progression snapshot from entry practice to a curated
+game route. It validates tenant/package/launch/session/unit identity, event
+cursor, route shape, unlock relationships, supported modes, timestamps, and
+privacy exclusions. Its adapter remains review-only with no side effect, so it
+does not create fake learner persistence or put progression into QR URLs. See
+ADR 0675, DR-747, and `docs/PROGRESSION_CONTINUITY_CONTRACT.md`.
+
+The report runtime now keeps standalone `audio_requested` evidence in the
+support-only lane. Audio engagement cannot become an incomplete game attempt,
+mastery result, Star Dust award, or completion report. See ADR 0676 and DR-748.

@@ -43,6 +43,13 @@ is absent from `unlockedGameModes`, even when a future wrapper or route calls
 the adapter directly. The shell gate is a user-facing boundary; the adapter
 check is the scoring and reward boundary.
 
+When progression moves from entry practice to a curated game route, the
+handoff must use the validated provider-neutral continuity envelope. It must
+match tenant, package, launch, learner session, and unit identity, preserve the
+unlock snapshot, and remain review-only until approved persistence exists. A
+route or wrapper must not use URL state, support-language evidence, media-only
+evidence, raw learner audio, or transcripts to establish progression.
+
 The playable route shell treats the shared event validator as an acceptance
 gate. If completion evidence is missing or invalid, the route reports the
 contract errors and pauses progression, Star Dust, and next-activity state.
@@ -106,7 +113,7 @@ The provider-neutral teacher report runtime applies the same gate when report
 requests contain canonical game envelopes. Standalone `audio_requested` remains
 support-only and does not create a game group. This keeps future hosted, local,
 and hybrid report adapters aligned with the student completion boundary. See
-ADR 0669 and DR-741.
+ADR 0669, DR-741, and ADR 0676.
 
 Repeated plays of a game mode are separate canonical report attempts. A new
 `game_started` event closes the prior attempt for validation, so a retry cannot

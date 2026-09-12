@@ -120,6 +120,71 @@ try {
   const canonicalGameReport = require(join(output, "canonicalGameReport.js"));
   const aiService = require(join(aiOutput, "apps", "ai-service", "src", "index.js"));
 
+  const continuityEnvelope = {
+    continuityId: "continuity-1",
+    tenantId: "tenant-1",
+    packageId: "package-1",
+    launchCode: "launch-1",
+    studentSessionId: "session-1",
+    unitKey: "tenant-1:curriculum-1:L1:U1",
+    sourceRoute: "/launch/demo-unit-1",
+    destinationRoute: "/memory/demo-unit-1",
+    issuedAt: "2026-01-01T00:05:00.000Z",
+    eventCursor: 7,
+    mode: "review-only",
+    snapshot: {
+      studentSessionId: "session-1",
+      launchCode: "launch-1",
+      unitKey: "tenant-1:curriculum-1:L1:U1",
+      entryMode: "flashcards",
+      currentStep: "recommended-game",
+      unlockedGameModes: ["flashcards", "memory-match"],
+      completedGameModes: ["flashcards"],
+      earnedStarDust: 300,
+      masteryStatus: "in-progress",
+      lastEventAt: "2026-01-01T00:04:00.000Z",
+    },
+    rawLearnerAudioIncluded: false,
+    learnerTranscriptIncluded: false,
+    supportLanguageEvidenceIncluded: false,
+    mediaOnlyEvidenceIncluded: false,
+  };
+  assertEqual(progression.validateProgressionContinuityEnvelope(continuityEnvelope).length, 0);
+  assertIncludes(
+    progression.validateProgressionContinuityRuntimeRequest({
+      expectedTenantId: "tenant-2",
+      expectedPackageId: "package-1",
+      expectedLaunchCode: "launch-1",
+      expectedStudentSessionId: "session-1",
+      envelope: continuityEnvelope,
+    }),
+    "Progression continuity tenant must match the expected tenant.",
+  );
+  assertIncludes(
+    progression.validateProgressionContinuityEnvelope({
+      ...continuityEnvelope,
+      supportLanguageEvidenceIncluded: true,
+    }),
+    "Progression continuity supportLanguageEvidenceIncluded must remain false.",
+  );
+  assertIncludes(
+    progression.validateProgressionContinuityEnvelope({
+      ...continuityEnvelope,
+      snapshot: { ...continuityEnvelope.snapshot, completedGameModes: ["quiz"] },
+    }),
+    "Progression continuity snapshot completedGameModes must be unlocked.",
+  );
+  assertEqual(
+    progression.createReviewOnlyProgressionContinuityAdapter().execute({
+      expectedTenantId: "tenant-1",
+      expectedPackageId: "package-1",
+      expectedLaunchCode: "launch-1",
+      expectedStudentSessionId: "session-1",
+      envelope: continuityEnvelope,
+    }).sideEffect,
+    "none",
+  );
+
   const canonicalReplaySeed = "replay-v1:tenant-1:curriculum-1:L1:U1:flashcards";
   const canonicalEventContext = {
     unitKey: "tenant-1:curriculum-1:L1:U1",

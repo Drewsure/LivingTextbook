@@ -22,6 +22,13 @@ for (const marker of [
   "No media-only progress trigger",
   "mode: \"review-only\"",
   "sideEffect: \"none\"",
+  "ProgressionContinuityEnvelope",
+  "validateProgressionContinuityEnvelope",
+  "validateProgressionContinuityRuntimeRequest",
+  "createReviewOnlyProgressionContinuityAdapter",
+  "No URL-encoded progression state",
+  "No cross-tenant progression reuse",
+  "sideEffect: \"none\"",
 ]) {
   if (!source.includes(marker)) failures.push(`progression runtime contract missing marker: ${marker}`);
 }

@@ -115,6 +115,13 @@ be gated by progression established through entry practice. This protects the
 teacher-led QR -> flashcard -> curated activity path and applies equally to
 future Phaser wrappers.
 
+Progression passed between routes must use a validated, provider-neutral
+continuity envelope. It must preserve tenant, package, launch, learner-session,
+unit, event-cursor, and progression identity without putting learner state in
+QR URLs. Until storage, identity, school policy, reporting, recovery, and
+release gates are approved, continuity remains review-only and has no side
+effect. See `docs/PROGRESSION_CONTINUITY_CONTRACT.md` and ADR 0675.
+
 Curated unit offer maps must agree with the shared game-mode family and parent
 engine contracts. A map mismatch is review evidence needing correction, not a
 reason to patch a route or create a one-off game.

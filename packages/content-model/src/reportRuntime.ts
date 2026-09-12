@@ -61,6 +61,7 @@ export function validateTeacherReportCanonicalGameEvents(
   tenantId: string,
   launchCode: string,
 ): string[] {
+  if (events.length > 0 && events.every((event) => event.type === "audio_requested")) return [];
   const evidence = validateCanonicalGameReportEvidence(events, tenantId, launchCode);
   return evidence.errors.map((error) => `teacher report canonical game evidence: ${error}`);
 }

@@ -29,3 +29,7 @@ still review-only.
 `verify-canonical-game-integrations.mjs` checks that the shell derives
 `gameUnlocked`, renders `GameAccessGateCard` when false, and contains no
 self-unlock shortcut.
+
+The active route verifier checks locked direct routes for the access-gate copy
+and entry-practice return link rather than child-game controls that are
+intentionally withheld.

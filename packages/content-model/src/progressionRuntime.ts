@@ -1,5 +1,6 @@
 import type { ProgressEventEnvelope, ProgressEventTaxonomyRegistry } from "./progressEventTaxonomy";
 import { validateProgressEventEnvelope } from "./progressEventTaxonomy";
+import { getGameModeContract } from "./index";
 
 export type ProgressionRuntimeMode = "review-only" | "hosted-managed" | "local-classroom" | "hybrid";
 
@@ -35,6 +36,197 @@ export interface ProgressionRuntimeAdapter {
   readonly mode: ProgressionRuntimeMode;
   evaluate(request: ProgressionRuntimeRequest): ProgressionRuntimeDecision;
   execute(request: ProgressionRuntimeRequest): ProgressionRuntimeResult;
+}
+
+export type ProgressionContinuityMode = "review-only" | "hosted-managed" | "local-classroom" | "hybrid";
+
+export interface ProgressionContinuitySnapshot {
+  studentSessionId: string;
+  launchCode: string;
+  unitKey: string;
+  entryMode: string;
+  currentStep: "entry-practice" | "recommended-game" | "training-academy" | "completion-review";
+  unlockedGameModes: string[];
+  completedGameModes: string[];
+  earnedStarDust: number;
+  masteryStatus: "not-started" | "in-progress" | "mastered" | "needs-review";
+  lastEventAt?: string;
+}
+
+export interface ProgressionContinuityEnvelope {
+  continuityId: string;
+  tenantId: string;
+  packageId: string;
+  launchCode: string;
+  studentSessionId: string;
+  unitKey: string;
+  sourceRoute: string;
+  destinationRoute: string;
+  issuedAt: string;
+  eventCursor: number;
+  mode: ProgressionContinuityMode;
+  snapshot: ProgressionContinuitySnapshot;
+  rawLearnerAudioIncluded: boolean;
+  learnerTranscriptIncluded: boolean;
+  supportLanguageEvidenceIncluded: boolean;
+  mediaOnlyEvidenceIncluded: boolean;
+}
+
+export interface ProgressionContinuityRuntimeRequest {
+  expectedTenantId: string;
+  expectedPackageId: string;
+  expectedLaunchCode: string;
+  expectedStudentSessionId: string;
+  envelope: unknown;
+}
+
+export interface ProgressionContinuityRuntimeDecision {
+  allowed: boolean;
+  mode: ProgressionContinuityMode;
+  reasonCode: string;
+  reasons: string[];
+}
+
+export interface ProgressionContinuityRuntimeResult {
+  request: ProgressionContinuityRuntimeRequest;
+  decision: ProgressionContinuityRuntimeDecision;
+  sideEffect: "none" | "read-only";
+}
+
+export interface ProgressionContinuityRuntimeAdapter {
+  readonly mode: ProgressionContinuityMode;
+  evaluate(request: ProgressionContinuityRuntimeRequest): ProgressionContinuityRuntimeDecision;
+  execute(request: ProgressionContinuityRuntimeRequest): ProgressionContinuityRuntimeResult;
+}
+
+export const reviewOnlyProgressionContinuityBlockedActions = [
+  "No progression snapshot write",
+  "No learner session persistence",
+  "No URL-encoded progression state",
+  "No cross-tenant progression reuse",
+  "No support-language or media-only unlock",
+] as const;
+
+export function validateProgressionContinuityEnvelope(value: unknown): string[] {
+  const errors: string[] = [];
+  if (!isRecord(value)) return ["Progression continuity envelope must be an object."];
+
+  for (const field of [
+    "continuityId",
+    "tenantId",
+    "packageId",
+    "launchCode",
+    "studentSessionId",
+    "unitKey",
+    "sourceRoute",
+    "destinationRoute",
+    "issuedAt",
+    "mode",
+    "snapshot",
+  ]) {
+    if (typeof value[field] !== "string" && field !== "snapshot") errors.push(`Progression continuity ${field} is required.`);
+  }
+
+  for (const field of [
+    "rawLearnerAudioIncluded",
+    "learnerTranscriptIncluded",
+    "supportLanguageEvidenceIncluded",
+    "mediaOnlyEvidenceIncluded",
+  ] as const) {
+    if (typeof value[field] !== "boolean") errors.push(`Progression continuity ${field} must be a boolean.`);
+    if (value[field] === true) errors.push(`Progression continuity ${field} must remain false.`);
+  }
+
+  const envelope = value as Record<string, unknown>;
+  for (const field of ["continuityId", "tenantId", "packageId", "launchCode", "studentSessionId", "unitKey", "sourceRoute", "destinationRoute", "issuedAt", "mode"]) {
+    if (typeof envelope[field] === "string" && envelope[field].trim().length === 0) errors.push(`Progression continuity ${field} cannot be blank.`);
+  }
+  if (typeof envelope.sourceRoute === "string" && !envelope.sourceRoute.startsWith("/")) errors.push("Progression continuity sourceRoute must be an app-relative path.");
+  if (typeof envelope.destinationRoute === "string" && !envelope.destinationRoute.startsWith("/")) errors.push("Progression continuity destinationRoute must be an app-relative path.");
+  if (!isIsoTimestamp(envelope.issuedAt)) errors.push("Progression continuity issuedAt must be an ISO timestamp.");
+  if (!Number.isSafeInteger(envelope.eventCursor) || Number(envelope.eventCursor) < 0) errors.push("Progression continuity eventCursor must be a non-negative integer.");
+  if (!["review-only", "hosted-managed", "local-classroom", "hybrid"].includes(String(envelope.mode))) errors.push("Progression continuity mode is unsupported.");
+
+  const snapshotErrors = validateProgressionContinuitySnapshot(envelope.snapshot);
+  errors.push(...snapshotErrors);
+  if (isRecord(envelope.snapshot)) {
+    for (const field of ["tenantId", "launchCode", "studentSessionId", "unitKey"] as const) {
+      const snapshotField = field === "tenantId" ? undefined : envelope.snapshot[field];
+      if (field !== "tenantId" && snapshotField !== envelope[field]) errors.push(`Progression continuity snapshot ${field} must match the envelope.`);
+    }
+  }
+  return [...new Set(errors)];
+}
+
+export function validateProgressionContinuityRuntimeRequest(request: ProgressionContinuityRuntimeRequest): string[] {
+  const errors = validateProgressionContinuityEnvelope(request.envelope);
+  for (const field of ["expectedTenantId", "expectedPackageId", "expectedLaunchCode", "expectedStudentSessionId"] as const) {
+    if (!request[field].trim()) errors.push(`${field} is required.`);
+  }
+  if (isRecord(request.envelope)) {
+    const envelope = request.envelope;
+    if (envelope.tenantId !== request.expectedTenantId) errors.push("Progression continuity tenant must match the expected tenant.");
+    if (envelope.packageId !== request.expectedPackageId) errors.push("Progression continuity package must match the expected package.");
+    if (envelope.launchCode !== request.expectedLaunchCode) errors.push("Progression continuity launch code must match the expected launch.");
+    if (envelope.studentSessionId !== request.expectedStudentSessionId) errors.push("Progression continuity student session must match the expected session.");
+  }
+  return [...new Set(errors)];
+}
+
+export function createReviewOnlyProgressionContinuityAdapter(): ProgressionContinuityRuntimeAdapter {
+  return {
+    mode: "review-only",
+    evaluate(request) {
+      const validationErrors = validateProgressionContinuityRuntimeRequest(request);
+      return {
+        allowed: false,
+        mode: "review-only",
+        reasonCode: validationErrors.length > 0 ? "invalid-progression-continuity" : "review-only-progression-continuity",
+        reasons: [...new Set([...validationErrors, ...reviewOnlyProgressionContinuityBlockedActions, "No continuity adapter has been selected for live use"])],
+      };
+    },
+    execute(request) {
+      return { request, decision: this.evaluate(request), sideEffect: "none" };
+    },
+  };
+}
+
+function validateProgressionContinuitySnapshot(value: unknown): string[] {
+  const errors: string[] = [];
+  if (!isRecord(value)) return ["Progression continuity snapshot must be an object."];
+  for (const field of ["studentSessionId", "launchCode", "unitKey", "entryMode", "currentStep", "masteryStatus"]) {
+    if (typeof value[field] !== "string" || value[field].trim().length === 0) errors.push(`Progression continuity snapshot ${field} is required.`);
+  }
+  for (const field of ["unlockedGameModes", "completedGameModes"]) {
+    if (!Array.isArray(value[field])) errors.push(`Progression continuity snapshot ${field} must be an array.`);
+  }
+  if (!Number.isSafeInteger(value.earnedStarDust) || Number(value.earnedStarDust) < 0 || Number(value.earnedStarDust) > 1000) {
+    errors.push("Progression continuity snapshot earnedStarDust must be an integer from 0 to 1000.");
+  }
+  if (value.lastEventAt !== undefined && !isIsoTimestamp(value.lastEventAt)) errors.push("Progression continuity snapshot lastEventAt must be an ISO timestamp.");
+  const unlocked = stringArray(value.unlockedGameModes);
+  const completed = stringArray(value.completedGameModes);
+  const uniqueUnlocked = new Set(unlocked);
+  if (uniqueUnlocked.size !== unlocked.length) errors.push("Progression continuity snapshot unlockedGameModes must be unique.");
+  if (new Set(completed).size !== completed.length) errors.push("Progression continuity snapshot completedGameModes must be unique.");
+  for (const mode of [...unlocked, ...completed]) if (!getGameModeContract(mode)) errors.push(`Progression continuity snapshot uses unsupported game mode ${mode}.`);
+  if (typeof value.entryMode === "string" && !unlocked.includes(value.entryMode)) errors.push("Progression continuity snapshot entryMode must be unlocked.");
+  if (completed.some((mode) => !uniqueUnlocked.has(mode))) errors.push("Progression continuity snapshot completedGameModes must be unlocked.");
+  if (!["entry-practice", "recommended-game", "training-academy", "completion-review"].includes(String(value.currentStep))) errors.push("Progression continuity snapshot currentStep is unsupported.");
+  if (!["not-started", "in-progress", "mastered", "needs-review"].includes(String(value.masteryStatus))) errors.push("Progression continuity snapshot masteryStatus is unsupported.");
+  return [...new Set(errors)];
+}
+
+function stringArray(value: unknown): string[] {
+  return Array.isArray(value) && value.every((item) => typeof item === "string") ? value : [];
+}
+
+function isIsoTimestamp(value: unknown): value is string {
+  return typeof value === "string" && !Number.isNaN(Date.parse(value)) && value.includes("T");
+}
+
+function isRecord(value: unknown): value is Record<string, any> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
 export const reviewOnlyProgressionBlockedActions = [
