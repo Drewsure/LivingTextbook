@@ -4282,7 +4282,7 @@ export const sampleBackendSchemaDraft: BackendSchemaDraft = {
         { name: "source_route", type: "route/string", required: true, note: "Approved app-relative source activity route." },
         { name: "destination_route", type: "route/string", required: true, note: "Approved app-relative destination activity route." },
         { name: "event_cursor", type: "integer", required: true, note: "Non-negative monotonic handoff cursor used to reject stale or reordered continuity." },
-        { name: "continuity_snapshot", type: "json/object", required: true, note: "Validated progression state including completed and unlocked modes, mastery, Star Dust, and status." },
+        { name: "continuity_snapshot", type: "json/object", required: true, note: "Validated progression state including tenant identity, completed and unlocked modes, mastery, Star Dust, and status." },
         { name: "runtime_decision", type: "json/object", required: true, note: "Review-only decision and blocked actions; never a client-authoritative unlock or scoring write." },
         { name: "created_at", type: "datetime", required: true, note: "Versioned envelope creation time for review and recovery." },
       ],

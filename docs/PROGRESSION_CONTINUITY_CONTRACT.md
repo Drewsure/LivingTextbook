@@ -21,6 +21,7 @@ The shared implementation lives in
 Every continuity envelope must preserve:
 
 - tenant, package, launch, learner-session, and unit identity;
+- tenant identity inside both the envelope and continuity snapshot;
 - source and destination app-relative routes;
 - an ISO issue timestamp and non-negative event cursor;
 - the entry mode, current step, unlocked modes, completed modes, Star Dust,
@@ -58,7 +59,7 @@ append-only progress event stream: the event stream records accepted learning
 evidence, while the continuity record describes a validated route handoff
 between curated activities.
 
-The record must preserve the envelope, continuity snapshot, and route handoff
+The record must preserve the envelope, tenant-bound continuity snapshot, and route handoff
 cursor. It must remain tenant- and package-scoped, reject stale or reordered
 handoffs, and exclude raw audio, transcripts, URL state, client-authoritative
 unlocks, Star Dust writes, and collection writes. Hosted and local adapters may

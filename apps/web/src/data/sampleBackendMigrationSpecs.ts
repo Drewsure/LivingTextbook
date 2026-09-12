@@ -11098,7 +11098,7 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
         { name: "source_route", type: "route/string", required: true, note: "Approved app-relative source activity route." },
         { name: "destination_route", type: "route/string", required: true, note: "Approved app-relative destination activity route." },
         { name: "event_cursor", type: "integer", required: true, note: "Non-negative monotonic cursor used to reject stale or reordered handoffs." },
-        { name: "continuity_snapshot", type: "json", required: true, note: "Validated completion, unlock, mastery, Star Dust, and status snapshot." },
+        { name: "continuity_snapshot", type: "json", required: true, note: "Validated tenant identity, completion, unlock, mastery, Star Dust, and status snapshot." },
         { name: "runtime_decision", type: "json", required: true, note: "Review-only decision with no live unlock, score, reward, or route mutation." },
         { name: "created_at", type: "datetime", required: true, note: "Versioned creation time." },
       ],

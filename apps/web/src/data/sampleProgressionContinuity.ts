@@ -16,6 +16,7 @@ export const sampleProgressionContinuityEnvelope: ProgressionContinuityEnvelope 
   eventCursor: 7,
   mode: "review-only",
   snapshot: {
+    tenantId: "ministar",
     studentSessionId: "demo-unit-1:demo-student",
     launchCode: "demo-unit-1",
     unitKey: "ministar:ministar-english:L1:U1",

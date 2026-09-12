@@ -41,6 +41,7 @@ export interface ProgressionRuntimeAdapter {
 export type ProgressionContinuityMode = "review-only" | "hosted-managed" | "local-classroom" | "hybrid";
 
 export interface ProgressionContinuitySnapshot {
+  tenantId: string;
   studentSessionId: string;
   launchCode: string;
   unitKey: string;
@@ -151,8 +152,7 @@ export function validateProgressionContinuityEnvelope(value: unknown): string[] 
   errors.push(...snapshotErrors);
   if (isRecord(envelope.snapshot)) {
     for (const field of ["tenantId", "launchCode", "studentSessionId", "unitKey"] as const) {
-      const snapshotField = field === "tenantId" ? undefined : envelope.snapshot[field];
-      if (field !== "tenantId" && snapshotField !== envelope[field]) errors.push(`Progression continuity snapshot ${field} must match the envelope.`);
+      if (envelope.snapshot[field] !== envelope[field]) errors.push(`Progression continuity snapshot ${field} must match the envelope.`);
     }
   }
   return [...new Set(errors)];
@@ -194,7 +194,7 @@ export function createReviewOnlyProgressionContinuityAdapter(): ProgressionConti
 function validateProgressionContinuitySnapshot(value: unknown): string[] {
   const errors: string[] = [];
   if (!isRecord(value)) return ["Progression continuity snapshot must be an object."];
-  for (const field of ["studentSessionId", "launchCode", "unitKey", "entryMode", "currentStep", "masteryStatus"]) {
+  for (const field of ["tenantId", "studentSessionId", "launchCode", "unitKey", "entryMode", "currentStep", "masteryStatus"]) {
     if (typeof value[field] !== "string" || value[field].trim().length === 0) errors.push(`Progression continuity snapshot ${field} is required.`);
   }
   for (const field of ["unlockedGameModes", "completedGameModes"]) {

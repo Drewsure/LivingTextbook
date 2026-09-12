@@ -133,6 +133,7 @@ try {
     eventCursor: 7,
     mode: "review-only",
     snapshot: {
+      tenantId: "tenant-1",
       studentSessionId: "session-1",
       launchCode: "launch-1",
       unitKey: "tenant-1:curriculum-1:L1:U1",
@@ -173,6 +174,13 @@ try {
       snapshot: { ...continuityEnvelope.snapshot, completedGameModes: ["quiz"] },
     }),
     "Progression continuity snapshot completedGameModes must be unlocked.",
+  );
+  assertIncludes(
+    progression.validateProgressionContinuityEnvelope({
+      ...continuityEnvelope,
+      snapshot: { ...continuityEnvelope.snapshot, tenantId: "tenant-2" },
+    }),
+    "Progression continuity snapshot tenantId must match the envelope.",
   );
   assertEqual(
     progression.createReviewOnlyProgressionContinuityAdapter().execute({
