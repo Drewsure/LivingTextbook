@@ -1,3 +1,4 @@
+import { getGameModeContract } from "@living-textbook/content-model";
 import type { FeaturePackageTier, GameFamily, GameModeId, ParentEngine } from "@living-textbook/content-model";
 
 export type UnitGameOfferAvailability = "required" | "optional" | "premium" | "teacher-only" | "hidden" | "blocked";
@@ -73,7 +74,7 @@ export const samplePartnerUnitGameOfferMap: UnitGameOfferMap = {
       gameMode: "match-up",
       label: "Match Up",
       family: "vocabulary-matching",
-      engineId: "pairing",
+      engineId: "selection",
       availability: "required",
       readiness: "ready",
       recommendedOrder: 2,
@@ -350,6 +351,58 @@ export const sampleUnitGameOfferMaps: UnitGameOfferMap[] = [
 ];
 
 export const sampleUnitGameOfferMap = samplePartnerUnitGameOfferMap;
+
+export const sampleUnitGameOfferMapErrors = sampleUnitGameOfferMaps.flatMap(validateUnitGameOfferMap);
+
+export function validateUnitGameOfferMap(map: UnitGameOfferMap): string[] {
+  const errors: string[] = [];
+  const offerIds = new Set<string>();
+  const gameModes = new Set<GameModeId>();
+
+  if (!map.mapId || !map.tenantId || !map.contentPackageId || !map.label || !map.decisionRule) {
+    errors.push("Unit game offer maps require map, tenant, package, label, and decision-rule metadata.");
+  }
+
+  if (map.offers.length === 0) {
+    errors.push(`Unit game offer map ${map.mapId || "(unnamed)"} must include at least one offer.`);
+  }
+
+  for (const offer of map.offers) {
+    if (!offer.offerId || offerIds.has(offer.offerId)) {
+      errors.push(`Unit game offer map ${map.mapId || "(unnamed)"} must use unique offer ids.`);
+    }
+    offerIds.add(offer.offerId);
+
+    if (gameModes.has(offer.gameMode)) {
+      errors.push(`Unit game offer map ${map.mapId || "(unnamed)"} must not repeat game mode ${offer.gameMode}.`);
+    }
+    gameModes.add(offer.gameMode);
+
+    const contract = getGameModeContract(offer.gameMode);
+    if (!contract) {
+      errors.push(`Unit game offer ${offer.offerId || "(unnamed)"} uses an unsupported game mode.`);
+      continue;
+    }
+
+    if (offer.family !== contract.family) {
+      errors.push(`Unit game offer ${offer.offerId} must use family ${contract.family}; found ${offer.family}.`);
+    }
+    if (offer.engineId !== contract.engineId) {
+      errors.push(`Unit game offer ${offer.offerId} must use engine ${contract.engineId}; found ${offer.engineId}.`);
+    }
+    if (!offer.unitKey || !offer.unitKey.startsWith(`${map.tenantId}:`)) {
+      errors.push(`Unit game offer ${offer.offerId} must remain scoped to tenant ${map.tenantId}.`);
+    }
+    if (offer.readiness === "ready" && !offer.launchRoute) {
+      errors.push(`Ready unit game offer ${offer.offerId} must include a launch route.`);
+    }
+    if (!offer.audioRequirement.trim() || !offer.reportingRequirement.trim() || !offer.nextStep.trim()) {
+      errors.push(`Unit game offer ${offer.offerId} must declare audio, reporting, and next-step requirements.`);
+    }
+  }
+
+  return errors;
+}
 
 export function findSampleUnitGameOfferMap(contentPackageId: string): UnitGameOfferMap | undefined {
   return sampleUnitGameOfferMaps.find((map) => map.contentPackageId === contentPackageId);

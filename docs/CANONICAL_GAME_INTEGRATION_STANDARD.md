@@ -33,6 +33,11 @@ game component. This prevents direct URLs, Phaser wrappers, and future route
 aliases from producing game-start or completion evidence before the teacher
 QR -> flashcard entry step has succeeded. See ADR 0672 and DR-744.
 
+Curated unit game offers must also agree with the shared game-mode contract.
+Offer maps are reviewed for tenant scope, unique mode identity, parent family,
+parent engine, ready-route presence, and audio/reporting requirements before
+they are treated as clean package evidence. See ADR 0673 and DR-745.
+
 The playable route shell treats the shared event validator as an acceptance
 gate. If completion evidence is missing or invalid, the route reports the
 contract errors and pauses progression, Star Dust, and next-activity state.

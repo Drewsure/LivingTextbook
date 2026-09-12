@@ -1,4 +1,5 @@
 import { Card, StatusPill } from "@living-textbook/ui";
+import { validateUnitGameOfferMap } from "@/data/sampleUnitGameOfferMap";
 import type {
   UnitGameOffer,
   UnitGameOfferAvailability,
@@ -41,6 +42,7 @@ const readinessLabel: Record<UnitGameOfferReadiness, string> = {
 };
 
 export function UnitGameOfferMapPanel({ map }: UnitGameOfferMapPanelProps) {
+  const mapErrors = validateUnitGameOfferMap(map);
   const requiredCount = map.offers.filter((offer) => offer.availability === "required").length;
   const premiumCount = map.offers.filter((offer) => offer.availability === "premium").length;
   const blockedCount = map.offers.filter((offer) => offer.readiness === "blocked").length;
@@ -57,8 +59,20 @@ export function UnitGameOfferMapPanel({ map }: UnitGameOfferMapPanelProps) {
           </p>
           <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">{map.summary}</p>
         </div>
-        <StatusPill label={`${map.offers.length} offers`} tone="success" />
+        <div className="flex flex-wrap gap-2">
+          <StatusPill label={`${map.offers.length} offers`} tone="success" />
+          <StatusPill label={mapErrors.length === 0 ? "Map valid" : "Needs review"} tone={mapErrors.length === 0 ? "success" : "warning"} />
+        </div>
       </div>
+
+      {mapErrors.length > 0 ? (
+        <aside className="mt-4 rounded-lg border border-amber-300 bg-amber-50 p-4 text-sm text-amber-950" aria-live="polite">
+          <p className="font-bold">Offer map needs review</p>
+          <ul className="mt-2 grid gap-1">
+            {mapErrors.map((error, index) => <li key={`${map.mapId}-offer-map-error-${index}`}>{error}</li>)}
+          </ul>
+        </aside>
+      ) : null}
 
       <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
         <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Decision rule</p>

@@ -1671,3 +1671,9 @@ locked routes remain inspectable but do not mount the game component or emit
 start, answer, mastery, or completion evidence. This restores the QR ->
 flashcard -> curated activity boundary and applies to future Phaser wrappers.
 See ADR 0672 and DR-744.
+
+Curated unit game offer maps now validate their engine and family bindings
+against the shared game-mode contract. The sample Flashcards offer was
+corrected to the selection parent engine, and review surfaces show map-valid
+or needs-review status. This catches package drift before route or student
+assignment work. See ADR 0673 and DR-745.

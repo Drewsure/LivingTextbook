@@ -135,6 +135,9 @@ requireText(
   "Support language does not unlock progress",
   "Unit game offer map must preserve target-language progress trigger.",
 );
+requireText(offerMap, "validateUnitGameOfferMap", "Unit game offer map must expose shared engine and scope validation.");
+requireText(offerMap, "sampleUnitGameOfferMapErrors", "Unit game offer map must expose validation errors for review surfaces.");
+requireText(offerMap, 'engineId: "selection"', "Flashcard offer must remain bound to the selection parent engine.");
 requireText(
   offerMap,
   "Japanese/support-language-only completion",
