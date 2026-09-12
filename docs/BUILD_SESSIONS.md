@@ -975,6 +975,8 @@ The assignment runtime flag integrity slice now applies strict booleans to teach
 
 The launch runtime flag integrity slice now applies strict booleans to teacher, package, assignment, QR review/readiness, fallback, school, roster, persistence, reporting, audio, support-language, learner-data, and student-launch fields. Stringified launch approvals or QR flags cannot influence classroom access or learner-data branches. No launch adapter, QR mutation, roster binding, or student activation was enabled.
 
+The asset runtime flag integrity slice now applies strict booleans to tenant storage, size-budget, target mapping, release, learner-media, learner-upload, and student-facing-use fields. Stringified asset approvals or safety flags cannot influence future upload, promotion, binding, or export branches. No asset adapter, storage write, media transform, or student-facing asset activation was enabled.
+
 The audio cue identity integrity slice now rejects duplicate cue IDs inside a package before plan resolution. This prevents ambiguous target-language audio selection across games, controls, and teacher previews.
 
 The media asset metadata integrity slice now rejects empty asset IDs/titles and invalid negative or non-finite durations while preserving separate tenant, rights, scan, checksum, storage, and release gates for future uploads.

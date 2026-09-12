@@ -7,6 +7,7 @@ for (const marker of [
   "AssetRuntimeRequest",
   "AssetRuntimeAdapter",
   "validateAssetRuntimeRequest",
+  "must be a boolean",
   "createReviewOnlyAssetRuntimeAdapter",
   "asset scan must pass before review or promotion",
   "media or source rights status cannot be unknown",

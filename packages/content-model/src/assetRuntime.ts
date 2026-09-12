@@ -56,32 +56,52 @@ export const reviewOnlyAssetBlockedActions = [
 export function validateAssetRuntimeRequest(request: AssetRuntimeRequest): string[] {
   const errors: string[] = [];
 
+  for (const field of [
+    "targetMappingReviewed",
+    "storagePolicyAccepted",
+    "releaseApproved",
+    "sizeBudgetAccepted",
+    "containsLearnerMedia",
+    "learnerUpload",
+    "studentFacingUseRequested",
+  ] as const) {
+    if (typeof request[field] !== "boolean") errors.push(`${field} must be a boolean`);
+  }
+
+  const targetMappingReviewed = request.targetMappingReviewed === true;
+  const storagePolicyAccepted = request.storagePolicyAccepted === true;
+  const releaseApproved = request.releaseApproved === true;
+  const sizeBudgetAccepted = request.sizeBudgetAccepted === true;
+  const containsLearnerMedia = request.containsLearnerMedia === true;
+  const learnerUpload = request.learnerUpload === true;
+  const studentFacingUseRequested = request.studentFacingUseRequested === true;
+
   if (!request.tenantId.trim()) errors.push("tenantId is required");
   if (!request.assetId.trim()) errors.push("assetId is required");
   if (!request.kind.trim()) errors.push("asset kind is required");
   if (!request.mimeType.trim()) errors.push("MIME type is required");
   if (!request.checksum.trim()) errors.push("asset checksum is required");
   if (!Number.isFinite(request.sizeBytes) || request.sizeBytes <= 0) errors.push("asset size must be a positive number");
-  if (!request.storagePolicyAccepted) errors.push("accepted tenant or school storage policy is required");
-  if (!request.sizeBudgetAccepted) errors.push("asset size budget review is required");
+  if (!storagePolicyAccepted) errors.push("accepted tenant or school storage policy is required");
+  if (!sizeBudgetAccepted) errors.push("asset size budget review is required");
   if (request.scanStatus !== "passed") errors.push("asset scan must pass before review or promotion");
   if (request.rightsStatus === "unknown") errors.push("media or source rights status cannot be unknown");
   if (request.sourceReviewStatus === "unreviewed" || request.sourceReviewStatus === "rejected") {
     errors.push("source review must be reviewed or approved");
   }
-  if (request.containsLearnerMedia) errors.push("learner-recorded media is excluded from the core asset runtime");
-  if (request.learnerUpload) errors.push("learner uploads are excluded from the core asset runtime");
+  if (containsLearnerMedia) errors.push("learner-recorded media is excluded from the core asset runtime");
+  if (learnerUpload) errors.push("learner uploads are excluded from the core asset runtime");
 
   if (["promote", "bind", "export"].includes(request.operation)) {
-    if (!request.targetMappingReviewed) errors.push("target unit or game mapping review is required before asset promotion");
+    if (!targetMappingReviewed) errors.push("target unit or game mapping review is required before asset promotion");
     if (request.sourceReviewStatus !== "approved") errors.push("asset promotion requires approved source review");
-    if (!request.releaseApproved) errors.push("release approval is required before asset promotion, binding, or export");
+    if (!releaseApproved) errors.push("release approval is required before asset promotion, binding, or export");
   }
 
-  if (request.studentFacingUseRequested) {
+  if (studentFacingUseRequested) {
     if (request.operation !== "promote") errors.push("student-facing asset use requires the promote operation");
-    if (!request.targetMappingReviewed) errors.push("student-facing asset use requires reviewed target mapping");
-    if (!request.releaseApproved) errors.push("student-facing asset use requires release approval");
+    if (!targetMappingReviewed) errors.push("student-facing asset use requires reviewed target mapping");
+    if (!releaseApproved) errors.push("student-facing asset use requires release approval");
   }
 
   return [...new Set(errors)];

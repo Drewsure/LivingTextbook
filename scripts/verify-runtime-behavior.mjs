@@ -265,15 +265,29 @@ try {
   });
   assertIncludes(entitlementErrors, "AI Tutor requires premium or enterprise entitlement");
 
-  const assetErrors = asset.validateAssetRuntimeRequest({
+  const assetRequest = {
     tenantId: "tenant-1", assetId: "asset-1", unitKey: "unit-1", operation: "promote",
     kind: "audio", mimeType: "audio/mpeg", sizeBytes: 1000, checksum: "checksum-1",
     scanStatus: "passed", rightsStatus: "owned", sourceReviewStatus: "approved",
     targetMappingReviewed: true, storagePolicyAccepted: true, releaseApproved: true,
     sizeBudgetAccepted: true, containsLearnerMedia: true, learnerUpload: false,
     studentFacingUseRequested: true,
-  });
+  };
+  const assetErrors = asset.validateAssetRuntimeRequest(assetRequest);
   assertIncludes(assetErrors, "learner-recorded media is excluded from the core asset runtime");
+
+  const malformedAssetFlagErrors = asset.validateAssetRuntimeRequest({
+    ...assetRequest,
+    targetMappingReviewed: "true",
+    storagePolicyAccepted: "true",
+    releaseApproved: "true",
+    sizeBudgetAccepted: "true",
+    containsLearnerMedia: "false",
+    learnerUpload: "false",
+    studentFacingUseRequested: "false",
+  });
+  assertIncludes(malformedAssetFlagErrors, "targetMappingReviewed must be a boolean");
+  assertIncludes(malformedAssetFlagErrors, "studentFacingUseRequested must be a boolean");
   assertEqual(asset.createReviewOnlyAssetRuntimeAdapter().execute({
     tenantId: "tenant-1", assetId: "asset-1", operation: "intake", kind: "image",
     mimeType: "image/png", sizeBytes: 1000, checksum: "checksum-1", scanStatus: "pending",
