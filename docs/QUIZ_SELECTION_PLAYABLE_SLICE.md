@@ -17,6 +17,11 @@ Quiz is the first playable selection parent-engine slice. It proves selected-res
   - `mastery_updated`
   - `game_completed`
 - Uses `selection-assessment-v1` scoring.
+- Emits canonical `game_started` evidence with a deterministic replay seed.
+- Records shared audio-request events for instructions, prompts, answer choices,
+  and feedback.
+- Carries tenant, launch, unit, student-session, score, and replay identity
+  through the shared canonical route shell.
 - Updates local progression and session summary after completion.
 - Exposes Quiz as a ready optional game in the sample unit game offer map.
 

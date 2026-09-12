@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Card, StatusPill } from "@living-textbook/ui";
+import { createCanonicalGameReplaySeed } from "@living-textbook/content-model";
 import type {
   AudioCue,
   GameProgressEvent,
@@ -13,7 +14,9 @@ import { AudioCueButton, AudioCueText, playAudioCueText } from "@/features/audio
 import { AudioSupportedAction } from "@/features/audio/AudioSupportedAction";
 import {
   completeGameMode,
+  createAudioRequestedEvent,
   createGameInteractionEvent,
+  startUnlockedGameMode,
   type GameModeCompletionResult,
 } from "@/features/progression/localProgressionAdapter";
 import { calculateAccuracyBonusDust, getGameScoringProfileForMode } from "../scoringProfiles";
@@ -40,6 +43,9 @@ export function QuizPracticeGame({
 }: QuizPracticeGameProps) {
   const preview = useMemo(() => buildSelectionEnginePreview(unit), [unit]);
   const scoringProfile = getGameScoringProfileForMode(gameMode);
+  const replaySeed = createCanonicalGameReplaySeed({ unitKey: launchSession.unitKey, gameMode });
+  const targetLanguage = unit.unitMeta.textbookReference?.language ?? "en";
+  const startSentRef = useRef(false);
   const [roundIndex, setRoundIndex] = useState(0);
   const [selectedOptionId, setSelectedOptionId] = useState<string | undefined>();
   const [completedRoundIds, setCompletedRoundIds] = useState<string[]>([]);
@@ -51,6 +57,25 @@ export function QuizPracticeGame({
   const completed = completedRoundIds.length === preview.rounds.length;
 
   useEffect(() => {
+    if (startSentRef.current) {
+      return;
+    }
+
+    const event = startUnlockedGameMode({
+      progression,
+      launchSession,
+      gameMode,
+      occurredAt: new Date().toISOString(),
+      replaySeed,
+    });
+
+    if (event) {
+      startSentRef.current = true;
+      onEvent?.(event);
+    }
+  }, [launchSession, onEvent, progression, replaySeed]);
+
+  useEffect(() => {
     if (!currentRound || completed) {
       return;
     }
@@ -59,9 +84,30 @@ export function QuizPracticeGame({
       roundId: currentRound.roundId,
       skillFocus: currentRound.skillFocus,
       optionCount: currentRound.options.length,
+      replaySeed,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentRound?.roundId]);
+
+  function emitAudioRequested(
+    cueKind: "term" | "sentence" | "instruction" | "feedback",
+    cueText: string,
+    language: string,
+    source: string,
+  ) {
+    onEvent?.(
+      createAudioRequestedEvent({
+        progression,
+        launchSession,
+        gameMode,
+        occurredAt: new Date().toISOString(),
+        cueKind,
+        cueText,
+        language,
+        source,
+      }),
+    );
+  }
 
   function emitInteractionEvent(
     type: "round_shown" | "answer_submitted" | "answer_result" | "mastery_updated",
@@ -87,7 +133,11 @@ export function QuizPracticeGame({
     }
 
     setSelectedOptionId(optionId);
-    playAudioCueText({ text: findAudioText(audioCues, option.audioText), language: "en" });
+    const cueKind = currentRound.skillFocus === "syntax" ? "sentence" : "term";
+    const cue = findAudioCue(audioCues, cueKind, option.audioText);
+    const audioText = cue?.text ?? option.audioText;
+    emitAudioRequested(cueKind, audioText, cue?.language ?? targetLanguage, "quiz-option");
+    playAudioCueText({ text: audioText, language: cue?.language ?? targetLanguage });
   }
 
   function handleSubmit() {
@@ -110,12 +160,14 @@ export function QuizPracticeGame({
       selectedLabel: selectedOption?.label ?? "",
       attempts: nextAttempts,
       targetLanguageAttempt: true,
+      replaySeed,
     });
     emitInteractionEvent("answer_result", {
       roundId: currentRound.roundId,
       correct,
       correctOptionId: currentRound.correctOptionId,
       completedRounds: nextCompletedRoundIds.length,
+      replaySeed,
     });
 
     if (nextCompletedRoundIds.length < preview.rounds.length) {
@@ -143,6 +195,7 @@ export function QuizPracticeGame({
           completedRounds: nextCompletedRoundIds.length,
           correctRounds: nextCorrectRoundIds.length,
           attempts: nextAttempts,
+          replaySeed,
         },
       });
 
@@ -153,6 +206,7 @@ export function QuizPracticeGame({
         completedRounds: nextCompletedRoundIds.length,
         correctRounds: nextCorrectRoundIds.length,
         scoringProfileId: "selection-assessment-v1",
+        replaySeed,
       });
       setCompletionSent(true);
       onComplete(result);
@@ -182,9 +236,17 @@ export function QuizPracticeGame({
           <p className="mt-1 text-sm leading-6 text-[var(--tenant-muted)]">
             <AudioCueText
               text="Listen to the prompt. Tap an answer choice to hear it, then submit."
-              language="en"
+              language={targetLanguage}
               label="Tap the quiz instruction to hear it"
               className="text-sm"
+              onPlay={() =>
+                emitAudioRequested(
+                  "instruction",
+                  "Listen to the prompt. Tap an answer choice to hear it, then submit.",
+                  targetLanguage,
+                  "quiz-instruction",
+                )
+              }
             />
           </p>
         </div>
@@ -205,13 +267,33 @@ export function QuizPracticeGame({
             <p className="mt-1 text-sm font-bold text-[var(--tenant-text)]">
               <AudioCueText
                 text={currentRound.promptAudioText}
-                language="en"
+                language={targetLanguage}
                 label="Tap the quiz prompt to hear it"
                 className="text-sm font-bold"
+                onPlay={() =>
+                  emitAudioRequested(
+                    currentRound.skillFocus === "syntax" ? "sentence" : "term",
+                    currentRound.promptAudioText,
+                    targetLanguage,
+                    "quiz-prompt",
+                  )
+                }
               />
             </p>
           </div>
-          <AudioCueButton text={currentRound.promptAudioText} language="en" label="Listen to the question prompt" />
+          <AudioCueButton
+            text={currentRound.promptAudioText}
+            language={targetLanguage}
+            label="Listen to the question prompt"
+            onPlay={() =>
+              emitAudioRequested(
+                currentRound.skillFocus === "syntax" ? "sentence" : "term",
+                currentRound.promptAudioText,
+                targetLanguage,
+                "quiz-prompt-replay",
+              )
+            }
+          />
         </div>
       </section>
 
@@ -238,7 +320,13 @@ export function QuizPracticeGame({
 
       <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
         <p className="text-sm font-semibold text-[var(--tenant-text)]">
-          <AudioCueText text={feedback} language="en" label="Tap the quiz feedback to hear it" className="text-sm font-semibold" />
+          <AudioCueText
+            text={feedback}
+            language={targetLanguage}
+            label="Tap the quiz feedback to hear it"
+            className="text-sm font-semibold"
+            onPlay={() => emitAudioRequested("feedback", feedback, targetLanguage, "quiz-feedback")}
+          />
         </p>
         <AudioSupportedAction
           audioText="Submit answer"
@@ -261,6 +349,6 @@ function QuizFact({ label, value }: { label: string; value: string }) {
   );
 }
 
-function findAudioText(audioCues: AudioCue[], label: string): string {
-  return audioCues.find((cue) => cue.text.trim().toLowerCase() === label.trim().toLowerCase())?.text ?? label;
+function findAudioCue(audioCues: AudioCue[], kind: AudioCue["kind"], label: string): AudioCue | undefined {
+  return audioCues.find((cue) => cue.kind === kind && cue.text.trim().toLowerCase() === label.trim().toLowerCase());
 }
