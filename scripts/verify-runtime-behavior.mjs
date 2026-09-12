@@ -237,6 +237,11 @@ try {
     "flashcards",
   ).errors;
   assertIncludes(missingCanonicalReplayErrors, "Canonical game event answer_result must carry replay-v1 evidence.");
+  const missingCanonicalAudioErrors = canonicalGame.validateCanonicalGameEventSequence(
+    canonicalEvents.filter((event) => event.type !== "audio_requested"),
+    "flashcards",
+  ).errors;
+  assertIncludes(missingCanonicalAudioErrors, "Canonical game event sequence must include audio_requested evidence.");
   const lateAnswerEvents = [
     ...canonicalEvents.slice(0, 6),
     { ...canonicalEvents[2], type: "answer_submitted", metadata: { tenantId: "tenant-1", replaySeed: canonicalReplaySeed, late: true } },

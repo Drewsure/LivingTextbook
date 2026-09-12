@@ -16,6 +16,8 @@ Every canonical game route must:
 - start only through `startUnlockedGameMode`;
 - emit `game_started`, `round_shown`, `answer_submitted`, `answer_result`,
   `mastery_updated`, and `game_completed` in the required order;
+- emit at least one `audio_requested` event during every accepted game attempt;
+  the event is support evidence only and must never award progress by itself;
 - send learning audio through `createAudioRequestedEvent` without granting
   mastery, unlocking, or Star Dust by listening alone;
 - carry a deterministic `replay-v1` seed on game, audio, interaction, mastery,

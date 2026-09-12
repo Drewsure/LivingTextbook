@@ -1737,3 +1737,10 @@ The unit-cap source of truth now lives in the shared content-model economy
 policy. Web progression adapters, canonical event validation, continuity
 validation, and AI gamification mapping validation consume the same constant,
 preventing platform layers from drifting on the published capacity.
+
+The canonical game event gate now requires at least one `audio_requested`
+event in every accepted game attempt. All current canonical slices already
+emit audio through the shared adapter, while missing audio evidence now pauses
+completion and Star Dust for future DOM, canvas, or Phaser wrappers. Audio
+remains support-only and cannot unlock progress or replace answer activity.
+This is recorded in ADR 0682 and DR-754.

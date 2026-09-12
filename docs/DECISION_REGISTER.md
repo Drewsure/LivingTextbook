@@ -4106,3 +4106,11 @@ The application completion adapters now enforce the published 1,000 Star Dust
 maximum per unit. Each completion event records only the remaining accepted
 award, preserving deterministic scoring, continuity snapshot validity, teacher
 report accuracy, and future overflow-ticket calculations. See ADR 0681.
+
+# DR-754: Canonical Game Audio Evidence Gate
+
+The shared canonical game validator now requires at least one
+`audio_requested` event in every accepted game attempt. Audio remains
+support-only and cannot unlock progress, grant mastery, award Star Dust, or
+replace answer activity. See ADR 0682 and
+`docs/decision-register/DR-754-canonical-game-audio-evidence-gate.md`.

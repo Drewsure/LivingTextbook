@@ -61,6 +61,10 @@ export function validateCanonicalGameEventSequence(
     errors.push("Canonical game event sequence must include answer_result.");
   }
 
+  if (!events.some((event) => event.type === "audio_requested")) {
+    errors.push("Canonical game event sequence must include audio_requested evidence.");
+  }
+
   if (!events.some((event) => event.type === "mastery_updated")) {
     errors.push("Canonical game event sequence must include mastery_updated.");
   }

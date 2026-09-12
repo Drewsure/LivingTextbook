@@ -765,3 +765,25 @@ Procedure:
 
 Why this matters: One policy source protects white-label consistency while
 keeping tenant reward presentation configurable.
+
+## OW-035: Canonical Game Audio Evidence
+
+Status: Active
+
+Observed behavior: A game component can contain audio controls and still fail
+to leave runtime evidence if a wrapper forgets to route a request through the
+shared event adapter.
+
+Procedure:
+
+1. Route learner-facing game audio through `createAudioRequestedEvent`.
+2. Ensure the attempt emits at least one `audio_requested` event before
+   completion; the event must carry replay and tenant evidence.
+3. Keep audio support-only: it cannot unlock a mode, grant mastery, award Star
+   Dust, or replace answer activity.
+4. Run `npm run verify:canonical-games`,
+   `npm run verify:runtime-behavior`, and the web typecheck after changing a
+   game wrapper or audio pathway.
+
+Why this matters: Runtime evidence makes the all-games audio requirement a
+real platform boundary instead of a best-effort component convention.

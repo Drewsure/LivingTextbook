@@ -301,6 +301,7 @@ for (const fragment of [
   "Canonical game event sequence must place all answer activity before mastery_updated.",
   "Canonical game event sequence must place all answer activity before game_completed.",
   "Canonical game event sequence must be chronological by occurredAt.",
+  "Canonical game event sequence must include audio_requested evidence.",
   "Canonical game contract needs review",
   "Completion is paused until the event evidence is valid.",
   "if (!replay.valid)",

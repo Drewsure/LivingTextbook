@@ -1854,4 +1854,18 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-644 and `docs/adr/05
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-645 and `docs/adr/0573-codex-decision-evidence-provenance.md`.
 
+## 116. Canonical Game Audio Evidence Standard
+
+- Every accepted canonical game attempt must emit at least one
+  `audio_requested` event before completion.
+- Audio evidence must use the shared adapter and preserve replay, tenant, and
+  learner identity fields.
+- Audio remains support-only: listening cannot unlock a game, grant mastery,
+  award Star Dust, or replace answer activity.
+- Missing audio evidence blocks completion at the shared canonical gate for
+  DOM, canvas, Phaser, and future game wrappers.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-754 and
+`docs/adr/0682-canonical-game-audio-evidence-gate.md`.
+
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-615 and `docs/adr/0543-progress-event-timestamps.md`.
