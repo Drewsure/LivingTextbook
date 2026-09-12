@@ -696,6 +696,25 @@ try {
   const assignmentErrors = assignment.validateAssignmentRuntimeRequest(assignmentRequest);
   assertIncludes(assignmentErrors, "support language progress must remain disabled");
   assertEqual(assignment.createReviewOnlyAssignmentRuntimeAdapter().execute(assignmentRequest).sideEffect, "none");
+  const malformedAssignmentFlagErrors = assignment.validateAssignmentRuntimeRequest({
+    ...assignmentRequest,
+    teacherRoleVerified: "true",
+    packageRuntimeApproved: "true",
+    launchRuntimeApproved: "true",
+    privateLinkPolicyAccepted: "true",
+    rosterPolicyAccepted: "true",
+    persistenceReady: "true",
+    reportingPolicyAccepted: "true",
+    targetLanguageAudioReady: "true",
+    supportLanguageProgressAllowed: "false",
+    mediaOnlyProgressAllowed: "false",
+    studentFacingUseRequested: "false",
+    privateLinkActivationRequested: "false",
+    assignmentWriteRequested: "false",
+  });
+  assertIncludes(malformedAssignmentFlagErrors, "teacherRoleVerified must be a boolean");
+  assertIncludes(malformedAssignmentFlagErrors, "targetLanguageAudioReady must be a boolean");
+  assertIncludes(malformedAssignmentFlagErrors, "assignmentWriteRequested must be a boolean");
 
   const persistenceRequest = {
     operation: "write", tenantId: "tenant-1", recordId: "record-1", category: "student-progress",

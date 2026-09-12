@@ -8,6 +8,7 @@ for (const marker of [
   "AssignmentRuntimeAdapter",
   "validateAssignmentRuntimeRequest",
   "createReviewOnlyAssignmentRuntimeAdapter",
+  "must be a boolean",
   "teacher role verification is required",
   "content package runtime approval is required",
   "classroom launch runtime approval is required",

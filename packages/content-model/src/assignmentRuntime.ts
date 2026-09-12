@@ -52,42 +52,73 @@ export const reviewOnlyAssignmentBlockedActions = [
 export function validateAssignmentRuntimeRequest(request: AssignmentRuntimeRequest): string[] {
   const errors: string[] = [];
   const plan = request.assignmentPlan;
+  const booleanFields = [
+    ["teacherRoleVerified", request.teacherRoleVerified],
+    ["packageRuntimeApproved", request.packageRuntimeApproved],
+    ["launchRuntimeApproved", request.launchRuntimeApproved],
+    ["privateLinkPolicyAccepted", request.privateLinkPolicyAccepted],
+    ["rosterPolicyAccepted", request.rosterPolicyAccepted],
+    ["persistenceReady", request.persistenceReady],
+    ["reportingPolicyAccepted", request.reportingPolicyAccepted],
+    ["targetLanguageAudioReady", request.targetLanguageAudioReady],
+    ["supportLanguageProgressAllowed", request.supportLanguageProgressAllowed],
+    ["mediaOnlyProgressAllowed", request.mediaOnlyProgressAllowed],
+    ["studentFacingUseRequested", request.studentFacingUseRequested],
+    ["privateLinkActivationRequested", request.privateLinkActivationRequested],
+    ["assignmentWriteRequested", request.assignmentWriteRequested],
+  ] as const;
+  for (const [label, value] of booleanFields) {
+    if (typeof value !== "boolean") errors.push(`${label} must be a boolean`);
+  }
+  const teacherRoleVerified = request.teacherRoleVerified === true;
+  const packageRuntimeApproved = request.packageRuntimeApproved === true;
+  const launchRuntimeApproved = request.launchRuntimeApproved === true;
+  const privateLinkPolicyAccepted = request.privateLinkPolicyAccepted === true;
+  const rosterPolicyAccepted = request.rosterPolicyAccepted === true;
+  const persistenceReady = request.persistenceReady === true;
+  const reportingPolicyAccepted = request.reportingPolicyAccepted === true;
+  const targetLanguageAudioReady = request.targetLanguageAudioReady === true;
+  const supportLanguageProgressAllowed = request.supportLanguageProgressAllowed === true;
+  const mediaOnlyProgressAllowed = request.mediaOnlyProgressAllowed === true;
+  const studentFacingUseRequested = request.studentFacingUseRequested === true;
+  const privateLinkActivationRequested = request.privateLinkActivationRequested === true;
+  const assignmentWriteRequested = request.assignmentWriteRequested === true;
 
   if (!request.tenantId.trim()) errors.push("tenantId is required");
   if (plan.tenantId !== request.tenantId) errors.push("assignment tenant must match runtime tenantId");
-  if (!request.teacherRoleVerified) errors.push("teacher role verification is required");
-  if (!request.packageRuntimeApproved) errors.push("content package runtime approval is required");
-  if (!request.launchRuntimeApproved) errors.push("classroom launch runtime approval is required");
-  if (!request.privateLinkPolicyAccepted) errors.push("accepted private assignment link policy is required");
-  if (!request.rosterPolicyAccepted) errors.push("accepted roster and learner identity policy is required");
-  if (!request.persistenceReady) errors.push("assignment and progress persistence readiness is required");
-  if (!request.reportingPolicyAccepted) errors.push("accepted teacher reporting policy is required");
-  if (!request.targetLanguageAudioReady) errors.push("target-language audio readiness is required");
-  if (request.supportLanguageProgressAllowed) errors.push("support language progress must remain disabled");
-  if (request.mediaOnlyProgressAllowed) errors.push("media-only progress must remain disabled");
+  if (!teacherRoleVerified) errors.push("teacher role verification is required");
+  if (!packageRuntimeApproved) errors.push("content package runtime approval is required");
+  if (!launchRuntimeApproved) errors.push("classroom launch runtime approval is required");
+  if (!privateLinkPolicyAccepted) errors.push("accepted private assignment link policy is required");
+  if (!rosterPolicyAccepted) errors.push("accepted roster and learner identity policy is required");
+  if (!persistenceReady) errors.push("assignment and progress persistence readiness is required");
+  if (!reportingPolicyAccepted) errors.push("accepted teacher reporting policy is required");
+  if (!targetLanguageAudioReady) errors.push("target-language audio readiness is required");
+  if (supportLanguageProgressAllowed) errors.push("support language progress must remain disabled");
+  if (mediaOnlyProgressAllowed) errors.push("media-only progress must remain disabled");
 
   errors.push(...validateTeacherAssignmentPlan(plan));
 
-  if (request.studentFacingUseRequested) {
+  if (studentFacingUseRequested) {
     if (plan.readiness !== "ready-for-pilot") errors.push("student-facing assignment use requires ready-for-pilot assignment readiness");
     if (!plan.access.entryCodeRequired && plan.access.accessMode === "front-door-code") {
       errors.push("front-door assignments must require an entry code");
     }
-    if (plan.access.userCodeRequired && !request.rosterPolicyAccepted) {
+    if (plan.access.userCodeRequired && !rosterPolicyAccepted) {
       errors.push("user-code assignment access requires accepted roster policy");
     }
   }
 
-  if (request.privateLinkActivationRequested) {
+  if (privateLinkActivationRequested) {
     if (!plan.access.entryCodeRequired && !plan.access.stableQrReady) {
       errors.push("private assignment activation requires a reviewed entry code or stable QR path");
     }
-    if (!request.studentFacingUseRequested) errors.push("private link activation requires student-facing assignment use");
+    if (!studentFacingUseRequested) errors.push("private link activation requires student-facing assignment use");
   }
 
-  if (request.assignmentWriteRequested) {
-    if (!request.persistenceReady) errors.push("assignment writes require persistence readiness");
-    if (!request.reportingPolicyAccepted) errors.push("assignment writes require reporting policy");
+  if (assignmentWriteRequested) {
+    if (!persistenceReady) errors.push("assignment writes require persistence readiness");
+    if (!reportingPolicyAccepted) errors.push("assignment writes require reporting policy");
   }
 
   return [...new Set(errors)];

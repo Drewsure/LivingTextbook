@@ -971,6 +971,8 @@ The persistence runtime flag integrity slice now applies strict booleans to stud
 
 The teacher-report runtime flag integrity slice now applies strict booleans to teacher role, policy, persistence, export, release, raw-audio, and transcript fields. Stringified report approvals or privacy exclusions cannot influence evidence interpretation or export branches. No report adapter or learner-data export was enabled.
 
+The assignment runtime flag integrity slice now applies strict booleans to teacher, package, launch, link-policy, roster, persistence, reporting, audio, support-language, student-use, private-link, and write fields. Stringified assignment approvals or activation flags cannot influence classroom access, progress, roster, or assignment-write branches. No assignment adapter or live link was enabled.
+
 The audio cue identity integrity slice now rejects duplicate cue IDs inside a package before plan resolution. This prevents ambiguous target-language audio selection across games, controls, and teacher previews.
 
 The media asset metadata integrity slice now rejects empty asset IDs/titles and invalid negative or non-finite durations while preserving separate tenant, rights, scan, checksum, storage, and release gates for future uploads.
