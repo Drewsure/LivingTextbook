@@ -1455,6 +1455,13 @@ enabled. The decision is recorded in
 `docs/adr/0614-backend-spec-target-entities.md` and
 `docs/decision-register/DR-686-backend-spec-target-entities.md`.
 
+The backend explicit-target gate now requires actionable specs under
+multi-entity candidates to declare their own materialization targets. Deferred
+local export candidates remain deferred without specs. No adapter or storage
+write path was enabled. The decision is recorded in
+`docs/adr/0615-backend-explicit-multi-entity-spec-targets.md` and
+`docs/decision-register/DR-687-backend-explicit-multi-entity-spec-targets.md`.
+
 The migration candidate coverage slice now requires every non-deferred
 candidate to have at least one migration specification, while deferred
 candidates must not carry implementation specs. The decision is recorded in

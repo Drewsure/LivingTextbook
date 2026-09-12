@@ -279,6 +279,11 @@ export function validateBackendContractAlignment({
     }
 
     const specTargetEntities = spec.targetEntities ?? candidate?.targetEntities ?? [];
+    if (candidate && candidate.targetEntities.length > 1 && !spec.targetEntities) {
+      errors.push(
+        `Backend migration spec ${spec.specId} must declare explicit target entities because candidate ${candidate.migrationId} spans multiple schema entities.`,
+      );
+    }
     if (spec.targetEntities) {
       if (spec.targetEntities.length === 0) {
         errors.push(`Backend migration spec ${spec.specId} must not declare an empty target entity list.`);

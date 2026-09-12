@@ -3990,6 +3990,7 @@ requireText(backendContractAlignment, "unsupported field type", "Backend alignme
 requireText(backendContractAlignment, "must be compatible with target schema type", "Backend alignment must reject incompatible migration field types.");
 requireText(backendContractAlignment, "must remain required because its target schema field is required", "Backend alignment must preserve required-field parity.");
 requireText(backendContractAlignment, "is ambiguous across target schema entities", "Backend alignment must reject ambiguous explicitly scoped primary keys.");
+requireText(backendContractAlignment, "must declare explicit target entities because candidate", "Backend alignment must require explicit targets for multi-entity candidates.");
 requireText(backendSchemaDraftPanel, "Migration-only fields", "Backend schema panel must show migration-only fields.");
 requireText(migrationCandidates, "settings review packet", "Backend migration candidates must preserve teacher session settings review packets.");
 requireText(migrationSpecs, "settings_review_packet", "Backend migration specs must preserve teacher session settings review packets.");

@@ -566,6 +566,23 @@ try {
     throw new Error("Backend contract alignment did not reject an ambiguous explicitly scoped primary key.");
   }
 
+  const missingExplicitSpecTargets = {
+    ...migrationSpecPlan,
+    specs: migrationSpecPlan.specs.map((spec) =>
+      spec.specId === "spec-package-game-audio-coverage"
+        ? { ...spec, targetEntities: undefined }
+        : spec,
+    ),
+  };
+  const missingExplicitSpecTargetErrors = alignment.validateBackendContractAlignment({
+    schema,
+    migrationPlan,
+    migrationSpecPlan: missingExplicitSpecTargets,
+  });
+  if (!missingExplicitSpecTargetErrors.includes("Backend migration spec spec-package-game-audio-coverage must declare explicit target entities because candidate m002-package-release-and-content spans multiple schema entities.")) {
+    throw new Error("Backend contract alignment did not require explicit targets for a multi-entity candidate spec.");
+  }
+
   console.log("PASS backend contract alignment resolves all sample schema entities, migration candidates, and migration specs.");
 } finally {
   rmSync(output, { recursive: true, force: true });

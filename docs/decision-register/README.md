@@ -575,6 +575,7 @@
 - `DR-684-backend-migration-field-type-compatibility.md`
 - `DR-685-backend-required-field-parity.md`
 - `DR-686-backend-spec-target-entities.md`
+- `DR-687-backend-explicit-multi-entity-spec-targets.md`
 
 The prototype integration gate slice now feeds detailed wrapper, fixture,
 event, audio, mobile, scoring, and Codex-decision readiness records into the
@@ -629,6 +630,13 @@ requiredness, and primary-key checks use those explicit targets, while the
 candidate remains the implementation coverage boundary. The decision is
 recorded in `docs/adr/0614-backend-spec-target-entities.md` and
 `docs/decision-register/DR-686-backend-spec-target-entities.md`.
+
+The backend explicit-target gate now requires every actionable specification
+under a multi-entity candidate to declare its own materialization targets.
+Deferred candidates remain free of implementation specs until they are
+activated for design. The decision is recorded in
+`docs/adr/0615-backend-explicit-multi-entity-spec-targets.md` and
+`docs/decision-register/DR-687-backend-explicit-multi-entity-spec-targets.md`.
 
 ## Maintenance Rule
 
