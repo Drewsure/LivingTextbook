@@ -616,7 +616,7 @@ const prototypeReviewRouteExpected = [
   "Human handoff signal",
   "Current human action",
   "Not needed yet",
-  "No Z.ai source handoff requested yet",
+  "No direct Z.ai source import requested",
   "No Phaser import requested yet",
   "No archive upload requested yet",
   "No pull request requested yet",

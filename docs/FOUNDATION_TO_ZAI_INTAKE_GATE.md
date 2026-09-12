@@ -31,6 +31,23 @@ Z.ai may build one isolated candidate game at a time in
 - Phaser wrapper notes when the candidate uses Phaser.
 - A README describing dependencies, controls, asset rights, and known limits.
 
+## Frozen Candidate Snapshot Received
+
+The first candidate snapshot has now been identified for Codex review:
+
+- Repository: `Drewsure/ministar-lab`
+- Branch: `main`
+- Commit: `eb79ddf5940ab47cc3c45c119c67ee1b6b958e55`
+- Tag: `frozen-2026-09-12-aaa-stable`
+- AI server reference: `16625090e641179625e1d8bb5f60634bb2036e00`
+- Freeze verification: `157/157` feature checks passed
+- Candidate deployment: `https://ministar-lab.vercel.app`
+
+This proves source identity and reproducibility. It does not yet prove
+LivingTextbook wrapper compatibility, target-language audio coverage,
+standard-event replay, deterministic scoring ownership, mobile accessibility,
+or white-label tenant safety.
+
 ## What Remains Blocked
 
 - Direct file copy into `apps/web` or `apps/ai-service`.
@@ -48,7 +65,7 @@ plan. A returned package is evidence for review, not approval to integrate.
 
 ## Human-Side Action
 
-The owner may now direct Z.ai to prepare an isolated prototype package in
-`Drewsure/ministar-lab`. When that package is ready, provide its exact branch,
-commit or archive snapshot, fixture folder, replay reports, and README for
-Codex review. No other human intervention is required to open this phase.
+The owner has completed the source-freeze handoff. Codex may now inspect the
+identified snapshot and open the first candidate review. No other human
+intervention is required unless the review finds missing fixtures, replay
+reports, asset rights, or access to a specific candidate game.

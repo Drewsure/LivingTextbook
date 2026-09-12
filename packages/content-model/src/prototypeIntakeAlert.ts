@@ -62,11 +62,11 @@ export function validatePrototypeIntakeAlert(alert: unknown): string[] {
   if (status !== "not-ready" && status !== "ready-for-review" && status !== "blocked") {
     errors.push("Prototype intake alert must use a supported status.");
   }
-  if (!summary.includes("Codex will explicitly alert the user")) {
-    errors.push("Prototype intake alert summary must keep the Codex-owned handoff signal explicit.");
+  if (!summary.includes("frozen Z.ai snapshot has been received")) {
+    errors.push("Prototype intake alert summary must record the frozen Z.ai snapshot handoff.");
   }
-  if (!humanSignalRule.includes("only after the intake alert changes")) {
-    errors.push("Prototype intake alert human signal rule must keep handoff timing explicit.");
+  if (!humanSignalRule.includes("before issuing an integration green light")) {
+    errors.push("Prototype intake alert human signal rule must keep the integration decision gated.");
   }
   if (!currentHumanAction.includes("Drewsure/ministar-lab")) {
     errors.push("Prototype intake alert current human action must preserve isolated Z.ai repository scope.");

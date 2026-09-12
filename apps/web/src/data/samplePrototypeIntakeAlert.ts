@@ -28,13 +28,13 @@ export const samplePrototypeIntakeAlert: PrototypeIntakeAlert = {
   tenantId: "platform",
   status: derivePrototypeIntakeAlertDecision(samplePrototypeIntakeReadinessSummary),
   summary:
-    "Codex will explicitly alert the user when the LivingTextbook foundation is ready for controlled Z.ai game intake. Until then, Z.ai work remains external prototype inventory, not a source for direct app integration.",
+    "The LivingTextbook foundation gate is open and the frozen Z.ai snapshot has been received. Codex review is now open for the candidate, but the snapshot is not approved for direct app integration.",
   humanSignalRule:
-    "Human handoff signal: Codex will ask for specific Z.ai branches, archives, demo links, or fixture folders only after the intake alert changes from not-ready to ready-for-review.",
+    "Human handoff signal: the exact Z.ai branch, commit, tag, and verification record are now identified; Codex must complete evidence and wrapper review before issuing an integration green light.",
   currentHumanAction:
-    "Current human action: keep Z.ai builds isolated in Drewsure/ministar-lab and preserve their prompts, fixture JSON, screenshots, and notes for later review.",
+    "Current human action: preserve the frozen main branch and tag in Drewsure/ministar-lab; no source copy, route activation, or student assignment is needed while Codex reviews the candidate.",
   notNeededYet: [
-    "No Z.ai source handoff requested yet",
+    "No direct Z.ai source import requested",
     "No Phaser import requested yet",
     "No archive upload requested yet",
     "No pull request requested yet",

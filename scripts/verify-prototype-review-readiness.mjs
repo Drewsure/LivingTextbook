@@ -86,7 +86,7 @@ const routeVerifierMarkers = [
 ];
 const prototypeIntakeAlertMarkers = [
   "Z.ai prototype intake alert",
-  "Codex will explicitly alert the user",
+  "frozen Z.ai snapshot has been received",
   "Parent engine readiness is accepted for the target game family",
   "JSON fixture replay",
   "Standard event replay",
@@ -100,7 +100,7 @@ const prototypeIntakeAlertMarkers = [
   "Codex owns architecture",
   "Human handoff signal",
   "Current human action",
-  "No Z.ai source handoff requested yet",
+  "No direct Z.ai source import requested",
   "No Phaser import requested yet",
   "No archive upload requested yet",
   "No pull request requested yet",

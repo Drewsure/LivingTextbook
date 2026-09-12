@@ -1374,6 +1374,16 @@ candidates must not carry implementation specs. The decision is recorded in
 `docs/adr/0598-migration-candidate-spec-coverage.md` and
 `docs/decision-register/DR-670-migration-candidate-spec-coverage.md`.
 
+The Z.ai source-freeze handoff is now recorded. `Drewsure/ministar-lab` main
+commit `eb79ddf5940ab47cc3c45c119c67ee1b6b958e55`, tag
+`frozen-2026-09-12-aaa-stable`, and AI reference
+`16625090e641179625e1d8bb5f60634bb2036e00` are the reproducible candidate
+source for Codex review. The reported `157/157` checks establish freeze
+identity and candidate verification, but do not authorize direct integration.
+The alert now shows that the snapshot has been received while wrapper,
+schema, event, audio, scoring, mobile, rights, and white-label review remain
+required.
+
 The migration policy status slice now requires specs for needs-policy
 candidates to remain blocked-by-policy. The release-candidate sample is no
 longer presented as ready for review while its approval policy is unresolved.
