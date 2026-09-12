@@ -2685,6 +2685,7 @@ const routeFetchAttempts = 2;
 const routeFetchRetryDelayMs = 500;
 const routeFetchTimeoutMs = 20_000;
 const warmupFetchTimeoutMs = 60_000;
+const routeFetchRecoveryTimeoutMs = 60_000;
 const warmupPaths = [
   "/",
   "/teacher",
@@ -2714,10 +2715,25 @@ for (const url of warmupUrls) {
   warmupResults.push(await checkRoute(url, { timeoutMs: warmupFetchTimeoutMs, label: "WARM" }));
 }
 
-const results = [
-  ...warmupResults,
-  ...(await mapWithConcurrency(remainingUrls, routeFetchConcurrency, async (url) => checkRoute(url))),
-];
+const concurrentResults = await mapWithConcurrency(
+  remainingUrls,
+  routeFetchConcurrency,
+  async (url) => checkRoute(url),
+);
+
+for (let index = 0; index < concurrentResults.length; index += 1) {
+  const result = concurrentResults[index];
+  if (result.status === "error" && result.error?.includes("timed out")) {
+    console.log(`RECOVERY retrying timed-out route sequentially: ${new URL(result.url).pathname}`);
+    concurrentResults[index] = await checkRoute(result.url, {
+      attempts: 1,
+      timeoutMs: routeFetchRecoveryTimeoutMs,
+      label: "RECOVERY",
+    });
+  }
+}
+
+const results = [...warmupResults, ...concurrentResults];
 
 async function checkRoute(url, options = {}) {
   try {
