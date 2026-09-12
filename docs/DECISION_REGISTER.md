@@ -3935,3 +3935,10 @@ candidate to have at least one migration specification, while deferred
 candidates must not carry implementation specs. The decision is recorded in
 `docs/adr/0598-migration-candidate-spec-coverage.md` and
 `docs/decision-register/DR-670-migration-candidate-spec-coverage.md`.
+# DR-728: Canonical Replay Evidence Boundary
+
+The shared progression adapter now adds deterministic replay-v1 evidence to
+canonical interaction, audio-request, mastery, and completion events by
+default. This protects older game slices from incomplete QA evidence while
+preserving component-level seeds for deterministic layouts. No persistence,
+provider, reward, or Phaser promotion changed. See `docs/adr/0656-canonical-replay-evidence-boundary.md`.

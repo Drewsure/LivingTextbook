@@ -63,6 +63,7 @@ export function PairingMemoryMatchGame({
   const completedAlready = progression.completedGameModes.includes(gameMode);
   const instructionCue = findAudioCueForGame(audioCues, "instruction", gameMode);
   const feedbackCue = findAudioCueForGame(audioCues, "feedback", gameMode);
+  const targetLanguage = unit.unitMeta.textbookReference?.language ?? "en";
 
   useEffect(() => {
     if (startSentRef.current) {
@@ -81,7 +82,22 @@ export function PairingMemoryMatchGame({
       startSentRef.current = true;
       onEvent?.(event);
     }
-  }, [launchSession, onEvent, progression]);
+  }, [launchSession, onEvent, progression, replaySeed]);
+
+  function emitAudioRequested(cueKind: "term" | "instruction" | "feedback", cueText: string, language: string, source: string) {
+    onEvent?.(
+      createAudioRequestedEvent({
+        progression,
+        launchSession,
+        gameMode,
+        occurredAt: new Date().toISOString(),
+        cueKind,
+        cueText,
+        language,
+        source,
+      }),
+    );
+  }
 
   function emitInteractionEvent(
     type: "round_shown" | "answer_submitted" | "answer_result" | "mastery_updated",
@@ -101,19 +117,8 @@ export function PairingMemoryMatchGame({
 
   function handleCardSelect(card: PairingCard) {
     const audioCue = findAudioCue(audioCues, card.label);
-    onEvent?.(
-      createAudioRequestedEvent({
-        progression,
-        launchSession,
-        gameMode,
-        occurredAt: new Date().toISOString(),
-        cueKind: "term",
-        cueText: audioCue?.text ?? card.label,
-        language: audioCue?.language ?? "en",
-        source: "memory-match-card",
-      }),
-    );
-    playAudioCueText({ text: audioCue?.text ?? card.label, language: audioCue?.language ?? "en" });
+    emitAudioRequested("term", audioCue?.text ?? card.label, audioCue?.language ?? targetLanguage, "memory-match-card");
+    playAudioCueText({ text: audioCue?.text ?? card.label, language: audioCue?.language ?? targetLanguage });
 
     if (card.status === "matched" || engineState.completed) {
       return;
@@ -156,6 +161,7 @@ export function PairingMemoryMatchGame({
         secondCardKind: card.kind,
         secondCardLabel: card.label,
         attempts: outcome.state.attempts,
+        replaySeed,
       });
       emitInteractionEvent("answer_result", {
         firstCardId,
@@ -165,6 +171,7 @@ export function PairingMemoryMatchGame({
         attempts: outcome.state.attempts,
         matchedPairs: outcome.state.matchedPairIds.length,
         remainingPairs: Math.max(progress.totalPairs - outcome.state.matchedPairIds.length, 0),
+        replaySeed,
       });
     }
 
@@ -193,6 +200,7 @@ export function PairingMemoryMatchGame({
           attempts: outcome.state.attempts,
           parentEngine: mode?.engineId ?? unit.unitMeta.engineId,
           scoringProfileId: scoringProfile?.id ?? "none",
+          replaySeed,
         },
       });
 
@@ -225,9 +233,17 @@ export function PairingMemoryMatchGame({
           <p className="mt-1 text-sm text-[var(--tenant-muted)]">
             <AudioCueText
               text={instructionCue?.text ?? "Tap a card to hear it, then find its matching card. Matched cards stay open."}
-              language={instructionCue?.language ?? "en"}
+              language={instructionCue?.language ?? targetLanguage}
               label="Tap the Memory Match instruction to hear it"
               className="text-sm"
+              onPlay={() =>
+                emitAudioRequested(
+                  "instruction",
+                  instructionCue?.text ?? "Tap a card to hear it, then find its matching card. Matched cards stay open.",
+                  instructionCue?.language ?? targetLanguage,
+                  "memory-match-instruction",
+                )
+              }
             />
           </p>
         </div>
@@ -272,9 +288,17 @@ export function PairingMemoryMatchGame({
       <p className="mt-4 text-sm font-semibold text-[var(--tenant-text)]">
         <AudioCueText
           text={feedbackText}
-          language={(lastResult === "mismatched" ? feedbackCue?.language : instructionCue?.language) ?? "en"}
+          language={(lastResult === "mismatched" ? feedbackCue?.language : instructionCue?.language) ?? targetLanguage}
           label="Tap the Memory Match message to hear it"
           className="text-sm font-semibold"
+          onPlay={() =>
+            emitAudioRequested(
+              lastResult === "mismatched" ? "feedback" : "instruction",
+              feedbackText,
+              (lastResult === "mismatched" ? feedbackCue?.language : instructionCue?.language) ?? targetLanguage,
+              "memory-match-feedback",
+            )
+          }
         />
       </p>
     </Card>

@@ -156,6 +156,7 @@ export function createGameInteractionEvent(args: {
 
   event.metadata = {
     ...args.metadata,
+    replaySeed: createCanonicalGameReplaySeed({ unitKey: args.launchSession.unitKey, gameMode: args.gameMode }),
     tenantId: args.launchSession.tenantId,
   };
 
@@ -184,6 +185,7 @@ export function createAudioRequestedEvent(args: {
       cueText: args.cueText,
       language: args.language,
       source: args.source ?? "game-audio-contract",
+      replaySeed: createCanonicalGameReplaySeed({ unitKey: args.launchSession.unitKey, gameMode: args.gameMode }),
       tenantId: args.launchSession.tenantId,
       progressionUnlockAllowed: false,
       masteryCreditAllowed: false,
@@ -253,6 +255,7 @@ export function completeGameMode(args: {
     occurredAt: args.occurredAt,
     metadata: {
       ...args.metadata,
+      replaySeed: createCanonicalGameReplaySeed({ unitKey: args.launchSession.unitKey, gameMode: args.gameMode }),
       tenantId: args.launchSession.tenantId,
       earnedStarDust,
     },

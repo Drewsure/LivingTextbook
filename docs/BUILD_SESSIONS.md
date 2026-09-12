@@ -1569,3 +1569,18 @@ candidate to have at least one migration specification, while deferred
 candidates must not carry implementation specs. The decision is recorded in
 `docs/adr/0598-migration-candidate-spec-coverage.md` and
 `docs/decision-register/DR-670-migration-candidate-spec-coverage.md`.
+# 2026-09-13: Canonical Replay Evidence Boundary
+
+The Match Up slice was completed and live-tested across all eight deterministic
+pairs, including a deliberate mismatch, audio-request evidence, mastery, game
+completion, and the curated next-activity unlock. The full foundation gate
+passed with all 88 active routes.
+
+Memory Match was then normalized so its card, interaction, audio, mastery, and
+completion evidence carries the same deterministic replay-v1 identity. The
+shared progression adapter now supplies replay evidence by default for game
+interaction, audio-request, mastery, and completion events. This is recorded
+in `docs/CANONICAL_GAME_INTEGRATION_STANDARD.md`, ADR 0656, and DR-728.
+
+The frozen Z.ai/Phaser snapshot remains review-only. No external source was
+promoted and no live persistence or provider selection was enabled.

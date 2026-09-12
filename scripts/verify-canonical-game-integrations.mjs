@@ -11,6 +11,7 @@ const integrations = [
     required: [
       "startUnlockedGameMode",
       "createAudioRequestedEvent",
+      "replaySeed",
       'emitInteractionEvent("round_shown"',
       'emitInteractionEvent("answer_submitted"',
       'emitInteractionEvent("answer_result"',
@@ -28,6 +29,7 @@ const integrations = [
       "createCanonicalGameReplaySeed",
       "startUnlockedGameMode",
       "createAudioRequestedEvent",
+      "replaySeed",
       'emitInteractionEvent("round_shown"',
       'emitInteractionEvent("answer_submitted"',
       'emitInteractionEvent("answer_result"',
@@ -287,6 +289,12 @@ for (const fragment of [
   if (![replayContract, progressionAdapter, eventLog, ...integrations.map((integration) => readText(integration.component))].some((source) => source.includes(fragment))) {
     failures.push(`canonical game replay boundary: missing deterministic seed fragment: ${fragment}`);
   }
+}
+
+const replayMetadataFragment =
+  "replaySeed: createCanonicalGameReplaySeed({ unitKey: args.launchSession.unitKey, gameMode: args.gameMode })";
+if (!progressionAdapter.includes(replayMetadataFragment)) {
+  failures.push("progression adapter replay boundary: shared game, audio, and completion events must carry replay evidence by default.");
 }
 
 if (failures.length > 0) {
