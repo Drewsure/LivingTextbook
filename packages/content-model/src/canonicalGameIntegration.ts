@@ -24,6 +24,7 @@ export function validateCanonicalGameEventSequence(
   events: GameProgressEvent[],
   expectedGameMode: GameModeId,
   expectedTenantId?: string,
+  expectedEarnedStarDust?: number,
 ): CanonicalGameEventSequenceReport {
   const errors: string[] = [];
   const eventTypes = events.map((event) => event.type);
@@ -92,6 +93,39 @@ export function validateCanonicalGameEventSequence(
     errors.push("Canonical game event sequence must contain exactly one mastery_updated event.");
   }
 
+  const masteryEvent = events.find((event) => event.type === "mastery_updated");
+  const completionEvent = events.find((event) => event.type === "game_completed");
+  const masteryDust = readFiniteStarDust(masteryEvent);
+  const completionDust = readFiniteStarDust(completionEvent);
+
+  if (masteryEvent && masteryEvent.metadata?.completed !== true) {
+    errors.push("Canonical game mastery_updated event must mark the completed game as true.");
+  }
+
+  if (masteryEvent && masteryDust === undefined) {
+    errors.push("Canonical game mastery_updated event must include an integer earnedStarDust value from 0 to 1000.");
+  }
+
+  if (completionEvent && completionDust === undefined) {
+    errors.push("Canonical game game_completed event must include an integer earnedStarDust value from 0 to 1000.");
+  }
+
+  if (masteryDust !== undefined && completionDust !== undefined && masteryDust !== completionDust) {
+    errors.push(
+      `Canonical game mastery and completion awards must agree; found ${masteryDust} and ${completionDust}.`,
+    );
+  }
+
+  if (expectedEarnedStarDust !== undefined && completionDust !== undefined && completionDust !== expectedEarnedStarDust) {
+    errors.push(
+      `Canonical game completion award must match the progression result; expected ${expectedEarnedStarDust}, found ${completionDust}.`,
+    );
+  }
+
+  if (masteryEvent && typeof masteryEvent.metadata?.scoringProfileId !== "string") {
+    errors.push("Canonical game mastery_updated event must identify its deterministic scoring profile.");
+  }
+
   const requiredIndexes = CANONICAL_GAME_REQUIRED_EVENT_ORDER.map((eventType) =>
     events.findIndex((event) => event.type === eventType),
   );
@@ -125,4 +159,13 @@ export function validateCanonicalGameEventSequence(
 
 function countEvents(events: GameProgressEvent[], eventType: GameEventType): number {
   return events.filter((event) => event.type === eventType).length;
+}
+
+function readFiniteStarDust(event: GameProgressEvent | undefined): number | undefined {
+  const value = event?.metadata?.earnedStarDust;
+  if (typeof value !== "number" || !Number.isFinite(value) || !Number.isInteger(value)) {
+    return undefined;
+  }
+
+  return value >= 0 && value <= 1000 ? value : undefined;
 }

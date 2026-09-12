@@ -90,6 +90,9 @@ for (const fragment of [
   "Canonical game contract needs review",
   "tenantId: args.launchSession.tenantId",
   "expectedTenantId",
+  "expectedEarnedStarDust",
+  "Canonical game mastery and completion awards must agree",
+  "scoringProfileId",
 ]) {
   if (![contentModelContract, progressionAdapter, routeShell].some((source) => source.includes(fragment))) {
     failures.push(`canonical game event boundary: missing shared contract fragment: ${fragment}`);
