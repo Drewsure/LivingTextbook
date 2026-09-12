@@ -67,55 +67,99 @@ const blockedActions = [
   "No support-language progression",
 ] as const;
 
-export function validateAiGenerationServiceRequest(request: AiGenerationServiceRequest): string[] {
+export function validateAiGenerationServiceRequest(request: AiGenerationServiceRequest): string[];
+export function validateAiGenerationServiceRequest(request: unknown): string[];
+export function validateAiGenerationServiceRequest(request: unknown): string[] {
   const errors: string[] = [];
 
-  if (!request.requestId.trim()) errors.push("requestId is required");
-  if (!request.tenantId.trim()) errors.push("tenantId is required");
-  if (!request.contentPackageId.trim()) errors.push("contentPackageId is required");
-  if (!request.targetLanguage.trim()) errors.push("targetLanguage is required");
-  if (!request.theme.trim()) errors.push("theme is required");
-  if (request.level < 1 || request.level > 8) errors.push("level must be between 1 and 8");
-  if (request.assistLanguage?.trim().toLowerCase() === request.targetLanguage.trim().toLowerCase()) {
+  if (typeof request !== "object" || request === null) {
+    return ["request must be an object"];
+  }
+
+  const candidate = request as Record<string, unknown>;
+  const readString = (key: string): string | undefined =>
+    typeof candidate[key] === "string" ? candidate[key] as string : undefined;
+  const requireString = (key: string): string => {
+    const value = readString(key);
+    if (!value?.trim()) errors.push(`${key} is required`);
+    return value ?? "";
+  };
+
+  requireString("requestId");
+  requireString("tenantId");
+  requireString("contentPackageId");
+  const targetLanguage = requireString("targetLanguage");
+  requireString("theme");
+  const level = typeof candidate.level === "number" ? candidate.level : NaN;
+  if (!Number.isInteger(level) || level < 1 || level > 8) errors.push("level must be an integer between 1 and 8");
+  const assistLanguage = readString("assistLanguage");
+  if (candidate.assistLanguage !== undefined && assistLanguage === undefined) {
+    errors.push("assistLanguage must be a string when configured");
+  }
+  if (assistLanguage?.trim().toLowerCase() === targetLanguage.trim().toLowerCase()) {
     errors.push("assistLanguage must differ from targetLanguage; assist language is support-only");
   }
-  if (!isSupportedGameModeId(request.gameMode)) errors.push(`gameMode ${request.gameMode} is not supported by the curated game catalog`);
-  if (!isSupportedParentEngine(request.engineId)) errors.push(`engineId ${request.engineId} is not supported by the engine catalog`);
-  const gameModeContract = getGameModeContract(request.gameMode);
-  if (gameModeContract && request.engineId !== gameModeContract.engineId) {
-    errors.push(`gameMode ${request.gameMode} is not compatible with engineId ${request.engineId}; expected ${gameModeContract.engineId}`);
+  const gameMode = readString("gameMode") ?? "";
+  const engineId = readString("engineId") ?? "";
+  if (!gameMode) errors.push("gameMode is required");
+  if (!engineId) errors.push("engineId is required");
+  if (gameMode && !isSupportedGameModeId(gameMode)) errors.push(`gameMode ${gameMode} is not supported by the curated game catalog`);
+  if (engineId && !isSupportedParentEngine(engineId)) errors.push(`engineId ${engineId} is not supported by the engine catalog`);
+  const gameModeContract = getGameModeContract(gameMode);
+  if (gameModeContract && engineId !== gameModeContract.engineId) {
+    errors.push(`gameMode ${gameMode} is not compatible with engineId ${engineId}; expected ${gameModeContract.engineId}`);
   }
-  if (gameModeContract && !gameModeContract.supportedLevels.includes(request.level)) {
-    errors.push(`gameMode ${request.gameMode} is not available for level ${request.level}`);
+  if (gameModeContract && !gameModeContract.supportedLevels.includes(level)) {
+    errors.push(`gameMode ${gameMode} is not available for level ${level}`);
   }
   for (const [label, value] of [
-    ["sourceEvidencePacketId", request.sourceEvidencePacketId],
-    ["activityCompatibilitySnapshotId", request.activityCompatibilitySnapshotId],
-    ["audioCoverageRequirementId", request.audioCoverageRequirementId],
-    ["mediaRightsManifestId", request.mediaRightsManifestId],
-    ["premiumAiCostGateId", request.premiumAiCostGateId],
-    ["audioCoverageTargetLanguage", request.audioCoverageTargetLanguage],
+    ["sourceEvidencePacketId", requireString("sourceEvidencePacketId")],
+    ["activityCompatibilitySnapshotId", requireString("activityCompatibilitySnapshotId")],
+    ["audioCoverageRequirementId", requireString("audioCoverageRequirementId")],
+    ["mediaRightsManifestId", requireString("mediaRightsManifestId")],
+    ["premiumAiCostGateId", requireString("premiumAiCostGateId")],
+    ["audioCoverageTargetLanguage", requireString("audioCoverageTargetLanguage")],
   ] as const) {
-    if (!value.trim()) errors.push(`${label} is required`);
+    if (!value.trim() && !errors.includes(`${label} is required`)) errors.push(`${label} is required`);
   }
-  if (request.audioCoverageTargetLanguage.trim() && request.targetLanguage.trim() && !languageMatches(request.audioCoverageTargetLanguage, request.targetLanguage)) {
-    errors.push(`audioCoverageTargetLanguage ${request.audioCoverageTargetLanguage} must match targetLanguage ${request.targetLanguage}`);
+  const audioCoverageTargetLanguage = readString("audioCoverageTargetLanguage") ?? "";
+  if (audioCoverageTargetLanguage.trim() && targetLanguage.trim() && !languageMatches(audioCoverageTargetLanguage, targetLanguage)) {
+    errors.push(`audioCoverageTargetLanguage ${audioCoverageTargetLanguage} must match targetLanguage ${targetLanguage}`);
   }
-  if (request.supportLanguagePolicy.progressionAllowed !== false) {
+  const supportLanguagePolicy = candidate.supportLanguagePolicy;
+  if (typeof supportLanguagePolicy !== "object" || supportLanguagePolicy === null) {
+    errors.push("supportLanguagePolicy is required");
+  } else if ((supportLanguagePolicy as { progressionAllowed?: unknown }).progressionAllowed !== false) {
     errors.push("supportLanguagePolicy.progressionAllowed must be false");
   }
-  if (request.vocabularyTerms.length < 8 || request.vocabularyTerms.length > 12) {
+  const vocabularyTerms = candidate.vocabularyTerms;
+  const targetSentences = candidate.targetSentences;
+  const validVocabularyTerms = Array.isArray(vocabularyTerms) && vocabularyTerms.every((term) => typeof term === "string");
+  const validTargetSentences = Array.isArray(targetSentences) && targetSentences.every((sentence) => typeof sentence === "string");
+  if (!Array.isArray(vocabularyTerms)) errors.push("vocabularyTerms must be an array");
+  if (Array.isArray(vocabularyTerms) && !validVocabularyTerms) errors.push("vocabularyTerms must contain only strings");
+  if (!Array.isArray(targetSentences)) errors.push("targetSentences must be an array");
+  if (Array.isArray(targetSentences) && !validTargetSentences) errors.push("targetSentences must contain only strings");
+  const safeVocabularyTerms = validVocabularyTerms ? vocabularyTerms as string[] : [];
+  const safeTargetSentences = validTargetSentences ? targetSentences as string[] : [];
+  if (safeVocabularyTerms.length < 8 || safeVocabularyTerms.length > 12) {
     errors.push("vocabularyTerms must contain between 8 and 12 terms");
   }
-  if (request.targetSentences.length !== 2) errors.push("targetSentences must contain exactly 2 structures");
-  errors.push(...validatePedagogicalTextFields({
-    vocabularyTerms: request.vocabularyTerms,
-    targetSentences: request.targetSentences,
+  if (safeTargetSentences.length !== 2) errors.push("targetSentences must contain exactly 2 structures");
+  if (validVocabularyTerms && validTargetSentences) errors.push(...validatePedagogicalTextFields({
+    vocabularyTerms: safeVocabularyTerms,
+    targetSentences: [safeTargetSentences[0] ?? "", safeTargetSentences[1] ?? ""],
   }));
-  if (request.sourceReviewStatus === "rejected") errors.push("rejected source content cannot enter generation review");
-  if (request.sourceReviewStatus === "draft") errors.push("source content must be reviewed before generation review");
-  if (!request.targetLanguageAudioReady) errors.push("target-language audio coverage is required");
-  if (!request.mediaRightsReady) errors.push("media rights evidence is required");
+  const sourceReviewStatus = readString("sourceReviewStatus");
+  if (!sourceReviewStatus || !["draft", "reviewed", "verified", "approved", "rejected"].includes(sourceReviewStatus)) {
+    errors.push("sourceReviewStatus must be a supported review status");
+  } else if (sourceReviewStatus === "rejected") {
+    errors.push("rejected source content cannot enter generation review");
+  } else if (sourceReviewStatus === "draft") {
+    errors.push("source content must be reviewed before generation review");
+  }
+  if (candidate.targetLanguageAudioReady !== true) errors.push("target-language audio coverage is required");
+  if (candidate.mediaRightsReady !== true) errors.push("media rights evidence is required");
 
   return errors;
 }

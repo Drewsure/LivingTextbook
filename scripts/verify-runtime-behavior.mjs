@@ -891,6 +891,11 @@ try {
   assertIncludes(aiErrors, "vocabularyTerms must contain between 8 and 12 terms");
   assertIncludes(aiErrors, "targetSentences must contain exactly 2 structures");
   assertIncludes(aiErrors, "target-language audio coverage is required");
+  const malformedAiErrors = aiService.validateAiGenerationServiceRequest({});
+  assertIncludes(malformedAiErrors, "requestId is required");
+  assertIncludes(malformedAiErrors, "vocabularyTerms must be an array");
+  assertIncludes(malformedAiErrors, "supportLanguagePolicy is required");
+  assertIncludes(aiService.validateAiGenerationServiceRequest(null), "request must be an object");
   assertIncludes(aiErrors, "gameMode flashcards is not compatible with engineId pairing; expected selection");
   const missingEvidenceErrors = aiService.validateAiGenerationServiceRequest({
     ...aiRequest,
