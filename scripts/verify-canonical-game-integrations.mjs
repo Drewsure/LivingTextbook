@@ -193,6 +193,7 @@ const integrations = [
       'const gameMode = "balloon-pop"',
       "startUnlockedGameMode",
       "createAudioRequestedEvent",
+      "replaySeed",
       'emitInteractionEvent("round_shown"',
       'emitInteractionEvent("answer_submitted"',
       'emitInteractionEvent("answer_result"',

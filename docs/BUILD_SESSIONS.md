@@ -1588,3 +1588,6 @@ promoted and no live persistence or provider selection was enabled.
 True or False immediate correctness feedback now uses the unit target language
 and emits shared `audio_requested` evidence rather than hard-coding English.
 This white-label audio boundary is recorded in ADR 0657 and DR-729.
+
+The canonical verifier now requires replay-seed evidence on Balloon Pop as it
+does on the other canonical games.

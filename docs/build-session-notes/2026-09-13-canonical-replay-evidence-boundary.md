@@ -26,3 +26,6 @@
 
 Both are required again after the next canonical game or platform boundary
 change.
+
+The canonical verifier was also tightened to require the replay-seed marker on
+the Balloon Pop arcade slice, keeping all 11 canonical game records aligned.
