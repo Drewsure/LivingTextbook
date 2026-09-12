@@ -699,3 +699,27 @@ Procedure:
 Why this matters: The launch route remains a clean classroom doorway while
 canonical game engines retain one event owner and one completion acceptance
 boundary.
+
+## OW-032: Shared Canonical Completion Gate
+
+Status: Active
+
+Observed behavior: Completion validation duplicated across a standalone game
+route and the QR launch pathway can drift as event, replay, or identity rules
+evolve.
+
+Procedure:
+
+1. Route every canonical game completion through
+   `validateCanonicalGameCompletion`.
+2. Pass the complete buffered event list, expected mode, tenant, learner
+   identity, and candidate completion result.
+3. Let the gate filter events to the active mode and delegate to the shared
+   content-model validator.
+4. Do not update progression, Star Dust, rewards, or reports when the gate
+   returns errors.
+5. Run `npm run verify:canonical-games` and the web typecheck after changing
+   any completion consumer or event contract.
+
+Why this matters: One completion boundary keeps future DOM and Phaser wrappers
+consistent without allowing a game engine to become its own authority.

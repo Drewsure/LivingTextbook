@@ -1722,3 +1722,8 @@ continuity envelope against tenant, package, launch, and learner-session
 identity before the supported game mounts and before completion is accepted.
 It carries no URL state and creates no storage side effect. See the
 progression continuity contract.
+
+The canonical completion acceptance logic is now shared by the standalone
+playable route shell and the QR student launch flow. A missing completion
+event, wrong-mode evidence, identity mismatch, chronology error, or Star Dust
+disagreement pauses progression in either surface. See ADR 0680 and DR-752.

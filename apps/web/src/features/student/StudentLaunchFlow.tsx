@@ -14,13 +14,13 @@ import type {
 } from "@living-textbook/content-model";
 import {
   createProgressionContinuityEnvelope,
-  validateCanonicalGameEventSequence,
   validateProgressionContinuityRuntimeRequest,
 } from "@living-textbook/content-model";
 import type { TeacherAssignmentPlan } from "@living-textbook/content-model/src/teacherAssignment";
 import { PairingMemoryMatchGame } from "@/features/game-shell/pairing/PairingMemoryMatchGame";
 import { PairingMatchUpGame } from "@/features/game-shell/pairing/PairingMatchUpGame";
 import { PairingEnginePreview } from "@/features/game-shell/pairing/PairingEnginePreview";
+import { validateCanonicalGameCompletion } from "@/features/game-shell/canonicalGameCompletionGate";
 import {
   completeFlashcardEntryPractice,
   createMediaPlaylistOpenedEvent,
@@ -267,17 +267,17 @@ export function StudentLaunchFlow({
       return;
     }
 
-    const replay = validateCanonicalGameEventSequence(
-      [...sessionEventsRef.current.filter((event) => event.gameMode === completedMode), result.event],
-      completedMode,
-      tenant.id,
-      result.earnedStarDust,
-      {
+    const replay = validateCanonicalGameCompletion({
+      events: sessionEventsRef.current,
+      result,
+      gameMode: completedMode,
+      tenantId: tenant.id,
+      identity: {
         unitKey: launchSession.unitKey,
         launchCode: launchSession.launchCode,
         studentSessionId: currentProgression.studentSessionId,
       },
-    );
+    });
     setEventContractErrors(replay.errors);
 
     if (!replay.valid) {

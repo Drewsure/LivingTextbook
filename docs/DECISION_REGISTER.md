@@ -4088,4 +4088,14 @@ for supported next steps instead of rendering only a preview. The parent launch
 flow selects the activity; the mounted game emits the single `game_started`
 event; completion is accepted only after the shared canonical event validator
 passes. This prevents duplicate starts and keeps in-page progression aligned
-with standalone game routes. See ADR 0679.
+with standalone game routes. The handoff also creates and validates a
+transient provider-neutral continuity envelope without writing it to a URL,
+browser storage, or live persistence provider. See ADR 0679.
+
+# DR-752: Shared Canonical Completion Gate
+
+Standalone game routes and the QR student launch pathway now share
+`validateCanonicalGameCompletion`. The gate filters evidence to the active
+mode, rejects missing completion events, and delegates identity, replay,
+chronology, event-order, and Star Dust checks to the shared canonical event
+validator before progression changes. See ADR 0680.

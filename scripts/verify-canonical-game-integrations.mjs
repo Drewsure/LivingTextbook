@@ -215,6 +215,7 @@ const reportPreview = readText("apps/web/src/features/teacher/TeacherCanonicalGa
 const reportPanel = readText("apps/web/src/features/teacher/TeacherReportPackagePreviewPanel.tsx");
 const sessionMonitor = readText("apps/web/src/features/teacher/TeacherSessionMonitorPanel.tsx");
 const studentLaunchFlow = readText("apps/web/src/features/student/StudentLaunchFlow.tsx");
+const completionGate = readText("apps/web/src/features/game-shell/canonicalGameCompletionGate.ts");
 
 const standardEventTypes = [
   "game_started",
@@ -250,15 +251,35 @@ for (const integration of integrations) {
 
 for (const fragment of [
   "PairingMatchUpGame",
-  "validateCanonicalGameEventSequence",
   "sessionEventsRef",
   "eventContractErrors",
   "createProgressionContinuityEnvelope",
   "validateProgressionContinuityRuntimeRequest",
+  "validateCanonicalGameCompletion",
   "Completion is paused until the event evidence is valid.",
 ]) {
   if (!studentLaunchFlow.includes(fragment)) {
     failures.push(`student launch canonical handoff: missing ${fragment}`);
+  }
+}
+
+for (const fragment of [
+  "validateCanonicalGameEventSequence",
+  "events.filter((event) => event.gameMode === gameMode)",
+  "result.earnedStarDust",
+  "Canonical game completion did not include a completion event.",
+]) {
+  if (!completionGate.includes(fragment)) {
+    failures.push(`shared canonical completion gate: missing ${fragment}`);
+  }
+}
+
+for (const [surface, source] of [
+  ["playable route shell", routeShell],
+  ["student launch flow", studentLaunchFlow],
+]) {
+  if (!source.includes("validateCanonicalGameCompletion")) {
+    failures.push(`${surface}: must use the shared canonical completion gate`);
   }
 }
 

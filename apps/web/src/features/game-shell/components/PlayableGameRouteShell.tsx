@@ -10,7 +10,6 @@ import type {
   StudentProgressionState,
   UnitPayload,
 } from "@living-textbook/content-model";
-import { validateCanonicalGameEventSequence } from "@living-textbook/content-model";
 import type { TeacherAssignmentPlan } from "@living-textbook/content-model/src/teacherAssignment";
 import { findSampleUnitGameOfferMap } from "@/data/sampleUnitGameOfferMap";
 import type { GameModeCompletionResult } from "@/features/progression/localProgressionAdapter";
@@ -22,6 +21,7 @@ import { GameCompletionNextCard } from "./GameCompletionNextCard";
 import { GameAccessGateCard } from "./GameAccessGateCard";
 import { GameLearningAudioContractCard } from "./GameLearningAudioContractCard";
 import { GameRouteHeaderCard } from "./GameRouteHeaderCard";
+import { validateCanonicalGameCompletion } from "../canonicalGameCompletionGate";
 
 export interface PlayableGameDemoFlowProps {
   tenant: TenantConfig;
@@ -87,18 +87,19 @@ export function PlayableGameRouteShell({
       setEventContractErrors(["Canonical game completion did not include a completion event."]);
       return;
     }
+    const completionEvent = result.event;
 
-    const replay = validateCanonicalGameEventSequence(
-      [...sessionEventsRef.current, result.event],
+    const replay = validateCanonicalGameCompletion({
+      events: sessionEventsRef.current,
+      result,
       gameMode,
-      tenant.id,
-      result.earnedStarDust,
-      {
+      tenantId: tenant.id,
+      identity: {
         unitKey: launchSession.unitKey,
         launchCode: launchSession.launchCode,
         studentSessionId: progression.studentSessionId,
       },
-    );
+    });
     setEventContractErrors(replay.errors);
 
     if (!replay.valid) {
@@ -108,8 +109,8 @@ export function PlayableGameRouteShell({
     setCurrentProgression(result.progression);
     setLastEarnedDust(result.earnedStarDust);
 
-    sessionEventsRef.current = [...sessionEventsRef.current, result.event];
-    setSessionEvents((events) => [...events, result.event as GameProgressEvent]);
+    sessionEventsRef.current = [...sessionEventsRef.current, completionEvent];
+    setSessionEvents((events) => [...events, completionEvent]);
   }
 
   return (
