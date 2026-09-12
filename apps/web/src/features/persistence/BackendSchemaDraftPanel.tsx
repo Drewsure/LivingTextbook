@@ -70,7 +70,11 @@ export function BackendSchemaDraftPanel({ draft }: BackendSchemaDraftPanelProps)
 
       <div className="mt-5 grid gap-4">
         {draft.entities.map((entity) => (
-          <SchemaEntityCard key={entity.entityId} entity={entity} />
+          <SchemaEntityCard
+            key={entity.entityId}
+            entity={entity}
+            migrationFields={draft.migrationFieldExtensions[entity.entityId] ?? []}
+          />
         ))}
       </div>
 
@@ -114,7 +118,13 @@ function SchemaMetric({
   );
 }
 
-function SchemaEntityCard({ entity }: { entity: BackendSchemaEntity }) {
+function SchemaEntityCard({
+  entity,
+  migrationFields,
+}: {
+  entity: BackendSchemaEntity;
+  migrationFields: BackendSchemaField[];
+}) {
   return (
     <article className="rounded-lg border border-[var(--tenant-border)] p-4">
       <div className="flex flex-wrap items-start justify-between gap-3">
@@ -141,6 +151,23 @@ function SchemaEntityCard({ entity }: { entity: BackendSchemaEntity }) {
             ))}
           </div>
         </section>
+
+        {migrationFields.length > 0 ? (
+          <section className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-3">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <h4 className="text-sm font-bold text-[var(--tenant-text)]">Migration-only fields</h4>
+              <StatusPill label={String(migrationFields.length)} tone="warning" />
+            </div>
+            <p className="mt-2 text-xs leading-5 text-[var(--tenant-muted)]">
+              Explicit materialized fields keep migration specs aligned without pretending they are student-facing data.
+            </p>
+            <div className="mt-3 grid gap-2">
+              {migrationFields.map((field) => (
+                <SchemaFieldRow key={`migration-${field.name}`} field={field} />
+              ))}
+            </div>
+          </section>
+        ) : null}
 
         <div className="grid gap-3">
           <SchemaList title="Relationships" items={entity.relationships} tone="success" />

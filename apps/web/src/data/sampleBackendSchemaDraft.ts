@@ -27,6 +27,7 @@ export interface BackendSchemaDraft {
   summary: string;
   decisionRule: string;
   entities: BackendSchemaEntity[];
+  migrationFieldExtensions: Record<string, BackendSchemaField[]>;
   crossCuttingRules: string[];
 }
 
@@ -5328,6 +5329,114 @@ export const sampleBackendSchemaDraft: BackendSchemaDraft = {
         "Change requests are review records, not controls. Hosted and local implementations must block route mutation, speed changes, background media promotion, and scoring overrides until release policy passes.",
     },
   ],
+  migrationFieldExtensions: {
+    tenant: [
+      { name: "enabled_features", type: "string[]", required: true, note: "Materialized entitlement feature keys used by the tenant migration record." },
+      { name: "deployment_modes", type: "string[]", required: true, note: "Materialized hosted, local, packaged-local, or hybrid deployment choices." },
+      { name: "entitlement_revision", type: "string", required: true, note: "Materialized entitlement revision used for audit and rollback." },
+    ],
+    package_release: [
+      { name: "package_release_id", type: "stable id", required: true, note: "Materialized release-record identity used by QR and assignment references." },
+      { name: "release_version", type: "string", required: true, note: "Materialized release version used by hosted and local package selection." },
+      { name: "content_manifest_uri", type: "string", required: true, note: "Materialized pointer to the reviewed content manifest, never raw source content." },
+    ],
+    package_game_audio_coverage: [
+      { name: "coverage_snapshot_id", type: "stable id", required: true, note: "Materialized game/audio coverage snapshot identity." },
+      { name: "package_release_id", type: "foreign key/string", required: true, note: "Materialized link to the reviewed package release." },
+      { name: "cue_source_summary", type: "json/object", required: true, note: "Materialized cue source and placeholder/production status without raw audio binary." },
+    ],
+    media_manifest: [
+      { name: "media_kind", type: "enum/string", required: true, note: "Materialized audio, music, video, poster, caption, background, or bundle media kind." },
+      { name: "duration_seconds", type: "number", required: false, note: "Materialized playback duration for audio or video when available." },
+      { name: "caption_or_transcript_policy", type: "json/object", required: false, note: "Materialized caption, transcript, or fallback policy for media." },
+    ],
+    prototype_return_package_checklist: [
+      { name: "checklist_status", type: "enum/string", required: true, note: "Materialized checklist state used by return review gates." },
+    ],
+    teacher_assignment_rollout_gate: [
+      { name: "rollout_gate_revision", type: "string", required: true, note: "Materialized revision for assignment rollout gate evidence." },
+    ],
+    private_assignment_link: [
+      { name: "assignment_link_revision", type: "string", required: true, note: "Materialized revision for private-link policy and QR fallback rules." },
+    ],
+    class_roster_plan: [
+      { name: "roster_plan_revision", type: "string", required: true, note: "Materialized revision for coded roster and report boundaries." },
+    ],
+    source_extraction_review_packet: [
+      { name: "extraction_revision", type: "string", required: true, note: "Materialized source extraction revision for lineage and replay." },
+    ],
+    upload_file_policy_profile: [
+      { name: "policy_revision", type: "string", required: true, note: "Materialized upload-policy revision for file and channel checks." },
+    ],
+    launch_session: [
+      { name: "launch_session_id", type: "stable id", required: true, note: "Materialized classroom launch-session identity." },
+      { name: "launch_code", type: "string", required: true, note: "Materialized teacher QR/front-door launch code." },
+      { name: "package_release_id", type: "foreign key/string", required: true, note: "Materialized package release bound to the launch session." },
+      { name: "session_status", type: "enum/string", required: true, note: "Materialized review, rehearsal, blocked, or future-live session state." },
+    ],
+    route_alias: [
+      { name: "public_alias", type: "string", required: true, note: "Materialized stable public/QR alias without direct redirect mutation." },
+      { name: "target_kind", type: "enum/string", required: true, note: "Materialized target category for a reviewed route alias." },
+      { name: "target_payload", type: "json/object", required: true, note: "Materialized reviewed target payload, never an unrestricted redirect command." },
+    ],
+    package_release_candidate: [
+      { name: "release_candidate_id", type: "stable id", required: true, note: "Materialized release-candidate identity used by approval and policy records." },
+      { name: "package_release_id", type: "foreign key/string", required: true, note: "Materialized package release bound to the candidate." },
+    ],
+    progress_event: [
+      { name: "tenant_id", type: "foreign key/string", required: true, note: "Materialized tenant boundary for accepted progress events." },
+      { name: "event_payload", type: "json/object", required: true, note: "Materialized event payload after taxonomy and acceptance checks." },
+      { name: "occurred_at", type: "timestamp", required: true, note: "Materialized event occurrence time used for deterministic reporting." },
+    ],
+    collection_inventory: [
+      { name: "reward_catalog_revision", type: "string", required: true, note: "Materialized reward catalog revision for earned collection provenance." },
+    ],
+    teacher_report_package: [
+      { name: "launch_session_id", type: "foreign key/string", required: true, note: "Materialized launch session bound to the report package." },
+      { name: "report_policy_revision", type: "string", required: true, note: "Materialized report privacy and export policy revision." },
+    ],
+    publisher_maintenance_change: [
+      { name: "impact_summary", type: "json/object", required: true, note: "Materialized route, media, game-offer, report, and rollback impact summary." },
+    ],
+    local_companion_handoff: [
+      { name: "handoff_items", type: "json/object array", required: true, note: "Materialized source, route, media, checksum, and policy handoff items." },
+      { name: "handoff_revision", type: "string", required: true, note: "Materialized local companion handoff revision." },
+    ],
+    local_companion_release_gate: [
+      { name: "gate_revision", type: "string", required: true, note: "Materialized closed-package release gate revision." },
+    ],
+    pilot_evidence_packet: [
+      { name: "tenant_id", type: "foreign key/string", required: true, note: "Materialized tenant boundary for pilot evidence packets." },
+      { name: "evidence_packet_revision", type: "string", required: true, note: "Materialized pilot evidence packet revision." },
+    ],
+    reviewer_identity_signature_gate: [
+      { name: "gate_revision", type: "string", required: true, note: "Materialized reviewer identity and signature-policy revision." },
+    ],
+    school_policy_text_pack: [
+      { name: "policy_text_revision", type: "string", required: true, note: "Materialized exact policy text revision for school review." },
+    ],
+    school_policy_acceptance_record_preview: [
+      { name: "acceptance_preview_revision", type: "string", required: true, note: "Materialized future acceptance-record preview revision." },
+    ],
+    school_policy_revocation_rollback_preview: [
+      { name: "rollback_preview_revision", type: "string", required: true, note: "Materialized revocation and rollback preview revision." },
+    ],
+    school_policy_rollback_impact_matrix: [
+      { name: "impact_matrix_revision", type: "string", required: true, note: "Materialized rollback impact matrix revision." },
+    ],
+    school_rollback_safe_fallback_plan: [
+      { name: "safe_fallback_revision", type: "string", required: true, note: "Materialized child-safe fallback plan revision." },
+    ],
+    school_rollback_safe_fallback_preflight: [
+      { name: "safe_fallback_preflight_revision", type: "string", required: true, note: "Materialized safe-fallback preflight revision." },
+    ],
+    school_rollback_safe_fallback_activation_preview: [
+      { name: "safe_fallback_activation_preview_revision", type: "string", required: true, note: "Materialized non-activated fallback preview revision." },
+    ],
+    school_rollback_safe_fallback_restoration_preview: [
+      { name: "safe_fallback_restoration_preview_revision", type: "string", required: true, note: "Materialized non-restored fallback preview revision." },
+    ],
+  },
   crossCuttingRules: [
     "Every record belongs to a tenant or to a tenant-owned package release.",
     "Evidence packet and evidence attachment records must preserve explicit scope_kind (platform or tenant); a human-readable scope label cannot replace the storage boundary.",

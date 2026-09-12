@@ -24,6 +24,7 @@ export function validateBackendContractAlignment({
 }: BackendContractAlignmentInput): string[] {
   const errors: string[] = [];
   const schemaEntityIds = new Set<string>();
+  const schemaFieldsByEntity = new Map<string, Set<string>>();
   const migrationIds = new Set<string>();
   const specIds = new Set<string>();
 
@@ -32,6 +33,9 @@ export function validateBackendContractAlignment({
   }
   if (schema.crossCuttingRules.length === 0 || schema.crossCuttingRules.some((rule) => rule.trim().length === 0)) {
     errors.push("Backend schema draft must declare non-empty cross-cutting rules.");
+  }
+  if (!schema.migrationFieldExtensions || typeof schema.migrationFieldExtensions !== "object") {
+    errors.push("Backend schema draft must declare migration field extensions explicitly.");
   }
   if (migrationPlan.planId.trim().length === 0 || migrationPlan.label.trim().length === 0 || migrationPlan.summary.trim().length === 0 || migrationPlan.sequencingRule.trim().length === 0) {
     errors.push("Backend migration plan must declare planId, label, summary, and sequencingRule.");
@@ -79,6 +83,7 @@ export function validateBackendContractAlignment({
       }
       fieldNames.add(field.name);
     }
+    schemaFieldsByEntity.set(entity.entityId, fieldNames);
     const indexNames = new Set<string>();
     for (const index of entity.indexes) {
       if (index.trim().length === 0) {
@@ -91,6 +96,40 @@ export function validateBackendContractAlignment({
     }
     if (entity.fields.some((field) => field.name === "tenant_id") && !entity.indexes.some((index) => index.includes("tenant_id"))) {
       errors.push(`Backend schema entity ${entity.entityId} must declare a tenant-aware index when it has tenant_id.`);
+    }
+  }
+
+  for (const [entityId, extensionFields] of Object.entries(schema.migrationFieldExtensions ?? {})) {
+    if (!schemaEntityIds.has(entityId)) {
+      errors.push(`Backend schema migration field extensions target missing schema entity ${entityId}.`);
+      continue;
+    }
+
+    if (!Array.isArray(extensionFields)) {
+      errors.push(`Backend schema migration field extensions for ${entityId} must be an array.`);
+      continue;
+    }
+
+    const baseFieldNames = schemaFieldsByEntity.get(entityId) ?? new Set<string>();
+    const extensionFieldNames = new Set<string>();
+    for (const field of extensionFields) {
+      if (field.name.trim().length === 0) {
+        errors.push(`Backend schema migration field extension for ${entityId} contains a field with an empty name.`);
+      }
+      if (field.type.trim().length === 0) {
+        errors.push(`Backend schema migration field extension ${entityId}.${field.name || "<unnamed>"} must name its type.`);
+      }
+      if (typeof field.required !== "boolean") {
+        errors.push(`Backend schema migration field extension ${entityId}.${field.name || "<unnamed>"} must declare required as a boolean.`);
+      }
+      if (field.note.trim().length === 0) {
+        errors.push(`Backend schema migration field extension ${entityId}.${field.name || "<unnamed>"} must declare a field note.`);
+      }
+      if (baseFieldNames.has(field.name) || extensionFieldNames.has(field.name)) {
+        errors.push(`Backend schema migration field extensions for ${entityId} contain duplicate field ${field.name}.`);
+      }
+      extensionFieldNames.add(field.name);
+      baseFieldNames.add(field.name);
     }
   }
 
@@ -184,6 +223,19 @@ export function validateBackendContractAlignment({
         errors.push(`Backend migration spec ${spec.specId} contains duplicate field ${field.name}.`);
       }
       fieldNames.add(field.name);
+    }
+
+    if (candidate && candidate.targetEntities.every((entityId) => schemaFieldsByEntity.has(entityId))) {
+      const targetFieldNames = new Set(
+        candidate.targetEntities.flatMap((entityId) => [...(schemaFieldsByEntity.get(entityId) ?? [])]),
+      );
+      for (const fieldName of fieldNames) {
+        if (!targetFieldNames.has(fieldName)) {
+          errors.push(
+            `Backend migration spec ${spec.specId} field ${fieldName} must exist on one of its target schema entities.`,
+          );
+        }
+      }
     }
 
     const indexNames = new Set<string>();

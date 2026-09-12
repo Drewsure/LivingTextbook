@@ -15,6 +15,7 @@ const persistenceContractAlignment = readSource("../apps/web/src/data/samplePers
 const backendContractAlignment = readSource("../apps/web/src/data/backendContractAlignment.ts");
 const sampleBackendContractAlignment = readSource("../apps/web/src/data/sampleBackendContractAlignment.ts");
 const backendContractAlignmentPanel = readSource("../apps/web/src/features/persistence/BackendContractAlignmentPanel.tsx");
+const backendSchemaDraftPanel = readSource("../apps/web/src/features/persistence/BackendSchemaDraftPanel.tsx");
 const routeVerifier = readSource("./verify-active-routes.mjs");
 const failures = [];
 
@@ -3975,6 +3976,11 @@ requireText(persistenceAdapter, "preservesTeacherSessionSettingsSnapshot: true",
 requireText(persistenceAdapter, "preservesTeacherSessionSettingsReviewPacket: true", "Persistence adapter must preserve teacher session settings review packets.");
 requireText(persistenceAdapter, "preservesTeacherSessionEventAcceptanceGate: true", "Persistence adapter must preserve teacher session event acceptance gates.");
 requireText(schemaDraft, "settings_review_packet", "Backend schema draft must preserve teacher session settings review packets.");
+requireText(schemaDraft, "migrationFieldExtensions", "Backend schema draft must declare explicit migration field extensions.");
+requireText(schemaDraft, "Materialized release-record identity", "Backend schema draft must document materialized migration fields.");
+requireText(backendContractAlignment, "must exist on one of its target schema entities", "Backend alignment must reject migration fields absent from target schema entities.");
+requireText(backendContractAlignment, "migration field extensions", "Backend alignment must validate migration field extensions.");
+requireText(backendSchemaDraftPanel, "Migration-only fields", "Backend schema panel must show migration-only fields.");
 requireText(migrationCandidates, "settings review packet", "Backend migration candidates must preserve teacher session settings review packets.");
 requireText(migrationSpecs, "settings_review_packet", "Backend migration specs must preserve teacher session settings review packets.");
 requireText(persistenceAdapter, "rejectsRawAudio: true", "Persistence adapter write intents must reject raw audio.");

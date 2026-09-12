@@ -568,6 +568,7 @@
 - `DR-677-policy-blocker-evidence-contract.md`
 - `DR-678-backend-definition-auditability-contract.md`
 - `DR-679-prototype-integration-gate-readiness-lane.md`
+- `DR-680-backend-migration-field-extension-contract.md`
 
 The prototype integration gate slice now feeds detailed wrapper, fixture,
 event, audio, mobile, scoring, and Codex-decision readiness records into the
@@ -576,6 +577,13 @@ gate keeps the handoff lane blocked; no import or student-facing promotion is
 enabled. The decision is recorded in
 `docs/adr/0607-prototype-integration-gate-readiness-lane.md` and
 `docs/decision-register/DR-679-prototype-integration-gate-readiness-lane.md`.
+
+The backend migration field extension slice now requires every migration spec
+field to exist on its target schema entity or in an explicit, validated
+`migrationFieldExtensions` section. The persistence workbench shows those
+materialized fields without enabling storage writes. The decision is recorded
+in `docs/adr/0608-backend-migration-field-extension-contract.md` and
+`docs/decision-register/DR-680-backend-migration-field-extension-contract.md`.
 
 ## Maintenance Rule
 

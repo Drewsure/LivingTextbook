@@ -1403,6 +1403,14 @@ write, or student assignment was enabled. The decision is recorded in
 `docs/adr/0607-prototype-integration-gate-readiness-lane.md` and
 `docs/decision-register/DR-679-prototype-integration-gate-readiness-lane.md`.
 
+The backend migration field extension slice reconciled 43 materialized fields
+across release, media, launch, progress, reporting, local companion, and
+school-policy records. Unknown migration fields now fail backend alignment,
+and the persistence workbench exposes the explicit migration-only fields. No
+live storage write or vendor selection was enabled. The decision is recorded
+in `docs/adr/0608-backend-migration-field-extension-contract.md` and
+`docs/decision-register/DR-680-backend-migration-field-extension-contract.md`.
+
 The migration candidate coverage slice now requires every non-deferred
 candidate to have at least one migration specification, while deferred
 candidates must not carry implementation specs. The decision is recorded in

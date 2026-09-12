@@ -365,6 +365,34 @@ try {
     throw new Error("Backend contract alignment did not reject a migration field without an explanatory note.");
   }
 
+  const unknownMigrationFieldPlan = {
+    ...migrationSpecPlan,
+    specs: migrationSpecPlan.specs.map((spec) =>
+      spec.specId === "spec-media-manifest"
+        ? {
+            ...spec,
+            fields: [
+              ...spec.fields,
+              {
+                name: "unknown_backend_field",
+                type: "string",
+                required: false,
+                note: "Regression-only field that is not part of the target schema entity.",
+              },
+            ],
+          }
+        : spec,
+    ),
+  };
+  const unknownMigrationFieldErrors = alignment.validateBackendContractAlignment({
+    schema,
+    migrationPlan,
+    migrationSpecPlan: unknownMigrationFieldPlan,
+  });
+  if (!unknownMigrationFieldErrors.includes("Backend migration spec spec-media-manifest field unknown_backend_field must exist on one of its target schema entities.")) {
+    throw new Error("Backend contract alignment did not reject a migration field absent from its target schema entity.");
+  }
+
   console.log("PASS backend contract alignment resolves all sample schema entities, migration candidates, and migration specs.");
 } finally {
   rmSync(output, { recursive: true, force: true });
