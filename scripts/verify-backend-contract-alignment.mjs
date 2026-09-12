@@ -167,6 +167,40 @@ try {
     throw new Error("Backend contract alignment did not reject a schema field without a type.");
   }
 
+  const missingSchemaTenantIndex = {
+    ...schema,
+    entities: schema.entities.map((entity) =>
+      entity.entityId === "media_manifest"
+        ? { ...entity, indexes: entity.indexes.filter((index) => !index.includes("tenant_id")) }
+        : entity,
+    ),
+  };
+  const missingSchemaTenantIndexErrors = alignment.validateBackendContractAlignment({
+    schema: missingSchemaTenantIndex,
+    migrationPlan,
+    migrationSpecPlan,
+  });
+  if (!missingSchemaTenantIndexErrors.includes("Backend schema entity media_manifest must declare a tenant-aware index when it has tenant_id.")) {
+    throw new Error("Backend contract alignment did not reject a schema without a tenant-aware index.");
+  }
+
+  const missingMigrationTenantIndexPlan = {
+    ...migrationSpecPlan,
+    specs: migrationSpecPlan.specs.map((spec) =>
+      spec.specId === "spec-media-manifest"
+        ? { ...spec, indexes: spec.indexes.filter((index) => !index.includes("tenant_id")) }
+        : spec,
+    ),
+  };
+  const missingMigrationTenantIndexErrors = alignment.validateBackendContractAlignment({
+    schema,
+    migrationPlan,
+    migrationSpecPlan: missingMigrationTenantIndexPlan,
+  });
+  if (!missingMigrationTenantIndexErrors.includes("Backend migration spec spec-media-manifest must declare a tenant-aware index when tenantScope requires tenant_id.")) {
+    throw new Error("Backend contract alignment did not reject a migration spec without a tenant-aware index.");
+  }
+
   console.log("PASS backend contract alignment resolves all sample schema entities, migration candidates, and migration specs.");
 } finally {
   rmSync(output, { recursive: true, force: true });

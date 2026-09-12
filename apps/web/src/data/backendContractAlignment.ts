@@ -53,6 +53,9 @@ export function validateBackendContractAlignment({
       }
       fieldNames.add(field.name);
     }
+    if (entity.fields.some((field) => field.name === "tenant_id") && !entity.indexes.some((index) => index.includes("tenant_id"))) {
+      errors.push(`Backend schema entity ${entity.entityId} must declare a tenant-aware index when it has tenant_id.`);
+    }
   }
 
   for (const candidate of migrationPlan.candidates) {
@@ -116,6 +119,11 @@ export function validateBackendContractAlignment({
     if (spec.tenantScope.includes("tenant_id") && !fieldNames.has("tenant_id")) {
       errors.push(
         `Backend migration spec ${spec.specId} must declare tenant_id in its fields when tenantScope requires tenant_id.`,
+      );
+    }
+    if (spec.tenantScope.includes("tenant_id") && !spec.indexes.some((index) => index.includes("tenant_id"))) {
+      errors.push(
+        `Backend migration spec ${spec.specId} must declare a tenant-aware index when tenantScope requires tenant_id.`,
       );
     }
 

@@ -3900,6 +3900,12 @@ specs. The decision is recorded in
 `docs/adr/0601-tenant-scope-field-contract.md` and
 `docs/decision-register/DR-673-tenant-scope-field-contract.md`.
 
+The tenant-index slice now requires schema entities with tenant_id and
+migration specs whose tenantScope names tenant_id to declare a tenant-aware
+index. Regression coverage rejects missing indexes at both layers. The
+decision is recorded in `docs/adr/0602-tenant-index-contract.md` and
+`docs/decision-register/DR-674-tenant-index-contract.md`.
+
 The migration candidate coverage slice now requires every non-deferred
 candidate to have at least one migration specification, while deferred
 candidates must not carry implementation specs. The decision is recorded in
