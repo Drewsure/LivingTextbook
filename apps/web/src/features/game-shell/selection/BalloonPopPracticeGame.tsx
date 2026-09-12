@@ -63,14 +63,8 @@ export function BalloonPopPracticeGame({
       return;
     }
 
-    const controlledProgression = progression.unlockedGameModes.includes(gameMode)
-      ? progression
-      : {
-          ...progression,
-          unlockedGameModes: Array.from(new Set([...progression.unlockedGameModes, gameMode])),
-        };
     const event = startUnlockedGameMode({
-      progression: controlledProgression,
+      progression,
       launchSession,
       gameMode,
       occurredAt: new Date().toISOString(),

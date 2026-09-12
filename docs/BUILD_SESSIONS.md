@@ -1664,3 +1664,10 @@ The sample teacher report now carries a blocked partial memory attempt and a
 complete canonical retry, allowing the report card to demonstrate both paths.
 It remains review-only and cannot authorize export or persistence. This is
 recorded in ADR 0671 and DR-743.
+
+Canonical non-entry routes now derive access from the supplied progression
+state. The playable shell no longer self-unlocks a mode when its URL is opened;
+locked routes remain inspectable but do not mount the game component or emit
+start, answer, mastery, or completion evidence. This restores the QR ->
+flashcard -> curated activity boundary and applies to future Phaser wrappers.
+See ADR 0672 and DR-744.

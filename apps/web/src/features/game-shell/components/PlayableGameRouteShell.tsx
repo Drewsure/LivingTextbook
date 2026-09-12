@@ -19,6 +19,7 @@ import { SessionEventLog } from "@/features/student/components/SessionEventLog";
 import { TeacherAssignmentSettingsCard } from "@/features/student/components/TeacherAssignmentSettingsCard";
 import type { TenantConfig } from "@/features/tenant/types";
 import { GameCompletionNextCard } from "./GameCompletionNextCard";
+import { GameAccessGateCard } from "./GameAccessGateCard";
 import { GameLearningAudioContractCard } from "./GameLearningAudioContractCard";
 import { GameRouteHeaderCard } from "./GameRouteHeaderCard";
 
@@ -68,14 +69,13 @@ export function PlayableGameRouteShell({
 }: PlayableGameRouteShellProps) {
   const [currentProgression, setCurrentProgression] = useState<StudentProgressionState>({
     ...progression,
-    currentStep: "recommended-game",
-    unlockedGameModes: Array.from(new Set([...progression.unlockedGameModes, gameMode])),
   });
   const [sessionEvents, setSessionEvents] = useState<GameProgressEvent[]>([]);
   const sessionEventsRef = useRef<GameProgressEvent[]>([]);
   const [lastEarnedDust, setLastEarnedDust] = useState(0);
   const [eventContractErrors, setEventContractErrors] = useState<string[]>([]);
   const offerMap = unit.unitMeta.contentPackageId ? findSampleUnitGameOfferMap(unit.unitMeta.contentPackageId) : undefined;
+  const gameUnlocked = currentProgression.unlockedGameModes.includes(gameMode);
 
   function handleEvent(event: GameProgressEvent) {
     sessionEventsRef.current = [...sessionEventsRef.current, event];
@@ -144,11 +144,15 @@ export function PlayableGameRouteShell({
         onAudioRequested={handleEvent}
       />
 
-      {children({
-        progression: currentProgression,
-        onEvent: handleEvent,
-        onComplete: handleComplete,
-      })}
+      {gameUnlocked ? (
+        children({
+          progression: currentProgression,
+          onEvent: handleEvent,
+          onComplete: handleComplete,
+        })
+      ) : (
+        <GameAccessGateCard gameMode={gameMode} launchSession={launchSession} />
+      )}
 
       <GameCompletionNextCard
         launchSession={launchSession}

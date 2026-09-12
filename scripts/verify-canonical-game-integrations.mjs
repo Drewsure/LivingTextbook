@@ -208,6 +208,7 @@ const progressionAdapter = readText("apps/web/src/features/progression/localProg
 const contentModelContract = readText("packages/content-model/src/canonicalGameIntegration.ts");
 const replayContract = readText("packages/content-model/src/canonicalGameReplay.ts");
 const routeShell = readText("apps/web/src/features/game-shell/components/PlayableGameRouteShell.tsx");
+const accessGate = readText("apps/web/src/features/game-shell/components/GameAccessGateCard.tsx");
 const eventLog = readText("apps/web/src/features/student/components/SessionEventLog.tsx");
 const reportContract = readText("packages/content-model/src/canonicalGameReport.ts");
 const reportPreview = readText("apps/web/src/features/teacher/TeacherCanonicalGameEvidenceCard.tsx");
@@ -276,6 +277,21 @@ for (const fragment of [
   if (![contentModelContract, progressionAdapter, routeShell].some((source) => source.includes(fragment))) {
     failures.push(`canonical game event boundary: missing shared contract fragment: ${fragment}`);
   }
+}
+
+for (const fragment of [
+  "const gameUnlocked = currentProgression.unlockedGameModes.includes(gameMode)",
+  "{gameUnlocked ? (",
+  "<GameAccessGateCard gameMode={gameMode} launchSession={launchSession} />",
+  "Complete entry practice first",
+]) {
+  if (![routeShell, accessGate].some((source) => source.includes(fragment))) {
+    failures.push(`canonical game access boundary: missing progression gate fragment: ${fragment}`);
+  }
+}
+
+if (routeShell.includes("unlockedGameModes: Array.from(new Set([...progression.unlockedGameModes, gameMode]))")) {
+  failures.push("canonical game access boundary: playable route shell must not self-unlock the current game mode.");
 }
 
 for (const fragment of [

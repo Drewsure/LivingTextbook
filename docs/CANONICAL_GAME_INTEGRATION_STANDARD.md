@@ -25,6 +25,14 @@ Every canonical game route must:
 - leave route, progression, tenant scope, rewards, assignment effects, and
   persistence to the platform contracts.
 
+Canonical game access is also progression-controlled. The shared playable
+route shell must not self-unlock a mode because its URL was opened. A direct
+game URL may remain visible for teacher review and route verification, but a
+locked route must show the entry-practice gate and withhold the interactive
+game component. This prevents direct URLs, Phaser wrappers, and future route
+aliases from producing game-start or completion evidence before the teacher
+QR -> flashcard entry step has succeeded. See ADR 0672 and DR-744.
+
 The playable route shell treats the shared event validator as an acceptance
 gate. If completion evidence is missing or invalid, the route reports the
 contract errors and pauses progression, Star Dust, and next-activity state.
