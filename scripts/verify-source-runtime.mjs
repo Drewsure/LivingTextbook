@@ -7,6 +7,7 @@ for (const marker of [
   "SourceRuntimeRequest",
   "SourceRuntimeAdapter",
   "validateSourceRuntimeRequest",
+  "must be a boolean",
   "createReviewOnlySourceRuntimeAdapter",
   "accepted upload file policy is required",
   "source file scan must pass before extraction",

@@ -296,7 +296,7 @@ try {
     containsLearnerMedia: false, learnerUpload: false, studentFacingUseRequested: false,
   }).sideEffect, "none");
 
-  const sourceErrors = source.validateSourceRuntimeRequest({
+  const sourceRequest = {
     tenantId: "tenant-1", sourceId: "source-1", targetPackageId: "package-1", sourceType: "pdf",
     sourceChecksum: "checksum-1", extractionMethod: "pdf-text", contentReviewStatus: "draft",
     filePolicyAccepted: true, scanPassed: true, sourceLineageReviewed: true, rightsReviewAccepted: true,
@@ -304,8 +304,29 @@ try {
     segmentationReviewed: true, schemaReviewPassed: true, targetMappingReviewed: true,
     packageRuntimeApproved: true, teacherReleaseApproved: true, rawSourceAsStudentPayloadRequested: true,
     draftCreationRequested: true, aiExtractionRequested: false, studentFacingUseRequested: true,
-  });
+  };
+  const sourceErrors = source.validateSourceRuntimeRequest(sourceRequest);
   assertIncludes(sourceErrors, "raw source files cannot become student payloads");
+  const malformedSourceFlagErrors = source.validateSourceRuntimeRequest({
+    ...sourceRequest,
+    filePolicyAccepted: "true",
+    scanPassed: "true",
+    sourceLineageReviewed: "true",
+    rightsReviewAccepted: "true",
+    ocrUsed: "false",
+    ocrConfidenceReviewed: "true",
+    segmentationReviewed: "true",
+    schemaReviewPassed: "true",
+    targetMappingReviewed: "true",
+    packageRuntimeApproved: "true",
+    teacherReleaseApproved: "true",
+    rawSourceAsStudentPayloadRequested: "false",
+    draftCreationRequested: "false",
+    aiExtractionRequested: "false",
+    studentFacingUseRequested: "false",
+  });
+  assertIncludes(malformedSourceFlagErrors, "filePolicyAccepted must be a boolean");
+  assertIncludes(malformedSourceFlagErrors, "studentFacingUseRequested must be a boolean");
   assertEqual(source.createReviewOnlySourceRuntimeAdapter().execute({
     tenantId: "tenant-1", sourceId: "source-1", targetPackageId: "package-1", sourceType: "pdf",
     sourceChecksum: "checksum-1", extractionMethod: "pdf-text", contentReviewStatus: "draft",

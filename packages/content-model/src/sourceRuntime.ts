@@ -61,37 +61,73 @@ export const reviewOnlySourceBlockedActions = [
 export function validateSourceRuntimeRequest(request: SourceRuntimeRequest): string[] {
   const errors: string[] = [];
 
+  for (const field of [
+    "filePolicyAccepted",
+    "scanPassed",
+    "sourceLineageReviewed",
+    "rightsReviewAccepted",
+    "ocrUsed",
+    "ocrConfidenceReviewed",
+    "segmentationReviewed",
+    "schemaReviewPassed",
+    "targetMappingReviewed",
+    "packageRuntimeApproved",
+    "teacherReleaseApproved",
+    "rawSourceAsStudentPayloadRequested",
+    "draftCreationRequested",
+    "aiExtractionRequested",
+    "studentFacingUseRequested",
+  ] as const) {
+    if (typeof request[field] !== "boolean") errors.push(`${field} must be a boolean`);
+  }
+
+  const filePolicyAccepted = request.filePolicyAccepted === true;
+  const scanPassed = request.scanPassed === true;
+  const sourceLineageReviewed = request.sourceLineageReviewed === true;
+  const rightsReviewAccepted = request.rightsReviewAccepted === true;
+  const ocrUsed = request.ocrUsed === true;
+  const ocrConfidenceReviewed = request.ocrConfidenceReviewed === true;
+  const segmentationReviewed = request.segmentationReviewed === true;
+  const schemaReviewPassed = request.schemaReviewPassed === true;
+  const targetMappingReviewed = request.targetMappingReviewed === true;
+  const packageRuntimeApproved = request.packageRuntimeApproved === true;
+  const teacherReleaseApproved = request.teacherReleaseApproved === true;
+  const rawSourceAsStudentPayloadRequested = request.rawSourceAsStudentPayloadRequested === true;
+  const draftCreationRequested = request.draftCreationRequested === true;
+  const aiExtractionRequested = request.aiExtractionRequested === true;
+  const studentFacingUseRequested = request.studentFacingUseRequested === true;
+
   if (!request.tenantId.trim()) errors.push("tenantId is required");
   if (!request.sourceId.trim()) errors.push("sourceId is required");
   if (!request.targetPackageId.trim()) errors.push("targetPackageId is required");
   if (!request.sourceChecksum.trim()) errors.push("source checksum is required");
-  if (!request.filePolicyAccepted) errors.push("accepted upload file policy is required");
-  if (!request.scanPassed) errors.push("source file scan must pass before extraction");
-  if (!request.sourceLineageReviewed) errors.push("source lineage review is required");
-  if (!request.rightsReviewAccepted) errors.push("source rights review is required");
-  if (request.rawSourceAsStudentPayloadRequested) errors.push("raw source files cannot become student payloads");
+  if (!filePolicyAccepted) errors.push("accepted upload file policy is required");
+  if (!scanPassed) errors.push("source file scan must pass before extraction");
+  if (!sourceLineageReviewed) errors.push("source lineage review is required");
+  if (!rightsReviewAccepted) errors.push("source rights review is required");
+  if (rawSourceAsStudentPayloadRequested) errors.push("raw source files cannot become student payloads");
   if (request.contentReviewStatus === "rejected") errors.push("rejected source content cannot enter the runtime");
 
-  if (request.ocrUsed && !request.ocrConfidenceReviewed) {
+  if (ocrUsed && !ocrConfidenceReviewed) {
     errors.push("OCR confidence and uncertain spans must be reviewed before promotion");
   }
 
-  if (request.aiExtractionRequested && request.extractionMethod !== "ai-assisted") {
+  if (aiExtractionRequested && request.extractionMethod !== "ai-assisted") {
     errors.push("AI extraction requests must declare the ai-assisted extraction method");
   }
 
-  if (request.draftCreationRequested) {
+  if (draftCreationRequested) {
     if (request.extractionReviewStatus !== "accepted") errors.push("teacher draft creation requires accepted extraction review");
-    if (!request.segmentationReviewed) errors.push("teacher draft creation requires reviewed unit segmentation");
-    if (!request.schemaReviewPassed) errors.push("teacher draft creation requires a passed schema review");
-    if (!request.targetMappingReviewed) errors.push("teacher draft creation requires reviewed target mapping");
+    if (!segmentationReviewed) errors.push("teacher draft creation requires reviewed unit segmentation");
+    if (!schemaReviewPassed) errors.push("teacher draft creation requires a passed schema review");
+    if (!targetMappingReviewed) errors.push("teacher draft creation requires reviewed target mapping");
   }
 
-  if (request.studentFacingUseRequested) {
-    if (!request.packageRuntimeApproved) errors.push("student-facing source use requires content package runtime approval");
-    if (!request.teacherReleaseApproved) errors.push("student-facing source use requires teacher or tenant release approval");
+  if (studentFacingUseRequested) {
+    if (!packageRuntimeApproved) errors.push("student-facing source use requires content package runtime approval");
+    if (!teacherReleaseApproved) errors.push("student-facing source use requires teacher or tenant release approval");
     if (request.extractionReviewStatus !== "accepted") errors.push("student-facing source use requires accepted extraction review");
-    if (!request.draftCreationRequested) errors.push("student-facing source use requires a reviewed teacher draft path");
+    if (!draftCreationRequested) errors.push("student-facing source use requires a reviewed teacher draft path");
   }
 
   return [...new Set(errors)];
