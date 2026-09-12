@@ -71,3 +71,13 @@ The owner has completed the source-freeze handoff. Codex may now inspect the
 identified snapshot and open the first candidate review. No other human
 intervention is required unless the review finds missing fixtures, replay
 reports, asset rights, or access to a specific candidate game.
+
+## Reproducibility Check
+
+When the isolated snapshot is available locally, run
+`node scripts/verify-phaser-source-evidence.mjs` from the repository root. The
+command reads only the review packet manifest and compares SHA-256 hashes
+against the external snapshot. It is intentionally outside
+`verify:foundation` because the frozen source is not checked into this
+repository. If the snapshot is elsewhere, set
+`LIVING_TEXTBOOK_ZAI_REVIEW_ROOT` to its folder.

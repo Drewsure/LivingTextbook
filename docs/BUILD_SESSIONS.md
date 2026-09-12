@@ -1627,3 +1627,9 @@ The playable game route shell now makes canonical event validation an
 acceptance gate. Missing or invalid completion evidence pauses progression,
 Star Dust, and next-activity state while exposing the contract errors for
 review. This is recorded in ADR 0664 and DR-736.
+
+The isolated frozen Phaser review packet now has a repeatable provenance
+check. `node scripts/verify-phaser-source-evidence.mjs` compares its five
+SHA-256 file hashes with the external snapshot and passed locally; the command
+remains outside the foundation gate because external source is not part of the
+repo. This is recorded in ADR 0665 and DR-737.

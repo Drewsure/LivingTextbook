@@ -4001,3 +4001,10 @@ The shared playable route shell now pauses progression and rewards when the
 canonical event stream is missing or invalid. Contract errors remain visible
 for review, and the rule applies to future approved wrappers as well. See
 `docs/adr/0664-canonical-completion-acceptance-gate.md`.
+
+# DR-737: Phaser Source Evidence Reproducibility Check
+
+The isolated Phaser review packet now has a standalone hash verification
+command. It confirms the five reviewed files against the frozen snapshot
+without importing source, while remaining outside the normal foundation gate.
+See `docs/adr/0665-phaser-source-evidence-reproducibility-check.md`.
