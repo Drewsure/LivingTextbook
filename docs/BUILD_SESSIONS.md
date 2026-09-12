@@ -1385,6 +1385,16 @@ outside the canonical app; Balloon Pop is the next controlled candidate. The
 decision is recorded in `docs/adr/0636-memory-match-controlled-integration.md`
 and `docs/decision-register/DR-708-memory-match-controlled-integration.md`.
 
+The canonical Balloon Pop controlled integration is now verified at
+`/balloon/demo-unit-1`. An incorrect selection records answer evidence without
+progress, a correct retry advances through the deterministic vocabulary rounds,
+and completion records `mastery_updated` and `game_completed` with `300 Star
+Dust`. The event log includes `game_started`, `round_shown`, support-only
+`audio_requested`, `answer_submitted`, `answer_result`, `mastery_updated`, and
+`game_completed`. The decision is recorded in
+`docs/adr/0637-balloon-pop-controlled-integration.md` and
+`docs/decision-register/DR-709-balloon-pop-controlled-integration.md`.
+
 The Z.ai source-freeze handoff is now recorded. `Drewsure/ministar-lab` main
 commit `eb79ddf5940ab47cc3c45c119c67ee1b6b958e55`, tag
 `frozen-2026-09-12-aaa-stable`, and AI reference

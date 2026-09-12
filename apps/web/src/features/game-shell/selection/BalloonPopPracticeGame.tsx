@@ -12,6 +12,7 @@ import type {
 import { AudioCueButton, AudioCueText, playAudioCueText } from "@/features/audio/AudioCueButton";
 import {
   completeGameMode,
+  createAudioRequestedEvent,
   createGameInteractionEvent,
   startUnlockedGameMode,
   type GameModeCompletionResult,
@@ -28,7 +29,7 @@ interface BalloonPopPracticeGameProps {
   onComplete: (result: GameModeCompletionResult) => void;
 }
 
-const gameMode = "balloon-pop";
+const gameMode = "balloon-pop" as const;
 const scoringProfileId = "arcade-reinforcement-v1";
 const instructionText = "Listen to the word. Pop the matching balloon.";
 
@@ -43,6 +44,7 @@ export function BalloonPopPracticeGame({
   const preview = useMemo(() => buildSelectionEnginePreview(unit), [unit]);
   const rounds = useMemo(() => preview.rounds.filter((round) => round.skillFocus === "vocabulary"), [preview.rounds]);
   const scoringProfile = getGameScoringProfileForMode(gameMode);
+  const targetLanguage = unit.unitMeta.textbookReference?.language ?? "en";
   const startEventSent = useRef(false);
   const [roundIndex, setRoundIndex] = useState(0);
   const [completedRoundIds, setCompletedRoundIds] = useState<string[]>([]);
@@ -59,15 +61,21 @@ export function BalloonPopPracticeGame({
       return;
     }
 
-    startEventSent.current = true;
+    const controlledProgression = progression.unlockedGameModes.includes(gameMode)
+      ? progression
+      : {
+          ...progression,
+          unlockedGameModes: Array.from(new Set([...progression.unlockedGameModes, gameMode])),
+        };
     const event = startUnlockedGameMode({
-      progression,
+      progression: controlledProgression,
       launchSession,
       gameMode,
       occurredAt: new Date().toISOString(),
     });
 
     if (event) {
+      startEventSent.current = true;
       onEvent?.(event);
     }
   }, [launchSession, onEvent, progression]);
@@ -102,6 +110,21 @@ export function BalloonPopPracticeGame({
     );
   }
 
+  function emitAudioRequested(cueKind: "term" | "instruction" | "feedback", cueText: string, source: string) {
+    onEvent?.(
+      createAudioRequestedEvent({
+        progression,
+        launchSession,
+        gameMode,
+        occurredAt: new Date().toISOString(),
+        cueKind,
+        cueText,
+        language: targetLanguage,
+        source,
+      }),
+    );
+  }
+
   function handlePop(option: SelectionEngineOption) {
     if (!currentRound || completed || poppedOptionIds.includes(option.optionId)) {
       return;
@@ -109,10 +132,12 @@ export function BalloonPopPracticeGame({
 
     const correct = option.optionId === currentRound.correctOptionId;
     const nextAttempts = attempts + 1;
+    const optionCue = findAudioCue(audioCues, option.audioText);
 
     setAttempts(nextAttempts);
     setPoppedOptionIds((ids) => Array.from(new Set([...ids, option.optionId])));
-    playAudioCueText({ text: findAudioText(audioCues, option.audioText), language: "en" });
+    emitAudioRequested("term", optionCue?.text ?? option.audioText, "balloon-option");
+    playAudioCueText({ text: optionCue?.text ?? option.audioText, language: optionCue?.language ?? targetLanguage });
 
     emitInteractionEvent("answer_submitted", {
       roundId: currentRound.roundId,
@@ -218,9 +243,10 @@ export function BalloonPopPracticeGame({
           <p className="mt-1 text-sm leading-6 text-[var(--tenant-muted)]">
             <AudioCueText
               text={findInstructionText(audioCues)}
-              language="en"
+              language={targetLanguage}
               label="Tap the Balloon Pop instruction to hear it"
               className="text-sm"
+              onPlay={() => emitAudioRequested("instruction", findInstructionText(audioCues), "balloon-instruction")}
             />
           </p>
         </div>
@@ -241,13 +267,19 @@ export function BalloonPopPracticeGame({
             <p className="mt-1 text-sm font-bold text-[var(--tenant-text)]">
               <AudioCueText
                 text={currentRound.promptAudioText}
-                language="en"
+                language={targetLanguage}
                 label="Tap the Balloon Pop prompt to hear it"
                 className="text-sm font-bold"
+                onPlay={() => emitAudioRequested("instruction", currentRound.promptAudioText, "balloon-prompt")}
               />
             </p>
           </div>
-          <AudioCueButton text={currentRound.promptAudioText} language="en" label="Listen to the Balloon Pop prompt" />
+          <AudioCueButton
+            text={currentRound.promptAudioText}
+            language={targetLanguage}
+            label="Listen to the Balloon Pop prompt"
+            onPlay={() => emitAudioRequested("instruction", currentRound.promptAudioText, "balloon-prompt-replay")}
+          />
         </div>
       </section>
 
@@ -275,9 +307,20 @@ export function BalloonPopPracticeGame({
 
       <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
         <p className="text-sm font-semibold text-[var(--tenant-text)]">
-          <AudioCueText text={feedback} language="en" label="Tap the Balloon Pop feedback to hear it" className="text-sm font-semibold" />
+          <AudioCueText
+            text={feedback}
+            language={targetLanguage}
+            label="Tap the Balloon Pop feedback to hear it"
+            className="text-sm font-semibold"
+            onPlay={() => emitAudioRequested("feedback", feedback, "balloon-feedback")}
+          />
         </p>
-        <AudioCueButton text={feedback} language="en" label="Replay Balloon Pop feedback" />
+        <AudioCueButton
+          text={feedback}
+          language={targetLanguage}
+          label="Replay Balloon Pop feedback"
+          onPlay={() => emitAudioRequested("feedback", feedback, "balloon-feedback-replay")}
+        />
       </div>
     </Card>
   );
@@ -309,6 +352,6 @@ function findInstructionText(audioCues: AudioCue[]): string {
   );
 }
 
-function findAudioText(audioCues: AudioCue[], label: string): string {
-  return audioCues.find((cue) => cue.text.trim().toLowerCase() === label.trim().toLowerCase())?.text ?? label;
+function findAudioCue(audioCues: AudioCue[], label: string): AudioCue | undefined {
+  return audioCues.find((cue) => cue.kind === "term" && cue.text.trim().toLowerCase() === label.trim().toLowerCase());
 }

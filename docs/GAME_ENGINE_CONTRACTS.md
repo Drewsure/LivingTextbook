@@ -329,6 +329,21 @@ Current first playable example:
 
 This example is acceptable as the first structural playable slice. Future production-ready games can add richer item identifiers, analytics metadata, and persistence without changing the parent-engine contract.
 
+## Second Accepted Example
+
+The second controlled example is the structural Balloon Pop selection slice:
+
+- Mode: `balloon-pop`
+- Parent engine: `selection`
+- Adapter: `selectionEngineAdapter.ts`
+- Component: `BalloonPopPracticeGame.tsx`
+- Input: `UnitPayload`, `LaunchSession`, `StudentProgressionState`, optional `AudioCue[]`
+- Behavior: deterministic reviewed vocabulary rounds with retryable incorrect selections and no time-only progress
+- Events: `game_started`, `round_shown`, `audio_requested`, `answer_submitted`, `answer_result`, `mastery_updated`, and `game_completed`
+- Scoring: shared `arcade-reinforcement-v1` profile through the completion helper
+
+The canonical slice intentionally uses accessible tap targets rather than importing Phaser motion. This keeps the selection parent-engine contract testable while the frozen Phaser Balloon Pop scene remains a separate prototype review candidate.
+
 ## Acceptance Checklist
 
 A game mode is ready for review when:
