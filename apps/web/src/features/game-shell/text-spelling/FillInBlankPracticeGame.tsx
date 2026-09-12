@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Card, StatusPill } from "@living-textbook/ui";
+import { createCanonicalGameReplaySeed } from "@living-textbook/content-model";
 import type {
   AudioCue,
   GameProgressEvent,
@@ -13,6 +14,7 @@ import { AudioCueButton, AudioCueText, playAudioCueText } from "@/features/audio
 import { AudioSupportedAction } from "@/features/audio/AudioSupportedAction";
 import {
   completeGameMode,
+  createAudioRequestedEvent,
   createGameInteractionEvent,
   startUnlockedGameMode,
   type GameModeCompletionResult,
@@ -50,6 +52,8 @@ export function FillInBlankPracticeGame({
 }: FillInBlankPracticeGameProps) {
   const rounds = useMemo(() => buildFillInBlankRounds(unit), [unit]);
   const scoringProfile = getGameScoringProfileForMode(gameMode);
+  const replaySeed = createCanonicalGameReplaySeed({ unitKey: launchSession.unitKey, gameMode });
+  const targetLanguage = unit.unitMeta.textbookReference?.language ?? "en";
   const startEventSent = useRef(false);
   const [roundIndex, setRoundIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState("");
@@ -72,12 +76,13 @@ export function FillInBlankPracticeGame({
       launchSession,
       gameMode,
       occurredAt: new Date().toISOString(),
+      replaySeed,
     });
 
     if (event) {
       onEvent?.(event);
     }
-  }, [launchSession, onEvent, progression]);
+  }, [launchSession, onEvent, progression, replaySeed]);
 
   useEffect(() => {
     if (!currentRound || completedRoundIds.includes(currentRound.roundId)) {
@@ -89,9 +94,30 @@ export function FillInBlankPracticeGame({
       promptSentence: currentRound.promptSentence,
       expectedAnswerLength: currentRound.expectedAnswer.length,
       textSpellingSkin: gameMode,
+      replaySeed,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentRound?.roundId]);
+
+  function emitAudioRequested(
+    cueKind: "term" | "sentence" | "instruction" | "feedback",
+    cueText: string,
+    language: string,
+    source: string,
+  ) {
+    onEvent?.(
+      createAudioRequestedEvent({
+        progression,
+        launchSession,
+        gameMode,
+        occurredAt: new Date().toISOString(),
+        cueKind,
+        cueText,
+        language,
+        source,
+      }),
+    );
+  }
 
   function emitInteractionEvent(
     type: "round_shown" | "answer_submitted" | "answer_result" | "mastery_updated",
@@ -115,7 +141,9 @@ export function FillInBlankPracticeGame({
     }
 
     setSelectedAnswer(choice);
-    playAudioCueText({ text: findAudioText(audioCues, choice), language: "en" });
+    const cue = findAudioCue(audioCues, choice);
+    emitAudioRequested("term", cue?.text ?? choice, cue?.language ?? targetLanguage, "fill-in-choice");
+    playAudioCueText({ text: cue?.text ?? choice, language: cue?.language ?? targetLanguage });
   }
 
   function handleSubmit() {
@@ -134,6 +162,7 @@ export function FillInBlankPracticeGame({
       attempts: nextAttempts,
       targetLanguageAttempt: true,
       supportLanguageUnlockAllowed: false,
+      replaySeed,
     });
     emitInteractionEvent("answer_result", {
       roundId: currentRound.roundId,
@@ -141,11 +170,13 @@ export function FillInBlankPracticeGame({
       attempts: nextAttempts,
       completedRounds: completedRoundIds.length,
       textSpellingSkin: gameMode,
+      replaySeed,
     });
 
     if (!correct) {
       setFeedback("Try again. Listen and choose the missing word.");
-      playAudioCueText({ text: "Try again. Listen and choose the missing word.", language: "en" });
+      emitAudioRequested("feedback", "Try again. Listen and choose the missing word.", targetLanguage, "fill-in-feedback-auto");
+      playAudioCueText({ text: "Try again. Listen and choose the missing word.", language: targetLanguage });
       return;
     }
 
@@ -156,7 +187,8 @@ export function FillInBlankPracticeGame({
     setCorrectRoundIds(nextCorrectRoundIds);
     setFeedback("Correct. Next sentence.");
     setSelectedAnswer("");
-    playAudioCueText({ text: "Correct. Next sentence.", language: "en" });
+    emitAudioRequested("feedback", "Correct. Next sentence.", targetLanguage, "fill-in-feedback-auto");
+    playAudioCueText({ text: "Correct. Next sentence.", language: targetLanguage });
 
     if (nextCompletedRoundIds.length < rounds.length) {
       setRoundIndex((index) => index + 1);
@@ -182,6 +214,7 @@ export function FillInBlankPracticeGame({
           correctRounds: nextCorrectRoundIds.length,
           attempts: nextAttempts,
           textSpellingSkin: gameMode,
+          replaySeed,
         },
       });
 
@@ -193,6 +226,7 @@ export function FillInBlankPracticeGame({
         correctRounds: nextCorrectRoundIds.length,
         scoringProfileId,
         supportLanguageUnlockAllowed: false,
+        replaySeed,
       });
       setCompletionSent(true);
       onComplete(result);
@@ -224,7 +258,8 @@ export function FillInBlankPracticeGame({
     );
   }
 
-  const promptAudioText = findAudioText(audioCues, currentRound.targetSentence);
+  const promptCue = findAudioCue(audioCues, currentRound.targetSentence);
+  const promptAudioText = promptCue?.text ?? currentRound.targetSentence;
   const gameInstructionText = findInstructionText(audioCues);
 
   return (
@@ -235,9 +270,10 @@ export function FillInBlankPracticeGame({
           <p className="mt-1 text-sm leading-6 text-[var(--tenant-muted)]">
             <AudioCueText
               text={gameInstructionText}
-              language="en"
+              language={targetLanguage}
               label="Tap the Fill in the Blank instruction to hear it"
               className="text-sm"
+              onPlay={() => emitAudioRequested("instruction", gameInstructionText, targetLanguage, "fill-in-instruction")}
             />
           </p>
         </div>
@@ -258,19 +294,31 @@ export function FillInBlankPracticeGame({
             <p className="mt-1 text-base font-bold text-[var(--tenant-text)]">
               <AudioCueText
                 text={currentRound.promptSentence}
-                language="en"
+                language={targetLanguage}
                 label="Tap the Fill in the Blank sentence prompt to hear it"
                 className="text-base font-bold"
+                onPlay={() => emitAudioRequested("sentence", currentRound.promptSentence, targetLanguage, "fill-in-prompt")}
               />
             </p>
           </div>
-          <AudioCueButton text={promptAudioText} language="en" label="Listen to the full target sentence before choosing" />
+          <AudioCueButton
+            text={promptAudioText}
+            language={promptCue?.language ?? targetLanguage}
+            label="Listen to the full target sentence before choosing"
+            onPlay={() => emitAudioRequested("sentence", promptAudioText, promptCue?.language ?? targetLanguage, "fill-in-target-sentence")}
+          />
         </div>
       </section>
 
       <section className="mt-5 rounded-lg border border-[var(--tenant-border)] p-4">
         <p className="text-sm font-bold text-[var(--tenant-text)]">
-          <AudioCueText text="Choose the missing word." language="en" label="Tap the answer choice instruction to hear it" className="text-sm font-bold" />
+          <AudioCueText
+            text="Choose the missing word."
+            language={targetLanguage}
+            label="Tap the answer choice instruction to hear it"
+            className="text-sm font-bold"
+            onPlay={() => emitAudioRequested("instruction", "Choose the missing word.", targetLanguage, "fill-in-choice-instruction")}
+          />
         </p>
         <div className="mt-3 grid gap-2 sm:grid-cols-2">
           {currentRound.choices.map((choice) => {
@@ -297,10 +345,21 @@ export function FillInBlankPracticeGame({
 
       <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
         <p className="text-sm font-semibold text-[var(--tenant-text)]">
-          <AudioCueText text={feedback} language="en" label="Tap the Fill in the Blank feedback to hear it" className="text-sm font-semibold" />
+          <AudioCueText
+            text={feedback}
+            language={targetLanguage}
+            label="Tap the Fill in the Blank feedback to hear it"
+            className="text-sm font-semibold"
+            onPlay={() => emitAudioRequested("feedback", feedback, targetLanguage, "fill-in-feedback")}
+          />
         </p>
         <div className="flex flex-wrap gap-2">
-          <AudioCueButton text={promptAudioText} language="en" label="Replay the full target sentence before submitting" />
+          <AudioCueButton
+            text={promptAudioText}
+            language={promptCue?.language ?? targetLanguage}
+            label="Replay the full target sentence before submitting"
+            onPlay={() => emitAudioRequested("sentence", promptAudioText, promptCue?.language ?? targetLanguage, "fill-in-target-sentence-replay")}
+          />
           <AudioSupportedAction
             audioText="Submit missing word"
             onClick={handleSubmit}
@@ -382,6 +441,6 @@ function findInstructionText(audioCues: AudioCue[]): string {
   return audioCues.find((cue) => cue.kind === "instruction" && cue.gameMode === gameMode)?.text ?? instructionText;
 }
 
-function findAudioText(audioCues: AudioCue[], label: string): string {
-  return audioCues.find((cue) => cue.text.trim().toLowerCase() === label.trim().toLowerCase())?.text ?? label;
+function findAudioCue(audioCues: AudioCue[], label: string): AudioCue | undefined {
+  return audioCues.find((cue) => cue.text.trim().toLowerCase() === label.trim().toLowerCase());
 }
