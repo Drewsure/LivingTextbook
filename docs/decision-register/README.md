@@ -567,6 +567,15 @@
 - `DR-676-backend-lifecycle-policy-contract.md`
 - `DR-677-policy-blocker-evidence-contract.md`
 - `DR-678-backend-definition-auditability-contract.md`
+- `DR-679-prototype-integration-gate-readiness-lane.md`
+
+The prototype integration gate slice now feeds detailed wrapper, fixture,
+event, audio, mobile, scoring, and Codex-decision readiness records into the
+tenant-scoped prototype intake summary. A missing, blocked, or review-only
+gate keeps the handoff lane blocked; no import or student-facing promotion is
+enabled. The decision is recorded in
+`docs/adr/0607-prototype-integration-gate-readiness-lane.md` and
+`docs/decision-register/DR-679-prototype-integration-gate-readiness-lane.md`.
 
 ## Maintenance Rule
 

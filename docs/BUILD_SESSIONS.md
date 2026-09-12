@@ -1394,6 +1394,15 @@ migration plans. The decision is recorded in
 `docs/adr/0606-backend-definition-auditability-contract.md` and
 `docs/decision-register/DR-678-backend-definition-auditability-contract.md`.
 
+The prototype integration gate slice now connects the detailed review-only
+integration gate records to the prototype intake readiness summary through an
+explicit `integration-readiness-gates` lane. Tenant summaries filter their
+own gate records, and blocked or review-only gates keep the Z.ai/Codex
+handoff alert blocked. No import, route promotion, scoring mutation, reward
+write, or student assignment was enabled. The decision is recorded in
+`docs/adr/0607-prototype-integration-gate-readiness-lane.md` and
+`docs/decision-register/DR-679-prototype-integration-gate-readiness-lane.md`.
+
 The migration candidate coverage slice now requires every non-deferred
 candidate to have at least one migration specification, while deferred
 candidates must not carry implementation specs. The decision is recorded in

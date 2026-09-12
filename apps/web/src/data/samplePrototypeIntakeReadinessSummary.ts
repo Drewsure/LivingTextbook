@@ -3,7 +3,9 @@ import {
   sampleAiPrototypeEvidenceAlignmentErrors,
 } from "@/data/sampleAiPrototypeEvidenceAlignment";
 import { samplePrototypeIntakeQueue } from "@/data/samplePrototypeIntakeQueue";
+import { sampleAiPrototypeIntegrationReadinessGates } from "@/data/sampleAiPrototypeIntegrationReadinessGate";
 import { validateAiPrototypeEvidenceAlignmentBundles } from "@living-textbook/content-model/src/aiPrototypeEvidenceAlignment";
+import { validateAiPrototypeIntegrationReadinessGates } from "@living-textbook/content-model/src/aiPrototypeIntegrationReadinessGate";
 import { validatePrototypeIntakeReadinessSummary } from "@living-textbook/content-model/src/prototypeIntakeReadinessSummary";
 import {
   derivePrototypeIntakeAlertDecision,
@@ -50,6 +52,48 @@ const hasReturnedPrototypePackage = sampleAiPrototypeReturnedPackageManifests.so
   (manifest) => manifest.status !== "not-returned",
 );
 
+function deriveIntegrationReadinessLane(
+  gates: typeof sampleAiPrototypeIntegrationReadinessGates,
+  tenantId?: string,
+): PrototypeIntakeReadinessLane {
+  const scopedGates = tenantId ? gates.filter((gate) => gate.tenantId === tenantId) : gates;
+  const gateErrors = validateAiPrototypeIntegrationReadinessGates(scopedGates);
+  const blockedGateCount = scopedGates.filter(
+    (gate) => gate.status !== "ready-for-codex-review",
+  ).length;
+
+  if (scopedGates.length === 0) {
+    return {
+      laneId: "integration-readiness-gates",
+      label: "Integration readiness gates",
+      status: "missing",
+      summary: tenantId
+        ? `No detailed integration readiness gate exists for ${tenantId}.`
+        : "No detailed integration readiness gates exist for the prototype intake surface.",
+    };
+  }
+
+  if (gateErrors.length > 0 || blockedGateCount > 0) {
+    return {
+      laneId: "integration-readiness-gates",
+      label: "Integration readiness gates",
+      status: "blocked",
+      summary: tenantId
+        ? `${blockedGateCount} ${tenantId} integration readiness gate(s) remain blocked or review-only; ${gateErrors.length} structural gate error(s) also require review.`
+        : `${blockedGateCount} integration readiness gate(s) remain blocked or review-only; ${gateErrors.length} structural gate error(s) also require review.`,
+    };
+  }
+
+  return {
+    laneId: "integration-readiness-gates",
+    label: "Integration readiness gates",
+    status: "ready",
+    summary: tenantId
+      ? `All ${tenantId} integration readiness gates are ready for Codex review; no import is authorized by this lane alone.`
+      : "All integration readiness gates are ready for Codex review; no import is authorized by this lane alone.",
+  };
+}
+
 const lanes: PrototypeIntakeReadinessLane[] = [
   {
     laneId: "queue-visible",
@@ -69,6 +113,7 @@ const lanes: PrototypeIntakeReadinessLane[] = [
     status: "ready",
     summary: "The prototype evidence packet flow defines source, fixture, event/scoring, audio, mobile, and wrapper lanes.",
   },
+  deriveIntegrationReadinessLane(sampleAiPrototypeIntegrationReadinessGates),
   {
     laneId: "evidence-alignment",
     label: "Evidence packet alignment",
@@ -180,6 +225,9 @@ export function createPrototypeIntakeReadinessSummary(
               ? `The ${tenantId} review packet is structurally aligned across its evidence lanes.`
               : `${tenantAlignmentErrors.length} ${tenantId} evidence alignment error(s) must be resolved before Codex review.`,
       };
+    }
+    if (lane.laneId === "integration-readiness-gates") {
+      return deriveIntegrationReadinessLane(sampleAiPrototypeIntegrationReadinessGates, tenantId);
     }
     if (lane.laneId === "returned-package-manifest-contract") {
       return {

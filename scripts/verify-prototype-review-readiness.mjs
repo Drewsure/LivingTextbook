@@ -164,6 +164,10 @@ const prototypeReturnPackageChecklistStorageMarkers = [
 const prototypeIntakeReadinessSummaryMarkers = [
   "Prototype intake readiness summary",
   "Evidence packet alignment",
+  "Integration readiness gates",
+  "sampleAiPrototypeIntegrationReadinessGates",
+  "validateAiPrototypeIntegrationReadinessGates",
+  "integration-readiness-gates",
   "sample evidence packets are structurally",
   "prototype-intake-readiness-summary-foundation",
   "createPrototypeIntakeReadinessSummary",
