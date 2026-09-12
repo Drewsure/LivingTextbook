@@ -3972,3 +3972,10 @@ The shared canonical event validator now requires `replay-v1:` evidence on
 required learning events and `audio_requested` events. This protects all
 canonical game routes and future Phaser wrappers at runtime. See
 `docs/adr/0660-runtime-replay-evidence-gate.md`.
+
+# DR-733: Canonical Event Runtime Harness
+
+The runtime behavior harness now tests a valid canonical event sequence and
+rejects missing replay-v1 evidence. This protects the shared completion gate
+with executable evidence. See
+`docs/adr/0661-canonical-event-runtime-harness.md`.

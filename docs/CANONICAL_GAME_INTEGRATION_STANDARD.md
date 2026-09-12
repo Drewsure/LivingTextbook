@@ -58,6 +58,8 @@ The shared event-sequence validator independently enforces replay-v1 evidence
 on every required learning event and every audio-request event. Component
 string checks are useful diagnostics, but they are not the authority for
 runtime acceptance.
+The runtime behavior harness exercises both a valid canonical sequence and a
+rejected sequence with missing replay evidence.
 
 ## Review Gate
 

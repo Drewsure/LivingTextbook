@@ -22,6 +22,7 @@ try {
     "--rootDir", join(root, "packages", "content-model", "src"),
     "--outDir", output,
     "packages/content-model/src/progressEventTaxonomy.ts",
+    "packages/content-model/src/canonicalGameIntegration.ts",
     "packages/content-model/src/progressionRuntime.ts",
     "packages/content-model/src/recoveryRuntime.ts",
     "packages/content-model/src/rewardRuntime.ts",
@@ -112,7 +113,43 @@ try {
   const prototypeReturnReadinessSummary = require(join(output, "prototypeReturnReadinessSummary.js"));
   const reviewSurfaceScope = require(join(output, "reviewSurfaceScope.js"));
   const contentModel = require(join(output, "index.js"));
+  const canonicalGame = require(join(output, "canonicalGameIntegration.js"));
   const aiService = require(join(aiOutput, "apps", "ai-service", "src", "index.js"));
+
+  const canonicalReplaySeed = "replay-v1:tenant-1:curriculum-1:L1:U1:flashcards";
+  const canonicalEventContext = {
+    unitKey: "tenant-1:curriculum-1:L1:U1",
+    gameMode: "flashcards",
+    launchCode: "launch-1",
+    studentSessionId: "session-1",
+    occurredAt: new Date().toISOString(),
+  };
+  const canonicalEvents = [
+    { ...canonicalEventContext, type: "game_started", metadata: { tenantId: "tenant-1", replaySeed: canonicalReplaySeed } },
+    { ...canonicalEventContext, type: "round_shown", metadata: { tenantId: "tenant-1", replaySeed: canonicalReplaySeed } },
+    { ...canonicalEventContext, type: "answer_submitted", metadata: { tenantId: "tenant-1", replaySeed: canonicalReplaySeed } },
+    { ...canonicalEventContext, type: "answer_result", metadata: { tenantId: "tenant-1", replaySeed: canonicalReplaySeed, correct: true } },
+    { ...canonicalEventContext, type: "audio_requested", metadata: { tenantId: "tenant-1", replaySeed: canonicalReplaySeed, masteryCreditAllowed: false } },
+    {
+      ...canonicalEventContext,
+      type: "mastery_updated",
+      metadata: { tenantId: "tenant-1", replaySeed: canonicalReplaySeed, completed: true, earnedStarDust: 200, scoringProfileId: "entry-vocabulary-practice" },
+    },
+    { ...canonicalEventContext, type: "game_completed", metadata: { tenantId: "tenant-1", replaySeed: canonicalReplaySeed, earnedStarDust: 200 } },
+  ];
+  const canonicalReport = canonicalGame.validateCanonicalGameEventSequence(
+    canonicalEvents,
+    "flashcards",
+    "tenant-1",
+    200,
+    { unitKey: canonicalEventContext.unitKey, launchCode: canonicalEventContext.launchCode, studentSessionId: canonicalEventContext.studentSessionId },
+  );
+  assertEqual(canonicalReport.valid, true);
+  const missingCanonicalReplayErrors = canonicalGame.validateCanonicalGameEventSequence(
+    canonicalEvents.map((event) => event.type === "answer_result" ? { ...event, metadata: { ...event.metadata, replaySeed: undefined } } : event),
+    "flashcards",
+  ).errors;
+  assertIncludes(missingCanonicalReplayErrors, "Canonical game event answer_result must carry replay-v1 evidence.");
 
   const registry = {
     taxonomyVersion: "test",

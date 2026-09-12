@@ -1609,3 +1609,6 @@ ADR 0659 and DR-731.
 The shared canonical event validator now rejects required learning events and
 audio requests that lack `replay-v1:` evidence, recorded in ADR 0660 and
 DR-732.
+
+The runtime behavior harness now exercises that validator with both accepted
+and rejected canonical sequences, recorded in ADR 0661 and DR-733.
