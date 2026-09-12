@@ -6,6 +6,7 @@
   content contract.
 - Added hashed repository-relative source-file manifests for the reviewed
   scene, base engine, shared types, and audio evidence.
+- Required every finding citation to resolve to one of its manifest files.
 - Recorded the frozen MiniStar commit SHA on Memory Match and Balloon Pop
   review packets.
 - Exposed the SHA in the teacher review-only panel.

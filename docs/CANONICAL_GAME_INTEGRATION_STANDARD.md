@@ -51,6 +51,8 @@ The packet must include a repository-relative source-file manifest with a
 64-character SHA-256 hash for every file used as review evidence. File hashes
 prove what was inspected without making external source part of the product
 build. The manifest is evidence, not a license or an integration approval.
+Every finding reference must resolve to one of those manifest paths; a free-
+floating line citation is not sufficient evidence.
 
 ## Review Gate
 

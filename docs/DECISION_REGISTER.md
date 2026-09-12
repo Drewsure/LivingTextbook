@@ -3958,3 +3958,10 @@ reviewed-file manifests. This is provenance evidence only and does not
 authorize source import or promotion; the same evidence is required from any
 future returned Z.ai candidate package.
 See `docs/adr/0658-phaser-source-identity-record.md`.
+
+# DR-731: Phaser Evidence Reference Integrity
+
+Every external candidate finding must cite a file present in its hashed
+source manifest. This keeps evidence tied to the exact reviewed snapshot and
+does not authorize source promotion. See
+`docs/adr/0659-phaser-evidence-reference-integrity.md`.

@@ -101,6 +101,13 @@ export function validatePhaserCandidateContractReview(
     if (!finding.observedBehavior || !finding.platformRequirement || !finding.evidenceReference) {
       errors.push(`Phaser candidate finding ${finding.findingId || "(unnamed)"} requires observed behavior, platform requirement, and evidence reference.`);
     }
+
+    const evidencePath = finding.evidenceReference.split(":", 1)[0];
+    if (evidencePath && !sourcePaths.has(evidencePath)) {
+      errors.push(
+        `Phaser candidate finding ${finding.findingId || "(unnamed)"} must reference a file in the hashed source manifest.`,
+      );
+    }
   }
 
   for (const blockedAction of requiredBlockedActions) {
