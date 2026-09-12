@@ -35,6 +35,8 @@ const zeroDust: StarDustBreakdown = {
   total: 0,
 };
 
+export const UNIT_STAR_DUST_CAP = 1000;
+
 export function completeFlashcardEntryPractice(args: {
   progression: StudentProgressionState;
   launchSession: LaunchSession;
@@ -70,13 +72,19 @@ export function completeFlashcardEntryPractice(args: {
     };
   }
 
-  const dust = calculateStarDust({
+  const calculatedDust = calculateStarDust({
     masteredTerms: args.unit.pedagogicalPayload.vocabularyTerms.length,
     totalTerms: args.unit.pedagogicalPayload.vocabularyTerms.length,
     masteredSyntaxChecks: 0,
     totalSyntaxChecks: args.unit.pedagogicalPayload.targetSentences.length,
     bonusRatio: 0,
   });
+  const earnedStarDust = capUnitStarDust(args.progression.earnedStarDust, calculatedDust.total);
+  const dust: StarDustBreakdown = {
+    ...calculatedDust,
+    vocabulary: earnedStarDust,
+    total: earnedStarDust,
+  };
 
   const baseProgression = completeEntryPractice({
     progression: args.progression,
@@ -86,7 +94,7 @@ export function completeFlashcardEntryPractice(args: {
 
   const progression: StudentProgressionState = {
     ...baseProgression,
-    earnedStarDust: args.progression.earnedStarDust + dust.total,
+    earnedStarDust: args.progression.earnedStarDust + earnedStarDust,
   };
 
   const completionEvent: GameProgressEvent = {
@@ -97,7 +105,7 @@ export function completeFlashcardEntryPractice(args: {
     studentSessionId: args.progression.studentSessionId,
     occurredAt: args.occurredAt,
     metadata: withTenantMetadata(args.launchSession, {
-      earnedStarDust: dust.total,
+      earnedStarDust,
       masteredTerms: args.unit.pedagogicalPayload.vocabularyTerms.length,
       totalTerms: args.unit.pedagogicalPayload.vocabularyTerms.length,
       targetLanguageEngagedItems: args.targetLanguageEngagedItems ?? 0,
@@ -263,7 +271,7 @@ export function completeGameMode(args: {
     };
   }
 
-  const earnedStarDust = normalizeStarDustAward(args.earnedStarDust);
+  const earnedStarDust = capUnitStarDust(args.progression.earnedStarDust, args.earnedStarDust);
 
   const progression: StudentProgressionState = {
     ...args.progression,
@@ -344,10 +352,12 @@ export function createMediaProgressEvent(args: {
   };
 }
 
-function normalizeStarDustAward(value: number): number {
-  if (!Number.isFinite(value)) return 0;
+function capUnitStarDust(currentStarDust: number, requestedStarDust: number): number {
+  if (!Number.isFinite(currentStarDust) || !Number.isFinite(requestedStarDust)) return 0;
 
-  return Math.min(Math.max(Math.trunc(value), 0), 1000);
+  const current = Math.min(Math.max(Math.trunc(currentStarDust), 0), UNIT_STAR_DUST_CAP);
+  const requested = Math.min(Math.max(Math.trunc(requestedStarDust), 0), UNIT_STAR_DUST_CAP);
+  return Math.min(requested, Math.max(UNIT_STAR_DUST_CAP - current, 0));
 }
 
 export function createMediaPlaylistOpenedEvent(args: {

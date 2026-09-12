@@ -723,3 +723,23 @@ Procedure:
 
 Why this matters: One completion boundary keeps future DOM and Phaser wrappers
 consistent without allowing a game engine to become its own authority.
+
+## OW-033: Unit Star Dust Capacity
+
+Status: Active
+
+Observed behavior: A unit can expose several curated game modes. Adding each
+mode's deterministic award without a unit ceiling can exceed the published
+1,000 Star Dust capacity.
+
+Procedure:
+
+1. Calculate the mode award from its approved scoring profile.
+2. Pass it through the shared unit-cap helper before changing progression.
+3. Record the accepted capped award in completion and mastery evidence.
+4. Keep already-completed and invalid awards at zero.
+5. Run `npm run verify:progression-runtime` and the web typecheck after scoring
+   boundary changes.
+
+Why this matters: The economy, continuity snapshots, teacher reports, and
+future overflow conversion all need the same accepted unit total.

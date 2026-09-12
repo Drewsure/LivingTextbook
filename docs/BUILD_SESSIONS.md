@@ -1727,3 +1727,8 @@ The canonical completion acceptance logic is now shared by the standalone
 playable route shell and the QR student launch flow. A missing completion
 event, wrong-mode evidence, identity mismatch, chronology error, or Star Dust
 disagreement pauses progression in either surface. See ADR 0680 and DR-752.
+
+The scoring boundary now enforces the 1,000 Star Dust maximum per unit. Both
+flashcard entry and canonical game completion record the capped accepted award,
+so additional curated games cannot inflate continuity snapshots or distort
+future overflow-ticket calculations. See ADR 0681 and DR-753.
