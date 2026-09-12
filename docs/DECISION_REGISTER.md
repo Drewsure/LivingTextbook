@@ -3887,6 +3887,12 @@ The decision is recorded in
 `docs/adr/0599-migration-policy-status-alignment.md` and
 `docs/decision-register/DR-671-migration-policy-status-alignment.md`.
 
+The schema field-shape slice now requires every schema entity to declare
+fields with non-empty names, non-empty types, and boolean required flags. A
+regression test proves that a tenant field with an empty type is rejected. The
+decision is recorded in `docs/adr/0600-schema-field-shape-contract.md` and
+`docs/decision-register/DR-672-schema-field-shape-contract.md`.
+
 The migration candidate coverage slice now requires every non-deferred
 candidate to have at least one migration specification, while deferred
 candidates must not carry implementation specs. The decision is recorded in

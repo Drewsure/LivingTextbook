@@ -33,8 +33,21 @@ export function validateBackendContractAlignment({
     }
     schemaEntityIds.add(entity.entityId);
 
+    if (entity.fields.length === 0) {
+      errors.push(`Backend schema entity ${entity.entityId} must declare at least one field.`);
+    }
+
     const fieldNames = new Set<string>();
     for (const field of entity.fields) {
+      if (field.name.trim().length === 0) {
+        errors.push(`Backend schema entity ${entity.entityId} contains a field with an empty name.`);
+      }
+      if (field.type.trim().length === 0) {
+        errors.push(`Backend schema entity ${entity.entityId} field ${field.name || "<unnamed>"} must name its type.`);
+      }
+      if (typeof field.required !== "boolean") {
+        errors.push(`Backend schema entity ${entity.entityId} field ${field.name || "<unnamed>"} must declare required as a boolean.`);
+      }
       if (fieldNames.has(field.name)) {
         errors.push(`Backend schema entity ${entity.entityId} contains duplicate field ${field.name}.`);
       }

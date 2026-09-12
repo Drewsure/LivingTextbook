@@ -128,6 +128,28 @@ try {
     throw new Error("Backend contract alignment did not reject a ready spec for a policy-blocked candidate.");
   }
 
+  const malformedSchema = {
+    ...schema,
+    entities: schema.entities.map((entity) =>
+      entity.entityId === "tenant"
+        ? {
+            ...entity,
+            fields: entity.fields.map((field) =>
+              field.name === "display_name" ? { ...field, type: "" } : field,
+            ),
+          }
+        : entity,
+    ),
+  };
+  const malformedSchemaErrors = alignment.validateBackendContractAlignment({
+    schema: malformedSchema,
+    migrationPlan,
+    migrationSpecPlan,
+  });
+  if (!malformedSchemaErrors.includes("Backend schema entity tenant field display_name must name its type.")) {
+    throw new Error("Backend contract alignment did not reject a schema field without a type.");
+  }
+
   console.log("PASS backend contract alignment resolves all sample schema entities, migration candidates, and migration specs.");
 } finally {
   rmSync(output, { recursive: true, force: true });
