@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { ReactNode } from "react";
 import { Card, StatusPill } from "@living-textbook/ui";
+import { createCanonicalGameReplaySeed } from "@living-textbook/content-model";
 import type {
   AudioCue,
   GameProgressEvent,
@@ -13,6 +14,7 @@ import type {
 import { AudioCueButton, AudioCueText, playAudioCueText } from "@/features/audio/AudioCueButton";
 import {
   completeGameMode,
+  createAudioRequestedEvent,
   createGameInteractionEvent,
   startUnlockedGameMode,
   type GameModeCompletionResult,
@@ -52,6 +54,8 @@ export function PairingMatchUpGame({
   const [lastResult, setLastResult] = useState<PairingSelectionResult | undefined>();
   const [mismatchCardIds, setMismatchCardIds] = useState<string[]>([]);
   const [completionSent, setCompletionSent] = useState(false);
+  const replaySeed = createCanonicalGameReplaySeed({ unitKey: launchSession.unitKey, gameMode });
+  const targetLanguage = unit.unitMeta.textbookReference?.language ?? "en";
   const startSentRef = useRef(false);
   const mode = getGameModeCatalogItem(gameMode);
   const scoringProfile = getGameScoringProfileForMode(gameMode);
@@ -70,13 +74,34 @@ export function PairingMatchUpGame({
       launchSession,
       gameMode,
       occurredAt: new Date().toISOString(),
+      replaySeed,
     });
 
     if (event) {
       startSentRef.current = true;
       onEvent?.(event);
     }
-  }, [launchSession, onEvent, progression]);
+  }, [launchSession, onEvent, progression, replaySeed]);
+
+  function emitAudioRequested(
+    cueKind: "term" | "sentence" | "instruction" | "feedback",
+    cueText: string,
+    language: string,
+    source: string,
+  ) {
+    onEvent?.(
+      createAudioRequestedEvent({
+        progression,
+        launchSession,
+        gameMode,
+        occurredAt: new Date().toISOString(),
+        cueKind,
+        cueText,
+        language,
+        source,
+      }),
+    );
+  }
 
   function emitInteractionEvent(
     type: "round_shown" | "answer_submitted" | "answer_result" | "mastery_updated",
@@ -96,7 +121,8 @@ export function PairingMatchUpGame({
 
   function handleCardSelect(card: PairingCard) {
     const audioCue = findTermAudioCue(audioCues, card.label);
-    playAudioCueText({ text: audioCue?.text ?? card.label, language: audioCue?.language ?? "en" });
+    emitAudioRequested("term", audioCue?.text ?? card.label, audioCue?.language ?? targetLanguage, "match-up-card");
+    playAudioCueText({ text: audioCue?.text ?? card.label, language: audioCue?.language ?? targetLanguage });
 
     if (card.status === "matched" || engineState.completed) {
       return;
@@ -117,6 +143,7 @@ export function PairingMatchUpGame({
       label: card.label,
       result: outcome.result,
       attempts: outcome.state.attempts,
+      replaySeed,
     });
 
     if (outcome.result === "matched" || outcome.result === "mismatched") {
@@ -137,6 +164,7 @@ export function PairingMatchUpGame({
         secondCardKind: card.kind,
         secondCardLabel: card.label,
         attempts: outcome.state.attempts,
+        replaySeed,
       });
       emitInteractionEvent("answer_result", {
         firstCardId,
@@ -146,6 +174,7 @@ export function PairingMatchUpGame({
         attempts: outcome.state.attempts,
         matchedPairs: outcomeProgress.matchedPairs,
         remainingPairs: outcomeProgress.remainingPairs,
+        replaySeed,
       });
     }
 
@@ -187,6 +216,7 @@ export function PairingMatchUpGame({
           attempts: outcome.state.attempts,
           parentEngine: mode?.engineId ?? "pairing",
           scoringProfileId: scoringProfile?.id ?? "pairing-reinforcement-v1",
+          replaySeed,
         },
       });
 
@@ -196,6 +226,7 @@ export function PairingMatchUpGame({
         attempts: outcome.state.attempts,
         totalPairs: completedProgress.totalPairs,
         scoringProfileId: scoringProfile?.id ?? "pairing-reinforcement-v1",
+        replaySeed,
       });
       setCompletionSent(true);
       onComplete(result);
@@ -223,9 +254,10 @@ export function PairingMatchUpGame({
           <p className="mt-1 text-sm text-[var(--tenant-muted)]">
             <AudioCueText
               text={instructionCue?.text ?? "Tap a listening prompt, then tap the matching word."}
-              language={instructionCue?.language ?? "en"}
+              language={instructionCue?.language ?? targetLanguage}
               label="Tap the Match Up instruction to hear it"
               className="text-sm"
+              onPlay={() => emitAudioRequested("instruction", instructionCue?.text ?? "Tap a listening prompt, then tap the matching word.", instructionCue?.language ?? targetLanguage, "match-up-instruction")}
             />
           </p>
         </div>
@@ -248,6 +280,17 @@ export function PairingMatchUpGame({
           }
           label="Tap the Match Up selection status to hear it"
           className="text-sm font-semibold"
+          language={targetLanguage}
+          onPlay={() =>
+            emitAudioRequested(
+              "instruction",
+              selectedCards.length > 0
+                ? `Selected ${selectedCards.map((card) => card.label).join(" and ")}.`
+                : "Choose one listening prompt and one word card.",
+              targetLanguage,
+              "match-up-selection-status",
+            )
+          }
         />
       </div>
 
@@ -285,12 +328,14 @@ export function PairingMatchUpGame({
           language={(lastResult === "mismatched" ? feedbackCue?.language : instructionCue?.language) ?? "en"}
           label="Tap the Match Up message to hear it"
           className="text-sm font-semibold"
+          onPlay={() => emitAudioRequested("feedback", feedbackText, targetLanguage, "match-up-feedback")}
         />
         <AudioCueButton
           text={feedbackText}
           language={(lastResult === "mismatched" ? feedbackCue?.language : instructionCue?.language) ?? "en"}
           label="Replay Match Up message"
           compact
+          onPlay={() => emitAudioRequested("feedback", feedbackText, targetLanguage, "match-up-feedback-replay")}
         />
       </div>
     </Card>
