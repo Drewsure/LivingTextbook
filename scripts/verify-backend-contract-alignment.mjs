@@ -167,6 +167,53 @@ try {
     throw new Error("Backend contract alignment did not reject a schema field without a type.");
   }
 
+  const unsupportedSchemaStatus = {
+    ...schema,
+    entities: schema.entities.map((entity) =>
+      entity.entityId === "tenant" ? { ...entity, status: "ready" } : entity,
+    ),
+  };
+  const unsupportedSchemaStatusErrors = alignment.validateBackendContractAlignment({
+    schema: unsupportedSchemaStatus,
+    migrationPlan,
+    migrationSpecPlan,
+  });
+  if (!unsupportedSchemaStatusErrors.includes("Backend schema entity tenant has an unsupported status.")) {
+    throw new Error("Backend contract alignment did not reject an unsupported schema entity status.");
+  }
+
+  const unsupportedCandidateTrackPlan = {
+    ...migrationPlan,
+    candidates: migrationPlan.candidates.map((candidate) =>
+      candidate.migrationId === "m001-tenant-and-entitlements"
+        ? { ...candidate, track: "remote" }
+        : candidate,
+    ),
+  };
+  const unsupportedCandidateTrackErrors = alignment.validateBackendContractAlignment({
+    schema,
+    migrationPlan: unsupportedCandidateTrackPlan,
+    migrationSpecPlan,
+  });
+  if (!unsupportedCandidateTrackErrors.includes("Backend migration m001-tenant-and-entitlements has an unsupported track.")) {
+    throw new Error("Backend contract alignment did not reject an unsupported migration candidate track.");
+  }
+
+  const unsupportedSpecStorePlan = {
+    ...migrationSpecPlan,
+    specs: migrationSpecPlan.specs.map((spec) =>
+      spec.specId === "spec-media-manifest" ? { ...spec, storeKind: "document-store" } : spec,
+    ),
+  };
+  const unsupportedSpecStoreErrors = alignment.validateBackendContractAlignment({
+    schema,
+    migrationPlan,
+    migrationSpecPlan: unsupportedSpecStorePlan,
+  });
+  if (!unsupportedSpecStoreErrors.includes("Backend migration spec spec-media-manifest has an unsupported store kind.")) {
+    throw new Error("Backend contract alignment did not reject an unsupported migration spec store kind.");
+  }
+
   const missingSchemaTenantIndex = {
     ...schema,
     entities: schema.entities.map((entity) =>

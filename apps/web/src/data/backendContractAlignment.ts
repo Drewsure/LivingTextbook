@@ -13,6 +13,20 @@ const REQUIRED_MIGRATION_FIELDS_BY_ENTITY: Record<string, string[]> = {
   evidence_attachment: ["attachment_id", "scope_kind", "tenant_id"],
 };
 
+const SUPPORTED_SCHEMA_ENTITY_STATUSES = new Set(["draft", "required-before-pilot", "policy-required"]);
+const SUPPORTED_SCHEMA_DEPLOYMENT_FITS = new Set(["hosted", "local", "hybrid"]);
+const SUPPORTED_MIGRATION_TRACKS = new Set(["hosted-pilot", "local-classroom", "shared"]);
+const SUPPORTED_MIGRATION_CANDIDATE_STATUSES = new Set(["ready-to-design", "needs-policy", "defer"]);
+const SUPPORTED_MIGRATION_CANDIDATE_RISKS = new Set(["low", "medium", "high"]);
+const SUPPORTED_MIGRATION_SPEC_STATUSES = new Set(["draft", "ready-for-review", "blocked-by-policy"]);
+const SUPPORTED_MIGRATION_STORE_KINDS = new Set([
+  "admin-record",
+  "release-record",
+  "session-record",
+  "event-record",
+  "collection-record",
+]);
+
 /**
  * Checks the relationships between the vendor-neutral schema, migration
  * candidates, and migration specifications before any vendor implementation.
@@ -55,6 +69,12 @@ export function validateBackendContractAlignment({
 
     if (entity.entityId.trim().length === 0 || entity.label.trim().length === 0 || entity.purpose.trim().length === 0 || entity.migrationNote.trim().length === 0) {
       errors.push(`Backend schema entity ${entity.entityId || "<unnamed>"} must declare identity, label, purpose, and migration note.`);
+    }
+    if (!SUPPORTED_SCHEMA_ENTITY_STATUSES.has(entity.status)) {
+      errors.push(`Backend schema entity ${entity.entityId || "<unnamed>"} has an unsupported status.`);
+    }
+    if (!SUPPORTED_SCHEMA_DEPLOYMENT_FITS.has(entity.deploymentFit)) {
+      errors.push(`Backend schema entity ${entity.entityId || "<unnamed>"} has an unsupported deployment fit.`);
     }
     if (entity.relationships.length === 0 || entity.relationships.some((relationship) => relationship.trim().length === 0)) {
       errors.push(`Backend schema entity ${entity.entityId || "<unnamed>"} must declare non-empty relationship notes.`);
@@ -142,6 +162,15 @@ export function validateBackendContractAlignment({
     if (candidate.migrationId.trim().length === 0 || candidate.label.trim().length === 0) {
       errors.push(`Backend migration ${candidate.migrationId || "<unnamed>"} must declare identity and label.`);
     }
+    if (!SUPPORTED_MIGRATION_TRACKS.has(candidate.track)) {
+      errors.push(`Backend migration ${candidate.migrationId || "<unnamed>"} has an unsupported track.`);
+    }
+    if (!SUPPORTED_MIGRATION_CANDIDATE_STATUSES.has(candidate.status)) {
+      errors.push(`Backend migration ${candidate.migrationId || "<unnamed>"} has an unsupported status.`);
+    }
+    if (!SUPPORTED_MIGRATION_CANDIDATE_RISKS.has(candidate.risk)) {
+      errors.push(`Backend migration ${candidate.migrationId || "<unnamed>"} has an unsupported risk.`);
+    }
 
     if (candidate.purpose.trim().length === 0) {
       errors.push(`Backend migration ${candidate.migrationId} must describe its purpose.`);
@@ -176,6 +205,12 @@ export function validateBackendContractAlignment({
 
     if (spec.specId.trim().length === 0 || spec.label.trim().length === 0 || spec.purpose.trim().length === 0) {
       errors.push(`Backend migration spec ${spec.specId || "<unnamed>"} must declare identity, label, and purpose.`);
+    }
+    if (!SUPPORTED_MIGRATION_SPEC_STATUSES.has(spec.status)) {
+      errors.push(`Backend migration spec ${spec.specId || "<unnamed>"} has an unsupported status.`);
+    }
+    if (!SUPPORTED_MIGRATION_STORE_KINDS.has(spec.storeKind)) {
+      errors.push(`Backend migration spec ${spec.specId || "<unnamed>"} has an unsupported store kind.`);
     }
 
     const candidate = migrationPlan.candidates.find((item) => item.migrationId === spec.candidateId);

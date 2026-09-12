@@ -569,6 +569,7 @@
 - `DR-678-backend-definition-auditability-contract.md`
 - `DR-679-prototype-integration-gate-readiness-lane.md`
 - `DR-680-backend-migration-field-extension-contract.md`
+- `DR-681-backend-enum-boundary-contract.md`
 
 The prototype integration gate slice now feeds detailed wrapper, fixture,
 event, audio, mobile, scoring, and Codex-decision readiness records into the
@@ -584,6 +585,12 @@ field to exist on its target schema entity or in an explicit, validated
 materialized fields without enabling storage writes. The decision is recorded
 in `docs/adr/0608-backend-migration-field-extension-contract.md` and
 `docs/decision-register/DR-680-backend-migration-field-extension-contract.md`.
+
+The backend enum boundary slice now validates schema statuses and deployment
+fits, migration tracks/statuses/risks, and migration specification
+statuses/store kinds at the JSON contract boundary. The decision is recorded
+in `docs/adr/0609-backend-enum-boundary-contract.md` and
+`docs/decision-register/DR-681-backend-enum-boundary-contract.md`.
 
 ## Maintenance Rule
 

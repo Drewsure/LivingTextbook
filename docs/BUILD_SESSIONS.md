@@ -1411,6 +1411,13 @@ live storage write or vendor selection was enabled. The decision is recorded
 in `docs/adr/0608-backend-migration-field-extension-contract.md` and
 `docs/decision-register/DR-680-backend-migration-field-extension-contract.md`.
 
+The backend enum boundary slice now rejects unsupported schema, migration
+candidate, and migration specification vocabulary before adapter or migration
+implementation. Regression coverage and backend storage readiness both pass;
+no live persistence or vendor selection was enabled. The decision is recorded
+in `docs/adr/0609-backend-enum-boundary-contract.md` and
+`docs/decision-register/DR-681-backend-enum-boundary-contract.md`.
+
 The migration candidate coverage slice now requires every non-deferred
 candidate to have at least one migration specification, while deferred
 candidates must not carry implementation specs. The decision is recorded in

@@ -3980,6 +3980,9 @@ requireText(schemaDraft, "migrationFieldExtensions", "Backend schema draft must 
 requireText(schemaDraft, "Materialized release-record identity", "Backend schema draft must document materialized migration fields.");
 requireText(backendContractAlignment, "must exist on one of its target schema entities", "Backend alignment must reject migration fields absent from target schema entities.");
 requireText(backendContractAlignment, "migration field extensions", "Backend alignment must validate migration field extensions.");
+requireText(backendContractAlignment, "unsupported deployment fit", "Backend alignment must reject unsupported schema deployment fits.");
+requireText(backendContractAlignment, "unsupported track", "Backend alignment must reject unsupported migration tracks.");
+requireText(backendContractAlignment, "unsupported store kind", "Backend alignment must reject unsupported migration store kinds.");
 requireText(backendSchemaDraftPanel, "Migration-only fields", "Backend schema panel must show migration-only fields.");
 requireText(migrationCandidates, "settings review packet", "Backend migration candidates must preserve teacher session settings review packets.");
 requireText(migrationSpecs, "settings_review_packet", "Backend migration specs must preserve teacher session settings review packets.");
