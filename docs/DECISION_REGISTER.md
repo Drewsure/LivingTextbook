@@ -3965,3 +3965,10 @@ Every external candidate finding must cite a file present in its hashed
 source manifest. This keeps evidence tied to the exact reviewed snapshot and
 does not authorize source promotion. See
 `docs/adr/0659-phaser-evidence-reference-integrity.md`.
+
+# DR-732: Runtime Replay Evidence Gate
+
+The shared canonical event validator now requires `replay-v1:` evidence on
+required learning events and `audio_requested` events. This protects all
+canonical game routes and future Phaser wrappers at runtime. See
+`docs/adr/0660-runtime-replay-evidence-gate.md`.

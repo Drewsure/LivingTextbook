@@ -35,6 +35,10 @@ export function validateCanonicalGameEventSequence(
 ): CanonicalGameEventSequenceReport {
   const errors: string[] = [];
   const eventTypes = events.map((event) => event.type);
+  const replayEvidenceRequiredTypes: readonly string[] = [
+    ...CANONICAL_GAME_REQUIRED_EVENT_ORDER,
+    "audio_requested",
+  ];
 
   if (events.length === 0) {
     errors.push("Canonical game event sequence must include at least one event.");
@@ -170,6 +174,13 @@ export function validateCanonicalGameEventSequence(
   }
 
   for (const event of events) {
+    if (
+      replayEvidenceRequiredTypes.includes(event.type)
+      && (typeof event.metadata?.replaySeed !== "string" || !event.metadata.replaySeed.startsWith("replay-v1:"))
+    ) {
+      errors.push(`Canonical game event ${event.type} must carry replay-v1 evidence.`);
+    }
+
     if (event.metadata?.supportLanguageUnlockAllowed === true) {
       errors.push(`Canonical game event ${event.type} must not unlock progress through support language.`);
     }

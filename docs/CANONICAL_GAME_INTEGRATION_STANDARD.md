@@ -54,6 +54,11 @@ build. The manifest is evidence, not a license or an integration approval.
 Every finding reference must resolve to one of those manifest paths; a free-
 floating line citation is not sufficient evidence.
 
+The shared event-sequence validator independently enforces replay-v1 evidence
+on every required learning event and every audio-request event. Component
+string checks are useful diagnostics, but they are not the authority for
+runtime acceptance.
+
 ## Review Gate
 
 Run `node scripts/verify-canonical-game-integrations.mjs`, the focused route

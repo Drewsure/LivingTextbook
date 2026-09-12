@@ -1605,3 +1605,7 @@ evidence without importing the frozen source. The foundation-to-Z.ai intake
 gate now requires that provenance evidence on every returned candidate package.
 Finding citations must also resolve to a file in that manifest, recorded in
 ADR 0659 and DR-731.
+
+The shared canonical event validator now rejects required learning events and
+audio requests that lack `replay-v1:` evidence, recorded in ADR 0660 and
+DR-732.
