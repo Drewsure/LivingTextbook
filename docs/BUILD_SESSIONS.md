@@ -1659,3 +1659,8 @@ Canonical report evidence now separates repeated plays at each new
 `game_started` event and validates retries independently. This keeps classroom
 retries reportable while blocking incomplete attempts. This is recorded in ADR
 0670 and DR-742.
+
+The sample teacher report now carries a blocked partial memory attempt and a
+complete canonical retry, allowing the report card to demonstrate both paths.
+It remains review-only and cannot authorize export or persistence. This is
+recorded in ADR 0671 and DR-743.

@@ -4046,3 +4046,11 @@ Repeated plays of the same game mode are now split at each subsequent
 retries, keeps incomplete attempts visibly blocked, and prevents duplicate
 events from corrupting teacher-report evidence. See
 `docs/adr/0670-canonical-game-retry-attempts.md`.
+
+# DR-743: Ready And Blocked Report Fixture
+
+The sample teacher report now includes an incomplete canonical game attempt and
+a complete retry. The first remains blocked while the retry can pass sequence,
+identity, replay, timestamp, and completion checks, proving both report paths
+without enabling export or persistence. See
+`docs/adr/0671-ready-and-blocked-report-fixture.md`.

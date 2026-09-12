@@ -48,7 +48,7 @@ export function validateCanonicalGameReportEvidence(
 
     const key = [event.unitKey, event.launchCode ?? "", event.studentSessionId ?? "", event.gameMode].join("|");
     const attempts = groups.get(key) ?? [];
-    let group = attempts[attempts.length - 1];
+    let group: GameProgressEvent[] | undefined = attempts[attempts.length - 1];
     if (event.type === "game_started" && group?.some((item) => item.type === "game_started")) {
       group = undefined;
     }

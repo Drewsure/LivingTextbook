@@ -94,6 +94,11 @@ Repeated plays of a game mode are separate canonical report attempts. A new
 `game_started` event closes the prior attempt for validation, so a retry cannot
 be merged into or corrupt an earlier score. See ADR 0670 and DR-742.
 
+The teacher sample report includes both a blocked partial attempt and a
+complete retry. This positive-and-negative fixture proves that the report
+surface recognizes valid canonical evidence without turning sample data into
+exportable or persisted classroom data. See ADR 0671 and DR-743.
+
 ## Review Gate
 
 Run `node scripts/verify-canonical-game-integrations.mjs`, the focused route
