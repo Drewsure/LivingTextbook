@@ -1,3 +1,5 @@
+import { UNIT_STAR_DUST_CAP } from "./economyPolicy";
+
 export type AiGamificationMappingStatus = "draft-only" | "blocked" | "ready-for-review";
 
 export interface AiGamificationScoringLane {
@@ -82,8 +84,8 @@ export function validateAiGamificationMappingPlan(plan: unknown): string[] {
     errors.push("AI gamification mapping plan must include a rewardCurrency.");
   }
 
-  if (unitMaxStarDust !== 1000) {
-    errors.push("AI gamification mapping plan must keep unitMaxStarDust at 1000.");
+  if (unitMaxStarDust !== UNIT_STAR_DUST_CAP) {
+    errors.push(`AI gamification mapping plan must keep unitMaxStarDust at ${UNIT_STAR_DUST_CAP}.`);
   }
 
   if (unitMasteryThreshold !== 750) {
@@ -102,8 +104,8 @@ export function validateAiGamificationMappingPlan(plan: unknown): string[] {
     return total + (readNumber(lane, "maxStarDust") ?? 0);
   }, 0);
 
-  if (scoringTotal !== unitMaxStarDust || scoringTotal !== 1000) {
-    errors.push("AI gamification mapping plan scoring lanes must total exactly 1000 Star Dust.");
+  if (scoringTotal !== unitMaxStarDust || scoringTotal !== UNIT_STAR_DUST_CAP) {
+    errors.push(`AI gamification mapping plan scoring lanes must total exactly ${UNIT_STAR_DUST_CAP} Star Dust.`);
   }
 
   if (scoringLanes.length === 0) {

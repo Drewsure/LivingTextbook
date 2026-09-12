@@ -76,6 +76,11 @@ tenant policy are accepted.
 The schema, migration candidate, migration specification, durable record plan,
 and adapter intents must all remain aligned before implementation work begins.
 
+The unit capacity is owned by the shared content-model economy policy
+(`UNIT_STAR_DUST_CAP`), not by an individual game or tenant adapter. All
+scoring, continuity, report, and AI gamification layers must consume that
+policy value.
+
 Runtime callers are treated as untrusted even when they are typed internally.
 Malformed expected identity fields must return validation errors rather than
 throwing, and no adapter may turn malformed input into a route, scoring,

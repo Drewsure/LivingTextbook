@@ -16,8 +16,10 @@ inconsistent.
 
 `completeFlashcardEntryPractice` and `completeGameMode` must cap each award to
 the remaining capacity in the current unit. The shared application constant is
-`UNIT_STAR_DUST_CAP = 1000`, and the completion event records the capped award,
-not the requested award.
+`UNIT_STAR_DUST_CAP = 1000` in the shared content-model economy policy, and the
+completion event records the capped award, not the requested award. Web
+adapters and AI gamification validation consume that shared constant rather
+than defining competing capacity literals.
 
 The cap applies after the existing deterministic scoring profile calculation
 and before progression, event, reward, or report state changes. Replays and
@@ -41,5 +43,6 @@ Tradeoffs:
 
 ## Verification
 
-`npm run verify:progression-runtime` checks the cap boundary markers, and the
-web typecheck covers both completion consumers.
+`npm run verify:progression-runtime`, `npm run verify:canonical-games`, and
+`npm run verify:ai-generator` check the shared policy consumers, and the web
+typecheck covers both completion consumers.

@@ -1,3 +1,4 @@
+import { UNIT_STAR_DUST_CAP } from "./economyPolicy";
 import type { GameEventType, GameModeId, GameProgressEvent } from "./index";
 
 export const CANONICAL_GAME_REQUIRED_EVENT_ORDER = [
@@ -164,11 +165,11 @@ export function validateCanonicalGameEventSequence(
   }
 
   if (masteryEvent && masteryDust === undefined) {
-    errors.push("Canonical game mastery_updated event must include an integer earnedStarDust value from 0 to 1000.");
+    errors.push(`Canonical game mastery_updated event must include an integer earnedStarDust value from 0 to ${UNIT_STAR_DUST_CAP}.`);
   }
 
   if (completionEvent && completionDust === undefined) {
-    errors.push("Canonical game game_completed event must include an integer earnedStarDust value from 0 to 1000.");
+    errors.push(`Canonical game game_completed event must include an integer earnedStarDust value from 0 to ${UNIT_STAR_DUST_CAP}.`);
   }
 
   if (masteryDust !== undefined && completionDust !== undefined && masteryDust !== completionDust) {
@@ -239,5 +240,5 @@ function readFiniteStarDust(event: GameProgressEvent | undefined): number | unde
     return undefined;
   }
 
-  return value >= 0 && value <= 1000 ? value : undefined;
+  return value >= 0 && value <= UNIT_STAR_DUST_CAP ? value : undefined;
 }

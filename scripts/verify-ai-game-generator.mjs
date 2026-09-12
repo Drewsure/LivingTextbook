@@ -2779,7 +2779,7 @@ requireText(
 );
 requireText(
   gamificationMappingValidator,
-  "AI gamification mapping plan must keep unitMaxStarDust at 1000.",
+  "unitMaxStarDust !== UNIT_STAR_DUST_CAP",
   "Shared gamification validator must enforce the 1,000 Star Dust cap.",
 );
 requireText(
@@ -2789,7 +2789,7 @@ requireText(
 );
 requireText(
   gamificationMappingValidator,
-  "AI gamification mapping plan scoring lanes must total exactly 1000 Star Dust.",
+  "scoringTotal !== unitMaxStarDust || scoringTotal !== UNIT_STAR_DUST_CAP",
   "Shared gamification validator must enforce scoring lane totals.",
 );
 requireText(

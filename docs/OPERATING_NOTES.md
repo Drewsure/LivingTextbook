@@ -743,3 +743,25 @@ Procedure:
 
 Why this matters: The economy, continuity snapshots, teacher reports, and
 future overflow conversion all need the same accepted unit total.
+
+## OW-034: Shared Economy Policy Ownership
+
+Status: Active
+
+Observed behavior: A fixed economy rule duplicated in a web adapter, content
+validator, or AI authoring validator can silently diverge across tenants and
+future game wrappers.
+
+Procedure:
+
+1. Put platform-wide economy constants in
+   `packages/content-model/src/economyPolicy.ts`.
+2. Import the shared constant into scoring, event, continuity, and authoring
+   validators; do not add a competing literal.
+3. Keep tenant-specific reward catalogs and presentation labels separate from
+   platform capacity rules.
+4. Run canonical-game, progression-runtime, AI-generator, and web typechecks
+   after changing the economy policy.
+
+Why this matters: One policy source protects white-label consistency while
+keeping tenant reward presentation configurable.

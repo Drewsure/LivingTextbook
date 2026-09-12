@@ -1,7 +1,16 @@
 import { readFileSync } from "node:fs";
 
 const source = readFileSync(new URL("../packages/content-model/src/progressionRuntime.ts", import.meta.url), "utf8");
+const economyPolicy = readFileSync(new URL("../packages/content-model/src/economyPolicy.ts", import.meta.url), "utf8");
 const failures = [];
+
+for (const marker of [
+  "export const UNIT_STAR_DUST_CAP = 1000",
+  "export const MODULE_STAR_DUST_CAP = 4000",
+  "export const MODULE_MASTERY_THRESHOLD = 3000",
+]) {
+  if (!economyPolicy.includes(marker)) failures.push(`economy policy missing marker: ${marker}`);
+}
 
 for (const marker of [
   "ProgressionRuntimeRequest",

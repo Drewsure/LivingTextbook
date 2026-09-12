@@ -1,5 +1,6 @@
 import type { ProgressEventEnvelope, ProgressEventTaxonomyRegistry } from "./progressEventTaxonomy";
 import { validateProgressEventEnvelope } from "./progressEventTaxonomy";
+import { UNIT_STAR_DUST_CAP } from "./economyPolicy";
 import { getGameModeContract } from "./index";
 
 export type ProgressionRuntimeMode = "review-only" | "hosted-managed" | "local-classroom" | "hybrid";
@@ -256,7 +257,7 @@ function validateProgressionContinuitySnapshot(value: unknown): string[] {
     if (!Array.isArray(value[field])) errors.push(`Progression continuity snapshot ${field} must be an array.`);
   }
   if (!Number.isSafeInteger(value.earnedStarDust) || Number(value.earnedStarDust) < 0 || Number(value.earnedStarDust) > 1000) {
-    errors.push("Progression continuity snapshot earnedStarDust must be an integer from 0 to 1000.");
+    errors.push(`Progression continuity snapshot earnedStarDust must be an integer from 0 to ${UNIT_STAR_DUST_CAP}.`);
   }
   if (value.lastEventAt !== undefined && !isIsoTimestamp(value.lastEventAt)) errors.push("Progression continuity snapshot lastEventAt must be an ISO timestamp.");
   const unlocked = stringArray(value.unlockedGameModes);

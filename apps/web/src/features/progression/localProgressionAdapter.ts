@@ -2,6 +2,7 @@ import {
   calculateStarDust,
   completeEntryPractice,
   createCanonicalGameReplaySeed,
+  UNIT_STAR_DUST_CAP,
 } from "@living-textbook/content-model";
 import type {
   AudioCueKind,
@@ -34,8 +35,6 @@ const zeroDust: StarDustBreakdown = {
   bonus: 0,
   total: 0,
 };
-
-export const UNIT_STAR_DUST_CAP = 1000;
 
 export function completeFlashcardEntryPractice(args: {
   progression: StudentProgressionState;

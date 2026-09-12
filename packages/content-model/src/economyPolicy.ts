@@ -1,0 +1,3 @@
+export const UNIT_STAR_DUST_CAP = 1000;
+export const MODULE_STAR_DUST_CAP = 4000;
+export const MODULE_MASTERY_THRESHOLD = 3000;

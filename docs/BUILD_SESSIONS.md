@@ -1732,3 +1732,8 @@ The scoring boundary now enforces the 1,000 Star Dust maximum per unit. Both
 flashcard entry and canonical game completion record the capped accepted award,
 so additional curated games cannot inflate continuity snapshots or distort
 future overflow-ticket calculations. See ADR 0681 and DR-753.
+
+The unit-cap source of truth now lives in the shared content-model economy
+policy. Web progression adapters, canonical event validation, continuity
+validation, and AI gamification mapping validation consume the same constant,
+preventing platform layers from drifting on the published capacity.

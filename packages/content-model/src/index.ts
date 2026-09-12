@@ -416,6 +416,8 @@ function isVideoAsset(type: MediaAssetType): boolean {
   return type === "lesson-video" || type === "music-video" || type === "karaoke-video" || type === "animation" || type === "other-video";
 }
 
+export * from "./economyPolicy";
+
 export function languageMatches(value: string, targetLanguage: string): boolean {
   const language = value.trim().toLowerCase();
   const target = targetLanguage.trim().toLowerCase();
