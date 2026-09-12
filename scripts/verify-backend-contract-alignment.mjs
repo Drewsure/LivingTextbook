@@ -545,6 +545,27 @@ try {
     throw new Error("Backend contract alignment did not reject a weakened required migration field.");
   }
 
+  const ambiguousPrimaryKeyMigrationSpec = {
+    ...migrationSpecPlan,
+    specs: migrationSpecPlan.specs.map((spec) =>
+      spec.specId === "spec-package-game-audio-coverage"
+        ? {
+            ...spec,
+            targetEntities: ["package_release", "package_game_audio_coverage"],
+            primaryKey: "package_release_id",
+          }
+        : spec,
+    ),
+  };
+  const ambiguousPrimaryKeyErrors = alignment.validateBackendContractAlignment({
+    schema,
+    migrationPlan,
+    migrationSpecPlan: ambiguousPrimaryKeyMigrationSpec,
+  });
+  if (!ambiguousPrimaryKeyErrors.includes("Backend migration spec spec-package-game-audio-coverage primary key package_release_id is ambiguous across target schema entities package_release, package_game_audio_coverage.")) {
+    throw new Error("Backend contract alignment did not reject an ambiguous explicitly scoped primary key.");
+  }
+
   console.log("PASS backend contract alignment resolves all sample schema entities, migration candidates, and migration specs.");
 } finally {
   rmSync(output, { recursive: true, force: true });

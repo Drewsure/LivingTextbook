@@ -1447,6 +1447,14 @@ remains required; no storage write path was enabled. The decision is recorded
 in `docs/adr/0613-backend-required-field-parity.md` and
 `docs/decision-register/DR-685-backend-required-field-parity.md`.
 
+The backend spec-target slice now gives multi-entity candidates explicit
+materialization targets per migration specification. Package release, audio
+coverage, release-candidate, and game-settings specs use that boundary for
+field and primary-key validation. No adapter or storage write path was
+enabled. The decision is recorded in
+`docs/adr/0614-backend-spec-target-entities.md` and
+`docs/decision-register/DR-686-backend-spec-target-entities.md`.
+
 The migration candidate coverage slice now requires every non-deferred
 candidate to have at least one migration specification, while deferred
 candidates must not carry implementation specs. The decision is recorded in

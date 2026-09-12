@@ -278,6 +278,24 @@ export function validateBackendContractAlignment({
       errors.push(`Backend migration spec ${spec.specId} references a candidate without schema targets.`);
     }
 
+    const specTargetEntities = spec.targetEntities ?? candidate?.targetEntities ?? [];
+    if (spec.targetEntities) {
+      if (spec.targetEntities.length === 0) {
+        errors.push(`Backend migration spec ${spec.specId} must not declare an empty target entity list.`);
+      }
+      if (new Set(spec.targetEntities).size !== spec.targetEntities.length) {
+        errors.push(`Backend migration spec ${spec.specId} must not repeat a target schema entity.`);
+      }
+      for (const entityId of spec.targetEntities) {
+        if (!schemaEntityIds.has(entityId)) {
+          errors.push(`Backend migration spec ${spec.specId} targets missing schema entity ${entityId}.`);
+        }
+        if (candidate && !candidate.targetEntities.includes(entityId)) {
+          errors.push(`Backend migration spec ${spec.specId} target schema entity ${entityId} must be declared by candidate ${candidate.migrationId}.`);
+        }
+      }
+    }
+
     if (spec.primaryKey.trim().length === 0) {
       errors.push(`Backend migration spec ${spec.specId} must name a primary key.`);
     }
@@ -320,12 +338,12 @@ export function validateBackendContractAlignment({
       fieldNames.add(field.name);
     }
 
-    if (candidate && candidate.targetEntities.every((entityId) => schemaFieldsByEntity.has(entityId))) {
+    if (candidate && specTargetEntities.every((entityId) => schemaFieldsByEntity.has(entityId))) {
       const targetFieldNames = new Set(
-        candidate.targetEntities.flatMap((entityId) => [...(schemaFieldsByEntity.get(entityId) ?? [])]),
+        specTargetEntities.flatMap((entityId) => [...(schemaFieldsByEntity.get(entityId) ?? [])]),
       );
       for (const fieldName of fieldNames) {
-        const targetEntityWithField = candidate.targetEntities.find((entityId) =>
+        const targetEntityWithField = specTargetEntities.find((entityId) =>
           schemaFieldsByEntity.get(entityId)?.has(fieldName),
         );
         if (!targetFieldNames.has(fieldName) || !targetEntityWithField) {
@@ -340,12 +358,23 @@ export function validateBackendContractAlignment({
               `Backend migration spec ${spec.specId} field ${fieldName} type ${actualType} must be compatible with target schema type ${expectedType}.`,
             );
           }
-          if (candidate.targetEntities.length === 1 && schemaRequiredFieldsByEntity.get(targetEntityWithField)?.has(fieldName) && !spec.fields.find((field) => field.name === fieldName)?.required) {
+          if (specTargetEntities.length === 1 && schemaRequiredFieldsByEntity.get(targetEntityWithField)?.has(fieldName) && !spec.fields.find((field) => field.name === fieldName)?.required) {
             errors.push(
               `Backend migration spec ${spec.specId} field ${fieldName} must remain required because its target schema field is required.`,
             );
           }
         }
+      }
+    }
+
+    if (specTargetEntities.every((entityId) => schemaFieldsByEntity.has(entityId)) && spec.primaryKey.trim().length > 0) {
+      const primaryKeyTargetEntities = specTargetEntities.filter((entityId) =>
+        schemaFieldsByEntity.get(entityId)?.has(spec.primaryKey),
+      );
+      if (primaryKeyTargetEntities.length > 1) {
+        errors.push(
+          `Backend migration spec ${spec.specId} primary key ${spec.primaryKey} is ambiguous across target schema entities ${primaryKeyTargetEntities.join(", ")}.`,
+        );
       }
     }
 
@@ -390,7 +419,7 @@ export function validateBackendContractAlignment({
           `Backend migration spec ${spec.specId} must be blocked-by-policy while candidate ${candidate.migrationId} needs policy.`,
         );
       }
-      for (const entityId of candidate.targetEntities) {
+      for (const entityId of specTargetEntities) {
         for (const requiredField of REQUIRED_MIGRATION_FIELDS_BY_ENTITY[entityId] ?? []) {
           if (!fieldNames.has(requiredField)) {
             errors.push(

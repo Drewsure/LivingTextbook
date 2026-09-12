@@ -574,6 +574,7 @@
 - `DR-683-backend-field-type-vocabulary.md`
 - `DR-684-backend-migration-field-type-compatibility.md`
 - `DR-685-backend-required-field-parity.md`
+- `DR-686-backend-spec-target-entities.md`
 
 The prototype integration gate slice now feeds detailed wrapper, fixture,
 event, audio, mobile, scoring, and Codex-decision readiness records into the
@@ -621,6 +622,13 @@ for single-entity migrations while preserving documented conditional fields in
 combined multi-entity envelopes. The decision is recorded in
 `docs/adr/0613-backend-required-field-parity.md` and
 `docs/decision-register/DR-685-backend-required-field-parity.md`.
+
+The backend spec-target slice now lets each migration specification declare the
+specific schema entities it materializes within a broader candidate. Field,
+requiredness, and primary-key checks use those explicit targets, while the
+candidate remains the implementation coverage boundary. The decision is
+recorded in `docs/adr/0614-backend-spec-target-entities.md` and
+`docs/decision-register/DR-686-backend-spec-target-entities.md`.
 
 ## Maintenance Rule
 

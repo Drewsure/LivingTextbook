@@ -18,6 +18,7 @@ export interface BackendMigrationSpec {
   specId: string;
   label: string;
   candidateId: string;
+  targetEntities?: string[];
   storeKind: BackendMigrationSpecStoreKind;
   status: BackendMigrationSpecStatus;
   purpose: string;
@@ -93,6 +94,7 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       specId: "spec-package-release",
       label: "Package release store",
       candidateId: "m002-package-release-and-content",
+      targetEntities: ["package_release"],
       storeKind: "release-record",
       status: "ready-for-review",
       purpose:
@@ -135,6 +137,7 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       specId: "spec-package-game-audio-coverage",
       label: "Package game/audio coverage snapshot",
       candidateId: "m002-package-release-and-content",
+      targetEntities: ["package_game_audio_coverage"],
       storeKind: "release-record",
       status: "ready-for-review",
       purpose:
@@ -10708,6 +10711,7 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       specId: "spec-package-release-candidate",
       label: "Package release candidate status",
       candidateId: "m005-publish-gate-and-approval-ledger",
+      targetEntities: ["package_release_candidate"],
       storeKind: "release-record",
       status: "blocked-by-policy",
       purpose:
@@ -13150,6 +13154,7 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       specId: "spec-game-mode-settings-storage",
       label: "Game mode settings storage",
       candidateId: "m096-game-mode-settings-storage-records",
+      targetEntities: ["game_mode_settings_profile", "teacher_game_mode_settings_snapshot", "game_mode_settings_change_request"],
       storeKind: "session-record",
       status: "blocked-by-policy",
       purpose:
