@@ -28,6 +28,8 @@ Every canonical game route must:
 The playable route shell treats the shared event validator as an acceptance
 gate. If completion evidence is missing or invalid, the route reports the
 contract errors and pauses progression, Star Dust, and next-activity state.
+The validator also requires all answer activity to finish before mastery or
+completion, preventing late submissions from changing a completed result.
 
 ## Determinism And Accessibility
 

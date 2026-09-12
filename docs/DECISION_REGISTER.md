@@ -4008,3 +4008,10 @@ The isolated Phaser review packet now has a standalone hash verification
 command. It confirms the five reviewed files against the frozen snapshot
 without importing source, while remaining outside the normal foundation gate.
 See `docs/adr/0665-phaser-source-evidence-reproducibility-check.md`.
+
+# DR-738: Canonical Answer Activity Order
+
+The shared event validator now rejects answer activity after mastery or
+completion, with runtime regression coverage. This prevents late submissions
+from changing a completed result. See
+`docs/adr/0666-canonical-answer-activity-order.md`.

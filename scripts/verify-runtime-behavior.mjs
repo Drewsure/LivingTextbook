@@ -152,6 +152,14 @@ try {
     "flashcards",
   ).errors;
   assertIncludes(missingCanonicalReplayErrors, "Canonical game event answer_result must carry replay-v1 evidence.");
+  const lateAnswerEvents = [
+    ...canonicalEvents.slice(0, 6),
+    { ...canonicalEvents[2], type: "answer_submitted", metadata: { tenantId: "tenant-1", replaySeed: canonicalReplaySeed, late: true } },
+    { ...canonicalEvents[3], type: "answer_result", metadata: { tenantId: "tenant-1", replaySeed: canonicalReplaySeed, correct: true, late: true } },
+    canonicalEvents[6],
+  ];
+  const lateAnswerErrors = canonicalGame.validateCanonicalGameEventSequence(lateAnswerEvents, "flashcards").errors;
+  assertIncludes(lateAnswerErrors, "Canonical game event sequence must place all answer activity before mastery_updated.");
 
   const phaserReviewFixture = {
     reviewId: "runtime-phaser-review-1",

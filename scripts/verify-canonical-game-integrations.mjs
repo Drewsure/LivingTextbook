@@ -253,6 +253,8 @@ for (const fragment of [
   "validateCanonicalGameEventSequence",
   "CANONICAL_GAME_REQUIRED_EVENT_ORDER",
   "Canonical game event sequence must pair answer_submitted and answer_result events",
+  "Canonical game event sequence must place all answer activity before mastery_updated.",
+  "Canonical game event sequence must place all answer activity before game_completed.",
   "Canonical game contract needs review",
   "Completion is paused until the event evidence is valid.",
   "if (!replay.valid)",

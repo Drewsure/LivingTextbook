@@ -128,6 +128,21 @@ export function validateCanonicalGameEventSequence(
 
   const masteryEvent = events.find((event) => event.type === "mastery_updated");
   const completionEvent = events.find((event) => event.type === "game_completed");
+  const masteryIndex = events.findIndex((event) => event.type === "mastery_updated");
+  const completionIndex = events.findIndex((event) => event.type === "game_completed");
+  const lastAnswerActivityIndex = Math.max(
+    findLastEventIndex(events, "answer_submitted"),
+    findLastEventIndex(events, "answer_result"),
+  );
+
+  if (masteryIndex >= 0 && lastAnswerActivityIndex > masteryIndex) {
+    errors.push("Canonical game event sequence must place all answer activity before mastery_updated.");
+  }
+
+  if (completionIndex >= 0 && lastAnswerActivityIndex > completionIndex) {
+    errors.push("Canonical game event sequence must place all answer activity before game_completed.");
+  }
+
   const masteryDust = readFiniteStarDust(masteryEvent);
   const completionDust = readFiniteStarDust(completionEvent);
 
@@ -199,6 +214,10 @@ export function validateCanonicalGameEventSequence(
 
 function countEvents(events: GameProgressEvent[], eventType: GameEventType): number {
   return events.filter((event) => event.type === eventType).length;
+}
+
+function findLastEventIndex(events: GameProgressEvent[], eventType: GameEventType): number {
+  return events.reduce((lastIndex, event, index) => (event.type === eventType ? index : lastIndex), -1);
 }
 
 function readFiniteStarDust(event: GameProgressEvent | undefined): number | undefined {

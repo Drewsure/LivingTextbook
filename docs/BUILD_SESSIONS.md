@@ -1633,3 +1633,8 @@ check. `node scripts/verify-phaser-source-evidence.mjs` compares its five
 SHA-256 file hashes with the external snapshot and passed locally; the command
 remains outside the foundation gate because external source is not part of the
 repo. This is recorded in ADR 0665 and DR-737.
+
+The canonical event validator now closes the answer window before mastery and
+completion. A runtime regression fixture with late answer activity is
+rejected, protecting scoring and reports from post-completion mutations. This
+is recorded in ADR 0666 and DR-738.
