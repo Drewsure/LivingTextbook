@@ -253,6 +253,8 @@ for (const fragment of [
   "validateCanonicalGameEventSequence",
   "sessionEventsRef",
   "eventContractErrors",
+  "createProgressionContinuityEnvelope",
+  "validateProgressionContinuityRuntimeRequest",
   "Completion is paused until the event evidence is valid.",
 ]) {
   if (!studentLaunchFlow.includes(fragment)) {

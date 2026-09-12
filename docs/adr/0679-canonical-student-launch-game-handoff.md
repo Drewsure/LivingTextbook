@@ -27,6 +27,13 @@ selects the activity and receives its events. On completion, the launch route
 filters the accumulated evidence to the active mode and re-runs
 `validateCanonicalGameEventSequence` before accepting progression or Star Dust.
 
+At handoff, the launch route creates a transient
+`createProgressionContinuityEnvelope` containing the reviewed identity,
+progression snapshot, route pair, and event cursor. The envelope is validated
+against the expected tenant, package, launch, and learner session before the
+game mounts and again before completion. It is not serialized into the URL,
+browser storage, or a live persistence provider.
+
 Unsupported future modes may remain explicitly marked as reference previews
 until their canonical interactive component is integrated. They must not be
 treated as completed games.

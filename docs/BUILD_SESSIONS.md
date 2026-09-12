@@ -1716,3 +1716,9 @@ the shared canonical game sequence gate before progression changes. The entry
 completion adapter also rejects insufficient target-language evidence even if
 called outside the button's disabled-state guard. See ADR 0679, DR-751, and
 the target-language entry gate standard.
+
+The launch handoff now creates and validates a transient provider-neutral
+continuity envelope against tenant, package, launch, and learner-session
+identity before the supported game mounts and before completion is accepted.
+It carries no URL state and creates no storage side effect. See the
+progression continuity contract.

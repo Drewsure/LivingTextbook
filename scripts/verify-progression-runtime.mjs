@@ -23,6 +23,7 @@ for (const marker of [
   "mode: \"review-only\"",
   "sideEffect: \"none\"",
   "ProgressionContinuityEnvelope",
+  "createProgressionContinuityEnvelope",
   "validateProgressionContinuityEnvelope",
   "validateProgressionContinuityRuntimeRequest",
   "createReviewOnlyProgressionContinuityAdapter",

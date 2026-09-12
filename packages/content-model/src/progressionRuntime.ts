@@ -108,6 +108,61 @@ export const reviewOnlyProgressionContinuityBlockedActions = [
   "No support-language or media-only unlock",
 ] as const;
 
+export function createProgressionContinuityEnvelope(args: {
+  continuityId: string;
+  packageId: string;
+  launchSession: {
+    tenantId: string;
+    launchCode: string;
+    unitKey: string;
+    entryMode: string;
+  };
+  progression: {
+    studentSessionId: string;
+    currentStep: ProgressionContinuitySnapshot["currentStep"];
+    unlockedGameModes: string[];
+    completedGameModes: string[];
+    earnedStarDust: number;
+    masteryStatus: ProgressionContinuitySnapshot["masteryStatus"];
+    lastEventAt?: string;
+  };
+  sourceRoute: string;
+  destinationRoute: string;
+  issuedAt: string;
+  eventCursor: number;
+}): ProgressionContinuityEnvelope {
+  return {
+    continuityId: args.continuityId,
+    tenantId: args.launchSession.tenantId,
+    packageId: args.packageId,
+    launchCode: args.launchSession.launchCode,
+    studentSessionId: args.progression.studentSessionId,
+    unitKey: args.launchSession.unitKey,
+    sourceRoute: args.sourceRoute,
+    destinationRoute: args.destinationRoute,
+    issuedAt: args.issuedAt,
+    eventCursor: args.eventCursor,
+    mode: "review-only",
+    snapshot: {
+      tenantId: args.launchSession.tenantId,
+      studentSessionId: args.progression.studentSessionId,
+      launchCode: args.launchSession.launchCode,
+      unitKey: args.launchSession.unitKey,
+      entryMode: args.launchSession.entryMode,
+      currentStep: args.progression.currentStep,
+      unlockedGameModes: [...args.progression.unlockedGameModes],
+      completedGameModes: [...args.progression.completedGameModes],
+      earnedStarDust: args.progression.earnedStarDust,
+      masteryStatus: args.progression.masteryStatus,
+      lastEventAt: args.progression.lastEventAt,
+    },
+    rawLearnerAudioIncluded: false,
+    learnerTranscriptIncluded: false,
+    supportLanguageEvidenceIncluded: false,
+    mediaOnlyEvidenceIncluded: false,
+  };
+}
+
 export function validateProgressionContinuityEnvelope(value: unknown): string[] {
   const errors: string[] = [];
   if (!isRecord(value)) return ["Progression continuity envelope must be an object."];

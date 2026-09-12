@@ -12,6 +12,7 @@ The shared implementation lives in
 
 - `ProgressionContinuityEnvelope`
 - `ProgressionContinuitySnapshot`
+- `createProgressionContinuityEnvelope`
 - `validateProgressionContinuityEnvelope`
 - `validateProgressionContinuityRuntimeRequest`
 - `createReviewOnlyProgressionContinuityAdapter`
@@ -35,6 +36,12 @@ The runtime request repeats the expected tenant, package, launch, and learner
 session identity. Any mismatch is a hard validation error. A valid envelope is
 therefore evidence of a safe shape, not proof that it may be trusted as live
 learner state.
+
+The student launch pathway creates this envelope only at the reviewed handoff
+from flashcard entry practice to a curated next game. It is validated before
+the game mounts and again before launch-path completion is accepted. The
+envelope is transient review evidence; it is not placed in the URL or browser
+storage.
 
 ## Runtime Boundary
 

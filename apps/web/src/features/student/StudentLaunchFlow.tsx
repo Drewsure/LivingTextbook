@@ -12,11 +12,15 @@ import type {
   UnitAssistLanguagePlan,
   UnitPayload,
 } from "@living-textbook/content-model";
+import {
+  createProgressionContinuityEnvelope,
+  validateCanonicalGameEventSequence,
+  validateProgressionContinuityRuntimeRequest,
+} from "@living-textbook/content-model";
 import type { TeacherAssignmentPlan } from "@living-textbook/content-model/src/teacherAssignment";
 import { PairingMemoryMatchGame } from "@/features/game-shell/pairing/PairingMemoryMatchGame";
 import { PairingMatchUpGame } from "@/features/game-shell/pairing/PairingMatchUpGame";
 import { PairingEnginePreview } from "@/features/game-shell/pairing/PairingEnginePreview";
-import { validateCanonicalGameEventSequence } from "@living-textbook/content-model";
 import {
   completeFlashcardEntryPractice,
   createMediaPlaylistOpenedEvent,
@@ -47,6 +51,7 @@ import { StudentProgressHeader } from "./components/StudentProgressHeader";
 import { TeacherAssignmentSettingsCard } from "./components/TeacherAssignmentSettingsCard";
 import { UnitMediaShortcutCard } from "./components/UnitMediaShortcutCard";
 import { getCollectionPath } from "@/features/routes/routeContracts";
+import { getGameModeRoutePath } from "@/features/routes/gameModeRoutePaths";
 
 interface StudentLaunchFlowProps {
   tenant: TenantConfig;
@@ -76,6 +81,7 @@ export function StudentLaunchFlow({
   const [lastEarnedDust, setLastEarnedDust] = useState(0);
   const [activeGameMode, setActiveGameMode] = useState<GameModeId | undefined>();
   const [eventContractErrors, setEventContractErrors] = useState<string[]>([]);
+  const [continuityEnvelope, setContinuityEnvelope] = useState<ReturnType<typeof createProgressionContinuityEnvelope>>();
   const [targetPracticeEngagedItemIds, setTargetPracticeEngagedItemIds] = useState<string[]>([]);
   const sessionEventsRef = useRef<GameProgressEvent[]>([]);
   const [assistLanguageEnabled, setAssistLanguageEnabled] = useState(
@@ -180,6 +186,34 @@ export function StudentLaunchFlow({
       return;
     }
 
+    const issuedAt = new Date().toISOString();
+    const envelope = createProgressionContinuityEnvelope({
+      continuityId: `continuity-${launchSession.launchCode}-${nextMode}-${sessionEventsRef.current.length}`,
+      packageId: contentPackage.meta.packageId,
+      launchSession,
+      progression: {
+        ...currentProgression,
+        currentStep: "recommended-game",
+      },
+      sourceRoute: `/launch/${launchSession.launchCode}`,
+      destinationRoute: getGameModeRoutePath(nextMode, launchSession.launchCode),
+      issuedAt,
+      eventCursor: sessionEventsRef.current.length,
+    });
+    const continuityErrors = validateProgressionContinuityRuntimeRequest({
+      expectedTenantId: launchSession.tenantId,
+      expectedPackageId: contentPackage.meta.packageId,
+      expectedLaunchCode: launchSession.launchCode,
+      expectedStudentSessionId: currentProgression.studentSessionId,
+      envelope,
+    });
+
+    if (continuityErrors.length > 0) {
+      setEventContractErrors(continuityErrors.map((error) => `Progression handoff: ${error}`));
+      return;
+    }
+
+    setContinuityEnvelope(envelope);
     setActiveGameMode(nextMode);
   }
 
@@ -216,6 +250,20 @@ export function StudentLaunchFlow({
     const completedMode = activeGameMode;
     if (!completedMode || !result.event) {
       setEventContractErrors(["Canonical game completion did not include a playable mode and completion event."]);
+      return;
+    }
+
+    const continuityErrors = continuityEnvelope
+      ? validateProgressionContinuityRuntimeRequest({
+          expectedTenantId: launchSession.tenantId,
+          expectedPackageId: contentPackage.meta.packageId,
+          expectedLaunchCode: launchSession.launchCode,
+          expectedStudentSessionId: currentProgression.studentSessionId,
+          envelope: continuityEnvelope,
+        })
+      : ["Progression handoff envelope is missing."];
+    if (continuityErrors.length > 0) {
+      setEventContractErrors(continuityErrors.map((error) => `Progression handoff: ${error}`));
       return;
     }
 

@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 
 const plan = readSource("../apps/web/src/data/sampleTargetLanguageExpansionPlan.ts");
 const panel = readSource("../apps/web/src/features/language/TargetLanguageExpansionPanel.tsx");
+const progressionAdapter = readSource("../apps/web/src/features/progression/localProgressionAdapter.ts");
 const routeVerifier = readSource("./verify-active-routes.mjs");
 const assistStandard = readSource("../docs/ASSIST_LANGUAGE_STANDARD.md");
 const futureRequirements = readSource("../docs/FUTURE_REQUIREMENTS.md");
@@ -46,6 +47,9 @@ requireText(routeVerifier, "Target language expansion", "Active route verifier m
 requireText(routeVerifier, "Assist language is not target language", "Active route verifier must check assist/target separation.");
 requireText(assistStandard, "Do not treat MiniStar Japanese assist copy as proof", "Assist standard must preserve target-language boundary.");
 requireText(futureRequirements, "Japanese As Target Language For White-Label Tenants", "Future requirements must preserve Japanese target-language opportunity.");
+requireText(progressionAdapter, "targetLanguageGateSatisfied", "Progression adapter must independently enforce the target-language gate.");
+requireText(progressionAdapter, 'blockedReason: "target-language-gate"', "Progression adapter must expose a deterministic blocked gate result.");
+requireText(progressionAdapter, "args.targetLanguageEngagedItems >= args.requiredTargetLanguageItems", "Progression adapter must compare target-language evidence with the required count.");
 
 if (failures.length > 0) {
   for (const failure of failures) {
