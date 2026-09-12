@@ -4,6 +4,7 @@ import {
 } from "@living-textbook/content-model";
 
 const sourceSnapshotId = "ministar-lab-frozen-2026-09-12-eb79ddf";
+const sourceCommitSha = "eb79ddf5940ab47cc3c45c119c67ee1b6b958e55";
 
 export const samplePhaserCandidateContractReviews: PhaserCandidateContractReview[] = [
   {
@@ -12,6 +13,7 @@ export const samplePhaserCandidateContractReviews: PhaserCandidateContractReview
     queueItemId: "intake-ministar-memory-match-phaser",
     sourceRepository: "Drewsure/ministar-lab",
     sourceSnapshotId,
+    sourceCommitSha,
     gameMode: "memory-match",
     parentEngine: "pairing",
     status: "mapped-review-only",
@@ -98,6 +100,7 @@ export const samplePhaserCandidateContractReviews: PhaserCandidateContractReview
     queueItemId: "intake-ministar-balloon-pop-phaser",
     sourceRepository: "Drewsure/ministar-lab",
     sourceSnapshotId,
+    sourceCommitSha,
     gameMode: "balloon-pop",
     parentEngine: "selection",
     status: "mapped-review-only",

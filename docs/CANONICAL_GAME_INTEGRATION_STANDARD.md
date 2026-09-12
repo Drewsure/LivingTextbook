@@ -40,6 +40,13 @@ wrapper may provide motion, physics, or richer presentation, but it may not
 bypass the parent engine, shared event adapter, audio policy, scoring profile,
 or route shell.
 
+Every external candidate must also record its source repository, immutable
+snapshot identifier, and exact 40-character source commit SHA. The snapshot
+label is useful for human review, but the commit SHA is the reproducibility
+authority. A missing or malformed commit identity keeps the candidate in
+review-only status and blocks source import, route replacement, and package
+promotion.
+
 ## Review Gate
 
 Run `node scripts/verify-canonical-game-integrations.mjs`, the focused route

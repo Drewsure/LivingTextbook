@@ -16,6 +16,7 @@ export interface PhaserCandidateContractReview {
   queueItemId: string;
   sourceRepository: string;
   sourceSnapshotId: string;
+  sourceCommitSha: string;
   gameMode: string;
   parentEngine: string;
   status: PhaserCandidateReviewStatus;
@@ -39,8 +40,21 @@ export function validatePhaserCandidateContractReview(
 ): string[] {
   const errors: string[] = [];
 
-  if (!review.reviewId || !review.tenantId || !review.queueItemId || !review.sourceRepository || !review.sourceSnapshotId) {
-    errors.push("Phaser candidate contract reviews require review, tenant, queue, source repository, and snapshot identifiers.");
+  if (
+    !review.reviewId ||
+    !review.tenantId ||
+    !review.queueItemId ||
+    !review.sourceRepository ||
+    !review.sourceSnapshotId ||
+    !review.sourceCommitSha
+  ) {
+    errors.push(
+      "Phaser candidate contract reviews require review, tenant, queue, source repository, snapshot, and commit identifiers.",
+    );
+  }
+
+  if (review.sourceCommitSha && !/^[0-9a-f]{40}$/i.test(review.sourceCommitSha)) {
+    errors.push(`Phaser candidate contract review ${review.reviewId || "(unnamed)"} requires a 40-character source commit SHA.`);
   }
 
   if (!review.gameMode || !review.parentEngine || !review.summary) {

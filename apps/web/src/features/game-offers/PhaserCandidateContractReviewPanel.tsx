@@ -35,7 +35,8 @@ export function PhaserCandidateContractReviewPanel({ reviews }: PhaserCandidateC
                   {review.tenantId} / {review.sourceRepository} / {review.parentEngine}
                 </p>
                 <h3 className="mt-1 text-base font-bold text-[var(--tenant-text)]">{review.gameMode}</h3>
-                <p className="mt-1 text-xs text-[var(--tenant-muted)]">Snapshot: {review.sourceSnapshotId}</p>
+                <p className="mt-1 break-words text-xs text-[var(--tenant-muted)]">Snapshot: {review.sourceSnapshotId}</p>
+                <p className="mt-1 break-all text-xs text-[var(--tenant-muted)]">Frozen commit: {review.sourceCommitSha}</p>
               </div>
               <StatusPill label="Mapped, review-only" tone="warning" />
             </div>

@@ -1591,3 +1591,10 @@ This white-label audio boundary is recorded in ADR 0657 and DR-729.
 
 The canonical verifier now requires replay-seed evidence on Balloon Pop as it
 does on the other canonical games.
+
+The Phaser candidate review boundary now requires an exact source commit SHA
+in addition to the repository and snapshot label. The frozen Memory Match and
+Balloon Pop packets record commit
+`eb79ddf5940ab47cc3c45c119c67ee1b6b958e55`; this improves reproducibility but
+does not approve external source promotion. The decision is recorded in ADR
+0658 and DR-730.

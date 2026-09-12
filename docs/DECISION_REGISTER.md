@@ -3948,3 +3948,11 @@ Canonical immediate feedback must use the unit target language and emit shared
 audio evidence. True or False no longer hard-codes English for its immediate
 correctness response. Support-language audio remains non-authoritative for
 mastery and rewards. See `docs/adr/0657-target-language-feedback-audio.md`.
+
+# DR-730: Phaser Source Identity Record
+
+External game candidate reviews now require an exact source commit SHA in
+addition to repository and snapshot identity. The frozen MiniStar candidate
+packets record commit `eb79ddf5940ab47cc3c45c119c67ee1b6b958e55`. This is
+provenance evidence only and does not authorize source import or promotion.
+See `docs/adr/0658-phaser-source-identity-record.md`.

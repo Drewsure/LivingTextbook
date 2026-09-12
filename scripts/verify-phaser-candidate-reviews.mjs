@@ -14,6 +14,8 @@ const requiredMarkers = [
   "phaser-contract-review-ministar-memory-match",
   "phaser-contract-review-ministar-balloon-pop",
   "ministar-lab-frozen-2026-09-12-eb79ddf",
+  "eb79ddf5940ab47cc3c45c119c67ee1b6b958e55",
+  "sourceCommitSha",
   "No direct source import",
   "No scene-owned scoring",
   "No browser persistence ownership",
