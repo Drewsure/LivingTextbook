@@ -146,7 +146,9 @@ export function TrueFalsePracticeGame({
     setAttempts(nextAttempts);
     setCompletedRoundIds(nextCompletedRoundIds);
     setCorrectRoundIds(nextCorrectRoundIds);
-    playAudioCueText({ text: correct ? "Correct." : "Try again next time.", language: "en" });
+    const immediateFeedback = correct ? "Correct." : "Try again next time.";
+    emitAudioRequested("feedback", immediateFeedback, targetLanguage, "true-false-answer-feedback");
+    playAudioCueText({ text: immediateFeedback, language: targetLanguage });
 
     emitInteractionEvent("answer_submitted", {
       roundId: currentRound.roundId,

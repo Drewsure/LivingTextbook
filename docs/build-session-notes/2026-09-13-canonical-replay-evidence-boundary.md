@@ -10,6 +10,8 @@
   mastery, and completion events.
 - Added the standing canonical game integration standard, ADR, and decision
   register entry.
+- Corrected True or False immediate feedback to use the unit target language
+  and emit shared audio evidence, recorded in ADR 0657 and DR-729.
 
 ## Guardrails Preserved
 

@@ -1584,3 +1584,7 @@ in `docs/CANONICAL_GAME_INTEGRATION_STANDARD.md`, ADR 0656, and DR-728.
 
 The frozen Z.ai/Phaser snapshot remains review-only. No external source was
 promoted and no live persistence or provider selection was enabled.
+
+True or False immediate correctness feedback now uses the unit target language
+and emits shared `audio_requested` evidence rather than hard-coding English.
+This white-label audio boundary is recorded in ADR 0657 and DR-729.

@@ -3942,3 +3942,9 @@ canonical interaction, audio-request, mastery, and completion events by
 default. This protects older game slices from incomplete QA evidence while
 preserving component-level seeds for deterministic layouts. No persistence,
 provider, reward, or Phaser promotion changed. See `docs/adr/0656-canonical-replay-evidence-boundary.md`.
+# DR-729: Target-Language Feedback Audio
+
+Canonical immediate feedback must use the unit target language and emit shared
+audio evidence. True or False no longer hard-codes English for its immediate
+correctness response. Support-language audio remains non-authoritative for
+mastery and rewards. See `docs/adr/0657-target-language-feedback-audio.md`.
