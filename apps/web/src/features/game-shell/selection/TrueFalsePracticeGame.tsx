@@ -9,9 +9,11 @@ import type {
   StudentProgressionState,
   UnitPayload,
 } from "@living-textbook/content-model";
+import { createCanonicalGameReplaySeed } from "@living-textbook/content-model";
 import { AudioCueButton, AudioCueText, playAudioCueText } from "@/features/audio/AudioCueButton";
 import {
   completeGameMode,
+  createAudioRequestedEvent,
   createGameInteractionEvent,
   startUnlockedGameMode,
   type GameModeCompletionResult,
@@ -48,6 +50,8 @@ export function TrueFalsePracticeGame({
 }: TrueFalsePracticeGameProps) {
   const rounds = useMemo(() => buildTrueFalseRounds(unit), [unit]);
   const scoringProfile = getGameScoringProfileForMode(gameMode);
+  const replaySeed = createCanonicalGameReplaySeed({ unitKey: launchSession.unitKey, gameMode });
+  const targetLanguage = unit.unitMeta.textbookReference?.language ?? "en";
   const startEventSent = useRef(false);
   const [roundIndex, setRoundIndex] = useState(0);
   const [completedRoundIds, setCompletedRoundIds] = useState<string[]>([]);
@@ -69,12 +73,13 @@ export function TrueFalsePracticeGame({
       launchSession,
       gameMode,
       occurredAt: new Date().toISOString(),
+      replaySeed,
     });
 
     if (event) {
       onEvent?.(event);
     }
-  }, [launchSession, onEvent, progression]);
+  }, [launchSession, onEvent, progression, replaySeed]);
 
   useEffect(() => {
     if (!currentRound || completedRoundIds.includes(currentRound.roundId)) {
@@ -87,9 +92,30 @@ export function TrueFalsePracticeGame({
       shownText: currentRound.shownText,
       optionCount: 2,
       selectionSkin: gameMode,
+      replaySeed,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentRound?.roundId]);
+
+  function emitAudioRequested(
+    cueKind: "term" | "sentence" | "instruction" | "feedback",
+    cueText: string,
+    language: string,
+    source: string,
+  ) {
+    onEvent?.(
+      createAudioRequestedEvent({
+        progression,
+        launchSession,
+        gameMode,
+        occurredAt: new Date().toISOString(),
+        cueKind,
+        cueText,
+        language,
+        source,
+      }),
+    );
+  }
 
   function emitInteractionEvent(
     type: "round_shown" | "answer_submitted" | "answer_result" | "mastery_updated",
@@ -131,6 +157,7 @@ export function TrueFalsePracticeGame({
       attempts: nextAttempts,
       targetLanguageAttempt: true,
       supportLanguageUnlockAllowed: false,
+      replaySeed,
     });
     emitInteractionEvent("answer_result", {
       roundId: currentRound.roundId,
@@ -138,6 +165,7 @@ export function TrueFalsePracticeGame({
       expectedAnswer: currentRound.correctAnswer,
       completedRounds: nextCompletedRoundIds.length,
       selectionSkin: gameMode,
+      replaySeed,
     });
 
     if (nextCompletedRoundIds.length < rounds.length) {
@@ -165,6 +193,7 @@ export function TrueFalsePracticeGame({
           correctRounds: nextCorrectRoundIds.length,
           attempts: nextAttempts,
           selectionSkin: gameMode,
+          replaySeed,
         },
       });
 
@@ -176,6 +205,7 @@ export function TrueFalsePracticeGame({
         correctRounds: nextCorrectRoundIds.length,
         scoringProfileId,
         supportLanguageUnlockAllowed: false,
+        replaySeed,
       });
       setCompletionSent(true);
       onComplete(result);
@@ -215,9 +245,12 @@ export function TrueFalsePracticeGame({
           <p className="mt-1 text-sm leading-6 text-[var(--tenant-muted)]">
             <AudioCueText
               text={findInstructionText(audioCues)}
-              language="en"
+              language={targetLanguage}
               label="Tap the True or False instruction to hear it"
               className="text-sm"
+              onPlay={() =>
+                emitAudioRequested("instruction", findInstructionText(audioCues), targetLanguage, "true-false-instruction")
+              }
             />
           </p>
         </div>
@@ -237,17 +270,25 @@ export function TrueFalsePracticeGame({
             <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Listen prompt</p>
             <p className="mt-1 text-sm font-bold text-[var(--tenant-text)]">
               <AudioCueText
-                text={findAudioText(audioCues, currentRound.sourceText)}
-                language="en"
+                text={findAudioCue(audioCues, currentRound.sourceText)?.text ?? currentRound.sourceText}
+                language={findAudioCue(audioCues, currentRound.sourceText)?.language ?? targetLanguage}
                 label="Tap the True or False prompt to hear it"
                 className="text-sm font-bold"
+                onPlay={() => {
+                  const cue = findAudioCue(audioCues, currentRound.sourceText);
+                  emitAudioRequested("term", cue?.text ?? currentRound.sourceText, cue?.language ?? targetLanguage, "true-false-prompt");
+                }}
               />
             </p>
           </div>
           <AudioCueButton
-            text={findAudioText(audioCues, currentRound.sourceText)}
-            language="en"
+            text={findAudioCue(audioCues, currentRound.sourceText)?.text ?? currentRound.sourceText}
+            language={findAudioCue(audioCues, currentRound.sourceText)?.language ?? targetLanguage}
             label="Listen to the True or False prompt"
+            onPlay={() => {
+              const cue = findAudioCue(audioCues, currentRound.sourceText);
+              emitAudioRequested("term", cue?.text ?? currentRound.sourceText, cue?.language ?? targetLanguage, "true-false-prompt-replay");
+            }}
           />
         </div>
       </section>
@@ -256,17 +297,26 @@ export function TrueFalsePracticeGame({
         <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Visible card</p>
         <p className="mt-3 text-3xl font-bold text-[var(--tenant-text)]">
           <AudioCueText
-            text={findAudioText(audioCues, currentRound.shownText)}
-            language="en"
+            text={findAudioCue(audioCues, currentRound.shownText)?.text ?? currentRound.shownText}
+            language={findAudioCue(audioCues, currentRound.shownText)?.language ?? targetLanguage}
             label="Tap the visible card to hear it"
             className="text-3xl font-bold"
+            onPlay={() => {
+              const cue = findAudioCue(audioCues, currentRound.shownText);
+              emitAudioRequested("term", cue?.text ?? currentRound.shownText, cue?.language ?? targetLanguage, "true-false-visible-card");
+            }}
           />
         </p>
       </section>
 
       <section className="mt-5 grid gap-3 sm:grid-cols-2">
         <div className="grid gap-2 rounded-lg border border-emerald-300 bg-emerald-50 p-3">
-          <AudioCueButton text="True" language="en" label="Listen to the True choice" />
+          <AudioCueButton
+            text="True"
+            language={targetLanguage}
+            label="Listen to the True choice"
+            onPlay={() => emitAudioRequested("term", "True", targetLanguage, "true-false-choice")}
+          />
           <button
             type="button"
             disabled={completed}
@@ -277,7 +327,12 @@ export function TrueFalsePracticeGame({
           </button>
         </div>
         <div className="grid gap-2 rounded-lg border border-rose-300 bg-rose-50 p-3">
-          <AudioCueButton text="False" language="en" label="Listen to the False choice" />
+          <AudioCueButton
+            text="False"
+            language={targetLanguage}
+            label="Listen to the False choice"
+            onPlay={() => emitAudioRequested("term", "False", targetLanguage, "true-false-choice")}
+          />
           <button
             type="button"
             disabled={completed}
@@ -291,9 +346,20 @@ export function TrueFalsePracticeGame({
 
       <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
         <p className="text-sm font-semibold text-[var(--tenant-text)]">
-          <AudioCueText text={feedback} language="en" label="Tap the True or False feedback to hear it" className="text-sm font-semibold" />
+          <AudioCueText
+            text={feedback}
+            language={targetLanguage}
+            label="Tap the True or False feedback to hear it"
+            className="text-sm font-semibold"
+            onPlay={() => emitAudioRequested("feedback", feedback, targetLanguage, "true-false-feedback")}
+          />
         </p>
-        <AudioCueButton text={feedback} language="en" label="Replay True or False feedback" />
+        <AudioCueButton
+          text={feedback}
+          language={targetLanguage}
+          label="Replay True or False feedback"
+          onPlay={() => emitAudioRequested("feedback", feedback, targetLanguage, "true-false-feedback-replay")}
+        />
       </div>
     </Card>
   );
@@ -330,6 +396,6 @@ function findInstructionText(audioCues: AudioCue[]): string {
   );
 }
 
-function findAudioText(audioCues: AudioCue[], label: string): string {
-  return audioCues.find((cue) => cue.text.trim().toLowerCase() === label.trim().toLowerCase())?.text ?? label;
+function findAudioCue(audioCues: AudioCue[], label: string): AudioCue | undefined {
+  return audioCues.find((cue) => cue.text.trim().toLowerCase() === label.trim().toLowerCase());
 }
