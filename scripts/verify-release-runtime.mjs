@@ -7,6 +7,7 @@ for (const marker of [
   "ReleaseRuntimeRequest",
   "ReleaseRuntimeAdapter",
   "validateReleaseRuntimeRequest",
+  "must be a boolean",
   "createReviewOnlyReleaseRuntimeAdapter",
   "accepted source extraction evidence is required",
   "accepted asset rights evidence is required",

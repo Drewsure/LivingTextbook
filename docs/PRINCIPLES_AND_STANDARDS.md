@@ -779,6 +779,7 @@ Required standing rules:
 - Launch teacher, package, assignment, QR, fallback, school, roster, persistence, reporting, audio, support-language, learner-data, and student-launch flags must be strict booleans before QR or front-door adapters interpret launch requests.
 - Asset storage, size-budget, target-mapping, release, learner-media, learner-upload, and student-facing-use flags must be strict booleans before an upload or media adapter interprets asset requests.
 - Source upload, scan, lineage, rights, OCR, extraction, segmentation, schema, mapping, package, release, raw-source, draft, AI-extraction, and student-facing-use flags must be strict booleans before a source-ingestion adapter interprets PDF, DOCX, OCR, or AI extraction requests.
+- Release source, asset, audio, pathway, package, teacher, school, persistence, rollback, QR-mutation, and student-activation flags must be strict booleans before a release adapter interprets approval, activation, or rollback requests.
 - `npm run typecheck --workspace @living-textbook/ai-service` and `node scripts/verify-ai-service-boundary.mjs` must remain green before service implementation advances.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-561 and `docs/adr/0490-ai-service-boundary-foundation.md`.

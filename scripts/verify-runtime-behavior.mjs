@@ -337,15 +337,32 @@ try {
     draftCreationRequested: false, aiExtractionRequested: false, studentFacingUseRequested: false,
   }).sideEffect, "none");
 
-  const releaseErrors = release.validateReleaseRuntimeRequest({
+  const releaseRequest = {
     tenantId: "tenant-1", packageId: "package-1", releaseId: "release-1", requestedState: "active",
     currentState: "release-candidate", contentReviewStatus: "approved", verifierEvidenceStatus: "passed",
     sourceExtractionAccepted: true, assetRightsAccepted: true, targetLanguageAudioReady: true,
     curatedPathwayReviewed: true, packageRuntimeApproved: true, teacherApprovalAccepted: true,
     schoolPolicyAccepted: true, persistenceReady: true, rollbackReady: true,
     qrMutationRequested: true, studentFacingActivationRequested: true,
-  });
+  };
+  const releaseErrors = release.validateReleaseRuntimeRequest(releaseRequest);
   assertEqual(releaseErrors.length, 0);
+  const malformedReleaseFlagErrors = release.validateReleaseRuntimeRequest({
+    ...releaseRequest,
+    sourceExtractionAccepted: "true",
+    assetRightsAccepted: "true",
+    targetLanguageAudioReady: "true",
+    curatedPathwayReviewed: "true",
+    packageRuntimeApproved: "true",
+    teacherApprovalAccepted: "true",
+    schoolPolicyAccepted: "true",
+    persistenceReady: "true",
+    rollbackReady: "true",
+    qrMutationRequested: "true",
+    studentFacingActivationRequested: "true",
+  });
+  assertIncludes(malformedReleaseFlagErrors, "sourceExtractionAccepted must be a boolean");
+  assertIncludes(malformedReleaseFlagErrors, "studentFacingActivationRequested must be a boolean");
   assertEqual(release.createReviewOnlyReleaseRuntimeAdapter().execute({
     tenantId: "tenant-1", packageId: "package-1", releaseId: "release-1", requestedState: "active",
     currentState: "release-candidate", contentReviewStatus: "approved", verifierEvidenceStatus: "passed",
