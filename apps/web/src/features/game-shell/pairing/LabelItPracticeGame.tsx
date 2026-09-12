@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Card, StatusPill } from "@living-textbook/ui";
+import { createCanonicalGameReplaySeed } from "@living-textbook/content-model";
 import type {
   AudioCue,
   GameProgressEvent,
@@ -12,6 +13,7 @@ import type {
 import { AudioCueButton, AudioCueText, playAudioCueText } from "@/features/audio/AudioCueButton";
 import {
   completeGameMode,
+  createAudioRequestedEvent,
   createGameInteractionEvent,
   startUnlockedGameMode,
   type GameModeCompletionResult,
@@ -48,6 +50,8 @@ export function LabelItPracticeGame({
 }: LabelItPracticeGameProps) {
   const anchors = useMemo(() => buildLabelAnchors(unit), [unit]);
   const scoringProfile = getGameScoringProfileForMode(gameMode);
+  const replaySeed = createCanonicalGameReplaySeed({ unitKey: launchSession.unitKey, gameMode });
+  const targetLanguage = unit.unitMeta.textbookReference?.language ?? "en";
   const startEventSent = useRef(false);
   const roundShownSent = useRef(false);
   const [selectedLabel, setSelectedLabel] = useState<string | undefined>();
@@ -69,12 +73,13 @@ export function LabelItPracticeGame({
       launchSession,
       gameMode,
       occurredAt: new Date().toISOString(),
+      replaySeed,
     });
 
     if (event) {
       onEvent?.(event);
     }
-  }, [launchSession, onEvent, progression]);
+  }, [launchSession, onEvent, progression, replaySeed]);
 
   useEffect(() => {
     if (roundShownSent.current || anchors.length === 0) {
@@ -88,9 +93,30 @@ export function LabelItPracticeGame({
       reviewedAssetOnly: true,
       studentFacingUploadAllowed: false,
       pairingSkin: gameMode,
+      replaySeed,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [anchors.length]);
+
+  function emitAudioRequested(
+    cueKind: "term" | "sentence" | "instruction" | "feedback",
+    cueText: string,
+    language: string,
+    source: string,
+  ) {
+    onEvent?.(
+      createAudioRequestedEvent({
+        progression,
+        launchSession,
+        gameMode,
+        occurredAt: new Date().toISOString(),
+        cueKind,
+        cueText,
+        language,
+        source,
+      }),
+    );
+  }
 
   function emitInteractionEvent(
     type: "round_shown" | "answer_submitted" | "answer_result" | "mastery_updated",
@@ -110,7 +136,8 @@ export function LabelItPracticeGame({
 
   function handleLabelSelect(label: string) {
     const cue = findTermAudioCue(audioCues, label);
-    playAudioCueText({ text: cue?.text ?? label, language: cue?.language ?? "en" });
+    emitAudioRequested("term", cue?.text ?? label, cue?.language ?? targetLanguage, "label-it-label");
+    playAudioCueText({ text: cue?.text ?? label, language: cue?.language ?? targetLanguage });
     setSelectedLabel(label);
     setFeedback(`Selected ${label}. Tap the matching picture point.`);
   }
@@ -122,7 +149,8 @@ export function LabelItPracticeGame({
 
     if (!selectedLabel) {
       setFeedback("Choose a label first.");
-      playAudioCueText({ text: "Choose a label first.", language: "en" });
+      emitAudioRequested("feedback", "Choose a label first.", targetLanguage, "label-it-feedback-auto");
+      playAudioCueText({ text: "Choose a label first.", language: targetLanguage });
       return;
     }
 
@@ -138,6 +166,7 @@ export function LabelItPracticeGame({
       targetLanguageAttempt: true,
       supportLanguageUnlockAllowed: false,
       uploadedImageProgressAllowed: false,
+      replaySeed,
     });
     emitInteractionEvent("answer_result", {
       anchorId: anchor.anchorId,
@@ -145,11 +174,13 @@ export function LabelItPracticeGame({
       correct,
       completedAnchors: completedAnchorIds.length,
       pairingSkin: gameMode,
+      replaySeed,
     });
 
     if (!correct) {
       setFeedback("Try again. Listen to the label and find the matching point.");
-      playAudioCueText({ text: "Try again. Listen to the label and find the matching point.", language: "en" });
+      emitAudioRequested("feedback", "Try again. Listen to the label and find the matching point.", targetLanguage, "label-it-feedback-auto");
+      playAudioCueText({ text: "Try again. Listen to the label and find the matching point.", language: targetLanguage });
       return;
     }
 
@@ -160,7 +191,8 @@ export function LabelItPracticeGame({
     setCorrectAnchorIds(nextCorrectAnchorIds);
     setSelectedLabel(undefined);
     setFeedback("Correct label. Choose another one.");
-    playAudioCueText({ text: "Correct label. Choose another one.", language: "en" });
+    emitAudioRequested("feedback", "Correct label. Choose another one.", targetLanguage, "label-it-feedback-auto");
+    playAudioCueText({ text: "Correct label. Choose another one.", language: targetLanguage });
 
     if (nextCompletedAnchorIds.length === anchors.length && !completionSent) {
       const earnedStarDust = calculateLabelItDust({
@@ -181,6 +213,7 @@ export function LabelItPracticeGame({
           correctAnchors: nextCorrectAnchorIds.length,
           attempts: nextAttempts,
           reviewedAssetOnly: true,
+          replaySeed,
         },
       });
 
@@ -193,6 +226,7 @@ export function LabelItPracticeGame({
         scoringProfileId,
         supportLanguageUnlockAllowed: false,
         uploadedImageProgressAllowed: false,
+        replaySeed,
       });
       setCompletionSent(true);
       onComplete(result);
@@ -235,9 +269,10 @@ export function LabelItPracticeGame({
           <p className="mt-1 text-sm leading-6 text-[var(--tenant-muted)]">
             <AudioCueText
               text={instructionCue?.text ?? instructionText}
-              language={instructionCue?.language ?? "en"}
+              language={instructionCue?.language ?? targetLanguage}
               label="Tap the Label It instruction to hear it"
               className="text-sm"
+              onPlay={() => emitAudioRequested("instruction", instructionCue?.text ?? instructionText, instructionCue?.language ?? targetLanguage, "label-it-instruction")}
             />
           </p>
         </div>
@@ -256,7 +291,13 @@ export function LabelItPracticeGame({
           <div>
             <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Reviewed image placeholder</p>
             <p className="mt-1 text-sm font-semibold text-[var(--tenant-text)]">
-              No live upload is used here. Future uploaded images must pass rights, safety, alt text, label-anchor, and audio gates first.
+              <AudioCueText
+                text="No live upload is used here. Future uploaded images must pass rights, safety, alt text, label-anchor, and audio gates first."
+                language={targetLanguage}
+                label="Tap the reviewed image policy to hear it"
+                className="text-sm font-semibold"
+                onPlay={() => emitAudioRequested("instruction", "No live upload is used here. Future uploaded images must pass rights, safety, alt text, label-anchor, and audio gates first.", targetLanguage, "label-it-image-policy")}
+              />
             </p>
           </div>
           <StatusPill label="No live upload" tone="warning" />
@@ -295,7 +336,15 @@ export function LabelItPracticeGame({
 
       <section className="mt-5 rounded-lg border border-[var(--tenant-border)] p-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <p className="text-sm font-bold text-[var(--tenant-text)]">Label bank</p>
+          <p className="text-sm font-bold text-[var(--tenant-text)]">
+            <AudioCueText
+              text="Label bank."
+              language={targetLanguage}
+              label="Tap the Label It label bank to hear it"
+              className="text-sm font-bold"
+              onPlay={() => emitAudioRequested("instruction", "Label bank.", targetLanguage, "label-it-label-bank")}
+            />
+          </p>
           <StatusPill label={selectedLabel ? `Selected ${selectedLabel}` : "Choose one"} tone={selectedLabel ? "success" : "neutral"} />
         </div>
         <div className="mt-3 grid gap-2 sm:grid-cols-2">
@@ -304,18 +353,14 @@ export function LabelItPracticeGame({
               key={anchor.anchorId}
               type="button"
               onClick={() => handleLabelSelect(anchor.targetText)}
+              aria-label={`Select ${anchor.targetText} and hear it`}
               className={`min-h-12 rounded-lg border px-3 py-2 text-left text-sm font-bold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--tenant-primary)] ${
                 selectedLabel === anchor.targetText
                   ? "border-[var(--tenant-primary)] bg-[var(--tenant-primary-soft)] text-[var(--tenant-text)]"
                   : "border-[var(--tenant-border)] bg-white text-[var(--tenant-text)] hover:brightness-95"
               }`}
             >
-              <AudioCueText
-                text={findAudioText(audioCues, anchor.targetText)}
-                language="en"
-                label={`Tap ${anchor.targetText} to hear it`}
-                className="text-sm font-bold"
-              />
+              {findAudioCueText(audioCues, anchor.targetText)}
             </button>
           ))}
         </div>
@@ -323,9 +368,20 @@ export function LabelItPracticeGame({
 
       <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
         <p className="text-sm font-semibold text-[var(--tenant-text)]">
-          <AudioCueText text={feedback} language="en" label="Tap the Label It feedback to hear it" className="text-sm font-semibold" />
+          <AudioCueText
+            text={feedback}
+            language={targetLanguage}
+            label="Tap the Label It feedback to hear it"
+            className="text-sm font-semibold"
+            onPlay={() => emitAudioRequested("feedback", feedback, targetLanguage, "label-it-feedback")}
+          />
         </p>
-        <AudioCueButton text={feedback} language="en" label="Replay Label It feedback" />
+        <AudioCueButton
+          text={feedback}
+          language={targetLanguage}
+          label="Replay Label It feedback"
+          onPlay={() => emitAudioRequested("feedback", feedback, targetLanguage, "label-it-feedback-replay")}
+        />
       </div>
     </Card>
   );
@@ -367,6 +423,6 @@ function findTermAudioCue(audioCues: AudioCue[], text: string): AudioCue | undef
   return audioCues.find((cue) => cue.kind === "term" && cue.text.trim().toLowerCase() === text.trim().toLowerCase());
 }
 
-function findAudioText(audioCues: AudioCue[], label: string): string {
+function findAudioCueText(audioCues: AudioCue[], label: string): string {
   return findTermAudioCue(audioCues, label)?.text ?? label;
 }
