@@ -7,6 +7,7 @@ for (const marker of [
   "RewardRuntimeRequest",
   "RewardRuntimeAdapter",
   "validateRewardRuntimeRequest",
+  "must be a boolean",
   "createReviewOnlyRewardRuntimeAdapter",
   "pseudonymous learnerSlotId is required",
   "earned mastery evidence is required",

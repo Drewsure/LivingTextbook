@@ -52,21 +52,46 @@ export const reviewOnlyRewardBlockedActions = [
 
 export function validateRewardRuntimeRequest(request: RewardRuntimeRequest): string[] {
   const errors: string[] = [];
+
+  for (const field of [
+    "earnedByMastery",
+    "ownershipProvenanceReady",
+    "policyAccepted",
+    "persistenceReady",
+    "releaseApprovalAccepted",
+    "randomRewardRequested",
+    "gachaPressureRequested",
+    "purchaseRequired",
+    "spinWheelTicketRequested",
+  ] as const) {
+    if (typeof request[field] !== "boolean") errors.push(`${field} must be a boolean`);
+  }
+
+  const earnedByMastery = request.earnedByMastery === true;
+  const ownershipProvenanceReady = request.ownershipProvenanceReady === true;
+  const policyAccepted = request.policyAccepted === true;
+  const persistenceReady = request.persistenceReady === true;
+  const releaseApprovalAccepted = request.releaseApprovalAccepted === true;
+  const randomRewardRequested = request.randomRewardRequested === true;
+  const gachaPressureRequested = request.gachaPressureRequested === true;
+  const purchaseRequired = request.purchaseRequired === true;
+  const spinWheelTicketRequested = request.spinWheelTicketRequested === true;
+
   if (!request.tenantId.trim()) errors.push("tenantId is required");
   if (!request.packageId.trim()) errors.push("packageId is required");
   if (!request.learnerSlotId.trim()) errors.push("pseudonymous learnerSlotId is required");
   if (!request.rewardId.trim()) errors.push("rewardId is required");
   if (!request.sourceEventId.trim()) errors.push("sourceEventId is required");
   if (!request.deterministicRuleId.trim()) errors.push("deterministic reward rule is required");
-  if (!request.earnedByMastery) errors.push("earned mastery evidence is required");
-  if (!request.ownershipProvenanceReady) errors.push("ownership provenance readiness is required");
-  if (!request.policyAccepted) errors.push("reward policy acceptance is required");
-  if (!request.persistenceReady) errors.push("reward persistence readiness is required");
-  if (!request.releaseApprovalAccepted) errors.push("reward release approval is required");
-  if (request.randomRewardRequested) errors.push("random reward generation must remain disabled");
-  if (request.gachaPressureRequested) errors.push("gacha pressure must remain disabled");
-  if (request.purchaseRequired) errors.push("purchase-required rewards must remain disabled");
-  if (request.spinWheelTicketRequested || request.rewardKind === "spin-wheel-ticket") {
+  if (!earnedByMastery) errors.push("earned mastery evidence is required");
+  if (!ownershipProvenanceReady) errors.push("ownership provenance readiness is required");
+  if (!policyAccepted) errors.push("reward policy acceptance is required");
+  if (!persistenceReady) errors.push("reward persistence readiness is required");
+  if (!releaseApprovalAccepted) errors.push("reward release approval is required");
+  if (randomRewardRequested) errors.push("random reward generation must remain disabled");
+  if (gachaPressureRequested) errors.push("gacha pressure must remain disabled");
+  if (purchaseRequired) errors.push("purchase-required rewards must remain disabled");
+  if (spinWheelTicketRequested || request.rewardKind === "spin-wheel-ticket") {
     errors.push("Spin Wheel ticket issuance requires a separately approved reward policy");
   }
   return [...new Set(errors)];

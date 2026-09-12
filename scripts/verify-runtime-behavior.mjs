@@ -227,14 +227,29 @@ try {
   assertIncludes(mixedStreamContractErrors, "Progress event envelope stream must use one taxonomy_version value, found: taxonomy-1, taxonomy-2.");
   assertIncludes(mixedStreamContractErrors, "Progress event envelope stream must use one settings_contract_id value, found: settings-1, settings-2.");
 
-  const rewardErrors = reward.validateRewardRuntimeRequest({
+  const rewardRequest = {
     tenantId: "tenant-1", packageId: "package-1", learnerSlotId: "slot-1", rewardId: "reward-1",
     rewardKind: "outfit", sourceEventId: "event-2", sourceEventType: "mastery_updated", earnedByMastery: true,
     deterministicRuleId: "rule-1", ownershipProvenanceReady: true, policyAccepted: true, persistenceReady: true,
     releaseApprovalAccepted: true, randomRewardRequested: true, gachaPressureRequested: false,
     purchaseRequired: false, spinWheelTicketRequested: false,
-  });
+  };
+  const rewardErrors = reward.validateRewardRuntimeRequest(rewardRequest);
   assertIncludes(rewardErrors, "random reward generation must remain disabled");
+  const malformedRewardFlagErrors = reward.validateRewardRuntimeRequest({
+    ...rewardRequest,
+    earnedByMastery: "true",
+    ownershipProvenanceReady: "true",
+    policyAccepted: "true",
+    persistenceReady: "true",
+    releaseApprovalAccepted: "true",
+    randomRewardRequested: "false",
+    gachaPressureRequested: "false",
+    purchaseRequired: "false",
+    spinWheelTicketRequested: "false",
+  });
+  assertIncludes(malformedRewardFlagErrors, "earnedByMastery must be a boolean");
+  assertIncludes(malformedRewardFlagErrors, "spinWheelTicketRequested must be a boolean");
 
   const recoveryErrors = recovery.validateRecoveryRuntimeRequest({
     tenantId: "tenant-1", packageId: "package-1", recoveryId: "recovery-1", operation: "restore",
