@@ -20,6 +20,43 @@ export interface PrototypeIntakeQueueItem {
 
 export const samplePrototypeIntakeQueue: PrototypeIntakeQueueItem[] = [
   {
+    itemId: "intake-ministar-memory-match-phaser",
+    tenantId: "ministar",
+    sourceRepo: "Drewsure/ministar-lab",
+    gameMode: "memory-match",
+    parentEngine: "pairing",
+    targetSurface: "phaser",
+    priority: "now",
+    status: "awaiting-evidence",
+    summary:
+      "First Phaser wrapper candidate because its bounded pair-attempt loop can be compared directly with the verified canonical Memory Match contract before motion-heavy arcade work.",
+    requiredEvidence: [
+      "Phaser wrapper review",
+      "Pairing payload adapter",
+      "Pair-attempt event replay",
+      "Target-language card audio coverage",
+      "Deterministic ordering and replay seed",
+      "Accessible keyboard and touch fallback",
+    ],
+    missingEvidence: [
+      "Returned prototype package",
+      "Wrapper adapter review",
+      "Standard event replay",
+      "Audio coverage report",
+      "Scoring replay report",
+      "Accessibility fallback evidence",
+    ],
+    blockedActions: [
+      "No direct scene import",
+      "No scene-owned scoring",
+      "No browser persistence ownership",
+      "No fixed-English audio authority",
+      "No active route replacement",
+      "No package promotion",
+    ],
+    reviewRoute: "/teacher/prototypes/ministar#return-evidence",
+  },
+  {
     itemId: "intake-ministar-sentence-builder-dom",
     tenantId: "ministar",
     sourceRepo: "Drewsure/ministar-lab",
