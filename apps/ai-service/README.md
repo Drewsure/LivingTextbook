@@ -13,6 +13,7 @@ The boundary deliberately owns the rules that must survive any future provider:
 - Target-language content remains the only progression authority.
 - Support language remains comprehension support and cannot unlock progress.
 - Source package review, tenant identity, game mode, engine binding, audio coverage, media rights, cost policy, and teacher approval remain explicit request evidence.
+- The service must resolve game mode compatibility through the shared content-model catalog. Provider requests are rejected when the mode is unsupported, the parent engine is unsupported, the mode and engine disagree, or the mode is outside its curated level range.
 - Provider dispatch remains blocked until the request passes review and a later Codex-controlled release decision opens it.
 
 ## Contract

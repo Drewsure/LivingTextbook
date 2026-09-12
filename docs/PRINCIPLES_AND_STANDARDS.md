@@ -761,6 +761,7 @@ The AI service is a backend boundary, not a hidden provider shortcut. It must be
 Required standing rules:
 
 - The service must validate tenant, source review status, target language, game mode, parent engine, vocabulary range, exactly two sentence structures, target-language audio, and media rights before any provider decision.
+- The service must resolve game-mode, parent-engine, and level compatibility through the shared content-model catalog; provider-specific compatibility tables are not allowed.
 - The default service result is review-only and must have no side effects: no model call, provider billing, source write, package write, verifier submission, route write, playlist write, assignment activation, or support-language progression.
 - Provider SDKs, storage vendors, web routes, student progression state, and Phaser/game view code must not become dependencies of the contract boundary.
 - Premium AI cost policy and teacher approval are explicit evidence lanes, not implicit environment flags.

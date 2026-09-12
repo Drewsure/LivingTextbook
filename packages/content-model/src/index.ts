@@ -436,7 +436,14 @@ const supportedGameFamilies: GameFamily[] = [
   "syntax-construction", "word-puzzles", "arcade-action", "speaking-listening",
 ];
 const supportedParentEngines: ParentEngine[] = ["pairing", "selection", "text-spelling", "narrative"];
-const supportedGameModeContracts: Record<GameModeId, { family: GameFamily; engineId: ParentEngine; supportedLevels: number[]; allowsBackgroundMedia: boolean }> = {
+export interface GameModeContract {
+  family: GameFamily;
+  engineId: ParentEngine;
+  supportedLevels: number[];
+  allowsBackgroundMedia: boolean;
+}
+
+const supportedGameModeContracts: Record<GameModeId, GameModeContract> = {
   flashcards: { family: "vocabulary-matching", engineId: "selection", supportedLevels: [1, 2, 3, 4, 5, 6, 7, 8], allowsBackgroundMedia: false },
   "memory-match": { family: "memory-sorting", engineId: "pairing", supportedLevels: [1, 2, 3, 4], allowsBackgroundMedia: true },
   "match-up": { family: "vocabulary-matching", engineId: "pairing", supportedLevels: [1, 2, 3, 4], allowsBackgroundMedia: true },
@@ -455,8 +462,17 @@ export function isSupportedGameModeId(value: string): value is GameModeId {
   return supportedGameModeIds.includes(value as GameModeId);
 }
 
+export function isSupportedParentEngine(value: string): value is ParentEngine {
+  return supportedParentEngines.includes(value as ParentEngine);
+}
+
+export function getGameModeContract(value: string): GameModeContract | undefined {
+  return isSupportedGameModeId(value) ? supportedGameModeContracts[value] : undefined;
+}
+
 export function isGameModeSupportedAtLevel(value: string, level: number): value is GameModeId {
-  return isSupportedGameModeId(value) && supportedGameModeContracts[value].supportedLevels.includes(level);
+  const contract = getGameModeContract(value);
+  return Boolean(contract?.supportedLevels.includes(level));
 }
 
 const supportedMediaAssetTypes: MediaAssetType[] = [

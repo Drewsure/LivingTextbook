@@ -1,0 +1,29 @@
+# ADR-0617: AI-Service Game-Mode And Engine Boundary
+
+Status: Accepted
+
+## Decision
+
+The provider-neutral AI service must validate game mode, parent engine, and
+level compatibility using the shared content-model game catalog before a
+generation request can enter review preparation.
+
+## Required behavior
+
+- Unsupported game modes and parent engines are validation errors.
+- A game mode must use its catalogued parent engine.
+- A game mode must be available for the requested curriculum level.
+- The AI service must reuse the shared catalog rather than maintaining a
+  provider-specific compatibility table.
+
+## Guardrails
+
+This is a validation-only boundary. It does not call a provider, write a
+package, submit a verifier result, activate a route, or enable Z.ai/game
+integration. The request remains review-only and target-language progression
+remains authoritative.
+
+## Verification
+
+Run `npm run verify:ai-service` and
+`npm run typecheck --workspace @living-textbook/ai-service`.

@@ -1,4 +1,9 @@
 import { validatePedagogicalTextFields } from "@living-textbook/content-model";
+import {
+  getGameModeContract,
+  isSupportedGameModeId,
+  isSupportedParentEngine,
+} from "@living-textbook/content-model";
 import type { GameModeId, ParentEngine } from "@living-textbook/content-model";
 
 export type AiGenerationServiceStatus = "review-only" | "provider-dispatch-ready";
@@ -52,6 +57,15 @@ export function validateAiGenerationServiceRequest(request: AiGenerationServiceR
   if (!request.targetLanguage.trim()) errors.push("targetLanguage is required");
   if (!request.theme.trim()) errors.push("theme is required");
   if (request.level < 1 || request.level > 8) errors.push("level must be between 1 and 8");
+  if (!isSupportedGameModeId(request.gameMode)) errors.push(`gameMode ${request.gameMode} is not supported by the curated game catalog`);
+  if (!isSupportedParentEngine(request.engineId)) errors.push(`engineId ${request.engineId} is not supported by the engine catalog`);
+  const gameModeContract = getGameModeContract(request.gameMode);
+  if (gameModeContract && request.engineId !== gameModeContract.engineId) {
+    errors.push(`gameMode ${request.gameMode} is not compatible with engineId ${request.engineId}; expected ${gameModeContract.engineId}`);
+  }
+  if (gameModeContract && !gameModeContract.supportedLevels.includes(request.level)) {
+    errors.push(`gameMode ${request.gameMode} is not available for level ${request.level}`);
+  }
   if (request.vocabularyTerms.length < 8 || request.vocabularyTerms.length > 12) {
     errors.push("vocabularyTerms must contain between 8 and 12 terms");
   }

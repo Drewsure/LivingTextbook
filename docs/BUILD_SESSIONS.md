@@ -1469,6 +1469,14 @@ derived candidate summary. No adapter or storage write path was enabled. The
 decision is recorded in `docs/adr/0616-backend-candidate-target-coverage.md`
 and `docs/decision-register/DR-688-backend-candidate-target-coverage.md`.
 
+The AI-service game-mode and engine boundary slice now reuses the shared
+content-model catalog before provider review preparation. Unsupported modes,
+unsupported engines, mismatched mode/engine pairs, and unavailable level
+combinations are rejected. No provider call, billing, package write, route
+write, or Z.ai integration was enabled. The decision is recorded in
+`docs/adr/0617-ai-service-game-mode-engine-boundary.md` and
+`docs/decision-register/DR-689-ai-service-game-mode-engine-boundary.md`.
+
 The migration candidate coverage slice now requires every non-deferred
 candidate to have at least one migration specification, while deferred
 candidates must not carry implementation specs. The decision is recorded in

@@ -646,6 +646,13 @@ derived summary. The decision is recorded in
 `docs/adr/0616-backend-candidate-target-coverage.md` and
 `docs/decision-register/DR-688-backend-candidate-target-coverage.md`.
 
+The AI-service game-mode and engine boundary now reuses the shared content
+catalog to reject unsupported modes, unsupported engines, mismatched
+mode/engine pairs, and unavailable level combinations before provider review
+preparation. The decision is recorded in
+`docs/adr/0617-ai-service-game-mode-engine-boundary.md` and
+`docs/decision-register/DR-689-ai-service-game-mode-engine-boundary.md`.
+
 ## Maintenance Rule
 
 When a new focused decision record is added here, update this index in the same work session unless a local sync or connector conflict blocks it.
