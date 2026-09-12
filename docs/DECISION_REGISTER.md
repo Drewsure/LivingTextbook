@@ -3994,3 +3994,10 @@ validator. It accepts a blocked candidate and rejects an approval with
 unresolved blockers or missing evidence. This is runtime evidence only and
 does not promote or route external source. See
 `docs/adr/0663-phaser-wrapper-approval-runtime-check.md`.
+
+# DR-736: Canonical Completion Acceptance Gate
+
+The shared playable route shell now pauses progression and rewards when the
+canonical event stream is missing or invalid. Contract errors remain visible
+for review, and the rule applies to future approved wrappers as well. See
+`docs/adr/0664-canonical-completion-acceptance-gate.md`.

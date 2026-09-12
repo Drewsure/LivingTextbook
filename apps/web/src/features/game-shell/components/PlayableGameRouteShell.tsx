@@ -83,28 +83,33 @@ export function PlayableGameRouteShell({
   }
 
   function handleComplete(result: GameModeCompletionResult) {
-    if (result.event) {
-      const replay = validateCanonicalGameEventSequence(
-        [...sessionEventsRef.current, result.event],
-        gameMode,
-        tenant.id,
-        result.earnedStarDust,
-        {
-          unitKey: launchSession.unitKey,
-          launchCode: launchSession.launchCode,
-          studentSessionId: progression.studentSessionId,
-        },
-      );
-      setEventContractErrors(replay.errors);
+    if (!result.event) {
+      setEventContractErrors(["Canonical game completion did not include a completion event."]);
+      return;
+    }
+
+    const replay = validateCanonicalGameEventSequence(
+      [...sessionEventsRef.current, result.event],
+      gameMode,
+      tenant.id,
+      result.earnedStarDust,
+      {
+        unitKey: launchSession.unitKey,
+        launchCode: launchSession.launchCode,
+        studentSessionId: progression.studentSessionId,
+      },
+    );
+    setEventContractErrors(replay.errors);
+
+    if (!replay.valid) {
+      return;
     }
 
     setCurrentProgression(result.progression);
     setLastEarnedDust(result.earnedStarDust);
 
-    if (result.event) {
-      sessionEventsRef.current = [...sessionEventsRef.current, result.event];
-      setSessionEvents((events) => [...events, result.event as GameProgressEvent]);
-    }
+    sessionEventsRef.current = [...sessionEventsRef.current, result.event];
+    setSessionEvents((events) => [...events, result.event as GameProgressEvent]);
   }
 
   return (
@@ -159,6 +164,7 @@ export function PlayableGameRouteShell({
       {eventContractErrors.length > 0 ? (
         <aside className="rounded-lg border border-rose-300 bg-rose-50 p-4 text-sm text-rose-950" aria-live="polite">
           <p className="font-bold">Canonical game contract needs review</p>
+          <p className="mt-1">Completion is paused until the event evidence is valid.</p>
           <ul className="mt-2 grid gap-1">
             {eventContractErrors.map((error, index) => (
               <li key={`${error}-${index}`}>{error}</li>

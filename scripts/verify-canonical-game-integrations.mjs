@@ -254,6 +254,8 @@ for (const fragment of [
   "CANONICAL_GAME_REQUIRED_EVENT_ORDER",
   "Canonical game event sequence must pair answer_submitted and answer_result events",
   "Canonical game contract needs review",
+  "Completion is paused until the event evidence is valid.",
+  "if (!replay.valid)",
   "tenantId: args.launchSession.tenantId",
   "expectedTenantId",
   "expectedEarnedStarDust",

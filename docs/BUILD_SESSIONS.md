@@ -1622,3 +1622,8 @@ validator. A blocked candidate packet is accepted as review evidence, while
 an approval carrying unresolved blockers or missing evidence is rejected.
 This keeps the wrapper gate enforceable without importing external game code,
 recorded in ADR 0663 and DR-735.
+
+The playable game route shell now makes canonical event validation an
+acceptance gate. Missing or invalid completion evidence pauses progression,
+Star Dust, and next-activity state while exposing the contract errors for
+review. This is recorded in ADR 0664 and DR-736.

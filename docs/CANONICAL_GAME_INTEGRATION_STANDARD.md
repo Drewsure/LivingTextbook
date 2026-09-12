@@ -25,6 +25,10 @@ Every canonical game route must:
 - leave route, progression, tenant scope, rewards, assignment effects, and
   persistence to the platform contracts.
 
+The playable route shell treats the shared event validator as an acceptance
+gate. If completion evidence is missing or invalid, the route reports the
+contract errors and pauses progression, Star Dust, and next-activity state.
+
 ## Determinism And Accessibility
 
 Game state may own round selection and interaction state, but it must not own
