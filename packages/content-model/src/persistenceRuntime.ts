@@ -47,19 +47,36 @@ export const reviewOnlyPersistenceBlockedActions = [
 
 export function validatePersistenceRuntimeRequest(request: PersistenceRuntimeRequest): string[] {
   const errors: string[] = [];
+  const booleanFields = [
+    ["containsStudentData", request.containsStudentData],
+    ["containsRawAudio", request.containsRawAudio],
+    ["containsTranscript", request.containsTranscript],
+    ["requiresSchoolPolicy", request.requiresSchoolPolicy],
+    ["schoolPolicyAccepted", request.schoolPolicyAccepted],
+    ["releaseApproved", request.releaseApproved],
+  ] as const;
+  for (const [label, value] of booleanFields) {
+    if (typeof value !== "boolean") errors.push(`${label} must be a boolean`);
+  }
+  const containsStudentData = request.containsStudentData === true;
+  const containsRawAudio = request.containsRawAudio === true;
+  const containsTranscript = request.containsTranscript === true;
+  const requiresSchoolPolicy = request.requiresSchoolPolicy === true;
+  const schoolPolicyAccepted = request.schoolPolicyAccepted === true;
+  const releaseApproved = request.releaseApproved === true;
 
   if (!request.tenantId.trim()) errors.push("tenantId is required");
   if (!request.recordId.trim()) errors.push("recordId is required");
   if (!request.category.trim()) errors.push("category is required");
-  if (request.containsStudentData && !request.requiresSchoolPolicy) {
+  if (containsStudentData && !requiresSchoolPolicy) {
     errors.push("student-data records require school or tenant policy");
   }
-  if (request.requiresSchoolPolicy && !request.schoolPolicyAccepted) {
+  if (requiresSchoolPolicy && !schoolPolicyAccepted) {
     errors.push("school or tenant policy acceptance is required");
   }
-  if (request.containsRawAudio) errors.push("raw learner audio is not a core persistence field");
-  if (request.containsTranscript) errors.push("learner transcripts are not a core persistence field");
-  if (["write", "delete", "export"].includes(request.operation) && !request.releaseApproved) {
+  if (containsRawAudio) errors.push("raw learner audio is not a core persistence field");
+  if (containsTranscript) errors.push("learner transcripts are not a core persistence field");
+  if (["write", "delete", "export"].includes(request.operation) && !releaseApproved) {
     errors.push("release approval is required before mutation or export");
   }
 

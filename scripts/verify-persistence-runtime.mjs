@@ -8,6 +8,7 @@ for (const marker of [
   "PersistenceRuntimeAdapter",
   "validatePersistenceRuntimeRequest",
   "createReviewOnlyPersistenceAdapter",
+  "must be a boolean",
   'mode: "review-only"',
   'sideEffect: "none"',
   "raw learner audio is not a core persistence field",

@@ -706,6 +706,18 @@ try {
   assertIncludes(persistenceErrors, "raw learner audio is not a core persistence field");
   assertIncludes(persistenceErrors, "release approval is required before mutation or export");
   assertEqual(persistence.createReviewOnlyPersistenceAdapter().execute(persistenceRequest).sideEffect, "none");
+  const malformedPersistenceFlagErrors = persistence.validatePersistenceRuntimeRequest({
+    ...persistenceRequest,
+    containsStudentData: "true",
+    containsRawAudio: "false",
+    containsTranscript: "false",
+    requiresSchoolPolicy: "true",
+    schoolPolicyAccepted: "true",
+    releaseApproved: "true",
+  });
+  assertIncludes(malformedPersistenceFlagErrors, "containsStudentData must be a boolean");
+  assertIncludes(malformedPersistenceFlagErrors, "requiresSchoolPolicy must be a boolean");
+  assertIncludes(malformedPersistenceFlagErrors, "releaseApproved must be a boolean");
 
   const prototypeGateRecord = {
     recordId: "prototype-gate-record",
