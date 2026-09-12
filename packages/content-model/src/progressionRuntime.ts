@@ -161,7 +161,7 @@ export function validateProgressionContinuityEnvelope(value: unknown): string[] 
 export function validateProgressionContinuityRuntimeRequest(request: ProgressionContinuityRuntimeRequest): string[] {
   const errors = validateProgressionContinuityEnvelope(request.envelope);
   for (const field of ["expectedTenantId", "expectedPackageId", "expectedLaunchCode", "expectedStudentSessionId"] as const) {
-    if (!request[field].trim()) errors.push(`${field} is required.`);
+    if (typeof request[field] !== "string" || request[field].trim().length === 0) errors.push(`${field} is required.`);
   }
   if (isRecord(request.envelope)) {
     const envelope = request.envelope;
@@ -258,9 +258,9 @@ export function validateProgressionRuntimeRequest(request: ProgressionRuntimeReq
   const rewardPolicyReady = request.rewardPolicyReady === true;
   const targetLanguageEvidence = request.targetLanguageEvidence === true;
 
-  if (!request.tenantId.trim()) errors.push("tenantId is required");
-  if (!request.packageId.trim()) errors.push("packageId is required");
-  if (!request.sessionId.trim()) errors.push("sessionId is required");
+  if (typeof request.tenantId !== "string" || request.tenantId.trim().length === 0) errors.push("tenantId is required");
+  if (typeof request.packageId !== "string" || request.packageId.trim().length === 0) errors.push("packageId is required");
+  if (typeof request.sessionId !== "string" || request.sessionId.trim().length === 0) errors.push("sessionId is required");
   if (!progressionPolicyAccepted) errors.push("progression policy acceptance is required");
   if (!persistenceReady) errors.push("progress persistence readiness is required");
   if (!reportRuntimeReady) errors.push("report runtime readiness is required");

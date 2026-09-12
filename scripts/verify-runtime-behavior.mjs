@@ -184,6 +184,16 @@ try {
     }).sideEffect,
     "none",
   );
+  assertIncludes(
+    progression.validateProgressionContinuityRuntimeRequest({
+      expectedTenantId: undefined,
+      expectedPackageId: "package-1",
+      expectedLaunchCode: "launch-1",
+      expectedStudentSessionId: "session-1",
+      envelope: continuityEnvelope,
+    }),
+    "expectedTenantId is required.",
+  );
 
   const canonicalReplaySeed = "replay-v1:tenant-1:curriculum-1:L1:U1:flashcards";
   const canonicalEventContext = {

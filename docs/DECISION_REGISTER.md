@@ -4075,3 +4075,8 @@ local adapter intents, schema, migration candidate, and migration
 specification preserve the same tenant/package/cursor/snapshot boundary while
 blocking raw audio, transcripts, URL-authoritative state, and live side
 effects. See ADR 0677 and DR-749.
+
+Progression continuity runtime requests now validate expected identity fields
+as non-blank strings before comparison. Malformed external input is rejected
+as deterministic validation evidence rather than throwing, and the adapter
+remains side-effect-free. See ADR 0678 and DR-750.

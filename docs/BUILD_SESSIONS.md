@@ -1690,14 +1690,19 @@ privacy exclusions. Its adapter remains review-only with no side effect, so it
 does not create fake learner persistence or put progression into QR URLs. See
 ADR 0675, DR-747, and `docs/PROGRESSION_CONTINUITY_CONTRACT.md`.
 
- The continuity review surface is now visible in teacher intake, showing the
- validated sample handoff, identity bindings, unlock snapshot, and explicit
- review-only/no-side-effect status before backend selection.
+The continuity review surface is now visible in teacher intake, showing the
+validated sample handoff, identity bindings, unlock snapshot, and explicit
+review-only/no-side-effect status before backend selection.
 
 The next persistence hardening slice maps that continuity envelope into the
 provider-neutral durable record, backend schema, migration, and hosted/local
 adapter plans. It stays policy-gated and review-only; no storage provider or
 live handoff write is selected by the map.
+
+The continuity runtime input slice now rejects malformed expected identity
+fields without throwing. This keeps browser, route, and future provider
+boundaries deterministic for untrusted callers; no side effect or storage
+activation was added. The decision is recorded in ADR 0678 and DR-750.
 
 The report runtime now keeps standalone `audio_requested` evidence in the
 support-only lane. Audio engagement cannot become an incomplete game attempt,

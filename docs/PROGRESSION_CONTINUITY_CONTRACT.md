@@ -68,6 +68,11 @@ tenant policy are accepted.
 The schema, migration candidate, migration specification, durable record plan,
 and adapter intents must all remain aligned before implementation work begins.
 
+Runtime callers are treated as untrusted even when they are typed internally.
+Malformed expected identity fields must return validation errors rather than
+throwing, and no adapter may turn malformed input into a route, scoring,
+unlock, reward, or persistence side effect.
+
 ## Verification
 
 Run:
