@@ -119,6 +119,10 @@ Curated unit offer maps must agree with the shared game-mode family and parent
 engine contracts. A map mismatch is review evidence needing correction, not a
 reason to patch a route or create a one-off game.
 
+Unlock checks must exist at both the route-mount boundary and the progression
+adapter boundary. A wrapper cannot earn Star Dust or completion by calling the
+adapter for a mode that the learner has not unlocked.
+
 Game-mode routes must be resolved through the shared route helper before they appear in launch, activity hub, recommendation, completion, teacher shortcut, or partner demo surfaces. The helper must stay exhaustive so typecheck fails when a new playable mode is added without a route. Do not add private switch statements or one-off route branches when adding a mode.
 
 Every game mode must also support learner audio. Vocabulary, sentence prompts, instructions, feedback, and critical game controls should be listenable and replayable. This is required because the core audience includes young children and English learners who cannot be assumed to read independently.

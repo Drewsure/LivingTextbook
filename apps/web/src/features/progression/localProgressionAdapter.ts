@@ -227,6 +227,13 @@ export function completeGameMode(args: {
   occurredAt: string;
   metadata?: Record<string, string | number | boolean>;
 }): GameModeCompletionResult {
+  if (!args.progression.unlockedGameModes.includes(args.gameMode)) {
+    return {
+      progression: args.progression,
+      earnedStarDust: 0,
+    };
+  }
+
   const alreadyCompleted = args.progression.completedGameModes.includes(args.gameMode);
 
   if (alreadyCompleted) {

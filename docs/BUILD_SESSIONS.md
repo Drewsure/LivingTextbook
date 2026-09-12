@@ -1677,3 +1677,7 @@ against the shared game-mode contract. The sample Flashcards offer was
 corrected to the selection parent engine, and review surfaces show map-valid
 or needs-review status. This catches package drift before route or student
 assignment work. See ADR 0673 and DR-745.
+
+The progression adapter now independently returns zero award and unchanged
+progression when completion is requested for a locked mode. This keeps a
+future wrapper from bypassing the route gate at the scoring boundary.

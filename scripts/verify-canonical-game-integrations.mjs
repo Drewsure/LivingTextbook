@@ -280,6 +280,15 @@ for (const fragment of [
 }
 
 for (const fragment of [
+  "if (!args.progression.unlockedGameModes.includes(args.gameMode))",
+  "earnedStarDust: 0",
+]) {
+  if (!progressionAdapter.includes(fragment)) {
+    failures.push(`canonical game progression boundary: completion adapter must block locked modes: ${fragment}`);
+  }
+}
+
+for (const fragment of [
   "const gameUnlocked = currentProgression.unlockedGameModes.includes(gameMode)",
   "{gameUnlocked ? (",
   "<GameAccessGateCard gameMode={gameMode} launchSession={launchSession} />",

@@ -38,6 +38,11 @@ Offer maps are reviewed for tenant scope, unique mode identity, parent family,
 parent engine, ready-route presence, and audio/reporting requirements before
 they are treated as clean package evidence. See ADR 0673 and DR-745.
 
+The progression adapter must independently reject completion for a mode that
+is absent from `unlockedGameModes`, even when a future wrapper or route calls
+the adapter directly. The shell gate is a user-facing boundary; the adapter
+check is the scoring and reward boundary.
+
 The playable route shell treats the shared event validator as an acceptance
 gate. If completion evidence is missing or invalid, the route reports the
 contract errors and pauses progression, Star Dust, and next-activity state.
