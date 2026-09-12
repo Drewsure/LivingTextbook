@@ -768,6 +768,7 @@ Required standing rules:
 - Support-language policy must be explicit and permanently set `progressionAllowed: false` at this boundary.
 - External AI request JSON is untrusted input. Malformed objects, scalar fields, arrays, and policy records must return deterministic validation errors instead of throwing or reaching a provider adapter.
 - AI readiness and approval flags must be strict booleans; stringified truthy values cannot satisfy audio, rights, teacher-approval, or premium-cost gates.
+- AI review-warning formatters must use the same strict boolean interpretation as the validator, so malformed direct callers cannot receive misleading approval or cost-readiness messages.
 - The default service result is review-only and must have no side effects: no model call, provider billing, source write, package write, verifier submission, route write, playlist write, assignment activation, or support-language progression.
 - Provider SDKs, storage vendors, web routes, student progression state, and Phaser/game view code must not become dependencies of the contract boundary.
 - Premium AI cost policy and teacher approval are explicit evidence lanes, not implicit environment flags.

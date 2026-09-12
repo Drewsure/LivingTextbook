@@ -989,6 +989,8 @@ The reward runtime flag integrity slice now applies strict booleans to mastery e
 
 The entitlement runtime flag integrity slice now applies strict booleans to teacher approval, school policy, privacy, cost, persistence, release, allowed levels, usage limits, and target-language audio. Stringified entitlement flags cannot influence AI Tutor, microphone practice, package-tier, premium-cost, or student-facing feature decisions. No provider billing, microphone capture, AI Tutor dispatch, or feature activation was enabled.
 
+The AI-service review formatter now also normalizes assist-language and approval flags with strict checks after validation, preventing direct malformed callers from receiving misleading readiness warnings. Provider dispatch, billing, package writes, route writes, verifier submission, and Z.ai integration remain blocked.
+
 The audio cue identity integrity slice now rejects duplicate cue IDs inside a package before plan resolution. This prevents ambiguous target-language audio selection across games, controls, and teacher previews.
 
 The media asset metadata integrity slice now rejects empty asset IDs/titles and invalid negative or non-finite durations while preserving separate tenant, rights, scan, checksum, storage, and release gates for future uploads.

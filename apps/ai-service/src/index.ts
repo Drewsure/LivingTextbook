@@ -179,14 +179,17 @@ export function validateAiGenerationServiceRequest(request: unknown): string[] {
 export function prepareReviewOnlyAiGenerationRequest(request: AiGenerationServiceRequest): AiGenerationServiceResult {
   const validationErrors = validateAiGenerationServiceRequest(request);
   const reviewWarnings: string[] = [];
+  const assistLanguage = typeof request.assistLanguage === "string" ? request.assistLanguage : "";
+  const teacherApprovalReady = request.teacherApprovalReady === true;
+  const premiumCostPolicyReady = request.premiumCostPolicyReady === true;
 
-  if (!request.assistLanguage) {
+  if (!assistLanguage) {
     reviewWarnings.push("No assist language configured; this is optional and does not block target-language work.");
   } else {
     reviewWarnings.push("Assist language is comprehension support only and cannot satisfy scoring, mastery, or progression.");
   }
-  if (!request.teacherApprovalReady) reviewWarnings.push("Teacher approval evidence is still required before any live handoff.");
-  if (!request.premiumCostPolicyReady) reviewWarnings.push("Premium AI cost policy is not approved; provider billing remains blocked.");
+  if (!teacherApprovalReady) reviewWarnings.push("Teacher approval evidence is still required before any live handoff.");
+  if (!premiumCostPolicyReady) reviewWarnings.push("Premium AI cost policy is not approved; provider billing remains blocked.");
 
   return {
     requestId: request.requestId,

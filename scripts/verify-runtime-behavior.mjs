@@ -1161,6 +1161,13 @@ try {
   assertEqual(aiResult.providerDispatchAllowed, false);
   assertIncludes(aiResult.blockedActions, "No provider model call");
   assertIncludes(aiResult.reviewWarnings, "Assist language is comprehension support only and cannot satisfy scoring, mastery, or progression.");
+  const malformedAiWarningResult = aiService.prepareReviewOnlyAiGenerationRequest({
+    ...aiRequest,
+    teacherApprovalReady: "false",
+    premiumCostPolicyReady: "false",
+  });
+  assertIncludes(malformedAiWarningResult.reviewWarnings, "Teacher approval evidence is still required before any live handoff.");
+  assertIncludes(malformedAiWarningResult.reviewWarnings, "Premium AI cost policy is not approved; provider billing remains blocked.");
 
   const alignmentMode = [{ modeId: "flashcards", parentEngine: "pairing" }];
   const alignmentBundle = {
