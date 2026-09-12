@@ -69,6 +69,7 @@ export function validateBackendContractAlignment({
   const schemaEntityIds = new Set<string>();
   const schemaFieldsByEntity = new Map<string, Set<string>>();
   const schemaFieldTypesByEntity = new Map<string, Map<string, string>>();
+  const schemaRequiredFieldsByEntity = new Map<string, Set<string>>();
   const schemaDeploymentFitByEntity = new Map<string, string>();
   const migrationIds = new Set<string>();
   const specIds = new Set<string>();
@@ -118,6 +119,7 @@ export function validateBackendContractAlignment({
 
     const fieldNames = new Set<string>();
     const fieldTypes = new Map<string, string>();
+    const requiredFieldNames = new Set<string>();
     for (const field of entity.fields) {
       if (field.name.trim().length === 0) {
         errors.push(`Backend schema entity ${entity.entityId} contains a field with an empty name.`);
@@ -138,9 +140,11 @@ export function validateBackendContractAlignment({
       }
       fieldNames.add(field.name);
       fieldTypes.set(field.name, field.type);
+      if (field.required) requiredFieldNames.add(field.name);
     }
     schemaFieldsByEntity.set(entity.entityId, fieldNames);
     schemaFieldTypesByEntity.set(entity.entityId, fieldTypes);
+    schemaRequiredFieldsByEntity.set(entity.entityId, requiredFieldNames);
     const indexNames = new Set<string>();
     for (const index of entity.indexes) {
       if (index.trim().length === 0) {
@@ -169,6 +173,7 @@ export function validateBackendContractAlignment({
 
     const baseFieldNames = schemaFieldsByEntity.get(entityId) ?? new Set<string>();
     const baseFieldTypes = schemaFieldTypesByEntity.get(entityId) ?? new Map<string, string>();
+    const baseRequiredFieldNames = schemaRequiredFieldsByEntity.get(entityId) ?? new Set<string>();
     const extensionFieldNames = new Set<string>();
     for (const field of extensionFields) {
       if (field.name.trim().length === 0) {
@@ -191,6 +196,7 @@ export function validateBackendContractAlignment({
       extensionFieldNames.add(field.name);
       baseFieldNames.add(field.name);
       baseFieldTypes.set(field.name, field.type);
+      if (field.required) baseRequiredFieldNames.add(field.name);
     }
   }
 
@@ -332,6 +338,11 @@ export function validateBackendContractAlignment({
           if (expectedType && actualType && !isMigrationFieldTypeCompatible(expectedType, actualType)) {
             errors.push(
               `Backend migration spec ${spec.specId} field ${fieldName} type ${actualType} must be compatible with target schema type ${expectedType}.`,
+            );
+          }
+          if (candidate.targetEntities.length === 1 && schemaRequiredFieldsByEntity.get(targetEntityWithField)?.has(fieldName) && !spec.fields.find((field) => field.name === fieldName)?.required) {
+            errors.push(
+              `Backend migration spec ${spec.specId} field ${fieldName} must remain required because its target schema field is required.`,
             );
           }
         }

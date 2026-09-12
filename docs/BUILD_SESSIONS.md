@@ -1440,6 +1440,13 @@ write path was enabled. The decision is recorded in
 `docs/adr/0612-backend-migration-field-type-compatibility.md` and
 `docs/decision-register/DR-684-backend-migration-field-type-compatibility.md`.
 
+The backend required-field parity slice now rejects weakened required fields
+for single-entity migration specs while preserving the deliberate conditional
+fields in combined multi-entity envelopes. Adapter-level entity validation
+remains required; no storage write path was enabled. The decision is recorded
+in `docs/adr/0613-backend-required-field-parity.md` and
+`docs/decision-register/DR-685-backend-required-field-parity.md`.
+
 The migration candidate coverage slice now requires every non-deferred
 candidate to have at least one migration specification, while deferred
 candidates must not carry implementation specs. The decision is recorded in

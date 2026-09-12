@@ -573,6 +573,7 @@
 - `DR-682-backend-track-deployment-compatibility.md`
 - `DR-683-backend-field-type-vocabulary.md`
 - `DR-684-backend-migration-field-type-compatibility.md`
+- `DR-685-backend-required-field-parity.md`
 
 The prototype integration gate slice now feeds detailed wrapper, fixture,
 event, audio, mobile, scoring, and Codex-decision readiness records into the
@@ -614,6 +615,12 @@ migration specs. This preserves the existing vendor-neutral serialization plan
 while rejecting unsafe shape changes. The decision is recorded in
 `docs/adr/0612-backend-migration-field-type-compatibility.md` and
 `docs/decision-register/DR-684-backend-migration-field-type-compatibility.md`.
+
+The backend required-field parity slice now rejects weakened required fields
+for single-entity migrations while preserving documented conditional fields in
+combined multi-entity envelopes. The decision is recorded in
+`docs/adr/0613-backend-required-field-parity.md` and
+`docs/decision-register/DR-685-backend-required-field-parity.md`.
 
 ## Maintenance Rule
 

@@ -523,6 +523,28 @@ try {
     throw new Error("Backend contract alignment did not reject a migration field type mismatch.");
   }
 
+  const weakenedRequiredMigrationField = {
+    ...migrationSpecPlan,
+    specs: migrationSpecPlan.specs.map((spec) =>
+      spec.specId === "spec-tenant-entitlement"
+        ? {
+            ...spec,
+            fields: spec.fields.map((field) =>
+              field.name === "tenant_id" ? { ...field, required: false } : field,
+            ),
+          }
+        : spec,
+    ),
+  };
+  const weakenedRequiredMigrationFieldErrors = alignment.validateBackendContractAlignment({
+    schema,
+    migrationPlan,
+    migrationSpecPlan: weakenedRequiredMigrationField,
+  });
+  if (!weakenedRequiredMigrationFieldErrors.includes("Backend migration spec spec-tenant-entitlement field tenant_id must remain required because its target schema field is required.")) {
+    throw new Error("Backend contract alignment did not reject a weakened required migration field.");
+  }
+
   console.log("PASS backend contract alignment resolves all sample schema entities, migration candidates, and migration specs.");
 } finally {
   rmSync(output, { recursive: true, force: true });
