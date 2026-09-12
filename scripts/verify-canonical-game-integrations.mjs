@@ -88,8 +88,10 @@ for (const fragment of [
   "CANONICAL_GAME_REQUIRED_EVENT_ORDER",
   "Canonical game event sequence must pair answer_submitted and answer_result events",
   "Canonical game contract needs review",
+  "tenantId: args.launchSession.tenantId",
+  "expectedTenantId",
 ]) {
-  if (![contentModelContract, routeShell].some((source) => source.includes(fragment))) {
+  if (![contentModelContract, progressionAdapter, routeShell].some((source) => source.includes(fragment))) {
     failures.push(`canonical game event boundary: missing shared contract fragment: ${fragment}`);
   }
 }

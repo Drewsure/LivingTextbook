@@ -132,6 +132,7 @@ export function startUnlockedGameMode(args: {
     metadata: {
       sourceMode: args.launchSession.entryMode,
       replaySeed: args.replaySeed ?? createCanonicalGameReplaySeed({ unitKey: args.launchSession.unitKey, gameMode: args.gameMode }),
+      tenantId: args.launchSession.tenantId,
     },
   };
 }
@@ -153,9 +154,10 @@ export function createGameInteractionEvent(args: {
     occurredAt: args.occurredAt,
   };
 
-  if (args.metadata) {
-    event.metadata = args.metadata;
-  }
+  event.metadata = {
+    ...args.metadata,
+    tenantId: args.launchSession.tenantId,
+  };
 
   return event;
 }
@@ -182,6 +184,7 @@ export function createAudioRequestedEvent(args: {
       cueText: args.cueText,
       language: args.language,
       source: args.source ?? "game-audio-contract",
+      tenantId: args.launchSession.tenantId,
       progressionUnlockAllowed: false,
       masteryCreditAllowed: false,
       starDustAwarded: 0,
@@ -250,6 +253,7 @@ export function completeGameMode(args: {
     occurredAt: args.occurredAt,
     metadata: {
       ...args.metadata,
+      tenantId: args.launchSession.tenantId,
       earnedStarDust,
     },
   };

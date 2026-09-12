@@ -23,6 +23,7 @@ export interface CanonicalGameEventSequenceReport {
 export function validateCanonicalGameEventSequence(
   events: GameProgressEvent[],
   expectedGameMode: GameModeId,
+  expectedTenantId?: string,
 ): CanonicalGameEventSequenceReport {
   const errors: string[] = [];
   const eventTypes = events.map((event) => event.type);
@@ -60,6 +61,15 @@ export function validateCanonicalGameEventSequence(
     errors.push(
       `Canonical game event sequence must use game mode ${expectedGameMode}; found ${modeMismatch.gameMode} on ${modeMismatch.type}.`,
     );
+  }
+
+  if (expectedTenantId) {
+    const tenantMismatch = events.find((event) => event.metadata?.tenantId !== expectedTenantId);
+    if (tenantMismatch) {
+      errors.push(
+        `Canonical game event sequence must preserve tenant ${expectedTenantId}; ${tenantMismatch.type} has tenant ${String(tenantMismatch.metadata?.tenantId ?? "(missing)")}.`,
+      );
+    }
   }
 
   const answerSubmittedCount = countEvents(events, "answer_submitted");

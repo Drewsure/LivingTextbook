@@ -84,7 +84,7 @@ export function PlayableGameRouteShell({
 
   function handleComplete(result: GameModeCompletionResult) {
     if (result.event) {
-      const replay = validateCanonicalGameEventSequence([...sessionEventsRef.current, result.event], gameMode);
+      const replay = validateCanonicalGameEventSequence([...sessionEventsRef.current, result.event], gameMode, tenant.id);
       setEventContractErrors(replay.errors);
     }
 
