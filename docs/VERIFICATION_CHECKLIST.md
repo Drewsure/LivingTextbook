@@ -256,7 +256,9 @@ Check at narrow mobile width:
 - Canonical game report evidence shows each game attempt as ready only after
   sequence, replay, tenant, launch, learner, and completion checks pass.
 - Partial or support-only event rows remain visibly blocked or support-only and
-  cannot appear as verified game completion.
+cannot appear as verified game completion.
+- Canonical game events use valid nondecreasing timestamps; equal timestamps
+  are accepted for rapid interactions.
 
 ## White-Label Checks
 

@@ -1644,3 +1644,8 @@ game events by unit, launch, learner, and mode and re-run the shared canonical
 validator before showing a group as ready. Partial sample game rows are
 intentionally blocked; media, audio, and navigation remain support-only. This
 is recorded in ADR 0667 and DR-739.
+
+Canonical game evidence now also rejects invalid or out-of-order event
+timestamps. Equal timestamps remain valid for rapid interactions, while
+chronology failures block completion and report-ready status. This is recorded
+in ADR 0668 and DR-740.

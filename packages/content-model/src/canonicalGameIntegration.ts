@@ -135,6 +135,19 @@ export function validateCanonicalGameEventSequence(
     findLastEventIndex(events, "answer_result"),
   );
 
+  for (let index = 1; index < events.length; index += 1) {
+    const previousTime = Date.parse(events[index - 1].occurredAt);
+    const currentTime = Date.parse(events[index].occurredAt);
+    if (!Number.isFinite(previousTime) || !Number.isFinite(currentTime)) {
+      errors.push("Canonical game event sequence must use valid occurredAt timestamps.");
+      break;
+    }
+    if (currentTime < previousTime) {
+      errors.push("Canonical game event sequence must be chronological by occurredAt.");
+      break;
+    }
+  }
+
   if (masteryIndex >= 0 && lastAnswerActivityIndex > masteryIndex) {
     errors.push("Canonical game event sequence must place all answer activity before mastery_updated.");
   }

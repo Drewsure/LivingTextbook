@@ -30,6 +30,8 @@ gate. If completion evidence is missing or invalid, the route reports the
 contract errors and pauses progression, Star Dust, and next-activity state.
 The validator also requires all answer activity to finish before mastery or
 completion, preventing late submissions from changing a completed result.
+Canonical events must also carry valid nondecreasing `occurredAt` timestamps;
+timestamp order is part of replay and report integrity. See ADR 0668 and DR-740.
 
 ## Determinism And Accessibility
 

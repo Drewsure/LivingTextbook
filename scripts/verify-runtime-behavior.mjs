@@ -162,6 +162,11 @@ try {
   ];
   const lateAnswerErrors = canonicalGame.validateCanonicalGameEventSequence(lateAnswerEvents, "flashcards").errors;
   assertIncludes(lateAnswerErrors, "Canonical game event sequence must place all answer activity before mastery_updated.");
+  const outOfOrderErrors = canonicalGame.validateCanonicalGameEventSequence(
+    canonicalEvents.map((event, index) => ({ ...event, occurredAt: new Date(Date.parse(event.occurredAt) + (index === 4 ? -1000 : 0)).toISOString() })),
+    "flashcards",
+  ).errors;
+  assertIncludes(outOfOrderErrors, "Canonical game event sequence must be chronological by occurredAt.");
   const canonicalReportEvidence = canonicalGameReport.validateCanonicalGameReportEvidence(canonicalEvents, "tenant-1", "launch-1");
   assertEqual(canonicalReportEvidence.valid, true);
   const incompleteReportEvidence = canonicalGameReport.validateCanonicalGameReportEvidence(canonicalEvents.slice(0, 4), "tenant-1", "launch-1");

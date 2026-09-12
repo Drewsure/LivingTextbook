@@ -4024,3 +4024,10 @@ replay, tenant, launch, and completion contract. Incomplete or mismatched game
 groups remain blocked from authoritative report status, while support-only
 media/audio evidence stays separate. See
 `docs/adr/0667-canonical-game-report-evidence.md`.
+
+# DR-740: Canonical Game Event Chronology
+
+The shared canonical game validator now requires valid, nondecreasing
+`occurredAt` timestamps. Out-of-order or invalidly timestamped game evidence
+is blocked before completion, teacher-report readiness, or future wrapper
+promotion. See `docs/adr/0668-canonical-game-event-chronology.md`.
