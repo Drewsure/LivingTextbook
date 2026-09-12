@@ -24,13 +24,17 @@ It proves that syntax construction can consume reviewed target sentences, render
 - Lets students tap tiles into order.
 - Lets students remove selected tiles.
 - Provides listen/replay for instructions, target sentence, feedback, and tiles.
+- Emits `game_started` with a deterministic replay seed before learner input.
 - Emits local events:
+  - `game_started`
   - `round_shown`
   - `answer_submitted`
   - `answer_result`
   - `mastery_updated`
   - `game_completed`
 - Uses `syntax-construction-v1` scoring.
+- Carries tenant, launch, unit, student-session, and replay identity through
+  the shared canonical route shell.
 
 ## Non-Goals
 
