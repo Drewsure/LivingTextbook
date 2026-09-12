@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Card, StatusPill } from "@living-textbook/ui";
+import { createCanonicalGameReplaySeed } from "@living-textbook/content-model";
 import type {
   AudioCue,
   GameProgressEvent,
@@ -13,6 +14,7 @@ import { AudioCueButton, AudioCueText, playAudioCueText } from "@/features/audio
 import { AudioSupportedAction } from "@/features/audio/AudioSupportedAction";
 import {
   completeGameMode,
+  createAudioRequestedEvent,
   createGameInteractionEvent,
   startUnlockedGameMode,
   type GameModeCompletionResult,
@@ -57,6 +59,8 @@ export function SpellingPracticeGame({
 }: SpellingPracticeGameProps) {
   const rounds = useMemo(() => buildSpellingRounds(unit), [unit]);
   const scoringProfile = getGameScoringProfileForMode(gameMode);
+  const replaySeed = createCanonicalGameReplaySeed({ unitKey: launchSession.unitKey, gameMode });
+  const targetLanguage = unit.unitMeta.textbookReference?.language ?? "en";
   const startEventSent = useRef(false);
   const [roundIndex, setRoundIndex] = useState(0);
   const [selectedTiles, setSelectedTiles] = useState<SpellingLetterTile[]>([]);
@@ -79,12 +83,13 @@ export function SpellingPracticeGame({
       launchSession,
       gameMode,
       occurredAt: new Date().toISOString(),
+      replaySeed,
     });
 
     if (event) {
       onEvent?.(event);
     }
-  }, [launchSession, onEvent, progression]);
+  }, [launchSession, onEvent, progression, replaySeed]);
 
   useEffect(() => {
     if (!currentRound || completedRoundIds.includes(currentRound.roundId)) {
@@ -96,9 +101,30 @@ export function SpellingPracticeGame({
       promptText: currentRound.promptText,
       targetTermLength: currentRound.normalizedAnswer.length,
       textSpellingSkin: gameMode,
+      replaySeed,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentRound?.roundId]);
+
+  function emitAudioRequested(
+    cueKind: "term" | "sentence" | "instruction" | "feedback",
+    cueText: string,
+    language: string,
+    source: string,
+  ) {
+    onEvent?.(
+      createAudioRequestedEvent({
+        progression,
+        launchSession,
+        gameMode,
+        occurredAt: new Date().toISOString(),
+        cueKind,
+        cueText,
+        language,
+        source,
+      }),
+    );
+  }
 
   function emitInteractionEvent(
     type: "round_shown" | "answer_submitted" | "answer_result" | "mastery_updated",
@@ -122,7 +148,8 @@ export function SpellingPracticeGame({
     }
 
     setSelectedTiles((tiles) => [...tiles, tile]);
-    playAudioCueText({ text: tile.spokenText, language: "en" });
+    emitAudioRequested("term", tile.spokenText, targetLanguage, "spelling-letter-tile");
+    playAudioCueText({ text: tile.spokenText, language: targetLanguage });
   }
 
   function handleRemoveSelectedTile(tile: SpellingLetterTile) {
@@ -131,13 +158,15 @@ export function SpellingPracticeGame({
     }
 
     setSelectedTiles((tiles) => tiles.filter((selected) => selected.tileId !== tile.tileId));
-    playAudioCueText({ text: tile.spokenText, language: "en" });
+    emitAudioRequested("term", tile.spokenText, targetLanguage, "spelling-selected-letter");
+    playAudioCueText({ text: tile.spokenText, language: targetLanguage });
   }
 
   function handleClear() {
     setSelectedTiles([]);
     setFeedback("Cleared. Listen again and tap the letters.");
-    playAudioCueText({ text: "Cleared. Listen again and tap the letters.", language: "en" });
+    emitAudioRequested("feedback", "Cleared. Listen again and tap the letters.", targetLanguage, "spelling-clear-feedback");
+    playAudioCueText({ text: "Cleared. Listen again and tap the letters.", language: targetLanguage });
   }
 
   function handleSubmit() {
@@ -157,6 +186,7 @@ export function SpellingPracticeGame({
       attempts: nextAttempts,
       targetLanguageAttempt: true,
       supportLanguageUnlockAllowed: false,
+      replaySeed,
     });
     emitInteractionEvent("answer_result", {
       roundId: currentRound.roundId,
@@ -164,11 +194,13 @@ export function SpellingPracticeGame({
       attempts: nextAttempts,
       completedRounds: completedRoundIds.length,
       textSpellingSkin: gameMode,
+      replaySeed,
     });
 
     if (!correct) {
       setFeedback("Try again. Listen and check the letter order.");
-      playAudioCueText({ text: "Try again. Listen and check the letter order.", language: "en" });
+      emitAudioRequested("feedback", "Try again. Listen and check the letter order.", targetLanguage, "spelling-feedback-auto");
+      playAudioCueText({ text: "Try again. Listen and check the letter order.", language: targetLanguage });
       return;
     }
 
@@ -179,7 +211,8 @@ export function SpellingPracticeGame({
     setCorrectRoundIds(nextCorrectRoundIds);
     setFeedback("Correct spelling. Next word.");
     setSelectedTiles([]);
-    playAudioCueText({ text: "Correct spelling. Next word.", language: "en" });
+    emitAudioRequested("feedback", "Correct spelling. Next word.", targetLanguage, "spelling-feedback-auto");
+    playAudioCueText({ text: "Correct spelling. Next word.", language: targetLanguage });
 
     if (nextCompletedRoundIds.length < rounds.length) {
       setRoundIndex((index) => index + 1);
@@ -205,6 +238,7 @@ export function SpellingPracticeGame({
           correctRounds: nextCorrectRoundIds.length,
           attempts: nextAttempts,
           textSpellingSkin: gameMode,
+          replaySeed,
         },
       });
 
@@ -216,6 +250,7 @@ export function SpellingPracticeGame({
         correctRounds: nextCorrectRoundIds.length,
         scoringProfileId,
         supportLanguageUnlockAllowed: false,
+        replaySeed,
       });
       setCompletionSent(true);
       onComplete(result);
@@ -250,7 +285,8 @@ export function SpellingPracticeGame({
   const availableTiles = currentRound.letterBank.filter(
     (tile) => !selectedTiles.some((selected) => selected.tileId === tile.tileId),
   );
-  const promptAudioText = findAudioText(audioCues, currentRound.targetTerm);
+  const promptCue = findAudioCue(audioCues, currentRound.targetTerm);
+  const promptAudioText = promptCue?.text ?? currentRound.targetTerm;
   const gameInstructionText = findInstructionText(audioCues);
 
   return (
@@ -261,9 +297,10 @@ export function SpellingPracticeGame({
           <p className="mt-1 text-sm leading-6 text-[var(--tenant-muted)]">
             <AudioCueText
               text={gameInstructionText}
-              language="en"
+              language={targetLanguage}
               label="Tap the Spelling Practice instruction to hear it"
               className="text-sm"
+              onPlay={() => emitAudioRequested("instruction", gameInstructionText, targetLanguage, "spelling-instruction")}
             />
           </p>
         </div>
@@ -284,20 +321,32 @@ export function SpellingPracticeGame({
             <p className="mt-1 text-sm font-bold text-[var(--tenant-text)]">
               <AudioCueText
                 text="Listen to the word."
-                language="en"
+                language={targetLanguage}
                 label="Tap the Spelling Practice prompt instruction to hear it"
                 className="text-sm font-bold"
+                onPlay={() => emitAudioRequested("instruction", "Listen to the word.", targetLanguage, "spelling-prompt-instruction")}
               />
             </p>
           </div>
-          <AudioCueButton text={promptAudioText} language="en" label="Listen to the Spelling Practice word" />
+          <AudioCueButton
+            text={promptAudioText}
+            language={promptCue?.language ?? targetLanguage}
+            label="Listen to the Spelling Practice word"
+            onPlay={() => emitAudioRequested("term", promptAudioText, promptCue?.language ?? targetLanguage, "spelling-prompt")}
+          />
         </div>
       </section>
 
       <section className="mt-5 rounded-lg border border-[var(--tenant-border)] p-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <p className="text-sm font-bold text-[var(--tenant-text)]">
-            <AudioCueText text="Build the spelling." language="en" label="Tap the spelling answer area label to hear it" className="text-sm font-bold" />
+          <AudioCueText
+            text="Build the spelling."
+            language={targetLanguage}
+            label="Tap the spelling answer area label to hear it"
+            className="text-sm font-bold"
+            onPlay={() => emitAudioRequested("instruction", "Build the spelling.", targetLanguage, "spelling-answer-area")}
+          />
           </p>
           <StatusPill label={`${selectedTiles.length}/${currentRound.normalizedAnswer.length} letters`} tone="neutral" />
         </div>
@@ -321,7 +370,13 @@ export function SpellingPracticeGame({
 
       <section className="mt-5 rounded-lg border border-[var(--tenant-border)] p-4">
         <p className="text-sm font-bold text-[var(--tenant-text)]">
-          <AudioCueText text="Letter bank." language="en" label="Tap the letter bank label to hear it" className="text-sm font-bold" />
+          <AudioCueText
+            text="Letter bank."
+            language={targetLanguage}
+            label="Tap the letter bank label to hear it"
+            className="text-sm font-bold"
+            onPlay={() => emitAudioRequested("instruction", "Letter bank.", targetLanguage, "spelling-letter-bank")}
+          />
         </p>
         <div className="mt-3 flex flex-wrap gap-2">
           {availableTiles.map((tile) => (
@@ -340,10 +395,21 @@ export function SpellingPracticeGame({
 
       <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
         <p className="text-sm font-semibold text-[var(--tenant-text)]">
-          <AudioCueText text={feedback} language="en" label="Tap the Spelling Practice feedback to hear it" className="text-sm font-semibold" />
+          <AudioCueText
+            text={feedback}
+            language={targetLanguage}
+            label="Tap the Spelling Practice feedback to hear it"
+            className="text-sm font-semibold"
+            onPlay={() => emitAudioRequested("feedback", feedback, targetLanguage, "spelling-feedback")}
+          />
         </p>
         <div className="flex flex-wrap gap-2">
-          <AudioCueButton text={promptAudioText} language="en" label="Replay Spelling Practice word before submitting" />
+          <AudioCueButton
+            text={promptAudioText}
+            language={promptCue?.language ?? targetLanguage}
+            label="Replay Spelling Practice word before submitting"
+            onPlay={() => emitAudioRequested("term", promptAudioText, promptCue?.language ?? targetLanguage, "spelling-prompt-replay")}
+          />
           <AudioSupportedAction
             audioText="Clear letters"
             onClick={handleClear}
@@ -413,6 +479,6 @@ function findInstructionText(audioCues: AudioCue[]): string {
   return audioCues.find((cue) => cue.kind === "instruction" && cue.gameMode === gameMode)?.text ?? instructionText;
 }
 
-function findAudioText(audioCues: AudioCue[], label: string): string {
-  return audioCues.find((cue) => cue.text.trim().toLowerCase() === label.trim().toLowerCase())?.text ?? label;
+function findAudioCue(audioCues: AudioCue[], label: string): AudioCue | undefined {
+  return audioCues.find((cue) => cue.text.trim().toLowerCase() === label.trim().toLowerCase());
 }
