@@ -3955,5 +3955,6 @@ External game candidate reviews now require an exact source commit SHA in
 addition to repository and snapshot identity. The frozen MiniStar candidate
 packets record commit `eb79ddf5940ab47cc3c45c119c67ee1b6b958e55` and hashed
 reviewed-file manifests. This is provenance evidence only and does not
-authorize source import or promotion.
+authorize source import or promotion; the same evidence is required from any
+future returned Z.ai candidate package.
 See `docs/adr/0658-phaser-source-identity-record.md`.

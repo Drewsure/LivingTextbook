@@ -10,6 +10,8 @@
   review packets.
 - Exposed the SHA in the teacher review-only panel.
 - Extended the candidate review verifier and canonical integration standard.
+- Updated the foundation-to-Z.ai intake gate so returned packages must carry
+  the same immutable commit and file-hash evidence.
 - Kept all external source outside `apps/web` and `apps/ai-service`.
 
 ## Boundary

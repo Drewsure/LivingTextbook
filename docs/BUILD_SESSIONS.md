@@ -1601,4 +1601,5 @@ does not approve external source promotion. The decision is recorded in ADR
 
 The same candidate packets now include a repository-relative SHA-256 manifest
 of the reviewed scene, engine, type, and audio files. This identifies review
-evidence without importing the frozen source.
+evidence without importing the frozen source. The foundation-to-Z.ai intake
+gate now requires that provenance evidence on every returned candidate package.

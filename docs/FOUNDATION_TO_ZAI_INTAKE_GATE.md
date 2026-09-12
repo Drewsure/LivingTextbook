@@ -24,6 +24,8 @@ Z.ai may build one isolated candidate game at a time in
 `Drewsure/ministar-lab` and return a review package containing:
 
 - An immutable source snapshot and repository/branch identity.
+- The exact source commit SHA plus a repository-relative SHA-256 manifest of
+  every reviewed source file.
 - A reviewed JSON fixture using the shared unit payload shape.
 - Standard event and deterministic scoring replay evidence.
 - Target-language audio coverage evidence for every learner-facing cue.
