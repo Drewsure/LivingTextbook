@@ -783,6 +783,7 @@ Required standing rules:
 - Recovery persistence, backup, checksum, encryption, access-control, retention, school-policy, report-integrity, rollback, release, raw-learner-media, and local-fallback flags must be strict booleans before a recovery adapter interprets backup, restore, export, or rollback requests.
 - Progression policy, persistence, reporting, deterministic reward, and target-language evidence flags must be strict booleans before a progression adapter interprets mastery, score, unlock, or reward events.
 - Reward mastery, provenance, policy, persistence, release, random-reward, gacha-pressure, purchase, and Spin Wheel flags must be strict booleans before a collection or reward adapter interprets ownership or ticket requests.
+- Entitlement teacher, school, privacy, cost, persistence, release, level, usage-limit, and target-language-audio flags must be strict booleans before optional AI Tutor, microphone, media, assist-language, or package-tier adapters interpret feature requests.
 - `npm run typecheck --workspace @living-textbook/ai-service` and `node scripts/verify-ai-service-boundary.mjs` must remain green before service implementation advances.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-561 and `docs/adr/0490-ai-service-boundary-foundation.md`.

@@ -987,6 +987,8 @@ The progression runtime flag integrity slice now applies strict booleans to prog
 
 The reward runtime flag integrity slice now applies strict booleans to mastery evidence, ownership provenance, reward policy, persistence, release approval, random rewards, gacha pressure, purchase requirements, and Spin Wheel requests. Stringified reward flags cannot influence collection ownership, Star Dust, ticket issuance, or anti-gacha safeguards. No inventory adapter, reward write, ticket issuance, or Z.ai action was enabled.
 
+The entitlement runtime flag integrity slice now applies strict booleans to teacher approval, school policy, privacy, cost, persistence, release, allowed levels, usage limits, and target-language audio. Stringified entitlement flags cannot influence AI Tutor, microphone practice, package-tier, premium-cost, or student-facing feature decisions. No provider billing, microphone capture, AI Tutor dispatch, or feature activation was enabled.
+
 The audio cue identity integrity slice now rejects duplicate cue IDs inside a package before plan resolution. This prevents ambiguous target-language audio selection across games, controls, and teacher previews.
 
 The media asset metadata integrity slice now rejects empty asset IDs/titles and invalid negative or non-finite durations while preserving separate tenant, rights, scan, checksum, storage, and release gates for future uploads.

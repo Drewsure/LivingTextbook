@@ -7,6 +7,7 @@ for (const marker of [
   "EntitlementRuntimeRequest",
   "EntitlementRuntimeAdapter",
   "validateEntitlementRuntimeRequest",
+  "must be a boolean",
   "createReviewOnlyEntitlementRuntimeAdapter",
   "teacher approval is required",
   "school policy acceptance is required",

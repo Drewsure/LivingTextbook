@@ -60,18 +60,43 @@ export const reviewOnlyEntitlementBlockedActions = [
 
 export function validateEntitlementRuntimeRequest(request: EntitlementRuntimeRequest): string[] {
   const errors: string[] = [];
+
+  for (const field of [
+    "teacherApprovalAccepted",
+    "schoolPolicyAccepted",
+    "privacyPolicyAccepted",
+    "costPolicyAccepted",
+    "persistenceReady",
+    "releaseApprovalAccepted",
+    "allowedLevelsDeclared",
+    "usageLimitDeclared",
+    "targetLanguageAudioReady",
+  ] as const) {
+    if (typeof request[field] !== "boolean") errors.push(`${field} must be a boolean`);
+  }
+
+  const teacherApprovalAccepted = request.teacherApprovalAccepted === true;
+  const schoolPolicyAccepted = request.schoolPolicyAccepted === true;
+  const privacyPolicyAccepted = request.privacyPolicyAccepted === true;
+  const costPolicyAccepted = request.costPolicyAccepted === true;
+  const persistenceReady = request.persistenceReady === true;
+  const releaseApprovalAccepted = request.releaseApprovalAccepted === true;
+  const allowedLevelsDeclared = request.allowedLevelsDeclared === true;
+  const usageLimitDeclared = request.usageLimitDeclared === true;
+  const targetLanguageAudioReady = request.targetLanguageAudioReady === true;
+
   if (!request.tenantId.trim()) errors.push("tenantId is required");
   if (!request.packageId.trim()) errors.push("packageId is required");
   if (!request.entitlementId.trim()) errors.push("entitlementId is required");
-  if (!request.teacherApprovalAccepted) errors.push("teacher approval is required");
-  if (!request.schoolPolicyAccepted) errors.push("school policy acceptance is required");
-  if (!request.privacyPolicyAccepted) errors.push("privacy policy acceptance is required");
-  if (!request.costPolicyAccepted) errors.push("cost policy acceptance is required");
-  if (!request.persistenceReady) errors.push("entitlement persistence readiness is required");
-  if (!request.releaseApprovalAccepted) errors.push("entitlement release approval is required");
-  if (!request.allowedLevelsDeclared) errors.push("allowed levels must be declared");
-  if (!request.usageLimitDeclared) errors.push("usage limits must be declared");
-  if (!request.targetLanguageAudioReady) errors.push("target-language audio readiness is required");
+  if (!teacherApprovalAccepted) errors.push("teacher approval is required");
+  if (!schoolPolicyAccepted) errors.push("school policy acceptance is required");
+  if (!privacyPolicyAccepted) errors.push("privacy policy acceptance is required");
+  if (!costPolicyAccepted) errors.push("cost policy acceptance is required");
+  if (!persistenceReady) errors.push("entitlement persistence readiness is required");
+  if (!releaseApprovalAccepted) errors.push("entitlement release approval is required");
+  if (!allowedLevelsDeclared) errors.push("allowed levels must be declared");
+  if (!usageLimitDeclared) errors.push("usage limits must be declared");
+  if (!targetLanguageAudioReady) errors.push("target-language audio readiness is required");
   if (request.requestedState === "enabled" && request.packageTier === "core" && request.feature === "ai-tutor") {
     errors.push("AI Tutor requires premium or enterprise entitlement");
   }

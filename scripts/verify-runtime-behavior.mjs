@@ -1836,6 +1836,20 @@ try {
   };
   assertEqual(entitlement.validateEntitlementRuntimeRequest(premiumTutorRequest).length, 0);
   assertEqual(entitlement.createReviewOnlyEntitlementRuntimeAdapter().execute(premiumTutorRequest).sideEffect, "none");
+  const malformedEntitlementFlagErrors = entitlement.validateEntitlementRuntimeRequest({
+    ...premiumTutorRequest,
+    teacherApprovalAccepted: "true",
+    schoolPolicyAccepted: "true",
+    privacyPolicyAccepted: "true",
+    costPolicyAccepted: "true",
+    persistenceReady: "true",
+    releaseApprovalAccepted: "true",
+    allowedLevelsDeclared: "true",
+    usageLimitDeclared: "true",
+    targetLanguageAudioReady: "true",
+  });
+  assertIncludes(malformedEntitlementFlagErrors, "teacherApprovalAccepted must be a boolean");
+  assertIncludes(malformedEntitlementFlagErrors, "targetLanguageAudioReady must be a boolean");
 
   console.log("PASS runtime behavior harness exercises AI authoring, language policy, package, launch, assignment, persistence, report, progression, recovery, reward, entitlement, asset, source, and release boundaries.");
 } finally {
