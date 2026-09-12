@@ -244,6 +244,24 @@ try {
   };
   const localRecoveryErrors = recovery.validateRecoveryRuntimeRequest(localRecoveryRequest);
   assertIncludes(localRecoveryErrors, "local fallback review is required for non-hosted recovery");
+  const malformedRecoveryFlagErrors = recovery.validateRecoveryRuntimeRequest({
+    ...localRecoveryRequest,
+    persistenceReady: "true",
+    backupManifestReady: "true",
+    checksumVerified: "true",
+    encryptionReady: "true",
+    accessControlReady: "true",
+    retentionPolicyAccepted: "true",
+    schoolPolicyAccepted: "true",
+    reportIntegrityReady: "true",
+    rollbackReady: "true",
+    releaseApprovalAccepted: "true",
+    rawLearnerAudioExcluded: "true",
+    rawLearnerTranscriptsExcluded: "true",
+    localFallbackReviewed: "true",
+  });
+  assertIncludes(malformedRecoveryFlagErrors, "persistenceReady must be a boolean");
+  assertIncludes(malformedRecoveryFlagErrors, "localFallbackReviewed must be a boolean");
   assertEqual(recovery.createReviewOnlyRecoveryRuntimeAdapter().execute(localRecoveryRequest).sideEffect, "none");
 
   const hostedRecoveryRequest = {

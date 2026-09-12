@@ -57,25 +57,58 @@ export const reviewOnlyRecoveryBlockedActions = [
 
 export function validateRecoveryRuntimeRequest(request: RecoveryRuntimeRequest): string[] {
   const errors: string[] = [];
+
+  for (const field of [
+    "persistenceReady",
+    "backupManifestReady",
+    "checksumVerified",
+    "encryptionReady",
+    "accessControlReady",
+    "retentionPolicyAccepted",
+    "schoolPolicyAccepted",
+    "reportIntegrityReady",
+    "rollbackReady",
+    "releaseApprovalAccepted",
+    "rawLearnerAudioExcluded",
+    "rawLearnerTranscriptsExcluded",
+    "localFallbackReviewed",
+  ] as const) {
+    if (typeof request[field] !== "boolean") errors.push(`${field} must be a boolean`);
+  }
+
+  const persistenceReady = request.persistenceReady === true;
+  const backupManifestReady = request.backupManifestReady === true;
+  const checksumVerified = request.checksumVerified === true;
+  const encryptionReady = request.encryptionReady === true;
+  const accessControlReady = request.accessControlReady === true;
+  const retentionPolicyAccepted = request.retentionPolicyAccepted === true;
+  const schoolPolicyAccepted = request.schoolPolicyAccepted === true;
+  const reportIntegrityReady = request.reportIntegrityReady === true;
+  const rollbackReady = request.rollbackReady === true;
+  const releaseApprovalAccepted = request.releaseApprovalAccepted === true;
+  const rawLearnerAudioExcluded = request.rawLearnerAudioExcluded === true;
+  const rawLearnerTranscriptsExcluded = request.rawLearnerTranscriptsExcluded === true;
+  const localFallbackReviewed = request.localFallbackReviewed === true;
+
   if (!request.tenantId.trim()) errors.push("tenantId is required");
   if (!request.packageId.trim()) errors.push("packageId is required");
   if (!request.recoveryId.trim()) errors.push("recoveryId is required");
-  if (!request.persistenceReady) errors.push("persistence readiness is required");
-  if (!request.backupManifestReady) errors.push("backup manifest readiness is required");
-  if (!request.checksumVerified) errors.push("checksum verification is required");
-  if (!request.encryptionReady) errors.push("encryption readiness is required");
-  if (!request.accessControlReady) errors.push("access control readiness is required");
-  if (!request.retentionPolicyAccepted) errors.push("retention policy acceptance is required");
-  if (!request.schoolPolicyAccepted) errors.push("school or tenant policy acceptance is required");
-  if (!request.reportIntegrityReady) errors.push("report integrity readiness is required");
-  if (!request.rollbackReady) errors.push("rollback readiness is required");
-  if (!request.releaseApprovalAccepted) errors.push("release approval is required");
-  if (!request.rawLearnerAudioExcluded) errors.push("raw learner audio exclusion is required");
-  if (!request.rawLearnerTranscriptsExcluded) errors.push("raw learner transcript exclusion is required");
-  if (request.mode !== "hosted-managed" && !request.localFallbackReviewed) {
+  if (!persistenceReady) errors.push("persistence readiness is required");
+  if (!backupManifestReady) errors.push("backup manifest readiness is required");
+  if (!checksumVerified) errors.push("checksum verification is required");
+  if (!encryptionReady) errors.push("encryption readiness is required");
+  if (!accessControlReady) errors.push("access control readiness is required");
+  if (!retentionPolicyAccepted) errors.push("retention policy acceptance is required");
+  if (!schoolPolicyAccepted) errors.push("school or tenant policy acceptance is required");
+  if (!reportIntegrityReady) errors.push("report integrity readiness is required");
+  if (!rollbackReady) errors.push("rollback readiness is required");
+  if (!releaseApprovalAccepted) errors.push("release approval is required");
+  if (!rawLearnerAudioExcluded) errors.push("raw learner audio exclusion is required");
+  if (!rawLearnerTranscriptsExcluded) errors.push("raw learner transcript exclusion is required");
+  if (request.mode !== "hosted-managed" && !localFallbackReviewed) {
     errors.push("local fallback review is required for non-hosted recovery");
   }
-  if (request.operation === "restore" && request.requestedState === "executing" && !request.rollbackReady) {
+  if (request.operation === "restore" && request.requestedState === "executing" && !rollbackReady) {
     errors.push("restore execution requires rollback readiness");
   }
   if (request.operation === "rollback" && request.requestedState !== "executing") {

@@ -7,6 +7,7 @@ for (const marker of [
   "RecoveryRuntimeRequest",
   "RecoveryRuntimeAdapter",
   "validateRecoveryRuntimeRequest",
+  "must be a boolean",
   "createReviewOnlyRecoveryRuntimeAdapter",
   "backup manifest readiness is required",
   "checksum verification is required",

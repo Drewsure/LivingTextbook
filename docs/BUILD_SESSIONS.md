@@ -981,6 +981,8 @@ The source runtime flag integrity slice now applies strict booleans to upload po
 
 The release runtime flag integrity slice now applies strict booleans to source extraction, asset rights, target-language audio, curated pathway, package, teacher, school, persistence, rollback, QR mutation, and student activation fields. Stringified release approvals cannot influence approved/active transitions, rollback, QR mutation, or student-facing activation. No release adapter, QR mutation, package activation, or Z.ai action was enabled.
 
+The recovery runtime flag integrity slice now applies strict booleans to persistence, backup manifests, checksums, encryption, access control, retention, school policy, report integrity, rollback, release approval, raw learner-media exclusion, and local fallback review. Stringified recovery approvals cannot influence backup, restore, export, rollback, or learner-data branches. No recovery adapter, archive write, restore, or release rollback was enabled.
+
 The audio cue identity integrity slice now rejects duplicate cue IDs inside a package before plan resolution. This prevents ambiguous target-language audio selection across games, controls, and teacher previews.
 
 The media asset metadata integrity slice now rejects empty asset IDs/titles and invalid negative or non-finite durations while preserving separate tenant, rights, scan, checksum, storage, and release gates for future uploads.
