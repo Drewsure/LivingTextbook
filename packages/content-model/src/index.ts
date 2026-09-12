@@ -1405,6 +1405,7 @@ export * from "./aiPrototypeSignedApprovalPreflight";
 export * from "./aiPrototypePatchAuthorizationReleaseLock";
 export * from "./aiPrototypePatchImplementationWorkOrder";
 export * from "./aiPrototypePatchChangeSetPreview";
+export * from "./phaserCandidateContractReview";
 export * from "./aiTargetLanguageAudioApprovalPacket";
 export * from "./aiGeneratedPackageTeacherReviewPacket";
 export * from "./aiGeneratedPackageManifest";

@@ -97,6 +97,10 @@ import {
 } from "@/data/samplePrototypeIntakeQueue";
 import { createPrototypeIntakeReadinessSummary } from "@/data/samplePrototypeIntakeReadinessSummary";
 import { samplePrototypeIntakeStorageGuards } from "@/data/samplePrototypeIntakeStorageGuard";
+import {
+  filterPhaserCandidateContractReviewsByTenant,
+  samplePhaserCandidateContractReviews,
+} from "@/data/samplePhaserCandidateContractReview";
 import { createPrototypeReturnReadinessSummary } from "@/data/samplePrototypeReturnReadinessSummary";
 import {
   sampleAiPrototypeReturnedPackageAlignmentErrors,
@@ -138,6 +142,7 @@ import { PrototypeIntakeAlertPanel } from "@/features/game-offers/PrototypeIntak
 import { PrototypeIntakeQueuePanel } from "@/features/game-offers/PrototypeIntakeQueuePanel";
 import { PrototypeIntakeReadinessSummaryPanel } from "@/features/game-offers/PrototypeIntakeReadinessSummaryPanel";
 import { PrototypeIntakeStorageGuardPanel } from "@/features/game-offers/PrototypeIntakeStorageGuardPanel";
+import { PhaserCandidateContractReviewPanel } from "@/features/game-offers/PhaserCandidateContractReviewPanel";
 import { PrototypeReturnReadinessSummaryPanel } from "@/features/game-offers/PrototypeReturnReadinessSummaryPanel";
 import { PrototypeReturnPackageChecklistPanel } from "@/features/game-offers/PrototypeReturnPackageChecklistPanel";
 import { ministarTenant } from "@/features/tenant/ministarTenant";
@@ -206,6 +211,9 @@ export default async function TeacherPrototypeReviewPage({
         />
         <PrototypeIntakeReadinessSummaryPanel summary={tenantReadinessSummary} />
         <PrototypeIntakeQueuePanel items={filterPrototypeIntakeQueueByTenant(samplePrototypeIntakeQueue, tenantId)} />
+        <PhaserCandidateContractReviewPanel
+          reviews={filterPhaserCandidateContractReviewsByTenant(samplePhaserCandidateContractReviews, tenantId)}
+        />
         <PrototypeIntakeStorageGuardPanel guards={samplePrototypeIntakeStorageGuards} />
         <EvidencePacketFlowPanel flow={samplePrototypeIntakeEvidencePacketFlow} />
           <PrototypeReturnPackageChecklistPanel
