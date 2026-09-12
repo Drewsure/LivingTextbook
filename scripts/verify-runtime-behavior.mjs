@@ -1120,6 +1120,9 @@ try {
   assertIncludes(reportErrors, "raw learner audio is excluded from core teacher reports");
   assertEqual(report.createReviewOnlyTeacherReportRuntimeAdapter().execute(reportRequest).sideEffect, "none");
   assertEqual(report.validateTeacherReportCanonicalGameEvents(canonicalEvents, "tenant-1", "launch-1").length, 0);
+  assertEqual(report.validateTeacherReportCanonicalGameEvents([
+    { ...canonicalEvents[4], type: "audio_requested" },
+  ], "tenant-1", "launch-1").length, 0);
   assertIncludes(
     report.validateTeacherReportCanonicalGameEvents(canonicalEvents.slice(0, 4), "tenant-1", "launch-1"),
     "teacher report canonical game evidence: flashcards: Canonical game event sequence must include mastery_updated.",

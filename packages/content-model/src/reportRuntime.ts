@@ -116,7 +116,7 @@ export function validateTeacherReportRuntimeRequest(request: TeacherReportRuntim
   const canonicalGameEvents = request.eventEnvelopes
     .filter(isCanonicalGameEnvelope)
     .map(toGameProgressEvent);
-  if (canonicalGameEvents.length > 0) {
+  if (canonicalGameEvents.some((event) => event.type !== "audio_requested")) {
     errors.push(...validateTeacherReportCanonicalGameEvents(canonicalGameEvents, request.tenantId, request.launchCode));
   }
 
