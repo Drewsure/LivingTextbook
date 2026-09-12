@@ -18,15 +18,17 @@ attempt.
 
 ## Decision
 
-The shared canonical game event validator requires at least one
-`audio_requested` event in every accepted game attempt. The event must still
-carry the existing replay, tenant, identity, and support-only safeguards.
+The shared canonical game event validator requires at least one meaningful
+`audio_requested` event after `game_started` in every accepted game attempt.
+The event must carry non-blank cue text, language, supported cue kind, and the
+existing replay, tenant, identity, and support-only safeguards.
 Audio evidence does not unlock a mode, grant mastery, award Star Dust, or
 replace answer activity.
 
 ## Consequences
 
-- Every promoted game must demonstrate an audio request before completion.
+- Every promoted game must demonstrate a meaningful audio request after start
+  and before completion.
 - Missing audio evidence pauses progression and Star Dust at the shared
   completion gate.
 - Existing canonical game slices remain compatible because they already emit

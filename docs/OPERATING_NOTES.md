@@ -777,8 +777,9 @@ shared event adapter.
 Procedure:
 
 1. Route learner-facing game audio through `createAudioRequestedEvent`.
-2. Ensure the attempt emits at least one `audio_requested` event before
-   completion; the event must carry replay and tenant evidence.
+2. Ensure the attempt emits at least one meaningful `audio_requested` event
+   after `game_started` and before completion; the event must carry cue text,
+   language, cue kind, replay, and tenant evidence.
 3. Keep audio support-only: it cannot unlock a mode, grant mastery, award Star
    Dust, or replace answer activity.
 4. Run `npm run verify:canonical-games`,

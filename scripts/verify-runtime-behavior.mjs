@@ -216,7 +216,7 @@ try {
     { ...canonicalEventContext, type: "round_shown", metadata: { tenantId: "tenant-1", replaySeed: canonicalReplaySeed } },
     { ...canonicalEventContext, type: "answer_submitted", metadata: { tenantId: "tenant-1", replaySeed: canonicalReplaySeed } },
     { ...canonicalEventContext, type: "answer_result", metadata: { tenantId: "tenant-1", replaySeed: canonicalReplaySeed, correct: true } },
-    { ...canonicalEventContext, type: "audio_requested", metadata: { tenantId: "tenant-1", replaySeed: canonicalReplaySeed, masteryCreditAllowed: false } },
+    { ...canonicalEventContext, type: "audio_requested", metadata: { tenantId: "tenant-1", replaySeed: canonicalReplaySeed, masteryCreditAllowed: false, cueKind: "instruction", cueText: "Listen to the word.", language: "en" } },
     {
       ...canonicalEventContext,
       type: "mastery_updated",
@@ -242,6 +242,13 @@ try {
     "flashcards",
   ).errors;
   assertIncludes(missingCanonicalAudioErrors, "Canonical game event sequence must include audio_requested evidence.");
+  const malformedCanonicalAudioErrors = canonicalGame.validateCanonicalGameEventSequence(
+    canonicalEvents.map((event) => event.type === "audio_requested" ? { ...event, metadata: { ...event.metadata, cueText: "", language: "", cueKind: "unknown" } } : event),
+    "flashcards",
+  ).errors;
+  assertIncludes(malformedCanonicalAudioErrors, "Canonical game audio_requested events must include non-blank cueText.");
+  assertIncludes(malformedCanonicalAudioErrors, "Canonical game audio_requested events must include a language.");
+  assertIncludes(malformedCanonicalAudioErrors, "Canonical game audio_requested events must include a supported cueKind.");
   const lateAnswerEvents = [
     ...canonicalEvents.slice(0, 6),
     { ...canonicalEvents[2], type: "answer_submitted", metadata: { tenantId: "tenant-1", replaySeed: canonicalReplaySeed, late: true } },

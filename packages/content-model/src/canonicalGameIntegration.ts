@@ -65,6 +65,26 @@ export function validateCanonicalGameEventSequence(
     errors.push("Canonical game event sequence must include audio_requested evidence.");
   }
 
+  const gameStartedIndex = events.findIndex((event) => event.type === "game_started");
+  const audioEvents = events.filter((event) => event.type === "audio_requested");
+  if (gameStartedIndex >= 0 && !events.some((event, index) => event.type === "audio_requested" && index > gameStartedIndex)) {
+    errors.push("Canonical game event sequence must include audio_requested evidence after game_started.");
+  }
+  for (const audioEvent of audioEvents) {
+    const cueText = audioEvent.metadata?.cueText;
+    const language = audioEvent.metadata?.language;
+    const cueKind = audioEvent.metadata?.cueKind;
+    if (typeof cueText !== "string" || cueText.trim().length === 0) {
+      errors.push("Canonical game audio_requested events must include non-blank cueText.");
+    }
+    if (typeof language !== "string" || language.trim().length === 0) {
+      errors.push("Canonical game audio_requested events must include a language.");
+    }
+    if (!["term", "sentence", "instruction", "feedback"].includes(String(cueKind))) {
+      errors.push("Canonical game audio_requested events must include a supported cueKind.");
+    }
+  }
+
   if (!events.some((event) => event.type === "mastery_updated")) {
     errors.push("Canonical game event sequence must include mastery_updated.");
   }

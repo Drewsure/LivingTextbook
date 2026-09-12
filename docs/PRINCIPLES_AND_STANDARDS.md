@@ -1856,8 +1856,10 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-645 and `docs/adr/05
 
 ## 116. Canonical Game Audio Evidence Standard
 
-- Every accepted canonical game attempt must emit at least one
-  `audio_requested` event before completion.
+- Every accepted canonical game attempt must emit at least one meaningful
+  `audio_requested` event after `game_started` and before completion.
+- The audio event must carry non-blank cue text, language, and supported cue
+  kind.
 - Audio evidence must use the shared adapter and preserve replay, tenant, and
   learner identity fields.
 - Audio remains support-only: listening cannot unlock a game, grant mastery,
