@@ -91,6 +91,10 @@ for (const fragment of [
   "tenantId: args.launchSession.tenantId",
   "expectedTenantId",
   "expectedEarnedStarDust",
+  "expectedIdentity",
+  "must preserve unit",
+  "must preserve launch",
+  "must preserve student session",
   "Canonical game mastery and completion awards must agree",
   "scoringProfileId",
 ]) {

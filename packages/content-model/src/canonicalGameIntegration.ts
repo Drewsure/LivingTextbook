@@ -15,6 +15,12 @@ export interface CanonicalGameEventSequenceReport {
   eventTypes: GameEventType[];
 }
 
+export interface CanonicalGameEventIdentity {
+  unitKey: string;
+  launchCode: string;
+  studentSessionId: string;
+}
+
 /**
  * Validates the platform-owned completion boundary for a playable game route.
  * Audio requests and other report-only events may appear between the required
@@ -25,6 +31,7 @@ export function validateCanonicalGameEventSequence(
   expectedGameMode: GameModeId,
   expectedTenantId?: string,
   expectedEarnedStarDust?: number,
+  expectedIdentity?: CanonicalGameEventIdentity,
 ): CanonicalGameEventSequenceReport {
   const errors: string[] = [];
   const eventTypes = events.map((event) => event.type);
@@ -70,6 +77,28 @@ export function validateCanonicalGameEventSequence(
       errors.push(
         `Canonical game event sequence must preserve tenant ${expectedTenantId}; ${tenantMismatch.type} has tenant ${String(tenantMismatch.metadata?.tenantId ?? "(missing)")}.`,
       );
+    }
+  }
+
+  if (expectedIdentity) {
+    for (const event of events) {
+      if (event.unitKey !== expectedIdentity.unitKey) {
+        errors.push(
+          `Canonical game event ${event.type} must preserve unit ${expectedIdentity.unitKey}; found ${event.unitKey}.`,
+        );
+      }
+
+      if (event.launchCode !== expectedIdentity.launchCode) {
+        errors.push(
+          `Canonical game event ${event.type} must preserve launch ${expectedIdentity.launchCode}; found ${String(event.launchCode ?? "(missing)")}.`,
+        );
+      }
+
+      if (event.studentSessionId !== expectedIdentity.studentSessionId) {
+        errors.push(
+          `Canonical game event ${event.type} must preserve student session ${expectedIdentity.studentSessionId}; found ${String(event.studentSessionId ?? "(missing)")}.`,
+        );
+      }
     }
   }
 

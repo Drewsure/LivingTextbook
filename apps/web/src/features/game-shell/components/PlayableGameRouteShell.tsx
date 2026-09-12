@@ -89,6 +89,11 @@ export function PlayableGameRouteShell({
         gameMode,
         tenant.id,
         result.earnedStarDust,
+        {
+          unitKey: launchSession.unitKey,
+          launchCode: launchSession.launchCode,
+          studentSessionId: progression.studentSessionId,
+        },
       );
       setEventContractErrors(replay.errors);
     }
