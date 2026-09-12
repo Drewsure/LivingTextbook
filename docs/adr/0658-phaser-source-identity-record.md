@@ -7,8 +7,10 @@
 
 Every Phaser or outside-game candidate review must record the source
 repository, human-readable snapshot identifier, and exact immutable source
-commit SHA. The content-model validator requires the SHA to be a 40-character
-hexadecimal commit identifier.
+commit SHA. It must also record a repository-relative manifest of reviewed
+source files, each with a 64-character SHA-256 hash. The content-model
+validator requires the commit and file hashes to use their exact hexadecimal
+lengths.
 
 ## Rationale
 
@@ -21,5 +23,7 @@ future returned package against the exact frozen source that was reviewed.
 - Review packets are auditable without importing external source code.
 - A changed or unidentified source cannot silently pass as the reviewed
   candidate.
+- Reviewers can identify the exact scene, engine, type, and audio files that
+  informed a finding.
 - The source SHA proves provenance only; it does not approve a wrapper,
   package, route, scoring profile, persistence adapter, or student assignment.

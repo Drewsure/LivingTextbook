@@ -4,6 +4,8 @@
 
 - Added required `sourceCommitSha` provenance to the Phaser candidate review
   content contract.
+- Added hashed repository-relative source-file manifests for the reviewed
+  scene, base engine, shared types, and audio evidence.
 - Recorded the frozen MiniStar commit SHA on Memory Match and Balloon Pop
   review packets.
 - Exposed the SHA in the teacher review-only panel.
