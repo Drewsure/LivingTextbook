@@ -73,6 +73,7 @@ export function validateBackendContractAlignment({
   const schemaDeploymentFitByEntity = new Map<string, string>();
   const migrationIds = new Set<string>();
   const specIds = new Set<string>();
+  const specTargetEntitiesByCandidate = new Map<string, Set<string>>();
 
   if (schema.draftId.trim().length === 0 || schema.label.trim().length === 0 || schema.summary.trim().length === 0 || schema.decisionRule.trim().length === 0) {
     errors.push("Backend schema draft must declare draftId, label, summary, and decisionRule.");
@@ -300,6 +301,9 @@ export function validateBackendContractAlignment({
         }
       }
     }
+    const coveredSpecTargets = specTargetEntitiesByCandidate.get(spec.candidateId) ?? new Set<string>();
+    for (const entityId of specTargetEntities) coveredSpecTargets.add(entityId);
+    specTargetEntitiesByCandidate.set(spec.candidateId, coveredSpecTargets);
 
     if (spec.primaryKey.trim().length === 0) {
       errors.push(`Backend migration spec ${spec.specId} must name a primary key.`);
@@ -451,6 +455,15 @@ export function validateBackendContractAlignment({
       errors.push(
         `Backend migration candidate ${candidate.migrationId} must have at least one migration spec before it is actionable.`,
       );
+    }
+    if (candidate.status !== "defer") {
+      const coveredTargets = specTargetEntitiesByCandidate.get(candidate.migrationId) ?? new Set<string>();
+      const uncoveredTargets = candidate.targetEntities.filter((entityId) => !coveredTargets.has(entityId));
+      if (uncoveredTargets.length > 0) {
+        errors.push(
+          `Backend migration candidate ${candidate.migrationId} has target entities without migration spec coverage: ${uncoveredTargets.join(", ")}.`,
+        );
+      }
     }
   }
 

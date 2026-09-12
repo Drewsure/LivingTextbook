@@ -576,6 +576,7 @@
 - `DR-685-backend-required-field-parity.md`
 - `DR-686-backend-spec-target-entities.md`
 - `DR-687-backend-explicit-multi-entity-spec-targets.md`
+- `DR-688-backend-candidate-target-coverage.md`
 
 The prototype integration gate slice now feeds detailed wrapper, fixture,
 event, audio, mobile, scoring, and Codex-decision readiness records into the
@@ -637,6 +638,13 @@ Deferred candidates remain free of implementation specs until they are
 activated for design. The decision is recorded in
 `docs/adr/0615-backend-explicit-multi-entity-spec-targets.md` and
 `docs/decision-register/DR-687-backend-explicit-multi-entity-spec-targets.md`.
+
+The backend candidate-coverage slice now requires every non-deferred candidate
+target entity to be represented by migration-spec coverage. The release-control
+candidate now has separate publish-gate and approval-ledger specs alongside its
+derived summary. The decision is recorded in
+`docs/adr/0616-backend-candidate-target-coverage.md` and
+`docs/decision-register/DR-688-backend-candidate-target-coverage.md`.
 
 ## Maintenance Rule
 

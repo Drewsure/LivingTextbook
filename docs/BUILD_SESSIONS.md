@@ -1462,6 +1462,13 @@ write path was enabled. The decision is recorded in
 `docs/adr/0615-backend-explicit-multi-entity-spec-targets.md` and
 `docs/decision-register/DR-687-backend-explicit-multi-entity-spec-targets.md`.
 
+The backend candidate-coverage slice now requires every non-deferred candidate
+target entity to be represented by migration-spec coverage. The release-control
+candidate gained separate publish-gate and approval-ledger specs beside its
+derived candidate summary. No adapter or storage write path was enabled. The
+decision is recorded in `docs/adr/0616-backend-candidate-target-coverage.md`
+and `docs/decision-register/DR-688-backend-candidate-target-coverage.md`.
+
 The migration candidate coverage slice now requires every non-deferred
 candidate to have at least one migration specification, while deferred
 candidates must not carry implementation specs. The decision is recorded in

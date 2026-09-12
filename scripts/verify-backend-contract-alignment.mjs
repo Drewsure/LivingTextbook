@@ -583,6 +583,19 @@ try {
     throw new Error("Backend contract alignment did not require explicit targets for a multi-entity candidate spec.");
   }
 
+  const missingCandidateTargetCoverage = {
+    ...migrationSpecPlan,
+    specs: migrationSpecPlan.specs.filter((spec) => spec.specId !== "spec-package-approval-ledger"),
+  };
+  const missingCandidateTargetCoverageErrors = alignment.validateBackendContractAlignment({
+    schema,
+    migrationPlan,
+    migrationSpecPlan: missingCandidateTargetCoverage,
+  });
+  if (!missingCandidateTargetCoverageErrors.includes("Backend migration candidate m005-publish-gate-and-approval-ledger has target entities without migration spec coverage: package_approval_ledger.")) {
+    throw new Error("Backend contract alignment did not reject uncovered candidate target entities.");
+  }
+
   console.log("PASS backend contract alignment resolves all sample schema entities, migration candidates, and migration specs.");
 } finally {
   rmSync(output, { recursive: true, force: true });
