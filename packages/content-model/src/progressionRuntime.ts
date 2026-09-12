@@ -49,13 +49,30 @@ export const reviewOnlyProgressionBlockedActions = [
 
 export function validateProgressionRuntimeRequest(request: ProgressionRuntimeRequest): string[] {
   const errors: string[] = [];
+
+  for (const field of [
+    "progressionPolicyAccepted",
+    "persistenceReady",
+    "reportRuntimeReady",
+    "rewardPolicyReady",
+    "targetLanguageEvidence",
+  ] as const) {
+    if (typeof request[field] !== "boolean") errors.push(`${field} must be a boolean`);
+  }
+
+  const progressionPolicyAccepted = request.progressionPolicyAccepted === true;
+  const persistenceReady = request.persistenceReady === true;
+  const reportRuntimeReady = request.reportRuntimeReady === true;
+  const rewardPolicyReady = request.rewardPolicyReady === true;
+  const targetLanguageEvidence = request.targetLanguageEvidence === true;
+
   if (!request.tenantId.trim()) errors.push("tenantId is required");
   if (!request.packageId.trim()) errors.push("packageId is required");
   if (!request.sessionId.trim()) errors.push("sessionId is required");
-  if (!request.progressionPolicyAccepted) errors.push("progression policy acceptance is required");
-  if (!request.persistenceReady) errors.push("progress persistence readiness is required");
-  if (!request.reportRuntimeReady) errors.push("report runtime readiness is required");
-  if (!request.rewardPolicyReady) errors.push("deterministic reward policy readiness is required");
+  if (!progressionPolicyAccepted) errors.push("progression policy acceptance is required");
+  if (!persistenceReady) errors.push("progress persistence readiness is required");
+  if (!reportRuntimeReady) errors.push("report runtime readiness is required");
+  if (!rewardPolicyReady) errors.push("deterministic reward policy readiness is required");
 
   const event = isProgressEventEnvelope(request.envelope) ? request.envelope : undefined;
   const eventEffect = event?.event_effect;
@@ -65,7 +82,7 @@ export function validateProgressionRuntimeRequest(request: ProgressionRuntimeReq
     errors.push(...validateProgressEventEnvelope(event, request.registry));
   }
 
-  if (eventEffect === "progress-affecting" && !request.targetLanguageEvidence) {
+  if (eventEffect === "progress-affecting" && !targetLanguageEvidence) {
     errors.push("target-language evidence is required for progress-affecting events");
   }
   if (eventEffect === "support-only") {

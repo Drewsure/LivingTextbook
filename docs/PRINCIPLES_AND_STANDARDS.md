@@ -781,6 +781,7 @@ Required standing rules:
 - Source upload, scan, lineage, rights, OCR, extraction, segmentation, schema, mapping, package, release, raw-source, draft, AI-extraction, and student-facing-use flags must be strict booleans before a source-ingestion adapter interprets PDF, DOCX, OCR, or AI extraction requests.
 - Release source, asset, audio, pathway, package, teacher, school, persistence, rollback, QR-mutation, and student-activation flags must be strict booleans before a release adapter interprets approval, activation, or rollback requests.
 - Recovery persistence, backup, checksum, encryption, access-control, retention, school-policy, report-integrity, rollback, release, raw-learner-media, and local-fallback flags must be strict booleans before a recovery adapter interprets backup, restore, export, or rollback requests.
+- Progression policy, persistence, reporting, deterministic reward, and target-language evidence flags must be strict booleans before a progression adapter interprets mastery, score, unlock, or reward events.
 - `npm run typecheck --workspace @living-textbook/ai-service` and `node scripts/verify-ai-service-boundary.mjs` must remain green before service implementation advances.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-561 and `docs/adr/0490-ai-service-boundary-foundation.md`.

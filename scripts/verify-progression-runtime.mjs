@@ -7,6 +7,7 @@ for (const marker of [
   "ProgressionRuntimeRequest",
   "ProgressionRuntimeAdapter",
   "validateProgressionRuntimeRequest",
+  "must be a boolean",
   "createReviewOnlyProgressionRuntimeAdapter",
   "progress persistence readiness is required",
   "report runtime readiness is required",

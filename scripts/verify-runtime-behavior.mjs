@@ -153,6 +153,16 @@ try {
   };
   const progressionErrors = progression.validateProgressionRuntimeRequest(progressionRequest);
   assertIncludes(progressionErrors, "support-only events cannot enter the progression authority");
+  const malformedProgressionFlagErrors = progression.validateProgressionRuntimeRequest({
+    ...progressionRequest,
+    progressionPolicyAccepted: "true",
+    persistenceReady: "true",
+    reportRuntimeReady: "true",
+    rewardPolicyReady: "true",
+    targetLanguageEvidence: "false",
+  });
+  assertIncludes(malformedProgressionFlagErrors, "progressionPolicyAccepted must be a boolean");
+  assertIncludes(malformedProgressionFlagErrors, "targetLanguageEvidence must be a boolean");
   assertEqual(progression.createReviewOnlyProgressionRuntimeAdapter().execute(progressionRequest).sideEffect, "none");
   const malformedTimestampErrors = progression.validateProgressionRuntimeRequest({
     ...progressionRequest,
