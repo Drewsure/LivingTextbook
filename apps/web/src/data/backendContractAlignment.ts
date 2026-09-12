@@ -74,6 +74,13 @@ export function validateBackendContractAlignment({
     }
     migrationIds.add(candidate.migrationId);
 
+    if (candidate.purpose.trim().length === 0) {
+      errors.push(`Backend migration ${candidate.migrationId} must describe its purpose.`);
+    }
+    if (candidate.rollbackOrExportNeeds.length === 0) {
+      errors.push(`Backend migration ${candidate.migrationId} must declare rollback or export needs.`);
+    }
+
     if (candidate.targetEntities.length === 0) {
       errors.push(`Backend migration ${candidate.migrationId} must target at least one schema entity.`);
     }
@@ -108,6 +115,15 @@ export function validateBackendContractAlignment({
 
     if (spec.tenantScope.trim().length === 0) {
       errors.push(`Backend migration spec ${spec.specId} must name its tenant scope.`);
+    }
+    if (spec.retentionRule.trim().length === 0) {
+      errors.push(`Backend migration spec ${spec.specId} must declare a retention rule.`);
+    }
+    if (spec.exportRule.trim().length === 0) {
+      errors.push(`Backend migration spec ${spec.specId} must declare an export rule.`);
+    }
+    if (spec.localFallback.trim().length === 0) {
+      errors.push(`Backend migration spec ${spec.specId} must declare a local fallback.`);
     }
 
     const fieldNames = new Set<string>();

@@ -3912,6 +3912,12 @@ whose required flag is not boolean. The decision is recorded in
 `docs/adr/0603-backend-definition-integrity-contract.md` and
 `docs/decision-register/DR-675-backend-definition-integrity-contract.md`.
 
+The backend lifecycle policy slice now requires retention, export, and local
+fallback rules on every migration spec, plus purpose and rollback/export needs
+on every migration candidate. The decision is recorded in
+`docs/adr/0604-backend-lifecycle-policy-contract.md` and
+`docs/decision-register/DR-676-backend-lifecycle-policy-contract.md`.
+
 The migration candidate coverage slice now requires every non-deferred
 candidate to have at least one migration specification, while deferred
 candidates must not carry implementation specs. The decision is recorded in

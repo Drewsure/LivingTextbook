@@ -257,6 +257,38 @@ try {
     throw new Error("Backend contract alignment did not reject a migration field with a non-boolean required flag.");
   }
 
+  const missingRetentionRulePlan = {
+    ...migrationSpecPlan,
+    specs: migrationSpecPlan.specs.map((spec) =>
+      spec.specId === "spec-media-manifest" ? { ...spec, retentionRule: "" } : spec,
+    ),
+  };
+  const missingRetentionRuleErrors = alignment.validateBackendContractAlignment({
+    schema,
+    migrationPlan,
+    migrationSpecPlan: missingRetentionRulePlan,
+  });
+  if (!missingRetentionRuleErrors.includes("Backend migration spec spec-media-manifest must declare a retention rule.")) {
+    throw new Error("Backend contract alignment did not reject a migration spec without a retention rule.");
+  }
+
+  const missingRollbackNeedsPlan = {
+    ...migrationPlan,
+    candidates: migrationPlan.candidates.map((candidate) =>
+      candidate.migrationId === "m004-media-manifest-rights"
+        ? { ...candidate, rollbackOrExportNeeds: [] }
+        : candidate,
+    ),
+  };
+  const missingRollbackNeedsErrors = alignment.validateBackendContractAlignment({
+    schema,
+    migrationPlan: missingRollbackNeedsPlan,
+    migrationSpecPlan,
+  });
+  if (!missingRollbackNeedsErrors.includes("Backend migration m004-media-manifest-rights must declare rollback or export needs.")) {
+    throw new Error("Backend contract alignment did not reject a migration candidate without rollback/export needs.");
+  }
+
   console.log("PASS backend contract alignment resolves all sample schema entities, migration candidates, and migration specs.");
 } finally {
   rmSync(output, { recursive: true, force: true });

@@ -564,6 +564,7 @@
 - `DR-673-tenant-scope-field-contract.md`
 - `DR-674-tenant-index-contract.md`
 - `DR-675-backend-definition-integrity-contract.md`
+- `DR-676-backend-lifecycle-policy-contract.md`
 
 ## Maintenance Rule
 
