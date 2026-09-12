@@ -3986,3 +3986,11 @@ The runtime behavior harness now tests a valid canonical event sequence and
 rejects missing replay-v1 evidence. This protects the shared completion gate
 with executable evidence. See
 `docs/adr/0661-canonical-event-runtime-harness.md`.
+
+# DR-735: Phaser Wrapper Approval Runtime Check
+
+The runtime behavior harness now exercises the shared Phaser candidate review
+validator. It accepts a blocked candidate and rejects an approval with
+unresolved blockers or missing evidence. This is runtime evidence only and
+does not promote or route external source. See
+`docs/adr/0663-phaser-wrapper-approval-runtime-check.md`.

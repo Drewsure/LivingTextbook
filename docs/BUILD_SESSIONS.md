@@ -1616,3 +1616,9 @@ DR-732.
 
 The runtime behavior harness now exercises that validator with both accepted
 and rejected canonical sequences, recorded in ADR 0661 and DR-733.
+
+The runtime behavior harness now also executes the Phaser candidate review
+validator. A blocked candidate packet is accepted as review evidence, while
+an approval carrying unresolved blockers or missing evidence is rejected.
+This keeps the wrapper gate enforceable without importing external game code,
+recorded in ADR 0663 and DR-735.

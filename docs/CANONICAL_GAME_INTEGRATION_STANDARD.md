@@ -65,6 +65,9 @@ Every external candidate also carries an explicit wrapper approval decision.
 Candidates are blocked by default; `approved-for-wrapper` means only that a
 platform-owned wrapper may be reviewed. It never authorizes direct source
 import, route replacement, scene-owned scoring, or persistence ownership.
+The runtime behavior harness validates this gate with a blocked candidate
+fixture and rejects an approval that still contains blockers or missing
+evidence.
 
 ## Review Gate
 

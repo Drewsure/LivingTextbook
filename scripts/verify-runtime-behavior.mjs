@@ -48,6 +48,7 @@ try {
     "packages/content-model/src/prototypeReturnReadiness.ts",
     "packages/content-model/src/prototypeReturnReadinessSummary.ts",
     "packages/content-model/src/reviewSurfaceScope.ts",
+    "packages/content-model/src/phaserCandidateContractReview.ts",
   ], { cwd: root, encoding: "utf8" });
 
   if (compile.status !== 0) {
@@ -112,6 +113,7 @@ try {
   const prototypeReturnReadiness = require(join(output, "prototypeReturnReadiness.js"));
   const prototypeReturnReadinessSummary = require(join(output, "prototypeReturnReadinessSummary.js"));
   const reviewSurfaceScope = require(join(output, "reviewSurfaceScope.js"));
+  const phaserCandidateReview = require(join(output, "phaserCandidateContractReview.js"));
   const contentModel = require(join(output, "index.js"));
   const canonicalGame = require(join(output, "canonicalGameIntegration.js"));
   const aiService = require(join(aiOutput, "apps", "ai-service", "src", "index.js"));
@@ -150,6 +152,56 @@ try {
     "flashcards",
   ).errors;
   assertIncludes(missingCanonicalReplayErrors, "Canonical game event answer_result must carry replay-v1 evidence.");
+
+  const phaserReviewFixture = {
+    reviewId: "runtime-phaser-review-1",
+    tenantId: "tenant-1",
+    queueItemId: "runtime-phaser-queue-1",
+    sourceRepository: "Drewsure/ministar-lab",
+    sourceSnapshotId: "ministar-lab-frozen-2026-09-12-eb79ddf",
+    sourceCommitSha: "eb79ddf5940ab47cc3c45c119c67ee1b6b958e55",
+    sourceFiles: [
+      { path: "src/game/scenes/MemoryMatchScene.ts", sha256: "d1c60fa17bf4bee63627e485ae0b096894832705fdcf173576bf3b28b8656888" },
+    ],
+    gameMode: "memory-match",
+    parentEngine: "pairing",
+    status: "mapped-review-only",
+    approval: {
+      decisionId: "runtime-phaser-decision-1",
+      status: "blocked",
+      decidedAt: "2026-09-13T00:00:00.000Z",
+      blockers: ["Pairing payload adapter review"],
+    },
+    summary: "Runtime fixture for a blocked external candidate review.",
+    findings: [
+      {
+        findingId: "runtime-phaser-finding-1",
+        area: "payload",
+        status: "gap",
+        observedBehavior: "Candidate consumes source-owned input.",
+        platformRequirement: "Wrapper must consume the validated platform payload.",
+        evidenceReference: "src/game/scenes/MemoryMatchScene.ts:buildGrid",
+      },
+    ],
+    missingEvidence: ["Pairing payload adapter review"],
+    blockedActions: [
+      "No direct source import",
+      "No route replacement",
+      "No scene-owned scoring",
+      "No browser persistence ownership",
+      "No package promotion",
+      "No student assignment",
+    ],
+  };
+  assertEqual(phaserCandidateReview.validatePhaserCandidateContractReview(phaserReviewFixture).length, 0);
+  const invalidPhaserApprovalErrors = phaserCandidateReview.validatePhaserCandidateContractReview({
+    ...phaserReviewFixture,
+    approval: { ...phaserReviewFixture.approval, status: "approved-for-wrapper" },
+  });
+  assertIncludes(
+    invalidPhaserApprovalErrors,
+    "Phaser candidate contract review runtime-phaser-review-1 cannot approve a wrapper with blockers or missing evidence.",
+  );
 
   const registry = {
     taxonomyVersion: "test",
