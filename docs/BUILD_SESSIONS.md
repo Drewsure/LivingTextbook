@@ -1654,3 +1654,8 @@ The provider-neutral report runtime now reuses the canonical game evidence gate
 for report requests containing learning-game envelopes. Standalone audio remains
 support-only. This prevents future report adapters from accepting partial game
 completion evidence and is recorded in ADR 0669 and DR-741.
+
+Canonical report evidence now separates repeated plays at each new
+`game_started` event and validates retries independently. This keeps classroom
+retries reportable while blocking incomplete attempts. This is recorded in ADR
+0670 and DR-742.

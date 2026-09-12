@@ -34,7 +34,7 @@ export function TeacherCanonicalGameEvidenceCard({ evidence }: TeacherCanonicalG
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
                 <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">{group.gameMode}</p>
-                <h4 className="mt-1 text-sm font-bold text-[var(--tenant-text)]">{group.eventCount} event(s) in one learner attempt</h4>
+                <h4 className="mt-1 text-sm font-bold text-[var(--tenant-text)]">Attempt {group.attemptNumber}: {group.eventCount} event(s)</h4>
               </div>
               <StatusPill label={group.status} tone={group.status === "ready" ? "success" : "warning"} />
             </div>

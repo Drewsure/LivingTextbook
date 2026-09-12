@@ -169,6 +169,13 @@ try {
   assertIncludes(outOfOrderErrors, "Canonical game event sequence must be chronological by occurredAt.");
   const canonicalReportEvidence = canonicalGameReport.validateCanonicalGameReportEvidence(canonicalEvents, "tenant-1", "launch-1");
   assertEqual(canonicalReportEvidence.valid, true);
+  const retriedReportEvidence = canonicalGameReport.validateCanonicalGameReportEvidence(
+    [...canonicalEvents, ...canonicalEvents],
+    "tenant-1",
+    "launch-1",
+  );
+  assertEqual(retriedReportEvidence.valid, true);
+  assertEqual(retriedReportEvidence.groups.length, 2);
   const incompleteReportEvidence = canonicalGameReport.validateCanonicalGameReportEvidence(canonicalEvents.slice(0, 4), "tenant-1", "launch-1");
   assertEqual(incompleteReportEvidence.valid, false);
   assertIncludes(incompleteReportEvidence.errors, "flashcards: Canonical game event sequence must include mastery_updated.");

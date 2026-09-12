@@ -4038,3 +4038,11 @@ The provider-neutral report runtime now maps canonical game envelopes into the
 shared game event shape and validates grouped sequence, replay, tenant, launch,
 learner, and completion evidence. Standalone audio remains support-only. See
 `docs/adr/0669-report-runtime-canonical-game-gate.md`.
+
+# DR-742: Canonical Game Retry Attempts
+
+Repeated plays of the same game mode are now split at each subsequent
+`game_started` event and validated independently. This preserves classroom
+retries, keeps incomplete attempts visibly blocked, and prevents duplicate
+events from corrupting teacher-report evidence. See
+`docs/adr/0670-canonical-game-retry-attempts.md`.

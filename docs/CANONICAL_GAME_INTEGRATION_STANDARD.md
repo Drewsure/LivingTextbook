@@ -90,6 +90,10 @@ support-only and does not create a game group. This keeps future hosted, local,
 and hybrid report adapters aligned with the student completion boundary. See
 ADR 0669 and DR-741.
 
+Repeated plays of a game mode are separate canonical report attempts. A new
+`game_started` event closes the prior attempt for validation, so a retry cannot
+be merged into or corrupt an earlier score. See ADR 0670 and DR-742.
+
 ## Review Gate
 
 Run `node scripts/verify-canonical-game-integrations.mjs`, the focused route

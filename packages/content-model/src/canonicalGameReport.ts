@@ -8,6 +8,7 @@ export type CanonicalGameReportEvidenceStatus = "blocked" | "ready";
 
 export interface CanonicalGameReportEvidenceGroup {
   evidenceId: string;
+  attemptNumber: number;
   unitKey: string;
   launchCode: string;
   studentSessionId: string;
@@ -40,19 +41,27 @@ export function validateCanonicalGameReportEvidence(
   expectedTenantId?: string,
   expectedLaunchCode?: string,
 ): CanonicalGameReportEvidence {
-  const groups = new Map<string, GameProgressEvent[]>();
+  const groups = new Map<string, GameProgressEvent[][]>();
 
   for (const event of events) {
     if (!canonicalEventTypes.has(event.type)) continue;
 
     const key = [event.unitKey, event.launchCode ?? "", event.studentSessionId ?? "", event.gameMode].join("|");
-    const group = groups.get(key) ?? [];
+    const attempts = groups.get(key) ?? [];
+    let group = attempts[attempts.length - 1];
+    if (event.type === "game_started" && group?.some((item) => item.type === "game_started")) {
+      group = undefined;
+    }
+    if (!group) {
+      group = [];
+      attempts.push(group);
+    }
     group.push(event);
-    groups.set(key, group);
+    groups.set(key, attempts);
   }
 
   const evidenceGroups = [...groups.values()]
-    .filter((group) => group.some((event) => canonicalLearningEventTypes.has(event.type)))
+    .flatMap((attempts) => attempts.filter((group) => group.some((event) => canonicalLearningEventTypes.has(event.type))))
     .map((group, index) => {
       const firstEvent = group[0];
       const launchCode = firstEvent.launchCode ?? "";
@@ -78,6 +87,7 @@ export function validateCanonicalGameReportEvidence(
 
       return {
         evidenceId: `canonical-game-report:${String(index + 1).padStart(3, "0")}:${firstEvent.gameMode}`,
+        attemptNumber: index + 1,
         unitKey: firstEvent.unitKey,
         launchCode,
         studentSessionId,
