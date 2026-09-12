@@ -19,6 +19,7 @@ import type {
   TeacherSessionProgressEventEnvelopeGateStatus,
 } from "@/data/sampleTeacherSessionMonitor";
 import { FrontDoorTeacherReportPreview } from "@/features/access/FrontDoorTeacherReportPreview";
+import { TeacherCanonicalGameEvidenceCard } from "@/features/teacher/TeacherCanonicalGameEvidenceCard";
 import { formatMode } from "@/lib/formatLabels";
 
 interface TeacherSessionMonitorPanelProps {
@@ -204,6 +205,8 @@ export function TeacherSessionMonitorPanel({ context }: TeacherSessionMonitorPan
       <TeacherSessionEventAcceptanceGateCard gate={context.eventAcceptanceGate} />
 
       <TeacherSessionProgressEventEnvelopeGateCard gate={context.eventEnvelopeGate} />
+
+      <TeacherCanonicalGameEvidenceCard evidence={context.canonicalGameReportEvidence} />
 
       <Card>
         <div className="flex flex-wrap items-start justify-between gap-4">

@@ -1638,3 +1638,9 @@ The canonical event validator now closes the answer window before mastery and
 completion. A runtime regression fixture with late answer activity is
 rejected, protecting scoring and reports from post-completion mutations. This
 is recorded in ADR 0666 and DR-738.
+
+Teacher reporting now has a canonical game evidence lane. Report previews group
+game events by unit, launch, learner, and mode and re-run the shared canonical
+validator before showing a group as ready. Partial sample game rows are
+intentionally blocked; media, audio, and navigation remain support-only. This
+is recorded in ADR 0667 and DR-739.

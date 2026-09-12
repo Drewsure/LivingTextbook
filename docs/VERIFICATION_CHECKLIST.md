@@ -253,6 +253,10 @@ Check at narrow mobile width:
 - Audio-supported action controls wrap cleanly without separating the listen button too far from its action.
 - Front-door entry inputs and buttons wrap without overlap.
 - Teacher-visible report metrics remain scannable.
+- Canonical game report evidence shows each game attempt as ready only after
+  sequence, replay, tenant, launch, learner, and completion checks pass.
+- Partial or support-only event rows remain visibly blocked or support-only and
+  cannot appear as verified game completion.
 
 ## White-Label Checks
 

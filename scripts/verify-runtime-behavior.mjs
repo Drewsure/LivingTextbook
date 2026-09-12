@@ -23,6 +23,7 @@ try {
     "--outDir", output,
     "packages/content-model/src/progressEventTaxonomy.ts",
     "packages/content-model/src/canonicalGameIntegration.ts",
+    "packages/content-model/src/canonicalGameReport.ts",
     "packages/content-model/src/progressionRuntime.ts",
     "packages/content-model/src/recoveryRuntime.ts",
     "packages/content-model/src/rewardRuntime.ts",
@@ -116,6 +117,7 @@ try {
   const phaserCandidateReview = require(join(output, "phaserCandidateContractReview.js"));
   const contentModel = require(join(output, "index.js"));
   const canonicalGame = require(join(output, "canonicalGameIntegration.js"));
+  const canonicalGameReport = require(join(output, "canonicalGameReport.js"));
   const aiService = require(join(aiOutput, "apps", "ai-service", "src", "index.js"));
 
   const canonicalReplaySeed = "replay-v1:tenant-1:curriculum-1:L1:U1:flashcards";
@@ -160,6 +162,13 @@ try {
   ];
   const lateAnswerErrors = canonicalGame.validateCanonicalGameEventSequence(lateAnswerEvents, "flashcards").errors;
   assertIncludes(lateAnswerErrors, "Canonical game event sequence must place all answer activity before mastery_updated.");
+  const canonicalReportEvidence = canonicalGameReport.validateCanonicalGameReportEvidence(canonicalEvents, "tenant-1", "launch-1");
+  assertEqual(canonicalReportEvidence.valid, true);
+  const incompleteReportEvidence = canonicalGameReport.validateCanonicalGameReportEvidence(canonicalEvents.slice(0, 4), "tenant-1", "launch-1");
+  assertEqual(incompleteReportEvidence.valid, false);
+  assertIncludes(incompleteReportEvidence.errors, "flashcards: Canonical game event sequence must include mastery_updated.");
+  const mismatchedReportEvidence = canonicalGameReport.validateCanonicalGameReportEvidence(canonicalEvents, "tenant-2", "launch-1");
+  assertIncludes(mismatchedReportEvidence.errors, "flashcards: Canonical game event sequence must preserve tenant tenant-2; game_started has tenant tenant-1.");
 
   const phaserReviewFixture = {
     reviewId: "runtime-phaser-review-1",

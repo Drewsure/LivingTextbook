@@ -1368,6 +1368,7 @@ export * from "./persistenceAdapter";
 export * from "./persistenceConsistency";
 export * from "./persistenceRuntime";
 export * from "./reportRuntime";
+export * from "./canonicalGameReport";
 export * from "./assetRuntime";
 export * from "./contentPackageRuntime";
 export * from "./launchRuntime";

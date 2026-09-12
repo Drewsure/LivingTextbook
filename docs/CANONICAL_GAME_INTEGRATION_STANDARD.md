@@ -75,6 +75,13 @@ The runtime behavior harness validates this gate with a blocked candidate
 fixture and rejects an approval that still contains blockers or missing
 evidence.
 
+Teacher report previews and future report adapters must also validate canonical
+game evidence by unit, launch, learner session, and mode. Generic event-envelope
+validity is not enough to call a game attempt report-ready: the grouped sequence
+must pass the shared learning-event, replay, tenant, launch, identity, and
+completion checks. Incomplete sample groups remain visible as blocked review
+evidence. See ADR 0667 and DR-739.
+
 ## Review Gate
 
 Run `node scripts/verify-canonical-game-integrations.mjs`, the focused route

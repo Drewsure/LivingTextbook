@@ -4015,3 +4015,12 @@ The shared event validator now rejects answer activity after mastery or
 completion, with runtime regression coverage. This prevents late submissions
 from changing a completed result. See
 `docs/adr/0666-canonical-answer-activity-order.md`.
+
+# DR-739: Canonical Game Report Evidence
+
+Teacher report evidence now groups canonical game events by unit, launch,
+learner session, and mode and validates each group with the shared sequence,
+replay, tenant, launch, and completion contract. Incomplete or mismatched game
+groups remain blocked from authoritative report status, while support-only
+media/audio evidence stays separate. See
+`docs/adr/0667-canonical-game-report-evidence.md`.

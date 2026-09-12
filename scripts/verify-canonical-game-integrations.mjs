@@ -209,6 +209,10 @@ const contentModelContract = readText("packages/content-model/src/canonicalGameI
 const replayContract = readText("packages/content-model/src/canonicalGameReplay.ts");
 const routeShell = readText("apps/web/src/features/game-shell/components/PlayableGameRouteShell.tsx");
 const eventLog = readText("apps/web/src/features/student/components/SessionEventLog.tsx");
+const reportContract = readText("packages/content-model/src/canonicalGameReport.ts");
+const reportPreview = readText("apps/web/src/features/teacher/TeacherCanonicalGameEvidenceCard.tsx");
+const reportPanel = readText("apps/web/src/features/teacher/TeacherReportPackagePreviewPanel.tsx");
+const sessionMonitor = readText("apps/web/src/features/teacher/TeacherSessionMonitorPanel.tsx");
 
 const standardEventTypes = [
   "game_started",
@@ -270,6 +274,17 @@ for (const fragment of [
 ]) {
   if (![contentModelContract, progressionAdapter, routeShell].some((source) => source.includes(fragment))) {
     failures.push(`canonical game event boundary: missing shared contract fragment: ${fragment}`);
+  }
+}
+
+for (const fragment of [
+  "validateCanonicalGameReportEvidence",
+  "Only complete, tenant-bound game event sequences",
+  "canonicalGameReportEvidence",
+  "Sequence, replay evidence, identity, and completion boundary passed.",
+]) {
+  if (![reportContract, reportPreview, reportPanel, sessionMonitor].some((source) => source.includes(fragment))) {
+    failures.push(`canonical teacher report evidence boundary: missing shared contract fragment: ${fragment}`);
   }
 }
 

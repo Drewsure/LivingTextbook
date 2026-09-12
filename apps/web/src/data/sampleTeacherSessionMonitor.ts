@@ -25,6 +25,7 @@ import {
   validateTeacherReportExportPlan,
   validateTeacherSessionControlActions,
   validateTeacherSessionSettings,
+  validateCanonicalGameReportEvidence,
 } from "@living-textbook/content-model";
 import { sampleClassroomLaunchGate } from "./sampleClassroomLaunchGate";
 import { resolveSampleLaunchContext } from "./sampleLaunchResolver";
@@ -168,6 +169,7 @@ export interface TeacherSessionMonitorContext {
   preflightChecks: TeacherSessionPreflightCheck[];
   eventAcceptanceGate: TeacherSessionEventAcceptanceGate;
   eventEnvelopeGate: TeacherSessionProgressEventEnvelopeGate;
+  canonicalGameReportEvidence: ReturnType<typeof validateCanonicalGameReportEvidence>;
   pilotReadinessSnapshot: TeacherSessionPilotReadinessSnapshot;
   readinessNotes: string[];
 }
@@ -230,6 +232,11 @@ export function resolveSampleTeacherSessionMonitorContext(launchCode: string): T
     eventAcceptanceGate,
     launchCode: launchContext.launchSession.launchCode,
   });
+  const canonicalGameReportEvidence = validateCanonicalGameReportEvidence(
+    events,
+    launchContext.tenant.id,
+    launchContext.launchSession.launchCode,
+  );
 
   return {
     tenant: launchContext.tenant,
@@ -262,6 +269,7 @@ export function resolveSampleTeacherSessionMonitorContext(launchCode: string): T
     preflightChecks,
     eventAcceptanceGate,
     eventEnvelopeGate,
+    canonicalGameReportEvidence,
     pilotReadinessSnapshot,
     readinessNotes: [
       "This route uses reviewed sample data and local event examples only.",

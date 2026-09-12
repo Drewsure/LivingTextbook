@@ -1,6 +1,7 @@
 import { Card, StatusPill } from "@living-textbook/ui";
 import type { GameProgressEvent } from "@living-textbook/content-model";
 import type { TeacherSessionMonitorContext } from "@/data/sampleTeacherSessionMonitor";
+import { TeacherCanonicalGameEvidenceCard } from "@/features/teacher/TeacherCanonicalGameEvidenceCard";
 
 interface TeacherReportPackagePreviewPanelProps {
   context: TeacherSessionMonitorContext;
@@ -75,6 +76,8 @@ export function TeacherReportPackagePreviewPanel({ context }: TeacherReportPacka
           <Metric label="Retention" value={context.reportExportPlan.retentionPolicy} />
         </dl>
       </Card>
+
+      <TeacherCanonicalGameEvidenceCard evidence={context.canonicalGameReportEvidence} />
 
       <Card>
         <div className="flex flex-wrap items-start justify-between gap-4">
