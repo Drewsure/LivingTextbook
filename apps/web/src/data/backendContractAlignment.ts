@@ -68,6 +68,7 @@ export function validateBackendContractAlignment({
   const errors: string[] = [];
   const schemaEntityIds = new Set<string>();
   const schemaFieldsByEntity = new Map<string, Set<string>>();
+  const schemaFieldTypesByEntity = new Map<string, Map<string, string>>();
   const schemaDeploymentFitByEntity = new Map<string, string>();
   const migrationIds = new Set<string>();
   const specIds = new Set<string>();
@@ -116,6 +117,7 @@ export function validateBackendContractAlignment({
     }
 
     const fieldNames = new Set<string>();
+    const fieldTypes = new Map<string, string>();
     for (const field of entity.fields) {
       if (field.name.trim().length === 0) {
         errors.push(`Backend schema entity ${entity.entityId} contains a field with an empty name.`);
@@ -135,8 +137,10 @@ export function validateBackendContractAlignment({
         errors.push(`Backend schema entity ${entity.entityId} contains duplicate field ${field.name}.`);
       }
       fieldNames.add(field.name);
+      fieldTypes.set(field.name, field.type);
     }
     schemaFieldsByEntity.set(entity.entityId, fieldNames);
+    schemaFieldTypesByEntity.set(entity.entityId, fieldTypes);
     const indexNames = new Set<string>();
     for (const index of entity.indexes) {
       if (index.trim().length === 0) {
@@ -164,6 +168,7 @@ export function validateBackendContractAlignment({
     }
 
     const baseFieldNames = schemaFieldsByEntity.get(entityId) ?? new Set<string>();
+    const baseFieldTypes = schemaFieldTypesByEntity.get(entityId) ?? new Map<string, string>();
     const extensionFieldNames = new Set<string>();
     for (const field of extensionFields) {
       if (field.name.trim().length === 0) {
@@ -185,6 +190,7 @@ export function validateBackendContractAlignment({
       }
       extensionFieldNames.add(field.name);
       baseFieldNames.add(field.name);
+      baseFieldTypes.set(field.name, field.type);
     }
   }
 
@@ -313,10 +319,21 @@ export function validateBackendContractAlignment({
         candidate.targetEntities.flatMap((entityId) => [...(schemaFieldsByEntity.get(entityId) ?? [])]),
       );
       for (const fieldName of fieldNames) {
-        if (!targetFieldNames.has(fieldName)) {
+        const targetEntityWithField = candidate.targetEntities.find((entityId) =>
+          schemaFieldsByEntity.get(entityId)?.has(fieldName),
+        );
+        if (!targetFieldNames.has(fieldName) || !targetEntityWithField) {
           errors.push(
             `Backend migration spec ${spec.specId} field ${fieldName} must exist on one of its target schema entities.`,
           );
+        } else {
+          const expectedType = schemaFieldTypesByEntity.get(targetEntityWithField)?.get(fieldName);
+          const actualType = spec.fields.find((field) => field.name === fieldName)?.type;
+          if (expectedType && actualType && !isMigrationFieldTypeCompatible(expectedType, actualType)) {
+            errors.push(
+              `Backend migration spec ${spec.specId} field ${fieldName} type ${actualType} must be compatible with target schema type ${expectedType}.`,
+            );
+          }
         }
       }
     }
@@ -405,5 +422,35 @@ function isMigrationTrackCompatible(track: string, deploymentFit: string): boole
   if (track === "local-classroom") {
     return deploymentFit === "local" || deploymentFit === "hybrid";
   }
+  return false;
+}
+
+function isMigrationFieldTypeCompatible(schemaType: string, migrationType: string): boolean {
+  if (schemaType === migrationType) return true;
+
+  const stringSerializableTypes = new Set([
+    "coded string",
+    "enum",
+    "enum/string",
+    "foreign key/string",
+    "role/id",
+    "role/id or label",
+    "role/string",
+    "route/string",
+    "semver/string",
+    "stable id",
+  ]);
+  if (stringSerializableTypes.has(schemaType) && migrationType === "string") return true;
+  if ((schemaType === "enum" || schemaType === "enum/string") && migrationType === "string enum") return true;
+  if (schemaType === "string[]" && migrationType === "json/string array") return true;
+  if (schemaType === "json/string array" && (migrationType === "string[]" || migrationType === "json")) return true;
+  if (schemaType === "string array/json" && (migrationType === "string[]" || migrationType === "json")) return true;
+  if (schemaType === "json/object" && migrationType === "json") return true;
+  if (schemaType === "json/object array" && (migrationType === "json" || migrationType === "json[]")) return true;
+  if (schemaType === "json/child records" && migrationType === "json") return true;
+  if (schemaType === "json[]" && migrationType === "json") return true;
+  if (schemaType === "timestamp" && migrationType === "datetime") return true;
+  if (schemaType === "datetime" && migrationType === "timestamp") return true;
+
   return false;
 }

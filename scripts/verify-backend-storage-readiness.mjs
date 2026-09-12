@@ -3987,6 +3987,7 @@ requireText(backendContractAlignment, "track", "Backend alignment must check mig
 requireText(backendContractAlignment, "isMigrationTrackCompatible", "Backend alignment must expose migration track compatibility logic.");
 requireText(backendContractAlignment, "SUPPORTED_BACKEND_FIELD_TYPES", "Backend alignment must expose the supported field type vocabulary.");
 requireText(backendContractAlignment, "unsupported field type", "Backend alignment must reject unsupported field types.");
+requireText(backendContractAlignment, "must be compatible with target schema type", "Backend alignment must reject incompatible migration field types.");
 requireText(backendSchemaDraftPanel, "Migration-only fields", "Backend schema panel must show migration-only fields.");
 requireText(migrationCandidates, "settings review packet", "Backend migration candidates must preserve teacher session settings review packets.");
 requireText(migrationSpecs, "settings_review_packet", "Backend migration specs must preserve teacher session settings review packets.");

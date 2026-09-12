@@ -501,6 +501,28 @@ try {
     throw new Error("Backend contract alignment did not reject an unsupported migration field type.");
   }
 
+  const mismatchedMigrationFieldType = {
+    ...migrationSpecPlan,
+    specs: migrationSpecPlan.specs.map((spec) =>
+      spec.specId === "spec-tenant-entitlement"
+        ? {
+            ...spec,
+            fields: spec.fields.map((field) =>
+              field.name === "tenant_id" ? { ...field, type: "integer" } : field,
+            ),
+          }
+        : spec,
+    ),
+  };
+  const mismatchedMigrationFieldTypeErrors = alignment.validateBackendContractAlignment({
+    schema,
+    migrationPlan,
+    migrationSpecPlan: mismatchedMigrationFieldType,
+  });
+  if (!mismatchedMigrationFieldTypeErrors.includes("Backend migration spec spec-tenant-entitlement field tenant_id type integer must be compatible with target schema type stable id.")) {
+    throw new Error("Backend contract alignment did not reject a migration field type mismatch.");
+  }
+
   console.log("PASS backend contract alignment resolves all sample schema entities, migration candidates, and migration specs.");
 } finally {
   rmSync(output, { recursive: true, force: true });

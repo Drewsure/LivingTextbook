@@ -1432,6 +1432,14 @@ without selecting a vendor or enabling storage writes. The decision is
 recorded in `docs/adr/0611-backend-field-type-vocabulary.md` and
 `docs/decision-register/DR-683-backend-field-type-vocabulary.md`.
 
+The backend migration field-type compatibility slice now permits only exact or
+explicitly approved portable representations between schema and migration
+spec fields. Existing identifier, enum, JSON, array, and timestamp forms pass;
+an incompatible shape fails before adapter design. No storage provider or
+write path was enabled. The decision is recorded in
+`docs/adr/0612-backend-migration-field-type-compatibility.md` and
+`docs/decision-register/DR-684-backend-migration-field-type-compatibility.md`.
+
 The migration candidate coverage slice now requires every non-deferred
 candidate to have at least one migration specification, while deferred
 candidates must not carry implementation specs. The decision is recorded in
