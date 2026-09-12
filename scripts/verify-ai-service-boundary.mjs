@@ -18,6 +18,8 @@ for (const marker of [
   "isSupportedGameModeId",
   "is not compatible with engineId",
   "is not available for level",
+  "assistLanguage must differ from targetLanguage",
+  "Assist language is comprehension support only",
   "No provider model call",
   "No generated package write",
   "No support-language progression",

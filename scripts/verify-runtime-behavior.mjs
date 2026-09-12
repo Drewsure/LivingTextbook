@@ -884,6 +884,19 @@ try {
   assertIncludes(aiErrors, "vocabularyTerms must contain between 8 and 12 terms");
   assertIncludes(aiErrors, "targetSentences must contain exactly 2 structures");
   assertIncludes(aiErrors, "target-language audio coverage is required");
+  assertIncludes(aiErrors, "gameMode flashcards is not compatible with engineId pairing; expected selection");
+  const invalidAiLevelErrors = aiService.validateAiGenerationServiceRequest({
+    ...aiRequest,
+    level: 1,
+    gameMode: "sentence-builder",
+    engineId: "text-spelling",
+  });
+  assertIncludes(invalidAiLevelErrors, "gameMode sentence-builder is not available for level 1");
+  const sameLanguageErrors = aiService.validateAiGenerationServiceRequest({
+    ...aiRequest,
+    assistLanguage: "en",
+  });
+  assertIncludes(sameLanguageErrors, "assistLanguage must differ from targetLanguage; assist language is support-only");
   const invalidTextErrors = aiService.validateAiGenerationServiceRequest({
     ...aiRequest,
     vocabularyTerms: ["hello", "hello", "teacher", "friend", "morning", "afternoon", "please", ""],
@@ -933,6 +946,7 @@ try {
   assertEqual(aiResult.status, "review-only");
   assertEqual(aiResult.providerDispatchAllowed, false);
   assertIncludes(aiResult.blockedActions, "No provider model call");
+  assertIncludes(aiResult.reviewWarnings, "Assist language is comprehension support only and cannot satisfy scoring, mastery, or progression.");
 
   const alignmentMode = [{ modeId: "flashcards", parentEngine: "pairing" }];
   const alignmentBundle = {

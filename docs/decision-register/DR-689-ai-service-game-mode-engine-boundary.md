@@ -13,6 +13,8 @@ parent-engine, and level compatibility before provider review preparation.
   consumers.
 - The AI service rejects unsupported modes, unsupported engines, mismatched
   mode/engine pairs, and unavailable level/mode combinations.
+- The AI service rejects an assist language that duplicates the target
+  language and reports assist language as comprehension support only.
 - No provider call, billing, package write, route write, or Z.ai integration is
   enabled by this boundary.
 

@@ -1477,6 +1477,10 @@ write, or Z.ai integration was enabled. The decision is recorded in
 `docs/adr/0617-ai-service-game-mode-engine-boundary.md` and
 `docs/decision-register/DR-689-ai-service-game-mode-engine-boundary.md`.
 
+The same AI boundary now rejects an assist language that duplicates the target
+language and emits an explicit support-only warning. Runtime behavior checks
+cover the mode/engine mismatch, level restriction, and assist-language guard.
+
 The migration candidate coverage slice now requires every non-deferred
 candidate to have at least one migration specification, while deferred
 candidates must not carry implementation specs. The decision is recorded in

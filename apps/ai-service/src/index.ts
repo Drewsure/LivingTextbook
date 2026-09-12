@@ -57,6 +57,9 @@ export function validateAiGenerationServiceRequest(request: AiGenerationServiceR
   if (!request.targetLanguage.trim()) errors.push("targetLanguage is required");
   if (!request.theme.trim()) errors.push("theme is required");
   if (request.level < 1 || request.level > 8) errors.push("level must be between 1 and 8");
+  if (request.assistLanguage?.trim().toLowerCase() === request.targetLanguage.trim().toLowerCase()) {
+    errors.push("assistLanguage must differ from targetLanguage; assist language is support-only");
+  }
   if (!isSupportedGameModeId(request.gameMode)) errors.push(`gameMode ${request.gameMode} is not supported by the curated game catalog`);
   if (!isSupportedParentEngine(request.engineId)) errors.push(`engineId ${request.engineId} is not supported by the engine catalog`);
   const gameModeContract = getGameModeContract(request.gameMode);
@@ -88,6 +91,8 @@ export function prepareReviewOnlyAiGenerationRequest(request: AiGenerationServic
 
   if (!request.assistLanguage) {
     reviewWarnings.push("No assist language configured; this is optional and does not block target-language work.");
+  } else {
+    reviewWarnings.push("Assist language is comprehension support only and cannot satisfy scoring, mastery, or progression.");
   }
   if (!request.teacherApprovalReady) reviewWarnings.push("Teacher approval evidence is still required before any live handoff.");
   if (!request.premiumCostPolicyReady) reviewWarnings.push("Premium AI cost policy is not approved; provider billing remains blocked.");

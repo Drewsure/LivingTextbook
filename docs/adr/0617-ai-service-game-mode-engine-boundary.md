@@ -13,6 +13,8 @@ generation request can enter review preparation.
 - Unsupported game modes and parent engines are validation errors.
 - A game mode must use its catalogued parent engine.
 - A game mode must be available for the requested curriculum level.
+- If configured, assist language must differ from the target language and is
+  never a scoring, mastery, or progression authority.
 - The AI service must reuse the shared catalog rather than maintaining a
   provider-specific compatibility table.
 
