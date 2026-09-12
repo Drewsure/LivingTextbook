@@ -873,6 +873,19 @@ try {
   assertIncludes(reportErrors, "core teacher reports must use pseudonymous learner slots only");
   assertIncludes(reportErrors, "raw learner audio is excluded from core teacher reports");
   assertEqual(report.createReviewOnlyTeacherReportRuntimeAdapter().execute(reportRequest).sideEffect, "none");
+  const malformedReportFlagErrors = report.validateTeacherReportRuntimeRequest({
+    ...reportRequest,
+    teacherRoleVerified: "true",
+    policyAccepted: "true",
+    persistenceReady: "true",
+    exportApproved: "true",
+    releaseApproved: "true",
+    includesRawAudio: "false",
+    includesTranscripts: "false",
+  });
+  assertIncludes(malformedReportFlagErrors, "teacherRoleVerified must be a boolean");
+  assertIncludes(malformedReportFlagErrors, "policyAccepted must be a boolean");
+  assertIncludes(malformedReportFlagErrors, "exportApproved must be a boolean");
   const mismatchedReportLaunchErrors = report.validateTeacherReportRuntimeRequest({
     ...reportRequest,
     taxonomy: registry,

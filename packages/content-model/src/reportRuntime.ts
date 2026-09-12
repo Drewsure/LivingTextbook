@@ -64,21 +64,40 @@ export const reviewOnlyReportBlockedActions = [
 
 export function validateTeacherReportRuntimeRequest(request: TeacherReportRuntimeRequest): string[] {
   const errors: string[] = [];
+  const booleanFields = [
+    ["teacherRoleVerified", request.teacherRoleVerified],
+    ["policyAccepted", request.policyAccepted],
+    ["persistenceReady", request.persistenceReady],
+    ["exportApproved", request.exportApproved],
+    ["releaseApproved", request.releaseApproved],
+    ["includesRawAudio", request.includesRawAudio],
+    ["includesTranscripts", request.includesTranscripts],
+  ] as const;
+  for (const [label, value] of booleanFields) {
+    if (typeof value !== "boolean") errors.push(`${label} must be a boolean`);
+  }
+  const teacherRoleVerified = request.teacherRoleVerified === true;
+  const policyAccepted = request.policyAccepted === true;
+  const persistenceReady = request.persistenceReady === true;
+  const exportApproved = request.exportApproved === true;
+  const releaseApproved = request.releaseApproved === true;
+  const includesRawAudio = request.includesRawAudio === true;
+  const includesTranscripts = request.includesTranscripts === true;
 
   if (!request.tenantId.trim()) errors.push("tenantId is required");
   if (!request.launchCode.trim()) errors.push("launchCode is required");
   if (!request.format.trim()) errors.push("report format is required");
   if (request.scopes.length === 0) errors.push("at least one report scope is required");
-  if (!request.teacherRoleVerified) errors.push("teacher role verification is required");
-  if (!request.policyAccepted) errors.push("accepted school or tenant policy is required");
-  if (!request.persistenceReady) errors.push("report persistence readiness is required");
-  if (!request.exportApproved) errors.push("explicit report export approval is required");
-  if (!request.releaseApproved) errors.push("release approval is required before report export");
+  if (!teacherRoleVerified) errors.push("teacher role verification is required");
+  if (!policyAccepted) errors.push("accepted school or tenant policy is required");
+  if (!persistenceReady) errors.push("report persistence readiness is required");
+  if (!exportApproved) errors.push("explicit report export approval is required");
+  if (!releaseApproved) errors.push("release approval is required before report export");
   if (request.learnerIdentityMode !== "pseudonymous-slots-only") {
     errors.push("core teacher reports must use pseudonymous learner slots only");
   }
-  if (request.includesRawAudio) errors.push("raw learner audio is excluded from core teacher reports");
-  if (request.includesTranscripts) errors.push("learner transcripts are excluded from core teacher reports");
+  if (includesRawAudio) errors.push("raw learner audio is excluded from core teacher reports");
+  if (includesTranscripts) errors.push("learner transcripts are excluded from core teacher reports");
 
   errors.push(...validateTeacherReportExportPlan(request.reportPlan));
   errors.push(...validateProgressEventEnvelopeStream(request.eventEnvelopes, request.taxonomy));

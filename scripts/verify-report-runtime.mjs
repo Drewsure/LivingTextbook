@@ -8,6 +8,7 @@ for (const marker of [
   "TeacherReportRuntimeAdapter",
   "validateTeacherReportRuntimeRequest",
   "createReviewOnlyTeacherReportRuntimeAdapter",
+  "must be a boolean",
   "pseudonymous-slots-only",
   "raw learner audio is excluded from core teacher reports",
   "learner transcripts are excluded from core teacher reports",

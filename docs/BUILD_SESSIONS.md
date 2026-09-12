@@ -969,6 +969,8 @@ The content-package runtime flag integrity slice now applies the same strict-boo
 
 The persistence runtime flag integrity slice now applies strict booleans to student-data, raw-audio, transcript, school-policy, policy-acceptance, and release fields. Stringified privacy or approval values cannot influence hosted, local, hybrid, export, or mutation decisions. No storage adapter or learner-data write was enabled.
 
+The teacher-report runtime flag integrity slice now applies strict booleans to teacher role, policy, persistence, export, release, raw-audio, and transcript fields. Stringified report approvals or privacy exclusions cannot influence evidence interpretation or export branches. No report adapter or learner-data export was enabled.
+
 The audio cue identity integrity slice now rejects duplicate cue IDs inside a package before plan resolution. This prevents ambiguous target-language audio selection across games, controls, and teacher previews.
 
 The media asset metadata integrity slice now rejects empty asset IDs/titles and invalid negative or non-finite durations while preserving separate tenant, rights, scan, checksum, storage, and release gates for future uploads.
