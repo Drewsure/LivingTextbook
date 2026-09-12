@@ -1374,6 +1374,17 @@ candidates must not carry implementation specs. The decision is recorded in
 `docs/adr/0598-migration-candidate-spec-coverage.md` and
 `docs/decision-register/DR-670-migration-candidate-spec-coverage.md`.
 
+The canonical Memory Match controlled integration is now verified at
+`/memory/demo-unit-1`. It emits a guarded `game_started` event, support-only
+`audio_requested` evidence for card speech, one `round_shown` event per pair
+attempt, standard answer/result events, and shared completion/mastery events.
+The full 8-pair interaction completed with `8/8` pairs, `200 Star Dust`, and
+the expected event sequence. The web typecheck, production build, prototype
+review, and all 88 active route checks passed. The frozen Phaser source remains
+outside the canonical app; Balloon Pop is the next controlled candidate. The
+decision is recorded in `docs/adr/0636-memory-match-controlled-integration.md`
+and `docs/decision-register/DR-708-memory-match-controlled-integration.md`.
+
 The Z.ai source-freeze handoff is now recorded. `Drewsure/ministar-lab` main
 commit `eb79ddf5940ab47cc3c45c119c67ee1b6b958e55`, tag
 `frozen-2026-09-12-aaa-stable`, and AI reference
