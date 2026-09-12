@@ -84,6 +84,14 @@ export function validateAiGenerationServiceRequest(request: unknown): string[] {
     if (!value?.trim()) errors.push(`${key} is required`);
     return value ?? "";
   };
+  const requireBoolean = (key: string): boolean | undefined => {
+    const value = candidate[key];
+    if (typeof value !== "boolean") {
+      errors.push(`${key} must be a boolean`);
+      return undefined;
+    }
+    return value;
+  };
 
   requireString("requestId");
   requireString("tenantId");
@@ -158,8 +166,12 @@ export function validateAiGenerationServiceRequest(request: unknown): string[] {
   } else if (sourceReviewStatus === "draft") {
     errors.push("source content must be reviewed before generation review");
   }
-  if (candidate.targetLanguageAudioReady !== true) errors.push("target-language audio coverage is required");
-  if (candidate.mediaRightsReady !== true) errors.push("media rights evidence is required");
+  const targetLanguageAudioReady = requireBoolean("targetLanguageAudioReady");
+  const mediaRightsReady = requireBoolean("mediaRightsReady");
+  requireBoolean("teacherApprovalReady");
+  requireBoolean("premiumCostPolicyReady");
+  if (targetLanguageAudioReady !== true) errors.push("target-language audio coverage is required");
+  if (mediaRightsReady !== true) errors.push("media rights evidence is required");
 
   return errors;
 }

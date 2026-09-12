@@ -895,6 +895,8 @@ try {
   assertIncludes(malformedAiErrors, "requestId is required");
   assertIncludes(malformedAiErrors, "vocabularyTerms must be an array");
   assertIncludes(malformedAiErrors, "supportLanguagePolicy is required");
+  assertIncludes(malformedAiErrors, "targetLanguageAudioReady must be a boolean");
+  assertIncludes(malformedAiErrors, "teacherApprovalReady must be a boolean");
   assertIncludes(aiService.validateAiGenerationServiceRequest(null), "request must be an object");
   assertIncludes(aiErrors, "gameMode flashcards is not compatible with engineId pairing; expected selection");
   const missingEvidenceErrors = aiService.validateAiGenerationServiceRequest({
@@ -909,6 +911,17 @@ try {
     audioCoverageTargetLanguage: "ja",
   });
   assertIncludes(wrongAudioLanguageErrors, "audioCoverageTargetLanguage ja must match targetLanguage en");
+  const malformedReadinessErrors = aiService.validateAiGenerationServiceRequest({
+    ...aiRequest,
+    targetLanguageAudioReady: "true",
+    mediaRightsReady: "true",
+    teacherApprovalReady: "false",
+    premiumCostPolicyReady: "false",
+  });
+  assertIncludes(malformedReadinessErrors, "targetLanguageAudioReady must be a boolean");
+  assertIncludes(malformedReadinessErrors, "mediaRightsReady must be a boolean");
+  assertIncludes(malformedReadinessErrors, "teacherApprovalReady must be a boolean");
+  assertIncludes(malformedReadinessErrors, "premiumCostPolicyReady must be a boolean");
   const unsafeSupportPolicyErrors = aiService.validateAiGenerationServiceRequest({
     ...aiRequest,
     supportLanguagePolicy: { progressionAllowed: true },

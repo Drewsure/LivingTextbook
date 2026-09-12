@@ -18,6 +18,7 @@ The boundary deliberately owns the rules that must survive any future provider:
 - Audio readiness must name the covered language, and that language must match the request target language before the request can pass validation.
 - The support-language policy is explicit and must declare `progressionAllowed: false`.
 - External JSON is untrusted input: malformed request objects, scalar fields, arrays, and policy records return deterministic validation errors rather than throwing or reaching a provider adapter.
+- Readiness and approval flags are strict booleans; string values such as `"true"` or `"false"` cannot satisfy audio, rights, teacher-approval, or premium-cost gates.
 - The service must resolve game mode compatibility through the shared content-model catalog. Provider requests are rejected when the mode is unsupported, the parent engine is unsupported, the mode and engine disagree, or the mode is outside its curated level range.
 - Provider dispatch remains blocked until the request passes review and a later Codex-controlled release decision opens it.
 

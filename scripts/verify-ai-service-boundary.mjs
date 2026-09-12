@@ -31,6 +31,7 @@ for (const marker of [
   "request must be an object",
   "vocabularyTerms must be an array",
   "supportLanguagePolicy is required",
+  "must be a boolean",
   "No provider model call",
   "No generated package write",
   "No support-language progression",

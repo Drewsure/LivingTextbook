@@ -963,6 +963,8 @@ The content-package metadata integrity slice now rejects malformed creation time
 
 The AI request boundary hardening slice now treats external JSON as untrusted input. The validator returns deterministic errors for malformed request objects, scalar fields, arrays, and support-language policy records instead of throwing or allowing malformed data to reach a provider adapter. The focused AI-service verifier, AI-service typecheck, runtime behavior harness, and full foundation gate remain required before any live provider work.
 
+The AI readiness-flag integrity slice now requires strict booleans for target-language audio, media rights, teacher approval, and premium-cost policy. String values such as `"true"` and `"false"` cannot pass a review gate through JavaScript truthiness. No provider, billing, upload, package, route, playlist, assignment, or Z.ai action was enabled.
+
 The audio cue identity integrity slice now rejects duplicate cue IDs inside a package before plan resolution. This prevents ambiguous target-language audio selection across games, controls, and teacher previews.
 
 The media asset metadata integrity slice now rejects empty asset IDs/titles and invalid negative or non-finite durations while preserving separate tenant, rights, scan, checksum, storage, and release gates for future uploads.
