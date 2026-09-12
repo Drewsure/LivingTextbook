@@ -96,6 +96,19 @@ for (const fragment of [
   }
 }
 
+const tenantWrappedMetadataCount = (progressionAdapter.match(/metadata: withTenantMetadata\(args\.launchSession,/g) ?? []).length;
+if (tenantWrappedMetadataCount < 7) {
+  failures.push(
+    `progression adapter tenant boundary: expected at least 7 launch-derived event metadata envelopes, found ${tenantWrappedMetadataCount}`,
+  );
+}
+
+for (const fragment of ["function withTenantMetadata", "tenantId: launchSession.tenantId"]) {
+  if (!progressionAdapter.includes(fragment)) {
+    failures.push(`progression adapter tenant boundary: missing shared metadata helper fragment: ${fragment}`);
+  }
+}
+
 for (const fragment of [
   "createCanonicalGameReplaySeed",
   "replay-v1:",

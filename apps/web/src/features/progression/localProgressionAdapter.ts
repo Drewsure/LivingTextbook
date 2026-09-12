@@ -77,14 +77,14 @@ export function completeFlashcardEntryPractice(args: {
     launchCode: args.launchSession.launchCode,
     studentSessionId: args.progression.studentSessionId,
     occurredAt: args.occurredAt,
-    metadata: {
+    metadata: withTenantMetadata(args.launchSession, {
       earnedStarDust: dust.total,
       masteredTerms: args.unit.pedagogicalPayload.vocabularyTerms.length,
       totalTerms: args.unit.pedagogicalPayload.vocabularyTerms.length,
       targetLanguageEngagedItems: args.targetLanguageEngagedItems ?? 0,
       requiredTargetLanguageItems: args.requiredTargetLanguageItems ?? 0,
       supportLanguageUnlockAllowed: false,
-    },
+    }),
   };
 
   const unlockEvents: GameProgressEvent[] = args.launchSession.recommendedNextModes.map((gameMode, index) => ({
@@ -94,12 +94,12 @@ export function completeFlashcardEntryPractice(args: {
     launchCode: args.launchSession.launchCode,
     studentSessionId: args.progression.studentSessionId,
     occurredAt: args.occurredAt,
-    metadata: {
+    metadata: withTenantMetadata(args.launchSession, {
       sourceMode: args.launchSession.entryMode,
       unlockedModeIndex: index,
       targetLanguageGateSatisfied: true,
       supportLanguageUnlockAllowed: false,
-    },
+    }),
   }));
 
   return {
@@ -208,12 +208,12 @@ export function createRouteGuidanceListenedEvent(args: {
     launchCode: args.launchSession.launchCode,
     studentSessionId: args.progression.studentSessionId,
     occurredAt: args.occurredAt,
-    metadata: {
+    metadata: withTenantMetadata(args.launchSession, {
       routeStatus: args.routeStatus,
       routeHref: args.routeHref,
       progressionUnlockAllowed: false,
       supportLanguageUnlockAllowed: false,
-    },
+    }),
   };
 }
 
@@ -279,11 +279,11 @@ export function createLaunchOpenedEvent(args: {
     launchCode: args.launchSession.launchCode,
     studentSessionId: args.progression.studentSessionId,
     occurredAt: args.occurredAt,
-    metadata: {
+    metadata: withTenantMetadata(args.launchSession, {
       accessMode: args.launchSession.accessMode,
       entryCodeProvided: Boolean(args.entryCode),
       userCodeProvided: Boolean(args.userCode),
-    },
+    }),
   };
 }
 
@@ -302,7 +302,7 @@ export function createMediaProgressEvent(args: {
     launchCode: args.launchSession.launchCode,
     studentSessionId: args.progression.studentSessionId,
     occurredAt: args.occurredAt,
-    metadata: {
+    metadata: withTenantMetadata(args.launchSession, {
       mediaAssetId: args.mediaAsset.mediaAssetId,
       mediaKind: args.mediaAsset.kind,
       mediaType: args.mediaAsset.type,
@@ -310,7 +310,7 @@ export function createMediaProgressEvent(args: {
       progressionUnlockAllowed: false,
       masteryCreditAllowed: false,
       starDustAwarded: 0,
-    },
+    }),
   };
 }
 
@@ -334,13 +334,13 @@ export function createMediaPlaylistOpenedEvent(args: {
     launchCode: args.launchSession.launchCode,
     studentSessionId: args.progression.studentSessionId,
     occurredAt: args.occurredAt,
-    metadata: {
+    metadata: withTenantMetadata(args.launchSession, {
       playlistId: args.playlistId,
       routeHref: args.routeHref,
       progressionUnlockAllowed: false,
       masteryCreditAllowed: false,
       starDustAwarded: 0,
-    },
+    }),
   };
 }
 
@@ -360,7 +360,7 @@ export function createBackgroundMediaEvent(args: {
     launchCode: args.launchSession.launchCode,
     studentSessionId: args.progression.studentSessionId,
     occurredAt: args.occurredAt,
-    metadata: {
+    metadata: withTenantMetadata(args.launchSession, {
       mediaAssetId: args.mediaAsset.mediaAssetId,
       mediaKind: args.mediaAsset.kind,
       mediaType: args.mediaAsset.type,
@@ -369,6 +369,16 @@ export function createBackgroundMediaEvent(args: {
       masteryCreditAllowed: false,
       starDustAwarded: 0,
       pausesForLearningAudio: true,
-    },
+    }),
+  };
+}
+
+function withTenantMetadata(
+  launchSession: LaunchSession,
+  metadata: Record<string, string | number | boolean>,
+): Record<string, string | number | boolean> {
+  return {
+    ...metadata,
+    tenantId: launchSession.tenantId,
   };
 }
