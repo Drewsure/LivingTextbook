@@ -772,6 +772,7 @@ Required standing rules:
 - Provider SDKs, storage vendors, web routes, student progression state, and Phaser/game view code must not become dependencies of the contract boundary.
 - Premium AI cost policy and teacher approval are explicit evidence lanes, not implicit environment flags.
 - Future hosted and local adapters must consume the same request/result contract and remain replaceable for white-label deployments.
+- Downstream content-package runtime policy, persistence, release, student-use, and QR flags must also be validated as strict booleans before any future publisher or QR adapter interprets them.
 - `npm run typecheck --workspace @living-textbook/ai-service` and `node scripts/verify-ai-service-boundary.mjs` must remain green before service implementation advances.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-561 and `docs/adr/0490-ai-service-boundary-foundation.md`.

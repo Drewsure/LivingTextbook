@@ -335,6 +335,18 @@ try {
   const packageErrors = contentPackage.validateContentPackageRuntimeRequest(packageRequest);
   assertIncludes(packageErrors, "content package tenant must match runtime tenantId");
   assertEqual(contentPackage.createReviewOnlyContentPackageRuntimeAdapter().execute(packageRequest).sideEffect, "none");
+  const malformedPackageFlagErrors = contentPackage.validateContentPackageRuntimeRequest({
+    ...packageRequest,
+    curatedPathwayReviewed: "true",
+    storagePolicyAccepted: "true",
+    persistenceReady: "true",
+    teacherReleaseApproved: "false",
+    studentFacingUseRequested: "false",
+    qrActivationRequested: "false",
+  });
+  assertIncludes(malformedPackageFlagErrors, "curatedPathwayReviewed must be a boolean");
+  assertIncludes(malformedPackageFlagErrors, "storagePolicyAccepted must be a boolean");
+  assertIncludes(malformedPackageFlagErrors, "studentFacingUseRequested must be a boolean");
 
   const audioUnit = {
     unitMeta: {

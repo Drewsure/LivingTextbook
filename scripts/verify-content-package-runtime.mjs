@@ -9,6 +9,7 @@ for (const marker of [
   "validateContentPackageRuntimeRequest",
   "createReviewOnlyContentPackageRuntimeAdapter",
   "curated activity pathway review is required",
+  "must be a boolean",
   "student-facing package use requires approved content review status",
   "accepted tenant or school storage policy is required",
   "package persistence readiness is required",

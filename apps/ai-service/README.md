@@ -33,4 +33,6 @@ The boundary deliberately owns the rules that must survive any future provider:
 
 The service must remain independent of web routes, student progression state, provider SDKs, storage vendors, and Phaser/game view code.
 
+The same trust-boundary rule applies to downstream package handoff: content-package runtime policy and release flags must be validated as booleans before a future publisher or QR adapter can interpret them.
+
 Run `npm run typecheck --workspace @living-textbook/ai-service` from the repository root to verify the boundary.

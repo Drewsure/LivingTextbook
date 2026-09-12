@@ -50,26 +50,43 @@ export function validateContentPackageRuntimeRequest(request: ContentPackageRunt
   const units = contentPackage.units;
   const unitKeys = units.map((unit) => getUnitKey(unit.unitMeta));
   const targetLanguage = request.targetLanguage.trim().toLowerCase();
+  const booleanFields = [
+    ["curatedPathwayReviewed", request.curatedPathwayReviewed],
+    ["storagePolicyAccepted", request.storagePolicyAccepted],
+    ["persistenceReady", request.persistenceReady],
+    ["teacherReleaseApproved", request.teacherReleaseApproved],
+    ["studentFacingUseRequested", request.studentFacingUseRequested],
+    ["qrActivationRequested", request.qrActivationRequested],
+  ] as const;
+  for (const [label, value] of booleanFields) {
+    if (typeof value !== "boolean") errors.push(`${label} must be a boolean`);
+  }
+  const curatedPathwayReviewed = request.curatedPathwayReviewed === true;
+  const storagePolicyAccepted = request.storagePolicyAccepted === true;
+  const persistenceReady = request.persistenceReady === true;
+  const teacherReleaseApproved = request.teacherReleaseApproved === true;
+  const studentFacingUseRequested = request.studentFacingUseRequested === true;
+  const qrActivationRequested = request.qrActivationRequested === true;
 
   if (!request.tenantId.trim()) errors.push("tenantId is required");
   if (!request.packageId.trim()) errors.push("packageId is required");
   if (!targetLanguage) errors.push("targetLanguage is required");
   if (contentPackage.meta.tenantId !== request.tenantId) errors.push("content package tenant must match runtime tenantId");
   if (contentPackage.meta.packageId !== request.packageId) errors.push("content package id must match runtime packageId");
-  if (!request.curatedPathwayReviewed) errors.push("curated activity pathway review is required");
+  if (!curatedPathwayReviewed) errors.push("curated activity pathway review is required");
 
   errors.push(...validateContentPackage(contentPackage));
 
-  if (request.studentFacingUseRequested || request.qrActivationRequested) {
+  if (studentFacingUseRequested || qrActivationRequested) {
     if (contentPackage.meta.reviewStatus !== "approved") {
       errors.push("student-facing package use requires approved content review status");
     }
-    if (!request.storagePolicyAccepted) errors.push("accepted tenant or school storage policy is required");
-    if (!request.persistenceReady) errors.push("package persistence readiness is required");
-    if (!request.teacherReleaseApproved) errors.push("teacher or tenant release approval is required");
+    if (!storagePolicyAccepted) errors.push("accepted tenant or school storage policy is required");
+    if (!persistenceReady) errors.push("package persistence readiness is required");
+    if (!teacherReleaseApproved) errors.push("teacher or tenant release approval is required");
   }
 
-  if (request.qrActivationRequested && !request.studentFacingUseRequested) {
+  if (qrActivationRequested && !studentFacingUseRequested) {
     errors.push("QR activation requires student-facing package use to be requested");
   }
 

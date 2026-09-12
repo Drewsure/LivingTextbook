@@ -965,6 +965,8 @@ The AI request boundary hardening slice now treats external JSON as untrusted in
 
 The AI readiness-flag integrity slice now requires strict booleans for target-language audio, media rights, teacher approval, and premium-cost policy. String values such as `"true"` and `"false"` cannot pass a review gate through JavaScript truthiness. No provider, billing, upload, package, route, playlist, assignment, or Z.ai action was enabled.
 
+The content-package runtime flag integrity slice now applies the same strict-boolean rule to curated pathway review, storage policy, persistence, teacher release, student-facing use, and QR activation. Stringified flags cannot influence package-use or QR decision branches, and no publisher, storage, route, playlist, assignment, or Z.ai action was enabled.
+
 The audio cue identity integrity slice now rejects duplicate cue IDs inside a package before plan resolution. This prevents ambiguous target-language audio selection across games, controls, and teacher previews.
 
 The media asset metadata integrity slice now rejects empty asset IDs/titles and invalid negative or non-finite durations while preserving separate tenant, rights, scan, checksum, storage, and release gates for future uploads.
