@@ -3918,6 +3918,12 @@ on every migration candidate. The decision is recorded in
 `docs/adr/0604-backend-lifecycle-policy-contract.md` and
 `docs/decision-register/DR-676-backend-lifecycle-policy-contract.md`.
 
+The policy blocker evidence slice now requires explicit prerequisites on
+needs-policy migration candidates and explicit blockers on blocked-by-policy
+migration specifications. The decision is recorded in
+`docs/adr/0605-policy-blocker-evidence-contract.md` and
+`docs/decision-register/DR-677-policy-blocker-evidence-contract.md`.
+
 The migration candidate coverage slice now requires every non-deferred
 candidate to have at least one migration specification, while deferred
 candidates must not carry implementation specs. The decision is recorded in

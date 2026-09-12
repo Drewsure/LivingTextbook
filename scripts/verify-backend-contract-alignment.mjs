@@ -289,6 +289,38 @@ try {
     throw new Error("Backend contract alignment did not reject a migration candidate without rollback/export needs.");
   }
 
+  const missingPolicyBlockersPlan = {
+    ...migrationSpecPlan,
+    specs: migrationSpecPlan.specs.map((spec) =>
+      spec.specId === "spec-package-release-candidate" ? { ...spec, policyBlockers: [] } : spec,
+    ),
+  };
+  const missingPolicyBlockersErrors = alignment.validateBackendContractAlignment({
+    schema,
+    migrationPlan,
+    migrationSpecPlan: missingPolicyBlockersPlan,
+  });
+  if (!missingPolicyBlockersErrors.includes("Backend migration spec spec-package-release-candidate is blocked-by-policy and must declare policy blockers.")) {
+    throw new Error("Backend contract alignment did not reject a policy-blocked spec without blockers.");
+  }
+
+  const missingPolicyPrerequisitesPlan = {
+    ...migrationPlan,
+    candidates: migrationPlan.candidates.map((candidate) =>
+      candidate.migrationId === "m005-publish-gate-and-approval-ledger"
+        ? { ...candidate, prerequisites: [] }
+        : candidate,
+    ),
+  };
+  const missingPolicyPrerequisitesErrors = alignment.validateBackendContractAlignment({
+    schema,
+    migrationPlan: missingPolicyPrerequisitesPlan,
+    migrationSpecPlan,
+  });
+  if (!missingPolicyPrerequisitesErrors.includes("Backend migration m005-publish-gate-and-approval-ledger needs policy and must declare prerequisites.")) {
+    throw new Error("Backend contract alignment did not reject a policy candidate without prerequisites.");
+  }
+
   console.log("PASS backend contract alignment resolves all sample schema entities, migration candidates, and migration specs.");
 } finally {
   rmSync(output, { recursive: true, force: true });

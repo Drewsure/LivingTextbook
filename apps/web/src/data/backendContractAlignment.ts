@@ -80,6 +80,9 @@ export function validateBackendContractAlignment({
     if (candidate.rollbackOrExportNeeds.length === 0) {
       errors.push(`Backend migration ${candidate.migrationId} must declare rollback or export needs.`);
     }
+    if (candidate.status === "needs-policy" && candidate.prerequisites.length === 0) {
+      errors.push(`Backend migration ${candidate.migrationId} needs policy and must declare prerequisites.`);
+    }
 
     if (candidate.targetEntities.length === 0) {
       errors.push(`Backend migration ${candidate.migrationId} must target at least one schema entity.`);
@@ -124,6 +127,9 @@ export function validateBackendContractAlignment({
     }
     if (spec.localFallback.trim().length === 0) {
       errors.push(`Backend migration spec ${spec.specId} must declare a local fallback.`);
+    }
+    if (spec.status === "blocked-by-policy" && spec.policyBlockers.length === 0) {
+      errors.push(`Backend migration spec ${spec.specId} is blocked-by-policy and must declare policy blockers.`);
     }
 
     const fieldNames = new Set<string>();
