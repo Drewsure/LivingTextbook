@@ -566,6 +566,7 @@
 - `DR-675-backend-definition-integrity-contract.md`
 - `DR-676-backend-lifecycle-policy-contract.md`
 - `DR-677-policy-blocker-evidence-contract.md`
+- `DR-678-backend-definition-auditability-contract.md`
 
 ## Maintenance Rule
 

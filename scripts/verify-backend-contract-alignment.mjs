@@ -321,6 +321,50 @@ try {
     throw new Error("Backend contract alignment did not reject a policy candidate without prerequisites.");
   }
 
+  const missingSchemaFieldNote = {
+    ...schema,
+    entities: schema.entities.map((entity) =>
+      entity.entityId === "media_manifest"
+        ? {
+            ...entity,
+            fields: entity.fields.map((field) =>
+              field.name === "media_id" ? { ...field, note: "" } : field,
+            ),
+          }
+        : entity,
+    ),
+  };
+  const missingSchemaFieldNoteErrors = alignment.validateBackendContractAlignment({
+    schema: missingSchemaFieldNote,
+    migrationPlan,
+    migrationSpecPlan,
+  });
+  if (!missingSchemaFieldNoteErrors.includes("Backend schema entity media_manifest field media_id must declare a field note.")) {
+    throw new Error("Backend contract alignment did not reject a schema field without an explanatory note.");
+  }
+
+  const missingSpecFieldNote = {
+    ...migrationSpecPlan,
+    specs: migrationSpecPlan.specs.map((spec) =>
+      spec.specId === "spec-media-manifest"
+        ? {
+            ...spec,
+            fields: spec.fields.map((field) =>
+              field.name === "media_id" ? { ...field, note: "" } : field,
+            ),
+          }
+        : spec,
+    ),
+  };
+  const missingSpecFieldNoteErrors = alignment.validateBackendContractAlignment({
+    schema,
+    migrationPlan,
+    migrationSpecPlan: missingSpecFieldNote,
+  });
+  if (!missingSpecFieldNoteErrors.includes("Backend migration spec spec-media-manifest field media_id must declare a field note.")) {
+    throw new Error("Backend contract alignment did not reject a migration field without an explanatory note.");
+  }
+
   console.log("PASS backend contract alignment resolves all sample schema entities, migration candidates, and migration specs.");
 } finally {
   rmSync(output, { recursive: true, force: true });

@@ -27,11 +27,34 @@ export function validateBackendContractAlignment({
   const migrationIds = new Set<string>();
   const specIds = new Set<string>();
 
+  if (schema.draftId.trim().length === 0 || schema.label.trim().length === 0 || schema.summary.trim().length === 0 || schema.decisionRule.trim().length === 0) {
+    errors.push("Backend schema draft must declare draftId, label, summary, and decisionRule.");
+  }
+  if (schema.crossCuttingRules.length === 0 || schema.crossCuttingRules.some((rule) => rule.trim().length === 0)) {
+    errors.push("Backend schema draft must declare non-empty cross-cutting rules.");
+  }
+  if (migrationPlan.planId.trim().length === 0 || migrationPlan.label.trim().length === 0 || migrationPlan.summary.trim().length === 0 || migrationPlan.sequencingRule.trim().length === 0) {
+    errors.push("Backend migration plan must declare planId, label, summary, and sequencingRule.");
+  }
+  if (migrationPlan.standingRules.length === 0 || migrationPlan.standingRules.some((rule) => rule.trim().length === 0)) {
+    errors.push("Backend migration plan must declare non-empty standing rules.");
+  }
+  if (migrationSpecPlan.planId.trim().length === 0 || migrationSpecPlan.label.trim().length === 0 || migrationSpecPlan.summary.trim().length === 0 || migrationSpecPlan.implementationRule.trim().length === 0) {
+    errors.push("Backend migration spec plan must declare planId, label, summary, and implementationRule.");
+  }
+
   for (const entity of schema.entities) {
     if (schemaEntityIds.has(entity.entityId)) {
       errors.push(`Backend schema contains duplicate entity ${entity.entityId}.`);
     }
     schemaEntityIds.add(entity.entityId);
+
+    if (entity.entityId.trim().length === 0 || entity.label.trim().length === 0 || entity.purpose.trim().length === 0 || entity.migrationNote.trim().length === 0) {
+      errors.push(`Backend schema entity ${entity.entityId || "<unnamed>"} must declare identity, label, purpose, and migration note.`);
+    }
+    if (entity.relationships.length === 0 || entity.relationships.some((relationship) => relationship.trim().length === 0)) {
+      errors.push(`Backend schema entity ${entity.entityId || "<unnamed>"} must declare non-empty relationship notes.`);
+    }
 
     if (entity.fields.length === 0) {
       errors.push(`Backend schema entity ${entity.entityId} must declare at least one field.`);
@@ -47,6 +70,9 @@ export function validateBackendContractAlignment({
       }
       if (typeof field.required !== "boolean") {
         errors.push(`Backend schema entity ${entity.entityId} field ${field.name || "<unnamed>"} must declare required as a boolean.`);
+      }
+      if (field.note.trim().length === 0) {
+        errors.push(`Backend schema entity ${entity.entityId} field ${field.name || "<unnamed>"} must declare a field note.`);
       }
       if (fieldNames.has(field.name)) {
         errors.push(`Backend schema entity ${entity.entityId} contains duplicate field ${field.name}.`);
@@ -73,6 +99,10 @@ export function validateBackendContractAlignment({
       errors.push(`Backend migration plan contains duplicate migration ${candidate.migrationId}.`);
     }
     migrationIds.add(candidate.migrationId);
+
+    if (candidate.migrationId.trim().length === 0 || candidate.label.trim().length === 0) {
+      errors.push(`Backend migration ${candidate.migrationId || "<unnamed>"} must declare identity and label.`);
+    }
 
     if (candidate.purpose.trim().length === 0) {
       errors.push(`Backend migration ${candidate.migrationId} must describe its purpose.`);
@@ -104,6 +134,10 @@ export function validateBackendContractAlignment({
       errors.push(`Backend migration specs contain duplicate spec ${spec.specId}.`);
     }
     specIds.add(spec.specId);
+
+    if (spec.specId.trim().length === 0 || spec.label.trim().length === 0 || spec.purpose.trim().length === 0) {
+      errors.push(`Backend migration spec ${spec.specId || "<unnamed>"} must declare identity, label, and purpose.`);
+    }
 
     const candidate = migrationPlan.candidates.find((item) => item.migrationId === spec.candidateId);
     if (!candidate) {
@@ -142,6 +176,9 @@ export function validateBackendContractAlignment({
       }
       if (typeof field.required !== "boolean") {
         errors.push(`Backend migration spec ${spec.specId} field ${field.name || "<unnamed>"} must declare required as a boolean.`);
+      }
+      if (field.note.trim().length === 0) {
+        errors.push(`Backend migration spec ${spec.specId} field ${field.name || "<unnamed>"} must declare a field note.`);
       }
       if (fieldNames.has(field.name)) {
         errors.push(`Backend migration spec ${spec.specId} contains duplicate field ${field.name}.`);

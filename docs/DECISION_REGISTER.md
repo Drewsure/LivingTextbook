@@ -3924,6 +3924,12 @@ migration specifications. The decision is recorded in
 `docs/adr/0605-policy-blocker-evidence-contract.md` and
 `docs/decision-register/DR-677-policy-blocker-evidence-contract.md`.
 
+The backend definition auditability slice now requires non-empty identity,
+purpose, relationship, migration, and field notes across the schema and
+migration plans. The decision is recorded in
+`docs/adr/0606-backend-definition-auditability-contract.md` and
+`docs/decision-register/DR-678-backend-definition-auditability-contract.md`.
+
 The migration candidate coverage slice now requires every non-deferred
 candidate to have at least one migration specification, while deferred
 candidates must not carry implementation specs. The decision is recorded in
