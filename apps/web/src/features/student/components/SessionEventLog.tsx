@@ -29,6 +29,11 @@ export function SessionEventLog({ events }: SessionEventLogProps) {
               <p className="text-sm font-semibold">{formatLabel(event.type)}</p>
               <p className="mt-1 font-mono text-xs text-[var(--tenant-muted)]">{event.type}</p>
               <p className="mt-1 text-sm text-[var(--tenant-muted)]">{formatMode(event.gameMode)}</p>
+              {typeof event.metadata?.replaySeed === "string" ? (
+                <p className="mt-2 text-xs text-[var(--tenant-muted)]">
+                  Replay evidence: <span className="font-mono">{event.metadata.replaySeed}</span>
+                </p>
+              ) : null}
             </div>
           ))
         )}

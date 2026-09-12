@@ -1,6 +1,7 @@
 import {
   calculateStarDust,
   completeEntryPractice,
+  createCanonicalGameReplaySeed,
 } from "@living-textbook/content-model";
 import type {
   AudioCueKind,
@@ -113,6 +114,7 @@ export function startUnlockedGameMode(args: {
   launchSession: LaunchSession;
   gameMode: GameModeId;
   occurredAt: string;
+  replaySeed?: string;
 }): GameProgressEvent | undefined {
   const modeIsUnlocked = args.progression.unlockedGameModes.includes(args.gameMode);
 
@@ -129,6 +131,7 @@ export function startUnlockedGameMode(args: {
     occurredAt: args.occurredAt,
     metadata: {
       sourceMode: args.launchSession.entryMode,
+      replaySeed: args.replaySeed ?? createCanonicalGameReplaySeed({ unitKey: args.launchSession.unitKey, gameMode: args.gameMode }),
     },
   };
 }

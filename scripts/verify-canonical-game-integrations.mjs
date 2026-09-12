@@ -40,7 +40,9 @@ const integrations = [
 
 const progressionAdapter = readText("apps/web/src/features/progression/localProgressionAdapter.ts");
 const contentModelContract = readText("packages/content-model/src/canonicalGameIntegration.ts");
+const replayContract = readText("packages/content-model/src/canonicalGameReplay.ts");
 const routeShell = readText("apps/web/src/features/game-shell/components/PlayableGameRouteShell.tsx");
+const eventLog = readText("apps/web/src/features/student/components/SessionEventLog.tsx");
 
 const standardEventTypes = [
   "game_started",
@@ -89,6 +91,16 @@ for (const fragment of [
 ]) {
   if (![contentModelContract, routeShell].some((source) => source.includes(fragment))) {
     failures.push(`canonical game event boundary: missing shared contract fragment: ${fragment}`);
+  }
+}
+
+for (const fragment of [
+  "createCanonicalGameReplaySeed",
+  "replay-v1:",
+  "replaySeed",
+]) {
+  if (![replayContract, progressionAdapter, eventLog, ...integrations.map((integration) => readText(integration.component))].some((source) => source.includes(fragment))) {
+    failures.push(`canonical game replay boundary: missing deterministic seed fragment: ${fragment}`);
   }
 }
 

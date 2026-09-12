@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Card, StatusPill } from "@living-textbook/ui";
+import { createCanonicalGameReplaySeed } from "@living-textbook/content-model";
 import type {
   AudioCue,
   GameProgressEvent,
@@ -44,6 +45,7 @@ export function BalloonPopPracticeGame({
   const preview = useMemo(() => buildSelectionEnginePreview(unit), [unit]);
   const rounds = useMemo(() => preview.rounds.filter((round) => round.skillFocus === "vocabulary"), [preview.rounds]);
   const scoringProfile = getGameScoringProfileForMode(gameMode);
+  const replaySeed = createCanonicalGameReplaySeed({ unitKey: launchSession.unitKey, gameMode });
   const targetLanguage = unit.unitMeta.textbookReference?.language ?? "en";
   const startEventSent = useRef(false);
   const [roundIndex, setRoundIndex] = useState(0);
@@ -72,6 +74,7 @@ export function BalloonPopPracticeGame({
       launchSession,
       gameMode,
       occurredAt: new Date().toISOString(),
+      replaySeed,
     });
 
     if (event) {
@@ -90,6 +93,7 @@ export function BalloonPopPracticeGame({
       skillFocus: currentRound.skillFocus,
       optionCount: currentRound.options.length,
       selectionSkin: gameMode,
+      replaySeed,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentRound?.roundId]);
@@ -193,6 +197,7 @@ export function BalloonPopPracticeGame({
           correctRounds: nextCorrectRoundIds.length,
           attempts: nextAttempts,
           selectionSkin: gameMode,
+          replaySeed,
         },
       });
 

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Card, StatusPill } from "@living-textbook/ui";
+import { createCanonicalGameReplaySeed } from "@living-textbook/content-model";
 import type {
   AudioCue,
   GameModeId,
@@ -50,7 +51,8 @@ export function PairingMemoryMatchGame({
   onEvent,
   onComplete,
 }: PairingMemoryMatchGameProps) {
-  const [engineState, setEngineState] = useState<PairingEngineState>(() => createShuffledPairingState(unit));
+  const replaySeed = createCanonicalGameReplaySeed({ unitKey: launchSession.unitKey, gameMode });
+  const [engineState, setEngineState] = useState<PairingEngineState>(() => createShuffledPairingState(unit, replaySeed));
   const [lastResult, setLastResult] = useState<PairingSelectionResult | undefined>();
   const [mismatchCardIds, setMismatchCardIds] = useState<string[]>([]);
   const [completionSent, setCompletionSent] = useState(false);
@@ -72,6 +74,7 @@ export function PairingMemoryMatchGame({
       launchSession,
       gameMode,
       occurredAt: new Date().toISOString(),
+      replaySeed,
     });
 
     if (event) {
@@ -132,6 +135,7 @@ export function PairingMemoryMatchGame({
         label: card.label,
         roundIndex: outcome.state.attempts + 1,
         totalPairs: progress.totalPairs,
+        replaySeed,
       });
     }
 
@@ -198,6 +202,7 @@ export function PairingMemoryMatchGame({
         attempts: outcome.state.attempts,
         totalPairs: progress.totalPairs,
         scoringProfileId: scoringProfile?.id ?? "none",
+        replaySeed,
       });
       setCompletionSent(true);
       onComplete(result);
@@ -276,13 +281,13 @@ export function PairingMemoryMatchGame({
   );
 }
 
-function createShuffledPairingState(unit: UnitPayload): PairingEngineState {
+function createShuffledPairingState(unit: UnitPayload, replaySeed: string): PairingEngineState {
   const pairingItems = createVocabularyPairingItems(unit);
   const state = createPairingEngineState(pairingItems);
 
   return {
     ...state,
-    cards: [...state.cards].sort((first, second) => stableSortKey(first.id) - stableSortKey(second.id)),
+    cards: [...state.cards].sort((first, second) => stableSortKey(`${replaySeed}:${first.id}`) - stableSortKey(`${replaySeed}:${second.id}`)),
   };
 }
 
