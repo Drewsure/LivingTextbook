@@ -1649,3 +1649,8 @@ Canonical game evidence now also rejects invalid or out-of-order event
 timestamps. Equal timestamps remain valid for rapid interactions, while
 chronology failures block completion and report-ready status. This is recorded
 in ADR 0668 and DR-740.
+
+The provider-neutral report runtime now reuses the canonical game evidence gate
+for report requests containing learning-game envelopes. Standalone audio remains
+support-only. This prevents future report adapters from accepting partial game
+completion evidence and is recorded in ADR 0669 and DR-741.

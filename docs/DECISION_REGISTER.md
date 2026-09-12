@@ -4031,3 +4031,10 @@ The shared canonical game validator now requires valid, nondecreasing
 `occurredAt` timestamps. Out-of-order or invalidly timestamped game evidence
 is blocked before completion, teacher-report readiness, or future wrapper
 promotion. See `docs/adr/0668-canonical-game-event-chronology.md`.
+
+# DR-741: Report Runtime Canonical Game Gate
+
+The provider-neutral report runtime now maps canonical game envelopes into the
+shared game event shape and validates grouped sequence, replay, tenant, launch,
+learner, and completion evidence. Standalone audio remains support-only. See
+`docs/adr/0669-report-runtime-canonical-game-gate.md`.

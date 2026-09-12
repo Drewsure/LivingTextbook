@@ -84,6 +84,12 @@ must pass the shared learning-event, replay, tenant, launch, identity, and
 completion checks. Incomplete sample groups remain visible as blocked review
 evidence. See ADR 0667 and DR-739.
 
+The provider-neutral teacher report runtime applies the same gate when report
+requests contain canonical game envelopes. Standalone `audio_requested` remains
+support-only and does not create a game group. This keeps future hosted, local,
+and hybrid report adapters aligned with the student completion boundary. See
+ADR 0669 and DR-741.
+
 ## Review Gate
 
 Run `node scripts/verify-canonical-game-integrations.mjs`, the focused route

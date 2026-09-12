@@ -3,6 +3,8 @@ import type {
   TeacherReportExportPlan,
   TeacherReportExportScope,
 } from "./sessionSettings";
+import type { GameModeId, GameProgressEvent } from "./index";
+import { validateCanonicalGameReportEvidence } from "./canonicalGameReport";
 import { getCanonicalUnitKeyTenant } from "./index";
 import {
   validateTeacherReportExportPlan,
@@ -54,6 +56,15 @@ export interface TeacherReportRuntimeAdapter {
   execute(request: TeacherReportRuntimeRequest): TeacherReportRuntimeResult;
 }
 
+export function validateTeacherReportCanonicalGameEvents(
+  events: GameProgressEvent[],
+  tenantId: string,
+  launchCode: string,
+): string[] {
+  const evidence = validateCanonicalGameReportEvidence(events, tenantId, launchCode);
+  return evidence.errors.map((error) => `teacher report canonical game evidence: ${error}`);
+}
+
 export const reviewOnlyReportBlockedActions = [
   "No teacher report export",
   "No learner identity promotion",
@@ -101,6 +112,13 @@ export function validateTeacherReportRuntimeRequest(request: TeacherReportRuntim
 
   errors.push(...validateTeacherReportExportPlan(request.reportPlan));
   errors.push(...validateProgressEventEnvelopeStream(request.eventEnvelopes, request.taxonomy));
+
+  const canonicalGameEvents = request.eventEnvelopes
+    .filter(isCanonicalGameEnvelope)
+    .map(toGameProgressEvent);
+  if (canonicalGameEvents.length > 0) {
+    errors.push(...validateTeacherReportCanonicalGameEvents(canonicalGameEvents, request.tenantId, request.launchCode));
+  }
 
   const missingLaunchCode = request.eventEnvelopes.some((envelope) => isRecord(envelope) && !readString(envelope, "launch_code"));
   const mismatchedLaunchCodes = [...new Set(request.eventEnvelopes
@@ -153,6 +171,33 @@ function readString(source: Record<string, unknown>, key: string): string {
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
+
+function isCanonicalGameEnvelope(value: unknown): value is Record<string, unknown> {
+  if (!isRecord(value)) return false;
+  const eventType = readString(value, "event_type");
+  return eventType === "audio_requested" || CANONICAL_GAME_EVENT_TYPES.has(eventType);
+}
+
+function toGameProgressEvent(envelope: Record<string, unknown>): GameProgressEvent {
+  return {
+    type: readString(envelope, "event_type") as GameProgressEvent["type"],
+    unitKey: readString(envelope, "unit_key"),
+    gameMode: readString(envelope, "game_mode") as GameModeId,
+    occurredAt: readString(envelope, "occurred_at"),
+    launchCode: readString(envelope, "launch_code"),
+    studentSessionId: readString(envelope, "student_session_id"),
+    metadata: isRecord(envelope.metadata) ? envelope.metadata as GameProgressEvent["metadata"] : {},
+  };
+}
+
+const CANONICAL_GAME_EVENT_TYPES = new Set<string>([
+  "game_started",
+  "round_shown",
+  "answer_submitted",
+  "answer_result",
+  "mastery_updated",
+  "game_completed",
+]);
 
 export function createReviewOnlyTeacherReportRuntimeAdapter(): TeacherReportRuntimeAdapter {
   return {
