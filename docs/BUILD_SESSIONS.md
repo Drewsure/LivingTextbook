@@ -1802,6 +1802,11 @@ front-door flows. Its reviewed selection wrapper supplies target-language
 audio, deterministic scoring, replay evidence, standard events, and completion
 gating. See ADR 0693, DR-765, and operating note OW-046.
 
+True or False is now promoted from preview to canonical behavior in the
+student and front-door flows. Its reviewed selection wrapper supplies
+target-language audio, deterministic scoring, replay evidence, standard
+events, and completion gating. See ADR 0694, DR-766, and operating note OW-047.
+
 The teacher recovery summary now treats `training_completed` as the sole
 authoritative recovery award record. Response-result metadata remains visible
 evidence but is excluded from the reward total, preventing one recovery action

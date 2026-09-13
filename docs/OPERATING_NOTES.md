@@ -1003,6 +1003,28 @@ Procedure:
 Why this matters: Assessment routes must report the same trustworthy evidence
 whether launched directly or from the curated student path.
 
+## OW-047: Promote Binary Assessment Activities
+
+Status: Active
+
+Observed behavior: A binary assessment wrapper can be contract-compliant on
+its direct route but still be preview-only in the curated launch flow.
+
+Procedure:
+
+1. Confirm the prompt, visible content, and answer choices have target-language
+   audio support.
+2. Confirm deterministic round completion, replay evidence, standard events,
+   and shared completion validation.
+3. Mount the wrapper explicitly in student and front-door flows.
+4. Keep support language, media, uploads, and random rewards outside
+   progression authority.
+5. Extend `verify:canonical-games`, then run web typecheck, production build,
+   and route verification.
+
+Why this matters: Simple assessment modes should be as trustworthy in a
+curated pathway as they are on their standalone route.
+
 ## OW-037: Normalized Mastery Award Evidence
 
 Status: Active
