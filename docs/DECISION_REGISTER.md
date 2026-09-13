@@ -4183,3 +4183,10 @@ True or False is now mounted as a canonical selection activity in the student
 and front-door flows, preserving shared audio, deterministic scoring, replay,
 progression, and completion evidence. See ADR 0694 and
 `docs/decision-register/DR-766-true-false-canonical-entry-integration.md`.
+
+# DR-767: Type Answer Canonical Entry Integration
+
+Type Answer is now mounted as a canonical text-spelling activity in the
+student and front-door flows, preserving shared audio, deterministic scoring,
+replay, progression, and completion evidence. See ADR 0695 and
+`docs/decision-register/DR-767-type-answer-canonical-entry-integration.md`.

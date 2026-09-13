@@ -1807,6 +1807,11 @@ student and front-door flows. Its reviewed selection wrapper supplies
 target-language audio, deterministic scoring, replay evidence, standard
 events, and completion gating. See ADR 0694, DR-766, and operating note OW-047.
 
+Type Answer is now promoted from preview to canonical behavior in the student
+and front-door flows. Its reviewed text-spelling wrapper supplies prompt audio,
+input guidance, deterministic scoring, replay evidence, standard events, and
+completion gating. See ADR 0695, DR-767, and operating note OW-048.
+
 The teacher recovery summary now treats `training_completed` as the sole
 authoritative recovery award record. Response-result metadata remains visible
 evidence but is excluded from the reward total, preventing one recovery action

@@ -1025,6 +1025,28 @@ Procedure:
 Why this matters: Simple assessment modes should be as trustworthy in a
 curated pathway as they are on their standalone route.
 
+## OW-048: Promote Canonical Typed Responses
+
+Status: Active
+
+Observed behavior: A typed-response wrapper can be complete on its standalone
+route while the curated launch flow still shows only a preview.
+
+Procedure:
+
+1. Confirm the prompt, input label, feedback, and replay controls have
+   target-language audio support.
+2. Confirm deterministic answer comparison, standard events, replay evidence,
+   and shared completion validation.
+3. Mount the wrapper explicitly in student and front-door flows.
+4. Keep support language, media, uploads, and random rewards outside
+   progression authority.
+5. Extend `verify:canonical-games`, then run web typecheck, production build,
+   and route verification.
+
+Why this matters: Typed practice must remain auditable and consistent whether
+it is launched directly or from the curated pathway.
+
 ## OW-037: Normalized Mastery Award Evidence
 
 Status: Active

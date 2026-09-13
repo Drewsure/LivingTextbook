@@ -23,6 +23,7 @@ import { LabelItPracticeGame } from "@/features/game-shell/pairing/LabelItPracti
 import { BalloonPopPracticeGame } from "@/features/game-shell/selection/BalloonPopPracticeGame";
 import { QuizPracticeGame } from "@/features/game-shell/selection/QuizPracticeGame";
 import { TrueFalsePracticeGame } from "@/features/game-shell/selection/TrueFalsePracticeGame";
+import { TypeAnswerPracticeGame } from "@/features/game-shell/text-spelling/TypeAnswerPracticeGame";
 import { PairingEnginePreview } from "@/features/game-shell/pairing/PairingEnginePreview";
 import { validateCanonicalGameCompletion } from "@/features/game-shell/canonicalGameCompletionGate";
 import {
@@ -414,7 +415,17 @@ export function StudentLaunchFlow({
           onComplete={handleGameComplete}
         />
       )}
-      {activeGameMode && activeGameMode !== "memory-match" && activeGameMode !== "match-up" && activeGameMode !== "label-it" && activeGameMode !== "balloon-pop" && activeGameMode !== "quiz" && activeGameMode !== "true-false" && (
+      {activeGameMode === "type-answer" && (
+        <TypeAnswerPracticeGame
+          unit={unit}
+          launchSession={launchSession}
+          progression={currentProgression}
+          audioCues={audioCues}
+          onEvent={handleGameEvent}
+          onComplete={handleGameComplete}
+        />
+      )}
+      {activeGameMode && activeGameMode !== "memory-match" && activeGameMode !== "match-up" && activeGameMode !== "label-it" && activeGameMode !== "balloon-pop" && activeGameMode !== "quiz" && activeGameMode !== "true-false" && activeGameMode !== "type-answer" && (
         <PairingEnginePreview unit={unit} gameMode={activeGameMode} />
       )}
       {recoveryRecommendation && (

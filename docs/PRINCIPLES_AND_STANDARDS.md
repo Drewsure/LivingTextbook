@@ -2030,4 +2030,19 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-765 and
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-766 and
 `docs/adr/0694-true-false-canonical-entry-integration.md`.
 
+## 129. Canonical Typed-Response Standard
+
+- Typed-response modes may enter a curated launch path only when prompt,
+  input guidance, feedback, replay, target-language audio, deterministic
+  scoring, identity, event, and completion contracts are satisfied.
+- Student and front-door surfaces must explicitly mount promoted typed-response
+  wrappers and route their evidence through the shared completion gate.
+- Support language, media, uploads, and random rewards cannot unlock or award
+  progress or replace target-language response activity.
+- Unpromoted typed-response modes remain preview-only until their launch-surface
+  review is complete.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-767 and
+`docs/adr/0695-type-answer-canonical-entry-integration.md`.
+
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-615 and `docs/adr/0543-progress-event-timestamps.md`.
