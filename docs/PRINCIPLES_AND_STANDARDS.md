@@ -1969,4 +1969,19 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-761 and
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-762 and
 `docs/adr/0690-shared-next-recommended-mode-policy.md`.
 
+## 125. Reviewed Activity Promotion Standard
+
+- A recommended mode may be promoted into a launch surface only after its
+  wrapper satisfies the shared event, audio, deterministic scoring, identity,
+  and completion contracts.
+- Student and front-door surfaces must explicitly mount each promoted mode;
+  a recommendation must never imply that a preview is a completed activity.
+- Asset-dependent modes remain review-only for live uploads until rights,
+  safety, metadata, anchor, audio, storage, and release gates are satisfied.
+- Unpromoted modes remain visible previews and cannot emit accepted mastery or
+  Star Dust through a launch surface.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-763 and
+`docs/adr/0691-label-it-canonical-entry-integration.md`.
+
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-615 and `docs/adr/0543-progress-event-timestamps.md`.

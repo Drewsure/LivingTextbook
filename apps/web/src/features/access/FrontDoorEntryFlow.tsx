@@ -16,6 +16,7 @@ import type {
 import { AudioSupportedAction } from "@/features/audio/AudioSupportedAction";
 import { PairingMatchUpGame } from "@/features/game-shell/pairing/PairingMatchUpGame";
 import { PairingMemoryMatchGame } from "@/features/game-shell/pairing/PairingMemoryMatchGame";
+import { LabelItPracticeGame } from "@/features/game-shell/pairing/LabelItPracticeGame";
 import { PairingEnginePreview } from "@/features/game-shell/pairing/PairingEnginePreview";
 import { validateCanonicalGameCompletion } from "@/features/game-shell/canonicalGameCompletionGate";
 import { UnitMediaEngagementPanel } from "@/features/multimedia/UnitMediaEngagementPanel";
@@ -333,7 +334,19 @@ export function FrontDoorEntryFlow({
                 onComplete={handleGameComplete}
               />
             )}
-            {activeGameMode && activeGameMode !== "match-up" && activeGameMode !== "memory-match" && <PairingEnginePreview unit={unit} gameMode={activeGameMode} />}
+            {activeGameMode === "label-it" && (
+              <LabelItPracticeGame
+                unit={unit}
+                launchSession={launchSession}
+                progression={currentProgression}
+                audioCues={contentPackage.audioCues}
+                onEvent={handleProgressEvent}
+                onComplete={handleGameComplete}
+              />
+            )}
+            {activeGameMode && activeGameMode !== "match-up" && activeGameMode !== "memory-match" && activeGameMode !== "label-it" && (
+              <PairingEnginePreview unit={unit} gameMode={activeGameMode} />
+            )}
             {eventContractErrors.length > 0 ? (
               <aside className="rounded-lg border border-rose-300 bg-rose-50 p-4 text-sm text-rose-950" aria-live="polite">
                 <p className="font-bold">Canonical game contract needs review</p>

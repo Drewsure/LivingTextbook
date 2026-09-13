@@ -4154,3 +4154,11 @@ tenant's ordered recommendation list. This prevents a completed first game
 from recurring as the permanent next activity while keeping unlock authority
 in progression state. See ADR 0690 and
 `docs/decision-register/DR-762-shared-next-recommended-mode-policy.md`.
+
+# DR-763: Label It Canonical Entry Integration
+
+Label It is now mounted as a canonical reviewed activity in student and
+front-door launch flows, using the shared event, audio, scoring, progression,
+and completion contracts. Live image upload remains outside this integration
+boundary. See ADR 0691 and
+`docs/decision-register/DR-763-label-it-canonical-entry-integration.md`.

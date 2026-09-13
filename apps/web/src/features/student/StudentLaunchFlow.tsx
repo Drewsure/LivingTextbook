@@ -19,6 +19,7 @@ import {
 import type { TeacherAssignmentPlan } from "@living-textbook/content-model/src/teacherAssignment";
 import { PairingMemoryMatchGame } from "@/features/game-shell/pairing/PairingMemoryMatchGame";
 import { PairingMatchUpGame } from "@/features/game-shell/pairing/PairingMatchUpGame";
+import { LabelItPracticeGame } from "@/features/game-shell/pairing/LabelItPracticeGame";
 import { PairingEnginePreview } from "@/features/game-shell/pairing/PairingEnginePreview";
 import { validateCanonicalGameCompletion } from "@/features/game-shell/canonicalGameCompletionGate";
 import {
@@ -370,7 +371,17 @@ export function StudentLaunchFlow({
           onComplete={handleGameComplete}
         />
       )}
-      {activeGameMode && activeGameMode !== "memory-match" && activeGameMode !== "match-up" && (
+      {activeGameMode === "label-it" && (
+        <LabelItPracticeGame
+          unit={unit}
+          launchSession={launchSession}
+          progression={currentProgression}
+          audioCues={audioCues}
+          onEvent={handleGameEvent}
+          onComplete={handleGameComplete}
+        />
+      )}
+      {activeGameMode && activeGameMode !== "memory-match" && activeGameMode !== "match-up" && activeGameMode !== "label-it" && (
         <PairingEnginePreview unit={unit} gameMode={activeGameMode} />
       )}
       {recoveryRecommendation && (

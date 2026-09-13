@@ -941,6 +941,26 @@ Procedure:
 Why this matters: Students move through the curated pathway predictably, and
 white-label tenants can reorder reviewed activities without code forks.
 
+## OW-044: Promote Only Reviewed Next Activities
+
+Status: Active
+
+Observed behavior: A recommendation can advance to a mode that is already
+implemented but still mounted as a preview on a launch surface.
+
+Procedure:
+
+1. Confirm the wrapper emits the standard start, round, answer, audio,
+   mastery, and completion evidence.
+2. Confirm it uses deterministic scoring and the shared completion gate.
+3. Mount it explicitly for the student and front-door surfaces.
+4. Keep live uploads and unreviewed modes outside the promoted wrapper.
+5. Extend `verify:canonical-games`, then run web typecheck, production build,
+   and route verification.
+
+Why this matters: The curated path only promises activities that can actually
+record safe, tenant-bound progress.
+
 ## OW-037: Normalized Mastery Award Evidence
 
 Status: Active

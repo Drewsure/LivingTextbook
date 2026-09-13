@@ -1786,6 +1786,12 @@ and completion handoff. This removes the recurring-first-mode defect while
 preserving separate unlock and Training Academy recovery decisions. See ADR
 0690, DR-762, and operating note OW-043.
 
+Label It is now promoted from preview to canonical behavior in the student and
+front-door flows. The existing reviewed-image wrapper supplies shared audio,
+deterministic pairing scoring, standard event evidence, and completion gating;
+live image upload remains blocked behind the asset policy. See ADR 0691, DR-763,
+and operating note OW-044.
+
 The teacher recovery summary now treats `training_completed` as the sole
 authoritative recovery award record. Response-result metadata remains visible
 evidence but is excluded from the reward total, preventing one recovery action
