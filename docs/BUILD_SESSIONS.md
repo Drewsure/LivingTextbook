@@ -2037,12 +2037,12 @@ evidence passes review. See `docs/adr/0717-active-phaser-candidate-order.md`.
 ## 0718 - Platform replay seed injection boundary
 
 The canonical route shell now accepts an optional `platformReplaySeed` and
-uses it as the single replay seed for the mounted game. If no platform seed is
-provided, the existing deterministic unit-and-mode seed remains active. This
-creates a future Phaser/provider handoff point without enabling source import,
-route replacement, live persistence, or student assignment behavior. The
-canonical integration verifier checks both the optional input and the
-deterministic fallback. See `docs/adr/0718-platform-replay-seed-injection-boundary.md`.
+passes it through the shared resolver. Only a valid transport-safe seed is
+used; absent or malformed input falls back to the deterministic unit-and-mode
+seed. This creates a future Phaser/provider handoff point without enabling
+source import, route replacement, live persistence, or student assignment
+behavior. The canonical integration verifier and runtime harness check the
+input, validation, and fallback. See `docs/adr/0718-platform-replay-seed-injection-boundary.md`.
 
 ## 0719 - Memory Match source mapping review
 

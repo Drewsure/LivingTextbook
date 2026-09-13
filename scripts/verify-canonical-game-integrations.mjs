@@ -260,8 +260,12 @@ if (!routeShell.includes("platformReplaySeed?: string")) {
   failures.push("route shell: canonical replay seed must expose an optional platform-issued seed input");
 }
 
-if (!routeShell.includes("platformReplaySeed ?? createCanonicalGameReplaySeed({ unitKey: launchSession.unitKey, gameMode })")) {
-  failures.push("route shell: canonical replay seed must be created at the shared handoff boundary");
+if (!routeShell.includes("resolveCanonicalGameReplaySeed({")) {
+  failures.push("route shell: canonical replay seed must be resolved at the shared handoff boundary");
+}
+
+if (!routeShell.includes("platformReplaySeed,")) {
+  failures.push("route shell: platform-issued replay seed must be passed to the canonical resolver");
 }
 
 if (!routeShell.includes("replaySeed,")) {

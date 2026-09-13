@@ -4417,12 +4417,13 @@ integration proposal. See `docs/PHASER_MEMORY_MATCH_MAPPING_REVIEW.md`.
 # DR-791: Platform Replay Seed Injection Boundary
 
 The canonical route shell exposes an optional `platformReplaySeed` input for
-future platform-issued or approved provider-issued replay seeds. When it is
-omitted, the shell retains the deterministic unit-and-mode seed. The shell
-remains the single handoff authority and mounted games must receive and reuse
-the resulting seed for every required event. This reserves a stable Phaser
-integration seam without importing frozen source, enabling persistence,
-provider networking, or live assignment behavior. See ADR 0718.
+future platform-issued or approved provider-issued replay seeds. Only a valid
+transport-safe seed is accepted; an absent or malformed value falls back to
+the deterministic unit-and-mode seed. The shell remains the single handoff
+authority and mounted games must receive and reuse the resulting seed for
+every required event. This reserves a stable Phaser integration seam without
+importing frozen source, enabling persistence, provider networking, or live
+assignment behavior. See ADR 0718.
 
 # DR-789: Route-Shell Replay Seed Ownership
 

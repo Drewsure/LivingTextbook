@@ -2239,8 +2239,8 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-792 and
 
 - The canonical route shell may accept an optional platform-issued replay seed
   as the only future provider or Phaser injection point.
-- When no issued seed exists, the deterministic unit-and-mode seed remains the
-  required fallback so local demos and review fixtures stay reproducible.
+- When no valid issued seed exists, the deterministic unit-and-mode seed remains
+  the required fallback so local demos and review fixtures stay reproducible.
 - Mounted games must reuse the resolved seed for start, interaction, learning
   audio, and completion evidence; components must not derive a second seed.
 - This interface does not authorize source import, route replacement, live

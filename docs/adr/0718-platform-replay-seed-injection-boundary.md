@@ -16,7 +16,8 @@ prevent.
 `PlayableGameRouteShell` exposes an optional `platformReplaySeed` input. The
 shell resolves the seed as follows:
 
-1. Use the supplied platform seed when present.
+1. Use the supplied platform seed only when it is a valid transport-safe
+   `replay-v1:` value.
 2. Otherwise use the deterministic unit-and-mode `replay-v1:` fallback.
 3. Pass the resolved value to the mounted game as required `replaySeed` data.
 
@@ -29,6 +30,8 @@ component-local seed derivation.
 
 - A future approved Phaser wrapper has one explicit injection point.
 - Local demos remain deterministic and do not need a backend service.
+- Malformed provider input cannot enter canonical evidence; it resolves to the
+  deterministic fallback.
 - Replay evidence can later be bound to a platform session without changing
   the game component contract.
 - The boundary alone does not enable persistence, networking, assignment,

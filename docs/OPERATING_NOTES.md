@@ -1251,10 +1251,11 @@ Do not recreate the seed inside a game component. Run
 changing this boundary. See ADR 0716.
 
 `PlayableGameRouteShell` also accepts an optional `platformReplaySeed` for a
-future approved platform or Phaser adapter. Use that input only at the shared
-route-shell boundary; do not derive or replace it inside a game. The fallback
-remains the deterministic unit-and-mode seed, and every start, interaction,
-audio, and completion event must reuse the resulting value. This is an
-integration seam, not permission to import frozen source or enable live writes.
+future approved platform or Phaser adapter. The shared resolver accepts only
+a valid transport-safe seed and falls back deterministically for absent or
+malformed input. Use that input only at the route-shell boundary; do not derive
+or replace it inside a game. Every start, interaction, audio, and completion
+event must reuse the resolved value. This is an integration seam, not
+permission to import frozen source or enable live writes.
 Run `npm run verify:canonical-games` and `npm run verify:foundation` after
 changing it. See ADR 0718.

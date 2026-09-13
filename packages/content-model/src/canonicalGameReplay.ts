@@ -16,6 +16,24 @@ export function isCanonicalGameReplaySeed(value: unknown): value is string {
   return typeof value === "string" && /^replay-v1:[A-Za-z0-9](?:[A-Za-z0-9:-]*[A-Za-z0-9])?$/.test(value);
 }
 
+export interface CanonicalGameReplaySeedResolutionInput extends CanonicalGameReplaySeedInput {
+  platformReplaySeed?: string;
+}
+
+/**
+ * Resolves a future platform-issued seed without allowing malformed provider
+ * input to cross the canonical event boundary.
+ */
+export function resolveCanonicalGameReplaySeed({
+  unitKey,
+  gameMode,
+  platformReplaySeed,
+}: CanonicalGameReplaySeedResolutionInput): string {
+  return isCanonicalGameReplaySeed(platformReplaySeed)
+    ? platformReplaySeed
+    : createCanonicalGameReplaySeed({ unitKey, gameMode });
+}
+
 export interface CanonicalCompletionIdempotencyKeyInput {
   tenantId: string;
   unitKey: string;

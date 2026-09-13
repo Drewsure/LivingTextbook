@@ -328,6 +328,22 @@ try {
   assertIncludes(malformedCanonicalIdentityErrors, "Canonical game event round_shown must include unit identity.");
 
   const suppliedReplaySeed = "replay-v1:platform-supplied-memory-match-seed";
+  assertEqual(
+    contentModel.resolveCanonicalGameReplaySeed({
+      unitKey: "tenant-1:curriculum-1:L1:U1",
+      gameMode: "memory-match",
+      platformReplaySeed: suppliedReplaySeed,
+    }),
+    suppliedReplaySeed,
+  );
+  assertEqual(
+    contentModel.resolveCanonicalGameReplaySeed({
+      unitKey: "tenant-1:curriculum-1:L1:U1",
+      gameMode: "memory-match",
+      platformReplaySeed: "replay-v1:",
+    }),
+    contentModel.createCanonicalGameReplaySeed({ unitKey: "tenant-1:curriculum-1:L1:U1", gameMode: "memory-match" }),
+  );
   const adapterLaunchSession = {
     tenantId: "tenant-1",
     unitKey: "tenant-1:curriculum-1:L1:U1",
