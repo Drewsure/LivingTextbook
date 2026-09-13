@@ -326,7 +326,8 @@ for (const [surface, source] of [
 for (const [surface, source, fragment] of [
   ["local progression adapter", localProgressionAdapter, "isLaunchGameModeSupported"],
   ["local progression adapter", localProgressionAdapter, "isGameModeSupportedAtLevel"],
-  ["local progression adapter", localProgressionAdapter, "replaySeed: args.replaySeed ?? createCanonicalGameReplaySeed"],
+  ["local progression adapter", localProgressionAdapter, "function resolveReplaySeed"],
+  ["local progression adapter", localProgressionAdapter, "metadata?.replaySeed"],
   ["playable route shell", playableRouteShell, "gameSupportedAtLevel"],
   ["recommended routes card", recommendedRoutesCard, "isGameModeSupportedAtLevel"],
   ["recommended routes card", recommendedRoutesCard, "offerMap.level"],
