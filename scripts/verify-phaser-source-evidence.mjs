@@ -1,6 +1,6 @@
 import { createHash } from "node:crypto";
 import { existsSync, readFileSync } from "node:fs";
-import { dirname, join, resolve } from "node:path";
+import { dirname, isAbsolute, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
@@ -26,7 +26,12 @@ if (!existsSync(snapshotRoot)) {
 
 const mismatches = [];
 for (const evidence of manifest) {
-  const filePath = join(snapshotRoot, evidence.path);
+  const filePath = resolve(snapshotRoot, evidence.path);
+  const relativePath = relative(snapshotRoot, filePath);
+  if (isAbsolute(evidence.path) || relativePath === ".." || relativePath.startsWith(".." + sep)) {
+    mismatches.push(`${evidence.path}: path escapes the isolated snapshot`);
+    continue;
+  }
   if (!existsSync(filePath)) {
     mismatches.push(`${evidence.path}: file is missing`);
     continue;

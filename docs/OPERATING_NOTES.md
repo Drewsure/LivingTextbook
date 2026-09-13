@@ -1274,3 +1274,10 @@ or the folder named by `LIVING_TEXTBOOK_ZAI_REVIEW_ROOT`, and compares the
 review packet's SHA-256 manifest. A passing result proves source identity only;
 it never authorizes source import, route activation, or student assignment. Run
 it before reviewing a returned candidate package. See ADR 0724.
+
+The frozen-source checker must remain path-contained and read-only. Run
+`npm run verify:phaser-source-evidence-contract` after changing that checker;
+it rejects write, import, process, and application-path markers while requiring
+the isolated review-root and path-containment guards. This protects the
+review-only boundary before `npm run verify:phaser-source-evidence` is run.
+See ADR 0725.

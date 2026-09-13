@@ -2106,3 +2106,12 @@ Exposed the documented frozen-source reproducibility check as
 isolated snapshot with 5/5 hashes matching the frozen commit. This is an
 evidence identity check only; candidate return-package review remains the next
 external gate and source promotion remains blocked. See ADR 0724.
+
+## 0726 - Frozen source checker quarantine guard
+
+Hardened the frozen Phaser source evidence checker so manifest paths cannot
+escape the isolated snapshot. Added a contract verifier that requires the
+read-only hash and path-containment behavior and rejects write, import,
+process, or application-path markers. The foundation composition now includes
+20 critical checks. Candidate return-package review and source promotion
+remain blocked. See ADR 0725.

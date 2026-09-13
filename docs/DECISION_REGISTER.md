@@ -4520,3 +4520,13 @@ isolated review folder or `LIVING_TEXTBOOK_ZAI_REVIEW_ROOT`, compares the
 review packet's SHA-256 manifest, and reports source identity without changing
 the application. A passing check does not authorize candidate import, route
 activation, scoring ownership, persistence, or assignment. See ADR 0724.
+
+# DR-799: Frozen Source Checker Quarantine Guard
+
+Require the frozen Phaser source evidence checker to keep all manifest paths
+inside the configured isolated snapshot and remain read-only. The dedicated
+contract verifier must reject write, import, process, and application-path
+markers while requiring the review-root override and path-containment checks.
+This strengthens reproducibility without changing the review-only status or
+authorizing source import, route activation, scoring, persistence, or
+assignment. See ADR 0725.
