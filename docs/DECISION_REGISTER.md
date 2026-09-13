@@ -4349,3 +4349,11 @@ must reject duplicate completion writes and require atomic completion writes.
 The content model exposes the shared key generator, while database selection,
 live writes, and policy acceptance remain open. See ADR 0705 and
 `COMPLETION_IDEMPOTENCE_CHECKS.md`.
+
+# DR-779: Cross-Layer Persistence Alignment
+
+The persistence alignment validator now compares durable progress-event
+records with hosted and local adapter intents. Completion key fields,
+duplicate-completion rejection, and atomic-write requirements must match across
+both layers. This prevents provider drift before database selection or live
+writes and is covered by the runtime behavior harness. See ADR 0706.

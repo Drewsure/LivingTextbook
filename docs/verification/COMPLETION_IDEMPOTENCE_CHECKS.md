@@ -43,3 +43,7 @@ Run the broader executable coverage with:
 npm run verify:runtime-behavior
 npm run verify:backend-storage
 ```
+
+The runtime behavior harness also checks cross-layer alignment: a valid
+progress-event record and adapter intent pass together, while a missing
+completion key field or mismatched atomic-write flag is rejected.

@@ -2143,3 +2143,16 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-615 and `docs/adr/05
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-778 and
 `docs/adr/0705-durable-completion-idempotency.md`.
+
+## 135. Cross-Layer Persistence Alignment Standard
+
+- Durable records and hosted/local adapter intents must be checked together,
+  not only validated independently.
+- Progress-event completion key fields must match across both layers.
+- Duplicate-completion rejection and atomic-write requirements must match
+  across both layers.
+- Any mismatch blocks provider selection and live persistence planning until
+  the contract is corrected and the runtime harness passes.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-779 and
+`docs/adr/0706-persistence-alignment-idempotency.md`.

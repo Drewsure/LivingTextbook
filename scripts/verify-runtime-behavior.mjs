@@ -1131,6 +1131,57 @@ try {
     idempotencyKey: "completion-v1:tenant-1:unit-1:launch-1:student-1:memory-match",
   });
   assertEqual(progressWriteWithIdempotencyKeyErrors.length, 0);
+  const alignedProgressRecord = {
+    recordId: "progress-event-record",
+    category: "progress-event-stream",
+    preservesTenantBoundary: true,
+    tenantBoundaryKey: "tenant_id",
+    preservesCompletionIdempotency: true,
+    completionIdempotencyKeyFields: ["tenant_id", "unit_key", "launch_code", "student_session_id", "game_mode"],
+    rejectsDuplicateCompletionWrites: true,
+    requiresAtomicCompletionWrite: true,
+  };
+  const alignedProgressIntent = {
+    intentId: "progress-event-intent",
+    category: "progress-event-stream",
+    preservesTenantBoundary: true,
+    tenantBoundaryKey: "tenant_id",
+    preservesCompletionIdempotency: true,
+    completionIdempotencyKeyFields: ["tenant_id", "unit_key", "launch_code", "student_session_id", "game_mode"],
+    rejectsDuplicateCompletionWrites: true,
+    requiresAtomicCompletionWrite: true,
+  };
+  assertEqual(
+    persistenceConsistency.validatePersistenceContractAlignment({
+      durableRecords: [alignedProgressRecord],
+      requiredCategories: ["progress-event-stream"],
+      adapterPlans: [{ writeIntents: [alignedProgressIntent] }],
+    }).length,
+    0,
+  );
+  assertIncludes(
+    persistenceConsistency.validatePersistenceContractAlignment({
+      durableRecords: [alignedProgressRecord],
+      requiredCategories: ["progress-event-stream"],
+      adapterPlans: [{
+        writeIntents: [{
+          ...alignedProgressIntent,
+          completionIdempotencyKeyFields: ["tenant_id", "unit_key", "launch_code", "student_session_id"],
+        }],
+      }],
+    }),
+    "Persistence alignment requires progress-event-stream adapter intent progress-event-intent to preserve completion idempotency key field game_mode.",
+  );
+  assertIncludes(
+    persistenceConsistency.validatePersistenceContractAlignment({
+      durableRecords: [alignedProgressRecord],
+      requiredCategories: ["progress-event-stream"],
+      adapterPlans: [{
+        writeIntents: [{ ...alignedProgressIntent, requiresAtomicCompletionWrite: false }],
+      }],
+    }),
+    "Persistence alignment requires progress-event-stream adapter intent progress-event-intent to match durable atomic completion writes.",
+  );
   const malformedPersistenceFlagErrors = persistence.validatePersistenceRuntimeRequest({
     ...persistenceRequest,
     containsStudentData: "true",

@@ -1180,3 +1180,8 @@ across hosted and local adapters. Use
 progress-event write that has no key. Atomic create-or-return-existing behavior
 is required before live persistence is enabled; this remains a contract, not a
 database selection or write approval. See ADR 0705 and DR-778.
+
+The cross-layer persistence alignment check must remain enabled when a new
+hosted or local intent is added. Confirm its completion key fields, duplicate
+rejection, and atomic-write flags match the durable progress-event record; an
+isolated adapter validator is not sufficient. See ADR 0706.

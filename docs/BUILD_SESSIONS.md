@@ -1944,3 +1944,9 @@ requests reject missing keys. The shared key generator keeps retry behavior
 portable across the future hosted/local adapters. Atomic create-or-return-
 existing storage and policy approval remain required before live writes. See
 ADR 0705 and DR-778.
+
+The persistence alignment validator now compares the durable progress-event
+record with every hosted/local adapter intent. It rejects drift in completion
+key fields, duplicate-rejection behavior, or atomic-write requirements before
+provider selection. The runtime harness covers aligned and mismatched cases.
+See ADR 0706.

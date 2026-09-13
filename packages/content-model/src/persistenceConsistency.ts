@@ -15,6 +15,55 @@ export interface PersistenceContractAlignmentInput {
   requiredCategories?: Iterable<PersistenceRecordCategory>;
 }
 
+function validateCompletionIdempotencyAlignment(
+  records: DurableRecordContract[],
+  intents: PersistenceWriteIntent[],
+  errors: string[],
+): void {
+  if (records.length === 0 || intents.length === 0) {
+    return;
+  }
+
+  const record = records.find((candidate) => candidate.preservesCompletionIdempotency);
+  if (!record) {
+    return;
+  }
+
+  const recordFields = new Set(record.completionIdempotencyKeyFields ?? []);
+  for (const intent of intents) {
+    if (!intent.preservesCompletionIdempotency) {
+      continue;
+    }
+
+    const intentFields = new Set(intent.completionIdempotencyKeyFields ?? []);
+    for (const field of recordFields) {
+      if (!intentFields.has(field)) {
+        errors.push(
+          `Persistence alignment requires progress-event-stream adapter intent ${intent.intentId} to preserve completion idempotency key field ${field}.`,
+        );
+      }
+    }
+    for (const field of intentFields) {
+      if (!recordFields.has(field)) {
+        errors.push(
+          `Persistence alignment requires progress-event-stream durable record ${record.recordId} to declare completion idempotency key field ${field}.`,
+        );
+      }
+    }
+
+    if (record.rejectsDuplicateCompletionWrites !== intent.rejectsDuplicateCompletionWrites) {
+      errors.push(
+        `Persistence alignment requires progress-event-stream adapter intent ${intent.intentId} to match durable duplicate-completion rejection.`,
+      );
+    }
+    if (record.requiresAtomicCompletionWrite !== intent.requiresAtomicCompletionWrite) {
+      errors.push(
+        `Persistence alignment requires progress-event-stream adapter intent ${intent.intentId} to match durable atomic completion writes.`,
+      );
+    }
+  }
+}
+
 /**
  * Checks the cross-layer invariants that cannot be proven by either validator
  * in isolation.
@@ -87,6 +136,12 @@ export function validatePersistenceContractAlignment({
       }
     }
   }
+
+  validateCompletionIdempotencyAlignment(
+    recordsByCategory.get("progress-event-stream") ?? [],
+    intentsByCategory.get("progress-event-stream") ?? [],
+    errors,
+  );
 
   for (const [category, records] of recordsByCategory) {
     const intents = intentsByCategory.get(category);
