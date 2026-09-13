@@ -11,6 +11,11 @@ export function createCanonicalGameReplaySeed({ unitKey, gameMode }: CanonicalGa
   return `replay-v1:${normalizedUnitKey}:${gameMode}`;
 }
 
+/** Returns true only for a non-empty, transport-safe canonical replay seed. */
+export function isCanonicalGameReplaySeed(value: unknown): value is string {
+  return typeof value === "string" && /^replay-v1:[A-Za-z0-9](?:[A-Za-z0-9:-]*[A-Za-z0-9])?$/.test(value);
+}
+
 export interface CanonicalCompletionIdempotencyKeyInput {
   tenantId: string;
   unitKey: string;

@@ -2005,3 +2005,11 @@ The adapter also preserves the existing metadata-carried replay seed path for
 current game components. Explicit arguments take priority, so both current
 wrappers and future platform-issued seeds remain compatible with the one-seed
 canonical event rule.
+
+## 0715 - Fail-closed replay seed and identity validation
+
+The canonical replay contract now validates the complete seed shape rather than
+only its prefix, rejecting empty or unsafe values. The shared event validator
+also uses non-blank identity reads for unit keys so malformed runtime evidence
+returns a validation error instead of throwing. Runtime regression coverage
+proves both rejection paths. See `docs/adr/0715-fail-closed-replay-validation.md`.

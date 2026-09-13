@@ -316,6 +316,16 @@ try {
     "flashcards",
   ).errors;
   assertIncludes(missingCanonicalReplayErrors, "Canonical game event answer_result must carry replay-v1 evidence.");
+  const emptyCanonicalReplayErrors = canonicalGame.validateCanonicalGameEventSequence(
+    canonicalEvents.map((event) => event.type === "round_shown" ? { ...event, metadata: { ...event.metadata, replaySeed: "replay-v1:" } } : event),
+    "flashcards",
+  ).errors;
+  assertIncludes(emptyCanonicalReplayErrors, "Canonical game event round_shown must carry replay-v1 evidence.");
+  const malformedCanonicalIdentityErrors = canonicalGame.validateCanonicalGameEventSequence(
+    canonicalEvents.map((event) => event.type === "round_shown" ? { ...event, unitKey: undefined } : event),
+    "flashcards",
+  ).errors;
+  assertIncludes(malformedCanonicalIdentityErrors, "Canonical game event round_shown must include unit identity.");
 
   const suppliedReplaySeed = "replay-v1:platform-supplied-memory-match-seed";
   const adapterLaunchSession = {

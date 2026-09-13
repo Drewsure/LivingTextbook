@@ -1,4 +1,5 @@
 import { UNIT_STAR_DUST_CAP } from "./economyPolicy";
+import { isCanonicalGameReplaySeed } from "./canonicalGameReplay";
 import type { GameEventType, GameModeId, GameProgressEvent } from "./index";
 
 export const CANONICAL_GAME_REQUIRED_EVENT_ORDER = [
@@ -49,7 +50,7 @@ export function validateCanonicalGameEventSequence(
     if (readNonBlankString(event.metadata?.tenantId) === undefined) {
       errors.push(`Canonical game event ${event.type} must include tenantId metadata.`);
     }
-    if (!event.unitKey.trim()) {
+    if (readNonBlankString(event.unitKey) === undefined) {
       errors.push(`Canonical game event ${event.type} must include unit identity.`);
     }
     if (!event.launchCode?.trim()) {
@@ -260,7 +261,7 @@ export function validateCanonicalGameEventSequence(
   for (const event of events) {
     if (
       replayEvidenceRequiredTypes.includes(event.type)
-      && (typeof event.metadata?.replaySeed !== "string" || !event.metadata.replaySeed.startsWith("replay-v1:"))
+      && !isCanonicalGameReplaySeed(event.metadata?.replaySeed)
     ) {
       errors.push(`Canonical game event ${event.type} must carry replay-v1 evidence.`);
     }

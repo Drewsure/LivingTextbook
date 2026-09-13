@@ -1237,3 +1237,8 @@ Run `npm run verify:runtime-behavior` when changing this boundary. See ADR
 Current game components may still carry `replaySeed` in event metadata. The
 adapter preserves that value when no explicit argument is supplied; new
 wrappers should pass the explicit `replaySeed` argument, which takes priority.
+
+Replay evidence must use a non-empty transport-safe `replay-v1:` seed. The
+canonical validator rejects empty or unsafe seeds and reports missing unit
+identity without throwing. Keep malformed evidence on the review path and run
+`npm run verify:runtime-behavior` when changing this boundary. See ADR 0715.

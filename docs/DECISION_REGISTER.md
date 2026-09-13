@@ -4418,6 +4418,13 @@ metadata when no explicit argument is provided. Explicit platform arguments
 take priority, followed by metadata compatibility, followed by the deterministic
 unit-and-mode fallback. See ADR 0714.
 
+# DR-788: Fail-Closed Replay Seed and Identity Validation
+
+Canonical replay validation now rejects empty or transport-unsafe `replay-v1:`
+values and reports missing unit identity instead of throwing on malformed
+runtime evidence. This keeps candidate packages and future provider payloads
+fail-closed at the shared validator boundary. See ADR 0715.
+
 # DR-786: Canonical Replay Seed Consistency
 
 Canonical game evidence now requires one identical `replay-v1:` seed across

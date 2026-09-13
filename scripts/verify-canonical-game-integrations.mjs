@@ -533,6 +533,7 @@ for (const fragment of ["function withTenantMetadata", "tenantId: launchSession.
 
 for (const fragment of [
   "createCanonicalGameReplaySeed",
+  "isCanonicalGameReplaySeed",
   "replay-v1:",
   "replaySeed",
 ]) {

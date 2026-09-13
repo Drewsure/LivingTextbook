@@ -2231,6 +2231,18 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-786 and
 - Existing metadata-carried seeds remain compatible during migration, but new
   wrappers should use the explicit argument.
 
+## 144. Fail-Closed Replay Evidence Standard
+
+- Canonical replay seeds must be non-empty and transport-safe after the
+  `replay-v1:` prefix; prefix-only values are invalid.
+- Shared event validation must return actionable errors for missing identity
+  fields rather than throwing on malformed runtime evidence.
+- Candidate evidence that fails these checks remains review-only and cannot
+  affect progression, reporting, rewards, or persistence.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-788 and
+`docs/adr/0715-fail-closed-replay-validation.md`.
+
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-787 and
 `docs/adr/0714-platform-supplied-replay-seed-threading.md`.
 
