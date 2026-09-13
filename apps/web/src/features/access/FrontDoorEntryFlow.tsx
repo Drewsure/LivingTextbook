@@ -18,6 +18,7 @@ import { PairingMatchUpGame } from "@/features/game-shell/pairing/PairingMatchUp
 import { PairingMemoryMatchGame } from "@/features/game-shell/pairing/PairingMemoryMatchGame";
 import { LabelItPracticeGame } from "@/features/game-shell/pairing/LabelItPracticeGame";
 import { BalloonPopPracticeGame } from "@/features/game-shell/selection/BalloonPopPracticeGame";
+import { QuizPracticeGame } from "@/features/game-shell/selection/QuizPracticeGame";
 import { PairingEnginePreview } from "@/features/game-shell/pairing/PairingEnginePreview";
 import { validateCanonicalGameCompletion } from "@/features/game-shell/canonicalGameCompletionGate";
 import { UnitMediaEngagementPanel } from "@/features/multimedia/UnitMediaEngagementPanel";
@@ -355,7 +356,17 @@ export function FrontDoorEntryFlow({
                 onComplete={handleGameComplete}
               />
             )}
-            {activeGameMode && activeGameMode !== "match-up" && activeGameMode !== "memory-match" && activeGameMode !== "label-it" && activeGameMode !== "balloon-pop" && (
+            {activeGameMode === "quiz" && (
+              <QuizPracticeGame
+                unit={unit}
+                launchSession={launchSession}
+                progression={currentProgression}
+                audioCues={contentPackage.audioCues}
+                onEvent={handleProgressEvent}
+                onComplete={handleGameComplete}
+              />
+            )}
+            {activeGameMode && activeGameMode !== "match-up" && activeGameMode !== "memory-match" && activeGameMode !== "label-it" && activeGameMode !== "balloon-pop" && activeGameMode !== "quiz" && (
               <PairingEnginePreview unit={unit} gameMode={activeGameMode} />
             )}
             {eventContractErrors.length > 0 ? (

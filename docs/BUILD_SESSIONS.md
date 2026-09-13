@@ -1797,6 +1797,11 @@ and front-door flows. Its reviewed selection wrapper supplies target-language
 audio, deterministic scoring, replay evidence, standard events, and completion
 gating. See ADR 0692, DR-764, and operating note OW-045.
 
+Quiz is now promoted from preview to canonical behavior in the student and
+front-door flows. Its reviewed selection wrapper supplies target-language
+audio, deterministic scoring, replay evidence, standard events, and completion
+gating. See ADR 0693, DR-765, and operating note OW-046.
+
 The teacher recovery summary now treats `training_completed` as the sole
 authoritative recovery award record. Response-result metadata remains visible
 evidence but is excluded from the reward total, preventing one recovery action

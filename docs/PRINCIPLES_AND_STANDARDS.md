@@ -1999,4 +1999,19 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-763 and
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-764 and
 `docs/adr/0692-balloon-pop-canonical-entry-integration.md`.
 
+## 127. Canonical Assessment Activity Standard
+
+- A reviewed assessment may enter a curated launch path only when target
+  language, audio, replay, deterministic scoring, identity, event, and
+  completion contracts are satisfied.
+- Student and front-door surfaces must mount promoted assessment wrappers
+  explicitly and route their evidence through the shared completion gate.
+- Support language, media, uploads, and random rewards cannot become
+  progression authority or replace target-language answer activity.
+- Unpromoted assessment modes remain preview-only until their launch-surface
+  review is complete.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-765 and
+`docs/adr/0693-quiz-canonical-entry-integration.md`.
+
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-615 and `docs/adr/0543-progress-event-timestamps.md`.

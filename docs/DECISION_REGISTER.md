@@ -4169,3 +4169,10 @@ Balloon Pop is now mounted as a canonical selection/arcade activity in the
 student and front-door flows, preserving shared audio, deterministic scoring,
 progression, and completion evidence. See ADR 0692 and
 `docs/decision-register/DR-764-balloon-pop-canonical-entry-integration.md`.
+
+# DR-765: Quiz Canonical Entry Integration
+
+Quiz is now mounted as a canonical selection activity in the student and
+front-door flows, preserving shared audio, deterministic scoring, replay,
+progression, and completion evidence. See ADR 0693 and
+`docs/decision-register/DR-765-quiz-canonical-entry-integration.md`.
