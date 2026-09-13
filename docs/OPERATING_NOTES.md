@@ -788,3 +788,27 @@ Procedure:
 
 Why this matters: Runtime evidence makes the all-games audio requirement a
 real platform boundary instead of a best-effort component convention.
+
+## OW-036: Progression Adapter Identity
+
+Status: Active
+
+Observed behavior: Route and report identity gates run later than a direct
+progression-adapter call, so a wrapper must not be allowed to create candidate
+progress before those later checks.
+
+Procedure:
+
+1. Compare progression and launch-session `unitKey`, `launchCode`, and
+   `studentSessionId` with `validateProgressionLaunchIdentity`.
+2. Return unchanged progression and zero award for entry or game completion
+   when the comparison fails.
+3. Return no `game_started` event when the comparison fails.
+4. Keep the check provider-neutral and side-effect-free; do not infer tenant
+   identity or write a recovery record from it.
+5. Run `npm run verify:progression-runtime`,
+   `npm run verify:canonical-games`, and the web typecheck after changing the
+   identity boundary.
+
+Why this matters: Identity is protected at the first scoring boundary, not
+only after a mismatched event has reached a route or report validator.

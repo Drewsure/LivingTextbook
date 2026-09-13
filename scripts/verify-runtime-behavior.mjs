@@ -202,6 +202,18 @@ try {
     }),
     "expectedTenantId is required.",
   );
+  assertEqual(
+    contentModel.validateProgressionLaunchIdentity(
+      { unitKey: "tenant-1:curriculum-1:L1:U1", launchCode: "launch-1", studentSessionId: "session-1" },
+      { unitKey: "tenant-1:curriculum-1:L1:U1", launchCode: "launch-1", studentSessionId: "session-1" },
+    ).length,
+    0,
+  );
+  const mismatchedProgressionIdentityErrors = contentModel.validateProgressionLaunchIdentity(
+    { unitKey: "tenant-1:curriculum-1:L1:U1", launchCode: "launch-2", studentSessionId: "session-1" },
+    { unitKey: "tenant-1:curriculum-1:L1:U1", launchCode: "launch-1", studentSessionId: "session-1" },
+  );
+  assertIncludes(mismatchedProgressionIdentityErrors, "Progression launch identity launchCode must match; progression has launch-2, launch session has launch-1.");
 
   const canonicalReplaySeed = "replay-v1:tenant-1:curriculum-1:L1:U1:flashcards";
   const canonicalEventContext = {

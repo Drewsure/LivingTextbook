@@ -1870,4 +1870,16 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-645 and `docs/adr/05
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-754 and
 `docs/adr/0682-canonical-game-audio-evidence-gate.md`.
 
+## 117. Progression Adapter Identity Standard
+
+- Entry completion, game start, and game completion must compare progression
+  and launch-session `unitKey`, `launchCode`, and `studentSessionId`.
+- A mismatch must produce no start event, no completion event, no unlock, no
+  score, and no Star Dust.
+- Identity validation is provider-neutral and side-effect-free; later route,
+  continuity, and report gates remain required defense in depth.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-755 and
+`docs/adr/0683-progression-adapter-identity-gate.md`.
+
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-615 and `docs/adr/0543-progress-event-timestamps.md`.

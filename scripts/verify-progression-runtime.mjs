@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 
 const source = readFileSync(new URL("../packages/content-model/src/progressionRuntime.ts", import.meta.url), "utf8");
 const economyPolicy = readFileSync(new URL("../packages/content-model/src/economyPolicy.ts", import.meta.url), "utf8");
+const identity = readFileSync(new URL("../packages/content-model/src/progressionIdentity.ts", import.meta.url), "utf8");
 const failures = [];
 
 for (const marker of [
@@ -41,6 +42,10 @@ for (const marker of [
   "sideEffect: \"none\"",
 ]) {
   if (!source.includes(marker)) failures.push(`progression runtime contract missing marker: ${marker}`);
+}
+
+if (!identity.includes("validateProgressionLaunchIdentity")) {
+  failures.push("progression identity contract missing marker: validateProgressionLaunchIdentity");
 }
 
 if (failures.length > 0) {

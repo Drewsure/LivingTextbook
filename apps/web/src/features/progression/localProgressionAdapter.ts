@@ -2,6 +2,7 @@ import {
   calculateStarDust,
   completeEntryPractice,
   createCanonicalGameReplaySeed,
+  validateProgressionLaunchIdentity,
   UNIT_STAR_DUST_CAP,
 } from "@living-textbook/content-model";
 import type {
@@ -20,7 +21,7 @@ export interface EntryPracticeCompletionResult {
   dust: StarDustBreakdown;
   events: GameProgressEvent[];
   completed: boolean;
-  blockedReason?: "target-language-gate";
+  blockedReason?: "target-language-gate" | "identity-mismatch";
 }
 
 export interface GameModeCompletionResult {
@@ -44,6 +45,16 @@ export function completeFlashcardEntryPractice(args: {
   targetLanguageEngagedItems: number;
   requiredTargetLanguageItems: number;
 }): EntryPracticeCompletionResult {
+  if (validateProgressionLaunchIdentity(args.progression, args.launchSession).length > 0) {
+    return {
+      progression: args.progression,
+      dust: zeroDust,
+      events: [],
+      completed: false,
+      blockedReason: "identity-mismatch",
+    };
+  }
+
   const alreadyCompleted = args.progression.completedGameModes.includes(args.launchSession.entryMode);
 
   if (alreadyCompleted) {
@@ -143,6 +154,10 @@ export function startUnlockedGameMode(args: {
   occurredAt: string;
   replaySeed?: string;
 }): GameProgressEvent | undefined {
+  if (validateProgressionLaunchIdentity(args.progression, args.launchSession).length > 0) {
+    return undefined;
+  }
+
   const modeIsUnlocked = args.progression.unlockedGameModes.includes(args.gameMode);
 
   if (!modeIsUnlocked) {
@@ -254,6 +269,13 @@ export function completeGameMode(args: {
   occurredAt: string;
   metadata?: Record<string, string | number | boolean>;
 }): GameModeCompletionResult {
+  if (validateProgressionLaunchIdentity(args.progression, args.launchSession).length > 0) {
+    return {
+      progression: args.progression,
+      earnedStarDust: 0,
+    };
+  }
+
   if (!args.progression.unlockedGameModes.includes(args.gameMode)) {
     return {
       progression: args.progression,

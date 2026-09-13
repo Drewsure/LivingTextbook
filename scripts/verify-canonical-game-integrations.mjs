@@ -329,6 +329,7 @@ for (const fragment of [
   "earnedStarDust: 0",
   "UNIT_STAR_DUST_CAP",
   "capUnitStarDust",
+  "validateProgressionLaunchIdentity",
 ]) {
   if (!progressionAdapter.includes(fragment)) {
     failures.push(`canonical game progression boundary: completion adapter must block locked modes: ${fragment}`);

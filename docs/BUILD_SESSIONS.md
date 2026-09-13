@@ -1746,3 +1746,9 @@ placeholder audio evidence now pauses completion and Star Dust for future DOM,
 canvas, or Phaser wrappers. Audio remains support-only and cannot unlock
 progress or replace answer activity.
 This is recorded in ADR 0682 and DR-754.
+
+The local progression adapter now applies the shared launch-identity check
+before entry completion, game start, and game completion. Mismatched unit,
+launch, or learner-session identity produces no start or completion evidence,
+no unlock, no score, and no Star Dust. This is recorded in ADR 0683 and
+DR-755.

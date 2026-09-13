@@ -417,6 +417,7 @@ function isVideoAsset(type: MediaAssetType): boolean {
 }
 
 export * from "./economyPolicy";
+export * from "./progressionIdentity";
 
 export function languageMatches(value: string, targetLanguage: string): boolean {
   const language = value.trim().toLowerCase();
