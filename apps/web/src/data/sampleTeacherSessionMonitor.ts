@@ -29,6 +29,7 @@ import {
 } from "@living-textbook/content-model";
 import { sampleClassroomLaunchGate } from "./sampleClassroomLaunchGate";
 import { resolveSampleLaunchContext } from "./sampleLaunchResolver";
+import { findSampleUnitGameOfferMap } from "./sampleUnitGameOfferMap";
 import { sampleProgressEventTaxonomyRegistry } from "./sampleProgressEventTaxonomy";
 import { createSampleTeacherSessionSettings } from "./sampleTeacherSessionSettings";
 import type { TenantConfig } from "@/features/tenant/types";
@@ -179,7 +180,8 @@ export function resolveSampleTeacherSessionMonitorContext(launchCode: string): T
   const isPartner = launchContext.tenant.id === "sample-publisher";
   const events = createSampleMonitorEvents(launchContext.launchSession, isPartner);
   const latestEvent = events[events.length - 1];
-  const progression = createMonitorProgression(launchContext.progression, launchContext.launchSession, latestEvent);
+  const offerMap = findSampleUnitGameOfferMap(launchContext.contentPackage.meta.packageId);
+  const progression = createMonitorProgression(launchContext.progression, launchContext.launchSession, latestEvent, offerMap);
   const sessionSettings = createMonitorSessionSettings(launchContext.launchSession, isPartner);
   const sessionSettingErrors = validateTeacherSessionSettings(sessionSettings);
   const sessionSettingWarnings = getTeacherSessionPersistenceWarnings(sessionSettings);
@@ -721,12 +723,19 @@ function createMonitorProgression(
   progression: StudentProgressionState,
   launchSession: LaunchSession,
   latestEvent?: GameProgressEvent,
+  offerMap?: import("./sampleUnitGameOfferMap").UnitGameOfferMap,
 ): StudentProgressionState {
+  const reviewedReadyModes = offerMap?.offers
+    .filter((offer) => offer.readiness === "ready")
+    .filter((offer) => offer.availability !== "hidden" && offer.availability !== "blocked")
+    .filter((offer) => offer.availability !== "teacher-only" && offer.availability !== "premium")
+    .map((offer) => offer.gameMode) ?? [];
+
   return {
     ...progression,
     currentStep: "completion-review",
-    unlockedGameModes: uniqueModes([...progression.unlockedGameModes, ...launchSession.recommendedNextModes, "label-it", "quiz", "true-false", "type-answer", "fill-in-the-blank", "sentence-builder", "speak-it"]),
-    completedGameModes: uniqueModes([...progression.completedGameModes, launchSession.entryMode, "label-it", "memory-match", "quiz", "true-false", "type-answer", "fill-in-the-blank", "sentence-builder"]),
+    unlockedGameModes: uniqueModes([...progression.unlockedGameModes, ...launchSession.recommendedNextModes, ...reviewedReadyModes]),
+    completedGameModes: uniqueModes([...progression.completedGameModes, launchSession.entryMode, ...reviewedReadyModes]),
     earnedStarDust: 1000,
     masteryStatus: "in-progress",
     lastEventAt: latestEvent?.occurredAt,
@@ -1162,18 +1171,6 @@ function createSampleMonitorEvents(launchSession: LaunchSession, isPartner: bool
       },
     },
     {
-      type: "game_started",
-      unitKey,
-      gameMode: "sentence-builder",
-      launchCode,
-      studentSessionId,
-      occurredAt: "2026-07-01T00:12:30.000Z",
-      metadata: {
-        parentEngine: "text-spelling",
-        scoringProfileId: "syntax-construction-v1",
-      },
-    },
-    {
       type: "audio_requested",
       unitKey,
       gameMode: "memory-match",
@@ -1189,33 +1186,6 @@ function createSampleMonitorEvents(launchSession: LaunchSession, isPartner: bool
         masteryCreditAllowed: false,
         starDustAwarded: 0,
         supportLanguageUnlockAllowed: false,
-      },
-    },
-    {
-      type: "answer_result",
-      unitKey,
-      gameMode: "sentence-builder",
-      launchCode,
-      studentSessionId,
-      occurredAt: "2026-07-01T00:12:50.000Z",
-      metadata: {
-        correct: true,
-        roundId: "sentence-builder-1",
-        targetLanguageAttempt: true,
-      },
-    },
-    {
-      type: "mastery_updated",
-      unitKey,
-      gameMode: "sentence-builder",
-      launchCode,
-      studentSessionId,
-      occurredAt: "2026-07-01T00:13:20.000Z",
-      metadata: {
-        completed: true,
-        earnedStarDust: 300,
-        completedRounds: 2,
-        parentEngine: "text-spelling",
       },
     },
     {

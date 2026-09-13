@@ -222,6 +222,7 @@ const nextModePolicy = readText("apps/web/src/features/progression/nextRecommend
 const gameSequence = readText("apps/web/src/features/game-shell/GameSequence.tsx");
 const speechRequirement = readText("docs/future-requirements/FR-009-core-speech-matching-practice.md");
 const offerMap = readText("apps/web/src/data/sampleUnitGameOfferMap.ts");
+const sessionMonitorData = readText("apps/web/src/data/sampleTeacherSessionMonitor.ts");
 
 const standardEventTypes = [
   "game_started",
@@ -297,6 +298,16 @@ if (!offerMap.includes("level: 1")) {
 }
 if (!sentenceBuilderOffer.includes('availability: "blocked"') || !sentenceBuilderOffer.includes('readiness: "blocked"')) {
   failures.push("sample offer map: Level 1 Sentence Builder must remain blocked until its supported level.");
+}
+for (const fragment of [
+  "findSampleUnitGameOfferMap",
+  "reviewedReadyModes",
+  '.filter((offer) => offer.readiness === "ready")',
+  "...reviewedReadyModes",
+]) {
+  if (!sessionMonitorData.includes(fragment)) {
+    failures.push(`teacher monitor offer-map alignment: missing ${fragment}`);
+  }
 }
 
 for (const fragment of [

@@ -12,5 +12,6 @@ Then verify:
 - `http://127.0.0.1:3000/teacher/sessions/demo-unit-1` loads.
 - `http://127.0.0.1:3000/teacher/sessions/partner-demo-unit-1` loads.
 - The monitor shows an assigned game path panel.
-- The assigned path includes Flashcards, Match Up, Label It, Memory Match, Balloon Pop, Quiz, True or False, Type Answer, Sentence Builder, and Speak It.
+- The Level 1 assigned path includes Flashcards, Match Up, Label It, Memory Match, Balloon Pop, Quiz, True or False, Type Answer, Spelling Practice, Fill in the Blank, and teacher-controlled Speak It.
+- Sentence Builder is not included in the Level 1 assigned path and remains planned for Level 2+.
 - The panel remains separate from event completion and report export readiness.

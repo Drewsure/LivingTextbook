@@ -1876,3 +1876,10 @@ the reusable route remains available for Level 2+ packages.
 The teacher activity compatibility matrix now matches that decision by marking
 Sentence Builder planned for Level 2+ and reporting it under planned-later
 outputs rather than current Level 1 offers.
+
+The teacher session monitor now derives its sample unlocked and completed game
+scope from the tenant's reviewed offer map instead of a manually maintained
+mode list. This keeps Level 1 reporting aligned with the same offer-level
+support and readiness rules used by the student activity hub, and removes
+stale Sentence Builder evidence from the Level 1 sample. See ADR 0699, DR-772,
+and operating note OW-052.

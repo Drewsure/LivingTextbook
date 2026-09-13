@@ -4255,3 +4255,17 @@ aligned without removing later-level routes.
 
 The Level 1 activity compatibility matrix follows the same rule: Sentence
 Builder is planned for Level 2+ and is not presented as a current Level 1 offer.
+
+# DR-772: Teacher Monitor Offer-Map Alignment
+
+The sample teacher session monitor must derive its reviewed ready game modes
+from the tenant-scoped unit game offer map. Manually adding canonical modes to
+sample progression allowed a blocked Level 1 Sentence Builder attempt to look
+completed in teacher reporting after the student and teacher pathway contracts
+had correctly removed it from the Level 1 sequence.
+
+The monitor now uses ready, student-eligible offers as its sample unlocked and
+completed scope. Teacher-only, premium, hidden, blocked, and not-ready offers
+remain outside that sample student progression state. The monitor still uses
+the launch session for assigned scope, so teacher-controlled activities remain
+visible as assigned without being treated as student-completed evidence.

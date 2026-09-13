@@ -11,7 +11,8 @@ Then verify:
 
 - `http://127.0.0.1:3000/launch/demo-unit-1` loads.
 - Before flashcard completion, the recommended game path is locked.
-- After completing flashcards, Match Up, Label It, Memory Match, Balloon Pop, Quiz, True or False, Type Answer, Sentence Builder, and Speak It appear as ready.
+- After completing flashcards, the Level 1 reviewed path shows Match Up, Label It, Memory Match, Balloon Pop, Quiz, True or False, Type Answer, Spelling Practice, and Fill in the Blank as ready; Speak It remains teacher-controlled.
+- Sentence Builder is not presented as a ready Level 1 route and remains planned for Level 2+.
 - Memory Match starts inside the launch page.
 - Quiz links to `/quiz/demo-unit-1`.
 - Sentence Builder links to `/sentence/demo-unit-1`.

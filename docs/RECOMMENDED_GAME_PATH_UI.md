@@ -6,14 +6,21 @@ The student launch and front-door flows now show the full reviewed game path aft
 
 ## Current Behavior
 
-- Sample launch sessions recommend:
+- Level 1 sample launch sessions recommend the reviewed early pathway:
+  - Match Up
+  - Label It
   - Memory Match
+  - Balloon Pop
   - Quiz
-  - Sentence Builder
-  - Speak It
+  - True or False
+  - Type Answer
+  - Spelling Practice
+  - Fill in the Blank
+  - Speak It (teacher-controlled)
+- Sentence Builder remains a planned Level 2+ offer until target-language segmentation is reviewed for that level.
 - Flashcard completion unlocks all recommended modes through the existing `game_unlocked` event model.
 - Memory Match remains the embedded first game on the launch/front-door page.
-- Quiz, Sentence Builder, and Speak It are shown as route links after unlock.
+- Ready Level 1 offers are shown as route links after unlock; teacher-controlled Speak It remains visibly gated.
 - Locked routes are visible but disabled until target-language flashcard practice is complete.
 
 ## Standards Preserved
