@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import type { FormEvent } from "react";
 import { Card, StatusPill } from "@living-textbook/ui";
 import type {
@@ -16,6 +16,7 @@ import type {
 import { AudioSupportedAction } from "@/features/audio/AudioSupportedAction";
 import { PairingMemoryMatchGame } from "@/features/game-shell/pairing/PairingMemoryMatchGame";
 import { PairingEnginePreview } from "@/features/game-shell/pairing/PairingEnginePreview";
+import { validateCanonicalGameCompletion } from "@/features/game-shell/canonicalGameCompletionGate";
 import { UnitMediaEngagementPanel } from "@/features/multimedia/UnitMediaEngagementPanel";
 import {
   completeFlashcardEntryPractice,
@@ -66,6 +67,8 @@ export function FrontDoorEntryFlow({
   const [sessionEvents, setSessionEvents] = useState<GameProgressEvent[]>([]);
   const [lastEarnedDust, setLastEarnedDust] = useState(0);
   const [activeGameMode, setActiveGameMode] = useState<GameModeId | undefined>();
+  const [eventContractErrors, setEventContractErrors] = useState<string[]>([]);
+  const sessionEventsRef = useRef<GameProgressEvent[]>([]);
   const [targetPracticeEngagedItemIds, setTargetPracticeEngagedItemIds] = useState<string[]>([]);
 
   const entryComplete = currentProgression.completedGameModes.includes(launchSession.entryMode);
@@ -112,8 +115,12 @@ export function FrontDoorEntryFlow({
     setCurrentProgression(progressionForLearner);
     setUnitOpen(true);
 
-    if (sessionEvents.length === 0) {
-      setSessionEvents([
+    setSessionEvents((currentEvents) => {
+      if (currentEvents.length > 0) {
+        return currentEvents;
+      }
+
+      const nextEvents = [
         createLaunchOpenedEvent({
           progression: progressionForLearner,
           launchSession,
@@ -121,8 +128,10 @@ export function FrontDoorEntryFlow({
           entryCode,
           userCode: normalizedUserCode,
         }),
-      ]);
-    }
+      ];
+      sessionEventsRef.current = nextEvents;
+      return nextEvents;
+    });
   }
 
   function handleTargetPracticeEngaged(itemId: string) {
@@ -144,7 +153,7 @@ export function FrontDoorEntryFlow({
     });
 
     setCurrentProgression(result.progression);
-    setSessionEvents((events) => [...events, ...result.events]);
+    appendSessionEvents(result.events);
     setLastEarnedDust(result.dust.total);
   }
 
@@ -156,13 +165,21 @@ export function FrontDoorEntryFlow({
     setActiveGameMode(nextMode);
   }
 
+  function appendSessionEvents(nextEvents: GameProgressEvent[]) {
+    if (nextEvents.length === 0) {
+      return;
+    }
+
+    sessionEventsRef.current = [...sessionEventsRef.current, ...nextEvents];
+    setSessionEvents(sessionEventsRef.current);
+  }
+
   function handleProgressEvent(event: GameProgressEvent) {
-    setSessionEvents((events) => [...events, event]);
+    appendSessionEvents([event]);
   }
 
   function handleRouteGuidanceListened(mode: GameModeId, routeStatus: "locked" | "unlocked" | "complete", routeHref: string) {
-    setSessionEvents((events) => [
-      ...events,
+    appendSessionEvents([
       createRouteGuidanceListenedEvent({
         progression: currentProgression,
         launchSession,
@@ -175,12 +192,32 @@ export function FrontDoorEntryFlow({
   }
 
   function handleGameComplete(result: GameModeCompletionResult) {
+    const completedMode = activeGameMode;
+    if (!completedMode || !result.event) {
+      setEventContractErrors(["Canonical game completion did not include a playable mode and completion event."]);
+      return;
+    }
+
+    const replay = validateCanonicalGameCompletion({
+      events: sessionEventsRef.current,
+      result,
+      gameMode: completedMode,
+      tenantId: tenant.id,
+      identity: {
+        unitKey: launchSession.unitKey,
+        launchCode: launchSession.launchCode,
+        studentSessionId: currentProgression.studentSessionId,
+      },
+    });
+    setEventContractErrors(replay.errors);
+
+    if (!replay.valid) {
+      return;
+    }
+
     setCurrentProgression(result.progression);
     setLastEarnedDust(result.earnedStarDust);
-
-    if (result.event) {
-      setSessionEvents((events) => [...events, result.event as GameProgressEvent]);
-    }
+    appendSessionEvents([result.event]);
   }
 
   return (
@@ -287,6 +324,15 @@ export function FrontDoorEntryFlow({
               />
             )}
             {activeGameMode && activeGameMode !== "memory-match" && <PairingEnginePreview unit={unit} gameMode={activeGameMode} />}
+            {eventContractErrors.length > 0 ? (
+              <aside className="rounded-lg border border-rose-300 bg-rose-50 p-4 text-sm text-rose-950" aria-live="polite">
+                <p className="font-bold">Canonical game contract needs review</p>
+                <p className="mt-1">Completion is paused until the event evidence is valid.</p>
+                <ul className="mt-2 grid gap-1">
+                  {eventContractErrors.map((error, index) => <li key={`${error}-${index}`}>{error}</li>)}
+                </ul>
+              </aside>
+            ) : null}
             <UnitMediaEngagementPanel
               contentPackage={contentPackage}
               launchSession={launchSession}

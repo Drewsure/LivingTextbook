@@ -1770,6 +1770,11 @@ QR launch flow. Its mode-selection handler only mounts an unlocked mode; the
 canonical wrapper emits the single `game_started` event. This removes duplicate
 attempt evidence and is recorded in ADR 0687 and DR-759.
 
+The front-door completion callback now runs the shared canonical completion
+gate against its synchronous event reference before accepting progression or
+Star Dust. This keeps the front-door path aligned with QR and standalone game
+routes. See ADR 0688, DR-760, and operating note OW-041.
+
 The teacher recovery summary now treats `training_completed` as the sole
 authoritative recovery award record. Response-result metadata remains visible
 evidence but is excluded from the reward total, preventing one recovery action

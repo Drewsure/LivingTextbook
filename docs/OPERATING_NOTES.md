@@ -878,6 +878,26 @@ Procedure:
 Why this matters: One start event gives reports, replay validation, and future
 durable persistence one reliable attempt boundary.
 
+## OW-041: Front-Door Canonical Completion
+
+Status: Active
+
+Observed behavior: A launch surface can mount a compliant game wrapper while
+still accepting its completion callback without the shared canonical gate.
+
+Procedure:
+
+1. Keep a synchronous event reference alongside rendered event state.
+2. Append wrapper events to that reference before validating completion.
+3. Call `validateCanonicalGameCompletion` with the active mode, tenant, launch,
+   learner identity, and proposed result.
+4. Apply progression and append the completion event only when the gate passes.
+5. Show contract errors and pause completion when evidence is incomplete or
+   invalid.
+
+Why this matters: Every launch surface must enforce the same audio, replay,
+identity, chronology, scoring, and award-consistency boundary.
+
 ## OW-037: Normalized Mastery Award Evidence
 
 Status: Active

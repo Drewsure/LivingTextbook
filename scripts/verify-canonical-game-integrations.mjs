@@ -296,6 +296,16 @@ if (frontDoorFlow.includes("startUnlockedGameMode")) {
   failures.push("front-door canonical handoff: front door must let the mounted game emit its single game_started event");
 }
 
+for (const fragment of [
+  "validateCanonicalGameCompletion",
+  "sessionEventsRef",
+  "Completion is paused until the event evidence is valid.",
+]) {
+  if (!frontDoorFlow.includes(fragment)) {
+    failures.push(`front-door canonical completion: missing ${fragment}`);
+  }
+}
+
 const contractSources = [progressionAdapter, ...integrations.map((integration) => readText(integration.component))];
 for (const eventType of standardEventTypes) {
   if (!contractSources.some((source) => source.includes(eventType))) {

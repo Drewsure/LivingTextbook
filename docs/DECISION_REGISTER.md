@@ -4130,3 +4130,11 @@ its own `game_started` event. The mounted canonical game wrapper emits the
 single start event, matching the QR launch flow and preventing duplicate game
 attempts in teacher reports. See ADR 0687 and
 `docs/decision-register/DR-759-front-door-game-start-ownership.md`.
+
+# DR-760: Front-Door Canonical Completion Gate
+
+The front-door Memory Match flow now validates its accumulated event evidence
+through `validateCanonicalGameCompletion` before accepting progression, Star
+Dust, or the completion event. Its event reference includes the final mastery
+evidence emitted by the mounted wrapper. See ADR 0688 and
+`docs/decision-register/DR-760-front-door-canonical-completion-gate.md`.

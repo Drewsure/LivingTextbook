@@ -1928,4 +1928,18 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-758 and
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-759 and
 `docs/adr/0687-front-door-game-start-ownership.md`.
 
+## 122. Launch-Surface Canonical Completion Standard
+
+- Every launch surface must validate game completion through the shared
+  canonical completion gate.
+- Event evidence must be accumulated synchronously before completion is
+  accepted.
+- Gate failure must preserve progression and Star Dust and explain the review
+  boundary to the teacher or learner.
+- Front-door, QR, standalone, and future Phaser wrappers share the same
+  acceptance rule.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-760 and
+`docs/adr/0688-front-door-canonical-completion-gate.md`.
+
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-615 and `docs/adr/0543-progress-event-timestamps.md`.
