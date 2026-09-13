@@ -2,7 +2,7 @@
 
 Document type: reporting and persistence foundation  
 Status: active scaffold  
-Last updated: 2026-07-10
+Last updated: 2026-09-13
 
 ## Purpose
 
@@ -13,6 +13,11 @@ The Living Textbook platform must preserve the difference between events that af
 - `progress-affecting`: may unlock activities, update mastery, or award deterministic Star Dust when all gates are satisfied.
 - `report-only`: visible to teachers and useful for analytics, but not enough by itself to update mastery.
 - `support-only`: helps the learner, but must not unlock progress, award mastery, or replace target-language practice.
+
+The `microphone_practice` event is support-only evidence for teacher-approved
+local record/replay controls. It may identify the recorder action and prompt,
+but the core event stream must not contain raw audio, transcripts, uploads, or
+AI speech results.
 
 ## Active Admin Surface
 
@@ -102,6 +107,8 @@ Envelope rules:
 
 - Support-language taps are support-only.
 - Tap-to-speak learning audio requests are support-only.
+- Teacher-approved local microphone actions are recorded as
+  `microphone_practice` support-only evidence.
 - Route guidance listens are support-only.
 - Background media is support-only.
 - Media playback is report-only unless a later reviewed game mode explicitly turns a prompt into answer evidence.
@@ -110,6 +117,8 @@ Envelope rules:
 - Random rewards must not be introduced through event taxonomy changes.
 - Backend report queries must ignore `support-only` events for mastery, Star Dust, and unlock calculations.
 - Teacher reports may show `audio_requested` as learning-audio support evidence, but score values must remain zero.
+- Teacher reports may show `microphone_practice` as support evidence, but it
+  must not create gameplay rounds, mastery credit, Star Dust, or unlocks.
 - New game, media, route-guidance, speech, AI Tutor, or reward events must be classified in the taxonomy before pilot release.
 
 ## 86. Progress Event Mode Identity Standard
