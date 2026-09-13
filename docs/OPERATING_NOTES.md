@@ -1201,3 +1201,7 @@ Future progress-event requests must pass `completionIdentity` and an
 idempotency key together. Use `validateCanonicalCompletionIdempotencyKey` to
 derive the expected value; reject a key from another unit, tenant, launch,
 session, or mode before calling a provider. See ADR 0709.
+
+When adding a canonical game event, always preserve `tenantId`, `unitKey`,
+`launchCode`, and `studentSessionId`. The sequence validator now rejects a
+missing field even when no expected identity object is supplied. See ADR 0710.

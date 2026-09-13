@@ -59,3 +59,6 @@ mismatched profile metadata is rejected.
 Progress-event write requests must carry structured `completionIdentity`, and
 the supplied idempotency key must be the canonical key derived from it. A key
 from another identity is rejected.
+
+Canonical game event sequences must also include tenant metadata and unit,
+launch, and student-session identity on every event.

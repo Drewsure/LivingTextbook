@@ -247,6 +247,20 @@ try {
   assertEqual(canonicalReport.valid, true);
   assertIncludes(
     canonicalGame.validateCanonicalGameEventSequence(
+      canonicalEvents.map((event) => event.type === "game_started" ? { ...event, metadata: { ...event.metadata, tenantId: undefined } } : event),
+      "flashcards",
+    ).errors,
+    "Canonical game event game_started must include tenantId metadata.",
+  );
+  assertIncludes(
+    canonicalGame.validateCanonicalGameEventSequence(
+      canonicalEvents.map((event) => event.type === "game_started" ? { ...event, launchCode: undefined } : event),
+      "flashcards",
+    ).errors,
+    "Canonical game event game_started must include launch identity.",
+  );
+  assertIncludes(
+    canonicalGame.validateCanonicalGameEventSequence(
       canonicalEvents.map((event) => event.type === "game_completed" ? { ...event, metadata: { ...event.metadata, scoringProfileId: undefined } } : event),
       "flashcards",
     ).errors,

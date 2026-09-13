@@ -1965,3 +1965,7 @@ Progress-event runtime writes now require structured canonical completion
 identity in addition to a non-blank idempotency key. The validator derives and
 compares the expected key, rejecting cross-unit or cross-session key reuse
 before any future provider operation. See ADR 0709.
+
+Canonical game event sequences now require tenant metadata and non-blank unit,
+launch, and student-session identity on every event. Optional expected-identity
+comparison remains a second check, not the presence requirement. See ADR 0710.

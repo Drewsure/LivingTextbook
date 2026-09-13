@@ -2194,3 +2194,16 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-781 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-782 and
 `docs/adr/0709-completion-key-identity-binding.md`.
+
+## 139. Canonical Game Event Identity Standard
+
+- Every canonical game event must carry tenant metadata.
+- Every canonical game event must carry unit, launch, and student-session
+  identity.
+- Expected identity comparison is an additional consistency check and cannot
+  be used to make missing identity acceptable.
+- Unbound game evidence cannot affect progression, reports, rewards, or
+  persistence planning.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-783 and
+`docs/adr/0710-canonical-game-event-identity.md`.

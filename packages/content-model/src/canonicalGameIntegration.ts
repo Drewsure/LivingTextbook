@@ -45,6 +45,21 @@ export function validateCanonicalGameEventSequence(
     errors.push("Canonical game event sequence must include at least one event.");
   }
 
+  for (const event of events) {
+    if (readNonBlankString(event.metadata?.tenantId) === undefined) {
+      errors.push(`Canonical game event ${event.type} must include tenantId metadata.`);
+    }
+    if (!event.unitKey.trim()) {
+      errors.push(`Canonical game event ${event.type} must include unit identity.`);
+    }
+    if (!event.launchCode?.trim()) {
+      errors.push(`Canonical game event ${event.type} must include launch identity.`);
+    }
+    if (!event.studentSessionId?.trim()) {
+      errors.push(`Canonical game event ${event.type} must include student session identity.`);
+    }
+  }
+
   if (!events.some((event) => event.type === "game_started")) {
     errors.push("Canonical game event sequence must include game_started.");
   }
