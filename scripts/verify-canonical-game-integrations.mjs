@@ -223,6 +223,8 @@ const gameSequence = readText("apps/web/src/features/game-shell/GameSequence.tsx
 const speechRequirement = readText("docs/future-requirements/FR-009-core-speech-matching-practice.md");
 const offerMap = readText("apps/web/src/data/sampleUnitGameOfferMap.ts");
 const sessionMonitorData = readText("apps/web/src/data/sampleTeacherSessionMonitor.ts");
+const progressionCore = readText("packages/content-model/src/index.ts");
+const localProgressionAdapter = readText("apps/web/src/features/progression/localProgressionAdapter.ts");
 
 const standardEventTypes = [
   "game_started",
@@ -307,6 +309,15 @@ for (const fragment of [
 ]) {
   if (!sessionMonitorData.includes(fragment)) {
     failures.push(`teacher monitor offer-map alignment: missing ${fragment}`);
+  }
+}
+for (const [surface, source] of [
+  ["content-model progression", progressionCore],
+  ["local progression adapter", localProgressionAdapter],
+  ["next-mode policy", nextModePolicy],
+]) {
+  if (!source.includes("getLevelAwareRecommendedGameModes")) {
+    failures.push(`${surface}: must use the shared level-aware recommendation filter`);
   }
 }
 

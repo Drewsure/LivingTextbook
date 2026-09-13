@@ -502,6 +502,17 @@ export function isGameModeSupportedAtLevel(value: string, level: number): value 
   return Boolean(contract?.supportedLevels.includes(level));
 }
 
+export function getLevelAwareRecommendedGameModes(
+  launchSession: Pick<LaunchSession, "unitKey" | "recommendedNextModes">,
+): GameModeId[] {
+  const level = getCanonicalUnitKeyLevel(launchSession.unitKey);
+
+  return Array.from(new Set(launchSession.recommendedNextModes.filter((mode) => {
+    const contract = getGameModeContract(mode);
+    return Boolean(contract && (level === undefined || contract.supportedLevels.includes(level)));
+  })));
+}
+
 export function validateCuratedGameOfferMap(map: CuratedGameOfferMapContractInput): string[] {
   const errors: string[] = [];
   const offerIds = new Set<string>();
@@ -692,8 +703,9 @@ export function completeEntryPractice(args: {
   launchSession: LaunchSession;
   occurredAt: string;
 }): StudentProgressionState {
+  const recommendedNextModes = getLevelAwareRecommendedGameModes(args.launchSession);
   const unlockedGameModes = Array.from(
-    new Set([...args.progression.unlockedGameModes, ...args.launchSession.recommendedNextModes]),
+    new Set([...args.progression.unlockedGameModes, ...recommendedNextModes]),
   );
 
   return {

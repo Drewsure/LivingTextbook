@@ -5,7 +5,7 @@ import type {
   StudentProgressionState,
   UnitPayload,
 } from "@living-textbook/content-model";
-import { UNIT_STAR_DUST_CAP, validateProgressionLaunchIdentity } from "@living-textbook/content-model";
+import { getLevelAwareRecommendedGameModes, UNIT_STAR_DUST_CAP, validateProgressionLaunchIdentity } from "@living-textbook/content-model";
 import { getStudentLaunchPath } from "@/features/routes/routeContracts";
 
 export type TrainingFocusType =
@@ -57,7 +57,7 @@ export function createTrainingAcademyFocusConfigs(args: {
   unit: UnitPayload;
   launchSession: LaunchSession;
 }): TrainingAcademyFocusConfig[] {
-  const sourceGameMode = args.launchSession.recommendedNextModes[0] ?? args.launchSession.entryMode;
+  const sourceGameMode = getLevelAwareRecommendedGameModes(args.launchSession)[0] ?? args.launchSession.entryMode;
   const vocabularyTerms = args.unit.pedagogicalPayload.vocabularyTerms.slice(0, 4);
   const shortTerms = vocabularyTerms.slice(0, 3);
   const sentenceItems = args.unit.pedagogicalPayload.targetSentences;
@@ -121,7 +121,7 @@ export function createTrainingAcademyRecommendation(args: {
   launchSession: LaunchSession;
   focusType?: TrainingFocusType;
 }): TrainingAcademyRecommendation {
-  const sourceGameMode = args.launchSession.recommendedNextModes[0] ?? args.launchSession.entryMode;
+  const sourceGameMode = getLevelAwareRecommendedGameModes(args.launchSession)[0] ?? args.launchSession.entryMode;
   const focusConfigs = createTrainingAcademyFocusConfigs(args);
   const selectedConfig = focusConfigs.find((config) => config.focusType === args.focusType) ?? focusConfigs[0];
 

@@ -2094,6 +2094,21 @@ try {
   assertEqual(unlockedProgression.currentStep, "recommended-game");
   assertEqual(unlockedProgression.completedGameModes.includes("flashcards"), true);
   assertEqual(unlockedProgression.unlockedGameModes.includes("memory-match"), true);
+  const futureModeSession = contentModel.createLaunchSession({
+    ...progressionSession,
+    launchCode: "launch-level-aware-1",
+    recommendedNextModes: ["sentence-builder", "match-up"],
+  });
+  const futureModeProgression = contentModel.completeEntryPractice({
+    progression: contentModel.getInitialStudentProgression({
+      studentSessionId: "launch-level-aware-1:student-1",
+      launchSession: futureModeSession,
+    }),
+    launchSession: futureModeSession,
+    occurredAt: "2026-01-01T00:05:00.000Z",
+  });
+  assertEqual(futureModeProgression.unlockedGameModes.includes("sentence-builder"), false);
+  assertEqual(futureModeProgression.unlockedGameModes.includes("match-up"), true);
 
   const dustInput = { masteredTerms: 12, totalTerms: 12, masteredSyntaxChecks: 2, totalSyntaxChecks: 2, bonusRatio: 1 };
   const dustFirst = contentModel.calculateStarDust(dustInput);

@@ -1,6 +1,7 @@
 "use client";
 
 import { Card, StatusPill } from "@living-textbook/ui";
+import { getLevelAwareRecommendedGameModes } from "@living-textbook/content-model";
 import type { GameModeId, LaunchSession, StudentProgressionState } from "@living-textbook/content-model";
 import { findSampleUnitGameOfferMap } from "@/data/sampleUnitGameOfferMap";
 import type { UnitGameOffer, UnitGameOfferMap } from "@/data/sampleUnitGameOfferMap";
@@ -147,7 +148,7 @@ function buildRecommendedRoutes({
     return offers.map((offer, index) => toRecommendedRoute({ offer, index, launchSession, progression }));
   }
 
-  return launchSession.recommendedNextModes.map((mode, index) => ({
+  return getLevelAwareRecommendedGameModes(launchSession).map((mode, index) => ({
     mode,
     order: index + 1,
     label: formatMode(mode),

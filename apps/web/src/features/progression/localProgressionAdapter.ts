@@ -2,6 +2,7 @@ import {
   calculateStarDust,
   completeEntryPractice,
   createCanonicalGameReplaySeed,
+  getLevelAwareRecommendedGameModes,
   validateProgressionLaunchIdentity,
   UNIT_STAR_DUST_CAP,
 } from "@living-textbook/content-model";
@@ -124,7 +125,7 @@ export function completeFlashcardEntryPractice(args: {
     }),
   };
 
-  const unlockEvents: GameProgressEvent[] = args.launchSession.recommendedNextModes.map((gameMode, index) => ({
+  const unlockEvents: GameProgressEvent[] = getLevelAwareRecommendedGameModes(args.launchSession).map((gameMode, index) => ({
     type: "game_unlocked",
     unitKey: args.launchSession.unitKey,
     gameMode,

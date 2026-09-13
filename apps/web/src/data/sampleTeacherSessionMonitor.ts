@@ -18,6 +18,7 @@ import {
   createProgressEventEnvelope,
   createTeacherReportExportPlan,
   getProgressEventEnvelopeStreamWarnings,
+  getLevelAwareRecommendedGameModes,
   getTeacherReportExportWarnings,
   getTeacherSessionControlWarnings,
   getTeacherSessionPersistenceWarnings,
@@ -198,7 +199,10 @@ export function resolveSampleTeacherSessionMonitorContext(launchCode: string): T
     reportExportWarnings,
   });
   const launchGateBoundary = createTeacherSessionLaunchGateBoundary(launchContext.launchSession);
-  const assignedGameModes = uniqueModes([launchContext.launchSession.entryMode, ...launchContext.launchSession.recommendedNextModes]);
+  const assignedGameModes = uniqueModes([
+    launchContext.launchSession.entryMode,
+    ...getLevelAwareRecommendedGameModes(launchContext.launchSession),
+  ]);
   const audioCoveredGameModes = getAudioCoveredGameModes(launchContext.contentPackage);
   const assignedGameAudioGaps = assignedGameModes.filter((mode) => !audioCoveredGameModes.includes(mode));
   const preflightChecks = createTeacherSessionPreflightChecks({

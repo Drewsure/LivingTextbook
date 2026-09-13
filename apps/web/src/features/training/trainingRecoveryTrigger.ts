@@ -4,6 +4,7 @@ import type {
   LaunchSession,
   StudentProgressionState,
 } from "@living-textbook/content-model";
+import { getLevelAwareRecommendedGameModes } from "@living-textbook/content-model";
 import { getTrainingAcademyPath, getStudentLaunchPath } from "@/features/routes/routeContracts";
 import type { TrainingFocusType } from "./trainingAcademyAdapter";
 
@@ -133,8 +134,10 @@ export function hasRecordedTrainingRecoveryRecommendation(
 }
 
 function getSourceModes(launchSession: LaunchSession): GameModeId[] {
-  if (launchSession.recommendedNextModes.length > 0) {
-    return launchSession.recommendedNextModes;
+  const recommendedModes = getLevelAwareRecommendedGameModes(launchSession);
+
+  if (recommendedModes.length > 0) {
+    return recommendedModes;
   }
 
   return [launchSession.entryMode];
