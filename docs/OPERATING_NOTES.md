@@ -961,6 +961,27 @@ Procedure:
 Why this matters: The curated path only promises activities that can actually
 record safe, tenant-bound progress.
 
+## OW-045: Promote Canonical Selection Activities
+
+Status: Active
+
+Observed behavior: A selection or arcade wrapper can pass its standalone review
+while remaining a preview in a launch flow.
+
+Procedure:
+
+1. Confirm the wrapper has deterministic round state and scoring.
+2. Confirm target-language prompt/audio evidence, standard events, replay
+   metadata, and canonical completion handling.
+3. Mount the wrapper explicitly in student and front-door flows.
+4. Keep support language, random rewards, and live uploads outside the
+   progression authority.
+5. Extend `verify:canonical-games`, then run web typecheck, production build,
+   and route verification.
+
+Why this matters: A curated activity pathway must be playable, measurable, and
+safe on every surface that offers it.
+
 ## OW-037: Normalized Mastery Award Evidence
 
 Status: Active

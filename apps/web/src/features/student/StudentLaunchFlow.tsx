@@ -20,6 +20,7 @@ import type { TeacherAssignmentPlan } from "@living-textbook/content-model/src/t
 import { PairingMemoryMatchGame } from "@/features/game-shell/pairing/PairingMemoryMatchGame";
 import { PairingMatchUpGame } from "@/features/game-shell/pairing/PairingMatchUpGame";
 import { LabelItPracticeGame } from "@/features/game-shell/pairing/LabelItPracticeGame";
+import { BalloonPopPracticeGame } from "@/features/game-shell/selection/BalloonPopPracticeGame";
 import { PairingEnginePreview } from "@/features/game-shell/pairing/PairingEnginePreview";
 import { validateCanonicalGameCompletion } from "@/features/game-shell/canonicalGameCompletionGate";
 import {
@@ -381,7 +382,17 @@ export function StudentLaunchFlow({
           onComplete={handleGameComplete}
         />
       )}
-      {activeGameMode && activeGameMode !== "memory-match" && activeGameMode !== "match-up" && activeGameMode !== "label-it" && (
+      {activeGameMode === "balloon-pop" && (
+        <BalloonPopPracticeGame
+          unit={unit}
+          launchSession={launchSession}
+          progression={currentProgression}
+          audioCues={audioCues}
+          onEvent={handleGameEvent}
+          onComplete={handleGameComplete}
+        />
+      )}
+      {activeGameMode && activeGameMode !== "memory-match" && activeGameMode !== "match-up" && activeGameMode !== "label-it" && activeGameMode !== "balloon-pop" && (
         <PairingEnginePreview unit={unit} gameMode={activeGameMode} />
       )}
       {recoveryRecommendation && (

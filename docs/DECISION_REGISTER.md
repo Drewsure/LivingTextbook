@@ -4162,3 +4162,10 @@ front-door launch flows, using the shared event, audio, scoring, progression,
 and completion contracts. Live image upload remains outside this integration
 boundary. See ADR 0691 and
 `docs/decision-register/DR-763-label-it-canonical-entry-integration.md`.
+
+# DR-764: Balloon Pop Canonical Entry Integration
+
+Balloon Pop is now mounted as a canonical selection/arcade activity in the
+student and front-door flows, preserving shared audio, deterministic scoring,
+progression, and completion evidence. See ADR 0692 and
+`docs/decision-register/DR-764-balloon-pop-canonical-entry-integration.md`.

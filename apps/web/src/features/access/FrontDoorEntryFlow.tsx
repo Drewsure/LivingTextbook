@@ -17,6 +17,7 @@ import { AudioSupportedAction } from "@/features/audio/AudioSupportedAction";
 import { PairingMatchUpGame } from "@/features/game-shell/pairing/PairingMatchUpGame";
 import { PairingMemoryMatchGame } from "@/features/game-shell/pairing/PairingMemoryMatchGame";
 import { LabelItPracticeGame } from "@/features/game-shell/pairing/LabelItPracticeGame";
+import { BalloonPopPracticeGame } from "@/features/game-shell/selection/BalloonPopPracticeGame";
 import { PairingEnginePreview } from "@/features/game-shell/pairing/PairingEnginePreview";
 import { validateCanonicalGameCompletion } from "@/features/game-shell/canonicalGameCompletionGate";
 import { UnitMediaEngagementPanel } from "@/features/multimedia/UnitMediaEngagementPanel";
@@ -344,7 +345,17 @@ export function FrontDoorEntryFlow({
                 onComplete={handleGameComplete}
               />
             )}
-            {activeGameMode && activeGameMode !== "match-up" && activeGameMode !== "memory-match" && activeGameMode !== "label-it" && (
+            {activeGameMode === "balloon-pop" && (
+              <BalloonPopPracticeGame
+                unit={unit}
+                launchSession={launchSession}
+                progression={currentProgression}
+                audioCues={contentPackage.audioCues}
+                onEvent={handleProgressEvent}
+                onComplete={handleGameComplete}
+              />
+            )}
+            {activeGameMode && activeGameMode !== "match-up" && activeGameMode !== "memory-match" && activeGameMode !== "label-it" && activeGameMode !== "balloon-pop" && (
               <PairingEnginePreview unit={unit} gameMode={activeGameMode} />
             )}
             {eventContractErrors.length > 0 ? (

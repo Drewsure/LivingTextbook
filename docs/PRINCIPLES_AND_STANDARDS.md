@@ -1984,4 +1984,19 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-762 and
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-763 and
 `docs/adr/0691-label-it-canonical-entry-integration.md`.
 
+## 126. Canonical Selection Activity Standard
+
+- Selection and arcade activities may enter the curated launch path only when
+  their standalone wrapper satisfies the shared audio, replay, event, scoring,
+  identity, and completion contracts.
+- The student and front-door flows must explicitly mount each promoted
+  selection activity; preview text is not a substitute for accepted gameplay.
+- Target-language answer activity remains authoritative. Support language,
+  random rewards, and media engagement cannot unlock or award progress.
+- Unpromoted modes remain preview-only until separately reviewed for the target
+  surface.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-764 and
+`docs/adr/0692-balloon-pop-canonical-entry-integration.md`.
+
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-615 and `docs/adr/0543-progress-event-timestamps.md`.
