@@ -4229,3 +4229,8 @@ consistent across speaking surfaces. Recorder controls emit the support-only
 local microphone activity cannot create gameplay rounds, mastery credit, or
 rewards. See ADR 0648, DR-720, and
 `docs/build-session-notes/2026-09-13-speak-it-canonical-integration.md`.
+
+The canonical status-copy audit now keeps the teacher game sequence and speech
+requirement record aligned with the runtime: Speak It is canonical in direct,
+student, and coded front-door routes, while external Phaser candidates remain
+review-only. The canonical-game verifier guards these status markers.

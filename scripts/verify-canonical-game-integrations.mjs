@@ -219,6 +219,8 @@ const studentLaunchFlow = readText("apps/web/src/features/student/StudentLaunchF
 const frontDoorFlow = readText("apps/web/src/features/access/FrontDoorEntryFlow.tsx");
 const completionGate = readText("apps/web/src/features/game-shell/canonicalGameCompletionGate.ts");
 const nextModePolicy = readText("apps/web/src/features/progression/nextRecommendedGameMode.ts");
+const gameSequence = readText("apps/web/src/features/game-shell/GameSequence.tsx");
+const speechRequirement = readText("docs/future-requirements/FR-009-core-speech-matching-practice.md");
 
 const standardEventTypes = [
   "game_started",
@@ -267,6 +269,16 @@ for (const fragment of [
 ]) {
   if (!studentLaunchFlow.includes(fragment)) {
     failures.push(`student launch canonical handoff: missing ${fragment}`);
+  }
+}
+
+for (const [surface, source, required] of [
+  ["game sequence status", gameSequence, "External Phaser candidates remain review-only."],
+  ["speech requirement status", speechRequirement, "student/front-door launch integration"],
+  ["speech requirement event boundary", speechRequirement, "support-only `microphone_practice` evidence"],
+]) {
+  if (!source.includes(required)) {
+    failures.push(`${surface}: missing current canonical status marker: ${required}`);
   }
 }
 

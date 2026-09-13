@@ -1848,3 +1848,10 @@ support-only `microphone_practice` event rather than additional `round_shown`
 events, preserving clean gameplay evidence. No upload, transcript, AI speech
 scoring, or Phaser promotion was enabled. See ADR 0648, DR-720, and the
 2026-09-13 Speak It build session note.
+
+The canonical status-copy audit also removed stale wording that described
+Speak It as standalone or implied that no legacy game was promoted. The
+teacher sequence now identifies the active DOM canonical baseline while
+external Phaser candidates remain review-only. The canonical-game verifier
+checks these status markers so future integration work cannot silently leave
+contradictory route documentation.

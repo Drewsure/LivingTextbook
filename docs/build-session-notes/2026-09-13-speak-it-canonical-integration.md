@@ -14,6 +14,8 @@
   surfaces use the same teacher decision.
 - Added `microphone_practice` as a support-only event and stopped using
   `round_shown` for recorder-control activity.
+- Corrected the teacher sequence and speech requirement status copy so the
+  documentation matches the canonical launch integration.
 
 ## Verification target
 

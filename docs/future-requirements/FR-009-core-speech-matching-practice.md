@@ -1,6 +1,6 @@
 # FR-009: Core Speech Matching Practice
 
-Status: Foundation slice expanded; standalone `Speak It` route includes local record/replay.
+Status: Canonical foundation slice; direct, student, and coded front-door routes include local record/replay.
 
 ## Requirement
 
@@ -10,7 +10,8 @@ The core version should be usable in a teacher-led classroom, local/offline comp
 
 ## Current Foundation Implementation
 
-The current implementation is a standalone `Speak It` route:
+The current implementation includes a direct `Speak It` route and a canonical
+student/front-door launch integration:
 
 [http://127.0.0.1:3000/speak/demo-unit-1](http://127.0.0.1:3000/speak/demo-unit-1)
 
@@ -26,6 +27,9 @@ It supports:
 - no transcript generation,
 - no raw audio upload or persistence,
 - no AI Tutor requirement.
+- shared tenant-aware teacher microphone approval across speaking surfaces,
+- support-only `microphone_practice` evidence for recorder controls, and
+- one `round_shown` event per displayed prompt rather than per recorder action.
 
 ## Future Speech Matching Upgrade
 

@@ -113,7 +113,7 @@ export function GameSequence({ unit }: GameSequenceProps) {
       <div className="flex items-start justify-between gap-4">
         <div>
           <h2 className="text-lg font-bold">Game Sequence</h2>
-          <p className="mt-1 text-sm text-[var(--tenant-muted)]">Data-driven mode order for {unit.unitMeta.theme}. No legacy game is promoted yet.</p>
+          <p className="mt-1 text-sm text-[var(--tenant-muted)]">Data-driven canonical mode order for {unit.unitMeta.theme}. External Phaser candidates remain review-only.</p>
         </div>
         <StatusPill label="Foundation" />
       </div>
