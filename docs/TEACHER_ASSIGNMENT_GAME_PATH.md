@@ -6,12 +6,18 @@ Teacher assignment plans now show the reviewed game modes assigned to a launch p
 
 ## Current Game Path
 
-Sample assignments include:
+Level 1 sample assignments include:
 
 - Flashcards
+- Match Up
+- Label It
 - Memory Match
+- Balloon Pop
 - Quiz
-- Sentence Builder
+- True or False
+- Type Answer
+- Spelling Practice
+- Fill in the Blank
 - Speak It
 
 ## Boundary
@@ -21,6 +27,6 @@ This is still a static scaffold. Real classroom assignment choices need persiste
 ## Acceptance Standard
 
 - `/teacher/intake` shows assigned game modes for each sample assignment plan.
-- The assigned modes include Quiz and Sentence Builder.
+- The assigned modes include the reviewed Level 1 pathway, with Sentence Builder planned for Level 2+.
 - The panel does not imply that teachers can persist custom assignment settings yet.
 - Premium or policy-controlled modes remain governed by assignment controls.

@@ -99,6 +99,7 @@ try {
   const contentPackage = require(join(output, "contentPackageRuntime.js"));
   const launch = require(join(output, "launchRuntime.js"));
   const assignment = require(join(output, "assignmentRuntime.js"));
+  const assignmentPlan = require(join(output, "teacherAssignment.js"));
   const persistence = require(join(output, "persistenceRuntime.js"));
   const persistenceRecords = require(join(output, "persistenceRecords.js"));
   const persistenceAdapter = require(join(output, "persistenceAdapter.js"));
@@ -1058,7 +1059,7 @@ try {
     tenantId: "tenant-1",
     assignmentPlan: {
       assignmentId: "assignment-1", tenantId: "tenant-1", packageId: "package-1", launchCode: "launch-1",
-      label: "Assignment", audience: "whole-class", readiness: "requires-persistence",
+      label: "Assignment", audience: "whole-class", readiness: "requires-persistence", curriculumLevel: 1,
       targetGameModes: ["flashcards"], audioCoveredGameModes: ["flashcards"],
       access: {
         accessMode: "teacher-qr", routePath: "/launch/launch-1", entryCodeRequired: false,
@@ -1075,6 +1076,15 @@ try {
   const assignmentErrors = assignment.validateAssignmentRuntimeRequest(assignmentRequest);
   assertIncludes(assignmentErrors, "support language progress must remain disabled");
   assertEqual(assignment.createReviewOnlyAssignmentRuntimeAdapter().execute(assignmentRequest).sideEffect, "none");
+  const unsupportedAssignmentErrors = assignmentPlan.validateTeacherAssignmentPlan({
+    ...assignmentRequest.assignmentPlan,
+    targetGameModes: ["flashcards", "sentence-builder"],
+    audioCoveredGameModes: ["flashcards", "sentence-builder"],
+  });
+  assertIncludes(
+    unsupportedAssignmentErrors,
+    "Teacher assignment includes game modes unsupported at level 1: sentence-builder.",
+  );
   const malformedAssignmentFlagErrors = assignment.validateAssignmentRuntimeRequest({
     ...assignmentRequest,
     teacherRoleVerified: "true",

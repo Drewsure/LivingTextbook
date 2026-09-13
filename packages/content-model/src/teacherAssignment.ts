@@ -1,3 +1,4 @@
+import { getGameModeContract } from "./index";
 import type { ContentPackageId, GameModeId, LaunchAccessMode, LaunchCode, TenantId } from "./index";
 
 export type TeacherAssignmentReadiness = "demo-ready" | "requires-persistence" | "requires-policy" | "ready-for-pilot";
@@ -32,6 +33,7 @@ export interface TeacherAssignmentPlan {
   label: string;
   audience: TeacherAssignmentAudience;
   readiness: TeacherAssignmentReadiness;
+  curriculumLevel: number;
   targetGameModes: GameModeId[];
   audioCoveredGameModes: GameModeId[];
   access: TeacherAssignmentAccessPlan;
@@ -49,6 +51,16 @@ export function validateTeacherAssignmentPlan(plan: TeacherAssignmentPlan): stri
 
   if (plan.packageId.trim().length === 0 || plan.launchCode.trim().length === 0) {
     errors.push("Teacher assignment must include package and launch code references.");
+  }
+
+  if (!Number.isInteger(plan.curriculumLevel) || plan.curriculumLevel < 1 || plan.curriculumLevel > 8) {
+    errors.push("Teacher assignment must declare a curriculum level from 1 to 8.");
+  } else {
+    const unsupportedModes = plan.targetGameModes.filter((mode) => !getGameModeContract(mode)?.supportedLevels.includes(plan.curriculumLevel));
+
+    if (unsupportedModes.length > 0) {
+      errors.push(`Teacher assignment includes game modes unsupported at level ${plan.curriculumLevel}: ${unsupportedModes.join(", ")}.`);
+    }
   }
 
   if (plan.targetGameModes.length === 0) {

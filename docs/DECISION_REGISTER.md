@@ -4269,3 +4269,15 @@ completed scope. Teacher-only, premium, hidden, blocked, and not-ready offers
 remain outside that sample student progression state. The monitor still uses
 the launch session for assigned scope, so teacher-controlled activities remain
 visible as assigned without being treated as student-completed evidence.
+
+# DR-773: Assignment Curriculum-Level Alignment
+
+Teacher assignment plans must declare their curriculum level and validate each
+target game mode against the shared content-model supported-level contract.
+Assignment plans are upstream of private links, QR entry, and teacher reports,
+so leaving level validation to the student route would allow an unsupported
+activity to be scheduled before the student gate is reached.
+
+The Level 1 sample assignments now exclude Sentence Builder, which is a
+Level 2+ mode. The assignment contract retains all reviewed Level 1 modes and
+keeps teacher-controlled Speak It separate from ordinary student completion.

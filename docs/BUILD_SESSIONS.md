@@ -1883,3 +1883,8 @@ mode list. This keeps Level 1 reporting aligned with the same offer-level
 support and readiness rules used by the student activity hub, and removes
 stale Sentence Builder evidence from the Level 1 sample. See ADR 0699, DR-772,
 and operating note OW-052.
+
+Teacher assignment plans now declare curriculum level and validate every target
+mode against the canonical supported-level matrix. The Level 1 sample
+assignments no longer schedule Sentence Builder before its Level 2+ offer is
+reviewed. See ADR 0700, DR-773, and operating note OW-053.
