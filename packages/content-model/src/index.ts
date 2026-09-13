@@ -1,3 +1,5 @@
+import phaserCandidateProfileData from "./phaserCandidateProfiles.json";
+
 export type TenantId = string;
 export type CurriculumId = string;
 export type LaunchCode = string;
@@ -40,6 +42,20 @@ export type GameFamily =
   | "speaking-listening";
 
 export type ParentEngine = "pairing" | "selection" | "text-spelling" | "narrative";
+
+export interface PhaserCandidateProfile {
+  targetMode: string;
+  label: string;
+  parentEngine: ParentEngine;
+  requiredScenarios: string[];
+}
+
+export const phaserCandidateProfiles = phaserCandidateProfileData as PhaserCandidateProfile[];
+
+export function getPhaserCandidateProfile(targetMode: string, parentEngine?: string): PhaserCandidateProfile | undefined {
+  const profile = phaserCandidateProfiles.find((candidate) => candidate.targetMode === targetMode);
+  return profile && (!parentEngine || profile.parentEngine === parentEngine) ? profile : undefined;
+}
 
 export type GameModeId =
   | "flashcards"

@@ -1,3 +1,4 @@
+import { getPhaserCandidateProfile } from "@living-textbook/content-model";
 import { Card, StatusPill } from "@living-textbook/ui";
 import type {
   PhaserCandidateContractFinding,
@@ -48,7 +49,7 @@ export function PhaserCandidateContractReviewPanel({ reviews }: PhaserCandidateC
             <p className="mt-3 text-sm leading-6 text-[var(--tenant-muted)]">{review.summary}</p>
 
             {(() => {
-              const profile = getCandidateProfile(review.gameMode, review.parentEngine);
+              const profile = getPhaserCandidateProfile(review.gameMode, review.parentEngine);
               if (!profile) return null;
 
               return (
@@ -64,7 +65,7 @@ export function PhaserCandidateContractReviewPanel({ reviews }: PhaserCandidateC
                     Required deterministic scoring cases are listed here before a returned package can be reviewed.
                   </p>
                   <ul className="mt-2 flex flex-wrap gap-2 text-xs font-semibold text-[var(--tenant-text)]">
-                    {profile.scenarios.map((scenario) => (
+                    {profile.requiredScenarios.map((scenario) => (
                       <li key={`${review.reviewId}-profile-${scenario}`} className="rounded-md border border-[var(--tenant-border)] px-2 py-1">
                         {scenario}
                       </li>
@@ -100,24 +101,6 @@ export function PhaserCandidateContractReviewPanel({ reviews }: PhaserCandidateC
       </div>
     </Card>
   );
-}
-
-function getCandidateProfile(gameMode: string, parentEngine: string) {
-  const profiles = {
-    "memory-match": {
-      label: "Memory Match profile",
-      parentEngine: "pairing",
-      scenarios: ["correct", "incorrect", "retry", "completion"],
-    },
-    "balloon-pop": {
-      label: "Balloon Pop profile",
-      parentEngine: "selection",
-      scenarios: ["correct", "incorrect", "miss", "retry", "completion"],
-    },
-  } as const;
-
-  const profile = profiles[gameMode as keyof typeof profiles];
-  return profile?.parentEngine === parentEngine ? profile : undefined;
 }
 
 function FindingRow({ finding }: { finding: PhaserCandidateContractFinding }) {

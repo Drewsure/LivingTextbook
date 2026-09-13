@@ -2348,6 +2348,8 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-793 and
 - Adding a profile does not approve source import, route replacement, package
   promotion, or student assignment. It only makes that named candidate
   reviewable through the same evidence boundary.
+- Profile definitions must live in the shared content-model manifest and be
+  consumed by both the verifier and teacher review surface.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-796 and
 `docs/adr/0722-phaser-candidate-profile-gate.md`.

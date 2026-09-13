@@ -26,18 +26,10 @@ if (!manifest || typeof manifest !== "object" || Array.isArray(manifest)) {
 }
 
 const failures = [];
-const candidateProfiles = {
-  "memory-match": {
-    label: "Memory Match",
-    parentEngine: "pairing",
-    requiredScenarios: ["correct", "incorrect", "retry", "completion"],
-  },
-  "balloon-pop": {
-    label: "Balloon Pop",
-    parentEngine: "selection",
-    requiredScenarios: ["correct", "incorrect", "miss", "retry", "completion"],
-  },
-};
+const candidateProfileData = JSON.parse(
+  readFileSync(new URL("../packages/content-model/src/phaserCandidateProfiles.json", import.meta.url), "utf8"),
+);
+const candidateProfiles = Object.fromEntries(candidateProfileData.map((profile) => [profile.targetMode, profile]));
 const requiredArtifactKinds = [
   "source-archive",
   "fixture",

@@ -1,0 +1,14 @@
+[
+  {
+    "targetMode": "memory-match",
+    "label": "Memory Match",
+    "parentEngine": "pairing",
+    "requiredScenarios": ["correct", "incorrect", "retry", "completion"]
+  },
+  {
+    "targetMode": "balloon-pop",
+    "label": "Balloon Pop",
+    "parentEngine": "selection",
+    "requiredScenarios": ["correct", "incorrect", "miss", "retry", "completion"]
+  }
+]
