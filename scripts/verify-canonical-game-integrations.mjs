@@ -274,6 +274,18 @@ for (const integration of integrations) {
   }
 }
 
+for (const [surface, source] of [
+  ["front-door orchestration", frontDoorFlow],
+  ["student orchestration", studentLaunchFlow],
+]) {
+  if (!source.includes("createCanonicalGameReplaySeed({")) {
+    failures.push(`${surface}: must create the canonical seed at its game handoff boundary`);
+  }
+  if (!source.includes("replaySeed={replaySeed}")) {
+    failures.push(`${surface}: must pass the canonical seed into mounted games`);
+  }
+}
+
 for (const fragment of [
   "PairingMatchUpGame",
   "sessionEventsRef",
