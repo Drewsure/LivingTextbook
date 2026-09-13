@@ -2115,3 +2115,12 @@ read-only hash and path-containment behavior and rejects write, import,
 process, or application-path markers. The foundation composition now includes
 20 critical checks. Candidate return-package review and source promotion
 remain blocked. See ADR 0725.
+
+## 0727 - Phaser review profile binding
+
+The shared Phaser contract-review validator now resolves each review through
+the approved candidate profile and rejects a mode/parent-engine mismatch.
+Runtime evidence covers the mismatch, while sample reviews, candidate review,
+AI-service typecheck, web typecheck, and the review-only boundary remain green.
+No import, route activation, scoring ownership, persistence, or assignment was
+enabled. See ADR 0726.

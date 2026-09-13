@@ -4530,3 +4530,12 @@ markers while requiring the review-root override and path-containment checks.
 This strengthens reproducibility without changing the review-only status or
 authorizing source import, route activation, scoring, persistence, or
 assignment. See ADR 0725.
+
+# DR-800: Phaser Review Profile Binding
+
+Require every Phaser contract-review record with a game mode and parent engine
+to match the approved shared candidate profile. Unknown modes and incompatible
+engines fail validation before review surfaces or external candidate evidence
+can be treated as aligned. This strengthens profile identity without authorizing
+source import, route activation, scoring, persistence, package promotion, or
+assignment. See ADR 0726.

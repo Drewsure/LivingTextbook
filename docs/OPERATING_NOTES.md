@@ -1281,3 +1281,10 @@ it rejects write, import, process, and application-path markers while requiring
 the isolated review-root and path-containment guards. This protects the
 review-only boundary before `npm run verify:phaser-source-evidence` is run.
 See ADR 0725.
+
+Phaser contract-review records must resolve their `gameMode` through the
+approved shared candidate profile and preserve that profile's `parentEngine`.
+Run `npm run verify:phaser-candidate-reviews` and
+`npm run verify:runtime-behavior` after changing review records or profile
+validation. A nonblank mode/engine pair is not sufficient if the pair is
+incompatible. See ADR 0726.

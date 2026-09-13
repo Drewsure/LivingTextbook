@@ -543,6 +543,14 @@ try {
     ],
   };
   assertEqual(phaserCandidateReview.validatePhaserCandidateContractReview(phaserReviewFixture).length, 0);
+  const mismatchedPhaserProfileErrors = phaserCandidateReview.validatePhaserCandidateContractReview({
+    ...phaserReviewFixture,
+    parentEngine: "selection",
+  });
+  assertIncludes(
+    mismatchedPhaserProfileErrors,
+    "Phaser candidate contract review runtime-phaser-review-1 must use parent engine pairing for memory-match; found selection.",
+  );
   const invalidPhaserApprovalErrors = phaserCandidateReview.validatePhaserCandidateContractReview({
     ...phaserReviewFixture,
     approval: { ...phaserReviewFixture.approval, status: "approved-for-wrapper" },

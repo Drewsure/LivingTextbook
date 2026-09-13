@@ -1,3 +1,5 @@
+import { getPhaserCandidateProfile } from "./index";
+
 export type PhaserCandidateReviewStatus = "mapped-review-only" | "blocked";
 export type PhaserCandidateFindingStatus = "observed" | "gap" | "blocked";
 export type PhaserCandidateWrapperApprovalStatus = "blocked" | "approved-for-wrapper";
@@ -90,6 +92,17 @@ export function validatePhaserCandidateContractReview(
 
   if (!review.gameMode || !review.parentEngine || !review.summary) {
     errors.push("Phaser candidate contract reviews require game mode, parent engine, and summary fields.");
+  }
+
+  if (review.gameMode && review.parentEngine) {
+    const modeProfile = getPhaserCandidateProfile(review.gameMode);
+    if (!modeProfile) {
+      errors.push(`Phaser candidate contract review ${review.reviewId || "(unnamed)"} must use an approved candidate profile for ${review.gameMode}.`);
+    } else if (modeProfile.parentEngine !== review.parentEngine) {
+      errors.push(
+        `Phaser candidate contract review ${review.reviewId || "(unnamed)"} must use parent engine ${modeProfile.parentEngine} for ${review.gameMode}; found ${review.parentEngine}.`,
+      );
+    }
   }
 
   if (!review.approval?.decisionId || !review.approval?.decidedAt) {
