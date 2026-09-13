@@ -2053,3 +2053,12 @@ randomness, scene-owned scoring, browser persistence, direct audio authority,
 and unverified canvas lifecycle behavior. No source was copied and the
 candidate remains blocked until its complete evidence packet passes the package
 gate. See `docs/PHASER_MEMORY_MATCH_MAPPING_REVIEW.md`.
+
+## 0720 - Documentation integrity gate
+
+The standards document was corrected so the cross-cutting Agent Standards
+section is uniquely identified as `11.1`, and a repeated audio standard title
+was clarified without changing its evidence meaning. Added
+`scripts/verify-standards-integrity.mjs`, which checks unique standards and
+decision identities and is invoked by foundation composition. Historical
+decision ordering is preserved. See `docs/adr/0719-documentation-integrity-gate.md`.

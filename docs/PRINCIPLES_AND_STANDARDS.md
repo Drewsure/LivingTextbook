@@ -359,7 +359,7 @@ Student self-progression requirements:
 - Student can return without a heavy login burden, especially for younger learners.
 - Student progression cannot depend on AI Tutor being enabled.
 
-## 11. Agent Standards
+## 11.1 Agent Standards
 
 Codex is the lead systems architect, integration engineer, and build governor for this repository.
 
@@ -1334,7 +1334,7 @@ Required standing rules:
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-597 and `docs/adr/0526-audio-coverage-uniqueness.md`.
 
-## 69. Audio Cue Semantic Coverage Standard
+## 69. Audio Cue Instruction And Feedback Coverage Standard
 
 Audio support plans describe more than a list of playable files. Each coverage lane carries meaning for the game engine and teacher review, so instruction and feedback lanes must use cues with the corresponding semantic kind.
 
@@ -2321,3 +2321,18 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-792 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-791 and
 `docs/adr/0718-platform-replay-seed-injection-boundary.md`.
+
+## 149. Documentation Integrity Standard
+
+- `docs/PRINCIPLES_AND_STANDARDS.md` must have unique numbered section IDs and
+  unique section titles; the cross-cutting Agent Standards subsection is
+  intentionally identified as `11.1`.
+- `docs/DECISION_REGISTER.md` must have unique decision IDs and unique decision
+  titles. Historical records may be out of numerical order when earlier work
+  is recorded after a later decision; they must not be silently rewritten.
+- The integrity verifier must run before foundation composition is accepted.
+- A documentation-only correction must preserve the meaning and traceability
+  of prior decisions, ADRs, build sessions, and verification records.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-793 and
+`docs/adr/0719-documentation-integrity-gate.md`.

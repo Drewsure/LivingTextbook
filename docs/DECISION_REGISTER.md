@@ -4463,3 +4463,11 @@ contracts without copying source. Its visual interaction is a promising first
 wrapper candidate, but scene-owned randomness, scoring, browser persistence,
 direct audio, and lifecycle behavior must be replaced or adapted before any
 integration proposal. See `docs/PHASER_MEMORY_MATCH_MAPPING_REVIEW.md`.
+
+# DR-793: Documentation Integrity Gate
+
+The principles document and decision register now have an executable integrity
+check. It rejects duplicate section IDs or titles and duplicate decision IDs or
+titles, while allowing valid historical decision records to remain out of
+numerical order. The check runs from foundation composition and preserves the
+cross-cutting Agent Standards subsection as `11.1`. See ADR 0719.
