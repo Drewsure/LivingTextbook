@@ -466,7 +466,7 @@ expectedTextByPath.set("/teacher/game-readiness", [
   "Activity pathway compatibility",
   "Teacher promise",
   "Offered now",
-  "Planned printables",
+  "Planned later",
   "Blocked conversions",
   "Target-language trigger",
   "Audio requirement",

@@ -1872,3 +1872,7 @@ The same offer contract now declares curriculum level and rejects an active
 offer whose mode is not supported at that level. The Level 1 sample keeps
 Sentence Builder blocked and removes it from the Level 1 recommended sequence;
 the reusable route remains available for Level 2+ packages.
+
+The teacher activity compatibility matrix now matches that decision by marking
+Sentence Builder planned for Level 2+ and reporting it under planned-later
+outputs rather than current Level 1 offers.

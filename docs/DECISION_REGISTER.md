@@ -4252,3 +4252,6 @@ Offer maps also declare curriculum level. Unsupported modes must be explicitly
 blocked rather than appearing in a live Level 1 sequence. This keeps the
 canonical game catalog, teacher offer map, and student recommendation policy
 aligned without removing later-level routes.
+
+The Level 1 activity compatibility matrix follows the same rule: Sentence
+Builder is planned for Level 2+ and is not presented as a current Level 1 offer.

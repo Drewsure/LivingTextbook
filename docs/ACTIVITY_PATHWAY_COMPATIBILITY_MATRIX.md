@@ -79,17 +79,18 @@ Offered:
 - Entry Flashcards
 - Memory Match
 - Teacher Review Quiz
-- Sentence Builder
+- Sentence Builder is planned for Level 2+ after segmentation review
 
 Teacher review:
 
 - Speak It Practice
 
-Planned printables:
+Planned later:
 
 - Printable vocabulary sheet
 - Printable sentence practice
 - Teacher answer key
+- Sentence Builder for Level 2+ reviewed packages
 
 Premium:
 

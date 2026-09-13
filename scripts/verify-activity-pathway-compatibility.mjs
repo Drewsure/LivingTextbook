@@ -8,8 +8,8 @@ const pathwayDocs = readSource("../docs/ACTIVITY_PATHWAY_COMPATIBILITY_MATRIX.md
 const backendStorageVerifier = readSource("./verify-backend-storage-readiness.mjs");
 
 const failures = [];
-const requiredOfferedItems = ["entry-flashcards", "match-up", "label-it", "memory-match", "teacher-review-quiz", "true-false", "type-answer", "spelling-practice", "fill-in-the-blank", "sentence-builder"];
-const requiredPlannedItems = ["printable-vocabulary-sheet", "printable-sentence-practice"];
+const requiredOfferedItems = ["entry-flashcards", "match-up", "label-it", "memory-match", "teacher-review-quiz", "true-false", "type-answer", "spelling-practice", "fill-in-the-blank"];
+const requiredPlannedItems = ["sentence-builder", "printable-vocabulary-sheet", "printable-sentence-practice"];
 const requiredBlockedItems = ["word-search", "crossword"];
 const requiredPolicyText = [
   "targetLanguageTrigger",
@@ -63,7 +63,7 @@ if (failures.length > 0) {
 }
 
 console.log(
-  `PASS activity pathway compatibility covers ${requiredOfferedItems.length} offered output(s), ${requiredPlannedItems.length} planned printable output(s), and ${requiredBlockedItems.length} blocked conversion(s).`,
+  `PASS activity pathway compatibility covers ${requiredOfferedItems.length} offered output(s), ${requiredPlannedItems.length} planned output(s), and ${requiredBlockedItems.length} blocked conversion(s).`,
 );
 
 function readSource(relativePath) {

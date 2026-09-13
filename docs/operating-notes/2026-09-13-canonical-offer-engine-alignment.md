@@ -36,3 +36,6 @@ Offer maps now declare their curriculum level. The content-model validator
 checks each offer against its supported levels, and a mode outside that range
 must be explicitly `blocked`. Level 1 samples therefore do not recommend
 Sentence Builder; the route remains available for later-level packages.
+
+The Level 1 activity compatibility matrix uses the same distinction: Sentence
+Builder is planned for Level 2+ rather than offered in the Level 1 pathway.

@@ -48,7 +48,7 @@ export function ActivityPathwayCompatibilityPanel({ matrix }: ActivityPathwayCom
 
       <dl className="mt-5 grid gap-3 sm:grid-cols-3">
         <PathwayMetric label="Offered now" value={String(offeredCount)} />
-        <PathwayMetric label="Planned printables" value={String(plannedCount)} />
+        <PathwayMetric label="Planned later" value={String(plannedCount)} />
         <PathwayMetric label="Blocked conversions" value={String(blockedCount)} />
       </dl>
 
