@@ -80,7 +80,7 @@ export function validatePhaserCandidateContractReview(
 
   const sourcePaths = new Set<string>();
   for (const sourceFile of review.sourceFiles ?? []) {
-    if (!sourceFile.path || sourcePaths.has(sourceFile.path) || sourceFile.path.includes("..")) {
+    if (!isSafeRepositoryRelativePath(sourceFile.path) || sourcePaths.has(sourceFile.path)) {
       errors.push(`Phaser candidate contract review ${review.reviewId || "(unnamed)"} must use unique repository-relative source paths.`);
     }
     sourcePaths.add(sourceFile.path);
@@ -163,6 +163,18 @@ export function validatePhaserCandidateContractReview(
   }
 
   return errors;
+}
+
+function isSafeRepositoryRelativePath(value: string): boolean {
+  return (
+    typeof value === "string" &&
+    value.trim().length > 0 &&
+    !value.startsWith("/") &&
+    !value.startsWith("\\") &&
+    !value.includes("\\") &&
+    !value.includes(":") &&
+    !value.split("/").includes("..")
+  );
 }
 
 export function validatePhaserCandidateContractReviews(

@@ -1288,3 +1288,11 @@ Run `npm run verify:phaser-candidate-reviews` and
 `npm run verify:runtime-behavior` after changing review records or profile
 validation. A nonblank mode/engine pair is not sufficient if the pair is
 incompatible. See ADR 0726.
+
+Phaser contract-review `sourceFiles` are evidence references, not arbitrary
+filesystem locations. Keep every path unique and repository-relative using
+forward slashes; reject drive letters, leading slashes, backslashes, and
+parent-directory traversal. This keeps review packets portable and prevents a
+candidate record from escaping its isolated evidence boundary. Run
+`npm run verify:runtime-behavior` and `npm run verify:phaser-candidate-reviews`
+after changing this validation. See ADR 0727.

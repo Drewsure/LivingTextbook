@@ -2124,3 +2124,11 @@ Runtime evidence covers the mismatch, while sample reviews, candidate review,
 AI-service typecheck, web typecheck, and the review-only boundary remain green.
 No import, route activation, scoring ownership, persistence, or assignment was
 enabled. See ADR 0726.
+
+## 0728 - Phaser review source-path boundary
+
+Hardened the contract-review validator so candidate source files must use
+unique, repository-relative POSIX paths. Absolute paths, Windows drive paths,
+backslash paths, and parent-directory traversal now fail closed. Added runtime
+coverage for a Windows absolute path while preserving the review-only boundary.
+No source was copied and no candidate was promoted. See ADR 0727.

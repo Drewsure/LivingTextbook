@@ -543,6 +543,14 @@ try {
     ],
   };
   assertEqual(phaserCandidateReview.validatePhaserCandidateContractReview(phaserReviewFixture).length, 0);
+  const unsafePhaserSourcePathErrors = phaserCandidateReview.validatePhaserCandidateContractReview({
+    ...phaserReviewFixture,
+    sourceFiles: [{ ...phaserReviewFixture.sourceFiles[0], path: "C:\\outside\\candidate.ts" }],
+  });
+  assertIncludes(
+    unsafePhaserSourcePathErrors,
+    "Phaser candidate contract review runtime-phaser-review-1 must use unique repository-relative source paths.",
+  );
   const mismatchedPhaserProfileErrors = phaserCandidateReview.validatePhaserCandidateContractReview({
     ...phaserReviewFixture,
     parentEngine: "selection",
