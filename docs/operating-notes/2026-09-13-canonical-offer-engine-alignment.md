@@ -29,3 +29,10 @@ When adding or editing an offer:
 
 The two sample offer records now match the canonical engine contracts. A static
 verifier guard protects the mapping from silent drift in future edits.
+
+## Curriculum-Level Guard
+
+Offer maps now declare their curriculum level. The content-model validator
+checks each offer against its supported levels, and a mode outside that range
+must be explicitly `blocked`. Level 1 samples therefore do not recommend
+Sentence Builder; the route remains available for later-level packages.

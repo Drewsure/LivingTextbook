@@ -4247,3 +4247,8 @@ The sample unit game offer map must use the same parent-engine assignment as
 the content model and web game catalog. Flashcards is `selection`; Match Up is
 `pairing`. The corrected map is protected by a canonical integration verifier
 and remains separate from external Phaser candidate approval.
+
+Offer maps also declare curriculum level. Unsupported modes must be explicitly
+blocked rather than appearing in a live Level 1 sequence. This keeps the
+canonical game catalog, teacher offer map, and student recommendation policy
+aligned without removing later-level routes.

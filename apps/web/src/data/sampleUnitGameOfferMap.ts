@@ -30,6 +30,7 @@ export interface UnitGameOfferMap {
   mapId: string;
   tenantId: string;
   contentPackageId: string;
+  level: number;
   label: string;
   summary: string;
   decisionRule: string;
@@ -40,6 +41,7 @@ export const samplePartnerUnitGameOfferMap: UnitGameOfferMap = {
   mapId: "sample-publisher-unit-game-offers",
   tenantId: "sample-publisher",
   contentPackageId: "sample-publisher-l1-u1-routines-package",
+  level: 1,
   label: "Sample Publisher Unit 1 game offer map",
   summary:
     "Each textbook unit needs a reviewed game availability map so partners can maintain yearly game offers without one-off game pages or broken progress reporting.",
@@ -159,8 +161,8 @@ export const samplePartnerUnitGameOfferMap: UnitGameOfferMap = {
       label: "Sentence Builder",
       family: "syntax-construction",
       engineId: "text-spelling",
-      availability: "optional",
-      readiness: "ready",
+      availability: "blocked",
+      readiness: "blocked",
       recommendedOrder: 11,
       packageTier: "games",
       launchRoute: "/sentence/partner-demo-unit-1",
@@ -320,6 +322,7 @@ export const sampleMinistarUnitGameOfferMap: UnitGameOfferMap = {
   mapId: "ministar-unit-game-offers",
   tenantId: "ministar",
   contentPackageId: "ministar-l1-u1-greetings-package",
+  level: 1,
   label: "MiniStar Unit 1 game offer map",
   summary:
     "MiniStar uses the same reviewed game availability map as partner tenants, while allowing its early-learner UI style and curriculum sequence to remain tenant-specific.",

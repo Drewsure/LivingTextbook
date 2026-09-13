@@ -466,6 +466,7 @@ export interface CuratedGameOfferMapContractInput {
   contentPackageId: string;
   label: string;
   decisionRule: string;
+  level?: number;
   offers: CuratedGameOfferContractInput[];
 }
 
@@ -510,6 +511,10 @@ export function validateCuratedGameOfferMap(map: CuratedGameOfferMapContractInpu
     errors.push("Unit game offer maps require map, tenant, package, label, and decision-rule metadata.");
   }
 
+  if (map.level !== undefined && (!Number.isInteger(map.level) || map.level < 1 || map.level > 8)) {
+    errors.push(`Unit game offer map ${map.mapId || "(unnamed)"} must use a curriculum level from 1 to 8.`);
+  }
+
   if (map.offers.length === 0) {
     errors.push(`Unit game offer map ${map.mapId || "(unnamed)"} must include at least one offer.`);
   }
@@ -539,6 +544,10 @@ export function validateCuratedGameOfferMap(map: CuratedGameOfferMapContractInpu
     }
     if (!offer.unitKey || !offer.unitKey.startsWith(`${map.tenantId}:`)) {
       errors.push(`Unit game offer ${offer.offerId} must remain scoped to tenant ${map.tenantId}.`);
+    }
+    const offerLevel = map.level ?? getCanonicalUnitKeyLevel(offer.unitKey);
+    if (offerLevel !== undefined && !contract.supportedLevels.includes(offerLevel) && offer.readiness !== "blocked") {
+      errors.push(`Unit game offer ${offer.offerId} is not available for level ${offerLevel}; mark it blocked until the curriculum level is supported.`);
     }
     if (offer.readiness === "ready" && !offer.launchRoute) {
       errors.push(`Ready unit game offer ${offer.offerId} must include a launch route.`);

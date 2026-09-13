@@ -601,7 +601,7 @@ export function getSamplePartnerLaunchSession(launchCode = samplePartnerLaunchCo
     curriculumId,
     unitKey: samplePartnerUnitKey,
     entryMode: "flashcards",
-    recommendedNextModes: ["match-up", "label-it", "memory-match", "balloon-pop", "quiz", "true-false", "type-answer", "spelling-practice", "fill-in-the-blank", "sentence-builder", "speak-it"],
+    recommendedNextModes: ["match-up", "label-it", "memory-match", "balloon-pop", "quiz", "true-false", "type-answer", "spelling-practice", "fill-in-the-blank", "speak-it"],
     openedAt: "2026-07-01T00:00:00.000Z",
   });
 }
@@ -615,7 +615,7 @@ export function getSamplePartnerFrontDoorLaunchSession(
     curriculumId,
     unitKey: samplePartnerUnitKey,
     entryMode: "flashcards",
-    recommendedNextModes: ["match-up", "label-it", "memory-match", "balloon-pop", "quiz", "true-false", "type-answer", "spelling-practice", "fill-in-the-blank", "sentence-builder", "speak-it"],
+    recommendedNextModes: ["match-up", "label-it", "memory-match", "balloon-pop", "quiz", "true-false", "type-answer", "spelling-practice", "fill-in-the-blank", "speak-it"],
     openedAt: "2026-07-01T00:00:00.000Z",
     accessMode: "front-door-code",
   });

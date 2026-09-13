@@ -1867,3 +1867,8 @@ Flashcards and Match Up records had their parent-engine labels reversed.
 Flashcards now resolves to the canonical selection engine and Match Up to the
 canonical pairing engine. A verifier guard and operating note preserve this
 alignment across teacher review and student pathway surfaces.
+
+The same offer contract now declares curriculum level and rejects an active
+offer whose mode is not supported at that level. The Level 1 sample keeps
+Sentence Builder blocked and removes it from the Level 1 recommended sequence;
+the reusable route remains available for Level 2+ packages.

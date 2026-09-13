@@ -295,6 +295,7 @@ try {
     contentPackageId: "tenant-1-package-1",
     label: "Runtime curated offer map",
     decisionRule: "Reviewed offers only.",
+    level: 1,
     offers: [{
       offerId: "runtime-flashcards-1",
       unitKey: "tenant-1:curriculum-1:L1:U1",
@@ -316,6 +317,14 @@ try {
   assertIncludes(
     invalidCuratedOfferMapErrors,
     "Unit game offer runtime-flashcards-1 must use engine selection; found pairing.",
+  );
+  const unsupportedLevelOfferErrors = contentModel.validateCuratedGameOfferMap({
+    ...curatedOfferMapFixture,
+    offers: [{ ...curatedOfferMapFixture.offers[0], gameMode: "sentence-builder", engineId: "text-spelling" }],
+  });
+  assertIncludes(
+    unsupportedLevelOfferErrors,
+    "Unit game offer runtime-flashcards-1 is not available for level 1; mark it blocked until the curriculum level is supported.",
   );
 
   const phaserReviewFixture = {

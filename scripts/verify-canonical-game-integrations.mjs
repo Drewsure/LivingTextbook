@@ -285,11 +285,18 @@ for (const [surface, source, required] of [
 
 const flashcardsOffer = getOfferBody(offerMap, "partner-l1-u1-flashcards");
 const matchUpOffer = getOfferBody(offerMap, "partner-l1-u1-match-up");
+const sentenceBuilderOffer = getOfferBody(offerMap, "partner-l1-u1-sentence-builder");
 if (!flashcardsOffer.includes('gameMode: "flashcards"') || !flashcardsOffer.includes('engineId: "selection"')) {
   failures.push("sample offer map: Flashcards must use the canonical selection engine.");
 }
 if (!matchUpOffer.includes('gameMode: "match-up"') || !matchUpOffer.includes('engineId: "pairing"')) {
   failures.push("sample offer map: Match Up must use the canonical pairing engine.");
+}
+if (!offerMap.includes("level: 1")) {
+  failures.push("sample offer map: sample unit level must be declared for level-aware offer validation.");
+}
+if (!sentenceBuilderOffer.includes('availability: "blocked"') || !sentenceBuilderOffer.includes('readiness: "blocked"')) {
+  failures.push("sample offer map: Level 1 Sentence Builder must remain blocked until its supported level.");
 }
 
 for (const fragment of [
