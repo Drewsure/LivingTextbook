@@ -26,6 +26,18 @@ if (!manifest || typeof manifest !== "object" || Array.isArray(manifest)) {
 }
 
 const failures = [];
+const candidateProfiles = {
+  "memory-match": {
+    label: "Memory Match",
+    parentEngine: "pairing",
+    requiredScenarios: ["correct", "incorrect", "retry", "completion"],
+  },
+  "balloon-pop": {
+    label: "Balloon Pop",
+    parentEngine: "selection",
+    requiredScenarios: ["correct", "incorrect", "miss", "retry", "completion"],
+  },
+};
 const requiredArtifactKinds = [
   "source-archive",
   "fixture",
@@ -50,8 +62,11 @@ const requiredBlockedActions = [
 requireValue(manifest.sourceRepository === "Drewsure/ministar-lab", "sourceRepository must be Drewsure/ministar-lab.");
 requireValue(manifest.sourceSnapshotId === "frozen-2026-09-12-aaa-stable", "sourceSnapshotId must be the immutable frozen snapshot tag.");
 requireValue(manifest.sourceCommitSha === "eb79ddf5940ab47cc3c45c119c67ee1b6b958e55", "sourceCommitSha must match the frozen source commit.");
-requireValue(manifest.targetMode === "memory-match", "targetMode must be memory-match.");
-requireValue(manifest.parentEngine === "pairing", "parentEngine must be pairing.");
+const candidateProfile = candidateProfiles[manifest.targetMode];
+requireValue(Boolean(candidateProfile), `targetMode must be one of the approved candidate profiles: ${Object.keys(candidateProfiles).join(", ")}.`);
+if (candidateProfile) {
+  requireValue(manifest.parentEngine === candidateProfile.parentEngine, `parentEngine must be ${candidateProfile.parentEngine} for ${manifest.targetMode}.`);
+}
 requireValue(manifest.targetSurface === "phaser" || manifest.targetSurface === "hybrid", "targetSurface must be phaser or hybrid.");
 requireValue(["review-only", "blocked"].includes(manifest.status), "status must remain review-only or blocked.");
 requireValue(isNonBlankString(manifest.tenantId), "tenantId is required.");
@@ -126,7 +141,7 @@ if (failures.length > 0) {
   process.exit(1);
 }
 
-console.log(`PASS Memory Match candidate package is hash-verified, frozen-source-bound, and remains review-only (${relative(candidateRoot, returnPackagePath)}).`);
+console.log(`PASS ${candidateProfile?.label ?? "Phaser candidate"} package is hash-verified, frozen-source-bound, and remains review-only (${relative(candidateRoot, returnPackagePath)}).`);
 
 function readJsonArtifact(kind) {
   const artifactPath = artifactPaths.get(kind);
@@ -155,8 +170,8 @@ function validateFixture(fixture) {
   const payload = fixture?.pedagogical_payload;
   requireValue(isNonBlankString(meta?.tenant_id), "fixture unit_meta.tenant_id is required.");
   requireValue(meta?.tenant_id === manifest.tenantId, "fixture tenant_id must match the return package tenantId.");
-  requireValue(meta?.game_mode === "memory-match", "fixture unit_meta.game_mode must be memory-match.");
-  requireValue(meta?.engine_id === "pairing", "fixture unit_meta.engine_id must be pairing.");
+  requireValue(meta?.game_mode === manifest.targetMode, `fixture unit_meta.game_mode must be ${manifest.targetMode}.`);
+  requireValue(meta?.engine_id === manifest.parentEngine, `fixture unit_meta.engine_id must be ${manifest.parentEngine}.`);
 
   const terms = Array.isArray(payload?.vocabulary_terms) ? payload.vocabulary_terms : [];
   const sentences = Array.isArray(payload?.target_sentences) ? payload.target_sentences : [];
@@ -177,7 +192,7 @@ function validateEventReplay(replay) {
     requireValue(isNonBlankString(event?.unitKey), `event ${event?.type || "(unnamed)"} must include unitKey.`);
     requireValue(isNonBlankString(event?.launchCode), `event ${event?.type || "(unnamed)"} must include launchCode.`);
     requireValue(isNonBlankString(event?.studentSessionId), `event ${event?.type || "(unnamed)"} must include studentSessionId.`);
-    requireValue(event?.gameMode === "memory-match", `event ${event?.type || "(unnamed)"} must use gameMode memory-match.`);
+    requireValue(event?.gameMode === manifest.targetMode, `event ${event?.type || "(unnamed)"} must use gameMode ${manifest.targetMode}.`);
     requireValue(event?.metadata?.tenantId === manifest.tenantId, `event ${event?.type || "(unnamed)"} must include the package tenantId.`);
     requireValue(isNonBlankString(event?.metadata?.replaySeed) && event.metadata.replaySeed.startsWith("replay-v1:"), `event ${event?.type || "(unnamed)"} must include replay-v1 evidence.`);
 
@@ -281,7 +296,7 @@ function validateAudioCoverage(audioMap, fixture) {
 
 function validateScoringReplay(replay) {
   const scenarios = Array.isArray(replay?.scenarios) ? replay.scenarios : [];
-  const requiredScenarioIds = ["correct", "incorrect", "retry", "completion"];
+  const requiredScenarioIds = candidateProfile?.requiredScenarios ?? [];
   requireValue(replay?.deterministic === true, "scoring-replay artifact must mark deterministic true.");
   requireValue(replay?.randomRewards === false, "scoring-replay artifact must mark randomRewards false.");
   for (const scenarioId of requiredScenarioIds) {

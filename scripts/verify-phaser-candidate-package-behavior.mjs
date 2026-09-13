@@ -135,7 +135,9 @@ try {
   writeFileSync(join(evidenceRoot, "return-package.json"), JSON.stringify(manifest, null, 2));
   assertVerifierRejects(candidateRoot, "cross-session audio");
 
-  console.log("PASS Phaser candidate package behavior proves a complete package passes and random-reward/cross-session evidence is rejected.");
+  verifyBalloonProfile();
+
+  console.log("PASS Phaser candidate package behavior proves both approved profiles pass and random-reward/cross-session evidence is rejected.");
 } finally {
   rmSync(candidateRoot, { recursive: true, force: true });
 }
@@ -151,6 +153,135 @@ function event(type, occurredAt, metadata = {}) {
     metadata: {
       tenantId: "sample",
       replaySeed: "replay-v1:sample-memory-match",
+      ...metadata,
+    },
+  };
+}
+
+function verifyBalloonProfile() {
+  const balloonRoot = mkdtempSync(join(tmpdir(), "living-textbook-balloon-candidate-"));
+  const balloonEvidenceRoot = join(balloonRoot, "evidence");
+  mkdirSync(balloonEvidenceRoot, { recursive: true });
+
+  try {
+    const fixture = {
+      unit_meta: {
+        tenant_id: "sample",
+        level: 1,
+        theme: "Greetings",
+        game_mode: "balloon-pop",
+        engine_id: "selection",
+      },
+      pedagogical_payload: {
+        vocabulary_terms: ["hello", "goodbye", "teacher", "friend", "morning", "afternoon", "please", "thank you"],
+        target_sentences: ["Hello, teacher.", "Thank you, friend."],
+      },
+    };
+
+    const events = [
+      balloonEvent("game_started", "2026-09-14T01:00:00.000Z"),
+      balloonEvent("round_shown", "2026-09-14T01:00:01.000Z"),
+      balloonEvent("audio_requested", "2026-09-14T01:00:02.000Z", { cueKind: "instruction", cueText: "Pop the matching balloon.", language: "en" }),
+      balloonEvent("answer_submitted", "2026-09-14T01:00:03.000Z"),
+      balloonEvent("answer_result", "2026-09-14T01:00:04.000Z", { correct: true }),
+      balloonEvent("mastery_updated", "2026-09-14T01:00:05.000Z", { completed: true, earnedStarDust: 100, scoringProfileId: "balloon-pop-foundation" }),
+      balloonEvent("game_completed", "2026-09-14T01:00:06.000Z", { earnedStarDust: 100, scoringProfileId: "balloon-pop-foundation" }),
+    ];
+
+    const artifactContents = new Map([
+      ["source-archive", "a".repeat(64) + "  src/game/scenes/BalloonPopScene.ts\n"],
+      ["fixture", JSON.stringify(fixture)],
+      ["readme", "Setup\nControls\nDependencies\nKnown limits\nWrapper boundary notes\n"],
+      ["event-replay", JSON.stringify({ events })],
+      ["audio-coverage", JSON.stringify({ cues: [
+        ...fixture.pedagogical_payload.vocabulary_terms.map((text) => ({ kind: "term", text, language: "en", reviewed: true })),
+        { kind: "instruction", text: "Pop the matching balloon.", language: "en", reviewed: true },
+        { kind: "feedback", text: "Try again.", language: "en", reviewed: true },
+        { kind: "critical-control", text: "Replay instruction.", language: "en", reviewed: true },
+      ] })],
+      ["scoring-replay", JSON.stringify({
+        deterministic: true,
+        randomRewards: false,
+        scenarios: [
+          { scenarioId: "correct", expectedOutcome: "matching balloon accepted" },
+          { scenarioId: "incorrect", expectedOutcome: "wrong balloon rejected" },
+          { scenarioId: "miss", expectedOutcome: "escaped balloon recorded without completion" },
+          { scenarioId: "retry", expectedOutcome: "round can be retried" },
+          { scenarioId: "completion", expectedOutcome: "completion is emitted once" },
+        ],
+      })],
+      ["mobile-evidence", "Keyboard controls\nFocus management\nTouch targets\nReduced motion\nReadable fallback\nSmall-screen layout\n"],
+      ["wrapper-notes", "Phaser lifecycle maps to the canonical event sink. The platform owns score, persistence, and reporting. No direct source import.\n"],
+    ]);
+
+    const artifactPaths = {
+      "source-archive": "evidence/source-manifest.sha256",
+      fixture: "fixtures/balloon-pop-unit.json",
+      readme: "README.md",
+      "event-replay": "evidence/event-replay.json",
+      "audio-coverage": "evidence/audio-map.json",
+      "scoring-replay": "evidence/scoring-replay.json",
+      "mobile-evidence": "evidence/accessibility.md",
+      "wrapper-notes": "evidence/wrapper-notes.md",
+    };
+
+    const artifacts = [];
+    for (const [kind, content] of artifactContents) {
+      const relativePath = artifactPaths[kind];
+      const absolutePath = join(balloonRoot, relativePath);
+      mkdirSync(dirname(absolutePath), { recursive: true });
+      writeFileSync(absolutePath, content);
+      artifacts.push({
+        artifactId: `balloon-pop-${kind}`,
+        kind,
+        status: "reviewed",
+        relativePath,
+        checksum: hashFile(absolutePath),
+      });
+    }
+
+    const manifest = {
+      sourceRepository: "Drewsure/ministar-lab",
+      sourceSnapshotId: "frozen-2026-09-12-aaa-stable",
+      sourceCommitSha: "eb79ddf5940ab47cc3c45c119c67ee1b6b958e55",
+      targetMode: "balloon-pop",
+      parentEngine: "selection",
+      targetSurface: "hybrid",
+      status: "review-only",
+      tenantId: "sample",
+      requestId: "zai-balloon-pop-evidence-request",
+      queueItemId: "intake-sample-balloon-pop-phaser",
+      prototypeFolder: "candidate/balloon-pop",
+      artifacts,
+      blockedActions: [
+        "No archive import",
+        "No direct file copy into apps/web",
+        "No direct file copy into apps/ai-service",
+        "No active route replacement",
+        "No scoring mutation",
+        "No audio manifest mutation",
+        "No package promotion",
+        "No student assignment",
+      ],
+    };
+    writeFileSync(join(balloonEvidenceRoot, "return-package.json"), JSON.stringify(manifest, null, 2));
+    assertVerifierPasses(balloonRoot, "Balloon Pop profile package");
+  } finally {
+    rmSync(balloonRoot, { recursive: true, force: true });
+  }
+}
+
+function balloonEvent(type, occurredAt, metadata = {}) {
+  return {
+    type,
+    unitKey: "sample:starter-english:L1:U1",
+    gameMode: "balloon-pop",
+    launchCode: "demo-balloon-pop",
+    studentSessionId: "student-session-balloon-1",
+    occurredAt,
+    metadata: {
+      tenantId: "sample",
+      replaySeed: "replay-v1:sample-balloon-pop",
       ...metadata,
     },
   };

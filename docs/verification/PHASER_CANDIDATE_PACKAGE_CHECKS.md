@@ -5,9 +5,9 @@ Status: Manual controlled-intake check
 ## Purpose
 
 Verify one returned Z.ai candidate folder before Codex reviews wrapper
-compatibility. This check validates the Memory Match return envelope, frozen
-source identity, artifact checksums, required evidence kinds, safe paths, and
-blocked actions. It also validates fixture shape, event replay, the audio map,
+compatibility. This check validates an approved candidate profile, frozen source
+identity, artifact checksums, required evidence kinds, safe paths, and blocked
+actions. It also validates fixture shape, event replay, the audio map,
 deterministic scoring replay, accessibility evidence, source-manifest syntax,
 and wrapper boundaries. It never imports source, creates routes, or changes the
 production app.
@@ -39,17 +39,20 @@ that a complete evidence packet passes and that a packet declaring random
 rewards or cross-session audio evidence is rejected; no candidate source or
 learner data is used by this test.
 
-The fixture must contain 8-12 unique vocabulary terms, exactly two target
-sentences, and tenant-bound pairing metadata. The event replay must carry
+The currently approved profiles are `memory-match` (`pairing`) and
+`balloon-pop` (`selection`). The fixture must contain 8-12 unique vocabulary
+terms, exactly two target sentences, and tenant-bound parent-engine metadata.
+The event replay must carry
 tenant, unit, launch, and student-session identity on every learning event,
 use a `replay-v1:` seed, and remain chronological in canonical event order.
 The audio map must cover every term plus instruction, feedback, and critical
-controls in a reviewed language. The scoring replay must prove `correct`,
-`incorrect`, `retry`, and `completion` scenarios with deterministic scoring and
-no random rewards. Accessibility evidence must cover keyboard, focus, touch,
-reduced motion, readable fallback, and small-screen behavior. Wrapper notes
-must explain Phaser lifecycle mapping while keeping score, persistence, and
-reporting platform-owned.
+controls in a reviewed language. The scoring replay must prove the profile's
+required scenarios: `memory-match` requires `correct`, `incorrect`, `retry`,
+and `completion`; `balloon-pop` additionally requires `miss`. Both profiles
+must use deterministic scoring and no random rewards. Accessibility evidence
+must cover keyboard, focus, touch, reduced motion, readable fallback, and
+small-screen behavior. Wrapper notes must explain Phaser lifecycle mapping
+while keeping score, persistence, and reporting platform-owned.
 
 The package must be bound to the frozen
 `Drewsure/ministar-lab` snapshot

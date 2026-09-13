@@ -2082,3 +2082,11 @@ randomization, scoring, audio, identity, persistence, lifecycle, responsive
 input, accessibility, and tenant policy. Balloon Pop remains the second
 external candidate after Memory Match and is blocked pending its complete
 evidence package. See `docs/adr/0721-balloon-pop-source-mapping-review.md`.
+
+## 0723 - Phaser candidate profile gate
+
+Generalized the isolated candidate package verifier from a Memory Match-only
+assumption to explicit approved profiles. Memory Match uses the pairing parent
+engine and its baseline scoring scenarios; Balloon Pop uses selection and adds
+the required missed-target scenario. Updated the checks, intake gate, and
+standing standards while preserving the review-only boundary. See ADR 0722.

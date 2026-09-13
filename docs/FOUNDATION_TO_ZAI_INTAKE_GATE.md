@@ -92,7 +92,9 @@ repository. If the snapshot is elsewhere, set
 
 When a named candidate package is returned, set
 `LIVING_TEXTBOOOK_ZAI_CANDIDATE_ROOT` to its isolated folder and run
-`npm run verify:phaser-candidate-package`. The command checks the Memory Match
-return envelope, frozen source identity, eight reviewed artifact kinds, safe
-paths, and blocked actions. It is intentionally outside `verify:foundation`:
+`npm run verify:phaser-candidate-package`. The command checks the selected
+approved candidate profile (currently Memory Match or Balloon Pop), frozen
+source identity, eight reviewed artifact kinds, profile-specific replay
+scenarios, safe paths, and blocked actions. It is intentionally outside
+`verify:foundation`:
 absence of a returned package is `NOT READY`, not a canonical build failure.

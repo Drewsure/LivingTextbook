@@ -25,6 +25,11 @@ const verifierMarkers = [
   "source-manifest.sha256",
   "reduced motion",
   "No direct file copy into apps/web",
+  "candidateProfiles",
+  "balloon-pop",
+  "requiredScenarios",
+  "miss",
+  "approved candidate profiles",
 ];
 
 const guideMarkers = [

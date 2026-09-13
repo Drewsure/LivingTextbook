@@ -2337,3 +2337,17 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-791 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-793 and
 `docs/adr/0719-documentation-integrity-gate.md`.
+
+## 150. Phaser Candidate Profile Standard
+
+- The external-package verifier must use explicit approved candidate profiles,
+  not a single first-candidate special case.
+- Each profile must declare its target mode, parent engine, and deterministic
+  scoring scenarios; a candidate cannot substitute another mode's replay
+  expectations.
+- Adding a profile does not approve source import, route replacement, package
+  promotion, or student assignment. It only makes that named candidate
+  reviewable through the same evidence boundary.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-796 and
+`docs/adr/0722-phaser-candidate-profile-gate.md`.
