@@ -2032,3 +2032,13 @@ first is historical and has been marked superseded. Candidate order is not
 approval: every scene remains outside the canonical app until its own fixture,
 event, audio, replay, accessibility, identity, tenant-policy, and wrapper
 evidence passes review. See `docs/adr/0717-active-phaser-candidate-order.md`.
+
+## 0718 - Platform replay seed injection boundary
+
+The canonical route shell now accepts an optional `platformReplaySeed` and
+uses it as the single replay seed for the mounted game. If no platform seed is
+provided, the existing deterministic unit-and-mode seed remains active. This
+creates a future Phaser/provider handoff point without enabling source import,
+route replacement, live persistence, or student assignment behavior. The
+canonical integration verifier checks both the optional input and the
+deterministic fallback. See `docs/adr/0718-platform-replay-seed-injection-boundary.md`.

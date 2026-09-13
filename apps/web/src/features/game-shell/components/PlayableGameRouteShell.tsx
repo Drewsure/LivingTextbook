@@ -41,6 +41,7 @@ interface PlayableGameRouteShellProps {
   audioCues?: AudioCue[];
   assignmentPlan?: TeacherAssignmentPlan;
   gameMode: GameModeId;
+  platformReplaySeed?: string;
   header: {
     eyebrow: string;
     title: string;
@@ -65,6 +66,7 @@ export function PlayableGameRouteShell({
   audioCues = [],
   assignmentPlan,
   gameMode,
+  platformReplaySeed,
   header,
   progressTitle,
   children,
@@ -78,7 +80,7 @@ export function PlayableGameRouteShell({
   const [lastEarnedDust, setLastEarnedDust] = useState(0);
   const [eventContractErrors, setEventContractErrors] = useState<string[]>([]);
   const offerMap = unit.unitMeta.contentPackageId ? findSampleUnitGameOfferMap(unit.unitMeta.contentPackageId) : undefined;
-  const replaySeed = createCanonicalGameReplaySeed({ unitKey: launchSession.unitKey, gameMode });
+  const replaySeed = platformReplaySeed ?? createCanonicalGameReplaySeed({ unitKey: launchSession.unitKey, gameMode });
   const gameSupportedAtLevel = isGameModeSupportedAtLevel(gameMode, unit.unitMeta.level);
   const gameUnlocked = gameSupportedAtLevel && currentProgression.unlockedGameModes.includes(gameMode);
 

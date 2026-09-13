@@ -2220,6 +2220,20 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-783 and
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-786 and
 `docs/adr/0713-canonical-replay-seed-consistency.md`.
 
+## 143. Platform Replay Seed Injection Standard
+
+- The canonical route shell may accept an optional platform-issued replay seed
+  as the only future provider or Phaser injection point.
+- When no issued seed exists, the deterministic unit-and-mode seed remains the
+  required fallback so local demos and review fixtures stay reproducible.
+- Mounted games must reuse the resolved seed for start, interaction, learning
+  audio, and completion evidence; components must not derive a second seed.
+- This interface does not authorize source import, route replacement, live
+  persistence, student assignment, or production provider networking.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-791 and
+`docs/adr/0718-platform-replay-seed-injection-boundary.md`.
+
 ## 145. Route-Shell Replay Seed Ownership Standard
 
 - The shared playable route shell owns the canonical replay seed for a game

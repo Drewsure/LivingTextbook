@@ -4405,6 +4405,16 @@ all required learning and audio events. A different but syntactically valid
 seed is mixed-layout evidence and blocks the canonical completion boundary.
 See ADR 0713.
 
+# DR-791: Platform Replay Seed Injection Boundary
+
+The canonical route shell exposes an optional `platformReplaySeed` input for
+future platform-issued or approved provider-issued replay seeds. When it is
+omitted, the shell retains the deterministic unit-and-mode seed. The shell
+remains the single handoff authority and mounted games must receive and reuse
+the resulting seed for every required event. This reserves a stable Phaser
+integration seam without importing frozen source, enabling persistence,
+provider networking, or live assignment behavior. See ADR 0718.
+
 # DR-789: Route-Shell Replay Seed Ownership
 
 `PlayableGameRouteShell` is the authoritative owner of the canonical replay
