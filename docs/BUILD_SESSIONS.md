@@ -1812,6 +1812,13 @@ and front-door flows. Its reviewed text-spelling wrapper supplies prompt audio,
 input guidance, deterministic scoring, replay evidence, standard events, and
 completion gating. See ADR 0695, DR-767, and operating note OW-048.
 
+Spelling Practice is now promoted from preview to canonical behavior in the
+student and front-door flows. Its reviewed text-spelling wrapper supplies
+target-language prompt audio, deterministic letter-tile scoring, replay
+evidence, standard events, and completion gating. The current fixture supports
+English letter normalization; Japanese script-aware spelling remains a future
+target-language expansion. See ADR 0696, DR-768, and operating note OW-049.
+
 The teacher recovery summary now treats `training_completed` as the sole
 authoritative recovery award record. Response-result metadata remains visible
 evidence but is excluded from the reward total, preventing one recovery action

@@ -1068,3 +1068,27 @@ Procedure:
 
 Why this matters: Multi-game unit pathways remain valid when the platform
 unit cap normalizes a later activity's award.
+
+## OW-049: Promote Canonical Spelling Practice
+
+Status: Active
+
+Observed behavior: Spelling Practice can be fully verified on its standalone
+route while the curated launch surfaces still render it as a preview.
+
+Procedure:
+
+1. Confirm the target-language prompt, instruction labels, letter tiles,
+   feedback, and replay controls have audio support.
+2. Confirm deterministic letter-bank construction, answer comparison,
+   standard events, replay evidence, and shared completion validation.
+3. Mount the wrapper explicitly in student and front-door flows.
+4. Keep support language, media, uploads, and random rewards outside
+   progression authority.
+5. Confirm the supported script before promotion; do not present an English
+   letter-normalization path as Japanese spelling support.
+6. Extend `verify:canonical-games`, then run web typecheck, production build,
+   and route verification.
+
+Why this matters: Spelling practice must be auditable in the curated pathway,
+and script-specific behavior must be explicit for white-label tenants.

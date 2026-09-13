@@ -328,6 +328,7 @@ for (const fragment of [
   "QuizPracticeGame",
   "TrueFalsePracticeGame",
   "TypeAnswerPracticeGame",
+  "SpellingPracticeGame",
   "Completion is paused until the event evidence is valid.",
 ]) {
   if (!frontDoorFlow.includes(fragment)) {

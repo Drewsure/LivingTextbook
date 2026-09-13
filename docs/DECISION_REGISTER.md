@@ -4190,3 +4190,13 @@ Type Answer is now mounted as a canonical text-spelling activity in the
 student and front-door flows, preserving shared audio, deterministic scoring,
 replay, progression, and completion evidence. See ADR 0695 and
 `docs/decision-register/DR-767-type-answer-canonical-entry-integration.md`.
+
+# DR-768: Spelling Practice Canonical Entry Integration
+
+Spelling Practice is now mounted as a canonical text-spelling activity in the
+student and front-door flows, preserving target-language prompt audio,
+deterministic letter-tile scoring, replay, progression, and completion
+evidence. English letter-tile normalization is the current supported fixture;
+Japanese segmentation and script-aware spelling remain a separately reviewed
+target-language expansion. See ADR 0696 and
+`docs/decision-register/DR-768-spelling-practice-canonical-entry-integration.md`.

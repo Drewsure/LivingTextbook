@@ -2045,4 +2045,23 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-766 and
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-767 and
 `docs/adr/0695-type-answer-canonical-entry-integration.md`.
 
+## 130. Canonical Spelling Practice Standard
+
+- Spelling Practice may enter a curated launch path only when target-language
+  prompt audio, instruction and feedback audio, replay, deterministic letter
+  construction, scoring, identity, event, and completion contracts are
+  satisfied.
+- Student and front-door surfaces must explicitly mount the promoted spelling
+  wrapper and route its evidence through the shared completion gate.
+- Support language, media, uploads, and random rewards cannot unlock or award
+  progress or replace target-language spelling activity.
+- Script-specific behavior must be declared per tenant and target language;
+  the English letter-normalization fixture does not claim Japanese spelling
+  support.
+- Unpromoted or unsupported script modes remain preview-only until separately
+  reviewed.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-768 and
+`docs/adr/0696-spelling-practice-canonical-entry-integration.md`.
+
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-615 and `docs/adr/0543-progress-event-timestamps.md`.
