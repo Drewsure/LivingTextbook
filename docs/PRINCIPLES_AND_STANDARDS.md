@@ -2208,6 +2208,18 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-782 and
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-783 and
 `docs/adr/0710-canonical-game-event-identity.md`.
 
+## 142. Canonical Replay Seed Consistency Standard
+
+- All canonical learning and audio evidence for one game sequence must use one
+  identical `replay-v1:` seed.
+- A valid seed from another layout, unit, or session is not acceptable evidence
+  for the current sequence.
+- Mixed replay evidence cannot affect completion, progression, reporting,
+  rewards, or persistence planning.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-786 and
+`docs/adr/0713-canonical-replay-seed-consistency.md`.
+
 ## 140. Phaser Candidate Evidence Completeness Standard
 
 - A returned Phaser candidate is not reviewable from its manifest and hashes
@@ -2231,3 +2243,15 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-784 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-785 and
 `docs/adr/0712-phaser-candidate-gate-behavior.md`.
+
+## 142. Canonical Replay Seed Consistency Standard
+
+- All canonical learning and audio evidence for one game sequence must use one
+  identical `replay-v1:` seed.
+- A valid seed from another layout, unit, or session is not acceptable evidence
+  for the current sequence.
+- Mixed replay evidence cannot affect completion, progression, reporting,
+  rewards, or persistence planning.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-786 and
+`docs/adr/0713-canonical-replay-seed-consistency.md`.

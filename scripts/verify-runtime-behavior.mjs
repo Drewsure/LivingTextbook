@@ -259,6 +259,11 @@ try {
     ).errors,
     "Canonical game event game_started must include launch identity.",
   );
+  const mixedReplayErrors = canonicalGame.validateCanonicalGameEventSequence(
+    canonicalEvents.map((event) => event.type === "audio_requested" ? { ...event, metadata: { ...event.metadata, replaySeed: "replay-v1:other-layout" } } : event),
+    "flashcards",
+  ).errors;
+  assertEqual(mixedReplayErrors.some((error) => error.includes("audio_requested must preserve replay seed") && error.includes("replay-v1:other-layout")), true);
   assertIncludes(
     canonicalGame.validateCanonicalGameEventSequence(
       canonicalEvents.map((event) => event.type === "game_completed" ? { ...event, metadata: { ...event.metadata, scoringProfileId: undefined } } : event),

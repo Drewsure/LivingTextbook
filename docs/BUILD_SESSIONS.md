@@ -1970,6 +1970,11 @@ Canonical game event sequences now require tenant metadata and non-blank unit,
 launch, and student-session identity on every event. Optional expected-identity
 comparison remains a second check, not the presence requirement. See ADR 0710.
 
+Canonical replay evidence now also requires one consistent `replay-v1:` seed
+across the game sequence, including learning audio. This keeps deterministic
+layout evidence tied to one replay and blocks mixed-session or mixed-layout
+evidence before completion review. See ADR 0713.
+
 The controlled Phaser candidate package gate now verifies the evidence inside the
 return package, not only its envelope: fixture shape, canonical event replay,
 target-language audio coverage, deterministic scoring scenarios, accessibility
@@ -1980,3 +1985,8 @@ The candidate gate now has a source-free behavior test in the foundation suite:
 one complete synthetic return package must pass, while the same package with
 random rewards or cross-session audio identity must fail. This protects the
 review gate itself before Z.ai evidence arrives. See ADR 0712.
+
+Canonical replay evidence now requires one identical `replay-v1:` seed across
+all required learning and audio events. A syntactically valid seed from another
+layout is rejected as mixed replay evidence before completion review. See ADR
+0713.

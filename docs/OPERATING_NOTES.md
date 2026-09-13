@@ -1206,6 +1206,10 @@ When adding a canonical game event, always preserve `tenantId`, `unitKey`,
 `launchCode`, and `studentSessionId`. The sequence validator now rejects a
 missing field even when no expected identity object is supplied. See ADR 0710.
 
+When adding replay evidence, preserve one identical `replay-v1:` seed across
+all required game and audio events. A syntactically valid but different seed is
+still rejected as mixed replay evidence. See ADR 0713.
+
 When reviewing a returned Phaser candidate, run the package gate after setting
 `LIVING_TEXTBOOOK_ZAI_CANDIDATE_ROOT`. Confirm that the fixture, event replay,
 audio map, scoring replay, accessibility evidence, source manifest, and wrapper
@@ -1218,3 +1222,7 @@ The package verifier has a source-free synthetic behavior check in
 `randomRewards: true` and cross-session audio rejection cases intact when
 changing the candidate contract. This catches accidental weakening of the
 review gate without needing Z.ai files. See ADR 0712.
+
+When adding canonical replay evidence, preserve one identical `replay-v1:` seed
+across every required game and audio event. A different valid seed is still
+invalid mixed-layout evidence. See ADR 0713.

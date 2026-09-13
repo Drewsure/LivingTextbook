@@ -256,12 +256,23 @@ export function validateCanonicalGameEventSequence(
     }
   }
 
+  let canonicalReplaySeed: string | undefined;
   for (const event of events) {
     if (
       replayEvidenceRequiredTypes.includes(event.type)
       && (typeof event.metadata?.replaySeed !== "string" || !event.metadata.replaySeed.startsWith("replay-v1:"))
     ) {
       errors.push(`Canonical game event ${event.type} must carry replay-v1 evidence.`);
+    }
+
+    if (replayEvidenceRequiredTypes.includes(event.type) && typeof event.metadata?.replaySeed === "string") {
+      if (canonicalReplaySeed === undefined) {
+        canonicalReplaySeed = event.metadata.replaySeed;
+      } else if (canonicalReplaySeed !== event.metadata.replaySeed) {
+        errors.push(
+          `Canonical game event ${event.type} must preserve replay seed ${canonicalReplaySeed}; found ${event.metadata.replaySeed}.`,
+        );
+      }
     }
 
     if (event.metadata?.supportLanguageUnlockAllowed === true) {

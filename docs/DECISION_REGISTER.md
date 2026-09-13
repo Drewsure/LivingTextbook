@@ -4397,3 +4397,17 @@ through the candidate verifier. A complete packet must pass, while a packet
 declaring random rewards must be rejected. This protects the candidate review
 boundary before Z.ai returns an actual package and does not import source or
 learner data. See ADR 0712.
+
+# DR-786: Canonical Replay Seed Consistency
+
+Canonical game evidence now requires one identical `replay-v1:` seed across
+all required learning and audio events. A different but syntactically valid
+seed is mixed-layout evidence and blocks the canonical completion boundary.
+See ADR 0713.
+
+# DR-786: Canonical Replay Seed Consistency
+
+Canonical game evidence now requires one identical `replay-v1:` seed across
+all required learning and audio events. A different but syntactically valid
+seed is mixed-layout evidence and blocks the canonical completion boundary.
+See ADR 0713.
