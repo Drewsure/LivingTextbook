@@ -4295,3 +4295,8 @@ start and completion for unsupported modes. This is defense in depth: the
 student-facing route remains understandable while the state boundary remains
 authoritative. Later-level routes stay reusable and are not removed from the
 catalog.
+
+The student activity hub also filters reviewed offer-map recommendations by
+the same supported-level contract before rendering route choices. Offer-map
+validation remains the primary data boundary; the hub filter is a second
+runtime defense against stale or malformed records.

@@ -1895,3 +1895,9 @@ An unsupported route presents a clear Level pathway gate and returns to the
 reviewed activity hub; it cannot earn dust, emit completion, or self-unlock.
 Supported later-level routes remain reusable. See ADR 0701, DR-774, and
 operating note OW-054.
+
+The student activity hub now applies the same level check to reviewed offer
+maps before surfacing a recommended route. This protects navigation from stale
+or malformed ready records while preserving the curated pathway and later
+level reuse. The canonical verifier covers this additional defense-in-depth
+surface.

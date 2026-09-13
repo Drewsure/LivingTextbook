@@ -226,6 +226,7 @@ const sessionMonitorData = readText("apps/web/src/data/sampleTeacherSessionMonit
 const progressionCore = readText("packages/content-model/src/index.ts");
 const localProgressionAdapter = readText("apps/web/src/features/progression/localProgressionAdapter.ts");
 const playableRouteShell = readText("apps/web/src/features/game-shell/components/PlayableGameRouteShell.tsx");
+const recommendedRoutesCard = readText("apps/web/src/features/student/components/RecommendedGameRoutesCard.tsx");
 
 const standardEventTypes = [
   "game_started",
@@ -325,6 +326,8 @@ for (const [surface, source, fragment] of [
   ["local progression adapter", localProgressionAdapter, "isLaunchGameModeSupported"],
   ["local progression adapter", localProgressionAdapter, "isGameModeSupportedAtLevel"],
   ["playable route shell", playableRouteShell, "gameSupportedAtLevel"],
+  ["recommended routes card", recommendedRoutesCard, "isGameModeSupportedAtLevel"],
+  ["recommended routes card", recommendedRoutesCard, "offerMap.level"],
   ["game access gate", accessGate, "unsupported-level"],
 ]) {
   if (!source.includes(fragment)) {

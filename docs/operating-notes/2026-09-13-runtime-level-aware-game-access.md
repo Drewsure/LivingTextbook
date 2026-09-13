@@ -17,7 +17,9 @@ When adding or changing a playable game route:
 4. Apply the same check before local progression start and completion.
 5. Preserve progression state and award zero Star Dust for rejected attempts.
 6. Return the learner to the reviewed activity hub, not to an unreviewed game.
-7. Run the canonical-game, runtime, typecheck, production-build, and route
+7. Filter reviewed offer-map recommendations by the same level contract before
+   showing them in the activity hub.
+8. Run the canonical-game, runtime, typecheck, production-build, and route
    verification commands.
 
 ## Resolution
