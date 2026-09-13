@@ -2220,6 +2220,18 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-783 and
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-786 and
 `docs/adr/0713-canonical-replay-seed-consistency.md`.
 
+## 145. Route-Shell Replay Seed Ownership Standard
+
+- The shared playable route shell owns the canonical replay seed for a game
+  sequence.
+- Canonical games must require the shell-provided seed and pass it explicitly
+  to all interaction, learning-audio, and completion event factories.
+- A game component must not derive a second seed; future platform-issued or
+  approved Phaser-wrapper seeds enter through the shell boundary.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-789 and
+`docs/adr/0716-route-shell-replay-seed-ownership.md`.
+
 ## 143. Platform-Supplied Replay Seed Standard
 
 - A game wrapper may receive a replay seed from the platform when it needs to

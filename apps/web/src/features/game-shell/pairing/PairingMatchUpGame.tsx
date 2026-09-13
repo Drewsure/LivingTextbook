@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { ReactNode } from "react";
 import { Card, StatusPill } from "@living-textbook/ui";
-import { createCanonicalGameReplaySeed } from "@living-textbook/content-model";
 import type {
   AudioCue,
   GameProgressEvent,
@@ -35,6 +34,7 @@ interface PairingMatchUpGameProps {
   unit: UnitPayload;
   launchSession: LaunchSession;
   progression: StudentProgressionState;
+  replaySeed: string;
   audioCues?: AudioCue[];
   onEvent?: (event: GameProgressEvent) => void;
   onComplete: (result: GameModeCompletionResult) => void;
@@ -46,6 +46,7 @@ export function PairingMatchUpGame({
   unit,
   launchSession,
   progression,
+  replaySeed,
   audioCues = [],
   onEvent,
   onComplete,
@@ -54,7 +55,6 @@ export function PairingMatchUpGame({
   const [lastResult, setLastResult] = useState<PairingSelectionResult | undefined>();
   const [mismatchCardIds, setMismatchCardIds] = useState<string[]>([]);
   const [completionSent, setCompletionSent] = useState(false);
-  const replaySeed = createCanonicalGameReplaySeed({ unitKey: launchSession.unitKey, gameMode });
   const targetLanguage = unit.unitMeta.textbookReference?.language ?? "en";
   const startSentRef = useRef(false);
   const mode = getGameModeCatalogItem(gameMode);
@@ -95,6 +95,7 @@ export function PairingMatchUpGame({
         launchSession,
         gameMode,
         occurredAt: new Date().toISOString(),
+        replaySeed,
         cueKind,
         cueText,
         language,
@@ -114,6 +115,7 @@ export function PairingMatchUpGame({
         launchSession,
         gameMode,
         occurredAt: new Date().toISOString(),
+        replaySeed,
         metadata,
       }),
     );
@@ -211,6 +213,7 @@ export function PairingMatchUpGame({
         gameMode,
         earnedStarDust,
         occurredAt: new Date().toISOString(),
+        replaySeed,
         metadata: {
           totalPairs: completedProgress.totalPairs,
           attempts: outcome.state.attempts,

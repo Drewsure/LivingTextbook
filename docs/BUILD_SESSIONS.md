@@ -2013,3 +2013,13 @@ only its prefix, rejecting empty or unsafe values. The shared event validator
 also uses non-blank identity reads for unit keys so malformed runtime evidence
 returns a validation error instead of throwing. Runtime regression coverage
 proves both rejection paths. See `docs/adr/0715-fail-closed-replay-validation.md`.
+
+## 0716 - Route-shell replay seed ownership
+
+`PlayableGameRouteShell` now creates the canonical replay seed once and passes
+it into each mounted canonical game. The game components require that value
+and pass it explicitly to interaction, learning-audio, and completion event
+factories. They no longer derive an independent seed. This keeps deterministic
+layout evidence and event evidence on one platform-owned handoff boundary,
+ready for a future issued seed or approved Phaser wrapper. See
+`docs/adr/0716-route-shell-replay-seed-ownership.md`.

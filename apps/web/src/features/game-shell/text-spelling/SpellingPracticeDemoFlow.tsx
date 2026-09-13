@@ -31,11 +31,12 @@ export function SpellingPracticeDemoFlow({
       }}
       progressTitle="Spelling Practice Progress"
     >
-      {({ progression: currentProgression, onEvent, onComplete }) => (
+      {({ progression: currentProgression, replaySeed, onEvent, onComplete }) => (
         <SpellingPracticeGame
           unit={unit}
           launchSession={launchSession}
           progression={currentProgression}
+          replaySeed={replaySeed}
           audioCues={audioCues}
           onEvent={onEvent}
           onComplete={onComplete}

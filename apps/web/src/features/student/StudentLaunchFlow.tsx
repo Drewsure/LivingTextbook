@@ -13,6 +13,7 @@ import type {
   UnitPayload,
 } from "@living-textbook/content-model";
 import {
+  createCanonicalGameReplaySeed,
   createProgressionContinuityEnvelope,
   validateProgressionContinuityRuntimeRequest,
 } from "@living-textbook/content-model";
@@ -91,6 +92,10 @@ export function StudentLaunchFlow({
   const [sessionEvents, setSessionEvents] = useState<GameProgressEvent[]>([]);
   const [lastEarnedDust, setLastEarnedDust] = useState(0);
   const [activeGameMode, setActiveGameMode] = useState<GameModeId | undefined>();
+  const replaySeed = createCanonicalGameReplaySeed({
+    unitKey: launchSession.unitKey,
+    gameMode: activeGameMode ?? launchSession.entryMode,
+  });
   const [eventContractErrors, setEventContractErrors] = useState<string[]>([]);
   const [continuityEnvelope, setContinuityEnvelope] = useState<ReturnType<typeof createProgressionContinuityEnvelope>>();
   const [targetPracticeEngagedItemIds, setTargetPracticeEngagedItemIds] = useState<string[]>([]);
@@ -378,6 +383,7 @@ export function StudentLaunchFlow({
           gameMode={activeGameMode}
           launchSession={launchSession}
           progression={currentProgression}
+          replaySeed={replaySeed}
           audioCues={audioCues}
           onEvent={handleGameEvent}
           onComplete={handleGameComplete}
@@ -388,6 +394,7 @@ export function StudentLaunchFlow({
           unit={unit}
           launchSession={launchSession}
           progression={currentProgression}
+          replaySeed={replaySeed}
           audioCues={audioCues}
           onEvent={handleGameEvent}
           onComplete={handleGameComplete}
@@ -398,6 +405,7 @@ export function StudentLaunchFlow({
           unit={unit}
           launchSession={launchSession}
           progression={currentProgression}
+          replaySeed={replaySeed}
           audioCues={audioCues}
           onEvent={handleGameEvent}
           onComplete={handleGameComplete}
@@ -408,6 +416,7 @@ export function StudentLaunchFlow({
           unit={unit}
           launchSession={launchSession}
           progression={currentProgression}
+          replaySeed={replaySeed}
           audioCues={audioCues}
           onEvent={handleGameEvent}
           onComplete={handleGameComplete}
@@ -418,6 +427,7 @@ export function StudentLaunchFlow({
           unit={unit}
           launchSession={launchSession}
           progression={currentProgression}
+          replaySeed={replaySeed}
           audioCues={audioCues}
           onEvent={handleGameEvent}
           onComplete={handleGameComplete}
@@ -428,6 +438,7 @@ export function StudentLaunchFlow({
           unit={unit}
           launchSession={launchSession}
           progression={currentProgression}
+          replaySeed={replaySeed}
           audioCues={audioCues}
           onEvent={handleGameEvent}
           onComplete={handleGameComplete}
@@ -438,6 +449,7 @@ export function StudentLaunchFlow({
           unit={unit}
           launchSession={launchSession}
           progression={currentProgression}
+          replaySeed={replaySeed}
           audioCues={audioCues}
           onEvent={handleGameEvent}
           onComplete={handleGameComplete}
@@ -448,6 +460,7 @@ export function StudentLaunchFlow({
           unit={unit}
           launchSession={launchSession}
           progression={currentProgression}
+          replaySeed={replaySeed}
           audioCues={audioCues}
           onEvent={handleGameEvent}
           onComplete={handleGameComplete}
@@ -458,6 +471,7 @@ export function StudentLaunchFlow({
           unit={unit}
           launchSession={launchSession}
           progression={currentProgression}
+          replaySeed={replaySeed}
           audioCues={audioCues}
           onEvent={handleGameEvent}
           onComplete={handleGameComplete}
@@ -468,6 +482,7 @@ export function StudentLaunchFlow({
           unit={unit}
           launchSession={launchSession}
           progression={currentProgression}
+          replaySeed={replaySeed}
           audioCues={audioCues}
           onEvent={handleGameEvent}
           onComplete={handleGameComplete}
@@ -479,6 +494,7 @@ export function StudentLaunchFlow({
           gameMode={activeGameMode}
           launchSession={launchSession}
           progression={currentProgression}
+          replaySeed={replaySeed}
           audioCues={audioCues}
           microphonePractice={microphonePracticeSettings}
           onEvent={handleGameEvent}

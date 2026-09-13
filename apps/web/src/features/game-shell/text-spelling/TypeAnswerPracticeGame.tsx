@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Card, StatusPill } from "@living-textbook/ui";
-import { createCanonicalGameReplaySeed } from "@living-textbook/content-model";
 import type {
   AudioCue,
   GameProgressEvent,
@@ -25,6 +24,7 @@ interface TypeAnswerPracticeGameProps {
   unit: UnitPayload;
   launchSession: LaunchSession;
   progression: StudentProgressionState;
+  replaySeed: string;
   audioCues?: AudioCue[];
   onEvent?: (event: GameProgressEvent) => void;
   onComplete: (result: GameModeCompletionResult) => void;
@@ -44,13 +44,13 @@ export function TypeAnswerPracticeGame({
   unit,
   launchSession,
   progression,
+  replaySeed,
   audioCues = [],
   onEvent,
   onComplete,
 }: TypeAnswerPracticeGameProps) {
   const rounds = useMemo(() => buildTypeAnswerRounds(unit), [unit]);
   const scoringProfile = getGameScoringProfileForMode(gameMode);
-  const replaySeed = createCanonicalGameReplaySeed({ unitKey: launchSession.unitKey, gameMode });
   const targetLanguage = unit.unitMeta.textbookReference?.language ?? "en";
   const startEventSent = useRef(false);
   const [roundIndex, setRoundIndex] = useState(0);
@@ -109,6 +109,7 @@ export function TypeAnswerPracticeGame({
         launchSession,
         gameMode,
         occurredAt: new Date().toISOString(),
+        replaySeed,
         cueKind,
         cueText,
         language,
@@ -128,6 +129,7 @@ export function TypeAnswerPracticeGame({
         launchSession,
         gameMode,
         occurredAt: new Date().toISOString(),
+        replaySeed,
         metadata,
       }),
     );
@@ -195,6 +197,7 @@ export function TypeAnswerPracticeGame({
         gameMode,
         earnedStarDust,
         occurredAt: new Date().toISOString(),
+        replaySeed,
         metadata: {
           parentEngine: "text-spelling",
           scoringProfileId,

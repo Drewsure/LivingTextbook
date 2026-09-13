@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Card, StatusPill } from "@living-textbook/ui";
-import { createCanonicalGameReplaySeed } from "@living-textbook/content-model";
 import type {
   AudioCue,
   GameProgressEvent,
@@ -24,6 +23,7 @@ interface LabelItPracticeGameProps {
   unit: UnitPayload;
   launchSession: LaunchSession;
   progression: StudentProgressionState;
+  replaySeed: string;
   audioCues?: AudioCue[];
   onEvent?: (event: GameProgressEvent) => void;
   onComplete: (result: GameModeCompletionResult) => void;
@@ -44,13 +44,13 @@ export function LabelItPracticeGame({
   unit,
   launchSession,
   progression,
+  replaySeed,
   audioCues = [],
   onEvent,
   onComplete,
 }: LabelItPracticeGameProps) {
   const anchors = useMemo(() => buildLabelAnchors(unit), [unit]);
   const scoringProfile = getGameScoringProfileForMode(gameMode);
-  const replaySeed = createCanonicalGameReplaySeed({ unitKey: launchSession.unitKey, gameMode });
   const targetLanguage = unit.unitMeta.textbookReference?.language ?? "en";
   const startEventSent = useRef(false);
   const roundShownSent = useRef(false);
@@ -110,6 +110,7 @@ export function LabelItPracticeGame({
         launchSession,
         gameMode,
         occurredAt: new Date().toISOString(),
+        replaySeed,
         cueKind,
         cueText,
         language,
@@ -129,6 +130,7 @@ export function LabelItPracticeGame({
         launchSession,
         gameMode,
         occurredAt: new Date().toISOString(),
+        replaySeed,
         metadata,
       }),
     );
@@ -206,6 +208,7 @@ export function LabelItPracticeGame({
         gameMode,
         earnedStarDust,
         occurredAt: new Date().toISOString(),
+        replaySeed,
         metadata: {
           parentEngine: "pairing",
           scoringProfileId,

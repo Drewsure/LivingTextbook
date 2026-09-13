@@ -1242,3 +1242,10 @@ Replay evidence must use a non-empty transport-safe `replay-v1:` seed. The
 canonical validator rejects empty or unsafe seeds and reports missing unit
 identity without throwing. Keep malformed evidence on the review path and run
 `npm run verify:runtime-behavior` when changing this boundary. See ADR 0715.
+
+When changing a canonical game wrapper, treat `PlayableGameRouteShell` as the
+replay-seed authority. Require `replaySeed` in the game props and pass the
+same explicit value to start, interaction, audio, and completion factories.
+Do not recreate the seed inside a game component. Run
+`npm run verify:canonical-games` and `npm run verify:foundation` after
+changing this boundary. See ADR 0716.

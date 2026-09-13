@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Card, StatusPill } from "@living-textbook/ui";
-import { createCanonicalGameReplaySeed } from "@living-textbook/content-model";
 import type {
   AudioCue,
   GameModeId,
@@ -37,6 +36,7 @@ interface PairingMemoryMatchGameProps {
   gameMode: GameModeId;
   launchSession: LaunchSession;
   progression: StudentProgressionState;
+  replaySeed: string;
   audioCues?: AudioCue[];
   onEvent?: (event: GameProgressEvent) => void;
   onComplete: (result: GameModeCompletionResult) => void;
@@ -47,11 +47,11 @@ export function PairingMemoryMatchGame({
   gameMode,
   launchSession,
   progression,
+  replaySeed,
   audioCues = [],
   onEvent,
   onComplete,
 }: PairingMemoryMatchGameProps) {
-  const replaySeed = createCanonicalGameReplaySeed({ unitKey: launchSession.unitKey, gameMode });
   const [engineState, setEngineState] = useState<PairingEngineState>(() => createShuffledPairingState(unit, replaySeed));
   const [lastResult, setLastResult] = useState<PairingSelectionResult | undefined>();
   const [mismatchCardIds, setMismatchCardIds] = useState<string[]>([]);
@@ -91,6 +91,7 @@ export function PairingMemoryMatchGame({
         launchSession,
         gameMode,
         occurredAt: new Date().toISOString(),
+        replaySeed,
         cueKind,
         cueText,
         language,
@@ -110,6 +111,7 @@ export function PairingMemoryMatchGame({
         launchSession,
         gameMode,
         occurredAt: new Date().toISOString(),
+        replaySeed,
         metadata,
       }),
     );
@@ -195,6 +197,7 @@ export function PairingMemoryMatchGame({
         gameMode,
         earnedStarDust,
         occurredAt: new Date().toISOString(),
+        replaySeed,
         metadata: {
           totalPairs: progress.totalPairs,
           attempts: outcome.state.attempts,

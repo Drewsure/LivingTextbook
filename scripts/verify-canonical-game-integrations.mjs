@@ -26,7 +26,6 @@ const integrations = [
     route: "apps/web/src/app/sentence/[code]/page.tsx",
     routeFlow: "SentenceBuilderDemoFlow",
     required: [
-      "createCanonicalGameReplaySeed",
       "startUnlockedGameMode",
       "createAudioRequestedEvent",
       "replaySeed",
@@ -45,7 +44,6 @@ const integrations = [
     route: "apps/web/src/app/speak/[code]/page.tsx",
     routeFlow: "SpeakItDemoFlow",
     required: [
-      "createCanonicalGameReplaySeed",
       "startUnlockedGameMode",
       "createAudioRequestedEvent",
       "createMicrophonePracticeEvent",
@@ -65,7 +63,6 @@ const integrations = [
     route: "apps/web/src/app/quiz/[code]/page.tsx",
     routeFlow: "QuizDemoFlow",
     required: [
-      "createCanonicalGameReplaySeed",
       "startUnlockedGameMode",
       "createAudioRequestedEvent",
       'emitInteractionEvent("round_shown"',
@@ -83,7 +80,6 @@ const integrations = [
     route: "apps/web/src/app/true-false/[code]/page.tsx",
     routeFlow: "TrueFalseDemoFlow",
     required: [
-      "createCanonicalGameReplaySeed",
       "startUnlockedGameMode",
       "createAudioRequestedEvent",
       'emitInteractionEvent("round_shown"',
@@ -101,7 +97,6 @@ const integrations = [
     route: "apps/web/src/app/type-answer/[code]/page.tsx",
     routeFlow: "TypeAnswerDemoFlow",
     required: [
-      "createCanonicalGameReplaySeed",
       "startUnlockedGameMode",
       "createAudioRequestedEvent",
       'emitInteractionEvent("round_shown"',
@@ -119,7 +114,6 @@ const integrations = [
     route: "apps/web/src/app/spelling/[code]/page.tsx",
     routeFlow: "SpellingPracticeDemoFlow",
     required: [
-      "createCanonicalGameReplaySeed",
       "startUnlockedGameMode",
       "createAudioRequestedEvent",
       'emitInteractionEvent("round_shown"',
@@ -137,7 +131,6 @@ const integrations = [
     route: "apps/web/src/app/fill/[code]/page.tsx",
     routeFlow: "FillInBlankDemoFlow",
     required: [
-      "createCanonicalGameReplaySeed",
       "startUnlockedGameMode",
       "createAudioRequestedEvent",
       'emitInteractionEvent("round_shown"',
@@ -155,7 +148,6 @@ const integrations = [
     route: "apps/web/src/app/label-it/[code]/page.tsx",
     routeFlow: "LabelItDemoFlow",
     required: [
-      "createCanonicalGameReplaySeed",
       "startUnlockedGameMode",
       "createAudioRequestedEvent",
       'emitInteractionEvent("round_shown"',
@@ -173,7 +165,6 @@ const integrations = [
     route: "apps/web/src/app/match/[code]/page.tsx",
     routeFlow: "MatchUpDemoFlow",
     required: [
-      "createCanonicalGameReplaySeed",
       "startUnlockedGameMode",
       "createAudioRequestedEvent",
       'emitInteractionEvent("round_shown"',
@@ -262,6 +253,24 @@ for (const integration of integrations) {
 
   if (!component.includes("earnedStarDust: result.earnedStarDust")) {
     failures.push(`${integration.id}: mastery evidence must use the normalized completion award`);
+  }
+}
+
+if (!routeShell.includes("createCanonicalGameReplaySeed({ unitKey: launchSession.unitKey, gameMode })")) {
+  failures.push("route shell: canonical replay seed must be created at the shared handoff boundary");
+}
+
+if (!routeShell.includes("replaySeed,")) {
+  failures.push("route shell: canonical replay seed must be passed to the mounted game");
+}
+
+for (const integration of integrations) {
+  const component = readText(integration.component);
+  if (!component.includes("replaySeed: string")) {
+    failures.push(`${integration.id}: component must require the route-shell replay seed`);
+  }
+  if (component.includes("const replaySeed = createCanonicalGameReplaySeed")) {
+    failures.push(`${integration.id}: component must not derive a second replay seed`);
   }
 }
 

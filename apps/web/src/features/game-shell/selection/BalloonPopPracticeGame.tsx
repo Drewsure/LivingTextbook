@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Card, StatusPill } from "@living-textbook/ui";
-import { createCanonicalGameReplaySeed } from "@living-textbook/content-model";
 import type {
   AudioCue,
   GameProgressEvent,
@@ -25,6 +24,7 @@ interface BalloonPopPracticeGameProps {
   unit: UnitPayload;
   launchSession: LaunchSession;
   progression: StudentProgressionState;
+  replaySeed: string;
   audioCues?: AudioCue[];
   onEvent?: (event: GameProgressEvent) => void;
   onComplete: (result: GameModeCompletionResult) => void;
@@ -38,6 +38,7 @@ export function BalloonPopPracticeGame({
   unit,
   launchSession,
   progression,
+  replaySeed,
   audioCues = [],
   onEvent,
   onComplete,
@@ -45,7 +46,6 @@ export function BalloonPopPracticeGame({
   const preview = useMemo(() => buildSelectionEnginePreview(unit), [unit]);
   const rounds = useMemo(() => preview.rounds.filter((round) => round.skillFocus === "vocabulary"), [preview.rounds]);
   const scoringProfile = getGameScoringProfileForMode(gameMode);
-  const replaySeed = createCanonicalGameReplaySeed({ unitKey: launchSession.unitKey, gameMode });
   const targetLanguage = unit.unitMeta.textbookReference?.language ?? "en";
   const startEventSent = useRef(false);
   const [roundIndex, setRoundIndex] = useState(0);
@@ -103,6 +103,7 @@ export function BalloonPopPracticeGame({
         launchSession,
         gameMode,
         occurredAt: new Date().toISOString(),
+        replaySeed,
         metadata,
       }),
     );
@@ -115,6 +116,7 @@ export function BalloonPopPracticeGame({
         launchSession,
         gameMode,
         occurredAt: new Date().toISOString(),
+        replaySeed,
         cueKind,
         cueText,
         language: targetLanguage,
@@ -184,6 +186,7 @@ export function BalloonPopPracticeGame({
         gameMode,
         earnedStarDust,
         occurredAt: new Date().toISOString(),
+        replaySeed,
         metadata: {
           parentEngine: preview.engineId,
           scoringProfileId,

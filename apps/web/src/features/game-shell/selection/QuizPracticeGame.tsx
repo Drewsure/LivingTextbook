@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Card, StatusPill } from "@living-textbook/ui";
-import { createCanonicalGameReplaySeed } from "@living-textbook/content-model";
 import type {
   AudioCue,
   GameProgressEvent,
@@ -26,6 +25,7 @@ interface QuizPracticeGameProps {
   unit: UnitPayload;
   launchSession: LaunchSession;
   progression: StudentProgressionState;
+  replaySeed: string;
   audioCues?: AudioCue[];
   onEvent?: (event: GameProgressEvent) => void;
   onComplete: (result: GameModeCompletionResult) => void;
@@ -37,13 +37,13 @@ export function QuizPracticeGame({
   unit,
   launchSession,
   progression,
+  replaySeed,
   audioCues = [],
   onEvent,
   onComplete,
 }: QuizPracticeGameProps) {
   const preview = useMemo(() => buildSelectionEnginePreview(unit), [unit]);
   const scoringProfile = getGameScoringProfileForMode(gameMode);
-  const replaySeed = createCanonicalGameReplaySeed({ unitKey: launchSession.unitKey, gameMode });
   const targetLanguage = unit.unitMeta.textbookReference?.language ?? "en";
   const startSentRef = useRef(false);
   const [roundIndex, setRoundIndex] = useState(0);
@@ -101,6 +101,7 @@ export function QuizPracticeGame({
         launchSession,
         gameMode,
         occurredAt: new Date().toISOString(),
+        replaySeed,
         cueKind,
         cueText,
         language,
@@ -120,6 +121,7 @@ export function QuizPracticeGame({
         launchSession,
         gameMode,
         occurredAt: new Date().toISOString(),
+        replaySeed,
         metadata,
       }),
     );
@@ -189,6 +191,7 @@ export function QuizPracticeGame({
         gameMode,
         earnedStarDust,
         occurredAt: new Date().toISOString(),
+        replaySeed,
         metadata: {
           parentEngine: preview.engineId,
           scoringProfileId: "selection-assessment-v1",

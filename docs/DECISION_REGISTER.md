@@ -4405,6 +4405,16 @@ all required learning and audio events. A different but syntactically valid
 seed is mixed-layout evidence and blocks the canonical completion boundary.
 See ADR 0713.
 
+# DR-789: Route-Shell Replay Seed Ownership
+
+`PlayableGameRouteShell` is the authoritative owner of the canonical replay
+seed for mounted games. Every canonical game component must require that seed
+as an input and pass it explicitly to interaction, learning-audio, and
+completion event factories. Game components must not derive a second seed.
+This creates one stable handoff for future platform-issued seeds and Phaser
+wrappers while preserving deterministic local fallback behavior at the shell.
+See ADR 0716.
+
 # DR-787: Platform-Supplied Replay Seed Threading
 
 Canonical web game wrappers may receive a replay seed from the platform so a

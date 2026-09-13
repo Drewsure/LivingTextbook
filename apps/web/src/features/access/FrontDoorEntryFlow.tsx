@@ -13,6 +13,7 @@ import type {
   TeacherSessionSettings,
   UnitPayload,
 } from "@living-textbook/content-model";
+import { createCanonicalGameReplaySeed } from "@living-textbook/content-model";
 import { AudioSupportedAction } from "@/features/audio/AudioSupportedAction";
 import { PairingMatchUpGame } from "@/features/game-shell/pairing/PairingMatchUpGame";
 import { PairingMemoryMatchGame } from "@/features/game-shell/pairing/PairingMemoryMatchGame";
@@ -79,6 +80,10 @@ export function FrontDoorEntryFlow({
   const [sessionEvents, setSessionEvents] = useState<GameProgressEvent[]>([]);
   const [lastEarnedDust, setLastEarnedDust] = useState(0);
   const [activeGameMode, setActiveGameMode] = useState<GameModeId | undefined>();
+  const replaySeed = createCanonicalGameReplaySeed({
+    unitKey: launchSession.unitKey,
+    gameMode: activeGameMode ?? launchSession.entryMode,
+  });
   const [eventContractErrors, setEventContractErrors] = useState<string[]>([]);
   const sessionEventsRef = useRef<GameProgressEvent[]>([]);
   const completionAcceptedModesRef = useRef<Set<GameModeId>>(new Set());
@@ -340,6 +345,7 @@ export function FrontDoorEntryFlow({
                 unit={unit}
                 launchSession={launchSession}
                 progression={currentProgression}
+                replaySeed={replaySeed}
                 audioCues={contentPackage.audioCues}
                 onEvent={handleProgressEvent}
                 onComplete={handleGameComplete}
@@ -351,6 +357,7 @@ export function FrontDoorEntryFlow({
                 gameMode={activeGameMode}
                 launchSession={launchSession}
                 progression={currentProgression}
+                replaySeed={replaySeed}
                 audioCues={contentPackage.audioCues}
                 onEvent={handleProgressEvent}
                 onComplete={handleGameComplete}
@@ -361,6 +368,7 @@ export function FrontDoorEntryFlow({
                 unit={unit}
                 launchSession={launchSession}
                 progression={currentProgression}
+                replaySeed={replaySeed}
                 audioCues={contentPackage.audioCues}
                 onEvent={handleProgressEvent}
                 onComplete={handleGameComplete}
@@ -371,6 +379,7 @@ export function FrontDoorEntryFlow({
                 unit={unit}
                 launchSession={launchSession}
                 progression={currentProgression}
+                replaySeed={replaySeed}
                 audioCues={contentPackage.audioCues}
                 onEvent={handleProgressEvent}
                 onComplete={handleGameComplete}
@@ -381,6 +390,7 @@ export function FrontDoorEntryFlow({
                 unit={unit}
                 launchSession={launchSession}
                 progression={currentProgression}
+                replaySeed={replaySeed}
                 audioCues={contentPackage.audioCues}
                 onEvent={handleProgressEvent}
                 onComplete={handleGameComplete}
@@ -391,6 +401,7 @@ export function FrontDoorEntryFlow({
                 unit={unit}
                 launchSession={launchSession}
                 progression={currentProgression}
+                replaySeed={replaySeed}
                 audioCues={contentPackage.audioCues}
                 onEvent={handleProgressEvent}
                 onComplete={handleGameComplete}
@@ -401,6 +412,7 @@ export function FrontDoorEntryFlow({
                 unit={unit}
                 launchSession={launchSession}
                 progression={currentProgression}
+                replaySeed={replaySeed}
                 audioCues={contentPackage.audioCues}
                 onEvent={handleProgressEvent}
                 onComplete={handleGameComplete}
@@ -411,6 +423,7 @@ export function FrontDoorEntryFlow({
                 unit={unit}
                 launchSession={launchSession}
                 progression={currentProgression}
+                replaySeed={replaySeed}
                 audioCues={contentPackage.audioCues}
                 onEvent={handleProgressEvent}
                 onComplete={handleGameComplete}
@@ -421,6 +434,7 @@ export function FrontDoorEntryFlow({
                 unit={unit}
                 launchSession={launchSession}
                 progression={currentProgression}
+                replaySeed={replaySeed}
                 audioCues={contentPackage.audioCues}
                 onEvent={handleProgressEvent}
                 onComplete={handleGameComplete}
@@ -431,6 +445,7 @@ export function FrontDoorEntryFlow({
                 unit={unit}
                 launchSession={launchSession}
                 progression={currentProgression}
+                replaySeed={replaySeed}
                 audioCues={contentPackage.audioCues}
                 onEvent={handleProgressEvent}
                 onComplete={handleGameComplete}
@@ -442,6 +457,7 @@ export function FrontDoorEntryFlow({
                 gameMode={activeGameMode}
                 launchSession={launchSession}
                 progression={currentProgression}
+                replaySeed={replaySeed}
                 audioCues={contentPackage.audioCues}
                 microphonePractice={microphonePracticeSettings}
                 onEvent={handleProgressEvent}

@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Card, StatusPill } from "@living-textbook/ui";
-import { createCanonicalGameReplaySeed } from "@living-textbook/content-model";
 import type {
   AudioCue,
   GameModeId,
@@ -34,6 +33,7 @@ interface SpeakItPracticeGameProps {
   gameMode: GameModeId;
   launchSession: LaunchSession;
   progression: StudentProgressionState;
+  replaySeed: string;
   audioCues?: AudioCue[];
   microphonePractice: TenantMicrophonePracticeSettings;
   onEvent?: (event: GameProgressEvent) => void;
@@ -52,6 +52,7 @@ export function SpeakItPracticeGame({
   gameMode,
   launchSession,
   progression,
+  replaySeed,
   audioCues = [],
   microphonePractice,
   onEvent,
@@ -62,7 +63,6 @@ export function SpeakItPracticeGame({
   const mode = getGameModeCatalogItem(gameMode);
   const scoringProfile = getGameScoringProfileForMode(gameMode);
   const prompts = createSpeakItPrompts(unit, audioCues);
-  const replaySeed = createCanonicalGameReplaySeed({ unitKey: launchSession.unitKey, gameMode });
   const targetLanguage = unit.unitMeta.textbookReference?.language ?? "en";
   const startSentRef = useRef(false);
   const shownPromptIdsRef = useRef(new Set<string>());
@@ -122,6 +122,7 @@ export function SpeakItPracticeGame({
         launchSession,
         gameMode,
         occurredAt: new Date().toISOString(),
+        replaySeed,
         metadata,
       }),
     );
@@ -139,6 +140,7 @@ export function SpeakItPracticeGame({
         launchSession,
         gameMode,
         occurredAt: new Date().toISOString(),
+        replaySeed,
         cueKind,
         cueText,
         language,
@@ -212,6 +214,7 @@ export function SpeakItPracticeGame({
         gameMode,
         earnedStarDust,
         occurredAt: new Date().toISOString(),
+        replaySeed,
         metadata: {
           spokenPromptCount: nextSpokenPromptIds.length,
           totalPromptCount: prompts.length,

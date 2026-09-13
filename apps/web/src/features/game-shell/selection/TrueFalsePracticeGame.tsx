@@ -9,7 +9,6 @@ import type {
   StudentProgressionState,
   UnitPayload,
 } from "@living-textbook/content-model";
-import { createCanonicalGameReplaySeed } from "@living-textbook/content-model";
 import { AudioCueButton, AudioCueText, playAudioCueText } from "@/features/audio/AudioCueButton";
 import {
   completeGameMode,
@@ -24,6 +23,7 @@ interface TrueFalsePracticeGameProps {
   unit: UnitPayload;
   launchSession: LaunchSession;
   progression: StudentProgressionState;
+  replaySeed: string;
   audioCues?: AudioCue[];
   onEvent?: (event: GameProgressEvent) => void;
   onComplete: (result: GameModeCompletionResult) => void;
@@ -44,13 +44,13 @@ export function TrueFalsePracticeGame({
   unit,
   launchSession,
   progression,
+  replaySeed,
   audioCues = [],
   onEvent,
   onComplete,
 }: TrueFalsePracticeGameProps) {
   const rounds = useMemo(() => buildTrueFalseRounds(unit), [unit]);
   const scoringProfile = getGameScoringProfileForMode(gameMode);
-  const replaySeed = createCanonicalGameReplaySeed({ unitKey: launchSession.unitKey, gameMode });
   const targetLanguage = unit.unitMeta.textbookReference?.language ?? "en";
   const startEventSent = useRef(false);
   const [roundIndex, setRoundIndex] = useState(0);
@@ -109,6 +109,7 @@ export function TrueFalsePracticeGame({
         launchSession,
         gameMode,
         occurredAt: new Date().toISOString(),
+        replaySeed,
         cueKind,
         cueText,
         language,
@@ -128,6 +129,7 @@ export function TrueFalsePracticeGame({
         launchSession,
         gameMode,
         occurredAt: new Date().toISOString(),
+        replaySeed,
         metadata,
       }),
     );
@@ -188,6 +190,7 @@ export function TrueFalsePracticeGame({
         gameMode,
         earnedStarDust,
         occurredAt: new Date().toISOString(),
+        replaySeed,
         metadata: {
           parentEngine: "selection",
           scoringProfileId,
