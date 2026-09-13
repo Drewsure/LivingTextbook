@@ -24,6 +24,8 @@ import { TypeAnswerPracticeGame } from "@/features/game-shell/text-spelling/Type
 import { SpellingPracticeGame } from "@/features/game-shell/text-spelling/SpellingPracticeGame";
 import { FillInBlankPracticeGame } from "@/features/game-shell/text-spelling/FillInBlankPracticeGame";
 import { SentenceBuilderPracticeGame } from "@/features/game-shell/text-spelling/SentenceBuilderPracticeGame";
+import { SpeakItPracticeGame } from "@/features/game-shell/speaking/SpeakItPracticeGame";
+import { useTeacherMicrophonePracticeSettings } from "@/features/audio/useTeacherMicrophonePracticeSettings";
 import { PairingEnginePreview } from "@/features/game-shell/pairing/PairingEnginePreview";
 import { validateCanonicalGameCompletion } from "@/features/game-shell/canonicalGameCompletionGate";
 import { UnitMediaEngagementPanel } from "@/features/multimedia/UnitMediaEngagementPanel";
@@ -80,6 +82,7 @@ export function FrontDoorEntryFlow({
   const [eventContractErrors, setEventContractErrors] = useState<string[]>([]);
   const sessionEventsRef = useRef<GameProgressEvent[]>([]);
   const [targetPracticeEngagedItemIds, setTargetPracticeEngagedItemIds] = useState<string[]>([]);
+  const microphonePracticeSettings = useTeacherMicrophonePracticeSettings(tenant);
 
   const entryComplete = currentProgression.completedGameModes.includes(launchSession.entryMode);
   const nextMode = getNextUncompletedRecommendedMode(launchSession, currentProgression);
@@ -421,7 +424,19 @@ export function FrontDoorEntryFlow({
                 onComplete={handleGameComplete}
               />
             )}
-            {activeGameMode && activeGameMode !== "match-up" && activeGameMode !== "memory-match" && activeGameMode !== "label-it" && activeGameMode !== "balloon-pop" && activeGameMode !== "quiz" && activeGameMode !== "true-false" && activeGameMode !== "type-answer" && activeGameMode !== "spelling-practice" && activeGameMode !== "fill-in-the-blank" && activeGameMode !== "sentence-builder" && (
+            {activeGameMode === "speak-it" && (
+              <SpeakItPracticeGame
+                unit={unit}
+                gameMode={activeGameMode}
+                launchSession={launchSession}
+                progression={currentProgression}
+                audioCues={contentPackage.audioCues}
+                microphonePractice={microphonePracticeSettings}
+                onEvent={handleProgressEvent}
+                onComplete={handleGameComplete}
+              />
+            )}
+            {activeGameMode && activeGameMode !== "match-up" && activeGameMode !== "memory-match" && activeGameMode !== "label-it" && activeGameMode !== "balloon-pop" && activeGameMode !== "quiz" && activeGameMode !== "true-false" && activeGameMode !== "type-answer" && activeGameMode !== "spelling-practice" && activeGameMode !== "fill-in-the-blank" && activeGameMode !== "sentence-builder" && activeGameMode !== "speak-it" && (
               <PairingEnginePreview unit={unit} gameMode={activeGameMode} />
             )}
             {eventContractErrors.length > 0 ? (

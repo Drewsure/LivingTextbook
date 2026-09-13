@@ -48,6 +48,7 @@ const integrations = [
       "createCanonicalGameReplaySeed",
       "startUnlockedGameMode",
       "createAudioRequestedEvent",
+      "createMicrophonePracticeEvent",
       'emitInteractionEvent("round_shown"',
       'emitInteractionEvent("answer_submitted"',
       'emitInteractionEvent("answer_result"',
@@ -331,6 +332,7 @@ for (const fragment of [
   "SpellingPracticeGame",
   "FillInBlankPracticeGame",
   "SentenceBuilderPracticeGame",
+  "SpeakItPracticeGame",
   "Completion is paused until the event evidence is valid.",
 ]) {
   if (!frontDoorFlow.includes(fragment)) {
@@ -349,6 +351,7 @@ const promotedLaunchComponents = [
   "SpellingPracticeGame",
   "FillInBlankPracticeGame",
   "SentenceBuilderPracticeGame",
+  "SpeakItPracticeGame",
 ];
 
 for (const [surface, source] of [

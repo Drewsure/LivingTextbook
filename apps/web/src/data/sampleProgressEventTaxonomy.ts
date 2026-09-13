@@ -50,6 +50,14 @@ export const sampleProgressEventTaxonomy: ProgressEventTaxonomyItem[] = [
     notAllowed: ["Do not unlock progress.", "Do not award Star Dust.", "Do not count as mastery or scoring evidence."],
   },
   {
+    eventType: "microphone_practice",
+    effect: "support-only",
+    teacherVisible: true,
+    persistenceRequired: true,
+    summary: "Records teacher-approved local microphone practice without uploading audio or generating a transcript.",
+    notAllowed: ["Do not unlock progress.", "Do not award Star Dust.", "Do not store raw audio or transcripts in the core event stream."],
+  },
+  {
     eventType: "game_started",
     effect: "report-only",
     teacherVisible: true,

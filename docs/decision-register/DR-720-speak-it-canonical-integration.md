@@ -19,3 +19,11 @@ must flow through the platform contracts.
   modes behind explicit entitlements.
 - A future Phaser speech skin must preserve the same event and policy boundary.
 - Frozen Z.ai/Phaser work remains isolated until separately mapped and approved.
+
+## Runtime Hardening Update
+
+Speak It is now mounted in the QR/front-door and student progression flows. The
+shared microphone approval hook keeps tenant policy consistent across direct,
+student, and front-door routes. Local recording remains browser-tab-only and
+reports through `microphone_practice` as support-only evidence, so recording
+controls cannot create extra gameplay rounds or mastery credit.

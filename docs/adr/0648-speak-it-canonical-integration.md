@@ -28,3 +28,11 @@ speech scoring or student audio storage.
 - No transcript generation, cloud recording, or AI Tutor call is enabled.
 - Audio requests never grant mastery, rewards, or unlocks.
 - No Phaser source was imported or promoted.
+
+## Runtime Hardening Update: 2026-09-13
+
+The canonical promotion is now wired through the student launch and coded
+front-door flows, not only the standalone route. Teacher microphone approval is
+resolved by one shared tenant-aware hook across all speaking surfaces. Local
+recorder actions emit the dedicated `microphone_practice` support-only event;
+they no longer masquerade as additional `round_shown` gameplay events.

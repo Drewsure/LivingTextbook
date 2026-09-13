@@ -237,6 +237,37 @@ export function createAudioRequestedEvent(args: {
   };
 }
 
+export function createMicrophonePracticeEvent(args: {
+  progression: StudentProgressionState;
+  launchSession: LaunchSession;
+  gameMode: GameModeId;
+  occurredAt: string;
+  microphoneEvent: string;
+  promptText: string;
+  metadata?: Record<string, string | number | boolean>;
+}): GameProgressEvent {
+  return {
+    type: "microphone_practice",
+    unitKey: args.launchSession.unitKey,
+    gameMode: args.gameMode,
+    launchCode: args.launchSession.launchCode,
+    studentSessionId: args.progression.studentSessionId,
+    occurredAt: args.occurredAt,
+    metadata: withTenantMetadata(args.launchSession, {
+      microphoneEvent: args.microphoneEvent,
+      promptText: args.promptText,
+      microphoneUsed: true,
+      uploadUsed: false,
+      audioPersisted: false,
+      transcriptGenerated: false,
+      progressionUnlockAllowed: false,
+      masteryCreditAllowed: false,
+      supportLanguageUnlockAllowed: false,
+      ...args.metadata,
+    }),
+  };
+}
+
 export function createRouteGuidanceListenedEvent(args: {
   progression: StudentProgressionState;
   launchSession: LaunchSession;

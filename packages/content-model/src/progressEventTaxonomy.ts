@@ -73,6 +73,7 @@ export const PROGRESS_EVENT_ENVELOPE_REQUIRED_FIELDS = [...PROGRESS_EVENT_REQUIR
 const allowedEffects = new Set<ProgressEventEffect>(["progress-affecting", "report-only", "support-only"]);
 const supportOnlyEvents = new Set([
   "audio_requested",
+  "microphone_practice",
   "route_guidance_listened",
   "background_media_enabled",
   "background_media_disabled",

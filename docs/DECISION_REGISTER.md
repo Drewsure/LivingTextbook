@@ -4221,3 +4221,11 @@ for each tile tap. English token normalization is the current supported
 fixture; Japanese segmentation remains a separately reviewed target-language
 expansion. See ADR 0698 and
 `docs/decision-register/DR-770-sentence-builder-canonical-entry-integration.md`.
+
+Speak It is now mounted in the student launch and coded front-door flows. A
+shared tenant-aware microphone approval hook keeps local record/replay policy
+consistent across speaking surfaces. Recorder controls emit the support-only
+`microphone_practice` event rather than additional `round_shown` events, so
+local microphone activity cannot create gameplay rounds, mastery credit, or
+rewards. See ADR 0648, DR-720, and
+`docs/build-session-notes/2026-09-13-speak-it-canonical-integration.md`.

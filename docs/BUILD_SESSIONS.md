@@ -1840,3 +1840,11 @@ now records `round_shown` when a round appears rather than for each tile tap.
 The current fixture supports English token normalization; Japanese
 script-aware segmentation remains a future target-language expansion. See ADR
 0698, DR-770, and operating note OW-051.
+
+Speak It is now mounted in the student launch and coded front-door flows. The
+shared tenant-aware microphone approval hook keeps local record/replay policy
+consistent across direct and QR entry surfaces. Recorder controls emit the
+support-only `microphone_practice` event rather than additional `round_shown`
+events, preserving clean gameplay evidence. No upload, transcript, AI speech
+scoring, or Phaser promotion was enabled. See ADR 0648, DR-720, and the
+2026-09-13 Speak It build session note.

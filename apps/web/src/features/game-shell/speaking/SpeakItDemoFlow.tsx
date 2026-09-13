@@ -1,11 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import {
-  getMicrophonePracticeSettings,
-  getTeacherMicrophoneApprovalStorageKey,
-  parseStoredTeacherMicrophoneApproval,
-} from "@/features/tenant/microphonePracticeSettings";
+import { useTeacherMicrophonePracticeSettings } from "@/features/audio/useTeacherMicrophonePracticeSettings";
 import { PlayableGameRouteShell, type PlayableGameDemoFlowProps } from "../components/PlayableGameRouteShell";
 import { SpeakItPracticeGame } from "./SpeakItPracticeGame";
 
@@ -19,26 +14,7 @@ export function SpeakItDemoFlow({
   audioCues = [],
   assignmentPlan,
 }: PlayableGameDemoFlowProps) {
-  const microphonePracticeSettings = getMicrophonePracticeSettings(tenant);
-  const microphoneApprovalStorageKey = getTeacherMicrophoneApprovalStorageKey(tenant.id);
-  const [teacherMicApproved, setTeacherMicApproved] = useState(microphonePracticeSettings.localRecordReplayEnabled);
-
-  useEffect(() => {
-    function syncTeacherMicrophoneApproval() {
-      const storedApproval = parseStoredTeacherMicrophoneApproval(window.localStorage.getItem(microphoneApprovalStorageKey));
-      setTeacherMicApproved(storedApproval ?? microphonePracticeSettings.localRecordReplayEnabled);
-    }
-
-    syncTeacherMicrophoneApproval();
-    window.addEventListener("storage", syncTeacherMicrophoneApproval);
-
-    return () => window.removeEventListener("storage", syncTeacherMicrophoneApproval);
-  }, [microphoneApprovalStorageKey, microphonePracticeSettings.localRecordReplayEnabled]);
-
-  const launchMicrophonePracticeSettings = {
-    ...microphonePracticeSettings,
-    localRecordReplayEnabled: microphonePracticeSettings.localRecordReplayEnabled && teacherMicApproved,
-  };
+  const launchMicrophonePracticeSettings = useTeacherMicrophonePracticeSettings(tenant);
 
   return (
     <PlayableGameRouteShell

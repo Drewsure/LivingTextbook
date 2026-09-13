@@ -201,6 +201,7 @@ function createReportPackageRows(events: GameProgressEvent[]): ReportPackageRow[
 function getReportEventEffect(event: GameProgressEvent): ReportEventEffect {
   const supportOnlyEventTypes: GameProgressEvent["type"][] = [
     "audio_requested",
+    "microphone_practice",
     "media_playlist_opened",
     "media_started",
     "media_paused",
@@ -252,6 +253,10 @@ function summarizeReportEvent(event: GameProgressEvent): string {
 
   if (event.type === "audio_requested") {
     return `Learning audio request recorded as support-only: ${event.metadata?.cueText ?? "audio cue"}.`;
+  }
+
+  if (event.type === "microphone_practice") {
+    return `Local microphone practice recorded as support-only: ${event.metadata?.microphoneEvent ?? "practice event"}.`;
   }
 
   if (event.type === "training_recommended") {

@@ -20,6 +20,7 @@ import {
 import {
   completeGameMode,
   createAudioRequestedEvent,
+  createMicrophonePracticeEvent,
   createGameInteractionEvent,
   startUnlockedGameMode,
   type GameModeCompletionResult,
@@ -64,6 +65,7 @@ export function SpeakItPracticeGame({
   const replaySeed = createCanonicalGameReplaySeed({ unitKey: launchSession.unitKey, gameMode });
   const targetLanguage = unit.unitMeta.textbookReference?.language ?? "en";
   const startSentRef = useRef(false);
+  const shownPromptIdsRef = useRef(new Set<string>());
   const completedAlready = progression.completedGameModes.includes(gameMode);
   const spokenCount = spokenPromptIds.length;
   const complete = spokenCount >= prompts.length || completedAlready;
@@ -88,6 +90,26 @@ export function SpeakItPracticeGame({
       onEvent?.(event);
     }
   }, [launchSession, onEvent, progression, replaySeed]);
+
+  useEffect(() => {
+    for (const prompt of prompts) {
+      if (shownPromptIdsRef.current.has(prompt.id)) {
+        continue;
+      }
+
+      shownPromptIdsRef.current.add(prompt.id);
+      emitInteractionEvent("round_shown", {
+        promptId: prompt.id,
+        promptKind: prompt.kind,
+        promptText: prompt.label,
+        speechMatchMode: "listen-repeat",
+        microphoneRequired: false,
+        microphoneTeacherApproved: localMicEnabled,
+        aiTutorRequired: false,
+        replaySeed,
+      });
+    }
+  }, [localMicEnabled, prompts, replaySeed]);
 
   function emitInteractionEvent(
     type: "round_shown" | "answer_submitted" | "answer_result" | "mastery_updated",
@@ -127,16 +149,6 @@ export function SpeakItPracticeGame({
 
   function handlePromptHeard(prompt: SpeakItPrompt) {
     emitAudioRequested(prompt.kind, prompt.audioCue?.text ?? prompt.label, prompt.audioCue?.language ?? targetLanguage, "speak-it-prompt");
-    emitInteractionEvent("round_shown", {
-      promptId: prompt.id,
-      promptKind: prompt.kind,
-      promptText: prompt.label,
-      speechMatchMode: "listen-repeat",
-      microphoneRequired: false,
-      microphoneTeacherApproved: localMicEnabled,
-      aiTutorRequired: false,
-      replaySeed,
-    });
   }
 
   function handleRecordingEvent(
@@ -144,21 +156,24 @@ export function SpeakItPracticeGame({
     microphoneEvent: MicrophonePracticeEvent,
     metadata: Record<string, string | number | boolean> = {},
   ) {
-    emitInteractionEvent("round_shown", {
-      promptId: prompt.id,
-      promptKind: prompt.kind,
-      promptText: prompt.label,
-      interactionKind: "local-microphone-practice",
-      microphoneEvent,
-      speechMatchMode: "local-record-replay",
-      microphoneRequired: false,
-      microphoneTeacherApproved: localMicEnabled,
-      aiTutorRequired: false,
-      transcriptGenerated: false,
-      audioPersisted: false,
-      ...metadata,
-      replaySeed,
-    });
+    onEvent?.(
+      createMicrophonePracticeEvent({
+        progression,
+        launchSession,
+        gameMode,
+        occurredAt: new Date().toISOString(),
+        microphoneEvent,
+        promptText: prompt.label,
+        metadata: {
+          speechMatchMode: "local-record-replay",
+          microphoneRequired: false,
+          microphoneTeacherApproved: localMicEnabled,
+          aiTutorRequired: false,
+          replaySeed,
+          ...metadata,
+        },
+      }),
+    );
   }
 
   function handlePromptSpoken(prompt: SpeakItPrompt) {

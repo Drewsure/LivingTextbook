@@ -51,6 +51,8 @@ import {
   hasRecordedTrainingRecoveryRecommendation,
 } from "@/features/training/trainingRecoveryTrigger";
 import { FlashcardPracticeCard } from "./components/FlashcardPracticeCard";
+import { SpeakItPracticeGame } from "@/features/game-shell/speaking/SpeakItPracticeGame";
+import { useTeacherMicrophonePracticeSettings } from "@/features/audio/useTeacherMicrophonePracticeSettings";
 import { LaunchContextSafetyCard } from "./components/LaunchContextSafetyCard";
 import { NextGameUnlockCard } from "./components/NextGameUnlockCard";
 import { RecommendedGameRoutesCard } from "./components/RecommendedGameRoutesCard";
@@ -96,6 +98,7 @@ export function StudentLaunchFlow({
   const [assistLanguageEnabled, setAssistLanguageEnabled] = useState(
     sessionSettings?.assistLanguage.enabled ?? getDefaultAssistLanguageEnabled(tenant),
   );
+  const microphonePracticeSettings = useTeacherMicrophonePracticeSettings(tenant);
 
   const entryComplete = currentProgression.completedGameModes.includes(launchSession.entryMode);
   const nextMode = getNextUncompletedRecommendedMode(launchSession, currentProgression);
@@ -458,7 +461,19 @@ export function StudentLaunchFlow({
           onComplete={handleGameComplete}
         />
       )}
-      {activeGameMode && activeGameMode !== "memory-match" && activeGameMode !== "match-up" && activeGameMode !== "label-it" && activeGameMode !== "balloon-pop" && activeGameMode !== "quiz" && activeGameMode !== "true-false" && activeGameMode !== "type-answer" && activeGameMode !== "spelling-practice" && activeGameMode !== "fill-in-the-blank" && activeGameMode !== "sentence-builder" && (
+      {activeGameMode === "speak-it" && (
+        <SpeakItPracticeGame
+          unit={unit}
+          gameMode={activeGameMode}
+          launchSession={launchSession}
+          progression={currentProgression}
+          audioCues={audioCues}
+          microphonePractice={microphonePracticeSettings}
+          onEvent={handleGameEvent}
+          onComplete={handleGameComplete}
+        />
+      )}
+      {activeGameMode && activeGameMode !== "memory-match" && activeGameMode !== "match-up" && activeGameMode !== "label-it" && activeGameMode !== "balloon-pop" && activeGameMode !== "quiz" && activeGameMode !== "true-false" && activeGameMode !== "type-answer" && activeGameMode !== "spelling-practice" && activeGameMode !== "fill-in-the-blank" && activeGameMode !== "sentence-builder" && activeGameMode !== "speak-it" && (
         <PairingEnginePreview unit={unit} gameMode={activeGameMode} />
       )}
       {recoveryRecommendation && (

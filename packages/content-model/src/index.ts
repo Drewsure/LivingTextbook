@@ -373,6 +373,7 @@ export type GameEventType =
   | "teacher_launch_created"
   | "launch_opened"
   | "audio_requested"
+  | "microphone_practice"
   | "game_started"
   | "round_shown"
   | "answer_submitted"
