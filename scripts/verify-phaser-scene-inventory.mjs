@@ -4,6 +4,10 @@ const inventory = readFileSync(
   new URL("../docs/ZAI_MINISTAR_LAB_SUITE_INVENTORY_2026-09-12.md", import.meta.url),
   "utf8",
 );
+const candidateDecision = readFileSync(
+  new URL("../docs/decision-register/DR-706-zai-suite-inventory-and-first-candidate.md", import.meta.url),
+  "utf8",
+);
 
 const sceneEvidence = [
   ["AirplaneScene.ts", "1c1b60801beac23254750df5640c3c16110d98b77a4921b42e0b5a761599acbb"],
@@ -62,6 +66,27 @@ const requiredText = [
 const failures = requiredText
   .filter((marker) => !inventory.includes(marker))
   .map((marker) => `FAIL Phaser scene inventory is missing marker: ${marker}`);
+
+for (const [marker, label] of [
+  ["**Current precedence:**", "current precedence heading"],
+  ["1. **Memory Match:** first", "Memory Match-first candidate"],
+  ["2. **Balloon Pop:** second", "Balloon Pop-second candidate"],
+  ["3. **Label It:** third", "Label It-third candidate"],
+]) {
+  if (!inventory.includes(marker)) {
+    failures.push(`FAIL Phaser scene inventory is missing ${label}`);
+  }
+}
+
+if (!candidateDecision.includes("historical record originally listed Balloon Pop first")) {
+  failures.push("FAIL Phaser candidate decision must label Balloon Pop-first wording as historical");
+}
+if (!candidateDecision.includes("active candidate order is Memory Match first, Balloon Pop")) {
+  failures.push("FAIL Phaser candidate decision must state the active Memory Match-first order");
+}
+if (candidateDecision.includes("Balloon Pop is the first candidate for wrapper review")) {
+  failures.push("FAIL Phaser candidate decision still contains the superseded Balloon Pop-first decision");
+}
 
 if (sceneEvidence.length !== 32) {
   failures.push(`FAIL Phaser scene inventory expected 32 evidence entries, found ${sceneEvidence.length}.`);

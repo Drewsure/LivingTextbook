@@ -1409,9 +1409,10 @@ The extracted frozen source inventory is now recorded as 32 Phaser scenes and
 32 catalog entries. The source summary documents contain stale counts and the
 candidate embeds local score, browser storage, direct API, synthesized audio,
 speech-recognition, random-reward, and pirate-themed surfaces that require
-review before integration. Balloon Pop is the first wrapper candidate,
-followed by Memory Match, Label It, and a gated speech candidate. No source
-files were promoted. The inventory and decision are recorded in
+review before integration. This historical entry listed Balloon Pop as the
+first wrapper candidate; that wording is superseded by the active Memory Match,
+Balloon Pop, Label It, then gated speech order. No source files were promoted.
+The inventory and decision are recorded in
 `docs/ZAI_MINISTAR_LAB_SUITE_INVENTORY_2026-09-12.md`.
 
 The migration policy status slice now requires specs for needs-policy

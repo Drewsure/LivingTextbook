@@ -5,8 +5,9 @@
 ## Decision
 
 The frozen Z.ai suite is recorded as 32 Phaser scenes and 32 catalog entries.
-Balloon Pop is the first candidate for wrapper review, followed by Memory
-Match, Label It, and a gated speech candidate.
+This historical record originally listed Balloon Pop first. That ordering is
+superseded; the active candidate order is Memory Match first, Balloon Pop
+second, Label It third, and a gated speech candidate after those reviews.
 
 ## Guardrail
 
