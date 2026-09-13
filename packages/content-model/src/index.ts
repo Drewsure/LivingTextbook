@@ -44,13 +44,44 @@ export type GameFamily =
 export type ParentEngine = "pairing" | "selection" | "text-spelling" | "narrative";
 
 export interface PhaserCandidateProfile {
-  targetMode: string;
+  targetMode: GameModeId;
   label: string;
   parentEngine: ParentEngine;
-  requiredScenarios: string[];
+  requiredScenarios: readonly string[];
 }
 
-export const phaserCandidateProfiles = phaserCandidateProfileData as PhaserCandidateProfile[];
+export const phaserCandidateProfiles = Array.isArray(phaserCandidateProfileData)
+  ? (phaserCandidateProfileData as unknown as readonly PhaserCandidateProfile[])
+  : [];
+
+export function validatePhaserCandidateProfiles(profiles: readonly PhaserCandidateProfile[]): string[] {
+  const errors: string[] = [];
+  const seenModes = new Set<string>();
+  const validParentEngines = new Set<ParentEngine>(["pairing", "selection", "text-spelling", "narrative"]);
+
+  for (const profile of profiles) {
+    if (!profile?.targetMode || seenModes.has(profile.targetMode)) {
+      errors.push("Phaser candidate profiles must contain unique target modes.");
+    }
+    seenModes.add(profile?.targetMode);
+    if (typeof profile?.label !== "string" || !profile.label.trim()) errors.push("Phaser candidate profiles require a label.");
+    if (!validParentEngines.has(profile?.parentEngine)) {
+      errors.push(`Phaser candidate profile ${profile?.targetMode || "(unnamed)"} requires a supported parent engine.`);
+    }
+    if (!Array.isArray(profile?.requiredScenarios) || profile.requiredScenarios.length < 4) {
+      errors.push(`Phaser candidate profile ${profile?.targetMode || "(unnamed)"} requires at least four scoring scenarios.`);
+    }
+    const scenarioIds = profile?.requiredScenarios ?? [];
+    if (
+      new Set(scenarioIds).size !== scenarioIds.length ||
+      scenarioIds.some((scenario) => typeof scenario !== "string" || !scenario.trim())
+    ) {
+      errors.push(`Phaser candidate profile ${profile?.targetMode || "(unnamed)"} requires unique, non-blank scoring scenarios.`);
+    }
+  }
+
+  return errors;
+}
 
 export function getPhaserCandidateProfile(targetMode: string, parentEngine?: string): PhaserCandidateProfile | undefined {
   const profile = phaserCandidateProfiles.find((candidate) => candidate.targetMode === targetMode);

@@ -2353,3 +2353,16 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-793 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-796 and
 `docs/adr/0722-phaser-candidate-profile-gate.md`.
+
+## 151. Phaser Candidate Manifest Integrity Standard
+
+- The shared Phaser candidate profile manifest must be non-empty and contain
+  unique target modes, supported parent engines, and at least four unique
+  non-blank deterministic scoring scenarios per profile.
+- A malformed profile manifest must fail closed before a candidate package is
+  evaluated; it must never silently remove a scoring requirement.
+- The manifest remains review configuration only and cannot authorize source
+  import, route replacement, package promotion, or student assignment.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-797 and
+`docs/adr/0723-phaser-candidate-manifest-integrity.md`.

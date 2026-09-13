@@ -2090,3 +2090,11 @@ assumption to explicit approved profiles. Memory Match uses the pairing parent
 engine and its baseline scoring scenarios; Balloon Pop uses selection and adds
 the required missed-target scenario. Updated the checks, intake gate, and
 standing standards while preserving the review-only boundary. See ADR 0722.
+
+## 0724 - Phaser candidate manifest integrity
+
+Moved candidate profiles into the shared content-model manifest and made the
+package verifier validate that manifest before reading a candidate. Invalid or
+incomplete profiles now fail closed instead of removing replay requirements.
+Web typecheck, candidate behavior, production build, and the full 88-route
+verification remain required. See ADR 0723.

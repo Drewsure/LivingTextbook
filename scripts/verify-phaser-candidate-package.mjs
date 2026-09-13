@@ -26,10 +26,18 @@ if (!manifest || typeof manifest !== "object" || Array.isArray(manifest)) {
 }
 
 const failures = [];
-const candidateProfileData = JSON.parse(
-  readFileSync(new URL("../packages/content-model/src/phaserCandidateProfiles.json", import.meta.url), "utf8"),
-);
-const candidateProfiles = Object.fromEntries(candidateProfileData.map((profile) => [profile.targetMode, profile]));
+let candidateProfileData = [];
+try {
+  candidateProfileData = JSON.parse(
+    readFileSync(new URL("../packages/content-model/src/phaserCandidateProfiles.json", import.meta.url), "utf8"),
+  );
+} catch (error) {
+  failures.push(`Shared Phaser candidate profile manifest is not valid JSON: ${error.message}`);
+}
+const candidateProfiles = Array.isArray(candidateProfileData)
+  ? Object.fromEntries(candidateProfileData.map((profile) => [profile.targetMode, profile]))
+  : {};
+validateCandidateProfiles(candidateProfileData);
 const requiredArtifactKinds = [
   "source-archive",
   "fixture",
@@ -172,6 +180,23 @@ function validateFixture(fixture) {
   requireValue(terms.every(isNonBlankString), "fixture vocabulary_terms must be non-blank strings.");
   requireValue(sentences.length === 2, "fixture must contain exactly two target_sentences.");
   requireValue(sentences.every(isNonBlankString), "fixture target_sentences must be non-blank strings.");
+}
+
+function validateCandidateProfiles(profiles) {
+  requireValue(Array.isArray(profiles) && profiles.length > 0, "Shared Phaser candidate profile manifest must be a non-empty array.");
+  const seenModes = new Set();
+  const validParentEngines = new Set(["pairing", "selection", "text-spelling", "narrative"]);
+  for (const profile of Array.isArray(profiles) ? profiles : []) {
+    requireValue(isNonBlankString(profile?.targetMode), "Every Phaser candidate profile requires targetMode.");
+    requireValue(!seenModes.has(profile?.targetMode), `Phaser candidate profile targetMode is repeated: ${profile?.targetMode || "(missing)"}.`);
+    seenModes.add(profile?.targetMode);
+    requireValue(isNonBlankString(profile?.label), `Phaser candidate profile ${profile?.targetMode || "(unnamed)"} requires label.`);
+    requireValue(validParentEngines.has(profile?.parentEngine), `Phaser candidate profile ${profile?.targetMode || "(unnamed)"} requires a supported parent engine.`);
+    const scenarios = Array.isArray(profile?.requiredScenarios) ? profile.requiredScenarios : [];
+    requireValue(scenarios.length >= 4, `Phaser candidate profile ${profile?.targetMode || "(unnamed)"} requires at least four scoring scenarios.`);
+    requireValue(scenarios.every(isNonBlankString), `Phaser candidate profile ${profile?.targetMode || "(unnamed)"} requires non-blank scoring scenarios.`);
+    requireValue(new Set(scenarios).size === scenarios.length, `Phaser candidate profile ${profile?.targetMode || "(unnamed)"} requires unique scoring scenarios.`);
+  }
 }
 
 function validateEventReplay(replay) {
