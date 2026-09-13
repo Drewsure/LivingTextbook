@@ -79,6 +79,9 @@ Return these files inside the isolated candidate folder:
 
 - `README.md` with setup, controls, dependencies, known limits, and wrapper
   boundary notes.
+- `evidence/return-package.json` with the frozen source identity, request and
+  queue identifiers, `targetMode: "memory-match"`, `parentEngine: "pairing"`,
+  `targetSurface`, eight reviewed artifact records, and all blocked actions.
 - `fixtures/memory-match-unit.json` with the reviewed fixture.
 - `evidence/event-replay.json` with the standard event sequence.
 - `evidence/scoring-replay.json` proving deterministic correct, incorrect,
@@ -91,6 +94,11 @@ Return these files inside the isolated candidate folder:
   review with repository-relative paths and SHA-256 hashes.
 - `evidence/wrapper-notes.md` mapping Phaser lifecycle and interaction facts to
   the LivingTextbook parent-engine adapter without importing platform code.
+
+The return package artifact records must use these kinds exactly once:
+`source-archive`, `fixture`, `readme`, `event-replay`, `audio-coverage`,
+`scoring-replay`, `mobile-evidence`, and `wrapper-notes`. Each record must
+include a reviewed status, safe repository-relative path, and SHA-256 checksum.
 
 ## Rejection conditions
 
@@ -112,3 +120,13 @@ event replay, audio coverage, deterministic scoring, accessibility evidence,
 tenant safety, and wrapper boundaries. A complete evidence package may receive
 `approved-for-wrapper`; that status still does not authorize direct source
 import, route replacement, scene-owned scoring, or persistence ownership.
+
+Codex can verify the returned folder locally with:
+
+```powershell
+$env:LIVING_TEXTBOOOK_ZAI_CANDIDATE_ROOT = "C:\\path\\to\\isolated\\memory-match-candidate"
+npm run verify:phaser-candidate-package
+```
+
+No package is supplied to the foundation gate by default; a missing candidate
+folder is a not-ready handoff, not a production failure.

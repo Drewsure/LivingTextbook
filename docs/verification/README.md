@@ -137,6 +137,8 @@ Focused verification supplements:
 - `docs/verification/UNIT_PACKAGE_READINESS_CHECKS.md`
 - `docs/verification/VOICE_TUTOR_PACKAGE_CHECKS.md`
 - `docs/verification/ZAI_HUMAN_HANDOFF_SIGNAL_CHECKS.md`
+- `docs/verification/PHASER_SCENE_INVENTORY_CHECKS.md`
+- `docs/verification/PHASER_CANDIDATE_PACKAGE_CHECKS.md`
 - `docs/verification/PWA_OFFLINE_READINESS_GATE_CHECKS.md`
 - `docs/verification/MEDIA_BUNDLE_INTEGRITY_CHECKS.md`
 - `docs/verification/PILOT_READINESS_DASHBOARD_CHECKS.md`

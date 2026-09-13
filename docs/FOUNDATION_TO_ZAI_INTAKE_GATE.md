@@ -87,3 +87,12 @@ against the external snapshot. It is intentionally outside
 `verify:foundation` because the frozen source is not checked into this
 repository. If the snapshot is elsewhere, set
 `LIVING_TEXTBOOK_ZAI_REVIEW_ROOT` to its folder.
+
+## Returned Candidate Package Check
+
+When a named candidate package is returned, set
+`LIVING_TEXTBOOOK_ZAI_CANDIDATE_ROOT` to its isolated folder and run
+`npm run verify:phaser-candidate-package`. The command checks the Memory Match
+return envelope, frozen source identity, eight reviewed artifact kinds, safe
+paths, and blocked actions. It is intentionally outside `verify:foundation`:
+absence of a returned package is `NOT READY`, not a canonical build failure.

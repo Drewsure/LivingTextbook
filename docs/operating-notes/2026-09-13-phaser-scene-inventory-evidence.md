@@ -29,3 +29,10 @@ should provide one candidate package at a time, beginning with Memory Match:
 fixture replay, event/scoring replay, target-language audio map,
 mobile/accessibility evidence, and wrapper notes. A source archive, merge, or
 route request is not the next handoff.
+
+When a candidate package is returned, set
+`LIVING_TEXTBOOOK_ZAI_CANDIDATE_ROOT` to its isolated folder and run
+`npm run verify:phaser-candidate-package`. A missing folder reports `NOT READY`
+and is deliberately outside the full foundation gate. A passing package check
+proves artifact integrity and provenance only; it does not approve a Phaser
+wrapper.

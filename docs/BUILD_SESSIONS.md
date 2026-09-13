@@ -1924,3 +1924,8 @@ engaged for isolated Memory Match evidence now; returned work remains outside
 the canonical app until Codex verifies source identity, fixture replay, event
 sequence, target-language audio, deterministic scoring, accessibility, and
 wrapper boundaries.
+
+Added the manual `verify:phaser-candidate-package` check for the next human
+handoff. It validates a returned Memory Match evidence folder without adding
+the external package to the canonical repository or weakening the foundation
+gate. Missing external evidence remains `NOT READY` by design.

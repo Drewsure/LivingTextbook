@@ -4318,3 +4318,15 @@ Memory Match remains the first bounded wrapper candidate, followed by Balloon
 Pop. The foundation is now ready for a named candidate's replay, audio,
 accessibility, and wrapper evidence handoff; a broad Z.ai merge is not
 authorized. See ADR 0702 and the 2026-09-13 operating note.
+
+# DR-776: Returned Phaser Candidate Package Verification
+
+The first named candidate handoff now has a manual package inspector. It
+checks the Memory Match return envelope against the frozen MiniStar snapshot,
+requires exactly eight reviewed artifact kinds, verifies each artifact's
+SHA-256 checksum and safe path, and preserves all blocked production actions.
+
+The check is intentionally outside the full foundation gate because an
+external package may not yet exist. `NOT READY` means no package was supplied;
+a passing result proves evidence integrity only and does not approve a Phaser
+wrapper. See ADR 0703 and `PHASER_CANDIDATE_PACKAGE_CHECKS.md`.
