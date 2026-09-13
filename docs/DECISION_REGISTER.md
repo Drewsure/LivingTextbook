@@ -4566,3 +4566,12 @@ must fail closed with actionable validation errors rather than throwing. This
 protects review tooling from partial handoffs without authorizing source
 import, route activation, scoring, persistence, package promotion, or student
 assignment. See ADR 0729.
+
+# DR-804: Frozen Source Manifest Path Integrity
+
+Require each frozen Phaser source evidence manifest path to be unique and a
+normalized repository-relative POSIX path before hashing. Duplicate, absolute,
+drive-letter, backslash, empty-segment, dot-segment, and parent-directory paths
+fail closed. The checker remains read-only and isolated; this does not
+authorize source import, route activation, scoring, persistence, package
+promotion, or assignment. See ADR 0730.

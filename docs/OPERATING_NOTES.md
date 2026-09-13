@@ -1311,3 +1311,10 @@ validator must normalize or reject missing/non-array `sourceFiles`,
 approval blockers, without throwing. Keep null-entry and non-array regression
 cases in `verify-runtime-behavior.mjs`; run `npm run verify:runtime-behavior`
 and the web typecheck after changing this boundary. See ADR 0729.
+
+Frozen Phaser source manifests must list each reviewed path exactly once using
+normalized repository-relative POSIX syntax. Reject duplicate entries, drive
+letters, backslashes, empty segments, dot segments, and parent traversal before
+hashing. Run `npm run verify:phaser-source-evidence-contract` and
+`npm run verify:phaser-source-evidence` after changing this checker; it must
+remain read-only and isolated. See ADR 0730.

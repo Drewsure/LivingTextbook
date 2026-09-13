@@ -12,6 +12,10 @@ const requiredMarkers = [
   "isAbsolute",
   "relative",
   "path escapes the isolated snapshot",
+  "seenPaths",
+  "source manifest path is repeated",
+  "isSafeReviewRelativePath",
+  "repository-relative POSIX path",
 ];
 const forbiddenMarkers = [
   "writeFileSync",

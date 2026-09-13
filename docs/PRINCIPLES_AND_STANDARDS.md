@@ -2398,3 +2398,18 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-801 and DR-802 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-803 and
 `docs/adr/0729-phaser-review-payload-shape.md`.
+
+## 154. Frozen Source Manifest Path Standard
+
+- Frozen Phaser source evidence manifests must list each reviewed source path
+  exactly once using normalized repository-relative POSIX syntax.
+- Absolute paths, drive-letter paths, backslashes, empty segments, dot
+  segments, and parent-directory traversal must fail before hashing.
+- The reproducibility checker must remain read-only and contained within the
+  configured isolated snapshot.
+- A valid source manifest proves identity only; it does not authorize source
+  import, route replacement, package promotion, scoring, persistence, or
+  assignment.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-804 and
+`docs/adr/0730-frozen-source-manifest-path-integrity.md`.

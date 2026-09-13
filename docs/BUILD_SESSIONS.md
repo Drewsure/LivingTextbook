@@ -2149,3 +2149,12 @@ Missing or non-array evidence collections, null source/findings entries, and
 missing nested blocker data now return actionable validation errors instead of
 throwing. Added runtime coverage for malformed records and non-array review
 collections. No source was copied and no candidate was promoted. See ADR 0729.
+
+## 0731 - Frozen source manifest path integrity
+
+Hardened the frozen Phaser source evidence verifier so every manifest path is a
+unique, normalized repository-relative POSIX path before hashing. Duplicate,
+absolute, drive-letter, backslash, empty-segment, dot-segment, and
+parent-directory paths now fail closed. The read-only isolated snapshot check
+remains green. No source was copied and no candidate was promoted. See ADR
+0730.

@@ -25,7 +25,17 @@ if (!existsSync(snapshotRoot)) {
 }
 
 const mismatches = [];
+const seenPaths = new Set();
 for (const evidence of manifest) {
+  if (seenPaths.has(evidence.path)) {
+    mismatches.push(`${evidence.path}: source manifest path is repeated`);
+    continue;
+  }
+  seenPaths.add(evidence.path);
+  if (!isSafeReviewRelativePath(evidence.path)) {
+    mismatches.push(`${evidence.path}: path must be a unique repository-relative POSIX path`);
+    continue;
+  }
   const filePath = resolve(snapshotRoot, evidence.path);
   const relativePath = relative(snapshotRoot, filePath);
   if (isAbsolute(evidence.path) || relativePath === ".." || relativePath.startsWith(".." + sep)) {
@@ -45,6 +55,19 @@ if (mismatches.length > 0) {
 }
 
 console.log(`PASS ${manifest.length}/${manifest.length} frozen Phaser evidence hashes match ${sourceSnapshotId} (${sourceCommitSha}).`);
+
+function isSafeReviewRelativePath(value) {
+  return (
+    typeof value === "string" &&
+    value.trim() === value &&
+    value.length > 0 &&
+    !isAbsolute(value) &&
+    !value.startsWith("\\") &&
+    !value.includes("\\") &&
+    !value.includes(":") &&
+    !value.split("/").some((segment) => segment.length === 0 || segment === "." || segment === "..")
+  );
+}
 
 function fail(message) {
   console.error(`FAIL ${message}`);
