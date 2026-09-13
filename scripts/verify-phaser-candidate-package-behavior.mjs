@@ -119,6 +119,16 @@ try {
 
   assertVerifierPasses(candidateRoot, "complete package");
 
+  const fixtureArtifact = manifest.artifacts.find((artifact) => artifact.kind === "fixture");
+  const originalFixturePath = fixtureArtifact.relativePath;
+  fixtureArtifact.relativePath = artifactPaths.readme;
+  fixtureArtifact.checksum = hashFile(join(candidateRoot, artifactPaths.readme));
+  writeFileSync(join(evidenceRoot, "return-package.json"), JSON.stringify(manifest, null, 2));
+  assertVerifierRejects(candidateRoot, "duplicate artifact paths");
+  fixtureArtifact.relativePath = originalFixturePath;
+  fixtureArtifact.checksum = hashFile(join(candidateRoot, originalFixturePath));
+  writeFileSync(join(evidenceRoot, "return-package.json"), JSON.stringify(manifest, null, 2));
+
   const scoringPath = join(candidateRoot, artifactPaths["scoring-replay"]);
   writeFileSync(scoringPath, JSON.stringify({ ...JSON.parse(readFileSync(scoringPath, "utf8")), randomRewards: true }));
   const scoringArtifact = manifest.artifacts.find((artifact) => artifact.kind === "scoring-replay");

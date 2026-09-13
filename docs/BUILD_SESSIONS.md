@@ -2132,3 +2132,12 @@ unique, repository-relative POSIX paths. Absolute paths, Windows drive paths,
 backslash paths, and parent-directory traversal now fail closed. Added runtime
 coverage for a Windows absolute path while preserving the review-only boundary.
 No source was copied and no candidate was promoted. See ADR 0727.
+
+## 0729 - Phaser evidence artifact-path uniqueness
+
+Hardened the candidate package verifier so every required artifact has a
+distinct relative path as well as a distinct kind, identifier, reviewed state,
+and checksum. Added a synthetic regression case proving that reusing one file
+for two artifact records is rejected, while the complete Memory Match and
+Balloon Pop profiles still pass. No source was copied and no candidate was
+promoted. See ADR 0728.

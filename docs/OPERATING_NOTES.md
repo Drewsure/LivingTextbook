@@ -1296,3 +1296,11 @@ parent-directory traversal. This keeps review packets portable and prevents a
 candidate record from escaping its isolated evidence boundary. Run
 `npm run verify:runtime-behavior` and `npm run verify:phaser-candidate-reviews`
 after changing this validation. See ADR 0727.
+
+Every Phaser return-package artifact must have a unique `kind`, `artifactId`,
+and `relativePath`. A checksum proves the bytes at a path, but it does not
+prove that separate evidence obligations were supplied; duplicate paths must
+fail the package gate. Keep the duplicate-path regression in
+`verify-phaser-candidate-package-behavior.mjs` and run
+`npm run verify:phaser-candidate-package-behavior` after changing artifact
+validation. See ADR 0728.

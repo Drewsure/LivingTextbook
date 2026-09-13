@@ -80,6 +80,7 @@ requireValue(artifacts.length === requiredArtifactKinds.length, `artifacts must 
 
 const seenKinds = new Set();
 const seenIds = new Set();
+const seenArtifactPaths = new Set();
 for (const artifact of artifacts) {
   if (!artifact || typeof artifact !== "object") {
     failures.push("Every artifact must be a JSON object.");
@@ -92,6 +93,8 @@ for (const artifact of artifacts) {
   if (!isNonBlankString(artifact.artifactId)) failures.push("Every artifact requires artifactId.");
   if (seenIds.has(artifact.artifactId)) failures.push(`Artifact id is repeated: ${artifact.artifactId}.`);
   seenIds.add(artifact.artifactId);
+  if (seenArtifactPaths.has(artifact.relativePath)) failures.push(`Artifact path is repeated: ${artifact.relativePath}.`);
+  seenArtifactPaths.add(artifact.relativePath);
   if (artifact.status !== "reviewed") failures.push(`Artifact ${artifact.artifactId || artifact.kind} must be marked reviewed.`);
   if (!/^[0-9a-f]{64}$/i.test(artifact.checksum || "")) {
     failures.push(`Artifact ${artifact.artifactId || artifact.kind} requires a SHA-256 checksum.`);
