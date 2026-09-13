@@ -2073,3 +2073,12 @@ separate external Phaser review order begins with Memory Match. The next
 controlled gate is the isolated Phaser candidate return package; no source
 promotion is implied. See
 `docs/adr/0720-blueprint-foundation-phase-alignment.md`.
+
+## 0722 - Balloon Pop source mapping review
+
+Inspected the frozen `BalloonPopScene.ts` without copying source. Recorded its
+reusable timing-and-targeting interaction and the required replacements for
+randomization, scoring, audio, identity, persistence, lifecycle, responsive
+input, accessibility, and tenant policy. Balloon Pop remains the second
+external candidate after Memory Match and is blocked pending its complete
+evidence package. See `docs/adr/0721-balloon-pop-source-mapping-review.md`.

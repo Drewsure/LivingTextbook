@@ -4482,3 +4482,13 @@ first external Phaser review candidate, which is separate from student unlock
 order. The next gate is the isolated Phaser candidate return package; source
 promotion remains blocked until its evidence and wrapper review pass. See ADR
 0720.
+
+# DR-795: Balloon Pop Source Mapping Remains Review-Only
+
+The frozen Balloon Pop scene has been mapped as the second external Phaser
+candidate. Its timing, target-box, and motion ideas are useful, but random
+round selection, scene-owned scoring/combo state, direct audio, global pointer
+input, delayed callbacks, and BaseEngine identity/storage require platform
+replacement before any wrapper proposal. The source remains isolated and the
+candidate package gate remains mandatory. See ADR 0721 and
+`docs/PHASER_BALLOON_POP_MAPPING_REVIEW.md`.

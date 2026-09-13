@@ -2306,7 +2306,8 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-790 and
   gate passes; no scene may own canonical progression or browser persistence.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-792 and
-`docs/PHASER_MEMORY_MATCH_MAPPING_REVIEW.md`.
+`docs/PHASER_MEMORY_MATCH_MAPPING_REVIEW.md` and
+`docs/PHASER_BALLOON_POP_MAPPING_REVIEW.md`.
 
 ## 148. Platform Replay Seed Injection Standard
 

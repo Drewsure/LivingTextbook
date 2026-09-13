@@ -7,6 +7,7 @@ const files = [
   "apps/web/src/app/teacher/prototypes/[tenantId]/page.tsx",
   "docs/agent-briefs/ZAI_MEMORY_MATCH_EVIDENCE_REQUEST.md",
   "docs/PHASER_MEMORY_MATCH_MAPPING_REVIEW.md",
+  "docs/PHASER_BALLOON_POP_MAPPING_REVIEW.md",
   "scripts/verify-phaser-candidate-package-contract.mjs",
 ];
 
@@ -48,6 +49,11 @@ const requiredMarkers = [
   "Math.random()",
   "localStorage",
   "no source files are copied",
+  "Phaser Balloon Pop Mapping Review",
+  "BalloonPopScene.ts",
+  "second external candidate",
+  "Phaser.Utils.Array.GetRandom",
+  "correct, incorrect, miss, retry",
 ];
 
 const failures = requiredMarkers
