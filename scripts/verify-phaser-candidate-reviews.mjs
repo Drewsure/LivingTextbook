@@ -5,6 +5,7 @@ const files = [
   "apps/web/src/data/samplePhaserCandidateContractReview.ts",
   "apps/web/src/features/game-offers/PhaserCandidateContractReviewPanel.tsx",
   "apps/web/src/app/teacher/prototypes/[tenantId]/page.tsx",
+  "docs/agent-briefs/ZAI_MEMORY_MATCH_EVIDENCE_REQUEST.md",
 ];
 
 const source = files.map((file) => readFileSync(file, "utf8")).join("\n");
@@ -29,6 +30,11 @@ const requiredMarkers = [
   "No student assignment",
   "Frozen scenes mapped against canonical game contracts",
   "filterPhaserCandidateContractReviewsByTenant",
+  "Ready for controlled evidence handoff",
+  "source-manifest.sha256",
+  "broad source merge",
+  "fixture replay",
+  "target-language audio",
 ];
 
 const failures = requiredMarkers

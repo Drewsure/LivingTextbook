@@ -25,6 +25,8 @@ LivingTextbook `pairing` contract.
 Do not copy anything into `Drewsure/LivingTextbook`. Do not request or create a
 production merge, route replacement, student assignment, database, auth,
 billing, or live telemetry integration.
+No broad source merge is requested; return evidence for this named candidate
+only.
 
 ## Input contract
 
