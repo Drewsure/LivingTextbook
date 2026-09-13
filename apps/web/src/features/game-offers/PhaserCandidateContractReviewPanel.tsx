@@ -47,6 +47,33 @@ export function PhaserCandidateContractReviewPanel({ reviews }: PhaserCandidateC
 
             <p className="mt-3 text-sm leading-6 text-[var(--tenant-muted)]">{review.summary}</p>
 
+            {(() => {
+              const profile = getCandidateProfile(review.gameMode, review.parentEngine);
+              if (!profile) return null;
+
+              return (
+                <section className="mt-4 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] p-3">
+                  <div className="flex flex-wrap items-start justify-between gap-2">
+                    <div>
+                      <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Candidate profile gate</p>
+                      <h4 className="mt-1 text-sm font-bold text-[var(--tenant-text)]">{profile.label}</h4>
+                    </div>
+                    <StatusPill label={`Parent engine: ${profile.parentEngine}`} tone="neutral" />
+                  </div>
+                  <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">
+                    Required deterministic scoring cases are listed here before a returned package can be reviewed.
+                  </p>
+                  <ul className="mt-2 flex flex-wrap gap-2 text-xs font-semibold text-[var(--tenant-text)]">
+                    {profile.scenarios.map((scenario) => (
+                      <li key={`${review.reviewId}-profile-${scenario}`} className="rounded-md border border-[var(--tenant-border)] px-2 py-1">
+                        {scenario}
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              );
+            })()}
+
             <details className="mt-4 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] p-3">
               <summary className="cursor-pointer text-sm font-bold text-[var(--tenant-text)]">Source evidence manifest</summary>
               <ul className="mt-3 grid gap-2 text-xs leading-5 text-[var(--tenant-muted)]">
@@ -73,6 +100,24 @@ export function PhaserCandidateContractReviewPanel({ reviews }: PhaserCandidateC
       </div>
     </Card>
   );
+}
+
+function getCandidateProfile(gameMode: string, parentEngine: string) {
+  const profiles = {
+    "memory-match": {
+      label: "Memory Match profile",
+      parentEngine: "pairing",
+      scenarios: ["correct", "incorrect", "retry", "completion"],
+    },
+    "balloon-pop": {
+      label: "Balloon Pop profile",
+      parentEngine: "selection",
+      scenarios: ["correct", "incorrect", "miss", "retry", "completion"],
+    },
+  } as const;
+
+  const profile = profiles[gameMode as keyof typeof profiles];
+  return profile?.parentEngine === parentEngine ? profile : undefined;
 }
 
 function FindingRow({ finding }: { finding: PhaserCandidateContractFinding }) {

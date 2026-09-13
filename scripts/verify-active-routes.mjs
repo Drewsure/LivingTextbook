@@ -652,6 +652,15 @@ expectedTextByPath.set("/teacher/prototypes/ministar", [
   "MiniStar external prototype task packet",
   "Foundation Japanese support must remain hiragana-only.",
   "No Japanese support-language progress",
+  "Candidate profile gate",
+  "Required deterministic scoring cases",
+  "Parent engine: pairing",
+  "Parent engine: selection",
+  "correct",
+  "incorrect",
+  "miss",
+  "retry",
+  "completion",
 ]);
 expectedTextByPath.get("/teacher")?.push(
   "Open MiniStar media library",
