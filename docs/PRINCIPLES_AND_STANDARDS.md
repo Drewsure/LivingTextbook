@@ -1954,4 +1954,19 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-760 and
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-761 and
 `docs/adr/0689-front-door-pairing-slice-integration.md`.
 
+## 124. Shared Recommended-Path Advancement Standard
+
+- The next activity is the first uncompleted mode in the tenant's ordered,
+  reviewed recommendation list.
+- Student launch, front-door, flashcard entry, progress summary, and game
+  completion surfaces must use the shared next-mode policy.
+- Unlock state remains a separate progression authority check.
+- When all reviewed recommendations are complete, the surface must show the
+  end of the path rather than inventing or silently repeating an activity.
+- Training Academy recovery source selection is a separate evidence-derived
+  decision and is not replaced by this student-path helper.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-762 and
+`docs/adr/0690-shared-next-recommended-mode-policy.md`.
+
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-615 and `docs/adr/0543-progress-event-timestamps.md`.

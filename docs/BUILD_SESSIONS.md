@@ -1780,6 +1780,12 @@ the selected unlocked mode, giving MiniStar and the partner tenant the same
 reviewed pairing slice. Other modes remain explicit previews. See ADR 0689,
 DR-761, and operating note OW-042.
 
+The next activity policy now advances to the first uncompleted recommended
+mode across the front door, student launch, flashcard entry, progress summary,
+and completion handoff. This removes the recurring-first-mode defect while
+preserving separate unlock and Training Academy recovery decisions. See ADR
+0690, DR-762, and operating note OW-043.
+
 The teacher recovery summary now treats `training_completed` as the sole
 authoritative recovery award record. Response-result metadata remains visible
 evidence but is excluded from the reward total, preventing one recovery action

@@ -4,6 +4,7 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import type { GameProgressEvent, LaunchSession, StudentProgressionState } from "@living-textbook/content-model";
 import { AudioCueText } from "@/features/audio/AudioCueButton";
 import { formatMode } from "@/lib/formatLabels";
+import { getNextUncompletedRecommendedMode } from "./nextRecommendedGameMode";
 
 interface UnitSessionProgressSummaryProps {
   launchSession: LaunchSession;
@@ -23,7 +24,7 @@ export function UnitSessionProgressSummary({
   title = "Unit Progress",
 }: UnitSessionProgressSummaryProps) {
   const entryComplete = progression.completedGameModes.includes(launchSession.entryMode);
-  const nextMode = launchSession.recommendedNextModes[0];
+  const nextMode = getNextUncompletedRecommendedMode(launchSession, progression);
   const nextModeUnlocked = Boolean(nextMode && progression.unlockedGameModes.includes(nextMode));
   const nextModeStarted = Boolean(nextMode && events.some((event) => event.type === "game_started" && event.gameMode === nextMode));
   const nextModeComplete = Boolean(nextMode && progression.completedGameModes.includes(nextMode));

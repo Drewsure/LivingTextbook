@@ -4146,3 +4146,11 @@ selected unlocked mode. Both tenants can use a reviewed pairing activity with
 shared audio, deterministic scoring, event evidence, and completion validation;
 other modes remain explicit previews. See ADR 0689 and
 `docs/decision-register/DR-761-front-door-pairing-slice-integration.md`.
+
+# DR-762: Shared Next Recommended Mode Policy
+
+Launch and progress surfaces now use the first uncompleted mode in the
+tenant's ordered recommendation list. This prevents a completed first game
+from recurring as the permanent next activity while keeping unlock authority
+in progression state. See ADR 0690 and
+`docs/decision-register/DR-762-shared-next-recommended-mode-policy.md`.

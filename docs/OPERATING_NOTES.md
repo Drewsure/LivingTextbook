@@ -919,6 +919,28 @@ Procedure:
 Why this matters: White-label tenants should share a reliable canonical slice
 without promoting incomplete modes or duplicating game logic.
 
+## OW-043: Advance Through Uncompleted Recommended Modes
+
+Status: Active
+
+Observed behavior: Reading `recommendedNextModes[0]` directly causes a
+completed activity to be offered again after a learner finishes it.
+
+Procedure:
+
+1. Use `getNextUncompletedRecommendedMode` for student launch, front-door,
+   flashcard entry, progress summary, and completion handoff surfaces.
+2. Keep unlock checks separate from recommendation ordering.
+3. Treat an undefined result as the end of the reviewed recommendation path,
+   not as permission to invent another activity.
+4. Do not apply this helper to Training Academy recovery source selection;
+   recovery source is evidence-derived and has a different purpose.
+5. Run `npm run verify:canonical-games`, web typecheck, production build, and
+   route verification after changing progression ordering.
+
+Why this matters: Students move through the curated pathway predictably, and
+white-label tenants can reorder reviewed activities without code forks.
+
 ## OW-037: Normalized Mastery Award Evidence
 
 Status: Active

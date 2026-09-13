@@ -14,6 +14,7 @@ import type {
 } from "@living-textbook/content-model";
 import type { TeacherAssignmentPlan } from "@living-textbook/content-model/src/teacherAssignment";
 import { UnitSessionProgressSummary } from "@/features/progression/UnitSessionProgressSummary";
+import { getNextUncompletedRecommendedMode } from "@/features/progression/nextRecommendedGameMode";
 import {
   completeFlashcardEntryPractice,
   createRouteGuidanceListenedEvent,
@@ -68,7 +69,7 @@ export function FlashcardDemoFlow({
   );
 
   const entryComplete = currentProgression.completedGameModes.includes(launchSession.entryMode);
-  const nextMode = launchSession.recommendedNextModes[0];
+  const nextMode = getNextUncompletedRecommendedMode(launchSession, currentProgression);
   const targetPracticeRequiredCount = unit.pedagogicalPayload.vocabularyTerms.length + unit.pedagogicalPayload.targetSentences.length;
   const targetPracticeEngagedCount = targetPracticeEngagedItemIds.length;
   const targetPracticeReady = entryComplete || targetPracticeEngagedCount >= targetPracticeRequiredCount;

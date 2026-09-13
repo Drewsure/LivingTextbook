@@ -6,6 +6,7 @@ import type { UnitGameOffer, UnitGameOfferMap } from "@/data/sampleUnitGameOffer
 import { AudioCueText } from "@/features/audio/AudioCueButton";
 import { getGameModeRoutePath } from "@/features/routes/gameModeRoutePaths";
 import { getStudentActivityHubPath, getTrainingAcademyPath } from "@/features/routes/routeContracts";
+import { getNextUncompletedRecommendedMode } from "@/features/progression/nextRecommendedGameMode";
 import { formatMode } from "@/lib/formatLabels";
 
 interface GameCompletionNextCardProps {
@@ -27,7 +28,7 @@ export function GameCompletionNextCard({
 }: GameCompletionNextCardProps) {
   const currentComplete = progression.completedGameModes.includes(currentGameMode);
   const nextOffer = findNextReviewedOffer(offerMap, progression, currentGameMode);
-  const nextMode = nextOffer?.gameMode ?? findNextRecommendedMode(launchSession, progression, currentGameMode);
+  const nextMode = nextOffer?.gameMode ?? getNextUncompletedRecommendedMode(launchSession, progression, currentGameMode);
   const nextPath = nextOffer?.launchRoute ?? (nextMode ? getGameModeRoutePath(nextMode, launchSession.launchCode) : getStudentActivityHubPath(launchSession.launchCode));
   const nextLabel = nextOffer?.label ?? (nextMode ? formatMode(nextMode) : "Activity hub");
   const nextSource = nextOffer ? "Reviewed offer map" : "Launch session";
@@ -91,20 +92,6 @@ function CompletionLink({ href, label, disabled = false }: { href: string; label
       {label}
     </a>
   );
-}
-
-function findNextRecommendedMode(
-  launchSession: LaunchSession,
-  progression: StudentProgressionState,
-  currentGameMode: GameModeId,
-): GameModeId | undefined {
-  const currentIndex = launchSession.recommendedNextModes.indexOf(currentGameMode);
-  const searchStart = currentIndex >= 0 ? currentIndex + 1 : 0;
-  const afterCurrent = launchSession.recommendedNextModes.slice(searchStart);
-  const beforeCurrent = launchSession.recommendedNextModes.slice(0, Math.max(currentIndex, 0));
-  const candidates = [...afterCurrent, ...beforeCurrent];
-
-  return candidates.find((mode) => !progression.completedGameModes.includes(mode));
 }
 
 function findNextReviewedOffer(

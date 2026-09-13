@@ -217,6 +217,7 @@ const sessionMonitor = readText("apps/web/src/features/teacher/TeacherSessionMon
 const studentLaunchFlow = readText("apps/web/src/features/student/StudentLaunchFlow.tsx");
 const frontDoorFlow = readText("apps/web/src/features/access/FrontDoorEntryFlow.tsx");
 const completionGate = readText("apps/web/src/features/game-shell/canonicalGameCompletionGate.ts");
+const nextModePolicy = readText("apps/web/src/features/progression/nextRecommendedGameMode.ts");
 
 const standardEventTypes = [
   "game_started",
@@ -265,6 +266,27 @@ for (const fragment of [
 ]) {
   if (!studentLaunchFlow.includes(fragment)) {
     failures.push(`student launch canonical handoff: missing ${fragment}`);
+  }
+}
+
+for (const fragment of [
+  "getNextUncompletedRecommendedMode",
+  "recommendedModes.slice(searchStart)",
+  "!progression.completedGameModes.includes(mode)",
+]) {
+  if (!nextModePolicy.includes(fragment)) {
+    failures.push(`next recommended mode policy: missing ${fragment}`);
+  }
+}
+
+for (const [surface, source] of [
+  ["student launch flow", studentLaunchFlow],
+  ["front-door flow", frontDoorFlow],
+  ["progress summary", readText("apps/web/src/features/progression/UnitSessionProgressSummary.tsx")],
+  ["flashcard entry flow", readText("apps/web/src/features/game-shell/entry/FlashcardDemoFlow.tsx")],
+]) {
+  if (!source.includes("getNextUncompletedRecommendedMode")) {
+    failures.push(`${surface}: must use the shared next recommended mode policy`);
   }
 }
 

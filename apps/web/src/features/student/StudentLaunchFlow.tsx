@@ -28,6 +28,7 @@ import {
   type GameModeCompletionResult,
 } from "@/features/progression/localProgressionAdapter";
 import { UnitSessionProgressSummary } from "@/features/progression/UnitSessionProgressSummary";
+import { getNextUncompletedRecommendedMode } from "@/features/progression/nextRecommendedGameMode";
 import { starterRewardCatalog } from "@/features/rewards/rewardCatalog";
 import type { TenantConfig } from "@/features/tenant/types";
 import { TrainingRecoveryRecommendationCard } from "@/features/training/TrainingRecoveryRecommendationCard";
@@ -89,10 +90,8 @@ export function StudentLaunchFlow({
   );
 
   const entryComplete = currentProgression.completedGameModes.includes(launchSession.entryMode);
-  const nextMode = launchSession.recommendedNextModes[0];
-  const nextModeUnlocked = launchSession.recommendedNextModes.some((mode) =>
-    currentProgression.unlockedGameModes.includes(mode),
-  );
+  const nextMode = getNextUncompletedRecommendedMode(launchSession, currentProgression);
+  const nextModeUnlocked = Boolean(nextMode && currentProgression.unlockedGameModes.includes(nextMode));
   const nextModeStarted = Boolean(nextMode && activeGameMode === nextMode);
   const targetPracticeRequiredCount = unit.pedagogicalPayload.vocabularyTerms.length + unit.pedagogicalPayload.targetSentences.length;
   const targetPracticeEngagedCount = targetPracticeEngagedItemIds.length;
