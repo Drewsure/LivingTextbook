@@ -50,6 +50,12 @@ LivingTextbook wrapper compatibility, target-language audio coverage,
 standard-event replay, deterministic scoring ownership, mobile accessibility,
 or white-label tenant safety.
 
+The isolated snapshot has now been checked locally with
+`node scripts/verify-phaser-source-evidence.mjs` using the extracted review
+folder. Result: `5/5` manifest hashes match
+`eb79ddf5940ab47cc3c45c119c67ee1b6b958e55`. This verifies the evidence packet
+against the supplied files; it does not change the blocked integration status.
+
 ## What Remains Blocked
 
 - Direct file copy into `apps/web` or `apps/ai-service`.

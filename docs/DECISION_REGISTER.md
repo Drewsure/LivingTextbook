@@ -4234,3 +4234,9 @@ The canonical status-copy audit now keeps the teacher game sequence and speech
 requirement record aligned with the runtime: Speak It is canonical in direct,
 student, and coded front-door routes, while external Phaser candidates remain
 review-only. The canonical-game verifier guards these status markers.
+
+The isolated Z.ai MiniStar snapshot now passes the local five-file hash
+reproducibility check against the frozen commit
+`eb79ddf5940ab47cc3c45c119c67ee1b6b958e55`. Provenance is verified, but the
+candidate remains blocked for wrapper compatibility, accessibility, audio,
+deterministic scoring, and white-label review.

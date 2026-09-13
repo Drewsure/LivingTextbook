@@ -1855,3 +1855,9 @@ teacher sequence now identifies the active DOM canonical baseline while
 external Phaser candidates remain review-only. The canonical-game verifier
 checks these status markers so future integration work cannot silently leave
 contradictory route documentation.
+
+The extracted Z.ai MiniStar snapshot was also verified against the frozen
+Phaser evidence manifest: all 5 recorded source-file hashes match commit
+`eb79ddf5940ab47cc3c45c119c67ee1b6b958e55`. This strengthens provenance only;
+wrapper compatibility, accessibility, audio, scoring, and tenant review remain
+blocked before any source import or route replacement.
