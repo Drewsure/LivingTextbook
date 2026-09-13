@@ -1304,3 +1304,10 @@ fail the package gate. Keep the duplicate-path regression in
 `verify-phaser-candidate-package-behavior.mjs` and run
 `npm run verify:phaser-candidate-package-behavior` after changing artifact
 validation. See ADR 0728.
+
+Treat Phaser contract-review records as untrusted JSON at the boundary. The
+validator must normalize or reject missing/non-array `sourceFiles`,
+`findings`, `missingEvidence`, and `blockedActions`, plus malformed nested
+approval blockers, without throwing. Keep null-entry and non-array regression
+cases in `verify-runtime-behavior.mjs`; run `npm run verify:runtime-behavior`
+and the web typecheck after changing this boundary. See ADR 0729.

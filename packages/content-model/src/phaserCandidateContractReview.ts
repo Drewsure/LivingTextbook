@@ -55,33 +55,43 @@ const requiredBlockedActions = [
 export function validatePhaserCandidateContractReview(
   review: PhaserCandidateContractReview,
 ): string[] {
+  const candidate = review ?? ({} as PhaserCandidateContractReview);
   const errors: string[] = [];
+  const sourceFiles = Array.isArray(candidate.sourceFiles) ? candidate.sourceFiles : [];
+  const missingEvidence = Array.isArray(candidate.missingEvidence) ? candidate.missingEvidence : [];
+  const findings = Array.isArray(candidate.findings) ? candidate.findings : [];
+  const blockedActions = Array.isArray(candidate.blockedActions) ? candidate.blockedActions : [];
+  const approvalBlockers = Array.isArray(candidate.approval?.blockers) ? candidate.approval.blockers : [];
 
   if (
-    !review.reviewId ||
-    !review.tenantId ||
-    !review.queueItemId ||
-    !review.sourceRepository ||
-    !review.sourceSnapshotId ||
-    !review.sourceCommitSha
+    !candidate.reviewId ||
+    !candidate.tenantId ||
+    !candidate.queueItemId ||
+    !candidate.sourceRepository ||
+    !candidate.sourceSnapshotId ||
+    !candidate.sourceCommitSha
   ) {
     errors.push(
       "Phaser candidate contract reviews require review, tenant, queue, source repository, snapshot, and commit identifiers.",
     );
   }
 
-  if (review.sourceCommitSha && !/^[0-9a-f]{40}$/i.test(review.sourceCommitSha)) {
-    errors.push(`Phaser candidate contract review ${review.reviewId || "(unnamed)"} requires a 40-character source commit SHA.`);
+  if (candidate.sourceCommitSha && !/^[0-9a-f]{40}$/i.test(candidate.sourceCommitSha)) {
+    errors.push(`Phaser candidate contract review ${candidate.reviewId || "(unnamed)"} requires a 40-character source commit SHA.`);
   }
 
-  if (!review.sourceFiles || review.sourceFiles.length === 0) {
-    errors.push(`Phaser candidate contract review ${review.reviewId || "(unnamed)"} requires hashed source-file evidence.`);
+  if (sourceFiles.length === 0) {
+    errors.push(`Phaser candidate contract review ${candidate.reviewId || "(unnamed)"} requires hashed source-file evidence.`);
   }
 
   const sourcePaths = new Set<string>();
-  for (const sourceFile of review.sourceFiles ?? []) {
+  for (const sourceFile of sourceFiles) {
+    if (!sourceFile || typeof sourceFile !== "object") {
+      errors.push(`Phaser candidate contract review ${candidate.reviewId || "(unnamed)"} requires hashed source-file evidence.`);
+      continue;
+    }
     if (!isSafeRepositoryRelativePath(sourceFile.path) || sourcePaths.has(sourceFile.path)) {
-      errors.push(`Phaser candidate contract review ${review.reviewId || "(unnamed)"} must use unique repository-relative source paths.`);
+      errors.push(`Phaser candidate contract review ${candidate.reviewId || "(unnamed)"} must use unique repository-relative source paths.`);
     }
     sourcePaths.add(sourceFile.path);
 
@@ -90,61 +100,72 @@ export function validatePhaserCandidateContractReview(
     }
   }
 
-  if (!review.gameMode || !review.parentEngine || !review.summary) {
+  if (!candidate.gameMode || !candidate.parentEngine || !candidate.summary) {
     errors.push("Phaser candidate contract reviews require game mode, parent engine, and summary fields.");
   }
 
-  if (review.gameMode && review.parentEngine) {
-    const modeProfile = getPhaserCandidateProfile(review.gameMode);
+  if (candidate.gameMode && candidate.parentEngine) {
+    const modeProfile = getPhaserCandidateProfile(candidate.gameMode);
     if (!modeProfile) {
-      errors.push(`Phaser candidate contract review ${review.reviewId || "(unnamed)"} must use an approved candidate profile for ${review.gameMode}.`);
-    } else if (modeProfile.parentEngine !== review.parentEngine) {
+      errors.push(`Phaser candidate contract review ${candidate.reviewId || "(unnamed)"} must use an approved candidate profile for ${candidate.gameMode}.`);
+    } else if (modeProfile.parentEngine !== candidate.parentEngine) {
       errors.push(
-        `Phaser candidate contract review ${review.reviewId || "(unnamed)"} must use parent engine ${modeProfile.parentEngine} for ${review.gameMode}; found ${review.parentEngine}.`,
+        `Phaser candidate contract review ${candidate.reviewId || "(unnamed)"} must use parent engine ${modeProfile.parentEngine} for ${candidate.gameMode}; found ${candidate.parentEngine}.`,
       );
     }
   }
 
-  if (!review.approval?.decisionId || !review.approval?.decidedAt) {
-    errors.push(`Phaser candidate contract review ${review.reviewId || "(unnamed)"} requires a wrapper approval decision record.`);
+  if (!candidate.approval?.decisionId || !candidate.approval?.decidedAt) {
+    errors.push(`Phaser candidate contract review ${candidate.reviewId || "(unnamed)"} requires a wrapper approval decision record.`);
   }
 
-  if (review.approval && !["blocked", "approved-for-wrapper"].includes(review.approval.status)) {
-    errors.push(`Phaser candidate contract review ${review.reviewId || "(unnamed)"} has an invalid wrapper approval status.`);
+  if (candidate.approval && !["blocked", "approved-for-wrapper"].includes(candidate.approval.status)) {
+    errors.push(`Phaser candidate contract review ${candidate.reviewId || "(unnamed)"} has an invalid wrapper approval status.`);
   }
 
-  if (review.approval?.decidedAt && Number.isNaN(Date.parse(review.approval.decidedAt))) {
-    errors.push(`Phaser candidate contract review ${review.reviewId || "(unnamed)"} requires an ISO wrapper approval timestamp.`);
+  if (candidate.approval?.decidedAt && Number.isNaN(Date.parse(candidate.approval.decidedAt))) {
+    errors.push(`Phaser candidate contract review ${candidate.reviewId || "(unnamed)"} requires an ISO wrapper approval timestamp.`);
   }
 
-  if (review.approval?.status === "blocked" && review.approval.blockers.length === 0) {
-    errors.push(`Phaser candidate contract review ${review.reviewId || "(unnamed)"} cannot be wrapper-blocked without blockers.`);
+  if (candidate.approval?.status === "blocked" && approvalBlockers.length === 0) {
+    errors.push(`Phaser candidate contract review ${candidate.reviewId || "(unnamed)"} cannot be wrapper-blocked without blockers.`);
   }
 
-  if (review.approval?.status === "approved-for-wrapper" && (review.approval.blockers.length > 0 || review.missingEvidence.length > 0)) {
-    errors.push(`Phaser candidate contract review ${review.reviewId || "(unnamed)"} cannot approve a wrapper with blockers or missing evidence.`);
+  if (candidate.approval?.status === "approved-for-wrapper" && (approvalBlockers.length > 0 || missingEvidence.length > 0)) {
+    errors.push(`Phaser candidate contract review ${candidate.reviewId || "(unnamed)"} cannot approve a wrapper with blockers or missing evidence.`);
   }
 
-  if (review.status !== "mapped-review-only" && review.status !== "blocked") {
+  if (candidate.status !== "mapped-review-only" && candidate.status !== "blocked") {
     errors.push("Phaser candidate contract reviews must remain mapped-review-only or blocked.");
   }
 
-  if (review.findings.length === 0) {
+  if (findings.length === 0) {
     errors.push("Phaser candidate contract reviews require observed contract findings.");
   }
 
   const findingIds = new Set<string>();
-  for (const finding of review.findings) {
+  for (const finding of findings) {
+    if (!finding || typeof finding !== "object") {
+      errors.push(`Phaser candidate contract review ${candidate.reviewId || "(unnamed)"} requires observed contract findings.`);
+      continue;
+    }
     if (!finding.findingId || findingIds.has(finding.findingId)) {
-      errors.push(`Phaser candidate contract review ${review.reviewId} must not repeat finding ids.`);
+      errors.push(`Phaser candidate contract review ${candidate.reviewId} must not repeat finding ids.`);
     }
     findingIds.add(finding.findingId);
 
-    if (!finding.observedBehavior || !finding.platformRequirement || !finding.evidenceReference) {
+    if (
+      typeof finding.observedBehavior !== "string" ||
+      typeof finding.platformRequirement !== "string" ||
+      typeof finding.evidenceReference !== "string" ||
+      !finding.observedBehavior ||
+      !finding.platformRequirement ||
+      !finding.evidenceReference
+    ) {
       errors.push(`Phaser candidate finding ${finding.findingId || "(unnamed)"} requires observed behavior, platform requirement, and evidence reference.`);
     }
 
-    const evidencePath = finding.evidenceReference.split(":", 1)[0];
+    const evidencePath = typeof finding.evidenceReference === "string" ? finding.evidenceReference.split(":", 1)[0] : "";
     if (evidencePath && !sourcePaths.has(evidencePath)) {
       errors.push(
         `Phaser candidate finding ${finding.findingId || "(unnamed)"} must reference a file in the hashed source manifest.`,
@@ -153,13 +174,13 @@ export function validatePhaserCandidateContractReview(
   }
 
   for (const blockedAction of requiredBlockedActions) {
-    if (!review.blockedActions.includes(blockedAction)) {
-      errors.push(`Phaser candidate contract review ${review.reviewId} must block: ${blockedAction}.`);
+    if (!blockedActions.includes(blockedAction)) {
+      errors.push(`Phaser candidate contract review ${candidate.reviewId} must block: ${blockedAction}.`);
     }
   }
 
-  if (review.status === "mapped-review-only" && review.missingEvidence.length === 0) {
-    errors.push(`Phaser candidate contract review ${review.reviewId} cannot be review-only without missing evidence.`);
+  if (candidate.status === "mapped-review-only" && missingEvidence.length === 0) {
+    errors.push(`Phaser candidate contract review ${candidate.reviewId} cannot be review-only without missing evidence.`);
   }
 
   return errors;
@@ -180,9 +201,13 @@ function isSafeRepositoryRelativePath(value: string): boolean {
 export function validatePhaserCandidateContractReviews(
   reviews: PhaserCandidateContractReview[],
 ): string[] {
+  if (!Array.isArray(reviews)) {
+    return ["Phaser candidate contract reviews must be provided as an array."];
+  }
+
   const errors = reviews.flatMap((review) => validatePhaserCandidateContractReview(review));
-  const reviewIds = reviews.map((review) => review.reviewId);
-  const queueItemIds = reviews.map((review) => review.queueItemId);
+  const reviewIds = reviews.map((review) => review?.reviewId);
+  const queueItemIds = reviews.map((review) => review?.queueItemId);
 
   if (new Set(reviewIds).size !== reviewIds.length) {
     errors.push("Phaser candidate contract reviews must not repeat review ids.");

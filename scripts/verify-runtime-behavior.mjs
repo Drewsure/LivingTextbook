@@ -551,6 +551,26 @@ try {
     unsafePhaserSourcePathErrors,
     "Phaser candidate contract review runtime-phaser-review-1 must use unique repository-relative source paths.",
   );
+  const malformedPhaserReviewErrors = phaserCandidateReview.validatePhaserCandidateContractReview({
+    ...phaserReviewFixture,
+    sourceFiles: [null],
+    findings: [null],
+    approval: { ...phaserReviewFixture.approval, blockers: undefined },
+    missingEvidence: undefined,
+    blockedActions: undefined,
+  });
+  assertIncludes(
+    malformedPhaserReviewErrors,
+    "Phaser candidate contract review runtime-phaser-review-1 requires hashed source-file evidence.",
+  );
+  assertIncludes(
+    malformedPhaserReviewErrors,
+    "Phaser candidate contract review runtime-phaser-review-1 requires observed contract findings.",
+  );
+  assertEqual(
+    phaserCandidateReview.validatePhaserCandidateContractReviews(null)[0],
+    "Phaser candidate contract reviews must be provided as an array.",
+  );
   const mismatchedPhaserProfileErrors = phaserCandidateReview.validatePhaserCandidateContractReview({
     ...phaserReviewFixture,
     parentEngine: "selection",

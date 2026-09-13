@@ -2384,3 +2384,17 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-797 and
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-801 and DR-802 and
 `docs/adr/0727-phaser-review-source-path-boundary.md` and
 `docs/adr/0728-phaser-evidence-artifact-path-uniqueness.md`.
+
+## 153. Phaser Review Payload-Shape Standard
+
+- Phaser review handoffs are untrusted JSON and must not be allowed to crash
+  the review surface when collections or nested fields are missing or null.
+- Missing or malformed source-file, finding, missing-evidence, blocked-action,
+  or approval-blocker collections must return actionable validation errors.
+- A malformed review remains blocked and cannot be treated as aligned,
+  wrapper-ready, or eligible for candidate promotion.
+- Fail-closed payload handling does not authorize source import, route
+  replacement, scoring, persistence, package promotion, or assignment.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-803 and
+`docs/adr/0729-phaser-review-payload-shape.md`.

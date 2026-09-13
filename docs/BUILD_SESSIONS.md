@@ -2141,3 +2141,11 @@ and checksum. Added a synthetic regression case proving that reusing one file
 for two artifact records is rejected, while the complete Memory Match and
 Balloon Pop profiles still pass. No source was copied and no candidate was
 promoted. See ADR 0728.
+
+## 0730 - Phaser review payload-shape hardening
+
+Hardened the Phaser contract-review validator against malformed JSON handoffs.
+Missing or non-array evidence collections, null source/findings entries, and
+missing nested blocker data now return actionable validation errors instead of
+throwing. Added runtime coverage for malformed records and non-array review
+collections. No source was copied and no candidate was promoted. See ADR 0729.
