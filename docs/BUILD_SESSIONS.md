@@ -1960,3 +1960,8 @@ Canonical game completion validation now requires the deterministic scoring
 profile on both `mastery_updated` and `game_completed`, and rejects a mismatch.
 This keeps progression, teacher reports, durable completion writes, and future
 Phaser wrappers tied to one auditable scoring identity. See ADR 0708.
+
+Progress-event runtime writes now require structured canonical completion
+identity in addition to a non-blank idempotency key. The validator derives and
+compares the expected key, rejecting cross-unit or cross-session key reuse
+before any future provider operation. See ADR 0709.

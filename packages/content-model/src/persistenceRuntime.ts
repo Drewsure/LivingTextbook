@@ -1,4 +1,8 @@
 import type { PersistenceRecordCategory } from "./persistenceRecords";
+import {
+  validateCanonicalCompletionIdempotencyKey,
+  type CanonicalCompletionIdempotencyKeyInput,
+} from "./canonicalGameReplay";
 
 export type PersistenceOperation = "read" | "write" | "delete" | "export";
 export type PersistenceRuntimeMode = "review-only" | "hosted-managed" | "local-classroom" | "hybrid";
@@ -16,6 +20,7 @@ export interface PersistenceRuntimeRequest {
   releaseApproved: boolean;
   payloadHash?: string;
   idempotencyKey?: string;
+  completionIdentity?: CanonicalCompletionIdempotencyKeyInput;
 }
 
 export interface PersistenceRuntimeDecision {
@@ -77,8 +82,15 @@ export function validatePersistenceRuntimeRequest(request: PersistenceRuntimeReq
   }
   if (containsRawAudio) errors.push("raw learner audio is not a core persistence field");
   if (containsTranscript) errors.push("learner transcripts are not a core persistence field");
-  if (request.category === "progress-event-stream" && request.operation === "write" && !request.idempotencyKey?.trim()) {
-    errors.push("progress event writes require a completion idempotency key");
+  if (request.category === "progress-event-stream" && request.operation === "write") {
+    if (!request.idempotencyKey?.trim()) {
+      errors.push("progress event writes require a completion idempotency key");
+    }
+    if (!request.completionIdentity) {
+      errors.push("progress event writes require canonical completion identity");
+    } else {
+      errors.push(...validateCanonicalCompletionIdempotencyKey(request.completionIdentity, request.idempotencyKey ?? ""));
+    }
   }
   if (["write", "delete", "export"].includes(request.operation) && !releaseApproved) {
     errors.push("release approval is required before mutation or export");

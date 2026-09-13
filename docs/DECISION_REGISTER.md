@@ -4366,6 +4366,13 @@ same-key payload conflicts, and invalid candidates before any provider call.
 The planner does not enable live storage or bypass platform gates. See ADR
 0707 and `COMPLETION_IDEMPOTENCE_CHECKS.md`.
 
+# DR-782: Completion Key Identity Binding
+
+Progress-event write requests now require structured canonical completion
+identity alongside the idempotency key. The runtime derives the expected key
+from tenant, unit, launch, student session, and game mode and rejects a key
+bound to another identity before any provider operation. See ADR 0709.
+
 # DR-781: Completion Scoring Profile Integrity
 
 Canonical completion validation now requires matching deterministic scoring

@@ -2182,3 +2182,15 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-780 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-781 and
 `docs/adr/0708-completion-scoring-profile-integrity.md`.
+
+## 138. Completion Key Identity Binding Standard
+
+- Progress-event write requests must carry structured completion identity with
+  the idempotency key.
+- The expected key must be derived from tenant, unit, launch, student session,
+  and game mode, then compared before provider access.
+- Cross-identity key reuse is an integrity failure, not a successful retry.
+- This check remains side-effect free and does not authorize live persistence.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-782 and
+`docs/adr/0709-completion-key-identity-binding.md`.

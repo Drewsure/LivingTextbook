@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 
 const runtime = readSource("../packages/content-model/src/persistenceRuntime.ts");
+const replay = readSource("../packages/content-model/src/canonicalGameReplay.ts");
 const failures = [];
 
 for (const marker of [
@@ -15,12 +16,19 @@ for (const marker of [
   "learner transcripts are not a core persistence field",
   "release approval is required before mutation or export",
   "progress event writes require a completion idempotency key",
+  "progress event writes require canonical completion identity",
+  "validateCanonicalCompletionIdempotencyKey",
+  "completionIdentity",
   "No hosted database write",
   "No local classroom write",
   "No hybrid sync write",
   "idempotencyKey",
 ]) {
   if (!runtime.includes(marker)) failures.push(`Persistence runtime missing marker: ${marker}`);
+}
+
+if (!replay.includes("completion idempotency key does not match canonical completion identity")) {
+  failures.push("Canonical replay contract missing completion identity mismatch marker");
 }
 
 if (failures.length > 0) {

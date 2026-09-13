@@ -1134,6 +1134,9 @@ try {
     containsRawAudio: false,
     schoolPolicyAccepted: true,
     releaseApproved: true,
+    completionIdentity: {
+      tenantId: "tenant-1", unitKey: "unit-1", launchCode: "launch-1", studentSessionId: "student-1", gameMode: "memory-match",
+    },
   });
   assertIncludes(progressWriteWithoutIdempotencyKeyErrors, "progress event writes require a completion idempotency key");
   const progressWriteWithIdempotencyKeyErrors = persistence.validatePersistenceRuntimeRequest({
@@ -1143,8 +1146,23 @@ try {
     schoolPolicyAccepted: true,
     releaseApproved: true,
     idempotencyKey: "completion-v1:tenant-1:unit-1:launch-1:student-1:memory-match",
+    completionIdentity: {
+      tenantId: "tenant-1", unitKey: "unit-1", launchCode: "launch-1", studentSessionId: "student-1", gameMode: "memory-match",
+    },
   });
   assertEqual(progressWriteWithIdempotencyKeyErrors.length, 0);
+  const progressWriteWithMismatchedIdentityErrors = persistence.validatePersistenceRuntimeRequest({
+    ...persistenceRequest,
+    category: "progress-event-stream",
+    containsRawAudio: false,
+    schoolPolicyAccepted: true,
+    releaseApproved: true,
+    idempotencyKey: "completion-v1:tenant-1:unit-1:launch-1:student-1:memory-match",
+    completionIdentity: {
+      tenantId: "tenant-1", unitKey: "unit-2", launchCode: "launch-1", studentSessionId: "student-1", gameMode: "memory-match",
+    },
+  });
+  assertIncludes(progressWriteWithMismatchedIdentityErrors, "completion idempotency key does not match canonical completion identity");
   const completionCandidate = {
     idempotencyKey: "completion-v1:tenant-1:unit-1:launch-1:student-1:memory-match",
     payloadHash: "sha256:completion-a",

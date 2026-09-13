@@ -55,3 +55,7 @@ an identical retry plans `return-existing`, a same-key payload mismatch plans
 Canonical completion evidence must also carry the same deterministic
 `scoringProfileId` on `mastery_updated` and `game_completed`; missing or
 mismatched profile metadata is rejected.
+
+Progress-event write requests must carry structured `completionIdentity`, and
+the supplied idempotency key must be the canonical key derived from it. A key
+from another identity is rejected.

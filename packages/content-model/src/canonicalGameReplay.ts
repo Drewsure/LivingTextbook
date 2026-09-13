@@ -32,6 +32,32 @@ export function createCanonicalCompletionIdempotencyKey({
     .join(":");
 }
 
+export function validateCanonicalCompletionIdempotencyKey(
+  identity: CanonicalCompletionIdempotencyKeyInput,
+  idempotencyKey: string,
+): string[] {
+  const errors: string[] = [];
+  const identityFields = [
+    ["tenantId", identity.tenantId],
+    ["unitKey", identity.unitKey],
+    ["launchCode", identity.launchCode],
+    ["studentSessionId", identity.studentSessionId],
+    ["gameMode", identity.gameMode],
+  ] as const;
+  for (const [field, value] of identityFields) {
+    if (!value.trim()) errors.push(`completion identity ${field} is required`);
+  }
+  if (!idempotencyKey.trim()) {
+    errors.push("completion idempotency key is required");
+  } else if (errors.length === 0) {
+    const expectedKey = createCanonicalCompletionIdempotencyKey(identity);
+    if (idempotencyKey.trim() !== expectedKey) {
+      errors.push("completion idempotency key does not match canonical completion identity");
+    }
+  }
+  return errors;
+}
+
 export interface CanonicalCompletionWriteCandidate {
   idempotencyKey: string;
   payloadHash: string;

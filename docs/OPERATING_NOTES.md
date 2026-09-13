@@ -1196,3 +1196,8 @@ Every canonical game must carry the same non-blank `scoringProfileId` on
 `mastery_updated` and `game_completed`. When a new wrapper or route is added,
 test both missing completion metadata and profile mismatch; do not rely on
 mastery metadata alone. See ADR 0708.
+
+Future progress-event requests must pass `completionIdentity` and an
+idempotency key together. Use `validateCanonicalCompletionIdempotencyKey` to
+derive the expected value; reject a key from another unit, tenant, launch,
+session, or mode before calling a provider. See ADR 0709.
