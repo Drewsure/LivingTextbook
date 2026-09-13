@@ -202,7 +202,7 @@ export function QuizPracticeGame({
       setFeedback(`Quiz complete. You answered ${nextCorrectRoundIds.length} of ${preview.rounds.length} correctly.`);
       emitInteractionEvent("mastery_updated", {
         completed: true,
-        earnedStarDust,
+        earnedStarDust: result.earnedStarDust,
         completedRounds: nextCompletedRoundIds.length,
         correctRounds: nextCorrectRoundIds.length,
         scoringProfileId: "selection-assessment-v1",

@@ -202,7 +202,7 @@ export function TrueFalsePracticeGame({
       setFeedback(`True or False complete. You answered ${nextCorrectRoundIds.length} of ${rounds.length} correctly.`);
       emitInteractionEvent("mastery_updated", {
         completed: true,
-        earnedStarDust,
+        earnedStarDust: result.earnedStarDust,
         completedRounds: nextCompletedRoundIds.length,
         correctRounds: nextCorrectRoundIds.length,
         scoringProfileId,

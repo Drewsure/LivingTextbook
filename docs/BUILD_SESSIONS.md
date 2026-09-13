@@ -1752,3 +1752,9 @@ before entry completion, game start, and game completion. Mismatched unit,
 launch, or learner-session identity produces no start or completion evidence,
 no unlock, no score, and no Star Dust. This is recorded in ADR 0683 and
 DR-755.
+
+Canonical game mastery evidence now uses the normalized award returned by
+`completeGameMode`. This prevents later activities in the same unit from
+reporting a requested score that exceeds the remaining 1,000 Star Dust
+capacity, keeping `mastery_updated`, `game_completed`, and progression state
+aligned. This is recorded in ADR 0684 and DR-756.

@@ -247,6 +247,10 @@ for (const integration of integrations) {
       failures.push(`${integration.id}: component owns forbidden platform state: ${forbiddenFragment}`);
     }
   }
+
+  if (!component.includes("earnedStarDust: result.earnedStarDust")) {
+    failures.push(`${integration.id}: mastery evidence must use the normalized completion award`);
+  }
 }
 
 for (const fragment of [

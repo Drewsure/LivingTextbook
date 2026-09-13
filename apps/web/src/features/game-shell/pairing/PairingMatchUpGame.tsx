@@ -222,7 +222,7 @@ export function PairingMatchUpGame({
 
       emitInteractionEvent("mastery_updated", {
         completed: true,
-        earnedStarDust,
+        earnedStarDust: result.earnedStarDust,
         attempts: outcome.state.attempts,
         totalPairs: completedProgress.totalPairs,
         scoringProfileId: scoringProfile?.id ?? "pairing-reinforcement-v1",

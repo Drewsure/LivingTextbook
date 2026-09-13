@@ -206,7 +206,7 @@ export function PairingMemoryMatchGame({
 
       emitInteractionEvent("mastery_updated", {
         completed: true,
-        earnedStarDust,
+        earnedStarDust: result.earnedStarDust,
         attempts: outcome.state.attempts,
         totalPairs: progress.totalPairs,
         scoringProfileId: scoringProfile?.id ?? "none",

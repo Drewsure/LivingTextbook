@@ -1882,4 +1882,16 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-754 and
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-755 and
 `docs/adr/0683-progression-adapter-identity-gate.md`.
 
+## 118. Normalized Mastery Award Standard
+
+- Canonical games must write the normalized `result.earnedStarDust` returned
+  by `completeGameMode` into `mastery_updated`.
+- The locally calculated requested award is adapter input, not authoritative
+  mastery evidence.
+- Mastery, completion, and progression awards must remain identical after
+  unit-cap normalization.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-756 and
+`docs/adr/0684-normalized-mastery-award-evidence.md`.
+
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-615 and `docs/adr/0543-progress-event-timestamps.md`.

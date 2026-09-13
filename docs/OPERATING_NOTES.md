@@ -812,3 +812,25 @@ Procedure:
 
 Why this matters: Identity is protected at the first scoring boundary, not
 only after a mismatched event has reached a route or report validator.
+
+## OW-037: Normalized Mastery Award Evidence
+
+Status: Active
+
+Observed behavior: A mode's requested score can be higher than the remaining
+unit capacity after earlier curated activities, so mastery evidence cannot
+copy the pre-adapter calculation.
+
+Procedure:
+
+1. Calculate the mode score using its reviewed deterministic scoring profile.
+2. Pass that requested value to `completeGameMode`.
+3. Write `result.earnedStarDust` into `mastery_updated`; do not repeat the
+   requested value as the authoritative award.
+4. Let the shared completion gate compare mastery, completion, and progression
+   values before accepting the attempt.
+5. Run `npm run verify:canonical-games` and the web typecheck after changing a
+   scoring or mastery-event consumer.
+
+Why this matters: Multi-game unit pathways remain valid when the platform
+unit cap normalizes a later activity's award.

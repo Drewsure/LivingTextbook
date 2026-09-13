@@ -199,7 +199,7 @@ export function SentenceBuilderPracticeGame({
 
       emitInteractionEvent("mastery_updated", {
         completed: true,
-        earnedStarDust,
+        earnedStarDust: result.earnedStarDust,
         completedRounds: nextCompletedRoundIds.length,
         attempts: nextAttempts,
         scoringProfileId: preview.scoringProfileId,

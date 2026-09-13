@@ -212,7 +212,7 @@ export function SpeakItPracticeGame({
 
       emitInteractionEvent("mastery_updated", {
         completed: true,
-        earnedStarDust,
+        earnedStarDust: result.earnedStarDust,
         spokenPromptCount: nextSpokenPromptIds.length,
         totalPromptCount: prompts.length,
         scoringProfileId: scoringProfile?.id ?? "none",
