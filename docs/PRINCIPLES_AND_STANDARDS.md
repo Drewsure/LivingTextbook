@@ -2207,3 +2207,17 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-782 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-783 and
 `docs/adr/0710-canonical-game-event-identity.md`.
+
+## 140. Phaser Candidate Evidence Completeness Standard
+
+- A returned Phaser candidate is not reviewable from its manifest and hashes
+  alone; its fixture, event replay, audio map, scoring replay, accessibility
+  evidence, source manifest, and wrapper notes must also be validated.
+- Candidate evidence must prove the canonical content range, tenant-bound
+  identity, deterministic replay and scoring, reviewed audio coverage, and a
+  platform-owned persistence/reporting boundary.
+- Passing evidence does not promote a candidate or authorize source import,
+  route replacement, student assignment, or live writes.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-784 and
+`docs/adr/0711-phaser-candidate-evidence-completeness.md`.

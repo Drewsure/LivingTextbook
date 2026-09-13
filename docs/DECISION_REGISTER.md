@@ -4380,3 +4380,12 @@ profile identifiers on both `mastery_updated` and `game_completed`. Missing or
 mismatched profile metadata blocks the completion boundary and keeps future
 wrappers, reports, rewards, and persistence from using ambiguous scoring. See
 ADR 0708.
+
+# DR-784: Phaser Candidate Evidence Completeness
+
+The controlled Phaser candidate package gate now validates the evidence
+contents, not just the return envelope: fixture shape, canonical event replay,
+target-language audio coverage, deterministic scoring scenarios, accessibility
+evidence, source-manifest safety, and wrapper boundaries. A passing package
+remains review-only and cannot authorize source import, route replacement,
+student assignment, or live persistence. See ADR 0711.

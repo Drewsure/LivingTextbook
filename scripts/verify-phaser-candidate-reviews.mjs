@@ -6,6 +6,7 @@ const files = [
   "apps/web/src/features/game-offers/PhaserCandidateContractReviewPanel.tsx",
   "apps/web/src/app/teacher/prototypes/[tenantId]/page.tsx",
   "docs/agent-briefs/ZAI_MEMORY_MATCH_EVIDENCE_REQUEST.md",
+  "scripts/verify-phaser-candidate-package-contract.mjs",
 ];
 
 const source = files.map((file) => readFileSync(file, "utf8")).join("\n");
@@ -35,6 +36,12 @@ const requiredMarkers = [
   "broad source merge",
   "fixture replay",
   "target-language audio",
+  "validateFixture",
+  "validateEventReplay",
+  "validateAudioCoverage",
+  "validateScoringReplay",
+  "validateAccessibility",
+  "validateWrapperNotes",
 ];
 
 const failures = requiredMarkers

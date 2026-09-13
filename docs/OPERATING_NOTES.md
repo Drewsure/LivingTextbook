@@ -1205,3 +1205,10 @@ session, or mode before calling a provider. See ADR 0709.
 When adding a canonical game event, always preserve `tenantId`, `unitKey`,
 `launchCode`, and `studentSessionId`. The sequence validator now rejects a
 missing field even when no expected identity object is supplied. See ADR 0710.
+
+When reviewing a returned Phaser candidate, run the package gate after setting
+`LIVING_TEXTBOOOK_ZAI_CANDIDATE_ROOT`. Confirm that the fixture, event replay,
+audio map, scoring replay, accessibility evidence, source manifest, and wrapper
+notes all pass before any wrapper decision. A valid package is still
+review-only; it does not authorize source import, route replacement, or live
+persistence. See ADR 0711.

@@ -106,6 +106,16 @@ for (const kind of requiredArtifactKinds) {
   if (!seenKinds.has(kind)) failures.push(`Required artifact kind is missing: ${kind}.`);
 }
 
+const artifactPaths = new Map(artifacts.map((artifact) => [artifact.kind, artifact.relativePath]));
+validateFixture(readJsonArtifact("fixture"));
+validateEventReplay(readJsonArtifact("event-replay"));
+validateAudioCoverage(readJsonArtifact("audio-coverage"), readJsonArtifact("fixture"));
+validateScoringReplay(readJsonArtifact("scoring-replay"));
+validateSourceManifest(readTextArtifact("source-archive"));
+validateAccessibility(readTextArtifact("mobile-evidence"));
+validateWrapperNotes(readTextArtifact("wrapper-notes"));
+validateReadme(readTextArtifact("readme"));
+
 const blockedActions = Array.isArray(manifest.blockedActions) ? manifest.blockedActions : [];
 for (const action of requiredBlockedActions) {
   if (!blockedActions.includes(action)) failures.push(`Missing blocked action: ${action}.`);
@@ -117,6 +127,160 @@ if (failures.length > 0) {
 }
 
 console.log(`PASS Memory Match candidate package is hash-verified, frozen-source-bound, and remains review-only (${relative(candidateRoot, returnPackagePath)}).`);
+
+function readJsonArtifact(kind) {
+  const artifactPath = artifactPaths.get(kind);
+  if (!isSafeRelativePath(artifactPath)) return undefined;
+  const absolutePath = resolve(candidateRoot, artifactPath);
+  if (!existsSync(absolutePath)) return undefined;
+
+  try {
+    return JSON.parse(readFileSync(absolutePath, "utf8"));
+  } catch (error) {
+    failures.push(`${kind} artifact must contain valid JSON: ${error.message}`);
+    return undefined;
+  }
+}
+
+function readTextArtifact(kind) {
+  const artifactPath = artifactPaths.get(kind);
+  if (!isSafeRelativePath(artifactPath)) return "";
+  const absolutePath = resolve(candidateRoot, artifactPath);
+  if (!existsSync(absolutePath)) return "";
+  return readFileSync(absolutePath, "utf8");
+}
+
+function validateFixture(fixture) {
+  const meta = fixture?.unit_meta;
+  const payload = fixture?.pedagogical_payload;
+  requireValue(isNonBlankString(meta?.tenant_id), "fixture unit_meta.tenant_id is required.");
+  requireValue(meta?.tenant_id === manifest.tenantId, "fixture tenant_id must match the return package tenantId.");
+  requireValue(meta?.game_mode === "memory-match", "fixture unit_meta.game_mode must be memory-match.");
+  requireValue(meta?.engine_id === "pairing", "fixture unit_meta.engine_id must be pairing.");
+
+  const terms = Array.isArray(payload?.vocabulary_terms) ? payload.vocabulary_terms : [];
+  const sentences = Array.isArray(payload?.target_sentences) ? payload.target_sentences : [];
+  requireValue(terms.length >= 8 && terms.length <= 12, "fixture must contain 8-12 vocabulary_terms.");
+  requireValue(new Set(terms.map((term) => String(term).trim().toLowerCase())).size === terms.length, "fixture vocabulary_terms must be unique.");
+  requireValue(terms.every(isNonBlankString), "fixture vocabulary_terms must be non-blank strings.");
+  requireValue(sentences.length === 2, "fixture must contain exactly two target_sentences.");
+  requireValue(sentences.every(isNonBlankString), "fixture target_sentences must be non-blank strings.");
+}
+
+function validateEventReplay(replay) {
+  const events = Array.isArray(replay) ? replay : replay?.events;
+  requireValue(Array.isArray(events) && events.length > 0, "event-replay artifact must contain a non-empty events array.");
+  if (!Array.isArray(events) || events.length === 0) return;
+
+  const requiredTypes = ["game_started", "round_shown", "answer_submitted", "answer_result", "mastery_updated", "game_completed"];
+  const indexes = new Map();
+  for (const type of requiredTypes) {
+    const index = events.findIndex((event) => event?.type === type);
+    requireValue(index >= 0, `event replay must include ${type}.`);
+    indexes.set(type, index);
+  }
+
+  for (let index = 1; index < events.length; index += 1) {
+    const previous = eventTime(events[index - 1]);
+    const current = eventTime(events[index]);
+    requireValue(previous !== undefined && current !== undefined, "event replay timestamps must be valid ISO timestamps or finite numbers.");
+    if (previous !== undefined && current !== undefined) {
+      requireValue(current >= previous, "event replay timestamps must be nondecreasing.");
+    }
+  }
+
+  for (const [type, index] of indexes) {
+    if (index < 0) continue;
+    const event = events[index];
+    requireValue(isNonBlankString(event?.unitKey), `event ${type} must include unitKey.`);
+    requireValue(isNonBlankString(event?.launchCode), `event ${type} must include launchCode.`);
+    requireValue(isNonBlankString(event?.studentSessionId), `event ${type} must include studentSessionId.`);
+    requireValue(event?.metadata?.tenantId === manifest.tenantId, `event ${type} must include the package tenantId.`);
+    requireValue(isNonBlankString(event?.metadata?.replaySeed) && event.metadata.replaySeed.startsWith("replay-v1:"), `event ${type} must include replay-v1 evidence.`);
+  }
+
+  for (let index = 1; index < requiredTypes.length; index += 1) {
+    const previousIndex = indexes.get(requiredTypes[index - 1]);
+    const currentIndex = indexes.get(requiredTypes[index]);
+    if (previousIndex >= 0 && currentIndex >= 0) {
+      requireValue(currentIndex > previousIndex, `event replay must place ${requiredTypes[index]} after ${requiredTypes[index - 1]}.`);
+    }
+  }
+
+  for (const event of events.filter((candidate) => candidate?.type === "audio_requested")) {
+    requireValue(isNonBlankString(event?.metadata?.cueText), "audio_requested events must include cueText.");
+    requireValue(isNonBlankString(event?.metadata?.language), "audio_requested events must include language.");
+    requireValue(["term", "sentence", "instruction", "feedback"].includes(event?.metadata?.cueKind), "audio_requested events must include a supported cueKind.");
+  }
+}
+
+function validateAudioCoverage(audioMap, fixture) {
+  const cues = Array.isArray(audioMap?.cues) ? audioMap.cues : [];
+  const terms = Array.isArray(fixture?.pedagogical_payload?.vocabulary_terms) ? fixture.pedagogical_payload.vocabulary_terms : [];
+  requireValue(cues.length > 0, "audio-coverage artifact must contain a non-empty cues array.");
+  const cueTexts = new Set(cues.map((cue) => String(cue?.text ?? "").trim().toLowerCase()));
+  for (const term of terms) {
+    requireValue(cueTexts.has(String(term).trim().toLowerCase()), `audio coverage must include the vocabulary term: ${term}.`);
+  }
+  for (const kind of ["instruction", "feedback"]) {
+    requireValue(cues.some((cue) => cue?.kind === kind), `audio coverage must include a ${kind} cue.`);
+  }
+  requireValue(cues.some((cue) => cue?.kind === "critical-control" || cue?.kind === "control"), "audio coverage must include a critical-control cue.");
+  requireValue(cues.every((cue) => isNonBlankString(cue?.language) && isNonBlankString(cue?.text)), "audio coverage cues require language and text.");
+  requireValue(cues.every((cue) => cue?.reviewed === true || cue?.status === "reviewed"), "audio coverage cues must be marked reviewed.");
+}
+
+function validateScoringReplay(replay) {
+  const scenarios = Array.isArray(replay?.scenarios) ? replay.scenarios : [];
+  const requiredScenarioIds = ["correct", "incorrect", "retry", "completion"];
+  requireValue(replay?.deterministic === true, "scoring-replay artifact must mark deterministic true.");
+  requireValue(replay?.randomRewards === false, "scoring-replay artifact must mark randomRewards false.");
+  for (const scenarioId of requiredScenarioIds) {
+    requireValue(scenarios.some((scenario) => scenario?.scenarioId === scenarioId), `scoring replay must include the ${scenarioId} scenario.`);
+  }
+  requireValue(scenarios.every((scenario) => isNonBlankString(scenario?.expectedOutcome)), "scoring replay scenarios require expectedOutcome.");
+}
+
+function validateSourceManifest(sourceManifest) {
+  const lines = sourceManifest.split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
+  requireValue(lines.length > 0, "source-manifest.sha256 must list at least one source file.");
+  for (const line of lines) {
+    const match = line.match(/^([0-9a-f]{64})\s+(.+)$/i);
+    requireValue(Boolean(match), "source-manifest.sha256 lines must use '<sha256>  <safe-relative-path>'.");
+    if (match) {
+      requireValue(isSafeRelativePath(match[2]), `source manifest path must be safe: ${match[2]}.`);
+    }
+  }
+}
+
+function validateAccessibility(accessibility) {
+  const normalized = accessibility.toLowerCase();
+  for (const marker of ["keyboard", "focus", "touch", "reduced motion", "readable", "small-screen"]) {
+    requireValue(normalized.includes(marker), `mobile/accessibility evidence must cover ${marker}.`);
+  }
+}
+
+function validateWrapperNotes(notes) {
+  const normalized = notes.toLowerCase();
+  for (const marker of ["phaser", "lifecycle", "canonical", "score", "persistence", "reporting", "no direct source import"]) {
+    requireValue(normalized.includes(marker), `wrapper notes must address ${marker}.`);
+  }
+}
+
+function validateReadme(readme) {
+  const normalized = readme.toLowerCase();
+  for (const marker of ["setup", "controls", "dependencies", "known limits", "wrapper"]) {
+    requireValue(normalized.includes(marker), `README must include ${marker}.`);
+  }
+}
+
+function eventTime(event) {
+  if (typeof event?.occurredAt === "string") {
+    const time = Date.parse(event.occurredAt);
+    return Number.isFinite(time) ? time : undefined;
+  }
+  return typeof event?.timestamp === "number" && Number.isFinite(event.timestamp) ? event.timestamp : undefined;
+}
 
 function requireValue(condition, message) {
   if (!condition) failures.push(message);

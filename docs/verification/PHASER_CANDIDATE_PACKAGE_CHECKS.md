@@ -7,7 +7,9 @@ Status: Manual controlled-intake check
 Verify one returned Z.ai candidate folder before Codex reviews wrapper
 compatibility. This check validates the Memory Match return envelope, frozen
 source identity, artifact checksums, required evidence kinds, safe paths, and
-blocked actions. It never imports source, creates routes, or changes the
+blocked actions. It also validates fixture shape, event replay, the audio map,
+deterministic scoring replay, accessibility evidence, source-manifest syntax,
+and wrapper boundaries. It never imports source, creates routes, or changes the
 production app.
 
 ## Command
@@ -22,12 +24,27 @@ exits without changing the repository. This command is intentionally outside
 `verify:foundation` because no returned Z.ai package is part of the canonical
 source tree.
 
+Any successful package check remains `review-only`; it is evidence for Codex
+review and never a production promotion decision.
+
 ## Required return package
 
 The folder must contain `evidence/return-package.json` and exactly eight
 reviewed artifacts: source archive manifest, fixture, README, event replay,
 audio coverage, scoring replay, mobile/accessibility evidence, and wrapper
 notes. Every artifact must be hash-verified on disk.
+
+The fixture must contain 8-12 unique vocabulary terms, exactly two target
+sentences, and tenant-bound pairing metadata. The event replay must carry
+tenant, unit, launch, and student-session identity on every learning event,
+use a `replay-v1:` seed, and remain chronological in canonical event order.
+The audio map must cover every term plus instruction, feedback, and critical
+controls in a reviewed language. The scoring replay must prove `correct`,
+`incorrect`, `retry`, and `completion` scenarios with deterministic scoring and
+no random rewards. Accessibility evidence must cover keyboard, focus, touch,
+reduced motion, readable fallback, and small-screen behavior. Wrapper notes
+must explain Phaser lifecycle mapping while keeping score, persistence, and
+reporting platform-owned.
 
 The package must be bound to the frozen
 `Drewsure/ministar-lab` snapshot

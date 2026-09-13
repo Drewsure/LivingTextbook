@@ -1969,3 +1969,9 @@ before any future provider operation. See ADR 0709.
 Canonical game event sequences now require tenant metadata and non-blank unit,
 launch, and student-session identity on every event. Optional expected-identity
 comparison remains a second check, not the presence requirement. See ADR 0710.
+
+The controlled Phaser candidate package gate now verifies the evidence inside the
+return package, not only its envelope: fixture shape, canonical event replay,
+target-language audio coverage, deterministic scoring scenarios, accessibility
+evidence, source-manifest paths, and wrapper boundaries. This remains a
+review-only handoff and does not import or promote a candidate. See ADR 0711.
