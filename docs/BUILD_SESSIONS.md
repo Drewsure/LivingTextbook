@@ -1775,6 +1775,11 @@ gate against its synchronous event reference before accepting progression or
 Star Dust. This keeps the front-door path aligned with QR and standalone game
 routes. See ADR 0688, DR-760, and operating note OW-041.
 
+The front door now mounts the canonical Match Up and Memory Match wrappers for
+the selected unlocked mode, giving MiniStar and the partner tenant the same
+reviewed pairing slice. Other modes remain explicit previews. See ADR 0689,
+DR-761, and operating note OW-042.
+
 The teacher recovery summary now treats `training_completed` as the sole
 authoritative recovery award record. Response-result metadata remains visible
 evidence but is excluded from the reward total, preventing one recovery action

@@ -299,6 +299,8 @@ if (frontDoorFlow.includes("startUnlockedGameMode")) {
 for (const fragment of [
   "validateCanonicalGameCompletion",
   "sessionEventsRef",
+  "PairingMatchUpGame",
+  "PairingMemoryMatchGame",
   "Completion is paused until the event evidence is valid.",
 ]) {
   if (!frontDoorFlow.includes(fragment)) {

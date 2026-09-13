@@ -898,6 +898,27 @@ Procedure:
 Why this matters: Every launch surface must enforce the same audio, replay,
 identity, chronology, scoring, and award-consistency boundary.
 
+## OW-042: Reuse Reviewed Pairing Wrappers Across Entry Surfaces
+
+Status: Active
+
+Observed behavior: A partner package can select a reviewed game mode that a
+front-door surface still renders as a preview, creating tenant-specific gaps.
+
+Procedure:
+
+1. Check the selected mode against the progression unlock state.
+2. Mount the reviewed wrapper for `match-up` or `memory-match` when selected.
+3. Keep event, audio, scoring, progression, and completion ownership inside the
+   shared wrapper and adapter boundary.
+4. Leave unsupported modes as explicit previews until their own wrapper is
+   reviewed for that surface.
+5. Run `npm run verify:canonical-games`, web typecheck, and the production build
+   after changing entry-surface coverage.
+
+Why this matters: White-label tenants should share a reliable canonical slice
+without promoting incomplete modes or duplicating game logic.
+
 ## OW-037: Normalized Mastery Award Evidence
 
 Status: Active

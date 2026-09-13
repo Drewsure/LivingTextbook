@@ -4138,3 +4138,11 @@ through `validateCanonicalGameCompletion` before accepting progression, Star
 Dust, or the completion event. Its event reference includes the final mastery
 evidence emitted by the mounted wrapper. See ADR 0688 and
 `docs/decision-register/DR-760-front-door-canonical-completion-gate.md`.
+
+# DR-761: Front-Door Pairing Slice Integration
+
+The front door now mounts canonical Match Up and Memory Match wrappers for the
+selected unlocked mode. Both tenants can use a reviewed pairing activity with
+shared audio, deterministic scoring, event evidence, and completion validation;
+other modes remain explicit previews. See ADR 0689 and
+`docs/decision-register/DR-761-front-door-pairing-slice-integration.md`.

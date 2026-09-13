@@ -1942,4 +1942,16 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-759 and
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-760 and
 `docs/adr/0688-front-door-canonical-completion-gate.md`.
 
+## 123. Reviewed Pairing Slice Reuse Standard
+
+- Reviewed pairing wrappers must be reusable across QR and front-door entry.
+- `match-up` and `memory-match` use the same shared audio, scoring,
+  progression, and completion contracts for every tenant.
+- Unsupported modes remain explicit previews until their own wrapper is
+  reviewed for the target entry surface.
+- Tenant-specific route behavior must not fork canonical game authority.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-761 and
+`docs/adr/0689-front-door-pairing-slice-integration.md`.
+
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-615 and `docs/adr/0543-progress-event-timestamps.md`.
