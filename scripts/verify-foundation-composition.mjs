@@ -5,6 +5,7 @@ const scripts = packageJson.scripts ?? {};
 const foundation = scripts["verify:foundation"] ?? "";
 const requiredCommands = [
   "npm run verify:ai-service",
+  "npm run verify:phaser-scene-inventory",
   "npm run verify:persistence-runtime",
   "npm run verify:report-runtime",
   "npm run verify:asset-runtime",

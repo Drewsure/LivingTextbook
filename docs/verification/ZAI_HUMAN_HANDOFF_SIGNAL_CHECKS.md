@@ -12,8 +12,8 @@ Keep the timing for Z.ai and outside prototype handoff explicit.
 
 - Human handoff signal
 - Current human action
-- Not needed yet
-- No Z.ai source handoff requested yet
+- Controlled candidate evidence intake open
+- No broad Z.ai source handoff requested
 - No Phaser import requested yet
 - No archive upload requested yet
 - No pull request requested yet
@@ -21,7 +21,11 @@ Keep the timing for Z.ai and outside prototype handoff explicit.
 
 ## Standing Rule
 
-Codex will ask for specific Z.ai branches, archives, demo links, or fixture folders only after the intake alert changes from not-ready to ready-for-review.
+Codex may now ask for one named candidate's evidence package because the
+foundation intake gate is open. This does not authorize source import. Ask for
+fixture replay, event/scoring replay, target-language audio, mobile/accessibility
+capture, and wrapper notes before requesting any archive, branch merge, or
+route work.
 
 ## Verification
 

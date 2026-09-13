@@ -1158,3 +1158,10 @@ Use the shared `isGameModeSupportedAtLevel` contract, keep later-level routes
 reusable, and run the canonical-game, runtime, typecheck, build, and route
 verification gates after changes. External Phaser candidates remain isolated;
 this boundary is not an integration approval.
+
+The frozen Phaser scene inventory is now protected by a SHA-256 evidence
+manifest and `verify:phaser-scene-inventory`. If the source snapshot is used in
+future work, review the exact manifest and candidate mapping first. The first
+human/Z.ai handoff may now request Memory Match evidence only: fixture replay,
+event/scoring replay, target-language audio map, mobile/accessibility capture,
+and wrapper notes. Do not request a broad source merge or route replacement.

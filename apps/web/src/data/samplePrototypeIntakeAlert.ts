@@ -30,9 +30,9 @@ export const samplePrototypeIntakeAlert: PrototypeIntakeAlert = {
   summary:
     "The LivingTextbook foundation gate is open and the frozen Z.ai snapshot has been received. Codex review is now open for the candidate, but the snapshot is not approved for direct app integration.",
   humanSignalRule:
-    "Human handoff signal: the exact Z.ai branch, commit, tag, and verification record are now identified; Codex must complete evidence and wrapper review before issuing an integration green light.",
+    "Human handoff signal: controlled candidate evidence intake is now open. The exact Z.ai branch, commit, tag, and verification record are identified; Codex must complete evidence and wrapper review before issuing an integration green light.",
   currentHumanAction:
-    "Current human action: preserve the frozen main branch and tag in Drewsure/ministar-lab; no source copy, route activation, or student assignment is needed while Codex reviews the candidate.",
+    "Current human action: preserve the frozen main branch and tag in Drewsure/ministar-lab. When ready, provide evidence for Memory Match only: fixture replay, event/scoring replay, target-language audio map, mobile/accessibility capture, and wrapper notes.",
   notNeededYet: [
     "No direct Z.ai source import requested",
     "No Phaser import requested yet",

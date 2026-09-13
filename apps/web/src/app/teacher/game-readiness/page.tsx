@@ -75,7 +75,7 @@ export default function TeacherGameReadinessPage() {
             <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Standing gate</p>
             <p className="mt-2 text-sm leading-6 text-[var(--tenant-text)]">
               Codex keeps architecture, schema discipline, route replay, audio-first progression, and final integration review here.
-              Z.ai prototype intake waits for the Codex integration gate and cannot promote legacy code into active app routes.
+              Controlled Z.ai candidate evidence intake is open; direct legacy-code promotion into active app routes remains blocked.
             </p>
           </section>
         </Card>

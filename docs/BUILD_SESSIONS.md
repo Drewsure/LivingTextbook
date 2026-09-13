@@ -1905,3 +1905,16 @@ surface.
 The post-completion next-activity card now applies the same offer-map level
 filter, closing the final student navigation path that could have surfaced a
 future-level ready offer.
+
+## 2026-09-13: Frozen Phaser Scene Inventory Evidence
+
+Added the exact SHA-256-backed manifest for all 32 active scenes in the frozen
+Z.ai MiniStar Lab snapshot. Added an evidence-only mapping to the four
+LivingTextBook parent engines and preserved the source's 32-scene versus
+25-game summary mismatch as an explicit review finding.
+
+Added `verify:phaser-scene-inventory` to the foundation gate. This maintains
+the no-import, no-route-replacement, no-scene-scoring, no-browser-persistence,
+no-package-promotion, and no-student-assignment boundary. The controlled
+human handoff point is now clear: request Memory Match evidence first, one
+candidate at a time, without asking for a broad source merge.

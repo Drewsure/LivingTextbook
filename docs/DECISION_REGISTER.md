@@ -4304,3 +4304,17 @@ runtime defense against stale or malformed records.
 The post-completion next-activity card follows the same rule, so both entry
 navigation and completion navigation remain bounded by the unit curriculum
 level.
+
+# DR-775: Frozen Phaser Scene Inventory Evidence Boundary
+
+The frozen Z.ai MiniStar Lab snapshot is now recorded as an exact 32-scene
+evidence manifest with SHA-256 file identities, candidate family mappings, and
+four parent-engine mappings. The source summary's claim of 25 games remains a
+documented mismatch and must not be silently reconciled into product scope.
+
+The inventory is review-only. It cannot import source, replace routes, own
+scoring, own browser persistence, promote packages, or assign student work.
+Memory Match remains the first bounded wrapper candidate, followed by Balloon
+Pop. The foundation is now ready for a named candidate's replay, audio,
+accessibility, and wrapper evidence handoff; a broad Z.ai merge is not
+authorized. See ADR 0702 and the 2026-09-13 operating note.
