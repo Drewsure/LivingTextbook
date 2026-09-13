@@ -1092,3 +1092,27 @@ Procedure:
 
 Why this matters: Spelling practice must be auditable in the curated pathway,
 and script-specific behavior must be explicit for white-label tenants.
+
+## OW-050: Promote Canonical Fill in the Blank
+
+Status: Active
+
+Observed behavior: Fill in the Blank can be verified on its standalone route
+while the curated launch surfaces still render it as a preview.
+
+Procedure:
+
+1. Confirm the reviewed target sentence, blank prompt, answer choices,
+   feedback, and replay controls have target-language audio support.
+2. Confirm deterministic answer normalization, choice ordering, standard
+   events, replay evidence, and shared completion validation.
+3. Mount the wrapper explicitly in student and front-door flows.
+4. Keep support language, media, uploads, and random rewards outside
+   progression authority.
+5. Confirm the supported script before promotion; do not present English
+   answer normalization as Japanese segmentation support.
+6. Extend `verify:canonical-games`, then run web typecheck, production build,
+   and route verification.
+
+Why this matters: Syntax reinforcement must remain auditable in the curated
+pathway, with target-language behavior explicit for white-label tenants.

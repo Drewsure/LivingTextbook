@@ -4200,3 +4200,13 @@ evidence. English letter-tile normalization is the current supported fixture;
 Japanese segmentation and script-aware spelling remain a separately reviewed
 target-language expansion. See ADR 0696 and
 `docs/decision-register/DR-768-spelling-practice-canonical-entry-integration.md`.
+
+# DR-769: Fill in the Blank Canonical Entry Integration
+
+Fill in the Blank is now mounted as a canonical text-spelling activity in the
+student and front-door flows, preserving target-language sentence audio,
+deterministic choice scoring, replay, progression, and completion evidence.
+English answer normalization is the current supported fixture; Japanese
+script-aware segmentation remains a separately reviewed target-language
+expansion. See ADR 0697 and
+`docs/decision-register/DR-769-fill-in-the-blank-canonical-entry-integration.md`.

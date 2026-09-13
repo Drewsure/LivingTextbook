@@ -22,6 +22,7 @@ import { QuizPracticeGame } from "@/features/game-shell/selection/QuizPracticeGa
 import { TrueFalsePracticeGame } from "@/features/game-shell/selection/TrueFalsePracticeGame";
 import { TypeAnswerPracticeGame } from "@/features/game-shell/text-spelling/TypeAnswerPracticeGame";
 import { SpellingPracticeGame } from "@/features/game-shell/text-spelling/SpellingPracticeGame";
+import { FillInBlankPracticeGame } from "@/features/game-shell/text-spelling/FillInBlankPracticeGame";
 import { PairingEnginePreview } from "@/features/game-shell/pairing/PairingEnginePreview";
 import { validateCanonicalGameCompletion } from "@/features/game-shell/canonicalGameCompletionGate";
 import { UnitMediaEngagementPanel } from "@/features/multimedia/UnitMediaEngagementPanel";
@@ -399,7 +400,17 @@ export function FrontDoorEntryFlow({
                 onComplete={handleGameComplete}
               />
             )}
-            {activeGameMode && activeGameMode !== "match-up" && activeGameMode !== "memory-match" && activeGameMode !== "label-it" && activeGameMode !== "balloon-pop" && activeGameMode !== "quiz" && activeGameMode !== "true-false" && activeGameMode !== "type-answer" && activeGameMode !== "spelling-practice" && (
+            {activeGameMode === "fill-in-the-blank" && (
+              <FillInBlankPracticeGame
+                unit={unit}
+                launchSession={launchSession}
+                progression={currentProgression}
+                audioCues={contentPackage.audioCues}
+                onEvent={handleProgressEvent}
+                onComplete={handleGameComplete}
+              />
+            )}
+            {activeGameMode && activeGameMode !== "match-up" && activeGameMode !== "memory-match" && activeGameMode !== "label-it" && activeGameMode !== "balloon-pop" && activeGameMode !== "quiz" && activeGameMode !== "true-false" && activeGameMode !== "type-answer" && activeGameMode !== "spelling-practice" && activeGameMode !== "fill-in-the-blank" && (
               <PairingEnginePreview unit={unit} gameMode={activeGameMode} />
             )}
             {eventContractErrors.length > 0 ? (

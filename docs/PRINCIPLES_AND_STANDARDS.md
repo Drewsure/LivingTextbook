@@ -2064,4 +2064,23 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-767 and
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-768 and
 `docs/adr/0696-spelling-practice-canonical-entry-integration.md`.
 
+## 131. Canonical Fill in the Blank Standard
+
+- Fill in the Blank may enter a curated launch path only when reviewed target
+  sentence audio, prompt and choice audio, feedback, replay, deterministic
+  answer handling, scoring, identity, event, and completion contracts are
+  satisfied.
+- Student and front-door surfaces must explicitly mount the promoted wrapper
+  and route its evidence through the shared completion gate.
+- Support language, media, uploads, and random rewards cannot unlock or award
+  progress or replace target-language syntax activity.
+- Script-specific answer behavior must be declared per tenant and target
+  language; the English normalization fixture does not claim Japanese
+  segmentation support.
+- Unpromoted or unsupported script modes remain preview-only until separately
+  reviewed.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-769 and
+`docs/adr/0697-fill-in-the-blank-canonical-entry-integration.md`.
+
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-615 and `docs/adr/0543-progress-event-timestamps.md`.

@@ -1819,6 +1819,14 @@ evidence, standard events, and completion gating. The current fixture supports
 English letter normalization; Japanese script-aware spelling remains a future
 target-language expansion. See ADR 0696, DR-768, and operating note OW-049.
 
+Fill in the Blank is now promoted from preview to canonical behavior in the
+student and front-door flows. Its reviewed text-spelling wrapper supplies
+target-language sentence and choice audio, deterministic answer scoring,
+replay evidence, standard events, and completion gating. The current fixture
+supports English answer normalization; Japanese script-aware segmentation
+remains a future target-language expansion. See ADR 0697, DR-769, and
+operating note OW-050.
+
 The teacher recovery summary now treats `training_completed` as the sole
 authoritative recovery award record. Response-result metadata remains visible
 evidence but is excluded from the reward total, preventing one recovery action
