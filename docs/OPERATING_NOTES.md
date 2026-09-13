@@ -1267,3 +1267,10 @@ to be out of numeric order, but rejects duplicate IDs and titles. If a nested
 cross-cutting standard is needed without renumbering the established document,
 use an explicit subsection such as `11.1`. The foundation composition invokes
 the same check automatically. See ADR 0719.
+
+The frozen Z.ai/Phaser snapshot has a dedicated reproducibility command:
+`npm run verify:phaser-source-evidence`. It reads the isolated review folder,
+or the folder named by `LIVING_TEXTBOOK_ZAI_REVIEW_ROOT`, and compares the
+review packet's SHA-256 manifest. A passing result proves source identity only;
+it never authorizes source import, route activation, or student assignment. Run
+it before reviewing a returned candidate package. See ADR 0724.

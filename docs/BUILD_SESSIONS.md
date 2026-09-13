@@ -2098,3 +2098,11 @@ package verifier validate that manifest before reading a candidate. Invalid or
 incomplete profiles now fail closed instead of removing replay requirements.
 Web typecheck, candidate behavior, production build, and the full 88-route
 verification remain required. See ADR 0723.
+
+## 0725 - Phaser source evidence command
+
+Exposed the documented frozen-source reproducibility check as
+`npm run verify:phaser-source-evidence`. The command passes against the local
+isolated snapshot with 5/5 hashes matching the frozen commit. This is an
+evidence identity check only; candidate return-package review remains the next
+external gate and source promotion remains blocked. See ADR 0724.

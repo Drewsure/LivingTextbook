@@ -4511,3 +4511,12 @@ Malformed configuration fails closed and cannot silently weaken the evidence
 gate. This remains review configuration only and does not authorize source
 import, route replacement, package promotion, or student assignment. See ADR
 0723.
+
+# DR-798: Phaser Source Evidence Command
+
+Expose the frozen Phaser source identity check as the documented npm command
+`npm run verify:phaser-source-evidence`. The command may read the default
+isolated review folder or `LIVING_TEXTBOOK_ZAI_REVIEW_ROOT`, compares the
+review packet's SHA-256 manifest, and reports source identity without changing
+the application. A passing check does not authorize candidate import, route
+activation, scoring ownership, persistence, or assignment. See ADR 0724.
