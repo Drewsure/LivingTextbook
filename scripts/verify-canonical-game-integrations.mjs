@@ -326,6 +326,7 @@ for (const [surface, source] of [
 for (const [surface, source, fragment] of [
   ["local progression adapter", localProgressionAdapter, "isLaunchGameModeSupported"],
   ["local progression adapter", localProgressionAdapter, "isGameModeSupportedAtLevel"],
+  ["local progression adapter", localProgressionAdapter, "replaySeed: args.replaySeed ?? createCanonicalGameReplaySeed"],
   ["playable route shell", playableRouteShell, "gameSupportedAtLevel"],
   ["recommended routes card", recommendedRoutesCard, "isGameModeSupportedAtLevel"],
   ["recommended routes card", recommendedRoutesCard, "offerMap.level"],
@@ -539,9 +540,11 @@ for (const fragment of [
   }
 }
 
-const replayMetadataFragment =
-  "replaySeed: createCanonicalGameReplaySeed({ unitKey: args.launchSession.unitKey, gameMode: args.gameMode })";
-if (!progressionAdapter.includes(replayMetadataFragment)) {
+const replayMetadataFragments = [
+  "replaySeed: args.replaySeed ?? createCanonicalGameReplaySeed",
+  "replaySeed: createCanonicalGameReplaySeed({ unitKey: args.launchSession.unitKey, gameMode: args.gameMode })",
+];
+if (!replayMetadataFragments.some((fragment) => progressionAdapter.includes(fragment))) {
   failures.push("progression adapter replay boundary: shared game, audio, and completion events must carry replay evidence by default.");
 }
 

@@ -2220,6 +2220,18 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-783 and
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-786 and
 `docs/adr/0713-canonical-replay-seed-consistency.md`.
 
+## 143. Platform-Supplied Replay Seed Standard
+
+- A game wrapper may receive a replay seed from the platform when it needs to
+  bind deterministic layout or replay evidence to a launch session.
+- The same supplied seed must be passed through interaction, audio, and
+  completion event factories; silently deriving a replacement seed is invalid.
+- When no seed is supplied, the adapter must retain the deterministic
+  unit-and-mode fallback for existing callers.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-787 and
+`docs/adr/0714-platform-supplied-replay-seed-threading.md`.
+
 ## 140. Phaser Candidate Evidence Completeness Standard
 
 - A returned Phaser candidate is not reviewable from its manifest and hashes

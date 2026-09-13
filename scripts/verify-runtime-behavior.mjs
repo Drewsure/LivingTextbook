@@ -9,6 +9,7 @@ const require = createRequire(import.meta.url);
 const root = dirname(fileURLToPath(new URL("../package.json", import.meta.url)));
 const output = mkdtempSync(join(tmpdir(), "living-textbook-runtime-"));
 const aiOutput = join(output, "ai");
+const adapterOutput = join(output, "adapter");
 
 try {
   writeFileSync(join(output, "package.json"), '{"type":"commonjs"}\n', "utf8");
@@ -82,9 +83,40 @@ try {
     process.exit(1);
   }
 
+  const adapterTsconfig = join(output, "adapter-tsconfig.json");
+  writeFileSync(adapterTsconfig, JSON.stringify({
+    compilerOptions: {
+      module: "commonjs",
+      target: "ES2022",
+      moduleResolution: "node",
+      skipLibCheck: true,
+      rootDir: root,
+      outDir: adapterOutput,
+      baseUrl: root,
+      paths: { "@living-textbook/content-model": ["packages/content-model/src/index.ts"] },
+    },
+    files: [
+      join(root, "apps", "web", "src", "features", "progression", "localProgressionAdapter.ts"),
+      join(root, "packages", "content-model", "src", "index.ts"),
+    ],
+  }, null, 2), "utf8");
+  const adapterCompile = spawnSync(process.execPath, [tsc, "-p", adapterTsconfig], { cwd: root, encoding: "utf8" });
+  if (adapterCompile.status !== 0) {
+    process.stdout.write(adapterCompile.stdout);
+    process.stderr.write(adapterCompile.stderr);
+    process.exit(1);
+  }
+
   const contentModelAlias = join(aiOutput, "node_modules", "@living-textbook", "content-model");
   mkdirSync(contentModelAlias, { recursive: true });
   writeFileSync(join(contentModelAlias, "package.json"), JSON.stringify({
+    name: "@living-textbook/content-model",
+    main: "../../../packages/content-model/src/index.js",
+  }), "utf8");
+
+  const adapterContentModelAlias = join(adapterOutput, "node_modules", "@living-textbook", "content-model");
+  mkdirSync(adapterContentModelAlias, { recursive: true });
+  writeFileSync(join(adapterContentModelAlias, "package.json"), JSON.stringify({
     name: "@living-textbook/content-model",
     main: "../../../packages/content-model/src/index.js",
   }), "utf8");
@@ -120,6 +152,7 @@ try {
   const canonicalGame = require(join(output, "canonicalGameIntegration.js"));
   const canonicalGameReport = require(join(output, "canonicalGameReport.js"));
   const aiService = require(join(aiOutput, "apps", "ai-service", "src", "index.js"));
+  const progressionAdapter = require(join(adapterOutput, "apps", "web", "src", "features", "progression", "localProgressionAdapter.js"));
 
   const continuityEnvelope = {
     continuityId: "continuity-1",
@@ -283,6 +316,63 @@ try {
     "flashcards",
   ).errors;
   assertIncludes(missingCanonicalReplayErrors, "Canonical game event answer_result must carry replay-v1 evidence.");
+
+  const suppliedReplaySeed = "replay-v1:platform-supplied-memory-match-seed";
+  const adapterLaunchSession = {
+    tenantId: "tenant-1",
+    unitKey: "tenant-1:curriculum-1:L1:U1",
+    launchCode: "launch-1",
+    studentSessionId: "session-1",
+    entryMode: "flashcards",
+    accessMode: "teacher-qr",
+  };
+  const adapterProgression = {
+    unitKey: adapterLaunchSession.unitKey,
+    launchCode: adapterLaunchSession.launchCode,
+    studentSessionId: adapterLaunchSession.studentSessionId,
+    unlockedGameModes: ["memory-match"],
+    completedGameModes: [],
+    earnedStarDust: 0,
+    masteryStatus: "in-progress",
+    lastEventAt: "2026-01-01T00:00:00.000Z",
+  };
+  const adapterStarted = progressionAdapter.startUnlockedGameMode({
+    progression: adapterProgression,
+    launchSession: adapterLaunchSession,
+    gameMode: "memory-match",
+    occurredAt: "2026-01-01T00:01:00.000Z",
+    replaySeed: suppliedReplaySeed,
+  });
+  const adapterRound = progressionAdapter.createGameInteractionEvent({
+    type: "round_shown",
+    progression: adapterProgression,
+    launchSession: adapterLaunchSession,
+    gameMode: "memory-match",
+    occurredAt: "2026-01-01T00:02:00.000Z",
+    replaySeed: suppliedReplaySeed,
+  });
+  const adapterAudio = progressionAdapter.createAudioRequestedEvent({
+    progression: adapterProgression,
+    launchSession: adapterLaunchSession,
+    gameMode: "memory-match",
+    occurredAt: "2026-01-01T00:03:00.000Z",
+    replaySeed: suppliedReplaySeed,
+    cueKind: "instruction",
+    cueText: "Find the matching pair.",
+    language: "en",
+  });
+  const adapterCompletion = progressionAdapter.completeGameMode({
+    progression: adapterProgression,
+    launchSession: adapterLaunchSession,
+    gameMode: "memory-match",
+    earnedStarDust: 200,
+    occurredAt: "2026-01-01T00:04:00.000Z",
+    replaySeed: suppliedReplaySeed,
+  });
+  assertEqual(adapterStarted?.metadata?.replaySeed, suppliedReplaySeed);
+  assertEqual(adapterRound.metadata?.replaySeed, suppliedReplaySeed);
+  assertEqual(adapterAudio.metadata?.replaySeed, suppliedReplaySeed);
+  assertEqual(adapterCompletion.event?.metadata?.replaySeed, suppliedReplaySeed);
   const missingCanonicalAudioErrors = canonicalGame.validateCanonicalGameEventSequence(
     canonicalEvents.filter((event) => event.type !== "audio_requested"),
     "flashcards",

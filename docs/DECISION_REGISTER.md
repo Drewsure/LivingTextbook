@@ -4405,6 +4405,14 @@ all required learning and audio events. A different but syntactically valid
 seed is mixed-layout evidence and blocks the canonical completion boundary.
 See ADR 0713.
 
+# DR-787: Platform-Supplied Replay Seed Threading
+
+Canonical web game wrappers may receive a replay seed from the platform so a
+Phaser or future game implementation can bind its deterministic layout to the
+launch session. Interaction, audio, and completion event factories must
+preserve that supplied seed; when none is supplied they retain the existing
+unit-and-mode-derived fallback. See ADR 0714.
+
 # DR-786: Canonical Replay Seed Consistency
 
 Canonical game evidence now requires one identical `replay-v1:` seed across

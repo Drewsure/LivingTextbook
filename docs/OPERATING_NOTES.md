@@ -1226,3 +1226,10 @@ review gate without needing Z.ai files. See ADR 0712.
 When adding canonical replay evidence, preserve one identical `replay-v1:` seed
 across every required game and audio event. A different valid seed is still
 invalid mixed-layout evidence. See ADR 0713.
+
+When a platform or game wrapper supplies a replay seed, pass the same value to
+`startUnlockedGameMode`, `createGameInteractionEvent`,
+`createAudioRequestedEvent`, and `completeGameMode`. The adapter preserves the
+supplied value; omitted values use the deterministic unit-and-mode fallback.
+Run `npm run verify:runtime-behavior` when changing this boundary. See ADR
+0714.

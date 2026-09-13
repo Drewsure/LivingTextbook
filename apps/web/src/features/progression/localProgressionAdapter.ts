@@ -192,6 +192,7 @@ export function createGameInteractionEvent(args: {
   launchSession: LaunchSession;
   gameMode: GameModeId;
   occurredAt: string;
+  replaySeed?: string;
   metadata?: Record<string, string | number | boolean>;
 }): GameProgressEvent {
   const event: GameProgressEvent = {
@@ -205,7 +206,7 @@ export function createGameInteractionEvent(args: {
 
   event.metadata = {
     ...args.metadata,
-    replaySeed: createCanonicalGameReplaySeed({ unitKey: args.launchSession.unitKey, gameMode: args.gameMode }),
+    replaySeed: args.replaySeed ?? createCanonicalGameReplaySeed({ unitKey: args.launchSession.unitKey, gameMode: args.gameMode }),
     tenantId: args.launchSession.tenantId,
   };
 
@@ -217,6 +218,7 @@ export function createAudioRequestedEvent(args: {
   launchSession: LaunchSession;
   gameMode: GameModeId;
   occurredAt: string;
+  replaySeed?: string;
   cueKind: AudioCueKind;
   cueText: string;
   language: string;
@@ -234,7 +236,7 @@ export function createAudioRequestedEvent(args: {
       cueText: args.cueText,
       language: args.language,
       source: args.source ?? "game-audio-contract",
-      replaySeed: createCanonicalGameReplaySeed({ unitKey: args.launchSession.unitKey, gameMode: args.gameMode }),
+      replaySeed: args.replaySeed ?? createCanonicalGameReplaySeed({ unitKey: args.launchSession.unitKey, gameMode: args.gameMode }),
       tenantId: args.launchSession.tenantId,
       progressionUnlockAllowed: false,
       masteryCreditAllowed: false,
@@ -305,6 +307,7 @@ export function completeGameMode(args: {
   gameMode: GameModeId;
   earnedStarDust: number;
   occurredAt: string;
+  replaySeed?: string;
   metadata?: Record<string, string | number | boolean>;
 }): GameModeCompletionResult {
   if (validateProgressionLaunchIdentity(args.progression, args.launchSession).length > 0) {
@@ -356,7 +359,7 @@ export function completeGameMode(args: {
     occurredAt: args.occurredAt,
     metadata: {
       ...args.metadata,
-      replaySeed: createCanonicalGameReplaySeed({ unitKey: args.launchSession.unitKey, gameMode: args.gameMode }),
+      replaySeed: args.replaySeed ?? createCanonicalGameReplaySeed({ unitKey: args.launchSession.unitKey, gameMode: args.gameMode }),
       tenantId: args.launchSession.tenantId,
       earnedStarDust,
     },

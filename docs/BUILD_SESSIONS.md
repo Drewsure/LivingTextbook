@@ -1990,3 +1990,13 @@ Canonical replay evidence now requires one identical `replay-v1:` seed across
 all required learning and audio events. A syntactically valid seed from another
 layout is rejected as mixed replay evidence before completion review. See ADR
 0713.
+
+## 0714 - Platform-supplied replay seed threading
+
+The local progression adapter now accepts an optional platform replay seed on
+interaction, audio, and completion event factories, preserving the supplied
+value across the complete event sequence. The deterministic unit-and-mode seed
+remains the fallback for existing callers. A runtime regression compiles the
+adapter and proves the custom seed survives all four lifecycle boundaries.
+This keeps future Phaser wrappers compatible with the canonical replay gate.
+See `docs/adr/0714-platform-supplied-replay-seed-threading.md`.
