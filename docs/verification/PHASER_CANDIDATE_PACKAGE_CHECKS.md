@@ -36,7 +36,8 @@ notes. Every artifact must be hash-verified on disk.
 
 The foundation suite also runs a temporary synthetic package test. It proves
 that a complete evidence packet passes and that a packet declaring random
-rewards is rejected; no candidate source or learner data is used by this test.
+rewards or cross-session audio evidence is rejected; no candidate source or
+learner data is used by this test.
 
 The fixture must contain 8-12 unique vocabulary terms, exactly two target
 sentences, and tenant-bound pairing metadata. The event replay must carry

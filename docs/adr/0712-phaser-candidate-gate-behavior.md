@@ -8,7 +8,8 @@ Accepted for foundation verification.
 
 The foundation suite must execute a temporary synthetic Memory Match evidence
 package through the actual candidate verifier. The complete package must pass,
-and a controlled mutation that sets `randomRewards` to true must be rejected.
+and controlled mutations that set `randomRewards` to true or move an audio
+event to another student session must be rejected.
 
 ## Rationale
 
@@ -25,5 +26,5 @@ write. It does not change the wrapper approval state of any candidate.
 
 ## Verification
 
-`npm run verify:phaser-candidate-package-behavior` proves the passing and
+`npm run verify:phaser-candidate-package-behavior` proves the passing and both
 rejection paths. The command is included in `npm run verify:foundation`.

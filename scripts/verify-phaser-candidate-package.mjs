@@ -172,13 +172,46 @@ function validateEventReplay(replay) {
   requireValue(Array.isArray(events) && events.length > 0, "event-replay artifact must contain a non-empty events array.");
   if (!Array.isArray(events) || events.length === 0) return;
 
+  let identity;
+  for (const event of events) {
+    requireValue(isNonBlankString(event?.unitKey), `event ${event?.type || "(unnamed)"} must include unitKey.`);
+    requireValue(isNonBlankString(event?.launchCode), `event ${event?.type || "(unnamed)"} must include launchCode.`);
+    requireValue(isNonBlankString(event?.studentSessionId), `event ${event?.type || "(unnamed)"} must include studentSessionId.`);
+    requireValue(event?.gameMode === "memory-match", `event ${event?.type || "(unnamed)"} must use gameMode memory-match.`);
+    requireValue(event?.metadata?.tenantId === manifest.tenantId, `event ${event?.type || "(unnamed)"} must include the package tenantId.`);
+    requireValue(isNonBlankString(event?.metadata?.replaySeed) && event.metadata.replaySeed.startsWith("replay-v1:"), `event ${event?.type || "(unnamed)"} must include replay-v1 evidence.`);
+
+    const eventIdentity = {
+      unitKey: event?.unitKey,
+      launchCode: event?.launchCode,
+      studentSessionId: event?.studentSessionId,
+      tenantId: event?.metadata?.tenantId,
+      replaySeed: event?.metadata?.replaySeed,
+    };
+    if (!identity) {
+      identity = eventIdentity;
+    } else {
+      for (const key of Object.keys(identity)) {
+        requireValue(eventIdentity[key] === identity[key], `event ${event?.type || "(unnamed)"} must preserve the replay identity field ${key}.`);
+      }
+    }
+  }
+
   const requiredTypes = ["game_started", "round_shown", "answer_submitted", "answer_result", "mastery_updated", "game_completed"];
   const indexes = new Map();
   for (const type of requiredTypes) {
+    const matchingEvents = events.filter((event) => event?.type === type);
     const index = events.findIndex((event) => event?.type === type);
     requireValue(index >= 0, `event replay must include ${type}.`);
+    requireValue(matchingEvents.length === 1, `event replay must contain exactly one ${type}.`);
     indexes.set(type, index);
   }
+  requireValue(events.some((event) => event?.type === "audio_requested"), "event replay must include audio_requested.");
+  const gameStartedIndex = events.findIndex((event) => event?.type === "game_started");
+  requireValue(
+    events.some((event, index) => event?.type === "audio_requested" && index > gameStartedIndex),
+    "event replay must include audio_requested after game_started.",
+  );
 
   for (let index = 1; index < events.length; index += 1) {
     const previous = eventTime(events[index - 1]);
@@ -192,11 +225,7 @@ function validateEventReplay(replay) {
   for (const [type, index] of indexes) {
     if (index < 0) continue;
     const event = events[index];
-    requireValue(isNonBlankString(event?.unitKey), `event ${type} must include unitKey.`);
-    requireValue(isNonBlankString(event?.launchCode), `event ${type} must include launchCode.`);
-    requireValue(isNonBlankString(event?.studentSessionId), `event ${type} must include studentSessionId.`);
-    requireValue(event?.metadata?.tenantId === manifest.tenantId, `event ${type} must include the package tenantId.`);
-    requireValue(isNonBlankString(event?.metadata?.replaySeed) && event.metadata.replaySeed.startsWith("replay-v1:"), `event ${type} must include replay-v1 evidence.`);
+    requireValue(isNonBlankString(event?.metadata?.scoringProfileId) || !["mastery_updated", "game_completed"].includes(type), `event ${type} must identify its deterministic scoring profile.`);
   }
 
   for (let index = 1; index < requiredTypes.length; index += 1) {
@@ -212,6 +241,26 @@ function validateEventReplay(replay) {
     requireValue(isNonBlankString(event?.metadata?.language), "audio_requested events must include language.");
     requireValue(["term", "sentence", "instruction", "feedback"].includes(event?.metadata?.cueKind), "audio_requested events must include a supported cueKind.");
   }
+
+  const masteryEvent = events.find((event) => event?.type === "mastery_updated");
+  const completionEvent = events.find((event) => event?.type === "game_completed");
+  if (masteryEvent && completionEvent) {
+    requireValue(
+      masteryEvent.metadata?.scoringProfileId === completionEvent.metadata?.scoringProfileId,
+      "mastery_updated and game_completed must use the same deterministic scoring profile.",
+    );
+  }
+  requireValue(masteryEvent?.metadata?.completed === true, "mastery_updated must mark the game completed.");
+  for (const event of [masteryEvent, completionEvent]) {
+    if (event) {
+      const earnedStarDust = event.metadata?.earnedStarDust;
+      requireValue(Number.isInteger(earnedStarDust) && earnedStarDust >= 0 && earnedStarDust <= 1000, `${event.type} must include earnedStarDust from 0 to 1000.`);
+    }
+  }
+  requireValue(
+    events.filter((event) => event?.type === "answer_submitted").length === events.filter((event) => event?.type === "answer_result").length,
+    "event replay must pair answer_submitted and answer_result events.",
+  );
 }
 
 function validateAudioCoverage(audioMap, fixture) {

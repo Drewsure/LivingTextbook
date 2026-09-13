@@ -1215,6 +1215,6 @@ persistence. See ADR 0711.
 
 The package verifier has a source-free synthetic behavior check in
 `verify:foundation`. Keep both the passing packet and the deliberate
-`randomRewards: true` rejection case intact when changing the candidate
-contract. This catches accidental weakening of the review gate without needing
-Z.ai files. See ADR 0712.
+`randomRewards: true` and cross-session audio rejection cases intact when
+changing the candidate contract. This catches accidental weakening of the
+review gate without needing Z.ai files. See ADR 0712.

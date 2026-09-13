@@ -41,6 +41,7 @@ const behaviorMarkers = [
   "assertVerifierPasses",
   "assertVerifierRejects",
   "randomRewards: true",
+  "cross-session audio",
   "PASS Phaser candidate package behavior",
 ];
 

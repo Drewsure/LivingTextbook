@@ -126,7 +126,16 @@ try {
   writeFileSync(join(evidenceRoot, "return-package.json"), JSON.stringify(manifest, null, 2));
   assertVerifierRejects(candidateRoot, "random scoring");
 
-  console.log("PASS Phaser candidate package behavior proves a complete package passes and random-reward evidence is rejected.");
+  const replayPath = join(candidateRoot, artifactPaths["event-replay"]);
+  const replay = JSON.parse(readFileSync(replayPath, "utf8"));
+  replay.events.find((candidate) => candidate.type === "audio_requested").studentSessionId = "another-session";
+  writeFileSync(replayPath, JSON.stringify(replay));
+  const replayArtifact = manifest.artifacts.find((artifact) => artifact.kind === "event-replay");
+  replayArtifact.checksum = hashFile(replayPath);
+  writeFileSync(join(evidenceRoot, "return-package.json"), JSON.stringify(manifest, null, 2));
+  assertVerifierRejects(candidateRoot, "cross-session audio");
+
+  console.log("PASS Phaser candidate package behavior proves a complete package passes and random-reward/cross-session evidence is rejected.");
 } finally {
   rmSync(candidateRoot, { recursive: true, force: true });
 }
