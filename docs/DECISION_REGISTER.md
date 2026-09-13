@@ -4413,6 +4413,11 @@ launch session. Interaction, audio, and completion event factories must
 preserve that supplied seed; when none is supplied they retain the existing
 unit-and-mode-derived fallback. See ADR 0714.
 
+The adapter also preserves a replay seed already carried in legacy event
+metadata when no explicit argument is provided. Explicit platform arguments
+take priority, followed by metadata compatibility, followed by the deterministic
+unit-and-mode fallback. See ADR 0714.
+
 # DR-786: Canonical Replay Seed Consistency
 
 Canonical game evidence now requires one identical `replay-v1:` seed across

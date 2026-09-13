@@ -2228,6 +2228,8 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-786 and
   completion event factories; silently deriving a replacement seed is invalid.
 - When no seed is supplied, the adapter must retain the deterministic
   unit-and-mode fallback for existing callers.
+- Existing metadata-carried seeds remain compatible during migration, but new
+  wrappers should use the explicit argument.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-787 and
 `docs/adr/0714-platform-supplied-replay-seed-threading.md`.

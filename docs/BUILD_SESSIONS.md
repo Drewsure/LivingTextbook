@@ -2000,3 +2000,8 @@ remains the fallback for existing callers. A runtime regression compiles the
 adapter and proves the custom seed survives all four lifecycle boundaries.
 This keeps future Phaser wrappers compatible with the canonical replay gate.
 See `docs/adr/0714-platform-supplied-replay-seed-threading.md`.
+
+The adapter also preserves the existing metadata-carried replay seed path for
+current game components. Explicit arguments take priority, so both current
+wrappers and future platform-issued seeds remain compatible with the one-seed
+canonical event rule.

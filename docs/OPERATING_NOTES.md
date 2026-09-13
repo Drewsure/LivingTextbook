@@ -1233,3 +1233,7 @@ When a platform or game wrapper supplies a replay seed, pass the same value to
 supplied value; omitted values use the deterministic unit-and-mode fallback.
 Run `npm run verify:runtime-behavior` when changing this boundary. See ADR
 0714.
+
+Current game components may still carry `replaySeed` in event metadata. The
+adapter preserves that value when no explicit argument is supplied; new
+wrappers should pass the explicit `replaySeed` argument, which takes priority.

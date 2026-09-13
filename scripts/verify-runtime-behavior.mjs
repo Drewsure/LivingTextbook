@@ -373,6 +373,25 @@ try {
   assertEqual(adapterRound.metadata?.replaySeed, suppliedReplaySeed);
   assertEqual(adapterAudio.metadata?.replaySeed, suppliedReplaySeed);
   assertEqual(adapterCompletion.event?.metadata?.replaySeed, suppliedReplaySeed);
+
+  const metadataSeedRound = progressionAdapter.createGameInteractionEvent({
+    type: "round_shown",
+    progression: adapterProgression,
+    launchSession: adapterLaunchSession,
+    gameMode: "memory-match",
+    occurredAt: "2026-01-01T00:02:00.000Z",
+    metadata: { replaySeed: suppliedReplaySeed },
+  });
+  const metadataSeedCompletion = progressionAdapter.completeGameMode({
+    progression: adapterProgression,
+    launchSession: adapterLaunchSession,
+    gameMode: "memory-match",
+    earnedStarDust: 200,
+    occurredAt: "2026-01-01T00:04:00.000Z",
+    metadata: { replaySeed: suppliedReplaySeed },
+  });
+  assertEqual(metadataSeedRound.metadata?.replaySeed, suppliedReplaySeed);
+  assertEqual(metadataSeedCompletion.event?.metadata?.replaySeed, suppliedReplaySeed);
   const missingCanonicalAudioErrors = canonicalGame.validateCanonicalGameEventSequence(
     canonicalEvents.filter((event) => event.type !== "audio_requested"),
     "flashcards",

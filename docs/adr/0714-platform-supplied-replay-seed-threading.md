@@ -18,6 +18,9 @@ uses a launch-scoped seed.
 Add an optional `replaySeed` argument to the interaction, audio, and completion
 factories. Each factory preserves the supplied value and falls back to the
 existing deterministic unit-and-mode seed when the argument is omitted.
+During migration, interaction and completion factories also preserve an
+existing metadata-carried seed when no explicit argument is present; the
+explicit argument takes priority.
 
 ## Consequences
 

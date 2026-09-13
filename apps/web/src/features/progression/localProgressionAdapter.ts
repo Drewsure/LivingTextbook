@@ -206,7 +206,7 @@ export function createGameInteractionEvent(args: {
 
   event.metadata = {
     ...args.metadata,
-    replaySeed: args.replaySeed ?? createCanonicalGameReplaySeed({ unitKey: args.launchSession.unitKey, gameMode: args.gameMode }),
+    replaySeed: resolveReplaySeed(args.replaySeed, args.metadata, args.launchSession.unitKey, args.gameMode),
     tenantId: args.launchSession.tenantId,
   };
 
@@ -359,7 +359,7 @@ export function completeGameMode(args: {
     occurredAt: args.occurredAt,
     metadata: {
       ...args.metadata,
-      replaySeed: args.replaySeed ?? createCanonicalGameReplaySeed({ unitKey: args.launchSession.unitKey, gameMode: args.gameMode }),
+      replaySeed: resolveReplaySeed(args.replaySeed, args.metadata, args.launchSession.unitKey, args.gameMode),
       tenantId: args.launchSession.tenantId,
       earnedStarDust,
     },
@@ -432,6 +432,16 @@ function capUnitStarDust(currentStarDust: number, requestedStarDust: number): nu
   const current = Math.min(Math.max(Math.trunc(currentStarDust), 0), UNIT_STAR_DUST_CAP);
   const requested = Math.min(Math.max(Math.trunc(requestedStarDust), 0), UNIT_STAR_DUST_CAP);
   return Math.min(requested, Math.max(UNIT_STAR_DUST_CAP - current, 0));
+}
+
+function resolveReplaySeed(
+  suppliedReplaySeed: string | undefined,
+  metadata: Record<string, string | number | boolean> | undefined,
+  unitKey: string,
+  gameMode: GameModeId,
+): string {
+  const metadataReplaySeed = typeof metadata?.replaySeed === "string" ? metadata.replaySeed : undefined;
+  return suppliedReplaySeed ?? metadataReplaySeed ?? createCanonicalGameReplaySeed({ unitKey, gameMode });
 }
 
 export function createMediaPlaylistOpenedEvent(args: {
