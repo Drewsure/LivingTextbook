@@ -1185,3 +1185,9 @@ The cross-layer persistence alignment check must remain enabled when a new
 hosted or local intent is added. Confirm its completion key fields, duplicate
 rejection, and atomic-write flags match the durable progress-event record; an
 isolated adapter validator is not sufficient. See ADR 0706.
+
+Future adapters must use `planCanonicalCompletionWrite` before their provider
+operation. Treat `create` as the only new-write path, `return-existing` as a
+successful idempotent retry, `conflict` as a visible integrity failure, and
+`invalid` as a rejected request. The planner is pure and must not be presented
+as live persistence. See ADR 0707.

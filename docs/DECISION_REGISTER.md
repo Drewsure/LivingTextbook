@@ -4357,3 +4357,11 @@ records with hosted and local adapter intents. Completion key fields,
 duplicate-completion rejection, and atomic-write requirements must match across
 both layers. This prevents provider drift before database selection or live
 writes and is covered by the runtime behavior harness. See ADR 0706.
+
+# DR-780: Provider-Neutral Completion Write Resolution
+
+The content model now exposes a pure completion-write planner shared by future
+hosted and local adapters. It distinguishes new creates, identical retries,
+same-key payload conflicts, and invalid candidates before any provider call.
+The planner does not enable live storage or bypass platform gates. See ADR
+0707 and `COMPLETION_IDEMPOTENCE_CHECKS.md`.

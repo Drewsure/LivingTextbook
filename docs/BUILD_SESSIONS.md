@@ -1950,3 +1950,8 @@ record with every hosted/local adapter intent. It rejects drift in completion
 key fields, duplicate-rejection behavior, or atomic-write requirements before
 provider selection. The runtime harness covers aligned and mismatched cases.
 See ADR 0706.
+
+The content model now exposes a pure completion-write resolution contract for
+future adapters: create, return-existing, conflict on a same-key payload hash
+mismatch, or invalid for missing required fields. It performs no storage write
+and does not replace policy or release gates. See ADR 0707.

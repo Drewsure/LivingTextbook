@@ -47,3 +47,7 @@ npm run verify:backend-storage
 The runtime behavior harness also checks cross-layer alignment: a valid
 progress-event record and adapter intent pass together, while a missing
 completion key field or mismatched atomic-write flag is rejected.
+
+It also checks provider-neutral write resolution: a new key plans `create`,
+an identical retry plans `return-existing`, a same-key payload mismatch plans
+`conflict`, and missing required fields plan `invalid`.

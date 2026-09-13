@@ -1131,6 +1131,24 @@ try {
     idempotencyKey: "completion-v1:tenant-1:unit-1:launch-1:student-1:memory-match",
   });
   assertEqual(progressWriteWithIdempotencyKeyErrors.length, 0);
+  const completionCandidate = {
+    idempotencyKey: "completion-v1:tenant-1:unit-1:launch-1:student-1:memory-match",
+    payloadHash: "sha256:completion-a",
+    recordId: "progress-event-1",
+  };
+  assertEqual(contentModel.planCanonicalCompletionWrite(completionCandidate).outcome, "create");
+  assertEqual(
+    contentModel.planCanonicalCompletionWrite(completionCandidate, completionCandidate).outcome,
+    "return-existing",
+  );
+  assertEqual(
+    contentModel.planCanonicalCompletionWrite({ ...completionCandidate, payloadHash: "sha256:completion-b" }, completionCandidate).outcome,
+    "conflict",
+  );
+  assertIncludes(
+    contentModel.planCanonicalCompletionWrite({ ...completionCandidate, payloadHash: "" }).errors,
+    "completion payload hash is required",
+  );
   const alignedProgressRecord = {
     recordId: "progress-event-record",
     category: "progress-event-stream",

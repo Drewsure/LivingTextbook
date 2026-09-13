@@ -2156,3 +2156,17 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-778 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-779 and
 `docs/adr/0706-persistence-alignment-idempotency.md`.
+
+## 136. Completion Write Resolution Standard
+
+- Hosted and local adapters must share the same create, retry, conflict, and
+  invalid-input semantics.
+- A same-key retry with the same payload hash may return the existing accepted
+  record; a same-key retry with a different hash must be a conflict.
+- Missing identity, payload, or record fields must be rejected before the
+  provider operation.
+- The shared planner is pure and does not authorize storage, rewards, reports,
+  assignments, or live learner data.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-780 and
+`docs/adr/0707-completion-write-resolution.md`.
