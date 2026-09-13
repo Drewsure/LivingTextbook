@@ -225,6 +225,7 @@ const offerMap = readText("apps/web/src/data/sampleUnitGameOfferMap.ts");
 const sessionMonitorData = readText("apps/web/src/data/sampleTeacherSessionMonitor.ts");
 const progressionCore = readText("packages/content-model/src/index.ts");
 const localProgressionAdapter = readText("apps/web/src/features/progression/localProgressionAdapter.ts");
+const playableRouteShell = readText("apps/web/src/features/game-shell/components/PlayableGameRouteShell.tsx");
 
 const standardEventTypes = [
   "game_started",
@@ -318,6 +319,16 @@ for (const [surface, source] of [
 ]) {
   if (!source.includes("getLevelAwareRecommendedGameModes")) {
     failures.push(`${surface}: must use the shared level-aware recommendation filter`);
+  }
+}
+for (const [surface, source, fragment] of [
+  ["local progression adapter", localProgressionAdapter, "isLaunchGameModeSupported"],
+  ["local progression adapter", localProgressionAdapter, "isGameModeSupportedAtLevel"],
+  ["playable route shell", playableRouteShell, "gameSupportedAtLevel"],
+  ["game access gate", accessGate, "unsupported-level"],
+]) {
+  if (!source.includes(fragment)) {
+    failures.push(`${surface}: missing curriculum-level game access guard ${fragment}`);
   }
 }
 
@@ -466,10 +477,11 @@ for (const fragment of [
 }
 
 for (const fragment of [
-  "const gameUnlocked = currentProgression.unlockedGameModes.includes(gameMode)",
+  "const gameUnlocked = gameSupportedAtLevel && currentProgression.unlockedGameModes.includes(gameMode)",
+  "const gameSupportedAtLevel = isGameModeSupportedAtLevel(gameMode, unit.unitMeta.level)",
   "{gameUnlocked ? (",
-  "<GameAccessGateCard gameMode={gameMode} launchSession={launchSession} />",
-  "Complete entry practice first",
+  "reason={gameSupportedAtLevel ? \"entry-practice\" : \"unsupported-level\"}",
+  "This activity is not offered yet",
 ]) {
   if (![routeShell, accessGate].some((source) => source.includes(fragment))) {
     failures.push(`canonical game access boundary: missing progression gate fragment: ${fragment}`);

@@ -4281,3 +4281,17 @@ activity to be scheduled before the student gate is reached.
 The Level 1 sample assignments now exclude Sentence Builder, which is a
 Level 2+ mode. The assignment contract retains all reviewed Level 1 modes and
 keeps teacher-controlled Speak It separate from ordinary student completion.
+
+# DR-774: Runtime Level-Aware Game Access
+
+The canonical game route and local progression adapter must independently
+enforce the supported curriculum level for a game mode. A mode that is not
+offered at the unit level must not render an interactive game, start a session,
+complete a session, award Star Dust, or appear to unlock through a stale URL.
+
+The route shell now shows a level-specific access explanation and returns the
+student to the reviewed activity hub. The progression adapter rejects both
+start and completion for unsupported modes. This is defense in depth: the
+student-facing route remains understandable while the state boundary remains
+authoritative. Later-level routes stay reusable and are not removed from the
+catalog.

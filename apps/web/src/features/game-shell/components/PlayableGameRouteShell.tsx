@@ -10,6 +10,7 @@ import type {
   StudentProgressionState,
   UnitPayload,
 } from "@living-textbook/content-model";
+import { isGameModeSupportedAtLevel } from "@living-textbook/content-model";
 import type { TeacherAssignmentPlan } from "@living-textbook/content-model/src/teacherAssignment";
 import { findSampleUnitGameOfferMap } from "@/data/sampleUnitGameOfferMap";
 import type { GameModeCompletionResult } from "@/features/progression/localProgressionAdapter";
@@ -75,7 +76,8 @@ export function PlayableGameRouteShell({
   const [lastEarnedDust, setLastEarnedDust] = useState(0);
   const [eventContractErrors, setEventContractErrors] = useState<string[]>([]);
   const offerMap = unit.unitMeta.contentPackageId ? findSampleUnitGameOfferMap(unit.unitMeta.contentPackageId) : undefined;
-  const gameUnlocked = currentProgression.unlockedGameModes.includes(gameMode);
+  const gameSupportedAtLevel = isGameModeSupportedAtLevel(gameMode, unit.unitMeta.level);
+  const gameUnlocked = gameSupportedAtLevel && currentProgression.unlockedGameModes.includes(gameMode);
 
   function handleEvent(event: GameProgressEvent) {
     sessionEventsRef.current = [...sessionEventsRef.current, event];
@@ -152,7 +154,12 @@ export function PlayableGameRouteShell({
           onComplete: handleComplete,
         })
       ) : (
-        <GameAccessGateCard gameMode={gameMode} launchSession={launchSession} />
+        <GameAccessGateCard
+          gameMode={gameMode}
+          launchSession={launchSession}
+          level={unit.unitMeta.level}
+          reason={gameSupportedAtLevel ? "entry-practice" : "unsupported-level"}
+        />
       )}
 
       <GameCompletionNextCard

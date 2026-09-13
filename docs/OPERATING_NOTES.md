@@ -1144,3 +1144,17 @@ Procedure:
 
 Why this matters: Syntax construction must be auditable at round level and
 must remain consistent across white-label launch surfaces.
+## OW-054: Runtime Level-Aware Game Access
+
+Status: Active
+
+When a direct route or stale QR code points to a game that is not supported at
+the unit's curriculum level, the route must show a level-specific explanation
+and return to the reviewed activity hub. It must not mount the interactive
+child. The local progression adapter must independently reject both start and
+completion, preserve state, and award zero Star Dust.
+
+Use the shared `isGameModeSupportedAtLevel` contract, keep later-level routes
+reusable, and run the canonical-game, runtime, typecheck, build, and route
+verification gates after changes. External Phaser candidates remain isolated;
+this boundary is not an integration approval.

@@ -3,6 +3,8 @@ import {
   completeEntryPractice,
   createCanonicalGameReplaySeed,
   getLevelAwareRecommendedGameModes,
+  isGameModeSupportedAtLevel,
+  getCanonicalUnitKeyLevel,
   validateProgressionLaunchIdentity,
   UNIT_STAR_DUST_CAP,
 } from "@living-textbook/content-model";
@@ -159,6 +161,10 @@ export function startUnlockedGameMode(args: {
     return undefined;
   }
 
+  if (!isLaunchGameModeSupported(args.launchSession, args.gameMode)) {
+    return undefined;
+  }
+
   const modeIsUnlocked = args.progression.unlockedGameModes.includes(args.gameMode);
 
   if (!modeIsUnlocked) {
@@ -308,6 +314,13 @@ export function completeGameMode(args: {
     };
   }
 
+  if (!isLaunchGameModeSupported(args.launchSession, args.gameMode)) {
+    return {
+      progression: args.progression,
+      earnedStarDust: 0,
+    };
+  }
+
   if (!args.progression.unlockedGameModes.includes(args.gameMode)) {
     return {
       progression: args.progression,
@@ -403,6 +416,11 @@ export function createMediaProgressEvent(args: {
       starDustAwarded: 0,
     }),
   };
+}
+
+function isLaunchGameModeSupported(launchSession: LaunchSession, gameMode: GameModeId): boolean {
+  const level = getCanonicalUnitKeyLevel(launchSession.unitKey);
+  return level === undefined || isGameModeSupportedAtLevel(gameMode, level);
 }
 
 function capUnitStarDust(currentStarDust: number, requestedStarDust: number): number {

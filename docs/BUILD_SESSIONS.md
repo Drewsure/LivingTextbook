@@ -1888,3 +1888,10 @@ Teacher assignment plans now declare curriculum level and validate every target
 mode against the canonical supported-level matrix. The Level 1 sample
 assignments no longer schedule Sentence Builder before its Level 2+ offer is
 reviewed. See ADR 0700, DR-773, and operating note OW-053.
+
+The canonical playable route now applies the same curriculum-level guard at
+render time as the progression adapter applies at start and completion time.
+An unsupported route presents a clear Level pathway gate and returns to the
+reviewed activity hub; it cannot earn dust, emit completion, or self-unlock.
+Supported later-level routes remain reusable. See ADR 0701, DR-774, and
+operating note OW-054.
