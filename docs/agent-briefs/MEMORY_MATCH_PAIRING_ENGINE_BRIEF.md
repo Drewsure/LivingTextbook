@@ -2,9 +2,13 @@
 
 Audience: Z.ai or another outside AI builder
 
-Status: Future implementation brief, not yet assigned
+Status: Ready for controlled evidence handoff; implementation remains blocked
+until the evidence package passes Codex review
 
 Owner: Codex retains architecture, schema, integration, and final review control.
+
+The copy-ready evidence request is maintained at
+`docs/agent-briefs/ZAI_MEMORY_MATCH_EVIDENCE_REQUEST.md`.
 
 ## Objective
 

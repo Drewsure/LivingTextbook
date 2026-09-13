@@ -2104,4 +2104,25 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-769 and
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-770 and
 `docs/adr/0698-sentence-builder-canonical-entry-integration.md`.
 
+## 133. External Phaser Evidence Standard
+
+- Frozen outside-game source is preserved as evidence and must not be treated
+  as canonical product code because its scene count, catalog, lifecycle,
+  persistence, audio, scoring, and reward behavior may differ from platform
+  contracts.
+- Controlled candidate evidence may be requested one named game at a time
+  after the foundation intake gate passes; the first candidate is Memory Match.
+- A candidate package must include source identity, fixture replay, standard
+  event replay, target-language audio coverage, deterministic scoring replay,
+  mobile/accessibility evidence, and wrapper notes.
+- Phaser may own presentation and interaction facts. The platform owns schema,
+  identity, audio resolution, scoring, mastery, rewards, persistence, reports,
+  routes, and assignments.
+- No outside agent may import source, replace routes, mutate scoring, write
+  learner persistence, promote packages, or assign students without a written
+  Codex integration decision.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-775 and
+`docs/adr/0702-phaser-scene-inventory-evidence-boundary.md`.
+
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-615 and `docs/adr/0543-progress-event-timestamps.md`.

@@ -1918,3 +1918,9 @@ the no-import, no-route-replacement, no-scene-scoring, no-browser-persistence,
 no-package-promotion, and no-student-assignment boundary. The controlled
 human handoff point is now clear: request Memory Match evidence first, one
 candidate at a time, without asking for a broad source merge.
+
+Added the copy-ready `ZAI_MEMORY_MATCH_EVIDENCE_REQUEST.md` brief. Z.ai can be
+engaged for isolated Memory Match evidence now; returned work remains outside
+the canonical app until Codex verifies source identity, fixture replay, event
+sequence, target-language audio, deterministic scoring, accessibility, and
+wrapper boundaries.
