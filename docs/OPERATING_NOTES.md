@@ -836,6 +836,27 @@ Procedure:
 Why this matters: Recovery stays deterministic and helpful without becoming a
 second, weaker progression authority.
 
+## OW-039: Training Report Award Authority
+
+Status: Active
+
+Observed behavior: Recovery response evidence and recovery completion evidence
+can both carry the accepted Star Dust value. Summing both records inflates the
+teacher-visible reward total.
+
+Procedure:
+
+1. Treat `training_answer_result` as evidence of the learner's response.
+2. Treat `training_completed` as the authoritative recovery award event.
+3. Count `earnedStarDust` in teacher summaries only from completion events.
+4. Preserve the evidence value for inspection, but never treat metadata copies
+   as additional awards.
+5. Run `npm run verify:recovery-runtime`, the web typecheck, and the production
+   build after changing recovery reporting.
+
+Why this matters: Teacher reports must agree with the progression adapter even
+when one recovery attempt contains multiple evidence records.
+
 ## OW-037: Normalized Mastery Award Evidence
 
 Status: Active

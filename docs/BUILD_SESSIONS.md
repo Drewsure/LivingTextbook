@@ -1764,3 +1764,8 @@ Canonical game mastery evidence now uses the normalized award returned by
 reporting a requested score that exceeds the remaining 1,000 Star Dust
 capacity, keeping `mastery_updated`, `game_completed`, and progression state
 aligned. This is recorded in ADR 0684 and DR-756.
+
+The teacher recovery summary now treats `training_completed` as the sole
+authoritative recovery award record. Response-result metadata remains visible
+evidence but is excluded from the reward total, preventing one recovery action
+from being counted twice. See ADR 0686, DR-758, and operating note OW-039.

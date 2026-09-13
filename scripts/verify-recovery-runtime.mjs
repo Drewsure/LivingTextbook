@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 
 const source = readFileSync(new URL("../packages/content-model/src/recoveryRuntime.ts", import.meta.url), "utf8");
+const reportSource = readFileSync(new URL("../apps/web/src/features/training/TrainingRecoveryReportSummary.tsx", import.meta.url), "utf8");
 const failures = [];
 
 for (const marker of [
@@ -29,6 +30,13 @@ for (const marker of [
   "sideEffect: \"none\"",
 ]) {
   if (!source.includes(marker)) failures.push(`recovery runtime contract missing marker: ${marker}`);
+}
+
+for (const marker of [
+  'getTrainingEventType(event) === "training_completed"',
+  'getNumberMetadata(event, "earnedStarDust")',
+]) {
+  if (!reportSource.includes(marker)) failures.push(`recovery report authority missing marker: ${marker}`);
 }
 
 if (failures.length > 0) {

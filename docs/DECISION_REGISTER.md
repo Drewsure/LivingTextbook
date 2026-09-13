@@ -4114,3 +4114,11 @@ The shared canonical game validator now requires at least one
 support-only and cannot unlock progress, grant mastery, award Star Dust, or
 replace answer activity. See ADR 0682 and
 `docs/decision-register/DR-754-canonical-game-audio-evidence-gate.md`.
+
+# DR-758: Training Report Award Authority
+
+Teacher recovery summaries now count Star Dust only from the authoritative
+`training_completed` event. `training_answer_result` remains response evidence
+and is not counted as a second award. This keeps teacher reporting aligned with
+the normalized recovery progression result. See ADR 0686 and
+`docs/decision-register/DR-758-training-report-award-authority.md`.

@@ -79,7 +79,9 @@ export function summarizeTrainingRecoveryEvents(events: GameProgressEvent[]): Tr
     answerResultCount: countTrainingEvents(trainingEvents, "training_answer_result"),
     completedCount: countTrainingEvents(trainingEvents, "training_completed"),
     returnedCount: countTrainingEvents(trainingEvents, "training_returned_to_unit"),
-    earnedRecoveryReward: trainingEvents.reduce((total, event) => total + getNumberMetadata(event, "earnedStarDust"), 0),
+    earnedRecoveryReward: trainingEvents
+      .filter((event) => getTrainingEventType(event) === "training_completed")
+      .reduce((total, event) => total + getNumberMetadata(event, "earnedStarDust"), 0),
     focusLabel: getLatestLabel(trainingEvents, "focusType"),
     modeLabel: getLatestModeLabel(trainingEvents),
     returnPathLabel: getLatestStringMetadata(trainingEvents, "returnPath") ?? "Not recorded yet",

@@ -1907,4 +1907,15 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-756 and
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-757 and
 `docs/adr/0685-training-recovery-award-boundary.md`.
 
+## 120. Training Report Award Authority Standard
+
+- `training_answer_result` is response evidence, not an additional reward.
+- `training_completed` is the authoritative recovery award event.
+- Teacher summaries must count `earnedStarDust` only from completion events.
+- Duplicate metadata copies must never inflate learner rewards or teacher
+  reports.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-758 and
+`docs/adr/0686-training-report-award-authority.md`.
+
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-615 and `docs/adr/0543-progress-event-timestamps.md`.
