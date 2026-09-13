@@ -14,9 +14,11 @@ for (const marker of [
   "raw learner audio is not a core persistence field",
   "learner transcripts are not a core persistence field",
   "release approval is required before mutation or export",
+  "progress event writes require a completion idempotency key",
   "No hosted database write",
   "No local classroom write",
   "No hybrid sync write",
+  "idempotencyKey",
 ]) {
   if (!runtime.includes(marker)) failures.push(`Persistence runtime missing marker: ${marker}`);
 }

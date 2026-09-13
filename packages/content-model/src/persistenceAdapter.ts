@@ -24,6 +24,10 @@ export interface PersistenceWriteIntent {
   rejectsTranscripts: boolean;
   scopeKind?: ReviewSurfaceScopeKind;
   preservesEventEffectTaxonomy?: boolean;
+  preservesCompletionIdempotency?: boolean;
+  completionIdempotencyKeyFields?: string[];
+  rejectsDuplicateCompletionWrites?: boolean;
+  requiresAtomicCompletionWrite?: boolean;
   preservesProgressionContinuityEnvelope?: boolean;
   requiresContinuitySnapshot?: boolean;
   requiresRouteHandoffCursor?: boolean;
@@ -515,6 +519,32 @@ function validatePrototypeReturnPackageChecklistWriteIntent(intent: PersistenceW
   }
 }
 
+function validateCompletionIdempotencyWriteIntent(intent: PersistenceWriteIntent, errors: string[]): void {
+  if (intent.category !== "progress-event-stream") return;
+
+  const requiredCompletionKeyFields = [
+    "tenant_id",
+    "unit_key",
+    "launch_code",
+    "student_session_id",
+    "game_mode",
+  ];
+  if (!intent.preservesCompletionIdempotency) {
+    errors.push(`Progress event write intent ${intent.intentId} must preserve completion idempotency.`);
+  }
+  if (!intent.rejectsDuplicateCompletionWrites) {
+    errors.push(`Progress event write intent ${intent.intentId} must reject duplicate completion writes.`);
+  }
+  if (!intent.requiresAtomicCompletionWrite) {
+    errors.push(`Progress event write intent ${intent.intentId} must require atomic completion writes.`);
+  }
+  for (const field of requiredCompletionKeyFields) {
+    if (!intent.completionIdempotencyKeyFields?.includes(field)) {
+      errors.push(`Progress event write intent ${intent.intentId} must include ${field} in its completion idempotency key fields.`);
+    }
+  }
+}
+
 function validateEvidenceWriteIntentScope(intent: PersistenceWriteIntent, errors: string[]): void {
   if (intent.category !== "evidence-packet" && intent.category !== "evidence-attachment") {
     return;
@@ -592,6 +622,8 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
     if (intent.category === "progress-event-stream" && !intent.preservesEventEffectTaxonomy) {
       errors.push(`Progress event write intent ${intent.intentId} must preserve event effect taxonomy.`);
     }
+
+    validateCompletionIdempotencyWriteIntent(intent, errors);
 
     if (
       TENANT_BOUND_PERSISTENCE_RECORD_CATEGORIES.includes(intent.category) &&

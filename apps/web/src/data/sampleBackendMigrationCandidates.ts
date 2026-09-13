@@ -2691,10 +2691,11 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
         "Index by session, learner code, event type, event effect, and time.",
         "Preserve the reviewed event taxonomy effect so support-only guidance never becomes scoring evidence.",
         "Preserve settings_context so teacher reports can show the active game mode settings profile and teacher settings snapshot without changing scoring authority.",
+        "Use the canonical completion idempotency key for game completion writes and enforce atomic create-or-return-existing behavior across hosted and local adapters.",
         "Keep raw audio and transcripts out of metadata.",
       ],
       rollbackOrExportNeeds: ["Export teacher report data with settings context", "Delete/archive by retention policy", "Support school-owned export package"],
-      notAllowedYet: ["Raw learner audio", "Speech transcript", "Open-ended personal notes", "Ungated report exports", "Support-only events used for mastery or unlocks"],
+      notAllowedYet: ["Raw learner audio", "Speech transcript", "Open-ended personal notes", "Ungated report exports", "Support-only events used for mastery or unlocks", "Duplicate completion writes"],
     },
     {
       migrationId: "m105-progression-continuity-envelope-records",

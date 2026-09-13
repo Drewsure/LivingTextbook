@@ -15,6 +15,7 @@ export interface PersistenceRuntimeRequest {
   schoolPolicyAccepted: boolean;
   releaseApproved: boolean;
   payloadHash?: string;
+  idempotencyKey?: string;
 }
 
 export interface PersistenceRuntimeDecision {
@@ -76,6 +77,9 @@ export function validatePersistenceRuntimeRequest(request: PersistenceRuntimeReq
   }
   if (containsRawAudio) errors.push("raw learner audio is not a core persistence field");
   if (containsTranscript) errors.push("learner transcripts are not a core persistence field");
+  if (request.category === "progress-event-stream" && request.operation === "write" && !request.idempotencyKey?.trim()) {
+    errors.push("progress event writes require a completion idempotency key");
+  }
   if (["write", "delete", "export"].includes(request.operation) && !releaseApproved) {
     errors.push("release approval is required before mutation or export");
   }

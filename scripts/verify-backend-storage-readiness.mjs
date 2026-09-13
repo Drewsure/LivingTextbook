@@ -2363,6 +2363,10 @@ requireText(migrationSpecs, "spec-local-media-bundle-entry", "Migration specs mu
 requireText(migrationSpecs, "local_activation_allowed", "Migration specs must block local media activation.");
 requireText(migrationSpecs, "event_acceptance_gate_id", "Migration specs must require event acceptance gate ids for events.");
 requireText(migrationSpecs, "settings_context", "Migration specs must require settings context for events.");
+requireText(schemaDraft, "completion_idempotency_key", "Backend schema must preserve completion idempotency keys.");
+requireText(migrationCandidates, "canonical completion idempotency key", "Migration candidates must preserve canonical completion idempotency.");
+requireText(migrationSpecs, "completion_idempotency_key unique", "Migration specs must uniquely constrain completion idempotency keys.");
+requireText(migrationSpecs, "reject duplicate keys atomically", "Migration specs must require atomic duplicate completion rejection.");
 requireText(migrationCandidates, "Preserve settings_context", "Migration candidates must preserve progress event settings context.");
 requireText(persistenceAdapter, "preservesSettingsContext", "Persistence adapter plans must preserve progress event settings context.");
 requireText(durableRecords, "preservesSettingsContext", "Durable record plans must preserve progress event settings context.");

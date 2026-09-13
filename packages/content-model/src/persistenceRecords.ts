@@ -177,6 +177,10 @@ export interface DurableRecordContract {
   ownsTeacherSessionSettings?: boolean;
   preservesTeacherSessionSettingsReviewPacket?: boolean;
   preservesEventEffectTaxonomy?: boolean;
+  preservesCompletionIdempotency?: boolean;
+  completionIdempotencyKeyFields?: string[];
+  rejectsDuplicateCompletionWrites?: boolean;
+  requiresAtomicCompletionWrite?: boolean;
   preservesProgressionContinuityEnvelope?: boolean;
   requiresContinuitySnapshot?: boolean;
   requiresRouteHandoffCursor?: boolean;
@@ -665,6 +669,32 @@ function validatePrototypeReturnPackageChecklistRecord(record: DurableRecordCont
   }
 }
 
+function validateCompletionIdempotencyRecord(record: DurableRecordContract, errors: string[]): void {
+  if (record.category !== "progress-event-stream") return;
+
+  const requiredCompletionKeyFields = [
+    "tenant_id",
+    "unit_key",
+    "launch_code",
+    "student_session_id",
+    "game_mode",
+  ];
+  if (!record.preservesCompletionIdempotency) {
+    errors.push(`Progress event durable record ${record.recordId} must preserve completion idempotency.`);
+  }
+  if (!record.rejectsDuplicateCompletionWrites) {
+    errors.push(`Progress event durable record ${record.recordId} must reject duplicate completion writes.`);
+  }
+  if (!record.requiresAtomicCompletionWrite) {
+    errors.push(`Progress event durable record ${record.recordId} must require atomic completion writes.`);
+  }
+  for (const field of requiredCompletionKeyFields) {
+    if (!record.completionIdempotencyKeyFields?.includes(field)) {
+      errors.push(`Progress event durable record ${record.recordId} must include ${field} in its completion idempotency key fields.`);
+    }
+  }
+}
+
 export function validateDurableRecordContracts(records: DurableRecordContract[]): string[] {
   const errors: string[] = [];
   const ids = new Set<string>();
@@ -718,6 +748,8 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
     if (record.category === "progress-event-stream" && !record.preservesEventEffectTaxonomy) {
       errors.push(`Progress event durable record ${record.recordId} must preserve event effect taxonomy.`);
     }
+
+    validateCompletionIdempotencyRecord(record, errors);
 
     if (
       TENANT_BOUND_PERSISTENCE_RECORD_CATEGORIES.includes(record.category) &&

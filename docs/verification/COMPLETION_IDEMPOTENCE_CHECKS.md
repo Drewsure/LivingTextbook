@@ -26,3 +26,20 @@ npm run verify:completion-idempotence
 
 This is a state-integrity check. It does not authorize persistence, reward
 inventory writes, production assignment, or external Phaser integration.
+
+## Durable contract checks
+
+- Progress-event durable records and hosted/local write intents preserve the
+  canonical completion key fields.
+- A progress-event write request without an idempotency key is rejected.
+- A valid progress-event write request with a canonical key is structurally
+  accepted by the request validator.
+- Hosted and local adapters retain the same contract; the database choice is
+  still open.
+
+Run the broader executable coverage with:
+
+```text
+npm run verify:runtime-behavior
+npm run verify:backend-storage
+```

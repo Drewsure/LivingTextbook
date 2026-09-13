@@ -1937,3 +1937,10 @@ already-completed replays are quiet no-ops. This protects Star Dust and report
 event integrity on touch devices while leaving durable hosted/local idempotency
 for the backend implementation phase. See ADR 0704, DR-777, and
 `COMPLETION_IDEMPOTENCE_CHECKS.md`.
+
+The next backend boundary is now explicit: hosted and local progress-event
+records require the canonical completion idempotency fields, and runtime write
+requests reject missing keys. The shared key generator keeps retry behavior
+portable across the future hosted/local adapters. Atomic create-or-return-
+existing storage and policy approval remain required before live writes. See
+ADR 0705 and DR-778.

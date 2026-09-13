@@ -2126,3 +2126,20 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-775 and
 `docs/adr/0702-phaser-scene-inventory-evidence-boundary.md`.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-615 and `docs/adr/0543-progress-event-timestamps.md`.
+
+## 134. Durable Completion Idempotency Standard
+
+- Hosted and local progress-event writes must use the same canonical completion
+  identity: tenant, unit, launch, student session, and game mode.
+- The shared `createCanonicalCompletionIdempotencyKey` helper is the source of
+  the key shape; adapters must not invent provider-specific variants.
+- Durable completion writes must reject duplicate keys atomically and return
+  the existing accepted result on a retry where the provider supports it.
+- A missing key is a write-validation error. A key does not bypass event
+  acceptance, target-language progress, scoring, mastery, policy, or release
+  gates.
+- This contract keeps hosted and closed/local deployments interchangeable and
+  does not select a database or activate live storage.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-778 and
+`docs/adr/0705-durable-completion-idempotency.md`.

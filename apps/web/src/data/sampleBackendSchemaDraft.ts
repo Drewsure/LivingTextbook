@@ -4253,6 +4253,7 @@ export const sampleBackendSchemaDraft: BackendSchemaDraft = {
       purpose: "Stores coded learning events, game completion, media engagement, recovery recommendations, Star Dust changes, mastery updates, and support-only guidance events.",
       fields: [
         { name: "event_id", type: "stable id", required: true, note: "Unique event id." },
+        { name: "completion_idempotency_key", type: "stable id", required: false, note: "Canonical completion identity for tenant, unit, launch, student session, and game mode; required for game completion writes and unique at the durable boundary." },
         { name: "session_id", type: "foreign key/string", required: true, note: "Links event to teacher session." },
         { name: "learner_code", type: "coded string", required: true, note: "Avoids open personal data in foundation reports." },
         { name: "event_type", type: "enum", required: true, note: "Game, media, training, reward, summary." },
@@ -4263,9 +4264,9 @@ export const sampleBackendSchemaDraft: BackendSchemaDraft = {
         { name: "metadata", type: "json/object", required: true, note: "Mode-specific details without raw audio/transcripts." },
       ],
       relationships: ["Belongs to launch session", "Aggregates into teacher reports", "May reference package/unit/game ids"],
-      indexes: ["session_id + created_at", "session_id + learner_code", "session_id + event_type", "session_id + event_effect", "session_id + event_acceptance_gate_id", "session_id + settings_context.game_mode_settings_profile_id"],
-      forbiddenFields: ["Raw learner audio", "Speech transcript", "Unbounded personal notes", "Manual event acceptance bypass"],
-      migrationNote: "Event retention and export policy must be accepted before real student use; event writes must reference a passed launch-session event acceptance gate, preserve settings_context, and keep support-only events non-scoring in report queries.",
+      indexes: ["session_id + created_at", "session_id + learner_code", "session_id + event_type", "session_id + event_effect", "session_id + event_acceptance_gate_id", "session_id + settings_context.game_mode_settings_profile_id", "completion_idempotency_key unique"],
+      forbiddenFields: ["Raw learner audio", "Speech transcript", "Unbounded personal notes", "Manual event acceptance bypass", "Duplicate completion write"],
+      migrationNote: "Event retention and export policy must be accepted before real student use; event writes must reference a passed launch-session event acceptance gate, preserve settings_context, keep support-only events non-scoring in report queries, and use atomic completion idempotency for game completion writes.",
     },
     {
       entityId: "progression_continuity",

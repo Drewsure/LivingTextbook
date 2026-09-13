@@ -1173,3 +1173,10 @@ already-completed replays are quiet no-ops. This is a browser-session guard,
 not durable persistence, so the future hosted/local adapter must carry a
 stable completion idempotency key at its write boundary. See ADR 0704, DR-777,
 and `docs/operating-notes/2026-09-13-completion-idempotence.md`.
+
+The durable progress-event contract now preserves the same completion identity
+across hosted and local adapters. Use
+`createCanonicalCompletionIdempotencyKey` for future writes and reject a
+progress-event write that has no key. Atomic create-or-return-existing behavior
+is required before live persistence is enabled; this remains a contract, not a
+database selection or write approval. See ADR 0705 and DR-778.

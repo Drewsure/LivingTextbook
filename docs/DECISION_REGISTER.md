@@ -4339,3 +4339,13 @@ without an event is treated as a stable no-op instead of a contract error.
 The first completion remains subject to canonical event-sequence validation;
 the route guard does not replace the eventual hosted/local durable idempotency
 boundary. See ADR 0704 and `COMPLETION_IDEMPOTENCE_CHECKS.md`.
+
+# DR-778: Durable Completion Idempotency Contract
+
+Hosted and local progress-event persistence now has an explicit canonical
+completion key contract covering tenant, unit, launch, student session, and
+game mode. Progress writes require the key; durable records and adapter intents
+must reject duplicate completion writes and require atomic completion writes.
+The content model exposes the shared key generator, while database selection,
+live writes, and policy acceptance remain open. See ADR 0705 and
+`COMPLETION_IDEMPOTENCE_CHECKS.md`.

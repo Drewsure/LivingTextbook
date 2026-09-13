@@ -70,6 +70,8 @@ Each candidate must define:
 - Migrations must preserve tenant boundaries and release-control records.
 - Raw learner audio and transcripts stay out of core storage.
 - Hosted and local implementations must use the same record vocabulary.
+- Progress-event game completion writes must use a canonical idempotency key
+  and atomic duplicate rejection across hosted and local adapters.
 - Collection inventory must be deterministic, mastery-earned, exportable, and blocked from random pressure or purchase-like unlock paths.
 - Teacher draft package migrations must preserve owner, source lineage, visibility, review gates, audio plan state, and direct-assignment blocks.
 - AI generation request packet migrations must preserve request-builder review, source evidence, premium AI cost gate, target-language audio coverage, activity compatibility, media-rights manifest, draft, and verifier links while blocking live model dispatch, model billing, draft generation, verifier submission, package assembly, route writes, playlist writes, assignments, student-ready markers, and support-language progress.

@@ -1114,6 +1114,23 @@ try {
   assertIncludes(persistenceErrors, "raw learner audio is not a core persistence field");
   assertIncludes(persistenceErrors, "release approval is required before mutation or export");
   assertEqual(persistence.createReviewOnlyPersistenceAdapter().execute(persistenceRequest).sideEffect, "none");
+  const progressWriteWithoutIdempotencyKeyErrors = persistence.validatePersistenceRuntimeRequest({
+    ...persistenceRequest,
+    category: "progress-event-stream",
+    containsRawAudio: false,
+    schoolPolicyAccepted: true,
+    releaseApproved: true,
+  });
+  assertIncludes(progressWriteWithoutIdempotencyKeyErrors, "progress event writes require a completion idempotency key");
+  const progressWriteWithIdempotencyKeyErrors = persistence.validatePersistenceRuntimeRequest({
+    ...persistenceRequest,
+    category: "progress-event-stream",
+    containsRawAudio: false,
+    schoolPolicyAccepted: true,
+    releaseApproved: true,
+    idempotencyKey: "completion-v1:tenant-1:unit-1:launch-1:student-1:memory-match",
+  });
+  assertEqual(progressWriteWithIdempotencyKeyErrors.length, 0);
   const malformedPersistenceFlagErrors = persistence.validatePersistenceRuntimeRequest({
     ...persistenceRequest,
     containsStudentData: "true",
