@@ -1918,4 +1918,14 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-757 and
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-758 and
 `docs/adr/0686-training-report-award-authority.md`.
 
+## 121. Launch-Surface Game Start Ownership Standard
+
+- Parent launch surfaces select and gate the next game mode.
+- The mounted canonical game wrapper owns the single `game_started` event.
+- Front-door, QR, and future Phaser wrappers must not create duplicate starts.
+- Locked and preview-only modes must not emit game-start evidence.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-759 and
+`docs/adr/0687-front-door-game-start-ownership.md`.
+
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-615 and `docs/adr/0543-progress-event-timestamps.md`.

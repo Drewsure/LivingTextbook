@@ -1765,6 +1765,11 @@ reporting a requested score that exceeds the remaining 1,000 Star Dust
 capacity, keeping `mastery_updated`, `game_completed`, and progression state
 aligned. This is recorded in ADR 0684 and DR-756.
 
+The front-door demo now follows the same game-start ownership contract as the
+QR launch flow. Its mode-selection handler only mounts an unlocked mode; the
+canonical wrapper emits the single `game_started` event. This removes duplicate
+attempt evidence and is recorded in ADR 0687 and DR-759.
+
 The teacher recovery summary now treats `training_completed` as the sole
 authoritative recovery award record. Response-result metadata remains visible
 evidence but is excluded from the reward total, preventing one recovery action

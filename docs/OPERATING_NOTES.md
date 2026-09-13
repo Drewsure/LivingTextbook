@@ -857,6 +857,27 @@ Procedure:
 Why this matters: Teacher reports must agree with the progression adapter even
 when one recovery attempt contains multiple evidence records.
 
+## OW-040: Launch-Surface Game Start Ownership
+
+Status: Active
+
+Observed behavior: A launch parent can accidentally emit `game_started` and
+then mount a wrapper that emits the same event, producing duplicate attempt
+boundaries.
+
+Procedure:
+
+1. Let the parent route select and gate the unlocked game mode.
+2. Let the mounted canonical wrapper call `startUnlockedGameMode` and emit the
+   one `game_started` event.
+3. Keep locked and preview-only modes free of game-start evidence.
+4. Apply the rule to front-door, QR, and future Phaser launch surfaces.
+5. Run `npm run verify:canonical-games`, the web typecheck, and the production
+   build after changing launch ownership.
+
+Why this matters: One start event gives reports, replay validation, and future
+durable persistence one reliable attempt boundary.
+
 ## OW-037: Normalized Mastery Award Evidence
 
 Status: Active

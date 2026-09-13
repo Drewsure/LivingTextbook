@@ -215,6 +215,7 @@ const reportPreview = readText("apps/web/src/features/teacher/TeacherCanonicalGa
 const reportPanel = readText("apps/web/src/features/teacher/TeacherReportPackagePreviewPanel.tsx");
 const sessionMonitor = readText("apps/web/src/features/teacher/TeacherSessionMonitorPanel.tsx");
 const studentLaunchFlow = readText("apps/web/src/features/student/StudentLaunchFlow.tsx");
+const frontDoorFlow = readText("apps/web/src/features/access/FrontDoorEntryFlow.tsx");
 const completionGate = readText("apps/web/src/features/game-shell/canonicalGameCompletionGate.ts");
 
 const standardEventTypes = [
@@ -289,6 +290,10 @@ for (const [surface, source] of [
 
 if (studentLaunchFlow.includes("startUnlockedGameMode")) {
   failures.push("student launch canonical handoff: launch flow must let the mounted game emit its single game_started event");
+}
+
+if (frontDoorFlow.includes("startUnlockedGameMode")) {
+  failures.push("front-door canonical handoff: front door must let the mounted game emit its single game_started event");
 }
 
 const contractSources = [progressionAdapter, ...integrations.map((integration) => readText(integration.component))];

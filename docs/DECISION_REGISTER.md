@@ -4122,3 +4122,11 @@ Teacher recovery summaries now count Star Dust only from the authoritative
 and is not counted as a second award. This keeps teacher reporting aligned with
 the normalized recovery progression result. See ADR 0686 and
 `docs/decision-register/DR-758-training-report-award-authority.md`.
+
+# DR-759: Front-Door Game Start Ownership
+
+The front-door launch flow now selects the next unlocked mode without creating
+its own `game_started` event. The mounted canonical game wrapper emits the
+single start event, matching the QR launch flow and preventing duplicate game
+attempts in teacher reports. See ADR 0687 and
+`docs/decision-register/DR-759-front-door-game-start-ownership.md`.

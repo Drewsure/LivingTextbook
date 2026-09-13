@@ -21,7 +21,6 @@ import {
   completeFlashcardEntryPractice,
   createLaunchOpenedEvent,
   createRouteGuidanceListenedEvent,
-  startUnlockedGameMode,
   type GameModeCompletionResult,
 } from "@/features/progression/localProgressionAdapter";
 import { UnitSessionProgressSummary } from "@/features/progression/UnitSessionProgressSummary";
@@ -150,23 +149,11 @@ export function FrontDoorEntryFlow({
   }
 
   function handleStartNextMode() {
-    if (!nextMode || nextModeStarted) {
-      return;
-    }
-
-    const event = startUnlockedGameMode({
-      progression: currentProgression,
-      launchSession,
-      gameMode: nextMode,
-      occurredAt: new Date().toISOString(),
-    });
-
-    if (!event) {
+    if (!nextMode || nextModeStarted || !nextModeUnlocked) {
       return;
     }
 
     setActiveGameMode(nextMode);
-    setSessionEvents((events) => [...events, event]);
   }
 
   function handleProgressEvent(event: GameProgressEvent) {
