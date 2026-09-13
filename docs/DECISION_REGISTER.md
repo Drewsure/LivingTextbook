@@ -4415,6 +4415,15 @@ This creates one stable handoff for future platform-issued seeds and Phaser
 wrappers while preserving deterministic local fallback behavior at the shell.
 See ADR 0716.
 
+# DR-790: Active Phaser Candidate Order Resolution
+
+The active external candidate order is now explicitly Memory Match first,
+Balloon Pop second, Label It third, and a gated voice candidate after those
+reviews. Older inventory text that named Balloon Pop first remains historical
+evidence and is marked superseded. This order reflects the lower-risk pairing
+boundary first, followed by motion/timing, teacher image-asset, and microphone
+risks. No candidate is approved for import by this ordering. See ADR 0717.
+
 # DR-787: Platform-Supplied Replay Seed Threading
 
 Canonical web game wrappers may receive a replay seed from the platform so a

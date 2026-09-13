@@ -2232,6 +2232,17 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-786 and
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-789 and
 `docs/adr/0716-route-shell-replay-seed-ownership.md`.
 
+## 146. Active Phaser Candidate Order Standard
+
+- Review one external candidate at a time in this order: Memory Match, Balloon
+  Pop, Label It, then a gated voice candidate.
+- Candidate order is a risk-management sequence, not production approval.
+- Historical inventory wording must be marked superseded rather than silently
+  treated as a current integration instruction.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-790 and
+`docs/adr/0717-active-phaser-candidate-order.md`.
+
 ## 143. Platform-Supplied Replay Seed Standard
 
 - A game wrapper may receive a replay seed from the platform when it needs to

@@ -190,12 +190,16 @@ canonical mode contract it is based on.
 
 ## First Candidate Review Order
 
-1. **Balloon Pop:** first Phaser wrapper candidate. It exercises motion,
-   collision/input, short vocabulary prompts, audio feedback, deterministic
-   answer events, and the Pairing parent engine.
-2. **Memory Match:** second candidate. It maps directly to the early learner
-   pathway and tests whether the Phaser presentation can preserve the existing
-   pairing semantics, audio-first behavior, and completion reporting.
+**Current precedence:** the earlier Balloon Pop-first ordering in this
+historical inventory is superseded by DR-707 and DR-790. The active order is:
+
+1. **Memory Match:** first Phaser wrapper candidate. It maps directly to the
+   early learner pathway and tests whether the Phaser presentation can preserve
+   the existing pairing semantics, audio-first behavior, deterministic replay,
+   and completion reporting.
+2. **Balloon Pop:** second candidate. It exercises motion, collision/input,
+   short vocabulary prompts, timing, and escape/miss semantics after the basic
+   wrapper pattern is proven.
 3. **Label It:** third candidate. It tests teacher image assets, label anchors,
    rights, and compatibility with the upload/evidence foundations.
 4. **Speak It or Rescue Quest:** later voice candidate, gated by microphone and

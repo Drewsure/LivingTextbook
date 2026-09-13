@@ -13,3 +13,9 @@ Match, Label It, and a gated speech candidate.
 The candidate suite remains external review material. It cannot own
 LivingTextBook schema, scoring, mastery, rewards, persistence, routes, audio
 manifests, tenant policy, or assignments.
+
+## Supersession note
+
+The historical Balloon Pop-first wording in this inventory record is
+superseded by DR-707 and DR-790. The active review order is Memory Match,
+Balloon Pop, Label It, then a gated voice candidate.

@@ -2023,3 +2023,12 @@ factories. They no longer derive an independent seed. This keeps deterministic
 layout evidence and event evidence on one platform-owned handoff boundary,
 ready for a future issued seed or approved Phaser wrapper. See
 `docs/adr/0716-route-shell-replay-seed-ownership.md`.
+
+## 0717 - Active Phaser candidate order resolution
+
+The current Z.ai/Phaser handoff order is Memory Match, Balloon Pop, Label It,
+then a gated voice candidate. An older inventory entry that listed Balloon Pop
+first is historical and has been marked superseded. Candidate order is not
+approval: every scene remains outside the canonical app until its own fixture,
+event, audio, replay, accessibility, identity, tenant-policy, and wrapper
+evidence passes review. See `docs/adr/0717-active-phaser-candidate-order.md`.
