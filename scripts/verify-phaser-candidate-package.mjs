@@ -21,6 +21,10 @@ try {
   fail(`Candidate return-package.json is not valid JSON: ${error.message}`);
 }
 
+if (!manifest || typeof manifest !== "object" || Array.isArray(manifest)) {
+  fail("Candidate return-package.json must contain a JSON object.");
+}
+
 const failures = [];
 const requiredArtifactKinds = [
   "source-archive",
@@ -123,7 +127,13 @@ function isNonBlankString(value) {
 }
 
 function isSafeRelativePath(value) {
-  return isNonBlankString(value) && !value.startsWith("/") && !value.includes("..") && !value.includes("\\");
+  return (
+    isNonBlankString(value) &&
+    !value.startsWith("/") &&
+    !value.includes("..") &&
+    !value.includes("\\") &&
+    !value.includes(":")
+  );
 }
 
 function isWithin(root, target) {
