@@ -5,6 +5,7 @@ const reviewGuide = readFileSync(
   new URL("../docs/verification/PHASER_CANDIDATE_PACKAGE_CHECKS.md", import.meta.url),
   "utf8",
 );
+const behaviorTest = readFileSync(new URL("./verify-phaser-candidate-package-behavior.mjs", import.meta.url), "utf8");
 
 const verifierMarkers = [
   "validateFixture",
@@ -36,6 +37,13 @@ const guideMarkers = [
   "review-only",
 ];
 
+const behaviorMarkers = [
+  "assertVerifierPasses",
+  "assertVerifierRejects",
+  "randomRewards: true",
+  "PASS Phaser candidate package behavior",
+];
+
 const failures = [
   ...verifierMarkers
     .filter((marker) => !verifier.includes(marker))
@@ -43,6 +51,9 @@ const failures = [
   ...guideMarkers
     .filter((marker) => !reviewGuide.toLowerCase().includes(marker))
     .map((marker) => `FAIL candidate package review guide is missing marker: ${marker}`),
+  ...behaviorMarkers
+    .filter((marker) => !behaviorTest.includes(marker))
+    .map((marker) => `FAIL candidate package behavior test is missing marker: ${marker}`),
 ];
 
 if (failures.length > 0) {

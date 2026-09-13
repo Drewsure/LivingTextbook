@@ -1975,3 +1975,8 @@ return package, not only its envelope: fixture shape, canonical event replay,
 target-language audio coverage, deterministic scoring scenarios, accessibility
 evidence, source-manifest paths, and wrapper boundaries. This remains a
 review-only handoff and does not import or promote a candidate. See ADR 0711.
+
+The candidate gate now has a source-free behavior test in the foundation suite:
+one complete synthetic return package must pass, while the same package with
+random rewards must fail. This protects the review gate itself before Z.ai
+evidence arrives. See ADR 0712.

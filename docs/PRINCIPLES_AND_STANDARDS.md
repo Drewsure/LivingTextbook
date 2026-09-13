@@ -2221,3 +2221,13 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-783 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-784 and
 `docs/adr/0711-phaser-candidate-evidence-completeness.md`.
+
+## 141. Candidate Gate Behavior Standard
+
+- The candidate evidence gate must have a source-free positive fixture test.
+- The same test must include a deliberate rejection case for random rewards.
+- This test protects the verifier contract and must run before any candidate
+  source is available.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-785 and
+`docs/adr/0712-phaser-candidate-gate-behavior.md`.

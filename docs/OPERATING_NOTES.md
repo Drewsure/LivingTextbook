@@ -1212,3 +1212,9 @@ audio map, scoring replay, accessibility evidence, source manifest, and wrapper
 notes all pass before any wrapper decision. A valid package is still
 review-only; it does not authorize source import, route replacement, or live
 persistence. See ADR 0711.
+
+The package verifier has a source-free synthetic behavior check in
+`verify:foundation`. Keep both the passing packet and the deliberate
+`randomRewards: true` rejection case intact when changing the candidate
+contract. This catches accidental weakening of the review gate without needing
+Z.ai files. See ADR 0712.

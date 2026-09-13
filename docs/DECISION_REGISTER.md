@@ -4389,3 +4389,11 @@ target-language audio coverage, deterministic scoring scenarios, accessibility
 evidence, source-manifest safety, and wrapper boundaries. A passing package
 remains review-only and cannot authorize source import, route replacement,
 student assignment, or live persistence. See ADR 0711.
+
+# DR-785: Phaser Candidate Gate Behavior
+
+The foundation suite now runs a source-free synthetic Memory Match package
+through the candidate verifier. A complete packet must pass, while a packet
+declaring random rewards must be rejected. This protects the candidate review
+boundary before Z.ai returns an actual package and does not import source or
+learner data. See ADR 0712.
