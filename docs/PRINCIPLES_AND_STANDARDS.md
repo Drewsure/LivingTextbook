@@ -2208,96 +2208,6 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-782 and
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-783 and
 `docs/adr/0710-canonical-game-event-identity.md`.
 
-## 142. Canonical Replay Seed Consistency Standard
-
-- All canonical learning and audio evidence for one game sequence must use one
-  identical `replay-v1:` seed.
-- A valid seed from another layout, unit, or session is not acceptable evidence
-  for the current sequence.
-- Mixed replay evidence cannot affect completion, progression, reporting,
-  rewards, or persistence planning.
-
-This standard is recorded in `docs/DECISION_REGISTER.md` DR-786 and
-`docs/adr/0713-canonical-replay-seed-consistency.md`.
-
-## 144. Candidate Mapping Before Source Integration Standard
-
-- Frozen external game source may be inspected and mapped without being copied
-  into the canonical application.
-- A mapping review must identify reusable interaction ideas and every behavior
-  that must be replaced by platform-owned content, audio, scoring, replay,
-  identity, persistence, lifecycle, accessibility, and tenant contracts.
-- A working deployment, source hash, or visual quality claim cannot substitute
-  for the complete evidence packet and explicit integration decision.
-- The first Phaser candidate remains review-only until the candidate package
-  gate passes; no scene may own canonical progression or browser persistence.
-
-This standard is recorded in `docs/DECISION_REGISTER.md` DR-792 and
-`docs/PHASER_MEMORY_MATCH_MAPPING_REVIEW.md`.
-
-## 143. Platform Replay Seed Injection Standard
-
-- The canonical route shell may accept an optional platform-issued replay seed
-  as the only future provider or Phaser injection point.
-- When no valid issued seed exists, the deterministic unit-and-mode seed remains
-  the required fallback so local demos and review fixtures stay reproducible.
-- Mounted games must reuse the resolved seed for start, interaction, learning
-  audio, and completion evidence; components must not derive a second seed.
-- This interface does not authorize source import, route replacement, live
-  persistence, student assignment, or production provider networking.
-
-This standard is recorded in `docs/DECISION_REGISTER.md` DR-791 and
-`docs/adr/0718-platform-replay-seed-injection-boundary.md`.
-
-## 145. Route-Shell Replay Seed Ownership Standard
-
-- The shared playable route shell owns the canonical replay seed for a game
-  sequence.
-- Canonical games must require the shell-provided seed and pass it explicitly
-  to all interaction, learning-audio, and completion event factories.
-- A game component must not derive a second seed; future platform-issued or
-  approved Phaser-wrapper seeds enter through the shell boundary.
-
-This standard is recorded in `docs/DECISION_REGISTER.md` DR-789 and
-`docs/adr/0716-route-shell-replay-seed-ownership.md`.
-
-## 146. Active Phaser Candidate Order Standard
-
-- Review one external candidate at a time in this order: Memory Match, Balloon
-  Pop, Label It, then a gated voice candidate.
-- Candidate order is a risk-management sequence, not production approval.
-- Historical inventory wording must be marked superseded rather than silently
-  treated as a current integration instruction.
-
-This standard is recorded in `docs/DECISION_REGISTER.md` DR-790 and
-`docs/adr/0717-active-phaser-candidate-order.md`.
-
-## 143. Platform-Supplied Replay Seed Standard
-
-- A game wrapper may receive a replay seed from the platform when it needs to
-  bind deterministic layout or replay evidence to a launch session.
-- The same supplied seed must be passed through interaction, audio, and
-  completion event factories; silently deriving a replacement seed is invalid.
-- When no seed is supplied, the adapter must retain the deterministic
-  unit-and-mode fallback for existing callers.
-- Existing metadata-carried seeds remain compatible during migration, but new
-  wrappers should use the explicit argument.
-
-## 144. Fail-Closed Replay Evidence Standard
-
-- Canonical replay seeds must be non-empty and transport-safe after the
-  `replay-v1:` prefix; prefix-only values are invalid.
-- Shared event validation must return actionable errors for missing identity
-  fields rather than throwing on malformed runtime evidence.
-- Candidate evidence that fails these checks remains review-only and cannot
-  affect progression, reporting, rewards, or persistence.
-
-This standard is recorded in `docs/DECISION_REGISTER.md` DR-788 and
-`docs/adr/0715-fail-closed-replay-validation.md`.
-
-This standard is recorded in `docs/DECISION_REGISTER.md` DR-787 and
-`docs/adr/0714-platform-supplied-replay-seed-threading.md`.
-
 ## 140. Phaser Candidate Evidence Completeness Standard
 
 - A returned Phaser candidate is not reviewable from its manifest and hashes
@@ -2333,3 +2243,81 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-785 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-786 and
 `docs/adr/0713-canonical-replay-seed-consistency.md`.
+
+## 143. Platform-Supplied Replay Seed Standard
+
+- A game wrapper may receive a replay seed from the platform when it needs to
+  bind deterministic layout or replay evidence to a launch session.
+- The same supplied seed must be passed through interaction, audio, and
+  completion event factories; silently deriving a replacement seed is invalid.
+- When no seed is supplied, the adapter must retain the deterministic
+  unit-and-mode fallback for existing callers.
+- Existing metadata-carried seeds remain compatible during migration, but new
+  wrappers should use the explicit argument.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-787 and
+`docs/adr/0714-platform-supplied-replay-seed-threading.md`.
+
+## 144. Fail-Closed Replay Evidence Standard
+
+- Canonical replay seeds must be non-empty and transport-safe after the
+  `replay-v1:` prefix; prefix-only values are invalid.
+- Shared event validation must return actionable errors for missing identity
+  fields rather than throwing on malformed runtime evidence.
+- Candidate evidence that fails these checks remains review-only and cannot
+  affect progression, reporting, rewards, or persistence.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-788 and
+`docs/adr/0715-fail-closed-replay-validation.md`.
+
+## 145. Route-Shell Replay Seed Ownership Standard
+
+- The shared playable route shell owns the canonical replay seed for a game
+  sequence.
+- Canonical games must require the shell-provided seed and pass it explicitly
+  to all interaction, learning-audio, and completion event factories.
+- A game component must not derive a second seed; future platform-issued or
+  approved Phaser-wrapper seeds enter through the shell boundary.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-789 and
+`docs/adr/0716-route-shell-replay-seed-ownership.md`.
+
+## 146. Active Phaser Candidate Order Standard
+
+- Review one external candidate at a time in this order: Memory Match, Balloon
+  Pop, Label It, then a gated voice candidate.
+- Candidate order is a risk-management sequence, not production approval.
+- Historical inventory wording must be marked superseded rather than silently
+  treated as a current integration instruction.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-790 and
+`docs/adr/0717-active-phaser-candidate-order.md`.
+
+## 147. Candidate Mapping Before Source Integration Standard
+
+- Frozen external game source may be inspected and mapped without being copied
+  into the canonical application.
+- A mapping review must identify reusable interaction ideas and every behavior
+  that must be replaced by platform-owned content, audio, scoring, replay,
+  identity, persistence, lifecycle, accessibility, and tenant contracts.
+- A working deployment, source hash, or visual quality claim cannot substitute
+  for the complete evidence packet and explicit integration decision.
+- The first Phaser candidate remains review-only until the candidate package
+  gate passes; no scene may own canonical progression or browser persistence.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-792 and
+`docs/PHASER_MEMORY_MATCH_MAPPING_REVIEW.md`.
+
+## 148. Platform Replay Seed Injection Standard
+
+- The canonical route shell may accept an optional platform-issued replay seed
+  as the only future provider or Phaser injection point.
+- Only a valid transport-safe issued seed may be used; absent or malformed
+  input falls back to the deterministic unit-and-mode seed.
+- Mounted games must reuse the resolved seed for start, interaction, learning
+  audio, and completion evidence; components must not derive a second seed.
+- This interface does not authorize source import, route replacement, live
+  persistence, student assignment, or production provider networking.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-791 and
+`docs/adr/0718-platform-replay-seed-injection-boundary.md`.

@@ -4405,45 +4405,6 @@ all required learning and audio events. A different but syntactically valid
 seed is mixed-layout evidence and blocks the canonical completion boundary.
 See ADR 0713.
 
-# DR-792: Memory Match Source Mapping Remains Review-Only
-
-The isolated frozen Memory Match scene has been mapped against the canonical
-pairing, audio, scoring, replay, identity, persistence, lifecycle, and tenant
-contracts without copying source. Its visual interaction is a promising first
-wrapper candidate, but scene-owned randomness, scoring, browser persistence,
-direct audio, and lifecycle behavior must be replaced or adapted before any
-integration proposal. See `docs/PHASER_MEMORY_MATCH_MAPPING_REVIEW.md`.
-
-# DR-791: Platform Replay Seed Injection Boundary
-
-The canonical route shell exposes an optional `platformReplaySeed` input for
-future platform-issued or approved provider-issued replay seeds. Only a valid
-transport-safe seed is accepted; an absent or malformed value falls back to
-the deterministic unit-and-mode seed. The shell remains the single handoff
-authority and mounted games must receive and reuse the resulting seed for
-every required event. This reserves a stable Phaser integration seam without
-importing frozen source, enabling persistence, provider networking, or live
-assignment behavior. See ADR 0718.
-
-# DR-789: Route-Shell Replay Seed Ownership
-
-`PlayableGameRouteShell` is the authoritative owner of the canonical replay
-seed for mounted games. Every canonical game component must require that seed
-as an input and pass it explicitly to interaction, learning-audio, and
-completion event factories. Game components must not derive a second seed.
-This creates one stable handoff for future platform-issued seeds and Phaser
-wrappers while preserving deterministic local fallback behavior at the shell.
-See ADR 0716.
-
-# DR-790: Active Phaser Candidate Order Resolution
-
-The active external candidate order is now explicitly Memory Match first,
-Balloon Pop second, Label It third, and a gated voice candidate after those
-reviews. Older inventory text that named Balloon Pop first remains historical
-evidence and is marked superseded. This order reflects the lower-risk pairing
-boundary first, followed by motion/timing, teacher image-asset, and microphone
-risks. No candidate is approved for import by this ordering. See ADR 0717.
-
 # DR-787: Platform-Supplied Replay Seed Threading
 
 Canonical web game wrappers may receive a replay seed from the platform so a
@@ -4464,9 +4425,41 @@ values and reports missing unit identity instead of throwing on malformed
 runtime evidence. This keeps candidate packages and future provider payloads
 fail-closed at the shared validator boundary. See ADR 0715.
 
-# DR-786: Canonical Replay Seed Consistency
+# DR-789: Route-Shell Replay Seed Ownership
 
-Canonical game evidence now requires one identical `replay-v1:` seed across
-all required learning and audio events. A different but syntactically valid
-seed is mixed-layout evidence and blocks the canonical completion boundary.
-See ADR 0713.
+`PlayableGameRouteShell` is the authoritative owner of the canonical replay
+seed for mounted games. Every canonical game component must require that seed
+as an input and pass it explicitly to interaction, learning-audio, and
+completion event factories. Game components must not derive a second seed.
+This creates one stable handoff for future platform-issued seeds and Phaser
+wrappers while preserving deterministic local fallback behavior at the shell.
+See ADR 0716.
+
+# DR-790: Active Phaser Candidate Order Resolution
+
+The active external candidate order is now explicitly Memory Match first,
+Balloon Pop second, Label It third, and a gated voice candidate after those
+reviews. Older inventory text that named Balloon Pop first remains historical
+evidence and is marked superseded. This order reflects the lower-risk pairing
+boundary first, followed by motion/timing, teacher image-asset, and microphone
+risks. No candidate is approved for import by this ordering. See ADR 0717.
+
+# DR-791: Platform Replay Seed Injection Boundary
+
+The canonical route shell exposes an optional `platformReplaySeed` input for
+future platform-issued or approved provider-issued replay seeds. Only a valid
+transport-safe seed is accepted; an absent or malformed value falls back to
+the deterministic unit-and-mode seed. The shell remains the single handoff
+authority and mounted games must receive and reuse the resulting seed for
+every required event. This reserves a stable Phaser integration seam without
+importing frozen source or enabling persistence, provider networking, or live
+assignment behavior. See ADR 0718.
+
+# DR-792: Memory Match Source Mapping Remains Review-Only
+
+The isolated frozen Memory Match scene has been mapped against the canonical
+pairing, audio, scoring, replay, identity, persistence, lifecycle, and tenant
+contracts without copying source. Its visual interaction is a promising first
+wrapper candidate, but scene-owned randomness, scoring, browser persistence,
+direct audio, and lifecycle behavior must be replaced or adapted before any
+integration proposal. See `docs/PHASER_MEMORY_MATCH_MAPPING_REVIEW.md`.
