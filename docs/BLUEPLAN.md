@@ -492,9 +492,10 @@ The earlier decision list has been resolved into the current foundation:
    not a universal platform rule.
 4. Avatar and mascot families are tenant-configurable; selectable entry
    avatars and later evolution remain separate product layers.
-5. The first canonical learner sequence is Flashcards -> Memory Match, with
-   curated routes for the other approved modes. Phaser candidates are reviewed
-   one at a time, beginning with Memory Match.
+5. The first canonical learner pathway is the curated sequence Flashcards ->
+   Match Up -> Label It -> Memory Match, followed by the remaining level-safe
+   offers. Memory Match is also the first external Phaser candidate for review;
+   that candidate order must not be confused with the student unlock order.
 6. The AI Authoring Studio is validated against static JSON first. Live model
    dispatch and billing remain optional, policy-controlled package features.
 

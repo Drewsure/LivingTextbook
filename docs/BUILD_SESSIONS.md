@@ -2066,8 +2066,10 @@ decision ordering is preserved. See `docs/adr/0719-documentation-integrity-gate.
 ## 0721 - Blueprint foundation phase alignment
 
 Updated `docs/BLUEPLAN.md` so its earlier open-decision list now reflects the
-implemented foundation: tenant configuration, MiniStar flagship status,
-Flashcards -> Memory Match sequencing, static authoring validation, and
-provider-neutral backend contracts. The next controlled gate is the isolated
-Phaser candidate return package; no source promotion is implied. See
+implemented foundation: tenant configuration, MiniStar flagship status, the
+curated Flashcards -> Match Up -> Label It -> Memory Match student pathway,
+static authoring validation, and provider-neutral backend contracts. The
+separate external Phaser review order begins with Memory Match. The next
+controlled gate is the isolated Phaser candidate return package; no source
+promotion is implied. See
 `docs/adr/0720-blueprint-foundation-phase-alignment.md`.

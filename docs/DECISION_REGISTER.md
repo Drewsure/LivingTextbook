@@ -4475,8 +4475,10 @@ cross-cutting Agent Standards subsection as `11.1`. See ADR 0719.
 # DR-794: Blueprint Foundation Phase Alignment
 
 The blueprint now records the decisions already implemented by the foundation:
-tenant configuration from day one, MiniStar as flagship tenant, Flashcards to
-Memory Match as the first canonical sequence, static JSON before live AI, and
-provider-neutral backend contracts. The next gate is the isolated Phaser
-candidate return package; source promotion remains blocked until its evidence
-and wrapper review pass. See ADR 0720.
+tenant configuration from day one, MiniStar as flagship tenant, the curated
+Flashcards -> Match Up -> Label It -> Memory Match learner pathway, static JSON
+before live AI, and provider-neutral backend contracts. Memory Match is the
+first external Phaser review candidate, which is separate from student unlock
+order. The next gate is the isolated Phaser candidate return package; source
+promotion remains blocked until its evidence and wrapper review pass. See ADR
+0720.
