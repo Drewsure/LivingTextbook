@@ -1116,3 +1116,31 @@ Procedure:
 
 Why this matters: Syntax reinforcement must remain auditable in the curated
 pathway, with target-language behavior explicit for white-label tenants.
+
+## OW-051: Promote Canonical Sentence Builder
+
+Status: Active
+
+Observed behavior: Sentence Builder can be verified on its standalone route
+while the curated launch surfaces still render it as a preview. Event names
+must describe the actual boundary: showing a round is distinct from selecting
+a tile.
+
+Procedure:
+
+1. Confirm the reviewed target sentences, instruction, target sentence, word
+   tiles, feedback, and replay controls have target-language audio support.
+2. Confirm one `round_shown` event is emitted when each round appears, while
+   tile taps remain interaction evidence rather than round-display events.
+3. Confirm deterministic ordered-token comparison, standard events, replay
+   evidence, and shared completion validation.
+4. Mount the wrapper explicitly in student and front-door flows.
+5. Keep support language, media, uploads, and random rewards outside
+   progression authority.
+6. Confirm the supported script before promotion; do not present English token
+   normalization as Japanese segmentation support.
+7. Extend `verify:canonical-games`, then run web typecheck, production build,
+   and route verification.
+
+Why this matters: Syntax construction must be auditable at round level and
+must remain consistent across white-label launch surfaces.

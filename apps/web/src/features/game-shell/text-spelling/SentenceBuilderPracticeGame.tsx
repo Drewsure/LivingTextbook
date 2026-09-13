@@ -31,7 +31,7 @@ interface SentenceBuilderPracticeGameProps {
   onComplete: (result: GameModeCompletionResult) => void;
 }
 
-const gameMode = "sentence-builder";
+const gameMode = "sentence-builder" as const;
 
 export function SentenceBuilderPracticeGame({
   unit,
@@ -54,10 +54,14 @@ export function SentenceBuilderPracticeGame({
   const [completionSent, setCompletionSent] = useState(false);
   const currentRound = preview.rounds[roundIndex] ?? preview.rounds[0];
   const completed = completedRoundIds.length === preview.rounds.length;
-  const selectedTiles = selectedTileIds
-    .map((tileId) => currentRound.tiles.find((tile) => tile.tileId === tileId))
-    .filter(Boolean);
-  const remainingTiles = currentRound.tiles.filter((tile) => !selectedTileIds.includes(tile.tileId));
+  const selectedTiles = currentRound
+    ? selectedTileIds
+        .map((tileId) => currentRound.tiles.find((tile) => tile.tileId === tileId))
+        .filter(Boolean)
+    : [];
+  const remainingTiles = currentRound
+    ? currentRound.tiles.filter((tile) => !selectedTileIds.includes(tile.tileId))
+    : [];
 
   useEffect(() => {
     if (startSentRef.current) {
@@ -77,6 +81,21 @@ export function SentenceBuilderPracticeGame({
       onEvent?.(event);
     }
   }, [launchSession, onEvent, progression, replaySeed]);
+
+  useEffect(() => {
+    if (!currentRound || completedRoundIds.includes(currentRound.roundId)) {
+      return;
+    }
+
+    emitInteractionEvent("round_shown", {
+      roundId: currentRound.roundId,
+      targetSentence: currentRound.targetSentence,
+      tileCount: currentRound.tiles.length,
+      textSpellingSkin: gameMode,
+      replaySeed,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentRound?.roundId]);
 
   function emitInteractionEvent(
     type: "round_shown" | "answer_submitted" | "answer_result" | "mastery_updated",
@@ -115,6 +134,10 @@ export function SentenceBuilderPracticeGame({
   }
 
   function handleTileSelect(tileId: string) {
+    if (!currentRound || completed) {
+      return;
+    }
+
     const tile = currentRound.tiles.find((candidate) => candidate.tileId === tileId);
 
     if (!tile || completed) {
@@ -127,13 +150,6 @@ export function SentenceBuilderPracticeGame({
     emitAudioRequested("term", audioText, audioLanguage, "sentence-builder-tile");
     playAudioCueText({ text: audioText, language: audioLanguage });
     setSelectedTileIds((ids) => [...ids, tileId]);
-    emitInteractionEvent("round_shown", {
-      roundId: currentRound.roundId,
-      tileId,
-      tileLabel: tile.label,
-      selectedCount: selectedTileIds.length + 1,
-      replaySeed,
-    });
   }
 
   function handleTileRemove(tileId: string) {
@@ -141,6 +157,10 @@ export function SentenceBuilderPracticeGame({
   }
 
   function handleSubmit() {
+    if (!currentRound || completed) {
+      return;
+    }
+
     const answer = selectedTiles.map((tile) => tile?.label ?? "");
     const correct = answersMatch(answer, currentRound.expectedAnswer);
     const nextAttempts = attempts + 1;
@@ -230,6 +250,15 @@ export function SentenceBuilderPracticeGame({
       profile: scoringProfile,
       minimumDust: scoringProfile.syntaxDust,
     });
+  }
+
+  if (!currentRound) {
+    return (
+      <Card>
+        <h3 className="text-lg font-bold">Sentence Builder</h3>
+        <p className="mt-2 text-sm text-[var(--tenant-muted)]">No sentence rounds are available for this unit.</p>
+      </Card>
+    );
   }
 
   return (

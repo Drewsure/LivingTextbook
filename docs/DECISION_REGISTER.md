@@ -4210,3 +4210,14 @@ English answer normalization is the current supported fixture; Japanese
 script-aware segmentation remains a separately reviewed target-language
 expansion. See ADR 0697 and
 `docs/decision-register/DR-769-fill-in-the-blank-canonical-entry-integration.md`.
+
+# DR-770: Sentence Builder Canonical Entry Integration
+
+Sentence Builder is now mounted as a canonical text-spelling activity in the
+student and front-door flows, preserving target-language sentence and tile
+audio, deterministic ordered-token scoring, replay, progression, and
+completion evidence. `round_shown` is emitted when a round is displayed, not
+for each tile tap. English token normalization is the current supported
+fixture; Japanese segmentation remains a separately reviewed target-language
+expansion. See ADR 0698 and
+`docs/decision-register/DR-770-sentence-builder-canonical-entry-integration.md`.

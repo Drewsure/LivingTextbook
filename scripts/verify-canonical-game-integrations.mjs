@@ -330,10 +330,35 @@ for (const fragment of [
   "TypeAnswerPracticeGame",
   "SpellingPracticeGame",
   "FillInBlankPracticeGame",
+  "SentenceBuilderPracticeGame",
   "Completion is paused until the event evidence is valid.",
 ]) {
   if (!frontDoorFlow.includes(fragment)) {
     failures.push(`front-door canonical completion: missing ${fragment}`);
+  }
+}
+
+const promotedLaunchComponents = [
+  "PairingMemoryMatchGame",
+  "PairingMatchUpGame",
+  "LabelItPracticeGame",
+  "BalloonPopPracticeGame",
+  "QuizPracticeGame",
+  "TrueFalsePracticeGame",
+  "TypeAnswerPracticeGame",
+  "SpellingPracticeGame",
+  "FillInBlankPracticeGame",
+  "SentenceBuilderPracticeGame",
+];
+
+for (const [surface, source] of [
+  ["student launch flow", studentLaunchFlow],
+  ["front-door flow", frontDoorFlow],
+]) {
+  for (const component of promotedLaunchComponents) {
+    if (!source.includes(component)) {
+      failures.push(`${surface}: missing promoted canonical component ${component}`);
+    }
   }
 }
 

@@ -1831,3 +1831,12 @@ The teacher recovery summary now treats `training_completed` as the sole
 authoritative recovery award record. Response-result metadata remains visible
 evidence but is excluded from the reward total, preventing one recovery action
 from being counted twice. See ADR 0686, DR-758, and operating note OW-039.
+
+Sentence Builder is now promoted from preview to canonical behavior in the
+student and front-door flows. Its reviewed text-spelling wrapper supplies
+target-language sentence and tile audio, deterministic ordered-token scoring,
+replay evidence, standard events, and completion gating. The event boundary
+now records `round_shown` when a round appears rather than for each tile tap.
+The current fixture supports English token normalization; Japanese
+script-aware segmentation remains a future target-language expansion. See ADR
+0698, DR-770, and operating note OW-051.

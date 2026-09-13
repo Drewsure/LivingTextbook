@@ -26,6 +26,7 @@ import { TrueFalsePracticeGame } from "@/features/game-shell/selection/TrueFalse
 import { TypeAnswerPracticeGame } from "@/features/game-shell/text-spelling/TypeAnswerPracticeGame";
 import { SpellingPracticeGame } from "@/features/game-shell/text-spelling/SpellingPracticeGame";
 import { FillInBlankPracticeGame } from "@/features/game-shell/text-spelling/FillInBlankPracticeGame";
+import { SentenceBuilderPracticeGame } from "@/features/game-shell/text-spelling/SentenceBuilderPracticeGame";
 import { PairingEnginePreview } from "@/features/game-shell/pairing/PairingEnginePreview";
 import { validateCanonicalGameCompletion } from "@/features/game-shell/canonicalGameCompletionGate";
 import {
@@ -447,7 +448,17 @@ export function StudentLaunchFlow({
           onComplete={handleGameComplete}
         />
       )}
-      {activeGameMode && activeGameMode !== "memory-match" && activeGameMode !== "match-up" && activeGameMode !== "label-it" && activeGameMode !== "balloon-pop" && activeGameMode !== "quiz" && activeGameMode !== "true-false" && activeGameMode !== "type-answer" && activeGameMode !== "spelling-practice" && activeGameMode !== "fill-in-the-blank" && (
+      {activeGameMode === "sentence-builder" && (
+        <SentenceBuilderPracticeGame
+          unit={unit}
+          launchSession={launchSession}
+          progression={currentProgression}
+          audioCues={audioCues}
+          onEvent={handleGameEvent}
+          onComplete={handleGameComplete}
+        />
+      )}
+      {activeGameMode && activeGameMode !== "memory-match" && activeGameMode !== "match-up" && activeGameMode !== "label-it" && activeGameMode !== "balloon-pop" && activeGameMode !== "quiz" && activeGameMode !== "true-false" && activeGameMode !== "type-answer" && activeGameMode !== "spelling-practice" && activeGameMode !== "fill-in-the-blank" && activeGameMode !== "sentence-builder" && (
         <PairingEnginePreview unit={unit} gameMode={activeGameMode} />
       )}
       {recoveryRecommendation && (

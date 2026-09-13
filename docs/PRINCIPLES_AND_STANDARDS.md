@@ -2083,4 +2083,25 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-768 and
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-769 and
 `docs/adr/0697-fill-in-the-blank-canonical-entry-integration.md`.
 
+## 132. Canonical Sentence Builder Standard
+
+- Sentence Builder may enter a curated launch path only when reviewed target
+  sentence and tile audio, instruction and feedback audio, replay,
+  deterministic ordered-token handling, scoring, identity, event, and
+  completion contracts are satisfied.
+- A `round_shown` event describes a displayed round; tile selection and tile
+  removal must not masquerade as additional round-display events.
+- Student and front-door surfaces must explicitly mount the promoted wrapper
+  and route its evidence through the shared completion gate.
+- Support language, media, uploads, and random rewards cannot unlock or award
+  progress or replace target-language syntax activity.
+- Script-specific token behavior must be declared per tenant and target
+  language; the English normalization fixture does not claim Japanese
+  segmentation support.
+- Unpromoted or unsupported script modes remain preview-only until separately
+  reviewed.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-770 and
+`docs/adr/0698-sentence-builder-canonical-entry-integration.md`.
+
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-615 and `docs/adr/0543-progress-event-timestamps.md`.
