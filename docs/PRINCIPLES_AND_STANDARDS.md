@@ -2366,3 +2366,21 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-796 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-797 and
 `docs/adr/0723-phaser-candidate-manifest-integrity.md`.
+
+## 152. Phaser Evidence Packet Integrity Standard
+
+- Contract-review source references must be unique, repository-relative POSIX
+  paths; absolute paths, drive-letter paths, backslashes, and parent-directory
+  traversal are invalid.
+- Every returned Phaser evidence artifact must have a distinct kind,
+  `artifactId`, and relative path, with a reviewed status and matching SHA-256
+  checksum.
+- Evidence path validation must fail closed before candidate alignment or
+  wrapper review can be treated as complete.
+- These integrity checks preserve portability and quarantine; they do not
+  authorize source import, route replacement, package promotion, scoring,
+  persistence, or student assignment.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-801 and DR-802 and
+`docs/adr/0727-phaser-review-source-path-boundary.md` and
+`docs/adr/0728-phaser-evidence-artifact-path-uniqueness.md`.
