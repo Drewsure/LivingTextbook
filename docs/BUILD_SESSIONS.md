@@ -2062,3 +2062,12 @@ was clarified without changing its evidence meaning. Added
 `scripts/verify-standards-integrity.mjs`, which checks unique standards and
 decision identities and is invoked by foundation composition. Historical
 decision ordering is preserved. See `docs/adr/0719-documentation-integrity-gate.md`.
+
+## 0721 - Blueprint foundation phase alignment
+
+Updated `docs/BLUEPLAN.md` so its earlier open-decision list now reflects the
+implemented foundation: tenant configuration, MiniStar flagship status,
+Flashcards -> Memory Match sequencing, static authoring validation, and
+provider-neutral backend contracts. The next controlled gate is the isolated
+Phaser candidate return package; no source promotion is implied. See
+`docs/adr/0720-blueprint-foundation-phase-alignment.md`.

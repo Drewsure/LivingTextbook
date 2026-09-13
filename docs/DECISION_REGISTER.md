@@ -4471,3 +4471,12 @@ check. It rejects duplicate section IDs or titles and duplicate decision IDs or
 titles, while allowing valid historical decision records to remain out of
 numerical order. The check runs from foundation composition and preserves the
 cross-cutting Agent Standards subsection as `11.1`. See ADR 0719.
+
+# DR-794: Blueprint Foundation Phase Alignment
+
+The blueprint now records the decisions already implemented by the foundation:
+tenant configuration from day one, MiniStar as flagship tenant, Flashcards to
+Memory Match as the first canonical sequence, static JSON before live AI, and
+provider-neutral backend contracts. The next gate is the isolated Phaser
+candidate return package; source promotion remains blocked until its evidence
+and wrapper review pass. See ADR 0720.

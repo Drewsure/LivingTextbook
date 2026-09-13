@@ -479,16 +479,29 @@ QR onboarding makes the product practical in real classrooms.
 
 Z.ai and other tools can help build parts, while this repository preserves architectural control.
 
-## 16. Immediate Next Decisions
+## 16. Decisions Now Recorded And Next Gate
 
-Before major implementation, decide:
+The earlier decision list has been resolved into the current foundation:
 
-1. Canonical database/auth direction: Supabase-first, Prisma/Postgres, or hybrid.
-2. Whether `legacy-source-import` should become the working main branch.
-3. First tenant model: MiniStar hard-coded temporarily or tenant-configured from day one.
-4. First avatar system: simple selectable avatars now, evolved mascot system later.
-5. First game sequence: Flashcards -> Memory Match or Flashcards -> Balloon Pop.
-6. Whether the AI Authoring Studio should be mocked first with static JSON or connected to a live AI service immediately.
+1. Backend/auth provider selection remains a deployment and policy gate; the
+   repository keeps provider-neutral contracts and review-only adapters until a
+   tenant or school approves hosted, local, or hybrid storage.
+2. `legacy-source-import` is the active working branch for this foundation
+   build; the frozen source repositories remain preserved and isolated.
+3. Tenant configuration exists from day one. MiniStar is the flagship tenant,
+   not a universal platform rule.
+4. Avatar and mascot families are tenant-configurable; selectable entry
+   avatars and later evolution remain separate product layers.
+5. The first canonical learner sequence is Flashcards -> Memory Match, with
+   curated routes for the other approved modes. Phaser candidates are reviewed
+   one at a time, beginning with Memory Match.
+6. The AI Authoring Studio is validated against static JSON first. Live model
+   dispatch and billing remain optional, policy-controlled package features.
+
+The current next gate is a complete isolated Phaser candidate return package.
+It must pass the evidence and wrapper checks before any source is copied into
+the canonical apps or exposed to students. See
+`docs/FOUNDATION_TO_ZAI_INTAKE_GATE.md` and ADR 0720.
 
 ## 17. Codex Role
 
@@ -510,7 +523,7 @@ Codex should not blindly merge every generated idea. The task is to shape the sy
 
 ## 18. Current Strategic Recommendation
 
-Use the next phase to build a small but complete vertical slice:
+The foundation has now implemented the structural vertical slice:
 
 - White-label shell
 - MiniStar tenant config
@@ -522,6 +535,10 @@ Use the next phase to build a small but complete vertical slice:
 - Static validated JSON payload
 - Teacher Launch Protocol
 
-Do not connect live AI generation until the payload schema and verification rules are proven with static content.
+The next implementation phase may deepen canonical game behavior only after
+the evidence gate and integration decision are complete. Do not connect live
+AI generation or promote external Phaser source until the payload schema,
+verification rules, event evidence, scoring ownership, audio coverage,
+identity, accessibility, and tenant boundaries are proven.
 
 This gives the platform a controlled first win and creates the contract that future AI agents, including Z.ai, must obey.

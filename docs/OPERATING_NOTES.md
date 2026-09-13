@@ -1259,3 +1259,11 @@ event must reuse the resolved value. This is an integration seam, not
 permission to import frozen source or enable live writes.
 Run `npm run verify:canonical-games` and `npm run verify:foundation` after
 changing it. See ADR 0718.
+
+The standards and decision-register documents are executable project memory.
+When editing either file, run `node scripts/verify-standards-integrity.mjs`
+before committing. The check intentionally allows historical decision records
+to be out of numeric order, but rejects duplicate IDs and titles. If a nested
+cross-cutting standard is needed without renumbering the established document,
+use an explicit subsection such as `11.1`. The foundation composition invokes
+the same check automatically. See ADR 0719.
