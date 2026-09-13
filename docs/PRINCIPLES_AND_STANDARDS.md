@@ -2220,6 +2220,21 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-783 and
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-786 and
 `docs/adr/0713-canonical-replay-seed-consistency.md`.
 
+## 144. Candidate Mapping Before Source Integration Standard
+
+- Frozen external game source may be inspected and mapped without being copied
+  into the canonical application.
+- A mapping review must identify reusable interaction ideas and every behavior
+  that must be replaced by platform-owned content, audio, scoring, replay,
+  identity, persistence, lifecycle, accessibility, and tenant contracts.
+- A working deployment, source hash, or visual quality claim cannot substitute
+  for the complete evidence packet and explicit integration decision.
+- The first Phaser candidate remains review-only until the candidate package
+  gate passes; no scene may own canonical progression or browser persistence.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-792 and
+`docs/PHASER_MEMORY_MATCH_MAPPING_REVIEW.md`.
+
 ## 143. Platform Replay Seed Injection Standard
 
 - The canonical route shell may accept an optional platform-issued replay seed

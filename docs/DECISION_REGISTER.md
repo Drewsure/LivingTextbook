@@ -4405,6 +4405,15 @@ all required learning and audio events. A different but syntactically valid
 seed is mixed-layout evidence and blocks the canonical completion boundary.
 See ADR 0713.
 
+# DR-792: Memory Match Source Mapping Remains Review-Only
+
+The isolated frozen Memory Match scene has been mapped against the canonical
+pairing, audio, scoring, replay, identity, persistence, lifecycle, and tenant
+contracts without copying source. Its visual interaction is a promising first
+wrapper candidate, but scene-owned randomness, scoring, browser persistence,
+direct audio, and lifecycle behavior must be replaced or adapted before any
+integration proposal. See `docs/PHASER_MEMORY_MATCH_MAPPING_REVIEW.md`.
+
 # DR-791: Platform Replay Seed Injection Boundary
 
 The canonical route shell exposes an optional `platformReplaySeed` input for

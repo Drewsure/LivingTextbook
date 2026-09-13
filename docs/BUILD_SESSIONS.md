@@ -2043,3 +2043,13 @@ creates a future Phaser/provider handoff point without enabling source import,
 route replacement, live persistence, or student assignment behavior. The
 canonical integration verifier checks both the optional input and the
 deterministic fallback. See `docs/adr/0718-platform-replay-seed-injection-boundary.md`.
+
+## 0719 - Memory Match source mapping review
+
+The frozen Memory Match scene was reviewed in its isolated Z.ai snapshot and
+mapped to the canonical pairing boundary. The review preserves useful card,
+responsive-layout, and tap-to-speak ideas while explicitly replacing scene
+randomness, scene-owned scoring, browser persistence, direct audio authority,
+and unverified canvas lifecycle behavior. No source was copied and the
+candidate remains blocked until its complete evidence packet passes the package
+gate. See `docs/PHASER_MEMORY_MATCH_MAPPING_REVIEW.md`.

@@ -6,6 +6,7 @@ const files = [
   "apps/web/src/features/game-offers/PhaserCandidateContractReviewPanel.tsx",
   "apps/web/src/app/teacher/prototypes/[tenantId]/page.tsx",
   "docs/agent-briefs/ZAI_MEMORY_MATCH_EVIDENCE_REQUEST.md",
+  "docs/PHASER_MEMORY_MATCH_MAPPING_REVIEW.md",
   "scripts/verify-phaser-candidate-package-contract.mjs",
 ];
 
@@ -42,6 +43,11 @@ const requiredMarkers = [
   "validateScoringReplay",
   "validateAccessibility",
   "validateWrapperNotes",
+  "Review-only mapping; integration not approved",
+  "Required Replacement Boundaries",
+  "Math.random()",
+  "localStorage",
+  "no source files are copied",
 ];
 
 const failures = requiredMarkers
