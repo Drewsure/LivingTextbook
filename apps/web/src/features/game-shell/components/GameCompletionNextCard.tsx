@@ -1,6 +1,7 @@
 "use client";
 
 import { Card, StatusPill } from "@living-textbook/ui";
+import { isGameModeSupportedAtLevel } from "@living-textbook/content-model";
 import type { GameModeId, LaunchSession, StudentProgressionState } from "@living-textbook/content-model";
 import type { UnitGameOffer, UnitGameOfferMap } from "@/data/sampleUnitGameOfferMap";
 import { AudioCueText } from "@/features/audio/AudioCueButton";
@@ -104,6 +105,7 @@ function findNextReviewedOffer(
   }
 
   const reviewedOffers = offerMap.offers
+    .filter((offer) => offerMap.level === undefined || isGameModeSupportedAtLevel(offer.gameMode, offerMap.level))
     .filter((offer) => offer.readiness === "ready")
     .filter((offer) => offer.availability !== "hidden" && offer.availability !== "blocked")
     .filter((offer) => offer.availability !== "teacher-only" && offer.availability !== "premium")

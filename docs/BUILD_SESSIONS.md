@@ -1901,3 +1901,7 @@ maps before surfacing a recommended route. This protects navigation from stale
 or malformed ready records while preserving the curated pathway and later
 level reuse. The canonical verifier covers this additional defense-in-depth
 surface.
+
+The post-completion next-activity card now applies the same offer-map level
+filter, closing the final student navigation path that could have surfaced a
+future-level ready offer.

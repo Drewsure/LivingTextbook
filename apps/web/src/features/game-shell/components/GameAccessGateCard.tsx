@@ -20,7 +20,7 @@ export function GameAccessGateCard({ gameMode, launchSession, level, reason }: G
     : `Complete ${formatMode(launchSession.entryMode)} before opening ${formatMode(gameMode)}.`;
 
   return (
-    <Card>
+    <Card data-game-access-gate={reason}>
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <p className="text-sm font-semibold text-[var(--tenant-muted)]">Curated learning path</p>

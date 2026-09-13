@@ -4300,3 +4300,7 @@ The student activity hub also filters reviewed offer-map recommendations by
 the same supported-level contract before rendering route choices. Offer-map
 validation remains the primary data boundary; the hub filter is a second
 runtime defense against stale or malformed records.
+
+The post-completion next-activity card follows the same rule, so both entry
+navigation and completion navigation remain bounded by the unit curriculum
+level.

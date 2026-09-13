@@ -69,8 +69,8 @@ const expectedTextByPath = new Map([
   ["/spelling/partner-demo-unit-1", ["Core spelling slice", "Spelling Practice:", "Daily Routines", "Text-spelling", "Spelling Practice Progress", "Tap the routine letters in order.", "Game complete path", "Next Activity"]],
   ["/fill/demo-unit-1", ["Core fill-in slice", "Fill in the Blank:", "Greetings", "Text-spelling", "Fill in the Blank Progress", "Choose the missing greeting word.", "Game complete path", "Next Activity"]],
   ["/fill/partner-demo-unit-1", ["Core fill-in slice", "Fill in the Blank:", "Daily Routines", "Text-spelling", "Fill in the Blank Progress", "Choose the missing routine word.", "Game complete path", "Next Activity"]],
-  ["/sentence/demo-unit-1", ["Core syntax slice", "Sentence Builder:", "Greetings", "Text-spelling", "Sentence Builder Progress", "Sentence Builder", "Game complete path", "Next Activity"]],
-  ["/sentence/partner-demo-unit-1", ["Core syntax slice", "Sentence Builder:", "Daily Routines", "Text-spelling", "Sentence Builder Progress", "Sentence Builder", "Game complete path", "Next Activity"]],
+  ["/sentence/demo-unit-1", ["Core syntax slice", "Sentence Builder:", "Greetings", "Text-spelling", "Sentence Builder Progress", "Sentence Builder", "This activity is not offered yet", "Level 1 pathway", "Return to activity hub", "data-game-access-gate=\"unsupported-level\"", "Game complete path", "Next Activity"]],
+  ["/sentence/partner-demo-unit-1", ["Core syntax slice", "Sentence Builder:", "Daily Routines", "Text-spelling", "Sentence Builder Progress", "Sentence Builder", "This activity is not offered yet", "Level 1 pathway", "Return to activity hub", "data-game-access-gate=\"unsupported-level\"", "Game complete path", "Next Activity"]],
   ["/speak/demo-unit-1", ["Core speaking slice", "Speak It:", "Greetings", "Audio-led speaking practice", "Speaking Progress", "AI speech scoring remains premium and off", "Game complete path", "Next Activity"]],
   ["/speak/partner-demo-unit-1", ["Core speaking slice", "Speak It:", "Daily Routines", "Audio-led speaking practice", "Speaking Progress", "AI speech scoring remains premium and off", "Game complete path", "Next Activity"]],
   ["/teacher/sessions/demo-unit-1", ["Roster identity", "Session launch gate", "Session launch gate boundary", "Open classroom launch gate", "No live classroom launch", "Real learner data blocked", "Report export still blocked", "Session pilot readiness", "Report package boundary", "Event acceptance gate", "Media engagement", "Learning audio evidence", "audio_requested", "Support-only learning audio", "Settings snapshot", "teacher_enablement_persisted", "tap-to-speak learning audio"]],
@@ -722,6 +722,8 @@ expectedTextByPath.get("/teacher/media/sample-publisher")?.push(
 );
 
 const forbiddenTextByPath = new Map([
+  ["/sentence/demo-unit-1", ["data-game-interactive=\"sentence-builder\""]],
+  ["/sentence/partner-demo-unit-1", ["data-game-interactive=\"sentence-builder\""]],
   [
     "/teacher/media/ministar",
     [

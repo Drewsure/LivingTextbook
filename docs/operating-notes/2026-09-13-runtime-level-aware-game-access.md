@@ -19,7 +19,8 @@ When adding or changing a playable game route:
 6. Return the learner to the reviewed activity hub, not to an unreviewed game.
 7. Filter reviewed offer-map recommendations by the same level contract before
    showing them in the activity hub.
-8. Run the canonical-game, runtime, typecheck, production-build, and route
+8. Apply the same filter to post-completion next-activity suggestions.
+9. Run the canonical-game, runtime, typecheck, production-build, and route
    verification commands.
 
 ## Resolution

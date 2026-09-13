@@ -262,7 +262,7 @@ export function SentenceBuilderPracticeGame({
   }
 
   return (
-    <Card>
+    <Card data-game-interactive="sentence-builder">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <h3 className="text-lg font-bold">Sentence Builder</h3>
