@@ -51,3 +51,7 @@ completion key field or mismatched atomic-write flag is rejected.
 It also checks provider-neutral write resolution: a new key plans `create`,
 an identical retry plans `return-existing`, a same-key payload mismatch plans
 `conflict`, and missing required fields plan `invalid`.
+
+Canonical completion evidence must also carry the same deterministic
+`scoringProfileId` on `mastery_updated` and `game_completed`; missing or
+mismatched profile metadata is rejected.

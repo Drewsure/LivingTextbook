@@ -2170,3 +2170,15 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-779 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-780 and
 `docs/adr/0707-completion-write-resolution.md`.
+
+## 137. Completion Scoring Identity Standard
+
+- `mastery_updated` and `game_completed` must both carry a non-blank
+  deterministic scoring profile identifier.
+- The two identifiers must match before a completion can affect progression,
+  reports, rewards, or persistence planning.
+- A wrapper may not infer or replace the platform scoring profile from its own
+  presentation logic.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-781 and
+`docs/adr/0708-completion-scoring-profile-integrity.md`.

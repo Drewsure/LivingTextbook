@@ -212,6 +212,21 @@ export function validateCanonicalGameEventSequence(
     errors.push("Canonical game mastery_updated event must identify its deterministic scoring profile.");
   }
 
+  const masteryScoringProfileId = readNonBlankString(masteryEvent?.metadata?.scoringProfileId);
+  const completionScoringProfileId = readNonBlankString(completionEvent?.metadata?.scoringProfileId);
+  if (completionEvent && completionScoringProfileId === undefined) {
+    errors.push("Canonical game game_completed event must identify its deterministic scoring profile.");
+  }
+  if (
+    masteryScoringProfileId !== undefined
+    && completionScoringProfileId !== undefined
+    && masteryScoringProfileId !== completionScoringProfileId
+  ) {
+    errors.push(
+      `Canonical game mastery and completion scoring profiles must agree; found ${masteryScoringProfileId} and ${completionScoringProfileId}.`,
+    );
+  }
+
   const requiredIndexes = CANONICAL_GAME_REQUIRED_EVENT_ORDER.map((eventType) =>
     events.findIndex((event) => event.type === eventType),
   );
@@ -265,4 +280,8 @@ function readFiniteStarDust(event: GameProgressEvent | undefined): number | unde
   }
 
   return value >= 0 && value <= UNIT_STAR_DUST_CAP ? value : undefined;
+}
+
+function readNonBlankString(value: unknown): string | undefined {
+  return typeof value === "string" && value.trim().length > 0 ? value.trim() : undefined;
 }

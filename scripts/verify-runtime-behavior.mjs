@@ -235,7 +235,7 @@ try {
       type: "mastery_updated",
       metadata: { tenantId: "tenant-1", replaySeed: canonicalReplaySeed, completed: true, earnedStarDust: 200, scoringProfileId: "entry-vocabulary-practice" },
     },
-    { ...canonicalEventContext, type: "game_completed", metadata: { tenantId: "tenant-1", replaySeed: canonicalReplaySeed, earnedStarDust: 200 } },
+    { ...canonicalEventContext, type: "game_completed", metadata: { tenantId: "tenant-1", replaySeed: canonicalReplaySeed, earnedStarDust: 200, scoringProfileId: "entry-vocabulary-practice" } },
   ];
   const canonicalReport = canonicalGame.validateCanonicalGameEventSequence(
     canonicalEvents,
@@ -245,6 +245,20 @@ try {
     { unitKey: canonicalEventContext.unitKey, launchCode: canonicalEventContext.launchCode, studentSessionId: canonicalEventContext.studentSessionId },
   );
   assertEqual(canonicalReport.valid, true);
+  assertIncludes(
+    canonicalGame.validateCanonicalGameEventSequence(
+      canonicalEvents.map((event) => event.type === "game_completed" ? { ...event, metadata: { ...event.metadata, scoringProfileId: undefined } } : event),
+      "flashcards",
+    ).errors,
+    "Canonical game game_completed event must identify its deterministic scoring profile.",
+  );
+  assertIncludes(
+    canonicalGame.validateCanonicalGameEventSequence(
+      canonicalEvents.map((event) => event.type === "game_completed" ? { ...event, metadata: { ...event.metadata, scoringProfileId: "different-profile" } } : event),
+      "flashcards",
+    ).errors,
+    "Canonical game mastery and completion scoring profiles must agree; found entry-vocabulary-practice and different-profile.",
+  );
   const missingCanonicalReplayErrors = canonicalGame.validateCanonicalGameEventSequence(
     canonicalEvents.map((event) => event.type === "answer_result" ? { ...event, metadata: { ...event.metadata, replaySeed: undefined } } : event),
     "flashcards",

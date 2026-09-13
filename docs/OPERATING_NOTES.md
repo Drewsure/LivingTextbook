@@ -1191,3 +1191,8 @@ operation. Treat `create` as the only new-write path, `return-existing` as a
 successful idempotent retry, `conflict` as a visible integrity failure, and
 `invalid` as a rejected request. The planner is pure and must not be presented
 as live persistence. See ADR 0707.
+
+Every canonical game must carry the same non-blank `scoringProfileId` on
+`mastery_updated` and `game_completed`. When a new wrapper or route is added,
+test both missing completion metadata and profile mismatch; do not rely on
+mastery metadata alone. See ADR 0708.

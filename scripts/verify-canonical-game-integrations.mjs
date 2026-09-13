@@ -463,6 +463,8 @@ for (const fragment of [
   "must preserve launch",
   "must preserve student session",
   "Canonical game mastery and completion awards must agree",
+  "Canonical game game_completed event must identify its deterministic scoring profile.",
+  "Canonical game mastery and completion scoring profiles must agree",
   "scoringProfileId",
 ]) {
   if (![contentModelContract, progressionAdapter, routeShell].some((source) => source.includes(fragment))) {

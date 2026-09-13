@@ -4365,3 +4365,11 @@ hosted and local adapters. It distinguishes new creates, identical retries,
 same-key payload conflicts, and invalid candidates before any provider call.
 The planner does not enable live storage or bypass platform gates. See ADR
 0707 and `COMPLETION_IDEMPOTENCE_CHECKS.md`.
+
+# DR-781: Completion Scoring Profile Integrity
+
+Canonical completion validation now requires matching deterministic scoring
+profile identifiers on both `mastery_updated` and `game_completed`. Missing or
+mismatched profile metadata blocks the completion boundary and keeps future
+wrappers, reports, rewards, and persistence from using ambiguous scoring. See
+ADR 0708.

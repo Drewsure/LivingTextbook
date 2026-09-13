@@ -1955,3 +1955,8 @@ The content model now exposes a pure completion-write resolution contract for
 future adapters: create, return-existing, conflict on a same-key payload hash
 mismatch, or invalid for missing required fields. It performs no storage write
 and does not replace policy or release gates. See ADR 0707.
+
+Canonical game completion validation now requires the deterministic scoring
+profile on both `mastery_updated` and `game_completed`, and rejects a mismatch.
+This keeps progression, teacher reports, durable completion writes, and future
+Phaser wrappers tied to one auditable scoring identity. See ADR 0708.
