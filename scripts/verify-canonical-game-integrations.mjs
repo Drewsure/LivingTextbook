@@ -221,6 +221,7 @@ const completionGate = readText("apps/web/src/features/game-shell/canonicalGameC
 const nextModePolicy = readText("apps/web/src/features/progression/nextRecommendedGameMode.ts");
 const gameSequence = readText("apps/web/src/features/game-shell/GameSequence.tsx");
 const speechRequirement = readText("docs/future-requirements/FR-009-core-speech-matching-practice.md");
+const offerMap = readText("apps/web/src/data/sampleUnitGameOfferMap.ts");
 
 const standardEventTypes = [
   "game_started",
@@ -280,6 +281,15 @@ for (const [surface, source, required] of [
   if (!source.includes(required)) {
     failures.push(`${surface}: missing current canonical status marker: ${required}`);
   }
+}
+
+const flashcardsOffer = getOfferBody(offerMap, "partner-l1-u1-flashcards");
+const matchUpOffer = getOfferBody(offerMap, "partner-l1-u1-match-up");
+if (!flashcardsOffer.includes('gameMode: "flashcards"') || !flashcardsOffer.includes('engineId: "selection"')) {
+  failures.push("sample offer map: Flashcards must use the canonical selection engine.");
+}
+if (!matchUpOffer.includes('gameMode: "match-up"') || !matchUpOffer.includes('engineId: "pairing"')) {
+  failures.push("sample offer map: Match Up must use the canonical pairing engine.");
 }
 
 for (const fragment of [
@@ -492,4 +502,11 @@ console.log(`PASS ${integrations.length} canonical game integration component(s)
 
 function readText(relativePath) {
   return readFileSync(new URL(relativePath, root), "utf8");
+}
+
+function getOfferBody(source, offerId) {
+  const start = source.indexOf(`offerId: "${offerId}"`);
+  if (start < 0) return "";
+  const end = source.indexOf("    },", start);
+  return source.slice(start, end < 0 ? source.length : end);
 }

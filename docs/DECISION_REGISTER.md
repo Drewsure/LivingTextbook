@@ -4240,3 +4240,10 @@ reproducibility check against the frozen commit
 `eb79ddf5940ab47cc3c45c119c67ee1b6b958e55`. Provenance is verified, but the
 candidate remains blocked for wrapper compatibility, accessibility, audio,
 deterministic scoring, and white-label review.
+
+# DR-771: Canonical Offer Engine Alignment
+
+The sample unit game offer map must use the same parent-engine assignment as
+the content model and web game catalog. Flashcards is `selection`; Match Up is
+`pairing`. The corrected map is protected by a canonical integration verifier
+and remains separate from external Phaser candidate approval.

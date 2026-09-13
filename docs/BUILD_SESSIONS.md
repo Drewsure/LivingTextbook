@@ -1861,3 +1861,9 @@ Phaser evidence manifest: all 5 recorded source-file hashes match commit
 `eb79ddf5940ab47cc3c45c119c67ee1b6b958e55`. This strengthens provenance only;
 wrapper compatibility, accessibility, audio, scoring, and tenant review remain
 blocked before any source import or route replacement.
+
+The sample tenant offer map was hardened after a contract audit found that the
+Flashcards and Match Up records had their parent-engine labels reversed.
+Flashcards now resolves to the canonical selection engine and Match Up to the
+canonical pairing engine. A verifier guard and operating note preserve this
+alignment across teacher review and student pathway surfaces.
