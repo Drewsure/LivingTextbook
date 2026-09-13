@@ -1753,6 +1753,12 @@ launch, or learner-session identity produces no start or completion evidence,
 no unlock, no score, and no Star Dust. This is recorded in ADR 0683 and
 DR-755.
 
+Training Academy recovery completion now normalizes practice counts, applies
+the shared unit Star Dust ceiling, and checks launch identity before producing
+completion evidence. Mismatched recovery calls produce no completion event or
+progression change, keeping recovery below the canonical game authority. This
+is recorded in ADR 0685 and DR-757.
+
 Canonical game mastery evidence now uses the normalized award returned by
 `completeGameMode`. This prevents later activities in the same unit from
 reporting a requested score that exceeds the remaining 1,000 Star Dust

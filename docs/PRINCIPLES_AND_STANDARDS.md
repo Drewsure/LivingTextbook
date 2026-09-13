@@ -1894,4 +1894,17 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-755 and
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-756 and
 `docs/adr/0684-normalized-mastery-award-evidence.md`.
 
+## 119. Training Recovery Award Standard
+
+- Training Academy recovery counts must normalize to non-negative integers.
+- Recovery awards must use the shared unit Star Dust ceiling and record the
+  normalized accepted value in completion evidence.
+- Recovery completion must preserve unit, launch, and learner-session identity
+  and must not create an event on mismatch.
+- Recovery remains deterministic and cannot become an alternate authority for
+  unlocks, mastery, or persistence.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-757 and
+`docs/adr/0685-training-recovery-award-boundary.md`.
+
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-615 and `docs/adr/0543-progress-event-timestamps.md`.

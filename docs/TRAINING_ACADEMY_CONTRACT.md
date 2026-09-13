@@ -95,6 +95,10 @@ Rules:
 - Practice can help students reach mastery thresholds when they narrowly miss.
 - Practice should not let students bypass required unit completion.
 - Rewards should be transparent and mastery-based.
+- Recovery awards must use the shared 1,000 Star Dust unit ceiling and record
+  the normalized accepted value in recovery evidence.
+- Recovery completion must preserve the progression/launch `unitKey`,
+  `launchCode`, and `studentSessionId` identity.
 
 Recommended scoring:
 
@@ -103,7 +107,7 @@ Recommended scoring:
 - Listening or spelling recovery: up to 100 Star Dust per review session.
 - Teacher-assigned practice may be completion-only or low-dust.
 
-The active prototype awards up to 100 recovery Star Dust for a small vocabulary review. This is intentionally below primary unit-game reward capacity.
+The active prototype awards up to 100 recovery Star Dust for a small vocabulary review. This is intentionally below primary unit-game reward capacity, while the shared adapter still caps the remaining unit total.
 
 ## Foundation Trigger Settings
 

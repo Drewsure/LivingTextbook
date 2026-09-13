@@ -5,6 +5,7 @@ import type {
   StudentProgressionState,
   UnitPayload,
 } from "@living-textbook/content-model";
+import { UNIT_STAR_DUST_CAP, validateProgressionLaunchIdentity } from "@living-textbook/content-model";
 import { getStudentLaunchPath } from "@/features/routes/routeContracts";
 
 export type TrainingFocusType =
@@ -48,7 +49,8 @@ export interface TrainingAcademyRecommendation extends TrainingAcademyFocusConfi
 export interface TrainingAcademyCompletionResult {
   progression: StudentProgressionState;
   earnedStarDust: number;
-  event: GameProgressEvent;
+  event?: GameProgressEvent;
+  blockedReason?: "identity-mismatch";
 }
 
 export function createTrainingAcademyFocusConfigs(args: {
@@ -176,11 +178,28 @@ export function completeTrainingReview(args: {
   occurredAt: string;
   practicedItemCount: number;
 }): TrainingAcademyCompletionResult {
-  const earnedStarDust = Math.min(args.recommendation.maxRecoveryStarDust, args.practicedItemCount * 25);
+  if (validateProgressionLaunchIdentity(args.progression, args.launchSession).length > 0) {
+    return {
+      progression: args.progression,
+      earnedStarDust: 0,
+      blockedReason: "identity-mismatch",
+    };
+  }
+
+  const currentStarDust = normalizeStarDust(args.progression.earnedStarDust);
+  const practicedCount = normalizePracticeCount(args.practicedItemCount);
+  const requestedStarDust = Math.min(
+    normalizeStarDust(args.recommendation.maxRecoveryStarDust),
+    practicedCount * 25,
+  );
+  const earnedStarDust = Math.min(
+    requestedStarDust,
+    Math.max(UNIT_STAR_DUST_CAP - currentStarDust, 0),
+  );
   const progression: StudentProgressionState = {
     ...args.progression,
     currentStep: "recommended-game",
-    earnedStarDust: args.progression.earnedStarDust + earnedStarDust,
+    earnedStarDust: currentStarDust + earnedStarDust,
     masteryStatus: "in-progress",
     lastEventAt: args.occurredAt,
   };
@@ -196,9 +215,19 @@ export function completeTrainingReview(args: {
       occurredAt: args.occurredAt,
       metadata: {
         earnedStarDust,
-        practicedItemCount: args.practicedItemCount,
-        practicedTermCount: args.practicedItemCount,
+        practicedItemCount: practicedCount,
+        practicedTermCount: practicedCount,
       },
     }),
   };
+}
+
+function normalizePracticeCount(value: number): number {
+  return Number.isFinite(value) ? Math.max(Math.trunc(value), 0) : 0;
+}
+
+function normalizeStarDust(value: number): number {
+  return Number.isFinite(value)
+    ? Math.min(Math.max(Math.trunc(value), 0), UNIT_STAR_DUST_CAP)
+    : 0;
 }

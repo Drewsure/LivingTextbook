@@ -813,6 +813,29 @@ Procedure:
 Why this matters: Identity is protected at the first scoring boundary, not
 only after a mismatched event has reached a route or report validator.
 
+## OW-038: Training Recovery Award Boundary
+
+Status: Active
+
+Observed behavior: Training Academy is a progression-writing recovery lane;
+its award must not bypass the shared unit cap or accept malformed practice
+counts.
+
+Procedure:
+
+1. Normalize practice counts to non-negative integers.
+2. Cap the requested recovery award against the shared
+   `UNIT_STAR_DUST_CAP` and the remaining unit capacity.
+3. Preserve the normalized count and accepted award in recovery completion
+   evidence.
+4. Compare progression and launch-session `unitKey`, `launchCode`, and
+   `studentSessionId` before creating a completion event.
+5. Run the web typecheck and recovery verification after changing the recovery
+   adapter.
+
+Why this matters: Recovery stays deterministic and helpful without becoming a
+second, weaker progression authority.
+
 ## OW-037: Normalized Mastery Award Evidence
 
 Status: Active

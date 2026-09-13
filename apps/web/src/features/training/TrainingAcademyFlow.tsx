@@ -51,6 +51,7 @@ export function TrainingAcademyFlow({ tenant, unit, launchSession, progression, 
   const [completed, setCompleted] = useState(false);
   const [returned, setReturned] = useState(false);
   const [practicedItems, setPracticedItems] = useState<string[]>([]);
+  const [completionError, setCompletionError] = useState<string | undefined>();
 
   function appendTrainingEvent(trainingEventType: TrainingAcademyEventName, metadata?: Record<string, string | number | boolean>) {
     setEvents((currentEvents) => [
@@ -133,6 +134,14 @@ export function TrainingAcademyFlow({ tenant, unit, launchSession, progression, 
       practicedItemCount,
     });
 
+    if (!result.event) {
+      setCompletionError("Recovery completion is paused because the learner and launch identity do not match.");
+      return;
+    }
+
+    const completionEvent = result.event;
+    setCompletionError(undefined);
+
     setEvents((currentEvents) => [
       ...currentEvents,
       createTrainingProgressEvent({
@@ -151,7 +160,7 @@ export function TrainingAcademyFlow({ tenant, unit, launchSession, progression, 
         occurredAt,
         metadata: { correct: true, earnedStarDust: result.earnedStarDust },
       }),
-      result.event,
+      completionEvent,
     ]);
     setCurrentProgression(result.progression);
     setCompleted(true);
@@ -188,6 +197,13 @@ export function TrainingAcademyFlow({ tenant, unit, launchSession, progression, 
           <TrainingFact label="Return path" value={recommendation.returnPath} />
         </dl>
       </Card>
+
+      {completionError ? (
+        <aside className="rounded-lg border border-rose-300 bg-rose-50 p-4 text-sm text-rose-950" aria-live="polite">
+          <p className="font-bold">Recovery completion needs review</p>
+          <p className="mt-1">{completionError}</p>
+        </aside>
+      ) : null}
 
       <TrainingFocusSelector options={focusOptions} selectedFocusType={selectedFocusType} onSelect={handleFocusSelect} />
 
