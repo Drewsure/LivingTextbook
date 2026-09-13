@@ -1,0 +1,28 @@
+# Completion Idempotence Checks
+
+The canonical game completion boundary must accept one valid completion per
+game mode in a student session. A second click, duplicate callback, or stale
+completed replay must not award more Star Dust, append another
+`game_completed` event, or show a false contract error.
+
+## Required checks
+
+- `PlayableGameRouteShell` ignores a completion after the same route has
+  already accepted it.
+- Front-door and student launch flows guard each accepted mode independently,
+  so moving to a later recommended mode remains possible.
+- A completion result without an event is a quiet no-op when the mode is
+  already completed in the current progression state.
+- A missing completion event for an incomplete mode remains a visible contract
+  error.
+- The guard does not bypass canonical event validation for the first accepted
+  completion.
+
+Run:
+
+```text
+npm run verify:completion-idempotence
+```
+
+This is a state-integrity check. It does not authorize persistence, reward
+inventory writes, production assignment, or external Phaser integration.

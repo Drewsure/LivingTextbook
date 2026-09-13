@@ -95,6 +95,7 @@ export function StudentLaunchFlow({
   const [continuityEnvelope, setContinuityEnvelope] = useState<ReturnType<typeof createProgressionContinuityEnvelope>>();
   const [targetPracticeEngagedItemIds, setTargetPracticeEngagedItemIds] = useState<string[]>([]);
   const sessionEventsRef = useRef<GameProgressEvent[]>([]);
+  const completionAcceptedModesRef = useRef<Set<GameModeId>>(new Set());
   const [assistLanguageEnabled, setAssistLanguageEnabled] = useState(
     sessionSettings?.assistLanguage.enabled ?? getDefaultAssistLanguageEnabled(tenant),
   );
@@ -259,7 +260,17 @@ export function StudentLaunchFlow({
   function handleGameComplete(result: GameModeCompletionResult) {
     const completedMode = activeGameMode;
     if (!completedMode || !result.event) {
+      if (completedMode && currentProgression.completedGameModes.includes(completedMode)) {
+        completionAcceptedModesRef.current.add(completedMode);
+        setEventContractErrors([]);
+        return;
+      }
+
       setEventContractErrors(["Canonical game completion did not include a playable mode and completion event."]);
+      return;
+    }
+
+    if (completionAcceptedModesRef.current.has(completedMode)) {
       return;
     }
 
@@ -294,6 +305,7 @@ export function StudentLaunchFlow({
       return;
     }
 
+    completionAcceptedModesRef.current.add(completedMode);
     setCurrentProgression(result.progression);
     setLastEarnedDust(result.earnedStarDust);
     appendSessionEvents([result.event], result.progression);

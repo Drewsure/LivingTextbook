@@ -1929,3 +1929,11 @@ Added the manual `verify:phaser-candidate-package` check for the next human
 handoff. It validates a returned Memory Match evidence folder without adding
 the external package to the canonical repository or weakening the foundation
 gate. Missing external evidence remains `NOT READY` by design.
+
+Canonical completion handling now has an explicit idempotence guard across the
+playable route shell, front-door flow, and student launch flow. The first
+completion must still pass event-sequence validation; duplicate callbacks and
+already-completed replays are quiet no-ops. This protects Star Dust and report
+event integrity on touch devices while leaving durable hosted/local idempotency
+for the backend implementation phase. See ADR 0704, DR-777, and
+`COMPLETION_IDEMPOTENCE_CHECKS.md`.

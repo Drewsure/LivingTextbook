@@ -273,3 +273,9 @@ selected decision or authorizes integration.
 Codex decision evidence provenance is covered by web typecheck, production
 build, runtime checks, and active routes. The decision checks must reflect the
 upstream records and preserve the independent MiniStar support-language gate.
+## Completion idempotence
+
+- `COMPLETION_IDEMPOTENCE_CHECKS.md` protects one accepted completion per game
+  mode/session across the canonical playable route, front door, and student
+  launch flows.
+- Run `npm run verify:completion-idempotence`.

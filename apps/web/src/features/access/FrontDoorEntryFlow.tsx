@@ -81,6 +81,7 @@ export function FrontDoorEntryFlow({
   const [activeGameMode, setActiveGameMode] = useState<GameModeId | undefined>();
   const [eventContractErrors, setEventContractErrors] = useState<string[]>([]);
   const sessionEventsRef = useRef<GameProgressEvent[]>([]);
+  const completionAcceptedModesRef = useRef<Set<GameModeId>>(new Set());
   const [targetPracticeEngagedItemIds, setTargetPracticeEngagedItemIds] = useState<string[]>([]);
   const microphonePracticeSettings = useTeacherMicrophonePracticeSettings(tenant);
 
@@ -205,7 +206,17 @@ export function FrontDoorEntryFlow({
   function handleGameComplete(result: GameModeCompletionResult) {
     const completedMode = activeGameMode;
     if (!completedMode || !result.event) {
+      if (completedMode && currentProgression.completedGameModes.includes(completedMode)) {
+        completionAcceptedModesRef.current.add(completedMode);
+        setEventContractErrors([]);
+        return;
+      }
+
       setEventContractErrors(["Canonical game completion did not include a playable mode and completion event."]);
+      return;
+    }
+
+    if (completionAcceptedModesRef.current.has(completedMode)) {
       return;
     }
 
@@ -226,6 +237,7 @@ export function FrontDoorEntryFlow({
       return;
     }
 
+    completionAcceptedModesRef.current.add(completedMode);
     setCurrentProgression(result.progression);
     setLastEarnedDust(result.earnedStarDust);
     appendSessionEvents([result.event]);

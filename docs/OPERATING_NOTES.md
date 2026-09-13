@@ -1165,3 +1165,11 @@ future work, review the exact manifest and candidate mapping first. The first
 human/Z.ai handoff may now request Memory Match evidence only: fixture replay,
 event/scoring replay, target-language audio map, mobile/accessibility capture,
 and wrapper notes. Do not request a broad source merge or route replacement.
+
+Canonical completion handlers now use an explicit idempotence guard. Run
+`npm run verify:completion-idempotence` after completion-flow changes. The
+first completion remains event-validated; duplicate callbacks and
+already-completed replays are quiet no-ops. This is a browser-session guard,
+not durable persistence, so the future hosted/local adapter must carry a
+stable completion idempotency key at its write boundary. See ADR 0704, DR-777,
+and `docs/operating-notes/2026-09-13-completion-idempotence.md`.

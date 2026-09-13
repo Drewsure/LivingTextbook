@@ -12,6 +12,16 @@ Use this checklist when the `legacy-source-import` branch is locally accessible.
 
 `npm run verify:foundation` runs taxonomy coverage, game-mode coverage, package readiness coverage, local bundle readiness coverage, activity-pathway checks, printable checks, tenant-library checks, teacher-authoring checks, AI teaching game generator checks, prototype review readiness checks, target-language checks, share/embed checks, private-assignment checks, earned-collection checks, class-roster checks, teacher-session settings checks, backend-storage checks, release-control checks, package entitlement checks, deployment decision checks, web typecheck, production build, and active route checks.
 
+## Completion Integrity Checks
+
+1. Confirm a valid game completion is accepted once per game mode and student
+   session.
+2. Confirm duplicate callbacks do not append another `game_completed` event or
+   award additional Star Dust.
+3. Confirm revisiting an already-completed route does not show a false contract
+   error when the progression adapter returns no new completion event.
+4. Run `npm run verify:completion-idempotence`.
+
 ## Route Smoke Checks
 
 Visit these routes:

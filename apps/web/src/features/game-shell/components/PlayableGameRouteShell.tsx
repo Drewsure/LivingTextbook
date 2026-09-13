@@ -73,6 +73,7 @@ export function PlayableGameRouteShell({
   });
   const [sessionEvents, setSessionEvents] = useState<GameProgressEvent[]>([]);
   const sessionEventsRef = useRef<GameProgressEvent[]>([]);
+  const completionAcceptedRef = useRef(false);
   const [lastEarnedDust, setLastEarnedDust] = useState(0);
   const [eventContractErrors, setEventContractErrors] = useState<string[]>([]);
   const offerMap = unit.unitMeta.contentPackageId ? findSampleUnitGameOfferMap(unit.unitMeta.contentPackageId) : undefined;
@@ -85,7 +86,17 @@ export function PlayableGameRouteShell({
   }
 
   function handleComplete(result: GameModeCompletionResult) {
+    if (completionAcceptedRef.current) {
+      return;
+    }
+
     if (!result.event) {
+      if (currentProgression.completedGameModes.includes(gameMode)) {
+        completionAcceptedRef.current = true;
+        setEventContractErrors([]);
+        return;
+      }
+
       setEventContractErrors(["Canonical game completion did not include a completion event."]);
       return;
     }
@@ -108,6 +119,7 @@ export function PlayableGameRouteShell({
       return;
     }
 
+    completionAcceptedRef.current = true;
     setCurrentProgression(result.progression);
     setLastEarnedDust(result.earnedStarDust);
 

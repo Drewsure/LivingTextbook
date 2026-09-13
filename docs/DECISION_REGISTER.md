@@ -4330,3 +4330,12 @@ The check is intentionally outside the full foundation gate because an
 external package may not yet exist. `NOT READY` means no package was supplied;
 a passing result proves evidence integrity only and does not approve a Phaser
 wrapper. See ADR 0703 and `PHASER_CANDIDATE_PACKAGE_CHECKS.md`.
+
+# DR-777: Canonical Completion Idempotence
+
+Canonical playable surfaces now accept one validated completion per game mode
+and session. Duplicate callbacks are ignored, and an already-completed replay
+without an event is treated as a stable no-op instead of a contract error.
+The first completion remains subject to canonical event-sequence validation;
+the route guard does not replace the eventual hosted/local durable idempotency
+boundary. See ADR 0704 and `COMPLETION_IDEMPOTENCE_CHECKS.md`.
