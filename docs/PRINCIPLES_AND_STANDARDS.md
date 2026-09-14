@@ -2517,3 +2517,18 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-810 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-811 and
 `docs/adr/0737-shared-replay-seed-factory-boundary.md`.
+
+## 162. Progress Envelope Stream Chronology Standard
+
+- Progress-event envelope batches must preserve non-decreasing
+  `occurred_at` order after individual envelope timestamp validation.
+- An out-of-order batch must fail closed before it is treated as one report or
+  persistence stream; student sessions may still vary in a launch-scoped class
+  report.
+- Malformed timestamps remain individual envelope errors and must not be
+  silently repaired by the stream helper.
+- This protects browser, Phaser, report, and persistence adapters without
+  authorizing live storage, progression, rewards, or assignment.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-812 and
+`docs/adr/0738-progress-envelope-stream-chronology.md`.

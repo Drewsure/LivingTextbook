@@ -4623,6 +4623,16 @@ to the deterministic unit/mode seed. This keeps replay evidence consistent
 across browser games and future Phaser wrappers without enabling live writes or
 source promotion. See ADR 0737.
 
+# DR-812: Progress Envelope Stream Chronology Boundary
+
+Require progress-event envelope batches to preserve non-decreasing
+`occurred_at` order after individual timestamp validation. An out-of-order
+batch must fail closed before report or persistence interpretation, while
+launch-scoped teacher reports may continue to contain multiple learner session
+IDs. This remains verification-only and does not authorize live storage,
+report export, progression, rewards, assignment, or Phaser source promotion.
+See ADR 0738.
+
 # DR-807: Canonical Game Event Type Boundary
 
 Require canonical game event evidence to use the shared `GAME_EVENT_TYPES`

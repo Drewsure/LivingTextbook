@@ -182,6 +182,7 @@ Required standing rules:
 - A stream may contain multiple modes for one unit, but must not mix `unit_key` values.
 - When `launch_code` values are present, a stream must not mix launch sessions.
 - `student_session_id` values may vary within a launch-scoped teacher report because one class report can contain multiple learners.
+- Envelope batches must preserve non-decreasing `occurred_at` order so reports and future persistence adapters do not reinterpret late evidence as earlier activity.
 - Stream-context validation remains verification-only; it does not enable gameplay, scoring, persistence, or provider writes.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-620 and `docs/adr/0548-progress-event-stream-context.md`.

@@ -785,6 +785,11 @@ try {
   ], registry);
   assertIncludes(mixedStreamContractErrors, "Progress event envelope stream must use one taxonomy_version value, found: taxonomy-1, taxonomy-2.");
   assertIncludes(mixedStreamContractErrors, "Progress event envelope stream must use one settings_contract_id value, found: settings-1, settings-2.");
+  const outOfOrderStreamErrors = contentModel.validateProgressEventEnvelopeStream([
+    { ...supportEnvelope, occurred_at: "2026-01-01T00:02:00.000Z" },
+    { ...supportEnvelope, event_id: "event-2", occurred_at: "2026-01-01T00:01:00.000Z" },
+  ], registry);
+  assertIncludes(outOfOrderStreamErrors, "Progress event envelope stream must preserve chronological occurred_at order.");
   assertEqual(
     contentModel.validateProgressEventEnvelopeStream(null, registry)[0],
     "Progress event envelope stream must be provided as an array.",

@@ -393,6 +393,20 @@ export function validateProgressEventEnvelopeStream(
     .map((envelope) => isRecord(envelope.settings_context) ? readString(envelope.settings_context, "settings_contract_id") : "")
     .filter(Boolean))];
 
+  let previousOccurredAt: number | undefined;
+  for (const envelope of records) {
+    const occurredAt = readString(envelope, "occurred_at");
+    const timestamp = Date.parse(occurredAt);
+    if (!occurredAt || Number.isNaN(timestamp) || !isoTimestampPattern.test(occurredAt)) {
+      continue;
+    }
+    if (previousOccurredAt !== undefined && timestamp < previousOccurredAt) {
+      errors.push("Progress event envelope stream must preserve chronological occurred_at order.");
+      break;
+    }
+    previousOccurredAt = timestamp;
+  }
+
   if (duplicateIds.length > 0) {
     errors.push(`Progress event envelope stream contains duplicate event_id value(s): ${[...new Set(duplicateIds)].join(", ")}.`);
   }

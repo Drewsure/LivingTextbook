@@ -2222,3 +2222,13 @@ fall back to the deterministic unit/mode seed at the event boundary. Added
 runtime coverage across all four factories. No scoring, persistence,
 progression, reward, assignment, or Phaser source promotion was enabled. See
 ADR 0737.
+
+## 0739 - Progress envelope stream chronology boundary
+
+Hardened progress-event stream validation so valid individual timestamps cannot
+be reordered silently inside a report or persistence batch. Valid timestamp
+entries must remain in non-decreasing `occurred_at` order; malformed timestamp
+entries continue to be reported by individual envelope validation. Added a
+runtime regression case. This remains verification-only and does not enable
+storage, reporting export, progression, rewards, assignment, or Phaser source
+promotion. See ADR 0738.
