@@ -2413,3 +2413,17 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-803 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-804 and
 `docs/adr/0730-frozen-source-manifest-path-integrity.md`.
+
+## 155. Canonical Game Event Payload Standard
+
+- Canonical game event evidence must be treated as untrusted JSON at runtime.
+- Non-array event collections and null or malformed entries must return
+  actionable fail-closed validation errors instead of throwing.
+- Valid events must continue to preserve identity, chronology, target-language
+  audio, replay seed, deterministic scoring, mastery, completion, and
+  support-language boundaries.
+- Payload-shape hardening does not authorize live progression, persistence,
+  reporting, route activation, or student assignment.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-805 and
+`docs/adr/0731-canonical-game-event-payload.md`.

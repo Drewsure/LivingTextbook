@@ -2158,3 +2158,11 @@ absolute, drive-letter, backslash, empty-segment, dot-segment, and
 parent-directory paths now fail closed. The read-only isolated snapshot check
 remains green. No source was copied and no candidate was promoted. See ADR
 0730.
+
+## 0732 - Canonical game event payload hardening
+
+Hardened the shared canonical game event-sequence validator to treat incoming
+event evidence as untrusted JSON. Non-array collections and null or malformed
+entries now produce actionable fail-closed errors instead of runtime throws,
+while valid event ordering, identity, audio, replay, scoring, and completion
+checks remain unchanged. See ADR 0731.

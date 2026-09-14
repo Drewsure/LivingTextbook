@@ -1318,3 +1318,10 @@ letters, backslashes, empty segments, dot segments, and parent traversal before
 hashing. Run `npm run verify:phaser-source-evidence-contract` and
 `npm run verify:phaser-source-evidence` after changing this checker; it must
 remain read-only and isolated. See ADR 0730.
+
+Treat canonical game event evidence as untrusted at every adapter and review
+boundary. `validateCanonicalGameEventSequence` must return an invalid report
+for non-array inputs and malformed entries rather than throwing; valid events
+must retain the existing identity, audio, replay, scoring, mastery, and
+completion checks. Run `npm run verify:runtime-behavior` and both workspace
+typechecks after changing this contract. See ADR 0731.

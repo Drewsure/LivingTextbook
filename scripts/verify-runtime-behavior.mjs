@@ -332,6 +332,15 @@ try {
     "flashcards",
   ).errors;
   assertIncludes(malformedCanonicalIdentityErrors, "Canonical game event round_shown must include unit identity.");
+  const malformedCanonicalShapeErrors = canonicalGame.validateCanonicalGameEventSequence(
+    [null, ...canonicalEvents],
+    "flashcards",
+  ).errors;
+  assertIncludes(malformedCanonicalShapeErrors, "Canonical game event sequence contains malformed event entries.");
+  assertIncludes(
+    canonicalGame.validateCanonicalGameEventSequence(null, "flashcards").errors,
+    "Canonical game event sequence must be provided as an array.",
+  );
 
   const suppliedReplaySeed = "replay-v1:platform-supplied-memory-match-seed";
   assertEqual(

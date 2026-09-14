@@ -29,13 +29,19 @@ export interface CanonicalGameEventIdentity {
  * learning events, but the learning sequence itself must remain deterministic.
  */
 export function validateCanonicalGameEventSequence(
-  events: GameProgressEvent[],
+  rawEvents: GameProgressEvent[],
   expectedGameMode: GameModeId,
   expectedTenantId?: string,
   expectedEarnedStarDust?: number,
   expectedIdentity?: CanonicalGameEventIdentity,
 ): CanonicalGameEventSequenceReport {
+  const events = Array.isArray(rawEvents) ? rawEvents.filter(isGameProgressEvent) : [];
   const errors: string[] = [];
+  if (!Array.isArray(rawEvents)) {
+    errors.push("Canonical game event sequence must be provided as an array.");
+  } else if (events.length !== rawEvents.length) {
+    errors.push("Canonical game event sequence contains malformed event entries.");
+  }
   const eventTypes = events.map((event) => event.type);
   const replayEvidenceRequiredTypes: readonly string[] = [
     ...CANONICAL_GAME_REQUIRED_EVENT_ORDER,
@@ -53,10 +59,10 @@ export function validateCanonicalGameEventSequence(
     if (readNonBlankString(event.unitKey) === undefined) {
       errors.push(`Canonical game event ${event.type} must include unit identity.`);
     }
-    if (!event.launchCode?.trim()) {
+    if (readNonBlankString(event.launchCode) === undefined) {
       errors.push(`Canonical game event ${event.type} must include launch identity.`);
     }
-    if (!event.studentSessionId?.trim()) {
+    if (readNonBlankString(event.studentSessionId) === undefined) {
       errors.push(`Canonical game event ${event.type} must include student session identity.`);
     }
   }
@@ -298,6 +304,10 @@ function countEvents(events: GameProgressEvent[], eventType: GameEventType): num
 
 function findLastEventIndex(events: GameProgressEvent[], eventType: GameEventType): number {
   return events.reduce((lastIndex, event, index) => (event.type === eventType ? index : lastIndex), -1);
+}
+
+function isGameProgressEvent(value: unknown): value is GameProgressEvent {
+  return Boolean(value) && typeof value === "object" && !Array.isArray(value);
 }
 
 function readFiniteStarDust(event: GameProgressEvent | undefined): number | undefined {
