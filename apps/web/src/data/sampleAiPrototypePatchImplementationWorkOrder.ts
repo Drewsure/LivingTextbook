@@ -4,7 +4,7 @@ import {
   validateAiPrototypePatchImplementationWorkOrders,
   type AiPrototypePatchImplementationWorkOrder as SharedAiPrototypePatchImplementationWorkOrder,
   type AiPrototypePatchImplementationWorkOrderStatus,
-} from "@living-textbook/content-model/src/aiPrototypePatchImplementationWorkOrder";
+} from "@living-textbook/content-model";
 
 export type AiPrototypePatchImplementationWorkOrder = SharedAiPrototypePatchImplementationWorkOrder;
 export type { AiPrototypePatchImplementationWorkOrderStatus };

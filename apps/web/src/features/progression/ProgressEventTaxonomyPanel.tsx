@@ -2,7 +2,7 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import {
   getProgressEventTaxonomyRegistryWarnings,
   validateProgressEventTaxonomyRegistry,
-} from "@living-textbook/content-model/src/progressEventTaxonomy";
+} from "@living-textbook/content-model";
 import type { ProgressEventEffect, ProgressEventTaxonomyRegistry } from "@/data/sampleProgressEventTaxonomy";
 
 interface ProgressEventTaxonomyPanelProps {

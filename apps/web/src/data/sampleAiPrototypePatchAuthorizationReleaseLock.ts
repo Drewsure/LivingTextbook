@@ -4,7 +4,7 @@ import {
   validateAiPrototypePatchAuthorizationReleaseLocks,
   type AiPrototypePatchAuthorizationReleaseLock as SharedAiPrototypePatchAuthorizationReleaseLock,
   type AiPrototypePatchAuthorizationReleaseLockStatus,
-} from "@living-textbook/content-model/src/aiPrototypePatchAuthorizationReleaseLock";
+} from "@living-textbook/content-model";
 
 export type AiPrototypePatchAuthorizationReleaseLock = SharedAiPrototypePatchAuthorizationReleaseLock;
 export type { AiPrototypePatchAuthorizationReleaseLockStatus };

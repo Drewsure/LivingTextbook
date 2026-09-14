@@ -2,7 +2,7 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import {
   getAiGeneratedPackageWriterTestEvidencePacketCollectionWarnings,
   validateAiGeneratedPackageWriterTestEvidencePackets,
-} from "@living-textbook/content-model/src/aiPackageWriterTestEvidencePacket";
+} from "@living-textbook/content-model";
 import type {
   AiGeneratedPackageWriterTestEvidenceLane,
   AiGeneratedPackageWriterTestEvidencePacket,

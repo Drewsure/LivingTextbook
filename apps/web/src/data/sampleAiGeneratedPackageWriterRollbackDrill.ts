@@ -9,7 +9,7 @@ import {
   type AiGeneratedPackageWriterRollbackDrillStatus,
   type AiGeneratedPackageWriterRollbackStep,
   type AiGeneratedPackageWriterRollbackStepStatus,
-} from "@living-textbook/content-model/src/aiPackageWriterRollbackDrill";
+} from "@living-textbook/content-model";
 
 export type {
   AiGeneratedPackageWriterRollbackDrill,

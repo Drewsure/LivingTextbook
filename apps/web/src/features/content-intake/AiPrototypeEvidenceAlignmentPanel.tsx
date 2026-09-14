@@ -2,7 +2,7 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import {
   validateAiPrototypeEvidenceAlignmentBundles,
   type AiPrototypeEvidenceAlignmentBundle,
-} from "@living-textbook/content-model/src/aiPrototypeEvidenceAlignment";
+} from "@living-textbook/content-model";
 
 interface AiPrototypeEvidenceAlignmentPanelProps {
   bundles: AiPrototypeEvidenceAlignmentBundle[];

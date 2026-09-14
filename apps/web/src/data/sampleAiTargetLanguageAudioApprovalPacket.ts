@@ -3,7 +3,7 @@ import {
   validateAiTargetLanguageAudioApprovalPackets,
   type AiTargetLanguageAudioApprovalCue as SharedAiTargetLanguageAudioApprovalCue,
   type AiTargetLanguageAudioApprovalPacket as SharedAiTargetLanguageAudioApprovalPacket,
-} from "@living-textbook/content-model/src/aiTargetLanguageAudioApprovalPacket";
+} from "@living-textbook/content-model";
 
 export type AiTargetLanguageAudioApprovalPacketStatus =
   SharedAiTargetLanguageAudioApprovalPacket["status"];

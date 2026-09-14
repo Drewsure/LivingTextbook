@@ -3,7 +3,7 @@ import {
   validateAiGeneratedPackageTeacherReviewPackets,
   type AiGeneratedPackageTeacherReviewLane as SharedAiGeneratedPackageTeacherReviewLane,
   type AiGeneratedPackageTeacherReviewPacket as SharedAiGeneratedPackageTeacherReviewPacket,
-} from "@living-textbook/content-model/src/aiGeneratedPackageTeacherReviewPacket";
+} from "@living-textbook/content-model";
 
 export type AiGeneratedPackageTeacherReviewPacketStatus =
   SharedAiGeneratedPackageTeacherReviewPacket["status"];

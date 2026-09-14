@@ -5,7 +5,7 @@ import {
   type AiGeneratedPackageManifest,
   type AiGeneratedPackageManifestRecordStatus,
   type AiGeneratedPackageManifestStatus,
-} from "@living-textbook/content-model/src/aiGeneratedPackageManifest";
+} from "@living-textbook/content-model";
 
 interface AiGeneratedPackageManifestPanelProps {
   manifests: AiGeneratedPackageManifest[];

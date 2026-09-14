@@ -2,7 +2,7 @@ import {
   validateAiPrototypeEvidenceAlignment,
   validateAiPrototypeEvidenceAlignmentBundles,
   type AiPrototypeEvidenceAlignmentBundle,
-} from "@living-textbook/content-model/src/aiPrototypeEvidenceAlignment";
+} from "@living-textbook/content-model";
 import { sampleAiPrototypeAudioCoverageReports } from "@/data/sampleAiPrototypeAudioCoverageReport";
 import { sampleAiPrototypeCodexIntegrationDecisions } from "@/data/sampleAiPrototypeCodexIntegrationDecision";
 import { sampleAiPrototypeEventReplayReports } from "@/data/sampleAiPrototypeEventReplayReport";

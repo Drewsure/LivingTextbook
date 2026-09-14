@@ -7,7 +7,7 @@ import {
   validateAiGeneratedPublishReadinessGates,
   type AiGeneratedPublishReadinessCheck,
   type AiGeneratedPublishReadinessGate,
-} from "@living-textbook/content-model/src/aiGeneratedPublishReadinessGate";
+} from "@living-textbook/content-model";
 
 export const sampleAiGeneratedPublishReadinessGates: AiGeneratedPublishReadinessGate[] =
   sampleAiGeneratedPackageManifests.map((manifest) => {

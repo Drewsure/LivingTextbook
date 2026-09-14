@@ -4,7 +4,7 @@ import {
   type AiGeneratorResponsibilityMatrix,
   type AiGeneratorResponsibilityRole,
   type AiGeneratorResponsibilityRoleId,
-} from "@living-textbook/content-model/src/aiGeneratorResponsibilityMatrix";
+} from "@living-textbook/content-model";
 
 export type { AiGeneratorResponsibilityMatrix, AiGeneratorResponsibilityRole, AiGeneratorResponsibilityRoleId };
 

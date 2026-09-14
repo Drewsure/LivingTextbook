@@ -2,7 +2,7 @@ import {
   derivePrototypeIntakeAlertDecision,
   validatePrototypeIntakeAlertAlignment,
   validatePrototypeIntakeAlert,
-} from "@living-textbook/content-model/src/prototypeIntakeAlert";
+} from "@living-textbook/content-model";
 import { samplePrototypeIntakeReadinessSummary } from "@/data/samplePrototypeIntakeReadinessSummary";
 
 export type PrototypeIntakeAlertStatus = "not-ready" | "ready-for-review" | "blocked";

@@ -2,7 +2,7 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import {
   getAiGeneratedPackageWriterRoutePlaylistWriteGuardCollectionWarnings,
   validateAiGeneratedPackageWriterRoutePlaylistWriteGuards,
-} from "@living-textbook/content-model/src/aiPackageWriterRoutePlaylistWriteGuard";
+} from "@living-textbook/content-model";
 
 import type {
   AiGeneratedPackageWriterRoutePlaylistSurface,

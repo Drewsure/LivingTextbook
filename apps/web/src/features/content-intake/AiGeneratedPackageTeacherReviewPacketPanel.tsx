@@ -2,7 +2,7 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import {
   getAiGeneratedPackageTeacherReviewPacketCollectionWarnings,
   validateAiGeneratedPackageTeacherReviewPackets,
-} from "@living-textbook/content-model/src/aiGeneratedPackageTeacherReviewPacket";
+} from "@living-textbook/content-model";
 
 import type {
   AiGeneratedPackageTeacherReviewLaneStatus,

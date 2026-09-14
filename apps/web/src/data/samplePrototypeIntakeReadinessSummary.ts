@@ -4,18 +4,18 @@ import {
 } from "@/data/sampleAiPrototypeEvidenceAlignment";
 import { samplePrototypeIntakeQueue } from "@/data/samplePrototypeIntakeQueue";
 import { sampleAiPrototypeIntegrationReadinessGates } from "@/data/sampleAiPrototypeIntegrationReadinessGate";
-import { validateAiPrototypeEvidenceAlignmentBundles } from "@living-textbook/content-model/src/aiPrototypeEvidenceAlignment";
-import { validateAiPrototypeIntegrationReadinessGates } from "@living-textbook/content-model/src/aiPrototypeIntegrationReadinessGate";
+import { validateAiPrototypeEvidenceAlignmentBundles } from "@living-textbook/content-model";
+import { validateAiPrototypeIntegrationReadinessGates } from "@living-textbook/content-model";
 import { validatePrototypeIntakeReadinessSummary } from "@living-textbook/content-model";
 import {
   derivePrototypeIntakeAlertDecision,
   derivePrototypeIntakeCodexAlertState,
   derivePrototypeIntakeReadinessStatus,
-} from "@living-textbook/content-model/src/prototypeIntakeAlert";
+} from "@living-textbook/content-model";
 import type {
   PrototypeIntakeCodexAlertState,
   PrototypeIntakeReadinessStatus as ContentModelPrototypeIntakeReadinessStatus,
-} from "@living-textbook/content-model/src/prototypeIntakeAlert";
+} from "@living-textbook/content-model";
 import {
   sampleAiPrototypeReturnedPackageAlignmentErrors,
   sampleAiPrototypeReturnedPackageIntakeAlignmentErrors,

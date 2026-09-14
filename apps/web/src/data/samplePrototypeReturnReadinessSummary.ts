@@ -1,7 +1,7 @@
 import {
   derivePrototypeReturnReadinessStatus,
   derivePrototypeReturnReviewState,
-} from "@living-textbook/content-model/src/prototypeReturnReadiness";
+} from "@living-textbook/content-model";
 import { validatePrototypeReturnReadinessSummary } from "@living-textbook/content-model";
 import {
   samplePrototypeReturnPackageChecklists,
@@ -10,7 +10,7 @@ import {
 import type {
   PrototypeReturnReadinessStatus as ContentModelPrototypeReturnReadinessStatus,
   PrototypeReturnReviewState,
-} from "@living-textbook/content-model/src/prototypeReturnReadiness";
+} from "@living-textbook/content-model";
 
 export type PrototypeReturnReadinessStatus = ContentModelPrototypeReturnReadinessStatus;
 

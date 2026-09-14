@@ -2,7 +2,7 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import {
   getAiPrototypeMobileAccessibilityReportCollectionWarnings,
   validateAiPrototypeMobileAccessibilityReports,
-} from "@living-textbook/content-model/src/aiPrototypeMobileAccessibilityReport";
+} from "@living-textbook/content-model";
 import type {
   AiPrototypeMobileAccessibilityReport,
   AiPrototypeMobileAccessibilityReportStatus,

@@ -3,7 +3,7 @@ import { TENANT_BOUND_PERSISTENCE_RECORD_CATEGORIES } from "@living-textbook/con
 import {
   getPersistenceAdapterWarnings,
   validatePersistenceAdapterPlan,
-} from "@living-textbook/content-model/src/persistenceAdapter";
+} from "@living-textbook/content-model";
 
 const samplePersistenceAdapterPlansRaw: PersistenceAdapterPlan[] = [
   {

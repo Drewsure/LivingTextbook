@@ -2,7 +2,7 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import {
   getAiPrototypePatchTestReadinessGateCollectionWarnings,
   validateAiPrototypePatchTestReadinessGates,
-} from "@living-textbook/content-model/src/aiPrototypePatchTestReadinessGate";
+} from "@living-textbook/content-model";
 
 import type {
   AiPrototypePatchTestLane,

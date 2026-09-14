@@ -7,7 +7,7 @@ import {
   validateAiGeneratedPackageAssemblyReadinessItems,
   type AiGeneratedPackageAssemblyLane,
   type AiGeneratedPackageAssemblyReadiness,
-} from "@living-textbook/content-model/src/aiGeneratedPackageAssemblyReadiness";
+} from "@living-textbook/content-model";
 
 export const sampleAiGeneratedPackageAssemblyReadiness: AiGeneratedPackageAssemblyReadiness[] =
   sampleAiGeneratedPackageManifests.map((manifest) => {

@@ -9,7 +9,7 @@ import {
   type AiGeneratedPackageWriterPreflightStatus,
   type AiGeneratedPackageWriterTarget,
   type AiGeneratedPackageWriterTargetStatus,
-} from "@living-textbook/content-model/src/aiPackageWriterPreflight";
+} from "@living-textbook/content-model";
 
 export type {
   AiGeneratedPackageWriterPreflight,

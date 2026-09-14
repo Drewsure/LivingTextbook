@@ -2,7 +2,7 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import {
   getAiGeneratedPackageWriterRollbackDrillCollectionWarnings,
   validateAiGeneratedPackageWriterRollbackDrills,
-} from "@living-textbook/content-model/src/aiPackageWriterRollbackDrill";
+} from "@living-textbook/content-model";
 import type {
   AiGeneratedPackageWriterRollbackDrill,
   AiGeneratedPackageWriterRollbackDrillStatus,

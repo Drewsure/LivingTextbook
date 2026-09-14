@@ -3,7 +3,7 @@ import {
   type AiGeneratedDraftPayloadPreview,
   type AiGeneratedDraftPayloadStatus,
   validateAiGeneratedDraftPayloadPreview,
-} from "@living-textbook/content-model/src/aiGeneratedDraftPayload";
+} from "@living-textbook/content-model";
 
 export type { AiGeneratedDraftPayloadPreview, AiGeneratedDraftPayloadStatus };
 

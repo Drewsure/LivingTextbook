@@ -6,7 +6,7 @@ import {
   type AiGeneratedPackagePromotionStatus,
   type AiGeneratedPackagePromotionStep,
   type AiGeneratedPackagePromotionStepStatus,
-} from "@living-textbook/content-model/src/aiGeneratedPackagePromotionChecklist";
+} from "@living-textbook/content-model";
 
 interface AiGeneratedPackagePromotionChecklistPanelProps {
   checklists: AiGeneratedPackagePromotionChecklist[];

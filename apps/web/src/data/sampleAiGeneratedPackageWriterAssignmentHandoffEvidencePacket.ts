@@ -8,7 +8,7 @@ import {
   type AiGeneratedPackageWriterAssignmentHandoffEvidenceLane,
   type AiGeneratedPackageWriterAssignmentHandoffEvidencePacket,
   type AiGeneratedPackageWriterAssignmentHandoffEvidencePacketStatus,
-} from "@living-textbook/content-model/src/aiPackageWriterAssignmentHandoffEvidencePacket";
+} from "@living-textbook/content-model";
 
 export type {
   AiGeneratedPackageWriterAssignmentHandoffEvidenceLane,

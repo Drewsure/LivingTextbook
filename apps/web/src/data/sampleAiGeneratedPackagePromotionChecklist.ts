@@ -6,7 +6,7 @@ import {
   validateAiGeneratedPackagePromotionChecklists,
   type AiGeneratedPackagePromotionChecklist,
   type AiGeneratedPackagePromotionStep,
-} from "@living-textbook/content-model/src/aiGeneratedPackagePromotionChecklist";
+} from "@living-textbook/content-model";
 
 export const sampleAiGeneratedPackagePromotionChecklists: AiGeneratedPackagePromotionChecklist[] =
   sampleAiGeneratedPackageManifests.map((manifest) => {

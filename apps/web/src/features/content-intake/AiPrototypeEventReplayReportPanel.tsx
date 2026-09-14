@@ -2,7 +2,7 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import {
   getAiPrototypeEventReplayReportCollectionWarnings,
   validateAiPrototypeEventReplayReports,
-} from "@living-textbook/content-model/src/aiPrototypeEventReplayReport";
+} from "@living-textbook/content-model";
 import type {
   AiPrototypeEventReplayReport,
   AiPrototypeEventReplayReportStatus,

@@ -3,7 +3,7 @@ import {
   getAiDraftRepairEvidencePacketCollectionWarnings,
   isAiDraftRepairEvidencePacketLiveBlocked,
   validateAiDraftRepairEvidencePackets,
-} from "@living-textbook/content-model/src/aiDraftRepairEvidencePacket";
+} from "@living-textbook/content-model";
 import type {
   AiDraftRepairEvidenceItem,
   AiDraftRepairEvidenceItemStatus,

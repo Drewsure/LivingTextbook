@@ -9,7 +9,7 @@ import {
   type AiGeneratedPackageWriterTestHarnessPhase,
   type AiGeneratedPackageWriterTestHarnessPlan,
   type AiGeneratedPackageWriterTestHarnessPlanStatus,
-} from "@living-textbook/content-model/src/aiPackageWriterTestHarnessPlan";
+} from "@living-textbook/content-model";
 
 export type {
   AiGeneratedPackageWriterTestHarnessAdapter,

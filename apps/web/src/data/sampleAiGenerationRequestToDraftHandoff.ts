@@ -5,7 +5,7 @@ import {
   type AiGenerationRequestToDraftHandoffLane,
   type AiGenerationRequestToDraftHandoffLaneStatus,
   type AiGenerationRequestToDraftHandoffStatus,
-} from "@living-textbook/content-model/src/aiGenerationRequestToDraftHandoff";
+} from "@living-textbook/content-model";
 
 export type {
   AiGenerationRequestToDraftHandoff,

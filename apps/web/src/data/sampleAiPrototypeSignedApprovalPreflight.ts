@@ -4,7 +4,7 @@ import {
   validateAiPrototypeSignedApprovalPreflights,
   type AiPrototypeSignedApprovalPreflight as SharedAiPrototypeSignedApprovalPreflight,
   type AiPrototypeSignedApprovalPreflightStatus,
-} from "@living-textbook/content-model/src/aiPrototypeSignedApprovalPreflight";
+} from "@living-textbook/content-model";
 
 export type AiPrototypeSignedApprovalPreflight = SharedAiPrototypeSignedApprovalPreflight;
 export type { AiPrototypeSignedApprovalPreflightStatus };

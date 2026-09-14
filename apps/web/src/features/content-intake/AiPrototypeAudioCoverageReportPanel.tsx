@@ -2,7 +2,7 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import {
   getAiPrototypeAudioCoverageReportCollectionWarnings,
   validateAiPrototypeAudioCoverageReports,
-} from "@living-textbook/content-model/src/aiPrototypeAudioCoverageReport";
+} from "@living-textbook/content-model";
 import type {
   AiPrototypeAudioCoverageReport,
   AiPrototypeAudioCoverageReportStatus,

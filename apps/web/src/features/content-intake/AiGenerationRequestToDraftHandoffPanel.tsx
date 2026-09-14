@@ -3,7 +3,7 @@ import {
   getAiGenerationRequestToDraftHandoffCollectionWarnings,
   isAiGenerationRequestToDraftHandoffLiveBlocked,
   validateAiGenerationRequestToDraftHandoffs,
-} from "@living-textbook/content-model/src/aiGenerationRequestToDraftHandoff";
+} from "@living-textbook/content-model";
 import type {
   AiGenerationRequestToDraftHandoff,
   AiGenerationRequestToDraftHandoffLane,

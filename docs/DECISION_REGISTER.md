@@ -5000,3 +5000,11 @@ root. This keeps tenant providers and reusable panels replaceable while
 preserving the no-side-effect, privacy, reporting, deployment, and pilot
 policy gates. It does not create live database writes or authorize Phaser
 promotion. See ADR 0778.
+
+# DR-856: Public Contract Import Guard
+
+App source must consume content-model contracts through the package root. The
+foundation composition suite now executes a guard that rejects internal
+`@living-textbook/content-model/src/*` imports in web and AI-service source.
+The migration is an API-boundary cleanup only; it does not enable live AI,
+uploads, persistence, assignment, or Phaser promotion. See ADR 0779.

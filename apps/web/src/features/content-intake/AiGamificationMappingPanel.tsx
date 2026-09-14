@@ -2,7 +2,7 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import {
   getAiGamificationMappingPlanWarnings,
   validateAiGamificationMappingPlan,
-} from "@living-textbook/content-model/src/aiGamificationMapping";
+} from "@living-textbook/content-model";
 import type { AiGamificationMappingPlan, AiGamificationMappingStatus } from "@/data/sampleAiGamificationMappingPlan";
 
 interface AiGamificationMappingPanelProps {

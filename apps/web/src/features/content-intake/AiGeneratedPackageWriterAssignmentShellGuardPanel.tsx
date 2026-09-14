@@ -2,7 +2,7 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import {
   getAiGeneratedPackageWriterAssignmentShellGuardCollectionWarnings,
   validateAiGeneratedPackageWriterAssignmentShellGuards,
-} from "@living-textbook/content-model/src/aiPackageWriterAssignmentShellGuard";
+} from "@living-textbook/content-model";
 
 import type {
   AiGeneratedPackageWriterAssignmentShellGuard,

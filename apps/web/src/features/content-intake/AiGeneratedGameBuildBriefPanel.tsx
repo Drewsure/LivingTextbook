@@ -2,7 +2,7 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import {
   getAiGeneratedGameBuildBriefPacketCollectionWarnings,
   validateAiGeneratedGameBuildBriefPackets,
-} from "@living-textbook/content-model/src/aiGeneratedGameBuildBrief";
+} from "@living-textbook/content-model";
 import type {
   AiGeneratedGameBuildBriefPacket,
   AiGeneratedGameBuildBriefStatus,

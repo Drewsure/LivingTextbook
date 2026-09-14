@@ -5,7 +5,7 @@ import {
   type AiPrototypePatchChangeSetPreview as SharedAiPrototypePatchChangeSetPreview,
   type AiPrototypePatchChangeSetPreviewStatus,
   type AiPrototypePatchFileChangePreview,
-} from "@living-textbook/content-model/src/aiPrototypePatchChangeSetPreview";
+} from "@living-textbook/content-model";
 
 export type AiPrototypePatchChangeSetPreview = SharedAiPrototypePatchChangeSetPreview;
 export type { AiPrototypePatchChangeSetPreviewStatus, AiPrototypePatchFileChangePreview };

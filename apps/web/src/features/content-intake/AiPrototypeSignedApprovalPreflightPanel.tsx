@@ -2,7 +2,7 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import {
   getAiPrototypeSignedApprovalPreflightCollectionWarnings,
   validateAiPrototypeSignedApprovalPreflights,
-} from "@living-textbook/content-model/src/aiPrototypeSignedApprovalPreflight";
+} from "@living-textbook/content-model";
 
 import type {
   AiPrototypeSignedApprovalPreflight,

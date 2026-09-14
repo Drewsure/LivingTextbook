@@ -2,7 +2,7 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import {
   getAiGeneratorLineageMapCollectionWarnings,
   validateAiGeneratorLineageMaps,
-} from "@living-textbook/content-model/src/aiGeneratorLineageMap";
+} from "@living-textbook/content-model";
 import type {
   AiGeneratorLineageMap,
   AiGeneratorLineageStep,

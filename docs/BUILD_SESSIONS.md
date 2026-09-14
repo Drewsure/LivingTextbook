@@ -2699,3 +2699,14 @@ paths.
 This remains composition hardening. It does not create live database writes,
 enable student assignment, bypass policy review, or authorize Phaser source
 promotion. See ADR 0778 and DR-855.
+
+## 0782 - Public contract import guard
+
+Migrated the remaining app-level content-model subpath imports to the public
+package root across the web review/AI scaffolding and added
+`verify:content-model-boundary` to the foundation composition gate.
+
+This makes the package boundary enforceable for future work while preserving
+all review-only and no-side-effect restrictions. It does not enable live AI,
+uploads, persistence, assignment, or Phaser source promotion. See ADR 0779
+and DR-856.

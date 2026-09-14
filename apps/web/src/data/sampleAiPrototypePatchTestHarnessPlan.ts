@@ -6,7 +6,7 @@ import {
   type AiPrototypePatchHarnessSectionStatus,
   type AiPrototypePatchTestHarnessPlan as SharedAiPrototypePatchTestHarnessPlan,
   type AiPrototypePatchTestHarnessPlanStatus,
-} from "@living-textbook/content-model/src/aiPrototypePatchTestHarnessPlan";
+} from "@living-textbook/content-model";
 
 export type AiPrototypePatchHarnessSection = SharedAiPrototypePatchHarnessSection;
 export type AiPrototypePatchTestHarnessPlan = SharedAiPrototypePatchTestHarnessPlan;

@@ -2,7 +2,7 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import {
   getAiGeneratorTenantCoverageCollectionWarnings,
   validateAiGeneratorTenantCoverages,
-} from "@living-textbook/content-model/src/aiGeneratorTenantCoverage";
+} from "@living-textbook/content-model";
 import type {
   AiGeneratorTenantCoverage,
   AiGeneratorTenantCoverageLane,

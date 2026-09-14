@@ -3,12 +3,12 @@ import {
   validateAiPrototypeReturnedPackageIntakeAlignment,
   type AiPrototypeIntakeQueueReference,
   type AiPrototypeReturnChecklistReference,
-} from "@living-textbook/content-model/src/aiPrototypeReturnedPackageAlignment";
+} from "@living-textbook/content-model";
 import {
   AI_PROTOTYPE_RETURNED_BLOCKED_ACTIONS,
   validateAiPrototypeReturnedPackageManifest,
   type AiPrototypeReturnedPackageManifest,
-} from "@living-textbook/content-model/src/aiPrototypeReturnedPackageManifest";
+} from "@living-textbook/content-model";
 import { samplePrototypeReturnPackageChecklists } from "@/data/samplePrototypeReturnPackageChecklist";
 import { samplePrototypeIntakeQueue } from "@/data/samplePrototypeIntakeQueue";
 

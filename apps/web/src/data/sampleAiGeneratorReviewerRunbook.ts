@@ -4,7 +4,7 @@ import {
   type AiGeneratorReviewerRunbook,
   type AiGeneratorReviewerRunbookStatus,
   type AiGeneratorReviewerRunbookStep,
-} from "@living-textbook/content-model/src/aiGeneratorReviewerRunbook";
+} from "@living-textbook/content-model";
 
 export type { AiGeneratorReviewerRunbook, AiGeneratorReviewerRunbookStatus, AiGeneratorReviewerRunbookStep };
 

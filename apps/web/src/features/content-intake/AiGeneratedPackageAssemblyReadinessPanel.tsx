@@ -6,7 +6,7 @@ import {
   type AiGeneratedPackageAssemblyLaneStatus,
   type AiGeneratedPackageAssemblyReadiness,
   type AiGeneratedPackageAssemblyReadinessStatus,
-} from "@living-textbook/content-model/src/aiGeneratedPackageAssemblyReadiness";
+} from "@living-textbook/content-model";
 
 interface AiGeneratedPackageAssemblyReadinessPanelProps {
   readiness: AiGeneratedPackageAssemblyReadiness[];

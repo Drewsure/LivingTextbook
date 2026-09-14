@@ -4,7 +4,7 @@ import {
   type AiGeneratorLineageMap,
   type AiGeneratorLineageStep,
   type AiGeneratorLineageStepStatus,
-} from "@living-textbook/content-model/src/aiGeneratorLineageMap";
+} from "@living-textbook/content-model";
 
 export type { AiGeneratorLineageMap, AiGeneratorLineageStep, AiGeneratorLineageStepStatus };
 

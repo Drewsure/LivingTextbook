@@ -8,7 +8,7 @@ import {
   type AiGeneratedPackageWriterHarnessDecisionOption,
   type AiGeneratedPackageWriterHarnessImplementationDecision,
   type AiGeneratedPackageWriterHarnessImplementationDecisionStatus,
-} from "@living-textbook/content-model/src/aiPackageWriterHarnessImplementationDecision";
+} from "@living-textbook/content-model";
 
 export type {
   AiGeneratedPackageWriterHarnessDecisionOption,

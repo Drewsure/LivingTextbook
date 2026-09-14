@@ -4,7 +4,7 @@ import {
   type ProgressEventEffect,
   type ProgressEventTaxonomyItem,
   type ProgressEventTaxonomyRegistry,
-} from "@living-textbook/content-model/src/progressEventTaxonomy";
+} from "@living-textbook/content-model";
 
 export type { ProgressEventEffect, ProgressEventTaxonomyItem, ProgressEventTaxonomyRegistry };
 

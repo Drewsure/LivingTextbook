@@ -2,7 +2,7 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import {
   getAiGeneratedPackageAssemblyDryRunCollectionWarnings,
   validateAiGeneratedPackageAssemblyDryRuns,
-} from "@living-textbook/content-model/src/aiPackageAssemblyDryRun";
+} from "@living-textbook/content-model";
 import type {
   AiGeneratedPackageAssemblyArtifact,
   AiGeneratedPackageAssemblyArtifactStatus,

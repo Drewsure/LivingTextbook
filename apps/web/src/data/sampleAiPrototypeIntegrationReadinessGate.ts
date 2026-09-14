@@ -14,7 +14,7 @@ import {
   type AiPrototypeIntegrationEvidenceStatus,
   type AiPrototypeIntegrationReadinessGate as SharedAiPrototypeIntegrationReadinessGate,
   type AiPrototypeIntegrationReadinessGateStatus,
-} from "@living-textbook/content-model/src/aiPrototypeIntegrationReadinessGate";
+} from "@living-textbook/content-model";
 
 export type AiPrototypeIntegrationEvidenceCheck = SharedAiPrototypeIntegrationEvidenceCheck;
 export type AiPrototypeIntegrationReadinessGate = SharedAiPrototypeIntegrationReadinessGate;

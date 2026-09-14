@@ -6,7 +6,7 @@ import {
   type AiPrototypeCodexPatchApprovalDecisionCheck,
   type AiPrototypeCodexPatchApprovalDecisionCheckStatus,
   type AiPrototypeCodexPatchApprovalDecisionStatus,
-} from "@living-textbook/content-model/src/aiPrototypeCodexPatchApprovalDecision";
+} from "@living-textbook/content-model";
 
 export type AiPrototypeCodexPatchApprovalDecision = SharedAiPrototypeCodexPatchApprovalDecision;
 export type {

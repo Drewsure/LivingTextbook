@@ -5,7 +5,7 @@ import {
   type AiGeneratedPublishReadinessCheckStatus,
   type AiGeneratedPublishReadinessGate,
   type AiGeneratedPublishReadinessStatus,
-} from "@living-textbook/content-model/src/aiGeneratedPublishReadinessGate";
+} from "@living-textbook/content-model";
 
 interface AiGeneratedPublishReadinessGatePanelProps {
   gates: AiGeneratedPublishReadinessGate[];

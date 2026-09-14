@@ -7,8 +7,8 @@ import {
   validatePrototypeIntakeAlert,
   validatePrototypeIntakeAlertAlignment,
   validatePrototypeIntakeAlertTenantScope,
-} from "@living-textbook/content-model/src/prototypeIntakeAlert";
-import type { PrototypeIntakeReadinessSignal } from "@living-textbook/content-model/src/prototypeIntakeAlert";
+} from "@living-textbook/content-model";
+import type { PrototypeIntakeReadinessSignal } from "@living-textbook/content-model";
 
 interface PrototypeIntakeAlertPanelProps {
   alert: PrototypeIntakeAlert;

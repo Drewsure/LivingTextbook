@@ -9,7 +9,7 @@ import {
   type AiGeneratedPackageWriterLocalCompanionArtifactStatus,
   type AiGeneratedPackageWriterLocalCompanionPackageGuard,
   type AiGeneratedPackageWriterLocalCompanionPackageGuardStatus,
-} from "@living-textbook/content-model/src/aiPackageWriterLocalCompanionPackageGuard";
+} from "@living-textbook/content-model";
 
 export type {
   AiGeneratedPackageWriterLocalCompanionArtifact,

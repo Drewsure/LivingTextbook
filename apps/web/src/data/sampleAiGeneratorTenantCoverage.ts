@@ -17,7 +17,7 @@ import {
   type AiGeneratorTenantCoverage,
   type AiGeneratorTenantCoverageLane,
   type AiGeneratorTenantCoverageStatus,
-} from "@living-textbook/content-model/src/aiGeneratorTenantCoverage";
+} from "@living-textbook/content-model";
 
 export type { AiGeneratorTenantCoverage, AiGeneratorTenantCoverageLane, AiGeneratorTenantCoverageStatus };
 

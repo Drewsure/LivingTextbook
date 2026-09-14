@@ -9,7 +9,7 @@ import {
   type PublisherMaintenanceRouteImpact,
   type PublisherMaintenanceStatus,
   type PublisherReleaseWindow,
-} from "@living-textbook/content-model/src/publisherMaintenance";
+} from "@living-textbook/content-model";
 
 export type {
   PublisherMaintenanceChangeRequest,

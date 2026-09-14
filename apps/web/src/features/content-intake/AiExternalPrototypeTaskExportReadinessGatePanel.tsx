@@ -2,7 +2,7 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import {
   getAiExternalPrototypeTaskExportReadinessGateCollectionWarnings,
   validateAiExternalPrototypeTaskExportReadinessGates,
-} from "@living-textbook/content-model/src/aiExternalPrototypeTaskExportReadinessGate";
+} from "@living-textbook/content-model";
 import type {
   AiExternalPrototypeTaskExportCheck,
   AiExternalPrototypeTaskExportReadinessGate,

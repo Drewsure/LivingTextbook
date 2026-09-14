@@ -2,7 +2,7 @@ import {
   getAiGeneratedPackageManifestCollectionWarnings,
   validateAiGeneratedPackageManifests,
   type AiGeneratedPackageManifest,
-} from "@living-textbook/content-model/src/aiGeneratedPackageManifest";
+} from "@living-textbook/content-model";
 
 export const sampleAiGeneratedPackageManifests: AiGeneratedPackageManifest[] = [
   {

@@ -2,7 +2,7 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import {
   getAiGeneratorResponsibilityMatrixCollectionWarnings,
   validateAiGeneratorResponsibilityMatrices,
-} from "@living-textbook/content-model/src/aiGeneratorResponsibilityMatrix";
+} from "@living-textbook/content-model";
 
 import type {
   AiGeneratorResponsibilityMatrix,

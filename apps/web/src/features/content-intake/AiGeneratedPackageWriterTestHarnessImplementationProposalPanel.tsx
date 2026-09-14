@@ -2,7 +2,7 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import {
   getAiGeneratedPackageWriterTestHarnessImplementationProposalCollectionWarnings,
   validateAiGeneratedPackageWriterTestHarnessImplementationProposals,
-} from "@living-textbook/content-model/src/aiPackageWriterTestHarnessImplementationProposal";
+} from "@living-textbook/content-model";
 
 import type {
   AiGeneratedPackageWriterTestHarnessImplementationProposal,

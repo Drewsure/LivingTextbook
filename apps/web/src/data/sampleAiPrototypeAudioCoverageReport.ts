@@ -10,7 +10,7 @@ import {
   type AiPrototypeAudioCoverageReportStatus,
   type AiPrototypeAudioCueKind,
   type AiPrototypeModeAudioCoverageReport as SharedAiPrototypeModeAudioCoverageReport,
-} from "@living-textbook/content-model/src/aiPrototypeAudioCoverageReport";
+} from "@living-textbook/content-model";
 
 export type AiPrototypeModeAudioCoverageReport = SharedAiPrototypeModeAudioCoverageReport;
 export type AiPrototypeAudioCoverageReport = SharedAiPrototypeAudioCoverageReport;

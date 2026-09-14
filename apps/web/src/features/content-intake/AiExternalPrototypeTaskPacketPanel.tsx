@@ -2,7 +2,7 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import {
   getAiExternalPrototypeTaskPacketCollectionWarnings,
   validateAiExternalPrototypeTaskPackets,
-} from "@living-textbook/content-model/src/aiExternalPrototypeTaskPacket";
+} from "@living-textbook/content-model";
 import type {
   AiExternalPrototypeTask,
   AiExternalPrototypeTaskPacket,

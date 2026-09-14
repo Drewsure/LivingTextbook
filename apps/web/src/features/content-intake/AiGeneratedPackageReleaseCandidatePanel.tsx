@@ -6,7 +6,7 @@ import {
   type AiGeneratedPackageReleaseCandidateSignal,
   type AiGeneratedPackageReleaseCandidateSignalStatus,
   type AiGeneratedPackageReleaseCandidateStatus,
-} from "@living-textbook/content-model/src/aiGeneratedPackageReleaseCandidate";
+} from "@living-textbook/content-model";
 
 interface AiGeneratedPackageReleaseCandidatePanelProps {
   candidates: AiGeneratedPackageReleaseCandidate[];

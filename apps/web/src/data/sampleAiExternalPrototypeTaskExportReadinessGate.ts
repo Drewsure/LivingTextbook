@@ -10,7 +10,7 @@ import {
   type AiExternalPrototypeTaskExportCheckStatus,
   type AiExternalPrototypeTaskExportGateStatus,
   type AiExternalPrototypeTaskExportReadinessGate as SharedAiExternalPrototypeTaskExportReadinessGate,
-} from "@living-textbook/content-model/src/aiExternalPrototypeTaskExportReadinessGate";
+} from "@living-textbook/content-model";
 
 export type AiExternalPrototypeTaskExportCheck = SharedAiExternalPrototypeTaskExportCheck;
 export type AiExternalPrototypeTaskExportChannel = SharedAiExternalPrototypeTaskExportChannel;

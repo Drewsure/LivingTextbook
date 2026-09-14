@@ -3076,3 +3076,15 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-854 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-855 and
 `docs/adr/0778-persistence-pilot-policy-public-boundary.md`.
+
+## 203. Public Contract Import Guard Standard
+
+- The foundation suite must fail when app source imports
+  `@living-textbook/content-model/src/*` directly.
+- New web, AI-service, local, and future white-label surfaces must consume
+  shared contracts through the package root.
+- Internal module imports may remain inside the content-model package itself,
+  but they are not an app integration boundary.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-856 and
+`docs/adr/0779-public-contract-import-guard.md`.

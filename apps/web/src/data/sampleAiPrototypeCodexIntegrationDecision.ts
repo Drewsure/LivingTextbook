@@ -13,7 +13,7 @@ import {
   type AiPrototypeCodexIntegrationDecisionCheck as SharedAiPrototypeCodexIntegrationDecisionCheck,
   type AiPrototypeCodexIntegrationDecisionCheckStatus,
   type AiPrototypeCodexIntegrationDecisionStatus,
-} from "@living-textbook/content-model/src/aiPrototypeCodexIntegrationDecision";
+} from "@living-textbook/content-model";
 
 export type AiPrototypeCodexIntegrationDecision = SharedAiPrototypeCodexIntegrationDecision;
 export type AiPrototypeCodexIntegrationDecisionCheck = SharedAiPrototypeCodexIntegrationDecisionCheck;

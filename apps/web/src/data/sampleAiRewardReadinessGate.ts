@@ -1,6 +1,6 @@
 import { sampleAiDraftCorrectionQueues } from "@/data/sampleAiDraftCorrectionQueue";
 import { sampleAiGamificationMappingPlans } from "@/data/sampleAiGamificationMappingPlan";
-import { validateAiGamificationMappingPlan } from "@living-textbook/content-model/src/aiGamificationMapping";
+import { validateAiGamificationMappingPlan } from "@living-textbook/content-model";
 
 export type AiRewardReadinessStatus = "blocked" | "ready-for-review";
 

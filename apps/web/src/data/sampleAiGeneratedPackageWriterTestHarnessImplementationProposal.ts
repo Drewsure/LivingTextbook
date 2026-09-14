@@ -7,7 +7,7 @@ import {
   validateAiGeneratedPackageWriterTestHarnessImplementationProposals,
   type AiGeneratedPackageWriterTestHarnessImplementationProposal,
   type AiGeneratedPackageWriterTestHarnessImplementationProposalStatus,
-} from "@living-textbook/content-model/src/aiPackageWriterTestHarnessImplementationProposal";
+} from "@living-textbook/content-model";
 
 export type {
   AiGeneratedPackageWriterTestHarnessImplementationProposal,

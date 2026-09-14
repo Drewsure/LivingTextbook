@@ -8,7 +8,7 @@ import {
   type AiPrototypeModeScoringReplayReport as SharedAiPrototypeModeScoringReplayReport,
   type AiPrototypeScoringReplayReport as SharedAiPrototypeScoringReplayReport,
   type AiPrototypeScoringReplayReportStatus,
-} from "@living-textbook/content-model/src/aiPrototypeScoringReplayReport";
+} from "@living-textbook/content-model";
 
 export type AiPrototypeModeScoringReplayReport = SharedAiPrototypeModeScoringReplayReport;
 export type AiPrototypeScoringReplayReport = SharedAiPrototypeScoringReplayReport;

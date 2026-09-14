@@ -7,7 +7,7 @@ import {
   type AiExternalPrototypeTaskPacketStatus,
   type AiExternalPrototypeTaskStatus,
   type AiExternalPrototypeTaskSurface,
-} from "@living-textbook/content-model/src/aiExternalPrototypeTaskPacket";
+} from "@living-textbook/content-model";
 import {
   sampleAiGeneratedGameBuildBriefPackets,
   type AiGeneratedGameModeBuildBrief,

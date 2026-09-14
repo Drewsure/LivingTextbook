@@ -8,7 +8,7 @@ import {
   type AiPrototypeMobileAccessibilityReport as SharedAiPrototypeMobileAccessibilityReport,
   type AiPrototypeMobileAccessibilityReportStatus,
   type AiPrototypeModeMobileAccessibilityReport as SharedAiPrototypeModeMobileAccessibilityReport,
-} from "@living-textbook/content-model/src/aiPrototypeMobileAccessibilityReport";
+} from "@living-textbook/content-model";
 
 export type AiPrototypeModeMobileAccessibilityReport = SharedAiPrototypeModeMobileAccessibilityReport;
 export type AiPrototypeMobileAccessibilityReport = SharedAiPrototypeMobileAccessibilityReport;

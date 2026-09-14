@@ -2,7 +2,7 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import {
   validateAiPrototypeReturnedPackageManifest,
   type AiPrototypeReturnedPackageManifest,
-} from "@living-textbook/content-model/src/aiPrototypeReturnedPackageManifest";
+} from "@living-textbook/content-model";
 
 interface AiPrototypeReturnedPackageManifestPanelProps {
   manifests: AiPrototypeReturnedPackageManifest[];

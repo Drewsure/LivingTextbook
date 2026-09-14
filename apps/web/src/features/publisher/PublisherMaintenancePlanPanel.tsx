@@ -2,7 +2,7 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import {
   getPublisherMaintenancePlanWarnings,
   validatePublisherMaintenancePlan,
-} from "@living-textbook/content-model/src/publisherMaintenance";
+} from "@living-textbook/content-model";
 import type {
   PublisherMaintenanceChangeRequest,
   PublisherMaintenanceChangeStatus,

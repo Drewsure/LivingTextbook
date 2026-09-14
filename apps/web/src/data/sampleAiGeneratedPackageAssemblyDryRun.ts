@@ -1,5 +1,5 @@
 import { sampleAiGeneratedPackageAssemblyReadiness } from "@/data/sampleAiGeneratedPackageAssemblyReadiness";
-import type { AiGeneratedPackageAssemblyReadiness } from "@living-textbook/content-model/src/aiGeneratedPackageAssemblyReadiness";
+import type { AiGeneratedPackageAssemblyReadiness } from "@living-textbook/content-model";
 import {
   getAiGeneratedPackageAssemblyDryRunCollectionWarnings,
   validateAiGeneratedPackageAssemblyDryRuns,
@@ -7,7 +7,7 @@ import {
   type AiGeneratedPackageAssemblyArtifactStatus,
   type AiGeneratedPackageAssemblyDryRun,
   type AiGeneratedPackageAssemblyDryRunStatus,
-} from "@living-textbook/content-model/src/aiPackageAssemblyDryRun";
+} from "@living-textbook/content-model";
 
 export type {
   AiGeneratedPackageAssemblyArtifact,

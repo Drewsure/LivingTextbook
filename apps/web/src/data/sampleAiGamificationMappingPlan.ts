@@ -3,7 +3,7 @@ import {
   validateAiGamificationMappingPlan,
   type AiGamificationMappingPlan,
   type AiGamificationMappingStatus,
-} from "@living-textbook/content-model/src/aiGamificationMapping";
+} from "@living-textbook/content-model";
 
 export type { AiGamificationMappingPlan, AiGamificationMappingStatus };
 

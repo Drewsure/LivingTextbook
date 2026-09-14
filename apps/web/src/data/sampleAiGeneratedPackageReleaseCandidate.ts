@@ -6,7 +6,7 @@ import {
   validateAiGeneratedPackageReleaseCandidates,
   type AiGeneratedPackageReleaseCandidate,
   type AiGeneratedPackageReleaseCandidateSignal,
-} from "@living-textbook/content-model/src/aiGeneratedPackageReleaseCandidate";
+} from "@living-textbook/content-model";
 
 export const sampleAiGeneratedPackageReleaseCandidates: AiGeneratedPackageReleaseCandidate[] =
   sampleAiGeneratedPackageManifests.map((manifest) => {

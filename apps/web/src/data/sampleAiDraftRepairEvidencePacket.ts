@@ -5,7 +5,7 @@ import {
   type AiDraftRepairEvidenceItemStatus,
   type AiDraftRepairEvidencePacket,
   type AiDraftRepairEvidencePacketStatus,
-} from "@living-textbook/content-model/src/aiDraftRepairEvidencePacket";
+} from "@living-textbook/content-model";
 
 export type {
   AiDraftRepairEvidenceItem,

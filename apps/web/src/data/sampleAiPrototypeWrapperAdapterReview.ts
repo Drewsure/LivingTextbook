@@ -8,7 +8,7 @@ import {
   type AiPrototypeModeWrapperAdapterReview as SharedAiPrototypeModeWrapperAdapterReview,
   type AiPrototypeWrapperAdapterReview as SharedAiPrototypeWrapperAdapterReview,
   type AiPrototypeWrapperAdapterReviewStatus,
-} from "@living-textbook/content-model/src/aiPrototypeWrapperAdapterReview";
+} from "@living-textbook/content-model";
 
 export type AiPrototypeModeWrapperAdapterReview = SharedAiPrototypeModeWrapperAdapterReview;
 export type AiPrototypeWrapperAdapterReview = SharedAiPrototypeWrapperAdapterReview;

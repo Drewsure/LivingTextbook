@@ -4,7 +4,7 @@ import {
   type AiGeneratorReviewSummary,
   type AiGeneratorReviewSummarySection,
   type AiGeneratorReviewSummaryStatus,
-} from "@living-textbook/content-model/src/aiGeneratorReviewSummary";
+} from "@living-textbook/content-model";
 
 export type { AiGeneratorReviewSummary, AiGeneratorReviewSummarySection, AiGeneratorReviewSummaryStatus };
 

@@ -8,11 +8,15 @@ execFileSync(process.execPath, [fileURLToPath(new URL("./verify-standards-integr
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-curated-pathway-boundary.mjs", import.meta.url))], {
   stdio: "inherit",
 });
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-content-model-public-boundary.mjs", import.meta.url))], {
+  stdio: "inherit",
+});
 
 const packageJson = JSON.parse(readFileSync(new URL("../package.json", import.meta.url), "utf8"));
 const scripts = packageJson.scripts ?? {};
 const foundation = scripts["verify:foundation"] ?? "";
 const requiredCommands = [
+  "npm run verify:content-model-boundary",
   "npm run verify:ai-service",
   "npm run verify:phaser-source-evidence-contract",
   "npm run verify:phaser-scene-inventory",

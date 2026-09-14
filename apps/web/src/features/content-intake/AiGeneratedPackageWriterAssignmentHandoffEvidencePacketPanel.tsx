@@ -2,7 +2,7 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import {
   getAiGeneratedPackageWriterAssignmentHandoffEvidencePacketCollectionWarnings,
   validateAiGeneratedPackageWriterAssignmentHandoffEvidencePackets,
-} from "@living-textbook/content-model/src/aiPackageWriterAssignmentHandoffEvidencePacket";
+} from "@living-textbook/content-model";
 
 import type {
   AiGeneratedPackageWriterAssignmentHandoffEvidenceLane,

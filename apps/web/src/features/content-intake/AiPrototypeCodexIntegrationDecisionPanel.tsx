@@ -2,7 +2,7 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import {
   getAiPrototypeCodexIntegrationDecisionCollectionWarnings,
   validateAiPrototypeCodexIntegrationDecisions,
-} from "@living-textbook/content-model/src/aiPrototypeCodexIntegrationDecision";
+} from "@living-textbook/content-model";
 
 import type {
   AiPrototypeCodexIntegrationDecision,

@@ -9,7 +9,7 @@ import {
   type AiGeneratedPackageWriterAssignmentShellGuardStatus,
   type AiGeneratedPackageWriterAssignmentShellSurface,
   type AiGeneratedPackageWriterAssignmentShellSurfaceStatus,
-} from "@living-textbook/content-model/src/aiPackageWriterAssignmentShellGuard";
+} from "@living-textbook/content-model";
 
 export type {
   AiGeneratedPackageWriterAssignmentShellGuard,

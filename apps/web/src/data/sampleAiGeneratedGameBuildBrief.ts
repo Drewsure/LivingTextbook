@@ -5,7 +5,7 @@ import {
   type AiGeneratedGameBuildBriefPacket as SharedAiGeneratedGameBuildBriefPacket,
   type AiGeneratedGameBuildBriefStatus,
   type AiGeneratedGameModeBuildBrief as SharedAiGeneratedGameModeBuildBrief,
-} from "@living-textbook/content-model/src/aiGeneratedGameBuildBrief";
+} from "@living-textbook/content-model";
 
 import { sampleAiEngineBindingPlans } from "@/data/sampleAiEngineBindingPlan";
 import { sampleAiGameGeneratorPlan } from "@/data/sampleAiGameGeneratorPlan";

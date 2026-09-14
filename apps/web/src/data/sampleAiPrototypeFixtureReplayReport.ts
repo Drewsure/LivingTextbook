@@ -8,7 +8,7 @@ import {
   type AiPrototypeFixtureReplayReport as SharedAiPrototypeFixtureReplayReport,
   type AiPrototypeFixtureReplayReportStatus,
   type AiPrototypeModeFixtureReplayReport as SharedAiPrototypeModeFixtureReplayReport,
-} from "@living-textbook/content-model/src/aiPrototypeFixtureReplayReport";
+} from "@living-textbook/content-model";
 
 export type AiPrototypeModeFixtureReplayReport = SharedAiPrototypeModeFixtureReplayReport;
 export type AiPrototypeFixtureReplayReport = SharedAiPrototypeFixtureReplayReport;

@@ -2,7 +2,7 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import {
   getAiPrototypePatchAuthorizationReleaseLockCollectionWarnings,
   validateAiPrototypePatchAuthorizationReleaseLocks,
-} from "@living-textbook/content-model/src/aiPrototypePatchAuthorizationReleaseLock";
+} from "@living-textbook/content-model";
 
 import type {
   AiPrototypePatchAuthorizationReleaseLock,

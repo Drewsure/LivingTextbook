@@ -8,7 +8,7 @@ import {
   type AiGeneratedPackageWriterTestEvidenceLane,
   type AiGeneratedPackageWriterTestEvidencePacket,
   type AiGeneratedPackageWriterTestEvidencePacketStatus,
-} from "@living-textbook/content-model/src/aiPackageWriterTestEvidencePacket";
+} from "@living-textbook/content-model";
 
 export type {
   AiGeneratedPackageWriterTestEvidenceLane,

@@ -9,7 +9,7 @@ import {
   type AiGeneratedPackageWriterRoutePlaylistSurfaceStatus,
   type AiGeneratedPackageWriterRoutePlaylistWriteGuard,
   type AiGeneratedPackageWriterRoutePlaylistWriteGuardStatus,
-} from "@living-textbook/content-model/src/aiPackageWriterRoutePlaylistWriteGuard";
+} from "@living-textbook/content-model";
 
 export type {
   AiGeneratedPackageWriterRoutePlaylistSurface,

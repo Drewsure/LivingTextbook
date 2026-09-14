@@ -2,7 +2,7 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import {
   getAiPrototypeWrapperAdapterReviewCollectionWarnings,
   validateAiPrototypeWrapperAdapterReviews,
-} from "@living-textbook/content-model/src/aiPrototypeWrapperAdapterReview";
+} from "@living-textbook/content-model";
 import type {
   AiPrototypeModeWrapperAdapterReview,
   AiPrototypeWrapperAdapterReview,

@@ -2,7 +2,7 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import {
   getAiTargetLanguageAudioApprovalPacketCollectionWarnings,
   validateAiTargetLanguageAudioApprovalPackets,
-} from "@living-textbook/content-model/src/aiTargetLanguageAudioApprovalPacket";
+} from "@living-textbook/content-model";
 
 import type {
   AiTargetLanguageAudioApprovalCueKind,

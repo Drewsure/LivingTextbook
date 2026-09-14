@@ -5,7 +5,7 @@ import {
   type AiPrototypeModeReturnReview as SharedAiPrototypeModeReturnReview,
   type AiPrototypeReturnReviewPacket as SharedAiPrototypeReturnReviewPacket,
   type AiPrototypeReturnReviewStatus,
-} from "@living-textbook/content-model/src/aiPrototypeReturnReview";
+} from "@living-textbook/content-model";
 import {
   sampleAiGeneratedGameBuildBriefPackets,
   type AiGeneratedGameModeBuildBrief,

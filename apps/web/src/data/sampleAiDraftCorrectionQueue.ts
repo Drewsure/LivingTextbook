@@ -1,7 +1,7 @@
 import {
   getAiGeneratedDraftPayloadPreviewWarnings,
   validateAiGeneratedDraftPayloadPreview,
-} from "@living-textbook/content-model/src/aiGeneratedDraftPayload";
+} from "@living-textbook/content-model";
 import {
   getAiDraftCorrectionQueueCollectionWarnings,
   validateAiDraftCorrectionQueues,
@@ -9,7 +9,7 @@ import {
   type AiDraftCorrectionItemSeverity,
   type AiDraftCorrectionQueue,
   type AiDraftCorrectionQueueStatus,
-} from "@living-textbook/content-model/src/aiDraftCorrectionQueue";
+} from "@living-textbook/content-model";
 import {
   type AiGeneratedDraftPayloadPreview,
   sampleAiGeneratedDraftPayloadPreviews,

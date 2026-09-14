@@ -8,7 +8,7 @@ import {
   type AiPrototypeIntegrationPlan as SharedAiPrototypeIntegrationPlan,
   type AiPrototypeIntegrationPlanStatus,
   type AiPrototypeModeIntegrationPlan as SharedAiPrototypeModeIntegrationPlan,
-} from "@living-textbook/content-model/src/aiPrototypeIntegrationPlan";
+} from "@living-textbook/content-model";
 
 export type AiPrototypeModeIntegrationPlan = SharedAiPrototypeModeIntegrationPlan;
 export type AiPrototypeIntegrationPlan = SharedAiPrototypeIntegrationPlan;

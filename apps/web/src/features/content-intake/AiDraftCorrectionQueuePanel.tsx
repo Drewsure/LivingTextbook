@@ -2,7 +2,7 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import {
   getAiDraftCorrectionQueueCollectionWarnings,
   validateAiDraftCorrectionQueues,
-} from "@living-textbook/content-model/src/aiDraftCorrectionQueue";
+} from "@living-textbook/content-model";
 import type {
   AiDraftCorrectionItemSeverity,
   AiDraftCorrectionQueue,

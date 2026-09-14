@@ -4,7 +4,7 @@ import {
   validateAiPrototypePatchHarnessImplementationProposals,
   type AiPrototypePatchHarnessImplementationProposal as SharedAiPrototypePatchHarnessImplementationProposal,
   type AiPrototypePatchHarnessImplementationProposalStatus,
-} from "@living-textbook/content-model/src/aiPrototypePatchHarnessImplementationProposal";
+} from "@living-textbook/content-model";
 
 export type AiPrototypePatchHarnessImplementationProposal = SharedAiPrototypePatchHarnessImplementationProposal;
 export type { AiPrototypePatchHarnessImplementationProposalStatus };

@@ -9,7 +9,7 @@ import {
   type AiGeneratedPackageWriterImplementationReadinessStatus,
   type AiGeneratedPackageWriterModule,
   type AiGeneratedPackageWriterModuleStatus,
-} from "@living-textbook/content-model/src/aiPackageWriterImplementationReadiness";
+} from "@living-textbook/content-model";
 
 export type {
   AiGeneratedPackageWriterImplementationReadiness,

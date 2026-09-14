@@ -8,7 +8,7 @@ import {
   type AiGeneratedPackageWriterModuleTestPlan,
   type AiGeneratedPackageWriterModuleTestPlanStatus,
   type AiGeneratedPackageWriterModuleTestSuite,
-} from "@living-textbook/content-model/src/aiPackageWriterModuleTestPlan";
+} from "@living-textbook/content-model";
 
 export type {
   AiGeneratedPackageWriterModuleTestPlan,

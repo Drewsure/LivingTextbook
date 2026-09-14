@@ -6,7 +6,7 @@ import {
   type AiPrototypePatchTestLaneStatus,
   type AiPrototypePatchTestReadinessGate as SharedAiPrototypePatchTestReadinessGate,
   type AiPrototypePatchTestReadinessGateStatus,
-} from "@living-textbook/content-model/src/aiPrototypePatchTestReadinessGate";
+} from "@living-textbook/content-model";
 
 export type AiPrototypePatchTestLane = SharedAiPrototypePatchTestLane;
 export type AiPrototypePatchTestReadinessGate = SharedAiPrototypePatchTestReadinessGate;

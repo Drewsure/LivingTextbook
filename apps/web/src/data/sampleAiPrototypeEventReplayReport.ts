@@ -8,7 +8,7 @@ import {
   type AiPrototypeEventReplayReport as SharedAiPrototypeEventReplayReport,
   type AiPrototypeEventReplayReportStatus,
   type AiPrototypeModeEventReplayReport as SharedAiPrototypeModeEventReplayReport,
-} from "@living-textbook/content-model/src/aiPrototypeEventReplayReport";
+} from "@living-textbook/content-model";
 
 export type AiPrototypeModeEventReplayReport = SharedAiPrototypeModeEventReplayReport;
 export type AiPrototypeEventReplayReport = SharedAiPrototypeEventReplayReport;
