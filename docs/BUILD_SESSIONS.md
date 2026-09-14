@@ -2527,3 +2527,13 @@ closed, with a regression test proving an in-repository candidate is rejected.
 This preserves the review-only handoff and does not import source, create
 routes, mutate scoring or audio policy, assign students, or promote Phaser
 code. See ADR 0761 and DR-838.
+
+## 0766 - Canonical game replay coverage
+
+Added a deterministic runtime harness that validates ordered canonical event
+evidence for all twelve active game modes. Each mode is checked against its
+shared scoring profile, dust cap, target-language audio, replay identity, and
+completion award without creating routes or learner state.
+
+This is foundation verification only and does not replace browser interaction
+testing or authorize Phaser source promotion. See ADR 0762 and DR-839.

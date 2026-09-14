@@ -2852,3 +2852,18 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-837 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-838 and
 `docs/adr/0761-phaser-candidate-root-isolation.md`.
+
+## 186. Canonical Game Replay Coverage Standard
+
+- Every active canonical game mode must pass a deterministic synthetic replay
+  through the shared event validator before it is treated as a foundation
+  reference implementation.
+- Replay evidence must preserve the mode's scoring profile, dust cap,
+  target-language audio, replay seed, tenant/unit/launch/student identity,
+  and ordered completion sequence.
+- This harness is contract verification only. It does not replace visual or
+  browser interaction testing, award learner progress, or authorize Phaser
+  source promotion.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-839 and
+`docs/adr/0762-canonical-game-replay-harness.md`.
