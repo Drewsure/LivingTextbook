@@ -2787,3 +2787,16 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-829 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-833 and
 `docs/adr/0756-canonical-completion-target-language.md`.
+
+## 181. Canonical Game Wrapper Language Contract
+
+- Every canonical game wrapper must require the resolved target language in
+  its props; optional wrapper language is not an acceptable integration
+  boundary.
+- Route and orchestration layers remain responsible for tenant-first language
+  resolution before mounting a game.
+- Static canonical verification must cover every active wrapper so a new game
+  cannot omit learner-language context while still appearing integrated.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-834 and
+`docs/adr/0757-canonical-game-wrapper-language.md`.

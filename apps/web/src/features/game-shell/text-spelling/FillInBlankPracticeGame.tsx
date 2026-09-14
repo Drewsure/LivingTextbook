@@ -27,7 +27,7 @@ interface FillInBlankPracticeGameProps {
   progression: StudentProgressionState;
   replaySeed: string;
   audioCues?: AudioCue[];
-  targetLanguage?: string;
+  targetLanguage: string;
   onEvent?: (event: GameProgressEvent) => void;
   onComplete: (result: GameModeCompletionResult) => void;
 }

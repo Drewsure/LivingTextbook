@@ -287,6 +287,9 @@ for (const integration of integrations) {
   if (!component.includes("getRequiredGameScoringProfileForMode") && !component.includes("preview.scoringProfileId")) {
     failures.push(`${integration.id}: scoring profile must come from the required resolver or a canonical engine preview`);
   }
+  if (!component.includes("targetLanguage: string;")) {
+    failures.push(`${integration.id}: canonical game wrapper must require the resolved target language`);
+  }
   if (!component.includes("configuredTargetLanguage")) {
     failures.push(`${integration.id}: target language must be accepted from the route handoff`);
   }

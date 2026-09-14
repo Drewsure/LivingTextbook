@@ -2474,3 +2474,14 @@ silently omit the language needed to validate learner audio evidence.
 This is a compile-time and static-verification hardening slice only. It does
 not change progression, scoring, persistence, reporting, assignment, rewards,
 or Phaser source-promotion authority. See ADR 0756 and DR-833.
+
+## 0761 - Required canonical game wrapper language
+
+Made the resolved target language required in all eleven canonical game
+wrapper prop contracts and added a verifier guard for every active wrapper.
+This keeps route handoff, learner audio, and completion evidence on one
+explicit white-label language boundary.
+
+This is a type and verification hardening slice only. It does not change
+unlock, scoring, progression, persistence, reporting, assignment, rewards, or
+Phaser source-promotion authority. See ADR 0757 and DR-834.

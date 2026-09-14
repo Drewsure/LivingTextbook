@@ -4803,3 +4803,12 @@ with the mounted learner experience and makes omissions visible at compile
 time and in static verification. The gate remains validation-only and does
 not create progression, mastery, persistence, reporting, assignment, reward,
 or Phaser source-promotion authority. See ADR 0756.
+
+# DR-834: Required Canonical Game Wrapper Language
+
+All active canonical game wrappers must require the resolved target language
+from their route/orchestration caller. Optional wrapper language would allow
+learner audio and completion evidence to drift from tenant policy. The static
+canonical verifier must guard every wrapper. This does not create progression,
+mastery, persistence, reporting, assignment, reward, or Phaser
+source-promotion authority. See ADR 0757.

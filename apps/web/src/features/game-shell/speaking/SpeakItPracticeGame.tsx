@@ -36,7 +36,7 @@ interface SpeakItPracticeGameProps {
   progression: StudentProgressionState;
   replaySeed: string;
   audioCues?: AudioCue[];
-  targetLanguage?: string;
+  targetLanguage: string;
   microphonePractice: TenantMicrophonePracticeSettings;
   onEvent?: (event: GameProgressEvent) => void;
   onComplete: (result: GameModeCompletionResult) => void;
