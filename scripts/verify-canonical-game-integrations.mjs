@@ -263,6 +263,9 @@ for (const integration of integrations) {
   if (component.includes('scoringProfileId: "') || component.includes('scoringProfile?.id ??')) {
     failures.push(`${integration.id}: scoring profile evidence must not hard-code or nullable-fallback a profile`);
   }
+  if (component.includes("Math.min(200, scoringProfile.completionDustCap)")) {
+    failures.push(`${integration.id}: completion dust must not use a smaller hard-coded cap than the canonical scoring profile`);
+  }
 }
 
 for (const integration of integrations) {

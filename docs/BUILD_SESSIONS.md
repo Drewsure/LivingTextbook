@@ -2317,3 +2317,13 @@ An explicitly supplied report target language must also be non-blank, so
 malformed tenant context cannot silently disable the language boundary.
 No persistence, report export, progression, reward, assignment, or Phaser
 source promotion was enabled. See ADR 0745 and DR-819.
+
+## 0747 - Speak It canonical scoring-cap alignment
+
+Removed a legacy hard-coded 200 Star Dust ceiling from the Speak It wrapper.
+Completed speech practice now uses the required shared speaking/listening
+profile cap, while the shared progression adapter and canonical event validator
+continue to enforce the mode and unit ceilings. Added a static integration guard
+against reintroducing the smaller literal cap. No persistence, report export,
+progression policy, reward, assignment, or Phaser source promotion was enabled.
+See ADR 0746 and DR-820.
