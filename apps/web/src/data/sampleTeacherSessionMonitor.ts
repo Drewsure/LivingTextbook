@@ -242,6 +242,9 @@ export function resolveSampleTeacherSessionMonitorContext(launchCode: string): T
     events,
     launchContext.tenant.id,
     launchContext.launchSession.launchCode,
+    launchContext.tenant.languageSettings?.targetLanguage
+      ?? launchContext.unit?.unitMeta.textbookReference?.language
+      ?? "en",
   );
 
   return {

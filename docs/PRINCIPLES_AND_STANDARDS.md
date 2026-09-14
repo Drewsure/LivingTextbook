@@ -2608,6 +2608,22 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-816 and
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-817 and
 `docs/adr/0743-target-language-audio-boundary.md`.
 
+## 168. Teacher Report Target-Language Evidence Standard
+
+- When a teacher report has tenant or unit target-language context, its
+  canonical game evidence validator must receive that language.
+- Report evidence must reject learner-facing audio in an assist language even
+  when the event order, replay seed, and scoring profile are otherwise valid.
+- Legacy review-only callers may omit the language when no unit context exists;
+  this is an explicit compatibility path, not permission to weaken student or
+  tenant-aware report validation.
+- Teacher session monitors must resolve the target language from tenant
+  settings first, then the unit textbook reference, before defaulting to the
+  platform baseline.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-819 and
+`docs/adr/0745-canonical-report-target-language.md`.
+
 ## 169. Canonical Game Dust Cap Standard
 
 - The content model must own the maximum completion award for every canonical

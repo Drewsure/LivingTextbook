@@ -21,6 +21,7 @@ export type ReportLearnerIdentityMode = "pseudonymous-slots-only" | "real-identi
 export interface TeacherReportRuntimeRequest {
   tenantId: string;
   launchCode: string;
+  targetLanguage?: string;
   format: TeacherReportExportFormat;
   scopes: TeacherReportExportScope[];
   reportPlan: TeacherReportExportPlan;
@@ -60,9 +61,10 @@ export function validateTeacherReportCanonicalGameEvents(
   events: GameProgressEvent[],
   tenantId: string,
   launchCode: string,
+  targetLanguage?: string,
 ): string[] {
   if (events.length > 0 && events.every((event) => event.type === "audio_requested")) return [];
-  const evidence = validateCanonicalGameReportEvidence(events, tenantId, launchCode);
+  const evidence = validateCanonicalGameReportEvidence(events, tenantId, launchCode, targetLanguage);
   return evidence.errors.map((error) => `teacher report canonical game evidence: ${error}`);
 }
 
@@ -118,7 +120,12 @@ export function validateTeacherReportRuntimeRequest(request: TeacherReportRuntim
     .filter(isCanonicalGameEnvelope)
     .map(toGameProgressEvent);
   if (canonicalGameEvents.some((event) => event.type !== "audio_requested")) {
-    errors.push(...validateTeacherReportCanonicalGameEvents(canonicalGameEvents, request.tenantId, request.launchCode));
+    errors.push(...validateTeacherReportCanonicalGameEvents(
+      canonicalGameEvents,
+      request.tenantId,
+      request.launchCode,
+      request.targetLanguage,
+    ));
   }
 
   const missingLaunchCode = request.eventEnvelopes.some((envelope) => isRecord(envelope) && !readString(envelope, "launch_code"));

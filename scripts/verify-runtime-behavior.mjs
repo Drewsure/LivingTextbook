@@ -575,8 +575,15 @@ try {
     "flashcards",
   ).errors;
   assertIncludes(outOfOrderErrors, "Canonical game event sequence must be chronological by occurredAt.");
-  const canonicalReportEvidence = canonicalGameReport.validateCanonicalGameReportEvidence(canonicalEvents, "tenant-1", "launch-1");
+  const canonicalReportEvidence = canonicalGameReport.validateCanonicalGameReportEvidence(canonicalEvents, "tenant-1", "launch-1", "en");
   assertEqual(canonicalReportEvidence.valid, true);
+  const wrongTargetLanguageReportEvidence = canonicalGameReport.validateCanonicalGameReportEvidence(
+    canonicalEvents,
+    "tenant-1",
+    "launch-1",
+    "ja",
+  );
+  assertIncludes(wrongTargetLanguageReportEvidence.errors, "flashcards: Canonical game audio_requested events must use target language ja; found en.");
   const retriedReportEvidence = canonicalGameReport.validateCanonicalGameReportEvidence(
     [...canonicalEvents, ...canonicalEvents],
     "tenant-1",
@@ -1756,7 +1763,11 @@ try {
   assertIncludes(reportErrors, "core teacher reports must use pseudonymous learner slots only");
   assertIncludes(reportErrors, "raw learner audio is excluded from core teacher reports");
   assertEqual(report.createReviewOnlyTeacherReportRuntimeAdapter().execute(reportRequest).sideEffect, "none");
-  assertEqual(report.validateTeacherReportCanonicalGameEvents(canonicalEvents, "tenant-1", "launch-1").length, 0);
+  assertEqual(report.validateTeacherReportCanonicalGameEvents(canonicalEvents, "tenant-1", "launch-1", "en").length, 0);
+  assertIncludes(
+    report.validateTeacherReportCanonicalGameEvents(canonicalEvents, "tenant-1", "launch-1", "ja"),
+    "teacher report canonical game evidence: flashcards: Canonical game audio_requested events must use target language ja; found en.",
+  );
   assertEqual(report.validateTeacherReportCanonicalGameEvents([
     { ...canonicalEvents[4], type: "audio_requested" },
   ], "tenant-1", "launch-1").length, 0);

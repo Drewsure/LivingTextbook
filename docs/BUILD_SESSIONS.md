@@ -2302,3 +2302,14 @@ source promotion was enabled. See ADR 0744.
 Runtime coverage now proves both limits independently: an oversized request is
 clamped to the mode cap, and a valid mode award is further reduced when the
 remaining unit capacity is smaller.
+
+## 0746 - Canonical report target-language evidence
+
+Carried the resolved tenant/unit target language into canonical teacher report
+evidence validation. Tenant-aware teacher session monitors now pass the target
+language to report replay, and report evidence rejects assist-language audio
+even when the game event sequence, replay seed, and scoring profile are valid.
+Legacy review-only callers remain compatible when no unit language is available.
+Added runtime coverage for both compatible and wrong-language report evidence.
+No persistence, report export, progression, reward, assignment, or Phaser
+source promotion was enabled. See ADR 0745 and DR-819.

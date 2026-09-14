@@ -40,6 +40,7 @@ export function validateCanonicalGameReportEvidence(
   events: GameProgressEvent[],
   expectedTenantId?: string,
   expectedLaunchCode?: string,
+  expectedTargetLanguage?: string,
 ): CanonicalGameReportEvidence {
   const groups = new Map<string, GameProgressEvent[][]>();
 
@@ -82,6 +83,7 @@ export function validateCanonicalGameReportEvidence(
         launchCode && studentSessionId
           ? { unitKey: firstEvent.unitKey, launchCode, studentSessionId }
           : undefined,
+        expectedTargetLanguage,
       );
       errors.push(...replay.errors);
 

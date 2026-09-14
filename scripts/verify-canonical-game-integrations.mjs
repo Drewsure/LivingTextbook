@@ -302,6 +302,13 @@ if (!routeShell.includes("targetLanguage,")) {
   failures.push("route shell: playable wrappers must receive the resolved target language");
 }
 
+if (!reportContract.includes("expectedTargetLanguage?: string") || !reportContract.includes("expectedTargetLanguage,")) {
+  failures.push("report contract: canonical evidence must accept and forward the expected target language");
+}
+if (!sessionMonitorData.includes("languageSettings?.targetLanguage")) {
+  failures.push("teacher session monitor: canonical report evidence must use the tenant target language");
+}
+
 for (const [surface, source] of [
   ["front-door orchestration", frontDoorFlow],
   ["student orchestration", studentLaunchFlow],

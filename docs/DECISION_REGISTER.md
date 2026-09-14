@@ -4692,3 +4692,13 @@ the unit economy cap; canonical evidence rejects over-cap mastery or
 completion awards. This does not enable persistence, scoring mutation,
 progression policy changes, rewards, assignment, or Phaser source promotion.
 See ADR 0744.
+
+# DR-819: Canonical Report Target-Language Evidence
+
+When tenant or unit language context is available, teacher report validation
+must pass the resolved target language into canonical game evidence replay.
+Support-language audio remains useful as assistance, but cannot satisfy the
+target-language evidence required for a ready game report. Older review-only
+callers may omit the language when they have no unit context. This does not
+enable persistence, report export, progression, rewards, assignment, or Phaser
+source promotion. See ADR 0745.
