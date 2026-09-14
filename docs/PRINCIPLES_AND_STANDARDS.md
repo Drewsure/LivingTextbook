@@ -2825,3 +2825,16 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-835 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-836 and
 `docs/adr/0759-non-blank-completion-language.md`.
+
+## 184. AI Evidence Package Language Fail-Closed Standard
+
+- AI-generated game build briefs and prototype audio-coverage reports must
+  receive an explicit target language from their reviewed source records.
+- Evidence-package assembly must fail closed when that language is missing;
+  it must not silently label a white-label package as English.
+- This applies before external prototype evidence can be considered for
+  canonical integration and does not authorize provider calls, student use,
+  assignment, progression, or Phaser promotion.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-837 and
+`docs/adr/0760-ai-evidence-target-language.md`.

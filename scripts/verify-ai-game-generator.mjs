@@ -543,6 +543,10 @@ requireText(generatedGameBuildBriefValidator, "validateAiGeneratedGameBuildBrief
 requireText(generatedGameBuildBriefValidator, "AI_GENERATED_GAME_BUILD_BRIEF_REQUIRED_EVENTS", "AI generated game build brief validator must define required events.");
 requireText(generatedGameBuildBrief, "sampleAiGeneratedGameBuildBriefPacketErrors", "AI generated game build brief data must expose shared guard errors.");
 requireText(generatedGameBuildBrief, "sampleAiGeneratedGameBuildBriefPacketWarnings", "AI generated game build brief data must expose shared guard warnings.");
+requireText(generatedGameBuildBrief, "requires an explicit target language", "AI generated game build brief must fail closed when target language is absent.");
+if (generatedGameBuildBrief.includes('targetLanguage: request?.targetLanguage ?? "English"')) {
+  failures.push("AI generated game build brief must not silently default target language to English.");
+}
 requireText(generatedGameBuildBrief, "Z.ai prototype brief", "AI generated game build brief must identify external prototype briefs.");
 requireText(generatedGameBuildBrief, "standard_event_contract", "AI generated game build brief must require the standard event contract.");
 requireText(generatedGameBuildBrief, "audio_cue_manifest", "AI generated game build brief must require audio cue manifests.");
@@ -1202,6 +1206,10 @@ requireText(
   "sampleAiPrototypeAudioCoverageReportWarnings",
   "AI prototype audio coverage report sample data must expose shared guard warnings.",
 );
+requireText(prototypeAudioCoverageReport, "requires an explicit target language", "AI prototype audio coverage report must fail closed when target language is absent.");
+if (prototypeAudioCoverageReport.includes('targetLanguage: audioPlan?.targetLanguage ?? "English"')) {
+  failures.push("AI prototype audio coverage report must not silently default target language to English.");
+}
 requireText(prototypeAudioCoverageReport, "prototype_audio_coverage_report", "AI prototype audio coverage report must name its record.");
 requireText(prototypeAudioCoverageReport, "audio_cue_manifest", "AI prototype audio coverage report must require audio cue manifests.");
 requireText(

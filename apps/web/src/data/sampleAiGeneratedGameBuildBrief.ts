@@ -38,6 +38,10 @@ export const sampleAiGeneratedGameBuildBriefPackets: AiGeneratedGameBuildBriefPa
     const audioPlan = sampleAiGeneratorAudioCoveragePlans.find((plan) => plan.requestId === bindingPlan.requestId);
     const gamificationPlan = sampleAiGamificationMappingPlans.find((plan) => plan.requestId === bindingPlan.requestId);
     const isMiniStar = bindingPlan.tenantId === "ministar";
+    const targetLanguage = request?.targetLanguage?.trim();
+    if (!targetLanguage) {
+      throw new Error(`AI generated game build brief ${bindingPlan.requestId} requires an explicit target language.`);
+    }
 
     return {
       packetId: `ai-generated-game-build-brief-${bindingPlan.requestId}`,
@@ -63,7 +67,7 @@ export const sampleAiGeneratedGameBuildBriefPackets: AiGeneratedGameBuildBriefPa
           modeId,
           tenantId: bindingPlan.tenantId,
           requestLabel: request?.label ?? bindingPlan.label,
-          targetLanguage: request?.targetLanguage ?? "English",
+          targetLanguage,
           audioRule: audioPlan?.learningAudioPriorityRule ?? "Learning audio must be reviewed before student use.",
           rewardRule:
             gamificationPlan?.summary ??

@@ -2505,3 +2505,14 @@ principles and decision register.
 
 This does not change scoring, progression, persistence, reporting, assignment,
 rewards, or Phaser source-promotion authority. See ADR 0759 and DR-836.
+
+## 0764 - AI evidence target language fail-closed assembly
+
+Removed silent English defaults from the AI-generated game build brief and
+prototype audio-coverage evidence builders. Both now reject missing target
+language before review evidence can be assembled, with static verifier checks
+covering the boundary.
+
+This does not enable model calls, provider billing, student assignment,
+progression, persistence, reporting, or Phaser source promotion. See ADR 0760
+and DR-837.

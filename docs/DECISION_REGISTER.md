@@ -4830,3 +4830,11 @@ when data arrives through JavaScript or serialization. The guard is
 validation-only and does not create progression, mastery, persistence,
 reporting, assignment, rewards, or Phaser source-promotion authority. See ADR
 0759.
+
+# DR-837: AI Evidence Target Language Fail-Closed Assembly
+
+AI-generated game build briefs and prototype audio-coverage evidence must
+require explicit target language from reviewed source records. Missing
+language must fail package assembly rather than silently selecting English.
+This does not create provider calls, billing, assignment, progression,
+persistence, reporting, or Phaser source-promotion authority. See ADR 0760.

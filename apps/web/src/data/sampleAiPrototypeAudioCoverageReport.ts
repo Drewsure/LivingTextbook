@@ -22,6 +22,10 @@ export const sampleAiPrototypeAudioCoverageReports: AiPrototypeAudioCoverageRepo
   sampleAiPrototypeIntegrationPlans.map((plan) => {
     const audioPlan = sampleAiGeneratorAudioCoveragePlans.find((candidate) => candidate.requestId === plan.requestId);
     const isMiniStar = plan.tenantId === "ministar";
+    const targetLanguage = audioPlan?.targetLanguage?.trim();
+    if (!targetLanguage) {
+      throw new Error(`AI prototype audio coverage report ${plan.requestId} requires an explicit target language.`);
+    }
 
     return {
       reportId: `prototype-audio-coverage-report-${plan.requestId}`,
@@ -41,7 +45,7 @@ export const sampleAiPrototypeAudioCoverageReports: AiPrototypeAudioCoverageRepo
         "package_game_audio_coverage",
         "background_media_policy_binding",
       ],
-      targetLanguage: audioPlan?.targetLanguage ?? "English",
+      targetLanguage,
       assistLanguagePolicy:
         audioPlan?.assistLanguagePolicy ??
         "Support-language audio is optional, teacher-enabled, support-only, and cannot unlock progress.",
