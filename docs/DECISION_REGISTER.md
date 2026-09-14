@@ -4735,3 +4735,11 @@ training, media, and progress surfaces must pass the resolved tenant/unit
 target language instead of relying on the audio component's English default.
 This does not enable persistence, report export, progression, rewards,
 assignment, or Phaser source promotion. See ADR 0751.
+
+# DR-826: Learner Route-Guidance Audio
+
+Recommended game paths, activity-hub summaries, recovery recommendations,
+and media playlist controls must receive the resolved tenant/unit target
+language for tap-to-speak content. Route guidance remains support-only and
+cannot unlock mastery. This does not enable persistence, report export,
+progression, rewards, assignment, or Phaser source promotion. See ADR 0752.

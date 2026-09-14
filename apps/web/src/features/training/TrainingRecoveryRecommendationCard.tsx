@@ -8,11 +8,13 @@ import type { TrainingRecoveryTriggerRecommendation } from "./trainingRecoveryTr
 interface TrainingRecoveryRecommendationCardProps {
   recommendation: TrainingRecoveryTriggerRecommendation;
   rewardName: string;
+  targetLanguage: string;
 }
 
 export function TrainingRecoveryRecommendationCard({
   recommendation,
   rewardName,
+  targetLanguage,
 }: TrainingRecoveryRecommendationCardProps) {
   return (
     <Card>
@@ -21,7 +23,7 @@ export function TrainingRecoveryRecommendationCard({
           <p className="text-sm font-semibold text-[var(--tenant-muted)]">Training Academy</p>
           <h3 className="text-lg font-bold">Recovery Practice Recommended</h3>
           <p className="mt-1 max-w-2xl text-sm leading-6 text-[var(--tenant-muted)]">
-            <AudioCueText text={recommendation.reason} label="Tap the recovery recommendation to hear it" className="text-sm" />
+            <AudioCueText text={recommendation.reason} language={targetLanguage} label="Tap the recovery recommendation to hear it" className="text-sm" />
           </p>
         </div>
         <StatusPill label={recommendation.triggerLabel} tone="warning" />

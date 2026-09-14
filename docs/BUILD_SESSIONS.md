@@ -2380,3 +2380,16 @@ Added a canonical integration guard against audio-supported game actions that
 omit `audioLanguage={targetLanguage}`. This hardens the learner audio boundary
 without changing unlock, scoring, persistence, reporting, assignment, or
 Phaser source-promotion authority. See ADR 0751 and DR-825.
+
+## 0753 - Learner route-guidance audio handoff
+
+Extended the explicit target-language audio boundary to recommended game
+routes, activity-hub summaries, recovery recommendations, and the media
+playlist route. The media playlist now receives tenant language context, while
+student and front-door flows pass the resolved unit language through route
+guidance and recovery cards.
+
+This keeps instructional guidance consistent with the game and progress
+surfaces without changing progression, unlock, scoring, persistence,
+reporting, assignment, or Phaser source-promotion authority. See ADR 0752 and
+DR-826.

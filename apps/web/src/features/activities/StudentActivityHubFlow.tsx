@@ -52,6 +52,7 @@ export function StudentActivityHubFlow({
   offerMap,
 }: StudentActivityHubFlowProps) {
   const unitKey = getUnitKey(unit.unitMeta);
+  const targetLanguage = tenant.languageSettings?.targetLanguage ?? unit.unitMeta.textbookReference?.language ?? "en";
   const playlist = contentPackage.playlists?.find((candidate) => candidate.unitKey === unitKey);
   const entryComplete = progression.completedGameModes.includes(launchSession.entryMode);
   const activities = buildActivityItems({
@@ -79,6 +80,7 @@ export function StudentActivityHubFlow({
             <p className="mt-1 text-sm leading-6 text-[var(--tenant-muted)]">
               <AudioCueText
                 text="Start with flashcards. Then use the reviewed activities your teacher assigns."
+                language={targetLanguage}
                 label="Tap the activity hub instruction to hear it"
                 className="text-sm"
               />
@@ -101,7 +103,7 @@ export function StudentActivityHubFlow({
 
         <div className="mt-5 grid gap-3 sm:grid-cols-2">
           {activities.map((activity) => (
-            <ActivityRouteCard key={activity.id} activity={activity} />
+            <ActivityRouteCard key={activity.id} activity={activity} targetLanguage={targetLanguage} />
           ))}
         </div>
       </Card>
@@ -118,7 +120,7 @@ export function StudentActivityHubFlow({
   );
 }
 
-function ActivityRouteCard({ activity }: { activity: ActivityHubItem }) {
+function ActivityRouteCard({ activity, targetLanguage }: { activity: ActivityHubItem; targetLanguage: string }) {
   const blocked = activity.status === "locked";
 
   return (
@@ -133,6 +135,7 @@ function ActivityRouteCard({ activity }: { activity: ActivityHubItem }) {
       <p className="mt-3 text-sm leading-6 text-[var(--tenant-muted)]">
         <AudioCueText
           text={activity.summary}
+          language={targetLanguage}
           label={`Tap the ${activity.label} route summary to hear it`}
           className="text-sm"
         />

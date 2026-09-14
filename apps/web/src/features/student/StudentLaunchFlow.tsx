@@ -380,6 +380,7 @@ export function StudentLaunchFlow({
       <RecommendedGameRoutesCard
         launchSession={launchSession}
         progression={currentProgression}
+        targetLanguage={targetLanguage}
         contentPackageId={contentPackage.meta.packageId}
         onRouteGuidanceListened={handleRouteGuidanceListened}
       />
@@ -522,7 +523,7 @@ export function StudentLaunchFlow({
         <PairingEnginePreview unit={unit} gameMode={activeGameMode} />
       )}
       {recoveryRecommendation && (
-        <TrainingRecoveryRecommendationCard recommendation={recoveryRecommendation} rewardName={tenant.rewardName} />
+        <TrainingRecoveryRecommendationCard recommendation={recoveryRecommendation} rewardName={tenant.rewardName} targetLanguage={targetLanguage} />
       )}
       <SessionEventLog events={sessionEvents} />
       {eventContractErrors.length > 0 ? (

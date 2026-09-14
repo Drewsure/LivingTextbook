@@ -209,6 +209,7 @@ export function FlashcardDemoFlow({
       <RecommendedGameRoutesCard
         launchSession={launchSession}
         progression={currentProgression}
+        targetLanguage={tenant.languageSettings?.targetLanguage ?? unit.unitMeta.textbookReference?.language ?? "en"}
         contentPackageId={contentPackage.meta.packageId}
         onRouteGuidanceListened={handleRouteGuidanceListened}
       />

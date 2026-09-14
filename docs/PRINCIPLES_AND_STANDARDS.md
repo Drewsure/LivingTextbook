@@ -2716,3 +2716,16 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-824 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-825 and
 `docs/adr/0751-explicit-target-language-actions.md`.
+
+## 176. Learner Route-Guidance Audio Standard
+
+- Recommended-game paths, activity-hub summaries, recovery recommendations,
+  and media playlist controls must use the same resolved target language as
+  the mounted unit experience.
+- Route guidance is learner-facing instructional content, even when it does
+  not award mastery, and must not silently use the audio component baseline.
+- Assist-language controls remain explicitly separate and support-only; route
+  guidance must not weaken the English-triggered progression boundary.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-826 and
+`docs/adr/0752-learner-route-guidance-audio.md`.

@@ -13,6 +13,7 @@ import { formatMode } from "../studentLabels";
 interface RecommendedGameRoutesCardProps {
   launchSession: LaunchSession;
   progression: StudentProgressionState;
+  targetLanguage: string;
   contentPackageId?: string;
   onRouteGuidanceListened?: (mode: GameModeId, routeStatus: "locked" | "unlocked" | "complete", routeHref: string) => void;
 }
@@ -20,6 +21,7 @@ interface RecommendedGameRoutesCardProps {
 export function RecommendedGameRoutesCard({
   launchSession,
   progression,
+  targetLanguage,
   contentPackageId,
   onRouteGuidanceListened,
 }: RecommendedGameRoutesCardProps) {
@@ -41,6 +43,7 @@ export function RecommendedGameRoutesCard({
           <p className="mt-1 text-sm leading-6 text-[var(--tenant-muted)]">
             <AudioCueText
               text="Complete flashcards first. Then choose the next activity your teacher wants you to play."
+              language={targetLanguage}
               label="Tap the recommended game path instruction to hear it"
               className="text-sm"
             />
@@ -55,6 +58,7 @@ export function RecommendedGameRoutesCard({
           <p className="mt-1 text-sm leading-6 text-[var(--tenant-muted)]">
             <AudioCueText
               text="Open the reviewed activity hub to see all teacher-approved practice routes for this unit."
+              language={targetLanguage}
               label="Tap the activity hub route guidance to hear it"
               className="text-sm"
             />
@@ -95,6 +99,7 @@ export function RecommendedGameRoutesCard({
               <span className="mt-3 flex flex-wrap items-center gap-2">
                 <AudioCueButton
                   text={listenText}
+                  language={targetLanguage}
                   label={`Listen to ${route.label} route`}
                   compact
                   onPlay={() =>

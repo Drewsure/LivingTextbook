@@ -342,6 +342,7 @@ export function FrontDoorEntryFlow({
             <RecommendedGameRoutesCard
               launchSession={launchSession}
               progression={currentProgression}
+              targetLanguage={targetLanguage}
               contentPackageId={contentPackage.meta.packageId}
               onRouteGuidanceListened={handleRouteGuidanceListened}
             />
