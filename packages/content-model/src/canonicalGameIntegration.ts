@@ -1,5 +1,6 @@
 import { UNIT_STAR_DUST_CAP } from "./economyPolicy";
 import { isCanonicalGameReplaySeed } from "./canonicalGameReplay";
+import { isGameEventType } from "./gameEventTypes";
 import type { GameEventType, GameModeId, GameProgressEvent } from "./index";
 
 export const CANONICAL_GAME_REQUIRED_EVENT_ORDER = [
@@ -43,6 +44,14 @@ export function validateCanonicalGameEventSequence(
     errors.push("Canonical game event sequence contains malformed event entries.");
   }
   const eventTypes = events.map((event) => event.type);
+  const unsupportedEventTypes = [...new Set(
+    events
+      .map((event) => event.type)
+      .filter((eventType) => !isGameEventType(eventType)),
+  )];
+  for (const eventType of unsupportedEventTypes) {
+    errors.push(`Canonical game event sequence contains unsupported event type ${String(eventType)}.`);
+  }
   const replayEvidenceRequiredTypes: readonly string[] = [
     ...CANONICAL_GAME_REQUIRED_EVENT_ORDER,
     "audio_requested",

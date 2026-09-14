@@ -2441,3 +2441,19 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-805 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-806 and
 `docs/adr/0732-canonical-completion-terminal.md`.
+
+## 157. Canonical Game Event Type Standard
+
+- The complete canonical event vocabulary must live in the shared content
+  model as `GAME_EVENT_TYPES`, with `GameEventType` derived from that list.
+- Runtime event evidence from browser games, Phaser wrappers, imports, and
+  teacher reports is untrusted JSON; an event type outside the shared list must
+  fail closed before ordering, completion, reporting, or progression evidence
+  is accepted.
+- Adding an event requires coordinated taxonomy classification and regression
+  coverage; a local string in one game is not an approved platform event.
+- This boundary does not authorize live persistence, route activation, source
+  promotion, or student assignment.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-807 and
+`docs/adr/0733-canonical-game-event-type-boundary.md`.

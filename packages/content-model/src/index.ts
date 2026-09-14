@@ -1,4 +1,8 @@
 import phaserCandidateProfileData from "./phaserCandidateProfiles.json";
+import type { GameEventType } from "./gameEventTypes";
+
+export { GAME_EVENT_TYPES, isGameEventType } from "./gameEventTypes";
+export type { GameEventType } from "./gameEventTypes";
 
 export type TenantId = string;
 export type CurriculumId = string;
@@ -415,29 +419,6 @@ export interface StudentProgressionState {
   masteryStatus: MasteryStatus;
   lastEventAt?: string;
 }
-
-export type GameEventType =
-  | "teacher_launch_created"
-  | "launch_opened"
-  | "audio_requested"
-  | "microphone_practice"
-  | "game_started"
-  | "round_shown"
-  | "answer_submitted"
-  | "answer_result"
-  | "powerup_used"
-  | "entry_practice_completed"
-  | "game_unlocked"
-  | "training_recommended"
-  | "media_started"
-  | "media_playlist_opened"
-  | "media_paused"
-  | "media_completed"
-  | "background_media_enabled"
-  | "background_media_disabled"
-  | "route_guidance_listened"
-  | "game_completed"
-  | "mastery_updated";
 
 export interface GameProgressEvent {
   type: GameEventType;

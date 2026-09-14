@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 
-const contentModelPath = new URL("../packages/content-model/src/index.ts", import.meta.url);
+const contentModelPath = new URL("../packages/content-model/src/gameEventTypes.ts", import.meta.url);
 const validatorPath = new URL("../packages/content-model/src/progressEventTaxonomy.ts", import.meta.url);
 const taxonomyPath = new URL("../apps/web/src/data/sampleProgressEventTaxonomy.ts", import.meta.url);
 const panelPath = new URL("../apps/web/src/features/progression/ProgressEventTaxonomyPanel.tsx", import.meta.url);
@@ -14,14 +14,14 @@ const panel = readFileSync(panelPath, "utf8");
 const teacherSessionData = readFileSync(teacherSessionDataPath, "utf8");
 const teacherSessionPanel = readFileSync(teacherSessionPanelPath, "utf8");
 
-const gameEventTypeMatch = contentModel.match(/export type GameEventType =([\s\S]*?);/);
+const gameEventTypeMatch = contentModel.match(/export const GAME_EVENT_TYPES = \[([\s\S]*?)\]\s+as const;/);
 
 if (!gameEventTypeMatch) {
-  console.error("FAIL Could not find GameEventType union in packages/content-model/src/index.ts.");
+  console.error("FAIL Could not find GAME_EVENT_TYPES list in packages/content-model/src/gameEventTypes.ts.");
   process.exit(1);
 }
 
-const modelEvents = Array.from(gameEventTypeMatch[1].matchAll(/\|\s*"([^"]+)"/g), (match) => match[1]).sort();
+const modelEvents = Array.from(gameEventTypeMatch[1].matchAll(/"([^"]+)"/g), (match) => match[1]).sort();
 const taxonomyEvents = Array.from(taxonomy.matchAll(/eventType:\s*"([^"]+)"/g), (match) => match[1]).sort();
 const duplicateTaxonomyEvents = taxonomyEvents.filter((event, index) => taxonomyEvents.indexOf(event) !== index);
 const missingFromTaxonomy = modelEvents.filter((event) => !taxonomyEvents.includes(event));

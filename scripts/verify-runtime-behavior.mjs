@@ -349,6 +349,14 @@ try {
     postCompletionGameplayErrors,
     "Canonical game event sequence must not include round_shown after game_completed.",
   );
+  const unsupportedCanonicalEventErrors = canonicalGame.validateCanonicalGameEventSequence(
+    canonicalEvents.map((event) => event.type === "round_shown" ? { ...event, type: "unsupported_event" } : event),
+    "flashcards",
+  ).errors;
+  assertIncludes(
+    unsupportedCanonicalEventErrors,
+    "Canonical game event sequence contains unsupported event type unsupported_event.",
+  );
 
   const suppliedReplaySeed = "replay-v1:platform-supplied-memory-match-seed";
   assertEqual(

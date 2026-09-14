@@ -1,3 +1,4 @@
+import { GAME_EVENT_TYPES } from "./gameEventTypes";
 import { getCanonicalUnitKeyLevel, isCanonicalUnitKey, isGameModeSupportedAtLevel, isSupportedGameModeId } from "./index";
 import type { GameEventType, GameModeId, GameProgressEvent } from "./index";
 
@@ -99,11 +100,7 @@ const progressAffectingEvents = new Set([
   "game_completed",
   "mastery_updated",
 ]);
-const supportedProgressEventTypes = new Set([
-  ...supportOnlyEvents,
-  ...reportOnlyEvents,
-  ...progressAffectingEvents,
-]);
+const supportedProgressEventTypes = new Set<string>(GAME_EVENT_TYPES);
 
 export function validateProgressEventTaxonomyRegistry(registry: unknown): string[] {
   const errors: string[] = [];

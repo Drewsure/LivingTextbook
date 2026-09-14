@@ -2175,3 +2175,12 @@ mastery event now fails closed while post-completion learning-audio replay
 remains available as a non-gameplay support action. Added runtime coverage and
 kept all canonical wrappers under the shared route-shell boundary. See ADR
 0732.
+
+## 0734 - Canonical game event type boundary
+
+Centralized the complete `GameEventType` vocabulary in the content model and
+made canonical sequence validation reject unsupported runtime event strings.
+Added a regression case for an unknown event type. This prevents browser,
+Phaser, import, or report evidence from entering ordering and completion logic
+under a future typo or unapproved extension. No live persistence, route
+activation, or Phaser source promotion was enabled. See ADR 0733.

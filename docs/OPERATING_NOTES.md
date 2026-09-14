@@ -1332,3 +1332,10 @@ must not emit another `game_started`, `round_shown`, `answer_submitted`,
 may remain available as a support action, but it cannot reopen gameplay or
 change progression. Run `npm run verify:runtime-behavior` and
 `npm run verify:canonical-games` after changing this rule. See ADR 0732.
+
+Canonical game event types must come from the shared `GAME_EVENT_TYPES` content
+model list. Treat event type strings arriving from browser, Phaser, import, or
+report evidence as untrusted; an unknown type must fail closed before sequence
+ordering or completion evidence is accepted. Keep the unsupported-type
+regression in `verify-runtime-behavior.mjs` and run
+`npm run verify:runtime-behavior` after changing the event union. See ADR 0733.
