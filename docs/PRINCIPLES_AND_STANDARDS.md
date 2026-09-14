@@ -3129,3 +3129,17 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-858 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-859 and
 `docs/adr/0782-game-audio-readiness-route-gate.md`.
+
+## 207. Audio-Consistent Activity Hub Standard
+
+- The student activity hub must use the same shared audio readiness contract
+  as direct game routes; a route must not appear ready in the hub when its
+  learner-facing audio package is incomplete.
+- Incomplete audio is shown as an audio-review state, not learner failure, and
+  the hub must not offer a misleading open-game action for that state.
+- Curated offer, progression, level, and audio readiness remain separate
+  decisions: a game can be reviewed and unlocked but still paused until its
+  target-language audio evidence is ready.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-860 and
+`docs/adr/0783-audio-consistent-activity-hub.md`.

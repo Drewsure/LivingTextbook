@@ -5032,3 +5032,11 @@ gate. It is not treated as learner failure and cannot produce mastery,
 completion, or reward evidence. Approved browser text-to-speech remains a
 possible cue source, but it does not bypass package review or language/scope
 checks. See ADR 0782.
+
+# DR-860: Audio-Consistent Activity Hub
+
+The student activity hub must calculate readiness with the same shared game
+audio coverage contract used by direct game routes. A progression-ready game
+with incomplete target-language audio is displayed as an audio-review block,
+not as a learner failure and not as a misleading open-game action. See ADR
+0783.

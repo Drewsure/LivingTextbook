@@ -6,6 +6,7 @@ const routeVerifier = readSource("./verify-active-routes.mjs");
 const docs = readSource("../docs/COMPETITIVE_FEATURE_COVERAGE_MATRIX.md");
 const pathwayDocs = readSource("../docs/ACTIVITY_PATHWAY_COMPATIBILITY_MATRIX.md");
 const backendStorageVerifier = readSource("./verify-backend-storage-readiness.mjs");
+const studentHub = readSource("../apps/web/src/features/activities/StudentActivityHubFlow.tsx");
 
 const failures = [];
 const requiredOfferedItems = ["entry-flashcards", "match-up", "label-it", "memory-match", "teacher-review-quiz", "true-false", "type-answer", "spelling-practice", "fill-in-the-blank"];
@@ -53,6 +54,9 @@ requireText(pathwayDocs, "activity_compatibility_snapshot", "Activity pathway do
 requireText(pathwayDocs, "student-facing pathway blocks", "Activity pathway docs must preserve student-facing pathway blocks.");
 requireText(backendStorageVerifier, "activity_compatibility_snapshot", "Backend storage verifier must require activity compatibility snapshots.");
 requireText(backendStorageVerifier, "blocksUncheckedActivityConversion: true", "Backend storage verifier must require unchecked conversion blocks.");
+requireText(studentHub, "getGameAudioCoverage", "Student activity hub must use the shared game audio coverage contract.");
+requireText(studentHub, '"audio-blocked"', "Student activity hub must represent incomplete audio as a blocked readiness state.");
+requireText(studentHub, "This activity is waiting for reviewed target-language audio.", "Student activity hub must explain audio readiness blocks to learners.");
 
 if (failures.length > 0) {
   for (const failure of failures) {

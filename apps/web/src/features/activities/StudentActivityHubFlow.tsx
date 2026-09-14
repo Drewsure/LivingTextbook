@@ -1,7 +1,7 @@
 "use client";
 
 import { Card, StatusPill } from "@living-textbook/ui";
-import { getUnitKey, resolveTargetLanguage } from "@living-textbook/content-model";
+import { getGameAudioCoverage, getUnitKey, resolveTargetLanguage } from "@living-textbook/content-model";
 import type {
   ContentPackage,
   GameModeId,
@@ -37,7 +37,7 @@ interface ActivityHubItem {
   mode?: GameModeId;
   role: "entry" | "reinforcement" | "assessment" | "recovery" | "support";
   summary: string;
-  status: "ready" | "locked" | "complete" | "support";
+  status: "ready" | "locked" | "complete" | "audio-blocked" | "support";
   sourceLabel?: string;
   audioRequirement?: string;
   reportingRequirement?: string;
@@ -61,6 +61,9 @@ export function StudentActivityHubFlow({
   const activities = buildActivityItems({
     launchSession,
     progression,
+    unit,
+    audioCues: contentPackage.audioCues ?? [],
+    targetLanguage,
     playlistId: playlist?.playlistId,
     offerMap,
   });
@@ -124,7 +127,7 @@ export function StudentActivityHubFlow({
 }
 
 function ActivityRouteCard({ activity, targetLanguage }: { activity: ActivityHubItem; targetLanguage: string }) {
-  const blocked = activity.status === "locked";
+  const blocked = activity.status === "locked" || activity.status === "audio-blocked";
 
   return (
     <article className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] p-4">
@@ -154,7 +157,7 @@ function ActivityRouteCard({ activity, targetLanguage }: { activity: ActivityHub
       ) : null}
       {blocked ? (
         <p className="mt-3 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3 text-sm font-semibold text-[var(--tenant-muted)]">
-          Complete flashcards first.
+          {activity.status === "audio-blocked" ? "This activity is waiting for reviewed target-language audio." : "Complete flashcards first."}
         </p>
       ) : (
         <a
@@ -190,16 +193,24 @@ function RuleCard({ label, value }: { label: string; value: string }) {
 function buildActivityItems({
   launchSession,
   progression,
+  unit,
+  audioCues,
+  targetLanguage,
   playlistId,
   offerMap,
 }: {
   launchSession: LaunchSession;
   progression: StudentProgressionState;
+  unit: UnitPayload;
+  audioCues: ContentPackage["audioCues"];
+  targetLanguage: string;
   playlistId?: string;
   offerMap?: UnitGameOfferMap;
 }): ActivityHubItem[] {
   const launchCode = launchSession.launchCode;
-  const gameItems = offerMap ? buildReviewedOfferItems({ offerMap, launchCode, progression }) : buildFallbackGameItems({ launchCode, launchSession, progression });
+  const gameItems = offerMap
+    ? buildReviewedOfferItems({ offerMap, launchCode, progression, unit, audioCues, targetLanguage })
+    : buildFallbackGameItems({ launchCode, launchSession, progression, unit, audioCues, targetLanguage });
   const modeItems: ActivityHubItem[] = [
     {
       id: "student-launch",
@@ -246,10 +257,16 @@ function buildReviewedOfferItems({
   offerMap,
   launchCode,
   progression,
+  unit,
+  audioCues,
+  targetLanguage,
 }: {
   offerMap: UnitGameOfferMap;
   launchCode: string;
   progression: StudentProgressionState;
+  unit: UnitPayload;
+  audioCues: ContentPackage["audioCues"];
+  targetLanguage: string;
 }): ActivityHubItem[] {
   return offerMap.offers
     .filter((offer) => offer.availability !== "hidden" && offer.availability !== "blocked")
@@ -262,7 +279,7 @@ function buildReviewedOfferItems({
       mode: offer.gameMode,
       role: getOfferRole(offer),
       summary: `${offer.label} is reviewed for this unit through the ${offer.engineId} engine.`,
-      status: getOfferRouteStatus(offer, progression),
+      status: getAudioAwareOfferStatus(offer, progression, unit, audioCues ?? [], targetLanguage),
       sourceLabel: `${offerMap.label} / ${formatAvailability(offer.availability)}`,
       audioRequirement: offer.audioRequirement,
       reportingRequirement: offer.reportingRequirement,
@@ -273,13 +290,19 @@ function buildFallbackGameItems({
   launchCode,
   launchSession,
   progression,
+  unit,
+  audioCues,
+  targetLanguage,
 }: {
   launchCode: string;
   launchSession: LaunchSession;
   progression: StudentProgressionState;
+  unit: UnitPayload;
+  audioCues: ContentPackage["audioCues"];
+  targetLanguage: string;
 }): ActivityHubItem[] {
   const entryComplete = progression.completedGameModes.includes(launchSession.entryMode);
-  const entryStatus = entryComplete ? "complete" : "ready";
+  const entryStatus = getAudioAwareGameStatus("flashcards", progression, unit, audioCues ?? [], targetLanguage, entryComplete ? "complete" : "ready");
 
   return [
     {
@@ -298,7 +321,7 @@ function buildFallbackGameItems({
       mode: "memory-match",
       role: "reinforcement",
       summary: "Match vocabulary cards with tap-to-speak support.",
-      status: getGameRouteStatus("memory-match", progression),
+      status: getAudioAwareGameStatus("memory-match", progression, unit, audioCues ?? [], targetLanguage),
     },
     {
       id: "match-up",
@@ -307,7 +330,7 @@ function buildFallbackGameItems({
       mode: "match-up",
       role: "reinforcement",
       summary: "Match listening prompts to reviewed vocabulary word cards.",
-      status: getGameRouteStatus("match-up", progression),
+      status: getAudioAwareGameStatus("match-up", progression, unit, audioCues ?? [], targetLanguage),
     },
     {
       id: "label-it",
@@ -316,7 +339,7 @@ function buildFallbackGameItems({
       mode: "label-it",
       role: "reinforcement",
       summary: "Place reviewed labels on picture points. Uploaded images must stay reviewed before student use.",
-      status: getGameRouteStatus("label-it", progression),
+      status: getAudioAwareGameStatus("label-it", progression, unit, audioCues ?? [], targetLanguage),
     },
     {
       id: "quiz",
@@ -325,7 +348,7 @@ function buildFallbackGameItems({
       mode: "quiz",
       role: "assessment",
       summary: "Answer reviewed vocabulary and sentence prompts with audio-supported choices.",
-      status: getGameRouteStatus("quiz", progression),
+      status: getAudioAwareGameStatus("quiz", progression, unit, audioCues ?? [], targetLanguage),
     },
     {
       id: "true-false",
@@ -334,7 +357,7 @@ function buildFallbackGameItems({
       mode: "true-false",
       role: "assessment",
       summary: "Listen to a target-language word and decide whether the visible card matches.",
-      status: getGameRouteStatus("true-false", progression),
+      status: getAudioAwareGameStatus("true-false", progression, unit, audioCues ?? [], targetLanguage),
     },
     {
       id: "type-answer",
@@ -343,7 +366,7 @@ function buildFallbackGameItems({
       mode: "type-answer",
       role: "reinforcement",
       summary: "Listen to a reviewed word and type the target-language answer.",
-      status: getGameRouteStatus("type-answer", progression),
+      status: getAudioAwareGameStatus("type-answer", progression, unit, audioCues ?? [], targetLanguage),
     },
     {
       id: "spelling-practice",
@@ -352,7 +375,7 @@ function buildFallbackGameItems({
       mode: "spelling-practice",
       role: "reinforcement",
       summary: "Listen to a reviewed word and tap deterministic letter tiles in target-language spelling order.",
-      status: getGameRouteStatus("spelling-practice", progression),
+      status: getAudioAwareGameStatus("spelling-practice", progression, unit, audioCues ?? [], targetLanguage),
     },
     {
       id: "fill-in-the-blank",
@@ -361,7 +384,7 @@ function buildFallbackGameItems({
       mode: "fill-in-the-blank",
       role: "reinforcement",
       summary: "Listen to a reviewed sentence and choose the missing target-language word or phrase.",
-      status: getGameRouteStatus("fill-in-the-blank", progression),
+      status: getAudioAwareGameStatus("fill-in-the-blank", progression, unit, audioCues ?? [], targetLanguage),
     },
     {
       id: "balloon-pop",
@@ -370,7 +393,7 @@ function buildFallbackGameItems({
       mode: "balloon-pop",
       role: "reinforcement",
       summary: "Pop the matching vocabulary balloon with audio-supported prompts.",
-      status: getGameRouteStatus("balloon-pop", progression),
+      status: getAudioAwareGameStatus("balloon-pop", progression, unit, audioCues ?? [], targetLanguage),
     },
     {
       id: "sentence-builder",
@@ -379,7 +402,7 @@ function buildFallbackGameItems({
       mode: "sentence-builder",
       role: "reinforcement",
       summary: "Build reviewed target sentences from ordered word tiles.",
-      status: getGameRouteStatus("sentence-builder", progression),
+      status: getAudioAwareGameStatus("sentence-builder", progression, unit, audioCues ?? [], targetLanguage),
     },
     {
       id: "speak-it",
@@ -388,7 +411,7 @@ function buildFallbackGameItems({
       mode: "speak-it",
       role: "reinforcement",
       summary: "Practice listening and speaking with teacher-controlled microphone options.",
-      status: getGameRouteStatus("speak-it", progression),
+      status: getAudioAwareGameStatus("speak-it", progression, unit, audioCues ?? [], targetLanguage),
     },
   ];
 }
@@ -417,6 +440,19 @@ function getOfferRouteStatus(offer: UnitGameOffer, progression: StudentProgressi
   return getGameRouteStatus(offer.gameMode, progression);
 }
 
+function getAudioAwareOfferStatus(
+  offer: UnitGameOffer,
+  progression: StudentProgressionState,
+  unit: UnitPayload,
+  audioCues: ContentPackage["audioCues"],
+  targetLanguage: string,
+): ActivityHubItem["status"] {
+  const baseStatus = getOfferRouteStatus(offer, progression);
+  return baseStatus === "ready" || baseStatus === "complete"
+    ? getAudioAwareGameStatus(offer.gameMode, progression, unit, audioCues ?? [], targetLanguage, baseStatus)
+    : baseStatus;
+}
+
 function formatAvailability(availability: UnitGameOffer["availability"]): string {
   if (availability === "teacher-only") {
     return "Teacher only";
@@ -433,6 +469,22 @@ function getGameRouteStatus(mode: GameModeId, progression: StudentProgressionSta
   return progression.unlockedGameModes.includes(mode) ? "ready" : "locked";
 }
 
+function getAudioAwareGameStatus(
+  mode: GameModeId,
+  progression: StudentProgressionState,
+  unit: UnitPayload,
+  audioCues: NonNullable<ContentPackage["audioCues"]>,
+  targetLanguage: string,
+  baseStatus?: "ready" | "complete",
+): ActivityHubItem["status"] {
+  const status = baseStatus ?? getGameRouteStatus(mode, progression);
+  if ((status === "ready" || status === "complete") && !getGameAudioCoverage({ unit, audioCues, gameMode: mode, targetLanguage }).ready) {
+    return "audio-blocked";
+  }
+
+  return status;
+}
+
 function formatStatus(status: ActivityHubItem["status"]): string {
   if (status === "complete") {
     return "Complete";
@@ -446,6 +498,10 @@ function formatStatus(status: ActivityHubItem["status"]): string {
     return "Support";
   }
 
+  if (status === "audio-blocked") {
+    return "Audio review";
+  }
+
   return "Locked";
 }
 
@@ -454,5 +510,5 @@ function getStatusTone(status: ActivityHubItem["status"]): "neutral" | "success"
     return "success";
   }
 
-  return status === "locked" ? "warning" : "neutral";
+  return status === "locked" || status === "audio-blocked" ? "warning" : "neutral";
 }

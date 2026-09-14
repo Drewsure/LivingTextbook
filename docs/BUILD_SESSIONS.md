@@ -2742,3 +2742,15 @@ unsuccessful.
 Added runtime assertions for complete and incomplete coverage. This does not
 enable uploads, live AI, persistence, or Phaser promotion. See ADR 0782 and
 DR-859.
+
+## 0786 - Audio-consistent activity hub
+
+Aligned the student activity hub with the shared game audio readiness contract.
+Reviewed offers and fallback game items now distinguish progression readiness
+from target-language audio readiness. When audio is incomplete, the hub shows
+an audio-review status and withholds the open-game action before the learner
+reaches the direct route gate.
+
+Added a pathway verifier guard for the shared coverage call, the
+`audio-blocked` status, and learner-facing explanation. This does not enable
+uploads, live AI, persistence, or Phaser promotion. See ADR 0783 and DR-860.
