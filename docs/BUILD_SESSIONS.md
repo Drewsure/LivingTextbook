@@ -2710,3 +2710,12 @@ This makes the package boundary enforceable for future work while preserving
 all review-only and no-side-effect restrictions. It does not enable live AI,
 uploads, persistence, assignment, or Phaser source promotion. See ADR 0779
 and DR-856.
+
+## 0783 - Content-model package export map
+
+Added a root-only `exports` map to `@living-textbook/content-model` targeting
+the canonical package index. Extended the public-boundary verifier to reject
+internal subpath exports and to validate the canonical target.
+
+This is package API hardening only. No live AI, uploads, persistence,
+assignment, or Phaser source promotion is enabled. See ADR 0780 and DR-857.

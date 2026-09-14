@@ -5008,3 +5008,10 @@ foundation composition suite now executes a guard that rejects internal
 `@living-textbook/content-model/src/*` imports in web and AI-service source.
 The migration is an API-boundary cleanup only; it does not enable live AI,
 uploads, persistence, assignment, or Phaser promotion. See ADR 0779.
+
+# DR-857: Content-Model Package Export Map
+
+The content-model package exposes one canonical root export targeting
+`src/index.ts` and does not expose internal subpath exports. The boundary
+verifier checks this manifest contract alongside source import hygiene. This
+does not enable live services or external game promotion. See ADR 0780.

@@ -3088,3 +3088,15 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-855 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-856 and
 `docs/adr/0779-public-contract-import-guard.md`.
+
+## 204. Content-Model Package Export Standard
+
+- `@living-textbook/content-model` must expose one canonical package-root
+  export targeting `src/index.ts`.
+- Internal content-model modules must not be exposed as package subpaths to
+  application consumers.
+- Package export changes must be checked alongside app source imports,
+  typechecks, production builds, and runtime verification.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-857 and
+`docs/adr/0780-content-model-package-export.md`.
