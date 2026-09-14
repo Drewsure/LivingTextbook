@@ -1,5 +1,6 @@
 import { Card, StatusPill } from "@living-textbook/ui";
-import type { UnitPayload } from "@living-textbook/content-model";
+import type { GameModeId, UnitPayload } from "@living-textbook/content-model";
+import { findSampleUnitGameOfferMap } from "@/data/sampleUnitGameOfferMap";
 import { gameModeCatalog } from "./gameModeCatalog";
 
 interface GameSequenceProps {
@@ -13,101 +14,51 @@ interface SequenceItem {
   summary: string;
 }
 
-const flashcards = gameModeCatalog.flashcards;
-const matchUp = gameModeCatalog["match-up"];
-const labelIt = gameModeCatalog["label-it"];
-const memoryMatch = gameModeCatalog["memory-match"];
-const quiz = gameModeCatalog.quiz;
-const trueFalse = gameModeCatalog["true-false"];
-const typeAnswer = gameModeCatalog["type-answer"];
-const spellingPractice = gameModeCatalog["spelling-practice"];
-const fillInTheBlank = gameModeCatalog["fill-in-the-blank"];
-const balloonPop = gameModeCatalog["balloon-pop"];
-const sentenceBuilder = gameModeCatalog["sentence-builder"];
-const speakIt = gameModeCatalog["speak-it"];
-
-const firstSliceSequence: SequenceItem[] = [
-  {
-    label: flashcards?.label ?? "Flashcard Practice",
-    engineId: flashcards?.engineId ?? "selection",
-    role: flashcards?.role ?? "entry-practice",
-    summary: flashcards?.summary ?? "Introduce the unit terms with low-friction recognition before any scored game pressure.",
-  },
-  {
-    label: matchUp?.label ?? "Match Up",
-    engineId: matchUp?.engineId ?? "pairing",
-    role: matchUp?.role ?? "reinforcement",
-    summary: matchUp?.summary ?? "Match listening prompts to reviewed vocabulary word cards.",
-  },
-  {
-    label: labelIt?.label ?? "Label It",
-    engineId: labelIt?.engineId ?? "pairing",
-    role: labelIt?.role ?? "reinforcement",
-    summary: labelIt?.summary ?? "Place reviewed target-language labels onto reviewed image anchors.",
-  },
-  {
-    label: memoryMatch?.label ?? "Memory Match",
-    engineId: memoryMatch?.engineId ?? "pairing",
-    role: memoryMatch?.role ?? "reinforcement",
-    summary: memoryMatch?.summary ?? "Reinforce term recognition after flashcards through pair finding and recall.",
-  },
-  {
-    label: quiz?.label ?? "Quiz",
-    engineId: quiz?.engineId ?? "selection",
-    role: quiz?.role ?? "assessment",
-    summary: quiz?.summary ?? "Check vocabulary and target sentence understanding with audio-supported selected responses.",
-  },
-  {
-    label: trueFalse?.label ?? "True or False",
-    engineId: trueFalse?.engineId ?? "selection",
-    role: trueFalse?.role ?? "assessment",
-    summary: trueFalse?.summary ?? "Check whether a listened target-language word matches the visible card.",
-  },
-  {
-    label: typeAnswer?.label ?? "Type Answer",
-    engineId: typeAnswer?.engineId ?? "text-spelling",
-    role: typeAnswer?.role ?? "reinforcement",
-    summary: typeAnswer?.summary ?? "Type the reviewed word after hearing the target-language prompt.",
-  },
-  {
-    label: spellingPractice?.label ?? "Spelling Practice",
-    engineId: spellingPractice?.engineId ?? "text-spelling",
-    role: spellingPractice?.role ?? "reinforcement",
-    summary: spellingPractice?.summary ?? "Build reviewed words from target-language letter tiles.",
-  },
-  {
-    label: fillInTheBlank?.label ?? "Fill in the Blank",
-    engineId: fillInTheBlank?.engineId ?? "text-spelling",
-    role: fillInTheBlank?.role ?? "reinforcement",
-    summary: fillInTheBlank?.summary ?? "Choose missing words inside reviewed target sentence structures.",
-  },
-  {
-    label: balloonPop?.label ?? "Balloon Pop",
-    engineId: balloonPop?.engineId ?? "selection",
-    role: balloonPop?.role ?? "reinforcement",
-    summary: balloonPop?.summary ?? "Use short audio-supported vocabulary prompts in an arcade selection skin.",
-  },
-  {
-    label: sentenceBuilder?.label ?? "Sentence Builder",
-    engineId: sentenceBuilder?.engineId ?? "text-spelling",
-    role: sentenceBuilder?.role ?? "reinforcement",
-    summary: sentenceBuilder?.summary ?? "Build the two approved target sentence patterns from unit-safe word parts and audio cues.",
-  },
-  {
-    label: speakIt?.label ?? "Speak It",
-    engineId: speakIt?.engineId ?? "selection",
-    role: speakIt?.role ?? "reinforcement",
-    summary: speakIt?.summary ?? "Practice listening and oral repetition with teacher-controlled, audio-first prompts.",
-  },
-  {
-    label: "Training Academy",
-    engineId: "selection",
-    role: "review",
-    summary: "Review missed vocabulary without failure language.",
-  },
+const canonicalModeOrder: GameModeId[] = [
+  "flashcards",
+  "match-up",
+  "label-it",
+  "memory-match",
+  "quiz",
+  "true-false",
+  "type-answer",
+  "spelling-practice",
+  "fill-in-the-blank",
+  "balloon-pop",
+  "sentence-builder",
+  "speak-it",
 ];
 
+function buildSequenceItems(unit: UnitPayload): SequenceItem[] {
+  const offerMap = unit.unitMeta.contentPackageId
+    ? findSampleUnitGameOfferMap(unit.unitMeta.contentPackageId)
+    : undefined;
+  const curatedOffers = offerMap?.offers
+    .filter((offer) => Boolean(gameModeCatalog[offer.gameMode]))
+    .sort((left, right) => (left.recommendedOrder ?? Number.MAX_SAFE_INTEGER) - (right.recommendedOrder ?? Number.MAX_SAFE_INTEGER));
+  const modes = curatedOffers && curatedOffers.length > 0
+    ? curatedOffers.map((offer) => ({ offer, mode: gameModeCatalog[offer.gameMode] }))
+    : canonicalModeOrder.map((gameMode) => ({ offer: undefined, mode: gameModeCatalog[gameMode] }));
+
+  return [
+    ...modes.map(({ offer, mode }) => ({
+      label: offer?.label ?? mode.label,
+      engineId: offer?.engineId ?? mode.engineId,
+      role: mode.role,
+      summary: mode.summary,
+    })),
+    {
+      label: "Training Academy",
+      engineId: "selection",
+      role: "review",
+      summary: "Review missed vocabulary without failure language.",
+    },
+  ];
+}
+
 export function GameSequence({ unit }: GameSequenceProps) {
+  const sequence = buildSequenceItems(unit);
+
   return (
     <Card>
       <div className="flex items-start justify-between gap-4">
@@ -118,7 +69,7 @@ export function GameSequence({ unit }: GameSequenceProps) {
         <StatusPill label="Foundation" />
       </div>
       <div className="mt-5 grid gap-3">
-        {firstSliceSequence.map((item, index) => (
+        {sequence.map((item, index) => (
           <article key={item.label} className="grid gap-2 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4 sm:grid-cols-[2rem_1fr_auto]">
             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--tenant-surface)] text-sm font-bold text-[var(--tenant-text)]">{index + 1}</div>
             <div>

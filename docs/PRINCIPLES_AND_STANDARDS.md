@@ -2984,3 +2984,17 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-847 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-848 and
 `docs/adr/0771-canonical-parent-engine-binding.md`.
+
+## 196. Curated Unit Pathway Standard
+
+- The student-facing game sequence must be resolved from the tenant's curated
+  unit offer map whenever one is available, preserving reviewed order,
+  availability, and parent-engine ownership.
+- The shared game catalog is the safe structural fallback for units that do
+  not yet have a published offer map; it must never silently replace a
+  tenant's curated pathway.
+- Training Academy remains a review pathway after the curated modes and does
+  not become a random or unreviewed activity switcher.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-849 and
+`docs/adr/0772-curated-unit-pathway-resolution.md`.

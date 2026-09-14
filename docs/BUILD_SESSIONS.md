@@ -2634,3 +2634,12 @@ The game-mode coverage verifier also now checks the parent-engine map against
 the web catalog, so a future mode cannot be added with a silent engine drift.
 The runtime behavior harness also proves missing and cross-engine completion
 evidence is rejected.
+
+## 0776 - Curated unit pathway resolution
+
+Moved the visible Game Sequence from a hard-coded mode list to tenant-scoped
+curated unit offer maps, with an exhaustive shared-catalog fallback for units
+that have no published map. Training Academy remains the final review lane.
+
+This keeps white-label pathways data-driven while preserving the reviewed
+activity order and parent-engine binding. See ADR 0772 and DR-849.

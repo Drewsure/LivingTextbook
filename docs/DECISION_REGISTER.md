@@ -4940,3 +4940,11 @@ parent engine declared for the game mode. The content model owns the mapping,
 and the canonical replay verifier rejects missing or mismatched bindings.
 This closes the integration boundary for future Z.ai/Phaser wrappers without
 importing source or changing the active game routes. See ADR 0771.
+
+# DR-849: Curated Unit Pathway Resolution
+
+The visible game sequence now resolves from the tenant-scoped curated unit
+offer map when one exists, using the shared catalog only as a structural
+fallback. This preserves white-label curriculum control and the reviewed
+activity order without creating a giant switch-anything panel. Training
+Academy remains the final review lane. See ADR 0772.
