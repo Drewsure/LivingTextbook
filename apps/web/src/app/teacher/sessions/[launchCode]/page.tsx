@@ -21,7 +21,7 @@ export default async function TeacherSessionMonitorPage({
   return (
     <AppShell tenant={context.tenant}>
       <div className="grid gap-5">
-        <TeacherSessionRosterIdentityCard launchCode={context.launchSession.launchCode} />
+        <TeacherSessionRosterIdentityCard rosterPlan={context.classRosterPlan} />
         <TeacherSessionLaunchGateBoundaryPanel boundary={context.launchGateBoundary} />
         <TeacherSessionPreflightPanel checks={context.preflightChecks} />
         <TeacherSessionMonitorPanel context={context} />

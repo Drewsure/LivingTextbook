@@ -13,6 +13,7 @@ const reusableFiles = [
   "apps/web/src/features/game-shell/components/PlayableGameRouteShell.tsx",
   "apps/web/src/features/student/components/RecommendedGameRoutesCard.tsx",
   "apps/web/src/features/access/FrontDoorEntryFlow.tsx",
+  "apps/web/src/features/teacher/TeacherSessionRosterIdentityCard.tsx",
 ];
 const forbiddenSampleLookup = /(?:findSampleUnitGameOfferMap|sampleUnitGameOfferMap)/;
 const failures = [];
@@ -38,11 +39,18 @@ if (!gameShell.includes("offerMap?: UnitGameOfferMap") || !gameShell.includes("o
 
 const launchBoundary = read("apps/web/src/data/sampleLaunchResolver.ts");
 const frontDoorBoundary = read("apps/web/src/data/sampleTenantRouteRegistry.ts");
+const launchPage = read("apps/web/src/app/teacher/sessions/[launchCode]/page.tsx");
 if (!launchBoundary.includes("findSampleUnitGameOfferMap(context.contentPackage.meta.packageId)")) {
   failures.push("sample launch resolver does not translate its package into an offer map");
 }
 if (!frontDoorBoundary.includes("findSampleUnitGameOfferMap(route.contentPackage.meta.packageId)")) {
   failures.push("sample front-door resolver does not translate its package into an offer map");
+}
+if (!launchBoundary.includes("findSampleClassRosterPlan(context.launchSession.launchCode)")) {
+  failures.push("sample launch resolver does not translate its launch into a roster plan");
+}
+if (!launchPage.includes("rosterPlan={context.classRosterPlan}")) {
+  failures.push("teacher session route does not inject its roster plan");
 }
 
 if (failures.length > 0) {

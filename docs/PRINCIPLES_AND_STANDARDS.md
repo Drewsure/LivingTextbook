@@ -3001,3 +3001,13 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-848 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-849 and
 `docs/adr/0772-curated-unit-pathway-resolution.md`.
+
+## 197. Teacher Session Provider Boundary Standard
+
+- Teacher roster identity cards and session monitors must consume provider
+  data from the launch context rather than resolving sample fixtures by code.
+- Missing roster or pathway data must remain an explicit preview or review
+  state; reusable components must not invent production identities or routes.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-850 and
+`docs/adr/0773-teacher-session-provider-boundaries.md`.

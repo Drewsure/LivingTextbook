@@ -1,10 +1,9 @@
 import { Card, StatusPill } from "@living-textbook/ui";
-import type { LearnerIdentityMode, RosterReadiness } from "@living-textbook/content-model/src/classRoster";
+import type { ClassRosterPlan, LearnerIdentityMode, RosterReadiness } from "@living-textbook/content-model/src/classRoster";
 import { getClassRosterWarnings, validateClassRosterPlan } from "@living-textbook/content-model/src/classRoster";
-import { findSampleClassRosterPlan } from "@/data/sampleClassRosterPlans";
 
 interface TeacherSessionRosterIdentityCardProps {
-  launchCode: string;
+  rosterPlan?: ClassRosterPlan;
 }
 
 const readinessTone: Record<RosterReadiness, "neutral" | "success" | "warning"> = {
@@ -21,9 +20,7 @@ const identityLabels: Record<LearnerIdentityMode, string> = {
   "family-managed": "Family-managed",
 };
 
-export function TeacherSessionRosterIdentityCard({ launchCode }: TeacherSessionRosterIdentityCardProps) {
-  const rosterPlan = findSampleClassRosterPlan(launchCode);
-
+export function TeacherSessionRosterIdentityCard({ rosterPlan }: TeacherSessionRosterIdentityCardProps) {
   if (!rosterPlan) {
     return (
       <Card>

@@ -7,6 +7,7 @@ import type {
   UnitPayload,
 } from "@living-textbook/content-model";
 import type { TeacherAssignmentPlan } from "@living-textbook/content-model/src/teacherAssignment";
+import type { ClassRosterPlan } from "@living-textbook/content-model/src/classRoster";
 import { getSampleLaunchSession, getSampleStudentProgression } from "./sampleLaunchSession";
 import {
   getSamplePartnerLaunchSession,
@@ -17,6 +18,7 @@ import {
 import { sampleMultimediaContentPackage } from "./sampleMultimediaPackage";
 import { createSampleTeacherSessionSettings } from "./sampleTeacherSessionSettings";
 import { findSampleTeacherAssignmentPlan } from "./sampleTeacherAssignmentPlans";
+import { findSampleClassRosterPlan } from "./sampleClassRosterPlans";
 import { findSampleUnitGameOfferMap } from "./sampleUnitGameOfferMap";
 import { ministarTenant } from "@/features/tenant/ministarTenant";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
@@ -33,6 +35,7 @@ export interface SampleLaunchContext {
   assistLanguagePlan?: UnitAssistLanguagePlan;
   assignmentPlan?: TeacherAssignmentPlan;
   offerMap?: UnitGameOfferMap;
+  classRosterPlan?: ClassRosterPlan;
 }
 
 export function resolveSampleLaunchContext(code: string): SampleLaunchContext {
@@ -64,6 +67,7 @@ function withPackagePlans(context: Omit<SampleLaunchContext, "assistLanguagePlan
     (plan) => plan.unitKey === context.launchSession.unitKey && plan.studentVisibility !== "teacher-only",
   );
   const assignmentPlan = findSampleTeacherAssignmentPlan(context.launchSession.launchCode);
+  const classRosterPlan = findSampleClassRosterPlan(context.launchSession.launchCode);
   const sessionSettings = createSampleTeacherSessionSettings({
     launchSession: context.launchSession,
     assistLanguageEnabled: Boolean(context.tenant.languageSettings?.studentAssistEnabledByDefault && assistLanguagePlan),
@@ -76,5 +80,6 @@ function withPackagePlans(context: Omit<SampleLaunchContext, "assistLanguagePlan
     assistLanguagePlan,
     assignmentPlan,
     offerMap: findSampleUnitGameOfferMap(context.contentPackage.meta.packageId),
+    classRosterPlan,
   };
 }

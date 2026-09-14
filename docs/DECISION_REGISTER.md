@@ -4948,3 +4948,11 @@ offer map when one exists, using the shared catalog only as a structural
 fallback. This preserves white-label curriculum control and the reviewed
 activity order without creating a giant switch-anything panel. Training
 Academy remains the final review lane. See ADR 0772.
+
+# DR-850: Teacher Session Provider Boundaries
+
+Teacher session reporting must consume roster and curated offer data from the
+launch-context provider. Reusable teacher cards and monitors must not resolve
+sample fixtures by launch code or package id. This preserves white-label
+tenant substitution and keeps preview-only missing-plan behavior explicit.
+See ADR 0773.

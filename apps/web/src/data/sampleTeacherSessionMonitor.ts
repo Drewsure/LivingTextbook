@@ -29,9 +29,9 @@ import {
   validateCanonicalGameReportEvidence,
   resolveTargetLanguage,
 } from "@living-textbook/content-model";
+import type { ClassRosterPlan } from "@living-textbook/content-model/src/classRoster";
 import { sampleClassroomLaunchGate } from "./sampleClassroomLaunchGate";
 import { resolveSampleLaunchContext } from "./sampleLaunchResolver";
-import { findSampleUnitGameOfferMap } from "./sampleUnitGameOfferMap";
 import type { UnitGameOfferMap } from "@/features/game-offers/unitGameOfferMapTypes";
 import { sampleProgressEventTaxonomyRegistry } from "./sampleProgressEventTaxonomy";
 import { createSampleTeacherSessionSettings } from "./sampleTeacherSessionSettings";
@@ -151,6 +151,7 @@ export interface TeacherSessionMonitorContext {
   tenant: TenantConfig;
   contentPackage: ContentPackage;
   unit?: UnitPayload;
+  classRosterPlan?: ClassRosterPlan;
   launchSession: LaunchSession;
   progression: StudentProgressionState;
   events: GameProgressEvent[];
@@ -183,7 +184,7 @@ export function resolveSampleTeacherSessionMonitorContext(launchCode: string): T
   const isPartner = launchContext.tenant.id === "sample-publisher";
   const events = createSampleMonitorEvents(launchContext.launchSession, isPartner);
   const latestEvent = events[events.length - 1];
-  const offerMap = findSampleUnitGameOfferMap(launchContext.contentPackage.meta.packageId);
+  const offerMap = launchContext.offerMap;
   const progression = createMonitorProgression(launchContext.progression, launchContext.launchSession, latestEvent, offerMap);
   const sessionSettings = createMonitorSessionSettings(launchContext.launchSession, isPartner);
   const sessionSettingErrors = validateTeacherSessionSettings(sessionSettings);
@@ -254,6 +255,7 @@ export function resolveSampleTeacherSessionMonitorContext(launchCode: string): T
     tenant: launchContext.tenant,
     contentPackage: launchContext.contentPackage,
     unit: launchContext.unit,
+    classRosterPlan: launchContext.classRosterPlan,
     launchSession: launchContext.launchSession,
     progression,
     events,

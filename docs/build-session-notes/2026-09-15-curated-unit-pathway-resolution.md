@@ -15,6 +15,9 @@
   how sample packages are stored.
 - Added a regression verifier that guards the provider boundary against
   reusable-feature imports of sample offer-map fixtures.
+- Routed teacher roster identity and teacher-monitor offer maps through the
+  launch context, removing the last known launch-code/package-id fixture
+  lookups from the canonical teacher session path.
 
 ## Verification
 
@@ -24,6 +27,7 @@
   runtime contracts.
 - All 88 active route checks passed.
 - Curated pathway provider-boundary verifier passed.
+- Teacher session provider-boundary typecheck and composition checks passed.
 - Full foundation verification remains the release gate for this slice.
 
 ## Boundary
