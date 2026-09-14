@@ -7,6 +7,7 @@ const routeVerifier = readSource("./verify-active-routes.mjs");
 const assistStandard = readSource("../docs/ASSIST_LANGUAGE_STANDARD.md");
 const futureRequirements = readSource("../docs/FUTURE_REQUIREMENTS.md");
 const contentModel = readSource("../packages/content-model/src/index.ts");
+const teacherMonitor = readSource("../apps/web/src/features/teacher/TeacherSessionMonitorPanel.tsx");
 const failures = [];
 
 const requiredLanes = [
@@ -54,6 +55,8 @@ requireText(progressionAdapter, "args.targetLanguageEngagedItems >= args.require
 requireText(contentModel, "export function resolveTargetLanguage", "Content model must own the shared target-language resolver.");
 requireText(contentModel, "tenantTargetLanguage, unitLanguage, fallback", "Target-language resolver must declare tenant, unit, and fallback precedence inputs.");
 requireText(contentModel, "[tenantTargetLanguage, unitLanguage, fallback]", "Target-language resolver must prefer tenant language, then unit language, then baseline.");
+requireText(teacherMonitor, "context.tenant.languageSettings?.targetLanguage", "Teacher monitor must resolve tenant target language for evidence display.");
+requireText(teacherMonitor, "event.metadata?.language ?? targetLanguage", "Teacher monitor must not hard-code English for missing event language.");
 
 if (failures.length > 0) {
   for (const failure of failures) {

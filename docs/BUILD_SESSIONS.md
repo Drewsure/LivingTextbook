@@ -2439,3 +2439,14 @@ precedence behavior in addition to the static callsite guards.
 No learner behavior, progression, scoring, persistence, reporting, assignment,
 reward, print, or Phaser source-promotion behavior changed. See ADR 0754 and
 DR-830.
+
+## 0758 - Teacher evidence language display boundary
+
+Replaced the teacher monitor's hard-coded English display fallback with the
+shared tenant-first target-language resolver. Added readiness coverage so
+missing event language cannot make a white-label teacher report appear to use
+the wrong language.
+
+This changes display accuracy only; it does not change event acceptance,
+progression, scoring, persistence, reporting export, assignment, reward, or
+Phaser source-promotion behavior. See ADR 0754 and DR-831.

@@ -4777,3 +4777,11 @@ The shared target-language resolver must be covered by runtime assertions for
 tenant override, unit fallback, whitespace normalization, explicit fallback,
 and the English platform baseline. Static source checks alone do not prove the
 precedence result. See ADR 0754.
+
+# DR-831: Teacher Evidence Language Display Boundary
+
+Teacher session evidence must use the shared tenant-first target-language
+resolver when an event does not carry a language value. A display fallback must
+not silently label a white-label tenant's evidence as English. This is a
+presentation boundary only and does not create event acceptance, persistence,
+export, progression, scoring, assignment, or reward authority. See ADR 0754.

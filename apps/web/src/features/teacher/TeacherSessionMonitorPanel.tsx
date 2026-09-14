@@ -1,4 +1,5 @@
 import { Card, StatusPill } from "@living-textbook/ui";
+import { resolveTargetLanguage } from "@living-textbook/content-model";
 import type {
   GameProgressEvent,
   MediaAsset,
@@ -83,6 +84,10 @@ export function TeacherSessionMonitorPanel({ context }: TeacherSessionMonitorPan
   const controlsReady = context.sessionControlErrors.length === 0;
   const reportExportSafe = context.reportExportErrors.length === 0;
   const mediaAssets = context.contentPackage.mediaAssets ?? [];
+  const targetLanguage = resolveTargetLanguage({
+    tenantTargetLanguage: context.tenant.languageSettings?.targetLanguage,
+    unitLanguage: context.unit?.unitMeta.textbookReference?.language,
+  });
   const mediaEvents = context.events.filter((event) =>
     event.type === "media_started" ||
     event.type === "media_playlist_opened" ||
@@ -151,7 +156,7 @@ export function TeacherSessionMonitorPanel({ context }: TeacherSessionMonitorPan
                 <StatusPill label="Support-only learning audio" tone="warning" />
               </div>
               <dl className="mt-3 grid gap-2 text-xs text-[var(--tenant-muted)] sm:grid-cols-3">
-                <MediaFact label="Language" value={String(event.metadata?.language ?? "en")} />
+                <MediaFact label="Language" value={String(event.metadata?.language ?? targetLanguage)} />
                 <MediaFact label="Cue kind" value={String(event.metadata?.cueKind ?? "unknown")} />
                 <MediaFact label="Score" value="0" />
               </dl>
