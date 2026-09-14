@@ -2632,3 +2632,5 @@ DR-848.
 
 The game-mode coverage verifier also now checks the parent-engine map against
 the web catalog, so a future mode cannot be added with a silent engine drift.
+The runtime behavior harness also proves missing and cross-engine completion
+evidence is rejected.

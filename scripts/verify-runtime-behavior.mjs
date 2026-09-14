@@ -343,6 +343,30 @@ try {
     wrongModeScoringProfileErrors,
     "Canonical game game_completed event must use scoring profile entry-vocabulary-practice for game mode flashcards; found pairing-reinforcement-v1.",
   );
+  const missingParentEngineErrors = canonicalGame.validateCanonicalGameEventSequence(
+    canonicalEvents.map((event) => event.type === "mastery_updated"
+      ? { ...event, metadata: { ...event.metadata, parentEngine: undefined } }
+      : event),
+    "flashcards",
+  ).errors;
+  assertIncludes(
+    missingParentEngineErrors,
+    "Canonical game mastery_updated event must identify its parent engine.",
+  );
+  const wrongParentEngineErrors = canonicalGame.validateCanonicalGameEventSequence(
+    canonicalEvents.map((event) => ["mastery_updated", "game_completed"].includes(event.type)
+      ? { ...event, metadata: { ...event.metadata, parentEngine: "pairing" } }
+      : event),
+    "flashcards",
+  ).errors;
+  assertIncludes(
+    wrongParentEngineErrors,
+    "Canonical game mastery_updated event must use parent engine selection for game mode flashcards; found pairing.",
+  );
+  assertIncludes(
+    wrongParentEngineErrors,
+    "Canonical game game_completed event must use parent engine selection for game mode flashcards; found pairing.",
+  );
   const missingCanonicalReplayErrors = canonicalGame.validateCanonicalGameEventSequence(
     canonicalEvents.map((event) => event.type === "answer_result" ? { ...event, metadata: { ...event.metadata, replaySeed: undefined } } : event),
     "flashcards",
