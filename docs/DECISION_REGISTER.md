@@ -4660,3 +4660,11 @@ matching each other. This prevents browser or Phaser wrappers from claiming a
 different deterministic scoring rule at the event boundary without enabling
 live scoring mutation, persistence, progression, rewards, assignment, or
 source promotion. See ADR 0740.
+# DR-815: Shared Scoring Profile Source
+
+Keep the canonical game-mode-to-scoring-profile assignments and derived
+profile identifier type in the shared content model. Web catalog and scoring
+helpers must consume that source, and mode lookup must be total for the
+supported canonical modes. This prevents profile drift without enabling live
+persistence, scoring mutation, progression, rewards, assignment, or Phaser
+source promotion. See ADR 0741.

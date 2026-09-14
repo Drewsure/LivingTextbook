@@ -12,7 +12,7 @@ export const CANONICAL_GAME_REQUIRED_EVENT_ORDER = [
   "game_completed",
 ] as const satisfies readonly GameEventType[];
 
-export const CANONICAL_GAME_SCORING_PROFILE_BY_MODE: Record<GameModeId, string> = {
+export const CANONICAL_GAME_SCORING_PROFILE_BY_MODE = {
   flashcards: "entry-vocabulary-practice",
   "memory-match": "pairing-reinforcement-v1",
   "match-up": "pairing-reinforcement-v1",
@@ -25,7 +25,10 @@ export const CANONICAL_GAME_SCORING_PROFILE_BY_MODE: Record<GameModeId, string> 
   "spelling-practice": "spelling-typing-v1",
   "speak-it": "speaking-listening-practice-v1",
   "balloon-pop": "arcade-reinforcement-v1",
-};
+} as const satisfies Record<GameModeId, string>;
+
+export type CanonicalGameScoringProfileId =
+  (typeof CANONICAL_GAME_SCORING_PROFILE_BY_MODE)[GameModeId];
 
 export interface CanonicalGameEventSequenceReport {
   valid: boolean;

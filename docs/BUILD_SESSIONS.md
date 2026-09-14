@@ -2251,3 +2251,11 @@ merely agree with each other. Centralized the twelve-mode profile map in the
 content model, added runtime mismatch coverage, and kept the web game wrappers
 under the shared route boundary. No persistence, scoring mutation, progression,
 reward, assignment, or Phaser source promotion was enabled. See ADR 0740.
+## 0742 - Shared scoring profile source boundary
+
+Removed duplicated mode-to-scoring-profile assignments from the web catalog
+and scoring helper. The content model now exports the canonical profile map
+and derived profile identifier type; web consumers use that shared source.
+Static verification guards the boundary. No persistence, scoring mutation,
+progression, reward, assignment, or Phaser source promotion was enabled. See
+ADR 0741.

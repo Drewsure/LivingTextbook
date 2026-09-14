@@ -1,15 +1,12 @@
-import type { GameModeId } from "@living-textbook/content-model";
+import {
+  CANONICAL_GAME_SCORING_PROFILE_BY_MODE,
+  type CanonicalGameScoringProfileId,
+  type GameModeId,
+} from "@living-textbook/content-model";
 import type { GameModeRole, GameModeSkillFocus } from "./gameModeCatalog";
 import type { ParentEngine } from "@living-textbook/content-model";
 
-export type ScoringProfileId =
-  | "entry-vocabulary-practice"
-  | "pairing-reinforcement-v1"
-  | "selection-assessment-v1"
-  | "syntax-construction-v1"
-  | "spelling-typing-v1"
-  | "speaking-listening-practice-v1"
-  | "arcade-reinforcement-v1";
+export type ScoringProfileId = CanonicalGameScoringProfileId;
 
 export interface GameScoringProfile {
   id: ScoringProfileId;
@@ -111,20 +108,8 @@ export const gameScoringProfiles: Record<ScoringProfileId, GameScoringProfile> =
   },
 };
 
-export const gameModeScoringProfiles: Partial<Record<GameModeId, ScoringProfileId>> = {
-  flashcards: "entry-vocabulary-practice",
-  "label-it": "pairing-reinforcement-v1",
-  "match-up": "pairing-reinforcement-v1",
-  "memory-match": "pairing-reinforcement-v1",
-  quiz: "selection-assessment-v1",
-  "true-false": "selection-assessment-v1",
-  "type-answer": "spelling-typing-v1",
-  "spelling-practice": "spelling-typing-v1",
-  "fill-in-the-blank": "syntax-construction-v1",
-  "sentence-builder": "syntax-construction-v1",
-  "speak-it": "speaking-listening-practice-v1",
-  "balloon-pop": "arcade-reinforcement-v1",
-};
+export const gameModeScoringProfiles: Record<GameModeId, ScoringProfileId> =
+  CANONICAL_GAME_SCORING_PROFILE_BY_MODE;
 
 export function getGameScoringProfileForMode(mode: GameModeId): GameScoringProfile | undefined {
   const profileId = gameModeScoringProfiles[mode];

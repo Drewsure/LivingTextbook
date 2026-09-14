@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 
 const contentModelPath = new URL("../packages/content-model/src/index.ts", import.meta.url);
+const canonicalIntegrationPath = new URL("../packages/content-model/src/canonicalGameIntegration.ts", import.meta.url);
 const catalogPath = new URL("../apps/web/src/features/game-shell/gameModeCatalog.ts", import.meta.url);
 const scoringPath = new URL("../apps/web/src/features/game-shell/scoringProfiles.ts", import.meta.url);
 const routeContractsPath = new URL("../apps/web/src/features/routes/routeContracts.ts", import.meta.url);
@@ -9,6 +10,7 @@ const parentEngineReadinessPath = new URL("../apps/web/src/data/sampleParentEngi
 const activeGameReplayChecklistPath = new URL("../apps/web/src/data/sampleActiveGameReplayChecklist.ts", import.meta.url);
 
 const contentModel = readFileSync(contentModelPath, "utf8");
+const canonicalIntegration = readFileSync(canonicalIntegrationPath, "utf8");
 const catalog = readFileSync(catalogPath, "utf8");
 const scoring = readFileSync(scoringPath, "utf8");
 const routeContracts = readFileSync(routeContractsPath, "utf8");
@@ -20,6 +22,9 @@ const gameModeMatch = contentModel.match(/export type GameModeId =([\s\S]*?);/);
 const parentEngineMatch = contentModel.match(/export type ParentEngine =([\s\S]*?);/);
 const compatibilityMatch = contentModel.match(/const supportedGameModeContracts:[\s\S]*?= \{([\s\S]*?)\n\};/);
 const scoringProfilesMatch = scoring.match(/export const gameScoringProfiles:[\s\S]*?= \{([\s\S]*?)\n\};/);
+const canonicalScoringProfilesMatch = canonicalIntegration.match(
+  /export const CANONICAL_GAME_SCORING_PROFILE_BY_MODE = \{([\s\S]*?)\n\} as const/,
+);
 
 if (!gameModeMatch) {
   console.error("FAIL Could not find GameModeId union in packages/content-model/src/index.ts.");
@@ -38,6 +43,11 @@ if (!compatibilityMatch) {
 
 if (!scoringProfilesMatch) {
   console.error("FAIL Could not find gameScoringProfiles in apps/web/src/features/game-shell/scoringProfiles.ts.");
+  process.exit(1);
+}
+
+if (!canonicalScoringProfilesMatch) {
+  console.error("FAIL Could not find the canonical game-mode scoring profile map in packages/content-model/src/canonicalGameIntegration.ts.");
   process.exit(1);
 }
 
@@ -93,7 +103,7 @@ const mismatchedReadinessEngineModes = gameModes.filter((mode) => {
 
   return !engineId || !readinessModes.includes(mode);
 });
-const missingScoringModes = gameModes.filter((mode) => !hasObjectKey(scoring, mode));
+const missingScoringModes = gameModes.filter((mode) => !hasObjectKey(canonicalScoringProfilesMatch[1], mode));
 const missingRequiredAudio = gameModes.filter((mode) => {
   const item = getCatalogItemBody(catalog, mode);
   return !item.includes('audioRequirement: "required"');
@@ -104,11 +114,12 @@ const missingEngine = gameModes.filter((mode) => {
 });
 const missingScoringProfile = gameModes.filter((mode) => {
   const item = getCatalogItemBody(catalog, mode);
-  return !/scoringProfileId:\s*"[^"]+"/.test(item);
+  return !item.includes("CANONICAL_GAME_SCORING_PROFILE_BY_MODE")
+    || !getCanonicalScoringProfileId(canonicalScoringProfilesMatch[1], mode);
 });
 const scoringProfileCompatibilityDrift = gameModes.filter((mode) => {
   const catalogItem = getCatalogItemBody(catalog, mode);
-  const scoringProfileId = catalogItem.match(/scoringProfileId:\s*"([^"]+)"/)?.[1];
+  const scoringProfileId = getCanonicalScoringProfileId(canonicalScoringProfilesMatch[1], mode);
   const profile = scoringProfileId ? getScoringProfileBody(scoringProfilesMatch[1], scoringProfileId) : "";
   const engineId = catalogItem.match(/engineId:\s*"([^"]+)"/)?.[1];
   const role = catalogItem.match(/role:\s*"([^"]+)"/)?.[1];
@@ -431,6 +442,13 @@ console.log(
 function hasObjectKey(source, key) {
   const escaped = key.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   return new RegExp(`(?:^|\\n)\\s*(?:"${escaped}"|${escaped}):\\s*"`, "m").test(source);
+}
+
+function getCanonicalScoringProfileId(source, mode) {
+  const escaped = mode.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const match = source.match(new RegExp(`(?:^|\\n)\\s*(?:"${escaped}"|${escaped}):\\s*"([^"]+)"`, "m"));
+
+  return match?.[1] ?? "";
 }
 
 function hasSharedRouteHelperMapping(source, mode, helper) {

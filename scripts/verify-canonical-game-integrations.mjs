@@ -221,6 +221,8 @@ const recommendedRoutesCard = readText("apps/web/src/features/student/components
 const completionNextCard = readText("apps/web/src/features/game-shell/components/GameCompletionNextCard.tsx");
 const learningAudioCard = readText("apps/web/src/features/game-shell/components/GameLearningAudioContractCard.tsx");
 const flashcardEntryFlow = readText("apps/web/src/features/game-shell/entry/FlashcardDemoFlow.tsx");
+const gameModeCatalog = readText("apps/web/src/features/game-shell/gameModeCatalog.ts");
+const scoringProfiles = readText("apps/web/src/features/game-shell/scoringProfiles.ts");
 
 const standardEventTypes = [
   "game_started",
@@ -272,6 +274,16 @@ if (!routeShell.includes("platformReplaySeed,")) {
 
 if (!routeShell.includes("replaySeed,")) {
   failures.push("route shell: canonical replay seed must be passed to the mounted game");
+}
+
+if (!gameModeCatalog.includes("CANONICAL_GAME_SCORING_PROFILE_BY_MODE")) {
+  failures.push("game mode catalog: scoring profile assignments must come from the content-model map");
+}
+if (!scoringProfiles.includes("CANONICAL_GAME_SCORING_PROFILE_BY_MODE")) {
+  failures.push("scoring profiles: mode profile lookup must use the content-model map");
+}
+if (scoringProfiles.includes("Partial<Record<GameModeId")) {
+  failures.push("scoring profiles: mode profile lookup must not be optional");
 }
 
 for (const integration of integrations) {

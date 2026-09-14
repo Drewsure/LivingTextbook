@@ -2560,3 +2560,17 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-813 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-814 and
 `docs/adr/0740-canonical-game-scoring-profile.md`.
+## 165. Shared Scoring Profile Source Standard
+
+- The content model owns the canonical mode-to-scoring-profile map and the
+  profile identifier type derived from it.
+- Web catalogs, scoring helpers, browser games, and future Phaser wrappers
+  must consume that shared map rather than repeat mode assignments.
+- Mode profile lookup must be total for every supported canonical mode; an
+  optional lookup must not silently produce an unscored or `none` profile.
+- This reduces drift across white-label tenants and future game adapters
+  without authorizing live persistence, scoring mutation, progression,
+  rewards, assignment, or source promotion.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-815 and
+`docs/adr/0741-shared-scoring-profile-source.md`.
