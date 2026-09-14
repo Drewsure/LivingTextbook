@@ -6,6 +6,8 @@
 - Exposed the contracts through the package root.
 - Changed launch, student, teacher, dashboard, and game-shell consumers to use
   the neutral contract.
+- Changed provider-side tenant fixtures and launch/assignment resolvers to use
+  the neutral `TenantConfig` contract directly.
 - Kept the former web path as a compatibility re-export.
 - Added verifier coverage against web-owned contract definitions and internal
   package subpath imports.

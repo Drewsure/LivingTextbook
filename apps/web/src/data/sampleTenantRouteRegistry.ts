@@ -31,7 +31,7 @@ import {
 import { createSampleTeacherSessionSettings } from "./sampleTeacherSessionSettings";
 import { ministarTenant } from "@/features/tenant/ministarTenant";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
-import type { TenantConfig } from "@/features/tenant/types";
+import type { TenantConfig } from "@living-textbook/content-model";
 import { findSampleUnitGameOfferMap } from "./sampleUnitGameOfferMap";
 import type { UnitGameOfferMap } from "@living-textbook/content-model";
 

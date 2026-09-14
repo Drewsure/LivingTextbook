@@ -1,6 +1,6 @@
 import type { ContentPackage, LaunchSession } from "@living-textbook/content-model";
 import type { TeacherAssignmentPlan } from "@living-textbook/content-model/src/teacherAssignment";
-import type { TenantConfig } from "@/features/tenant/types";
+import type { TenantConfig } from "@living-textbook/content-model";
 import { ministarTenant } from "@/features/tenant/ministarTenant";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 import { sampleLaunchSession } from "./sampleLaunchSession";

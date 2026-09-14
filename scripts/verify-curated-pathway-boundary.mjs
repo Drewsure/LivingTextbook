@@ -70,6 +70,12 @@ if (!frontDoorBoundary.includes("findSampleUnitGameOfferMap(route.contentPackage
 if (!launchBoundary.includes("findSampleClassRosterPlan(context.launchSession.launchCode)")) {
   failures.push("sample launch resolver does not translate its launch into a roster plan");
 }
+if (!launchBoundary.includes('import type { TenantConfig } from "@living-textbook/content-model"')) {
+  failures.push("sample launch resolver must use the neutral TenantConfig contract");
+}
+if (!frontDoorBoundary.includes('import type { TenantConfig } from "@living-textbook/content-model"')) {
+  failures.push("sample front-door resolver must use the neutral TenantConfig contract");
+}
 if (!launchPage.includes("rosterPlan={context.classRosterPlan}")) {
   failures.push("teacher session route does not inject its roster plan");
 }

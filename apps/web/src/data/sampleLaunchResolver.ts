@@ -22,7 +22,7 @@ import { findSampleClassRosterPlan } from "./sampleClassRosterPlans";
 import { findSampleUnitGameOfferMap } from "./sampleUnitGameOfferMap";
 import { ministarTenant } from "@/features/tenant/ministarTenant";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
-import type { TenantConfig } from "@/features/tenant/types";
+import type { TenantConfig } from "@living-textbook/content-model";
 import type { UnitGameOfferMap } from "@living-textbook/content-model";
 
 export interface SampleLaunchContext {

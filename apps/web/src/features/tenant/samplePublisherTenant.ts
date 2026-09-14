@@ -1,4 +1,4 @@
-import type { TenantConfig } from "./types";
+import type { TenantConfig } from "@living-textbook/content-model";
 
 export const samplePublisherTenant: TenantConfig = {
   id: "sample-publisher",
