@@ -2880,3 +2880,16 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-839 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-840 and
 `docs/adr/0763-canonical-flashcard-entry-slice.md`.
+
+## 188. Flashcard Entry Runtime Gate Standard
+
+- Partial target-language engagement must produce no entry completion and no
+  next-game unlock events.
+- A complete reviewed entry pass may award the canonical entry dust and unlock
+  reviewed next modes, but each unlock must explicitly mark support-language
+  unlocking as false.
+- The runtime adapter must preserve the same teacher-QR and white-label
+  language boundary enforced by the Flashcards UI.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-841 and
+`docs/adr/0764-flashcard-entry-runtime-gate.md`.

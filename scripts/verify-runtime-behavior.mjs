@@ -419,6 +419,44 @@ try {
     masteryStatus: "in-progress",
     lastEventAt: "2026-01-01T00:00:00.000Z",
   };
+  const entryLaunchSession = {
+    ...adapterLaunchSession,
+    entryMode: "flashcards",
+    recommendedNextModes: ["match-up", "memory-match"],
+  };
+  const entryUnit = {
+    pedagogicalPayload: {
+      vocabularyTerms: ["hello", "goodbye", "teacher", "friend", "morning", "afternoon", "please", "thank you"],
+      targetSentences: ["Hello, teacher.", "Thank you, friend."],
+    },
+  };
+  const partialEntry = progressionAdapter.completeFlashcardEntryPractice({
+    progression: { ...adapterProgression, unlockedGameModes: ["flashcards", "memory-match"] },
+    launchSession: entryLaunchSession,
+    unit: entryUnit,
+    occurredAt: "2026-01-01T00:00:30.000Z",
+    targetLanguageEngagedItems: 8,
+    requiredTargetLanguageItems: 10,
+  });
+  assertEqual(partialEntry.completed, false);
+  assertEqual(partialEntry.blockedReason, "target-language-gate");
+  assertEqual(partialEntry.events.length, 0);
+  const completedEntry = progressionAdapter.completeFlashcardEntryPractice({
+    progression: { ...adapterProgression, unlockedGameModes: ["flashcards", "memory-match"] },
+    launchSession: entryLaunchSession,
+    unit: entryUnit,
+    occurredAt: "2026-01-01T00:00:40.000Z",
+    targetLanguageEngagedItems: 10,
+    requiredTargetLanguageItems: 10,
+  });
+  assertEqual(completedEntry.completed, true);
+  assertEqual(completedEntry.dust.total, 300);
+  assertEqual(completedEntry.progression.completedGameModes.includes("flashcards"), true);
+  assertEqual(completedEntry.events[0]?.type, "entry_practice_completed");
+  assertEqual(completedEntry.events[0]?.metadata?.supportLanguageUnlockAllowed, false);
+  assertEqual(completedEntry.events[0]?.metadata?.targetLanguageGateSatisfied, undefined);
+  assertEqual(completedEntry.events.slice(1).every((event) => event.metadata?.targetLanguageGateSatisfied === true), true);
+  assertEqual(completedEntry.events.slice(1).every((event) => event.metadata?.supportLanguageUnlockAllowed === false), true);
   const adapterStarted = progressionAdapter.startUnlockedGameMode({
     progression: adapterProgression,
     launchSession: adapterLaunchSession,

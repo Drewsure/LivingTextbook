@@ -2549,3 +2549,13 @@ support-language progression boundary.
 
 This does not add a new engine or authorize source promotion. See ADR 0763
 and DR-840.
+
+## 0768 - Flashcard entry runtime gate
+
+Added runtime behavior coverage for partial and complete Flashcard entry
+practice. Partial target-language engagement now has explicit no-completion and
+no-unlock evidence; a complete pass proves canonical entry dust, completion,
+and support-language-safe unlock events.
+
+This does not add persistence, assignment, or Phaser promotion authority. See
+ADR 0764 and DR-841.
