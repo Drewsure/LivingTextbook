@@ -9,3 +9,5 @@ enabled by this decision.
 Playable route shells and teacher/student launch flows filter target-language
 cues before wrapper selection; full cue coverage remains available to support
 and review surfaces.
+The resolved target language is passed explicitly to wrappers so generated
+fallback speech cannot silently default to English for another tenant.

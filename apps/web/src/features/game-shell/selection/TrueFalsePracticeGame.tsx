@@ -25,6 +25,7 @@ interface TrueFalsePracticeGameProps {
   progression: StudentProgressionState;
   replaySeed: string;
   audioCues?: AudioCue[];
+  targetLanguage?: string;
   onEvent?: (event: GameProgressEvent) => void;
   onComplete: (result: GameModeCompletionResult) => void;
 }
@@ -45,13 +46,14 @@ export function TrueFalsePracticeGame({
   progression,
   replaySeed,
   audioCues = [],
+  targetLanguage: configuredTargetLanguage,
   onEvent,
   onComplete,
 }: TrueFalsePracticeGameProps) {
   const rounds = useMemo(() => buildTrueFalseRounds(unit), [unit]);
   const scoringProfile = getRequiredGameScoringProfileForMode(gameMode);
   const scoringProfileId = scoringProfile.id;
-  const targetLanguage = unit.unitMeta.textbookReference?.language ?? "en";
+  const targetLanguage = configuredTargetLanguage ?? unit.unitMeta.textbookReference?.language ?? "en";
   const startEventSent = useRef(false);
   const [roundIndex, setRoundIndex] = useState(0);
   const [completedRoundIds, setCompletedRoundIds] = useState<string[]>([]);

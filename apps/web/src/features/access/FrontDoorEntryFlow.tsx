@@ -350,6 +350,7 @@ export function FrontDoorEntryFlow({
                 progression={currentProgression}
                 replaySeed={replaySeed}
                 audioCues={targetLanguageAudioCues}
+                targetLanguage={targetLanguage}
                 onEvent={handleProgressEvent}
                 onComplete={handleGameComplete}
               />
@@ -362,6 +363,7 @@ export function FrontDoorEntryFlow({
                 progression={currentProgression}
                 replaySeed={replaySeed}
                 audioCues={targetLanguageAudioCues}
+                targetLanguage={targetLanguage}
                 onEvent={handleProgressEvent}
                 onComplete={handleGameComplete}
               />
@@ -373,6 +375,7 @@ export function FrontDoorEntryFlow({
                 progression={currentProgression}
                 replaySeed={replaySeed}
                 audioCues={targetLanguageAudioCues}
+                targetLanguage={targetLanguage}
                 onEvent={handleProgressEvent}
                 onComplete={handleGameComplete}
               />
@@ -384,6 +387,7 @@ export function FrontDoorEntryFlow({
                 progression={currentProgression}
                 replaySeed={replaySeed}
                 audioCues={targetLanguageAudioCues}
+                targetLanguage={targetLanguage}
                 onEvent={handleProgressEvent}
                 onComplete={handleGameComplete}
               />
@@ -395,6 +399,7 @@ export function FrontDoorEntryFlow({
                 progression={currentProgression}
                 replaySeed={replaySeed}
                 audioCues={targetLanguageAudioCues}
+                targetLanguage={targetLanguage}
                 onEvent={handleProgressEvent}
                 onComplete={handleGameComplete}
               />
@@ -406,6 +411,7 @@ export function FrontDoorEntryFlow({
                 progression={currentProgression}
                 replaySeed={replaySeed}
                 audioCues={targetLanguageAudioCues}
+                targetLanguage={targetLanguage}
                 onEvent={handleProgressEvent}
                 onComplete={handleGameComplete}
               />
@@ -417,6 +423,7 @@ export function FrontDoorEntryFlow({
                 progression={currentProgression}
                 replaySeed={replaySeed}
                 audioCues={targetLanguageAudioCues}
+                targetLanguage={targetLanguage}
                 onEvent={handleProgressEvent}
                 onComplete={handleGameComplete}
               />
@@ -428,6 +435,7 @@ export function FrontDoorEntryFlow({
                 progression={currentProgression}
                 replaySeed={replaySeed}
                 audioCues={targetLanguageAudioCues}
+                targetLanguage={targetLanguage}
                 onEvent={handleProgressEvent}
                 onComplete={handleGameComplete}
               />
@@ -439,6 +447,7 @@ export function FrontDoorEntryFlow({
                 progression={currentProgression}
                 replaySeed={replaySeed}
                 audioCues={targetLanguageAudioCues}
+                targetLanguage={targetLanguage}
                 onEvent={handleProgressEvent}
                 onComplete={handleGameComplete}
               />
@@ -450,6 +459,7 @@ export function FrontDoorEntryFlow({
                 progression={currentProgression}
                 replaySeed={replaySeed}
                 audioCues={targetLanguageAudioCues}
+                targetLanguage={targetLanguage}
                 onEvent={handleProgressEvent}
                 onComplete={handleGameComplete}
               />
@@ -462,6 +472,7 @@ export function FrontDoorEntryFlow({
                 progression={currentProgression}
                 replaySeed={replaySeed}
                 audioCues={targetLanguageAudioCues}
+                targetLanguage={targetLanguage}
                 microphonePractice={microphonePracticeSettings}
                 onEvent={handleProgressEvent}
                 onComplete={handleGameComplete}

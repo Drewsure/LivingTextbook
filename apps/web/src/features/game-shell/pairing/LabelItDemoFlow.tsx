@@ -31,13 +31,14 @@ export function LabelItDemoFlow({
       }}
       progressTitle="Label It Progress"
     >
-      {({ progression: currentProgression, replaySeed, audioCues: targetLanguageAudioCues, onEvent, onComplete }) => (
+      {({ progression: currentProgression, replaySeed, audioCues: targetLanguageAudioCues, targetLanguage, onEvent, onComplete }) => (
         <LabelItPracticeGame
           unit={unit}
           launchSession={launchSession}
           progression={currentProgression}
           replaySeed={replaySeed}
           audioCues={targetLanguageAudioCues}
+          targetLanguage={targetLanguage}
           onEvent={onEvent}
           onComplete={onComplete}
         />

@@ -25,6 +25,7 @@ interface LabelItPracticeGameProps {
   progression: StudentProgressionState;
   replaySeed: string;
   audioCues?: AudioCue[];
+  targetLanguage?: string;
   onEvent?: (event: GameProgressEvent) => void;
   onComplete: (result: GameModeCompletionResult) => void;
 }
@@ -45,13 +46,14 @@ export function LabelItPracticeGame({
   progression,
   replaySeed,
   audioCues = [],
+  targetLanguage: configuredTargetLanguage,
   onEvent,
   onComplete,
 }: LabelItPracticeGameProps) {
   const anchors = useMemo(() => buildLabelAnchors(unit), [unit]);
   const scoringProfile = getRequiredGameScoringProfileForMode(gameMode);
   const scoringProfileId = scoringProfile.id;
-  const targetLanguage = unit.unitMeta.textbookReference?.language ?? "en";
+  const targetLanguage = configuredTargetLanguage ?? unit.unitMeta.textbookReference?.language ?? "en";
   const startEventSent = useRef(false);
   const roundShownSent = useRef(false);
   const [selectedLabel, setSelectedLabel] = useState<string | undefined>();

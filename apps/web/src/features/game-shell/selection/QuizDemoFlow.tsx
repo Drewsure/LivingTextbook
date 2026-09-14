@@ -31,13 +31,14 @@ export function QuizDemoFlow({
       }}
       progressTitle="Quiz Progress"
     >
-      {({ progression: currentProgression, replaySeed, audioCues: targetLanguageAudioCues, onEvent, onComplete }) => (
+      {({ progression: currentProgression, replaySeed, audioCues: targetLanguageAudioCues, targetLanguage, onEvent, onComplete }) => (
         <QuizPracticeGame
           unit={unit}
           launchSession={launchSession}
           progression={currentProgression}
           replaySeed={replaySeed}
           audioCues={targetLanguageAudioCues}
+          targetLanguage={targetLanguage}
           onEvent={onEvent}
           onComplete={onComplete}
         />

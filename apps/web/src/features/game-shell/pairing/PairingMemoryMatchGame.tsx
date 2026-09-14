@@ -38,6 +38,7 @@ interface PairingMemoryMatchGameProps {
   progression: StudentProgressionState;
   replaySeed: string;
   audioCues?: AudioCue[];
+  targetLanguage?: string;
   onEvent?: (event: GameProgressEvent) => void;
   onComplete: (result: GameModeCompletionResult) => void;
 }
@@ -49,6 +50,7 @@ export function PairingMemoryMatchGame({
   progression,
   replaySeed,
   audioCues = [],
+  targetLanguage: configuredTargetLanguage,
   onEvent,
   onComplete,
 }: PairingMemoryMatchGameProps) {
@@ -63,7 +65,7 @@ export function PairingMemoryMatchGame({
   const completedAlready = progression.completedGameModes.includes(gameMode);
   const instructionCue = findAudioCueForGame(audioCues, "instruction", gameMode);
   const feedbackCue = findAudioCueForGame(audioCues, "feedback", gameMode);
-  const targetLanguage = unit.unitMeta.textbookReference?.language ?? "en";
+  const targetLanguage = configuredTargetLanguage ?? unit.unitMeta.textbookReference?.language ?? "en";
 
   useEffect(() => {
     if (startSentRef.current) {

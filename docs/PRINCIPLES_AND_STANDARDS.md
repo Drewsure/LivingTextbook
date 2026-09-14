@@ -2601,6 +2601,9 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-816 and
 - Route shells and launch flows should filter target-language cues before
   passing them to game wrappers; support-language cues remain visible to
   review and assistance panels.
+- Canonical wrappers should receive the resolved target language explicitly so
+  fallback instructions, generated feedback, and speech events cannot silently
+  default to English for another tenant.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-817 and
 `docs/adr/0743-target-language-audio-boundary.md`.

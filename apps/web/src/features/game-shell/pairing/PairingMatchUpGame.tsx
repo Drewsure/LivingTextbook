@@ -36,6 +36,7 @@ interface PairingMatchUpGameProps {
   progression: StudentProgressionState;
   replaySeed: string;
   audioCues?: AudioCue[];
+  targetLanguage?: string;
   onEvent?: (event: GameProgressEvent) => void;
   onComplete: (result: GameModeCompletionResult) => void;
 }
@@ -48,6 +49,7 @@ export function PairingMatchUpGame({
   progression,
   replaySeed,
   audioCues = [],
+  targetLanguage: configuredTargetLanguage,
   onEvent,
   onComplete,
 }: PairingMatchUpGameProps) {
@@ -55,7 +57,7 @@ export function PairingMatchUpGame({
   const [lastResult, setLastResult] = useState<PairingSelectionResult | undefined>();
   const [mismatchCardIds, setMismatchCardIds] = useState<string[]>([]);
   const [completionSent, setCompletionSent] = useState(false);
-  const targetLanguage = unit.unitMeta.textbookReference?.language ?? "en";
+  const targetLanguage = configuredTargetLanguage ?? unit.unitMeta.textbookReference?.language ?? "en";
   const startSentRef = useRef(false);
   const mode = getGameModeCatalogItem(gameMode);
   const scoringProfile = getRequiredGameScoringProfileForMode(gameMode);

@@ -35,6 +35,7 @@ interface SpeakItPracticeGameProps {
   progression: StudentProgressionState;
   replaySeed: string;
   audioCues?: AudioCue[];
+  targetLanguage?: string;
   microphonePractice: TenantMicrophonePracticeSettings;
   onEvent?: (event: GameProgressEvent) => void;
   onComplete: (result: GameModeCompletionResult) => void;
@@ -54,6 +55,7 @@ export function SpeakItPracticeGame({
   progression,
   replaySeed,
   audioCues = [],
+  targetLanguage: configuredTargetLanguage,
   microphonePractice,
   onEvent,
   onComplete,
@@ -63,7 +65,7 @@ export function SpeakItPracticeGame({
   const mode = getGameModeCatalogItem(gameMode);
   const scoringProfile = getRequiredGameScoringProfileForMode(gameMode);
   const prompts = createSpeakItPrompts(unit, audioCues);
-  const targetLanguage = unit.unitMeta.textbookReference?.language ?? "en";
+  const targetLanguage = configuredTargetLanguage ?? unit.unitMeta.textbookReference?.language ?? "en";
   const startSentRef = useRef(false);
   const shownPromptIdsRef = useRef(new Set<string>());
   const completedAlready = progression.completedGameModes.includes(gameMode);

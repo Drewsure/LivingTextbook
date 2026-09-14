@@ -22,6 +22,8 @@ assistance but cannot satisfy the target-language completion boundary.
 Route shells and teacher/student launch flows filter the cue list before it
 reaches a playable wrapper, while the full cue set remains available to
 support and review panels.
+The resolved target language is also passed explicitly to wrappers so
+generated instructions and fallback speech use the tenant language.
 
 ## Consequences
 

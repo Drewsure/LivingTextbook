@@ -31,13 +31,14 @@ export function MatchUpDemoFlow({
       }}
       progressTitle="Match Up Progress"
     >
-      {({ progression: currentProgression, replaySeed, audioCues: targetLanguageAudioCues, onEvent, onComplete }) => (
+      {({ progression: currentProgression, replaySeed, audioCues: targetLanguageAudioCues, targetLanguage, onEvent, onComplete }) => (
         <PairingMatchUpGame
           unit={unit}
           launchSession={launchSession}
           progression={currentProgression}
           replaySeed={replaySeed}
           audioCues={targetLanguageAudioCues}
+          targetLanguage={targetLanguage}
           onEvent={onEvent}
           onComplete={onComplete}
         />

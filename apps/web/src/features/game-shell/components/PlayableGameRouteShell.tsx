@@ -54,6 +54,7 @@ interface PlayableGameRouteShellProps {
     progression: StudentProgressionState;
     replaySeed: string;
     audioCues: AudioCue[];
+    targetLanguage: string;
     onEvent: (event: GameProgressEvent) => void;
     onComplete: (result: GameModeCompletionResult) => void;
   }) => ReactNode;
@@ -177,6 +178,7 @@ export function PlayableGameRouteShell({
           progression: currentProgression,
           replaySeed,
           audioCues: targetLanguageAudioCues,
+          targetLanguage,
           onEvent: handleEvent,
           onComplete: handleComplete,
         })

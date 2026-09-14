@@ -2283,3 +2283,8 @@ The same target-language filter is now applied before a playable wrapper
 selects a cue in the shared route shell and the teacher/student launch flows.
 The complete cue set remains available to the learning-audio contract so
 support-language coverage stays visible without becoming game evidence.
+
+Canonical wrappers now also receive the resolved target language explicitly.
+Their generated instructions, feedback, fallback speech, and emitted audio
+events therefore follow the tenant language instead of silently defaulting to
+English. See ADR 0743.

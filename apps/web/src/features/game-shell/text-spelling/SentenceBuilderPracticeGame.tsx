@@ -27,6 +27,7 @@ interface SentenceBuilderPracticeGameProps {
   progression: StudentProgressionState;
   replaySeed: string;
   audioCues?: AudioCue[];
+  targetLanguage?: string;
   onEvent?: (event: GameProgressEvent) => void;
   onComplete: (result: GameModeCompletionResult) => void;
 }
@@ -39,12 +40,13 @@ export function SentenceBuilderPracticeGame({
   progression,
   replaySeed,
   audioCues = [],
+  targetLanguage: configuredTargetLanguage,
   onEvent,
   onComplete,
 }: SentenceBuilderPracticeGameProps) {
   const preview = useMemo(() => buildSentenceBuilderPreview(unit), [unit]);
   const scoringProfile = getGameScoringProfileForMode(gameMode);
-  const targetLanguage = unit.unitMeta.textbookReference?.language ?? "en";
+  const targetLanguage = configuredTargetLanguage ?? unit.unitMeta.textbookReference?.language ?? "en";
   const startSentRef = useRef(false);
   const [roundIndex, setRoundIndex] = useState(0);
   const [selectedTileIds, setSelectedTileIds] = useState<string[]>([]);

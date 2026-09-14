@@ -270,6 +270,9 @@ for (const integration of integrations) {
   if (!component.includes("getRequiredGameScoringProfileForMode") && !component.includes("preview.scoringProfileId")) {
     failures.push(`${integration.id}: scoring profile must come from the required resolver or a canonical engine preview`);
   }
+  if (!component.includes("configuredTargetLanguage")) {
+    failures.push(`${integration.id}: target language must be accepted from the route handoff`);
+  }
 }
 
 if (!textSpellingAdapter.includes("CANONICAL_GAME_SCORING_PROFILE_BY_MODE[\"sentence-builder\"]")) {
@@ -294,6 +297,9 @@ if (!routeShell.includes("replaySeed,")) {
 
 if (!routeShell.includes("languageMatches") || !routeShell.includes("targetLanguageAudioCues")) {
   failures.push("route shell: playable wrappers must receive target-language-only audio cues");
+}
+if (!routeShell.includes("targetLanguage,")) {
+  failures.push("route shell: playable wrappers must receive the resolved target language");
 }
 
 for (const [surface, source] of [
