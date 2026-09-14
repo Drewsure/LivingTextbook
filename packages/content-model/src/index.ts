@@ -1586,3 +1586,5 @@ export * from "./aiPackageWriterAssignmentHandoffEvidencePacket";
 export * from "./tenant";
 export * from "./teacherReporting";
 export * from "./gameOffer";
+export * from "./classRoster";
+export * from "./teacherAssignment";

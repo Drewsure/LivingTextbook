@@ -8,6 +8,8 @@
   the neutral contract.
 - Changed provider-side tenant fixtures and launch/assignment resolvers to use
   the neutral `TenantConfig` contract directly.
+- Promoted roster and teacher-assignment contracts through the content-model
+  package root for launch and classroom identity consumers.
 - Kept the former web path as a compatibility re-export.
 - Added verifier coverage against web-owned contract definitions and internal
   package subpath imports.

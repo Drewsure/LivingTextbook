@@ -1,5 +1,5 @@
 import { Card, StatusPill } from "@living-textbook/ui";
-import type { TeacherAssignmentControlPlan, TeacherAssignmentPlan } from "@living-textbook/content-model/src/teacherAssignment";
+import type { TeacherAssignmentControlPlan, TeacherAssignmentPlan } from "@living-textbook/content-model";
 
 interface TeacherAssignmentSettingsCardProps {
   assignmentPlan?: TeacherAssignmentPlan;

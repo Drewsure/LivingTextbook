@@ -1,6 +1,6 @@
 import { Card, StatusPill } from "@living-textbook/ui";
-import type { ClassRosterPlan, LearnerIdentityMode, RosterReadiness } from "@living-textbook/content-model/src/classRoster";
-import { getClassRosterWarnings, validateClassRosterPlan } from "@living-textbook/content-model/src/classRoster";
+import type { ClassRosterPlan, LearnerIdentityMode, RosterReadiness } from "@living-textbook/content-model";
+import { getClassRosterWarnings, validateClassRosterPlan } from "@living-textbook/content-model";
 
 interface TeacherSessionRosterIdentityCardProps {
   rosterPlan?: ClassRosterPlan;

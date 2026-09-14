@@ -6,8 +6,7 @@ import type {
   UnitAssistLanguagePlan,
   UnitPayload,
 } from "@living-textbook/content-model";
-import type { TeacherAssignmentPlan } from "@living-textbook/content-model/src/teacherAssignment";
-import type { ClassRosterPlan } from "@living-textbook/content-model/src/classRoster";
+import type { TeacherAssignmentPlan, ClassRosterPlan } from "@living-textbook/content-model";
 import { getSampleLaunchSession, getSampleStudentProgression } from "./sampleLaunchSession";
 import {
   getSamplePartnerLaunchSession,

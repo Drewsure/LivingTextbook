@@ -2668,6 +2668,10 @@ Provider-side tenant fixtures and launch/assignment resolvers also now import
 `TenantConfig` from the content-model package root rather than the web
 compatibility path.
 
+Roster and teacher-assignment contracts are also exported through the package
+root, keeping launch, assignment, and classroom identity boundaries on the
+same public content-model API.
+
 This keeps curated, pre-reviewed activity pathways tenant-configurable without
 creating a giant switch-anything panel. It does not add new games, enable live
 uploads, activate persistence, or authorize Phaser source promotion. See ADR

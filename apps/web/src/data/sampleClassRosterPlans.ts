@@ -1,5 +1,5 @@
-import type { ClassRosterPlan, RosterDataBoundary } from "@living-textbook/content-model/src/classRoster";
-import { getClassRosterWarnings, validateClassRosterPlan } from "@living-textbook/content-model/src/classRoster";
+import type { ClassRosterPlan, RosterDataBoundary } from "@living-textbook/content-model";
+import { getClassRosterWarnings, validateClassRosterPlan } from "@living-textbook/content-model";
 
 const coreRosterBoundaries: RosterDataBoundary[] = [
   {

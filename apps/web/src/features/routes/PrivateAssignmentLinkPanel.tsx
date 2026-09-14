@@ -1,5 +1,5 @@
 import { Card, StatusPill } from "@living-textbook/ui";
-import type { TeacherAssignmentControlStatus, TeacherAssignmentReadiness } from "@living-textbook/content-model/src/teacherAssignment";
+import type { TeacherAssignmentControlStatus, TeacherAssignmentReadiness } from "@living-textbook/content-model";
 import type { PrivateAssignmentLinkContext } from "@/data/samplePrivateAssignmentLinks";
 import { formatMode } from "@/lib/formatLabels";
 

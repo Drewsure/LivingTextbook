@@ -1,6 +1,6 @@
 import { getUnitKey } from "@living-textbook/content-model";
 import type { ContentPackage, LaunchSession, UnitPayload } from "@living-textbook/content-model";
-import type { TeacherAssignmentPlan } from "@living-textbook/content-model/src/teacherAssignment";
+import type { TeacherAssignmentPlan } from "@living-textbook/content-model";
 import type { TenantConfig } from "@living-textbook/content-model";
 import { ministarTenant } from "@/features/tenant/ministarTenant";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";

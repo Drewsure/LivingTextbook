@@ -3,7 +3,7 @@ import type {
   TeacherAssignmentControlStatus,
   TeacherAssignmentPlan,
   TeacherAssignmentReadiness,
-} from "@living-textbook/content-model/src/teacherAssignment";
+} from "@living-textbook/content-model";
 import { formatMode } from "@/lib/formatLabels";
 
 interface TeacherAssignmentReadinessPanelProps {

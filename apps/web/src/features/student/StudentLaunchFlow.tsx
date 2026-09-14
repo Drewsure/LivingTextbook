@@ -19,7 +19,7 @@ import {
   resolveTargetLanguage,
   validateProgressionContinuityRuntimeRequest,
 } from "@living-textbook/content-model";
-import type { TeacherAssignmentPlan } from "@living-textbook/content-model/src/teacherAssignment";
+import type { TeacherAssignmentPlan } from "@living-textbook/content-model";
 import { PairingMemoryMatchGame } from "@/features/game-shell/pairing/PairingMemoryMatchGame";
 import { PairingMatchUpGame } from "@/features/game-shell/pairing/PairingMatchUpGame";
 import { LabelItPracticeGame } from "@/features/game-shell/pairing/LabelItPracticeGame";

@@ -6,7 +6,7 @@ import type {
   TeacherSessionSettings,
   UnitPayload,
 } from "@living-textbook/content-model";
-import type { ClassRosterPlan } from "@living-textbook/content-model/src/classRoster";
+import type { ClassRosterPlan } from "@living-textbook/content-model";
 import {
   getSampleFrontDoorLaunchSession,
   getSampleFrontDoorStudentProgression,

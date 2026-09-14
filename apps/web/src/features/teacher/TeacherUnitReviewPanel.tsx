@@ -1,6 +1,6 @@
 import { Card, StatusPill } from "@living-textbook/ui";
 import type { GameModeId } from "@living-textbook/content-model";
-import type { TeacherAssignmentControlStatus } from "@living-textbook/content-model/src/teacherAssignment";
+import type { TeacherAssignmentControlStatus } from "@living-textbook/content-model";
 import type { TeacherUnitReviewContext, TeacherUnitReviewRoute } from "@/data/sampleTeacherUnitReview";
 
 interface TeacherUnitReviewPanelProps {

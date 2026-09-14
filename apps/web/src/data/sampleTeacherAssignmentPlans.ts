@@ -1,8 +1,8 @@
-import type { TeacherAssignmentPlan } from "@living-textbook/content-model/src/teacherAssignment";
+import type { TeacherAssignmentPlan } from "@living-textbook/content-model";
 import {
   getTeacherAssignmentWarnings,
   validateTeacherAssignmentPlan,
-} from "@living-textbook/content-model/src/teacherAssignment";
+} from "@living-textbook/content-model";
 import { sampleFrontDoorEntryCode } from "./sampleMultimediaPackage";
 import {
   samplePartnerFrontDoorEntryCode,

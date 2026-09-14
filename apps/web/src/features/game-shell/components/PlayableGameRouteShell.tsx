@@ -11,7 +11,7 @@ import type {
   UnitPayload,
 } from "@living-textbook/content-model";
 import { isGameModeSupportedAtLevel, languageMatches, resolveCanonicalGameReplaySeed, resolveTargetLanguage } from "@living-textbook/content-model";
-import type { TeacherAssignmentPlan } from "@living-textbook/content-model/src/teacherAssignment";
+import type { TeacherAssignmentPlan } from "@living-textbook/content-model";
 import type { UnitGameOfferMap } from "@living-textbook/content-model";
 import type { GameModeCompletionResult } from "@/features/progression/localProgressionAdapter";
 import { UnitSessionProgressSummary } from "@/features/progression/UnitSessionProgressSummary";
