@@ -2428,3 +2428,14 @@ Print remains a preview and teacher-controlled bridge; this does not award
 mastery, Star Dust, completion, or progression, and does not change upload,
 storage, export, or Phaser source-promotion authority. See ADR 0755 and
 DR-829.
+
+## 0757 - Runtime target-language precedence coverage
+
+Extended the runtime behavior harness with deterministic assertions for tenant
+override, unit fallback, whitespace normalization, custom fallback, and the
+English baseline of `resolveTargetLanguage`. This proves the shared resolver's
+precedence behavior in addition to the static callsite guards.
+
+No learner behavior, progression, scoring, persistence, reporting, assignment,
+reward, print, or Phaser source-promotion behavior changed. See ADR 0754 and
+DR-830.

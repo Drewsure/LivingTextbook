@@ -4770,3 +4770,10 @@ the route boundary and resolve it before unit language. This keeps paper
 vocabulary and sentence outputs aligned with interactive games and media while
 preserving the rule that print is support-only and cannot award mastery,
 Star Dust, completion, or progression. See ADR 0755.
+
+# DR-830: Runtime Target-Language Precedence Coverage
+
+The shared target-language resolver must be covered by runtime assertions for
+tenant override, unit fallback, whitespace normalization, explicit fallback,
+and the English platform baseline. Static source checks alone do not prove the
+precedence result. See ADR 0754.

@@ -2568,6 +2568,20 @@ try {
   };
   assertEqual(contentModel.validateAssistLanguageScriptPolicy(laterJapanesePlan).length, 0);
 
+  assertEqual(
+    contentModel.resolveTargetLanguage({ tenantTargetLanguage: "ja", unitLanguage: "en" }),
+    "ja",
+  );
+  assertEqual(
+    contentModel.resolveTargetLanguage({ tenantTargetLanguage: "", unitLanguage: "ja" }),
+    "ja",
+  );
+  assertEqual(
+    contentModel.resolveTargetLanguage({ tenantTargetLanguage: "  ", unitLanguage: "  ", fallback: "fr" }),
+    "fr",
+  );
+  assertEqual(contentModel.resolveTargetLanguage(), "en");
+
   const progressionSession = contentModel.createLaunchSession({
     launchCode: "launch-deterministic-1", tenantId: "tenant-1", curriculumId: "curriculum-1",
     unitKey: "tenant-1:curriculum-1:L1:U1", entryMode: "flashcards",
