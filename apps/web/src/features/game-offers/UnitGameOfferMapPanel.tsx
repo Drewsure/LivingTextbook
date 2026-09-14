@@ -1,11 +1,11 @@
 import { Card, StatusPill } from "@living-textbook/ui";
-import { validateUnitGameOfferMap } from "@/data/sampleUnitGameOfferMap";
+import { validateUnitGameOfferMap } from "./unitGameOfferMapValidation";
 import type {
   UnitGameOffer,
   UnitGameOfferAvailability,
   UnitGameOfferMap,
   UnitGameOfferReadiness,
-} from "@/data/sampleUnitGameOfferMap";
+} from "./unitGameOfferMapTypes";
 
 interface UnitGameOfferMapPanelProps {
   map: UnitGameOfferMap;

@@ -32,6 +32,7 @@ import {
 import { sampleClassroomLaunchGate } from "./sampleClassroomLaunchGate";
 import { resolveSampleLaunchContext } from "./sampleLaunchResolver";
 import { findSampleUnitGameOfferMap } from "./sampleUnitGameOfferMap";
+import type { UnitGameOfferMap } from "@/features/game-offers/unitGameOfferMapTypes";
 import { sampleProgressEventTaxonomyRegistry } from "./sampleProgressEventTaxonomy";
 import { createSampleTeacherSessionSettings } from "./sampleTeacherSessionSettings";
 import type { TenantConfig } from "@/features/tenant/types";
@@ -732,7 +733,7 @@ function createMonitorProgression(
   progression: StudentProgressionState,
   launchSession: LaunchSession,
   latestEvent?: GameProgressEvent,
-  offerMap?: import("./sampleUnitGameOfferMap").UnitGameOfferMap,
+  offerMap?: UnitGameOfferMap,
 ): StudentProgressionState {
   const reviewedReadyModes = offerMap?.offers
     .filter((offer) => offer.readiness === "ready")

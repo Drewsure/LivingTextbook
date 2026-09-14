@@ -1,41 +1,6 @@
-import { validateCuratedGameOfferMap } from "@living-textbook/content-model";
-import type { FeaturePackageTier, GameFamily, GameModeId, ParentEngine } from "@living-textbook/content-model";
-
-export type UnitGameOfferAvailability = "required" | "optional" | "premium" | "teacher-only" | "hidden" | "blocked";
-export type UnitGameOfferReadiness = "ready" | "needs-review" | "blocked";
-
-export interface UnitGameOffer {
-  offerId: string;
-  unitKey: string;
-  unitLabel: string;
-  gameMode: GameModeId;
-  label: string;
-  family: GameFamily;
-  engineId: ParentEngine;
-  availability: UnitGameOfferAvailability;
-  readiness: UnitGameOfferReadiness;
-  recommendedOrder?: number;
-  packageTier: FeaturePackageTier;
-  launchRoute?: string;
-  audioRequirement: string;
-  mediaRequirement: string;
-  reportingRequirement: string;
-  teacherControls: string[];
-  evidence: string;
-  nextStep: string;
-  notAllowedYet: string[];
-}
-
-export interface UnitGameOfferMap {
-  mapId: string;
-  tenantId: string;
-  contentPackageId: string;
-  level: number;
-  label: string;
-  summary: string;
-  decisionRule: string;
-  offers: UnitGameOffer[];
-}
+import type { GameModeId } from "@living-textbook/content-model";
+import type { UnitGameOfferMap } from "@/features/game-offers/unitGameOfferMapTypes";
+import { validateUnitGameOfferMap } from "@/features/game-offers/unitGameOfferMapValidation";
 
 export const samplePartnerUnitGameOfferMap: UnitGameOfferMap = {
   mapId: "sample-publisher-unit-game-offers",
@@ -356,10 +321,6 @@ export const sampleUnitGameOfferMaps: UnitGameOfferMap[] = [
 export const sampleUnitGameOfferMap = samplePartnerUnitGameOfferMap;
 
 export const sampleUnitGameOfferMapErrors = sampleUnitGameOfferMaps.flatMap(validateUnitGameOfferMap);
-
-export function validateUnitGameOfferMap(map: UnitGameOfferMap): string[] {
-  return validateCuratedGameOfferMap(map);
-}
 
 export function findSampleUnitGameOfferMap(contentPackageId: string): UnitGameOfferMap | undefined {
   return sampleUnitGameOfferMaps.find((map) => map.contentPackageId === contentPackageId);

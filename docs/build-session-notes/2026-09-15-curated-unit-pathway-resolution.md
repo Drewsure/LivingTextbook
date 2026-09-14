@@ -5,6 +5,8 @@
 - Resolved Game Sequence entries from tenant-scoped curated offer maps.
 - Kept sample offer-map lookup at the page boundary rather than inside the
   reusable Game Sequence feature.
+- Moved offer-map types and validation out of sample data so reusable features
+  can accept hosted, local, or partner tenant records later.
 - Preserved the shared catalog as a complete fallback for unpublished units.
 - Kept Training Academy explicit and separate from game modes.
 - Preserved parent-engine and audio contracts through catalog metadata.

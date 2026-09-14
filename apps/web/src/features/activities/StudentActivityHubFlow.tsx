@@ -9,7 +9,7 @@ import type {
   StudentProgressionState,
   UnitPayload,
 } from "@living-textbook/content-model";
-import type { UnitGameOffer, UnitGameOfferMap } from "@/data/sampleUnitGameOfferMap";
+import type { UnitGameOffer, UnitGameOfferMap } from "@/features/game-offers/unitGameOfferMapTypes";
 import { AudioCueText } from "@/features/audio/AudioCueButton";
 import { GameRouteHeaderCard } from "@/features/game-shell/components/GameRouteHeaderCard";
 import { getGameModeRoutePath } from "@/features/routes/gameModeRoutePaths";
