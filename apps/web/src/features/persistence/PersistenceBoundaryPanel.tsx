@@ -1,5 +1,5 @@
 import { Card, StatusPill } from "@living-textbook/ui";
-import type { DurableRecordContract, PersistenceRecordReadiness } from "@living-textbook/content-model/src/persistenceRecords";
+import type { DurableRecordContract, PersistenceRecordReadiness } from "@living-textbook/content-model";
 import type {
   PersistenceBoundary,
   PersistenceReadinessStatus,

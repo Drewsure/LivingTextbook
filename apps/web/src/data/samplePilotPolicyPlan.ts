@@ -1,8 +1,8 @@
-import type { PilotPolicyPlan } from "@living-textbook/content-model/src/pilotPolicy";
+import type { PilotPolicyPlan } from "@living-textbook/content-model";
 import {
   getPilotPolicyWarnings,
   validatePilotPolicyPlan,
-} from "@living-textbook/content-model/src/pilotPolicy";
+} from "@living-textbook/content-model";
 
 export const samplePilotPolicyPlans: PilotPolicyPlan[] = [
   {

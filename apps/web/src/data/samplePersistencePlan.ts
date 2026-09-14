@@ -2,12 +2,12 @@ import type { DeploymentChannel } from "@living-textbook/content-model";
 import type {
   DurableRecordContract,
   PersistenceRecordReadiness,
-} from "@living-textbook/content-model/src/persistenceRecords";
+} from "@living-textbook/content-model";
 import {
   TENANT_BOUND_PERSISTENCE_RECORD_CATEGORIES,
   getDurableRecordReadinessWarnings,
   validateDurableRecordContracts,
-} from "@living-textbook/content-model/src/persistenceRecords";
+} from "@living-textbook/content-model";
 
 export type PersistenceReadinessStatus = "demo-static" | "needs-backend" | "needs-policy";
 

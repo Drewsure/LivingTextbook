@@ -2688,3 +2688,14 @@ than internal package paths.
 This is a composition and ownership hardening slice. It keeps evidence
 surfaces review-only and does not enable live AI calls, uploads, persistence,
 student assignment, or Phaser source promotion. See ADR 0777 and DR-854.
+
+## 0781 - Persistence and pilot-policy public boundary
+
+Promoted persistence record and pilot-policy contracts through the public
+`packages/content-model` package root. Updated the affected web panels and
+sample providers to consume the neutral contracts without internal module
+paths.
+
+This remains composition hardening. It does not create live database writes,
+enable student assignment, bypass policy review, or authorize Phaser source
+promotion. See ADR 0778 and DR-855.

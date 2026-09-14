@@ -3,7 +3,7 @@ import type {
   PilotPolicyPlan,
   PilotPolicyReadiness,
   PilotPolicyRequirementStatus,
-} from "@living-textbook/content-model/src/pilotPolicy";
+} from "@living-textbook/content-model";
 
 interface PilotPolicyReadinessPanelProps {
   plans: PilotPolicyPlan[];

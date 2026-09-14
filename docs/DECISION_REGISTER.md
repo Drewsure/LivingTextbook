@@ -4991,3 +4991,12 @@ content-model contracts. Panels and sample fixtures consume them through the
 package root, preventing reusable platform surfaces from coupling to internal
 file paths. This is ownership hardening only and does not authorize live AI,
 uploads, persistence, assignment, or Phaser promotion. See ADR 0777.
+
+# DR-855: Persistence And Pilot Policy Public Boundary
+
+Persistence record categories and pilot-policy requirements used by web
+surfaces are neutral content-model contracts consumed through the package
+root. This keeps tenant providers and reusable panels replaceable while
+preserving the no-side-effect, privacy, reporting, deployment, and pilot
+policy gates. It does not create live database writes or authorize Phaser
+promotion. See ADR 0778.

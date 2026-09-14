@@ -1,5 +1,5 @@
 import type { PersistenceAdapterPlan } from "@living-textbook/content-model";
-import { TENANT_BOUND_PERSISTENCE_RECORD_CATEGORIES } from "@living-textbook/content-model/src/persistenceRecords";
+import { TENANT_BOUND_PERSISTENCE_RECORD_CATEGORIES } from "@living-textbook/content-model";
 import {
   getPersistenceAdapterWarnings,
   validatePersistenceAdapterPlan,

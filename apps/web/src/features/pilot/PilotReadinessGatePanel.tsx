@@ -1,6 +1,6 @@
 import { Card, StatusPill } from "@living-textbook/ui";
 import type { PersistenceAdapterPlan } from "@living-textbook/content-model";
-import type { PilotPolicyPlan } from "@living-textbook/content-model/src/pilotPolicy";
+import type { PilotPolicyPlan } from "@living-textbook/content-model";
 import type { PilotReadinessStatus, WhiteLabelPilotReadiness } from "@/data/whiteLabelPilotReadiness";
 
 interface PilotReadinessGatePanelProps {

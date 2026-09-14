@@ -3064,3 +3064,15 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-853 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-854 and
 `docs/adr/0777-review-contract-public-boundary.md`.
+
+## 202. Persistence And Pilot Policy Public-Boundary Standard
+
+- Persistence record categories and pilot-policy requirements are neutral
+  content-model contracts consumed through the public package root.
+- Web panels and sample providers may not make internal content-model paths
+  part of the platform contract.
+- Public contract access does not create a database connection, enable live
+  writes, or remove pilot policy, privacy, reporting, or deployment gates.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-855 and
+`docs/adr/0778-persistence-pilot-policy-public-boundary.md`.
