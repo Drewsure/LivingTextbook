@@ -2637,3 +2637,27 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-819 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-818 and
 `docs/adr/0744-canonical-game-dust-caps.md`.
+
+## 170. Canonical Wrapper Scoring-Cap Standard
+
+- A canonical game wrapper must use the completion cap from its required
+  shared scoring profile rather than a smaller mode-specific literal.
+- The progression adapter and canonical event validator remain authoritative
+  for the mode cap and the unit-wide economy cap.
+- Static integration checks must guard against wrapper-specific scoring drift
+  so browser and future Phaser adapters remain interchangeable.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-820 and
+`docs/adr/0746-speak-it-scoring-cap-alignment.md`.
+
+## 171. Flashcard Fallback Target-Language Standard
+
+- Learner-facing flashcard speech must resolve tenant target language first,
+  then the unit textbook language, before using the English platform baseline.
+- Missing reviewed audio cues must not silently change the learner language;
+  they remain a content-quality issue for authoring and release review.
+- Assist-language glosses must remain separate support controls and must never
+  trigger target-language practice completion.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-821 and
+`docs/adr/0747-flashcard-fallback-target-language.md`.
