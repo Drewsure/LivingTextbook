@@ -4,6 +4,8 @@ const plan = readSource("../apps/web/src/data/samplePrintableOutputPlan.ts");
 const panel = readSource("../apps/web/src/features/content-intake/PrintableOutputReadinessPanel.tsx");
 const routeVerifier = readSource("./verify-active-routes.mjs");
 const docs = readSource("../docs/ACTIVITY_PATHWAY_COMPATIBILITY_MATRIX.md");
+const printableRoute = readSource("../apps/web/src/app/print/[code]/page.tsx");
+const printablePreview = readSource("../apps/web/src/features/printables/PrintableWorksheetPreview.tsx");
 const failures = [];
 
 const readyOutputs = ["vocabulary-listening-sheet", "sentence-practice-sheet"];
@@ -44,6 +46,9 @@ requireText(routeVerifier, "Sentence practice worksheet", "Active route verifier
 requireText(routeVerifier, "/print/demo-unit-1", "Active route verifier must check MiniStar printable route.");
 requireText(routeVerifier, "/print/partner-demo-unit-1", "Active route verifier must check sample publisher printable route.");
 requireText(docs, "Printable vocabulary sheet", "Activity pathway docs must preserve printable vocabulary planning.");
+requireText(printableRoute, "tenantTargetLanguage={tenant.languageSettings?.targetLanguage}", "Printable route must pass tenant target language into the preview boundary.");
+requireText(printablePreview, "tenantTargetLanguage,", "Printable preview must accept tenant target language context.");
+requireText(printablePreview, "tenantTargetLanguage,\n    unitLanguage", "Printable preview must resolve tenant language before unit language.");
 
 if (failures.length > 0) {
   for (const failure of failures) {

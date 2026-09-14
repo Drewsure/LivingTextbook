@@ -2416,3 +2416,15 @@ resolver contract.
 This removes duplicated white-label language precedence without changing
 progression, unlock, scoring, persistence, reporting, assignment, reward, or
 Phaser source-promotion behavior. See ADR 0754 and DR-828.
+
+## 0756 - Printable target-language boundary
+
+Passed tenant target-language context from the printable route into the
+worksheet preview and reused the shared resolver before unit language. Added a
+printable readiness guard so paper output cannot silently diverge from the
+interactive tenant language contract.
+
+Print remains a preview and teacher-controlled bridge; this does not award
+mastery, Star Dust, completion, or progression, and does not change upload,
+storage, export, or Phaser source-promotion authority. See ADR 0755 and
+DR-829.

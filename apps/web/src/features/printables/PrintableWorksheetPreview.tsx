@@ -10,6 +10,7 @@ interface PrintableWorksheetPreviewProps {
   contentPackage: ContentPackage;
   unit: UnitPayload;
   launchCode: string;
+  tenantTargetLanguage?: string;
   assistLanguagePlan?: UnitAssistLanguagePlan;
 }
 
@@ -17,13 +18,17 @@ export function PrintableWorksheetPreview({
   contentPackage,
   unit,
   launchCode,
+  tenantTargetLanguage,
   assistLanguagePlan,
 }: PrintableWorksheetPreviewProps) {
   const launchPath = getStudentLaunchPath(launchCode);
   const sentencePath = getSentenceBuilderPath(launchCode);
   const playlist = contentPackage.playlists?.find((candidate) => candidate.unitKey === getPrintableUnitKey(unit));
   const audioPlan = contentPackage.audioSupportPlans?.find((candidate) => candidate.unitKey === getPrintableUnitKey(unit));
-  const targetLanguage = resolveTargetLanguage({ unitLanguage: unit.unitMeta.textbookReference?.language });
+  const targetLanguage = resolveTargetLanguage({
+    tenantTargetLanguage,
+    unitLanguage: unit.unitMeta.textbookReference?.language,
+  });
   const supportLanguage = assistLanguagePlan?.assistLanguage;
   const textbookReference = unit.unitMeta.textbookReference ?? contentPackage.meta.textbookReference;
 

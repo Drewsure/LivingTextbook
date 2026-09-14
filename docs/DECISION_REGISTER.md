@@ -4762,3 +4762,11 @@ white-label drift caused by individual routes or games reimplementing the
 fallback chain. It does not change support-language policy, progression
 triggers, scoring, persistence, reporting, assignment, rewards, or Phaser
 source promotion. See ADR 0754.
+
+# DR-829: Printable Target-Language Boundary
+
+Printable worksheet previews must receive tenant target-language context at
+the route boundary and resolve it before unit language. This keeps paper
+vocabulary and sentence outputs aligned with interactive games and media while
+preserving the rule that print is support-only and cannot award mastery,
+Star Dust, completion, or progression. See ADR 0755.

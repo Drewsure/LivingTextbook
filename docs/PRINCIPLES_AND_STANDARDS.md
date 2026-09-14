@@ -2759,3 +2759,16 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-827 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-828 and
 `docs/adr/0754-shared-target-language-resolver.md`.
+
+## 179. Printable Target-Language Boundary Standard
+
+- Printable worksheet previews must receive the tenant target language at the
+  route boundary before resolving unit language.
+- Printable vocabulary and sentence outputs must use the same target-language
+  contract as interactive games and media; paper output must not silently
+  drift to a unit or English baseline when a tenant override exists.
+- Print remains a preview and teacher-controlled bridge. It does not award
+  mastery, Star Dust, completion, or progression by itself.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-829 and
+`docs/adr/0755-printable-target-language-boundary.md`.

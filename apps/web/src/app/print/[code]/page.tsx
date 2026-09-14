@@ -17,6 +17,7 @@ export default async function PrintableWorksheetPage({ params }: { params: Promi
         contentPackage={contentPackage}
         unit={unit}
         launchCode={code}
+        tenantTargetLanguage={tenant.languageSettings?.targetLanguage}
         assistLanguagePlan={assistLanguagePlan}
       />
     </AppShell>
