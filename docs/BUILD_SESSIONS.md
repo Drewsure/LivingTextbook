@@ -2531,9 +2531,10 @@ code. See ADR 0761 and DR-838.
 ## 0766 - Canonical game replay coverage
 
 Added a deterministic runtime harness that validates ordered canonical event
-evidence for all twelve active game modes. Each mode is checked against its
-shared scoring profile, dust cap, target-language audio, replay identity, and
-completion award without creating routes or learner state.
+evidence for all twelve active game modes under both English and Japanese
+target-language contexts. Each mode is checked against its shared scoring
+profile, dust cap, target-language audio, replay identity, and completion
+award without creating routes or learner state.
 
 This is foundation verification only and does not replace browser interaction
 testing or authorize Phaser source promotion. See ADR 0762 and DR-839.

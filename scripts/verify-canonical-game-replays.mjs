@@ -33,64 +33,68 @@ try {
 
   const canonicalGame = require(join(output, "canonicalGameIntegration.js"));
   const modes = Object.keys(canonicalGame.CANONICAL_GAME_SCORING_PROFILE_BY_MODE);
-  const tenantId = "replay-harness";
-  const unitKey = "replay-harness:starter:L1:U1";
-  const launchCode = "replay-harness-launch";
-  const studentSessionId = "replay-harness-session";
+  const targetLanguages = ["en", "ja"];
 
-  for (const mode of modes) {
-    const scoringProfileId = canonicalGame.CANONICAL_GAME_SCORING_PROFILE_BY_MODE[mode];
-    const dustCap = canonicalGame.CANONICAL_GAME_COMPLETION_DUST_CAP_BY_MODE[mode];
-    const earnedStarDust = Math.min(1, dustCap);
-    const replaySeed = `replay-v1:canonical-${mode}`;
-    const context = { unitKey, gameMode: mode, launchCode, studentSessionId };
-    const events = [
-      event(context, "game_started", replaySeed, "2026-09-14T00:00:00.000Z"),
-      event(context, "round_shown", replaySeed, "2026-09-14T00:00:01.000Z"),
-      event(context, "answer_submitted", replaySeed, "2026-09-14T00:00:02.000Z"),
-      event(context, "answer_result", replaySeed, "2026-09-14T00:00:03.000Z", { correct: true }),
-      event(context, "audio_requested", replaySeed, "2026-09-14T00:00:04.000Z", {
-        cueKind: "instruction",
-        cueText: `Listen for ${mode}.`,
-        language: "en",
-        masteryCreditAllowed: false,
-      }),
-      event(context, "mastery_updated", replaySeed, "2026-09-14T00:00:05.000Z", {
-        completed: true,
-        earnedStarDust,
-        scoringProfileId,
-      }),
-      event(context, "game_completed", replaySeed, "2026-09-14T00:00:06.000Z", {
-        earnedStarDust,
-        scoringProfileId,
-      }),
-    ];
-    const result = canonicalGame.validateCanonicalGameEventSequence(
-      events,
-      mode,
-      tenantId,
-      earnedStarDust,
-      { unitKey, launchCode, studentSessionId },
-      "en",
-    );
+  for (const targetLanguage of targetLanguages) {
+    const tenantId = `replay-harness-${targetLanguage}`;
+    const unitKey = `${tenantId}:starter:L1:U1`;
+    const launchCode = `${tenantId}-launch`;
+    const studentSessionId = `${tenantId}-session`;
 
-    if (!result.valid) {
-      throw new Error(`${mode} replay was rejected:\n${result.errors.join("\n")}`);
+    for (const mode of modes) {
+      const scoringProfileId = canonicalGame.CANONICAL_GAME_SCORING_PROFILE_BY_MODE[mode];
+      const dustCap = canonicalGame.CANONICAL_GAME_COMPLETION_DUST_CAP_BY_MODE[mode];
+      const earnedStarDust = Math.min(1, dustCap);
+      const replaySeed = `replay-v1:canonical-${targetLanguage}-${mode}`;
+      const context = { tenantId, unitKey, gameMode: mode, launchCode, studentSessionId };
+      const events = [
+        event(context, "game_started", replaySeed, "2026-09-14T00:00:00.000Z"),
+        event(context, "round_shown", replaySeed, "2026-09-14T00:00:01.000Z"),
+        event(context, "answer_submitted", replaySeed, "2026-09-14T00:00:02.000Z"),
+        event(context, "answer_result", replaySeed, "2026-09-14T00:00:03.000Z", { correct: true }),
+        event(context, "audio_requested", replaySeed, "2026-09-14T00:00:04.000Z", {
+          cueKind: "instruction",
+          cueText: `Listen for ${mode}.`,
+          language: targetLanguage,
+          masteryCreditAllowed: false,
+        }),
+        event(context, "mastery_updated", replaySeed, "2026-09-14T00:00:05.000Z", {
+          completed: true,
+          earnedStarDust,
+          scoringProfileId,
+        }),
+        event(context, "game_completed", replaySeed, "2026-09-14T00:00:06.000Z", {
+          earnedStarDust,
+          scoringProfileId,
+        }),
+      ];
+      const result = canonicalGame.validateCanonicalGameEventSequence(
+        events,
+        mode,
+        tenantId,
+        earnedStarDust,
+        { unitKey, launchCode, studentSessionId },
+        targetLanguage,
+      );
+
+      if (!result.valid) {
+        throw new Error(`${targetLanguage}/${mode} replay was rejected:\n${result.errors.join("\n")}`);
+      }
     }
   }
 
-  console.log(`PASS canonical game replay harness validates ${modes.length} active mode(s) with target-language audio, deterministic scoring, replay identity, and ordered completion evidence.`);
+  console.log(`PASS canonical game replay harness validates ${modes.length * targetLanguages.length} replay(s) across ${modes.length} active mode(s) and ${targetLanguages.length} target language(s) with deterministic scoring, replay identity, and ordered completion evidence.`);
 } finally {
   rmSync(output, { recursive: true, force: true });
 }
 
 function event(context, type, replaySeed, occurredAt, metadata = {}) {
   return {
-    ...context,
+      ...context,
     type,
     occurredAt,
     metadata: {
-      tenantId: "replay-harness",
+      tenantId: context.tenantId,
       replaySeed,
       ...metadata,
     },
