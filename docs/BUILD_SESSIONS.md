@@ -2568,3 +2568,13 @@ completion or unlock events, and an unchanged progression total.
 
 This does not add persistence, assignment, or Phaser promotion authority. See
 ADR 0765 and DR-842.
+
+## 0770 - Pairing engine runtime contract
+
+Added a deterministic runtime harness for the reusable Pairing engine. It now
+proves selection, duplicate-tap handling, mismatch recovery, correct matching,
+completion, terminal retry safety, and progress summaries before pairing game
+skins are treated as canonical integrations.
+
+This does not add persistence, assignment, or Phaser promotion authority. See
+ADR 0766 and DR-843.

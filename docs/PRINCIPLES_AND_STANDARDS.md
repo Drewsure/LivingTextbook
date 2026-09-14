@@ -2906,3 +2906,16 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-841 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-842 and
 `docs/adr/0765-flashcard-entry-idempotence.md`.
+
+## 190. Pairing Engine Runtime Standard
+
+- The shared Pairing engine must have executable evidence for selection,
+  duplicate taps, mismatch recovery, correct source/target matching,
+  completion, terminal retry safety, and progress summaries.
+- Memory Match and future pairing skins must consume this parent-engine
+  contract rather than create independent selection or completion rules.
+- Passing the engine harness is foundation evidence only; it does not promote
+  frozen Phaser source or authorize persistence or student assignment.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-843 and
+`docs/adr/0766-pairing-engine-runtime.md`.
