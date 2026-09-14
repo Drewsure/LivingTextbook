@@ -1346,3 +1346,11 @@ controlled Z.ai intake gate is explicitly opened. Keep the independent
 human handoff signal, not an integration approval. Run the teacher route checks,
 workspace typecheck, production build, and foundation verification after
 changing this state. See ADR 0734.
+
+`createProgressEventEnvelope` must never assign a fallback effect to an
+unsupported or unclassified event. Factories are an earlier boundary than
+stream validation, so they must fail closed with an actionable error before a
+misleading `report-only` envelope can be created. Keep the unknown-type factory
+regression in `verify-runtime-behavior.mjs` and run the runtime, taxonomy,
+workspace typecheck, and foundation checks after changing this behavior. See
+ADR 0735.

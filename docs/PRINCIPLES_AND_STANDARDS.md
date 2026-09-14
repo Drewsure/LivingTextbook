@@ -2473,3 +2473,18 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-807 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-808 and
 `docs/adr/0734-controlled-zai-intake-state.md`.
+
+## 159. Progress Envelope Factory Standard
+
+- Progress-event envelope creation must reject unsupported event types before
+  an envelope is produced.
+- A known event type missing from the supplied taxonomy must also fail closed;
+  no factory may silently assign a fallback `report-only` effect.
+- Factory errors must be actionable and must preserve the same event vocabulary
+  and classification boundary used by stream validation.
+- This rule protects browser, Phaser, import, teacher-report, and progression
+  adapters without authorizing live persistence, report export, progression, or
+  assignment.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-809 and
+`docs/adr/0735-progress-envelope-factory-boundary.md`.

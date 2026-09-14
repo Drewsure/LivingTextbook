@@ -2194,3 +2194,12 @@ source identity, replay, audio, scoring, mobile, accessibility, and wrapper
 checks remain mandatory before any integration decision. No source import,
 route activation, production promotion, persistence, or student assignment was
 enabled. See ADR 0734.
+
+## 0736 - Progress envelope factory fail-closed boundary
+
+Removed the silent `report-only` fallback from progress-event envelope
+creation. The factory now rejects unsupported event types and known event types
+missing from the supplied taxonomy before an envelope is produced. Added
+runtime coverage for the untrusted factory input. This keeps event acceptance
+consistent from creation through validation without enabling live persistence,
+report export, progression, or assignment. See ADR 0735.

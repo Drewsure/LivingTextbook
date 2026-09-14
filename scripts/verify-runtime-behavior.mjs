@@ -688,6 +688,28 @@ try {
     envelope: { ...supportEnvelope, event_type: "unknown-event" },
   });
   assertIncludes(unknownEventTypeErrors, "Progress event envelope unknown-event must use a supported event_type.");
+  let progressEnvelopeFactoryError = "";
+  try {
+    contentModel.createProgressEventEnvelope({
+      event: {
+        type: "unknown-event",
+        unitKey: "tenant-1:curriculum-1:L1:U1",
+        gameMode: "flashcards",
+        occurredAt: supportEnvelope.occurred_at,
+        metadata: {},
+      },
+      registry,
+      eventId: "event-unknown",
+      eventAcceptanceGateId: "gate-1",
+      settingsContext: supportEnvelope.settings_context,
+    });
+  } catch (error) {
+    progressEnvelopeFactoryError = error instanceof Error ? error.message : String(error);
+  }
+  assertEqual(
+    progressEnvelopeFactoryError,
+    "Cannot create progress event envelope for unsupported event type unknown-event.",
+  );
   const mixedStreamContextErrors = contentModel.validateProgressEventEnvelopeStream([
     { ...supportEnvelope, launch_code: "launch-1", student_session_id: "session-1" },
     {

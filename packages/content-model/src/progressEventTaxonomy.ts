@@ -1,4 +1,4 @@
-import { GAME_EVENT_TYPES } from "./gameEventTypes";
+import { GAME_EVENT_TYPES, isGameEventType } from "./gameEventTypes";
 import { getCanonicalUnitKeyLevel, isCanonicalUnitKey, isGameModeSupportedAtLevel, isSupportedGameModeId } from "./index";
 import type { GameEventType, GameModeId, GameProgressEvent } from "./index";
 
@@ -236,12 +236,20 @@ export function getProgressEventTaxonomyRegistryWarnings(registry: unknown): str
 }
 
 export function createProgressEventEnvelope(args: CreateProgressEventEnvelopeArgs): ProgressEventEnvelope {
-  const taxonomyItem = args.registry.events.find((item) => item.eventType === args.event.type);
+  const eventType = args?.event?.type;
+  if (!isGameEventType(eventType)) {
+    throw new Error(`Cannot create progress event envelope for unsupported event type ${String(eventType)}.`);
+  }
+
+  const taxonomyItem = args.registry.events.find((item) => item.eventType === eventType);
+  if (!taxonomyItem) {
+    throw new Error(`Cannot create progress event envelope for unclassified event type ${eventType}.`);
+  }
 
   return {
     event_id: args.eventId,
-    event_type: args.event.type,
-    event_effect: taxonomyItem?.effect ?? "report-only",
+    event_type: eventType,
+    event_effect: taxonomyItem.effect,
     taxonomy_version: args.registry.taxonomyVersion,
     event_acceptance_gate_id: args.eventAcceptanceGateId,
     settings_context: args.settingsContext,
