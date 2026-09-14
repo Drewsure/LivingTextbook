@@ -2366,3 +2366,17 @@ route-level fallback gap without changing unlock, scoring, persistence,
 reporting, or source-promotion authority. No persistence, report export,
 progression policy, reward, assignment, or Phaser source promotion was
 enabled. See ADR 0750 and DR-824.
+
+## 0752 - Explicit target-language audio actions
+
+Required the shared `AudioSupportedAction` component to receive an explicit
+target language. Repaired canonical game submit actions, front-door entry,
+flashcards, unlock controls, training recovery, media playback, media
+playlist preview, and progress summaries to pass the resolved tenant/unit
+language. The media playlist route now carries tenant language context into
+its preview surface as well.
+
+Added a canonical integration guard against audio-supported game actions that
+omit `audioLanguage={targetLanguage}`. This hardens the learner audio boundary
+without changing unlock, scoring, persistence, reporting, assignment, or
+Phaser source-promotion authority. See ADR 0751 and DR-825.

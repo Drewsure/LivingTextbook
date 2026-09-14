@@ -304,6 +304,7 @@ export function SpeakItPracticeGame({
                 )}
                 <AudioSupportedAction
                   audioText={spoken ? "Spoken" : `I said ${prompt.label}`}
+                  audioLanguage={targetLanguage}
                   onClick={() => handlePromptSpoken(prompt)}
                   disabled={spoken || complete}
                   variant={spoken ? "secondary" : "primary"}

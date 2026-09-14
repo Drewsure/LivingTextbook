@@ -17,6 +17,7 @@ interface MediaPlaylistEventPreviewProps {
   assets: MediaAsset[];
   launchSession: LaunchSession;
   progression: StudentProgressionState;
+  targetLanguage: string;
 }
 
 export function MediaPlaylistEventPreview({
@@ -24,6 +25,7 @@ export function MediaPlaylistEventPreview({
   assets,
   launchSession,
   progression,
+  targetLanguage,
 }: MediaPlaylistEventPreviewProps) {
   const [events, setEvents] = useState<GameProgressEvent[]>([]);
   const [startedMediaIds, setStartedMediaIds] = useState<string[]>([]);
@@ -90,6 +92,7 @@ export function MediaPlaylistEventPreview({
           <UnitMediaPlaybackCard
             key={asset.mediaAssetId}
             asset={asset}
+            targetLanguage={targetLanguage}
             started={startedMediaIds.includes(asset.mediaAssetId)}
             paused={pausedMediaIds.includes(asset.mediaAssetId)}
             completed={completedMediaIds.includes(asset.mediaAssetId)}

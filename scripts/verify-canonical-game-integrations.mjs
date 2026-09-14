@@ -276,6 +276,9 @@ for (const integration of integrations) {
   if (hardCodedEnglishAudioFallbacks.length > 0) {
     failures.push(`${integration.id}: learner-facing audio language must fall back to the resolved target language, not English`);
   }
+  if (component.includes("<AudioSupportedAction") && !component.includes("audioLanguage={targetLanguage}")) {
+    failures.push(`${integration.id}: every audio-supported learner action must use the resolved target language`);
+  }
 }
 
 for (const integration of integrations) {

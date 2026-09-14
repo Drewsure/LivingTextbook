@@ -172,6 +172,7 @@ export function FlashcardDemoFlow({
         progression={currentProgression}
         events={sessionEvents}
         rewardName={tenant.rewardName}
+        targetLanguage={tenant.languageSettings?.targetLanguage ?? unit.unitMeta.textbookReference?.language ?? "en"}
       />
       <GameLearningAudioContractCard
         tenant={tenant}

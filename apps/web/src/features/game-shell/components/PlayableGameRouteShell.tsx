@@ -160,6 +160,7 @@ export function PlayableGameRouteShell({
         progression={currentProgression}
         events={sessionEvents}
         rewardName={tenant.rewardName}
+        targetLanguage={targetLanguage}
       />
 
       <GameLearningAudioContractCard

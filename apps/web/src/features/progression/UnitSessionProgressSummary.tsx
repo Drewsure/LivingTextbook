@@ -11,6 +11,7 @@ interface UnitSessionProgressSummaryProps {
   progression: StudentProgressionState;
   events: GameProgressEvent[];
   rewardName: string;
+  targetLanguage: string;
   mediaAssetCount?: number;
   title?: string;
 }
@@ -20,6 +21,7 @@ export function UnitSessionProgressSummary({
   progression,
   events,
   rewardName,
+  targetLanguage,
   mediaAssetCount = 0,
   title = "Unit Progress",
 }: UnitSessionProgressSummaryProps) {
@@ -56,7 +58,7 @@ export function UnitSessionProgressSummary({
           <p className="text-sm font-semibold text-[var(--tenant-muted)]">Session state</p>
           <h3 className="text-lg font-bold">{title}</h3>
           <p className="mt-1 text-sm text-[var(--tenant-muted)]">
-            <AudioCueText text={summaryText} label="Tap the session summary to hear it" className="text-sm" />
+            <AudioCueText text={summaryText} language={targetLanguage} label="Tap the session summary to hear it" className="text-sm" />
           </p>
         </div>
         <StatusPill label={nextModeComplete ? "Game complete" : entryComplete ? "In progress" : "Practice ready"} tone={nextModeComplete ? "success" : "neutral"} />

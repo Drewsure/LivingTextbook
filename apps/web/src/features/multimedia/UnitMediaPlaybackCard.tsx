@@ -9,6 +9,7 @@ import { resolveMediaSource } from "./mediaSourceResolver";
 
 interface UnitMediaPlaybackCardProps {
   asset: MediaAsset;
+  targetLanguage: string;
   started: boolean;
   paused: boolean;
   completed: boolean;
@@ -19,6 +20,7 @@ interface UnitMediaPlaybackCardProps {
 
 export function UnitMediaPlaybackCard({
   asset,
+  targetLanguage,
   started,
   paused,
   completed,
@@ -37,7 +39,7 @@ export function UnitMediaPlaybackCard({
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <h4 className="text-sm font-bold">
-            <AudioCueText text={asset.title} className="font-bold" />
+            <AudioCueText text={asset.title} language={asset.language ?? targetLanguage} className="font-bold" />
           </h4>
           <p className="mt-1 text-sm text-[var(--tenant-muted)]">
             {asset.kind} / {asset.type} / {asset.durationSeconds ?? 0}s
@@ -97,6 +99,7 @@ export function UnitMediaPlaybackCard({
           type="button"
           variant="secondary"
           audioText={startActionLabel}
+          audioLanguage={targetLanguage}
           onClick={onStart}
           disabled={(started && !paused) || completed}
         >
@@ -106,6 +109,7 @@ export function UnitMediaPlaybackCard({
           type="button"
           variant="secondary"
           audioText="Mark paused"
+          audioLanguage={targetLanguage}
           onClick={onPause}
           disabled={!started || completed || paused}
         >
@@ -114,6 +118,7 @@ export function UnitMediaPlaybackCard({
         <AudioSupportedAction
           type="button"
           audioText="Mark complete"
+          audioLanguage={targetLanguage}
           onClick={onComplete}
           disabled={!started || completed}
         >

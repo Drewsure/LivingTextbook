@@ -417,6 +417,7 @@ export function SpellingPracticeGame({
           />
           <AudioSupportedAction
             audioText="Clear letters"
+            audioLanguage={targetLanguage}
             onClick={handleClear}
             disabled={selectedTiles.length === 0 || completed}
             variant="secondary"
@@ -425,6 +426,7 @@ export function SpellingPracticeGame({
           </AudioSupportedAction>
           <AudioSupportedAction
             audioText="Submit spelling"
+            audioLanguage={targetLanguage}
             onClick={handleSubmit}
             disabled={selectedTiles.length !== currentRound.normalizedAnswer.length || completed}
           >

@@ -335,6 +335,7 @@ export function QuizPracticeGame({
         </p>
         <AudioSupportedAction
           audioText="Submit answer"
+          audioLanguage={targetLanguage}
           onClick={handleSubmit}
           disabled={!selectedOptionId || completed}
         >

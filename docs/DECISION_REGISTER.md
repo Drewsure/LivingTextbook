@@ -4726,3 +4726,12 @@ tenant/unit target language from the playable route shell. They must not rely
 on the audio component's English default when route language context exists.
 This does not enable persistence, report export, progression, rewards,
 assignment, or Phaser source promotion. See ADR 0750.
+
+# DR-825: Explicit Target-Language Audio Actions
+
+Make `audioLanguage` a required input for learner-facing
+`AudioSupportedAction` controls. Canonical game actions and shared student,
+training, media, and progress surfaces must pass the resolved tenant/unit
+target language instead of relying on the audio component's English default.
+This does not enable persistence, report export, progression, rewards,
+assignment, or Phaser source promotion. See ADR 0751.

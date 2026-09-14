@@ -2700,3 +2700,19 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-823 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-824 and
 `docs/adr/0750-shared-route-surface-audio.md`.
+
+## 175. Explicit Target-Language Action Standard
+
+- Every learner-facing `AudioSupportedAction` must receive an explicit
+  resolved target language from its unit or tenant boundary.
+- The shared audio action component must not provide an implicit English
+  fallback for caller-owned learner actions.
+- Progress summaries, unlock actions, training controls, media controls, and
+  canonical game submit actions all belong to the same target-language audio
+  contract.
+- English remains a valid platform baseline only at the explicit target
+  language resolver boundary, never because a learner surface omitted its
+  language.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-825 and
+`docs/adr/0751-explicit-target-language-actions.md`.

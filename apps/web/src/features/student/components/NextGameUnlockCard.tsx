@@ -10,10 +10,11 @@ interface NextGameUnlockCardProps {
   nextMode?: GameModeId;
   unlocked: boolean;
   started: boolean;
+  targetLanguage: string;
   onStart: () => void;
 }
 
-export function NextGameUnlockCard({ nextMode, unlocked, started, onStart }: NextGameUnlockCardProps) {
+export function NextGameUnlockCard({ nextMode, unlocked, started, targetLanguage, onStart }: NextGameUnlockCardProps) {
   const modeLabel = nextMode ? formatMode(nextMode) : "next game";
   const statusMessage = started
     ? `${modeLabel} has started. Tap cards to hear and match the words.`
@@ -28,7 +29,7 @@ export function NextGameUnlockCard({ nextMode, unlocked, started, onStart }: Nex
         <div>
           <h3 className="text-lg font-bold">Next Game</h3>
           <p className="mt-1 text-sm text-[var(--tenant-muted)]">
-            <AudioCueText text={nextMode ? modeLabel : "No next game assigned yet"} label="Tap the next game label to hear it" className="text-sm" />
+            <AudioCueText text={nextMode ? modeLabel : "No next game assigned yet"} language={targetLanguage} label="Tap the next game label to hear it" className="text-sm" />
           </p>
         </div>
         <StatusPill label={started ? "Started" : unlocked ? "Unlocked" : "Locked"} tone={unlocked ? "success" : "warning"} />
@@ -39,11 +40,12 @@ export function NextGameUnlockCard({ nextMode, unlocked, started, onStart }: Nex
             {started ? `${modeLabel} started` : unlocked ? "Ready for the next activity" : "Waiting for entry practice"}
           </p>
           <p className="mt-1 text-sm text-[var(--tenant-muted)]">
-            <AudioCueText text={statusMessage} label="Tap the next game message to hear it" className="text-sm" />
+            <AudioCueText text={statusMessage} language={targetLanguage} label="Tap the next game message to hear it" className="text-sm" />
           </p>
         </div>
         <AudioSupportedAction
           audioText={actionText}
+          audioLanguage={targetLanguage}
           onClick={onStart}
           disabled={!unlocked || started || !nextMode}
           variant={unlocked ? "primary" : "secondary"}

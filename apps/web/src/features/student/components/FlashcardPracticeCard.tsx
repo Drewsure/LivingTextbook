@@ -192,7 +192,7 @@ export function FlashcardPracticeCard({
             </p>
           )}
         </div>
-        <AudioSupportedAction audioText={targetPracticeReady ? actionText : gateMessage} onClick={handleComplete} disabled={entryComplete || !targetPracticeReady}>
+        <AudioSupportedAction audioText={targetPracticeReady ? actionText : gateMessage} audioLanguage={targetLanguage} onClick={handleComplete} disabled={entryComplete || !targetPracticeReady}>
           {actionText}
         </AudioSupportedAction>
       </div>

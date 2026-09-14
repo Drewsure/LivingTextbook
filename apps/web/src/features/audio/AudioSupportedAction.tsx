@@ -7,7 +7,7 @@ import { AudioCueButton } from "./AudioCueButton";
 interface AudioSupportedActionProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
   audioText: string;
-  audioLanguage?: string;
+  audioLanguage: string;
   variant?: "primary" | "secondary" | "quiet";
 }
 
@@ -32,7 +32,7 @@ const actionStyles: Record<"primary" | "secondary" | "quiet", CSSProperties> = {
 export function AudioSupportedAction({
   children,
   audioText,
-  audioLanguage = "en",
+  audioLanguage,
   variant = "primary",
   type = "button",
   style,

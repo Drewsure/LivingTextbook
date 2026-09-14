@@ -283,7 +283,7 @@ export function FrontDoorEntryFlow({
                 className="min-h-11 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] px-3 text-sm font-normal text-[var(--tenant-text)] outline-none focus:border-[var(--tenant-primary)]"
               />
             </label>
-            <AudioSupportedAction type="submit" audioText="Open unit">
+            <AudioSupportedAction type="submit" audioText="Open unit" audioLanguage={targetLanguage}>
               Open unit
             </AudioSupportedAction>
           </form>
@@ -308,6 +308,7 @@ export function FrontDoorEntryFlow({
               progression={currentProgression}
               events={sessionEvents}
               rewardName={tenant.rewardName}
+              targetLanguage={targetLanguage}
               mediaAssetCount={mediaAssetCount}
             />
             <FlashcardPracticeCard
@@ -335,6 +336,7 @@ export function FrontDoorEntryFlow({
               nextMode={nextMode}
               unlocked={nextModeUnlocked}
               started={nextModeStarted}
+              targetLanguage={targetLanguage}
               onStart={handleStartNextMode}
             />
             <RecommendedGameRoutesCard
@@ -494,6 +496,7 @@ export function FrontDoorEntryFlow({
               contentPackage={contentPackage}
               launchSession={launchSession}
               progression={currentProgression}
+              targetLanguage={targetLanguage}
               activeGameMode={activeGameMode}
               onEvent={handleProgressEvent}
             />

@@ -346,6 +346,7 @@ export function StudentLaunchFlow({
         progression={currentProgression}
         events={sessionEvents}
         rewardName={tenant.rewardName}
+        targetLanguage={targetLanguage}
       />
       <FlashcardPracticeCard
         tenant={tenant}
@@ -373,6 +374,7 @@ export function StudentLaunchFlow({
         nextMode={nextMode}
         unlocked={nextModeUnlocked}
         started={nextModeStarted}
+        targetLanguage={targetLanguage}
         onStart={handleStartNextMode}
       />
       <RecommendedGameRoutesCard

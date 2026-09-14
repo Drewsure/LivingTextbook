@@ -22,6 +22,7 @@ interface UnitMediaEngagementPanelProps {
   contentPackage: ContentPackage;
   launchSession: LaunchSession;
   progression: StudentProgressionState;
+  targetLanguage: string;
   activeGameMode?: GameModeId;
   onEvent: (event: GameProgressEvent) => void;
 }
@@ -30,6 +31,7 @@ export function UnitMediaEngagementPanel({
   contentPackage,
   launchSession,
   progression,
+  targetLanguage,
   activeGameMode,
   onEvent,
 }: UnitMediaEngagementPanelProps) {
@@ -119,7 +121,7 @@ export function UnitMediaEngagementPanel({
         <div>
           <p className="text-sm font-semibold text-[var(--tenant-muted)]">Unit playlist</p>
           <h3 className="text-lg font-bold">
-            <AudioCueText text={playlistTitle} className="font-bold" />
+            <AudioCueText text={playlistTitle} language={targetLanguage} className="font-bold" />
           </h3>
           <p className="mt-1 text-sm text-[var(--tenant-muted)]">
             Media playback and manual progress controls share the same reporting stream for teacher visibility.
@@ -133,6 +135,7 @@ export function UnitMediaEngagementPanel({
           <UnitMediaPlaybackCard
             key={asset.mediaAssetId}
             asset={asset}
+            targetLanguage={targetLanguage}
             started={startedMediaIds.includes(asset.mediaAssetId)}
             paused={pausedMediaIds.includes(asset.mediaAssetId)}
             completed={completedMediaIds.includes(asset.mediaAssetId)}
@@ -149,7 +152,7 @@ export function UnitMediaEngagementPanel({
             <div>
               <p className="text-sm font-semibold">Optional background media</p>
               <p className="mt-1 text-sm text-[var(--tenant-muted)]">
-                <AudioCueText text={backgroundAsset.title} /> can support {multimediaPlan.allowedBackgroundGameModes?.join(", ") ?? "selected games"} at {multimediaPlan.defaultVolumePercent ?? 0}% volume.
+                <AudioCueText text={backgroundAsset.title} language={backgroundAsset.language ?? targetLanguage} /> can support {multimediaPlan.allowedBackgroundGameModes?.join(", ") ?? "selected games"} at {multimediaPlan.defaultVolumePercent ?? 0}% volume.
               </p>
               <p className="mt-1 text-xs text-[var(--tenant-muted)]">
                 {backgroundAllowed ? "Available for the active game mode." : "Start the matching game before enabling this support media."}
@@ -158,6 +161,7 @@ export function UnitMediaEngagementPanel({
             <AudioSupportedAction
               type="button"
               audioText={backgroundEnabled ? "Disable media" : "Enable media"}
+              audioLanguage={targetLanguage}
               onClick={toggleBackgroundMedia}
               disabled={!backgroundAllowed}
               variant={backgroundEnabled ? "secondary" : "primary"}

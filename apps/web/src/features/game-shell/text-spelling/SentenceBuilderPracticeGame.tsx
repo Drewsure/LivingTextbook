@@ -384,6 +384,7 @@ export function SentenceBuilderPracticeGame({
         <div className="flex flex-wrap gap-2">
           <AudioSupportedAction
             audioText="Reset sentence"
+            audioLanguage={targetLanguage}
             onClick={handleResetRound}
             variant="secondary"
           >
@@ -391,6 +392,7 @@ export function SentenceBuilderPracticeGame({
           </AudioSupportedAction>
           <AudioSupportedAction
             audioText="Submit sentence"
+            audioLanguage={targetLanguage}
             onClick={handleSubmit}
             disabled={selectedTiles.length !== currentRound.expectedAnswer.length || completed}
           >

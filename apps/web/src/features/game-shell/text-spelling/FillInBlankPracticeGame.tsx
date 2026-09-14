@@ -367,6 +367,7 @@ export function FillInBlankPracticeGame({
           />
           <AudioSupportedAction
             audioText="Submit missing word"
+            audioLanguage={targetLanguage}
             onClick={handleSubmit}
             disabled={selectedAnswer.trim().length === 0 || completed}
           >

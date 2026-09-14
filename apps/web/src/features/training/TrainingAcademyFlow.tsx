@@ -29,6 +29,7 @@ interface TrainingAcademyFlowProps {
 }
 
 export function TrainingAcademyFlow({ tenant, unit, launchSession, progression, initialFocusType = "vocabulary-review" }: TrainingAcademyFlowProps) {
+  const targetLanguage = tenant.languageSettings?.targetLanguage ?? unit.unitMeta.textbookReference?.language ?? "en";
   const focusOptions = useMemo(() => createTrainingAcademyFocusConfigs({ unit, launchSession }), [unit, launchSession]);
   const initialFocusIsAvailable = focusOptions.some((option) => option.focusType === initialFocusType);
   const [selectedFocusType, setSelectedFocusType] = useState<TrainingFocusType>(initialFocusIsAvailable ? initialFocusType : "vocabulary-review");
@@ -109,7 +110,7 @@ export function TrainingAcademyFlow({ tenant, unit, launchSession, progression, 
   }
 
   function handleItemPractice(item: string, index: number) {
-    playAudioCueText({ text: item });
+    playAudioCueText({ text: item, language: targetLanguage });
     setStarted(true);
     setPracticedItems((currentItems) => Array.from(new Set([...currentItems, item])));
     appendTrainingEvent("training_item_shown", {
@@ -186,7 +187,7 @@ export function TrainingAcademyFlow({ tenant, unit, launchSession, progression, 
             <p className="text-sm font-semibold text-[var(--tenant-muted)]">Training Academy</p>
             <h2 className="mt-1 text-2xl font-bold">Recovery practice for {unit.unitMeta.theme}</h2>
             <p className="mt-2 max-w-2xl text-sm leading-6 text-[var(--tenant-muted)]">
-              <AudioCueText text={recommendation.reason} label="Hear why this practice is recommended" className="text-sm" />
+              <AudioCueText text={recommendation.reason} language={targetLanguage} label="Hear why this practice is recommended" className="text-sm" />
             </p>
           </div>
           <StatusPill label={completed ? "Practice complete" : started ? "Practice active" : "Recovery lane"} tone={completed ? "success" : "neutral"} />
@@ -212,6 +213,7 @@ export function TrainingAcademyFlow({ tenant, unit, launchSession, progression, 
         progression={currentProgression}
         events={events}
         rewardName={tenant.rewardName}
+        targetLanguage={targetLanguage}
         title="Training Recovery"
       />
 
@@ -223,7 +225,7 @@ export function TrainingAcademyFlow({ tenant, unit, launchSession, progression, 
             <p className="text-sm font-semibold text-[var(--tenant-muted)]">{recommendation.label} support</p>
             <h3 className="text-lg font-bold">{recommendation.practiceTitle}</h3>
             <p className="mt-1 text-sm leading-6 text-[var(--tenant-muted)]">
-              <AudioCueText text={recommendation.studentInstruction} label="Hear the training instruction" className="text-sm" />
+              <AudioCueText text={recommendation.studentInstruction} language={targetLanguage} label="Hear the training instruction" className="text-sm" />
             </p>
           </div>
           <StatusPill label={`${practicedItems.length}/${recommendation.targetItems.length} practiced`} tone={practicedItems.length > 0 ? "success" : "neutral"} />
@@ -249,16 +251,16 @@ export function TrainingAcademyFlow({ tenant, unit, launchSession, progression, 
           <p className="text-sm font-semibold text-[var(--tenant-muted)]">Sentence patterns</p>
           <div className="mt-2 grid gap-2 text-sm leading-6">
             {recommendation.targetSentences.map((sentence) => (
-              <AudioCueText key={sentence} text={sentence} label={`Hear sentence: ${sentence}`} className="justify-start text-left text-sm" />
+              <AudioCueText key={sentence} text={sentence} language={targetLanguage} label={`Hear sentence: ${sentence}`} className="justify-start text-left text-sm" />
             ))}
           </div>
         </div>
 
         <div className="mt-5 flex flex-wrap gap-3">
-          <AudioSupportedAction audioText="Start training review" onClick={handleStart} disabled={started}>
+          <AudioSupportedAction audioText="Start training review" audioLanguage={targetLanguage} onClick={handleStart} disabled={started}>
             Start Review
           </AudioSupportedAction>
-          <AudioSupportedAction audioText="Mark training complete" onClick={handleComplete} disabled={completed} variant="secondary">
+          <AudioSupportedAction audioText="Mark training complete" audioLanguage={targetLanguage} onClick={handleComplete} disabled={completed} variant="secondary">
             Mark Complete
           </AudioSupportedAction>
           <Button type="button" variant="quiet" onClick={handleReturnReady} disabled={!completed || returned}>

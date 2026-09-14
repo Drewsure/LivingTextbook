@@ -51,6 +51,7 @@ export default async function MediaPlaylistPage({
       <MediaPlaylistRoutePanel
         playlist={resolved.playlist}
         contentPackage={resolved.contentPackage}
+        targetLanguage={resolved.tenant.languageSettings?.targetLanguage ?? "en"}
         launchSession={resolved.launchSession}
         progression={resolved.progression}
         returnPath={resolved.returnPath}

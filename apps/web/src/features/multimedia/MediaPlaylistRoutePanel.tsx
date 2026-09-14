@@ -13,6 +13,7 @@ import { MediaPlaylistEventPreview } from "./MediaPlaylistEventPreview";
 interface MediaPlaylistRoutePanelProps {
   playlist: UnitMediaPlaylist;
   contentPackage: ContentPackage;
+  targetLanguage: string;
   launchSession: LaunchSession;
   progression: StudentProgressionState;
   returnPath?: string;
@@ -21,6 +22,7 @@ interface MediaPlaylistRoutePanelProps {
 export function MediaPlaylistRoutePanel({
   playlist,
   contentPackage,
+  targetLanguage,
   launchSession,
   progression,
   returnPath,
@@ -67,6 +69,7 @@ export function MediaPlaylistRoutePanel({
         assets={assets}
         launchSession={launchSession}
         progression={progression}
+        targetLanguage={targetLanguage}
       />
 
       <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">

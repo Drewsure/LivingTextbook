@@ -344,6 +344,7 @@ export function TypeAnswerPracticeGame({
           />
           <AudioSupportedAction
             audioText="Submit answer"
+            audioLanguage={targetLanguage}
             onClick={handleSubmit}
             disabled={answer.trim().length === 0 || completed}
           >
