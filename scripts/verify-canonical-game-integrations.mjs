@@ -320,6 +320,15 @@ if (
   failures.push("flashcard entry practice: fallback learner audio must use the tenant/unit target language");
 }
 
+const matchUpGame = readText("apps/web/src/features/game-shell/pairing/PairingMatchUpGame.tsx");
+if (
+  !matchUpGame.includes("configuredTargetLanguage")
+  || matchUpGame.includes('language={(lastResult === "mismatched" ? feedbackCue?.language : instructionCue?.language) ?? "en"}')
+  || !matchUpGame.includes("?? targetLanguage")
+) {
+  failures.push("Match Up feedback audio: fallback learner audio must use the resolved target language");
+}
+
 for (const [surface, source] of [
   ["front-door orchestration", frontDoorFlow],
   ["student orchestration", studentLaunchFlow],

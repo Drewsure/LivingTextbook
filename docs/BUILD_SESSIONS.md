@@ -2337,3 +2337,13 @@ language, before using the English platform baseline. Assist-language controls
 remain separately labelled and support-only. Added a static integration guard.
 No persistence, report export, progression policy, reward, assignment, or
 Phaser source promotion was enabled. See ADR 0747 and DR-821.
+
+## 0749 - Match Up feedback fallback target-language alignment
+
+Removed the remaining hard-coded English fallback from the Match Up feedback
+and replay controls. When a reviewed cue is absent or does not provide a
+language, both controls now use the resolved tenant/unit target language.
+Added a static integration guard so future wrapper changes cannot reintroduce
+an English-only fallback at this learner-facing boundary. No persistence,
+report export, progression policy, reward, assignment, or Phaser source
+promotion was enabled. See ADR 0748 and DR-822.

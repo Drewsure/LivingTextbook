@@ -319,14 +319,14 @@ export function PairingMatchUpGame({
       <div className="mt-4 flex flex-wrap items-center gap-2 text-sm font-semibold text-[var(--tenant-text)]">
         <AudioCueText
           text={feedbackText}
-          language={(lastResult === "mismatched" ? feedbackCue?.language : instructionCue?.language) ?? "en"}
+          language={(lastResult === "mismatched" ? feedbackCue?.language : instructionCue?.language) ?? targetLanguage}
           label="Tap the Match Up message to hear it"
           className="text-sm font-semibold"
           onPlay={() => emitAudioRequested("feedback", feedbackText, targetLanguage, "match-up-feedback")}
         />
         <AudioCueButton
           text={feedbackText}
-          language={(lastResult === "mismatched" ? feedbackCue?.language : instructionCue?.language) ?? "en"}
+          language={(lastResult === "mismatched" ? feedbackCue?.language : instructionCue?.language) ?? targetLanguage}
           label="Replay Match Up message"
           compact
           onPlay={() => emitAudioRequested("feedback", feedbackText, targetLanguage, "match-up-feedback-replay")}

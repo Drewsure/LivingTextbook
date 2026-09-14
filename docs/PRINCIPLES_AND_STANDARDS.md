@@ -2661,3 +2661,17 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-820 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-821 and
 `docs/adr/0747-flashcard-fallback-target-language.md`.
+
+## 172. Canonical Wrapper Feedback-Language Standard
+
+- Every learner-facing text-to-speech control in a canonical game wrapper
+  must resolve missing cue language from the tenant/unit target language
+  before using the platform baseline.
+- Feedback and replay controls are part of the learner experience, not an
+  exception to the target-language boundary.
+- Static integration checks must cover fallback controls as well as emitted
+  audio events, so a wrapper cannot pass completion validation while speaking
+  feedback in the wrong language.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-822 and
+`docs/adr/0748-canonical-wrapper-feedback-language.md`.
