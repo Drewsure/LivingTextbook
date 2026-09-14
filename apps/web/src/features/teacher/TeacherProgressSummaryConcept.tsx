@@ -1,8 +1,8 @@
 import { Card, StatusPill } from "@living-textbook/ui";
-import type { TeacherProgressSummaryConcept as TeacherProgressSummaryConceptData } from "@/data/sampleMultimediaPackage";
+import type { TeacherProgressSummaryConcept } from "@living-textbook/content-model/src/teacherReporting";
 
 interface TeacherProgressSummaryConceptProps {
-  summary: TeacherProgressSummaryConceptData;
+  summary: TeacherProgressSummaryConcept;
 }
 
 export function TeacherProgressSummaryConcept({ summary }: TeacherProgressSummaryConceptProps) {

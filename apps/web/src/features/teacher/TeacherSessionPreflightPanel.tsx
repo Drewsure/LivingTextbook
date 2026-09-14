@@ -1,5 +1,5 @@
 import { Card, StatusPill } from "@living-textbook/ui";
-import type { TeacherSessionPreflightCheck, TeacherSessionPreflightStatus } from "@/features/teacher/teacherSessionMonitorTypes";
+import type { TeacherSessionPreflightCheck, TeacherSessionPreflightStatus } from "@living-textbook/content-model/src/teacherReporting";
 
 interface TeacherSessionPreflightPanelProps {
   checks: TeacherSessionPreflightCheck[];

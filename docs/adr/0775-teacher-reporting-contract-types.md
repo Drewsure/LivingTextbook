@@ -14,17 +14,19 @@ and encouraged future feature code to depend on sample data.
 ## Decision
 
 Teacher session monitor metrics, roster-aware context, preflight gates, event
-acceptance gates, launch gates, pilot snapshots, and report package boundaries
-are owned by `features/teacher/teacherSessionMonitorTypes.ts`. The sample
-monitor remains responsible for constructing demo records and importing those
-contracts, while reusable panels import only the feature-owned types.
+acceptance gates, launch gates, pilot snapshots, report package boundaries,
+and progress-summary concepts are owned by the neutral
+`packages/content-model/src/teacherReporting.ts` contract. Tenant configuration
+is likewise owned by the content model. The sample monitor remains responsible
+for constructing demo records and importing those contracts, while reusable
+panels import only the package-owned types.
 
 ## Consequences
 
 Hosted, local, and partner reporting providers can return the same contract
-without importing or extending a sample data module. Demo behavior remains
-unchanged, and missing persistence or policy continues to be represented as a
-review state.
+without importing or extending a sample data module or web feature. Demo
+behavior remains unchanged, and missing persistence or policy continues to be
+represented as a review state.
 
 ## Verification
 

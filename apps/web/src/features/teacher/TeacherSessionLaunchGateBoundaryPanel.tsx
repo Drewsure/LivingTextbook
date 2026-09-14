@@ -2,7 +2,7 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import type {
   TeacherSessionLaunchGateBoundary,
   TeacherSessionLaunchGateBoundaryStatus,
-} from "@/features/teacher/teacherSessionMonitorTypes";
+} from "@living-textbook/content-model/src/teacherReporting";
 
 interface TeacherSessionLaunchGateBoundaryPanelProps {
   boundary: TeacherSessionLaunchGateBoundary;

@@ -18,13 +18,18 @@ const reusableFiles = [
   "apps/web/src/features/teacher/TeacherSessionLaunchGateBoundaryPanel.tsx",
   "apps/web/src/features/teacher/TeacherSessionPreflightPanel.tsx",
   "apps/web/src/features/teacher/TeacherReportPackagePreviewPanel.tsx",
+  "apps/web/src/features/teacher/TeacherProgressSummaryConcept.tsx",
 ];
 const forbiddenSampleLookup = /(?:findSampleUnitGameOfferMap|sampleUnitGameOfferMap)/;
 const failures = [];
 
 for (const relativePath of reusableFiles) {
-  if (forbiddenSampleLookup.test(read(relativePath))) {
+  const source = read(relativePath);
+  if (forbiddenSampleLookup.test(source)) {
     failures.push(`${relativePath} reaches into sample offer-map fixtures`);
+  }
+  if (source.includes("@/features/teacher/teacherSessionMonitorTypes") || source.includes("@/features/teacher/teacherProgressSummaryTypes")) {
+    failures.push(`${relativePath} reaches into a web-owned reporting type module`);
   }
 }
 
@@ -62,6 +67,9 @@ if (dashboard.split(/\r?\n/).some((line) => /^\s*import\s+(?!type\b).*from\s+["'
 }
 if (!dashboard.includes("offerMap?: UnitGameOfferMap") || !dashboard.includes("contentPackage: ContentPackage")) {
   failures.push("DashboardOverview does not accept provider-owned package and pathway data");
+}
+if (!dashboard.includes("@living-textbook/content-model/src/teacherReporting")) {
+  failures.push("DashboardOverview does not consume the neutral teacher reporting contract");
 }
 
 if (failures.length > 0) {

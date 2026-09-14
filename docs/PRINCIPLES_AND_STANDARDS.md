@@ -3025,10 +3025,14 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-851 and
 
 ## 199. Teacher Reporting Contract Ownership Standard
 
-- Reusable teacher reporting panels must import their public contracts from a
-  feature-owned type module, not from a sample provider module.
+- Reusable teacher reporting panels, progress-summary components, and data
+  providers must import their public contracts from the neutral
+  `packages/content-model/src/teacherReporting.ts` module, not from a sample
+  provider or web feature module.
 - Demo providers may construct preview records against shared contracts, but
-  they must not become the source of truth for tenant reporting APIs.
+  they must not become the source of truth for tenant reporting APIs. Tenant
+  configuration is likewise owned by the content model; web type files may
+  re-export it for compatibility but must not redefine it.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-852 and
 `docs/adr/0775-teacher-reporting-contract-types.md`.

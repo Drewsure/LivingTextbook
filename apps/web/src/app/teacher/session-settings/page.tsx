@@ -4,7 +4,7 @@ import { AppShell } from "@/components/layout/AppShell";
 import {
   resolveSampleTeacherSessionMonitorContext,
 } from "@/data/sampleTeacherSessionMonitor";
-import type { TeacherSessionMonitorContext } from "@/features/teacher/teacherSessionMonitorTypes";
+import type { TeacherSessionMonitorContext } from "@living-textbook/content-model/src/teacherReporting";
 import { sampleTeacherSessionSettingsReviewPackets } from "@/data/sampleTeacherSessionSettingsReviewPacket";
 import { TeacherSessionSettingsReviewPacketPanel } from "@/features/teacher/TeacherSessionSettingsReviewPacketPanel";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";

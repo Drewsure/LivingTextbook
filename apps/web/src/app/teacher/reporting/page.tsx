@@ -8,7 +8,7 @@ import {
 import {
   resolveSampleTeacherSessionMonitorContext,
 } from "@/data/sampleTeacherSessionMonitor";
-import type { TeacherSessionMonitorContext } from "@/features/teacher/teacherSessionMonitorTypes";
+import type { TeacherSessionMonitorContext } from "@living-textbook/content-model/src/teacherReporting";
 import { ClassRosterReadinessPanel } from "@/features/teacher/ClassRosterReadinessPanel";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 

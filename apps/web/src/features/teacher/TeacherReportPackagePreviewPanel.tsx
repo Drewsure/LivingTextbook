@@ -1,6 +1,6 @@
 import { Card, StatusPill } from "@living-textbook/ui";
 import type { GameProgressEvent } from "@living-textbook/content-model";
-import type { TeacherSessionMonitorContext } from "@/features/teacher/teacherSessionMonitorTypes";
+import type { TeacherSessionMonitorContext } from "@living-textbook/content-model/src/teacherReporting";
 import { TeacherCanonicalGameEvidenceCard } from "@/features/teacher/TeacherCanonicalGameEvidenceCard";
 
 interface TeacherReportPackagePreviewPanelProps {

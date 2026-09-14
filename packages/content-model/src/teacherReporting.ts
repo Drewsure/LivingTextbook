@@ -11,10 +11,10 @@ import type {
   TeacherSessionSetting,
   TeacherSessionSettings,
   UnitPayload,
-} from "@living-textbook/content-model";
-import type { ClassRosterPlan } from "@living-textbook/content-model/src/classRoster";
-import type { validateCanonicalGameReportEvidence } from "@living-textbook/content-model";
-import type { TenantConfig } from "@/features/tenant/types";
+} from "./index";
+import type { ClassRosterPlan } from "./classRoster";
+import type { validateCanonicalGameReportEvidence } from "./canonicalGameReport";
+import type { TenantConfig } from "./tenant";
 
 export interface TeacherSessionMonitorMetric {
   label: string;
@@ -154,4 +154,24 @@ export interface TeacherSessionMonitorContext {
   canonicalGameReportEvidence: ReturnType<typeof validateCanonicalGameReportEvidence>;
   pilotReadinessSnapshot: TeacherSessionPilotReadinessSnapshot;
   readinessNotes: string[];
+}
+
+export interface TeacherProgressSummaryConcept {
+  unitKey: string;
+  launchCode: string;
+  entryCode: string;
+  studentCount: number;
+  flashcardCompletions: number;
+  memoryMatchStarts: number;
+  mediaStarts: number;
+  mediaPauses: number;
+  mediaCompletions: number;
+  backgroundMediaOptIns: number;
+  trainingRecommendations: number;
+  trainingCompletions: number;
+  trainingReturns: number;
+  recoveryStarDust: number;
+  averageStarDust: number;
+  teacherReportStreams: string[];
+  sampleEvents: GameProgressEvent[];
 }

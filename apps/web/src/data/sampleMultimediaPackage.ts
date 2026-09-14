@@ -13,6 +13,7 @@ import type {
   UnitAssistLanguagePlan,
 } from "@living-textbook/content-model";
 import { levelOneUnitOne } from "./levelOneUnitOne";
+import type { TeacherProgressSummaryConcept } from "@living-textbook/content-model/src/teacherReporting";
 
 const contentPackageId = "ministar-l1-u1-greetings-package";
 const sampleUnitKey = getUnitKey(levelOneUnitOne.unitMeta);
@@ -586,26 +587,6 @@ export const sampleFrontDoorAccessPolicy: FrontDoorAccessPolicy = {
   reportProgressToTeacher: true,
   allowAnonymousPractice: false,
 };
-
-export interface TeacherProgressSummaryConcept {
-  unitKey: string;
-  launchCode: string;
-  entryCode: string;
-  studentCount: number;
-  flashcardCompletions: number;
-  memoryMatchStarts: number;
-  mediaStarts: number;
-  mediaPauses: number;
-  mediaCompletions: number;
-  backgroundMediaOptIns: number;
-  trainingRecommendations: number;
-  trainingCompletions: number;
-  trainingReturns: number;
-  recoveryStarDust: number;
-  averageStarDust: number;
-  teacherReportStreams: string[];
-  sampleEvents: GameProgressEvent[];
-}
 
 export const sampleTeacherProgressSummaryConcept: TeacherProgressSummaryConcept = {
   unitKey: sampleUnitKey,
