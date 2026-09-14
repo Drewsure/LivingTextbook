@@ -28,6 +28,9 @@ const canonicalScoringProfilesMatch = canonicalIntegration.match(
 const canonicalScoringCapsMatch = canonicalIntegration.match(
   /export const CANONICAL_GAME_COMPLETION_DUST_CAP_BY_MODE = \{([\s\S]*?)\n\} as const/,
 );
+const canonicalParentEngineMatch = canonicalIntegration.match(
+  /export const CANONICAL_GAME_PARENT_ENGINE_BY_MODE = \{([\s\S]*?)\n\} as const/,
+);
 
 if (!gameModeMatch) {
   console.error("FAIL Could not find GameModeId union in packages/content-model/src/index.ts.");
@@ -56,6 +59,11 @@ if (!canonicalScoringProfilesMatch) {
 
 if (!canonicalScoringCapsMatch) {
   console.error("FAIL Could not find the canonical game completion dust cap map in packages/content-model/src/canonicalGameIntegration.ts.");
+  process.exit(1);
+}
+
+if (!canonicalParentEngineMatch) {
+  console.error("FAIL Could not find the canonical game-mode parent engine map in packages/content-model/src/canonicalGameIntegration.ts.");
   process.exit(1);
 }
 
@@ -113,6 +121,20 @@ const mismatchedReadinessEngineModes = gameModes.filter((mode) => {
 });
 const missingScoringModes = gameModes.filter((mode) => !hasObjectKey(canonicalScoringProfilesMatch[1], mode));
 const missingScoringCaps = gameModes.filter((mode) => !hasObjectKey(canonicalScoringCapsMatch[1], mode));
+const canonicalParentEngineIds = Array.from(
+  canonicalParentEngineMatch[1].matchAll(/(?:^|\n)\s*(?:"([^"]+)"|([a-z-]+)):\s*"([a-z-]+)"/g),
+  (match) => match[1] ?? match[2],
+).sort();
+const duplicateCanonicalParentEngineIds = canonicalParentEngineIds.filter(
+  (mode, index) => canonicalParentEngineIds.indexOf(mode) !== index,
+);
+const missingCanonicalParentEngineIds = gameModes.filter((mode) => !canonicalParentEngineIds.includes(mode));
+const extraCanonicalParentEngineIds = canonicalParentEngineIds.filter((mode) => !gameModes.includes(mode));
+const mismatchedCanonicalParentEngines = gameModes.filter((mode) => {
+  const catalogEngine = getCatalogItemBody(catalog, mode).match(/engineId:\s*"([^"]+)"/)?.[1];
+  const bindingEngine = getCanonicalParentEngine(canonicalParentEngineMatch[1], mode);
+  return !catalogEngine || bindingEngine !== catalogEngine;
+});
 const missingRequiredAudio = gameModes.filter((mode) => {
   const item = getCatalogItemBody(catalog, mode);
   return !item.includes('audioRequirement: "required"');
@@ -390,6 +412,26 @@ if (missingScoringCaps.length > 0) {
   process.exit(1);
 }
 
+if (duplicateCanonicalParentEngineIds.length > 0) {
+  console.error(`FAIL Duplicate canonical parent-engine binding id(s): ${[...new Set(duplicateCanonicalParentEngineIds)].join(", ")}`);
+  process.exit(1);
+}
+
+if (missingCanonicalParentEngineIds.length > 0) {
+  console.error(`FAIL GameModeId value(s) missing from canonical parent-engine binding: ${missingCanonicalParentEngineIds.join(", ")}`);
+  process.exit(1);
+}
+
+if (extraCanonicalParentEngineIds.length > 0) {
+  console.error(`FAIL Canonical parent-engine binding id(s) not present in GameModeId: ${extraCanonicalParentEngineIds.join(", ")}`);
+  process.exit(1);
+}
+
+if (mismatchedCanonicalParentEngines.length > 0) {
+  console.error(`FAIL Canonical parent-engine binding drift for: ${mismatchedCanonicalParentEngines.join(", ")}`);
+  process.exit(1);
+}
+
 if (missingRequiredAudio.length > 0) {
   console.error(`FAIL Game mode(s) must require learner audio: ${missingRequiredAudio.join(", ")}`);
   process.exit(1);
@@ -472,6 +514,13 @@ function getCanonicalScoringCap(source, mode) {
   const match = source.match(new RegExp(`(?:^|\\n)\\s*(?:"${escaped}"|${escaped}):\\s*(\\d+)`, "m"));
 
   return match ? Number(match[1]) : undefined;
+}
+
+function getCanonicalParentEngine(source, mode) {
+  const escaped = mode.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const match = source.match(new RegExp(`(?:^|\\n)\\s*(?:"${escaped}"|${escaped}):\\s*"([a-z-]+)"`, "m"));
+
+  return match?.[1] ?? "";
 }
 
 function resolveCanonicalProfileCap(profileId, expression) {

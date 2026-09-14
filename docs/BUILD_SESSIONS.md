@@ -2629,3 +2629,6 @@ the wrong parent engine.
 This hardens the future Z.ai/Phaser wrapper boundary without importing frozen
 source, adding persistence, or activating narrative routes. See ADR 0771 and
 DR-848.
+
+The game-mode coverage verifier also now checks the parent-engine map against
+the web catalog, so a future mode cannot be added with a silent engine drift.

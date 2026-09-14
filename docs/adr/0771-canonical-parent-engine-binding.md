@@ -31,4 +31,5 @@ narrative engine.
 
 Run `npm run verify:canonical-game-replays`,
 `npm run verify:runtime-behavior`, and the complete
-`npm run verify:foundation` suite.
+`npm run verify:foundation` suite. The game-mode coverage verifier also checks
+that the canonical map and web catalog remain aligned.
