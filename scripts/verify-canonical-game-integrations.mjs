@@ -361,6 +361,10 @@ for (const [surface, source, required] of [
   }
 }
 
+if (!learningAudioCard.includes("languageMatches") || !learningAudioCard.includes("targetLanguageCues")) {
+  failures.push("learning audio contract: coverage counts must use the shared target-language matcher");
+}
+
 const flashcardsOffer = getOfferBody(offerMap, "partner-l1-u1-flashcards");
 const matchUpOffer = getOfferBody(offerMap, "partner-l1-u1-match-up");
 const sentenceBuilderOffer = getOfferBody(offerMap, "partner-l1-u1-sentence-builder");

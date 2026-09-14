@@ -9,6 +9,7 @@ import type {
   StudentProgressionState,
   UnitPayload,
 } from "@living-textbook/content-model";
+import { languageMatches } from "@living-textbook/content-model";
 import { AudioCueText } from "@/features/audio/AudioCueButton";
 import { formatLanguageName } from "@/features/language/languageLabels";
 import { createAudioRequestedEvent } from "@/features/progression/localProgressionAdapter";
@@ -35,8 +36,8 @@ export function GameLearningAudioContractCard({
   replaySeed,
   onAudioRequested,
 }: GameLearningAudioContractCardProps) {
-  const targetLanguage = unit.unitMeta.textbookReference?.language ?? tenant.languageSettings?.targetLanguage ?? "en";
-  const targetLanguageCues = audioCues.filter((cue) => cue.language === targetLanguage);
+  const targetLanguage = tenant.languageSettings?.targetLanguage ?? unit.unitMeta.textbookReference?.language ?? "en";
+  const targetLanguageCues = audioCues.filter((cue) => languageMatches(cue.language, targetLanguage));
   const termCueCount = targetLanguageCues.filter((cue) => cue.kind === "term").length;
   const sentenceCueCount = targetLanguageCues.filter((cue) => cue.kind === "sentence").length;
   const instructionCueCount = targetLanguageCues.filter((cue) => cue.kind === "instruction").length;
