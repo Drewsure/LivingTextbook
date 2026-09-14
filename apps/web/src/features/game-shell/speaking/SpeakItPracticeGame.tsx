@@ -28,6 +28,7 @@ import {
 import type { TenantMicrophonePracticeSettings } from "@/features/tenant/types";
 import { getGameModeCatalogItem } from "../gameModeCatalog";
 import { getRequiredGameScoringProfileForMode } from "../scoringProfiles";
+import { buildSpeakItPrompts, type SpeakItPrompt } from "./speakingEngineAdapter";
 
 interface SpeakItPracticeGameProps {
   unit: UnitPayload;
@@ -40,13 +41,6 @@ interface SpeakItPracticeGameProps {
   microphonePractice: TenantMicrophonePracticeSettings;
   onEvent?: (event: GameProgressEvent) => void;
   onComplete: (result: GameModeCompletionResult) => void;
-}
-
-interface SpeakItPrompt {
-  id: string;
-  label: string;
-  kind: "term" | "sentence";
-  audioCue?: AudioCue;
 }
 
 export function SpeakItPracticeGame({
@@ -65,7 +59,7 @@ export function SpeakItPracticeGame({
   const [completionSent, setCompletionSent] = useState(false);
   const mode = getGameModeCatalogItem(gameMode);
   const scoringProfile = getRequiredGameScoringProfileForMode(gameMode);
-  const prompts = createSpeakItPrompts(unit, audioCues);
+  const prompts = buildSpeakItPrompts(unit, audioCues);
   const targetLanguage = resolveTargetLanguage({
     tenantTargetLanguage: configuredTargetLanguage,
     unitLanguage: unit.unitMeta.textbookReference?.language,
@@ -322,27 +316,6 @@ export function SpeakItPracticeGame({
       </div>
     </Card>
   );
-}
-
-function createSpeakItPrompts(unit: UnitPayload, audioCues: AudioCue[]): SpeakItPrompt[] {
-  const termPrompts = unit.pedagogicalPayload.vocabularyTerms.map((term) => ({
-    id: `speak-term:${term}`,
-    label: term,
-    kind: "term" as const,
-    audioCue: findAudioCue(audioCues, "term", term),
-  }));
-  const sentencePrompts = unit.pedagogicalPayload.targetSentences.map((sentence, index) => ({
-    id: `speak-sentence:${index}`,
-    label: sentence,
-    kind: "sentence" as const,
-    audioCue: findAudioCue(audioCues, "sentence", sentence),
-  }));
-
-  return [...termPrompts, ...sentencePrompts];
-}
-
-function findAudioCue(audioCues: AudioCue[], kind: AudioCue["kind"], text: string): AudioCue | undefined {
-  return audioCues.find((cue) => cue.kind === kind && cue.text.trim().toLowerCase() === text.trim().toLowerCase());
 }
 
 function findAudioCueForGame(audioCues: AudioCue[], kind: AudioCue["kind"], gameMode: GameModeId): AudioCue | undefined {

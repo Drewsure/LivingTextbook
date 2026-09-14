@@ -2944,3 +2944,15 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-844 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-845 and
 `docs/adr/0768-text-spelling-engine-runtime.md`.
+
+## 193. Speaking Engine Runtime Standard
+
+- Speak It must assemble deterministic term and sentence prompts with stable
+  identities and preserve reviewed target-language text.
+- Optional audio cues must match safely without inventing missing assets, and
+  every prompt remains available to the shared tap-to-hear path.
+- Microphone capture is teacher-controlled local replay and must not be
+  required for core completion or silently become AI speech scoring.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-846 and
+`docs/adr/0769-speaking-engine-runtime.md`.

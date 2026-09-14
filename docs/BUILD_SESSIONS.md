@@ -2599,3 +2599,13 @@ canonical integrations.
 
 This does not add persistence, assignment, or Phaser promotion authority. See
 ADR 0768 and DR-845.
+
+## 0773 - Speaking engine runtime contract
+
+Extracted speaking prompt assembly into a reusable adapter and added runtime
+evidence for deterministic term and sentence prompts, stable identities,
+reviewed text preservation, and safe audio-cue matching. The microphone lane
+remains optional, teacher-controlled local replay.
+
+This does not add AI speech scoring, persistence, assignment, or Phaser
+promotion authority. See ADR 0769 and DR-846.
