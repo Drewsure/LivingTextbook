@@ -513,6 +513,24 @@ try {
   assertIncludes(malformedCanonicalAudioErrors, "Canonical game audio_requested events must include non-blank cueText.");
   assertIncludes(malformedCanonicalAudioErrors, "Canonical game audio_requested events must include a language.");
   assertIncludes(malformedCanonicalAudioErrors, "Canonical game audio_requested events must include a supported cueKind.");
+  const wrongTargetLanguageAudioErrors = canonicalGame.validateCanonicalGameEventSequence(
+    canonicalEvents,
+    "flashcards",
+    undefined,
+    undefined,
+    undefined,
+    "ja",
+  ).errors;
+  assertIncludes(wrongTargetLanguageAudioErrors, "Canonical game audio_requested events must use target language ja; found en.");
+  const compatibleTargetLanguageAudioErrors = canonicalGame.validateCanonicalGameEventSequence(
+    canonicalEvents,
+    "flashcards",
+    undefined,
+    undefined,
+    undefined,
+    "en-US",
+  ).errors;
+  assertEqual(compatibleTargetLanguageAudioErrors.length, 0);
   const lateAnswerEvents = [
     ...canonicalEvents.slice(0, 6),
     { ...canonicalEvents[2], type: "answer_submitted", metadata: { tenantId: "tenant-1", replaySeed: canonicalReplaySeed, late: true } },

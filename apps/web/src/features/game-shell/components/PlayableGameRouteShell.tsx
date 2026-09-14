@@ -120,6 +120,7 @@ export function PlayableGameRouteShell({
         launchCode: launchSession.launchCode,
         studentSessionId: progression.studentSessionId,
       },
+      targetLanguage: tenant.languageSettings?.targetLanguage ?? unit.unitMeta.textbookReference?.language ?? "en",
     });
     setEventContractErrors(replay.errors);
 

@@ -2587,3 +2587,17 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-815 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-816 and
 `docs/adr/0742-required-scoring-profile-playable-boundary.md`.
+
+## 167. Target-Language Audio Completion Standard
+
+- Canonical game completion gates must receive the unit/tenant target
+  language when the playable route has it available.
+- Every learner-facing `audio_requested` event used as canonical game evidence
+  must match that target language, allowing compatible regional tags.
+- Assist-language audio may support comprehension, but it must never satisfy
+  the target-language learning or completion trigger.
+- Report-only validation may omit the language when no unit context exists;
+  playable student and teacher routes must provide it.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-817 and
+`docs/adr/0743-target-language-audio-boundary.md`.

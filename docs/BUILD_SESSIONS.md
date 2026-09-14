@@ -2267,3 +2267,14 @@ map, while the Sentence Builder engine preview reads the same canonical
 assignment. Static verification rejects literal profile claims and `none`
 fallbacks in game components. No persistence, scoring mutation, progression,
 reward, assignment, or Phaser source promotion was enabled. See ADR 0742.
+
+## 0744 - Target-language audio at completion boundary
+
+Connected the unit/tenant target language to every canonical game completion
+gate. Completion evidence now rejects learner-facing audio events in a support
+language, while accepting compatible regional language tags such as `en-US`
+for an `en` unit. Existing report-only validator callers remain compatible
+when no unit language is available. Support-language audio remains available
+for assistance but cannot satisfy the target-language learning evidence. No
+persistence, scoring mutation, progression, reward, assignment, or Phaser
+source promotion was enabled. See ADR 0743.

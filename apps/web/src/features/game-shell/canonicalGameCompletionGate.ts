@@ -12,6 +12,7 @@ export interface CanonicalGameCompletionGateArgs {
     launchCode: string;
     studentSessionId: string;
   };
+  targetLanguage?: string;
 }
 
 export interface CanonicalGameCompletionGateResult {
@@ -25,6 +26,7 @@ export function validateCanonicalGameCompletion({
   gameMode,
   tenantId,
   identity,
+  targetLanguage,
 }: CanonicalGameCompletionGateArgs): CanonicalGameCompletionGateResult {
   if (!result.event) {
     return {
@@ -39,6 +41,7 @@ export function validateCanonicalGameCompletion({
     tenantId,
     result.earnedStarDust,
     identity,
+    targetLanguage,
   );
 
   return {

@@ -4674,3 +4674,12 @@ Require every canonical playable wrapper to resolve its scoring profile from
 the shared mode map. Hard-coded identifiers, `none`, and nullable fallbacks
 are prohibited in mastery or completion evidence; missing configuration must
 fail clearly. See ADR 0742.
+
+# DR-817: Target-Language Audio At Completion Boundary
+
+Require playable game completion gates to validate learner-facing audio
+evidence against the unit/tenant target language. Support-language cues remain
+support-only and cannot unlock or complete target-language learning. Regional
+language tags may match their base language. This does not enable live
+persistence, scoring mutation, progression, rewards, assignment, or Phaser
+source promotion. See ADR 0743.

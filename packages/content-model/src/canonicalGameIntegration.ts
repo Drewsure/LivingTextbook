@@ -3,6 +3,12 @@ import { isCanonicalGameReplaySeed } from "./canonicalGameReplay";
 import { isGameEventType } from "./gameEventTypes";
 import type { GameEventType, GameModeId, GameProgressEvent } from "./index";
 
+function languageMatches(value: string, targetLanguage: string): boolean {
+  const language = value.trim().toLowerCase();
+  const target = targetLanguage.trim().toLowerCase();
+  return Boolean(target) && (language === target || language.startsWith(`${target}-`) || target.startsWith(`${language}-`));
+}
+
 export const CANONICAL_GAME_REQUIRED_EVENT_ORDER = [
   "game_started",
   "round_shown",
@@ -53,6 +59,7 @@ export function validateCanonicalGameEventSequence(
   expectedTenantId?: string,
   expectedEarnedStarDust?: number,
   expectedIdentity?: CanonicalGameEventIdentity,
+  expectedTargetLanguage?: string,
 ): CanonicalGameEventSequenceReport {
   const events = Array.isArray(rawEvents) ? rawEvents.filter(isGameProgressEvent) : [];
   const errors: string[] = [];
@@ -131,6 +138,12 @@ export function validateCanonicalGameEventSequence(
     }
     if (!["term", "sentence", "instruction", "feedback"].includes(String(cueKind))) {
       errors.push("Canonical game audio_requested events must include a supported cueKind.");
+    }
+    if (expectedTargetLanguage && typeof language === "string" && language.trim().length > 0
+      && !languageMatches(language, expectedTargetLanguage)) {
+      errors.push(
+        `Canonical game audio_requested events must use target language ${expectedTargetLanguage}; found ${language}.`,
+      );
     }
   }
 

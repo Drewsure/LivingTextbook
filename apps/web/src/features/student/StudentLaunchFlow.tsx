@@ -303,6 +303,7 @@ export function StudentLaunchFlow({
         launchCode: launchSession.launchCode,
         studentSessionId: currentProgression.studentSessionId,
       },
+      targetLanguage: tenant.languageSettings?.targetLanguage ?? unit.unitMeta.textbookReference?.language ?? "en",
     });
     setEventContractErrors(replay.errors);
 
