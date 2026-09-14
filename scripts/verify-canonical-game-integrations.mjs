@@ -222,6 +222,7 @@ const completionNextCard = readText("apps/web/src/features/game-shell/components
 const learningAudioCard = readText("apps/web/src/features/game-shell/components/GameLearningAudioContractCard.tsx");
 const flashcardEntryFlow = readText("apps/web/src/features/game-shell/entry/FlashcardDemoFlow.tsx");
 const flashcardPracticeCard = readText("apps/web/src/features/student/components/FlashcardPracticeCard.tsx");
+const audioCueButton = readText("apps/web/src/features/audio/AudioCueButton.tsx");
 const accessGateCard = readText("apps/web/src/features/game-shell/components/GameAccessGateCard.tsx");
 const gameModeCatalog = readText("apps/web/src/features/game-shell/gameModeCatalog.ts");
 const scoringProfiles = readText("apps/web/src/features/game-shell/scoringProfiles.ts");
@@ -349,6 +350,14 @@ if (
   || !playableRouteShell.includes("targetLanguage={targetLanguage}")
 ) {
   failures.push("shared game route cards: access and next-activity audio must use the resolved target language");
+}
+
+if (
+  !audioCueButton.includes("language: string;")
+  || audioCueButton.includes("language?: string")
+  || audioCueButton.includes("language = \"en\"")
+) {
+  failures.push("shared audio primitives: learner speech language must be explicit with no English default");
 }
 
 for (const [surface, source] of [

@@ -2393,3 +2393,14 @@ This keeps instructional guidance consistent with the game and progress
 surfaces without changing progression, unlock, scoring, persistence,
 reporting, assignment, or Phaser source-promotion authority. See ADR 0752 and
 DR-826.
+
+## 0754 - Explicit shared speech primitive language
+
+Removed the final implicit English defaults from `AudioCueText`,
+`AudioCueButton`, and `playAudioCueText`. All current callers already pass an
+explicit tenant/unit, cue, or assist language, so the change converts a
+silent fallback into a typecheck-visible contract failure.
+
+Canonical verification now guards the primitive API itself. No progression,
+unlock, scoring, persistence, reporting, assignment, reward, or Phaser
+source-promotion behavior changed. See ADR 0753 and DR-827.

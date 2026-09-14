@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 interface SpeechOptions {
   text: string;
-  language?: string;
+  language: string;
   onStatusChange?: (status: AudioPlaybackStatus) => void;
 }
 
@@ -12,7 +12,7 @@ type AudioPlaybackStatus = "ready" | "playing" | "unavailable";
 
 interface AudioCueButtonProps {
   text: string;
-  language?: string;
+  language: string;
   label?: string;
   compact?: boolean;
   onPlay?: () => void;
@@ -20,14 +20,14 @@ interface AudioCueButtonProps {
 
 interface AudioCueTextProps {
   text: string;
-  language?: string;
+  language: string;
   label?: string;
   className?: string;
   autoPlay?: boolean;
   onPlay?: () => void;
 }
 
-export function playAudioCueText({ text, language = "en", onStatusChange }: SpeechOptions) {
+export function playAudioCueText({ text, language, onStatusChange }: SpeechOptions) {
   if (typeof window === "undefined" || !("speechSynthesis" in window)) {
     onStatusChange?.("unavailable");
     return;
@@ -45,7 +45,7 @@ export function playAudioCueText({ text, language = "en", onStatusChange }: Spee
   window.speechSynthesis.speak(utterance);
 }
 
-export function AudioCueText({ text, language = "en", label, className = "", autoPlay = false, onPlay }: AudioCueTextProps) {
+export function AudioCueText({ text, language, label, className = "", autoPlay = false, onPlay }: AudioCueTextProps) {
   const [status, setStatus] = useState<AudioPlaybackStatus>("ready");
   const buttonLabel = label ?? `Listen to ${text}`;
 
@@ -76,7 +76,7 @@ export function AudioCueText({ text, language = "en", label, className = "", aut
   );
 }
 
-export function AudioCueButton({ text, language = "en", label, compact = false, onPlay }: AudioCueButtonProps) {
+export function AudioCueButton({ text, language, label, compact = false, onPlay }: AudioCueButtonProps) {
   const [status, setStatus] = useState<AudioPlaybackStatus>("ready");
   const buttonLabel = label ?? `Listen to ${text}`;
 

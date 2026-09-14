@@ -4743,3 +4743,11 @@ and media playlist controls must receive the resolved tenant/unit target
 language for tap-to-speak content. Route guidance remains support-only and
 cannot unlock mastery. This does not enable persistence, report export,
 progression, rewards, assignment, or Phaser source promotion. See ADR 0752.
+
+# DR-827: Explicit Speech Primitive Language
+
+Require `language` on the shared speech primitives and reject their implicit
+English defaults. Caller-owned tenant, unit, reviewed-cue, and assist
+language context must be explicit at each learner speech boundary. This does
+not enable persistence, report export, progression, rewards, assignment, or
+Phaser source promotion. See ADR 0753.

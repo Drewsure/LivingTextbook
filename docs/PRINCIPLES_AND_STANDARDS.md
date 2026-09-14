@@ -2729,3 +2729,16 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-825 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-826 and
 `docs/adr/0752-learner-route-guidance-audio.md`.
+
+## 177. Shared Speech Primitive Language Standard
+
+- `AudioCueText`, `AudioCueButton`, and `playAudioCueText` must require an
+  explicit language from their caller.
+- The shared speech primitives must not silently default learner speech to
+  English; the target-language resolver is the only permitted baseline.
+- Static canonical verification must guard the primitive API as well as game
+  and route callsites, so future wrappers fail early when language context is
+  omitted.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-827 and
+`docs/adr/0753-explicit-speech-primitive-language.md`.
