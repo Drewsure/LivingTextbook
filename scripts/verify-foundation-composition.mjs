@@ -5,6 +5,9 @@ import { fileURLToPath } from "node:url";
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-standards-integrity.mjs", import.meta.url))], {
   stdio: "inherit",
 });
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-curated-pathway-boundary.mjs", import.meta.url))], {
+  stdio: "inherit",
+});
 
 const packageJson = JSON.parse(readFileSync(new URL("../package.json", import.meta.url), "utf8"));
 const scripts = packageJson.scripts ?? {};

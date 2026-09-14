@@ -13,6 +13,8 @@
 - Injected the resolved offer map through launch, front-door, flashcard, and
   canonical game route boundaries so reusable route components no longer know
   how sample packages are stored.
+- Added a regression verifier that guards the provider boundary against
+  reusable-feature imports of sample offer-map fixtures.
 
 ## Verification
 
@@ -21,6 +23,7 @@
 - Foundation composition checks passed, including all four parent-engine
   runtime contracts.
 - All 88 active route checks passed.
+- Curated pathway provider-boundary verifier passed.
 - Full foundation verification remains the release gate for this slice.
 
 ## Boundary
