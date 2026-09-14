@@ -2485,3 +2485,13 @@ explicit white-label language boundary.
 This is a type and verification hardening slice only. It does not change
 unlock, scoring, progression, persistence, reporting, assignment, rewards, or
 Phaser source-promotion authority. See ADR 0757 and DR-834.
+
+## 0762 - Required teacher report target language
+
+Made teacher report runtime requests and their canonical game evidence helper
+require a non-empty target language. Updated runtime and static report checks
+so teacher evidence cannot silently lose white-label language context.
+
+This is a report-validation hardening slice only. It does not enable report
+export, persistence, progression, scoring, assignment, rewards, or Phaser
+source-promotion authority. See ADR 0758 and DR-835.

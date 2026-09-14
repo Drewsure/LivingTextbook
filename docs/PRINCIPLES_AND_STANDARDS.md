@@ -2800,3 +2800,15 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-833 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-834 and
 `docs/adr/0757-canonical-game-wrapper-language.md`.
+
+## 182. Teacher Report Target-Language Contract
+
+- A teacher report runtime request must declare a non-empty target language
+  before canonical learner evidence can be evaluated.
+- Report evidence must use the same target-language value as the learner game
+  and must never silently treat a missing value as English.
+- Generic report parsing may remain reusable for inspection, but the runtime
+  report boundary is tenant-scoped and explicit.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-835 and
+`docs/adr/0758-teacher-report-target-language.md`.

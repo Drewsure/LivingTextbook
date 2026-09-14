@@ -21,7 +21,7 @@ export type ReportLearnerIdentityMode = "pseudonymous-slots-only" | "real-identi
 export interface TeacherReportRuntimeRequest {
   tenantId: string;
   launchCode: string;
-  targetLanguage?: string;
+  targetLanguage: string;
   format: TeacherReportExportFormat;
   scopes: TeacherReportExportScope[];
   reportPlan: TeacherReportExportPlan;
@@ -61,8 +61,9 @@ export function validateTeacherReportCanonicalGameEvents(
   events: GameProgressEvent[],
   tenantId: string,
   launchCode: string,
-  targetLanguage?: string,
+  targetLanguage: string,
 ): string[] {
+  if (!targetLanguage.trim()) return ["teacher report canonical game evidence: targetLanguage is required"];
   if (events.length > 0 && events.every((event) => event.type === "audio_requested")) return [];
   const evidence = validateCanonicalGameReportEvidence(events, tenantId, launchCode, targetLanguage);
   return evidence.errors.map((error) => `teacher report canonical game evidence: ${error}`);
@@ -100,9 +101,7 @@ export function validateTeacherReportRuntimeRequest(request: TeacherReportRuntim
 
   if (!request.tenantId.trim()) errors.push("tenantId is required");
   if (!request.launchCode.trim()) errors.push("launchCode is required");
-  if (request.targetLanguage !== undefined && !request.targetLanguage.trim()) {
-    errors.push("targetLanguage must be non-blank when provided");
-  }
+  if (!request.targetLanguage.trim()) errors.push("targetLanguage is required and must be non-blank");
   if (!request.format.trim()) errors.push("report format is required");
   if (request.scopes.length === 0) errors.push("at least one report scope is required");
   if (!teacherRoleVerified) errors.push("teacher role verification is required");

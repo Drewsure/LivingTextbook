@@ -4812,3 +4812,12 @@ learner audio and completion evidence to drift from tenant policy. The static
 canonical verifier must guard every wrapper. This does not create progression,
 mastery, persistence, reporting, assignment, reward, or Phaser
 source-promotion authority. See ADR 0757.
+
+# DR-835: Required Teacher Report Target Language
+
+Teacher report runtime requests and canonical game evidence validation must
+require a non-empty target language. This keeps teacher evidence aligned with
+the white-label learner experience and prevents a silent English fallback.
+Generic report parsing remains reusable outside the runtime boundary. This
+does not create report export, persistence, progression, assignment, reward,
+or Phaser source-promotion authority. See ADR 0758.
