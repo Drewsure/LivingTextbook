@@ -2463,3 +2463,14 @@ future Japanese-learning or other tenants to declare their own target
 language. No provider dispatch, billing, persistence, package assembly, route
 creation, assignment, progression, or Phaser source-promotion behavior was
 enabled. See ADR 0754 and DR-832.
+
+## 0760 - Required canonical completion target language
+
+Made `targetLanguage` required in the canonical game completion gate because
+all current student, teacher, and playable-route callers already resolve and
+pass it. Added verifier coverage so a future canonical integration cannot
+silently omit the language needed to validate learner audio evidence.
+
+This is a compile-time and static-verification hardening slice only. It does
+not change progression, scoring, persistence, reporting, assignment, rewards,
+or Phaser source-promotion authority. See ADR 0756 and DR-833.

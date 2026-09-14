@@ -4794,3 +4794,12 @@ resolver when an event does not carry a language value. A display fallback must
 not silently label a white-label tenant's evidence as English. This is a
 presentation boundary only and does not create event acceptance, persistence,
 export, progression, scoring, assignment, or reward authority. See ADR 0754.
+
+# DR-833: Required Canonical Completion Target Language
+
+The canonical game completion gate must receive the resolved tenant-first
+target language as a required input. This keeps completion evidence aligned
+with the mounted learner experience and makes omissions visible at compile
+time and in static verification. The gate remains validation-only and does
+not create progression, mastery, persistence, reporting, assignment, reward,
+or Phaser source-promotion authority. See ADR 0756.

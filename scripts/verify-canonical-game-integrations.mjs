@@ -524,6 +524,7 @@ for (const fragment of [
   "validateCanonicalGameEventSequence",
   "events.filter((event) => event.gameMode === gameMode)",
   "result.earnedStarDust",
+  "targetLanguage: string",
   "Canonical game completion did not include a completion event.",
 ]) {
   if (!completionGate.includes(fragment)) {

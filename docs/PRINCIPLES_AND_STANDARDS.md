@@ -2773,3 +2773,17 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-828 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-829 and
 `docs/adr/0755-printable-target-language-boundary.md`.
+
+## 180. Canonical Completion Target-Language Contract
+
+- The canonical game completion gate must receive a resolved, non-empty target
+  language from every student, teacher, and playable-route caller.
+- Completion evidence must validate learner audio against the same
+  tenant-first target-language contract used by the mounted game and route
+  guidance.
+- This is a validation boundary only. It does not grant mastery, Star Dust,
+  progression, persistence, reporting, assignment, or reward authority by
+  itself.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-833 and
+`docs/adr/0756-canonical-completion-target-language.md`.

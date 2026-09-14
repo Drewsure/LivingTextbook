@@ -12,7 +12,7 @@ export interface CanonicalGameCompletionGateArgs {
     launchCode: string;
     studentSessionId: string;
   };
-  targetLanguage?: string;
+  targetLanguage: string;
 }
 
 export interface CanonicalGameCompletionGateResult {
