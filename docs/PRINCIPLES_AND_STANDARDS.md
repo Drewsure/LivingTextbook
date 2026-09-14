@@ -3100,3 +3100,15 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-856 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-857 and
 `docs/adr/0780-content-model-package-export.md`.
+
+## 205. UI Package Export Standard
+
+- `@living-textbook/ui` must expose a single canonical package-root export
+  targeting its public component index.
+- White-label themes and feature surfaces must consume UI primitives through
+  that root rather than reaching into internal primitive files.
+- UI export changes require package-boundary verification and a production
+  build before they are accepted.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-858 and
+`docs/adr/0781-ui-package-export.md`.

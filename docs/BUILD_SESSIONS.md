@@ -2719,3 +2719,12 @@ internal subpath exports and to validate the canonical target.
 
 This is package API hardening only. No live AI, uploads, persistence,
 assignment, or Phaser source promotion is enabled. See ADR 0780 and DR-857.
+
+## 0784 - UI package export map
+
+Added a root-only `exports` map to `@living-textbook/ui` and extended the
+shared package-boundary verifier to validate both platform packages. This
+keeps future tenant themes and feature consumers on the stable UI API.
+
+No live AI, upload, persistence, assignment, or Phaser source promotion is
+enabled. See ADR 0781 and DR-858.
