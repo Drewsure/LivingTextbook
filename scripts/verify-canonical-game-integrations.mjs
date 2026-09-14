@@ -711,10 +711,12 @@ for (const fragment of [
 
 for (const fragment of [
   "const gameAudioReady = audioCoverage.ready",
-  "const gameUnlocked = gameSupportedAtLevel && currentProgression.unlockedGameModes.includes(gameMode) && gameAudioReady",
+  "const curatedOfferReady = !offerMap || isStudentOfferReady(currentOffer)",
+  "const gameUnlocked = gameSupportedAtLevel && curatedOfferReady && currentProgression.unlockedGameModes.includes(gameMode) && gameAudioReady",
   "const gameSupportedAtLevel = isGameModeSupportedAtLevel(gameMode, unit.unitMeta.level)",
   "{gameUnlocked ? (",
-  "reason={gameSupportedAtLevel && !gameAudioReady ? \"audio-required\" : gameSupportedAtLevel ? \"entry-practice\" : \"unsupported-level\"}",
+  "!curatedOfferReady",
+  "curated-offer",
   "audio-required",
   "This activity is not offered yet",
 ]) {

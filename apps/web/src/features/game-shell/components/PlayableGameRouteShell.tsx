@@ -12,7 +12,7 @@ import type {
 } from "@living-textbook/content-model";
 import { getGameAudioCoverage, isGameModeSupportedAtLevel, languageMatches, resolveCanonicalGameReplaySeed, resolveTargetLanguage } from "@living-textbook/content-model";
 import type { TeacherAssignmentPlan } from "@living-textbook/content-model";
-import type { UnitGameOfferMap } from "@living-textbook/content-model";
+import type { UnitGameOffer, UnitGameOfferMap } from "@living-textbook/content-model";
 import type { GameModeCompletionResult } from "@/features/progression/localProgressionAdapter";
 import { UnitSessionProgressSummary } from "@/features/progression/UnitSessionProgressSummary";
 import { SessionEventLog } from "@/features/student/components/SessionEventLog";
@@ -95,9 +95,11 @@ export function PlayableGameRouteShell({
     platformReplaySeed,
   });
   const gameSupportedAtLevel = isGameModeSupportedAtLevel(gameMode, unit.unitMeta.level);
+  const currentOffer = offerMap?.offers.find((offer) => offer.gameMode === gameMode);
+  const curatedOfferReady = !offerMap || isStudentOfferReady(currentOffer);
   const audioCoverage = getGameAudioCoverage({ unit, audioCues, gameMode, targetLanguage });
   const gameAudioReady = audioCoverage.ready;
-  const gameUnlocked = gameSupportedAtLevel && currentProgression.unlockedGameModes.includes(gameMode) && gameAudioReady;
+  const gameUnlocked = gameSupportedAtLevel && curatedOfferReady && currentProgression.unlockedGameModes.includes(gameMode) && gameAudioReady;
 
   function handleEvent(event: GameProgressEvent) {
     sessionEventsRef.current = [...sessionEventsRef.current, event];
@@ -196,7 +198,15 @@ export function PlayableGameRouteShell({
           gameMode={gameMode}
           launchSession={launchSession}
           level={unit.unitMeta.level}
-          reason={gameSupportedAtLevel && !gameAudioReady ? "audio-required" : gameSupportedAtLevel ? "entry-practice" : "unsupported-level"}
+          reason={
+            !gameSupportedAtLevel
+              ? "unsupported-level"
+              : !curatedOfferReady
+                ? "curated-offer"
+                : !gameAudioReady
+                  ? "audio-required"
+                  : "entry-practice"
+          }
           targetLanguage={targetLanguage}
         />
       )}
@@ -226,4 +236,8 @@ export function PlayableGameRouteShell({
       ) : null}
     </div>
   );
+}
+
+function isStudentOfferReady(offer: UnitGameOffer | undefined): boolean {
+  return Boolean(offer && offer.readiness === "ready" && (offer.availability === "required" || offer.availability === "optional"));
 }
