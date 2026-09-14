@@ -47,6 +47,7 @@ try {
     "packages/content-model/src/aiPrototypeReturnedPackageAlignment.ts",
     "packages/content-model/src/aiPrototypeIntegrationReadinessGate.ts",
     "packages/content-model/src/aiPrototypeCodexIntegrationDecision.ts",
+    "packages/content-model/src/aiGeneratedDraftPayload.ts",
     "packages/content-model/src/prototypeIntakeAlert.ts",
     "packages/content-model/src/prototypeIntakeReadinessSummary.ts",
     "packages/content-model/src/prototypeReturnReadiness.ts",
@@ -155,6 +156,7 @@ try {
   const reviewSurfaceScope = require(join(output, "reviewSurfaceScope.js"));
   const phaserCandidateReview = require(join(output, "phaserCandidateContractReview.js"));
   const contentModel = require(join(output, "index.js"));
+  const aiDraftPayload = require(join(output, "aiGeneratedDraftPayload.js"));
   const canonicalGame = require(join(output, "canonicalGameIntegration.js"));
   const canonicalGameReport = require(join(output, "canonicalGameReport.js"));
   const aiService = require(join(aiOutput, "apps", "ai-service", "src", "index.js"));
@@ -2581,6 +2583,10 @@ try {
     "fr",
   );
   assertEqual(contentModel.resolveTargetLanguage(), "en");
+  assertIncludes(
+    aiDraftPayload.validateAiGeneratedDraftPayload({}),
+    "AI generated draft payload must include a non-empty unit_meta.target_language.",
+  );
 
   const progressionSession = contentModel.createLaunchSession({
     launchCode: "launch-deterministic-1", tenantId: "tenant-1", curriculumId: "curriculum-1",

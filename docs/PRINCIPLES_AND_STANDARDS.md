@@ -261,6 +261,7 @@ Required content rules:
 - Learner-facing text suitable for audio generation or recording
 - Teacher Launch Protocol included
 - JSON-first output
+- Explicit `unit_meta.target_language`; a missing target language must be rejected rather than defaulted to English
 - Verification before student assignment
 
 The Vision/Verifier layer must check:

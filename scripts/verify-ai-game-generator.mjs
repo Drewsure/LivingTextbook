@@ -5868,6 +5868,11 @@ requireText(routeVerifier, "forbiddenTextByPath", "Active route verifier must bl
 requireText(routeVerifier, "88 checked routes", "Active route verifier must expect the updated route count.");
 requireText(principles, "AI teaching game generator creates draft package requests", "Principles must preserve generator-as-draft rule.");
 requireText(handoff, "The AI teaching game generator creates draft package requests", "AI handoff must include generator boundary.");
+requireText(
+  draftPayloadValidator,
+  "unit_meta.target_language.",
+  "AI draft payload validator must require an explicit target language.",
+);
 requireText(packageJson, '"verify:ai-generator"', "package.json must expose verify:ai-generator.");
 requireText(packageJson, "npm run verify:ai-generator", "verify:foundation must include verify:ai-generator.");
 

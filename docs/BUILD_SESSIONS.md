@@ -2450,3 +2450,16 @@ the wrong language.
 This changes display accuracy only; it does not change event acceptance,
 progression, scoring, persistence, reporting export, assignment, reward, or
 Phaser source-promotion behavior. See ADR 0754 and DR-831.
+
+## 0759 - Explicit AI draft target language
+
+Hardened AI-generated draft validation so `unit_meta.target_language` is
+required and missing language is rejected instead of silently becoming English.
+Added runtime and generator-verifier coverage for the white-label authoring
+boundary.
+
+This preserves MiniStar English as an explicit tenant value while allowing
+future Japanese-learning or other tenants to declare their own target
+language. No provider dispatch, billing, persistence, package assembly, route
+creation, assignment, progression, or Phaser source-promotion behavior was
+enabled. See ADR 0754 and DR-832.

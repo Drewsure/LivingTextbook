@@ -49,7 +49,7 @@ export function validateAiGeneratedDraftPayload(draftJson: unknown): string[] {
   const progressPolicy = readRecord(draftJson, "progress_policy", errors);
   const verifierSubmission = readRecord(draftJson, "verifier_submission", errors);
 
-  const targetLanguage = readString(unitMeta, "target_language") ?? "en";
+  const targetLanguage = readString(unitMeta, "target_language");
   const supportLanguage = readString(unitMeta, "support_language");
   const level = readNumber(unitMeta, "level");
   const theme = readString(unitMeta, "theme");
@@ -70,6 +70,10 @@ export function validateAiGeneratedDraftPayload(draftJson: unknown): string[] {
 
   if (!engineId) {
     errors.push("AI generated draft payload must include a non-empty unit_meta.engine_id.");
+  }
+
+  if (!targetLanguage) {
+    errors.push("AI generated draft payload must include a non-empty unit_meta.target_language.");
   }
 
   const vocabularyTerms = readStringArray(pedagogicalPayload, "vocabulary_terms");
@@ -129,7 +133,9 @@ export function validateAiGeneratedDraftPayload(draftJson: unknown): string[] {
     errors.push("AI generated draft payload must keep approved_for_students: false until review gates pass.");
   }
 
-  errors.push(...validateTargetLanguageAudioCues(draftJson, targetLanguage, vocabularyTerms, targetSentences));
+  if (targetLanguage) {
+    errors.push(...validateTargetLanguageAudioCues(draftJson, targetLanguage, vocabularyTerms, targetSentences));
+  }
 
   return errors;
 }

@@ -4778,6 +4778,15 @@ tenant override, unit fallback, whitespace normalization, explicit fallback,
 and the English platform baseline. Static source checks alone do not prove the
 precedence result. See ADR 0754.
 
+# DR-832: Explicit AI Draft Target Language
+
+AI-generated draft payloads must carry a non-empty `unit_meta.target_language`.
+The validator must reject omission rather than silently selecting English,
+because the draft is a white-label content boundary and its audio, progression,
+and review evidence depend on the declared target language. No AI provider
+dispatch, billing, persistence, package assembly, route creation, assignment,
+or Phaser source promotion is enabled. See ADR 0754.
+
 # DR-831: Teacher Evidence Language Display Boundary
 
 Teacher session evidence must use the shared tenant-first target-language

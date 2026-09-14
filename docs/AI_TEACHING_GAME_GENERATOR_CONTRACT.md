@@ -251,7 +251,7 @@ The backend-neutral storage contract is `ai_generated_package_writer_route_playl
 
 AI-generated draft payloads must pass the shared `validateAiGeneratedDraftPayload` / `validateAiGeneratedDraftPayloadPreview` contract before review, persistence, verifier submission, package assembly, route creation, playlist creation, or student assignment can be considered.
 
-The validator must enforce the 8-12 vocabulary range, exactly 2 target sentences, `target_language_progress_trigger: target-language-only`, `support_language_progress_allowed: false`, `media_only_progress_allowed: false`, teacher draft verifier submission, blocked draft actions, next required records, and target-language audio approval. The generator route must show schema guard blocks and warnings while the preview remains draft-only.
+The validator must enforce an explicit non-empty `unit_meta.target_language` rather than silently defaulting to English, the 8-12 vocabulary range, exactly 2 target sentences, `target_language_progress_trigger: target-language-only`, `support_language_progress_allowed: false`, `media_only_progress_allowed: false`, teacher draft verifier submission, blocked draft actions, next required records, and target-language audio approval. The generator route must show schema guard blocks and warnings while the preview remains draft-only.
 
 ## Draft Correction Queue Rule
 
