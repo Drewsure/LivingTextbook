@@ -23,7 +23,7 @@ import { findSampleUnitGameOfferMap } from "./sampleUnitGameOfferMap";
 import { ministarTenant } from "@/features/tenant/ministarTenant";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 import type { TenantConfig } from "@/features/tenant/types";
-import type { UnitGameOfferMap } from "@/features/game-offers/unitGameOfferMapTypes";
+import type { UnitGameOfferMap } from "@living-textbook/content-model";
 
 export interface SampleLaunchContext {
   tenant: TenantConfig;

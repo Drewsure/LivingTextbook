@@ -37,6 +37,10 @@ for (const relativePath of reusableFiles) {
 }
 
 const routeCard = read("apps/web/src/features/student/components/RecommendedGameRoutesCard.tsx");
+const offerTypes = read("apps/web/src/features/game-offers/unitGameOfferMapTypes.ts");
+if (!offerTypes.includes("export type") || offerTypes.includes("interface UnitGameOffer") || offerTypes.includes("interface UnitGameOfferMap")) {
+  failures.push("web offer-map type path must remain a compatibility re-export");
+}
 if (!routeCard.includes("offerMap?: UnitGameOfferMap")) {
   failures.push("RecommendedGameRoutesCard does not accept an injected offer map");
 }

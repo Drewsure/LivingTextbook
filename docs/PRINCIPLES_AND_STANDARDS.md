@@ -3027,7 +3027,7 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-851 and
 
 - Reusable teacher reporting panels, progress-summary components, and data
   providers must import their public contracts from the neutral
-  `packages/content-model/src/teacherReporting.ts` module, not from a sample
+  `packages/content-model` public module, not from a sample
   provider or web feature module.
 - Demo providers may construct preview records against shared contracts, but
   they must not become the source of truth for tenant reporting APIs. Tenant
@@ -3036,3 +3036,17 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-851 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-852 and
 `docs/adr/0775-teacher-reporting-contract-types.md`.
+
+## 200. Curated Activity Offer Contract Standard
+
+- `UnitGameOffer` and `UnitGameOfferMap` are content/provider contracts owned
+  by `packages/content-model`; the web feature path may only re-export them for
+  compatibility.
+- Launch, student, teacher, and dashboard surfaces must receive curated offer
+  maps from a provider boundary rather than resolve tenant fixtures internally.
+- Curated offers remain pre-reviewed pathways. A future compatibility or
+  printable conversion must preserve tenant scope, curriculum level, parent
+  engine, audio, reporting, and readiness requirements.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-853 and
+`docs/adr/0776-curated-activity-offer-contract.md`.

@@ -33,7 +33,7 @@ import { ministarTenant } from "@/features/tenant/ministarTenant";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 import type { TenantConfig } from "@/features/tenant/types";
 import { findSampleUnitGameOfferMap } from "./sampleUnitGameOfferMap";
-import type { UnitGameOfferMap } from "@/features/game-offers/unitGameOfferMapTypes";
+import type { UnitGameOfferMap } from "@living-textbook/content-model";
 
 export type SampleRouteRegistryStatus = "active-demo" | "draft" | "retired";
 

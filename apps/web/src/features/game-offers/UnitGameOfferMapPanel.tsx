@@ -5,7 +5,7 @@ import type {
   UnitGameOfferAvailability,
   UnitGameOfferMap,
   UnitGameOfferReadiness,
-} from "./unitGameOfferMapTypes";
+} from "@living-textbook/content-model";
 
 interface UnitGameOfferMapPanelProps {
   map: UnitGameOfferMap;

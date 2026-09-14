@@ -3,7 +3,7 @@
 import { Card, StatusPill } from "@living-textbook/ui";
 import { getLevelAwareRecommendedGameModes, isGameModeSupportedAtLevel } from "@living-textbook/content-model";
 import type { GameModeId, LaunchSession, StudentProgressionState } from "@living-textbook/content-model";
-import type { UnitGameOffer, UnitGameOfferMap } from "@/features/game-offers/unitGameOfferMapTypes";
+import type { UnitGameOffer, UnitGameOfferMap } from "@living-textbook/content-model";
 import { AudioCueButton, AudioCueText } from "@/features/audio/AudioCueButton";
 import { getGameModeRoutePath } from "@/features/routes/gameModeRoutePaths";
 import { getStudentActivityHubPath } from "@/features/routes/routeContracts";

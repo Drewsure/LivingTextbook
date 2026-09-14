@@ -46,7 +46,7 @@ import { RewardPreviewCard } from "@/features/student/components/RewardPreviewCa
 import { LaunchContextSafetyCard } from "@/features/student/components/LaunchContextSafetyCard";
 import { FrontDoorTeacherReportPreview } from "./FrontDoorTeacherReportPreview";
 import type { TenantConfig } from "@/features/tenant/types";
-import type { UnitGameOfferMap } from "@/features/game-offers/unitGameOfferMapTypes";
+import type { UnitGameOfferMap } from "@living-textbook/content-model";
 
 interface FrontDoorEntryFlowProps {
   tenant: TenantConfig;

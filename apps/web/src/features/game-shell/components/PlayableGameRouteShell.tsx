@@ -12,7 +12,7 @@ import type {
 } from "@living-textbook/content-model";
 import { isGameModeSupportedAtLevel, languageMatches, resolveCanonicalGameReplaySeed, resolveTargetLanguage } from "@living-textbook/content-model";
 import type { TeacherAssignmentPlan } from "@living-textbook/content-model/src/teacherAssignment";
-import type { UnitGameOfferMap } from "@/features/game-offers/unitGameOfferMapTypes";
+import type { UnitGameOfferMap } from "@living-textbook/content-model";
 import type { GameModeCompletionResult } from "@/features/progression/localProgressionAdapter";
 import { UnitSessionProgressSummary } from "@/features/progression/UnitSessionProgressSummary";
 import { SessionEventLog } from "@/features/student/components/SessionEventLog";

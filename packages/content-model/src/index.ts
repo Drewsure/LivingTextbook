@@ -1585,3 +1585,4 @@ export * from "./aiPackageWriterAssignmentShellGuard";
 export * from "./aiPackageWriterAssignmentHandoffEvidencePacket";
 export * from "./tenant";
 export * from "./teacherReporting";
+export * from "./gameOffer";

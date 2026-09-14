@@ -1,6 +1,6 @@
 import { Card, StatusPill } from "@living-textbook/ui";
 import type { GameModeId, UnitPayload } from "@living-textbook/content-model";
-import type { UnitGameOfferMap } from "@/features/game-offers/unitGameOfferMapTypes";
+import type { UnitGameOfferMap } from "@living-textbook/content-model";
 import { gameModeCatalog } from "./gameModeCatalog";
 
 interface GameSequenceProps {

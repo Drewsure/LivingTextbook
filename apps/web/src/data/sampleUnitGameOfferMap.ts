@@ -1,5 +1,5 @@
 import type { GameModeId } from "@living-textbook/content-model";
-import type { UnitGameOfferMap } from "@/features/game-offers/unitGameOfferMapTypes";
+import type { UnitGameOfferMap } from "@living-textbook/content-model";
 import { validateUnitGameOfferMap } from "@/features/game-offers/unitGameOfferMapValidation";
 
 export const samplePartnerUnitGameOfferMap: UnitGameOfferMap = {

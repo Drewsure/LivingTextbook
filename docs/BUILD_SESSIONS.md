@@ -2655,3 +2655,16 @@ Updated provider-boundary verification so reusable reporting surfaces cannot
 reach sample fixtures or web-owned contract modules. This is contract
 ownership hardening only; it does not enable live persistence, report export,
 classroom launch, or Phaser source promotion. See ADR 0775 and DR-852.
+
+## 0779 - Neutral curated activity offer contract
+
+Moved `UnitGameOffer` and `UnitGameOfferMap` into the public content-model
+package and changed launch, student, teacher, dashboard, and game-shell
+surfaces to consume the package contract. The former web type path is now only
+a compatibility re-export, and the pathway boundary verifier prevents the
+contract from drifting back into the UI layer.
+
+This keeps curated, pre-reviewed activity pathways tenant-configurable without
+creating a giant switch-anything panel. It does not add new games, enable live
+uploads, activate persistence, or authorize Phaser source promotion. See ADR
+0776 and DR-853.

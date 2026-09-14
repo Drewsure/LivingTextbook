@@ -66,7 +66,7 @@ import { TeacherAssignmentSettingsCard } from "./components/TeacherAssignmentSet
 import { UnitMediaShortcutCard } from "./components/UnitMediaShortcutCard";
 import { getCollectionPath } from "@/features/routes/routeContracts";
 import { getGameModeRoutePath } from "@/features/routes/gameModeRoutePaths";
-import type { UnitGameOfferMap } from "@/features/game-offers/unitGameOfferMapTypes";
+import type { UnitGameOfferMap } from "@living-textbook/content-model";
 
 interface StudentLaunchFlowProps {
   tenant: TenantConfig;

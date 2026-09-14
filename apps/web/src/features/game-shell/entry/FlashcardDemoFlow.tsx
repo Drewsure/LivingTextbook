@@ -14,7 +14,7 @@ import type {
   UnitPayload,
 } from "@living-textbook/content-model";
 import type { TeacherAssignmentPlan } from "@living-textbook/content-model/src/teacherAssignment";
-import type { UnitGameOfferMap } from "@/features/game-offers/unitGameOfferMapTypes";
+import type { UnitGameOfferMap } from "@living-textbook/content-model";
 import { UnitSessionProgressSummary } from "@/features/progression/UnitSessionProgressSummary";
 import { getNextUncompletedRecommendedMode } from "@/features/progression/nextRecommendedGameMode";
 import {

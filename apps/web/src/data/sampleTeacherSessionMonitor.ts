@@ -31,7 +31,7 @@ import {
 } from "@living-textbook/content-model";
 import { sampleClassroomLaunchGate } from "./sampleClassroomLaunchGate";
 import { resolveSampleLaunchContext } from "./sampleLaunchResolver";
-import type { UnitGameOfferMap } from "@/features/game-offers/unitGameOfferMapTypes";
+import type { UnitGameOfferMap } from "@living-textbook/content-model";
 import { sampleProgressEventTaxonomyRegistry } from "./sampleProgressEventTaxonomy";
 import { createSampleTeacherSessionSettings } from "./sampleTeacherSessionSettings";
 import type {
