@@ -2609,3 +2609,12 @@ remains optional, teacher-controlled local replay.
 
 This does not add AI speech scoring, persistence, assignment, or Phaser
 promotion authority. See ADR 0769 and DR-846.
+
+## 0774 - Balloon Pop evidence handoff
+
+Added the second controlled Z.ai candidate brief for Balloon Pop. The request
+binds the Selection-engine payload, deterministic motion and replay, misses,
+audio-first controls, accessibility, source identity, and wrapper boundaries
+without authorizing source import or student-route activation.
+
+This is an external evidence-preparation slice only. See ADR 0770 and DR-847.

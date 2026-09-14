@@ -2956,3 +2956,16 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-845 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-846 and
 `docs/adr/0769-speaking-engine-runtime.md`.
+
+## 194. External Candidate Handoff Standard
+
+- Each external game candidate must receive a mode-specific evidence brief
+  covering fixture shape, event replay, deterministic scoring, target-language
+  audio, accessibility, source identity, and wrapper boundaries.
+- Balloon Pop is the second approved candidate after Memory Match and remains
+  isolated until its complete package passes the candidate verifier.
+- A working deployment or frozen source hash is not evidence of wrapper
+  compatibility and never authorizes direct source import.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-847 and
+`docs/adr/0770-balloon-pop-evidence-handoff.md`.

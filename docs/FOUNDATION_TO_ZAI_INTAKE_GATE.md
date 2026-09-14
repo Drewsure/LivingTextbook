@@ -98,3 +98,7 @@ source identity, eight reviewed artifact kinds, profile-specific replay
 scenarios, safe paths, and blocked actions. It is intentionally outside
 `verify:foundation`:
 absence of a returned package is `NOT READY`, not a canonical build failure.
+
+The second approved candidate brief is
+`docs/agent-briefs/ZAI_BALLOON_POP_EVIDENCE_REQUEST.md`. It remains sequenced
+after Memory Match review and uses the same isolated evidence-package gate.
