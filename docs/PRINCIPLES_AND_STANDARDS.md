@@ -2812,3 +2812,16 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-834 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-835 and
 `docs/adr/0758-teacher-report-target-language.md`.
+
+## 183. Non-Blank Completion Language Runtime Guard
+
+- Canonical completion must reject a missing or blank target language at
+  runtime, even when a caller bypasses TypeScript through serialized or
+  JavaScript data.
+- Completion validation must fail closed before event replay can award or
+  accept mastery evidence when language context is invalid.
+- The guard remains validation-only and does not itself grant progression,
+  Star Dust, persistence, reporting, assignment, or rewards.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-836 and
+`docs/adr/0759-non-blank-completion-language.md`.

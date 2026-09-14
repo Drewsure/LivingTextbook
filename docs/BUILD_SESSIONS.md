@@ -2495,3 +2495,13 @@ so teacher evidence cannot silently lose white-label language context.
 This is a report-validation hardening slice only. It does not enable report
 export, persistence, progression, scoring, assignment, rewards, or Phaser
 source-promotion authority. See ADR 0758 and DR-835.
+
+## 0763 - Non-blank completion language runtime guard
+
+Added a fail-closed runtime check to the canonical completion gate so blank
+or missing target language cannot reach event replay validation. Added static
+verification for the guard and recorded the boundary in the standing
+principles and decision register.
+
+This does not change scoring, progression, persistence, reporting, assignment,
+rewards, or Phaser source-promotion authority. See ADR 0759 and DR-836.

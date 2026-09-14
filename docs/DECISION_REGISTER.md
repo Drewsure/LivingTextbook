@@ -4821,3 +4821,12 @@ the white-label learner experience and prevents a silent English fallback.
 Generic report parsing remains reusable outside the runtime boundary. This
 does not create report export, persistence, progression, assignment, reward,
 or Phaser source-promotion authority. See ADR 0758.
+
+# DR-836: Non-Blank Completion Language Runtime Guard
+
+Canonical completion must reject missing or blank target language before event
+replay validation. This closes the runtime gap left by a type-only requirement
+when data arrives through JavaScript or serialization. The guard is
+validation-only and does not create progression, mastery, persistence,
+reporting, assignment, rewards, or Phaser source-promotion authority. See ADR
+0759.

@@ -35,6 +35,13 @@ export function validateCanonicalGameCompletion({
     };
   }
 
+  if (typeof targetLanguage !== "string" || !targetLanguage.trim()) {
+    return {
+      valid: false,
+      errors: ["Canonical game completion requires a non-blank target language."],
+    };
+  }
+
   const replay = validateCanonicalGameEventSequence(
     [...events.filter((event) => event.gameMode === gameMode), result.event],
     gameMode,
