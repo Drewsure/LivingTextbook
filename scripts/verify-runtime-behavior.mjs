@@ -457,6 +457,18 @@ try {
   assertEqual(completedEntry.events[0]?.metadata?.targetLanguageGateSatisfied, undefined);
   assertEqual(completedEntry.events.slice(1).every((event) => event.metadata?.targetLanguageGateSatisfied === true), true);
   assertEqual(completedEntry.events.slice(1).every((event) => event.metadata?.supportLanguageUnlockAllowed === false), true);
+  const repeatedEntry = progressionAdapter.completeFlashcardEntryPractice({
+    progression: completedEntry.progression,
+    launchSession: entryLaunchSession,
+    unit: entryUnit,
+    occurredAt: "2026-01-01T00:00:50.000Z",
+    targetLanguageEngagedItems: 10,
+    requiredTargetLanguageItems: 10,
+  });
+  assertEqual(repeatedEntry.completed, true);
+  assertEqual(repeatedEntry.dust.total, 0);
+  assertEqual(repeatedEntry.events.length, 0);
+  assertEqual(repeatedEntry.progression.earnedStarDust, completedEntry.progression.earnedStarDust);
   const adapterStarted = progressionAdapter.startUnlockedGameMode({
     progression: adapterProgression,
     launchSession: adapterLaunchSession,

@@ -2559,3 +2559,12 @@ and support-language-safe unlock events.
 
 This does not add persistence, assignment, or Phaser promotion authority. See
 ADR 0764 and DR-841.
+
+## 0769 - Flashcard entry idempotence
+
+Added runtime behavior coverage for repeated completed Flashcard entry
+submissions. A retry now proves zero additional Star Dust, no duplicate
+completion or unlock events, and an unchanged progression total.
+
+This does not add persistence, assignment, or Phaser promotion authority. See
+ADR 0765 and DR-842.

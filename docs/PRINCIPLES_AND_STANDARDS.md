@@ -2893,3 +2893,16 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-840 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-841 and
 `docs/adr/0764-flashcard-entry-runtime-gate.md`.
+
+## 189. Flashcard Entry Idempotence Standard
+
+- A repeated completed Flashcards entry submission must remain completed while
+  awarding zero additional Star Dust.
+- Repeated entry submissions must emit no duplicate completion or unlock
+  events, preserving one canonical progression record across retries,
+  refreshes, and double taps.
+- This runtime guard is an integration prerequisite, not permission to add a
+  persistence provider, assignment side effect, or Phaser source promotion.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-842 and
+`docs/adr/0765-flashcard-entry-idempotence.md`.
