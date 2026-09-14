@@ -5022,3 +5022,13 @@ The UI package exposes one canonical root export targeting its public
 component index and does not expose internal primitive subpaths. The shared
 package-boundary verifier checks this alongside content-model exports. This
 does not enable live services or external game promotion. See ADR 0781.
+
+# DR-859: Game Audio Readiness Route Gate
+
+Canonical game routes now use a shared content-model coverage calculation for
+target-language terms, target sentences, and a mode-scoped instruction cue.
+Missing audio coverage pauses gameplay and scoring with a review-only access
+gate. It is not treated as learner failure and cannot produce mastery,
+completion, or reward evidence. Approved browser text-to-speech remains a
+possible cue source, but it does not bypass package review or language/scope
+checks. See ADR 0782.

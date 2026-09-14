@@ -3112,3 +3112,20 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-857 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-858 and
 `docs/adr/0781-ui-package-export.md`.
+
+## 206. Game Audio Readiness Gate Standard
+
+- Every canonical game must have target-language audio coverage for every
+  unit vocabulary term, every target sentence, and at least one instruction
+  cue scoped to that game mode before gameplay or scoring can begin.
+- The shared content model owns the coverage calculation so route shells,
+  games, teacher previews, and future white-label clients use the same rule.
+- Missing coverage is a release/readiness problem, not a learner failure; the
+  game route must pause with an actionable review message and must not emit
+  mastery, reward, or completion evidence.
+- Browser text-to-speech may remain an implementation source for an approved
+  cue, but it does not bypass content review, target-language matching, unit
+  scope, or game-mode instruction coverage.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-859 and
+`docs/adr/0782-game-audio-readiness-route-gate.md`.

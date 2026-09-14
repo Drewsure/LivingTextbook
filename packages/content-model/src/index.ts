@@ -321,6 +321,58 @@ export interface AudioCue {
   textbookReference?: TextbookReference;
 }
 
+export interface GameAudioCoverage {
+  targetLanguage: LocaleCode;
+  requiredTermCount: number;
+  coveredTermCount: number;
+  requiredSentenceCount: number;
+  coveredSentenceCount: number;
+  instructionCueCount: number;
+  missingTerms: string[];
+  missingSentences: string[];
+  instructionReady: boolean;
+  ready: boolean;
+}
+
+export function getGameAudioCoverage({
+  unit,
+  audioCues = [],
+  gameMode,
+  targetLanguage,
+}: {
+  unit: UnitPayload;
+  audioCues?: readonly AudioCue[];
+  gameMode: GameModeId;
+  targetLanguage: LocaleCode;
+}): GameAudioCoverage {
+  const unitKey = getUnitKey(unit.unitMeta);
+  const scopedCues = audioCues.filter((cue) => cue.unitKey === unitKey);
+  const targetCues = scopedCues.filter((cue) => languageMatches(cue.language, targetLanguage));
+  const termCues = targetCues.filter((cue) => cue.kind === "term");
+  const sentenceCues = targetCues.filter((cue) => cue.kind === "sentence");
+  const instructionCues = targetCues.filter(
+    (cue) => cue.kind === "instruction" && (!cue.gameMode || cue.gameMode === gameMode),
+  );
+  const hasCueForText = (cues: AudioCue[], text: string) =>
+    cues.some((cue) => normalizeAudioText(cue.text) === normalizeAudioText(text));
+  const missingTerms = unit.pedagogicalPayload.vocabularyTerms.filter((term) => !hasCueForText(termCues, term));
+  const missingSentences = unit.pedagogicalPayload.targetSentences.filter((sentence) => !hasCueForText(sentenceCues, sentence));
+  const instructionCueCount = instructionCues.length;
+
+  return {
+    targetLanguage,
+    requiredTermCount: unit.pedagogicalPayload.vocabularyTerms.length,
+    coveredTermCount: unit.pedagogicalPayload.vocabularyTerms.length - missingTerms.length,
+    requiredSentenceCount: unit.pedagogicalPayload.targetSentences.length,
+    coveredSentenceCount: unit.pedagogicalPayload.targetSentences.length - missingSentences.length,
+    instructionCueCount,
+    missingTerms,
+    missingSentences,
+    instructionReady: instructionCueCount > 0,
+    ready: missingTerms.length === 0 && missingSentences.length === 0 && instructionCueCount > 0,
+  };
+}
+
 export interface UnitAudioSupportPlan {
   unitKey: string;
   targetLanguage: LocaleCode;

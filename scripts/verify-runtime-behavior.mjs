@@ -1196,6 +1196,30 @@ try {
     },
     units: [audioUnit], audioCues, audioSupportPlans: [audioPlan],
   };
+  const audioGameCues = [
+    ...audioCues,
+    {
+      audioCueId: "audio-instruction-memory-match", tenantId: "tenant-1", kind: "instruction",
+      text: "Find the matching greeting cards.", language: "en", source: "text-to-speech",
+      unitKey: audioUnitKey, gameMode: "memory-match",
+    },
+  ];
+  const readyGameAudio = contentModel.getGameAudioCoverage({
+    unit: audioUnit, audioCues: audioGameCues, gameMode: "memory-match", targetLanguage: "en",
+  });
+  assertEqual(readyGameAudio.ready, true);
+  assertEqual(readyGameAudio.coveredTermCount, 8);
+  assertEqual(readyGameAudio.coveredSentenceCount, 2);
+  assertEqual(readyGameAudio.instructionReady, true);
+  const incompleteGameAudio = contentModel.getGameAudioCoverage({
+    unit: audioUnit,
+    audioCues: audioGameCues.filter((cue) => cue.audioCueId !== "audio-term-1"),
+    gameMode: "memory-match",
+    targetLanguage: "en",
+  });
+  assertEqual(incompleteGameAudio.ready, false);
+  assertEqual(incompleteGameAudio.missingTerms.includes("hello"), true);
+  assertEqual(incompleteGameAudio.instructionReady, true);
   const missingAudioPlanErrors = contentModel.validateContentPackage({ ...audioPackage, audioSupportPlans: [] });
   assertEqual(contentModel.validateContentPackage(audioPackage).length, 0);
   for (const kind of ["term", "sentence"]) {

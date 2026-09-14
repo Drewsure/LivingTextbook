@@ -2728,3 +2728,17 @@ keeps future tenant themes and feature consumers on the stable UI API.
 
 No live AI, upload, persistence, assignment, or Phaser source promotion is
 enabled. See ADR 0781 and DR-858.
+
+## 0785 - Game audio readiness route gate
+
+Added the shared `getGameAudioCoverage` content-model contract and connected
+it to the reusable playable game route shell. Canonical games now remain
+outside gameplay and scoring when a package is missing target-language audio
+for a vocabulary term, target sentence, or the current game's instruction.
+The learning-audio card reports the exact coverage, while the access gate
+explains that the package needs review rather than treating the learner as
+unsuccessful.
+
+Added runtime assertions for complete and incomplete coverage. This does not
+enable uploads, live AI, persistence, or Phaser promotion. See ADR 0782 and
+DR-859.

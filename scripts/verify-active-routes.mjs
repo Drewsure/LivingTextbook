@@ -86,7 +86,7 @@ const expectedTextByPath = new Map([
 
 const activeGameLearningAudioContractExpected = [
   "Learning audio contract",
-  "Audio required",
+  "Audio ready",
   "Target language only",
   "Tap-to-speak is support evidence, not score authority.",
   "Support language cannot unlock games, mastery, or rewards.",

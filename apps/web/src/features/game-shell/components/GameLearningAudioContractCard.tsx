@@ -3,14 +3,14 @@
 import { Card, StatusPill } from "@living-textbook/ui";
 import type {
   AudioCue,
+  GameAudioCoverage,
   GameModeId,
   GameProgressEvent,
   LaunchSession,
   StudentProgressionState,
   UnitPayload,
 } from "@living-textbook/content-model";
-import { resolveTargetLanguage } from "@living-textbook/content-model";
-import { languageMatches } from "@living-textbook/content-model";
+import { getGameAudioCoverage, resolveTargetLanguage } from "@living-textbook/content-model";
 import { AudioCueText } from "@/features/audio/AudioCueButton";
 import { formatLanguageName } from "@/features/language/languageLabels";
 import { createAudioRequestedEvent } from "@/features/progression/localProgressionAdapter";
@@ -25,6 +25,7 @@ interface GameLearningAudioContractCardProps {
   audioCues: AudioCue[];
   replaySeed: string;
   onAudioRequested: (event: GameProgressEvent) => void;
+  coverage?: GameAudioCoverage;
 }
 
 export function GameLearningAudioContractCard({
@@ -36,17 +37,13 @@ export function GameLearningAudioContractCard({
   audioCues,
   replaySeed,
   onAudioRequested,
+  coverage,
 }: GameLearningAudioContractCardProps) {
   const targetLanguage = resolveTargetLanguage({
     tenantTargetLanguage: tenant.languageSettings?.targetLanguage,
     unitLanguage: unit.unitMeta.textbookReference?.language,
   });
-  const targetLanguageCues = audioCues.filter((cue) => languageMatches(cue.language, targetLanguage));
-  const termCueCount = targetLanguageCues.filter((cue) => cue.kind === "term").length;
-  const sentenceCueCount = targetLanguageCues.filter((cue) => cue.kind === "sentence").length;
-  const instructionCueCount = targetLanguageCues.filter((cue) => cue.kind === "instruction").length;
-  const requiredTermCount = unit.pedagogicalPayload.vocabularyTerms.length;
-  const requiredSentenceCount = unit.pedagogicalPayload.targetSentences.length;
+  const resolvedCoverage = coverage ?? getGameAudioCoverage({ unit, audioCues, gameMode, targetLanguage });
   const summaryText = `Listen first. Answer in ${formatLanguageName(targetLanguage)} to make progress.`;
 
   function handleRuleAudioRequested() {
@@ -81,15 +78,24 @@ export function GameLearningAudioContractCard({
             />
           </p>
         </div>
-        <StatusPill label="Audio required" tone="warning" />
+        <StatusPill label={resolvedCoverage.ready ? "Audio ready" : "Audio review needed"} tone={resolvedCoverage.ready ? "success" : "warning"} />
       </div>
 
       <div className="mt-5 grid gap-3 sm:grid-cols-4">
-        <AudioCoverageFact label="Terms" value={`${termCueCount}/${requiredTermCount}`} />
-        <AudioCoverageFact label="Sentences" value={`${sentenceCueCount}/${requiredSentenceCount}`} />
-        <AudioCoverageFact label="Instructions" value={String(instructionCueCount)} />
+        <AudioCoverageFact label="Terms" value={`${resolvedCoverage.coveredTermCount}/${resolvedCoverage.requiredTermCount}`} />
+        <AudioCoverageFact label="Sentences" value={`${resolvedCoverage.coveredSentenceCount}/${resolvedCoverage.requiredSentenceCount}`} />
+        <AudioCoverageFact label="Instructions" value={String(resolvedCoverage.instructionCueCount)} />
         <AudioCoverageFact label="Progress rule" value="Target language only" />
       </div>
+
+      {!resolvedCoverage.ready ? (
+        <div className="mt-4 rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-950">
+          <p className="font-semibold">This activity is paused until reviewed learning audio is ready.</p>
+          {resolvedCoverage.missingTerms.length > 0 ? <p className="mt-1">Missing term audio: {resolvedCoverage.missingTerms.join(", ")}.</p> : null}
+          {resolvedCoverage.missingSentences.length > 0 ? <p className="mt-1">Missing sentence audio: {resolvedCoverage.missingSentences.join(" / ")}.</p> : null}
+          {!resolvedCoverage.instructionReady ? <p className="mt-1">Missing target-language instructions for this activity.</p> : null}
+        </div>
+      ) : null}
 
       <ul className="mt-4 grid gap-2 text-sm text-[var(--tenant-muted)]">
         <li>Tap-to-speak is support evidence, not score authority.</li>

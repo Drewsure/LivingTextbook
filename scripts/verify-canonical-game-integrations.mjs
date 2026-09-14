@@ -478,8 +478,8 @@ for (const [surface, source, required] of [
   }
 }
 
-if (!learningAudioCard.includes("languageMatches") || !learningAudioCard.includes("targetLanguageCues")) {
-  failures.push("learning audio contract: coverage counts must use the shared target-language matcher");
+if (!learningAudioCard.includes("getGameAudioCoverage") || !learningAudioCard.includes("resolvedCoverage")) {
+  failures.push("learning audio contract: coverage counts must use the shared game audio coverage contract");
 }
 
 const flashcardsOffer = getOfferBody(offerMap, "partner-l1-u1-flashcards");
@@ -710,10 +710,12 @@ for (const fragment of [
 }
 
 for (const fragment of [
-  "const gameUnlocked = gameSupportedAtLevel && currentProgression.unlockedGameModes.includes(gameMode)",
+  "const gameAudioReady = audioCoverage.ready",
+  "const gameUnlocked = gameSupportedAtLevel && currentProgression.unlockedGameModes.includes(gameMode) && gameAudioReady",
   "const gameSupportedAtLevel = isGameModeSupportedAtLevel(gameMode, unit.unitMeta.level)",
   "{gameUnlocked ? (",
-  "reason={gameSupportedAtLevel ? \"entry-practice\" : \"unsupported-level\"}",
+  "reason={gameSupportedAtLevel && !gameAudioReady ? \"audio-required\" : gameSupportedAtLevel ? \"entry-practice\" : \"unsupported-level\"}",
+  "audio-required",
   "This activity is not offered yet",
 ]) {
   if (![routeShell, accessGate].some((source) => source.includes(fragment))) {

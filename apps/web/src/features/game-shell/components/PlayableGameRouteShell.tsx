@@ -10,7 +10,7 @@ import type {
   StudentProgressionState,
   UnitPayload,
 } from "@living-textbook/content-model";
-import { isGameModeSupportedAtLevel, languageMatches, resolveCanonicalGameReplaySeed, resolveTargetLanguage } from "@living-textbook/content-model";
+import { getGameAudioCoverage, isGameModeSupportedAtLevel, languageMatches, resolveCanonicalGameReplaySeed, resolveTargetLanguage } from "@living-textbook/content-model";
 import type { TeacherAssignmentPlan } from "@living-textbook/content-model";
 import type { UnitGameOfferMap } from "@living-textbook/content-model";
 import type { GameModeCompletionResult } from "@/features/progression/localProgressionAdapter";
@@ -95,7 +95,9 @@ export function PlayableGameRouteShell({
     platformReplaySeed,
   });
   const gameSupportedAtLevel = isGameModeSupportedAtLevel(gameMode, unit.unitMeta.level);
-  const gameUnlocked = gameSupportedAtLevel && currentProgression.unlockedGameModes.includes(gameMode);
+  const audioCoverage = getGameAudioCoverage({ unit, audioCues, gameMode, targetLanguage });
+  const gameAudioReady = audioCoverage.ready;
+  const gameUnlocked = gameSupportedAtLevel && currentProgression.unlockedGameModes.includes(gameMode) && gameAudioReady;
 
   function handleEvent(event: GameProgressEvent) {
     sessionEventsRef.current = [...sessionEventsRef.current, event];
@@ -177,6 +179,7 @@ export function PlayableGameRouteShell({
         audioCues={audioCues}
         replaySeed={replaySeed}
         onAudioRequested={handleEvent}
+        coverage={audioCoverage}
       />
 
       {gameUnlocked ? (
@@ -193,7 +196,7 @@ export function PlayableGameRouteShell({
           gameMode={gameMode}
           launchSession={launchSession}
           level={unit.unitMeta.level}
-          reason={gameSupportedAtLevel ? "entry-practice" : "unsupported-level"}
+          reason={gameSupportedAtLevel && !gameAudioReady ? "audio-required" : gameSupportedAtLevel ? "entry-practice" : "unsupported-level"}
           targetLanguage={targetLanguage}
         />
       )}
