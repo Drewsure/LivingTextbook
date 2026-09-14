@@ -18,7 +18,7 @@ import {
   startUnlockedGameMode,
   type GameModeCompletionResult,
 } from "@/features/progression/localProgressionAdapter";
-import { calculateAccuracyBonusDust, getGameScoringProfileForMode } from "../scoringProfiles";
+import { calculateAccuracyBonusDust, getRequiredGameScoringProfileForMode } from "../scoringProfiles";
 
 interface FillInBlankPracticeGameProps {
   unit: UnitPayload;
@@ -39,7 +39,6 @@ interface FillInBlankRound {
 }
 
 const gameMode = "fill-in-the-blank" as const;
-const scoringProfileId = "syntax-construction-v1";
 const instructionText = "Listen to the sentence. Choose the missing word.";
 
 export function FillInBlankPracticeGame({
@@ -52,7 +51,8 @@ export function FillInBlankPracticeGame({
   onComplete,
 }: FillInBlankPracticeGameProps) {
   const rounds = useMemo(() => buildFillInBlankRounds(unit), [unit]);
-  const scoringProfile = getGameScoringProfileForMode(gameMode);
+  const scoringProfile = getRequiredGameScoringProfileForMode(gameMode);
+  const scoringProfileId = scoringProfile.id;
   const targetLanguage = unit.unitMeta.textbookReference?.language ?? "en";
   const startEventSent = useRef(false);
   const [roundIndex, setRoundIndex] = useState(0);

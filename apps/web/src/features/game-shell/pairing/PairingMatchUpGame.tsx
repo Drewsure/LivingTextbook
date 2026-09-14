@@ -18,7 +18,7 @@ import {
   startUnlockedGameMode,
   type GameModeCompletionResult,
 } from "@/features/progression/localProgressionAdapter";
-import { calculateAccuracyBonusDust, getGameScoringProfileForMode } from "../scoringProfiles";
+import { calculateAccuracyBonusDust, getRequiredGameScoringProfileForMode } from "../scoringProfiles";
 import { getGameModeCatalogItem } from "../gameModeCatalog";
 import { createVocabularyPairingItems } from "./pairingEngineAdapter";
 import {
@@ -58,7 +58,7 @@ export function PairingMatchUpGame({
   const targetLanguage = unit.unitMeta.textbookReference?.language ?? "en";
   const startSentRef = useRef(false);
   const mode = getGameModeCatalogItem(gameMode);
-  const scoringProfile = getGameScoringProfileForMode(gameMode);
+  const scoringProfile = getRequiredGameScoringProfileForMode(gameMode);
   const progress = getPairingProgressSummary(engineState);
   const completedAlready = progression.completedGameModes.includes(gameMode);
   const instructionCue = findAudioCueForGame(audioCues, "instruction", gameMode);
@@ -218,7 +218,7 @@ export function PairingMatchUpGame({
           totalPairs: completedProgress.totalPairs,
           attempts: outcome.state.attempts,
           parentEngine: mode?.engineId ?? "pairing",
-          scoringProfileId: scoringProfile?.id ?? "pairing-reinforcement-v1",
+          scoringProfileId: scoringProfile.id,
           replaySeed,
         },
       });
@@ -228,7 +228,7 @@ export function PairingMatchUpGame({
         earnedStarDust: result.earnedStarDust,
         attempts: outcome.state.attempts,
         totalPairs: completedProgress.totalPairs,
-        scoringProfileId: scoringProfile?.id ?? "pairing-reinforcement-v1",
+        scoringProfileId: scoringProfile.id,
         replaySeed,
       });
       setCompletionSent(true);

@@ -2259,3 +2259,11 @@ and derived profile identifier type; web consumers use that shared source.
 Static verification guards the boundary. No persistence, scoring mutation,
 progression, reward, assignment, or Phaser source promotion was enabled. See
 ADR 0741.
+## 0743 - Required scoring profile at playable game boundary
+
+Removed nullable and hard-coded scoring profile fallbacks from canonical game
+wrappers. Playable games now resolve a required profile from the shared mode
+map, while the Sentence Builder engine preview reads the same canonical
+assignment. Static verification rejects literal profile claims and `none`
+fallbacks in game components. No persistence, scoring mutation, progression,
+reward, assignment, or Phaser source promotion was enabled. See ADR 0742.

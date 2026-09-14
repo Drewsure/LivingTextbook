@@ -20,7 +20,7 @@ import {
 } from "@/features/progression/localProgressionAdapter";
 import { formatMode } from "@/lib/formatLabels";
 import { getGameModeCatalogItem } from "../gameModeCatalog";
-import { calculateAccuracyBonusDust, getGameScoringProfileForMode } from "../scoringProfiles";
+import { calculateAccuracyBonusDust, getRequiredGameScoringProfileForMode } from "../scoringProfiles";
 import { createVocabularyPairingItems } from "./pairingEngineAdapter";
 import {
   createPairingEngineState,
@@ -58,7 +58,7 @@ export function PairingMemoryMatchGame({
   const [completionSent, setCompletionSent] = useState(false);
   const startSentRef = useRef(false);
   const mode = getGameModeCatalogItem(gameMode);
-  const scoringProfile = getGameScoringProfileForMode(gameMode);
+  const scoringProfile = getRequiredGameScoringProfileForMode(gameMode);
   const progress = getPairingProgressSummary(engineState);
   const completedAlready = progression.completedGameModes.includes(gameMode);
   const instructionCue = findAudioCueForGame(audioCues, "instruction", gameMode);
@@ -202,7 +202,7 @@ export function PairingMemoryMatchGame({
           totalPairs: progress.totalPairs,
           attempts: outcome.state.attempts,
           parentEngine: mode?.engineId ?? unit.unitMeta.engineId,
-          scoringProfileId: scoringProfile?.id ?? "none",
+          scoringProfileId: scoringProfile.id,
           replaySeed,
         },
       });
@@ -212,7 +212,7 @@ export function PairingMemoryMatchGame({
         earnedStarDust: result.earnedStarDust,
         attempts: outcome.state.attempts,
         totalPairs: progress.totalPairs,
-        scoringProfileId: scoringProfile?.id ?? "none",
+        scoringProfileId: scoringProfile.id,
         replaySeed,
       });
       setCompletionSent(true);
@@ -337,7 +337,7 @@ function calculateMemoryMatchDust({
 }: {
   attempts: number;
   totalPairs: number;
-  scoringProfile: ReturnType<typeof getGameScoringProfileForMode>;
+  scoringProfile: ReturnType<typeof getRequiredGameScoringProfileForMode>;
 }): number {
   if (!scoringProfile) {
     return 100;

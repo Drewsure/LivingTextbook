@@ -223,6 +223,7 @@ const learningAudioCard = readText("apps/web/src/features/game-shell/components/
 const flashcardEntryFlow = readText("apps/web/src/features/game-shell/entry/FlashcardDemoFlow.tsx");
 const gameModeCatalog = readText("apps/web/src/features/game-shell/gameModeCatalog.ts");
 const scoringProfiles = readText("apps/web/src/features/game-shell/scoringProfiles.ts");
+const textSpellingAdapter = readText("apps/web/src/features/game-shell/text-spelling/textSpellingEngineAdapter.ts");
 
 const standardEventTypes = [
   "game_started",
@@ -258,6 +259,21 @@ for (const integration of integrations) {
   if (!component.includes("earnedStarDust: result.earnedStarDust")) {
     failures.push(`${integration.id}: mastery evidence must use the normalized completion award`);
   }
+
+  if (component.includes('scoringProfileId: "') || component.includes('scoringProfile?.id ??')) {
+    failures.push(`${integration.id}: scoring profile evidence must not hard-code or nullable-fallback a profile`);
+  }
+}
+
+for (const integration of integrations) {
+  const component = readText(integration.component);
+  if (!component.includes("getRequiredGameScoringProfileForMode") && !component.includes("preview.scoringProfileId")) {
+    failures.push(`${integration.id}: scoring profile must come from the required resolver or a canonical engine preview`);
+  }
+}
+
+if (!textSpellingAdapter.includes("CANONICAL_GAME_SCORING_PROFILE_BY_MODE[\"sentence-builder\"]")) {
+  failures.push("text-spelling engine preview: Sentence Builder scoring profile must come from the canonical map");
 }
 
 if (!routeShell.includes("platformReplaySeed?: string")) {

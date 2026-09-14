@@ -18,7 +18,7 @@ import {
   startUnlockedGameMode,
   type GameModeCompletionResult,
 } from "@/features/progression/localProgressionAdapter";
-import { calculateAccuracyBonusDust, getGameScoringProfileForMode } from "../scoringProfiles";
+import { calculateAccuracyBonusDust, getRequiredGameScoringProfileForMode } from "../scoringProfiles";
 
 interface TypeAnswerPracticeGameProps {
   unit: UnitPayload;
@@ -37,7 +37,6 @@ interface TypeAnswerRound {
 }
 
 const gameMode = "type-answer" as const;
-const scoringProfileId = "spelling-typing-v1";
 const instructionText = "Listen to the word. Type the answer.";
 
 export function TypeAnswerPracticeGame({
@@ -50,7 +49,8 @@ export function TypeAnswerPracticeGame({
   onComplete,
 }: TypeAnswerPracticeGameProps) {
   const rounds = useMemo(() => buildTypeAnswerRounds(unit), [unit]);
-  const scoringProfile = getGameScoringProfileForMode(gameMode);
+  const scoringProfile = getRequiredGameScoringProfileForMode(gameMode);
+  const scoringProfileId = scoringProfile.id;
   const targetLanguage = unit.unitMeta.textbookReference?.language ?? "en";
   const startEventSent = useRef(false);
   const [roundIndex, setRoundIndex] = useState(0);

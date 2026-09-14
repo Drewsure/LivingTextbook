@@ -18,7 +18,7 @@ import {
   startUnlockedGameMode,
   type GameModeCompletionResult,
 } from "@/features/progression/localProgressionAdapter";
-import { calculateAccuracyBonusDust, getGameScoringProfileForMode } from "../scoringProfiles";
+import { calculateAccuracyBonusDust, getRequiredGameScoringProfileForMode } from "../scoringProfiles";
 import { buildSelectionEnginePreview } from "./selectionEngineAdapter";
 
 interface QuizPracticeGameProps {
@@ -43,7 +43,7 @@ export function QuizPracticeGame({
   onComplete,
 }: QuizPracticeGameProps) {
   const preview = useMemo(() => buildSelectionEnginePreview(unit), [unit]);
-  const scoringProfile = getGameScoringProfileForMode(gameMode);
+  const scoringProfile = getRequiredGameScoringProfileForMode(gameMode);
   const targetLanguage = unit.unitMeta.textbookReference?.language ?? "en";
   const startSentRef = useRef(false);
   const [roundIndex, setRoundIndex] = useState(0);
@@ -194,7 +194,7 @@ export function QuizPracticeGame({
         replaySeed,
         metadata: {
           parentEngine: preview.engineId,
-          scoringProfileId: "selection-assessment-v1",
+          scoringProfileId: scoringProfile.id,
           completedRounds: nextCompletedRoundIds.length,
           correctRounds: nextCorrectRoundIds.length,
           attempts: nextAttempts,
@@ -208,7 +208,7 @@ export function QuizPracticeGame({
         earnedStarDust: result.earnedStarDust,
         completedRounds: nextCompletedRoundIds.length,
         correctRounds: nextCorrectRoundIds.length,
-        scoringProfileId: "selection-assessment-v1",
+        scoringProfileId: scoringProfile.id,
         replaySeed,
       });
       setCompletionSent(true);

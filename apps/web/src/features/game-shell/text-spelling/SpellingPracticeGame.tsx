@@ -18,7 +18,7 @@ import {
   startUnlockedGameMode,
   type GameModeCompletionResult,
 } from "@/features/progression/localProgressionAdapter";
-import { calculateAccuracyBonusDust, getGameScoringProfileForMode } from "../scoringProfiles";
+import { calculateAccuracyBonusDust, getRequiredGameScoringProfileForMode } from "../scoringProfiles";
 
 interface SpellingPracticeGameProps {
   unit: UnitPayload;
@@ -46,7 +46,6 @@ interface SpellingRound {
 }
 
 const gameMode = "spelling-practice" as const;
-const scoringProfileId = "spelling-typing-v1";
 const instructionText = "Listen to the word. Tap the letters in order.";
 
 export function SpellingPracticeGame({
@@ -59,7 +58,8 @@ export function SpellingPracticeGame({
   onComplete,
 }: SpellingPracticeGameProps) {
   const rounds = useMemo(() => buildSpellingRounds(unit), [unit]);
-  const scoringProfile = getGameScoringProfileForMode(gameMode);
+  const scoringProfile = getRequiredGameScoringProfileForMode(gameMode);
+  const scoringProfileId = scoringProfile.id;
   const targetLanguage = unit.unitMeta.textbookReference?.language ?? "en";
   const startEventSent = useRef(false);
   const [roundIndex, setRoundIndex] = useState(0);

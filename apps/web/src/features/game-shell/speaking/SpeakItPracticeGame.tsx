@@ -26,7 +26,7 @@ import {
 } from "@/features/progression/localProgressionAdapter";
 import type { TenantMicrophonePracticeSettings } from "@/features/tenant/types";
 import { getGameModeCatalogItem } from "../gameModeCatalog";
-import { getGameScoringProfileForMode } from "../scoringProfiles";
+import { getRequiredGameScoringProfileForMode } from "../scoringProfiles";
 
 interface SpeakItPracticeGameProps {
   unit: UnitPayload;
@@ -61,7 +61,7 @@ export function SpeakItPracticeGame({
   const [spokenPromptIds, setSpokenPromptIds] = useState<string[]>([]);
   const [completionSent, setCompletionSent] = useState(false);
   const mode = getGameModeCatalogItem(gameMode);
-  const scoringProfile = getGameScoringProfileForMode(gameMode);
+  const scoringProfile = getRequiredGameScoringProfileForMode(gameMode);
   const prompts = createSpeakItPrompts(unit, audioCues);
   const targetLanguage = unit.unitMeta.textbookReference?.language ?? "en";
   const startSentRef = useRef(false);
@@ -219,7 +219,7 @@ export function SpeakItPracticeGame({
           spokenPromptCount: nextSpokenPromptIds.length,
           totalPromptCount: prompts.length,
           parentEngine: mode?.engineId ?? unit.unitMeta.engineId,
-          scoringProfileId: scoringProfile?.id ?? "none",
+          scoringProfileId: scoringProfile.id,
           speechMatchMode: "no-ai-core",
           microphoneRequired: false,
           microphoneTeacherApproved: localMicEnabled,
@@ -233,7 +233,7 @@ export function SpeakItPracticeGame({
         earnedStarDust: result.earnedStarDust,
         spokenPromptCount: nextSpokenPromptIds.length,
         totalPromptCount: prompts.length,
-        scoringProfileId: scoringProfile?.id ?? "none",
+        scoringProfileId: scoringProfile.id,
         replaySeed,
       });
       setCompletionSent(true);

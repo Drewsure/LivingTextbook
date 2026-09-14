@@ -4668,3 +4668,9 @@ helpers must consume that source, and mode lookup must be total for the
 supported canonical modes. This prevents profile drift without enabling live
 persistence, scoring mutation, progression, rewards, assignment, or Phaser
 source promotion. See ADR 0741.
+# DR-816: Required Scoring Profile At Playable Boundary
+
+Require every canonical playable wrapper to resolve its scoring profile from
+the shared mode map. Hard-coded identifiers, `none`, and nullable fallbacks
+are prohibited in mastery or completion evidence; missing configuration must
+fail clearly. See ADR 0742.

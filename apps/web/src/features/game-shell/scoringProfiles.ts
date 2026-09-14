@@ -117,6 +117,16 @@ export function getGameScoringProfileForMode(mode: GameModeId): GameScoringProfi
   return profileId ? gameScoringProfiles[profileId] : undefined;
 }
 
+export function getRequiredGameScoringProfileForMode(mode: GameModeId): GameScoringProfile {
+  const profile = getGameScoringProfileForMode(mode);
+
+  if (!profile) {
+    throw new Error(`No scoring profile is configured for canonical game mode ${mode}.`);
+  }
+
+  return profile;
+}
+
 export function calculateAccuracyBonusDust(args: {
   attempts: number;
   targetAttempts: number;

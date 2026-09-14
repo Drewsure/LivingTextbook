@@ -17,7 +17,7 @@ import {
   startUnlockedGameMode,
   type GameModeCompletionResult,
 } from "@/features/progression/localProgressionAdapter";
-import { calculateAccuracyBonusDust, getGameScoringProfileForMode } from "../scoringProfiles";
+import { calculateAccuracyBonusDust, getRequiredGameScoringProfileForMode } from "../scoringProfiles";
 
 interface TrueFalsePracticeGameProps {
   unit: UnitPayload;
@@ -37,7 +37,6 @@ interface TrueFalseRound {
 }
 
 const gameMode = "true-false" as const;
-const scoringProfileId = "selection-assessment-v1";
 const instructionText = "Listen to the word. Tap true if the card matches.";
 
 export function TrueFalsePracticeGame({
@@ -50,7 +49,8 @@ export function TrueFalsePracticeGame({
   onComplete,
 }: TrueFalsePracticeGameProps) {
   const rounds = useMemo(() => buildTrueFalseRounds(unit), [unit]);
-  const scoringProfile = getGameScoringProfileForMode(gameMode);
+  const scoringProfile = getRequiredGameScoringProfileForMode(gameMode);
+  const scoringProfileId = scoringProfile.id;
   const targetLanguage = unit.unitMeta.textbookReference?.language ?? "en";
   const startEventSent = useRef(false);
   const [roundIndex, setRoundIndex] = useState(0);

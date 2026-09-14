@@ -2574,3 +2574,16 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-814 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-815 and
 `docs/adr/0741-shared-scoring-profile-source.md`.
+## 166. Required Scoring Profile At Playable Boundary
+
+- Every canonical playable wrapper must resolve a required scoring profile
+  from the shared mode map before creating mastery or completion evidence.
+- A wrapper must not hard-code a profile identifier, use `none`, or apply a
+  nullable fallback that could emit unscored evidence.
+- Engine preview adapters must read the same canonical profile assignment as
+  the event validator and web catalog.
+- Missing configuration must fail clearly during development and verification
+  rather than silently changing scoring behavior for a white-label tenant.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-816 and
+`docs/adr/0742-required-scoring-profile-playable-boundary.md`.

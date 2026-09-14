@@ -17,7 +17,7 @@ import {
   startUnlockedGameMode,
   type GameModeCompletionResult,
 } from "@/features/progression/localProgressionAdapter";
-import { calculateAccuracyBonusDust, getGameScoringProfileForMode } from "../scoringProfiles";
+import { calculateAccuracyBonusDust, getRequiredGameScoringProfileForMode } from "../scoringProfiles";
 import { buildSelectionEnginePreview, type SelectionEngineOption } from "./selectionEngineAdapter";
 
 interface BalloonPopPracticeGameProps {
@@ -31,7 +31,6 @@ interface BalloonPopPracticeGameProps {
 }
 
 const gameMode = "balloon-pop" as const;
-const scoringProfileId = "arcade-reinforcement-v1";
 const instructionText = "Listen to the word. Pop the matching balloon.";
 
 export function BalloonPopPracticeGame({
@@ -45,7 +44,8 @@ export function BalloonPopPracticeGame({
 }: BalloonPopPracticeGameProps) {
   const preview = useMemo(() => buildSelectionEnginePreview(unit), [unit]);
   const rounds = useMemo(() => preview.rounds.filter((round) => round.skillFocus === "vocabulary"), [preview.rounds]);
-  const scoringProfile = getGameScoringProfileForMode(gameMode);
+  const scoringProfile = getRequiredGameScoringProfileForMode(gameMode);
+  const scoringProfileId = scoringProfile.id;
   const targetLanguage = unit.unitMeta.textbookReference?.language ?? "en";
   const startEventSent = useRef(false);
   const [roundIndex, setRoundIndex] = useState(0);

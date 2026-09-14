@@ -1,4 +1,7 @@
-import type { UnitPayload } from "@living-textbook/content-model";
+import {
+  CANONICAL_GAME_SCORING_PROFILE_BY_MODE,
+  type UnitPayload,
+} from "@living-textbook/content-model";
 
 export interface TextSpellingTile {
   tileId: string;
@@ -24,7 +27,7 @@ export interface TextSpellingEnginePreviewModel {
   audioRequired: true;
   rounds: TextSpellingRound[];
   standardEvents: string[];
-  scoringProfileId: "syntax-construction-v1";
+  scoringProfileId: typeof CANONICAL_GAME_SCORING_PROFILE_BY_MODE["sentence-builder"];
   notes: string[];
 }
 
@@ -55,7 +58,7 @@ export function buildSentenceBuilderPreview(unit: UnitPayload): TextSpellingEngi
     audioRequired: true,
     rounds,
     standardEvents: ["game_started", "round_shown", "answer_submitted", "answer_result", "mastery_updated", "game_completed"],
-    scoringProfileId: "syntax-construction-v1",
+    scoringProfileId: CANONICAL_GAME_SCORING_PROFILE_BY_MODE["sentence-builder"],
     notes: [
       "Sentence Builder consumes the two reviewed target sentence structures; it does not generate new grammar inside the game.",
       "Every instruction, full sentence, and word tile carries audio text for tap-to-speak behavior.",

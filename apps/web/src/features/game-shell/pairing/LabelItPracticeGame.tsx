@@ -17,7 +17,7 @@ import {
   startUnlockedGameMode,
   type GameModeCompletionResult,
 } from "@/features/progression/localProgressionAdapter";
-import { calculateAccuracyBonusDust, getGameScoringProfileForMode } from "../scoringProfiles";
+import { calculateAccuracyBonusDust, getRequiredGameScoringProfileForMode } from "../scoringProfiles";
 
 interface LabelItPracticeGameProps {
   unit: UnitPayload;
@@ -37,7 +37,6 @@ interface LabelItAnchor {
 }
 
 const gameMode = "label-it" as const;
-const scoringProfileId = "pairing-reinforcement-v1";
 const instructionText = "Tap a label. Then tap the matching picture point.";
 
 export function LabelItPracticeGame({
@@ -50,7 +49,8 @@ export function LabelItPracticeGame({
   onComplete,
 }: LabelItPracticeGameProps) {
   const anchors = useMemo(() => buildLabelAnchors(unit), [unit]);
-  const scoringProfile = getGameScoringProfileForMode(gameMode);
+  const scoringProfile = getRequiredGameScoringProfileForMode(gameMode);
+  const scoringProfileId = scoringProfile.id;
   const targetLanguage = unit.unitMeta.textbookReference?.language ?? "en";
   const startEventSent = useRef(false);
   const roundShownSent = useRef(false);
