@@ -2867,3 +2867,16 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-838 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-839 and
 `docs/adr/0762-canonical-game-replay-harness.md`.
+
+## 187. Canonical Flashcard Entry Slice Standard
+
+- Flashcards are the teacher-QR entry slice, distinct from the eleven
+  ordinary unlocked-game wrappers.
+- Entry completion must require reviewed target-language engagement, preserve
+  tap-to-speak evidence, use the shared next-mode policy, and reject
+  support-language-only unlocking.
+- The entry slice may use its dedicated completion adapter, but it remains
+  under the same event, scoring, progression, audio, and white-label rules.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-840 and
+`docs/adr/0763-canonical-flashcard-entry-slice.md`.

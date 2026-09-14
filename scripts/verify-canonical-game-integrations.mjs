@@ -196,6 +196,28 @@ const integrations = [
   },
 ];
 
+const entryIntegrations = [
+  {
+    id: "flashcards-entry",
+    component: "apps/web/src/features/game-shell/entry/FlashcardDemoFlow.tsx",
+    supportComponent: "apps/web/src/features/student/components/FlashcardPracticeCard.tsx",
+    route: "apps/web/src/app/flashcards/[code]/page.tsx",
+    required: [
+      "completeFlashcardEntryPractice",
+      "getNextUncompletedRecommendedMode",
+      "resolveCanonicalGameReplaySeed({",
+      "GameLearningAudioContractCard",
+      "targetPracticeRequiredCount",
+      "targetPracticeReady",
+    ],
+    supportRequired: [
+      "Japanese assist does not unlock the next game",
+      "English listened:",
+      "targetPracticeReady",
+    ],
+  },
+];
+
 const progressionAdapter = readText("apps/web/src/features/progression/localProgressionAdapter.ts");
 const contentModelContract = readText("packages/content-model/src/canonicalGameIntegration.ts");
 const replayContract = readText("packages/content-model/src/canonicalGameReplay.ts");
@@ -279,6 +301,33 @@ for (const integration of integrations) {
   }
   if (component.includes("<AudioSupportedAction") && !component.includes("audioLanguage={targetLanguage}")) {
     failures.push(`${integration.id}: every audio-supported learner action must use the resolved target language`);
+  }
+}
+
+for (const integration of entryIntegrations) {
+  const component = readText(integration.component);
+  const route = readText(integration.route);
+
+  for (const fragment of integration.required) {
+    if (!component.includes(fragment)) {
+      failures.push(`${integration.id}: missing entry-slice contract fragment: ${fragment}`);
+    }
+  }
+
+  if (!route.includes("FlashcardDemoFlow")) {
+    failures.push(`${integration.id}: route does not mount the canonical FlashcardDemoFlow`);
+  }
+  if (component.includes("Math.random") || component.includes("sessionStorage")) {
+    failures.push(`${integration.id}: entry slice owns forbidden random or session state`);
+  }
+  if (!component.includes("resolveTargetLanguage({")) {
+    failures.push(`${integration.id}: entry slice must resolve the tenant/unit target language`);
+  }
+  const supportComponent = readText(integration.supportComponent);
+  for (const fragment of integration.supportRequired) {
+    if (!supportComponent.includes(fragment)) {
+      failures.push(`${integration.id}: support-language boundary is missing: ${fragment}`);
+    }
   }
 }
 
@@ -599,7 +648,11 @@ for (const [surface, source] of [
   }
 }
 
-const contractSources = [progressionAdapter, ...integrations.map((integration) => readText(integration.component))];
+const contractSources = [
+  progressionAdapter,
+  ...integrations.map((integration) => readText(integration.component)),
+  ...entryIntegrations.map((integration) => readText(integration.component)),
+];
 for (const eventType of standardEventTypes) {
   if (!contractSources.some((source) => source.includes(eventType))) {
     failures.push(`canonical game contract: missing standard event reference: ${eventType}`);
@@ -724,7 +777,7 @@ if (failures.length > 0) {
   process.exit(1);
 }
 
-console.log(`PASS ${integrations.length} canonical game integration component(s) preserve shared event, audio, completion, route, and state-ownership contracts.`);
+console.log(`PASS ${integrations.length} canonical game integration component(s) plus ${entryIntegrations.length} canonical entry slice preserve shared event, audio, completion, route, and state-ownership contracts.`);
 
 function readText(relativePath) {
   return readFileSync(new URL(relativePath, root), "utf8");

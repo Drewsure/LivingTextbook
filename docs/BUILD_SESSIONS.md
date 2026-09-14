@@ -2538,3 +2538,14 @@ award without creating routes or learner state.
 
 This is foundation verification only and does not replace browser interaction
 testing or authorize Phaser source promotion. See ADR 0762 and DR-839.
+
+## 0767 - Canonical Flashcard entry slice
+
+Registered the FlashcardDemoFlow as the twelfth canonical learning slice,
+separate from the eleven ordinary game wrappers because it is the teacher-QR
+entry gate. Static verification now requires target-language engagement,
+audio replay, deterministic entry completion, next-mode policy use, and the
+support-language progression boundary.
+
+This does not add a new engine or authorize source promotion. See ADR 0763
+and DR-840.
