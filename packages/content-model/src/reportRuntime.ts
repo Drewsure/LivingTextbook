@@ -100,6 +100,9 @@ export function validateTeacherReportRuntimeRequest(request: TeacherReportRuntim
 
   if (!request.tenantId.trim()) errors.push("tenantId is required");
   if (!request.launchCode.trim()) errors.push("launchCode is required");
+  if (request.targetLanguage !== undefined && !request.targetLanguage.trim()) {
+    errors.push("targetLanguage must be non-blank when provided");
+  }
   if (!request.format.trim()) errors.push("report format is required");
   if (request.scopes.length === 0) errors.push("at least one report scope is required");
   if (!teacherRoleVerified) errors.push("teacher role verification is required");

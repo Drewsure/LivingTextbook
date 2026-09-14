@@ -1762,6 +1762,10 @@ try {
   const reportErrors = report.validateTeacherReportRuntimeRequest(reportRequest);
   assertIncludes(reportErrors, "core teacher reports must use pseudonymous learner slots only");
   assertIncludes(reportErrors, "raw learner audio is excluded from core teacher reports");
+  assertIncludes(
+    report.validateTeacherReportRuntimeRequest({ ...reportRequest, targetLanguage: "  " }),
+    "targetLanguage must be non-blank when provided",
+  );
   assertEqual(report.createReviewOnlyTeacherReportRuntimeAdapter().execute(reportRequest).sideEffect, "none");
   assertEqual(report.validateTeacherReportCanonicalGameEvents(canonicalEvents, "tenant-1", "launch-1", "en").length, 0);
   assertIncludes(

@@ -9,6 +9,7 @@ for (const marker of [
   "validateTeacherReportRuntimeRequest",
   "validateTeacherReportCanonicalGameEvents",
   "targetLanguage",
+  "targetLanguage must be non-blank when provided",
   "createReviewOnlyTeacherReportRuntimeAdapter",
   "must be a boolean",
   "pseudonymous-slots-only",

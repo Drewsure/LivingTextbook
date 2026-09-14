@@ -2313,5 +2313,7 @@ Legacy review-only callers remain compatible when no unit language is available.
 Added runtime coverage for both compatible and wrong-language report evidence.
 The report-runtime static verifier and fixture also keep the target-language
 handoff visible for future refactors.
+An explicitly supplied report target language must also be non-blank, so
+malformed tenant context cannot silently disable the language boundary.
 No persistence, report export, progression, reward, assignment, or Phaser
 source promotion was enabled. See ADR 0745 and DR-819.
