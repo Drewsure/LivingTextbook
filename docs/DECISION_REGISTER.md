@@ -4710,3 +4710,11 @@ tenant/unit target language when a reviewed cue does not provide a language.
 This applies to Match Up and future canonical wrappers. This does not enable
 live persistence, report export, progression, rewards, assignment, or Phaser
 source promotion. See ADR 0748.
+
+# DR-823: Canonical Audio Fallback Regression Guard
+
+Canonical integration verification must reject learner-facing audio language
+expressions that fall back directly to English inside a game wrapper. The
+English baseline remains valid only at the explicit target-language resolver
+boundary. This does not enable live persistence, report export, progression,
+rewards, assignment, or Phaser source promotion. See ADR 0749.

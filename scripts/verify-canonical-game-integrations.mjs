@@ -267,6 +267,14 @@ for (const integration of integrations) {
   if (component.includes("Math.min(200, scoringProfile.completionDustCap)")) {
     failures.push(`${integration.id}: completion dust must not use a smaller hard-coded cap than the canonical scoring profile`);
   }
+
+  const hardCodedEnglishAudioFallbacks = [
+    ...component.matchAll(/language=\{[^}\n]*\?\?\s*"en"/g),
+    ...component.matchAll(/language:\s*[^,}\n]*\?\?\s*"en"/g),
+  ];
+  if (hardCodedEnglishAudioFallbacks.length > 0) {
+    failures.push(`${integration.id}: learner-facing audio language must fall back to the resolved target language, not English`);
+  }
 }
 
 for (const integration of integrations) {

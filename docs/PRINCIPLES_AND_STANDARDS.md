@@ -2675,3 +2675,15 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-821 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-822 and
 `docs/adr/0748-canonical-wrapper-feedback-language.md`.
+
+## 173. Canonical Audio Fallback Regression Standard
+
+- Canonical game verification must reject learner-facing audio expressions
+  that fall back directly to English inside a wrapper.
+- The English baseline is permitted only at the explicit tenant/unit target
+  language resolver boundary.
+- New game wrappers must inherit the same guard before they can be treated as
+  canonical integration candidates.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-823 and
+`docs/adr/0749-canonical-audio-fallback-regression-guard.md`.

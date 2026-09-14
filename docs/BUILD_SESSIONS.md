@@ -2347,3 +2347,12 @@ Added a static integration guard so future wrapper changes cannot reintroduce
 an English-only fallback at this learner-facing boundary. No persistence,
 report export, progression policy, reward, assignment, or Phaser source
 promotion was enabled. See ADR 0748 and DR-822.
+
+## 0750 - Canonical audio fallback regression guard
+
+Generalized canonical game verification to reject learner-facing audio
+language expressions that fall back directly to English. Every canonical
+wrapper must use the resolved target language for missing cue language; the
+English baseline remains valid only at the explicit target-language resolver
+boundary. No persistence, report export, progression policy, reward,
+assignment, or Phaser source promotion was enabled. See ADR 0749 and DR-823.
