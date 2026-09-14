@@ -2,6 +2,7 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import { validateUnitPayload } from "@living-textbook/content-model";
 import type { UnitPayload } from "@living-textbook/content-model";
 import { sampleLaunchSession } from "@/data/sampleLaunchSession";
+import { sampleMinistarUnitGameOfferMap } from "@/data/sampleUnitGameOfferMap";
 import {
   sampleFrontDoorPath,
   sampleMultimediaContentPackage,
@@ -66,7 +67,7 @@ export function DashboardOverview({ tenant, unit }: DashboardOverviewProps) {
           validationErrors={samplePackageValidationErrors}
         />
         <WhiteLabelPilotReadinessPanel readiness={whiteLabelPilotReadiness} />
-        <GameSequence unit={unit} />
+        <GameSequence unit={unit} offerMap={sampleMinistarUnitGameOfferMap} />
         <SelectionEnginePreview unit={unit} />
         <SentenceBuilderEnginePreview unit={unit} />
       </section>

@@ -1,10 +1,11 @@
 import { Card, StatusPill } from "@living-textbook/ui";
 import type { GameModeId, UnitPayload } from "@living-textbook/content-model";
-import { findSampleUnitGameOfferMap } from "@/data/sampleUnitGameOfferMap";
+import type { UnitGameOfferMap } from "@/data/sampleUnitGameOfferMap";
 import { gameModeCatalog } from "./gameModeCatalog";
 
 interface GameSequenceProps {
   unit: UnitPayload;
+  offerMap?: UnitGameOfferMap;
 }
 
 interface SequenceItem {
@@ -29,10 +30,7 @@ const canonicalModeOrder: GameModeId[] = [
   "speak-it",
 ];
 
-function buildSequenceItems(unit: UnitPayload): SequenceItem[] {
-  const offerMap = unit.unitMeta.contentPackageId
-    ? findSampleUnitGameOfferMap(unit.unitMeta.contentPackageId)
-    : undefined;
+function buildSequenceItems(offerMap?: UnitGameOfferMap): SequenceItem[] {
   const curatedOffers = offerMap?.offers
     .filter((offer) => Boolean(gameModeCatalog[offer.gameMode]))
     .sort((left, right) => (left.recommendedOrder ?? Number.MAX_SAFE_INTEGER) - (right.recommendedOrder ?? Number.MAX_SAFE_INTEGER));
@@ -56,15 +54,15 @@ function buildSequenceItems(unit: UnitPayload): SequenceItem[] {
   ];
 }
 
-export function GameSequence({ unit }: GameSequenceProps) {
-  const sequence = buildSequenceItems(unit);
+export function GameSequence({ unit: _unit, offerMap }: GameSequenceProps) {
+  const sequence = buildSequenceItems(offerMap);
 
   return (
     <Card>
       <div className="flex items-start justify-between gap-4">
         <div>
           <h2 className="text-lg font-bold">Game Sequence</h2>
-          <p className="mt-1 text-sm text-[var(--tenant-muted)]">Data-driven canonical mode order for {unit.unitMeta.theme}. External Phaser candidates remain review-only.</p>
+          <p className="mt-1 text-sm text-[var(--tenant-muted)]">Data-driven canonical mode order for {_unit.unitMeta.theme}. External Phaser candidates remain review-only.</p>
         </div>
         <StatusPill label="Foundation" />
       </div>

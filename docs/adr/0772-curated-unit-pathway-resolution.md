@@ -17,7 +17,8 @@ could drift from the curated offer map.
 Resolve the visible Game Sequence from the tenant's curated unit offer map
 when the unit has one. Use the shared catalog's canonical order only when no
 published offer map is available. Append Training Academy as the explicit
-review lane.
+review lane. The reusable feature receives the pathway from its page boundary;
+it does not look up sample tenant fixtures itself.
 
 ## Consequences
 

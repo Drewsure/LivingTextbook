@@ -11,6 +11,7 @@ import {
   samplePartnerPermanentQrPath,
   samplePartnerUnitOne,
 } from "@/data/samplePartnerPackage";
+import { samplePartnerUnitGameOfferMap } from "@/data/sampleUnitGameOfferMap";
 import { GameSequence } from "@/features/game-shell/GameSequence";
 import { MultimediaPackagePanel } from "@/features/multimedia/MultimediaPackagePanel";
 import { ProgressionSummary } from "@/features/progression/ProgressionSummary";
@@ -74,7 +75,7 @@ export default function PartnerDemoPage() {
             frontDoorPath={samplePartnerFrontDoorPath}
             validationErrors={samplePartnerPackageValidationErrors}
           />
-          <GameSequence unit={samplePartnerUnitOne} />
+          <GameSequence unit={samplePartnerUnitOne} offerMap={samplePartnerUnitGameOfferMap} />
         </section>
 
         <aside className="space-y-5">
