@@ -4642,3 +4642,12 @@ This protects DOM games, future Phaser wrappers, imports, and teacher report
 evidence from silent taxonomy drift. The change does not authorize live
 persistence, route activation, source promotion, or student assignment. See
 ADR 0733.
+
+# DR-813: Shared Learning-Audio Replay Handoff
+
+Require the playable game route shell to pass its route-resolved canonical
+replay seed into the shared learning-audio contract, and require shell-level
+`audio_requested` events to preserve it. This keeps teacher and student audio
+replays in the same canonical evidence stream as the mounted game without
+authorizing persistence, scoring, progression, rewards, assignment, or Phaser
+source promotion. See ADR 0739.

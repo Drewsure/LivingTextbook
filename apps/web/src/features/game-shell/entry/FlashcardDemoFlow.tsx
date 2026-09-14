@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { resolveCanonicalGameReplaySeed } from "@living-textbook/content-model";
 import type {
   AudioCue,
   ContentPackage,
@@ -70,6 +71,10 @@ export function FlashcardDemoFlow({
 
   const entryComplete = currentProgression.completedGameModes.includes(launchSession.entryMode);
   const nextMode = getNextUncompletedRecommendedMode(launchSession, currentProgression);
+  const replaySeed = resolveCanonicalGameReplaySeed({
+    unitKey: launchSession.unitKey,
+    gameMode: launchSession.entryMode,
+  });
   const targetPracticeRequiredCount = unit.pedagogicalPayload.vocabularyTerms.length + unit.pedagogicalPayload.targetSentences.length;
   const targetPracticeEngagedCount = targetPracticeEngagedItemIds.length;
   const targetPracticeReady = entryComplete || targetPracticeEngagedCount >= targetPracticeRequiredCount;
@@ -175,6 +180,7 @@ export function FlashcardDemoFlow({
         progression={currentProgression}
         gameMode={launchSession.entryMode}
         audioCues={audioCues}
+        replaySeed={replaySeed}
         onAudioRequested={(event) => appendSessionEvents([event])}
       />
       <FlashcardPracticeCard

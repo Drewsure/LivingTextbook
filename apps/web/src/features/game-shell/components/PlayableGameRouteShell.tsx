@@ -164,6 +164,7 @@ export function PlayableGameRouteShell({
         progression={currentProgression}
         gameMode={gameMode}
         audioCues={audioCues}
+        replaySeed={replaySeed}
         onAudioRequested={handleEvent}
       />
 

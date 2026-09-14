@@ -2232,3 +2232,13 @@ entries continue to be reported by individual envelope validation. Added a
 runtime regression case. This remains verification-only and does not enable
 storage, reporting export, progression, rewards, assignment, or Phaser source
 promotion. See ADR 0738.
+
+## 0740 - Shared learning-audio replay handoff
+
+Fixed the shared playable-game shell and direct flashcard entry flow so their
+learning-audio contracts receive and record the same canonical replay seed as
+the mounted game. This prevents a teacher or student from tapping a
+shell-level or entry-level audio rule and contaminating an otherwise valid
+platform-issued replay with a second seed. The canonical integration verifier
+now guards both prop and event handoffs. No persistence, scoring, progression,
+reward, assignment, or Phaser source promotion was enabled. See ADR 0739.

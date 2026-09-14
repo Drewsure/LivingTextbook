@@ -21,6 +21,7 @@ interface GameLearningAudioContractCardProps {
   progression: StudentProgressionState;
   gameMode: GameModeId;
   audioCues: AudioCue[];
+  replaySeed: string;
   onAudioRequested: (event: GameProgressEvent) => void;
 }
 
@@ -31,6 +32,7 @@ export function GameLearningAudioContractCard({
   progression,
   gameMode,
   audioCues,
+  replaySeed,
   onAudioRequested,
 }: GameLearningAudioContractCardProps) {
   const targetLanguage = unit.unitMeta.textbookReference?.language ?? tenant.languageSettings?.targetLanguage ?? "en";
@@ -49,6 +51,7 @@ export function GameLearningAudioContractCard({
         launchSession,
         gameMode,
         occurredAt: new Date().toISOString(),
+        replaySeed,
         cueKind: "instruction",
         cueText: summaryText,
         language: targetLanguage,

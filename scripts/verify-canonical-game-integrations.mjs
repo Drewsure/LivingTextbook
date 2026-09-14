@@ -219,6 +219,8 @@ const localProgressionAdapter = readText("apps/web/src/features/progression/loca
 const playableRouteShell = readText("apps/web/src/features/game-shell/components/PlayableGameRouteShell.tsx");
 const recommendedRoutesCard = readText("apps/web/src/features/student/components/RecommendedGameRoutesCard.tsx");
 const completionNextCard = readText("apps/web/src/features/game-shell/components/GameCompletionNextCard.tsx");
+const learningAudioCard = readText("apps/web/src/features/game-shell/components/GameLearningAudioContractCard.tsx");
+const flashcardEntryFlow = readText("apps/web/src/features/game-shell/entry/FlashcardDemoFlow.tsx");
 
 const standardEventTypes = [
   "game_started",
@@ -369,6 +371,15 @@ for (const [surface, source, fragment] of [
   }
 }
 
+for (const [surface, source, fragment] of [
+  ["flashcard entry audio seed resolver", flashcardEntryFlow, "resolveCanonicalGameReplaySeed({"],
+  ["flashcard entry audio handoff", flashcardEntryFlow, "replaySeed={replaySeed}"],
+]) {
+  if (!source.includes(fragment)) {
+    failures.push(`${surface}: entry practice audio must preserve the canonical replay seed (${fragment})`);
+  }
+}
+
 for (const fragment of [
   "getNextUncompletedRecommendedMode",
   "recommendedModes.slice(searchStart)",
@@ -387,6 +398,16 @@ for (const [surface, source] of [
 ]) {
   if (!source.includes("getNextUncompletedRecommendedMode")) {
     failures.push(`${surface}: must use the shared next recommended mode policy`);
+  }
+}
+
+for (const [surface, source, fragment] of [
+  ["playable route shell audio handoff", playableRouteShell, "replaySeed={replaySeed}"],
+  ["learning audio contract props", learningAudioCard, "replaySeed: string"],
+  ["learning audio contract event", learningAudioCard, "replaySeed,"],
+]) {
+  if (!source.includes(fragment)) {
+    failures.push(`${surface}: shared learning audio must preserve the route replay seed (${fragment})`);
   }
 }
 

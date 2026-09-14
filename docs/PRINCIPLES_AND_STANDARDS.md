@@ -2532,3 +2532,17 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-811 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-812 and
 `docs/adr/0738-progress-envelope-stream-chronology.md`.
+
+## 163. Shared Learning-Audio Replay Standard
+
+- The shared learning-audio contract inside a playable game route must receive
+  the route-resolved canonical replay seed.
+- Every shell-level `audio_requested` event must preserve that seed so a
+  teacher or student audio replay cannot create mixed canonical evidence.
+- Individual game components must continue to receive the same seed from the
+  route shell; no component or shared card may derive a second replay format.
+- This protects replay, scoring, reporting, and future Phaser wrappers without
+  authorizing persistence, progression, rewards, or assignment writes.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-813 and
+`docs/adr/0739-shared-learning-audio-replay.md`.
