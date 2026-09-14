@@ -48,6 +48,9 @@ export function FlashcardPracticeCard({
   onTargetPracticeEngaged,
   onComplete,
 }: FlashcardPracticeCardProps) {
+  const targetLanguage = tenant.languageSettings?.targetLanguage
+    ?? unit.unitMeta.textbookReference?.language
+    ?? "en";
   const instructionCue = findAudioCueForGame(audioCues, "instruction", launchSession.entryMode);
   const feedbackCue = findAudioCueForGame(audioCues, "feedback", launchSession.entryMode);
   const remainingTargetItems = Math.max(targetPracticeRequiredCount - targetPracticeEngagedCount, 0);
@@ -78,7 +81,7 @@ export function FlashcardPracticeCard({
           <p className="mt-1 text-sm text-[var(--tenant-muted)]">
             <AudioCueText
               text={instructionCue?.text ?? `Practice all ${unit.pedagogicalPayload.vocabularyTerms.length} words to open the next game.`}
-              language={instructionCue?.language ?? "en"}
+              language={instructionCue?.language ?? targetLanguage}
               label="Tap the flashcard instruction to hear it"
               className="text-sm"
             />
@@ -103,7 +106,7 @@ export function FlashcardPracticeCard({
             >
               <AudioCueText
                 text={audioCue?.text ?? term}
-                language={audioCue?.language ?? "en"}
+                language={audioCue?.language ?? targetLanguage}
                 label={`Tap ${term} to hear it`}
                 className="text-lg font-bold"
                 onPlay={() => onTargetPracticeEngaged(getVocabularyPracticeItemId(term))}
@@ -131,7 +134,7 @@ export function FlashcardPracticeCard({
               <div key={sentence} className="rounded-lg bg-[var(--tenant-primary-soft)] p-3">
                 <AudioCueText
                   text={audioCue?.text ?? sentence}
-                  language={audioCue?.language ?? "en"}
+                  language={audioCue?.language ?? targetLanguage}
                   label={`Tap the sentence to hear ${sentence}`}
                   className="text-sm font-semibold"
                   onPlay={() => onTargetPracticeEngaged(getSentencePracticeItemId(index))}
@@ -157,7 +160,7 @@ export function FlashcardPracticeCard({
           <p className="mt-1 text-sm text-[var(--tenant-muted)]">
             <AudioCueText
               text={entryMessage}
-              language={(entryComplete ? feedbackCue?.language : instructionCue?.language) ?? "en"}
+              language={(entryComplete ? feedbackCue?.language : instructionCue?.language) ?? targetLanguage}
               label="Tap the entry practice message to hear it"
               className="text-sm"
             />
@@ -168,7 +171,7 @@ export function FlashcardPracticeCard({
           <p className="mt-1 text-sm text-[var(--tenant-muted)]">
             <AudioCueText
               text={gateMessage}
-              language="en"
+              language={targetLanguage}
               label="Tap the entry practice gate message to hear it"
               className="text-sm"
             />

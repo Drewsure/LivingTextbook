@@ -221,6 +221,7 @@ const recommendedRoutesCard = readText("apps/web/src/features/student/components
 const completionNextCard = readText("apps/web/src/features/game-shell/components/GameCompletionNextCard.tsx");
 const learningAudioCard = readText("apps/web/src/features/game-shell/components/GameLearningAudioContractCard.tsx");
 const flashcardEntryFlow = readText("apps/web/src/features/game-shell/entry/FlashcardDemoFlow.tsx");
+const flashcardPracticeCard = readText("apps/web/src/features/student/components/FlashcardPracticeCard.tsx");
 const gameModeCatalog = readText("apps/web/src/features/game-shell/gameModeCatalog.ts");
 const scoringProfiles = readText("apps/web/src/features/game-shell/scoringProfiles.ts");
 const textSpellingAdapter = readText("apps/web/src/features/game-shell/text-spelling/textSpellingEngineAdapter.ts");
@@ -310,6 +311,13 @@ if (!reportContract.includes("expectedTargetLanguage?: string") || !reportContra
 }
 if (!sessionMonitorData.includes("languageSettings?.targetLanguage")) {
   failures.push("teacher session monitor: canonical report evidence must use the tenant target language");
+}
+if (
+  !flashcardPracticeCard.includes("languageSettings?.targetLanguage")
+  || flashcardPracticeCard.includes('language="en"')
+  || flashcardPracticeCard.includes('audioCue?.language ?? "en"')
+) {
+  failures.push("flashcard entry practice: fallback learner audio must use the tenant/unit target language");
 }
 
 for (const [surface, source] of [

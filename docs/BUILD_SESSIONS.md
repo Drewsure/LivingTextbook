@@ -2327,3 +2327,13 @@ continue to enforce the mode and unit ceilings. Added a static integration guard
 against reintroducing the smaller literal cap. No persistence, report export,
 progression policy, reward, assignment, or Phaser source promotion was enabled.
 See ADR 0746 and DR-820.
+
+## 0748 - Flashcard fallback target-language alignment
+
+Removed hard-coded English fallback speech from the flashcard entry practice
+card. Missing instruction, entry-message, gate-message, term, and sentence cue
+language now resolves tenant target language first, then the unit textbook
+language, before using the English platform baseline. Assist-language controls
+remain separately labelled and support-only. Added a static integration guard.
+No persistence, report export, progression policy, reward, assignment, or
+Phaser source promotion was enabled. See ADR 0747 and DR-821.
