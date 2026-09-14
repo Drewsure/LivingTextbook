@@ -317,6 +317,20 @@ try {
     ).errors,
     "Canonical game mastery and completion scoring profiles must agree; found entry-vocabulary-practice and different-profile.",
   );
+  const wrongModeScoringProfileErrors = canonicalGame.validateCanonicalGameEventSequence(
+    canonicalEvents.map((event) => ["mastery_updated", "game_completed"].includes(event.type)
+      ? { ...event, metadata: { ...event.metadata, scoringProfileId: "pairing-reinforcement-v1" } }
+      : event),
+    "flashcards",
+  ).errors;
+  assertIncludes(
+    wrongModeScoringProfileErrors,
+    "Canonical game mastery_updated event must use scoring profile entry-vocabulary-practice for game mode flashcards; found pairing-reinforcement-v1.",
+  );
+  assertIncludes(
+    wrongModeScoringProfileErrors,
+    "Canonical game game_completed event must use scoring profile entry-vocabulary-practice for game mode flashcards; found pairing-reinforcement-v1.",
+  );
   const missingCanonicalReplayErrors = canonicalGame.validateCanonicalGameEventSequence(
     canonicalEvents.map((event) => event.type === "answer_result" ? { ...event, metadata: { ...event.metadata, replaySeed: undefined } } : event),
     "flashcards",

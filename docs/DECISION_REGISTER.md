@@ -4651,3 +4651,12 @@ replay seed into the shared learning-audio contract, and require shell-level
 replays in the same canonical evidence stream as the mounted game without
 authorizing persistence, scoring, progression, rewards, assignment, or Phaser
 source promotion. See ADR 0739.
+
+# DR-814: Canonical Game-Mode Scoring Profile Binding
+
+Require canonical `mastery_updated` and `game_completed` events to use the
+content-model scoring profile assigned to their game mode, in addition to
+matching each other. This prevents browser or Phaser wrappers from claiming a
+different deterministic scoring rule at the event boundary without enabling
+live scoring mutation, persistence, progression, rewards, assignment, or
+source promotion. See ADR 0740.

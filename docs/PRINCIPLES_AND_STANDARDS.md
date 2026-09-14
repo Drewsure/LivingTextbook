@@ -2546,3 +2546,17 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-812 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-813 and
 `docs/adr/0739-shared-learning-audio-replay.md`.
+
+## 164. Canonical Game Scoring Profile Standard
+
+- The content model must own the canonical mapping from every supported game
+  mode to its deterministic scoring profile.
+- `mastery_updated` and `game_completed` evidence must use the profile assigned
+  to the selected mode, and the two events must agree with each other.
+- A wrapper or future Phaser adapter must not claim a different profile to
+  change scoring behavior at the event boundary.
+- This protects scoring, replay, reporting, and white-label mode configuration
+  without authorizing live persistence, progression, rewards, or assignment.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-814 and
+`docs/adr/0740-canonical-game-scoring-profile.md`.

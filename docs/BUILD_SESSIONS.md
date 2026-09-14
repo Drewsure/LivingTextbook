@@ -2242,3 +2242,12 @@ shell-level or entry-level audio rule and contaminating an otherwise valid
 platform-issued replay with a second seed. The canonical integration verifier
 now guards both prop and event handoffs. No persistence, scoring, progression,
 reward, assignment, or Phaser source promotion was enabled. See ADR 0739.
+
+## 0741 - Canonical game-mode scoring profile binding
+
+Strengthened the canonical game validator so mastery and completion events
+must use the deterministic scoring profile assigned to their game mode, not
+merely agree with each other. Centralized the twelve-mode profile map in the
+content model, added runtime mismatch coverage, and kept the web game wrappers
+under the shared route boundary. No persistence, scoring mutation, progression,
+reward, assignment, or Phaser source promotion was enabled. See ADR 0740.

@@ -522,6 +522,8 @@ for (const fragment of [
   "Canonical game mastery and completion awards must agree",
   "Canonical game game_completed event must identify its deterministic scoring profile.",
   "Canonical game mastery and completion scoring profiles must agree",
+  "CANONICAL_GAME_SCORING_PROFILE_BY_MODE",
+  "must use scoring profile",
   "scoringProfileId",
 ]) {
   if (![contentModelContract, progressionAdapter, routeShell].some((source) => source.includes(fragment))) {

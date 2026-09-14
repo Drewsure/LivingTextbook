@@ -12,6 +12,21 @@ export const CANONICAL_GAME_REQUIRED_EVENT_ORDER = [
   "game_completed",
 ] as const satisfies readonly GameEventType[];
 
+export const CANONICAL_GAME_SCORING_PROFILE_BY_MODE: Record<GameModeId, string> = {
+  flashcards: "entry-vocabulary-practice",
+  "memory-match": "pairing-reinforcement-v1",
+  "match-up": "pairing-reinforcement-v1",
+  "label-it": "pairing-reinforcement-v1",
+  quiz: "selection-assessment-v1",
+  "true-false": "selection-assessment-v1",
+  "sentence-builder": "syntax-construction-v1",
+  "fill-in-the-blank": "syntax-construction-v1",
+  "type-answer": "spelling-typing-v1",
+  "spelling-practice": "spelling-typing-v1",
+  "speak-it": "speaking-listening-practice-v1",
+  "balloon-pop": "arcade-reinforcement-v1",
+};
+
 export interface CanonicalGameEventSequenceReport {
   valid: boolean;
   errors: string[];
@@ -264,6 +279,18 @@ export function validateCanonicalGameEventSequence(
   ) {
     errors.push(
       `Canonical game mastery and completion scoring profiles must agree; found ${masteryScoringProfileId} and ${completionScoringProfileId}.`,
+    );
+  }
+
+  const expectedScoringProfileId = CANONICAL_GAME_SCORING_PROFILE_BY_MODE[expectedGameMode];
+  if (masteryEvent && masteryScoringProfileId !== expectedScoringProfileId) {
+    errors.push(
+      `Canonical game mastery_updated event must use scoring profile ${expectedScoringProfileId} for game mode ${expectedGameMode}; found ${masteryScoringProfileId ?? "(missing)"}.`,
+    );
+  }
+  if (completionEvent && completionScoringProfileId !== expectedScoringProfileId) {
+    errors.push(
+      `Canonical game game_completed event must use scoring profile ${expectedScoringProfileId} for game mode ${expectedGameMode}; found ${completionScoringProfileId ?? "(missing)"}.`,
     );
   }
 
