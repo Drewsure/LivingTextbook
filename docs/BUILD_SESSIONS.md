@@ -2588,3 +2588,14 @@ selection game skins are treated as canonical integrations.
 
 This does not add persistence, assignment, or Phaser promotion authority. See
 ADR 0767 and DR-844.
+
+## 0772 - Text/Spelling engine runtime contract
+
+Added a deterministic runtime harness for the reusable Text/Spelling engine.
+It proves the two-sentence boundary, stable tile ordering, terminal
+punctuation handling, tile audio, scoring identity, and shared event
+expectations before Sentence Builder and related skins are treated as
+canonical integrations.
+
+This does not add persistence, assignment, or Phaser promotion authority. See
+ADR 0768 and DR-845.

@@ -2931,3 +2931,16 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-843 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-844 and
 `docs/adr/0767-selection-engine-runtime.md`.
+
+## 192. Text/Spelling Engine Runtime Standard
+
+- The shared Text/Spelling engine must consume exactly two reviewed target
+  sentences and produce deterministic, ordered tiles.
+- Every tile and sentence prompt must carry learner-language audio text, while
+  terminal punctuation may be removed from tile order without changing the
+  reviewed target sentence.
+- Sentence Builder and future text/spelling skins must consume this parent
+  contract rather than generate uncontrolled grammar inside a game.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-845 and
+`docs/adr/0768-text-spelling-engine-runtime.md`.
