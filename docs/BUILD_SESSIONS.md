@@ -2578,3 +2578,13 @@ skins are treated as canonical integrations.
 
 This does not add persistence, assignment, or Phaser promotion authority. See
 ADR 0766 and DR-843.
+
+## 0771 - Selection engine runtime contract
+
+Added a deterministic runtime harness for the reusable Selection engine. It
+proves vocabulary and syntax rounds, unique options, single-answer
+correctness, prompt and option audio, and shared event expectations before
+selection game skins are treated as canonical integrations.
+
+This does not add persistence, assignment, or Phaser promotion authority. See
+ADR 0767 and DR-844.

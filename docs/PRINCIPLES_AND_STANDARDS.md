@@ -2919,3 +2919,15 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-842 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-843 and
 `docs/adr/0766-pairing-engine-runtime.md`.
+
+## 191. Selection Engine Runtime Standard
+
+- The shared Selection engine must produce deterministic vocabulary and syntax
+  rounds with unique options and exactly one correct answer.
+- Every prompt and option must carry learner-language audio text, and every
+  round must declare the shared interaction evidence it requires.
+- Quiz, True/False, Balloon Pop, and future selection skins must consume this
+  parent-engine contract rather than create independent answer or audio rules.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-844 and
+`docs/adr/0767-selection-engine-runtime.md`.
