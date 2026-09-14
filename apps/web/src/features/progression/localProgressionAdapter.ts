@@ -1,7 +1,7 @@
 import {
   calculateStarDust,
   completeEntryPractice,
-  createCanonicalGameReplaySeed,
+  resolveCanonicalGameReplaySeed,
   getLevelAwareRecommendedGameModes,
   isGameModeSupportedAtLevel,
   getCanonicalUnitKeyLevel,
@@ -180,7 +180,11 @@ export function startUnlockedGameMode(args: {
     occurredAt: args.occurredAt,
     metadata: {
       sourceMode: args.launchSession.entryMode,
-      replaySeed: args.replaySeed ?? createCanonicalGameReplaySeed({ unitKey: args.launchSession.unitKey, gameMode: args.gameMode }),
+      replaySeed: resolveCanonicalGameReplaySeed({
+        unitKey: args.launchSession.unitKey,
+        gameMode: args.gameMode,
+        platformReplaySeed: args.replaySeed,
+      }),
       tenantId: args.launchSession.tenantId,
     },
   };
@@ -236,7 +240,11 @@ export function createAudioRequestedEvent(args: {
       cueText: args.cueText,
       language: args.language,
       source: args.source ?? "game-audio-contract",
-      replaySeed: args.replaySeed ?? createCanonicalGameReplaySeed({ unitKey: args.launchSession.unitKey, gameMode: args.gameMode }),
+      replaySeed: resolveCanonicalGameReplaySeed({
+        unitKey: args.launchSession.unitKey,
+        gameMode: args.gameMode,
+        platformReplaySeed: args.replaySeed,
+      }),
       tenantId: args.launchSession.tenantId,
       progressionUnlockAllowed: false,
       masteryCreditAllowed: false,
@@ -441,7 +449,11 @@ function resolveReplaySeed(
   gameMode: GameModeId,
 ): string {
   const metadataReplaySeed = typeof metadata?.replaySeed === "string" ? metadata.replaySeed : undefined;
-  return suppliedReplaySeed ?? metadataReplaySeed ?? createCanonicalGameReplaySeed({ unitKey, gameMode });
+  return resolveCanonicalGameReplaySeed({
+    unitKey,
+    gameMode,
+    platformReplaySeed: suppliedReplaySeed ?? metadataReplaySeed,
+  });
 }
 
 export function createMediaPlaylistOpenedEvent(args: {

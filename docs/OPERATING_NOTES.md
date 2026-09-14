@@ -1361,3 +1361,10 @@ return deterministic diagnostics for non-array containers. Do not call
 the validator error and report-preview warning covered in
 `verify-runtime-behavior.mjs`; rerun runtime, taxonomy, workspace typecheck,
 and foundation checks after changing this boundary. See ADR 0736.
+
+All shared web progression event factories must resolve provider-supplied
+replay seeds through `resolveCanonicalGameReplaySeed`. Do not copy a wrapper,
+platform, or metadata seed directly into game-start, interaction, audio, or
+completion evidence. Keep the invalid-seed regression in
+`verify-runtime-behavior.mjs` and rerun canonical-game, runtime, typecheck,
+build, and foundation checks after changing this behavior. See ADR 0737.

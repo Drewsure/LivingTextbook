@@ -449,6 +449,44 @@ try {
   });
   assertEqual(metadataSeedRound.metadata?.replaySeed, suppliedReplaySeed);
   assertEqual(metadataSeedCompletion.event?.metadata?.replaySeed, suppliedReplaySeed);
+  const normalizedReplaySeed = "replay-v1:tenant-1-curriculum-1-l1-u1:memory-match";
+  const invalidSeedStarted = progressionAdapter.startUnlockedGameMode({
+    progression: adapterProgression,
+    launchSession: adapterLaunchSession,
+    gameMode: "memory-match",
+    occurredAt: "2026-01-01T00:01:00.000Z",
+    replaySeed: "provider-seed-without-replay-contract",
+  });
+  const invalidSeedRound = progressionAdapter.createGameInteractionEvent({
+    type: "round_shown",
+    progression: adapterProgression,
+    launchSession: adapterLaunchSession,
+    gameMode: "memory-match",
+    occurredAt: "2026-01-01T00:02:00.000Z",
+    replaySeed: "provider-seed-without-replay-contract",
+  });
+  const invalidSeedAudio = progressionAdapter.createAudioRequestedEvent({
+    progression: adapterProgression,
+    launchSession: adapterLaunchSession,
+    gameMode: "memory-match",
+    occurredAt: "2026-01-01T00:03:00.000Z",
+    replaySeed: "provider-seed-without-replay-contract",
+    cueKind: "instruction",
+    cueText: "Find the matching pair.",
+    language: "en",
+  });
+  const invalidSeedCompletion = progressionAdapter.completeGameMode({
+    progression: adapterProgression,
+    launchSession: adapterLaunchSession,
+    gameMode: "memory-match",
+    earnedStarDust: 200,
+    occurredAt: "2026-01-01T00:04:00.000Z",
+    replaySeed: "provider-seed-without-replay-contract",
+  });
+  assertEqual(invalidSeedStarted?.metadata?.replaySeed, normalizedReplaySeed);
+  assertEqual(invalidSeedRound.metadata?.replaySeed, normalizedReplaySeed);
+  assertEqual(invalidSeedAudio.metadata?.replaySeed, normalizedReplaySeed);
+  assertEqual(invalidSeedCompletion.event?.metadata?.replaySeed, normalizedReplaySeed);
   const missingCanonicalAudioErrors = canonicalGame.validateCanonicalGameEventSequence(
     canonicalEvents.filter((event) => event.type !== "audio_requested"),
     "flashcards",

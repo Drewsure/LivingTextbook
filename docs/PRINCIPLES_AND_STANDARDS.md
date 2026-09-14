@@ -2502,3 +2502,18 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-809 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-810 and
 `docs/adr/0736-progress-envelope-stream-input-boundary.md`.
+
+## 161. Shared Replay-Seed Factory Standard
+
+- Shared progression factories must resolve every supplied replay seed through
+  the canonical `replay-v1` resolver before creating game-start, interaction,
+  audio, or completion evidence.
+- Invalid provider or wrapper seeds must normalize to the deterministic
+  unit/mode seed; malformed replay evidence must not be emitted by a factory.
+- Game components may receive a platform-issued seed, but they must not own a
+  second seed format or bypass the shared resolver.
+- This protects replay, scoring, teacher reporting, and future Phaser wrappers
+  without authorizing persistence, progression, rewards, or assignment writes.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-811 and
+`docs/adr/0737-shared-replay-seed-factory-boundary.md`.

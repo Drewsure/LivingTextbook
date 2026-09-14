@@ -4614,6 +4614,15 @@ create misleading evidence before stream validation. This protects browser,
 Phaser, import, teacher-report, and progression adapters without authorizing
 live persistence, report export, progression, or assignment. See ADR 0735.
 
+# DR-811: Shared Replay-Seed Factory Boundary
+
+Require the shared web progression factories to normalize provider-supplied
+replay seeds through the canonical `replay-v1` resolver before producing
+game-start, interaction, audio, or completion events. Invalid seeds fall back
+to the deterministic unit/mode seed. This keeps replay evidence consistent
+across browser games and future Phaser wrappers without enabling live writes or
+source promotion. See ADR 0737.
+
 # DR-807: Canonical Game Event Type Boundary
 
 Require canonical game event evidence to use the shared `GAME_EVENT_TYPES`

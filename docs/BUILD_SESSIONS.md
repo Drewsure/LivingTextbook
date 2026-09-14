@@ -2212,3 +2212,13 @@ and the warning helper returns a clear report-preview warning instead of
 throwing. Added runtime coverage for both boundaries. This protects report,
 persistence, and future game adapters without enabling live storage,
 progression, reward, or assignment effects. See ADR 0736.
+
+## 0738 - Shared adapter replay-seed normalization
+
+Hardened the shared web progression adapter so provider-supplied replay seeds
+are validated through the canonical `replay-v1` resolver before game-start,
+interaction, audio, and completion events are created. Malformed seeds now
+fall back to the deterministic unit/mode seed at the event boundary. Added
+runtime coverage across all four factories. No scoring, persistence,
+progression, reward, assignment, or Phaser source promotion was enabled. See
+ADR 0737.

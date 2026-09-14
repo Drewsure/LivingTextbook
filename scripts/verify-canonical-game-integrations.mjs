@@ -572,6 +572,7 @@ for (const fragment of [
 }
 
 const replayMetadataFragments = [
+  "replaySeed: resolveCanonicalGameReplaySeed({",
   "replaySeed: args.replaySeed ?? createCanonicalGameReplaySeed",
   "replaySeed: createCanonicalGameReplaySeed({ unitKey: args.launchSession.unitKey, gameMode: args.gameMode })",
 ];
