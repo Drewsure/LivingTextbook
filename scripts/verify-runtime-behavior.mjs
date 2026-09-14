@@ -747,6 +747,14 @@ try {
   ], registry);
   assertIncludes(mixedStreamContractErrors, "Progress event envelope stream must use one taxonomy_version value, found: taxonomy-1, taxonomy-2.");
   assertIncludes(mixedStreamContractErrors, "Progress event envelope stream must use one settings_contract_id value, found: settings-1, settings-2.");
+  assertEqual(
+    contentModel.validateProgressEventEnvelopeStream(null, registry)[0],
+    "Progress event envelope stream must be provided as an array.",
+  );
+  assertEqual(
+    contentModel.getProgressEventEnvelopeStreamWarnings({ envelopes: [] }, registry)[0],
+    "Progress event envelope stream must be an array before report preview.",
+  );
 
   const rewardRequest = {
     tenantId: "tenant-1", packageId: "package-1", learnerSlotId: "slot-1", rewardId: "reward-1",

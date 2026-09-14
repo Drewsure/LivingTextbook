@@ -2488,3 +2488,17 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-808 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-809 and
 `docs/adr/0735-progress-envelope-factory-boundary.md`.
+
+## 160. Progress Envelope Stream Input Standard
+
+- Progress-event stream validators must treat their input as untrusted runtime
+  data and explicitly reject non-array containers.
+- A malformed stream must produce deterministic diagnostics rather than a
+  JavaScript collection-method exception.
+- The validation error and report-preview warning must remain distinct so
+  report runtimes can fail closed while review surfaces explain the issue.
+- This boundary protects report, persistence, Phaser, and game adapters without
+  authorizing live storage, progression, rewards, or assignment.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-810 and
+`docs/adr/0736-progress-envelope-stream-input-boundary.md`.

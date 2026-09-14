@@ -1354,3 +1354,10 @@ misleading `report-only` envelope can be created. Keep the unknown-type factory
 regression in `verify-runtime-behavior.mjs` and run the runtime, taxonomy,
 workspace typecheck, and foundation checks after changing this behavior. See
 ADR 0735.
+
+Progress-event stream validators accept untrusted runtime payloads and must
+return deterministic diagnostics for non-array containers. Do not call
+`.flatMap`, `.filter`, or `.map` until `Array.isArray` has been checked. Keep
+the validator error and report-preview warning covered in
+`verify-runtime-behavior.mjs`; rerun runtime, taxonomy, workspace typecheck,
+and foundation checks after changing this boundary. See ADR 0736.

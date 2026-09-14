@@ -2203,3 +2203,12 @@ missing from the supplied taxonomy before an envelope is produced. Added
 runtime coverage for the untrusted factory input. This keeps event acceptance
 consistent from creation through validation without enabling live persistence,
 report export, progression, or assignment. See ADR 0735.
+
+## 0737 - Progress envelope stream container boundary
+
+Hardened progress-event stream validation for untrusted runtime input. A null,
+object, or other non-array stream now returns a deterministic validation error,
+and the warning helper returns a clear report-preview warning instead of
+throwing. Added runtime coverage for both boundaries. This protects report,
+persistence, and future game adapters without enabling live storage,
+progression, reward, or assignment effects. See ADR 0736.

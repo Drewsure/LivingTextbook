@@ -374,9 +374,13 @@ export function validateProgressEventEnvelope(
 }
 
 export function validateProgressEventEnvelopeStream(
-  envelopes: unknown[],
+  envelopes: unknown,
   registry: ProgressEventTaxonomyRegistry,
 ): string[] {
+  if (!Array.isArray(envelopes)) {
+    return ["Progress event envelope stream must be provided as an array."];
+  }
+
   const errors = envelopes.flatMap((envelope) => validateProgressEventEnvelope(envelope, registry));
   const records = envelopes.filter(isRecord);
   const eventIds = records.map((envelope) => readString(envelope, "event_id")).filter(Boolean);
@@ -417,9 +421,13 @@ export function validateProgressEventEnvelopeStream(
 }
 
 export function getProgressEventEnvelopeStreamWarnings(
-  envelopes: unknown[],
+  envelopes: unknown,
   registry: ProgressEventTaxonomyRegistry,
 ): string[] {
+  if (!Array.isArray(envelopes)) {
+    return ["Progress event envelope stream must be an array before report preview."];
+  }
+
   const warnings: string[] = [];
   const records = envelopes.filter(isRecord);
   const effects = records.map((envelope) => readString(envelope, "event_effect"));
