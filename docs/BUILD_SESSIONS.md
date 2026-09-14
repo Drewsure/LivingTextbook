@@ -2298,3 +2298,7 @@ completion evidence above the same cap. The game-mode verifier now checks the
 binding instead of requiring duplicated numeric literals. No persistence,
 scoring mutation, progression policy change, reward, assignment, or Phaser
 source promotion was enabled. See ADR 0744.
+
+Runtime coverage now proves both limits independently: an oversized request is
+clamped to the mode cap, and a valid mode award is further reduced when the
+remaining unit capacity is smaller.

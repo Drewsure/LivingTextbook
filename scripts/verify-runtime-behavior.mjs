@@ -455,6 +455,27 @@ try {
   assertEqual(adapterAudio.metadata?.replaySeed, suppliedReplaySeed);
   assertEqual(adapterCompletion.event?.metadata?.replaySeed, suppliedReplaySeed);
 
+  const overCapAdapterCompletion = progressionAdapter.completeGameMode({
+    progression: adapterProgression,
+    launchSession: adapterLaunchSession,
+    gameMode: "memory-match",
+    earnedStarDust: 999,
+    occurredAt: "2026-01-01T00:04:00.000Z",
+    replaySeed: suppliedReplaySeed,
+  });
+  assertEqual(overCapAdapterCompletion.earnedStarDust, 200);
+  assertEqual(overCapAdapterCompletion.event?.metadata?.earnedStarDust, 200);
+
+  const nearUnitCapAdapterCompletion = progressionAdapter.completeGameMode({
+    progression: { ...adapterProgression, earnedStarDust: 950 },
+    launchSession: adapterLaunchSession,
+    gameMode: "memory-match",
+    earnedStarDust: 999,
+    occurredAt: "2026-01-01T00:04:00.000Z",
+    replaySeed: suppliedReplaySeed,
+  });
+  assertEqual(nearUnitCapAdapterCompletion.earnedStarDust, 50);
+
   const metadataSeedRound = progressionAdapter.createGameInteractionEvent({
     type: "round_shown",
     progression: adapterProgression,
