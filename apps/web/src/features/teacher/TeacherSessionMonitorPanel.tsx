@@ -18,7 +18,7 @@ import type {
   TeacherSessionPilotReadinessStatus,
   TeacherSessionProgressEventEnvelopeGate,
   TeacherSessionProgressEventEnvelopeGateStatus,
-} from "@/data/sampleTeacherSessionMonitor";
+} from "@/features/teacher/teacherSessionMonitorTypes";
 import { FrontDoorTeacherReportPreview } from "@/features/access/FrontDoorTeacherReportPreview";
 import { TeacherCanonicalGameEvidenceCard } from "@/features/teacher/TeacherCanonicalGameEvidenceCard";
 import { formatMode } from "@/lib/formatLabels";

@@ -14,6 +14,10 @@ const reusableFiles = [
   "apps/web/src/features/student/components/RecommendedGameRoutesCard.tsx",
   "apps/web/src/features/access/FrontDoorEntryFlow.tsx",
   "apps/web/src/features/teacher/TeacherSessionRosterIdentityCard.tsx",
+  "apps/web/src/features/teacher/TeacherSessionMonitorPanel.tsx",
+  "apps/web/src/features/teacher/TeacherSessionLaunchGateBoundaryPanel.tsx",
+  "apps/web/src/features/teacher/TeacherSessionPreflightPanel.tsx",
+  "apps/web/src/features/teacher/TeacherReportPackagePreviewPanel.tsx",
 ];
 const forbiddenSampleLookup = /(?:findSampleUnitGameOfferMap|sampleUnitGameOfferMap)/;
 const failures = [];

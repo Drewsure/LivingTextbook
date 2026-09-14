@@ -3022,3 +3022,13 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-850 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-851 and
 `docs/adr/0774-dashboard-provider-boundary.md`.
+
+## 199. Teacher Reporting Contract Ownership Standard
+
+- Reusable teacher reporting panels must import their public contracts from a
+  feature-owned type module, not from a sample provider module.
+- Demo providers may construct preview records against shared contracts, but
+  they must not become the source of truth for tenant reporting APIs.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-852 and
+`docs/adr/0775-teacher-reporting-contract-types.md`.

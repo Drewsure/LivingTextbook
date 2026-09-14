@@ -7,8 +7,8 @@ import {
 } from "@/data/sampleClassRosterPlans";
 import {
   resolveSampleTeacherSessionMonitorContext,
-  type TeacherSessionMonitorContext,
 } from "@/data/sampleTeacherSessionMonitor";
+import type { TeacherSessionMonitorContext } from "@/features/teacher/teacherSessionMonitorTypes";
 import { ClassRosterReadinessPanel } from "@/features/teacher/ClassRosterReadinessPanel";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 

@@ -4964,3 +4964,11 @@ pilot, validation, and reporting data through props. Only the app/provider
 boundary may compose MiniStar fixtures, keeping white-label substitution
 possible without forking dashboard layout or game pathway components. See ADR
 0774.
+
+# DR-852: Teacher Reporting Contract Types
+
+Reusable teacher reporting panels import their contracts from the
+feature-owned teacher monitor type module. The sample monitor is a demo
+provider only and constructs records against those contracts. This keeps
+white-label reporting providers interchangeable and prevents fixture modules
+from becoming domain APIs. See ADR 0775.
