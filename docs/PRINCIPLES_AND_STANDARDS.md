@@ -2687,3 +2687,16 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-822 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-823 and
 `docs/adr/0749-canonical-audio-fallback-regression-guard.md`.
+
+## 174. Shared Route-Surface Audio Standard
+
+- Shared learner route surfaces, including access gates and next-activity
+  summaries, must receive the same resolved target language as the mounted
+  game wrapper.
+- A route-level card must not use the audio component's English default when
+  the playable shell already has tenant/unit language context.
+- Canonical verification must cover shared learner surfaces as well as each
+  game component.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-824 and
+`docs/adr/0750-shared-route-surface-audio.md`.

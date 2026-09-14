@@ -188,6 +188,7 @@ export function PlayableGameRouteShell({
           launchSession={launchSession}
           level={unit.unitMeta.level}
           reason={gameSupportedAtLevel ? "entry-practice" : "unsupported-level"}
+          targetLanguage={targetLanguage}
         />
       )}
 
@@ -197,6 +198,7 @@ export function PlayableGameRouteShell({
         currentGameMode={gameMode}
         earnedStarDust={lastEarnedDust}
         rewardName={tenant.rewardName}
+        targetLanguage={targetLanguage}
         offerMap={offerMap}
       />
 

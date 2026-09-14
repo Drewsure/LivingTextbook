@@ -4718,3 +4718,11 @@ expressions that fall back directly to English inside a game wrapper. The
 English baseline remains valid only at the explicit target-language resolver
 boundary. This does not enable live persistence, report export, progression,
 rewards, assignment, or Phaser source promotion. See ADR 0749.
+
+# DR-824: Shared Route-Surface Audio
+
+Locked-activity and next-activity learner cards must receive the resolved
+tenant/unit target language from the playable route shell. They must not rely
+on the audio component's English default when route language context exists.
+This does not enable persistence, report export, progression, rewards,
+assignment, or Phaser source promotion. See ADR 0750.

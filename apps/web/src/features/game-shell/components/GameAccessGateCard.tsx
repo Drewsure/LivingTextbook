@@ -9,9 +9,10 @@ interface GameAccessGateCardProps {
   launchSession: LaunchSession;
   level: number;
   reason: "entry-practice" | "unsupported-level";
+  targetLanguage: string;
 }
 
-export function GameAccessGateCard({ gameMode, launchSession, level, reason }: GameAccessGateCardProps) {
+export function GameAccessGateCard({ gameMode, launchSession, level, reason, targetLanguage }: GameAccessGateCardProps) {
   const entryPath = getFlashcardsPath(launchSession.launchCode);
   const unsupportedLevel = reason === "unsupported-level";
   const destinationPath = unsupportedLevel ? getStudentActivityHubPath(launchSession.launchCode) : entryPath;
@@ -26,7 +27,7 @@ export function GameAccessGateCard({ gameMode, launchSession, level, reason }: G
           <p className="text-sm font-semibold text-[var(--tenant-muted)]">Curated learning path</p>
           <h3 className="mt-1 text-lg font-bold">{unsupportedLevel ? "This activity is not offered yet" : "This activity is locked"}</h3>
           <p className="mt-2 max-w-2xl text-sm leading-6 text-[var(--tenant-muted)]">
-            <AudioCueText text={summary} label="Tap the access rule to hear it" className="text-sm" />
+            <AudioCueText text={summary} language={targetLanguage} label="Tap the access rule to hear it" className="text-sm" />
           </p>
         </div>
         <StatusPill label={unsupportedLevel ? `Level ${level} pathway` : "Complete entry practice first"} tone="warning" />

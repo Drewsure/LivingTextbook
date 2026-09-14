@@ -2356,3 +2356,13 @@ wrapper must use the resolved target language for missing cue language; the
 English baseline remains valid only at the explicit target-language resolver
 boundary. No persistence, report export, progression policy, reward,
 assignment, or Phaser source promotion was enabled. See ADR 0749 and DR-823.
+
+## 0751 - Shared route-card target-language handoff
+
+Fixed the shared playable route shell so locked-activity and next-activity
+cards receive the resolved tenant/unit target language for their tap-to-speak
+summary. Added canonical verification for both shared surfaces. This closes a
+route-level fallback gap without changing unlock, scoring, persistence,
+reporting, or source-promotion authority. No persistence, report export,
+progression policy, reward, assignment, or Phaser source promotion was
+enabled. See ADR 0750 and DR-824.

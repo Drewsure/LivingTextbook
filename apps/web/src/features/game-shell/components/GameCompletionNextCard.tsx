@@ -16,6 +16,7 @@ interface GameCompletionNextCardProps {
   currentGameMode: GameModeId;
   earnedStarDust: number;
   rewardName: string;
+  targetLanguage: string;
   offerMap?: UnitGameOfferMap;
 }
 
@@ -25,6 +26,7 @@ export function GameCompletionNextCard({
   currentGameMode,
   earnedStarDust,
   rewardName,
+  targetLanguage,
   offerMap,
 }: GameCompletionNextCardProps) {
   const currentComplete = progression.completedGameModes.includes(currentGameMode);
@@ -45,7 +47,7 @@ export function GameCompletionNextCard({
           <p className="text-sm font-semibold text-[var(--tenant-muted)]">Game complete path</p>
           <h3 className="text-lg font-bold">Next Activity</h3>
           <p className="mt-1 text-sm leading-6 text-[var(--tenant-muted)]">
-            <AudioCueText text={summaryText} label="Tap the next activity summary to hear it" className="text-sm" />
+            <AudioCueText text={summaryText} language={targetLanguage} label="Tap the next activity summary to hear it" className="text-sm" />
           </p>
         </div>
         <StatusPill label={statusLabel} tone={currentComplete ? "success" : "warning"} />

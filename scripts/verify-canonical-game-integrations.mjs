@@ -222,6 +222,7 @@ const completionNextCard = readText("apps/web/src/features/game-shell/components
 const learningAudioCard = readText("apps/web/src/features/game-shell/components/GameLearningAudioContractCard.tsx");
 const flashcardEntryFlow = readText("apps/web/src/features/game-shell/entry/FlashcardDemoFlow.tsx");
 const flashcardPracticeCard = readText("apps/web/src/features/student/components/FlashcardPracticeCard.tsx");
+const accessGateCard = readText("apps/web/src/features/game-shell/components/GameAccessGateCard.tsx");
 const gameModeCatalog = readText("apps/web/src/features/game-shell/gameModeCatalog.ts");
 const scoringProfiles = readText("apps/web/src/features/game-shell/scoringProfiles.ts");
 const textSpellingAdapter = readText("apps/web/src/features/game-shell/text-spelling/textSpellingEngineAdapter.ts");
@@ -335,6 +336,16 @@ if (
   || !matchUpGame.includes("?? targetLanguage")
 ) {
   failures.push("Match Up feedback audio: fallback learner audio must use the resolved target language");
+}
+
+if (
+  !accessGateCard.includes("targetLanguage: string")
+  || !accessGateCard.includes("language={targetLanguage}")
+  || !completionNextCard.includes("targetLanguage: string")
+  || !completionNextCard.includes("language={targetLanguage}")
+  || !playableRouteShell.includes("targetLanguage={targetLanguage}")
+) {
+  failures.push("shared game route cards: access and next-activity audio must use the resolved target language");
 }
 
 for (const [surface, source] of [
