@@ -13,7 +13,7 @@ import type {
   UnitAssistLanguagePlan,
 } from "@living-textbook/content-model";
 import { levelOneUnitOne } from "./levelOneUnitOne";
-import type { TeacherProgressSummaryConcept } from "@living-textbook/content-model/src/teacherReporting";
+import type { TeacherProgressSummaryConcept } from "@living-textbook/content-model";
 
 const contentPackageId = "ministar-l1-u1-greetings-package";
 const sampleUnitKey = getUnitKey(levelOneUnitOne.unitMeta);

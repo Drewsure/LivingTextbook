@@ -1583,3 +1583,5 @@ export * from "./aiPackageWriterRoutePlaylistWriteGuard";
 export * from "./aiPackageWriterLocalCompanionPackageGuard";
 export * from "./aiPackageWriterAssignmentShellGuard";
 export * from "./aiPackageWriterAssignmentHandoffEvidencePacket";
+export * from "./tenant";
+export * from "./teacherReporting";

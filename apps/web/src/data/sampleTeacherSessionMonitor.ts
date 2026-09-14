@@ -50,7 +50,7 @@ import type {
   TeacherSessionPreflightStatus,
   TeacherSessionProgressEventEnvelopeGate,
   TeacherSessionProgressEventEnvelopeGateStatus,
-} from "@living-textbook/content-model/src/teacherReporting";
+} from "@living-textbook/content-model";
 
 type ProgressGameMode = StudentProgressionState["unlockedGameModes"][number];
 

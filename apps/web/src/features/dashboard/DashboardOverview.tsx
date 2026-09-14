@@ -2,7 +2,7 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import { validateUnitPayload } from "@living-textbook/content-model";
 import type { ContentPackage, LaunchSession, UnitPayload } from "@living-textbook/content-model";
 import type { UnitGameOfferMap } from "@/features/game-offers/unitGameOfferMapTypes";
-import type { TeacherProgressSummaryConcept as TeacherProgressSummaryConceptData } from "@living-textbook/content-model/src/teacherReporting";
+import type { TeacherProgressSummaryConcept as TeacherProgressSummaryConceptData } from "@living-textbook/content-model";
 import type { WhiteLabelPilotReadiness } from "@/data/whiteLabelPilotReadiness";
 import { VoiceTutorPackagePanel } from "@/features/ai-tutor/VoiceTutorPackagePanel";
 import { GameSequence } from "@/features/game-shell/GameSequence";

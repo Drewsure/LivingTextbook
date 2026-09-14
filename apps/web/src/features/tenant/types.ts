@@ -2,4 +2,4 @@ export type {
   TenantBrand,
   TenantConfig,
   TenantMicrophonePracticeSettings,
-} from "@living-textbook/content-model/src/tenant";
+} from "@living-textbook/content-model";

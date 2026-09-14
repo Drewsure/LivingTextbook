@@ -1,5 +1,5 @@
 import { Card, StatusPill } from "@living-textbook/ui";
-import type { TeacherProgressSummaryConcept } from "@living-textbook/content-model/src/teacherReporting";
+import type { TeacherProgressSummaryConcept } from "@living-textbook/content-model";
 
 interface TeacherProgressSummaryConceptProps {
   summary: TeacherProgressSummaryConcept;

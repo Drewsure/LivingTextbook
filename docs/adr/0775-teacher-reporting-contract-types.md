@@ -16,8 +16,8 @@ and encouraged future feature code to depend on sample data.
 Teacher session monitor metrics, roster-aware context, preflight gates, event
 acceptance gates, launch gates, pilot snapshots, report package boundaries,
 and progress-summary concepts are owned by the neutral
-`packages/content-model/src/teacherReporting.ts` contract. Tenant configuration
-is likewise owned by the content model. The sample monitor remains responsible
+`packages/content-model` public contract. Tenant configuration is likewise
+owned by the content model. The sample monitor remains responsible
 for constructing demo records and importing those contracts, while reusable
 panels import only the package-owned types.
 

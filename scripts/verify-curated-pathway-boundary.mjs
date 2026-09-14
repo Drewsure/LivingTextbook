@@ -31,6 +31,9 @@ for (const relativePath of reusableFiles) {
   if (source.includes("@/features/teacher/teacherSessionMonitorTypes") || source.includes("@/features/teacher/teacherProgressSummaryTypes")) {
     failures.push(`${relativePath} reaches into a web-owned reporting type module`);
   }
+  if (source.includes("@living-textbook/content-model/src/teacherReporting") || source.includes("@living-textbook/content-model/src/tenant")) {
+    failures.push(`${relativePath} reaches through an internal content-model path`);
+  }
 }
 
 const routeCard = read("apps/web/src/features/student/components/RecommendedGameRoutesCard.tsx");
@@ -68,7 +71,7 @@ if (dashboard.split(/\r?\n/).some((line) => /^\s*import\s+(?!type\b).*from\s+["'
 if (!dashboard.includes("offerMap?: UnitGameOfferMap") || !dashboard.includes("contentPackage: ContentPackage")) {
   failures.push("DashboardOverview does not accept provider-owned package and pathway data");
 }
-if (!dashboard.includes("@living-textbook/content-model/src/teacherReporting")) {
+if (!dashboard.includes("@living-textbook/content-model")) {
   failures.push("DashboardOverview does not consume the neutral teacher reporting contract");
 }
 

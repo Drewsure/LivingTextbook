@@ -2643,3 +2643,15 @@ that have no published map. Training Academy remains the final review lane.
 
 This keeps white-label pathways data-driven while preserving the reviewed
 activity order and parent-engine binding. See ADR 0772 and DR-849.
+
+## 0778 - Neutral teacher reporting contract boundary
+
+Moved teacher reporting metrics, session gates, report-package boundaries,
+progress-summary concepts, and tenant configuration into the neutral
+`packages/content-model` package. Web feature files now consume those types,
+and the existing tenant type path remains only as a compatibility re-export.
+
+Updated provider-boundary verification so reusable reporting surfaces cannot
+reach sample fixtures or web-owned contract modules. This is contract
+ownership hardening only; it does not enable live persistence, report export,
+classroom launch, or Phaser source promotion. See ADR 0775 and DR-852.
