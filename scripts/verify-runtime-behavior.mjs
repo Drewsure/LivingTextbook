@@ -284,6 +284,16 @@ try {
     { unitKey: canonicalEventContext.unitKey, launchCode: canonicalEventContext.launchCode, studentSessionId: canonicalEventContext.studentSessionId },
   );
   assertEqual(canonicalReport.valid, true);
+  const overCapCanonicalErrors = canonicalGame.validateCanonicalGameEventSequence(
+    canonicalEvents.map((event) => (
+      ["mastery_updated", "game_completed"].includes(event.type)
+        ? { ...event, metadata: { ...event.metadata, earnedStarDust: 301 } }
+        : event
+    )),
+    "flashcards",
+  ).errors;
+  assertIncludes(overCapCanonicalErrors, "Canonical game mastery_updated event must not exceed 300 Star Dust for game mode flashcards; found 301.");
+  assertIncludes(overCapCanonicalErrors, "Canonical game game_completed event must not exceed 300 Star Dust for game mode flashcards; found 301.");
   assertIncludes(
     canonicalGame.validateCanonicalGameEventSequence(
       canonicalEvents.map((event) => event.type === "game_started" ? { ...event, metadata: { ...event.metadata, tenantId: undefined } } : event),

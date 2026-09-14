@@ -33,6 +33,21 @@ export const CANONICAL_GAME_SCORING_PROFILE_BY_MODE = {
   "balloon-pop": "arcade-reinforcement-v1",
 } as const satisfies Record<GameModeId, string>;
 
+export const CANONICAL_GAME_COMPLETION_DUST_CAP_BY_MODE = {
+  flashcards: 300,
+  "memory-match": 200,
+  "match-up": 200,
+  "label-it": 200,
+  quiz: 500,
+  "true-false": 500,
+  "sentence-builder": 500,
+  "fill-in-the-blank": 500,
+  "type-answer": 400,
+  "spelling-practice": 400,
+  "speak-it": 400,
+  "balloon-pop": 400,
+} as const satisfies Record<GameModeId, number>;
+
 export type CanonicalGameScoringProfileId =
   (typeof CANONICAL_GAME_SCORING_PROFILE_BY_MODE)[GameModeId];
 
@@ -270,6 +285,18 @@ export function validateCanonicalGameEventSequence(
   if (masteryDust !== undefined && completionDust !== undefined && masteryDust !== completionDust) {
     errors.push(
       `Canonical game mastery and completion awards must agree; found ${masteryDust} and ${completionDust}.`,
+    );
+  }
+
+  const completionDustCap = CANONICAL_GAME_COMPLETION_DUST_CAP_BY_MODE[expectedGameMode];
+  if (masteryDust !== undefined && masteryDust > completionDustCap) {
+    errors.push(
+      `Canonical game mastery_updated event must not exceed ${completionDustCap} Star Dust for game mode ${expectedGameMode}; found ${masteryDust}.`,
+    );
+  }
+  if (completionDust !== undefined && completionDust > completionDustCap) {
+    errors.push(
+      `Canonical game game_completed event must not exceed ${completionDustCap} Star Dust for game mode ${expectedGameMode}; found ${completionDust}.`,
     );
   }
 

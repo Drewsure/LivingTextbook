@@ -2288,3 +2288,13 @@ Canonical wrappers now also receive the resolved target language explicitly.
 Their generated instructions, feedback, fallback speech, and emitted audio
 events therefore follow the tenant language instead of silently defaulting to
 English. See ADR 0743.
+
+## 0745 - Canonical game completion dust caps
+
+Moved deterministic per-mode completion caps into the content model. The web
+scoring profiles reference that shared map, the progression adapter clamps each
+game award to its mode cap, and canonical event validation rejects mastery or
+completion evidence above the same cap. The game-mode verifier now checks the
+binding instead of requiring duplicated numeric literals. No persistence,
+scoring mutation, progression policy change, reward, assignment, or Phaser
+source promotion was enabled. See ADR 0744.

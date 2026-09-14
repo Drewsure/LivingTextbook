@@ -1,5 +1,6 @@
 import {
   calculateStarDust,
+  CANONICAL_GAME_COMPLETION_DUST_CAP_BY_MODE,
   completeEntryPractice,
   resolveCanonicalGameReplaySeed,
   getLevelAwareRecommendedGameModes,
@@ -348,7 +349,11 @@ export function completeGameMode(args: {
     };
   }
 
-  const earnedStarDust = capUnitStarDust(args.progression.earnedStarDust, args.earnedStarDust);
+  const earnedStarDust = capUnitStarDust(
+    args.progression.earnedStarDust,
+    args.earnedStarDust,
+    CANONICAL_GAME_COMPLETION_DUST_CAP_BY_MODE[args.gameMode],
+  );
 
   const progression: StudentProgressionState = {
     ...args.progression,
@@ -434,11 +439,12 @@ function isLaunchGameModeSupported(launchSession: LaunchSession, gameMode: GameM
   return level === undefined || isGameModeSupportedAtLevel(gameMode, level);
 }
 
-function capUnitStarDust(currentStarDust: number, requestedStarDust: number): number {
+function capUnitStarDust(currentStarDust: number, requestedStarDust: number, awardCap = UNIT_STAR_DUST_CAP): number {
   if (!Number.isFinite(currentStarDust) || !Number.isFinite(requestedStarDust)) return 0;
 
   const current = Math.min(Math.max(Math.trunc(currentStarDust), 0), UNIT_STAR_DUST_CAP);
-  const requested = Math.min(Math.max(Math.trunc(requestedStarDust), 0), UNIT_STAR_DUST_CAP);
+  const cap = Math.min(Math.max(Math.trunc(awardCap), 0), UNIT_STAR_DUST_CAP);
+  const requested = Math.min(Math.max(Math.trunc(requestedStarDust), 0), cap);
   return Math.min(requested, Math.max(UNIT_STAR_DUST_CAP - current, 0));
 }
 

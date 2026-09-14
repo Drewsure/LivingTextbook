@@ -4683,3 +4683,12 @@ support-only and cannot unlock or complete target-language learning. Regional
 language tags may match their base language. This does not enable live
 persistence, scoring mutation, progression, rewards, assignment, or Phaser
 source promotion. See ADR 0743.
+
+# DR-818: Canonical Game Completion Dust Caps
+
+Keep per-mode completion dust caps in the shared content model. Web scoring
+profiles reference those caps; progression clamps awards at the mode cap and
+the unit economy cap; canonical evidence rejects over-cap mastery or
+completion awards. This does not enable persistence, scoring mutation,
+progression policy changes, rewards, assignment, or Phaser source promotion.
+See ADR 0744.

@@ -195,18 +195,7 @@ export function PairingMatchUpGame({
       const earnedStarDust = calculateAccuracyBonusDust({
         attempts: outcome.state.attempts,
         targetAttempts: completedProgress.totalPairs,
-        profile: scoringProfile ?? {
-          id: "pairing-reinforcement-v1",
-          label: "Pairing Reinforcement",
-          supportedEngines: ["pairing"],
-          supportedRoles: ["reinforcement"],
-          supportedSkillFocuses: ["vocabulary"],
-          vocabularyDust: 0,
-          syntaxDust: 0,
-          bonusDust: 200,
-          completionDustCap: 200,
-          summary: "Fallback pairing score.",
-        },
+        profile: scoringProfile,
         minimumDust: 80,
       });
       const result = completeGameMode({

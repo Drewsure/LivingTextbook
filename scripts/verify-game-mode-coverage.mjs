@@ -25,6 +25,9 @@ const scoringProfilesMatch = scoring.match(/export const gameScoringProfiles:[\s
 const canonicalScoringProfilesMatch = canonicalIntegration.match(
   /export const CANONICAL_GAME_SCORING_PROFILE_BY_MODE = \{([\s\S]*?)\n\} as const/,
 );
+const canonicalScoringCapsMatch = canonicalIntegration.match(
+  /export const CANONICAL_GAME_COMPLETION_DUST_CAP_BY_MODE = \{([\s\S]*?)\n\} as const/,
+);
 
 if (!gameModeMatch) {
   console.error("FAIL Could not find GameModeId union in packages/content-model/src/index.ts.");
@@ -48,6 +51,11 @@ if (!scoringProfilesMatch) {
 
 if (!canonicalScoringProfilesMatch) {
   console.error("FAIL Could not find the canonical game-mode scoring profile map in packages/content-model/src/canonicalGameIntegration.ts.");
+  process.exit(1);
+}
+
+if (!canonicalScoringCapsMatch) {
+  console.error("FAIL Could not find the canonical game completion dust cap map in packages/content-model/src/canonicalGameIntegration.ts.");
   process.exit(1);
 }
 
@@ -104,6 +112,7 @@ const mismatchedReadinessEngineModes = gameModes.filter((mode) => {
   return !engineId || !readinessModes.includes(mode);
 });
 const missingScoringModes = gameModes.filter((mode) => !hasObjectKey(canonicalScoringProfilesMatch[1], mode));
+const missingScoringCaps = gameModes.filter((mode) => !hasObjectKey(canonicalScoringCapsMatch[1], mode));
 const missingRequiredAudio = gameModes.filter((mode) => {
   const item = getCatalogItemBody(catalog, mode);
   return !item.includes('audioRequirement: "required"');
@@ -148,7 +157,8 @@ const malformedScoringProfiles = scoringProfileIds.filter((profileId) => {
   const vocabularyDust = Number(profile.match(/vocabularyDust:\s*(-?\d+)/)?.[1]);
   const syntaxDust = Number(profile.match(/syntaxDust:\s*(-?\d+)/)?.[1]);
   const bonusDust = Number(profile.match(/bonusDust:\s*(-?\d+)/)?.[1]);
-  const completionDustCap = Number(profile.match(/completionDustCap:\s*(-?\d+)/)?.[1]);
+  const completionDustCapExpression = profile.match(/completionDustCap:\s*([^,\n]+)/)?.[1]?.trim() ?? "";
+  const completionDustCap = resolveCanonicalProfileCap(profileId, completionDustCapExpression);
   const supportedRolesAreValid = supportedRoles.length > 0
     && new Set(supportedRoles).size === supportedRoles.length
     && supportedRoles.every((role) => ["entry-practice", "reinforcement", "assessment", "review"].includes(role));
@@ -171,7 +181,8 @@ const malformedScoringProfiles = scoringProfileIds.filter((profileId) => {
     || !supportedSkillFocusesAreValid
     || !dustValuesAreValid
     || completionDustCap > 1000
-    || !capMatchesComponents;
+    || !capMatchesComponents
+    || !completionDustCapExpression.includes("CANONICAL_GAME_COMPLETION_DUST_CAP_BY_MODE");
 });
 const compatibilityDrift = gameModes.filter((mode) => {
   const contentContract = getCompatibilityItemBody(compatibilityMatch[1], mode);
@@ -374,6 +385,11 @@ if (missingScoringModes.length > 0) {
   process.exit(1);
 }
 
+if (missingScoringCaps.length > 0) {
+  console.error(`FAIL Game mode completion dust cap mapping missing for: ${missingScoringCaps.join(", ")}`);
+  process.exit(1);
+}
+
 if (missingRequiredAudio.length > 0) {
   console.error(`FAIL Game mode(s) must require learner audio: ${missingRequiredAudio.join(", ")}`);
   process.exit(1);
@@ -441,7 +457,7 @@ console.log(
 
 function hasObjectKey(source, key) {
   const escaped = key.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  return new RegExp(`(?:^|\\n)\\s*(?:"${escaped}"|${escaped}):\\s*"`, "m").test(source);
+  return new RegExp(`(?:^|\\n)\\s*(?:"${escaped}"|${escaped}):\\s*(?:"|\\d)`, "m").test(source);
 }
 
 function getCanonicalScoringProfileId(source, mode) {
@@ -449,6 +465,24 @@ function getCanonicalScoringProfileId(source, mode) {
   const match = source.match(new RegExp(`(?:^|\\n)\\s*(?:"${escaped}"|${escaped}):\\s*"([^"]+)"`, "m"));
 
   return match?.[1] ?? "";
+}
+
+function getCanonicalScoringCap(source, mode) {
+  const escaped = mode.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const match = source.match(new RegExp(`(?:^|\\n)\\s*(?:"${escaped}"|${escaped}):\\s*(\\d+)`, "m"));
+
+  return match ? Number(match[1]) : undefined;
+}
+
+function resolveCanonicalProfileCap(profileId, expression) {
+  const modeMatch = expression.match(/CANONICAL_GAME_COMPLETION_DUST_CAP_BY_MODE(?:\.([a-z-]+)|\["([a-z-]+)"\])/);
+  if (!modeMatch) return Number.NaN;
+
+  const referencedMode = modeMatch[1] ?? modeMatch[2];
+  const referencedProfile = getCanonicalScoringProfileId(canonicalScoringProfilesMatch[1], referencedMode);
+  if (referencedProfile !== profileId) return Number.NaN;
+
+  return getCanonicalScoringCap(canonicalScoringCapsMatch[1], referencedMode) ?? Number.NaN;
 }
 
 function hasSharedRouteHelperMapping(source, mode, helper) {

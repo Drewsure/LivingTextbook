@@ -2607,3 +2607,17 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-816 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-817 and
 `docs/adr/0743-target-language-audio-boundary.md`.
+
+## 169. Canonical Game Dust Cap Standard
+
+- The content model must own the maximum completion award for every canonical
+  game mode.
+- Web scoring profiles and future Phaser adapters must reference that shared
+  cap map rather than duplicate numeric limits.
+- The progression adapter must clamp awards to both the mode cap and the
+  unit-wide economy cap.
+- Canonical mastery and completion evidence must reject awards above the mode
+  cap, even when the scoring profile identifier is otherwise correct.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-818 and
+`docs/adr/0744-canonical-game-dust-caps.md`.

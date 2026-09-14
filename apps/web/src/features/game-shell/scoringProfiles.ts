@@ -1,5 +1,6 @@
 import {
   CANONICAL_GAME_SCORING_PROFILE_BY_MODE,
+  CANONICAL_GAME_COMPLETION_DUST_CAP_BY_MODE,
   type CanonicalGameScoringProfileId,
   type GameModeId,
 } from "@living-textbook/content-model";
@@ -31,7 +32,7 @@ export const gameScoringProfiles: Record<ScoringProfileId, GameScoringProfile> =
     vocabularyDust: 300,
     syntaxDust: 0,
     bonusDust: 0,
-    completionDustCap: 300,
+    completionDustCap: CANONICAL_GAME_COMPLETION_DUST_CAP_BY_MODE.flashcards,
     summary: "Awards the vocabulary slice when students complete the required flashcard entry practice.",
   },
   "pairing-reinforcement-v1": {
@@ -43,7 +44,7 @@ export const gameScoringProfiles: Record<ScoringProfileId, GameScoringProfile> =
     vocabularyDust: 0,
     syntaxDust: 0,
     bonusDust: 200,
-    completionDustCap: 200,
+    completionDustCap: CANONICAL_GAME_COMPLETION_DUST_CAP_BY_MODE["memory-match"],
     summary: "Awards a small accuracy-sensitive bonus for completing a pairing reinforcement game after entry practice.",
   },
   "selection-assessment-v1": {
@@ -55,7 +56,7 @@ export const gameScoringProfiles: Record<ScoringProfileId, GameScoringProfile> =
     vocabularyDust: 150,
     syntaxDust: 150,
     bonusDust: 200,
-    completionDustCap: 500,
+    completionDustCap: CANONICAL_GAME_COMPLETION_DUST_CAP_BY_MODE.quiz,
     summary: "Supports quiz-style assessment modes that check both vocabulary and sentence understanding.",
   },
   "syntax-construction-v1": {
@@ -67,7 +68,7 @@ export const gameScoringProfiles: Record<ScoringProfileId, GameScoringProfile> =
     vocabularyDust: 0,
     syntaxDust: 300,
     bonusDust: 200,
-    completionDustCap: 500,
+    completionDustCap: CANONICAL_GAME_COMPLETION_DUST_CAP_BY_MODE["sentence-builder"],
     summary: "Supports sentence building, ordering, and fill-in modes focused on target structures.",
   },
   "spelling-typing-v1": {
@@ -79,7 +80,7 @@ export const gameScoringProfiles: Record<ScoringProfileId, GameScoringProfile> =
     vocabularyDust: 200,
     syntaxDust: 0,
     bonusDust: 200,
-    completionDustCap: 400,
+    completionDustCap: CANONICAL_GAME_COMPLETION_DUST_CAP_BY_MODE["type-answer"],
     summary: "Supports typed vocabulary answers where audio prompts and reviewed spelling drive deterministic scoring.",
   },
   "speaking-listening-practice-v1": {
@@ -91,7 +92,7 @@ export const gameScoringProfiles: Record<ScoringProfileId, GameScoringProfile> =
     vocabularyDust: 150,
     syntaxDust: 150,
     bonusDust: 100,
-    completionDustCap: 400,
+    completionDustCap: CANONICAL_GAME_COMPLETION_DUST_CAP_BY_MODE["speak-it"],
     summary: "Supports audio-led listening and speaking modes without requiring AI Tutor.",
   },
   "arcade-reinforcement-v1": {
@@ -103,7 +104,7 @@ export const gameScoringProfiles: Record<ScoringProfileId, GameScoringProfile> =
     vocabularyDust: 100,
     syntaxDust: 0,
     bonusDust: 300,
-    completionDustCap: 400,
+    completionDustCap: CANONICAL_GAME_COMPLETION_DUST_CAP_BY_MODE["balloon-pop"],
     summary: "Supports reflex-based reinforcement modes where accuracy and timing drive the bonus slice.",
   },
 };

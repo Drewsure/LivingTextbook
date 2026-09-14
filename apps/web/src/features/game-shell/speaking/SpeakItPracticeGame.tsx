@@ -209,7 +209,7 @@ export function SpeakItPracticeGame({
     });
 
     if (nextSpokenPromptIds.length >= prompts.length && !completionSent) {
-      const earnedStarDust = scoringProfile ? Math.min(200, scoringProfile.completionDustCap) : 150;
+      const earnedStarDust = Math.min(200, scoringProfile.completionDustCap);
       const result = completeGameMode({
         progression,
         launchSession,
