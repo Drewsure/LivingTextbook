@@ -2457,3 +2457,19 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-806 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-807 and
 `docs/adr/0733-canonical-game-event-type-boundary.md`.
+
+## 158. Controlled Z.ai Intake State Standard
+
+- The teacher foundation status may say `Controlled intake open` only after
+  Codex has explicitly opened the controlled external-prototype gate.
+- This status is a human handoff signal: one isolated Z.ai or Phaser candidate
+  may be returned for evidence review in `Drewsure/ministar-lab`.
+- The status must continue to show `No Z.ai import before returned-package
+  review`; source copy, route activation, production promotion, persistence,
+  scoring ownership, and student assignment remain blocked.
+- A returned package is not approved merely because the intake is open; it must
+  pass the candidate package gate and a candidate-specific Codex integration
+  decision.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-808 and
+`docs/adr/0734-controlled-zai-intake-state.md`.

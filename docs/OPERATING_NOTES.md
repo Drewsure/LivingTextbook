@@ -1339,3 +1339,10 @@ report evidence as untrusted; an unknown type must fail closed before sequence
 ordering or completion evidence is accepted. Keep the unsupported-type
 regression in `verify-runtime-behavior.mjs` and run
 `npm run verify:runtime-behavior` after changing the event union. See ADR 0733.
+
+The teacher foundation status must say `Controlled intake open` once the
+controlled Z.ai intake gate is explicitly opened. Keep the independent
+`No Z.ai import before returned-package review` block visible: the status is a
+human handoff signal, not an integration approval. Run the teacher route checks,
+workspace typecheck, production build, and foundation verification after
+changing this state. See ADR 0734.

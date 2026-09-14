@@ -680,14 +680,14 @@ expectedTextByPath.get("/teacher")?.push(
   "Structure first",
   "88 active routes checked",
   "Tenant boundary visible",
-  "Z.ai intake not yet",
+  "Controlled intake open",
   "Open foundation control room",
   "/teacher/intake",
   "No live feature activation",
   "No classroom launch",
   "No real learner data",
   "No report export",
-  "No Z.ai import before the intake alert",
+  "No Z.ai import before returned-package review",
 );
 expectedTextByPath.set("/teacher/media/ministar", [
   "MiniStar teacher media library",

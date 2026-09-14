@@ -20,7 +20,7 @@ Keep the main teacher/admin foundation route readable as more review gates are a
 - Teacher operations and reporting
 - Pilot, policy, and evidence
 - Backend, persistence, and local companion
-- Future Z.ai intake alert
+- Controlled Z.ai intake
 
 ## Blocked Shortcuts
 
@@ -29,7 +29,7 @@ Keep the main teacher/admin foundation route readable as more review gates are a
 - No public community library
 - No unmanaged asset adoption
 - No direct AI publish
-- No Z.ai import before the intake alert
+- No Z.ai import before returned-package review
 
 ## Verification
 

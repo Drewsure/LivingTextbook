@@ -2184,3 +2184,13 @@ Added a regression case for an unknown event type. This prevents browser,
 Phaser, import, or report evidence from entering ordering and completion logic
 under a future typo or unapproved extension. No live persistence, route
 activation, or Phaser source promotion was enabled. See ADR 0733.
+
+## 0735 - Controlled Z.ai intake status alignment
+
+Aligned the teacher foundation status snapshot with the now-open controlled
+intake gate. The teacher surface may signal that one isolated Z.ai or Phaser
+candidate can be returned for evidence review, while returned-package review,
+source identity, replay, audio, scoring, mobile, accessibility, and wrapper
+checks remain mandatory before any integration decision. No source import,
+route activation, production promotion, persistence, or student assignment was
+enabled. See ADR 0734.

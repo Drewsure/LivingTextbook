@@ -48,9 +48,9 @@ export const sampleFoundationStatusSnapshot: FoundationStatusSnapshot = {
     {
       itemId: "outside-prototypes",
       label: "Outside prototypes",
-      value: "Z.ai intake not yet",
+      value: "Controlled intake open",
       tone: "warning",
-      detail: "Codex will signal the future intake alert before Z.ai, Phaser, or outside game prototypes are inventoried for integration.",
+      detail: "One isolated Z.ai or Phaser candidate may now be returned for evidence review; source import and production promotion remain blocked.",
     },
   ],
   blockedActions: [
@@ -58,6 +58,6 @@ export const sampleFoundationStatusSnapshot: FoundationStatusSnapshot = {
     "No classroom launch",
     "No real learner data",
     "No report export",
-    "No Z.ai import before the intake alert",
+    "No Z.ai import before returned-package review",
   ],
 };

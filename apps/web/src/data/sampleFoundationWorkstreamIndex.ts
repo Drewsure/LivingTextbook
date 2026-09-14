@@ -61,7 +61,7 @@ export const sampleFoundationWorkstreamIndex: FoundationWorkstreamIndex = {
       owner: "Game systems",
       currentFocus: "Keep active game routes data-driven through parent engines and standard progress events.",
       visibleEvidence: ["Parent engine readiness", "Active game replay checklist", "Curated activity pathways"],
-      nextGate: "Phaser or Z.ai prototypes wait for the future Z.ai intake alert and Codex integration review.",
+      nextGate: "Controlled Z.ai intake is open for one isolated candidate at a time; returned-package evidence and Codex integration review remain required.",
     },
     {
       workstreamId: "audio-media-and-language",
