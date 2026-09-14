@@ -4956,3 +4956,11 @@ launch-context provider. Reusable teacher cards and monitors must not resolve
 sample fixtures by launch code or package id. This preserves white-label
 tenant substitution and keeps preview-only missing-plan behavior explicit.
 See ADR 0773.
+
+# DR-851: Dashboard Provider Boundary
+
+The reusable dashboard consumes tenant-owned launch, package, offer-map, QR,
+pilot, validation, and reporting data through props. Only the app/provider
+boundary may compose MiniStar fixtures, keeping white-label substitution
+possible without forking dashboard layout or game pathway components. See ADR
+0774.

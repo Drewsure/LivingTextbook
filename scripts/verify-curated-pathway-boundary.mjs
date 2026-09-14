@@ -40,6 +40,7 @@ if (!gameShell.includes("offerMap?: UnitGameOfferMap") || !gameShell.includes("o
 const launchBoundary = read("apps/web/src/data/sampleLaunchResolver.ts");
 const frontDoorBoundary = read("apps/web/src/data/sampleTenantRouteRegistry.ts");
 const launchPage = read("apps/web/src/app/teacher/sessions/[launchCode]/page.tsx");
+const dashboard = read("apps/web/src/features/dashboard/DashboardOverview.tsx");
 if (!launchBoundary.includes("findSampleUnitGameOfferMap(context.contentPackage.meta.packageId)")) {
   failures.push("sample launch resolver does not translate its package into an offer map");
 }
@@ -51,6 +52,12 @@ if (!launchBoundary.includes("findSampleClassRosterPlan(context.launchSession.la
 }
 if (!launchPage.includes("rosterPlan={context.classRosterPlan}")) {
   failures.push("teacher session route does not inject its roster plan");
+}
+if (dashboard.split(/\r?\n/).some((line) => /^\s*import\s+(?!type\b).*from\s+["']@\/data\/sample/.test(line))) {
+  failures.push("DashboardOverview has a runtime import from sample fixtures");
+}
+if (!dashboard.includes("offerMap?: UnitGameOfferMap") || !dashboard.includes("contentPackage: ContentPackage")) {
+  failures.push("DashboardOverview does not accept provider-owned package and pathway data");
 }
 
 if (failures.length > 0) {

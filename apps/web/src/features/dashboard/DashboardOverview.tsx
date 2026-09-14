@@ -1,16 +1,9 @@
 import { Card, StatusPill } from "@living-textbook/ui";
 import { validateUnitPayload } from "@living-textbook/content-model";
-import type { UnitPayload } from "@living-textbook/content-model";
-import { sampleLaunchSession } from "@/data/sampleLaunchSession";
-import { sampleMinistarUnitGameOfferMap } from "@/data/sampleUnitGameOfferMap";
-import {
-  sampleFrontDoorPath,
-  sampleMultimediaContentPackage,
-  samplePackageValidationErrors,
-  samplePermanentQrPath,
-  sampleTeacherProgressSummaryConcept,
-} from "@/data/sampleMultimediaPackage";
-import { whiteLabelPilotReadiness } from "@/data/whiteLabelPilotReadiness";
+import type { ContentPackage, LaunchSession, UnitPayload } from "@living-textbook/content-model";
+import type { UnitGameOfferMap } from "@/features/game-offers/unitGameOfferMapTypes";
+import type { TeacherProgressSummaryConcept as TeacherProgressSummaryConceptData } from "@/data/sampleMultimediaPackage";
+import type { WhiteLabelPilotReadiness } from "@/data/whiteLabelPilotReadiness";
 import { VoiceTutorPackagePanel } from "@/features/ai-tutor/VoiceTutorPackagePanel";
 import { GameSequence } from "@/features/game-shell/GameSequence";
 import { SelectionEnginePreview } from "@/features/game-shell/selection/SelectionEnginePreview";
@@ -28,14 +21,33 @@ import type { TenantConfig } from "@/features/tenant/types";
 interface DashboardOverviewProps {
   tenant: TenantConfig;
   unit: UnitPayload;
+  launchSession: LaunchSession;
+  contentPackage: ContentPackage;
+  offerMap?: UnitGameOfferMap;
+  permanentQrPath: string;
+  frontDoorPath: string;
+  packageValidationErrors: string[];
+  pilotReadiness: WhiteLabelPilotReadiness;
+  teacherProgressSummary: TeacherProgressSummaryConceptData;
 }
 
-export function DashboardOverview({ tenant, unit }: DashboardOverviewProps) {
+export function DashboardOverview({
+  tenant,
+  unit,
+  launchSession,
+  contentPackage,
+  offerMap,
+  permanentQrPath,
+  frontDoorPath,
+  packageValidationErrors,
+  pilotReadiness,
+  teacherProgressSummary,
+}: DashboardOverviewProps) {
   const validationErrors = validateUnitPayload(unit);
   const aiTutorAvailability = getAiTutorAvailability({ tenant, level: unit.unitMeta.level, mode: "fix-my-sentence" });
   const voiceTutorAvailability = getAiTutorAvailability({ tenant, level: unit.unitMeta.level, mode: "speak-with-me" });
-  const trainingAcademyPath = getTrainingAcademyPath(sampleLaunchSession.launchCode);
-  const aiTutorPlan = sampleMultimediaContentPackage.aiTutorPlans?.[0];
+  const trainingAcademyPath = getTrainingAcademyPath(launchSession.launchCode);
+  const aiTutorPlan = contentPackage.aiTutorPlans?.[0];
 
   return (
     <div className="grid gap-5 lg:grid-cols-[1.4fr_0.9fr]">
@@ -56,18 +68,18 @@ export function DashboardOverview({ tenant, unit }: DashboardOverviewProps) {
         </Card>
         <TeacherLaunchPanel
           unit={unit}
-          launchSession={sampleLaunchSession}
-          contentPackage={sampleMultimediaContentPackage}
+          launchSession={launchSession}
+          contentPackage={contentPackage}
         />
         <TeacherAssistLanguagePanel tenant={tenant} />
         <MultimediaPackagePanel
-          contentPackage={sampleMultimediaContentPackage}
-          permanentQrPath={samplePermanentQrPath}
-          frontDoorPath={sampleFrontDoorPath}
-          validationErrors={samplePackageValidationErrors}
+          contentPackage={contentPackage}
+          permanentQrPath={permanentQrPath}
+          frontDoorPath={frontDoorPath}
+          validationErrors={packageValidationErrors}
         />
-        <WhiteLabelPilotReadinessPanel readiness={whiteLabelPilotReadiness} />
-        <GameSequence unit={unit} offerMap={sampleMinistarUnitGameOfferMap} />
+        <WhiteLabelPilotReadinessPanel readiness={pilotReadiness} />
+        <GameSequence unit={unit} offerMap={offerMap} />
         <SelectionEnginePreview unit={unit} />
         <SentenceBuilderEnginePreview unit={unit} />
       </section>
@@ -105,7 +117,7 @@ export function DashboardOverview({ tenant, unit }: DashboardOverviewProps) {
           </p>
         </Card>
         <VoiceTutorPackagePanel availability={voiceTutorAvailability} plan={aiTutorPlan} />
-        <TeacherProgressSummaryConcept summary={sampleTeacherProgressSummaryConcept} />
+        <TeacherProgressSummaryConcept summary={teacherProgressSummary} />
       </aside>
     </div>
   );

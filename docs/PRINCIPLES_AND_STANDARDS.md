@@ -3011,3 +3011,14 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-849 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-850 and
 `docs/adr/0773-teacher-session-provider-boundaries.md`.
+
+## 198. Dashboard Provider Boundary Standard
+
+- Reusable dashboard layout and feature composition must consume tenant-owned
+  launch, package, pathway, QR, validation, pilot, and reporting data through
+  explicit props or provider contracts.
+- MiniStar fixtures may be composed by the reference app page, but must not be
+  runtime dependencies of the reusable dashboard feature.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-851 and
+`docs/adr/0774-dashboard-provider-boundary.md`.
