@@ -2427,3 +2427,17 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-804 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-805 and
 `docs/adr/0731-canonical-game-event-payload.md`.
+
+## 156. Canonical Completion Terminal Standard
+
+- `game_completed` is the terminal gameplay boundary for every canonical
+  game sequence.
+- No `game_started`, `round_shown`, `answer_submitted`, `answer_result`, or
+  `mastery_updated` event may occur after completion.
+- Learning-audio replay may remain available as a support action, but it must
+  not reopen gameplay or change progression.
+- The terminal check applies equally to DOM games and future approved Phaser
+  wrappers.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-806 and
+`docs/adr/0732-canonical-completion-terminal.md`.

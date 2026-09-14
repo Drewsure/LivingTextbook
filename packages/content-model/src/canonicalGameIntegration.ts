@@ -203,6 +203,15 @@ export function validateCanonicalGameEventSequence(
     errors.push("Canonical game event sequence must place all answer activity before game_completed.");
   }
 
+  if (completionIndex >= 0) {
+    const gameplayEventsAfterCompletion = events
+      .slice(completionIndex + 1)
+      .filter((event) => ["game_started", "round_shown", "answer_submitted", "answer_result", "mastery_updated"].includes(event.type));
+    for (const event of gameplayEventsAfterCompletion) {
+      errors.push(`Canonical game event sequence must not include ${event.type} after game_completed.`);
+    }
+  }
+
   const masteryDust = readFiniteStarDust(masteryEvent);
   const completionDust = readFiniteStarDust(completionEvent);
 

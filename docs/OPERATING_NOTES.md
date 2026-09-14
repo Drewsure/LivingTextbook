@@ -1325,3 +1325,10 @@ for non-array inputs and malformed entries rather than throwing; valid events
 must retain the existing identity, audio, replay, scoring, mastery, and
 completion checks. Run `npm run verify:runtime-behavior` and both workspace
 typechecks after changing this contract. See ADR 0731.
+
+Treat `game_completed` as the terminal gameplay boundary. A canonical wrapper
+must not emit another `game_started`, `round_shown`, `answer_submitted`,
+`answer_result`, or `mastery_updated` event afterward. Learning-audio replay
+may remain available as a support action, but it cannot reopen gameplay or
+change progression. Run `npm run verify:runtime-behavior` and
+`npm run verify:canonical-games` after changing this rule. See ADR 0732.

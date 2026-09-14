@@ -4584,3 +4584,12 @@ errors rather than throwing. Valid event ordering, identity, audio, replay,
 scoring, mastery, completion, and support-language boundaries remain enforced.
 This does not authorize live progression, persistence, reporting, or student
 assignment. See ADR 0731.
+
+# DR-806: Canonical Completion Terminal Boundary
+
+Treat `game_completed` as the terminal gameplay event. Post-completion
+`game_started`, `round_shown`, `answer_submitted`, `answer_result`, or
+`mastery_updated` events fail closed, while non-gameplay learning-audio replay
+may remain available without reopening progression. This protects canonical
+wrappers and future Phaser adapters from late gameplay mutations. See ADR
+0732.

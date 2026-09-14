@@ -2166,3 +2166,12 @@ event evidence as untrusted JSON. Non-array collections and null or malformed
 entries now produce actionable fail-closed errors instead of runtime throws,
 while valid event ordering, identity, audio, replay, scoring, and completion
 checks remain unchanged. See ADR 0731.
+
+## 0733 - Canonical completion terminal boundary
+
+Strengthened canonical game replay validation so gameplay events cannot occur
+after `game_completed`. A post-completion start, round, answer, result, or
+mastery event now fails closed while post-completion learning-audio replay
+remains available as a non-gameplay support action. Added runtime coverage and
+kept all canonical wrappers under the shared route-shell boundary. See ADR
+0732.

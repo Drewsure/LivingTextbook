@@ -341,6 +341,14 @@ try {
     canonicalGame.validateCanonicalGameEventSequence(null, "flashcards").errors,
     "Canonical game event sequence must be provided as an array.",
   );
+  const postCompletionGameplayErrors = canonicalGame.validateCanonicalGameEventSequence(
+    [...canonicalEvents, { ...canonicalEvents[1], occurredAt: canonicalEvents[6].occurredAt }],
+    "flashcards",
+  ).errors;
+  assertIncludes(
+    postCompletionGameplayErrors,
+    "Canonical game event sequence must not include round_shown after game_completed.",
+  );
 
   const suppliedReplaySeed = "replay-v1:platform-supplied-memory-match-seed";
   assertEqual(
