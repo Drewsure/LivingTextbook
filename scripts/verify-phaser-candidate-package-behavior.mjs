@@ -145,6 +145,8 @@ try {
   writeFileSync(join(evidenceRoot, "return-package.json"), JSON.stringify(manifest, null, 2));
   assertVerifierRejects(candidateRoot, "cross-session audio");
 
+  assertVerifierRejects(resolve(process.cwd()), "candidate root inside product repository");
+
   verifyBalloonProfile();
 
   console.log("PASS Phaser candidate package behavior proves both approved profiles pass and random-reward/cross-session evidence is rejected.");

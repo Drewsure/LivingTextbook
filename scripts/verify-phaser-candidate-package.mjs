@@ -1,5 +1,6 @@
 import { createHash } from "node:crypto";
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, realpathSync, statSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import { join, relative, resolve } from "node:path";
 
 const candidateRootValue = process.env.LIVING_TEXTBOOOK_ZAI_CANDIDATE_ROOT;
@@ -8,15 +9,29 @@ if (!candidateRootValue) {
   process.exit(2);
 }
 
-const candidateRoot = resolve(candidateRootValue);
+const candidateRootInput = resolve(candidateRootValue);
+if (!existsSync(candidateRootInput)) {
+  fail(`Candidate package root does not exist: ${candidateRootInput}.`);
+}
+
+const repositoryRoot = realpathSync(resolve(fileURLToPath(new URL("..", import.meta.url))));
+const candidateRoot = realpathSync(candidateRootInput);
+if (isWithin(repositoryRoot, candidateRoot)) {
+  fail(`Candidate package must be stored outside the LivingTextbook repository: ${candidateRoot}.`);
+}
+
 const returnPackagePath = join(candidateRoot, "evidence", "return-package.json");
-if (!existsSync(candidateRoot) || !existsSync(returnPackagePath)) {
+if (!isRegularFile(returnPackagePath)) {
   fail(`Candidate package must contain evidence/return-package.json under ${candidateRoot}.`);
+}
+const returnPackageRealPath = realpathSync(returnPackagePath);
+if (!isWithin(candidateRoot, returnPackageRealPath)) {
+  fail("Candidate evidence/return-package.json must resolve inside the isolated candidate root.");
 }
 
 let manifest;
 try {
-  manifest = JSON.parse(readFileSync(returnPackagePath, "utf8"));
+  manifest = JSON.parse(readFileSync(returnPackageRealPath, "utf8"));
 } catch (error) {
   fail(`Candidate return-package.json is not valid JSON: ${error.message}`);
 }
@@ -110,11 +125,16 @@ for (const artifact of artifacts) {
     failures.push(`Artifact ${artifact.artifactId || artifact.kind} resolves outside the candidate root.`);
     continue;
   }
-  if (!existsSync(artifactPath)) {
+  if (!isRegularFile(artifactPath)) {
     failures.push(`Artifact ${artifact.artifactId || artifact.kind} is missing at ${artifact.relativePath}.`);
     continue;
   }
-  const actualChecksum = createHash("sha256").update(readFileSync(artifactPath)).digest("hex");
+  const artifactRealPath = realpathSync(artifactPath);
+  if (!isWithin(candidateRoot, artifactRealPath)) {
+    failures.push(`Artifact ${artifact.artifactId || artifact.kind} resolves outside the isolated candidate root.`);
+    continue;
+  }
+  const actualChecksum = createHash("sha256").update(readFileSync(artifactRealPath)).digest("hex");
   if (actualChecksum !== artifact.checksum.toLowerCase()) {
     failures.push(`Artifact ${artifact.artifactId || artifact.kind} checksum mismatch: expected ${artifact.checksum}, found ${actualChecksum}.`);
   }
@@ -147,10 +167,8 @@ if (failures.length > 0) {
 console.log(`PASS ${candidateProfile?.label ?? "Phaser candidate"} package is hash-verified, frozen-source-bound, and remains review-only (${relative(candidateRoot, returnPackagePath)}).`);
 
 function readJsonArtifact(kind) {
-  const artifactPath = artifactPaths.get(kind);
-  if (!isSafeRelativePath(artifactPath)) return undefined;
-  const absolutePath = resolve(candidateRoot, artifactPath);
-  if (!existsSync(absolutePath)) return undefined;
+  const absolutePath = resolveArtifactReadPath(kind);
+  if (!absolutePath) return undefined;
 
   try {
     return JSON.parse(readFileSync(absolutePath, "utf8"));
@@ -161,11 +179,18 @@ function readJsonArtifact(kind) {
 }
 
 function readTextArtifact(kind) {
-  const artifactPath = artifactPaths.get(kind);
-  if (!isSafeRelativePath(artifactPath)) return "";
-  const absolutePath = resolve(candidateRoot, artifactPath);
-  if (!existsSync(absolutePath)) return "";
+  const absolutePath = resolveArtifactReadPath(kind);
+  if (!absolutePath) return "";
   return readFileSync(absolutePath, "utf8");
+}
+
+function resolveArtifactReadPath(kind) {
+  const artifactPath = artifactPaths.get(kind);
+  if (!isSafeRelativePath(artifactPath)) return undefined;
+  const absolutePath = resolve(candidateRoot, artifactPath);
+  if (!isRegularFile(absolutePath)) return undefined;
+  const realPath = realpathSync(absolutePath);
+  return isWithin(candidateRoot, realPath) ? realPath : undefined;
 }
 
 function validateFixture(fixture) {
@@ -385,8 +410,16 @@ function isSafeRelativePath(value) {
 }
 
 function isWithin(root, target) {
-  const rootWithSeparator = root.endsWith("\\") || root.endsWith("/") ? root : `${root}\\`;
-  return target === root || target.startsWith(rootWithSeparator);
+  const relativePath = relative(root, target);
+  return relativePath === "" || (relativePath !== ".." && !relativePath.startsWith("..\\") && !relativePath.startsWith("../") && !relativePath.includes(":"));
+}
+
+function isRegularFile(path) {
+  try {
+    return statSync(path).isFile();
+  } catch {
+    return false;
+  }
 }
 
 function fail(message) {

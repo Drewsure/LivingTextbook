@@ -2516,3 +2516,14 @@ covering the boundary.
 This does not enable model calls, provider billing, student assignment,
 progression, persistence, reporting, or Phaser source promotion. See ADR 0760
 and DR-837.
+
+## 0765 - Phaser candidate root isolation
+
+Hardened the external Z.ai evidence-package verifier so candidate roots must
+resolve outside the product repository and manifest/artifact reads must remain
+inside that isolated root. Regular-file and symlink-escape checks now fail
+closed, with a regression test proving an in-repository candidate is rejected.
+
+This preserves the review-only handoff and does not import source, create
+routes, mutate scoring or audio policy, assign students, or promote Phaser
+code. See ADR 0761 and DR-838.

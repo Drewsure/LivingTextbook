@@ -34,6 +34,12 @@ reviewed artifacts: source archive manifest, fixture, README, event replay,
 audio coverage, scoring replay, mobile/accessibility evidence, and wrapper
 notes. Every artifact must be hash-verified on disk.
 
+The candidate root must be outside the `LivingTextbook` repository. The gate
+resolves the candidate root, the return manifest, and every artifact before
+reading them; a missing file, directory, or symlink that resolves outside the
+isolated root is rejected. This prevents a review packet from accidentally
+reading or promoting product files through a relative path.
+
 The foundation suite also runs a temporary synthetic package test. It proves
 that a complete evidence packet passes and that a packet declaring random
 rewards or cross-session audio evidence is rejected; no candidate source or

@@ -2838,3 +2838,17 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-836 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-837 and
 `docs/adr/0760-ai-evidence-target-language.md`.
+
+## 185. Isolated Phaser Candidate Root Standard
+
+- Returned Z.ai evidence packages must live outside the `LivingTextbook`
+  repository; `apps`, `packages`, `scripts`, and other product paths are not
+  candidate staging areas.
+- The candidate verifier must resolve the return manifest and every artifact,
+  require regular files, and reject symlink or path escapes before reading.
+- A passing package remains review-only. Isolation prevents accidental source
+  promotion; it does not authorize route replacement, scoring mutation,
+  persistence, assignment, or student use.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-838 and
+`docs/adr/0761-phaser-candidate-root-isolation.md`.

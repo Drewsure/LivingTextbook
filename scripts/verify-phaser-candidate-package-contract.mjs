@@ -36,6 +36,9 @@ const verifierMarkers = [
   "miss",
   "approved candidate profiles",
   "phaserCandidateProfiles.json",
+  "stored outside the LivingTextbook repository",
+  "return-package.json must resolve inside the isolated candidate root",
+  "isRegularFile",
 ];
 
 const guideMarkers = [
