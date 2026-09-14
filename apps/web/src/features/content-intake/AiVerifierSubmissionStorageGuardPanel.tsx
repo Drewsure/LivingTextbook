@@ -2,7 +2,7 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import {
   getAiVerifierSubmissionStorageGuardCollectionWarnings,
   validateAiVerifierSubmissionStorageGuards,
-} from "@living-textbook/content-model/src/aiVerifierSubmissionStorageGuard";
+} from "@living-textbook/content-model";
 import type {
   AiVerifierSubmissionStorageGuard,
   AiVerifierSubmissionStorageGuardStatus,

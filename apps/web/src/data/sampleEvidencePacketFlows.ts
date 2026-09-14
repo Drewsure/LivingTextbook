@@ -1,7 +1,7 @@
 import {
   validateReviewSurfaceScope,
   type ReviewSurfaceScopeKind,
-} from "@living-textbook/content-model/src/reviewSurfaceScope";
+} from "@living-textbook/content-model";
 
 export type EvidencePacketStatus = "preview-ready" | "missing-evidence" | "blocked";
 

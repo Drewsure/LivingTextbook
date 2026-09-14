@@ -6,7 +6,7 @@ import { samplePrototypeIntakeQueue } from "@/data/samplePrototypeIntakeQueue";
 import { sampleAiPrototypeIntegrationReadinessGates } from "@/data/sampleAiPrototypeIntegrationReadinessGate";
 import { validateAiPrototypeEvidenceAlignmentBundles } from "@living-textbook/content-model/src/aiPrototypeEvidenceAlignment";
 import { validateAiPrototypeIntegrationReadinessGates } from "@living-textbook/content-model/src/aiPrototypeIntegrationReadinessGate";
-import { validatePrototypeIntakeReadinessSummary } from "@living-textbook/content-model/src/prototypeIntakeReadinessSummary";
+import { validatePrototypeIntakeReadinessSummary } from "@living-textbook/content-model";
 import {
   derivePrototypeIntakeAlertDecision,
   derivePrototypeIntakeCodexAlertState,

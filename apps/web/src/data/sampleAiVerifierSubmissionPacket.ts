@@ -4,7 +4,7 @@ import {
   type AiVerifierCheckStatus,
   type AiVerifierSubmissionCheck,
   type AiVerifierSubmissionPacket,
-} from "@living-textbook/content-model/src/aiVerifierSubmissionPacket";
+} from "@living-textbook/content-model";
 
 export type { AiVerifierCheckStatus, AiVerifierSubmissionCheck, AiVerifierSubmissionPacket };
 

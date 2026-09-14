@@ -2,7 +2,7 @@ import {
   derivePrototypeReturnReadinessStatus,
   derivePrototypeReturnReviewState,
 } from "@living-textbook/content-model/src/prototypeReturnReadiness";
-import { validatePrototypeReturnReadinessSummary } from "@living-textbook/content-model/src/prototypeReturnReadinessSummary";
+import { validatePrototypeReturnReadinessSummary } from "@living-textbook/content-model";
 import {
   samplePrototypeReturnPackageChecklists,
   type PrototypeReturnPackageChecklist,

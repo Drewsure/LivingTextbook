@@ -3,7 +3,7 @@ import type {
   PrototypeIntakeStorageGuard,
   PrototypeIntakeStorageGuardStatus,
 } from "@/data/samplePrototypeIntakeStorageGuard";
-import { validateReviewSurfaceScope } from "@living-textbook/content-model/src/reviewSurfaceScope";
+import { validateReviewSurfaceScope } from "@living-textbook/content-model";
 
 interface PrototypeIntakeStorageGuardPanelProps {
   guards: PrototypeIntakeStorageGuard[];

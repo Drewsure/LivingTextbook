@@ -1503,6 +1503,9 @@ function toSafeNonNegativeInteger(value: number): number {
 
 export * from "./sessionSettings";
 export * from "./reviewSurfaceScope";
+export * from "./prototypeIntakeReadinessSummary";
+export * from "./prototypeReturnReadinessSummary";
+export * from "./aiGenerationRequestPacketPreview";
 export * from "./persistenceAdapter";
 export * from "./persistenceConsistency";
 export * from "./persistenceRuntime";

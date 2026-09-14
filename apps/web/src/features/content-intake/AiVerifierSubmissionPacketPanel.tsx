@@ -2,7 +2,7 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import {
   getAiVerifierSubmissionPacketCollectionWarnings,
   validateAiVerifierSubmissionPackets,
-} from "@living-textbook/content-model/src/aiVerifierSubmissionPacket";
+} from "@living-textbook/content-model";
 import type { AiVerifierCheckStatus, AiVerifierSubmissionPacket } from "@/data/sampleAiVerifierSubmissionPacket";
 
 interface AiVerifierSubmissionPacketPanelProps {

@@ -3,7 +3,7 @@ import {
   validateAiVerifierSubmissionStorageGuards,
   type AiVerifierSubmissionStorageGuard,
   type AiVerifierSubmissionStorageGuardStatus,
-} from "@living-textbook/content-model/src/aiVerifierSubmissionStorageGuard";
+} from "@living-textbook/content-model";
 
 export type { AiVerifierSubmissionStorageGuard, AiVerifierSubmissionStorageGuardStatus };
 

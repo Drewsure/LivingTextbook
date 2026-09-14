@@ -3,7 +3,7 @@ import {
   validateAiGenerationRequestPacketPreviews,
   type AiGenerationRequestPacketPreview,
   type AiGenerationRequestPacketStatus,
-} from "@living-textbook/content-model/src/aiGenerationRequestPacketPreview";
+} from "@living-textbook/content-model";
 
 export type { AiGenerationRequestPacketPreview, AiGenerationRequestPacketStatus };
 

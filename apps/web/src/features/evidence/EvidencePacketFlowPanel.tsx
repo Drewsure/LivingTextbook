@@ -1,6 +1,6 @@
 import { Card, StatusPill } from "@living-textbook/ui";
 import type { EvidencePacket, EvidencePacketFlow, EvidencePacketStatus } from "@/data/sampleEvidencePacketFlows";
-import { validateReviewSurfaceScope } from "@living-textbook/content-model/src/reviewSurfaceScope";
+import { validateReviewSurfaceScope } from "@living-textbook/content-model";
 
 interface EvidencePacketFlowPanelProps {
   flow: EvidencePacketFlow;

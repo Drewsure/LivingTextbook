@@ -3,7 +3,7 @@ import {
   getAiGenerationRequestPacketPreviewWarnings,
   isAiGenerationRequestPacketLiveBlocked,
   validateAiGenerationRequestPacketPreview,
-} from "@living-textbook/content-model/src/aiGenerationRequestPacketPreview";
+} from "@living-textbook/content-model";
 import type {
   AiGenerationRequestPacketPreview,
   AiGenerationRequestPacketStatus,

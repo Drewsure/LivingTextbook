@@ -5,7 +5,7 @@ import {
   type AiVerifierResultEvidenceCheckStatus,
   type AiVerifierResultEvidencePacket,
   type AiVerifierResultEvidencePacketStatus,
-} from "@living-textbook/content-model/src/aiVerifierResultEvidencePacket";
+} from "@living-textbook/content-model";
 
 export type {
   AiVerifierResultEvidenceCheck,

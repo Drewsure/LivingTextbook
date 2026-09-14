@@ -3050,3 +3050,17 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-852 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-853 and
 `docs/adr/0776-curated-activity-offer-contract.md`.
+
+## 201. Review Contract Public-Boundary Standard
+
+- Review-only evidence, verifier, intake-readiness, and prototype-return
+  contracts used by the web application must be exported through the public
+  `packages/content-model` package boundary.
+- Panels and sample fixtures may not depend on internal content-model file
+  paths when the contract is part of a reusable platform surface.
+- Public export does not authorize live AI calls, uploads, persistence,
+  student assignment, or Phaser source promotion; those actions remain behind
+  their existing evidence and approval gates.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-854 and
+`docs/adr/0777-review-contract-public-boundary.md`.

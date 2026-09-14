@@ -1,5 +1,5 @@
 import { Card, StatusPill } from "@living-textbook/ui";
-import { validatePrototypeReturnReadinessSummary } from "@living-textbook/content-model/src/prototypeReturnReadinessSummary";
+import { validatePrototypeReturnReadinessSummary } from "@living-textbook/content-model";
 import type {
   PrototypeReturnReadinessLane,
   PrototypeReturnReadinessStatus,

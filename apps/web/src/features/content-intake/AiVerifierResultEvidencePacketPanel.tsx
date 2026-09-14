@@ -2,7 +2,7 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import {
   getAiVerifierResultEvidencePacketCollectionWarnings,
   validateAiVerifierResultEvidencePackets,
-} from "@living-textbook/content-model/src/aiVerifierResultEvidencePacket";
+} from "@living-textbook/content-model";
 import type {
   AiVerifierResultEvidenceCheckStatus,
   AiVerifierResultEvidencePacket,

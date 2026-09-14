@@ -2676,3 +2676,15 @@ This keeps curated, pre-reviewed activity pathways tenant-configurable without
 creating a giant switch-anything panel. It does not add new games, enable live
 uploads, activate persistence, or authorize Phaser source promotion. See ADR
 0776 and DR-853.
+
+## 0780 - Review contract public boundary
+
+Promoted review-surface, prototype-intake readiness, prototype-return
+readiness, AI generation request preview, and verifier evidence contracts
+through the public `packages/content-model` package root. Updated the web
+panels and sample fixtures to consume those contracts from the root rather
+than internal package paths.
+
+This is a composition and ownership hardening slice. It keeps evidence
+surfaces review-only and does not enable live AI calls, uploads, persistence,
+student assignment, or Phaser source promotion. See ADR 0777 and DR-854.
