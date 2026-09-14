@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { Button, Card, StatusPill } from "@living-textbook/ui";
+import { resolveTargetLanguage } from "@living-textbook/content-model";
 import type { GameProgressEvent, LaunchSession, StudentProgressionState, UnitPayload } from "@living-textbook/content-model";
 import { AudioCueText, playAudioCueText } from "@/features/audio/AudioCueButton";
 import { AudioSupportedAction } from "@/features/audio/AudioSupportedAction";
@@ -29,7 +30,10 @@ interface TrainingAcademyFlowProps {
 }
 
 export function TrainingAcademyFlow({ tenant, unit, launchSession, progression, initialFocusType = "vocabulary-review" }: TrainingAcademyFlowProps) {
-  const targetLanguage = tenant.languageSettings?.targetLanguage ?? unit.unitMeta.textbookReference?.language ?? "en";
+  const targetLanguage = resolveTargetLanguage({
+    tenantTargetLanguage: tenant.languageSettings?.targetLanguage,
+    unitLanguage: unit.unitMeta.textbookReference?.language,
+  });
   const focusOptions = useMemo(() => createTrainingAcademyFocusConfigs({ unit, launchSession }), [unit, launchSession]);
   const initialFocusIsAvailable = focusOptions.some((option) => option.focusType === initialFocusType);
   const [selectedFocusType, setSelectedFocusType] = useState<TrainingFocusType>(initialFocusIsAvailable ? initialFocusType : "vocabulary-review");

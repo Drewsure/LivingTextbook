@@ -10,6 +10,7 @@ import type {
   StudentProgressionState,
   UnitPayload,
 } from "@living-textbook/content-model";
+import { resolveTargetLanguage } from "@living-textbook/content-model";
 import { AudioCueButton, AudioCueText, playAudioCueText } from "@/features/audio/AudioCueButton";
 import {
   completeGameMode,
@@ -57,7 +58,10 @@ export function PairingMatchUpGame({
   const [lastResult, setLastResult] = useState<PairingSelectionResult | undefined>();
   const [mismatchCardIds, setMismatchCardIds] = useState<string[]>([]);
   const [completionSent, setCompletionSent] = useState(false);
-  const targetLanguage = configuredTargetLanguage ?? unit.unitMeta.textbookReference?.language ?? "en";
+  const targetLanguage = resolveTargetLanguage({
+    tenantTargetLanguage: configuredTargetLanguage,
+    unitLanguage: unit.unitMeta.textbookReference?.language,
+  });
   const startSentRef = useRef(false);
   const mode = getGameModeCatalogItem(gameMode);
   const scoringProfile = getRequiredGameScoringProfileForMode(gameMode);

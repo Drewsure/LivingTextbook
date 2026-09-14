@@ -6,6 +6,7 @@ const progressionAdapter = readSource("../apps/web/src/features/progression/loca
 const routeVerifier = readSource("./verify-active-routes.mjs");
 const assistStandard = readSource("../docs/ASSIST_LANGUAGE_STANDARD.md");
 const futureRequirements = readSource("../docs/FUTURE_REQUIREMENTS.md");
+const contentModel = readSource("../packages/content-model/src/index.ts");
 const failures = [];
 
 const requiredLanes = [
@@ -50,6 +51,9 @@ requireText(futureRequirements, "Japanese As Target Language For White-Label Ten
 requireText(progressionAdapter, "targetLanguageGateSatisfied", "Progression adapter must independently enforce the target-language gate.");
 requireText(progressionAdapter, 'blockedReason: "target-language-gate"', "Progression adapter must expose a deterministic blocked gate result.");
 requireText(progressionAdapter, "args.targetLanguageEngagedItems >= args.requiredTargetLanguageItems", "Progression adapter must compare target-language evidence with the required count.");
+requireText(contentModel, "export function resolveTargetLanguage", "Content model must own the shared target-language resolver.");
+requireText(contentModel, "tenantTargetLanguage, unitLanguage, fallback", "Target-language resolver must declare tenant, unit, and fallback precedence inputs.");
+requireText(contentModel, "[tenantTargetLanguage, unitLanguage, fallback]", "Target-language resolver must prefer tenant language, then unit language, then baseline.");
 
 if (failures.length > 0) {
   for (const failure of failures) {

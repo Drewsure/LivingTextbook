@@ -2404,3 +2404,15 @@ silent fallback into a typecheck-visible contract failure.
 Canonical verification now guards the primitive API itself. No progression,
 unlock, scoring, persistence, reporting, assignment, reward, or Phaser
 source-promotion behavior changed. See ADR 0753 and DR-827.
+
+## 0755 - Shared target-language resolver
+
+Centralized tenant-first, unit-second, explicit-English-baseline language
+resolution in the content model and wired the resolver through canonical game
+wrappers, route shells, student launch, training, media, printable previews,
+and teacher-session evidence. Added a target-language readiness guard for the
+resolver contract.
+
+This removes duplicated white-label language precedence without changing
+progression, unlock, scoring, persistence, reporting, assignment, reward, or
+Phaser source-promotion behavior. See ADR 0754 and DR-828.

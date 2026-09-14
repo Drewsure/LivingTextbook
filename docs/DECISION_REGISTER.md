@@ -4751,3 +4751,14 @@ English defaults. Caller-owned tenant, unit, reviewed-cue, and assist
 language context must be explicit at each learner speech boundary. This does
 not enable persistence, report export, progression, rewards, assignment, or
 Phaser source promotion. See ADR 0753.
+
+# DR-828: Shared Target-Language Resolver
+
+Use one content-model resolver for target-language precedence across tenant,
+unit, learner route, canonical game, media, printable, training, and teacher
+evidence boundaries. The resolver chooses tenant target language first, unit
+language second, and the explicit English platform baseline last. This avoids
+white-label drift caused by individual routes or games reimplementing the
+fallback chain. It does not change support-language policy, progression
+triggers, scoring, persistence, reporting, assignment, rewards, or Phaser
+source promotion. See ADR 0754.

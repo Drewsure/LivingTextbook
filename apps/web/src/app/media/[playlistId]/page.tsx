@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { getUnitKey, resolveTargetLanguage } from "@living-textbook/content-model";
 import { AppShell } from "@/components/layout/AppShell";
 import { sampleLaunchSession, sampleStudentProgression } from "@/data/sampleLaunchSession";
 import { sampleMultimediaContentPackage } from "@/data/sampleMultimediaPackage";
@@ -42,16 +43,25 @@ export default async function MediaPlaylistPage({
     }))
     .find((candidate) => candidate.playlist);
 
-  if (!resolved?.playlist) {
+  const resolvedPlaylist = resolved?.playlist;
+
+  if (!resolved || !resolvedPlaylist) {
     notFound();
   }
+
+  const playlistUnit = resolved.contentPackage.units.find(
+    (candidate) => getUnitKey(candidate.unitMeta) === resolvedPlaylist.unitKey,
+  );
 
   return (
     <AppShell tenant={resolved.tenant} compact>
       <MediaPlaylistRoutePanel
-        playlist={resolved.playlist}
+        playlist={resolvedPlaylist}
         contentPackage={resolved.contentPackage}
-        targetLanguage={resolved.tenant.languageSettings?.targetLanguage ?? "en"}
+        targetLanguage={resolveTargetLanguage({
+          tenantTargetLanguage: resolved.tenant.languageSettings?.targetLanguage,
+          unitLanguage: playlistUnit?.unitMeta.textbookReference?.language,
+        })}
         launchSession={resolved.launchSession}
         progression={resolved.progression}
         returnPath={resolved.returnPath}

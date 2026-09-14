@@ -10,6 +10,7 @@ import type {
   StudentProgressionState,
   UnitPayload,
 } from "@living-textbook/content-model";
+import { resolveTargetLanguage } from "@living-textbook/content-model";
 import { AudioCueText } from "@/features/audio/AudioCueButton";
 import { AudioSupportedAction } from "@/features/audio/AudioSupportedAction";
 import {
@@ -65,7 +66,10 @@ export function SpeakItPracticeGame({
   const mode = getGameModeCatalogItem(gameMode);
   const scoringProfile = getRequiredGameScoringProfileForMode(gameMode);
   const prompts = createSpeakItPrompts(unit, audioCues);
-  const targetLanguage = configuredTargetLanguage ?? unit.unitMeta.textbookReference?.language ?? "en";
+  const targetLanguage = resolveTargetLanguage({
+    tenantTargetLanguage: configuredTargetLanguage,
+    unitLanguage: unit.unitMeta.textbookReference?.language,
+  });
   const startSentRef = useRef(false);
   const shownPromptIdsRef = useRef(new Set<string>());
   const completedAlready = progression.completedGameModes.includes(gameMode);

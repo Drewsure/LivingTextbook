@@ -9,6 +9,7 @@ import type {
   StudentProgressionState,
   UnitPayload,
 } from "@living-textbook/content-model";
+import { resolveTargetLanguage } from "@living-textbook/content-model";
 import { AudioCueButton, AudioCueText, playAudioCueText } from "@/features/audio/AudioCueButton";
 import { AudioSupportedAction } from "@/features/audio/AudioSupportedAction";
 import {
@@ -55,7 +56,10 @@ export function FillInBlankPracticeGame({
   const rounds = useMemo(() => buildFillInBlankRounds(unit), [unit]);
   const scoringProfile = getRequiredGameScoringProfileForMode(gameMode);
   const scoringProfileId = scoringProfile.id;
-  const targetLanguage = configuredTargetLanguage ?? unit.unitMeta.textbookReference?.language ?? "en";
+  const targetLanguage = resolveTargetLanguage({
+    tenantTargetLanguage: configuredTargetLanguage,
+    unitLanguage: unit.unitMeta.textbookReference?.language,
+  });
   const startEventSent = useRef(false);
   const [roundIndex, setRoundIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState("");

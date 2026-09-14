@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { resolveCanonicalGameReplaySeed } from "@living-textbook/content-model";
+import { resolveCanonicalGameReplaySeed, resolveTargetLanguage } from "@living-textbook/content-model";
 import type {
   AudioCue,
   ContentPackage,
@@ -172,7 +172,7 @@ export function FlashcardDemoFlow({
         progression={currentProgression}
         events={sessionEvents}
         rewardName={tenant.rewardName}
-        targetLanguage={tenant.languageSettings?.targetLanguage ?? unit.unitMeta.textbookReference?.language ?? "en"}
+        targetLanguage={resolveTargetLanguage({ tenantTargetLanguage: tenant.languageSettings?.targetLanguage, unitLanguage: unit.unitMeta.textbookReference?.language })}
       />
       <GameLearningAudioContractCard
         tenant={tenant}
@@ -209,7 +209,7 @@ export function FlashcardDemoFlow({
       <RecommendedGameRoutesCard
         launchSession={launchSession}
         progression={currentProgression}
-        targetLanguage={tenant.languageSettings?.targetLanguage ?? unit.unitMeta.textbookReference?.language ?? "en"}
+        targetLanguage={resolveTargetLanguage({ tenantTargetLanguage: tenant.languageSettings?.targetLanguage, unitLanguage: unit.unitMeta.textbookReference?.language })}
         contentPackageId={contentPackage.meta.packageId}
         onRouteGuidanceListened={handleRouteGuidanceListened}
       />

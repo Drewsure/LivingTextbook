@@ -81,7 +81,7 @@ export function UnitMediaPlaybackCard({
               onEnded={onComplete}
               onError={() => setPlaybackError(true)}
             >
-              {asset.transcriptUri && <track kind="captions" src={asset.transcriptUri} srcLang={asset.language ?? "en"} label="Captions" />}
+              {asset.transcriptUri && <track kind="captions" src={asset.transcriptUri} srcLang={asset.language ?? targetLanguage} label="Captions" />}
             </video>
           )
         ) : (

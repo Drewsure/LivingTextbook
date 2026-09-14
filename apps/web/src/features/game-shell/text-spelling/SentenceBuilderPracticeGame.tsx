@@ -9,6 +9,7 @@ import type {
   StudentProgressionState,
   UnitPayload,
 } from "@living-textbook/content-model";
+import { resolveTargetLanguage } from "@living-textbook/content-model";
 import { AudioCueButton, AudioCueText, playAudioCueText } from "@/features/audio/AudioCueButton";
 import { AudioSupportedAction } from "@/features/audio/AudioSupportedAction";
 import {
@@ -46,7 +47,10 @@ export function SentenceBuilderPracticeGame({
 }: SentenceBuilderPracticeGameProps) {
   const preview = useMemo(() => buildSentenceBuilderPreview(unit), [unit]);
   const scoringProfile = getGameScoringProfileForMode(gameMode);
-  const targetLanguage = configuredTargetLanguage ?? unit.unitMeta.textbookReference?.language ?? "en";
+  const targetLanguage = resolveTargetLanguage({
+    tenantTargetLanguage: configuredTargetLanguage,
+    unitLanguage: unit.unitMeta.textbookReference?.language,
+  });
   const startSentRef = useRef(false);
   const [roundIndex, setRoundIndex] = useState(0);
   const [selectedTileIds, setSelectedTileIds] = useState<string[]>([]);

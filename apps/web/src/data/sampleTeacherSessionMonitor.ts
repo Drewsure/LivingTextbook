@@ -27,6 +27,7 @@ import {
   validateTeacherSessionControlActions,
   validateTeacherSessionSettings,
   validateCanonicalGameReportEvidence,
+  resolveTargetLanguage,
 } from "@living-textbook/content-model";
 import { sampleClassroomLaunchGate } from "./sampleClassroomLaunchGate";
 import { resolveSampleLaunchContext } from "./sampleLaunchResolver";
@@ -242,9 +243,10 @@ export function resolveSampleTeacherSessionMonitorContext(launchCode: string): T
     events,
     launchContext.tenant.id,
     launchContext.launchSession.launchCode,
-    launchContext.tenant.languageSettings?.targetLanguage
-      ?? launchContext.unit?.unitMeta.textbookReference?.language
-      ?? "en",
+    resolveTargetLanguage({
+      tenantTargetLanguage: launchContext.tenant.languageSettings?.targetLanguage,
+      unitLanguage: launchContext.unit?.unitMeta.textbookReference?.language,
+    }),
   );
 
   return {

@@ -1,7 +1,7 @@
 "use client";
 
 import { Card, StatusPill } from "@living-textbook/ui";
-import { getUnitKey } from "@living-textbook/content-model";
+import { getUnitKey, resolveTargetLanguage } from "@living-textbook/content-model";
 import type {
   ContentPackage,
   GameModeId,
@@ -52,7 +52,10 @@ export function StudentActivityHubFlow({
   offerMap,
 }: StudentActivityHubFlowProps) {
   const unitKey = getUnitKey(unit.unitMeta);
-  const targetLanguage = tenant.languageSettings?.targetLanguage ?? unit.unitMeta.textbookReference?.language ?? "en";
+  const targetLanguage = resolveTargetLanguage({
+    tenantTargetLanguage: tenant.languageSettings?.targetLanguage,
+    unitLanguage: unit.unitMeta.textbookReference?.language,
+  });
   const playlist = contentPackage.playlists?.find((candidate) => candidate.unitKey === unitKey);
   const entryComplete = progression.completedGameModes.includes(launchSession.entryMode);
   const activities = buildActivityItems({

@@ -1,6 +1,7 @@
 "use client";
 
 import { Card, StatusPill } from "@living-textbook/ui";
+import { resolveTargetLanguage } from "@living-textbook/content-model";
 import type { ContentPackage, UnitAssistLanguagePlan, UnitPayload } from "@living-textbook/content-model";
 import { formatLanguageName } from "@/features/language/languageLabels";
 import { getMediaPlaylistPath, getSentenceBuilderPath, getStudentLaunchPath } from "@/features/routes/routeContracts";
@@ -22,7 +23,7 @@ export function PrintableWorksheetPreview({
   const sentencePath = getSentenceBuilderPath(launchCode);
   const playlist = contentPackage.playlists?.find((candidate) => candidate.unitKey === getPrintableUnitKey(unit));
   const audioPlan = contentPackage.audioSupportPlans?.find((candidate) => candidate.unitKey === getPrintableUnitKey(unit));
-  const targetLanguage = unit.unitMeta.textbookReference?.language ?? "en";
+  const targetLanguage = resolveTargetLanguage({ unitLanguage: unit.unitMeta.textbookReference?.language });
   const supportLanguage = assistLanguagePlan?.assistLanguage;
   const textbookReference = unit.unitMeta.textbookReference ?? contentPackage.meta.textbookReference;
 

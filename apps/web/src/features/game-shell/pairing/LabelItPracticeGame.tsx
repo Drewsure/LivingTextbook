@@ -9,6 +9,7 @@ import type {
   StudentProgressionState,
   UnitPayload,
 } from "@living-textbook/content-model";
+import { resolveTargetLanguage } from "@living-textbook/content-model";
 import { AudioCueButton, AudioCueText, playAudioCueText } from "@/features/audio/AudioCueButton";
 import {
   completeGameMode,
@@ -53,7 +54,10 @@ export function LabelItPracticeGame({
   const anchors = useMemo(() => buildLabelAnchors(unit), [unit]);
   const scoringProfile = getRequiredGameScoringProfileForMode(gameMode);
   const scoringProfileId = scoringProfile.id;
-  const targetLanguage = configuredTargetLanguage ?? unit.unitMeta.textbookReference?.language ?? "en";
+  const targetLanguage = resolveTargetLanguage({
+    tenantTargetLanguage: configuredTargetLanguage,
+    unitLanguage: unit.unitMeta.textbookReference?.language,
+  });
   const startEventSent = useRef(false);
   const roundShownSent = useRef(false);
   const [selectedLabel, setSelectedLabel] = useState<string | undefined>();

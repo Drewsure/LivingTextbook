@@ -10,6 +10,7 @@ import type {
   StudentProgressionState,
   UnitPayload,
 } from "@living-textbook/content-model";
+import { resolveTargetLanguage } from "@living-textbook/content-model";
 import { AudioCueText, playAudioCueText } from "@/features/audio/AudioCueButton";
 import {
   completeGameMode,
@@ -65,7 +66,10 @@ export function PairingMemoryMatchGame({
   const completedAlready = progression.completedGameModes.includes(gameMode);
   const instructionCue = findAudioCueForGame(audioCues, "instruction", gameMode);
   const feedbackCue = findAudioCueForGame(audioCues, "feedback", gameMode);
-  const targetLanguage = configuredTargetLanguage ?? unit.unitMeta.textbookReference?.language ?? "en";
+  const targetLanguage = resolveTargetLanguage({
+    tenantTargetLanguage: configuredTargetLanguage,
+    unitLanguage: unit.unitMeta.textbookReference?.language,
+  });
 
   useEffect(() => {
     if (startSentRef.current) {

@@ -2742,3 +2742,20 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-826 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-827 and
 `docs/adr/0753-explicit-speech-primitive-language.md`.
+
+## 178. Shared Target-Language Resolver Standard
+
+- Tenant target language has precedence over unit language for every mounted
+  learner experience.
+- Unit language is the fallback when a tenant has not configured a target
+  language. English is the explicit platform baseline only when neither
+  boundary supplies a language.
+- Canonical games, route shells, training, media, print previews, student
+  launch, and teacher evidence must consume the shared content-model resolver;
+  individual surfaces must not reimplement the precedence chain.
+- This is a white-label platform rule. MiniStar's English target-language and
+  Japanese support-language choices remain tenant configuration, not universal
+  platform requirements.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-828 and
+`docs/adr/0754-shared-target-language-resolver.md`.

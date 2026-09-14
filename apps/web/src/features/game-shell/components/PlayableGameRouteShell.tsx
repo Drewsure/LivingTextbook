@@ -10,7 +10,7 @@ import type {
   StudentProgressionState,
   UnitPayload,
 } from "@living-textbook/content-model";
-import { isGameModeSupportedAtLevel, languageMatches, resolveCanonicalGameReplaySeed } from "@living-textbook/content-model";
+import { isGameModeSupportedAtLevel, languageMatches, resolveCanonicalGameReplaySeed, resolveTargetLanguage } from "@living-textbook/content-model";
 import type { TeacherAssignmentPlan } from "@living-textbook/content-model/src/teacherAssignment";
 import { findSampleUnitGameOfferMap } from "@/data/sampleUnitGameOfferMap";
 import type { GameModeCompletionResult } from "@/features/progression/localProgressionAdapter";
@@ -82,7 +82,10 @@ export function PlayableGameRouteShell({
   const [lastEarnedDust, setLastEarnedDust] = useState(0);
   const [eventContractErrors, setEventContractErrors] = useState<string[]>([]);
   const offerMap = unit.unitMeta.contentPackageId ? findSampleUnitGameOfferMap(unit.unitMeta.contentPackageId) : undefined;
-  const targetLanguage = tenant.languageSettings?.targetLanguage ?? unit.unitMeta.textbookReference?.language ?? "en";
+  const targetLanguage = resolveTargetLanguage({
+    tenantTargetLanguage: tenant.languageSettings?.targetLanguage,
+    unitLanguage: unit.unitMeta.textbookReference?.language,
+  });
   const targetLanguageAudioCues = audioCues.filter((cue) => languageMatches(cue.language, targetLanguage));
   const replaySeed = resolveCanonicalGameReplaySeed({
     unitKey: launchSession.unitKey,

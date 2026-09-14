@@ -454,6 +454,20 @@ export function languageMatches(value: string, targetLanguage: string): boolean 
   return Boolean(target) && (language === target || language.startsWith(`${target}-`) || target.startsWith(`${language}-`));
 }
 
+export function resolveTargetLanguage({
+  tenantTargetLanguage,
+  unitLanguage,
+  fallback = "en",
+}: {
+  tenantTargetLanguage?: string;
+  unitLanguage?: string;
+  fallback?: string;
+} = {}): string {
+  return [tenantTargetLanguage, unitLanguage, fallback]
+    .map((language) => language?.trim())
+    .find((language): language is string => Boolean(language)) ?? "en";
+}
+
 function normalizeAudioText(value: string): string {
   return value.trim().replace(/\s+/g, " ").toLocaleLowerCase();
 }

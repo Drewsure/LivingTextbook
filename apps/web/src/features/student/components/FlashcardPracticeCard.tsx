@@ -9,6 +9,7 @@ import type {
   UnitAssistLanguagePlan,
   UnitPayload,
 } from "@living-textbook/content-model";
+import { resolveTargetLanguage } from "@living-textbook/content-model";
 import { AudioCueText } from "@/features/audio/AudioCueButton";
 import { AudioSupportedAction } from "@/features/audio/AudioSupportedAction";
 import { formatLanguageName } from "@/features/language/languageLabels";
@@ -48,9 +49,10 @@ export function FlashcardPracticeCard({
   onTargetPracticeEngaged,
   onComplete,
 }: FlashcardPracticeCardProps) {
-  const targetLanguage = tenant.languageSettings?.targetLanguage
-    ?? unit.unitMeta.textbookReference?.language
-    ?? "en";
+  const targetLanguage = resolveTargetLanguage({
+    tenantTargetLanguage: tenant.languageSettings?.targetLanguage,
+    unitLanguage: unit.unitMeta.textbookReference?.language,
+  });
   const instructionCue = findAudioCueForGame(audioCues, "instruction", launchSession.entryMode);
   const feedbackCue = findAudioCueForGame(audioCues, "feedback", launchSession.entryMode);
   const remainingTargetItems = Math.max(targetPracticeRequiredCount - targetPracticeEngagedCount, 0);

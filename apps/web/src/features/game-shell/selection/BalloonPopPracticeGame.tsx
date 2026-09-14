@@ -9,6 +9,7 @@ import type {
   StudentProgressionState,
   UnitPayload,
 } from "@living-textbook/content-model";
+import { resolveTargetLanguage } from "@living-textbook/content-model";
 import { AudioCueButton, AudioCueText, playAudioCueText } from "@/features/audio/AudioCueButton";
 import {
   completeGameMode,
@@ -48,7 +49,10 @@ export function BalloonPopPracticeGame({
   const rounds = useMemo(() => preview.rounds.filter((round) => round.skillFocus === "vocabulary"), [preview.rounds]);
   const scoringProfile = getRequiredGameScoringProfileForMode(gameMode);
   const scoringProfileId = scoringProfile.id;
-  const targetLanguage = configuredTargetLanguage ?? unit.unitMeta.textbookReference?.language ?? "en";
+  const targetLanguage = resolveTargetLanguage({
+    tenantTargetLanguage: configuredTargetLanguage,
+    unitLanguage: unit.unitMeta.textbookReference?.language,
+  });
   const startEventSent = useRef(false);
   const [roundIndex, setRoundIndex] = useState(0);
   const [completedRoundIds, setCompletedRoundIds] = useState<string[]>([]);

@@ -13,7 +13,7 @@ import type {
   TeacherSessionSettings,
   UnitPayload,
 } from "@living-textbook/content-model";
-import { createCanonicalGameReplaySeed, languageMatches } from "@living-textbook/content-model";
+import { createCanonicalGameReplaySeed, languageMatches, resolveTargetLanguage } from "@living-textbook/content-model";
 import { AudioSupportedAction } from "@/features/audio/AudioSupportedAction";
 import { PairingMatchUpGame } from "@/features/game-shell/pairing/PairingMatchUpGame";
 import { PairingMemoryMatchGame } from "@/features/game-shell/pairing/PairingMemoryMatchGame";
@@ -89,7 +89,10 @@ export function FrontDoorEntryFlow({
   const completionAcceptedModesRef = useRef<Set<GameModeId>>(new Set());
   const [targetPracticeEngagedItemIds, setTargetPracticeEngagedItemIds] = useState<string[]>([]);
   const microphonePracticeSettings = useTeacherMicrophonePracticeSettings(tenant);
-  const targetLanguage = tenant.languageSettings?.targetLanguage ?? unit.unitMeta.textbookReference?.language ?? "en";
+  const targetLanguage = resolveTargetLanguage({
+    tenantTargetLanguage: tenant.languageSettings?.targetLanguage,
+    unitLanguage: unit.unitMeta.textbookReference?.language,
+  });
   const targetLanguageAudioCues = (contentPackage.audioCues ?? []).filter((cue) => languageMatches(cue.language, targetLanguage));
 
   const entryComplete = currentProgression.completedGameModes.includes(launchSession.entryMode);
@@ -237,7 +240,7 @@ export function FrontDoorEntryFlow({
         launchCode: launchSession.launchCode,
         studentSessionId: currentProgression.studentSessionId,
       },
-      targetLanguage: tenant.languageSettings?.targetLanguage ?? unit.unitMeta.textbookReference?.language ?? "en",
+      targetLanguage,
     });
     setEventContractErrors(replay.errors);
 

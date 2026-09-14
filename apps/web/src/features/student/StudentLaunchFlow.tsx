@@ -16,6 +16,7 @@ import {
   createCanonicalGameReplaySeed,
   createProgressionContinuityEnvelope,
   languageMatches,
+  resolveTargetLanguage,
   validateProgressionContinuityRuntimeRequest,
 } from "@living-textbook/content-model";
 import type { TeacherAssignmentPlan } from "@living-textbook/content-model/src/teacherAssignment";
@@ -106,7 +107,10 @@ export function StudentLaunchFlow({
     sessionSettings?.assistLanguage.enabled ?? getDefaultAssistLanguageEnabled(tenant),
   );
   const microphonePracticeSettings = useTeacherMicrophonePracticeSettings(tenant);
-  const targetLanguage = tenant.languageSettings?.targetLanguage ?? unit.unitMeta.textbookReference?.language ?? "en";
+  const targetLanguage = resolveTargetLanguage({
+    tenantTargetLanguage: tenant.languageSettings?.targetLanguage,
+    unitLanguage: unit.unitMeta.textbookReference?.language,
+  });
   const targetLanguageAudioCues = audioCues.filter((cue) => languageMatches(cue.language, targetLanguage));
 
   const entryComplete = currentProgression.completedGameModes.includes(launchSession.entryMode);
@@ -306,7 +310,7 @@ export function StudentLaunchFlow({
         launchCode: launchSession.launchCode,
         studentSessionId: currentProgression.studentSessionId,
       },
-      targetLanguage: tenant.languageSettings?.targetLanguage ?? unit.unitMeta.textbookReference?.language ?? "en",
+      targetLanguage,
     });
     setEventContractErrors(replay.errors);
 
