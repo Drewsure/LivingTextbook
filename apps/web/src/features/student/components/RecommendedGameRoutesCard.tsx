@@ -3,7 +3,6 @@
 import { Card, StatusPill } from "@living-textbook/ui";
 import { getLevelAwareRecommendedGameModes, isGameModeSupportedAtLevel } from "@living-textbook/content-model";
 import type { GameModeId, LaunchSession, StudentProgressionState } from "@living-textbook/content-model";
-import { findSampleUnitGameOfferMap } from "@/data/sampleUnitGameOfferMap";
 import type { UnitGameOffer, UnitGameOfferMap } from "@/features/game-offers/unitGameOfferMapTypes";
 import { AudioCueButton, AudioCueText } from "@/features/audio/AudioCueButton";
 import { getGameModeRoutePath } from "@/features/routes/gameModeRoutePaths";
@@ -14,7 +13,7 @@ interface RecommendedGameRoutesCardProps {
   launchSession: LaunchSession;
   progression: StudentProgressionState;
   targetLanguage: string;
-  contentPackageId?: string;
+  offerMap?: UnitGameOfferMap;
   onRouteGuidanceListened?: (mode: GameModeId, routeStatus: "locked" | "unlocked" | "complete", routeHref: string) => void;
 }
 
@@ -22,10 +21,9 @@ export function RecommendedGameRoutesCard({
   launchSession,
   progression,
   targetLanguage,
-  contentPackageId,
+  offerMap,
   onRouteGuidanceListened,
 }: RecommendedGameRoutesCardProps) {
-  const offerMap = contentPackageId ? findSampleUnitGameOfferMap(contentPackageId) : undefined;
   const recommendedRoutes = buildRecommendedRoutes({ launchSession, progression, offerMap });
 
   if (recommendedRoutes.length === 0) {

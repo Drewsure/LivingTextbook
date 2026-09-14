@@ -5,7 +5,7 @@ import { SentenceBuilderDemoFlow } from "@/features/game-shell/text-spelling/Sen
 
 export default async function SentenceBuilderPage({ params }: { params: Promise<{ code: string }> }) {
   const { code } = await params;
-  const { tenant, contentPackage, unit, launchSession, progression, assignmentPlan } = resolveSampleLaunchContext(code);
+  const { tenant, contentPackage, unit, launchSession, progression, assignmentPlan, offerMap } = resolveSampleLaunchContext(code);
 
   if (!unit) {
     notFound();
@@ -20,6 +20,7 @@ export default async function SentenceBuilderPage({ params }: { params: Promise<
         progression={progression}
         audioCues={contentPackage.audioCues}
         assignmentPlan={assignmentPlan}
+        offerMap={offerMap}
       />
     </AppShell>
   );

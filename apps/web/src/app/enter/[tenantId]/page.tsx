@@ -25,6 +25,7 @@ export default async function FrontDoorEntryPage({ params }: { params: Promise<{
         expectedEntryCode={context.expectedEntryCode}
         expectedUserCode={context.expectedUserCode}
         allowedUserCodes={context.allowedUserCodes}
+        offerMap={context.offerMap}
       />
     </AppShell>
   );

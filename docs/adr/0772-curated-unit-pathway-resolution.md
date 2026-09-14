@@ -20,13 +20,18 @@ published offer map is available. Append Training Academy as the explicit
 review lane. The reusable feature receives the pathway from its page boundary;
 it does not look up sample tenant fixtures itself. Offer-map types and
 validation are also feature-owned; sample data only provides demo records.
+The launch resolver and front-door resolver are the sample-provider boundary:
+they may translate a demo package into an offer map, while the reusable
+student route cards and game shells receive the map by dependency injection.
 
 ## Consequences
 
 White-label tenants can control their reviewed mode order and labels through
 data while retaining one component and one parent-engine contract. The
 fallback prevents incomplete units from rendering an empty pathway, but it
-does not grant publication, assignment, or persistence authority.
+does not grant publication, assignment, or persistence authority. Removing
+fixture lookup from reusable route components keeps future hosted, local, and
+partner package providers interchangeable.
 
 ## Verification
 

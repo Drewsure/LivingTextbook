@@ -5,7 +5,7 @@ import { SpeakItDemoFlow } from "@/features/game-shell/speaking/SpeakItDemoFlow"
 
 export default async function SpeakItPage({ params }: { params: Promise<{ code: string }> }) {
   const { code } = await params;
-  const { tenant, contentPackage, unit, launchSession, progression, assignmentPlan } = resolveSampleLaunchContext(code);
+  const { tenant, contentPackage, unit, launchSession, progression, assignmentPlan, offerMap } = resolveSampleLaunchContext(code);
 
   if (!unit) {
     notFound();
@@ -20,6 +20,7 @@ export default async function SpeakItPage({ params }: { params: Promise<{ code: 
         progression={progression}
         audioCues={contentPackage.audioCues}
         assignmentPlan={assignmentPlan}
+        offerMap={offerMap}
       />
     </AppShell>
   );

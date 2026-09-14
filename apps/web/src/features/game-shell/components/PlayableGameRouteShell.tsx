@@ -12,7 +12,7 @@ import type {
 } from "@living-textbook/content-model";
 import { isGameModeSupportedAtLevel, languageMatches, resolveCanonicalGameReplaySeed, resolveTargetLanguage } from "@living-textbook/content-model";
 import type { TeacherAssignmentPlan } from "@living-textbook/content-model/src/teacherAssignment";
-import { findSampleUnitGameOfferMap } from "@/data/sampleUnitGameOfferMap";
+import type { UnitGameOfferMap } from "@/features/game-offers/unitGameOfferMapTypes";
 import type { GameModeCompletionResult } from "@/features/progression/localProgressionAdapter";
 import { UnitSessionProgressSummary } from "@/features/progression/UnitSessionProgressSummary";
 import { SessionEventLog } from "@/features/student/components/SessionEventLog";
@@ -31,6 +31,7 @@ export interface PlayableGameDemoFlowProps {
   progression: StudentProgressionState;
   audioCues?: AudioCue[];
   assignmentPlan?: TeacherAssignmentPlan;
+  offerMap?: UnitGameOfferMap;
 }
 
 interface PlayableGameRouteShellProps {
@@ -40,6 +41,7 @@ interface PlayableGameRouteShellProps {
   progression: StudentProgressionState;
   audioCues?: AudioCue[];
   assignmentPlan?: TeacherAssignmentPlan;
+  offerMap?: UnitGameOfferMap;
   gameMode: GameModeId;
   platformReplaySeed?: string;
   header: {
@@ -67,6 +69,7 @@ export function PlayableGameRouteShell({
   progression,
   audioCues = [],
   assignmentPlan,
+  offerMap,
   gameMode,
   platformReplaySeed,
   header,
@@ -81,7 +84,6 @@ export function PlayableGameRouteShell({
   const completionAcceptedRef = useRef(false);
   const [lastEarnedDust, setLastEarnedDust] = useState(0);
   const [eventContractErrors, setEventContractErrors] = useState<string[]>([]);
-  const offerMap = unit.unitMeta.contentPackageId ? findSampleUnitGameOfferMap(unit.unitMeta.contentPackageId) : undefined;
   const targetLanguage = resolveTargetLanguage({
     tenantTargetLanguage: tenant.languageSettings?.targetLanguage,
     unitLanguage: unit.unitMeta.textbookReference?.language,

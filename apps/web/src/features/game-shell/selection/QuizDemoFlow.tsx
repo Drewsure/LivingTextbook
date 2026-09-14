@@ -12,6 +12,7 @@ export function QuizDemoFlow({
   progression,
   audioCues = [],
   assignmentPlan,
+  offerMap,
 }: PlayableGameDemoFlowProps) {
   return (
     <PlayableGameRouteShell
@@ -21,6 +22,7 @@ export function QuizDemoFlow({
       progression={progression}
       audioCues={audioCues}
       assignmentPlan={assignmentPlan}
+      offerMap={offerMap}
       gameMode={gameMode}
       header={{
         eyebrow: "Core selection slice",

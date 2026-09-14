@@ -13,6 +13,7 @@ export function SpeakItDemoFlow({
   progression,
   audioCues = [],
   assignmentPlan,
+  offerMap,
 }: PlayableGameDemoFlowProps) {
   const launchMicrophonePracticeSettings = useTeacherMicrophonePracticeSettings(tenant);
 
@@ -24,6 +25,7 @@ export function SpeakItDemoFlow({
       progression={progression}
       audioCues={audioCues}
       assignmentPlan={assignmentPlan}
+      offerMap={offerMap}
       gameMode={gameMode}
       header={{
         eyebrow: "Core speaking slice",

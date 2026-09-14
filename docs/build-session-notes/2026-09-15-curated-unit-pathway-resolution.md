@@ -10,10 +10,17 @@
 - Preserved the shared catalog as a complete fallback for unpublished units.
 - Kept Training Academy explicit and separate from game modes.
 - Preserved parent-engine and audio contracts through catalog metadata.
+- Injected the resolved offer map through launch, front-door, flashcard, and
+  canonical game route boundaries so reusable route components no longer know
+  how sample packages are stored.
 
 ## Verification
 
 - Web typecheck passed.
+- Production Webpack build passed.
+- Foundation composition checks passed, including all four parent-engine
+  runtime contracts.
+- All 88 active route checks passed.
 - Full foundation verification remains the release gate for this slice.
 
 ## Boundary

@@ -46,6 +46,7 @@ import { RewardPreviewCard } from "@/features/student/components/RewardPreviewCa
 import { LaunchContextSafetyCard } from "@/features/student/components/LaunchContextSafetyCard";
 import { FrontDoorTeacherReportPreview } from "./FrontDoorTeacherReportPreview";
 import type { TenantConfig } from "@/features/tenant/types";
+import type { UnitGameOfferMap } from "@/features/game-offers/unitGameOfferMapTypes";
 
 interface FrontDoorEntryFlowProps {
   tenant: TenantConfig;
@@ -58,6 +59,7 @@ interface FrontDoorEntryFlowProps {
   expectedEntryCode: string;
   expectedUserCode: string;
   allowedUserCodes?: string[];
+  offerMap?: UnitGameOfferMap;
 }
 
 export function FrontDoorEntryFlow({
@@ -71,6 +73,7 @@ export function FrontDoorEntryFlow({
   expectedEntryCode,
   expectedUserCode,
   allowedUserCodes,
+  offerMap,
 }: FrontDoorEntryFlowProps) {
   const [entryCode, setEntryCode] = useState(expectedEntryCode);
   const [userCode, setUserCode] = useState(expectedUserCode);
@@ -346,7 +349,7 @@ export function FrontDoorEntryFlow({
               launchSession={launchSession}
               progression={currentProgression}
               targetLanguage={targetLanguage}
-              contentPackageId={contentPackage.meta.packageId}
+              offerMap={offerMap}
               onRouteGuidanceListened={handleRouteGuidanceListened}
             />
             {activeGameMode === "match-up" && (

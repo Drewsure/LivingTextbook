@@ -32,6 +32,8 @@ import { createSampleTeacherSessionSettings } from "./sampleTeacherSessionSettin
 import { ministarTenant } from "@/features/tenant/ministarTenant";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 import type { TenantConfig } from "@/features/tenant/types";
+import { findSampleUnitGameOfferMap } from "./sampleUnitGameOfferMap";
+import type { UnitGameOfferMap } from "@/features/game-offers/unitGameOfferMapTypes";
 
 export type SampleRouteRegistryStatus = "active-demo" | "draft" | "retired";
 
@@ -62,6 +64,7 @@ export interface SampleFrontDoorContext {
   expectedUserCode: string;
   allowedUserCodes: string[];
   classRosterPlan?: ClassRosterPlan;
+  offerMap?: UnitGameOfferMap;
 }
 
 export const sampleFrontDoorRouteRegistry: SampleFrontDoorRouteRegistryEntry[] = [
@@ -130,5 +133,6 @@ export function createSampleFrontDoorContext(
     expectedUserCode: route.expectedUserCode,
     allowedUserCodes,
     classRosterPlan,
+    offerMap: findSampleUnitGameOfferMap(route.contentPackage.meta.packageId),
   };
 }

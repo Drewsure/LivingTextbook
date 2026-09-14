@@ -17,9 +17,11 @@ import {
 import { sampleMultimediaContentPackage } from "./sampleMultimediaPackage";
 import { createSampleTeacherSessionSettings } from "./sampleTeacherSessionSettings";
 import { findSampleTeacherAssignmentPlan } from "./sampleTeacherAssignmentPlans";
+import { findSampleUnitGameOfferMap } from "./sampleUnitGameOfferMap";
 import { ministarTenant } from "@/features/tenant/ministarTenant";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 import type { TenantConfig } from "@/features/tenant/types";
+import type { UnitGameOfferMap } from "@/features/game-offers/unitGameOfferMapTypes";
 
 export interface SampleLaunchContext {
   tenant: TenantConfig;
@@ -30,6 +32,7 @@ export interface SampleLaunchContext {
   sessionSettings: TeacherSessionSettings;
   assistLanguagePlan?: UnitAssistLanguagePlan;
   assignmentPlan?: TeacherAssignmentPlan;
+  offerMap?: UnitGameOfferMap;
 }
 
 export function resolveSampleLaunchContext(code: string): SampleLaunchContext {
@@ -72,5 +75,6 @@ function withPackagePlans(context: Omit<SampleLaunchContext, "assistLanguagePlan
     sessionSettings,
     assistLanguagePlan,
     assignmentPlan,
+    offerMap: findSampleUnitGameOfferMap(context.contentPackage.meta.packageId),
   };
 }

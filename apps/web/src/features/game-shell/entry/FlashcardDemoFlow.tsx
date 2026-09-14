@@ -14,6 +14,7 @@ import type {
   UnitPayload,
 } from "@living-textbook/content-model";
 import type { TeacherAssignmentPlan } from "@living-textbook/content-model/src/teacherAssignment";
+import type { UnitGameOfferMap } from "@/features/game-offers/unitGameOfferMapTypes";
 import { UnitSessionProgressSummary } from "@/features/progression/UnitSessionProgressSummary";
 import { getNextUncompletedRecommendedMode } from "@/features/progression/nextRecommendedGameMode";
 import {
@@ -48,6 +49,7 @@ interface FlashcardDemoFlowProps {
   audioCues?: AudioCue[];
   assistLanguagePlan?: UnitAssistLanguagePlan;
   assignmentPlan?: TeacherAssignmentPlan;
+  offerMap?: UnitGameOfferMap;
 }
 
 export function FlashcardDemoFlow({
@@ -60,6 +62,7 @@ export function FlashcardDemoFlow({
   audioCues = [],
   assistLanguagePlan,
   assignmentPlan,
+  offerMap,
 }: FlashcardDemoFlowProps) {
   const [currentProgression, setCurrentProgression] = useState<StudentProgressionState>(progression);
   const [sessionEvents, setSessionEvents] = useState<GameProgressEvent[]>([]);
@@ -210,7 +213,7 @@ export function FlashcardDemoFlow({
         launchSession={launchSession}
         progression={currentProgression}
         targetLanguage={resolveTargetLanguage({ tenantTargetLanguage: tenant.languageSettings?.targetLanguage, unitLanguage: unit.unitMeta.textbookReference?.language })}
-        contentPackageId={contentPackage.meta.packageId}
+        offerMap={offerMap}
         onRouteGuidanceListened={handleRouteGuidanceListened}
       />
       <SessionEventLog events={sessionEvents} />

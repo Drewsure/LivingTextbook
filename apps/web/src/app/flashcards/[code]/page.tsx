@@ -14,6 +14,7 @@ export default async function FlashcardsPage({ params }: { params: Promise<{ cod
     sessionSettings,
     assistLanguagePlan,
     assignmentPlan,
+    offerMap,
   } = resolveSampleLaunchContext(code);
 
   if (!unit) {
@@ -32,6 +33,7 @@ export default async function FlashcardsPage({ params }: { params: Promise<{ cod
         audioCues={contentPackage.audioCues}
         assistLanguagePlan={assistLanguagePlan}
         assignmentPlan={assignmentPlan}
+        offerMap={offerMap}
       />
     </AppShell>
   );

@@ -2993,6 +2993,9 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-848 and
 - The shared game catalog is the safe structural fallback for units that do
   not yet have a published offer map; it must never silently replace a
   tenant's curated pathway.
+- Reusable student route cards and game shells receive offer maps from the
+  launch or content-provider boundary; they must not import sample tenant
+  fixtures or resolve package storage internally.
 - Training Academy remains a review pathway after the curated modes and does
   not become a random or unreviewed activity switcher.
 

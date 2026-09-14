@@ -66,6 +66,7 @@ import { TeacherAssignmentSettingsCard } from "./components/TeacherAssignmentSet
 import { UnitMediaShortcutCard } from "./components/UnitMediaShortcutCard";
 import { getCollectionPath } from "@/features/routes/routeContracts";
 import { getGameModeRoutePath } from "@/features/routes/gameModeRoutePaths";
+import type { UnitGameOfferMap } from "@/features/game-offers/unitGameOfferMapTypes";
 
 interface StudentLaunchFlowProps {
   tenant: TenantConfig;
@@ -77,6 +78,7 @@ interface StudentLaunchFlowProps {
   audioCues?: AudioCue[];
   assistLanguagePlan?: UnitAssistLanguagePlan;
   assignmentPlan?: TeacherAssignmentPlan;
+  offerMap?: UnitGameOfferMap;
 }
 
 export function StudentLaunchFlow({
@@ -89,6 +91,7 @@ export function StudentLaunchFlow({
   audioCues = [],
   assistLanguagePlan,
   assignmentPlan,
+  offerMap,
 }: StudentLaunchFlowProps) {
   const [currentProgression, setCurrentProgression] = useState(progression);
   const [sessionEvents, setSessionEvents] = useState<GameProgressEvent[]>([]);
@@ -385,7 +388,7 @@ export function StudentLaunchFlow({
         launchSession={launchSession}
         progression={currentProgression}
         targetLanguage={targetLanguage}
-        contentPackageId={contentPackage.meta.packageId}
+        offerMap={offerMap}
         onRouteGuidanceListened={handleRouteGuidanceListened}
       />
       {activeGameMode === "memory-match" && (
