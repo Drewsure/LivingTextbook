@@ -6,3 +6,6 @@ support-only and cannot satisfy the learning or completion trigger. Regional
 language tags may match their base language. No live persistence, scoring
 mutation, progression, rewards, assignment, or Phaser source promotion is
 enabled by this decision.
+Playable route shells and teacher/student launch flows filter target-language
+cues before wrapper selection; full cue coverage remains available to support
+and review surfaces.

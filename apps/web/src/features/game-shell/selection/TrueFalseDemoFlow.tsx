@@ -31,13 +31,13 @@ export function TrueFalseDemoFlow({
       }}
       progressTitle="True or False Progress"
     >
-      {({ progression: currentProgression, replaySeed, onEvent, onComplete }) => (
+      {({ progression: currentProgression, replaySeed, audioCues: targetLanguageAudioCues, onEvent, onComplete }) => (
         <TrueFalsePracticeGame
           unit={unit}
           launchSession={launchSession}
           progression={currentProgression}
           replaySeed={replaySeed}
-          audioCues={audioCues}
+          audioCues={targetLanguageAudioCues}
           onEvent={onEvent}
           onComplete={onComplete}
         />

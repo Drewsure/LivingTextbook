@@ -31,13 +31,13 @@ export function FillInBlankDemoFlow({
       }}
       progressTitle="Fill in the Blank Progress"
     >
-      {({ progression: currentProgression, replaySeed, onEvent, onComplete }) => (
+      {({ progression: currentProgression, replaySeed, audioCues: targetLanguageAudioCues, onEvent, onComplete }) => (
         <FillInBlankPracticeGame
           unit={unit}
           launchSession={launchSession}
           progression={currentProgression}
           replaySeed={replaySeed}
-          audioCues={audioCues}
+          audioCues={targetLanguageAudioCues}
           onEvent={onEvent}
           onComplete={onComplete}
         />

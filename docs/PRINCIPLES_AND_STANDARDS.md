@@ -2598,6 +2598,9 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-816 and
   the target-language learning or completion trigger.
 - Report-only validation may omit the language when no unit context exists;
   playable student and teacher routes must provide it.
+- Route shells and launch flows should filter target-language cues before
+  passing them to game wrappers; support-language cues remain visible to
+  review and assistance panels.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-817 and
 `docs/adr/0743-target-language-audio-boundary.md`.

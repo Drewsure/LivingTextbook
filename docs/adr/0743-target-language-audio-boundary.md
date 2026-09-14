@@ -19,6 +19,9 @@ passes the target language to the canonical event validator. Every learner-
 facing `audio_requested` event must match that language, with compatible
 regional tags accepted. Support-language events remain useful evidence of
 assistance but cannot satisfy the target-language completion boundary.
+Route shells and teacher/student launch flows filter the cue list before it
+reaches a playable wrapper, while the full cue set remains available to
+support and review panels.
 
 ## Consequences
 

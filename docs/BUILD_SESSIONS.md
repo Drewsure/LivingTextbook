@@ -2278,3 +2278,8 @@ when no unit language is available. Support-language audio remains available
 for assistance but cannot satisfy the target-language learning evidence. No
 persistence, scoring mutation, progression, reward, assignment, or Phaser
 source promotion was enabled. See ADR 0743.
+
+The same target-language filter is now applied before a playable wrapper
+selects a cue in the shared route shell and the teacher/student launch flows.
+The complete cue set remains available to the learning-audio contract so
+support-language coverage stays visible without becoming game evidence.

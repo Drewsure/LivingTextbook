@@ -31,14 +31,14 @@ export function MemoryMatchDemoFlow({
       }}
       progressTitle="Memory Match Progress"
     >
-      {({ progression: currentProgression, replaySeed, onEvent, onComplete }) => (
+      {({ progression: currentProgression, replaySeed, audioCues: targetLanguageAudioCues, onEvent, onComplete }) => (
         <PairingMemoryMatchGame
           unit={unit}
           gameMode={gameMode}
           launchSession={launchSession}
           progression={currentProgression}
           replaySeed={replaySeed}
-          audioCues={audioCues}
+          audioCues={targetLanguageAudioCues}
           onEvent={onEvent}
           onComplete={onComplete}
         />

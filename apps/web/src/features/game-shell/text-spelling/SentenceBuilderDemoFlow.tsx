@@ -31,13 +31,13 @@ export function SentenceBuilderDemoFlow({
       }}
       progressTitle="Sentence Builder Progress"
     >
-      {({ progression: currentProgression, replaySeed, onEvent, onComplete }) => (
+      {({ progression: currentProgression, replaySeed, audioCues: targetLanguageAudioCues, onEvent, onComplete }) => (
         <SentenceBuilderPracticeGame
           unit={unit}
           launchSession={launchSession}
           progression={currentProgression}
           replaySeed={replaySeed}
-          audioCues={audioCues}
+          audioCues={targetLanguageAudioCues}
           onEvent={onEvent}
           onComplete={onComplete}
         />

@@ -292,6 +292,19 @@ if (!routeShell.includes("replaySeed,")) {
   failures.push("route shell: canonical replay seed must be passed to the mounted game");
 }
 
+if (!routeShell.includes("languageMatches") || !routeShell.includes("targetLanguageAudioCues")) {
+  failures.push("route shell: playable wrappers must receive target-language-only audio cues");
+}
+
+for (const [surface, source] of [
+  ["front-door orchestration", frontDoorFlow],
+  ["student orchestration", studentLaunchFlow],
+]) {
+  if (!source.includes("languageMatches") || !source.includes("targetLanguageAudioCues")) {
+    failures.push(`${surface}: direct playable handoff must filter target-language audio cues`);
+  }
+}
+
 if (!gameModeCatalog.includes("CANONICAL_GAME_SCORING_PROFILE_BY_MODE")) {
   failures.push("game mode catalog: scoring profile assignments must come from the content-model map");
 }

@@ -35,14 +35,14 @@ export function SpeakItDemoFlow({
       }}
       progressTitle="Speaking Progress"
     >
-      {({ progression: currentProgression, replaySeed, onEvent, onComplete }) => (
+      {({ progression: currentProgression, replaySeed, audioCues: targetLanguageAudioCues, onEvent, onComplete }) => (
         <SpeakItPracticeGame
           unit={unit}
           gameMode={gameMode}
           launchSession={launchSession}
           progression={currentProgression}
           replaySeed={replaySeed}
-          audioCues={audioCues}
+          audioCues={targetLanguageAudioCues}
           microphonePractice={launchMicrophonePracticeSettings}
           onEvent={onEvent}
           onComplete={onComplete}
