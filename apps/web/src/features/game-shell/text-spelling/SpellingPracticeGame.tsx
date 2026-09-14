@@ -254,6 +254,7 @@ export function SpellingPracticeGame({
       setFeedback(`Spelling Practice complete. You spelled ${nextCorrectRoundIds.length} of ${rounds.length} words correctly.`);
       emitInteractionEvent("mastery_updated", {
         completed: true,
+        parentEngine: "text-spelling",
         earnedStarDust: result.earnedStarDust,
         completedRounds: nextCompletedRoundIds.length,
         correctRounds: nextCorrectRoundIds.length,

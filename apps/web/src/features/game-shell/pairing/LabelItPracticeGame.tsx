@@ -229,6 +229,7 @@ export function LabelItPracticeGame({
       setFeedback(`Label It complete. You placed ${nextCorrectAnchorIds.length} labels.`);
       emitInteractionEvent("mastery_updated", {
         completed: true,
+        parentEngine: "pairing",
         earnedStarDust: result.earnedStarDust,
         completedAnchors: nextCompletedAnchorIds.length,
         correctAnchors: nextCorrectAnchorIds.length,

@@ -207,6 +207,7 @@ export function BalloonPopPracticeGame({
       setFeedback(`Balloon Pop complete. You popped ${nextCorrectRoundIds.length} matching words.`);
       emitInteractionEvent("mastery_updated", {
         completed: true,
+        parentEngine: preview.engineId,
         earnedStarDust: result.earnedStarDust,
         completedRounds: nextCompletedRoundIds.length,
         correctRounds: nextCorrectRoundIds.length,

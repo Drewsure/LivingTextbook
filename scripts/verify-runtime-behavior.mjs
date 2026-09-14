@@ -274,9 +274,9 @@ try {
     {
       ...canonicalEventContext,
       type: "mastery_updated",
-      metadata: { tenantId: "tenant-1", replaySeed: canonicalReplaySeed, completed: true, earnedStarDust: 200, scoringProfileId: "entry-vocabulary-practice" },
+      metadata: { tenantId: "tenant-1", replaySeed: canonicalReplaySeed, completed: true, earnedStarDust: 200, scoringProfileId: "entry-vocabulary-practice", parentEngine: "selection" },
     },
-    { ...canonicalEventContext, type: "game_completed", metadata: { tenantId: "tenant-1", replaySeed: canonicalReplaySeed, earnedStarDust: 200, scoringProfileId: "entry-vocabulary-practice" } },
+    { ...canonicalEventContext, type: "game_completed", metadata: { tenantId: "tenant-1", replaySeed: canonicalReplaySeed, earnedStarDust: 200, scoringProfileId: "entry-vocabulary-practice", parentEngine: "selection" } },
   ];
   const canonicalReport = canonicalGame.validateCanonicalGameEventSequence(
     canonicalEvents,

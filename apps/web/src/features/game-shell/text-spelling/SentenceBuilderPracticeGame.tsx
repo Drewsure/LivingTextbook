@@ -228,6 +228,7 @@ export function SentenceBuilderPracticeGame({
 
       emitInteractionEvent("mastery_updated", {
         completed: true,
+        parentEngine: preview.engineId,
         earnedStarDust: result.earnedStarDust,
         completedRounds: nextCompletedRoundIds.length,
         attempts: nextAttempts,

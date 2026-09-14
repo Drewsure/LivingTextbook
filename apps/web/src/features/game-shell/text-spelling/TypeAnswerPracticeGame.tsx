@@ -218,6 +218,7 @@ export function TypeAnswerPracticeGame({
       setFeedback(`Type Answer complete. You typed ${nextCorrectRoundIds.length} of ${rounds.length} words correctly.`);
       emitInteractionEvent("mastery_updated", {
         completed: true,
+        parentEngine: "text-spelling",
         earnedStarDust: result.earnedStarDust,
         completedRounds: nextCompletedRoundIds.length,
         correctRounds: nextCorrectRoundIds.length,

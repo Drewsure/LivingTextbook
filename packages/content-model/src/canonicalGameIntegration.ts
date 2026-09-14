@@ -33,6 +33,22 @@ export const CANONICAL_GAME_SCORING_PROFILE_BY_MODE = {
   "balloon-pop": "arcade-reinforcement-v1",
 } as const satisfies Record<GameModeId, string>;
 
+/** The platform-owned engine binding for every canonical game mode. */
+export const CANONICAL_GAME_PARENT_ENGINE_BY_MODE = {
+  flashcards: "selection",
+  "memory-match": "pairing",
+  "match-up": "pairing",
+  "label-it": "pairing",
+  quiz: "selection",
+  "true-false": "selection",
+  "sentence-builder": "text-spelling",
+  "fill-in-the-blank": "text-spelling",
+  "type-answer": "text-spelling",
+  "spelling-practice": "text-spelling",
+  "speak-it": "selection",
+  "balloon-pop": "selection",
+} as const satisfies Record<GameModeId, "pairing" | "selection" | "text-spelling" | "narrative">;
+
 export const CANONICAL_GAME_COMPLETION_DUST_CAP_BY_MODE = {
   flashcards: 300,
   "memory-match": 200,
@@ -326,6 +342,25 @@ export function validateCanonicalGameEventSequence(
   }
 
   const expectedScoringProfileId = CANONICAL_GAME_SCORING_PROFILE_BY_MODE[expectedGameMode];
+  const expectedParentEngine = CANONICAL_GAME_PARENT_ENGINE_BY_MODE[expectedGameMode];
+  const masteryParentEngine = readNonBlankString(masteryEvent?.metadata?.parentEngine);
+  const completionParentEngine = readNonBlankString(completionEvent?.metadata?.parentEngine);
+  if (masteryEvent && masteryParentEngine === undefined) {
+    errors.push("Canonical game mastery_updated event must identify its parent engine.");
+  }
+  if (completionEvent && completionParentEngine === undefined) {
+    errors.push("Canonical game game_completed event must identify its parent engine.");
+  }
+  if (masteryParentEngine !== undefined && masteryParentEngine !== expectedParentEngine) {
+    errors.push(
+      `Canonical game mastery_updated event must use parent engine ${expectedParentEngine} for game mode ${expectedGameMode}; found ${masteryParentEngine}.`,
+    );
+  }
+  if (completionParentEngine !== undefined && completionParentEngine !== expectedParentEngine) {
+    errors.push(
+      `Canonical game game_completed event must use parent engine ${expectedParentEngine} for game mode ${expectedGameMode}; found ${completionParentEngine}.`,
+    );
+  }
   if (masteryEvent && masteryScoringProfileId !== expectedScoringProfileId) {
     errors.push(
       `Canonical game mastery_updated event must use scoring profile ${expectedScoringProfileId} for game mode ${expectedGameMode}; found ${masteryScoringProfileId ?? "(missing)"}.`,

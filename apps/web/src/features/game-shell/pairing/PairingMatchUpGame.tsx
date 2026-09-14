@@ -220,6 +220,7 @@ export function PairingMatchUpGame({
 
       emitInteractionEvent("mastery_updated", {
         completed: true,
+        parentEngine: mode?.engineId ?? "pairing",
         earnedStarDust: result.earnedStarDust,
         attempts: outcome.state.attempts,
         totalPairs: completedProgress.totalPairs,

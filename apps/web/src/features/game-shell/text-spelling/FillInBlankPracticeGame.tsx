@@ -230,6 +230,7 @@ export function FillInBlankPracticeGame({
       setFeedback(`Fill in the Blank complete. You completed ${nextCorrectRoundIds.length} of ${rounds.length} sentences.`);
       emitInteractionEvent("mastery_updated", {
         completed: true,
+        parentEngine: "text-spelling",
         earnedStarDust: result.earnedStarDust,
         completedRounds: nextCompletedRoundIds.length,
         correctRounds: nextCorrectRoundIds.length,

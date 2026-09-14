@@ -230,6 +230,7 @@ export function SpeakItPracticeGame({
 
       emitInteractionEvent("mastery_updated", {
         completed: true,
+        parentEngine: mode?.engineId ?? unit.unitMeta.engineId,
         earnedStarDust: result.earnedStarDust,
         spokenPromptCount: nextSpokenPromptIds.length,
         totalPromptCount: prompts.length,

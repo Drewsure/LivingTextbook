@@ -4932,3 +4932,11 @@ audio, accessibility, scoring, and replay behavior require the complete
 candidate evidence package before any wrapper promotion. The brief does not
 authorize source import, route activation, persistence, assignment, or student
 use. See ADR 0770.
+
+# DR-848: Canonical Parent-Engine Binding
+
+Canonical `mastery_updated` and `game_completed` evidence must identify the
+parent engine declared for the game mode. The content model owns the mapping,
+and the canonical replay verifier rejects missing or mismatched bindings.
+This closes the integration boundary for future Z.ai/Phaser wrappers without
+importing source or changing the active game routes. See ADR 0771.

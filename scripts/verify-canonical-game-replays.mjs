@@ -62,10 +62,12 @@ try {
           completed: true,
           earnedStarDust,
           scoringProfileId,
+          parentEngine: canonicalGame.CANONICAL_GAME_PARENT_ENGINE_BY_MODE[mode],
         }),
         event(context, "game_completed", replaySeed, "2026-09-14T00:00:06.000Z", {
           earnedStarDust,
           scoringProfileId,
+          parentEngine: canonicalGame.CANONICAL_GAME_PARENT_ENGINE_BY_MODE[mode],
         }),
       ];
       const result = canonicalGame.validateCanonicalGameEventSequence(

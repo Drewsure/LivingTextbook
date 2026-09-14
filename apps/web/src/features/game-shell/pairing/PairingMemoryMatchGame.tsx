@@ -215,6 +215,7 @@ export function PairingMemoryMatchGame({
 
       emitInteractionEvent("mastery_updated", {
         completed: true,
+        parentEngine: mode?.engineId ?? unit.unitMeta.engineId,
         earnedStarDust: result.earnedStarDust,
         attempts: outcome.state.attempts,
         totalPairs: progress.totalPairs,

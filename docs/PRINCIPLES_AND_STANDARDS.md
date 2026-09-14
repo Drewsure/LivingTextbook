@@ -2969,3 +2969,18 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-846 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-847 and
 `docs/adr/0770-balloon-pop-evidence-handoff.md`.
+
+## 195. Canonical Parent-Engine Binding Standard
+
+- Every canonical mode has one platform-owned parent engine binding in the
+  content model; completion evidence must carry that binding on both
+  `mastery_updated` and `game_completed`.
+- The canonical verifier rejects missing or mismatched parent-engine metadata
+  before a completion can be accepted, reported, or used by an external game
+  wrapper.
+- A Phaser or other outside prototype must map to the declared parent engine;
+  visual similarity, deployment success, or a frozen repository snapshot does
+  not override this contract.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-848 and
+`docs/adr/0771-canonical-parent-engine-binding.md`.

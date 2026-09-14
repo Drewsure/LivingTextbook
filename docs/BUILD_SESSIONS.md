@@ -2618,3 +2618,14 @@ audio-first controls, accessibility, source identity, and wrapper boundaries
 without authorizing source import or student-route activation.
 
 This is an external evidence-preparation slice only. See ADR 0770 and DR-847.
+
+## 0775 - Canonical parent-engine binding
+
+Added a content-model map for the declared parent engine of each canonical
+mode and required that identity on mastery and completion evidence. Runtime
+replays and the production build now verify that a mode cannot complete under
+the wrong parent engine.
+
+This hardens the future Z.ai/Phaser wrapper boundary without importing frozen
+source, adding persistence, or activating narrative routes. See ADR 0771 and
+DR-848.
