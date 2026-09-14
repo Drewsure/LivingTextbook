@@ -2311,5 +2311,7 @@ language to report replay, and report evidence rejects assist-language audio
 even when the game event sequence, replay seed, and scoring profile are valid.
 Legacy review-only callers remain compatible when no unit language is available.
 Added runtime coverage for both compatible and wrong-language report evidence.
+The report-runtime static verifier and fixture also keep the target-language
+handoff visible for future refactors.
 No persistence, report export, progression, reward, assignment, or Phaser
 source promotion was enabled. See ADR 0745 and DR-819.

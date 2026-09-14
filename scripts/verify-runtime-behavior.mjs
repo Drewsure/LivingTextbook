@@ -1747,7 +1747,7 @@ try {
   );
 
   const reportRequest = {
-    tenantId: "tenant-1", launchCode: "launch-1", format: "csv-summary", scopes: ["teacher-summary"],
+    tenantId: "tenant-1", launchCode: "launch-1", targetLanguage: "en", format: "csv-summary", scopes: ["teacher-summary"],
     reportPlan: {
       launchCode: "launch-1", tenantId: "tenant-1", readiness: "demo-preview",
       allowedFormats: ["csv-summary"], includedScopes: ["teacher-summary"], requiresTeacherRole: true,
