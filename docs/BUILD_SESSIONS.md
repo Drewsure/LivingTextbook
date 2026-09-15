@@ -2894,3 +2894,16 @@ Added runtime and canonical integration regression coverage. Typecheck, runtime
 behavior, canonical game verification, production build, and the 88-route
 sweep remain required. This does not enable uploads, live AI, persistence,
 assignment, or Phaser promotion. See ADR 0794 and DR-871.
+
+## 0799 - Reviewed asset audio playback
+
+Upgraded the shared learner audio primitive so a reviewed cue `sourceUri` is
+played before browser speech synthesis. Cue-backed canonical game prompts now
+pass their approved audio asset into the shared control where available;
+speech remains the resilient low-cost fallback. Playback source selection does
+not affect scoring, progression, mastery, rewards, or reporting, and local
+bundle paths remain blocked until a deployment-specific resolver exists.
+
+Typecheck, runtime behavior, canonical game verification, production build,
+and the 88-route sweep remain required. This does not enable uploads, live AI,
+persistence, assignment, or Phaser promotion. See ADR 0795 and DR-872.

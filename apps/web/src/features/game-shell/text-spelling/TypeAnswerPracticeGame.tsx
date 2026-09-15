@@ -302,6 +302,7 @@ export function TypeAnswerPracticeGame({
           <AudioCueButton
             text={promptAudioText}
             language={promptCue?.language ?? targetLanguage}
+            cue={promptCue}
             label="Listen to the Type Answer prompt"
             onPlay={() => emitAudioRequested("term", promptAudioText, promptCue?.language ?? targetLanguage, "type-answer-prompt")}
           />
@@ -344,6 +345,7 @@ export function TypeAnswerPracticeGame({
           <AudioCueButton
             text={promptAudioText}
             language={promptCue?.language ?? targetLanguage}
+            cue={promptCue}
             label="Replay Type Answer prompt before submitting"
             onPlay={() => emitAudioRequested("term", promptAudioText, promptCue?.language ?? targetLanguage, "type-answer-prompt-replay")}
           />

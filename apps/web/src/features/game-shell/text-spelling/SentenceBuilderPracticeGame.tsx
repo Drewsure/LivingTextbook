@@ -156,7 +156,7 @@ export function SentenceBuilderPracticeGame({
     const audioText = tileCue?.text ?? tile.audioText;
     const audioLanguage = tileCue?.language ?? targetLanguage;
     emitAudioRequested("term", audioText, audioLanguage, "sentence-builder-tile");
-    playAudioCueText({ text: audioText, language: audioLanguage });
+    playAudioCueText({ text: audioText, language: audioLanguage, sourceUri: tileCue?.sourceUri });
     setSelectedTileIds((ids) => [...ids, tileId]);
   }
 
@@ -271,6 +271,8 @@ export function SentenceBuilderPracticeGame({
     );
   }
 
+  const sentenceCue = findAudioCue(audioCues, currentRound.targetSentence);
+
   return (
     <Card data-game-interactive="sentence-builder">
       <div className="flex flex-wrap items-start justify-between gap-4">
@@ -311,6 +313,7 @@ export function SentenceBuilderPracticeGame({
               <AudioCueText
                 text={currentRound.targetSentence}
                 language={targetLanguage}
+                cue={sentenceCue}
                 label="Tap the target sentence to hear it"
                 className="text-sm font-bold"
                 onPlay={() =>
@@ -327,6 +330,7 @@ export function SentenceBuilderPracticeGame({
           <AudioCueButton
             text={currentRound.targetSentence}
             language={targetLanguage}
+            cue={sentenceCue}
             label="Listen to the full target sentence"
             onPlay={() =>
               emitAudioRequested(

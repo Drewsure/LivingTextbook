@@ -143,7 +143,7 @@ export function BalloonPopPracticeGame({
     setAttempts(nextAttempts);
     setPoppedOptionIds((ids) => Array.from(new Set([...ids, option.optionId])));
     emitAudioRequested("term", optionCue?.text ?? option.audioText, "balloon-option");
-    playAudioCueText({ text: optionCue?.text ?? option.audioText, language: optionCue?.language ?? targetLanguage });
+    playAudioCueText({ text: optionCue?.text ?? option.audioText, language: optionCue?.language ?? targetLanguage, sourceUri: optionCue?.sourceUri });
 
     emitInteractionEvent("answer_submitted", {
       roundId: currentRound.roundId,
@@ -244,6 +244,8 @@ export function BalloonPopPracticeGame({
     );
   }
 
+  const promptCue = findAudioCue(audioCues, currentRound.promptAudioText);
+
   return (
     <Card>
       <div className="flex flex-wrap items-start justify-between gap-4">
@@ -274,9 +276,10 @@ export function BalloonPopPracticeGame({
           <div>
             <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Prompt</p>
             <p className="mt-1 text-sm font-bold text-[var(--tenant-text)]">
-              <AudioCueText
-                text={currentRound.promptAudioText}
-                language={targetLanguage}
+            <AudioCueText
+              text={currentRound.promptAudioText}
+              language={targetLanguage}
+              cue={promptCue}
                 label="Tap the Balloon Pop prompt to hear it"
                 className="text-sm font-bold"
                 onPlay={() => emitAudioRequested("instruction", currentRound.promptAudioText, "balloon-prompt")}
@@ -286,6 +289,7 @@ export function BalloonPopPracticeGame({
           <AudioCueButton
             text={currentRound.promptAudioText}
             language={targetLanguage}
+            cue={promptCue}
             label="Listen to the Balloon Pop prompt"
             onPlay={() => emitAudioRequested("instruction", currentRound.promptAudioText, "balloon-prompt-replay")}
           />

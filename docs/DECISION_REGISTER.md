@@ -5124,3 +5124,11 @@ The shared content model now exposes authorized game audio cues and uses the
 same selection for readiness and gameplay playback. Direct routes, front-door
 practice, and dynamic student launch games therefore receive only unit-owned,
 target-language, reviewed mode-scope cues. See ADR 0794.
+
+# DR-872: Reviewed Asset Audio Playback
+
+The shared learner audio control now prefers a reviewed cue `sourceUri` when
+one is available and falls back to browser speech synthesis when it is not
+playable. The source choice remains presentation-only: it cannot grant
+progress, mastery, rewards, or unlocks, and `localBundlePath` remains reserved
+for a future local-companion resolver. See ADR 0795.

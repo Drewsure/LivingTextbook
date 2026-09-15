@@ -60,6 +60,9 @@ export function QuizPracticeGame({
   const [feedback, setFeedback] = useState("Listen, choose, then submit.");
   const [completionSent, setCompletionSent] = useState(false);
   const currentRound = preview.rounds[roundIndex] ?? preview.rounds[0];
+  const promptCue = currentRound
+    ? findAudioCue(audioCues, currentRound.skillFocus === "syntax" ? "sentence" : "term", currentRound.promptAudioText)
+    : undefined;
   const completed = completedRoundIds.length === preview.rounds.length;
 
   useEffect(() => {
@@ -145,7 +148,7 @@ export function QuizPracticeGame({
     const cue = findAudioCue(audioCues, cueKind, option.audioText);
     const audioText = cue?.text ?? option.audioText;
     emitAudioRequested(cueKind, audioText, cue?.language ?? targetLanguage, "quiz-option");
-    playAudioCueText({ text: audioText, language: cue?.language ?? targetLanguage });
+    playAudioCueText({ text: audioText, language: cue?.language ?? targetLanguage, sourceUri: cue?.sourceUri });
   }
 
   function handleSubmit() {
@@ -278,6 +281,7 @@ export function QuizPracticeGame({
               <AudioCueText
                 text={currentRound.promptAudioText}
                 language={targetLanguage}
+                cue={promptCue}
                 label="Tap the quiz prompt to hear it"
                 className="text-sm font-bold"
                 onPlay={() =>
@@ -294,6 +298,7 @@ export function QuizPracticeGame({
           <AudioCueButton
             text={currentRound.promptAudioText}
             language={targetLanguage}
+            cue={promptCue}
             label="Listen to the question prompt"
             onPlay={() =>
               emitAudioRequested(

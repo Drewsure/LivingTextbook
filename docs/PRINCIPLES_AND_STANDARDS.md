@@ -3288,3 +3288,18 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-870 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-871 and
 `docs/adr/0794-authorized-game-playback-cues.md`.
+
+## 219. Reviewed Asset Playback Standard
+
+- A reviewed audio cue with a tenant-approved `sourceUri` must be played as
+  the primary learning audio when a learner taps its text or listen control.
+- Browser speech synthesis remains a low-cost resilience fallback for cues
+  without a playable asset or when a browser cannot load the asset.
+- Playback source choice must not alter answer marking, Star Dust, mastery,
+  unlocks, support-language behavior, or teacher reporting authority.
+- Future local companion bundles may resolve approved `localBundlePath`
+  values through a deployment adapter; browser routes must not guess at local
+  filesystem paths.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-872 and
+`docs/adr/0795-reviewed-asset-audio-playback.md`.

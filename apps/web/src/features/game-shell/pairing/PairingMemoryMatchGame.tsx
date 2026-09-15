@@ -126,7 +126,7 @@ export function PairingMemoryMatchGame({
   function handleCardSelect(card: PairingCard) {
     const audioCue = findAudioCue(audioCues, card.label);
     emitAudioRequested("term", audioCue?.text ?? card.label, audioCue?.language ?? targetLanguage, "memory-match-card");
-    playAudioCueText({ text: audioCue?.text ?? card.label, language: audioCue?.language ?? targetLanguage });
+    playAudioCueText({ text: audioCue?.text ?? card.label, language: audioCue?.language ?? targetLanguage, sourceUri: audioCue?.sourceUri });
 
     if (card.status === "matched" || engineState.completed) {
       return;
@@ -244,6 +244,7 @@ export function PairingMemoryMatchGame({
             <AudioCueText
               text={instructionCue?.text ?? "Tap a card to hear it, then find its matching card. Matched cards stay open."}
               language={instructionCue?.language ?? targetLanguage}
+              cue={instructionCue}
               label="Tap the Memory Match instruction to hear it"
               className="text-sm"
               onPlay={() =>
@@ -299,6 +300,7 @@ export function PairingMemoryMatchGame({
         <AudioCueText
           text={feedbackText}
           language={(lastResult === "mismatched" ? feedbackCue?.language : instructionCue?.language) ?? targetLanguage}
+          cue={lastResult === "mismatched" ? feedbackCue : instructionCue}
           label="Tap the Memory Match message to hear it"
           className="text-sm font-semibold"
           onPlay={() =>

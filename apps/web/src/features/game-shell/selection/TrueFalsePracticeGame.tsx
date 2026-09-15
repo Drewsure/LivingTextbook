@@ -66,6 +66,7 @@ export function TrueFalsePracticeGame({
   const [feedback, setFeedback] = useState("Listen first. Does the card match?");
   const [completionSent, setCompletionSent] = useState(false);
   const currentRound = rounds[roundIndex] ?? rounds[0];
+  const sourceCue = currentRound ? findAudioCue(audioCues, currentRound.sourceText) : undefined;
   const completed = rounds.length > 0 && completedRoundIds.length === rounds.length;
 
   useEffect(() => {
@@ -282,8 +283,9 @@ export function TrueFalsePracticeGame({
             <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Listen prompt</p>
             <p className="mt-1 text-sm font-bold text-[var(--tenant-text)]">
               <AudioCueText
-                text={findAudioCue(audioCues, currentRound.sourceText)?.text ?? currentRound.sourceText}
-                language={findAudioCue(audioCues, currentRound.sourceText)?.language ?? targetLanguage}
+                text={sourceCue?.text ?? currentRound.sourceText}
+                language={sourceCue?.language ?? targetLanguage}
+                cue={sourceCue}
                 label="Tap the True or False prompt to hear it"
                 className="text-sm font-bold"
                 onPlay={() => {
@@ -294,8 +296,9 @@ export function TrueFalsePracticeGame({
             </p>
           </div>
           <AudioCueButton
-            text={findAudioCue(audioCues, currentRound.sourceText)?.text ?? currentRound.sourceText}
-            language={findAudioCue(audioCues, currentRound.sourceText)?.language ?? targetLanguage}
+            text={sourceCue?.text ?? currentRound.sourceText}
+            language={sourceCue?.language ?? targetLanguage}
+            cue={sourceCue}
             label="Listen to the True or False prompt"
             onPlay={() => {
               const cue = findAudioCue(audioCues, currentRound.sourceText);

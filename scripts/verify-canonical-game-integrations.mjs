@@ -605,6 +605,11 @@ for (const fragment of ["authorizedInstructionCueIds", "instructionCueCount", "i
     failures.push(`game audio coverage must enforce reviewed instruction scope: ${fragment}`);
   }
 }
+for (const fragment of ["sourceUri", "new Audio(sourceUri)", "audio.onerror", "speakText({ text, language, onStatusChange })"]) {
+  if (!audioCueButton.includes(fragment)) {
+    failures.push(`shared audio control must prefer reviewed asset playback with speech fallback: ${fragment}`);
+  }
+}
 
 for (const [label, source, fragments] of [
   ["playable route shell", playableRouteShell, ["audioSupportPlan", "getGameAudioCoverage({ unit, audioCues, audioSupportPlan"]],

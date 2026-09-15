@@ -130,7 +130,7 @@ export function PairingMatchUpGame({
   function handleCardSelect(card: PairingCard) {
     const audioCue = findTermAudioCue(audioCues, card.label);
     emitAudioRequested("term", audioCue?.text ?? card.label, audioCue?.language ?? targetLanguage, "match-up-card");
-    playAudioCueText({ text: audioCue?.text ?? card.label, language: audioCue?.language ?? targetLanguage });
+    playAudioCueText({ text: audioCue?.text ?? card.label, language: audioCue?.language ?? targetLanguage, sourceUri: audioCue?.sourceUri });
 
     if (card.status === "matched" || engineState.completed) {
       return;
@@ -254,6 +254,7 @@ export function PairingMatchUpGame({
             <AudioCueText
               text={instructionCue?.text ?? "Tap a listening prompt, then tap the matching word."}
               language={instructionCue?.language ?? targetLanguage}
+              cue={instructionCue}
               label="Tap the Match Up instruction to hear it"
               className="text-sm"
               onPlay={() => emitAudioRequested("instruction", instructionCue?.text ?? "Tap a listening prompt, then tap the matching word.", instructionCue?.language ?? targetLanguage, "match-up-instruction")}
@@ -325,6 +326,7 @@ export function PairingMatchUpGame({
         <AudioCueText
           text={feedbackText}
           language={(lastResult === "mismatched" ? feedbackCue?.language : instructionCue?.language) ?? targetLanguage}
+          cue={lastResult === "mismatched" ? feedbackCue : instructionCue}
           label="Tap the Match Up message to hear it"
           className="text-sm font-semibold"
           onPlay={() => emitAudioRequested("feedback", feedbackText, targetLanguage, "match-up-feedback")}
@@ -332,6 +334,7 @@ export function PairingMatchUpGame({
         <AudioCueButton
           text={feedbackText}
           language={(lastResult === "mismatched" ? feedbackCue?.language : instructionCue?.language) ?? targetLanguage}
+          cue={lastResult === "mismatched" ? feedbackCue : instructionCue}
           label="Replay Match Up message"
           compact
           onPlay={() => emitAudioRequested("feedback", feedbackText, targetLanguage, "match-up-feedback-replay")}

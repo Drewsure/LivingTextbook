@@ -314,6 +314,7 @@ export function FillInBlankPracticeGame({
           <AudioCueButton
             text={promptAudioText}
             language={promptCue?.language ?? targetLanguage}
+            cue={promptCue}
             label="Listen to the full target sentence before choosing"
             onPlay={() => emitAudioRequested("sentence", promptAudioText, promptCue?.language ?? targetLanguage, "fill-in-target-sentence")}
           />
@@ -367,6 +368,7 @@ export function FillInBlankPracticeGame({
           <AudioCueButton
             text={promptAudioText}
             language={promptCue?.language ?? targetLanguage}
+            cue={promptCue}
             label="Replay the full target sentence before submitting"
             onPlay={() => emitAudioRequested("sentence", promptAudioText, promptCue?.language ?? targetLanguage, "fill-in-target-sentence-replay")}
           />

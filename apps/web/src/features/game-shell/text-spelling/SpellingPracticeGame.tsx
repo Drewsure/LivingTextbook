@@ -341,6 +341,7 @@ export function SpellingPracticeGame({
           <AudioCueButton
             text={promptAudioText}
             language={promptCue?.language ?? targetLanguage}
+            cue={promptCue}
             label="Listen to the Spelling Practice word"
             onPlay={() => emitAudioRequested("term", promptAudioText, promptCue?.language ?? targetLanguage, "spelling-prompt")}
           />
@@ -417,6 +418,7 @@ export function SpellingPracticeGame({
           <AudioCueButton
             text={promptAudioText}
             language={promptCue?.language ?? targetLanguage}
+            cue={promptCue}
             label="Replay Spelling Practice word before submitting"
             onPlay={() => emitAudioRequested("term", promptAudioText, promptCue?.language ?? targetLanguage, "spelling-prompt-replay")}
           />
