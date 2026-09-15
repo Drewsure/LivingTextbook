@@ -14,6 +14,15 @@ export interface AppRouteContract {
   requiredState: string[];
 }
 
+export const progressionHandoffRouteContract = {
+  id: "progression-handoff",
+  source: "curated student activity route",
+  destination: "validated game route",
+  purpose: "cross-route progression handoff",
+  requiredState: ["tenantId", "packageId", "launchCode", "studentSessionId", "progression", "handoff"],
+  storageBoundary: "session-scoped rehearsal storage; no URL state",
+} as const;
+
 export const appRouteContracts: AppRouteContract[] = [
   {
     id: "tenant-overview",

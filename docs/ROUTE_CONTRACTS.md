@@ -34,6 +34,12 @@ This document defines the clean route and state contracts for the first Living T
 
 ## Permanent QR Contract
 
+## Cross-route progression handoff
+
+When a student opens a curated activity from another route, progression may cross the route boundary only through a validated continuity envelope. The handoff is stored in browser `sessionStorage` during rehearsal and is scoped by tenant, content package, launch code, student session, and exact destination route. Progression state must not be placed in a URL, and support-language, media-only, raw learner audio, and learner transcript data must not unlock a game.
+
+The destination game shell accepts the handoff only after the identity fields and destination path match. A direct game route remains locked when no matching handoff exists. The first hosted adapter is a server rehearsal adapter with explicit school-policy and non-durable-write gates; it is not a production database or a claim of durable persistence.
+
 Permanent QR routes are different from short classroom launch codes.
 
 Short launch codes are useful for a teacher's live class session. Printed textbook QR codes must survive reprints, app updates, content package revisions, and deployment changes.
@@ -245,6 +251,12 @@ Intentional limits:
 - Multimedia must be controllable and must not be required for language-game completion.
 
 ## First Vertical Slice
+
+## Cross-route progression handoff
+
+When a student opens a curated activity from another route, progression may cross the route boundary only through a validated continuity envelope. The handoff is stored in browser `sessionStorage` during rehearsal and is scoped by tenant, package, launch code, student session, and exact destination route. Progression state must not be placed in a URL, and support-language, media-only, raw learner audio, and learner transcript data must not unlock a game.
+
+The destination game shell accepts the handoff only after the identity fields and destination path match. A direct game route remains locked when no matching handoff exists. The first hosted adapter is a server rehearsal adapter with explicit school-policy and non-durable-write gates; it is not a production database or a claim of durable persistence.
 
 The first slice should prove this path:
 

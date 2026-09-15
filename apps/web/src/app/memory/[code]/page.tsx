@@ -18,6 +18,7 @@ export default async function MemoryMatchPage({ params }: { params: Promise<{ co
         unit={unit}
         launchSession={launchSession}
         progression={progression}
+        packageId={contentPackage.meta.packageId}
         audioCues={contentPackage.audioCues}
         audioSupportPlan={contentPackage.audioSupportPlans?.find((plan) => plan.unitKey === launchSession.unitKey)}
         assignmentPlan={assignmentPlan}

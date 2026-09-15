@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { ReactNode } from "react";
 import type {
   AudioCue,
@@ -24,12 +24,14 @@ import { GameAccessGateCard } from "./GameAccessGateCard";
 import { GameLearningAudioContractCard } from "./GameLearningAudioContractCard";
 import { GameRouteHeaderCard } from "./GameRouteHeaderCard";
 import { validateCanonicalGameCompletion } from "../canonicalGameCompletionGate";
+import { readProgressionHandoffRecord } from "@/features/persistence/progressionHandoffStore";
 
 export interface PlayableGameDemoFlowProps {
   tenant: TenantConfig;
   unit: UnitPayload;
   launchSession: LaunchSession;
   progression: StudentProgressionState;
+  packageId?: string;
   audioCues?: AudioCue[];
   audioSupportPlan?: UnitAudioSupportPlan;
   assignmentPlan?: TeacherAssignmentPlan;
@@ -41,6 +43,7 @@ interface PlayableGameRouteShellProps {
   unit: UnitPayload;
   launchSession: LaunchSession;
   progression: StudentProgressionState;
+  packageId?: string;
   audioCues?: AudioCue[];
   audioSupportPlan?: UnitAudioSupportPlan;
   assignmentPlan?: TeacherAssignmentPlan;
@@ -70,6 +73,7 @@ export function PlayableGameRouteShell({
   unit,
   launchSession,
   progression,
+  packageId,
   audioCues = [],
   audioSupportPlan,
   assignmentPlan,
@@ -88,6 +92,8 @@ export function PlayableGameRouteShell({
   const completionAcceptedRef = useRef(false);
   const [lastEarnedDust, setLastEarnedDust] = useState(0);
   const [eventContractErrors, setEventContractErrors] = useState<string[]>([]);
+  const [handoffStatus, setHandoffStatus] = useState<"checking" | "accepted" | "not-found" | "rejected">("checking");
+  const [handoffMessage, setHandoffMessage] = useState("Checking for a validated route handoff.");
   const targetLanguage = resolveTargetLanguage({
     tenantTargetLanguage: tenant.languageSettings?.targetLanguage,
     unitLanguage: unit.unitMeta.textbookReference?.language,
@@ -104,6 +110,32 @@ export function PlayableGameRouteShell({
   const audioCoverage = getGameAudioCoverage({ unit, audioCues, audioSupportPlan, gameMode, targetLanguage });
   const gameAudioReady = audioCoverage.ready;
   const gameUnlocked = gameSupportedAtLevel && curatedOfferReady && currentProgression.unlockedGameModes.includes(gameMode) && gameAudioReady;
+
+  useEffect(() => {
+    if (!packageId) {
+      setHandoffStatus("not-found");
+      setHandoffMessage("This route was opened directly. A validated student handoff is required for progression unlock.");
+      return;
+    }
+
+    const lookup = {
+      tenantId: tenant.id,
+      packageId,
+      launchCode: launchSession.launchCode,
+      studentSessionId: progression.studentSessionId,
+      destinationRoute: window.location.pathname,
+    };
+    const result = readProgressionHandoffRecord(lookup);
+    if (!result.record) {
+      setHandoffStatus(result.errors.some((error) => error.startsWith("No route handoff")) ? "not-found" : "rejected");
+      setHandoffMessage(result.errors[0] ?? "The route handoff could not be accepted.");
+      return;
+    }
+
+    setCurrentProgression(result.record.progression);
+    setHandoffStatus("accepted");
+    setHandoffMessage(`Validated handoff accepted from ${result.record.continuity.sourceRoute}.`);
+  }, [launchSession.launchCode, packageId, progression.studentSessionId, tenant.id]);
 
   function handleEvent(event: GameProgressEvent) {
     sessionEventsRef.current = [...sessionEventsRef.current, event];
@@ -166,6 +198,16 @@ export function PlayableGameRouteShell({
       />
 
       <TeacherAssignmentSettingsCard assignmentPlan={assignmentPlan} />
+
+      <div className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] px-4 py-3 text-sm" aria-live="polite">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <span className="font-semibold">Route handoff</span>
+          <span className={`font-bold ${handoffStatus === "accepted" ? "text-emerald-700" : "text-[var(--tenant-muted)]"}`}>
+            {handoffStatus === "checking" ? "Checking" : handoffStatus === "accepted" ? "Accepted" : "Direct route"}
+          </span>
+        </div>
+        <p className="mt-1 text-[var(--tenant-muted)]">{handoffMessage}</p>
+      </div>
 
       <UnitSessionProgressSummary
         title={progressTitle}

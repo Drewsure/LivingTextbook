@@ -1632,6 +1632,7 @@ export * from "./sourceRuntime";
 export * from "./releaseRuntime";
 export * from "./recoveryRuntime";
 export * from "./progressionRuntime";
+export * from "./hostedProgressionPersistence";
 export * from "./rewardRuntime";
 export * from "./entitlementRuntime";
 export * from "./aiGeneratedGameBuildBrief";

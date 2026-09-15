@@ -11,6 +11,9 @@ execFileSync(process.execPath, [fileURLToPath(new URL("./verify-curated-pathway-
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-content-model-public-boundary.mjs", import.meta.url))], {
   stdio: "inherit",
 });
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-cross-route-persistence.mjs", import.meta.url))], {
+  stdio: "inherit",
+});
 
 const packageJson = JSON.parse(readFileSync(new URL("../package.json", import.meta.url), "utf8"));
 const scripts = packageJson.scripts ?? {};

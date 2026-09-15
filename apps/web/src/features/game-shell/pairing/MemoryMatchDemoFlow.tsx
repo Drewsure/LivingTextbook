@@ -10,6 +10,7 @@ export function MemoryMatchDemoFlow({
   unit,
   launchSession,
   progression,
+  packageId,
   audioCues = [],
   audioSupportPlan,
   assignmentPlan,
@@ -21,6 +22,7 @@ export function MemoryMatchDemoFlow({
       unit={unit}
       launchSession={launchSession}
       progression={progression}
+      packageId={packageId}
       audioCues={audioCues}
       audioSupportPlan={audioSupportPlan}
       assignmentPlan={assignmentPlan}

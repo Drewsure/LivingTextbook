@@ -59,6 +59,7 @@ import { FlashcardPracticeCard } from "./components/FlashcardPracticeCard";
 import { SpeakItPracticeGame } from "@/features/game-shell/speaking/SpeakItPracticeGame";
 import { useTeacherMicrophonePracticeSettings } from "@/features/audio/useTeacherMicrophonePracticeSettings";
 import { createLocalSessionEvidence, saveLocalSessionEvidence } from "@/features/persistence/localSessionEvidenceStore";
+import { createProgressionHandoffRecord, saveProgressionHandoffRecord } from "@/features/persistence/progressionHandoffStore";
 import { LaunchContextSafetyCard } from "./components/LaunchContextSafetyCard";
 import { NextGameUnlockCard } from "./components/NextGameUnlockCard";
 import { RecommendedGameRoutesCard } from "./components/RecommendedGameRoutesCard";
@@ -246,15 +247,8 @@ export function StudentLaunchFlow({
     setLastEarnedDust(result.dust.total);
   }
 
-  function handleStartNextMode() {
-    if (!nextMode || nextModeStarted) {
-      return;
-    }
-
-    if (!nextModeUnlocked) {
-      return;
-    }
-
+  function createNextModeHandoff() {
+    if (!nextMode || !nextModeUnlocked) return;
     const issuedAt = new Date().toISOString();
     const envelope = createProgressionContinuityEnvelope({
       continuityId: `continuity-${launchSession.launchCode}-${nextMode}-${sessionEventsRef.current.length}`,
@@ -282,8 +276,36 @@ export function StudentLaunchFlow({
       return;
     }
 
-    setContinuityEnvelope(envelope);
+    return { envelope, progression: { ...currentProgression, currentStep: "recommended-game" as const } };
+  }
+
+  function handleStartNextMode() {
+    if (!nextMode || nextModeStarted) return;
+    const handoff = createNextModeHandoff();
+    if (!handoff) return;
+
+    setContinuityEnvelope(handoff.envelope);
     setActiveGameMode(nextMode);
+  }
+
+  function handleOpenNextModeRoute() {
+    if (!nextMode || nextModeStarted) return;
+    const handoff = createNextModeHandoff();
+    if (!handoff) return;
+
+    const record = createProgressionHandoffRecord({
+      continuity: handoff.envelope,
+      progression: handoff.progression,
+      savedAt: new Date().toISOString(),
+    });
+    const saveErrors = saveProgressionHandoffRecord(record);
+    if (saveErrors.length > 0) {
+      setEventContractErrors(saveErrors.map((error) => `Progression handoff: ${error}`));
+      return;
+    }
+
+    setContinuityEnvelope(handoff.envelope);
+    window.location.assign(handoff.envelope.destinationRoute);
   }
 
   function handleGameEvent(event: GameProgressEvent) {
@@ -428,6 +450,8 @@ export function StudentLaunchFlow({
         started={nextModeStarted}
         targetLanguage={targetLanguage}
         onStart={handleStartNextMode}
+        routeHref={nextMode ? getGameModeRoutePath(nextMode, launchSession.launchCode) : undefined}
+        onOpenRoute={handleOpenNextModeRoute}
       />
       <RecommendedGameRoutesCard
         launchSession={launchSession}

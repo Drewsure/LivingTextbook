@@ -71,6 +71,10 @@ Do not reverse this order.
 
 A beautiful unstable screen is not acceptable. A clean stable layout can be improved. Therefore, foundation comes first, polish second, premium expression third.
 
+### Cross-route and hosted persistence standard
+
+Student progression crosses routes only through a validated continuity envelope scoped to tenant, package, launch, student session, and exact destination path. Browser session storage is rehearsal-only. The first hosted adapter is a non-durable, explicitly policy-gated rehearsal boundary; production persistence requires an approved provider, identity model, retention policy, school policy, migration plan, and release gate.
+
 ## 4. Component Standards
 
 Components must be reusable, named, and domain-specific. Avoid tangled one-off screens where layout, state, data access, scoring, and visual polish are fused together.

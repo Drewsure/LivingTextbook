@@ -22,6 +22,20 @@ The background media capability slice now rejects multimedia plans that name a s
 
 The game catalog learner-metadata slice now checks role, skill focus, summary, and explicit media capability fields before game-mode verification can pass.
 
+## Build session 0810: Cross-route progression handoff
+
+- Added a session-scoped progression handoff record keyed by tenant, package, launch, student session, and exact destination route.
+- Added a launch action that stores the validated handoff before navigating to the curated next activity route.
+- Added destination-shell hydration that accepts only a matching handoff and keeps direct routes locked otherwise.
+- Preserved existing inline game start behavior for comparison during rehearsal.
+
+## Build session 0811: First hosted progression rehearsal adapter
+
+- Added a shared hosted progression record and write/read validators.
+- Added a route-backed process-local rehearsal adapter with explicit policy, school-acceptance, non-durable, and idempotency gates.
+- Default behavior remains blocked; this does not claim durable production persistence.
+- Added ADRs DR-882/DR-883 and the focused static verification script.
+
 ## Session 0: Standards And Decisions Gate
 
 Purpose: Ensure the project still follows the white-label saleable platform direction before work begins.

@@ -6,6 +6,14 @@ Require matching audio for each canonical term and sentence. Distinct cue IDs re
 
 This register is a standing gate for platform decisions. It exists to keep the Living Textbook build saleable, maintainable, and tenant-ready while still moving fast enough to remain cost efficient.
 
+## DR-882: Cross-route progression handoff
+
+Student activity routes receive a tenant-scoped validated continuity envelope through session-scoped browser rehearsal storage. Exact destination and student identity are required; URL-encoded progression and support/media-only unlocks remain prohibited.
+
+## DR-883: First hosted progression rehearsal adapter
+
+The first hosted adapter is a process-local rehearsal endpoint with validation, idempotency, tenant checks, and explicit school-policy/non-durable write gates. It is not durable production storage.
+
 The repo is the source of truth. Every major technical, product, AI-agent, game-engine, styling, infrastructure, or data decision should be checked here before implementation.
 
 ## Decision Rubric

@@ -13,9 +13,11 @@ interface NextGameUnlockCardProps {
   started: boolean;
   targetLanguage: string;
   onStart: () => void;
+  routeHref?: string;
+  onOpenRoute?: () => void;
 }
 
-export function NextGameUnlockCard({ nextMode, unlocked, audioReady, started, targetLanguage, onStart }: NextGameUnlockCardProps) {
+export function NextGameUnlockCard({ nextMode, unlocked, audioReady, started, targetLanguage, onStart, routeHref, onOpenRoute }: NextGameUnlockCardProps) {
   const modeLabel = nextMode ? formatMode(nextMode) : "next game";
   const canStart = unlocked && audioReady;
   const statusMessage = started
@@ -50,15 +52,28 @@ export function NextGameUnlockCard({ nextMode, unlocked, audioReady, started, ta
             <AudioCueText text={statusMessage} language={targetLanguage} label="Tap the next game message to hear it" className="text-sm" />
           </p>
         </div>
-        <AudioSupportedAction
-          audioText={actionText}
-          audioLanguage={targetLanguage}
-          onClick={onStart}
-          disabled={!canStart || started || !nextMode}
-          variant={canStart ? "primary" : "secondary"}
-        >
-          {actionText}
-        </AudioSupportedAction>
+        <div className="flex flex-wrap justify-end gap-2">
+          <AudioSupportedAction
+            audioText={actionText}
+            audioLanguage={targetLanguage}
+            onClick={onStart}
+            disabled={!canStart || started || !nextMode}
+            variant={canStart ? "primary" : "secondary"}
+          >
+            {actionText}
+          </AudioSupportedAction>
+          {onOpenRoute && routeHref ? (
+            <AudioSupportedAction
+              audioText={`Open the full ${modeLabel} activity route.`}
+              audioLanguage={targetLanguage}
+              onClick={onOpenRoute}
+              disabled={!canStart || started || !nextMode}
+              variant="secondary"
+            >
+              Open full route
+            </AudioSupportedAction>
+          ) : null}
+        </div>
       </div>
     </Card>
   );
