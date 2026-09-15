@@ -2965,3 +2965,15 @@ covering the full set.
 Typecheck, runtime behavior, canonical game verification, production build,
 and the 88-route sweep remain required. This does not enable uploads, live AI,
 persistence, assignment, or Phaser promotion. See ADR 0800 and DR-877.
+
+## 0805 - Audio transcript match guard
+
+Hardened the shared learner audio controls so a reviewed source is only used
+when its cue text exactly matches the visible text after normalization. This
+prevents a generic retry or success recording from being played against a
+different message while retaining target-language speech fallback for uncued
+states. Added canonical verifier coverage and standing ADR/decision records.
+
+This is a playback-integrity change only. It does not enable uploads, live AI,
+persistence, assignment, microphone use, scoring changes, or Phaser promotion.
+See ADR 0801 and DR-878.

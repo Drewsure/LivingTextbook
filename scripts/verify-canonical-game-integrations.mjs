@@ -638,6 +638,11 @@ for (const fragment of ["sourceUri", "new Audio(sourceUri)", "audio.onerror", "i
     failures.push(`shared audio control must prefer reviewed asset playback with speech fallback: ${fragment}`);
   }
 }
+for (const fragment of ["getMatchingAudioSourceUri", "normalizeAudioText(cue.text) !== normalizeAudioText(text)", 'data-audio-source={playableSourceUri ? "reviewed-asset" : "speech-fallback"']) {
+  if (!audioCueButton.includes(fragment)) {
+    failures.push(`shared audio control must reject reviewed assets whose transcript does not match visible text: ${fragment}`);
+  }
+}
 for (const fragment of ["const fallbackSource = mode === \"local-first\" ? hostedSource : undefined", "mode === \"local-first\" ? localSource : hostedSource", "sourceKind: \"missing\""]) {
   if (!mediaSourceResolver.includes(fragment)) {
     failures.push(`media source resolver must preserve explicit hosted/local delivery boundaries: ${fragment}`);

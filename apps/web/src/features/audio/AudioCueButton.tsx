@@ -15,7 +15,7 @@ type AudioPlaybackStatus = "ready" | "playing" | "unavailable";
 interface AudioCueButtonProps {
   text: string;
   language: string;
-  cue?: Pick<AudioCue, "sourceUri">;
+  cue?: Pick<AudioCue, "sourceUri" | "text">;
   label?: string;
   compact?: boolean;
   onPlay?: () => void;
@@ -24,7 +24,7 @@ interface AudioCueButtonProps {
 interface AudioCueTextProps {
   text: string;
   language: string;
-  cue?: Pick<AudioCue, "sourceUri">;
+  cue?: Pick<AudioCue, "sourceUri" | "text">;
   label?: string;
   className?: string;
   autoPlay?: boolean;
@@ -99,18 +99,19 @@ function speakText({ text, language, onStatusChange }: SpeechOptions) {
 export function AudioCueText({ text, language, cue, label, className = "", autoPlay = false, onPlay }: AudioCueTextProps) {
   const [status, setStatus] = useState<AudioPlaybackStatus>("ready");
   const buttonLabel = label ?? `Listen to ${text}`;
+  const playableSourceUri = getMatchingAudioSourceUri(text, cue);
 
   useEffect(() => {
     if (!autoPlay) {
       return;
     }
 
-    playAudioCueText({ text, language, sourceUri: cue?.sourceUri, onStatusChange: setStatus });
-  }, [autoPlay, cue?.sourceUri, language, text]);
+    playAudioCueText({ text, language, sourceUri: playableSourceUri, onStatusChange: setStatus });
+  }, [autoPlay, language, playableSourceUri, text]);
 
   function handlePlay() {
     onPlay?.();
-    playAudioCueText({ text, language, sourceUri: cue?.sourceUri, onStatusChange: setStatus });
+    playAudioCueText({ text, language, sourceUri: playableSourceUri, onStatusChange: setStatus });
   }
 
   return (
@@ -119,7 +120,7 @@ export function AudioCueText({ text, language, cue, label, className = "", autoP
       onClick={handlePlay}
       aria-label={buttonLabel}
       data-audio-status={status}
-      data-audio-source={cue?.sourceUri ? "reviewed-asset" : "speech-fallback"}
+      data-audio-source={playableSourceUri ? "reviewed-asset" : "speech-fallback"}
       className={`rounded-lg px-2 py-1 text-[var(--tenant-text)] underline decoration-[var(--tenant-primary)] decoration-2 underline-offset-4 transition hover:bg-[var(--tenant-surface)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--tenant-primary)] ${className}`}
     >
       {text}
@@ -131,10 +132,11 @@ export function AudioCueText({ text, language, cue, label, className = "", autoP
 export function AudioCueButton({ text, language, cue, label, compact = false, onPlay }: AudioCueButtonProps) {
   const [status, setStatus] = useState<AudioPlaybackStatus>("ready");
   const buttonLabel = label ?? `Listen to ${text}`;
+  const playableSourceUri = getMatchingAudioSourceUri(text, cue);
 
   function handlePlay() {
     onPlay?.();
-    playAudioCueText({ text, language, sourceUri: cue?.sourceUri, onStatusChange: setStatus });
+    playAudioCueText({ text, language, sourceUri: playableSourceUri, onStatusChange: setStatus });
   }
 
   return (
@@ -142,7 +144,7 @@ export function AudioCueButton({ text, language, cue, label, compact = false, on
       type="button"
       onClick={handlePlay}
       aria-label={buttonLabel}
-      data-audio-source={cue?.sourceUri ? "reviewed-asset" : "speech-fallback"}
+      data-audio-source={playableSourceUri ? "reviewed-asset" : "speech-fallback"}
       className={`inline-flex min-h-10 items-center justify-center rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] px-3 py-2 text-sm font-semibold text-[var(--tenant-text)] transition hover:brightness-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--tenant-primary)] ${
         compact ? "min-w-20" : "min-w-24"
       }`}
@@ -150,4 +152,16 @@ export function AudioCueButton({ text, language, cue, label, compact = false, on
       {status === "playing" ? "Playing" : status === "unavailable" ? "No audio" : "Listen"}
     </button>
   );
+}
+
+function getMatchingAudioSourceUri(text: string, cue?: Pick<AudioCue, "sourceUri" | "text">): string | undefined {
+  if (!cue?.sourceUri || normalizeAudioText(cue.text) !== normalizeAudioText(text)) {
+    return undefined;
+  }
+
+  return cue.sourceUri;
+}
+
+function normalizeAudioText(text: string): string {
+  return text.trim().replace(/\s+/g, " ").toLocaleLowerCase();
 }

@@ -5170,3 +5170,11 @@ Canonical game instructions, prompts, terms, sentences, and feedback now pass
 authorized reviewed cues into shared audio controls where available. Speech
 remains a fallback for uncued authored copy, and playback cannot affect game
 authority. See ADR 0800.
+
+# DR-878: Audio Transcript Match Guard
+
+Shared audio controls now compare the visible text with the reviewed cue text
+before using a recorded source. Mismatched feedback states use speech fallback
+for the exact visible sentence instead of playing an incorrect recording. This
+keeps reviewed audio trustworthy without changing gameplay authority. See ADR
+0801.

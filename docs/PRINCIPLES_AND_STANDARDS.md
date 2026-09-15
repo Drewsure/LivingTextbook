@@ -3374,3 +3374,18 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-876 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-877 and
 `docs/adr/0800-canonical-game-cue-fidelity.md`.
+
+## 225. Audio Transcript Match Standard
+
+- Shared learner audio controls may use a reviewed asset only when its cue text
+  matches the visible learner-facing text after whitespace and case
+  normalization.
+- When a visible retry, success, next-round, or completion sentence has no
+  exact reviewed match, the control falls back to speech for that exact text.
+- This rule is centralized so canonical DOM games, future tenant themes, and
+  approved Phaser wrappers inherit the same protection.
+- Transcript matching cannot change scoring, mastery, rewards, unlocks,
+  assignments, reports, or microphone policy.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-878 and
+`docs/adr/0801-audio-transcript-match-guard.md`.
