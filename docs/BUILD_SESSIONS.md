@@ -2801,3 +2801,14 @@ language rather than assuming English.
 Typecheck and canonical game integration verification pass. No upload, live AI,
 persistence, assignment, or Phaser promotion was enabled. See ADR 0787 and
 DR-864.
+
+## 0791 - Completion navigation audio boundary
+
+Aligned the shared playable-game completion card with next-activity audio
+readiness. The route shell now passes the unit and audio context, and the card
+withholds the next open action when reviewed target-language coverage is
+incomplete, even after the current game has completed.
+
+Typecheck and canonical game integration verification pass. No upload, live AI,
+persistence, assignment, or Phaser promotion was enabled. See ADR 0788 and
+DR-865.

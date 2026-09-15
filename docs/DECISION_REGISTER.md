@@ -5071,3 +5071,11 @@ with reviewed target-language audio readiness before offering a learner an
 active continuation action. Route summaries and audio cues use the resolved
 tenant language, while incomplete coverage is shown as audio review rather
 than learner failure. See ADR 0787.
+
+# DR-865: Completion Navigation Audio Boundary
+
+The shared playable-route completion card now checks reviewed target-language
+audio for the next activity before offering an active navigation action. The
+route shell passes unit and audio context; the card calculates next-activity
+readiness. A completed current game therefore cannot advertise a blocked next
+route as ready. See ADR 0788.

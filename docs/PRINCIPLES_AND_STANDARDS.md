@@ -3197,3 +3197,16 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-863 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-864 and
 `docs/adr/0787-learner-continuation-audio-boundary.md`.
+
+## 212. Completion Navigation Audio Standard
+
+- A completed game may report its own completion without automatically
+  authorizing the next activity route.
+- Completion navigation must evaluate the next activity's reviewed
+  target-language audio before offering an active open action.
+- The route shell owns the handoff context; the completion card owns the
+  next-activity readiness calculation, keeping the boundary explicit and
+  reusable.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-865 and
+`docs/adr/0788-completion-navigation-audio-boundary.md`.

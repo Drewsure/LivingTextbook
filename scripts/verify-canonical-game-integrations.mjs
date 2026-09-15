@@ -594,6 +594,17 @@ for (const fragment of [
   }
 }
 
+for (const fragment of ["audioCues={audioCues}", "unit={unit}"]) {
+  if (!playableRouteShell.includes(fragment)) {
+    failures.push(`playable route shell must pass completion audio context: ${fragment}`);
+  }
+}
+for (const fragment of ["nextAudioReady", "getGameAudioCoverage", "audioCues"]) {
+  if (!completionNextCard.includes(fragment)) {
+    failures.push(`completion navigation must respect next-game audio readiness: ${fragment}`);
+  }
+}
+
 for (const [surface, source, fragment] of [
   ["flashcard entry audio seed resolver", flashcardEntryFlow, "resolveCanonicalGameReplaySeed({"],
   ["flashcard entry audio handoff", flashcardEntryFlow, "replaySeed={replaySeed}"],

@@ -215,6 +215,8 @@ export function PlayableGameRouteShell({
         launchSession={launchSession}
         progression={currentProgression}
         currentGameMode={gameMode}
+        unit={unit}
+        audioCues={audioCues}
         earnedStarDust={lastEarnedDust}
         rewardName={tenant.rewardName}
         targetLanguage={targetLanguage}

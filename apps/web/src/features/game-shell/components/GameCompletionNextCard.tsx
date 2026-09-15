@@ -1,8 +1,8 @@
 "use client";
 
 import { Card, StatusPill } from "@living-textbook/ui";
-import { isGameModeSupportedAtLevel } from "@living-textbook/content-model";
-import type { GameModeId, LaunchSession, StudentProgressionState } from "@living-textbook/content-model";
+import { getGameAudioCoverage, isGameModeSupportedAtLevel } from "@living-textbook/content-model";
+import type { AudioCue, GameModeId, LaunchSession, StudentProgressionState, UnitPayload } from "@living-textbook/content-model";
 import type { UnitGameOffer, UnitGameOfferMap } from "@living-textbook/content-model";
 import { AudioCueText } from "@/features/audio/AudioCueButton";
 import { getGameModeRoutePath } from "@/features/routes/gameModeRoutePaths";
@@ -14,6 +14,8 @@ interface GameCompletionNextCardProps {
   launchSession: LaunchSession;
   progression: StudentProgressionState;
   currentGameMode: GameModeId;
+  unit: UnitPayload;
+  audioCues: AudioCue[];
   earnedStarDust: number;
   rewardName: string;
   targetLanguage: string;
@@ -24,6 +26,8 @@ export function GameCompletionNextCard({
   launchSession,
   progression,
   currentGameMode,
+  unit,
+  audioCues,
   earnedStarDust,
   rewardName,
   targetLanguage,
@@ -32,11 +36,14 @@ export function GameCompletionNextCard({
   const currentComplete = progression.completedGameModes.includes(currentGameMode);
   const nextOffer = findNextReviewedOffer(offerMap, progression, currentGameMode);
   const nextMode = nextOffer?.gameMode ?? getNextUncompletedRecommendedMode(launchSession, progression, currentGameMode);
+  const nextAudioReady = !nextMode || getGameAudioCoverage({ unit, audioCues, gameMode: nextMode, targetLanguage }).ready;
   const nextPath = nextOffer?.launchRoute ?? (nextMode ? getGameModeRoutePath(nextMode, launchSession.launchCode) : getStudentActivityHubPath(launchSession.launchCode));
   const nextLabel = nextOffer?.label ?? (nextMode ? formatMode(nextMode) : "Activity hub");
   const nextSource = nextOffer ? "Reviewed offer map" : "Launch session";
-  const statusLabel = currentComplete ? "Ready for next" : "Finish game";
-  const summaryText = currentComplete
+  const statusLabel = currentComplete && nextAudioReady ? "Ready for next" : currentComplete ? "Audio review" : "Finish game";
+  const summaryText = currentComplete && !nextAudioReady
+    ? `${formatMode(currentGameMode)} is complete. Reviewed target-language audio is needed before ${nextLabel} can open.`
+    : currentComplete
     ? `${formatMode(currentGameMode)} is complete. Open ${nextLabel} or return to the activity hub.`
     : `Finish ${formatMode(currentGameMode)} to record mastery before choosing the next activity.`;
 
@@ -50,7 +57,7 @@ export function GameCompletionNextCard({
             <AudioCueText text={summaryText} language={targetLanguage} label="Tap the next activity summary to hear it" className="text-sm" />
           </p>
         </div>
-        <StatusPill label={statusLabel} tone={currentComplete ? "success" : "warning"} />
+        <StatusPill label={statusLabel} tone={currentComplete && nextAudioReady ? "success" : "warning"} />
       </div>
 
       <div className="mt-5 grid gap-3 sm:grid-cols-4">
@@ -61,7 +68,11 @@ export function GameCompletionNextCard({
       </div>
 
       <div className="mt-5 grid gap-3 sm:grid-cols-3">
-        <CompletionLink href={nextPath} label={currentComplete ? `Open ${nextLabel}` : "Complete current game first"} disabled={!currentComplete} />
+        <CompletionLink
+          href={nextPath}
+          label={currentComplete && !nextAudioReady ? "Review next audio first" : currentComplete ? `Open ${nextLabel}` : "Complete current game first"}
+          disabled={!currentComplete || !nextAudioReady}
+        />
         <CompletionLink href={getStudentActivityHubPath(launchSession.launchCode)} label="Activity hub" />
         <CompletionLink href={getTrainingAcademyPath(launchSession.launchCode)} label="Training Academy" />
       </div>
