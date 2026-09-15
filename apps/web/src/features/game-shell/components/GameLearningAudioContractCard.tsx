@@ -9,6 +9,7 @@ import type {
   LaunchSession,
   StudentProgressionState,
   UnitPayload,
+  UnitAudioSupportPlan,
 } from "@living-textbook/content-model";
 import { getGameAudioCoverage, resolveTargetLanguage } from "@living-textbook/content-model";
 import { AudioCueText } from "@/features/audio/AudioCueButton";
@@ -23,6 +24,7 @@ interface GameLearningAudioContractCardProps {
   progression: StudentProgressionState;
   gameMode: GameModeId;
   audioCues: AudioCue[];
+  audioSupportPlan?: UnitAudioSupportPlan;
   replaySeed: string;
   onAudioRequested: (event: GameProgressEvent) => void;
   coverage?: GameAudioCoverage;
@@ -35,6 +37,7 @@ export function GameLearningAudioContractCard({
   progression,
   gameMode,
   audioCues,
+  audioSupportPlan,
   replaySeed,
   onAudioRequested,
   coverage,
@@ -43,7 +46,7 @@ export function GameLearningAudioContractCard({
     tenantTargetLanguage: tenant.languageSettings?.targetLanguage,
     unitLanguage: unit.unitMeta.textbookReference?.language,
   });
-  const resolvedCoverage = coverage ?? getGameAudioCoverage({ unit, audioCues, gameMode, targetLanguage });
+  const resolvedCoverage = coverage ?? getGameAudioCoverage({ unit, audioCues, audioSupportPlan, gameMode, targetLanguage });
   const summaryText = `Listen first. Answer in ${formatLanguageName(targetLanguage)} to make progress.`;
 
   function handleRuleAudioRequested() {

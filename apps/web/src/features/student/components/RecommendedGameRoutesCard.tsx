@@ -2,7 +2,7 @@
 
 import { Card, StatusPill } from "@living-textbook/ui";
 import { getGameAudioCoverage, getLevelAwareRecommendedGameModes, isGameModeSupportedAtLevel } from "@living-textbook/content-model";
-import type { ContentPackage, GameModeId, LaunchSession, StudentProgressionState, UnitPayload } from "@living-textbook/content-model";
+import type { ContentPackage, GameModeId, LaunchSession, StudentProgressionState, UnitAudioSupportPlan, UnitPayload } from "@living-textbook/content-model";
 import type { UnitGameOffer, UnitGameOfferMap } from "@living-textbook/content-model";
 import { AudioCueButton, AudioCueText } from "@/features/audio/AudioCueButton";
 import { getGameModeRoutePath } from "@/features/routes/gameModeRoutePaths";
@@ -14,6 +14,7 @@ interface RecommendedGameRoutesCardProps {
   progression: StudentProgressionState;
   unit: UnitPayload;
   audioCues: ContentPackage["audioCues"];
+  audioSupportPlan?: UnitAudioSupportPlan;
   targetLanguage: string;
   offerMap?: UnitGameOfferMap;
   onRouteGuidanceListened?: (mode: GameModeId, routeStatus: "locked" | "unlocked" | "complete", routeHref: string) => void;
@@ -24,11 +25,12 @@ export function RecommendedGameRoutesCard({
   progression,
   unit,
   audioCues,
+  audioSupportPlan,
   targetLanguage,
   offerMap,
   onRouteGuidanceListened,
 }: RecommendedGameRoutesCardProps) {
-  const recommendedRoutes = buildRecommendedRoutes({ launchSession, progression, unit, audioCues, targetLanguage, offerMap });
+  const recommendedRoutes = buildRecommendedRoutes({ launchSession, progression, unit, audioCues, audioSupportPlan, targetLanguage, offerMap });
 
   if (recommendedRoutes.length === 0) {
     return null;
@@ -142,6 +144,7 @@ function buildRecommendedRoutes({
   progression,
   unit,
   audioCues,
+  audioSupportPlan,
   targetLanguage,
   offerMap,
 }: {
@@ -149,6 +152,7 @@ function buildRecommendedRoutes({
   progression: StudentProgressionState;
   unit: UnitPayload;
   audioCues: ContentPackage["audioCues"];
+  audioSupportPlan?: UnitAudioSupportPlan;
   targetLanguage: string;
   offerMap?: UnitGameOfferMap;
 }) {
@@ -162,7 +166,7 @@ function buildRecommendedRoutes({
     .sort((first, second) => (first.recommendedOrder ?? 99) - (second.recommendedOrder ?? 99));
 
   if (offers && offers.length > 0) {
-    return offers.map((offer, index) => toRecommendedRoute({ offer, index, launchSession, progression, unit, audioCues, targetLanguage }));
+    return offers.map((offer, index) => toRecommendedRoute({ offer, index, launchSession, progression, unit, audioCues, audioSupportPlan, targetLanguage }));
   }
 
   return getLevelAwareRecommendedGameModes(launchSession)
@@ -172,7 +176,7 @@ function buildRecommendedRoutes({
     order: index + 1,
     label: formatMode(mode),
     href: getGameModeRoutePath(mode, launchSession.launchCode),
-    audioReady: getGameAudioCoverage({ unit, audioCues: audioCues ?? [], gameMode: mode, targetLanguage }).ready,
+    audioReady: getGameAudioCoverage({ unit, audioCues: audioCues ?? [], audioSupportPlan, gameMode: mode, targetLanguage }).ready,
     unlocked: progression.unlockedGameModes.includes(mode),
     completed: progression.completedGameModes.includes(mode),
     summary: getModeSummary(mode),
@@ -186,6 +190,7 @@ function toRecommendedRoute({
   progression,
   unit,
   audioCues,
+  audioSupportPlan,
   targetLanguage,
 }: {
   offer: UnitGameOffer;
@@ -194,9 +199,10 @@ function toRecommendedRoute({
   progression: StudentProgressionState;
   unit: UnitPayload;
   audioCues: ContentPackage["audioCues"];
+  audioSupportPlan?: UnitAudioSupportPlan;
   targetLanguage: string;
 }) {
-  const audioReady = getGameAudioCoverage({ unit, audioCues: audioCues ?? [], gameMode: offer.gameMode, targetLanguage }).ready;
+  const audioReady = getGameAudioCoverage({ unit, audioCues: audioCues ?? [], audioSupportPlan, gameMode: offer.gameMode, targetLanguage }).ready;
   return {
     mode: offer.gameMode,
     order: index + 1,

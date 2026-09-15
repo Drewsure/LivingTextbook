@@ -22,6 +22,7 @@ export default async function LaunchPage({ params }: { params: Promise<{ code: s
         sessionSettings={sessionSettings}
         contentPackage={contentPackage}
         audioCues={contentPackage.audioCues}
+        audioSupportPlan={contentPackage.audioSupportPlans?.find((plan) => plan.unitKey === launchSession.unitKey)}
         assistLanguagePlan={assistLanguagePlan}
         assignmentPlan={assignmentPlan}
         offerMap={offerMap}

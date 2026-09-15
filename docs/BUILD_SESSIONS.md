@@ -2812,3 +2812,14 @@ incomplete, even after the current game has completed.
 Typecheck and canonical game integration verification pass. No upload, live AI,
 persistence, assignment, or Phaser promotion was enabled. See ADR 0788 and
 DR-865.
+
+## 0792 - Explicit audio scope
+
+Hardened `getGameAudioCoverage` so explicit game-mode restrictions apply to all
+learner-facing cue kinds. A cue scoped to another game can no longer satisfy
+term, sentence, or instruction readiness for the current route.
+
+Added a runtime regression case and a canonical source guard. Typecheck,
+runtime behavior, and canonical game verification pass. No upload, live AI,
+persistence, assignment, or Phaser promotion was enabled. See ADR 0789 and
+DR-866.

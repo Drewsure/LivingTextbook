@@ -9,6 +9,7 @@ import type {
   LaunchSession,
   StudentProgressionState,
   TeacherSessionSettings,
+  UnitAudioSupportPlan,
   UnitAssistLanguagePlan,
   UnitPayload,
 } from "@living-textbook/content-model";
@@ -77,6 +78,7 @@ interface StudentLaunchFlowProps {
   sessionSettings?: TeacherSessionSettings;
   contentPackage: ContentPackage;
   audioCues?: AudioCue[];
+  audioSupportPlan?: UnitAudioSupportPlan;
   assistLanguagePlan?: UnitAssistLanguagePlan;
   assignmentPlan?: TeacherAssignmentPlan;
   offerMap?: UnitGameOfferMap;
@@ -90,6 +92,7 @@ export function StudentLaunchFlow({
   sessionSettings,
   contentPackage,
   audioCues = [],
+  audioSupportPlan,
   assistLanguagePlan,
   assignmentPlan,
   offerMap,
@@ -119,6 +122,7 @@ export function StudentLaunchFlow({
   const audioCoverage = getGameAudioCoverage({
     unit,
     audioCues,
+    audioSupportPlan,
     gameMode: launchSession.entryMode,
     targetLanguage,
   });
@@ -129,6 +133,7 @@ export function StudentLaunchFlow({
   const nextModeAudioReady = !nextMode || getGameAudioCoverage({
     unit,
     audioCues,
+    audioSupportPlan,
     gameMode: nextMode,
     targetLanguage,
   }).ready;
@@ -404,6 +409,7 @@ export function StudentLaunchFlow({
         progression={currentProgression}
         unit={unit}
         audioCues={audioCues}
+        audioSupportPlan={audioSupportPlan}
         targetLanguage={targetLanguage}
         offerMap={offerMap}
         onRouteGuidanceListened={handleRouteGuidanceListened}

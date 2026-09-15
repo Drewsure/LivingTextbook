@@ -19,6 +19,7 @@ export default async function FillInBlankPage({ params }: { params: Promise<{ co
         launchSession={launchSession}
         progression={progression}
         audioCues={contentPackage.audioCues}
+        audioSupportPlan={contentPackage.audioSupportPlans?.find((plan) => plan.unitKey === launchSession.unitKey)}
         assignmentPlan={assignmentPlan}
         offerMap={offerMap}
       />

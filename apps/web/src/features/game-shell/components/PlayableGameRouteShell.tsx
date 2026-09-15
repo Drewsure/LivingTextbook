@@ -9,6 +9,7 @@ import type {
   LaunchSession,
   StudentProgressionState,
   UnitPayload,
+  UnitAudioSupportPlan,
 } from "@living-textbook/content-model";
 import { getGameAudioCoverage, isGameModeSupportedAtLevel, languageMatches, resolveCanonicalGameReplaySeed, resolveTargetLanguage } from "@living-textbook/content-model";
 import type { TeacherAssignmentPlan } from "@living-textbook/content-model";
@@ -30,6 +31,7 @@ export interface PlayableGameDemoFlowProps {
   launchSession: LaunchSession;
   progression: StudentProgressionState;
   audioCues?: AudioCue[];
+  audioSupportPlan?: UnitAudioSupportPlan;
   assignmentPlan?: TeacherAssignmentPlan;
   offerMap?: UnitGameOfferMap;
 }
@@ -40,6 +42,7 @@ interface PlayableGameRouteShellProps {
   launchSession: LaunchSession;
   progression: StudentProgressionState;
   audioCues?: AudioCue[];
+  audioSupportPlan?: UnitAudioSupportPlan;
   assignmentPlan?: TeacherAssignmentPlan;
   offerMap?: UnitGameOfferMap;
   gameMode: GameModeId;
@@ -68,6 +71,7 @@ export function PlayableGameRouteShell({
   launchSession,
   progression,
   audioCues = [],
+  audioSupportPlan,
   assignmentPlan,
   offerMap,
   gameMode,
@@ -97,7 +101,7 @@ export function PlayableGameRouteShell({
   const gameSupportedAtLevel = isGameModeSupportedAtLevel(gameMode, unit.unitMeta.level);
   const currentOffer = offerMap?.offers.find((offer) => offer.gameMode === gameMode);
   const curatedOfferReady = !offerMap || isStudentOfferReady(currentOffer);
-  const audioCoverage = getGameAudioCoverage({ unit, audioCues, gameMode, targetLanguage });
+  const audioCoverage = getGameAudioCoverage({ unit, audioCues, audioSupportPlan, gameMode, targetLanguage });
   const gameAudioReady = audioCoverage.ready;
   const gameUnlocked = gameSupportedAtLevel && curatedOfferReady && currentProgression.unlockedGameModes.includes(gameMode) && gameAudioReady;
 
@@ -179,6 +183,7 @@ export function PlayableGameRouteShell({
         progression={currentProgression}
         gameMode={gameMode}
         audioCues={audioCues}
+        audioSupportPlan={audioSupportPlan}
         replaySeed={replaySeed}
         onAudioRequested={handleEvent}
         coverage={audioCoverage}
@@ -217,6 +222,7 @@ export function PlayableGameRouteShell({
         currentGameMode={gameMode}
         unit={unit}
         audioCues={audioCues}
+        audioSupportPlan={audioSupportPlan}
         earnedStarDust={lastEarnedDust}
         rewardName={tenant.rewardName}
         targetLanguage={targetLanguage}

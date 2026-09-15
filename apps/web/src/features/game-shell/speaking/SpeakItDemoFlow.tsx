@@ -12,6 +12,7 @@ export function SpeakItDemoFlow({
   launchSession,
   progression,
   audioCues = [],
+  audioSupportPlan,
   assignmentPlan,
   offerMap,
 }: PlayableGameDemoFlowProps) {
@@ -24,6 +25,7 @@ export function SpeakItDemoFlow({
       launchSession={launchSession}
       progression={progression}
       audioCues={audioCues}
+      audioSupportPlan={audioSupportPlan}
       assignmentPlan={assignmentPlan}
       offerMap={offerMap}
       gameMode={gameMode}

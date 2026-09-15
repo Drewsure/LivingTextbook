@@ -1211,6 +1211,14 @@ try {
   assertEqual(readyGameAudio.coveredTermCount, 8);
   assertEqual(readyGameAudio.coveredSentenceCount, 2);
   assertEqual(readyGameAudio.instructionReady, true);
+  const crossModeTermAudio = contentModel.getGameAudioCoverage({
+    unit: audioUnit,
+    audioCues: audioGameCues.map((cue) => cue.audioCueId === "audio-term-1" ? { ...cue, gameMode: "quiz" } : cue),
+    gameMode: "memory-match",
+    targetLanguage: "en",
+  });
+  assertEqual(crossModeTermAudio.ready, false);
+  assertEqual(crossModeTermAudio.missingTerms.includes("hello"), true);
   const incompleteGameAudio = contentModel.getGameAudioCoverage({
     unit: audioUnit,
     audioCues: audioGameCues.filter((cue) => cue.audioCueId !== "audio-term-1"),

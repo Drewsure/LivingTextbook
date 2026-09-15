@@ -9,6 +9,7 @@ import type {
   GameModeId,
   GameProgressEvent,
   LaunchSession,
+  UnitAudioSupportPlan,
   StudentProgressionState,
   TeacherSessionSettings,
   UnitAssistLanguagePlan,
@@ -48,6 +49,7 @@ interface FlashcardDemoFlowProps {
   sessionSettings?: TeacherSessionSettings;
   contentPackage: ContentPackage;
   audioCues?: AudioCue[];
+  audioSupportPlan?: UnitAudioSupportPlan;
   assistLanguagePlan?: UnitAssistLanguagePlan;
   assignmentPlan?: TeacherAssignmentPlan;
   offerMap?: UnitGameOfferMap;
@@ -61,6 +63,7 @@ export function FlashcardDemoFlow({
   sessionSettings,
   contentPackage,
   audioCues = [],
+  audioSupportPlan,
   assistLanguagePlan,
   assignmentPlan,
   offerMap,
@@ -82,6 +85,7 @@ export function FlashcardDemoFlow({
   const audioCoverage: GameAudioCoverage = getGameAudioCoverage({
     unit,
     audioCues,
+    audioSupportPlan,
     gameMode: launchSession.entryMode,
     targetLanguage,
   });
@@ -195,6 +199,7 @@ export function FlashcardDemoFlow({
         progression={currentProgression}
         gameMode={launchSession.entryMode}
         audioCues={audioCues}
+        audioSupportPlan={audioSupportPlan}
         replaySeed={replaySeed}
         onAudioRequested={(event) => appendSessionEvents([event])}
         coverage={audioCoverage}
@@ -227,6 +232,7 @@ export function FlashcardDemoFlow({
         progression={currentProgression}
         unit={unit}
         audioCues={audioCues}
+        audioSupportPlan={audioSupportPlan}
         targetLanguage={resolveTargetLanguage({ tenantTargetLanguage: tenant.languageSettings?.targetLanguage, unitLanguage: unit.unitMeta.textbookReference?.language })}
         offerMap={offerMap}
         onRouteGuidanceListened={handleRouteGuidanceListened}

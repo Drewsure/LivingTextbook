@@ -31,6 +31,7 @@ export default async function FlashcardsPage({ params }: { params: Promise<{ cod
         sessionSettings={sessionSettings}
         contentPackage={contentPackage}
         audioCues={contentPackage.audioCues}
+        audioSupportPlan={contentPackage.audioSupportPlans?.find((plan) => plan.unitKey === launchSession.unitKey)}
         assistLanguagePlan={assistLanguagePlan}
         assignmentPlan={assignmentPlan}
         offerMap={offerMap}

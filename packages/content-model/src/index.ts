@@ -337,34 +337,53 @@ export interface GameAudioCoverage {
 export function getGameAudioCoverage({
   unit,
   audioCues = [],
+  audioSupportPlan,
   gameMode,
   targetLanguage,
 }: {
   unit: UnitPayload;
   audioCues?: readonly AudioCue[];
+  audioSupportPlan?: UnitAudioSupportPlan;
   gameMode: GameModeId;
   targetLanguage: LocaleCode;
 }): GameAudioCoverage {
   const unitKey = getUnitKey(unit.unitMeta);
   const scopedCues = audioCues.filter((cue) => cue.unitKey === unitKey);
-  const targetCues = scopedCues.filter((cue) => languageMatches(cue.language, targetLanguage));
+  const modePlan = audioSupportPlan?.unitKey === unitKey
+    && languageMatches(audioSupportPlan.targetLanguage, targetLanguage)
+    ? audioSupportPlan.gameModeAudioCueIds?.[gameMode]
+    : undefined;
+  const targetCues = scopedCues.filter(
+    (cue) => languageMatches(cue.language, targetLanguage)
+      && (!cue.gameMode || cue.gameMode === gameMode || modePlan?.includes(cue.audioCueId)),
+  );
   const termCues = targetCues.filter((cue) => cue.kind === "term");
   const sentenceCues = targetCues.filter((cue) => cue.kind === "sentence");
-  const instructionCues = targetCues.filter(
-    (cue) => cue.kind === "instruction" && (!cue.gameMode || cue.gameMode === gameMode),
-  );
+  const instructionCues = targetCues.filter((cue) => cue.kind === "instruction");
+  const plannedTermCueIds = audioSupportPlan && modePlan
+    ? new Set(audioSupportPlan.vocabularyAudioCueIds.filter((audioCueId) => modePlan.includes(audioCueId)))
+    : undefined;
+  const plannedSentenceCueIds = audioSupportPlan && modePlan
+    ? new Set(audioSupportPlan.sentenceAudioCueIds.filter((audioCueId) => modePlan.includes(audioCueId)))
+    : undefined;
+  const requiredTerms = plannedTermCueIds
+    ? unit.pedagogicalPayload.vocabularyTerms.filter((term) => scopedCues.some((cue) => plannedTermCueIds.has(cue.audioCueId) && cue.kind === "term" && normalizeAudioText(cue.text) === normalizeAudioText(term)))
+    : unit.pedagogicalPayload.vocabularyTerms;
+  const requiredSentences = plannedSentenceCueIds
+    ? unit.pedagogicalPayload.targetSentences.filter((sentence) => scopedCues.some((cue) => plannedSentenceCueIds.has(cue.audioCueId) && cue.kind === "sentence" && normalizeAudioText(cue.text) === normalizeAudioText(sentence)))
+    : unit.pedagogicalPayload.targetSentences;
   const hasCueForText = (cues: AudioCue[], text: string) =>
     cues.some((cue) => normalizeAudioText(cue.text) === normalizeAudioText(text));
-  const missingTerms = unit.pedagogicalPayload.vocabularyTerms.filter((term) => !hasCueForText(termCues, term));
-  const missingSentences = unit.pedagogicalPayload.targetSentences.filter((sentence) => !hasCueForText(sentenceCues, sentence));
+  const missingTerms = requiredTerms.filter((term) => !hasCueForText(termCues, term));
+  const missingSentences = requiredSentences.filter((sentence) => !hasCueForText(sentenceCues, sentence));
   const instructionCueCount = instructionCues.length;
 
   return {
     targetLanguage,
-    requiredTermCount: unit.pedagogicalPayload.vocabularyTerms.length,
-    coveredTermCount: unit.pedagogicalPayload.vocabularyTerms.length - missingTerms.length,
-    requiredSentenceCount: unit.pedagogicalPayload.targetSentences.length,
-    coveredSentenceCount: unit.pedagogicalPayload.targetSentences.length - missingSentences.length,
+    requiredTermCount: requiredTerms.length,
+    coveredTermCount: requiredTerms.length - missingTerms.length,
+    requiredSentenceCount: requiredSentences.length,
+    coveredSentenceCount: requiredSentences.length - missingSentences.length,
     instructionCueCount,
     missingTerms,
     missingSentences,

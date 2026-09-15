@@ -247,6 +247,7 @@ const recommendedRoutesCard = readText("apps/web/src/features/student/components
 const completionNextCard = readText("apps/web/src/features/game-shell/components/GameCompletionNextCard.tsx");
 const nextGameUnlockCard = readText("apps/web/src/features/student/components/NextGameUnlockCard.tsx");
 const learningAudioCard = readText("apps/web/src/features/game-shell/components/GameLearningAudioContractCard.tsx");
+const contentModelIndex = readText("packages/content-model/src/index.ts");
 const flashcardEntryFlow = readText("apps/web/src/features/game-shell/entry/FlashcardDemoFlow.tsx");
 const flashcardPracticeCard = readText("apps/web/src/features/student/components/FlashcardPracticeCard.tsx");
 const audioCueButton = readText("apps/web/src/features/audio/AudioCueButton.tsx");
@@ -591,6 +592,24 @@ for (const fragment of [
 ]) {
   if (!recommendedRoutesCard.includes(fragment)) {
     failures.push(`recommended routes card must align learner continuation with audio readiness: ${fragment}`);
+  }
+}
+
+for (const fragment of ["!cue.gameMode || cue.gameMode === gameMode", "targetCues = scopedCues.filter"]) {
+  if (!contentModelIndex.includes(fragment)) {
+    failures.push(`game audio coverage must enforce explicit cue game scope: ${fragment}`);
+  }
+}
+
+for (const [label, source, fragments] of [
+  ["playable route shell", playableRouteShell, ["audioSupportPlan", "getGameAudioCoverage({ unit, audioCues, audioSupportPlan"]],
+  ["recommended routes", recommendedRoutesCard, ["audioSupportPlan", "gameMode: mode, targetLanguage", "gameMode: offer.gameMode, targetLanguage"]],
+  ["completion navigation", completionNextCard, ["audioSupportPlan", "gameMode: nextMode, targetLanguage"]],
+]) {
+  for (const fragment of fragments) {
+    if (!source.includes(fragment)) {
+      failures.push(`${label} must preserve reviewed audio support-plan authority: ${fragment}`);
+    }
   }
 }
 

@@ -19,6 +19,7 @@ export default async function SentenceBuilderPage({ params }: { params: Promise<
         launchSession={launchSession}
         progression={progression}
         audioCues={contentPackage.audioCues}
+        audioSupportPlan={contentPackage.audioSupportPlans?.find((plan) => plan.unitKey === launchSession.unitKey)}
         assignmentPlan={assignmentPlan}
         offerMap={offerMap}
       />

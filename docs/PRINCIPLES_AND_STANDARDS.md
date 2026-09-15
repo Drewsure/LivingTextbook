@@ -3210,3 +3210,31 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-864 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-865 and
 `docs/adr/0788-completion-navigation-audio-boundary.md`.
+
+## 213. Explicit Audio Scope Standard
+
+- A learner-facing audio cue bound to a unit and target language may be reused
+  across games only when it has no explicit game-mode restriction.
+- When a cue declares a game mode, coverage must count it only for that mode;
+  an explicitly scoped cue from another game cannot satisfy readiness.
+- The same scope rule applies to vocabulary, sentence, and instruction cues,
+  keeping package evidence and runtime route behavior consistent.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-866 and
+`docs/adr/0789-explicit-audio-scope.md`.
+
+## 214. Audio Support Plan Authority Standard
+
+- `UnitAudioSupportPlan.gameModeAudioCueIds` is the reviewed manifest that
+  authorizes reusable term or sentence cues for a particular game mode.
+- Runtime learner routes must receive the unit's audio support plan before
+  calculating readiness; a cue's source `gameMode` alone is not a substitute
+  for the package's reviewed reuse declaration.
+- A mode may require only the cue families it actually uses. For example,
+  Memory Match may require vocabulary and instruction audio without being
+  forced to carry sentence audio that belongs to a later syntax activity.
+- Package validation remains the first gate; runtime coverage is the final
+  learner-facing enforcement boundary.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-867 and
+`docs/adr/0790-audio-support-plan-authority.md`.

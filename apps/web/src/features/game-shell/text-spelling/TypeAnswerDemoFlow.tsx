@@ -11,6 +11,7 @@ export function TypeAnswerDemoFlow({
   launchSession,
   progression,
   audioCues = [],
+  audioSupportPlan,
   assignmentPlan,
   offerMap,
 }: PlayableGameDemoFlowProps) {
@@ -21,6 +22,7 @@ export function TypeAnswerDemoFlow({
       launchSession={launchSession}
       progression={progression}
       audioCues={audioCues}
+      audioSupportPlan={audioSupportPlan}
       assignmentPlan={assignmentPlan}
       offerMap={offerMap}
       gameMode={gameMode}

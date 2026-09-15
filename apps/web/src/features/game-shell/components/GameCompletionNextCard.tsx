@@ -2,7 +2,7 @@
 
 import { Card, StatusPill } from "@living-textbook/ui";
 import { getGameAudioCoverage, isGameModeSupportedAtLevel } from "@living-textbook/content-model";
-import type { AudioCue, GameModeId, LaunchSession, StudentProgressionState, UnitPayload } from "@living-textbook/content-model";
+import type { AudioCue, GameModeId, LaunchSession, StudentProgressionState, UnitAudioSupportPlan, UnitPayload } from "@living-textbook/content-model";
 import type { UnitGameOffer, UnitGameOfferMap } from "@living-textbook/content-model";
 import { AudioCueText } from "@/features/audio/AudioCueButton";
 import { getGameModeRoutePath } from "@/features/routes/gameModeRoutePaths";
@@ -16,6 +16,7 @@ interface GameCompletionNextCardProps {
   currentGameMode: GameModeId;
   unit: UnitPayload;
   audioCues: AudioCue[];
+  audioSupportPlan?: UnitAudioSupportPlan;
   earnedStarDust: number;
   rewardName: string;
   targetLanguage: string;
@@ -28,6 +29,7 @@ export function GameCompletionNextCard({
   currentGameMode,
   unit,
   audioCues,
+  audioSupportPlan,
   earnedStarDust,
   rewardName,
   targetLanguage,
@@ -36,7 +38,7 @@ export function GameCompletionNextCard({
   const currentComplete = progression.completedGameModes.includes(currentGameMode);
   const nextOffer = findNextReviewedOffer(offerMap, progression, currentGameMode);
   const nextMode = nextOffer?.gameMode ?? getNextUncompletedRecommendedMode(launchSession, progression, currentGameMode);
-  const nextAudioReady = !nextMode || getGameAudioCoverage({ unit, audioCues, gameMode: nextMode, targetLanguage }).ready;
+  const nextAudioReady = !nextMode || getGameAudioCoverage({ unit, audioCues, audioSupportPlan, gameMode: nextMode, targetLanguage }).ready;
   const nextPath = nextOffer?.launchRoute ?? (nextMode ? getGameModeRoutePath(nextMode, launchSession.launchCode) : getStudentActivityHubPath(launchSession.launchCode));
   const nextLabel = nextOffer?.label ?? (nextMode ? formatMode(nextMode) : "Activity hub");
   const nextSource = nextOffer ? "Reviewed offer map" : "Launch session";

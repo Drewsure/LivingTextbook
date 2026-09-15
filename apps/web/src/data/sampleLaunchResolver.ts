@@ -4,6 +4,7 @@ import type {
   StudentProgressionState,
   TeacherSessionSettings,
   UnitAssistLanguagePlan,
+  UnitAudioSupportPlan,
   UnitPayload,
 } from "@living-textbook/content-model";
 import type { TeacherAssignmentPlan, ClassRosterPlan } from "@living-textbook/content-model";
@@ -32,6 +33,7 @@ export interface SampleLaunchContext {
   progression: StudentProgressionState;
   sessionSettings: TeacherSessionSettings;
   assistLanguagePlan?: UnitAssistLanguagePlan;
+  audioSupportPlan?: UnitAudioSupportPlan;
   assignmentPlan?: TeacherAssignmentPlan;
   offerMap?: UnitGameOfferMap;
   classRosterPlan?: ClassRosterPlan;
@@ -61,11 +63,12 @@ export function resolveSampleLaunchContext(code: string): SampleLaunchContext {
   });
 }
 
-function withPackagePlans(context: Omit<SampleLaunchContext, "assistLanguagePlan" | "assignmentPlan" | "sessionSettings">): SampleLaunchContext {
+function withPackagePlans(context: Omit<SampleLaunchContext, "assistLanguagePlan" | "audioSupportPlan" | "assignmentPlan" | "sessionSettings">): SampleLaunchContext {
   const assistLanguagePlan = context.contentPackage.assistLanguagePlans?.find(
     (plan) => plan.unitKey === context.launchSession.unitKey && plan.studentVisibility !== "teacher-only",
   );
   const assignmentPlan = findSampleTeacherAssignmentPlan(context.launchSession.launchCode);
+  const audioSupportPlan = context.contentPackage.audioSupportPlans?.find((plan) => plan.unitKey === context.launchSession.unitKey);
   const classRosterPlan = findSampleClassRosterPlan(context.launchSession.launchCode);
   const sessionSettings = createSampleTeacherSessionSettings({
     launchSession: context.launchSession,
@@ -77,6 +80,7 @@ function withPackagePlans(context: Omit<SampleLaunchContext, "assistLanguagePlan
     ...context,
     sessionSettings,
     assistLanguagePlan,
+    audioSupportPlan,
     assignmentPlan,
     offerMap: findSampleUnitGameOfferMap(context.contentPackage.meta.packageId),
     classRosterPlan,

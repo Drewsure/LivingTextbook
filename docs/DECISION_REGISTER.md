@@ -5079,3 +5079,18 @@ audio for the next activity before offering an active navigation action. The
 route shell passes unit and audio context; the card calculates next-activity
 readiness. A completed current game therefore cannot advertise a blocked next
 route as ready. See ADR 0788.
+
+# DR-866: Explicit Audio Scope
+
+Shared game audio coverage now excludes cues whose explicit `gameMode` does
+not match the current game. Generic unit-scoped term and sentence cues remain
+reusable, while explicitly scoped vocabulary, sentence, and instruction cues
+cannot satisfy another mode's readiness. See ADR 0789.
+
+# DR-867: Audio Support Plan Authority
+
+Learner game routes now pass the unit audio support plan into the shared
+coverage contract. The plan's `gameModeAudioCueIds` authorizes reviewed reuse
+of explicitly scoped term or sentence cues and determines which cue families
+the mode requires. Package validation remains the first gate; runtime coverage
+is the learner-facing final gate. See ADR 0790.
