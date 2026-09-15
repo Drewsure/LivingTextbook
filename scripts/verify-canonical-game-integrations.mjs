@@ -595,7 +595,7 @@ for (const fragment of [
   }
 }
 
-for (const fragment of ["!cue.gameMode || cue.gameMode === gameMode", "targetCues = scopedCues.filter"]) {
+for (const fragment of ["cue.unitKey === unitKey && cue.tenantId === unit.unitMeta.tenantId", "!cue.gameMode || cue.gameMode === gameMode", "targetCues = scopedCues.filter"]) {
   if (!contentModelIndex.includes(fragment)) {
     failures.push(`game audio coverage must enforce explicit cue game scope: ${fragment}`);
   }

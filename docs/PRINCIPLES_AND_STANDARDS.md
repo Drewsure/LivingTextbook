@@ -3252,3 +3252,15 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-867 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-868 and
 `docs/adr/0791-mode-scoped-instruction-audio.md`.
+
+## 216. Tenant-Owned Audio Evidence Standard
+
+- Runtime learner audio coverage must require both the canonical unit key and
+  the owning tenant identifier to match the active unit.
+- Package validation remains the primary content-integrity gate, but route
+  readiness must also defend against malformed or cross-tenant runtime input.
+- A cue owned by another tenant cannot satisfy terms, sentences, instructions,
+  progression, completion, or reward eligibility.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-869 and
+`docs/adr/0792-tenant-owned-audio-evidence.md`.

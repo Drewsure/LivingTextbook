@@ -1244,6 +1244,14 @@ try {
   assertEqual(unapprovedInstructionAudio.instructionCueCount, 0);
   assertEqual(unapprovedInstructionAudio.instructionReady, false);
   assertEqual(unapprovedInstructionAudio.ready, false);
+  const crossTenantAudio = contentModel.getGameAudioCoverage({
+    unit: audioUnit,
+    audioCues: audioGameCues.map((cue) => ({ ...cue, tenantId: "tenant-2" })),
+    gameMode: "memory-match",
+    targetLanguage: "en",
+  });
+  assertEqual(crossTenantAudio.ready, false);
+  assertEqual(crossTenantAudio.missingTerms.includes("hello"), true);
   const crossModeTermAudio = contentModel.getGameAudioCoverage({
     unit: audioUnit,
     audioCues: audioGameCues.map((cue) => cue.audioCueId === "audio-term-1" ? { ...cue, gameMode: "quiz" } : cue),

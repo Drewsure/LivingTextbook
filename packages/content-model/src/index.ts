@@ -348,7 +348,9 @@ export function getGameAudioCoverage({
   targetLanguage: LocaleCode;
 }): GameAudioCoverage {
   const unitKey = getUnitKey(unit.unitMeta);
-  const scopedCues = audioCues.filter((cue) => cue.unitKey === unitKey);
+  const scopedCues = audioCues.filter(
+    (cue) => cue.unitKey === unitKey && cue.tenantId === unit.unitMeta.tenantId,
+  );
   const modePlan = audioSupportPlan?.unitKey === unitKey
     && languageMatches(audioSupportPlan.targetLanguage, targetLanguage)
     ? audioSupportPlan.gameModeAudioCueIds?.[gameMode]

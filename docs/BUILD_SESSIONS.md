@@ -2860,3 +2860,14 @@ Added runtime regression coverage and a canonical integration guard. Typecheck,
 runtime behavior, canonical game verification, production build, and the 88-
 route sweep remain required. This does not enable uploads, live AI,
 persistence, assignment, or Phaser promotion. See ADR 0791 and DR-868.
+
+## 0796 - Tenant-owned audio evidence
+
+Added a runtime tenant-ownership check to shared game audio coverage. A cue
+must match both the active unit key and the active unit tenant before it can
+count toward terms, sentences, instructions, or route readiness. Added a
+cross-tenant regression case and canonical source guard.
+
+Typecheck, runtime behavior, canonical game verification, production build,
+and the 88-route sweep remain required. This does not enable uploads, live AI,
+persistence, assignment, or Phaser promotion. See ADR 0792 and DR-869.

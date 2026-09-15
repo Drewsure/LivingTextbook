@@ -5102,3 +5102,11 @@ allow-list when a game-mode mapping exists. Shared instruction cues must be
 listed in the plan, and mode-specific instruction cues must be listed in that
 mode's `gameModeAudioCueIds`; a same-unit instruction cue by itself is not
 enough to open the learner route. See ADR 0791.
+
+# DR-869: Tenant-Owned Audio Evidence
+
+The shared runtime audio coverage helper now requires each cue to match both
+the active unit key and the unit's owning tenant before it can count toward
+readiness. This is a runtime defense-in-depth boundary for white-label
+isolation; package validation remains authoritative for content integrity. See
+ADR 0792.
