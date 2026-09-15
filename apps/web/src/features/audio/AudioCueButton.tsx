@@ -43,7 +43,7 @@ export function playAudioCueText({ text, language, sourceUri, onStatusChange }: 
   activeAudio?.pause();
   activeAudio = undefined;
 
-  if (sourceUri) {
+  if (sourceUri && isPlayableBrowserAudioSource(sourceUri)) {
     const audio = new Audio(sourceUri);
     activeAudio = audio;
     audio.onended = () => {
@@ -63,6 +63,21 @@ export function playAudioCueText({ text, language, sourceUri, onStatusChange }: 
   }
 
   speakText({ text, language, onStatusChange });
+}
+
+function isPlayableBrowserAudioSource(sourceUri: string): boolean {
+  const trimmed = sourceUri.trim();
+
+  if (!trimmed || trimmed.startsWith("file:") || trimmed.startsWith("javascript:") || trimmed.startsWith("data:")) {
+    return false;
+  }
+
+  try {
+    const url = new URL(trimmed, window.location.origin);
+    return url.protocol === "http:" || url.protocol === "https:";
+  } catch {
+    return false;
+  }
 }
 
 function speakText({ text, language, onStatusChange }: SpeechOptions) {

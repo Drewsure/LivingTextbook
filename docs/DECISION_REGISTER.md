@@ -5132,3 +5132,11 @@ one is available and falls back to browser speech synthesis when it is not
 playable. The source choice remains presentation-only: it cannot grant
 progress, mastery, rewards, or unlocks, and `localBundlePath` remains reserved
 for a future local-companion resolver. See ADR 0795.
+
+# DR-873: Browser Audio Locator Boundary
+
+Browser learner audio now accepts only same-origin or HTTP(S) cue locators.
+Filesystem, script, data, and malformed values fall back to speech synthesis;
+local companion deployments must supply an explicit resolver. This protects
+white-label media boundaries without adding provider cost or changing game
+progression authority. See ADR 0796.

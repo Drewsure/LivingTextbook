@@ -2907,3 +2907,15 @@ bundle paths remain blocked until a deployment-specific resolver exists.
 Typecheck, runtime behavior, canonical game verification, production build,
 and the 88-route sweep remain required. This does not enable uploads, live AI,
 persistence, assignment, or Phaser promotion. See ADR 0795 and DR-872.
+
+## 0800 - Browser audio locator boundary
+
+Added a browser-safe source check to the shared audio primitive. Same-origin
+and HTTP(S) reviewed cue locators may play as assets; filesystem, script,
+data, malformed, or unavailable locators use the existing speech fallback.
+Local companion paths remain deployment-adapter work and cannot leak into the
+hosted browser route.
+
+Typecheck, runtime behavior, canonical game verification, production build,
+and the 88-route sweep remain required. This does not enable uploads, live AI,
+persistence, assignment, or Phaser promotion. See ADR 0796 and DR-873.

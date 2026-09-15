@@ -3303,3 +3303,17 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-871 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-872 and
 `docs/adr/0795-reviewed-asset-audio-playback.md`.
+
+## 220. Browser Audio Locator Standard
+
+- Browser learner playback may use same-origin or HTTP(S) reviewed asset
+  locators only.
+- Filesystem, script, data, malformed, or otherwise non-web locators must not
+  be handed to a browser media element.
+- An unsafe or unavailable locator falls back to the approved text-to-speech
+  path without changing the content, scoring, progression, or release state.
+- Local companion playback must resolve local paths in its own deployment
+  adapter rather than weakening the hosted browser boundary.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-873 and
+`docs/adr/0796-browser-audio-locator-boundary.md`.
