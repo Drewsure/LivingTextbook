@@ -245,6 +245,7 @@ const localProgressionAdapter = readText("apps/web/src/features/progression/loca
 const playableRouteShell = readText("apps/web/src/features/game-shell/components/PlayableGameRouteShell.tsx");
 const recommendedRoutesCard = readText("apps/web/src/features/student/components/RecommendedGameRoutesCard.tsx");
 const completionNextCard = readText("apps/web/src/features/game-shell/components/GameCompletionNextCard.tsx");
+const nextGameUnlockCard = readText("apps/web/src/features/student/components/NextGameUnlockCard.tsx");
 const learningAudioCard = readText("apps/web/src/features/game-shell/components/GameLearningAudioContractCard.tsx");
 const flashcardEntryFlow = readText("apps/web/src/features/game-shell/entry/FlashcardDemoFlow.tsx");
 const flashcardPracticeCard = readText("apps/web/src/features/student/components/FlashcardPracticeCard.tsx");
@@ -386,6 +387,20 @@ for (const fragment of [
 ]) {
   if (!gameSequence.includes(fragment)) {
     failures.push(`game sequence fallback must respect curriculum level: ${fragment}`);
+  }
+}
+
+for (const [id, flow] of [
+  ["front-door-entry", frontDoorFlow],
+  ["student-launch", studentLaunchFlow],
+]) {
+  if (!flow.includes("nextModeAudioReady") || !flow.includes("audioReady={nextModeAudioReady}")) {
+    failures.push(`${id}: next-game unlock card must receive next-mode audio readiness`);
+  }
+}
+for (const fragment of ["audioReady: boolean", "const canStart = unlocked && audioReady", "Audio review"]) {
+  if (!nextGameUnlockCard.includes(fragment)) {
+    failures.push(`next-game unlock card must align its learner promise with audio readiness: ${fragment}`);
   }
 }
 
@@ -558,13 +573,24 @@ for (const [surface, source, fragment] of [
   ["local progression adapter", localProgressionAdapter, "metadata?.replaySeed"],
   ["playable route shell", playableRouteShell, "gameSupportedAtLevel"],
   ["recommended routes card", recommendedRoutesCard, "isGameModeSupportedAtLevel"],
-  ["recommended routes card", recommendedRoutesCard, "offerMap.level"],
+  ["recommended routes card", recommendedRoutesCard, "unit.unitMeta.level"],
   ["completion next card", completionNextCard, "isGameModeSupportedAtLevel"],
   ["completion next card", completionNextCard, "offerMap.level"],
   ["game access gate", accessGate, "unsupported-level"],
 ]) {
   if (!source.includes(fragment)) {
     failures.push(`${surface}: missing curriculum-level game access guard ${fragment}`);
+  }
+}
+
+for (const fragment of [
+  "getGameAudioCoverage",
+  "audioReady",
+  "audioReady: getGameAudioCoverage",
+  "audioCues: ContentPackage[\"audioCues\"]",
+]) {
+  if (!recommendedRoutesCard.includes(fragment)) {
+    failures.push(`recommended routes card must align learner continuation with audio readiness: ${fragment}`);
   }
 }
 

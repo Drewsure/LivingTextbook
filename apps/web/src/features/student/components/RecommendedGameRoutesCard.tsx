@@ -1,8 +1,8 @@
 "use client";
 
 import { Card, StatusPill } from "@living-textbook/ui";
-import { getLevelAwareRecommendedGameModes, isGameModeSupportedAtLevel } from "@living-textbook/content-model";
-import type { GameModeId, LaunchSession, StudentProgressionState } from "@living-textbook/content-model";
+import { getGameAudioCoverage, getLevelAwareRecommendedGameModes, isGameModeSupportedAtLevel } from "@living-textbook/content-model";
+import type { ContentPackage, GameModeId, LaunchSession, StudentProgressionState, UnitPayload } from "@living-textbook/content-model";
 import type { UnitGameOffer, UnitGameOfferMap } from "@living-textbook/content-model";
 import { AudioCueButton, AudioCueText } from "@/features/audio/AudioCueButton";
 import { getGameModeRoutePath } from "@/features/routes/gameModeRoutePaths";
@@ -12,6 +12,8 @@ import { formatMode } from "../studentLabels";
 interface RecommendedGameRoutesCardProps {
   launchSession: LaunchSession;
   progression: StudentProgressionState;
+  unit: UnitPayload;
+  audioCues: ContentPackage["audioCues"];
   targetLanguage: string;
   offerMap?: UnitGameOfferMap;
   onRouteGuidanceListened?: (mode: GameModeId, routeStatus: "locked" | "unlocked" | "complete", routeHref: string) => void;
@@ -20,11 +22,13 @@ interface RecommendedGameRoutesCardProps {
 export function RecommendedGameRoutesCard({
   launchSession,
   progression,
+  unit,
+  audioCues,
   targetLanguage,
   offerMap,
   onRouteGuidanceListened,
 }: RecommendedGameRoutesCardProps) {
-  const recommendedRoutes = buildRecommendedRoutes({ launchSession, progression, offerMap });
+  const recommendedRoutes = buildRecommendedRoutes({ launchSession, progression, unit, audioCues, targetLanguage, offerMap });
 
   if (recommendedRoutes.length === 0) {
     return null;
@@ -91,7 +95,10 @@ export function RecommendedGameRoutesCard({
                 <span className="font-bold text-[var(--tenant-text)]">
                   {route.order}. {route.label}
                 </span>
-                <StatusPill label={route.completed ? "Complete" : route.unlocked ? "Ready" : "Locked"} tone={route.unlocked ? "success" : "warning"} />
+                <StatusPill
+                  label={!route.audioReady ? "Audio review" : route.completed ? "Complete" : route.unlocked ? "Ready" : "Locked"}
+                  tone={route.unlocked || (route.completed && route.audioReady) ? "success" : "warning"}
+                />
               </span>
               <span className="mt-2 block leading-5 text-[var(--tenant-muted)]">{route.summary}</span>
               <span className="mt-3 flex flex-wrap items-center gap-2">
@@ -103,7 +110,7 @@ export function RecommendedGameRoutesCard({
                   onPlay={() =>
                     onRouteGuidanceListened?.(
                       route.mode,
-                      route.completed ? "complete" : route.unlocked ? "unlocked" : "locked",
+                        route.audioReady ? (route.completed ? "complete" : route.unlocked ? "unlocked" : "locked") : "locked",
                       route.href,
                     )
                   }
@@ -117,11 +124,11 @@ export function RecommendedGameRoutesCard({
                   </a>
                 ) : (
                   <span className="inline-flex min-h-10 items-center rounded-lg border border-[var(--tenant-border)] px-3 py-2 text-sm font-semibold text-[var(--tenant-muted)]">
-                    Finish flashcards
+                    {!route.audioReady ? "Audio review required" : "Finish flashcards"}
                   </span>
                 )}
               </span>
-              <span className="mt-2 block break-all text-xs font-semibold text-[var(--tenant-muted)]">{route.unlocked ? route.href : "Finish flashcards to unlock."}</span>
+              <span className="mt-2 block break-all text-xs font-semibold text-[var(--tenant-muted)]">{route.unlocked ? route.href : !route.audioReady ? "Reviewed audio required before opening." : "Finish flashcards to unlock."}</span>
             </div>
           );
         })}
@@ -133,15 +140,21 @@ export function RecommendedGameRoutesCard({
 function buildRecommendedRoutes({
   launchSession,
   progression,
+  unit,
+  audioCues,
+  targetLanguage,
   offerMap,
 }: {
   launchSession: LaunchSession;
   progression: StudentProgressionState;
+  unit: UnitPayload;
+  audioCues: ContentPackage["audioCues"];
+  targetLanguage: string;
   offerMap?: UnitGameOfferMap;
 }) {
   const offers = offerMap?.offers
     .filter((offer) => offer.gameMode !== launchSession.entryMode)
-    .filter((offer) => offerMap.level === undefined || isGameModeSupportedAtLevel(offer.gameMode, offerMap.level))
+    .filter((offer) => isGameModeSupportedAtLevel(offer.gameMode, unit.unitMeta.level))
     .filter((offer) => offer.readiness === "ready")
     .filter((offer) => offer.availability !== "hidden" && offer.availability !== "blocked")
     .filter((offer) => offer.availability !== "teacher-only" && offer.availability !== "premium")
@@ -149,14 +162,17 @@ function buildRecommendedRoutes({
     .sort((first, second) => (first.recommendedOrder ?? 99) - (second.recommendedOrder ?? 99));
 
   if (offers && offers.length > 0) {
-    return offers.map((offer, index) => toRecommendedRoute({ offer, index, launchSession, progression }));
+    return offers.map((offer, index) => toRecommendedRoute({ offer, index, launchSession, progression, unit, audioCues, targetLanguage }));
   }
 
-  return getLevelAwareRecommendedGameModes(launchSession).map((mode, index) => ({
+  return getLevelAwareRecommendedGameModes(launchSession)
+    .filter((mode) => isGameModeSupportedAtLevel(mode, unit.unitMeta.level))
+    .map((mode, index) => ({
     mode,
     order: index + 1,
     label: formatMode(mode),
     href: getGameModeRoutePath(mode, launchSession.launchCode),
+    audioReady: getGameAudioCoverage({ unit, audioCues: audioCues ?? [], gameMode: mode, targetLanguage }).ready,
     unlocked: progression.unlockedGameModes.includes(mode),
     completed: progression.completedGameModes.includes(mode),
     summary: getModeSummary(mode),
@@ -168,18 +184,26 @@ function toRecommendedRoute({
   index,
   launchSession,
   progression,
+  unit,
+  audioCues,
+  targetLanguage,
 }: {
   offer: UnitGameOffer;
   index: number;
   launchSession: LaunchSession;
   progression: StudentProgressionState;
+  unit: UnitPayload;
+  audioCues: ContentPackage["audioCues"];
+  targetLanguage: string;
 }) {
+  const audioReady = getGameAudioCoverage({ unit, audioCues: audioCues ?? [], gameMode: offer.gameMode, targetLanguage }).ready;
   return {
     mode: offer.gameMode,
     order: index + 1,
     label: offer.label,
     href: offer.launchRoute ?? getGameModeRoutePath(offer.gameMode, launchSession.launchCode),
-    unlocked: progression.unlockedGameModes.includes(offer.gameMode),
+    audioReady,
+    unlocked: progression.unlockedGameModes.includes(offer.gameMode) && audioReady,
     completed: progression.completedGameModes.includes(offer.gameMode),
     summary: `${offer.audioRequirement} ${offer.reportingRequirement}`,
   };

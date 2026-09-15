@@ -5063,3 +5063,11 @@ items through the catalog's supported curriculum levels before presentation.
 This keeps the learner-facing pathway consistent with direct route safety and
 does not treat a ready offer as permission to bypass level support. See ADR
 0786.
+
+# DR-864: Learner Continuation Audio Boundary
+
+The Next Game card and recommended route list now combine progression readiness
+with reviewed target-language audio readiness before offering a learner an
+active continuation action. Route summaries and audio cues use the resolved
+tenant language, while incomplete coverage is shown as audio review rather
+than learner failure. See ADR 0787.

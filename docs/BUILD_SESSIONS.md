@@ -2789,3 +2789,15 @@ Canonical integration verification includes both presentation boundaries, and
 the production build and 88-route sweep remain required. No upload, live AI,
 persistence, assignment, or Phaser promotion was enabled. See ADR 0786 and
 DR-863.
+
+## 0790 - Learner continuation audio boundary
+
+Aligned the Next Game card and recommended route list with the shared audio
+readiness contract. Progression-unlocked activities now remain review-only in
+these learner-facing surfaces until target-language term, sentence, and
+instruction audio is ready. The route builder carries the tenant-resolved
+language rather than assuming English.
+
+Typecheck and canonical game integration verification pass. No upload, live AI,
+persistence, assignment, or Phaser promotion was enabled. See ADR 0787 and
+DR-864.

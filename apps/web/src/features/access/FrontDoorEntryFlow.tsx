@@ -112,6 +112,12 @@ export function FrontDoorEntryFlow({
   const entryComplete = currentProgression.completedGameModes.includes(launchSession.entryMode);
   const nextMode = getNextUncompletedRecommendedMode(launchSession, currentProgression);
   const nextModeUnlocked = Boolean(nextMode && currentProgression.unlockedGameModes.includes(nextMode));
+  const nextModeAudioReady = !nextMode || getGameAudioCoverage({
+    unit,
+    audioCues: contentPackage.audioCues ?? [],
+    gameMode: nextMode,
+    targetLanguage,
+  }).ready;
   const nextModeStarted = Boolean(nextMode && activeGameMode === nextMode);
   const mediaAssetCount = contentPackage.mediaAssets?.length ?? 0;
   const acceptedUserCodes = Array.from(
@@ -353,6 +359,7 @@ export function FrontDoorEntryFlow({
             <NextGameUnlockCard
               nextMode={nextMode}
               unlocked={nextModeUnlocked}
+              audioReady={nextModeAudioReady}
               started={nextModeStarted}
               targetLanguage={targetLanguage}
               onStart={handleStartNextMode}
@@ -360,6 +367,8 @@ export function FrontDoorEntryFlow({
             <RecommendedGameRoutesCard
               launchSession={launchSession}
               progression={currentProgression}
+              unit={unit}
+              audioCues={contentPackage.audioCues}
               targetLanguage={targetLanguage}
               offerMap={offerMap}
               onRouteGuidanceListened={handleRouteGuidanceListened}

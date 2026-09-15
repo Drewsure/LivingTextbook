@@ -126,6 +126,12 @@ export function StudentLaunchFlow({
   const entryComplete = currentProgression.completedGameModes.includes(launchSession.entryMode);
   const nextMode = getNextUncompletedRecommendedMode(launchSession, currentProgression);
   const nextModeUnlocked = Boolean(nextMode && currentProgression.unlockedGameModes.includes(nextMode));
+  const nextModeAudioReady = !nextMode || getGameAudioCoverage({
+    unit,
+    audioCues,
+    gameMode: nextMode,
+    targetLanguage,
+  }).ready;
   const nextModeStarted = Boolean(nextMode && activeGameMode === nextMode);
   const targetPracticeRequiredCount = unit.pedagogicalPayload.vocabularyTerms.length + unit.pedagogicalPayload.targetSentences.length;
   const targetPracticeEngagedCount = targetPracticeEngagedItemIds.length;
@@ -388,6 +394,7 @@ export function StudentLaunchFlow({
       <NextGameUnlockCard
         nextMode={nextMode}
         unlocked={nextModeUnlocked}
+        audioReady={nextModeAudioReady}
         started={nextModeStarted}
         targetLanguage={targetLanguage}
         onStart={handleStartNextMode}
@@ -395,6 +402,8 @@ export function StudentLaunchFlow({
       <RecommendedGameRoutesCard
         launchSession={launchSession}
         progression={currentProgression}
+        unit={unit}
+        audioCues={audioCues}
         targetLanguage={targetLanguage}
         offerMap={offerMap}
         onRouteGuidanceListened={handleRouteGuidanceListened}

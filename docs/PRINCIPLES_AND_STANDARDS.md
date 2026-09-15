@@ -3185,3 +3185,15 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-862 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-863 and
 `docs/adr/0786-activity-hub-level-boundary.md`.
+
+## 211. Continuation Promise Standard
+
+- Every learner-facing continuation card or recommended route must use the
+  same effective readiness state as the direct game route.
+- Progression unlock alone must not produce an active open or start action
+  while target-language audio coverage is incomplete.
+- Route summaries and status labels must distinguish audio review from learner
+  lockout, and must use the tenant-resolved target language for all audio.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-864 and
+`docs/adr/0787-learner-continuation-audio-boundary.md`.
