@@ -605,6 +605,8 @@ for (const [label, source, fragments] of [
   ["playable route shell", playableRouteShell, ["audioSupportPlan", "getGameAudioCoverage({ unit, audioCues, audioSupportPlan"]],
   ["recommended routes", recommendedRoutesCard, ["audioSupportPlan", "gameMode: mode, targetLanguage", "gameMode: offer.gameMode, targetLanguage"]],
   ["completion navigation", completionNextCard, ["audioSupportPlan", "gameMode: nextMode, targetLanguage"]],
+  ["activity hub", activityHub, ["audioSupportPlan", "getGameAudioCoverage({ unit, audioCues, audioSupportPlan"]],
+  ["front door", frontDoorFlow, ["audioSupportPlan", "gameMode: launchSession.entryMode", "gameMode: nextMode"]],
 ]) {
   for (const fragment of fragments) {
     if (!source.includes(fragment)) {

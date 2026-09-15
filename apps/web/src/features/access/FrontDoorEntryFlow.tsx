@@ -102,9 +102,11 @@ export function FrontDoorEntryFlow({
     unitLanguage: unit.unitMeta.textbookReference?.language,
   });
   const targetLanguageAudioCues = (contentPackage.audioCues ?? []).filter((cue) => languageMatches(cue.language, targetLanguage));
+  const audioSupportPlan = contentPackage.audioSupportPlans?.find((plan) => plan.unitKey === launchSession.unitKey);
   const audioCoverage = getGameAudioCoverage({
     unit,
     audioCues: contentPackage.audioCues ?? [],
+    audioSupportPlan,
     gameMode: launchSession.entryMode,
     targetLanguage,
   });
@@ -115,6 +117,7 @@ export function FrontDoorEntryFlow({
   const nextModeAudioReady = !nextMode || getGameAudioCoverage({
     unit,
     audioCues: contentPackage.audioCues ?? [],
+    audioSupportPlan,
     gameMode: nextMode,
     targetLanguage,
   }).ready;

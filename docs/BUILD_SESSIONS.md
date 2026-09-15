@@ -2823,3 +2823,15 @@ Added a runtime regression case and a canonical source guard. Typecheck,
 runtime behavior, and canonical game verification pass. No upload, live AI,
 persistence, assignment, or Phaser promotion was enabled. See ADR 0789 and
 DR-866.
+
+## 0793 - Audio support plan propagation
+
+Propagated the unit audio support plan into the activity hub and front-door
+readiness calculations. Direct routes, entry practice, continuation cards,
+front-door access, and the activity hub now share the same reviewed
+`gameModeAudioCueIds` authority.
+
+Typecheck, canonical integration verification, targeted activity-hub review,
+and the full 88-route sweep remain required. This does not enable uploads,
+live AI, persistence, assignment, or Phaser promotion. See ADR 0790 and
+DR-867.
