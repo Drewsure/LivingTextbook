@@ -543,6 +543,7 @@ export function FrontDoorEntryFlow({
               progression={currentProgression}
               targetLanguage={targetLanguage}
               activeGameMode={activeGameMode}
+              mediaResolutionMode="hosted-first"
               onEvent={handleProgressEvent}
             />
           </>

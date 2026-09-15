@@ -9,6 +9,7 @@ import type {
   UnitMultimediaPlan,
 } from "@living-textbook/content-model";
 import { MediaPlaylistEventPreview } from "./MediaPlaylistEventPreview";
+import type { MediaResolutionMode } from "./mediaSourceResolver";
 
 interface MediaPlaylistRoutePanelProps {
   playlist: UnitMediaPlaylist;
@@ -17,6 +18,7 @@ interface MediaPlaylistRoutePanelProps {
   launchSession: LaunchSession;
   progression: StudentProgressionState;
   returnPath?: string;
+  mediaResolutionMode?: MediaResolutionMode;
 }
 
 export function MediaPlaylistRoutePanel({
@@ -26,6 +28,7 @@ export function MediaPlaylistRoutePanel({
   launchSession,
   progression,
   returnPath,
+  mediaResolutionMode = "hosted-first",
 }: MediaPlaylistRoutePanelProps) {
   const assets = playlist.mediaAssetIds
     .map((mediaAssetId) => contentPackage.mediaAssets?.find((asset) => asset.mediaAssetId === mediaAssetId))
@@ -70,6 +73,7 @@ export function MediaPlaylistRoutePanel({
         launchSession={launchSession}
         progression={progression}
         targetLanguage={targetLanguage}
+        mediaResolutionMode={mediaResolutionMode}
       />
 
       <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">

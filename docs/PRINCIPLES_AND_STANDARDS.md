@@ -3331,3 +3331,18 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-873 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-874 and
 `docs/adr/0797-explicit-media-delivery-mode.md`.
+
+## 222. Explicit Media Mode Propagation Standard
+
+- The deployment boundary must pass media delivery mode explicitly through
+  playlist, engagement, and playback components.
+- Hosted routes must declare `hosted-first`; they must not rely on an implicit
+  default that could later change during local companion work.
+- A local or hybrid companion must opt into `local-first` only after its
+  bundle-path adapter, rights checks, update procedure, and offline report
+  policy are verified.
+- Delivery mode is a transport choice only. It cannot grant media rights,
+  unlock a game, award Star Dust, or change teacher reporting.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-875 and
+`docs/adr/0798-explicit-media-mode-propagation.md`.

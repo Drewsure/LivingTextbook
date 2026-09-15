@@ -5,11 +5,12 @@ import { StatusPill } from "@living-textbook/ui";
 import type { MediaAsset } from "@living-textbook/content-model";
 import { AudioCueText } from "@/features/audio/AudioCueButton";
 import { AudioSupportedAction } from "@/features/audio/AudioSupportedAction";
-import { resolveMediaSource } from "./mediaSourceResolver";
+import { resolveMediaSource, type MediaResolutionMode } from "./mediaSourceResolver";
 
 interface UnitMediaPlaybackCardProps {
   asset: MediaAsset;
   targetLanguage: string;
+  mediaResolutionMode?: MediaResolutionMode;
   started: boolean;
   paused: boolean;
   completed: boolean;
@@ -21,6 +22,7 @@ interface UnitMediaPlaybackCardProps {
 export function UnitMediaPlaybackCard({
   asset,
   targetLanguage,
+  mediaResolutionMode = "hosted-first",
   started,
   paused,
   completed,
@@ -29,7 +31,7 @@ export function UnitMediaPlaybackCard({
   onComplete,
 }: UnitMediaPlaybackCardProps) {
   const [playbackError, setPlaybackError] = useState(false);
-  const resolvedSource = resolveMediaSource(asset);
+  const resolvedSource = resolveMediaSource(asset, mediaResolutionMode);
   const sourceUri = resolvedSource.sourceUri;
   const statusLabel = completed ? "Completed" : paused ? "Paused" : started ? "Started" : "Ready";
   const startActionLabel = paused ? "Resume media" : "Start media";
@@ -42,7 +44,7 @@ export function UnitMediaPlaybackCard({
             <AudioCueText text={asset.title} language={asset.language ?? targetLanguage} className="font-bold" />
           </h4>
           <p className="mt-1 text-sm text-[var(--tenant-muted)]">
-            {asset.kind} / {asset.type} / {asset.durationSeconds ?? 0}s
+            {asset.kind} / {asset.type} / {asset.durationSeconds ?? 0}s / {resolvedSource.sourceKind}
           </p>
         </div>
         <StatusPill label={statusLabel} tone={completed ? "success" : paused ? "warning" : "neutral"} />

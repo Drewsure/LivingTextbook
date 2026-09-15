@@ -2930,3 +2930,15 @@ missing sources stay unavailable rather than pretending to be offline-ready.
 Typecheck, runtime behavior, canonical game verification, production build,
 and the 88-route sweep remain required. This does not enable uploads, live AI,
 persistence, assignment, or Phaser promotion. See ADR 0797 and DR-874.
+
+## 0802 - Explicit media mode propagation
+
+Passed the media delivery choice through playlist, unit engagement, event
+preview, and playback components. Hosted routes now declare `hosted-first`
+explicitly, while a future local or hybrid companion has a deliberate
+`local-first` injection point. Added canonical guards so this boundary cannot
+be dropped silently during future game or media work.
+
+Typecheck, runtime behavior, canonical game verification, production build,
+and the 88-route sweep remain required. This does not enable uploads, live AI,
+persistence, assignment, or Phaser promotion. See ADR 0798 and DR-875.

@@ -5148,3 +5148,11 @@ It does not fall back to a `localBundlePath`; local-first delivery must be an
 explicit local-companion choice and may then fall back to hosted media. Missing
 sources remain visible as unavailable rather than being treated as offline
 ready. See ADR 0797.
+
+# DR-875: Explicit Media Mode Propagation
+
+Playlist and unit media components now accept an explicit media resolution
+mode, and hosted sample routes declare `hosted-first` at their boundary.
+Future local or hybrid companions must select `local-first` deliberately
+through a deployment adapter. This keeps delivery transport separate from
+rights, release, progression, and reporting authority. See ADR 0798.

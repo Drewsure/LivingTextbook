@@ -105,6 +105,9 @@ Current sample components:
 Responsibilities:
 
 - Render unit playlists and media cards.
+- Accept an explicit `mediaResolutionMode` at the deployment boundary. Hosted
+  routes pass `hosted-first`; a future local companion must opt into
+  `local-first` through its own adapter.
 - Render audio/video player controls when real playback is introduced.
 - Emit media started, paused, completed, background enabled, and background disabled events.
 - Keep media engagement separate from game mastery scoring.

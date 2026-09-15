@@ -17,6 +17,7 @@ import {
   createMediaProgressEvent,
 } from "@/features/progression/localProgressionAdapter";
 import { UnitMediaPlaybackCard } from "./UnitMediaPlaybackCard";
+import type { MediaResolutionMode } from "./mediaSourceResolver";
 
 interface UnitMediaEngagementPanelProps {
   contentPackage: ContentPackage;
@@ -25,6 +26,7 @@ interface UnitMediaEngagementPanelProps {
   targetLanguage: string;
   activeGameMode?: GameModeId;
   onEvent: (event: GameProgressEvent) => void;
+  mediaResolutionMode?: MediaResolutionMode;
 }
 
 export function UnitMediaEngagementPanel({
@@ -34,6 +36,7 @@ export function UnitMediaEngagementPanel({
   targetLanguage,
   activeGameMode,
   onEvent,
+  mediaResolutionMode = "hosted-first",
 }: UnitMediaEngagementPanelProps) {
   const [startedMediaIds, setStartedMediaIds] = useState<string[]>([]);
   const [pausedMediaIds, setPausedMediaIds] = useState<string[]>([]);
@@ -136,6 +139,7 @@ export function UnitMediaEngagementPanel({
             key={asset.mediaAssetId}
             asset={asset}
             targetLanguage={targetLanguage}
+            mediaResolutionMode={mediaResolutionMode}
             started={startedMediaIds.includes(asset.mediaAssetId)}
             paused={pausedMediaIds.includes(asset.mediaAssetId)}
             completed={completedMediaIds.includes(asset.mediaAssetId)}

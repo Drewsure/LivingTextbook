@@ -11,6 +11,7 @@ import type {
 } from "@living-textbook/content-model";
 import { createMediaProgressEvent } from "@/features/progression/localProgressionAdapter";
 import { UnitMediaPlaybackCard } from "./UnitMediaPlaybackCard";
+import type { MediaResolutionMode } from "./mediaSourceResolver";
 
 interface MediaPlaylistEventPreviewProps {
   playlist: UnitMediaPlaylist;
@@ -18,6 +19,7 @@ interface MediaPlaylistEventPreviewProps {
   launchSession: LaunchSession;
   progression: StudentProgressionState;
   targetLanguage: string;
+  mediaResolutionMode?: MediaResolutionMode;
 }
 
 export function MediaPlaylistEventPreview({
@@ -26,6 +28,7 @@ export function MediaPlaylistEventPreview({
   launchSession,
   progression,
   targetLanguage,
+  mediaResolutionMode = "hosted-first",
 }: MediaPlaylistEventPreviewProps) {
   const [events, setEvents] = useState<GameProgressEvent[]>([]);
   const [startedMediaIds, setStartedMediaIds] = useState<string[]>([]);
@@ -93,6 +96,7 @@ export function MediaPlaylistEventPreview({
             key={asset.mediaAssetId}
             asset={asset}
             targetLanguage={targetLanguage}
+            mediaResolutionMode={mediaResolutionMode}
             started={startedMediaIds.includes(asset.mediaAssetId)}
             paused={pausedMediaIds.includes(asset.mediaAssetId)}
             completed={completedMediaIds.includes(asset.mediaAssetId)}

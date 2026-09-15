@@ -252,6 +252,10 @@ const flashcardEntryFlow = readText("apps/web/src/features/game-shell/entry/Flas
 const flashcardPracticeCard = readText("apps/web/src/features/student/components/FlashcardPracticeCard.tsx");
 const audioCueButton = readText("apps/web/src/features/audio/AudioCueButton.tsx");
 const mediaSourceResolver = readText("apps/web/src/features/multimedia/mediaSourceResolver.ts");
+const mediaPlaybackCard = readText("apps/web/src/features/multimedia/UnitMediaPlaybackCard.tsx");
+const mediaPlaylistEventPreview = readText("apps/web/src/features/multimedia/MediaPlaylistEventPreview.tsx");
+const mediaPlaylistRoutePanel = readText("apps/web/src/features/multimedia/MediaPlaylistRoutePanel.tsx");
+const mediaEngagementPanel = readText("apps/web/src/features/multimedia/UnitMediaEngagementPanel.tsx");
 const accessGateCard = readText("apps/web/src/features/game-shell/components/GameAccessGateCard.tsx");
 const gameModeCatalog = readText("apps/web/src/features/game-shell/gameModeCatalog.ts");
 const scoringProfiles = readText("apps/web/src/features/game-shell/scoringProfiles.ts");
@@ -614,6 +618,19 @@ for (const fragment of ["sourceUri", "new Audio(sourceUri)", "audio.onerror", "i
 for (const fragment of ["const fallbackSource = mode === \"local-first\" ? hostedSource : undefined", "mode === \"local-first\" ? localSource : hostedSource", "sourceKind: \"missing\""]) {
   if (!mediaSourceResolver.includes(fragment)) {
     failures.push(`media source resolver must preserve explicit hosted/local delivery boundaries: ${fragment}`);
+  }
+}
+for (const [label, source, fragments] of [
+  ["media playback card", mediaPlaybackCard, ["mediaResolutionMode?: MediaResolutionMode", "resolveMediaSource(asset, mediaResolutionMode)"]],
+  ["media playlist event preview", mediaPlaylistEventPreview, ["mediaResolutionMode?: MediaResolutionMode", "mediaResolutionMode={mediaResolutionMode}"]],
+  ["media playlist route", mediaPlaylistRoutePanel, ["mediaResolutionMode?: MediaResolutionMode", "mediaResolutionMode={mediaResolutionMode}"]],
+  ["unit media engagement", mediaEngagementPanel, ["mediaResolutionMode?: MediaResolutionMode", "mediaResolutionMode={mediaResolutionMode}"]],
+  ["front door media route", frontDoorFlow, ["mediaResolutionMode=\"hosted-first\""]],
+]) {
+  for (const fragment of fragments) {
+    if (!source.includes(fragment)) {
+      failures.push(`${label} must preserve explicit media delivery mode propagation: ${fragment}`);
+    }
   }
 }
 

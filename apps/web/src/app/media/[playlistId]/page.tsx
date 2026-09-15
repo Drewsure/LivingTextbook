@@ -64,6 +64,7 @@ export default async function MediaPlaylistPage({
         })}
         launchSession={resolved.launchSession}
         progression={resolved.progression}
+        mediaResolutionMode="hosted-first"
         returnPath={resolved.returnPath}
       />
     </AppShell>
