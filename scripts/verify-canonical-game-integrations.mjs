@@ -251,6 +251,7 @@ const contentModelIndex = readText("packages/content-model/src/index.ts");
 const flashcardEntryFlow = readText("apps/web/src/features/game-shell/entry/FlashcardDemoFlow.tsx");
 const flashcardPracticeCard = readText("apps/web/src/features/student/components/FlashcardPracticeCard.tsx");
 const audioCueButton = readText("apps/web/src/features/audio/AudioCueButton.tsx");
+const mediaSourceResolver = readText("apps/web/src/features/multimedia/mediaSourceResolver.ts");
 const accessGateCard = readText("apps/web/src/features/game-shell/components/GameAccessGateCard.tsx");
 const gameModeCatalog = readText("apps/web/src/features/game-shell/gameModeCatalog.ts");
 const scoringProfiles = readText("apps/web/src/features/game-shell/scoringProfiles.ts");
@@ -608,6 +609,11 @@ for (const fragment of ["authorizedInstructionCueIds", "instructionCueCount", "i
 for (const fragment of ["sourceUri", "new Audio(sourceUri)", "audio.onerror", "isPlayableBrowserAudioSource", "file:", "javascript:", "data:", "speakText({ text, language, onStatusChange })"]) {
   if (!audioCueButton.includes(fragment)) {
     failures.push(`shared audio control must prefer reviewed asset playback with speech fallback: ${fragment}`);
+  }
+}
+for (const fragment of ["const fallbackSource = mode === \"local-first\" ? hostedSource : undefined", "mode === \"local-first\" ? localSource : hostedSource", "sourceKind: \"missing\""]) {
+  if (!mediaSourceResolver.includes(fragment)) {
+    failures.push(`media source resolver must preserve explicit hosted/local delivery boundaries: ${fragment}`);
   }
 }
 

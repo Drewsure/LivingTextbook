@@ -13,7 +13,7 @@ export function resolveMediaSource(asset: MediaAsset, mode: MediaResolutionMode 
   const hostedSource = normalizeSource(asset.sourceUri);
   const localSource = normalizeSource(asset.localBundlePath);
   const preferredSource = mode === "local-first" ? localSource : hostedSource;
-  const fallbackSource = mode === "local-first" ? hostedSource : localSource;
+  const fallbackSource = mode === "local-first" ? hostedSource : undefined;
 
   if (preferredSource) {
     return {

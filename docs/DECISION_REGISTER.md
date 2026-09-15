@@ -5140,3 +5140,11 @@ Filesystem, script, data, and malformed values fall back to speech synthesis;
 local companion deployments must supply an explicit resolver. This protects
 white-label media boundaries without adding provider cost or changing game
 progression authority. See ADR 0796.
+
+# DR-874: Explicit Media Delivery Mode
+
+The multimedia resolver now keeps hosted-first browser playback hosted-only.
+It does not fall back to a `localBundlePath`; local-first delivery must be an
+explicit local-companion choice and may then fall back to hosted media. Missing
+sources remain visible as unavailable rather than being treated as offline
+ready. See ADR 0797.

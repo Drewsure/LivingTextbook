@@ -3317,3 +3317,17 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-872 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-873 and
 `docs/adr/0796-browser-audio-locator-boundary.md`.
+
+## 221. Explicit Media Delivery Mode Standard
+
+- Hosted browser routes use hosted media locators only; a local bundle path
+  must not silently become a hosted fallback.
+- Local companion routes must opt into local-first resolution explicitly and
+  may use hosted media only as a documented fallback.
+- A missing source is a visible readiness state, not permission to invent a
+  filesystem URL or claim offline availability.
+- Delivery mode is independent of content rights, release approval, and
+  learner progress; all three remain required separately.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-874 and
+`docs/adr/0797-explicit-media-delivery-mode.md`.

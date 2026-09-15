@@ -2919,3 +2919,14 @@ hosted browser route.
 Typecheck, runtime behavior, canonical game verification, production build,
 and the 88-route sweep remain required. This does not enable uploads, live AI,
 persistence, assignment, or Phaser promotion. See ADR 0796 and DR-873.
+
+## 0801 - Explicit media delivery mode
+
+Hardened the shared multimedia source resolver so hosted-first browser routes
+do not fall back to local bundle paths. Local-first resolution remains an
+explicit deployment choice and may use hosted media as a documented fallback;
+missing sources stay unavailable rather than pretending to be offline-ready.
+
+Typecheck, runtime behavior, canonical game verification, production build,
+and the 88-route sweep remain required. This does not enable uploads, live AI,
+persistence, assignment, or Phaser promotion. See ADR 0797 and DR-874.
