@@ -372,6 +372,7 @@ export function FrontDoorEntryFlow({
               progression={currentProgression}
               unit={unit}
               audioCues={contentPackage.audioCues}
+              audioSupportPlan={audioSupportPlan}
               targetLanguage={targetLanguage}
               offerMap={offerMap}
               onRouteGuidanceListened={handleRouteGuidanceListened}

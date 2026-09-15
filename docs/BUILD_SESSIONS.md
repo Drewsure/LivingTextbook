@@ -2871,3 +2871,14 @@ cross-tenant regression case and canonical source guard.
 Typecheck, runtime behavior, canonical game verification, production build,
 and the 88-route sweep remain required. This does not enable uploads, live AI,
 persistence, assignment, or Phaser promotion. See ADR 0792 and DR-869.
+
+## 0797 - Front-door continuation context
+
+Wired the active unit audio support plan into the front-door recommended-route
+card. Added a targeted canonical integration guard so this teacher-directed
+entry surface cannot silently fall back to raw-cue readiness while direct
+routes and the activity hub use reviewed mode-scope authority.
+
+Typecheck, runtime behavior, canonical game verification, production build,
+and the 88-route sweep remain required. This does not enable uploads, live AI,
+persistence, assignment, or Phaser promotion. See ADR 0793 and DR-870.

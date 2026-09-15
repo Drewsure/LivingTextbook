@@ -3264,3 +3264,15 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-868 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-869 and
 `docs/adr/0792-tenant-owned-audio-evidence.md`.
+
+## 217. Front-Door Continuation Context Standard
+
+- The teacher-directed front door and the normal student launch must pass the
+  same unit audio support plan into recommended-route presentation.
+- A continuation card is not allowed to infer audio readiness from raw cues
+  when the active package has a reviewed mode-scope manifest.
+- Route-entry, activity-hub, completion, and front-door continuation surfaces
+  must remain aligned so a student sees one consistent readiness decision.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-870 and
+`docs/adr/0793-front-door-continuation-context.md`.

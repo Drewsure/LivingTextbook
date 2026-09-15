@@ -619,6 +619,10 @@ for (const [label, source, fragments] of [
     }
   }
 }
+const frontDoorRecommendedRoutes = frontDoorFlow.match(/<RecommendedGameRoutesCard[\s\S]*?\/>/u)?.[0] ?? "";
+if (!frontDoorRecommendedRoutes.includes("audioSupportPlan={audioSupportPlan}")) {
+  failures.push("front door recommended routes must receive the reviewed audio support plan");
+}
 
 for (const fragment of ["audioCues={audioCues}", "unit={unit}"]) {
   if (!playableRouteShell.includes(fragment)) {

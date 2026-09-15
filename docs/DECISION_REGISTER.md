@@ -5110,3 +5110,10 @@ the active unit key and the unit's owning tenant before it can count toward
 readiness. This is a runtime defense-in-depth boundary for white-label
 isolation; package validation remains authoritative for content integrity. See
 ADR 0792.
+
+# DR-870: Front-Door Continuation Context
+
+The teacher-directed front door now passes its resolved unit audio support plan
+into the recommended-route card. This keeps front-door continuation aligned
+with direct routes, the activity hub, completion navigation, and normal student
+launch. See ADR 0793.
