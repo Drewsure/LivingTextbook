@@ -5048,3 +5048,10 @@ audio coverage contract before unlocking the next activity. This includes the
 dedicated flashcard route, front-door access flow, and normal student launch
 flow. Support-language audio remains assistive only and cannot satisfy the
 English/target-language progression gate. See ADR 0784.
+
+# DR-862: Level-Safe Game Sequence Fallback
+
+The game sequence fallback now filters canonical modes through each catalog
+entry's supported curriculum levels when a curated offer map is unavailable.
+Curated offers remain authoritative, and all downstream audio, progression,
+and route gates remain in force. See ADR 0785.

@@ -2767,3 +2767,14 @@ Typecheck, runtime behavior, and canonical game integration verification pass.
 This remains a readiness and policy boundary; it does not enable uploads, live
 AI, persistence, assignment, or Phaser source promotion. See ADR 0784 and
 DR-861.
+
+## 0788 - Level-safe game sequence fallback
+
+Hardened the no-offer-map fallback in `GameSequence` so it only displays
+canonical modes supported by the unit's curriculum level. Curated offers stay
+authoritative, while fallback presentation cannot expose higher-level modes
+just because a map is missing.
+
+Canonical integration verification and the full foundation gate cover this
+boundary. No upload, live AI, persistence, assignment, or Phaser promotion was
+enabled. See ADR 0785 and DR-862.

@@ -379,6 +379,15 @@ if (!routeShell.includes("platformReplaySeed,")) {
   failures.push("route shell: platform-issued replay seed must be passed to the canonical resolver");
 }
 
+for (const fragment of [
+  "supportedLevels.includes(unit.unitMeta.level)",
+  "buildSequenceItems(unit, offerMap)",
+]) {
+  if (!gameSequence.includes(fragment)) {
+    failures.push(`game sequence fallback must respect curriculum level: ${fragment}`);
+  }
+}
+
 if (!routeShell.includes("replaySeed,")) {
   failures.push("route shell: canonical replay seed must be passed to the mounted game");
 }

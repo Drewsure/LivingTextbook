@@ -3159,3 +3159,17 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-860 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-861 and
 `docs/adr/0784-audio-gated-entry-paths.md`.
+
+## 209. Level-Safe Fallback Path Standard
+
+- Curated unit game offers remain the primary source of the student pathway.
+- If a curated offer map is unavailable, the fallback sequence must filter
+  modes through the catalog's supported curriculum levels before displaying
+  them.
+- Fallback presentation may preserve the canonical order, but it must never
+  bypass level support, audio readiness, progression, or route safety gates.
+- A missing offer map is a platform-data condition, not permission to expose
+  every available game mode to a learner.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-862 and
+`docs/adr/0785-level-safe-game-sequence-fallback.md`.
