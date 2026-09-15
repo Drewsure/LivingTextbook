@@ -67,6 +67,8 @@ export function TrueFalsePracticeGame({
   const [completionSent, setCompletionSent] = useState(false);
   const currentRound = rounds[roundIndex] ?? rounds[0];
   const sourceCue = currentRound ? findAudioCue(audioCues, currentRound.sourceText) : undefined;
+  const instructionCue = findAudioCueForGame(audioCues, "instruction");
+  const feedbackCue = findAudioCueForGame(audioCues, "feedback");
   const completed = rounds.length > 0 && completedRoundIds.length === rounds.length;
 
   useEffect(() => {
@@ -258,7 +260,8 @@ export function TrueFalsePracticeGame({
           <p className="mt-1 text-sm leading-6 text-[var(--tenant-muted)]">
             <AudioCueText
               text={findInstructionText(audioCues)}
-              language={targetLanguage}
+              language={instructionCue?.language ?? targetLanguage}
+              cue={instructionCue}
               label="Tap the True or False instruction to hear it"
               className="text-sm"
               onPlay={() =>
@@ -314,6 +317,7 @@ export function TrueFalsePracticeGame({
           <AudioCueText
             text={findAudioCue(audioCues, currentRound.shownText)?.text ?? currentRound.shownText}
             language={findAudioCue(audioCues, currentRound.shownText)?.language ?? targetLanguage}
+            cue={findAudioCue(audioCues, currentRound.shownText)}
             label="Tap the visible card to hear it"
             className="text-3xl font-bold"
             onPlay={() => {
@@ -363,7 +367,8 @@ export function TrueFalsePracticeGame({
         <p className="text-sm font-semibold text-[var(--tenant-text)]">
           <AudioCueText
             text={feedback}
-            language={targetLanguage}
+            language={feedbackCue?.language ?? targetLanguage}
+            cue={feedbackCue}
             label="Tap the True or False feedback to hear it"
             className="text-sm font-semibold"
             onPlay={() => emitAudioRequested("feedback", feedback, targetLanguage, "true-false-feedback")}
@@ -413,4 +418,8 @@ function findInstructionText(audioCues: AudioCue[]): string {
 
 function findAudioCue(audioCues: AudioCue[], label: string): AudioCue | undefined {
   return audioCues.find((cue) => cue.text.trim().toLowerCase() === label.trim().toLowerCase());
+}
+
+function findAudioCueForGame(audioCues: AudioCue[], kind: AudioCue["kind"]): AudioCue | undefined {
+  return audioCues.find((cue) => cue.kind === kind && cue.gameMode === gameMode);
 }

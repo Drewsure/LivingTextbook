@@ -259,6 +259,8 @@ export function TypeAnswerPracticeGame({
   const promptCue = findAudioCue(audioCues, currentRound.expectedAnswer);
   const promptAudioText = promptCue?.text ?? currentRound.expectedAnswer;
   const gameInstructionText = findInstructionText(audioCues);
+  const instructionCue = audioCues.find((cue) => cue.kind === "instruction" && cue.gameMode === gameMode);
+  const feedbackCue = audioCues.find((cue) => cue.kind === "feedback" && cue.gameMode === gameMode);
 
   return (
     <Card>
@@ -268,7 +270,8 @@ export function TypeAnswerPracticeGame({
           <p className="mt-1 text-sm leading-6 text-[var(--tenant-muted)]">
             <AudioCueText
               text={gameInstructionText}
-              language={targetLanguage}
+              language={instructionCue?.language ?? targetLanguage}
+              cue={instructionCue}
               label="Tap the Type Answer instruction to hear it"
               className="text-sm"
               onPlay={() => emitAudioRequested("instruction", gameInstructionText, targetLanguage, "type-answer-instruction")}
@@ -335,7 +338,8 @@ export function TypeAnswerPracticeGame({
         <p className="text-sm font-semibold text-[var(--tenant-text)]">
           <AudioCueText
             text={feedback}
-            language={targetLanguage}
+            language={feedbackCue?.language ?? targetLanguage}
+            cue={feedbackCue}
             label="Tap the Type Answer feedback to hear it"
             className="text-sm font-semibold"
             onPlay={() => emitAudioRequested("feedback", feedback, targetLanguage, "type-answer-feedback")}

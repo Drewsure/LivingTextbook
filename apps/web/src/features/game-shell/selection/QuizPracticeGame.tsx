@@ -63,6 +63,8 @@ export function QuizPracticeGame({
   const promptCue = currentRound
     ? findAudioCue(audioCues, currentRound.skillFocus === "syntax" ? "sentence" : "term", currentRound.promptAudioText)
     : undefined;
+  const instructionCue = findAudioCueForGame(audioCues, "instruction");
+  const feedbackCue = findAudioCueForGame(audioCues, "feedback");
   const completed = completedRoundIds.length === preview.rounds.length;
 
   useEffect(() => {
@@ -250,6 +252,7 @@ export function QuizPracticeGame({
             <AudioCueText
               text="Listen to the prompt. Tap an answer choice to hear it, then submit."
               language={targetLanguage}
+              cue={instructionCue}
               label="Tap the quiz instruction to hear it"
               className="text-sm"
               onPlay={() =>
@@ -337,7 +340,8 @@ export function QuizPracticeGame({
         <p className="text-sm font-semibold text-[var(--tenant-text)]">
           <AudioCueText
             text={feedback}
-            language={targetLanguage}
+            language={feedbackCue?.language ?? targetLanguage}
+            cue={feedbackCue}
             label="Tap the quiz feedback to hear it"
             className="text-sm font-semibold"
             onPlay={() => emitAudioRequested("feedback", feedback, targetLanguage, "quiz-feedback")}
@@ -363,6 +367,10 @@ function QuizFact({ label, value }: { label: string; value: string }) {
       <dd className="mt-1 break-words text-sm font-bold text-[var(--tenant-text)]">{value}</dd>
     </div>
   );
+}
+
+function findAudioCueForGame(audioCues: AudioCue[], kind: AudioCue["kind"]): AudioCue | undefined {
+  return audioCues.find((cue) => cue.kind === kind && cue.gameMode === gameMode);
 }
 
 function findAudioCue(audioCues: AudioCue[], kind: AudioCue["kind"], label: string): AudioCue | undefined {

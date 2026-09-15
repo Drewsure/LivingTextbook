@@ -5163,3 +5163,10 @@ The canonical Flashcard Practice entry slice now passes reviewed instruction,
 term, sentence, and completion cues into shared audio controls. Speech remains
 the fallback, while listening engagement and progression gates remain separate.
 See ADR 0799.
+
+# DR-877: Canonical Game Cue Fidelity
+
+Canonical game instructions, prompts, terms, sentences, and feedback now pass
+authorized reviewed cues into shared audio controls where available. Speech
+remains a fallback for uncued authored copy, and playback cannot affect game
+authority. See ADR 0800.

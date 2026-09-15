@@ -448,6 +448,24 @@ for (const fragment of ["cue={instructionCue}", "cue={audioCue}", "cue={entryCom
     failures.push(`flashcard entry practice must preserve reviewed cue playback: ${fragment}`);
   }
 }
+for (const [label, path, fragments] of [
+  ["Label It", "apps/web/src/features/game-shell/pairing/LabelItPracticeGame.tsx", ["cue={instructionCue}", "cue={feedbackCue}"]],
+  ["Balloon Pop", "apps/web/src/features/game-shell/selection/BalloonPopPracticeGame.tsx", ["cue={instructionCue}", "cue={promptCue}", "cue={feedbackCue}"]],
+  ["Speak It", "apps/web/src/features/game-shell/speaking/SpeakItPracticeGame.tsx", ["cue={instructionCue}", "cue={prompt.audioCue}"]],
+  ["Quiz", "apps/web/src/features/game-shell/selection/QuizPracticeGame.tsx", ["cue={instructionCue}", "cue={promptCue}", "cue={feedbackCue}"]],
+  ["True or False", "apps/web/src/features/game-shell/selection/TrueFalsePracticeGame.tsx", ["cue={instructionCue}", "cue={sourceCue}", "cue={feedbackCue}"]],
+  ["Fill in the Blank", "apps/web/src/features/game-shell/text-spelling/FillInBlankPracticeGame.tsx", ["cue={instructionCue}", "cue={promptCue}", "cue={feedbackCue}"]],
+  ["Sentence Builder", "apps/web/src/features/game-shell/text-spelling/SentenceBuilderPracticeGame.tsx", ["cue={instructionCue}", "cue={sentenceCue}", "cue={feedbackCue}"]],
+  ["Spelling Practice", "apps/web/src/features/game-shell/text-spelling/SpellingPracticeGame.tsx", ["cue={instructionCue}", "cue={promptCue}", "cue={feedbackCue}"]],
+  ["Type Answer", "apps/web/src/features/game-shell/text-spelling/TypeAnswerPracticeGame.tsx", ["cue={instructionCue}", "cue={promptCue}", "cue={feedbackCue}"]],
+]) {
+  const source = readText(path);
+  for (const fragment of fragments) {
+    if (!source.includes(fragment)) {
+      failures.push(`${label} must preserve reviewed cue playback: ${fragment}`);
+    }
+  }
+}
 
 const matchUpGame = readText("apps/web/src/features/game-shell/pairing/PairingMatchUpGame.tsx");
 if (

@@ -271,6 +271,8 @@ export function FillInBlankPracticeGame({
   const promptCue = findAudioCue(audioCues, currentRound.targetSentence);
   const promptAudioText = promptCue?.text ?? currentRound.targetSentence;
   const gameInstructionText = findInstructionText(audioCues);
+  const instructionCue = findAudioCueForGame(audioCues, "instruction");
+  const feedbackCue = findAudioCueForGame(audioCues, "feedback");
 
   return (
     <Card>
@@ -280,7 +282,8 @@ export function FillInBlankPracticeGame({
           <p className="mt-1 text-sm leading-6 text-[var(--tenant-muted)]">
             <AudioCueText
               text={gameInstructionText}
-              language={targetLanguage}
+              language={instructionCue?.language ?? targetLanguage}
+              cue={instructionCue}
               label="Tap the Fill in the Blank instruction to hear it"
               className="text-sm"
               onPlay={() => emitAudioRequested("instruction", gameInstructionText, targetLanguage, "fill-in-instruction")}
@@ -358,7 +361,8 @@ export function FillInBlankPracticeGame({
         <p className="text-sm font-semibold text-[var(--tenant-text)]">
           <AudioCueText
             text={feedback}
-            language={targetLanguage}
+            language={feedbackCue?.language ?? targetLanguage}
+            cue={feedbackCue}
             label="Tap the Fill in the Blank feedback to hear it"
             className="text-sm font-semibold"
             onPlay={() => emitAudioRequested("feedback", feedback, targetLanguage, "fill-in-feedback")}
@@ -456,4 +460,8 @@ function findInstructionText(audioCues: AudioCue[]): string {
 
 function findAudioCue(audioCues: AudioCue[], label: string): AudioCue | undefined {
   return audioCues.find((cue) => cue.text.trim().toLowerCase() === label.trim().toLowerCase());
+}
+
+function findAudioCueForGame(audioCues: AudioCue[], kind: AudioCue["kind"]): AudioCue | undefined {
+  return audioCues.find((cue) => cue.kind === kind && cue.gameMode === gameMode);
 }

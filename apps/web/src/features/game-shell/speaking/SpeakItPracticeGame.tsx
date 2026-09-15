@@ -251,6 +251,7 @@ export function SpeakItPracticeGame({
             <AudioCueText
               text={instructionCue?.text ?? (localMicEnabled ? "Listen, record or say it out loud, replay if needed, then tap I said it." : "Listen, say it out loud, then tap I said it.")}
               language={instructionCue?.language ?? targetLanguage}
+              cue={instructionCue}
               label="Tap the Speak It instruction to hear it"
               className="text-sm"
               onPlay={() =>
@@ -286,6 +287,7 @@ export function SpeakItPracticeGame({
                 <AudioCueText
                   text={prompt.audioCue?.text ?? prompt.label}
                   language={prompt.audioCue?.language ?? targetLanguage}
+                  cue={prompt.audioCue}
                   label={`Tap to hear ${prompt.label}`}
                   className="mt-1 justify-start text-left text-base font-bold"
                   onPlay={() => handlePromptHeard(prompt)}

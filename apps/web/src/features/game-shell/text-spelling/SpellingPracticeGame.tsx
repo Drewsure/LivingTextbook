@@ -298,6 +298,8 @@ export function SpellingPracticeGame({
   const promptCue = findAudioCue(audioCues, currentRound.targetTerm);
   const promptAudioText = promptCue?.text ?? currentRound.targetTerm;
   const gameInstructionText = findInstructionText(audioCues);
+  const instructionCue = audioCues.find((cue) => cue.kind === "instruction" && cue.gameMode === gameMode);
+  const feedbackCue = audioCues.find((cue) => cue.kind === "feedback" && cue.gameMode === gameMode);
 
   return (
     <Card>
@@ -307,7 +309,8 @@ export function SpellingPracticeGame({
           <p className="mt-1 text-sm leading-6 text-[var(--tenant-muted)]">
             <AudioCueText
               text={gameInstructionText}
-              language={targetLanguage}
+              language={instructionCue?.language ?? targetLanguage}
+              cue={instructionCue}
               label="Tap the Spelling Practice instruction to hear it"
               className="text-sm"
               onPlay={() => emitAudioRequested("instruction", gameInstructionText, targetLanguage, "spelling-instruction")}
@@ -408,7 +411,8 @@ export function SpellingPracticeGame({
         <p className="text-sm font-semibold text-[var(--tenant-text)]">
           <AudioCueText
             text={feedback}
-            language={targetLanguage}
+            language={feedbackCue?.language ?? targetLanguage}
+            cue={feedbackCue}
             label="Tap the Spelling Practice feedback to hear it"
             className="text-sm font-semibold"
             onPlay={() => emitAudioRequested("feedback", feedback, targetLanguage, "spelling-feedback")}

@@ -3359,3 +3359,18 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-875 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-876 and
 `docs/adr/0799-entry-practice-cue-fidelity.md`.
+
+## 224. Canonical Game Cue Fidelity Standard
+
+- Canonical game instructions, prompts, vocabulary, sentence, and feedback
+  controls must pass their authorized `AudioCue` into the shared playback
+  primitive whenever the cue exists.
+- A game may use speech synthesis for authored UI copy that has no reviewed
+  cue, but it must not bypass an approved tenant recording for convenience.
+- Cue source selection remains independent from answer correctness, score,
+  mastery, rewards, unlocks, microphone approval, and reporting.
+- Any future Phaser or external game wrapper must demonstrate the same cue
+  handoff before it can be considered for canonical integration.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-877 and
+`docs/adr/0800-canonical-game-cue-fidelity.md`.

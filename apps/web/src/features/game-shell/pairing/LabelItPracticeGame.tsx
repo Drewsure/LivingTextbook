@@ -269,6 +269,7 @@ export function LabelItPracticeGame({
   }
 
   const instructionCue = findAudioCueForGame(audioCues, "instruction");
+  const feedbackCue = findAudioCueForGame(audioCues, "feedback");
   const activeLabels = anchors.filter((anchor) => !completedAnchorIds.includes(anchor.anchorId));
 
   return (
@@ -280,6 +281,7 @@ export function LabelItPracticeGame({
             <AudioCueText
               text={instructionCue?.text ?? instructionText}
               language={instructionCue?.language ?? targetLanguage}
+              cue={instructionCue}
               label="Tap the Label It instruction to hear it"
               className="text-sm"
               onPlay={() => emitAudioRequested("instruction", instructionCue?.text ?? instructionText, instructionCue?.language ?? targetLanguage, "label-it-instruction")}
@@ -380,7 +382,8 @@ export function LabelItPracticeGame({
         <p className="text-sm font-semibold text-[var(--tenant-text)]">
           <AudioCueText
             text={feedback}
-            language={targetLanguage}
+            language={feedbackCue?.language ?? targetLanguage}
+            cue={feedbackCue}
             label="Tap the Label It feedback to hear it"
             className="text-sm font-semibold"
             onPlay={() => emitAudioRequested("feedback", feedback, targetLanguage, "label-it-feedback")}
@@ -388,7 +391,8 @@ export function LabelItPracticeGame({
         </p>
         <AudioCueButton
           text={feedback}
-          language={targetLanguage}
+          language={feedbackCue?.language ?? targetLanguage}
+          cue={feedbackCue}
           label="Replay Label It feedback"
           onPlay={() => emitAudioRequested("feedback", feedback, targetLanguage, "label-it-feedback-replay")}
         />

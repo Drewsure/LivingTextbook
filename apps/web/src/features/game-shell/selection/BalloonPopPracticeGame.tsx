@@ -245,6 +245,8 @@ export function BalloonPopPracticeGame({
   }
 
   const promptCue = findAudioCue(audioCues, currentRound.promptAudioText);
+  const instructionCue = findAudioCueForGame(audioCues, "instruction");
+  const feedbackCue = findAudioCueForGame(audioCues, "feedback");
 
   return (
     <Card>
@@ -254,7 +256,8 @@ export function BalloonPopPracticeGame({
           <p className="mt-1 text-sm leading-6 text-[var(--tenant-muted)]">
             <AudioCueText
               text={findInstructionText(audioCues)}
-              language={targetLanguage}
+              language={instructionCue?.language ?? targetLanguage}
+              cue={instructionCue}
               label="Tap the Balloon Pop instruction to hear it"
               className="text-sm"
               onPlay={() => emitAudioRequested("instruction", findInstructionText(audioCues), "balloon-instruction")}
@@ -322,7 +325,8 @@ export function BalloonPopPracticeGame({
         <p className="text-sm font-semibold text-[var(--tenant-text)]">
           <AudioCueText
             text={feedback}
-            language={targetLanguage}
+            language={feedbackCue?.language ?? targetLanguage}
+            cue={feedbackCue}
             label="Tap the Balloon Pop feedback to hear it"
             className="text-sm font-semibold"
             onPlay={() => emitAudioRequested("feedback", feedback, "balloon-feedback")}
@@ -330,7 +334,8 @@ export function BalloonPopPracticeGame({
         </p>
         <AudioCueButton
           text={feedback}
-          language={targetLanguage}
+          language={feedbackCue?.language ?? targetLanguage}
+          cue={feedbackCue}
           label="Replay Balloon Pop feedback"
           onPlay={() => emitAudioRequested("feedback", feedback, "balloon-feedback-replay")}
         />
@@ -367,4 +372,8 @@ function findInstructionText(audioCues: AudioCue[]): string {
 
 function findAudioCue(audioCues: AudioCue[], label: string): AudioCue | undefined {
   return audioCues.find((cue) => cue.kind === "term" && cue.text.trim().toLowerCase() === label.trim().toLowerCase());
+}
+
+function findAudioCueForGame(audioCues: AudioCue[], kind: AudioCue["kind"]): AudioCue | undefined {
+  return audioCues.find((cue) => cue.kind === kind && cue.gameMode === gameMode);
 }

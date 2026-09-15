@@ -2953,3 +2953,15 @@ fallback. Added a canonical regression guard for the entry slice.
 Typecheck, runtime behavior, canonical game verification, production build,
 and the 88-route sweep remain required. This does not enable uploads, live AI,
 persistence, assignment, or Phaser promotion. See ADR 0799 and DR-876.
+
+## 0804 - Canonical game cue fidelity
+
+Completed the reviewed-audio handoff across the canonical game family. Label
+It, Balloon Pop, Speak It, Quiz, True or False, Fill in the Blank, Sentence
+Builder, Spelling Practice, and Type Answer now pass their authorized cues to
+shared learner audio controls where those cues exist. Added a regression guard
+covering the full set.
+
+Typecheck, runtime behavior, canonical game verification, production build,
+and the 88-route sweep remain required. This does not enable uploads, live AI,
+persistence, assignment, or Phaser promotion. See ADR 0800 and DR-877.

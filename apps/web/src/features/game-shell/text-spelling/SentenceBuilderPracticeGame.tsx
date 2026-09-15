@@ -272,6 +272,8 @@ export function SentenceBuilderPracticeGame({
   }
 
   const sentenceCue = findAudioCue(audioCues, currentRound.targetSentence);
+  const instructionCue = audioCues.find((cue) => cue.kind === "instruction" && cue.gameMode === gameMode);
+  const feedbackCue = audioCues.find((cue) => cue.kind === "feedback" && cue.gameMode === gameMode);
 
   return (
     <Card data-game-interactive="sentence-builder">
@@ -282,6 +284,7 @@ export function SentenceBuilderPracticeGame({
             <AudioCueText
               text="Tap the words in order. Listen before you submit."
               language={targetLanguage}
+              cue={instructionCue}
               label="Tap the Sentence Builder instruction to hear it"
               className="text-sm"
               onPlay={() =>
@@ -384,7 +387,8 @@ export function SentenceBuilderPracticeGame({
         <p className="text-sm font-semibold text-[var(--tenant-text)]">
           <AudioCueText
             text={feedback}
-            language={targetLanguage}
+            language={feedbackCue?.language ?? targetLanguage}
+            cue={feedbackCue}
             label="Tap the Sentence Builder feedback to hear it"
             className="text-sm font-semibold"
             onPlay={() => emitAudioRequested("feedback", feedback, targetLanguage, "sentence-builder-feedback")}
