@@ -2847,3 +2847,16 @@ Canonical integration verification, typecheck, runtime behavior, production
 build, and the 88-route sweep remain required. This does not enable uploads,
 live AI, persistence, assignment, or Phaser promotion. See ADR 0787 and
 DR-864.
+
+## 0795 - Mode-scoped instruction audio
+
+Closed the remaining instruction-cue scope gap in the shared audio coverage
+helper. When a unit has a mode-specific audio support plan, instruction
+readiness now accepts only shared instruction cues or cues explicitly listed
+for that game mode. Same-unit audio that belongs to another activity can no
+longer unlock the route by accident.
+
+Added runtime regression coverage and a canonical integration guard. Typecheck,
+runtime behavior, canonical game verification, production build, and the 88-
+route sweep remain required. This does not enable uploads, live AI,
+persistence, assignment, or Phaser promotion. See ADR 0791 and DR-868.

@@ -359,7 +359,16 @@ export function getGameAudioCoverage({
   );
   const termCues = targetCues.filter((cue) => cue.kind === "term");
   const sentenceCues = targetCues.filter((cue) => cue.kind === "sentence");
-  const instructionCues = targetCues.filter((cue) => cue.kind === "instruction");
+  const authorizedInstructionCueIds = modePlan
+    ? new Set([
+      ...(audioSupportPlan?.instructionAudioCueIds ?? []),
+      ...modePlan.filter((audioCueId) => scopedCues.some((cue) => cue.audioCueId === audioCueId && cue.kind === "instruction")),
+    ])
+    : undefined;
+  const instructionCues = targetCues.filter(
+    (cue) => cue.kind === "instruction"
+      && (!authorizedInstructionCueIds || authorizedInstructionCueIds.has(cue.audioCueId)),
+  );
   const plannedTermCueIds = audioSupportPlan && modePlan
     ? new Set(audioSupportPlan.vocabularyAudioCueIds.filter((audioCueId) => modePlan.includes(audioCueId)))
     : undefined;

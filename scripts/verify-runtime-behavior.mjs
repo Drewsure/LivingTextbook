@@ -1211,6 +1211,39 @@ try {
   assertEqual(readyGameAudio.coveredTermCount, 8);
   assertEqual(readyGameAudio.coveredSentenceCount, 2);
   assertEqual(readyGameAudio.instructionReady, true);
+  const planScopedInstructionAudio = contentModel.getGameAudioCoverage({
+    unit: audioUnit,
+    audioCues: [
+      ...audioCues,
+      ...audioGameCues.filter((cue) => cue.kind === "instruction"),
+    ],
+    audioSupportPlan: {
+      ...audioPlan,
+      gameModeAudioCueIds: {
+        "memory-match": [
+          ...audioPlan.vocabularyAudioCueIds,
+          "audio-instruction-memory-match",
+        ],
+      },
+    },
+    gameMode: "memory-match",
+    targetLanguage: "en",
+  });
+  assertEqual(planScopedInstructionAudio.instructionCueCount, 1);
+  assertEqual(planScopedInstructionAudio.ready, true);
+  const unapprovedInstructionAudio = contentModel.getGameAudioCoverage({
+    unit: audioUnit,
+    audioCues: audioGameCues,
+    audioSupportPlan: {
+      ...audioPlan,
+      gameModeAudioCueIds: { "memory-match": audioPlan.vocabularyAudioCueIds },
+    },
+    gameMode: "memory-match",
+    targetLanguage: "en",
+  });
+  assertEqual(unapprovedInstructionAudio.instructionCueCount, 0);
+  assertEqual(unapprovedInstructionAudio.instructionReady, false);
+  assertEqual(unapprovedInstructionAudio.ready, false);
   const crossModeTermAudio = contentModel.getGameAudioCoverage({
     unit: audioUnit,
     audioCues: audioGameCues.map((cue) => cue.audioCueId === "audio-term-1" ? { ...cue, gameMode: "quiz" } : cue),

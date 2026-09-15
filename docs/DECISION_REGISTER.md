@@ -5094,3 +5094,11 @@ coverage contract. The plan's `gameModeAudioCueIds` authorizes reviewed reuse
 of explicitly scoped term or sentence cues and determines which cue families
 the mode requires. Package validation remains the first gate; runtime coverage
 is the learner-facing final gate. See ADR 0790.
+
+# DR-868: Mode-Scoped Instruction Audio
+
+Runtime instruction readiness now uses the unit audio support plan as its
+allow-list when a game-mode mapping exists. Shared instruction cues must be
+listed in the plan, and mode-specific instruction cues must be listed in that
+mode's `gameModeAudioCueIds`; a same-unit instruction cue by itself is not
+enough to open the learner route. See ADR 0791.

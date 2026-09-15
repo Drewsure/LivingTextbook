@@ -600,6 +600,11 @@ for (const fragment of ["!cue.gameMode || cue.gameMode === gameMode", "targetCue
     failures.push(`game audio coverage must enforce explicit cue game scope: ${fragment}`);
   }
 }
+for (const fragment of ["authorizedInstructionCueIds", "instructionCueCount", "instructionReady"]) {
+  if (!contentModelIndex.includes(fragment)) {
+    failures.push(`game audio coverage must enforce reviewed instruction scope: ${fragment}`);
+  }
+}
 
 for (const [label, source, fragments] of [
   ["playable route shell", playableRouteShell, ["audioSupportPlan", "getGameAudioCoverage({ unit, audioCues, audioSupportPlan"]],

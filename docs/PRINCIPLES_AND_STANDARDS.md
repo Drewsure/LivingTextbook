@@ -3238,3 +3238,17 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-866 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-867 and
 `docs/adr/0790-audio-support-plan-authority.md`.
+
+## 215. Mode-Scoped Instruction Audio Standard
+
+- A game-mode instruction cue is learner-facing evidence and must be covered
+  by the unit audio support plan before that mode can open.
+- Generic unit instructions may be reused only when they are listed as shared
+  instruction coverage; a same-unit cue is not automatically approved merely
+  because it exists.
+- Direct game routes, activity hubs, continuation cards, and front-door
+  navigation must receive the same instruction-scope result from the shared
+  content-model helper.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-868 and
+`docs/adr/0791-mode-scoped-instruction-audio.md`.
