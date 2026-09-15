@@ -334,19 +334,27 @@ export interface GameAudioCoverage {
   ready: boolean;
 }
 
-export function getGameAudioCoverage({
-  unit,
-  audioCues = [],
-  audioSupportPlan,
-  gameMode,
-  targetLanguage,
-}: {
+interface GameAudioCueQuery {
   unit: UnitPayload;
   audioCues?: readonly AudioCue[];
   audioSupportPlan?: UnitAudioSupportPlan;
   gameMode: GameModeId;
   targetLanguage: LocaleCode;
-}): GameAudioCoverage {
+}
+
+interface GameAudioCueScope {
+  scopedCues: AudioCue[];
+  modePlan?: AudioCueId[];
+  targetCues: AudioCue[];
+}
+
+function resolveGameAudioCueScope({
+  unit,
+  audioCues = [],
+  audioSupportPlan,
+  gameMode,
+  targetLanguage,
+}: GameAudioCueQuery): GameAudioCueScope {
   const unitKey = getUnitKey(unit.unitMeta);
   const scopedCues = audioCues.filter(
     (cue) => cue.unitKey === unitKey && cue.tenantId === unit.unitMeta.tenantId,
@@ -355,22 +363,44 @@ export function getGameAudioCoverage({
     && languageMatches(audioSupportPlan.targetLanguage, targetLanguage)
     ? audioSupportPlan.gameModeAudioCueIds?.[gameMode]
     : undefined;
-  const targetCues = scopedCues.filter(
-    (cue) => languageMatches(cue.language, targetLanguage)
-      && (!cue.gameMode || cue.gameMode === gameMode || modePlan?.includes(cue.audioCueId)),
-  );
-  const termCues = targetCues.filter((cue) => cue.kind === "term");
-  const sentenceCues = targetCues.filter((cue) => cue.kind === "sentence");
   const authorizedInstructionCueIds = modePlan
     ? new Set([
       ...(audioSupportPlan?.instructionAudioCueIds ?? []),
       ...modePlan.filter((audioCueId) => scopedCues.some((cue) => cue.audioCueId === audioCueId && cue.kind === "instruction")),
     ])
     : undefined;
-  const instructionCues = targetCues.filter(
-    (cue) => cue.kind === "instruction"
-      && (!authorizedInstructionCueIds || authorizedInstructionCueIds.has(cue.audioCueId)),
+  const targetCues = scopedCues.filter(
+    (cue) => languageMatches(cue.language, targetLanguage)
+      && (!cue.gameMode || cue.gameMode === gameMode || modePlan?.includes(cue.audioCueId))
+      && (cue.kind !== "instruction"
+        || !authorizedInstructionCueIds
+        || authorizedInstructionCueIds.has(cue.audioCueId)),
   );
+
+  return { scopedCues, modePlan, targetCues };
+}
+
+export function getGameAudioCues(query: GameAudioCueQuery): AudioCue[] {
+  return resolveGameAudioCueScope(query).targetCues;
+}
+
+export function getGameAudioCoverage({
+  unit,
+  audioCues = [],
+  audioSupportPlan,
+  gameMode,
+  targetLanguage,
+}: GameAudioCueQuery): GameAudioCoverage {
+  const { scopedCues, modePlan, targetCues } = resolveGameAudioCueScope({
+    unit,
+    audioCues,
+    audioSupportPlan,
+    gameMode,
+    targetLanguage,
+  });
+  const termCues = targetCues.filter((cue) => cue.kind === "term");
+  const sentenceCues = targetCues.filter((cue) => cue.kind === "sentence");
+  const instructionCues = targetCues.filter((cue) => cue.kind === "instruction");
   const plannedTermCueIds = audioSupportPlan && modePlan
     ? new Set(audioSupportPlan.vocabularyAudioCueIds.filter((audioCueId) => modePlan.includes(audioCueId)))
     : undefined;

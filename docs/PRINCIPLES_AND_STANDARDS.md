@@ -3276,3 +3276,15 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-869 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-870 and
 `docs/adr/0793-front-door-continuation-context.md`.
+
+## 218. Authorized Playback Cue Standard
+
+- The same shared cue-selection contract must govern both readiness and the
+  actual audio list handed to a canonical game.
+- Gameplay components must receive cues scoped to the active unit, tenant,
+  target language, and reviewed game-mode manifest.
+- A cue that cannot satisfy the route's audio gate must not remain available to
+  gameplay playback through a broad language-only list.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-871 and
+`docs/adr/0794-authorized-game-playback-cues.md`.

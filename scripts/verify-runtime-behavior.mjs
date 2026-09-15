@@ -1252,6 +1252,23 @@ try {
   });
   assertEqual(crossTenantAudio.ready, false);
   assertEqual(crossTenantAudio.missingTerms.includes("hello"), true);
+  const authorizedPlaybackCues = contentModel.getGameAudioCues({
+    unit: audioUnit,
+    audioCues: audioGameCues,
+    audioSupportPlan: {
+      ...audioPlan,
+      gameModeAudioCueIds: {
+        "memory-match": [
+          ...audioPlan.vocabularyAudioCueIds,
+          "audio-instruction-memory-match",
+        ],
+      },
+    },
+    gameMode: "memory-match",
+    targetLanguage: "en",
+  });
+  assertEqual(authorizedPlaybackCues.some((cue) => cue.audioCueId === "audio-instruction-memory-match"), true);
+  assertEqual(authorizedPlaybackCues.every((cue) => cue.tenantId === "tenant-1"), true);
   const crossModeTermAudio = contentModel.getGameAudioCoverage({
     unit: audioUnit,
     audioCues: audioGameCues.map((cue) => cue.audioCueId === "audio-term-1" ? { ...cue, gameMode: "quiz" } : cue),

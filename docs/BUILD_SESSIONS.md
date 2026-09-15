@@ -2882,3 +2882,15 @@ routes and the activity hub use reviewed mode-scope authority.
 Typecheck, runtime behavior, canonical game verification, production build,
 and the 88-route sweep remain required. This does not enable uploads, live AI,
 persistence, assignment, or Phaser promotion. See ADR 0793 and DR-870.
+
+## 0798 - Authorized game playback cues
+
+Centralized learner game audio cue selection in the content-model package and
+reused it for both readiness calculation and gameplay playback. Direct game
+routes and dynamic front-door/student-launch modes now receive cues scoped by
+unit, tenant, target language, and reviewed game-mode authority.
+
+Added runtime and canonical integration regression coverage. Typecheck, runtime
+behavior, canonical game verification, production build, and the 88-route
+sweep remain required. This does not enable uploads, live AI, persistence,
+assignment, or Phaser promotion. See ADR 0794 and DR-871.

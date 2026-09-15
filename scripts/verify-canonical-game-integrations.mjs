@@ -418,7 +418,7 @@ if (!routeShell.includes("replaySeed,")) {
   failures.push("route shell: canonical replay seed must be passed to the mounted game");
 }
 
-if (!routeShell.includes("languageMatches") || !routeShell.includes("targetLanguageAudioCues")) {
+if (!routeShell.includes("getGameAudioCues({") || !routeShell.includes("targetLanguageAudioCues")) {
   failures.push("route shell: playable wrappers must receive target-language-only audio cues");
 }
 if (!routeShell.includes("targetLanguage,")) {
@@ -470,7 +470,7 @@ for (const [surface, source] of [
   ["front-door orchestration", frontDoorFlow],
   ["student orchestration", studentLaunchFlow],
 ]) {
-  if (!source.includes("languageMatches") || !source.includes("targetLanguageAudioCues")) {
+  if (!source.includes("getGameAudioCues({") || !source.includes("activeGameAudioCues")) {
     failures.push(`${surface}: direct playable handoff must filter target-language audio cues`);
   }
 }
@@ -595,7 +595,7 @@ for (const fragment of [
   }
 }
 
-for (const fragment of ["cue.unitKey === unitKey && cue.tenantId === unit.unitMeta.tenantId", "!cue.gameMode || cue.gameMode === gameMode", "targetCues = scopedCues.filter"]) {
+for (const fragment of ["getGameAudioCues", "cue.unitKey === unitKey && cue.tenantId === unit.unitMeta.tenantId", "!cue.gameMode || cue.gameMode === gameMode", "targetCues = scopedCues.filter"]) {
   if (!contentModelIndex.includes(fragment)) {
     failures.push(`game audio coverage must enforce explicit cue game scope: ${fragment}`);
   }
@@ -617,6 +617,11 @@ for (const [label, source, fragments] of [
     if (!source.includes(fragment)) {
       failures.push(`${label} must preserve reviewed audio support-plan authority: ${fragment}`);
     }
+  }
+}
+for (const [label, source] of [["front door", frontDoorFlow], ["student launch", studentLaunchFlow], ["playable route shell", playableRouteShell]]) {
+  if (!source.includes("getGameAudioCues({")) {
+    failures.push(`${label} must pass authorized game audio cues to gameplay playback`);
   }
 }
 const frontDoorRecommendedRoutes = frontDoorFlow.match(/<RecommendedGameRoutesCard[\s\S]*?\/>/u)?.[0] ?? "";

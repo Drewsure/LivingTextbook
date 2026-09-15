@@ -5117,3 +5117,10 @@ The teacher-directed front door now passes its resolved unit audio support plan
 into the recommended-route card. This keeps front-door continuation aligned
 with direct routes, the activity hub, completion navigation, and normal student
 launch. See ADR 0793.
+
+# DR-871: Authorized Game Playback Cues
+
+The shared content model now exposes authorized game audio cues and uses the
+same selection for readiness and gameplay playback. Direct routes, front-door
+practice, and dynamic student launch games therefore receive only unit-owned,
+target-language, reviewed mode-scope cues. See ADR 0794.
