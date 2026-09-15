@@ -5055,3 +5055,11 @@ The game sequence fallback now filters canonical modes through each catalog
 entry's supported curriculum levels when a curated offer map is unavailable.
 Curated offers remain authoritative, and all downstream audio, progression,
 and route gates remain in force. See ADR 0785.
+
+# DR-863: Activity Hub Level Boundary
+
+The student activity hub now filters both reviewed offers and no-map fallback
+items through the catalog's supported curriculum levels before presentation.
+This keeps the learner-facing pathway consistent with direct route safety and
+does not treat a ready offer as permission to bypass level support. See ADR
+0786.

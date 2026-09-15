@@ -3173,3 +3173,15 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-861 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-862 and
 `docs/adr/0785-level-safe-game-sequence-fallback.md`.
+
+## 210. Activity Hub Level Boundary Standard
+
+- The student activity hub must apply curriculum-level support checks to both
+  curated offers and no-map fallback items before displaying a game pathway.
+- A reviewed offer is not student-visible merely because it is marked ready;
+  its game mode must also support the unit's level.
+- Presentation filtering complements, and never replaces, direct route and
+  progression enforcement.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-863 and
+`docs/adr/0786-activity-hub-level-boundary.md`.

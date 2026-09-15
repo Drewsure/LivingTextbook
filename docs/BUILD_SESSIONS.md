@@ -2778,3 +2778,14 @@ just because a map is missing.
 Canonical integration verification and the full foundation gate cover this
 boundary. No upload, live AI, persistence, assignment, or Phaser promotion was
 enabled. See ADR 0785 and DR-862.
+
+## 0789 - Activity hub level boundary
+
+Aligned the student activity hub with the level-safe `GameSequence` fallback.
+Reviewed offers and no-map fallback items are now filtered through each mode's
+catalog `supportedLevels` before they are displayed to a learner.
+
+Canonical integration verification includes both presentation boundaries, and
+the production build and 88-route sweep remain required. No upload, live AI,
+persistence, assignment, or Phaser promotion was enabled. See ADR 0786 and
+DR-863.

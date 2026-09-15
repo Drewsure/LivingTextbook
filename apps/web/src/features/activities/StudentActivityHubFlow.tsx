@@ -1,7 +1,7 @@
 "use client";
 
 import { Card, StatusPill } from "@living-textbook/ui";
-import { getGameAudioCoverage, getUnitKey, resolveTargetLanguage } from "@living-textbook/content-model";
+import { getGameAudioCoverage, getUnitKey, isGameModeSupportedAtLevel, resolveTargetLanguage } from "@living-textbook/content-model";
 import type {
   ContentPackage,
   GameModeId,
@@ -270,6 +270,7 @@ function buildReviewedOfferItems({
 }): ActivityHubItem[] {
   return offerMap.offers
     .filter((offer) => offer.availability !== "hidden" && offer.availability !== "blocked")
+    .filter((offer) => isGameModeSupportedAtLevel(offer.gameMode, unit.unitMeta.level))
     .slice()
     .sort((first, second) => (first.recommendedOrder ?? 99) - (second.recommendedOrder ?? 99))
     .map((offer) => ({
@@ -304,7 +305,7 @@ function buildFallbackGameItems({
   const entryComplete = progression.completedGameModes.includes(launchSession.entryMode);
   const entryStatus = getAudioAwareGameStatus("flashcards", progression, unit, audioCues ?? [], targetLanguage, entryComplete ? "complete" : "ready");
 
-  return [
+  const items: ActivityHubItem[] = [
     {
       id: "flashcards",
       label: "Flashcards",
@@ -414,6 +415,8 @@ function buildFallbackGameItems({
       status: getAudioAwareGameStatus("speak-it", progression, unit, audioCues ?? [], targetLanguage),
     },
   ];
+
+  return items.filter((item) => !item.mode || isGameModeSupportedAtLevel(item.mode, unit.unitMeta.level));
 }
 
 function getOfferRole(offer: UnitGameOffer): ActivityHubItem["role"] {

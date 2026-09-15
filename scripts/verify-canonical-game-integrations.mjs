@@ -235,6 +235,7 @@ const frontDoorFlow = readText("apps/web/src/features/access/FrontDoorEntryFlow.
 const completionGate = readText("apps/web/src/features/game-shell/canonicalGameCompletionGate.ts");
 const nextModePolicy = readText("apps/web/src/features/progression/nextRecommendedGameMode.ts");
 const gameSequence = readText("apps/web/src/features/game-shell/GameSequence.tsx");
+const activityHub = readText("apps/web/src/features/activities/StudentActivityHubFlow.tsx");
 const speechRequirement = readText("docs/future-requirements/FR-009-core-speech-matching-practice.md");
 const offerMap = readText("apps/web/src/data/sampleUnitGameOfferMap.ts");
 const launchResolver = readText("apps/web/src/data/sampleLaunchResolver.ts");
@@ -385,6 +386,15 @@ for (const fragment of [
 ]) {
   if (!gameSequence.includes(fragment)) {
     failures.push(`game sequence fallback must respect curriculum level: ${fragment}`);
+  }
+}
+
+for (const fragment of [
+  "isGameModeSupportedAtLevel(offer.gameMode, unit.unitMeta.level)",
+  "isGameModeSupportedAtLevel(item.mode, unit.unitMeta.level)",
+]) {
+  if (!activityHub.includes(fragment)) {
+    failures.push(`activity hub must respect curriculum level at every presentation boundary: ${fragment}`);
   }
 }
 
