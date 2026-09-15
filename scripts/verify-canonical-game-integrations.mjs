@@ -443,6 +443,11 @@ if (
 ) {
   failures.push("flashcard entry practice: fallback learner audio must use the tenant/unit target language");
 }
+for (const fragment of ["cue={instructionCue}", "cue={audioCue}", "cue={entryComplete ? feedbackCue : instructionCue}"]) {
+  if (!flashcardPracticeCard.includes(fragment)) {
+    failures.push(`flashcard entry practice must preserve reviewed cue playback: ${fragment}`);
+  }
+}
 
 const matchUpGame = readText("apps/web/src/features/game-shell/pairing/PairingMatchUpGame.tsx");
 if (

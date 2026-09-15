@@ -3346,3 +3346,16 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-874 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-875 and
 `docs/adr/0798-explicit-media-mode-propagation.md`.
+
+## 223. Entry Practice Cue Fidelity Standard
+
+- The first QR-launched Flashcard Practice slice must pass its reviewed
+  instruction, vocabulary, sentence, and completion cues into the shared audio
+  control whenever those cues exist.
+- Browser speech remains the fallback for missing or unavailable assets; it
+  must not replace a valid tenant-approved recording silently.
+- Cue playback remains presentation-only and cannot satisfy English listening,
+  unlock the next game, award Star Dust, or change progression by itself.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-876 and
+`docs/adr/0799-entry-practice-cue-fidelity.md`.

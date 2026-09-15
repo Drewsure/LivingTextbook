@@ -2942,3 +2942,14 @@ be dropped silently during future game or media work.
 Typecheck, runtime behavior, canonical game verification, production build,
 and the 88-route sweep remain required. This does not enable uploads, live AI,
 persistence, assignment, or Phaser promotion. See ADR 0798 and DR-875.
+
+## 0803 - Entry practice cue fidelity
+
+Wired the canonical Flashcard Practice instruction, vocabulary, sentence, and
+completion cues into the shared audio control. Reviewed recordings now remain
+the preferred source when available, with speech synthesis preserved as the
+fallback. Added a canonical regression guard for the entry slice.
+
+Typecheck, runtime behavior, canonical game verification, production build,
+and the 88-route sweep remain required. This does not enable uploads, live AI,
+persistence, assignment, or Phaser promotion. See ADR 0799 and DR-876.

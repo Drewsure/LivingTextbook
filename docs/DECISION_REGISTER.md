@@ -5156,3 +5156,10 @@ mode, and hosted sample routes declare `hosted-first` at their boundary.
 Future local or hybrid companions must select `local-first` deliberately
 through a deployment adapter. This keeps delivery transport separate from
 rights, release, progression, and reporting authority. See ADR 0798.
+
+# DR-876: Entry Practice Cue Fidelity
+
+The canonical Flashcard Practice entry slice now passes reviewed instruction,
+term, sentence, and completion cues into shared audio controls. Speech remains
+the fallback, while listening engagement and progression gates remain separate.
+See ADR 0799.

@@ -95,6 +95,7 @@ export function FlashcardPracticeCard({
             <AudioCueText
               text={instructionCue?.text ?? `Practice all ${unit.pedagogicalPayload.vocabularyTerms.length} words to open the next game.`}
               language={instructionCue?.language ?? targetLanguage}
+              cue={instructionCue}
               label="Tap the flashcard instruction to hear it"
               className="text-sm"
             />
@@ -120,6 +121,7 @@ export function FlashcardPracticeCard({
               <AudioCueText
                 text={audioCue?.text ?? term}
                 language={audioCue?.language ?? targetLanguage}
+                cue={audioCue}
                 label={`Tap ${term} to hear it`}
                 className="text-lg font-bold"
                 onPlay={() => onTargetPracticeEngaged(getVocabularyPracticeItemId(term))}
@@ -148,6 +150,7 @@ export function FlashcardPracticeCard({
                 <AudioCueText
                   text={audioCue?.text ?? sentence}
                   language={audioCue?.language ?? targetLanguage}
+                  cue={audioCue}
                   label={`Tap the sentence to hear ${sentence}`}
                   className="text-sm font-semibold"
                   onPlay={() => onTargetPracticeEngaged(getSentencePracticeItemId(index))}
@@ -174,6 +177,7 @@ export function FlashcardPracticeCard({
             <AudioCueText
               text={entryMessage}
               language={(entryComplete ? feedbackCue?.language : instructionCue?.language) ?? targetLanguage}
+              cue={entryComplete ? feedbackCue : instructionCue}
               label="Tap the entry practice message to hear it"
               className="text-sm"
             />
