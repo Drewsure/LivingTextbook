@@ -2988,3 +2988,18 @@ primitive rather than creating a separate speech path.
 This is a playback-integrity change only. It does not enable uploads, live AI,
 persistence, assignment, microphone use, scoring changes, or Phaser promotion.
 See ADR 0802 and DR-879.
+
+## 0807 - Production-shaped vertical slice gate
+
+Added the first cross-boundary production-shaped slice verifier. It checks that
+MiniStar and the sample publisher resolve through the same white-label package
+contracts, that QR/front-door launch reaches Flashcard entry practice, that
+reviewed audio and speech fallback are present, that Memory Match and a
+canonical game are connected to deterministic progression evidence, and that
+the teacher report plus hosted/local delivery boundaries are represented.
+
+The gate is evidence-only for persistence: the teacher report remains
+preview-safe until backend retention, export, and school-policy decisions are
+approved. Frozen Z.ai/Phaser source remains isolated. The new verifier runs
+first in `verify:foundation`; focused checks are `verify:vertical-slice` and
+`verify:canonical-games`. See ADR 0803 and DR-880.

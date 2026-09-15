@@ -3401,3 +3401,27 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-878 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-879 and
 `docs/adr/0802-direct-playback-guard.md`.
+
+## 227. Production-Shaped Vertical Slice Gate
+
+- The first release-shaped slice must be proved as one cross-boundary path:
+  teacher content package, white-label tenant resolution, QR/front-door launch,
+  reviewed target-language audio, Flashcard entry practice, Memory Match, one
+  canonical game, deterministic scoring, progression reward, and teacher-visible
+  progress evidence.
+- MiniStar and the sample publisher must use the same package, audio, game,
+  progression, and reporting contracts. A second tenant is required evidence
+  that the platform is white-label rather than MiniStar-specific.
+- Teacher evidence may remain a preview or demo report while live persistence,
+  export, retention, and school policy gates are unfinished. Preview evidence
+  must never be presented as durable student storage.
+- Hosted-first and local-first delivery are explicit boundary modes. Media,
+  content, QR fallback routes, and report policy must be represented before a
+  closed local deployment is called production-ready.
+- Frozen Z.ai/Phaser source remains review-only until source mapping, contract
+  evidence, accessibility, audio, scoring, and release gates approve promotion.
+- `npm run verify:vertical-slice` is the standing gate for this cross-boundary
+  proof and runs as the first step of `verify:foundation`.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-880 and
+`docs/adr/0803-production-shaped-vertical-slice-gate.md`.

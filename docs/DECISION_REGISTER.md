@@ -5185,3 +5185,16 @@ Immediate term and feedback announcements now use the shared playback
 primitive, including its transcript-match protection. This keeps direct game
 announcements aligned with visible Listen/Replay controls and does not introduce
 a second scoring or progression path. See ADR 0802.
+
+# DR-880: Production-Shaped Vertical Slice Gate
+
+The first release-shaped white-label slice is now governed by one auditable
+cross-boundary gate. It must cover teacher package resolution, a second tenant,
+QR/front-door launch, reviewed audio, Flashcard entry practice, Memory Match,
+one canonical game, deterministic progression and reward evidence, teacher
+report evidence, and hosted/local delivery boundaries.
+
+The gate is intentionally preview-safe: a teacher report may prove the event
+and evidence shape without claiming live durable student persistence or export.
+Frozen Z.ai/Phaser source remains isolated until it satisfies the shared
+contracts and promotion gates. See ADR 0803.
