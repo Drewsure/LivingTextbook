@@ -58,6 +58,7 @@ import {
 import { FlashcardPracticeCard } from "./components/FlashcardPracticeCard";
 import { SpeakItPracticeGame } from "@/features/game-shell/speaking/SpeakItPracticeGame";
 import { useTeacherMicrophonePracticeSettings } from "@/features/audio/useTeacherMicrophonePracticeSettings";
+import { createLocalSessionEvidence, saveLocalSessionEvidence } from "@/features/persistence/localSessionEvidenceStore";
 import { LaunchContextSafetyCard } from "./components/LaunchContextSafetyCard";
 import { NextGameUnlockCard } from "./components/NextGameUnlockCard";
 import { RecommendedGameRoutesCard } from "./components/RecommendedGameRoutesCard";
@@ -161,6 +162,19 @@ export function StudentLaunchFlow({
   const activeAssistLanguagePlan = assistLanguageEnabled ? assistLanguagePlan : undefined;
 
   useEffect(() => {
+    if (sessionEvents.length === 0) return;
+
+    saveLocalSessionEvidence(
+      createLocalSessionEvidence({
+        launchSession,
+        progression: currentProgression,
+        events: sessionEvents,
+        savedAt: new Date().toISOString(),
+      }),
+    );
+  }, [currentProgression, launchSession, sessionEvents]);
+
+  useEffect(() => {
     if (sessionSettings?.assistLanguage.teacherEnablementPersisted) {
       setAssistLanguageEnabled(sessionSettings.assistLanguage.enabled);
       return;
@@ -187,28 +201,26 @@ export function StudentLaunchFlow({
       return;
     }
 
-    setSessionEvents((events) => {
-      const updatedEvents = [...events, ...nextEvents];
-      const recommendation = evaluateTrainingRecoveryTrigger({
-        events: updatedEvents,
-        launchSession,
-      });
-
-      const nextSessionEvents =
-        !recommendation || hasRecordedTrainingRecoveryRecommendation(updatedEvents, recommendation)
-          ? updatedEvents
-          : [
-              ...updatedEvents,
-              createTrainingRecoveryRecommendationEvent({
-                recommendation,
-                launchSession,
-                progression: progressionForRecommendation,
-                occurredAt: new Date().toISOString(),
-              }),
-            ];
-      sessionEventsRef.current = nextSessionEvents;
-      return nextSessionEvents;
+    const updatedEvents = [...sessionEventsRef.current, ...nextEvents];
+    const recommendation = evaluateTrainingRecoveryTrigger({
+      events: updatedEvents,
+      launchSession,
     });
+
+    const nextSessionEvents =
+      !recommendation || hasRecordedTrainingRecoveryRecommendation(updatedEvents, recommendation)
+        ? updatedEvents
+        : [
+            ...updatedEvents,
+            createTrainingRecoveryRecommendationEvent({
+              recommendation,
+              launchSession,
+              progression: progressionForRecommendation,
+              occurredAt: new Date().toISOString(),
+            }),
+          ];
+    sessionEventsRef.current = nextSessionEvents;
+    setSessionEvents(nextSessionEvents);
   }
 
   function handleTargetPracticeEngaged(itemId: string) {

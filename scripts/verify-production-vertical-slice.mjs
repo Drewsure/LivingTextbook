@@ -21,6 +21,9 @@ function requireFragments(label, source, fragments) {
 
 const launchPage = readText("apps/web/src/app/launch/[code]/page.tsx");
 const studentFlow = readText("apps/web/src/features/student/StudentLaunchFlow.tsx");
+const progressionIdentity = readText("packages/content-model/src/progressionIdentity.ts");
+const localEvidenceStore = readText("apps/web/src/features/persistence/localSessionEvidenceStore.ts");
+const localEvidencePanel = readText("apps/web/src/features/teacher/TeacherSessionLocalEvidencePanel.tsx");
 const launchResolver = readText("apps/web/src/data/sampleLaunchResolver.ts");
 const launchSession = readText("apps/web/src/data/sampleLaunchSession.ts");
 const packageFixture = readText("apps/web/src/data/sampleMultimediaPackage.ts");
@@ -39,6 +42,18 @@ requireFragments("student flow", studentFlow, [
   "completeFlashcardEntryPractice", "<FlashcardPracticeCard", "<PairingMemoryMatchGame", "<QuizPracticeGame",
   "validateCanonicalGameCompletion", "createProgressionContinuityEnvelope", "getGameAudioCues",
   "resolveTargetLanguage", "<NextGameUnlockCard", "<UnitSessionProgressSummary",
+  "createLocalSessionEvidence", "saveLocalSessionEvidence",
+]);
+requireFragments("local rehearsal evidence store", localEvidenceStore, [
+  "browser-rehearsal-only", "getLocalSessionEvidenceStorageKey", "GameProgressEvent[]", "localStorage",
+]);
+requireFragments("student event append boundary", studentFlow, [
+  "const updatedEvents = [...sessionEventsRef.current, ...nextEvents]",
+  "sessionEventsRef.current = nextSessionEvents",
+  "setSessionEvents(nextSessionEvents)",
+]);
+requireFragments("optional launch identity boundary", progressionIdentity, [
+  "studentSessionId?: string", "readOptionalField", "return {};",
 ]);
 requireFragments("sample launch session", launchSession, ['entryMode: "flashcards"', '"match-up"', '"memory-match"', '"quiz"']);
 requireFragments("sample content package", packageFixture, ["sampleAudioCues", "sampleFeedbackAudioCues", "audioSupportPlans", "mediaAssets", "playlists"]);
@@ -51,6 +66,9 @@ requireFragments("teacher monitor evidence", teacherMonitor, [
   'type: "game_started"', 'type: "game_completed"', 'type: "mastery_updated"', "validateCanonicalGameReportEvidence", "createProgressEventEnvelope",
 ]);
 requireFragments("teacher report panel", teacherPanel, ["FrontDoorTeacherReportPreview", "TeacherCanonicalGameEvidenceCard", "context.events", "context.progression"]);
+requireFragments("teacher local evidence panel", localEvidencePanel, [
+  "readLocalSessionEvidence", "subscribeToLocalSessionEvidence", "not hosted persistence", "Rehearsal captured",
+]);
 requireFragments("local delivery boundary", localBundle, ["audio", "video", "QR fallback routes"]);
 requireFragments("local delivery plan", localBundlePlan, ["reportsProgress", "reporting", "localFallbackPath"]);
 requireFragments("media delivery boundary", mediaResolver, ['mode === "local-first"', '"hosted-first"', 'sourceKind: "missing"']);

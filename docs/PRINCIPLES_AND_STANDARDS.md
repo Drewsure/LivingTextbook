@@ -3422,6 +3422,14 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-879 and
   evidence, accessibility, audio, scoring, and release gates approve promotion.
 - `npm run verify:vertical-slice` is the standing gate for this cross-boundary
   proof and runs as the first step of `verify:foundation`.
+- The browser rehearsal evidence bridge is a bounded demonstration adapter:
+  coded event/progression evidence only, no names, raw audio, transcripts,
+  hosted sync, export, or classroom retention. Storage failure must never
+  block student gameplay.
+- Any event stream used by a completion gate must update its synchronous ref
+  before scheduling UI state. Rendered logs are not a substitute for the
+  authoritative in-turn replay snapshot.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-880 and
-`docs/adr/0803-production-shaped-vertical-slice-gate.md`.
+`docs/adr/0803-production-shaped-vertical-slice-gate.md`. The event ordering
+rule is recorded in DR-881 and `docs/adr/0805-synchronous-event-append-boundary.md`.

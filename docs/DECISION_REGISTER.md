@@ -5198,3 +5198,15 @@ The gate is intentionally preview-safe: a teacher report may prove the event
 and evidence shape without claiming live durable student persistence or export.
 Frozen Z.ai/Phaser source remains isolated until it satisfies the shared
 contracts and promotion gates. See ADR 0803.
+
+The first browser rehearsal evidence bridge is deliberately local and
+non-authoritative. It lets the teacher view the actual same-origin demo event
+stream while preserving the distinction between a rehearsal adapter and live
+student-data persistence. See ADR 0804.
+
+# DR-881: Synchronous Event Append Boundary
+
+The canonical student event append boundary must update its synchronous event
+ref before scheduling React state. Completion gates validate the ref snapshot,
+so deferred-only ref updates can silently reject valid mastery evidence even
+when the rendered event log later appears correct. See ADR 0805.

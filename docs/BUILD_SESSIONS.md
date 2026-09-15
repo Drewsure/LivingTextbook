@@ -3003,3 +3003,29 @@ preview-safe until backend retention, export, and school-policy decisions are
 approved. Frozen Z.ai/Phaser source remains isolated. The new verifier runs
 first in `verify:foundation`; focused checks are `verify:vertical-slice` and
 `verify:canonical-games`. See ADR 0803 and DR-880.
+
+## 0808 - Browser rehearsal evidence bridge
+
+Connected the actual student event stream to a teacher-visible browser
+rehearsal panel. The student flow writes coded progression and
+`GameProgressEvent[]` evidence to a bounded same-origin adapter after events
+are recorded; the teacher session route reads it and updates across tabs.
+
+The adapter is explicitly non-live: it stores no names, raw audio, transcripts,
+hosted sync state, or export records, and storage failure cannot block gameplay.
+This closes the student-to-teacher proof gap without bypassing the existing
+school-policy, privacy, retention, persistence, and release gates. See ADR 0804.
+
+## 0809 - Synchronous canonical event append boundary
+
+The live student replay exposed a timing defect in the canonical game gate:
+the React state updater deferred the session-event ref update until after the
+game completion callback had already validated the replay. The mastery event
+was visible in the rendered event log but absent from the gate's immediate
+snapshot.
+
+The student flow now derives the next event list from `sessionEventsRef`, writes
+the ref synchronously, and then schedules the matching React state update. The
+production-shaped vertical-slice verifier requires this ordering so every
+completion gate sees the same deterministic event sequence that the teacher
+evidence adapter later records. See ADR 0805 and DR-881.

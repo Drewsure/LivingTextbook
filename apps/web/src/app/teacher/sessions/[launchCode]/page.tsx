@@ -5,6 +5,7 @@ import { TeacherSessionLaunchGateBoundaryPanel } from "@/features/teacher/Teache
 import { TeacherSessionMonitorPanel } from "@/features/teacher/TeacherSessionMonitorPanel";
 import { TeacherSessionPreflightPanel } from "@/features/teacher/TeacherSessionPreflightPanel";
 import { TeacherSessionRosterIdentityCard } from "@/features/teacher/TeacherSessionRosterIdentityCard";
+import { TeacherSessionLocalEvidencePanel } from "@/features/teacher/TeacherSessionLocalEvidencePanel";
 
 export default async function TeacherSessionMonitorPage({
   params,
@@ -25,6 +26,7 @@ export default async function TeacherSessionMonitorPage({
         <TeacherSessionLaunchGateBoundaryPanel boundary={context.launchGateBoundary} />
         <TeacherSessionPreflightPanel checks={context.preflightChecks} />
         <TeacherSessionMonitorPanel context={context} />
+        <TeacherSessionLocalEvidencePanel launchCode={context.launchSession.launchCode} />
       </div>
     </AppShell>
   );

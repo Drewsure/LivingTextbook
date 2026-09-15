@@ -1,7 +1,7 @@
 export interface ProgressionLaunchIdentity {
-  unitKey: string;
-  launchCode: string;
-  studentSessionId: string;
+  unitKey?: string;
+  launchCode?: string;
+  studentSessionId?: string;
 }
 
 export function validateProgressionLaunchIdentity(
@@ -26,18 +26,18 @@ export function validateProgressionLaunchIdentity(
 
 function readIdentity(value: unknown, label: string): ProgressionLaunchIdentity {
   if (!isRecord(value)) {
-    return { unitKey: `${label} missing`, launchCode: `${label} missing`, studentSessionId: `${label} missing` };
+    return {};
   }
 
   return {
-    unitKey: readField(value.unitKey, `${label} unitKey`),
-    launchCode: readField(value.launchCode, `${label} launchCode`),
-    studentSessionId: readField(value.studentSessionId, `${label} studentSessionId`),
+    unitKey: readOptionalField(value.unitKey),
+    launchCode: readOptionalField(value.launchCode),
+    studentSessionId: readOptionalField(value.studentSessionId),
   };
 }
 
-function readField(value: unknown, fallback: string): string {
-  return typeof value === "string" && value.trim().length > 0 ? value : fallback;
+function readOptionalField(value: unknown): string | undefined {
+  return typeof value === "string" && value.trim().length > 0 ? value : undefined;
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {

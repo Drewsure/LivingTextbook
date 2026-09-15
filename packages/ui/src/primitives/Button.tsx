@@ -1,3 +1,5 @@
+"use client";
+
 import type { ButtonHTMLAttributes, CSSProperties, ReactNode } from "react";
 
 type ButtonVariant = "primary" | "secondary" | "quiet";
