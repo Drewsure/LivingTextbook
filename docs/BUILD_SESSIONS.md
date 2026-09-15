@@ -2835,3 +2835,15 @@ Typecheck, canonical integration verification, targeted activity-hub review,
 and the full 88-route sweep remain required. This does not enable uploads,
 live AI, persistence, assignment, or Phaser promotion. See ADR 0790 and
 DR-867.
+
+## 0794 - Fallback continuation audio gate
+
+Closed the remaining no-offer-map continuation bypass in the recommended game
+route card. Fallback routes now require both progression unlock and reviewed
+target-language audio before rendering an active open action, matching curated
+offers, direct routes, the activity hub, and completion navigation.
+
+Canonical integration verification, typecheck, runtime behavior, production
+build, and the 88-route sweep remain required. This does not enable uploads,
+live AI, persistence, assignment, or Phaser promotion. See ADR 0787 and
+DR-864.

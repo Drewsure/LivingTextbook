@@ -177,7 +177,8 @@ function buildRecommendedRoutes({
     label: formatMode(mode),
     href: getGameModeRoutePath(mode, launchSession.launchCode),
     audioReady: getGameAudioCoverage({ unit, audioCues: audioCues ?? [], audioSupportPlan, gameMode: mode, targetLanguage }).ready,
-    unlocked: progression.unlockedGameModes.includes(mode),
+    unlocked: progression.unlockedGameModes.includes(mode)
+      && getGameAudioCoverage({ unit, audioCues: audioCues ?? [], audioSupportPlan, gameMode: mode, targetLanguage }).ready,
     completed: progression.completedGameModes.includes(mode),
     summary: getModeSummary(mode),
   }));
