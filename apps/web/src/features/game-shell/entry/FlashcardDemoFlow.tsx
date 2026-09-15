@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { resolveCanonicalGameReplaySeed, resolveTargetLanguage } from "@living-textbook/content-model";
+import { getGameAudioCoverage, resolveCanonicalGameReplaySeed, resolveTargetLanguage } from "@living-textbook/content-model";
 import type {
   AudioCue,
   ContentPackage,
+  GameAudioCoverage,
   GameModeId,
   GameProgressEvent,
   LaunchSession,
@@ -74,13 +75,23 @@ export function FlashcardDemoFlow({
 
   const entryComplete = currentProgression.completedGameModes.includes(launchSession.entryMode);
   const nextMode = getNextUncompletedRecommendedMode(launchSession, currentProgression);
+  const targetLanguage = resolveTargetLanguage({
+    tenantTargetLanguage: tenant.languageSettings?.targetLanguage,
+    unitLanguage: unit.unitMeta.textbookReference?.language,
+  });
+  const audioCoverage: GameAudioCoverage = getGameAudioCoverage({
+    unit,
+    audioCues,
+    gameMode: launchSession.entryMode,
+    targetLanguage,
+  });
   const replaySeed = resolveCanonicalGameReplaySeed({
     unitKey: launchSession.unitKey,
     gameMode: launchSession.entryMode,
   });
   const targetPracticeRequiredCount = unit.pedagogicalPayload.vocabularyTerms.length + unit.pedagogicalPayload.targetSentences.length;
   const targetPracticeEngagedCount = targetPracticeEngagedItemIds.length;
-  const targetPracticeReady = entryComplete || targetPracticeEngagedCount >= targetPracticeRequiredCount;
+  const targetPracticeReady = audioCoverage.ready && (entryComplete || targetPracticeEngagedCount >= targetPracticeRequiredCount);
   const activeAssistLanguagePlan = assistLanguageEnabled ? assistLanguagePlan : undefined;
 
   useEffect(() => {
@@ -175,7 +186,7 @@ export function FlashcardDemoFlow({
         progression={currentProgression}
         events={sessionEvents}
         rewardName={tenant.rewardName}
-        targetLanguage={resolveTargetLanguage({ tenantTargetLanguage: tenant.languageSettings?.targetLanguage, unitLanguage: unit.unitMeta.textbookReference?.language })}
+        targetLanguage={targetLanguage}
       />
       <GameLearningAudioContractCard
         tenant={tenant}
@@ -186,6 +197,7 @@ export function FlashcardDemoFlow({
         audioCues={audioCues}
         replaySeed={replaySeed}
         onAudioRequested={(event) => appendSessionEvents([event])}
+        coverage={audioCoverage}
       />
       <FlashcardPracticeCard
         tenant={tenant}
@@ -200,6 +212,7 @@ export function FlashcardDemoFlow({
         targetPracticeEngagedCount={targetPracticeEngagedCount}
         targetPracticeRequiredCount={targetPracticeRequiredCount}
         targetPracticeReady={targetPracticeReady}
+        audioCoverage={audioCoverage}
         onTargetPracticeEngaged={handleTargetPracticeEngaged}
         onComplete={handleCompleteEntryPractice}
       />

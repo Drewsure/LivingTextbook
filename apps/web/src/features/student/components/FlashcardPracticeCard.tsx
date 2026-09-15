@@ -3,6 +3,7 @@
 import { Card, StatusPill } from "@living-textbook/ui";
 import type {
   AudioCue,
+  GameAudioCoverage,
   GameModeId,
   LaunchSession,
   StudentProgressionState,
@@ -29,6 +30,7 @@ interface FlashcardPracticeCardProps {
   targetPracticeEngagedCount: number;
   targetPracticeRequiredCount: number;
   targetPracticeReady: boolean;
+  audioCoverage: GameAudioCoverage;
   onTargetPracticeEngaged: (itemId: string) => void;
   onComplete: () => void;
 }
@@ -46,6 +48,7 @@ export function FlashcardPracticeCard({
   targetPracticeEngagedCount,
   targetPracticeRequiredCount,
   targetPracticeReady,
+  audioCoverage,
   onTargetPracticeEngaged,
   onComplete,
 }: FlashcardPracticeCardProps) {
@@ -59,9 +62,17 @@ export function FlashcardPracticeCard({
   const entryMessage = entryComplete
     ? feedbackCue?.text ?? `${formatMode(launchSession.entryMode)} is complete. ${nextMode ? `${formatMode(nextMode)} is ready.` : "The next activity is ready."}`
     : instructionCue?.text ?? "Tap each English word and sentence to hear it. Then repeat.";
-  const actionText = entryComplete ? "Practice complete" : targetPracticeReady ? "Mark practice complete" : "Listen to English first";
+  const actionText = entryComplete
+    ? "Practice complete"
+    : !audioCoverage.ready
+      ? "Audio review required"
+      : targetPracticeReady
+        ? "Mark practice complete"
+        : "Listen to English first";
   const gateMessage = entryComplete
     ? "English practice is complete."
+    : !audioCoverage.ready
+      ? "Reviewed target-language audio is required before entry practice can unlock the next activity."
     : targetPracticeReady
       ? "English listening is complete. Mark practice complete to unlock the next game."
       : `${remainingTargetItems} more English item${remainingTargetItems === 1 ? "" : "s"} must be heard before completion. Japanese assist does not unlock the next game.`;
@@ -94,7 +105,7 @@ export function FlashcardPracticeCard({
             </p>
           )}
         </div>
-        <StatusPill label={formatLabel(progression.masteryStatus)} tone={entryComplete ? "success" : "neutral"} />
+        <StatusPill label={!audioCoverage.ready ? "Audio review" : formatLabel(progression.masteryStatus)} tone={entryComplete ? "success" : !audioCoverage.ready ? "warning" : "neutral"} />
       </div>
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
         {unit.pedagogicalPayload.vocabularyTerms.map((term) => {

@@ -13,7 +13,12 @@ import type {
   TeacherSessionSettings,
   UnitPayload,
 } from "@living-textbook/content-model";
-import { createCanonicalGameReplaySeed, languageMatches, resolveTargetLanguage } from "@living-textbook/content-model";
+import {
+  createCanonicalGameReplaySeed,
+  getGameAudioCoverage,
+  languageMatches,
+  resolveTargetLanguage,
+} from "@living-textbook/content-model";
 import { AudioSupportedAction } from "@/features/audio/AudioSupportedAction";
 import { PairingMatchUpGame } from "@/features/game-shell/pairing/PairingMatchUpGame";
 import { PairingMemoryMatchGame } from "@/features/game-shell/pairing/PairingMemoryMatchGame";
@@ -97,6 +102,12 @@ export function FrontDoorEntryFlow({
     unitLanguage: unit.unitMeta.textbookReference?.language,
   });
   const targetLanguageAudioCues = (contentPackage.audioCues ?? []).filter((cue) => languageMatches(cue.language, targetLanguage));
+  const audioCoverage = getGameAudioCoverage({
+    unit,
+    audioCues: contentPackage.audioCues ?? [],
+    gameMode: launchSession.entryMode,
+    targetLanguage,
+  });
 
   const entryComplete = currentProgression.completedGameModes.includes(launchSession.entryMode);
   const nextMode = getNextUncompletedRecommendedMode(launchSession, currentProgression);
@@ -109,7 +120,7 @@ export function FrontDoorEntryFlow({
   const acceptedUserCodeSet = new Set(acceptedUserCodes.map((code) => code.toUpperCase()));
   const targetPracticeRequiredCount = unit.pedagogicalPayload.vocabularyTerms.length + unit.pedagogicalPayload.targetSentences.length;
   const targetPracticeEngagedCount = targetPracticeEngagedItemIds.length;
-  const targetPracticeReady = entryComplete || targetPracticeEngagedCount >= targetPracticeRequiredCount;
+  const targetPracticeReady = audioCoverage.ready && (entryComplete || targetPracticeEngagedCount >= targetPracticeRequiredCount);
   const assistLanguagePlan = contentPackage.assistLanguagePlans?.find(
     (plan) => plan.unitKey === launchSession.unitKey && plan.studentVisibility !== "teacher-only",
   );
@@ -326,6 +337,7 @@ export function FrontDoorEntryFlow({
               lastEarnedDust={lastEarnedDust}
               nextMode={nextMode}
               audioCues={contentPackage.audioCues}
+              audioCoverage={audioCoverage}
               assistLanguagePlan={activeAssistLanguagePlan}
               targetPracticeEngagedCount={targetPracticeEngagedCount}
               targetPracticeRequiredCount={targetPracticeRequiredCount}

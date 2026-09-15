@@ -3143,3 +3143,19 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-859 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-860 and
 `docs/adr/0783-audio-consistent-activity-hub.md`.
+
+## 208. Audio-Gated Entry Path Standard
+
+- Every entry path that can complete flashcard practice must calculate the
+  shared target-language audio coverage before it can unlock the next
+  activity.
+- Front-door access, normal student launch, and the dedicated flashcard route
+  must enforce the same rule; a card-level message alone is insufficient.
+- Japanese or another support language may explain and assist, but it never
+  satisfies the target-language audio requirement or unlocks progression.
+- A learner who has engaged every card must still wait for reviewed audio
+  coverage when the package is incomplete; this is package readiness, not
+  learner failure.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-861 and
+`docs/adr/0784-audio-gated-entry-paths.md`.

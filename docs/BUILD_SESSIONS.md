@@ -2754,3 +2754,16 @@ reaches the direct route gate.
 Added a pathway verifier guard for the shared coverage call, the
 `audio-blocked` status, and learner-facing explanation. This does not enable
 uploads, live AI, persistence, or Phaser promotion. See ADR 0783 and DR-860.
+
+## 0787 - Audio-gated entry paths
+
+Aligned the front-door and normal student launch flows with the dedicated
+flashcard entry route. Each now uses the shared target-language audio coverage
+contract and blocks flashcard progression until reviewed term, sentence, and
+instruction audio is ready. Added a verifier guard covering all three entry
+paths so support-language audio cannot unlock progression by itself.
+
+Typecheck, runtime behavior, and canonical game integration verification pass.
+This remains a readiness and policy boundary; it does not enable uploads, live
+AI, persistence, assignment, or Phaser source promotion. See ADR 0784 and
+DR-861.

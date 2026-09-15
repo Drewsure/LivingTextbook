@@ -5040,3 +5040,11 @@ audio coverage contract used by direct game routes. A progression-ready game
 with incomplete target-language audio is displayed as an audio-review block,
 not as a learner failure and not as a misleading open-game action. See ADR
 0783.
+
+# DR-861: Audio-Gated Entry Paths
+
+All flashcard entry paths now calculate and enforce the shared target-language
+audio coverage contract before unlocking the next activity. This includes the
+dedicated flashcard route, front-door access flow, and normal student launch
+flow. Support-language audio remains assistive only and cannot satisfy the
+English/target-language progression gate. See ADR 0784.

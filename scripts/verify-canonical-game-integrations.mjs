@@ -206,9 +206,11 @@ const entryIntegrations = [
       "completeFlashcardEntryPractice",
       "getNextUncompletedRecommendedMode",
       "resolveCanonicalGameReplaySeed({",
+      "getGameAudioCoverage",
       "GameLearningAudioContractCard",
       "targetPracticeRequiredCount",
       "targetPracticeReady",
+      "audioCoverage",
     ],
     supportRequired: [
       "Japanese assist does not unlock the next game",
@@ -328,6 +330,22 @@ for (const integration of entryIntegrations) {
   for (const fragment of integration.supportRequired) {
     if (!supportComponent.includes(fragment)) {
       failures.push(`${integration.id}: support-language boundary is missing: ${fragment}`);
+    }
+  }
+}
+
+for (const [id, flow] of [
+  ["front-door-entry", frontDoorFlow],
+  ["student-launch", studentLaunchFlow],
+]) {
+  for (const fragment of [
+    "getGameAudioCoverage",
+    "audioCoverage",
+    "audioCoverage.ready &&",
+    "audioCoverage={audioCoverage}",
+  ]) {
+    if (!flow.includes(fragment)) {
+      failures.push(`${id}: entry flow must enforce the shared audio readiness contract: ${fragment}`);
     }
   }
 }

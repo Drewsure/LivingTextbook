@@ -15,6 +15,7 @@ import type {
 import {
   createCanonicalGameReplaySeed,
   createProgressionContinuityEnvelope,
+  getGameAudioCoverage,
   languageMatches,
   resolveTargetLanguage,
   validateProgressionContinuityRuntimeRequest,
@@ -115,6 +116,12 @@ export function StudentLaunchFlow({
     unitLanguage: unit.unitMeta.textbookReference?.language,
   });
   const targetLanguageAudioCues = audioCues.filter((cue) => languageMatches(cue.language, targetLanguage));
+  const audioCoverage = getGameAudioCoverage({
+    unit,
+    audioCues,
+    gameMode: launchSession.entryMode,
+    targetLanguage,
+  });
 
   const entryComplete = currentProgression.completedGameModes.includes(launchSession.entryMode);
   const nextMode = getNextUncompletedRecommendedMode(launchSession, currentProgression);
@@ -122,7 +129,7 @@ export function StudentLaunchFlow({
   const nextModeStarted = Boolean(nextMode && activeGameMode === nextMode);
   const targetPracticeRequiredCount = unit.pedagogicalPayload.vocabularyTerms.length + unit.pedagogicalPayload.targetSentences.length;
   const targetPracticeEngagedCount = targetPracticeEngagedItemIds.length;
-  const targetPracticeReady = entryComplete || targetPracticeEngagedCount >= targetPracticeRequiredCount;
+  const targetPracticeReady = audioCoverage.ready && (entryComplete || targetPracticeEngagedCount >= targetPracticeRequiredCount);
   const recoveryRecommendation = evaluateTrainingRecoveryTrigger({
     events: sessionEvents,
     launchSession,
@@ -364,6 +371,7 @@ export function StudentLaunchFlow({
         lastEarnedDust={lastEarnedDust}
         nextMode={nextMode}
         audioCues={audioCues}
+        audioCoverage={audioCoverage}
         assistLanguagePlan={activeAssistLanguagePlan}
         targetPracticeEngagedCount={targetPracticeEngagedCount}
         targetPracticeRequiredCount={targetPracticeRequiredCount}
