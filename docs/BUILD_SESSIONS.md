@@ -2977,3 +2977,14 @@ states. Added canonical verifier coverage and standing ADR/decision records.
 This is a playback-integrity change only. It does not enable uploads, live AI,
 persistence, assignment, microphone use, scoring changes, or Phaser promotion.
 See ADR 0801 and DR-878.
+
+## 0806 - Direct playback guard
+
+Extended the shared reviewed-audio guard into immediate term and feedback
+announcements. Label It, Spelling Practice, Fill in the Blank, Type Answer,
+and True or False now pass available cues through the same transcript-safe
+primitive rather than creating a separate speech path.
+
+This is a playback-integrity change only. It does not enable uploads, live AI,
+persistence, assignment, microphone use, scoring changes, or Phaser promotion.
+See ADR 0802 and DR-879.

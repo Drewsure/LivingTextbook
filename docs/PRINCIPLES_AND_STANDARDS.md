@@ -3389,3 +3389,15 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-877 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-878 and
 `docs/adr/0801-audio-transcript-match-guard.md`.
+
+## 226. Direct Playback Guard Standard
+
+- Immediate term and feedback announcements must use the same shared playback
+  primitive as learner-facing Listen and Replay controls.
+- Direct playback may pass a reviewed cue, but the shared primitive must apply
+  the transcript match guard before using its source URI.
+- A direct announcement cannot create a second audio policy, score path,
+  progression trigger, or language default.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-879 and
+`docs/adr/0802-direct-playback-guard.md`.

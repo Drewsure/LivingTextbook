@@ -5178,3 +5178,10 @@ before using a recorded source. Mismatched feedback states use speech fallback
 for the exact visible sentence instead of playing an incorrect recording. This
 keeps reviewed audio trustworthy without changing gameplay authority. See ADR
 0801.
+
+# DR-879: Direct Playback Guard
+
+Immediate term and feedback announcements now use the shared playback
+primitive, including its transcript-match protection. This keeps direct game
+announcements aligned with visible Listen/Replay controls and does not introduce
+a second scoring or progression path. See ADR 0802.

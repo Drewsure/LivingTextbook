@@ -145,7 +145,7 @@ export function LabelItPracticeGame({
   function handleLabelSelect(label: string) {
     const cue = findTermAudioCue(audioCues, label);
     emitAudioRequested("term", cue?.text ?? label, cue?.language ?? targetLanguage, "label-it-label");
-    playAudioCueText({ text: cue?.text ?? label, language: cue?.language ?? targetLanguage });
+    playAudioCueText({ text: cue?.text ?? label, language: cue?.language ?? targetLanguage, cue });
     setSelectedLabel(label);
     setFeedback(`Selected ${label}. Tap the matching picture point.`);
   }
@@ -158,7 +158,7 @@ export function LabelItPracticeGame({
     if (!selectedLabel) {
       setFeedback("Choose a label first.");
       emitAudioRequested("feedback", "Choose a label first.", targetLanguage, "label-it-feedback-auto");
-      playAudioCueText({ text: "Choose a label first.", language: targetLanguage });
+      playAudioCueText({ text: "Choose a label first.", language: targetLanguage, cue: feedbackCue });
       return;
     }
 
@@ -188,7 +188,7 @@ export function LabelItPracticeGame({
     if (!correct) {
       setFeedback("Try again. Listen to the label and find the matching point.");
       emitAudioRequested("feedback", "Try again. Listen to the label and find the matching point.", targetLanguage, "label-it-feedback-auto");
-      playAudioCueText({ text: "Try again. Listen to the label and find the matching point.", language: targetLanguage });
+      playAudioCueText({ text: "Try again. Listen to the label and find the matching point.", language: targetLanguage, cue: feedbackCue });
       return;
     }
 
@@ -200,7 +200,7 @@ export function LabelItPracticeGame({
     setSelectedLabel(undefined);
     setFeedback("Correct label. Choose another one.");
     emitAudioRequested("feedback", "Correct label. Choose another one.", targetLanguage, "label-it-feedback-auto");
-    playAudioCueText({ text: "Correct label. Choose another one.", language: targetLanguage });
+    playAudioCueText({ text: "Correct label. Choose another one.", language: targetLanguage, cue: feedbackCue });
 
     if (nextCompletedAnchorIds.length === anchors.length && !completionSent) {
       const earnedStarDust = calculateLabelItDust({

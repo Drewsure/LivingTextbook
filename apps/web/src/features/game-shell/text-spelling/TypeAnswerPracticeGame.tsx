@@ -172,7 +172,7 @@ export function TypeAnswerPracticeGame({
     if (!correct) {
       setFeedback("Try again. Listen and type the word.");
       emitAudioRequested("feedback", "Try again. Listen and type the word.", targetLanguage, "type-answer-feedback-auto");
-      playAudioCueText({ text: "Try again. Listen and type the word.", language: targetLanguage });
+      playAudioCueText({ text: "Try again. Listen and type the word.", language: targetLanguage, cue: feedbackCue });
       return;
     }
 
@@ -184,7 +184,7 @@ export function TypeAnswerPracticeGame({
     setFeedback("Correct. Next typing card.");
     setAnswer("");
     emitAudioRequested("feedback", "Correct. Next typing card.", targetLanguage, "type-answer-feedback-auto");
-    playAudioCueText({ text: "Correct. Next typing card.", language: targetLanguage });
+    playAudioCueText({ text: "Correct. Next typing card.", language: targetLanguage, cue: feedbackCue });
 
     if (nextCompletedRoundIds.length < rounds.length) {
       setRoundIndex((index) => index + 1);

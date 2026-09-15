@@ -156,8 +156,9 @@ export function SpellingPracticeGame({
     }
 
     setSelectedTiles((tiles) => [...tiles, tile]);
-    emitAudioRequested("term", tile.spokenText, targetLanguage, "spelling-letter-tile");
-    playAudioCueText({ text: tile.spokenText, language: targetLanguage });
+    const cue = findAudioCue(audioCues, tile.spokenText);
+    emitAudioRequested("term", cue?.text ?? tile.spokenText, cue?.language ?? targetLanguage, "spelling-letter-tile");
+    playAudioCueText({ text: cue?.text ?? tile.spokenText, language: cue?.language ?? targetLanguage, cue });
   }
 
   function handleRemoveSelectedTile(tile: SpellingLetterTile) {
@@ -166,15 +167,16 @@ export function SpellingPracticeGame({
     }
 
     setSelectedTiles((tiles) => tiles.filter((selected) => selected.tileId !== tile.tileId));
-    emitAudioRequested("term", tile.spokenText, targetLanguage, "spelling-selected-letter");
-    playAudioCueText({ text: tile.spokenText, language: targetLanguage });
+    const cue = findAudioCue(audioCues, tile.spokenText);
+    emitAudioRequested("term", cue?.text ?? tile.spokenText, cue?.language ?? targetLanguage, "spelling-selected-letter");
+    playAudioCueText({ text: cue?.text ?? tile.spokenText, language: cue?.language ?? targetLanguage, cue });
   }
 
   function handleClear() {
     setSelectedTiles([]);
     setFeedback("Cleared. Listen again and tap the letters.");
     emitAudioRequested("feedback", "Cleared. Listen again and tap the letters.", targetLanguage, "spelling-clear-feedback");
-    playAudioCueText({ text: "Cleared. Listen again and tap the letters.", language: targetLanguage });
+    playAudioCueText({ text: "Cleared. Listen again and tap the letters.", language: targetLanguage, cue: feedbackCue });
   }
 
   function handleSubmit() {
@@ -208,7 +210,7 @@ export function SpellingPracticeGame({
     if (!correct) {
       setFeedback("Try again. Listen and check the letter order.");
       emitAudioRequested("feedback", "Try again. Listen and check the letter order.", targetLanguage, "spelling-feedback-auto");
-      playAudioCueText({ text: "Try again. Listen and check the letter order.", language: targetLanguage });
+      playAudioCueText({ text: "Try again. Listen and check the letter order.", language: targetLanguage, cue: feedbackCue });
       return;
     }
 
@@ -220,7 +222,7 @@ export function SpellingPracticeGame({
     setFeedback("Correct spelling. Next word.");
     setSelectedTiles([]);
     emitAudioRequested("feedback", "Correct spelling. Next word.", targetLanguage, "spelling-feedback-auto");
-    playAudioCueText({ text: "Correct spelling. Next word.", language: targetLanguage });
+    playAudioCueText({ text: "Correct spelling. Next word.", language: targetLanguage, cue: feedbackCue });
 
     if (nextCompletedRoundIds.length < rounds.length) {
       setRoundIndex((index) => index + 1);

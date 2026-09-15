@@ -151,7 +151,7 @@ export function FillInBlankPracticeGame({
     setSelectedAnswer(choice);
     const cue = findAudioCue(audioCues, choice);
     emitAudioRequested("term", cue?.text ?? choice, cue?.language ?? targetLanguage, "fill-in-choice");
-    playAudioCueText({ text: cue?.text ?? choice, language: cue?.language ?? targetLanguage });
+    playAudioCueText({ text: cue?.text ?? choice, language: cue?.language ?? targetLanguage, cue });
   }
 
   function handleSubmit() {
@@ -184,7 +184,7 @@ export function FillInBlankPracticeGame({
     if (!correct) {
       setFeedback("Try again. Listen and choose the missing word.");
       emitAudioRequested("feedback", "Try again. Listen and choose the missing word.", targetLanguage, "fill-in-feedback-auto");
-      playAudioCueText({ text: "Try again. Listen and choose the missing word.", language: targetLanguage });
+      playAudioCueText({ text: "Try again. Listen and choose the missing word.", language: targetLanguage, cue: feedbackCue });
       return;
     }
 
@@ -196,7 +196,7 @@ export function FillInBlankPracticeGame({
     setFeedback("Correct. Next sentence.");
     setSelectedAnswer("");
     emitAudioRequested("feedback", "Correct. Next sentence.", targetLanguage, "fill-in-feedback-auto");
-    playAudioCueText({ text: "Correct. Next sentence.", language: targetLanguage });
+    playAudioCueText({ text: "Correct. Next sentence.", language: targetLanguage, cue: feedbackCue });
 
     if (nextCompletedRoundIds.length < rounds.length) {
       setRoundIndex((index) => index + 1);

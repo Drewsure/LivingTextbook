@@ -159,7 +159,7 @@ export function TrueFalsePracticeGame({
     setCorrectRoundIds(nextCorrectRoundIds);
     const immediateFeedback = correct ? "Correct." : "Try again next time.";
     emitAudioRequested("feedback", immediateFeedback, targetLanguage, "true-false-answer-feedback");
-    playAudioCueText({ text: immediateFeedback, language: targetLanguage });
+    playAudioCueText({ text: immediateFeedback, language: targetLanguage, cue: feedbackCue });
 
     emitInteractionEvent("answer_submitted", {
       roundId: currentRound.roundId,

@@ -7,6 +7,7 @@ interface SpeechOptions {
   text: string;
   language: string;
   sourceUri?: string;
+  cue?: Pick<AudioCue, "sourceUri" | "text">;
   onStatusChange?: (status: AudioPlaybackStatus) => void;
 }
 
@@ -33,7 +34,7 @@ interface AudioCueTextProps {
 
 let activeAudio: HTMLAudioElement | undefined;
 
-export function playAudioCueText({ text, language, sourceUri, onStatusChange }: SpeechOptions) {
+export function playAudioCueText({ text, language, sourceUri, cue, onStatusChange }: SpeechOptions) {
   if (typeof window === "undefined") {
     onStatusChange?.("unavailable");
     return;
@@ -43,8 +44,10 @@ export function playAudioCueText({ text, language, sourceUri, onStatusChange }: 
   activeAudio?.pause();
   activeAudio = undefined;
 
-  if (sourceUri && isPlayableBrowserAudioSource(sourceUri)) {
-    const audio = new Audio(sourceUri);
+  const playableSourceUri = cue ? getMatchingAudioSourceUri(text, cue) : sourceUri;
+
+  if (playableSourceUri && isPlayableBrowserAudioSource(playableSourceUri)) {
+    const audio = new Audio(playableSourceUri);
     activeAudio = audio;
     audio.onended = () => {
       activeAudio = undefined;

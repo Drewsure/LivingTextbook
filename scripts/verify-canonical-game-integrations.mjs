@@ -633,7 +633,7 @@ for (const fragment of ["authorizedInstructionCueIds", "instructionCueCount", "i
     failures.push(`game audio coverage must enforce reviewed instruction scope: ${fragment}`);
   }
 }
-for (const fragment of ["sourceUri", "new Audio(sourceUri)", "audio.onerror", "isPlayableBrowserAudioSource", "file:", "javascript:", "data:", "speakText({ text, language, onStatusChange })"]) {
+for (const fragment of ["sourceUri", "new Audio(playableSourceUri)", "audio.onerror", "isPlayableBrowserAudioSource", "file:", "javascript:", "data:", "speakText({ text, language, onStatusChange })"]) {
   if (!audioCueButton.includes(fragment)) {
     failures.push(`shared audio control must prefer reviewed asset playback with speech fallback: ${fragment}`);
   }
