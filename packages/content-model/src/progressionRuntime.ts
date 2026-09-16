@@ -131,6 +131,7 @@ export function createProgressionContinuityEnvelope(args: {
   destinationRoute: string;
   issuedAt: string;
   eventCursor: number;
+  mode?: ProgressionContinuityMode;
 }): ProgressionContinuityEnvelope {
   return {
     continuityId: args.continuityId,
@@ -143,7 +144,7 @@ export function createProgressionContinuityEnvelope(args: {
     destinationRoute: args.destinationRoute,
     issuedAt: args.issuedAt,
     eventCursor: args.eventCursor,
-    mode: "review-only",
+    mode: args.mode ?? "review-only",
     snapshot: {
       tenantId: args.launchSession.tenantId,
       studentSessionId: args.progression.studentSessionId,

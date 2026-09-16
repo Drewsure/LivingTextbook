@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { FormEvent } from "react";
 import { Card, StatusPill } from "@living-textbook/ui";
 import type {
@@ -17,6 +17,8 @@ import {
   createCanonicalGameReplaySeed,
   getGameAudioCoverage,
   getGameAudioCues,
+  createProgressionContinuityEnvelope,
+  validateProgressionContinuityRuntimeRequest,
   resolveTargetLanguage,
 } from "@living-textbook/content-model";
 import { AudioSupportedAction } from "@/features/audio/AudioSupportedAction";
@@ -50,6 +52,8 @@ import { RecommendedGameRoutesCard } from "@/features/student/components/Recomme
 import { RewardPreviewCard } from "@/features/student/components/RewardPreviewCard";
 import { LaunchContextSafetyCard } from "@/features/student/components/LaunchContextSafetyCard";
 import { FrontDoorTeacherReportPreview } from "./FrontDoorTeacherReportPreview";
+import { establishStudentSession } from "@/features/persistence/studentSessionClient";
+import { writeHostedProgressionContinuity } from "@/features/persistence/hostedProgressionPersistenceClient";
 import type { TenantConfig } from "@/features/tenant/types";
 import type { UnitGameOfferMap } from "@living-textbook/content-model";
 
@@ -96,6 +100,8 @@ export function FrontDoorEntryFlow({
   const sessionEventsRef = useRef<GameProgressEvent[]>([]);
   const completionAcceptedModesRef = useRef<Set<GameModeId>>(new Set());
   const [targetPracticeEngagedItemIds, setTargetPracticeEngagedItemIds] = useState<string[]>([]);
+  const [studentSessionStatus, setStudentSessionStatus] = useState<"unknown" | "rehearsal-only" | "authenticated">("unknown");
+  const [openingUnit, setOpeningUnit] = useState(false);
   const microphonePracticeSettings = useTeacherMicrophonePracticeSettings(tenant);
   const targetLanguage = resolveTargetLanguage({
     tenantTargetLanguage: tenant.languageSettings?.targetLanguage,
@@ -148,7 +154,55 @@ export function FrontDoorEntryFlow({
   );
   const activeAssistLanguagePlan = sessionSettings?.assistLanguage.enabled ? assistLanguagePlan : undefined;
 
-  function handleOpenUnit(event: FormEvent<HTMLFormElement>) {
+  const persistedContinuityIdsRef = useRef<Set<string>>(new Set());
+
+  useEffect(() => {
+    if (!unitOpen || studentSessionStatus !== "authenticated" || sessionEvents.length === 0) return;
+
+    const continuity = createProgressionContinuityEnvelope({
+      continuityId: `progression-${launchSession.launchCode}-${currentProgression.studentSessionId}-${sessionEvents.length}-${currentProgression.earnedStarDust}`,
+      packageId: contentPackage.meta.packageId,
+      launchSession,
+      progression: currentProgression,
+      sourceRoute: `/enter/${tenant.id}`,
+      destinationRoute: `/launch/${launchSession.launchCode}`,
+      issuedAt: new Date().toISOString(),
+      eventCursor: sessionEvents.length,
+      mode: "hosted-managed",
+    });
+    if (persistedContinuityIdsRef.current.has(continuity.continuityId)) return;
+
+    const errors = validateProgressionContinuityRuntimeRequest({
+      expectedTenantId: launchSession.tenantId,
+      expectedPackageId: contentPackage.meta.packageId,
+      expectedLaunchCode: launchSession.launchCode,
+      expectedStudentSessionId: currentProgression.studentSessionId,
+      envelope: continuity,
+    });
+    if (errors.length > 0) {
+      setEventContractErrors(errors.map((error) => `Durable progression: ${error}`));
+      return;
+    }
+
+    persistedContinuityIdsRef.current.add(continuity.continuityId);
+    void writeHostedProgressionContinuity({
+      expectedTenantId: launchSession.tenantId,
+      expectedPackageId: contentPackage.meta.packageId,
+      expectedLaunchCode: launchSession.launchCode,
+      expectedStudentSessionId: currentProgression.studentSessionId,
+      envelope: continuity,
+    }).then((result) => {
+      if (result.status !== "accepted") {
+        persistedContinuityIdsRef.current.delete(continuity.continuityId);
+        setEventContractErrors(result.errors.map((error) => `Durable progression: ${error}`));
+      }
+    }).catch(() => {
+      persistedContinuityIdsRef.current.delete(continuity.continuityId);
+      setEventContractErrors(["Durable progression could not be written."]);
+    });
+  }, [contentPackage.meta.packageId, currentProgression, launchSession, sessionEvents, studentSessionStatus, tenant.id, unitOpen]);
+
+  async function handleOpenUnit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     if (accessPolicy.entryCodeRequired && entryCode.trim().toUpperCase() !== expectedEntryCode.toUpperCase()) {
@@ -160,6 +214,21 @@ export function FrontDoorEntryFlow({
       setEntryError("Check the user code so your teacher can see this progress.");
       return;
     }
+
+    setOpeningUnit(true);
+    const sessionResult = await establishStudentSession({
+      tenantId: tenant.id,
+      packageId: contentPackage.meta.packageId,
+      launchCode: launchSession.launchCode,
+      entryCode,
+      userCode,
+    });
+    setOpeningUnit(false);
+    if (sessionResult.status !== "authenticated" && sessionResult.status !== "rehearsal-only") {
+      setEntryError(sessionResult.errors[0] ?? "The student session could not be opened.");
+      return;
+    }
+    setStudentSessionStatus(sessionResult.status);
 
     const normalizedUserCode = userCode.trim();
     const progressionForLearner: StudentProgressionState = normalizedUserCode
@@ -322,8 +391,8 @@ export function FrontDoorEntryFlow({
                 className="min-h-11 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] px-3 text-sm font-normal text-[var(--tenant-text)] outline-none focus:border-[var(--tenant-primary)]"
               />
             </label>
-            <AudioSupportedAction type="submit" audioText="Open unit" audioLanguage={targetLanguage}>
-              Open unit
+            <AudioSupportedAction type="submit" audioText="Open unit" audioLanguage={targetLanguage} disabled={openingUnit}>
+              {openingUnit ? "Opening unit" : "Open unit"}
             </AudioSupportedAction>
           </form>
 
@@ -331,6 +400,7 @@ export function FrontDoorEntryFlow({
           <p className="mt-3 text-xs text-[var(--tenant-muted)]">
             Demo entry code: {expectedEntryCode}. Demo learner codes: {acceptedUserCodes.join(", ")}. These are roster slots for classroom reporting, not production student accounts.
           </p>
+          {unitOpen ? <p className="mt-2 text-xs font-semibold text-[var(--tenant-muted)]">Progress storage: {studentSessionStatus === "authenticated" ? "Durable managed session" : "Non-durable rehearsal"}.</p> : null}
         </Card>
 
         <LaunchContextSafetyCard

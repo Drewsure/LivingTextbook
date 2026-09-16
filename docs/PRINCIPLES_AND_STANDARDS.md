@@ -3458,3 +3458,20 @@ rule is recorded in DR-881 and `docs/adr/0805-synchronous-event-append-boundary.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-885 and
 `docs/adr/0813-first-durable-progression-provider.md`.
+
+## 229. Authenticated Student Session Boundary Standard
+
+- A coded front-door launch must be validated by the server before a durable
+  student session exists. Client-side code checks are guidance, not authority.
+- The server must bind tenant, package, launch, and coded student-session
+  identity into a signed, expiring, HttpOnly session cookie.
+- Browser progression writes may use only a matching signed student session;
+  teacher/server probes may use a separate server-only authorization token.
+- The browser must never receive the persistence API token or a database
+  credential. Invalid, expired, cross-tenant, or cross-session writes fail
+  closed.
+- When durable storage is disabled, the front door may remain rehearsal-only,
+  but the interface and evidence must label that mode accurately.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-886 and
+`docs/adr/0814-authenticated-student-session-boundary.md`.

@@ -27,3 +27,34 @@ export async function readHostedProgressionContinuity(
     return { status: "error", errors: ["The hosted progression adapter could not be reached."] };
   }
 }
+
+export async function writeHostedProgressionContinuity(request: {
+  expectedTenantId: string;
+  expectedPackageId: string;
+  expectedLaunchCode: string;
+  expectedStudentSessionId: string;
+  envelope: unknown;
+}) {
+  const response = await fetch("/api/persistence/progression", {
+    method: "POST",
+    credentials: "same-origin",
+    cache: "no-store",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      ...request,
+      policy: {
+        mode: "durable-managed",
+        allowDurableWrite: true,
+        schoolPolicyAccepted: true,
+        retentionPolicyAccepted: true,
+        releaseApprovalAccepted: true,
+      },
+    }),
+  });
+  const body = await response.json() as { status?: string; errors?: string[]; idempotent?: boolean };
+  return {
+    status: body.status ?? (response.ok ? "accepted" : "error"),
+    idempotent: body.idempotent === true,
+    errors: body.errors ?? [],
+  };
+}

@@ -31,6 +31,7 @@ export interface HostedProgressionPersistenceWriteRequest {
     allowDurableWrite?: boolean;
     schoolPolicyAccepted: boolean;
     retentionPolicyAccepted?: boolean;
+    releaseApprovalAccepted?: boolean;
   };
 }
 
@@ -76,6 +77,9 @@ export function validateHostedProgressionPersistenceWrite(
   if (request.policy?.mode === "durable-managed" && request.policy.retentionPolicyAccepted !== true) {
     errors.push("Hosted progression durable writes require retention-policy acceptance.");
   }
+  if (request.policy?.mode === "durable-managed" && request.policy.releaseApprovalAccepted !== true) {
+    errors.push("Hosted progression durable writes require release approval.");
+  }
 
   return { valid: errors.length === 0, errors: [...new Set(errors)] };
 }
@@ -94,7 +98,7 @@ export function createHostedProgressionPersistenceRecord(args: {
     recordVersion: 1,
     category: "progression-continuity",
     adapterMode: "hosted-managed",
-    durability: "non-durable-rehearsal",
+    durability: args.request.policy.mode === "durable-managed" ? "durable-managed" : "non-durable-rehearsal",
     tenantId: continuity.tenantId,
     packageId: continuity.packageId,
     launchCode: continuity.launchCode,
@@ -114,7 +118,7 @@ export function validateHostedProgressionPersistenceRead(
   for (const [name, value] of Object.entries(request)) {
     if (typeof value !== "string" || value.trim().length === 0) errors.push(`${name} is required.`);
   }
-  if (!record) errors.push("No hosted progression rehearsal record was found.");
+  if (!record) errors.push("No hosted progression record was found.");
   if (record) {
     if (record.tenantId !== request.tenantId) errors.push("Hosted progression record tenant does not match.");
     if (record.packageId !== request.packageId) errors.push("Hosted progression record package does not match.");

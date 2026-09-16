@@ -7,6 +7,7 @@ import {
   type HostedProgressionPersistenceWriteRequest,
 } from "@living-textbook/content-model";
 import { getDurableProgressionStore } from "@/server/persistence/sqliteProgressionStore";
+import { readStudentSessionClaims } from "@/server/persistence/studentSessionCookie";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -38,8 +39,8 @@ export async function POST(request: Request) {
     if (process.env.LIVING_TEXTBOOK_PERSISTENCE_ALLOW_DURABLE_WRITES !== "true") {
       return json({ status: "blocked", provider: "sqlite", durability: "durable-managed", errors: ["Durable progression writes require the explicit deployment write gate."] }, 423);
     }
-    if (!hasApiToken(request)) {
-      return json({ status: "unauthorized", provider: "sqlite", durability: "durable-managed", errors: ["Durable progression writes require a server-side persistence API token."] }, 401);
+    if (!hasPersistenceWriteAuthorization(request, body)) {
+      return json({ status: "unauthorized", provider: "sqlite", durability: "durable-managed", errors: ["Durable progression writes require a matching signed student session or server-side persistence authorization."] }, 401);
     }
 
     try {
@@ -112,6 +113,17 @@ function hasApiToken(request: Request): boolean {
   const configuredToken = process.env.LIVING_TEXTBOOK_PERSISTENCE_API_TOKEN?.trim();
   if (!configuredToken) return false;
   return request.headers.get("authorization") === `Bearer ${configuredToken}`;
+}
+
+function hasPersistenceWriteAuthorization(request: Request, body: HostedProgressionPersistenceWriteRequest): boolean {
+  if (hasApiToken(request)) return true;
+
+  const claims = readStudentSessionClaims(request);
+  return Boolean(claims)
+    && claims?.tenantId === body.expectedTenantId
+    && claims.packageId === body.expectedPackageId
+    && claims.launchCode === body.expectedLaunchCode
+    && claims.studentSessionId === body.expectedStudentSessionId;
 }
 
 function json(body: unknown, status = 200) {

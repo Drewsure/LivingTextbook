@@ -23,6 +23,8 @@ const route = read("apps/web/src/app/api/persistence/progression/route.ts");
 const store = read("apps/web/src/server/persistence/sqliteProgressionStore.ts");
 const model = read("packages/content-model/src/hostedProgressionPersistence.ts");
 const client = read("apps/web/src/features/persistence/hostedProgressionPersistenceClient.ts");
+const sessionRoute = read("apps/web/src/app/api/student/session/route.ts");
+const sessionCookie = read("apps/web/src/server/persistence/studentSessionCookie.ts");
 const envExample = read(".env.example");
 const gitignore = read(".gitignore");
 
@@ -41,7 +43,9 @@ requireFragments("durable model", model, [
   '"durable-managed"',
   "allowDurableWrite",
   "retentionPolicyAccepted",
+  "releaseApprovalAccepted",
   "school policy acceptance",
+  'args.request.policy.mode === "durable-managed" ? "durable-managed" : "non-durable-rehearsal"',
 ]);
 
 requireFragments("persistence route", route, [
@@ -52,15 +56,31 @@ requireFragments("persistence route", route, [
   "LIVING_TEXTBOOK_PERSISTENCE_API_TOKEN",
   "getDurableProgressionStore().write(record)",
   "getDurableProgressionStore().read(lookup)",
+  "hasPersistenceWriteAuthorization",
   "Cache-Control",
 ]);
 
 requireFragments("persistence client", client, ["provider", '"durable-managed"', '"no-store"']);
+requireFragments("student session route", sessionRoute, [
+  'runtime = "nodejs"',
+  "resolveSampleFrontDoorContext",
+  "setStudentSessionCookie",
+  "LIVING_TEXTBOOK_PERSISTENCE_ALLOW_DURABLE_WRITES",
+  'status: "authenticated"',
+]);
+requireFragments("student session cookie", sessionCookie, [
+  "createHmac",
+  "timingSafeEqual",
+  "HttpOnly",
+  "SameSite=Lax",
+  "LIVING_TEXTBOOK_STUDENT_SESSION_SECRET",
+]);
 requireFragments("environment contract", envExample, [
   "LIVING_TEXTBOOK_PERSISTENCE_PROVIDER=process-memory",
   "LIVING_TEXTBOOK_PERSISTENCE_ALLOW_DURABLE_WRITES=false",
   "LIVING_TEXTBOOK_PERSISTENCE_API_TOKEN",
   "LIVING_TEXTBOOK_PROGRESSION_DB_PATH",
+  "LIVING_TEXTBOOK_STUDENT_SESSION_SECRET",
 ]);
 requireFragments("database ignore policy", gitignore, ["data/*.sqlite", "data/*.sqlite-wal"]);
 

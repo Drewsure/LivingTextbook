@@ -34,7 +34,7 @@ const routeContracts = readSource("apps/web/src/features/routes/routeContracts.t
 requireFragments("hosted persistence model", model, [
   'category: "progression-continuity"',
   'adapterMode: "hosted-managed"',
-  'durability: "non-durable-rehearsal"',
+  'durability: args.request.policy.mode === "durable-managed" ? "durable-managed" : "non-durable-rehearsal"',
   "validateHostedProgressionPersistenceWrite",
   "schoolPolicyAccepted",
   "idempotencyKey",

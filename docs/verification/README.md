@@ -280,3 +280,7 @@ upstream records and preserve the independent MiniStar support-language gate.
   launch flows.
 - Run `npm run verify:completion-idempotence`.
 - `docs/verification/DURABLE_PROGRESSION_STORAGE_CHECKS.md`
+
+`AUTHENTICATED_STUDENT_SESSION_CHECKS.md` protects the server-validated coded
+front-door session, HttpOnly cookie boundary, browser durable-write
+authorization, and cross-tenant isolation.

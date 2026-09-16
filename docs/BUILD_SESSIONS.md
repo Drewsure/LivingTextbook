@@ -3062,3 +3062,15 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - The probe uses a coded sample identity and never performs a write.
 - It distinguishes endpoint availability, record availability, and non-durable rehearsal status.
 - Added ADR 0812 and DR-884.
+
+## Build session 0814: Authenticated durable student session
+
+- Added a server-validated coded front-door session endpoint with signed,
+  expiring HttpOnly cookies.
+- Connected authenticated browser sessions to the durable progression write
+  route without exposing the server persistence token.
+- Kept process-memory rehearsal as an explicitly labeled fallback when the
+  durable deployment gates are disabled.
+- Verified live authentication, durable write, authorized read, and durable
+  record mode preservation against a temporary SQLite database.
+- Added ADR 0814, DR-886, and the authenticated-session verification contract.

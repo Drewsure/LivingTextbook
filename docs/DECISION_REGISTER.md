@@ -5231,3 +5231,13 @@ tenant-scoped by composite identity, idempotent by continuity id, and guarded
 by explicit provider, write, school-policy, retention, release, and
 server-token gates. Process-memory rehearsal remains separate and is never
 described as learner-data persistence. See ADR 0813.
+
+# DR-886: Authenticated Student Session Boundary
+
+The coded front door now has a server-validated session boundary for the first
+durable pilot path. The server validates the tenant, package, launch, entry
+code, and roster user code, then issues a signed expiring HttpOnly cookie. A
+browser progression write is accepted only when that cookie matches every
+tenant-scoped identity field in the request. Teacher/server reads retain their
+separate server-only bearer authorization. Rehearsal mode remains available
+when durable deployment gates are off. See ADR 0814.
