@@ -35,8 +35,8 @@ export function HostedProgressionAdapterPanel({ request }: HostedProgressionAdap
       </div>
 
       <dl className="mt-5 grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-4">
-        <Fact label="Adapter" value="hosted-managed" />
-        <Fact label="Durability" value="Non-durable rehearsal" />
+        <Fact label="Provider" value={result?.provider ?? "Not checked"} />
+        <Fact label="Durability" value={result?.durability ?? "Non-durable rehearsal"} />
         <Fact label="Write default" value="Blocked" />
         <Fact label="Identity" value={`${request.tenantId} / ${request.launchCode}`} />
       </dl>
@@ -55,7 +55,7 @@ export function HostedProgressionAdapterPanel({ request }: HostedProgressionAdap
 
       {result ? (
         <div className="mt-4 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3 text-sm" aria-live="polite">
-          <p className="font-bold">{result.status === "available" ? "A rehearsal record is available." : result.status === "not-found" ? "No record is available, as expected for a fresh rehearsal." : "The adapter did not respond."}</p>
+          <p className="font-bold">{result.status === "available" ? "A progression record is available." : result.status === "not-found" ? "No record is available for this coded identity." : "The adapter did not respond."}</p>
           {result.durability ? <p className="mt-1 text-[var(--tenant-muted)]">Durability: {result.durability}.</p> : null}
           {result.errors.length > 0 ? <p className="mt-1 text-[var(--tenant-muted)]">{result.errors[0]}</p> : null}
         </div>

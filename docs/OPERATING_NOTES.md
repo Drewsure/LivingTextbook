@@ -1,5 +1,22 @@
 # Living Textbook Operating Notes
 
+## Durable progression storage verification
+
+The first durable persistence provider uses Node's built-in `node:sqlite`, so
+no additional database package or monthly service is required for a closed/local
+pilot rehearsal. Keep `LIVING_TEXTBOOK_PERSISTENCE_PROVIDER=process-memory` in
+ordinary development. For a deliberate smoke test, use a temporary SQLite path,
+set the explicit durable write gate and server-only token, then remove the test
+database after the restart/read-back check. Never put the token in browser code,
+`.env.example`, a QR URL, or a committed file.
+
+The durable route intentionally refuses writes without policy, retention,
+release, and token evidence. A missing token is an authentication boundary, not
+a reason to weaken the route. Cloud production still needs a real auth/session
+service, encryption, backups, deletion/retention operations, and a hosted
+provider decision. See ADR 0813 and
+`docs/verification/DURABLE_PROGRESSION_STORAGE_CHECKS.md`.
+
 This document records repeatable procedures, environment constraints, and workarounds that future Codex sessions, engineers, or outside AI agents may need to recall.
 
 These notes are not product standards. Product standards live in `docs/PRINCIPLES_AND_STANDARDS.md`. This file is the operational memory for how work actually gets done when tooling, branches, local permissions, or connectors behave in a consistent way.

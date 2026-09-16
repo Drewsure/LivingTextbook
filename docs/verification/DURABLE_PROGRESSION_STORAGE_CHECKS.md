@@ -1,0 +1,30 @@
+# Durable Progression Storage Checks
+
+These checks prove the first real persistence slice without using learner
+records. Use a temporary SQLite path and a throwaway coded identity.
+
+## Required evidence
+
+- `npm run verify:durable-persistence` passes.
+- SQLite mode starts only with `LIVING_TEXTBOOK_PERSISTENCE_PROVIDER=sqlite`.
+- A durable write requires the explicit write gate, school/tenant policy,
+  retention-policy acceptance, release approval, and a server-only bearer token.
+- The first write returns `accepted` and `idempotent: false`.
+- Repeating the same continuity id returns `accepted` and `idempotent: true`.
+- Reading the same identity after a server restart returns `available` with
+  `provider: sqlite` and `durability: durable-managed`.
+- A read without the server token returns `401` when a record exists.
+- A different tenant identity cannot read the record.
+- SQLite files and WAL sidecars are ignored by source control.
+
+## Production gates still open
+
+- authenticated teacher/student session exchange;
+- encryption-at-rest and secret rotation;
+- backup, restore, deletion, retention, and incident recovery evidence;
+- multi-instance hosted deployment behavior;
+- hosted cloud provider operations decision;
+- end-to-end student event submission through the authenticated server boundary.
+
+This checklist proves the durable adapter boundary; it does not authorize
+anonymous browser writes or claim that the hosted cloud pilot is ready.

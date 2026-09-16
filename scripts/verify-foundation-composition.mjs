@@ -14,6 +14,9 @@ execFileSync(process.execPath, [fileURLToPath(new URL("./verify-content-model-pu
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-cross-route-persistence.mjs", import.meta.url))], {
   stdio: "inherit",
 });
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-durable-progression-storage.mjs", import.meta.url))], {
+  stdio: "inherit",
+});
 
 const packageJson = JSON.parse(readFileSync(new URL("../package.json", import.meta.url), "utf8"));
 const scripts = packageJson.scripts ?? {};

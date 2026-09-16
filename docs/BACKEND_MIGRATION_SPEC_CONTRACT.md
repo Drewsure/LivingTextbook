@@ -47,6 +47,11 @@ This is a bridge between product architecture and implementation. It names the r
 
 ## Current Pilot Specs
 
+The first durable progression provider is now implemented as a server-only
+SQLite adapter for the closed/local pilot path. This does not select SQLite as
+the eventual hosted cloud vendor; it proves the durable record contract,
+tenant-scoped identity, idempotency, and policy-gated read/write behavior.
+
 - Tenant entitlement store.
 - Package release store.
 - Teacher draft package store.

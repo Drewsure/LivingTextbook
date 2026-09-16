@@ -1,7 +1,8 @@
 import type { ProgressionContinuityEnvelope, ProgressionContinuitySnapshot } from "./progressionRuntime";
 import { validateProgressionContinuityRuntimeRequest } from "./progressionRuntime";
 
-export type HostedProgressionPersistenceDurability = "non-durable-rehearsal";
+export type HostedProgressionPersistenceDurability = "non-durable-rehearsal" | "durable-managed";
+export type HostedProgressionPersistencePolicyMode = "rehearsal-only" | "durable-managed";
 
 export interface HostedProgressionPersistenceRecord {
   recordVersion: 1;
@@ -25,9 +26,11 @@ export interface HostedProgressionPersistenceWriteRequest {
   expectedStudentSessionId: string;
   envelope: unknown;
   policy: {
-    mode: "rehearsal-only";
-    allowNonDurableWrite: boolean;
+    mode: HostedProgressionPersistencePolicyMode;
+    allowNonDurableWrite?: boolean;
+    allowDurableWrite?: boolean;
     schoolPolicyAccepted: boolean;
+    retentionPolicyAccepted?: boolean;
   };
 }
 
@@ -46,6 +49,10 @@ export interface HostedProgressionPersistenceValidation {
 export function validateHostedProgressionPersistenceWrite(
   request: HostedProgressionPersistenceWriteRequest,
 ): HostedProgressionPersistenceValidation {
+  if (!request || typeof request !== "object") {
+    return { valid: false, errors: ["Hosted progression request must be an object."] };
+  }
+
   const errors = validateProgressionContinuityRuntimeRequest({
     expectedTenantId: request.expectedTenantId,
     expectedPackageId: request.expectedPackageId,
@@ -54,14 +61,20 @@ export function validateHostedProgressionPersistenceWrite(
     envelope: request.envelope,
   });
 
-  if (!request.policy || request.policy.mode !== "rehearsal-only") {
-    errors.push("Hosted progression writes require rehearsal-only policy mode.");
-  }
-  if (request.policy?.allowNonDurableWrite !== true) {
-    errors.push("Hosted progression writes require explicit non-durable rehearsal approval.");
+  if (!request.policy || (request.policy.mode !== "rehearsal-only" && request.policy.mode !== "durable-managed")) {
+    errors.push("Hosted progression writes require rehearsal-only or durable-managed policy mode.");
   }
   if (request.policy?.schoolPolicyAccepted !== true) {
     errors.push("Hosted progression writes require school policy acceptance.");
+  }
+  if (request.policy?.mode === "rehearsal-only" && request.policy.allowNonDurableWrite !== true) {
+    errors.push("Hosted progression rehearsal writes require explicit non-durable approval.");
+  }
+  if (request.policy?.mode === "durable-managed" && request.policy.allowDurableWrite !== true) {
+    errors.push("Hosted progression durable writes require explicit durable-storage approval.");
+  }
+  if (request.policy?.mode === "durable-managed" && request.policy.retentionPolicyAccepted !== true) {
+    errors.push("Hosted progression durable writes require retention-policy acceptance.");
   }
 
   return { valid: errors.length === 0, errors: [...new Set(errors)] };

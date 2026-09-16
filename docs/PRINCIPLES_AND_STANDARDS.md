@@ -3439,3 +3439,22 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-879 and
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-880 and
 `docs/adr/0803-production-shaped-vertical-slice-gate.md`. The event ordering
 rule is recorded in DR-881 and `docs/adr/0805-synchronous-event-append-boundary.md`.
+
+## 228. Durable Persistence Provider Standard
+
+- Durable progression storage must remain behind the shared typed continuity
+  contract; route and game components must not write a database directly.
+- The first provider is server-only SQLite for the closed/local pilot path.
+  Rehearsal process memory must remain visibly separate and non-durable.
+- Every stored progression record must preserve tenant, package, launch, and
+  coded student-session identity in the storage key, with idempotency protection.
+- Durable writes require explicit provider selection, school/tenant policy,
+  retention-policy acceptance, release approval, and a server-only token.
+- Raw learner audio, learner transcripts, support-language evidence, and
+  media-only evidence remain excluded from progression records.
+- A cloud provider is not production-ready until authentication, encryption,
+  backup/restore, deletion, retention, monitoring, and multi-instance behavior
+  are evidenced.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-885 and
+`docs/adr/0813-first-durable-progression-provider.md`.

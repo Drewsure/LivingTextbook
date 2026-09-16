@@ -36,6 +36,18 @@ The game catalog learner-metadata slice now checks role, skill focus, summary, a
 - Default behavior remains blocked; this does not claim durable production persistence.
 - Added ADRs DR-882/DR-883 and the focused static verification script.
 
+## Build session 0813: First durable progression provider
+
+- Added a server-only SQLite progression provider with restart-persistent records.
+- Enforced tenant/package/launch/student composite identity and idempotency-key conflict checks.
+- Added explicit durable provider, write, school-policy, retention, release-approval, and bearer-token gates.
+- Kept process-memory rehearsal mode isolated and labelled non-durable.
+- Added a standing durable-storage verifier, environment contract, ADR 0813, and DR-885.
+
+This is a production-shaped closed/local pilot provider. Cloud deployment still
+requires authentication, backups, encryption-at-rest, monitoring, and a hosted
+provider operations review.
+
 ## Session 0: Standards And Decisions Gate
 
 Purpose: Ensure the project still follows the white-label saleable platform direction before work begins.

@@ -6,40 +6,61 @@ import {
   type HostedProgressionPersistenceRecord,
   type HostedProgressionPersistenceWriteRequest,
 } from "@living-textbook/content-model";
+import { getDurableProgressionStore } from "@/server/persistence/sqliteProgressionStore";
+
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
+type PersistenceProvider = "process-memory" | "sqlite";
 
 const globalStore = globalThis as typeof globalThis & {
   __livingTextbookHostedProgressionRehearsal?: Map<string, HostedProgressionPersistenceRecord>;
 };
-const store = globalStore.__livingTextbookHostedProgressionRehearsal ??= new Map();
+const rehearsalStore = globalStore.__livingTextbookHostedProgressionRehearsal ??= new Map();
 
 export async function POST(request: Request) {
   let body: HostedProgressionPersistenceWriteRequest;
   try {
     body = await request.json() as HostedProgressionPersistenceWriteRequest;
   } catch {
-    return NextResponse.json({ status: "rejected", errors: ["Hosted progression request must be valid JSON."] }, { status: 400 });
+    return json({ status: "rejected", errors: ["Hosted progression request must be valid JSON."] }, 400);
   }
 
   const validation = validateHostedProgressionPersistenceWrite(body);
   if (!validation.valid) {
-    return NextResponse.json({ status: "blocked", durability: "non-durable-rehearsal", errors: validation.errors }, { status: 423 });
+    return json({ status: "blocked", durability: body?.policy?.mode === "durable-managed" ? "durable-managed" : "non-durable-rehearsal", errors: validation.errors }, 423);
+  }
+
+  if (body.policy.mode === "durable-managed") {
+    if (getConfiguredProvider() !== "sqlite") {
+      return json({ status: "blocked", provider: "process-memory", durability: "durable-managed", errors: ["Durable progression storage is not enabled for this deployment."] }, 423);
+    }
+    if (process.env.LIVING_TEXTBOOK_PERSISTENCE_ALLOW_DURABLE_WRITES !== "true") {
+      return json({ status: "blocked", provider: "sqlite", durability: "durable-managed", errors: ["Durable progression writes require the explicit deployment write gate."] }, 423);
+    }
+    if (!hasApiToken(request)) {
+      return json({ status: "unauthorized", provider: "sqlite", durability: "durable-managed", errors: ["Durable progression writes require a server-side persistence API token."] }, 401);
+    }
+
+    try {
+      const record = createHostedProgressionPersistenceRecord({ request: body, writtenAt: new Date().toISOString() });
+      const result = getDurableProgressionStore().write(record);
+      if (result.status === "conflict") return json({ status: "conflict", provider: "sqlite", durability: "durable-managed", errors: result.errors }, 409);
+      return json({ status: "accepted", provider: "sqlite", durability: "durable-managed", idempotent: result.idempotent, record: result.record });
+    } catch {
+      return json({ status: "unavailable", provider: "sqlite", durability: "durable-managed", errors: ["Durable progression storage could not be opened or written."] }, 503);
+    }
   }
 
   if (process.env.LIVING_TEXTBOOK_HOSTED_PERSISTENCE_REHEARSAL !== "true") {
-    return NextResponse.json({
-      status: "blocked",
-      durability: "non-durable-rehearsal",
-      errors: ["Hosted progression rehearsal writes are disabled by default. Enable the explicit development policy gate before writing."],
-    }, { status: 423 });
+    return json({ status: "blocked", provider: "process-memory", durability: "non-durable-rehearsal", errors: ["Hosted progression rehearsal writes are disabled by default. Enable the explicit development policy gate before writing."] }, 423);
   }
 
   const record = createHostedProgressionPersistenceRecord({ request: body, writtenAt: new Date().toISOString() });
-  const existing = store.get(record.idempotencyKey);
-  if (existing) {
-    return NextResponse.json({ status: "accepted", idempotent: true, record: existing });
-  }
-  store.set(record.idempotencyKey, record);
-  return NextResponse.json({ status: "accepted", idempotent: false, record });
+  const existing = rehearsalStore.get(record.idempotencyKey);
+  if (existing) return json({ status: "accepted", provider: "process-memory", durability: "non-durable-rehearsal", idempotent: true, record: existing });
+  rehearsalStore.set(record.idempotencyKey, record);
+  return json({ status: "accepted", provider: "process-memory", durability: "non-durable-rehearsal", idempotent: false, record });
 }
 
 export function GET(request: Request) {
@@ -50,15 +71,49 @@ export function GET(request: Request) {
     launchCode: url.searchParams.get("launchCode") ?? "",
     studentSessionId: url.searchParams.get("studentSessionId") ?? "",
   };
-  const record = [...store.values()].find((candidate) =>
+  const provider = getConfiguredProvider();
+
+  if (provider === "sqlite") {
+    try {
+      if (!hasApiToken(request)) return json({ status: "unauthorized", provider: "sqlite", durability: "durable-managed", errors: ["Durable progression reads require a server-side persistence API token."] }, 401);
+      const record = getDurableProgressionStore().read(lookup);
+      if (!record) return json({ status: "not-found", provider: "sqlite", durability: "durable-managed", errors: ["No durable progression record was found for this coded identity."] }, 404);
+      return validateAndRespond(lookup, record, "sqlite", "durable-managed");
+    } catch {
+      return json({ status: "unavailable", provider: "sqlite", durability: "durable-managed", errors: ["Durable progression storage could not be opened or read."] }, 503);
+    }
+  }
+
+  const record = [...rehearsalStore.values()].find((candidate) =>
     candidate.tenantId === lookup.tenantId
       && candidate.packageId === lookup.packageId
       && candidate.launchCode === lookup.launchCode
       && candidate.studentSessionId === lookup.studentSessionId,
   );
+  return validateAndRespond(lookup, record, "process-memory", "non-durable-rehearsal");
+}
+
+function validateAndRespond(
+  lookup: { tenantId: string; packageId: string; launchCode: string; studentSessionId: string },
+  record: HostedProgressionPersistenceRecord | undefined,
+  provider: PersistenceProvider,
+  durability: "non-durable-rehearsal" | "durable-managed",
+) {
   const validation = validateHostedProgressionPersistenceRead(lookup, record);
-  if (!validation.valid) {
-    return NextResponse.json({ status: "not-found", errors: validation.errors }, { status: 404 });
-  }
-  return NextResponse.json({ status: "available", durability: record?.durability, record });
+  if (!validation.valid) return json({ status: "not-found", provider, durability, errors: validation.errors }, 404);
+  return json({ status: "available", provider, durability, record });
+}
+
+function getConfiguredProvider(): PersistenceProvider {
+  return process.env.LIVING_TEXTBOOK_PERSISTENCE_PROVIDER === "sqlite" ? "sqlite" : "process-memory";
+}
+
+function hasApiToken(request: Request): boolean {
+  const configuredToken = process.env.LIVING_TEXTBOOK_PERSISTENCE_API_TOKEN?.trim();
+  if (!configuredToken) return false;
+  return request.headers.get("authorization") === `Bearer ${configuredToken}`;
+}
+
+function json(body: unknown, status = 200) {
+  return NextResponse.json(body, { status, headers: { "Cache-Control": "no-store" } });
 }

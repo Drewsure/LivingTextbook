@@ -5222,3 +5222,12 @@ The canonical student event append boundary must update its synchronous event
 ref before scheduling React state. Completion gates validate the ref snapshot,
 so deferred-only ref updates can silently reject valid mastery evidence even
 when the rendered event log later appears correct. See ADR 0805.
+
+# DR-885: First Durable Progression Provider
+
+The first real persistence slice now uses a server-only SQLite adapter behind
+the typed hosted progression contract. It is durable across process restarts,
+tenant-scoped by composite identity, idempotent by continuity id, and guarded
+by explicit provider, write, school-policy, retention, release, and
+server-token gates. Process-memory rehearsal remains separate and is never
+described as learner-data persistence. See ADR 0813.

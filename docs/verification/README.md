@@ -279,3 +279,4 @@ upstream records and preserve the independent MiniStar support-language gate.
   mode/session across the canonical playable route, front door, and student
   launch flows.
 - Run `npm run verify:completion-idempotence`.
+- `docs/verification/DURABLE_PROGRESSION_STORAGE_CHECKS.md`
