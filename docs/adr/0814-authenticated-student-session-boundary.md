@@ -13,7 +13,8 @@ receives the persistence API token or database credentials.
 
 The durable progression route accepts a browser write only when the signed
 session identity matches all expected identity fields in the validated request.
-Teacher/server read probes continue to use a separate server-only bearer token.
+Teacher/server read probes continue to use a separate server-only bearer token;
+the browser never receives that token.
 When SQLite or its explicit durable gates are disabled, the front door remains
 rehearsal-only and is labeled as such.
 
