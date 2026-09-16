@@ -6,6 +6,7 @@ import {
   isTeacherReviewCodeValid,
   isTeacherSessionConfigured,
   isTeacherTenantAllowed,
+  readTeacherSessionClaims,
   setTeacherSessionCookie,
   TEACHER_PERSISTENCE_READ_SCOPE,
   TEACHER_SESSION_VERSION,
@@ -54,6 +55,12 @@ export async function POST(request: Request) {
   const response = json({ status: "authenticated", tenantId, expiresAt });
   setTeacherSessionCookie(response, value, expiresAt);
   return response;
+}
+
+export function GET(request: Request) {
+  const claims = readTeacherSessionClaims(request);
+  if (!claims) return json({ status: "unauthorized", errors: ["No active teacher review session was found."] }, 401);
+  return json({ status: "authenticated", tenantId: claims.tenantId, expiresAt: claims.expiresAt });
 }
 
 export function DELETE() {

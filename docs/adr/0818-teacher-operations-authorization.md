@@ -28,6 +28,8 @@ a full production identity provider.
 - Signing secrets, review codes, persistence tokens, and learner data remain
   server-only.
 - The browser cannot mutate, export, repair, or launch from this surface.
+- A teacher page refresh may discover the current signed session through a
+  read-only session-status request; it cannot create or broaden access.
 - Unscoped legacy receipts remain hidden from tenant history until they can be
   safely attributed.
 

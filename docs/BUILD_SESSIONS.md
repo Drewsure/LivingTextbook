@@ -3118,3 +3118,6 @@ evidence adapter later records. See ADR 0805 and DR-881.
   backup/restore receipts from tenant teacher responses.
 - Added teacher review sign-in/sign-out controls, configuration status, ADR
   0818, DR-890, and focused authorization verification.
+- Added read-only session discovery so an existing teacher session survives a
+  page refresh without placing credentials or authorization state in browser
+  storage.

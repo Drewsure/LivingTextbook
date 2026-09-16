@@ -45,6 +45,8 @@ requireFragments("authorization helper", authorization, [
   "claims.tenantId === tenantId",
 ]);
 requireFragments("session route", sessionRoute, [
+  "export function GET(request: Request)",
+  "readTeacherSessionClaims",
   "isTeacherSessionConfigured",
   "isTeacherReviewCodeValid",
   "isTeacherTenantAllowed",
@@ -73,6 +75,8 @@ requireFragments("teacher access UI", panel, [
   "Sign in for review",
   "Sign out",
   "cannot access student gameplay",
+  "useEffect",
+  "readTeacherOperationsSession",
 ]);
 requireFragments("environment contract", env, [
   "LIVING_TEXTBOOK_TEACHER_SESSION_SECRET",

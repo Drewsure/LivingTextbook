@@ -3554,6 +3554,9 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-889 and
 - Missing or unscoped receipt attribution remains hidden rather than being
   guessed. Access control is required in addition to redaction and tamper
   evidence.
+- A page refresh may discover the current signed teacher session through a
+  read-only status request, but client state, tenant input, and review-code
+  input cannot create or broaden authorization.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-890,
 `docs/decision-register/DR-890-teacher-operations-authorization.md`, and

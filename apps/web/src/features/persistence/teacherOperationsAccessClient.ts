@@ -19,6 +19,16 @@ export async function createTeacherOperationsSession(tenantId: string, reviewCod
   }
 }
 
+export async function readTeacherOperationsSession(): Promise<TeacherOperationsSessionResult> {
+  try {
+    const response = await fetch("/api/teacher/session", { method: "GET", cache: "no-store" });
+    const body = await response.json() as Partial<TeacherOperationsSessionResult>;
+    return { status: body.status ?? (response.ok ? "authenticated" : "unauthorized"), tenantId: body.tenantId, expiresAt: body.expiresAt, errors: body.errors ?? [] };
+  } catch {
+    return { status: "error", errors: ["The teacher review session endpoint could not be reached."] };
+  }
+}
+
 export async function clearTeacherOperationsSession(): Promise<TeacherOperationsSessionResult> {
   try {
     const response = await fetch("/api/teacher/session", { method: "DELETE" });

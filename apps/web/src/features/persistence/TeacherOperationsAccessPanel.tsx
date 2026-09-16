@@ -1,13 +1,23 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { Card, StatusPill } from "@living-textbook/ui";
-import { clearTeacherOperationsSession, createTeacherOperationsSession, type TeacherOperationsSessionResult } from "./teacherOperationsAccessClient";
+import { clearTeacherOperationsSession, createTeacherOperationsSession, readTeacherOperationsSession, type TeacherOperationsSessionResult } from "./teacherOperationsAccessClient";
 
 export function TeacherOperationsAccessPanel({ tenantId }: { tenantId: string }) {
   const [reviewCode, setReviewCode] = useState("");
   const [result, setResult] = useState<TeacherOperationsSessionResult>();
   const [working, setWorking] = useState(false);
+
+  useEffect(() => {
+    let active = true;
+    void readTeacherOperationsSession().then((session) => {
+      if (active && session.status === "authenticated" && session.tenantId === tenantId) setResult(session);
+    });
+    return () => {
+      active = false;
+    };
+  }, [tenantId]);
 
   async function handleSignIn(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
