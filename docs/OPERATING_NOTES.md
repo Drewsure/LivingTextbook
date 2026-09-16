@@ -1385,3 +1385,12 @@ platform, or metadata seed directly into game-start, interaction, audio, or
 completion evidence. Keep the invalid-seed regression in
 `verify-runtime-behavior.mjs` and rerun canonical-game, runtime, typecheck,
 build, and foundation checks after changing this behavior. See ADR 0737.
+
+## Fresh active-route verification procedure
+
+The active-route verifier defaults to `http://127.0.0.1:3000`, but a stale or
+unowned development server can make route failures misleading. Start a fresh
+server on an available port, then set `ACTIVE_ROUTE_BASE_URL` to that exact
+base URL before running `npm run verify:routes`. This override changes only
+where the read-only checks look; it does not mutate routes, data, or release
+state.

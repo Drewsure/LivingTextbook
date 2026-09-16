@@ -3,7 +3,10 @@ import { readFileSync } from "node:fs";
 const routeListPath = new URL("../docs/ACTIVE_ROUTE_VERIFICATION_LIST.md", import.meta.url);
 const routeList = readFileSync(routeListPath, "utf8");
 const activeRouteSection = routeList.split("## Planned QR Route, Not Active Yet")[0] ?? routeList;
-const urls = Array.from(activeRouteSection.matchAll(/`(http:\/\/127\.0\.0\.1:3000\/[^`]*)`/g), (match) => match[1]);
+const configuredBaseUrl = (process.env.ACTIVE_ROUTE_BASE_URL ?? "http://127.0.0.1:3000").replace(/\/$/, "");
+const urls = Array.from(activeRouteSection.matchAll(/`(http:\/\/127\.0\.0\.1:3000\/[^`]*)`/g), (match) =>
+  match[1].replace("http://127.0.0.1:3000", configuredBaseUrl),
+);
 const expectedTextByPath = new Map([
   ["/", ["Local Preview"]],
   ["/teacher", ["Teacher Launch Protocol", "Demo route shortcuts", "Printable Worksheet", "/print/demo-unit-1", "Support language control", "Target language only", "Open assignment rollout workbench", "/teacher/assignments", "Open persistence readiness workbench", "/teacher/persistence", "Open deployment decision workbench", "/teacher/deployment"]],
