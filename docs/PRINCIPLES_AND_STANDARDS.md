@@ -71,6 +71,8 @@ Do not reverse this order.
 
 A beautiful unstable screen is not acceptable. A clean stable layout can be improved. Therefore, foundation comes first, polish second, premium expression third.
 
+Hosted adapter readiness may be probed from a teacher-only workbench through a read-only coded request. A reachable endpoint or rehearsal record must never be presented as durable production persistence, and the probe must not enable learner-data writes.
+
 ### Cross-route and hosted persistence standard
 
 Student progression crosses routes only through a validated continuity envelope scoped to tenant, package, launch, student session, and exact destination path. Browser session storage is rehearsal-only. The first hosted adapter is a non-durable, explicitly policy-gated rehearsal boundary; production persistence requires an approved provider, identity model, retention policy, school policy, migration plan, and release gate.

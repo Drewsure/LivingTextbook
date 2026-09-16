@@ -6,6 +6,10 @@ Require matching audio for each canonical term and sentence. Distinct cue IDs re
 
 This register is a standing gate for platform decisions. It exists to keep the Living Textbook build saleable, maintainable, and tenant-ready while still moving fast enough to remain cost efficient.
 
+## DR-884: Hosted adapter read-path probe
+
+The teacher persistence workbench may perform a read-only probe against the hosted progression rehearsal endpoint using a coded sample identity. The probe must never create a record, and all UI copy must distinguish endpoint availability from durable storage readiness.
+
 ## DR-882: Cross-route progression handoff
 
 Student activity routes receive a tenant-scoped validated continuity envelope through session-scoped browser rehearsal storage. Exact destination and student identity are required; URL-encoded progression and support/media-only unlocks remain prohibited.

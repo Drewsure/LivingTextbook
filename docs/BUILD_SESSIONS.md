@@ -3043,3 +3043,10 @@ the ref synchronously, and then schedules the matching React state update. The
 production-shaped vertical-slice verifier requires this ordering so every
 completion gate sees the same deterministic event sequence that the teacher
 evidence adapter later records. See ADR 0805 and DR-881.
+
+## Build session 0812: Hosted adapter read-path probe
+
+- Added a teacher-only read-path probe to the persistence workbench.
+- The probe uses a coded sample identity and never performs a write.
+- It distinguishes endpoint availability, record availability, and non-durable rehearsal status.
+- Added ADR 0812 and DR-884.

@@ -28,6 +28,7 @@ import { BackendSchemaDraftPanel } from "@/features/persistence/BackendSchemaDra
 import { EvidenceStorageAdapterSelectionGatePanel } from "@/features/evidence/EvidenceStorageAdapterSelectionGatePanel";
 import { PersistenceAdapterReadinessPanel } from "@/features/persistence/PersistenceAdapterReadinessPanel";
 import { PersistenceBoundaryPanel } from "@/features/persistence/PersistenceBoundaryPanel";
+import { HostedProgressionAdapterPanel } from "@/features/persistence/HostedProgressionAdapterPanel";
 import { PilotBackendSelectionGatePanel } from "@/features/persistence/PilotBackendSelectionGatePanel";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 
@@ -88,6 +89,14 @@ export default function TeacherPersistencePage() {
           migrationPlan={sampleBackendMigrationPlan}
           migrationSpecPlan={sampleBackendMigrationSpecPlan}
           errors={sampleBackendContractAlignmentErrors}
+        />
+        <HostedProgressionAdapterPanel
+          request={{
+            tenantId: samplePublisherTenant.id,
+            packageId: "sample-publisher-l1-u1-routines-package",
+            launchCode: "partner-demo-unit-1",
+            studentSessionId: "partner-demo-unit-1:sample-student",
+          }}
         />
         <PersistenceBoundaryPanel
           boundaries={samplePersistenceBoundaries}

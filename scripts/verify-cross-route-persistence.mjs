@@ -23,6 +23,8 @@ const model = readSource("packages/content-model/src/hostedProgressionPersistenc
 const modelIndex = readSource("packages/content-model/src/index.ts");
 const handoffStore = readSource("apps/web/src/features/persistence/progressionHandoffStore.ts");
 const hostedRoute = readSource("apps/web/src/app/api/persistence/progression/route.ts");
+const hostedClient = readSource("apps/web/src/features/persistence/hostedProgressionPersistenceClient.ts");
+const hostedPanel = readSource("apps/web/src/features/persistence/HostedProgressionAdapterPanel.tsx");
 const launchFlow = readSource("apps/web/src/features/student/StudentLaunchFlow.tsx");
 const unlockCard = readSource("apps/web/src/features/student/components/NextGameUnlockCard.tsx");
 const routeShell = readSource("apps/web/src/features/game-shell/components/PlayableGameRouteShell.tsx");
@@ -52,6 +54,8 @@ requireFragments("hosted progression API", hostedRoute, [
   "status: \"blocked\"",
   "__livingTextbookHostedProgressionRehearsal",
 ]);
+requireFragments("hosted read probe", hostedClient, ["method: \"GET\"", "cache: \"no-store\"", "status: \"not-found\""]);
+requireFragments("hosted read probe panel", hostedPanel, ["Check read path", "without writing learner data", "Non-durable rehearsal"]);
 requireFragments("launch handoff", launchFlow, [
   "createProgressionHandoffRecord",
   "saveProgressionHandoffRecord",
