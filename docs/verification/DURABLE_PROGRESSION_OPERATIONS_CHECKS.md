@@ -5,8 +5,12 @@ progression provider.
 
 - `npm run verify:durable-operations` must pass.
 - Backup evidence must use SQLite `VACUUM INTO` and pass an integrity check.
+- Every backup must emit a SHA-256 checksum manifest containing schema,
+  creation time, retention period, and raw-audio/transcript exclusion markers.
 - Restore evidence must preserve the expected progression table and all tenant
   records in a temporary restored database.
+- Restore must compare the source file checksum with the reviewed manifest
+  before it is treated as evidence.
 - Retention deletion must require school-policy, retention-policy, release,
   and explicit operations gates.
 - Deletion must be scoped to one tenant/package/launch/student-session identity

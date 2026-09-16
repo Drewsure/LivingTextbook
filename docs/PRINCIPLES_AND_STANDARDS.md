@@ -3483,6 +3483,9 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-886 and
   retention-deletion evidence can be repeated against the selected provider.
 - Backup and restore are server-side evidence procedures. They must not be
   represented as a student-facing control or a browser shortcut.
+- Every backup must produce a checksum manifest with schema version, creation
+  time, retention period, and explicit raw-audio/transcript exclusion markers;
+  restore evidence must verify that checksum before acceptance.
 - Retention deletion must be explicit, policy-gated, and scoped to the full
   tenant/package/launch/student-session identity. It must prove that another
   tenant's record remains untouched.

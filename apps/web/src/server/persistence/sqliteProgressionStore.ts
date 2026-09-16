@@ -1,4 +1,5 @@
-import { copyFileSync, existsSync, mkdirSync, statSync } from "node:fs";
+import { copyFileSync, existsSync, mkdirSync, readFileSync, statSync } from "node:fs";
+import { createHash } from "node:crypto";
 import { dirname, resolve } from "node:path";
 import { DatabaseSync } from "node:sqlite";
 import type { HostedProgressionPersistenceRecord } from "@living-textbook/content-model";
@@ -28,6 +29,7 @@ export interface DurableProgressionHealth {
 export interface DurableProgressionBackupResult {
   destinationPath: string;
   bytes: number;
+  sha256: string;
   schemaVersion: number;
 }
 
@@ -174,6 +176,7 @@ export class SqliteProgressionStore {
     return {
       destinationPath: resolvedDestination,
       bytes: statSync(resolvedDestination).size,
+      sha256: sha256File(resolvedDestination),
       schemaVersion: 1,
     };
   }
@@ -212,9 +215,14 @@ export class SqliteProgressionStore {
     return {
       destinationPath: resolvedDestination,
       bytes: statSync(resolvedDestination).size,
+      sha256: sha256File(resolvedDestination),
       schemaVersion: 1,
     };
   }
+}
+
+export function sha256File(filePath: string): string {
+  return createHash("sha256").update(readFileSync(filePath)).digest("hex");
 }
 
 export function getDurableProgressionStore(): SqliteProgressionStore {

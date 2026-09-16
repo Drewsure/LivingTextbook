@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
+import { createHash } from "node:crypto";
 import { DatabaseSync } from "node:sqlite";
 
 const root = process.cwd();
@@ -36,6 +37,8 @@ requireFragments("SQLite operations store", store, [
   "VACUUM INTO",
   "deleteForIdentity",
   "static restoreFromBackup",
+  "sha256File",
+  "sha256",
   "integrity_check",
   "hosted_progression_records",
 ]);
@@ -46,7 +49,9 @@ requireFragments("SQLite operations policy", operations, [
   "releaseApprovalAccepted",
   "retentionDays",
   "backupTo",
+  "backupWithManifest",
   "restoreFromBackup",
+  "restoreWithManifest",
   "deleteForIdentity",
 ]);
 requireFragments("safe status route", statusRoute, [
@@ -93,12 +98,16 @@ try {
   db.close();
 
   if (!fs.existsSync(backupPath)) failures.push("backup file was not created");
+  const backupChecksum = createHash("sha256").update(fs.readFileSync(backupPath)).digest("hex");
+  if (!/^[0-9a-f]{64}$/.test(backupChecksum)) failures.push("backup did not receive a SHA-256 checksum");
   const backup = new DatabaseSync(backupPath);
   const integrity = backup.prepare("PRAGMA integrity_check").get();
   if (integrity?.integrity_check !== "ok") failures.push("backup integrity check failed");
   backup.close();
 
   fs.copyFileSync(backupPath, restoredPath);
+  const restoredChecksum = createHash("sha256").update(fs.readFileSync(restoredPath)).digest("hex");
+  if (restoredChecksum !== backupChecksum) failures.push("restored database did not match the backup checksum");
   const restored = new DatabaseSync(restoredPath);
   const restoredCount = restored.prepare("SELECT COUNT(*) AS count FROM hosted_progression_records").get();
   if (Number(restoredCount?.count) !== 2) failures.push("restore did not preserve both tenant records");

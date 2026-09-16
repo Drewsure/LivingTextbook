@@ -4,7 +4,7 @@ import type {
   DurableProgressionIdentity,
   SqliteProgressionStore,
 } from "./sqliteProgressionStore";
-import { getDurableProgressionStore, SqliteProgressionStore as SqliteStore } from "./sqliteProgressionStore";
+import { getDurableProgressionStore, sha256File, SqliteProgressionStore as SqliteStore } from "./sqliteProgressionStore";
 
 export interface DurableOperationsPolicy {
   schoolPolicyAccepted: boolean;
@@ -19,6 +19,24 @@ export interface DurableOperationsPolicySnapshot {
   releaseApprovalAccepted: boolean;
   retentionDays: number | null;
   errors: string[];
+}
+
+export interface DurableProgressionBackupManifest {
+  manifestVersion: 1;
+  artifactKind: "sqlite-progression-backup";
+  provider: "sqlite";
+  schemaVersion: number;
+  bytes: number;
+  sha256: string;
+  createdAt: string;
+  retentionDays: number;
+  rawLearnerAudioExcluded: true;
+  learnerTranscriptsExcluded: true;
+}
+
+export interface DurableProgressionBackupEvidence {
+  backup: DurableProgressionBackupResult;
+  manifest: DurableProgressionBackupManifest;
 }
 
 /**
@@ -37,9 +55,53 @@ export class SqliteProgressionOperations {
     return this.store.backupTo(destinationPath);
   }
 
-  restoreFromBackup(sourcePath: string, destinationPath: string, policy: DurableOperationsPolicy): DurableProgressionBackupResult {
+  backupWithManifest(destinationPath: string, policy: DurableOperationsPolicy): DurableProgressionBackupEvidence {
+    const backup = this.backupTo(destinationPath, policy);
+    const policySnapshot = getDurableOperationsPolicySnapshot();
+    return {
+      backup,
+      manifest: {
+        manifestVersion: 1,
+        artifactKind: "sqlite-progression-backup",
+        provider: "sqlite",
+        schemaVersion: backup.schemaVersion,
+        bytes: backup.bytes,
+        sha256: backup.sha256,
+        createdAt: new Date().toISOString(),
+        retentionDays: policySnapshot.retentionDays ?? 0,
+        rawLearnerAudioExcluded: true,
+        learnerTranscriptsExcluded: true,
+      },
+    };
+  }
+
+  restoreFromBackup(
+    sourcePath: string,
+    destinationPath: string,
+    manifest: DurableProgressionBackupManifest,
+    policy: DurableOperationsPolicy,
+  ): DurableProgressionBackupResult {
+    return this.restoreWithManifest(sourcePath, destinationPath, manifest, policy);
+  }
+
+  restoreWithManifest(
+    sourcePath: string,
+    destinationPath: string,
+    manifest: DurableProgressionBackupManifest,
+    policy: DurableOperationsPolicy,
+  ): DurableProgressionBackupResult {
     assertOperationsAllowed(policy);
-    return SqliteStore.restoreFromBackup(sourcePath, destinationPath);
+    if (manifest.artifactKind !== "sqlite-progression-backup" || manifest.provider !== "sqlite") {
+      throw new Error("The backup manifest does not describe a SQLite progression backup.");
+    }
+    if (manifest.rawLearnerAudioExcluded !== true || manifest.learnerTranscriptsExcluded !== true) {
+      throw new Error("The backup manifest must exclude raw learner audio and learner transcripts.");
+    }
+    if (sha256File(sourcePath) !== manifest.sha256) {
+      throw new Error("The progression backup does not match its checksum manifest.");
+    }
+    const source = SqliteStore.restoreFromBackup(sourcePath, destinationPath);
+    return source;
   }
 
   deleteForIdentity(identity: DurableProgressionIdentity, policy: DurableOperationsPolicy): { deletedRecords: number } {

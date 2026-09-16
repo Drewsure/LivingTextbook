@@ -5,7 +5,8 @@
 Add a server-only operations layer around the first SQLite progression
 provider. It provides health diagnostics, policy-gated backup, policy-gated
 restore, and identity-scoped retention deletion. The browser receives only a
-teacher-safe status summary.
+teacher-safe status summary. Backups carry a SHA-256 manifest so restore
+evidence can prove that the reviewed file is the file being restored.
 
 ## Rationale
 
@@ -21,6 +22,10 @@ control, audit, and export policy are complete.
   release approvals.
 - Backup and restore are evidence procedures, not student-facing actions.
 - Deletion is scoped to the complete tenant/package/launch/session identity.
+- Backup manifests include a checksum, schema version, retention period, and
+  explicit raw-audio/transcript exclusion markers.
+- Restore rejects a checksum mismatch before the restored file is accepted as
+  evidence.
 - The status endpoint returns no learner records, credentials, database paths,
   raw audio, or transcripts.
 - The operations layer does not activate cloud launch, teacher exports, or

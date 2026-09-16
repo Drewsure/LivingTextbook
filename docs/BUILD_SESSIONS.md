@@ -3079,6 +3079,8 @@ evidence adapter later records. See ADR 0805 and DR-881.
 
 - Added server-only SQLite health diagnostics, backup, restore, and
   identity-scoped retention deletion operations.
+- Added SHA-256 backup manifests and restore checksum verification so recovery
+  evidence identifies the exact database artifact that was reviewed.
 - Added explicit operations, retention-period, school-policy, retention-policy,
   and release gates without exposing mutation controls to the browser.
 - Added a teacher-safe persistence status panel that returns no learner records,
