@@ -5241,3 +5241,11 @@ browser progression write is accepted only when that cookie matches every
 tenant-scoped identity field in the request. Teacher/server reads retain their
 separate server-only bearer authorization. Rehearsal mode remains available
 when durable deployment gates are off. See ADR 0814.
+
+# DR-887: Closed-Pilot Operations Boundary
+
+The first durable progression provider now has a server-only operations
+boundary for health, backup, restore, and retention deletion evidence. The
+operations gate requires explicit school-policy, retention-policy, and release
+approval settings. Deletion is identity-scoped and the teacher-facing status
+surface is deliberately redacted. See ADR 0815.

@@ -3074,3 +3074,15 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Verified live authentication, durable write, authorized read, and durable
   record mode preservation against a temporary SQLite database.
 - Added ADR 0814, DR-886, and the authenticated-session verification contract.
+
+## Build session 0815: Closed-pilot operations boundary
+
+- Added server-only SQLite health diagnostics, backup, restore, and
+  identity-scoped retention deletion operations.
+- Added explicit operations, retention-period, school-policy, retention-policy,
+  and release gates without exposing mutation controls to the browser.
+- Added a teacher-safe persistence status panel that returns no learner records,
+  database paths, credentials, raw audio, or transcripts.
+- Added backup/restore/deletion and cross-tenant isolation evidence in
+  `npm run verify:durable-operations`.
+- Added ADR 0815, DR-887, and the durable operations verification contract.

@@ -1,4 +1,4 @@
-import { mkdirSync } from "node:fs";
+import { copyFileSync, existsSync, mkdirSync, statSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { DatabaseSync } from "node:sqlite";
 import type { HostedProgressionPersistenceRecord } from "@living-textbook/content-model";
@@ -15,6 +15,20 @@ export interface DurableProgressionWriteResult {
   idempotent: boolean;
   record?: HostedProgressionPersistenceRecord;
   errors: string[];
+}
+
+export interface DurableProgressionHealth {
+  healthy: boolean;
+  schemaVersion: number;
+  journalMode: string;
+  synchronous: string;
+  errors: string[];
+}
+
+export interface DurableProgressionBackupResult {
+  destinationPath: string;
+  bytes: number;
+  schemaVersion: number;
 }
 
 interface StoredRow {
@@ -41,9 +55,11 @@ let cachedPath: string | undefined;
 export class SqliteProgressionStore {
   readonly provider = "sqlite" as const;
   private readonly database: DatabaseSync;
+  private readonly databasePath: string;
 
   constructor(databasePath = defaultDatabasePath) {
     const resolvedPath = resolve(databasePath);
+    this.databasePath = resolvedPath;
     mkdirSync(dirname(resolvedPath), { recursive: true });
     this.database = new DatabaseSync(resolvedPath);
     this.database.exec("PRAGMA foreign_keys = ON; PRAGMA journal_mode = WAL; PRAGMA synchronous = FULL; PRAGMA busy_timeout = 5000;");
@@ -122,6 +138,82 @@ export class SqliteProgressionStore {
     );
 
     return { status: "accepted", idempotent: false, record, errors: [] };
+  }
+
+  getHealth(): DurableProgressionHealth {
+    try {
+      const integrity = this.database.prepare("PRAGMA integrity_check").get() as { integrity_check?: string } | undefined;
+      const journal = this.database.prepare("PRAGMA journal_mode").get() as { journal_mode?: string } | undefined;
+      const synchronous = this.database.prepare("PRAGMA synchronous").get() as { synchronous?: string | number } | undefined;
+      const errors = integrity?.integrity_check === "ok" ? [] : ["SQLite integrity check did not return ok."];
+      return {
+        healthy: errors.length === 0,
+        schemaVersion: 1,
+        journalMode: journal?.journal_mode ?? "unknown",
+        synchronous: String(synchronous?.synchronous ?? "unknown"),
+        errors,
+      };
+    } catch {
+      return {
+        healthy: false,
+        schemaVersion: 1,
+        journalMode: "unknown",
+        synchronous: "unknown",
+        errors: ["SQLite health diagnostics could not be completed."],
+      };
+    }
+  }
+
+  backupTo(destinationPath: string): DurableProgressionBackupResult {
+    const resolvedDestination = resolve(destinationPath);
+    if (resolvedDestination === this.databasePath) throw new Error("A progression database cannot back up over itself.");
+    if (existsSync(resolvedDestination)) throw new Error("The backup destination already exists.");
+    mkdirSync(dirname(resolvedDestination), { recursive: true });
+    const escapedPath = resolvedDestination.replaceAll("'", "''");
+    this.database.exec(`VACUUM INTO '${escapedPath}'`);
+    return {
+      destinationPath: resolvedDestination,
+      bytes: statSync(resolvedDestination).size,
+      schemaVersion: 1,
+    };
+  }
+
+  deleteForIdentity(identity: DurableProgressionIdentity): { deletedRecords: number } {
+    const result = this.database.prepare(`
+      DELETE FROM hosted_progression_records
+      WHERE tenant_id = ? AND package_id = ? AND launch_code = ? AND student_session_id = ?
+    `).run(identity.tenantId, identity.packageId, identity.launchCode, identity.studentSessionId);
+    return { deletedRecords: Number(result.changes ?? 0) };
+  }
+
+  close(): void {
+    this.database.close();
+  }
+
+  static restoreFromBackup(sourcePath: string, destinationPath: string): DurableProgressionBackupResult {
+    const resolvedSource = resolve(sourcePath);
+    const resolvedDestination = resolve(destinationPath);
+    if (!existsSync(resolvedSource)) throw new Error("The progression backup does not exist.");
+    if (resolvedSource === resolvedDestination) throw new Error("A progression backup cannot restore over itself.");
+    if (existsSync(resolvedDestination)) throw new Error("The restore destination already exists.");
+
+    const source = new DatabaseSync(resolvedSource);
+    try {
+      const integrity = source.prepare("PRAGMA integrity_check").get() as { integrity_check?: string } | undefined;
+      if (integrity?.integrity_check !== "ok") throw new Error("The progression backup failed its SQLite integrity check.");
+      const table = source.prepare("SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'hosted_progression_records'").get() as { name?: string } | undefined;
+      if (table?.name !== "hosted_progression_records") throw new Error("The progression backup is missing the expected record table.");
+    } finally {
+      source.close();
+    }
+
+    mkdirSync(dirname(resolvedDestination), { recursive: true });
+    copyFileSync(resolvedSource, resolvedDestination);
+    return {
+      destinationPath: resolvedDestination,
+      bytes: statSync(resolvedDestination).size,
+      schemaVersion: 1,
+    };
   }
 }
 

@@ -284,3 +284,6 @@ upstream records and preserve the independent MiniStar support-language gate.
 `AUTHENTICATED_STUDENT_SESSION_CHECKS.md` protects the server-validated coded
 front-door session, HttpOnly cookie boundary, browser durable-write
 authorization, and cross-tenant isolation.
+
+`DURABLE_PROGRESSION_OPERATIONS_CHECKS.md` protects the closed-pilot health,
+backup, restore, retention-deletion, and redacted teacher-status boundary.

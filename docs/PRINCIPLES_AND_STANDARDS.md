@@ -3476,3 +3476,25 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-885 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-886 and
 `docs/adr/0814-authenticated-student-session-boundary.md`.
+
+## 230. Closed-Pilot Operations Boundary Standard
+
+- Durable progression is not pilot-operable until health, backup, restore, and
+  retention-deletion evidence can be repeated against the selected provider.
+- Backup and restore are server-side evidence procedures. They must not be
+  represented as a student-facing control or a browser shortcut.
+- Retention deletion must be explicit, policy-gated, and scoped to the full
+  tenant/package/launch/student-session identity. It must prove that another
+  tenant's record remains untouched.
+- Teacher-facing persistence status may show provider, durability, health,
+  policy readiness, and the configured retention period, but never learner
+  records, database paths, credentials, raw audio, or transcripts.
+- An operations gate is separate from the durable-write gate. It must require
+  school-policy acceptance, retention-policy acceptance, release approval, and
+  a positive retention period before backup, restore, or deletion evidence can
+  run.
+- These controls do not authorize cloud launch, report export, public sharing,
+  local package synchronization, or live student-data administration.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-887 and
+`docs/adr/0815-closed-pilot-operations-boundary.md`.

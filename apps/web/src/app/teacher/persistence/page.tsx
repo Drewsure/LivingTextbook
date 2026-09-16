@@ -29,6 +29,7 @@ import { EvidenceStorageAdapterSelectionGatePanel } from "@/features/evidence/Ev
 import { PersistenceAdapterReadinessPanel } from "@/features/persistence/PersistenceAdapterReadinessPanel";
 import { PersistenceBoundaryPanel } from "@/features/persistence/PersistenceBoundaryPanel";
 import { HostedProgressionAdapterPanel } from "@/features/persistence/HostedProgressionAdapterPanel";
+import { PersistenceOperationsStatusPanel } from "@/features/persistence/PersistenceOperationsStatusPanel";
 import { PilotBackendSelectionGatePanel } from "@/features/persistence/PilotBackendSelectionGatePanel";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 
@@ -98,6 +99,7 @@ export default function TeacherPersistencePage() {
             studentSessionId: "partner-demo-unit-1:sample-student",
           }}
         />
+        <PersistenceOperationsStatusPanel />
         <PersistenceBoundaryPanel
           boundaries={samplePersistenceBoundaries}
           strategyOptions={samplePersistenceStrategyOptions}
