@@ -5265,3 +5265,18 @@ diagnostics verify the chain, and the teacher-safe status surface reports only
 integrity state and verified count. This is an integrity signal for the closed
 pilot, not a substitute for authenticated access, encrypted storage, or an
 immutable external audit service. See ADR 0817.
+
+# DR-891: Canonical Memory Match Integration Gate
+
+Memory Match now has a focused integration gate that joins the active
+canonical pairing wrapper and route to the frozen MiniStar Phaser candidate
+review. The gate reports the candidate profile, frozen source provenance, and
+all required evidence lanes in one review-only surface.
+
+The gate remains blocked while wrapper, fixture, event, target-language audio,
+deterministic scoring, mobile/accessibility, or Codex decision evidence is
+missing. It explicitly blocks direct source import, route replacement,
+scene-owned scoring or persistence, package promotion, and student assignment.
+This is the point at which future Z.ai evidence work will be requested; it is
+not an approval to integrate the frozen source. See ADR 0819 and
+`docs/verification/CANONICAL_MEMORY_MATCH_INTEGRATION_GATE_CHECKS.md`.

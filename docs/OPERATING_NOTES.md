@@ -1394,3 +1394,9 @@ server on an available port, then set `ACTIVE_ROUTE_BASE_URL` to that exact
 base URL before running `npm run verify:routes`. This override changes only
 where the read-only checks look; it does not mutate routes, data, or release
 state.
+
+For the canonical Memory Match gate, use the same fresh-port procedure when
+the default port reports stale 500 responses. A fresh webpack server on an
+available port and `ACTIVE_ROUTE_BASE_URL` proved all 88 active routes on
+2026-09-17. See
+`docs/operating-notes/2026-09-17-memory-match-gate-and-fresh-route-verification.md`.

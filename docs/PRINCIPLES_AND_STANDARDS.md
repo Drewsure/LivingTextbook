@@ -3561,3 +3561,25 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-889 and
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-890,
 `docs/decision-register/DR-890-teacher-operations-authorization.md`, and
 `docs/adr/0818-teacher-operations-authorization.md`.
+
+## 234. Canonical Memory Match Integration Gate Standard
+
+- The active `PairingMemoryMatchGame` and `/memory/[code]` route remain the
+  canonical platform reference surface for Memory Match.
+- A frozen Z.ai/Phaser Memory Match candidate is evidence only until its
+  candidate profile, frozen provenance, wrapper, fixture, event, target-
+  language audio, deterministic scoring, mobile/accessibility, and Codex
+  decision lanes are all reviewed.
+- The external candidate must wrap the pairing engine and must not own unit
+  payload interpretation, audio manifest selection, scoring, Star Dust,
+  persistence, route registration, progression, or assignments.
+- The focused gate may be reviewed by teachers and engineers, but it cannot
+  approve a patch, import source, replace the canonical route, or create a
+  student assignment.
+- Z.ai engagement for returned-package work begins only after this gate has
+  a concrete evidence packet request. Until then, the next work remains
+  platform foundation hardening and canonical contract verification.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-891,
+`docs/decision-register/DR-891-canonical-memory-match-integration-gate.md`,
+and `docs/adr/0819-canonical-memory-match-integration-gate.md`.

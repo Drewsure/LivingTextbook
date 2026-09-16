@@ -3121,3 +3121,16 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Added read-only session discovery so an existing teacher session survives a
   page refresh without placing credentials or authorization state in browser
   storage.
+
+## Build session 0819: Canonical Memory Match integration gate
+
+- Added a focused review-only gate joining the active canonical Memory Match
+  wrapper and route to the frozen MiniStar Phaser candidate evidence.
+- Added nine explicit evidence lanes for profile, provenance, wrapper, fixture,
+  events, target-language audio, deterministic scoring, mobile/accessibility,
+  and Codex decision review.
+- Kept direct source import, route replacement, scene-owned state, package
+  promotion, and student assignment blocked.
+- Added `npm run verify:memory-match-gate` and included it in the canonical game
+  verification command.
+- Added ADR 0819, DR-891, and the focused verification contract.
