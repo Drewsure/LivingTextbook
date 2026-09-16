@@ -60,6 +60,7 @@ requireFragments("persistence route", route, [
   "getDurableProgressionStore().write(record)",
   "getDurableProgressionStore().read(lookup)",
   "hasPersistenceWriteAuthorization",
+  "hasPersistenceReadAuthorization",
   "Cache-Control",
 ]);
 

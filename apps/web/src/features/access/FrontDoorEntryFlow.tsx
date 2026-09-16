@@ -53,7 +53,7 @@ import { RewardPreviewCard } from "@/features/student/components/RewardPreviewCa
 import { LaunchContextSafetyCard } from "@/features/student/components/LaunchContextSafetyCard";
 import { FrontDoorTeacherReportPreview } from "./FrontDoorTeacherReportPreview";
 import { establishStudentSession } from "@/features/persistence/studentSessionClient";
-import { writeHostedProgressionContinuity } from "@/features/persistence/hostedProgressionPersistenceClient";
+import { readHostedProgressionContinuity, writeHostedProgressionContinuity } from "@/features/persistence/hostedProgressionPersistenceClient";
 import type { TenantConfig } from "@/features/tenant/types";
 import type { UnitGameOfferMap } from "@living-textbook/content-model";
 
@@ -101,6 +101,7 @@ export function FrontDoorEntryFlow({
   const completionAcceptedModesRef = useRef<Set<GameModeId>>(new Set());
   const [targetPracticeEngagedItemIds, setTargetPracticeEngagedItemIds] = useState<string[]>([]);
   const [studentSessionStatus, setStudentSessionStatus] = useState<"unknown" | "rehearsal-only" | "authenticated">("unknown");
+  const [durableHydrationStatus, setDurableHydrationStatus] = useState<"not-needed" | "pending" | "ready">("not-needed");
   const [openingUnit, setOpeningUnit] = useState(false);
   const microphonePracticeSettings = useTeacherMicrophonePracticeSettings(tenant);
   const targetLanguage = resolveTargetLanguage({
@@ -157,7 +158,33 @@ export function FrontDoorEntryFlow({
   const persistedContinuityIdsRef = useRef<Set<string>>(new Set());
 
   useEffect(() => {
-    if (!unitOpen || studentSessionStatus !== "authenticated" || sessionEvents.length === 0) return;
+    if (!unitOpen || studentSessionStatus !== "authenticated" || durableHydrationStatus !== "pending") return;
+
+    void readHostedProgressionContinuity({
+      tenantId: launchSession.tenantId,
+      packageId: contentPackage.meta.packageId,
+      launchCode: launchSession.launchCode,
+      studentSessionId: currentProgression.studentSessionId,
+    }).then((result) => {
+      if (result.status === "available" && result.record) {
+        setCurrentProgression((current) => ({
+          ...current,
+          ...result.record?.progression,
+          unlockedGameModes: (result.record?.progression.unlockedGameModes ?? current.unlockedGameModes) as GameModeId[],
+          completedGameModes: (result.record?.progression.completedGameModes ?? current.completedGameModes) as GameModeId[],
+        }));
+      } else if (result.status === "error") {
+        setEventContractErrors(result.errors.map((error) => `Durable progression read: ${error}`));
+      }
+      setDurableHydrationStatus("ready");
+    }).catch(() => {
+      setEventContractErrors(["Durable progression read could not be completed."]);
+      setDurableHydrationStatus("ready");
+    });
+  }, [contentPackage.meta.packageId, currentProgression.studentSessionId, durableHydrationStatus, launchSession, studentSessionStatus, unitOpen]);
+
+  useEffect(() => {
+    if (!unitOpen || studentSessionStatus !== "authenticated" || durableHydrationStatus !== "ready" || sessionEvents.length === 0) return;
 
     const continuity = createProgressionContinuityEnvelope({
       continuityId: `progression-${launchSession.launchCode}-${currentProgression.studentSessionId}-${sessionEvents.length}-${currentProgression.earnedStarDust}`,
@@ -229,6 +256,7 @@ export function FrontDoorEntryFlow({
       return;
     }
     setStudentSessionStatus(sessionResult.status);
+    setDurableHydrationStatus(sessionResult.status === "authenticated" ? "pending" : "not-needed");
 
     const normalizedUserCode = userCode.trim();
     const progressionForLearner: StudentProgressionState = normalizedUserCode

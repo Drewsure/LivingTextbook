@@ -80,7 +80,7 @@ export function GET(request: Request) {
 
   if (provider === "sqlite") {
     try {
-      if (!hasApiToken(request)) return json({ status: "unauthorized", provider: "sqlite", durability: "durable-managed", errors: ["Durable progression reads require a server-side persistence API token."] }, 401);
+      if (!hasPersistenceReadAuthorization(request, lookup)) return json({ status: "unauthorized", provider: "sqlite", durability: "durable-managed", errors: ["Durable progression reads require a matching signed student session or server-side persistence authorization."] }, 401);
       const record = getDurableProgressionStore().read(lookup);
       if (!record) return json({ status: "not-found", provider: "sqlite", durability: "durable-managed", errors: ["No durable progression record was found for this coded identity."] }, 404);
       return validateAndRespond(lookup, record, "sqlite", "durable-managed");
@@ -128,6 +128,20 @@ function hasPersistenceWriteAuthorization(request: Request, body: HostedProgress
     && claims.packageId === body.expectedPackageId
     && claims.launchCode === body.expectedLaunchCode
     && claims.studentSessionId === body.expectedStudentSessionId;
+}
+
+function hasPersistenceReadAuthorization(
+  request: Request,
+  lookup: { tenantId: string; packageId: string; launchCode: string; studentSessionId: string },
+): boolean {
+  if (hasApiToken(request)) return true;
+
+  const claims = readStudentSessionClaims(request);
+  return Boolean(claims)
+    && claims?.tenantId === lookup.tenantId
+    && claims.packageId === lookup.packageId
+    && claims.launchCode === lookup.launchCode
+    && claims.studentSessionId === lookup.studentSessionId;
 }
 
 function getDurableDeploymentPolicyErrors(): string[] {
