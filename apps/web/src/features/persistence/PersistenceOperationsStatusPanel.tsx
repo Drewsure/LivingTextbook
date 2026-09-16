@@ -34,6 +34,7 @@ export function PersistenceOperationsStatusPanel() {
         <Fact label="Provider" value={result?.provider ?? "Not checked"} />
         <Fact label="Durability" value={result?.durability ?? "Not checked"} />
         <Fact label="Session boundary" value={result ? (result.studentSessionBoundaryConfigured ? "Configured" : "Missing") : "Not checked"} />
+        <Fact label="Teacher review" value={result ? (result.teacherOperationsSessionBoundaryConfigured ? "Configured" : "Missing") : "Not checked"} />
         <Fact label="Retention" value={result?.operations?.retentionDays ? `${result.operations.retentionDays} days` : "Policy required"} />
         <Fact label="Evidence chain" value={result ? (result.operationEvidenceIntegrity?.healthy ? `${result.operationEvidenceIntegrity.checkedRecords} verified` : "Integrity issue") : "Not checked"} />
       </dl>

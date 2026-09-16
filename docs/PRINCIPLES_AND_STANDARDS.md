@@ -3536,3 +3536,25 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-888 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-889 and
 `docs/adr/0817-persistence-evidence-chain.md`.
+
+## 233. Tenant-Scoped Teacher Operations Authorization Standard
+
+- Persistence operation history must require a separate teacher authorization
+  boundary; a student session must never authorize teacher history.
+- The closed-pilot bridge uses a signed, expiring HttpOnly teacher session with
+  tenant identity, teacher role, and `persistence:read` scope.
+- Session issuance requires a server-only review code and an explicit tenant
+  allowlist. Production tenants must replace this bridge with an approved
+  identity provider without weakening tenant binding, expiry, or scope checks.
+- Every history request must name a tenant and return only receipts carrying
+  the matching one-way tenant scope digest. Platform-wide backup and restore
+  receipts remain platform-operator evidence, not tenant teacher evidence.
+- Teacher history stays read-only and metadata-only. No browser control may
+  back up, restore, delete, export, launch, repair, or mutate release state.
+- Missing or unscoped receipt attribution remains hidden rather than being
+  guessed. Access control is required in addition to redaction and tamper
+  evidence.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-890,
+`docs/decision-register/DR-890-teacher-operations-authorization.md`, and
+`docs/adr/0818-teacher-operations-authorization.md`.

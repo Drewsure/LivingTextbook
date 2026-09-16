@@ -12,6 +12,7 @@ export interface PersistenceStatusResult {
     errors: string[];
   };
   studentSessionBoundaryConfigured?: boolean;
+  teacherOperationsSessionBoundaryConfigured?: boolean;
   operations?: {
     enabled: boolean;
     ready: boolean;
@@ -36,6 +37,7 @@ export async function readPersistenceStatus(): Promise<PersistenceStatusResult> 
       synchronous: body.synchronous,
       operationEvidenceIntegrity: body.operationEvidenceIntegrity,
       studentSessionBoundaryConfigured: body.studentSessionBoundaryConfigured,
+      teacherOperationsSessionBoundaryConfigured: body.teacherOperationsSessionBoundaryConfigured,
       operations: body.operations,
       errors: body.errors ?? [],
       privacy: body.privacy,

@@ -31,6 +31,10 @@ const operations = read("apps/web/src/server/persistence/sqliteProgressionOperat
 const statusRoute = read("apps/web/src/app/api/persistence/status/route.ts");
 const statusPanel = read("apps/web/src/features/persistence/PersistenceOperationsStatusPanel.tsx");
 const operationsRoute = read("apps/web/src/app/api/persistence/operations/route.ts");
+const teacherSession = read("apps/web/src/server/persistence/teacherSessionCookie.ts");
+const teacherAuthorization = read("apps/web/src/server/persistence/teacherOperationsAuthorization.ts");
+const teacherSessionRoute = read("apps/web/src/app/api/teacher/session/route.ts");
+const teacherAccessPanel = read("apps/web/src/features/persistence/TeacherOperationsAccessPanel.tsx");
 const operationsPanel = read("apps/web/src/features/persistence/PersistenceOperationsEvidencePanel.tsx");
 const chainChecks = read("docs/verification/PERSISTENCE_EVIDENCE_CHAIN_CHECKS.md");
 const chainAdr = read("docs/adr/0817-persistence-evidence-chain.md");
@@ -53,6 +57,8 @@ requireFragments("SQLite operations store", store, [
   "evidence_hash",
   "createOperationEvidenceHash",
   "scope_digest",
+  "tenant_scope_digest",
+  "createTenantScopeDigest",
 ]);
 requireFragments("SQLite operations policy", operations, [
   "LIVING_TEXTBOOK_PERSISTENCE_ALLOW_OPERATIONS",
@@ -70,6 +76,7 @@ requireFragments("safe status route", statusRoute, [
   'runtime = "nodejs"',
   'dynamic = "force-dynamic"',
   "studentSessionBoundaryConfigured",
+  "teacherOperationsSessionBoundaryConfigured",
   "No learner records, database paths, credentials, raw audio, or transcripts",
   "Cache-Control",
 ]);
@@ -85,6 +92,36 @@ requireFragments("operations evidence route", operationsRoute, [
   "metadata only",
   "No learner records",
   "Cache-Control",
+  "hasTeacherOperationsReadAuthorization",
+  "tenantId",
+]);
+requireFragments("teacher session boundary", teacherSession, [
+  "TEACHER_SESSION_COOKIE",
+  "TEACHER_PERSISTENCE_READ_SCOPE",
+  "HttpOnly",
+  "LIVING_TEXTBOOK_TEACHER_SESSION_SECRET",
+  "LIVING_TEXTBOOK_TEACHER_REVIEW_CODE",
+  "expiresAt",
+]);
+requireFragments("teacher operations authorization", teacherAuthorization, [
+  "readTeacherSessionClaims",
+  "TEACHER_PERSISTENCE_READ_SCOPE",
+  "claims.tenantId === tenantId",
+  "LIVING_TEXTBOOK_PERSISTENCE_API_TOKEN",
+]);
+requireFragments("teacher session route", teacherSessionRoute, [
+  "POST",
+  "DELETE",
+  "isTeacherSessionConfigured",
+  "isTeacherReviewCodeValid",
+  "isTeacherTenantAllowed",
+  "setTeacherSessionCookie",
+  "clearTeacherSessionCookie",
+]);
+requireFragments("teacher access panel", teacherAccessPanel, [
+  "Tenant-scoped operations review",
+  "school-approved review code",
+  "Sign out",
 ]);
 requireFragments("operations evidence panel", operationsPanel, [
   "Read-only recovery history",
@@ -124,6 +161,7 @@ try {
       artifact_bytes INTEGER,
       retention_days INTEGER NOT NULL,
       scope_digest TEXT,
+      tenant_scope_digest TEXT,
       deleted_records INTEGER,
       previous_hash TEXT,
       evidence_hash TEXT
@@ -133,6 +171,7 @@ try {
     "tenant-a", "package-a", "launch-a", "student-a", "idempotency-a", "2026-09-16T00:00:00.000Z", JSON.stringify({ tenantId: "tenant-a" }),
   );
   const scopeDigest = createHash("sha256").update("tenant-a\u001fpackage-a\u001flaunch-a\u001fstudent-a").digest("hex");
+  const tenantScopeDigest = createHash("sha256").update("tenant-a").digest("hex");
   const evidenceHash = createHash("sha256").update(JSON.stringify({
     evidenceId: "ops-test",
     operation: "retention-delete",
@@ -145,10 +184,11 @@ try {
     scopeDigest,
     deletedRecords: 1,
     previousHash: null,
+    tenantScopeDigest,
   })).digest("hex");
-  db.prepare("INSERT INTO progression_operation_evidence VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)").run(
+  db.prepare("INSERT INTO progression_operation_evidence VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)").run(
     "ops-test", "retention-delete", "2026-09-16T00:00:02.000Z", "completed", 1, null, null, 30,
-    scopeDigest, 1, null, evidenceHash,
+    scopeDigest, tenantScopeDigest, 1, null, evidenceHash,
   );
   db.prepare("INSERT INTO hosted_progression_records VALUES (?, ?, ?, ?, ?, ?, ?)").run(
     "tenant-b", "package-b", "launch-b", "student-b", "idempotency-b", "2026-09-16T00:00:01.000Z", JSON.stringify({ tenantId: "tenant-b" }),
@@ -189,6 +229,7 @@ try {
     scopeDigest: evidence[0].scope_digest,
     deletedRecords: evidence[0].deleted_records,
     previousHash: null,
+    tenantScopeDigest: evidence[0].tenant_scope_digest,
   })).digest("hex");
   if (evidence[0].previous_hash !== null || evidence[0].evidence_hash !== expectedEvidenceHash) failures.push("operation evidence did not preserve its first chain hash");
   restored.prepare("UPDATE progression_operation_evidence SET deleted_records = 2 WHERE evidence_id = ?").run("ops-test");
@@ -205,6 +246,7 @@ try {
     scopeDigest,
     deletedRecords: 2,
     previousHash: null,
+    tenantScopeDigest,
   })).digest("hex");
   if (tampered.evidence_hash === tamperedExpectedHash) {
     failures.push("operation evidence tamper check did not detect a changed receipt");

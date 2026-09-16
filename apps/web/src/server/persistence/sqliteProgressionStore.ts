@@ -50,6 +50,7 @@ export interface DurableProgressionOperationEvidence {
   artifactBytes: number | null;
   retentionDays: number;
   scopeDigest: string | null;
+  tenantScopeDigest: string | null;
   deletedRecords: number | null;
   previousHash: string | null;
   evidenceHash: string;
@@ -63,6 +64,7 @@ interface StoredOperationEvidence {
   occurred_at: string;
   retention_days: number;
   scope_digest: string | null;
+  tenant_scope_digest: string | null;
   deleted_records: number | null;
   previous_hash: string | null;
   evidence_hash: string | null;
@@ -127,6 +129,7 @@ export class SqliteProgressionStore {
         artifact_bytes INTEGER,
         retention_days INTEGER NOT NULL,
         scope_digest TEXT,
+        tenant_scope_digest TEXT,
         deleted_records INTEGER,
         previous_hash TEXT,
         evidence_hash TEXT
@@ -141,6 +144,10 @@ export class SqliteProgressionStore {
     const columns = this.database.prepare("PRAGMA table_info(progression_operation_evidence)").all() as unknown as Array<{ name?: string }>;
     const names = new Set(columns.map((column) => column.name));
     let addedColumn = false;
+    if (!names.has("tenant_scope_digest")) {
+      this.database.exec("ALTER TABLE progression_operation_evidence ADD COLUMN tenant_scope_digest TEXT");
+      addedColumn = true;
+    }
     if (!names.has("previous_hash")) {
       this.database.exec("ALTER TABLE progression_operation_evidence ADD COLUMN previous_hash TEXT");
       addedColumn = true;
@@ -295,6 +302,7 @@ export class SqliteProgressionStore {
     artifactBytes?: number;
     retentionDays: number;
     scopeDigest?: string;
+    tenantScopeDigest?: string;
     deletedRecords?: number;
   }): DurableProgressionOperationEvidence {
     const evidence: DurableProgressionOperationEvidence = {
@@ -307,6 +315,7 @@ export class SqliteProgressionStore {
       artifactBytes: input.artifactBytes ?? null,
       retentionDays: input.retentionDays,
       scopeDigest: input.scopeDigest ?? null,
+      tenantScopeDigest: input.tenantScopeDigest ?? null,
       deletedRecords: input.deletedRecords ?? null,
       previousHash: (this.database.prepare("SELECT evidence_hash FROM progression_operation_evidence ORDER BY occurred_at DESC, evidence_id DESC LIMIT 1").get() as { evidence_hash?: string } | undefined)?.evidence_hash ?? null,
       evidenceHash: "",
@@ -322,6 +331,7 @@ export class SqliteProgressionStore {
         artifact_bytes: evidence.artifactBytes,
         retention_days: evidence.retentionDays,
         scope_digest: evidence.scopeDigest,
+        tenant_scope_digest: evidence.tenantScopeDigest,
         deleted_records: evidence.deletedRecords,
         previous_hash: evidence.previousHash,
         evidence_hash: null,
@@ -331,8 +341,8 @@ export class SqliteProgressionStore {
     this.database.prepare(`
       INSERT INTO progression_operation_evidence (
         evidence_id, operation, occurred_at, status, schema_version,
-        artifact_sha256, artifact_bytes, retention_days, scope_digest, deleted_records, previous_hash, evidence_hash
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        artifact_sha256, artifact_bytes, retention_days, scope_digest, tenant_scope_digest, deleted_records, previous_hash, evidence_hash
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `).run(
       evidence.evidenceId,
       evidence.operation,
@@ -343,6 +353,7 @@ export class SqliteProgressionStore {
       evidence.artifactBytes,
       evidence.retentionDays,
       evidence.scopeDigest,
+      evidence.tenantScopeDigest,
       evidence.deletedRecords,
       evidence.previousHash,
       evidence.evidenceHash,
@@ -350,9 +361,13 @@ export class SqliteProgressionStore {
     return evidence;
   }
 
-  listOperationEvidence(limit = 50): DurableProgressionOperationEvidence[] {
+  listOperationEvidence(limit = 50, tenantId?: string): DurableProgressionOperationEvidence[] {
     const boundedLimit = Math.max(1, Math.min(100, Math.trunc(limit)));
-    const rows = this.readOperationEvidenceRows().slice(-boundedLimit).reverse();
+    const tenantScopeDigest = tenantId ? createTenantScopeDigest(tenantId) : undefined;
+    const rows = this.readOperationEvidenceRows()
+      .filter((row) => !tenantScopeDigest || row.tenant_scope_digest === tenantScopeDigest)
+      .slice(-boundedLimit)
+      .reverse();
     return rows.map((row) => ({
       evidenceId: row.evidence_id,
       operation: row.operation,
@@ -363,6 +378,7 @@ export class SqliteProgressionStore {
       artifactBytes: row.artifact_bytes,
       retentionDays: row.retention_days,
       scopeDigest: row.scope_digest,
+      tenantScopeDigest: row.tenant_scope_digest,
       deletedRecords: row.deleted_records,
       previousHash: row.previous_hash,
       evidenceHash: row.evidence_hash ?? "",
@@ -373,7 +389,7 @@ export class SqliteProgressionStore {
     const rows = this.database.prepare(`
       SELECT evidence_id, operation, occurred_at, status, schema_version,
         artifact_sha256, artifact_bytes, retention_days, scope_digest, deleted_records,
-        previous_hash, evidence_hash
+        tenant_scope_digest, previous_hash, evidence_hash
       FROM progression_operation_evidence
       ORDER BY occurred_at ASC, evidence_id ASC
     `).all() as unknown as StoredOperationEvidence[];
@@ -417,7 +433,7 @@ export function sha256File(filePath: string): string {
 }
 
 function createOperationEvidenceHash(args: { row: StoredOperationEvidence; previousHash: string | null }): string {
-  return createHash("sha256").update(JSON.stringify({
+  const metadata: Record<string, unknown> = {
     evidenceId: args.row.evidence_id,
     operation: args.row.operation,
     occurredAt: args.row.occurred_at,
@@ -429,7 +445,13 @@ function createOperationEvidenceHash(args: { row: StoredOperationEvidence; previ
     scopeDigest: args.row.scope_digest,
     deletedRecords: args.row.deleted_records,
     previousHash: args.previousHash,
-  })).digest("hex");
+  };
+  if (args.row.tenant_scope_digest) metadata.tenantScopeDigest = args.row.tenant_scope_digest;
+  return createHash("sha256").update(JSON.stringify(metadata)).digest("hex");
+}
+
+export function createTenantScopeDigest(tenantId: string): string {
+  return createHash("sha256").update(tenantId).digest("hex");
 }
 
 export function getDurableProgressionStore(): SqliteProgressionStore {

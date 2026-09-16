@@ -13,6 +13,10 @@ export function GET() {
     ? getDurableProgressionStore().getHealth()
     : { healthy: true, schemaVersion: null, journalMode: null, synchronous: null, errors: [], operationEvidenceIntegrity: { healthy: true, checkedRecords: 0, errors: [] as string[] } };
   const studentSessionBoundaryConfigured = Boolean(process.env.LIVING_TEXTBOOK_STUDENT_SESSION_SECRET?.trim());
+  const teacherOperationsSessionBoundaryConfigured = Boolean(
+    process.env.LIVING_TEXTBOOK_TEACHER_SESSION_SECRET?.trim()
+      && process.env.LIVING_TEXTBOOK_TEACHER_REVIEW_CODE?.trim(),
+  );
   const errors = [
     ...health.errors,
     ...health.operationEvidenceIntegrity.errors,
@@ -29,6 +33,7 @@ export function GET() {
     synchronous: health.synchronous,
     operationEvidenceIntegrity: health.operationEvidenceIntegrity,
     studentSessionBoundaryConfigured,
+    teacherOperationsSessionBoundaryConfigured,
     operations: {
       enabled: policy.operationsEnabled,
       ready: durable && policy.errors.length === 0,

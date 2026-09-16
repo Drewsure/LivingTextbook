@@ -3107,3 +3107,14 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Added teacher-safe integrity state and verified-receipt count without adding
   browser mutation controls.
 - Added ADR 0817, DR-889, and the persistence evidence chain checks.
+
+## Build session 0818: Tenant-scoped teacher operations authorization
+
+- Added a separate signed, expiring teacher review session with the
+  `persistence:read` scope and explicit tenant allowlist.
+- Protected the read-only operations history route from unauthenticated and
+  cross-tenant access without reusing the student session cookie.
+- Added one-way tenant attribution to retention receipts and hid platform-wide
+  backup/restore receipts from tenant teacher responses.
+- Added teacher review sign-in/sign-out controls, configuration status, ADR
+  0818, DR-890, and focused authorization verification.

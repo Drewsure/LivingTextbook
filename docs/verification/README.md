@@ -293,3 +293,7 @@ receipts, one-way scope digests, and the read-only teacher history boundary.
 
 `PERSISTENCE_EVIDENCE_CHAIN_CHECKS.md` protects chained receipt hashes,
 backfill behavior, tamper detection, and teacher-safe integrity reporting.
+
+`TEACHER_OPERATIONS_AUTHORIZATION_CHECKS.md` protects the separate expiring
+teacher session, tenant allowlist, tenant-filtered operation history, and
+read-only browser boundary.

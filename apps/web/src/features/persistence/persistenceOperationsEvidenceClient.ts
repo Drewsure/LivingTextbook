@@ -12,15 +12,15 @@ export interface PersistenceOperationEvidence {
 }
 
 export interface PersistenceOperationsEvidenceResult {
-  status: "available" | "rehearsal" | "unavailable" | "error";
+  status: "available" | "rehearsal" | "unavailable" | "unauthorized" | "error";
   records: PersistenceOperationEvidence[];
   errors: string[];
   privacy?: string;
 }
 
-export async function readPersistenceOperationsEvidence(): Promise<PersistenceOperationsEvidenceResult> {
+export async function readPersistenceOperationsEvidence(tenantId: string): Promise<PersistenceOperationsEvidenceResult> {
   try {
-    const response = await fetch("/api/persistence/operations?limit=25", { method: "GET", cache: "no-store" });
+    const response = await fetch(`/api/persistence/operations?limit=25&tenantId=${encodeURIComponent(tenantId)}`, { method: "GET", cache: "no-store" });
     const body = await response.json() as Partial<PersistenceOperationsEvidenceResult>;
     return {
       status: body.status ?? (response.ok ? "available" : "unavailable"),

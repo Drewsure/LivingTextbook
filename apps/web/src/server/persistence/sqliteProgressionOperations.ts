@@ -6,7 +6,7 @@ import type {
   DurableProgressionOperationEvidence,
   SqliteProgressionStore,
 } from "./sqliteProgressionStore";
-import { getDurableProgressionStore, sha256File, SqliteProgressionStore as SqliteStore } from "./sqliteProgressionStore";
+import { createTenantScopeDigest, getDurableProgressionStore, sha256File, SqliteProgressionStore as SqliteStore } from "./sqliteProgressionStore";
 
 export interface DurableOperationsPolicy {
   schoolPolicyAccepted: boolean;
@@ -127,6 +127,7 @@ export class SqliteProgressionOperations {
       operation: "retention-delete",
       retentionDays: getDurableOperationsPolicySnapshot().retentionDays ?? 0,
       scopeDigest: sha256Scope(identity),
+      tenantScopeDigest: createTenantScopeDigest(identity.tenantId),
       deletedRecords: result.deletedRecords,
     });
     return result;

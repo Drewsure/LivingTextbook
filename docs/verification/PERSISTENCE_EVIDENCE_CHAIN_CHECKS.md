@@ -12,5 +12,11 @@ operation receipts.
   unhealthy.
 - Teacher status may show verified receipt count and integrity state, but not
   the learner payload or any mutation controls.
+- Tenant teacher history must require a separate expiring teacher session with
+  the `persistence:read` scope and an explicit tenant allowlist. The student
+  session cookie must never authorize teacher history.
+- Tenant history may contain only receipts carrying the matching one-way tenant
+  scope digest; platform-wide backup and restore receipts remain hidden from
+  tenant teachers.
 - This chain is tamper-evident, not a replacement for access control, encrypted
   storage, external backup custody, or an immutable audit service.
