@@ -3448,8 +3448,9 @@ rule is recorded in DR-881 and `docs/adr/0805-synchronous-event-append-boundary.
   Rehearsal process memory must remain visibly separate and non-durable.
 - Every stored progression record must preserve tenant, package, launch, and
   coded student-session identity in the storage key, with idempotency protection.
-- Durable writes require explicit provider selection, school/tenant policy,
-  retention-policy acceptance, release approval, and a server-only token.
+- Durable writes require explicit provider selection, server-side school/tenant
+  policy, retention-policy, and release-approval gates, plus either a matching
+  signed student session or a server-only token for service-to-service access.
 - Raw learner audio, learner transcripts, support-language evidence, and
   media-only evidence remain excluded from progression records.
 - A cloud provider is not production-ready until authentication, encryption,

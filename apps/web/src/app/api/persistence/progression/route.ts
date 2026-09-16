@@ -39,6 +39,10 @@ export async function POST(request: Request) {
     if (process.env.LIVING_TEXTBOOK_PERSISTENCE_ALLOW_DURABLE_WRITES !== "true") {
       return json({ status: "blocked", provider: "sqlite", durability: "durable-managed", errors: ["Durable progression writes require the explicit deployment write gate."] }, 423);
     }
+    const deploymentPolicyErrors = getDurableDeploymentPolicyErrors();
+    if (deploymentPolicyErrors.length > 0) {
+      return json({ status: "blocked", provider: "sqlite", durability: "durable-managed", errors: deploymentPolicyErrors }, 423);
+    }
     if (!hasPersistenceWriteAuthorization(request, body)) {
       return json({ status: "unauthorized", provider: "sqlite", durability: "durable-managed", errors: ["Durable progression writes require a matching signed student session or server-side persistence authorization."] }, 401);
     }
@@ -124,6 +128,17 @@ function hasPersistenceWriteAuthorization(request: Request, body: HostedProgress
     && claims.packageId === body.expectedPackageId
     && claims.launchCode === body.expectedLaunchCode
     && claims.studentSessionId === body.expectedStudentSessionId;
+}
+
+function getDurableDeploymentPolicyErrors(): string[] {
+  const requiredGates = [
+    ["LIVING_TEXTBOOK_PERSISTENCE_SCHOOL_POLICY_ACCEPTED", "Durable progression writes require the deployment school-policy gate."] as const,
+    ["LIVING_TEXTBOOK_PERSISTENCE_RETENTION_POLICY_ACCEPTED", "Durable progression writes require the deployment retention-policy gate."] as const,
+    ["LIVING_TEXTBOOK_PERSISTENCE_RELEASE_APPROVED", "Durable progression writes require the deployment release-approval gate."] as const,
+  ];
+  return requiredGates
+    .filter(([variable]) => process.env[variable] !== "true")
+    .map(([, message]) => message);
 }
 
 function json(body: unknown, status = 200) {

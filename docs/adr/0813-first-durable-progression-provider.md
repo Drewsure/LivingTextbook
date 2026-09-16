@@ -21,7 +21,8 @@ Durable writes require all of the following:
 - explicit school/tenant policy acceptance;
 - explicit retention-policy acceptance;
 - release approval; and
-- a server-only bearer token.
+- either a matching signed student session for browser writes or a server-only
+  bearer token for service-to-service access.
 
 The browser must never receive the persistence token. Rehearsal mode remains
 available for demos and continues to use process memory only. SQLite files are

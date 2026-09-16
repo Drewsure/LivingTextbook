@@ -5229,8 +5229,8 @@ The first real persistence slice now uses a server-only SQLite adapter behind
 the typed hosted progression contract. It is durable across process restarts,
 tenant-scoped by composite identity, idempotent by continuity id, and guarded
 by explicit provider, write, school-policy, retention, release, and
-server-token gates. Process-memory rehearsal remains separate and is never
-described as learner-data persistence. See ADR 0813.
+server-side authorization gates. Process-memory rehearsal remains separate and
+is never described as learner-data persistence. See ADR 0813.
 
 # DR-886: Authenticated Student Session Boundary
 
