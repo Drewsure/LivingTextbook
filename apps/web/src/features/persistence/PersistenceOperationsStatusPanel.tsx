@@ -35,6 +35,7 @@ export function PersistenceOperationsStatusPanel() {
         <Fact label="Durability" value={result?.durability ?? "Not checked"} />
         <Fact label="Session boundary" value={result ? (result.studentSessionBoundaryConfigured ? "Configured" : "Missing") : "Not checked"} />
         <Fact label="Retention" value={result?.operations?.retentionDays ? `${result.operations.retentionDays} days` : "Policy required"} />
+        <Fact label="Evidence chain" value={result ? (result.operationEvidenceIntegrity?.healthy ? `${result.operationEvidenceIntegrity.checkedRecords} verified` : "Integrity issue") : "Not checked"} />
       </dl>
 
       <div className="mt-5 flex flex-wrap items-center gap-3">
@@ -55,6 +56,7 @@ export function PersistenceOperationsStatusPanel() {
           {result.operations?.ready ? <p className="mt-1 text-[var(--tenant-muted)]">Backup, restore, and deletion evidence may run only through the gated server-side operations procedure.</p> : null}
           {result.errors.length > 0 ? <p className="mt-1 text-[var(--tenant-muted)]">{result.errors[0]}</p> : null}
           {result.operations?.errors.length ? <p className="mt-1 text-[var(--tenant-muted)]">{result.operations.errors[0]}</p> : null}
+          {result.operationEvidenceIntegrity?.errors.length ? <p className="mt-1 text-[var(--tenant-muted)]">{result.operationEvidenceIntegrity.errors[0]}</p> : null}
           <p className="mt-2 text-xs font-semibold text-[var(--tenant-muted)]">No learner records or sensitive media are returned by this check.</p>
         </div>
       ) : null}

@@ -24,6 +24,11 @@ export interface DurableProgressionHealth {
   journalMode: string;
   synchronous: string;
   errors: string[];
+  operationEvidenceIntegrity: {
+    healthy: boolean;
+    checkedRecords: number;
+    errors: string[];
+  };
 }
 
 export interface DurableProgressionBackupResult {
@@ -46,15 +51,21 @@ export interface DurableProgressionOperationEvidence {
   retentionDays: number;
   scopeDigest: string | null;
   deletedRecords: number | null;
+  previousHash: string | null;
+  evidenceHash: string;
 }
 
-interface StoredOperationEvidence extends DurableProgressionOperationEvidence {
+interface StoredOperationEvidence {
+  operation: DurableProgressionOperation;
+  status: "completed";
   artifact_sha256: string | null;
   artifact_bytes: number | null;
   occurred_at: string;
   retention_days: number;
   scope_digest: string | null;
   deleted_records: number | null;
+  previous_hash: string | null;
+  evidence_hash: string | null;
   evidence_id: string;
   schema_version: number;
 }
@@ -116,11 +127,41 @@ export class SqliteProgressionStore {
         artifact_bytes INTEGER,
         retention_days INTEGER NOT NULL,
         scope_digest TEXT,
-        deleted_records INTEGER
+        deleted_records INTEGER,
+        previous_hash TEXT,
+        evidence_hash TEXT
       ) STRICT;
       CREATE INDEX IF NOT EXISTS idx_progression_operation_evidence_time
         ON progression_operation_evidence (occurred_at DESC);
     `);
+    if (this.ensureOperationEvidenceHashColumns()) this.backfillOperationEvidenceHashes();
+  }
+
+  private ensureOperationEvidenceHashColumns(): boolean {
+    const columns = this.database.prepare("PRAGMA table_info(progression_operation_evidence)").all() as unknown as Array<{ name?: string }>;
+    const names = new Set(columns.map((column) => column.name));
+    let addedColumn = false;
+    if (!names.has("previous_hash")) {
+      this.database.exec("ALTER TABLE progression_operation_evidence ADD COLUMN previous_hash TEXT");
+      addedColumn = true;
+    }
+    if (!names.has("evidence_hash")) {
+      this.database.exec("ALTER TABLE progression_operation_evidence ADD COLUMN evidence_hash TEXT");
+      addedColumn = true;
+    }
+    return addedColumn;
+  }
+
+  private backfillOperationEvidenceHashes(): void {
+    const rows = this.readOperationEvidenceRows();
+    let previousHash: string | null = null;
+    for (const row of rows) {
+      const evidenceHash = createOperationEvidenceHash({ row, previousHash });
+      if (row.previous_hash !== previousHash || row.evidence_hash !== evidenceHash) {
+        this.database.prepare("UPDATE progression_operation_evidence SET previous_hash = ?, evidence_hash = ? WHERE evidence_id = ?").run(previousHash, evidenceHash, row.evidence_id);
+      }
+      previousHash = evidenceHash;
+    }
   }
 
   read(identity: DurableProgressionIdentity): HostedProgressionPersistenceRecord | undefined {
@@ -194,6 +235,7 @@ export class SqliteProgressionStore {
         journalMode: journal?.journal_mode ?? "unknown",
         synchronous: String(synchronous?.synchronous ?? "unknown"),
         errors,
+        operationEvidenceIntegrity: this.getOperationEvidenceIntegrity(),
       };
     } catch {
       return {
@@ -202,7 +244,25 @@ export class SqliteProgressionStore {
         journalMode: "unknown",
         synchronous: "unknown",
         errors: ["SQLite health diagnostics could not be completed."],
+        operationEvidenceIntegrity: { healthy: false, checkedRecords: 0, errors: ["Operation evidence integrity could not be checked."] },
       };
+    }
+  }
+
+  getOperationEvidenceIntegrity(): { healthy: boolean; checkedRecords: number; errors: string[] } {
+    try {
+      const rows = this.readOperationEvidenceRows();
+      const errors: string[] = [];
+      let previousHash: string | null = null;
+      for (const row of rows) {
+        const expectedHash = createOperationEvidenceHash({ row, previousHash });
+        if (row.previous_hash !== previousHash) errors.push(`Operation evidence ${row.evidence_id} has an invalid previous hash.`);
+        if (row.evidence_hash !== expectedHash) errors.push(`Operation evidence ${row.evidence_id} has an invalid evidence hash.`);
+        previousHash = expectedHash;
+      }
+      return { healthy: errors.length === 0, checkedRecords: rows.length, errors };
+    } catch {
+      return { healthy: false, checkedRecords: 0, errors: ["Operation evidence integrity check could not be completed."] };
     }
   }
 
@@ -248,12 +308,31 @@ export class SqliteProgressionStore {
       retentionDays: input.retentionDays,
       scopeDigest: input.scopeDigest ?? null,
       deletedRecords: input.deletedRecords ?? null,
+      previousHash: (this.database.prepare("SELECT evidence_hash FROM progression_operation_evidence ORDER BY occurred_at DESC, evidence_id DESC LIMIT 1").get() as { evidence_hash?: string } | undefined)?.evidence_hash ?? null,
+      evidenceHash: "",
     };
+    evidence.evidenceHash = createOperationEvidenceHash({
+      row: {
+        evidence_id: evidence.evidenceId,
+        operation: evidence.operation,
+        occurred_at: evidence.occurredAt,
+        status: evidence.status,
+        schema_version: evidence.schemaVersion,
+        artifact_sha256: evidence.artifactSha256,
+        artifact_bytes: evidence.artifactBytes,
+        retention_days: evidence.retentionDays,
+        scope_digest: evidence.scopeDigest,
+        deleted_records: evidence.deletedRecords,
+        previous_hash: evidence.previousHash,
+        evidence_hash: null,
+      },
+      previousHash: evidence.previousHash,
+    });
     this.database.prepare(`
       INSERT INTO progression_operation_evidence (
         evidence_id, operation, occurred_at, status, schema_version,
-        artifact_sha256, artifact_bytes, retention_days, scope_digest, deleted_records
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        artifact_sha256, artifact_bytes, retention_days, scope_digest, deleted_records, previous_hash, evidence_hash
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `).run(
       evidence.evidenceId,
       evidence.operation,
@@ -265,19 +344,15 @@ export class SqliteProgressionStore {
       evidence.retentionDays,
       evidence.scopeDigest,
       evidence.deletedRecords,
+      evidence.previousHash,
+      evidence.evidenceHash,
     );
     return evidence;
   }
 
   listOperationEvidence(limit = 50): DurableProgressionOperationEvidence[] {
     const boundedLimit = Math.max(1, Math.min(100, Math.trunc(limit)));
-    const rows = this.database.prepare(`
-      SELECT evidence_id, operation, occurred_at, status, schema_version,
-        artifact_sha256, artifact_bytes, retention_days, scope_digest, deleted_records
-      FROM progression_operation_evidence
-      ORDER BY occurred_at DESC
-      LIMIT ?
-    `).all(boundedLimit) as unknown as StoredOperationEvidence[];
+    const rows = this.readOperationEvidenceRows().slice(-boundedLimit).reverse();
     return rows.map((row) => ({
       evidenceId: row.evidence_id,
       operation: row.operation,
@@ -289,7 +364,20 @@ export class SqliteProgressionStore {
       retentionDays: row.retention_days,
       scopeDigest: row.scope_digest,
       deletedRecords: row.deleted_records,
+      previousHash: row.previous_hash,
+      evidenceHash: row.evidence_hash ?? "",
     }));
+  }
+
+  private readOperationEvidenceRows(): StoredOperationEvidence[] {
+    const rows = this.database.prepare(`
+      SELECT evidence_id, operation, occurred_at, status, schema_version,
+        artifact_sha256, artifact_bytes, retention_days, scope_digest, deleted_records,
+        previous_hash, evidence_hash
+      FROM progression_operation_evidence
+      ORDER BY occurred_at ASC, evidence_id ASC
+    `).all() as unknown as StoredOperationEvidence[];
+    return rows;
   }
 
   close(): void {
@@ -326,6 +414,22 @@ export class SqliteProgressionStore {
 
 export function sha256File(filePath: string): string {
   return createHash("sha256").update(readFileSync(filePath)).digest("hex");
+}
+
+function createOperationEvidenceHash(args: { row: StoredOperationEvidence; previousHash: string | null }): string {
+  return createHash("sha256").update(JSON.stringify({
+    evidenceId: args.row.evidence_id,
+    operation: args.row.operation,
+    occurredAt: args.row.occurred_at,
+    status: args.row.status,
+    schemaVersion: args.row.schema_version,
+    artifactSha256: args.row.artifact_sha256,
+    artifactBytes: args.row.artifact_bytes,
+    retentionDays: args.row.retention_days,
+    scopeDigest: args.row.scope_digest,
+    deletedRecords: args.row.deleted_records,
+    previousHash: args.previousHash,
+  })).digest("hex");
 }
 
 export function getDurableProgressionStore(): SqliteProgressionStore {

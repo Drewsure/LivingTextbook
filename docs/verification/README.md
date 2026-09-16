@@ -290,3 +290,6 @@ backup, restore, retention-deletion, and redacted teacher-status boundary.
 
 `PERSISTENCE_OPERATIONS_EVIDENCE_CHECKS.md` protects metadata-only operation
 receipts, one-way scope digests, and the read-only teacher history boundary.
+
+`PERSISTENCE_EVIDENCE_CHAIN_CHECKS.md` protects chained receipt hashes,
+backfill behavior, tamper detection, and teacher-safe integrity reporting.

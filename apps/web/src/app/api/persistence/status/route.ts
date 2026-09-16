@@ -11,10 +11,11 @@ export function GET() {
   const policy = getDurableOperationsPolicySnapshot();
   const health = durable
     ? getDurableProgressionStore().getHealth()
-    : { healthy: true, schemaVersion: null, journalMode: null, synchronous: null, errors: [] as string[] };
+    : { healthy: true, schemaVersion: null, journalMode: null, synchronous: null, errors: [], operationEvidenceIntegrity: { healthy: true, checkedRecords: 0, errors: [] as string[] } };
   const studentSessionBoundaryConfigured = Boolean(process.env.LIVING_TEXTBOOK_STUDENT_SESSION_SECRET?.trim());
   const errors = [
     ...health.errors,
+    ...health.operationEvidenceIntegrity.errors,
     ...(durable && !studentSessionBoundaryConfigured ? ["Signed student session boundary is not configured."] : []),
   ];
 
@@ -22,10 +23,11 @@ export function GET() {
     status: errors.length === 0 && (!durable || policy.errors.length === 0) ? "healthy" : durable ? "blocked" : "rehearsal",
     provider,
     durability: durable ? "durable-managed" : "non-durable-rehearsal",
-    healthy: health.healthy && errors.length === 0,
+    healthy: health.healthy && health.operationEvidenceIntegrity.healthy && errors.length === 0,
     schemaVersion: health.schemaVersion,
     journalMode: health.journalMode,
     synchronous: health.synchronous,
+    operationEvidenceIntegrity: health.operationEvidenceIntegrity,
     studentSessionBoundaryConfigured,
     operations: {
       enabled: policy.operationsEnabled,

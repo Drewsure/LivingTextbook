@@ -6,6 +6,11 @@ export interface PersistenceStatusResult {
   schemaVersion?: number | null;
   journalMode?: string | null;
   synchronous?: string | null;
+  operationEvidenceIntegrity?: {
+    healthy: boolean;
+    checkedRecords: number;
+    errors: string[];
+  };
   studentSessionBoundaryConfigured?: boolean;
   operations?: {
     enabled: boolean;
@@ -29,6 +34,7 @@ export async function readPersistenceStatus(): Promise<PersistenceStatusResult> 
       schemaVersion: body.schemaVersion,
       journalMode: body.journalMode,
       synchronous: body.synchronous,
+      operationEvidenceIntegrity: body.operationEvidenceIntegrity,
       studentSessionBoundaryConfigured: body.studentSessionBoundaryConfigured,
       operations: body.operations,
       errors: body.errors ?? [],

@@ -3098,3 +3098,12 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Added a read-only teacher operation-history panel and route with no browser
   mutation controls.
 - Added ADR 0816, DR-888, and the persistence operations evidence checks.
+
+## Build session 0817: Persistence evidence chain
+
+- Added chained previous/evidence hashes to metadata-only persistence
+  operation receipts.
+- Added safe schema migration/backfill and health-time chain verification.
+- Added teacher-safe integrity state and verified-receipt count without adding
+  browser mutation controls.
+- Added ADR 0817, DR-889, and the persistence evidence chain checks.

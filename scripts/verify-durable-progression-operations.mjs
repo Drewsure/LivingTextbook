@@ -32,6 +32,8 @@ const statusRoute = read("apps/web/src/app/api/persistence/status/route.ts");
 const statusPanel = read("apps/web/src/features/persistence/PersistenceOperationsStatusPanel.tsx");
 const operationsRoute = read("apps/web/src/app/api/persistence/operations/route.ts");
 const operationsPanel = read("apps/web/src/features/persistence/PersistenceOperationsEvidencePanel.tsx");
+const chainChecks = read("docs/verification/PERSISTENCE_EVIDENCE_CHAIN_CHECKS.md");
+const chainAdr = read("docs/adr/0817-persistence-evidence-chain.md");
 const envExample = read(".env.example");
 
 requireFragments("SQLite operations store", store, [
@@ -46,6 +48,10 @@ requireFragments("SQLite operations store", store, [
   "progression_operation_evidence",
   "recordOperationEvidence",
   "listOperationEvidence",
+  "getOperationEvidenceIntegrity",
+  "previous_hash",
+  "evidence_hash",
+  "createOperationEvidenceHash",
   "scope_digest",
 ]);
 requireFragments("SQLite operations policy", operations, [
@@ -90,6 +96,8 @@ requireFragments("operations environment", envExample, [
   "LIVING_TEXTBOOK_PERSISTENCE_ALLOW_OPERATIONS=false",
   "LIVING_TEXTBOOK_PERSISTENCE_RETENTION_DAYS=30",
 ]);
+requireFragments("evidence chain checks", chainChecks, ["tamper-evident chain", "Health diagnostics", "npm run verify:durable-operations"]);
+requireFragments("evidence chain ADR", chainAdr, ["tamper-evident hash chain", "backfill", "teacher-safe status"]);
 
 try {
   const db = new DatabaseSync(sourcePath);
@@ -116,15 +124,31 @@ try {
       artifact_bytes INTEGER,
       retention_days INTEGER NOT NULL,
       scope_digest TEXT,
-      deleted_records INTEGER
+      deleted_records INTEGER,
+      previous_hash TEXT,
+      evidence_hash TEXT
     ) STRICT;
   `);
   db.prepare("INSERT INTO hosted_progression_records VALUES (?, ?, ?, ?, ?, ?, ?)").run(
     "tenant-a", "package-a", "launch-a", "student-a", "idempotency-a", "2026-09-16T00:00:00.000Z", JSON.stringify({ tenantId: "tenant-a" }),
   );
-  db.prepare("INSERT INTO progression_operation_evidence VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)").run(
+  const scopeDigest = createHash("sha256").update("tenant-a\u001fpackage-a\u001flaunch-a\u001fstudent-a").digest("hex");
+  const evidenceHash = createHash("sha256").update(JSON.stringify({
+    evidenceId: "ops-test",
+    operation: "retention-delete",
+    occurredAt: "2026-09-16T00:00:02.000Z",
+    status: "completed",
+    schemaVersion: 1,
+    artifactSha256: null,
+    artifactBytes: null,
+    retentionDays: 30,
+    scopeDigest,
+    deletedRecords: 1,
+    previousHash: null,
+  })).digest("hex");
+  db.prepare("INSERT INTO progression_operation_evidence VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)").run(
     "ops-test", "retention-delete", "2026-09-16T00:00:02.000Z", "completed", 1, null, null, 30,
-    createHash("sha256").update("tenant-a\u001fpackage-a\u001flaunch-a\u001fstudent-a").digest("hex"), 1,
+    scopeDigest, 1, null, evidenceHash,
   );
   db.prepare("INSERT INTO hosted_progression_records VALUES (?, ?, ?, ?, ?, ?, ?)").run(
     "tenant-b", "package-b", "launch-b", "student-b", "idempotency-b", "2026-09-16T00:00:01.000Z", JSON.stringify({ tenantId: "tenant-b" }),
@@ -153,6 +177,38 @@ try {
   const evidence = restored.prepare("SELECT * FROM progression_operation_evidence").all();
   if (evidence.length !== 1 || evidence[0].scope_digest?.length !== 64) failures.push("operation evidence did not preserve a one-way scope digest");
   if (JSON.stringify(evidence).includes("student-a")) failures.push("operation evidence leaked a raw student-session identifier");
+  const expectedEvidenceHash = createHash("sha256").update(JSON.stringify({
+    evidenceId: evidence[0].evidence_id,
+    operation: evidence[0].operation,
+    occurredAt: evidence[0].occurred_at,
+    status: evidence[0].status,
+    schemaVersion: evidence[0].schema_version,
+    artifactSha256: evidence[0].artifact_sha256,
+    artifactBytes: evidence[0].artifact_bytes,
+    retentionDays: evidence[0].retention_days,
+    scopeDigest: evidence[0].scope_digest,
+    deletedRecords: evidence[0].deleted_records,
+    previousHash: null,
+  })).digest("hex");
+  if (evidence[0].previous_hash !== null || evidence[0].evidence_hash !== expectedEvidenceHash) failures.push("operation evidence did not preserve its first chain hash");
+  restored.prepare("UPDATE progression_operation_evidence SET deleted_records = 2 WHERE evidence_id = ?").run("ops-test");
+  const tampered = restored.prepare("SELECT evidence_hash FROM progression_operation_evidence WHERE evidence_id = ?").get("ops-test");
+  const tamperedExpectedHash = createHash("sha256").update(JSON.stringify({
+    evidenceId: "ops-test",
+    operation: "retention-delete",
+    occurredAt: "2026-09-16T00:00:02.000Z",
+    status: "completed",
+    schemaVersion: 1,
+    artifactSha256: null,
+    artifactBytes: null,
+    retentionDays: 30,
+    scopeDigest,
+    deletedRecords: 2,
+    previousHash: null,
+  })).digest("hex");
+  if (tampered.evidence_hash === tamperedExpectedHash) {
+    failures.push("operation evidence tamper check did not detect a changed receipt");
+  }
   restored.close();
 } catch (error) {
   failures.push(`SQLite operations smoke test failed: ${error instanceof Error ? error.message : String(error)}`);

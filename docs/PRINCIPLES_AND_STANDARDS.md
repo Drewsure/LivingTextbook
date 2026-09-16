@@ -3518,3 +3518,21 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-887 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-888 and
 `docs/adr/0816-persistence-operations-evidence-ledger.md`.
+
+## 232. Persistence Evidence Chain Standard
+
+- Every completed persistence operation receipt must preserve a previous hash
+  and canonical evidence hash so silent metadata edits are detectable.
+- Hashes cover metadata only; raw student-session identifiers, progression
+  payloads, raw audio, transcripts, credentials, and database paths remain
+  prohibited.
+- Store initialization must migrate and backfill existing receipts safely, and
+  health diagnostics must report a failed chain as unhealthy.
+- Teacher status may show integrity state and verified receipt count, but the
+  browser must not repair, rewrite, delete, restore, export, or launch from
+  the evidence surface.
+- The chain is an integrity signal, not a replacement for access control,
+  encryption, external backup custody, or immutable audit storage.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-889 and
+`docs/adr/0817-persistence-evidence-chain.md`.
