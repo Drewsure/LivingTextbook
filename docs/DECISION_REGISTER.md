@@ -5249,3 +5249,11 @@ boundary for health, backup, restore, and retention deletion evidence. The
 operations gate requires explicit school-policy, retention-policy, and release
 approval settings. Deletion is identity-scoped and the teacher-facing status
 surface is deliberately redacted. See ADR 0815.
+
+# DR-888: Persistence Operations Evidence Ledger
+
+Closed-pilot backup, restore, and retention deletion now have server-side
+metadata receipts. The receipts use a one-way scope digest and preserve
+checksum, timing, schema, retention, and deletion-count evidence without
+storing raw student-session identifiers or learner payloads. The teacher
+surface is read-only. See ADR 0816.

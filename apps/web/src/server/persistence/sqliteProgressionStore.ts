@@ -1,5 +1,5 @@
 import { copyFileSync, existsSync, mkdirSync, readFileSync, statSync } from "node:fs";
-import { createHash } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 import { dirname, resolve } from "node:path";
 import { DatabaseSync } from "node:sqlite";
 import type { HostedProgressionPersistenceRecord } from "@living-textbook/content-model";
@@ -31,6 +31,32 @@ export interface DurableProgressionBackupResult {
   bytes: number;
   sha256: string;
   schemaVersion: number;
+}
+
+export type DurableProgressionOperation = "backup" | "restore" | "retention-delete";
+
+export interface DurableProgressionOperationEvidence {
+  evidenceId: string;
+  operation: DurableProgressionOperation;
+  occurredAt: string;
+  status: "completed";
+  schemaVersion: number;
+  artifactSha256: string | null;
+  artifactBytes: number | null;
+  retentionDays: number;
+  scopeDigest: string | null;
+  deletedRecords: number | null;
+}
+
+interface StoredOperationEvidence extends DurableProgressionOperationEvidence {
+  artifact_sha256: string | null;
+  artifact_bytes: number | null;
+  occurred_at: string;
+  retention_days: number;
+  scope_digest: string | null;
+  deleted_records: number | null;
+  evidence_id: string;
+  schema_version: number;
 }
 
 interface StoredRow {
@@ -80,6 +106,20 @@ export class SqliteProgressionStore {
         ON hosted_progression_records (tenant_id, package_id, launch_code, student_session_id, written_at);
       CREATE INDEX IF NOT EXISTS idx_hosted_progression_idempotency
         ON hosted_progression_records (idempotency_key);
+      CREATE TABLE IF NOT EXISTS progression_operation_evidence (
+        evidence_id TEXT PRIMARY KEY,
+        operation TEXT NOT NULL CHECK (operation IN ('backup', 'restore', 'retention-delete')),
+        occurred_at TEXT NOT NULL,
+        status TEXT NOT NULL CHECK (status = 'completed'),
+        schema_version INTEGER NOT NULL,
+        artifact_sha256 TEXT,
+        artifact_bytes INTEGER,
+        retention_days INTEGER NOT NULL,
+        scope_digest TEXT,
+        deleted_records INTEGER
+      ) STRICT;
+      CREATE INDEX IF NOT EXISTS idx_progression_operation_evidence_time
+        ON progression_operation_evidence (occurred_at DESC);
     `);
   }
 
@@ -187,6 +227,69 @@ export class SqliteProgressionStore {
       WHERE tenant_id = ? AND package_id = ? AND launch_code = ? AND student_session_id = ?
     `).run(identity.tenantId, identity.packageId, identity.launchCode, identity.studentSessionId);
     return { deletedRecords: Number(result.changes ?? 0) };
+  }
+
+  recordOperationEvidence(input: {
+    operation: DurableProgressionOperation;
+    artifactSha256?: string;
+    artifactBytes?: number;
+    retentionDays: number;
+    scopeDigest?: string;
+    deletedRecords?: number;
+  }): DurableProgressionOperationEvidence {
+    const evidence: DurableProgressionOperationEvidence = {
+      evidenceId: `ops-${Date.now()}-${randomUUID()}`,
+      operation: input.operation,
+      occurredAt: new Date().toISOString(),
+      status: "completed",
+      schemaVersion: 1,
+      artifactSha256: input.artifactSha256 ?? null,
+      artifactBytes: input.artifactBytes ?? null,
+      retentionDays: input.retentionDays,
+      scopeDigest: input.scopeDigest ?? null,
+      deletedRecords: input.deletedRecords ?? null,
+    };
+    this.database.prepare(`
+      INSERT INTO progression_operation_evidence (
+        evidence_id, operation, occurred_at, status, schema_version,
+        artifact_sha256, artifact_bytes, retention_days, scope_digest, deleted_records
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `).run(
+      evidence.evidenceId,
+      evidence.operation,
+      evidence.occurredAt,
+      evidence.status,
+      evidence.schemaVersion,
+      evidence.artifactSha256,
+      evidence.artifactBytes,
+      evidence.retentionDays,
+      evidence.scopeDigest,
+      evidence.deletedRecords,
+    );
+    return evidence;
+  }
+
+  listOperationEvidence(limit = 50): DurableProgressionOperationEvidence[] {
+    const boundedLimit = Math.max(1, Math.min(100, Math.trunc(limit)));
+    const rows = this.database.prepare(`
+      SELECT evidence_id, operation, occurred_at, status, schema_version,
+        artifact_sha256, artifact_bytes, retention_days, scope_digest, deleted_records
+      FROM progression_operation_evidence
+      ORDER BY occurred_at DESC
+      LIMIT ?
+    `).all(boundedLimit) as unknown as StoredOperationEvidence[];
+    return rows.map((row) => ({
+      evidenceId: row.evidence_id,
+      operation: row.operation,
+      occurredAt: row.occurred_at,
+      status: "completed",
+      schemaVersion: row.schema_version,
+      artifactSha256: row.artifact_sha256,
+      artifactBytes: row.artifact_bytes,
+      retentionDays: row.retention_days,
+      scopeDigest: row.scope_digest,
+      deletedRecords: row.deleted_records,
+    }));
   }
 
   close(): void {

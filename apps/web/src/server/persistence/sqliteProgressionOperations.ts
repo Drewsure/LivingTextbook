@@ -1,7 +1,9 @@
+import { createHash } from "node:crypto";
 import type {
   DurableProgressionBackupResult,
   DurableProgressionHealth,
   DurableProgressionIdentity,
+  DurableProgressionOperationEvidence,
   SqliteProgressionStore,
 } from "./sqliteProgressionStore";
 import { getDurableProgressionStore, sha256File, SqliteProgressionStore as SqliteStore } from "./sqliteProgressionStore";
@@ -37,6 +39,7 @@ export interface DurableProgressionBackupManifest {
 export interface DurableProgressionBackupEvidence {
   backup: DurableProgressionBackupResult;
   manifest: DurableProgressionBackupManifest;
+  evidence: DurableProgressionOperationEvidence;
 }
 
 /**
@@ -58,6 +61,12 @@ export class SqliteProgressionOperations {
   backupWithManifest(destinationPath: string, policy: DurableOperationsPolicy): DurableProgressionBackupEvidence {
     const backup = this.backupTo(destinationPath, policy);
     const policySnapshot = getDurableOperationsPolicySnapshot();
+    const evidence = this.store.recordOperationEvidence({
+      operation: "backup",
+      artifactSha256: backup.sha256,
+      artifactBytes: backup.bytes,
+      retentionDays: policySnapshot.retentionDays ?? 0,
+    });
     return {
       backup,
       manifest: {
@@ -72,6 +81,7 @@ export class SqliteProgressionOperations {
         rawLearnerAudioExcluded: true,
         learnerTranscriptsExcluded: true,
       },
+      evidence,
     };
   }
 
@@ -101,13 +111,32 @@ export class SqliteProgressionOperations {
       throw new Error("The progression backup does not match its checksum manifest.");
     }
     const source = SqliteStore.restoreFromBackup(sourcePath, destinationPath);
+    this.store.recordOperationEvidence({
+      operation: "restore",
+      artifactSha256: source.sha256,
+      artifactBytes: source.bytes,
+      retentionDays: getDurableOperationsPolicySnapshot().retentionDays ?? 0,
+    });
     return source;
   }
 
   deleteForIdentity(identity: DurableProgressionIdentity, policy: DurableOperationsPolicy): { deletedRecords: number } {
     assertOperationsAllowed(policy);
-    return this.store.deleteForIdentity(identity);
+    const result = this.store.deleteForIdentity(identity);
+    this.store.recordOperationEvidence({
+      operation: "retention-delete",
+      retentionDays: getDurableOperationsPolicySnapshot().retentionDays ?? 0,
+      scopeDigest: sha256Scope(identity),
+      deletedRecords: result.deletedRecords,
+    });
+    return result;
   }
+}
+
+function sha256Scope(identity: DurableProgressionIdentity): string {
+  return createHash("sha256")
+    .update([identity.tenantId, identity.packageId, identity.launchCode, identity.studentSessionId].join("\u001f"))
+    .digest("hex");
 }
 
 export function getDurableOperationsPolicySnapshot(): DurableOperationsPolicySnapshot {

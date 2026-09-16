@@ -30,6 +30,7 @@ import { PersistenceAdapterReadinessPanel } from "@/features/persistence/Persist
 import { PersistenceBoundaryPanel } from "@/features/persistence/PersistenceBoundaryPanel";
 import { HostedProgressionAdapterPanel } from "@/features/persistence/HostedProgressionAdapterPanel";
 import { PersistenceOperationsStatusPanel } from "@/features/persistence/PersistenceOperationsStatusPanel";
+import { PersistenceOperationsEvidencePanel } from "@/features/persistence/PersistenceOperationsEvidencePanel";
 import { PilotBackendSelectionGatePanel } from "@/features/persistence/PilotBackendSelectionGatePanel";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 
@@ -100,6 +101,7 @@ export default function TeacherPersistencePage() {
           }}
         />
         <PersistenceOperationsStatusPanel />
+        <PersistenceOperationsEvidencePanel />
         <PersistenceBoundaryPanel
           boundaries={samplePersistenceBoundaries}
           strategyOptions={samplePersistenceStrategyOptions}

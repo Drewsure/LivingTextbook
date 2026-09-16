@@ -287,3 +287,6 @@ authorization, and cross-tenant isolation.
 
 `DURABLE_PROGRESSION_OPERATIONS_CHECKS.md` protects the closed-pilot health,
 backup, restore, retention-deletion, and redacted teacher-status boundary.
+
+`PERSISTENCE_OPERATIONS_EVIDENCE_CHECKS.md` protects metadata-only operation
+receipts, one-way scope digests, and the read-only teacher history boundary.

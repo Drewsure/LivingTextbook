@@ -3088,3 +3088,13 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Added backup/restore/deletion and cross-tenant isolation evidence in
   `npm run verify:durable-operations`.
 - Added ADR 0815, DR-887, and the durable operations verification contract.
+
+## Build session 0816: Persistence operations evidence ledger
+
+- Added metadata-only SQLite receipts for completed backup, restore, and
+  retention-deletion operations.
+- Added one-way scope digests so deletion evidence does not retain raw student
+  session identifiers.
+- Added a read-only teacher operation-history panel and route with no browser
+  mutation controls.
+- Added ADR 0816, DR-888, and the persistence operations evidence checks.

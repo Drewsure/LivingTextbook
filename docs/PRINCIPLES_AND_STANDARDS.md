@@ -3501,3 +3501,20 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-886 and
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-887 and
 `docs/adr/0815-closed-pilot-operations-boundary.md`.
+
+## 231. Persistence Operations Evidence Standard
+
+- Completed backup, checksum-verified restore, and identity-scoped retention
+  deletion operations must emit server-side metadata receipts.
+- Receipts may contain operation type, time, schema, checksum, byte size,
+  retention period, deletion count, and a one-way scope digest only.
+- Receipts must not become a second learner-data store: raw student-session
+  identifiers, progression payloads, raw audio, transcripts, credentials, and
+  database paths are prohibited.
+- Teacher history is read-only evidence. It must not expose browser controls
+  for backup, restore, deletion, export, launch, or release mutation.
+- Missing evidence is not a successful recovery state and must remain visible
+  as unavailable or blocked.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-888 and
+`docs/adr/0816-persistence-operations-evidence-ledger.md`.

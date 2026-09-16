@@ -30,6 +30,8 @@ const store = read("apps/web/src/server/persistence/sqliteProgressionStore.ts");
 const operations = read("apps/web/src/server/persistence/sqliteProgressionOperations.ts");
 const statusRoute = read("apps/web/src/app/api/persistence/status/route.ts");
 const statusPanel = read("apps/web/src/features/persistence/PersistenceOperationsStatusPanel.tsx");
+const operationsRoute = read("apps/web/src/app/api/persistence/operations/route.ts");
+const operationsPanel = read("apps/web/src/features/persistence/PersistenceOperationsEvidencePanel.tsx");
 const envExample = read(".env.example");
 
 requireFragments("SQLite operations store", store, [
@@ -41,6 +43,10 @@ requireFragments("SQLite operations store", store, [
   "sha256",
   "integrity_check",
   "hosted_progression_records",
+  "progression_operation_evidence",
+  "recordOperationEvidence",
+  "listOperationEvidence",
+  "scope_digest",
 ]);
 requireFragments("SQLite operations policy", operations, [
   "LIVING_TEXTBOOK_PERSISTENCE_ALLOW_OPERATIONS",
@@ -67,6 +73,19 @@ requireFragments("teacher status panel", statusPanel, [
   "/api/persistence/status",
   "Backup, restore, and deletion evidence",
 ]);
+requireFragments("operations evidence route", operationsRoute, [
+  'runtime = "nodejs"',
+  'dynamic = "force-dynamic"',
+  "metadata only",
+  "No learner records",
+  "Cache-Control",
+]);
+requireFragments("operations evidence panel", operationsPanel, [
+  "Read-only recovery history",
+  "cannot start an operation",
+  "/api/persistence/operations",
+  "No learner records or student identifiers",
+]);
 requireFragments("operations environment", envExample, [
   "LIVING_TEXTBOOK_PERSISTENCE_ALLOW_OPERATIONS=false",
   "LIVING_TEXTBOOK_PERSISTENCE_RETENTION_DAYS=30",
@@ -87,9 +106,25 @@ try {
       record_json TEXT NOT NULL,
       PRIMARY KEY (tenant_id, package_id, launch_code, student_session_id, idempotency_key)
     ) STRICT;
+    CREATE TABLE progression_operation_evidence (
+      evidence_id TEXT PRIMARY KEY,
+      operation TEXT NOT NULL,
+      occurred_at TEXT NOT NULL,
+      status TEXT NOT NULL,
+      schema_version INTEGER NOT NULL,
+      artifact_sha256 TEXT,
+      artifact_bytes INTEGER,
+      retention_days INTEGER NOT NULL,
+      scope_digest TEXT,
+      deleted_records INTEGER
+    ) STRICT;
   `);
   db.prepare("INSERT INTO hosted_progression_records VALUES (?, ?, ?, ?, ?, ?, ?)").run(
     "tenant-a", "package-a", "launch-a", "student-a", "idempotency-a", "2026-09-16T00:00:00.000Z", JSON.stringify({ tenantId: "tenant-a" }),
+  );
+  db.prepare("INSERT INTO progression_operation_evidence VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)").run(
+    "ops-test", "retention-delete", "2026-09-16T00:00:02.000Z", "completed", 1, null, null, 30,
+    createHash("sha256").update("tenant-a\u001fpackage-a\u001flaunch-a\u001fstudent-a").digest("hex"), 1,
   );
   db.prepare("INSERT INTO hosted_progression_records VALUES (?, ?, ?, ?, ?, ?, ?)").run(
     "tenant-b", "package-b", "launch-b", "student-b", "idempotency-b", "2026-09-16T00:00:01.000Z", JSON.stringify({ tenantId: "tenant-b" }),
@@ -115,6 +150,9 @@ try {
   if (Number(deleted.changes) !== 1) failures.push("retention deletion did not remove the requested identity");
   const remaining = restored.prepare("SELECT tenant_id FROM hosted_progression_records").all();
   if (remaining.length !== 1 || remaining[0].tenant_id !== "tenant-b") failures.push("retention deletion crossed the tenant boundary");
+  const evidence = restored.prepare("SELECT * FROM progression_operation_evidence").all();
+  if (evidence.length !== 1 || evidence[0].scope_digest?.length !== 64) failures.push("operation evidence did not preserve a one-way scope digest");
+  if (JSON.stringify(evidence).includes("student-a")) failures.push("operation evidence leaked a raw student-session identifier");
   restored.close();
 } catch (error) {
   failures.push(`SQLite operations smoke test failed: ${error instanceof Error ? error.message : String(error)}`);
