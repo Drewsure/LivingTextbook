@@ -27,6 +27,7 @@ const playableShell = read("apps/web/src/features/game-shell/components/Playable
 const teacherSession = read("apps/web/src/app/teacher/sessions/[launchCode]/page.tsx");
 const teacherEvidencePanel = read("apps/web/src/features/teacher/TeacherSessionLocalEvidencePanel.tsx");
 const evidenceEnvelope = read("apps/web/src/features/persistence/pilotSessionEvidenceEnvelope.ts");
+const sessionPreflight = read("apps/web/src/features/persistence/pilotSessionPreflight.ts");
 const persistenceRoute = read("apps/web/src/app/api/persistence/progression/route.ts");
 const persistenceOperations = read("apps/web/src/server/persistence/sqliteProgressionOperations.ts");
 
@@ -84,6 +85,16 @@ requireFragments("pilot evidence envelope contract", evidenceEnvelope, [
   "validatePilotSessionEvidenceEnvelope",
   "durableWritePerformed: false",
   "liveClassroomRecord: false",
+]);
+requireFragments("pilot session preflight", sessionPreflight, [
+  "evaluatePilotSessionPreflight",
+  'PilotSessionPreflightStatus = "ready-for-review" | "incomplete" | "invalid"',
+  "launchAllowed: false",
+  "durableWriteAllowed: false",
+]);
+requireFragments("pilot session preflight panel", teacherEvidencePanel, [
+  "data-pilot-preflight=\"review-only\"",
+  "Review readiness, not launch approval",
 ]);
 requireFragments("hosted persistence safety", persistenceRoute, [
   "Hosted progression rehearsal writes are disabled by default.",

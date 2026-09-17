@@ -7,6 +7,7 @@ import { readLocalSessionEvidence, subscribeToLocalSessionEvidence } from "@/fea
 import type { LocalSessionEvidence } from "@/features/persistence/localSessionEvidenceStore";
 import { formatMode } from "@/lib/formatLabels";
 import { createPilotSessionEvidenceEnvelope } from "@/features/persistence/pilotSessionEvidenceEnvelope";
+import { evaluatePilotSessionPreflight } from "@/features/persistence/pilotSessionPreflight";
 
 interface TeacherSessionLocalEvidencePanelProps {
   launchCode: string;
@@ -52,6 +53,7 @@ export function TeacherSessionLocalEvidencePanel({
   const latestEvent = evidence?.events[evidence.events.length - 1];
   const activityModes = evidence ? getObservedActivityModes(evidence) : [];
   const evidenceEnvelope = evidence ? createPilotSessionEvidenceEnvelope({ evidence, targetLanguage }) : undefined;
+  const pilotPreflight = evidenceEnvelope ? evaluatePilotSessionPreflight(evidenceEnvelope) : undefined;
 
   return (
     <Card>
@@ -110,6 +112,29 @@ export function TeacherSessionLocalEvidencePanel({
                 <EvidenceMetric label="Envelope events" value={String(evidenceEnvelope.eventCount)} />
                 <EvidenceMetric label="Journey stages" value={`${evidenceEnvelope.stages.filter((stage) => stage.status === "complete").length}/${evidenceEnvelope.stages.length}`} />
               </dl>
+              {pilotPreflight ? (
+                <div className="mt-4 border-t border-[var(--tenant-border)] pt-4" data-pilot-preflight="review-only">
+                  <div className="flex flex-wrap items-start justify-between gap-3">
+                    <div>
+                      <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Controlled pilot preflight</p>
+                      <h4 className="mt-1 text-sm font-bold">Review readiness, not launch approval</h4>
+                    </div>
+                    <StatusPill label={pilotPreflight.status === "ready-for-review" ? "Ready for review" : pilotPreflight.status === "invalid" ? "Invalid evidence" : "Incomplete"} tone={pilotPreflight.status === "ready-for-review" ? "success" : "warning"} />
+                  </div>
+                  <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">{pilotPreflight.summary}</p>
+                  <ul className="mt-3 grid gap-2 text-sm md:grid-cols-2">
+                    {pilotPreflight.checks.map((check) => (
+                      <li key={check.checkId} className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] p-3">
+                        <div className="flex flex-wrap items-center justify-between gap-2">
+                          <span className="font-semibold text-[var(--tenant-text)]">{check.label}</span>
+                          <StatusPill label={check.status} tone={check.status === "pass" ? "success" : "warning"} />
+                        </div>
+                        <p className="mt-1 text-xs leading-5 text-[var(--tenant-muted)]">{check.detail}</p>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null}
             </section>
           ) : null}
           <section className="mt-5">

@@ -3683,7 +3683,7 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-895,
 `docs/decision-register/DR-895-teacher-rehearsal-reconciliation.md`,
 and `docs/adr/0823-teacher-rehearsal-reconciliation.md`.
 
-## 240. Pilot Evidence Envelope Standard
+## 239. Pilot Evidence Envelope Standard
 
 - Teacher reporting must consume one provider-neutral session evidence
   envelope, not separate unrelated route summaries.
@@ -3705,7 +3705,7 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-897,
 `docs/decision-register/DR-897-pilot-evidence-envelope.md`,
 and `docs/adr/0825-pilot-evidence-envelope.md`.
 
-## 239. Pilot End-to-End Session Rehearsal Standard
+## 240. Pilot End-to-End Session Rehearsal Standard
 
 - The first production-shaped rehearsal is one ordered, tenant-neutral journey:
   front door, Flashcards, Memory Match, Sentence Builder, and teacher report.
@@ -3733,3 +3733,27 @@ and `docs/adr/0825-pilot-evidence-envelope.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-896,
 `docs/decision-register/DR-896-pilot-end-to-end-session-rehearsal.md`,
 and `docs/adr/0824-pilot-end-to-end-session-rehearsal.md`.
+
+## 241. Pilot Session Preflight Standard
+
+- The pilot preflight is a deterministic review-readiness evaluator for the
+  coherent evidence envelope. It checks identity, canonical workflow,
+  target-language presence, and privacy exclusions before evidence is shown as
+  ready for human review.
+- `ready-for-review` means that the controlled rehearsal has complete,
+  internally consistent evidence. It does not mean that the package is
+  approved for classroom launch, assignment use, rewards, export, or hosted
+  persistence.
+- Invalid or incomplete evidence remains visibly invalid or incomplete. It
+  must never unlock a game, alter mastery, create a live classroom record, or
+  be presented as a successful pilot.
+- The launch-boundary check is always blocked in this phase. Both
+  `launchAllowed` and `durableWriteAllowed` are literal `false` values until
+  separate authorization, school-policy, privacy, retention, and release gates
+  are implemented and reviewed.
+- The teacher panel may display the preflight summary and individual check
+  details, but the panel remains read-only and provider-neutral.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-898,
+`docs/decision-register/DR-898-pilot-session-preflight.md`,
+and `docs/adr/0826-pilot-session-preflight.md`.

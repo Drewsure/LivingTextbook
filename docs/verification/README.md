@@ -282,6 +282,9 @@ upstream records and preserve the independent MiniStar support-language gate.
 - `PILOT_EVIDENCE_ENVELOPE_CHECKS.md` protects the coherent tenant-scoped
   browser rehearsal envelope and its privacy exclusions.
 - Run `npm run verify:pilot-rehearsal`.
+- `PILOT_SESSION_PREFLIGHT_CHECKS.md` protects the deterministic review-only
+  preflight and its permanently blocked launch and durable-write boundary.
+- Run `npm run verify:pilot-rehearsal`.
 - `docs/verification/DURABLE_PROGRESSION_STORAGE_CHECKS.md`
 
 `AUTHENTICATED_STUDENT_SESSION_CHECKS.md` protects the server-validated coded

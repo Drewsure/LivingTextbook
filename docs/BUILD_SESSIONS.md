@@ -3213,3 +3213,14 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Exposed the envelope readiness in the teacher session evidence panel.
 - Extended the pilot rehearsal verifier and recorded ADR 0825, DR-897, and the
   focused verification contract.
+
+## Build session 0826: Pilot session preflight
+
+- Added a deterministic evaluator for identity, canonical workflow,
+  target-language, privacy, and launch-boundary readiness.
+- Exposed review-only preflight status and check details in the teacher session
+  evidence panel.
+- Kept classroom launch and durable writes explicitly blocked regardless of
+  evidence completeness.
+- Extended the pilot rehearsal verifier and recorded ADR 0826, DR-898, and the
+  focused verification contract.
