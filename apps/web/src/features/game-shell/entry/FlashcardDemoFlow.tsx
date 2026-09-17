@@ -25,6 +25,7 @@ import {
 } from "@/features/progression/localProgressionAdapter";
 import { starterRewardCatalog } from "@/features/rewards/rewardCatalog";
 import { getCollectionPath } from "@/features/routes/routeContracts";
+import { saveProgressionRouteHandoff } from "@/features/persistence/progressionHandoffStore";
 import { FlashcardPracticeCard } from "@/features/student/components/FlashcardPracticeCard";
 import { LaunchContextSafetyCard } from "@/features/student/components/LaunchContextSafetyCard";
 import { RecommendedGameRoutesCard } from "@/features/student/components/RecommendedGameRoutesCard";
@@ -72,6 +73,7 @@ export function FlashcardDemoFlow({
   const [sessionEvents, setSessionEvents] = useState<GameProgressEvent[]>([]);
   const [lastEarnedDust, setLastEarnedDust] = useState(0);
   const [targetPracticeEngagedItemIds, setTargetPracticeEngagedItemIds] = useState<string[]>([]);
+  const [routeHandoffErrors, setRouteHandoffErrors] = useState<string[]>([]);
   const [assistLanguageEnabled, setAssistLanguageEnabled] = useState(
     sessionSettings?.assistLanguage.enabled ?? getDefaultAssistLanguageEnabled(tenant),
   );
@@ -161,6 +163,25 @@ export function FlashcardDemoFlow({
     ]);
   }
 
+  function handleRouteOpen(mode: GameModeId, routeHref: string) {
+    const result = saveProgressionRouteHandoff({
+      packageId: contentPackage.meta.packageId,
+      launchSession,
+      progression: currentProgression,
+      sourceRoute: window.location.pathname,
+      destinationRoute: routeHref,
+      eventCursor: sessionEvents.length,
+      continuityId: `continuity-${launchSession.launchCode}-${mode}-${sessionEvents.length}`,
+    });
+    if (result.errors.length > 0) {
+      setRouteHandoffErrors(result.errors.map((error) => `Route handoff: ${error}`));
+      return;
+    }
+
+    setRouteHandoffErrors([]);
+    window.location.assign(routeHref);
+  }
+
   return (
     <div className="mx-auto grid max-w-3xl gap-5">
       <GameRouteHeaderCard
@@ -236,8 +257,19 @@ export function FlashcardDemoFlow({
         targetLanguage={resolveTargetLanguage({ tenantTargetLanguage: tenant.languageSettings?.targetLanguage, unitLanguage: unit.unitMeta.textbookReference?.language })}
         offerMap={offerMap}
         onRouteGuidanceListened={handleRouteGuidanceListened}
+        onRouteOpen={handleRouteOpen}
       />
       <SessionEventLog events={sessionEvents} />
+      {routeHandoffErrors.length > 0 ? (
+        <aside className="rounded-lg border border-rose-300 bg-rose-50 p-4 text-sm text-rose-950" aria-live="polite">
+          <p className="font-bold">The next activity could not be opened</p>
+          <ul className="mt-2 grid gap-1">
+            {routeHandoffErrors.map((error, index) => (
+              <li key={`${error}-${index}`}>{error}</li>
+            ))}
+          </ul>
+        </aside>
+      ) : null}
       <p className="sr-only">Package id: {contentPackage.meta.packageId}</p>
     </div>
   );

@@ -1,5 +1,12 @@
-import type { ProgressionContinuityEnvelope, StudentProgressionState } from "@living-textbook/content-model";
-import { validateProgressionContinuityRuntimeRequest } from "@living-textbook/content-model";
+import {
+  createProgressionContinuityEnvelope,
+  validateProgressionContinuityRuntimeRequest,
+} from "@living-textbook/content-model";
+import type {
+  LaunchSession,
+  ProgressionContinuityEnvelope,
+  StudentProgressionState,
+} from "@living-textbook/content-model";
 
 export const PROGRESSION_HANDOFF_VERSION = 1 as const;
 
@@ -20,6 +27,22 @@ export interface ProgressionHandoffLookup {
 }
 
 export interface ProgressionHandoffReadResult {
+  record?: ProgressionHandoffRecord;
+  errors: string[];
+}
+
+export interface SaveProgressionRouteHandoffArgs {
+  packageId: string;
+  launchSession: Pick<LaunchSession, "tenantId" | "launchCode" | "unitKey" | "entryMode">;
+  progression: StudentProgressionState;
+  sourceRoute: string;
+  destinationRoute: string;
+  eventCursor: number;
+  continuityId: string;
+  issuedAt?: string;
+}
+
+export interface SaveProgressionRouteHandoffResult {
   record?: ProgressionHandoffRecord;
   errors: string[];
 }
@@ -48,6 +71,44 @@ export function createProgressionHandoffRecord(args: {
     progression: { ...args.progression },
     savedAt: args.savedAt,
   };
+}
+
+export function saveProgressionRouteHandoff(args: SaveProgressionRouteHandoffArgs): SaveProgressionRouteHandoffResult {
+  const issuedAt = args.issuedAt ?? new Date().toISOString();
+  const continuity = createProgressionContinuityEnvelope({
+    continuityId: args.continuityId,
+    packageId: args.packageId,
+    launchSession: args.launchSession,
+    progression: {
+      ...args.progression,
+      currentStep: "recommended-game",
+    },
+    sourceRoute: args.sourceRoute,
+    destinationRoute: args.destinationRoute,
+    issuedAt,
+    eventCursor: args.eventCursor,
+  });
+  const validationErrors = validateProgressionContinuityRuntimeRequest({
+    expectedTenantId: args.launchSession.tenantId,
+    expectedPackageId: args.packageId,
+    expectedLaunchCode: args.launchSession.launchCode,
+    expectedStudentSessionId: args.progression.studentSessionId,
+    envelope: continuity,
+  });
+  if (validationErrors.length > 0) {
+    return { errors: validationErrors };
+  }
+
+  const record = createProgressionHandoffRecord({
+    continuity,
+    progression: {
+      ...args.progression,
+      currentStep: "recommended-game",
+    },
+    savedAt: issuedAt,
+  });
+  const saveErrors = saveProgressionHandoffRecord(record);
+  return saveErrors.length > 0 ? { errors: saveErrors } : { record, errors: [] };
 }
 
 export function saveProgressionHandoffRecord(record: ProgressionHandoffRecord): string[] {

@@ -24,7 +24,7 @@ import { GameAccessGateCard } from "./GameAccessGateCard";
 import { GameLearningAudioContractCard } from "./GameLearningAudioContractCard";
 import { GameRouteHeaderCard } from "./GameRouteHeaderCard";
 import { validateCanonicalGameCompletion } from "../canonicalGameCompletionGate";
-import { readProgressionHandoffRecord } from "@/features/persistence/progressionHandoffStore";
+import { readProgressionHandoffRecord, saveProgressionRouteHandoff } from "@/features/persistence/progressionHandoffStore";
 
 export interface PlayableGameDemoFlowProps {
   tenant: TenantConfig;
@@ -185,6 +185,30 @@ export function PlayableGameRouteShell({
     setSessionEvents((events) => [...events, completionEvent]);
   }
 
+  function handleOpenNextRoute(destinationRoute: string, nextMode: GameModeId) {
+    if (!packageId) {
+      setEventContractErrors(["Progression handoff cannot be created without a content package."]);
+      return;
+    }
+
+    const result = saveProgressionRouteHandoff({
+      packageId,
+      launchSession,
+      progression: currentProgression,
+      sourceRoute: window.location.pathname,
+      destinationRoute,
+      eventCursor: sessionEventsRef.current.length,
+      continuityId: `continuity-${launchSession.launchCode}-${nextMode}-${sessionEventsRef.current.length}`,
+    });
+    if (result.errors.length > 0) {
+      setEventContractErrors(result.errors.map((error) => `Progression handoff: ${error}`));
+      return;
+    }
+
+    setEventContractErrors([]);
+    window.location.assign(destinationRoute);
+  }
+
   return (
     <div className="mx-auto grid max-w-3xl gap-5">
       <GameRouteHeaderCard
@@ -269,6 +293,7 @@ export function PlayableGameRouteShell({
         rewardName={tenant.rewardName}
         targetLanguage={targetLanguage}
         offerMap={offerMap}
+        onOpenNextRoute={handleOpenNextRoute}
       />
 
       <SessionEventLog events={sessionEvents} />

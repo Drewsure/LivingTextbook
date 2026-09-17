@@ -18,6 +18,7 @@ interface RecommendedGameRoutesCardProps {
   targetLanguage: string;
   offerMap?: UnitGameOfferMap;
   onRouteGuidanceListened?: (mode: GameModeId, routeStatus: "locked" | "unlocked" | "complete", routeHref: string) => void;
+  onRouteOpen?: (mode: GameModeId, routeHref: string) => void;
 }
 
 export function RecommendedGameRoutesCard({
@@ -29,6 +30,7 @@ export function RecommendedGameRoutesCard({
   targetLanguage,
   offerMap,
   onRouteGuidanceListened,
+  onRouteOpen,
 }: RecommendedGameRoutesCardProps) {
   const recommendedRoutes = buildRecommendedRoutes({ launchSession, progression, unit, audioCues, audioSupportPlan, targetLanguage, offerMap });
 
@@ -118,12 +120,22 @@ export function RecommendedGameRoutesCard({
                   }
                 />
                 {route.unlocked ? (
-                  <a
-                    href={route.href}
-                    className="inline-flex min-h-10 items-center justify-center rounded-lg bg-[var(--tenant-primary)] px-3 py-2 text-sm font-semibold text-white transition hover:brightness-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--tenant-primary)]"
-                  >
-                    Open
-                  </a>
+                  onRouteOpen ? (
+                    <button
+                      type="button"
+                      onClick={() => onRouteOpen(route.mode, route.href)}
+                      className="inline-flex min-h-10 items-center justify-center rounded-lg bg-[var(--tenant-primary)] px-3 py-2 text-sm font-semibold text-white transition hover:brightness-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--tenant-primary)]"
+                    >
+                      Open
+                    </button>
+                  ) : (
+                    <a
+                      href={route.href}
+                      className="inline-flex min-h-10 items-center justify-center rounded-lg bg-[var(--tenant-primary)] px-3 py-2 text-sm font-semibold text-white transition hover:brightness-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--tenant-primary)]"
+                    >
+                      Open
+                    </a>
+                  )
                 ) : (
                   <span className="inline-flex min-h-10 items-center rounded-lg border border-[var(--tenant-border)] px-3 py-2 text-sm font-semibold text-[var(--tenant-muted)]">
                     {!route.audioReady ? "Audio review required" : "Finish flashcards"}

@@ -5296,3 +5296,17 @@ persistence, activate a package, mutate rewards, or create an assignment.
 Codex must review the returned evidence and record a separate integration
 decision before any promotion work can begin. See ADR 0820 and
 `docs/verification/MEMORY_MATCH_EVIDENCE_HANDOFF_CHECKS.md`.
+
+# DR-893: Production-Shaped Vertical Slice Handoff
+
+The first production-shaped white-label slice now requires handoff-aware
+navigation across the canonical entry, Memory Match, and Sentence Builder
+routes. Flashcard completion and completed game routes use one shared helper
+to bind tenant, package, launch, student-session, source route, destination
+route, progression snapshot, and event cursor before navigation.
+
+Direct route access remains blocked by the destination game shell. Missing
+package identity, failed storage, or identity mismatch keeps the destination
+locked. The slice remains target-language driven, audio-first, deterministic,
+tenant-neutral, and free of raw learner audio or transcript persistence. See
+ADR 0821 and `docs/verification/PRODUCTION_VERTICAL_SLICE_CHECKS.md`.

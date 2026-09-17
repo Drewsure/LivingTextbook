@@ -3610,3 +3610,28 @@ and `docs/adr/0819-canonical-memory-match-integration-gate.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-892,
 `docs/decision-register/DR-892-memory-match-evidence-handoff-packet.md`,
 and `docs/adr/0820-memory-match-evidence-handoff-packet.md`.
+
+## 236. Production-Shaped Vertical Slice Handoff Standard
+
+- An unlocked student activity route must be opened through a validated,
+  tenant/package/launch/student-session-bound progression handoff.
+- Flashcard completion must save the handoff before opening the next curated
+  activity. Completed canonical game routes must use the same rule for their
+  next activity.
+- The destination route may rehydrate the progression snapshot, but it must
+  still validate the handoff identity and destination path before gameplay
+  unlocks. Direct URLs remain useful for rehearsal and review, but cannot
+  bypass progression.
+- The handoff contains no raw learner audio, transcript, support-language-only
+  evidence, or media-only evidence. Audio helps the learner; it cannot unlock
+  progress by itself.
+- The vertical slice must remain tenant-neutral: package identity, target
+  language, audio cues, curated offers, and reward names come from the tenant
+  package rather than a MiniStar-only constant.
+- A missing package identity, failed save, identity mismatch, or route mismatch
+  must keep the destination blocked and expose a reviewable error rather than
+  navigating optimistically.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-893,
+`docs/decision-register/DR-893-production-shaped-vertical-slice-handoff.md`,
+and `docs/adr/0821-production-shaped-vertical-slice-handoff.md`.

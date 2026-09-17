@@ -36,6 +36,12 @@ const localBundle = readText("apps/web/src/features/deployment/LocalBundleManife
 const localBundlePlan = readText("apps/web/src/data/sampleLocalBundlePlan.ts");
 const mediaResolver = readText("apps/web/src/features/multimedia/mediaSourceResolver.ts");
 const phaserGuard = readText("apps/web/src/features/game-shell/GameSequence.tsx");
+const handoffStore = readText("apps/web/src/features/persistence/progressionHandoffStore.ts");
+const flashcardRoute = readText("apps/web/src/features/game-shell/entry/FlashcardDemoFlow.tsx");
+const recommendedRoutes = readText("apps/web/src/features/student/components/RecommendedGameRoutesCard.tsx");
+const playableGameShell = readText("apps/web/src/features/game-shell/components/PlayableGameRouteShell.tsx");
+const completionCard = readText("apps/web/src/features/game-shell/components/GameCompletionNextCard.tsx");
+const sentencePage = readText("apps/web/src/app/sentence/[code]/page.tsx");
 
 requireFragments("launch route", launchPage, ["resolveSampleLaunchContext", "<StudentLaunchFlow"]);
 requireFragments("student flow", studentFlow, [
@@ -73,6 +79,29 @@ requireFragments("local delivery boundary", localBundle, ["audio", "video", "QR 
 requireFragments("local delivery plan", localBundlePlan, ["reportsProgress", "reporting", "localFallbackPath"]);
 requireFragments("media delivery boundary", mediaResolver, ['mode === "local-first"', '"hosted-first"', 'sourceKind: "missing"']);
 requireFragments("Phaser promotion boundary", phaserGuard, ["External Phaser candidates remain review-only."]);
+requireFragments("shared route handoff helper", handoffStore, [
+  "export function saveProgressionRouteHandoff",
+  "expectedPackageId: args.packageId",
+  "expectedStudentSessionId: args.progression.studentSessionId",
+]);
+requireFragments("flashcard route handoff", flashcardRoute, [
+  "saveProgressionRouteHandoff",
+  "sourceRoute: window.location.pathname",
+  "onRouteOpen={handleRouteOpen}",
+]);
+requireFragments("recommended route handoff", recommendedRoutes, [
+  "onRouteOpen?: (mode: GameModeId, routeHref: string) => void",
+  "onClick={() => onRouteOpen(route.mode, route.href)}",
+]);
+requireFragments("completed game route handoff", playableGameShell, [
+  "saveProgressionRouteHandoff",
+  "onOpenNextRoute={handleOpenNextRoute}",
+]);
+requireFragments("completion handoff callback", completionCard, [
+  "onOpenNextRoute?: (destinationRoute: string, nextMode: GameModeId) => void",
+  "onOpenNextRoute && nextMode",
+]);
+requireFragments("sentence builder package binding", sentencePage, ["packageId={contentPackage.meta.packageId}"]);
 
 if (failures.length > 0) {
   console.error(failures.map((failure) => `FAIL ${failure}`).join("\n"));

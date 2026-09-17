@@ -21,6 +21,7 @@ interface GameCompletionNextCardProps {
   rewardName: string;
   targetLanguage: string;
   offerMap?: UnitGameOfferMap;
+  onOpenNextRoute?: (destinationRoute: string, nextMode: GameModeId) => void;
 }
 
 export function GameCompletionNextCard({
@@ -34,6 +35,7 @@ export function GameCompletionNextCard({
   rewardName,
   targetLanguage,
   offerMap,
+  onOpenNextRoute,
 }: GameCompletionNextCardProps) {
   const currentComplete = progression.completedGameModes.includes(currentGameMode);
   const nextOffer = findNextReviewedOffer(offerMap, progression, currentGameMode);
@@ -74,6 +76,7 @@ export function GameCompletionNextCard({
           href={nextPath}
           label={currentComplete && !nextAudioReady ? "Review next audio first" : currentComplete ? `Open ${nextLabel}` : "Complete current game first"}
           disabled={!currentComplete || !nextAudioReady}
+          onClick={onOpenNextRoute && nextMode ? () => onOpenNextRoute(nextPath, nextMode) : undefined}
         />
         <CompletionLink href={getStudentActivityHubPath(launchSession.launchCode)} label="Activity hub" />
         <CompletionLink href={getTrainingAcademyPath(launchSession.launchCode)} label="Training Academy" />
@@ -91,12 +94,24 @@ function CompletionFact({ label, value }: { label: string; value: string }) {
   );
 }
 
-function CompletionLink({ href, label, disabled = false }: { href: string; label: string; disabled?: boolean }) {
+function CompletionLink({ href, label, disabled = false, onClick }: { href: string; label: string; disabled?: boolean; onClick?: () => void }) {
   if (disabled) {
     return (
       <span className="inline-flex min-h-11 items-center justify-center rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] px-3 py-2 text-sm font-bold text-[var(--tenant-muted)]">
         {label}
       </span>
+    );
+  }
+
+  if (onClick) {
+    return (
+      <button
+        type="button"
+        onClick={onClick}
+        className="inline-flex min-h-11 items-center justify-center rounded-lg bg-[var(--tenant-primary)] px-3 py-2 text-center text-sm font-bold text-white transition hover:brightness-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--tenant-primary)]"
+      >
+        {label}
+      </button>
     );
   }
 

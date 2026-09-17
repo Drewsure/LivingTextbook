@@ -3147,3 +3147,16 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Added `npm run verify:memory-match-handoff` and included it in canonical game
   verification.
 - Added ADR 0820, DR-892, and the evidence handoff verification contract.
+
+## Build session 0821: Production-shaped vertical slice handoff
+
+- Added one shared progression route-handoff save helper with package, tenant,
+  launch, student-session, source-route, and destination-route validation.
+- Updated flashcard recommendations so opening an unlocked activity saves a
+  validated handoff before navigation.
+- Updated completed canonical game routes to hand off to their next reviewed
+  activity instead of navigating optimistically.
+- Bound Sentence Builder to the content package identity required by the
+  destination handoff gate.
+- Extended `npm run verify:vertical-slice` and the standing handoff contract
+  documentation.
