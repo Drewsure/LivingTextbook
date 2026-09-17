@@ -3224,3 +3224,12 @@ evidence adapter later records. See ADR 0805 and DR-881.
   evidence completeness.
 - Extended the pilot rehearsal verifier and recorded ADR 0826, DR-898, and the
   focused verification contract.
+
+## Build session 0827: Pilot preflight behavior gate
+
+- Added executable assertions for ready, incomplete, and invalid pilot
+  evidence envelopes.
+- Verified that launch and durable-write authorization remain false in every
+  preflight state.
+- Included the behavior gate in the canonical-games verification path.
+- Recorded ADR 0827, DR-899, and the focused verification contract.

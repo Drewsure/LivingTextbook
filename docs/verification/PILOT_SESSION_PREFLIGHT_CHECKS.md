@@ -24,5 +24,11 @@ evidence envelope.
 npm run verify:pilot-rehearsal
 ```
 
+The executable state harness can also be run directly:
+
+```text
+npm run verify:pilot-preflight-behavior
+```
+
 This focused verifier must pass alongside web typecheck, production build, and
 the active-route checks before the slice is considered ready for human review.

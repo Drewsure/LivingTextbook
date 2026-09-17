@@ -285,6 +285,7 @@ upstream records and preserve the independent MiniStar support-language gate.
 - `PILOT_SESSION_PREFLIGHT_CHECKS.md` protects the deterministic review-only
   preflight and its permanently blocked launch and durable-write boundary.
 - Run `npm run verify:pilot-rehearsal`.
+- The preflight behavior gate also runs as `npm run verify:pilot-preflight-behavior`.
 - `docs/verification/DURABLE_PROGRESSION_STORAGE_CHECKS.md`
 
 `AUTHENTICATED_STUDENT_SESSION_CHECKS.md` protects the server-validated coded

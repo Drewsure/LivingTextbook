@@ -3757,3 +3757,19 @@ and `docs/adr/0824-pilot-end-to-end-session-rehearsal.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-898,
 `docs/decision-register/DR-898-pilot-session-preflight.md`,
 and `docs/adr/0826-pilot-session-preflight.md`.
+
+## 242. Pilot Preflight Behavior Gate Standard
+
+- The preflight contract requires executable coverage for complete,
+  incomplete, and invalid evidence states, not only source-fragment checks.
+- A complete envelope must pass the identity, workflow, target-language, and
+  privacy checks while the launch-boundary check remains blocked.
+- Incomplete workflow evidence must remain incomplete and side-effect free.
+- Any prohibited privacy flag must produce an invalid result with explanatory
+  validation errors.
+- Every state must return literal `launchAllowed: false` and
+  `durableWriteAllowed: false` until a separately reviewed release gate exists.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-899,
+`docs/decision-register/DR-899-pilot-preflight-behavior-gate.md`,
+and `docs/adr/0827-pilot-preflight-behavior-gate.md`.
