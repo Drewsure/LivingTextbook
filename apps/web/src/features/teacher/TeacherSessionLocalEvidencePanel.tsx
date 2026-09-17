@@ -6,12 +6,14 @@ import type { GameModeId } from "@living-textbook/content-model";
 import { readLocalSessionEvidence, subscribeToLocalSessionEvidence } from "@/features/persistence/localSessionEvidenceStore";
 import type { LocalSessionEvidence } from "@/features/persistence/localSessionEvidenceStore";
 import { formatMode } from "@/lib/formatLabels";
+import { createPilotSessionEvidenceEnvelope } from "@/features/persistence/pilotSessionEvidenceEnvelope";
 
 interface TeacherSessionLocalEvidencePanelProps {
   launchCode: string;
   expectedTenantId: string;
   expectedPackageId: string;
   expectedStudentSessionId: string;
+  targetLanguage: string;
 }
 
 export function TeacherSessionLocalEvidencePanel({
@@ -19,6 +21,7 @@ export function TeacherSessionLocalEvidencePanel({
   expectedTenantId,
   expectedPackageId,
   expectedStudentSessionId,
+  targetLanguage,
 }: TeacherSessionLocalEvidencePanelProps) {
   const [evidence, setEvidence] = useState<LocalSessionEvidence>();
   const [bindingErrors, setBindingErrors] = useState<string[]>([]);
@@ -48,6 +51,7 @@ export function TeacherSessionLocalEvidencePanel({
   const completed = evidence?.progression.completedGameModes.length ?? 0;
   const latestEvent = evidence?.events[evidence.events.length - 1];
   const activityModes = evidence ? getObservedActivityModes(evidence) : [];
+  const evidenceEnvelope = evidence ? createPilotSessionEvidenceEnvelope({ evidence, targetLanguage }) : undefined;
 
   return (
     <Card>
@@ -89,6 +93,25 @@ export function TeacherSessionLocalEvidencePanel({
               <span className="font-semibold text-[var(--tenant-text)]">Latest event:</span> {latestEvent?.type ?? "none"}
             </p>
           </div>
+          {evidenceEnvelope ? (
+            <section className="mt-4 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4" data-evidence-envelope="pilot-session">
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div>
+                  <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Pilot evidence envelope</p>
+                  <h3 className="mt-1 text-base font-bold">One coherent session packet</h3>
+                  <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">
+                    This provider-neutral summary is derived from the validated browser record. It is safe for rehearsal review and excludes raw learner audio, transcripts, support-language progress, durable writes, and live classroom status.
+                  </p>
+                </div>
+                <StatusPill label={evidenceEnvelope.journeyStatus === "complete" ? "Journey complete" : "Journey in progress"} tone={evidenceEnvelope.journeyStatus === "complete" ? "success" : "warning"} />
+              </div>
+              <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-3">
+                <EvidenceMetric label="Target language" value={evidenceEnvelope.targetLanguage} />
+                <EvidenceMetric label="Envelope events" value={String(evidenceEnvelope.eventCount)} />
+                <EvidenceMetric label="Journey stages" value={`${evidenceEnvelope.stages.filter((stage) => stage.status === "complete").length}/${evidenceEnvelope.stages.length}`} />
+              </dl>
+            </section>
+          ) : null}
           <section className="mt-5">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>

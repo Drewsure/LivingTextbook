@@ -3200,3 +3200,16 @@ evidence adapter later records. See ADR 0805 and DR-881.
   gate.
 - Recorded the pilot rehearsal standard, ADR 0824, DR-896, and the focused
   verification contract.
+
+## Build session 0825: Pilot evidence envelope
+
+- Added a typed provider-neutral evidence envelope derived from the validated
+  browser rehearsal record.
+- Bound the envelope to tenant, package, launch, unit, student-session, and
+  target-language identity, with ordered stage summaries and deterministic
+  journey status.
+- Excluded raw learner audio, transcripts, support-language progress, durable
+  writes, and live classroom status as explicit invariants.
+- Exposed the envelope readiness in the teacher session evidence panel.
+- Extended the pilot rehearsal verifier and recorded ADR 0825, DR-897, and the
+  focused verification contract.

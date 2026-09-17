@@ -5339,6 +5339,33 @@ cannot mutate progression, unlock games, award rewards, store raw audio or
 transcripts, or export a report. See ADR 0823 and
 `docs/verification/TEACHER_REHEARSAL_RECONCILIATION_CHECKS.md`.
 
+# DR-897: Pilot Evidence Envelope
+
+## Decision
+
+Introduce one typed, provider-neutral pilot evidence envelope derived from the
+validated browser rehearsal record. Teacher reporting uses it as the coherent
+session summary for the canonical Front Door -> Flashcards -> Memory Match ->
+Sentence Builder -> Teacher Report journey.
+
+## Included
+
+- Tenant, package, launch, unit, student-session, and target-language identity.
+- Ordered workflow, deterministic stage status, event counts, event types,
+  completed modes, progression snapshot, and stable idempotency key.
+- Explicit privacy flags excluding raw learner audio, transcripts,
+  support-language progress, durable writes, and live classroom records.
+- Browser-rehearsal derivation that remains independent of the future hosted or
+  local persistence provider.
+
+## Excluded
+
+- Hosted storage, report export, assignment results, live classroom status,
+  reward mutation, and student unlock authority from the envelope itself.
+
+See ADR 0825 and
+`docs/verification/PILOT_EVIDENCE_ENVELOPE_CHECKS.md`.
+
 # DR-896: Pilot End-to-End Session Rehearsal
 
 ## Decision

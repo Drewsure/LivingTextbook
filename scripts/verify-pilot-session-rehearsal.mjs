@@ -25,6 +25,8 @@ const frontDoor = read("apps/web/src/features/access/FrontDoorEntryFlow.tsx");
 const flashcards = read("apps/web/src/features/game-shell/entry/FlashcardDemoFlow.tsx");
 const playableShell = read("apps/web/src/features/game-shell/components/PlayableGameRouteShell.tsx");
 const teacherSession = read("apps/web/src/app/teacher/sessions/[launchCode]/page.tsx");
+const teacherEvidencePanel = read("apps/web/src/features/teacher/TeacherSessionLocalEvidencePanel.tsx");
+const evidenceEnvelope = read("apps/web/src/features/persistence/pilotSessionEvidenceEnvelope.ts");
 const persistenceRoute = read("apps/web/src/app/api/persistence/progression/route.ts");
 const persistenceOperations = read("apps/web/src/server/persistence/sqliteProgressionOperations.ts");
 
@@ -68,6 +70,20 @@ requireFragments("teacher report boundary", teacherSession, [
   "TeacherSessionMonitorPanel",
   "TeacherSessionLocalEvidencePanel",
   "expectedPackageId={context.contentPackage.meta.packageId}",
+]);
+requireFragments("teacher evidence envelope", teacherEvidencePanel, [
+  "createPilotSessionEvidenceEnvelope",
+  "data-evidence-envelope=\"pilot-session\"",
+  "One coherent session packet",
+]);
+requireFragments("pilot evidence envelope contract", evidenceEnvelope, [
+  "PILOT_SESSION_EVIDENCE_ENVELOPE_VERSION",
+  'envelopeKind: "pilot-session-evidence"',
+  'workflow: ["front-door", "flashcards", "memory-match", "sentence-builder", "teacher-report"]',
+  "createPilotSessionEvidenceEnvelope",
+  "validatePilotSessionEvidenceEnvelope",
+  "durableWritePerformed: false",
+  "liveClassroomRecord: false",
 ]);
 requireFragments("hosted persistence safety", persistenceRoute, [
   "Hosted progression rehearsal writes are disabled by default.",

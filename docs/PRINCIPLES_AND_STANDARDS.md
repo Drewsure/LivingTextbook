@@ -3683,6 +3683,28 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-895,
 `docs/decision-register/DR-895-teacher-rehearsal-reconciliation.md`,
 and `docs/adr/0823-teacher-rehearsal-reconciliation.md`.
 
+## 240. Pilot Evidence Envelope Standard
+
+- Teacher reporting must consume one provider-neutral session evidence
+  envelope, not separate unrelated route summaries.
+- The envelope is bound to tenant, content package, launch, unit, student
+  session, and target language, and preserves the canonical workflow order.
+- It may summarize event counts, observed event types, completed modes,
+  progression state, and journey readiness, but it must not include raw learner
+  audio, learner transcripts, support-language progress, durable-write claims,
+  or live-classroom status.
+- The envelope is derived from validated browser rehearsal evidence and is not
+  itself a hosted record, export, assignment result, or release approval.
+- Stable identity and deterministic stage status are required so repeated
+  route visits and retries do not create multiple packets or inflate results.
+- A future hosted or local adapter may store this envelope only after its
+  tenant, privacy, retention, authorization, and release contracts align with
+  the same shape.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-897,
+`docs/decision-register/DR-897-pilot-evidence-envelope.md`,
+and `docs/adr/0825-pilot-evidence-envelope.md`.
+
 ## 239. Pilot End-to-End Session Rehearsal Standard
 
 - The first production-shaped rehearsal is one ordered, tenant-neutral journey:
