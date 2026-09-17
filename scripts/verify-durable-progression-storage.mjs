@@ -46,6 +46,10 @@ requireFragments("durable model", model, [
   "releaseApprovalAccepted",
   "school policy acceptance",
   'args.request.policy.mode === "durable-managed" ? "durable-managed" : "non-durable-rehearsal"',
+  "HostedProgressionPersistenceClientWriteRequest",
+  "validateHostedProgressionPersistenceClientWrite",
+  "createServerOwnedHostedProgressionPersistenceWriteRequest",
+  "Hosted progression policy is server-owned and cannot be supplied by the browser.",
 ]);
 
 requireFragments("persistence route", route, [
@@ -65,6 +69,12 @@ requireFragments("persistence route", route, [
 ]);
 
 requireFragments("persistence client", client, ["provider", '"durable-managed"', '"no-store"']);
+requireFragments("server-owned policy boundary", route, [
+  "validateHostedProgressionPersistenceClientWrite",
+  "createServerOwnedHostedProgressionPersistenceWriteRequest",
+  "getServerOwnedPolicy",
+  "clientValidation.request.requestedMode",
+]);
 requireFragments("student session route", sessionRoute, [
   'runtime = "nodejs"',
   "resolveSampleFrontDoorContext",

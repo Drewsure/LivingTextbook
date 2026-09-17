@@ -3233,3 +3233,13 @@ evidence adapter later records. See ADR 0805 and DR-881.
   preflight state.
 - Included the behavior gate in the canonical-games verification path.
 - Recorded ADR 0827, DR-899, and the focused verification contract.
+
+## Build session 0828: Server-owned persistence policy
+
+- Replaced browser-supplied persistence approval flags with a client intent
+  contract containing only identity, envelope, and requested mode.
+- Added server-owned policy derivation for rehearsal and durable modes.
+- Rejected client-supplied policy objects and preserved signed-session or
+  server-token authorization at the API boundary.
+- Added runtime assertions, persistence verification coverage, ADR 0828, DR-900,
+  and the focused verification contract.

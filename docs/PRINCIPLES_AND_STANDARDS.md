@@ -3773,3 +3773,25 @@ and `docs/adr/0826-pilot-session-preflight.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-899,
 `docs/decision-register/DR-899-pilot-preflight-behavior-gate.md`,
 and `docs/adr/0827-pilot-preflight-behavior-gate.md`.
+
+## 243. Server-Owned Persistence Policy Standard
+
+- A browser persistence request may identify the tenant-scoped session and
+  request `rehearsal-only` or `durable-managed` handling, but it may not attest
+  that school policy, retention policy, release approval, or durable-write
+  permission has been granted.
+- The server must derive those policy flags from deployment configuration and
+  validate the resulting internal request before any persistence provider is
+  reached.
+- A client-supplied policy object is rejected as invalid rather than merged or
+  trusted. The request remains bound to the signed student session or a
+  server-only persistence token.
+- This boundary protects white-label tenants from treating learner-device
+  input as institutional authorization and keeps provider selection replaceable.
+- Review, rehearsal, invalid, unauthorized, and unavailable responses must
+  remain side-effect free; a browser cannot turn a blocked response into a
+  durable write by changing request flags.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-900,
+`docs/decision-register/DR-900-server-owned-persistence-policy.md`,
+and `docs/adr/0828-server-owned-persistence-policy.md`.

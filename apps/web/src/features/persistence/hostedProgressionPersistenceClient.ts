@@ -45,13 +45,7 @@ export async function writeHostedProgressionContinuity(request: {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       ...request,
-      policy: {
-        mode: "durable-managed",
-        allowDurableWrite: true,
-        schoolPolicyAccepted: true,
-        retentionPolicyAccepted: true,
-        releaseApprovalAccepted: true,
-      },
+      requestedMode: "durable-managed",
     }),
   });
   const body = await response.json() as { status?: string; errors?: string[]; idempotent?: boolean };

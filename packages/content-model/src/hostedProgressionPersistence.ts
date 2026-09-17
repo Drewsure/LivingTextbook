@@ -35,6 +35,24 @@ export interface HostedProgressionPersistenceWriteRequest {
   };
 }
 
+export interface HostedProgressionPersistenceClientWriteRequest {
+  expectedTenantId: string;
+  expectedPackageId: string;
+  expectedLaunchCode: string;
+  expectedStudentSessionId: string;
+  envelope: unknown;
+  requestedMode: HostedProgressionPersistencePolicyMode;
+}
+
+export interface HostedProgressionPersistenceServerPolicy {
+  mode: HostedProgressionPersistencePolicyMode;
+  allowNonDurableWrite?: boolean;
+  allowDurableWrite?: boolean;
+  schoolPolicyAccepted: boolean;
+  retentionPolicyAccepted?: boolean;
+  releaseApprovalAccepted?: boolean;
+}
+
 export interface HostedProgressionPersistenceReadRequest {
   tenantId: string;
   packageId: string;
@@ -45,6 +63,67 @@ export interface HostedProgressionPersistenceReadRequest {
 export interface HostedProgressionPersistenceValidation {
   valid: boolean;
   errors: string[];
+}
+
+export function validateHostedProgressionPersistenceClientWrite(
+  request: unknown,
+): HostedProgressionPersistenceValidation & { request?: HostedProgressionPersistenceClientWriteRequest } {
+  if (!request || typeof request !== "object" || Array.isArray(request)) {
+    return { valid: false, errors: ["Hosted progression client request must be an object."] };
+  }
+
+  const candidate = request as Partial<HostedProgressionPersistenceClientWriteRequest> & { policy?: unknown };
+  const errors: string[] = [];
+  for (const [name, value] of Object.entries({
+    expectedTenantId: candidate.expectedTenantId,
+    expectedPackageId: candidate.expectedPackageId,
+    expectedLaunchCode: candidate.expectedLaunchCode,
+    expectedStudentSessionId: candidate.expectedStudentSessionId,
+  })) {
+    if (typeof value !== "string" || value.trim().length === 0) errors.push(`${name} is required.`);
+  }
+  if (candidate.requestedMode !== "rehearsal-only" && candidate.requestedMode !== "durable-managed") {
+    errors.push("Hosted progression client request requires a valid requested mode.");
+  }
+  if ("policy" in candidate) {
+    errors.push("Hosted progression policy is server-owned and cannot be supplied by the browser.");
+  }
+  errors.push(...validateProgressionContinuityRuntimeRequest({
+    expectedTenantId: typeof candidate.expectedTenantId === "string" ? candidate.expectedTenantId : "",
+    expectedPackageId: typeof candidate.expectedPackageId === "string" ? candidate.expectedPackageId : "",
+    expectedLaunchCode: typeof candidate.expectedLaunchCode === "string" ? candidate.expectedLaunchCode : "",
+    expectedStudentSessionId: typeof candidate.expectedStudentSessionId === "string" ? candidate.expectedStudentSessionId : "",
+    envelope: candidate.envelope,
+  }));
+
+  const parsedRequest = candidate.requestedMode !== "rehearsal-only" && candidate.requestedMode !== "durable-managed"
+    ? undefined
+    : {
+        expectedTenantId: typeof candidate.expectedTenantId === "string" ? candidate.expectedTenantId : "",
+        expectedPackageId: typeof candidate.expectedPackageId === "string" ? candidate.expectedPackageId : "",
+        expectedLaunchCode: typeof candidate.expectedLaunchCode === "string" ? candidate.expectedLaunchCode : "",
+        expectedStudentSessionId: typeof candidate.expectedStudentSessionId === "string" ? candidate.expectedStudentSessionId : "",
+        envelope: candidate.envelope,
+        requestedMode: candidate.requestedMode as HostedProgressionPersistencePolicyMode,
+      };
+  return { valid: errors.length === 0, errors: [...new Set(errors)], request: parsedRequest };
+}
+
+export function createServerOwnedHostedProgressionPersistenceWriteRequest(
+  request: HostedProgressionPersistenceClientWriteRequest,
+  policy: HostedProgressionPersistenceServerPolicy,
+): HostedProgressionPersistenceWriteRequest {
+  if (request.requestedMode !== policy.mode) {
+    throw new Error("Server-owned hosted progression policy mode must match the requested mode.");
+  }
+  return {
+    expectedTenantId: request.expectedTenantId,
+    expectedPackageId: request.expectedPackageId,
+    expectedLaunchCode: request.expectedLaunchCode,
+    expectedStudentSessionId: request.expectedStudentSessionId,
+    envelope: request.envelope,
+    policy,
+  };
 }
 
 export function validateHostedProgressionPersistenceWrite(

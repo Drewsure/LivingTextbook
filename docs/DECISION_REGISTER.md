@@ -5447,3 +5447,29 @@ launch or durable writes.
 
 See ADR 0827 and
 `docs/verification/PILOT_SESSION_PREFLIGHT_CHECKS.md`.
+
+# DR-900: Server-Owned Persistence Policy
+
+## Decision
+
+Separate browser persistence intent from server-owned institutional policy.
+The browser may request a persistence mode, while the server derives policy
+acceptance and write authorization from deployment configuration before
+validation or provider execution.
+
+## Included
+
+- A client request contract with tenant/session identity, envelope, and
+  `requestedMode` only.
+- Rejection of client-supplied policy objects.
+- Server-owned derivation of school, retention, release, and write gates.
+- Runtime assertions that the derived policy cannot be replaced by browser
+  claims.
+
+## Excluded
+
+- Enabling durable writes, selecting a production vendor, accepting school
+  policy, or changing the review-only default.
+
+See ADR 0828 and
+`docs/verification/PERSISTENCE_SERVER_POLICY_BOUNDARY_CHECKS.md`.

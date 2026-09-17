@@ -38,6 +38,7 @@ try {
     "packages/content-model/src/launchRuntime.ts",
     "packages/content-model/src/assignmentRuntime.ts",
     "packages/content-model/src/persistenceRuntime.ts",
+    "packages/content-model/src/hostedProgressionPersistence.ts",
     "packages/content-model/src/persistenceRecords.ts",
     "packages/content-model/src/persistenceAdapter.ts",
     "packages/content-model/src/persistenceConsistency.ts",
@@ -140,6 +141,7 @@ try {
   const assignment = require(join(output, "assignmentRuntime.js"));
   const assignmentPlan = require(join(output, "teacherAssignment.js"));
   const persistence = require(join(output, "persistenceRuntime.js"));
+  const hostedProgression = require(join(output, "hostedProgressionPersistence.js"));
   const persistenceRecords = require(join(output, "persistenceRecords.js"));
   const persistenceAdapter = require(join(output, "persistenceAdapter.js"));
   const persistenceConsistency = require(join(output, "persistenceConsistency.js"));
@@ -1658,6 +1660,28 @@ try {
   assertIncludes(persistenceErrors, "raw learner audio is not a core persistence field");
   assertIncludes(persistenceErrors, "release approval is required before mutation or export");
   assertEqual(persistence.createReviewOnlyPersistenceAdapter().execute(persistenceRequest).sideEffect, "none");
+  const hostedClientWrite = {
+    expectedTenantId: "tenant-1",
+    expectedPackageId: "package-1",
+    expectedLaunchCode: "launch-1",
+    expectedStudentSessionId: "session-1",
+    envelope: continuityEnvelope,
+    requestedMode: "durable-managed",
+  };
+  assertEqual(hostedProgression.validateHostedProgressionPersistenceClientWrite(hostedClientWrite).valid, true);
+  assertIncludes(
+    hostedProgression.validateHostedProgressionPersistenceClientWrite({
+      ...hostedClientWrite,
+      policy: { mode: "durable-managed", allowDurableWrite: true, schoolPolicyAccepted: true },
+    }).errors,
+    "Hosted progression policy is server-owned and cannot be supplied by the browser.",
+  );
+  const serverOwnedHostedWrite = hostedProgression.createServerOwnedHostedProgressionPersistenceWriteRequest(
+    hostedClientWrite,
+    { mode: "durable-managed", allowDurableWrite: false, schoolPolicyAccepted: false, retentionPolicyAccepted: false, releaseApprovalAccepted: false },
+  );
+  assertEqual(serverOwnedHostedWrite.policy.allowDurableWrite, false);
+  assertEqual(serverOwnedHostedWrite.policy.schoolPolicyAccepted, false);
   const progressWriteWithoutIdempotencyKeyErrors = persistence.validatePersistenceRuntimeRequest({
     ...persistenceRequest,
     category: "progress-event-stream",

@@ -1,9 +1,12 @@
 import { NextResponse } from "next/server";
 import {
   createHostedProgressionPersistenceRecord,
+  createServerOwnedHostedProgressionPersistenceWriteRequest,
+  validateHostedProgressionPersistenceClientWrite,
   validateHostedProgressionPersistenceRead,
   validateHostedProgressionPersistenceWrite,
   type HostedProgressionPersistenceRecord,
+  type HostedProgressionPersistenceClientWriteRequest,
   type HostedProgressionPersistenceWriteRequest,
 } from "@living-textbook/content-model";
 import { getDurableProgressionStore } from "@/server/persistence/sqliteProgressionStore";
@@ -20,13 +23,23 @@ const globalStore = globalThis as typeof globalThis & {
 const rehearsalStore = globalStore.__livingTextbookHostedProgressionRehearsal ??= new Map();
 
 export async function POST(request: Request) {
-  let body: HostedProgressionPersistenceWriteRequest;
+  let rawBody: unknown;
   try {
-    body = await request.json() as HostedProgressionPersistenceWriteRequest;
+    rawBody = await request.json();
   } catch {
     return json({ status: "rejected", errors: ["Hosted progression request must be valid JSON."] }, 400);
   }
 
+  const clientValidation = validateHostedProgressionPersistenceClientWrite(rawBody);
+  const requestedMode = isClientWriteRequest(rawBody) ? rawBody.requestedMode : "rehearsal-only";
+  if (!clientValidation.valid || !clientValidation.request) {
+    return json({ status: "blocked", durability: requestedMode === "durable-managed" ? "durable-managed" : "non-durable-rehearsal", errors: clientValidation.errors }, 423);
+  }
+
+  const body = createServerOwnedHostedProgressionPersistenceWriteRequest(
+    clientValidation.request,
+    getServerOwnedPolicy(clientValidation.request.requestedMode),
+  );
   const validation = validateHostedProgressionPersistenceWrite(body);
   if (!validation.valid) {
     return json({ status: "blocked", durability: body?.policy?.mode === "durable-managed" ? "durable-managed" : "non-durable-rehearsal", errors: validation.errors }, 423);
@@ -111,6 +124,27 @@ function validateAndRespond(
 
 function getConfiguredProvider(): PersistenceProvider {
   return process.env.LIVING_TEXTBOOK_PERSISTENCE_PROVIDER === "sqlite" ? "sqlite" : "process-memory";
+}
+
+function getServerOwnedPolicy(mode: HostedProgressionPersistenceClientWriteRequest["requestedMode"]) {
+  if (mode === "durable-managed") {
+    return {
+      mode,
+      allowDurableWrite: process.env.LIVING_TEXTBOOK_PERSISTENCE_ALLOW_DURABLE_WRITES === "true",
+      schoolPolicyAccepted: process.env.LIVING_TEXTBOOK_PERSISTENCE_SCHOOL_POLICY_ACCEPTED === "true",
+      retentionPolicyAccepted: process.env.LIVING_TEXTBOOK_PERSISTENCE_RETENTION_POLICY_ACCEPTED === "true",
+      releaseApprovalAccepted: process.env.LIVING_TEXTBOOK_PERSISTENCE_RELEASE_APPROVED === "true",
+    } as const;
+  }
+  return {
+    mode,
+    allowNonDurableWrite: process.env.LIVING_TEXTBOOK_HOSTED_PERSISTENCE_REHEARSAL === "true",
+    schoolPolicyAccepted: process.env.LIVING_TEXTBOOK_PERSISTENCE_SCHOOL_POLICY_ACCEPTED === "true",
+  } as const;
+}
+
+function isClientWriteRequest(value: unknown): value is HostedProgressionPersistenceClientWriteRequest {
+  return Boolean(value && typeof value === "object" && !Array.isArray(value) && "requestedMode" in value);
 }
 
 function hasApiToken(request: Request): boolean {
