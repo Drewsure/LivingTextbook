@@ -3134,3 +3134,16 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Added `npm run verify:memory-match-gate` and included it in the canonical game
   verification command.
 - Added ADR 0819, DR-891, and the focused verification contract.
+
+## Build session 0820: Memory Match evidence handoff packet
+
+- Added a typed, review-only evidence packet that composes the canonical
+  Memory Match gate with the frozen MiniStar Phaser candidate review.
+- Defined the first human-triggered Z.ai return package with nine required
+  artifacts and eight acceptance checks.
+- Added a teacher-visible handoff preview without dispatch, source import,
+  route replacement, live scoring, persistence mutation, reward mutation, or
+  assignment controls.
+- Added `npm run verify:memory-match-handoff` and included it in canonical game
+  verification.
+- Added ADR 0820, DR-892, and the evidence handoff verification contract.

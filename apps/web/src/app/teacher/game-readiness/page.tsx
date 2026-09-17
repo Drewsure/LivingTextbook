@@ -36,6 +36,8 @@ import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 import { EvidencePacketFlowPanel } from "@/features/evidence/EvidencePacketFlowPanel";
 import { sampleCanonicalMemoryMatchIntegrationGate } from "@/data/sampleCanonicalMemoryMatchIntegrationGate";
 import { CanonicalMemoryMatchIntegrationGatePanel } from "@/features/game-offers/CanonicalMemoryMatchIntegrationGatePanel";
+import { sampleMemoryMatchEvidenceHandoffPacket } from "@/data/sampleMemoryMatchEvidenceHandoffPacket";
+import { MemoryMatchEvidenceHandoffPacketPanel } from "@/features/game-offers/MemoryMatchEvidenceHandoffPacketPanel";
 
 const sourceLinks = [
   { href: "/teacher/intake", label: "Foundation intake" },
@@ -95,6 +97,7 @@ export default function TeacherGameReadinessPage() {
         <PrototypeReturnReadinessSummaryPanel summary={samplePrototypeReturnReadinessSummary} />
 
         <CanonicalMemoryMatchIntegrationGatePanel gate={sampleCanonicalMemoryMatchIntegrationGate} />
+        <MemoryMatchEvidenceHandoffPacketPanel packet={sampleMemoryMatchEvidenceHandoffPacket} />
 
         <ParentEngineReadinessPanel plan={sampleParentEngineReadinessPlan} />
         <ActiveGameRouteCatalogPanel

@@ -3583,3 +3583,30 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-890,
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-891,
 `docs/decision-register/DR-891-canonical-memory-match-integration-gate.md`,
 and `docs/adr/0819-canonical-memory-match-integration-gate.md`.
+
+## 235. Memory Match Evidence Handoff Standard
+
+- The first concrete Z.ai request for the frozen Memory Match candidate is an
+  evidence-only return package. It is initiated by a human after review of the
+  packet; the platform never dispatches an agent automatically.
+- The return package must bind the frozen repository, snapshot, and commit and
+  must include the manifest, reviewed unit fixture, canonical event replay,
+  target-language audio report, deterministic scoring replay,
+  mobile/accessibility report, wrapper adapter review, source checksum
+  manifest, and setup/limitations README.
+- Handoff-ready means the request is sufficiently specified for human review.
+  It does not mean integration-ready, production-ready, or approved for
+  source import.
+- The package must prove that the canonical wrapper owns content, audio,
+  scoring, progression, persistence, rewards, and assignment boundaries. A
+  Phaser scene may render and report through the wrapper only.
+- Source promotion, route replacement, scene-owned scoring or persistence,
+  package activation, reward mutation, and student assignment remain blocked
+  until Codex reviews the returned evidence and records an explicit decision.
+- The teacher surface is a read-only evidence preview. It must expose the
+  acceptance checks and blocked actions without adding a live dispatch button
+  or a hidden integration path.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-892,
+`docs/decision-register/DR-892-memory-match-evidence-handoff-packet.md`,
+and `docs/adr/0820-memory-match-evidence-handoff-packet.md`.

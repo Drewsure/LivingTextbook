@@ -5280,3 +5280,19 @@ scene-owned scoring or persistence, package promotion, and student assignment.
 This is the point at which future Z.ai evidence work will be requested; it is
 not an approval to integrate the frozen source. See ADR 0819 and
 `docs/verification/CANONICAL_MEMORY_MATCH_INTEGRATION_GATE_CHECKS.md`.
+
+# DR-892: Memory Match Evidence Handoff Packet
+
+The first concrete Z.ai engagement point is now a human-triggered,
+review-only evidence handoff packet for the frozen Memory Match candidate.
+The packet binds frozen provenance and requires nine return artifacts covering
+the reviewed fixture, canonical event replay, target-language audio,
+deterministic scoring, mobile/accessibility, wrapper boundaries, checksums,
+and setup limitations.
+
+The packet is handoff-ready but integration-blocked. It does not dispatch Z.ai,
+import source, replace the canonical route, allow scene-owned scoring or
+persistence, activate a package, mutate rewards, or create an assignment.
+Codex must review the returned evidence and record a separate integration
+decision before any promotion work can begin. See ADR 0820 and
+`docs/verification/MEMORY_MATCH_EVIDENCE_HANDOFF_CHECKS.md`.
