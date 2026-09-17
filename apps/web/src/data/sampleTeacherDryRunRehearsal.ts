@@ -105,15 +105,51 @@ export function createTeacherDryRunRehearsal({
         blockedActions: ["Do not let support language, media play, or background audio substitute for target-language activity completion."],
       },
       {
+        stageId: "memory-match-handoff",
+        label: "Memory Match handoff rehearsal",
+        category: "Canonical activity handoff",
+        status: "needs-review",
+        owner: "shared",
+        source: "Production-shaped vertical slice handoff",
+        routePath: "/memory/partner-demo-unit-1",
+        teacherAction:
+          "Complete Flashcards, follow the curated next-activity handoff into Memory Match, and confirm the destination accepts only the matching tenant, package, launch, and student-session record.",
+        expectedEvidence: "Memory Match opens from a validated handoff and contributes coded events to the same browser rehearsal record.",
+        mustConfirm: [
+          "Direct Memory Match entry remains blocked from progression unlock.",
+          "The handoff carries the latest progression snapshot and event cursor.",
+          "Memory Match evidence is cumulative with the Flashcards evidence.",
+        ],
+        blockedActions: ["Do not treat a direct URL, missing package, or mismatched student session as an accepted handoff."],
+      },
+      {
+        stageId: "sentence-builder-handoff",
+        label: "Sentence Builder handoff rehearsal",
+        category: "Canonical activity handoff",
+        status: "needs-review",
+        owner: "shared",
+        source: "Production-shaped vertical slice handoff",
+        routePath: "/sentence/partner-demo-unit-1",
+        teacherAction:
+          "Complete the reviewed Memory Match route, follow the curated handoff into Sentence Builder, and confirm target-language sentence evidence remains the only progression trigger.",
+        expectedEvidence: "Sentence Builder receives the validated progression handoff and appends its coded completion evidence to the same local session record.",
+        mustConfirm: [
+          "Text tiles and instructions remain tap-to-speak.",
+          "Sentence completion is deterministic and idempotent on retry.",
+          "Teacher evidence can distinguish the three canonical activity modes.",
+        ],
+        blockedActions: ["Do not replace the canonical wrapper with a scene-owned score, reward, or persistence path."],
+      },
+      {
         stageId: "game-audio",
         label: "Game and audio rehearsal",
         category: "Game and audio rehearsal",
         status: "needs-review",
         owner: "shared",
         source: "Assigned game/audio coverage",
-        routePath: "/sentence/partner-demo-unit-1",
+        routePath: "/speak/partner-demo-unit-1",
         teacherAction:
-          "Open Sentence Builder and Speak It, tap every visible learner text item, and confirm each instruction, word, sentence, and action has a learning-audio control.",
+          "Open Speak It, tap every visible learner text item, and confirm each instruction, word, sentence, and action has a learning-audio control.",
         expectedEvidence: "Teacher can rehearse game audio coverage before assigning the activity to children.",
         mustConfirm: [
           "Listen/replay controls are separate from submit controls.",

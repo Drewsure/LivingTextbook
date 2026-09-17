@@ -3682,3 +3682,32 @@ and `docs/adr/0822-cross-route-local-evidence-continuity.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-895,
 `docs/decision-register/DR-895-teacher-rehearsal-reconciliation.md`,
 and `docs/adr/0823-teacher-rehearsal-reconciliation.md`.
+
+## 239. Pilot End-to-End Session Rehearsal Standard
+
+- The first production-shaped rehearsal is one ordered, tenant-neutral journey:
+  front door, Flashcards, Memory Match, Sentence Builder, and teacher report.
+- The coded front door establishes the tenant, package, launch, and student
+  session boundary. It must state that the rehearsal does not collect real
+  learner data.
+- Target-language Flashcard completion is the only first unlock trigger.
+  Support-language playback, audio requests, direct URLs, and media-only
+  evidence cannot advance the student.
+- Memory Match and Sentence Builder open only from a validated progression
+  handoff and append cumulative, deduplicated local evidence for the same
+  package and student session.
+- Completion and retry handling must be deterministic and idempotent. A route
+  retry must not duplicate accepted completion, mastery, Star Dust, or reward
+  evidence.
+- The teacher report is read-only and must reconcile tenant, package, launch,
+  and student-session identity before showing activity summaries.
+- The hosted persistence adapter remains a typed contract behind an explicit
+  feature flag. Durable writes, live reporting, exports, and raw learner audio
+  or transcript storage remain blocked by default until school-policy,
+  retention, authorization, privacy, and release gates are accepted.
+- A rehearsal failure must be visible and reviewable; it must never silently
+  unlock the next game or present local evidence as a live classroom record.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-896,
+`docs/decision-register/DR-896-pilot-end-to-end-session-rehearsal.md`,
+and `docs/adr/0824-pilot-end-to-end-session-rehearsal.md`.

@@ -3188,3 +3188,15 @@ evidence adapter later records. See ADR 0805 and DR-881.
   transcript boundaries visible in the teacher surface.
 - Extended the production-shaped vertical-slice verifier and recorded ADR 0823
   and DR-895.
+
+## Build session 0824: Pilot end-to-end session rehearsal
+
+- Defined the first complete white-label rehearsal as Front Door -> Flashcards
+  -> Memory Match -> Sentence Builder -> Teacher Report.
+- Extended the rehearsal fixture with explicit Memory Match and Sentence
+  Builder handoff stages, audio expectations, idempotency checks, and blocked
+  direct-route or scene-owned mutation behavior.
+- Added a focused verifier and included it in the canonical-games foundation
+  gate.
+- Recorded the pilot rehearsal standard, ADR 0824, DR-896, and the focused
+  verification contract.

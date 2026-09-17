@@ -5338,3 +5338,35 @@ classroom report. Mismatched evidence is hidden and explained. The surface
 cannot mutate progression, unlock games, award rewards, store raw audio or
 transcripts, or export a report. See ADR 0823 and
 `docs/verification/TEACHER_REHEARSAL_RECONCILIATION_CHECKS.md`.
+
+# DR-896: Pilot End-to-End Session Rehearsal
+
+## Decision
+
+Make the first production-shaped white-label rehearsal an ordered,
+tenant-neutral journey from the coded front door through Flashcards, Memory
+Match, Sentence Builder, and the teacher report. The canonical-games gate now
+checks that this sequence is represented in the rehearsal fixture, runtime
+handoffs, teacher evidence boundary, and hosted persistence safety boundary.
+
+## Included
+
+- A teacher-only, dry-run rehearsal sequence with explicit route expectations.
+- Target-language Flashcard completion as the first unlock trigger.
+- Validated handoffs into Memory Match and Sentence Builder.
+- Cumulative, deduplicated local session evidence bound to package and student
+  session identity.
+- Teacher-visible read-only reconciliation of activity and progression summary.
+- A typed hosted persistence contract that remains disabled by default and
+  requires policy, retention, authorization, privacy, and release gates.
+- Deterministic retry and idempotency expectations for completion evidence.
+
+## Excluded
+
+- Direct URL unlocks, support-language-only progression, live assignments,
+  exports, raw learner audio, transcripts, reward mutation, and unreviewed
+  frozen Z.ai/Phaser source integration.
+- Durable writes from the browser rehearsal path.
+
+See ADR 0824 and
+`docs/verification/PILOT_END_TO_END_SESSION_REHEARSAL_CHECKS.md`.
