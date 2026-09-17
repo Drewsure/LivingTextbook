@@ -3635,3 +3635,27 @@ and `docs/adr/0820-memory-match-evidence-handoff-packet.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-893,
 `docs/decision-register/DR-893-production-shaped-vertical-slice-handoff.md`,
 and `docs/adr/0821-production-shaped-vertical-slice-handoff.md`.
+
+## 237. Cross-Route Local Evidence Continuity Standard
+
+- The canonical browser rehearsal slice uses one local evidence record per
+  launch code, bound to tenant, content-package, unit, and student-session
+  identity.
+- Standalone Flashcards, Memory Match, Sentence Builder, and later canonical
+  routes may contribute route-local events to that record. Events are merged
+  in order and exact duplicates are removed so re-renders and route retries do
+  not inflate teacher-visible counts.
+- The latest validated progression snapshot replaces the prior snapshot, while
+  the event history remains cumulative for the same package and student
+  session.
+- A package, tenant, unit, launch, or student-session mismatch rejects the
+  append. It must never merge records across learners or white-label tenants.
+- The record remains `browser-rehearsal-only`: it is not hosted persistence,
+  a classroom record, an export, or a live assignment data channel. Raw audio,
+  transcripts, and support-language-only evidence remain excluded.
+- Teacher surfaces may read this record for local verification, but a failed
+  local evidence write must not silently unlock a game or award mastery.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-894,
+`docs/decision-register/DR-894-cross-route-local-evidence-continuity.md`,
+and `docs/adr/0822-cross-route-local-evidence-continuity.md`.

@@ -3160,3 +3160,17 @@ evidence adapter later records. See ADR 0805 and DR-881.
   destination handoff gate.
 - Extended `npm run verify:vertical-slice` and the standing handoff contract
   documentation.
+
+## Build session 0822: Cross-route local evidence continuity
+
+- Bound browser rehearsal evidence to content-package identity in addition to
+  tenant, launch, unit, and student-session identity.
+- Added a deterministic append/merge helper that preserves route order and
+  removes exact duplicate events without merging different sessions.
+- Wired the standalone Flashcards route and shared canonical game shell to
+  update the teacher-visible local rehearsal record.
+- Kept hosted persistence, export, raw audio, transcripts, and live learner
+  reporting blocked; local evidence failures are visible but do not grant
+  progression.
+- Added the continuity checks to `npm run verify:vertical-slice` and recorded
+  ADR 0822 and DR-894.

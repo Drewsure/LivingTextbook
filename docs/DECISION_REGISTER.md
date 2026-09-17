@@ -5310,3 +5310,17 @@ package identity, failed storage, or identity mismatch keeps the destination
 locked. The slice remains target-language driven, audio-first, deterministic,
 tenant-neutral, and free of raw learner audio or transcript persistence. See
 ADR 0821 and `docs/verification/PRODUCTION_VERTICAL_SLICE_CHECKS.md`.
+
+# DR-894: Cross-Route Local Evidence Continuity
+
+The browser rehearsal evidence record now carries the content-package identity
+and accepts validated event contributions from standalone canonical routes.
+Flashcards and the shared playable game shell merge route-local events into one
+launch-bound record with exact-event deduplication; the newest validated
+progression snapshot is retained.
+
+This does not enable hosted persistence, live learner reporting, export, raw
+audio or transcript storage, or cross-session merging. Package, tenant, unit,
+launch, and student-session mismatches reject the append. Teacher views remain
+read-only rehearsal surfaces. See ADR 0822 and
+`docs/verification/LOCAL_SESSION_EVIDENCE_CONTINUITY_CHECKS.md`.

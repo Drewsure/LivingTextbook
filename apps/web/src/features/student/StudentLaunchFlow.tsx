@@ -58,7 +58,7 @@ import {
 import { FlashcardPracticeCard } from "./components/FlashcardPracticeCard";
 import { SpeakItPracticeGame } from "@/features/game-shell/speaking/SpeakItPracticeGame";
 import { useTeacherMicrophonePracticeSettings } from "@/features/audio/useTeacherMicrophonePracticeSettings";
-import { createLocalSessionEvidence, saveLocalSessionEvidence } from "@/features/persistence/localSessionEvidenceStore";
+import { appendLocalSessionEvidence } from "@/features/persistence/localSessionEvidenceStore";
 import { createProgressionHandoffRecord, saveProgressionHandoffRecord } from "@/features/persistence/progressionHandoffStore";
 import { LaunchContextSafetyCard } from "./components/LaunchContextSafetyCard";
 import { NextGameUnlockCard } from "./components/NextGameUnlockCard";
@@ -108,6 +108,7 @@ export function StudentLaunchFlow({
     gameMode: activeGameMode ?? launchSession.entryMode,
   });
   const [eventContractErrors, setEventContractErrors] = useState<string[]>([]);
+  const [localEvidenceErrors, setLocalEvidenceErrors] = useState<string[]>([]);
   const [continuityEnvelope, setContinuityEnvelope] = useState<ReturnType<typeof createProgressionContinuityEnvelope>>();
   const [targetPracticeEngagedItemIds, setTargetPracticeEngagedItemIds] = useState<string[]>([]);
   const sessionEventsRef = useRef<GameProgressEvent[]>([]);
@@ -165,15 +166,15 @@ export function StudentLaunchFlow({
   useEffect(() => {
     if (sessionEvents.length === 0) return;
 
-    saveLocalSessionEvidence(
-      createLocalSessionEvidence({
-        launchSession,
-        progression: currentProgression,
-        events: sessionEvents,
-        savedAt: new Date().toISOString(),
-      }),
-    );
-  }, [currentProgression, launchSession, sessionEvents]);
+    const result = appendLocalSessionEvidence({
+      packageId: contentPackage.meta.packageId,
+      launchSession,
+      progression: currentProgression,
+      events: sessionEvents,
+      savedAt: new Date().toISOString(),
+    });
+    setLocalEvidenceErrors(result.errors);
+  }, [contentPackage.meta.packageId, currentProgression, launchSession, sessionEvents]);
 
   useEffect(() => {
     if (sessionSettings?.assistLanguage.teacherEnablementPersisted) {
@@ -611,6 +612,16 @@ export function StudentLaunchFlow({
           <p className="mt-1">Completion is paused until the event evidence is valid.</p>
           <ul className="mt-2 grid gap-1">
             {eventContractErrors.map((error, index) => (
+              <li key={`${error}-${index}`}>{error}</li>
+            ))}
+          </ul>
+        </aside>
+      ) : null}
+      {localEvidenceErrors.length > 0 ? (
+        <aside className="rounded-lg border border-amber-300 bg-amber-50 p-4 text-sm text-amber-950" aria-live="polite">
+          <p className="font-bold">Browser rehearsal evidence was not updated</p>
+          <ul className="mt-2 grid gap-1">
+            {localEvidenceErrors.map((error, index) => (
               <li key={`${error}-${index}`}>{error}</li>
             ))}
           </ul>

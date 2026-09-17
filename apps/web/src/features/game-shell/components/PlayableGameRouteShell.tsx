@@ -25,6 +25,7 @@ import { GameLearningAudioContractCard } from "./GameLearningAudioContractCard";
 import { GameRouteHeaderCard } from "./GameRouteHeaderCard";
 import { validateCanonicalGameCompletion } from "../canonicalGameCompletionGate";
 import { readProgressionHandoffRecord, saveProgressionRouteHandoff } from "@/features/persistence/progressionHandoffStore";
+import { appendLocalSessionEvidence } from "@/features/persistence/localSessionEvidenceStore";
 
 export interface PlayableGameDemoFlowProps {
   tenant: TenantConfig;
@@ -92,6 +93,7 @@ export function PlayableGameRouteShell({
   const completionAcceptedRef = useRef(false);
   const [lastEarnedDust, setLastEarnedDust] = useState(0);
   const [eventContractErrors, setEventContractErrors] = useState<string[]>([]);
+  const [localEvidenceErrors, setLocalEvidenceErrors] = useState<string[]>([]);
   const [handoffStatus, setHandoffStatus] = useState<"checking" | "accepted" | "not-found" | "rejected">("checking");
   const [handoffMessage, setHandoffMessage] = useState("Checking for a validated route handoff.");
   const targetLanguage = resolveTargetLanguage({
@@ -110,6 +112,19 @@ export function PlayableGameRouteShell({
   const audioCoverage = getGameAudioCoverage({ unit, audioCues, audioSupportPlan, gameMode, targetLanguage });
   const gameAudioReady = audioCoverage.ready;
   const gameUnlocked = gameSupportedAtLevel && curatedOfferReady && currentProgression.unlockedGameModes.includes(gameMode) && gameAudioReady;
+
+  useEffect(() => {
+    if (!packageId || sessionEvents.length === 0) return;
+
+    const result = appendLocalSessionEvidence({
+      packageId,
+      launchSession,
+      progression: currentProgression,
+      events: sessionEvents,
+      savedAt: new Date().toISOString(),
+    });
+    setLocalEvidenceErrors(result.errors);
+  }, [currentProgression, launchSession, packageId, sessionEvents]);
 
   useEffect(() => {
     if (!packageId) {
@@ -304,6 +319,17 @@ export function PlayableGameRouteShell({
           <p className="mt-1">Completion is paused until the event evidence is valid.</p>
           <ul className="mt-2 grid gap-1">
             {eventContractErrors.map((error, index) => (
+              <li key={`${error}-${index}`}>{error}</li>
+            ))}
+          </ul>
+        </aside>
+      ) : null}
+
+      {localEvidenceErrors.length > 0 ? (
+        <aside className="rounded-lg border border-amber-300 bg-amber-50 p-4 text-sm text-amber-950" aria-live="polite">
+          <p className="font-bold">Browser rehearsal evidence was not updated</p>
+          <ul className="mt-2 grid gap-1">
+            {localEvidenceErrors.map((error, index) => (
               <li key={`${error}-${index}`}>{error}</li>
             ))}
           </ul>

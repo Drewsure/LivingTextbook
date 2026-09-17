@@ -26,6 +26,7 @@ import {
 import { starterRewardCatalog } from "@/features/rewards/rewardCatalog";
 import { getCollectionPath } from "@/features/routes/routeContracts";
 import { saveProgressionRouteHandoff } from "@/features/persistence/progressionHandoffStore";
+import { appendLocalSessionEvidence } from "@/features/persistence/localSessionEvidenceStore";
 import { FlashcardPracticeCard } from "@/features/student/components/FlashcardPracticeCard";
 import { LaunchContextSafetyCard } from "@/features/student/components/LaunchContextSafetyCard";
 import { RecommendedGameRoutesCard } from "@/features/student/components/RecommendedGameRoutesCard";
@@ -74,6 +75,7 @@ export function FlashcardDemoFlow({
   const [lastEarnedDust, setLastEarnedDust] = useState(0);
   const [targetPracticeEngagedItemIds, setTargetPracticeEngagedItemIds] = useState<string[]>([]);
   const [routeHandoffErrors, setRouteHandoffErrors] = useState<string[]>([]);
+  const [localEvidenceErrors, setLocalEvidenceErrors] = useState<string[]>([]);
   const [assistLanguageEnabled, setAssistLanguageEnabled] = useState(
     sessionSettings?.assistLanguage.enabled ?? getDefaultAssistLanguageEnabled(tenant),
   );
@@ -99,6 +101,19 @@ export function FlashcardDemoFlow({
   const targetPracticeEngagedCount = targetPracticeEngagedItemIds.length;
   const targetPracticeReady = audioCoverage.ready && (entryComplete || targetPracticeEngagedCount >= targetPracticeRequiredCount);
   const activeAssistLanguagePlan = assistLanguageEnabled ? assistLanguagePlan : undefined;
+
+  useEffect(() => {
+    if (sessionEvents.length === 0) return;
+
+    const result = appendLocalSessionEvidence({
+      packageId: contentPackage.meta.packageId,
+      launchSession,
+      progression: currentProgression,
+      events: sessionEvents,
+      savedAt: new Date().toISOString(),
+    });
+    setLocalEvidenceErrors(result.errors);
+  }, [contentPackage.meta.packageId, currentProgression, launchSession, sessionEvents]);
 
   useEffect(() => {
     if (sessionSettings?.assistLanguage.teacherEnablementPersisted) {
@@ -265,6 +280,16 @@ export function FlashcardDemoFlow({
           <p className="font-bold">The next activity could not be opened</p>
           <ul className="mt-2 grid gap-1">
             {routeHandoffErrors.map((error, index) => (
+              <li key={`${error}-${index}`}>{error}</li>
+            ))}
+          </ul>
+        </aside>
+      ) : null}
+      {localEvidenceErrors.length > 0 ? (
+        <aside className="rounded-lg border border-amber-300 bg-amber-50 p-4 text-sm text-amber-950" aria-live="polite">
+          <p className="font-bold">Browser rehearsal evidence was not updated</p>
+          <ul className="mt-2 grid gap-1">
+            {localEvidenceErrors.map((error, index) => (
               <li key={`${error}-${index}`}>{error}</li>
             ))}
           </ul>

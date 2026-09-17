@@ -1,10 +1,11 @@
 import type { GameProgressEvent, LaunchSession, StudentProgressionState } from "@living-textbook/content-model";
 
-export const LOCAL_SESSION_EVIDENCE_VERSION = 1;
+export const LOCAL_SESSION_EVIDENCE_VERSION = 2;
 
 export interface LocalSessionEvidence {
   version: typeof LOCAL_SESSION_EVIDENCE_VERSION;
   storageMode: "browser-rehearsal-only";
+  packageId: string;
   launchCode: string;
   tenantId: string;
   unitKey: string;
@@ -19,6 +20,7 @@ export function getLocalSessionEvidenceStorageKey(launchCode: string): string {
 }
 
 export function createLocalSessionEvidence(args: {
+  packageId: string;
   launchSession: LaunchSession;
   progression: StudentProgressionState;
   events: GameProgressEvent[];
@@ -27,6 +29,7 @@ export function createLocalSessionEvidence(args: {
   return {
     version: LOCAL_SESSION_EVIDENCE_VERSION,
     storageMode: "browser-rehearsal-only",
+    packageId: args.packageId,
     launchCode: args.launchSession.launchCode,
     tenantId: args.launchSession.tenantId,
     unitKey: args.launchSession.unitKey,
@@ -40,16 +43,56 @@ export function createLocalSessionEvidence(args: {
 export function saveLocalSessionEvidence(evidence: LocalSessionEvidence): void {
   if (typeof window === "undefined") return;
 
-  window.localStorage.setItem(
-    getLocalSessionEvidenceStorageKey(evidence.launchCode),
-    JSON.stringify(evidence),
-  );
+  writeLocalSessionEvidence(evidence);
+}
+
+export interface AppendLocalSessionEvidenceArgs {
+  packageId: string;
+  launchSession: LaunchSession;
+  progression: StudentProgressionState;
+  events: GameProgressEvent[];
+  savedAt: string;
+}
+
+export interface AppendLocalSessionEvidenceResult {
+  evidence?: LocalSessionEvidence;
+  errors: string[];
+}
+
+/**
+ * Merge route-local events into the one browser rehearsal record for a launch.
+ * This is deliberately not a hosted write and rejects cross-package/session mixing.
+ */
+export function appendLocalSessionEvidence(
+  args: AppendLocalSessionEvidenceArgs,
+): AppendLocalSessionEvidenceResult {
+  if (typeof window === "undefined") {
+    return { errors: ["Local session evidence can only be saved in a browser session."] };
+  }
+
+  const existing = readLocalSessionEvidence(args.launchSession.launchCode);
+  if (existing && !sameEvidenceSession(existing, args)) {
+    return { errors: ["Existing browser rehearsal evidence belongs to a different package or student session."] };
+  }
+
+  const incoming = createLocalSessionEvidence(args);
+  const evidence: LocalSessionEvidence = {
+    ...incoming,
+    events: mergeEventHistory(existing?.events ?? [], incoming.events),
+  };
+  const errors = writeLocalSessionEvidence(evidence);
+  return errors.length > 0 ? { errors } : { evidence, errors: [] };
 }
 
 export function readLocalSessionEvidence(launchCode: string): LocalSessionEvidence | undefined {
   if (typeof window === "undefined") return undefined;
 
-  const raw = window.localStorage.getItem(getLocalSessionEvidenceStorageKey(launchCode));
+  let raw: string | null;
+  try {
+    raw = window.localStorage.getItem(getLocalSessionEvidenceStorageKey(launchCode));
+  } catch {
+    return undefined;
+  }
   if (!raw) return undefined;
 
   try {
@@ -83,6 +126,7 @@ function isLocalSessionEvidence(value: unknown): value is LocalSessionEvidence {
   return (
     record.version === LOCAL_SESSION_EVIDENCE_VERSION &&
     record.storageMode === "browser-rehearsal-only" &&
+    typeof record.packageId === "string" &&
     typeof record.launchCode === "string" &&
     typeof record.tenantId === "string" &&
     typeof record.unitKey === "string" &&
@@ -92,6 +136,63 @@ function isLocalSessionEvidence(value: unknown): value is LocalSessionEvidence {
     record.events.every(isGameProgressEvent) &&
     typeof record.savedAt === "string"
   );
+}
+
+function sameEvidenceSession(
+  existing: LocalSessionEvidence,
+  args: AppendLocalSessionEvidenceArgs,
+): boolean {
+  return (
+    existing.packageId === args.packageId &&
+    existing.tenantId === args.launchSession.tenantId &&
+    existing.launchCode === args.launchSession.launchCode &&
+    existing.unitKey === args.launchSession.unitKey &&
+    existing.studentSessionId === args.progression.studentSessionId
+  );
+}
+
+function mergeEventHistory(
+  existing: GameProgressEvent[],
+  incoming: GameProgressEvent[],
+): GameProgressEvent[] {
+  const merged: GameProgressEvent[] = [];
+  const seen = new Set<string>();
+
+  for (const event of [...existing, ...incoming]) {
+    const fingerprint = getEventFingerprint(event);
+    if (seen.has(fingerprint)) continue;
+    seen.add(fingerprint);
+    merged.push(event);
+  }
+
+  return merged;
+}
+
+function getEventFingerprint(event: GameProgressEvent): string {
+  const metadata = Object.entries(event.metadata ?? {}).sort(([left], [right]) => left.localeCompare(right));
+  return JSON.stringify([
+    event.type,
+    event.unitKey,
+    event.gameMode,
+    event.occurredAt,
+    event.launchCode ?? "",
+    event.studentSessionId ?? "",
+    metadata,
+  ]);
+}
+
+function writeLocalSessionEvidence(evidence: LocalSessionEvidence): string[] {
+  if (typeof window === "undefined") return ["Local session evidence can only be saved in a browser session."];
+
+  try {
+    window.localStorage.setItem(
+      getLocalSessionEvidenceStorageKey(evidence.launchCode),
+      JSON.stringify(evidence),
+    );
+    return [];
+  } catch {
+    return ["The browser could not save local session evidence."];
+  }
 }
 
 function isProgression(value: unknown): value is StudentProgressionState {

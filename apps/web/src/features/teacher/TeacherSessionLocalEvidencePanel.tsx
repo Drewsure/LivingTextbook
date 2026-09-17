@@ -35,7 +35,8 @@ export function TeacherSessionLocalEvidencePanel({ launchCode }: TeacherSessionL
 
       {evidence ? (
         <>
-          <dl className="mt-5 grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-4">
+          <dl className="mt-5 grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-5">
+            <EvidenceMetric label="Package" value={evidence.packageId} />
             <EvidenceMetric label="Tenant" value={evidence.tenantId} />
             <EvidenceMetric label="Events" value={String(evidence.events.length)} />
             <EvidenceMetric label="Games complete" value={String(completed)} />

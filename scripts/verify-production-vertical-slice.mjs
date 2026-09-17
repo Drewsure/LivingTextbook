@@ -48,10 +48,11 @@ requireFragments("student flow", studentFlow, [
   "completeFlashcardEntryPractice", "<FlashcardPracticeCard", "<PairingMemoryMatchGame", "<QuizPracticeGame",
   "validateCanonicalGameCompletion", "createProgressionContinuityEnvelope", "getGameAudioCues",
   "resolveTargetLanguage", "<NextGameUnlockCard", "<UnitSessionProgressSummary",
-  "createLocalSessionEvidence", "saveLocalSessionEvidence",
+  "appendLocalSessionEvidence", "contentPackage.meta.packageId",
 ]);
 requireFragments("local rehearsal evidence store", localEvidenceStore, [
   "browser-rehearsal-only", "getLocalSessionEvidenceStorageKey", "GameProgressEvent[]", "localStorage",
+  "packageId", "appendLocalSessionEvidence", "mergeEventHistory", "different package or student session",
 ]);
 requireFragments("student event append boundary", studentFlow, [
   "const updatedEvents = [...sessionEventsRef.current, ...nextEvents]",
@@ -73,7 +74,7 @@ requireFragments("teacher monitor evidence", teacherMonitor, [
 ]);
 requireFragments("teacher report panel", teacherPanel, ["FrontDoorTeacherReportPreview", "TeacherCanonicalGameEvidenceCard", "context.events", "context.progression"]);
 requireFragments("teacher local evidence panel", localEvidencePanel, [
-  "readLocalSessionEvidence", "subscribeToLocalSessionEvidence", "not hosted persistence", "Rehearsal captured",
+  "readLocalSessionEvidence", "subscribeToLocalSessionEvidence", "not hosted persistence", "Rehearsal captured", "evidence.packageId",
 ]);
 requireFragments("local delivery boundary", localBundle, ["audio", "video", "QR fallback routes"]);
 requireFragments("local delivery plan", localBundlePlan, ["reportsProgress", "reporting", "localFallbackPath"]);
@@ -96,6 +97,11 @@ requireFragments("recommended route handoff", recommendedRoutes, [
 requireFragments("completed game route handoff", playableGameShell, [
   "saveProgressionRouteHandoff",
   "onOpenNextRoute={handleOpenNextRoute}",
+  "appendLocalSessionEvidence",
+]);
+requireFragments("standalone route evidence continuity", flashcardRoute, [
+  "appendLocalSessionEvidence",
+  "Browser rehearsal evidence was not updated",
 ]);
 requireFragments("completion handoff callback", completionCard, [
   "onOpenNextRoute?: (destinationRoute: string, nextMode: GameModeId) => void",
