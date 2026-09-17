@@ -3659,3 +3659,26 @@ and `docs/adr/0821-production-shaped-vertical-slice-handoff.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-894,
 `docs/decision-register/DR-894-cross-route-local-evidence-continuity.md`,
 and `docs/adr/0822-cross-route-local-evidence-continuity.md`.
+
+## 238. Teacher Rehearsal Reconciliation Standard
+
+- The teacher session surface must reconcile browser rehearsal evidence against
+  the expected tenant, content package, launch, and student-session identity
+  before showing local activity details.
+- Reconciliation is read-only and explanatory. It may summarize observed
+  activity modes, starts, answers, completion, mastery events, and audio
+  requests, but it may not mutate progression, unlock a game, award Star Dust,
+  export a report, or create a classroom record.
+- The activity journey is derived from the validated event history and latest
+  progression snapshot. It must make route continuity understandable without
+  exposing raw audio, transcripts, or support-language-only evidence.
+- A mismatch hides the local record and names the failed binding checks. It is
+  safer to show no evidence than to attach one student's rehearsal to another
+  tenant or session.
+- The teacher surface must continue to label browser rehearsal as non-hosted
+  and keep the future hosted adapter behind policy, privacy, retention, and
+  release gates.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-895,
+`docs/decision-register/DR-895-teacher-rehearsal-reconciliation.md`,
+and `docs/adr/0823-teacher-rehearsal-reconciliation.md`.

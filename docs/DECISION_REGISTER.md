@@ -5324,3 +5324,17 @@ audio or transcript storage, or cross-session merging. Package, tenant, unit,
 launch, and student-session mismatches reject the append. Teacher views remain
 read-only rehearsal surfaces. See ADR 0822 and
 `docs/verification/LOCAL_SESSION_EVIDENCE_CONTINUITY_CHECKS.md`.
+
+# DR-895: Teacher Rehearsal Reconciliation
+
+The teacher session page now validates the local browser evidence record
+against the expected tenant, content package, and student-session identity
+before displaying its activity detail. A read-only journey summary groups
+observed canonical routes and reports starts, answer results, completion,
+mastery events, and learning-audio requests.
+
+This is still browser rehearsal evidence, not hosted persistence or a live
+classroom report. Mismatched evidence is hidden and explained. The surface
+cannot mutate progression, unlock games, award rewards, store raw audio or
+transcripts, or export a report. See ADR 0823 and
+`docs/verification/TEACHER_REHEARSAL_RECONCILIATION_CHECKS.md`.

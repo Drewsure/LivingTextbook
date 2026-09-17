@@ -26,7 +26,12 @@ export default async function TeacherSessionMonitorPage({
         <TeacherSessionLaunchGateBoundaryPanel boundary={context.launchGateBoundary} />
         <TeacherSessionPreflightPanel checks={context.preflightChecks} />
         <TeacherSessionMonitorPanel context={context} />
-        <TeacherSessionLocalEvidencePanel launchCode={context.launchSession.launchCode} />
+        <TeacherSessionLocalEvidencePanel
+          launchCode={context.launchSession.launchCode}
+          expectedTenantId={context.tenant.id}
+          expectedPackageId={context.contentPackage.meta.packageId}
+          expectedStudentSessionId={context.progression.studentSessionId}
+        />
       </div>
     </AppShell>
   );

@@ -3174,3 +3174,17 @@ evidence adapter later records. See ADR 0805 and DR-881.
   progression.
 - Added the continuity checks to `npm run verify:vertical-slice` and recorded
   ADR 0822 and DR-894.
+
+## Build session 0823: Teacher rehearsal reconciliation
+
+- Bound the teacher local evidence panel to the expected tenant, content
+  package, and student-session identity from the teacher session context.
+- Added a read-only cross-route journey summary for observed canonical game
+  modes with coded starts, answers, completion, mastery, and audio-support
+  counts.
+- Hide mismatched local evidence instead of presenting it under the wrong
+  tenant or learner.
+- Kept local rehearsal, no-export, no-hosted-persistence, raw-audio, and
+  transcript boundaries visible in the teacher surface.
+- Extended the production-shaped vertical-slice verifier and recorded ADR 0823
+  and DR-895.

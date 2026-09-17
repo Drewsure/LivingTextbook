@@ -75,6 +75,7 @@ requireFragments("teacher monitor evidence", teacherMonitor, [
 requireFragments("teacher report panel", teacherPanel, ["FrontDoorTeacherReportPreview", "TeacherCanonicalGameEvidenceCard", "context.events", "context.progression"]);
 requireFragments("teacher local evidence panel", localEvidencePanel, [
   "readLocalSessionEvidence", "subscribeToLocalSessionEvidence", "not hosted persistence", "Rehearsal captured", "evidence.packageId",
+  "expectedTenantId", "expectedPackageId", "expectedStudentSessionId", "Cross-route journey", "ActivityEvidenceCard",
 ]);
 requireFragments("local delivery boundary", localBundle, ["audio", "video", "QR fallback routes"]);
 requireFragments("local delivery plan", localBundlePlan, ["reportsProgress", "reporting", "localFallbackPath"]);
