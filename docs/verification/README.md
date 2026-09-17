@@ -279,6 +279,9 @@ upstream records and preserve the independent MiniStar support-language gate.
   mode/session across the canonical playable route, front door, and student
   launch flows.
 - Run `npm run verify:completion-idempotence`.
+- `PILOT_EVIDENCE_ENVELOPE_CHECKS.md` protects the coherent tenant-scoped
+  browser rehearsal envelope and its privacy exclusions.
+- Run `npm run verify:pilot-rehearsal`.
 - `docs/verification/DURABLE_PROGRESSION_STORAGE_CHECKS.md`
 
 `AUTHENTICATED_STUDENT_SESSION_CHECKS.md` protects the server-validated coded
