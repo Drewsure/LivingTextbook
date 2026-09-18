@@ -11,6 +11,7 @@ const pwaOfflinePanel = readSource("../apps/web/src/features/deployment/PwaOffli
 const localPreviewPanel = readSource("../apps/web/src/features/deployment/LocalCompanionPackagePreviewPanel.tsx");
 const resolutionPanel = readSource("../apps/web/src/features/deployment/LocalBundleResolutionPanel.tsx");
 const assetEvidencePanel = readSource("../apps/web/src/features/deployment/LocalBundleAssetEvidencePanel.tsx");
+const assetEvidenceContract = readSource("../packages/content-model/src/localBundleAssetEvidence.ts");
 const activeRoutes = readSource("../docs/ACTIVE_ROUTE_VERIFICATION_LIST.md");
 
 const failures = [];
@@ -113,6 +114,15 @@ const requiredAssetEvidenceMarkers = [
   "Accessibility evidence",
   "No live upload",
   "No student-facing promotion",
+];
+const requiredAssetEvidenceContractMarkers = [
+  "evaluateLocalBundleAssetEvidence",
+  "rightsReady",
+  "checksumReady",
+  "scanReady",
+  "targetMappingReady",
+  "accessibilityReady",
+  "handoffReady",
 ];
 const requiredLocalFallbackPaths = [
   "/enter/ministar",
@@ -239,6 +249,10 @@ for (const path of requiredSupportingAssetPaths) {
 
 for (const marker of requiredAssetEvidenceMarkers) {
   requireText(assetEvidencePanel, marker, `Local asset evidence panel missing marker: ${marker}`);
+}
+
+for (const marker of requiredAssetEvidenceContractMarkers) {
+  requireText(assetEvidenceContract, marker, `Local asset evidence contract missing marker: ${marker}`);
 }
 
 for (const fallbackPath of requiredLocalFallbackPaths) {

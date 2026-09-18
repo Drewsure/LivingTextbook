@@ -1,3 +1,4 @@
+import { evaluateLocalBundleAssetEvidence, type LocalBundleManifestAsset } from "@living-textbook/content-model";
 import { Card, StatusPill } from "@living-textbook/ui";
 import type { LocalBundleAssetSummary, LocalBundleManifestSummary } from "@/data/sampleLocalBundlePlan";
 
@@ -71,22 +72,30 @@ export function LocalBundleAssetEvidencePanel({ manifest }: LocalBundleAssetEvid
 }
 
 function createAssetEvidenceChecks(asset: LocalBundleAssetSummary): AssetEvidenceCheck[] {
-  const rightsReady = asset.rightsStatus === "owned" || asset.rightsStatus === "licensed";
-  const accessibilityReady = asset.kind === "audio"
-    ? Boolean(asset.transcriptPath)
-    : asset.kind === "video"
-      ? Boolean(asset.posterPath && asset.transcriptPath)
-      : asset.kind === "image"
-        ? asset.altTextReady === true
-        : true;
+  const evidence = evaluateLocalBundleAssetEvidence(createRuntimeAsset(asset));
 
   return [
-    { label: "Rights evidence", ready: rightsReady, value: rightsReady ? asset.rightsStatus : "Proof needed" },
-    { label: "Checksum", ready: asset.checksumReady, value: asset.checksumReady ? "Final" : "Pending" },
-    { label: "Scan", ready: asset.scanStatus === "passed", value: asset.scanStatus === "passed" ? "Passed" : "Pending" },
-    { label: "Target mapping", ready: asset.targetMappingReviewed, value: asset.targetMappingReviewed ? "Reviewed" : "Pending" },
-    { label: "Accessibility evidence", ready: accessibilityReady, value: accessibilityReady ? "Present" : "Needed" },
+    { label: "Rights evidence", ready: evidence.rightsReady, value: evidence.rightsReady ? asset.rightsStatus : "Proof needed" },
+    { label: "Checksum", ready: evidence.checksumReady, value: evidence.checksumReady ? "Final" : "Pending" },
+    { label: "Scan", ready: evidence.scanReady, value: evidence.scanReady ? "Passed" : "Pending" },
+    { label: "Target mapping", ready: evidence.targetMappingReady, value: evidence.targetMappingReady ? "Reviewed" : "Pending" },
+    { label: "Accessibility evidence", ready: evidence.accessibilityReady, value: evidence.accessibilityReady ? "Present" : "Needed" },
   ];
+}
+
+function createRuntimeAsset(asset: LocalBundleAssetSummary): LocalBundleManifestAsset {
+  return {
+    asset_id: asset.assetId,
+    kind: asset.kind,
+    local_path: asset.localPath,
+    checksum: asset.checksumReady ? `sha256-${"a".repeat(64)}` : "sha256-placeholder-not-ready",
+    rights_status: asset.rightsStatus,
+    poster_path: asset.posterPath,
+    transcript_path: asset.transcriptPath,
+    scan_status: asset.scanStatus,
+    target_mapping_reviewed: asset.targetMappingReviewed,
+    alt_text_ready: asset.altTextReady,
+  };
 }
 
 function BoundaryFact({ label }: { label: string }) {

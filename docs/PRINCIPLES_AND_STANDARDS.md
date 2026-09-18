@@ -4265,3 +4265,18 @@ and `docs/adr/0855-local-bundle-media-accessibility-metadata.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-928,
 `docs/decision-register/DR-928-local-bundle-asset-evidence-handoff.md`,
 and `docs/adr/0856-local-bundle-asset-evidence-handoff.md`.
+
+## 272. Shared Local Bundle Asset Evidence Evaluator Standard
+
+- Asset handoff readiness must be calculated by a shared content-model
+  evaluator consumed by review surfaces and future package paths.
+- The evaluator must return each lane separately: rights, checksum, scan,
+  target mapping, accessibility, and overall handoff readiness.
+- A UI may display or explain the result but may not reimplement divergent
+  readiness rules or turn a warning into approval.
+- Runtime tests must cover both an accepted complete asset and representative
+  incomplete audio/video/image evidence.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-929,
+`docs/decision-register/DR-929-shared-local-bundle-asset-evidence-evaluator.md`,
+and `docs/adr/0857-shared-local-bundle-asset-evidence-evaluator.md`.

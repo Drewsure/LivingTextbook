@@ -3523,3 +3523,12 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Preserved no-upload, no-file-read, no-copy, no-publish, no-cache,
   no-offline-activation, and no-student-promotion boundaries.
 - Recorded ADR 0856 and DR-928.
+
+## Build session 0857: Shared local bundle asset evidence evaluator
+
+- Moved asset handoff readiness rules into the shared content-model package.
+- Kept rights, checksum, scan, target mapping, accessibility, and overall
+  handoff status separately observable.
+- Added runtime coverage for complete audio and incomplete video/image cases.
+- Made the browser handoff panel consume the shared evaluator.
+- Recorded ADR 0857 and DR-929.

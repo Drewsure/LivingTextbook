@@ -12,11 +12,16 @@ const failures = [];
 
 try {
   writeFileSync(join(output, "package.json"), '{"type":"commonjs"}\n', "utf8");
-  const source = readFileSync(join(root, "packages", "content-model", "src", "localBundleManifest.ts"), "utf8");
-  writeFileSync(join(output, "localBundleManifest.js"), ts.transpileModule(source, {
+  const manifestSource = readFileSync(join(root, "packages", "content-model", "src", "localBundleManifest.ts"), "utf8");
+  writeFileSync(join(output, "localBundleManifest.js"), ts.transpileModule(manifestSource, {
+    compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
+  }).outputText, "utf8");
+  const evidenceSource = readFileSync(join(root, "packages", "content-model", "src", "localBundleAssetEvidence.ts"), "utf8");
+  writeFileSync(join(output, "localBundleAssetEvidence.js"), ts.transpileModule(evidenceSource, {
     compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
   }).outputText, "utf8");
   const { validateLocalBundleManifest } = require(join(output, "localBundleManifest.js"));
+  const { evaluateLocalBundleAssetEvidence } = require(join(output, "localBundleAssetEvidence.js"));
   const sample = JSON.parse(readFileSync(join(root, "content", "sample-bundles", "ministar-l1-u1", "manifest.json"), "utf8"));
   const sampleResult = validateLocalBundleManifest(sample);
   assert(sampleResult.valid, "planning sample manifest must remain structurally valid");
@@ -67,6 +72,26 @@ try {
   });
   assert(!imageWithoutAltTextResult.valid, "offline-ready image without alt-text evidence must be rejected");
   assert(imageWithoutAltTextResult.errors.some((error) => error.includes("alt-text evidence")), "image rejection must identify alt-text evidence");
+
+  const readyAudio = evaluateLocalBundleAssetEvidence({
+    ...sample.assets[0],
+    checksum: `sha256-${"a".repeat(64)}`,
+    rights_status: "owned",
+    scan_status: "passed",
+    target_mapping_reviewed: true,
+    transcript_path: "content/transcripts/ready.en.txt",
+  });
+  assert(readyAudio.handoffReady, "complete audio evidence must be handoff-ready");
+
+  const incompleteVideo = evaluateLocalBundleAssetEvidence({
+    ...sample.assets[1],
+    checksum: `sha256-${"a".repeat(64)}`,
+    rights_status: "owned",
+    scan_status: "passed",
+    target_mapping_reviewed: true,
+    poster_path: undefined,
+  });
+  assert(!incompleteVideo.handoffReady, "video without poster evidence must remain blocked");
 
   const traversalResult = validateLocalBundleManifest({
     ...sample,

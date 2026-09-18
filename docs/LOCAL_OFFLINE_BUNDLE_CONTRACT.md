@@ -244,3 +244,7 @@ checksum, scan, target mapping, and accessibility. A future offline-ready
 manifest must also require a passed scan and reviewed target mapping; image
 assets additionally require alt-text evidence. The current tenant packages
 remain blocked because these records are intentionally incomplete.
+
+The readiness calculation lives in the shared content model, so hosted and
+local release paths can consume one evaluator instead of reimplementing asset
+rules in a browser panel or package writer.

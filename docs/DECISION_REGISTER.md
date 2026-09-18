@@ -6012,6 +6012,28 @@ student-facing asset promotion.
 See ADR 0856 and
 `docs/decision-register/DR-928-local-bundle-asset-evidence-handoff.md`.
 
+# DR-929: Shared Local Bundle Asset Evidence Evaluator
+
+## Decision
+
+Keep local asset handoff readiness in the shared content model and make the
+browser evidence panel a consumer of that evaluator.
+
+## Included
+
+- Separate rights, checksum, scan, target-mapping, and accessibility results.
+- One overall handoff-ready result with explicit blockers.
+- Runtime coverage for complete audio and incomplete video/image evidence.
+- Reuse by future hosted/local package and release paths.
+
+## Excluded
+
+Uploads, file reads, scanning, rights approval, package writing, cache or
+offline activation, student-facing promotion, and release mutation.
+
+See ADR 0857 and
+`docs/decision-register/DR-929-shared-local-bundle-asset-evidence-evaluator.md`.
+
 # DR-924: Read-Only Local Bundle Resolver
 
 ## Decision
