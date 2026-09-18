@@ -3439,3 +3439,13 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Kept provider selection, durable writes, identity authorization, and policy
   gates outside browser-controlled request data.
 - Added adapter seam verification and recorded ADR 0848 and DR-920.
+
+## Build session 0849: Persistence provider configuration fail-closed
+
+- Added explicit provider configuration validation for `process-memory` and
+  `sqlite`.
+- Invalid provider values now return a blocked deployment state rather than
+  silently degrading to rehearsal storage.
+- Kept the safe unset default, tenant-safe error surface, and no-credential
+  disclosure boundary.
+- Recorded ADR 0849 and DR-921.

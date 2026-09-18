@@ -10,6 +10,13 @@ import {
 export type PersistenceProvider = "process-memory" | "sqlite";
 export type PersistenceDurability = "non-durable-rehearsal" | "durable-managed";
 
+export interface PersistenceProviderConfiguration {
+  provider: PersistenceProvider;
+  configuredValue: string;
+  valid: boolean;
+  errors: string[];
+}
+
 export interface ProgressionPersistenceAdapter {
   readonly provider: PersistenceProvider;
   readonly durability: PersistenceDurability;
@@ -55,7 +62,20 @@ const processMemoryAdapter: ProgressionPersistenceAdapter = {
 };
 
 export function getConfiguredPersistenceProvider(): PersistenceProvider {
-  return process.env.LIVING_TEXTBOOK_PERSISTENCE_PROVIDER === "sqlite" ? "sqlite" : "process-memory";
+  return getPersistenceProviderConfiguration().provider;
+}
+
+export function getPersistenceProviderConfiguration(): PersistenceProviderConfiguration {
+  const configuredValue = process.env.LIVING_TEXTBOOK_PERSISTENCE_PROVIDER?.trim() || "process-memory";
+  if (configuredValue === "process-memory" || configuredValue === "sqlite") {
+    return { provider: configuredValue, configuredValue, valid: true, errors: [] };
+  }
+  return {
+    provider: "process-memory",
+    configuredValue,
+    valid: false,
+    errors: [`Unsupported persistence provider configuration: ${configuredValue}. Use process-memory or sqlite.`],
+  };
 }
 
 export function getProgressionPersistenceAdapter(): ProgressionPersistenceAdapter {

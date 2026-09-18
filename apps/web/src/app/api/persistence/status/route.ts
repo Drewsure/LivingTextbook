@@ -2,7 +2,10 @@ import { NextResponse } from "next/server";
 import { getDurableOperationsPolicySnapshot } from "@/server/persistence/sqliteProgressionOperations";
 import { getDurableProgressionStore } from "@/server/persistence/sqliteProgressionStore";
 import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
-import { getConfiguredPersistenceProvider } from "@/server/persistence/progressionPersistenceAdapter";
+import {
+  getConfiguredPersistenceProvider,
+  getPersistenceProviderConfiguration,
+} from "@/server/persistence/progressionPersistenceAdapter";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -17,6 +20,7 @@ export function GET(request: Request) {
     }, { status: 401, headers: { "Cache-Control": "no-store" } });
   }
   const provider = getConfiguredPersistenceProvider();
+  const providerConfiguration = getPersistenceProviderConfiguration();
   const durable = provider === "sqlite";
   const policy = getDurableOperationsPolicySnapshot();
   const health = durable
@@ -28,13 +32,14 @@ export function GET(request: Request) {
       && process.env.LIVING_TEXTBOOK_TEACHER_REVIEW_CODE?.trim(),
   );
   const errors = [
+    ...providerConfiguration.errors,
     ...health.errors,
     ...health.operationEvidenceIntegrity.errors,
     ...(durable && !studentSessionBoundaryConfigured ? ["Signed student session boundary is not configured."] : []),
   ];
 
   return NextResponse.json({
-    status: errors.length === 0 && (!durable || policy.errors.length === 0) ? "healthy" : durable ? "blocked" : "rehearsal",
+    status: !providerConfiguration.valid ? "blocked" : errors.length === 0 && (!durable || policy.errors.length === 0) ? "healthy" : durable ? "blocked" : "rehearsal",
     provider,
     durability: durable ? "durable-managed" : "non-durable-rehearsal",
     healthy: health.healthy && health.operationEvidenceIntegrity.healthy && errors.length === 0,

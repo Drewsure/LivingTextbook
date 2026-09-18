@@ -30,6 +30,7 @@ requireFragments("provider adapter", adapter, [
   'PersistenceProvider = "process-memory" | "sqlite"',
   'PersistenceDurability = "non-durable-rehearsal" | "durable-managed"',
   "getConfiguredPersistenceProvider",
+  "getPersistenceProviderConfiguration",
   "getProgressionPersistenceAdapter",
   "processMemoryAdapter",
   "getDurableProgressionStore",
@@ -48,7 +49,8 @@ if (progressionRoute.includes("__livingTextbookHostedProgressionRehearsal")) {
   failures.push("progression route must not own the process-memory store");
 }
 requireFragments("operations route", operationsRoute, ["getConfiguredPersistenceProvider"]);
-requireFragments("status route", statusRoute, ["getConfiguredPersistenceProvider"]);
+requireFragments("operations route", operationsRoute, ["getPersistenceProviderConfiguration", "status: \"blocked\""]);
+requireFragments("status route", statusRoute, ["getConfiguredPersistenceProvider", "getPersistenceProviderConfiguration", "status: !providerConfiguration.valid ? \"blocked\""]);
 requireFragments("verification checklist", checklist, ["provider-neutral adapter", "Process-memory", "SQLite", "No provider credentials"]);
 
 if (failures.length > 0) {

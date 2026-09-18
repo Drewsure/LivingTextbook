@@ -2,7 +2,10 @@ import { NextResponse } from "next/server";
 import { getDurableOperationsPolicySnapshot } from "@/server/persistence/sqliteProgressionOperations";
 import { getDurableProgressionStore } from "@/server/persistence/sqliteProgressionStore";
 import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
-import { getConfiguredPersistenceProvider } from "@/server/persistence/progressionPersistenceAdapter";
+import {
+  getConfiguredPersistenceProvider,
+  getPersistenceProviderConfiguration,
+} from "@/server/persistence/progressionPersistenceAdapter";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -13,6 +16,10 @@ export function GET(request: Request) {
     return json({ status: "unauthorized", records: [], errors: ["Teacher-scoped authorization is required to read operation evidence."], privacy: safePrivacyMessage() }, 401);
   }
   const provider = getConfiguredPersistenceProvider();
+  const providerConfiguration = getPersistenceProviderConfiguration();
+  if (!providerConfiguration.valid) {
+    return json({ status: "blocked", provider, records: [], errors: providerConfiguration.errors, privacy: safePrivacyMessage() }, 423);
+  }
   if (provider !== "sqlite") {
     return json({ status: "rehearsal", provider, records: [], errors: ["Operation evidence is unavailable while durable storage is disabled."], privacy: safePrivacyMessage() });
   }

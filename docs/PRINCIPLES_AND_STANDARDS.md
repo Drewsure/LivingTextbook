@@ -4146,3 +4146,17 @@ and `docs/adr/0847-foundation-durable-persistence-gate.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-920,
 `docs/decision-register/DR-920-provider-neutral-persistence-adapter-seam.md`,
 and `docs/adr/0848-provider-neutral-persistence-adapter-seam.md`.
+
+## 264. Persistence Provider Configuration Standard
+
+- Only explicitly supported provider values may select a persistence
+  implementation.
+- An unset provider must use the visibly labelled non-durable rehearsal mode.
+- An unsupported provider value must fail closed as a blocked deployment state;
+  it must never silently become rehearsal storage.
+- Configuration errors may disclose actionable policy text but never provider
+  credentials, database paths, learner records, raw audio, or transcripts.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-921,
+`docs/decision-register/DR-921-persistence-provider-configuration-fail-closed.md`,
+and `docs/adr/0849-persistence-provider-configuration-fail-closed.md`.

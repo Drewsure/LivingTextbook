@@ -15,6 +15,8 @@ server-owned and must sit behind one provider-neutral adapter seam.
 - Operations and status routes use the same provider-selection helper.
 - Provider credentials never cross into the browser route contract.
 - No provider credentials are returned to browser clients.
+- An unsupported provider value fails closed with a blocked deployment state;
+  it never silently becomes rehearsal storage.
 - Content, scoring, audio, QR, and progression event vocabulary remain
   provider-independent.
 

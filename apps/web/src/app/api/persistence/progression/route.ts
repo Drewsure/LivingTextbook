@@ -11,6 +11,7 @@ import {
 } from "@living-textbook/content-model";
 import {
   getConfiguredPersistenceProvider,
+  getPersistenceProviderConfiguration,
   getProgressionPersistenceAdapter,
   type PersistenceProvider,
 } from "@/server/persistence/progressionPersistenceAdapter";
@@ -21,6 +22,10 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function POST(request: Request) {
+  const providerConfiguration = getPersistenceProviderConfiguration();
+  if (!providerConfiguration.valid) {
+    return json({ status: "blocked", provider: providerConfiguration.provider, durability: "non-durable-rehearsal", errors: providerConfiguration.errors }, 423);
+  }
   let rawBody: unknown;
   try {
     rawBody = await request.json();
@@ -115,6 +120,10 @@ export function GET(request: Request) {
       errors: ["A matching signed student session or server-side persistence authorization is required for this progression read."],
       privacy: "No progression record is returned without a matching tenant-scoped learner session.",
     }, 401);
+  }
+  const providerConfiguration = getPersistenceProviderConfiguration();
+  if (!providerConfiguration.valid) {
+    return json({ status: "blocked", provider: providerConfiguration.provider, durability: "non-durable-rehearsal", errors: providerConfiguration.errors }, 423);
   }
   const provider = getConfiguredPersistenceProvider();
 
