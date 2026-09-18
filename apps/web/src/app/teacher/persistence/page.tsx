@@ -99,6 +99,7 @@ export default function TeacherPersistencePage() {
             packageId: "sample-publisher-l1-u1-routines-package",
             launchCode: "partner-demo-unit-1",
             studentSessionId: "partner-demo-unit-1:sample-student",
+            accessMode: "teacher-review-probe",
           }}
         />
         <PersistenceOperationsStatusPanel />

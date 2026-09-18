@@ -3795,3 +3795,26 @@ and `docs/adr/0827-pilot-preflight-behavior-gate.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-900,
 `docs/decision-register/DR-900-server-owned-persistence-policy.md`,
 and `docs/adr/0828-server-owned-persistence-policy.md`.
+
+## 244. Hosted Persistence Read-Purpose Authorization Standard
+
+- Every hosted progression read must declare one access purpose: matching
+  learner continuity or tenant-scoped teacher review.
+- Learner continuity reads require a matching signed student session or a
+  server-only persistence token for the complete tenant, package, launch, and
+  student-session identity.
+- Teacher review probes require the expiring teacher review session for the
+  requested tenant. A coded sample identity is not an authorization mechanism.
+- Missing, unknown, or mismatched access purpose must fail closed before a
+  process-memory or durable provider is queried. Provider choice must never
+  change the privacy boundary.
+- Unauthorized responses must not reveal whether a record exists, and the
+  read-only teacher probe remains evidence of adapter behavior rather than a
+  live learner-data workflow.
+- Browser result handling must preserve the distinction between protected,
+  no-record, and unavailable states; an unauthorized response must never be
+  rendered as proof that a record is absent.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-901,
+`docs/decision-register/DR-901-hosted-persistence-read-authorization.md`,
+and `docs/adr/0829-hosted-persistence-read-authorization.md`.

@@ -3243,3 +3243,16 @@ evidence adapter later records. See ADR 0805 and DR-881.
   server-token authorization at the API boundary.
 - Added runtime assertions, persistence verification coverage, ADR 0828, DR-900,
   and the focused verification contract.
+
+## Build session 0829: Hosted persistence read authorization
+
+- Added an explicit read-purpose contract for learner continuity and teacher
+  review probes.
+- Required matching signed learner-session authorization for student reads and
+  tenant-scoped teacher-session authorization for the teacher workbench probe.
+- Kept missing-purpose, unknown-purpose, mismatched-tenant, and unauthorized
+  reads fail-closed across both rehearsal and durable providers.
+- Added source verification and recorded ADR 0829, DR-901, and the focused
+  verification contract.
+- Kept the teacher client's `protected`, `no record`, and `unavailable` result
+  states distinct so a `401` cannot be misread as absent progression.

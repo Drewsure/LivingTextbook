@@ -5473,3 +5473,29 @@ validation or provider execution.
 
 See ADR 0828 and
 `docs/verification/PERSISTENCE_SERVER_POLICY_BOUNDARY_CHECKS.md`.
+
+# DR-901: Hosted Persistence Read Authorization
+
+## Decision
+
+Require every hosted progression read to declare its access purpose and to
+pass the matching tenant-scoped authorization boundary before a provider is
+queried.
+
+## Included
+
+- Learner continuity reads authenticated by the matching signed student
+  session or server-only persistence token.
+- Teacher review probes authenticated by the expiring tenant-scoped teacher
+  review session.
+- Fail-closed handling for missing or unknown access purpose and privacy-safe
+  unauthorized responses.
+
+## Excluded
+
+- Any change to the review-only default, durable-write gates, provider choice,
+  or classroom launch authorization.
+- Treating a coded sample identity or a reachable endpoint as authentication.
+
+See ADR 0829 and
+`docs/verification/PERSISTENCE_READ_AUTHORIZATION_CHECKS.md`.

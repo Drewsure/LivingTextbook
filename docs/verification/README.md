@@ -285,6 +285,9 @@ upstream records and preserve the independent MiniStar support-language gate.
 - `PERSISTENCE_SERVER_POLICY_BOUNDARY_CHECKS.md` protects server-owned
   persistence approval and browser intent separation.
 - Run `npm run verify:runtime-behavior` and `npm run verify:backend-storage`.
+- `PERSISTENCE_READ_AUTHORIZATION_CHECKS.md` protects explicit read purpose,
+  matching learner-session authorization, and tenant-scoped teacher probes.
+- Run `npm run verify:persistence-runtime`.
 - `PILOT_SESSION_PREFLIGHT_CHECKS.md` protects the deterministic review-only
   preflight and its permanently blocked launch and durable-write boundary.
 - Run `npm run verify:pilot-rehearsal`.

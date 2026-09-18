@@ -11,6 +11,7 @@ import {
 } from "@living-textbook/content-model";
 import { getDurableProgressionStore } from "@/server/persistence/sqliteProgressionStore";
 import { readStudentSessionClaims } from "@/server/persistence/studentSessionCookie";
+import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -89,6 +90,34 @@ export function GET(request: Request) {
     launchCode: url.searchParams.get("launchCode") ?? "",
     studentSessionId: url.searchParams.get("studentSessionId") ?? "",
   };
+  const accessMode = url.searchParams.get("accessMode");
+  if (accessMode !== "student-continuity" && accessMode !== "teacher-review-probe") {
+    return json({
+      status: "unauthorized",
+      provider: getConfiguredProvider(),
+      durability: getConfiguredProvider() === "sqlite" ? "durable-managed" : "non-durable-rehearsal",
+      errors: ["Hosted progression reads require an explicit access purpose."],
+      privacy: "No progression record is returned without a signed learner session or tenant-scoped teacher review session.",
+    }, 401);
+  }
+  if (accessMode === "teacher-review-probe" && !hasTeacherOperationsReadAuthorization(request, lookup.tenantId)) {
+    return json({
+      status: "unauthorized",
+      provider: getConfiguredProvider(),
+      durability: getConfiguredProvider() === "sqlite" ? "durable-managed" : "non-durable-rehearsal",
+      errors: ["Teacher-scoped authorization is required for the hosted progression review probe."],
+      privacy: "No progression record is returned without a tenant-scoped teacher review session.",
+    }, 401);
+  }
+  if (accessMode === "student-continuity" && !hasPersistenceReadAuthorization(request, lookup)) {
+    return json({
+      status: "unauthorized",
+      provider: getConfiguredProvider(),
+      durability: getConfiguredProvider() === "sqlite" ? "durable-managed" : "non-durable-rehearsal",
+      errors: ["A matching signed student session or server-side persistence authorization is required for this progression read."],
+      privacy: "No progression record is returned without a matching tenant-scoped learner session.",
+    }, 401);
+  }
   const provider = getConfiguredProvider();
 
   if (provider === "sqlite") {
