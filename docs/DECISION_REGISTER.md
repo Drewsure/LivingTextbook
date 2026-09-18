@@ -6369,3 +6369,29 @@ required before local eligibility or provider implementation.
 
 See ADR 0870 and
 `docs/decision-register/DR-942-local-media-evidence-binding.md`.
+
+# DR-943: Local Media Manifest Reconciliation
+
+## Decision
+
+Reconcile each tenant-scoped media evidence binding against the exact
+versioned package manifest before any future local provider can evaluate media
+copy or activation.
+
+## Required Invariants
+
+- Tenant, bundle, package, manifest, and package-version identity must match.
+- A declared media artifact must exist, its version must match, and every
+  asset path must remain under that artifact's safe media root.
+- `aligned`, `needs-evidence`, and `mismatch` remain separate diagnostic
+  states; pending evidence must not be misreported as identity drift.
+- Reconciliation remains review-only with no side effect, and media copy,
+  package write, local activation, student promotion, and QR mutation remain
+  blocked.
+
+## Evidence
+
+- `packages/content-model/src/localBundleMediaManifestReconciliation.ts`
+- `apps/web/src/data/sampleLocalBundleMediaManifestReconciliation.ts`
+- `apps/web/src/features/persistence/LocalBundleMediaManifestReconciliationPanel.tsx`
+- `scripts/verify-local-bundle-media-manifest-reconciliation.mjs`

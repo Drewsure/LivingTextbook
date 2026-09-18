@@ -53,6 +53,8 @@ import { sampleLocalBundlePackageManifestRollbackDryRun, sampleLocalBundlePackag
 import { LocalBundlePackageManifestRollbackDryRunPanel } from "@/features/persistence/LocalBundlePackageManifestRollbackDryRunPanel";
 import { sampleLocalBundleMediaEvidenceBinding, sampleLocalBundleMediaEvidenceBindingErrors } from "@/data/sampleLocalBundleMediaEvidenceBinding";
 import { LocalBundleMediaEvidenceBindingPanel } from "@/features/persistence/LocalBundleMediaEvidenceBindingPanel";
+import { sampleLocalBundleMediaManifestReconciliation } from "@/data/sampleLocalBundleMediaManifestReconciliation";
+import { LocalBundleMediaManifestReconciliationPanel } from "@/features/persistence/LocalBundleMediaManifestReconciliationPanel";
 
 const persistenceLinks = [
   { href: "/teacher/intake", label: "Foundation intake" },
@@ -123,6 +125,9 @@ export default function TeacherPersistencePage() {
         <LocalBundleMediaEvidenceBindingPanel
           binding={sampleLocalBundleMediaEvidenceBinding}
           errors={sampleLocalBundleMediaEvidenceBindingErrors}
+        />
+        <LocalBundleMediaManifestReconciliationPanel
+          reconciliation={sampleLocalBundleMediaManifestReconciliation}
         />
         <PackageReadinessPersistencePanel
           intents={samplePackageReadinessPersistenceIntents}

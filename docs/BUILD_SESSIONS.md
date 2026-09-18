@@ -3659,3 +3659,13 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Preserved explicit review-stage blockers for upload, copy, activation,
   promotion, package writes, and QR mutation.
 - Added runtime/static verification and recorded ADR 0870 and DR-942.
+
+## Build session 0871: Local media manifest reconciliation
+
+- Added provider-neutral reconciliation between the versioned local package
+  manifest and individual media evidence entries.
+- Distinguished aligned identity, open evidence, and manifest/path drift while
+  preserving tenant and package-version boundaries.
+- Kept media copy, package writes, local activation, student promotion, and QR
+  mutation blocked in every reconciliation state.
+- Added runtime/static verification and recorded ADR 0871 and DR-943.

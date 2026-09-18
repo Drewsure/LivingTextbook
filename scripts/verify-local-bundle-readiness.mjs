@@ -23,6 +23,7 @@ const recoveryReconciliationContract = readSource("../packages/content-model/src
 const exportRetentionDryRunContract = readSource("../packages/content-model/src/localBundleExportRetentionDryRun.ts");
 const manifestRollbackDryRunContract = readSource("../packages/content-model/src/localBundlePackageManifestRollbackDryRun.ts");
 const mediaEvidenceBindingContract = readSource("../packages/content-model/src/localBundleMediaEvidenceBinding.ts");
+const mediaManifestReconciliationContract = readSource("../packages/content-model/src/localBundleMediaManifestReconciliation.ts");
 const activeRoutes = readSource("../docs/ACTIVE_ROUTE_VERIFICATION_LIST.md");
 
 const failures = [];
@@ -313,6 +314,8 @@ requireText(manifestRollbackDryRunContract, "validateLocalBundlePackageManifestR
 requireText(manifestRollbackDryRunContract, 'manifestState: "preview-only"', "Local package manifests must remain preview-only.");
 requireText(mediaEvidenceBindingContract, "validateLocalBundleMediaEvidenceBinding", "Local package media must bind rights and checksum evidence.");
 requireText(mediaEvidenceBindingContract, 'assetCopyAllowed: false', "Local package media copy must remain blocked.");
+requireText(mediaManifestReconciliationContract, "reconcileLocalBundleMediaManifest", "Local package media must reconcile evidence against the versioned manifest.");
+requireText(mediaManifestReconciliationContract, 'localActivationAllowed: false', "Local media reconciliation must keep activation blocked.");
 requireText(bundlePlan, "content-package.json", "Local bundle must keep a content package artifact path.");
 requireText(bundlePlan, "routes/qr-registry.json", "Local bundle must keep a QR registry artifact path.");
 requireText(bundlePlan, "games/game-routes.json", "Local bundle must keep a game route manifest artifact path.");
@@ -390,6 +393,9 @@ execFileSync(process.execPath, [fileURLToPath(new URL("./verify-local-bundle-pac
   stdio: "inherit",
 });
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-local-bundle-media-evidence-binding.mjs", import.meta.url))], {
+  stdio: "inherit",
+});
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-local-bundle-media-manifest-reconciliation.mjs", import.meta.url))], {
   stdio: "inherit",
 });
 

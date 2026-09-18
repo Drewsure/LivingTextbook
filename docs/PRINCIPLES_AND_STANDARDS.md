@@ -4514,3 +4514,23 @@ and `docs/adr/0869-local-package-manifest-rollback-dry-run.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-942,
 `docs/decision-register/DR-942-local-media-evidence-binding.md`,
 and `docs/adr/0870-local-media-evidence-binding.md`.
+
+## 286. Local Media Manifest Reconciliation Standard
+
+- A reviewed media evidence binding must be reconciled against the exact
+  versioned package manifest before a future local provider can consider it.
+- Reconciliation must compare tenant, bundle, package, and manifest identity;
+  locate the declared media artifact; compare package and artifact versions;
+  and verify that every media asset stays under the declared media path root.
+- `aligned`, `needs-evidence`, and `mismatch` are distinct diagnostic states.
+  Open rights, checksum, scan, target-mapping, or accessibility evidence is not
+  identity drift and must remain visible as `needs-evidence`.
+- Identity, version, media-artifact, or path drift must produce `mismatch` and
+  must never be silently repaired by a provider or package writer.
+- Reconciliation is review-only with `sideEffect: "none"`; media copy,
+  package writes, local activation, student promotion, and QR mutation remain
+  blocked in every state.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-943,
+`docs/decision-register/DR-943-local-media-manifest-reconciliation.md`,
+and `docs/adr/0871-local-media-manifest-reconciliation.md`.
