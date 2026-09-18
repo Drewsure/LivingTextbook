@@ -3889,3 +3889,22 @@ and `docs/adr/0832-active-teacher-tenant-revocation.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-905,
 `docs/decision-register/DR-905-unauthorized-operations-privacy-parity.md`,
 and `docs/adr/0833-unauthorized-operations-privacy-parity.md`.
+
+## 249. Teacher Operations Runtime Verification Standard
+
+- Runtime verification must prove the complete review boundary, not only
+  source fragments: teacher sign-in, same-tenant session discovery, same-tenant
+  status/history access, cross-tenant rejection, and privacy-safe unauthorized
+  responses.
+- The runtime verifier must use an explicitly configured test deployment and
+  review code; production credentials must never be committed or embedded in
+  fixtures.
+- A second deployment may be supplied to prove that an existing cookie is
+  rejected after tenant allowlist revocation.
+- This verifier proves read authorization only. It must not create learner
+  records, enable durable writes, export reports, launch a classroom, or mutate
+  deployment state.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-906,
+`docs/decision-register/DR-906-teacher-operations-runtime-verification.md`,
+and `docs/adr/0834-teacher-operations-runtime-verification.md`.

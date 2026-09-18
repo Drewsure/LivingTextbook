@@ -3299,3 +3299,14 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Added a verifier assertion that the unauthorized branch cannot include
   provider diagnostics.
 - Recorded ADR 0833 and DR-905.
+
+## Build session 0834: Teacher operations runtime verification
+
+- Added an opt-in runtime verifier for teacher sign-in, tenant-bound status
+  and operation-history reads, cross-tenant rejection, and privacy-safe
+  unauthorized responses.
+- Kept the verifier outside the default foundation command because it requires
+  an intentionally configured test deployment and review code.
+- Added an optional second deployment URL for proving immediate cookie
+  revocation after tenant allowlist removal.
+- Recorded ADR 0834 and DR-906.
