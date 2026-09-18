@@ -1,18 +1,27 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Card, StatusPill } from "@living-textbook/ui";
 import { readPersistenceOperationsEvidence, type PersistenceOperationsEvidenceResult } from "./persistenceOperationsEvidenceClient";
+import { isTeacherOperationsSessionChangeForTenant, TEACHER_OPERATIONS_SESSION_CHANGED } from "./teacherOperationsSessionEvents";
 
 export function PersistenceOperationsEvidencePanel({ tenantId }: { tenantId: string }) {
   const [result, setResult] = useState<PersistenceOperationsEvidenceResult>();
   const [checking, setChecking] = useState(false);
 
-  async function handleCheck() {
+  const checkEvidence = useCallback(async () => {
     setChecking(true);
     setResult(await readPersistenceOperationsEvidence(tenantId));
     setChecking(false);
-  }
+  }, [tenantId]);
+
+  useEffect(() => {
+    function handleSessionChange(event: Event) {
+      if (isTeacherOperationsSessionChangeForTenant(event, tenantId)) void checkEvidence();
+    }
+    window.addEventListener(TEACHER_OPERATIONS_SESSION_CHANGED, handleSessionChange);
+    return () => window.removeEventListener(TEACHER_OPERATIONS_SESSION_CHANGED, handleSessionChange);
+  }, [checkEvidence, tenantId]);
 
   const label = checking ? "Checking" : result?.status === "available" ? "Available" : result?.status === "rehearsal" ? "Rehearsal" : result?.status === "unauthorized" ? "Sign-in required" : result ? "Unavailable" : "Not checked";
   const tone = result?.status === "available" ? "success" : result?.status === "unavailable" || result?.status === "unauthorized" || result?.status === "error" ? "warning" : "neutral";
@@ -33,7 +42,7 @@ export function PersistenceOperationsEvidencePanel({ tenantId }: { tenantId: str
       <div className="mt-5 flex flex-wrap items-center gap-3">
         <button
           type="button"
-          onClick={handleCheck}
+          onClick={checkEvidence}
           disabled={checking}
           className="inline-flex min-h-11 items-center justify-center rounded-lg bg-[var(--tenant-primary)] px-4 py-2 text-sm font-bold text-white transition hover:brightness-95 disabled:cursor-wait disabled:opacity-60"
         >

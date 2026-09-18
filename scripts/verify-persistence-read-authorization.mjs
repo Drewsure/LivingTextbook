@@ -25,6 +25,9 @@ const client = read("apps/web/src/features/persistence/hostedProgressionPersiste
 const statusClient = read("apps/web/src/features/persistence/persistenceStatusClient.ts");
 const panel = read("apps/web/src/app/teacher/persistence/page.tsx");
 const statusPanel = read("apps/web/src/features/persistence/PersistenceOperationsStatusPanel.tsx");
+const operationsAccessPanel = read("apps/web/src/features/persistence/TeacherOperationsAccessPanel.tsx");
+const sessionEvents = read("apps/web/src/features/persistence/teacherOperationsSessionEvents.ts");
+const evidencePanel = read("apps/web/src/features/persistence/PersistenceOperationsEvidencePanel.tsx");
 const teacherAuth = read("apps/web/src/server/persistence/teacherOperationsAuthorization.ts");
 
 requireFragments("progression read route", route, [
@@ -69,6 +72,25 @@ requireFragments("persistence status panel", statusPanel, [
   "tenantId }: { tenantId: string }",
   'result?.status === "unauthorized" ? "Protected"',
   "Tenant-scoped review authorization is required.",
+]);
+requireFragments("teacher session change contract", sessionEvents, [
+  "TEACHER_OPERATIONS_SESSION_CHANGED",
+  "CustomEvent",
+  "tenantId",
+]);
+requireFragments("teacher access session publishing", operationsAccessPanel, [
+  "notifyTeacherOperationsSessionChanged(tenantId)",
+  'nextResult.status === "authenticated"',
+]);
+requireFragments("persistence status session refresh", statusPanel, [
+  "TEACHER_OPERATIONS_SESSION_CHANGED",
+  "isTeacherOperationsSessionChangeForTenant",
+  "checkStatus",
+]);
+requireFragments("operations evidence session refresh", evidencePanel, [
+  "TEACHER_OPERATIONS_SESSION_CHANGED",
+  "isTeacherOperationsSessionChangeForTenant",
+  "checkEvidence",
 ]);
 
 if (failures.length > 0) {

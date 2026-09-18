@@ -3837,3 +3837,21 @@ and `docs/adr/0829-hosted-persistence-read-authorization.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-902,
 `docs/decision-register/DR-902-persistence-operations-diagnostics-authorization.md`,
 and `docs/adr/0830-persistence-operations-diagnostics-authorization.md`.
+
+## 246. Teacher Operations Session Synchronization Standard
+
+- The teacher persistence workbench must use one tenant-scoped session-change
+  signal for its read-only status and operation-evidence panels.
+- A successful sign-in or sign-out may refresh only panels for the changed
+  tenant; a browser event must never grant authorization, carry a review code,
+  or replace the server cookie boundary.
+- Refreshes must remain read-only and must preserve the distinct protected,
+  healthy, rehearsal, unavailable, and no-record states.
+- A failed sign-in must not cause another tenant's panels to refresh or reveal
+  deployment information.
+- The synchronization contract is a usability aid for the review workbench,
+  not a persistence, reporting, classroom-launch, export, or write feature.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-903,
+`docs/decision-register/DR-903-teacher-operations-session-synchronization.md`,
+and `docs/adr/0831-teacher-operations-session-synchronization.md`.

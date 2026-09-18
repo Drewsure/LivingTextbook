@@ -1,18 +1,27 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Card, StatusPill } from "@living-textbook/ui";
 import { readPersistenceStatus, type PersistenceStatusResult } from "./persistenceStatusClient";
+import { isTeacherOperationsSessionChangeForTenant, TEACHER_OPERATIONS_SESSION_CHANGED } from "./teacherOperationsSessionEvents";
 
 export function PersistenceOperationsStatusPanel({ tenantId }: { tenantId: string }) {
   const [result, setResult] = useState<PersistenceStatusResult>();
   const [checking, setChecking] = useState(false);
 
-  async function handleCheck() {
+  const checkStatus = useCallback(async () => {
     setChecking(true);
     setResult(await readPersistenceStatus(tenantId));
     setChecking(false);
-  }
+  }, [tenantId]);
+
+  useEffect(() => {
+    function handleSessionChange(event: Event) {
+      if (isTeacherOperationsSessionChangeForTenant(event, tenantId)) void checkStatus();
+    }
+    window.addEventListener(TEACHER_OPERATIONS_SESSION_CHANGED, handleSessionChange);
+    return () => window.removeEventListener(TEACHER_OPERATIONS_SESSION_CHANGED, handleSessionChange);
+  }, [checkStatus, tenantId]);
 
   const tone = result?.status === "healthy" ? "success" : result?.status === "blocked" || result?.status === "error" || result?.status === "unauthorized" ? "warning" : "neutral";
   const label = checking ? "Checking" : result?.status === "healthy" ? "Healthy" : result?.status === "blocked" ? "Blocked" : result?.status === "rehearsal" ? "Rehearsal" : result?.status === "unauthorized" ? "Protected" : result ? "Unavailable" : "Not checked";
@@ -42,7 +51,7 @@ export function PersistenceOperationsStatusPanel({ tenantId }: { tenantId: strin
       <div className="mt-5 flex flex-wrap items-center gap-3">
         <button
           type="button"
-          onClick={handleCheck}
+          onClick={checkStatus}
           disabled={checking}
           className="inline-flex min-h-11 items-center justify-center rounded-lg bg-[var(--tenant-primary)] px-4 py-2 text-sm font-bold text-white transition hover:brightness-95 disabled:cursor-wait disabled:opacity-60"
         >

@@ -3268,3 +3268,15 @@ evidence adapter later records. See ADR 0805 and DR-881.
   durable writes, and classroom launch.
 - Extended the persistence authorization verifier and recorded ADR 0830 and
   DR-902.
+
+## Build session 0831: Teacher operations session synchronization
+
+- Added a tenant-scoped browser session-change event for the teacher
+  operations review surface.
+- Sign-in and sign-out now refresh the status and operation-history panels for
+  the matching tenant without carrying secrets or changing server
+  authorization.
+- Kept all panels read-only and preserved protected, healthy, rehearsal,
+  unavailable, and no-record distinctions.
+- Extended persistence authorization source verification and recorded ADR
+  0831 and DR-903.

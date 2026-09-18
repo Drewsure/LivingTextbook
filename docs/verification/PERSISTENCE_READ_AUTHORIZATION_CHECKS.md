@@ -18,6 +18,9 @@ the teacher workbench's adapter probe useful and read-only.
   distinct states.
 - Persistence status diagnostics require the same tenant-scoped teacher review
   authorization and withhold deployment details from unauthorized callers.
+- Teacher sign-in and sign-out refresh only read-only panels for the matching
+  tenant through a client session-change signal; the signal carries no secret
+  and cannot authorize a request.
 - The rule applies equally to process-memory rehearsal and durable SQLite.
 
 ## Verification command

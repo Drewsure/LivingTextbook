@@ -3,6 +3,7 @@
 import { FormEvent, useEffect, useState } from "react";
 import { Card, StatusPill } from "@living-textbook/ui";
 import { clearTeacherOperationsSession, createTeacherOperationsSession, readTeacherOperationsSession, type TeacherOperationsSessionResult } from "./teacherOperationsAccessClient";
+import { notifyTeacherOperationsSessionChanged } from "./teacherOperationsSessionEvents";
 
 export function TeacherOperationsAccessPanel({ tenantId }: { tenantId: string }) {
   const [reviewCode, setReviewCode] = useState("");
@@ -22,14 +23,18 @@ export function TeacherOperationsAccessPanel({ tenantId }: { tenantId: string })
   async function handleSignIn(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setWorking(true);
-    setResult(await createTeacherOperationsSession(tenantId, reviewCode));
+    const nextResult = await createTeacherOperationsSession(tenantId, reviewCode);
+    setResult(nextResult);
+    if (nextResult.status === "authenticated") notifyTeacherOperationsSessionChanged(tenantId);
     setReviewCode("");
     setWorking(false);
   }
 
   async function handleSignOut() {
     setWorking(true);
-    setResult(await clearTeacherOperationsSession());
+    const nextResult = await clearTeacherOperationsSession();
+    setResult(nextResult);
+    notifyTeacherOperationsSessionChanged(tenantId);
     setWorking(false);
   }
 
