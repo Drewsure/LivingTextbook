@@ -35,6 +35,14 @@ const reviewSurfaceFiles = [
 const bareKeyPattern = /key=\{(?:item|warning|record|action|rule|error|step)\}/g;
 const failures = [];
 
+const stableLinkKeySource = readFileSync(
+  new URL("../apps/web/src/app/teacher/pilot/page.tsx", import.meta.url),
+  "utf8",
+);
+if (!stableLinkKeySource.includes("key={`${link.href}-${link.label}`}")) {
+  failures.push("apps/web/src/app/teacher/pilot/page.tsx must key pilot links by href and label together.");
+}
+
 for (const filePath of reviewSurfaceFiles) {
   const source = readFileSync(new URL(`../${filePath}`, import.meta.url), "utf8");
   const matches = source.match(bareKeyPattern);

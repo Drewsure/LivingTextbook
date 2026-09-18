@@ -76,7 +76,7 @@ export default function TeacherPilotPage() {
 
           <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {pilotLinks.map((link) => (
-              <PilotLink key={link.href} href={link.href} label={link.label} />
+              <PilotLink key={`${link.href}-${link.label}`} href={link.href} label={link.label} />
             ))}
           </div>
 

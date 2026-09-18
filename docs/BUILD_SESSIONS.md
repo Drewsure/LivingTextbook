@@ -3355,3 +3355,9 @@ evidence adapter later records. See ADR 0805 and DR-881.
   missing tenant-bound category coverage.
 - Verified the AI service type boundary and public content-model boundary.
 - Recorded ADR 0839 and DR-911.
+
+## Build session 0840: Pilot link key stability
+
+- Fixed the duplicate React key collision on the pilot command view where two
+  adult-review links intentionally share a destination.
+- Added a regression check and recorded ADR 0840 and DR-912.

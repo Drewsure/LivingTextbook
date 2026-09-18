@@ -5614,6 +5614,25 @@ policy acceptance, and live student data.
 See ADR 0839 and
 `docs/verification/PERSISTENCE_HANDOFF_PACKET_CHECKS.md`.
 
+# DR-912: Pilot Link Key Stability
+
+## Decision
+
+Key pilot command-view links by destination and label together, and verify the
+key contract statically.
+
+## Included
+
+- React key collision fix for duplicate pilot destinations.
+- Regression marker in review-list key verification.
+
+## Excluded
+
+Route changes, navigation permissions, partner data capture, and classroom
+launch behavior.
+
+See ADR 0840.
+
 # DR-902: Persistence Operations Diagnostics Authorization
 
 ## Decision

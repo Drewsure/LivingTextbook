@@ -3996,3 +3996,18 @@ and `docs/adr/0838-persistence-handoff-shared-validator.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-911,
 `docs/decision-register/DR-911-persistence-handoff-behavior-verification.md`,
 and `docs/adr/0839-persistence-handoff-behavior-verification.md`.
+
+## 255. Review Navigation Key Stability Standard
+
+- Review and pilot navigation lists must use stable keys that identify the
+  rendered item, not merely its destination. Duplicate destinations are valid
+  when they represent distinct adult-review actions.
+- A route check proving HTTP success is not enough to prove React list safety;
+  the review-list verifier must protect key construction for repeated links
+  and repeated review evidence.
+- Fixes in this lane must not change route authorization, teacher capture,
+  classroom launch, or student progression behavior.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-912,
+`docs/decision-register/DR-912-pilot-link-key-stability.md`,
+and `docs/adr/0840-pilot-link-key-stability.md`.
