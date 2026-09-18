@@ -3841,7 +3841,8 @@ and `docs/adr/0830-persistence-operations-diagnostics-authorization.md`.
 ## 246. Teacher Operations Session Synchronization Standard
 
 - The teacher persistence workbench must use one tenant-scoped session-change
-  signal for its read-only status and operation-evidence panels.
+  signal for its read-only status, hosted-adapter, and operation-evidence
+  panels.
 - A successful sign-in or sign-out may refresh only panels for the changed
   tenant; a browser event must never grant authorization, carry a review code,
   or replace the server cookie boundary.

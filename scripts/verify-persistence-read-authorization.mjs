@@ -28,6 +28,7 @@ const statusPanel = read("apps/web/src/features/persistence/PersistenceOperation
 const operationsAccessPanel = read("apps/web/src/features/persistence/TeacherOperationsAccessPanel.tsx");
 const sessionEvents = read("apps/web/src/features/persistence/teacherOperationsSessionEvents.ts");
 const evidencePanel = read("apps/web/src/features/persistence/PersistenceOperationsEvidencePanel.tsx");
+const hostedAdapterPanel = read("apps/web/src/features/persistence/HostedProgressionAdapterPanel.tsx");
 const teacherAuth = read("apps/web/src/server/persistence/teacherOperationsAuthorization.ts");
 
 requireFragments("progression read route", route, [
@@ -91,6 +92,11 @@ requireFragments("operations evidence session refresh", evidencePanel, [
   "TEACHER_OPERATIONS_SESSION_CHANGED",
   "isTeacherOperationsSessionChangeForTenant",
   "checkEvidence",
+]);
+requireFragments("hosted adapter session refresh", hostedAdapterPanel, [
+  "TEACHER_OPERATIONS_SESSION_CHANGED",
+  "isTeacherOperationsSessionChangeForTenant",
+  "checkReadPath",
 ]);
 
 if (failures.length > 0) {

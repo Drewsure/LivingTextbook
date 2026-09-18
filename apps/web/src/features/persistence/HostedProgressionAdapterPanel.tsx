@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Card, StatusPill } from "@living-textbook/ui";
 import { readHostedProgressionContinuity, type HostedProgressionReadRequest, type HostedProgressionReadResult } from "./hostedProgressionPersistenceClient";
+import { isTeacherOperationsSessionChangeForTenant, TEACHER_OPERATIONS_SESSION_CHANGED } from "./teacherOperationsSessionEvents";
 
 interface HostedProgressionAdapterPanelProps {
   request: HostedProgressionReadRequest;
@@ -12,11 +13,19 @@ export function HostedProgressionAdapterPanel({ request }: HostedProgressionAdap
   const [result, setResult] = useState<HostedProgressionReadResult>();
   const [checking, setChecking] = useState(false);
 
-  async function handleCheck() {
+  const checkReadPath = useCallback(async () => {
     setChecking(true);
     setResult(await readHostedProgressionContinuity(request));
     setChecking(false);
-  }
+  }, [request]);
+
+  useEffect(() => {
+    function handleSessionChange(event: Event) {
+      if (isTeacherOperationsSessionChangeForTenant(event, request.tenantId)) void checkReadPath();
+    }
+    window.addEventListener(TEACHER_OPERATIONS_SESSION_CHANGED, handleSessionChange);
+    return () => window.removeEventListener(TEACHER_OPERATIONS_SESSION_CHANGED, handleSessionChange);
+  }, [checkReadPath, request.tenantId]);
 
   const tone = result?.status === "available" ? "success" : result?.status === "error" || result?.status === "unauthorized" ? "warning" : "neutral";
   const label = checking ? "Checking" : result?.status === "available" ? "Available" : result?.status === "not-found" ? "No record" : result?.status === "unauthorized" ? "Protected" : result?.status === "error" ? "Unavailable" : "Not checked";
@@ -44,7 +53,7 @@ export function HostedProgressionAdapterPanel({ request }: HostedProgressionAdap
       <div className="mt-5 flex flex-wrap items-center gap-3">
         <button
           type="button"
-          onClick={handleCheck}
+          onClick={checkReadPath}
           disabled={checking}
           className="inline-flex min-h-11 items-center justify-center rounded-lg bg-[var(--tenant-primary)] px-4 py-2 text-sm font-bold text-white transition hover:brightness-95 disabled:cursor-wait disabled:opacity-60"
         >
