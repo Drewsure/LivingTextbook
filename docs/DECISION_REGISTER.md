@@ -6315,3 +6315,30 @@ required before any exporter, file copier, or deletion worker is designed.
 
 See ADR 0868 and
 `docs/decision-register/DR-940-local-export-retention-dry-run.md`.
+
+# DR-941: Local Package Manifest And Rollback Dry-Run
+
+## Decision
+
+Define a tenant-scoped, provider-neutral package manifest and rollback dry-run
+before any local bundle can be activated or any package provider can mutate
+routes, media, reports, or learner data.
+
+## Required Invariants
+
+The manifest covers content, media, routes, games, and reporting artifacts
+using safe relative paths, version and checksum state, current/fallback
+versions, stable QR fallback, and impact domains for QR, content, media,
+games, reports, and learner progress. All writes, replacement, deletion,
+activation, route mutation, and rollback execution remain blocked, with
+`sideEffect: "none"`.
+
+## Verification
+
+The package manifest rollback verifier covers unsafe paths, missing impact
+domains, QR fallback, version evidence, and blocked execution. The persistence
+workbench displays the preview; the full foundation gate remains required
+before a local provider or package activation path is designed.
+
+See ADR 0869 and
+`docs/decision-register/DR-941-local-package-manifest-rollback-dry-run.md`.

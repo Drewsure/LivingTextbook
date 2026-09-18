@@ -21,6 +21,7 @@ const providerApprovalContract = readSource("../packages/content-model/src/local
 const recoveryPacketContract = readSource("../packages/content-model/src/localBundleRecoveryPacket.ts");
 const recoveryReconciliationContract = readSource("../packages/content-model/src/localBundleRecoveryReconciliation.ts");
 const exportRetentionDryRunContract = readSource("../packages/content-model/src/localBundleExportRetentionDryRun.ts");
+const manifestRollbackDryRunContract = readSource("../packages/content-model/src/localBundlePackageManifestRollbackDryRun.ts");
 const activeRoutes = readSource("../docs/ACTIVE_ROUTE_VERIFICATION_LIST.md");
 
 const failures = [];
@@ -307,6 +308,8 @@ requireText(recoveryPacketContract, "crossTenantRestoreBlocked: true", "Local re
 requireText(recoveryReconciliationContract, "reconcileLocalBundleRecoveryEvidence", "Local recovery evidence must reconcile provider and packet identity.");
 requireText(exportRetentionDryRunContract, "validateLocalBundleExportRetentionDryRun", "Local export and retention dry runs must validate package classifications.");
 requireText(exportRetentionDryRunContract, 'deletionAction: "blocked"', "Local retention deletion must remain blocked in dry runs.");
+requireText(manifestRollbackDryRunContract, "validateLocalBundlePackageManifestRollbackDryRun", "Local package manifests must validate rollback evidence.");
+requireText(manifestRollbackDryRunContract, 'manifestState: "preview-only"', "Local package manifests must remain preview-only.");
 requireText(bundlePlan, "content-package.json", "Local bundle must keep a content package artifact path.");
 requireText(bundlePlan, "routes/qr-registry.json", "Local bundle must keep a QR registry artifact path.");
 requireText(bundlePlan, "games/game-routes.json", "Local bundle must keep a game route manifest artifact path.");
@@ -378,6 +381,9 @@ execFileSync(process.execPath, [fileURLToPath(new URL("./verify-local-bundle-rec
   stdio: "inherit",
 });
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-local-bundle-export-retention-dry-run.mjs", import.meta.url))], {
+  stdio: "inherit",
+});
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-local-bundle-package-manifest-rollback-dry-run.mjs", import.meta.url))], {
   stdio: "inherit",
 });
 

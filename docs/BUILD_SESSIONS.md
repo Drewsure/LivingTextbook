@@ -3639,3 +3639,13 @@ evidence adapter later records. See ADR 0805 and DR-881.
   keeping file copy, export, deletion, package writes, and route mutation
   blocked.
 - Added runtime/static verification and recorded ADR 0868 and DR-940.
+
+## Build session 0869: Local package manifest and rollback dry-run
+
+- Added a tenant-scoped package manifest preview for content, media, routes,
+  games, and reporting artifacts.
+- Added versioned fallback and rollback impact coverage for QR, content,
+  media, games, reports, and learner progress.
+- Enforced safe relative paths, checksum-state visibility, stable QR fallback,
+  and blocked activation/mutation/deletion behavior.
+- Added runtime/static verification and recorded ADR 0869 and DR-941.

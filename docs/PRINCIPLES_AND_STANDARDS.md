@@ -4470,3 +4470,25 @@ and `docs/adr/0867-local-recovery-evidence-reconciliation.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-940,
 `docs/decision-register/DR-940-local-export-retention-dry-run.md`,
 and `docs/adr/0868-local-export-retention-dry-run.md`.
+
+## 284. Tenant-Scoped Package Manifest And Rollback Dry-Run Standard
+
+- Every future local package must have one tenant-, bundle-, and
+  package-scoped manifest preview covering content, media, routes, games, and
+  reporting artifacts with safe relative paths and checksum state.
+- The manifest must name the current version, any reviewed fallback version,
+  stable QR behavior, and rollback impact for QR, content, media, games,
+  reports, and learner progress.
+- Rollback evidence is not rollback permission. Manifest writes, bundle
+  activation, QR mutation, media replacement, game-route mutation,
+  report-schema mutation, learner-data deletion, and rollback execution remain
+  blocked in the dry-run.
+- A package manifest must preserve tenant isolation and must never reference
+  direct `file:` targets, traversal paths, or unversioned local folders.
+- The dry-run must return `sideEffect: "none"` and require release, rights,
+  checksum, reporting, and school or publisher approval evidence before a
+  provider implementation can be considered.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-941,
+`docs/decision-register/DR-941-local-package-manifest-rollback-dry-run.md`,
+and `docs/adr/0869-local-package-manifest-rollback-dry-run.md`.
