@@ -6288,3 +6288,30 @@ implementation or live recovery work.
 
 See ADR 0867 and
 `docs/decision-register/DR-939-local-recovery-evidence-reconciliation.md`.
+
+# DR-940: Local Export And Retention Dry-Run
+
+## Decision
+
+Define a provider-neutral dry-run classification for local package export and
+retention. It previews safe manifest references, policy-required learner
+progress, and excluded sensitive material without copying, exporting, or
+deleting anything.
+
+## Required Invariants
+
+Content, route, game, and reviewed-media manifest references may be included
+as metadata. Learner progress requires policy. Raw learner audio, transcripts,
+and credentials are excluded from the core export. Retention is
+tenant-package-session scoped, policy-required, and blocked when unresolved.
+The dry run must return `sideEffect: "none"` and preserve all execution blocks.
+
+## Verification
+
+The export/retention dry-run verifier covers required classifications,
+exclusions, policy gates, retention blocking, and no-execution behavior. The
+persistence workbench displays the result; the full foundation gate remains
+required before any exporter, file copier, or deletion worker is designed.
+
+See ADR 0868 and
+`docs/decision-register/DR-940-local-export-retention-dry-run.md`.

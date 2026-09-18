@@ -1722,4 +1722,5 @@ export * from "./localBundleHandoffRecord";
 export * from "./localBundleProviderApproval";
 export * from "./localBundleRecoveryPacket";
 export * from "./localBundleRecoveryReconciliation";
+export * from "./localBundleExportRetentionDryRun";
 export * from "./localBundleRuntime";

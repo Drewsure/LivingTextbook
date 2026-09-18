@@ -4451,3 +4451,22 @@ and `docs/adr/0866-local-bundle-recovery-packet.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-939,
 `docs/decision-register/DR-939-local-recovery-evidence-reconciliation.md`,
 and `docs/adr/0867-local-recovery-evidence-reconciliation.md`.
+
+## 283. Local Export And Retention Dry-Run Standard
+
+- Every future local-package export must first produce a classification dry
+  run that identifies included manifest metadata, policy-required learner
+  progress, and excluded raw learner audio, transcripts, and credentials.
+- Reviewed content, route, game, and media-manifest references may be
+  previewed as package metadata; previewing a reference never copies its file.
+- Learner progress requires an accepted retention, teacher-access, export, and
+  school or tenant policy. A null retention period means policy is unresolved,
+  not unlimited retention.
+- Retention deletion must remain scoped to tenant, package, and session and
+  must remain blocked until a positive policy and operational approval exist.
+- Dry runs must return `sideEffect: "none"` and keep export execution, file
+  copy, learner-data export, package write, and route mutation false.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-940,
+`docs/decision-register/DR-940-local-export-retention-dry-run.md`,
+and `docs/adr/0868-local-export-retention-dry-run.md`.

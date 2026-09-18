@@ -47,6 +47,8 @@ import { sampleLocalBundleRecoveryPacket, sampleLocalBundleRecoveryPacketErrors 
 import { LocalBundleRecoveryPacketPanel } from "@/features/persistence/LocalBundleRecoveryPacketPanel";
 import { sampleLocalBundleRecoveryReconciliation } from "@/data/sampleLocalBundleRecoveryReconciliation";
 import { LocalBundleRecoveryReconciliationPanel } from "@/features/persistence/LocalBundleRecoveryReconciliationPanel";
+import { sampleLocalBundleExportRetentionDryRun, sampleLocalBundleExportRetentionDryRunErrors } from "@/data/sampleLocalBundleExportRetentionDryRun";
+import { LocalBundleExportRetentionDryRunPanel } from "@/features/persistence/LocalBundleExportRetentionDryRunPanel";
 
 const persistenceLinks = [
   { href: "/teacher/intake", label: "Foundation intake" },
@@ -106,6 +108,10 @@ export default function TeacherPersistencePage() {
           errors={sampleLocalBundleRecoveryPacketErrors}
         />
         <LocalBundleRecoveryReconciliationPanel reconciliation={sampleLocalBundleRecoveryReconciliation} />
+        <LocalBundleExportRetentionDryRunPanel
+          dryRun={sampleLocalBundleExportRetentionDryRun}
+          errors={sampleLocalBundleExportRetentionDryRunErrors}
+        />
         <PackageReadinessPersistencePanel
           intents={samplePackageReadinessPersistenceIntents}
           errors={samplePackageReadinessPersistenceErrors}

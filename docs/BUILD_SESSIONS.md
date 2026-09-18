@@ -3628,3 +3628,14 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Surfaced unresolved checks and lanes in the teacher persistence workbench
   while preserving `sideEffect: "none"` and all execution blockers.
 - Added runtime/static verification and recorded ADR 0867 and DR-939.
+
+## Build session 0868: Local export and retention dry-run
+
+- Added a provider-neutral classification contract for future local package
+  export and retention behavior.
+- Classified reviewed package metadata, policy-required learner progress, and
+  excluded raw learner audio, transcripts, and credentials.
+- Surfaced the classification in the teacher persistence workbench while
+  keeping file copy, export, deletion, package writes, and route mutation
+  blocked.
+- Added runtime/static verification and recorded ADR 0868 and DR-940.
