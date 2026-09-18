@@ -3449,3 +3449,13 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Kept the safe unset default, tenant-safe error surface, and no-credential
   disclosure boundary.
 - Recorded ADR 0849 and DR-921.
+
+## Build session 0850: Persistence provider runtime configuration
+
+- Added an executable runtime check for the provider-neutral configuration
+  helper.
+- Proved the unset rehearsal default, supported values, whitespace trimming,
+  and fail-closed handling for unsupported values.
+- Kept the check isolated from SQLite creation, hosted vendor selection, learner
+  data, credentials, and live persistence.
+- Recorded ADR 0850 and DR-922.

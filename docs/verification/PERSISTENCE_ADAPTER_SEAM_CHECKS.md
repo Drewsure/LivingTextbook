@@ -24,7 +24,11 @@ server-owned and must sit behind one provider-neutral adapter seam.
 
 ```text
 node scripts/verify-persistence-adapter-seam.mjs
+node scripts/verify-persistence-provider-configuration.mjs
 npm run verify:foundation
 ```
 
-This seam does not select a cloud vendor or enable durable writes.
+The runtime configuration check proves the unset rehearsal default, supported
+provider values, trimming behavior, and fail-closed handling for unsupported
+values. It does not create a database, select a cloud vendor, or enable durable
+writes.

@@ -1,4 +1,6 @@
 import { readFileSync } from "node:fs";
+import { execFileSync } from "node:child_process";
+import { fileURLToPath } from "node:url";
 
 const runtime = readSource("../packages/content-model/src/persistenceRuntime.ts");
 const replay = readSource("../packages/content-model/src/canonicalGameReplay.ts");
@@ -48,6 +50,9 @@ if (failures.length > 0) {
 }
 
 console.log("PASS persistence runtime keeps tenant, policy, privacy, release, and no-side-effect review gates explicit.");
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-persistence-provider-configuration.mjs", import.meta.url))], {
+  stdio: "inherit",
+});
 
 function readSource(relativePath) {
   return readFileSync(new URL(relativePath, import.meta.url), "utf8");

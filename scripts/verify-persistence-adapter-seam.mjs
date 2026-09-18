@@ -31,6 +31,8 @@ requireFragments("provider adapter", adapter, [
   'PersistenceDurability = "non-durable-rehearsal" | "durable-managed"',
   "getConfiguredPersistenceProvider",
   "getPersistenceProviderConfiguration",
+  "valid: false",
+  "Unsupported persistence provider configuration",
   "getProgressionPersistenceAdapter",
   "processMemoryAdapter",
   "getDurableProgressionStore",

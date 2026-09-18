@@ -4160,3 +4160,17 @@ and `docs/adr/0848-provider-neutral-persistence-adapter-seam.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-921,
 `docs/decision-register/DR-921-persistence-provider-configuration-fail-closed.md`,
 and `docs/adr/0849-persistence-provider-configuration-fail-closed.md`.
+
+## 265. Persistence Provider Runtime Verification Standard
+
+- Provider configuration behavior must have an executable runtime check, not
+  only static route markers.
+- The check must prove the unset rehearsal default, supported values, trimming,
+  and invalid-value rejection without creating a database or enabling live
+  persistence.
+- Runtime verification must remain isolated from learner data, credentials,
+  raw audio, transcripts, hosted vendor selection, and production deployment.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-922,
+`docs/decision-register/DR-922-persistence-provider-runtime-configuration-check.md`,
+and `docs/adr/0850-persistence-provider-runtime-configuration-check.md`.
