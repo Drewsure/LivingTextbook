@@ -1717,4 +1717,5 @@ export * from "./localBundleManifest";
 export * from "./localBundleAssetEvidence";
 export * from "./localBundleHandoff";
 export * from "./localBundleHandoffPersistence";
+export * from "./localBundleHandoffReview";
 export * from "./localBundleRuntime";

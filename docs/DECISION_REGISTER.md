@@ -6166,3 +6166,25 @@ full foundation gate.
 
 See ADR 0862 and
 `docs/decision-register/DR-934-local-bundle-persistence-admission-preview.md`.
+
+# DR-935: Local Bundle Handoff Review Access
+
+## Decision
+
+Protect future local handoff record review behind a tenant-, bundle-, and
+packet-scoped teacher-review request and the existing teacher persistence
+authorization seam.
+
+## Required Invariants
+
+Access is teacher-only, tenant-bound, non-student-facing, and read-only. An
+unconfigured provider returns blocked with no records and cannot synthesize a
+package or expose media, learner data, or filesystem details.
+
+## Verification
+
+The local handoff review-access verifier runs from local bundle readiness and
+the full foundation gate.
+
+See ADR 0863 and
+`docs/decision-register/DR-935-local-bundle-handoff-review-access.md`.

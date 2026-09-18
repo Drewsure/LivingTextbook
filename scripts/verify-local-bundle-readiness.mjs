@@ -14,6 +14,8 @@ const assetEvidencePanel = readSource("../apps/web/src/features/deployment/Local
 const assetEvidenceContract = readSource("../packages/content-model/src/localBundleAssetEvidence.ts");
 const handoffContract = readSource("../packages/content-model/src/localBundleHandoff.ts");
 const handoffData = readSource("../apps/web/src/data/localBundleHandoff.ts");
+const handoffReviewContract = readSource("../packages/content-model/src/localBundleHandoffReview.ts");
+const handoffReviewRoute = readSource("../apps/web/src/app/api/persistence/local-handoff/route.ts");
 const activeRoutes = readSource("../docs/ACTIVE_ROUTE_VERIFICATION_LIST.md");
 
 const failures = [];
@@ -284,6 +286,9 @@ for (const gamePath of requiredLocalGamePaths) {
 
 requireText(activeRoutes, "http://127.0.0.1:3000/local/ministar", "Active route list missing MiniStar local companion preview route.");
 requireText(activeRoutes, "http://127.0.0.1:3000/local/sample-publisher", "Active route list missing sample publisher local companion preview route.");
+requireText(handoffReviewContract, "validateLocalBundleHandoffReviewRequest", "Local handoff review contract must validate requests.");
+requireText(handoffReviewRoute, "hasTeacherOperationsReadAuthorization(request, requestShape.tenantId)", "Local handoff review route must require tenant-scoped teacher authorization.");
+requireText(handoffReviewRoute, "no package record is synthesized", "Local handoff review route must not synthesize package records.");
 requireText(bundlePlan, "content-package.json", "Local bundle must keep a content package artifact path.");
 requireText(bundlePlan, "routes/qr-registry.json", "Local bundle must keep a QR registry artifact path.");
 requireText(bundlePlan, "games/game-routes.json", "Local bundle must keep a game route manifest artifact path.");
@@ -337,6 +342,9 @@ execFileSync(process.execPath, [fileURLToPath(new URL("./verify-local-bundle-han
   stdio: "inherit",
 });
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-local-bundle-persistence-admission.mjs", import.meta.url))], {
+  stdio: "inherit",
+});
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-local-bundle-handoff-review-access.mjs", import.meta.url))], {
   stdio: "inherit",
 });
 

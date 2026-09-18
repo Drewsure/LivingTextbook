@@ -3580,3 +3580,11 @@ evidence adapter later records. See ADR 0805 and DR-881.
   tenant-bound persistence category list.
 - Added runtime coverage for valid coverage and blocked durable-write paths.
 - Recorded ADR 0862 and DR-934.
+
+## Build session 0863: Local bundle handoff review access
+
+- Added tenant-, bundle-, and packet-scoped teacher-review access for future
+  local handoff records.
+- Reused the existing signed teacher persistence authorization seam.
+- Kept the endpoint read-only and fail-closed with no provider records.
+- Recorded ADR 0863 and DR-935.

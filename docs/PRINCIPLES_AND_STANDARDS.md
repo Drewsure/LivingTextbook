@@ -4361,3 +4361,21 @@ and `docs/adr/0861-local-bundle-handoff-storage-alignment.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-934,
 `docs/decision-register/DR-934-local-bundle-persistence-admission-preview.md`,
 and `docs/adr/0862-local-bundle-persistence-admission-preview.md`.
+
+## 278. Local Bundle Handoff Review Access Standard
+
+- Future local handoff record reads must use an explicit `teacher-review`
+  request bound to tenant, bundle, and packet identity.
+- The route must reuse the teacher persistence-read authorization seam,
+  including teacher role, allowed tenant, expiry, and signed session or
+  server token checks.
+- Local handoff review must remain non-student-facing and must return no
+  records while a provider is unconfigured; a static preview must never be
+  treated as a storage read.
+- Provider implementation may replace the blocked branch only after tenant
+  isolation, retention, export, release, local fallback, and runtime gates
+  are accepted.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-935,
+`docs/decision-register/DR-935-local-bundle-handoff-review-access.md`,
+and `docs/adr/0863-local-bundle-handoff-review-access.md`.
