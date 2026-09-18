@@ -4398,3 +4398,20 @@ and `docs/adr/0863-local-bundle-handoff-review-access.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-936,
 `docs/decision-register/DR-936-local-bundle-provider-mapping.md`,
 and `docs/adr/0864-local-bundle-provider-mapping.md`.
+
+## 280. Local Provider Approval Evidence Standard
+
+- A provider candidate must have explicit evidence lanes for tenant isolation,
+  retention, export, backup, restore, safe fallback, and learner-data
+  exclusion before provider selection can be considered.
+- Approval packets are review-only planning records. They must keep provider
+  selection, provider activation, package writes, student promotion, and
+  learner-data export blocked.
+- Control references must be tenant-scoped and auditable; a label such as
+  “secure” or “offline-ready” is not evidence by itself.
+- Raw learner audio and transcripts remain excluded from the core local or
+  hosted record, and any export path must remain policy-gated.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-937,
+`docs/decision-register/DR-937-local-provider-approval-evidence.md`,
+and `docs/adr/0865-local-provider-approval-evidence.md`.

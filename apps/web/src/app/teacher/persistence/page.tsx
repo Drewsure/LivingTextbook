@@ -41,6 +41,8 @@ import {
   samplePackageReadinessPersistenceIntents,
 } from "@/data/samplePackageReadinessPersistence";
 import { PackageReadinessPersistencePanel } from "@/features/persistence/PackageReadinessPersistencePanel";
+import { sampleLocalBundleProviderApproval, sampleLocalBundleProviderApprovalErrors } from "@/data/sampleLocalBundleProviderApproval";
+import { LocalBundleProviderApprovalPanel } from "@/features/persistence/LocalBundleProviderApprovalPanel";
 
 const persistenceLinks = [
   { href: "/teacher/intake", label: "Foundation intake" },
@@ -91,6 +93,10 @@ export default function TeacherPersistencePage() {
         <BackendDecisionMatrixPanel matrix={sampleBackendDecisionMatrix} />
         <PilotBackendSelectionGatePanel gate={samplePilotBackendSelectionGate} />
         <PersistenceHandoffPacketPanel packet={samplePersistenceHandoffPacket} errors={samplePersistenceHandoffPacketErrors} />
+        <LocalBundleProviderApprovalPanel
+          packet={sampleLocalBundleProviderApproval}
+          errors={sampleLocalBundleProviderApprovalErrors}
+        />
         <PackageReadinessPersistencePanel
           intents={samplePackageReadinessPersistenceIntents}
           errors={samplePackageReadinessPersistenceErrors}

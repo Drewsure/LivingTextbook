@@ -17,6 +17,7 @@ const handoffData = readSource("../apps/web/src/data/localBundleHandoff.ts");
 const handoffReviewContract = readSource("../packages/content-model/src/localBundleHandoffReview.ts");
 const handoffReviewRoute = readSource("../apps/web/src/app/api/persistence/local-handoff/route.ts");
 const handoffReviewAdapter = readSource("../apps/web/src/server/persistence/localBundleHandoffReviewAdapter.ts");
+const providerApprovalContract = readSource("../packages/content-model/src/localBundleProviderApproval.ts");
 const activeRoutes = readSource("../docs/ACTIVE_ROUTE_VERIFICATION_LIST.md");
 
 const failures = [];
@@ -293,6 +294,9 @@ requireText(handoffReviewRoute, "records: result.record ? [result.record] : []",
 requireText(handoffReviewAdapter, "no package record is synthesized", "Local handoff review adapter must not synthesize package records.");
 requireText(handoffReviewAdapter, "unconfiguredProvider", "Local handoff review must expose an explicit unconfigured provider adapter.");
 requireText(handoffReviewAdapter, "record: null", "Local handoff review provider must return no record before provider approval.");
+requireText(providerApprovalContract, "validateLocalBundleProviderApprovalPacket", "Local provider approval must validate evidence packets.");
+requireText(providerApprovalContract, "selectedProvider: null", "Local provider approval must keep provider selection uncommitted.");
+requireText(providerApprovalContract, "providerActivationAllowed: false", "Local provider approval must block activation.");
 requireText(bundlePlan, "content-package.json", "Local bundle must keep a content package artifact path.");
 requireText(bundlePlan, "routes/qr-registry.json", "Local bundle must keep a QR registry artifact path.");
 requireText(bundlePlan, "games/game-routes.json", "Local bundle must keep a game route manifest artifact path.");
@@ -352,6 +356,9 @@ execFileSync(process.execPath, [fileURLToPath(new URL("./verify-local-bundle-han
   stdio: "inherit",
 });
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-local-bundle-handoff-adapter.mjs", import.meta.url))], {
+  stdio: "inherit",
+});
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-local-bundle-provider-approval.mjs", import.meta.url))], {
   stdio: "inherit",
 });
 

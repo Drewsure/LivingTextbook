@@ -3598,3 +3598,13 @@ evidence adapter later records. See ADR 0805 and DR-881.
   tenant, bundle, package, and packet identity.
 - Added focused runtime and static verification and recorded ADR 0864 and
   DR-936.
+
+## Build session 0865: Local provider approval evidence
+
+- Added a review-only provider approval packet for retention, export, backup,
+  restore, safe fallback, tenant isolation, and data exclusion.
+- Added a teacher persistence-workbench panel so provider readiness is visible
+  without selecting a vendor or enabling live storage.
+- Preserved explicit provider-activation, package-write, student-promotion,
+  and learner-data-export blockers.
+- Added runtime/static verification and recorded ADR 0865 and DR-937.

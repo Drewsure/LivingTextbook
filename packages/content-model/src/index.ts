@@ -1719,4 +1719,5 @@ export * from "./localBundleHandoff";
 export * from "./localBundleHandoffPersistence";
 export * from "./localBundleHandoffReview";
 export * from "./localBundleHandoffRecord";
+export * from "./localBundleProviderApproval";
 export * from "./localBundleRuntime";

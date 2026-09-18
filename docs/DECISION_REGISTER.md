@@ -6212,3 +6212,27 @@ implementation work advances.
 
 See ADR 0864 and
 `docs/decision-register/DR-936-local-bundle-provider-mapping.md`.
+
+# DR-937: Local Provider Approval Evidence
+
+## Decision
+
+Add a review-only provider approval packet that makes retention, export,
+backup, restore, safe fallback, tenant isolation, and data-exclusion evidence
+explicit before any local or hosted handoff provider is selected.
+
+## Required Invariants
+
+Provider selection and activation remain uncommitted. Package writes, student
+promotion, and learner-data export remain blocked. Raw learner audio and
+transcripts remain excluded from the core record. Every required evidence lane
+has a tenant-scoped reference and a review status.
+
+## Verification
+
+The provider approval evidence verifier runs from local bundle readiness. The
+teacher persistence workbench displays the packet, while typecheck, build,
+route, runtime, privacy, and tenant-isolation gates remain required.
+
+See ADR 0865 and
+`docs/decision-register/DR-937-local-provider-approval-evidence.md`.
