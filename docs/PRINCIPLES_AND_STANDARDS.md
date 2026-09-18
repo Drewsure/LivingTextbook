@@ -4379,3 +4379,22 @@ and `docs/adr/0862-local-bundle-persistence-admission-preview.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-935,
 `docs/decision-register/DR-935-local-bundle-handoff-review-access.md`,
 and `docs/adr/0863-local-bundle-handoff-review-access.md`.
+
+## 279. Local Bundle Provider Mapping Standard
+
+- A future local handoff provider must implement the shared
+  `LocalBundleHandoffReviewProvider` boundary; route handlers must not read
+  provider tables, package files, or local folders directly.
+- Provider records must be mapped through the shared packet-to-record mapper,
+  preserving tenant, bundle, package, and packet identity and deriving the
+  blocked count from checks and handoff items.
+- A mapped record may be readable only through the teacher-review request and
+  must remain review-only. `offlineReadyAllowed` is evidence state, not
+  permission to activate a package or promote a student route.
+- The unconfigured adapter must return no record. It may be replaced only by
+  a provider that passes tenant isolation, retention, export, backup/restore,
+  local fallback, and runtime behavior verification.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-936,
+`docs/decision-register/DR-936-local-bundle-provider-mapping.md`,
+and `docs/adr/0864-local-bundle-provider-mapping.md`.

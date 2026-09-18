@@ -6188,3 +6188,27 @@ the full foundation gate.
 
 See ADR 0863 and
 `docs/decision-register/DR-935-local-bundle-handoff-review-access.md`.
+
+# DR-936: Local Bundle Provider Mapping
+
+## Decision
+
+Define a provider-neutral local handoff record and pure packet-to-record
+mapper before any hosted or local handoff provider is selected. The protected
+review route obtains results only through the provider boundary.
+
+## Required Invariants
+
+The mapper preserves tenant, bundle, package, and packet identity, derives
+blocked count from checks and handoff items, and keeps offline readiness as
+evidence rather than activation permission. The unconfigured adapter returns
+no record and remains non-student-facing.
+
+## Verification
+
+The adapter mapping runtime check, local bundle readiness gate, typecheck,
+production build, and active route verification are required before provider
+implementation work advances.
+
+See ADR 0864 and
+`docs/decision-register/DR-936-local-bundle-provider-mapping.md`.

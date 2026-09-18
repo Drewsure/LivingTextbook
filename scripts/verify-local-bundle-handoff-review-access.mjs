@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 
 const contract = readSource("../packages/content-model/src/localBundleHandoffReview.ts");
 const route = readSource("../apps/web/src/app/api/persistence/local-handoff/route.ts");
+const adapter = readSource("../apps/web/src/server/persistence/localBundleHandoffReviewAdapter.ts");
 const authorization = readSource("../apps/web/src/server/persistence/teacherOperationsAuthorization.ts");
 const failures = [];
 
@@ -18,14 +19,28 @@ for (const marker of [
 for (const marker of [
   "validateLocalBundleHandoffReviewRequest",
   "hasTeacherOperationsReadAuthorization(request, requestShape.tenantId)",
-  "Local handoff review storage is not configured",
-  "no package record is synthesized",
+  "getLocalBundleHandoffReviewProvider",
+  "getLocalBundleHandoffReviewProvider().read(requestShape)",
+  "result.status",
+  "records: result.record ? [result.record] : []",
   "never student-facing",
   'status: \"unauthorized\"',
-  'status: \"blocked\"',
+  'result.status === \"blocked\"',
   "Cache-Control",
 ]) {
   if (!route.includes(marker)) failures.push(`Review route is missing ${marker}.`);
+}
+
+for (const marker of [
+  "LocalBundleHandoffReviewProvider",
+  "unconfiguredProvider",
+  "validateLocalBundleHandoffReviewRequest",
+  "no package record is synthesized",
+  "provider: null",
+  "record: null",
+  "Local handoff review storage is not configured",
+]) {
+  if (!adapter.includes(marker)) failures.push(`Review adapter is missing ${marker}.`);
 }
 
 for (const marker of [

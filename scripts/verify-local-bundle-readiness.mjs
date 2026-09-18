@@ -16,6 +16,7 @@ const handoffContract = readSource("../packages/content-model/src/localBundleHan
 const handoffData = readSource("../apps/web/src/data/localBundleHandoff.ts");
 const handoffReviewContract = readSource("../packages/content-model/src/localBundleHandoffReview.ts");
 const handoffReviewRoute = readSource("../apps/web/src/app/api/persistence/local-handoff/route.ts");
+const handoffReviewAdapter = readSource("../apps/web/src/server/persistence/localBundleHandoffReviewAdapter.ts");
 const activeRoutes = readSource("../docs/ACTIVE_ROUTE_VERIFICATION_LIST.md");
 
 const failures = [];
@@ -288,7 +289,10 @@ requireText(activeRoutes, "http://127.0.0.1:3000/local/ministar", "Active route 
 requireText(activeRoutes, "http://127.0.0.1:3000/local/sample-publisher", "Active route list missing sample publisher local companion preview route.");
 requireText(handoffReviewContract, "validateLocalBundleHandoffReviewRequest", "Local handoff review contract must validate requests.");
 requireText(handoffReviewRoute, "hasTeacherOperationsReadAuthorization(request, requestShape.tenantId)", "Local handoff review route must require tenant-scoped teacher authorization.");
-requireText(handoffReviewRoute, "no package record is synthesized", "Local handoff review route must not synthesize package records.");
+requireText(handoffReviewRoute, "records: result.record ? [result.record] : []", "Local handoff review route must expose only mapped adapter records.");
+requireText(handoffReviewAdapter, "no package record is synthesized", "Local handoff review adapter must not synthesize package records.");
+requireText(handoffReviewAdapter, "unconfiguredProvider", "Local handoff review must expose an explicit unconfigured provider adapter.");
+requireText(handoffReviewAdapter, "record: null", "Local handoff review provider must return no record before provider approval.");
 requireText(bundlePlan, "content-package.json", "Local bundle must keep a content package artifact path.");
 requireText(bundlePlan, "routes/qr-registry.json", "Local bundle must keep a QR registry artifact path.");
 requireText(bundlePlan, "games/game-routes.json", "Local bundle must keep a game route manifest artifact path.");
@@ -345,6 +349,9 @@ execFileSync(process.execPath, [fileURLToPath(new URL("./verify-local-bundle-per
   stdio: "inherit",
 });
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-local-bundle-handoff-review-access.mjs", import.meta.url))], {
+  stdio: "inherit",
+});
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-local-bundle-handoff-adapter.mjs", import.meta.url))], {
   stdio: "inherit",
 });
 

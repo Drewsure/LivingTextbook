@@ -1,17 +1,21 @@
 import { NextResponse } from "next/server";
-import { validateLocalBundleHandoffReviewRequest } from "@living-textbook/content-model";
+import {
+  validateLocalBundleHandoffReviewRequest,
+  type LocalBundleHandoffReviewRequest,
+} from "@living-textbook/content-model";
 import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
+import { getLocalBundleHandoffReviewProvider } from "@/server/persistence/localBundleHandoffReviewAdapter";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export function GET(request: Request) {
   const url = new URL(request.url);
-  const requestShape = {
+  const requestShape: LocalBundleHandoffReviewRequest = {
     tenantId: url.searchParams.get("tenantId")?.trim() ?? "",
     bundleId: url.searchParams.get("bundleId")?.trim() ?? "",
     packetId: url.searchParams.get("packetId")?.trim() ?? "",
-    accessMode: url.searchParams.get("accessMode") ?? "",
+    accessMode: (url.searchParams.get("accessMode") ?? "") as LocalBundleHandoffReviewRequest["accessMode"],
     studentFacing: false,
   };
   const validationErrors = validateLocalBundleHandoffReviewRequest(requestShape);
@@ -27,11 +31,13 @@ export function GET(request: Request) {
     }, 401);
   }
 
+  const result = getLocalBundleHandoffReviewProvider().read(requestShape);
   return json({
-    status: "blocked",
-    provider: null,
-    records: [],
-    errors: ["Local handoff review storage is not configured; no package record is synthesized by this read-only route."],
+    status: result.status,
+    provider: result.provider,
+    record: result.record,
+    errors: result.errors,
+    records: result.record ? [result.record] : [],
     privacy: privacyMessage(),
     request: {
       tenantId: requestShape.tenantId,
@@ -39,7 +45,7 @@ export function GET(request: Request) {
       packetId: requestShape.packetId,
       accessMode: requestShape.accessMode,
     },
-  }, 423);
+  }, result.status === "blocked" ? 423 : 200);
 }
 
 function privacyMessage(): string {

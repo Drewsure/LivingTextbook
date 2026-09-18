@@ -3588,3 +3588,13 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Reused the existing signed teacher persistence authorization seam.
 - Kept the endpoint read-only and fail-closed with no provider records.
 - Recorded ADR 0863 and DR-935.
+
+## Build session 0864: Local bundle provider mapping
+
+- Added a shared local handoff record shape and pure packet-to-record mapper.
+- Added an explicit unconfigured provider adapter so the protected review route
+  has one replaceable ownership boundary and never reads storage directly.
+- Derived blocked counts from packet checks and handoff items while preserving
+  tenant, bundle, package, and packet identity.
+- Added focused runtime and static verification and recorded ADR 0864 and
+  DR-936.
