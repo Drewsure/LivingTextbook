@@ -34,6 +34,7 @@ try {
     "packages/content-model/src/assetRuntime.ts",
     "packages/content-model/src/sourceRuntime.ts",
     "packages/content-model/src/sourcePackageAssembly.ts",
+    "packages/content-model/src/packageApprovalLedger.ts",
     "packages/content-model/src/releaseRuntime.ts",
     "packages/content-model/src/contentPackageRuntime.ts",
     "packages/content-model/src/launchRuntime.ts",
@@ -140,6 +141,7 @@ try {
   const asset = require(join(output, "assetRuntime.js"));
   const source = require(join(output, "sourceRuntime.js"));
   const sourcePackageAssembly = require(join(output, "sourcePackageAssembly.js"));
+  const packageApprovalLedger = require(join(output, "packageApprovalLedger.js"));
   const release = require(join(output, "releaseRuntime.js"));
   const contentPackage = require(join(output, "contentPackageRuntime.js"));
   const launch = require(join(output, "launchRuntime.js"));
@@ -1120,6 +1122,8 @@ try {
     sourceChecksum: "checksum-1",
     candidateUnitKeys: ["tenant-1:curriculum:L1:U1"],
     candidateMediaAssetIds: ["audio-1"],
+    approvalLedgerId: "ledger-1",
+    approvalLedgerLinked: true,
     requiredRecords: ["source_extraction_review_packet", "teacher_draft_package", "teacher_draft_review_handoff"],
     blockers: ["Rights review remains open."],
     sourceLineageReviewed: true,
@@ -1130,6 +1134,7 @@ try {
     draftCreationAllowed: false,
     studentFacingPayloadAllowed: false,
     packagePromotionAllowed: false,
+    approvalCaptureAllowed: false,
   };
   assertEqual(sourcePackageAssembly.validateSourcePackageAssemblyPacket(validSourcePackageAssemblyPacket).length, 0);
   assertIncludes(
@@ -1152,6 +1157,49 @@ try {
       requiredRecords: [],
     }),
     "Source package assembly is missing required record source_extraction_review_packet.",
+  );
+
+  const validPackageApprovalLedger = {
+    ledgerId: "ledger-1",
+    tenantId: "tenant-1",
+    packageId: "package-1",
+    releaseCandidate: "candidate-1",
+    label: "Package approval ledger preview",
+    summary: "Evidence-only approval review preview.",
+    approvalRule: "All required sign-offs remain review-only.",
+    mode: "review-only",
+    state: "evidence-only",
+    approvalCaptureAllowed: false,
+    packagePromotionAllowed: false,
+    signoffs: [
+      ...["content", "media", "games", "qr", "policy", "deployment", "platform"].map((role) => ({
+        signoffId: `${role}-signoff`,
+        label: `${role} review`,
+        role,
+        status: "needs-signoff",
+        owner: "Preview owner",
+        requiredBeforePilot: true,
+        evidence: "Evidence remains preview-only.",
+        nextStep: "Collect governed evidence.",
+        cannotApproveWhile: ["Review-only mode is active"],
+      })),
+    ],
+    auditRules: ["No approval capture", "No package promotion"],
+  };
+  assertEqual(packageApprovalLedger.validatePackageApprovalLedger(validPackageApprovalLedger).length, 0);
+  assertIncludes(
+    packageApprovalLedger.validatePackageApprovalLedger({
+      ...validPackageApprovalLedger,
+      approvalCaptureAllowed: true,
+    }),
+    "Package approval capture must remain blocked in the foundation.",
+  );
+  assertIncludes(
+    packageApprovalLedger.validatePackageApprovalLedger({
+      ...validPackageApprovalLedger,
+      signoffs: validPackageApprovalLedger.signoffs.slice(1),
+    }),
+    "Package approval ledger is missing required role: content.",
   );
 
   const releaseRequest = {

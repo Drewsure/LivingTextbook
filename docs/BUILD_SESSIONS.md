@@ -3382,3 +3382,12 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Added MiniStar and partner sample packets, intake visibility, and runtime
   behavior checks.
 - Recorded ADR 0842 and DR-914.
+
+## Build session 0843: Evidence-only package approval linkage
+
+- Promoted the package approval ledger shape into the shared content model.
+- Linked source-to-package assembly packets to tenant-scoped approval ledger
+  identifiers and kept approval capture and promotion false.
+- Added required-role validation, runtime assertions, intake visibility, and
+  source-review checks.
+- Recorded ADR 0843 and DR-915.

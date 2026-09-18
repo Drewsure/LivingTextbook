@@ -5702,3 +5702,26 @@ review boundary used by operation history and hosted adapter review.
 
 See ADR 0830 and
 `docs/verification/PERSISTENCE_READ_AUTHORIZATION_CHECKS.md`.
+
+# DR-915: Evidence-Only Package Approval Linkage
+
+## Decision
+
+Make the package approval ledger a shared content-model contract and require
+every source-to-package assembly packet to link to an evidence-only ledger.
+
+## Included
+
+- Tenant/package/release-candidate identity.
+- Required content, media, games, QR, policy, deployment, and platform roles.
+- Explicit review-only and evidence-only state.
+- Runtime and source-review validation for approval capture and promotion
+  guards.
+
+## Excluded
+
+Signed approval capture, reviewer authentication, durable approval writes,
+package promotion, route activation, assignment, and student-facing release.
+
+See ADR 0843 and
+`docs/decision-register/DR-915-evidence-only-package-approval.md`.

@@ -1624,6 +1624,7 @@ export * from "./persistenceConsistency";
 export * from "./persistenceHandoff";
 export * from "./pilotHandoff";
 export * from "./sourcePackageAssembly";
+export * from "./packageApprovalLedger";
 export * from "./persistenceRuntime";
 export * from "./reportRuntime";
 export * from "./teacherReportPersistenceRuntime";

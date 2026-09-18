@@ -13,6 +13,8 @@ export interface SourcePackageAssemblyPacket {
   sourceChecksum: string;
   candidateUnitKeys: string[];
   candidateMediaAssetIds: string[];
+  approvalLedgerId: string;
+  approvalLedgerLinked: boolean;
   requiredRecords: string[];
   blockers: string[];
   sourceLineageReviewed: boolean;
@@ -23,6 +25,7 @@ export interface SourcePackageAssemblyPacket {
   draftCreationAllowed: false;
   studentFacingPayloadAllowed: false;
   packagePromotionAllowed: false;
+  approvalCaptureAllowed: false;
 }
 
 const REQUIRED_ASSEMBLY_RECORDS = [
@@ -42,6 +45,7 @@ export function validateSourcePackageAssemblyPacket(packet: SourcePackageAssembl
     ["extractionPacketId", packet.extractionPacketId],
     ["label", packet.label],
     ["sourceChecksum", packet.sourceChecksum],
+    ["approvalLedgerId", packet.approvalLedgerId],
   ] as const) {
     if (typeof value !== "string" || value.trim().length === 0) {
       errors.push(`Source package assembly ${field} is required.`);
@@ -62,9 +66,11 @@ export function validateSourcePackageAssemblyPacket(packet: SourcePackageAssembl
     ["mediaRightsReviewed", packet.mediaRightsReviewed],
     ["targetMappingReviewed", packet.targetMappingReviewed],
     ["teacherReviewHandoffPresent", packet.teacherReviewHandoffPresent],
+    ["approvalLedgerLinked", packet.approvalLedgerLinked],
     ["draftCreationAllowed", packet.draftCreationAllowed],
     ["studentFacingPayloadAllowed", packet.studentFacingPayloadAllowed],
     ["packagePromotionAllowed", packet.packagePromotionAllowed],
+    ["approvalCaptureAllowed", packet.approvalCaptureAllowed],
   ] as const) {
     if (typeof value !== "boolean") errors.push(`Source package assembly ${field} must be a boolean.`);
   }
@@ -94,8 +100,12 @@ export function validateSourcePackageAssemblyPacket(packet: SourcePackageAssembl
     errors.push("Blocked source package assembly must state at least one blocker.");
   }
 
-  if (packet.draftCreationAllowed || packet.studentFacingPayloadAllowed || packet.packagePromotionAllowed) {
+  if (packet.draftCreationAllowed || packet.studentFacingPayloadAllowed || packet.packagePromotionAllowed || packet.approvalCaptureAllowed) {
     errors.push("Source package assembly promotion flags must remain false in review-only mode.");
+  }
+
+  if (packet.approvalLedgerLinked !== true) {
+    errors.push("Source package assembly must link to an evidence-only approval ledger.");
   }
 
   return [...new Set(errors)];

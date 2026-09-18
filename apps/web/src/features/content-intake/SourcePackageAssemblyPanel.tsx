@@ -58,11 +58,13 @@ export function SourcePackageAssemblyPanel({ packets }: SourcePackageAssemblyPan
               <AssemblyFact label="Extraction packet" value={packet.extractionPacketId} />
               <AssemblyFact label="Candidate units" value={String(packet.candidateUnitKeys.length)} />
               <AssemblyFact label="Candidate media" value={String(packet.candidateMediaAssetIds.length)} />
+              <AssemblyFact label="Approval ledger linked" value={packet.approvalLedgerLinked ? packet.approvalLedgerId : "Missing"} />
               <AssemblyFact label="Teacher handoff" value={packet.teacherReviewHandoffPresent ? "Present" : "Missing"} />
             </dl>
 
             <div className="mt-4 grid gap-2">
               <AssemblyFlag label="Draft creation" value="Blocked" />
+              <AssemblyFlag label="Approval capture" value="Blocked" />
               <AssemblyFlag label="Student-facing payload" value="Blocked" />
               <AssemblyFlag label="Package promotion" value="Blocked" />
             </div>

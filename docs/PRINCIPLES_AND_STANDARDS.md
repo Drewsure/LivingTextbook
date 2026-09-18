@@ -4042,3 +4042,19 @@ and `docs/adr/0841-pilot-handoff-shared-validator.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-914,
 `docs/decision-register/DR-914-source-package-assembly-contract.md`,
 and `docs/adr/0842-source-package-assembly-contract.md`.
+
+## 258. Evidence-Only Package Approval Standard
+
+- Every source-to-package candidate must link to a tenant-scoped approval
+  ledger before it can be discussed as a release candidate.
+- Approval ledgers are shared content-model contracts, not web-only fixtures;
+  they must enumerate content, media, games, QR, policy, deployment, and
+  platform responsibilities.
+- Foundation ledgers record evidence and open sign-off conditions only.
+  Approval capture and package promotion remain explicitly blocked.
+- A linked ledger improves traceability but never substitutes for rights,
+  verifier, audio, persistence, school-policy, or release-control evidence.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-915,
+`docs/decision-register/DR-915-evidence-only-package-approval.md`,
+and `docs/adr/0843-evidence-only-package-approval.md`.

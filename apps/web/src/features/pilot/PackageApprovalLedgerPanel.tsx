@@ -1,9 +1,10 @@
 import { Card, StatusPill } from "@living-textbook/ui";
-import type {
-  PackageApprovalLedger,
-  PackageApprovalRole,
-  PackageApprovalSignoff,
-  PackageApprovalStatus,
+import { validatePackageApprovalLedger } from "@living-textbook/content-model";
+import {
+  type PackageApprovalLedger,
+  type PackageApprovalRole,
+  type PackageApprovalSignoff,
+  type PackageApprovalStatus,
 } from "@/data/samplePackageApprovalLedger";
 
 interface PackageApprovalLedgerPanelProps {
@@ -33,6 +34,7 @@ const roleLabel: Record<PackageApprovalRole, string> = {
 };
 
 export function PackageApprovalLedgerPanel({ ledger }: PackageApprovalLedgerPanelProps) {
+  const validationErrors = validatePackageApprovalLedger(ledger);
   const signedCount = ledger.signoffs.filter((signoff) => signoff.status === "signed").length;
   const needsSignoffCount = ledger.signoffs.filter((signoff) => signoff.status === "needs-signoff").length;
   const blockedCount = ledger.signoffs.filter((signoff) => signoff.status === "blocked").length;
@@ -57,6 +59,17 @@ export function PackageApprovalLedgerPanel({ ledger }: PackageApprovalLedgerPane
         <ApprovalMetric label="Needs sign-off" value={String(needsSignoffCount)} tone={needsSignoffCount > 0 ? "warning" : "success"} />
         <ApprovalMetric label="Blocked" value={String(blockedCount)} tone={blockedCount > 0 ? "warning" : "success"} />
       </div>
+
+      <div className="mt-4 grid gap-3 sm:grid-cols-2">
+        <ApprovalBoundary label="Approval capture blocked" value="Foundation guard" />
+        <ApprovalBoundary label="Package promotion blocked" value="Foundation guard" />
+      </div>
+
+      {validationErrors.length > 0 ? (
+        <ul className="mt-4 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
+          {validationErrors.map((error, index) => <li key={`approval-ledger-error-${index}`}>{error}</li>)}
+        </ul>
+      ) : null}
 
       <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
         <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Approval rule</p>
@@ -98,6 +111,10 @@ export function PackageApprovalLedgerPanel({ ledger }: PackageApprovalLedgerPane
       </div>
     </Card>
   );
+}
+
+function ApprovalBoundary({ label, value }: { label: string; value: string }) {
+  return <div className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3"><p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">{label}</p><p className="mt-1 text-sm font-bold text-[var(--tenant-text)]">{value}</p></div>;
 }
 
 function ApprovalMetric({

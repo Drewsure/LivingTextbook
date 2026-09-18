@@ -1,36 +1,12 @@
-export type PackageApprovalStatus = "signed" | "needs-signoff" | "blocked";
-export type PackageApprovalRole =
-  | "content"
-  | "media"
-  | "games"
-  | "qr"
-  | "policy"
-  | "deployment"
-  | "platform";
+import { validatePackageApprovalLedger } from "@living-textbook/content-model";
+import type { PackageApprovalLedger } from "@living-textbook/content-model";
 
-export interface PackageApprovalSignoff {
-  signoffId: string;
-  label: string;
-  role: PackageApprovalRole;
-  status: PackageApprovalStatus;
-  owner: string;
-  requiredBeforePilot: boolean;
-  evidence: string;
-  nextStep: string;
-  cannotApproveWhile: string[];
-}
-
-export interface PackageApprovalLedger {
-  ledgerId: string;
-  tenantId: string;
-  packageId: string;
-  releaseCandidate: string;
-  label: string;
-  summary: string;
-  approvalRule: string;
-  signoffs: PackageApprovalSignoff[];
-  auditRules: string[];
-}
+export type {
+  PackageApprovalLedger,
+  PackageApprovalRole,
+  PackageApprovalSignoff,
+  PackageApprovalStatus,
+} from "@living-textbook/content-model";
 
 export const samplePackageApprovalLedger: PackageApprovalLedger = {
   ledgerId: "sample-publisher-approval-ledger",
@@ -42,6 +18,10 @@ export const samplePackageApprovalLedger: PackageApprovalLedger = {
     "This ledger is the backend-agnostic sign-off record that will eventually sit behind the package publish gate. It shows which human approvals are required before a package can move from demo to live pilot.",
   approvalRule:
     "A release candidate can be approved only when every required sign-off is signed and no required sign-off is blocked by media rights, report policy, QR stability, deployment, or persistence gaps.",
+  mode: "review-only",
+  state: "evidence-only",
+  approvalCaptureAllowed: false,
+  packagePromotionAllowed: false,
   signoffs: [
     {
       signoffId: "content-review",
@@ -129,3 +109,5 @@ export const samplePackageApprovalLedger: PackageApprovalLedger = {
     "MiniStar and partner packages use the same approval shape with tenant-specific owners.",
   ],
 };
+
+export const samplePackageApprovalLedgerErrors = validatePackageApprovalLedger(samplePackageApprovalLedger);

@@ -14,6 +14,8 @@ export const sampleSourcePackageAssemblyPackets: SourcePackageAssemblyPacket[] =
     sourceChecksum: "sha256:reviewed-sample-docx-placeholder",
     candidateUnitKeys: ["ministar:ministar-english:L1:U1"],
     candidateMediaAssetIds: ["ministar-l1-u1-greetings-audio", "ministar-l1-u1-greetings-video"],
+    approvalLedgerId: "ministar-approval-ledger-preview",
+    approvalLedgerLinked: true,
     requiredRecords: [
       "source_extraction_review_packet",
       "teacher_draft_package",
@@ -31,6 +33,7 @@ export const sampleSourcePackageAssemblyPackets: SourcePackageAssemblyPacket[] =
     draftCreationAllowed: false,
     studentFacingPayloadAllowed: false,
     packagePromotionAllowed: false,
+    approvalCaptureAllowed: false,
   },
   {
     packetId: "assembly-sample-publisher-l1-u1-routines-v1",
@@ -44,6 +47,8 @@ export const sampleSourcePackageAssemblyPackets: SourcePackageAssemblyPacket[] =
     sourceChecksum: "sha256:awaiting-real-publisher-pdf",
     candidateUnitKeys: ["sample-publisher:partner-textbook-companion:L1:U1"],
     candidateMediaAssetIds: ["sample-publisher-l1-u1-routines-audio", "sample-publisher-l1-u1-routines-video"],
+    approvalLedgerId: "sample-publisher-approval-ledger",
+    approvalLedgerLinked: true,
     requiredRecords: [
       "source_extraction_review_packet",
       "teacher_draft_package",
@@ -61,6 +66,7 @@ export const sampleSourcePackageAssemblyPackets: SourcePackageAssemblyPacket[] =
     draftCreationAllowed: false,
     studentFacingPayloadAllowed: false,
     packagePromotionAllowed: false,
+    approvalCaptureAllowed: false,
   },
 ];
 
