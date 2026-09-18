@@ -9,6 +9,7 @@ const mediaBundleIntegrityPanel = readSource("../apps/web/src/features/deploymen
 const pwaOfflineReadiness = readSource("../apps/web/src/data/samplePwaOfflineReadiness.ts");
 const pwaOfflinePanel = readSource("../apps/web/src/features/deployment/PwaOfflineReadinessPanel.tsx");
 const localPreviewPanel = readSource("../apps/web/src/features/deployment/LocalCompanionPackagePreviewPanel.tsx");
+const resolutionPanel = readSource("../apps/web/src/features/deployment/LocalBundleResolutionPanel.tsx");
 const activeRoutes = readSource("../docs/ACTIVE_ROUTE_VERIFICATION_LIST.md");
 
 const failures = [];
@@ -85,6 +86,16 @@ const snapshotFields = [
   "games",
   "artifacts",
   "handoff",
+];
+const requiredResolutionMarkers = [
+  "Read-only local bundle resolution rehearsal",
+  "Manifest-declared QR fallbacks",
+  "Manifest-declared local assets",
+  "No file access",
+  "No bundle write",
+  "No offline activation",
+  "No learner-data persistence",
+  "createReadOnlyLocalBundleResolver",
 ];
 const requiredLocalFallbackPaths = [
   "/enter/ministar",
@@ -195,6 +206,10 @@ for (const gateId of requiredReleaseGateItems) {
 
 for (const field of snapshotFields) {
   requireText(localPreviewPanel, field, `Local manifest snapshot missing field: ${field}`);
+}
+
+for (const marker of requiredResolutionMarkers) {
+  requireText(resolutionPanel, marker, `Local bundle resolution preview missing marker: ${marker}`);
 }
 
 for (const fallbackPath of requiredLocalFallbackPaths) {

@@ -13,9 +13,11 @@ import type {
   LocalDeploymentPreflightStatus,
 } from "@/data/sampleLocalDeploymentPreflight";
 import { countLocalCompanionReleaseGateItems, countLocalDeploymentChecks } from "@/data/sampleLocalDeploymentPreflight";
+import { LocalBundleResolutionPanel } from "./LocalBundleResolutionPanel";
 
 interface LocalCompanionPackagePreviewPanelProps {
   manifest: LocalBundleManifestSummary;
+  tenantId: string;
   preflight: LocalDeploymentPreflightPlan;
   releaseGate: LocalCompanionReleaseGate;
 }
@@ -56,7 +58,7 @@ const artifactTone: Record<LocalCompanionArtifactStatus, "neutral" | "success" |
   ready: "success",
 };
 
-export function LocalCompanionPackagePreviewPanel({ manifest, preflight, releaseGate }: LocalCompanionPackagePreviewPanelProps) {
+export function LocalCompanionPackagePreviewPanel({ manifest, tenantId, preflight, releaseGate }: LocalCompanionPackagePreviewPanelProps) {
   const blockedCount = countLocalDeploymentChecks(preflight, "blocked");
   const warningCount = countLocalDeploymentChecks(preflight, "warning");
   const releaseBlockedCount = countLocalCompanionReleaseGateItems(releaseGate, "blocked");
@@ -92,6 +94,8 @@ export function LocalCompanionPackagePreviewPanel({ manifest, preflight, release
           </a>
         </div>
       </Card>
+
+      <LocalBundleResolutionPanel manifest={manifest} tenantId={tenantId} />
 
       <Card>
         <div className="flex flex-wrap items-start justify-between gap-4">

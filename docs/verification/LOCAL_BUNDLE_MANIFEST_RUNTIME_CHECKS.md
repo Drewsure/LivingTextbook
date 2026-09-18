@@ -19,6 +19,8 @@ manifest to remain reviewable.
 - The read-only resolver returns only manifest-declared routes and assets.
 - A resolver created for one tenant returns no route or asset for another
   tenant, and unknown identifiers do not produce guessed paths.
+- The local companion preview must exercise that resolver and show route/asset
+  resolution evidence for the tenant being previewed.
 - Validation is pure and does not write files, register service workers, copy
   media, or activate offline storage.
 
@@ -31,6 +33,7 @@ npm run verify:local-bundle
 npm run verify:foundation
 ```
 
-The validator and resolver are shared content-model contracts. They do not
+The validator and resolver are shared content-model contracts. The local
+companion preview exercises them in read-only rehearsal mode, but they do not
 approve rights, read directories, create a bundle, or mark the current sample
 package offline-ready.

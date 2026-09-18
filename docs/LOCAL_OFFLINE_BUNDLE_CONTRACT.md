@@ -219,3 +219,11 @@ Before production implementation:
 The loader must consume validated manifests and must not bypass path, checksum,
 rights, tenant, or QR fallback validation. The resolver must remain read-only
 until a separately approved loader and deployment package exist.
+
+## Read-Only Resolution Evidence
+
+The local companion preview now exercises the validated resolver for each
+tenant. It displays the manifest-declared QR fallbacks and local assets that
+resolve, the tenant scope, and the remaining planning warnings. This is
+evidence for review only: the preview performs no file access, bundle write,
+offline activation, media precache, or learner-data persistence.

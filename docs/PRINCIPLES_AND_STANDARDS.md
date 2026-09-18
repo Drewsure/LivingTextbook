@@ -4203,3 +4203,18 @@ and `docs/adr/0851-local-bundle-manifest-runtime-contract.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-924,
 `docs/decision-register/DR-924-read-only-local-bundle-resolver.md`,
 and `docs/adr/0852-read-only-local-bundle-resolver.md`.
+
+## 268. Local Bundle Resolution Evidence Standard
+
+- Local companion previews must exercise the shared resolver rather than
+  merely printing an unverified manifest snapshot.
+- Evidence must show tenant scope and the resolution status of each declared
+  QR fallback and local asset.
+- Planning warnings must remain visible; a valid resolver does not mean that
+  rights, checksums, offline activation, or package handoff are approved.
+- The preview must explicitly preserve the no-file-access, no-bundle-write,
+  no-offline-activation, and no-learner-data-persistence boundaries.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-925,
+`docs/decision-register/DR-925-local-bundle-preview-resolution-evidence.md`,
+and `docs/adr/0853-local-bundle-preview-resolution-evidence.md`.

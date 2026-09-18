@@ -5915,6 +5915,31 @@ offline learner-data storage, rights approval, and local product handoff.
 See ADR 0851 and
 `docs/decision-register/DR-923-local-bundle-manifest-runtime-contract.md`.
 
+# DR-925: Local Bundle Preview Resolution Evidence
+
+## Decision
+
+Make the local companion preview exercise the shared, validated,
+tenant-scoped resolver and show its route and asset resolution evidence before
+any local loader or offline activation is approved.
+
+## Included
+
+- MiniStar and partner tenant preview resolution.
+- Manifest-declared QR fallback and local asset mapping.
+- Visible resolver mode, tenant scope, resolved counts, and planning warnings.
+- Explicit no-file-access, no-bundle-write, no-offline-activation, and
+  no-learner-data-persistence boundaries.
+
+## Excluded
+
+Directory reads, file reads, file writes, uploads, bundle creation, service
+workers, media caching, offline learner-data storage, rights approval, and
+local handoff.
+
+See ADR 0853 and
+`docs/decision-register/DR-925-local-bundle-preview-resolution-evidence.md`.
+
 # DR-924: Read-Only Local Bundle Resolver
 
 ## Decision

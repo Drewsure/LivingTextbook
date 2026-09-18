@@ -22,6 +22,7 @@ export default function MinistarLocalCompanionPage() {
         <MediaBundleIntegrityPanel plan={sampleMediaBundleIntegrityPlan} />
         <LocalCompanionPackagePreviewPanel
           manifest={manifest}
+          tenantId={ministarTenant.id}
           preflight={sampleLocalDeploymentPreflightPlan}
           releaseGate={sampleLocalCompanionReleaseGate}
         />

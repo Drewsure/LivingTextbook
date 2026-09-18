@@ -3478,3 +3478,14 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Kept directory reads, file reads, file writes, bundle creation, service
   workers, media caching, learner-data storage, and offline activation blocked.
 - Recorded ADR 0852 and DR-924.
+
+## Build session 0853: Local bundle preview resolution evidence
+
+- Wired the local MiniStar and sample-publisher companion previews to the
+  shared read-only bundle resolver.
+- Added visible tenant-scoped route and asset resolution evidence, including
+  planning warnings and resolved counts.
+- Preserved no-file-access, no-bundle-write, no-offline-activation, and
+  no-learner-data-persistence boundaries.
+- Added static coverage to the local-bundle readiness verifier.
+- Recorded ADR 0853 and DR-925.

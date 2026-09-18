@@ -22,6 +22,7 @@ export default function SamplePublisherLocalCompanionPage() {
         <MediaBundleIntegrityPanel plan={sampleMediaBundleIntegrityPlan} />
         <LocalCompanionPackagePreviewPanel
           manifest={manifest}
+          tenantId={samplePublisherTenant.id}
           preflight={sampleLocalDeploymentPreflightPlan}
           releaseGate={sampleLocalCompanionReleaseGate}
         />
