@@ -5988,6 +5988,30 @@ and media-only progression.
 See ADR 0855 and
 `docs/decision-register/DR-927-local-bundle-media-accessibility-metadata.md`.
 
+# DR-928: Local Bundle Asset Evidence Handoff
+
+## Decision
+
+Give every local package asset a separate review-only evidence handoff across
+rights, checksum, scan, target mapping, and accessibility before a future
+loader or offline package can treat it as ready.
+
+## Included
+
+- Per-asset handoff status in MiniStar and partner previews.
+- Passed-scan and reviewed-target-mapping requirements for offline readiness.
+- Alt-text evidence requirement for offline image assets.
+- Runtime rejection tests for incomplete offline image evidence.
+
+## Excluded
+
+Uploads, file reads, scanning services, rights approval, target mapping writes,
+alt-text editing, package copying, publishing, caching, offline activation, and
+student-facing asset promotion.
+
+See ADR 0856 and
+`docs/decision-register/DR-928-local-bundle-asset-evidence-handoff.md`.
+
 # DR-924: Read-Only Local Bundle Resolver
 
 ## Decision

@@ -2572,6 +2572,16 @@ const pwaOfflineLocalPreviewExpected = [
 
 expectedTextByPath.get("/local/ministar")?.push(...pwaOfflineLocalPreviewExpected);
 expectedTextByPath.get("/local/sample-publisher")?.push(...pwaOfflineLocalPreviewExpected);
+const localBundleAssetEvidenceExpected = [
+  "Reviewed asset evidence handoff",
+  "Rights evidence",
+  "Checksum",
+  "Accessibility evidence",
+  "No live upload",
+  "No student-facing promotion",
+];
+expectedTextByPath.get("/local/ministar")?.push(...localBundleAssetEvidenceExpected);
+expectedTextByPath.get("/local/sample-publisher")?.push(...localBundleAssetEvidenceExpected);
 const mediaBundleIntegrityExpected = [
   "Media bundle integrity readiness",
   "Media package engineering gate",

@@ -1,4 +1,5 @@
 export type LocalBundleAssetKind = "audio" | "video" | "image" | "font" | "source-document";
+export type LocalBundleAssetScanStatus = "pending" | "passed";
 
 export interface LocalBundleManifestAsset {
   asset_id: string;
@@ -6,6 +7,9 @@ export interface LocalBundleManifestAsset {
   local_path: string;
   checksum: string;
   rights_status: string;
+  scan_status?: LocalBundleAssetScanStatus;
+  target_mapping_reviewed?: boolean;
+  alt_text_ready?: boolean;
   source_uri?: string;
   poster_path?: string;
   transcript_path?: string;
@@ -107,6 +111,15 @@ export function validateLocalBundleManifest(value: unknown): LocalBundleManifest
     if (!checksum) warnings.push(`Local bundle asset ${assetId || index + 1} is missing a checksum.`);
     else if (!sha256Pattern.test(checksum)) warnings.push(`Local bundle asset ${assetId || index + 1} does not have a final sha256 checksum.`);
     if (!rightsStatus || rightsStatus === "unknown") warnings.push(`Local bundle asset ${assetId || index + 1} needs rights evidence.`);
+    if (asset.scan_status !== undefined && asset.scan_status !== "pending" && asset.scan_status !== "passed") {
+      errors.push(`Local bundle asset ${assetId || index + 1} scan_status must be pending or passed.`);
+    }
+    if (asset.target_mapping_reviewed !== undefined && typeof asset.target_mapping_reviewed !== "boolean") {
+      errors.push(`Local bundle asset ${assetId || index + 1} target_mapping_reviewed must be a boolean.`);
+    }
+    if (asset.alt_text_ready !== undefined && typeof asset.alt_text_ready !== "boolean") {
+      errors.push(`Local bundle asset ${assetId || index + 1} alt_text_ready must be a boolean.`);
+    }
     for (const pathField of ["poster_path", "transcript_path"] as const) {
       const pathValue = readString(asset[pathField]);
       if (pathValue && !isSafeRelativePath(pathValue)) errors.push(`Local bundle asset ${assetId || index + 1} ${pathField} must be safe and relative.`);
@@ -140,6 +153,15 @@ export function validateLocalBundleManifest(value: unknown): LocalBundleManifest
       }
       if (!isRecord(asset) || !readString(asset.rights_status) || readString(asset.rights_status) === "unknown") {
         errors.push(`Offline-ready bundle asset ${readString(isRecord(asset) ? asset.asset_id : undefined) || index + 1} requires rights evidence.`);
+      }
+      if (!isRecord(asset) || asset.scan_status !== "passed") {
+        errors.push(`Offline-ready bundle asset ${readString(isRecord(asset) ? asset.asset_id : undefined) || index + 1} requires a passed scan.`);
+      }
+      if (!isRecord(asset) || asset.target_mapping_reviewed !== true) {
+        errors.push(`Offline-ready bundle asset ${readString(isRecord(asset) ? asset.asset_id : undefined) || index + 1} requires reviewed target mapping.`);
+      }
+      if (isRecord(asset) && asset.kind === "image" && asset.alt_text_ready !== true) {
+        errors.push(`Offline-ready image asset ${readString(asset.asset_id) || index + 1} requires alt-text evidence.`);
       }
     });
   }

@@ -236,3 +236,11 @@ tenant. It displays the manifest-declared QR fallbacks and local assets that
 resolve, the tenant scope, and the remaining planning warnings. This is
 evidence for review only: the preview performs no file access, bundle write,
 offline activation, media precache, or learner-data persistence.
+
+## Asset Evidence Handoff
+
+Each planning asset now has an explicit evidence handoff view covering rights,
+checksum, scan, target mapping, and accessibility. A future offline-ready
+manifest must also require a passed scan and reviewed target mapping; image
+assets additionally require alt-text evidence. The current tenant packages
+remain blocked because these records are intentionally incomplete.

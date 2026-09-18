@@ -3512,3 +3512,14 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Preserved no-file-access, no-transcription, no-transcoding, no-upload,
   no-cache, and no-media-only-progression boundaries.
 - Recorded ADR 0855 and DR-927.
+
+## Build session 0856: Local bundle asset evidence handoff
+
+- Added a per-asset evidence handoff panel covering rights, checksum, scan,
+  target mapping, and accessibility.
+- Extended the shared local manifest contract so offline-ready assets require
+  passed scans and reviewed mappings, with alt-text evidence for images.
+- Added runtime rejection coverage for incomplete offline image evidence.
+- Preserved no-upload, no-file-read, no-copy, no-publish, no-cache,
+  no-offline-activation, and no-student-promotion boundaries.
+- Recorded ADR 0856 and DR-928.

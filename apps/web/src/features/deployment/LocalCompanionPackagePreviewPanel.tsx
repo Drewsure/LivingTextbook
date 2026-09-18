@@ -14,6 +14,7 @@ import type {
 } from "@/data/sampleLocalDeploymentPreflight";
 import { countLocalCompanionReleaseGateItems, countLocalDeploymentChecks } from "@/data/sampleLocalDeploymentPreflight";
 import { LocalBundleResolutionPanel } from "./LocalBundleResolutionPanel";
+import { LocalBundleAssetEvidencePanel } from "./LocalBundleAssetEvidencePanel";
 
 interface LocalCompanionPackagePreviewPanelProps {
   manifest: LocalBundleManifestSummary;
@@ -96,6 +97,8 @@ export function LocalCompanionPackagePreviewPanel({ manifest, tenantId, prefligh
       </Card>
 
       <LocalBundleResolutionPanel manifest={manifest} tenantId={tenantId} />
+
+      <LocalBundleAssetEvidencePanel manifest={manifest} />
 
       <Card>
         <div className="flex flex-wrap items-start justify-between gap-4">

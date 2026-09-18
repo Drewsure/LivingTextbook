@@ -4249,3 +4249,19 @@ and `docs/adr/0854-local-bundle-visual-asset-coverage.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-927,
 `docs/decision-register/DR-927-local-bundle-media-accessibility-metadata.md`,
 and `docs/adr/0855-local-bundle-media-accessibility-metadata.md`.
+
+## 271. Local Bundle Asset Evidence Handoff Standard
+
+- Every local package asset must expose separate evidence lanes for rights,
+  checksum, malware/scan status, target mapping, and accessibility before
+  handoff.
+- Offline-ready manifests require a passed scan and reviewed target mapping for
+  every asset; image assets additionally require alt-text evidence.
+- Evidence status must remain per-asset and tenant-scoped. One approved asset
+  must not make another asset, route, playlist, or game ready by implication.
+- Review surfaces may calculate handoff readiness, but may not upload, copy,
+  publish, cache, activate, or expose assets to students.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-928,
+`docs/decision-register/DR-928-local-bundle-asset-evidence-handoff.md`,
+and `docs/adr/0856-local-bundle-asset-evidence-handoff.md`.

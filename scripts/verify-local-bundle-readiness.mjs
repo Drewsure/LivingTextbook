@@ -10,6 +10,7 @@ const pwaOfflineReadiness = readSource("../apps/web/src/data/samplePwaOfflineRea
 const pwaOfflinePanel = readSource("../apps/web/src/features/deployment/PwaOfflineReadinessPanel.tsx");
 const localPreviewPanel = readSource("../apps/web/src/features/deployment/LocalCompanionPackagePreviewPanel.tsx");
 const resolutionPanel = readSource("../apps/web/src/features/deployment/LocalBundleResolutionPanel.tsx");
+const assetEvidencePanel = readSource("../apps/web/src/features/deployment/LocalBundleAssetEvidencePanel.tsx");
 const activeRoutes = readSource("../docs/ACTIVE_ROUTE_VERIFICATION_LIST.md");
 
 const failures = [];
@@ -102,6 +103,16 @@ const requiredSupportingAssetPaths = [
   "posterPath: \"media/posters/hello-friends.jpg\"",
   "transcriptPath: \"content/captions/hello-friends.en.vtt\"",
   "transcriptPath: \"content/transcripts/greetings-chant.en.txt\"",
+];
+const requiredAssetEvidenceMarkers = [
+  "Reviewed asset evidence handoff",
+  "Rights evidence",
+  "Checksum",
+  "Scan",
+  "Target mapping",
+  "Accessibility evidence",
+  "No live upload",
+  "No student-facing promotion",
 ];
 const requiredLocalFallbackPaths = [
   "/enter/ministar",
@@ -224,6 +235,10 @@ for (const kind of requiredLocalAssetKinds) {
 
 for (const path of requiredSupportingAssetPaths) {
   requireText(bundlePlan, path, `Local bundle sample missing supporting asset path: ${path}`);
+}
+
+for (const marker of requiredAssetEvidenceMarkers) {
+  requireText(assetEvidencePanel, marker, `Local asset evidence panel missing marker: ${marker}`);
 }
 
 for (const fallbackPath of requiredLocalFallbackPaths) {

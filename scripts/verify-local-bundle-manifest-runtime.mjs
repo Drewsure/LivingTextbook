@@ -36,9 +36,37 @@ try {
       ...asset,
       checksum: `sha256-${"a".repeat(64)}`,
       rights_status: "owned",
+      scan_status: "passed",
+      target_mapping_reviewed: true,
     })),
   });
   assert(safeOfflineResult.valid, "rights-safe final-checksum bundle must validate as structurally offline-ready");
+
+  const imageWithoutAltTextResult = validateLocalBundleManifest({
+    ...sample,
+    offline_ready: true,
+    assets: [
+      ...sample.assets.map((asset) => ({
+        ...asset,
+        checksum: `sha256-${"a".repeat(64)}`,
+        rights_status: "owned",
+        scan_status: "passed",
+        target_mapping_reviewed: true,
+      })),
+      {
+        asset_id: "review-image-without-alt-text",
+        kind: "image",
+        local_path: "media/images/review.png",
+        checksum: `sha256-${"b".repeat(64)}`,
+        rights_status: "owned",
+        scan_status: "passed",
+        target_mapping_reviewed: true,
+        alt_text_ready: false,
+      },
+    ],
+  });
+  assert(!imageWithoutAltTextResult.valid, "offline-ready image without alt-text evidence must be rejected");
+  assert(imageWithoutAltTextResult.errors.some((error) => error.includes("alt-text evidence")), "image rejection must identify alt-text evidence");
 
   const traversalResult = validateLocalBundleManifest({
     ...sample,

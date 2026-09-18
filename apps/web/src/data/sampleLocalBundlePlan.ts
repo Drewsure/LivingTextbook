@@ -12,6 +12,9 @@ export interface LocalBundleAssetSummary {
   localPath: string;
   posterPath?: string;
   transcriptPath?: string;
+  scanStatus: "pending" | "passed";
+  targetMappingReviewed: boolean;
+  altTextReady?: boolean;
   rightsStatus: "owned" | "licensed" | "partner-provided" | "unknown";
   checksumReady: boolean;
 }
@@ -94,6 +97,8 @@ export const sampleLocalBundleManifests: LocalBundleManifestSummary[] = [
         label: "Greetings chant",
         localPath: "media/audio/greetings-chant.mp3",
         transcriptPath: "content/transcripts/greetings-chant.en.txt",
+        scanStatus: "pending",
+        targetMappingReviewed: false,
         rightsStatus: "partner-provided",
         checksumReady: false,
       },
@@ -104,6 +109,8 @@ export const sampleLocalBundleManifests: LocalBundleManifestSummary[] = [
         localPath: "media/video/hello-friends.mp4",
         posterPath: "media/posters/hello-friends.jpg",
         transcriptPath: "content/captions/hello-friends.en.vtt",
+        scanStatus: "pending",
+        targetMappingReviewed: false,
         rightsStatus: "partner-provided",
         checksumReady: false,
       },
@@ -112,6 +119,9 @@ export const sampleLocalBundleManifests: LocalBundleManifestSummary[] = [
         kind: "image",
         label: "Greetings label board",
         localPath: "media/images/greetings-label-board.png",
+        scanStatus: "pending",
+        targetMappingReviewed: false,
+        altTextReady: false,
         rightsStatus: "partner-provided",
         checksumReady: false,
       },
@@ -350,6 +360,8 @@ export const sampleLocalBundleManifests: LocalBundleManifestSummary[] = [
         label: "Morning song",
         localPath: "media/audio/morning-song.mp3",
         transcriptPath: "content/transcripts/morning-song.en.txt",
+        scanStatus: "pending",
+        targetMappingReviewed: false,
         rightsStatus: "unknown",
         checksumReady: false,
       },
@@ -360,6 +372,8 @@ export const sampleLocalBundleManifests: LocalBundleManifestSummary[] = [
         localPath: "media/video/routine-video.mp4",
         posterPath: "media/posters/routine-video.jpg",
         transcriptPath: "content/captions/routine-video.en.vtt",
+        scanStatus: "pending",
+        targetMappingReviewed: false,
         rightsStatus: "unknown",
         checksumReady: false,
       },
@@ -368,6 +382,9 @@ export const sampleLocalBundleManifests: LocalBundleManifestSummary[] = [
         kind: "image",
         label: "Routine label board",
         localPath: "media/images/routine-label-board.png",
+        scanStatus: "pending",
+        targetMappingReviewed: false,
+        altTextReady: false,
         rightsStatus: "unknown",
         checksumReady: false,
       },

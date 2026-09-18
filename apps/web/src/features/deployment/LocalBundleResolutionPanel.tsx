@@ -143,6 +143,9 @@ function createPreviewRuntimeManifest(summary: LocalBundleManifestSummary, tenan
       rights_status: asset.rightsStatus,
       poster_path: asset.posterPath,
       transcript_path: asset.transcriptPath,
+      scan_status: asset.scanStatus,
+      target_mapping_reviewed: asset.targetMappingReviewed,
+      alt_text_ready: asset.altTextReady,
     })),
     routes: summary.routes.map((route) => ({
       qr_id: route.qrId,
