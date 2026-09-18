@@ -59,7 +59,7 @@ export async function POST(request: Request) {
 
 export function GET(request: Request) {
   const claims = readTeacherSessionClaims(request);
-  if (!claims) return json({ status: "unauthorized", errors: ["No active teacher review session was found."] }, 401);
+  if (!claims || !isTeacherTenantAllowed(claims.tenantId)) return json({ status: "unauthorized", errors: ["No active teacher review session was found."] }, 401);
   return json({ status: "authenticated", tenantId: claims.tenantId, expiresAt: claims.expiresAt });
 }
 

@@ -1,4 +1,4 @@
-import { readTeacherSessionClaims, TEACHER_PERSISTENCE_READ_SCOPE } from "./teacherSessionCookie";
+import { isTeacherTenantAllowed, readTeacherSessionClaims, TEACHER_PERSISTENCE_READ_SCOPE } from "./teacherSessionCookie";
 
 export function hasTeacherOperationsReadAuthorization(request: Request, tenantId: string): boolean {
   if (hasServerPersistenceToken(request)) return true;
@@ -6,6 +6,7 @@ export function hasTeacherOperationsReadAuthorization(request: Request, tenantId
   return Boolean(claims)
     && claims?.role === "teacher"
     && claims.scope === TEACHER_PERSISTENCE_READ_SCOPE
+    && isTeacherTenantAllowed(claims.tenantId)
     && claims.tenantId === tenantId;
 }
 

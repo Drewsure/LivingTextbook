@@ -3856,3 +3856,20 @@ and `docs/adr/0830-persistence-operations-diagnostics-authorization.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-903,
 `docs/decision-register/DR-903-teacher-operations-session-synchronization.md`,
 and `docs/adr/0831-teacher-operations-session-synchronization.md`.
+
+## 247. Active Teacher Tenant Revocation Standard
+
+- A signed teacher cookie is not sufficient by itself: every teacher-session
+  status read and every teacher operations read must revalidate the current
+  deployment tenant allowlist.
+- Removing a tenant from the active allowlist must invalidate its existing
+  review access without waiting for cookie expiry.
+- A tenant mismatch, revoked tenant, expired cookie, invalid signature, or
+  missing session must produce the same privacy-safe unauthorized boundary.
+- Server-only persistence tokens remain deployment credentials and must not be
+  exposed to browser code; future tenant-aware service tokens must carry an
+  explicit tenant scope before production use.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-904,
+`docs/decision-register/DR-904-active-teacher-tenant-revocation.md`,
+and `docs/adr/0832-active-teacher-tenant-revocation.md`.

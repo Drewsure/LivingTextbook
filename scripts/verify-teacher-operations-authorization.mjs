@@ -42,6 +42,7 @@ requireFragments("authorization helper", authorization, [
   "hasServerPersistenceToken",
   "claims?.role === \"teacher\"",
   "claims.scope === TEACHER_PERSISTENCE_READ_SCOPE",
+  "isTeacherTenantAllowed(claims.tenantId)",
   "claims.tenantId === tenantId",
 ]);
 requireFragments("session route", sessionRoute, [
@@ -50,6 +51,7 @@ requireFragments("session route", sessionRoute, [
   "isTeacherSessionConfigured",
   "isTeacherReviewCodeValid",
   "isTeacherTenantAllowed",
+  "!claims || !isTeacherTenantAllowed(claims.tenantId)",
   "setTeacherSessionCookie",
   "clearTeacherSessionCookie",
 ]);

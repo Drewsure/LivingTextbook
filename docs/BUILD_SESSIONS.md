@@ -3280,3 +3280,13 @@ evidence adapter later records. See ADR 0805 and DR-881.
   unavailable, and no-record distinctions.
 - Extended persistence authorization source verification and recorded ADR
   0831 and DR-903.
+
+## Build session 0832: Active teacher tenant revocation
+
+- Revalidated the current teacher tenant allowlist for every teacher session
+  status read and tenant-scoped operations read.
+- Existing signed cookies now stop authorizing a tenant immediately after it
+  is removed from the active deployment allowlist.
+- Kept the failure response privacy-safe and provider-neutral.
+- Extended teacher operations authorization verification and recorded ADR 0832
+  and DR-904.

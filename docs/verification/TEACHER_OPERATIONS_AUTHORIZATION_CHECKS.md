@@ -8,6 +8,9 @@ This check protects the tenant-scoped, read-only persistence history boundary.
 - The student session cookie must not authorize teacher operations history.
 - Teacher session issuance must require the deployment review code and an
   explicit tenant allowlist.
+- Existing signed cookies must be rechecked against the current tenant
+  allowlist on every session-status and operations read, so tenant removal
+  takes effect before cookie expiry.
 - A page refresh may discover only the current signed teacher session; it must
   not accept a client-supplied tenant or review code as proof of access.
 - The operations route must require a tenant ID and matching teacher scope
