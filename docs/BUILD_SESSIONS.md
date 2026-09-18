@@ -3608,3 +3608,13 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Preserved explicit provider-activation, package-write, student-promotion,
   and learner-data-export blockers.
 - Added runtime/static verification and recorded ADR 0865 and DR-937.
+
+## Build session 0866: Local bundle recovery packet
+
+- Added a provider-neutral recovery packet for backup, restore, export, and
+  retention evidence beneath the provider approval boundary.
+- Required SHA-256 manifest evidence, restore rehearsal and rollback
+  references, cross-tenant restore blocking, and explicit data exclusions.
+- Surfaced the packet in the teacher persistence workbench without enabling
+  backup, restore, export, package writes, student promotion, or route mutation.
+- Added runtime/static verification and recorded ADR 0866 and DR-938.

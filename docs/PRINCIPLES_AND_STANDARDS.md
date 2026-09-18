@@ -4415,3 +4415,22 @@ and `docs/adr/0864-local-bundle-provider-mapping.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-937,
 `docs/decision-register/DR-937-local-provider-approval-evidence.md`,
 and `docs/adr/0865-local-provider-approval-evidence.md`.
+
+## 281. Local Bundle Recovery Packet Standard
+
+- A local bundle recovery packet is review-only evidence, not a backup,
+  restore, export, retention job, package write, or student-data operation.
+- Backup evidence must identify a manifest, checksum reference, SHA-256,
+  schema version, and explicit exclusion of raw learner audio and transcripts.
+- Restore evidence must identify a source manifest, rehearsal, and rollback
+  reference, and must explicitly block cross-tenant restore.
+- Export evidence must identify its policy and format while excluding learner
+  data, raw media, and credentials. Retention evidence must identify policy,
+  scope, and deletion-gate requirements.
+- Until provider approval and later implementation review are accepted,
+  backup execution, restore execution, export execution, package writes,
+  student promotion, and route mutation remain blocked.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-938,
+`docs/decision-register/DR-938-local-bundle-recovery-packet.md`,
+and `docs/adr/0866-local-bundle-recovery-packet.md`.

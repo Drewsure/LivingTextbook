@@ -18,6 +18,7 @@ const handoffReviewContract = readSource("../packages/content-model/src/localBun
 const handoffReviewRoute = readSource("../apps/web/src/app/api/persistence/local-handoff/route.ts");
 const handoffReviewAdapter = readSource("../apps/web/src/server/persistence/localBundleHandoffReviewAdapter.ts");
 const providerApprovalContract = readSource("../packages/content-model/src/localBundleProviderApproval.ts");
+const recoveryPacketContract = readSource("../packages/content-model/src/localBundleRecoveryPacket.ts");
 const activeRoutes = readSource("../docs/ACTIVE_ROUTE_VERIFICATION_LIST.md");
 
 const failures = [];
@@ -297,6 +298,10 @@ requireText(handoffReviewAdapter, "record: null", "Local handoff review provider
 requireText(providerApprovalContract, "validateLocalBundleProviderApprovalPacket", "Local provider approval must validate evidence packets.");
 requireText(providerApprovalContract, "selectedProvider: null", "Local provider approval must keep provider selection uncommitted.");
 requireText(providerApprovalContract, "providerActivationAllowed: false", "Local provider approval must block activation.");
+requireText(recoveryPacketContract, "validateLocalBundleRecoveryPacket", "Local recovery packets must validate their evidence lanes.");
+requireText(recoveryPacketContract, "checksumAlgorithm: \"sha256\"", "Local recovery backups must use SHA-256 evidence.");
+requireText(recoveryPacketContract, "includesLearnerData: false", "Local recovery exports must exclude learner data.");
+requireText(recoveryPacketContract, "crossTenantRestoreBlocked: true", "Local recovery restores must block cross-tenant restore.");
 requireText(bundlePlan, "content-package.json", "Local bundle must keep a content package artifact path.");
 requireText(bundlePlan, "routes/qr-registry.json", "Local bundle must keep a QR registry artifact path.");
 requireText(bundlePlan, "games/game-routes.json", "Local bundle must keep a game route manifest artifact path.");
@@ -359,6 +364,9 @@ execFileSync(process.execPath, [fileURLToPath(new URL("./verify-local-bundle-han
   stdio: "inherit",
 });
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-local-bundle-provider-approval.mjs", import.meta.url))], {
+  stdio: "inherit",
+});
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-local-bundle-recovery-packet.mjs", import.meta.url))], {
   stdio: "inherit",
 });
 

@@ -6236,3 +6236,30 @@ route, runtime, privacy, and tenant-isolation gates remain required.
 
 See ADR 0865 and
 `docs/decision-register/DR-937-local-provider-approval-evidence.md`.
+
+# DR-938: Local Bundle Recovery Packet
+
+## Decision
+
+Define a provider-neutral, review-only recovery packet beneath provider
+approval evidence. It makes backup checksum, restore rehearsal, rollback,
+export, and retention boundaries explicit for local white-label packages
+without selecting a provider or enabling writes.
+
+## Required Invariants
+
+Backup evidence uses SHA-256 and excludes raw learner audio and transcripts.
+Restore evidence includes source, rehearsal, and rollback references and blocks
+cross-tenant restore. Export excludes learner data, raw media, and credentials.
+Retention is policy-bound and scoped to a tenant package session. Execution,
+package writes, student promotion, and route mutation remain blocked.
+
+## Verification
+
+The local recovery packet verifier runs from local bundle readiness. The
+teacher persistence workbench displays the four evidence lanes, while
+typecheck, production build, route, privacy, and tenant-isolation gates remain
+required before provider implementation.
+
+See ADR 0866 and
+`docs/decision-register/DR-938-local-bundle-recovery-packet.md`.
