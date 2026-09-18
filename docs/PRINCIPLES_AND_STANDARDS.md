@@ -3982,3 +3982,17 @@ and `docs/adr/0837-provider-neutral-persistence-handoff.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-910,
 `docs/decision-register/DR-910-persistence-handoff-shared-validator.md`,
 and `docs/adr/0838-persistence-handoff-shared-validator.md`.
+
+## 254. Persistence Handoff Behavior Verification Standard
+
+- Shared persistence handoff validation must be exercised behaviorally, not
+  only checked through source markers or a successful typecheck.
+- The runtime harness must prove a valid review-only packet, reject any
+  provider value, and reject missing tenant-bound category coverage.
+- The harness remains deterministic and provider-neutral; passing it proves
+  contract behavior only and never authorizes storage, export, migration,
+  backup, restore, billing, policy acceptance, or live student data.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-911,
+`docs/decision-register/DR-911-persistence-handoff-behavior-verification.md`,
+and `docs/adr/0839-persistence-handoff-behavior-verification.md`.

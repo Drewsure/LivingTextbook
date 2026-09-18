@@ -42,6 +42,7 @@ try {
     "packages/content-model/src/persistenceRecords.ts",
     "packages/content-model/src/persistenceAdapter.ts",
     "packages/content-model/src/persistenceConsistency.ts",
+    "packages/content-model/src/persistenceHandoff.ts",
     "packages/content-model/src/reportRuntime.ts",
     "packages/content-model/src/teacherReportPersistenceRuntime.ts",
     "packages/content-model/src/aiPrototypeEvidenceAlignment.ts",
@@ -146,6 +147,7 @@ try {
   const persistenceRecords = require(join(output, "persistenceRecords.js"));
   const persistenceAdapter = require(join(output, "persistenceAdapter.js"));
   const persistenceConsistency = require(join(output, "persistenceConsistency.js"));
+  const persistenceHandoff = require(join(output, "persistenceHandoff.js"));
   const report = require(join(output, "reportRuntime.js"));
   const teacherReportPersistence = require(join(output, "teacherReportPersistenceRuntime.js"));
   const prototypeAlignment = require(join(output, "aiPrototypeEvidenceAlignment.js"));
@@ -1787,6 +1789,39 @@ try {
       }],
     }),
     "Persistence alignment requires progress-event-stream adapter intent progress-event-intent to match durable atomic completion writes.",
+  );
+  const validPersistenceHandoffPacket = {
+    packetId: "handoff-packet-1",
+    label: "Provider-neutral persistence handoff",
+    mode: "review-only",
+    summary: "Review-only handoff evidence.",
+    selectedProvider: null,
+    checks: [
+      { checkId: "contract-alignment", label: "Alignment", status: "passed", detail: "Aligned." },
+      { checkId: "provider-selection", label: "Provider", status: "passed", detail: "Unselected." },
+      { checkId: "side-effects", label: "Side effects", status: "passed", detail: "Blocked." },
+    ],
+    categoryCoverage: persistenceRecords.TENANT_BOUND_PERSISTENCE_RECORD_CATEGORIES.map((category) => ({
+      category,
+      durableRecord: true,
+      hostedIntent: true,
+      localIntent: true,
+    })),
+  };
+  assertEqual(persistenceHandoff.validatePersistenceHandoffPacket(validPersistenceHandoffPacket).length, 0);
+  assertIncludes(
+    persistenceHandoff.validatePersistenceHandoffPacket({
+      ...validPersistenceHandoffPacket,
+      selectedProvider: "unexpected-provider",
+    }),
+    "Persistence handoff packet must not select a provider.",
+  );
+  assertIncludes(
+    persistenceHandoff.validatePersistenceHandoffPacket({
+      ...validPersistenceHandoffPacket,
+      categoryCoverage: validPersistenceHandoffPacket.categoryCoverage.slice(1),
+    }),
+    `Persistence handoff packet is missing tenant-bound category coverage for ${persistenceRecords.TENANT_BOUND_PERSISTENCE_RECORD_CATEGORIES[0]}.`,
   );
   const malformedPersistenceFlagErrors = persistence.validatePersistenceRuntimeRequest({
     ...persistenceRequest,

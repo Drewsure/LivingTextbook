@@ -3348,3 +3348,10 @@ evidence adapter later records. See ADR 0805 and DR-881.
   content model.
 - Exposed concrete validator findings on the teacher persistence workbench.
 - Extended persistence runtime verification and recorded ADR 0838 and DR-910.
+
+## Build session 0839: Persistence handoff behavior verification
+
+- Added runtime behavior checks for valid handoffs, provider injection, and
+  missing tenant-bound category coverage.
+- Verified the AI service type boundary and public content-model boundary.
+- Recorded ADR 0839 and DR-911.
