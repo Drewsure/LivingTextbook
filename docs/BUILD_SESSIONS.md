@@ -3422,3 +3422,12 @@ evidence adapter later records. See ADR 0805 and DR-881.
   local-bundle, and student activation guards.
 - Added backend storage readiness and active-route coverage for the mapping.
 - Recorded ADR 0846 and DR-918.
+
+## Build session 0847: Foundation durable persistence gate
+
+- Promoted durable progression, recovery operations, teacher operations
+  authorization, and cross-route persistence checks into the canonical
+  `verify:foundation` composition.
+- Preserved the separation between opt-in durable SQLite storage and the
+  non-durable process-memory rehearsal path.
+- Added a standing verification checklist and recorded ADR 0847 and DR-919.

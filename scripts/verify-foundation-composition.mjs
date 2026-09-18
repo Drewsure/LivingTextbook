@@ -17,6 +17,12 @@ execFileSync(process.execPath, [fileURLToPath(new URL("./verify-cross-route-pers
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-durable-progression-storage.mjs", import.meta.url))], {
   stdio: "inherit",
 });
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-durable-progression-operations.mjs", import.meta.url))], {
+  stdio: "inherit",
+});
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-teacher-operations-authorization.mjs", import.meta.url))], {
+  stdio: "inherit",
+});
 
 const packageJson = JSON.parse(readFileSync(new URL("../package.json", import.meta.url), "utf8"));
 const scripts = packageJson.scripts ?? {};

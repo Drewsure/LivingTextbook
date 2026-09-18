@@ -4112,3 +4112,21 @@ and `docs/adr/0845-package-readiness-persistence-intent.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-918,
 `docs/decision-register/DR-918-package-readiness-backend-mapping.md`,
 and `docs/adr/0846-package-readiness-backend-mapping.md`.
+
+## 262. Foundation Durable Persistence Gate Standard
+
+- The canonical foundation command must exercise the real persistence boundary,
+  not only static schema and review surfaces.
+- Durable progression checks must cover tenant isolation, idempotency,
+  server-owned policy, signed session boundaries, and the non-durable rehearsal
+  distinction.
+- Recovery checks must cover backup, checksum, integrity, restore, retention
+  deletion, tamper-evident operation evidence, and tenant-scoped filtering.
+- Teacher operations history requires a separate expiring tenant-scoped review
+  authorization and may never expose student gameplay access.
+- Passing the foundation gate does not select a cloud vendor or authorize
+  durable writes; deployment policy and release approval remain explicit.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-919,
+`docs/decision-register/DR-919-foundation-durable-persistence-gate.md`,
+and `docs/adr/0847-foundation-durable-persistence-gate.md`.
