@@ -18,6 +18,11 @@ Current sample artifacts:
 - `content/sample-bundles/ministar-l1-u1/README.md`
 - `apps/web/src/features/multimedia/mediaSourceResolver.ts`
 
+The shared manifest validator lives in
+`packages/content-model/src/localBundleManifest.ts`. It is the structural
+boundary for planning and future bundle manifests; it does not activate local
+storage or offline delivery.
+
 ## Purpose
 
 The Living Textbook platform must support tenants that need a closed or local companion product for printed textbooks, classroom devices, or publisher-controlled media packages.
@@ -209,3 +214,6 @@ Before production implementation:
 4. Confirm media telemetry checks.
 5. Confirm the media resolver does not break hosted sample playback.
 6. Then design the smallest production-ready local bundle loader.
+
+The loader must consume validated manifests and must not bypass path, checksum,
+rights, tenant, or QR fallback validation.

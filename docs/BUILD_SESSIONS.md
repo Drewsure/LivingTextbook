@@ -3459,3 +3459,13 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Kept the check isolated from SQLite creation, hosted vendor selection, learner
   data, credentials, and live persistence.
 - Recorded ADR 0850 and DR-922.
+
+## Build session 0851: Local bundle manifest runtime contract
+
+- Added a shared validator for safe paths, unique assets, QR fallbacks,
+  checksum evidence, and rights evidence.
+- Kept planning manifests reviewable with warnings while rejecting false
+  offline-ready claims.
+- Kept bundle writes, service workers, media caching, learner-data storage, and
+  local handoff blocked.
+- Recorded ADR 0851 and DR-923.

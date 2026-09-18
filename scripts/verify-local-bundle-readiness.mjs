@@ -1,4 +1,6 @@
 import { readFileSync } from "node:fs";
+import { execFileSync } from "node:child_process";
+import { fileURLToPath } from "node:url";
 
 const bundlePlan = readSource("../apps/web/src/data/sampleLocalBundlePlan.ts");
 const deploymentPreflight = readSource("../apps/web/src/data/sampleLocalDeploymentPreflight.ts");
@@ -245,6 +247,9 @@ if (failures.length > 0) {
 console.log(
   `PASS local bundle readiness covers ${expectedBundles.length} bundle manifest(s), ${requiredLocalGameModes.length} local game mode(s), ${requiredReleaseGateItems.length} release gate item(s), ${requiredPwaOfflineLanes.length} PWA/offline lane(s), and ${requiredMediaBundleIntegrityLanes.length} media integrity lane(s).`,
 );
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-local-bundle-manifest-runtime.mjs", import.meta.url))], {
+  stdio: "inherit",
+});
 
 function readSource(relativePath) {
   return readFileSync(new URL(relativePath, import.meta.url), "utf8");

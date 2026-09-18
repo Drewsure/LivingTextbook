@@ -4174,3 +4174,18 @@ and `docs/adr/0849-persistence-provider-configuration-fail-closed.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-922,
 `docs/decision-register/DR-922-persistence-provider-runtime-configuration-check.md`,
 and `docs/adr/0850-persistence-provider-runtime-configuration-check.md`.
+
+## 266. Local Bundle Manifest Standard
+
+- Local/offline manifests must be validated through the shared content-model
+  contract before a loader, writer, cache, or packaged deployment can use them.
+- Asset identifiers and local paths must be unique and safe; filesystem paths
+  must be relative and QR fallbacks must remain application-relative.
+- Planning manifests may expose warnings, but offline-ready claims require final
+  checksums and rights evidence for every bundled asset.
+- Validation must remain pure and must not activate service workers, copy media,
+  store learner data, or silently approve rights.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-923,
+`docs/decision-register/DR-923-local-bundle-manifest-runtime-contract.md`,
+and `docs/adr/0851-local-bundle-manifest-runtime-contract.md`.

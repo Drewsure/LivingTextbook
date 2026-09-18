@@ -1,0 +1,31 @@
+# Local Bundle Manifest Runtime Checks
+
+## Purpose
+
+The local/offline bundle manifest is a deployment boundary. Its validator must
+reject unsafe local paths, duplicate asset identifiers, and offline-ready claims
+without final checksum and rights evidence while allowing an explicit planning
+manifest to remain reviewable.
+
+## Required Checks
+
+- Planning manifests can remain structurally valid with visible checksum
+  warnings.
+- Offline-ready manifests require final `sha256-` checksums and rights evidence.
+- Windows paths, absolute paths, and traversal segments are rejected.
+- Asset identifiers and local paths are unique within a manifest.
+- QR fallback paths are application-relative and do not contain filesystem
+  paths.
+- Validation is pure and does not write files, register service workers, copy
+  media, or activate offline storage.
+
+## Verification
+
+```text
+node scripts/verify-local-bundle-manifest-runtime.mjs
+npm run verify:local-bundle
+npm run verify:foundation
+```
+
+The validator is a shared content-model contract. It does not approve rights,
+create a bundle, or mark the current sample package offline-ready.

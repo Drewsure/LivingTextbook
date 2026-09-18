@@ -1713,3 +1713,4 @@ export * from "./teacherReporting";
 export * from "./gameOffer";
 export * from "./classRoster";
 export * from "./teacherAssignment";
+export * from "./localBundleManifest";
