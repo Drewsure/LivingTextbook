@@ -225,6 +225,10 @@ assets. Image entries support Labelled Diagram and other visual activities,
 but remain blocked from student-facing use until image rights, checksums, alt
 text, anchor/label records, and release approval are present.
 
+Audio and video entries may also declare reviewed transcript/caption and poster
+paths. These supporting paths are evidence for accessible package planning;
+they do not authorize media copy, playback, or offline caching.
+
 ## Read-Only Resolution Evidence
 
 The local companion preview now exercises the validated resolver for each

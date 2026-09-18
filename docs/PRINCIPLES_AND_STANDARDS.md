@@ -4233,3 +4233,19 @@ and `docs/adr/0853-local-bundle-preview-resolution-evidence.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-926,
 `docs/decision-register/DR-926-local-bundle-visual-asset-coverage.md`,
 and `docs/adr/0854-local-bundle-visual-asset-coverage.md`.
+
+## 270. Local Bundle Media Accessibility Metadata Standard
+
+- Audio and video planning entries may declare transcript/caption and poster
+  paths through the shared manifest contract.
+- Supporting paths must remain tenant-scoped, safe, reviewable, and separate
+  from the media file itself; they do not imply that a file exists or has
+  rights approval.
+- A local package cannot be called accessible or offline-ready until the
+  supporting evidence, rights, checksum, language, and release gates close.
+- Missing supporting media must remain a visible review state and must never
+  become a learner-facing broken route or a media-only progression event.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-927,
+`docs/decision-register/DR-927-local-bundle-media-accessibility-metadata.md`,
+and `docs/adr/0855-local-bundle-media-accessibility-metadata.md`.

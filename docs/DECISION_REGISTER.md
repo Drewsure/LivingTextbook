@@ -5964,6 +5964,30 @@ activation.
 See ADR 0854 and
 `docs/decision-register/DR-926-local-bundle-visual-asset-coverage.md`.
 
+# DR-927: Local Bundle Media Accessibility Metadata
+
+## Decision
+
+Carry reviewed transcript/caption and poster paths in local audio/video
+planning entries so accessibility evidence remains part of the package shape
+from the beginning.
+
+## Included
+
+- Tenant-scoped transcript/caption paths for learning audio and video.
+- Video poster paths for visual fallback.
+- Shared manifest validation and read-only resolver visibility.
+- Explicit separation between supporting-path evidence and actual media files.
+
+## Excluded
+
+Media file reads, transcription generation, caption generation, upload,
+transcoding, rights approval, offline caching, student playback activation,
+and media-only progression.
+
+See ADR 0855 and
+`docs/decision-register/DR-927-local-bundle-media-accessibility-metadata.md`.
+
 # DR-924: Read-Only Local Bundle Resolver
 
 ## Decision

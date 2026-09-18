@@ -141,6 +141,8 @@ function createPreviewRuntimeManifest(summary: LocalBundleManifestSummary, tenan
       local_path: asset.localPath,
       checksum: asset.checksumReady ? `sha256-${"a".repeat(64)}` : "sha256-placeholder-not-ready",
       rights_status: asset.rightsStatus,
+      poster_path: asset.posterPath,
+      transcript_path: asset.transcriptPath,
     })),
     routes: summary.routes.map((route) => ({
       qr_id: route.qrId,

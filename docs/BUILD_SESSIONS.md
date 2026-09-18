@@ -3501,3 +3501,14 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Preserved no-file-access, no-upload, no-image-editor, no-student-route, and
   no-offline-activation boundaries.
 - Recorded ADR 0854 and DR-926.
+
+## Build session 0855: Local bundle media accessibility metadata
+
+- Added planning metadata for audio transcripts, video captions, and poster
+  images in both tenant bundle summaries.
+- Carried those paths into the shared validated manifest used by the resolver
+  rehearsal.
+- Added focused verification for representative supporting paths.
+- Preserved no-file-access, no-transcription, no-transcoding, no-upload,
+  no-cache, and no-media-only-progression boundaries.
+- Recorded ADR 0855 and DR-927.

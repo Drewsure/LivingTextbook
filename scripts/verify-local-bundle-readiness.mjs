@@ -98,6 +98,11 @@ const requiredResolutionMarkers = [
   "createReadOnlyLocalBundleResolver",
 ];
 const requiredLocalAssetKinds = ["audio", "video", "image"];
+const requiredSupportingAssetPaths = [
+  "posterPath: \"media/posters/hello-friends.jpg\"",
+  "transcriptPath: \"content/captions/hello-friends.en.vtt\"",
+  "transcriptPath: \"content/transcripts/greetings-chant.en.txt\"",
+];
 const requiredLocalFallbackPaths = [
   "/enter/ministar",
   "/launch/demo-unit-1",
@@ -215,6 +220,10 @@ for (const marker of requiredResolutionMarkers) {
 
 for (const kind of requiredLocalAssetKinds) {
   requireText(bundlePlan, `kind: "${kind}"`, `Local bundle sample missing asset kind: ${kind}`);
+}
+
+for (const path of requiredSupportingAssetPaths) {
+  requireText(bundlePlan, path, `Local bundle sample missing supporting asset path: ${path}`);
 }
 
 for (const fallbackPath of requiredLocalFallbackPaths) {

@@ -10,6 +10,8 @@ export interface LocalBundleAssetSummary {
   kind: "audio" | "video" | "image";
   label: string;
   localPath: string;
+  posterPath?: string;
+  transcriptPath?: string;
   rightsStatus: "owned" | "licensed" | "partner-provided" | "unknown";
   checksumReady: boolean;
 }
@@ -91,6 +93,7 @@ export const sampleLocalBundleManifests: LocalBundleManifestSummary[] = [
         kind: "audio",
         label: "Greetings chant",
         localPath: "media/audio/greetings-chant.mp3",
+        transcriptPath: "content/transcripts/greetings-chant.en.txt",
         rightsStatus: "partner-provided",
         checksumReady: false,
       },
@@ -99,6 +102,8 @@ export const sampleLocalBundleManifests: LocalBundleManifestSummary[] = [
         kind: "video",
         label: "Hello friends video",
         localPath: "media/video/hello-friends.mp4",
+        posterPath: "media/posters/hello-friends.jpg",
+        transcriptPath: "content/captions/hello-friends.en.vtt",
         rightsStatus: "partner-provided",
         checksumReady: false,
       },
@@ -344,6 +349,7 @@ export const sampleLocalBundleManifests: LocalBundleManifestSummary[] = [
         kind: "audio",
         label: "Morning song",
         localPath: "media/audio/morning-song.mp3",
+        transcriptPath: "content/transcripts/morning-song.en.txt",
         rightsStatus: "unknown",
         checksumReady: false,
       },
@@ -352,6 +358,8 @@ export const sampleLocalBundleManifests: LocalBundleManifestSummary[] = [
         kind: "video",
         label: "Routine video",
         localPath: "media/video/routine-video.mp4",
+        posterPath: "media/posters/routine-video.jpg",
+        transcriptPath: "content/captions/routine-video.en.vtt",
         rightsStatus: "unknown",
         checksumReady: false,
       },
