@@ -3290,3 +3290,12 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Kept the failure response privacy-safe and provider-neutral.
 - Extended teacher operations authorization verification and recorded ADR 0832
   and DR-904.
+
+## Build session 0833: Unauthorized operations privacy parity
+
+- Removed provider disclosure from unauthorized persistence operation-history
+  responses.
+- Aligned operation-history privacy with the already protected status endpoint.
+- Added a verifier assertion that the unauthorized branch cannot include
+  provider diagnostics.
+- Recorded ADR 0833 and DR-905.

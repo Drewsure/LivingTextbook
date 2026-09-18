@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 export function GET(request: Request) {
   const tenantId = new URL(request.url).searchParams.get("tenantId")?.trim() ?? "";
   if (!tenantId || !hasTeacherOperationsReadAuthorization(request, tenantId)) {
-    return json({ status: "unauthorized", provider: getProvider(), records: [], errors: ["Teacher-scoped authorization is required to read operation evidence."], privacy: safePrivacyMessage() }, 401);
+    return json({ status: "unauthorized", records: [], errors: ["Teacher-scoped authorization is required to read operation evidence."], privacy: safePrivacyMessage() }, 401);
   }
   const provider = process.env.LIVING_TEXTBOOK_PERSISTENCE_PROVIDER === "sqlite" ? "sqlite" : "process-memory";
   if (provider !== "sqlite") {

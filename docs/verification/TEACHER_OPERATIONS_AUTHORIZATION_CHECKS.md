@@ -15,6 +15,8 @@ This check protects the tenant-scoped, read-only persistence history boundary.
   not accept a client-supplied tenant or review code as proof of access.
 - The operations route must require a tenant ID and matching teacher scope
   before it can return any receipt, including in rehearsal mode.
+- Unauthorized operation-history responses must not disclose provider,
+  durability, schema, database paths, or evidence state.
 - Receipt history must be filtered by a one-way tenant digest. Platform-wide
   backup and restore receipts must not appear in a tenant teacher response.
 - The browser must receive no review code, signing secret, persistence token,

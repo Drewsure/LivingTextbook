@@ -3873,3 +3873,19 @@ and `docs/adr/0831-teacher-operations-session-synchronization.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-904,
 `docs/decision-register/DR-904-active-teacher-tenant-revocation.md`,
 and `docs/adr/0832-active-teacher-tenant-revocation.md`.
+
+## 248. Unauthorized Operations Privacy Parity Standard
+
+- Persistence status and operation-history endpoints must return the same
+  generic unauthorized boundary before teacher authorization is established.
+- Unauthorized operation-history responses must not disclose provider,
+  durability, schema, database path, record existence, tenant digest, learner
+  identity, raw audio, transcript, or operation evidence.
+- Provider and durability details may appear only after the tenant-scoped
+  teacher authorization boundary has passed, and only as read-only diagnostics.
+- This is a privacy boundary, not a replacement for authentication,
+  authorization, retention, export, or classroom-launch policy.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-905,
+`docs/decision-register/DR-905-unauthorized-operations-privacy-parity.md`,
+and `docs/adr/0833-unauthorized-operations-privacy-parity.md`.

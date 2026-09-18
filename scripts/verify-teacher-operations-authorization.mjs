@@ -63,6 +63,9 @@ requireFragments("operations route", operationsRoute, [
   "hasTeacherOperationsReadAuthorization(request, tenantId)",
   "listOperationEvidence(limit, tenantId)",
 ]);
+if (operationsRoute.includes('status: "unauthorized", provider: getProvider()')) {
+  failures.push("operations route: unauthorized response must not disclose provider");
+}
 requireFragments("tenant-filtered receipts", store, [
   "tenant_scope_digest",
   "createTenantScopeDigest",
