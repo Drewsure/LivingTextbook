@@ -3945,3 +3945,22 @@ and `docs/adr/0835-teacher-report-persistence-rehearsal.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-908,
 `docs/decision-register/DR-908-teacher-report-rehearsal-surface.md`,
 and `docs/adr/0836-teacher-report-rehearsal-surface.md`.
+
+## 252. Provider-Neutral Persistence Handoff Standard
+
+- Before a real adapter is implemented, the platform must produce one
+  provider-neutral handoff packet from the durable-record contracts, adapter
+  write intents, and backend selection gate.
+- The packet must show category coverage for hosted and local deployment
+  channels, matching tenant-boundary keys, and unresolved policy or cost
+  criteria. It must not invent readiness from a missing contract.
+- A review packet may show "provider unselected," "writes blocked," and
+  implementation blockers, but it must not select a vendor or expose storage,
+  export, migration, backup, restore, billing, or policy-acceptance actions.
+- Hosted PWA, local classroom, and closed companion paths remain alternate
+  adapter channels over the same portable contract. None becomes the universal
+  source of truth until the pilot gate is explicitly approved.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-909,
+`docs/decision-register/DR-909-provider-neutral-persistence-handoff.md`,
+and `docs/adr/0837-provider-neutral-persistence-handoff.md`.

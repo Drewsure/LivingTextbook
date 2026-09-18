@@ -33,7 +33,16 @@ import { PersistenceOperationsStatusPanel } from "@/features/persistence/Persist
 import { PersistenceOperationsEvidencePanel } from "@/features/persistence/PersistenceOperationsEvidencePanel";
 import { TeacherOperationsAccessPanel } from "@/features/persistence/TeacherOperationsAccessPanel";
 import { PilotBackendSelectionGatePanel } from "@/features/persistence/PilotBackendSelectionGatePanel";
+import { PersistenceHandoffPacketPanel } from "@/features/persistence/PersistenceHandoffPacketPanel";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
+import { buildPersistenceHandoffPacket } from "@/data/samplePersistenceHandoffPacket";
+
+const samplePersistenceHandoffPacket = buildPersistenceHandoffPacket({
+  durableRecords: sampleDurableRecordContracts,
+  adapterPlans: samplePersistenceAdapterPlans,
+  alignmentErrors: samplePersistenceContractAlignmentErrors,
+  backendGate: samplePilotBackendSelectionGate,
+});
 
 const persistenceLinks = [
   { href: "/teacher/intake", label: "Foundation intake" },
@@ -83,6 +92,7 @@ export default function TeacherPersistencePage() {
 
         <BackendDecisionMatrixPanel matrix={sampleBackendDecisionMatrix} />
         <PilotBackendSelectionGatePanel gate={samplePilotBackendSelectionGate} />
+        <PersistenceHandoffPacketPanel packet={samplePersistenceHandoffPacket} />
         <EvidenceStorageAdapterSelectionGatePanel gate={sampleEvidenceStorageAdapterSelectionGate} />
         <BackendSchemaDraftPanel draft={sampleBackendSchemaDraft} />
         <BackendMigrationPlanPanel plan={sampleBackendMigrationPlan} />

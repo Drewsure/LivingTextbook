@@ -3333,3 +3333,11 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Kept the surface read-only with visible review-only, no-side-effect, and live
   export-blocked states for MiniStar and partner tenants.
 - Extended the active-route checks and recorded ADR 0836 and DR-908.
+
+## Build session 0837: Provider-neutral persistence handoff
+
+- Added a derived implementation handoff packet to the persistence workbench.
+- Made hosted/local category coverage, provider neutrality, policy blockers, and
+  side-effect blocking visible in one reusable review surface.
+- Kept the packet derived from shared contracts and recorded ADR 0837 and
+  DR-909.
