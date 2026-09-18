@@ -2469,6 +2469,12 @@ expectedTextByPath
   ?.push("Open focused prototype review", "/teacher/prototypes/sample-publisher");
 expectedTextByPath.get("/teacher/generator/ministar")?.push("Open focused prototype review", "/teacher/prototypes/ministar");
 expectedTextByPath.get("/teacher/intake")?.push(...aiGameGeneratorIntakeExpected);
+expectedTextByPath.get("/teacher/intake")?.push(
+  "Package readiness reconciliation",
+  "One evidence chain before promotion",
+  "No package promotion from reconciliation",
+  "No student-facing activation from reconciliation",
+);
 expectedTextByPath
   .get("/partner-demo")
   ?.push("AI teaching game generator", "/teacher/generator/sample-publisher", "Tenant draft review queue", "/teacher/review/sample-publisher");

@@ -3391,3 +3391,13 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Added required-role validation, runtime assertions, intake visibility, and
   source-review checks.
 - Recorded ADR 0843 and DR-915.
+
+## Build session 0844: Package readiness reconciliation
+
+- Added a shared tenant-scoped reconciliation contract with seven mandatory
+  evidence lanes: source assembly, approval, verifier, target-language audio,
+  media rights, publish gate, and assignment rollout.
+- Added MiniStar and partner reconciliation previews to teacher intake while
+  keeping promotion and student activation blocked.
+- Added dedicated source-review, runtime, route, and foundation coverage.
+- Recorded ADR 0844 and DR-916.

@@ -5725,3 +5725,26 @@ package promotion, route activation, assignment, and student-facing release.
 
 See ADR 0843 and
 `docs/decision-register/DR-915-evidence-only-package-approval.md`.
+
+# DR-916: Package Readiness Reconciliation
+
+## Decision
+
+Join the major package evidence lanes into one tenant-scoped,
+review-only readiness record before any future package promotion workflow.
+
+## Included
+
+- Source assembly, approval ledger, verifier, target-language audio, media
+  rights, publish gate, and assignment rollout references.
+- Explicit target-language progression authority and support-language boundary.
+- Shared validation, runtime assertions, teacher intake visibility, and route
+  verification.
+
+## Excluded
+
+Package writes, route registry changes, playlist writes, local bundle writes,
+assignment creation, student activation, and live learner data.
+
+See ADR 0844 and
+`docs/decision-register/DR-916-package-readiness-reconciliation.md`.

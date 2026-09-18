@@ -35,6 +35,7 @@ try {
     "packages/content-model/src/sourceRuntime.ts",
     "packages/content-model/src/sourcePackageAssembly.ts",
     "packages/content-model/src/packageApprovalLedger.ts",
+    "packages/content-model/src/packageReadinessReconciliation.ts",
     "packages/content-model/src/releaseRuntime.ts",
     "packages/content-model/src/contentPackageRuntime.ts",
     "packages/content-model/src/launchRuntime.ts",
@@ -142,6 +143,7 @@ try {
   const source = require(join(output, "sourceRuntime.js"));
   const sourcePackageAssembly = require(join(output, "sourcePackageAssembly.js"));
   const packageApprovalLedger = require(join(output, "packageApprovalLedger.js"));
+  const packageReadinessReconciliation = require(join(output, "packageReadinessReconciliation.js"));
   const release = require(join(output, "releaseRuntime.js"));
   const contentPackage = require(join(output, "contentPackageRuntime.js"));
   const launch = require(join(output, "launchRuntime.js"));
@@ -1200,6 +1202,54 @@ try {
       signoffs: validPackageApprovalLedger.signoffs.slice(1),
     }),
     "Package approval ledger is missing required role: content.",
+  );
+
+  const validPackageReadinessReconciliation = {
+    reconciliationId: "readiness-1",
+    tenantId: "tenant-1",
+    packageId: "package-1",
+    releaseCandidate: "candidate-1",
+    label: "Package readiness reconciliation",
+    summary: "Review-only evidence chain.",
+    mode: "review-only",
+    status: "blocked",
+    sourceAssemblyPacketId: "assembly-1",
+    approvalLedgerId: "ledger-1",
+    verifierEvidencePacketId: "verifier-1",
+    targetLanguageAudioApprovalId: "audio-1",
+    mediaRightsEvidenceId: "rights-1",
+    publishGateId: "publish-1",
+    assignmentRolloutGateId: "assignment-1",
+    targetLanguageProgressionRule: "Target-language activity drives progress; support language cannot unlock progression.",
+    lanes: [
+      ...["source-assembly", "approval-ledger", "verifier-evidence", "target-language-audio", "media-rights", "publish-gate", "assignment-rollout"].map((laneId) => ({
+        laneId,
+        label: `${laneId} lane`,
+        status: laneId === "source-assembly" ? "ready-preview" : "blocked",
+        sourceRecord: `${laneId}_record`,
+        referenceId: `${laneId}-1`,
+        evidence: "Review-only evidence.",
+        blocksRelease: laneId !== "source-assembly",
+      })),
+    ],
+    blockedActions: [...packageReadinessReconciliation.PACKAGE_READINESS_BLOCKED_ACTIONS],
+    promotionAllowed: false,
+    studentFacingActivationAllowed: false,
+  };
+  assertEqual(packageReadinessReconciliation.validatePackageReadinessReconciliation(validPackageReadinessReconciliation).length, 0);
+  assertIncludes(
+    packageReadinessReconciliation.validatePackageReadinessReconciliation({
+      ...validPackageReadinessReconciliation,
+      promotionAllowed: true,
+    }),
+    "Package readiness reconciliation promotion must remain blocked.",
+  );
+  assertIncludes(
+    packageReadinessReconciliation.validatePackageReadinessReconciliation({
+      ...validPackageReadinessReconciliation,
+      lanes: validPackageReadinessReconciliation.lanes.filter((lane) => lane.laneId !== "target-language-audio"),
+    }),
+    "Package readiness reconciliation is missing lane: target-language-audio.",
   );
 
   const releaseRequest = {

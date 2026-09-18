@@ -84,6 +84,7 @@ import { sampleQrPrintReadinessRecords } from "@/data/sampleQrPrintReadiness";
 import { sampleRouteGraduationGate } from "@/data/sampleRouteGraduationGate";
 import { sampleSourceReviewQueue } from "@/data/sampleSourceReviewQueue";
 import { sampleSourcePackageAssemblyPackets } from "@/data/sampleSourcePackageAssembly";
+import { samplePackageReadinessReconciliations } from "@/data/samplePackageReadinessReconciliation";
 import { sampleFrontDoorRouteRegistry } from "@/data/sampleTenantRouteRegistry";
 import {
   sampleTeacherAssignmentErrors,
@@ -115,6 +116,7 @@ import { PilotSourceStrategyPanel } from "@/features/content-intake/PilotSourceS
 import { PrintableOutputReadinessPanel } from "@/features/content-intake/PrintableOutputReadinessPanel";
 import { SourceReviewQueuePanel } from "@/features/content-intake/SourceReviewQueuePanel";
 import { SourcePackageAssemblyPanel } from "@/features/content-intake/SourcePackageAssemblyPanel";
+import { PackageReadinessReconciliationPanel } from "@/features/content-intake/PackageReadinessReconciliationPanel";
 import { TeacherAuthoringReadinessPanel } from "@/features/content-intake/TeacherAuthoringReadinessPanel";
 import { TemplateRenderingFontProfilePanel } from "@/features/content-intake/TemplateRenderingFontProfilePanel";
 import { UploadChannelReadinessPanel } from "@/features/content-intake/UploadChannelReadinessPanel";
@@ -287,6 +289,7 @@ export default function TeacherIntakePage() {
         <MultimediaAssetReadinessPanel plan={sampleMultimediaAssetReadinessPlan} />
         <SourceReviewQueuePanel queue={sampleSourceReviewQueue} />
         <SourcePackageAssemblyPanel packets={sampleSourcePackageAssemblyPackets} />
+        <PackageReadinessReconciliationPanel reconciliations={samplePackageReadinessReconciliations} />
         <AiGameGeneratorPlanPanel plan={sampleAiGameGeneratorPlan} />
         <TeacherAuthoringReadinessPanel plan={sampleTeacherAuthoringReadinessPlan} />
         <AuthoringVerifierPlanPanel plan={sampleAuthoringVerifierPlan} />

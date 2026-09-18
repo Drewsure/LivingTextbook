@@ -6,6 +6,9 @@ const sourcePackageAssemblyModel = readSource("../packages/content-model/src/sou
 const packageApprovalLedgerModel = readSource("../packages/content-model/src/packageApprovalLedger.ts");
 const sourcePackageAssemblyData = readSource("../apps/web/src/data/sampleSourcePackageAssembly.ts");
 const sourcePackageAssemblyPanel = readSource("../apps/web/src/features/content-intake/SourcePackageAssemblyPanel.tsx");
+const packageReadinessModel = readSource("../packages/content-model/src/packageReadinessReconciliation.ts");
+const packageReadinessData = readSource("../apps/web/src/data/samplePackageReadinessReconciliation.ts");
+const packageReadinessPanel = readSource("../apps/web/src/features/content-intake/PackageReadinessReconciliationPanel.tsx");
 const queuePanel = readSource("../apps/web/src/features/content-intake/SourceReviewQueuePanel.tsx");
 const sourceWorkspacePanel = readSource("../apps/web/src/features/content-intake/TeacherSourceReviewWorkspacePanel.tsx");
 const extractionPacketPanel = readSource("../apps/web/src/features/content-intake/SourceExtractionReviewPacketPanel.tsx");
@@ -19,6 +22,7 @@ const backendSchema = readSource("../apps/web/src/data/sampleBackendSchemaDraft.
 const migrationSpecs = readSource("../apps/web/src/data/sampleBackendMigrationSpecs.ts");
 const routeVerifier = readSource("./verify-active-routes.mjs");
 const sourceReviewChecks = readSource("../docs/verification/SOURCE_REVIEW_QUEUE_CHECKS.md");
+const packageReadinessChecks = readSource("../docs/verification/PACKAGE_READINESS_RECONCILIATION_CHECKS.md");
 const failures = [];
 
 const requiredSourceIds = [
@@ -109,6 +113,16 @@ requireText(sourcePackageAssemblyData, "assembly-sample-publisher-l1-u1-routines
 requireText(sourcePackageAssemblyPanel, "Canonical package draft bridge", "Source package assembly panel must expose the draft bridge.");
 requireText(sourcePackageAssemblyPanel, "Promotion", "Source package assembly panel must show promotion state.");
 requireText(sourcePackageAssemblyPanel, "Draft creation", "Source package assembly panel must show draft creation state.");
+requireText(packageReadinessModel, "PackageReadinessReconciliation", "Package readiness must have a shared reconciliation contract.");
+requireText(packageReadinessModel, "validatePackageReadinessReconciliation", "Package readiness must have shared validation.");
+requireText(packageReadinessModel, "PACKAGE_READINESS_REQUIRED_LANE_IDS", "Package readiness must enumerate required evidence lanes.");
+requireText(packageReadinessModel, "studentFacingActivationAllowed", "Package readiness must block student-facing activation.");
+requireText(packageReadinessData, "sampleSourcePackageAssemblyPackets.map", "Package readiness must derive tenant reconciliations from source assembly packets.");
+requireText(packageReadinessData, "package-readiness-${packet.packetId}", "Package readiness must preserve source assembly identity.");
+requireText(packageReadinessPanel, "One evidence chain before promotion", "Package readiness panel must expose the reconciliation heading.");
+requireText(packageReadinessPanel, "reconciliation.lanes.map", "Package readiness panel must render every evidence lane.");
+requireText(packageReadinessPanel, "targetLanguageProgressionRule", "Package readiness panel must preserve target-language evidence.");
+requireText(packageReadinessChecks, "No package promotion from reconciliation", "Package readiness checks must preserve promotion blocking.");
 requireText(teacherIntakePage, "SourcePackageAssemblyPanel", "Teacher intake page must render source package assembly.");
 requireText(queuePanel, "Source review queue", "Source review panel must expose the queue heading.");
 requireText(queuePanel, "What source intake cannot skip", "Source review panel must expose hard rules.");

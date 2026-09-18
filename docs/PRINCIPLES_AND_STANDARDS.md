@@ -4058,3 +4058,19 @@ and `docs/adr/0842-source-package-assembly-contract.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-915,
 `docs/decision-register/DR-915-evidence-only-package-approval.md`,
 and `docs/adr/0843-evidence-only-package-approval.md`.
+
+## 259. Package Readiness Reconciliation Standard
+
+- A package candidate must expose one tenant-scoped evidence chain across
+  source assembly, approval, verifier, target-language audio, media rights,
+  publish, and assignment lanes.
+- Readiness reconciliation is a decision record, not a publish command; it
+  must remain review-only and must keep promotion and student activation false.
+- Target-language activity remains the only progression authority. Support
+  language, media engagement, and approval review cannot unlock progress.
+- Every unresolved lane must remain visible so a polished demo cannot be
+  mistaken for a production-ready package.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-916,
+`docs/decision-register/DR-916-package-readiness-reconciliation.md`,
+and `docs/adr/0844-package-readiness-reconciliation.md`.
