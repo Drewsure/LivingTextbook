@@ -123,6 +123,7 @@ const requiredAssetEvidenceContractMarkers = [
   "targetMappingReady",
   "accessibilityReady",
   "handoffReady",
+  "evaluateLocalBundleAssetEvidenceSet",
 ];
 const requiredLocalFallbackPaths = [
   "/enter/ministar",

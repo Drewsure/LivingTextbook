@@ -198,6 +198,12 @@ A first prototype should demonstrate:
 4. One playlist.
 5. One permanent QR identifier.
 6. One local bundle manifest.
+
+Every offline-ready audio asset must carry transcript evidence. Every
+offline-ready video asset must carry poster and transcript/caption evidence,
+and every offline-ready image must carry alt-text evidence. These are
+readiness requirements, not claims that the referenced files have been copied
+or activated.
 7. Media resolution through `localBundlePath`.
 8. A clear unavailable-source fallback when media is missing.
 9. Teacher-visible media/game progress events.

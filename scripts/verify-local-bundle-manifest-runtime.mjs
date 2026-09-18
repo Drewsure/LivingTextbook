@@ -37,12 +37,19 @@ try {
   const safeOfflineResult = validateLocalBundleManifest({
     ...sample,
     offline_ready: true,
+    requires_hosted_redirect: false,
     assets: sample.assets.map((asset) => ({
       ...asset,
       checksum: `sha256-${"a".repeat(64)}`,
       rights_status: "owned",
       scan_status: "passed",
       target_mapping_reviewed: true,
+      ...(asset.kind === "audio" ? { transcript_path: asset.transcript_path || "content/transcripts/ready.en.txt" } : {}),
+      ...(asset.kind === "video" ? {
+        poster_path: asset.poster_path || "media/posters/ready.jpg",
+        transcript_path: asset.transcript_path || "content/transcripts/ready.en.txt",
+      } : {}),
+      ...(asset.kind === "image" ? { alt_text_ready: true } : {}),
     })),
   });
   assert(safeOfflineResult.valid, "rights-safe final-checksum bundle must validate as structurally offline-ready");
@@ -83,6 +90,31 @@ try {
   });
   assert(readyAudio.handoffReady, "complete audio evidence must be handoff-ready");
 
+  const audioWithoutTranscript = validateLocalBundleManifest({
+    ...sample,
+    offline_ready: true,
+    requires_hosted_redirect: false,
+    assets: sample.assets.map((asset, index) => index === 0
+      ? {
+          ...asset,
+          checksum: `sha256-${"a".repeat(64)}`,
+          rights_status: "owned",
+          scan_status: "passed",
+          target_mapping_reviewed: true,
+          transcript_path: undefined,
+        }
+      : {
+          ...asset,
+          checksum: `sha256-${"b".repeat(64)}`,
+          rights_status: "owned",
+          scan_status: "passed",
+          target_mapping_reviewed: true,
+          ...(asset.kind === "image" ? { alt_text_ready: true } : {}),
+        }),
+  });
+  assert(!audioWithoutTranscript.valid, "offline-ready audio without transcript evidence must be rejected");
+  assert(audioWithoutTranscript.errors.some((error) => error.includes("transcript evidence")), "audio rejection must identify transcript evidence");
+
   const incompleteVideo = evaluateLocalBundleAssetEvidence({
     ...sample.assets[1],
     checksum: `sha256-${"a".repeat(64)}`,
@@ -92,6 +124,31 @@ try {
     poster_path: undefined,
   });
   assert(!incompleteVideo.handoffReady, "video without poster evidence must remain blocked");
+
+  const videoWithoutPoster = validateLocalBundleManifest({
+    ...sample,
+    offline_ready: true,
+    requires_hosted_redirect: false,
+    assets: sample.assets.map((asset, index) => index === 1
+      ? {
+          ...asset,
+          checksum: `sha256-${"c".repeat(64)}`,
+          rights_status: "owned",
+          scan_status: "passed",
+          target_mapping_reviewed: true,
+          poster_path: undefined,
+        }
+      : {
+          ...asset,
+          checksum: `sha256-${"d".repeat(64)}`,
+          rights_status: "owned",
+          scan_status: "passed",
+          target_mapping_reviewed: true,
+          ...(asset.kind === "image" ? { alt_text_ready: true } : {}),
+        }),
+  });
+  assert(!videoWithoutPoster.valid, "offline-ready video without poster evidence must be rejected");
+  assert(videoWithoutPoster.errors.some((error) => error.includes("poster and transcript/caption evidence")), "video rejection must identify poster and transcript evidence");
 
   const traversalResult = validateLocalBundleManifest({
     ...sample,

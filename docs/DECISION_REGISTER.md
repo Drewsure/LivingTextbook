@@ -6034,6 +6034,30 @@ offline activation, student-facing promotion, and release mutation.
 See ADR 0857 and
 `docs/decision-register/DR-929-shared-local-bundle-asset-evidence-evaluator.md`.
 
+# DR-930: Local Bundle Accessibility Readiness Parity
+
+## Decision
+
+Use one accessibility readiness boundary across offline-ready manifest
+validation, shared asset evaluation, and teacher review surfaces.
+
+## Included
+
+- Transcript evidence for audio assets.
+- Poster and transcript/caption evidence for video assets.
+- Alt-text evidence for image assets.
+- Asset-identified blockers in package-level review.
+- Runtime rejection coverage for incomplete audio and video evidence.
+
+## Excluded
+
+Media file reads, transcription, caption generation, poster generation,
+uploads, rights approval, package writing, caching, offline activation, and
+student-facing promotion.
+
+See ADR 0858 and
+`docs/decision-register/DR-930-local-bundle-accessibility-readiness-parity.md`.
+
 # DR-924: Read-Only Local Bundle Resolver
 
 ## Decision

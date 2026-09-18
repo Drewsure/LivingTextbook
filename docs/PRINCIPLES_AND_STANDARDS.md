@@ -4280,3 +4280,19 @@ and `docs/adr/0856-local-bundle-asset-evidence-handoff.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-929,
 `docs/decision-register/DR-929-shared-local-bundle-asset-evidence-evaluator.md`,
 and `docs/adr/0857-shared-local-bundle-asset-evidence-evaluator.md`.
+
+## 273. Local Bundle Accessibility Readiness Parity Standard
+
+- Offline-ready manifest validation and browser evidence review must use the
+  same accessibility boundary for each declared asset.
+- Audio requires transcript evidence; video requires poster plus
+  transcript/caption evidence; image requires alt-text evidence.
+- Package-level readiness must retain asset identifiers and explicit blockers,
+  so an aggregate count cannot hide an incomplete media record.
+- Supporting evidence remains review metadata until the future package writer
+  proves the referenced files, rights, checksums, scans, mappings, and release
+  decision without activating a bundle or exposing it to students.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-930,
+`docs/decision-register/DR-930-local-bundle-accessibility-readiness-parity.md`,
+and `docs/adr/0858-local-bundle-accessibility-readiness-parity.md`.

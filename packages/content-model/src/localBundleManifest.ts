@@ -160,8 +160,17 @@ export function validateLocalBundleManifest(value: unknown): LocalBundleManifest
       if (!isRecord(asset) || asset.target_mapping_reviewed !== true) {
         errors.push(`Offline-ready bundle asset ${readString(isRecord(asset) ? asset.asset_id : undefined) || index + 1} requires reviewed target mapping.`);
       }
-      if (isRecord(asset) && asset.kind === "image" && asset.alt_text_ready !== true) {
-        errors.push(`Offline-ready image asset ${readString(asset.asset_id) || index + 1} requires alt-text evidence.`);
+      if (isRecord(asset)) {
+        const assetLabel = readString(asset.asset_id) || String(index + 1);
+        if (asset.kind === "audio" && !readString(asset.transcript_path)) {
+          errors.push(`Offline-ready audio asset ${assetLabel} requires transcript evidence.`);
+        }
+        if (asset.kind === "video" && (!readString(asset.poster_path) || !readString(asset.transcript_path))) {
+          errors.push(`Offline-ready video asset ${assetLabel} requires poster and transcript/caption evidence.`);
+        }
+        if (asset.kind === "image" && asset.alt_text_ready !== true) {
+          errors.push(`Offline-ready image asset ${assetLabel} requires alt-text evidence.`);
+        }
       }
     });
   }

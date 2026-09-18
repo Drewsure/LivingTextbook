@@ -11,6 +11,12 @@ export interface LocalBundleAssetEvidenceResult {
   blockers: string[];
 }
 
+export interface LocalBundleAssetEvidenceSetResult {
+  assets: LocalBundleAssetEvidenceResult[];
+  handoffReady: boolean;
+  blockers: string[];
+}
+
 const finalChecksumPattern = /^sha256-[a-f0-9]{64}$/;
 
 export function evaluateLocalBundleAssetEvidence(asset: LocalBundleManifestAsset): LocalBundleAssetEvidenceResult {
@@ -34,6 +40,17 @@ export function evaluateLocalBundleAssetEvidence(asset: LocalBundleManifestAsset
     scanReady,
     targetMappingReady,
     accessibilityReady,
+    handoffReady: blockers.length === 0,
+    blockers,
+  };
+}
+
+export function evaluateLocalBundleAssetEvidenceSet(assets: LocalBundleManifestAsset[]): LocalBundleAssetEvidenceSetResult {
+  const results = assets.map(evaluateLocalBundleAssetEvidence);
+  const blockers = results.flatMap((result) => result.blockers.map((blocker) => `${result.assetId}: ${blocker}`));
+
+  return {
+    assets: results,
     handoffReady: blockers.length === 0,
     blockers,
   };

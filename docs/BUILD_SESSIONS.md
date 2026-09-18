@@ -3532,3 +3532,14 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Added runtime coverage for complete audio and incomplete video/image cases.
 - Made the browser handoff panel consume the shared evaluator.
 - Recorded ADR 0857 and DR-929.
+
+## Build session 0858: Local bundle accessibility readiness parity
+
+- Made offline-ready manifest validation enforce transcript evidence for audio
+  and poster plus transcript/caption evidence for video.
+- Added package-level asset blocker aggregation so review surfaces cannot hide
+  a per-asset accessibility blocker behind an aggregate count.
+- Added runtime rejection coverage for incomplete audio and video evidence.
+- Preserved planning warnings and all no-upload, no-copy, no-activation, and
+  no-student-promotion boundaries.
+- Recorded ADR 0858 and DR-930.

@@ -1,4 +1,4 @@
-import { evaluateLocalBundleAssetEvidence, type LocalBundleManifestAsset } from "@living-textbook/content-model";
+import { evaluateLocalBundleAssetEvidence, evaluateLocalBundleAssetEvidenceSet, type LocalBundleManifestAsset } from "@living-textbook/content-model";
 import { Card, StatusPill } from "@living-textbook/ui";
 import type { LocalBundleAssetSummary, LocalBundleManifestSummary } from "@/data/sampleLocalBundlePlan";
 
@@ -15,9 +15,10 @@ interface AssetEvidenceCheck {
 export function LocalBundleAssetEvidencePanel({ manifest }: LocalBundleAssetEvidencePanelProps) {
   const evidence = manifest.assets.map((asset) => ({
     asset,
-    checks: createAssetEvidenceChecks(asset),
+    result: evaluateLocalBundleAssetEvidence(createRuntimeAsset(asset)),
   }));
-  const handoffReadyCount = evidence.filter((item) => item.checks.every((check) => check.ready)).length;
+  const evidenceSet = evaluateLocalBundleAssetEvidenceSet(manifest.assets.map(createRuntimeAsset));
+  const handoffReadyCount = evidenceSet.assets.filter((item) => item.handoffReady).length;
 
   return (
     <Card>
@@ -33,8 +34,9 @@ export function LocalBundleAssetEvidencePanel({ manifest }: LocalBundleAssetEvid
       </div>
 
       <div className="mt-5 grid gap-3 lg:grid-cols-2">
-        {evidence.map(({ asset, checks }) => {
-          const ready = checks.every((check) => check.ready);
+        {evidence.map(({ asset, result }) => {
+          const checks = createAssetEvidenceChecks(asset, result);
+          const ready = result.handoffReady;
           return (
             <section key={asset.assetId} className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
               <div className="flex flex-wrap items-start justify-between gap-3">
@@ -56,10 +58,20 @@ export function LocalBundleAssetEvidencePanel({ manifest }: LocalBundleAssetEvid
                   </div>
                 ))}
               </dl>
+              {result.blockers.length > 0 && (
+                <p className="mt-3 text-sm leading-6 text-[var(--tenant-muted)]">
+                  <span className="font-semibold text-[var(--tenant-text)]">Blockers:</span> {result.blockers.join(" ")}
+                </p>
+              )}
             </section>
           );
         })}
       </div>
+
+      <p className="text-sm leading-6 text-[var(--tenant-muted)]">
+        <span className="font-semibold text-[var(--tenant-text)]">Package evidence:</span>{" "}
+        {evidenceSet.handoffReady ? "Every declared asset is handoff-ready." : `${evidenceSet.blockers.length} evidence blocker(s) remain across the declared assets.`}
+      </p>
 
       <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <BoundaryFact label="No live upload" />
@@ -71,9 +83,7 @@ export function LocalBundleAssetEvidencePanel({ manifest }: LocalBundleAssetEvid
   );
 }
 
-function createAssetEvidenceChecks(asset: LocalBundleAssetSummary): AssetEvidenceCheck[] {
-  const evidence = evaluateLocalBundleAssetEvidence(createRuntimeAsset(asset));
-
+function createAssetEvidenceChecks(asset: LocalBundleAssetSummary, evidence: ReturnType<typeof evaluateLocalBundleAssetEvidence>): AssetEvidenceCheck[] {
   return [
     { label: "Rights evidence", ready: evidence.rightsReady, value: evidence.rightsReady ? asset.rightsStatus : "Proof needed" },
     { label: "Checksum", ready: evidence.checksumReady, value: evidence.checksumReady ? "Final" : "Pending" },
