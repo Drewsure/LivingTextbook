@@ -14,6 +14,7 @@ import type {
   LocalDeploymentPreflightStatus,
 } from "@/data/sampleLocalDeploymentPreflight";
 import { countLocalCompanionReleaseGateItems, countLocalDeploymentChecks } from "@/data/sampleLocalDeploymentPreflight";
+import { buildLocalBundleHandoffPacket } from "@/data/localBundleHandoff";
 import { LocalBundleResolutionPanel } from "./LocalBundleResolutionPanel";
 import { LocalBundleAssetEvidencePanel } from "./LocalBundleAssetEvidencePanel";
 
@@ -75,6 +76,13 @@ export function LocalCompanionPackagePreviewPanel({ manifest, tenantId, prefligh
     releaseBlockedCount,
     assetEvidenceBlockedCount: assetEvidence.blockers.length,
   });
+  const handoff = buildLocalBundleHandoffPacket({
+    manifest,
+    assetEvidenceBlockedCount: assetEvidence.blockers.length,
+    routeResolutionReady: manifest.routes.length > 0,
+    releaseBlockedCount,
+    preflightBlockedCount: blockedCount,
+  });
 
   return (
     <div className="grid gap-5">
@@ -102,6 +110,8 @@ export function LocalCompanionPackagePreviewPanel({ manifest, tenantId, prefligh
       <LocalBundleResolutionPanel manifest={manifest} tenantId={tenantId} />
 
       <LocalBundleAssetEvidencePanel manifest={manifest} />
+
+      <LocalBundleHandoffPacketPanel packet={handoff.packet} errors={handoff.errors} />
 
       <Card>
         <div className="flex flex-wrap items-start justify-between gap-4">
@@ -359,6 +369,48 @@ export function LocalCompanionPackagePreviewPanel({ manifest, tenantId, prefligh
         </div>
       </Card>
     </div>
+  );
+}
+
+function LocalBundleHandoffPacketPanel({ packet, errors }: { packet: ReturnType<typeof buildLocalBundleHandoffPacket>["packet"]; errors: string[] }) {
+  const passedCount = packet.checks.filter((check) => check.status === "passed").length;
+  const blockedCount = packet.checks.filter((check) => check.status === "blocked").length;
+
+  return (
+    <Card>
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <p className="text-sm font-semibold text-[var(--tenant-muted)]">Local package evidence handoff</p>
+          <h3 className="mt-1 text-lg font-bold">One review packet for the future closed companion</h3>
+          <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">{packet.summary}</p>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <StatusPill label="Review-only" tone="warning" />
+          <StatusPill label={`${passedCount}/${packet.checks.length} checks passed`} tone={blockedCount === 0 ? "success" : "warning"} />
+          <StatusPill label="Writes blocked" tone="warning" />
+        </div>
+      </div>
+
+      {errors.length > 0 && (
+        <p className="mt-4 text-sm leading-6 text-[var(--tenant-muted)]"><span className="font-semibold text-[var(--tenant-text)]">Validator findings:</span> {errors.join(" ")}</p>
+      )}
+
+      <div className="mt-5 grid gap-3 lg:grid-cols-2">
+        {packet.checks.map((check) => (
+          <section key={check.checkId} className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3">
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <h4 className="text-sm font-bold text-[var(--tenant-text)]">{check.label}</h4>
+              <StatusPill label={check.status} tone={check.status === "passed" ? "success" : "warning"} />
+            </div>
+            <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">{check.detail}</p>
+          </section>
+        ))}
+      </div>
+
+      <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        {packet.blockedActions.map((action) => <BundleFact key={action} label={`Blocked: ${action}`} value="Review-only" />)}
+      </div>
+    </Card>
   );
 }
 

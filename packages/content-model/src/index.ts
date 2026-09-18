@@ -1715,4 +1715,5 @@ export * from "./classRoster";
 export * from "./teacherAssignment";
 export * from "./localBundleManifest";
 export * from "./localBundleAssetEvidence";
+export * from "./localBundleHandoff";
 export * from "./localBundleRuntime";

@@ -6079,6 +6079,28 @@ student-facing promotion.
 See ADR 0859 and
 `docs/decision-register/DR-931-local-bundle-snapshot-asset-gate.md`.
 
+# DR-932: Review-Only Local Bundle Handoff Packet
+
+## Decision
+
+Use one shared review-only packet to assemble local companion evidence before
+any package writer, exporter, installer, or offline shell exists.
+
+## Included
+
+- Tenant and bundle identity.
+- Manifest, asset, route, release, and side-effect checks.
+- Explicit blocked actions and fail-closed offline readiness.
+- Runtime validation and local preview visibility.
+
+## Excluded
+
+File reads, package writes, exports, uploads, caching, offline activation,
+hosted redirect mutation, and student-facing promotion.
+
+See ADR 0860 and
+`docs/decision-register/DR-932-review-only-local-bundle-handoff-packet.md`.
+
 # DR-924: Read-Only Local Bundle Resolver
 
 ## Decision

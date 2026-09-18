@@ -3552,3 +3552,13 @@ evidence adapter later records. See ADR 0805 and DR-881.
   asset remains blocked.
 - Added static coverage for the snapshot gate and recorded ADR 0859 and
   DR-931.
+
+## Build session 0860: Review-only local bundle handoff packet
+
+- Added a shared provider-neutral handoff packet for tenant, bundle, manifest,
+  asset, route, release, and side-effect evidence.
+- Preserved explicit package-write, offline-activation, student-promotion, and
+  hosted-redirect-mutation blockers.
+- Added runtime validation for review-only identity and fail-closed offline
+  readiness, and surfaced the packet in both local companion previews.
+- Recorded ADR 0860 and DR-932.

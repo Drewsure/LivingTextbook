@@ -12,6 +12,8 @@ const localPreviewPanel = readSource("../apps/web/src/features/deployment/LocalC
 const resolutionPanel = readSource("../apps/web/src/features/deployment/LocalBundleResolutionPanel.tsx");
 const assetEvidencePanel = readSource("../apps/web/src/features/deployment/LocalBundleAssetEvidencePanel.tsx");
 const assetEvidenceContract = readSource("../packages/content-model/src/localBundleAssetEvidence.ts");
+const handoffContract = readSource("../packages/content-model/src/localBundleHandoff.ts");
+const handoffData = readSource("../apps/web/src/data/localBundleHandoff.ts");
 const activeRoutes = readSource("../docs/ACTIVE_ROUTE_VERIFICATION_LIST.md");
 
 const failures = [];
@@ -265,6 +267,13 @@ for (const marker of requiredSnapshotAssetGateMarkers) {
   requireText(localPreviewPanel, marker, `Local bundle snapshot missing asset evidence gate: ${marker}`);
 }
 
+for (const marker of ["LocalBundleHandoffPacket", "validateLocalBundleHandoffPacket", "offlineReadyAllowed", "package-write", "offline-activation", "student-promotion"]) {
+  requireText(handoffContract, marker, `Local bundle handoff contract missing marker: ${marker}`);
+}
+for (const marker of ["buildLocalBundleHandoffPacket", "Local package evidence handoff", "Writes blocked"]) {
+  requireText(handoffData + localPreviewPanel, marker, `Local bundle handoff review missing marker: ${marker}`);
+}
+
 for (const fallbackPath of requiredLocalFallbackPaths) {
   requireText(bundlePlan, `localFallbackPath: "${fallbackPath}"`, `Local bundle missing route fallback path: ${fallbackPath}`);
 }
@@ -319,6 +328,9 @@ execFileSync(process.execPath, [fileURLToPath(new URL("./verify-local-bundle-man
   stdio: "inherit",
 });
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-local-bundle-resolver-runtime.mjs", import.meta.url))], {
+  stdio: "inherit",
+});
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-local-bundle-handoff-runtime.mjs", import.meta.url))], {
   stdio: "inherit",
 });
 

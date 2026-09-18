@@ -4309,3 +4309,19 @@ and `docs/adr/0858-local-bundle-accessibility-readiness-parity.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-931,
 `docs/decision-register/DR-931-local-bundle-snapshot-asset-gate.md`,
 and `docs/adr/0859-local-bundle-snapshot-asset-gate.md`.
+
+## 275. Review-Only Local Bundle Handoff Packet Standard
+
+- Local companion readiness must be assembled into one tenant- and
+  bundle-identified review packet before any future exporter or shell can be
+  designed around it.
+- The packet must include manifest, asset evidence, route resolution, release,
+  and side-effect checks, with explicit details for every open or blocked lane.
+- Package writing, offline activation, student promotion, and hosted redirect
+  mutation must remain explicitly blocked in the packet.
+- `offlineReadyAllowed` must fail closed whenever a required check is open or
+  blocked; a review packet is not a package, installer, export, or deployment.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-932,
+`docs/decision-register/DR-932-review-only-local-bundle-handoff-packet.md`,
+and `docs/adr/0860-review-only-local-bundle-handoff-packet.md`.
