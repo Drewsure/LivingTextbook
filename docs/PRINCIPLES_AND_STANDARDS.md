@@ -4189,3 +4189,17 @@ and `docs/adr/0850-persistence-provider-runtime-configuration-check.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-923,
 `docs/decision-register/DR-923-local-bundle-manifest-runtime-contract.md`,
 and `docs/adr/0851-local-bundle-manifest-runtime-contract.md`.
+
+## 267. Read-Only Local Bundle Resolver Standard
+
+- Local QR and media fallback rehearsal must use a validated, tenant-scoped,
+  read-only resolver.
+- Resolvers may return only manifest-declared application paths and asset paths;
+  unknown identifiers and cross-tenant lookups must return no result.
+- A resolver must not read directories, copy files, write bundles, register
+  service workers, cache media, or store learner data.
+- Read-only resolution is not local deployment activation or offline readiness.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-924,
+`docs/decision-register/DR-924-read-only-local-bundle-resolver.md`,
+and `docs/adr/0852-read-only-local-bundle-resolver.md`.

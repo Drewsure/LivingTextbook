@@ -3469,3 +3469,12 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Kept bundle writes, service workers, media caching, learner-data storage, and
   local handoff blocked.
 - Recorded ADR 0851 and DR-923.
+
+## Build session 0852: Read-only local bundle resolver
+
+- Added a validated, tenant-scoped, read-only resolver for manifest-declared QR
+  fallbacks and local assets.
+- Rejected unknown identifiers, invalid manifests, and cross-tenant lookups.
+- Kept directory reads, file reads, file writes, bundle creation, service
+  workers, media caching, learner-data storage, and offline activation blocked.
+- Recorded ADR 0852 and DR-924.

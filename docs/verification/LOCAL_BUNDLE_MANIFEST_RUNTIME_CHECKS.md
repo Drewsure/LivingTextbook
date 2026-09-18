@@ -16,6 +16,9 @@ manifest to remain reviewable.
 - Asset identifiers and local paths are unique within a manifest.
 - QR fallback paths are application-relative and do not contain filesystem
   paths.
+- The read-only resolver returns only manifest-declared routes and assets.
+- A resolver created for one tenant returns no route or asset for another
+  tenant, and unknown identifiers do not produce guessed paths.
 - Validation is pure and does not write files, register service workers, copy
   media, or activate offline storage.
 
@@ -23,9 +26,11 @@ manifest to remain reviewable.
 
 ```text
 node scripts/verify-local-bundle-manifest-runtime.mjs
+node scripts/verify-local-bundle-resolver-runtime.mjs
 npm run verify:local-bundle
 npm run verify:foundation
 ```
 
-The validator is a shared content-model contract. It does not approve rights,
-create a bundle, or mark the current sample package offline-ready.
+The validator and resolver are shared content-model contracts. They do not
+approve rights, read directories, create a bundle, or mark the current sample
+package offline-ready.

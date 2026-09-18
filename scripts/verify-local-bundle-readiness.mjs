@@ -250,6 +250,9 @@ console.log(
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-local-bundle-manifest-runtime.mjs", import.meta.url))], {
   stdio: "inherit",
 });
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-local-bundle-resolver-runtime.mjs", import.meta.url))], {
+  stdio: "inherit",
+});
 
 function readSource(relativePath) {
   return readFileSync(new URL(relativePath, import.meta.url), "utf8");

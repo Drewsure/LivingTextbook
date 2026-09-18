@@ -18,9 +18,10 @@ Current sample artifacts:
 - `content/sample-bundles/ministar-l1-u1/README.md`
 - `apps/web/src/features/multimedia/mediaSourceResolver.ts`
 
-The shared manifest validator lives in
-`packages/content-model/src/localBundleManifest.ts`. It is the structural
-boundary for planning and future bundle manifests; it does not activate local
+The shared manifest validator and read-only resolver live in
+`packages/content-model/src/localBundleManifest.ts` and
+`packages/content-model/src/localBundleRuntime.ts`. They are the structural
+boundary for planning and future bundle manifests; they do not activate local
 storage or offline delivery.
 
 ## Purpose
@@ -216,4 +217,5 @@ Before production implementation:
 6. Then design the smallest production-ready local bundle loader.
 
 The loader must consume validated manifests and must not bypass path, checksum,
-rights, tenant, or QR fallback validation.
+rights, tenant, or QR fallback validation. The resolver must remain read-only
+until a separately approved loader and deployment package exist.
