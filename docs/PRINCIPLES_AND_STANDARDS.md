@@ -4434,3 +4434,20 @@ and `docs/adr/0865-local-provider-approval-evidence.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-938,
 `docs/decision-register/DR-938-local-bundle-recovery-packet.md`,
 and `docs/adr/0866-local-bundle-recovery-packet.md`.
+
+## 282. Local Recovery Evidence Reconciliation Standard
+
+- Provider-approval and recovery packets must reconcile tenant, bundle, and
+  package identity before any future adapter can interpret them together.
+- Reconciliation must distinguish `aligned`, `needs-evidence`, and `mismatch`;
+  open evidence is not approval, and identity drift is never silently repaired.
+- The reconciliation result must expose unresolved approval checks and
+  recovery lanes, preserve the complete blocked-action set, and return
+  `executionAllowed: false` with `sideEffect: "none"`.
+- A matching review packet is still not a provider selection, backup, restore,
+  export, retention deletion, package write, student promotion, or route
+  mutation. Those actions require their own accepted operational gates.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-939,
+`docs/decision-register/DR-939-local-recovery-evidence-reconciliation.md`,
+and `docs/adr/0867-local-recovery-evidence-reconciliation.md`.

@@ -6263,3 +6263,28 @@ required before provider implementation.
 
 See ADR 0866 and
 `docs/decision-register/DR-938-local-bundle-recovery-packet.md`.
+
+# DR-939: Local Recovery Evidence Reconciliation
+
+## Decision
+
+Reconcile provider-approval and local-recovery evidence through one shared,
+provider-neutral function before any future adapter interprets the packets
+together.
+
+## Required Invariants
+
+Tenant, bundle, and package identity must match exactly. The result must
+classify aligned evidence, unresolved evidence, and identity/validation
+mismatch separately. It must expose open checks and lanes, preserve all
+blocked actions, and remain `executionAllowed: false` with `sideEffect: "none"`.
+
+## Verification
+
+The reconciliation verifier covers open evidence, identity drift, blocked
+provider activation, and no-execution behavior. The persistence workbench
+displays the result; the full foundation gate remains required before provider
+implementation or live recovery work.
+
+See ADR 0867 and
+`docs/decision-register/DR-939-local-recovery-evidence-reconciliation.md`.

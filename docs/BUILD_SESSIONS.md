@@ -3618,3 +3618,13 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Surfaced the packet in the teacher persistence workbench without enabling
   backup, restore, export, package writes, student promotion, or route mutation.
 - Added runtime/static verification and recorded ADR 0866 and DR-938.
+
+## Build session 0867: Local recovery evidence reconciliation
+
+- Reconciled provider-approval and recovery packets through a shared
+  provider-neutral content-model contract.
+- Added explicit aligned, needs-evidence, and mismatch states for identity,
+  open evidence, and validation drift.
+- Surfaced unresolved checks and lanes in the teacher persistence workbench
+  while preserving `sideEffect: "none"` and all execution blockers.
+- Added runtime/static verification and recorded ADR 0867 and DR-939.
