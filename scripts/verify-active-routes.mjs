@@ -261,6 +261,9 @@ expectedTextByPath.set("/teacher/pilot", [
   "School launch policy gate preview",
   "Pilot evidence packet preview",
   "Pilot handoff package",
+  "Shared handoff contract",
+  "Review-only package validation",
+  "Contract valid",
   "Package publish gate",
   "Partner follow-up packet status",
   "Follow-up packet ready for adult review",
@@ -2696,7 +2699,7 @@ if (urls.length === 0) {
 }
 
 const routeFetchConcurrency = 4;
-const routeFetchAttempts = 2;
+const routeFetchAttempts = 3;
 const routeFetchRetryDelayMs = 500;
 const routeFetchTimeoutMs = 20_000;
 const warmupFetchTimeoutMs = 60_000;
@@ -2815,7 +2818,15 @@ async function fetchRouteWithRetry(url, options = {}) {
 
   for (let attempt = 1; attempt <= attempts; attempt += 1) {
     try {
-      return await fetchRouteWithTimeout(url, timeoutMs);
+      const response = await fetchRouteWithTimeout(url, timeoutMs);
+      // Windows Next dev can briefly expose a 500 while a large route's
+      // manifest is being written. Give the server a recovery window before
+      // treating that transient compile state as a route defect.
+      if (response.status >= 500 && attempt < attempts) {
+        await delay(routeFetchRetryDelayMs * attempt);
+        continue;
+      }
+      return response;
     } catch (error) {
       lastError = error;
 

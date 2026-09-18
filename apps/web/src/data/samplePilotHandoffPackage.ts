@@ -1,49 +1,18 @@
-export type PilotHandoffStatus = "ready" | "needs-review" | "blocked";
-export type PilotHandoffOwner = "codex" | "tenant" | "school" | "shared";
+import type {
+  PilotHandoffAsset,
+  PilotHandoffDecision,
+  PilotHandoffPackage,
+  PilotHandoffRoute,
+} from "@living-textbook/content-model";
 
-export interface PilotHandoffAsset {
-  assetId: string;
-  label: string;
-  status: PilotHandoffStatus;
-  owner: PilotHandoffOwner;
-  evidence: string;
-  nextStep: string;
-}
-
-export interface PilotHandoffRoute {
-  routeId: string;
-  label: string;
-  path: string;
-  status: PilotHandoffStatus;
-  purpose: string;
-}
-
-export interface PilotHandoffDecision {
-  decisionId: string;
-  label: string;
-  status: PilotHandoffStatus;
-  owner: PilotHandoffOwner;
-  costImpact: "low" | "controlled" | "higher";
-  note: string;
-}
-
-export interface PilotHandoffPackage {
-  packageId: string;
-  tenantId: string;
-  label: string;
-  recommendedPilotWindow: string;
-  recommendedDeployment: string;
-  summary: string;
-  routes: PilotHandoffRoute[];
-  assets: PilotHandoffAsset[];
-  decisions: PilotHandoffDecision[];
-  handoffNotes: string[];
-}
+export type { PilotHandoffAsset, PilotHandoffDecision, PilotHandoffPackage, PilotHandoffRoute } from "@living-textbook/content-model";
+export type { PilotHandoffOwner, PilotHandoffStatus } from "@living-textbook/content-model";
 
 export const samplePilotHandoffPackage: PilotHandoffPackage = {
   packageId: "sample-publisher-first-handoff",
   tenantId: "sample-publisher",
   label: "Sample publisher first pilot handoff",
+  mode: "review-only",
   recommendedPilotWindow: "8-12 weeks",
   recommendedDeployment: "Hosted PWA first, local/closed package kept compatible",
   summary:

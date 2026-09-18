@@ -34,6 +34,7 @@ import { samplePackagePublishGate } from "@/data/samplePackagePublishGate";
 import { sampleClassroomLaunchGate } from "@/data/sampleClassroomLaunchGate";
 import { getTeacherPilotRequirementsIntakePath } from "@/features/routes/routeContracts";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
+import { validatePilotHandoffPackage } from "@living-textbook/content-model";
 
 const pilotLinks = [
   { href: "/partner-demo", label: "Partner demo" },
@@ -51,6 +52,7 @@ const pilotLinks = [
 
 export default function TeacherPilotPage() {
   const partnerPilotRequirements = getPartnerPilotRequirementsIntake(samplePublisherTenant.id);
+  const pilotHandoffValidationErrors = validatePilotHandoffPackage(samplePilotHandoffPackage);
 
   return (
     <AppShell tenant={samplePublisherTenant}>
@@ -106,7 +108,7 @@ export default function TeacherPilotPage() {
         <ClassroomLaunchGatePanel gate={sampleClassroomLaunchGate} />
         <SchoolLaunchPolicyGatePanel gate={sampleSchoolLaunchPolicyGate} />
         <PilotEvidencePacketPanel packet={samplePilotEvidencePacket} />
-        <PilotHandoffPackagePanel handoffPackage={samplePilotHandoffPackage} />
+        <PilotHandoffPackagePanel handoffPackage={samplePilotHandoffPackage} validationErrors={pilotHandoffValidationErrors} />
         <PackagePublishGatePanel gate={samplePackagePublishGate} />
 
         <Card>

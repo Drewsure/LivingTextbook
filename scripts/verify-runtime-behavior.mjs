@@ -43,6 +43,7 @@ try {
     "packages/content-model/src/persistenceAdapter.ts",
     "packages/content-model/src/persistenceConsistency.ts",
     "packages/content-model/src/persistenceHandoff.ts",
+    "packages/content-model/src/pilotHandoff.ts",
     "packages/content-model/src/reportRuntime.ts",
     "packages/content-model/src/teacherReportPersistenceRuntime.ts",
     "packages/content-model/src/aiPrototypeEvidenceAlignment.ts",
@@ -148,6 +149,7 @@ try {
   const persistenceAdapter = require(join(output, "persistenceAdapter.js"));
   const persistenceConsistency = require(join(output, "persistenceConsistency.js"));
   const persistenceHandoff = require(join(output, "persistenceHandoff.js"));
+  const pilotHandoff = require(join(output, "pilotHandoff.js"));
   const report = require(join(output, "reportRuntime.js"));
   const teacherReportPersistence = require(join(output, "teacherReportPersistenceRuntime.js"));
   const prototypeAlignment = require(join(output, "aiPrototypeEvidenceAlignment.js"));
@@ -1822,6 +1824,45 @@ try {
       categoryCoverage: validPersistenceHandoffPacket.categoryCoverage.slice(1),
     }),
     `Persistence handoff packet is missing tenant-bound category coverage for ${persistenceRecords.TENANT_BOUND_PERSISTENCE_RECORD_CATEGORIES[0]}.`,
+  );
+  const validPilotHandoffPackage = {
+    packageId: "pilot-package-1",
+    tenantId: "tenant-1",
+    label: "Pilot handoff",
+    mode: "review-only",
+    recommendedPilotWindow: "8 weeks",
+    recommendedDeployment: "Hosted PWA first",
+    summary: "Review-only pilot handoff.",
+    routes: [
+      { routeId: "front-door", label: "Front door", path: "/enter/tenant-1", status: "ready", purpose: "Entry." },
+      { routeId: "launch", label: "Launch", path: "/launch/unit-1", status: "ready", purpose: "Launch." },
+      { routeId: "session", label: "Session", path: "/teacher/sessions/unit-1", status: "needs-review", purpose: "Review." },
+    ],
+    assets: [{ assetId: "unit", label: "Unit", status: "ready", owner: "codex", evidence: "Reviewed.", nextStep: "Replace sample." }],
+    decisions: [{ decisionId: "student-data-policy", label: "Student data", status: "blocked", owner: "school", costImpact: "controlled", note: "Policy required." }],
+    handoffNotes: ["Do not promise classroom launch."],
+  };
+  assertEqual(pilotHandoff.validatePilotHandoffPackage(validPilotHandoffPackage).length, 0);
+  assertIncludes(
+    pilotHandoff.validatePilotHandoffPackage({
+      ...validPilotHandoffPackage,
+      mode: "live",
+    }),
+    "Pilot handoff package must remain review-only.",
+  );
+  assertIncludes(
+    pilotHandoff.validatePilotHandoffPackage({
+      ...validPilotHandoffPackage,
+      routes: validPilotHandoffPackage.routes.slice(1),
+    }),
+    "Pilot handoff package must include a route beginning with /enter/.",
+  );
+  assertIncludes(
+    pilotHandoff.validatePilotHandoffPackage({
+      ...validPilotHandoffPackage,
+      decisions: [{ ...validPilotHandoffPackage.decisions[0], status: "ready" }],
+    }),
+    "Pilot handoff student-data-policy decision must remain blocked before a real classroom pilot.",
   );
   const malformedPersistenceFlagErrors = persistence.validatePersistenceRuntimeRequest({
     ...persistenceRequest,

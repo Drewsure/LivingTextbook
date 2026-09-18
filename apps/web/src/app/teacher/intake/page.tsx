@@ -47,6 +47,7 @@ import { samplePackageApprovalLedger } from "@/data/samplePackageApprovalLedger"
 import { samplePackagePublishGate } from "@/data/samplePackagePublishGate";
 import { samplePilotEvidencePacket } from "@/data/samplePilotEvidencePacket";
 import { samplePilotHandoffPackage } from "@/data/samplePilotHandoffPackage";
+import { validatePilotHandoffPackage } from "@living-textbook/content-model";
 import { samplePilotLaunchChecklist } from "@/data/samplePilotLaunchChecklist";
 import { samplePilotReadinessSummary } from "@/data/samplePilotReadinessSummary";
 import { samplePilotSourceStrategy } from "@/data/samplePilotSourceStrategy";
@@ -235,7 +236,7 @@ export default function TeacherIntakePage() {
         <SchoolRollbackSafeFallbackActivationPreviewPanel preview={sampleSchoolRollbackSafeFallbackActivationPreview} />
         <SchoolRollbackSafeFallbackRestorationPreviewPanel preview={sampleSchoolRollbackSafeFallbackRestorationPreview} />
         <PilotSourceStrategyPanel strategy={samplePilotSourceStrategy} />
-        <PilotHandoffPackagePanel handoffPackage={samplePilotHandoffPackage} />
+        <PilotHandoffPackagePanel handoffPackage={samplePilotHandoffPackage} validationErrors={validatePilotHandoffPackage(samplePilotHandoffPackage)} />
         <PilotReleaseCandidatePanel gate={samplePackagePublishGate} ledger={samplePackageApprovalLedger} />
         <PackagePublishGatePanel gate={samplePackagePublishGate} />
         <PackageApprovalLedgerPanel ledger={samplePackageApprovalLedger} />

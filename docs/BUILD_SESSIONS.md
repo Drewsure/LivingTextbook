@@ -3361,3 +3361,14 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Fixed the duplicate React key collision on the pilot command view where two
   adult-review links intentionally share a destination.
 - Added a regression check and recorded ADR 0840 and DR-912.
+
+## Build session 0841: Pilot handoff shared validator
+
+- Moved pilot handoff package types and safety invariants into the shared
+  content model.
+- Required internal entry, launch, and teacher-session routes, unique review
+  identifiers, and a blocked student-data policy decision.
+- Wired concrete validator findings into the pilot command view.
+- Added runtime behavior coverage without enabling storage, export, publishing,
+  policy acceptance, classroom launch, or live learner data.
+- Recorded ADR 0841 and DR-913.

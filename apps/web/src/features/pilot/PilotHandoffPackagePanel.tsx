@@ -8,6 +8,7 @@ import type {
 
 interface PilotHandoffPackagePanelProps {
   handoffPackage: PilotHandoffPackage;
+  validationErrors: string[];
 }
 
 const statusTone: Record<PilotHandoffStatus, "neutral" | "success" | "warning"> = {
@@ -22,7 +23,7 @@ const statusLabel: Record<PilotHandoffStatus, string> = {
   blocked: "Blocked",
 };
 
-export function PilotHandoffPackagePanel({ handoffPackage }: PilotHandoffPackagePanelProps) {
+export function PilotHandoffPackagePanel({ handoffPackage, validationErrors }: PilotHandoffPackagePanelProps) {
   const readyAssets = handoffPackage.assets.filter((asset) => asset.status === "ready").length;
   const blockedDecisions = handoffPackage.decisions.filter((decision) => decision.status === "blocked").length;
   const routeCount = handoffPackage.routes.length;
@@ -44,6 +45,26 @@ export function PilotHandoffPackagePanel({ handoffPackage }: PilotHandoffPackage
         <HandoffMetric label="Ready assets" value={`${readyAssets}/${handoffPackage.assets.length}`} tone={readyAssets === handoffPackage.assets.length ? "success" : "warning"} />
         <HandoffMetric label="Blocked decisions" value={String(blockedDecisions)} tone={blockedDecisions > 0 ? "warning" : "success"} />
       </div>
+
+      <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Shared handoff contract</p>
+            <h3 className="mt-1 text-base font-bold text-[var(--tenant-text)]">Review-only package validation</h3>
+          </div>
+          <StatusPill label={validationErrors.length === 0 ? "Contract valid" : `${validationErrors.length} finding(s)`} tone={validationErrors.length === 0 ? "success" : "warning"} />
+        </div>
+        <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">
+          This validator proves the handoff has the required tenant routes, human decisions, and safety blockers; it does not authorize classroom launch, storage, export, or live learner data.
+        </p>
+        {validationErrors.length > 0 ? (
+          <ul className="mt-3 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
+            {validationErrors.map((error, index) => (
+              <li key={`pilot-handoff-validation-${index}`} className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-3">{error}</li>
+            ))}
+          </ul>
+        ) : null}
+      </section>
 
       <div className="mt-5 grid gap-4 lg:grid-cols-[0.95fr_1.05fr]">
         <section className="rounded-lg border border-[var(--tenant-border)] p-4">

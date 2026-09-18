@@ -1400,3 +1400,10 @@ the default port reports stale 500 responses. A fresh webpack server on an
 available port and `ACTIVE_ROUTE_BASE_URL` proved all 88 active routes on
 2026-09-17. See
 `docs/operating-notes/2026-09-17-memory-match-gate-and-fresh-route-verification.md`.
+## Windows route-verification recovery
+
+When a large teacher review route briefly returns `500` with Next reporting
+`Manifest file is empty` during the first webpack compilation, wait for the
+route to finish compiling and rerun `npm run verify:routes`. The active-route
+verifier retries transient `5xx` responses; a repeated failure after the retry
+window remains a real route defect and must be investigated.

@@ -4011,3 +4011,19 @@ and `docs/adr/0839-persistence-handoff-behavior-verification.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-912,
 `docs/decision-register/DR-912-pilot-link-key-stability.md`,
 and `docs/adr/0840-pilot-link-key-stability.md`.
+
+## 256. Pilot Handoff Shared Validation Standard
+
+- A partner pilot handoff is a contract boundary, not merely a presentation
+  fixture; its schema and safety rules belong in the shared content model.
+- Every handoff must remain review-only and must include tenant-bound entry,
+  launch, and teacher-session routes with unique identifiers.
+- The handoff must keep a blocked student-data policy decision visible before a
+  classroom pilot; a complete-looking demo must not imply launch readiness.
+- Validator findings may be shown to adult reviewers, but validation never
+  authorizes storage, export, publication, policy acceptance, or classroom
+  launch.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-913,
+`docs/decision-register/DR-913-pilot-handoff-shared-validator.md`,
+and `docs/adr/0841-pilot-handoff-shared-validator.md`.
