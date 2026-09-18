@@ -3649,3 +3649,13 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Enforced safe relative paths, checksum-state visibility, stable QR fallback,
   and blocked activation/mutation/deletion behavior.
 - Added runtime/static verification and recorded ADR 0869 and DR-941.
+
+## Build session 0870: Local media evidence binding
+
+- Bound package media entries to tenant, bundle, package version, and manifest
+  identity.
+- Added rights, checksum, scan, target-mapping, transcript/caption, poster,
+  and alt-text evidence fields for audio, video, and image assets.
+- Preserved explicit review-stage blockers for upload, copy, activation,
+  promotion, package writes, and QR mutation.
+- Added runtime/static verification and recorded ADR 0870 and DR-942.

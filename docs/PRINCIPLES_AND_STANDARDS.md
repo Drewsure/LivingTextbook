@@ -4492,3 +4492,25 @@ and `docs/adr/0868-local-export-retention-dry-run.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-941,
 `docs/decision-register/DR-941-local-package-manifest-rollback-dry-run.md`,
 and `docs/adr/0869-local-package-manifest-rollback-dry-run.md`.
+
+## 285. Local Media Evidence Binding Standard
+
+- Every media entry referenced by a local package manifest must bind to the
+  exact tenant, bundle, package, and package version.
+- Audio, video, and image entries must expose rights status and evidence,
+  checksum state, security-scan state, target-mapping review, and explicit
+  local eligibility.
+- Audio requires transcript evidence; video requires caption/transcript and
+  poster evidence; images require an explicit alt-text readiness state.
+  Pending or false readiness is valid review evidence but never student-ready
+  evidence.
+- Review-stage media may describe missing or pending evidence, but it must
+  remain blocked from file upload, media copy, package write, local activation,
+  student promotion, and QR mutation.
+- The binding must use safe relative paths, preserve `sideEffect: "none"`,
+  and remain aligned with the versioned package manifest before a future
+  provider can consider local eligibility.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-942,
+`docs/decision-register/DR-942-local-media-evidence-binding.md`,
+and `docs/adr/0870-local-media-evidence-binding.md`.

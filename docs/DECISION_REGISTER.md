@@ -6342,3 +6342,30 @@ before a local provider or package activation path is designed.
 
 See ADR 0869 and
 `docs/decision-register/DR-941-local-package-manifest-rollback-dry-run.md`.
+
+# DR-942: Local Media Evidence Binding
+
+## Decision
+
+Bind every local package media entry to its tenant, bundle, package version,
+rights evidence, checksum state, scan, target mapping, accessibility evidence,
+and local eligibility before any future media provider can copy or promote it.
+
+## Required Invariants
+
+Audio requires transcript evidence, video requires caption/transcript and
+poster evidence, and images require an explicit alt-text readiness state.
+Pending or false evidence is visible review state, not approval. Safe relative
+paths and exact manifest identity are required. Upload, copy, package write,
+local activation, student promotion, and QR mutation remain blocked with no
+side effect.
+
+## Verification
+
+The media evidence binding verifier covers rights/checksum/accessibility state,
+unsafe paths, required transcript evidence, and no-copy behavior. The
+persistence workbench displays the binding; the full foundation gate remains
+required before local eligibility or provider implementation.
+
+See ADR 0870 and
+`docs/decision-register/DR-942-local-media-evidence-binding.md`.

@@ -51,6 +51,8 @@ import { sampleLocalBundleExportRetentionDryRun, sampleLocalBundleExportRetentio
 import { LocalBundleExportRetentionDryRunPanel } from "@/features/persistence/LocalBundleExportRetentionDryRunPanel";
 import { sampleLocalBundlePackageManifestRollbackDryRun, sampleLocalBundlePackageManifestRollbackDryRunErrors } from "@/data/sampleLocalBundlePackageManifestRollbackDryRun";
 import { LocalBundlePackageManifestRollbackDryRunPanel } from "@/features/persistence/LocalBundlePackageManifestRollbackDryRunPanel";
+import { sampleLocalBundleMediaEvidenceBinding, sampleLocalBundleMediaEvidenceBindingErrors } from "@/data/sampleLocalBundleMediaEvidenceBinding";
+import { LocalBundleMediaEvidenceBindingPanel } from "@/features/persistence/LocalBundleMediaEvidenceBindingPanel";
 
 const persistenceLinks = [
   { href: "/teacher/intake", label: "Foundation intake" },
@@ -117,6 +119,10 @@ export default function TeacherPersistencePage() {
         <LocalBundlePackageManifestRollbackDryRunPanel
           dryRun={sampleLocalBundlePackageManifestRollbackDryRun}
           errors={sampleLocalBundlePackageManifestRollbackDryRunErrors}
+        />
+        <LocalBundleMediaEvidenceBindingPanel
+          binding={sampleLocalBundleMediaEvidenceBinding}
+          errors={sampleLocalBundleMediaEvidenceBindingErrors}
         />
         <PackageReadinessPersistencePanel
           intents={samplePackageReadinessPersistenceIntents}
