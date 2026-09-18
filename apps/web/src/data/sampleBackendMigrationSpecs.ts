@@ -11430,6 +11430,36 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
           note: "Local bundle manifest this checklist belongs to.",
         },
         {
+          name: "packet_id",
+          type: "string",
+          required: true,
+          note: "Stable identifier for the shared review-only local bundle handoff packet; may equal handoff_id for one snapshot.",
+        },
+        {
+          name: "mode",
+          type: "enum/string",
+          required: true,
+          note: "Must be review-only until a future release contract explicitly authorizes a different mode.",
+        },
+        {
+          name: "summary",
+          type: "string",
+          required: true,
+          note: "Human-readable evidence summary for teacher and operator review.",
+        },
+        {
+          name: "checks",
+          type: "json",
+          required: true,
+          note: "Manifest, asset-evidence, route-resolution, release-gate, and side-effects checks from the shared packet contract.",
+        },
+        {
+          name: "blocked_actions",
+          type: "string[]",
+          required: true,
+          note: "Explicit package-write, offline-activation, student-promotion, and hosted-redirect-mutation blockers.",
+        },
+        {
           name: "handoff_items",
           type: "json",
           required: true,
@@ -11460,6 +11490,8 @@ export const sampleBackendMigrationSpecPlan: BackendMigrationSpecPlan = {
       localFallback: "Local classroom bundles store the same checklist in the package manifest folder.",
       policyBlockers: [
         "Offline-ready status cannot be true while source, media rights, checksums, route fallback, or report policy items are blocked.",
+        "The stored packet must remain review-only and preserve all required checks and blocked actions from the shared handoff contract.",
+        "Package write, offline activation, student promotion, and hosted redirect mutation remain blocked by this record.",
         "Installer and local server builds must read this checklist before packaging.",
       ],
     },

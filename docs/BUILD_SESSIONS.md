@@ -3562,3 +3562,12 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Added runtime validation for review-only identity and fail-closed offline
   readiness, and surfaced the packet in both local companion previews.
 - Recorded ADR 0860 and DR-932.
+
+## Build session 0861: Local bundle handoff storage alignment
+
+- Aligned the provider-neutral local companion handoff schema, migration
+  candidate, and migration spec with the shared review-only packet.
+- Preserved packet checks and explicit package-write, offline-activation,
+  student-promotion, and hosted-redirect-mutation blockers.
+- Added a drift verifier across all three backend planning layers.
+- Recorded ADR 0861 and DR-933.

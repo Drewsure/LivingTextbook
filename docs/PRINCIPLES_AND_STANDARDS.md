@@ -4325,3 +4325,21 @@ and `docs/adr/0859-local-bundle-snapshot-asset-gate.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-932,
 `docs/decision-register/DR-932-review-only-local-bundle-handoff-packet.md`,
 and `docs/adr/0860-review-only-local-bundle-handoff-packet.md`.
+
+## 276. Local Bundle Handoff Storage Alignment Standard
+
+- The provider-neutral `local_companion_handoff` planning records must carry
+  the shared packet identity, `review-only` mode, summary, required checks,
+  and explicit blocked actions.
+- Schema drafts, migration candidates, and migration specs must be updated
+  together and checked by `verify-local-bundle-handoff-storage.mjs`.
+- A storage record is evidence only. It cannot authorize package writes,
+  offline activation, student promotion, hosted redirect mutation, or a manual
+  offline-ready override.
+- Before any persistence adapter is implemented, compare its payload to
+  `packages/content-model/src/localBundleHandoff.ts` and run the dedicated
+  verifier plus the full foundation gate.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-933,
+`docs/decision-register/DR-933-local-bundle-handoff-storage-alignment.md`,
+and `docs/adr/0861-local-bundle-handoff-storage-alignment.md`.

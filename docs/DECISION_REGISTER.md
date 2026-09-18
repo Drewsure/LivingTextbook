@@ -6123,3 +6123,24 @@ workers, media caching, offline learner-data storage, and local handoff.
 
 See ADR 0852 and
 `docs/decision-register/DR-924-read-only-local-bundle-resolver.md`.
+
+# DR-933: Local Bundle Handoff Storage Alignment
+
+## Decision
+
+Align the provider-neutral `local_companion_handoff` schema, migration
+candidate, and migration spec with the shared review-only handoff packet.
+
+## Required Fields
+
+`packet_id`, `mode`, `summary`, `checks`, and `blocked_actions` preserve the
+packet identity, evidence, and explicit package-write, offline-activation,
+student-promotion, and hosted-redirect-mutation blockers.
+
+## Verification
+
+The dedicated storage verifier runs from the local bundle readiness gate and
+must pass before any future persistence adapter is implemented.
+
+See ADR 0861 and
+`docs/decision-register/DR-933-local-bundle-handoff-storage-alignment.md`.
