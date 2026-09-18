@@ -1,3 +1,4 @@
+import { evaluateLocalBundleAssetEvidenceSet } from "@living-textbook/content-model";
 import { Card, StatusPill } from "@living-textbook/ui";
 import type {
   LocalCompanionArtifactStatus,
@@ -65,12 +66,14 @@ export function LocalCompanionPackagePreviewPanel({ manifest, tenantId, prefligh
   const releaseBlockedCount = countLocalCompanionReleaseGateItems(releaseGate, "blocked");
   const releaseWarningCount = countLocalCompanionReleaseGateItems(releaseGate, "warning");
   const releasePassCount = countLocalCompanionReleaseGateItems(releaseGate, "pass");
+  const assetEvidence = evaluateLocalBundleAssetEvidenceSet(manifest.assets.map(createRuntimeAsset));
   const handoffBlockedCount = manifest.handoffItems.filter((item) => item.status === "blocked").length;
   const handoffNeededCount = manifest.handoffItems.filter((item) => item.status === "needed").length;
   const manifestSnapshot = createLocalCompanionManifestSnapshot(manifest, {
     handoffBlockedCount,
     preflightBlockedCount: blockedCount,
     releaseBlockedCount,
+    assetEvidenceBlockedCount: assetEvidence.blockers.length,
   });
 
   return (
@@ -370,7 +373,7 @@ function BundleFact({ label, value }: { label: string; value: string }) {
 
 function createLocalCompanionManifestSnapshot(
   manifest: LocalBundleManifestSummary,
-  counts: { handoffBlockedCount: number; preflightBlockedCount: number; releaseBlockedCount: number },
+  counts: { handoffBlockedCount: number; preflightBlockedCount: number; releaseBlockedCount: number; assetEvidenceBlockedCount: number },
 ) {
   return {
     bundle_id: manifest.bundleId,
@@ -381,11 +384,16 @@ function createLocalCompanionManifestSnapshot(
       manifest.offlineReady &&
       counts.handoffBlockedCount === 0 &&
       counts.preflightBlockedCount === 0 &&
-      counts.releaseBlockedCount === 0,
+      counts.releaseBlockedCount === 0 &&
+      counts.assetEvidenceBlockedCount === 0,
     content_package_path: manifest.contentPackagePath,
     media_root: manifest.mediaRoot,
     requires_hosted_redirect: manifest.requiresHostedRedirect,
     ai_tutor_enabled: manifest.aiTutorEnabled,
+    asset_evidence: {
+      blocked_count: counts.assetEvidenceBlockedCount,
+      handoff_ready: counts.assetEvidenceBlockedCount === 0,
+    },
     assets: manifest.assets.map((asset) => ({
       asset_id: asset.assetId,
       kind: asset.kind,
@@ -423,5 +431,20 @@ function createLocalCompanionManifestSnapshot(
       status: item.status,
       next_step: item.nextStep,
     })),
+  };
+}
+
+function createRuntimeAsset(asset: LocalBundleManifestSummary["assets"][number]) {
+  return {
+    asset_id: asset.assetId,
+    kind: asset.kind,
+    local_path: asset.localPath,
+    checksum: asset.checksumReady ? `sha256-${"a".repeat(64)}` : "sha256-placeholder-not-ready",
+    rights_status: asset.rightsStatus,
+    poster_path: asset.posterPath,
+    transcript_path: asset.transcriptPath,
+    scan_status: asset.scanStatus,
+    target_mapping_reviewed: asset.targetMappingReviewed,
+    alt_text_ready: asset.altTextReady,
   };
 }

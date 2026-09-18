@@ -125,6 +125,11 @@ const requiredAssetEvidenceContractMarkers = [
   "handoffReady",
   "evaluateLocalBundleAssetEvidenceSet",
 ];
+const requiredSnapshotAssetGateMarkers = [
+  "assetEvidenceBlockedCount",
+  "asset_evidence",
+  "handoff_ready",
+];
 const requiredLocalFallbackPaths = [
   "/enter/ministar",
   "/launch/demo-unit-1",
@@ -254,6 +259,10 @@ for (const marker of requiredAssetEvidenceMarkers) {
 
 for (const marker of requiredAssetEvidenceContractMarkers) {
   requireText(assetEvidenceContract, marker, `Local asset evidence contract missing marker: ${marker}`);
+}
+
+for (const marker of requiredSnapshotAssetGateMarkers) {
+  requireText(localPreviewPanel, marker, `Local bundle snapshot missing asset evidence gate: ${marker}`);
 }
 
 for (const fallbackPath of requiredLocalFallbackPaths) {

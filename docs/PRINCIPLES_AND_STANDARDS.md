@@ -4296,3 +4296,16 @@ and `docs/adr/0857-shared-local-bundle-asset-evidence-evaluator.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-930,
 `docs/decision-register/DR-930-local-bundle-accessibility-readiness-parity.md`,
 and `docs/adr/0858-local-bundle-accessibility-readiness-parity.md`.
+
+## 274. Local Bundle Snapshot Asset Gate Standard
+
+- Any machine-readable local companion snapshot must include the shared asset
+  evidence result, including blocked count and handoff readiness.
+- `offline_ready_allowed` must remain false when any declared asset has an
+  unresolved rights, checksum, scan, mapping, or accessibility blocker.
+- Snapshot fields are evidence only; they do not write packages, activate
+  offline delivery, or promote learner-facing routes.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-931,
+`docs/decision-register/DR-931-local-bundle-snapshot-asset-gate.md`,
+and `docs/adr/0859-local-bundle-snapshot-asset-gate.md`.

@@ -3543,3 +3543,12 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Preserved planning warnings and all no-upload, no-copy, no-activation, and
   no-student-promotion boundaries.
 - Recorded ADR 0858 and DR-930.
+
+## Build session 0859: Local bundle snapshot asset gate
+
+- Included shared asset-evidence blockers in the machine-readable companion
+  package snapshot.
+- Prevented `offline_ready_allowed` from becoming true while any declared
+  asset remains blocked.
+- Added static coverage for the snapshot gate and recorded ADR 0859 and
+  DR-931.

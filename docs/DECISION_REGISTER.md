@@ -6058,6 +6058,27 @@ student-facing promotion.
 See ADR 0858 and
 `docs/decision-register/DR-930-local-bundle-accessibility-readiness-parity.md`.
 
+# DR-931: Local Bundle Snapshot Asset Gate
+
+## Decision
+
+Require machine-readable local companion snapshots to consume the shared asset
+evidence aggregate before reporting that offline readiness is allowed.
+
+## Included
+
+- Asset evidence blocked count.
+- Aggregate handoff-ready status.
+- Offline readiness calculation that fails closed on any asset blocker.
+
+## Excluded
+
+Package writes, file reads, media copies, offline activation, caching, and
+student-facing promotion.
+
+See ADR 0859 and
+`docs/decision-register/DR-931-local-bundle-snapshot-asset-gate.md`.
+
 # DR-924: Read-Only Local Bundle Resolver
 
 ## Decision
