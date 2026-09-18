@@ -2,6 +2,9 @@ import { readFileSync } from "node:fs";
 
 const queueData = readSource("../apps/web/src/data/sampleSourceReviewQueue.ts");
 const extractionPacketData = readSource("../apps/web/src/data/sampleSourceExtractionReviewPackets.ts");
+const sourcePackageAssemblyModel = readSource("../packages/content-model/src/sourcePackageAssembly.ts");
+const sourcePackageAssemblyData = readSource("../apps/web/src/data/sampleSourcePackageAssembly.ts");
+const sourcePackageAssemblyPanel = readSource("../apps/web/src/features/content-intake/SourcePackageAssemblyPanel.tsx");
 const queuePanel = readSource("../apps/web/src/features/content-intake/SourceReviewQueuePanel.tsx");
 const sourceWorkspacePanel = readSource("../apps/web/src/features/content-intake/TeacherSourceReviewWorkspacePanel.tsx");
 const extractionPacketPanel = readSource("../apps/web/src/features/content-intake/SourceExtractionReviewPacketPanel.tsx");
@@ -90,6 +93,16 @@ requireText(extractionPacketPanel, "Source extraction review packets", "Extracti
 requireText(extractionPacketPanel, "Extraction evidence preview", "Extraction packet panel must expose evidence preview copy.");
 requireText(extractionPacketPanel, "Draft creation", "Extraction packet panel must show draft creation status.");
 requireText(extractionPacketPanel, "Student payload", "Extraction packet panel must show student payload status.");
+requireText(sourcePackageAssemblyModel, "SourcePackageAssemblyPacket", "Source package assembly must have a shared packet contract.");
+requireText(sourcePackageAssemblyModel, "validateSourcePackageAssemblyPacket", "Source package assembly must have shared validation.");
+requireText(sourcePackageAssemblyModel, 'mode !== "review-only"', "Source package assembly must enforce review-only mode.");
+requireText(sourcePackageAssemblyModel, "packagePromotionAllowed", "Source package assembly must expose a promotion guard.");
+requireText(sourcePackageAssemblyData, "assembly-ministar-l1-u1-greetings-v1", "Source package assembly must include the MiniStar candidate.");
+requireText(sourcePackageAssemblyData, "assembly-sample-publisher-l1-u1-routines-v1", "Source package assembly must include the partner candidate.");
+requireText(sourcePackageAssemblyPanel, "Canonical package draft bridge", "Source package assembly panel must expose the draft bridge.");
+requireText(sourcePackageAssemblyPanel, "Promotion", "Source package assembly panel must show promotion state.");
+requireText(sourcePackageAssemblyPanel, "Draft creation", "Source package assembly panel must show draft creation state.");
+requireText(teacherIntakePage, "SourcePackageAssemblyPanel", "Teacher intake page must render source package assembly.");
 requireText(queuePanel, "Source review queue", "Source review panel must expose the queue heading.");
 requireText(queuePanel, "What source intake cannot skip", "Source review panel must expose hard rules.");
 requireText(queuePanel, "Required records before extraction promotion", "Source review panel must show extraction-promotion records.");

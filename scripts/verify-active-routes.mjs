@@ -2605,6 +2605,10 @@ expectedTextByPath.get("/teacher/intake")?.push(
   "No public community library",
   "No unmanaged asset adoption",
   "No Z.ai import before returned-package review",
+  "Canonical package draft bridge",
+  "Source-to-package assembly",
+  "Promotion",
+  "Draft creation",
 );
 
 const teacherIntakeExpected = expectedTextByPath.get("/teacher/intake");

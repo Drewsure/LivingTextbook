@@ -3372,3 +3372,13 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Added runtime behavior coverage without enabling storage, export, publishing,
   policy acceptance, classroom launch, or live learner data.
 - Recorded ADR 0841 and DR-913.
+
+## Build session 0842: Source-to-package assembly contract
+
+- Added a shared review-only assembly packet between extraction evidence and
+  canonical package drafts.
+- Preserved tenant/source/checksum identity, candidate units/media, required
+  handoff records, and explicit false promotion flags.
+- Added MiniStar and partner sample packets, intake visibility, and runtime
+  behavior checks.
+- Recorded ADR 0842 and DR-914.

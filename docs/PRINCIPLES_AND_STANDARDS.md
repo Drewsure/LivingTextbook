@@ -4027,3 +4027,18 @@ and `docs/adr/0840-pilot-link-key-stability.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-913,
 `docs/decision-register/DR-913-pilot-handoff-shared-validator.md`,
 and `docs/adr/0841-pilot-handoff-shared-validator.md`.
+
+## 257. Source-to-Package Assembly Standard
+
+- Source extraction evidence must pass through an explicit assembly packet
+  before it can be considered a canonical package draft candidate.
+- Assembly packets must preserve tenant, source, extraction, checksum, target
+  package, candidate unit, candidate media, and required-record identity.
+- Draft creation, student-facing payload, and package promotion flags remain
+  false until later approved workflows exist.
+- A valid assembly packet proves contract completeness only; it never authorizes
+  upload, extraction execution, storage, release, QR activation, or assignment.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-914,
+`docs/decision-register/DR-914-source-package-assembly-contract.md`,
+and `docs/adr/0842-source-package-assembly-contract.md`.

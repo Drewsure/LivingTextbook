@@ -33,6 +33,7 @@ try {
     "packages/content-model/src/entitlementRuntime.ts",
     "packages/content-model/src/assetRuntime.ts",
     "packages/content-model/src/sourceRuntime.ts",
+    "packages/content-model/src/sourcePackageAssembly.ts",
     "packages/content-model/src/releaseRuntime.ts",
     "packages/content-model/src/contentPackageRuntime.ts",
     "packages/content-model/src/launchRuntime.ts",
@@ -138,6 +139,7 @@ try {
   const entitlement = require(join(output, "entitlementRuntime.js"));
   const asset = require(join(output, "assetRuntime.js"));
   const source = require(join(output, "sourceRuntime.js"));
+  const sourcePackageAssembly = require(join(output, "sourcePackageAssembly.js"));
   const release = require(join(output, "releaseRuntime.js"));
   const contentPackage = require(join(output, "contentPackageRuntime.js"));
   const launch = require(join(output, "launchRuntime.js"));
@@ -1105,6 +1107,52 @@ try {
     packageRuntimeApproved: false, teacherReleaseApproved: false, rawSourceAsStudentPayloadRequested: false,
     draftCreationRequested: false, aiExtractionRequested: false, studentFacingUseRequested: false,
   }).sideEffect, "none");
+
+  const validSourcePackageAssemblyPacket = {
+    packetId: "assembly-1",
+    tenantId: "tenant-1",
+    sourceId: "source-1",
+    targetPackageId: "package-1",
+    extractionPacketId: "extraction-1",
+    label: "Candidate package assembly",
+    mode: "review-only",
+    status: "draft-candidate",
+    sourceChecksum: "checksum-1",
+    candidateUnitKeys: ["tenant-1:curriculum:L1:U1"],
+    candidateMediaAssetIds: ["audio-1"],
+    requiredRecords: ["source_extraction_review_packet", "teacher_draft_package", "teacher_draft_review_handoff"],
+    blockers: ["Rights review remains open."],
+    sourceLineageReviewed: true,
+    extractionReviewAccepted: true,
+    mediaRightsReviewed: false,
+    targetMappingReviewed: true,
+    teacherReviewHandoffPresent: true,
+    draftCreationAllowed: false,
+    studentFacingPayloadAllowed: false,
+    packagePromotionAllowed: false,
+  };
+  assertEqual(sourcePackageAssembly.validateSourcePackageAssemblyPacket(validSourcePackageAssemblyPacket).length, 0);
+  assertIncludes(
+    sourcePackageAssembly.validateSourcePackageAssemblyPacket({
+      ...validSourcePackageAssemblyPacket,
+      mode: "hosted-managed",
+    }),
+    "Source package assembly must remain review-only.",
+  );
+  assertIncludes(
+    sourcePackageAssembly.validateSourcePackageAssemblyPacket({
+      ...validSourcePackageAssemblyPacket,
+      packagePromotionAllowed: true,
+    }),
+    "Source package assembly promotion flags must remain false in review-only mode.",
+  );
+  assertIncludes(
+    sourcePackageAssembly.validateSourcePackageAssemblyPacket({
+      ...validSourcePackageAssemblyPacket,
+      requiredRecords: [],
+    }),
+    "Source package assembly is missing required record source_extraction_review_packet.",
+  );
 
   const releaseRequest = {
     tenantId: "tenant-1", packageId: "package-1", releaseId: "release-1", requestedState: "active",

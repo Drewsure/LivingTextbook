@@ -1623,6 +1623,7 @@ export * from "./persistenceRecords";
 export * from "./persistenceConsistency";
 export * from "./persistenceHandoff";
 export * from "./pilotHandoff";
+export * from "./sourcePackageAssembly";
 export * from "./persistenceRuntime";
 export * from "./reportRuntime";
 export * from "./teacherReportPersistenceRuntime";

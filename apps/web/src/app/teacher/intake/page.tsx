@@ -83,6 +83,7 @@ import { sampleTenantLibraryPlan } from "@/data/sampleTenantLibraryPlan";
 import { sampleQrPrintReadinessRecords } from "@/data/sampleQrPrintReadiness";
 import { sampleRouteGraduationGate } from "@/data/sampleRouteGraduationGate";
 import { sampleSourceReviewQueue } from "@/data/sampleSourceReviewQueue";
+import { sampleSourcePackageAssemblyPackets } from "@/data/sampleSourcePackageAssembly";
 import { sampleFrontDoorRouteRegistry } from "@/data/sampleTenantRouteRegistry";
 import {
   sampleTeacherAssignmentErrors,
@@ -113,6 +114,7 @@ import { MultimediaAssetReadinessPanel } from "@/features/content-intake/Multime
 import { PilotSourceStrategyPanel } from "@/features/content-intake/PilotSourceStrategyPanel";
 import { PrintableOutputReadinessPanel } from "@/features/content-intake/PrintableOutputReadinessPanel";
 import { SourceReviewQueuePanel } from "@/features/content-intake/SourceReviewQueuePanel";
+import { SourcePackageAssemblyPanel } from "@/features/content-intake/SourcePackageAssemblyPanel";
 import { TeacherAuthoringReadinessPanel } from "@/features/content-intake/TeacherAuthoringReadinessPanel";
 import { TemplateRenderingFontProfilePanel } from "@/features/content-intake/TemplateRenderingFontProfilePanel";
 import { UploadChannelReadinessPanel } from "@/features/content-intake/UploadChannelReadinessPanel";
@@ -284,6 +286,7 @@ export default function TeacherIntakePage() {
         <LabelledDiagramAssetReadinessPanel plan={sampleLabelledDiagramAssetReadinessPlan} />
         <MultimediaAssetReadinessPanel plan={sampleMultimediaAssetReadinessPlan} />
         <SourceReviewQueuePanel queue={sampleSourceReviewQueue} />
+        <SourcePackageAssemblyPanel packets={sampleSourcePackageAssemblyPackets} />
         <AiGameGeneratorPlanPanel plan={sampleAiGameGeneratorPlan} />
         <TeacherAuthoringReadinessPanel plan={sampleTeacherAuthoringReadinessPlan} />
         <AuthoringVerifierPlanPanel plan={sampleAuthoringVerifierPlan} />
