@@ -9,19 +9,16 @@ import {
   type HostedProgressionPersistenceClientWriteRequest,
   type HostedProgressionPersistenceWriteRequest,
 } from "@living-textbook/content-model";
-import { getDurableProgressionStore } from "@/server/persistence/sqliteProgressionStore";
+import {
+  getConfiguredPersistenceProvider,
+  getProgressionPersistenceAdapter,
+  type PersistenceProvider,
+} from "@/server/persistence/progressionPersistenceAdapter";
 import { readStudentSessionClaims } from "@/server/persistence/studentSessionCookie";
 import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
-
-type PersistenceProvider = "process-memory" | "sqlite";
-
-const globalStore = globalThis as typeof globalThis & {
-  __livingTextbookHostedProgressionRehearsal?: Map<string, HostedProgressionPersistenceRecord>;
-};
-const rehearsalStore = globalStore.__livingTextbookHostedProgressionRehearsal ??= new Map();
 
 export async function POST(request: Request) {
   let rawBody: unknown;
@@ -47,7 +44,7 @@ export async function POST(request: Request) {
   }
 
   if (body.policy.mode === "durable-managed") {
-    if (getConfiguredProvider() !== "sqlite") {
+    if (getConfiguredPersistenceProvider() !== "sqlite") {
       return json({ status: "blocked", provider: "process-memory", durability: "durable-managed", errors: ["Durable progression storage is not enabled for this deployment."] }, 423);
     }
     if (process.env.LIVING_TEXTBOOK_PERSISTENCE_ALLOW_DURABLE_WRITES !== "true") {
@@ -62,8 +59,9 @@ export async function POST(request: Request) {
     }
 
     try {
+      const adapter = getProgressionPersistenceAdapter();
       const record = createHostedProgressionPersistenceRecord({ request: body, writtenAt: new Date().toISOString() });
-      const result = getDurableProgressionStore().write(record);
+      const result = adapter.write(record);
       if (result.status === "conflict") return json({ status: "conflict", provider: "sqlite", durability: "durable-managed", errors: result.errors }, 409);
       return json({ status: "accepted", provider: "sqlite", durability: "durable-managed", idempotent: result.idempotent, record: result.record });
     } catch {
@@ -75,11 +73,11 @@ export async function POST(request: Request) {
     return json({ status: "blocked", provider: "process-memory", durability: "non-durable-rehearsal", errors: ["Hosted progression rehearsal writes are disabled by default. Enable the explicit development policy gate before writing."] }, 423);
   }
 
+  const adapter = getProgressionPersistenceAdapter();
   const record = createHostedProgressionPersistenceRecord({ request: body, writtenAt: new Date().toISOString() });
-  const existing = rehearsalStore.get(record.idempotencyKey);
-  if (existing) return json({ status: "accepted", provider: "process-memory", durability: "non-durable-rehearsal", idempotent: true, record: existing });
-  rehearsalStore.set(record.idempotencyKey, record);
-  return json({ status: "accepted", provider: "process-memory", durability: "non-durable-rehearsal", idempotent: false, record });
+  const result = adapter.write(record);
+  if (result.status === "conflict") return json({ status: "conflict", provider: adapter.provider, durability: adapter.durability, errors: result.errors }, 409);
+  return json({ status: "accepted", provider: adapter.provider, durability: adapter.durability, idempotent: result.idempotent, record: result.record });
 }
 
 export function GET(request: Request) {
@@ -94,8 +92,8 @@ export function GET(request: Request) {
   if (accessMode !== "student-continuity" && accessMode !== "teacher-review-probe") {
     return json({
       status: "unauthorized",
-      provider: getConfiguredProvider(),
-      durability: getConfiguredProvider() === "sqlite" ? "durable-managed" : "non-durable-rehearsal",
+      provider: getConfiguredPersistenceProvider(),
+      durability: getConfiguredPersistenceProvider() === "sqlite" ? "durable-managed" : "non-durable-rehearsal",
       errors: ["Hosted progression reads require an explicit access purpose."],
       privacy: "No progression record is returned without a signed learner session or tenant-scoped teacher review session.",
     }, 401);
@@ -103,8 +101,8 @@ export function GET(request: Request) {
   if (accessMode === "teacher-review-probe" && !hasTeacherOperationsReadAuthorization(request, lookup.tenantId)) {
     return json({
       status: "unauthorized",
-      provider: getConfiguredProvider(),
-      durability: getConfiguredProvider() === "sqlite" ? "durable-managed" : "non-durable-rehearsal",
+      provider: getConfiguredPersistenceProvider(),
+      durability: getConfiguredPersistenceProvider() === "sqlite" ? "durable-managed" : "non-durable-rehearsal",
       errors: ["Teacher-scoped authorization is required for the hosted progression review probe."],
       privacy: "No progression record is returned without a tenant-scoped teacher review session.",
     }, 401);
@@ -112,18 +110,19 @@ export function GET(request: Request) {
   if (accessMode === "student-continuity" && !hasPersistenceReadAuthorization(request, lookup)) {
     return json({
       status: "unauthorized",
-      provider: getConfiguredProvider(),
-      durability: getConfiguredProvider() === "sqlite" ? "durable-managed" : "non-durable-rehearsal",
+      provider: getConfiguredPersistenceProvider(),
+      durability: getConfiguredPersistenceProvider() === "sqlite" ? "durable-managed" : "non-durable-rehearsal",
       errors: ["A matching signed student session or server-side persistence authorization is required for this progression read."],
       privacy: "No progression record is returned without a matching tenant-scoped learner session.",
     }, 401);
   }
-  const provider = getConfiguredProvider();
+  const provider = getConfiguredPersistenceProvider();
 
   if (provider === "sqlite") {
     try {
       if (!hasPersistenceReadAuthorization(request, lookup)) return json({ status: "unauthorized", provider: "sqlite", durability: "durable-managed", errors: ["Durable progression reads require a matching signed student session or server-side persistence authorization."] }, 401);
-      const record = getDurableProgressionStore().read(lookup);
+      const adapter = getProgressionPersistenceAdapter();
+      const record = adapter.read(lookup);
       if (!record) return json({ status: "not-found", provider: "sqlite", durability: "durable-managed", errors: ["No durable progression record was found for this coded identity."] }, 404);
       return validateAndRespond(lookup, record, "sqlite", "durable-managed");
     } catch {
@@ -131,13 +130,8 @@ export function GET(request: Request) {
     }
   }
 
-  const record = [...rehearsalStore.values()].find((candidate) =>
-    candidate.tenantId === lookup.tenantId
-      && candidate.packageId === lookup.packageId
-      && candidate.launchCode === lookup.launchCode
-      && candidate.studentSessionId === lookup.studentSessionId,
-  );
-  return validateAndRespond(lookup, record, "process-memory", "non-durable-rehearsal");
+  const adapter = getProgressionPersistenceAdapter();
+  return validateAndRespond(lookup, adapter.read(lookup), adapter.provider, adapter.durability);
 }
 
 function validateAndRespond(
@@ -149,10 +143,6 @@ function validateAndRespond(
   const validation = validateHostedProgressionPersistenceRead(lookup, record);
   if (!validation.valid) return json({ status: "not-found", provider, durability, errors: validation.errors }, 404);
   return json({ status: "available", provider, durability, record });
-}
-
-function getConfiguredProvider(): PersistenceProvider {
-  return process.env.LIVING_TEXTBOOK_PERSISTENCE_PROVIDER === "sqlite" ? "sqlite" : "process-memory";
 }
 
 function getServerOwnedPolicy(mode: HostedProgressionPersistenceClientWriteRequest["requestedMode"]) {

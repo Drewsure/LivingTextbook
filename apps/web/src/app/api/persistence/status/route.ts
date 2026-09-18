@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getDurableOperationsPolicySnapshot } from "@/server/persistence/sqliteProgressionOperations";
 import { getDurableProgressionStore } from "@/server/persistence/sqliteProgressionStore";
 import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
+import { getConfiguredPersistenceProvider } from "@/server/persistence/progressionPersistenceAdapter";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -15,7 +16,7 @@ export function GET(request: Request) {
       privacy: "Provider, deployment configuration, database paths, learner records, and operation evidence are withheld until tenant-scoped teacher review authorization is present.",
     }, { status: 401, headers: { "Cache-Control": "no-store" } });
   }
-  const provider = process.env.LIVING_TEXTBOOK_PERSISTENCE_PROVIDER === "sqlite" ? "sqlite" : "process-memory";
+  const provider = getConfiguredPersistenceProvider();
   const durable = provider === "sqlite";
   const policy = getDurableOperationsPolicySnapshot();
   const health = durable

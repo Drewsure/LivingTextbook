@@ -23,6 +23,7 @@ const model = readSource("packages/content-model/src/hostedProgressionPersistenc
 const modelIndex = readSource("packages/content-model/src/index.ts");
 const handoffStore = readSource("apps/web/src/features/persistence/progressionHandoffStore.ts");
 const hostedRoute = readSource("apps/web/src/app/api/persistence/progression/route.ts");
+const persistenceAdapter = readSource("apps/web/src/server/persistence/progressionPersistenceAdapter.ts");
 const hostedClient = readSource("apps/web/src/features/persistence/hostedProgressionPersistenceClient.ts");
 const hostedPanel = readSource("apps/web/src/features/persistence/HostedProgressionAdapterPanel.tsx");
 const launchFlow = readSource("apps/web/src/features/student/StudentLaunchFlow.tsx");
@@ -52,7 +53,12 @@ requireFragments("hosted progression API", hostedRoute, [
   "export function GET",
   "LIVING_TEXTBOOK_HOSTED_PERSISTENCE_REHEARSAL",
   "status: \"blocked\"",
+  "getProgressionPersistenceAdapter",
+]);
+requireFragments("hosted progression adapter", persistenceAdapter, [
   "__livingTextbookHostedProgressionRehearsal",
+  "processMemoryAdapter",
+  "getProgressionPersistenceAdapter",
 ]);
 requireFragments("hosted read probe", hostedClient, ["method: \"GET\"", "cache: \"no-store\"", "status: \"not-found\""]);
 requireFragments("hosted read probe panel", hostedPanel, ["Check read path", "without writing learner data", "Non-durable rehearsal"]);

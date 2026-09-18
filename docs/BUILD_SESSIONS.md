@@ -3431,3 +3431,11 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Preserved the separation between opt-in durable SQLite storage and the
   non-durable process-memory rehearsal path.
 - Added a standing verification checklist and recorded ADR 0847 and DR-919.
+
+## Build session 0848: Provider-neutral persistence adapter seam
+
+- Moved process-memory rehearsal and SQLite progression selection behind one
+  server-only adapter boundary.
+- Kept provider selection, durable writes, identity authorization, and policy
+  gates outside browser-controlled request data.
+- Added adapter seam verification and recorded ADR 0848 and DR-920.

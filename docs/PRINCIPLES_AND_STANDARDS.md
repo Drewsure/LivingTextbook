@@ -4130,3 +4130,19 @@ and `docs/adr/0846-package-readiness-backend-mapping.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-919,
 `docs/decision-register/DR-919-foundation-durable-persistence-gate.md`,
 and `docs/adr/0847-foundation-durable-persistence-gate.md`.
+
+## 263. Provider-Neutral Persistence Adapter Standard
+
+- Browser routes must depend on a provider-neutral persistence adapter, never
+  on a concrete database implementation.
+- Provider selection and durability are server-owned deployment concerns.
+- Process-memory rehearsal and durable SQLite/local storage must preserve the
+  same tenant, identity, idempotency, and validation contract.
+- A future hosted provider must replace the adapter implementation without
+  changing content, scoring, audio, QR, progression, or reporting contracts.
+- Provider credentials, database paths, and storage-specific details must never
+  be returned to student-facing browser clients.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-920,
+`docs/decision-register/DR-920-provider-neutral-persistence-adapter-seam.md`,
+and `docs/adr/0848-provider-neutral-persistence-adapter-seam.md`.

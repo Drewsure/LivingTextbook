@@ -23,6 +23,9 @@ execFileSync(process.execPath, [fileURLToPath(new URL("./verify-durable-progress
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-teacher-operations-authorization.mjs", import.meta.url))], {
   stdio: "inherit",
 });
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-persistence-adapter-seam.mjs", import.meta.url))], {
+  stdio: "inherit",
+});
 
 const packageJson = JSON.parse(readFileSync(new URL("../package.json", import.meta.url), "utf8"));
 const scripts = packageJson.scripts ?? {};

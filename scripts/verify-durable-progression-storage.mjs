@@ -20,6 +20,7 @@ function requireFragments(label, source, fragments) {
 }
 
 const route = read("apps/web/src/app/api/persistence/progression/route.ts");
+const adapter = read("apps/web/src/server/persistence/progressionPersistenceAdapter.ts");
 const store = read("apps/web/src/server/persistence/sqliteProgressionStore.ts");
 const model = read("packages/content-model/src/hostedProgressionPersistence.ts");
 const client = read("apps/web/src/features/persistence/hostedProgressionPersistenceClient.ts");
@@ -55,17 +56,21 @@ requireFragments("durable model", model, [
 requireFragments("persistence route", route, [
   'runtime = "nodejs"',
   'dynamic = "force-dynamic"',
-  "LIVING_TEXTBOOK_PERSISTENCE_PROVIDER",
   "LIVING_TEXTBOOK_PERSISTENCE_ALLOW_DURABLE_WRITES",
   "LIVING_TEXTBOOK_PERSISTENCE_SCHOOL_POLICY_ACCEPTED",
   "LIVING_TEXTBOOK_PERSISTENCE_RETENTION_POLICY_ACCEPTED",
   "LIVING_TEXTBOOK_PERSISTENCE_RELEASE_APPROVED",
   "LIVING_TEXTBOOK_PERSISTENCE_API_TOKEN",
-  "getDurableProgressionStore().write(record)",
-  "getDurableProgressionStore().read(lookup)",
+  "getProgressionPersistenceAdapter",
   "hasPersistenceWriteAuthorization",
   "hasPersistenceReadAuthorization",
   "Cache-Control",
+]);
+requireFragments("persistence adapter", adapter, [
+  "LIVING_TEXTBOOK_PERSISTENCE_PROVIDER",
+  "getDurableProgressionStore",
+  "write: (record) => store.write(record)",
+  "read: (identity) => store.read(identity)",
 ]);
 
 requireFragments("persistence client", client, ["provider", '"durable-managed"', '"no-store"']);
