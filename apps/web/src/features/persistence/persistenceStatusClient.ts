@@ -1,5 +1,5 @@
 export interface PersistenceStatusResult {
-  status: "healthy" | "blocked" | "rehearsal" | "error";
+  status: "healthy" | "blocked" | "rehearsal" | "unauthorized" | "error";
   provider?: "process-memory" | "sqlite";
   durability?: "non-durable-rehearsal" | "durable-managed";
   healthy?: boolean;
@@ -23,9 +23,9 @@ export interface PersistenceStatusResult {
   privacy?: string;
 }
 
-export async function readPersistenceStatus(): Promise<PersistenceStatusResult> {
+export async function readPersistenceStatus(tenantId: string): Promise<PersistenceStatusResult> {
   try {
-    const response = await fetch("/api/persistence/status", { method: "GET", cache: "no-store" });
+    const response = await fetch(`/api/persistence/status?tenantId=${encodeURIComponent(tenantId)}`, { method: "GET", credentials: "same-origin", cache: "no-store" });
     const body = await response.json() as Omit<PersistenceStatusResult, "status"> & { status?: PersistenceStatusResult["status"] };
     return {
       status: body.status ?? (response.ok ? "healthy" : "error"),

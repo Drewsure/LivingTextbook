@@ -102,7 +102,7 @@ export default function TeacherPersistencePage() {
             accessMode: "teacher-review-probe",
           }}
         />
-        <PersistenceOperationsStatusPanel />
+        <PersistenceOperationsStatusPanel tenantId={samplePublisherTenant.id} />
         <TeacherOperationsAccessPanel tenantId={samplePublisherTenant.id} />
         <PersistenceOperationsEvidencePanel tenantId={samplePublisherTenant.id} />
         <PersistenceBoundaryPanel

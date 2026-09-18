@@ -16,6 +16,8 @@ the teacher workbench's adapter probe useful and read-only.
 - Unauthorized responses do not disclose record existence.
 - Browser clients render unauthorized, no-record, and unavailable results as
   distinct states.
+- Persistence status diagnostics require the same tenant-scoped teacher review
+  authorization and withhold deployment details from unauthorized callers.
 - The rule applies equally to process-memory rehearsal and durable SQLite.
 
 ## Verification command

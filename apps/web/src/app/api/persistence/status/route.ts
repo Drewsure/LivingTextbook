@@ -1,11 +1,20 @@
 import { NextResponse } from "next/server";
 import { getDurableOperationsPolicySnapshot } from "@/server/persistence/sqliteProgressionOperations";
 import { getDurableProgressionStore } from "@/server/persistence/sqliteProgressionStore";
+import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-export function GET() {
+export function GET(request: Request) {
+  const tenantId = new URL(request.url).searchParams.get("tenantId")?.trim() ?? "";
+  if (!tenantId || !hasTeacherOperationsReadAuthorization(request, tenantId)) {
+    return NextResponse.json({
+      status: "unauthorized",
+      errors: ["Teacher-scoped authorization is required to inspect persistence operations status."],
+      privacy: "Provider, deployment configuration, database paths, learner records, and operation evidence are withheld until tenant-scoped teacher review authorization is present.",
+    }, { status: 401, headers: { "Cache-Control": "no-store" } });
+  }
   const provider = process.env.LIVING_TEXTBOOK_PERSISTENCE_PROVIDER === "sqlite" ? "sqlite" : "process-memory";
   const durable = provider === "sqlite";
   const policy = getDurableOperationsPolicySnapshot();

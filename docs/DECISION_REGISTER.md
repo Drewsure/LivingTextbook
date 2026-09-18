@@ -5499,3 +5499,26 @@ queried.
 
 See ADR 0829 and
 `docs/verification/PERSISTENCE_READ_AUTHORIZATION_CHECKS.md`.
+
+# DR-902: Persistence Operations Diagnostics Authorization
+
+## Decision
+
+Protect the persistence status endpoint with the same tenant-scoped teacher
+review boundary used by operation history and hosted adapter review.
+
+## Included
+
+- Explicit tenant query identity.
+- Expiring teacher-session authorization before provider or deployment
+  diagnostics are read.
+- Privacy-safe unauthorized responses and a distinct protected state in the
+  teacher client.
+
+## Excluded
+
+- Backup, restore, deletion, export, durable writes, classroom launch, or
+  provider selection.
+
+See ADR 0830 and
+`docs/verification/PERSISTENCE_READ_AUTHORIZATION_CHECKS.md`.

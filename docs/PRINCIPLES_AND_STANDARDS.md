@@ -3818,3 +3818,22 @@ and `docs/adr/0828-server-owned-persistence-policy.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-901,
 `docs/decision-register/DR-901-hosted-persistence-read-authorization.md`,
 and `docs/adr/0829-hosted-persistence-read-authorization.md`.
+
+## 245. Persistence Operations Diagnostics Authorization Standard
+
+- Provider, schema, journal, retention, session-boundary, and evidence-chain
+  diagnostics are teacher operations data and must not be publicly probeable.
+- The status endpoint requires an explicit tenant identifier and the same
+  expiring tenant-scoped teacher review session used by operation history and
+  hosted adapter review.
+- Unauthorized status responses must withhold provider selection, deployment
+  configuration, database paths, learner records, and operation evidence.
+- The teacher persistence workbench may render protected status before sign-in,
+  but it must not label the deployment healthy, blocked, or rehearsal until an
+  authorized response is received.
+- This boundary is diagnostics-only: it does not enable backup, restore,
+  deletion, export, durable writes, classroom launch, or provider selection.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-902,
+`docs/decision-register/DR-902-persistence-operations-diagnostics-authorization.md`,
+and `docs/adr/0830-persistence-operations-diagnostics-authorization.md`.

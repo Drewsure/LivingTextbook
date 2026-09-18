@@ -20,8 +20,11 @@ function requireFragments(label, source, fragments) {
 }
 
 const route = read("apps/web/src/app/api/persistence/progression/route.ts");
+const statusRoute = read("apps/web/src/app/api/persistence/status/route.ts");
 const client = read("apps/web/src/features/persistence/hostedProgressionPersistenceClient.ts");
+const statusClient = read("apps/web/src/features/persistence/persistenceStatusClient.ts");
 const panel = read("apps/web/src/app/teacher/persistence/page.tsx");
+const statusPanel = read("apps/web/src/features/persistence/PersistenceOperationsStatusPanel.tsx");
 const teacherAuth = read("apps/web/src/server/persistence/teacherOperationsAuthorization.ts");
 
 requireFragments("progression read route", route, [
@@ -50,6 +53,22 @@ requireFragments("teacher probe status rendering", read("apps/web/src/features/p
 requireFragments("teacher authorization boundary", teacherAuth, [
   "hasTeacherOperationsReadAuthorization",
   "claims.tenantId === tenantId",
+]);
+requireFragments("persistence status route", statusRoute, [
+  "export function GET(request: Request)",
+  "hasTeacherOperationsReadAuthorization(request, tenantId)",
+  "Teacher-scoped authorization is required to inspect persistence operations status.",
+  "Provider, deployment configuration, database paths, learner records, and operation evidence are withheld",
+]);
+requireFragments("persistence status client", statusClient, [
+  "readPersistenceStatus(tenantId: string)",
+  "encodeURIComponent(tenantId)",
+  'credentials: "same-origin"',
+]);
+requireFragments("persistence status panel", statusPanel, [
+  "tenantId }: { tenantId: string }",
+  'result?.status === "unauthorized" ? "Protected"',
+  "Tenant-scoped review authorization is required.",
 ]);
 
 if (failures.length > 0) {

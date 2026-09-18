@@ -4,18 +4,18 @@ import { useState } from "react";
 import { Card, StatusPill } from "@living-textbook/ui";
 import { readPersistenceStatus, type PersistenceStatusResult } from "./persistenceStatusClient";
 
-export function PersistenceOperationsStatusPanel() {
+export function PersistenceOperationsStatusPanel({ tenantId }: { tenantId: string }) {
   const [result, setResult] = useState<PersistenceStatusResult>();
   const [checking, setChecking] = useState(false);
 
   async function handleCheck() {
     setChecking(true);
-    setResult(await readPersistenceStatus());
+    setResult(await readPersistenceStatus(tenantId));
     setChecking(false);
   }
 
-  const tone = result?.status === "healthy" ? "success" : result?.status === "blocked" || result?.status === "error" ? "warning" : "neutral";
-  const label = checking ? "Checking" : result?.status === "healthy" ? "Healthy" : result?.status === "blocked" ? "Blocked" : result?.status === "rehearsal" ? "Rehearsal" : result ? "Unavailable" : "Not checked";
+  const tone = result?.status === "healthy" ? "success" : result?.status === "blocked" || result?.status === "error" || result?.status === "unauthorized" ? "warning" : "neutral";
+  const label = checking ? "Checking" : result?.status === "healthy" ? "Healthy" : result?.status === "blocked" ? "Blocked" : result?.status === "rehearsal" ? "Rehearsal" : result?.status === "unauthorized" ? "Protected" : result ? "Unavailable" : "Not checked";
 
   return (
     <Card>
@@ -48,12 +48,12 @@ export function PersistenceOperationsStatusPanel() {
         >
           {checking ? "Checking status" : "Check storage status"}
         </button>
-        <span className="text-xs font-semibold text-[var(--tenant-muted)]">GET /api/persistence/status</span>
+        <span className="text-xs font-semibold text-[var(--tenant-muted)]">GET /api/persistence/status?tenantId=...</span>
       </div>
 
       {result ? (
         <div className="mt-4 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3 text-sm" aria-live="polite">
-          <p className="font-bold">{result.status === "healthy" ? "The pilot storage boundary is healthy." : result.status === "rehearsal" ? "The deployment is using non-durable rehearsal storage." : "The pilot storage boundary is not ready for operations."}</p>
+          <p className="font-bold">{result.status === "healthy" ? "The pilot storage boundary is healthy." : result.status === "rehearsal" ? "The deployment is using non-durable rehearsal storage." : result.status === "unauthorized" ? "Tenant-scoped review authorization is required." : "The pilot storage boundary is not ready for operations."}</p>
           {result.operations?.ready ? <p className="mt-1 text-[var(--tenant-muted)]">Backup, restore, and deletion evidence may run only through the gated server-side operations procedure.</p> : null}
           {result.errors.length > 0 ? <p className="mt-1 text-[var(--tenant-muted)]">{result.errors[0]}</p> : null}
           {result.operations?.errors.length ? <p className="mt-1 text-[var(--tenant-muted)]">{result.operations.errors[0]}</p> : null}

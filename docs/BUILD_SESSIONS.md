@@ -3256,3 +3256,15 @@ evidence adapter later records. See ADR 0805 and DR-881.
   verification contract.
 - Kept the teacher client's `protected`, `no record`, and `unavailable` result
   states distinct so a `401` cannot be misread as absent progression.
+
+## Build session 0830: Persistence operations diagnostics authorization
+
+- Required tenant-scoped teacher review authorization before persistence status
+  diagnostics disclose provider, deployment, schema, retention, or evidence
+  state.
+- Added an explicit tenant query to the status client and kept unauthorized
+  status distinct from healthy, blocked, rehearsal, and unavailable states.
+- Preserved the no-live-action boundary for backup, restore, deletion, export,
+  durable writes, and classroom launch.
+- Extended the persistence authorization verifier and recorded ADR 0830 and
+  DR-902.
