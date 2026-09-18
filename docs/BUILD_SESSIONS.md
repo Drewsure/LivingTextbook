@@ -3323,3 +3323,13 @@ evidence adapter later records. See ADR 0805 and DR-881.
   this is a contract rehearsal, not a live reporting backend.
 - Added runtime behavior checks for valid alignment, settings-context drift,
   and tenant-boundary mismatch. Recorded ADR 0835 and DR-907.
+
+## Build session 0836: Teacher report rehearsal surface
+
+- Connected the provider-neutral report persistence rehearsal to the teacher
+  reporting workbench and both tenant report-package preview routes.
+- Reused the hosted pilot intent and durable report record fixtures rather than
+  duplicating safety labels in the UI.
+- Kept the surface read-only with visible review-only, no-side-effect, and live
+  export-blocked states for MiniStar and partner tenants.
+- Extended the active-route checks and recorded ADR 0836 and DR-908.

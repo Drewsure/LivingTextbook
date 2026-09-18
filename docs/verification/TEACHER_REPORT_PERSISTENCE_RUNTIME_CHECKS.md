@@ -11,6 +11,7 @@ considered.
 - `npm run verify:backend-storage`
 - `npm run typecheck --workspace @living-textbook/web`
 - `npm run build --workspace @living-textbook/web -- --webpack`
+- `npm run verify:routes` with the web server running
 
 The runtime harness must prove:
 
@@ -21,6 +22,8 @@ The runtime harness must prove:
 - intent and durable record use the same tenant-boundary key;
 - school or tenant policy, release approval, pseudonymous learner slots, and
   raw-audio/transcript exclusion remain explicit.
+- the teacher reporting workbench and both tenant report-package previews expose
+  the same review-only, no-side-effect, live-export-blocked state.
 
 ## Production boundary
 

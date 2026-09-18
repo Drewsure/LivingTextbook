@@ -10,7 +10,9 @@ import {
 } from "@/data/sampleTeacherSessionMonitor";
 import type { TeacherSessionMonitorContext } from "@living-textbook/content-model";
 import { ClassRosterReadinessPanel } from "@/features/teacher/ClassRosterReadinessPanel";
+import { TeacherReportPersistenceRehearsalPanel } from "@/features/teacher/TeacherReportPersistenceRehearsalPanel";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
+import { resolveSampleTeacherReportPersistenceRehearsal } from "@/data/sampleTeacherReportPersistenceRehearsal";
 
 const reportContexts = [
   resolveSampleTeacherSessionMonitorContext("demo-unit-1"),
@@ -66,7 +68,12 @@ export default function TeacherReportingReadinessPage() {
 
         <div className="grid gap-5">
           {reportContexts.map((context) => (
-            <ReportBoundaryCard key={context.launchSession.launchCode} context={context} />
+            <div key={context.launchSession.launchCode} className="grid gap-5">
+              <ReportBoundaryCard context={context} />
+              <TeacherReportPersistenceRehearsalPanel
+                result={resolveSampleTeacherReportPersistenceRehearsal(context)}
+              />
+            </div>
           ))}
         </div>
 

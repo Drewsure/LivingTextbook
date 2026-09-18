@@ -5523,6 +5523,29 @@ any report package write or export is enabled.
 See ADR 0835 and
 `docs/verification/TEACHER_REPORT_PERSISTENCE_RUNTIME_CHECKS.md`.
 
+# DR-908: Teacher Report Rehearsal Surface
+
+## Decision
+
+Expose the report-persistence rehearsal on teacher reporting and per-session
+report-package review surfaces while keeping all provider, export, policy, and
+release actions blocked.
+
+## Included
+
+- Shared MiniStar and partner tenant component path.
+- Visible contract readiness and blocker summaries.
+- Explicit review-only and no-side-effect states.
+- Active-route verification for both tenant report-package previews.
+
+## Excluded
+
+Write buttons, export controls, provider selection, policy acceptance,
+learner identity promotion, and release mutation.
+
+See ADR 0836 and
+`docs/verification/TEACHER_REPORT_PERSISTENCE_RUNTIME_CHECKS.md`.
+
 # DR-902: Persistence Operations Diagnostics Authorization
 
 ## Decision

@@ -3930,3 +3930,18 @@ and `docs/adr/0834-teacher-operations-runtime-verification.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-907,
 `docs/decision-register/DR-907-teacher-report-persistence-rehearsal.md`,
 and `docs/adr/0835-teacher-report-persistence-rehearsal.md`.
+
+## 251. Teacher Report Rehearsal Surface Standard
+
+- Teacher reporting and per-session report-package routes may expose the
+  provider-neutral rehearsal result, readiness labels, and blockers.
+- The surface must clearly distinguish contract alignment from live readiness;
+  “review-only,” “no side effect,” and “live export blocked” remain visible.
+- The surface must not offer a write, export, provider-selection, learner
+  identity, policy-acceptance, or release-mutation control.
+- MiniStar and partner tenants must use the same component and contract path;
+  only tenant data and policy state may vary.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-908,
+`docs/decision-register/DR-908-teacher-report-rehearsal-surface.md`,
+and `docs/adr/0836-teacher-report-rehearsal-surface.md`.
