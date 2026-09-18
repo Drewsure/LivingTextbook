@@ -4534,3 +4534,25 @@ and `docs/adr/0870-local-media-evidence-binding.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-943,
 `docs/decision-register/DR-943-local-media-manifest-reconciliation.md`,
 and `docs/adr/0871-local-media-manifest-reconciliation.md`.
+
+## 287. Media Release-Control Binding Standard
+
+- The existing package publish gate must consume media reconciliation evidence
+  through an explicit provider-neutral binding; a separate media panel may not
+  become an unofficial release workflow.
+- The binding must compare the reconciliation result with the release gate's
+  tenant and package identity and its media-gate status.
+- Identity or reconciliation mismatch is `blocked`; open rights, checksum,
+  scan, mapping, accessibility, or media-approval evidence is `needs-review`.
+  A media binding may be `evidence-ready` only for release-control review,
+  never as permission to publish.
+- Promotion, student-facing use, local activation, package writing, media
+  release, and QR mutation remain false in every state, with
+  `sideEffect: "none"` and required human approvals visible.
+- Media evidence must be consumed by the existing release-control route and
+  must not create a parallel publish button, assignment action, or package
+  writer shortcut.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-944,
+`docs/decision-register/DR-944-media-release-control-binding.md`,
+and `docs/adr/0872-media-release-control-binding.md`.

@@ -8,6 +8,8 @@ import { PackageApprovalLedgerPanel } from "@/features/pilot/PackageApprovalLedg
 import { PackagePublishGatePanel } from "@/features/pilot/PackagePublishGatePanel";
 import { PilotReleaseCandidatePanel } from "@/features/pilot/PilotReleaseCandidatePanel";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
+import { sampleLocalBundleMediaReleaseControlBinding, sampleLocalBundleMediaReleaseControlBindingErrors } from "@/data/sampleLocalBundleMediaReleaseControlBinding";
+import { MediaReleaseControlBindingPanel } from "@/features/pilot/MediaReleaseControlBindingPanel";
 
 interface TeacherReleaseControlPageProps {
   params: Promise<{
@@ -145,6 +147,10 @@ export default async function TeacherReleaseControlPage({ params }: TeacherRelea
 
         <PilotReleaseCandidatePanel gate={samplePackagePublishGate} ledger={samplePackageApprovalLedger} />
         <PackagePublishGatePanel gate={samplePackagePublishGate} />
+        <MediaReleaseControlBindingPanel
+          binding={sampleLocalBundleMediaReleaseControlBinding}
+          errors={sampleLocalBundleMediaReleaseControlBindingErrors}
+        />
         <PackageApprovalLedgerPanel ledger={samplePackageApprovalLedger} />
       </div>
     </AppShell>

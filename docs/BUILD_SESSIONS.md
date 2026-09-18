@@ -3669,3 +3669,13 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Kept media copy, package writes, local activation, student promotion, and QR
   mutation blocked in every reconciliation state.
 - Added runtime/static verification and recorded ADR 0871 and DR-943.
+
+## Build session 0872: Media release-control binding
+
+- Connected media manifest reconciliation to the existing teacher release-control
+  route through a provider-neutral review binding.
+- Distinguished package/tenant mismatch, open media evidence, and evidence
+  ready for human release review.
+- Kept publish, package write, local activation, student-facing use, media
+  release, and QR mutation blocked with required approvals visible.
+- Added runtime/static verification and recorded ADR 0872 and DR-944.

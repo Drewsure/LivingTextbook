@@ -1,4 +1,6 @@
 import { readFileSync } from "node:fs";
+import { execFileSync } from "node:child_process";
+import { fileURLToPath } from "node:url";
 
 const publishGate = readSource("../apps/web/src/data/samplePackagePublishGate.ts");
 const approvalLedger = readSource("../apps/web/src/data/samplePackageApprovalLedger.ts");
@@ -19,6 +21,9 @@ const schoolLaunchPolicyGate = readSource("../apps/web/src/data/sampleSchoolLaun
 const schoolLaunchPolicyGatePanel = readSource("../apps/web/src/features/pilot/SchoolLaunchPolicyGatePanel.tsx");
 const schoolPolicyAcceptancePreflight = readSource("../apps/web/src/data/sampleSchoolPolicyAcceptancePreflight.ts");
 const schoolPolicyAcceptancePreflightPanel = readSource("../apps/web/src/features/pilot/SchoolPolicyAcceptancePreflightPanel.tsx");
+const mediaReleaseControlBinding = readSource("../packages/content-model/src/localBundleMediaReleaseControlBinding.ts");
+const mediaReleaseControlPanel = readSource("../apps/web/src/features/pilot/MediaReleaseControlBindingPanel.tsx");
+const releaseControlPage = readSource("../apps/web/src/app/teacher/release-control/[tenantId]/page.tsx");
 const schoolPolicyTextPack = readSource("../apps/web/src/data/sampleSchoolPolicyTextPack.ts");
 const schoolPolicyTextPackPanel = readSource("../apps/web/src/features/pilot/SchoolPolicyTextPackPanel.tsx");
 const schoolPolicyAcceptanceRecordPreview = readSource("../apps/web/src/data/sampleSchoolPolicyAcceptanceRecordPreview.ts");
@@ -191,6 +196,10 @@ requireText(schoolPolicyAcceptancePreflight, "Authenticated school approver", "S
 requireText(schoolPolicyAcceptancePreflight, "Policy text and scope", "School policy acceptance preflight must require policy text and scope.");
 requireText(schoolPolicyAcceptancePreflight, "Evidence packet and attachment readiness", "School policy acceptance preflight must require evidence and attachment readiness.");
 requireText(schoolPolicyAcceptancePreflight, "Release-control binding", "School policy acceptance preflight must require release-control binding.");
+requireText(mediaReleaseControlBinding, "deriveLocalBundleMediaReleaseControlBinding", "Release control must derive media status from the manifest reconciliation.");
+requireText(mediaReleaseControlBinding, "promotionAllowed: false", "Media release-control binding must keep promotion blocked.");
+requireText(mediaReleaseControlPanel, "Media evidence feeds the publish decision", "Release-control page must show media evidence binding.");
+requireText(releaseControlPage, "sampleLocalBundleMediaReleaseControlBinding", "Release-control page must render media release-control evidence.");
 requireText(schoolPolicyAcceptancePreflight, "Child safety and progression boundaries", "School policy acceptance preflight must preserve child safety and progression boundaries.");
 requireText(schoolPolicyAcceptancePreflight, "Hosted, local, and rollback readiness", "School policy acceptance preflight must require deployment readiness.");
 requireText(schoolPolicyAcceptancePreflight, "No accept button", "School policy acceptance preflight must block accept button behavior.");
@@ -366,6 +375,10 @@ requireText(routeVerifier, "No report export enablement", "Active route verifier
 requireText(routeVerifier, "Maintenance guard active", "Active route verifier must keep publisher maintenance guard visible.");
 requireText(routeVerifier, "Maintenance guard blocks", "Active route verifier must keep publisher maintenance guard blocks visible.");
 requireText(routeVerifier, "Maintenance guard warnings", "Active route verifier must keep publisher maintenance guard warnings visible.");
+
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-local-bundle-media-release-control-binding.mjs", import.meta.url))], {
+  stdio: "inherit",
+});
 
 if (failures.length > 0) {
   for (const failure of failures) {

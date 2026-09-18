@@ -6395,3 +6395,30 @@ copy or activation.
 - `apps/web/src/data/sampleLocalBundleMediaManifestReconciliation.ts`
 - `apps/web/src/features/persistence/LocalBundleMediaManifestReconciliationPanel.tsx`
 - `scripts/verify-local-bundle-media-manifest-reconciliation.mjs`
+
+# DR-944: Media Release-Control Binding
+
+## Decision
+
+Feed provider-neutral media manifest reconciliation into the existing package
+publish gate through an explicit review-only binding. The binding is evidence
+for release control, not a release operation.
+
+## Required Invariants
+
+- Release-gate tenant and package identity must match the reconciled media
+  evidence identity.
+- Reconciliation mismatch is blocked; open media evidence or an open media
+  publish gate is needs-review; evidence-ready means ready for human review
+  only.
+- Promotion, student-facing use, local activation, package writes, media
+  release, and QR mutation remain false with no side effect.
+- Required media and package approvals remain visible and cannot be bypassed
+  by the binding or by a future package writer.
+
+## Evidence
+
+- `packages/content-model/src/localBundleMediaReleaseControlBinding.ts`
+- `apps/web/src/data/sampleLocalBundleMediaReleaseControlBinding.ts`
+- `apps/web/src/features/pilot/MediaReleaseControlBindingPanel.tsx`
+- `scripts/verify-local-bundle-media-release-control-binding.mjs`

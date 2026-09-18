@@ -1726,4 +1726,5 @@ export * from "./localBundleExportRetentionDryRun";
 export * from "./localBundlePackageManifestRollbackDryRun";
 export * from "./localBundleMediaEvidenceBinding";
 export * from "./localBundleMediaManifestReconciliation";
+export * from "./localBundleMediaReleaseControlBinding";
 export * from "./localBundleRuntime";
