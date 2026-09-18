@@ -3571,3 +3571,12 @@ evidence adapter later records. See ADR 0805 and DR-881.
   student-promotion, and hosted-redirect-mutation blockers.
 - Added a drift verifier across all three backend planning layers.
 - Recorded ADR 0861 and DR-933.
+
+## Build session 0862: Local bundle persistence admission preview
+
+- Joined local handoff evidence to the provider-neutral persistence handoff
+  through a typed review-only admission preview.
+- Added local companion handoff and release-gate records to the canonical
+  tenant-bound persistence category list.
+- Added runtime coverage for valid coverage and blocked durable-write paths.
+- Recorded ADR 0862 and DR-934.

@@ -3,6 +3,7 @@ import { sampleLocalBundleManifests } from "@/data/sampleLocalBundlePlan";
 import { sampleLocalCompanionReleaseGate, sampleLocalDeploymentPreflightPlan } from "@/data/sampleLocalDeploymentPreflight";
 import { sampleMediaBundleIntegrityPlan } from "@/data/sampleMediaBundleIntegrity";
 import { samplePwaOfflineReadinessGate } from "@/data/samplePwaOfflineReadiness";
+import { samplePersistenceHandoffPacket } from "@/data/samplePersistenceHandoffPacket";
 import { LocalCompanionPackagePreviewPanel } from "@/features/deployment/LocalCompanionPackagePreviewPanel";
 import { MediaBundleIntegrityPanel } from "@/features/deployment/MediaBundleIntegrityPanel";
 import { PwaOfflineReadinessPanel } from "@/features/deployment/PwaOfflineReadinessPanel";
@@ -25,6 +26,7 @@ export default function SamplePublisherLocalCompanionPage() {
           tenantId={samplePublisherTenant.id}
           preflight={sampleLocalDeploymentPreflightPlan}
           releaseGate={sampleLocalCompanionReleaseGate}
+          persistencePacket={samplePersistenceHandoffPacket}
         />
       </div>
     </AppShell>

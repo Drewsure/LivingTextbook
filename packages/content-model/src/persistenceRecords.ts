@@ -161,6 +161,8 @@ export const TENANT_BOUND_PERSISTENCE_RECORD_CATEGORIES: PersistenceRecordCatego
   "progression-continuity",
   "teacher-report-package",
   "package-readiness-reconciliation",
+  "local-companion-handoff",
+  "local-companion-release-gate",
   ...TENANT_BOUND_PROTOTYPE_RECORD_CATEGORIES,
 ];
 

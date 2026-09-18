@@ -1716,4 +1716,5 @@ export * from "./teacherAssignment";
 export * from "./localBundleManifest";
 export * from "./localBundleAssetEvidence";
 export * from "./localBundleHandoff";
+export * from "./localBundleHandoffPersistence";
 export * from "./localBundleRuntime";

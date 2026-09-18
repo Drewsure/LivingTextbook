@@ -4343,3 +4343,21 @@ and `docs/adr/0860-review-only-local-bundle-handoff-packet.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-933,
 `docs/decision-register/DR-933-local-bundle-handoff-storage-alignment.md`,
 and `docs/adr/0861-local-bundle-handoff-storage-alignment.md`.
+
+## 277. Local Bundle Persistence Admission Standard
+
+- Local companion handoff evidence must pass a shared admission preview before
+  a future hosted or local persistence adapter can be designed against it.
+- `local-companion-handoff` and `local-companion-release-gate` are
+  tenant-bound persistence categories and must have durable-record, hosted,
+  and local intent coverage.
+- The admission preview must keep provider selection null and durable write,
+  package write, offline activation, student promotion, and hosted redirect
+  mutation explicitly false.
+- A passing preview proves contract coverage only; it never authorizes a
+  database write, package export, installer, offline activation, or student
+  promotion.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-934,
+`docs/decision-register/DR-934-local-bundle-persistence-admission-preview.md`,
+and `docs/adr/0862-local-bundle-persistence-admission-preview.md`.

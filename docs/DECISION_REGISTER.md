@@ -6144,3 +6144,25 @@ must pass before any future persistence adapter is implemented.
 
 See ADR 0861 and
 `docs/decision-register/DR-933-local-bundle-handoff-storage-alignment.md`.
+
+# DR-934: Local Bundle Persistence Admission Preview
+
+## Decision
+
+Join local bundle handoff evidence to the shared provider-neutral persistence
+handoff through a typed, review-only admission preview.
+
+## Required Invariants
+
+The local handoff and persistence packets must validate; local companion
+handoff coverage must be durable, hosted, and local; provider selection must
+remain null; and durable write, package write, offline activation, student
+promotion, and hosted redirect mutation must remain false.
+
+## Verification
+
+The admission runtime verifier is included in local bundle readiness and the
+full foundation gate.
+
+See ADR 0862 and
+`docs/decision-register/DR-934-local-bundle-persistence-admission-preview.md`.

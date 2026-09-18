@@ -336,6 +336,9 @@ execFileSync(process.execPath, [fileURLToPath(new URL("./verify-local-bundle-han
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-local-bundle-handoff-storage.mjs", import.meta.url))], {
   stdio: "inherit",
 });
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-local-bundle-persistence-admission.mjs", import.meta.url))], {
+  stdio: "inherit",
+});
 
 function readSource(relativePath) {
   return readFileSync(new URL(relativePath, import.meta.url), "utf8");

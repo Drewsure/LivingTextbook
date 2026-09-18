@@ -15,14 +15,18 @@ import type {
 } from "@/data/sampleLocalDeploymentPreflight";
 import { countLocalCompanionReleaseGateItems, countLocalDeploymentChecks } from "@/data/sampleLocalDeploymentPreflight";
 import { buildLocalBundleHandoffPacket } from "@/data/localBundleHandoff";
+import { buildLocalBundleHandoffPersistencePreview } from "@/data/localBundleHandoffPersistence";
 import { LocalBundleResolutionPanel } from "./LocalBundleResolutionPanel";
 import { LocalBundleAssetEvidencePanel } from "./LocalBundleAssetEvidencePanel";
+import { LocalBundleHandoffPersistencePanel } from "./LocalBundleHandoffPersistencePanel";
+import type { PersistenceHandoffPacket } from "@living-textbook/content-model";
 
 interface LocalCompanionPackagePreviewPanelProps {
   manifest: LocalBundleManifestSummary;
   tenantId: string;
   preflight: LocalDeploymentPreflightPlan;
   releaseGate: LocalCompanionReleaseGate;
+  persistencePacket: PersistenceHandoffPacket;
 }
 
 const readinessTone: Record<LocalBundleReadiness, "neutral" | "success" | "warning"> = {
@@ -61,7 +65,7 @@ const artifactTone: Record<LocalCompanionArtifactStatus, "neutral" | "success" |
   ready: "success",
 };
 
-export function LocalCompanionPackagePreviewPanel({ manifest, tenantId, preflight, releaseGate }: LocalCompanionPackagePreviewPanelProps) {
+export function LocalCompanionPackagePreviewPanel({ manifest, tenantId, preflight, releaseGate, persistencePacket }: LocalCompanionPackagePreviewPanelProps) {
   const blockedCount = countLocalDeploymentChecks(preflight, "blocked");
   const warningCount = countLocalDeploymentChecks(preflight, "warning");
   const releaseBlockedCount = countLocalCompanionReleaseGateItems(releaseGate, "blocked");
@@ -82,6 +86,10 @@ export function LocalCompanionPackagePreviewPanel({ manifest, tenantId, prefligh
     routeResolutionReady: manifest.routes.length > 0,
     releaseBlockedCount,
     preflightBlockedCount: blockedCount,
+  });
+  const persistenceAdmission = buildLocalBundleHandoffPersistencePreview({
+    handoffPacket: handoff.packet,
+    persistencePacket,
   });
 
   return (
@@ -112,6 +120,8 @@ export function LocalCompanionPackagePreviewPanel({ manifest, tenantId, prefligh
       <LocalBundleAssetEvidencePanel manifest={manifest} />
 
       <LocalBundleHandoffPacketPanel packet={handoff.packet} errors={handoff.errors} />
+
+      <LocalBundleHandoffPersistencePanel preview={persistenceAdmission.preview} errors={[...handoff.errors, ...persistenceAdmission.errors]} />
 
       <Card>
         <div className="flex flex-wrap items-start justify-between gap-4">

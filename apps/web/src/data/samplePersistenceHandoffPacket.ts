@@ -10,6 +10,10 @@ import {
 } from "@living-textbook/content-model";
 import type { PilotBackendSelectionGate } from "./samplePilotBackendSelectionGate";
 import { validatePersistenceHandoffPacket } from "@living-textbook/content-model";
+import { samplePersistenceAdapterPlans } from "./samplePersistenceAdapterPlan";
+import { samplePersistenceContractAlignmentErrors } from "./samplePersistenceContractAlignment";
+import { sampleDurableRecordContracts } from "./samplePersistencePlan";
+import { samplePilotBackendSelectionGate } from "./samplePilotBackendSelectionGate";
 
 export type {
   PersistenceHandoffCategoryCoverage,
@@ -92,3 +96,12 @@ export function buildPersistenceHandoffPacket({
     })),
   };
 }
+
+export const samplePersistenceHandoffPacket = buildPersistenceHandoffPacket({
+  durableRecords: sampleDurableRecordContracts,
+  adapterPlans: samplePersistenceAdapterPlans,
+  alignmentErrors: samplePersistenceContractAlignmentErrors,
+  backendGate: samplePilotBackendSelectionGate,
+});
+
+export const samplePersistenceHandoffPacketErrors = validatePersistenceHandoffPacket(samplePersistenceHandoffPacket);
