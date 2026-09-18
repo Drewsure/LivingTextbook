@@ -55,6 +55,11 @@ try {
     if (adapter.getConfiguredPersistenceProvider() !== "process-memory") {
       failures.push("unsupported provider must not select a non-rehearsal provider");
     }
+    assertThrows(
+      () => adapter.getProgressionPersistenceAdapter(),
+      "Unsupported persistence provider configuration: cloud-postgres. Use process-memory or sqlite.",
+      "adapter factory fail-closed",
+    );
   } finally {
     if (original === undefined) delete process.env.LIVING_TEXTBOOK_PERSISTENCE_PROVIDER;
     else process.env.LIVING_TEXTBOOK_PERSISTENCE_PROVIDER = original;
@@ -73,5 +78,16 @@ if (failures.length > 0) {
 function assertConfig(actual, expected, label) {
   if (JSON.stringify(actual) !== JSON.stringify(expected)) {
     failures.push(`${label}: expected ${JSON.stringify(expected)}, received ${JSON.stringify(actual)}`);
+  }
+}
+
+function assertThrows(callback, expectedMessage, label) {
+  try {
+    callback();
+    failures.push(`${label}: expected an error`);
+  } catch (error) {
+    if (!(error instanceof Error) || error.message !== expectedMessage) {
+      failures.push(`${label}: expected ${expectedMessage}, received ${error instanceof Error ? error.message : String(error)}`);
+    }
   }
 }

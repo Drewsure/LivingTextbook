@@ -79,7 +79,11 @@ export function getPersistenceProviderConfiguration(): PersistenceProviderConfig
 }
 
 export function getProgressionPersistenceAdapter(): ProgressionPersistenceAdapter {
-  if (getConfiguredPersistenceProvider() === "sqlite") {
+  const configuration = getPersistenceProviderConfiguration();
+  if (!configuration.valid) {
+    throw new Error(configuration.errors.join(" "));
+  }
+  if (configuration.provider === "sqlite") {
     const store = getDurableProgressionStore();
     return {
       provider: "sqlite",
