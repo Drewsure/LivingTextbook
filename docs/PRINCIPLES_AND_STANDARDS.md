@@ -3908,3 +3908,25 @@ and `docs/adr/0833-unauthorized-operations-privacy-parity.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-906,
 `docs/decision-register/DR-906-teacher-operations-runtime-verification.md`,
 and `docs/adr/0834-teacher-operations-runtime-verification.md`.
+
+## 250. Teacher Report Persistence Rehearsal Standard
+
+- A teacher report package must align three contracts before any provider is
+  considered: the validated report request, the tenant-bound persistence write
+  intent, and the durable teacher-report-package record.
+- The aligned contracts must preserve event-acceptance summaries and settings
+  context so a report cannot silently convert rejected, support-only, or
+  differently configured activity into teacher evidence.
+- Core teacher reports remain pseudonymous-slot based and must exclude raw
+  learner audio and transcripts. A report package may describe audio support
+  engagement without storing the source audio or a transcript.
+- The persistence and durable-record tenant boundary keys must match exactly;
+  tenant or launch identity may not be inferred from a browser route alone.
+- The current adapter is review-only and always returns `sideEffect: "none"`.
+  A future hosted or local adapter may not be introduced until policy,
+  release, privacy, retention, export, backup, and tenant-isolation evidence
+  is approved together.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-907,
+`docs/decision-register/DR-907-teacher-report-persistence-rehearsal.md`,
+and `docs/adr/0835-teacher-report-persistence-rehearsal.md`.

@@ -5500,6 +5500,29 @@ queried.
 See ADR 0829 and
 `docs/verification/PERSISTENCE_READ_AUTHORIZATION_CHECKS.md`.
 
+# DR-907: Teacher Report Persistence Rehearsal
+
+## Decision
+
+Join the report runtime contract, the teacher-report-package persistence
+intent, and the durable report record in a provider-neutral rehearsal before
+any report package write or export is enabled.
+
+## Included
+
+- Matching tenant-boundary keys across report persistence layers.
+- Event-acceptance and settings-context preservation.
+- Pseudonymous teacher evidence with raw audio and transcript exclusion.
+- Runtime assertions proving valid alignment and rejecting contract drift.
+
+## Excluded
+
+- Hosted or local report writes, report export, learner identity promotion,
+  report-driven progression, reward mutation, or provider selection.
+
+See ADR 0835 and
+`docs/verification/TEACHER_REPORT_PERSISTENCE_RUNTIME_CHECKS.md`.
+
 # DR-902: Persistence Operations Diagnostics Authorization
 
 ## Decision

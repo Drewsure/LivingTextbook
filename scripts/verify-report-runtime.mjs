@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 
 const runtime = readSource("../packages/content-model/src/reportRuntime.ts");
+const persistenceRuntime = readSource("../packages/content-model/src/teacherReportPersistenceRuntime.ts");
 const failures = [];
 
 for (const marker of [
@@ -12,6 +13,14 @@ for (const marker of [
   "targetLanguage is required and must be non-blank",
   "targetLanguage is required",
   "createReviewOnlyTeacherReportRuntimeAdapter",
+  "TeacherReportPersistenceRuntimeRequest",
+  "createReviewOnlyTeacherReportPersistenceAdapter",
+  "validateTeacherReportPersistenceRuntimeRequest",
+  "No teacher report package write",
+  "No teacher report export",
+  "preservesReportEventAcceptanceSummary",
+  "preservesSettingsContext",
+  "same tenant boundary key",
   "must be a boolean",
   "pseudonymous-slots-only",
   "raw learner audio is excluded from core teacher reports",
@@ -26,7 +35,8 @@ for (const marker of [
   'mode: "review-only"',
   'sideEffect: "none"',
 ]) {
-  if (!runtime.includes(marker)) failures.push(`Report runtime missing marker: ${marker}`);
+  const source = [runtime, persistenceRuntime].join("\n");
+  if (!source.includes(marker)) failures.push(`Report runtime missing marker: ${marker}`);
 }
 
 if (failures.length > 0) {

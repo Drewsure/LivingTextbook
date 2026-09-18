@@ -43,6 +43,7 @@ try {
     "packages/content-model/src/persistenceAdapter.ts",
     "packages/content-model/src/persistenceConsistency.ts",
     "packages/content-model/src/reportRuntime.ts",
+    "packages/content-model/src/teacherReportPersistenceRuntime.ts",
     "packages/content-model/src/aiPrototypeEvidenceAlignment.ts",
     "packages/content-model/src/aiPrototypeReturnedPackageManifest.ts",
     "packages/content-model/src/aiPrototypeReturnedPackageAlignment.ts",
@@ -146,6 +147,7 @@ try {
   const persistenceAdapter = require(join(output, "persistenceAdapter.js"));
   const persistenceConsistency = require(join(output, "persistenceConsistency.js"));
   const report = require(join(output, "reportRuntime.js"));
+  const teacherReportPersistence = require(join(output, "teacherReportPersistenceRuntime.js"));
   const prototypeAlignment = require(join(output, "aiPrototypeEvidenceAlignment.js"));
   const returnedPackageManifest = require(join(output, "aiPrototypeReturnedPackageManifest.js"));
   const returnedPackageAlignment = require(join(output, "aiPrototypeReturnedPackageAlignment.js"));
@@ -1982,6 +1984,98 @@ try {
   assertIncludes(malformedReportFlagErrors, "teacherRoleVerified must be a boolean");
   assertIncludes(malformedReportFlagErrors, "policyAccepted must be a boolean");
   assertIncludes(malformedReportFlagErrors, "exportApproved must be a boolean");
+
+  const reportPersistenceIntent = {
+    intentId: "hosted-teacher-report-package-write",
+    category: "teacher-report-package",
+    label: "Write teacher report package boundaries",
+    readiness: "requires-policy",
+    targetStore: ["hosted-database", "school-policy"],
+    deploymentChannels: ["hosted-web"],
+    requiredBeforePilot: true,
+    containsStudentData: true,
+    requiresSchoolPolicy: true,
+    canRunOffline: false,
+    allowsExport: true,
+    rejectsRawAudio: true,
+    rejectsTranscripts: true,
+    preservesTenantBoundary: true,
+    tenantBoundaryKey: "canonical_unit_key.tenant_id",
+    preservesReportEventAcceptanceSummary: true,
+    preservesSettingsContext: true,
+    note: "Test teacher report persistence intent",
+  };
+  const reportPersistenceRecord = {
+    recordId: "teacher-report-package-record",
+    category: "teacher-report-package",
+    label: "Teacher report package durable record",
+    readiness: "policy-required",
+    sourceOfTruth: "teacher report package persistence contract",
+    requiredBeforePilot: true,
+    containsStudentData: true,
+    containsMediaRights: false,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    recommendedFirstPilotStore: ["hosted-database", "local-classroom-store", "school-policy"],
+    preservesTenantBoundary: true,
+    tenantBoundaryKey: "canonical_unit_key.tenant_id",
+    preservesReportEventAcceptanceSummary: true,
+    preservesSettingsContext: true,
+  };
+  const readyReportRequest = {
+    ...reportRequest,
+    reportPlan: {
+      ...reportRequest.reportPlan,
+      readiness: "ready",
+      policyAccepted: true,
+      persistenceReady: true,
+      excludesRawAudio: true,
+      excludesTranscripts: true,
+      note: "Ready report persistence rehearsal",
+    },
+    taxonomy: registry,
+    eventEnvelopes: [],
+    learnerIdentityMode: "pseudonymous-slots-only",
+    policyAccepted: true,
+    persistenceReady: true,
+    exportApproved: true,
+    releaseApproved: true,
+    includesRawAudio: false,
+    includesTranscripts: false,
+  };
+  const reportPersistenceRequest = {
+    operation: "export",
+    reportRequest: readyReportRequest,
+    persistenceIntent: reportPersistenceIntent,
+    durableRecord: reportPersistenceRecord,
+  };
+  assertEqual(
+    teacherReportPersistence.validateTeacherReportPersistenceRuntimeRequest(reportPersistenceRequest).length,
+    0,
+  );
+  const reportPersistenceDecision = teacherReportPersistence
+    .createReviewOnlyTeacherReportPersistenceAdapter()
+    .execute(reportPersistenceRequest);
+  assertEqual(reportPersistenceDecision.decision.allowed, false);
+  assertEqual(reportPersistenceDecision.decision.reasonCode, "review-only-teacher-report-persistence");
+  assertEqual(reportPersistenceDecision.sideEffect, "none");
+  assertIncludes(reportPersistenceDecision.decision.reasons, "No teacher report package write");
+  assertIncludes(reportPersistenceDecision.decision.reasons, "No teacher report export");
+  assertIncludes(
+    teacherReportPersistence.validateTeacherReportPersistenceRuntimeRequest({
+      ...reportPersistenceRequest,
+      persistenceIntent: { ...reportPersistenceIntent, preservesSettingsContext: false },
+    }),
+    "Teacher report persistence intent must preserve settings context summaries.",
+  );
+  assertIncludes(
+    teacherReportPersistence.validateTeacherReportPersistenceRuntimeRequest({
+      ...reportPersistenceRequest,
+      durableRecord: { ...reportPersistenceRecord, tenantBoundaryKey: "wrong.tenant_id" },
+    }),
+    "Teacher report persistence intent and durable record must use the same tenant boundary key.",
+  );
   const mismatchedReportLaunchErrors = report.validateTeacherReportRuntimeRequest({
     ...reportRequest,
     taxonomy: registry,

@@ -1623,6 +1623,7 @@ export * from "./persistenceRecords";
 export * from "./persistenceConsistency";
 export * from "./persistenceRuntime";
 export * from "./reportRuntime";
+export * from "./teacherReportPersistenceRuntime";
 export * from "./canonicalGameReport";
 export * from "./assetRuntime";
 export * from "./contentPackageRuntime";

@@ -3310,3 +3310,16 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Added an optional second deployment URL for proving immediate cookie
   revocation after tenant allowlist removal.
 - Recorded ADR 0834 and DR-906.
+
+## Build session 0835: Teacher report persistence rehearsal
+
+- Added a provider-neutral, review-only adapter rehearsal joining the teacher
+  report request, tenant-bound persistence write intent, and durable report
+  record contract.
+- Required event-acceptance summaries, settings context summaries, matching
+  tenant boundary keys, school-policy gates, pseudonymous reporting, and raw
+  audio/transcript exclusion across all three layers.
+- Kept report package writes and exports blocked with `sideEffect: "none"`;
+  this is a contract rehearsal, not a live reporting backend.
+- Added runtime behavior checks for valid alignment, settings-context drift,
+  and tenant-boundary mismatch. Recorded ADR 0835 and DR-907.
