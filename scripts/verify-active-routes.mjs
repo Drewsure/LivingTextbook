@@ -2710,6 +2710,9 @@ expectedTextByPath.get("/teacher/persistence")?.push(
   "Provider unselected",
   "Writes blocked",
   "Package readiness persistence intent",
+  "package_readiness_reconciliation",
+  "m106-package-readiness-reconciliation-records",
+  "spec-package-readiness-reconciliation",
   "Evidence refs",
   "Blocked actions:",
 );

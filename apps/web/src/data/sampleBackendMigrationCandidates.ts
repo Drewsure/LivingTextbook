@@ -2656,6 +2656,41 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
       ],
     },
     {
+      migrationId: "m106-package-readiness-reconciliation-records",
+      label: "Package readiness reconciliation records",
+      track: "shared",
+      status: "needs-policy",
+      risk: "high",
+      targetEntities: ["package_readiness_reconciliation"],
+      purpose:
+        "Persist the tenant-scoped metadata join across seven package evidence lanes before a hosted or local adapter can retain reconciliation state.",
+      prerequisites: [
+        "Provider-neutral record shape accepted",
+        "Hosted/local parity accepted",
+        "Retention and export policy accepted",
+        "Authorization and tenant-isolation policy accepted",
+        "Package promotion and student activation guards accepted",
+      ],
+      implementationNotes: [
+        "Keep one reconciliation snapshot tenant-scoped and package/release-candidate scoped.",
+        "Preserve all seven evidence-lane references and the target-language progression rule.",
+        "Keep provider null and write, promotion, route, playlist, assignment, local-bundle, and student activation flags false until later gates pass.",
+        "Use the same metadata shape for hosted pilots and closed local textbook companions.",
+      ],
+      rollbackOrExportNeeds: [
+        "Export reconciliation metadata with release-control evidence only after policy permits.",
+        "Retain superseded reconciliation snapshots for package audit.",
+        "Support local backup and restore without copying raw learner audio or transcripts.",
+      ],
+      notAllowedYet: [
+        "Provider credential storage",
+        "Live database or object-storage writes",
+        "Package promotion",
+        "Route, playlist, assignment, or local-bundle writes",
+        "Student-facing activation",
+      ],
+    },
+    {
       migrationId: "m006-launch-session-settings",
       label: "Teacher launch session and settings records",
       track: "hosted-pilot",

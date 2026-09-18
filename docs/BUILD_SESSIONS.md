@@ -3412,3 +3412,13 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Added a persistence workbench preview, runtime checks, route markers, and a
   standing verification checklist.
 - Recorded ADR 0845 and DR-917.
+
+## Build session 0846: Package readiness backend mapping
+
+- Mapped the seven-lane readiness persistence intent into a provider-neutral
+  backend schema entity, migration candidate, and migration specification.
+- Preserved tenant/package/release-candidate scope, hosted/local metadata
+  parity, and explicit blocked write, promotion, route, playlist, assignment,
+  local-bundle, and student activation guards.
+- Added backend storage readiness and active-route coverage for the mapping.
+- Recorded ADR 0846 and DR-918.

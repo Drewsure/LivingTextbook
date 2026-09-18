@@ -5772,3 +5772,28 @@ student-facing activation.
 
 See ADR 0845 and
 `docs/decision-register/DR-917-package-readiness-persistence-intent.md`.
+
+# DR-918: Package Readiness Backend Mapping
+
+## Decision
+
+Map package-readiness persistence into a provider-neutral schema entity,
+migration candidate, and migration specification before any hosted or local
+storage provider is selected.
+
+## Included
+
+- `package_readiness_reconciliation` schema entity.
+- `m106-package-readiness-reconciliation-records` migration candidate.
+- `spec-package-readiness-reconciliation` migration specification.
+- Tenant/package/release-candidate scope and seven evidence-lane references.
+- Hosted/local metadata parity and progression-authority preservation.
+
+## Excluded
+
+Provider credentials, migration execution, storage writes, package promotion,
+route/playlist/assignment writes, local bundle writes, student activation, raw
+learner audio, transcripts, and student data.
+
+See ADR 0846 and
+`docs/decision-register/DR-918-package-readiness-backend-mapping.md`.

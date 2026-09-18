@@ -114,6 +114,7 @@ const requiredSchemaEntities = [
   "local_companion_release_gate",
   "package_publish_gate",
   "package_approval_ledger",
+  "package_readiness_reconciliation",
   "package_adoption_record_preview",
   "pilot_evidence_packet",
   "reviewer_identity_signature_gate",
@@ -213,6 +214,7 @@ const requiredMigrationCandidates = [
   "m028-local-media-bundle-entries",
   "m005-publish-gate-and-approval-ledger",
   "m097-package-adoption-record-preview-storage",
+  "m106-package-readiness-reconciliation-records",
   "m006-launch-session-settings",
   "m007-progress-event-stream",
   "m013-earned-collection-inventory",
@@ -325,6 +327,7 @@ const requiredMigrationSpecs = [
   "spec-progression-continuity-envelope",
   "spec-earned-collection-inventory",
   "spec-teacher-report-package",
+  "spec-package-readiness-reconciliation",
   "spec-package-adoption-record-preview",
   "spec-publisher-maintenance-change",
   "spec-local-companion-handoff",
@@ -1189,6 +1192,9 @@ requireText(
 );
 requireText(schemaDraft, "package_publish_gate_id", "Backend schema must preserve generated publish package gate ids.");
 requireText(schemaDraft, "package_approval_ledger_id", "Backend schema must preserve generated publish approval ledger ids.");
+requireText(schemaDraft, "package_readiness_reconciliation", "Backend schema must include package readiness reconciliation records.");
+requireText(migrationCandidates, "m106-package-readiness-reconciliation-records", "Backend migration candidates must include package readiness reconciliation records.");
+requireText(migrationSpecs, "spec-package-readiness-reconciliation", "Backend migration specs must include package readiness reconciliation.");
 requireText(schemaDraft, "future_student_route", "Backend schema must preserve preview-only generated student routes.");
 requireText(schemaDraft, "publish_readiness_checks", "Backend schema must preserve generated publish readiness checks.");
 requireText(schemaDraft, "blocked_publish_actions", "Backend schema must preserve generated publish action blocks.");

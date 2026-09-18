@@ -4093,3 +4093,22 @@ and `docs/adr/0844-package-readiness-reconciliation.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-917,
 `docs/decision-register/DR-917-package-readiness-persistence-intent.md`,
 and `docs/adr/0845-package-readiness-persistence-intent.md`.
+
+## 261. Package Readiness Backend Mapping Standard
+
+- Every shared persistence intent must have an explicit provider-neutral schema
+  entity, migration candidate, and migration specification before a provider
+  can be selected.
+- The backend map must preserve tenant/package/release-candidate scope, all
+  required evidence references, hosted/local parity, and the target-language
+  progression rule.
+- A mapped schema is not an executed migration: provider selection, writes,
+  package promotion, route/playlist/assignment changes, local bundle writes,
+  and student activation remain blocked.
+- Release-control records must exclude raw learner audio, transcripts, provider
+  credentials, and student data unless a separate approved policy and storage
+  contract exists.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-918,
+`docs/decision-register/DR-918-package-readiness-backend-mapping.md`,
+and `docs/adr/0846-package-readiness-backend-mapping.md`.
