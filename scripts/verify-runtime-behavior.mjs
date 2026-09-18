@@ -36,6 +36,7 @@ try {
     "packages/content-model/src/sourcePackageAssembly.ts",
     "packages/content-model/src/packageApprovalLedger.ts",
     "packages/content-model/src/packageReadinessReconciliation.ts",
+    "packages/content-model/src/packageReadinessPersistence.ts",
     "packages/content-model/src/releaseRuntime.ts",
     "packages/content-model/src/contentPackageRuntime.ts",
     "packages/content-model/src/launchRuntime.ts",
@@ -144,6 +145,7 @@ try {
   const sourcePackageAssembly = require(join(output, "sourcePackageAssembly.js"));
   const packageApprovalLedger = require(join(output, "packageApprovalLedger.js"));
   const packageReadinessReconciliation = require(join(output, "packageReadinessReconciliation.js"));
+  const packageReadinessPersistence = require(join(output, "packageReadinessPersistence.js"));
   const release = require(join(output, "releaseRuntime.js"));
   const contentPackage = require(join(output, "contentPackageRuntime.js"));
   const launch = require(join(output, "launchRuntime.js"));
@@ -1250,6 +1252,29 @@ try {
       lanes: validPackageReadinessReconciliation.lanes.filter((lane) => lane.laneId !== "target-language-audio"),
     }),
     "Package readiness reconciliation is missing lane: target-language-audio.",
+  );
+
+  const validPackageReadinessPersistenceIntent = packageReadinessPersistence.buildPackageReadinessPersistenceIntent(
+    validPackageReadinessReconciliation,
+    "hosted-database",
+  );
+  assertEqual(
+    packageReadinessPersistence.validatePackageReadinessPersistenceIntent(validPackageReadinessPersistenceIntent).length,
+    0,
+  );
+  assertIncludes(
+    packageReadinessPersistence.validatePackageReadinessPersistenceIntent({
+      ...validPackageReadinessPersistenceIntent,
+      writeAllowed: true,
+    }),
+    "Package readiness persistence intent writeAllowed must remain false.",
+  );
+  assertIncludes(
+    packageReadinessPersistence.validatePackageReadinessPersistenceIntent({
+      ...validPackageReadinessPersistenceIntent,
+      evidenceLaneRefs: { ...validPackageReadinessPersistenceIntent.evidenceLaneRefs, publishGateId: "" },
+    }),
+    "Package readiness persistence intent requires publishGateId.",
   );
 
   const releaseRequest = {

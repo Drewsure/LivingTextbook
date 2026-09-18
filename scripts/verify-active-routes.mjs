@@ -2703,6 +2703,17 @@ expectedTextByPath
   .get("/teacher/policy-handoff/starter-english-level-1-unit-1-2026.1-pilot-candidate-classroom-launch-gate-school-policy-gate-handoff-packet")
   ?.push(...safeFallbackRestorationPreviewExpected);
 
+expectedTextByPath.get("/teacher/persistence")?.push(
+  "Package evidence persistence",
+  "Tenant-scoped reconciliation record shape",
+  "Metadata preview",
+  "Provider unselected",
+  "Writes blocked",
+  "Package readiness persistence intent",
+  "Evidence refs",
+  "Blocked actions:",
+);
+
 if (urls.length === 0) {
   console.error("No active local routes found in docs/ACTIVE_ROUTE_VERIFICATION_LIST.md.");
   process.exit(1);

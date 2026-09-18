@@ -102,6 +102,7 @@ export type PersistenceBoundaryCategory =
   | "package-release-candidate"
   | "package-publish-gate"
   | "package-approval-ledger"
+  | "package-readiness-reconciliation"
   | "package-adoption-record-preview"
   | "pilot-evidence-packet"
   | "reviewer-identity-signature-gate"
@@ -3008,6 +3009,32 @@ const sampleDurableRecordContractsRaw: DurableRecordContract[] = [
     note:
       "The school rollback safe fallback restoration preview must become durable before any restoration workflow is designed. It preserves future restoration field shape and non-restored markers while blocking release mutation, production QR redirects, live notifications, classroom restart, report export, media restoration, local bundle restoration, and student reassignment.",
   },
+  {
+    recordId: "package-readiness-reconciliation-record",
+    category: "package-readiness-reconciliation",
+    label: "Package readiness reconciliation record",
+    readiness: "durable-required",
+    sourceOfTruth:
+      "PackageReadinessReconciliation, seven evidence-lane references, blocked actions, tenant scope, and target-language progression rule",
+    requiredBeforePilot: true,
+    containsStudentData: false,
+    containsMediaRights: true,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesPackageReadinessReconciliation: true,
+    requiresPackageReadinessEvidenceLanes: true,
+    requiresPackageReadinessRecordRefs: true,
+    blocksPackageReadinessPromotion: true,
+    blocksPackageReadinessRouteWrite: true,
+    blocksPackageReadinessPlaylistWrite: true,
+    blocksPackageReadinessAssignmentWrite: true,
+    blocksPackageReadinessLocalBundleWrite: true,
+    blocksPackageReadinessStudentActivation: true,
+    recommendedFirstPilotStore: ["hosted-database", "hosted-object-storage", "local-classroom-store"],
+    note:
+      "The reconciliation record is the tenant-scoped durable join for source, approval, verifier, target-language audio, media rights, publish, and assignment evidence. It must remain metadata-only until a provider, retention, and approval policy are accepted.",
+  },
 ];
 
 export const sampleDurableRecordContracts: DurableRecordContract[] = sampleDurableRecordContractsRaw.map((record) =>
@@ -4381,6 +4408,20 @@ export const samplePersistenceBoundaries: PersistenceBoundary[] = [
     deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
     nextDecision:
       "Store safe fallback restoration preview metadata before restoration activation, release-state mutation, live notification, production QR redirect mutation, classroom restart, media restoration, local bundle restoration, report export, or student reassignment workflows can be designed.",
+  },
+  {
+    boundaryId: "package-readiness-reconciliation-boundary",
+    category: "package-readiness-reconciliation",
+    label: "Package readiness reconciliation records",
+    status: "needs-backend",
+    recordShape:
+      "Reconciliation id, tenant id, package id, release candidate, seven evidence-lane references, target-language progression rule, blocked actions, and non-activation flags",
+    whyItMatters:
+      "The evidence chain must survive a route change or provider migration as one tenant-scoped metadata record. This record is not a package publish command and must not be inferred from UI state.",
+    visibleTo: ["Teacher", "Tenant admin", "Content reviewer", "Platform admin"],
+    deploymentChannels: ["hosted-web", "installed-pwa", "desktop-app", "local-classroom-server"],
+    nextDecision:
+      "Persist reconciliation metadata only after provider selection, retention, export, and school policy decisions are accepted; keep promotion, route, playlist, assignment, local-bundle, and student activation blocked.",
   },
 ];
 

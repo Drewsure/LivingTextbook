@@ -1,4 +1,5 @@
 import { ReviewSurfaceScopeKind, validateReviewSurfaceScope } from "./reviewSurfaceScope";
+import { validatePackageReadinessPersistenceFlags } from "./packageReadinessPersistence";
 
 export type PersistenceRecordCategory =
   | "tenant-config"
@@ -96,6 +97,7 @@ export type PersistenceRecordCategory =
   | "package-release-candidate"
   | "package-publish-gate"
   | "package-approval-ledger"
+  | "package-readiness-reconciliation"
   | "package-adoption-record-preview"
   | "pilot-evidence-packet"
   | "reviewer-identity-signature-gate"
@@ -158,6 +160,7 @@ export const TENANT_BOUND_PERSISTENCE_RECORD_CATEGORIES: PersistenceRecordCatego
   "progress-event-stream",
   "progression-continuity",
   "teacher-report-package",
+  "package-readiness-reconciliation",
   ...TENANT_BOUND_PROTOTYPE_RECORD_CATEGORIES,
 ];
 
@@ -379,6 +382,15 @@ export interface DurableRecordContract {
   preservesAiGeneratedPackagePromotionChecklist?: boolean;
   preservesAiGeneratedPackageReleaseCandidate?: boolean;
   preservesAiGeneratedPackageAssemblyReadiness?: boolean;
+  preservesPackageReadinessReconciliation?: boolean;
+  requiresPackageReadinessEvidenceLanes?: boolean;
+  requiresPackageReadinessRecordRefs?: boolean;
+  blocksPackageReadinessPromotion?: boolean;
+  blocksPackageReadinessRouteWrite?: boolean;
+  blocksPackageReadinessPlaylistWrite?: boolean;
+  blocksPackageReadinessAssignmentWrite?: boolean;
+  blocksPackageReadinessLocalBundleWrite?: boolean;
+  blocksPackageReadinessStudentActivation?: boolean;
   preservesAiGeneratedPackageAssemblyDryRun?: boolean;
   preservesAiGeneratedPackageWriterPreflight?: boolean;
   preservesAiGeneratedPackageWriterRollbackDrill?: boolean;
@@ -701,6 +713,7 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
   validateProgressionContinuityRecords(records, errors);
 
   for (const record of records) {
+    errors.push(...validatePackageReadinessPersistenceFlags(record as unknown as Record<string, unknown>, `Durable record ${record.recordId}`));
     if (record.recordId.trim().length === 0) {
       errors.push("Durable record contract must include a record id.");
     }

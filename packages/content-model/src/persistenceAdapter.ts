@@ -4,6 +4,7 @@ import {
   TENANT_BOUND_PERSISTENCE_RECORD_CATEGORIES,
 } from "./persistenceRecords";
 import type { PersistenceRecordCategory, PersistenceStorageTier } from "./persistenceRecords";
+import { validatePackageReadinessPersistenceFlags } from "./packageReadinessPersistence";
 
 export type PersistenceAdapterMode = "static-demo" | "hosted-managed" | "local-classroom";
 export type PersistenceWriteReadiness = "demo-only" | "requires-backend" | "requires-policy" | "pilot-ready";
@@ -230,6 +231,15 @@ export interface PersistenceWriteIntent {
   preservesAiGeneratedPackagePromotionChecklist?: boolean;
   preservesAiGeneratedPackageReleaseCandidate?: boolean;
   preservesAiGeneratedPackageAssemblyReadiness?: boolean;
+  preservesPackageReadinessReconciliation?: boolean;
+  requiresPackageReadinessEvidenceLanes?: boolean;
+  requiresPackageReadinessRecordRefs?: boolean;
+  blocksPackageReadinessPromotion?: boolean;
+  blocksPackageReadinessRouteWrite?: boolean;
+  blocksPackageReadinessPlaylistWrite?: boolean;
+  blocksPackageReadinessAssignmentWrite?: boolean;
+  blocksPackageReadinessLocalBundleWrite?: boolean;
+  blocksPackageReadinessStudentActivation?: boolean;
   preservesAiGeneratedPackageAssemblyDryRun?: boolean;
   preservesAiGeneratedPackageWriterPreflight?: boolean;
   preservesAiGeneratedPackageWriterRollbackDrill?: boolean;
@@ -577,6 +587,7 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
   }
 
   for (const intent of plan.writeIntents) {
+    errors.push(...validatePackageReadinessPersistenceFlags(intent as unknown as Record<string, unknown>, `Persistence write intent ${intent.intentId}`));
     if (intent.intentId.trim().length === 0) {
       errors.push(`Persistence adapter plan ${plan.planId} includes an intent without an id.`);
     }

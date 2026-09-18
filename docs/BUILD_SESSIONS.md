@@ -3401,3 +3401,14 @@ evidence adapter later records. See ADR 0805 and DR-881.
   keeping promotion and student activation blocked.
 - Added dedicated source-review, runtime, route, and foundation coverage.
 - Recorded ADR 0844 and DR-916.
+
+## Build session 0845: Package readiness persistence intent
+
+- Added a shared provider-neutral metadata intent for the seven-lane package
+  readiness reconciliation.
+- Added tenant-scoped durable-record and hosted/local adapter coverage while
+  keeping provider selection, writes, promotion, route/playlist/assignment
+  changes, local bundle writes, and student activation blocked.
+- Added a persistence workbench preview, runtime checks, route markers, and a
+  standing verification checklist.
+- Recorded ADR 0845 and DR-917.

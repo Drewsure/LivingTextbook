@@ -37,6 +37,11 @@ import { PersistenceHandoffPacketPanel } from "@/features/persistence/Persistenc
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 import { validatePersistenceHandoffPacket } from "@living-textbook/content-model";
 import { buildPersistenceHandoffPacket } from "@/data/samplePersistenceHandoffPacket";
+import {
+  samplePackageReadinessPersistenceErrors,
+  samplePackageReadinessPersistenceIntents,
+} from "@/data/samplePackageReadinessPersistence";
+import { PackageReadinessPersistencePanel } from "@/features/persistence/PackageReadinessPersistencePanel";
 
 const samplePersistenceHandoffPacket = buildPersistenceHandoffPacket({
   durableRecords: sampleDurableRecordContracts,
@@ -95,6 +100,10 @@ export default function TeacherPersistencePage() {
         <BackendDecisionMatrixPanel matrix={sampleBackendDecisionMatrix} />
         <PilotBackendSelectionGatePanel gate={samplePilotBackendSelectionGate} />
         <PersistenceHandoffPacketPanel packet={samplePersistenceHandoffPacket} errors={samplePersistenceHandoffPacketErrors} />
+        <PackageReadinessPersistencePanel
+          intents={samplePackageReadinessPersistenceIntents}
+          errors={samplePackageReadinessPersistenceErrors}
+        />
         <EvidenceStorageAdapterSelectionGatePanel gate={sampleEvidenceStorageAdapterSelectionGate} />
         <BackendSchemaDraftPanel draft={sampleBackendSchemaDraft} />
         <BackendMigrationPlanPanel plan={sampleBackendMigrationPlan} />

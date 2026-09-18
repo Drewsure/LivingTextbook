@@ -4074,3 +4074,22 @@ and `docs/adr/0843-evidence-only-package-approval.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-916,
 `docs/decision-register/DR-916-package-readiness-reconciliation.md`,
 and `docs/adr/0844-package-readiness-reconciliation.md`.
+
+## 260. Package Readiness Persistence Standard
+
+- The seven-lane readiness chain must have a named tenant-scoped metadata
+  record before a hosted or local persistence implementation is selected.
+- Hosted and local deployments must preserve the same evidence references and
+  must not infer release readiness from UI state, route state, or partial
+  package records.
+- A persistence intent is not a storage write: provider selection, writes,
+  promotion, route/playlist/assignment changes, local bundle writes, and
+  student activation remain false until later policy and implementation gates
+  pass.
+- The core record excludes raw learner audio, learner transcripts, and student
+  data; future adapters must add authorization, retention, export, backup,
+  migration, and rollback controls before activation.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-917,
+`docs/decision-register/DR-917-package-readiness-persistence-intent.md`,
+and `docs/adr/0845-package-readiness-persistence-intent.md`.
