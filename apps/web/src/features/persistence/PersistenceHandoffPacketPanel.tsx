@@ -7,6 +7,7 @@ import type {
 
 interface PersistenceHandoffPacketPanelProps {
   packet: PersistenceHandoffPacket;
+  errors: string[];
 }
 
 const statusTone: Record<PersistenceHandoffCheckStatus, "neutral" | "success" | "warning"> = {
@@ -15,7 +16,7 @@ const statusTone: Record<PersistenceHandoffCheckStatus, "neutral" | "success" | 
   blocked: "warning",
 };
 
-export function PersistenceHandoffPacketPanel({ packet }: PersistenceHandoffPacketPanelProps) {
+export function PersistenceHandoffPacketPanel({ packet, errors }: PersistenceHandoffPacketPanelProps) {
   const passedCount = packet.checks.filter((check) => check.status === "passed").length;
   const blockedCount = packet.checks.filter((check) => check.status === "blocked").length;
   const coveredCount = packet.categoryCoverage.filter((coverage) => coverage.durableRecord && coverage.hostedIntent && coverage.localIntent).length;
@@ -30,6 +31,7 @@ export function PersistenceHandoffPacketPanel({ packet }: PersistenceHandoffPack
         </div>
         <div className="flex flex-wrap gap-2">
           <StatusPill label="Review-only" tone="warning" />
+          <StatusPill label={errors.length === 0 ? "Packet valid" : "Packet review"} tone={errors.length === 0 ? "success" : "warning"} />
           <StatusPill label="Provider unselected" tone="success" />
           <StatusPill label="Writes blocked" tone="warning" />
         </div>
@@ -40,6 +42,17 @@ export function PersistenceHandoffPacketPanel({ packet }: PersistenceHandoffPack
         <Summary label="Tenant-bound categories" value={`${coveredCount}/${packet.categoryCoverage.length}`} tone={coveredCount === packet.categoryCoverage.length ? "success" : "warning"} />
         <Summary label="Implementation blockers" value={`${blockedCount}`} tone={blockedCount === 0 ? "success" : "warning"} />
       </div>
+
+      {errors.length > 0 && (
+        <section className="mt-5 rounded-lg border border-amber-300 bg-amber-50 p-4 text-sm leading-6 text-amber-950">
+          <h3 className="font-bold">Shared contract validator findings</h3>
+          <ul className="mt-2 grid gap-1">
+            {errors.map((error, index) => (
+              <li key={`handoff-validator-${index}-${error}`}>{error}</li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       <div className="mt-5 grid gap-3 lg:grid-cols-2">
         {packet.checks.map((check) => (

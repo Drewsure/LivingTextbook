@@ -3964,3 +3964,21 @@ and `docs/adr/0836-teacher-report-rehearsal-surface.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-909,
 `docs/decision-register/DR-909-provider-neutral-persistence-handoff.md`,
 and `docs/adr/0837-provider-neutral-persistence-handoff.md`.
+
+## 253. Shared Persistence Handoff Validation Standard
+
+- The persistence handoff packet schema and invariants belong in the shared
+  content model, not only in a web component.
+- Every handoff must prove that provider selection is null, the required
+  review-only checks exist, live side effects remain disabled, and each
+  tenant-bound persistence category has an explicit coverage row.
+- Incomplete hosted, local, or durable coverage must be shown as a validator
+  finding. The UI may summarize it, but may not hide or reinterpret it as
+  readiness.
+- Shared validation is evidence for implementation review only; it does not
+  authorize a provider, storage write, export, migration, backup, restore,
+  policy acceptance, or live student-data flow.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-910,
+`docs/decision-register/DR-910-persistence-handoff-shared-validator.md`,
+and `docs/adr/0838-persistence-handoff-shared-validator.md`.

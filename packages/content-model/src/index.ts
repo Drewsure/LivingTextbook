@@ -1621,6 +1621,7 @@ export * from "./aiGenerationRequestPacketPreview";
 export * from "./persistenceAdapter";
 export * from "./persistenceRecords";
 export * from "./persistenceConsistency";
+export * from "./persistenceHandoff";
 export * from "./persistenceRuntime";
 export * from "./reportRuntime";
 export * from "./teacherReportPersistenceRuntime";

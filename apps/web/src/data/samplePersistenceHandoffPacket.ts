@@ -3,34 +3,20 @@ import {
   type DurableRecordContract,
   type PersistenceAdapterPlan,
   type PersistenceRecordCategory,
+  type PersistenceHandoffCategoryCoverage,
+  type PersistenceHandoffCheck,
+  type PersistenceHandoffCheckStatus,
+  type PersistenceHandoffPacket,
 } from "@living-textbook/content-model";
 import type { PilotBackendSelectionGate } from "./samplePilotBackendSelectionGate";
+import { validatePersistenceHandoffPacket } from "@living-textbook/content-model";
 
-export type PersistenceHandoffCheckStatus = "passed" | "open" | "blocked";
-
-export interface PersistenceHandoffCheck {
-  checkId: string;
-  label: string;
-  status: PersistenceHandoffCheckStatus;
-  detail: string;
-}
-
-export interface PersistenceHandoffCategoryCoverage {
-  category: PersistenceRecordCategory;
-  durableRecord: boolean;
-  hostedIntent: boolean;
-  localIntent: boolean;
-}
-
-export interface PersistenceHandoffPacket {
-  packetId: string;
-  label: string;
-  mode: "review-only";
-  summary: string;
-  selectedProvider: null;
-  checks: PersistenceHandoffCheck[];
-  categoryCoverage: PersistenceHandoffCategoryCoverage[];
-}
+export type {
+  PersistenceHandoffCategoryCoverage,
+  PersistenceHandoffCheck,
+  PersistenceHandoffCheckStatus,
+  PersistenceHandoffPacket,
+} from "@living-textbook/content-model";
 
 export function buildPersistenceHandoffPacket({
   durableRecords,

@@ -3341,3 +3341,10 @@ evidence adapter later records. See ADR 0805 and DR-881.
   side-effect blocking visible in one reusable review surface.
 - Kept the packet derived from shared contracts and recorded ADR 0837 and
   DR-909.
+
+## Build session 0838: Persistence handoff shared validator
+
+- Moved the handoff packet schema and review-only invariants into the shared
+  content model.
+- Exposed concrete validator findings on the teacher persistence workbench.
+- Extended persistence runtime verification and recorded ADR 0838 and DR-910.

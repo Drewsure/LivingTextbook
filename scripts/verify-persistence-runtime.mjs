@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 
 const runtime = readSource("../packages/content-model/src/persistenceRuntime.ts");
 const replay = readSource("../packages/content-model/src/canonicalGameReplay.ts");
+const handoff = readSource("../packages/content-model/src/persistenceHandoff.ts");
 const failures = [];
 
 for (const marker of [
@@ -29,6 +30,16 @@ for (const marker of [
 
 if (!replay.includes("completion idempotency key does not match canonical completion identity")) {
   failures.push("Canonical replay contract missing completion identity mismatch marker");
+}
+
+for (const marker of [
+  "PersistenceHandoffPacket",
+  "validatePersistenceHandoffPacket",
+  "provider selection remains uncommitted",
+  "live side effects remain disabled",
+  "tenant-bound category coverage",
+]) {
+  if (!handoff.includes(marker)) failures.push(`Persistence handoff contract missing marker: ${marker}`);
 }
 
 if (failures.length > 0) {
