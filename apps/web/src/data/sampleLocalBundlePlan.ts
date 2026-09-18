@@ -7,7 +7,7 @@ export type LocalCompanionArtifactStatus = "ready" | "pending" | "blocked";
 
 export interface LocalBundleAssetSummary {
   assetId: string;
-  kind: "audio" | "video";
+  kind: "audio" | "video" | "image";
   label: string;
   localPath: string;
   rightsStatus: "owned" | "licensed" | "partner-provided" | "unknown";
@@ -99,6 +99,14 @@ export const sampleLocalBundleManifests: LocalBundleManifestSummary[] = [
         kind: "video",
         label: "Hello friends video",
         localPath: "media/video/hello-friends.mp4",
+        rightsStatus: "partner-provided",
+        checksumReady: false,
+      },
+      {
+        assetId: "media-ministar-l1-u1-greetings-label-board",
+        kind: "image",
+        label: "Greetings label board",
+        localPath: "media/images/greetings-label-board.png",
         rightsStatus: "partner-provided",
         checksumReady: false,
       },
@@ -344,6 +352,14 @@ export const sampleLocalBundleManifests: LocalBundleManifestSummary[] = [
         kind: "video",
         label: "Routine video",
         localPath: "media/video/routine-video.mp4",
+        rightsStatus: "unknown",
+        checksumReady: false,
+      },
+      {
+        assetId: "media-sample-publisher-u1-routine-label-board",
+        kind: "image",
+        label: "Routine label board",
+        localPath: "media/images/routine-label-board.png",
         rightsStatus: "unknown",
         checksumReady: false,
       },

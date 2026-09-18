@@ -3489,3 +3489,15 @@ evidence adapter later records. See ADR 0805 and DR-881.
   no-learner-data-persistence boundaries.
 - Added static coverage to the local-bundle readiness verifier.
 - Recorded ADR 0853 and DR-925.
+
+## Build session 0854: Local bundle visual asset coverage
+
+- Extended tenant planning manifests to carry reviewed image assets alongside
+  audio and video.
+- Added MiniStar and sample-publisher Labelled Diagram-style image entries
+  with rights and checksum blockers still visible.
+- Fixed empty resolution-list rendering so an empty manifest reports its
+  evidence state clearly.
+- Preserved no-file-access, no-upload, no-image-editor, no-student-route, and
+  no-offline-activation boundaries.
+- Recorded ADR 0854 and DR-926.

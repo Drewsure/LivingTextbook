@@ -97,6 +97,7 @@ const requiredResolutionMarkers = [
   "No learner-data persistence",
   "createReadOnlyLocalBundleResolver",
 ];
+const requiredLocalAssetKinds = ["audio", "video", "image"];
 const requiredLocalFallbackPaths = [
   "/enter/ministar",
   "/launch/demo-unit-1",
@@ -210,6 +211,10 @@ for (const field of snapshotFields) {
 
 for (const marker of requiredResolutionMarkers) {
   requireText(resolutionPanel, marker, `Local bundle resolution preview missing marker: ${marker}`);
+}
+
+for (const kind of requiredLocalAssetKinds) {
+  requireText(bundlePlan, `kind: "${kind}"`, `Local bundle sample missing asset kind: ${kind}`);
 }
 
 for (const fallbackPath of requiredLocalFallbackPaths) {

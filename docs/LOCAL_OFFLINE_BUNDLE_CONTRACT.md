@@ -220,6 +220,11 @@ The loader must consume validated manifests and must not bypass path, checksum,
 rights, tenant, or QR fallback validation. The resolver must remain read-only
 until a separately approved loader and deployment package exist.
 
+The planning shape must be able to carry reviewed audio, video, and image
+assets. Image entries support Labelled Diagram and other visual activities,
+but remain blocked from student-facing use until image rights, checksums, alt
+text, anchor/label records, and release approval are present.
+
 ## Read-Only Resolution Evidence
 
 The local companion preview now exercises the validated resolver for each

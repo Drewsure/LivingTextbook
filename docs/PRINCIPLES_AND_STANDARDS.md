@@ -4218,3 +4218,18 @@ and `docs/adr/0852-read-only-local-bundle-resolver.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-925,
 `docs/decision-register/DR-925-local-bundle-preview-resolution-evidence.md`,
 and `docs/adr/0853-local-bundle-preview-resolution-evidence.md`.
+
+## 269. Local Bundle Visual Asset Coverage Standard
+
+- Local bundle planning manifests must support reviewed audio, video, and
+  image asset entries so white-label visual activities have a first-class
+  package shape.
+- Image assets remain planning evidence until rights, checksums, alt text,
+  label/anchor records where applicable, tenant scope, and release approval
+  are complete.
+- Adding an image entry must not activate uploads, image editors, local file
+  reads, student-facing Labelled Diagram routes, or offline media caching.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-926,
+`docs/decision-register/DR-926-local-bundle-visual-asset-coverage.md`,
+and `docs/adr/0854-local-bundle-visual-asset-coverage.md`.

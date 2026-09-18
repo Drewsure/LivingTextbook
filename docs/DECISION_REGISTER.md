@@ -5940,6 +5940,30 @@ local handoff.
 See ADR 0853 and
 `docs/decision-register/DR-925-local-bundle-preview-resolution-evidence.md`.
 
+# DR-926: Local Bundle Visual Asset Coverage
+
+## Decision
+
+Extend the local bundle planning summary to demonstrate image assets alongside
+audio and video, using Labelled Diagram-style content as the reference visual
+activity without enabling live uploads or student-facing image activation.
+
+## Included
+
+- Tenant-scoped image entries in the MiniStar and partner planning manifests.
+- Resolver visibility for declared image paths.
+- Checksum and rights-pending status in the preview.
+- Explicit compatibility with future visual-game asset records.
+
+## Excluded
+
+Live file pickers, image processing, label/anchor editing, alt-text approval,
+student-facing image gameplay, local file access, media caching, and offline
+activation.
+
+See ADR 0854 and
+`docs/decision-register/DR-926-local-bundle-visual-asset-coverage.md`.
+
 # DR-924: Read-Only Local Bundle Resolver
 
 ## Decision

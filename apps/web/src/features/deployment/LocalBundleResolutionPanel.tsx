@@ -1,5 +1,6 @@
 import { createReadOnlyLocalBundleResolver, type LocalBundleManifest } from "@living-textbook/content-model";
 import { Card, StatusPill } from "@living-textbook/ui";
+import { Children } from "react";
 import type { LocalBundleManifestSummary } from "@/data/sampleLocalBundlePlan";
 
 interface LocalBundleResolutionPanelProps {
@@ -102,7 +103,7 @@ function ResolutionList({ title, emptyLabel, children }: { title: string; emptyL
   return (
     <section>
       <h4 className="text-sm font-bold text-[var(--tenant-text)]">{title}</h4>
-      <ul className="mt-3 grid gap-3">{children || <li className="text-sm text-[var(--tenant-muted)]">{emptyLabel}</li>}</ul>
+      <ul className="mt-3 grid gap-3">{Children.count(children) > 0 ? children : <li className="text-sm text-[var(--tenant-muted)]">{emptyLabel}</li>}</ul>
     </section>
   );
 }
