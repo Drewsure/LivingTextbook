@@ -21,6 +21,9 @@ const schoolLaunchPolicyGate = readSource("../apps/web/src/data/sampleSchoolLaun
 const schoolLaunchPolicyGatePanel = readSource("../apps/web/src/features/pilot/SchoolLaunchPolicyGatePanel.tsx");
 const schoolPolicyAcceptancePreflight = readSource("../apps/web/src/data/sampleSchoolPolicyAcceptancePreflight.ts");
 const schoolPolicyAcceptancePreflightPanel = readSource("../apps/web/src/features/pilot/SchoolPolicyAcceptancePreflightPanel.tsx");
+const pilotHandoffPackage = readSource("../apps/web/src/data/samplePilotHandoffPackage.ts");
+const pilotHandoffPanel = readSource("../apps/web/src/features/pilot/PilotHandoffPackagePanel.tsx");
+const releaseControlEvidence = readSource("../packages/content-model/src/releaseControlEvidence.ts");
 const mediaReleaseControlBinding = readSource("../packages/content-model/src/localBundleMediaReleaseControlBinding.ts");
 const mediaReleaseControlPanel = readSource("../apps/web/src/features/pilot/MediaReleaseControlBindingPanel.tsx");
 const releaseControlPage = readSource("../apps/web/src/app/teacher/release-control/[tenantId]/page.tsx");
@@ -196,6 +199,14 @@ requireText(schoolPolicyAcceptancePreflight, "Authenticated school approver", "S
 requireText(schoolPolicyAcceptancePreflight, "Policy text and scope", "School policy acceptance preflight must require policy text and scope.");
 requireText(schoolPolicyAcceptancePreflight, "Evidence packet and attachment readiness", "School policy acceptance preflight must require evidence and attachment readiness.");
 requireText(schoolPolicyAcceptancePreflight, "Release-control binding", "School policy acceptance preflight must require release-control binding.");
+requireText(schoolPolicyAcceptancePreflight, "toReleaseControlEvidence", "School policy acceptance preflight must derive shared release-control evidence.");
+requireText(schoolPolicyAcceptancePreflight, "releaseControlEvidence", "School policy acceptance preflight must expose shared release-control evidence.");
+requireText(schoolPolicyAcceptancePreflightPanel, "Release-control evidence consumed by this preflight", "School policy acceptance preflight panel must show shared release-control evidence.");
+requireText(pilotHandoffPackage, "toReleaseControlEvidence", "Pilot handoff package must derive shared release-control evidence.");
+requireText(pilotHandoffPackage, "releaseControlEvidence", "Pilot handoff package must carry shared release-control evidence.");
+requireText(pilotHandoffPanel, "Release-control evidence", "Pilot handoff panel must show shared release-control evidence.");
+requireText(releaseControlEvidence, "promotionAllowed: false", "Shared release-control evidence must keep promotion blocked.");
+requireText(releaseControlEvidence, "sideEffect: \"none\"", "Shared release-control evidence must remain side-effect free.");
 requireText(mediaReleaseControlBinding, "deriveLocalBundleMediaReleaseControlBinding", "Release control must derive media status from the manifest reconciliation.");
 requireText(mediaReleaseControlBinding, "promotionAllowed: false", "Media release-control binding must keep promotion blocked.");
 requireText(mediaReleaseControlPanel, "Media evidence feeds the publish decision", "Release-control page must show media evidence binding.");

@@ -4577,3 +4577,22 @@ and `docs/adr/0872-media-release-control-binding.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-945,
 `docs/decision-register/DR-945-release-control-pilot-launch-handoff.md`,
 and `docs/adr/0873-release-control-pilot-launch-handoff.md`.
+
+## 289. Shared Release-Control Policy And Pilot Evidence Standard
+
+- School-policy acceptance preflight and controlled-pilot handoff must consume
+  one derived release-control evidence contract rather than maintaining
+  independent media or release summaries.
+- The shared evidence must preserve binding id, release gate, tenant, package
+  version, decision, release blockers, required approvals, and blocked actions.
+- Evidence is never permission: promotion, student-facing use, local
+  activation, acceptance, launch, assignment, export, and release mutation
+  remain blocked until their separate gates close.
+- Missing or malformed shared evidence must invalidate a handoff or remain
+  visibly blocked; a panel may not silently substitute local state.
+- This standard is white-label and provider-neutral. MiniStar and partner
+  tenants consume the same contract with tenant-specific content and policy.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-946,
+`docs/decision-register/DR-946-shared-release-control-policy-pilot-evidence.md`,
+and `docs/adr/0874-release-control-policy-pilot-evidence.md`.

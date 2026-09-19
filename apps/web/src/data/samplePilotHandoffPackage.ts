@@ -4,6 +4,8 @@ import type {
   PilotHandoffPackage,
   PilotHandoffRoute,
 } from "@living-textbook/content-model";
+import { toReleaseControlEvidence } from "@living-textbook/content-model";
+import { sampleLocalBundleMediaReleaseControlBinding } from "@/data/sampleLocalBundleMediaReleaseControlBinding";
 
 export type { PilotHandoffAsset, PilotHandoffDecision, PilotHandoffPackage, PilotHandoffRoute } from "@living-textbook/content-model";
 export type { PilotHandoffOwner, PilotHandoffStatus } from "@living-textbook/content-model";
@@ -17,6 +19,7 @@ export const samplePilotHandoffPackage: PilotHandoffPackage = {
   recommendedDeployment: "Hosted PWA first, local/closed package kept compatible",
   summary:
     "This package is the practical bridge from static demo to a controlled partner pilot. It keeps content, routes, games, media, reports, roster identity, and policy decisions visible before any live student-data storage is promised.",
+  releaseControlEvidence: toReleaseControlEvidence(sampleLocalBundleMediaReleaseControlBinding),
   routes: [
     {
       routeId: "partner-demo-home",

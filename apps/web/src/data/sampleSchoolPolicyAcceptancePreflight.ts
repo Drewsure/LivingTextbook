@@ -1,5 +1,9 @@
 import { sampleReviewerIdentitySignatureGate } from "@/data/sampleReviewerIdentitySignatureGate";
 import {
+  sampleLocalBundleMediaReleaseControlBinding,
+} from "@/data/sampleLocalBundleMediaReleaseControlBinding";
+import { toReleaseControlEvidence, type ReleaseControlEvidence } from "@living-textbook/content-model";
+import {
   sampleSchoolPolicyHandoffPacket,
   type SchoolPolicyHandoffPacket,
 } from "@/data/sampleSchoolPolicyHandoffPacket";
@@ -27,6 +31,7 @@ export interface SchoolPolicyAcceptancePreflight {
   sourceOfTruth: string;
   acceptanceStatus: string;
   summary: string;
+  releaseControlEvidence: ReleaseControlEvidence;
   lanes: SchoolPolicyAcceptancePreflightLane[];
   minimumAcceptanceRecord: string[];
   operatingRules: string[];
@@ -34,13 +39,17 @@ export interface SchoolPolicyAcceptancePreflight {
 
 export const sampleSchoolPolicyAcceptancePreflight = createSchoolPolicyAcceptancePreflight({
   packet: sampleSchoolPolicyHandoffPacket,
+  releaseControlBinding: sampleLocalBundleMediaReleaseControlBinding,
 });
 
 export function createSchoolPolicyAcceptancePreflight({
   packet,
+  releaseControlBinding,
 }: {
   packet: SchoolPolicyHandoffPacket;
+  releaseControlBinding: Parameters<typeof toReleaseControlEvidence>[0];
 }): SchoolPolicyAcceptancePreflight {
+  const releaseControlEvidence = toReleaseControlEvidence(releaseControlBinding);
   return {
     preflightId: `${packet.packetId}-acceptance-preflight`,
     label: "School policy acceptance preflight",
@@ -51,6 +60,7 @@ export function createSchoolPolicyAcceptancePreflight({
     acceptanceStatus: "Acceptance blocked",
     summary:
       "This preflight names what must exist before a future school policy acceptance workflow is allowed. It is not an accept button, signature flow, evidence export, launch approval, or release mutation.",
+    releaseControlEvidence,
     lanes: [
       {
         laneId: "authenticated-school-approver",
@@ -124,6 +134,8 @@ export function createSchoolPolicyAcceptancePreflight({
         purpose: "Binds any future acceptance to the exact release candidate, gate state, and rollback policy.",
         missingBeforeAcceptance: [
           "Release candidate id",
+          `Media release-control decision: ${releaseControlEvidence.decision}`,
+          `Media release-control binding: ${releaseControlEvidence.bindingId}`,
           "School launch policy gate version",
           "School policy handoff packet version",
           "Release-state mutation rule",
@@ -131,6 +143,7 @@ export function createSchoolPolicyAcceptancePreflight({
         ],
         blockedActions: [
           "No release-state mutation",
+          ...releaseControlEvidence.blockedActions.map((action) => `No ${action} action`),
           "No launch-ready override",
           "No production QR promise",
           "No route promotion",
@@ -200,6 +213,8 @@ export function createSchoolPolicyAcceptancePreflight({
     operatingRules: [
       "The preflight is required before any future accept button exists.",
       "Acceptance cannot override missing media rights, storage, evidence, route, audio, accessibility, or release-control gates.",
+      `Acceptance must consume release-control binding ${releaseControlEvidence.bindingId} for gate ${releaseControlEvidence.releaseGateId}.`,
+      ...releaseControlEvidence.releaseBlockingReasons.map((reason) => `Release-control blocker: ${reason}`),
       "A school acceptance cannot turn support-language activity into mastery evidence.",
       "AI Tutor, microphone scoring, report export, and local deployment remain separate opt-in policy choices.",
       "Acceptance must be versioned, revocable, exportable, and tied to a known release candidate.",

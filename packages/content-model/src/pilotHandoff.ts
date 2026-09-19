@@ -1,3 +1,5 @@
+import { validateReleaseControlEvidence, type ReleaseControlEvidence } from "./releaseControlEvidence";
+
 export type PilotHandoffStatus = "ready" | "needs-review" | "blocked";
 export type PilotHandoffOwner = "codex" | "tenant" | "school" | "shared";
 export type PilotHandoffCostImpact = "low" | "controlled" | "higher";
@@ -36,6 +38,7 @@ export interface PilotHandoffPackage {
   recommendedPilotWindow: string;
   recommendedDeployment: string;
   summary: string;
+  releaseControlEvidence: ReleaseControlEvidence;
   routes: PilotHandoffRoute[];
   assets: PilotHandoffAsset[];
   decisions: PilotHandoffDecision[];
@@ -82,6 +85,7 @@ export function validatePilotHandoffPackage(packet: PilotHandoffPackage): string
   requireText(packet.recommendedPilotWindow, "recommendedPilotWindow", errors);
   requireText(packet.recommendedDeployment, "recommendedDeployment", errors);
   requireText(packet.summary, "summary", errors);
+  errors.push(...validateReleaseControlEvidence(packet.releaseControlEvidence).map((error) => `Pilot handoff ${error.charAt(0).toLowerCase()}${error.slice(1)}`));
 
   if (packet.mode !== "review-only") {
     errors.push("Pilot handoff package must remain review-only.");

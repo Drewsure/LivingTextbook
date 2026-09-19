@@ -3687,3 +3687,14 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Preserved mismatch, review, approval, persistence, policy, roster, and
   dry-run blockers without adding any live launch behavior.
 - Added static verification and recorded ADR 0873 and DR-945.
+
+## Build session 0874: Shared release-control policy and pilot evidence
+
+- Added one provider-neutral release-control evidence contract derived from
+  the existing media binding.
+- Required the pilot handoff package and school-policy acceptance preflight to
+  consume the same binding identity, decision, blockers, approvals, and
+  review-only flags.
+- Preserved no acceptance, upload, storage, launch, assignment, export, or
+  release-state mutation behavior.
+- Added runtime/static verification and recorded ADR 0874 and DR-946.

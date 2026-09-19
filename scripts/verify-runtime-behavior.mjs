@@ -2004,6 +2004,22 @@ try {
     recommendedPilotWindow: "8 weeks",
     recommendedDeployment: "Hosted PWA first",
     summary: "Review-only pilot handoff.",
+    releaseControlEvidence: {
+      bindingId: "release-binding-1",
+      releaseGateId: "release-gate-1",
+      tenantId: "tenant-1",
+      packageId: "pilot-package-1",
+      packageVersion: "1.0.0",
+      decision: "needs-review",
+      releaseBlockingReasons: ["Media evidence open."],
+      requiredApprovals: ["Media rights approval"],
+      blockedActions: ["package-publish"],
+      promotionAllowed: false,
+      studentFacingAllowed: false,
+      localActivationAllowed: false,
+      mode: "review-only",
+      sideEffect: "none",
+    },
     routes: [
       { routeId: "front-door", label: "Front door", path: "/enter/tenant-1", status: "ready", purpose: "Entry." },
       { routeId: "launch", label: "Launch", path: "/launch/unit-1", status: "ready", purpose: "Launch." },
@@ -2014,6 +2030,13 @@ try {
     handoffNotes: ["Do not promise classroom launch."],
   };
   assertEqual(pilotHandoff.validatePilotHandoffPackage(validPilotHandoffPackage).length, 0);
+  assertIncludes(
+    pilotHandoff.validatePilotHandoffPackage({
+      ...validPilotHandoffPackage,
+      releaseControlEvidence: { ...validPilotHandoffPackage.releaseControlEvidence, promotionAllowed: true },
+    }),
+    "Pilot handoff release-control evidence must keep promotion, student-facing use, and local activation false.",
+  );
   assertIncludes(
     pilotHandoff.validatePilotHandoffPackage({
       ...validPilotHandoffPackage,
