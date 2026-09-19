@@ -8,6 +8,7 @@ const files = {
   candidateReview: "apps/web/src/data/samplePhaserCandidateContractReview.ts",
   readinessRollup: "apps/web/src/data/sampleAiPrototypeIntegrationReadinessGate.ts",
   canonicalGameVerifier: "scripts/verify-canonical-game-integrations.mjs",
+  sourceIdentity: "packages/content-model/src/phaserCandidateSourceIdentity.ts",
 };
 
 const sources = Object.fromEntries(
@@ -23,8 +24,8 @@ const requiredMarkers = [
   ["gate", "apps/web/src/app/memory/[code]/page.tsx"],
   ["gate", "MemoryMatchDemoFlow"],
   ["gate", "pairing-reinforcement-v1"],
-  ["candidateReview", "frozen-2026-09-12-aaa-stable"],
-  ["candidateReview", "eb79ddf5940ab47cc3c45c119c67ee1b6b958e55"],
+  ["sourceIdentity", "PHASER_CANDIDATE_SOURCE_SNAPSHOT_ID"],
+  ["sourceIdentity", "PHASER_CANDIDATE_SOURCE_COMMIT_SHA"],
   ["gate", "prototype_wrapper_adapter_review"],
   ["gate", "prototype_fixture_replay_report"],
   ["gate", "prototype_event_replay_report"],

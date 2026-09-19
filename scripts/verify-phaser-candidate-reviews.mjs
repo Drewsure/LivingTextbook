@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 
 const files = [
   "packages/content-model/src/phaserCandidateContractReview.ts",
+  "packages/content-model/src/phaserCandidateSourceIdentity.ts",
   "apps/web/src/data/samplePhaserCandidateContractReview.ts",
   "apps/web/src/features/game-offers/PhaserCandidateContractReviewPanel.tsx",
   "apps/web/src/app/teacher/prototypes/[tenantId]/page.tsx",
@@ -19,6 +20,8 @@ const requiredMarkers = [
   "phaser-contract-review-ministar-balloon-pop",
   "frozen-2026-09-12-aaa-stable",
   "eb79ddf5940ab47cc3c45c119c67ee1b6b958e55",
+  "validatePhaserCandidateSourceIdentity",
+  "PHASER_CANDIDATE_SOURCE_REPOSITORY",
   "sourceCommitSha",
   "sourceFiles",
   "sha256",

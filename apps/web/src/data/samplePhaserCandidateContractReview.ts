@@ -1,10 +1,14 @@
 import {
+  PHASER_CANDIDATE_SOURCE_COMMIT_SHA,
+  PHASER_CANDIDATE_SOURCE_REPOSITORY,
+  PHASER_CANDIDATE_SOURCE_SNAPSHOT_ID,
   validatePhaserCandidateContractReviews,
   type PhaserCandidateContractReview,
 } from "@living-textbook/content-model";
 
-const sourceSnapshotId = "frozen-2026-09-12-aaa-stable";
-const sourceCommitSha = "eb79ddf5940ab47cc3c45c119c67ee1b6b958e55";
+const sourceRepository = PHASER_CANDIDATE_SOURCE_REPOSITORY;
+const sourceSnapshotId = PHASER_CANDIDATE_SOURCE_SNAPSHOT_ID;
+const sourceCommitSha = PHASER_CANDIDATE_SOURCE_COMMIT_SHA;
 const sourceFiles = {
   memoryMatchScene: {
     path: "src/game/scenes/MemoryMatchScene.ts",
@@ -33,7 +37,7 @@ export const samplePhaserCandidateContractReviews: PhaserCandidateContractReview
     reviewId: "phaser-contract-review-ministar-memory-match",
     tenantId: "ministar",
     queueItemId: "intake-ministar-memory-match-phaser",
-    sourceRepository: "Drewsure/ministar-lab",
+    sourceRepository,
     sourceSnapshotId,
     sourceCommitSha,
     sourceFiles: [sourceFiles.memoryMatchScene, sourceFiles.baseEngine, sourceFiles.types, sourceFiles.audio],
@@ -132,7 +136,7 @@ export const samplePhaserCandidateContractReviews: PhaserCandidateContractReview
     reviewId: "phaser-contract-review-ministar-balloon-pop",
     tenantId: "ministar",
     queueItemId: "intake-ministar-balloon-pop-phaser",
-    sourceRepository: "Drewsure/ministar-lab",
+    sourceRepository,
     sourceSnapshotId,
     sourceCommitSha,
     sourceFiles: [sourceFiles.balloonPopScene, sourceFiles.baseEngine, sourceFiles.types, sourceFiles.audio],

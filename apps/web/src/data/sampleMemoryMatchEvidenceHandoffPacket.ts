@@ -1,3 +1,6 @@
+import {
+  validatePhaserCandidateSourceIdentity,
+} from "@living-textbook/content-model";
 import { sampleAiPrototypeIntegrationPlans } from "@/data/sampleAiPrototypeIntegrationPlan";
 import { samplePhaserCandidateContractReviews } from "@/data/samplePhaserCandidateContractReview";
 import { sampleCanonicalMemoryMatchIntegrationGate } from "@/data/sampleCanonicalMemoryMatchIntegrationGate";
@@ -104,9 +107,13 @@ export function validateMemoryMatchEvidenceHandoffPacket(
   if (packet.handoffState !== "ready-for-human-handoff" || packet.integrationState !== "blocked") {
     errors.push("Memory Match evidence handoff must be human-handoff ready while integration remains blocked.");
   }
-  if (!packet.sourceSnapshotId || !/^[0-9a-f]{40}$/i.test(packet.sourceCommitSha)) {
-    errors.push("Memory Match evidence handoff must preserve the frozen source snapshot and commit.");
-  }
+  errors.push(
+    ...validatePhaserCandidateSourceIdentity({
+      sourceRepository: packet.sourceRepository,
+      sourceSnapshotId: packet.sourceSnapshotId,
+      sourceCommitSha: packet.sourceCommitSha,
+    }).map((error) => `Memory Match evidence handoff ${error.toLowerCase()}`),
+  );
   if (packet.permittedContents.length !== 8) {
     errors.push("Memory Match evidence handoff must define eight permitted evidence content categories.");
   }

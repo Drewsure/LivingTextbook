@@ -62,6 +62,14 @@ commit SHA separately. This removes provenance ambiguity without permitting
 source import, wrapper approval, promotion, or assignment. Evidence: ADR 0885
 and the candidate review/source-hash verifiers.
 
+## DR-958: Phaser Source Identity Content-Model Gate
+
+Candidate reviews and the Memory Match evidence handoff must use the shared
+content-model identity gate for the approved frozen repository, snapshot tag,
+and exact commit. Wrong-but-well-formed provenance fails closed before wrapper
+review, import, route replacement, promotion, or assignment. Evidence: ADR
+0886 and `packages/content-model/src/phaserCandidateSourceIdentity.ts`.
+
 ## Decision Rubric
 
 Before accepting a new direction, answer these questions in the task, PR, or implementation note:

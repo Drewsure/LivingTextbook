@@ -804,6 +804,14 @@ try {
     mismatchedPhaserProfileErrors,
     "Phaser candidate contract review runtime-phaser-review-1 must use parent engine pairing for memory-match; found selection.",
   );
+  const mismatchedPhaserSourceErrors = phaserCandidateReview.validatePhaserCandidateContractReview({
+    ...phaserReviewFixture,
+    sourceSnapshotId: "frozen-2026-09-12-other",
+  });
+  assertIncludes(
+    mismatchedPhaserSourceErrors,
+    "Phaser candidate source snapshot must be frozen-2026-09-12-aaa-stable.",
+  );
   const invalidPhaserApprovalErrors = phaserCandidateReview.validatePhaserCandidateContractReview({
     ...phaserReviewFixture,
     approval: { ...phaserReviewFixture.approval, status: "approved-for-wrapper" },

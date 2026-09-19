@@ -1670,6 +1670,7 @@ export * from "./aiPrototypePatchAuthorizationReleaseLock";
 export * from "./aiPrototypePatchImplementationWorkOrder";
 export * from "./aiPrototypePatchChangeSetPreview";
 export * from "./phaserCandidateContractReview";
+export * from "./phaserCandidateSourceIdentity";
 export * from "./canonicalGameIntegration";
 export * from "./canonicalGameReplay";
 export * from "./aiTargetLanguageAudioApprovalPacket";

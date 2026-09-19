@@ -98,6 +98,16 @@ The game catalog learner-metadata slice now checks role, skill focus, summary, a
   assignment actions blocked.
 - Added static/runtime verification and recorded ADR 0885 and DR-957.
 
+## Build session 0886: Phaser source identity content-model gate
+
+- Centralized the approved frozen Phaser repository, snapshot tag, and exact
+  commit in the shared content model.
+- Required candidate contract reviews and the Memory Match evidence handoff to
+  reject provenance drift before wrapper review or integration planning.
+- Preserved read-only hash verification and all source import, route
+  replacement, promotion, and assignment blockers.
+- Added a negative runtime case and recorded ADR 0886 and DR-958.
+
 ## Build session 0810: Cross-route progression handoff
 
 - Added a session-scoped progression handoff record keyed by tenant, package, launch, student session, and exact destination route.

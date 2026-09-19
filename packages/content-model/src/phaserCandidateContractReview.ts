@@ -1,4 +1,7 @@
 import { getPhaserCandidateProfile } from "./index";
+import {
+  validatePhaserCandidateSourceIdentity,
+} from "./phaserCandidateSourceIdentity";
 
 export type PhaserCandidateReviewStatus = "mapped-review-only" | "blocked";
 export type PhaserCandidateFindingStatus = "observed" | "gap" | "blocked";
@@ -62,6 +65,14 @@ export function validatePhaserCandidateContractReview(
   const findings = Array.isArray(candidate.findings) ? candidate.findings : [];
   const blockedActions = Array.isArray(candidate.blockedActions) ? candidate.blockedActions : [];
   const approvalBlockers = Array.isArray(candidate.approval?.blockers) ? candidate.approval.blockers : [];
+
+  errors.push(
+    ...validatePhaserCandidateSourceIdentity({
+      sourceRepository: candidate.sourceRepository,
+      sourceSnapshotId: candidate.sourceSnapshotId,
+      sourceCommitSha: candidate.sourceCommitSha,
+    }),
+  );
 
   if (
     !candidate.reviewId ||

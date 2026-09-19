@@ -4772,3 +4772,16 @@ and `docs/adr/0884-pilot-status-refresh.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-957,
 `docs/decision-register/DR-957-phaser-snapshot-identity-normalization.md`,
 and `docs/adr/0885-phaser-snapshot-identity-normalization.md`.
+
+## 301. Phaser Source Identity Content-Model Standard
+
+- Candidate provenance must be validated by the shared content model, not
+  only by a UI fixture or standalone package script.
+- The approved repository, immutable snapshot tag, and exact source commit
+  must match the canonical frozen identity exactly.
+- A provenance mismatch fails closed before wrapper review, source import,
+  route replacement, package promotion, or student assignment.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-958,
+`docs/decision-register/DR-958-phaser-source-identity-content-model-gate.md`,
+and `docs/adr/0886-phaser-source-identity-content-model-gate.md`.
