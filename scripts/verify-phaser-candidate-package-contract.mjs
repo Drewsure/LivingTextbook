@@ -28,6 +28,7 @@ const verifierMarkers = [
   "audio_requested events must include cueText",
   "randomRewards === false",
   "source-manifest.sha256",
+  "sourceCommitSha",
   "reduced motion",
   "No direct file copy into apps/web",
   "candidateProfiles",

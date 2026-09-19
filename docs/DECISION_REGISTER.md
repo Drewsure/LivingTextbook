@@ -70,6 +70,14 @@ and exact commit. Wrong-but-well-formed provenance fails closed before wrapper
 review, import, route replacement, promotion, or assignment. Evidence: ADR
 0886 and `packages/content-model/src/phaserCandidateSourceIdentity.ts`.
 
+## DR-959: Phaser Returned-Package Identity Gate
+
+Returned Phaser and hybrid package manifests must use the shared frozen-source
+identity gate, while DOM-reference not-returned previews retain their separate
+provider-neutral path. Identity drift fails closed before wrapper review,
+import, route replacement, promotion, or assignment. Evidence: ADR 0887 and
+`packages/content-model/src/aiPrototypeReturnedPackageManifest.ts`.
+
 ## Decision Rubric
 
 Before accepting a new direction, answer these questions in the task, PR, or implementation note:

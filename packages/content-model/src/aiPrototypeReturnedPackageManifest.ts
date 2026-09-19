@@ -1,3 +1,7 @@
+import {
+  validatePhaserCandidateSourceIdentity,
+} from "./phaserCandidateSourceIdentity";
+
 export type AiPrototypeReturnedPackageStatus = "not-returned" | "review-only" | "blocked";
 export type AiPrototypeReturnedTargetSurface = "dom-reference" | "phaser" | "hybrid";
 
@@ -29,6 +33,7 @@ export interface AiPrototypeReturnedPackageManifest {
   status: AiPrototypeReturnedPackageStatus;
   sourceRepository: string;
   sourceSnapshotId: string;
+  sourceCommitSha?: string;
   prototypeFolder: string;
   targetMode: string;
   parentEngine: string;
@@ -75,6 +80,7 @@ export function validateAiPrototypeReturnedPackageManifest(manifest: unknown): s
   const status = readString(manifest, "status");
   const sourceRepository = readString(manifest, "sourceRepository");
   const sourceSnapshotId = readString(manifest, "sourceSnapshotId");
+  const sourceCommitSha = readString(manifest, "sourceCommitSha");
   const prototypeFolder = readString(manifest, "prototypeFolder");
   const targetMode = readString(manifest, "targetMode");
   const parentEngine = readString(manifest, "parentEngine");
@@ -109,6 +115,15 @@ export function validateAiPrototypeReturnedPackageManifest(manifest: unknown): s
   }
   if (sourceSnapshotId.includes("latest") || sourceSnapshotId.includes("main")) {
     errors.push("Returned prototype package sourceSnapshotId must be immutable and cannot use latest or main.");
+  }
+  if ((targetSurface === "phaser" || targetSurface === "hybrid") && status !== "not-returned") {
+    errors.push(
+      ...validatePhaserCandidateSourceIdentity({
+        sourceRepository,
+        sourceSnapshotId,
+        sourceCommitSha,
+      }).map((error) => `Phaser returned package ${error.toLowerCase()}`),
+    );
   }
   if (prototypeFolder.startsWith("/") || prototypeFolder.includes("..") || prototypeFolder.includes("\\")) {
     errors.push("Returned prototype package prototypeFolder must be a repository-relative safe path.");

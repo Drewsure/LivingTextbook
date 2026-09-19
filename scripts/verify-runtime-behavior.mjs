@@ -2584,6 +2584,17 @@ try {
     ],
   };
   assertEqual(returnedPackageManifest.validateAiPrototypeReturnedPackageManifest(returnedPackagePreview).length, 0);
+  const phaserReturnedPackageProvenanceErrors = returnedPackageManifest.validateAiPrototypeReturnedPackageManifest({
+    ...returnedPackagePreview,
+    status: "review-only",
+    targetSurface: "hybrid",
+    sourceSnapshotId: "frozen-2026-09-12-other",
+    sourceCommitSha: "eb79ddf5940ab47cc3c45c119c67ee1b6b958e55",
+  });
+  assertIncludes(
+    phaserReturnedPackageProvenanceErrors,
+    "Phaser returned package phaser candidate source snapshot must be frozen-2026-09-12-aaa-stable.",
+  );
   assertIncludes(
     returnedPackageManifest.validateAiPrototypeReturnedPackageManifest({
       ...returnedPackagePreview,

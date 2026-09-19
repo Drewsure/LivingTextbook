@@ -108,6 +108,14 @@ The game catalog learner-metadata slice now checks role, skill focus, summary, a
   replacement, promotion, and assignment blockers.
 - Added a negative runtime case and recorded ADR 0886 and DR-958.
 
+## Build session 0887: Phaser returned-package identity gate
+
+- Required returned Phaser and hybrid package manifests to carry the same
+  canonical frozen tag and exact source commit as candidate reviews.
+- Preserved a provider-neutral not-returned path for DOM-reference previews.
+- Added negative returned-package provenance coverage and recorded ADR 0887
+  and DR-959.
+
 ## Build session 0810: Cross-route progression handoff
 
 - Added a session-scoped progression handoff record keyed by tenant, package, launch, student session, and exact destination route.

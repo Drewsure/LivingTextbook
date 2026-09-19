@@ -4785,3 +4785,16 @@ and `docs/adr/0885-phaser-snapshot-identity-normalization.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-958,
 `docs/decision-register/DR-958-phaser-source-identity-content-model-gate.md`,
 and `docs/adr/0886-phaser-source-identity-content-model-gate.md`.
+
+## 302. Phaser Returned-Package Identity Standard
+
+- A returned Phaser or hybrid package must carry the canonical frozen
+  repository, immutable snapshot tag, and exact source commit.
+- A provider-neutral DOM-reference preview may remain not-returned without
+  Phaser-specific provenance requirements.
+- Returned-package identity failure blocks wrapper review, source import,
+  route replacement, promotion, and student assignment.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-959,
+`docs/decision-register/DR-959-phaser-returned-package-identity-gate.md`,
+and `docs/adr/0887-phaser-returned-package-identity-gate.md`.
