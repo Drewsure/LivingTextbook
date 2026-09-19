@@ -22,6 +22,17 @@ The background media capability slice now rejects multimedia plans that name a s
 
 The game catalog learner-metadata slice now checks role, skill focus, summary, and explicit media capability fields before game-mode verification can pass.
 
+## Build session 0878: Persistence review-probe provider parity
+
+- Corrected the durable progression read path so a tenant-scoped teacher review
+  probe does not require a learner session cookie after teacher authorization.
+- Kept student continuity reads bound to the matching signed learner session or
+  server authorization.
+- Hardened the browser client to distinguish blocked policy, unauthorized
+  access, missing records, provider unavailability, conflicts, and malformed
+  transport responses.
+- Added static verification and recorded ADR 0878 and DR-950.
+
 ## Build session 0810: Cross-route progression handoff
 
 - Added a session-scoped progression handoff record keyed by tenant, package, launch, student session, and exact destination route.

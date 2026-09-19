@@ -129,7 +129,11 @@ export function GET(request: Request) {
 
   if (provider === "sqlite") {
     try {
-      if (!hasPersistenceReadAuthorization(request, lookup)) return json({ status: "unauthorized", provider: "sqlite", durability: "durable-managed", errors: ["Durable progression reads require a matching signed student session or server-side persistence authorization."] }, 401);
+      // Teacher probes are already authorized against the tenant-scoped teacher session above.
+      // Student continuity reads require the learner boundary.
+      if (accessMode === "student-continuity" && !hasPersistenceReadAuthorization(request, lookup)) {
+        return json({ status: "unauthorized", provider: "sqlite", durability: "durable-managed", errors: ["Durable progression reads require a matching signed student session or server-side persistence authorization."] }, 401);
+      }
       const adapter = getProgressionPersistenceAdapter();
       const record = adapter.read(lookup);
       if (!record) return json({ status: "not-found", provider: "sqlite", durability: "durable-managed", errors: ["No durable progression record was found for this coded identity."] }, 404);

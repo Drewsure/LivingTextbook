@@ -9,7 +9,7 @@ export interface HostedProgressionReadRequest {
 import type { HostedProgressionPersistenceRecord } from "@living-textbook/content-model";
 
 export interface HostedProgressionReadResult {
-  status: "available" | "not-found" | "unauthorized" | "error";
+  status: "available" | "not-found" | "unauthorized" | "blocked" | "unavailable" | "error";
   provider?: "process-memory" | "sqlite";
   durability?: "non-durable-rehearsal" | "durable-managed";
   record?: HostedProgressionPersistenceRecord;
@@ -28,13 +28,20 @@ export async function readHostedProgressionContinuity(
   });
   try {
     const response = await fetch(`/api/persistence/progression?${query.toString()}`, { method: "GET", credentials: "same-origin", cache: "no-store" });
-    const body = await response.json() as { status?: string; provider?: "process-memory" | "sqlite"; durability?: "non-durable-rehearsal" | "durable-managed"; record?: HostedProgressionPersistenceRecord; errors?: string[] };
+    const body = await readJson(response);
     if (response.status === 401 || body.status === "unauthorized") {
       return { status: "unauthorized", provider: body.provider, durability: body.durability, record: undefined, errors: body.errors ?? ["Hosted progression read authorization is required."] };
     }
-    if (!response.ok || body.status === "not-found") {
+    if (response.status === 423 || body.status === "blocked") {
+      return { status: "blocked", provider: body.provider, durability: body.durability, record: undefined, errors: body.errors ?? ["Hosted progression is blocked by deployment policy."] };
+    }
+    if (response.status === 503 || body.status === "unavailable") {
+      return { status: "unavailable", provider: body.provider, durability: body.durability, record: undefined, errors: body.errors ?? ["Hosted progression is temporarily unavailable."] };
+    }
+    if (response.status === 404 || body.status === "not-found") {
       return { status: "not-found", provider: body.provider, durability: body.durability, record: body.record, errors: body.errors ?? ["No hosted progression record was found."] };
     }
+    if (!response.ok) return { status: "error", provider: body.provider, durability: body.durability, record: undefined, errors: body.errors ?? [`Hosted progression read failed with HTTP ${response.status}.`] };
     return { status: "available", provider: body.provider, durability: body.durability, record: body.record, errors: body.errors ?? [] };
   } catch {
     return { status: "error", errors: ["The hosted progression adapter could not be reached."] };
@@ -48,20 +55,35 @@ export async function writeHostedProgressionContinuity(request: {
   expectedStudentSessionId: string;
   envelope: unknown;
 }) {
-  const response = await fetch("/api/persistence/progression", {
-    method: "POST",
-    credentials: "same-origin",
-    cache: "no-store",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      ...request,
-      requestedMode: "durable-managed",
-    }),
-  });
-  const body = await response.json() as { status?: string; errors?: string[]; idempotent?: boolean };
-  return {
-    status: body.status ?? (response.ok ? "accepted" : "error"),
-    idempotent: body.idempotent === true,
-    errors: body.errors ?? [],
-  };
+  try {
+    const response = await fetch("/api/persistence/progression", {
+      method: "POST",
+      credentials: "same-origin",
+      cache: "no-store",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...request, requestedMode: "durable-managed" }),
+    });
+    const body = await readJson(response);
+    const status = body.status ?? (response.ok ? "accepted" : response.status === 401 ? "unauthorized" : response.status === 409 ? "conflict" : response.status === 423 ? "blocked" : response.status === 503 ? "unavailable" : "error");
+    return { status, idempotent: body.idempotent === true, errors: body.errors ?? [] };
+  } catch {
+    return { status: "unavailable", idempotent: false, errors: ["The hosted progression adapter could not be reached."] };
+  }
+}
+
+type HostedProgressionResponse = {
+  status?: string;
+  provider?: "process-memory" | "sqlite";
+  durability?: "non-durable-rehearsal" | "durable-managed";
+  record?: HostedProgressionPersistenceRecord;
+  errors?: string[];
+  idempotent?: boolean;
+};
+
+async function readJson(response: Response): Promise<HostedProgressionResponse> {
+  try {
+    return await response.json() as HostedProgressionResponse;
+  } catch {
+    return { errors: [`Hosted progression returned an invalid response (HTTP ${response.status}).`] };
+  }
 }

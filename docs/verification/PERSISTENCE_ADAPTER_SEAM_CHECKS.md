@@ -15,6 +15,11 @@ server-owned and must sit behind one provider-neutral adapter seam.
 - Operations and status routes use the same provider-selection helper.
 - Provider credentials never cross into the browser route contract.
 - No provider credentials are returned to browser clients.
+- A tenant-scoped teacher review probe must not require a learner session cookie;
+  student continuity reads must still require the learner boundary.
+- Browser clients must distinguish blocked policy, unauthorized access, missing
+  records, provider unavailability, and transport errors; none may be silently
+  presented as a missing learner record.
 - An unsupported provider value fails closed with a blocked deployment state;
   it never silently becomes rehearsal storage.
 - Content, scoring, audio, QR, and progression event vocabulary remain

@@ -39,6 +39,8 @@ requireFragments("progression read route", route, [
   "hasPersistenceReadAuthorization(request, lookup)",
   "A matching signed student session or server-side persistence authorization is required for this progression read.",
   "No progression record is returned without a matching tenant-scoped learner session.",
+  'accessMode === "student-continuity" && !hasPersistenceReadAuthorization(request, lookup)',
+  "Teacher probes are already authorized against the tenant-scoped teacher session above.",
 ]);
 requireFragments("progression read client", client, [
   'accessMode?: "student-continuity" | "teacher-review-probe"',
@@ -46,6 +48,10 @@ requireFragments("progression read client", client, [
   'credentials: "same-origin"',
   'cache: "no-store"',
   'status: "unauthorized"',
+  'status: "blocked"',
+  'status: "unavailable"',
+  "invalid response",
+  "response.status === 409",
 ]);
 requireFragments("teacher persistence probe", panel, [
   'accessMode: "teacher-review-probe"',

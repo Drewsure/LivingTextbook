@@ -4647,3 +4647,22 @@ and `docs/adr/0876-release-control-revocation-rollback-chain.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-949,
 `docs/decision-register/DR-949-release-control-safe-fallback-chain.md`,
 and `docs/adr/0877-release-control-safe-fallback-chain.md`.
+
+## 293. Persistence Purpose And Provider Parity Standard
+
+- Hosted progression reads must declare one purpose: student continuity or
+  tenant-scoped teacher review.
+- Student continuity requires the matching learner session boundary. Teacher
+  review requires the tenant-scoped teacher review boundary and must not depend
+  on a learner cookie merely because the provider is durable.
+- Provider choice must not change authorization semantics. Process-memory
+  rehearsal and durable SQLite must expose the same purpose boundary.
+- Browser clients must distinguish policy blocked, unauthorized, not-found,
+  unavailable, conflict, and transport-error states; none may be collapsed into
+  a misleading missing-record state.
+- This is a read-path hardening rule. It does not authorize student-data writes,
+  export, activation, or release mutation.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-950,
+`docs/decision-register/DR-950-persistence-review-probe-provider-parity.md`,
+and `docs/adr/0878-persistence-review-probe-provider-parity.md`.
