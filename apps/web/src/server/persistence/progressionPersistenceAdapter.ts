@@ -6,6 +6,7 @@ import {
   type DurableProgressionIdentity,
   type DurableProgressionWriteResult,
 } from "./sqliteProgressionStore";
+import { createProgressionRecordFingerprint } from "./progressionRecordFingerprint";
 
 export type PersistenceProvider = "process-memory" | "sqlite";
 export type PersistenceDurability = "non-durable-rehearsal" | "durable-managed";
@@ -52,6 +53,13 @@ const processMemoryAdapter: ProgressionPersistenceAdapter = {
           status: "conflict",
           idempotent: false,
           errors: ["The idempotency key is already bound to a different tenant-scoped identity."],
+        };
+      }
+      if (createProgressionRecordFingerprint(existing) !== createProgressionRecordFingerprint(record)) {
+        return {
+          status: "conflict",
+          idempotent: false,
+          errors: ["The idempotency key is already bound to a different progression payload."],
         };
       }
       return { status: "accepted", idempotent: true, record: existing, errors: [] };

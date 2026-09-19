@@ -3846,3 +3846,11 @@ evidence adapter later records. See ADR 0805 and DR-881.
   deactivation, learner-data, assignment, classroom shutdown, activation,
   restoration, or release-state behavior.
 - Added static verification and recorded ADR 0877 and DR-949.
+
+## Build session 0891: Persistence provider conformance
+
+- Added payload-aware idempotency shared by rehearsal memory and SQLite.
+- Fixed SQLite replay reads to preserve the stored idempotency key.
+- Added temporary-data checks for replay, conflict, tenant isolation, and
+  restart durability without enabling live writes.
+- Recorded ADR 0891 and DR-963.

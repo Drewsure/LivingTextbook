@@ -3,6 +3,7 @@ import { createHash, randomUUID } from "node:crypto";
 import { dirname, resolve } from "node:path";
 import { DatabaseSync } from "node:sqlite";
 import type { HostedProgressionPersistenceRecord } from "@living-textbook/content-model";
+import { createProgressionRecordFingerprint } from "./progressionRecordFingerprint";
 
 export interface DurableProgressionIdentity {
   tenantId: string;
@@ -185,7 +186,7 @@ export class SqliteProgressionStore {
 
   write(record: HostedProgressionPersistenceRecord): DurableProgressionWriteResult {
     const existingRow = this.database.prepare(`
-      SELECT tenant_id, package_id, launch_code, student_session_id, record_json
+      SELECT tenant_id, package_id, launch_code, student_session_id, record_json, idempotency_key
       FROM hosted_progression_records
       WHERE idempotency_key = ?
       LIMIT 1
@@ -204,12 +205,23 @@ export class SqliteProgressionStore {
         };
       }
 
-      return {
-        status: "accepted",
-        idempotent: true,
-        record: parseStoredRecord(existingRow),
-        errors: [],
-      };
+      const existingRecord = parseStoredRecord(existingRow);
+      if (!existingRecord) {
+        return {
+          status: "conflict",
+          idempotent: false,
+          errors: ["The idempotency key is bound to an invalid stored progression payload."],
+        };
+      }
+      if (createProgressionRecordFingerprint(existingRecord) !== createProgressionRecordFingerprint(record)) {
+        return {
+          status: "conflict",
+          idempotent: false,
+          errors: ["The idempotency key is already bound to a different progression payload."],
+        };
+      }
+
+      return { status: "accepted", idempotent: true, record: existingRecord, errors: [] };
     }
 
     this.database.prepare(`
@@ -464,6 +476,13 @@ export function getDurableProgressionStore(): SqliteProgressionStore {
   }
 
   return cachedStore;
+}
+
+/** Close the process cache during controlled shutdowns and isolated verification. */
+export function closeDurableProgressionStore(): void {
+  cachedStore?.close();
+  cachedStore = undefined;
+  cachedPath = undefined;
 }
 
 function parseStoredRecord(row: StoredRow | undefined): HostedProgressionPersistenceRecord | undefined {

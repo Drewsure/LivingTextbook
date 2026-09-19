@@ -73,6 +73,17 @@ A beautiful unstable screen is not acceptable. A clean stable layout can be impr
 
 Hosted adapter readiness may be probed from a teacher-only workbench through a read-only coded request. A reachable endpoint or rehearsal record must never be presented as durable production persistence, and the probe must not enable learner-data writes.
 
+### Persistence idempotency and provider parity standard
+
+Every progression write must be replay-safe across every supported provider.
+The idempotency key is bound to the complete tenant-scoped progression payload,
+not merely to tenant, package, launch, and student-session identity. An exact
+replay may return the original accepted record; a changed payload or identity
+must return a visible conflict. Process-memory rehearsal and SQLite durability
+must pass the same conformance checks for acceptance, replay, conflict, tenant
+isolation, and restart behavior. Provider selection remains deployment-owned;
+conformance does not authorize live writes or select a cloud vendor.
+
 ### Cross-route and hosted persistence standard
 
 Student progression crosses routes only through a validated continuity envelope scoped to tenant, package, launch, student session, and exact destination path. Browser session storage is rehearsal-only. The first hosted adapter is a non-durable, explicitly policy-gated rehearsal boundary; production persistence requires an approved provider, identity model, retention policy, school policy, migration plan, and release gate.

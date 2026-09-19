@@ -6,6 +6,16 @@ Require matching audio for each canonical term and sentence. Distinct cue IDs re
 
 This register is a standing gate for platform decisions. It exists to keep the Living Textbook build saleable, maintainable, and tenant-ready while still moving fast enough to remain cost efficient.
 
+## DR-963: Persistence Provider Conformance
+
+Require payload-aware idempotency and one conformance gate across process-memory
+rehearsal and SQLite durability. Exact retries are idempotent; changed payloads
+and cross-tenant key reuse are conflicts; tenant-scoped reads and SQLite restart
+durability are verified with temporary data. Provider selection and live writes
+remain separately gated.
+
+Evidence: `scripts/verify-persistence-provider-conformance.mjs`, ADR 0891.
+
 ## DR-884: Hosted adapter read-path probe
 
 The teacher persistence workbench may perform a read-only probe against the hosted progression rehearsal endpoint using a coded sample identity. The probe must never create a record, and all UI copy must distinguish endpoint availability from durable storage readiness.

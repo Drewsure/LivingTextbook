@@ -53,6 +53,9 @@ console.log("PASS persistence runtime keeps tenant, policy, privacy, release, an
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-persistence-provider-configuration.mjs", import.meta.url))], {
   stdio: "inherit",
 });
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-persistence-provider-conformance.mjs", import.meta.url))], {
+  stdio: "inherit",
+});
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-persistence-readiness.mjs", import.meta.url))], {
   stdio: "inherit",
 });

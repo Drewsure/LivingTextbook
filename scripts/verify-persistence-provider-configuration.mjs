@@ -20,6 +20,10 @@ try {
     readFileSync(adapterPath, "utf8"),
     { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 } },
   ).outputText, "utf8");
+  writeFileSync(join(adapterDirectory, "progressionRecordFingerprint.js"), ts.transpileModule(
+    readFileSync(join(root, "apps", "web", "src", "server", "persistence", "progressionRecordFingerprint.ts"), "utf8"),
+    { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 } },
+  ).outputText, "utf8");
   writeFileSync(join(adapterDirectory, "sqliteProgressionStore.js"),
     'exports.getDurableProgressionStore = () => { throw new Error("durable store must not be instantiated by configuration checks"); };\n',
     "utf8");
