@@ -70,6 +70,16 @@ The game catalog learner-metadata slice now checks role, skill focus, summary, a
   preventing stale cross-tenant review state.
 - Added focused runtime/static verification and recorded ADR 0882 and DR-954.
 
+## Build session 0883: Pilot preflight readiness freshness
+
+- Added a five-minute freshness window for the authoritative persistence status
+  used by controlled pilot preflight.
+- Rejected stale and future-dated snapshots while preserving deterministic,
+  clock-injected runtime verification.
+- Kept refresh/readiness read-only and all classroom launch and durable-write
+  boundaries blocked.
+- Added focused runtime/static verification and recorded ADR 0883 and DR-955.
+
 ## Build session 0810: Cross-route progression handoff
 
 - Added a session-scoped progression handoff record keyed by tenant, package, launch, student session, and exact destination route.

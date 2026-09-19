@@ -60,7 +60,8 @@ try {
     healthy: true,
     errors: [],
   };
-  const ready = preflightModule.evaluatePilotSessionPreflight(envelope, healthyPersistence);
+  const preflightNow = Date.parse("2026-09-18T00:04:00.000Z");
+  const ready = preflightModule.evaluatePilotSessionPreflight(envelope, healthyPersistence, preflightNow);
   assert(ready.status === "ready-for-review", "complete evidence should be ready for review");
   assert(ready.launchAllowed === false, "review preflight must never authorize launch");
   assert(ready.durableWriteAllowed === false, "review preflight must never authorize durable writes");
@@ -74,28 +75,40 @@ try {
   const wrongTenantPersistence = preflightModule.evaluatePilotSessionPreflight(envelope, {
     ...healthyPersistence,
     tenantId: "other-tenant",
-  });
+  }, preflightNow);
   assert(wrongTenantPersistence.status === "incomplete", "persistence status for another tenant should remain incomplete");
   assert(wrongTenantPersistence.checks.find((check) => check.checkId === "persistence")?.status === "blocked", "mismatched persistence tenant should be blocked");
 
   const rehearsalPersistence = preflightModule.evaluatePilotSessionPreflight(envelope, {
     ...healthyPersistence,
     durability: "non-durable-rehearsal",
-  });
+  }, preflightNow);
   assert(rehearsalPersistence.status === "incomplete", "non-durable persistence must not satisfy pilot readiness");
+
+  const stalePersistence = preflightModule.evaluatePilotSessionPreflight(envelope, {
+    ...healthyPersistence,
+    checkedAt: "2026-09-17T23:00:00.000Z",
+  }, preflightNow);
+  assert(stalePersistence.status === "incomplete", "stale persistence status must not satisfy pilot readiness");
+
+  const futurePersistence = preflightModule.evaluatePilotSessionPreflight(envelope, {
+    ...healthyPersistence,
+    checkedAt: "2026-09-18T00:05:00.000Z",
+  }, preflightNow);
+  assert(futurePersistence.status === "incomplete", "future persistence status must not satisfy pilot readiness");
 
   const incomplete = preflightModule.evaluatePilotSessionPreflight({
     ...envelope,
     stages: envelope.stages.map((stage, index) => index === 2 ? { ...stage, status: "pending" } : stage),
     journeyStatus: "incomplete",
-  }, healthyPersistence);
+  }, healthyPersistence, preflightNow);
   assert(incomplete.status === "incomplete", "unfinished evidence should remain incomplete");
   assert(incomplete.launchAllowed === false && incomplete.durableWriteAllowed === false, "incomplete evidence must remain side-effect free");
 
   const invalid = preflightModule.evaluatePilotSessionPreflight({
     ...envelope,
     privacy: { ...envelope.privacy, learnerTranscriptIncluded: true },
-  }, healthyPersistence);
+  }, healthyPersistence, preflightNow);
   assert(invalid.status === "invalid", "privacy violations should invalidate evidence");
   assert(invalid.validationErrors.length > 0, "invalid evidence should explain its validation errors");
 

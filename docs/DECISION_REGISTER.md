@@ -39,6 +39,14 @@ Non-durable rehearsal and cross-tenant or malformed snapshots cannot pass;
 review-only launch, write, activation, export, and release boundaries remain
 blocked. Evidence: ADR 0882 and the pilot preflight verifier.
 
+## DR-955: Pilot Preflight Readiness Freshness
+
+Controlled pilot persistence readiness must use a tenant-bound status snapshot
+that is no more than five minutes old and not future-dated. The rule is shared,
+deterministic, and read-only; stale status cannot authorize launch, durable
+writes, activation, export, or release mutation. Evidence: ADR 0883 and the
+pilot preflight behavior verifier.
+
 ## Decision Rubric
 
 Before accepting a new direction, answer these questions in the task, PR, or implementation note:

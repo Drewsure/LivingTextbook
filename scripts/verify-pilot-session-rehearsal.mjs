@@ -94,6 +94,7 @@ requireFragments("pilot session preflight", sessionPreflight, [
   "authoritative persistence status endpoint",
   'persistenceReadiness.durability === "durable-managed"',
   "persistenceReadiness?.tenantId === envelope.tenantId",
+  "PILOT_PERSISTENCE_STATUS_MAX_AGE_MS",
   "launchAllowed: false",
   "durableWriteAllowed: false",
 ]);

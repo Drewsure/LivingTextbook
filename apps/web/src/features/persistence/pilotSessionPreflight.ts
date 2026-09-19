@@ -2,6 +2,7 @@ import { validatePilotSessionEvidenceEnvelope, type PilotSessionEvidenceEnvelope
 
 export type PilotSessionPreflightStatus = "ready-for-review" | "incomplete" | "invalid";
 export type PilotSessionPreflightCheckStatus = "pass" | "open" | "blocked";
+export const PILOT_PERSISTENCE_STATUS_MAX_AGE_MS = 5 * 60 * 1000;
 
 export interface PilotSessionPreflightCheck {
   checkId: "identity" | "workflow" | "target-language" | "privacy" | "persistence" | "launch-boundary";
@@ -31,6 +32,7 @@ export interface PilotSessionPersistenceReadiness {
 export function evaluatePilotSessionPreflight(
   envelope: PilotSessionEvidenceEnvelope,
   persistenceReadiness?: PilotSessionPersistenceReadiness,
+  now = Date.now(),
 ): PilotSessionPreflightResult {
   const validationErrors = validatePilotSessionEvidenceEnvelope(envelope);
   const identityReady = [
@@ -48,11 +50,15 @@ export function evaluatePilotSessionPreflight(
   const persistenceTimestampReady = typeof persistenceReadiness?.checkedAt === "string"
     && persistenceReadiness.checkedAt.includes("T")
     && !Number.isNaN(Date.parse(persistenceReadiness.checkedAt));
+  const persistenceCheckedAt = persistenceTimestampReady ? Date.parse(persistenceReadiness?.checkedAt ?? "") : Number.NaN;
+  const persistenceFresh = persistenceTimestampReady
+    && persistenceCheckedAt <= now
+    && now - persistenceCheckedAt <= PILOT_PERSISTENCE_STATUS_MAX_AGE_MS;
   const persistenceReady = persistenceReadiness?.status === "healthy"
     && persistenceReadiness.healthy === true
     && persistenceReadiness.durability === "durable-managed"
     && persistenceTenantReady
-    && persistenceTimestampReady;
+    && persistenceFresh;
 
   const checks: PilotSessionPreflightCheck[] = [
     {
@@ -87,7 +93,7 @@ export function evaluatePilotSessionPreflight(
         ? "The provider status has not been checked; teacher review authorization is required before pilot readiness can be assessed."
         : persistenceReady
           ? "The authoritative persistence status endpoint reports a healthy tenant-scoped boundary."
-          : `Persistence is not pilot-ready (${persistenceReadiness.status}). ${!persistenceTenantReady ? "Tenant binding is missing or mismatched. " : ""}${!persistenceTimestampReady ? "The status timestamp is missing or invalid. " : ""}${persistenceReadiness.errors[0] ?? "Resolve the durable persistence gate before pilot review."}`,
+          : `Persistence is not pilot-ready (${persistenceReadiness.status}). ${!persistenceTenantReady ? "Tenant binding is missing or mismatched. " : ""}${!persistenceTimestampReady ? "The status timestamp is missing or invalid. " : !persistenceFresh ? "The status timestamp is stale or from the future. " : ""}${persistenceReadiness.errors[0] ?? "Resolve the durable persistence gate before pilot review."}`,
     },
     {
       checkId: "launch-boundary",

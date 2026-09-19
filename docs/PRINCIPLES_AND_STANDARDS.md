@@ -4731,3 +4731,18 @@ and `docs/adr/0881-pilot-preflight-persistence-binding.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-954,
 `docs/decision-register/DR-954-pilot-preflight-tenant-bound-readiness.md`,
 and `docs/adr/0882-pilot-preflight-tenant-bound-readiness.md`.
+
+## 298. Pilot Preflight Readiness Freshness Standard
+
+- Pilot persistence readiness must use a valid status timestamp no more than
+  five minutes old at evaluation time.
+- Future-dated, stale, missing, or malformed timestamps cannot satisfy the
+  controlled pilot readiness check.
+- The freshness window must remain a shared, deterministic contract covered
+  by runtime verification rather than an informal UI convention.
+- Readiness refresh is read-only and never authorizes classroom launch,
+  durable writes, activation, export, or release mutation.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-955,
+`docs/decision-register/DR-955-pilot-preflight-readiness-freshness.md`,
+and `docs/adr/0883-pilot-preflight-readiness-freshness.md`.
