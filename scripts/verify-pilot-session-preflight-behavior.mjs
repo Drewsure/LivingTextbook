@@ -54,6 +54,9 @@ try {
 
   const healthyPersistence = {
     status: "healthy",
+    tenantId: "sample-tenant",
+    checkedAt: "2026-09-18T00:00:00.000Z",
+    durability: "durable-managed",
     healthy: true,
     errors: [],
   };
@@ -67,6 +70,19 @@ try {
   const uncheckedPersistence = preflightModule.evaluatePilotSessionPreflight(envelope);
   assert(uncheckedPersistence.status === "incomplete", "evidence without authoritative persistence status should remain incomplete");
   assert(uncheckedPersistence.checks.find((check) => check.checkId === "persistence")?.status === "open", "missing persistence status should remain open");
+
+  const wrongTenantPersistence = preflightModule.evaluatePilotSessionPreflight(envelope, {
+    ...healthyPersistence,
+    tenantId: "other-tenant",
+  });
+  assert(wrongTenantPersistence.status === "incomplete", "persistence status for another tenant should remain incomplete");
+  assert(wrongTenantPersistence.checks.find((check) => check.checkId === "persistence")?.status === "blocked", "mismatched persistence tenant should be blocked");
+
+  const rehearsalPersistence = preflightModule.evaluatePilotSessionPreflight(envelope, {
+    ...healthyPersistence,
+    durability: "non-durable-rehearsal",
+  });
+  assert(rehearsalPersistence.status === "incomplete", "non-durable persistence must not satisfy pilot readiness");
 
   const incomplete = preflightModule.evaluatePilotSessionPreflight({
     ...envelope,

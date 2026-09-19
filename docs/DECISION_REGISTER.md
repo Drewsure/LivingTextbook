@@ -30,6 +30,15 @@ storage activation, or release mutation. Evidence: ADR 0881,
 `apps/web/src/features/persistence/pilotSessionPreflight.ts`, and
 `scripts/verify-pilot-session-preflight-behavior.mjs`.
 
+## DR-954: Pilot Preflight Tenant-Bound Readiness
+
+Healthy pilot persistence evidence must match the evidence envelope tenant,
+declare `durable-managed` durability, and include a valid ISO check timestamp.
+Changing tenants clears the prior snapshot before the new read resolves.
+Non-durable rehearsal and cross-tenant or malformed snapshots cannot pass;
+review-only launch, write, activation, export, and release boundaries remain
+blocked. Evidence: ADR 0882 and the pilot preflight verifier.
+
 ## Decision Rubric
 
 Before accepting a new direction, answer these questions in the task, PR, or implementation note:

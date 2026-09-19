@@ -4714,3 +4714,20 @@ and `docs/adr/0880-persistence-effective-readiness.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-953,
 `docs/decision-register/DR-953-pilot-preflight-persistence-binding.md`,
 and `docs/adr/0881-pilot-preflight-persistence-binding.md`.
+
+## 297. Pilot Preflight Tenant-Bound Readiness Standard
+
+- A healthy persistence result must identify the same tenant as the pilot
+  evidence envelope and declare the durable-managed provider boundary.
+- The result must include a valid ISO check timestamp; missing, mismatched,
+  stale-looking, or malformed identity evidence cannot satisfy readiness.
+- Non-durable rehearsal remains useful for local testing but cannot pass the
+  controlled pilot persistence check.
+- Tenant changes must clear the prior readiness snapshot before a new status
+  request resolves, preventing cross-tenant state leakage.
+- This remains a read-only review gate; it cannot authorize launch, durable
+  writes, activation, export, or release mutation.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-954,
+`docs/decision-register/DR-954-pilot-preflight-tenant-bound-readiness.md`,
+and `docs/adr/0882-pilot-preflight-tenant-bound-readiness.md`.

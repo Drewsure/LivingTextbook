@@ -47,6 +47,8 @@ export function GET(request: Request) {
 
   return NextResponse.json({
     status: readiness.status,
+    tenantId,
+    checkedAt: new Date().toISOString(),
     provider,
     durability: durable ? "durable-managed" : "non-durable-rehearsal",
     healthy: readiness.healthy,

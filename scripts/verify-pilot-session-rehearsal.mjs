@@ -92,6 +92,8 @@ requireFragments("pilot session preflight", sessionPreflight, [
   'checkId: "identity" | "workflow" | "target-language" | "privacy" | "persistence" | "launch-boundary"',
   "PilotSessionPersistenceReadiness",
   "authoritative persistence status endpoint",
+  'persistenceReadiness.durability === "durable-managed"',
+  "persistenceReadiness?.tenantId === envelope.tenantId",
   "launchAllowed: false",
   "durableWriteAllowed: false",
 ]);

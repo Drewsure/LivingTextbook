@@ -60,6 +60,16 @@ The game catalog learner-metadata slice now checks role, skill focus, summary, a
   disabled even when all evidence is ready for human review.
 - Added focused runtime/static verification and recorded ADR 0881 and DR-953.
 
+## Build session 0882: Pilot preflight tenant-bound readiness
+
+- Added tenant identity, durability, and check timestamp evidence to the
+  persistence status boundary.
+- Required pilot readiness to match the evidence envelope tenant and use the
+  durable-managed provider boundary; non-durable rehearsal remains blocked.
+- Cleared prior tenant readiness before a new teacher status request resolves,
+  preventing stale cross-tenant review state.
+- Added focused runtime/static verification and recorded ADR 0882 and DR-954.
+
 ## Build session 0810: Cross-route progression handoff
 
 - Added a session-scoped progression handoff record keyed by tenant, package, launch, student session, and exact destination route.

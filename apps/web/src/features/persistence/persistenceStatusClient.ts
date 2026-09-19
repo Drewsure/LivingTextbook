@@ -1,5 +1,7 @@
 export interface PersistenceStatusResult {
   status: "healthy" | "blocked" | "rehearsal" | "unauthorized" | "error";
+  tenantId?: string;
+  checkedAt?: string;
   provider?: "process-memory" | "sqlite";
   durability?: "non-durable-rehearsal" | "durable-managed";
   healthy?: boolean;
@@ -29,6 +31,8 @@ export async function readPersistenceStatus(tenantId: string): Promise<Persisten
     const body = await response.json() as Omit<PersistenceStatusResult, "status"> & { status?: PersistenceStatusResult["status"] };
     return {
       status: body.status ?? (response.ok ? "healthy" : "error"),
+      tenantId: body.tenantId,
+      checkedAt: body.checkedAt,
       provider: body.provider,
       durability: body.durability,
       healthy: body.healthy,

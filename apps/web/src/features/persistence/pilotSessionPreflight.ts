@@ -21,6 +21,9 @@ export interface PilotSessionPreflightResult {
 
 export interface PilotSessionPersistenceReadiness {
   status: "healthy" | "blocked" | "rehearsal" | "unauthorized" | "error";
+  tenantId?: string;
+  checkedAt?: string;
+  durability?: "non-durable-rehearsal" | "durable-managed";
   healthy?: boolean;
   errors: string[];
 }
@@ -41,7 +44,15 @@ export function evaluatePilotSessionPreflight(
   const workflowComplete = envelope.journeyStatus === "complete" && completeStages === envelope.stages.length;
   const targetLanguageReady = envelope.targetLanguage.trim().length > 0;
   const privacyReady = Object.values(envelope.privacy).every((value) => value === false);
-  const persistenceReady = persistenceReadiness?.status === "healthy" && persistenceReadiness.healthy === true;
+  const persistenceTenantReady = persistenceReadiness?.tenantId === envelope.tenantId;
+  const persistenceTimestampReady = typeof persistenceReadiness?.checkedAt === "string"
+    && persistenceReadiness.checkedAt.includes("T")
+    && !Number.isNaN(Date.parse(persistenceReadiness.checkedAt));
+  const persistenceReady = persistenceReadiness?.status === "healthy"
+    && persistenceReadiness.healthy === true
+    && persistenceReadiness.durability === "durable-managed"
+    && persistenceTenantReady
+    && persistenceTimestampReady;
 
   const checks: PilotSessionPreflightCheck[] = [
     {
@@ -76,7 +87,7 @@ export function evaluatePilotSessionPreflight(
         ? "The provider status has not been checked; teacher review authorization is required before pilot readiness can be assessed."
         : persistenceReady
           ? "The authoritative persistence status endpoint reports a healthy tenant-scoped boundary."
-          : `Persistence is not pilot-ready (${persistenceReadiness.status}). ${persistenceReadiness.errors[0] ?? "Resolve the persistence gate before pilot review."}`,
+          : `Persistence is not pilot-ready (${persistenceReadiness.status}). ${!persistenceTenantReady ? "Tenant binding is missing or mismatched. " : ""}${!persistenceTimestampReady ? "The status timestamp is missing or invalid. " : ""}${persistenceReadiness.errors[0] ?? "Resolve the durable persistence gate before pilot review."}`,
     },
     {
       checkId: "launch-boundary",

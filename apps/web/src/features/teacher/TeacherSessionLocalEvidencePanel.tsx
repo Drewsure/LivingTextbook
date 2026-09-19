@@ -53,6 +53,7 @@ export function TeacherSessionLocalEvidencePanel({
 
   useEffect(() => {
     let active = true;
+    setPersistenceReadiness(undefined);
     void readPersistenceStatus(expectedTenantId).then((result) => {
       if (active) setPersistenceReadiness(result);
     });
