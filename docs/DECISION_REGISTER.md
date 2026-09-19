@@ -20,6 +20,16 @@ The first hosted adapter is a process-local rehearsal endpoint with validation, 
 
 The repo is the source of truth. Every major technical, product, AI-agent, game-engine, styling, infrastructure, or data decision should be checked here before implementation.
 
+## DR-953: Pilot Preflight Persistence Binding
+
+Controlled pilot preflight must consume the authoritative tenant-scoped
+persistence status result before reporting `ready-for-review`. Missing status
+is open; every non-healthy status is blocked; only explicit healthy status may
+pass. Review readiness never authorizes classroom launch, durable writes,
+storage activation, or release mutation. Evidence: ADR 0881,
+`apps/web/src/features/persistence/pilotSessionPreflight.ts`, and
+`scripts/verify-pilot-session-preflight-behavior.mjs`.
+
 ## Decision Rubric
 
 Before accepting a new direction, answer these questions in the task, PR, or implementation note:

@@ -4,7 +4,7 @@ export type PilotSessionPreflightStatus = "ready-for-review" | "incomplete" | "i
 export type PilotSessionPreflightCheckStatus = "pass" | "open" | "blocked";
 
 export interface PilotSessionPreflightCheck {
-  checkId: "identity" | "workflow" | "target-language" | "privacy" | "launch-boundary";
+  checkId: "identity" | "workflow" | "target-language" | "privacy" | "persistence" | "launch-boundary";
   label: string;
   status: PilotSessionPreflightCheckStatus;
   detail: string;
@@ -19,8 +19,15 @@ export interface PilotSessionPreflightResult {
   summary: string;
 }
 
+export interface PilotSessionPersistenceReadiness {
+  status: "healthy" | "blocked" | "rehearsal" | "unauthorized" | "error";
+  healthy?: boolean;
+  errors: string[];
+}
+
 export function evaluatePilotSessionPreflight(
   envelope: PilotSessionEvidenceEnvelope,
+  persistenceReadiness?: PilotSessionPersistenceReadiness,
 ): PilotSessionPreflightResult {
   const validationErrors = validatePilotSessionEvidenceEnvelope(envelope);
   const identityReady = [
@@ -34,6 +41,7 @@ export function evaluatePilotSessionPreflight(
   const workflowComplete = envelope.journeyStatus === "complete" && completeStages === envelope.stages.length;
   const targetLanguageReady = envelope.targetLanguage.trim().length > 0;
   const privacyReady = Object.values(envelope.privacy).every((value) => value === false);
+  const persistenceReady = persistenceReadiness?.status === "healthy" && persistenceReadiness.healthy === true;
 
   const checks: PilotSessionPreflightCheck[] = [
     {
@@ -61,6 +69,16 @@ export function evaluatePilotSessionPreflight(
       detail: privacyReady ? "Raw audio, transcripts, support-language progress, durable writes, and live status are excluded." : "A prohibited evidence flag is enabled.",
     },
     {
+      checkId: "persistence",
+      label: "Persistence readiness",
+      status: persistenceReadiness === undefined ? "open" : persistenceReady ? "pass" : "blocked",
+      detail: persistenceReadiness === undefined
+        ? "The provider status has not been checked; teacher review authorization is required before pilot readiness can be assessed."
+        : persistenceReady
+          ? "The authoritative persistence status endpoint reports a healthy tenant-scoped boundary."
+          : `Persistence is not pilot-ready (${persistenceReadiness.status}). ${persistenceReadiness.errors[0] ?? "Resolve the persistence gate before pilot review."}`,
+    },
+    {
       checkId: "launch-boundary",
       label: "Launch boundary",
       status: "blocked",
@@ -70,7 +88,7 @@ export function evaluatePilotSessionPreflight(
 
   const status: PilotSessionPreflightStatus = validationErrors.length > 0
     ? "invalid"
-    : workflowComplete && identityReady && targetLanguageReady && privacyReady
+    : workflowComplete && identityReady && targetLanguageReady && privacyReady && persistenceReady
       ? "ready-for-review"
       : "incomplete";
 

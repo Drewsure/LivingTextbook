@@ -8,6 +8,7 @@ import type { LocalSessionEvidence } from "@/features/persistence/localSessionEv
 import { formatMode } from "@/lib/formatLabels";
 import { createPilotSessionEvidenceEnvelope } from "@/features/persistence/pilotSessionEvidenceEnvelope";
 import { evaluatePilotSessionPreflight } from "@/features/persistence/pilotSessionPreflight";
+import { readPersistenceStatus, type PersistenceStatusResult } from "@/features/persistence/persistenceStatusClient";
 
 interface TeacherSessionLocalEvidencePanelProps {
   launchCode: string;
@@ -26,6 +27,7 @@ export function TeacherSessionLocalEvidencePanel({
 }: TeacherSessionLocalEvidencePanelProps) {
   const [evidence, setEvidence] = useState<LocalSessionEvidence>();
   const [bindingErrors, setBindingErrors] = useState<string[]>([]);
+  const [persistenceReadiness, setPersistenceReadiness] = useState<PersistenceStatusResult>();
 
   useEffect(() => {
     function readBoundEvidence() {
@@ -49,11 +51,21 @@ export function TeacherSessionLocalEvidencePanel({
     return subscribeToLocalSessionEvidence(launchCode, readBoundEvidence);
   }, [expectedPackageId, expectedStudentSessionId, expectedTenantId, launchCode]);
 
+  useEffect(() => {
+    let active = true;
+    void readPersistenceStatus(expectedTenantId).then((result) => {
+      if (active) setPersistenceReadiness(result);
+    });
+    return () => {
+      active = false;
+    };
+  }, [expectedTenantId]);
+
   const completed = evidence?.progression.completedGameModes.length ?? 0;
   const latestEvent = evidence?.events[evidence.events.length - 1];
   const activityModes = evidence ? getObservedActivityModes(evidence) : [];
   const evidenceEnvelope = evidence ? createPilotSessionEvidenceEnvelope({ evidence, targetLanguage }) : undefined;
-  const pilotPreflight = evidenceEnvelope ? evaluatePilotSessionPreflight(evidenceEnvelope) : undefined;
+  const pilotPreflight = evidenceEnvelope ? evaluatePilotSessionPreflight(evidenceEnvelope, persistenceReadiness) : undefined;
 
   return (
     <Card>

@@ -52,25 +52,34 @@ try {
   const preflightModule = require(join(output, "apps", "web", "src", "features", "persistence", "pilotSessionPreflight.js"));
   const envelope = createEnvelope(envelopeModule);
 
-  const ready = preflightModule.evaluatePilotSessionPreflight(envelope);
+  const healthyPersistence = {
+    status: "healthy",
+    healthy: true,
+    errors: [],
+  };
+  const ready = preflightModule.evaluatePilotSessionPreflight(envelope, healthyPersistence);
   assert(ready.status === "ready-for-review", "complete evidence should be ready for review");
   assert(ready.launchAllowed === false, "review preflight must never authorize launch");
   assert(ready.durableWriteAllowed === false, "review preflight must never authorize durable writes");
-  assert(ready.checks.filter((check) => check.status === "pass").length === 4, "complete evidence should pass four readiness checks");
+  assert(ready.checks.filter((check) => check.status === "pass").length === 5, "complete evidence should pass five readiness checks");
   assert(ready.checks.find((check) => check.checkId === "launch-boundary")?.status === "blocked", "launch boundary must remain blocked");
+
+  const uncheckedPersistence = preflightModule.evaluatePilotSessionPreflight(envelope);
+  assert(uncheckedPersistence.status === "incomplete", "evidence without authoritative persistence status should remain incomplete");
+  assert(uncheckedPersistence.checks.find((check) => check.checkId === "persistence")?.status === "open", "missing persistence status should remain open");
 
   const incomplete = preflightModule.evaluatePilotSessionPreflight({
     ...envelope,
     stages: envelope.stages.map((stage, index) => index === 2 ? { ...stage, status: "pending" } : stage),
     journeyStatus: "incomplete",
-  });
+  }, healthyPersistence);
   assert(incomplete.status === "incomplete", "unfinished evidence should remain incomplete");
   assert(incomplete.launchAllowed === false && incomplete.durableWriteAllowed === false, "incomplete evidence must remain side-effect free");
 
   const invalid = preflightModule.evaluatePilotSessionPreflight({
     ...envelope,
     privacy: { ...envelope.privacy, learnerTranscriptIncluded: true },
-  });
+  }, healthyPersistence);
   assert(invalid.status === "invalid", "privacy violations should invalidate evidence");
   assert(invalid.validationErrors.length > 0, "invalid evidence should explain its validation errors");
 

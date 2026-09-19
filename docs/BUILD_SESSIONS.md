@@ -50,6 +50,16 @@ The game catalog learner-metadata slice now checks role, skill focus, summary, a
 - Preserved explicit non-durable rehearsal semantics.
 - Added static verification and recorded ADR 0880 and DR-952.
 
+## Build session 0881: Pilot preflight persistence binding
+
+- Bound controlled pilot-session preflight to the authoritative tenant-scoped
+  persistence status result.
+- Kept missing status open and every non-healthy state blocked; only an
+  explicitly healthy result can satisfy the persistence readiness check.
+- Preserved review-only boundaries: classroom launch and durable writes remain
+  disabled even when all evidence is ready for human review.
+- Added focused runtime/static verification and recorded ADR 0881 and DR-953.
+
 ## Build session 0810: Cross-route progression handoff
 
 - Added a session-scoped progression handoff record keyed by tenant, package, launch, student session, and exact destination route.

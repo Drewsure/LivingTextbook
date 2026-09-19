@@ -4698,3 +4698,19 @@ and `docs/adr/0879-persistence-operator-state-clarity.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-952,
 `docs/decision-register/DR-952-persistence-effective-readiness.md`,
 and `docs/adr/0880-persistence-effective-readiness.md`.
+
+## 296. Pilot Preflight Persistence Binding Standard
+
+- A controlled pilot rehearsal may report `ready-for-review` only after it
+  consumes the authoritative tenant-scoped persistence status result.
+- Missing status is an open check. Blocked, unauthorized, rehearsal, error,
+  malformed, or stale status is blocked and cannot be treated as production
+  readiness.
+- A healthy status is evidence for adult review, not permission to launch a
+  classroom, write learner data, activate storage, or mutate release state.
+- The teacher surface must preserve tenant identity and keep the read-only
+  persistence probe privacy-safe.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-953,
+`docs/decision-register/DR-953-pilot-preflight-persistence-binding.md`,
+and `docs/adr/0881-pilot-preflight-persistence-binding.md`.

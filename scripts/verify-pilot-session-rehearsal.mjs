@@ -89,12 +89,18 @@ requireFragments("pilot evidence envelope contract", evidenceEnvelope, [
 requireFragments("pilot session preflight", sessionPreflight, [
   "evaluatePilotSessionPreflight",
   'PilotSessionPreflightStatus = "ready-for-review" | "incomplete" | "invalid"',
+  'checkId: "identity" | "workflow" | "target-language" | "privacy" | "persistence" | "launch-boundary"',
+  "PilotSessionPersistenceReadiness",
+  "authoritative persistence status endpoint",
   "launchAllowed: false",
   "durableWriteAllowed: false",
 ]);
 requireFragments("pilot session preflight panel", teacherEvidencePanel, [
   "data-pilot-preflight=\"review-only\"",
   "Review readiness, not launch approval",
+  "readPersistenceStatus",
+  "persistenceReadiness",
+  "evaluatePilotSessionPreflight(evidenceEnvelope, persistenceReadiness)",
 ]);
 requireFragments("hosted persistence safety", persistenceRoute, [
   "Hosted progression rehearsal writes are disabled by default.",
