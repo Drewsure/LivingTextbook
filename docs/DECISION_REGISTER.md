@@ -96,6 +96,15 @@ does not authorize source import, route creation, promotion, assignment, or
 live AI dispatch. Evidence: ADR 0889 and
 `packages/content-model/src/aiPrototypeReturnedPackageAlignment.ts`.
 
+## DR-962: Evidence Bundle Returned Manifest Binding
+
+Prototype evidence alignment must include and validate the returned-package
+manifest that produced the evidence. Its tenant and generation request must
+match the return review and downstream evidence, and duplicate manifest IDs
+must be rejected. This remains evidence-only and cannot authorize import,
+routes, promotion, assignment, or live AI dispatch. Evidence: ADR 0890 and
+`packages/content-model/src/aiPrototypeEvidenceAlignment.ts`.
+
 ## Decision Rubric
 
 Before accepting a new direction, answer these questions in the task, PR, or implementation note:

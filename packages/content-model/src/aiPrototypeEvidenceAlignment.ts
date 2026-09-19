@@ -6,11 +6,16 @@ import type { AiPrototypeIntegrationPlan } from "./aiPrototypeIntegrationPlan";
 import type { AiPrototypeIntegrationReadinessGate } from "./aiPrototypeIntegrationReadinessGate";
 import type { AiPrototypeMobileAccessibilityReport } from "./aiPrototypeMobileAccessibilityReport";
 import type { AiPrototypeReturnReviewPacket } from "./aiPrototypeReturnReview";
+import {
+  validateAiPrototypeReturnedPackageManifest,
+  type AiPrototypeReturnedPackageManifest,
+} from "./aiPrototypeReturnedPackageManifest";
 import type { AiPrototypeScoringReplayReport } from "./aiPrototypeScoringReplayReport";
 import type { AiPrototypeWrapperAdapterReview } from "./aiPrototypeWrapperAdapterReview";
 
 export interface AiPrototypeEvidenceAlignmentBundle {
   returnReview: AiPrototypeReturnReviewPacket;
+  returnedPackageManifest: AiPrototypeReturnedPackageManifest;
   integrationPlan: AiPrototypeIntegrationPlan;
   wrapperAdapterReview: AiPrototypeWrapperAdapterReview;
   fixtureReplayReport: AiPrototypeFixtureReplayReport;
@@ -30,6 +35,7 @@ export function validateAiPrototypeEvidenceAlignment(
   const errors: string[] = [];
   const records = [
     ["return review", bundle.returnReview],
+    ["returned package manifest", bundle.returnedPackageManifest],
     ["integration plan", bundle.integrationPlan],
     ["wrapper adapter review", bundle.wrapperAdapterReview],
     ["fixture replay report", bundle.fixtureReplayReport],
@@ -43,6 +49,7 @@ export function validateAiPrototypeEvidenceAlignment(
 
   const tenantId = bundle.returnReview.tenantId;
   const requestId = bundle.returnReview.requestId;
+  errors.push(...validateAiPrototypeReturnedPackageManifest(bundle.returnedPackageManifest));
   for (const [label, record] of records) {
     if (record.tenantId !== tenantId) {
       errors.push(`${label} tenantId does not match the return review tenant.`);
@@ -91,6 +98,7 @@ export function validateAiPrototypeEvidenceAlignmentBundles(
     validateAiPrototypeEvidenceAlignment(bundle).map((error) => `${bundle.returnReview.requestId}: ${error}`),
   );
   const reviewIds = bundles.map((bundle) => bundle.returnReview.reviewId).filter(Boolean);
+  const manifestIds = bundles.map((bundle) => bundle.returnedPackageManifest.manifestId).filter(Boolean);
   const planIds = bundles.map((bundle) => bundle.integrationPlan.planId).filter(Boolean);
   const tenantRequestPairs = bundles
     .map((bundle) => `${bundle.returnReview.tenantId}:${bundle.returnReview.requestId}`)
@@ -98,6 +106,10 @@ export function validateAiPrototypeEvidenceAlignmentBundles(
 
   if (new Set(reviewIds).size !== reviewIds.length) {
     errors.push("AI prototype evidence alignment collection must not repeat return review IDs.");
+  }
+
+  if (new Set(manifestIds).size !== manifestIds.length) {
+    errors.push("AI prototype evidence alignment collection must not repeat returned package manifest IDs.");
   }
 
   if (new Set(planIds).size !== planIds.length) {

@@ -134,6 +134,14 @@ The game catalog learner-metadata slice now checks role, skill focus, summary, a
   routes, promotion, and assignments blocked.
 - Recorded ADR 0889 and DR-961.
 
+## Build session 0890: Evidence bundle returned manifest binding
+
+- Bound the returned-package manifest into every prototype evidence alignment
+  bundle and reused its shared validator.
+- Rejected cross-request manifests and duplicate manifest identities in the
+  evidence collection.
+- Preserved the review-only boundary and recorded ADR 0890 and DR-962.
+
 ## Build session 0810: Cross-route progression handoff
 
 - Added a session-scoped progression handoff record keyed by tenant, package, launch, student session, and exact destination route.

@@ -4826,3 +4826,17 @@ and `docs/adr/0888-returned-package-status-surface.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-961,
 `docs/decision-register/DR-961-returned-package-request-lineage.md`,
 and `docs/adr/0889-returned-package-request-lineage.md`.
+
+## 305. Evidence Bundle Returned Manifest Standard
+
+- Every prototype evidence alignment bundle must include the returned-package
+  manifest that produced the evidence.
+- The shared validator must validate that manifest and match its tenant and
+  generation request to the return review and downstream reports.
+- Alignment collections must reject duplicate returned manifest IDs.
+- Evidence binding never authorizes source import, route creation, wrapper
+  approval, promotion, assignment, or live AI dispatch.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-962,
+`docs/decision-register/DR-962-evidence-bundle-returned-manifest-binding.md`,
+and `docs/adr/0890-evidence-bundle-returned-manifest-binding.md`.

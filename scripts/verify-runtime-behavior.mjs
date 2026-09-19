@@ -2505,6 +2505,30 @@ try {
   const alignmentMode = [{ modeId: "flashcards", parentEngine: "pairing" }];
   const alignmentBundle = {
     returnReview: { reviewId: "review-1", tenantId: "tenant-1", requestId: "request-1", modeReviews: alignmentMode },
+    returnedPackageManifest: {
+      manifestId: "manifest-1",
+      tenantId: "tenant-1",
+      requestId: "request-1",
+      queueItemId: "queue-1",
+      status: "not-returned",
+      sourceRepository: "Drewsure/ministar-lab",
+      sourceSnapshotId: "not-returned",
+      prototypeFolder: "not-returned",
+      targetMode: "flashcards",
+      parentEngine: "pairing",
+      targetSurface: "dom-reference",
+      artifacts: [],
+      blockedActions: [
+        "No archive import",
+        "No direct file copy into apps/web",
+        "No direct file copy into apps/ai-service",
+        "No active route replacement",
+        "No scoring mutation",
+        "No audio manifest mutation",
+        "No package promotion",
+        "No student assignment",
+      ],
+    },
     integrationPlan: { planId: "plan-1", tenantId: "tenant-1", requestId: "request-1", returnReviewId: "review-1", modePlans: alignmentMode },
     wrapperAdapterReview: { tenantId: "tenant-1", requestId: "request-1", integrationPlanId: "plan-1", modeReviews: alignmentMode },
     fixtureReplayReport: { tenantId: "tenant-1", requestId: "request-1", integrationPlanId: "plan-1", modeReports: alignmentMode },
@@ -2522,6 +2546,13 @@ try {
       eventReplayReport: { ...alignmentBundle.eventReplayReport, requestId: "request-2" },
     }),
     "event replay report requestId does not match the return review request.",
+  );
+  assertIncludes(
+    prototypeAlignment.validateAiPrototypeEvidenceAlignment({
+      ...alignmentBundle,
+      returnedPackageManifest: { ...alignmentBundle.returnedPackageManifest, requestId: "request-2" },
+    }),
+    "returned package manifest requestId does not match the return review request.",
   );
   assertIncludes(
     prototypeAlignment.validateAiPrototypeEvidenceAlignment({
@@ -2554,6 +2585,7 @@ try {
         ...alignmentBundle,
         returnReview: { ...alignmentBundle.returnReview, reviewId: "review-1", requestId: "request-2" },
         integrationPlan: { ...alignmentBundle.integrationPlan, planId: "plan-2", requestId: "request-2", returnReviewId: "review-1" },
+        returnedPackageManifest: { ...alignmentBundle.returnedPackageManifest, manifestId: "manifest-2", requestId: "request-2" },
       },
     ]),
     "AI prototype evidence alignment collection must not repeat return review IDs.",

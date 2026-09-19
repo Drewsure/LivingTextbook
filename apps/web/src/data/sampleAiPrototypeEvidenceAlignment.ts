@@ -11,6 +11,7 @@ import { sampleAiPrototypeIntegrationPlans } from "@/data/sampleAiPrototypeInteg
 import { sampleAiPrototypeIntegrationReadinessGates } from "@/data/sampleAiPrototypeIntegrationReadinessGate";
 import { sampleAiPrototypeMobileAccessibilityReports } from "@/data/sampleAiPrototypeMobileAccessibilityReport";
 import { sampleAiPrototypeReturnReviewPackets } from "@/data/sampleAiPrototypeReturnReview";
+import { sampleAiPrototypeReturnedPackageManifests } from "@/data/sampleAiPrototypeReturnedPackageManifest";
 import { sampleAiPrototypeScoringReplayReports } from "@/data/sampleAiPrototypeScoringReplayReport";
 import { sampleAiPrototypeWrapperAdapterReviews } from "@/data/sampleAiPrototypeWrapperAdapterReview";
 
@@ -18,6 +19,9 @@ export const sampleAiPrototypeEvidenceAlignmentBundles: AiPrototypeEvidenceAlign
   sampleAiPrototypeReturnReviewPackets.flatMap((returnReview) => {
     const byRequest = <T extends { requestId: string }>(records: T[]) =>
       records.find((record) => record.requestId === returnReview.requestId);
+    const returnedPackageManifest = sampleAiPrototypeReturnedPackageManifests.find(
+      (record) => record.tenantId === returnReview.tenantId && record.requestId === returnReview.requestId,
+    );
     const integrationPlan = byRequest(sampleAiPrototypeIntegrationPlans);
     const wrapperAdapterReview = byRequest(sampleAiPrototypeWrapperAdapterReviews);
     const fixtureReplayReport = byRequest(sampleAiPrototypeFixtureReplayReports);
@@ -30,6 +34,7 @@ export const sampleAiPrototypeEvidenceAlignmentBundles: AiPrototypeEvidenceAlign
 
     if (
       !integrationPlan ||
+      !returnedPackageManifest ||
       !wrapperAdapterReview ||
       !fixtureReplayReport ||
       !eventReplayReport ||
@@ -45,6 +50,7 @@ export const sampleAiPrototypeEvidenceAlignmentBundles: AiPrototypeEvidenceAlign
     return [
       {
         returnReview,
+        returnedPackageManifest,
         integrationPlan,
         wrapperAdapterReview,
         fixtureReplayReport,
