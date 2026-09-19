@@ -3716,3 +3716,13 @@ evidence adapter later records. See ADR 0805 and DR-881.
   learner-data deletion, media replacement, local deactivation, entitlement
   changes, and classroom shutdown.
 - Added static verification and recorded ADR 0876 and DR-948.
+
+## Build session 0877: Release-control safe-fallback chain
+
+- Carried exact release-control evidence from rollback impact review through
+  safe-fallback planning, fallback preflight, activation preview, and
+  restoration preview.
+- Preserved no QR mutation, notification, media replacement, local
+  deactivation, learner-data, assignment, classroom shutdown, activation,
+  restoration, or release-state behavior.
+- Added static verification and recorded ADR 0877 and DR-949.

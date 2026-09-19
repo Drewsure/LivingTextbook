@@ -59,6 +59,21 @@ export function SchoolRollbackSafeFallbackPreflightPanel({ preflight }: SchoolRo
         </div>
       </section>
 
+      <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Release-control evidence inherited from fallback plan</p>
+            <h3 className="mt-1 text-base font-bold text-[var(--tenant-text)]">{preflight.releaseControlEvidence.bindingId}</h3>
+            <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">
+              Decision: {preflight.releaseControlEvidence.decision}. Gate: {preflight.releaseControlEvidence.releaseGateId}.
+              This preflight cannot activate fallback behavior or override release-control evidence.
+            </p>
+          </div>
+          <StatusPill label="No activation" tone="neutral" />
+        </div>
+        <PreflightMiniList title="Release blockers" items={preflight.releaseControlEvidence.releaseBlockingReasons} tone="warning" />
+      </section>
+
       <div className="mt-5 grid gap-4 xl:grid-cols-2">
         {preflight.lanes.map((lane) => (
           <PreflightLaneCard key={lane.laneId} lane={lane} />

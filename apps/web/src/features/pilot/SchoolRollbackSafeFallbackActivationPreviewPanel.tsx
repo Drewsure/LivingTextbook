@@ -62,6 +62,20 @@ export function SchoolRollbackSafeFallbackActivationPreviewPanel({
         </div>
       </section>
 
+      <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Release-control evidence inherited from fallback preflight</p>
+            <h3 className="mt-1 text-base font-bold text-[var(--tenant-text)]">{preview.releaseControlEvidence.bindingId}</h3>
+            <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">
+              Decision: {preview.releaseControlEvidence.decision}. Gate: {preview.releaseControlEvidence.releaseGateId}.
+              This activation record preview cannot override the release gate or activate fallback behavior.
+            </p>
+          </div>
+          <StatusPill label="Not activated" tone="neutral" />
+        </div>
+      </section>
+
       <div className="mt-5 grid gap-4 xl:grid-cols-2">
         {preview.minimumActivationRecordFields.map((field) => (
           <ActivationFieldCard key={field.fieldId} field={field} />

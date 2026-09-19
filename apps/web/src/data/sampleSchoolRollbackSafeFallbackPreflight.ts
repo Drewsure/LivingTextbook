@@ -1,4 +1,5 @@
 import { sampleSchoolRollbackSafeFallbackPlan } from "@/data/sampleSchoolRollbackSafeFallbackPlan";
+import type { ReleaseControlEvidence } from "@living-textbook/content-model";
 
 export type SafeFallbackPreflightStatus = "blocked" | "needs-policy" | "future-required";
 export type SafeFallbackPreflightOwner = "school" | "publisher" | "platform" | "teacher" | "shared";
@@ -18,6 +19,7 @@ export interface SchoolRollbackSafeFallbackPreflight {
   sourcePlanId: string;
   statusLabel: string;
   summary: string;
+  releaseControlEvidence: ReleaseControlEvidence;
   lanes: SafeFallbackPreflightLane[];
   minimumActivationFields: string[];
   blockedActions: string[];
@@ -31,6 +33,7 @@ export const sampleSchoolRollbackSafeFallbackPreflight: SchoolRollbackSafeFallba
   statusLabel: "Fallback activation blocked",
   summary:
     "This preflight lists what must be reviewed before safe fallback copy, printed QR pause behavior, local companion fallback, or media playlist pause behavior can ever move beyond review-only planning.",
+  releaseControlEvidence: sampleSchoolRollbackSafeFallbackPlan.releaseControlEvidence,
   lanes: [
     {
       laneId: "child-safe-copy-review",

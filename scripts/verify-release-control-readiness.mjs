@@ -292,6 +292,7 @@ requireText(schoolPolicyRollbackImpactMatrixPanel, "No release-state mutation", 
 requireText(schoolPolicyRollbackImpactMatrixPanel, "No live workflow", "School rollback impact matrix panel must block live workflow behavior.");
 requireText(schoolPolicyRollbackImpactMatrixPanel, "Release-control evidence inherited from rollback plan", "Rollback impact matrix panel must show inherited release-control evidence.");
 requireText(schoolRollbackSafeFallbackPlan, "sampleSchoolPolicyRollbackImpactMatrix", "School rollback safe fallback plan must derive from the rollback impact matrix.");
+requireText(schoolRollbackSafeFallbackPlan, "releaseControlEvidence: sampleSchoolPolicyRollbackImpactMatrix.releaseControlEvidence", "Safe fallback plan must inherit shared release-control evidence.");
 requireText(schoolRollbackSafeFallbackPlan, "School rollback safe fallback plan", "School rollback safe fallback plan must expose a school-facing title.");
 requireText(schoolRollbackSafeFallbackPlan, "Fallback messaging blocked", "School rollback safe fallback plan must stay blocked.");
 requireText(schoolRollbackSafeFallbackPlan, "Student pause notice", "School rollback safe fallback plan must include student pause notice copy.");
@@ -304,6 +305,7 @@ requireText(schoolRollbackSafeFallbackPanel, "School rollback safe fallback plan
 requireText(schoolRollbackSafeFallbackPanel, "No live notification", "School rollback safe fallback panel must block live notification behavior.");
 requireText(schoolRollbackSafeFallbackPanel, "No production QR", "School rollback safe fallback panel must block production QR behavior.");
 requireText(schoolRollbackSafeFallbackPreflight, "sampleSchoolRollbackSafeFallbackPlan", "School rollback safe fallback preflight must derive from the safe fallback plan.");
+requireText(schoolRollbackSafeFallbackPreflight, "releaseControlEvidence: sampleSchoolRollbackSafeFallbackPlan.releaseControlEvidence", "Safe fallback preflight must inherit shared release-control evidence.");
 requireText(schoolRollbackSafeFallbackPreflight, "School rollback safe fallback preflight", "School rollback safe fallback preflight must expose a school-facing title.");
 requireText(schoolRollbackSafeFallbackPreflight, "Fallback activation blocked", "School rollback safe fallback preflight must keep activation blocked.");
 requireText(schoolRollbackSafeFallbackPreflight, "Child-safe copy review", "School rollback safe fallback preflight must include child-safe copy review.");
@@ -313,7 +315,9 @@ requireText(schoolRollbackSafeFallbackPreflight, "No fallback activation", "Scho
 requireText(schoolRollbackSafeFallbackPreflight, "No student reassignment", "School rollback safe fallback preflight must block student reassignment.");
 requireText(schoolRollbackSafeFallbackPreflightPanel, "School rollback safe fallback preflight", "School rollback safe fallback preflight panel must be visible.");
 requireText(schoolRollbackSafeFallbackPreflightPanel, "No fallback activation", "School rollback safe fallback preflight panel must block activation behavior.");
+requireText(schoolRollbackSafeFallbackPreflightPanel, "Release-control evidence inherited from fallback plan", "Safe fallback preflight panel must show inherited release-control evidence.");
 requireText(schoolRollbackSafeFallbackActivationPreview, "sampleSchoolRollbackSafeFallbackPreflight", "School rollback safe fallback activation preview must derive from the safe fallback preflight.");
+requireText(schoolRollbackSafeFallbackActivationPreview, "releaseControlEvidence: preflight.releaseControlEvidence", "Safe fallback activation preview must inherit shared release-control evidence.");
 requireText(schoolRollbackSafeFallbackActivationPreview, "Future safe fallback activation record preview", "School rollback safe fallback activation preview must expose a school-facing title.");
 requireText(schoolRollbackSafeFallbackActivationPreview, "Activation record blocked", "School rollback safe fallback activation preview must remain blocked.");
 requireText(schoolRollbackSafeFallbackActivationPreview, "Authenticated school operator", "School rollback safe fallback activation preview must require authenticated operator identity.");
@@ -325,7 +329,9 @@ requireText(schoolRollbackSafeFallbackActivationPreview, "No fallback activated"
 requireText(schoolRollbackSafeFallbackActivationPreview, "No activate fallback button", "School rollback safe fallback activation preview must block activation buttons.");
 requireText(schoolRollbackSafeFallbackActivationPreviewPanel, "Future safe fallback activation record preview", "School rollback safe fallback activation preview panel must be visible.");
 requireText(schoolRollbackSafeFallbackActivationPreviewPanel, "No fallback activated", "School rollback safe fallback activation preview panel must block activation behavior.");
+requireText(schoolRollbackSafeFallbackActivationPreviewPanel, "Release-control evidence inherited from fallback preflight", "Safe fallback activation panel must show inherited release-control evidence.");
 requireText(schoolRollbackSafeFallbackRestorationPreview, "sampleSchoolRollbackSafeFallbackActivationPreview", "School rollback safe fallback restoration preview must derive from the activation preview.");
+requireText(schoolRollbackSafeFallbackRestorationPreview, "releaseControlEvidence: activationPreview.releaseControlEvidence", "Safe fallback restoration preview must inherit shared release-control evidence.");
 requireText(schoolRollbackSafeFallbackRestorationPreview, "Future safe fallback restoration record preview", "School rollback safe fallback restoration preview must expose a school-facing title.");
 requireText(schoolRollbackSafeFallbackRestorationPreview, "Restoration record blocked", "School rollback safe fallback restoration preview must remain blocked.");
 requireText(schoolRollbackSafeFallbackRestorationPreview, "Authenticated restoration operator", "School rollback safe fallback restoration preview must require authenticated operator identity.");
@@ -337,6 +343,7 @@ requireText(schoolRollbackSafeFallbackRestorationPreview, "No restoration activa
 requireText(schoolRollbackSafeFallbackRestorationPreview, "No restore normal route button", "School rollback safe fallback restoration preview must block restore buttons.");
 requireText(schoolRollbackSafeFallbackRestorationPreviewPanel, "Future safe fallback restoration record preview", "School rollback safe fallback restoration preview panel must be visible.");
 requireText(schoolRollbackSafeFallbackRestorationPreviewPanel, "No restoration activated", "School rollback safe fallback restoration preview panel must block restoration behavior.");
+requireText(schoolRollbackSafeFallbackRestorationPreviewPanel, "Release-control evidence inherited from activation preview", "Safe fallback restoration panel must show inherited release-control evidence.");
 requireText(publisherMaintenanceValidator, "validatePublisherMaintenancePlan", "Publisher maintenance must have a shared validation guard.");
 requireText(
   publisherMaintenanceValidator,

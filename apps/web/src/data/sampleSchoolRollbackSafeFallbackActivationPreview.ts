@@ -2,6 +2,7 @@ import {
   sampleSchoolRollbackSafeFallbackPreflight,
   type SchoolRollbackSafeFallbackPreflight,
 } from "@/data/sampleSchoolRollbackSafeFallbackPreflight";
+import type { ReleaseControlEvidence } from "@living-textbook/content-model";
 
 export type SafeFallbackActivationPreviewStatus = "blocked" | "missing-policy" | "future-required";
 
@@ -20,6 +21,7 @@ export interface SchoolRollbackSafeFallbackActivationPreview {
   sourcePreflightId: string;
   statusLabel: string;
   summary: string;
+  releaseControlEvidence: ReleaseControlEvidence;
   minimumActivationRecordFields: SafeFallbackActivationField[];
   nonActivatedMarkers: string[];
   blockedActions: string[];
@@ -42,6 +44,7 @@ export function createSchoolRollbackSafeFallbackActivationPreview({
     statusLabel: "Activation record blocked",
     summary:
       "This preview shows the minimum fields a future safe fallback activation record would need. It is not an activation record and cannot pause routes, send notices, change media, export reports, or move students.",
+    releaseControlEvidence: preflight.releaseControlEvidence,
     minimumActivationRecordFields: [
       {
         fieldId: "authenticated-school-operator",

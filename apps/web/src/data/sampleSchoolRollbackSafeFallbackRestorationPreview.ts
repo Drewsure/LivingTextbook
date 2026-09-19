@@ -2,6 +2,7 @@ import {
   sampleSchoolRollbackSafeFallbackActivationPreview,
   type SchoolRollbackSafeFallbackActivationPreview,
 } from "@/data/sampleSchoolRollbackSafeFallbackActivationPreview";
+import type { ReleaseControlEvidence } from "@living-textbook/content-model";
 
 export type SafeFallbackRestorationPreviewStatus = "blocked" | "missing-policy" | "future-required";
 
@@ -20,6 +21,7 @@ export interface SchoolRollbackSafeFallbackRestorationPreview {
   sourceActivationPreviewId: string;
   statusLabel: string;
   summary: string;
+  releaseControlEvidence: ReleaseControlEvidence;
   minimumRestorationRecordFields: SafeFallbackRestorationField[];
   nonRestoredMarkers: string[];
   blockedActions: string[];
@@ -42,6 +44,7 @@ export function createSchoolRollbackSafeFallbackRestorationPreview({
     statusLabel: "Restoration record blocked",
     summary:
       "This preview shows the minimum fields a future restoration record would need after a safe fallback event. It is not a restore action and cannot reactivate routes, change media, unlock reports, or move students.",
+    releaseControlEvidence: activationPreview.releaseControlEvidence,
     minimumRestorationRecordFields: [
       {
         fieldId: "authenticated-restoration-operator",

@@ -4630,3 +4630,20 @@ and `docs/adr/0875-release-control-acceptance-record-chain.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-948,
 `docs/decision-register/DR-948-release-control-revocation-rollback-chain.md`,
 and `docs/adr/0876-release-control-revocation-rollback-chain.md`.
+
+## 292. Release-Control Evidence In The Safe-Fallback Chain
+
+- Safe-fallback plan, preflight, activation preview, and restoration preview
+  must inherit the exact release-control evidence from rollback impact review.
+- Binding identity, release gate, tenant, package version, decision, blockers,
+  approvals, and blocked actions must remain unchanged across every artifact.
+- Fallback evidence is not fallback permission. QR changes, notifications,
+  media replacement, local deactivation, learner-data operations,
+  assignments, classroom shutdown, activation, restoration, and release
+  mutation remain blocked.
+- Child-facing pause or restoration copy must preserve target-language
+  progression authority and support-language-only boundaries.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-949,
+`docs/decision-register/DR-949-release-control-safe-fallback-chain.md`,
+and `docs/adr/0877-release-control-safe-fallback-chain.md`.

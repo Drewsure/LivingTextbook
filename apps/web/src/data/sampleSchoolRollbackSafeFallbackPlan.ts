@@ -1,4 +1,5 @@
 import { sampleSchoolPolicyRollbackImpactMatrix } from "@/data/sampleSchoolPolicyRollbackImpactMatrix";
+import type { ReleaseControlEvidence } from "@living-textbook/content-model";
 
 export type RollbackFallbackStatus = "blocked" | "needs-policy" | "future-required";
 export type RollbackFallbackOwner = "school" | "publisher" | "platform" | "teacher" | "shared";
@@ -31,6 +32,7 @@ export interface SchoolRollbackSafeFallbackPlan {
   sourceMatrixId: string;
   statusLabel: string;
   summary: string;
+  releaseControlEvidence: ReleaseControlEvidence;
   messages: RollbackFallbackMessage[];
   routeFallbacks: RollbackRouteFallback[];
   rules: string[];
@@ -43,6 +45,7 @@ export const sampleSchoolRollbackSafeFallbackPlan: SchoolRollbackSafeFallbackPla
   statusLabel: "Fallback messaging blocked",
   summary:
     "This plan previews the safe pause messages and route fallback responsibilities needed before a school rollback can ever affect printed QR routes, installed PWA paths, local companion packages, or teacher-facing support pages.",
+  releaseControlEvidence: sampleSchoolPolicyRollbackImpactMatrix.releaseControlEvidence,
   messages: [
     {
       messageId: "student-pause-notice",
