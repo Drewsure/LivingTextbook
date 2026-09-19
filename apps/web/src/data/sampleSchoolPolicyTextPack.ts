@@ -2,6 +2,7 @@ import {
   sampleSchoolPolicyAcceptancePreflight,
   type SchoolPolicyAcceptancePreflight,
 } from "@/data/sampleSchoolPolicyAcceptancePreflight";
+import type { ReleaseControlEvidence } from "@living-textbook/content-model";
 
 export type SchoolPolicyTextPackStatus = "blocked" | "needs-review" | "ready-to-draft";
 export type SchoolPolicyTextPackOwner = "school" | "publisher" | "platform" | "teacher" | "shared";
@@ -27,6 +28,7 @@ export interface SchoolPolicyTextPack {
   sourceOfTruth: string;
   policyStatus: string;
   summary: string;
+  releaseControlEvidence: ReleaseControlEvidence;
   clauses: SchoolPolicyTextClause[];
   minimumVersionFields: string[];
   blockedActions: string[];
@@ -53,6 +55,7 @@ export function createSchoolPolicyTextPack({
     policyStatus: "Policy text blocked",
     summary:
       "This pack lists the policy clauses that must become reviewed, versioned text before a school can ever accept launch terms. It is not acceptance text and cannot be signed.",
+    releaseControlEvidence: preflight.releaseControlEvidence,
     clauses: [
       {
         clauseId: "privacy-retention-learner-data",

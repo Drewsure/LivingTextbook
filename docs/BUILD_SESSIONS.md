@@ -3698,3 +3698,12 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Preserved no acceptance, upload, storage, launch, assignment, export, or
   release-state mutation behavior.
 - Added runtime/static verification and recorded ADR 0874 and DR-946.
+
+## Build session 0875: Release-control acceptance-record chain
+
+- Carried the exact shared release-control evidence from school policy
+  preflight through the policy text pack into the future acceptance-record
+  preview.
+- Surfaced the binding identity, decision, and blockers without creating an
+  acceptance, signature, storage, export, launch, or release mutation path.
+- Added static verification and recorded ADR 0875 and DR-947.

@@ -221,6 +221,7 @@ requireText(schoolPolicyAcceptancePreflightPanel, "Missing before acceptance", "
 requireText(schoolPolicyAcceptancePreflightPanel, "Minimum acceptance record", "School policy acceptance preflight panel must show minimum acceptance record.");
 requireText(schoolPolicyAcceptancePreflightPanel, "No accept button", "School policy acceptance preflight panel must block accept button behavior.");
 requireText(schoolPolicyTextPack, "sampleSchoolPolicyAcceptancePreflight", "School policy text pack must derive from the acceptance preflight.");
+requireText(schoolPolicyTextPack, "releaseControlEvidence: preflight.releaseControlEvidence", "School policy text pack must inherit shared release-control evidence.");
 requireText(schoolPolicyTextPack, "School policy text version pack", "School policy text pack must expose a school-facing title.");
 requireText(schoolPolicyTextPack, "Policy text blocked", "School policy text pack must keep policy text blocked.");
 requireText(schoolPolicyTextPack, "Privacy, retention, and learner data", "School policy text pack must include privacy and learner-data clauses.");
@@ -237,6 +238,7 @@ requireText(schoolPolicyTextPackPanel, "Versioned policy text only", "School pol
 requireText(schoolPolicyTextPackPanel, "Minimum version fields", "School policy text pack panel must show version fields.");
 requireText(schoolPolicyTextPackPanel, "Blocked actions", "School policy text pack panel must show blocked actions.");
 requireText(schoolPolicyAcceptanceRecordPreview, "sampleSchoolPolicyTextPack", "School policy acceptance record preview must derive from the text pack.");
+requireText(schoolPolicyAcceptanceRecordPreview, "releaseControlEvidence: textPack.releaseControlEvidence", "School policy acceptance record preview must inherit shared release-control evidence.");
 requireText(schoolPolicyAcceptanceRecordPreview, "Future school acceptance record preview", "School policy acceptance record preview must expose a school-facing title.");
 requireText(schoolPolicyAcceptanceRecordPreview, "Acceptance record blocked", "School policy acceptance record preview must remain blocked.");
 requireText(schoolPolicyAcceptanceRecordPreview, "Authenticated school approver", "School policy acceptance record preview must require authenticated approver identity.");
@@ -247,6 +249,7 @@ requireText(schoolPolicyAcceptanceRecordPreview, "No accepted terms stored", "Sc
 requireText(schoolPolicyAcceptanceRecordPreview, "No accepted policy record", "School policy acceptance record preview must block accepted policy records.");
 requireText(schoolPolicyAcceptanceRecordPreview, "No AI Tutor activation", "School policy acceptance record preview must block AI Tutor activation.");
 requireText(schoolPolicyAcceptanceRecordPreviewPanel, "Future school acceptance record preview", "School policy acceptance record preview panel must be visible.");
+requireText(schoolPolicyAcceptanceRecordPreviewPanel, "Release-control evidence inherited from policy preflight", "School policy acceptance record preview panel must show inherited release-control evidence.");
 requireText(schoolPolicyAcceptanceRecordPreviewPanel, "No accepted terms stored", "School policy acceptance record preview panel must block accepted terms.");
 requireText(schoolPolicyAcceptanceRecordPreviewPanel, "Minimum accepted-record fields", "School policy acceptance record preview panel must show minimum accepted-record fields.");
 requireText(schoolPolicyAcceptanceRecordPreviewPanel, "Non-accepted markers", "School policy acceptance record preview panel must show non-accepted markers.");

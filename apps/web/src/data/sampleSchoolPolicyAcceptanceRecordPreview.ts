@@ -1,4 +1,5 @@
 import { sampleSchoolPolicyTextPack, type SchoolPolicyTextPack } from "@/data/sampleSchoolPolicyTextPack";
+import type { ReleaseControlEvidence } from "@living-textbook/content-model";
 
 export type SchoolPolicyAcceptanceRecordPreviewStatus = "blocked" | "missing-policy" | "future-required";
 
@@ -20,6 +21,7 @@ export interface SchoolPolicyAcceptanceRecordPreview {
   sourceOfTruth: string;
   statusLabel: string;
   summary: string;
+  releaseControlEvidence: ReleaseControlEvidence;
   minimumAcceptedRecordFields: SchoolPolicyAcceptanceRecordField[];
   nonAcceptedMarkers: string[];
   blockedActions: string[];
@@ -45,6 +47,7 @@ export function createSchoolPolicyAcceptanceRecordPreview({
     statusLabel: "Acceptance record blocked",
     summary:
       "This preview shows the minimum fields a future authenticated school acceptance record would need. It is not an accepted record and cannot store accepted terms, signatures, or launch approval.",
+    releaseControlEvidence: textPack.releaseControlEvidence,
     minimumAcceptedRecordFields: [
       {
         fieldId: "authenticated-school-approver",

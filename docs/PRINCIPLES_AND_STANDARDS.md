@@ -4596,3 +4596,20 @@ and `docs/adr/0873-release-control-pilot-launch-handoff.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-946,
 `docs/decision-register/DR-946-shared-release-control-policy-pilot-evidence.md`,
 and `docs/adr/0874-release-control-policy-pilot-evidence.md`.
+
+## 290. Release-Control Evidence In The Acceptance Record Chain
+
+- The shared release-control evidence must flow unchanged from school policy
+  preflight through policy text versioning into any future acceptance-record
+  preview.
+- Every surface must preserve the binding identity, release gate, tenant,
+  package version, decision, blockers, approvals, and blocked actions.
+- A preview may expose evidence for adult review but must never accept policy,
+  store terms, capture signatures, export evidence, activate storage, launch a
+  class, or mutate release state.
+- Missing or malformed inherited evidence is a contract failure, not an
+  invitation for a panel to substitute local or stale state.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-947,
+`docs/decision-register/DR-947-release-control-acceptance-record-chain.md`,
+and `docs/adr/0875-release-control-acceptance-record-chain.md`.
