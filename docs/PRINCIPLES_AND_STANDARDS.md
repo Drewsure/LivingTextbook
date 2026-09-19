@@ -4682,3 +4682,19 @@ and `docs/adr/0878-persistence-review-probe-provider-parity.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-951,
 `docs/decision-register/DR-951-persistence-operator-state-clarity.md`,
 and `docs/adr/0879-persistence-operator-state-clarity.md`.
+
+## 295. Persistence Effective Readiness Standard
+
+- Durable persistence status, health, and error reporting must derive from one
+  effective readiness set.
+- Open school-policy, retention-policy, release-approval, durable-write,
+  provider, schema, session-boundary, or operation-integrity gates must prevent
+  a durable deployment from reporting healthy.
+- Non-durable rehearsal must remain explicitly rehearsal; it must not be
+  presented as production persistence readiness.
+- Readiness signals are operational contracts and must be tested with the same
+  seriousness as route, privacy, tenant, and learner-progression contracts.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-952,
+`docs/decision-register/DR-952-persistence-effective-readiness.md`,
+and `docs/adr/0880-persistence-effective-readiness.md`.

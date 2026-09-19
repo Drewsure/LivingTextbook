@@ -6,6 +6,7 @@ import {
   getConfiguredPersistenceProvider,
   getPersistenceProviderConfiguration,
 } from "@/server/persistence/progressionPersistenceAdapter";
+import { derivePersistenceReadiness } from "@/server/persistence/persistenceReadiness";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -31,18 +32,24 @@ export function GET(request: Request) {
     process.env.LIVING_TEXTBOOK_TEACHER_SESSION_SECRET?.trim()
       && process.env.LIVING_TEXTBOOK_TEACHER_REVIEW_CODE?.trim(),
   );
-  const errors = [
-    ...providerConfiguration.errors,
-    ...health.errors,
-    ...health.operationEvidenceIntegrity.errors,
-    ...(durable && !studentSessionBoundaryConfigured ? ["Signed student session boundary is not configured."] : []),
-  ];
+  const readiness = derivePersistenceReadiness({
+    providerConfigurationValid: providerConfiguration.valid,
+    providerConfigurationErrors: providerConfiguration.errors,
+    durable,
+    health: {
+      healthy: health.healthy,
+      operationEvidenceIntegrityHealthy: health.operationEvidenceIntegrity.healthy,
+      errors: [...health.errors, ...health.operationEvidenceIntegrity.errors],
+    },
+    studentSessionBoundaryConfigured,
+    policyErrors: policy.errors,
+  });
 
   return NextResponse.json({
-    status: !providerConfiguration.valid ? "blocked" : errors.length === 0 && (!durable || policy.errors.length === 0) ? "healthy" : durable ? "blocked" : "rehearsal",
+    status: readiness.status,
     provider,
     durability: durable ? "durable-managed" : "non-durable-rehearsal",
-    healthy: health.healthy && health.operationEvidenceIntegrity.healthy && errors.length === 0,
+    healthy: readiness.healthy,
     schemaVersion: health.schemaVersion,
     journalMode: health.journalMode,
     synchronous: health.synchronous,
@@ -55,7 +62,7 @@ export function GET(request: Request) {
       retentionDays: policy.retentionDays,
       errors: policy.errors,
     },
-    errors,
+    errors: readiness.errors,
     privacy: "No learner records, database paths, credentials, raw audio, or transcripts are returned by this status endpoint.",
   }, { headers: { "Cache-Control": "no-store" } });
 }

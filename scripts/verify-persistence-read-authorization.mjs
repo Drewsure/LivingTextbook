@@ -30,6 +30,7 @@ const sessionEvents = read("apps/web/src/features/persistence/teacherOperationsS
 const evidencePanel = read("apps/web/src/features/persistence/PersistenceOperationsEvidencePanel.tsx");
 const hostedAdapterPanel = read("apps/web/src/features/persistence/HostedProgressionAdapterPanel.tsx");
 const teacherAuth = read("apps/web/src/server/persistence/teacherOperationsAuthorization.ts");
+const readiness = read("apps/web/src/server/persistence/persistenceReadiness.ts");
 
 requireFragments("progression read route", route, [
   "const accessMode = url.searchParams.get(\"accessMode\")",
@@ -74,6 +75,14 @@ requireFragments("persistence status route", statusRoute, [
   "hasTeacherOperationsReadAuthorization(request, tenantId)",
   "Teacher-scoped authorization is required to inspect persistence operations status.",
   "Provider, deployment configuration, database paths, learner records, and operation evidence are withheld",
+  "derivePersistenceReadiness",
+  "policyErrors: policy.errors",
+]);
+requireFragments("persistence readiness helper", readiness, [
+  "export function derivePersistenceReadiness",
+  "const effectivePolicyErrors = input.durable ? input.policyErrors : [];",
+  'status: "healthy" | "blocked" | "rehearsal"',
+  "Signed student session boundary is not configured.",
 ]);
 requireFragments("persistence status client", statusClient, [
   "readPersistenceStatus(tenantId: string)",

@@ -41,6 +41,15 @@ The game catalog learner-metadata slice now checks role, skill focus, summary, a
   provider failure.
 - Added static verification and recorded ADR 0879 and DR-951.
 
+## Build session 0880: Persistence effective readiness
+
+- Unified the durable persistence status and health calculations around one
+  effective readiness error set.
+- Ensured open school, retention, release, or durable-write policy gates cannot
+  coexist with a healthy durable deployment signal.
+- Preserved explicit non-durable rehearsal semantics.
+- Added static verification and recorded ADR 0880 and DR-952.
+
 ## Build session 0810: Cross-route progression handoff
 
 - Added a session-scoped progression handoff record keyed by tenant, package, launch, student session, and exact destination route.
