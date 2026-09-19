@@ -88,6 +88,16 @@ The game catalog learner-metadata slice now checks role, skill focus, summary, a
   review-only boundaries.
 - Added static verification and recorded ADR 0884 and DR-956.
 
+## Build session 0885: Phaser snapshot identity normalization
+
+- Standardized frozen Z.ai/Phaser candidate review records on the immutable
+  `frozen-2026-09-12-aaa-stable` tag.
+- Preserved the exact freeze commit SHA as the cryptographic source identity
+  and removed the competing hash-derived snapshot label from active checks.
+- Kept all candidate promotion, source import, route replacement, and student
+  assignment actions blocked.
+- Added static/runtime verification and recorded ADR 0885 and DR-957.
+
 ## Build session 0810: Cross-route progression handoff
 
 - Added a session-scoped progression handoff record keyed by tenant, package, launch, student session, and exact destination route.

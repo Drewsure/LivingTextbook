@@ -3,7 +3,7 @@ import {
   type PhaserCandidateContractReview,
 } from "@living-textbook/content-model";
 
-const sourceSnapshotId = "ministar-lab-frozen-2026-09-12-eb79ddf";
+const sourceSnapshotId = "frozen-2026-09-12-aaa-stable";
 const sourceCommitSha = "eb79ddf5940ab47cc3c45c119c67ee1b6b958e55";
 const sourceFiles = {
   memoryMatchScene: {

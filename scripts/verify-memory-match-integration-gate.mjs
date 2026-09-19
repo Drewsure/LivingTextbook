@@ -23,7 +23,7 @@ const requiredMarkers = [
   ["gate", "apps/web/src/app/memory/[code]/page.tsx"],
   ["gate", "MemoryMatchDemoFlow"],
   ["gate", "pairing-reinforcement-v1"],
-  ["candidateReview", "ministar-lab-frozen-2026-09-12-eb79ddf"],
+  ["candidateReview", "frozen-2026-09-12-aaa-stable"],
   ["candidateReview", "eb79ddf5940ab47cc3c45c119c67ee1b6b958e55"],
   ["gate", "prototype_wrapper_adapter_review"],
   ["gate", "prototype_fixture_replay_report"],

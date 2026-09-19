@@ -4759,3 +4759,16 @@ and `docs/adr/0883-pilot-preflight-readiness-freshness.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-956,
 `docs/decision-register/DR-956-pilot-status-refresh.md`,
 and `docs/adr/0884-pilot-status-refresh.md`.
+
+## 300. Phaser Snapshot Identity Standard
+
+- Frozen external game evidence must use one immutable snapshot tag across
+  review packets, integration gates, agent briefs, and returned packages.
+- The exact source commit SHA must remain recorded separately and must be
+  verified against the isolated source manifest.
+- Provenance normalization never authorizes source import, route replacement,
+  wrapper approval, package promotion, or student assignment.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-957,
+`docs/decision-register/DR-957-phaser-snapshot-identity-normalization.md`,
+and `docs/adr/0885-phaser-snapshot-identity-normalization.md`.

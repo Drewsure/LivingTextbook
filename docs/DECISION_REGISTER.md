@@ -54,6 +54,14 @@ minute while mounted, clear prior tenant state, ignore late unmounted results,
 and clean up the timer. The check remains read-only and cannot authorize live
 operation or mutation. Evidence: ADR 0884 and the pilot rehearsal verifier.
 
+## DR-957: Phaser Snapshot Identity Normalization
+
+Frozen Z.ai/Phaser review evidence uses the immutable
+`frozen-2026-09-12-aaa-stable` tag everywhere and preserves the exact freeze
+commit SHA separately. This removes provenance ambiguity without permitting
+source import, wrapper approval, promotion, or assignment. Evidence: ADR 0885
+and the candidate review/source-hash verifiers.
+
 ## Decision Rubric
 
 Before accepting a new direction, answer these questions in the task, PR, or implementation note:

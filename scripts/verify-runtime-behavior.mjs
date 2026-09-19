@@ -732,7 +732,7 @@ try {
     tenantId: "tenant-1",
     queueItemId: "runtime-phaser-queue-1",
     sourceRepository: "Drewsure/ministar-lab",
-    sourceSnapshotId: "ministar-lab-frozen-2026-09-12-eb79ddf",
+    sourceSnapshotId: "frozen-2026-09-12-aaa-stable",
     sourceCommitSha: "eb79ddf5940ab47cc3c45c119c67ee1b6b958e55",
     sourceFiles: [
       { path: "src/game/scenes/MemoryMatchScene.ts", sha256: "d1c60fa17bf4bee63627e485ae0b096894832705fdcf173576bf3b28b8656888" },
