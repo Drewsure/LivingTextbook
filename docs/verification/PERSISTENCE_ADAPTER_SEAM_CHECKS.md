@@ -20,6 +20,9 @@ server-owned and must sit behind one provider-neutral adapter seam.
 - Browser clients must distinguish blocked policy, unauthorized access, missing
   records, provider unavailability, and transport errors; none may be silently
   presented as a missing learner record.
+- Teacher review surfaces must expose those distinctions in their status label
+  and explanatory copy so an operator does not mistake a policy block for an
+  empty student record.
 - An unsupported provider value fails closed with a blocked deployment state;
   it never silently becomes rehearsal storage.
 - Content, scoring, audio, QR, and progression event vocabulary remain

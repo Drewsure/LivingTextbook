@@ -33,6 +33,14 @@ The game catalog learner-metadata slice now checks role, skill focus, summary, a
   transport responses.
 - Added static verification and recorded ADR 0878 and DR-950.
 
+## Build session 0879: Persistence operator-state clarity
+
+- Made the teacher hosted-adapter panel distinguish available, no-record,
+  protected, blocked, unavailable, and malformed-response states.
+- Preserved the rule that “no record” is never a proxy for a deployment or
+  provider failure.
+- Added static verification and recorded ADR 0879 and DR-951.
+
 ## Build session 0810: Cross-route progression handoff
 
 - Added a session-scoped progression handoff record keyed by tenant, package, launch, student session, and exact destination route.

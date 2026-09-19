@@ -57,7 +57,12 @@ requireFragments("teacher persistence probe", panel, [
   'accessMode: "teacher-review-probe"',
 ]);
 requireFragments("teacher probe status rendering", read("apps/web/src/features/persistence/HostedProgressionAdapterPanel.tsx"), [
-  'result?.status === "unauthorized" ? "Protected"',
+  'result?.status === "unauthorized"',
+  '"Protected"',
+  'result?.status === "blocked"',
+  'result?.status === "unavailable"',
+  "Deployment policy blocks this adapter path.",
+  "The persistence provider is temporarily unavailable.",
   'Tenant-scoped review authorization is required.',
 ]);
 requireFragments("teacher authorization boundary", teacherAuth, [

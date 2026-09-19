@@ -4666,3 +4666,19 @@ and `docs/adr/0877-release-control-safe-fallback-chain.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-950,
 `docs/decision-register/DR-950-persistence-review-probe-provider-parity.md`,
 and `docs/adr/0878-persistence-review-probe-provider-parity.md`.
+
+## 294. Persistence Operator-State Clarity Standard
+
+- Teacher-facing persistence surfaces must distinguish an authorized empty
+  result from a blocked policy, unauthorized access, provider outage, or
+  malformed response.
+- “No record” may be shown only after the adapter has returned a valid,
+  authorized not-found result.
+- Operator diagnostics must remain privacy-safe: no database paths,
+  credentials, raw learner audio, transcripts, or unscoped learner records.
+- Clear operational state is part of production readiness; it is not cosmetic
+  polish and must be verified alongside the adapter contract.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-951,
+`docs/decision-register/DR-951-persistence-operator-state-clarity.md`,
+and `docs/adr/0879-persistence-operator-state-clarity.md`.
