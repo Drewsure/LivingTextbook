@@ -78,6 +78,14 @@ provider-neutral path. Identity drift fails closed before wrapper review,
 import, route replacement, promotion, or assignment. Evidence: ADR 0887 and
 `packages/content-model/src/aiPrototypeReturnedPackageManifest.ts`.
 
+## DR-960: Returned Package Status Surface
+
+Teacher review surfaces must derive returned-package status from the manifest
+and show an exact Phaser/hybrid source commit when supplied. This changes only
+operator visibility; it does not authorize import, wrapper approval,
+promotion, launch, or assignment. Evidence: ADR 0888 and
+`apps/web/src/features/content-intake/AiPrototypeReturnedPackageManifestPanel.tsx`.
+
 ## Decision Rubric
 
 Before accepting a new direction, answer these questions in the task, PR, or implementation note:

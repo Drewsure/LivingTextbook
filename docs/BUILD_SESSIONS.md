@@ -116,6 +116,14 @@ The game catalog learner-metadata slice now checks role, skill focus, summary, a
 - Added negative returned-package provenance coverage and recorded ADR 0887
   and DR-959.
 
+## Build session 0888: Returned package status surface
+
+- Replaced the hard-coded `Not returned` label with manifest-derived status
+  labels for not-returned, review-only, and blocked packages.
+- Exposed the exact source commit on returned Phaser/hybrid evidence when it is
+  present, without changing any approval or import behavior.
+- Added focused readiness verification and recorded ADR 0888 and DR-960.
+
 ## Build session 0810: Cross-route progression handoff
 
 - Added a session-scoped progression handoff record keyed by tenant, package, launch, student session, and exact destination route.

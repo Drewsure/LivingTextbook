@@ -4798,3 +4798,16 @@ and `docs/adr/0886-phaser-source-identity-content-model-gate.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-959,
 `docs/decision-register/DR-959-phaser-returned-package-identity-gate.md`,
 and `docs/adr/0887-phaser-returned-package-identity-gate.md`.
+
+## 303. Returned Package Status Surface Standard
+
+- Teacher review surfaces must derive returned-package labels from the
+  manifest status rather than hard-coding a preview state.
+- `not-returned`, `review-only`, and `blocked` must remain visibly distinct.
+- Exact Phaser/hybrid source commit evidence must be shown when present.
+- Displaying status never authorizes import, wrapper approval, promotion,
+  launch, or assignment.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-960,
+`docs/decision-register/DR-960-returned-package-status-surface.md`,
+and `docs/adr/0888-returned-package-status-surface.md`.

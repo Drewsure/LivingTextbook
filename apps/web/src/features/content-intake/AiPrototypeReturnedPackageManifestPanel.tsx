@@ -10,6 +10,12 @@ interface AiPrototypeReturnedPackageManifestPanelProps {
   intakeAlignmentErrors: string[];
 }
 
+const statusLabel = {
+  "not-returned": "Not returned",
+  "review-only": "Returned, review-only",
+  blocked: "Returned, blocked",
+} as const;
+
 export function AiPrototypeReturnedPackageManifestPanel({
   manifests,
   alignmentErrors,
@@ -56,8 +62,13 @@ export function AiPrototypeReturnedPackageManifestPanel({
                 <p className="mt-1 text-sm text-[var(--tenant-muted)]">
                   {manifest.sourceRepository} / {manifest.sourceSnapshotId} / {manifest.parentEngine} / {manifest.targetSurface}
                 </p>
+                {manifest.sourceCommitSha && (
+                  <p className="mt-1 break-all text-xs text-[var(--tenant-muted)]">
+                    Frozen commit: {manifest.sourceCommitSha}
+                  </p>
+                )}
               </div>
-              <StatusPill label="Not returned" tone="warning" />
+              <StatusPill label={statusLabel[manifest.status]} tone="warning" />
             </div>
             <div className="mt-3 grid gap-2 text-sm text-[var(--tenant-muted)] sm:grid-cols-2">
               <p>Source folder: {manifest.prototypeFolder}</p>
