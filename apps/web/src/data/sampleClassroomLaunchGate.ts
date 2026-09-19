@@ -2,6 +2,8 @@ import { samplePackageApprovalLedger, type PackageApprovalLedger } from "@/data/
 import { samplePackagePublishGate, type PackagePublishGate } from "@/data/samplePackagePublishGate";
 import { samplePilotEvidencePacket, type PilotEvidencePacket } from "@/data/samplePilotEvidencePacket";
 import { sampleTeacherDryRunRehearsal, type TeacherDryRunRehearsal } from "@/data/sampleTeacherDryRunRehearsal";
+import { sampleLocalBundleMediaReleaseControlBinding } from "@/data/sampleLocalBundleMediaReleaseControlBinding";
+import type { LocalBundleMediaReleaseControlBinding } from "@living-textbook/content-model";
 
 export type ClassroomLaunchGateStatus = "ready" | "needs-policy" | "blocked";
 export type ClassroomLaunchGateSource =
@@ -9,6 +11,7 @@ export type ClassroomLaunchGateSource =
   | "approval-ledger"
   | "evidence-packet"
   | "teacher-dry-run"
+  | "media-release-control"
   | "policy";
 
 export interface ClassroomLaunchGateItem {
@@ -42,6 +45,7 @@ export const sampleClassroomLaunchGate = createClassroomLaunchGate({
   ledger: samplePackageApprovalLedger,
   evidencePacket: samplePilotEvidencePacket,
   rehearsal: sampleTeacherDryRunRehearsal,
+  mediaReleaseControlBinding: sampleLocalBundleMediaReleaseControlBinding,
 });
 
 export function createClassroomLaunchGate({
@@ -49,11 +53,13 @@ export function createClassroomLaunchGate({
   ledger,
   evidencePacket,
   rehearsal,
+  mediaReleaseControlBinding,
 }: {
   gate: PackagePublishGate;
   ledger: PackageApprovalLedger;
   evidencePacket: PilotEvidencePacket;
   rehearsal: TeacherDryRunRehearsal;
+  mediaReleaseControlBinding?: LocalBundleMediaReleaseControlBinding;
 }): ClassroomLaunchGate {
   const releaseBlockingItems = gate.items.filter((item) => item.blocksRelease && item.status !== "ready");
   const openSignoffs = ledger.signoffs.filter((signoff) => signoff.requiredBeforePilot && signoff.status !== "signed");
@@ -63,7 +69,21 @@ export function createClassroomLaunchGate({
   const dryRunOpenStages = rehearsal.stages.filter((stage) => stage.status !== "ready-for-rehearsal");
   const hasBlockedEvidence = openEvidence.some((item) => item.status === "blocked");
   const hasBlockedDryRunStage = dryRunOpenStages.some((stage) => stage.status === "blocked");
+  const mediaReleaseControlItem: ClassroomLaunchGateItem | null = mediaReleaseControlBinding
+    ? {
+        itemId: `media-release-control-${mediaReleaseControlBinding.bindingId}`,
+        label: "Media release-control evidence",
+        status: mediaReleaseControlBinding.decision === "blocked" ? "blocked" : "needs-policy",
+        source: "media-release-control",
+        owner: "shared",
+        evidence: mediaReleaseControlBinding.releaseBlockingReasons.join(" "),
+        nextStep: `Close required approvals: ${mediaReleaseControlBinding.requiredApprovals.join(", ")}.`,
+        requiredBeforeLaunch: mediaReleaseControlBinding.requiredApprovals,
+        blockedActions: mediaReleaseControlBinding.blockedActions,
+      }
+    : null;
   const items: ClassroomLaunchGateItem[] = [
+    ...(mediaReleaseControlItem ? [mediaReleaseControlItem] : []),
     ...releaseBlockingItems.map((item) => ({
       itemId: `publish-${item.gateId}`,
       label: item.label,

@@ -6422,3 +6422,28 @@ for release control, not a release operation.
 - `apps/web/src/data/sampleLocalBundleMediaReleaseControlBinding.ts`
 - `apps/web/src/features/pilot/MediaReleaseControlBindingPanel.tsx`
 - `scripts/verify-local-bundle-media-release-control-binding.mjs`
+
+# DR-945: Release-Control To Pilot Launch Handoff
+
+## Decision
+
+Propagate the media release-control binding into the existing pilot readiness
+summary and classroom launch gate so release evidence has one consistent,
+read-only downstream meaning.
+
+## Required Invariants
+
+- Both downstream surfaces preserve tenant, package, release-candidate,
+  approval, evidence, and blocked-action identity.
+- Mismatch remains a launch blocker; open evidence remains visible as a
+  review/policy blocker.
+- No launch button, assignment activation, live learner data, report export,
+  or release-state mutation is introduced by this handoff.
+- Existing persistence, policy, roster, dry-run, reporting, and school gates
+  remain required and cannot be replaced by media evidence.
+
+## Evidence
+
+- `apps/web/src/data/samplePilotReadinessSummary.ts`
+- `apps/web/src/data/sampleClassroomLaunchGate.ts`
+- `scripts/verify-pilot-readiness-dashboard.mjs`

@@ -4556,3 +4556,24 @@ and `docs/adr/0871-local-media-manifest-reconciliation.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-944,
 `docs/decision-register/DR-944-media-release-control-binding.md`,
 and `docs/adr/0872-media-release-control-binding.md`.
+
+## 288. Release-Control To Pilot Launch Handoff Standard
+
+- Pilot readiness summaries and classroom launch gates must derive from the
+  same release-control evidence chain; a green-looking media panel may not be
+  ignored by either surface.
+- Media release-control mismatch must appear as a launch blocker. Open media
+  evidence or human approval remains a pilot review/policy blocker even when
+  the underlying package route is demo-ready.
+- The handoff must preserve tenant and package identity, the release candidate,
+  required approvals, missing evidence, and blocked actions in both the pilot
+  summary and classroom launch gate.
+- This handoff is read-only and must not add a launch button, assignment
+  activation, live learner-data capture, report export, or release-state write.
+- A classroom launch gate cannot claim readiness from release-control evidence
+  alone; persistence, school policy, dry-run, reporting, roster, and all other
+  required gates remain authoritative.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-945,
+`docs/decision-register/DR-945-release-control-pilot-launch-handoff.md`,
+and `docs/adr/0873-release-control-pilot-launch-handoff.md`.

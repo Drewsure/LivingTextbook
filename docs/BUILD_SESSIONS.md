@@ -3679,3 +3679,11 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Kept publish, package write, local activation, student-facing use, media
   release, and QR mutation blocked with required approvals visible.
 - Added runtime/static verification and recorded ADR 0872 and DR-944.
+
+## Build session 0873: Release-control to pilot launch handoff
+
+- Propagated media release-control evidence into the publisher pilot readiness
+  summary and classroom launch gate.
+- Preserved mismatch, review, approval, persistence, policy, roster, and
+  dry-run blockers without adding any live launch behavior.
+- Added static verification and recorded ADR 0873 and DR-945.
