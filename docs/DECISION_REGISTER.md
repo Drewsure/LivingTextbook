@@ -47,6 +47,13 @@ deterministic, and read-only; stale status cannot authorize launch, durable
 writes, activation, export, or release mutation. Evidence: ADR 0883 and the
 pilot preflight behavior verifier.
 
+## DR-956: Pilot Status Refresh
+
+Teacher pilot evidence panels refresh tenant-scoped persistence readiness every
+minute while mounted, clear prior tenant state, ignore late unmounted results,
+and clean up the timer. The check remains read-only and cannot authorize live
+operation or mutation. Evidence: ADR 0884 and the pilot rehearsal verifier.
+
 ## Decision Rubric
 
 Before accepting a new direction, answer these questions in the task, PR, or implementation note:

@@ -4746,3 +4746,16 @@ and `docs/adr/0882-pilot-preflight-tenant-bound-readiness.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-955,
 `docs/decision-register/DR-955-pilot-preflight-readiness-freshness.md`,
 and `docs/adr/0883-pilot-preflight-readiness-freshness.md`.
+
+## 299. Pilot Status Refresh Standard
+
+- Long-lived teacher review surfaces must refresh tenant-scoped persistence
+  readiness at least every minute while mounted.
+- Tenant changes must clear the prior snapshot, late responses after unmount
+  must be ignored, and refresh timers must be cleaned up.
+- Refresh is a read-only operational check; it cannot authorize launch,
+  durable writes, activation, export, or release mutation.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-956,
+`docs/decision-register/DR-956-pilot-status-refresh.md`,
+and `docs/adr/0884-pilot-status-refresh.md`.

@@ -54,11 +54,16 @@ export function TeacherSessionLocalEvidencePanel({
   useEffect(() => {
     let active = true;
     setPersistenceReadiness(undefined);
-    void readPersistenceStatus(expectedTenantId).then((result) => {
-      if (active) setPersistenceReadiness(result);
-    });
+    const refreshPersistenceReadiness = () => {
+      void readPersistenceStatus(expectedTenantId).then((result) => {
+        if (active) setPersistenceReadiness(result);
+      });
+    };
+    refreshPersistenceReadiness();
+    const refreshHandle = window.setInterval(refreshPersistenceReadiness, 60_000);
     return () => {
       active = false;
+      window.clearInterval(refreshHandle);
     };
   }, [expectedTenantId]);
 

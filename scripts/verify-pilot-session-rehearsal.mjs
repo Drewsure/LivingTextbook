@@ -104,6 +104,8 @@ requireFragments("pilot session preflight panel", teacherEvidencePanel, [
   "readPersistenceStatus",
   "persistenceReadiness",
   "evaluatePilotSessionPreflight(evidenceEnvelope, persistenceReadiness)",
+  "window.setInterval(refreshPersistenceReadiness, 60_000)",
+  "window.clearInterval(refreshHandle)",
 ]);
 requireFragments("hosted persistence safety", persistenceRoute, [
   "Hosted progression rehearsal writes are disabled by default.",

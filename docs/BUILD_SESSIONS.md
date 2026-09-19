@@ -80,6 +80,14 @@ The game catalog learner-metadata slice now checks role, skill focus, summary, a
   boundaries blocked.
 - Added focused runtime/static verification and recorded ADR 0883 and DR-955.
 
+## Build session 0884: Pilot status refresh
+
+- Added a one-minute read-only persistence status refresh to long-lived teacher
+  evidence panels.
+- Preserved tenant-change reset, unmount protection, interval cleanup, and all
+  review-only boundaries.
+- Added static verification and recorded ADR 0884 and DR-956.
+
 ## Build session 0810: Cross-route progression handoff
 
 - Added a session-scoped progression handoff record keyed by tenant, package, launch, student session, and exact destination route.
