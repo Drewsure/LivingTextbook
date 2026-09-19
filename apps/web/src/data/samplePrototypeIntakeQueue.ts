@@ -5,6 +5,7 @@ export type PrototypeIntakePriority = "now" | "next" | "later";
 export interface PrototypeIntakeQueueItem {
   itemId: string;
   tenantId: string;
+  requestId: string;
   sourceRepo: string;
   gameMode: string;
   parentEngine: string;
@@ -22,6 +23,7 @@ export const samplePrototypeIntakeQueue: PrototypeIntakeQueueItem[] = [
   {
     itemId: "intake-ministar-memory-match-phaser",
     tenantId: "ministar",
+    requestId: "ministar-l1-greetings-game-draft",
     sourceRepo: "Drewsure/ministar-lab",
     gameMode: "memory-match",
     parentEngine: "pairing",
@@ -59,6 +61,7 @@ export const samplePrototypeIntakeQueue: PrototypeIntakeQueueItem[] = [
   {
     itemId: "intake-ministar-sentence-builder-dom",
     tenantId: "ministar",
+    requestId: "ministar-l1-greetings-game-draft",
     sourceRepo: "Drewsure/ministar-lab",
     gameMode: "sentence-builder",
     parentEngine: "text-spelling",
@@ -94,6 +97,7 @@ export const samplePrototypeIntakeQueue: PrototypeIntakeQueueItem[] = [
   {
     itemId: "intake-ministar-balloon-pop-phaser",
     tenantId: "ministar",
+    requestId: "ministar-l1-greetings-game-draft",
     sourceRepo: "Drewsure/ministar-lab",
     gameMode: "balloon-pop",
     parentEngine: "selection",
@@ -129,6 +133,7 @@ export const samplePrototypeIntakeQueue: PrototypeIntakeQueueItem[] = [
   {
     itemId: "intake-ministar-whack-a-mole-phaser",
     tenantId: "ministar",
+    requestId: "ministar-l1-greetings-game-draft",
     sourceRepo: "Drewsure/ministar-lab",
     gameMode: "whack-a-mole",
     parentEngine: "selection",
@@ -164,6 +169,7 @@ export const samplePrototypeIntakeQueue: PrototypeIntakeQueueItem[] = [
   {
     itemId: "intake-sample-publisher-fill-blank-dom",
     tenantId: "sample-publisher",
+    requestId: "sample-publisher-l1-routines-game-draft",
     sourceRepo: "Drewsure/ministar-lab",
     gameMode: "fill-in-the-blank",
     parentEngine: "text-spelling",

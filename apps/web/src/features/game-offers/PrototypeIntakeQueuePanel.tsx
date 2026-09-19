@@ -62,6 +62,7 @@ export function PrototypeIntakeQueuePanel({ items }: PrototypeIntakeQueuePanelPr
                   {item.tenantId} / {item.sourceRepo} / {item.parentEngine}
                 </p>
                 <h3 className="mt-1 text-base font-bold text-[var(--tenant-text)]">{item.gameMode}</h3>
+                <p className="mt-1 text-xs text-[var(--tenant-muted)]">Generation request: {item.requestId}</p>
               </div>
               <div className="flex flex-wrap gap-2">
                 <StatusPill label={priorityLabel[item.priority]} tone={item.priority === "now" ? "success" : "neutral"} />

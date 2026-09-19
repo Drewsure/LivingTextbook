@@ -12,6 +12,7 @@ export interface PrototypeReturnPackageChecklistItem {
 export interface PrototypeReturnPackageChecklist {
   checklistId: string;
   tenantId: string;
+  requestId: string;
   queueItemId: string;
   label: string;
   status: PrototypeReturnPackageStatus;
@@ -29,6 +30,7 @@ export const samplePrototypeReturnPackageChecklists: PrototypeReturnPackageCheck
   {
     checklistId: "prototype-return-package-ministar-sentence-builder",
     tenantId: "ministar",
+    requestId: "ministar-l1-greetings-game-draft",
     queueItemId: "intake-ministar-sentence-builder-dom",
     label: "Returned prototype package checklist",
     status: "not-returned",
@@ -143,6 +145,7 @@ export const samplePrototypeReturnPackageChecklists: PrototypeReturnPackageCheck
   {
     checklistId: "prototype-return-package-ministar-balloon-pop",
     tenantId: "ministar",
+    requestId: "ministar-l1-greetings-game-draft",
     queueItemId: "intake-ministar-balloon-pop-phaser",
     label: "Returned Phaser package checklist",
     status: "evidence-needed",
@@ -201,6 +204,7 @@ export const samplePrototypeReturnPackageChecklists: PrototypeReturnPackageCheck
   {
     checklistId: "prototype-return-package-sample-publisher-fill-blank",
     tenantId: "sample-publisher",
+    requestId: "sample-publisher-l1-routines-game-draft",
     queueItemId: "intake-sample-publisher-fill-blank-dom",
     label: "Returned prototype package checklist",
     status: "not-returned",

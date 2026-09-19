@@ -8,6 +8,7 @@ export type AiPrototypeReturnChecklistStatus = "not-returned" | "evidence-needed
 export interface AiPrototypeReturnChecklistReference {
   checklistId: string;
   tenantId: string;
+  requestId: string;
   queueItemId: string;
   status: AiPrototypeReturnChecklistStatus;
   sourceRepository: string;
@@ -19,6 +20,7 @@ export interface AiPrototypeReturnChecklistReference {
 export interface AiPrototypeIntakeQueueReference {
   itemId: string;
   tenantId: string;
+  requestId: string;
   sourceRepository: string;
   targetMode: string;
   parentEngine: string;
@@ -33,6 +35,9 @@ export function validateAiPrototypeReturnedPackageAlignment(
 
   if (manifest.tenantId !== checklist.tenantId) {
     errors.push("Returned package manifest tenantId does not match the return checklist.");
+  }
+  if (manifest.requestId !== checklist.requestId) {
+    errors.push("Returned package manifest requestId does not match the return checklist request.");
   }
   if (manifest.queueItemId !== checklist.queueItemId) {
     errors.push("Returned package manifest queueItemId does not match the return checklist.");
@@ -64,6 +69,9 @@ export function validateAiPrototypeReturnedPackageIntakeAlignment(
 
   if (manifest.tenantId !== intake.tenantId) {
     errors.push("Returned package manifest tenantId does not match the intake queue.");
+  }
+  if (manifest.requestId !== intake.requestId) {
+    errors.push("Returned package manifest requestId does not match the intake queue request.");
   }
   if (manifest.queueItemId !== intake.itemId) {
     errors.push("Returned package manifest queueItemId does not match the intake queue item.");

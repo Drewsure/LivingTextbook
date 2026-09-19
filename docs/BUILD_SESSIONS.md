@@ -124,6 +124,16 @@ The game catalog learner-metadata slice now checks role, skill focus, summary, a
   present, without changing any approval or import behavior.
 - Added focused readiness verification and recorded ADR 0888 and DR-960.
 
+## Build session 0889: Returned package request lineage
+
+- Added one authoritative generation request ID to the prototype intake queue,
+  return checklist, and returned-package manifest chain.
+- Rejected returned-package request mismatches against both the checklist and
+  original intake queue item, with negative runtime coverage.
+- Exposed request identity on teacher review surfaces while keeping imports,
+  routes, promotion, and assignments blocked.
+- Recorded ADR 0889 and DR-961.
+
 ## Build session 0810: Cross-route progression handoff
 
 - Added a session-scoped progression handoff record keyed by tenant, package, launch, student session, and exact destination route.

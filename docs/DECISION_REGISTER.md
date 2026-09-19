@@ -86,6 +86,16 @@ operator visibility; it does not authorize import, wrapper approval,
 promotion, launch, or assignment. Evidence: ADR 0888 and
 `apps/web/src/features/content-intake/AiPrototypeReturnedPackageManifestPanel.tsx`.
 
+## DR-961: Returned Package Request Lineage
+
+Returned prototype packages must remain bound to one generation request from
+intake queue through return checklist, manifest, and evidence alignment.
+Queue/checklist request IDs are required, and manifest alignment rejects
+mismatches against either reference. This remains a review-only boundary and
+does not authorize source import, route creation, promotion, assignment, or
+live AI dispatch. Evidence: ADR 0889 and
+`packages/content-model/src/aiPrototypeReturnedPackageAlignment.ts`.
+
 ## Decision Rubric
 
 Before accepting a new direction, answer these questions in the task, PR, or implementation note:

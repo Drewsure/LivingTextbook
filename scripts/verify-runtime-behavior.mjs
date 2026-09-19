@@ -2652,6 +2652,7 @@ try {
   const returnedPackageChecklist = {
     checklistId: "checklist-1",
     tenantId: "tenant-1",
+    requestId: "request-1",
     queueItemId: "queue-1",
     status: "not-returned",
     sourceRepository: "Drewsure/ministar-lab",
@@ -2672,6 +2673,13 @@ try {
   );
   assertIncludes(
     returnedPackageAlignment.validateAiPrototypeReturnedPackageAlignment(
+      { ...returnedPackagePreview, requestId: "request-2" },
+      returnedPackageChecklist,
+    ),
+    "Returned package manifest requestId does not match the return checklist request.",
+  );
+  assertIncludes(
+    returnedPackageAlignment.validateAiPrototypeReturnedPackageAlignment(
       { ...returnedPackagePreview, status: "review-only", sourceSnapshotId: "abc123" },
       returnedPackageChecklist,
     ),
@@ -2680,6 +2688,7 @@ try {
   const returnedPackageIntake = {
     itemId: "queue-1",
     tenantId: "tenant-1",
+    requestId: "request-1",
     sourceRepository: "Drewsure/ministar-lab",
     targetMode: "flashcards",
     parentEngine: "pairing",
@@ -2695,6 +2704,13 @@ try {
       returnedPackageIntake,
     ),
     "Returned package manifest parentEngine does not match the intake queue.",
+  );
+  assertIncludes(
+    returnedPackageAlignment.validateAiPrototypeReturnedPackageIntakeAlignment(
+      { ...returnedPackagePreview, requestId: "request-2" },
+      returnedPackageIntake,
+    ),
+    "Returned package manifest requestId does not match the intake queue request.",
   );
   const prototypeIntakeAlertFixture = {
     alertId: "zai-alert-1",

@@ -60,6 +60,7 @@ export function PrototypeReturnPackageChecklistPanel({ checklists }: PrototypeRe
                 <p className="mt-1 text-sm font-semibold text-[var(--tenant-muted)]">
                   {checklist.parentEngine} / {checklist.targetSurface}
                 </p>
+                <p className="mt-1 text-xs text-[var(--tenant-muted)]">Generation request: {checklist.requestId}</p>
               </div>
               <StatusPill label={statusLabel[checklist.status]} tone="warning" />
             </div>

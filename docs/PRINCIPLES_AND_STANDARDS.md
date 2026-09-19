@@ -4811,3 +4811,18 @@ and `docs/adr/0887-phaser-returned-package-identity-gate.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-960,
 `docs/decision-register/DR-960-returned-package-status-surface.md`,
 and `docs/adr/0888-returned-package-status-surface.md`.
+
+## 304. Returned Package Request Lineage Standard
+
+- Intake queue items, return checklists, returned manifests, and downstream
+  evidence must share one authoritative generation request ID.
+- Alignment must fail closed when the manifest request differs from either the
+  checklist or original intake queue request.
+- Teacher review surfaces must show the request identity used for the review
+  chain.
+- Request lineage proves evidence provenance only; it never authorizes import,
+  route creation, wrapper approval, promotion, assignment, or live AI dispatch.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-961,
+`docs/decision-register/DR-961-returned-package-request-lineage.md`,
+and `docs/adr/0889-returned-package-request-lineage.md`.

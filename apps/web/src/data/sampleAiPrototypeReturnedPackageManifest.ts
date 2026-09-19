@@ -16,7 +16,7 @@ export const sampleAiPrototypeReturnedPackageManifests: AiPrototypeReturnedPacka
   samplePrototypeReturnPackageChecklists.map((checklist) => ({
     manifestId: `returned-package-manifest-${checklist.queueItemId}`,
     tenantId: checklist.tenantId,
-    requestId: `return-package-preview-${checklist.queueItemId}`,
+    requestId: checklist.requestId,
     queueItemId: checklist.queueItemId,
     status: "not-returned",
     sourceRepository: checklist.sourceRepo,
@@ -40,6 +40,7 @@ const checklistReferences: AiPrototypeReturnChecklistReference[] = samplePrototy
   (checklist) => ({
     checklistId: checklist.checklistId,
     tenantId: checklist.tenantId,
+    requestId: checklist.requestId,
     queueItemId: checklist.queueItemId,
     status: checklist.status,
     sourceRepository: checklist.sourceRepo,
@@ -64,6 +65,7 @@ export const sampleAiPrototypeReturnedPackageAlignmentErrors = sampleAiPrototype
 const intakeReferences: AiPrototypeIntakeQueueReference[] = samplePrototypeIntakeQueue.map((item) => ({
   itemId: item.itemId,
   tenantId: item.tenantId,
+  requestId: item.requestId,
   sourceRepository: item.sourceRepo,
   targetMode: item.gameMode,
   parentEngine: item.parentEngine,
