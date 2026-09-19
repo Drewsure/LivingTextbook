@@ -3707,3 +3707,12 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Surfaced the binding identity, decision, and blockers without creating an
   acceptance, signature, storage, export, launch, or release mutation path.
 - Added static verification and recorded ADR 0875 and DR-947.
+
+## Build session 0876: Release-control revocation and rollback chain
+
+- Carried the exact release-control evidence from the acceptance-record
+  preview through the revocation/rollback plan into the impact matrix.
+- Preserved review-only boundaries for revocation, rollback, QR changes,
+  learner-data deletion, media replacement, local deactivation, entitlement
+  changes, and classroom shutdown.
+- Added static verification and recorded ADR 0876 and DR-948.

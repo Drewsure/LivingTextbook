@@ -1,4 +1,5 @@
 import { sampleSchoolPolicyRevocationRollbackPlan } from "@/data/sampleSchoolPolicyRevocationRollbackPlan";
+import type { ReleaseControlEvidence } from "@living-textbook/content-model";
 
 export type RollbackImpactStatus = "blocked" | "needs-policy" | "future-required";
 export type RollbackImpactScope =
@@ -27,6 +28,7 @@ export interface SchoolPolicyRollbackImpactMatrix {
   sourcePlanId: string;
   statusLabel: string;
   summary: string;
+  releaseControlEvidence: ReleaseControlEvidence;
   rows: SchoolPolicyRollbackImpactRow[];
   matrixRules: string[];
 }
@@ -38,6 +40,7 @@ export const sampleSchoolPolicyRollbackImpactMatrix: SchoolPolicyRollbackImpactM
   statusLabel: "Impact matrix blocked",
   summary:
     "This matrix names what a future school policy revocation or rollback would touch across releases, printed QR routes, learner-data/reporting, media/local packages, premium features, and support operations. It is a read-only evidence map, not a rollback workflow.",
+  releaseControlEvidence: sampleSchoolPolicyRevocationRollbackPlan.releaseControlEvidence,
   rows: [
     {
       rowId: "release-state-impact",

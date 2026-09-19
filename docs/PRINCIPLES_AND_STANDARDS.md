@@ -4613,3 +4613,20 @@ and `docs/adr/0874-release-control-policy-pilot-evidence.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-947,
 `docs/decision-register/DR-947-release-control-acceptance-record-chain.md`,
 and `docs/adr/0875-release-control-acceptance-record-chain.md`.
+
+## 291. Release-Control Evidence In The Revocation And Rollback Chain
+
+- Revocation and rollback plans must inherit the exact release-control
+  evidence from the future acceptance-record preview and pass it unchanged to
+  impact matrices or safe-fallback planning.
+- Binding identity, release gate, tenant, package version, decision, blockers,
+  approvals, and blocked actions must remain traceable across the chain.
+- Rollback evidence is not rollback permission. Revocation, release mutation,
+  QR changes, learner-data deletion, media replacement, local deactivation,
+  premium entitlement changes, and classroom shutdown remain blocked.
+- Stale or missing evidence is a contract failure and must never be replaced
+  by locally reconstructed release state.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-948,
+`docs/decision-register/DR-948-release-control-revocation-rollback-chain.md`,
+and `docs/adr/0876-release-control-revocation-rollback-chain.md`.

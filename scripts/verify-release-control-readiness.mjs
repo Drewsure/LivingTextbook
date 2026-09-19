@@ -254,6 +254,7 @@ requireText(schoolPolicyAcceptanceRecordPreviewPanel, "No accepted terms stored"
 requireText(schoolPolicyAcceptanceRecordPreviewPanel, "Minimum accepted-record fields", "School policy acceptance record preview panel must show minimum accepted-record fields.");
 requireText(schoolPolicyAcceptanceRecordPreviewPanel, "Non-accepted markers", "School policy acceptance record preview panel must show non-accepted markers.");
 requireText(schoolPolicyRevocationRollbackPlan, "sampleSchoolPolicyAcceptanceRecordPreview", "School policy revocation rollback plan must derive from the acceptance record preview.");
+requireText(schoolPolicyRevocationRollbackPlan, "releaseControlEvidence: acceptancePreview.releaseControlEvidence", "School policy revocation rollback plan must inherit shared release-control evidence.");
 requireText(schoolPolicyRevocationRollbackPlan, "School policy revocation and rollback preview", "School policy revocation rollback plan must expose a school-facing title.");
 requireText(schoolPolicyRevocationRollbackPlan, "Rollback policy blocked", "School policy revocation rollback plan must remain blocked.");
 requireText(schoolPolicyRevocationRollbackPlan, "Revocation request authority", "School policy revocation rollback plan must require revocation authority.");
@@ -270,7 +271,9 @@ requireText(schoolPolicyRevocationRollbackPanel, "No rollback action", "School p
 requireText(schoolPolicyRevocationRollbackPanel, "Minimum rollback record fields", "School policy revocation rollback panel must show minimum rollback fields.");
 requireText(schoolPolicyRevocationRollbackPanel, "Storage contract handoff", "School policy revocation rollback panel must show storage contract handoff.");
 requireText(schoolPolicyRevocationRollbackPanel, "Storage contract only", "School policy revocation rollback panel must keep storage handoff non-actionable.");
+requireText(schoolPolicyRevocationRollbackPanel, "Release-control evidence inherited from acceptance preview", "School policy revocation rollback panel must show inherited release-control evidence.");
 requireText(schoolPolicyRollbackImpactMatrix, "sampleSchoolPolicyRevocationRollbackPlan", "School rollback impact matrix must derive from the revocation rollback plan.");
+requireText(schoolPolicyRollbackImpactMatrix, "releaseControlEvidence: sampleSchoolPolicyRevocationRollbackPlan.releaseControlEvidence", "Rollback impact matrix must inherit shared release-control evidence.");
 requireText(schoolPolicyRollbackImpactMatrix, "School rollback impact matrix", "School rollback impact matrix must expose a school-facing title.");
 requireText(schoolPolicyRollbackImpactMatrix, "Impact matrix blocked", "School rollback impact matrix must stay blocked.");
 requireText(schoolPolicyRollbackImpactMatrix, "package_release_candidate", "School rollback impact matrix must cover release candidate records.");
@@ -287,6 +290,7 @@ requireText(schoolPolicyRollbackImpactMatrix, "No AI Tutor entitlement change", 
 requireText(schoolPolicyRollbackImpactMatrixPanel, "School rollback impact matrix", "School rollback impact matrix panel must be visible.");
 requireText(schoolPolicyRollbackImpactMatrixPanel, "No release-state mutation", "School rollback impact matrix panel must show blocked release-state mutation.");
 requireText(schoolPolicyRollbackImpactMatrixPanel, "No live workflow", "School rollback impact matrix panel must block live workflow behavior.");
+requireText(schoolPolicyRollbackImpactMatrixPanel, "Release-control evidence inherited from rollback plan", "Rollback impact matrix panel must show inherited release-control evidence.");
 requireText(schoolRollbackSafeFallbackPlan, "sampleSchoolPolicyRollbackImpactMatrix", "School rollback safe fallback plan must derive from the rollback impact matrix.");
 requireText(schoolRollbackSafeFallbackPlan, "School rollback safe fallback plan", "School rollback safe fallback plan must expose a school-facing title.");
 requireText(schoolRollbackSafeFallbackPlan, "Fallback messaging blocked", "School rollback safe fallback plan must stay blocked.");

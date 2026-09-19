@@ -2,6 +2,7 @@ import {
   sampleSchoolPolicyAcceptanceRecordPreview,
   type SchoolPolicyAcceptanceRecordPreview,
 } from "@/data/sampleSchoolPolicyAcceptanceRecordPreview";
+import type { ReleaseControlEvidence } from "@living-textbook/content-model";
 
 export type SchoolPolicyRollbackLaneStatus = "blocked" | "needs-policy" | "future-required";
 export type SchoolPolicyRollbackOwner = "school" | "publisher" | "platform" | "teacher" | "shared";
@@ -35,6 +36,7 @@ export interface SchoolPolicyRevocationRollbackPlan {
   sourceOfTruth: string;
   statusLabel: string;
   summary: string;
+  releaseControlEvidence: ReleaseControlEvidence;
   storageContract: SchoolPolicyRollbackStorageContract;
   lanes: SchoolPolicyRollbackLane[];
   minimumRollbackRecordFields: string[];
@@ -61,6 +63,7 @@ export function createSchoolPolicyRevocationRollbackPlan({
     statusLabel: "Rollback policy blocked",
     summary:
       "This preview names the rollback and revocation decisions that must exist before school acceptance can ever affect launch readiness. It cannot revoke, approve, roll back, export, or mutate a release.",
+    releaseControlEvidence: acceptancePreview.releaseControlEvidence,
     storageContract: {
       entityId: "school_policy_revocation_rollback_preview",
       categoryId: "school-policy-revocation-rollback-preview",

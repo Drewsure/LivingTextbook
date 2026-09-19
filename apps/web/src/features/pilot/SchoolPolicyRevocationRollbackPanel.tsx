@@ -59,6 +59,25 @@ export function SchoolPolicyRevocationRollbackPanel({ plan }: SchoolPolicyRevoca
         </div>
       </section>
 
+      <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Release-control evidence inherited from acceptance preview</p>
+            <h3 className="mt-1 text-base font-bold text-[var(--tenant-text)]">{plan.releaseControlEvidence.bindingId}</h3>
+            <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">
+              Decision: {plan.releaseControlEvidence.decision}. Gate: {plan.releaseControlEvidence.releaseGateId}.
+              Revocation and rollback planning cannot replace or override this release evidence.
+            </p>
+          </div>
+          <StatusPill label="No live effect" tone="neutral" />
+        </div>
+        <ul className="mt-3 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
+          {plan.releaseControlEvidence.releaseBlockingReasons.map((reason, index) => (
+            <li key={`rollback-release-blocker-${index}`} className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-3">{reason}</li>
+          ))}
+        </ul>
+      </section>
+
       <section className="mt-5 rounded-lg border border-[var(--tenant-border)] p-4">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>

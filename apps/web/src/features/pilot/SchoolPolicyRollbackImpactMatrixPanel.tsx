@@ -66,6 +66,25 @@ export function SchoolPolicyRollbackImpactMatrixPanel({ matrix }: SchoolPolicyRo
         </div>
       </section>
 
+      <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Release-control evidence inherited from rollback plan</p>
+            <h3 className="mt-1 text-base font-bold text-[var(--tenant-text)]">{matrix.releaseControlEvidence.bindingId}</h3>
+            <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">
+              Decision: {matrix.releaseControlEvidence.decision}. Gate: {matrix.releaseControlEvidence.releaseGateId}.
+              The impact matrix remains evidence-only and cannot mutate release, route, media, local, or learner state.
+            </p>
+          </div>
+          <StatusPill label="Evidence only" tone="neutral" />
+        </div>
+        <ul className="mt-3 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
+          {matrix.releaseControlEvidence.releaseBlockingReasons.map((reason, index) => (
+            <li key={`impact-release-blocker-${index}`} className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-3">{reason}</li>
+          ))}
+        </ul>
+      </section>
+
       <div className="mt-5 grid gap-4 xl:grid-cols-2">
         {matrix.rows.map((row) => (
           <ImpactRowCard key={row.rowId} row={row} />
