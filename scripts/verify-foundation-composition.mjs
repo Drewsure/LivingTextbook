@@ -44,6 +44,9 @@ execFileSync(process.execPath, [fileURLToPath(new URL("./verify-audio-accessibil
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-app-shell-navigation.mjs", import.meta.url))], {
   stdio: "inherit",
 });
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-edition-qr-alias-resolver.mjs", import.meta.url))], {
+  stdio: "inherit",
+});
 
 const packageJson = JSON.parse(readFileSync(new URL("../package.json", import.meta.url), "utf8"));
 const scripts = packageJson.scripts ?? {};
@@ -82,4 +85,4 @@ if (missing.length > 0) {
   process.exit(1);
 }
 
-console.log(`PASS foundation composition includes ${requiredCommands.length} critical runtime, type, build, and route checks.`);
+console.log(`PASS foundation composition includes ${requiredCommands.length} critical runtime, type, build, and route checks plus the stable QR resolver guard.`);

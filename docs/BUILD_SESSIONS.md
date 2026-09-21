@@ -4198,3 +4198,5 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Added fail-closed handling for duplicate keys and malformed encoded values.
 - Kept direct file, development-host, and production redirect mutation blocked.
 - Recorded ADR-0939 / DR-1011 and added a focused resolver verifier.
+- Wired the resolver verifier into the foundation composition gate so future
+  full verification checks malformed-input and tenant-isolation behavior.
