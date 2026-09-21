@@ -26,6 +26,11 @@ export interface PilotSessionPersistenceReadiness {
   checkedAt?: string;
   durability?: "non-durable-rehearsal" | "durable-managed";
   healthy?: boolean;
+  deploymentGate?: {
+    status: "ready" | "blocked" | "rehearsal";
+    ready: boolean;
+    blockedReasons: string[];
+  };
   errors: string[];
 }
 
@@ -57,6 +62,8 @@ export function evaluatePilotSessionPreflight(
   const persistenceReady = persistenceReadiness?.status === "healthy"
     && persistenceReadiness.healthy === true
     && persistenceReadiness.durability === "durable-managed"
+    && persistenceReadiness.deploymentGate?.status === "ready"
+    && persistenceReadiness.deploymentGate.ready === true
     && persistenceTenantReady
     && persistenceFresh;
 
@@ -93,7 +100,7 @@ export function evaluatePilotSessionPreflight(
         ? "The provider status has not been checked; teacher review authorization is required before pilot readiness can be assessed."
         : persistenceReady
           ? "The authoritative persistence status endpoint reports a healthy tenant-scoped boundary."
-          : `Persistence is not pilot-ready (${persistenceReadiness.status}). ${!persistenceTenantReady ? "Tenant binding is missing or mismatched. " : ""}${!persistenceTimestampReady ? "The status timestamp is missing or invalid. " : !persistenceFresh ? "The status timestamp is stale or from the future. " : ""}${persistenceReadiness.errors[0] ?? "Resolve the durable persistence gate before pilot review."}`,
+          : `Persistence is not pilot-ready (${persistenceReadiness.status}). ${!persistenceTenantReady ? "Tenant binding is missing or mismatched. " : ""}${!persistenceTimestampReady ? "The status timestamp is missing or invalid. " : !persistenceFresh ? "The status timestamp is stale or from the future. " : ""}${persistenceReadiness.deploymentGate?.blockedReasons[0] ?? persistenceReadiness.errors[0] ?? "Resolve the durable persistence gate before pilot review."}`,
     },
     {
       checkId: "launch-boundary",

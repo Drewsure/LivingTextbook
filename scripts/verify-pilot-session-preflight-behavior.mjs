@@ -58,6 +58,7 @@ try {
     checkedAt: "2026-09-18T00:00:00.000Z",
     durability: "durable-managed",
     healthy: true,
+    deploymentGate: { status: "ready", ready: true, blockedReasons: [] },
     errors: [],
   };
   const preflightNow = Date.parse("2026-09-18T00:04:00.000Z");
@@ -84,6 +85,13 @@ try {
     durability: "non-durable-rehearsal",
   }, preflightNow);
   assert(rehearsalPersistence.status === "incomplete", "non-durable persistence must not satisfy pilot readiness");
+
+  const blockedGatePersistence = preflightModule.evaluatePilotSessionPreflight(envelope, {
+    ...healthyPersistence,
+    deploymentGate: { status: "blocked", ready: false, blockedReasons: ["Durable write approval is not enabled for this deployment."] },
+  }, preflightNow);
+  assert(blockedGatePersistence.status === "incomplete", "blocked deployment gate must not satisfy pilot readiness");
+  assert(blockedGatePersistence.checks.find((check) => check.checkId === "persistence")?.detail.includes("Durable write approval"), "pilot preflight should expose the authoritative gate blocker");
 
   const stalePersistence = preflightModule.evaluatePilotSessionPreflight(envelope, {
     ...healthyPersistence,

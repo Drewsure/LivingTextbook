@@ -5374,3 +5374,18 @@ and `docs/adr/0925-hosted-persistence-opt-in-deployment-gate.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-998,
 `docs/decision-register/DR-998-persistence-deployment-gate-route-alignment.md`,
 and `docs/adr/0926-persistence-deployment-gate-route-alignment.md`.
+
+## 342. Pilot Preflight Authoritative Persistence Gate Standard
+
+- Pilot preflight must consume the explicit persistence deployment gate, not
+  infer readiness from provider health or durability alone.
+- Process-memory must report rehearsal; a blocked durable gate must report
+  blocked; only a ready gate can satisfy pilot persistence review.
+- Pilot preflight remains review-only and cannot authorize classroom launch,
+  durable writes, export, or release mutation.
+- Safe blocker text may explain operational readiness without exposing secrets,
+  paths, learner records, raw audio, or transcripts.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-999,
+`docs/decision-register/DR-999-pilot-preflight-authoritative-persistence-gate.md`,
+and `docs/adr/0927-pilot-preflight-authoritative-persistence-gate.md`.

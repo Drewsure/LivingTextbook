@@ -42,13 +42,20 @@ export function GET(request: Request) {
   });
   const deploymentGate = deployment.gate;
 
+  const effectiveStatus = deploymentGate.status === "blocked"
+    ? "blocked"
+    : deploymentGate.status === "rehearsal"
+      ? "rehearsal"
+      : readiness.status;
+  const effectiveHealthy = readiness.healthy && deploymentGate.ready;
+
   return NextResponse.json({
-    status: readiness.status,
+    status: effectiveStatus,
     tenantId,
     checkedAt: new Date().toISOString(),
     provider,
     durability: durable ? "durable-managed" : "non-durable-rehearsal",
-    healthy: readiness.healthy,
+    healthy: effectiveHealthy,
     schemaVersion: health.schemaVersion,
     journalMode: health.journalMode,
     synchronous: health.synchronous,
